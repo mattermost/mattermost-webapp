@@ -64,7 +64,7 @@ describe('Integrations', () => {
 
             cy.apiLogout();
             cy.apiLogin(userToInvite);
-            cy.visit(`${testTeam.name}/channels/town-square`);
+            cy.visitAndWait(`${testTeam.name}/channels/town-square`);
 
             // * Added user sees channel added to LHS, mention badge
             cy.get('#sidebarChannelContainer', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').within(() => {
@@ -91,9 +91,7 @@ describe('Integrations', () => {
         cy.uiWaitUntilMessagePostedIncludes(`${userToInviteGM.username} added to ${testChannel.name} channel.`);
 
         cy.get('#addDirectChannel').click();
-        cy.get('#selectItems').type(`${userToInviteDM.username}`);
-        cy.findByText('Loading').should('be.visible');
-        cy.findByText('Loading').should('not.exist');
+        cy.get('#selectItems').type(`${userToInviteDM.username}`).wait(TIMEOUTS.ONE_SEC);
         cy.get('#multiSelectList').findByText(`@${userToInviteDM.username}`).click();
         cy.findByText('Go').click();
         cy.get('#channelHeaderDropdownButton').contains(`${userToInviteDM.username}`).should('be.visible');
@@ -143,9 +141,7 @@ describe('Integrations', () => {
         cy.uiWaitUntilMessagePostedIncludes('We couldn\'t find the user. They may have been deactivated by the System Administrator.');
 
         cy.get('#addDirectChannel').click();
-        cy.get('#selectItems').type(`${userDM.username}`);
-        cy.findByText('Loading').should('be.visible');
-        cy.findByText('Loading').should('not.exist');
+        cy.get('#selectItems').type(`${userDM.username}`).wait(TIMEOUTS.ONE_SEC);
         cy.get('#multiSelectList').findByText(`@${userDM.username}`).click();
         cy.findByText('Go').click();
         cy.get('#channelHeaderDropdownButton').contains(`${userDM.username}`).should('be.visible');
@@ -171,8 +167,7 @@ describe('Integrations', () => {
         cy.uiWaitUntilMessagePostedIncludes(`${userToInvite.username} is already in the channel.`);
 
         cy.get('#addDirectChannel').click();
-        cy.get('#selectItems').type(`${userDM.username}`);
-        cy.wait(TIMEOUTS.ONE_SEC);
+        cy.get('#selectItems').type(`${userDM.username}`).wait(TIMEOUTS.ONE_SEC);
         cy.get('#multiSelectList').findByText(`@${userDM.username}`).click();
         cy.findByText('Go').click();
         cy.get('#channelHeaderDropdownButton').contains(`${userDM.username}`).should('be.visible');
@@ -198,9 +193,7 @@ describe('Integrations', () => {
         loginAndVisitChannel(userB, townSquareUrl);
 
         cy.get('#addDirectChannel', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').click();
-        cy.get('#selectItems').type(`${userDM.username}`);
-        cy.findByText('Loading').should('be.visible');
-        cy.findByText('Loading').should('not.exist');
+        cy.get('#selectItems').type(`${userDM.username}`).wait(TIMEOUTS.ONE_SEC);
         cy.get('#multiSelectList').findByText(`@${userDM.username}`).click();
         cy.findByText('Go').click();
         cy.get('#channelHeaderDropdownButton').contains(`${userDM.username}`).should('be.visible');

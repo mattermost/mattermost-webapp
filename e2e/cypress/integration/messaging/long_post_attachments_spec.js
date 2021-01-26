@@ -49,7 +49,7 @@ describe('MM-T105 Long post with mutiple attachments', () => {
         // # Create new team and new user and visit Town Square channel
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
             testTeam = team;
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
         });
     });
 
@@ -97,8 +97,11 @@ describe('MM-T105 Long post with mutiple attachments', () => {
                 cy.findByTestId('fileCountFooter').contains(`File ${index} of 4`).should('exist');
             }
 
-            // # click on close the preview
-            cy.get('.modal-close').should('be.visible').click();
+            // * Verify that the preview modal opens
+            cy.get('div.modal-image__content').should('be.visible').trigger('mouseover');
+
+            // # Close the modal
+            cy.get('div.modal-close').should('exist').click({force: true});
         });
     });
 });

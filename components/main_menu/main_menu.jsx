@@ -6,7 +6,7 @@ import React from 'react';
 import {injectIntl} from 'react-intl';
 import {Permissions} from 'mattermost-redux/constants';
 
-import * as GlobalActions from 'actions/global_actions.jsx';
+import * as GlobalActions from 'actions/global_actions';
 import {Constants, ModalIdentifiers} from 'utils/constants';
 import {intlShape} from 'utils/react_intl';
 import {cmdOrCtrlPressed, isKeyPressed} from 'utils/utils';
@@ -30,6 +30,8 @@ import MarketplaceModal from 'components/plugin_marketplace';
 
 import Menu from 'components/widgets/menu/menu';
 import TeamGroupsManageModal from 'components/team_groups_manage_modal';
+
+import withGetCloudSubscription from '../common/hocs/cloud/with_get_cloud_subcription';
 
 class MainMenu extends React.PureComponent {
     static propTypes = {
@@ -66,6 +68,8 @@ class MainMenu extends React.PureComponent {
         showGettingStarted: PropTypes.bool.isRequired,
         intl: intlShape.isRequired,
         showNextStepsTips: PropTypes.bool,
+        subscription: PropTypes.object,
+        isCloud: PropTypes.bool,
         actions: PropTypes.shape({
             openModal: PropTypes.func.isRequred,
             showMentions: PropTypes.func,
@@ -73,6 +77,7 @@ class MainMenu extends React.PureComponent {
             closeRightHandSide: PropTypes.func.isRequired,
             closeRhsMenu: PropTypes.func.isRequired,
             unhideNextSteps: PropTypes.func.isRequired,
+            getCloudSubscription: PropTypes.func,
         }).isRequired,
     };
 
@@ -87,7 +92,7 @@ class MainMenu extends React.PureComponent {
         GlobalActions.toggleShortcutsModal();
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         document.addEventListener('keydown', this.handleKeyDown);
     }
 
@@ -123,7 +128,11 @@ class MainMenu extends React.PureComponent {
     }
 
     shouldShowUpgradeModal = () => {
-        return (this.props.currentUsers >= this.props.userLimit) && (this.props.userLimit !== '0') && this.props.userIsAdmin;
+        if (this.props.subscription?.is_paid_tier === 'true') { // eslint-disable-line camelcase
+            return false;
+        }
+
+        return this.props.isCloud && (this.props.currentUsers >= this.props.userLimit) && (this.props.userLimit !== '0') && this.props.userIsAdmin;
     }
 
     render() {
@@ -415,4 +424,4 @@ class MainMenu extends React.PureComponent {
     }
 }
 
-export default injectIntl(MainMenu);
+export default injectIntl(withGetCloudSubscription((MainMenu)));

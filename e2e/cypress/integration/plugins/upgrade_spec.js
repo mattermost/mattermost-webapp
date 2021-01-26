@@ -24,15 +24,16 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Plugin remains enabled when upgraded', () => {
     const pluginIdDemo = 'com.mattermost.demo-plugin';
+    const demoPluginURL = 'https://github.com/mattermost/mattermost-plugin-demo/releases/download/v0.1.0/com.mattermost.demo-plugin-0.1.0.tar.gz';
 
     before(() => {
         // # Initialize setup and visit town-square
         cy.apiInitSetup().then(({team}) => {
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visitAndWait(`/${team.name}/channels/town-square`);
 
-            // #If Demo plugin is already enabled , uninstall it
+            // # If Demo plugin is already enabled , uninstall it
             cy.apiRemovePluginById(pluginIdDemo);
-            cy.visit('/admin_console/plugins/plugin_management');
+            cy.visitAndWait('/admin_console/plugins/plugin_management');
             cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'Plugin Management');
         });
     });
@@ -42,7 +43,7 @@ describe('Plugin remains enabled when upgraded', () => {
     });
 
     it('MM-T40 Plugin remains enabled when upgraded', () => {
-    // * Upload Demo plugin from the browser
+        // * Upload Demo plugin from the browser
         const fileName1 = 'com.mattermost.demo-plugin-0.1.0.tar.gz';
         const fileName2 = 'com.mattermost.demo-plugin-0.2.0.tar.gz';
         const mimeType = 'application/gzip';
@@ -97,6 +98,41 @@ describe('Plugin remains enabled when upgraded', () => {
 
         // * Verify v0.2.0 of plugin
         cy.findByText(/0.2.0/).scrollIntoView().should('be.visible');
+    });
+
+    it('MM-T39 Disable Plugin on Removal', () => {
+        // # Install demo plugin and enable it
+        cy.apiAdminLogin();
+        cy.apiInstallPluginFromUrl(demoPluginURL, true).then(() => {
+            cy.apiEnablePluginById(pluginIdDemo);
+        });
+
+        // # Remove demo plugin
+        cy.apiRemovePluginById(pluginIdDemo);
+
+        // # Install demo plugin again
+        cy.apiInstallPluginFromUrl(demoPluginURL, true);
+
+        // * Confirm demo plugin is not enabled
+        cy.apiGetAllPlugins().then((response) => {
+            const {active, inactive} = response.plugins;
+
+            let found = false;
+            active.forEach((plugin) => {
+                if (plugin.id === pluginIdDemo) {
+                    found = true;
+                }
+            });
+            expect(found).to.be.false;
+
+            found = false;
+            inactive.forEach((plugin) => {
+                if (plugin.id === pluginIdDemo) {
+                    found = true;
+                }
+            });
+            expect(found).to.be.true;
+        });
     });
 });
 

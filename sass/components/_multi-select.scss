@@ -10,13 +10,14 @@
         height: 36px;
         min-width: 60px;
         vertical-align: top;
+        margin-left: 16px;
     }
 }
 
 .multi-select__focused {
     > div {
         border-radius: 4px;
-        box-shadow: 0 0 1px 2px $primary-color;
+        box-shadow: 0 0 1px 3px rgba(var(--link-color-rgb), 0.5), 0 0 0 1px var(--link-color);
     }
 
     input {

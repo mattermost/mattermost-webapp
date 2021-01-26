@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @messaging
 
 describe('Messaging', () => {
@@ -24,7 +25,7 @@ describe('Messaging', () => {
     });
 
     beforeEach(() => {
-        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+        cy.visitAndWait(`/${testTeam.name}/channels/${testChannel.name}`);
     });
 
     it('MM-T2167 Pin a post, view pinned posts', () => {
@@ -39,7 +40,7 @@ describe('Messaging', () => {
             cy.get('#channelHeaderPinButton').should('exist').click();
 
             // * RHS title displays as "Pinned Posts" and "[channel name]"
-            cy.get('#sidebar-right').should('be.visible').and('contain', 'Pinned posts').and('contain', `${testChannel.display_name}`);
+            cy.get('#sidebar-right').should('be.visible').and('contain', 'Pinned Posts').and('contain', `${testChannel.display_name}`);
 
             // * Pinned post appear in RHS
             cy.get(`#rhsPostMessageText_${postId}`).should('exist');

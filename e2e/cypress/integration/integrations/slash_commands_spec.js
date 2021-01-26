@@ -55,9 +55,99 @@ describe('Integrations', () => {
         });
     });
 
+    it('MM-T662 /join command for private channels', () => {
+        const privateChannelName = 'private-channel';
+
+        cy.apiLogin(user1);
+        cy.visitAndWait(testChannelUrl1);
+
+        // # User 1 Create a private channel, with ${channelName}
+        cy.get('#createPrivateChannel').click();
+        cy.get('#private').click();
+        cy.get('#newChannelName').type(privateChannelName);
+        cy.get('#submitNewChannel').click();
+
+        // # User, who is a member of the channel, try /join command without tilde
+        cy.get('#publicChannelList').findByText('Town Square').click();
+        cy.postMessage(`/join ${privateChannelName}`);
+
+        // * Private channel should be active
+        cy.get('#privateChannelList').get('.active').should('contain', privateChannelName);
+
+        // # User, who is a member of the channel, try /join command with tilde
+        cy.get('#publicChannelList').findByText('Town Square').click();
+        cy.postMessage(`/join ~${privateChannelName}`);
+
+        // * private channel should be active
+        cy.get('#privateChannelList').get('.active').should('contain', privateChannelName);
+
+        // # Login with user without privilege
+        cy.apiLogin(user2);
+        cy.visitAndWait(testChannelUrl1);
+
+        // # User, who is *not* a member of the channel, try /join command without tilde
+        cy.get('#publicChannelList').findByText('Town Square').click();
+        cy.postMessage(`/join ${privateChannelName}`);
+
+        // * Error message should be presented.
+        cy.getLastPost().should('contain', 'An error occurred while joining the channel.').and('contain', 'System');
+
+        // # User, who is *not* a member of the channel, try /join command with tilde
+        cy.get('#publicChannelList').findByText('Town Square').click();
+        cy.postMessage(`/join ~${privateChannelName}`);
+
+        // * Error message should be presented.
+        cy.getLastPost().should('contain', 'An error occurred while joining the channel.').and('contain', 'System');
+    });
+
+    it('MM-T663 /open command for private channels', () => {
+        const privateChannelName = 'private-channel';
+
+        cy.apiLogin(user1);
+        cy.visitAndWait(testChannelUrl1);
+
+        // # User 1 Create a private channel, with ${channelName}
+        cy.get('#createPrivateChannel').click();
+        cy.get('#private').click();
+        cy.get('#newChannelName').type(privateChannelName);
+        cy.get('#submitNewChannel').click();
+
+        // # User, who is a member of the channel, try /open command without tilde
+        cy.get('#publicChannelList').findByText('Town Square').click();
+        cy.postMessage(`/open ${privateChannelName}`);
+
+        // * Private channel should be active
+        cy.get('#privateChannelList').get('.active').should('contain', privateChannelName);
+
+        // # User, who is a member of the channel, try /open command with tilde
+        cy.get('#publicChannelList').findByText('Town Square').click();
+        cy.postMessage(`/open ~${privateChannelName}`);
+
+        // * Private channel should be active
+        cy.get('#privateChannelList').get('.active').should('contain', privateChannelName);
+
+        // # Login with user without privilege
+        cy.apiLogin(user2);
+        cy.visitAndWait(testChannelUrl1);
+
+        // # User, who is *not* a member of the channel, try /open command without tilde
+        cy.get('#publicChannelList').findByText('Town Square').click();
+        cy.postMessage(`/open ${privateChannelName}`);
+
+        // * Error message should be presented.
+        cy.getLastPost().should('contain', 'An error occurred while joining the channel.').and('contain', 'System');
+
+        // # User, who is *not* a member of the channel, try /open command with tilde
+        cy.get('#publicChannelList').findByText('Town Square').click();
+        cy.postMessage(`/open ~${privateChannelName}`);
+
+        // * Error message should be presented.
+        cy.getLastPost().should('contain', 'An error occurred while joining the channel.').and('contain', 'System');
+    });
+
     it('MM-T687 /msg', () => {
         cy.apiLogin(user1);
-        cy.visit(testChannelUrl1);
+        cy.visitAndWait(testChannelUrl1);
 
         // # Post message
         cy.postMessage(`/msg @${user2.username} Test message`);
@@ -71,7 +161,7 @@ describe('Integrations', () => {
         // * The last message is written by user1 and contains the correct text.
         cy.getLastPost().should('contain', 'Test message').and('contain', user1.username);
 
-        cy.visit(testChannelUrl2);
+        cy.visitAndWait(testChannelUrl2);
 
         // # Post message
         cy.postMessage(`/msg @${user2.username} Second test`);
@@ -88,7 +178,7 @@ describe('Integrations', () => {
 
     it('MM-T688 /expand', () => {
         cy.apiLogin(user1);
-        cy.visit(testChannelUrl1);
+        cy.visitAndWait(testChannelUrl1);
 
         // # Post message
         cy.postMessage('http://www.mattermost.org/wp-content/uploads/2016/04/icon_WS.png');
@@ -114,7 +204,7 @@ describe('Integrations', () => {
 
     it('MM-T689 capital letter autocomplete, /collapse', () => {
         cy.apiLogin(user1);
-        cy.visit(testChannelUrl1);
+        cy.visitAndWait(testChannelUrl1);
 
         // # Post message
         cy.postMessage('http://www.mattermost.org/wp-content/uploads/2016/04/icon_WS.png');
@@ -152,7 +242,7 @@ describe('Integrations', () => {
 
     it('MM-T705 Ephemeral message', () => {
         cy.apiAdminLogin();
-        cy.visit(testChannelUrl1);
+        cy.visitAndWait(testChannelUrl1);
 
         // # Navigate to slash commands and create the slash command
         cy.get('#headerInfo').click();

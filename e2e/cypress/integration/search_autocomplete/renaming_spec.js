@@ -19,7 +19,7 @@ function searchAndVerifyChannel(channel) {
     cy.typeCmdOrCtrl().type('k');
 
     // # Search for channel's display name
-    cy.get('#quickSwitchInput').
+    cy.findByRole('textbox', {name: 'quick switch input'}).
         should('be.visible').
         as('input').
         clear().
@@ -56,15 +56,7 @@ describe('Autocomplete without Elasticsearch - Renaming', () => {
     let testTeam;
 
     before(() => {
-        // # Disable elastic search via API
-        cy.apiUpdateConfig({
-            ElasticsearchSettings: {
-                EnableAutocomplete: false,
-                EnableIndexing: false,
-                EnableSearching: false,
-                Sniff: false,
-            },
-        });
+        cy.shouldHaveElasticsearchDisabled();
 
         // # Create new team for tests
         cy.apiCreateTeam(`search-${timestamp}`, `search-${timestamp}`).then(({team}) => {
@@ -85,7 +77,7 @@ describe('Autocomplete without Elasticsearch - Renaming', () => {
         // # Create a new user
         cy.apiCreateUser({user: spiderman}).then(({user}) => {
             cy.apiAddUserToTeam(testTeam.id, user.id).then(() => {
-                cy.visit(`/${testTeam.name}/channels/town-square`);
+                cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
 
                 // # Verify user appears in search results pre-change
                 searchAndVerifyUser(user);
@@ -141,7 +133,7 @@ describe('Autocomplete without Elasticsearch - Renaming', () => {
                 testUser = user;
 
                 cy.apiAddUserToTeam(testTeam.id, testUser.id).then(() => {
-                    cy.visit(`/${testTeam.name}/channels/town-square`);
+                    cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
 
                     // # Hit escape to close and lingering modals
                     cy.get('body').type('{esc}');

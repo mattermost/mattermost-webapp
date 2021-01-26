@@ -200,7 +200,7 @@ h6 {
     }
 
     .hljs {
-        border: 1px solid v(center-channel-color-20);
+        border: 1px solid rgba(v(center-channel-color-rgb), 0.2);
         border-radius: .25em;
         display: flex;
         font-size: 13px;

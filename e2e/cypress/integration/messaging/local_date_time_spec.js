@@ -25,7 +25,7 @@ describe('Messaging', () => {
 
         // # Create and visit new channel
         cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
-            cy.visit(`/${team.name}/channels/${channel.name}`);
+            cy.visitAndWait(`/${team.name}/channels/${channel.name}`);
 
             // # Post messages from the past
             [
@@ -45,7 +45,7 @@ describe('Messaging', () => {
         });
     });
 
-    describe('MM-21342 Post time should render correct format and locale', () => {
+    describe('MM-T713 Post time should render correct format and locale', () => {
         const testCases = [
             {
                 name: 'in English',

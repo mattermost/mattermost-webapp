@@ -7,7 +7,8 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @guest_account
+// Stage: @prod
+// Group: @enterprise @guest_account
 
 /**
  * Note: This test requires Enterprise license to be uploaded
@@ -49,14 +50,14 @@ describe('Guest Account - Guest User Experience', () => {
                 cy.apiAddUserToTeam(team.id, guestUser.id).then(() => {
                     cy.apiAddUserToChannel(channel.id, guestUser.id).then(() => {
                         cy.apiLogin(guestUser);
-                        cy.visit(`/${team.name}/channels/${channel.name}`);
+                        cy.visitAndWait(`/${team.name}/channels/${channel.name}`);
                     });
                 });
             });
         });
     });
 
-    it('MM-18043 Verify Guest User Restrictions', () => {
+    it('MM-T1354 Verify Guest User Restrictions', () => {
         // * Verify Reduced Options in Main Menu
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
         const missingMainOptions = ['#invitePeople', '#teamSettings', '#manageMembers', '#createTeam', '#joinTeam', '#integrations', '#systemConsole'];
@@ -138,14 +139,13 @@ describe('Guest Account - Guest User Experience', () => {
         cy.reload();
 
         // * Verify Options in Main Menu are changed
-        cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-        const includeMainOptions = ['#accountSettings', '#viewMembers', '#leaveTeam', '#invitePeople', '#createTeam'];
-        includeMainOptions.forEach((includeOption) => {
-            cy.get(includeOption).should('be.visible');
+        cy.uiOpenMainMenu();
+        Cypress._.forEach(['Account Settings', 'Invite People', 'View Members', 'Create a Team', 'Leave Team'], (item) => {
+            cy.findByRole('menu').findByText(item).should('be.visible');
         });
 
         // # Close the main menu
-        cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
+        cy.uiCloseMainMenu();
 
         // * Verify Options in LHS are changed
         const missingLHSOptions = ['#createPublicChannel', "li[data-testid='morePublicButton']", '#createPrivateChannel'];
@@ -234,7 +234,7 @@ describe('Guest Account - Guest User Experience', () => {
         // # Wait for page to load and then logout
         cy.get('#post_textbox').should('be.visible').wait(TIMEOUTS.TWO_SEC);
         cy.apiLogout();
-        cy.visit('/');
+        cy.visitAndWait('/');
 
         // # Login with guest user credentials and check the error message
         cy.get('#loginId').type(guestUser.username);

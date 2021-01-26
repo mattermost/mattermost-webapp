@@ -95,7 +95,7 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
         this.multiselect = React.createRef();
         this.selectedItemRef = React.createRef();
 
-        const values: (OptionType | UserProfile)[] = [];
+        const values: Array<OptionType | UserProfile> = [];
 
         if (props.currentChannelMembers) {
             for (let i = 0; i < props.currentChannelMembers.length; i++) {

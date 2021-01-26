@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @incoming_webhook
 
 import {getRandomId} from '../../../utils';
@@ -52,7 +53,7 @@ describe('Incoming webhook', () => {
 
         // # Login as test user, visit test channel and post any message
         cy.apiLogin(testUser);
-        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+        cy.visitAndWait(`/${testTeam.name}/channels/${testChannel.name}`);
         cy.get('#channelHeaderTitle', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', testChannel.display_name);
         cy.postMessage('a');
 
@@ -78,7 +79,7 @@ describe('Incoming webhook', () => {
 
         // # Login as test user, visit test channel and post any message
         cy.apiLogin(testUser);
-        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+        cy.visitAndWait(`/${testTeam.name}/channels/${testChannel.name}`);
         cy.get('#channelHeaderTitle', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', testChannel.display_name);
         cy.postMessage('b');
 

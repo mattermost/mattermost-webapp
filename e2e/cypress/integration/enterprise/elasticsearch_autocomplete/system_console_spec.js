@@ -28,7 +28,7 @@ describe('Elasticsearch system console', () => {
         });
 
         // # Visit the Elasticsearch settings page
-        cy.visit('/admin_console/environment/elasticsearch');
+        cy.visitAndWait('/admin_console/environment/elasticsearch');
 
         // * Verify that we can connect to Elasticsearch
         cy.get('#testConfig').find('button').click();
@@ -52,20 +52,11 @@ describe('Elasticsearch system console', () => {
         // # Small wait to ensure new row is added
         cy.wait(TIMEOUTS.HALF_SEC);
 
-        // * First row should now say Pending
+        // # Get the first row
         cy.get('.job-table__table').
             find('tbody > tr').
             eq(0).
-            as('firstRow').
-            find('.status-icon-warning', {timeout: TIMEOUTS.HALF_MIN}).
-            should('be.visible').
-            and('have.text', 'Pending');
-
-        // * First row should update to say In Progress
-        cy.get('@firstRow').
-            find('.status-icon-warning', {timeout: TIMEOUTS.TWO_MIN}).
-            should('be.visible').
-            and('have.text', 'In Progress');
+            as('firstRow');
 
         // * First row update to say Success
         cy.waitUntil(() => {

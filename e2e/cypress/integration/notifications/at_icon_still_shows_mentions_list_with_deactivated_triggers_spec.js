@@ -18,42 +18,30 @@ describe('Notifications', () => {
     let otherUser;
 
     before(() => {
-        cy.apiInitSetup().then(({team}) => {
+        cy.apiInitSetup({loginAfter: true}).then(({team, user}) => {
             testTeam = team;
-            cy.apiCreateUser().then(({user}) => {
-                otherUser = user;
-                cy.apiAddUserToTeam(testTeam.id, otherUser.id);
-                cy.apiLogin(otherUser);
+            otherUser = user;
+
+            cy.visitAndWait(`/${testTeam.name}`);
+
+            // # Open 'Notifications' of 'Account Settings' modal
+            cy.uiOpenAccountSettingsModal('Notifications').within(() => {
+                // # Open 'Words That Trigger Mentions' setting and uncheck all the checkboxes
+                cy.findByRole('heading', {name: 'Words That Trigger Mentions'}).should('be.visible').click();
+                cy.findByRole('checkbox', {name: `Your case-sensitive first name "${otherUser.first_name}"`}).should('not.be.checked');
+                cy.findByRole('checkbox', {name: `Your non case-sensitive username "${otherUser.username}"`}).should('not.be.checked');
+                cy.findByRole('checkbox', {name: 'Channel-wide mentions "@channel", "@all", "@here"'}).click().should('not.be.checked');
+                cy.findByRole('checkbox', {name: 'Other non case-sensitive words, separated by commas:'}).should('not.be.checked');
+
+                // # Save then close the modal
+                cy.uiSaveAndClose();
             });
 
-            cy.visit(`/${testTeam.name}`);
-
-            // # Open 'Account Settings' modal
-            cy.findByLabelText('main menu').should('be.visible').click();
-            cy.findByText('Account Settings').should('be.visible').click();
-
-            // * Check that the 'Account Settings' modal was opened
-            cy.get('#accountSettingsModal').should('exist').within(() => {
-                cy.get('#notificationsButton').should('be.visible').click();
-                cy.get('#keysEdit').should('be.visible').click();
-
-                // * Uncheck all the 'Words That Trigger Mentions'
-                cy.get('#notificationTriggerFirst').should('not.be.checked');
-                cy.get('#notificationTriggerUsername').should('not.be.checked');
-                cy.get('#notificationTriggerShouts').should('be.checked').click().then(($shouts) => {
-                    cy.get($shouts).should('not.be.checked');
-                });
-                cy.get('#notificationTriggerCustomText').should('not.be.checked');
-                cy.get('#saveSetting').should('be.visible').click();
-
-                // # Close the modal
-                cy.get('#accountSettingsHeader').find('button').should('be.visible').click();
-            });
             cy.apiLogout();
 
             // # Login as sysadmin
             cy.apiAdminLogin();
-            cy.visit(`/${testTeam.name}`);
+            cy.visitAndWait(`/${testTeam.name}`);
         });
     });
 
@@ -74,7 +62,7 @@ describe('Notifications', () => {
 
         // # Login as otherUser and visit the team
         cy.apiLogin(otherUser);
-        cy.visit(`${testTeam.name}`);
+        cy.visitAndWait(`${testTeam.name}`);
 
         // # Click on the @ button
         cy.get('#channelHeaderMentionButton', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').click();

@@ -1,0 +1,69 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/invitation_modal/InvitationModalGuestsStep should match the snapshot 1`] = `
+<InvitationModalGuestsStep
+  actions={
+    Object {
+      "getCloudSubscription": [Function],
+      "getStandardAnalytics": [Function],
+    }
+  }
+  analytics={
+    Object {
+      "TOTAL_USERS": 10,
+    }
+  }
+  currentTeamId="test-team-id"
+  currentUsers={4}
+  emailInvitationsEnabled={true}
+  inviteId="123"
+  isCloud={false}
+  myInvitableChannels={Array []}
+  onEdit={[MockFunction]}
+  onSubmit={[MockFunction]}
+  searchChannels={[MockFunction]}
+  searchProfiles={[MockFunction]}
+  subscription={
+    Object {
+      "is_paid_tier": "false",
+    }
+  }
+  teamName="Test Team"
+  userIsAdmin={true}
+  userLimit="0"
+/>
+`;
+
+exports[`components/invitation_modal/InvitationModalGuestsStep should match the snapshot when email invitations are disabled 1`] = `
+<InvitationModalGuestsStep
+  actions={
+    Object {
+      "getCloudSubscription": [Function],
+      "getStandardAnalytics": [Function],
+    }
+  }
+  analytics={
+    Object {
+      "TOTAL_USERS": 10,
+    }
+  }
+  currentTeamId="test-team-id"
+  currentUsers={4}
+  emailInvitationsEnabled={true}
+  inviteId="123"
+  isCloud={false}
+  myInvitableChannels={Array []}
+  onEdit={[MockFunction]}
+  onSubmit={[MockFunction]}
+  searchChannels={[MockFunction]}
+  searchProfiles={[MockFunction]}
+  subscription={
+    Object {
+      "is_paid_tier": "false",
+    }
+  }
+  teamName="Test Team"
+  userIsAdmin={true}
+  userLimit="0"
+/>
+`;

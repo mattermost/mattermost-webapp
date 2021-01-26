@@ -3,7 +3,6 @@
 
 import React from 'react';
 import {Tooltip} from 'react-bootstrap';
-import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 
 import {trackEvent} from 'actions/telemetry_actions';
@@ -38,37 +37,9 @@ export default class ChannelFilter extends React.PureComponent<Props, State> {
     render() {
         const {unreadFilterEnabled, hasMultipleTeams} = this.props;
 
-        let filterTitle = (
-            <FormattedMessage
-                id='sidebar_left.channel_filter.viewing'
-                defaultMessage='VIEWING:'
-            />
-        );
-
-        let filterDescription = (
-            <FormattedMessage
-                id='sidebar_left.channel_filter.allChannels'
-                defaultMessage='All channels'
-            />
-        );
-
         let tooltipMessage = localizeMessage('sidebar_left.channel_filter.filterByUnread', 'Filter by unread');
 
         if (unreadFilterEnabled) {
-            filterTitle = (
-                <FormattedMessage
-                    id='sidebar_left.channel_filter.filteredBy'
-                    defaultMessage='FILTERED BY:'
-                />
-            );
-
-            filterDescription = (
-                <FormattedMessage
-                    id='sidebar_left.channel_filter.unread'
-                    defaultMessage='Unread'
-                />
-            );
-
             tooltipMessage = localizeMessage('sidebar_left.channel_filter.showAllChannels', 'Show all channels');
         }
 
@@ -83,30 +54,22 @@ export default class ChannelFilter extends React.PureComponent<Props, State> {
 
         return (
             <div className='SidebarFilters'>
-                <a
-                    href='#'
-                    className={classNames('SidebarFilters_filterButton', {
-                        active: unreadFilterEnabled,
-                    })}
-                    onClick={this.toggleUnreadFilter}
-                    aria-label={tooltipMessage}
+                <OverlayTrigger
+                    delayShow={500}
+                    placement={hasMultipleTeams ? 'top' : 'right'}
+                    overlay={tooltip}
                 >
-                    <OverlayTrigger
-                        delayShow={500}
-                        placement={hasMultipleTeams ? 'top' : 'right'}
-                        overlay={tooltip}
+                    <a
+                        href='#'
+                        className={classNames('SidebarFilters_filterButton', {
+                            active: unreadFilterEnabled,
+                        })}
+                        onClick={this.toggleUnreadFilter}
+                        aria-label={tooltipMessage}
                     >
                         <i className='icon icon-filter-variant'/>
-                    </OverlayTrigger>
-                </a>
-                <div>
-                    <div className='SidebarFilters_filterTitle'>
-                        {filterTitle}
-                    </div>
-                    <div className='SidebarFilters_filterDescription'>
-                        {filterDescription}
-                    </div>
-                </div>
+                    </a>
+                </OverlayTrigger>
             </div>
         );
     }

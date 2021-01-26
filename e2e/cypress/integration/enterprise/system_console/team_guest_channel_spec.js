@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @enterprise @system_console
 
 import {getRandomId} from '../../../utils';
@@ -55,7 +56,7 @@ describe('Team Scheme Guest Permissions Test', () => {
 
     it('MM- - Enable and Disable all guest permission', () => {
         // # Go to team override scheme.
-        cy.visit('/admin_console/user_management/permissions/team_override_scheme');
+        cy.visitAndWait('/admin_console/user_management/permissions/team_override_scheme');
 
         // # create unique scheme name
         const randomId = getRandomId();

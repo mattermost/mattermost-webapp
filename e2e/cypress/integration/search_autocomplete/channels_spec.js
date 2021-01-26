@@ -23,22 +23,14 @@ describe('Autocomplete without Elasticsearch - Channel', () => {
     let testUser;
 
     before(() => {
-        // # Disable elastic search via API
-        cy.apiUpdateConfig({
-            ElasticsearchSettings: {
-                EnableAutocomplete: false,
-                EnableIndexing: false,
-                EnableSearching: false,
-                Sniff: false,
-            },
-        });
+        cy.shouldHaveElasticsearchDisabled();
 
         // # Login as test user and go to town-square
         cy.apiInitSetup({loginAfter: true}).then(({team, user}) => {
             testUser = user;
             testTeam = team;
 
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
         });
     });
 
@@ -123,7 +115,7 @@ describe('Autocomplete without Elasticsearch - Channel', () => {
 
         before(() => {
             // // # Visit town-square
-            cy.visit(`/${testTeam.name}`);
+            cy.visitAndWait(`/${testTeam.name}`);
 
             const name = 'hellothere';
 

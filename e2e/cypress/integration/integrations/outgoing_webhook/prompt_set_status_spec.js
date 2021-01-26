@@ -31,7 +31,7 @@ describe('Prompting set status', () => {
 
     it('MM-T673 Prompting to set status to online', () => {
         cy.apiLogin(user1);
-        cy.visit(testChannelUrl);
+        cy.visitAndWait(testChannelUrl);
         cy.get('img.Avatar').click();
         cy.findByText('Online').click();
 
@@ -47,7 +47,7 @@ describe('Prompting set status', () => {
         cy.apiLogout();
 
         cy.apiLogin(user2);
-        cy.visit(testChannelUrl);
+        cy.visitAndWait(testChannelUrl);
         openDM(user1.username);
 
         // * Your status stays offline in other users' views.
@@ -62,7 +62,7 @@ describe('Prompting set status', () => {
 
         // # Log back in
         cy.apiLogin(user1);
-        cy.visit(testChannelUrl);
+        cy.visitAndWait(testChannelUrl);
 
         // # On modal that asks if you want to be set Online, select No.
         cy.get('.modal-content').within(() => {
@@ -76,7 +76,7 @@ describe('Prompting set status', () => {
 
         // * Your status stays offline in other users' views.
         cy.apiLogin(user2);
-        cy.visit(testChannelUrl);
+        cy.visitAndWait(testChannelUrl);
         openDM(user1.username);
 
         // * Your status stays offline in other users' views.
@@ -92,10 +92,18 @@ describe('Prompting set status', () => {
 });
 
 const openDM = (username) => {
-    cy.get('#addDirectChannel').click();
-    cy.get('#selectItems').type(`${username}`);
-    cy.wait(TIMEOUTS.ONE_SEC);
+    // # Click '+' to open DM and wait for some time to get the DM modal fully loaded
+    cy.get('#addDirectChannel').click().wait(TIMEOUTS.TWO_SEC);
+
+    // # Type username and wait for some time to load users list
+    cy.get('#selectItems').should('be.visible').type(`${username}`).wait(TIMEOUTS.TWO_SEC);
+
+    // # Find the user in the list and click
     cy.get('#multiSelectList').findByText(`@${username}`).click();
+
+    // * Verify that the user is selected
     cy.get('#selectItems').findByText(`${username}`).should('be.visible');
+
+    // # Click go to open DM with the user
     cy.findByText('Go').click();
 };

@@ -8,7 +8,7 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @guest_account
+// Group: @enterprise @guest_account
 
 /**
  * Note: This test requires Enterprise license to be uploaded
@@ -57,7 +57,7 @@ describe('Guest Account - Guest User Removal Experience', () => {
                     cy.apiAddUserToTeam(team1.id, guest.id);
                     cy.apiAddUserToTeam(team2.id, guest.id).then(() => {
                         cy.apiLogin(guest);
-                        cy.visit(`/${team2.name}/channels/town-square`);
+                        cy.visitAndWait(`/${team2.name}/channels/town-square`);
                     });
                 });
             });

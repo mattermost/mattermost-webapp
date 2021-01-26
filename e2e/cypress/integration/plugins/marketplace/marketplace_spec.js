@@ -7,7 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @plugin_marketplace @plugin
+// Group: @not_cloud @plugin_marketplace @plugin
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
@@ -17,6 +17,9 @@ describe('Plugin Marketplace', () => {
     let regularUser;
 
     before(() => {
+        cy.shouldNotRunOnCloudEdition();
+        cy.shouldHavePluginUploadEnabled();
+
         cy.apiInitSetup().then(({team, user}) => {
             regularUser = user;
             townsquareLink = `/${team.name}/channels/town-square`;
@@ -40,7 +43,7 @@ describe('Plugin Marketplace', () => {
 
             // # Login as non admin user
             cy.apiLogin(regularUser);
-            cy.visit(townsquareLink);
+            cy.visitAndWait(townsquareLink);
 
             // * Verify Plugin Marketplace does not exist
             verifyPluginMarketplaceVisibility(false);
@@ -61,7 +64,7 @@ describe('Plugin Marketplace', () => {
             });
 
             // # Visit town-square channel
-            cy.visit(townsquareLink);
+            cy.visitAndWait(townsquareLink);
 
             // * Verify Plugin Marketplace does not exist
             verifyPluginMarketplaceVisibility(false);
@@ -82,7 +85,7 @@ describe('Plugin Marketplace', () => {
             });
 
             // # Visit town-square channel
-            cy.visit(townsquareLink);
+            cy.visitAndWait(townsquareLink);
 
             // * Verify Plugin Marketplace does not exist
             verifyPluginMarketplaceVisibility(false);
@@ -103,14 +106,14 @@ describe('Plugin Marketplace', () => {
                     MarketplaceUrl: 'https://api.integrations.mattermost.com',
                 },
             });
-            cy.visit(pluginManagementPage);
+            cy.visitAndWait(pluginManagementPage);
 
             cy.wait(TIMEOUTS.HALF_SEC).get('input[data-testid="enablefalse"]').should('be.checked');
             cy.get('input[data-testid="enabletrue"]').check();
             cy.get('#saveSetting').click();
 
             // Verify that the Plugin Marketplace is available
-            cy.visit(townsquareLink);
+            cy.visitAndWait(townsquareLink);
             verifyPluginMarketplaceVisibility(true);
         });
 
@@ -127,14 +130,14 @@ describe('Plugin Marketplace', () => {
                     MarketplaceUrl: 'https://api.integrations.mattermost.com',
                 },
             });
-            cy.visit(pluginManagementPage);
+            cy.visitAndWait(pluginManagementPage);
 
             cy.wait(TIMEOUTS.HALF_SEC).get('input[data-testid="enableMarketplacefalse"]').should('be.checked');
             cy.get('input[data-testid="enableMarketplacetrue"]').check();
             cy.get('#saveSetting').click();
 
             // Verify that the Plugin Marketplace is available
-            cy.visit(townsquareLink);
+            cy.visitAndWait(townsquareLink);
             verifyPluginMarketplaceVisibility(true);
         });
     });
@@ -158,7 +161,7 @@ describe('Plugin Marketplace', () => {
             uninstallAllPlugins();
 
             // # Visit the Town Square channel
-            cy.visit(townsquareLink);
+            cy.visitAndWait(townsquareLink);
 
             cy.wait(TIMEOUTS.HALF_SEC).get('#lhsHeader').should('be.visible').within(() => {
                 // # Click hamburger main menu
@@ -172,7 +175,7 @@ describe('Plugin Marketplace', () => {
             });
         });
 
-        it('render an error bar', () => {
+        it('MM-T1966 render an error bar', () => {
             // * Verify should be an error connecting to the marketplace server
             cy.get('#error_bar').contains('Error connecting to the marketplace server');
         });
@@ -235,7 +238,7 @@ describe('Plugin Marketplace', () => {
             uninstallAllPlugins();
 
             // # Visit the Town Square channel
-            cy.visit(townsquareLink);
+            cy.visitAndWait(townsquareLink);
 
             cy.wait(TIMEOUTS.HALF_SEC).get('#lhsHeader').should('be.visible').within(() => {
                 // # Click hamburger main menu
@@ -261,13 +264,30 @@ describe('Plugin Marketplace', () => {
             cy.get('#marketplaceTabs-tab-allPlugins').scrollIntoView().should('be.visible');
 
             // * Verify installed plugins tabs button should be visible
-            cy.get('#marketplaceTabs-tab-installed').scrollIntoView().should('be.visible');
+            cy.uiCloseAnnouncementBar().then(() => {
+                cy.get('#marketplaceTabs-tab-installed').scrollIntoView().should('be.visible');
+            });
 
             // * Verify modal list is visible
             cy.get('.more-modal__list').scrollIntoView().should('be.visible');
         });
 
-        it('autofocus on search plugin input box', () => {
+        it('MM-T2001 autofocus on search plugin input box', () => {
+            cy.uiCloseAnnouncementBar().then(() => {
+                cy.findByLabelText('Close').click();
+            });
+
+            cy.get('#lhsHeader').should('be.visible').within(() => {
+                // # Click hamburger main menu
+                cy.findByLabelText('main menu').click();
+
+                // * Verify dropdown menu should be visible
+                cy.get('.dropdown-menu').should('be.visible').within(() => {
+                    // * Plugin Marketplace button should be visible then click
+                    cy.findByText('Plugin Marketplace').should('be.visible').click();
+                });
+            });
+
             // * Verify search plugins should be focused
             cy.findByPlaceholderText('Search Plugins').scrollIntoView().should('be.focused');
         });
@@ -283,7 +303,9 @@ describe('Plugin Marketplace', () => {
         // this test uses exist, not visible, due to issues with Cypress
         it('render the list of installed plugins on demand', () => {
             // # Click on installed plugins tab
-            cy.get('#marketplaceTabs-tab-installed').scrollIntoView().should('be.visible').click();
+            cy.uiCloseAnnouncementBar().then(() => {
+                cy.get('#marketplaceTabs-tab-installed').scrollIntoView().should('be.visible').click();
+            });
 
             // * Verify all plugins tab should not be active
             cy.get('#marketplaceTabs-pane-allPlugins').should('not.exist');
@@ -402,7 +424,7 @@ describe('Plugin Marketplace', () => {
         });
 
         // This tests fails, if any plugins are previously installed. See https://mattermost.atlassian.net/browse/MM-21610
-        it('change tab to "All Plugins" when "Install Plugins" link is clicked', () => {
+        it('MM-T1986 change tab to "All Plugins" when "Install Plugins" link is clicked', () => {
             cy.get('#marketplaceTabs').scrollIntoView().should('be.visible').within(() => {
                 // # Switch tab to installed plugin
                 cy.findByText(/Installed/).should('be.visible').click();
@@ -453,7 +475,7 @@ describe('Plugin Marketplace', () => {
             });
 
             // # Visit town-square channel
-            cy.visit(townsquareLink);
+            cy.visitAndWait(townsquareLink);
 
             // # Click hamburger main menu
             cy.wait(TIMEOUTS.HALF_SEC).get('#sidebarHeaderDropdownButton').click();
@@ -470,7 +492,7 @@ describe('Plugin Marketplace', () => {
             cy.get('#error_bar').should('not.exist');
         });
 
-        it('display installed plugins', () => {
+        it('MM-T1979 display installed plugins', () => {
             // # Install one plugin
             cy.apiInstallPluginFromUrl('https://github.com/mattermost/mattermost-plugin-github/releases/download/v0.7.0/github-0.7.0.tar.gz', true);
 
@@ -478,8 +500,10 @@ describe('Plugin Marketplace', () => {
             cy.get('#marketplace-plugin-github').scrollIntoView().should('be.visible');
 
             // * Verify one local plugin should be installed
-            cy.get('#marketplaceTabs-tab-installed').scrollIntoView().should('be.visible').click();
-            cy.get('#marketplaceTabs-pane-installed').find('.more-modal__row').should('have.length', 1);
+            cy.uiCloseAnnouncementBar().then(() => {
+                cy.get('#marketplaceTabs-tab-installed').scrollIntoView().should('be.visible').click();
+                cy.get('#marketplaceTabs-pane-installed').find('.more-modal__row').should('have.length', 1);
+            });
 
             // * Verify no error bar should be visible
             cy.get('#error_bar').should('not.exist');

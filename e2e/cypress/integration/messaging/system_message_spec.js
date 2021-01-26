@@ -56,7 +56,7 @@ describe('System Message', () => {
         // # Login as test user and visit town-square
         cy.apiInitSetup({loginAfter: true}).then(({team, user}) => {
             testUsername = user.username;
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visitAndWait(`/${team.name}/channels/town-square`);
         });
     });
 
@@ -85,9 +85,10 @@ describe('System Message', () => {
         // * Check that the status is updated and is spread on more than one line
         cy.getLastPost().
             should('contain', 'System').
-            and('contain', `@${testUsername} updated the channel header from:`).
+            and('contain', `@${testUsername} updated the channel header`).
+            and('contain', 'From:').
             and('contain', newHeader).
-            and('contain', 'to:').
+            and('contain', 'To:').
             and('contain', newHeader.repeat(20));
 
         const validateMulti = (desc) => {

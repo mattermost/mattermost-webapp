@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @messaging
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -20,7 +21,7 @@ describe('Messaging', () => {
         cy.apiInitSetup().then(({team, user}) => {
             otherUser = user;
             townsquareLink = `/${team.name}/channels/town-square`;
-            cy.visit(townsquareLink);
+            cy.visitAndWait(townsquareLink);
         });
     });
 
@@ -55,7 +56,7 @@ describe('Messaging', () => {
 
             // # Log-in as a different user
             cy.apiLogin(otherUser);
-            cy.visit(townsquareLink);
+            cy.visitAndWait(townsquareLink);
 
             // # Mouse over the post to show the options
             cy.get(`#post_${lastPostId}`).trigger('mouseover', {force: true});

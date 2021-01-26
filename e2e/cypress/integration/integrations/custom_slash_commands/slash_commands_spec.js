@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @integrations
 
 /**
@@ -27,7 +28,7 @@ describe('Slash commands page', () => {
             testTeam = team;
 
             // # Go to integrations
-            cy.visit(`/${team.name}/integrations`);
+            cy.visitAndWait(`/${team.name}/integrations`);
 
             // * Validate that slash command section is enabled
             cy.get('#slashCommands').should('be.visible');
@@ -94,18 +95,21 @@ describe('Slash commands page', () => {
     });
 
     it('MM-T694 Error: trigger word in use', () => {
+        const triggerWord = 'my_trigger_word';
+        const url = 'http://test.com';
+
         // # Add new command
         cy.get('#addSlashCommand').click();
 
         // # Type a trigger word and URL
-        cy.get('#trigger').type('my_trigger_word');
-        cy.get('#url').type('http://');
+        cy.get('#trigger').type(triggerWord);
+        cy.get('#url').type(url);
 
         // # Save
         cy.get('#saveCommand').click();
 
         // # Go to integrations
-        cy.visit(`/${testTeam.name}/integrations`);
+        cy.visitAndWait(`/${testTeam.name}/integrations`);
 
         // * Validate that slash command section is enabled
         cy.get('#slashCommands').should('be.visible');
@@ -117,8 +121,8 @@ describe('Slash commands page', () => {
         cy.get('#addSlashCommand').click();
 
         // # Type same trigger word and URL
-        cy.get('#trigger').type('my_trigger_word');
-        cy.get('#url').type('http://');
+        cy.get('#trigger').type(triggerWord);
+        cy.get('#url').type(url);
 
         // # Save
         cy.get('#saveCommand').click();
@@ -136,7 +140,7 @@ describe('Slash commands page', () => {
         addNewCommand(testTeam, trigger, 'http://example.com');
 
         // # Go to integrations
-        cy.visit(`/${testTeam.name}/integrations`);
+        cy.visitAndWait(`/${testTeam.name}/integrations`);
 
         // # Open slash command page
         cy.get('#slashCommands').click();
@@ -161,7 +165,7 @@ describe('Slash commands page', () => {
         addNewCommand(testTeam, trigger, '');
 
         // # Go to integrations
-        cy.visit(`/${testTeam.name}/integrations`);
+        cy.visitAndWait(`/${testTeam.name}/integrations`);
 
         // # Open slash command page
         cy.get('#slashCommands').click();
@@ -182,19 +186,19 @@ describe('Slash commands page', () => {
     });
 });
 
-function addNewCommand(team, trigger, url) {
+export function addNewCommand(team, trigger, url) {
     // # Add new command
     cy.get('#addSlashCommand').click();
 
     // # Type a trigger word, url and display name
     cy.get('#trigger').type(`${trigger}`);
     cy.get('#displayName').type('Test Message');
-    cy.apiGetChannelByName(team.name, 'town-square').then((res) => {
+    cy.apiGetChannelByName(team.name, 'town-square').then(({channel}) => {
         let urlToType = url;
         if (url === '') {
-            urlToType = `${Cypress.env('webhookBaseUrl')}/send_message_to_channel?channel_id=${res.body.id}`;
+            urlToType = `${Cypress.env('webhookBaseUrl')}/send_message_to_channel?channel_id=${channel.id}`;
         }
-        cy.get('#url').type(`${urlToType}`);
+        cy.get('#url').type(urlToType);
 
         // # Save
         cy.get('#saveCommand').click();
@@ -212,11 +216,10 @@ function addNewCommand(team, trigger, url) {
 
 function runSlashCommand(team, trigger) {
     // # Go back to home channel
-    cy.visit(`/${team.name}/channels/town-square`);
-    cy.wait(TIMEOUTS.TWO_SEC);
+    cy.visitAndWait(`/${team.name}/channels/town-square`);
 
     // # Run slash command
-    cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').clear().type(`/${trigger}{enter}`);
+    cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').clear().type(`/${trigger}{enter}{enter}`);
     cy.wait(TIMEOUTS.TWO_SEC);
 
     // # Get last post message text

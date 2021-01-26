@@ -65,6 +65,7 @@ button {
     &.btn-transparent {
         background: transparent;
         border: none;
+        color: rgba(var(--center-channel-color-rgb), 0.7);
         padding: 7px 12px;
     }
 
@@ -118,7 +119,8 @@ button {
     &:active,
     &--active,
     &--active:hover {
-        background: rgba(var(--center-channel-color-rgb), 0.08);
+        background: rgba(var(--button-bg-rgb), 0.08);
+
         fill: v(button-bg);
         color: v(button-bg);
     }

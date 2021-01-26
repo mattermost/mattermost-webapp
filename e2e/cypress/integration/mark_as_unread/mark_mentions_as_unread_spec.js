@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @mark_as_unread
 
 import {beUnread} from '../../support/assertions';
@@ -41,7 +42,7 @@ describe('Mark post with mentions as unread', () => {
                     cy.apiAddUserToChannel(channelB.id, userB.id);
                 });
 
-                cy.visit(`/${team.name}/channels/town-square`);
+                cy.visitAndWait(`/${team.name}/channels/town-square`);
             });
         });
     });

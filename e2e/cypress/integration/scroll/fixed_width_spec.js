@@ -9,6 +9,7 @@ const timeouts = require('../../fixtures/timeouts');
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @scroll
 
 describe('Scroll', () => {
@@ -25,7 +26,7 @@ describe('Scroll', () => {
         cy.apiInitSetup().then(({team, channel}) => {
             testTeam = team;
             testChannel = channel;
-            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+            cy.visitAndWait(`/${testTeam.name}/channels/${channel.name}`);
         });
     });
 
@@ -73,7 +74,7 @@ describe('Scroll', () => {
         });
 
         // # Browse to Channel
-        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+        cy.visitAndWait(`/${testTeam.name}/channels/${testChannel.name}`);
 
         // * Verify All posts are displayed correctly
         cy.findAllByTestId('postContent').should('have.length', '9').and('have.class', 'post__content center');

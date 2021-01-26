@@ -18,8 +18,7 @@ describe('Autocomplete without Elasticsearch - Users', () => {
     let testTeam;
 
     before(() => {
-        // * Check if server has license for Elasticsearch
-        cy.apiRequireLicenseForFeature('Elasticsearch');
+        cy.shouldHaveElasticsearchDisabled();
 
         // # Create new team for tests
         cy.apiCreateTeam(`search-${timestamp}`, `search-${timestamp}`).then(({team}) => {
@@ -31,16 +30,6 @@ describe('Autocomplete without Elasticsearch - Users', () => {
                     cy.apiAddUserToTeam(testTeam.id, user.id);
                 });
             });
-        });
-
-        // # Disable elastic search via API
-        cy.apiUpdateConfig({
-            ElasticsearchSettings: {
-                EnableAutocomplete: false,
-                EnableIndexing: false,
-                EnableSearching: false,
-                Sniff: false,
-            },
         });
     });
 
@@ -74,7 +63,7 @@ describe('Autocomplete without Elasticsearch - Users', () => {
 
             before(() => {
                 // # Navigate to the new teams town square
-                cy.visit(`/${testTeam.name}/channels/town-square`);
+                cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
             });
 
             describe('by @username', () => {
@@ -181,7 +170,7 @@ describe('Autocomplete without Elasticsearch - Users', () => {
         describe('search for user in channel switcher', () => {
             const area = {
                 getInput: () => {
-                    cy.get('#quickSwitchInput').
+                    cy.findByRole('textbox', {name: 'quick switch input'}).
                         should('be.visible').
                         as('input').
                         clear();
@@ -197,9 +186,9 @@ describe('Autocomplete without Elasticsearch - Users', () => {
 
             before(() => {
                 // # Navigate to the new teams town square
-                cy.visit(`/${testTeam.name}/channels/town-square`);
+                cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
                 cy.typeCmdOrCtrl().type('k');
-                cy.get('#quickSwitchInput').should('be.visible');
+                cy.findByRole('textbox', {name: 'quick switch input'}).should('be.visible');
             });
 
             describe('by @username', () => {
@@ -314,7 +303,7 @@ describe('Autocomplete without Elasticsearch - Users', () => {
                     cy.apiAddUserToChannel(channel.id, user.id);
                 });
 
-                cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+                cy.visitAndWait(`/${testTeam.name}/channels/${channel.name}`);
             });
 
             // # Start an at mention that should return 2 users (in this case, the users share a last name)

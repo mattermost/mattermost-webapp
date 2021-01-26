@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @channel_settings
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -49,7 +48,7 @@ describe('Channel settings', () => {
         const lastChannelIndex = channelNames.length - 1;
 
         // # Navigate to off-topic channel
-        cy.visit(`/${myTeam.name}/channels/off-topic`);
+        cy.visitAndWait(`/${myTeam.name}/channels/off-topic`);
 
         // # Post message as the second user, in a channel near the top of the list
         cy.apiGetChannelByName(myTeam.name, channelNames[firstChannelIndex]).then(({channel}) => {

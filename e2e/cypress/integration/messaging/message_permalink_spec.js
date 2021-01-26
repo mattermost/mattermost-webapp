@@ -13,14 +13,6 @@
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Message permalink', () => {
-    function ignoreUncaughtException() {
-        cy.on('uncaught:exception', (err) => {
-            expect(err.message).to.include('Cannot clear timer: timer created');
-
-            return false;
-        });
-    }
-
     let testTeam;
     let testChannel;
     let testUser;
@@ -45,7 +37,7 @@ describe('Message permalink', () => {
     });
 
     beforeEach(() => {
-        cy.visit(`/${testTeam.name}/messages/@${otherUser.username}`);
+        cy.visitAndWait(`/${testTeam.name}/messages/@${otherUser.username}`);
     });
 
     it('MM-T177 Copy a permalink and paste into another channel', () => {
@@ -75,15 +67,13 @@ describe('Message permalink', () => {
     });
 
     it('Permalink highlight should fade after timeout and change to channel url', () => {
-        ignoreUncaughtException();
-
         // # Post message to use
         const message = 'Hello' + Date.now();
         cy.postMessage(message);
 
         cy.getLastPostId().then((postId) => {
             const link = `/${testTeam.name}/messages/@${otherUser.username}/${postId}`;
-            cy.visit(link);
+            cy.visitAndWait(link);
             cy.url().should('include', link);
             cy.get(`#post_${postId}`, {timeout: TIMEOUTS.HALF_MIN}).should('have.class', 'post--highlight');
             cy.clock();

@@ -29,7 +29,7 @@ module.exports = {
         });
 
         // Navigate to the elastic search setting page
-        cy.visit('/admin_console/environment/elasticsearch');
+        cy.visitAndWait('/admin_console/environment/elasticsearch');
 
         // Test the connection and verify that we are successful
         cy.contains('button', 'Test Connection').click();
@@ -188,14 +188,14 @@ module.exports = {
                         expect(addResponse.status).to.equal(201);
 
                         // explicitly wait to give some to index before searching
-                        cy.wait(TIMEOUTS.HALF_SEC);
+                        cy.wait(TIMEOUTS.TWO_SEC);
                         return cy.wrap(channel);
                     });
                 });
             }
 
             // explicitly wait to give some to index before searching
-            cy.wait(TIMEOUTS.HALF_SEC);
+            cy.wait(TIMEOUTS.TWO_SEC);
             return cy.wrap(channel);
         });
     },
@@ -204,7 +204,7 @@ module.exports = {
         cy.typeCmdOrCtrl().type('k');
 
         // Clear out and type in the name
-        cy.get('#quickSwitchInput').
+        cy.findByRole('textbox', {name: 'quick switch input'}).
             should('be.visible').
             as('input').
             clear().
@@ -215,7 +215,7 @@ module.exports = {
         cy.typeCmdOrCtrl().type('k');
 
         // # Search for channel's display name
-        cy.get('#quickSwitchInput').
+        cy.findByRole('textbox', {name: 'quick switch input'}).
             should('be.visible').
             as('input').
             clear().

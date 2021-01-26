@@ -8,7 +8,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @team_settings
+// Group: @te_only @team_settings
 
 import {generateRandomUser} from '../../support/api/user';
 
@@ -19,21 +19,15 @@ describe('Team Settings', () => {
     const {username, email, password} = generateRandomUser();
     const emailDomain = 'sample.mattermost.com';
 
-    let isLicensed;
-
     before(() => {
-        // # If the instance the test is running on is licensed, assign true to isLicensed variable
-        cy.apiGetClientLicense().then(({license}) => {
-            isLicensed = license.IsLicensed === 'true';
-        });
+        cy.shouldRunOnTeamEdition();
 
-        // # Disable LDAP and do email test if setup properly
-        cy.apiUpdateConfig({LdapSettings: {Enable: false}});
+        // # Do email test if setup properly
         cy.apiEmailTest();
 
         cy.apiInitSetup().then(({team}) => {
             testTeam = team;
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visitAndWait(`/${team.name}/channels/town-square`);
         });
     });
 
@@ -42,7 +36,7 @@ describe('Team Settings', () => {
         allowOnlyUserFromSpecificDomain(emailDomain);
 
         // # Invite user via email
-        inviteUserByEmail(email, isLicensed);
+        inviteUserByEmail(email);
 
         // # Logout from sysadmin account
         cy.apiLogout();

@@ -43,7 +43,7 @@ describe('Account Settings > Display > Timezone Mode', () => {
 
         // # Create and visit town-square
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visitAndWait(`/${team.name}/channels/town-square`);
 
             // # Post messages from the past
             [date1, date2, date3, date4].forEach((createAt, index) => {
@@ -62,7 +62,7 @@ describe('Account Settings > Display > Timezone Mode', () => {
         cy.reload();
     });
 
-    describe('MM-T301 Change timezone automatically', () => {
+    describe('MM-T301_1 Change timezone automatically', () => {
         const automaticTestCases = [
             {
                 timezone: timezoneLocal,
@@ -113,7 +113,7 @@ describe('Account Settings > Display > Timezone Mode', () => {
         });
     });
 
-    describe('MM-T301 Change timezone manually', () => {
+    describe('MM-T301_2 Change timezone manually', () => {
         const manualTestCases = [
             {
                 timezone: timezoneCanonical,

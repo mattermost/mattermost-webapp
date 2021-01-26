@@ -66,7 +66,7 @@ describe('Autocomplete with Elasticsearch - Users', () => {
 
             before(() => {
                 // # Navigate to the new teams town square
-                cy.visit(`/${testTeam.name}/channels/town-square`);
+                cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
             });
 
             describe('by @username', () => {
@@ -173,7 +173,7 @@ describe('Autocomplete with Elasticsearch - Users', () => {
         describe('search for user in channel switcher', () => {
             const area = {
                 getInput: () => {
-                    cy.get('#quickSwitchInput').
+                    cy.findByRole('textbox', {name: 'quick switch input'}).
                         should('be.visible').
                         as('input').
                         clear();
@@ -189,9 +189,9 @@ describe('Autocomplete with Elasticsearch - Users', () => {
 
             before(() => {
                 // # Navigate to the new teams town square
-                cy.visit(`/${testTeam.name}/channels/town-square`);
+                cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
                 cy.typeCmdOrCtrl().type('k');
-                cy.get('#quickSwitchInput').should('be.visible');
+                cy.findByRole('textbox', {name: 'quick switch input'}).should('be.visible');
             });
 
             describe('by @username', () => {
@@ -306,7 +306,7 @@ describe('Autocomplete with Elasticsearch - Users', () => {
                     cy.apiAddUserToChannel(channel.id, user.id);
                 });
 
-                cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+                cy.visitAndWait(`/${testTeam.name}/channels/${channel.name}`);
             });
 
             // # Start an at mention that should return 2 users (in this case, the users share a last name)

@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @mark_as_unread
 
 import {beRead, beUnread} from '../../support/assertions';
@@ -52,7 +53,7 @@ describe('Mark as Unread', () => {
             });
 
             cy.apiLogin(testUser);
-            cy.visit(`/${team.name}/channels/${channelA.name}`);
+            cy.visitAndWait(`/${team.name}/channels/${channelA.name}`);
         });
     });
 

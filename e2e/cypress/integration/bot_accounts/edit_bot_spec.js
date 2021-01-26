@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @bot_accounts
 
 import * as MESSAGES from '../../fixtures/messages';
@@ -28,7 +29,7 @@ describe('Edit bot', () => {
 
     function createBot(userName, displayName) {
         // # Go to bot integrations page
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
         cy.get('#headerInfo').click();
         cy.get('#integrations a').click();
         cy.get('a.integration-option[href$="/bots"]').click();

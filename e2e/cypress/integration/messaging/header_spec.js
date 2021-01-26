@@ -24,11 +24,11 @@ describe('Header', () => {
             });
 
             cy.apiLogin(user);
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visitAndWait(`/${team.name}/channels/town-square`);
         });
     });
 
-    it('MM-T88 An elipsis indicates the channel header is too long - public or private channel Quote icon displays at beginning of channel header', () => {
+    it('MM-T88 An ellipsis indicates the channel header is too long - public or private channel Quote icon displays at beginning of channel header', () => {
         // * Verify with short channel header
         updateAndVerifyChannelHeader('>', 'newheader');
 
@@ -89,7 +89,7 @@ describe('Header', () => {
 
         // # Click the pin icon to open the pinned posts RHS
         cy.get('#channelHeaderPinButton').should('be.visible').click();
-        cy.get('#sidebar-right').should('be.visible').and('contain', 'Pinned posts');
+        cy.get('#sidebar-right').should('be.visible').and('contain', 'Pinned Posts');
 
         // # Verify that the Search term input box is still cleared and search term does not reappear when RHS opens
         cy.get('#searchBox').should('have.attr', 'value', '').and('be.empty');

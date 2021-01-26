@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @messaging
 
 describe('Messaging', () => {
@@ -24,7 +25,7 @@ describe('Messaging', () => {
     });
 
     beforeEach(() => {
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
     });
 
     it('MM-T1662_1 Autocomplete should match entries with spaces', () => {

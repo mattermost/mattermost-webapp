@@ -10,8 +10,12 @@
 // Group: @onboarding
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
-import {getEmailUrl, getEmailMessageSeparator, reUrl} from '../../utils';
 import {generateRandomUser} from '../../support/api/user';
+import {
+    getEmailUrl,
+    reUrl,
+    splitEmailBodyText,
+} from '../../utils';
 
 describe('Onboarding', () => {
     let testTeam;
@@ -23,8 +27,8 @@ describe('Onboarding', () => {
     let isLicensed;
 
     before(() => {
-        cy.apiGetClientLicense().then(({license}) => {
-            isLicensed = license.IsLicensed === 'true';
+        cy.apiGetClientLicense().then((data) => {
+            ({isLicensed} = data);
         });
 
         // # Do email test if setup properly
@@ -39,7 +43,7 @@ describe('Onboarding', () => {
 
         cy.apiInitSetup().then(({team}) => {
             testTeam = team;
-            cy.visit(`/${team.name}`);
+            cy.visitAndWait(`/${team.name}`);
         });
     });
 
@@ -58,8 +62,11 @@ describe('Onboarding', () => {
 
             // # Logout from admin account and visit the invite url
             cy.apiLogout();
-            cy.visit(inviteLink);
+            cy.visitAndWait(inviteLink);
         });
+
+        // # Click Email and Password link
+        cy.get('.signup__content', {timeout: TIMEOUTS.ONE_MIN}).findByText('Email and Password').click();
 
         // # Type email, username and password
         cy.get('#email', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').type(email);
@@ -77,18 +84,16 @@ describe('Onboarding', () => {
         });
 
         cy.task('getRecentEmail', {username, mailUrl}).then((response) => {
-            const messageSeparator = getEmailMessageSeparator(baseUrl);
+            verifyEmailInvite(response, email);
 
-            verifyEmailInvite(response, email, messageSeparator);
-
-            const bodyText = response.data.body.text.split('\n');
+            const bodyText = splitEmailBodyText(response.data.body.text);
             const permalink = bodyText[6].match(reUrl)[0];
 
             // * Check that URL in address bar does not have an `undefined` team name appended
             cy.url().should('not.include', 'undefined');
 
             // # Visit permalink (e.g. click on email link)
-            cy.visit(permalink);
+            cy.visitAndWait(permalink);
 
             // # Check that 'Email Verified' text should be visible, email is pre-filled, and password field is focused, then login
             cy.findByText('Email Verified', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible');
@@ -106,12 +111,11 @@ describe('Onboarding', () => {
             cy.get('#sidebarItem_town-square').should('exist');
         });
 
-        // * Check that the 'Welcome to: Mattermost' message is visible
-        cy.get('#tutorialIntroOne').findByText('Welcome to:').should('be.visible');
-        cy.get('#tutorialIntroOne').findByText('Mattermost').should('be.visible');
+        // * Check that the 'Welcome to Mattermost' message is visible
+        cy.get('.NextStepsView__header-headerText').findByText('Welcome to Mattermost').should('be.visible');
     });
 
-    function verifyEmailInvite(response, userEmail, messageSeparator) {
+    function verifyEmailInvite(response, userEmail) {
         const isoDate = new Date().toISOString().substring(0, 10);
         const {data, status} = response;
 
@@ -129,7 +133,7 @@ describe('Onboarding', () => {
         expect(data.subject).to.contain('[Mattermost] You joined localhost:8065');
 
         // * Verify that the email body is correct
-        const bodyText = data.body.text.split(messageSeparator);
+        const bodyText = splitEmailBodyText(data.body.text);
         expect(bodyText.length).to.equal(23);
         expect(bodyText[1]).to.equal('You\'ve joined localhost:8065');
         expect(bodyText[4]).to.equal('Please verify your email address by clicking below.');

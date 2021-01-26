@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @notifications
 
 import * as MESSAGES from '../../fixtures/messages';
@@ -22,7 +23,7 @@ describe('Notifications', () => {
             testChannel = channel;
             otherUser = user;
 
-            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+            cy.visitAndWait(`/${testTeam.name}/channels/${channel.name}`);
         });
     });
 

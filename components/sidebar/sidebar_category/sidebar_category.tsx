@@ -19,11 +19,13 @@ import OverlayTrigger from 'components/overlay_trigger';
 import {DraggingState} from 'types/store';
 
 import Constants, {A11yCustomEventTypes, DraggingStateTypes, DraggingStates} from 'utils/constants';
-import {wrapEmojis} from 'utils/emoji_utils';
 import {t} from 'utils/i18n';
 import {isKeyPressed} from 'utils/utils';
 
 import SidebarChannel from '../sidebar_channel';
+import {SidebarCategoryHeader} from '../sidebar_category_header';
+
+import SidebarCategorySortingMenu from './sidebar_category_sorting_menu';
 
 import SidebarCategoryMenu from './sidebar_category_menu';
 
@@ -114,7 +116,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                 isCategoryCollapsed={isCollapsed}
                 isCategoryDragged={draggingState.type === DraggingStateTypes.CATEGORY && draggingState.id === category.id}
                 isDropDisabled={this.isDropDisabled()}
-                isDMCategory={category.type === CategoryTypes.DIRECT_MESSAGES}
+                isAutoSortedCategory={category.sorting === CategorySorting.Alphabetical || category.sorting === CategorySorting.Recency}
             />
         );
     }
@@ -216,6 +218,23 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
         );
     }
 
+    showPlaceholder = () => {
+        const {channels, draggingState, category, isNewCategory} = this.props;
+
+        if (category.sorting === CategorySorting.Alphabetical ||
+            category.sorting === CategorySorting.Recency ||
+            isNewCategory) {
+            // Always show the placeholder if the channel being dragged is from the current category
+            if (channels.find((channel) => channel.id === draggingState.id)) {
+                return true;
+            }
+
+            return false;
+        }
+
+        return true;
+    }
+
     render() {
         const {
             category,
@@ -238,7 +257,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
         let categoryMenu: JSX.Element;
         let newLabel: JSX.Element;
         let directMessagesModalButton: JSX.Element;
-        let hideArrow = false;
+        let isCollapsible = true;
         if (isNewCategory) {
             newLabel = (
                 <div className='SidebarCategory_newLabel'>
@@ -268,58 +287,33 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                 </Tooltip>
             );
 
-            let sortingIcon: JSX.Element;
-            let sortHelpLabel;
-            if (category.sorting === CategorySorting.Alphabetical) {
-                sortingIcon = (<i className='icon-sort-alphabetical-ascending'/>);
-                sortHelpLabel = localizeMessage('sidebar.sortedByAlphabetical', 'Sorted alphabetically');
-            } else {
-                sortingIcon = (<i className='icon-clock-outline'/>);
-                sortHelpLabel = localizeMessage('sidebar.sortedByRecency', 'Sorted by most recent');
-            }
-
-            const sortTooltip = (
-                <Tooltip
-                    id='new-group-tooltip'
-                    className='hidden-xs'
-                >
-                    {sortHelpLabel}
-                </Tooltip>
-            );
-
             categoryMenu = (
                 <React.Fragment>
-                    <button
-                        className='SidebarChannelGroupHeader_sortButton'
-                        onClick={this.handleSortDirectMessages}
-                        aria-label={sortHelpLabel}
+                    <SidebarCategorySortingMenu
+                        category={category}
+                        handleOpenDirectMessagesModal={this.handleOpenDirectMessagesModal}
+                        isCollapsed={this.props.isCollapsed}
+                        isMenuOpen={this.state.isMenuOpen}
+                        onToggleMenu={this.handleMenuToggle}
+                    />
+                    <OverlayTrigger
+                        delayShow={500}
+                        placement='top'
+                        overlay={addTooltip}
                     >
-                        <OverlayTrigger
-                            delayShow={500}
-                            placement='top'
-                            overlay={sortTooltip}
-                        >
-                            {sortingIcon}
-                        </OverlayTrigger>
-                    </button>
-                    <button
-                        className='SidebarChannelGroupHeader_addButton'
-                        onClick={this.handleOpenDirectMessagesModal}
-                        aria-label={addHelpLabel}
-                    >
-                        <OverlayTrigger
-                            delayShow={500}
-                            placement='top'
-                            overlay={addTooltip}
+                        <button
+                            className='SidebarChannelGroupHeader_addButton'
+                            onClick={this.handleOpenDirectMessagesModal}
+                            aria-label={addHelpLabel}
                         >
                             <i className='icon-plus'/>
-                        </OverlayTrigger>
-                    </button>
+                        </button>
+                    </OverlayTrigger>
                 </React.Fragment>
             );
 
             if (!channels || !channels.length) {
-                hideArrow = true;
+                isCollapsible = false;
             }
         } else {
             categoryMenu = (
@@ -346,9 +340,11 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                     return (
                         <div
                             className={classNames('SidebarChannelGroup a11y__section', {
+                                autoSortedCategory: category.sorting === CategorySorting.Alphabetical || category.sorting === CategorySorting.Recency,
                                 dropDisabled: this.isDropDisabled(),
                                 menuIsOpen: this.state.isMenuOpen,
                                 capture: this.props.draggingState.state === DraggingStates.CAPTURE,
+                                isCollapsed,
                             })}
                             ref={provided.innerRef}
                             {...provided.draggableProps}
@@ -364,36 +360,24 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                                             {...droppableProvided.droppableProps}
                                             ref={droppableProvided.innerRef}
                                             className={classNames({
-                                                draggingOverDMCategory: droppableSnapshot.isDraggingOver && category.type === CategoryTypes.DIRECT_MESSAGES,
+                                                draggingOver: droppableSnapshot.isDraggingOver,
                                             })}
                                         >
-                                            <div
-                                                className={classNames('SidebarChannelGroupHeader', {
-                                                    draggingOverHeader: droppableSnapshot.isDraggingOver && category.type !== CategoryTypes.DIRECT_MESSAGES && !isNewCategory,
-                                                })}
+                                            <SidebarCategoryHeader
+                                                ref={this.categoryTitleRef}
+                                                displayName={displayName}
+                                                dragHandleProps={provided.dragHandleProps}
+                                                isCollapsed={isCollapsed}
+                                                isCollapsible={isCollapsible}
+                                                isDragging={snapshot.isDragging}
+                                                isDraggingOver={droppableSnapshot.isDraggingOver}
+                                                muted={category.muted}
+                                                onClick={this.handleCollapse}
                                             >
-                                                <button
-                                                    ref={this.categoryTitleRef}
-                                                    className={classNames('SidebarChannelGroupHeader_groupButton', {
-                                                        dragging: snapshot.isDragging,
-                                                    })}
-                                                    onClick={this.handleCollapse}
-                                                    aria-label={displayName}
-                                                >
-                                                    <i
-                                                        className={classNames('icon icon-chevron-down', {
-                                                            'icon-rotate-minus-90': isCollapsed,
-                                                            'hide-arrow': hideArrow,
-                                                        })}
-                                                    />
-                                                    <div {...provided.dragHandleProps}>
-                                                        {wrapEmojis(displayName)}
-                                                    </div>
-                                                    {newLabel}
-                                                    {directMessagesModalButton}
-                                                </button>
+                                                {newLabel}
+                                                {directMessagesModalButton}
                                                 {categoryMenu}
-                                            </div>
+                                            </SidebarCategoryHeader>
                                             <div className='SidebarChannelGroup_content'>
                                                 <ul
                                                     role='list'
@@ -401,7 +385,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                                                 >
                                                     {this.renderNewDropBox(droppableSnapshot.isDraggingOver)}
                                                     {renderedChannels}
-                                                    {(category.type === CategoryTypes.DIRECT_MESSAGES || isNewCategory) ? null : droppableProvided.placeholder}
+                                                    {this.showPlaceholder() ? droppableProvided.placeholder : null}
                                                 </ul>
                                             </div>
                                         </div>

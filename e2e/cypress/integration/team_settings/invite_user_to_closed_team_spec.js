@@ -19,8 +19,8 @@ describe('Team Settings', () => {
 
     before(() => {
         // # If the instance the test is running on is licensed, assign true to isLicensed variable
-        cy.apiGetClientLicense().then(({license}) => {
-            isLicensed = license.IsLicensed === 'true';
+        cy.apiGetClientLicense().then((data) => {
+            ({isLicensed} = data);
         });
 
         cy.apiInitSetup().then(({team}) => {
@@ -28,7 +28,7 @@ describe('Team Settings', () => {
                 newUser = user;
             });
 
-            cy.visit(`/${team.name}`);
+            cy.visitAndWait(`/${team.name}`);
         });
     });
 

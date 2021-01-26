@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @notifications
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -45,7 +46,7 @@ describe('Notifications', () => {
                     });
 
                     // # Go to test channel
-                    cy.visit(`/${team.name}/channels/${channel.name}`);
+                    cy.visitAndWait(`/${team.name}/channels/${channel.name}`);
 
                     // # Scroll above the last few messages
                     cy.get('div.post-list__dynamic', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').

@@ -3,6 +3,7 @@
 // See LICENSE.txt for license information.
 
 import * as TIMEOUTS from '../fixtures/timeouts';
+import {isMac} from '../utils';
 
 // ***********************************************************
 // Read more: https://on.cypress.io/custom-commands
@@ -60,6 +61,14 @@ Cypress.Commands.add('uiChangeMessageDisplaySetting', (setting = 'STANDARD') => 
 
 // Type Cmd or Ctrl depending on OS
 Cypress.Commands.add('typeCmdOrCtrl', () => {
+    typeCmdOrCtrlInt('#post_textbox');
+});
+
+Cypress.Commands.add('typeCmdOrCtrlForEdit', () => {
+    typeCmdOrCtrlInt('#edit_textbox');
+});
+
+function typeCmdOrCtrlInt(textboxSelector) {
     let cmdOrCtrl;
     if (isMac()) {
         cmdOrCtrl = '{cmd}';
@@ -67,17 +76,13 @@ Cypress.Commands.add('typeCmdOrCtrl', () => {
         cmdOrCtrl = '{ctrl}';
     }
 
-    cy.get('#post_textbox').type(cmdOrCtrl, {release: false});
-});
+    cy.get(textboxSelector).type(cmdOrCtrl, {release: false});
+}
 
 Cypress.Commands.add('cmdOrCtrlShortcut', {prevSubject: true}, (subject, text) => {
     const cmdOrCtrl = isMac() ? '{cmd}' : '{ctrl}';
     return cy.get(subject).type(`${cmdOrCtrl}${text}`);
 });
-
-function isMac() {
-    return navigator.platform.toUpperCase().indexOf('MAC') >= 0;
-}
 
 // ***********************************************************
 // Post
@@ -102,6 +107,10 @@ Cypress.Commands.add('uiPostMessageQuickly', (message) => {
 });
 
 function postMessageAndWait(textboxSelector, message) {
+    // Add explicit wait to let the page load freely since `cy.get` seemed to block
+    // some operation which caused to prolong complete page loading.
+    cy.wait(TIMEOUTS.THREE_SEC);
+
     cy.get(textboxSelector, {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').clear().type(`${message}{enter}`).wait(TIMEOUTS.HALF_SEC);
     cy.waitUntil(() => {
         return cy.get(textboxSelector).then((el) => {
@@ -205,6 +214,106 @@ Cypress.Commands.add('compareLastPostHTMLContentFromFile', (file, timeout = TIME
 });
 
 // ***********************************************************
+// DM
+// ***********************************************************
+
+/**
+ * Sends a DM to a given user
+ * @param {User} user - the user that should get the message
+ * @param {String} message - the message to send
+ */
+Cypress.Commands.add('sendDirectMessageToUser', (user, message) => {
+    // # Open a new direct message with firstDMUser
+    cy.get('#addDirectChannel').click();
+
+    // # Type username
+    cy.get('#selectItems input').should('be.enabled').type(`@${user.username}`, {force: true});
+
+    // * Expect user count in the list to be 1
+    cy.get('#multiSelectList').
+        should('be.visible').
+        children().
+        should('have.length', 1);
+
+    // # Select first user in the list
+    cy.get('body').
+        type('{downArrow}').
+        type('{enter}');
+
+    // # Click on "Go" in the group message's dialog to begin the conversation
+    cy.get('#saveItems').click();
+
+    // * Expect the channel title to be the user's username
+    // In the channel header, it seems there is a space after the username, justifying the use of contains.text instead of have.text
+    cy.get('#channelHeaderTitle').should('be.visible').and('contain.text', user.username);
+
+    // # Type message and send it to the user
+    cy.get('#post_textbox').
+        type(message).
+        type('{enter}');
+});
+
+/**
+ * Sends a GM to a given user list
+ * @param {User[]} users - the users that should get the message
+ * @param {String} message - the message to send
+ */
+Cypress.Commands.add('sendDirectMessageToUsers', (users, message) => {
+    // # Open a new direct message
+    cy.get('#addDirectChannel').click();
+
+    users.forEach((user) => {
+        // # Type username
+        cy.get('#selectItems input').should('be.enabled').type(`@${user.username}`, {force: true});
+
+        // * Expect user count in the list to be 1
+        cy.get('#multiSelectList').
+            should('be.visible').
+            children().
+            should('have.length', 1);
+
+        // # Select first user in the list
+        cy.get('body').
+            type('{downArrow}').
+            type('{enter}');
+    });
+
+    // # Click on "Go" in the group message's dialog to begin the conversation
+    cy.get('#saveItems').click();
+
+    // * Expect the channel title to be the user's username
+    // In the channel header, it seems there is a space after the username, justifying the use of contains.text instead of have.text
+    users.forEach((user) => {
+        cy.get('#channelHeaderTitle').should('be.visible').and('contain.text', user.username);
+    });
+
+    // # Type message and send it to the user
+    cy.get('#post_textbox').
+        type(message).
+        type('{enter}');
+});
+
+/**
+ * Close a DM via the X button
+ * @param {User} sender - the one currently observing and who will close the DM
+ * @param {User} recipient - the other user in a DM
+ * @param {String} team - a team where the sender is member of
+ */
+Cypress.Commands.add('closeDirectMessageViaXButton', (sender, recipient, team) => {
+    // # Find the username in the 'Direct Messages' list and trigger the 'x' button to appear (hover over the username)
+    cy.apiGetChannelsForUser(sender.id, team.id).then(({channels}) => {
+        // Get the name of the channel to build the CSS selector for that specific DM link in the sidebar
+        const channelDmWithFirstUser = channels.find((channel) =>
+            channel.type === 'D' && channel.name.includes(recipient.id),
+        );
+
+        // # Close the DM via 'x' button next to username in direct message list
+        cy.get(`#sidebarItem_${channelDmWithFirstUser.name} .btn-close`).
+            click({force: true});
+    });
+});
+
+// ***********************************************************
 // Post header
 // ***********************************************************
 
@@ -293,10 +402,10 @@ Cypress.Commands.add('closeRHS', () => {
 // ***********************************************************
 
 Cypress.Commands.add('createNewTeam', (teamName, teamURL) => {
-    cy.visit('/create_team');
+    cy.visitAndWait('/create_team');
     cy.get('#teamNameInput').type(teamName).type('{enter}');
     cy.get('#teamURLInput').type(teamURL).type('{enter}');
-    cy.visit(`/${teamURL}`);
+    cy.visitAndWait(`/${teamURL}`);
 });
 
 Cypress.Commands.add('getCurrentTeamId', () => {
@@ -436,7 +545,7 @@ Cypress.Commands.add('checkRunLDAPSync', () => {
         // # Run LDAP Sync if no job exists (or) last status is an error (or) last run time is more than 1 day old
         if (jobs.length === 0 || jobs[0].status === 'error' || ((currentTime - (new Date(jobs[0].last_activity_at))) > 8640000)) {
             // # Go to system admin LDAP page and run the group sync
-            cy.visit('/admin_console/authentication/ldap');
+            cy.visitAndWait('/admin_console/authentication/ldap');
 
             // # Click on AD/LDAP Synchronize Now button and verify if succesful
             cy.findByText('AD/LDAP Test').click();

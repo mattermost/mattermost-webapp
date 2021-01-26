@@ -26,7 +26,7 @@ describe('Image attachment', () => {
     before(() => {
         // # Login as new user
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visitAndWait(`/${team.name}/channels/town-square`);
         });
     });
 
@@ -175,7 +175,7 @@ describe('Image attachment', () => {
             });
 
             // * Verify that the preview modal opens
-            cy.get('div.modal-image__content').should('be.visible');
+            cy.get('div.modal-image__content').should('be.visible').trigger('mouseover');
 
             // # Close the modal
             cy.get('div.modal-close').should('exist').click({force: true});

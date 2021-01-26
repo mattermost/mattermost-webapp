@@ -7,8 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
-// Group: @interactive_dialog
+// Group: @not_cloud @interactive_dialog
 
 /**
 * Note: This test requires webhook server running. Initiate `npm run start:webhook` to start.
@@ -23,6 +22,7 @@ let simpleDialog;
 
 describe('Interactive Dialog without element', () => {
     before(() => {
+        cy.shouldNotRunOnCloudEdition();
         cy.requireWebhookServer();
 
         // # Ensure that teammate name display setting is set to default 'username'
@@ -30,7 +30,7 @@ describe('Interactive Dialog without element', () => {
 
         // # Create new team and create command on it
         cy.apiCreateTeam('test-team', 'Test Team').then(({team}) => {
-            cy.visit(`/${team.name}`);
+            cy.visitAndWait(`/${team.name}`);
 
             const webhookBaseUrl = Cypress.env().webhookBaseUrl;
 

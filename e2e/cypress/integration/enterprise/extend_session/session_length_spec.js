@@ -8,12 +8,12 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @enterprise @system_console
+// Group: @enterprise @not_cloud @system_console
 
 // # Goes to the System Scheme page as System Admin
 const goToSessionLengths = () => {
     cy.apiAdminLogin();
-    cy.visit('/admin_console/environment/session_lengths');
+    cy.visitAndWait('/admin_console/environment/session_lengths');
 };
 
 // # Wait's until the Saving text becomes Save
@@ -43,6 +43,7 @@ const saveConfig = (waitUntilConfigSaved = true, clickConfirmationButton = false
 
 describe('MM-T2574 Session Lengths', () => {
     before(() => {
+        cy.shouldNotRunOnCloudEdition();
         cy.apiRequireLicense();
         goToSessionLengths();
     });
