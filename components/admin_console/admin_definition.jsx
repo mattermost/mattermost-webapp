@@ -22,6 +22,7 @@ import PluginManagement from 'components/admin_console/plugin_management';
 import CustomPluginSettings from 'components/admin_console/custom_plugin_settings';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
+import {RESOURCE_KEYS} from 'mattermost-redux/constants/permissions_sysconsole';
 
 import OpenIdConvert from './openid_convert';
 import Audits from './audits';
@@ -224,7 +225,7 @@ const AdminDefinition = {
         sectionTitleDefault: 'About',
         isHidden: it.any(
             it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
-            it.not(it.userHasReadPermissionOnResource('about')),
+            it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.ABOUT)),
         ),
         license: {
             url: 'about/license',
@@ -240,7 +241,7 @@ const AdminDefinition = {
                 'Mattermost Enterprise Edition. Unlock enterprise features in this software through the purchase of a subscription from ',
                 'This software is offered under a commercial license.\n\nSee ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. See NOTICE.txt for information about open source software used in this system.',
             ],
-            isDisabled: it.not(it.userHasWritePermissionOnResource('about')),
+            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ABOUT)),
             schema: {
                 id: 'LicenseSettings',
                 component: LicenseSettings,
@@ -255,9 +256,9 @@ const AdminDefinition = {
             it.not(it.licensedForFeature('Cloud')),
             it.configIsFalse('ExperimentalSettings', 'CloudBilling'),
             it.all(
-                it.not(it.userHasReadPermissionOnResource('billing.subscription')),
-                it.not(it.userHasReadPermissionOnResource('billing.billing_history')),
-                it.not(it.userHasReadPermissionOnResource('billing.company_information')),
+                it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.BILLING.SUBSCRIPTION)),
+                it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.BILLING.BILLING_HISTORY)),
+                it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.BILLING.COMAPNY_INFORMATION)),
             ),
         ),
         subscription: {
@@ -271,8 +272,8 @@ const AdminDefinition = {
                 id: 'BillingSubscriptions',
                 component: BillingSubscriptions,
             },
-            isDisabled: it.not(it.userHasWritePermissionOnResource('billing.subscription')),
-            isHidden: it.not(it.userHasReadPermissionOnResource('billing.subscription')),
+            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.BILLING.SUBSCRIPTION)),
+            isHidden: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.BILLING.SUBSCRIPTION)),
         },
         billing_history: {
             url: 'billing/billing_history',
@@ -285,8 +286,8 @@ const AdminDefinition = {
                 id: 'BillingHistory',
                 component: BillingHistory,
             },
-            isDisabled: it.not(it.userHasWritePermissionOnResource('billing.billing_history')),
-            isHidden: it.not(it.userHasReadPermissionOnResource('billing.billing_history')),
+            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.BILLING.BILLING_HISTORY)),
+            isHidden: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.BILLING.BILLING_HISTORY)),
         },
         company_info: {
             url: 'billing/company_info',
@@ -299,8 +300,8 @@ const AdminDefinition = {
                 id: 'CompanyInfo',
                 component: CompanyInfo,
             },
-            isDisabled: it.not(it.userHasWritePermissionOnResource('billing.company_info')),
-            isHidden: it.not(it.userHasReadPermissionOnResource('billing.company_info')),
+            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.BILLING.COMAPNY_INFORMATION)),
+            isHidden: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.BILLING.COMAPNY_INFORMATION)),
         },
         company_info_edit: {
             url: 'billing/company_info_edit',
@@ -308,7 +309,7 @@ const AdminDefinition = {
                 id: 'CompanyInfoEdit',
                 component: CompanyInfoEdit,
             },
-            isDisabled: it.not(it.userHasWritePermissionOnResource('billing')),
+            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.BILLING.COMAPNY_INFORMATION)),
         },
         payment_info: {
             url: 'billing/payment_info',
@@ -322,7 +323,7 @@ const AdminDefinition = {
                 id: 'PaymentInfo',
                 component: PaymentInfo,
             },
-            isDisabled: it.not(it.userHasWritePermissionOnResource('billing')),
+            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.BILLING.PAYMENT_INFORMATION)),
         },
         payment_info_edit: {
             url: 'billing/payment_info_edit',
@@ -330,7 +331,7 @@ const AdminDefinition = {
                 id: 'PaymentInfoEdit',
                 component: PaymentInfoEdit,
             },
-            isDisabled: it.not(it.userHasWritePermissionOnResource('billing')),
+            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.BILLING.PAYMENT_INFORMATION)),
         },
     },
     reporting: {
@@ -418,11 +419,11 @@ const AdminDefinition = {
         sectionTitle: t('admin.sidebar.userManagement'),
         sectionTitleDefault: 'User Management',
         isHidden: it.all(
-            it.not(it.userHasReadPermissionOnResource('user_management.users')),
-            it.not(it.userHasReadPermissionOnResource('user_management.groups')),
-            it.not(it.userHasReadPermissionOnResource('user_management.teams')),
-            it.not(it.userHasReadPermissionOnResource('user_management.channels')),
-            it.not(it.userHasReadPermissionOnResource('user_management.permissions')),
+            it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.USERS)),
+            it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.GROUPS)),
+            it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.TEAMS)),
+            it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.CHANNELS)),
+            it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.PERMISSIONS)),
         ),
         system_users: {
             url: 'user_management/users',
@@ -431,8 +432,8 @@ const AdminDefinition = {
             searchableStrings: [
                 ['admin.system_users.title', {siteName: ''}],
             ],
-            isDisabled: it.not(it.userHasWritePermissionOnResource('user_management.users')),
-            isHidden: it.not(it.userHasReadPermissionOnResource('user_management.users')),
+            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.USERS)),
+            isHidden: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.USERS)),
             schema: {
                 id: 'SystemUsers',
                 component: SystemUsers,
@@ -440,7 +441,7 @@ const AdminDefinition = {
         },
         system_user_detail: {
             url: 'user_management/user/:user_id',
-            isDisabled: it.not(it.userHasWritePermissionOnResource('user_management.users')),
+            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.USERS)),
             schema: {
                 id: 'SystemUserDetail',
                 component: SystemUserDetail,
@@ -448,7 +449,7 @@ const AdminDefinition = {
         },
         group_detail: {
             url: 'user_management/groups/:group_id',
-            isDisabled: it.not(it.userHasWritePermissionOnResource('user_management.groups')),
+            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.GROUPS)),
             schema: {
                 id: 'GroupDetail',
                 component: GroupDetails,
@@ -460,9 +461,9 @@ const AdminDefinition = {
             title_default: 'Groups',
             isHidden: it.any(
                 it.not(it.licensedForFeature('LDAPGroups')),
-                it.not(it.userHasReadPermissionOnResource('user_management.groups')),
+                it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.GROUPS)),
             ),
-            isDisabled: it.not(it.userHasWritePermissionOnResource('user_management.groups')),
+            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.GROUPS)),
             schema: {
                 id: 'Groups',
                 component: GroupSettings,
@@ -470,7 +471,7 @@ const AdminDefinition = {
         },
         team_detail: {
             url: 'user_management/teams/:team_id',
-            isDisabled: it.not(it.userHasWritePermissionOnResource('user_management.teams')),
+            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.TEAMS)),
             schema: {
                 id: 'TeamDetail',
                 component: TeamDetails,
@@ -482,7 +483,7 @@ const AdminDefinition = {
             title_default: 'Teams',
             isHidden: it.any(
                 it.not(it.licensedForFeature('LDAPGroups')),
-                it.not(it.userHasReadPermissionOnResource('user_management.teams')),
+                it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.TEAMS)),
             ),
             schema: {
                 id: 'Teams',
@@ -491,7 +492,7 @@ const AdminDefinition = {
         },
         channel_detail: {
             url: 'user_management/channels/:channel_id',
-            isDisabled: it.not(it.userHasWritePermissionOnResource('user_management.channels')),
+            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.CHANNELS)),
             schema: {
                 id: 'ChannelDetail',
                 component: ChannelDetails,
@@ -503,9 +504,9 @@ const AdminDefinition = {
             title_default: 'Channels',
             isHidden: it.any(
                 it.not(it.licensedForFeature('LDAPGroups')),
-                it.not(it.userHasReadPermissionOnResource('user_management.channels')),
+                it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.CHANNELS)),
             ),
-            isDisabled: it.not(it.userHasWritePermissionOnResource('user_management.channels')),
+            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.CHANNELS)),
             schema: {
                 id: 'Channels',
                 component: ChannelSettings,
@@ -513,7 +514,7 @@ const AdminDefinition = {
         },
         systemScheme: {
             url: 'user_management/permissions/system_scheme',
-            isDisabled: it.not(it.userHasWritePermissionOnResource('user_management.permissions')),
+            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.PERMISSIONS)),
             schema: {
                 id: 'PermissionSystemScheme',
                 component: PermissionSystemSchemeSettings,
@@ -521,7 +522,7 @@ const AdminDefinition = {
         },
         teamSchemeDetail: {
             url: 'user_management/permissions/team_override_scheme/:scheme_id',
-            isDisabled: it.not(it.userHasWritePermissionOnResource('user_management.permissions')),
+            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.PERMISSIONS)),
             schema: {
                 id: 'PermissionSystemScheme',
                 component: PermissionTeamSchemeSettings,
@@ -529,7 +530,7 @@ const AdminDefinition = {
         },
         teamScheme: {
             url: 'user_management/permissions/team_override_scheme',
-            isDisabled: it.not(it.userHasWritePermissionOnResource('user_management.permissions')),
+            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.PERMISSIONS)),
             schema: {
                 id: 'PermissionSystemScheme',
                 component: PermissionTeamSchemeSettings,
@@ -553,9 +554,9 @@ const AdminDefinition = {
             ],
             isHidden: it.any(
                 it.not(it.licensed),
-                it.not(it.userHasReadPermissionOnResource('user_management.permissions')),
+                it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.PERMISSIONS)),
             ),
-            isDisabled: it.not(it.userHasWritePermissionOnResource('user_management.permissions')),
+            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.PERMISSIONS)),
             schema: {
                 id: 'PermissionSchemes',
                 component: PermissionSchemesSettings,
@@ -563,7 +564,7 @@ const AdminDefinition = {
         },
         system_role: {
             url: 'user_management/system_roles/:role_id',
-            isDisabled: it.not(it.userHasWritePermissionOnResource('user_management.system_roles')),
+            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.SYSTEM_ROLES)),
             schema: {
                 id: 'SystemRole',
                 component: SystemRole,
@@ -576,9 +577,9 @@ const AdminDefinition = {
             searchableStrings: [],
             isHidden: it.any(
                 it.not(it.licensedForFeature('LDAPGroups')),
-                it.not(it.userHasReadPermissionOnResource('user_management.system_roles')),
+                it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.SYSTEM_ROLES)),
             ),
-            isDisabled: it.not(it.userHasWritePermissionOnResource('user_management.system_roles')),
+            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.SYSTEM_ROLES)),
             schema: {
                 id: 'SystemRoles',
                 component: SystemRoles,
