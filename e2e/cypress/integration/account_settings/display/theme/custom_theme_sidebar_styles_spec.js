@@ -35,7 +35,7 @@ describe('AS14318 Theme Colors - Custom Sidebar Styles input change', () => {
     before(() => {
         // # Login as new user and visit town-square
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visitAndWait(`/${team.name}/channels/town-square`);
 
             // # Go to Theme > Custom > Sidebar Styles
             toThemeDisplaySettings();

@@ -18,10 +18,9 @@ describe('System Console > Site Statistics', () => {
 
             // # Login as test user and visit town-square
             cy.apiLogin(testUser);
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visitAndWait(`/${team.name}/channels/town-square`);
 
-            // # Wait two seconds then go to admin console
-            cy.wait(TIMEOUTS.TWO_SEC);
+            // # Go to admin console
             goToAdminConsole();
 
             // # Go to system analytics
@@ -75,5 +74,5 @@ describe('System Console > Site Statistics', () => {
 // # Goes to the System Scheme page as System Admin
 const goToAdminConsole = () => {
     cy.apiAdminLogin();
-    cy.visit('/admin_console');
+    cy.visitAndWait('/admin_console');
 };

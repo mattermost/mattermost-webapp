@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @mark_as_unread
 
 import {verifyPostNextToNewMessageSeparator} from './helpers';
@@ -37,7 +38,7 @@ describe('Mark as Unread', () => {
 
             // # Login as test user and go to town square
             cy.apiLogin(testUser);
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visitAndWait(`/${team.name}/channels/town-square`);
         });
     });
 

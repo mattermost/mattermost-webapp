@@ -18,7 +18,7 @@ describe('Account Settings -> Security -> View and Log Out of Active Sessions', 
         // # Login as new user and visit town-square
         cy.apiInitSetup({loginAfter: true}).then(({team, user}) => {
             testUser = user;
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visitAndWait(`/${team.name}/channels/town-square`);
         });
     });
 

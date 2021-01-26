@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @messaging
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -18,7 +19,7 @@ describe('Delete the post on text clear', () => {
         // # Login as test user and visit town-square
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
             townsquareLink = `/${team.name}/channels/town-square`;
-            cy.visit(townsquareLink);
+            cy.visitAndWait(townsquareLink);
         });
     });
 

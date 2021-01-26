@@ -19,7 +19,7 @@ describe('Account Settings > Sidebar > General', () => {
         cy.apiInitSetup({loginAfter: true}).then(({team, user}) => {
             testUser = user;
             testTeam = team;
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
         });
     });
 
@@ -117,7 +117,7 @@ describe('Account Settings > Sidebar > General', () => {
     it('MM-T2060 Nickname and username styles', () => {
         cy.apiCreateChannel(testTeam.id, 'channel-test', 'Channel').then(({channel}) => {
             // # Go to test channel
-            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+            cy.visitAndWait(`/${testTeam.name}/channels/${channel.name}`);
 
             // # Click 'Add Members'
             cy.get('#channelHeaderTitle').click();
@@ -130,7 +130,7 @@ describe('Account Settings > Sidebar > General', () => {
             cy.get('body').type('{esc}');
 
             // # Go to manage members modal
-            cy.get('#channelMemberIcon').click();
+            cy.get('#channelMember').click();
             cy.get('#member-list-popover').should('be.visible').within(() => {
                 cy.findByTestId('membersModal').click();
             });

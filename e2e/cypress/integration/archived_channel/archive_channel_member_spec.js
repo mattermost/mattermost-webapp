@@ -20,7 +20,7 @@ describe('Archive channel members spec', () => {
 
         // # Login as test user and visit create channel
         cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
-            cy.visit(`/${team.name}/channels/${channel.name}`);
+            cy.visitAndWait(`/${team.name}/channels/${channel.name}`);
         });
     });
 

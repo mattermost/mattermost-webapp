@@ -71,7 +71,7 @@ describe('Outgoing webhook', () => {
 
         // # Define outgoing webhook
         // * Go to test team/channel, open main menu and click "Integrations"
-        cy.visit(`${testTeam.name}/channels/${testChannel.name}`);
+        cy.visitAndWait(`${testTeam.name}/channels/${testChannel.name}`);
         cy.uiOpenMainMenu('Integrations');
 
         // * Verify that it redirects to integrations URL. Then, click "Outgoing Webhooks"
@@ -104,7 +104,7 @@ describe('Outgoing webhook', () => {
 
         // # Post a message in the channel by user1
         cy.apiLogin(testUser);
-        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+        cy.visitAndWait(`/${testTeam.name}/channels/${testChannel.name}`);
         cy.postMessage(triggerWordExpanded);
         cy.uiWaitUntilMessagePostedIncludes(triggerWord);
         cy.uiWaitUntilMessagePostedIncludes('#### Outgoing Webhook Payload');
@@ -124,7 +124,7 @@ describe('Outgoing webhook', () => {
 
         // # Post a message in the channel by user2
         cy.apiLogin(otherUser);
-        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+        cy.visitAndWait(`/${testTeam.name}/channels/${testChannel.name}`);
         cy.postMessage(triggerWordExpanded);
         cy.uiWaitUntilMessagePostedIncludes(triggerWord);
         cy.uiWaitUntilMessagePostedIncludes('#### Outgoing Webhook Payload');
@@ -148,7 +148,7 @@ describe('Outgoing webhook', () => {
 
         // # Define outgoing webhook
         // * Go to test team/channel, open main menu and click "Integrations"
-        cy.visit(`${testTeam.name}/channels/${testChannel.name}`);
+        cy.visitAndWait(`${testTeam.name}/channels/${testChannel.name}`);
         cy.uiOpenMainMenu('Integrations');
 
         // * Verify that it redirects to integrations URL. Then, click "Outgoing Webhooks"
@@ -185,7 +185,7 @@ describe('Outgoing webhook', () => {
         enableUsernameAndIconOverrideInt(false, true);
 
         // # Go to test team/channel, open main menu and click "Integrations"
-        cy.visit(`${testTeam.name}/channels/${testChannel.name}`);
+        cy.visitAndWait(`${testTeam.name}/channels/${testChannel.name}`);
         cy.uiOpenMainMenu('Integrations');
 
         // * click "Outgoing Webhooks"
@@ -210,8 +210,7 @@ describe('Outgoing webhook', () => {
 
         // # Post a message in a channel
         cy.apiLogin(testUser);
-        cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.wait(TIMEOUTS.HALF_SEC);
+        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
         cy.postMessage(triggerWordExpanded);
         cy.uiWaitUntilMessagePostedIncludes(triggerWord);
         cy.uiWaitUntilMessagePostedIncludes('#### Outgoing Webhook Payload');
@@ -236,7 +235,7 @@ describe('Outgoing webhook', () => {
 
         // # Define outgoing webhook
         // * Go to test team/channel, open main menu and click "Integrations"
-        cy.visit(`${testTeam.name}/channels/${testChannel.name}`);
+        cy.visitAndWait(`${testTeam.name}/channels/${testChannel.name}`);
         cy.uiOpenMainMenu('Integrations');
 
         // * Verify that it redirects to integrations URL. Then, click "Outgoing Webhooks"
@@ -272,7 +271,7 @@ describe('Outgoing webhook', () => {
         enableUsernameAndIconOverride(true);
 
         // # Go to test team/channel, open main menu and click "Integrations"
-        cy.visit(`${testTeam.name}/channels/${testChannel.name}`);
+        cy.visitAndWait(`${testTeam.name}/channels/${testChannel.name}`);
         cy.uiOpenMainMenu('Integrations');
 
         // * click "Outgoing Webhooks"
@@ -297,8 +296,7 @@ describe('Outgoing webhook', () => {
 
         // # Post a message in a channel
         cy.apiLogin(testUser);
-        cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.wait(TIMEOUTS.HALF_SEC);
+        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
         cy.postMessage(triggerWordExpanded);
         cy.uiWaitUntilMessagePostedIncludes(triggerWord);
         cy.uiWaitUntilMessagePostedIncludes('#### Outgoing Webhook Payload');
@@ -323,7 +321,7 @@ describe('Outgoing webhook', () => {
 
         // # Define outgoing webhook
         // * Go to test team/channel, open main menu and click "Integrations"
-        cy.visit(`${testTeam.name}/channels/${testChannel.name}`);
+        cy.visitAndWait(`${testTeam.name}/channels/${testChannel.name}`);
         cy.uiOpenMainMenu('Integrations');
 
         // * Verify that it redirects to integrations URL. Then, click "Outgoing Webhooks"
@@ -359,7 +357,7 @@ describe('Outgoing webhook', () => {
         enableUsernameAndIconOverride(true);
 
         // # Go to test team/channel, open main menu and click "Integrations"
-        cy.visit(`${testTeam.name}/channels/${testChannel.name}`);
+        cy.visitAndWait(`${testTeam.name}/channels/${testChannel.name}`);
         cy.uiOpenMainMenu('Integrations');
 
         // * click "Outgoing Webhooks"
@@ -385,8 +383,7 @@ describe('Outgoing webhook', () => {
 
         // # Post a message in a channel by user1
         cy.apiLogin(testUser);
-        cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.wait(TIMEOUTS.HALF_SEC);
+        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
         cy.postMessage(triggerWordExpanded);
         cy.uiWaitUntilMessagePostedIncludes(triggerWord);
         cy.uiWaitUntilMessagePostedIncludes('#### Outgoing Webhook Payload');
@@ -406,7 +403,7 @@ describe('Outgoing webhook', () => {
 
         // # Post a message in a channel by user2
         cy.apiLogin(otherUser);
-        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+        cy.visitAndWait(`/${testTeam.name}/channels/${testChannel.name}`);
         cy.postMessage(triggerWordExpanded);
         cy.uiWaitUntilMessagePostedIncludes(triggerWord);
         cy.uiWaitUntilMessagePostedIncludes('#### Outgoing Webhook Payload');
@@ -430,7 +427,7 @@ describe('Outgoing webhook', () => {
 
         // # Define outgoing webhook
         // * Go to test team/channel, open main menu and click "Integrations"
-        cy.visit(`${testTeam.name}/channels/${testChannel.name}`);
+        cy.visitAndWait(`${testTeam.name}/channels/${testChannel.name}`);
         cy.uiOpenMainMenu('Integrations');
 
         // * Verify that it redirects to integrations URL. Then, click "Outgoing Webhooks"
@@ -462,7 +459,7 @@ describe('Outgoing webhook', () => {
         cy.url().should('include', `${testTeam.name}/channels/${testChannel.name}`);
 
         // # Go to test team/channel, open main menu and click "Integrations"
-        cy.visit(`${testTeam.name}/channels/${testChannel.name}`);
+        cy.visitAndWait(`${testTeam.name}/channels/${testChannel.name}`);
         cy.uiOpenMainMenu('Integrations');
 
         // * click "Outgoing Webhooks"
@@ -488,8 +485,7 @@ describe('Outgoing webhook', () => {
 
         // # Post a message in a channel by user1
         cy.apiLogin(testUser);
-        cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.wait(TIMEOUTS.HALF_SEC);
+        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
         cy.postMessage(triggerWordExpanded);
         cy.uiWaitUntilMessagePostedIncludes(triggerWord);
         cy.uiWaitUntilMessagePostedIncludes('#### Outgoing Webhook Payload');
@@ -502,7 +498,7 @@ describe('Outgoing webhook', () => {
 
         // # Define outgoing webhook
         // * Go to test team/channel, open main menu and click "Integrations"
-        cy.visit(`${testTeam.name}/channels/${testChannel.name}`);
+        cy.visitAndWait(`${testTeam.name}/channels/${testChannel.name}`);
         cy.uiOpenMainMenu('Integrations');
 
         // * Verify that it redirects to integrations URL. Then, click "Outgoing Webhooks"
@@ -535,8 +531,7 @@ describe('Outgoing webhook', () => {
 
         // # Post a message in a channel by user1
         cy.apiLogin(testUser);
-        cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.wait(TIMEOUTS.HALF_SEC);
+        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
         cy.postMessage(triggerWordExpanded);
         cy.uiWaitUntilMessagePostedIncludes(triggerWord);
         cy.uiWaitUntilMessagePostedIncludes('#### Outgoing Webhook Payload');
@@ -558,7 +553,7 @@ describe('Outgoing webhook', () => {
     it('MM-T2040 Disable overriding username and profile pic in System Console', () => {
         // # Define outgoing webhook
         // * Go to test team/channel, open main menu and click "Integrations"
-        cy.visit(`${testTeam.name}/channels/${testChannel.name}`);
+        cy.visitAndWait(`${testTeam.name}/channels/${testChannel.name}`);
         cy.uiOpenMainMenu('Integrations');
 
         // * Verify that it redirects to integrations URL. Then, click "Outgoing Webhooks"
@@ -599,8 +594,7 @@ describe('Outgoing webhook', () => {
 
         // # Post a message in a channel
         cy.apiLogin(testUser);
-        cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.wait(TIMEOUTS.HALF_SEC);
+        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
         cy.postMessage(triggerWordExpanded);
         cy.uiWaitUntilMessagePostedIncludes(triggerWord);
         cy.uiWaitUntilMessagePostedIncludes('#### Outgoing Webhook Payload');

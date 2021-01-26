@@ -8,6 +8,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @integrations
 
 import {getRandomId} from '../../../utils';
@@ -65,7 +66,7 @@ describe('Integrations', () => {
                             cy.apiLogin(secondUser);
 
                             // # Visit the test channel
-                            cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+                            cy.visitAndWait(`/${testTeam.name}/channels/${testChannel.name}`);
                         });
                     });
                 });
