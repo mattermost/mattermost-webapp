@@ -18,7 +18,7 @@
         }
         .modal {
             .settings-modal {
-                &:not(.settings-modal--tables) {
+                &:not(.settings-modal--tabless) {
                     &:not(.display--content) {
                         .modal-content {
                             background: var(--sidebar-bg);
