@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import throttle from 'lodash/throttle';
+import classNames from 'classnames';
 
 import * as Emoji from 'utils/emoji.jsx';
 import {compareEmojis} from 'utils/emoji_utils';
@@ -228,6 +229,7 @@ export default class EmojiPicker extends React.PureComponent {
         this.loadingMoreEmojis = false;
         const categories = props.recentEmojis.length ? {...recentEmojiCategory, ...peopleEmojiCategory} : peopleEmojiCategory;
         this.state = {
+            skinTonePicker: false,
             allEmojis: {},
             categories,
             cursor: [-1, -1], // categoryIndex, emojiIndex
@@ -669,6 +671,18 @@ export default class EmojiPicker extends React.PureComponent {
         );
     }
 
+    hideSkinTonePicker = () => {
+        this.setState(() => ({
+            skinTonePicker: false,
+        }));
+    }
+
+    showSkinTonePicker = () => {
+        this.setState(() => ({
+            skinTonePicker: true,
+        }));
+    }
+
     emojiSearch() {
         const handIndex = Emoji.EmojiIndicesByAlias.get('raised_hand_with_fingers_splayed');
         const skinToneEmoji = Emoji.Emojis[handIndex];
@@ -697,29 +711,47 @@ export default class EmojiPicker extends React.PureComponent {
                         )}
                     </FormattedMessage>
                 </div>
-                <div className='skin-tones-overlay'/>
-                <div className='skin-tones'>
-                    <EmojiPickerItem
-                        emoji={skinToneEmoji}
-                        onItemClick={this.showSkinTones}
-                    />
-                    <EmojiPickerItem
-                        emoji={skinToneEmoji}
-                        onItemClick={this.showSkinTones}
-                    />
-                    <EmojiPickerItem
-                        emoji={skinToneEmoji}
-                        onItemClick={this.showSkinTones}
-                    />
-                    <EmojiPickerItem
-                        emoji={skinToneEmoji}
-                        onItemClick={this.showSkinTones}
-                    />
+                <div className={classNames('skin-tones', {'skin-tones--active': this.state.skinTonePicker})}>
+                    <div className='skin-tones__content'>
+                        <div className='skin-tones__close'>
+                            <button
+                                className='skin-tones__close-icon'
+                                onClick={this.hideSkinTonePicker}
+                            >
+                                <i className='icon-close icon--no-spacing icon-16'/>
+                            </button>
+                            <div className='skin-tones__close-text'>
+                                {'Default'}<br/>{'Skin Tone'}
+                            </div>
+                        </div>
+                        <div className='skin-tones__icons'>
+                            <EmojiPickerItem
+                                emoji={skinToneEmoji}
+                                onItemClick={this.showSkinTones}
+                            />
+                            <EmojiPickerItem
+                                emoji={skinToneEmoji}
+                                onItemClick={this.showSkinTones}
+                            />
+                            <EmojiPickerItem
+                                emoji={skinToneEmoji}
+                                onItemClick={this.showSkinTones}
+                            />
+                            <EmojiPickerItem
+                                emoji={skinToneEmoji}
+                                onItemClick={this.showSkinTones}
+                            />
+                            <EmojiPickerItem
+                                emoji={skinToneEmoji}
+                                onItemClick={this.showSkinTones}
+                            />
+                        </div>
+                    </div>
                 </div>
                 <div className='color-selector'>
                     <EmojiPickerItem
                         emoji={skinToneEmoji}
-                        onItemClick={this.showSkinTones}
+                        onItemClick={this.showSkinTonePicker}
                     />
                 </div>
             </div>
