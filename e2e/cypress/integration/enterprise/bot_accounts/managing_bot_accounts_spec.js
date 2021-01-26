@@ -36,7 +36,7 @@ describe('Managing bot accounts', () => {
 
     it('MM-T1855 Bot cannot login', () => {
         cy.apiLogout();
-        cy.visit('/login');
+        cy.visitAndWait('/login');
 
         // # Enter bot name in the email field
         cy.findByPlaceholderText('Email, Username or AD/LDAP Username', {timeout: TIMEOUTS.ONE_MIN}).clear().type(botName);

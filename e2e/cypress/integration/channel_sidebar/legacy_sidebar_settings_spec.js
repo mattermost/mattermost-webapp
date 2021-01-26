@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @channel_sidebar
 
 describe('Legacy sidebar settings', () => {
@@ -19,7 +20,7 @@ describe('Legacy sidebar settings', () => {
 
         // # Login as test user and visit town-square
         cy.apiInitSetup().then(({team}) => {
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visitAndWait(`/${team.name}/channels/town-square`);
         });
     });
     it('MM-T2002 Should toggle the legacy sidebar when Enable Legacy Sidebar setting is toggled', () => {

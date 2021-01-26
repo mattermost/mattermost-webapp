@@ -47,7 +47,7 @@ describe('Keyboard Shortcuts', () => {
     });
 
     it('Alt/Option + Up', () => {
-        cy.visit(`/${testTeam.name}/messages/@${sysadmin.username}`);
+        cy.visitAndWait(`/${testTeam.name}/messages/@${sysadmin.username}`);
 
         // * Verify that the channel is loaded
         cy.get('#channelHeaderTitle').should('contain', sysadmin.username);
@@ -63,7 +63,7 @@ describe('Keyboard Shortcuts', () => {
     });
 
     it('Alt/Option + Down', () => {
-        cy.visit(`/${testTeam.name}/channels/${publicChannel.name}`);
+        cy.visitAndWait(`/${testTeam.name}/channels/${publicChannel.name}`);
 
         // * Verify that the channel is loaded
         cy.get('#channelHeaderTitle').should('contain', publicChannel.display_name);

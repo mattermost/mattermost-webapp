@@ -31,7 +31,7 @@ describe('System Console', () => {
         cy.externalRequest({user: sysadmin, method: 'put', baseUrl, path: `users/${testUser.id}/roles`, data: {roles: 'system_user system_admin'}});
 
         // # Visit a page on the system console
-        cy.visit('/admin_console/reporting/system_analytics');
+        cy.visitAndWait('/admin_console/reporting/system_analytics');
         cy.get('#adminConsoleWrapper').should('be.visible');
         cy.url().should('include', '/admin_console/reporting/system_analytics');
 

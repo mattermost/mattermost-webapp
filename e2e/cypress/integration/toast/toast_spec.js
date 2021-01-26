@@ -41,7 +41,7 @@ describe('toasts', () => {
             });
 
             cy.apiLogin(user);
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
         });
     });
 
@@ -271,7 +271,7 @@ describe('toasts', () => {
             visitTownSquareAndWaitForPageToLoad();
 
             // # Visit permalink
-            cy.visit(`/${testTeam.name}/pl/${id}`);
+            cy.visitAndWait(`/${testTeam.name}/pl/${id}`);
             cy.findAllByTestId('postView').should('be.visible');
 
             // * Verify toast is not visible
@@ -295,7 +295,7 @@ describe('toasts', () => {
                 }
 
                 // # Visit permalink
-                cy.visit(`/${testTeam.name}/pl/${id}`);
+                cy.visitAndWait(`/${testTeam.name}/pl/${id}`);
                 cy.findAllByTestId('postView').should('be.visible');
 
                 // * Verify toast is visible with correct message

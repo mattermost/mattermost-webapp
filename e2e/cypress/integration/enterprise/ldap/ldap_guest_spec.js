@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @enterprise @ldap
 
 import ldapUsers from '../../../fixtures/ldap_users.json';
@@ -131,7 +132,7 @@ describe('LDAP guest', () => {
         cy.findByTestId('LdapSettings.GuestFilterinput').should('have.attr', 'disabled');
 
         // # Go to SAML settings page
-        cy.visit('/admin_console/authentication/saml');
+        cy.visitAndWait('/admin_console/authentication/saml');
         cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'SAML 2.0');
         cy.findByTestId('SamlSettings.GuestAttributeinput').should('be.disabled');
 
@@ -188,7 +189,7 @@ describe('LDAP guest', () => {
                 // # Link group
                 cy.apiLinkGroup(board.primary_key).then(() => {
                     // # Add board-one to test team
-                    cy.visit(`/admin_console/user_management/teams/${team.id}`);
+                    cy.visitAndWait(`/admin_console/user_management/teams/${team.id}`);
                     cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'Team Configuration');
 
                     // # Turn on sync group members
@@ -214,7 +215,7 @@ describe('LDAP guest', () => {
                     cy.wait(TIMEOUTS.TWO_SEC);
 
                     // # Go to the new team
-                    cy.visit(`/${team.name}/channels/town-square`);
+                    cy.visitAndWait(`/${team.name}/channels/town-square`);
 
                     // # Open Invite People
                     cy.get('#sidebarHeaderDropdownButton', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').click();
@@ -231,13 +232,13 @@ describe('LDAP guest', () => {
 });
 
 function gotoGuestAccessSettings() {
-    cy.visit('/admin_console/authentication/guest_access');
+    cy.visitAndWait('/admin_console/authentication/guest_access');
     cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'Guest Access (Beta)');
 }
 
 function gotoLDAPSettings() {
     // # Go to settings page and wait until page is loaded
-    cy.visit('/admin_console/authentication/ldap');
+    cy.visitAndWait('/admin_console/authentication/ldap');
     cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'AD/LDAP');
 }
 

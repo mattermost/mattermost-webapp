@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @enterprise @system_console
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
@@ -24,7 +25,7 @@ describe('Team Scheme', () => {
 
     beforeEach(() => {
         // # Go to `User Management / Permissions` section
-        cy.visit('/admin_console/user_management/permissions');
+        cy.visitAndWait('/admin_console/user_management/permissions');
     });
 
     it('MM-T2855 Create a Team Override Scheme', () => {
