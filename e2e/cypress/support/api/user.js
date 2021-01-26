@@ -188,7 +188,7 @@ Cypress.Commands.add('apiCreateAdmin', () => {
     return cy.request(options).then((res) => {
         expect(res.status).to.equal(201);
 
-        return cy.wrap({sysadmin: res.body});
+        return cy.wrap({sysadmin: {...res.body, password}});
     });
 });
 
