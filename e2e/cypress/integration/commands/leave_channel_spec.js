@@ -19,7 +19,7 @@ describe('Leave Channel Command', () => {
         // # Login as test user and go to town-square
         cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
             testChannel = channel;
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visitAndWait(`/${team.name}/channels/town-square`);
             cy.get('#channelHeaderTitle').should('be.visible').and('contain', 'Town Square');
         });
     });

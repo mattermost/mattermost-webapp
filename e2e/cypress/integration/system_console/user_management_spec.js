@@ -38,7 +38,17 @@ describe('User Management', () => {
     });
 
     it('MM-T924 Users - Page through users list', () => {
-        cy.visit('/admin_console/user_management/users').wait(TIMEOUTS.ONE_SEC);
+        cy.apiGetUsers().then(({users}) => {
+            const minimumNumberOfUsers = 60;
+
+            if (users.length < minimumNumberOfUsers) {
+                Cypress._.times(minimumNumberOfUsers - users.length, () => {
+                    cy.apiCreateUser();
+                });
+            }
+        });
+
+        cy.visitAndWait('/admin_console/user_management/users');
 
         cy.get('#searchableUserListTotal').then((el) => {
             const count1 = el[0].innerText.replace(/\n/g, '').replace(/\s/g, ' ');
@@ -58,7 +68,7 @@ describe('User Management', () => {
     });
 
     it('MM-T928 Users - Change a user\'s email address', () => {
-        cy.visit('/admin_console/user_management/users').wait(TIMEOUTS.ONE_SEC);
+        cy.visitAndWait('/admin_console/user_management/users');
 
         // # Update config.
         cy.apiUpdateConfig({
@@ -78,7 +88,7 @@ describe('User Management', () => {
     });
 
     it('MM-T929 Users - Change a user\'s email address, with verification off', () => {
-        cy.visit('/admin_console/user_management/users').wait(TIMEOUTS.ONE_SEC);
+        cy.visitAndWait('/admin_console/user_management/users');
 
         // # Update config.
         cy.apiUpdateConfig({
@@ -115,12 +125,12 @@ describe('User Management', () => {
 
         // # Revert the changes.
         cy.apiAdminLogin();
-        cy.visit('/admin_console/user_management/users').wait(TIMEOUTS.ONE_SEC);
+        cy.visitAndWait('/admin_console/user_management/users');
         resetUserEmail(newEmailAddr, testUser.email, '');
     });
 
     it('MM-T930 Users - Change a user\'s email address, with verification on', () => {
-        cy.visit('/admin_console/user_management/users').wait(TIMEOUTS.ONE_SEC);
+        cy.visitAndWait('/admin_console/user_management/users');
 
         // # Update Configs.
         cy.apiUpdateConfig({
@@ -168,7 +178,7 @@ describe('User Management', () => {
                 Enable: true,
             },
         });
-        cy.visit('/admin_console/user_management/users').wait(TIMEOUTS.ONE_SEC);
+        cy.visitAndWait('/admin_console/user_management/users');
 
         cy.apiCreateUser().then(({user: gitlabUser}) => {
             cy.apiUpdateUserAuth(gitlabUser.id, gitlabUser.email, '', 'gitlab');
@@ -191,12 +201,12 @@ describe('User Management', () => {
         cy.apiLogin(testUser);
 
         // Visit the test channel
-        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`).wait(TIMEOUTS.FIVE_SEC);
+        cy.visitAndWait(`/${testTeam.name}/channels/${testChannel.name}`);
 
         // # Revoke all sessions for the user
         cy.externalRequest({user: sysadmin, method: 'post', path: `users/${testUser.id}/sessions/revoke/all`});
 
-        cy.visit('/').wait(TIMEOUTS.HALF_MIN);
+        cy.visitAndWait('/').wait(TIMEOUTS.HALF_MIN);
 
         // # Check if user's session is automatically logged out and the user is redirected to the login page
         cy.url().should('contain', '/login');
@@ -208,7 +218,7 @@ describe('User Management', () => {
         // # Create a direct channel between two users
         cy.apiCreateDirectChannel([testUser.id, otherUser.id]).then(() => {
             // # Visit the channel using the channel name
-            cy.visit(`/${testTeam.name}/channels/${testUser.id}__${otherUser.id}`).wait(TIMEOUTS.TEN_SEC);
+            cy.visitAndWait(`/${testTeam.name}/channels/${testUser.id}__${otherUser.id}`);
             cy.postMessage('hello');
         });
 
@@ -216,7 +226,7 @@ describe('User Management', () => {
         activateUser(otherUser, false);
         cy.apiLogout().wait(TIMEOUTS.FIVE_SEC);
 
-        cy.visit('/login').wait(TIMEOUTS.TEN_SEC);
+        cy.visitAndWait('/login');
 
         // # Login as otherUser
         cy.get('#loginId').should('be.visible').type(otherUser.username);
@@ -229,7 +239,7 @@ describe('User Management', () => {
         cy.apiLogin(testUser);
 
         // visit test channel
-        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`).wait(TIMEOUTS.TEN_SEC);
+        cy.visitAndWait(`/${testTeam.name}/channels/${testChannel.name}`);
 
         // # Click hamburger main menu
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
@@ -246,10 +256,10 @@ describe('User Management', () => {
             cy.findByLabelText('Close').click();
         });
 
-        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`).wait(TIMEOUTS.TEN_SEC);
+        cy.visitAndWait(`/${testTeam.name}/channels/${testChannel.name}`);
 
         // # Click Channel Members
-        cy.get('#channelMemberIcon').should('be.visible').click();
+        cy.get('#channelMember').should('be.visible').click();
 
         // # Click View Members
         cy.get('#member-list-popover').within(() => {
@@ -283,13 +293,13 @@ describe('User Management', () => {
 
         // # Open a DM with a user you want to deactivate, post a message
         cy.apiCreateDirectChannel([testUser.id, otherUser.id]).then(() => {
-            cy.visit(`/${testTeam.name}/channels/${testUser.id}__${otherUser.id}`);
+            cy.visitAndWait(`/${testTeam.name}/channels/${testUser.id}__${otherUser.id}`);
             cy.postMessage(':)');
         });
 
         // # Also open a GM with that user and a third user, post a message.
         cy.apiCreateGroupChannel([sysadmin.id, otherUser.id, testUser.id]).then(({channel}) => {
-            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+            cy.visitAndWait(`/${testTeam.name}/channels/${channel.name}`);
             cy.postMessage('hello');
         });
 
@@ -327,7 +337,7 @@ describe('User Management', () => {
     });
 
     function resetUserEmail(oldEmail, newEmail, errorMsg) {
-        cy.visit('/admin_console/user_management/users').wait(TIMEOUTS.ONE_SEC);
+        cy.visitAndWait('/admin_console/user_management/users');
 
         // # Search for the user.
         cy.get('#searchUsers').clear().type(oldEmail).wait(TIMEOUTS.HALF_SEC);
@@ -361,7 +371,7 @@ describe('User Management', () => {
     }
 
     function activateUser(user, activate) {
-        cy.visit('/admin_console/user_management/users').wait(TIMEOUTS.ONE_SEC);
+        cy.visitAndWait('/admin_console/user_management/users');
 
         // # Search for the user.
         cy.get('#searchUsers').clear().type(user.email).wait(TIMEOUTS.HALF_SEC);
@@ -434,7 +444,7 @@ describe('User Management', () => {
             const verificationLink = line[3].replace(baseUrl, '');
 
             // # Complete verification.
-            cy.visit(verificationLink);
+            cy.visitAndWait(verificationLink);
         });
     }
 

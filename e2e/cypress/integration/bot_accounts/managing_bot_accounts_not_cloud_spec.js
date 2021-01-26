@@ -45,7 +45,7 @@ describe('Managing bot accounts', () => {
 
     it('MM-T1853 Bots managed plugins can be created when Enable Bot Account Creation is set to false', () => {
         // # Visit bot config
-        cy.visit('/admin_console/integrations/bot_accounts');
+        cy.visitAndWait('/admin_console/integrations/bot_accounts');
 
         // # Click 'false' to disable
         cy.findByTestId('ServiceSettings.EnableBotAccountCreationfalse', {timeout: TIMEOUTS.ONE_MIN}).click();
@@ -62,7 +62,7 @@ describe('Managing bot accounts', () => {
         });
 
         // # Visit the integrations
-        cy.visit(`/${newTeam.name}/integrations/bots`);
+        cy.visitAndWait(`/${newTeam.name}/integrations/bots`);
 
         // * Validate that plugin installed ok
         cy.contains('Matterpoll (@matterpoll)', {timeout: TIMEOUTS.ONE_MIN});
@@ -70,7 +70,7 @@ describe('Managing bot accounts', () => {
 
     it('MM-T1859 Bot is kept active when owner is disabled', () => {
         // # Visit bot config
-        cy.visit('/admin_console/integrations/bot_accounts');
+        cy.visitAndWait('/admin_console/integrations/bot_accounts');
 
         // # Click 'false' to disable
         cy.findByTestId('ServiceSettings.DisableBotsWhenOwnerIsDeactivatedfalse', {timeout: TIMEOUTS.ONE_MIN}).click();
@@ -92,7 +92,7 @@ describe('Managing bot accounts', () => {
                 cy.apiDeactivateUser(sysadmin.id);
 
                 // # Get bot list
-                cy.visit(`/${newTeam.name}/integrations/bots`);
+                cy.visitAndWait(`/${newTeam.name}/integrations/bots`);
 
                 // # Search for the other bot
                 cy.get('#searchInput', {timeout: TIMEOUTS.ONE_MIN}).type(bot.display_name);
@@ -101,7 +101,7 @@ describe('Managing bot accounts', () => {
                 cy.get('.bot-list__disabled').should('not.be.visible');
                 cy.findByText(bot.fullDisplayName).scrollIntoView().should('be.visible');
 
-                cy.visit(`/${newTeam.name}/messages/@sysadmin`);
+                cy.visitAndWait(`/${newTeam.name}/messages/@sysadmin`);
 
                 // # Get last post message text
                 cy.getLastPostId().then((postId) => {

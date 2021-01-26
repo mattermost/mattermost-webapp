@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @account_setting
 
 import {getRandomId} from '../../../utils';
@@ -33,7 +34,7 @@ describe('Account Settings > Sidebar > General > Edit', () => {
                 });
             });
 
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visitAndWait(`/${team.name}/channels/town-square`);
         });
     });
 
@@ -107,7 +108,7 @@ describe('Account Settings > Sidebar > General > Edit', () => {
 
             // # Login the temporary user
             cy.apiLogin(tempUser);
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
             cy.toAccountSettingsModal();
 
             // # Step 1
@@ -131,7 +132,7 @@ describe('Account Settings > Sidebar > General > Edit', () => {
 
             // # Step 3
             // * Verify that we've logged in as the temp user
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
             cy.get('#headerUsername').should('contain', '@' + newTempUserName);
 
             // # Step 4
@@ -209,14 +210,14 @@ describe('Account Settings > Sidebar > General > Edit', () => {
     it('MM-T2056 Username changes when viewed by other user', () => {
         cy.apiLogout().wait(TIMEOUTS.ONE_SEC).then(() => {
             cy.apiLogin(testUser).then(() => {
-                cy.visit(`/${testTeam.name}/channels/town-square`);
+                cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
 
                 // # Post a message in town-square
                 cy.postMessage('Testing username update');
                 cy.apiLogout().wait(TIMEOUTS.ONE_SEC).then(() => {
                     // # Login as other user
                     cy.apiLogin(otherUser).then(() => {
-                        cy.visit(`/${testTeam.name}/channels/town-square`);
+                        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
 
                         // # get last post in town-square for verifying username
                         cy.getLastPostId().then((postId) => {
@@ -234,7 +235,7 @@ describe('Account Settings > Sidebar > General > Edit', () => {
                         cy.apiLogout().wait(TIMEOUTS.ONE_SEC).then(() => {
                             // # Login as test user
                             cy.apiLogin(testUser).then(() => {
-                                cy.visit(`/${testTeam.name}/channels/town-square`);
+                                cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
 
                                 // # Open account settings modal
                                 cy.toAccountSettingsModal();
@@ -252,7 +253,7 @@ describe('Account Settings > Sidebar > General > Edit', () => {
 
                                 cy.apiLogout().wait(TIMEOUTS.ONE_SEC).then(() => {
                                     cy.apiLogin(otherUser).then(() => {
-                                        cy.visit(`/${testTeam.name}/channels/town-square`);
+                                        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
 
                                         // # get last post in town-square for verifying username
                                         cy.getLastPostId().then((postId) => {
