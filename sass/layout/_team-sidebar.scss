@@ -35,7 +35,7 @@
 
     .team-wrapper {
         -webkit-overflow-scrolling: touch;
-        background-color: var(--sidebar-teambar-color);
+        background-color: var(--sidebar-teambar-bg);
         overflow: hidden;
         height: 100%;
         flex: 1 1 auto;
@@ -62,7 +62,7 @@
                     border-radius: 100%;
                     width: 8px;
                     height: 8px;
-                    box-shadow: 0 0 0 3px var(--sidebar-teambar-color);
+                    box-shadow: 0 0 0 3px var(--sidebar-teambar-bg);
                     background: white;
                     z-index: 1;
                 }
