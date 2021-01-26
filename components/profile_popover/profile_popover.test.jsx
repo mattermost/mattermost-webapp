@@ -40,6 +40,23 @@ describe('components/ProfilePopover', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should match snapshot for shared user', () => {
+        const props = {
+            ...baseProps,
+            user: {
+                name: 'shared user',
+                username: 'shared_user',
+                first_name: 'shared',
+                remote_id: 'fakeuser',
+            },
+        };
+
+        const wrapper = shallowWithIntl(
+            <ProfilePopover {...props}/>,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('should have bot description', () => {
         const props = {
             ...baseProps,

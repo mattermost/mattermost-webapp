@@ -12,6 +12,7 @@ import {UserStatuses} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import GuestBadge from 'components/widgets/badges/guest_badge';
+import SharedUserIndicator from 'components/shared_user_indicator';
 
 export default class PopoverListMembersItem extends React.PureComponent {
     static propTypes = {
@@ -46,6 +47,16 @@ export default class PopoverListMembersItem extends React.PureComponent {
             );
         }
 
+        let sharedIcon;
+        if (this.props.user.remote_id) {
+            sharedIcon = (
+                <SharedUserIndicator
+                    className='shared-user-icon'
+                    withTooltip={true}
+                />
+            );
+        }
+
         const botClass = this.props.user.is_bot ? ' more-modal__row--bot' : '';
 
         const status = this.props.user.is_bot ? null : this.props.status;
@@ -75,6 +86,7 @@ export default class PopoverListMembersItem extends React.PureComponent {
                         show={Utils.isGuest(this.props.user)}
                         className='badge-popoverlist'
                     />
+                    {sharedIcon}
                 </div>
                 <div className='more-modal__actions'>
                     {messageIcon}

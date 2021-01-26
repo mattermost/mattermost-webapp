@@ -24,6 +24,7 @@ import LocalizedIcon from 'components/localized_icon';
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 import Avatar from 'components/widgets/users/avatar';
 import Popover from 'components/widgets/popover';
+import SharedUserIndicator from 'components/shared_user_indicator.tsx';
 
 /**
  * The profile popover, or hovercard, that appears with user information when clicking
@@ -282,20 +283,31 @@ class ProfilePopover extends React.PureComponent {
         }
 
         if (fullname && !haveOverrideProp) {
+            let sharedIcon;
+            if (this.props.user.remote_id) {
+                sharedIcon = (
+                    <SharedUserIndicator
+                        className='shared-user-icon'
+                        withTooltip={true}
+                    />
+                );
+            }
+
             dataContent.push(
-                <OverlayTrigger
-                    delayShow={Constants.OVERLAY_TIME_DELAY}
-                    placement='top'
-                    overlay={<Tooltip id='fullNameTooltip'>{fullname}</Tooltip>}
+                <div
+                    data-testId={`popover-fullname-${this.props.user.username}`}
+                    className='overflow--ellipsis text-nowrap'
                     key='user-popover-fullname'
                 >
-                    <div
-                        data-testId={`popover-fullname-${this.props.user.username}`}
-                        className='overflow--ellipsis text-nowrap'
+                    <OverlayTrigger
+                        delayShow={Constants.OVERLAY_TIME_DELAY}
+                        placement='top'
+                        overlay={<Tooltip id='fullNameTooltip'>{fullname}</Tooltip>}
                     >
                         <strong>{fullname}</strong>
-                    </div>
-                </OverlayTrigger>,
+                    </OverlayTrigger>
+                    {sharedIcon}
+                </div>,
             );
         }
 

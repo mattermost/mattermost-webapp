@@ -9,6 +9,7 @@ import * as Utils from 'utils/utils.jsx';
 
 import BotBadge from 'components/widgets/badges/bot_badge';
 import GuestBadge from 'components/widgets/badges/guest_badge';
+import SharedUserIndicator from 'components/shared_user_indicator';
 import Avatar from 'components/widgets/users/avatar';
 
 import Suggestion from '../suggestion.jsx';
@@ -142,6 +143,16 @@ export default class AtMentionSuggestion extends Suggestion {
             className += ' suggestion--selected';
         }
 
+        let sharedIcon;
+        if (item.remote_id) {
+            sharedIcon = (
+                <SharedUserIndicator
+                    className='shared-user-icon'
+                    withTooltip={true}
+                />
+            );
+        }
+
         return (
             <div
                 className={className}
@@ -163,6 +174,7 @@ export default class AtMentionSuggestion extends Suggestion {
                         {description}
                         {youElement}
                     </span>
+                    {sharedIcon}
                     <GuestBadge
                         show={Utils.isGuest(item)}
                         className='badge-autocomplete'

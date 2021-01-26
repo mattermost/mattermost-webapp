@@ -904,6 +904,22 @@
                 opacity: .5;
             }
         }
+
+        .more-modal__shared-actions {
+            color: rgba(61, 60, 64, 0.72);
+
+            .shared-user-icon {
+                font-size: 16px;
+                height: 16px;
+                width: 16px;
+                line-height: 16px;
+                margin-left: 4px;
+
+                &:before {
+                    margin: 0;
+                }
+            }
+        }
     }
 
     .more-modal__placeholder-row {
