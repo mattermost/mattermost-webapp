@@ -6,7 +6,7 @@ import marked, {MarkedOptions} from 'marked';
 import * as PostUtils from 'utils/post_utils';
 import * as SyntaxHighlighting from 'utils/syntax_highlighting';
 import * as TextFormatting from 'utils/text_formatting';
-import {getScheme, isUrlSafe} from 'utils/url';
+import {getScheme, isUrlSafe, shouldOpenInNewTab} from 'utils/url';
 import EmojiMap from 'utils/emoji_map';
 
 export default class Renderer extends marked.Renderer {
@@ -207,30 +207,7 @@ export default class Renderer extends marked.Renderer {
 
         output += `" href="${outHref}" rel="noreferrer"`;
 
-        const isInternalLink = outHref.startsWith(this.formattingOptions.siteURL || '') || outHref.startsWith('/');
-
-        let openInNewTab;
-        if (isInternalLink) {
-            const path = outHref.startsWith('/') ? outHref : outHref.substring(this.formattingOptions.siteURL?.length || 0);
-
-            // Paths managed by plugins and public file links aren't handled by the web app
-            const unhandledPaths = [
-                'plugins',
-                'files',
-            ];
-
-            // Paths managed by another service shouldn't be handled by the web app either
-            if (this.formattingOptions.managedResourcePaths) {
-                for (const managedPath of this.formattingOptions.managedResourcePaths) {
-                    unhandledPaths.push(TextFormatting.escapeRegex(managedPath));
-                }
-            }
-
-            openInNewTab = unhandledPaths.some((unhandledPath) => new RegExp('^/' + unhandledPath + '\\b').test(path));
-        } else {
-            // All links outside of Mattermost should be opened in a new tab
-            openInNewTab = true;
-        }
+        const openInNewTab = shouldOpenInNewTab(outHref, this.formattingOptions.siteURL, this.formattingOptions.managedResourcePaths);
 
         if (openInNewTab || !this.formattingOptions.siteURL) {
             output += ' target="_blank"';

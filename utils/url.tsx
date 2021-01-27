@@ -6,6 +6,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {latinise} from 'utils/latinise';
 import {t} from 'utils/i18n';
+import * as TextFormatting from 'utils/text_formatting';
 
 type WindowObject = {
     location: {
@@ -139,4 +140,31 @@ export function validateChannelUrl(url: string): React.ReactElement[] {
     }
 
     return errors;
+}
+
+export function isInternalURL(url: string, siteURL?: string): boolean {
+    return url.startsWith(siteURL || '') || url.startsWith('/');
+}
+
+export function shouldOpenInNewTab(url: string, siteURL?: string, managedResourcePaths?: string[]): boolean {
+    if (!isInternalURL(url, siteURL)) {
+        return true;
+    }
+
+    const path = url.startsWith('/') ? url : url.substring(siteURL?.length || 0);
+
+    // Paths managed by plugins and public file links aren't handled by the web app
+    const unhandledPaths = [
+        'plugins',
+        'files',
+    ];
+
+    // Paths managed by another service shouldn't be handled by the web app either
+    if (managedResourcePaths) {
+        for (const managedPath of managedResourcePaths) {
+            unhandledPaths.push(TextFormatting.escapeRegex(managedPath));
+        }
+    }
+
+    return unhandledPaths.some((unhandledPath) => new RegExp('^/' + unhandledPath + '\\b').test(path));
 }
