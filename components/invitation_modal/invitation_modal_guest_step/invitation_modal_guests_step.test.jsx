@@ -24,11 +24,8 @@ describe('components/invitation_modal/InvitationModalGuestsStep', () => {
         },
         myInvitableChannels: [],
         searchChannels: jest.fn(),
-        analytics: {
-            TOTAL_USERS: 10,
-        },
         actions: {
-            getStandardAnalytics: () => {},
+            getFreeTierStats: () => {},
             getCloudSubscription: () => {},
         },
     };

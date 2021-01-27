@@ -5,12 +5,7 @@ exports[`components/invitation_modal/InvitationModalGuestsStep should match the 
   actions={
     Object {
       "getCloudSubscription": [Function],
-      "getStandardAnalytics": [Function],
-    }
-  }
-  analytics={
-    Object {
-      "TOTAL_USERS": 10,
+      "getFreeTierStats": [Function],
     }
   }
   currentTeamId="test-team-id"
@@ -39,12 +34,7 @@ exports[`components/invitation_modal/InvitationModalGuestsStep should match the 
   actions={
     Object {
       "getCloudSubscription": [Function],
-      "getStandardAnalytics": [Function],
-    }
-  }
-  analytics={
-    Object {
-      "TOTAL_USERS": 10,
+      "getFreeTierStats": [Function],
     }
   }
   currentTeamId="test-team-id"

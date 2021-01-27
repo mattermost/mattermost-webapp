@@ -6,13 +6,10 @@ import {
     getConfig,
     getLicense,
 } from 'mattermost-redux/selectors/entities/general';
-import {getCurrentUser, getFilteredUsersStats as selectFilteredUsersStats} from 'mattermost-redux/selectors/entities/users';
-import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
-import {getFilteredUsersStats} from 'mattermost-redux/actions/users';
+import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {bindActionCreators, Dispatch} from 'redux';
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {UsersStats} from 'mattermost-redux/types/users';
-import {getCloudSubscription} from 'mattermost-redux/actions/cloud';
+import {getCloudSubscription, getFreeTierStats} from 'mattermost-redux/actions/cloud';
 
 import {GlobalState} from 'types/store';
 
@@ -21,14 +18,12 @@ import {isAdmin} from 'utils/utils.jsx';
 import InvitationModalMembersStep from './invitation_modal_members_step';
 
 function mapStateToProps(state: GlobalState) {
-    const filteredUserStats: UsersStats = selectFilteredUsersStats(state);
-    const analytics = isAdmin(getCurrentUser(state).roles) ? state.entities.admin.analytics : {TOTAL_USERS: filteredUserStats.total_users_count};
     return {
         userLimit: getConfig(state).ExperimentalCloudUserLimit,
-        analytics,
         userIsAdmin: isAdmin(getCurrentUser(state).roles),
         isCloud: getLicense(state).Cloud === 'true',
         subscription: state.entities.cloud.subscription,
+        freeTierStats: state.entities.cloud.freeTierStats,
     };
 }
 
@@ -36,9 +31,8 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators(
             {
-                getStandardAnalytics,
                 getCloudSubscription,
-                getFilteredUsersStats,
+                getFreeTierStats,
             },
             dispatch,
         ),

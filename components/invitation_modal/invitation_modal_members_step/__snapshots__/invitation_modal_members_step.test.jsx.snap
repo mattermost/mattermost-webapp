@@ -5,17 +5,18 @@ exports[`components/invitation_modal/InvitationModalMembersStep should match the
   actions={
     Object {
       "getCloudSubscription": [Function],
-      "getStandardAnalytics": [Function],
-    }
-  }
-  analytics={
-    Object {
-      "TOTAL_USERS": 10,
+      "getFreeTierStats": [Function],
     }
   }
   currentTeamId="test-team-id"
   currentUsers={4}
   emailInvitationsEnabled={true}
+  freeTierStats={
+    Object {
+      "is_paid_tier": "false",
+      "remaining_seats": 6,
+    }
+  }
   intl={
     Object {
       "defaultFormats": Object {},
@@ -69,17 +70,18 @@ exports[`components/invitation_modal/InvitationModalMembersStep should match the
   actions={
     Object {
       "getCloudSubscription": [Function],
-      "getStandardAnalytics": [Function],
-    }
-  }
-  analytics={
-    Object {
-      "TOTAL_USERS": 10,
+      "getFreeTierStats": [Function],
     }
   }
   currentTeamId="test-team-id"
   currentUsers={4}
   emailInvitationsEnabled={true}
+  freeTierStats={
+    Object {
+      "is_paid_tier": "false",
+      "remaining_seats": 6,
+    }
+  }
   intl={
     Object {
       "defaultFormats": Object {},

@@ -4,6 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {injectIntl, FormattedMessage} from 'react-intl';
+import {isEmpty} from 'lodash';
 
 import {debounce} from 'mattermost-redux/actions/helpers';
 import {isEmail} from 'mattermost-redux/utils/helpers';
@@ -37,12 +38,11 @@ class InvitationModalMembersStep extends React.PureComponent {
         currentUsers: PropTypes.number.isRequired,
         userIsAdmin: PropTypes.bool.isRequired,
         isCloud: PropTypes.bool.isRequired,
-        analytics: PropTypes.object.isRequired,
         subscription: PropTypes.object.isRequired,
+        freeTierStats: PropTypes.object,
         actions: PropTypes.shape({
-            getFilteredUsersStats: PropTypes.func.isRequired,
-            getStandardAnalytics: PropTypes.func.isRequired,
-            getCloudSubscription: PropTypes.func.isRequired,
+            getFreeTierStats: PropTypes.func.isRequired,
+            getCloudSubscription: PropTypes.func.isRequired, // required by the withGetCloudSubscription HOC
         }).isRequired,
     };
 
@@ -121,7 +121,7 @@ class InvitationModalMembersStep extends React.PureComponent {
     onChange = (usersAndEmails) => {
         this.setState({usersAndEmails}, () => {
             if (this.shouldShowPickerError() && this.props.isCloud) {
-                trackEvent('cloud_invite_users', 'warning_near_limit', {remaining: this.props.userLimit - (this.props.analytics.TOTAL_USERS + this.state.usersAndEmails.length)});
+                trackEvent('cloud_invite_users', 'warning_near_limit', {remaining: this.getRemainingUsers() - this.state.usersAndEmails.length});
             }
         });
         this.props.onEdit(
@@ -152,14 +152,16 @@ class InvitationModalMembersStep extends React.PureComponent {
         this.props.onSubmit(users, emails, this.state.usersInputValue);
     };
 
-    shouldShowPickerError = () => {
-        const {userLimit, analytics, isCloud, subscription} = this.props;
-        console.log("PROPS", this.props);
+    getRemainingUsers = () => {
+        const {freeTierStats} = this.props;
+        const {usersAndEmails} = this.state;
+        return freeTierStats.remaining_seats - usersAndEmails.length;
+    }
 
-        if (subscription === null) {
-            return false;
-        }
-        if (subscription.is_paid_tier === 'true') {
+    shouldShowPickerError = () => {
+        const {userLimit, isCloud, freeTierStats} = this.props;
+
+        if (freeTierStats.is_paid_tier === 'true') {
             return false;
         }
 
@@ -168,8 +170,7 @@ class InvitationModalMembersStep extends React.PureComponent {
         }
 
         // usersRemaining is calculated against the limit, the current users, and how many are being invited in the current flow
-        const usersRemaining =
-            userLimit - (analytics.TOTAL_USERS + this.state.usersAndEmails.length);
+        const usersRemaining = this.getRemainingUsers();
         if (usersRemaining === 0 && this.state.usersInputValue !== '') {
             return true;
         } else if (usersRemaining < 0) {
@@ -179,15 +180,8 @@ class InvitationModalMembersStep extends React.PureComponent {
     };
 
     componentDidMount() {
-        // We need to call getFilteredUsersStats on every mount inorder to set filteredStats in the redux store based on our filters here.
-        // However, this can lead to bugs elsewhere because the total_users_count could change in the state e.g. if elsewhere the count requires
-        // include_bots to be true. COULD CALL THE Client4.getFilteredUsersStats directly?
-        if (!this.props.userIsAdmin) {
-            this.props.actions.getFilteredUsersStats({include_deleted: false, include_bots: false});
-        }
-
-        if (!this.props.analytics) {
-            this.props.actions.getStandardAnalytics();
+        if (isEmpty(this.props.freeTierStats)) {
+            this.props.actions.getFreeTierStats();
         }
     }
 
@@ -215,7 +209,7 @@ class InvitationModalMembersStep extends React.PureComponent {
             );
             noMatchMessageDefault = 'No one found matching **{text}**';
         }
-        const remainingUsers = this.props.userLimit - this.props.analytics.TOTAL_USERS;
+        const remainingUsers = this.props.freeTierStats.remaining_seats;
         const inviteMembersButtonDisabled = this.state.usersAndEmails.length > Constants.MAX_ADD_MEMBERS_BATCH || this.state.usersAndEmails.length === 0;
 
         const errorProperties = {
