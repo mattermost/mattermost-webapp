@@ -19,7 +19,7 @@ describe('MM-13697 Edit Post with attachment', () => {
         // # Login as test user and visit town-square
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
             townsquareLink = `/${team.name}/channels/town-square`;
-            cy.visit(townsquareLink);
+            cy.visitAndWait(townsquareLink);
         });
     });
 

@@ -43,7 +43,7 @@ describe('Plugin Marketplace', () => {
 
             // # Login as non admin user
             cy.apiLogin(regularUser);
-            cy.visit(townsquareLink);
+            cy.visitAndWait(townsquareLink);
 
             // * Verify Plugin Marketplace does not exist
             verifyPluginMarketplaceVisibility(false);
@@ -64,7 +64,7 @@ describe('Plugin Marketplace', () => {
             });
 
             // # Visit town-square channel
-            cy.visit(townsquareLink);
+            cy.visitAndWait(townsquareLink);
 
             // * Verify Plugin Marketplace does not exist
             verifyPluginMarketplaceVisibility(false);
@@ -85,7 +85,7 @@ describe('Plugin Marketplace', () => {
             });
 
             // # Visit town-square channel
-            cy.visit(townsquareLink);
+            cy.visitAndWait(townsquareLink);
 
             // * Verify Plugin Marketplace does not exist
             verifyPluginMarketplaceVisibility(false);
@@ -106,14 +106,14 @@ describe('Plugin Marketplace', () => {
                     MarketplaceUrl: 'https://api.integrations.mattermost.com',
                 },
             });
-            cy.visit(pluginManagementPage);
+            cy.visitAndWait(pluginManagementPage);
 
             cy.wait(TIMEOUTS.HALF_SEC).get('input[data-testid="enablefalse"]').should('be.checked');
             cy.get('input[data-testid="enabletrue"]').check();
             cy.get('#saveSetting').click();
 
             // Verify that the Plugin Marketplace is available
-            cy.visit(townsquareLink);
+            cy.visitAndWait(townsquareLink);
             verifyPluginMarketplaceVisibility(true);
         });
 
@@ -130,14 +130,14 @@ describe('Plugin Marketplace', () => {
                     MarketplaceUrl: 'https://api.integrations.mattermost.com',
                 },
             });
-            cy.visit(pluginManagementPage);
+            cy.visitAndWait(pluginManagementPage);
 
             cy.wait(TIMEOUTS.HALF_SEC).get('input[data-testid="enableMarketplacefalse"]').should('be.checked');
             cy.get('input[data-testid="enableMarketplacetrue"]').check();
             cy.get('#saveSetting').click();
 
             // Verify that the Plugin Marketplace is available
-            cy.visit(townsquareLink);
+            cy.visitAndWait(townsquareLink);
             verifyPluginMarketplaceVisibility(true);
         });
     });
@@ -161,7 +161,7 @@ describe('Plugin Marketplace', () => {
             uninstallAllPlugins();
 
             // # Visit the Town Square channel
-            cy.visit(townsquareLink);
+            cy.visitAndWait(townsquareLink);
 
             cy.wait(TIMEOUTS.HALF_SEC).get('#lhsHeader').should('be.visible').within(() => {
                 // # Click hamburger main menu
@@ -175,7 +175,7 @@ describe('Plugin Marketplace', () => {
             });
         });
 
-        it('render an error bar', () => {
+        it('MM-T1966 render an error bar', () => {
             // * Verify should be an error connecting to the marketplace server
             cy.get('#error_bar').contains('Error connecting to the marketplace server');
         });
@@ -238,7 +238,7 @@ describe('Plugin Marketplace', () => {
             uninstallAllPlugins();
 
             // # Visit the Town Square channel
-            cy.visit(townsquareLink);
+            cy.visitAndWait(townsquareLink);
 
             cy.wait(TIMEOUTS.HALF_SEC).get('#lhsHeader').should('be.visible').within(() => {
                 // # Click hamburger main menu
@@ -272,7 +272,7 @@ describe('Plugin Marketplace', () => {
             cy.get('.more-modal__list').scrollIntoView().should('be.visible');
         });
 
-        it('autofocus on search plugin input box', () => {
+        it('MM-T2001 autofocus on search plugin input box', () => {
             cy.uiCloseAnnouncementBar().then(() => {
                 cy.findByLabelText('Close').click();
             });
@@ -424,7 +424,7 @@ describe('Plugin Marketplace', () => {
         });
 
         // This tests fails, if any plugins are previously installed. See https://mattermost.atlassian.net/browse/MM-21610
-        it('change tab to "All Plugins" when "Install Plugins" link is clicked', () => {
+        it('MM-T1986 change tab to "All Plugins" when "Install Plugins" link is clicked', () => {
             cy.get('#marketplaceTabs').scrollIntoView().should('be.visible').within(() => {
                 // # Switch tab to installed plugin
                 cy.findByText(/Installed/).should('be.visible').click();
@@ -475,7 +475,7 @@ describe('Plugin Marketplace', () => {
             });
 
             // # Visit town-square channel
-            cy.visit(townsquareLink);
+            cy.visitAndWait(townsquareLink);
 
             // # Click hamburger main menu
             cy.wait(TIMEOUTS.HALF_SEC).get('#sidebarHeaderDropdownButton').click();
@@ -492,7 +492,7 @@ describe('Plugin Marketplace', () => {
             cy.get('#error_bar').should('not.exist');
         });
 
-        it('display installed plugins', () => {
+        it('MM-T1979 display installed plugins', () => {
             // # Install one plugin
             cy.apiInstallPluginFromUrl('https://github.com/mattermost/mattermost-plugin-github/releases/download/v0.7.0/github-0.7.0.tar.gz', true);
 

@@ -22,7 +22,7 @@ describe('Category muting', () => {
     before(() => {
         cy.apiUpdateConfig({
             ServiceSettings: {
-                ExperimentalChannelSidebarOrganization: 'default_on',
+                EnableLegacySidebar: false,
             },
         });
 
@@ -30,7 +30,7 @@ describe('Category muting', () => {
             testTeam = team;
             testUser = user;
 
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visitAndWait(`/${team.name}/channels/town-square`);
 
             // # Wait for the team to load
             cy.get('#headerTeamName', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');

@@ -82,7 +82,7 @@ function loginAsNewUser(team) {
         cy.apiAddUserToTeam(team.id, user.id);
 
         cy.apiLogin(user);
-        cy.visit(`/${team.name}`);
+        cy.visitAndWait(`/${team.name}`);
     });
 }
 
@@ -113,7 +113,7 @@ describe('Guest Account - Member Invitation Flow', () => {
             testTeam = team;
 
             // # Go to town square
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
         });
     });
 
@@ -197,12 +197,26 @@ describe('Guest Account - Member Invitation Flow', () => {
 
             // * Verify the content and message in next screen
             verifyInvitationError(sysadmin.username, team, 'This person is already a team member.');
+        });
+    });
+
+    it('MM-T1328 Invite Members - Existing Member not on the team', () => {
+        cy.apiCreateTeam('team', 'Team').then(({team}) => {
+            // # Login as new user
+            loginAsNewUser(team);
 
             // # Search and add an existing member by email who is not part of the team
             invitePeople(testUser.email, 1, testUser.username);
 
             // * Verify the content and message in next screen
             verifyInvitationSuccess(testUser.username, team, 'This member has been added to the team.');
+        });
+    });
+
+    it('Invite Members - Invite People - Existing Guest not on the team', () => {
+        cy.apiCreateTeam('team', 'Team').then(({team}) => {
+            // # Login as new user
+            loginAsNewUser(team);
 
             // # Search and add a new member by email who is not part of the team
             const email = `temp-${getRandomId()}@mattermost.com`;
@@ -232,7 +246,7 @@ describe('Guest Account - Member Invitation Flow', () => {
         cy.apiLogout();
 
         // # Visit the Invite Members link
-        cy.visit(inviteMembersLink);
+        cy.visitAndWait(inviteMembersLink);
 
         // * Verify the sign up options
         cy.findByText('AD/LDAP Credentials').should('be.visible');
@@ -261,13 +275,13 @@ describe('Guest Account - Member Invitation Flow', () => {
         cy.apiAdminLogin();
         cy.apiCreateTeam('team', 'Team').then(({team}) => {
             // # Visit the team and wait for page to load and then logout.
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visitAndWait(`/${team.name}/channels/town-square`);
             cy.get('#post_textbox').should('be.visible').wait(TIMEOUTS.TWO_SEC);
             const inviteMembersLink = `/signup_user_complete/?id=${team.invite_id}`;
             cy.apiLogout();
 
             // # Visit the Invite Members link
-            cy.visit(inviteMembersLink);
+            cy.visitAndWait(inviteMembersLink);
 
             // # Click on the login option
             cy.findByText('Click here to sign in.').should('be.visible').click();

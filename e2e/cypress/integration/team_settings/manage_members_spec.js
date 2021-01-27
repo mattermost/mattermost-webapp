@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @team_settings
 
 import {
@@ -31,7 +32,7 @@ describe('Manage Members', () => {
 
     it('MM-T2331 System Admin can promote Member to Team Admin', () => {
         // # Go to Town Square
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
 
         // # Click Main Menu
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
@@ -61,7 +62,7 @@ describe('Manage Members', () => {
                 cy.apiLogin(testUser);
 
                 // # Go to Town Square
-                cy.visit(`/${testTeam.name}/channels/town-square`);
+                cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
 
                 // # Click Main Menu
                 cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
@@ -97,7 +98,7 @@ describe('Manage Members', () => {
                         cy.apiLogin(testUser);
 
                         // # Go to Town Square
-                        cy.visit(`/${testTeam.name}/channels/town-square`);
+                        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
 
                         // # Click Main Menu
                         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
@@ -118,13 +119,13 @@ describe('Manage Members', () => {
                         cy.apiLogin(user);
 
                         // # Go to team that they are still a member of
-                        cy.visit(`/${otherTeam.name}/channels/town-square`);
+                        cy.visitAndWait(`/${otherTeam.name}/channels/town-square`);
 
                         // * Verify they are still a member
                         cy.get(`#headerTeamName:contains(${otherTeam.display_name})`, {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
                         // # Go to team that they were removed from
-                        cy.visit(`/${testTeam.name}/channels/town-square`);
+                        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
 
                         // * Verify that they get a 'Team Not Found' screen
                         cy.url().should('include', '/error?type=team_not_found');
@@ -145,7 +146,7 @@ describe('Manage Members', () => {
                 cy.apiLogin(testUser);
 
                 // # Go to Town Square
-                cy.visit(`/${testTeam.name}/channels/town-square`);
+                cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
 
                 // # Click Main Menu
                 cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
@@ -171,13 +172,13 @@ describe('Manage Members', () => {
                     cy.apiLogin(user);
 
                     // # Go to team that they were removed from
-                    cy.visit(`/${testTeam.name}/channels/town-square`);
+                    cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
 
                     // * Verify that they get a 'Team Not Found' screen
                     cy.url().should('include', '/error?type=team_not_found');
 
                     // # Go to the invite link
-                    cy.visit(inviteLink);
+                    cy.visitAndWait(inviteLink);
 
                     // * Verify that the user has rejoined the team
                     cy.get(`#headerTeamName:contains(${testTeam.display_name})`).should('be.visible');

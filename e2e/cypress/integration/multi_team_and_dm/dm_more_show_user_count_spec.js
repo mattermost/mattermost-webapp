@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @multi_team_and_dm
 
 import {getRandomId} from '../../utils';
@@ -41,7 +42,7 @@ describe('Multi Team and DM', () => {
 
             // # Login with testUser and visit test channel
             cy.apiLogin(testUser);
-            cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+            cy.visitAndWait(`/${testTeam.name}/channels/${testChannel.name}`);
         });
     });
 
@@ -54,7 +55,7 @@ describe('Multi Team and DM', () => {
             const totalUsers = number.text().split(' ').slice(2, 3);
 
             // * Assert that 2 unique users are displayed
-            cy.findByText('Search and add members').click().type(unique).then(() => {
+            cy.findByText('Search for people').click().type(unique).then(() => {
                 cy.get('#multiSelectList').within(() => {
                     cy.get('.more-modal__details').should('have.length', 2);
                 });

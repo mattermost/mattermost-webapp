@@ -98,7 +98,7 @@ function inviteUser(user) {
 function inviteUserToTeamAsMember(testUser, testTeam, user) {
     // # Login and visit
     cy.apiLogin(testUser);
-    cy.visit(`/${testTeam.name}/channels/town-square`);
+    cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
 
     // # Open and select invite menu item
     openClickInviteMenuItem();
@@ -113,7 +113,7 @@ function inviteUserToTeamAsMember(testUser, testTeam, user) {
 function inviteUserToTeamAsSysadmin(testTeam, user) {
     // # Login and visit
     cy.apiAdminLogin();
-    cy.visit(`/${testTeam.name}/channels/off-topic`);
+    cy.visitAndWait(`/${testTeam.name}/channels/off-topic`);
 
     // # Open and select invite menu item
     openClickInviteMenuItem();
@@ -214,7 +214,7 @@ describe('Invite Members', () => {
 
         // By default, member don't have "InviteGuest" permission
         // should go directly to "InviteMembers" modal
-        it('Invite Members to Team as Member - invitation not sent', () => {
+        it('MM-T1326 Invite Members to Team as Member - invitation not sent', () => {
             inviteUserToTeamAsMember(testUser, testTeam, userToBeInvited);
 
             // * Verify Invitation was not sent
