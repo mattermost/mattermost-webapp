@@ -29,7 +29,6 @@ describe('components/custom_status/custom_status_modal', () => {
     let user = TestHelper.getUserMock();
 
     it('should match snapshot', () => {
-        getCurrentUser.mockReturnValue(user);
         const wrapper = shallow(
             <Provider store={store}>
                 <CustomStatusModal {...baseProps}/>

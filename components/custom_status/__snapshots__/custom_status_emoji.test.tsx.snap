@@ -41,3 +41,45 @@ exports[`components/custom_status/custom_status_emoji should match snapshot 1`] 
   />
 </ContextProvider>
 `;
+
+exports[`components/custom_status/custom_status_emoji should match snapshot with props 1`] = `
+<ContextProvider
+  value={
+    Object {
+      "store": Object {
+        "clearActions": [Function],
+        "dispatch": [Function],
+        "getActions": [Function],
+        "getState": [Function],
+        "replaceReducer": [Function],
+        "subscribe": [Function],
+      },
+      "subscription": Subscription {
+        "handleChangeWrapper": [Function],
+        "listeners": Object {
+          "notify": [Function],
+        },
+        "onStateChange": [Function],
+        "parentSub": undefined,
+        "store": Object {
+          "clearActions": [Function],
+          "dispatch": [Function],
+          "getActions": [Function],
+          "getState": [Function],
+          "replaceReducer": [Function],
+          "subscribe": [Function],
+        },
+        "unsubscribe": null,
+      },
+    }
+  }
+>
+  <CustomStatusEmoji
+    emojiSize={34}
+    emojiStyle={Object {}}
+    showTooltip={true}
+    tooltipDirection="bottom"
+    userID=""
+  />
+</ContextProvider>
+`;
