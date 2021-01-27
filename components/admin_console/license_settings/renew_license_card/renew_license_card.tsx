@@ -20,31 +20,39 @@ export interface RenewLicenseCardProps {
 
 const RenewLicenseCard: React.FC<RenewLicenseCardProps> = ({license, totalUsers, isLicenseExpired}: RenewLicenseCardProps) => {
     let titleClass = 'RenewLicenseCard__text-title';
-    let idTitleText = 'admin.license.renewalCard.licenseExpiring';
-    let defaultTitleText = 'License expires in {days} days on {date, date, long}.';
     let iconClass = 'icon-alert-circle-outline';
     const today = moment(Date.now());
     const endOfLicense = moment(new Date(parseInt(license?.ExpiresAt, 10)));
     const daysToEndLicense = endOfLicense.diff(today, 'days');
+    let cardTitle = (
+        <FormattedMessage
+            id='admin.license.renewalCard.licenseExpiring'
+            defaultMessage='License expires in {days} days on {date, date, long}.'
+            values={{
+                date: endOfLicense,
+                days: daysToEndLicense,
+            }}
+        />
+    );
     if (isLicenseExpired) {
         titleClass = 'RenewLicenseCard__text-title critical';
-        idTitleText = 'admin.license.renewalCard.licenseExpired';
-        defaultTitleText = 'License expired on {date, date, long}.';
         iconClass = 'icon-alert-outline';
+        cardTitle = (
+            <FormattedMessage
+                id='admin.license.renewalCard.licenseExpired'
+                defaultMessage='License expired on {date, date, long}.'
+                values={{
+                    date: endOfLicense,
+                }}
+            />
+        );
     }
     return (
         <div className='RenewLicenseCard'>
             <div className='RenewLicenseCard__text'>
                 <div className={titleClass}>
                     <i className={iconClass}/>
-                    <FormattedMessage
-                        id={idTitleText}
-                        defaultMessage={defaultTitleText}
-                        values={{
-                            date: endOfLicense,
-                            days: daysToEndLicense,
-                        }}
-                    />
+                    {cardTitle}
                 </div>
                 <div className='RenewLicenseCard__text-description bolder'>
                     <FormattedMessage

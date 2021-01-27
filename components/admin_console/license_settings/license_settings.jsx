@@ -408,9 +408,7 @@ export default class LicenseSettings extends React.PureComponent {
                             className='form-horizontal'
                             role='form'
                         >
-                            <div className='license-expir-ing-ed-notice'>
-                                {this.renewLicenseCard()}
-                            </div>
+                            {this.renewLicenseCard()}
                             <div className='form-group'>
                                 <label
                                     className='control-label col-sm-4'
