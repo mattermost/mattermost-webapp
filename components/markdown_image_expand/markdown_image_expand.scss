@@ -1,77 +1,95 @@
-@import 'compass/css3';
-@import 'sass/utils/functions';
-@import 'utils/variables';
+@import "compass/css3";
+@import "sass/utils/functions";
+@import "utils/variables";
 
 .markdown-image-expand {
-  position: relative;
+    position: relative;
 
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
 }
 
 .markdown-image-expand__collapse-button {
-  position: absolute;
-  top: 0;
-  left: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
 
-  display: none;
-  width: 24px;
-  height: 24px;
-  border: 1px solid var(--center-channel-color-16);
-  padding: 0;
+    display: none;
+    width: 24px;
+    height: 24px;
+    border: 1px solid var(--center-channel-color-16);
+    padding: 0;
 
-  font-size: 18px;
-  line-height: 21px;
-  color: var(--center-channel-color-56);
+    font-size: 18px;
+    line-height: 21px;
+    color: var(--center-channel-color-56);
 
-  background-color: var(--center-channel-bg);
-  border-radius: 16px;
-  @include box-shadow($elevation-1);
+    background-color: var(--center-channel-bg);
+    border-radius: 16px;
+    @include box-shadow($elevation-1);
 
-  .icon {
-    width: 18px;
-    height: 18px;
-  }
+    .icon {
+        width: 18px;
+        height: 18px;
+    }
 
-  .markdown-image-expand--expanded:hover & {
-    display: block;
-  }
+    .markdown-image-expand--expanded:hover & {
+        display: block;
+    }
 
-  &:hover {
-    border: 1px solid var(--center-channel-color-24);
+    &:hover {
+        border: 1px solid var(--center-channel-color-24);
 
-    @include box-shadow($elevation-2);
-  }
+        @include box-shadow($elevation-2);
+    }
 }
 
 .markdown-image-expand__expand-button {
-  border: none;
-  padding: 0;
+    border: none;
+    padding: 0;
 
-  font-size: 18px;
-  line-height: 21px;
-  color: var(--center-channel-color-56);
+    font-size: 18px;
+    line-height: 21px;
+    color: var(--center-channel-color-56);
 
-  background: transparent;
-  border-radius: 4px;
+    background: transparent;
+    border-radius: 4px;
 
-  &:hover {
-    color: var(--center-channel-color-72);
-  }
+    &:hover {
+        color: var(--center-channel-color-72);
+    }
 
-  .icon {
-    width: 18px;
-    height: 18px;
-  }
+    .icon {
+        width: 18px;
+        height: 18px;
+    }
 }
 
 .markdown-image-expand__expand-icon {
-  vertical-align: middle;
+    vertical-align: middle;
 }
 
 .markdown-image-expand__alt-text {
-  vertical-align: middle;
+    vertical-align: middle;
 
-  font-size: 12px;
-  line-height: 16px;
+    font-size: 12px;
+    line-height: 16px;
+}
+
+.markdown-image-expand__expanded-view-enter {
+    flex: 0;
+}
+
+.markdown-image-expand__expanded-view-enter-active {
+    flex: 1;
+    transition: flex 250ms cubic-bezier(0.5, 0, 0.5, 1);
+}
+
+.markdown-image-expand__expanded-view-exit {
+    flex: 1;
+}
+
+.markdown-image-expand__expanded-view-exit-active {
+    flex: 0;
+    transition: flex 250ms cubic-bezier(0.5, 0, 0.5, 1);
 }

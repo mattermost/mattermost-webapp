@@ -4,16 +4,50 @@ exports[`components/MarkdownImageExpand should match snapshot for collapseDispla
 <div
   className="markdown-image-expand markdown-image-expand--expanded"
 >
-  <button
-    className="markdown-image-expand__collapse-button"
-    onClick={[Function]}
-    type="button"
+  <CSSTransition
+    classNames="markdown-image-expand__expanded-view"
+    in={true}
+    mountOnEnter={true}
+    timeout={200}
+    unmountOnExit={true}
   >
-    <span
-      className="icon icon-menu-down"
-    />
-  </button>
-  An image to expand
+    <div>
+      <button
+        className="markdown-image-expand__collapse-button"
+        onClick={[Function]}
+        type="button"
+      >
+        <span
+          className="icon icon-menu-down"
+        />
+      </button>
+      An image to expand
+    </div>
+  </CSSTransition>
+  <CSSTransition
+    classNames="markdown-image-expand__collapsed-view"
+    in={false}
+    mountOnEnter={true}
+    timeout={200}
+    unmountOnExit={true}
+  >
+    <div>
+      <button
+        className="markdown-image-expand__expand-button"
+        onClick={[Function]}
+        type="button"
+      >
+        <span
+          className="icon icon-menu-right markdown-image-expand__expand-icon"
+        />
+        <span
+          className="markdown-image-expand__alt-text"
+        >
+          Some alt text
+        </span>
+      </button>
+    </div>
+  </CSSTransition>
 </div>
 `;
 
@@ -21,20 +55,50 @@ exports[`components/MarkdownImageExpand should match snapshot for collapseDispla
 <div
   className="markdown-image-expand "
 >
-  <button
-    className="markdown-image-expand__expand-button"
-    onClick={[Function]}
-    type="button"
+  <CSSTransition
+    classNames="markdown-image-expand__expanded-view"
+    in={false}
+    mountOnEnter={true}
+    timeout={200}
+    unmountOnExit={true}
   >
-    <span
-      className="icon icon-menu-right markdown-image-expand__expand-icon"
-    />
-    <span
-      className="markdown-image-expand__alt-text"
-    >
-      Some alt text
-    </span>
-  </button>
+    <div>
+      <button
+        className="markdown-image-expand__collapse-button"
+        onClick={[Function]}
+        type="button"
+      >
+        <span
+          className="icon icon-menu-down"
+        />
+      </button>
+      An image to expand
+    </div>
+  </CSSTransition>
+  <CSSTransition
+    classNames="markdown-image-expand__collapsed-view"
+    in={true}
+    mountOnEnter={true}
+    timeout={200}
+    unmountOnExit={true}
+  >
+    <div>
+      <button
+        className="markdown-image-expand__expand-button"
+        onClick={[Function]}
+        type="button"
+      >
+        <span
+          className="icon icon-menu-right markdown-image-expand__expand-icon"
+        />
+        <span
+          className="markdown-image-expand__alt-text"
+        >
+          Some alt text
+        </span>
+      </button>
+    </div>
+  </CSSTransition>
 </div>
 `;
 
@@ -42,20 +106,50 @@ exports[`components/MarkdownImageExpand should match snapshot for image collapse
 <div
   className="markdown-image-expand "
 >
-  <button
-    className="markdown-image-expand__expand-button"
-    onClick={[Function]}
-    type="button"
+  <CSSTransition
+    classNames="markdown-image-expand__expanded-view"
+    in={false}
+    mountOnEnter={true}
+    timeout={200}
+    unmountOnExit={true}
   >
-    <span
-      className="icon icon-menu-right markdown-image-expand__expand-icon"
-    />
-    <span
-      className="markdown-image-expand__alt-text"
-    >
-      Some alt text
-    </span>
-  </button>
+    <div>
+      <button
+        className="markdown-image-expand__collapse-button"
+        onClick={[Function]}
+        type="button"
+      >
+        <span
+          className="icon icon-menu-down"
+        />
+      </button>
+      An image to expand
+    </div>
+  </CSSTransition>
+  <CSSTransition
+    classNames="markdown-image-expand__collapsed-view"
+    in={true}
+    mountOnEnter={true}
+    timeout={200}
+    unmountOnExit={true}
+  >
+    <div>
+      <button
+        className="markdown-image-expand__expand-button"
+        onClick={[Function]}
+        type="button"
+      >
+        <span
+          className="icon icon-menu-right markdown-image-expand__expand-icon"
+        />
+        <span
+          className="markdown-image-expand__alt-text"
+        >
+          Some alt text
+        </span>
+      </button>
+    </div>
+  </CSSTransition>
 </div>
 `;
 
@@ -63,15 +157,49 @@ exports[`components/MarkdownImageExpand should match snapshot for image expanded
 <div
   className="markdown-image-expand markdown-image-expand--expanded"
 >
-  <button
-    className="markdown-image-expand__collapse-button"
-    onClick={[Function]}
-    type="button"
+  <CSSTransition
+    classNames="markdown-image-expand__expanded-view"
+    in={true}
+    mountOnEnter={true}
+    timeout={200}
+    unmountOnExit={true}
   >
-    <span
-      className="icon icon-menu-down"
-    />
-  </button>
-  An image to expand
+    <div>
+      <button
+        className="markdown-image-expand__collapse-button"
+        onClick={[Function]}
+        type="button"
+      >
+        <span
+          className="icon icon-menu-down"
+        />
+      </button>
+      An image to expand
+    </div>
+  </CSSTransition>
+  <CSSTransition
+    classNames="markdown-image-expand__collapsed-view"
+    in={false}
+    mountOnEnter={true}
+    timeout={200}
+    unmountOnExit={true}
+  >
+    <div>
+      <button
+        className="markdown-image-expand__expand-button"
+        onClick={[Function]}
+        type="button"
+      >
+        <span
+          className="icon icon-menu-right markdown-image-expand__expand-icon"
+        />
+        <span
+          className="markdown-image-expand__alt-text"
+        >
+          Some alt text
+        </span>
+      </button>
+    </div>
+  </CSSTransition>
 </div>
 `;
