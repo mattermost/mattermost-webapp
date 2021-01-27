@@ -9,6 +9,7 @@ import Permissions from 'mattermost-redux/constants/permissions';
 import {Post} from 'mattermost-redux/types/posts';
 import {Reaction as ReactionType} from 'mattermost-redux/types/reactions';
 import {Emoji} from 'mattermost-redux/types/emojis';
+import {isCustomEmoji} from 'mattermost-redux/utils/emoji_utils';
 
 import Constants from 'utils/constants';
 import Reaction from 'components/post_view/reaction';
@@ -21,7 +22,7 @@ import {localizeMessage} from 'utils/utils.jsx';
 const DEFAULT_EMOJI_PICKER_RIGHT_OFFSET = 15;
 const EMOJI_PICKER_WIDTH_OFFSET = 260;
 
-type Props = {
+export type Props = {
 
     /**
      * The post to render reactions for
@@ -73,7 +74,7 @@ export default class ReactionList extends React.PureComponent<Props, State> {
 
     handleEmojiClick = (emoji: Emoji): void => {
         this.setState({showEmojiPicker: false});
-        const emojiName = 'name' in emoji ? emoji.name : emoji.aliases[0];
+        const emojiName = isCustomEmoji(emoji) ? emoji.name : emoji.aliases[0];
         this.props.actions.addReaction(this.props.post.id, emojiName);
     }
 

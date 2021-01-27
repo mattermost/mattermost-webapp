@@ -20,7 +20,7 @@ type State = {
     reactedClass: 'Reaction--reacted' | 'Reaction--reacting' | 'Reaction--unreacted' | 'Reaction--unreacting';
 };
 
-type Props = {
+export type Props = {
 
     /*
      * The post to render the reaction for
@@ -98,8 +98,8 @@ type Props = {
 
 export default class Reaction extends React.PureComponent<Props, State> {
     private reactionButtonRef = React.createRef<HTMLButtonElement>();
-
     private reactionCountRef = React.createRef<HTMLSpanElement>();
+    private animating = false;
 
     constructor(props: Props) {
         super(props);
@@ -125,6 +125,7 @@ export default class Reaction extends React.PureComponent<Props, State> {
             const {currentUserReacted} = this.props.sortedUsers;
             const reactedClass = currentUserReacted ? 'Reaction--reacted' : 'Reaction--unreacted';
 
+            this.animating = false;
             /* eslint-disable-next-line react/no-did-update-set-state */
             this.setState({
                 displayNumber: this.props.reactionCount,
@@ -135,11 +136,16 @@ export default class Reaction extends React.PureComponent<Props, State> {
 
     handleClick = (): void => {
         // only proceed if user has permission to react
-        if (!(this.props.canAddReaction && this.props.canRemoveReaction)) {
+        // and we are not animating
+        if (
+            !(this.props.canAddReaction && this.props.canRemoveReaction) || this.animating
+        ) {
             return;
         }
+
         const {currentUserReacted} = this.props.sortedUsers;
 
+        this.animating = true;
         this.setState((state) => {
             if (currentUserReacted) {
                 return {
@@ -159,6 +165,7 @@ export default class Reaction extends React.PureComponent<Props, State> {
         const {actions, post, emojiName} = this.props;
         const {currentUserReacted} = this.props.sortedUsers;
 
+        this.animating = false;
         this.setState<'reactedClass'>((state) => {
             if (state.reactedClass === 'Reaction--reacting') {
                 return {
