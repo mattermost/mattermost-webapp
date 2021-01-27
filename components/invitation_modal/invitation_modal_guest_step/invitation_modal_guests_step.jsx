@@ -36,9 +36,9 @@ class InvitationModalGuestsStep extends React.PureComponent {
         userLimit: PropTypes.string.isRequired,
         userIsAdmin: PropTypes.bool.isRequired,
         isCloud: PropTypes.bool.isRequired,
-        freeTierStats: PropTypes.object,
+        subscriptionStats: PropTypes.object,
         actions: PropTypes.shape({
-            getFreeTierStats: PropTypes.func.isRequired,
+            getSubscriptionStats: PropTypes.func.isRequired,
             getCloudSubscription: PropTypes.func.isRequired, // required by the withGetCloudSubscription HOC
         }).isRequired,
     }
@@ -146,9 +146,9 @@ class InvitationModalGuestsStep extends React.PureComponent {
     }
 
     getRemainingUsers = () => {
-        const {freeTierStats} = this.props;
+        const {subscriptionStats} = this.props;
         const {usersAndEmails} = this.state;
-        return freeTierStats.remaining_seats - usersAndEmails.length;
+        return subscriptionStats.remaining_seats - usersAndEmails.length;
     }
 
     shouldShowPickerError = () => {
@@ -156,10 +156,10 @@ class InvitationModalGuestsStep extends React.PureComponent {
             userLimit,
             userIsAdmin,
             isCloud,
-            freeTierStats,
+            subscriptionStats,
         } = this.props;
 
-        if (freeTierStats.is_paid_tier === 'true') {
+        if (subscriptionStats.is_paid_tier === 'true') {
             return false;
         }
 
@@ -178,8 +178,8 @@ class InvitationModalGuestsStep extends React.PureComponent {
     };
 
     componentDidMount() {
-        if (isEmpty(this.props.freeTierStats)) {
-            this.props.actions.getFreeTierStats();
+        if (isEmpty(this.props.subscriptionStats)) {
+            this.props.actions.getSubscriptionStats();
         }
     }
 
@@ -193,7 +193,7 @@ class InvitationModalGuestsStep extends React.PureComponent {
             noMatchMessageId = t('invitation_modal.guests.users_emails_input.no_user_found_matching-email-disabled');
             noMatchMessageDefault = 'No one found matching **{text}**';
         }
-        const remainingUsers = this.props.freeTierStats.remaining_seats;
+        const remainingUsers = this.props.subscriptionStats.remaining_seats;
         return (
             <div className='InvitationModalGuestsStep'>
                 <div className='modal-icon'>

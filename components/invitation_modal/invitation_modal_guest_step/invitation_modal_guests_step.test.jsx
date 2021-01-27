@@ -19,13 +19,17 @@ describe('components/invitation_modal/InvitationModalGuestsStep', () => {
         userLimit: '0',
         currentUsers: 4,
         isCloud: false,
+        subscriptionStats: {
+            remaining_seats: 6,
+            is_paid_tier: 'false',
+        },
         subscription: {
             is_paid_tier: 'false',
         },
         myInvitableChannels: [],
         searchChannels: jest.fn(),
         actions: {
-            getFreeTierStats: () => {},
+            getSubscriptionStats: () => {},
             getCloudSubscription: () => {},
         },
     };

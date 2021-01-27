@@ -39,9 +39,9 @@ class InvitationModalMembersStep extends React.PureComponent {
         userIsAdmin: PropTypes.bool.isRequired,
         isCloud: PropTypes.bool.isRequired,
         subscription: PropTypes.object.isRequired,
-        freeTierStats: PropTypes.object,
+        subscriptionStats: PropTypes.object,
         actions: PropTypes.shape({
-            getFreeTierStats: PropTypes.func.isRequired,
+            getSubscriptionStats: PropTypes.func.isRequired,
             getCloudSubscription: PropTypes.func.isRequired, // required by the withGetCloudSubscription HOC
         }).isRequired,
     };
@@ -153,15 +153,15 @@ class InvitationModalMembersStep extends React.PureComponent {
     };
 
     getRemainingUsers = () => {
-        const {freeTierStats} = this.props;
+        const {subscriptionStats} = this.props;
         const {usersAndEmails} = this.state;
-        return freeTierStats.remaining_seats - usersAndEmails.length;
+        return subscriptionStats.remaining_seats - usersAndEmails.length;
     }
 
     shouldShowPickerError = () => {
-        const {userLimit, isCloud, freeTierStats} = this.props;
+        const {userLimit, isCloud, subscriptionStats} = this.props;
 
-        if (freeTierStats.is_paid_tier === 'true') {
+        if (subscriptionStats.is_paid_tier === 'true') {
             return false;
         }
 
@@ -180,8 +180,8 @@ class InvitationModalMembersStep extends React.PureComponent {
     };
 
     componentDidMount() {
-        if (isEmpty(this.props.freeTierStats)) {
-            this.props.actions.getFreeTierStats();
+        if (isEmpty(this.props.subscriptionStats)) {
+            this.props.actions.getSubscriptionStats();
         }
     }
 
@@ -209,7 +209,7 @@ class InvitationModalMembersStep extends React.PureComponent {
             );
             noMatchMessageDefault = 'No one found matching **{text}**';
         }
-        const remainingUsers = this.props.freeTierStats.remaining_seats;
+        const remainingUsers = this.props.subscriptionStats.remaining_seats;
         const inviteMembersButtonDisabled = this.state.usersAndEmails.length > Constants.MAX_ADD_MEMBERS_BATCH || this.state.usersAndEmails.length === 0;
 
         const errorProperties = {

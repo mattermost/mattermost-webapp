@@ -20,7 +20,7 @@ describe('components/invitation_modal/InvitationModalMembersStep', () => {
         userLimit: '0',
         currentUsers: 4,
         isCloud: false,
-        freeTierStats: {
+        subscriptionStats: {
             remaining_seats: 6,
             is_paid_tier: 'false',
         },
@@ -28,7 +28,7 @@ describe('components/invitation_modal/InvitationModalMembersStep', () => {
             is_paid_tier: 'false',
         },
         actions: {
-            getFreeTierStats: () => {},
+            getSubscriptionStats: () => {},
             getCloudSubscription: () => {},
         },
     };

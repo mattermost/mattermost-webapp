@@ -9,7 +9,7 @@ import {
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {bindActionCreators, Dispatch} from 'redux';
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {getCloudSubscription, getFreeTierStats} from 'mattermost-redux/actions/cloud';
+import {getCloudSubscription, getSubscriptionStats} from 'mattermost-redux/actions/cloud';
 
 import {GlobalState} from 'types/store';
 
@@ -23,7 +23,7 @@ function mapStateToProps(state: GlobalState) {
         userIsAdmin: isAdmin(getCurrentUser(state).roles),
         isCloud: getLicense(state).Cloud === 'true',
         subscription: state.entities.cloud.subscription,
-        freeTierStats: state.entities.cloud.freeTierStats,
+        subscriptionStats: state.entities.cloud.subscriptionStats,
     };
 }
 
@@ -32,7 +32,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
         actions: bindActionCreators(
             {
                 getCloudSubscription,
-                getFreeTierStats,
+                getSubscriptionStats,
             },
             dispatch,
         ),
