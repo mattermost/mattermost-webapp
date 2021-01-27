@@ -1010,6 +1010,9 @@ export const Constants = {
     SYSTEM_MESSAGE_PREFIX: 'system_',
     SUGGESTION_LIST_MAXHEIGHT: 292,
     SUGGESTION_LIST_SPACE_RHS: 420,
+    SUGGESTION_LIST_MODAL_WIDTH: 496,
+    MENTION_NAME_PADDING_LEFT: 2.4,
+    AVATAR_WIDTH: 24,
     AUTO_RESPONDER: 'system_auto_responder',
     SYSTEM_MESSAGE_PROFILE_IMAGE: logoImage,
     RESERVED_TEAM_NAMES: [
@@ -1491,6 +1494,7 @@ export const Constants = {
         OUTGOING_WEBHOOK: 'outgoing_webhooks',
         OAUTH_APP: 'oauth2-apps',
         BOT: 'bots',
+        EXECUTE_CURRENT_COMMAND_ITEM_ID: '_execute_current_command',
     },
     FeatureTogglePrefix: 'feature_enabled_',
     PRE_RELEASE_FEATURES: {
@@ -1605,4 +1609,3 @@ t('suggestion.archive');
 t('suggestion.mention.groups');
 
 export default Constants;
-

@@ -20,7 +20,7 @@ describe('Messaging', () => {
                         cy.apiLogin(testUser);
 
                         // # Start DM with other user
-                        cy.visit(`/${team.name}/messages/@${otherUser.username}`);
+                        cy.visitAndWait(`/${team.name}/messages/@${otherUser.username}`);
 
                         cy.get('#channelIntro').should('be.visible').
                             and('contain', `This is the start of your direct message history with ${otherUser.username}.`);

@@ -44,7 +44,7 @@ describe('Close group messages', () => {
 
             // # Login as test user and go to town square
             cy.apiLogin(testUser);
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visitAndWait(`/${team.name}/channels/town-square`);
         });
     });
 
@@ -67,7 +67,7 @@ describe('Close group messages', () => {
         const userIds = users.map((user) => user.id);
         return cy.apiCreateGroupChannel(userIds).then(({channel}) => {
             // # Visit the new channel
-            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+            cy.visitAndWait(`/${testTeam.name}/channels/${channel.name}`);
 
             // * Verify channel's display name
             const displayName = users.

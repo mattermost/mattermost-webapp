@@ -27,7 +27,7 @@ describe('Messaging', () => {
                 testPrivateChannel = out.channel;
             });
 
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
         });
     });
 

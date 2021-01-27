@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @multi_team_and_dm
 
 import {getAdminAccount} from '../../support/env';
@@ -32,7 +33,7 @@ describe('Multi Team and DM', () => {
 
             // # Login with testUser and visit test channel
             cy.apiLogin(testUser);
-            cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+            cy.visitAndWait(`/${testTeam.name}/channels/${testChannel.name}`);
         });
     });
 

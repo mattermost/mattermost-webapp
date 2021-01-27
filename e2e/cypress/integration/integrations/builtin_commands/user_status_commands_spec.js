@@ -34,7 +34,7 @@ describe('Integrations', () => {
 
     it('I18456 Built-in slash commands: change user status via post', () => {
         cy.apiSaveMessageDisplayPreference('compact');
-        cy.visit(testChannelUrl);
+        cy.visitAndWait(testChannelUrl);
 
         testCases.forEach((testCase) => {
             cy.postMessage(testCase.command + ' ');
@@ -45,7 +45,7 @@ describe('Integrations', () => {
 
     it('I18456 Built-in slash commands: change user status via suggestion list', () => {
         cy.apiSaveMessageDisplayPreference('clean');
-        cy.visit(testChannelUrl);
+        cy.visitAndWait(testChannelUrl);
 
         testCases.forEach((testCase) => {
             // # Type "/" on textbox

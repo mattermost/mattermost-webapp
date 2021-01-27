@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @bot_accounts
 
 import {createBotPatch} from '../../support/api/bots';
@@ -37,7 +38,7 @@ describe('Bot channel intro and avatar', () => {
 
     it('MM-T1839 Bots have default profile image visible', () => {
         // # Open bot DM channel
-        cy.visit(`/${team.name}/messages/@${bot.username}`);
+        cy.visitAndWait(`/${team.name}/messages/@${bot.username}`);
 
         // # Get channel intro and bot-post Avatars
         cy.get(`#channelIntro .profile-icon > img.Avatar, img.Avatar[alt="${bot.username} profile image"]`).

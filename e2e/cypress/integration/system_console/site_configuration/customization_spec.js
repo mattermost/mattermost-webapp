@@ -19,7 +19,7 @@ describe('Customization', () => {
         cy.apiAdminLogin();
 
         // # Visit customization system console page
-        cy.visit('/admin_console/site_config/customization');
+        cy.visitAndWait('/admin_console/site_config/customization');
         cy.get('.admin-console__header').should('be.visible').and('have.text', 'Customization');
     });
 
@@ -62,7 +62,7 @@ describe('Customization', () => {
         saveSetting();
 
         // # Exit settings
-        cy.visit('/');
+        cy.visitAndWait('/');
 
         // # Open About Mattermost menu option
         cy.get('body').type('{esc}').wait(TIMEOUTS.HALF_SEC);
@@ -161,7 +161,7 @@ describe('Customization', () => {
 
     it('MM-T1029 - Custom branding text can render markdown text', () => {
         // # Visit emoji system console page
-        cy.visit('/admin_console/site_config/emoji');
+        cy.visitAndWait('/admin_console/site_config/emoji');
         cy.get('.admin-console__header').should('be.visible').and('have.text', 'Emoji');
 
         // # Set Enable Custom Emoji to true
@@ -171,7 +171,7 @@ describe('Customization', () => {
         saveSetting();
 
         // * Visit the add custom emoji page for ad-1
-        cy.visit('/ad-1/emoji/add');
+        cy.visitAndWait('/ad-1/emoji/add');
         cy.get('.backstage-header').should('be.visible');
 
         // * Ensure the form is visible
@@ -189,7 +189,7 @@ describe('Customization', () => {
         cy.reload();
 
         // # Visit customization system console page
-        cy.visit('/admin_console/site_config/customization');
+        cy.visitAndWait('/admin_console/site_config/customization');
         cy.get('.admin-console__header').should('be.visible').and('have.text', 'Customization');
 
         // eslint-disable-next-line no-irregular-whitespace

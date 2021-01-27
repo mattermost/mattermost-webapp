@@ -1,71 +1,50 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+import {Team} from 'mattermost-redux/types/teams';
+import {UserProfile} from 'mattermost-redux/types/users';
+import {RelationOneToOne} from 'mattermost-redux/types/utilities';
+import {Command} from 'mattermost-redux/types/integrations';
+import {ActionResult} from 'mattermost-redux/types/actions';
 
 import * as Utils from 'utils/utils.jsx';
 import BackstageList from 'components/backstage/components/backstage_list.jsx';
 import InstalledCommand, {matchesFilter} from '../installed_command.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
-export default class InstalledCommands extends React.PureComponent {
-    static propTypes = {
+type Props = {
+    team: Team;
+    user: UserProfile;
+    users: RelationOneToOne<UserProfile, UserProfile>;
 
-        /**
-        * The team object
-        */
-        team: PropTypes.object,
+    // Installed slash commands to display
+    commands: Command[];
+    loading: boolean;
 
-        /**
-        * The user object
-        */
-        user: PropTypes.object,
+    // Set to allow changes to installed slash commands
+    canManageOthersSlashCommands: boolean;
+    actions: {
 
-        /**
-        * The users collection
-        */
-        users: PropTypes.object,
+        // The function to call when Regenerate Token link is clicked
+        regenCommandToken: (id: string) => Promise<ActionResult>;
 
-        /**
-        * Installed slash commands to display
-        */
-        commands: PropTypes.array,
+        // The function to call when Delete link is clicked
+        deleteCommand: (id: string) => Promise<ActionResult>;
+    };
+}
 
-        /**
-        * Set whether to show the loading... animation or not
-        */
-        loading: PropTypes.bool,
-
-        /**
-        * Set to allow changes to installed slash commands
-        */
-        canManageOthersSlashCommands: PropTypes.bool,
-
-        actions: PropTypes.shape({
-
-            /**
-            * The function to call when Regenerate Token link is clicked
-            */
-            regenCommandToken: PropTypes.func.isRequired,
-
-            /**
-            * The function to call when Delete link is clicked
-            */
-            deleteCommand: PropTypes.func.isRequired,
-        }).isRequired,
-    }
-
-    regenCommandToken = (command) => {
+export default class InstalledCommands extends React.PureComponent<Props> {
+    public regenCommandToken = (command: Command): void => {
         this.props.actions.regenCommandToken(command.id);
     }
 
-    deleteCommand = (command) => {
+    public deleteCommand = (command: Command): void => {
         this.props.actions.deleteCommand(command.id);
     }
 
-    commandCompare(a, b) {
+    private commandCompare(a: Command, b: Command) {
         let nameA = a.display_name;
         if (!nameA) {
             nameA = Utils.localizeMessage('installed_commands.unnamed_command', 'Unnamed Slash Command');
@@ -79,8 +58,8 @@ export default class InstalledCommands extends React.PureComponent {
         return nameA.localeCompare(nameB);
     }
 
-    render() {
-        const commands = (filter) => this.props.commands.
+    public render(): JSX.Element {
+        const commands = (filter: string) => this.props.commands.
             filter((command) => command.team_id === this.props.team.id).
             filter((command) => matchesFilter(command, filter)).
             sort(this.commandCompare).map((command) => {
@@ -162,7 +141,7 @@ export default class InstalledCommands extends React.PureComponent {
                 searchPlaceholder={Utils.localizeMessage('installed_commands.search', 'Search Slash Commands')}
                 loading={this.props.loading}
             >
-                {(filter) => {
+                {(filter: string) => {
                     const children = commands(filter);
                     return [children, children.length > 0];
                 }}

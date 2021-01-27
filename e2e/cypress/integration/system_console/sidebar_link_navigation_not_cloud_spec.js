@@ -40,7 +40,7 @@ describe('System Console - Non-Enterprise', () => {
         cy.apiUpdateConfig(newSettings);
 
         // # Go to system admin then verify admin console URL and header
-        cy.visit('/admin_console/about/license');
+        cy.visitAndWait('/admin_console/about/license');
         cy.url().should('include', '/admin_console/about/license');
         cy.get('.admin-console', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').within(() => {
             cy.get('.admin-console__header').should('be.visible').and('have.text', 'Edition and License');
@@ -77,7 +77,7 @@ describe('System Console - Non-Enterprise', () => {
 
     it('can go to admin console by clicking System Console', () => {
         // # Go to default team/channel
-        cy.visit('/');
+        cy.visitAndWait('/');
 
         // # Click on "Main Menu"
         cy.get('#sidebarHeaderDropdownButton', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').click();

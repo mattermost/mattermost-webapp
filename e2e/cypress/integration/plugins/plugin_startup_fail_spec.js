@@ -25,11 +25,11 @@ describe('If plugins fail to start, they can be disabled', () => {
     before(() => {
         // # Initialize setup and visit town-square
         cy.apiInitSetup().then(({team}) => {
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visitAndWait(`/${team.name}/channels/town-square`);
 
             // If GitLab plugin is already installed, uninstall it
             cy.apiRemovePluginById(pluginID);
-            cy.visit('/admin_console/plugins/plugin_management');
+            cy.visitAndWait('/admin_console/plugins/plugin_management');
             cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'Plugin Management');
         });
     });
