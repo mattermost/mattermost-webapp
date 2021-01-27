@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {MarketplacePlugin, PluginStatusRedux} from 'mattermost-redux/types/plugins';
+import {AuthorType, MarketplacePlugin, PluginStatusRedux, ReleaseStage} from 'mattermost-redux/types/plugins';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 
@@ -22,6 +22,9 @@ describe('components/marketplace/', () => {
     const samplePlugin: MarketplacePlugin = {
         homepage_url: 'https://github.com/mattermost/mattermost-plugin-nps',
         download_url: 'https://github.com/mattermost/mattermost-plugin-nps/releases/download/v1.0.3/com.mattermost.nps-1.0.3.tar.gz',
+        author_type: AuthorType.Mattermost,
+        release_stage: ReleaseStage.Production,
+        enterprise: false,
         manifest: {
             id: 'com.mattermost.nps',
             name: 'User Satisfaction Surveys',
@@ -35,6 +38,9 @@ describe('components/marketplace/', () => {
     const sampleInstalledPlugin: MarketplacePlugin = {
         homepage_url: 'https://github.com/mattermost/mattermost-test',
         download_url: 'https://github.com/mattermost/mattermost-test/releases/download/v1.0.3/com.mattermost.nps-1.0.3.tar.gz',
+        author_type: AuthorType.Mattermost,
+        release_stage: ReleaseStage.Production,
+        enterprise: false,
         manifest: {
             id: 'com.mattermost.test',
             name: 'Test',
