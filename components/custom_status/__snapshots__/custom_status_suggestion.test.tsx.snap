@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/custom_status/custom_status_emoji should match snapshot 1`] = `
+<div
+  className="statusSuggestion__row cursor--pointer a11y--active"
+  onClick={[Function]}
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+>
+  <div
+    className="statusSuggestion__icon"
+  >
+    <RenderEmoji
+      emoji=""
+      size={20}
+    />
+  </div>
+  <span
+    className="statusSuggestion__text"
+  />
+</div>
+`;
