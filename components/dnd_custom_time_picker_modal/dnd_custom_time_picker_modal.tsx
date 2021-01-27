@@ -43,10 +43,15 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
 
         this.state = {
             userId: props.userId || '',
-            dateString: this.props.getCurrentDateTime(this.props.userTimezone, this.props.enableTimezone).toDateString() || '',
+            dateString: this.formatDateString(this.props.getCurrentDateTime(this.props.userTimezone, this.props.enableTimezone)) || '',
             timeString: '',
             timeMenuList: [],
         };
+    }
+
+    formatDateString = (day: Date): string => {
+        const str = day.getDate().toString() + '-' + day.getMonth().toString() + '-' + day.getFullYear().toString();
+        return str;
     }
 
     getText = () => {
