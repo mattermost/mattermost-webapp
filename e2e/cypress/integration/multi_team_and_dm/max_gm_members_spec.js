@@ -29,7 +29,7 @@ describe('Multi-user group messages', () => {
         cy.apiLogin(testUser);
 
         // # Go to town-square channel
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
 
         // # Open the 'Direct messages' dialog to create a new direct message
         cy.get('#addDirectChannel').click();

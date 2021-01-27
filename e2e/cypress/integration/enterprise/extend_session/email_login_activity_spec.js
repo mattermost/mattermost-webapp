@@ -49,7 +49,7 @@ describe('MM-T2575 Extend Session - Email Login', () => {
 
         // # Login as test user and go to town-square channel
         cy.apiLogin(testUser);
-        cy.visit(townSquarePage);
+        cy.visitAndWait(townSquarePage);
 
         // # Get active user sessions as baseline reference
         cy.dbGetActiveUserSessions({username: testUser.username}).then(({sessions: initialSessions}) => {
@@ -72,7 +72,7 @@ describe('MM-T2575 Extend Session - Email Login', () => {
                 cy.reload();
 
                 // # Try to visit town-square channel
-                cy.visit(townSquarePage);
+                cy.visitAndWait(townSquarePage);
 
                 // * Verify that it redirects to login page due to expired session
                 cy.url().should('include', `/login?redirect_to=${townSquarePage.replace(/\//g, '%2F')}`);
@@ -90,7 +90,7 @@ describe('MM-T2575 Extend Session - Email Login', () => {
     });
 
     const visitAChannel = () => {
-        cy.visit(townSquarePage);
+        cy.visitAndWait(townSquarePage);
         cy.url().should('not.include', '/login?redirect_to');
         cy.url().should('include', townSquarePage);
     };
@@ -131,7 +131,7 @@ describe('MM-T2575 Extend Session - Email Login', () => {
 
             // # Login as test user and go to town-square channel
             cy.apiLogin(testUser);
-            cy.visit(townSquarePage);
+            cy.visitAndWait(townSquarePage);
 
             // # Get active user sessions as baseline reference
             cy.dbGetActiveUserSessions({username: testUser.username}).then(({sessions: initialSessions}) => {
@@ -187,7 +187,7 @@ describe('MM-T2575 Extend Session - Email Login', () => {
 
             // # Login as test user and go to town-square channel
             cy.apiLogin(testUser);
-            cy.visit(townSquarePage);
+            cy.visitAndWait(townSquarePage);
 
             // # Get active user sessions as baseline reference
             cy.dbGetActiveUserSessions({username: testUser.username}).then(({sessions: initialSessions}) => {

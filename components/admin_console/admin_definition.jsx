@@ -2451,6 +2451,7 @@ const AdminDefinition = {
             url: 'site_config/public_links',
             title: t('admin.sidebar.publicLinks'),
             title_default: 'Public Links',
+            isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
             schema: {
                 id: 'PublicLinkSettings',
                 name: t('admin.site.public_links'),

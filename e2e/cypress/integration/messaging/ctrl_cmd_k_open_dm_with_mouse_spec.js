@@ -29,7 +29,7 @@ describe('Messaging', () => {
             cy.apiLogin(firstUser);
 
             // # Visit created test team
-            cy.visit(`/${testTeam.name}`);
+            cy.visitAndWait(`/${testTeam.name}`);
         });
     });
 

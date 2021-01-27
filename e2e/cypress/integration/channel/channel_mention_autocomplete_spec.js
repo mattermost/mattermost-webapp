@@ -30,7 +30,7 @@ describe('Channel', () => {
             });
 
             cy.apiLogin(testUser);
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visitAndWait(`/${team.name}/channels/town-square`);
         });
     });
 
@@ -81,7 +81,7 @@ describe('Channel', () => {
 
             // # Login as test user and visit the test team
             cy.apiLogin(testUser);
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
 
             // # Type "~"
             cy.get('#post_textbox').should('be.visible').clear().type('~').wait(TIMEOUTS.HALF_SEC);

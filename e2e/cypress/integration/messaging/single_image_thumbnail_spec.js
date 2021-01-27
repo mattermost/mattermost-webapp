@@ -15,7 +15,7 @@ describe('Message', () => {
     before(() => {
         // # Create new team and new user and visit Town Square channel
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visitAndWait(`/${team.name}/channels/town-square`);
         });
     });
 
