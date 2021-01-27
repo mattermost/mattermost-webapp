@@ -50,7 +50,7 @@ describe('Bot accounts ownership and API', () => {
         // # Login as admin
         cy.apiAdminLogin();
 
-        cy.visitAndWait(`/${newTeam.name}/channels/town-square`);
+        cy.visit(`/${newTeam.name}/channels/town-square`);
 
         // # Open the menu
         cy.get('#lhsHeader', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').within(() => {
@@ -64,7 +64,7 @@ describe('Bot accounts ownership and API', () => {
         // # Login as a regular user
         cy.apiLogin(newUser);
 
-        cy.visitAndWait(`/${newTeam.name}/channels/town-square`);
+        cy.visit(`/${newTeam.name}/channels/town-square`);
 
         // # Open the menu
         cy.get('#lhsHeader', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').within(() => {
@@ -120,7 +120,7 @@ describe('Bot accounts ownership and API', () => {
 
             // # Re-login to validate post presence
             cy.apiAdminLogin();
-            cy.visitAndWait(`/${newTeam.name}/channels/` + newChannel.name);
+            cy.visit(`/${newTeam.name}/channels/` + newChannel.name);
 
             // * Validate post was created
             cy.findByText(msg1).should('be.visible');
@@ -141,7 +141,7 @@ describe('Bot accounts ownership and API', () => {
                 cy.apiCreatePost(newChannel.id, msg2, '', {attachments: [{pretext: 'Look some text', text: 'This is text'}]}, token).then(({body: post2}) => {
                     // # Re-login to validate post presence
                     cy.apiAdminLogin();
-                    cy.visitAndWait(`/${newTeam.name}/channels/` + newChannel.name);
+                    cy.visit(`/${newTeam.name}/channels/` + newChannel.name);
 
                     // * Validate posts were created
                     cy.get(`#postMessageText_${post1.id}`, {timeout: TIMEOUTS.ONE_MIN}).should('contain', msg1);
@@ -170,7 +170,7 @@ describe('Bot accounts ownership and API', () => {
 
             // # Re-login to validate post presence
             cy.apiAdminLogin();
-            cy.visitAndWait(`/${newTeam.name}/channels/` + newChannel.name);
+            cy.visit(`/${newTeam.name}/channels/` + newChannel.name);
 
             cy.getLastPostId().then((postId) => {
                 // * Validate post was created
@@ -239,7 +239,7 @@ describe('Bot accounts ownership and API', () => {
 
                 // # Re-login to validate post presence
                 cy.apiAdminLogin();
-                cy.visitAndWait(`/${newTeam.name}/channels/` + channel.name);
+                cy.visit(`/${newTeam.name}/channels/` + channel.name);
 
                 cy.getLastPostId().then((postId) => {
                     // * Validate post was created
@@ -259,7 +259,7 @@ describe('Bot accounts ownership and API', () => {
                 cy.postBotMessage({message: msg1, token, channelId: channel.id});
 
                 // # Validate post presence
-                cy.visitAndWait(`/${newTeam.name}/channels/` + channel.name);
+                cy.visit(`/${newTeam.name}/channels/` + channel.name);
 
                 cy.getLastPostId().then((postId) => {
                     // * Validate post was created
@@ -276,7 +276,7 @@ describe('Bot accounts ownership and API', () => {
             cy.postBotMessage({channelId: newChannel.id, message: msg1, props: {attachments: [{pretext: 'Look some text', text: 'This is text'}]}, token});
 
             // # Visit test channel
-            cy.visitAndWait(`/${newTeam.name}/channels/` + newChannel.name);
+            cy.visit(`/${newTeam.name}/channels/` + newChannel.name);
 
             // * Validate post was created
             cy.findByText(msg1).should('be.visible');
@@ -291,7 +291,7 @@ describe('Bot accounts ownership and API', () => {
             const msg2 = 'this is a bot message2 ' + botName;
             cy.postBotMessage({channelId: newChannel.id, message: msg2, props: {attachments: [{pretext: 'Look some text', text: 'This is text'}]}, token});
 
-            cy.visitAndWait(`/${newTeam.name}/channels/` + newChannel.name);
+            cy.visit(`/${newTeam.name}/channels/` + newChannel.name);
 
             // * Validate post was created
             cy.findByText(msg2).should('be.visible');
@@ -332,7 +332,7 @@ describe('Bot accounts ownership and API', () => {
                 // # Create a post
                 cy.postBotMessage({channelId: channel.id, message: msg1, token});
 
-                cy.visitAndWait(`/${newTeam.name}/channels/` + channel.name);
+                cy.visit(`/${newTeam.name}/channels/` + channel.name);
 
                 cy.getLastPostId().then((postId) => {
                     // * Validate post was created
@@ -340,7 +340,7 @@ describe('Bot accounts ownership and API', () => {
                 });
 
                 // # Disable the bot
-                cy.visitAndWait(`/${newTeam.name}/integrations/bots`);
+                cy.visit(`/${newTeam.name}/integrations/bots`);
 
                 cy.findByText(`${botName} (@${botUsername})`).scrollIntoView().parent().findByText('Disable').click();
 
@@ -359,7 +359,7 @@ describe('Bot accounts ownership and API', () => {
                 cy.apiAdminLogin();
 
                 // # Enable the bot again
-                cy.visitAndWait(`/${newTeam.name}/integrations/bots`);
+                cy.visit(`/${newTeam.name}/integrations/bots`);
                 cy.findByText(`${botName} (@${botUsername})`).scrollIntoView().parent().findByText('Enable').click();
 
                 // # Try to post again
@@ -368,7 +368,7 @@ describe('Bot accounts ownership and API', () => {
                 cy.postBotMessage({channelId: channel.id, message: msg2, token});
 
                 // * Validate post presence
-                cy.visitAndWait(`/${newTeam.name}/channels/` + channel.name);
+                cy.visit(`/${newTeam.name}/channels/` + channel.name);
 
                 cy.getLastPostId().then((postId) => {
                     // * Validate post was created
@@ -389,7 +389,7 @@ describe('Bot accounts ownership and API', () => {
                 cy.postBotMessage({channelId: channel.id, message: msg1, token});
 
                 // # Validate post presence
-                cy.visitAndWait(`/${newTeam.name}/channels/` + channel.name);
+                cy.visit(`/${newTeam.name}/channels/` + channel.name);
 
                 cy.getLastPostId().then((postId) => {
                     // * Validate post was created
@@ -397,7 +397,7 @@ describe('Bot accounts ownership and API', () => {
                 });
 
                 // # Disable the bot token
-                cy.visitAndWait(`/${newTeam.name}/integrations/bots`);
+                cy.visit(`/${newTeam.name}/integrations/bots`);
 
                 cy.findByText(`${botName} (@${botUsername})`).then((el) => {
                     // # Make sure it's on the screen
@@ -415,7 +415,7 @@ describe('Bot accounts ownership and API', () => {
                 });
 
                 // # Enable the bot token again
-                cy.visitAndWait(`/${newTeam.name}/integrations/bots`);
+                cy.visit(`/${newTeam.name}/integrations/bots`);
 
                 cy.findByText(`${botName} (@${botUsername})`).then((el) => {
                     // # Make sure it's on the screen
@@ -428,7 +428,7 @@ describe('Bot accounts ownership and API', () => {
                 cy.postBotMessage({channelId: channel.id, message: msg2, token});
 
                 // # Validate post presence
-                cy.visitAndWait(`/${newTeam.name}/channels/` + channel.name);
+                cy.visit(`/${newTeam.name}/channels/` + channel.name);
 
                 cy.getLastPostId().then((postId) => {
                     // * Validate post was created
@@ -449,7 +449,7 @@ describe('Bot accounts ownership and API', () => {
                 cy.postBotMessage({channelId: channel.id, message: msg1, token});
 
                 // # Validate post presence
-                cy.visitAndWait(`/${newTeam.name}/channels/` + channel.name);
+                cy.visit(`/${newTeam.name}/channels/` + channel.name);
 
                 cy.getLastPostId().then((postId) => {
                     // * Validate post was created
@@ -457,7 +457,7 @@ describe('Bot accounts ownership and API', () => {
                 });
 
                 // # Disable the bot token
-                cy.visitAndWait(`/${newTeam.name}/integrations/bots`);
+                cy.visit(`/${newTeam.name}/integrations/bots`);
 
                 cy.findByText(`${botName} (@${botUsername})`).then((el) => {
                     // # Make sure it's on the screen

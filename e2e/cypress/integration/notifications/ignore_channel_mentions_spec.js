@@ -94,7 +94,7 @@ describe('CS15445 Join/leave messages', () => {
     });
 
     it('MM-T567 - Channel Notifications - Turn on Ignore mentions for @channel, @here and @all', () => {
-        cy.visitAndWait(`/${testTeam.name}/channels/${channelA.name}`);
+        cy.visit(`/${testTeam.name}/channels/${channelA.name}`);
 
         // # Add users to channel
         addNumberOfUsersToChannel(1);
@@ -108,7 +108,7 @@ describe('CS15445 Join/leave messages', () => {
         setIgnoreMentions(true);
 
         // # Go to a different channel
-        cy.visitAndWait(`/${testTeam.name}/channels/${channelB.name}`);
+        cy.visit(`/${testTeam.name}/channels/${channelB.name}`);
 
         // # Post messages as another user on the first channel
         cy.postMessageAs({sender: userB, message: '@all test', channelId: channelA.id});
@@ -121,13 +121,13 @@ describe('CS15445 Join/leave messages', () => {
     });
 
     it('MM-T568 - Channel Notifications - Turn off Ignore mentions for @channel, @here and @all', () => {
-        cy.visitAndWait(`/${testTeam.name}/channels/${channelA.name}`);
+        cy.visit(`/${testTeam.name}/channels/${channelA.name}`);
 
         // # Unset ignore mentions
         setIgnoreMentions(false);
 
         // # Go to a different channel
-        cy.visitAndWait(`/${testTeam.name}/channels/${channelB.name}`);
+        cy.visit(`/${testTeam.name}/channels/${channelB.name}`);
 
         // # Post messages as another user on the first channel
         cy.postMessageAs({sender: userB, message: '@all test', channelId: channelA.id});

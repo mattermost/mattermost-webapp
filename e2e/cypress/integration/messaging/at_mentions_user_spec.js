@@ -19,7 +19,7 @@ describe('Mention self', () => {
             testUser = user;
 
             cy.apiLogin(testUser);
-            cy.visitAndWait(`/${team.name}/channels/town-square`);
+            cy.visit(`/${team.name}/channels/town-square`);
         });
     });
 

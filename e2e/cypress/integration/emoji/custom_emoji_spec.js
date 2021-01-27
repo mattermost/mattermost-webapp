@@ -50,7 +50,7 @@ describe('Custom emojis', () => {
             cy.apiAddUserToTeam(testTeam.id, otherUser.id);
         }).then(() => {
             cy.apiLogin(testUser);
-            cy.visitAndWait(townsquareLink);
+            cy.visit(townsquareLink);
         });
     });
 
@@ -347,7 +347,7 @@ describe('Custom emojis', () => {
             cy.apiLogin(otherUser);
 
             // # Navigate to a channel
-            cy.visitAndWait(townsquareLink);
+            cy.visit(townsquareLink);
 
             // # The emoji should be displayed in the post
             // * Get the emoji image span
@@ -569,7 +569,7 @@ describe('Custom emojis', () => {
         cy.get('.no-results__title').should('be.visible').and('have.text', 'No results for "' + customEmoji + '"');
 
         // # Navigate to a channel
-        cy.visitAndWait(townsquareLink);
+        cy.visit(townsquareLink);
 
         // * Verify that only the message renders in the post and the emoji has been deleted
         cy.getLastPost().find('p').should('have.html', '<span data-emoticon="' + customEmoji + '">' + customEmojiWithColons + '</span>');
