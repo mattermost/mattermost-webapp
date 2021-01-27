@@ -100,7 +100,7 @@ Cypress.Commands.add('apiDeleteLicense', () => {
     });
 });
 
-const getDefaultConfig = () => {
+export const getDefaultConfig = () => {
     const cypressEnv = Cypress.env();
 
     const fromCypressEnv = {

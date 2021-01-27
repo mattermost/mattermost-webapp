@@ -70,7 +70,7 @@ describe('Group Message', () => {
         cy.get('#selectItems input').should('be.enabled').type(`@${testUser.username}`, {force: true});
 
         // * Assert that it's not found
-        cy.findByText('No items found').should('be.visible');
+        cy.get('.no-channel-message').should('be.visible').and('contain', 'No results found matching');
 
         // # Start GM
         cy.findByText('Go').click();

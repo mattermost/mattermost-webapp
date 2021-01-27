@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {getCurrentChannelId, getUnreadChannels} from 'mattermost-redux/selectors/entities/channels';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
 import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
@@ -15,10 +16,12 @@ import {PostList} from 'mattermost-redux/types/posts';
 import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 import {RelationOneToOne} from 'mattermost-redux/types/utilities';
 
-import {GlobalState} from 'types/store';
-
 import {prefetchChannelPosts} from 'actions/views/channel';
 import {trackDMGMOpenChannels} from 'actions/user_actions';
+
+import {getCategoriesForCurrentTeam} from 'selectors/views/channel_sidebar';
+
+import {GlobalState} from 'types/store';
 
 import DataPrefetch from './data_prefetch';
 
@@ -61,6 +64,15 @@ const prefetchQueue = memoizeResult((channels: Channel[], memberships: RelationO
     });
 });
 
+function isSidebarLoaded(state: GlobalState) {
+    if (getConfig(state).EnableLegacySidebar === 'true') {
+        // With the old sidebar, we don't need to wait for anything to load before fetching profiles
+        return true;
+    }
+
+    return getCategoriesForCurrentTeam(state).length > 0;
+}
+
 function mapStateToProps(state: GlobalState) {
     const lastUnreadChannel = state.views.channel.lastUnreadChannel;
     const memberships = getMyChannelMemberships(state);
@@ -69,10 +81,11 @@ function mapStateToProps(state: GlobalState) {
     const prefetchRequestStatus = state.views.channel.channelPrefetchStatus;
 
     return {
+        currentChannelId: getCurrentChannelId(state),
         prefetchQueueObj,
         prefetchRequestStatus,
+        sidebarLoaded: isSidebarLoaded(state),
         unreadChannels,
-        currentChannelId: getCurrentChannelId(state),
     };
 }
 
