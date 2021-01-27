@@ -54,7 +54,7 @@ export default class MenuWrapper extends React.PureComponent<Props, State> {
     }
 
     static getDerivedStateFromProps(props: Props, state: State) {
-        if (typeof props.open === 'boolean' && props.open !== state.open) {
+        if (props.open !== undefined && props.open !== state.open) {
             return {
                 open: props.open,
             };
