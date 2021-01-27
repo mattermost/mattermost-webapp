@@ -20,7 +20,7 @@ type State = {
     reactedClass: 'Reaction--reacted' | 'Reaction--reacting' | 'Reaction--unreacted' | 'Reaction--unreacting';
 };
 
-export type Props = {
+type Props = {
 
     /*
      * The post to render the reaction for

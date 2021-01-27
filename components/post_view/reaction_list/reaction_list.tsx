@@ -22,7 +22,7 @@ import {localizeMessage} from 'utils/utils.jsx';
 const DEFAULT_EMOJI_PICKER_RIGHT_OFFSET = 15;
 const EMOJI_PICKER_WIDTH_OFFSET = 260;
 
-export type Props = {
+type Props = {
 
     /**
      * The post to render reactions for

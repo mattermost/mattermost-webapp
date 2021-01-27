@@ -20,13 +20,21 @@ import {ClientConfig, ClientLicense} from 'mattermost-redux/types/config';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {Emoji as EmojiType} from 'mattermost-redux/types/emojis';
 import {UserProfile} from 'mattermost-redux/types/users';
+import {Post} from 'mattermost-redux/types/posts';
+import {Reaction as ReactionType} from 'mattermost-redux/types/reactions';
 
 import {addReaction} from 'actions/post_actions.jsx';
 
 import * as Emoji from 'utils/emoji.jsx';
 import {getSortedUsers} from 'utils/utils.jsx';
 
-import Reaction, {Props} from './reaction';
+import Reaction from './reaction';
+
+type Props = {
+    emojiName: string;
+    post: Post;
+    reactions: ReactionType[];
+};
 
 function makeMapStateToProps() {
     const getProfilesForReactions = makeGetProfilesForReactions();
