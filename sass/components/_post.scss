@@ -1052,27 +1052,6 @@
         padding: 0;
     }
 
-    .post__header-set-custom-status {
-        background: #ecf3fd;
-        padding: 0px 4px;
-        border-radius: 4px;
-        margin-left: 8px;
-    }
-
-    .post__header-set-custom-status-icon > svg {
-        height: 14px;
-        width: 14px;
-        vertical-align: middle;
-        background: inherit;
-        fill: #3f76e6;
-        margin-right: 4px;
-    }
-    .post__header-set-custom-status-text {
-        font-weight: normal;
-        font-size: 12px;
-        color: #3f76e6;
-    }
-
     &.post--root {
         .comment-icon__container {
             visibility: visible;
@@ -1186,6 +1165,10 @@
     }
 
     &.other--root {
+        .post__header-set-custom-status {
+            display: none;
+        }
+
         .comment-icon__container {
             &.icon--show {
                 visibility: visible;
@@ -1206,6 +1189,30 @@
                     top: -4px;
                 }
             }
+        }
+    }
+
+    &.other--root:last-of-type{
+        .post__header-set-custom-status {
+            display: revert;
+            background: #ecf3fd;
+            padding: 0px 4px;
+            border-radius: 4px;
+            margin-left: 8px;
+        }
+    
+        .post__header-set-custom-status-icon > svg {
+            height: 14px;
+            width: 14px;
+            vertical-align: middle;
+            background: inherit;
+            fill: #3f76e6;
+            margin-right: 4px;
+        }
+        .post__header-set-custom-status-text {
+            font-weight: normal;
+            font-size: 12px;
+            color: #3f76e6;
         }
     }
 
