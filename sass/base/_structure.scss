@@ -86,6 +86,10 @@ body {
     position: relative;
 }
 
+#channel_view.channel-view {
+    background: var(--center-channel-bg);
+}
+
 img {
     max-width: 100%;
 }
