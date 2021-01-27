@@ -23,6 +23,7 @@ export default class AtMentionProvider extends Provider {
         this.data = null;
         this.lastCompletedWord = '';
         this.lastPrefixWithNoResults = '';
+        this.triggerCharacter = '@';
     }
 
     // setProps gives the provider additional context for matching pretexts. Ideally this would
