@@ -15,7 +15,7 @@ declare namespace Cypress {
          * @example
          *   cy.reload();
          */
-        reload(forceReload: boolean, options?: Partial<Cypress.VisitOptions>, duration?: number): Chainable;
+        reload(forceReload: boolean, options?: Partial<Loggable & Timeoutable>, duration?: number): Chainable;
 
         /**
          * Visit the given url, same as cy.visit but extended with explicit wait to allow page to load freely
