@@ -536,12 +536,7 @@ export function applyTheme(theme) {
         changeCss('.sidebar--left .team__header .user__name, .app__body .sidebar--menu .team__header .user__name', 'color:' + changeOpacity(theme.sidebarHeaderTextColor, 0.8));
         changeCss('.sidebar--left .team__header:hover .user__name, .app__body .sidebar--menu .team__header:hover .user__name', 'color:' + theme.sidebarHeaderTextColor);
         changeCss('.app__body .modal .modal-header .modal-title, .app__body .modal .modal-header .modal-title .name', 'color:' + theme.sidebarHeaderTextColor);
-        changeCss('.app__body #navbar_wrapper .navbar-default .navbar-brand', 'color:' + theme.sidebarHeaderTextColor);
-        changeCss('.app__body #navbar_wrapper .navbar-default .navbar-toggle .icon-bar', 'background:' + theme.sidebarHeaderTextColor);
         changeCss('.app__body .post-list__timestamp > div, .app__body .multi-teams .team-sidebar .team-wrapper .team-container a:hover .team-btn__content, .app__body .multi-teams .team-sidebar .team-wrapper .team-container.active .team-btn__content', 'border-color:' + changeOpacity(theme.sidebarHeaderTextColor, 0.5));
-        changeCss('.app__body .team-btn', 'border-color:' + changeOpacity(theme.sidebarHeaderTextColor, 0.3));
-        changeCss('@media(max-width: 768px){.app__body .search-bar__container', 'color:' + theme.sidebarHeaderTextColor);
-        changeCss('.app__body .navbar-right__icon', 'background:' + changeOpacity(theme.sidebarHeaderTextColor, 0.2));
         changeCss('.app__body .navbar-right__icon:hover, .app__body .navbar-right__icon:focus', 'background:' + changeOpacity(theme.sidebarHeaderTextColor, 0.3));
         changeCss('.emoji-picker .emoji-picker__header, .emoji-picker .emoji-picker__header .emoji-picker__header-close-button', 'color:' + theme.sidebarHeaderTextColor);
     }
@@ -549,11 +544,6 @@ export function applyTheme(theme) {
     if (theme.onlineIndicator) {
         changeCss('.app__body .status.status--online', 'color:' + theme.onlineIndicator);
         changeCss('.app__body .status .online--icon', 'fill:' + theme.onlineIndicator);
-    }
-
-    if (theme.awayIndicator) {
-        changeCss('.app__body .status.status--away', 'color:' + theme.awayIndicator);
-        changeCss('.app__body .status .away--icon', 'fill:' + theme.awayIndicator);
     }
 
     let dndIndicator;
@@ -1058,6 +1048,171 @@ export function getCaretPosition(el) {
         rc.setEndPoint('EndToStart', re);
 
         return rc.text.length;
+    }
+    return 0;
+}
+
+export function createHtmlElement(el) {
+    return document.createElement(el);
+}
+
+export function getElementComputedStyle(el) {
+    return getComputedStyle(el);
+}
+
+export function addElementToDocument(el) {
+    document.body.appendChild(el);
+}
+
+export function copyTextAreaToDiv(textArea) {
+    if (!textArea) {
+        return null;
+    }
+    const copy = createHtmlElement('div');
+    copy.textContent = textArea.value;
+    const style = getElementComputedStyle(textArea);
+    [
+        'fontFamily',
+        'fontSize',
+        'fontWeight',
+        'wordWrap',
+        'whiteSpace',
+        'borderLeftWidth',
+        'borderTopWidth',
+        'borderRightWidth',
+        'borderBottomWidth',
+        'paddingRight',
+        'paddingLeft',
+        'paddingTop',
+    ].forEach((key) => {
+        copy.style[key] = style[key];
+    });
+    copy.style.overflow = 'auto';
+    copy.style.width = textArea.offsetWidth + 'px';
+    copy.style.height = textArea.offsetHeight + 'px';
+    copy.style.position = 'absolute';
+    copy.style.left = textArea.offsetLeft + 'px';
+    copy.style.top = textArea.offsetTop + 'px';
+    addElementToDocument(copy);
+    return copy;
+}
+
+export function convertEmToPixels(el, remNum) {
+    if (isNaN(remNum)) {
+        return 0;
+    }
+    const styles = getElementComputedStyle(el);
+    return remNum * parseFloat(styles.fontSize);
+}
+
+export function getCaretXYCoordinate(textArea) {
+    if (!textArea) {
+        return {x: 0, y: 0};
+    }
+    const start = textArea.selectionStart;
+    const end = textArea.selectionEnd;
+    const copy = copyTextAreaToDiv(textArea);
+    const range = document.createRange();
+    range.setStart(copy.firstChild, start);
+    range.setEnd(copy.firstChild, end);
+    const selection = document.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
+    const rect = range.getClientRects();
+    document.body.removeChild(copy);
+    textArea.selectionStart = start;
+    textArea.selectionEnd = end;
+    textArea.focus();
+    return {
+        x: Math.floor(rect[0].left - textArea.scrollLeft),
+        y: Math.floor(rect[0].top - textArea.scrollTop),
+    };
+}
+
+export function getViewportSize(win) {
+    const w = win || window;
+    if (w.innerWidth != null) {
+        return {w: w.innerWidth, h: w.innerHeight};
+    }
+    const {clientWidth, clientHeight} = w.document.body;
+    return {w: clientWidth, h: clientHeight};
+}
+
+export function offsetTopLeft(el) {
+    if (!(el instanceof HTMLElement)) {
+        return {top: 0, left: 0};
+    }
+    const rect = el.getBoundingClientRect();
+    const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    return {top: rect.top + scrollTop, left: rect.left + scrollLeft};
+}
+
+export function getSuggestionBoxAlgn(textArea, pxToSubstract = 0, boxLocation = 'top') {
+    if (!textArea || !(textArea instanceof HTMLElement)) {
+        return {
+            pixelsToMoveX: 0,
+            pixelsToMoveY: 0,
+        };
+    }
+    const caretCoordinatesInTxtArea = getCaretXYCoordinate(textArea);
+    const caretXCoordinateInTxtArea = caretCoordinatesInTxtArea.x;
+    let caretYCoordinateInTxtArea = caretCoordinatesInTxtArea.y;
+    const viewportWidth = getViewportSize().w;
+
+    const suggestionBoxWidth = getSuggestionBoxWidth(textArea);
+
+    // value in pixels for the offsetLeft for the textArea
+    const txtAreaOffsetLft = offsetTopLeft(textArea).left;
+
+    // how many pixels to the right should be moved the suggestion box
+    let pxToTheRight = (caretXCoordinateInTxtArea) - (pxToSubstract);
+
+    // the x coordinate in the viewport of the suggestion box border-right
+    const xBoxRightCoordinate = caretXCoordinateInTxtArea + txtAreaOffsetLft + suggestionBoxWidth;
+
+    // if the right-border edge of the suggestion box will overflow the x-axis viewport
+    if (xBoxRightCoordinate > viewportWidth) {
+        // stick the suggestion list to the very right of the TextArea
+        pxToTheRight = textArea.offsetWidth - suggestionBoxWidth;
+    }
+    const txtAreaLineHeight = Number(getComputedStyle(textArea)?.lineHeight.replace('px', ''));
+    if (boxLocation === 'bottom') {
+        // Add the line height and 4 extra px so it looks less tight
+        caretYCoordinateInTxtArea += txtAreaLineHeight + 4;
+    }
+    return {
+        pixelsToMoveX: Math.max(0, Math.round(pxToTheRight)),
+
+        // if the suggestion box was invoked from the first line in the post box, stick to the top of the post box
+        pixelsToMoveY: Math.round(caretYCoordinateInTxtArea > txtAreaLineHeight ? caretYCoordinateInTxtArea : 0),
+    };
+}
+
+export function getSuggestionBoxWidth(textArea) {
+    if (textArea.id === 'edit_textbox') {
+        // when the sugeestion box is in the edit mode it will inhering the class .modal suggestion-list which has width: 100%
+        return textArea.offsetWidth;
+    }
+
+    // 496 - value in pixels used in suggestion-list__content class line 72 file _suggestion-list.scss
+
+    return Constants.SUGGESTION_LIST_MODAL_WIDTH;
+}
+
+export function getPxToSubstract(char = '@') {
+    // depending on the triggering character different values must be substracted
+    if (char === '@') {
+    // mention name padding-left 2.4rem as stated in suggestion-list__content .mentions__name
+        const mentionNamePaddingLft = convertEmToPixels(document.documentElement, Constants.MENTION_NAME_PADDING_LEFT);
+
+        // half of width of avatar stated in .Avatar.Avatar-sm (24px)
+        const avatarWidth = Constants.AVATAR_WIDTH * 0.5;
+        return 5 + avatarWidth + mentionNamePaddingLft;
+    } else if (char === '~') {
+        return 39;
+    } else if (char === ':') {
+        return 32;
     }
     return 0;
 }
