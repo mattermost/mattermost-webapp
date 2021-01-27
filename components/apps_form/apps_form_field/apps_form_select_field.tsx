@@ -113,9 +113,9 @@ export default class AppsFormSelectField extends React.PureComponent<Props, Stat
 
         return (
             <div>
-                <p>
+                <label>
                     {label}
-                </p>
+                </label>
                 {[
                     <React.Fragment key={this.state.refreshNonce}>
                         {selectComponent}
