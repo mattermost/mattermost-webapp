@@ -4,7 +4,7 @@ import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 
 import {GlobalState} from 'types/store';
 
-export function showCustomStatusLinkAndPulsatingDot(state: GlobalState) {
+export function showCustomStatusPulsatingDotAndPostHeader(state: GlobalState) {
     const user = getCurrentUser(state);
     const userProps = user.props;
     if (!(userProps && userProps.customStatusInitialisationState)) {
@@ -12,5 +12,5 @@ export function showCustomStatusLinkAndPulsatingDot(state: GlobalState) {
     }
 
     const initialState = userProps.customStatusInitialisationState ? JSON.parse(userProps.customStatusInitialisationState) : {};
-    return initialState.hasClickedSetStatusBefore === 'true';
+    return !(initialState && initialState.hasClickedSetStatusBefore);
 }
