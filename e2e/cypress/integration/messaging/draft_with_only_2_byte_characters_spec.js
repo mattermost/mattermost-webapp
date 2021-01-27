@@ -26,7 +26,7 @@ describe('Messaging', () => {
             cy.apiLogin(receiver);
 
             // # Visit a test channel and post a message
-            cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+            cy.visitAndWait(`/${testTeam.name}/channels/${testChannel.name}`);
             cy.postMessage('휴');
 
             // # Assign lastPostId variable to the id of the last post
@@ -49,7 +49,7 @@ describe('Messaging', () => {
         cy.get(`#sidebarItem_${testChannel.name}`).should('not.have.descendants', '#draftIcon');
 
         // # Return to the channel where the 2 byte character was posted
-        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+        cy.visitAndWait(`/${testTeam.name}/channels/${testChannel.name}`);
 
         // * Assert that the message textbox is empty
         cy.get('#post_textbox').should('have.value', '');

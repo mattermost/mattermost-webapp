@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @messaging
 
 describe('Hide ephemeral message on refresh', () => {
@@ -16,7 +17,7 @@ describe('Hide ephemeral message on refresh', () => {
         // # Login as test user and visit town-square
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
             townsquareLink = `/${team.name}/channels/town-square`;
-            cy.visit(townsquareLink);
+            cy.visitAndWait(townsquareLink);
         });
     });
 
@@ -40,7 +41,7 @@ describe('Hide ephemeral message on refresh', () => {
 
             // # Refresh the page
             cy.reload();
-            cy.visit(townsquareLink);
+            cy.visitAndWait(townsquareLink);
 
             // * Assert message disappearing
             cy.get(`#postMessageText_${postID}`).should('not.exist');

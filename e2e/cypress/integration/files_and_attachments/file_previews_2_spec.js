@@ -24,7 +24,7 @@ describe('Upload Files - Failing cases', () => {
         cy.apiInitSetup().then(({team, channel}) => {
             testTeam = team;
 
-            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+            cy.visitAndWait(`/${testTeam.name}/channels/${channel.name}`);
             cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
         });
     });

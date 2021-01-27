@@ -50,7 +50,7 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
     beforeEach(() => {
         // # Login as test user and visit town-square
         cy.apiLogin(testUser);
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
         cy.get('#channelHeaderTitle', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('contain', 'Town Square');
 
         // # Make sure there is at least a message without reaction for each test
@@ -550,7 +550,7 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
         cy.apiAdminLogin();
 
         // # Visit the new empty channel
-        cy.visit(`/${testTeam.name}/channels/${emptyChannel.name}`);
+        cy.visitAndWait(`/${testTeam.name}/channels/${emptyChannel.name}`);
 
         // * Check that there are no posts except you joined message
         cy.findAllByTestId('postView').should('have.length', 1);

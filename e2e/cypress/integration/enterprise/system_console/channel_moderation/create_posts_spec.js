@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @enterprise @system_console @channel_moderation
 
 import {checkboxesTitleToIdMap} from './constants';
@@ -44,7 +45,7 @@ describe('MM-23102 - Channel Moderation - Create Posts', () => {
         });
     });
 
-    it('Create Post option for Guests', () => {
+    it('MM-T1541 Create Post option for Guests', () => {
         // # Go to channel configuration page of
         visitChannelConfigPage(testChannel);
 
@@ -75,7 +76,7 @@ describe('MM-23102 - Channel Moderation - Create Posts', () => {
         cy.findByTestId('post_textbox').should('not.be.disabled');
     });
 
-    it('Create Post option for Members', () => {
+    it('MM-T1542 Create Post option for Members', () => {
         // # Go to system admin page and to channel configuration page of test channel
         visitChannelConfigPage(testChannel);
 

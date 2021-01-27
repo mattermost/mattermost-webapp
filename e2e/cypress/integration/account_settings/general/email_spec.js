@@ -31,7 +31,7 @@ describe('Account Settings -> General -> Email', () => {
         }).then(({user: user1}) => {
             otherUser = user1;
             cy.apiLogin(testUser);
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
         });
     });
 
@@ -146,7 +146,7 @@ describe('Account Settings -> General -> Email', () => {
             const permalink = matched[0];
 
             // # Click on the link
-            cy.visit(permalink);
+            cy.visitAndWait(permalink);
 
             // * Verify announcement bar
             cy.get('.announcement-bar').should('be.visible').should('contain.text', 'Email verified');
@@ -202,7 +202,7 @@ describe('Account Settings -> General -> Email', () => {
             assert(matched.length > 0);
 
             const permalink = matched[0];
-            cy.visit(permalink);
+            cy.visitAndWait(permalink);
 
             // * Verify login text
             cy.get('#login_section .alert-success').should('contain.text', 'Email Verified');

@@ -18,6 +18,8 @@ import './api_commands'; // soon to deprecate
 import './client';
 import './common_login_commands';
 import './db_commands';
+import './external_commands';
+import './extended_commands';
 import './fetch_commands';
 import './keycloak_commands';
 import './ldap_commands';
@@ -29,7 +31,8 @@ import './task_commands';
 import './ui';
 import './ui_commands'; // soon to deprecate
 import './visual_commands';
-import './external_commands';
+
+import {getDefaultConfig} from './api/system';
 
 Cypress.on('test:after:run', (test, runnable) => {
     // Only if the test is failed do we want to add
@@ -105,6 +108,9 @@ before(() => {
         } else {
             // # Create and login a newly created user as sysadmin
             cy.apiCreateAdmin().then(({sysadmin}) => {
+                // Sends dummy call to update the config after creating an admin user.
+                // Without this, first call to `cy.apiUpdateConfig()` consistently getting time out error in CI against remote server.
+                cy.externalRequest({user: sysadmin, method: 'put', path: 'config', data: getDefaultConfig(), failOnStatusCode: false});
                 cy.apiAdminLogin().then(() => sysadminSetup(sysadmin));
             });
         }
@@ -163,7 +169,6 @@ function sysadminSetup(user) {
     cy.apiSaveClockDisplayModeTo24HourPreference(false);
     cy.apiSaveTutorialStep(user.id, '999');
     cy.apiSaveCloudOnboardingPreference(user.id, 'hide', 'true');
-    cy.apiHideSidebarWhatsNewModalPreference(user.id, 'true');
     cy.apiUpdateUserStatus('online');
     cy.apiPatchMe({
         locale: 'en',

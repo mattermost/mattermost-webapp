@@ -26,7 +26,7 @@ describe('Notifications', () => {
                 cy.apiLogin(otherUser);
             });
 
-            cy.visit(`/${testTeam.name}`);
+            cy.visitAndWait(`/${testTeam.name}`);
 
             // # Open 'Account Settings' modal
             cy.findByLabelText('main menu').should('be.visible').click();
@@ -47,7 +47,7 @@ describe('Notifications', () => {
 
             // # Login as sysadmin
             cy.apiAdminLogin();
-            cy.visit(`/${testTeam.name}`);
+            cy.visitAndWait(`/${testTeam.name}`);
         });
     });
 
@@ -60,7 +60,7 @@ describe('Notifications', () => {
 
             // # Login as otherUser and visit team
             cy.apiLogin(otherUser);
-            cy.visit(`/${testTeam.name}`);
+            cy.visitAndWait(`/${testTeam.name}`);
 
             // * Verify that the channel appears in LHS
             cy.get(`#sidebarItem_${channel.name}`, {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').within(() => {

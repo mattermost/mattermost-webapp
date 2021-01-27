@@ -34,7 +34,7 @@ describe('Integrations page', () => {
             testTeam = team;
 
             // # Go to integrations
-            cy.visit(`/${team.name}/integrations`);
+            cy.visitAndWait(`/${team.name}/integrations`);
 
             // * Validate that all sections are enabled
             cy.get('#incomingWebhooks').should('be.visible');
@@ -186,7 +186,7 @@ describe('Integrations page', () => {
     });
 
     it('MM-T570 Integration Page titles are bolded', () => {
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
 
         // # Go to Main Menu -> Integrations
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
@@ -204,7 +204,7 @@ describe('Integrations page', () => {
 
     it('MM-T572 Copy icon for Slash Command', () => {
         // # Visit home channel
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
 
         // # Click 'Integrations' at main menu
         cy.uiOpenMainMenu('Integrations');
@@ -276,7 +276,7 @@ describe('Integrations page', () => {
 
     it('MM-T702 Edit to invalid URL', () => {
         // # Visit home channel
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
 
         // # Click 'Integrations' at main menu
         cy.uiOpenMainMenu('Integrations');
@@ -360,11 +360,11 @@ describe('Integrations page', () => {
             should('exist').and('be.visible').scrollIntoView();
 
         // # Go back to home channel
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
     });
 
     it('MM-T580 Custom slash command auto-complete displays trigger word and not command name', () => {
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
 
         // # Click 'Integrations' at main menu
         cy.uiOpenMainMenu('Integrations');

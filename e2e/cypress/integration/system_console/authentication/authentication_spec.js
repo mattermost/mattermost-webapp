@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @system_console @authentication
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
@@ -43,7 +44,7 @@ describe('Authentication', () => {
 
         // # Login as test user and make sure it goes to team selection
         cy.apiLogin(testUser);
-        cy.visit('/');
+        cy.visitAndWait('/');
         cy.url().should('include', '/select_team');
         cy.findByText('Teams you can join:', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
@@ -59,7 +60,7 @@ describe('Authentication', () => {
         cy.apiLogout();
 
         // # Login as test user and make sure it goes to team selection
-        cy.visit('/login');
+        cy.visitAndWait('/login');
 
         // # Clear email/username field and type username
         cy.findByPlaceholderText('Email, Username or AD/LDAP Username', {timeout: TIMEOUTS.ONE_MIN}).clear().type(testUser.username);
@@ -87,7 +88,7 @@ describe('Authentication', () => {
             const permalink = bodyText[6].match(reUrl)[0];
 
             // # Visit permalink (e.g. click on email link), view in browser to proceed
-            cy.visit(permalink);
+            cy.visitAndWait(permalink);
 
             // # Clear password field and type password
             cy.findByPlaceholderText('Password').clear().type(testUser.password);
@@ -138,7 +139,7 @@ describe('Authentication', () => {
         });
 
         // # Go to sign up with email page
-        cy.visit('/signup_email');
+        cy.visitAndWait('/signup_email');
 
         cy.get('#email', {timeout: TIMEOUTS.ONE_MIN}).type('Hossein_Is_The_Best_PROGRAMMER@BestInTheWorld.com');
 
@@ -165,13 +166,13 @@ describe('Authentication', () => {
         });
 
         // # Go to front page
-        cy.visit('/login');
+        cy.visitAndWait('/login');
 
         // * Assert that create account button is visible
         cy.findByText('Create one now.', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
         // # Go to sign up with email page
-        cy.visit('/signup_email');
+        cy.visitAndWait('/signup_email');
 
         cy.get('#email', {timeout: TIMEOUTS.ONE_MIN}).type(`Hossein_Is_The_Best_PROGRAMMER${getRandomId()}@BestInTheWorld.com`);
 
@@ -199,13 +200,13 @@ describe('Authentication', () => {
         cy.apiLogout();
 
         // # Go to front page
-        cy.visit('/login');
+        cy.visitAndWait('/login');
 
         // * Assert that create account ubtton is visible
         cy.findByText('Create one now.', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
         // # Go to sign up with email page
-        cy.visit('/signup_email');
+        cy.visitAndWait('/signup_email');
 
         cy.get('#email', {timeout: TIMEOUTS.ONE_MIN}).type(`Hossein_Is_The_Best_PROGRAMMER${getRandomId()}@BestInTheWorld.com`);
 
@@ -234,13 +235,13 @@ describe('Authentication', () => {
         cy.apiLogout();
 
         // # Go to front page
-        cy.visit('/login');
+        cy.visitAndWait('/login');
 
         // * Assert that create account ubtton is visible
         cy.findByText('Create one now.', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
         // # Go to sign up with email page
-        cy.visit('/signup_email');
+        cy.visitAndWait('/signup_email');
 
         cy.get('#email', {timeout: TIMEOUTS.ONE_MIN}).type(`Hossein_Is_The_Best_PROGRAMMER${getRandomId()}@BestInTheWorld.com`);
 
@@ -266,7 +267,7 @@ describe('Authentication', () => {
             },
         });
 
-        cy.visit('/');
+        cy.visitAndWait('/');
 
         // * Verify the side bar is visible
         cy.get('#sidebarHeaderDropdownButton', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');

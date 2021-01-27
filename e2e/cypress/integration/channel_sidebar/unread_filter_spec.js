@@ -25,14 +25,14 @@ describe('Channel sidebar unread filter', () => {
     before(() => {
         cy.apiUpdateConfig({
             ServiceSettings: {
-                ExperimentalChannelSidebarOrganization: 'default_on',
+                EnableLegacySidebar: false,
             },
         });
 
         cy.apiInitSetup({loginAfter: true}).then(({user}) => {
             testUser = user;
 
-            cy.visit('/');
+            cy.visitAndWait('/');
         });
     });
 

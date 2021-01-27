@@ -15,6 +15,7 @@ import UsersEmailsInput from 'components/widgets/inputs/users_emails_input.jsx';
 import {Constants} from 'utils/constants';
 
 import LinkIcon from 'components/widgets/icons/link_icon';
+import withGetCloudSubscription from '../../common/hocs/cloud/with_get_cloud_subcription';
 
 import {getSiteURL} from 'utils/url';
 import {t} from 'utils/i18n.jsx';
@@ -178,9 +179,6 @@ class InvitationModalMembersStep extends React.PureComponent {
     componentDidMount() {
         if (!this.props.analytics) {
             this.props.actions.getStandardAnalytics();
-        }
-        if (!this.props.subscription) {
-            this.props.actions.getCloudSubscription();
         }
     }
 
@@ -374,4 +372,4 @@ class InvitationModalMembersStep extends React.PureComponent {
     }
 }
 
-export default injectIntl(InvitationModalMembersStep);
+export default injectIntl(withGetCloudSubscription((InvitationModalMembersStep)));
