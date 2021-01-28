@@ -29,6 +29,9 @@
             color: rgba(var(--center-channel-color-rgb), 0.65);
         }
     }
+    #post-create {
+        color: var(--center-channel-color);
+    }
 }
 
 .textarea-wrapper {
