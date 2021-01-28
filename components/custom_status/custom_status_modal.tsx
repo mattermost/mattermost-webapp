@@ -4,10 +4,10 @@ import React, {useRef, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import classNames from 'classnames';
 import {FormattedMessage} from 'react-intl';
+import {setCustomStatus, unsetCustomStatus, removeRecentCustomStatus} from 'mattermost-redux/actions/users';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {Tooltip} from 'react-bootstrap';
 
-import {removeRecentCustomStatus, unsetUserCustomStatus, updateUserCustomStatus} from 'actions/views/custom_status';
 import GenericModal from 'components/generic_modal';
 import 'components/category_modal.scss';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
@@ -42,11 +42,11 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
             emoji: emoji || 'speech_balloon',
             text,
         };
-        dispatch(updateUserCustomStatus(customStatus));
+        dispatch(setCustomStatus(customStatus));
     };
 
     const handleClearStatus = () => {
-        dispatch(unsetUserCustomStatus());
+        dispatch(unsetCustomStatus());
     };
 
     const getCustomStatusControlRef = () => {

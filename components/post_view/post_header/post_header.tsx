@@ -6,6 +6,8 @@ import {FormattedMessage} from 'react-intl';
 
 import {Post} from 'mattermost-redux/types/posts';
 
+import {UserCustomStatus} from 'mattermost-redux/types/users';
+
 import Constants from 'utils/constants';
 import * as PostUtils from 'utils/post_utils.jsx';
 import PostInfo from 'components/post_view/post_info';
@@ -14,7 +16,6 @@ import BotBadge from 'components/widgets/badges/bot_badge';
 import Badge from 'components/widgets/badges/badge';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
-import {CustomStatus} from 'types/store/custom_status';
 import './post_header.scss';
 
 export type Props = {
@@ -97,7 +98,7 @@ export type Props = {
     /**
      * Custom status of the user
      */
-    customStatus: CustomStatus;
+    customStatus: UserCustomStatus;
 
     /**
      * User id of logged in user.
