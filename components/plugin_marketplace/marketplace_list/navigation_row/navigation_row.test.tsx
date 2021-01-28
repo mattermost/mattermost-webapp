@@ -4,24 +4,22 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import NavigationRow from './navigation_row';
+import {Theme} from 'mattermost-redux/types/preferences';
+
+import NavigationRow, {NavigationRowProps} from './navigation_row';
 
 describe('components/marketplace/navigation_row', () => {
-    const actions = {
-        onNextPageButtonClick: jest.fn(),
-        onPreviousPageButtonClick: jest.fn(),
-    };
-    const baseProps = {
+    const baseProps: NavigationRowProps = {
         page: 0,
         total: 32,
         maximumPerPage: 15,
-        onNextPageButtonClick: jest.spyOn(actions, 'onNextPageButtonClick'),
-        onPreviousPageButtonClick: jest.spyOn(actions, 'onPreviousPageButtonClick'),
-        theme: {centerChannelColor: '#fff'},
+        onNextPageButtonClick: jest.fn(),
+        onPreviousPageButtonClick: jest.fn(),
+        theme: {centerChannelColor: '#fff'} as Theme,
     };
 
     it('should render only next button', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<NavigationRow>(
             <NavigationRow {...baseProps}/>,
         );
 
@@ -36,8 +34,8 @@ describe('components/marketplace/navigation_row', () => {
 
     it('should render next and previous buttons', () => {
         const props = {...baseProps, page: 1};
-        const wrapper = shallow(
-            <NavigationRow {...props}/>,
+        const wrapper = shallow<NavigationRow>(
+            <NavigationRow{...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -52,8 +50,8 @@ describe('components/marketplace/navigation_row', () => {
 
     it('should render only previous button', () => {
         const props = {...baseProps, page: 2};
-        const wrapper = shallow(
-            <NavigationRow {...props}/>,
+        const wrapper = shallow<NavigationRow>(
+            <NavigationRow{...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find('NavigationButton')).toHaveLength(1);
@@ -66,8 +64,8 @@ describe('components/marketplace/navigation_row', () => {
 
     it('should not render any buttons', () => {
         const props = {...baseProps, page: 0, total: 15};
-        const wrapper = shallow(
-            <NavigationRow {...props}/>,
+        const wrapper = shallow<NavigationRow>(
+            <NavigationRow{...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find('NavigationButton')).toHaveLength(0);

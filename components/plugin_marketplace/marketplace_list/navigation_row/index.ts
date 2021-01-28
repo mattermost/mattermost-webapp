@@ -3,10 +3,11 @@
 
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 import {connect} from 'react-redux';
+import {GlobalState} from 'mattermost-redux/types/store';
 
 import NavigationRow from './navigation_row';
 
-function mapStateToProps(state) {
+function mapStateToProps(state: GlobalState) {
     return {
         theme: getTheme(state),
     };
