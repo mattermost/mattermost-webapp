@@ -392,8 +392,8 @@ describe('Post search display', () => {
             // # Visit town-square
             cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
 
-            // # Search for search term
-            cy.get('input#searchBox').click().type('This is{enter}').wait(TIMEOUTS.HALF_SEC);
+            // # Search for direct
+            cy.get('input#searchBox').click().type('direct{enter}').wait(TIMEOUTS.HALF_SEC);
 
             // * RHS should be visible with search results
             cy.get('#search-items-container').should('be.visible');
