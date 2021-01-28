@@ -10,8 +10,6 @@
 // Stage: @prod
 // Group: @messaging
 
-import * as TIMEOUTS from '../../fixtures/timeouts';
-
 describe('Message permalink', () => {
     let testTeam;
     let testChannel;
@@ -45,7 +43,7 @@ describe('Message permalink', () => {
     });
 
     it('MM-T1630 - "Jump" to convo works every time for a conversation', () => {
-        cy.visit(`/${testTeam.name}/channels/town-square`).wait(TIMEOUTS.FIVE_SEC);
+        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
 
         // # Post 25 messages
         let index = 0;
@@ -86,7 +84,7 @@ describe('Message permalink', () => {
         const publicChannelName = 'town-square';
         const publicChannelDisplayName = 'Town Square';
 
-        cy.visit(`/${testTeam.name}/channels/off-topic`).wait(TIMEOUTS.FIVE_SEC);
+        cy.visitAndWait(`/${testTeam.name}/channels/off-topic`);
 
         // # Clear then type ~ and prefix of channel name
         cy.get('#post_textbox').should('be.visible').clear().type('~' + publicChannelName.substring(0, 3));
@@ -108,7 +106,7 @@ describe('Message permalink', () => {
     });
 
     it('MM-T2224 - Channel shortlinking - link joins public channel', () => {
-        cy.visit(`/${testTeam.name}/channels/town-square`).wait(TIMEOUTS.FIVE_SEC);
+        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
 
         // # Clear then type ~ and prefix of channel name
         cy.get('#post_textbox').should('be.visible').clear().type(`~${testChannel.display_name}`);
@@ -123,7 +121,7 @@ describe('Message permalink', () => {
 
         cy.apiLogout();
         cy.apiLogin(notInChannelUser);
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
 
         // # Check that the channel display name has been posted
         cy.getLastPostId().then((postId) => {
@@ -134,7 +132,7 @@ describe('Message permalink', () => {
     });
 
     it('MM-T2234 - Permalink - auto joins public channel', () => {
-        cy.visit(`/${testTeam.name}/channels/town-square`).wait(TIMEOUTS.FIVE_SEC);
+        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
 
         // # Post message
         cy.postMessage('Test');
@@ -150,10 +148,10 @@ describe('Message permalink', () => {
             cy.uiClickCopyLink(permalink);
 
             // # Leave the channel
-            cy.visit(`/${testTeam.name}/channels/town-square`).wait(TIMEOUTS.FIVE_SEC);
+            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
 
             // # Visit the permalink
-            cy.visit(permalink);
+            cy.visitAndWait(permalink);
 
             // # Check that the post message is the correct one
             cy.getLastPostId().then((postId) => {
@@ -166,7 +164,7 @@ describe('Message permalink', () => {
         // # Create private channel
         cy.apiCreateChannel(testTeam.id, 'channel', 'channel', 'P').then(({channel}) => {
             // # Visit the channel
-            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+            cy.visitAndWait(`/${testTeam.name}/channels/${channel.name}`);
 
             // # Post message
             cy.postMessage('Test');
@@ -182,13 +180,13 @@ describe('Message permalink', () => {
                 cy.uiClickCopyLink(permalink);
 
                 // # Leave the channel
-                cy.visit(`/${testTeam.name}/channels/town-square`).wait(TIMEOUTS.FIVE_SEC);
+                cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
 
                 cy.apiLogout();
                 cy.apiLogin(testUser);
 
                 // # Visit the permalink
-                cy.visit(permalink);
+                cy.visitAndWait(permalink);
 
                 // # Check the error message
                 cy.findByText('Permalink belongs to a deleted message or to a channel to which you do not have access.').should('be.visible');
@@ -207,7 +205,7 @@ describe('Message permalink', () => {
             // # Login as the other user
             cy.apiLogout();
             cy.apiLogin(otherUser);
-            cy.visit(`/${testTeam.name}/channels/town-square`).wait(TIMEOUTS.FIVE_SEC);
+            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
 
             // # Clear then type channel url
             cy.get('#post_textbox').should('be.visible').clear().type(`${Cypress.config('baseUrl')}/${testTeam.name}/channels/${testChannel.name}`).type('{enter}');
@@ -215,7 +213,7 @@ describe('Message permalink', () => {
             // # Login as the temporary user
             cy.apiLogout();
             cy.apiLogin(tempUser);
-            cy.visit(`/${testTeam.name}/channels/town-square`).wait(TIMEOUTS.FIVE_SEC);
+            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
 
             // # Check that the channel permalink has been posted
             cy.getLastPostId().then(() => {

@@ -36,7 +36,7 @@ describe('archive tests while preventing viewing archived channels', () => {
             cy.apiCreateUser({prefix: 'second'}).then(({user: second}) => {
                 cy.apiAddUserToTeam(testTeam.id, second.id);
             });
-            cy.visit(`/${team.name}/channels/${testChannel.name}`);
+            cy.visitAndWait(`/${team.name}/channels/${testChannel.name}`);
         });
     });
 
@@ -55,7 +55,7 @@ describe('archive tests while preventing viewing archived channels', () => {
                     },
                 });
 
-                cy.visit(`/${testTeam.name}/channels/off-topic`);
+                cy.visitAndWait(`/${testTeam.name}/channels/off-topic`);
                 cy.contains('#channelHeaderTitle', 'Off-Topic');
 
                 // # Search for the post from step 1')
@@ -80,11 +80,11 @@ describe('archive tests while preventing viewing archived channels', () => {
         cy.apiLogin(testUser);
 
         // # Open a channel other than Town Square
-        cy.visit(`/${testTeam.name}/channels/off-topic`);
+        cy.visitAndWait(`/${testTeam.name}/channels/off-topic`);
         cy.contains('#channelHeaderTitle', 'Off-Topic');
 
         // # Create or locate a channel you're a member of
-        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+        cy.visitAndWait(`/${testTeam.name}/channels/${testChannel.name}`);
         cy.get('#channelHeaderTitle').should('be.visible');
 
         // # Post distinctive text in the channel such as "I like pineapples"

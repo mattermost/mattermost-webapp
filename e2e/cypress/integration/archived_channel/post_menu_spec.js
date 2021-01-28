@@ -20,13 +20,13 @@ describe('Archived channels', () => {
 
         // # Login as test user and visit create channel
         cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
-            cy.visit(`/${team.name}/channels/${channel.name}`);
+            cy.visitAndWait(`/${team.name}/channels/${channel.name}`);
         });
     });
 
     it('MM-T1721 Archive channel posts menu should have copy link and reply options', () => {
         // # Click to add a channel description
-        cy.get('#channelHeaderDescription button').click();
+        cy.findByRoleExtended('button', {name: 'Add a channel description'}).should('be.visible').click();
 
         // # Add channel header for system message
         const header = 'this is a header!';

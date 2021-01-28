@@ -26,7 +26,7 @@ describe('Channel Settings', () => {
             cy.apiLogin(user);
 
             // # Visit town-square channel
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
         });
     });
 
@@ -60,7 +60,7 @@ describe('Channel Settings', () => {
 
     it('MM-T882 Channel URL validation works properly', () => {
         // # Visit off-tipic
-        cy.visit(`/${testTeam.name}/channels/off-topic`);
+        cy.visitAndWait(`/${testTeam.name}/channels/off-topic`);
 
         // # Go to channel dropdown > Rename channel
         cy.get('#channelHeaderDropdownIcon').click();
@@ -84,7 +84,7 @@ describe('Channel Settings', () => {
 
     it('MM-T887 Channel dropdown menu - Mute / Unmute', () => {
         // # Visit off-topic
-        cy.visit(`/${testTeam.name}/channels/off-topic`);
+        cy.visitAndWait(`/${testTeam.name}/channels/off-topic`);
 
         // # Go to channel dropdown > Mute channel
         cy.get('#channelHeaderDropdownIcon').click();

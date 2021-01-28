@@ -116,7 +116,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                 isCategoryCollapsed={isCollapsed}
                 isCategoryDragged={draggingState.type === DraggingStateTypes.CATEGORY && draggingState.id === category.id}
                 isDropDisabled={this.isDropDisabled()}
-                isDMCategory={category.type === CategoryTypes.DIRECT_MESSAGES}
+                isAutoSortedCategory={category.sorting === CategorySorting.Alphabetical || category.sorting === CategorySorting.Recency}
             />
         );
     }
@@ -216,6 +216,23 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                 </div>
             </React.Fragment>
         );
+    }
+
+    showPlaceholder = () => {
+        const {channels, draggingState, category, isNewCategory} = this.props;
+
+        if (category.sorting === CategorySorting.Alphabetical ||
+            category.sorting === CategorySorting.Recency ||
+            isNewCategory) {
+            // Always show the placeholder if the channel being dragged is from the current category
+            if (channels.find((channel) => channel.id === draggingState.id)) {
+                return true;
+            }
+
+            return false;
+        }
+
+        return true;
     }
 
     render() {
@@ -323,10 +340,11 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                     return (
                         <div
                             className={classNames('SidebarChannelGroup a11y__section', {
-                                dmCategory: category.type === CategoryTypes.DIRECT_MESSAGES,
+                                autoSortedCategory: category.sorting === CategorySorting.Alphabetical || category.sorting === CategorySorting.Recency,
                                 dropDisabled: this.isDropDisabled(),
                                 menuIsOpen: this.state.isMenuOpen,
                                 capture: this.props.draggingState.state === DraggingStates.CAPTURE,
+                                isCollapsed,
                             })}
                             ref={provided.innerRef}
                             {...provided.draggableProps}
@@ -367,7 +385,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                                                 >
                                                     {this.renderNewDropBox(droppableSnapshot.isDraggingOver)}
                                                     {renderedChannels}
-                                                    {(category.type === CategoryTypes.DIRECT_MESSAGES || isNewCategory) ? null : droppableProvided.placeholder}
+                                                    {this.showPlaceholder() ? droppableProvided.placeholder : null}
                                                 </ul>
                                             </div>
                                         </div>

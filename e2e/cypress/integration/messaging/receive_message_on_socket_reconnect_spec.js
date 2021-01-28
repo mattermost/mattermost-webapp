@@ -36,7 +36,7 @@ describe('Messaging', () => {
             });
 
             cy.apiLogin(testUser);
-            cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+            cy.visitAndWait(`/${testTeam.name}/channels/${testChannel.name}`);
         });
     });
 
