@@ -6,7 +6,6 @@ import {updateMe} from 'mattermost-redux/actions/users';
 import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 
 import {CustomStatus, CustomStatusInitialisationStates} from 'types/store/custom_status';
-import Constants from 'utils/constants';
 
 export function updateUserCustomStatus(newCustomStatus: CustomStatus) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
@@ -54,15 +53,6 @@ export function setCustomStatusInitialisationState(props: Partial<CustomStatusIn
         const userProps = {...user.props};
         let initialState = userProps.customStatusInitialisationState ? JSON.parse(userProps.customStatusInitialisationState) : {};
         initialState = {...initialState, ...props};
-        if (initialState.menuOpenedOnClick === Constants.CustomStatusInitialisationStates.MENU_OPENED_BY_SIDEBAR_HEADER) {
-            if (initialState.hasClickedSidebarHeaderFirstTime === undefined) {
-                initialState.hasClickedSidebarHeaderFirstTime = true;
-            } else {
-                initialState.hasClickedSidebarHeaderFirstTime = false;
-            }
-        }
-
-        initialState.hasClickedUpdateStatusBefore = initialState.hasClickedUpdateStatusBefore || initialState.menuOpenedOnClick === Constants.CustomStatusInitialisationStates.MENU_OPENED_BY_POST_HEADER;
         userProps.customStatusInitialisationState = JSON.stringify(initialState);
         user.props = userProps;
         await dispatch(updateMe(user));

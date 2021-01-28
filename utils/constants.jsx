@@ -881,13 +881,7 @@ export const ZoomSettings = {
     MAX_SCALE: 3.0,
 };
 
-export const CustomStatusInitialisationStates = {
-    MENU_OPENED_BY_POST_HEADER: 'post_header',
-    MENU_OPENED_BY_SIDEBAR_HEADER: 'sidebar_header',
-};
-
 export const Constants = {
-    CustomStatusInitialisationStates,
     SettingsTypes,
     JobTypes,
     Preferences,

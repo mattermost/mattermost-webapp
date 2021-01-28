@@ -111,6 +111,9 @@ export default class StatusDropdown extends React.PureComponent {
         };
 
         this.props.actions.openModal(customStatusInputModalData);
+        if (this.props.showCustomStatusPulsatingDot) {
+            this.props.actions.setCustomStatusInitialisationState({hasClickedSetStatusBefore: true});
+        }
     }
 
     showCustomStatusTextTooltip = () => {
@@ -157,7 +160,6 @@ export default class StatusDropdown extends React.PureComponent {
     onToggle = (open) => {
         if (open) {
             this.showCustomStatusTextTooltip();
-            this.props.actions.setCustomStatusInitialisationState({menuOpenedOnClick: Constants.CustomStatusInitialisationStates.MENU_OPENED_BY_SIDEBAR_HEADER});
         }
         this.props.actions.setStatusDropdown(open);
     }
