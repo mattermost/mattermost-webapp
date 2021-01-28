@@ -51,6 +51,7 @@ exports[`components/MarkdownImage should provide image src as an alt text for Ma
 <div>
   <Connect(MarkdownImageExpand)
     alt="https://example.com/image.png"
+    postId="post_id"
   >
     <SizeAwareImage
       alt={null}
@@ -165,6 +166,7 @@ exports[`components/MarkdownImage should render image with MarkdownImageExpand i
 <div>
   <Connect(MarkdownImageExpand)
     alt="test image"
+    postId="post_id"
   >
     <SizeAwareImage
       alt="test image"

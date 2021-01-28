@@ -141,7 +141,7 @@ export default class MarkdownImage extends React.PureComponent {
                         className = `${this.props.className} ${loadingClass}`;
                     }
 
-                    const {height, width, title} = this.props;
+                    const {height, width, title, postId} = this.props;
 
                     const imageElement = (
                         <>
@@ -178,7 +178,10 @@ export default class MarkdownImage extends React.PureComponent {
                     const availableHeight = height ?? imageMetadata.height;
                     if (availableHeight >= Constants.MAX_INLINE_IMAGE_HEIGHT) {
                         return (
-                            <MarkdownImageExpand alt={alt || safeSrc}>
+                            <MarkdownImageExpand
+                                alt={alt || safeSrc}
+                                postId={postId}
+                            >
                                 {imageElement}
                             </MarkdownImageExpand>
                         );

@@ -1,18 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {connect} from 'react-redux';
 
-import {Preferences} from 'utils/constants';
+import {isEmbedVisible} from 'selectors/posts';
 
-import MarkdownImageExpand from './markdown_image_expand';
+import MarkdownImageExpand, {Props} from './markdown_image_expand';
 
-const mapStateToProps = (state: GlobalState) => {
-    const collapseDisplayValue = get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.COLLAPSE_DISPLAY, Preferences.COLLAPSE_DISPLAY_DEFAULT);
-
+const mapStateToProps = (state: GlobalState, ownProps: Props) => {
     return {
-        collapseDisplay: collapseDisplayValue === 'true',
+        isEmbedVisible: isEmbedVisible(state, ownProps.postId),
     };
 };
 

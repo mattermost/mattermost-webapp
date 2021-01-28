@@ -1,24 +1,31 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {CSSTransition} from 'react-transition-group';
 import './markdown_image_expand.scss';
 
-type Props = {
+export type Props = {
     alt: string;
     children: React.ReactNode;
-    collapseDisplay: boolean;
+    isEmbedVisible: boolean;
+    postId: string;
 };
 
 type State = {
     isExpanded: boolean;
 };
 
-const MarkdownImageExpand: React.FC<Props> = ({children, alt, collapseDisplay}: Props) => {
+const MarkdownImageExpand: React.FC<Props> = ({children, alt, isEmbedVisible}: Props) => {
     const [state, setState] = useState<State>({
-        isExpanded: !collapseDisplay,
+        isExpanded: isEmbedVisible,
     });
     const {isExpanded} = state;
+
+    useEffect(() => {
+        setState({
+            isExpanded: isEmbedVisible,
+        });
+    }, [setState, isEmbedVisible]);
 
     const handleToggleButtonClick = () => {
         setState((oldState) => ({...oldState, isExpanded: !oldState.isExpanded}));

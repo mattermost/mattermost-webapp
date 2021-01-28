@@ -1,57 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/MarkdownImageExpand should match snapshot for collapseDisplay set to false 1`] = `
-<div
-  className="markdown-image-expand markdown-image-expand--expanded"
->
-  <CSSTransition
-    classNames="markdown-image-expand__expanded-view"
-    in={true}
-    mountOnEnter={true}
-    timeout={200}
-    unmountOnExit={true}
-  >
-    <div>
-      <button
-        className="markdown-image-expand__collapse-button"
-        onClick={[Function]}
-        type="button"
-      >
-        <span
-          className="icon icon-menu-down"
-        />
-      </button>
-      An image to expand
-    </div>
-  </CSSTransition>
-  <CSSTransition
-    classNames="markdown-image-expand__collapsed-view"
-    in={false}
-    mountOnEnter={true}
-    timeout={200}
-    unmountOnExit={true}
-  >
-    <div>
-      <button
-        className="markdown-image-expand__expand-button"
-        onClick={[Function]}
-        type="button"
-      >
-        <span
-          className="icon icon-menu-right markdown-image-expand__expand-icon"
-        />
-        <span
-          className="markdown-image-expand__alt-text"
-        >
-          Some alt text
-        </span>
-      </button>
-    </div>
-  </CSSTransition>
-</div>
-`;
-
-exports[`components/MarkdownImageExpand should match snapshot for collapseDisplay set to true 1`] = `
+exports[`components/MarkdownImageExpand should match snapshot for collapsed embeds 1`] = `
 <div
   className="markdown-image-expand "
 >
@@ -78,6 +27,57 @@ exports[`components/MarkdownImageExpand should match snapshot for collapseDispla
   <CSSTransition
     classNames="markdown-image-expand__collapsed-view"
     in={true}
+    mountOnEnter={true}
+    timeout={200}
+    unmountOnExit={true}
+  >
+    <div>
+      <button
+        className="markdown-image-expand__expand-button"
+        onClick={[Function]}
+        type="button"
+      >
+        <span
+          className="icon icon-menu-right markdown-image-expand__expand-icon"
+        />
+        <span
+          className="markdown-image-expand__alt-text"
+        >
+          Some alt text
+        </span>
+      </button>
+    </div>
+  </CSSTransition>
+</div>
+`;
+
+exports[`components/MarkdownImageExpand should match snapshot for expanded embeds 1`] = `
+<div
+  className="markdown-image-expand markdown-image-expand--expanded"
+>
+  <CSSTransition
+    classNames="markdown-image-expand__expanded-view"
+    in={true}
+    mountOnEnter={true}
+    timeout={200}
+    unmountOnExit={true}
+  >
+    <div>
+      <button
+        className="markdown-image-expand__collapse-button"
+        onClick={[Function]}
+        type="button"
+      >
+        <span
+          className="icon icon-menu-down"
+        />
+      </button>
+      An image to expand
+    </div>
+  </CSSTransition>
+  <CSSTransition
+    classNames="markdown-image-expand__collapsed-view"
+    in={false}
     mountOnEnter={true}
     timeout={200}
     unmountOnExit={true}
