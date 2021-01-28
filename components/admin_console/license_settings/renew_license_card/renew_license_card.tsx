@@ -11,7 +11,6 @@ import RenewalLink from 'components/announcement_bar/renewal_link/';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import './renew_license_card.scss';
-
 export interface RenewLicenseCardProps {
     license: any;
     isLicenseExpired: boolean;
