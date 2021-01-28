@@ -29,7 +29,7 @@ const RenewalLink: React.FC<RenewalLinkProps> = (props: RenewalLinkProps) => {
                     setRenewalLink(renewalLinkParam);
                 }
             } catch (error) {
-                console.error("No link returned", error);
+                console.error('No link returned', error); // eslint-disable-line no-console
             }
         });
     }, []);
