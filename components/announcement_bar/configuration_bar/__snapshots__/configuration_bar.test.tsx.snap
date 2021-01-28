@@ -38,6 +38,7 @@ exports[`components/ConfigurationBar should match snapshot, expired, in grace pe
         defaultMessage="Enterprise license is expired and some features may be disabled."
         id="announcement_bar.error.license_expired"
       />
+<<<<<<< HEAD
       <Memo(Connect(RenewalLink))
         telemetryInfo={
           Object {
@@ -46,6 +47,9 @@ exports[`components/ConfigurationBar should match snapshot, expired, in grace pe
           }
         }
       />
+=======
+      <Memo(Connect(RenewalLink)) />
+>>>>>>> master
     </React.Fragment>
   }
   type="critical"

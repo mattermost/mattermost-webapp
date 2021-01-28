@@ -4,9 +4,11 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
+import {AuthorType, MarketplacePlugin, PluginStatusRedux, ReleaseStage} from 'mattermost-redux/types/plugins';
+
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 
-import {AllPlugins, InstalledPlugins, MarketplaceModal} from './marketplace_modal';
+import {AllPlugins, InstalledPlugins, MarketplaceModal, MarketplaceModalProps} from './marketplace_modal';
 
 jest.mock('actions/telemetry_actions.jsx', () => {
     const original = jest.requireActual('actions/telemetry_actions.jsx');
@@ -17,28 +19,34 @@ jest.mock('actions/telemetry_actions.jsx', () => {
 });
 
 describe('components/marketplace/', () => {
-    const samplePlugin = {
+    const samplePlugin: MarketplacePlugin = {
         homepage_url: 'https://github.com/mattermost/mattermost-plugin-nps',
         download_url: 'https://github.com/mattermost/mattermost-plugin-nps/releases/download/v1.0.3/com.mattermost.nps-1.0.3.tar.gz',
+        author_type: AuthorType.Mattermost,
+        release_stage: ReleaseStage.Production,
+        enterprise: false,
         manifest: {
             id: 'com.mattermost.nps',
             name: 'User Satisfaction Surveys',
             description: 'This plugin sends quarterly user satisfaction surveys to gather feedback and help improve Mattermost',
             version: '1.0.3',
-            minServerVersion: '5.14.0',
+            min_server_version: '5.14.0',
         },
         installed_version: '',
     };
 
-    const sampleInstalledPlugin = {
+    const sampleInstalledPlugin: MarketplacePlugin = {
         homepage_url: 'https://github.com/mattermost/mattermost-test',
         download_url: 'https://github.com/mattermost/mattermost-test/releases/download/v1.0.3/com.mattermost.nps-1.0.3.tar.gz',
+        author_type: AuthorType.Mattermost,
+        release_stage: ReleaseStage.Production,
+        enterprise: false,
         manifest: {
             id: 'com.mattermost.test',
             name: 'Test',
             description: 'This plugin is to test',
             version: '1.0.3',
-            minServerVersion: '5.14.0',
+            min_server_version: '5.14.0',
         },
         installed_version: '1.0.3',
     };
@@ -67,30 +75,43 @@ describe('components/marketplace/', () => {
     });
 
     describe('InstalledPlugins', () => {
+        const baseProps = {
+            changeTab: jest.fn(),
+        };
+
         it('should render with no plugins', () => {
             const wrapper = shallow(
-                <InstalledPlugins installedPlugins={[]}/>,
+                <InstalledPlugins
+                    {...baseProps}
+                    installedPlugins={[]}
+                />,
             );
             expect(wrapper).toMatchSnapshot();
         });
 
         it('should render with one plugin', () => {
             const wrapper = shallow(
-                <InstalledPlugins installedPlugins={[sampleInstalledPlugin]}/>,
+                <InstalledPlugins
+                    {...baseProps}
+                    installedPlugins={[sampleInstalledPlugin]}
+                />,
             );
             expect(wrapper).toMatchSnapshot();
         });
 
         it('should render with multiple plugins', () => {
             const wrapper = shallow(
-                <InstalledPlugins installedPlugins={[sampleInstalledPlugin, sampleInstalledPlugin]}/>,
+                <InstalledPlugins
+                    {...baseProps}
+                    installedPlugins={[sampleInstalledPlugin, sampleInstalledPlugin]}
+                />,
             );
             expect(wrapper).toMatchSnapshot();
         });
     });
 
     describe('MarketplaceModal', () => {
-        const baseProps = {
+        const baseProps: MarketplaceModalProps = {
             show: true,
             plugins: [samplePlugin],
             installedPlugins: [],
@@ -98,13 +119,13 @@ describe('components/marketplace/', () => {
             siteURL: 'http://example.com',
             actions: {
                 closeModal: jest.fn(),
-                fetchPlugins: jest.fn(() => ({})),
-                filterPlugins: jest.fn(() => ({})),
+                fetchPlugins: jest.fn(),
+                filterPlugins: jest.fn(),
             },
         };
 
         test('should render with no plugins installed', () => {
-            const wrapper = shallow(
+            const wrapper = shallow<MarketplaceModal>(
                 <MarketplaceModal {...baseProps}/>,
             );
             expect(wrapper).toMatchSnapshot();
@@ -122,7 +143,7 @@ describe('components/marketplace/', () => {
                 ],
             };
 
-            const wrapper = shallow(
+            const wrapper = shallow<MarketplaceModal>(
                 <MarketplaceModal {...props}/>,
             );
 
@@ -131,28 +152,31 @@ describe('components/marketplace/', () => {
 
         test('should fetch plugins when plugin status is changed', () => {
             const fetchPlugins = baseProps.actions.fetchPlugins;
-            const wrapper = shallow(<MarketplaceModal {...baseProps}/>);
+            const wrapper = shallow<MarketplaceModal>(<MarketplaceModal {...baseProps}/>);
 
             expect(fetchPlugins).toBeCalledTimes(1);
             wrapper.setProps({...baseProps});
             expect(fetchPlugins).toBeCalledTimes(1);
 
-            wrapper.setProps({...baseProps, pluginStatuses: {test: 'test'}});
+            const status = {
+                id: 'test',
+            } as PluginStatusRedux;
+            wrapper.setProps({...baseProps, pluginStatuses: {test: status}});
             expect(fetchPlugins).toBeCalledTimes(2);
         });
 
         test('should render with error banner', () => {
-            const wrapper = shallow(
+            const wrapper = shallow<MarketplaceModal>(
                 <MarketplaceModal {...baseProps}/>,
             );
 
-            wrapper.setState({serverError: {message: 'Error test'}});
+            wrapper.setState({serverError: {name: 'some.error', message: 'Error test'}});
 
             expect(wrapper).toMatchSnapshot();
         });
 
         test('Should call for track event when searching', () => {
-            const wrapper = shallow(
+            const wrapper = shallow<MarketplaceModal>(
                 <MarketplaceModal {...baseProps}/>,
             );
 
