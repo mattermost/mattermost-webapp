@@ -24,8 +24,12 @@ const RenewalLink: React.FC<RenewalLinkProps> = (props: RenewalLinkProps) => {
 
     useEffect(() => {
         Client4.getRenewalLink().then(({renewal_link: renewalLinkParam}) => {
-            if (renewalLinkParam && (/^http[s]?:\/\//).test(renewalLinkParam)) {
-                setRenewalLink(renewalLinkParam);
+            try {
+                if (renewalLinkParam && (/^http[s]?:\/\//).test(renewalLinkParam)) {
+                    setRenewalLink(renewalLinkParam);
+                }
+            } catch (error) {
+                console.error('No link returned', error); // eslint-disable-line no-console
             }
         });
     }, []);
