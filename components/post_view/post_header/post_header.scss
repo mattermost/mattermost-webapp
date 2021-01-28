@@ -5,23 +5,44 @@
 .post.other--root.current--user {
     .post__header-set-custom-status {
         display: revert;
-        background: #ecf3fd;
+        background: rgba(var(--center-channel-color-rgb), 0.08);
         padding: 0 4px;
         border-radius: 4px;
         margin-left: 8px;
+        
+        .post__header-set-custom-status-icon > svg {
+            height: 14px;
+            width: 14px;
+            vertical-align: middle;
+            background: inherit;
+            fill: rgba(var(--center-channel-color-rgb), 0.56);
+            margin-right: 4px;
+        }
+        .post__header-set-custom-status-text {
+            font-weight: normal;
+            font-size: 12px;
+            color: rgba(var(--center-channel-color-rgb), 0.56);
+        }
+    }
+    
+    .post__header-set-custom-status:hover {
+        .post__header-set-custom-status-icon > svg {
+            fill: rgba(var(--center-channel-color-rgb), 0.72);
+        }
+        .post__header-set-custom-status-text {
+            color: rgba(var(--center-channel-color-rgb), 0.72);
+        }
+    }
+    
+    .post__header-set-custom-status:active {
+        background: rgba(var(--button-bg-rgb), 0.08);
+        
+        .post__header-set-custom-status-icon > svg {
+            fill: var(--button-bg);
+        }
+        .post__header-set-custom-status-text {
+            color: var(--button-bg);
+        }
     }
 
-    .post__header-set-custom-status-icon > svg {
-        height: 14px;
-        width: 14px;
-        vertical-align: middle;
-        background: inherit;
-        fill: #3f76e6;
-        margin-right: 4px;
-    }
-    .post__header-set-custom-status-text {
-        font-weight: normal;
-        font-size: 12px;
-        color: #3f76e6;
-    }
 }
