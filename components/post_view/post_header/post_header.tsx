@@ -15,6 +15,7 @@ import Badge from 'components/widgets/badges/badge';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
 import {CustomStatus} from 'types/store/custom_status';
+import './post_header.scss';
 
 export type Props = {
 
