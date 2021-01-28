@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
+import { shallow } from 'enzyme';
 
 import StatusDropdown from './status_dropdown';
 
@@ -10,15 +10,22 @@ describe('components/StatusDropdown', () => {
     const actions = {
         openModal: jest.fn(),
         setStatus: jest.fn(),
+        unsetUserCustomStatus: jest.fn(),
+        setStatusDropdown: jest.fn(),
+        setCustomStatusInitialisationState: jest.fn(),
     };
 
     const baseProps = {
         actions,
+        userId: "",
+        isCustomStatusEnabled: false,
+        isStatusDropdownOpen: false,
+        showCustomStatusPulsatingDot: false,
     };
 
     test('should match snapshot in default state', () => {
         const wrapper = shallow(
-            <StatusDropdown {...baseProps}/>,
+            <StatusDropdown {...baseProps} />,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -30,7 +37,7 @@ describe('components/StatusDropdown', () => {
         };
 
         const wrapper = shallow(
-            <StatusDropdown {...props}/>,
+            <StatusDropdown {...props} />,
         );
         expect(wrapper).toMatchSnapshot();
     });
