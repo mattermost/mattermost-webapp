@@ -48,7 +48,7 @@ describe('Negative search filters will omit results', () => {
         cy.apiInitSetup({loginAfter: true}).then(({team, user}) => {
             testUser = user;
 
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visitAndWait(`/${team.name}/channels/town-square`);
 
             // # Create a post from today
             cy.get('#postListContent', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible');

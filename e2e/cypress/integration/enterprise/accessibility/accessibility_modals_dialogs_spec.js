@@ -58,7 +58,7 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
     beforeEach(() => {
         // # Login as sysadmin and visit the town-square
         cy.apiAdminLogin();
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
     });
 
     it('MM-T1454 Accessibility Support in Different Modals and Dialog screen', () => {
@@ -74,7 +74,7 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
         // * Verify the accessibility support in Manage Members Dialog
         verifyMainMenuModal('Manage Members', 'teamMembersModal', 'teamMemberModalLabel', `${testTeam.display_name} Members`);
 
-        cy.visit(`/${testTeam.name}/channels/off-topic`);
+        cy.visitAndWait(`/${testTeam.name}/channels/off-topic`);
 
         // * Verify the accessibility support in Channel Edit Header Dialog
         verifyChannelMenuModal('Edit Channel Header', 'Edit Header for Off-Topic', 'editChannelHeaderModalLabel');
@@ -96,7 +96,7 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
             cy.get('.modal-header button.close').should('have.attr', 'aria-label', 'Close');
 
             // * Verify the accessibility support in search input
-            cy.get('#selectItems input').should('have.attr', 'aria-label', 'Search and add members').and('have.attr', 'aria-autocomplete', 'list');
+            cy.get('#selectItems input').should('have.attr', 'aria-label', 'Search for people').and('have.attr', 'aria-autocomplete', 'list');
 
             // # Search for a text and then check up and down arrow
             cy.get('#selectItems input').type('s', {force: true}).wait(TIMEOUTS.HALF_SEC).type('{downarrow}{downarrow}{downarrow}{uparrow}', {force: true});
@@ -184,7 +184,7 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
         });
     });
 
-    it('MM-T1468 Accessibility Support in Add New Members to Channel Dialog screen', () => {
+    it('MM-T1468 Accessibility Support in Add people to Channel Dialog screen', () => {
         // # Add atleast 5 users
         for (let i = 0; i < 5; i++) {
             cy.apiCreateUser().then(({user}) => { // eslint-disable-line
@@ -193,23 +193,23 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
         }
 
         // # Visit the test channel
-        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+        cy.visitAndWait(`/${testTeam.name}/channels/${testChannel.name}`);
 
         // # Open Add Members Dialog
         cy.get('#channelHeaderDropdownIcon').click();
         cy.findByText('Add Members').click();
 
-        // * Verify the accessibility support in Add New Members Dialog`
+        // * Verify the accessibility support in Add people Dialog`
         cy.get('#addUsersToChannelModal').should('have.attr', 'role', 'dialog').and('have.attr', 'aria-labelledby', 'channelInviteModalLabel').within(() => {
-            cy.get('#channelInviteModalLabel').should('be.visible').and('contain', `Add New Members to ${testChannel.display_name}`);
+            cy.get('.channel-switcher__header').should('be.visible').and('contain', `Add people to ${testChannel.display_name}`);
             cy.get('.modal-header button.close').should('have.attr', 'aria-label', 'Close');
 
             // * Verify the accessibility support in search input
-            cy.get('#selectItems input').should('have.attr', 'aria-label', 'Search and add members').and('have.attr', 'aria-autocomplete', 'list');
+            cy.get('#selectItems input').should('have.attr', 'aria-label', 'Search for people').and('have.attr', 'aria-autocomplete', 'list');
 
             // # Search for a text and then check up and down arrow
             cy.get('#selectItems input').type('u', {force: true}).wait(TIMEOUTS.HALF_SEC).type('{downarrow}{downarrow}{downarrow}{uparrow}', {force: true});
-            cy.get('#multiSelectList').children().eq(2).should('have.class', 'more-modal__row--selected').within(() => {
+            cy.get('#multiSelectList').children().eq(1).should('have.class', 'more-modal__row--selected').within(() => {
                 cy.get('.more-modal__name').invoke('text').then((user) => {
                     selectedRowText = user.split(' - ')[0].replace('@', '');
                 });
@@ -230,13 +230,13 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
             cy.get('#selectItems input').type('somethingwhichdoesnotexist', {force: true}).wait(TIMEOUTS.HALF_SEC);
 
             // * Check if reader can read no results
-            cy.get('.multi-select__wrapper').should('have.attr', 'aria-live', 'polite').and('have.text', 'No items found');
+            cy.get('.no-channel-message').should('be.visible').and('contain', 'No results found matching');
         });
     });
 
     it('MM-T1487 Accessibility Support in Manage Channel Members Dialog screen', () => {
         // # Visit test team and channel
-        cy.visit(`/${testTeam.name}/channels/off-topic`);
+        cy.visitAndWait(`/${testTeam.name}/channels/off-topic`);
 
         // # Open Channel Members Dialog
         cy.get('#channelHeaderDropdownIcon').click();

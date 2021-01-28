@@ -3,28 +3,33 @@
 
 const axios = require('axios');
 
+const timeouts = require('../fixtures/timeouts');
+
 module.exports = async ({baseUrl, user, method = 'get', path, data = {}}) => {
     const loginUrl = `${baseUrl}/api/v4/users/login`;
 
     // First we need to login with our external user to get cookies/tokens
-    const loginResponse = await axios({
-        url: loginUrl,
-        headers: {'X-Requested-With': 'XMLHttpRequest'},
-        method: 'post',
-        data: {login_id: user.username, password: user.password},
-    });
-
     let cookieString = '';
-    const setCookie = loginResponse.headers['set-cookie'];
-    setCookie.forEach((cookie) => {
-        const nameAndValue = cookie.split(';')[0];
-        cookieString += nameAndValue + ';';
-    });
+    try {
+        const response = await axios({
+            url: loginUrl,
+            headers: {'X-Requested-With': 'XMLHttpRequest'},
+            method: 'post',
+            timeout: timeouts.TEN_SEC,
+            data: {login_id: user.username, password: user.password},
+        });
 
-    let response;
+        const setCookie = response.headers['set-cookie'];
+        setCookie.forEach((cookie) => {
+            const nameAndValue = cookie.split(';')[0];
+            cookieString += nameAndValue + ';';
+        });
+    } catch (error) {
+        return getErrorResponse(error);
+    }
 
     try {
-        response = await axios({
+        const response = await axios({
             method,
             url: `${baseUrl}/api/v4/${path}`,
             headers: {
@@ -32,6 +37,7 @@ module.exports = async ({baseUrl, user, method = 'get', path, data = {}}) => {
                 Cookie: cookieString,
                 'X-Requested-With': 'XMLHttpRequest',
             },
+            timeout: timeouts.TEN_SEC,
             data,
         });
 
@@ -42,17 +48,22 @@ module.exports = async ({baseUrl, user, method = 'get', path, data = {}}) => {
         };
     } catch (error) {
         // If we have a response for the error, pull out the relevant parts
-        if (error.response) {
-            response = {
-                status: error.response.status,
-                statusText: error.response.statusText,
-                data: error.response.data,
-            };
-        } else {
-            // If we get here something else went wrong, so throw
-            throw error;
-        }
+        return getErrorResponse(error);
+    }
+};
+
+function getErrorResponse(error) {
+    if (error.response) {
+        return {
+            status: error.response.status,
+            statusText: error.response.statusText,
+            data: error.response.data,
+            isError: true,
+        };
+    } else if (error.code === 'ECONNABORTED') {
+        return {data: {id: error.code, isTimeout: true}};
     }
 
-    return response;
-};
+    // If we get here something else went wrong, so throw
+    throw error;
+}
