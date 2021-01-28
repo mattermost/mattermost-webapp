@@ -1365,7 +1365,7 @@
     .search-bar__container {
         @include flex(0 0 50px);
         background: $primary-color;
-        color: $white;
+        color: var(--sidebar-header-text-color);
         padding: 0;
 
         .search-form__container {
