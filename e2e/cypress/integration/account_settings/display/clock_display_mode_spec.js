@@ -35,7 +35,7 @@ describe('Account Settings > Display > Clock Display Mode', () => {
             testTeam = team;
             testChannel = channel;
 
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visitAndWait(`/${team.name}/channels/town-square`);
             cy.postMessage(mainMessage);
 
             // # Open RHS and post two consecutive replies
@@ -87,7 +87,7 @@ describe('Account Settings > Display > Clock Display Mode', () => {
 
     it('MM-T2096_2 Clock Display - Can switch from 12-hr to 24-hr', () => {
         cy.apiAdminLogin().then(({user}) => {
-            cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+            cy.visitAndWait(`/${testTeam.name}/channels/${testChannel.name}`);
 
             // # Set clock display to 24-hour
             setClockDisplayTo24Hour();

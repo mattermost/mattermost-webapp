@@ -82,7 +82,7 @@ describe('Integrations', () => {
 
     it('MM-T614 Search on Outgoing Webhooks page', () => {
         // * Assert that search for Alpha (lower-case) returns only Alpha webhook
-        cy.visit(`/${testTeam}/integrations/outgoing_webhooks`);
+        cy.visitAndWait(`/${testTeam}/integrations/outgoing_webhooks`);
         cy.get('#searchInput').type('alpha');
         cy.get('.backstage-list__item').should('not.contain', triggerB).should('not.contain', triggerC).contains(triggerA);
 

@@ -44,7 +44,7 @@ describe('Verify Quick Navigation support across different regions in the app', 
                     cy.apiAddUserToChannel(testChannel.id, otherUser.id).then(() => {
                         // # Login as test user, visit town-square and post few messages
                         cy.apiLogin(user);
-                        cy.visit(`/${team.name}/channels/${testChannel.name}`);
+                        cy.visitAndWait(`/${team.name}/channels/${testChannel.name}`);
 
                         // # Post few messages
                         postMessages(testChannel, otherUser, 5);

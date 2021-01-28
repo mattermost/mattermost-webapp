@@ -44,7 +44,7 @@ describe('Group Mentions', () => {
         cy.apiLDAPSync();
 
         // # Link the LDAP Group - board
-        cy.visit('/admin_console/user_management/groups');
+        cy.visitAndWait('/admin_console/user_management/groups');
         cy.get('#board_group', {timeout: TIMEOUTS.ONE_MIN}).then((el) => {
             if (!el.text().includes('Edit')) {
                 // # Link the Group if its not linked before
@@ -55,7 +55,7 @@ describe('Group Mentions', () => {
         });
 
         // # Link the LDAP Group - developers
-        cy.visit('/admin_console/user_management/groups');
+        cy.visitAndWait('/admin_console/user_management/groups');
         cy.get('#developers_group', {timeout: TIMEOUTS.ONE_MIN}).then((el) => {
             if (!el.text().includes('Edit')) {
                 // # Link the Group if its not linked before
@@ -110,7 +110,7 @@ describe('Group Mentions', () => {
         cy.apiAdminLogin();
 
         // # Enable Group Mention for the group - board
-        cy.visit('/admin_console/user_management/groups');
+        cy.visitAndWait('/admin_console/user_management/groups');
         cy.get('#board_group', {timeout: TIMEOUTS.ONE_MIN}).then((el) => {
             if (!el.text().includes('Edit')) {
                 // # Link the Group if its not linked before
@@ -129,7 +129,7 @@ describe('Group Mentions', () => {
         enableGroupMention(groupName, groupID1);
 
         // # Unlink the group
-        cy.visit('/admin_console/user_management/groups');
+        cy.visitAndWait('/admin_console/user_management/groups');
         cy.get('#board_group', {timeout: TIMEOUTS.ONE_MIN}).then((el) => {
             el.find('.icon.fa-link').click();
         });
@@ -140,7 +140,7 @@ describe('Group Mentions', () => {
         // # Create a new channel as a regular user
         cy.apiCreateChannel(testTeam.id, 'group-mention', 'Group Mentions').then(({channel}) => {
             // # Visit the channel
-            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+            cy.visitAndWait(`/${testTeam.name}/channels/${channel.name}`);
             cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
             // # Type the Group Name to check if Autocomplete dropdown is not displayed
@@ -171,7 +171,7 @@ describe('Group Mentions', () => {
 
         // # Login as a regular user
         cy.apiLogin(regularUser);
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
         cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
         // # Trigger DM with a user
@@ -212,7 +212,7 @@ describe('Group Mentions', () => {
 
         // # Login as a regular user
         cy.apiLogin(regularUser);
-        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
         cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
         // # Trigger DM with couple of users
@@ -273,7 +273,7 @@ describe('Group Mentions', () => {
                     cy.apiLogin({username: 'board.one', password: 'Password1'});
 
                     // # Visit the channel
-                    cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+                    cy.visitAndWait(`/${testTeam.name}/channels/${channel.name}`);
                     cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
                     cy.postMessage(`@${groupName2}`);
@@ -289,7 +289,7 @@ describe('Group Mentions', () => {
 
     function enableGroupMention(groupName, groupID) {
         // # Visit Group Configurations page
-        cy.visit(`/admin_console/user_management/groups/${groupID}`);
+        cy.visitAndWait(`/admin_console/user_management/groups/${groupID}`);
 
         // # Scroll users list into view and then make sure it has loaded before scrolling back to the top
         cy.get('#group_users', {timeout: TIMEOUTS.ONE_MIN}).scrollIntoView();

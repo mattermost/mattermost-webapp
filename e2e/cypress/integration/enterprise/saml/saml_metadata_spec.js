@@ -39,7 +39,7 @@ describe('SystemConsole->SAML 2.0 - Get Metadata from Idp Flow', () => {
         });
 
         //make sure we can navigate to SAML settings
-        cy.visit('/admin_console/authentication/saml');
+        cy.visitAndWait('/admin_console/authentication/saml');
         cy.get('.admin-console__header').should('be.visible').and('have.text', 'SAML 2.0');
     });
 
