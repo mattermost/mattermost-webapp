@@ -24,7 +24,9 @@ exports[`components/marketplace/ AllPlugins should render with one plugin 1`] = 
   plugins={
     Array [
       Object {
+        "author_type": "mattermost",
         "download_url": "https://github.com/mattermost/mattermost-plugin-nps/releases/download/v1.0.3/com.mattermost.nps-1.0.3.tar.gz",
+        "enterprise": false,
         "homepage_url": "https://github.com/mattermost/mattermost-plugin-nps",
         "installed_version": "",
         "manifest": Object {
@@ -34,6 +36,7 @@ exports[`components/marketplace/ AllPlugins should render with one plugin 1`] = 
           "name": "User Satisfaction Surveys",
           "version": "1.0.3",
         },
+        "release_stage": "production",
       },
     ]
   }
@@ -45,7 +48,9 @@ exports[`components/marketplace/ AllPlugins should render with plugins 1`] = `
   plugins={
     Array [
       Object {
+        "author_type": "mattermost",
         "download_url": "https://github.com/mattermost/mattermost-plugin-nps/releases/download/v1.0.3/com.mattermost.nps-1.0.3.tar.gz",
+        "enterprise": false,
         "homepage_url": "https://github.com/mattermost/mattermost-plugin-nps",
         "installed_version": "",
         "manifest": Object {
@@ -55,9 +60,12 @@ exports[`components/marketplace/ AllPlugins should render with plugins 1`] = `
           "name": "User Satisfaction Surveys",
           "version": "1.0.3",
         },
+        "release_stage": "production",
       },
       Object {
+        "author_type": "mattermost",
         "download_url": "https://github.com/mattermost/mattermost-test/releases/download/v1.0.3/com.mattermost.nps-1.0.3.tar.gz",
+        "enterprise": false,
         "homepage_url": "https://github.com/mattermost/mattermost-test",
         "installed_version": "1.0.3",
         "manifest": Object {
@@ -67,6 +75,7 @@ exports[`components/marketplace/ AllPlugins should render with plugins 1`] = `
           "name": "Test",
           "version": "1.0.3",
         },
+        "release_stage": "production",
       },
     ]
   }
@@ -78,7 +87,9 @@ exports[`components/marketplace/ InstalledPlugins should render with multiple pl
   plugins={
     Array [
       Object {
+        "author_type": "mattermost",
         "download_url": "https://github.com/mattermost/mattermost-test/releases/download/v1.0.3/com.mattermost.nps-1.0.3.tar.gz",
+        "enterprise": false,
         "homepage_url": "https://github.com/mattermost/mattermost-test",
         "installed_version": "1.0.3",
         "manifest": Object {
@@ -88,9 +99,12 @@ exports[`components/marketplace/ InstalledPlugins should render with multiple pl
           "name": "Test",
           "version": "1.0.3",
         },
+        "release_stage": "production",
       },
       Object {
+        "author_type": "mattermost",
         "download_url": "https://github.com/mattermost/mattermost-test/releases/download/v1.0.3/com.mattermost.nps-1.0.3.tar.gz",
+        "enterprise": false,
         "homepage_url": "https://github.com/mattermost/mattermost-test",
         "installed_version": "1.0.3",
         "manifest": Object {
@@ -100,6 +114,7 @@ exports[`components/marketplace/ InstalledPlugins should render with multiple pl
           "name": "Test",
           "version": "1.0.3",
         },
+        "release_stage": "production",
       },
     ]
   }
@@ -140,7 +155,9 @@ exports[`components/marketplace/ InstalledPlugins should render with one plugin 
   plugins={
     Array [
       Object {
+        "author_type": "mattermost",
         "download_url": "https://github.com/mattermost/mattermost-test/releases/download/v1.0.3/com.mattermost.nps-1.0.3.tar.gz",
+        "enterprise": false,
         "homepage_url": "https://github.com/mattermost/mattermost-test",
         "installed_version": "1.0.3",
         "manifest": Object {
@@ -150,6 +167,7 @@ exports[`components/marketplace/ InstalledPlugins should render with one plugin 
           "name": "Test",
           "version": "1.0.3",
         },
+        "release_stage": "production",
       },
     ]
   }
@@ -411,7 +429,9 @@ exports[`components/marketplace/ MarketplaceModal should render with plugins ins
             installedPlugins={
               Array [
                 Object {
+                  "author_type": "mattermost",
                   "download_url": "https://github.com/mattermost/mattermost-test/releases/download/v1.0.3/com.mattermost.nps-1.0.3.tar.gz",
+                  "enterprise": false,
                   "homepage_url": "https://github.com/mattermost/mattermost-test",
                   "installed_version": "1.0.3",
                   "manifest": Object {
@@ -421,6 +441,7 @@ exports[`components/marketplace/ MarketplaceModal should render with plugins ins
                     "name": "Test",
                     "version": "1.0.3",
                   },
+                  "release_stage": "production",
                 },
               ]
             }
