@@ -3,29 +3,29 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import PropTypes from 'prop-types';
 import {changeOpacity, makeStyleFromTheme} from 'mattermost-redux/utils/theme_utils';
+import {Theme} from 'mattermost-redux/types/preferences';
 
 import NavigationButton from './navigation_button';
 
-export default class NavigationRow extends React.PureComponent {
-    static propTypes = {
-        page: PropTypes.number.isRequired,
-        total: PropTypes.number.isRequired,
-        maximumPerPage: PropTypes.number.isRequired,
-        onNextPageButtonClick: PropTypes.func.isRequired,
-        onPreviousPageButtonClick: PropTypes.func.isRequired,
-        theme: PropTypes.object.isRequired,
-    };
+export type NavigationRowProps = {
+    page: number;
+    total: number;
+    maximumPerPage: number;
+    onNextPageButtonClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+    onPreviousPageButtonClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+    theme: Theme;
+};
 
-    canShowNextButton = () => {
+export default class NavigationRow extends React.PureComponent <NavigationRowProps> {
+    canShowNextButton = (): boolean => {
         const {page, maximumPerPage, total} = this.props;
         const totalPages = Math.trunc((total - 1) / maximumPerPage);
 
         return totalPages > page;
     };
 
-    renderCount = () => {
+    renderCount = (): JSX.Element => {
         const {page, total, maximumPerPage} = this.props;
         const startCount = page * maximumPerPage;
         const endCount = Math.min(startCount + maximumPerPage, total);
@@ -43,7 +43,7 @@ export default class NavigationRow extends React.PureComponent {
         );
     };
 
-    render() {
+    render(): JSX.Element {
         const style = getStyle(this.props.theme);
 
         return (

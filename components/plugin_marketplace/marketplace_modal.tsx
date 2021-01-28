@@ -1,12 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable react/no-string-refs */
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import debounce from 'lodash/debounce';
-import {Tabs, Tab} from 'react-bootstrap';
+import {Tabs, Tab, SelectCallback} from 'react-bootstrap';
+
+import {MarketplacePlugin, PluginStatusRedux} from 'mattermost-redux/types/plugins';
+import {Dictionary} from 'mattermost-redux/types/utilities';
 
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 import RootPortal from 'components/root_portal';
@@ -30,8 +31,12 @@ const MarketplaceTabs = {
 
 const SEARCH_TIMEOUT_MILLISECONDS = 200;
 
+type AllPluginsProps = {
+    plugins: MarketplacePlugin[];
+};
+
 // AllPlugins renders the contents of the all plugins tab.
-export const AllPlugins = ({plugins}) => {
+export const AllPlugins = ({plugins}: AllPluginsProps): JSX.Element => {
     if (plugins.length === 0) {
         return (
             <div className='no_plugins_div'>
@@ -50,12 +55,13 @@ export const AllPlugins = ({plugins}) => {
     return <MarketplaceList plugins={plugins}/>;
 };
 
-AllPlugins.propTypes = {
-    plugins: PropTypes.array.isRequired,
+type InstalledPluginsProps = {
+    installedPlugins: MarketplacePlugin[];
+    changeTab: SelectCallback;
 };
 
 // InstalledPlugins renders the contents of the installed plugins tab.
-export const InstalledPlugins = ({installedPlugins, changeTab}) => {
+export const InstalledPlugins = ({installedPlugins, changeTab}: InstalledPluginsProps): JSX.Element => {
     if (installedPlugins.length === 0) {
         return (
             <div className='no_plugins_div'>
@@ -84,81 +90,89 @@ export const InstalledPlugins = ({installedPlugins, changeTab}) => {
     return <MarketplaceList plugins={installedPlugins}/>;
 };
 
-InstalledPlugins.propTypes = {
-    installedPlugins: PropTypes.array.isRequired,
-    changeTab: PropTypes.func,
+export type MarketplaceModalProps = {
+    show: boolean;
+    plugins: MarketplacePlugin[];
+    installedPlugins: MarketplacePlugin[];
+    siteURL: string;
+    pluginStatuses?: Dictionary<PluginStatusRedux>;
+    actions: {
+        closeModal: () => void;
+        fetchPlugins: (localOnly?: boolean) => Promise<{error?: Error}>;
+        filterPlugins(filter: string): Promise<{error?: Error}>;
+    };
+};
+
+type MarketplaceModalState = {
+    tabKey: any;
+    loading: boolean;
+    serverError?: Error;
+    filter: string;
 };
 
 // MarketplaceModal is the plugin marketplace.
-export class MarketplaceModal extends React.PureComponent {
-    static propTypes = {
-        show: PropTypes.bool,
-        plugins: PropTypes.array.isRequired,
-        installedPlugins: PropTypes.array.isRequired,
-        siteURL: PropTypes.string.isRequired,
-        pluginStatuses: PropTypes.object.isRequired,
-        actions: PropTypes.shape({
-            closeModal: PropTypes.func.isRequired,
-            fetchPlugins: PropTypes.func.isRequired,
-            filterPlugins: PropTypes.func.isRequired,
-        }).isRequired,
-    }
+export class MarketplaceModal extends React.PureComponent<MarketplaceModalProps, MarketplaceModalState> {
+    private filterRef: React.RefObject<QuickInput>;
 
-    constructor(props) {
+    constructor(props: MarketplaceModalProps) {
         super(props);
 
         this.state = {
             tabKey: MarketplaceTabs.ALL_PLUGINS,
             loading: true,
-            serverError: null,
+            serverError: undefined,
             filter: '',
         };
+
+        this.filterRef = React.createRef();
     }
 
-    componentDidMount() {
+    componentDidMount(): void {
         trackEvent('plugins', 'ui_marketplace_opened');
 
         this.fetchPlugins();
 
-        if (this.refs.filter) {
-            this.refs.filter.focus();
-        }
+        this.filterRef.current?.focus();
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: MarketplaceModalProps): void {
         // Automatically refresh the component when a plugin is installed or uninstalled.
         if (this.props.pluginStatuses !== prevProps.pluginStatuses) {
             this.fetchPlugins();
         }
     }
 
-    fetchPlugins = async () => {
+    fetchPlugins = async (): Promise<void> => {
         const {error} = await this.props.actions.fetchPlugins();
 
         this.setState({loading: false, serverError: error});
     }
 
-    close = () => {
+    close = (): void => {
         trackEvent('plugins', 'ui_marketplace_closed');
         this.props.actions.closeModal();
     }
 
-    changeTab = (tabKey) => {
+    changeTab: SelectCallback = (tabKey: any): void => {
         this.setState({tabKey});
     }
 
-    onInput = () => {
-        this.setState({filter: this.refs.filter.value});
+    onInput = (): void => {
+        if (this.filterRef.current) {
+            this.setState({filter: this.filterRef.current.value});
 
-        this.debouncedSearch();
+            this.debouncedSearch();
+        }
     }
 
-    handleClearSearch = () => {
-        this.refs.filter.value = '';
-        this.setState({filter: this.refs.filter.value}, this.doSearch);
+    handleClearSearch = (): void => {
+        if (this.filterRef.current) {
+            this.filterRef.current.value = '';
+            this.setState({filter: this.filterRef.current.value}, this.doSearch);
+        }
     }
 
-    doSearch = async () => {
+    doSearch = async (): Promise<void> => {
         trackEvent('plugins', 'ui_marketplace_search', {filter: this.state.filter});
 
         const {error} = await this.props.actions.filterPlugins(this.state.filter);
@@ -168,13 +182,13 @@ export class MarketplaceModal extends React.PureComponent {
 
     debouncedSearch = debounce(this.doSearch, SEARCH_TIMEOUT_MILLISECONDS);
 
-    render() {
+    render(): JSX.Element {
         const input = (
             <div className='filter-row filter-row--full'>
                 <div className='col-sm-12'>
                     <QuickInput
                         id='searchMarketplaceTextbox'
-                        ref='filter'
+                        ref={this.filterRef}
                         className='form-control filter-textbox search_input'
                         placeholder={{id: t('marketplace_modal.search'), defaultMessage: 'Search Plugins'}}
                         inputComponent={LocalizedInput}
@@ -256,4 +270,3 @@ export class MarketplaceModal extends React.PureComponent {
         );
     }
 }
-/* eslint-enable react/no-string-refs */
