@@ -1249,11 +1249,6 @@
                     height: calc(100% - 48px - #{$announcement-bar-height});
                     top: calc(48px + #{$announcement-bar-height});
                 }
-
-                body.announcement-banner-tall--fixed & {
-                    height: calc(100% - 48px - 40px);
-                    top: calc(48px + 40px);
-                }
             }
 
             .Menu__content {
@@ -1920,12 +1915,6 @@
         &.announcement-bar--fixed {
             .modal {
                 padding-top: $announcement-bar-height;
-            }
-        }
-
-        &.announcement-banner-tall--fixed {
-            .modal {
-                padding-top: 40px;
             }
         }
 
