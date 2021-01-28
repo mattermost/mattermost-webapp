@@ -2,11 +2,12 @@
 // See LICENSE.txt for license information.
 import {getCurrentUser, getUser} from 'mattermost-redux/selectors/entities/users';
 
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
+
 import configureStore from 'store';
 import {getCustomStatus, getRecentCustomStatuses, isCustomStatusEnabled} from 'selectors/views/custom_status';
 
 import {TestHelper} from 'utils/test_helper';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 jest.mock('mattermost-redux/selectors/entities/users', () => {
     const original = jest.requireActual('mattermost-redux/selectors/entities/users');
@@ -61,7 +62,7 @@ describe('getRecentCustomStatuses', () => {
         getUser.mockReturnValue(user);
         expect(getRecentCustomStatuses(store.getState(), user.id)).toStrictEqual([]);
     });
-    
+
     it('should return arr of custom statuses if there are recent custom statuses', async () => {
         const store = await configureStore();
         user.props.recentCustomStatuses = JSON.stringify([customStatus]);
@@ -70,19 +71,19 @@ describe('getRecentCustomStatuses', () => {
     });
 });
 
-describe('isCustomStatusEnabled', () =>{
+describe('isCustomStatusEnabled', () => {
     const config = {
-        EnableCustomUserStatuses : "true",
-    }
-    
-    it('should return true if EnableCustomUserStatuses is true in the config', async ()=>{
+        EnableCustomUserStatuses: 'true',
+    };
+
+    it('should return true if EnableCustomUserStatuses is true in the config', async () => {
         const store = await configureStore();
         expect(isCustomStatusEnabled(store.getState())).toBeFalsy();
-    })
+    });
 
-    it('should return true if EnableCustomUserStatuses is true in the config', async ()=>{
+    it('should return true if EnableCustomUserStatuses is true in the config', async () => {
         const store = await configureStore();
         getConfig.mockReturnValue(config);
         expect(isCustomStatusEnabled(store.getState())).toBeTruthy();
-    })
-})
+    });
+});

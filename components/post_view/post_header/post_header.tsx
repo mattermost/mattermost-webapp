@@ -200,7 +200,6 @@ export default class PostHeader extends React.PureComponent<Props> {
 
         const userCustomStatus = this.props.customStatus;
         const isCustomStatusSet = userCustomStatus && userCustomStatus.emoji;
-        const isCurrentUser = this.props.post.user_id && this.props.post.user_id === this.props.currentUserID;
         if (this.props.isCustomStatusEnabled && !isSystemMessage && isCustomStatusSet) {
             customStatus = (
                 <CustomStatusEmoji
@@ -214,7 +213,7 @@ export default class PostHeader extends React.PureComponent<Props> {
             );
         }
 
-        if (this.props.isCustomStatusEnabled && !isSystemMessage && isCurrentUser && !isCustomStatusSet && this.props.showUpdateStatusButton && this.props.isCurrentUserLastPostGroupFirstPost) {
+        if (this.props.isCustomStatusEnabled && !isCustomStatusSet && this.props.showUpdateStatusButton && this.props.isCurrentUserLastPostGroupFirstPost) {
             customStatus = (
                 <div
                     onClick={this.updateStatus}
