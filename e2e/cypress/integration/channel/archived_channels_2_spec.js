@@ -36,7 +36,7 @@ describe('Leave an archived channel', () => {
     beforeEach(() => {
         // # Login as test user and visit town-square
         cy.apiLogin(testUser);
-        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
     });
 
     it('MM-T1687 App does not crash when another user archives a channel', () => {
