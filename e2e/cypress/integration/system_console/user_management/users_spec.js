@@ -31,7 +31,7 @@ describe('System Console > User Management > Users', () => {
         cy.apiLogin(otherAdmin);
 
         // # Visit the system console.
-        cy.visitAndWait('/admin_console');
+        cy.visit('/admin_console');
 
         // # Go to the Server Logs section.
         cy.get('#user_management\\/users').click().wait(TIMEOUTS.ONE_SEC);

@@ -68,10 +68,6 @@
         height: calc(100% - #{$announcement-bar-height});
     }
 
-    body.announcement-banner-tall--fixed & {
-        height: calc(100% - 40px)
-    }
-
     .a11y--focused {
         box-shadow: inset 0 0 1px 3px rgba(var(--sidebar-text-rgb), 0.5), inset 0 0 0 1px var(--sidebar-text) !important;
 
