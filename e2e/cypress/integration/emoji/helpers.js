@@ -20,7 +20,7 @@ export function verifyLastPostedEmoji(emojiName, emojiImageFile) {
         // url("https://imageurl") => https://imageurl
         const url = imageSpan.css('background-image').split('"')[1];
 
-        // # Verify that the emoji image is the correct one
+        // * Verify that the emoji image is the correct one
         cy.fixture(emojiImageFile).then((overrideImage) => {
             cy.request({url, encoding: 'base64'}).then((response) => {
                 expect(response.status).to.equal(200);
