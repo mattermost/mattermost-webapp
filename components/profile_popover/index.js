@@ -19,7 +19,6 @@ import {
 import {openDirectChannelToUserId} from 'actions/channel_actions.jsx';
 import {getMembershipForCurrentEntities} from 'actions/views/profile_popover';
 import {closeModal, openModal} from 'actions/views/modals';
-import {setCustomStatusInitialisationState} from 'actions/views/custom_status';
 
 import {areTimezonesEnabledAndSupported} from 'selectors/general';
 import {getSelectedPost, getRhsState} from 'selectors/rhs';
@@ -78,7 +77,6 @@ function mapDispatchToProps(dispatch) {
             openDirectChannelToUserId,
             openModal,
             getMembershipForCurrentEntities,
-            setCustomStatusInitialisationState,
         }, dispatch),
     };
 }

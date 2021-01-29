@@ -129,7 +129,6 @@ class ProfilePopover extends React.PureComponent {
             openDirectChannelToUserId: PropTypes.func.isRequired,
             openModal: PropTypes.func.isRequired,
             closeModal: PropTypes.func.isRequired,
-            setCustomStatusInitialisationState: PropTypes.func.isRequired,
         }).isRequired,
 
         /**
@@ -240,7 +239,6 @@ class ProfilePopover extends React.PureComponent {
         };
 
         this.props.actions.openModal(customStatusInputModalData);
-        this.props.actions.setCustomStatusInitialisationState({hasClickedSetStatusBefore: true});
     }
 
     handleAddToChannel = (e) => {

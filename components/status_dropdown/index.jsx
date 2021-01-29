@@ -13,7 +13,6 @@ import {openModal} from 'actions/views/modals';
 import {setStatusDropdown} from 'actions/views/status_dropdown';
 
 import StatusDropdown from 'components/status_dropdown/status_dropdown.jsx';
-import {setCustomStatusInitialisationState} from 'actions/views/custom_status';
 import {getCustomStatus, isCustomStatusEnabled} from 'selectors/views/custom_status';
 import {showCustomStatusPulsatingDotAndPostHeader} from 'utils/custom_status';
 import {isStatusDropdownOpen} from 'selectors/views/status_dropdown';
@@ -45,7 +44,6 @@ function mapDispatchToProps(dispatch) {
             setStatus,
             unsetCustomStatus,
             setStatusDropdown,
-            setCustomStatusInitialisationState,
         }, dispatch),
     };
 }
