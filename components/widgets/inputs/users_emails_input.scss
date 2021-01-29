@@ -251,13 +251,26 @@
     display: flex;
     align-items: center;
 
-    span {
-        height: 20px;
-        position: relative;
-        font-size: 16px;
-        line-height: 20px;
+    .InputErrorBox__wrapper {
         margin: auto;
-        text-align: center;
-        color: var(--error-text)
+        span {
+            height: 20px;
+            position: relative;
+            font-size: 16px;
+            line-height: 20px;
+            text-align: center;
+            color: var(--error-text)
+        }
+
+        button.usersEmail__upgradeLink {
+            background: none!important;
+            border: none;
+            padding: 0!important;
+            margin-left: 10px;
+            font-weight: 600;
+            span {
+               color: var(--sys-button-bg); 
+            }
+        }
     }
 }

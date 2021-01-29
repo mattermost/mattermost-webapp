@@ -20,6 +20,7 @@ import * as Utils from 'utils/utils';
 import {StepComponentProps} from '../../steps';
 
 import './invite_members_step.scss';
+import UpgradeLink from 'components/widgets/links/upgrade_link';
 
 type Props = StepComponentProps & {
     team: Team;
@@ -111,7 +112,7 @@ export default class InviteMembersStep extends React.PureComponent<Props, State>
             this.setState({
                 emails: newEmails,
                 emailInput: '',
-                emailError: newEmails.length > 10 ? Utils.localizeMessage('next_steps_view.invite_members_step.tooManyEmails', 'Invitations are limited to 10 email addresses.') : undefined,
+                emailError: newEmails.length > 10 ? Utils.localizeMessage('next_steps_view.invite_members_step.tooManyEmails', 'The free tier is limited to 10 members.') : undefined,
             });
         } else {
             this.setState({emailInput: value});
@@ -128,7 +129,7 @@ export default class InviteMembersStep extends React.PureComponent<Props, State>
         }
 
         if (value.length > 10) {
-            this.setState({emailError: Utils.localizeMessage('next_steps_view.invite_members_step.tooManyEmails', 'Invitations are limited to 10 email addresses.')});
+            this.setState({emailError: Utils.localizeMessage('next_steps_view.invite_members_step.tooManyEmails', 'The free tier is limited to 10 members.')});
         }
 
         this.setState({emails: value});
@@ -138,7 +139,7 @@ export default class InviteMembersStep extends React.PureComponent<Props, State>
         if (this.state.emailInput) {
             const emails = this.state.emailInput.split(/[\s,]+/).filter((email) => email.length).map((email) => ({label: email, value: email, error: !isEmail(email)}));
             const newEmails = [...this.state.emails, ...emails];
-            this.setState({emails: newEmails, emailInput: '', emailError: newEmails.length > 10 ? Utils.localizeMessage('next_steps_view.invite_members_step.tooManyEmails', 'Invitations are limited to 10 email addresses.') : undefined});
+            this.setState({emails: newEmails, emailInput: '', emailError: newEmails.length > 10 ? Utils.localizeMessage('next_steps_view.invite_members_step.tooManyEmails', 'The free tier is limited to 10 members.') : undefined});
         }
     }
 
@@ -266,6 +267,9 @@ export default class InviteMembersStep extends React.PureComponent<Props, State>
                                             <i className='icon icon-alert-outline'/>
                                             <span>{this.state.emailError}</span>
                                         </>
+                                    }
+                                    {(this.state.emailError && this.state.emails.length > 10) &&
+                                        <UpgradeLink/>
                                     }
                                 </div>
                             </div>

@@ -24,6 +24,7 @@ import {t} from 'utils/i18n.jsx';
 import {isGuest} from 'utils/utils';
 
 import './users_emails_input.scss';
+import UpgradeLink from '../links/upgrade_link';
 
 export default class UsersEmailsInput extends React.PureComponent {
     static propTypes = {
@@ -311,18 +312,22 @@ export default class UsersEmailsInput extends React.PureComponent {
                 />
                 {this.props.showError && (
                     <div className='InputErrorBox'>
-                        <FormattedMarkdownMessage
-                            id={this.props.errorMessageId}
-                            defaultMessage={this.props.errorMessageDefault}
-                            values={this.props.errorMessageValues || null}
-                            disableLinks={true}
-                        >
-                            {(message) => (
-                                <components.NoOptionsMessage>
-                                    {message}
-                                </components.NoOptionsMessage>
-                            )}
-                        </FormattedMarkdownMessage>
+                        <div className='InputErrorBox__wrapper'>
+                            <FormattedMarkdownMessage
+                                id={this.props.errorMessageId}
+                                defaultMessage={this.props.errorMessageDefault}
+                                values={this.props.errorMessageValues || null}
+                                disableLinks={true}
+                            >
+                                {(message) => (
+                                    <components.NoOptionsMessage>
+                                        {message}
+                                    </components.NoOptionsMessage>
+                                )}
+                            </FormattedMarkdownMessage>
+                            {this.props.errorMessageId === 'invitation_modal.invite_members.hit_cloud_user_limit' &&
+                            <UpgradeLink/>}
+                        </div>
                     </div>
                 )}
             </>
