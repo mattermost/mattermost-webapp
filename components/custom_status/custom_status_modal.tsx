@@ -207,6 +207,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
 
     return (
         <GenericModal
+            enforceFocus={false}
             onHide={props.onHide}
             modalHeaderText={
                 <FormattedMessage
