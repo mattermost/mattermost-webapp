@@ -37,7 +37,7 @@ describe('Upload Files', () => {
                 });
             });
 
-            cy.visitAndWait(`/${testTeam.name}/channels/${channel.name}`);
+            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
         });
     });
 
@@ -225,7 +225,7 @@ describe('Upload Files', () => {
     });
 
     it('MM-T337 CTRL/CMD+U - Five files on one message, thumbnails while uploading', () => {
-        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
         const filename = 'huge-image.jpg';
         cy.get('#centerChannelFooter').find('#fileUploadInput').
             attachFile(filename).
@@ -300,7 +300,7 @@ describe('Upload Files', () => {
         const filename = 'svg.svg';
         const aspectRatio = 1;
 
-        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
         cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
         // # Attach file
@@ -385,7 +385,7 @@ describe('Upload Files', () => {
         ];
         const minimumSeparation = 5;
 
-        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
         cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
         // # Upload files

@@ -112,7 +112,7 @@ export default class OpenIdConvert extends React.PureComponent<Props, State> {
                         </button>
                         <a
                             className='btn-secondary'
-                            href='https://docs.mattermost.com/deployment/sso-gitlab.html'
+                            href='https://www.mattermost.com/default-openid-docs'
                             data-testid='openIdLearnMore'
                             target='_blank'
                             rel='noopener noreferrer'
