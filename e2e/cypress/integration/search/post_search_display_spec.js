@@ -28,7 +28,7 @@ describe('Post search display', () => {
         cy.apiAdminLogin();
 
         // Visit town square as an admin
-        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
     });
 
     it('S14252 After clearing search query, search options display', () => {
@@ -114,7 +114,7 @@ describe('Post search display', () => {
             });
 
             // # Visit town-square.
-            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+            cy.visit(`/${testTeam.name}/channels/town-square`);
 
             // # Search for posts from that user
             cy.get('#searchBox').click().type(testSearch, {force: true});
@@ -244,7 +244,7 @@ describe('Post search display', () => {
 
 const enableTestCommands = (team) => {
     // # Visit system console
-    cy.visitAndWait('/admin_console/environment/developer');
+    cy.visit('/admin_console/environment/developer');
 
     // # Enable testing commands
     cy.get('[data-testid="ServiceSettings.EnableTestingtrue"]').click();
@@ -256,7 +256,7 @@ const enableTestCommands = (team) => {
         }
 
         // # Visit town-square
-        cy.visitAndWait(`/${team.name}/channels/town-square`);
+        cy.visit(`/${team.name}/channels/town-square`);
     });
 };
 

@@ -29,7 +29,7 @@ describe('Image Link Preview', () => {
 
             cy.apiSaveCollapsePreviewsPreference('false');
 
-            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+            cy.visit(`/${testTeam.name}/channels/town-square`);
         });
     });
 
@@ -129,7 +129,7 @@ describe('Image Link Preview', () => {
 
     it('MM-T2389 Inline markdown image links open with preview modal', () => {
         // Go to home channel
-        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
         const markdownImageText = 'exampleImage';
         const markdownImageSrc = 'https://www.mattermost.org/wp-content/uploads/2016/03/logoHorizontal.png';

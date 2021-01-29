@@ -51,13 +51,13 @@ describe('Authentication Part 2', () => {
             cy.apiLogout();
 
             // # Go to front page
-            cy.visitAndWait('/login');
+            cy.visit('/login');
 
             // * Assert that create account button is visible
             cy.findByText('Create one now.', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
             // # Go to sign up with email page
-            cy.visitAndWait('/signup_email');
+            cy.visit('/signup_email');
 
             cy.get('#email', {timeout: TIMEOUTS.ONE_MIN}).type(`Hossein2Cool4School${getRandomId()}@mattermost.com`);
 
@@ -83,7 +83,7 @@ describe('Authentication Part 2', () => {
         }).then(() => {
             cy.apiLogin(testUserAlreadyInTeam);
 
-            cy.visitAndWait('/');
+            cy.visit('/');
 
             // * Verify the side bar is visible
             cy.get('#sidebarHeaderDropdownButton', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
@@ -121,7 +121,7 @@ describe('Authentication Part 2', () => {
         }).then(() => {
             cy.apiLogout();
 
-            cy.visitAndWait(`/signup_email/?id=${testTeam.invite_id}`);
+            cy.visit(`/signup_email/?id=${testTeam.invite_id}`);
 
             cy.get('#email', {timeout: TIMEOUTS.ONE_MIN}).type(`Hossein_Is_The_Best_PROGRAMMER${getRandomId()}@BestInTheWorld.com`);
 
@@ -145,7 +145,7 @@ describe('Authentication Part 2', () => {
                 EnableOpenServer: true,
             },
         }).then(() => {
-            cy.visitAndWait(`/admin_console/user_management/teams/${testTeam.id}`);
+            cy.visit(`/admin_console/user_management/teams/${testTeam.id}`);
 
             cy.findByTestId('allowAllToggleSwitch', {timeout: TIMEOUTS.ONE_MIN}).click();
 
@@ -157,7 +157,7 @@ describe('Authentication Part 2', () => {
 
             cy.apiLogout();
 
-            cy.visitAndWait(`/signup_email/?id=${testTeam.invite_id}`);
+            cy.visit(`/signup_email/?id=${testTeam.invite_id}`);
 
             cy.get('#email', {timeout: TIMEOUTS.ONE_MIN}).type(`Hossein_Is_The_Best_PROGRAMMER${getRandomId()}@BestInTheWorld.com`);
 
@@ -180,7 +180,7 @@ describe('Authentication Part 2', () => {
             },
         }).then(() => {
             cy.apiLogout();
-            cy.visitAndWait('/');
+            cy.visit('/');
 
             // * Assert that create account button is not visible
             cy.findByText('Create one now.', {timeout: TIMEOUTS.ONE_MIN}).should('not.be.visible');
@@ -201,7 +201,7 @@ describe('Authentication Part 2', () => {
             },
         }).then(() => {
             cy.apiLogout();
-            cy.visitAndWait('/');
+            cy.visit('/');
 
             // * Assert that create account button is visible
             cy.findByText('Create one now.', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
@@ -209,7 +209,7 @@ describe('Authentication Part 2', () => {
     });
 
     it('MM-T1762 - Invite Salt', () => {
-        cy.visitAndWait('/admin_console/site_config/public_links');
+        cy.visit('/admin_console/site_config/public_links');
 
         cy.findByText('Regenerate', {timeout: TIMEOUTS.ONE_MIN}).click();
 
@@ -231,13 +231,13 @@ describe('Authentication Part 2', () => {
             cy.apiLogout();
 
             // # Go to front page
-            cy.visitAndWait('/login');
+            cy.visit('/login');
 
             // * Assert that create account button is visible
             cy.findByText('Create one now.', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
             // # Go to sign up with email page
-            cy.visitAndWait('/signup_email');
+            cy.visit('/signup_email');
 
             const username = `Hossein${getRandomId()}`;
 
@@ -280,7 +280,7 @@ describe('Authentication Part 2', () => {
         }).then(() => {
             cy.apiLogout();
 
-            cy.visitAndWait(`/signup_user_complete/?id=${testTeam.invite_id}`);
+            cy.visit(`/signup_user_complete/?id=${testTeam.invite_id}`);
 
             cy.findByText('GitLab Single Sign-On', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
@@ -302,7 +302,7 @@ describe('Authentication Part 2', () => {
         }).then(() => {
             cy.apiLogout();
 
-            cy.visitAndWait(`/signup_user_complete/?id=${testTeam.invite_id}`);
+            cy.visit(`/signup_user_complete/?id=${testTeam.invite_id}`);
 
             // * Email and Password option exist
             cy.findByText('Email and Password', {timeout: TIMEOUTS.ONE_MIN}).should('exist').and('be.visible');

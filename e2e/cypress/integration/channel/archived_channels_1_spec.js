@@ -29,7 +29,7 @@ describe('Leave an archived channel', () => {
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
             testTeam = team;
 
-            cy.visitAndWait(`/${team.name}/channels/town-square`);
+            cy.visit(`/${team.name}/channels/town-square`);
 
             // # Wait for the team to load
             cy.get('#headerTeamName', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
@@ -38,7 +38,7 @@ describe('Leave an archived channel', () => {
 
     it('MM-T1680 Open archived channel from search results with permalink view in another channel is open', () => {
         // # Visit the test team
-        cy.visitAndWait(`/${testTeam.name}`);
+        cy.visit(`/${testTeam.name}`);
 
         // # Create a new channel
         cy.uiCreateChannel({isNewSidebar: true});
@@ -52,7 +52,7 @@ describe('Leave an archived channel', () => {
         cy.uiArchiveChannel();
 
         // # Switch away from the archived channel
-        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Make a post outside of the archived channel
         const otherPostText = `post${getRandomId()}`;
@@ -84,7 +84,7 @@ describe('Leave an archived channel', () => {
         // # Create public channel
         cy.apiCreateChannel(testTeam.id, 'channel', 'channel').then(({channel}) => {
             // # Visit the channel
-            cy.visitAndWait(`/${testTeam.name}/channels/${channel.name}`);
+            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
 
             // # Archive the channel
             cy.uiArchiveChannel();
@@ -120,7 +120,7 @@ describe('Leave an archived channel', () => {
             archivedPrivateChannel = channel;
 
             // # Visit the channel
-            cy.visitAndWait(`/${testTeam.name}/channels/${archivedPrivateChannel.name}`);
+            cy.visit(`/${testTeam.name}/channels/${archivedPrivateChannel.name}`);
 
             // # Archive the channel
             cy.uiArchiveChannel();
@@ -131,7 +131,7 @@ describe('Leave an archived channel', () => {
             archivedPublicChannel = channel;
 
             // # Visit the channel
-            cy.visitAndWait(`/${testTeam.name}/channels/${archivedPublicChannel.name}`);
+            cy.visit(`/${testTeam.name}/channels/${archivedPublicChannel.name}`);
 
             // # Archive the channel
             cy.uiArchiveChannel();
@@ -167,7 +167,7 @@ describe('Leave an archived channel', () => {
             archivedPublicChannel1 = channel;
 
             // # Visit the channel
-            cy.visitAndWait(`/${testTeam.name}/channels/${archivedPublicChannel1.name}`);
+            cy.visit(`/${testTeam.name}/channels/${archivedPublicChannel1.name}`);
 
             // # Archive the channel
             cy.uiArchiveChannel();
@@ -178,7 +178,7 @@ describe('Leave an archived channel', () => {
             archivedPublicChannel2 = channel;
 
             // # Visit the channel
-            cy.visitAndWait(`/${testTeam.name}/channels/${archivedPublicChannel2.name}`);
+            cy.visit(`/${testTeam.name}/channels/${archivedPublicChannel2.name}`);
 
             // # Archive the channel
             cy.uiArchiveChannel();
@@ -220,7 +220,7 @@ describe('Leave an archived channel', () => {
             archivedPrivateChannel1 = channel;
 
             // # Visit the channel
-            cy.visitAndWait(`/${testTeam.name}/channels/${archivedPrivateChannel1.name}`);
+            cy.visit(`/${testTeam.name}/channels/${archivedPrivateChannel1.name}`);
 
             // # Archive the channel
             cy.uiArchiveChannel();
@@ -231,7 +231,7 @@ describe('Leave an archived channel', () => {
             archivedPrivateChannel2 = channel;
 
             // # Visit the channel
-            cy.visitAndWait(`/${testTeam.name}/channels/${archivedPrivateChannel2.name}`);
+            cy.visit(`/${testTeam.name}/channels/${archivedPrivateChannel2.name}`);
 
             // # Archive the channel
             cy.uiArchiveChannel();
@@ -273,7 +273,7 @@ describe('Leave an archived channel', () => {
             archivedChannel = channel;
 
             // # Visit the channel
-            cy.visitAndWait(`/${testTeam.name}/channels/${archivedChannel.name}`);
+            cy.visit(`/${testTeam.name}/channels/${archivedChannel.name}`);
 
             // # Archive the channel
             cy.uiArchiveChannel();
@@ -312,7 +312,7 @@ describe('Leave an archived channel', () => {
         // # Create public channel
         cy.apiCreateChannel(testTeam.id, 'channel', 'channel').then(({channel}) => {
             // # Visit the channel
-            cy.visitAndWait(`/${testTeam.name}/channels/${channel.name}`);
+            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
 
             // # Archive the channel
             cy.uiArchiveChannel();

@@ -32,7 +32,7 @@ describe('Interactive Dialog', () => {
                 cy.apiCreateChannel(team.id, `channel-${i}`, `Channel ${i}`);
             }
 
-            cy.visitAndWait(`/${team.name}`);
+            cy.visit(`/${team.name}`);
 
             const webhookBaseUrl = Cypress.env().webhookBaseUrl;
 
