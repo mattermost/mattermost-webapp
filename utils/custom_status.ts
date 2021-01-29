@@ -4,9 +4,7 @@ import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 
 import {GlobalState} from 'types/store';
 
-import Constants from './constants';
-
-export function showCustomStatusPulsatingDot(state: GlobalState) {
+function showCustomStatusPulsatingDotAndPostHeader(state: GlobalState) {
     const user = getCurrentUser(state);
     const userProps = user.props;
     if (!(userProps && userProps.customStatusInitialisationState)) {
@@ -14,20 +12,13 @@ export function showCustomStatusPulsatingDot(state: GlobalState) {
     }
 
     const initialState = userProps.customStatusInitialisationState ? JSON.parse(userProps.customStatusInitialisationState) : {};
-    const hasClickedSidebarHeaderFirstTime = initialState?.hasClickedSidebarHeaderFirstTime;
-    const menuOpenedFromPostHeader = initialState?.menuOpenedOnClick === Constants.CustomStatusInitialisationStates.MENU_OPENED_BY_POST_HEADER;
-
-    return hasClickedSidebarHeaderFirstTime || menuOpenedFromPostHeader;
+    return !(initialState && initialState.hasOpenedSetCustomStatusModal);
 }
 
-export function showUpdateStatusButton(state: GlobalState) {
-    const user = getCurrentUser(state);
-    const userProps = user.props;
-    if (!userProps) {
-        return true;
-    }
+export function showStatusDropdownPulsatingDot(state: GlobalState) {
+    return showCustomStatusPulsatingDotAndPostHeader(state);
+}
 
-    const hasSetCustomStatusBefore = userProps && userProps.recentCustomStatuses;
-    const initialState = userProps.customStatusInitialisationState ? JSON.parse(userProps.customStatusInitialisationState) : {};
-    return !(hasSetCustomStatusBefore || initialState.hasClickedUpdateStatusBefore);
+export function showPostHeaderUpdateStatusButton(state: GlobalState) {
+    return showCustomStatusPulsatingDotAndPostHeader(state);
 }

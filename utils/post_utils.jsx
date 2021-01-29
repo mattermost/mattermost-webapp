@@ -515,28 +515,27 @@ export function getCurrentUserLastPostGroupFirstPostId(state, postListIds) {
     //This function returns the first post id of the last post group by the current user
     let currentUserLastPost;
 
-    postListIds.find((id) => {
+    for (let i = 0; i < postListIds.length; i++) {
+        const id = postListIds[i];
         const post = getPostFromId(state, id);
         if (!post) {
+            //if it is an combinedUserActivityPost, return if the currentUserLastPost is already set
             if (currentUserLastPost) {
-                return true;
+                return currentUserLastPost.id;
             }
-            return false;
+            continue;
         }
 
         if (isPostOwner(state, post) && !isSystemMessage(post)) {
-            if (currentUserLastPost) {
-                if (!areConsecutivePostsBySameUser(currentUserLastPost, post)) {
-                    return true;
-                }
+            if (currentUserLastPost && !areConsecutivePostsBySameUser(currentUserLastPost, post)) {
+                //currentUserLastPost is set and this post is not consecutive so the currentUserLastPost is the first post of the last postGroup
+                return currentUserLastPost.id;
             }
             currentUserLastPost = post;
-        } else {
-            return Boolean(currentUserLastPost);
+        } else if (currentUserLastPost) {
+            return currentUserLastPost.id;
         }
-
-        return false;
-    });
+    }
 
     return currentUserLastPost ? currentUserLastPost.id : '';
 }

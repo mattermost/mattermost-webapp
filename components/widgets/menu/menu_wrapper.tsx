@@ -51,15 +51,15 @@ export default class MenuWrapper extends React.PureComponent<Props, State> {
     public componentDidMount() {
         document.addEventListener('click', this.closeOnBlur, true);
         document.addEventListener('keyup', this.keyboardClose, true);
-        if (this.props.open) {
-            this.setState({open: this.props.open});
-        }
     }
 
-    public componentDidUpdate(prevProps: Props) {
-        if (typeof this.props.open === 'boolean' && prevProps.open !== this.props.open) {
-            this.setState({open: this.props.open});
+    static getDerivedStateFromProps(props: Props, state: State) {
+        if (props.open !== undefined && props.open !== state.open) {
+            return {
+                open: props.open,
+            };
         }
+        return null;
     }
 
     public componentWillUnmount() {

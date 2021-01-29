@@ -1,13 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import classNames from 'classnames';
 import {FormattedMessage} from 'react-intl';
+import {setCustomStatus, unsetCustomStatus, removeRecentCustomStatus} from 'mattermost-redux/actions/users';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {Tooltip} from 'react-bootstrap';
 
-import {removeRecentCustomStatus, unsetUserCustomStatus, updateUserCustomStatus} from 'actions/views/custom_status';
 import GenericModal from 'components/generic_modal';
 import 'components/category_modal.scss';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
@@ -17,6 +17,9 @@ import {GlobalState} from 'types/store';
 import OverlayTrigger from 'components/overlay_trigger';
 import Constants from 'utils/constants';
 import RenderEmoji from 'components/emoji/render_emoji';
+
+import {showStatusDropdownPulsatingDot} from 'utils/custom_status';
+import {setCustomStatusInitialisationState} from 'actions/views/custom_status';
 
 import CustomStatusSuggestion from './custom_status_suggestion';
 
@@ -37,16 +40,26 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
     const [text, setText] = useState<string>(currentCustomStatus.text);
     const [emoji, setEmoji] = useState<string>(currentCustomStatus.emoji);
     const isStatusSet = emoji || text;
+    const firstTimeModalOpened = useSelector((state: GlobalState) => showStatusDropdownPulsatingDot(state));
+
+    const handleCustomStatusInitializationState = () => {
+        if (firstTimeModalOpened) {
+            dispatch(setCustomStatusInitialisationState({hasOpenedSetCustomStatusModal: true}));
+        }
+    };
+
+    useEffect(handleCustomStatusInitializationState, []);
+
     const handleSetStatus = () => {
         const customStatus = {
             emoji: emoji || 'speech_balloon',
             text,
         };
-        dispatch(updateUserCustomStatus(customStatus));
+        dispatch(setCustomStatus(customStatus));
     };
 
     const handleClearStatus = () => {
-        dispatch(unsetUserCustomStatus());
+        dispatch(unsetCustomStatus());
     };
 
     const getCustomStatusControlRef = () => {
