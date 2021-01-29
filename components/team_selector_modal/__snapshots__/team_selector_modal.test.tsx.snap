@@ -136,6 +136,7 @@ exports[`components/TeamSelectorModal should hide group constrained teams when e
       }
       perPage={50}
       placeholderText="Search and add teams"
+      saveButtonPosition="top"
       saving={false}
       selectedItemRef={
         Object {
@@ -143,6 +144,7 @@ exports[`components/TeamSelectorModal should hide group constrained teams when e
         }
       }
       valueRenderer={[Function]}
+      valueWithImage={false}
       values={Array []}
     />
   </ModalBody>
