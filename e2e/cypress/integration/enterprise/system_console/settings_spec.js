@@ -52,7 +52,7 @@ describe('Settings', () => {
         cy.get('#confirmModalButton').should('be.enabled').click();
     });
 
-    it('MM-T1181: Compliance and Auditing: Run a report, it appears in the job table', () => {
+    it('MM-T1181 Compliance and Auditing: Run a report, it appears in the job table', () => {
         cy.visitAndWait('/admin_console/compliance/monitoring');
 
         // # Enable compliance reporting
@@ -80,7 +80,7 @@ describe('Settings', () => {
         cy.get('.compliance-panel__table tbody tr').first().should('contain.text', 'sample report');
     });
 
-    it('MM-T1635: Channel listing is displayed correctly with proper team name', () => {
+    it('MM-T1635 Channel listing is displayed correctly with proper team name', () => {
         let teamName;
         cy.visitAndWait('/admin_console/user_management/channels');
 

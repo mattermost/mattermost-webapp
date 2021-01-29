@@ -94,7 +94,7 @@ describe('Leave an archived channel', () => {
             cy.get('#post_textbox').should('be.visible');
 
             // * Channel is displayed in LHS with the normal icon, not an archived channel icon
-            cy.get(`#sidebarItem_${name}`).should('be.visible');
+            cy.get(`#sidebarItem_${name}`).scrollIntoView().should('be.visible');
 
             cy.get(`#sidebarItem_${name} span`).should('have.class', 'icon__globe');
         });
