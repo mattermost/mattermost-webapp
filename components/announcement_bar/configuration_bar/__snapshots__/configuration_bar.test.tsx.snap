@@ -12,7 +12,14 @@ exports[`components/ConfigurationBar should match snapshot, expired 1`] = `
         defaultMessage="Enterprise license is expired and some features may be disabled."
         id="announcement_bar.error.license_expired"
       />
-      <Memo(Connect(RenewalLink)) />
+      <Memo(Connect(RenewalLink))
+        telemetryInfo={
+          Object {
+            "error": "renew_license_banner_fail",
+            "success": "renew_license_banner_success",
+          }
+        }
+      />
     </React.Fragment>
   }
   type="critical"
@@ -31,7 +38,14 @@ exports[`components/ConfigurationBar should match snapshot, expired, in grace pe
         defaultMessage="Enterprise license is expired and some features may be disabled."
         id="announcement_bar.error.license_expired"
       />
-      <Memo(Connect(RenewalLink)) />
+      <Memo(Connect(RenewalLink))
+        telemetryInfo={
+          Object {
+            "error": "renew_license_banner_fail",
+            "success": "renew_license_banner_success",
+          }
+        }
+      />
     </React.Fragment>
   }
   type="critical"
