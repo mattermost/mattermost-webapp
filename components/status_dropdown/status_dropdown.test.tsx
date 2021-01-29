@@ -10,9 +10,8 @@ describe('components/StatusDropdown', () => {
     const actions = {
         openModal: jest.fn(),
         setStatus: jest.fn(),
-        unsetUserCustomStatus: jest.fn(),
+        unsetCustomStatus: jest.fn(),
         setStatusDropdown: jest.fn(),
-        setCustomStatusInitialisationState: jest.fn(),
     };
 
     const baseProps = {
@@ -115,21 +114,5 @@ describe('components/StatusDropdown', () => {
 
         instance.showCustomStatusTextTooltip();
         expect(instance.state.showCustomStatusTooltip).toBe(true);
-    });
-
-    test('setCustomStatusInitialisationState should be dispatched if showPulsatingDot is true and modal is opened', () => {
-        const props = {
-            ...baseProps,
-            isStatusDropdownOpen: true,
-            isCustomStatusEnabled: true,
-            showCustomStatusPulsatingDot: true,
-        };
-        const wrapper = shallow<StatusDropdown>(
-            <StatusDropdown {...props}/>,
-        );
-
-        const instance = wrapper.instance();
-        instance.showCustomStatusModal();
-        expect(props.actions.setCustomStatusInitialisationState).toBeCalledTimes(1);
     });
 });

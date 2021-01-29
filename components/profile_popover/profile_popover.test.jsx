@@ -29,7 +29,6 @@ describe('components/ProfilePopover', () => {
             openModal: jest.fn(),
             closeModal: jest.fn(),
             loadBot: jest.fn(),
-            setCustomStatusInitialisationState: jest.fn(),
         },
     };
 
