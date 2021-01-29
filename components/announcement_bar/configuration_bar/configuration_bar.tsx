@@ -68,6 +68,8 @@ const ConfigurationAnnouncementBar: React.FC<Props> = (props: Props) => {
         props.actions.dismissNotice(AnnouncementBarMessages.WARN_METRIC_STATUS_NUMBER_OF_POSTS_ACK);
     };
 
+    const renewLinkTelemetry = {success: 'renew_license_banner_success', error: 'renew_license_banner_fail'};
+
     const getNoticeForWarnMetric = (warnMetricStatus: any) => {
         if (!warnMetricStatus ||
             (warnMetricStatus.id !== WarnMetricTypes.SYSTEM_WARN_METRIC_NUMBER_OF_ACTIVE_USERS_500 &&
@@ -175,7 +177,7 @@ const ConfigurationAnnouncementBar: React.FC<Props> = (props: Props) => {
                                 id='announcement_bar.error.license_expired'
                                 defaultMessage='Enterprise license is expired and some features may be disabled.'
                             />
-                            <RenewalLink/>
+                            <RenewalLink telemetryInfo={renewLinkTelemetry}/>
                         </>
                     }
                 />
@@ -196,7 +198,7 @@ const ConfigurationAnnouncementBar: React.FC<Props> = (props: Props) => {
                                 id='announcement_bar.error.license_expired'
                                 defaultMessage='Enterprise license is expired and some features may be disabled.'
                             />
-                            <RenewalLink/>
+                            <RenewalLink telemetryInfo={renewLinkTelemetry}/>
                         </>
                     }
                 />
@@ -222,7 +224,7 @@ const ConfigurationAnnouncementBar: React.FC<Props> = (props: Props) => {
                                     date: new Date(parseInt(props.license?.ExpiresAt, 10)),
                                 }}
                             />
-                            <RenewalLink/>
+                            <RenewalLink telemetryInfo={renewLinkTelemetry}/>
                         </>
                     }
                 />
