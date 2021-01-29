@@ -3,18 +3,19 @@
 import React, {useState, useRef} from 'react';
 import {Tooltip} from 'react-bootstrap';
 
+import {UserCustomStatus} from 'mattermost-redux/types/users';
+
 import OverlayTrigger from 'components/overlay_trigger';
 import Constants from 'utils/constants';
-import {CustomStatus} from 'types/store/custom_status';
 import RenderEmoji from 'components/emoji/render_emoji';
 
 import './custom_status.scss';
 
 type Props = {
-    handleSuggestionClick: (status: CustomStatus) => void;
+    handleSuggestionClick: (status: UserCustomStatus) => void;
     emoji: string;
     text: string;
-    handleClear?: (status: CustomStatus) => void;
+    handleClear?: (status: UserCustomStatus) => void;
 };
 
 const CustomStatusSuggestion: React.FC<Props> = (props: Props) => {

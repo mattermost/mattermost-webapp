@@ -36,7 +36,7 @@ export default class StatusDropdown extends React.PureComponent {
         actions: PropTypes.shape({
             openModal: PropTypes.func.isRequired,
             setStatus: PropTypes.func.isRequired,
-            unsetUserCustomStatus: PropTypes.func.isRequired,
+            unsetCustomStatus: PropTypes.func.isRequired,
             setStatusDropdown: PropTypes.func.isRequired,
             setCustomStatusInitialisationState: PropTypes.func.isRequired,
         }).isRequired,
@@ -154,7 +154,7 @@ export default class StatusDropdown extends React.PureComponent {
     }
     handleClearStatus = (e) => {
         e.stopPropagation();
-        this.props.actions.unsetUserCustomStatus();
+        this.props.actions.unsetCustomStatus();
     };
 
     onToggle = (open) => {
