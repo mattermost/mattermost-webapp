@@ -57,7 +57,7 @@ export const verifyEmailInviteAndVisitLink = (username, email, teamName, teamDis
         const permalink = bodyText[6].match(reUrl)[0];
 
         // # Visit permalink (e.g. click on email link)
-        cy.visitAndWait(permalink);
+        cy.visit(permalink);
         cy.get('#signup_email_section', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible');
     });
 };

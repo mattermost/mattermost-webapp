@@ -6,7 +6,7 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 
 export function createBotInteractive(team, username = `bot-${getRandomId()}`) {
     // # Visit the Integrations > Bot Accounts page
-    cy.visitAndWait(`/${team.name}/integrations/bots`);
+    cy.visit(`/${team.name}/integrations/bots`);
 
     // # Click add bot
     cy.get('#addBotAccount').click();

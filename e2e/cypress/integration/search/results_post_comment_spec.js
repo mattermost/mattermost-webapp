@@ -16,7 +16,7 @@ describe('Search', () => {
     before(() => {
         // # Login as test user and visit town-square
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visitAndWait(`/${team.name}/channels/town-square`);
+            cy.visit(`/${team.name}/channels/town-square`);
 
             // # Post several messages of similar format to add complexity in searching
             Cypress._.times(5, () => {

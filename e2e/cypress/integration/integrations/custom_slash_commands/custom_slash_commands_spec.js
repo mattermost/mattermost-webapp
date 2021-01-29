@@ -52,7 +52,7 @@ describe('Slash commands', () => {
         cy.apiAdminLogin(user1);
 
         // # Open slash command page
-        cy.visitAndWait(`/${team1.name}/integrations/commands/installed`);
+        cy.visit(`/${team1.name}/integrations/commands/installed`);
 
         // # Create new Slash command
         addNewCommand(team1, trigger, 'http://dot.com');
@@ -65,7 +65,7 @@ describe('Slash commands', () => {
         cy.apiLogin(user2);
 
         // # Open slash command page
-        cy.visitAndWait(`/${team1.name}/integrations/commands/installed`);
+        cy.visit(`/${team1.name}/integrations/commands/installed`);
 
         // * Verify slash command exists
         cy.contains(`/${trigger}`);
@@ -81,7 +81,7 @@ describe('Slash commands', () => {
 
     it('MM-T697 Delete slash command', () => {
         // # Open slash command page
-        cy.visitAndWait(`/${team1.name}/integrations/commands/installed`);
+        cy.visit(`/${team1.name}/integrations/commands/installed`);
 
         // # Create new Slash command
         addNewCommand(team1, trigger, 'http://dot.com');
@@ -89,7 +89,7 @@ describe('Slash commands', () => {
         deleteCommand(team1, trigger);
 
         // # Go back to home channel
-        cy.visitAndWait(`/${team1.name}/channels/town-square`);
+        cy.visit(`/${team1.name}/channels/town-square`);
 
         // # Run slash command
         cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').clear().type(`/${trigger}{enter}`);
@@ -107,13 +107,13 @@ describe('Slash commands', () => {
         });
 
         // # Open slash command page
-        cy.visitAndWait(`/${team1.name}/integrations/commands/installed`);
+        cy.visit(`/${team1.name}/integrations/commands/installed`);
 
         // # Create new Slash command
         addNewCommand(team1, trigger, commandURL);
 
         // # Open slash command page
-        cy.visitAndWait(`/${team1.name}/integrations/commands/installed`);
+        cy.visit(`/${team1.name}/integrations/commands/installed`);
 
         // # Update username
         // # click on last added command's(first child) edit action
@@ -122,7 +122,7 @@ describe('Slash commands', () => {
         cy.get('#saveCommand').click();
 
         // # Go back to home channel
-        cy.visitAndWait(`/${team1.name}/channels/town-square`);
+        cy.visit(`/${team1.name}/channels/town-square`);
 
         // # Run slash command
         cy.postMessage(`/${trigger}`);
@@ -145,13 +145,13 @@ describe('Slash commands', () => {
         });
 
         // # Open slash command page
-        cy.visitAndWait(`/${team1.name}/integrations/commands/installed`);
+        cy.visit(`/${team1.name}/integrations/commands/installed`);
 
         // # Create new Slash command
         addNewCommand(team1, trigger, commandURL);
 
         // # Open slash command page
-        cy.visitAndWait(`/${team1.name}/integrations/commands/installed`);
+        cy.visit(`/${team1.name}/integrations/commands/installed`);
 
         // # Update icon URL
         // # click on last added command's(first child) edit action
@@ -161,7 +161,7 @@ describe('Slash commands', () => {
         cy.get('#saveCommand').click();
 
         // # Go back to home channel
-        cy.visitAndWait(`/${team1.name}/channels/town-square`);
+        cy.visit(`/${team1.name}/channels/town-square`);
 
         // # Run slash command
         cy.postMessage(`/${trigger}`);
@@ -180,13 +180,13 @@ describe('Slash commands', () => {
 
     it('MM-T703/MM-704 Show custom slash command in autocomplete', () => {
         // # Open slash command page
-        cy.visitAndWait(`/${team1.name}/integrations/commands/installed`);
+        cy.visit(`/${team1.name}/integrations/commands/installed`);
 
         // # Create new Slash command
         addNewCommand(team1, trigger, commandURL);
 
         // # Open slash command page
-        cy.visitAndWait(`/${team1.name}/integrations/commands/installed`);
+        cy.visit(`/${team1.name}/integrations/commands/installed`);
 
         // # Update autocomplete
         // # click on last added command's(first child) edit action
@@ -201,7 +201,7 @@ describe('Slash commands', () => {
         cy.get('#saveCommand').click();
 
         // # Go back to home channel
-        cy.visitAndWait(`/${team1.name}/channels/town-square`);
+        cy.visit(`/${team1.name}/channels/town-square`);
 
         // # Type slash
         cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').clear().type('/');
@@ -219,7 +219,7 @@ describe('Slash commands', () => {
         cy.get('.slash-command__desc').should('have.text', `${desc}`);
 
         // # Open slash command page
-        cy.visitAndWait(`/${team1.name}/integrations/commands/installed`);
+        cy.visit(`/${team1.name}/integrations/commands/installed`);
 
         // # Remove autocomplete
         // # click on last added command's(first child) edit action
@@ -228,7 +228,7 @@ describe('Slash commands', () => {
         cy.get('#saveCommand').click();
 
         // # Go back to home channel
-        cy.visitAndWait(`/${team1.name}/channels/town-square`);
+        cy.visit(`/${team1.name}/channels/town-square`);
 
         // # Run slash command
         cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').clear().type('/');
@@ -244,7 +244,7 @@ describe('Slash commands', () => {
 
 function deleteCommand(team, trigger) {
     // # Open slash command page
-    cy.visitAndWait(`/${team.name}/integrations/commands/installed`);
+    cy.visit(`/${team.name}/integrations/commands/installed`);
 
     // # Delete slash command
     // * Verify that last added command's(first child) details contains `/trigger`

@@ -14,7 +14,7 @@ describe('Messaging', () => {
     before(() => {
         // # Login as test user and visit off-topic
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visitAndWait(`/${team.name}/channels/off-topic`);
+            cy.visit(`/${team.name}/channels/off-topic`);
         });
     });
 

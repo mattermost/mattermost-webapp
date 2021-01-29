@@ -16,7 +16,7 @@ describe('Messaging', () => {
     before(() => {
         cy.apiInitSetup().then(({team, channel, user}) => {
             cy.apiLogin(user);
-            cy.visitAndWait(`/${team.name}/channels/${channel.name}`);
+            cy.visit(`/${team.name}/channels/${channel.name}`);
         });
     });
 
@@ -111,7 +111,7 @@ describe('Messaging', () => {
 
     it('MM-T2195 Emoji reaction - not available on system message Save - not available on system message Pin - not available on system message Can delete your own system message', () => {
         // # Click add a channel description
-        cy.get('#channelHeaderDescription button').click();
+        cy.findByRoleExtended('button', {name: 'Add a channel description'}).should('be.visible').click();
 
         // # Add or update a channel header
         cy.get('#editChannelHeaderModalLabel').should('be.visible');

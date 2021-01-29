@@ -25,7 +25,7 @@ describe('Team Scheme', () => {
 
     beforeEach(() => {
         // # Go to `User Management / Permissions` section
-        cy.visitAndWait('/admin_console/user_management/permissions');
+        cy.visit('/admin_console/user_management/permissions');
     });
 
     it('MM-T2855 Create a Team Override Scheme', () => {

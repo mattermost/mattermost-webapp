@@ -50,7 +50,7 @@ describe('Incoming webhook', () => {
     });
 
     beforeEach(() => {
-        cy.visitAndWait(`/${testTeam.name}/channels/${testChannel.name}`);
+        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
     });
 
     describe('MM-T626 Incoming webhook is only image and fallback text', () => {
@@ -77,7 +77,7 @@ describe('Incoming webhook', () => {
             const payload = {channel: 'off-topic', text: search, username: 'new_username', attachments: [{fallback: 'fallback text', image_url: imageUrl}], icon_url: 'http://www.mattermost.org/wp-content/uploads/2016/04/icon_WS.png'};
 
             cy.postIncomingWebhook({url: incomingWebhook.url, data: payload});
-            cy.visitAndWait(offTopicLink);
+            cy.visit(offTopicLink);
 
             cy.getLastPost().within(() => {
                 cy.get('.post-message__text').should('have.text', search);
@@ -168,7 +168,7 @@ describe('Incoming webhook', () => {
                 title_link: 'https://www.google.com'}],
         };
 
-        cy.visitAndWait(offTopicLink);
+        cy.visit(offTopicLink);
 
         cy.postIncomingWebhook({url: incomingWebhook.url, data: payload});
 
@@ -204,7 +204,7 @@ describe('Incoming webhook', () => {
                 title_link: 'https://www.google.com'}],
         };
 
-        cy.visitAndWait(offTopicLink);
+        cy.visit(offTopicLink);
 
         cy.postIncomingWebhook({url: incomingWebhook.url, data: payload});
 
