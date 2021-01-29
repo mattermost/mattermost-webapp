@@ -21,7 +21,7 @@ describe('System Console > User Management > Reactivation', () => {
         // # Do initial setup
         cy.apiInitSetup().then(({team}) => {
             // # Visit town-square
-            cy.visitAndWait(`/${team.name}`);
+            cy.visit(`/${team.name}`);
         });
     });
 

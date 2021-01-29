@@ -26,7 +26,7 @@ describe('Image attachment', () => {
     before(() => {
         // # Login as new user
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visitAndWait(`/${team.name}/channels/town-square`);
+            cy.visit(`/${team.name}/channels/town-square`);
         });
     });
 

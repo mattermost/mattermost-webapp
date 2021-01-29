@@ -13,7 +13,7 @@
 // # Goes to the System Scheme page as System Admin
 const goToAdminConsole = () => {
     cy.apiAdminLogin();
-    cy.visitAndWait('/admin_console');
+    cy.visit('/admin_console');
 };
 
 describe('Main menu', () => {

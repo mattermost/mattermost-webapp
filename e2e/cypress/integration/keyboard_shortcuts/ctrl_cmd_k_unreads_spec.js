@@ -56,7 +56,7 @@ describe('Keyboard Shortcuts', () => {
 
         // # Post messages as testUser to first and second team's channels
         Cypress._.forEach(teamAndChannels, (teamAndChannel, i) => {
-            cy.visitAndWait(`/${teamAndChannel.team.name}/channels/town-square`);
+            cy.visit(`/${teamAndChannel.team.name}/channels/town-square`);
 
             Cypress._.forEach(teamAndChannel.channels, (channel, j) => {
                 cy.get('#sidebarItem_' + channel.name).scrollIntoView().click();
@@ -77,7 +77,7 @@ describe('Keyboard Shortcuts', () => {
         const team1Channels = teamAndChannels[0].channels;
 
         // cy.get('@team1').then((team1) => {
-        cy.visitAndWait(`/${team1.name}/channels/town-square`);
+        cy.visit(`/${team1.name}/channels/town-square`);
 
         // # Type CTRL/CMD+K
         cy.get('#post_textbox').cmdOrCtrlShortcut('K');

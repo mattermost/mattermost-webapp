@@ -27,7 +27,7 @@ describe('Integrations', () => {
             cy.apiCreateWebhook(newIncomingHook);
 
             // # Visit the webhook page
-            cy.visitAndWait(`/${team.name}/integrations/incoming_webhooks`);
+            cy.visit(`/${team.name}/integrations/incoming_webhooks`);
         });
     });
 

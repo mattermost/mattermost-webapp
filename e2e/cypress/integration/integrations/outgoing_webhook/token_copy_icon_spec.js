@@ -24,7 +24,7 @@ describe('Integrations', () => {
 
     it('MM-T616 Copy icon for Outgoing Webhook token', () => {
         // Visit the integrations > add page
-        cy.visitAndWait(`/${testTeam}/integrations/outgoing_webhooks/add`);
+        cy.visit(`/${testTeam}/integrations/outgoing_webhooks/add`);
 
         // * Assert that we are on the add page
         cy.url().should('include', '/outgoing_webhooks/add');

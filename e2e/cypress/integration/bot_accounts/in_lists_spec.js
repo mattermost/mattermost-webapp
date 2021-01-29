@@ -72,7 +72,7 @@ describe('Bots in lists', () => {
     it('MM-T1834 Bots are not listed on “Users” list in System Console > Users', () => {
         cy.makeClient().then(async (client) => {
             // # Go to system console > users
-            cy.visitAndWait('/admin_console/user_management/users');
+            cy.visit('/admin_console/user_management/users');
 
             const {total_users_count: nonBotCount} = await client.getFilteredUsersStats({include_bots: false});
 
@@ -93,7 +93,7 @@ describe('Bots in lists', () => {
         cy.makeClient({user: testUser}).then((client) => {
             // # Login as regular user and visit a channel
             cy.apiLogin(testUser);
-            cy.visitAndWait(`/${team.name}/channels/${channel.name}`);
+            cy.visit(`/${team.name}/channels/${channel.name}`);
 
             // # Open channel members
             cy.get('button.member-popover__trigger').click();

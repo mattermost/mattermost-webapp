@@ -14,7 +14,7 @@ describe('No Matches for Autocomplete', () => {
     before(() => {
         cy.apiInitSetup().then(({team}) => {
             // # Visit town-square
-            cy.visitAndWait(`/${team.name}/channels/town-square`);
+            cy.visit(`/${team.name}/channels/town-square`);
         });
     });
 

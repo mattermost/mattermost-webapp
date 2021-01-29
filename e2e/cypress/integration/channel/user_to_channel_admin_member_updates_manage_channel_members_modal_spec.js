@@ -55,7 +55,7 @@ describe('Change Roles', () => {
             });
 
             cy.apiLogin(testUser);
-            cy.visitAndWait(`/${team.name}/channels/town-square`);
+            cy.visit(`/${team.name}/channels/town-square`);
 
             // # Get channel membership
             cy.getCurrentChannelId().then((id) => {

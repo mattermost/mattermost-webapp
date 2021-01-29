@@ -14,6 +14,7 @@ import {
 import NoInternetConnection from '../no_internet_connection/no_internet_connection';
 
 export interface RenewalLinkProps {
+    telemetryInfo?: {success: string; error: string};
     actions: {
         openModal: (modalData: { modalId: string; dialogType: any; dialogProps?: any }) => void;
     };
@@ -21,7 +22,6 @@ export interface RenewalLinkProps {
 
 const RenewalLink: React.FC<RenewalLinkProps> = (props: RenewalLinkProps) => {
     const [renewalLink, setRenewalLink] = useState('');
-
     useEffect(() => {
         Client4.getRenewalLink().then(({renewal_link: renewalLinkParam}) => {
             try {
@@ -36,10 +36,12 @@ const RenewalLink: React.FC<RenewalLinkProps> = (props: RenewalLinkProps) => {
 
     const handleLinkClick = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
-        trackEvent('renew_license', 'renew_license_banner_success');
         try {
             const {status} = await Client4.ping();
             if (status === 'OK' && renewalLink !== '') {
+                if (props.telemetryInfo?.success) {
+                    trackEvent('renew_license', props.telemetryInfo.success);
+                }
                 window.open(renewalLink, '_blank');
             } else {
                 showConnectionErrorModal();
@@ -50,7 +52,9 @@ const RenewalLink: React.FC<RenewalLinkProps> = (props: RenewalLinkProps) => {
     };
 
     const showConnectionErrorModal = () => {
-        trackEvent('renew_license', 'renew_license_banner_fail');
+        if (props.telemetryInfo?.error) {
+            trackEvent('renew_license', props.telemetryInfo.error);
+        }
         props.actions.openModal({
             modalId: ModalIdentifiers.NO_INTERNET_CONNECTION,
             dialogType: NoInternetConnection,

@@ -34,11 +34,11 @@ describe('Draw Plugin - Upload', () => {
 
         // # Initialize setup and visit town-square
         cy.apiInitSetup().then(({team}) => {
-            cy.visitAndWait(`/${team.name}/channels/town-square`);
+            cy.visit(`/${team.name}/channels/town-square`);
 
             // #If draw plugin is already enabled , unInstall it
             cy.apiRemovePluginById(pluginId);
-            cy.visitAndWait('/admin_console/plugins/plugin_management');
+            cy.visit('/admin_console/plugins/plugin_management');
             cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'Plugin Management');
         });
     });
