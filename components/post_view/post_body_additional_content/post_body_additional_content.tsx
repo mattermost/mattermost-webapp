@@ -4,6 +4,7 @@
 import {Post, PostEmbed} from 'mattermost-redux/types/posts';
 
 import {getEmbedFromMetadata} from 'mattermost-redux/utils/post_utils';
+import {PostEmbed as AppEmbed} from 'mattermost-redux/types/apps';
 
 import React from 'react';
 
@@ -11,9 +12,9 @@ import MessageAttachmentList from 'components/post_view/message_attachments/mess
 import PostAttachmentOpenGraph from 'components/post_view/post_attachment_opengraph';
 import PostImage from 'components/post_view/post_image';
 import YoutubeVideo from 'components/youtube_video';
-import AppsForm from 'components/apps_form';
 
 import {PostWillRenderEmbedPluginComponent} from 'types/store/plugins';
+import EmbeddedForms from '../embedded_forms/embedded_forms';
 
 export type Props = {
     post: Post;
@@ -136,12 +137,9 @@ export default class PostBodyAdditionalContent extends React.PureComponent<Props
             return (
                 <React.Fragment>
                     {this.props.children}
-                    <AppsForm
-                        form={this.props.post.props.app_bindings[0].form}
-                        call={this.props.post.props.app_bindings[0].call}
-                        postID={this.props.post.id}
-                        isEmbedded={true}
-                        onHide={() => { /* Do nothing */ }}
+                    <EmbeddedForms
+                        embeds={this.props.post.props.app_bindings}
+                        post={this.props.post}
                     />
                 </React.Fragment>
             );
@@ -174,19 +172,9 @@ function hasValidEmbeddedForm(props: Record<string, any>) {
         return false;
     }
 
-    if (props.app_bindings.length === 0) {
-        return false;
-    }
+    const embeds = props.app_bindings as AppEmbed[];
 
-    if (!props.app_bindings[0].call) {
-        return false;
-    }
-
-    if (!props.app_bindings[0].call.context) {
-        return false;
-    }
-
-    if (!props.app_bindings[0].call.context.app_id) {
+    if (!embeds.length) {
         return false;
     }
 
