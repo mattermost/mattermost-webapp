@@ -14,19 +14,20 @@ import {zip, sortBy} from 'lodash';
 import {createBotPatch} from '../../support/api/bots';
 import {generateRandomUser} from '../../support/api/user';
 
-const STATUS_PRIORITY = {
-    online: 0,
-    away: 1,
-    dnd: 2,
-    offline: 3,
-    ooo: 3,
-};
-
 describe('Bots in lists', () => {
     let team;
     let channel;
+    let testUser;
     let bots;
     let createdUsers;
+
+    const STATUS_PRIORITY = {
+        online: 0,
+        away: 1,
+        dnd: 2,
+        offline: 3,
+        ooo: 3,
+    };
 
     before(() => {
         cy.apiUpdateConfig({
@@ -37,6 +38,7 @@ describe('Bots in lists', () => {
         cy.apiInitSetup().then((out) => {
             team = out.team;
             channel = out.channel;
+            testUser = out.user;
         });
 
         cy.makeClient().then(async (client) => {
@@ -88,7 +90,9 @@ describe('Bots in lists', () => {
     });
 
     it('MM-T1835 Channel Members list for BOTs', () => {
-        cy.makeClient().then((client) => {
+        cy.makeClient({user: testUser}).then((client) => {
+            // # Login as regular user and visit a channel
+            cy.apiLogin(testUser);
             cy.visitAndWait(`/${team.name}/channels/${channel.name}`);
 
             // # Open channel members
@@ -124,55 +128,6 @@ describe('Bots in lists', () => {
                     cy.wrap(badgeEl).should('be.visible').and('have.text', 'BOT');
                 });
             });
-        });
-    });
-
-    it('MM-T1836_1 Bot accounts display (Legacy Sidebar)', () => {
-        cy.apiUpdateConfig({
-            ServiceSettings: {
-                EnableLegacySidebar: true,
-            },
-        });
-
-        cy.visitAndWait(`/${team.name}/messages/@${bots[0].username}`);
-
-        cy.get('li.active > .sidebar-item').then(($link) => {
-            $link[0]?.scrollIntoView();
-            cy.wrap($link).find('.sidebar-item__name').should('have.text', bots[0].username);
-
-            // * Verify bot icon exists
-            // (too many flaky scrolling conditions and floating elements to check if visible)
-            cy.wrap($link).find('.icon.icon__bot');
-        });
-    });
-
-    it('MM-T1836_2 Bot accounts display (New Sidebar)', () => {
-        cy.apiUpdateConfig({
-            ServiceSettings: {
-                EnableLegacySidebar: false,
-            },
-        });
-
-        cy.visitAndWait(`/${team.name}/messages/@${bots[0].username}`);
-
-        cy.get('.SidebarChannelGroup:contains(DIRECT MESSAGES) .SidebarChannel.active > .SidebarLink').then(($link) => {
-            // * Verify DM label
-            cy.wrap($link).find('.SidebarChannelLinkLabel').should('have.text', bots[0].username);
-
-            // * Verify bot icon exists
-            // (too many flaky scrolling conditions and floating elements to check if visible)
-            cy.wrap($link).find('.icon.icon-robot-happy');
-        });
-
-        cy.postMessage('Bump bot chat recency');
-
-        // # Open a new DM
-        cy.visitAndWait(`/${team.name}/messages/@${createdUsers[0].username}`);
-        cy.postMessage('Hello, regular user');
-
-        // * Verify Bots and Regular users as siblings in DMs
-        cy.get('.SidebarChannelGroup:contains(DIRECT MESSAGES) .SidebarChannel.active').siblings('.SidebarChannel').then(($siblings) => {
-            cy.wrap($siblings).contains('.SidebarChannelLinkLabel', bots[0].username);
         });
     });
 });
