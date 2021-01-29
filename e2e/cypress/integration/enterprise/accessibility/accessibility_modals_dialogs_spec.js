@@ -121,7 +121,7 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
             cy.get('#selectItems input').type('somethingwhichdoesnotexist', {force: true}).wait(TIMEOUTS.HALF_SEC);
 
             // * Check if reader can read no results
-            cy.get('.multi-select__wrapper').should('have.attr', 'aria-live', 'polite').and('have.text', 'No items found');
+            cy.get('.multi-select__wrapper').should('have.attr', 'aria-live', 'polite').and('have.text', 'No results found matching ****');
         });
     });
 
