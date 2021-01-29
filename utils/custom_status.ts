@@ -4,7 +4,7 @@ import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 
 import {GlobalState} from 'types/store';
 
-export function showCustomStatusPulsatingDotAndPostHeader(state: GlobalState) {
+function showCustomStatusPulsatingDotAndPostHeader(state: GlobalState) {
     const user = getCurrentUser(state);
     const userProps = user.props;
     if (!(userProps && userProps.customStatusInitialisationState)) {
@@ -12,5 +12,13 @@ export function showCustomStatusPulsatingDotAndPostHeader(state: GlobalState) {
     }
 
     const initialState = userProps.customStatusInitialisationState ? JSON.parse(userProps.customStatusInitialisationState) : {};
-    return !(initialState && initialState.hasClickedSetStatusBefore);
+    return !(initialState && initialState.hasOpenedSetCustomStatusModal);
+}
+
+export function showStatusDropdownPulsatingDot(state: GlobalState) {
+    return showCustomStatusPulsatingDotAndPostHeader(state);
+}
+
+export function showPostHeaderUpdateStatusButton(state: GlobalState) {
+    return showCustomStatusPulsatingDotAndPostHeader(state);
 }

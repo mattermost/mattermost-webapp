@@ -14,7 +14,7 @@ import {setStatusDropdown} from 'actions/views/status_dropdown';
 
 import StatusDropdown from 'components/status_dropdown/status_dropdown.jsx';
 import {getCustomStatus, isCustomStatusEnabled} from 'selectors/views/custom_status';
-import {showCustomStatusPulsatingDotAndPostHeader} from 'utils/custom_status';
+import {showStatusDropdownPulsatingDot} from 'utils/custom_status';
 import {isStatusDropdownOpen} from 'selectors/views/status_dropdown';
 
 function mapStateToProps(state) {
@@ -33,7 +33,7 @@ function mapStateToProps(state) {
         customStatus: getCustomStatus(state, userId),
         isCustomStatusEnabled: isCustomStatusEnabled(state),
         isStatusDropdownOpen: isStatusDropdownOpen(state),
-        showCustomStatusPulsatingDot: showCustomStatusPulsatingDotAndPostHeader(state),
+        showCustomStatusPulsatingDot: showStatusDropdownPulsatingDot(state),
     };
 }
 

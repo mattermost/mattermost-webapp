@@ -20,7 +20,11 @@ const RenderEmoji = ({emoji, emojiStyle = {}, size = 16}: ComponentProps) => {
     }
 
     const emojiMap = useSelector((state: GlobalState) => getEmojiMap(state));
-    const emojiImageUrl = getEmojiImageUrl(emojiMap.get(emoji));
+    const emojiFromMap = emojiMap.get(emoji);
+    if (!emojiFromMap) {
+        return null;
+    }
+    const emojiImageUrl = getEmojiImageUrl(emojiFromMap);
     return (
         <span
             className='emoticon'
