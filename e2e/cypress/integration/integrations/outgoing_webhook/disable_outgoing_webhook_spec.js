@@ -51,7 +51,7 @@ describe('Integrations', () => {
 
     it('MM-T613 Disable outgoing webhooks in System Console', () => {
         // # Confirm outgoing webhook is working with trigger word
-        cy.visit(`/${testTeam}/channels/${testChannel}`);
+        cy.visitAndWait(`/${testTeam}/channels/${testChannel}`);
         cy.postMessage('testing');
         cy.uiWaitUntilMessagePostedIncludes('Outgoing Webhook Payload');
 
@@ -64,7 +64,7 @@ describe('Integrations', () => {
         });
 
         // # Disable outgoing webhooks from console
-        cy.visit('/admin_console/integrations/integration_management');
+        cy.visitAndWait('/admin_console/integrations/integration_management');
         cy.findByTestId('ServiceSettings.EnableOutgoingWebhooksfalse').click().should('be.checked');
         cy.get('#saveSetting').click();
 
@@ -78,7 +78,7 @@ describe('Integrations', () => {
         cy.apiLogin(testUser);
 
         // * Assert that trigger word no longer triggers webhook
-        cy.visit(`/${testTeam}/channels/${testChannel}`);
+        cy.visitAndWait(`/${testTeam}/channels/${testChannel}`);
         cy.postMessage('testing');
         cy.wait(TIMEOUTS.TWO_SEC);
         cy.getLastPostId().then((lastPostId) => {
@@ -89,7 +89,7 @@ describe('Integrations', () => {
         cy.apiAdminLogin();
 
         // # Re-enable outgoing webhooks from console
-        cy.visit('/admin_console/integrations/integration_management');
+        cy.visitAndWait('/admin_console/integrations/integration_management');
         cy.findByTestId('ServiceSettings.EnableOutgoingWebhookstrue').click().should('be.checked');
         cy.get('#saveSetting').click();
 
@@ -102,7 +102,7 @@ describe('Integrations', () => {
         cy.apiLogin(testUser);
 
         // * Assert outgoing webhook is working with trigger word
-        cy.visit(`/${testTeam}/channels/${testChannel}`);
+        cy.visitAndWait(`/${testTeam}/channels/${testChannel}`);
         cy.postMessage('testing');
         cy.uiWaitUntilMessagePostedIncludes('Outgoing Webhook Payload');
     });

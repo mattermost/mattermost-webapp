@@ -280,6 +280,7 @@ export const ModalIdentifiers = {
     MORE_CHANNELS: 'more_channels',
     NEW_CHANNEL_FLOW: 'new_channel_flow',
     CLOUD_PURCHASE: 'cloud_purchase',
+    NO_INTERNET_CONNECTION: 'no_internet_connection',
 };
 
 export const UserStatuses = {
@@ -572,11 +573,11 @@ export const JobStatuses = {
 export const AnnouncementBarTypes = {
     ANNOUNCEMENT: 'announcement',
     CRITICAL: 'critical',
-    CRITICAL_LIGHT: 'critical_light',
     DEVELOPER: 'developer',
     SUCCESS: 'success',
     ADVISOR: 'advisor',
     ADVISOR_ACK: 'advisor-ack',
+    GENERAL: 'general',
 };
 
 export const AnnouncementBarMessages = {
@@ -1010,6 +1011,9 @@ export const Constants = {
     SYSTEM_MESSAGE_PREFIX: 'system_',
     SUGGESTION_LIST_MAXHEIGHT: 292,
     SUGGESTION_LIST_SPACE_RHS: 420,
+    SUGGESTION_LIST_MODAL_WIDTH: 496,
+    MENTION_NAME_PADDING_LEFT: 2.4,
+    AVATAR_WIDTH: 24,
     AUTO_RESPONDER: 'system_auto_responder',
     SYSTEM_MESSAGE_PROFILE_IMAGE: logoImage,
     RESERVED_TEAM_NAMES: [
@@ -1485,13 +1489,13 @@ export const Constants = {
     },
     Integrations: {
         COMMAND: 'commands',
-        EXECUTE_CURRENT_COMMAND_ITEM_ID: '_execute_current_command',
         PAGE_SIZE: '10000',
         START_PAGE_NUM: 0,
         INCOMING_WEBHOOK: 'incoming_webhooks',
         OUTGOING_WEBHOOK: 'outgoing_webhooks',
         OAUTH_APP: 'oauth2-apps',
         BOT: 'bots',
+        EXECUTE_CURRENT_COMMAND_ITEM_ID: '_execute_current_command',
     },
     FeatureTogglePrefix: 'feature_enabled_',
     PRE_RELEASE_FEATURES: {

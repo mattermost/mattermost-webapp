@@ -20,6 +20,7 @@
         "numberOfTrialUsers": 100,
         "runLDAPSync": true,
         "resetBeforeTest": false,
+        "secondServerURL": "http://localhost/s/p",
         "smtpUrl": "http://localhost:10080",
         "storybookUrl": "http://localhost:6006/",
         "webhookBaseUrl": "http://localhost:3000",
