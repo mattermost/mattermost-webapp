@@ -25,6 +25,7 @@ import StatusOfflineIcon from 'components/widgets/icons/status_offline_icon';
 
 import OverlayTrigger from 'components/overlay_trigger';
 import './status_dropdown.scss';
+import Markdown from 'components/markdown/markdown';
 
 export default class StatusDropdown extends React.PureComponent {
     static propTypes = {
@@ -192,7 +193,10 @@ export default class StatusDropdown extends React.PureComponent {
                     className='custom_status__text'
                     ref={this.customStatusTextRef}
                 >
-                    {customStatusText}
+                    <Markdown
+                        message={customStatusText}
+                        enableFormatting={true}
+                    />
                 </span>
             );
 
