@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import classNames from 'classnames';
 import {FormattedMessage} from 'react-intl';
@@ -17,6 +17,9 @@ import {GlobalState} from 'types/store';
 import OverlayTrigger from 'components/overlay_trigger';
 import Constants from 'utils/constants';
 import RenderEmoji from 'components/emoji/render_emoji';
+
+import {showCustomStatusPulsatingDotAndPostHeader} from 'utils/custom_status';
+import {setCustomStatusInitialisationState} from 'actions/views/custom_status';
 
 import CustomStatusSuggestion from './custom_status_suggestion';
 
@@ -37,6 +40,16 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
     const [text, setText] = useState<string>(currentCustomStatus.text);
     const [emoji, setEmoji] = useState<string>(currentCustomStatus.emoji);
     const isStatusSet = emoji || text;
+    const firstTimeModalOpened = useSelector((state: GlobalState) => showCustomStatusPulsatingDotAndPostHeader(state));
+
+    const handleCustomStatusInitializationState = () => {
+        if (firstTimeModalOpened) {
+            dispatch(setCustomStatusInitialisationState({hasClickedSetStatusBefore: true}));
+        }
+    };
+
+    useEffect(handleCustomStatusInitializationState, []);
+
     const handleSetStatus = () => {
         const customStatus = {
             emoji: emoji || 'speech_balloon',
