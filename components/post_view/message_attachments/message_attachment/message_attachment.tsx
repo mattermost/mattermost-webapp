@@ -2,14 +2,20 @@
 // See LICENSE.txt for license information.
 /* eslint-disable react/no-string-refs */
 
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, {CSSProperties} from 'react';
 import truncate from 'lodash/truncate';
+
+import {ActionResult} from 'mattermost-redux/types/actions';
+import {PostAction, PostActionOption} from 'mattermost-redux/types/integration_actions';
+import {MessageAttachment as MessageAttachmentType, MessageAttachmentField} from 'mattermost-redux/types/message_attachments';
+import {Dictionary} from 'mattermost-redux/types/utilities';
+import {PostImage} from 'mattermost-redux/types/posts';
 
 import {isUrlSafe} from 'utils/url';
 import {Constants} from 'utils/constants';
 import * as Utils from 'utils/utils';
 import LinkOnlyRenderer from 'utils/markdown/link_only_renderer';
+import {TextFormattingOptions} from 'utils/text_formatting';
 
 import ExternalImage from 'components/external_image';
 import Markdown from 'components/markdown';
@@ -21,37 +27,46 @@ import ActionMenu from '../action_menu';
 
 import {trackEvent} from 'actions/telemetry_actions';
 
-export default class MessageAttachment extends React.PureComponent {
-    static propTypes = {
+type Props = {
 
-        /**
-         * The post id
-         */
-        postId: PropTypes.string.isRequired,
+    /**
+     * The post id
+     */
+    postId: string;
 
-        /**
-         * The attachment to render
-         */
-        attachment: PropTypes.object.isRequired,
+    /**
+     * The attachment to render
+     */
+    attachment: MessageAttachmentType;
 
-        /**
-         * Options specific to text formatting
-         */
-        options: PropTypes.object,
+    /**
+     * Options specific to text formatting
+     */
+    options?: Partial<TextFormattingOptions>;
 
-        /**
-         * images object for dimensions
-         */
-        imagesMetadata: PropTypes.object,
+    /**
+     * images object for dimensions
+     */
+    imagesMetadata?: Dictionary<PostImage>;
 
-        actions: PropTypes.shape({
-            doPostActionWithCookie: PropTypes.func.isRequired,
-        }).isRequired,
+    actions: {
+        doPostActionWithCookie: (postId: string, actionId: string, actionCookie: string, selectedOption?: string) => Promise<ActionResult>;
+    };
 
-        currentRelativeTeamUrl: PropTypes.string.isRequired,
-    }
+    currentRelativeTeamUrl: string;
+}
 
-    constructor(props) {
+type State = {
+    checkOverflow: number;
+    actionExecuting: boolean;
+    actionExecutingMessage: string | null;
+}
+
+export default class MessageAttachment extends React.PureComponent<Props, State> {
+    private mounted = false;
+    private imageProps = {};
+
+    constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -73,21 +88,21 @@ export default class MessageAttachment extends React.PureComponent {
         this.mounted = false;
     }
 
-    handleHeightReceivedForThumbUrl = ({height}) => {
+    handleHeightReceivedForThumbUrl = ({height}: {height: number}) => {
         const {attachment} = this.props;
         if (!this.props.imagesMetadata || (this.props.imagesMetadata && !this.props.imagesMetadata[attachment.thumb_url])) {
             this.handleHeightReceived(height);
         }
     }
 
-    handleHeightReceivedForImageUrl = ({height}) => {
+    handleHeightReceivedForImageUrl = ({height}: {height: number}) => {
         const {attachment} = this.props;
         if (!this.props.imagesMetadata || (this.props.imagesMetadata && !this.props.imagesMetadata[attachment.image_url])) {
             this.handleHeightReceived(height);
         }
     }
 
-    handleHeightReceived = (height) => {
+    handleHeightReceived = (height: number) => {
         if (!this.mounted) {
             return;
         }
@@ -108,9 +123,9 @@ export default class MessageAttachment extends React.PureComponent {
             return '';
         }
 
-        const content = [];
+        const content = [] as JSX.Element[];
 
-        actions.forEach((action) => {
+        actions.forEach((action: PostAction) => {
             if (!action.id || !action.name) {
                 return;
             }
@@ -135,7 +150,7 @@ export default class MessageAttachment extends React.PureComponent {
                         disabled={action.disabled}
                         handleAction={this.handleAction}
                         actionExecuting={this.state.actionExecuting}
-                        actionExecutingMessage={this.state.actionExecutingMessage}
+                        actionExecutingMessage={this.state.actionExecutingMessage || undefined}
                     />,
                 );
                 break;
@@ -151,21 +166,21 @@ export default class MessageAttachment extends React.PureComponent {
         );
     };
 
-    handleAction = (e, actionOptions) => {
+    handleAction = (e: React.MouseEvent, actionOptions?: PostActionOption[]) => {
         e.preventDefault();
 
-        var actionExecutingMessage = this.getActionOption(actionOptions, 'ActionExecutingMessage');
+        const actionExecutingMessage = this.getActionOption(actionOptions, 'ActionExecutingMessage');
         if (actionExecutingMessage) {
             this.setState({actionExecuting: true, actionExecutingMessage: actionExecutingMessage.value});
         }
 
-        var trackOption = this.getActionOption(actionOptions, 'TrackEventId');
+        const trackOption = this.getActionOption(actionOptions, 'TrackEventId');
         if (trackOption) {
             trackEvent('admin', 'click_warn_metric_bot_id', {metric: trackOption.value});
         }
 
-        const actionId = e.currentTarget.getAttribute('data-action-id');
-        const actionCookie = e.currentTarget.getAttribute('data-action-cookie');
+        const actionId = e.currentTarget.getAttribute('data-action-id') || '';
+        const actionCookie = e.currentTarget.getAttribute('data-action-cookie') || '';
 
         this.props.actions.doPostActionWithCookie(this.props.postId, actionId, actionCookie).then(() => {
             this.handleCustomActions(actionOptions);
@@ -175,16 +190,16 @@ export default class MessageAttachment extends React.PureComponent {
         });
     };
 
-    handleCustomActions = (actionOptions) => {
-        var extUrlOption = this.getActionOption(actionOptions, 'WarnMetricMailtoUrl');
+    handleCustomActions = (actionOptions?: PostActionOption[]) => {
+        const extUrlOption = this.getActionOption(actionOptions, 'WarnMetricMailtoUrl');
         if (extUrlOption) {
             const mailtoPayload = JSON.parse(extUrlOption.value);
             window.location.href = 'mailto:' + mailtoPayload.mail_recipient + '?cc=' + mailtoPayload.mail_cc + '&subject=' + encodeURIComponent(mailtoPayload.mail_subject) + '&body=' + encodeURIComponent(mailtoPayload.mail_body);
         }
     }
 
-    getActionOption = (actionOptions, optionName) => {
-        var opt = null;
+    getActionOption = (actionOptions: PostActionOption[] | undefined, optionName: string) => {
+        let opt = null;
         if (actionOptions) {
             opt = actionOptions.find((option) => option.text === optionName);
         }
@@ -199,14 +214,14 @@ export default class MessageAttachment extends React.PureComponent {
 
         const fieldTables = [];
 
-        let headerCols = [];
-        let bodyCols = [];
+        let headerCols = [] as JSX.Element[];
+        let bodyCols = [] as JSX.Element[];
         let rowPos = 0;
         let lastWasLong = false;
         let nrTables = 0;
         const markdown = {markdown: false, mentionHighlight: false};
 
-        fields.forEach((field, i) => {
+        fields.forEach((field: MessageAttachmentField, i: number) => {
             if (rowPos === 2 || !(field.short === true) || lastWasLong) {
                 fieldTables.push(
                     <table
@@ -235,7 +250,6 @@ export default class MessageAttachment extends React.PureComponent {
                 <th
                     className='attachment-field__caption'
                     key={'attachment__field-caption-' + i + '__' + nrTables}
-                    width='50%'
                 >
                     <Markdown
                         message={field.title}
@@ -281,7 +295,7 @@ export default class MessageAttachment extends React.PureComponent {
         );
     };
 
-    handleFormattedTextClick = (e) => Utils.handleFormattedTextClick(e, this.props.currentRelativeTeamUrl);
+    handleFormattedTextClick = (e: React.MouseEvent) => Utils.handleFormattedTextClick(e, this.props.currentRelativeTeamUrl);
 
     render() {
         const {attachment, options} = this.props;
@@ -297,14 +311,14 @@ export default class MessageAttachment extends React.PureComponent {
             );
         }
 
-        let author = [];
+        let author = [] as JSX.Element[];
         if (attachment.author_name || attachment.author_icon) {
             if (attachment.author_icon) {
                 author.push(
                     <ExternalImage
                         key={'attachment__author-icon'}
                         src={attachment.author_icon}
-                        imageMetadata={this.props.imagesMetadata[attachment.author_icon]}
+                        imageMetadata={this.props.imagesMetadata && this.props.imagesMetadata[attachment.author_icon]}
                     >
                         {(iconUrl) => (
                             <img
@@ -330,15 +344,16 @@ export default class MessageAttachment extends React.PureComponent {
             }
         }
         if (attachment.author_link && isUrlSafe(attachment.author_link)) {
-            author = (
+            author = [(
                 <a
                     href={attachment.author_link}
                     target='_blank'
                     rel='noopener noreferrer'
+                    key={'attachment__author-name'}
                 >
                     {author}
                 </a>
-            );
+            )];
         }
 
         let title;
@@ -391,7 +406,7 @@ export default class MessageAttachment extends React.PureComponent {
 
         let image;
         if (attachment.image_url) {
-            const imageMetadata = this.props.imagesMetadata[attachment.image_url];
+            const imageMetadata = this.props.imagesMetadata && this.props.imagesMetadata[attachment.image_url];
 
             image = (
                 <div className='attachment__image-container'>
@@ -416,7 +431,7 @@ export default class MessageAttachment extends React.PureComponent {
         if (attachment.footer) {
             let footerIcon;
             if (attachment.footer_icon) {
-                const footerIconMetadata = this.props.imagesMetadata[attachment.footer_icon];
+                const footerIconMetadata = this.props.imagesMetadata && this.props.imagesMetadata[attachment.footer_icon];
 
                 footerIcon = (
                     <ExternalImage
@@ -446,7 +461,7 @@ export default class MessageAttachment extends React.PureComponent {
 
         let thumb;
         if (attachment.thumb_url) {
-            const thumbMetadata = this.props.imagesMetadata[attachment.thumb_url];
+            const thumbMetadata = this.props.imagesMetadata && this.props.imagesMetadata[attachment.thumb_url];
 
             thumb = (
                 <div className='attachment__thumb-container'>
@@ -509,6 +524,6 @@ export default class MessageAttachment extends React.PureComponent {
 }
 
 const style = {
-    footer: {clear: 'both'},
+    footer: {clear: 'both'} as CSSProperties,
 };
 /* eslint-enable react/no-string-refs */

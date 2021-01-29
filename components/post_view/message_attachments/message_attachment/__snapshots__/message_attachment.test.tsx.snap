@@ -25,6 +25,7 @@ exports[`components/post_view/MessageAttachment should call actions.doPostAction
     >
       <a
         href="author_link"
+        key="attachment__author-name"
         rel="noopener noreferrer"
         target="_blank"
       >
@@ -110,7 +111,6 @@ exports[`components/post_view/MessageAttachment should call actions.doPostAction
                 }
               }
               actionExecuting={false}
-              actionExecutingMessage={null}
               handleAction={[Function]}
               key="action_id_1"
             />
@@ -169,6 +169,7 @@ exports[`components/post_view/MessageAttachment should match snapshot 1`] = `
     >
       <a
         href="author_link"
+        key="attachment__author-name"
         rel="noopener noreferrer"
         target="_blank"
       >
@@ -296,6 +297,7 @@ exports[`components/post_view/MessageAttachment should match snapshot when no fo
     >
       <a
         href="author_link"
+        key="attachment__author-name"
         rel="noopener noreferrer"
         target="_blank"
       >
@@ -591,7 +593,6 @@ exports[`components/post_view/MessageAttachment should match value on getFieldsT
       <tr>
         <th
           className="attachment-field__caption"
-          width="50%"
         >
           <Memo(Connect(Markdown))
             message="title_1"
@@ -624,7 +625,6 @@ exports[`components/post_view/MessageAttachment should match value on getFieldsT
       <tr>
         <th
           className="attachment-field__caption"
-          width="50%"
         >
           <Memo(Connect(Markdown))
             message="title_2"
@@ -667,7 +667,6 @@ exports[`components/post_view/MessageAttachment should match value on renderPost
       }
     }
     actionExecuting={false}
-    actionExecutingMessage={null}
     handleAction={[Function]}
   />
   <Memo(Connect(ActionButton))
@@ -678,7 +677,6 @@ exports[`components/post_view/MessageAttachment should match value on renderPost
       }
     }
     actionExecuting={false}
-    actionExecutingMessage={null}
     handleAction={[Function]}
   />
   <Memo(Connect(ActionMenu))
