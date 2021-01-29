@@ -17,7 +17,7 @@ import UserProfile from '../../user_profile/user_profile';
 type Props = {
     displayName?: string;
     enablePostUsernameOverride?: boolean;
-    parentPostUser?: UserProfileType;
+    parentPostUser?: UserProfileType | null;
     onCommentClick?: React.EventHandler<React.MouseEvent>;
     post: Post;
 }

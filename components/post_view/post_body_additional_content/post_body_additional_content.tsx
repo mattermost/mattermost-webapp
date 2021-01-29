@@ -20,7 +20,7 @@ export type Props = {
     children?: JSX.Element;
     isEmbedVisible?: boolean;
     options?: unknown;
-    actions: {
+    actions?: {
         toggleEmbedVisibility: (id: string) => void;
     };
 };
