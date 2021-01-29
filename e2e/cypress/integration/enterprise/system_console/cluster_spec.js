@@ -6,7 +6,8 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @enterprise @system_console
+// Stage: @prod
+// Group: @enterprise @system_console @high_availability
 
 describe('Cluster', () => {
     before(() => {
