@@ -214,7 +214,7 @@ export default class PostHeader extends React.PureComponent<Props> {
             );
         }
 
-        if (this.props.isCustomStatusEnabled && !isCustomStatusSet && this.props.showUpdateStatusButton && this.props.isCurrentUserLastPostGroupFirstPost) {
+        if (this.props.isCustomStatusEnabled && !isSystemMessage && isCurrentUser && !isCustomStatusSet && this.props.showUpdateStatusButton && this.props.isCurrentUserLastPostGroupFirstPost) {
             customStatus = (
                 <div
                     onClick={this.updateStatus}

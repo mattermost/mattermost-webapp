@@ -18,7 +18,7 @@ import OverlayTrigger from 'components/overlay_trigger';
 import Constants from 'utils/constants';
 import RenderEmoji from 'components/emoji/render_emoji';
 
-import {showCustomStatusPulsatingDotAndPostHeader} from 'utils/custom_status';
+import {showStatusDropdownPulsatingDot} from 'utils/custom_status';
 import {setCustomStatusInitialisationState} from 'actions/views/custom_status';
 
 import CustomStatusSuggestion from './custom_status_suggestion';
@@ -40,11 +40,11 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
     const [text, setText] = useState<string>(currentCustomStatus.text);
     const [emoji, setEmoji] = useState<string>(currentCustomStatus.emoji);
     const isStatusSet = emoji || text;
-    const firstTimeModalOpened = useSelector((state: GlobalState) => showCustomStatusPulsatingDotAndPostHeader(state));
+    const firstTimeModalOpened = useSelector((state: GlobalState) => showStatusDropdownPulsatingDot(state));
 
     const handleCustomStatusInitializationState = () => {
         if (firstTimeModalOpened) {
-            dispatch(setCustomStatusInitialisationState({hasClickedSetStatusBefore: true}));
+            dispatch(setCustomStatusInitialisationState({hasOpenedSetCustomStatusModal: true}));
         }
     };
 

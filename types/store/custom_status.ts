@@ -2,5 +2,5 @@
 // See LICENSE.txt for license information.
 
 export type CustomStatusInitialisationStates = {
-    hasClickedSetStatusBefore: boolean;
+    hasOpenedSetCustomStatusModal: boolean;
 }
