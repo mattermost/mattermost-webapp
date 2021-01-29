@@ -2158,11 +2158,8 @@ export function stringToNumber(s) {
     return parseInt(s, 10);
 }
 
-export function shouldProcessApps(state) {
-    const statuses = state.entities.admin.pluginStatuses;
-    let proxy;
-    if (statuses) {
-        proxy = statuses['com.mattermost.apps']; // eslint-disable-line no-unused-vars
-    }
-    return true;//Boolean(proxy && proxy.state === PluginStates.PLUGIN_STATE_RUNNING);
+export function shouldProcessApps(state) {// eslint-disable-line no-unused-vars
+    // TODO uncomment when featur flag is in place
+    //return getConfig(state)?.['FeatureFlagApps' as keyof Partial<ClientConfig>];
+    return true;
 }
