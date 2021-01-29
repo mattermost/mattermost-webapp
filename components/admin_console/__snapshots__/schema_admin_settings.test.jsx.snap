@@ -330,7 +330,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                   "value": "ro",
                 },
                 Object {
-                  "order": 9,
+                  "order
                   "text": "Svenska (Beta)",
                   "value": "sv",
                 },
