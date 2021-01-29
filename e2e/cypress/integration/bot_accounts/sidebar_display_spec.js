@@ -73,7 +73,7 @@ describe('Bot accounts', () => {
 
         // # Login as regular user and visit a channel
         cy.apiLogin(testUser);
-        cy.visitAndWait(`/${team.name}/messages/@${bots[0].username}`);
+        cy.visit(`/${team.name}/messages/@${bots[0].username}`);
 
         cy.get('li.active > .sidebar-item').then(($link) => {
             $link[0]?.scrollIntoView();
@@ -94,7 +94,7 @@ describe('Bot accounts', () => {
 
         // # Login as regular user and visit a channel
         cy.apiLogin(testUser);
-        cy.visitAndWait(`/${team.name}/messages/@${bots[0].username}`);
+        cy.visit(`/${team.name}/messages/@${bots[0].username}`);
 
         cy.get('.SidebarChannelGroup:contains(DIRECT MESSAGES) .SidebarChannel.active > .SidebarLink').then(($link) => {
             // * Verify DM label
@@ -107,7 +107,7 @@ describe('Bot accounts', () => {
         cy.postMessage('Bump bot chat recency');
 
         // # Open a new DM
-        cy.visitAndWait(`/${team.name}/messages/@${createdUsers[0].username}`);
+        cy.visit(`/${team.name}/messages/@${createdUsers[0].username}`);
         cy.postMessage('Hello, regular user');
 
         // * Verify Bots and Regular users as siblings in DMs
