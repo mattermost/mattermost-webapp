@@ -3,17 +3,19 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {setStatus} from 'mattermost-redux/actions/users';
+import {setStatus, unsetCustomStatus} from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
 import {getCurrentUser, getStatusForUserId} from 'mattermost-redux/selectors/entities/users';
 import {Preferences} from 'mattermost-redux/constants';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 
 import {openModal} from 'actions/views/modals';
+import {setStatusDropdown} from 'actions/views/status_dropdown';
 
 import StatusDropdown from 'components/status_dropdown/status_dropdown.jsx';
-import {unsetUserCustomStatus} from 'actions/views/custom_status';
 import {getCustomStatus, isCustomStatusEnabled} from 'selectors/views/custom_status';
+import {showCustomStatusPulsatingDotAndPostHeader} from 'utils/custom_status';
+import {isStatusDropdownOpen} from 'selectors/views/status_dropdown';
 
 function mapStateToProps(state) {
     const currentUser = getCurrentUser(state);
@@ -30,6 +32,8 @@ function mapStateToProps(state) {
         status: getStatusForUserId(state, userId),
         customStatus: getCustomStatus(state, userId),
         isCustomStatusEnabled: isCustomStatusEnabled(state),
+        isStatusDropdownOpen: isStatusDropdownOpen(state),
+        showCustomStatusPulsatingDot: showCustomStatusPulsatingDotAndPostHeader(state),
     };
 }
 
@@ -38,7 +42,8 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             openModal,
             setStatus,
-            unsetUserCustomStatus,
+            unsetCustomStatus,
+            setStatusDropdown,
         }, dispatch),
     };
 }

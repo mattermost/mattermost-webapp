@@ -5,7 +5,7 @@ import {createSelector} from 'reselect';
 
 import {Client4} from 'mattermost-redux/client';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
-import {makeGetReactionsForPost} from 'mattermost-redux/selectors/entities/posts';
+import {makeGetReactionsForPost, getPost} from 'mattermost-redux/selectors/entities/posts';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {makeGetDisplayName, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {Permissions, Posts} from 'mattermost-redux/constants';
@@ -485,4 +485,58 @@ export function makeGetReplyCount() {
             return postIds.map((id) => allPosts[id]).filter((post) => post && !isPostEphemeral(post)).length;
         },
     );
+}
+
+export function areConsecutivePostsBySameUser(post, previousPost) {
+    if (!(post && previousPost)) {
+        return false;
+    }
+    return post.user_id === previousPost.user_id && // The post is by the same user
+        post.create_at - previousPost.create_at <= Posts.POST_COLLAPSE_TIMEOUT && // And was within a short time period
+        !(post.props && post.props.from_webhook) && !(previousPost.props && previousPost.props.from_webhook) && // And neither is from a webhook
+        !isSystemMessage(post) && !isSystemMessage(previousPost); // And neither is a system message
+}
+
+export function getPostFromId(state, id) {
+    if (isIdNotPost(id)) {
+        //not a post
+        return null;
+    }
+
+    if (PostListUtils.isCombinedUserActivityPost(id)) {
+        // This is a combined post, so this cannot be a valid user post
+        return null;
+    }
+
+    return getPost(state, id);
+}
+
+export function getCurrentUserLastPostGroupFirstPostId(state, postListIds) {
+    //This function returns the first post id of the last post group by the current user
+    let currentUserLastPost;
+
+    postListIds.find((id) => {
+        const post = getPostFromId(state, id);
+        if (!post) {
+            if (currentUserLastPost) {
+                return true;
+            }
+            return false;
+        }
+
+        if (isPostOwner(state, post) && !isSystemMessage(post)) {
+            if (currentUserLastPost) {
+                if (!areConsecutivePostsBySameUser(currentUserLastPost, post)) {
+                    return true;
+                }
+            }
+            currentUserLastPost = post;
+        } else {
+            return Boolean(currentUserLastPost);
+        }
+
+        return false;
+    });
+
+    return currentUserLastPost ? currentUserLastPost.id : '';
 }

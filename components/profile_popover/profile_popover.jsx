@@ -151,7 +151,7 @@ class ProfilePopover extends React.PureComponent {
         this.customStatusTextRef = React.createRef();
         this.state = {
             loadingDMChannel: -1,
-            showTooltip: false,
+            showCustomStatusTooltip: false,
         };
     }
 
@@ -163,9 +163,9 @@ class ProfilePopover extends React.PureComponent {
     showCustomStatusTextTooltip = () => {
         const element = this.customStatusTextRef.current;
         if (element && element.offsetWidth < element.scrollWidth) {
-            this.setState({showTooltip: true});
+            this.setState({showCustomStatusTooltip: true});
         } else {
-            this.setState({showTooltip: false});
+            this.setState({showCustomStatusTooltip: false});
         }
     }
 
@@ -439,7 +439,7 @@ class ProfilePopover extends React.PureComponent {
                         {customStatus.text}
                     </div>
                 );
-                if (this.state.showTooltip) {
+                if (this.state.showCustomStatusTooltip) {
                     customStatusText = (
                         <OverlayTrigger
                             delayShow={Constants.OVERLAY_TIME_DELAY}

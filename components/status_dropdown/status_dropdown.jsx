@@ -36,10 +36,13 @@ export default class StatusDropdown extends React.PureComponent {
         actions: PropTypes.shape({
             openModal: PropTypes.func.isRequired,
             setStatus: PropTypes.func.isRequired,
-            unsetUserCustomStatus: PropTypes.func.isRequired,
+            unsetCustomStatus: PropTypes.func.isRequired,
+            setStatusDropdown: PropTypes.func.isRequired,
         }).isRequired,
         customStatus: PropTypes.object,
         isCustomStatusEnabled: PropTypes.bool.isRequired,
+        isStatusDropdownOpen: PropTypes.bool.isRequired,
+        showCustomStatusPulsatingDot: PropTypes.bool.isRequired,
     }
 
     static defaultProps = {
@@ -147,13 +150,14 @@ export default class StatusDropdown extends React.PureComponent {
     }
     handleClearStatus = (e) => {
         e.stopPropagation();
-        this.props.actions.unsetUserCustomStatus();
+        this.props.actions.unsetCustomStatus();
     };
 
     onToggle = (open) => {
         if (open) {
             this.showCustomStatusTextTooltip();
         }
+        this.props.actions.setStatusDropdown(open);
     }
 
     render() {
@@ -235,7 +239,7 @@ export default class StatusDropdown extends React.PureComponent {
                     </div>
                 );
 
-            const pulsatingDot = !isStatusSet && (
+            const pulsatingDot = !isStatusSet && this.props.showCustomStatusPulsatingDot && (
                 <div className='pulsating_dot'/>
             );
 
@@ -257,6 +261,7 @@ export default class StatusDropdown extends React.PureComponent {
             <MenuWrapper
                 onToggle={this.onToggle}
                 style={this.props.style}
+                open={this.props.isStatusDropdownOpen}
                 className={'status-dropdown-menu'}
             >
                 <div className='status-wrapper status-selector'>
@@ -278,14 +283,14 @@ export default class StatusDropdown extends React.PureComponent {
                     ariaLabel={localizeMessage('status_dropdown.menuAriaLabel', 'Set a status')}
                     id='statusDropdownMenu'
                 >
-                    {!this.props.isCustomStatusEnabled &&
+                    {!this.props.isCustomStatusEnabled && (
                         <Menu.Header>
                             <FormattedMessage
                                 id='status_dropdown.set_your_status'
                                 defaultMessage='Status'
                             />
                         </Menu.Header>
-                    }
+                    )}
                     <Menu.Group>
                         <Menu.ItemAction
                             show={this.isUserOutOfOffice()}

@@ -6,7 +6,9 @@ import {FormattedMessage} from 'react-intl';
 
 import {Post} from 'mattermost-redux/types/posts';
 
-import Constants, {ModalIdentifiers} from 'utils/constants';
+import {UserCustomStatus} from 'mattermost-redux/types/users';
+
+import Constants from 'utils/constants';
 import * as PostUtils from 'utils/post_utils.jsx';
 import PostInfo from 'components/post_view/post_info';
 import UserProfile from 'components/user_profile';
@@ -14,8 +16,7 @@ import BotBadge from 'components/widgets/badges/bot_badge';
 import Badge from 'components/widgets/badges/badge';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
-import CustomStatusModal from 'components/custom_status/custom_status_modal';
-import {CustomStatus} from 'types/store/custom_status';
+import './post_header.scss';
 
 export type Props = {
 
@@ -85,6 +86,11 @@ export type Props = {
     isLastPost?: boolean;
 
     /**
+     * To Check if the current post is last in the list by the current user
+     */
+    isCurrentUserLastPostGroupFirstPost?: boolean;
+
+    /**
      * Source of image that should be override current user profile.
      */
     overwriteIcon?: string;
@@ -92,7 +98,7 @@ export type Props = {
     /**
      * Custom status of the user
      */
-    customStatus: CustomStatus;
+    customStatus: UserCustomStatus;
 
     /**
      * User id of logged in user.
@@ -100,21 +106,16 @@ export type Props = {
     currentUserID: string;
 
     isCustomStatusEnabled: boolean;
+    showUpdateStatusButton: boolean;
 
     actions: {
-        openModal: (modalData: { modalId: string; dialogType: any; dialogProps?: any }) => void;
+        setStatusDropdown: (open: boolean) => void;
     };
 };
 
 export default class PostHeader extends React.PureComponent<Props> {
-    showCustomStatusModal = () => {
-        const customStatusInputModalData = {
-            modalId: ModalIdentifiers.CUSTOM_STATUS,
-            dialogType: CustomStatusModal,
-            dialogProps: {userId: this.props.currentUserID},
-        };
-
-        this.props.actions.openModal(customStatusInputModalData);
+    updateStatus = () => {
+        this.props.actions.setStatusDropdown(true);
     }
 
     render(): JSX.Element {
@@ -200,7 +201,6 @@ export default class PostHeader extends React.PureComponent<Props> {
 
         const userCustomStatus = this.props.customStatus;
         const isCustomStatusSet = userCustomStatus && userCustomStatus.emoji;
-        const isCurrentUser = this.props.post.user_id && this.props.post.user_id === this.props.currentUserID;
         if (this.props.isCustomStatusEnabled && !isSystemMessage && isCustomStatusSet) {
             customStatus = (
                 <CustomStatusEmoji
@@ -214,10 +214,10 @@ export default class PostHeader extends React.PureComponent<Props> {
             );
         }
 
-        if (this.props.isCustomStatusEnabled && !isSystemMessage && isCurrentUser && !isCustomStatusSet && this.props.isLastPost) {
+        if (this.props.isCustomStatusEnabled && !isCustomStatusSet && this.props.showUpdateStatusButton && this.props.isCurrentUserLastPostGroupFirstPost) {
             customStatus = (
                 <div
-                    onClick={this.showCustomStatusModal}
+                    onClick={this.updateStatus}
                     className='post__header-set-custom-status cursor--pointer'
                 >
                     <EmojiIcon className='post__header-set-custom-status-icon'/>

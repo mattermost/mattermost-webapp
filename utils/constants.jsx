@@ -161,6 +161,7 @@ export const ActionTypes = keyMirror({
 
     INCREMENT_EMOJI_PICKER_PAGE: null,
 
+    STATUS_DROPDOWN_TOGGLE: null,
     TOGGLE_LHS: null,
     OPEN_LHS: null,
     CLOSE_LHS: null,

@@ -15,7 +15,8 @@ import {GlobalState} from 'types/store';
 import {isGuest} from 'utils/utils.jsx';
 
 import {getCustomStatus, isCustomStatusEnabled} from 'selectors/views/custom_status';
-import {openModal} from 'actions/views/modals';
+import {showCustomStatusPulsatingDotAndPostHeader} from 'utils/custom_status';
+import {setStatusDropdown} from 'actions/views/status_dropdown';
 
 import PostHeader, {Props} from './post_header';
 
@@ -43,13 +44,14 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
         customStatus,
         currentUserID: currentUser.id,
         isCustomStatusEnabled: isCustomStatusEnabled(state),
+        showUpdateStatusButton: showCustomStatusPulsatingDotAndPostHeader(state),
     };
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
-            openModal,
+            setStatusDropdown,
         }, dispatch),
     };
 }

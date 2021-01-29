@@ -5,43 +5,25 @@ import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {updateMe} from 'mattermost-redux/actions/users';
 import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 
-import {CustomStatus} from 'types/store/custom_status';
+import {CustomStatusInitialisationStates} from 'types/store/custom_status';
 
-export function updateUserCustomStatus(newCustomStatus: CustomStatus) {
+export function setCustomStatusInitialisationState(props: Partial<CustomStatusInitialisationStates>) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const user = {...getCurrentUser(getState())};
         const userProps = {...user.props};
-        const recentCustomStatuses = userProps.recentCustomStatuses ? JSON.parse(userProps.recentCustomStatuses) : [];
-        const updatedRecentCustomStatuses = [
-            newCustomStatus,
-            ...recentCustomStatuses.
-                filter((status: CustomStatus) => status.text !== newCustomStatus.text).
-                slice(0, 4),
-        ];
-        userProps.customStatus = JSON.stringify(newCustomStatus);
-        userProps.recentCustomStatuses = JSON.stringify(updatedRecentCustomStatuses);
+        let initialState = userProps.customStatusInitialisationState ? JSON.parse(userProps.customStatusInitialisationState) : {};
+        initialState = {...initialState, ...props};
+        userProps.customStatusInitialisationState = JSON.stringify(initialState);
         user.props = userProps;
         await dispatch(updateMe(user));
     };
 }
 
-export function unsetUserCustomStatus() {
+export function clearCustomStatusInitialisationState() {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const user = {...getCurrentUser(getState())};
         const userProps = {...user.props};
-        delete userProps.customStatus;
-        user.props = userProps;
-        await dispatch(updateMe(user));
-    };
-}
-
-export function removeRecentCustomStatus(status: CustomStatus) {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        const user = {...getCurrentUser(getState())};
-        const userProps = {...user.props};
-        const recentCustomStatuses = userProps.recentCustomStatuses ? JSON.parse(userProps.recentCustomStatuses) : [];
-        const updatedRecentCustomStatuses = recentCustomStatuses.filter((recentStatus: CustomStatus) => recentStatus.text !== status.text);
-        userProps.recentCustomStatuses = JSON.stringify(updatedRecentCustomStatuses);
+        userProps.customStatusInitialisationState = '';
         user.props = userProps;
         await dispatch(updateMe(user));
     };
