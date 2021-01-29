@@ -34,13 +34,13 @@ describe('Handle new post', () => {
             user1 = user;
 
             cy.apiLogin(user1);
-            cy.visitAndWait(`/${team.name}/channels/town-square`);
+            cy.visit(`/${team.name}/channels/town-square`);
         });
     });
 
     it('should mark channel as unread when a message is sent in another channel', () => {
         // * Verify that the channel starts read
-        cy.visitAndWait(`/${team1.name}/channels/${channel1.name}`);
+        cy.visit(`/${team1.name}/channels/${channel1.name}`);
         cy.get(`#sidebarItem_${channel1.name}`).should(beRead);
         cy.get(`#sidebarItem_${channel1.name} .badge`).should('not.exist');
 
@@ -57,7 +57,7 @@ describe('Handle new post', () => {
 
     it('should show the mention badge when a mention is sent in another channel', () => {
         // * Verify that the channel starts read
-        cy.visitAndWait(`/${team1.name}/channels/${channel1.name}`);
+        cy.visit(`/${team1.name}/channels/${channel1.name}`);
         cy.get(`#sidebarItem_${channel1.name}`).should(beRead);
         cy.get(`#sidebarItem_${channel1.name} .badge`).should('not.exist');
 

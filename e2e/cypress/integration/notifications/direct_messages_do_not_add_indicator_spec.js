@@ -41,7 +41,7 @@ describe('Notifications', () => {
 
             // # Remove mention notification (for initial channel).
             cy.apiLogin(user1);
-            cy.visitAndWait(testTeam1TownSquareUrl);
+            cy.visit(testTeam1TownSquareUrl);
             cy.get('#publicChannelList').get('.unread-title').click();
             cy.apiLogout();
         });
@@ -50,7 +50,7 @@ describe('Notifications', () => {
     it('MM-T561 Browser tab and team sidebar - direct messages don\'t add indicator on team icon in team sidebar (but do in browser tab)', () => {
         // # User A: Join teams A and B. Open team A
         cy.apiLogin(user1);
-        cy.visitAndWait(testTeam1TownSquareUrl);
+        cy.visit(testTeam1TownSquareUrl);
 
         // # User B: Join team B
         // # User B: Post a direct message to user A

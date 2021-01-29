@@ -15,7 +15,7 @@ describe('Settings', () => {
     });
 
     it('MM-T1149: Hide mobile-specific settings', () => {
-        cy.visitAndWait('/admin_console/site_config/file_sharing_downloads');
+        cy.visit('/admin_console/site_config/file_sharing_downloads');
 
         // * Check buttons
         cy.get('#adminConsoleWrapper .wrapper--fixed > .admin-console__wrapper').

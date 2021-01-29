@@ -45,7 +45,7 @@ describe('Email notification', () => {
 
             // # Login as test user and go to town square
             cy.apiLogin(testUser);
-            cy.visitAndWait(`/${team.name}/channels/town-square`);
+            cy.visit(`/${team.name}/channels/town-square`);
         });
     });
 
@@ -69,7 +69,7 @@ describe('Email notification', () => {
             const permalinkPostId = permalink.split('/')[6];
 
             // # Visit permalink (e.g. click on email link), view in browser to proceed
-            cy.visitAndWait(permalink);
+            cy.visit(permalink);
             cy.findByText('View in Browser').click();
 
             const postText = `#postMessageText_${permalinkPostId}`;

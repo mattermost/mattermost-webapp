@@ -47,7 +47,7 @@ describe('Custom emojis', () => {
             cy.apiAddUserToTeam(testTeam.id, otherUser.id);
         }).then(() => {
             cy.apiLogin(testUser);
-            cy.visitAndWait(townsquareLink);
+            cy.visit(townsquareLink);
         });
     });
 
@@ -155,7 +155,7 @@ describe('Custom emojis', () => {
         cy.apiLogin(otherUser);
 
         // # Navigate to a channel
-        cy.visitAndWait(townsquareLink);
+        cy.visit(townsquareLink);
 
         // * The emoji should be displayed in the post
         verifyLastPostedEmoji(customEmojiWithColons, largeEmojiFileResized);
@@ -164,7 +164,7 @@ describe('Custom emojis', () => {
         cy.apiLogin(testUser);
 
         // # Navigate to a channel
-        cy.visitAndWait(townsquareLink);
+        cy.visit(townsquareLink);
 
         // * The emoji should be displayed in the post
         verifyLastPostedEmoji(customEmojiWithColons, largeEmojiFileResized);

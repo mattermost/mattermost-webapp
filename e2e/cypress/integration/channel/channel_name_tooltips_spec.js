@@ -51,7 +51,7 @@ describe('channel name tooltips', () => {
             });
 
             cy.apiLogin(loggedUser);
-            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+            cy.visit(`/${testTeam.name}/channels/town-square`);
         });
     });
 

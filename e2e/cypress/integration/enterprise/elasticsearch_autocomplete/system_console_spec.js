@@ -28,7 +28,7 @@ describe('Elasticsearch system console', () => {
         });
 
         // # Visit the Elasticsearch settings page
-        cy.visitAndWait('/admin_console/environment/elasticsearch');
+        cy.visit('/admin_console/environment/elasticsearch');
 
         // * Verify that we can connect to Elasticsearch
         cy.get('#testConfig').find('button').click();

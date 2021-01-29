@@ -16,7 +16,7 @@ describe('Scroll', () => {
             // # Switch the account settings for the test user to have images collapsed by default
             cy.apiSaveCollapsePreviewsPreference('true');
 
-            cy.visitAndWait(`/${team.name}/channels/town-square`);
+            cy.visit(`/${team.name}/channels/town-square`);
 
             // # Post at least 10 messages in a channel
             Cypress._.times(10, (index) => cy.postMessage(index));
