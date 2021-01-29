@@ -34,7 +34,7 @@ describe('Managing bots in Teams and Channels', () => {
         cy.makeClient().then(async (client) => {
             // # Go to channel
             const channel = await client.getChannelByName(team.id, 'town-square');
-            cy.visitAndWait(`/${team.name}/channels/${channel.name}`);
+            cy.visit(`/${team.name}/channels/${channel.name}`);
 
             // # Invite bot to team
             const bot = await client.createBot(createBotPatch());
@@ -49,7 +49,7 @@ describe('Managing bots in Teams and Channels', () => {
         cy.makeClient().then(async (client) => {
             // # Go to channel
             const channel = await client.createChannel(createChannelPatch(team.id, 'a-chan', 'A Channel'));
-            cy.visitAndWait(`/${team.name}/channels/${channel.name}`);
+            cy.visit(`/${team.name}/channels/${channel.name}`);
 
             // # Add bot to team
             const bot = await client.createBot(createBotPatch());
@@ -67,7 +67,7 @@ describe('Managing bots in Teams and Channels', () => {
         cy.makeClient().then(async (client) => {
             // # Go to channel
             const channel = await client.createChannel(createChannelPatch(team.id, 'a-chan', 'A Channel'));
-            cy.visitAndWait(`/${team.name}/channels/${channel.name}`);
+            cy.visit(`/${team.name}/channels/${channel.name}`);
 
             // # Invite bot to team
             const bot = await client.createBot(createBotPatch());
@@ -82,7 +82,7 @@ describe('Managing bots in Teams and Channels', () => {
         cy.makeClient().then(async (client) => {
             // # Go to channel
             const channel = await client.createChannel(createChannelPatch(team.id, 'a-chan', 'A Channel'));
-            cy.visitAndWait(`/${team.name}/channels/${channel.name}`);
+            cy.visit(`/${team.name}/channels/${channel.name}`);
 
             // # And bot to team
             const bot = await client.createBot(createBotPatch());

@@ -30,7 +30,7 @@ describe('Autocomplete without Elasticsearch - Channel', () => {
             testUser = user;
             testTeam = team;
 
-            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+            cy.visit(`/${testTeam.name}/channels/town-square`);
         });
     });
 
@@ -115,7 +115,7 @@ describe('Autocomplete without Elasticsearch - Channel', () => {
 
         before(() => {
             // // # Visit town-square
-            cy.visitAndWait(`/${testTeam.name}`);
+            cy.visit(`/${testTeam.name}`);
 
             const name = 'hellothere';
 

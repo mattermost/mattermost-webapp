@@ -43,7 +43,7 @@ describe('Teams Settings', () => {
         cy.apiInitSetup().then(({team}) => {
             testTeam = team;
 
-            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+            cy.visit(`/${testTeam.name}/channels/town-square`);
         });
     });
 

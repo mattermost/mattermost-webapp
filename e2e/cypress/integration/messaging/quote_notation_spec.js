@@ -31,7 +31,7 @@ describe('Compact view: Markdown quotation', () => {
     it('MM-T185 Compact view: Markdown quotation', () => {
         cy.apiLogin(userOne);
         cy.apiCreateDirectChannel([userOne.id, userTwo.id]).then(() => {
-            cy.visitAndWait(`/${testTeam.name}/messages/@${userTwo.username}`);
+            cy.visit(`/${testTeam.name}/messages/@${userTwo.username}`);
 
             // # Post first message in case it is a new Channel
             cy.postMessage('Hello' + Date.now());
@@ -59,13 +59,13 @@ describe('Compact view: Markdown quotation', () => {
         // # Write a message from user2 to make sure we have the root on compact mode
         cy.apiLogout();
         cy.apiLogin(user2);
-        cy.visitAndWait(`/${testTeam.name}/messages/@${user1.username}`);
+        cy.visit(`/${testTeam.name}/messages/@${user1.username}`);
         cy.postMessage('Hello' + Date.now());
 
         // # Get back to user1
         cy.apiLogout();
         cy.apiLogin(user1);
-        cy.visitAndWait(`/${testTeam.name}/messages/@${user2.username}`);
+        cy.visit(`/${testTeam.name}/messages/@${user2.username}`);
     }
 
     function checkQuote(message) {

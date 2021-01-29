@@ -43,7 +43,7 @@ describe('Notifications', () => {
 
         cy.apiCreateChannel(testTeam.id, 'test_channel', 'Test Channel').then(({channel}) => {
             // # Visit the newly created channel as the first user and invite the second user
-            cy.visitAndWait(`/${testTeam.name}/channels/${channel.name}`);
+            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
             cy.apiAddUserToChannel(channel.id, secondUser.id);
 
             // # Go to the 'Off Topic' channel and logout
@@ -52,7 +52,7 @@ describe('Notifications', () => {
 
             // # Login as the second user and go to the team site
             cy.apiLogin(secondUser);
-            cy.visitAndWait(`/${testTeam.name}`);
+            cy.visit(`/${testTeam.name}`);
 
             // * Verify that the channel that the first created is visible and that there is one unread mention (for being invited)
             cy.get(`#sidebarItem_${channel.name}`, {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').within(() => {
@@ -73,7 +73,7 @@ describe('Notifications', () => {
 
             // # Login as first user and visit town square
             cy.apiLogin(firstUser);
-            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+            cy.visit(`/${testTeam.name}/channels/town-square`);
 
             // * Check that the display name of the team the user was invited to is being correctly displayed
             cy.get('#headerUsername', {timeout: TIMEOUTS.HALF_MIN}).should('contain.text', firstUser.username);

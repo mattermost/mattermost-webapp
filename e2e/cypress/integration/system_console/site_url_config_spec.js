@@ -17,7 +17,7 @@ describe('Site URL', () => {
 
     it('MM-T3279 - Don\'t allow clearing site URL in System Console', () => {
         // # Navigate to System Console -> Environment -> Web Server
-        cy.visitAndWait('/admin_console/environment/web_server');
+        cy.visit('/admin_console/environment/web_server');
 
         // # Note the site URL value
         cy.findByTestId('ServiceSettings.SiteURLinput').invoke('val').then((originalSiteURLValue) => {
@@ -34,7 +34,7 @@ describe('Site URL', () => {
             cy.findByTestId('errorMessage').contains('Site URL cannot be cleared.');
 
             // # Reload the page
-            cy.visitAndWait('/admin_console/environment/web_server');
+            cy.visit('/admin_console/environment/web_server');
 
             // * Check that the setting is the original value
             cy.findByTestId('ServiceSettings.SiteURLinput').should('have.value', originalSiteURLValue);
