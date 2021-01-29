@@ -14,7 +14,6 @@ import CloseCircleIcon from 'components/widgets/icons/close_circle_icon';
 
 import ChannelsInput from 'components/widgets/inputs/channels_input.jsx';
 import UsersEmailsInput from 'components/widgets/inputs/users_emails_input.jsx';
-import withGetCloudSubscription from '../../common/hocs/cloud/with_get_cloud_subcription';
 
 import './invitation_modal_guests_step.scss';
 
@@ -39,7 +38,6 @@ class InvitationModalGuestsStep extends React.PureComponent {
         subscriptionStats: PropTypes.object,
         actions: PropTypes.shape({
             getSubscriptionStats: PropTypes.func.isRequired,
-            getCloudSubscription: PropTypes.func.isRequired, // required by the withGetCloudSubscription HOC
         }).isRequired,
     }
 
@@ -369,4 +367,4 @@ class InvitationModalGuestsStep extends React.PureComponent {
     }
 }
 
-export default withGetCloudSubscription(InvitationModalGuestsStep);
+export default InvitationModalGuestsStep;

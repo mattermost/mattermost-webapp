@@ -23,14 +23,10 @@ describe('components/invitation_modal/InvitationModalGuestsStep', () => {
             remaining_seats: 6,
             is_paid_tier: 'false',
         },
-        subscription: {
-            is_paid_tier: 'false',
-        },
         myInvitableChannels: [],
         searchChannels: jest.fn(),
         actions: {
             getSubscriptionStats: () => {},
-            getCloudSubscription: () => {},
         },
     };
     test('should match the snapshot', () => {

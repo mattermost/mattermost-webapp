@@ -24,12 +24,8 @@ describe('components/invitation_modal/InvitationModalMembersStep', () => {
             remaining_seats: 6,
             is_paid_tier: 'false',
         },
-        subscription: {
-            is_paid_tier: 'false',
-        },
         actions: {
             getSubscriptionStats: () => {},
-            getCloudSubscription: () => {},
         },
     };
 
