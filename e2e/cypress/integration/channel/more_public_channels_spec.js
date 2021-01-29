@@ -10,8 +10,6 @@
 // Stage: @prod
 // Group: @channel
 
-import * as TIMEOUTS from '../../fixtures/timeouts';
-
 function verifyNoChannelToJoinMessage(isVisible) {
     cy.findByText('No more channels to join').should(isVisible ? 'be.visible' : 'not.exist');
     cy.findByText('Click \'Create New Channel\' to make a new one').should(isVisible ? 'be.visible' : 'not.exist');
@@ -52,14 +50,11 @@ describe('more public channels', () => {
         cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
 
         // # Go to LHS and click "More..." under Public Channels group
-        cy.get('#publicChannelList').should('be.visible').within(() => {
-            cy.findByText('More...').scrollIntoView().should('be.visible').click();
-        });
+        cy.findByRole('list', {name: 'public channels'}).
+            findByText('More...').scrollIntoView().should('be.visible').click();
 
         // * Assert that the moreChannelsModel is visible
-        cy.get('#moreChannelsModal').should('be.visible').within(() => {
-            cy.wait(TIMEOUTS.HALF_MIN);
-
+        cy.findByRole('dialog', {name: 'More Channels'}).should('be.visible').within(() => {
             // * Assert that the moreChannelsList is visible and the number of channels is 31
             cy.get('#moreChannelsList').should('be.visible').children().should('have.length', 31);
 
@@ -89,14 +84,11 @@ describe('more public channels', () => {
         cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
 
         // # Go to LHS and click "More..." under Public Channels group
-        cy.get('#publicChannelList').should('be.visible').within(() => {
-            cy.findByText('More...').scrollIntoView().should('be.visible').click();
-        });
+        cy.findByRole('list', {name: 'public channels'}).
+            findByText('More...').scrollIntoView().should('be.visible').click();
 
         // * Assert the moreChannelsModel is visible
-        cy.get('#moreChannelsModal').should('be.visible').within(() => {
-            cy.wait(TIMEOUTS.HALF_MIN);
-
+        cy.findByRole('dialog', {name: 'More Channels'}).should('be.visible').within(() => {
             // * Assert the moreChannelsList does have one child
             cy.get('#moreChannelsList').should('be.visible').children().should('have.length', 1);
 

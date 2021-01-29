@@ -1,17 +1,18 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {getEmailUrl, splitEmailBodyText, getRandomId} from '../../utils';
-
-const TIMEOUTS = require('../../fixtures/timeouts');
-
 // ***************************************************************
 // - [#] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @system_console
+
+import {getEmailUrl, splitEmailBodyText, getRandomId} from '../../utils';
+
+const TIMEOUTS = require('../../fixtures/timeouts');
 
 describe('User Management', () => {
     const newUsername = 'u' + getRandomId();
