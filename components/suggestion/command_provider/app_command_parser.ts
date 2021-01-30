@@ -291,7 +291,7 @@ export class AppCommandParser {
         }
 
         if (!parsed.binding) {
-            return parseError('"' + text + '" is not a valid command');
+            return parseError('"' + text + '": no match');
         }
         return parsed;
     }

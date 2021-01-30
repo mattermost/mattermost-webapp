@@ -9,7 +9,7 @@ import configureStore from 'redux-mock-store';
 import {AppBinding, AppForm} from 'mattermost-redux/types/apps';
 import {AppFieldTypes} from 'mattermost-redux/constants/apps';
 
-import {AppCommandParser, ParseState, ParseData, ParseError} from './app_command_parser';
+import {AppCommandParser, ParseState, ParseData, ParsedCommand, ParseError} from './app_command_parser';
 
 const mockStore = configureStore([thunk]);
 
@@ -238,6 +238,34 @@ describe('AppCommandParser', () => {
         parser = new AppCommandParser(store as any, '');
     });
 
+    type Variant = {
+        expectError?: string;
+        verify?(parsed: ParseData): void;
+    }
+
+    type TC = {
+        title: string;
+        command: string;
+        submit: Variant;
+        autocomplete?: Variant; // if undefined, use same checks as submnit
+    }
+
+    const checkResult = (res: ParsedCommand, v: Variant) => {
+        if (v.expectError) {
+            const err = res as ParseError;
+            expect(err.state).toBe(ParseState.Error);
+            expect(err.error).toBe(v.expectError);
+        } else {
+            const e = res as ParseError;
+            expect(e.error).toBeUndefined();
+            const parsed = res as ParseData;
+            expect(v.verify).toBeTruthy();
+            if (v.verify) {
+                v.verify(parsed);
+            }
+        }
+    };
+
     describe('getSuggestionsForBaseCommands', () => {
         test('string matches 1', () => {
             const res = parser.getSuggestionsForBaseCommands('/');
@@ -271,167 +299,109 @@ describe('AppCommandParser', () => {
     });
 
     describe('matchBinding', () => {
-        type TC = {
-            title: string;
-            command: string;
-            expectSubmitError?: boolean;
-            expectAutocompleteError?: boolean;
-            verifySubmit?(parsed: ParseData): void;
-            verifyAutocomplete?(parsed: ParseData): void;
-        }
-
-        const oneTest = (command: string, autocomplete: any, expectError: any, verifyf: ((parsed: ParseData) => any) | undefined): void => {
-            const res = parser.matchBinding(command, definitions, autocomplete);
-            if (expectError) {
-                expect(res.state).toBe(ParseState.Error);
-            } else {
-                const parsed = res as ParseData;
-                if (verifyf) {
-                    verifyf(parsed);
-                }
-            }
-        };
-
         const table: TC[] = [
             {
                 title: 'full command',
                 command: '/jira issue create --project P  --summary = "SUM MA RY" --verbose --epic=epic2',
-                verifyAutocomplete: (parsed: ParseData): void => {
+                submit: {verify: (parsed: ParseData): void => {
                     expect(parsed.state).toBe(ParseState.EndCommand);
                     expect(parsed.binding?.label).toBe('create');
                     expect(parsed.incomplete).toBe('--project');
                     expect(parsed.incompleteStart).toBe(19);
-                },
-                verifySubmit: (parsed: ParseData): void => {
-                    expect(parsed.state).toBe(ParseState.EndCommand);
-                    expect(parsed.binding?.label).toBe('create');
-                    expect(parsed.incomplete).toBe('--project');
-                    expect(parsed.incompleteStart).toBe(19);
-                },
+                }},
             },
             {
                 title: 'no space after the top command',
                 command: '/jira',
-                expectAutocompleteError: true,
-                verifySubmit: (parsed: ParseData): void => {
+                autocomplete: {expectError: '"/jira": no match'},
+                submit: {verify: (parsed: ParseData): void => {
                     expect(parsed.state).toBe(ParseState.CommandSeparator);
                     expect(parsed.binding?.label).toBe('jira');
-                },
+                }},
             },
             {
                 title: 'space after the top command',
                 command: '/jira ',
-                verifyAutocomplete: (parsed: ParseData): void => {
+                submit: {verify: (parsed: ParseData): void => {
                     expect(parsed.state).toBe(ParseState.CommandSeparator);
                     expect(parsed.binding?.label).toBe('jira');
-                },
-                verifySubmit: (parsed: ParseData): void => {
-                    expect(parsed.state).toBe(ParseState.CommandSeparator);
-                    expect(parsed.binding?.label).toBe('jira');
-                },
+                }},
             },
             {
                 title: 'middle of subcommand',
                 command: '/jira    iss',
-                verifyAutocomplete: (parsed: ParseData): void => {
+                autocomplete: {verify: (parsed: ParseData): void => {
                     expect(parsed.state).toBe(ParseState.Command);
                     expect(parsed.binding?.label).toBe('jira');
                     expect(parsed.incomplete).toBe('iss');
                     expect(parsed.incompleteStart).toBe(9);
-                },
-                verifySubmit: (parsed: ParseData): void => {
+                }},
+                submit: {verify: (parsed: ParseData): void => {
                     expect(parsed.state).toBe(ParseState.EndCommand);
                     expect(parsed.binding?.label).toBe('jira');
                     expect(parsed.incomplete).toBe('iss');
                     expect(parsed.incompleteStart).toBe(9);
-                },
+                }},
             },
             {
                 title: 'second subcommand, no space',
                 command: '/jira issue',
-                verifyAutocomplete: (parsed: ParseData): void => {
+                autocomplete: {verify: (parsed: ParseData): void => {
                     expect(parsed.state).toBe(ParseState.Command);
                     expect(parsed.binding?.label).toBe('jira');
                     expect(parsed.incomplete).toBe('issue');
                     expect(parsed.incompleteStart).toBe(6);
-                },
-                verifySubmit: (parsed: ParseData): void => {
+                }},
+                submit: {verify: (parsed: ParseData): void => {
                     expect(parsed.state).toBe(ParseState.CommandSeparator);
                     expect(parsed.binding?.label).toBe('issue');
                     expect(parsed.location).toBe('/jira/issue');
-                },
+                }},
             },
             {
                 title: 'token after the end of bindings, no space',
                 command: '/jira issue create  something',
-                verifyAutocomplete: (parsed: ParseData): void => {
+                autocomplete: {verify: (parsed: ParseData): void => {
                     expect(parsed.state).toBe(ParseState.Command);
                     expect(parsed.binding?.label).toBe('create');
                     expect(parsed.incomplete).toBe('something');
                     expect(parsed.incompleteStart).toBe(20);
-                },
-                verifySubmit: (parsed: ParseData): void => {
+                }},
+                submit: {verify: (parsed: ParseData): void => {
                     expect(parsed.state).toBe(ParseState.EndCommand);
                     expect(parsed.binding?.label).toBe('create');
                     expect(parsed.incomplete).toBe('something');
                     expect(parsed.incompleteStart).toBe(20);
-                },
+                }},
             },
             {
                 title: 'token after the end of bindings, with space',
                 command: '/jira issue create  something  ',
-                verifyAutocomplete: (parsed: ParseData): void => {
+                submit: {verify: (parsed: ParseData): void => {
                     expect(parsed.state).toBe(ParseState.EndCommand);
                     expect(parsed.binding?.label).toBe('create');
                     expect(parsed.incomplete).toBe('something');
                     expect(parsed.incompleteStart).toBe(20);
-                },
-                verifySubmit: (parsed: ParseData): void => {
-                    expect(parsed.state).toBe(ParseState.EndCommand);
-                    expect(parsed.binding?.label).toBe('create');
-                    expect(parsed.incomplete).toBe('something');
-                    expect(parsed.incompleteStart).toBe(20);
-                },
+                }},
             },
         ];
 
         table.forEach((tc) => {
             test(tc.title, async () => {
-                await oneTest(tc.command, true, tc.expectAutocompleteError, tc.verifyAutocomplete);
-                await oneTest(tc.command, false, tc.expectSubmitError, tc.verifySubmit);
+                const a = parser.matchBinding(tc.command, definitions, true);
+                checkResult(a, tc.autocomplete || tc.submit);
+                const s = parser.matchBinding(tc.command, definitions, false);
+                checkResult(s, tc.submit);
             });
         });
     });
 
     describe('parseCommand', () => {
-        type TC = {
-            title: string;
-            command: string;
-            expectSubmitError?: boolean;
-            expectAutocompleteError?: boolean;
-            verifySubmit?(parsed: ParseData): void;
-            verifyAutocomplete?(parsed: ParseData): void;
-        }
-
-        const oneTest = async (command: string, autocomplete: boolean, expectError: any, verifyf: ((parsed: ParseData) => any) | undefined): Promise<void> => {
-            const res = await parser.parseCommand(command, autocomplete);
-            if (expectError) {
-                expect(res.state).toBe(ParseState.Error);
-            } else {
-                const e = res as ParseError;
-                expect(e.error).toBeUndefined();
-                const parsed = res as ParseData;
-                if (verifyf) {
-                    verifyf(parsed);
-                }
-            }
-        };
-
         const table: TC[] = [
             {
                 title: 'happy full create',
                 command: '/jira issue create --project `P 1`  --summary "SUM MA RY" --verbose --epic=epic2',
-                verifyAutocomplete: (parsed: ParseData): void => {
+                submit: {verify: (parsed: ParseData): void => {
                     expect(parsed.state).toBe(ParseState.ParameterSeparator);
                     expect(parsed.binding?.label).toBe('create');
                     expect(parsed.form?.call?.url).toBe('/create-issue');
@@ -439,71 +409,63 @@ describe('AppCommandParser', () => {
                     expect(parsed.values?.epic).toBe('epic2');
                     expect(parsed.values?.summary).toBe('SUM MA RY');
                     expect(parsed.values?.verbose).toBe('true');
-                },
-                verifySubmit: (parsed: ParseData): void => {
-                    expect(parsed.state).toBe(ParseState.ParameterSeparator);
-                    expect(parsed.binding?.label).toBe('create');
-                    expect(parsed.form?.call?.url).toBe('/create-issue');
-                    expect(parsed.values?.project).toBe('P 1');
-                    expect(parsed.values?.epic).toBe('epic2');
-                    expect(parsed.values?.summary).toBe('SUM MA RY');
-                    expect(parsed.values?.verbose).toBe('true');
-                },
+                }},
             },
             {
                 title: 'happy full view',
-                command: '/jira issue view --project `P 1` MM-123',
-                verifyAutocomplete: (parsed: ParseData): void => {
+                command: '/jira issue view --project=`P 1` MM-123',
+                submit: {verify: (parsed: ParseData): void => {
                     expect(parsed.state).toBe(ParseState.ParameterSeparator);
                     expect(parsed.binding?.label).toBe('view');
                     expect(parsed.form?.call?.url).toBe('/view-issue');
                     expect(parsed.values?.project).toBe('P 1');
                     expect(parsed.values?.issue).toBe('MM-123');
-                },
-                verifySubmit: (parsed: ParseData): void => {
-                    expect(parsed.state).toBe(ParseState.ParameterSeparator);
-                    expect(parsed.binding?.label).toBe('view');
-                    expect(parsed.form?.call?.url).toBe('/view-issue');
-                    expect(parsed.values?.project).toBe('P 1');
-                    expect(parsed.values?.issue).toBe('MM-123');
-                },
+                }},
             },
             {
                 title: 'error: unmatched tick',
                 command: '/jira issue view --project `P 1 MM-123',
-                expectAutocompleteError: true,
-                expectSubmitError: true,
+                submit: {expectError: 'matching tick quote expected before end of input: 38'},
             },
             {
                 title: 'error: unmatched quote',
                 command: '/jira issue view --project "P 1 MM-123',
-                expectAutocompleteError: true,
-                expectSubmitError: true,
+                submit: {expectError: 'matching double quote expected before end of input: 38'},
             },
             {
                 title: 'missing required fields not a problem for parseCommand',
                 command: '/jira issue view --project "P 1"',
-                verifyAutocomplete: (parsed: ParseData): void => {
+                submit: {verify: (parsed: ParseData): void => {
                     expect(parsed.state).toBe(ParseState.ParameterSeparator);
                     expect(parsed.binding?.label).toBe('view');
                     expect(parsed.form?.call?.url).toBe('/view-issue');
                     expect(parsed.values?.project).toBe('P 1');
                     expect(parsed.values?.issue).toBe(undefined);
-                },
-                verifySubmit: (parsed: ParseData): void => {
-                    expect(parsed.state).toBe(ParseState.ParameterSeparator);
-                    expect(parsed.binding?.label).toBe('view');
-                    expect(parsed.form?.call?.url).toBe('/view-issue');
-                    expect(parsed.values?.project).toBe('P 1');
-                    expect(parsed.values?.issue).toBe(undefined);
-                },
+                }},
+            },
+            {
+                title: 'error: invalid flag',
+                command: '/jira issue view --wrong test',
+                submit: {expectError: 'command does not accept flag wrong: 24'},
+            },
+            {
+                title: 'error: unexpected positional',
+                command: '/jira issue create wrong',
+                submit: {expectError: 'command does not accept 1 positional arguments: 19'},
+            },
+            {
+                title: 'error: multiple equal signs',
+                command: '/jira issue create --project == test',
+                submit: {expectError: 'multiple = signs are not allowed: 30'},
             },
         ];
 
         table.forEach((tc) => {
             test(tc.title, async () => {
-                await oneTest(tc.command, true, tc.expectAutocompleteError, tc.verifyAutocomplete);
-                await oneTest(tc.command, false, tc.expectSubmitError, tc.verifySubmit);
+                const a = await parser.parseCommand(tc.command, true);
+                checkResult(a, tc.autocomplete || tc.submit);
+                const s = await parser.parseCommand(tc.command, false);
+                checkResult(s, tc.submit);
             });
         });
     });
