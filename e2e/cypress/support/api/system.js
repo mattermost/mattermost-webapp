@@ -100,7 +100,7 @@ Cypress.Commands.add('apiDeleteLicense', () => {
     });
 });
 
-const getDefaultConfig = () => {
+export const getDefaultConfig = () => {
     const cypressEnv = Cypress.env();
 
     const fromCypressEnv = {
@@ -109,7 +109,7 @@ const getDefaultConfig = () => {
             LdapPort: cypressEnv.ldapPort,
         },
         ServiceSettings: {
-            AllowedUntrustedInternalConnections: `localhost,${cypressEnv.ciBaseUrl}`,
+            AllowedUntrustedInternalConnections: 'localhost',
             SiteURL: Cypress.config('baseUrl'),
         },
     };
@@ -142,10 +142,8 @@ const expectConfigToBeUpdatable = (currentConfig, newConfig) => {
 };
 
 Cypress.Commands.add('apiUpdateConfig', (newConfig = {}) => {
-    // # Get current settings
-    return cy.request('/api/v4/config').then((response) => {
-        const currentConfig = response.body;
-
+    // # Get current config
+    return cy.apiGetConfig().then(({config: currentConfig}) => {
         // * Check if config can be updated
         expectConfigToBeUpdatable(currentConfig, newConfig);
 
@@ -263,6 +261,13 @@ Cypress.Commands.add('shouldHavePluginUploadEnabled', () => {
     return cy.apiGetConfig().then(({config}) => {
         const isUploadEnabled = config.PluginSettings.EnableUploads;
         expect(isUploadEnabled, isUploadEnabled ? '' : 'Should have Plugin upload enabled').to.equal(true);
+    });
+});
+
+Cypress.Commands.add('shouldRunWithSubpath', () => {
+    return cy.apiGetConfig().then(({config}) => {
+        const isSubpath = Boolean(config.ServiceSettings.SiteURL.replace(/^https?:\/\//, '').split('/')[1]);
+        expect(isSubpath, isSubpath ? '' : 'Should run on server running with subpath only').to.equal(true);
     });
 });
 

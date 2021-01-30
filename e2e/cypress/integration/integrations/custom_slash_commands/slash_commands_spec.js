@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @integrations
 
 /**
@@ -216,7 +217,6 @@ export function addNewCommand(team, trigger, url) {
 function runSlashCommand(team, trigger) {
     // # Go back to home channel
     cy.visit(`/${team.name}/channels/town-square`);
-    cy.wait(TIMEOUTS.TWO_SEC);
 
     // # Run slash command
     cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').clear().type(`/${trigger}{enter}{enter}`);

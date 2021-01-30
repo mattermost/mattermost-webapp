@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @autocomplete
 
 import {getTestUsers} from '../enterprise/elasticsearch_autocomplete/helpers';

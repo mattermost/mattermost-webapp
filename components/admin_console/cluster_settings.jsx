@@ -24,6 +24,7 @@ export default class ClusterSettings extends AdminSettings {
         config.ClusterSettings.UseIpAddress = this.state.UseIpAddress;
         config.ClusterSettings.UseExperimentalGossip = this.state.UseExperimentalGossip;
         config.ClusterSettings.EnableExperimentalGossipEncryption = this.state.EnableExperimentalGossipEncryption;
+        config.ClusterSettings.EnableGossipCompression = this.state.EnableGossipCompression;
         config.ClusterSettings.GossipPort = this.parseIntNonZero(this.state.GossipPort, 8074);
         config.ClusterSettings.StreamingPort = this.parseIntNonZero(this.state.StreamingPort, 8075);
         return config;
@@ -39,6 +40,7 @@ export default class ClusterSettings extends AdminSettings {
             UseIpAddress: settings.UseIpAddress,
             UseExperimentalGossip: settings.UseExperimentalGossip,
             EnableExperimentalGossipEncryption: settings.EnableExperimentalGossipEncryption,
+            EnableGossipCompression: settings.EnableGossipCompression,
             GossipPort: settings.GossipPort,
             StreamingPort: settings.StreamingPort,
             showWarning: false,
@@ -204,7 +206,7 @@ export default class ClusterSettings extends AdminSettings {
                     label={
                         <FormattedMessage
                             id='admin.cluster.UseExperimentalGossip'
-                            defaultMessage='Use Experimental Gossip:'
+                            defaultMessage='Use Gossip:'
                         />
                     }
                     helpText={
@@ -235,6 +237,25 @@ export default class ClusterSettings extends AdminSettings {
                     value={this.state.EnableExperimentalGossipEncryption}
                     onChange={this.overrideHandleChange}
                     setByEnv={this.isSetByEnv('ClusterSettings.EnableExperimentalGossipEncryption')}
+                    disabled={this.props.isDisabled}
+                />
+                <BooleanSetting
+                    id='EnableGossipCompression'
+                    label={
+                        <FormattedMessage
+                            id='admin.cluster.EnableGossipCompression'
+                            defaultMessage='Enable Gossip compression:'
+                        />
+                    }
+                    helpText={
+                        <FormattedMessage
+                            id='admin.cluster.EnableGossipCompressionDesc'
+                            defaultMessage='When true, all communication through the gossip protocol will be compressed. It is recommended to keep this flag disabled.'
+                        />
+                    }
+                    value={this.state.EnableGossipCompression}
+                    onChange={this.overrideHandleChange}
+                    setByEnv={this.isSetByEnv('ClusterSettings.EnableGossipCompression')}
                     disabled={this.props.isDisabled}
                 />
                 <TextSetting
