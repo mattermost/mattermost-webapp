@@ -41,7 +41,7 @@ export type Store = {
     getState: () => GlobalState;
 }
 
-enum ParseState {
+export enum ParseState {
     Start = 0,
     Command,
     EndCommand,
@@ -56,26 +56,36 @@ enum ParseState {
     QuotedValue,
     TickValue,
     EndValue,
+    Error,
 }
 
-interface ParsedCommand {
-    text: string;
+export interface ParseData {
     state: ParseState;
+    text: string;
     incomplete: string;
     incompleteStart: number;
     binding: AppBinding | null;
     form: AppForm;
-    field: AppField;
+    field: AppField | null;
     values: {[name: string]: string};
     location: string;
+}
+
+export interface ParseError {
+    state: ParseState;
     error: string;
 }
+
+export type ParsedCommand = ParseData | ParseError;
 
 const isSpace = (c: string): boolean => {
     return c === ' ' || c === '\t';
 };
-const parseError = (txt: string): ParsedCommand => {
-    return <ParsedCommand>{error: txt};
+const parseError = (txt: string): ParseError => {
+    return {
+        state: ParseState.Error,
+        error: txt,
+    };
 };
 
 export class AppCommandParser {
@@ -91,20 +101,27 @@ export class AppCommandParser {
 
     // composeCallFromCommandString creates the form submission call
     public composeCallFromCommandString = async (command: string): Promise<AppCall | null> => {
-        const parsed = await this.parseCommand(command);
-        return this.composeCallFromParsed(parsed);
-    }
-
-    // composeCallFromParsed creates the form submission call
-    composeCallFromParsed = (parsed: ParsedCommand): AppCall | null => {
-        if (parsed.error || !parsed.binding) {
-            this.displayError(parsed.error);
+        const res = await this.parseCommand(command);
+        if (res.state === ParseState.Error) {
+            const err = res as ParseError;
+            this.displayError(err.error);
             return null;
         }
+        const parsed = res as ParseData;
+
         const missing = this.getMissingFields(parsed);
         if (missing.length > 0) {
             const missingStr = missing.map((f) => f.label).join(', ');
             this.displayError('Required fields missing: ' + missingStr);
+            return null;
+        }
+
+        return this.composeCallFromParsed(parsed);
+    }
+
+    // composeCallFromParsed creates the form submission call
+    composeCallFromParsed = (parsed: ParseData): AppCall | null => {
+        if (!parsed.binding) {
             return null;
         }
 
@@ -168,10 +185,11 @@ export class AppCommandParser {
             return parseError('no command bindings');
         }
 
-        const parsed = this.matchBinding(text, commandBindings, autocompleteMode);
-        if (parsed.error) {
-            return parsed;
+        const res = this.matchBinding(text, commandBindings, autocompleteMode);
+        if (res.state === ParseState.Error) {
+            return res;
         }
+        const parsed = res as ParseData;
         parsed.form = await this.getFormForBinding(parsed);
         if (!parsed.incomplete) {
             return parsed;
@@ -182,10 +200,12 @@ export class AppCommandParser {
 
     // matchBinding finds the closest matching command binding.
     matchBinding = (text: string, commandBindings: AppBinding[], autocompleteMode = false): ParsedCommand => {
-        const parsed = <ParsedCommand>{
+        const parsed = {
             text,
             state: ParseState.Start,
-        };
+            values: {},
+            location: '',
+        } as ParseData;
         let bindings = commandBindings;
         let i = 0;
         let done = false;
@@ -235,11 +255,11 @@ export class AppCommandParser {
                     break;
                 }
                 parsed.binding = binding;
-                parsed.location += '/' + binding.location;
+                parsed.location += '/' + binding.label;
                 if (binding.bindings) {
                     bindings = binding.bindings;
                 } else {
-                    bindings = <AppBinding[]>{};
+                    bindings = [];
                 }
                 parsed.state = ParseState.CommandSeparator;
                 break;
@@ -256,14 +276,6 @@ export class AppCommandParser {
                 case ' ':
                 case '\t': {
                     i++;
-                    break;
-                }
-                case '"':
-                case '\\':
-                case '`':
-                case '-':
-                case '=': {
-                    return parseError('(sub-)command can not start with a ' + c + ': ' + i);
                     break;
                 }
                 default: {
@@ -286,23 +298,24 @@ export class AppCommandParser {
 
     /* eslint-disable no-loop-func */
     // parseForm parses the rest of the command using the specified form.
-    parseForm = (parsed: ParsedCommand, autompleteMode = false): ParsedCommand => {
-        let fields = <AppField[]>{};
+    parseForm = (parsed: ParseData, autompleteMode = false): ParsedCommand => {
+        let fields: AppField[] = [];
         if (parsed.form && parsed.form.fields) {
             fields = parsed.form.fields;
         }
 
         parsed.state = ParseState.Parameter;
-        let i = parsed.incompleteStart;
+        let i = parsed.incompleteStart || 0;
         let flagEqualsUsed = false;
         let positional = 0;
         let escaped = false;
+        const text = parsed.text || '';
 
         // eslint-disable-next-line no-constant-condition
         while (true) {
             let c = '';
-            if (i < parsed.text.length) {
-                c = parsed.text[i];
+            if (i < text.length) {
+                c = text[i];
             } else if (autompleteMode) {
                 return parsed;
             }
@@ -349,12 +362,13 @@ export class AppCommandParser {
                 break;
             }
             case ParseState.Flag: {
-                if (isSpace(c) || (c === '' && !autompleteMode)) {
+                if (isSpace(c) || c === '=' || (c === '' && !autompleteMode)) {
                     const field = fields.find((f) => f.label === parsed.incomplete);
                     if (!field) {
                         return parseError('command does not accept flag ' + parsed.incomplete + ': ' + i);
                     }
                     parsed.state = ParseState.FlagValueSeparator;
+                    parsed.field = field;
                     break;
                 } else if (c === '') {
                     return parsed;
@@ -447,14 +461,15 @@ export class AppCommandParser {
                 if (!parsed.field) {
                     return parseError('field value expected: ' + i);
                 }
+
                 if (parsed.field.type === AppFieldTypes.BOOL && parsed.incomplete !== 'true' && parsed.incomplete !== 'false') {
                     // in case of a boolean flag followed by not-a-boolean
                     // value, treat the value as a new parameter.
-                    i = parsed.incompleteStart;
-                    parsed.values[parsed.field.name] = 'true';
+                    i = parsed.incompleteStart || 0;
+                    parsed.values![parsed.field.name] = 'true';
                     parsed.state = ParseState.Parameter;
                 } else {
-                    parsed.values[parsed.field.name] = parsed.incomplete;
+                    parsed.values![parsed.field.name] = parsed.incomplete || '';
                     parsed.state = ParseState.ParameterSeparator;
                 }
                 parsed.incomplete = '';
@@ -594,7 +609,10 @@ export class AppCommandParser {
         return null;
     }
 
-    getFormForBinding = async (parsed: ParsedCommand): Promise<AppForm> => {
+    getFormForBinding = async (parsed: ParseData): Promise<AppForm> => {
+        if (parsed.binding?.form) {
+            return parsed.binding.form;
+        }
         const defaultForm = {
             fields: [],
         };
@@ -626,10 +644,11 @@ export class AppCommandParser {
     // getSuggestionsForCursorPosition computes subcommand/form suggestions
     // TODO we need the full text here, not just the pretext. Rework.
     getSuggestionsForCursorPosition = async (text: string): Promise<AutocompleteSuggestion[]> => {
-        const parsed = await this.parseCommand(text);
-        if (parsed.error || !parsed.binding) {
+        const res = await this.parseCommand(text);
+        if (res.state === ParseState.Error) {
             return [];
         }
+        const parsed = res as ParseData;
 
         let suggestions: AutocompleteSuggestion[] = [];
         if (parsed.state === ParseState.Command) {
@@ -655,7 +674,7 @@ export class AppCommandParser {
     }
 
     // getParameterSuggestions computes suggestions for positional argument values, flag names, and flag argument values
-    getParameterSuggestions = async (parsed: ParsedCommand): Promise<AutocompleteSuggestion[]> => {
+    getParameterSuggestions = async (parsed: ParseData): Promise<AutocompleteSuggestion[]> => {
         switch (Number(parsed.state)) {
         case ParseState.Flag:
             return this.getFlagNameSuggestions(parsed);
@@ -669,7 +688,7 @@ export class AppCommandParser {
     }
 
     // getExecuteSuggestion returns the "Execute Current Command" suggestion
-    getExecuteSuggestion = (parsed: ParsedCommand): AutocompleteSuggestion => {
+    getExecuteSuggestion = (parsed: ParseData): AutocompleteSuggestion => {
         let key = 'Ctrl';
         if (Utils.isMac()) {
             key = '⌘';
@@ -685,7 +704,7 @@ export class AppCommandParser {
     }
 
     // getMissingFields collects the required fields that were not supplied in a submission
-    getMissingFields = (parsed: ParsedCommand): AppField[] => {
+    getMissingFields = (parsed: ParseData): AppField[] => {
         const form = parsed.form;
         if (!form) {
             return [];
@@ -705,7 +724,7 @@ export class AppCommandParser {
     }
 
     // getParameterSuggestions computes suggestions for positional argument values, flag names, and flag argument values
-    getFlagNameSuggestions = (parsed: ParsedCommand): AutocompleteSuggestion[] => {
+    getFlagNameSuggestions = (parsed: ParseData): AutocompleteSuggestion[] => {
         if (!parsed.form || !parsed.form.fields || !parsed.form.fields.length) {
             return [];
         }
@@ -732,7 +751,7 @@ export class AppCommandParser {
     }
 
     // getSuggestionsForField gets suggestions for a positional or flag field value
-    getValueSuggestions = async (parsed: ParsedCommand): Promise<AutocompleteSuggestion[]> => {
+    getValueSuggestions = async (parsed: ParseData): Promise<AutocompleteSuggestion[]> => {
         if (!parsed || !parsed.field) {
             return [];
         }
@@ -760,7 +779,7 @@ export class AppCommandParser {
     }
 
     // getStaticSelectSuggestions returns suggestions specified in the field's options property
-    getStaticSelectSuggestions = (parsed: ParsedCommand): AutocompleteSuggestion[] => {
+    getStaticSelectSuggestions = (parsed: ParseData): AutocompleteSuggestion[] => {
         const f = parsed.field as AutocompleteStaticSelect;
         const opts = f.options.filter((opt) => opt.label.toLowerCase().startsWith(parsed.incomplete.toLowerCase()));
         return opts.map((opt) => ({
@@ -772,7 +791,7 @@ export class AppCommandParser {
     }
 
     // getDynamicSelectSuggestions fetches and returns suggestions from the server
-    getDynamicSelectSuggestions = async (parsed: ParsedCommand): Promise<AutocompleteSuggestion[]> => {
+    getDynamicSelectSuggestions = async (parsed: ParseData): Promise<AutocompleteSuggestion[]> => {
         const f = parsed.field;
         if (!f) {
             return [];
@@ -813,12 +832,12 @@ export class AppCommandParser {
     }
 
     // getUserSuggestions returns a suggestion with `@` if the user has not started typing
-    getUserSuggestions = (parsed: ParsedCommand): AutocompleteSuggestion[] => {
+    getUserSuggestions = (parsed: ParseData): AutocompleteSuggestion[] => {
         if (parsed.incomplete.trim().length === 0) {
             return [{
                 suggestion: '@',
-                description: parsed.field.description || '',
-                hint: parsed.field.hint || '',
+                description: parsed.field?.description || '',
+                hint: parsed.field?.hint || '',
             }];
         }
 
@@ -826,12 +845,12 @@ export class AppCommandParser {
     }
 
     // getChannelSuggestions returns a suggestion with `~` if the user has not started typing
-    getChannelSuggestions = (parsed: ParsedCommand): AutocompleteSuggestion[] => {
+    getChannelSuggestions = (parsed: ParseData): AutocompleteSuggestion[] => {
         if (parsed.incomplete.trim().length === 0) {
             return [{
                 suggestion: '~',
-                description: parsed.field.description || '',
-                hint: parsed.field.hint || '',
+                description: parsed.field?.description || '',
+                hint: parsed.field?.hint || '',
             }];
         }
 
@@ -839,7 +858,7 @@ export class AppCommandParser {
     }
 
     // getBooleanSuggestions returns true/false suggestions
-    getBooleanSuggestions = (parsed: ParsedCommand): AutocompleteSuggestion[] => {
+    getBooleanSuggestions = (parsed: ParseData): AutocompleteSuggestion[] => {
         const suggestions: AutocompleteSuggestion[] = [];
 
         if ('true'.startsWith(parsed.incomplete)) {
@@ -858,7 +877,7 @@ export class AppCommandParser {
     }
 
     // getSuggestionsForSubCommands returns suggestions for a subcommand's name
-    getCommandSuggestions = (parsed: ParsedCommand): AutocompleteSuggestion[] => {
+    getCommandSuggestions = (parsed: ParseData): AutocompleteSuggestion[] => {
         if (!parsed.binding || !parsed.binding.bindings || !parsed.binding.bindings.length) {
             return [];
         }
