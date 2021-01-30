@@ -1,41 +1,56 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, {ReactNode} from 'react';
 import {FormattedMessage} from 'react-intl';
+import {OAuthApp} from 'mattermost-redux/types/integrations';
 
 import icon50 from 'images/icon50x50.png';
 import FormError from 'components/form_error';
 import {browserHistory} from 'utils/browser_history';
-
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
-export default class Authorize extends React.PureComponent {
-    static get propTypes() {
-        return {
-            location: PropTypes.object.isRequired,
-            actions: PropTypes.shape({
-                getOAuthAppInfo: PropTypes.func.isRequired,
-                allowOAuth2: PropTypes.func.isRequired,
-            }).isRequired,
+export type Params = {
+    responseType: string | null;
+    clientId: string | null;
+    redirectUri: string | null;
+    state: string | null;
+    scope: string | null;
+}
+
+type Props = {
+    location: {
+        search: string;
+    };
+    actions: {
+        getOAuthAppInfo: (clientId: string | null) => Promise<{data: OAuthApp; error?: Error}>;
+        allowOAuth2: (params: Params) => Promise<{data?: any; error?: Error}>;
+    };
+}
+
+type State = {
+    app: OAuthApp | null;
+    error: string | null;
+}
+
+export default class Authorize extends React.PureComponent<Props, State> {
+    public constructor(props: Props) {
+        super(props);
+
+        this.state = {
+            app: null,
+            error: null,
         };
     }
 
-    constructor(props) {
-        super(props);
-
-        this.state = {};
-    }
-
-    componentDidMount() {
+    public componentDidMount(): void {
         // if we get to this point remove the antiClickjack blocker
         const blocker = document.getElementById('antiClickjack');
-        if (blocker) {
+        if (blocker && blocker.parentNode) {
             blocker.parentNode.removeChild(blocker);
         }
         const clientId = (new URLSearchParams(this.props.location.search)).get('client_id');
-        if (!((/^[a-z0-9]+$/).test(clientId))) {
+        if (clientId && !((/^[a-z0-9]+$/).test(clientId))) {
             return;
         }
 
@@ -47,7 +62,7 @@ export default class Authorize extends React.PureComponent {
             });
     }
 
-    handleAllow = () => {
+    public handleAllow = (): void => {
         const searchParams = new URLSearchParams(this.props.location.search);
         const params = {
             responseType: searchParams.get('response_type'),
@@ -68,9 +83,9 @@ export default class Authorize extends React.PureComponent {
         );
     }
 
-    handleDeny = () => {
+    public handleDeny = (): void => {
         const redirectUri = (new URLSearchParams(this.props.location.search)).get('redirect_uri');
-        if (redirectUri.startsWith('https://') || redirectUri.startsWith('http://')) {
+        if (redirectUri && (redirectUri.startsWith('https://') || redirectUri.startsWith('http://'))) {
             window.location.href = redirectUri + '?error=access_denied';
             return;
         }
@@ -78,7 +93,7 @@ export default class Authorize extends React.PureComponent {
         browserHistory.replace('/error');
     }
 
-    render() {
+    public render(): ReactNode {
         const app = this.state.app;
         if (!app) {
             return null;
