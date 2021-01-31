@@ -4,9 +4,15 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+type Props = {
+    initialized: boolean;
+    loading?: React.ReactNode;
+    children: React.ReactNode;
+}
+
 // This component mirrors redux-persist v5's PersistGate component, but it
 // is built to support redux-persist v4 which we use
-export default class PersistGate extends React.PureComponent {
+export default class PersistGate extends React.PureComponent<Props> {
     static propTypes = {
 
         /**
