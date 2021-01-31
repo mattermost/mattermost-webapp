@@ -71,6 +71,14 @@ const GlobalThreadsLink = () => {
                             {formatMessage({id: t('globalThreads.sidebarLink'), defaultMessage: 'Threads'})}
                         </span>
                     </div>
+                    {counts?.total_unread_threads > 0 && (
+                        <span
+                            id='unreadMentions'
+                            className='badge'
+                        >
+                            {counts.total_unread_threads}
+                        </span>
+                    )}
                 </Link>
             </li>
         </ul>
