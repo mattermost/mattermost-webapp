@@ -8,7 +8,7 @@ import {getMyChannels} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserLocale} from 'mattermost-redux/selectors/entities/i18n';
 import {sortChannelsByTypeAndDisplayName} from 'mattermost-redux/utils/channel_utils';
 
-import ChannelSelect from './channel_select.jsx';
+import ChannelSelect from './channel_select';
 
 const getMyChannelsSorted = createSelector(
     getMyChannels,
