@@ -4,8 +4,20 @@
 import React from 'react';
 
 type Props = {
+
+    /**
+     * Whether or not the local storage has been initialized
+     */
     initialized: boolean;
+
+    /**
+     * What to show while waiting for local storage to be initialized
+     */
     loading?: React.ReactNode;
+
+    /**
+     * The children that will be rendered once storage has been initialized
+     */
     children: React.ReactNode;
 }
 
