@@ -524,11 +524,11 @@ describe('AppCommandParser', () => {
         });
     });
 
-    // describe('getSuggestionsForCursorPosition', () => {
-        // test('just the app command', async () => {
-        //     const suggestions = await parser.getSuggestionsForCursorPosition('/jira');
-        //     expect(suggestions).toEqual([]);
-        // });
+    describe('getSuggestionsForCursorPosition', () => {
+        test('just the app command', async () => {
+            const suggestions = await parser.getSuggestionsForCursorPosition('/jira');
+            expect(suggestions).toEqual([]);
+        });
 
         // test('choosing subcommand 1', async () => {
         //     const suggestions = await parser.getSuggestionsForCursorPosition('/jira ');
@@ -817,5 +817,5 @@ describe('AppCommandParser', () => {
         //     expect(res).toHaveLength(1);
         //     expect(res).toEqual([parser.getSuggestionForExecute(cmdStr)]);
         // });
-    // });
+    });
 });
