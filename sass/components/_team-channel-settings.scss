@@ -43,6 +43,11 @@ span.greyed-out {
 .large-team-image-col {
     max-width: 129px;
     padding-right: 20px;
+
+    .TeamIcon {
+        background: rgba(0, 0, 0, .12);
+        margin-right: 12px;
+    }
 }
 .team-desc-col, .channel-desc-col {
     line-height: 20px;

@@ -6,7 +6,7 @@
  * @param {String} storyPath - path to story (e.g. "/story/badges--regular-badge")
  */
 Cypress.Commands.add('toWidgetStory', (storyPath) => {
-    cy.visitAndWait(Cypress.env('storybookUrl') + '?path=' + storyPath);
+    cy.visit(Cypress.env('storybookUrl') + '?path=' + storyPath);
 
     cy.url().should('include', storyPath);
 });

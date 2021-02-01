@@ -14,7 +14,7 @@ describe('Messaging', () => {
     before(() => {
         // # Login as test user and visit town-square channel
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visitAndWait(`/${team.name}/channels/town-square`);
+            cy.visit(`/${team.name}/channels/town-square`);
         });
     });
 

@@ -24,7 +24,7 @@ describe('System Console > User Management > Deactivation', () => {
 
     beforeEach(() => {
         // # Visit town-square
-        cy.visitAndWait(`/${team1.name}`);
+        cy.visit(`/${team1.name}`);
     });
 
     // # Create two users
