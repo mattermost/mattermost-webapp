@@ -1,4 +1,5 @@
 .StatusModal {
+    //to override the styles from GenericModal class
     width: 600px !important;
     margin: 30px auto !important;
 
@@ -178,4 +179,8 @@
 
 .suggestion-clear{
    margin-left: auto;
+}
+
+.custom-status{
+    display: flex;
 }

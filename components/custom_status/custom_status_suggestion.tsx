@@ -10,6 +10,7 @@ import Constants from 'utils/constants';
 import RenderEmoji from 'components/emoji/render_emoji';
 
 import './custom_status.scss';
+import Markdown from 'components/markdown';
 
 type Props = {
     handleSuggestionClick: (status: UserCustomStatus) => void;
@@ -75,7 +76,10 @@ const CustomStatusSuggestion: React.FC<Props> = (props: Props) => {
             className='statusSuggestion__text'
             ref={textRef}
         >
-            {text}
+            <Markdown
+                message={text}
+                enableFormatting={true}
+            />
         </span>
     );
 
@@ -86,7 +90,10 @@ const CustomStatusSuggestion: React.FC<Props> = (props: Props) => {
                 placement='top'
                 overlay={
                     <Tooltip id='custom-status-text'>
-                        {text}
+                        <Markdown
+                            message={text}
+                            enableFormatting={true}
+                        />
                     </Tooltip>
                 }
             >

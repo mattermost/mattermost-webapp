@@ -18,13 +18,3 @@ export function setCustomStatusInitialisationState(props: Partial<CustomStatusIn
         await dispatch(updateMe(user));
     };
 }
-
-export function clearCustomStatusInitialisationState() {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        const user = {...getCurrentUser(getState())};
-        const userProps = {...user.props};
-        userProps.customStatusInitialisationState = '';
-        user.props = userProps;
-        await dispatch(updateMe(user));
-    };
-}

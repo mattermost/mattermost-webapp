@@ -9,7 +9,7 @@ import RenderEmoji from 'components/emoji/render_emoji';
 import {getCustomStatus, isCustomStatusEnabled} from 'selectors/views/custom_status';
 import {GlobalState} from 'types/store';
 import Constants from 'utils/constants';
-import Markdown from 'components/markdown/markdown';
+import Markdown from 'components/markdown';
 
 interface ComponentProps {
     emojiSize?: number;
@@ -52,7 +52,7 @@ const CustomStatusEmoji = (props: ComponentProps) => {
                                 emoji={customStatus.emoji}
                                 size={14}
                             />
-                            {' '}
+                            {'\u00A0'}
                             <span className='custom-status-text'>
                                 <Markdown
                                     message={customStatus.text}

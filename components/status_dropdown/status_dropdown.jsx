@@ -25,7 +25,7 @@ import StatusOfflineIcon from 'components/widgets/icons/status_offline_icon';
 
 import OverlayTrigger from 'components/overlay_trigger';
 import './status_dropdown.scss';
-import Markdown from 'components/markdown/markdown';
+import Markdown from 'components/markdown';
 
 export default class StatusDropdown extends React.PureComponent {
     static propTypes = {
@@ -114,7 +114,7 @@ export default class StatusDropdown extends React.PureComponent {
     }
 
     showCustomStatusTextTooltip = () => {
-        const element = this.customStatusTextRef.current;
+        const element = this.customStatusTextRef;
         if (element && element.offsetWidth < element.scrollWidth) {
             this.setState({showCustomStatusTooltip: true});
         } else {
@@ -155,10 +155,102 @@ export default class StatusDropdown extends React.PureComponent {
     };
 
     onToggle = (open) => {
-        if (open) {
-            this.showCustomStatusTextTooltip();
-        }
         this.props.actions.setStatusDropdown(open);
+    }
+
+    makeCustomStatusComponent = () => {
+        let customStatusText = localizeMessage('status_dropdown.set_custom', 'Set a Custom Status');
+        let customStatusEmoji = <EmojiIcon className={'custom-status-emoji'}/>;
+        const customStatus = this.props.customStatus;
+        const isStatusSet = customStatus && (customStatus.text || customStatus.emoji);
+        if (isStatusSet) {
+            customStatusEmoji = (
+                <span className='d-flex'>
+                    <CustomStatusEmoji
+                        showTooltip={false}
+                    />
+                </span>
+            );
+            customStatusText = customStatus.text;
+        }
+
+        let customStatusTextComponent = (
+            <span
+                className='custom_status__text'
+                ref={(element) => {
+                    this.customStatusTextRef = element;
+                    this.showCustomStatusTextTooltip();
+                }}
+            >
+                <Markdown
+                    message={customStatusText}
+                    enableFormatting={true}
+                />
+            </span>
+        );
+
+        if (isStatusSet && this.state.showCustomStatusTooltip) {
+            customStatusTextComponent = (
+                <OverlayTrigger
+                    delayShow={Constants.OVERLAY_TIME_DELAY}
+                    placement='bottom'
+                    overlay={
+                        <Tooltip id='custom-status-text-tooltip'>
+                            <Markdown
+                                message={customStatusText}
+                                enableFormatting={true}
+                            />
+                        </Tooltip>
+                    }
+                >
+                    {customStatusTextComponent}
+                </OverlayTrigger>
+            );
+        }
+
+        const clearButton = isStatusSet &&
+            (
+                <div
+                    className='custom_status__clear'
+                >
+                    <OverlayTrigger
+                        delayShow={Constants.OVERLAY_TIME_DELAY}
+                        placement='top'
+                        overlay={
+                            <Tooltip id='clear-custom-status'>
+                                <FormattedMessage
+                                    id='status_dropdown.custom_status.tooltip_clear'
+                                    defaultMessage='Clear'
+                                />
+                            </Tooltip>
+                        }
+                    >
+                        <span
+                            className='input-clear-x'
+                            onClick={this.handleClearStatus}
+                        >
+                            <i className='icon icon-close-circle'/>
+                        </span>
+                    </OverlayTrigger>
+                </div>
+            );
+
+        const pulsatingDot = !isStatusSet && this.props.showCustomStatusPulsatingDot && (
+            <div className='pulsating_dot'/>
+        );
+
+        return (
+            <div
+                className='custom_status__row cursor--pointer a11y--active'
+                onClick={this.showCustomStatusModal}
+            >
+                <div className='custom_status__icon'>
+                    {customStatusEmoji}
+                </div>
+                {customStatusTextComponent}
+                {clearButton || pulsatingDot}
+            </div>
+        );
     }
 
     render() {
@@ -173,92 +265,7 @@ export default class StatusDropdown extends React.PureComponent {
 
         let customStatusComponent;
         if (this.props.isCustomStatusEnabled) {
-            let customStatusText = localizeMessage('status_dropdown.set_custom', 'Set a Custom Status');
-            let customStatusEmoji = <EmojiIcon className={'custom-status-emoji'}/>;
-            const customStatus = this.props.customStatus;
-            const isStatusSet = customStatus && (customStatus.text || customStatus.emoji);
-            if (isStatusSet) {
-                customStatusEmoji = (
-                    <span className='d-flex'>
-                        <CustomStatusEmoji
-                            showTooltip={false}
-                        />
-                    </span>
-                );
-                customStatusText = customStatus.text;
-            }
-
-            let customStatusTextComponent = (
-                <span
-                    className='custom_status__text'
-                    ref={this.customStatusTextRef}
-                >
-                    <Markdown
-                        message={customStatusText}
-                        enableFormatting={true}
-                    />
-                </span>
-            );
-
-            if (isStatusSet && this.state.showCustomStatusTooltip) {
-                customStatusTextComponent = (
-                    <OverlayTrigger
-                        delayShow={Constants.OVERLAY_TIME_DELAY}
-                        placement='bottom'
-                        overlay={
-                            <Tooltip id='custom-status-text-tooltip'>
-                                {customStatusText}
-                            </Tooltip>
-                        }
-                    >
-                        {customStatusTextComponent}
-                    </OverlayTrigger>
-                );
-            }
-
-            const clearButton = isStatusSet &&
-                (
-                    <div
-                        className='custom_status__clear'
-                    >
-                        <OverlayTrigger
-                            delayShow={Constants.OVERLAY_TIME_DELAY}
-                            placement='top'
-                            overlay={
-                                <Tooltip id='clear-custom-status'>
-                                    <FormattedMessage
-                                        id='status_dropdown.custom_status.tooltip_clear'
-                                        defaultMessage='Clear'
-                                    />
-                                </Tooltip>
-                            }
-                        >
-                            <span
-                                className='input-clear-x'
-                                onClick={this.handleClearStatus}
-                            >
-                                <i className='icon icon-close-circle'/>
-                            </span>
-                        </OverlayTrigger>
-                    </div>
-                );
-
-            const pulsatingDot = !isStatusSet && this.props.showCustomStatusPulsatingDot && (
-                <div className='pulsating_dot'/>
-            );
-
-            customStatusComponent = (
-                <div
-                    className='custom_status__row cursor--pointer a11y--active'
-                    onClick={this.showCustomStatusModal}
-                >
-                    <div className='custom_status__icon'>
-                        {customStatusEmoji}
-                    </div>
-                    {customStatusTextComponent}
-                    {clearButton || pulsatingDot}
-                </div>
-            );
+            customStatusComponent = this.makeCustomStatusComponent();
         }
 
         return (
