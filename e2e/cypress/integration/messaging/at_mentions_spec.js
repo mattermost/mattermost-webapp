@@ -104,7 +104,7 @@ describe('at-mention', () => {
 
             // # Login as receiver and visit off-topic channel
             cy.apiLogin(receiver);
-            cy.visitAndWait(`/${testTeam.name}/channels/off-topic`);
+            cy.visit(`/${testTeam.name}/channels/off-topic`);
         });
     });
 

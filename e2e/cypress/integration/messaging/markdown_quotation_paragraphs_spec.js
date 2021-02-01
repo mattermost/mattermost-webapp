@@ -17,14 +17,14 @@ describe('Messaging', () => {
         // # Login as test user and visit town-square
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
             townsquareLink = `/${team.name}/channels/town-square`;
-            cy.visitAndWait(townsquareLink);
+            cy.visit(townsquareLink);
         });
     });
 
     it('MM-T189 Markdown quotation paragraphs', () => {
         const messageParts = ['this is', 'really', 'three quote lines'];
 
-        cy.visitAndWait(townsquareLink);
+        cy.visit(townsquareLink);
 
         // # Post message to use
         cy.get('#post_textbox').clear().type('>' + messageParts[0]).type('{shift}{enter}{enter}');

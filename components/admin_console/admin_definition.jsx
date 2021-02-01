@@ -846,6 +846,8 @@ const AdminDefinition = {
                 'admin.sql.queryTimeoutDescription',
                 'admin.sql.connMaxLifetimeTitle',
                 'admin.sql.connMaxLifetimeDescription',
+                'admin.sql.connMaxIdleTimeTitle',
+                'admin.sql.connMaxIdleTimeDescription',
                 'admin.sql.traceTitle',
                 'admin.sql.traceDescription',
             ],
@@ -1335,6 +1337,8 @@ const AdminDefinition = {
                 'admin.cluster.UseExperimentalGossipDesc',
                 'admin.cluster.EnableExperimentalGossipEncryption',
                 'admin.cluster.EnableExperimentalGossipEncryptionDesc',
+                'admin.cluster.EnableGossipCompression',
+                'admin.cluster.EnableGossipCompressionDesc',
                 'admin.cluster.GossipPort',
                 'admin.cluster.GossipPortDesc',
                 'admin.cluster.StreamingPort',
@@ -4063,10 +4067,14 @@ const AdminDefinition = {
                         defaultMessage='deprecated'
                     />
                 ),
-                shouldDisplay: () => false,
+                shouldDisplay: (license) => license.IsLicensed && license.OpenId === 'true',
             },
             isHidden: it.any(
                 it.not(it.licensed),
+                it.all(
+                    it.licensedForFeature('OpenId'),
+                    it.not(usesLegacyOauth),
+                ),
             ),
             schema: {
                 id: 'OAuthSettings',
@@ -4118,7 +4126,10 @@ const AdminDefinition = {
                         type: Constants.SettingsTypes.TYPE_CUSTOM,
                         component: OpenIdConvert,
                         key: 'OpenIdConvert',
-                        isHidden: () => true,
+                        isHidden: it.any(
+                            it.not(it.licensedForFeature('OpenId')),
+                            it.not(usesLegacyOauth),
+                        ),
                         isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
                     },
                     {
@@ -4370,7 +4381,7 @@ const AdminDefinition = {
             url: 'authentication/openid',
             title: t('admin.sidebar.openid'),
             title_default: 'OpenID Connect',
-            isHidden: () => true,
+            isHidden: it.not(it.licensedForFeature('OpenId')),
             schema: {
                 id: 'OpenIdSettings',
                 name: t('admin.authentication.openid'),
@@ -4437,7 +4448,6 @@ const AdminDefinition = {
                         component: OpenIdConvert,
                         key: 'OpenIdConvert',
                         isHidden: it.any(
-                            it.not(it.licensed),
                             it.not(usesLegacyOauth),
                         ),
                         isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
@@ -4457,7 +4467,6 @@ const AdminDefinition = {
                                 value: Constants.GITLAB_SERVICE,
                                 display_name: t('admin.openid.gitlab'),
                                 display_name_default: 'GitLab',
-                                isHidden: it.not(it.licensedForFeature('OpenId')),
                                 help_text: t('admin.gitlab.EnableMarkdownDesc'),
                                 help_text_default: '1. Log in to your GitLab account and go to Profile Settings -> Applications.\n2. Enter Redirect URIs "<your-mattermost-url>/login/gitlab/complete" (example: http://localhost:8065/login/gitlab/complete) and "<your-mattermost-url>/signup/gitlab/complete".\n3. Then use "Application Secret Key" and "Application ID" fields from GitLab to complete the options below.\n4. Complete the Endpoint URLs below.',
                                 help_text_markdown: true,
@@ -4466,25 +4475,22 @@ const AdminDefinition = {
                                 value: Constants.GOOGLE_SERVICE,
                                 display_name: t('admin.openid.google'),
                                 display_name_default: 'Google Apps',
-                                isHidden: it.not(it.licensedForFeature('OpenId')),
                                 help_text: t('admin.google.EnableMarkdownDesc'),
-                                help_text_default: '1. [Log in](!https://accounts.google.com/login) to your Google account.\n2. Go to [https://console.developers.google.com](!https://console.developers.google.com), click **Credentials** in the left hand sidebar and enter "Mattermost - your-company-name" as the **Project Name**, then click **Create**.\n3. Click the **OAuth consent screen** header and enter "Mattermost" as the **Product name shown to users**, then click **Save**.\n4. Under the **Credentials** header, click **Create credentials**, choose **OAuth client ID** and select **Web Application**.\n5. Under **Restrictions** and **Authorized redirect URIs** enter **your-mattermost-url/signup/google/complete** (example: http://localhost:8065/signup/google/complete). Click **Create**.\n6. Paste the **Client ID** and **Client Secret** to the fields below, then click **Save**.\n7. Go to the [Google People API](!https://console.developers.google.com/apis/library/people.googleapis.com) and click *Enable*.',
+                                help_text_default: '1. [Log in](!https://accounts.google.com/login) to your Google account.\n2. Go to [https://console.developers.google.com](!https://console.developers.google.com), click **Credentials** in the left hand side.\n 3. Under the **Credentials** header, click **Create credentials**, choose **OAuth client ID** and select **Web Application**.\n 4. Enter "Mattermost - your-company-name" as the **Name**.\n 5. Under **Authorized redirect URIs** enter **your-mattermost-url/signup/google/complete** (example: http://localhost:8065/signup/google/complete). Click **Create**.\n 6. Paste the **Client ID** and **Client Secret** to the fields below, then click **Save**.\n 7. Go to the [Google People API](!https://console.developers.google.com/apis/library/people.googleapis.com) and click *Enable*.',
                                 help_text_markdown: true,
                             },
                             {
                                 value: Constants.OFFICE365_SERVICE,
                                 display_name: t('admin.openid.office365'),
                                 display_name_default: 'Office 365',
-                                isHidden: it.not(it.licensedForFeature('OpenId')),
                                 help_text: t('admin.office365.EnableMarkdownDesc'),
-                                help_text_default: '1. [Log in](!https://login.microsoftonline.com/) to your Microsoft or Office 365 account. Make sure it`s the account on the same [tenant](!https://msdn.microsoft.com/en-us/library/azure/jj573650.aspx#Anchor_0) that you would like users to log in with.\n2. Go to [https://apps.dev.microsoft.com](!https://apps.dev.microsoft.com), click **Go to app list** > **Add an app** and use "Mattermost - your-company-name" as the **Application Name**.\n3. Under **Application Secrets**, click **Generate New Password** and paste it to the **Application Secret Password** field below.\n4. Under **Platforms**, click **Add Platform**, choose **Web** and enter **your-mattermost-url/signup/office365/complete** (example: http://localhost:8065/signup/office365/complete) under **Redirect URIs**. Also uncheck **Allow Implicit Flow**.\n5. Finally, click **Save** and then paste the **Application ID** below.',
+                                help_text_default: '1. [Log in](!https://login.microsoftonline.com/) to your Microsoft or Office 365 account. Make sure it`s the account on the same [tenant](!https://msdn.microsoft.com/en-us/library/azure/jj573650.aspx#Anchor_0) that you would like users to log in with.\n2. Go to [https://apps.dev.microsoft.com](!https://apps.dev.microsoft.com), click **Go to Azure Portal** > click **New Registration**.\n3. Use "Mattermost - your-company-name" as the **Application Name**, click **Registration**, paste **Client ID** and **Tenant ID** below.\n4. Click **Authentication**, under **Platforms**, click **Add Platform**, choose **Web** and enter **your-mattermost-url/signup/office365/complete** (example: http://localhost:8065/signup/office365/complete) under **Redirect URIs**. Also uncheck **Allow Implicit Flow**.\n5. Click **Certificates & secrets**, Generate **New client secret** and paste secret value in **Client Secret** field below.',
                                 help_text_markdown: true,
                             },
                             {
                                 value: Constants.OPENID_SERVICE,
                                 display_name: t('admin.oauth.openid'),
                                 display_name_default: 'OpenID Connect (Other)',
-                                isHidden: it.not(it.licensedForFeature('OpenId')),
                                 help_text: t('admin.openid.EnableMarkdownDesc'),
                                 help_text_default: 'Follow provider directions for creating an OpenID Application. Most OpenID Connect providers require authorization of all redirect URIs. In the appropriate field, enter your-mattermost-url/signup/openid/complete (example: http://domain.com/signup/openid/complete)',
                                 help_text_markdown: true,

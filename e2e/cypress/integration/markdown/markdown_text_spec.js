@@ -42,7 +42,7 @@ describe('Markdown message', () => {
 
         // # Login as new user, create new team and visit its URL
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visitAndWait(`/${team.name}/channels/town-square`);
+            cy.visit(`/${team.name}/channels/town-square`);
         });
     });
 

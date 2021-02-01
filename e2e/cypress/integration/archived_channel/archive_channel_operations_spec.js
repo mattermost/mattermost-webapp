@@ -38,7 +38,7 @@ describe('Leave an archived channel', () => {
             cy.apiCreateUser({prefix: 'second'}).then(({user: second}) => {
                 cy.apiAddUserToTeam(testTeam.id, second.id);
             });
-            cy.visitAndWait(`/${team.name}/channels/${testChannel.name}`);
+            cy.visit(`/${team.name}/channels/${testChannel.name}`);
             cy.postMessageAs({sender: testUser, message: testArchivedMessage, channelId: testChannel.id});
         });
     });
@@ -49,7 +49,7 @@ describe('Leave an archived channel', () => {
         cy.uiArchiveChannel();
 
         // # Switch to another channel
-        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Use CTRL / CMD+K shortcut to open channel switcher.
         cy.typeCmdOrCtrl().type('K', {release: true});
@@ -78,7 +78,7 @@ describe('Leave an archived channel', () => {
         // # As a user with appropriate permission, archive a public channel:
         cy.apiLogin(adminUser);
 
-        cy.visitAndWait(`/${testTeam.name}/channels/off-topic`);
+        cy.visit(`/${testTeam.name}/channels/off-topic`);
         cy.contains('#channelHeaderTitle', 'Off-Topic');
 
         const messageText = `archived text ${getRandomId()}`;
@@ -94,7 +94,7 @@ describe('Leave an archived channel', () => {
             cy.get('#post_textbox').should('be.visible');
 
             // * Channel is displayed in LHS with the normal icon, not an archived channel icon
-            cy.get(`#sidebarItem_${name}`).should('be.visible');
+            cy.get(`#sidebarItem_${name}`).scrollIntoView().should('be.visible');
 
             cy.get(`#sidebarItem_${name} span`).should('have.class', 'icon__globe');
         });
@@ -104,7 +104,7 @@ describe('Leave an archived channel', () => {
         // # As a user with appropriate permission, archive a private channel:
         cy.apiLogin(adminUser);
 
-        cy.visitAndWait(`/${testTeam.name}/channels/off-topic`);
+        cy.visit(`/${testTeam.name}/channels/off-topic`);
         cy.contains('#channelHeaderTitle', 'Off-Topic');
 
         const messageText = `archived text ${getRandomId()}`;

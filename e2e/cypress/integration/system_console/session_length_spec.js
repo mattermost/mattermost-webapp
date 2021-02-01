@@ -13,7 +13,7 @@
 // # Goes to the System Scheme page as System Admin
 const goToSessionLengths = () => {
     cy.apiAdminLogin();
-    cy.visitAndWait('/admin_console/environment/session_lengths');
+    cy.visit('/admin_console/environment/session_lengths');
 };
 
 // # Wait's until the Saving text becomes Save

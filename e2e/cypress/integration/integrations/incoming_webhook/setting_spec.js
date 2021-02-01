@@ -71,12 +71,12 @@ describe('Incoming webhook', () => {
 });
 
 function switchToChannel(teamName, channelName) {
-    cy.visitAndWait(`/${teamName}/channels/town-square`);
+    cy.visit(`/${teamName}/channels/town-square`);
     cy.get(`#sidebarItem_${channelName}`, {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').click();
 }
 
 function editIncomingWebhook(incomingWebhookId, teamName, lockToChannel) {
-    cy.visitAndWait(`/${teamName}/integrations/incoming_webhooks/edit?id=${incomingWebhookId}`);
+    cy.visit(`/${teamName}/integrations/incoming_webhooks/edit?id=${incomingWebhookId}`);
     cy.get('.backstage-header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').within(() => {
         cy.findByText('Incoming Webhooks').should('be.visible');
         cy.findByText('Edit').should('be.visible');

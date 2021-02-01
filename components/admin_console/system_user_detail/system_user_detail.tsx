@@ -521,6 +521,7 @@ export default class SystemUserDetail extends React.PureComponent<Props & RouteC
                         onModalDismissed={this.closeAddTeam}
                         onTeamsSelected={this.addTeams}
                         alreadySelected={this.state.teamIds}
+                        excludeGroupConstrained={true}
                     />
                 }
             </div>

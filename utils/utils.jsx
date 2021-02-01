@@ -502,8 +502,6 @@ export function applyTheme(theme) {
     if (theme.sidebarBg) {
         changeCss('.app__body .sidebar--left .sidebar__switcher, .sidebar--left, .app__body .modal .settings-modal .settings-table .settings-links, .app__body .sidebar--menu', 'background:' + theme.sidebarBg);
         changeCss('body.app__body', 'scrollbar-face-color:' + theme.sidebarBg);
-        changeCss('@media(max-width: 768px){.app__body .modal .settings-modal:not(.settings-modal--tabless):not(.display--content) .modal-content', 'background:' + theme.sidebarBg);
-        changeCss('.app__body .modal-tabs .nav-tabs > li.active', `border-bottom-color:${theme.sidebarBg}`);
     }
 
     if (theme.sidebarText) {
@@ -541,11 +539,6 @@ export function applyTheme(theme) {
         changeCss('.emoji-picker .emoji-picker__header, .emoji-picker .emoji-picker__header .emoji-picker__header-close-button', 'color:' + theme.sidebarHeaderTextColor);
     }
 
-    if (theme.onlineIndicator) {
-        changeCss('.app__body .status.status--online', 'color:' + theme.onlineIndicator);
-        changeCss('.app__body .status .online--icon', 'fill:' + theme.onlineIndicator);
-    }
-
     let dndIndicator;
     if (theme.dndIndicator) {
         dndIndicator = theme.dndIndicator;
@@ -581,26 +574,17 @@ export function applyTheme(theme) {
     }
 
     if (theme.centerChannelBg) {
-        changeCss('.app__body #channel_view.channel-view', `background: ${theme.centerChannelBg}`);
-        changeCss('@media(max-width: 768px){.app__body .post .MenuWrapper .dropdown-menu button', 'background:' + theme.centerChannelBg);
         changeCss('.app__body .post-card--info, .app__body .bg--white, .app__body .system-notice, .app__body .channel-header__info .channel-header__description:before, .app__body .app__content, .app__body .markdown__table, .app__body .markdown__table tbody tr, .app__body .modal .modal-footer, .app__body .status-wrapper .status, .app__body .alert.alert-transparent', 'background:' + theme.centerChannelBg);
         changeCss('#post-list .post-list-holder-by-time, .app__body .post .dropdown-menu a, .app__body .post .Menu .MenuItem', 'background:' + theme.centerChannelBg);
         changeCss('#post-create, .app__body .emoji-picker__preview', 'background:' + theme.centerChannelBg);
         changeCss('.app__body .date-separator .separator__text, .app__body .new-separator .separator__text', 'background:' + theme.centerChannelBg);
         changeCss('.app__body .dropdown-menu, .app__body .popover, .app__body .tip-overlay', 'background:' + theme.centerChannelBg);
-        changeCss('.app__body .popover.bottom>.arrow:after', 'border-bottom-color:' + theme.centerChannelBg);
         changeCss('.app__body .popover.right>.arrow:after, .app__body .tip-overlay.tip-overlay--sidebar .arrow, .app__body .tip-overlay.tip-overlay--header .arrow', 'border-right-color:' + theme.centerChannelBg);
-        changeCss('.app__body .popover.left>.arrow:after', 'border-left-color:' + theme.centerChannelBg);
         changeCss('.app__body .popover.top>.arrow:after, .app__body .tip-overlay.tip-overlay--chat .arrow', 'border-top-color:' + theme.centerChannelBg);
-        changeCss('@media(min-width: 768px){.app__body .form-control', 'background:' + theme.centerChannelBg);
         changeCss('.app__body .attachment__content, .app__body .attachment-actions button', 'background:' + theme.centerChannelBg);
-        changeCss('body.app__body', 'scrollbar-face-color:' + theme.centerChannelBg);
-        changeCss('body.app__body', 'scrollbar-track-color:' + theme.centerChannelBg);
         changeCss('.app__body .shortcut-key, .app__body .post-list__new-messages-below', 'color:' + theme.centerChannelBg);
         changeCss('.app__body .emoji-picker, .app__body .emoji-picker__search', 'background:' + theme.centerChannelBg);
         changeCss('.app__body .nav-tabs, .app__body .nav-tabs > li.active > a', 'background:' + theme.centerChannelBg);
-        changeCss('.app__body .modal-tabs .nav-tabs > li', `background:${theme.centerChannelBg}`);
-        changeCss('.app__body .modal-tabs .nav-tabs > li > a', `background:${theme.centerChannelBg}`);
 
         // Fade out effect for collapsed posts (not hovered, not from current user)
         changeCss(
@@ -626,9 +610,6 @@ export function applyTheme(theme) {
             '.app__body .sidebar-right__body .post-attachment-collapse__show-more',
             `background-color:${theme.centerChannelBg}`,
         );
-
-        changeCss('.app__body .post-collapse__show-more-button:hover', `color:${theme.centerChannelBg}`);
-        changeCss('.app__body .post-collapse__show-more-button', `background:${theme.centerChannelBg}`);
     }
 
     if (theme.centerChannelColor) {

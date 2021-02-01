@@ -33,7 +33,7 @@ describe('Bot Tokens', () => {
             cy.apiGetChannelByName(team.name, 'town-square').then((out) => {
                 townsquareChannel = out.channel;
             });
-            cy.visitAndWait(`/${team.name}/channels/town-square`);
+            cy.visit(`/${team.name}/channels/town-square`);
         });
     });
 

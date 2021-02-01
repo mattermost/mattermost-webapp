@@ -22,7 +22,7 @@ describe('MM-13064 - Emoji picker keyboard usability', () => {
 
     beforeEach(() => {
         // # Visit the Town Square channel
-        cy.visitAndWait(townsquareLink);
+        cy.visit(townsquareLink);
 
         // # Open emoji picker
         cy.get('#emojiPickerButton').click();

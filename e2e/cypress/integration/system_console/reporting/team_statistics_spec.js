@@ -14,7 +14,7 @@ import * as TIMEOUTS from '../../../fixtures/timeouts';
 // # Goes to the System Scheme page as System Admin
 const goToAdminConsole = () => {
     cy.apiAdminLogin();
-    cy.visitAndWait('/admin_console');
+    cy.visit('/admin_console');
 };
 
 describe('System Console > Team Statistics', () => {
@@ -25,7 +25,7 @@ describe('System Console > Team Statistics', () => {
             cy.apiCreateChannel(team.id, 'mmt906-ch', 'mmt906-ch', 'P');
 
             // # Visit team statistics page.
-            cy.visitAndWait('/admin_console/reporting/team_statistics');
+            cy.visit('/admin_console/reporting/team_statistics');
 
             // # Select created team.
             cy.get('select.team-statistics__team-filter__dropdown').select(team.id);
