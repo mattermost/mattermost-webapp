@@ -20,8 +20,7 @@ describe('System Console > Site Statistics', () => {
             cy.apiLogin(testUser);
             cy.visit(`/${team.name}/channels/town-square`);
 
-            // # Wait two seconds then go to admin console
-            cy.wait(TIMEOUTS.TWO_SEC);
+            // # Go to admin console
             goToAdminConsole();
 
             // # Go to system analytics

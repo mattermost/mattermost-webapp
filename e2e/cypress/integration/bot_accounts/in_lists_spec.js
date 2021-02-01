@@ -14,19 +14,20 @@ import {zip, sortBy} from 'lodash';
 import {createBotPatch} from '../../support/api/bots';
 import {generateRandomUser} from '../../support/api/user';
 
-const STATUS_PRIORITY = {
-    online: 0,
-    away: 1,
-    dnd: 2,
-    offline: 3,
-    ooo: 3,
-};
-
 describe('Bots in lists', () => {
     let team;
     let channel;
+    let testUser;
     let bots;
     let createdUsers;
+
+    const STATUS_PRIORITY = {
+        online: 0,
+        away: 1,
+        dnd: 2,
+        offline: 3,
+        ooo: 3,
+    };
 
     before(() => {
         cy.apiUpdateConfig({
@@ -37,6 +38,7 @@ describe('Bots in lists', () => {
         cy.apiInitSetup().then((out) => {
             team = out.team;
             channel = out.channel;
+            testUser = out.user;
         });
 
         cy.makeClient().then(async (client) => {
@@ -88,7 +90,9 @@ describe('Bots in lists', () => {
     });
 
     it('MM-T1835 Channel Members list for BOTs', () => {
-        cy.makeClient().then((client) => {
+        cy.makeClient({user: testUser}).then((client) => {
+            // # Login as regular user and visit a channel
+            cy.apiLogin(testUser);
             cy.visit(`/${team.name}/channels/${channel.name}`);
 
             // # Open channel members
