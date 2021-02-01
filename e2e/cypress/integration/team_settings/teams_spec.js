@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @team_settings
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -38,7 +39,7 @@ describe('Teams Suite', () => {
         });
         cy.apiUpdateConfig({
             ServiceSettings: {
-                ExperimentalChannelSidebarOrganization: 'true',
+                EnableLegacySidebar: 'true',
             },
         });
     });
@@ -345,7 +346,6 @@ describe('Teams Suite', () => {
         // # Login as new user
         cy.apiLogin(testUser);
         cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.wait(TIMEOUTS.ONE_SEC);
 
         // # Open the hamburger menu
         cy.findByLabelText('main menu').should('be.visible').click();

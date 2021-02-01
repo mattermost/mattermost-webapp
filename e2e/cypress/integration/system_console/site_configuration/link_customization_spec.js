@@ -50,7 +50,6 @@ describe('SupportSettings', () => {
 
         // # Click Main Menu
         cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.wait(TIMEOUTS.TWO_SEC);
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
 
         // * Verify that report link is changed
@@ -105,7 +104,6 @@ describe('SupportSettings', () => {
 
         // # Open about modal
         cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.wait(TIMEOUTS.TWO_SEC);
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
         cy.get('#about').click();
 
@@ -140,7 +138,6 @@ describe('SupportSettings', () => {
 
         // # Open about modal
         cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.wait(TIMEOUTS.TWO_SEC);
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
         cy.get('#about').click();
 
@@ -156,7 +153,6 @@ describe('SupportSettings', () => {
 
         // # Open about modal
         cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.wait(TIMEOUTS.TWO_SEC);
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
         cy.get('#about').click();
 
@@ -192,7 +188,6 @@ describe('SupportSettings', () => {
 
         // # Click Main Menu
         cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.wait(TIMEOUTS.TWO_SEC);
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
 
         // * Verify that report link does not exist
@@ -237,7 +232,6 @@ describe('SupportSettings', () => {
 
         // # Click Main Menu
         cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.wait(TIMEOUTS.TWO_SEC);
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
 
         // * Verify that app link is changed
@@ -257,7 +251,6 @@ describe('SupportSettings', () => {
 
         // # Click Main Menu
         cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.wait(TIMEOUTS.TWO_SEC);
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
 
         // * Verify that app link does not exist

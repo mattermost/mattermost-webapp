@@ -43,7 +43,7 @@ describe('Subpath Channel routing', () => {
 
     it('MM-T987 - Rejoin channel with permalink', () => {
         // # Visit Town Square channel
-        cy.visit(`/${testTeam.name}/channels/town-square`).wait(TIMEOUTS.FIVE_SEC);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Create a new channel
         cy.apiCreateChannel(testTeam.id, 'subpath-channel', 'subpath-channel', 'O', 'subpath-ch').then(({channel}) => {
