@@ -26,7 +26,7 @@ describe('Integrations', () => {
 
             // # Login as regular user and visit test channel
             cy.apiLogin(user);
-            cy.visitAndWait(`/${testTeam.name}/channels/${testChannel.name}`);
+            cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
         });
     });
 

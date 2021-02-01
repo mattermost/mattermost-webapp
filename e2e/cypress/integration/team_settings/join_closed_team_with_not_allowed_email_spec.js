@@ -35,7 +35,7 @@ describe('Team Settings', () => {
 
         cy.apiInitSetup().then(({team}) => {
             testTeam = team;
-            cy.visitAndWait(`/${team.name}`);
+            cy.visit(`/${team.name}`);
         });
     });
 
@@ -66,7 +66,7 @@ describe('Team Settings', () => {
 
             // # Logout from admin account and visit the invite url
             cy.apiLogout();
-            cy.visitAndWait(inviteLink);
+            cy.visit(inviteLink);
         });
 
         const email = `user${randomId}@sample.gmail.com`;
@@ -127,7 +127,7 @@ describe('Team Settings', () => {
                     cy.apiLogin(user);
 
                     // # Go to Town Square
-                    cy.visitAndWait(`/${otherTeam.name}/channels/town-square`);
+                    cy.visit(`/${otherTeam.name}/channels/town-square`);
 
                     // # Click Main Menu
                     cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();

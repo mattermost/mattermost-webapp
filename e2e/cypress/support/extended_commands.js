@@ -3,6 +3,12 @@
 
 import * as TIMEOUTS from '../fixtures/timeouts';
 
-Cypress.Commands.add('visitAndWait', (url, options, duration = TIMEOUTS.THREE_SEC) => {
-    cy.visit(url, options).wait(duration);
+Cypress.Commands.overwrite('reload', (originalFn, forceReload, options, duration = TIMEOUTS.THREE_SEC) => {
+    originalFn(forceReload, options);
+    cy.wait(duration);
+});
+
+Cypress.Commands.overwrite('visit', (originalFn, url, options, duration = TIMEOUTS.THREE_SEC) => {
+    originalFn(url, options);
+    cy.wait(duration);
 });
