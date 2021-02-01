@@ -439,12 +439,17 @@ class ChannelHeader extends React.PureComponent {
                             margin: '0 4px',
                         }}
                     />
-                    {this.props.customStatus.text}
+                    <span>
+                        <Markdown
+                            message={this.props.customStatus.text}
+                            enableFormatting={true}
+                        />
+                    </span>
                 </>
             );
 
             dmHeaderTextStatus = (
-                <span className='header-status__text'>
+                <span className='header-status__text overflow--ellipsis text-nowrap'>
                     <FormattedMessage
                         id={`status_dropdown.set_${channel.status}`}
                         defaultMessage={Utils.toTitleCase(channel.status)}
@@ -465,8 +470,10 @@ class ChannelHeader extends React.PureComponent {
                     style={{maxWidth: `${this.state.popoverOverlayWidth}px`, transform: `translate(${this.state.leftOffset}px, ${this.state.topOffset}px)`}}
                     placement='bottom'
                     className={classNames(['channel-header__popover',
-                        {'chanel-header__popover--lhs_offset': this.props.hasMoreThanOneTeam,
-                            'chanel-header__popover--new_sidebar': newSideBarPreference}])}
+                        {
+                            'chanel-header__popover--lhs_offset': this.props.hasMoreThanOneTeam,
+                            'chanel-header__popover--new_sidebar': newSideBarPreference,
+                        }])}
                 >
                     <span
                         onClick={this.handleFormattedTextClick}

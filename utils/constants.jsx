@@ -918,6 +918,8 @@ export const Constants = {
         POST: 5,
     },
 
+    CUSTOM_STATUS_TEXT_CHARACTER_LIMIT: 200,
+
     // This is the same limit set https://github.com/mattermost/mattermost-server/blob/master/api4/team.go#L23
     MAX_ADD_MEMBERS_BATCH: 256,
 
