@@ -34,13 +34,13 @@ describe('Channel header menu', () => {
         cy.apiInitSetup({loginAfter: true}).then(({team, user}) => {
             testUser = user;
             testTeam = team;
-            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+            cy.visit(`/${testTeam.name}/channels/town-square`);
         });
     });
 
     it('MM-14490 show/hide properly menu dividers', () => {
         // # Go to "/"
-        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Create new test channel
         cy.apiCreateChannel(testTeam.id, 'channel-test', 'Channel Test').then(({channel}) => {
@@ -75,7 +75,7 @@ describe('Channel header menu', () => {
 
     it('MM-24590 should leave channel successfully', () => {
         // # Go to "/"
-        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Create new test channel
         cy.apiCreateChannel(testTeam.id, 'channel-test-leave', 'Channel Test Leave').then(({channel}) => {

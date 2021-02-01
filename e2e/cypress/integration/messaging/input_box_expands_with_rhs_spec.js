@@ -19,7 +19,7 @@ describe('Messaging', () => {
     before(() => {
         // # Log in as test user, go to test channel and post several messages
         cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
-            cy.visitAndWait(`/${team.name}/channels/${channel.name}`);
+            cy.visit(`/${team.name}/channels/${channel.name}`);
 
             Cypress._.times(30, (i) => {
                 cy.postMessageAs({sender: admin, message: `[${i}]`, channelId: channel.id});

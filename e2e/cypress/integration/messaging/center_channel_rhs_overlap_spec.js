@@ -44,7 +44,7 @@ describe('Messaging', () => {
             cy.apiAddUserToTeam(testTeam.id, otherUser.id);
         }).then(() => {
             cy.apiLogin(testUser);
-            cy.visitAndWait(townsquareLink);
+            cy.visit(townsquareLink);
         });
     });
 

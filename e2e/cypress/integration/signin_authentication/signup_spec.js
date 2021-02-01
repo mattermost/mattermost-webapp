@@ -29,7 +29,7 @@ describe('Signup Email page', () => {
         cy.apiLogout();
 
         // # Go to signup email page
-        cy.visitAndWait('/signup_email');
+        cy.visit('/signup_email');
     });
 
     it('should render', () => {

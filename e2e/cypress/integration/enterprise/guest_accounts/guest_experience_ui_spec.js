@@ -50,7 +50,7 @@ describe('Guest Account - Guest User Experience', () => {
                 cy.apiAddUserToTeam(team.id, guestUser.id).then(() => {
                     cy.apiAddUserToChannel(channel.id, guestUser.id).then(() => {
                         cy.apiLogin(guestUser);
-                        cy.visitAndWait(`/${team.name}/channels/${channel.name}`);
+                        cy.visit(`/${team.name}/channels/${channel.name}`);
                     });
                 });
             });
@@ -234,7 +234,7 @@ describe('Guest Account - Guest User Experience', () => {
         // # Wait for page to load and then logout
         cy.get('#post_textbox').should('be.visible').wait(TIMEOUTS.TWO_SEC);
         cy.apiLogout();
-        cy.visitAndWait('/');
+        cy.visit('/');
 
         // # Login with guest user credentials and check the error message
         cy.get('#loginId').type(guestUser.username);

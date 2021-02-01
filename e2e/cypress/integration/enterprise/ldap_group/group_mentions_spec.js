@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @enterprise @ldap_group
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
@@ -21,7 +22,7 @@ let testTeam;
 const navigateToGroup = (id) => {
     // # Login as sysadmin and visit board group page, and wait until board user is visible
     cy.apiAdminLogin();
-    cy.visitAndWait(`/admin_console/user_management/groups/${id}`);
+    cy.visit(`/admin_console/user_management/groups/${id}`);
 
     // # Scroll users list into view and then make sure it has loaded before scrolling back to the top
     cy.get('#group_users').scrollIntoView();
@@ -37,7 +38,7 @@ const assertGroupMentionDisabled = (groupName) => {
     const suggestion = groupName.substring(0, groupName.length - 1);
 
     // # Visit town-square
-    cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+    cy.visit(`/${testTeam.name}/channels/town-square`);
 
     // # Type suggestion in channel post text box
     cy.get('#post_textbox').should('be.visible').clear().type(`@${suggestion}`).wait(TIMEOUTS.HALF_SEC);
@@ -59,7 +60,7 @@ const assertGroupMentionDisabled = (groupName) => {
     cy.apiLogin(boardUser);
 
     // # Visit town-square
-    cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+    cy.visit(`/${testTeam.name}/channels/town-square`);
 
     // # Get last post message text
     cy.getLastPostId().then((postId) => {
@@ -77,7 +78,7 @@ const assertGroupMentionEnabled = (groupName) => {
     const suggestion = groupName.substring(0, groupName.length - 1);
 
     // # Visit town-square
-    cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+    cy.visit(`/${testTeam.name}/channels/town-square`);
 
     // # Type suggestion in channel post text box
     cy.get('#post_textbox').should('be.visible').clear().type(`@${suggestion}`).wait(TIMEOUTS.HALF_SEC);
@@ -102,7 +103,7 @@ const assertGroupMentionEnabled = (groupName) => {
     cy.apiLogin(boardUser);
 
     // # Visit town-square
-    cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+    cy.visit(`/${testTeam.name}/channels/town-square`);
 
     // # Get last post message text
     cy.getLastPostId().then((postId) => {
@@ -139,7 +140,7 @@ describe('System Console', () => {
         });
 
         // # Link board group
-        cy.visitAndWait('/admin_console/user_management/groups');
+        cy.visit('/admin_console/user_management/groups');
         cy.get('#board_group').then((el) => {
             if (!el.text().includes('Edit')) {
                 // # Link the Group if its not linked before
@@ -232,7 +233,7 @@ describe('System Console', () => {
         cy.apiPatchGroup(groupID, {allow_reference: true, name: groupName});
 
         // # Navigate to system scheme page
-        cy.visitAndWait('/admin_console/user_management/permissions/system_scheme');
+        cy.visit('/admin_console/user_management/permissions/system_scheme');
 
         // # Click reset to defaults, confirm and save
         cy.findByTestId('resetPermissionsToDefault').click();
@@ -247,7 +248,7 @@ describe('System Console', () => {
 
         // # Login as sysadmin and navigate to system scheme
         cy.apiAdminLogin();
-        cy.visitAndWait('/admin_console/user_management/permissions/system_scheme');
+        cy.visit('/admin_console/user_management/permissions/system_scheme');
 
         // # Disable group mentions for users if enabled and save
         cy.findByTestId('all_users-posts-use_group_mentions-checkbox').then((btn) => {
@@ -267,7 +268,7 @@ describe('System Console', () => {
     after(() => {
         // # Login as sysadmin and navigate to system scheme page
         cy.apiAdminLogin();
-        cy.visitAndWait('/admin_console/user_management/permissions/system_scheme');
+        cy.visit('/admin_console/user_management/permissions/system_scheme');
 
         // # Click reset to defaults confirm and save
         cy.findByTestId('resetPermissionsToDefault').click();

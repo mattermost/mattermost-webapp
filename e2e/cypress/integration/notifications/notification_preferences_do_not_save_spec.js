@@ -26,7 +26,7 @@ describe('Notifications', () => {
                 cy.apiLogin(otherUser);
             });
 
-            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+            cy.visit(`/${testTeam.name}/channels/town-square`);
         });
     });
 

@@ -30,7 +30,7 @@ describe('Remove Last Post', () => {
 
                     // # Login as test user and start DM with the other user
                     cy.apiLogin(testUser);
-                    cy.visitAndWait(`/${testTeam.name}/messages/@${otherUser.username}`);
+                    cy.visit(`/${testTeam.name}/messages/@${otherUser.username}`);
                 });
             });
         });
