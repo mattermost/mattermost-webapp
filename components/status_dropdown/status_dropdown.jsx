@@ -158,7 +158,10 @@ export default class StatusDropdown extends React.PureComponent {
         this.props.actions.setStatusDropdown(open);
     }
 
-    makeCustomStatusComponent = () => {
+    renderCustomStatus = () => {
+        if (!this.props.isCustomStatusEnabled) {
+            return null;
+        }
         let customStatusText = localizeMessage('status_dropdown.set_custom', 'Set a Custom Status');
         let customStatusEmoji = <EmojiIcon className={'custom-status-emoji'}/>;
         const customStatus = this.props.customStatus;
@@ -263,11 +266,7 @@ export default class StatusDropdown extends React.PureComponent {
         const setAway = needsConfirm ? () => this.showStatusChangeConfirmation('away') : this.setAway;
         const setOffline = needsConfirm ? () => this.showStatusChangeConfirmation('offline') : this.setOffline;
 
-        let customStatusComponent;
-        if (this.props.isCustomStatusEnabled) {
-            customStatusComponent = this.makeCustomStatusComponent();
-        }
-
+        const customStatusComponent = this.renderCustomStatus();
         return (
             <MenuWrapper
                 onToggle={this.onToggle}

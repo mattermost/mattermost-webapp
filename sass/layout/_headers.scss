@@ -374,6 +374,7 @@
     .header-status__text {
         display: flex;
         margin-right: 3px;
+        max-width: calc(100% - 200px);
 
         &:after {
             content: '\2022';

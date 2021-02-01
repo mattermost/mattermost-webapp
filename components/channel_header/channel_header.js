@@ -101,8 +101,16 @@ class ChannelHeader extends React.PureComponent {
         this.headerDescriptionRef = React.createRef();
         this.headerPopoverTextMeasurerRef = React.createRef();
         this.headerOverlayRef = React.createRef();
+        this.customStatusTextRef = React.createRef();
 
-        this.state = {showSearchBar: ChannelHeader.getShowSearchBar(props), popoverOverlayWidth: 0, showChannelHeaderPopover: false, leftOffset: 0, topOffset: 0};
+        this.state = {
+            showSearchBar: ChannelHeader.getShowSearchBar(props),
+            popoverOverlayWidth: 0,
+            showChannelHeaderPopover: false,
+            leftOffset: 0,
+            topOffset: 0,
+            showCustomStatusTooltip: false,
+        };
 
         this.getHeaderMarkdownOptions = memoizeResult((channelNamesMap) => (
             {...headerMarkdownOptions, channelNamesMap}
@@ -287,6 +295,72 @@ class ChannelHeader extends React.PureComponent {
 
     handleFormattedTextClick = (e) => Utils.handleFormattedTextClick(e, this.props.currentRelativeTeamUrl);
 
+    showCustomStatusTextTooltip = () => {
+        const element = this.customStatusTextRef;
+        if (element && element.offsetWidth < element.scrollWidth) {
+            this.setState({showCustomStatusTooltip: true});
+        } else {
+            this.setState({showCustomStatusTooltip: false});
+        }
+    }
+
+    renderCustomStatus = () => {
+        const customStatus = this.props.customStatus;
+        const isStatusSet = customStatus && (customStatus.text || customStatus.emoji);
+        if (!(this.props.isCustomStatusEnabled && isStatusSet)) {
+            return null;
+        }
+        let customStatusTextComponent = (
+            <span
+                className='overflow--ellipsis text-nowrap'
+                ref={(element) => {
+                    this.customStatusTextRef = element;
+                    this.showCustomStatusTextTooltip();
+                }}
+            >
+                <Markdown
+                    message={customStatus.text}
+                    enableFormatting={true}
+                />
+            </span>
+        );
+
+        if (this.state.showCustomStatusTooltip) {
+            customStatusTextComponent = (
+                <OverlayTrigger
+                    delayShow={Constants.OVERLAY_TIME_DELAY}
+                    placement='bottom'
+                    overlay={
+                        <Tooltip id='custom-status-text-tooltip'>
+                            <Markdown
+                                message={customStatus.text}
+                                enableFormatting={true}
+                            />
+                        </Tooltip>
+                    }
+                >
+                    {customStatusTextComponent}
+                </OverlayTrigger>
+            );
+        }
+
+        const dmHeaderCustomStatus = (
+            <>
+                <CustomStatusEmoji
+                    userID={this.props.dmUser.id}
+                    emojiSize={15}
+                    emojiStyle={{
+                        verticalAlign: 'top',
+                        margin: '0 4px',
+                    }}
+                />
+                {customStatusTextComponent}
+            </>
+        );
+
+        return dmHeaderCustomStatus;
+    }
+
     render() {
         const {
             teamId,
@@ -421,7 +495,6 @@ class ChannelHeader extends React.PureComponent {
 
         let dmHeaderIconStatus;
         let dmHeaderTextStatus;
-        let dmHeaderCustomStatus;
         if (isDirect && !dmUser.delete_at && !dmUser.is_bot) {
             dmHeaderIconStatus = (
                 <StatusIcon
@@ -429,27 +502,9 @@ class ChannelHeader extends React.PureComponent {
                 />
             );
 
-            dmHeaderCustomStatus = this.props.isCustomStatusEnabled && (
-                <>
-                    <CustomStatusEmoji
-                        userID={this.props.dmUser.id}
-                        emojiSize={15}
-                        emojiStyle={{
-                            verticalAlign: 'top',
-                            margin: '0 4px',
-                        }}
-                    />
-                    <span>
-                        <Markdown
-                            message={this.props.customStatus.text}
-                            enableFormatting={true}
-                        />
-                    </span>
-                </>
-            );
-
+            const dmHeaderCustomStatus = this.renderCustomStatus();
             dmHeaderTextStatus = (
-                <span className='header-status__text overflow--ellipsis text-nowrap'>
+                <span className='header-status__text'>
                     <FormattedMessage
                         id={`status_dropdown.set_${channel.status}`}
                         defaultMessage={Utils.toTitleCase(channel.status)}

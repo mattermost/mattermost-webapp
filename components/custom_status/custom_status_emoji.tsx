@@ -52,6 +52,7 @@ const CustomStatusEmoji = (props: ComponentProps) => {
                                 emoji={customStatus.emoji}
                                 size={14}
                             />
+                            {/* This string acts as a whitespace character */}
                             {'\u00A0'}
                             <span className='custom-status-text'>
                                 <Markdown
