@@ -20,22 +20,22 @@ const style: Record<string, CSSProperties> = {
 };
 
 type Props = {
-    searchTerms: string,
-    updateHighlightedSearchHint: (indexDelta: number, changedViaKeyPress?: boolean) => void,
-    handleChange: (e: ChangeEvent<HTMLInputElement>) => void,
-    handleSubmit: (e: FormEvent<HTMLFormElement>) => void,
-    handleEnterKey: (e: ChangeEvent<HTMLInputElement>) => void,
-    handleClear: () => void,
-    handleFocus: () => void,
-    handleBlur: () => void,
-    keepFocussed: boolean,
-    isFocussed: boolean,
-    suggestionProviders: Provider[],
-    isSearchingTerm: boolean,
-    isFocus: boolean,
-    isSideBarRight?: boolean,
-    getFocus?: (searchBarFocus: () => void) => void,
-    children?: React.ReactNode,
+    searchTerms: string;
+    updateHighlightedSearchHint: (indexDelta: number, changedViaKeyPress?: boolean) => void;
+    handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
+    handleSubmit: (e: FormEvent<HTMLFormElement>) => void;
+    handleEnterKey: (e: ChangeEvent<HTMLInputElement>) => void;
+    handleClear: () => void;
+    handleFocus: () => void;
+    handleBlur: () => void;
+    keepFocused: boolean;
+    isFocused: boolean;
+    suggestionProviders: Provider[];
+    isSearchingTerm: boolean;
+    isFocus: boolean;
+    isSideBarRight?: boolean;
+    getFocus?: (searchBarFocus: () => void) => void;
+    children?: React.ReactNode;
 }
 
 const defaultProps: Partial<Props> = {
@@ -45,23 +45,23 @@ const defaultProps: Partial<Props> = {
 };
 
 const SearchBar: React.FunctionComponent<Props> = (props: Props): JSX.Element => {
-    const {isFocussed, keepFocussed, searchTerms, suggestionProviders} = props;
+    const {isFocused, keepFocused, searchTerms, suggestionProviders} = props;
 
     const searchRef = useRef<SuggestionBox>();
     const intl = useIntl();
 
     useEffect((): void => {
-        const shouldFocus = isFocussed || keepFocussed;
+        const shouldFocus = isFocused || keepFocused;
         if (shouldFocus) {
             // let redux handle changes before focussing the input
             setTimeout(() => searchRef.current?.focus(), 0);
         } else {
             setTimeout(() => searchRef.current?.blur(), 0);
         }
-    }, [isFocussed, keepFocussed]);
+    }, [isFocused, keepFocused]);
 
     useEffect((): void => {
-        if (isFocussed && !keepFocussed && searchTerms.endsWith('""')) {
+        if (isFocused && !keepFocused && searchTerms.endsWith('""')) {
             setTimeout(() => searchRef.current?.focus(), 0);
         }
     }, [searchTerms]);
@@ -102,7 +102,7 @@ const SearchBar: React.FunctionComponent<Props> = (props: Props): JSX.Element =>
         >
             <form
                 role='application'
-                className={classNames(['search__form', {'search__form--focused': isFocussed}])}
+                className={classNames(['search__form', {'search__form--focused': isFocused}])}
                 onSubmit={props.handleSubmit}
                 style={style.searchForm}
                 autoComplete='off'

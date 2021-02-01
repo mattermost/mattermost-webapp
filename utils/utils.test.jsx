@@ -5,7 +5,7 @@ import {GeneralTypes} from 'mattermost-redux/action_types';
 
 import store from 'stores/redux_store.jsx';
 
-import Constants from 'utils/constants';
+import Constants, {ValidationErrors} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import * as lineBreakHelpers from 'tests/helpers/line_break_helpers.js';
 import {makeBoldHotkeyEvent, makeItalicHotkeyEvent, makeSelectionEvent} from 'tests/helpers/markdown_hotkey_helpers.js';
@@ -365,6 +365,54 @@ describe('Utils.isValidPassword', () => {
         ]) {
             const {valid} = Utils.isValidPassword(data.password, data.config);
             expect(data.valid).toEqual(valid);
+        }
+    });
+});
+
+describe('Utils.isValidUsername', () => {
+    const tests = [
+        {
+            testUserName: 'sonic.the.hedgehog',
+            expectedError: undefined,
+        }, {
+            testUserName: null,
+            expectedError: ValidationErrors.USERNAME_REQUIRED,
+        }, {
+            testUserName: 'sanic.the.speedy.errored.hedgehog@10_10-10',
+            expectedError: ValidationErrors.INVALID_LENGTH,
+        }, {
+            testUserName: 'sanic⭑',
+            expectedError: ValidationErrors.INVALID_CHARACTERS,
+        }, {
+            testUserName: '.sanic',
+            expectedError: ValidationErrors.INVALID_FIRST_CHARACTER,
+        }, {
+            testUserName: 'valet',
+            expectedError: ValidationErrors.RESERVED_NAME,
+        },
+    ];
+    test('Validate username', () => {
+        for (const test of tests) {
+            const testError = Utils.isValidUsername(test.testUserName);
+            if (testError) {
+                expect(testError.id).toEqual(test.expectedError);
+            } else {
+                expect(testError).toBe(undefined);
+            }
+        }
+    });
+    test('Validate bot username', () => {
+        tests.push({
+            testUserName: 'sanic.the.hedgehog.',
+            expectedError: ValidationErrors.INVALID_LAST_CHARACTER,
+        });
+        for (const test of tests) {
+            const testError = Utils.isValidUsername(test.testUserName);
+            if (testError) {
+                expect(testError.id).toEqual(test.expectedError);
+            } else {
+                expect(testError).toBe(undefined);
+            }
         }
     });
 });
@@ -980,5 +1028,170 @@ describe('Utils.adjustSelection', () => {
 
         Utils.adjustSelection(input, e);
         expect(input.setSelectionRange).toHaveBeenCalledWith(18, 26);
+    });
+});
+
+describe('Utils.copyTextAreaToDiv', () => {
+    const textArea = document.createElement('textarea');
+
+    test('copyTextAreaToDiv actually creates a div element', () => {
+        const copy = Utils.copyTextAreaToDiv(textArea);
+
+        expect(copy.nodeName).toEqual('DIV');
+    });
+
+    test('copyTextAreaToDiv copies the content into the div element', () => {
+        textArea.value = 'the content';
+
+        const copy = Utils.copyTextAreaToDiv(textArea);
+
+        expect(copy.innerHTML).toEqual('the content');
+    });
+
+    test('copyTextAreaToDiv correctly copies the styles of the textArea element', () => {
+        textArea.style.fontFamily = 'Sans-serif';
+
+        const copy = Utils.copyTextAreaToDiv(textArea);
+
+        expect(copy.style.fontFamily).toEqual('Sans-serif');
+    });
+});
+
+describe('Utils.getCaretXYCoordinate', () => {
+    const cleanUp = () => {
+        document.createRange = undefined;
+    };
+
+    afterAll(cleanUp);
+
+    const textArea = document.createElement('textarea');
+    document.createRange = () => {
+        const range = new Range();
+
+        range.getClientRects = () => {
+            return [{
+                top: 10,
+                left: 15,
+            }];
+        };
+
+        return range;
+    };
+    textArea.value = 'm'.repeat(10);
+
+    test('getCaretXYCoordinate returns the coordinates of the caret', () => {
+        const coordinates = Utils.getCaretXYCoordinate(textArea);
+
+        expect(coordinates.x).toEqual(15);
+        expect(coordinates.y).toEqual(10);
+    });
+
+    test('getCaretXYCoordinate returns the coordinates of the caret with a left scroll', () => {
+        textArea.scrollLeft = 5;
+
+        const coordinates = Utils.getCaretXYCoordinate(textArea);
+
+        expect(coordinates.x).toEqual(10);
+    });
+});
+
+describe('Utils.getViewportSize', () => {
+    test('getViewportSize returns the right viewport using default jsDom window', () => {
+        // the default values of the jsDom window are w: 1024, h: 768
+        const viewportDimensions = Utils.getViewportSize();
+
+        expect(viewportDimensions.w).toEqual(1024);
+        expect(viewportDimensions.h).toEqual(768);
+    });
+
+    test('getViewportSize returns the right viewport width with custom parameter', () => {
+        const mockWindow = {document: {body: {}, compatMode: undefined}};
+        mockWindow.document.body.clientWidth = 1025;
+        mockWindow.document.body.clientHeight = 860;
+
+        const viewportDimensions = Utils.getViewportSize(mockWindow);
+
+        expect(viewportDimensions.w).toEqual(1025);
+        expect(viewportDimensions.h).toEqual(860);
+    });
+
+    test('getViewportSize returns the right viewport width with custom parameter - innerWidth', () => {
+        const mockWindow = {innerWidth: 1027, innerHeight: 767};
+
+        const viewportDimensions = Utils.getViewportSize(mockWindow);
+
+        expect(viewportDimensions.w).toEqual(1027);
+        expect(viewportDimensions.h).toEqual(767);
+    });
+});
+
+describe('Utils.offsetTopLeft', () => {
+    test('offsetTopLeft returns the right offset values', () => {
+        const textArea = document.createElement('textArea');
+
+        textArea.getBoundingClientRect = jest.fn(() => ({
+            top: 967,
+            left: 851,
+        }));
+
+        const offsetTopLeft = Utils.offsetTopLeft(textArea);
+        expect(offsetTopLeft.top).toEqual(967);
+        expect(offsetTopLeft.left).toEqual(851);
+    });
+});
+
+describe('Utils.getSuggestionBoxAlgn', () => {
+    const cleanUp = () => {
+        document.createRange = undefined;
+    };
+
+    afterAll(cleanUp);
+
+    const textArea = document.createElement('textArea');
+
+    textArea.value = 'a'.repeat(30);
+
+    jest.spyOn(textArea, 'offsetWidth', 'get').
+        mockImplementation(() => 950);
+
+    textArea.getBoundingClientRect = jest.fn(() => ({
+        left: 50,
+    }));
+
+    const createRange = (size) => {
+        document.createRange = () => {
+            const range = new Range();
+            range.getClientRects = () => {
+                return [{
+                    top: 100,
+                    left: size,
+                }];
+            };
+            return range;
+        };
+    };
+
+    const fixedToTheRight = textArea.offsetWidth - Constants.SUGGESTION_LIST_MODAL_WIDTH;
+
+    test('getSuggestionBoxAlgn returns 0 (box stuck to left) when the length of the text is small', () => {
+        const smallSizeText = 15;
+        createRange(smallSizeText);
+        const suggestionBoxAlgn = Utils.getSuggestionBoxAlgn(textArea, Utils.getPxToSubstract());
+        expect(suggestionBoxAlgn.pixelsToMoveX).toEqual(0);
+    });
+
+    test('getSuggestionBoxAlgn returns pixels to move when text is medium size', () => {
+        const mediumSizeText = 155;
+        createRange(mediumSizeText);
+        const suggestionBoxAlgn = Utils.getSuggestionBoxAlgn(textArea, Utils.getPxToSubstract());
+        expect(suggestionBoxAlgn.pixelsToMoveX).toBeGreaterThan(0);
+        expect(suggestionBoxAlgn.pixelsToMoveX).not.toBe(fixedToTheRight);
+    });
+
+    test('getSuggestionBoxAlgn align box to the righ when text is large size', () => {
+        const largeSizeText = 700;
+        createRange(largeSizeText);
+        const suggestionBoxAlgn = Utils.getSuggestionBoxAlgn(textArea, Utils.getPxToSubstract());
+        expect(fixedToTheRight).toEqual(suggestionBoxAlgn.pixelsToMoveX);
     });
 });

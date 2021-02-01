@@ -3,7 +3,7 @@
 
 import assert from 'assert';
 
-import {shouldRenderFromProps} from 'components/search_results/search_results.tsx';
+import {arePropsEqual} from 'components/search_results/search_results.tsx';
 
 describe('components/SearchResults', () => {
     describe('shouldRenderFromProps', () => {
@@ -17,15 +17,15 @@ describe('components/SearchResults', () => {
         };
 
         test('should not render', () => {
-            assert.ok(!shouldRenderFromProps(props, {...props}));
-            assert.ok(!shouldRenderFromProps(props, {...props, results: [result1, result2]}, props, {...props}));
+            assert.ok(arePropsEqual(props, {...props}));
+            assert.ok(arePropsEqual(props, {...props, results: [result1, result2]}, props, {...props}));
         });
 
         test('should render', () => {
-            assert.ok(shouldRenderFromProps(props, {...props, prop1: 'newprop'}));
-            assert.ok(shouldRenderFromProps(props, {...props, results: [result2, result1]}));
-            assert.ok(shouldRenderFromProps(props, {...props, results: [result1, result2, {test: 'test'}]}));
-            assert.ok(shouldRenderFromProps(props, {...props, somearray: [1, 2, 3]}));
+            assert.ok(!arePropsEqual(props, {...props, prop1: 'newprop'}));
+            assert.ok(!arePropsEqual(props, {...props, results: [result2, result1]}));
+            assert.ok(!arePropsEqual(props, {...props, results: [result1, result2, {test: 'test'}]}));
+            assert.ok(!arePropsEqual(props, {...props, somearray: [1, 2, 3]}));
         });
     });
 });

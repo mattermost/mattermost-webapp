@@ -24,6 +24,7 @@ import {
 } from 'utils/constants';
 
 import AnnouncementBar from '../default_announcement_bar';
+import withGetCloudSubscription from '../../common/hocs/cloud/with_get_cloud_subcription';
 
 type Props = {
     userLimit: number;
@@ -41,14 +42,10 @@ type Props = {
     };
 };
 
-export default class UserLimitAnnouncementBar extends React.PureComponent<Props> {
+class UserLimitAnnouncementBar extends React.PureComponent<Props> {
     async componentDidMount() {
         if (isEmpty(this.props.analytics)) {
             await this.props.actions.getStandardAnalytics();
-        }
-
-        if (isEmpty(this.props.subscription)) {
-            await this.props.actions.getCloudSubscription();
         }
 
         if (!isEmpty(this.props.subscription) && !isEmpty(this.props.analytics) && this.shouldShowBanner()) {
@@ -161,17 +158,18 @@ export default class UserLimitAnnouncementBar extends React.PureComponent<Props>
 
         return (
             <AnnouncementBar
-                type={dismissable ? AnnouncementBarTypes.ADVISOR : AnnouncementBarTypes.CRITICAL_LIGHT}
+                type={dismissable ? AnnouncementBarTypes.ADVISOR : AnnouncementBarTypes.CRITICAL}
                 showCloseButton={dismissable}
                 handleClose={this.handleClose}
-                showModal={this.showModal}
+                onButtonClick={this.showModal}
                 modalButtonText={t('admin.billing.subscription.upgradeMattermostCloud.upgradeButton')}
                 modalButtonDefaultText={'Upgrade Mattermost Cloud'}
                 message={dismissable ? t('upgrade.cloud_banner_reached') : t('upgrade.cloud_banner_over')}
                 showLinkAsButton={true}
-                isTallBanner={true}
             />
 
         );
     }
 }
+
+export default withGetCloudSubscription(UserLimitAnnouncementBar);

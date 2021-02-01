@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @integrations
 
 import {getRandomId} from '../../utils';
@@ -55,8 +56,7 @@ describe('Integrations', () => {
 
             // # Setup 2 bot accounts
             Cypress._.times(2, () => {
-                const randomBotName = `${getRandomId(2)}`;
-                cy.apiCreateBot(`test-${randomBotName}`);
+                cy.apiCreateBot();
             });
 
             // # Visit the integrations page

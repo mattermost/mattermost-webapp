@@ -12,7 +12,7 @@ import * as Teams from 'mattermost-redux/selectors/entities/teams';
 
 import {ActionTypes, Constants} from 'utils/constants';
 import * as UserAgent from 'utils/user_agent';
-import * as GlobalActions from 'actions/global_actions.jsx';
+import * as GlobalActions from 'actions/global_actions';
 import * as Utils from 'utils/utils.jsx';
 import UserSettingsModal from 'components/user_settings/modal';
 
@@ -27,6 +27,7 @@ const initialState = {
         general: {
             config: {
                 ExperimentalViewArchivedChannels: 'false',
+                EnableLegacySidebar: 'true',
             },
         },
         channels: {
@@ -60,7 +61,7 @@ const initialState = {
 };
 
 jest.mock('utils/user_agent');
-jest.mock('actions/global_actions.jsx');
+jest.mock('actions/global_actions');
 
 describe('executeCommand', () => {
     let store;

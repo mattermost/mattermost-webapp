@@ -354,8 +354,8 @@ context('ldap', () => {
             cy.findByTestId('membersModal').click();
             cy.get('#showInviteModal').should('exist').click();
 
-            // * Asset that label is visiable and it says we can add new members
-            cy.get('#channelInviteModalLabel').should('be.visible').and('contain', `Add New Members to ${testChannel.display_name}`);
+            // * Assess that label is visible and it says we can add new members
+            cy.get('#addUsersToChannelModal').should('be.visible').findByText(`Add people to ${testChannel.display_name}`);
 
             // # Login as sysadmin and navigate to system scheme page and check off all users can manage private manage channels
             cy.apiAdminLogin();
@@ -403,7 +403,7 @@ context('ldap', () => {
                 cy.wait(TIMEOUTS.THREE_SEC);
 
                 // # Type channel display name on Channel switcher input
-                cy.get('#quickSwitchInput').type(publicChannel.display_name);
+                cy.findByRole('textbox', {name: 'quick switch input'}).type(publicChannel.display_name);
                 cy.wait(TIMEOUTS.HALF_SEC);
 
                 // * Should open up suggestion list for channels
@@ -428,7 +428,7 @@ context('ldap', () => {
                 cy.wait(TIMEOUTS.THREE_SEC);
 
                 // # Type channel display name on Channel switcher input
-                cy.get('#quickSwitchInput').type(publicChannel.display_name);
+                cy.findByRole('textbox', {name: 'quick switch input'}).type(publicChannel.display_name);
                 cy.wait(TIMEOUTS.HALF_SEC);
 
                 // * Should open up suggestion list for channels

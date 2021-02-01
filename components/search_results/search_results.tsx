@@ -3,7 +3,7 @@
 /* eslint-disable react/no-string-refs */
 
 import React, {useEffect, useRef} from 'react';
-import {useIntl} from 'react-intl';
+import {MessageDescriptor, useIntl} from 'react-intl';
 import Scrollbars from 'react-custom-scrollbars';
 
 import classNames from 'classnames';
@@ -47,41 +47,10 @@ const renderThumbVertical = (props: Record<string, unknown>): JSX.Element => (
     />
 );
 
-export const shouldRenderFromProps = (props: Props, nextProps: Props): boolean => {
-    // Shallow compare for all props except 'results'
-    for (const key in nextProps) {
-        if (!Object.prototype.hasOwnProperty.call(nextProps, key) || key === 'results') {
-            continue;
-        }
-
-        if (nextProps[key] !== props[key]) {
-            return true;
-        }
-    }
-
-    // Here we do a slightly deeper compare on 'results' because it is frequently a new
-    // array but without any actual changes
-    const {results} = props;
-    const {results: nextResults} = nextProps;
-
-    if (results.length !== nextResults.length) {
-        return true;
-    }
-
-    for (let i = 0; i < results.length; i++) {
-        // Only need a shallow compare on each post
-        if (results[i] !== nextResults[i]) {
-            return true;
-        }
-    }
-
-    return false;
-};
-
 interface NoResultsProps {
-    variant: NoResultsVariant,
-    titleValues?: Record<string, React.ReactNode>
-    subtitleValues?: Record<string, React.ReactNode>
+    variant: NoResultsVariant;
+    titleValues?: Record<string, React.ReactNode>;
+    subtitleValues?: Record<string, React.ReactNode>;
 }
 
 const defaultProps: Partial<Props> = {
@@ -92,7 +61,7 @@ const defaultProps: Partial<Props> = {
 };
 
 const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
-    const scrollbars = useRef<Scrollbars>(null);
+    const scrollbars = useRef<Scrollbars|null>(null);
 
     const intl = useIntl();
 
@@ -134,6 +103,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
         isMentionSearch,
         isOpened,
         updateSearchTerms,
+        handleSearchHintSelection,
     } = props;
 
     const noResults = (!results || !Array.isArray(results) || results.length === 0);
@@ -145,7 +115,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
 
     let sortedResults = results;
 
-    const titleDescriptor: Record<string, string> = {};
+    const titleDescriptor: MessageDescriptor = {};
     const noResultsProps: NoResultsProps = {
         variant: NoResultsVariant.ChannelSearch,
     };
@@ -185,6 +155,11 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
 
     const formattedTitle = intl.formatMessage(titleDescriptor);
 
+    const handleOptionSelection = (term: string): void => {
+        handleSearchHintSelection();
+        updateSearchTerms(term);
+    };
+
     switch (true) {
     case isLoading:
         contentItems = (
@@ -195,11 +170,11 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
             </div>
         );
         break;
-    case (noResults && !searchTerms && !isMentionSearch):
+    case (noResults && !searchTerms && !isMentionSearch && !isPinnedPosts && !isFlaggedPosts):
         contentItems = (
             <div className='sidebar--right__subheader search__hints a11y__section'>
                 <SearchHint
-                    onOptionSelected={updateSearchTerms}
+                    onOptionSelected={handleOptionSelection}
                     options={searchHintOptions}
                 />
             </div>
@@ -288,4 +263,35 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
 
 SearchResults.defaultProps = defaultProps;
 
-export default React.memo(SearchResults, shouldRenderFromProps);
+export const arePropsEqual = (props: Props, nextProps: Props): boolean => {
+    // Shallow compare for all props except 'results'
+    for (const key in nextProps) {
+        if (!Object.prototype.hasOwnProperty.call(nextProps, key) || key === 'results') {
+            continue;
+        }
+
+        if (nextProps[key] !== props[key]) {
+            return false;
+        }
+    }
+
+    // Here we do a slightly deeper compare on 'results' because it is frequently a new
+    // array but without any actual changes
+    const {results} = props;
+    const {results: nextResults} = nextProps;
+
+    if (results.length !== nextResults.length) {
+        return false;
+    }
+
+    for (let i = 0; i < results.length; i++) {
+        // Only need a shallow compare on each post
+        if (results[i] !== nextResults[i]) {
+            return false;
+        }
+    }
+
+    return true;
+};
+
+export default React.memo(SearchResults, arePropsEqual);

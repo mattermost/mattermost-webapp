@@ -148,11 +148,11 @@ type PluginStatus = {
     description: string;
     version: string;
     name: string;
-    instances: Array<any>;
+    instances: any[];
     settings_schema?: {
         header: string;
         footer: string;
-        settings?: Array<unknown>;
+        settings?: unknown[];
     };
 }
 
@@ -440,6 +440,7 @@ type State = BaseState & {
     removing: string | null;
 }
 export default class PluginManagement extends AdminSettings<Props, State> {
+    private fileInput: React.RefObject<HTMLInputElement>;
     constructor(props: Props) {
         super(props);
 
@@ -459,6 +460,7 @@ export default class PluginManagement extends AdminSettings<Props, State> {
             showRemoveModal: false,
             resolveRemoveModal: null,
         });
+        this.fileInput = React.createRef();
     }
     getConfigFromState = (config: Props['config']) => {
         if (config && config.PluginSettings) {
@@ -500,7 +502,7 @@ export default class PluginManagement extends AdminSettings<Props, State> {
 
     handleUpload = () => {
         this.setState({lastMessage: null, serverError: null});
-        const element = this.refs.fileInput as HTMLInputElement;
+        const element = this.fileInput.current as HTMLInputElement;
         if (element.files && element.files.length > 0) {
             this.setState({fileSelected: true, file: element.files[0]});
         }
@@ -553,7 +555,7 @@ export default class PluginManagement extends AdminSettings<Props, State> {
     handleSubmitUpload = (e: React.SyntheticEvent) => {
         e.preventDefault();
 
-        const element = this.refs.fileInput as HTMLInputElement;
+        const element = this.fileInput.current as HTMLInputElement;
         if (element.files?.length === 0) {
             return;
         }
@@ -913,15 +915,13 @@ export default class PluginManagement extends AdminSettings<Props, State> {
         } else {
             const showInstances = plugins.some((pluginStatus) => pluginStatus.instances.length > 1);
             plugins.sort((a, b) => {
-                if (a.name < b.name) {
-                    return -1;
-                } else if (a.name > b.name) {
-                    return 1;
+                const nameCompare = a.name.localeCompare(b.name);
+                if (nameCompare !== 0) {
+                    return nameCompare;
                 }
 
-                return 0;
+                return a.id.localeCompare(b.id);
             });
-
             pluginsList = plugins.map((pluginStatus: PluginStatus) => {
                 const p = this.props.plugins[pluginStatus.id];
                 const hasSettings = Boolean(p && p.settings_schema && (p.settings_schema.header || p.settings_schema.footer || (p.settings_schema.settings && p.settings_schema.settings.length > 0)));
@@ -1080,7 +1080,7 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                                                 />
                                             </button>
                                             <input
-                                                ref='fileInput'
+                                                ref={this.fileInput}
                                                 type='file'
                                                 accept='.gz'
                                                 onChange={this.handleUpload}

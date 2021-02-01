@@ -1618,6 +1618,17 @@
         }
     }
 
+    .post_permalink_mobile_view {
+        color: inherit;
+        display: inline-block;
+
+        &:hover,
+        &:focus {
+            color: inherit;
+            text-decoration: none;
+        }
+    }
+
     .post-loading-gif {
         height: 10px;
         margin-top: 6px;
@@ -1837,6 +1848,10 @@
     .post-collapse__show-more-button {
         @include single-transition(all, .15s, ease);
         @include border-radius(2px);
+        &:hover {
+            color: var(--center-channel-bg);
+        }
+        background: var(--center-channel-bg);
         border: 1px solid transparent;
         display: inline-block;
         flex-shrink: 0;

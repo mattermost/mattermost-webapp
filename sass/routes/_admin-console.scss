@@ -23,10 +23,6 @@
         .announcement-bar--fixed & {
             height: calc(100vh - 32px);
         }
-
-        .announcement-banner-tall--fixed & {
-            height: calc(100vh - 40px);
-        }
     }
 
     .admin-console__wrapper {
@@ -70,6 +66,10 @@
         top: 40px;
         z-index: 5;
     }
+    
+    .color-input {
+        width: 232px;
+    }
 
     .dropdown-menu {
         .divider {
@@ -81,10 +81,6 @@
         height: calc(100vh - 175px);
 
         .announcement-bar--fixed & {
-            height: calc(100vh - 205px);
-        }
-
-        .announcement-banner-tall--fixed & {
             height: calc(100vh - 205px);
         }
     }
@@ -608,11 +604,6 @@
         padding-bottom: $announcement-bar-height;
     }
 
-    body.announcement-banner-tall--fixed & {
-        top: 40px;
-        padding-bottom: 40px;
-    }
-
     .dropdown-menu {
         max-height: 80vh;
         max-width: 200px;
@@ -696,6 +687,21 @@
 
     .sidebar-section-title {
         padding: 6px 35px 6px 12px;
+    }
+
+    .sidebar-section-tag {
+        padding: 0px 4px 0px 4px;
+        color: rgba(61,60,64,1);
+        font-size: 10px;
+        font-weight: 600;
+        height: 16px;
+        margin-left: 8px;
+        position: relative;
+        top: -1px;
+        border-radius: 4px;
+        background-color: rgba(255,255,255,0.64);
+        text-transform: uppercase;
+        ;
     }
 
     .sidebar-subsection-title {

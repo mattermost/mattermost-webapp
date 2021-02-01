@@ -24,11 +24,11 @@ import SearchUserProvider from 'components/suggestion/search_user_provider';
 import type {Props} from './types';
 
 interface SearchHintOption {
-    searchTerm: string,
+    searchTerm: string;
     message: {
-        id: string,
-        defaultMessage: string,
-    },
+        id: string;
+        defaultMessage: string;
+    };
 }
 
 const determineVisibleSearchHintOptions = (searchTerms: string): SearchHintOption[] => {
@@ -42,9 +42,7 @@ const determineVisibleSearchHintOptions = (searchTerms: string): SearchHintOptio
     const pretext = pretextArray[pretextArray.length - 1];
     const penultimatePretext = pretextArray[pretextArray.length - 2];
 
-    const shouldShowHintOptions = penultimatePretext ?
-        !searchHintOptions.some(({searchTerm}) => penultimatePretext.toLowerCase().endsWith(searchTerm.toLowerCase())) :
-        !searchHintOptions.some(({searchTerm}) => searchTerms.toLowerCase().endsWith(searchTerm.toLowerCase()));
+    const shouldShowHintOptions = penultimatePretext ? !searchHintOptions.some(({searchTerm}) => penultimatePretext.toLowerCase().endsWith(searchTerm.toLowerCase())) : !searchHintOptions.some(({searchTerm}) => searchTerms.toLowerCase().endsWith(searchTerm.toLowerCase()));
 
     if (shouldShowHintOptions) {
         try {
@@ -66,8 +64,8 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
     const intl = useIntl();
 
     // generate intial component state and setters
-    const [focussed, setFocussed] = useState<boolean>(false);
-    const [keepInputFocussed, setKeepInputFocussed] = useState<boolean>(false);
+    const [focused, setFocused] = useState<boolean>(false);
+    const [keepInputFocused, setKeepInputFocused] = useState<boolean>(false);
     const [indexChangedViaKeyPress, setIndexChangedViaKeyPress] = useState<boolean>(false);
     const [highlightedSearchHintIndex, setHighlightedSearchHintIndex] = useState<number>(-1);
     const [visibleSearchHintOptions, setVisibleSearchHintOptions] = useState<SearchHintOption[]>(
@@ -81,26 +79,42 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
     ]);
 
     useEffect((): void => {
-        setVisibleSearchHintOptions(determineVisibleSearchHintOptions(searchTerms));
+        if (!Utils.isMobile()) {
+            setVisibleSearchHintOptions(determineVisibleSearchHintOptions(searchTerms));
+        }
     }, [searchTerms]);
+
+    useEffect((): void => {
+        if (!Utils.isMobile() && focused && keepInputFocused) {
+            handleBlur();
+        }
+    }, [searchTerms]);
+
+    useEffect((): void => {
+        if (props.isFocus && !props.isRhsOpen) {
+            handleFocus();
+        } else {
+            handleBlur();
+        }
+    }, [props.isRhsOpen]);
 
     // handle cloding of rhs-flyout
     const handleClose = (): void => actions.closeRightHandSide();
 
     // focus the search input
-    const handleFocus = (): void => setFocussed(true);
+    const handleFocus = (): void => setFocused(true);
 
-    // release focus from the search input or unset `keepInputFocussed` value
-    // `keepInputFocussed` is used to keep the search input focussed when a
+    // release focus from the search input or unset `keepInputFocused` value
+    // `keepInputFocused` is used to keep the search input focused when a
     // user selects a suggestion from `SearchHint` with a click
     const handleBlur = (): void => {
         // add time out so that the pinned and member buttons are clickable
         // when focus is released from the search box.
         setTimeout((): void => {
-            if (keepInputFocussed) {
-                setKeepInputFocussed(false);
+            if (keepInputFocused) {
+                setKeepInputFocused(false);
             } else {
-                setFocussed(false);
+                setFocused(false);
             }
         }, 0);
 
@@ -108,7 +122,11 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
     };
 
     const handleSearchHintSelection = (): void => {
-        setKeepInputFocussed(true);
+        if (focused) {
+            setKeepInputFocused(true);
+        } else {
+            setFocused(true);
+        }
     };
 
     const handleAddSearchTerm = (term: string): void => {
@@ -159,8 +177,8 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
         // `handleSubmit` function called from the `form`
         if (indexChangedViaKeyPress) {
             e.preventDefault();
+            setKeepInputFocused(true);
             handleAddSearchTerm(visibleSearchHintOptions[highlightedSearchHintIndex].searchTerm);
-            setKeepInputFocussed(true);
         }
 
         if (props.isMentionSearch) {
@@ -173,8 +191,8 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
         e.preventDefault();
 
         handleSearch().then(() => {
-            setKeepInputFocussed(false);
-            setFocussed(false);
+            setKeepInputFocused(false);
+            setFocused(false);
         });
     };
 
@@ -200,7 +218,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
 
     const handleClear = (): void => {
         if (props.isMentionSearch) {
-            setFocussed(false);
+            setFocused(false);
             actions.updateRhsState(RHSStates.SEARCH);
         }
         actions.updateSearchTerms('');
@@ -283,7 +301,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
             return <></>;
         }
 
-        const helpClass = `search-help-popover${(focussed && termsUsed <= 2) ? ' visible' : ''}`;
+        const helpClass = `search-help-popover${(focused && termsUsed <= 2) ? ' visible' : ''}`;
 
         return (
             <Popover
@@ -303,7 +321,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
         );
     };
 
-    const renderSearchBar = ():JSX.Element => (
+    const renderSearchBar = (): JSX.Element => (
         <>
             <div className='sidebar-collapse__container'>
                 <div
@@ -325,8 +343,8 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
                 handleSubmit={handleSubmit}
                 handleFocus={handleFocus}
                 handleBlur={handleBlur}
-                keepFocussed={keepInputFocussed}
-                isFocussed={focussed}
+                keepFocused={keepInputFocused}
+                isFocused={focused}
                 suggestionProviders={suggestionProviders.current}
                 isSideBarRight={props.isSideBarRight}
                 isSearchingTerm={props.isSearchingTerm}
@@ -367,6 +385,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
                     channelDisplayName={props.channelDisplayName}
                     isOpened={props.isSideBarRightOpen}
                     updateSearchTerms={handleAddSearchTerm}
+                    handleSearchHintSelection={handleSearchHintSelection}
                     isSideBarExpanded={props.isRhsExpanded}
                     getMorePostsForSearch={props.actions.getMorePostsForSearch}
                 />
@@ -385,4 +404,4 @@ const defaultProps: Partial<Props> = {
 
 Search.defaultProps = defaultProps;
 
-export default Search;
+export default React.memo(Search);

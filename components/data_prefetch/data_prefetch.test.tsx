@@ -8,6 +8,8 @@ import {ChannelType} from 'mattermost-redux/types/channels';
 
 import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
 
+import {TestHelper} from 'utils/test_helper';
+
 import DataPrefetch from './data_prefetch';
 
 jest.mock('actions/user_actions.jsx', () => ({
@@ -26,7 +28,8 @@ describe('/components/data_prefetch', () => {
             2: ['unreadChannel'],
         },
         prefetchRequestStatus: {},
-        unreadChannels: [{
+        sidebarLoaded: true,
+        unreadChannels: [TestHelper.getChannelMock({
             id: 'mentionChannel',
             display_name: 'mentionChannel',
             create_at: 0,
@@ -43,7 +46,7 @@ describe('/components/data_prefetch', () => {
             scheme_id: '',
             group_constrained: false,
             last_post_at: 1234,
-        }, {
+        }), TestHelper.getChannelMock({
             id: 'unreadChannel',
             display_name: 'unreadChannel',
             create_at: 0,
@@ -60,7 +63,7 @@ describe('/components/data_prefetch', () => {
             scheme_id: '',
             group_constrained: false,
             last_post_at: 1235,
-        }],
+        })],
     };
 
     test('should call posts of current channel when it is set', async () => {
@@ -252,5 +255,67 @@ describe('/components/data_prefetch', () => {
         expect(props.actions.prefetchChannelPosts).toHaveBeenCalledWith('currentChannelId', undefined);
         await loadProfilesForSidebar();
         expect(props.actions.prefetchChannelPosts).toHaveBeenCalledWith('mentionChannel', undefined);
+    });
+
+    test('should load profiles once the current channel and sidebar are both loaded', () => {
+        const props = {
+            ...defaultProps,
+            currentChannelId: '',
+            sidebarLoaded: false,
+        };
+
+        let wrapper = shallow<DataPrefetch>(
+            <DataPrefetch {...props}/>,
+        );
+        wrapper.setProps({});
+
+        expect(loadProfilesForSidebar).not.toHaveBeenCalled();
+
+        // With current channel loaded first
+        wrapper = shallow<DataPrefetch>(
+            <DataPrefetch {...props}/>,
+        );
+        wrapper.setProps({
+            currentChannelId: 'channel',
+        });
+
+        expect(loadProfilesForSidebar).not.toHaveBeenCalled();
+
+        wrapper.setProps({
+            sidebarLoaded: true,
+        });
+
+        expect(loadProfilesForSidebar).toHaveBeenCalled();
+
+        jest.clearAllMocks();
+
+        // With sidebar loaded first
+        wrapper = shallow<DataPrefetch>(
+            <DataPrefetch {...props}/>,
+        );
+        wrapper.setProps({
+            sidebarLoaded: true,
+        });
+
+        expect(loadProfilesForSidebar).not.toHaveBeenCalled();
+
+        wrapper.setProps({
+            currentChannelId: 'channel',
+        });
+
+        expect(loadProfilesForSidebar).toHaveBeenCalled();
+
+        jest.clearAllMocks();
+
+        // With both loaded at once
+        wrapper = shallow<DataPrefetch>(
+            <DataPrefetch {...props}/>,
+        );
+        wrapper.setProps({
+            currentChannelId: 'channel',
+            sidebarLoaded: true,
+        });
+
+        expect(loadProfilesForSidebar).toHaveBeenCalled();
     });
 });

@@ -52,7 +52,7 @@ describe('Verify unread toast appears after repeated manual marking post as unre
                             Cypress._.times(30, (index) => {
                                 cy.postMessageAs({
                                     sender: otherUser,
-                                    message: index.toString(),
+                                    message: `${index.toString()}\nsecond line\nthird line\nfourth line`,
                                     channelId: townSquareChannel.id,
                                 });
                             });
