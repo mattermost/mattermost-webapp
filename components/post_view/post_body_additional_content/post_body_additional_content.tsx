@@ -15,13 +15,14 @@ import YoutubeVideo from 'components/youtube_video';
 
 import {PostWillRenderEmbedPluginComponent} from 'types/store/plugins';
 import EmbeddedForms from '../embedded_forms/embedded_forms';
+import {TextFormattingOptions} from 'utils/text_formatting';
 
 export type Props = {
     post: Post;
     pluginPostWillRenderEmbedComponents?: PostWillRenderEmbedPluginComponent[];
     children?: JSX.Element;
     isEmbedVisible?: boolean;
-    options?: unknown;
+    options?: Partial<TextFormattingOptions>;
     actions: {
         toggleEmbedVisibility: (id: string) => void;
     };

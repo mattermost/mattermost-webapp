@@ -32,7 +32,7 @@ describe('Edit bot username', () => {
 
     it('MM-T2923 Edit bot username.', () => {
         // # Visit bot config
-        cy.visitAndWait('/admin_console/integrations/bot_accounts');
+        cy.visit('/admin_console/integrations/bot_accounts');
 
         // # Verify that the setting is enabled
         cy.findByTestId('ServiceSettings.EnableBotAccountCreationtrue', {timeout: TIMEOUTS.ONE_MIN}).should('be.checked');
@@ -132,7 +132,7 @@ describe('Edit bot username', () => {
     }
 
     function goToCreateBot() {
-        cy.visitAndWait(`/${team.name}/integrations/bots`);
+        cy.visit(`/${team.name}/integrations/bots`);
 
         // * Assert that adding bots possible
         cy.get('#addBotAccount', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').click();

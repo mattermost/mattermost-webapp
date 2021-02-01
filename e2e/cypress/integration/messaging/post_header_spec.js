@@ -21,12 +21,12 @@ describe('Post Header', () => {
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
             testTeam = team;
 
-            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+            cy.visit(`/${testTeam.name}/channels/town-square`);
         });
     });
 
     beforeEach(() => {
-        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
     });
 
     it('should render permalink view on click of post timestamp at center view', () => {

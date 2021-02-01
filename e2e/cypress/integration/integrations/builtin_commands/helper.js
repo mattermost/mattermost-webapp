@@ -6,9 +6,9 @@ import * as TIMEOUTS from '../../../fixtures/timeouts';
 export function loginAndVisitChannel(user, channelUrl, options = null) {
     cy.apiLogin(user);
     if (options) {
-        cy.visitAndWait(channelUrl, options);
+        cy.visit(channelUrl, options);
     } else {
-        cy.visitAndWait(channelUrl);
+        cy.visit(channelUrl);
     }
     cy.get('#postListContent', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
     cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');

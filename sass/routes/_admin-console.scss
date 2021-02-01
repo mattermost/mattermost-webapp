@@ -23,10 +23,6 @@
         .announcement-bar--fixed & {
             height: calc(100vh - 32px);
         }
-
-        .announcement-banner-tall--fixed & {
-            height: calc(100vh - 40px);
-        }
     }
 
     .admin-console__wrapper {
@@ -85,10 +81,6 @@
         height: calc(100vh - 175px);
 
         .announcement-bar--fixed & {
-            height: calc(100vh - 205px);
-        }
-
-        .announcement-banner-tall--fixed & {
             height: calc(100vh - 205px);
         }
     }
@@ -610,11 +602,6 @@
     body.announcement-bar--fixed & {
         top: $announcement-bar-height;
         padding-bottom: $announcement-bar-height;
-    }
-
-    body.announcement-banner-tall--fixed & {
-        top: 40px;
-        padding-bottom: 40px;
     }
 
     .dropdown-menu {
