@@ -38,7 +38,7 @@ describe('Group Message', () => {
                 users.push(newUser);
                 if (i === groupUsersCount - 1) {
                     cy.apiLogin(testUser);
-                    cy.visitAndWait(townsquareLink);
+                    cy.visit(townsquareLink);
                 }
             });
         });
@@ -70,7 +70,7 @@ describe('Group Message', () => {
         cy.get('#selectItems input').should('be.enabled').type(`@${testUser.username}`, {force: true});
 
         // * Assert that it's not found
-        cy.findByText('No items found').should('be.visible');
+        cy.get('.no-channel-message').should('be.visible').and('contain', 'No results found matching');
 
         // # Start GM
         cy.findByText('Go').click();
@@ -202,7 +202,7 @@ describe('Group Message', () => {
             });
 
             cy.postMessageAs({sender: participants[0], message: 'Hello all', channelId}).then(() => {
-                cy.visitAndWait(townsquareLink);
+                cy.visit(townsquareLink);
 
                 // * Assert that user does not receives a notification
                 cy.get('@withNotification').should('not.have.been.called');
@@ -217,7 +217,7 @@ describe('Group Message', () => {
 
             cy.postMessageAs({sender: participants[0], message: `@${testUser.username} Hello!!!`, channelId}).then(() => {
                 cy.apiLogin(testUser);
-                cy.visitAndWait(townsquareLink);
+                cy.visit(townsquareLink);
 
                 // * Assert that user does not receives a notification
                 cy.get('@withNotification').should('not.have.been.called');

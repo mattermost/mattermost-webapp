@@ -22,19 +22,19 @@ describe('Keyboard Shortcuts', () => {
             publicChannel = channel;
             testUser = user;
 
-            cy.visitAndWait(`/${team.name}/channels/${channel.name}`);
+            cy.visit(`/${team.name}/channels/${channel.name}`);
         });
     });
 
     it('MM-T3421 - Pressing the backspace key without an input focused should not send the browser back in history', () => {
         // # Navigate to a couple of pages
-        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
-        cy.visitAndWait(`/${testTeam.name}/channels/off-topic`);
-        cy.visitAndWait(`/${testTeam.name}/channels/${publicChannel.name}`);
-        cy.visitAndWait(`/${testTeam.name}/channels/off-topic`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/off-topic`);
+        cy.visit(`/${testTeam.name}/channels/${publicChannel.name}`);
+        cy.visit(`/${testTeam.name}/channels/off-topic`);
 
         // # Visit a DM URL
-        cy.visitAndWait(`/${testTeam.name}/messages/@${testUser.username}`);
+        cy.visit(`/${testTeam.name}/messages/@${testUser.username}`);
         cy.url().should('include', `/${testTeam.name}/messages/@${testUser.username}`);
 
         // # Type/edit some text and remove focus from the input field

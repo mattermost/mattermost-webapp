@@ -18,14 +18,14 @@ describe('Messaging', () => {
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
             townsquareLink = `/${team.name}/channels/town-square`;
             cy.apiSaveShowMarkdownPreviewPreference();
-            cy.visitAndWait(townsquareLink);
+            cy.visit(townsquareLink);
         });
     });
 
     it('MM-T186 Markdown preview: inline image', () => {
         const message = '![make it so](https://i.stack.imgur.com/MNeE7.jpg)';
 
-        cy.visitAndWait(townsquareLink);
+        cy.visit(townsquareLink);
 
         // # Get the height before starting to write
         cy.get('#post_textbox').should('be.visible').clear().then(() => {

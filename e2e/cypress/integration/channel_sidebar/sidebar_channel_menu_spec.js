@@ -37,7 +37,7 @@ describe('Sidebar channel menu', () => {
             teamName = team.name;
             userName = user.username;
 
-            cy.visitAndWait(`/${team.name}/channels/town-square`);
+            cy.visit(`/${team.name}/channels/town-square`);
         });
     });
 
@@ -154,11 +154,8 @@ describe('Sidebar channel menu', () => {
         cy.get('.SidebarMenu').contains('.MenuItem', 'Add Members').click();
 
         // * Verify that the modal appears and then close it
-        cy.contains('.modal-dialog .modal-header', 'Add New Members to').
-            parents().
-            find('.modal-dialog').
-            findByLabelText('Close').
-            click();
+        cy.get('#addUsersToChannelModal').should('be.visible').findByText('Add people to Town Square');
+        cy.uiClose();
     });
 
     it('MM-T3350 Mention badge should remain hidden as long as the channel/dm/gm menu is open', () => {

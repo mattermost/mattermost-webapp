@@ -64,7 +64,7 @@ describe('Guest Accounts', () => {
 
     it('MM-T1390 Enforce Guest MFA when MFA is enabled and enforced', () => {
         // # Navigate to System Console -> Authentication -> MFA Page.
-        cy.visitAndWait('/admin_console/authentication/mfa');
+        cy.visit('/admin_console/authentication/mfa');
 
         // # Ensure the setting 'Enable Multi factor authentication' is set to true in the MFA page.
         cy.findByTestId('ServiceSettings.EnableMultifactorAuthenticationtrue').check();
@@ -98,7 +98,7 @@ describe('Guest Accounts', () => {
         });
 
         // # Navigate to Guest Access page.
-        cy.visitAndWait('/admin_console/authentication/guest_access');
+        cy.visit('/admin_console/authentication/guest_access');
 
         // # Enable guest accounts.
         cy.findByTestId('GuestAccountsSettings.Enabletrue').check();
@@ -112,7 +112,7 @@ describe('Guest Accounts', () => {
         const guestEmail = `${username}@sample.mattermost.com`;
 
         // # From the main page, invite a Guest user and click on the Join Team in the email sent to the guest user.
-        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
         cy.get('#invitePeople').should('be.visible').click();
@@ -163,7 +163,7 @@ describe('Guest Accounts', () => {
 
             // # Logout sysadmin.
             cy.apiLogout();
-            cy.visitAndWait(invitationLink);
+            cy.visit(invitationLink);
         });
 
         // # Create an account with Email and Password.

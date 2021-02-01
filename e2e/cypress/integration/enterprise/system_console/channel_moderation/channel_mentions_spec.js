@@ -156,7 +156,7 @@ describe('MM-23102 - Channel Moderation - Channel Mentions', () => {
         saveConfigForChannel();
 
         // # Set @channel and @all confirmation dialog to true
-        cy.visitAndWait('admin_console/environment/notifications');
+        cy.visit('admin_console/environment/notifications');
         cy.findByTestId('TeamSettings.EnableConfirmNotificationsToChanneltrue').check();
         saveConfigForScheme();
 

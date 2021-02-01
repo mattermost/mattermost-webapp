@@ -38,7 +38,7 @@ describe('Profile popover', () => {
     beforeEach(() => {
         cy.apiAdminLogin();
         cy.apiResetRoles();
-        cy.visitAndWait('/admin_console/user_management/permissions/system_scheme');
+        cy.visit('/admin_console/user_management/permissions/system_scheme');
         cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'System Scheme');
     });
 
@@ -55,7 +55,7 @@ describe('Profile popover', () => {
 
         // # Login as test user and go to town square
         cy.apiLogin(testUser);
-        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Send multiple messages so that the profile popover appears completely.
         cy.postMessage('Hi there\nsending\na\nmessage');
@@ -63,7 +63,7 @@ describe('Profile popover', () => {
 
         // # Login as the second user now
         cy.apiLogin(otherUser);
-        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
         clickAddToChannel(testUser);
 
@@ -97,7 +97,7 @@ describe('Profile popover', () => {
             privateChannel = channel;
         });
 
-        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
         clickAddToChannel(testUser);
 
@@ -125,7 +125,7 @@ describe('Profile popover', () => {
 
         // # Login as the second user now
         cy.apiLogin(otherUser);
-        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
         clickAddToChannel(testUser);
 
@@ -179,7 +179,7 @@ describe('Profile popover', () => {
 
         // # Promote to channel admin
         promoteToChannelOrTeamAdmin(otherUser, testChannel.id);
-        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
         clickAddToChannel(testUser);
 
@@ -207,7 +207,7 @@ describe('Profile popover', () => {
         cy.get('div[aria-labelledby="addChannelModalLabel"]').should('not.be.visible');
 
         // # Visit that channel
-        cy.visitAndWait(`/${testTeam.name}/channels/${testChannel.name}`);
+        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
         // * Verify that user added message is there.
         cy.findByTestId('postView', {timeout: TIMEOUTS.ONE_MIN}).find('.post-message__text').should('contain.text', `@${testUser.username} added to the channel by you.`);
@@ -255,7 +255,7 @@ describe('Profile popover', () => {
         cy.apiLogin(otherUser);
 
         // # Visit town square
-        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
         clickAddToChannel(testUser);
 
@@ -280,7 +280,7 @@ describe('Profile popover', () => {
         cy.get('div[aria-labelledby="addChannelModalLabel"]').should('not.be.visible');
 
         // # Visit that channel
-        cy.visitAndWait(`/${testTeam.name}/channels/${privateChannel.name}`);
+        cy.visit(`/${testTeam.name}/channels/${privateChannel.name}`);
 
         // * Verify that user added message is there.
         cy.findByTestId('postView', {timeout: TIMEOUTS.ONE_MIN}).find('.post-message__text').should('contain.text', `@${testUser.username} added to the channel by you.`);
@@ -308,7 +308,7 @@ describe('Profile popover', () => {
         cy.apiLogin(otherUser);
 
         // # Visit town square
-        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
         clickAddToChannel(testUser);
 
@@ -339,7 +339,7 @@ describe('Profile popover', () => {
         cy.get('div[aria-labelledby="addChannelModalLabel"]').should('not.be.visible');
 
         // # Visit that channel
-        cy.visitAndWait(`/${testTeam.name}/channels/${testChannel.name}`);
+        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
         // * Verify that there are 2 post views now.
         cy.findAllByTestId('postView', {timeout: TIMEOUTS.ONE_MIN}).should('have.length', 2);
@@ -385,7 +385,7 @@ describe('Profile popover', () => {
 
         // # Login
         cy.apiLogin(otherUser);
-        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
         verifyAddToChannel(testUser, false);
 
         // # Promote to channel admin
@@ -394,7 +394,7 @@ describe('Profile popover', () => {
         cy.apiLogout();
 
         cy.apiLogin(otherUser);
-        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
         verifyAddToChannel(testUser, false);
 
         // # Promote to team admin
@@ -403,14 +403,14 @@ describe('Profile popover', () => {
         cy.apiLogout();
 
         cy.apiLogin(otherUser);
-        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
         verifyAddToChannel(testUser, false);
         cy.apiLogout();
 
         // login as system admin
         cy.apiAdminLogin();
 
-        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
         verifyAddToChannel(testUser);
     });
