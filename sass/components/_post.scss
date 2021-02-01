@@ -1308,9 +1308,16 @@
         }
 
         .shared-user-icon {
-            color: rgba(61, 60, 64, 0.56);
-            margin-left: 2px;
-            margin-right: -3px;
+            color: rgba(61, 60, 64, 0.72);
+            margin: 0 0 0 4px;
+            font-size: 16px;
+            line-height: 20px;
+            width: 16px;
+            height: 20px;
+
+            &:before {
+                margin: 0;
+            }
         }
     }
 

@@ -12,7 +12,6 @@ import PostInfo from 'components/post_view/post_info';
 import UserProfile from 'components/user_profile';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import Badge from 'components/widgets/badges/badge';
-import SharedUserIndicator from 'components/shared_user_indicator';
 
 export type Props = {
 
@@ -77,11 +76,6 @@ export type Props = {
     isGuest: boolean;
 
     /**
-     * If the user that made the post is a shared user.
-     */
-    isSharedUser: boolean;
-
-    /**
      * To Check if the current post is last in the list
      */
     isLastPost?: boolean;
@@ -107,7 +101,6 @@ export default class PostHeader extends React.PureComponent<Props> {
         );
         let indicator;
         let colon;
-        let sharedIcon;
 
         if (fromWebhook) {
             if (post.props.override_username && this.props.enablePostUsernameOverride) {
@@ -175,21 +168,11 @@ export default class PostHeader extends React.PureComponent<Props> {
             colon = (<strong className='colon'>{':'}</strong>);
         }
 
-        if (this.props.isSharedUser) {
-            sharedIcon = (
-                <SharedUserIndicator
-                    className='shared-user-icon'
-                    withTooltip={true}
-                />
-            );
-        }
-
         return (
             <div className='post__header'>
                 <div className='col col__name'>
                     {userProfile}
                     {colon}
-                    {sharedIcon}
                     {indicator}
                 </div>
                 <div className='col'>

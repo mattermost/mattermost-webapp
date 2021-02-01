@@ -103,6 +103,7 @@ export default class ChannelInfoModal extends React.PureComponent {
         } else if (channel.shared) {
             channelIcon = (
                 <SharedChannelIndicator
+                    className='shared-channel-icon'
                     channelType={channel.type}
                     withTooltip={true}
                 />

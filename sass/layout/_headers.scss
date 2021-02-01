@@ -238,9 +238,15 @@
     }
 
     .shared-channel-icon {
-        margin-left: 1px;
-        margin-right: -3px;
-        font-size: 110%;
+        font-size: 16px;
+        line-height: 16px;
+        width: 16px;
+        height: 16px;
+        margin: 0 4px;
+
+        &:before {
+            margin: 0;
+        }
     }
 }
 

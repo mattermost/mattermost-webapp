@@ -31,7 +31,6 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
         isBot,
         overwriteIcon,
         isGuest: Boolean(user && isGuest(user)),
-        isSharedUser: Boolean(user && user.remote_id),
     };
 }
 
