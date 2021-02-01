@@ -44,7 +44,7 @@ describe('Notifications', () => {
 
             // # Remove mention notification (for initial channel).
             cy.apiLogin(user1);
-            cy.visitAndWait(testTeam1TownSquareUrl);
+            cy.visit(testTeam1TownSquareUrl);
             cy.get('#publicChannelList').get('.unread-title').click();
             cy.apiLogout();
         });
@@ -53,7 +53,7 @@ describe('Notifications', () => {
     it('MM-T556 Browser tab and team sidebar notification - no unreads/mentions', () => {
         // # User 1 views team A
         cy.apiLogin(user1);
-        cy.visitAndWait(testTeam1TownSquareUrl);
+        cy.visit(testTeam1TownSquareUrl);
 
         cy.title().should('include', `Town Square - ${team1.display_name} ${siteName}`);
 
@@ -69,10 +69,10 @@ describe('Notifications', () => {
     it('MM-T560_1 Browser tab and team sidebar unreads and mentions - Mention in different team', () => {
         // # User 1 views team A
         cy.apiLogin(user1);
-        cy.visitAndWait(testTeam1TownSquareUrl);
+        cy.visit(testTeam1TownSquareUrl);
 
         // # Return to town square
-        cy.visitAndWait(testTeam1TownSquareUrl);
+        cy.visit(testTeam1TownSquareUrl);
 
         // * Check for no unreads or mentions
         cy.get('.unread-title').should('not.exist');
@@ -103,14 +103,14 @@ describe('Notifications', () => {
     it('MM-T560_2 Team sidebar icon - Badge with mention count increments when added to channel', () => {
         // # User 1 view and remain on team A
         cy.apiLogin(user1);
-        cy.visitAndWait(testTeam1TownSquareUrl);
+        cy.visit(testTeam1TownSquareUrl);
 
         // * Browser tab should displays (1) * channel - [team name] Mattermost (for verify count increase)
         cy.title().should('include', `(1) Town Square - ${team1.display_name} ${siteName}`);
 
         // # Have another user view team B
         cy.apiLogin(user2);
-        cy.visitAndWait(testTeam2TownSquareUrl);
+        cy.visit(testTeam2TownSquareUrl);
 
         // # Create a new channel
         cy.get('#createPublicChannel').should('be.visible').click();
@@ -135,7 +135,7 @@ describe('Notifications', () => {
         // # Switch to User 1 and visit the town-square
         cy.apiLogout();
         cy.apiLogin(user1);
-        cy.visitAndWait(testTeam1TownSquareUrl);
+        cy.visit(testTeam1TownSquareUrl);
 
         // * Title should be increased
         // * Browser tab should displays (1) * channel - [team name] Mattermost

@@ -33,7 +33,7 @@ describe('Channel sidebar unread filter', () => {
         cy.apiInitSetup({loginAfter: true}).then(({user}) => {
             testUser = user;
 
-            cy.visitAndWait('/');
+            cy.visit('/');
         });
     });
 

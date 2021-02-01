@@ -26,7 +26,7 @@ describe('Scroll', () => {
         cy.apiInitSetup().then(({team, channel}) => {
             testTeam = team;
             testChannel = channel;
-            cy.visitAndWait(`/${testTeam.name}/channels/${channel.name}`);
+            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
         });
     });
 
@@ -74,7 +74,7 @@ describe('Scroll', () => {
         });
 
         // # Browse to Channel
-        cy.visitAndWait(`/${testTeam.name}/channels/${testChannel.name}`);
+        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
         // * Verify All posts are displayed correctly
         cy.findAllByTestId('postContent').should('have.length', '9').and('have.class', 'post__content center');

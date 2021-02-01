@@ -27,7 +27,7 @@ describe('Bot post message', () => {
             cy.apiGetChannelByName(team.name, 'town-square').then(({channel}) => {
                 townsquareChannel = channel;
             });
-            cy.visitAndWait(`/${team.name}/channels/town-square`);
+            cy.visit(`/${team.name}/channels/town-square`);
         });
     });
 

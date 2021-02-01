@@ -42,7 +42,7 @@ describe('Mark post with mentions as unread', () => {
                     cy.apiAddUserToChannel(channelB.id, userB.id);
                 });
 
-                cy.visitAndWait(`/${team.name}/channels/town-square`);
+                cy.visit(`/${team.name}/channels/town-square`);
             });
         });
     });

@@ -42,14 +42,14 @@ describe('Keyboard Shortcuts', () => {
         // # Create DM channel with the second user
         cy.apiCreateDirectChannel([testUser.id, otherUser.id]).then(() => {
             // # Visit the channel using the channel name
-            cy.visitAndWait(`/${testTeam.name}/channels/${testUser.id}__${otherUser.id}`);
+            cy.visit(`/${testTeam.name}/channels/${testUser.id}__${otherUser.id}`);
 
             // # Post in DM channel
             cy.postMessage(messagePrefix + message1);
         });
 
         // # Post user name mention in this channel
-        cy.visitAndWait(`/${testTeam.name}/channels/${testChannel.name}`);
+        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
         cy.postMessage(messagePrefix + message2);
 
         // # Type user name mention and post it to the channel

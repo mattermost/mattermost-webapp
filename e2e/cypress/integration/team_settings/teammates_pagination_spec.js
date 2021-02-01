@@ -44,7 +44,7 @@ describe('Teams Suite', () => {
 
             // # Login as test user and visit town-square
             cy.apiLogin(user);
-            cy.visitAndWait(`/${team.name}/channels/town-square`);
+            cy.visit(`/${team.name}/channels/town-square`);
         });
     });
 

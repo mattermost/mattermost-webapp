@@ -25,7 +25,7 @@ describe('Upload Files', () => {
         cy.apiInitSetup().then(({team, channel}) => {
             testTeam = team;
 
-            cy.visitAndWait(`/${testTeam.name}/channels/${channel.name}`);
+            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
             cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
         });
     });
