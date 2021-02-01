@@ -105,7 +105,7 @@ export function executeCommand(message, args) {
                     // <><> getting Warning: Failed prop type: The prop `error.message` is marked as required in `MessageSubmitError`, but its value is `undefined`.
                     return {error: new Error('Error fetching binding for command')};
                 }
-                const call = parser.composeCallFromCommandString(binding, msg);
+                const call = parser.composeCallFromCommand(binding, msg);
                 if (!call) {
                     return {error: new Error('Error composing command submission')};
                 }
