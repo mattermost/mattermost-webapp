@@ -25,7 +25,7 @@ describe('Messaging', () => {
     });
 
     beforeEach(() => {
-        cy.visitAndWait(`/${testTeam.name}/channels/${testChannel.name}`);
+        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
     });
 
     it('MM-T2167 Pin a post, view pinned posts', () => {

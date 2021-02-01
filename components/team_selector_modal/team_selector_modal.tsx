@@ -26,6 +26,7 @@ type TeamValue = (Team & Value);
 export type Props = {
     currentSchemeId?: string;
     alreadySelected?: string[];
+    excludeGroupConstrained?: boolean;
     searchTerm: string;
     teams: Team[];
     onModalDismissed?: () => void;
@@ -246,6 +247,7 @@ export default class TeamSelectorModal extends React.PureComponent<Props, State>
         if (this.props.teams) {
             teams = this.props.teams.filter((team) => team.delete_at === 0);
             teams = teams.filter((team) => team.scheme_id !== this.currentSchemeId);
+            teams = this.props.excludeGroupConstrained ? teams.filter((team) => !team.group_constrained) : teams;
             teams = teams.filter((team) => this.props.alreadySelected?.indexOf(team.id) === -1);
             teams.sort((a, b) => {
                 const aName = a.display_name.toUpperCase();

@@ -40,7 +40,7 @@ describe('Verify unread toast appears after repeated manual marking post as unre
                     cy.apiLogin(user);
 
                     // # Visit the channel
-                    cy.visitAndWait(`/${team.name}/channels/${channel.name}`);
+                    cy.visit(`/${team.name}/channels/${channel.name}`);
 
                     // # Post a reply on RHS
                     cy.getLastPostId().then((postId) => {

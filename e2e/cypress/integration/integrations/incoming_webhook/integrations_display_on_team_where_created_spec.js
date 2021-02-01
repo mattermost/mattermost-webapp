@@ -43,13 +43,13 @@ describe('Integrations', () => {
 
     it('MM-T644 Integrations display on team where they were created', () => {
         // # Visit Test Team B Incoming Webhooks page
-        cy.visitAndWait(`/${teamB}/integrations/incoming_webhooks`);
+        cy.visit(`/${teamB}/integrations/incoming_webhooks`);
 
         // * Assert the page contains only Team B Outgoing Webhook
         cy.findByText('Team', {exact: false}).contains('Team B Webhook').and('does.not.contain', 'Team A Webhook');
 
         // # Visit Team A Incoming Webhooks page
-        cy.visitAndWait(`/${teamA}/integrations/incoming_webhooks`);
+        cy.visit(`/${teamA}/integrations/incoming_webhooks`);
 
         // * Assert the page contains only Team A Outgoing Webhook
         cy.findByText('Team', {exact: false}).contains('Team A Webhook').and('does.not.contain', 'Team B Webhook');

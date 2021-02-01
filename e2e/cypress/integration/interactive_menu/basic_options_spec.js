@@ -66,7 +66,7 @@ describe('Interactive Menu', () => {
             });
 
             cy.apiLogin(testUser);
-            cy.visitAndWait(`/${team.name}/channels/${testChannel.name}`);
+            cy.visit(`/${team.name}/channels/${testChannel.name}`);
         });
     });
 

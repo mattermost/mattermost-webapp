@@ -30,7 +30,7 @@ describe('Slash commands page', () => {
             testTeam = team;
 
             // # Go to integrations
-            cy.visitAndWait(`/${team.name}/integrations`);
+            cy.visit(`/${team.name}/integrations`);
 
             // * Validate that slash command section is enabled
             cy.get('#slashCommands').should('be.visible');
@@ -111,7 +111,7 @@ describe('Slash commands page', () => {
         cy.get('#saveCommand').click();
 
         // # Go to integrations
-        cy.visitAndWait(`/${testTeam.name}/integrations`);
+        cy.visit(`/${testTeam.name}/integrations`);
 
         // * Validate that slash command section is enabled
         cy.get('#slashCommands').should('be.visible');
@@ -142,7 +142,7 @@ describe('Slash commands page', () => {
         addNewCommand(testTeam, trigger, 'http://example.com');
 
         // # Go to integrations
-        cy.visitAndWait(`/${testTeam.name}/integrations`);
+        cy.visit(`/${testTeam.name}/integrations`);
 
         // # Open slash command page
         cy.get('#slashCommands').click();
@@ -167,7 +167,7 @@ describe('Slash commands page', () => {
         addNewCommand(testTeam, trigger, '');
 
         // # Go to integrations
-        cy.visitAndWait(`/${testTeam.name}/integrations`);
+        cy.visit(`/${testTeam.name}/integrations`);
 
         // # Open slash command page
         cy.get('#slashCommands').click();
@@ -190,7 +190,7 @@ describe('Slash commands page', () => {
 
 function runSlashCommand(team, trigger) {
     // # Go back to home channel
-    cy.visitAndWait(`/${team.name}/channels/town-square`);
+    cy.visit(`/${team.name}/channels/town-square`);
 
     // # Run slash command
     cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').clear().type(`/${trigger}{enter}{enter}`);

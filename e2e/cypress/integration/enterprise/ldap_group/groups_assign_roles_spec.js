@@ -64,7 +64,7 @@ describe('System Console', () => {
 
     it('MM-20058 - System Admin can map roles to teams and channels via group configuration page', () => {
         // # Go to system admin page and to team configuration page
-        cy.visitAndWait('/admin_console/user_management/groups');
+        cy.visit('/admin_console/user_management/groups');
         cy.get('#developers_group').then((el) => {
             if (el.text().includes('Edit')) {
                 cy.get('#developers_edit').then((buttonEl) => {
