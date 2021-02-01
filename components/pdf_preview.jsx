@@ -4,10 +4,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import PDFJS from 'pdfjs-dist';
+import debounce from 'lodash/debounce';
 import {getFileDownloadUrl} from 'mattermost-redux/utils/file_utils';
 
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 import FileInfoPreview from 'components/file_info_preview';
+
+const INITIAL_RENDERED_PAGES = 3;
 
 export default class PDFPreview extends React.PureComponent {
     static propTypes = {
@@ -69,7 +72,7 @@ export default class PDFPreview extends React.PureComponent {
         return null;
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps, prevState) {
         if (this.props.fileUrl !== prevProps.fileUrl) {
             this.getPdfDocument();
             this.pdfPagesRendered = {};
@@ -78,7 +81,7 @@ export default class PDFPreview extends React.PureComponent {
             this.pdfPagesRendered = {};
         }
 
-        if (this.state.success) {
+        if (!prevState.success && this.state.success) {
             for (let i = 0; i < this.state.numPages; i++) {
                 this.renderPDFPage(i);
             }
@@ -105,15 +108,16 @@ export default class PDFPreview extends React.PureComponent {
     renderPDFPage = async (pageIndex) => {
         const canvas = this[`pdfCanvasRef-${pageIndex}`].current;
 
-        // Always render the first 3 pages to avoid problems detecting
-        // isInViewport during the open animation
-        if (pageIndex >= 3 && !this.isInViewport(canvas)) {
+        // Always render the first INITIAL_RENDERED_PAGES pages to avoid
+        // problems detecting isInViewport during the open animation
+        if (pageIndex >= INITIAL_RENDERED_PAGES && !this.isInViewport(canvas)) {
             return;
         }
 
-        if (this.pdfPagesRendered[pageIndex] || !this.state.pdfPagesLoaded[pageIndex]) {
+        if (this.pdfPagesRendered[pageIndex]) {
             return;
         }
+        await this.loadPage(this.state.pdf, pageIndex);
 
         const page = this.state.pdfPages[pageIndex];
         const context = canvas.getContext('2d');
@@ -140,22 +144,12 @@ export default class PDFPreview extends React.PureComponent {
         for (let i = 0; i < pdf.numPages; i++) {
             this[`pdfCanvasRef-${i}`] = React.createRef();
         }
-        this.loadPages(pdf);
+        this.setState({loading: false, success: true});
     }
 
     onDocumentLoadError = (reason) => {
         console.log('Unable to load PDF preview: ' + reason); //eslint-disable-line no-console
         this.setState({loading: false, success: false});
-    }
-
-    loadPages = async (pdf) => {
-        const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-        for (let i = 0; i < pdf.numPages; i++) {
-            await this.loadPage(pdf, i); // eslint-disable-line no-await-in-loop
-
-            // Give time to render the interface
-            await sleep(10); // eslint-disable-line no-await-in-loop
-        }
     }
 
     loadPage = async (pdf, pageIndex) => {
@@ -173,19 +167,16 @@ export default class PDFPreview extends React.PureComponent {
 
         this.setState({pdfPages, pdfPagesLoaded});
 
-        if (page.pageIndex === 0) {
-            this.setState({success: true, loading: false});
-        }
         return page;
     }
 
-    handleScroll = () => {
+    handleScroll = debounce(() => {
         if (this.state.success) {
             for (let i = 0; i < this.state.numPages; i++) {
                 this.renderPDFPage(i);
             }
         }
-    }
+    }, 100)
 
     render() {
         if (this.state.loading) {
