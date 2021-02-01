@@ -21,7 +21,7 @@ import {
     saveConfigForScheme,
 } from '../../enterprise/system_console/channel_moderation/helpers';
 
-import {addNewCommand} from './slash_commands_spec';
+import {addNewCommand} from './helpers';
 
 describe('Slash commands', () => {
     const trigger = 'my_trigger';
@@ -180,7 +180,7 @@ describe('Slash commands', () => {
         deleteCommand(team1, trigger);
     });
 
-    it('MM-T703/MM-704 Show custom slash command in autocomplete', () => {
+    it('MM-T703 Show custom slash command in autocomplete', () => {
         // # Open slash command page
         cy.visit(`/${team1.name}/integrations/commands/installed`);
 
