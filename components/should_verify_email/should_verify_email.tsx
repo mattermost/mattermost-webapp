@@ -81,10 +81,10 @@ export default class ShouldVerifyEmail extends React.PureComponent<Props, State>
                             id='generic_icons.fail'
                             defaultMessage='Faliure Icon'
                         >
-                            {(title) => (
+                            {(title: string) => (
                                 <i
                                     className='fa fa-times'
-                                    title={title as string}
+                                    title={title}
                                 />
                             )}
                         </FormattedMessage>
