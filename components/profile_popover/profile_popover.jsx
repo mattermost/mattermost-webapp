@@ -261,6 +261,83 @@ class ProfilePopover extends React.PureComponent {
         }
     };
 
+    renderCustomStatus() {
+        const {customStatus, isCustomStatusEnabled, user, currentUserId} = this.props;
+
+        const customStatusSet = (customStatus.text || customStatus.emoji);
+        const canSetCustomStatus = (user.id === currentUserId);
+        const shouldShowCustomStatus = isCustomStatusEnabled && customStatus && (customStatusSet || canSetCustomStatus);
+
+
+        if (!shouldShowCustomStatus) {
+            return null;
+        }
+
+        let customStatusContent;
+        if (customStatusSet) {
+            const customStatusEmoji = (
+                <span className='d-flex'>
+                    <CustomStatusEmoji
+                        userID={this.props.user.id}
+                        showTooltip={false}
+                        emojiStyle={{
+                            marginRight: 4,
+                        }}
+                    />
+                </span>
+            );
+
+            let customStatusText = (
+                <div
+                    className='text-nowrap user-popover__email pb-1'
+                    ref={this.customStatusTextRef}
+                >
+                    {customStatus.text}
+                </div>
+            );
+
+            if (this.state.showCustomStatusTooltip) {
+                customStatusText = (
+                    <OverlayTrigger
+                        delayShow={Constants.OVERLAY_TIME_DELAY}
+                        placement='top'
+                        overlay={
+                            <Tooltip id='custom-status-text-tooltip'>
+                                {customStatus.text}
+                            </Tooltip>
+                        }
+                    >
+                        {customStatusText}
+                    </OverlayTrigger>
+                );
+            }
+
+            customStatusContent = (
+                <div className='d-flex'>
+                    {customStatusEmoji}
+                    {customStatusText}
+                </div>
+            );
+        } else if (canSetCustomStatus) {
+            customStatusContent = (
+                <div>
+                    <button
+                        className='user-popover__set-custom-status-btn'
+                        aria-label={Utils.localizeMessage('user_profile.custom-status.set-status', 'Set a status').toLowerCase()}
+                        onClick={this.showCustomStatusModal}
+                    >
+                        <FormattedMessage
+                            id='user_profile.custom-status.set-status'
+                            defaultMessage='Set a status'
+                        />
+                    </button>
+                </div>
+            );
+        }
+
+        return customStatusContent;
+    }
+
     render() {
         if (!this.props.user) {
             return null;
@@ -401,97 +478,40 @@ class ProfilePopover extends React.PureComponent {
                     key='user-popover-local-time'
                     className='pb-1'
                 >
-                    <FormattedMessage
-                        id='user_profile.account.localTime'
-                        defaultMessage='Local Time: '
-                    />
-                    <Timestamp
-                        useRelative={false}
-                        useDate={false}
-                        userTimezone={this.props.user.timezone}
-                        useTime={{hour: 'numeric', minute: 'numeric', timeZoneName: 'short'}}
-                    />
+                    <strong>
+                        <FormattedMessage
+                            id='user_profile.account.localTime'
+                            defaultMessage='Local Time'
+                        />
+                    </strong>
+                    <div>
+                        <Timestamp
+                            useRelative={false}
+                            useDate={false}
+                            userTimezone={this.props.user.timezone}
+                            useTime={{hour: 'numeric', minute: 'numeric', timeZoneName: 'short'}}
+                        />
+                    </div>
                 </div>,
             );
         }
 
-        if (this.props.isCustomStatusEnabled) {
-            let customStatusContent;
-            const customStatus = this.props.customStatus;
-            if (customStatus.text || customStatus.emoji) {
-                const customStatusEmoji = (
-                    <span className='d-flex'>
-                        <CustomStatusEmoji
-                            userID={this.props.user.id}
-                            showTooltip={false}
-                            emojiStyle={{
-                                marginRight: 4,
-                            }}
-                        />
-                    </span>
-                );
-
-                let customStatusText = (
-                    <div
-                        className='text-nowrap user-popover__email pb-1'
-                        ref={this.customStatusTextRef}
-                    >
-                        {customStatus.text}
-                    </div>
-                );
-                if (this.state.showCustomStatusTooltip) {
-                    customStatusText = (
-                        <OverlayTrigger
-                            delayShow={Constants.OVERLAY_TIME_DELAY}
-                            placement='top'
-                            overlay={
-                                <Tooltip id='custom-status-text-tooltip'>
-                                    {customStatus.text}
-                                </Tooltip>
-                            }
-                        >
-                            {customStatusText}
-                        </OverlayTrigger>
-                    );
-                }
-
-                customStatusContent = (
-                    <div className='d-flex'>
-                        {customStatusEmoji}
-                        {customStatusText}
-                    </div>
-                );
-            } else if (this.props.user.id === this.props.currentUserId) {
-                customStatusContent = (
-                    <div>
-                        <button
-                            className='user-popover__set-custom-status-btn'
-                            aria-label={Utils.localizeMessage('user_profile.custom-status.set-status', 'Set a status').toLowerCase()}
-                            onClick={this.showCustomStatusModal}
-                        >
-                            <FormattedMessage
-                                id='user_profile.custom-status.set-status'
-                                defaultMessage='Set a status'
-                            />
-                        </button>
-                    </div>
-                );
-            }
-
-            if (customStatusContent) {
-                dataContent.push(
-                    <div
-                        key='user-popover-status'
-                        className='pb-1'
-                    >
+        const customStatusContent = this.renderCustomStatus();
+        if (customStatusContent) {
+            dataContent.push(
+                <div
+                    key='user-popover-status'
+                    className='pb-1'
+                >
+                    <strong>
                         <FormattedMessage
                             id='user_profile.custom-status'
-                            defaultMessage='Status: '
+                            defaultMessage='Status'
                         />
-                        {customStatusContent}
-                    </div>,
-                );
-            }
+                    </strong>
+                    {customStatusContent}
+                </div>,
+            );
         }
 
         if (this.props.user.id === this.props.currentUserId && !haveOverrideProp) {
