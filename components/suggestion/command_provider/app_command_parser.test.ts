@@ -6,6 +6,8 @@
 import thunk from 'redux-thunk';
 import configureStore from 'redux-mock-store';
 
+import {Client4} from 'mattermost-redux/client';
+
 import {AppBinding, AppForm} from 'mattermost-redux/types/apps';
 import {AppFieldTypes} from 'mattermost-redux/constants/apps';
 
@@ -264,34 +266,34 @@ describe('AppCommandParser', () => {
         }
     };
 
-    describe('getSuggestionsForBaseCommands', () => {
+    describe('getSuggestionsBase', () => {
         test('string matches 1', () => {
-            const res = parser.getSuggestionsForBaseCommands('/');
+            const res = parser.getSuggestionsBase('/');
             expect(res).toHaveLength(2);
         });
 
         test('string matches 2', () => {
-            const res = parser.getSuggestionsForBaseCommands('/ji');
+            const res = parser.getSuggestionsBase('/ji');
             expect(res).toHaveLength(1);
         });
 
         test('string matches 3', () => {
-            const res = parser.getSuggestionsForBaseCommands('/jira');
+            const res = parser.getSuggestionsBase('/jira');
             expect(res).toHaveLength(1);
         });
 
         test('string is past base command', () => {
-            const res = parser.getSuggestionsForBaseCommands('/jira ');
+            const res = parser.getSuggestionsBase('/jira ');
             expect(res).toHaveLength(0);
         });
 
         test('other command matches', () => {
-            const res = parser.getSuggestionsForBaseCommands('/other');
+            const res = parser.getSuggestionsBase('/other');
             expect(res).toHaveLength(1);
         });
 
         test('string does not match', () => {
-            const res = parser.getSuggestionsForBaseCommands('/wrong');
+            const res = parser.getSuggestionsBase('/wrong');
             expect(res).toHaveLength(0);
         });
     });
@@ -427,6 +429,26 @@ describe('AppCommandParser', () => {
                 }},
             },
             {
+                title: '<><> !!!!',
+                command: '/jira issue create --project KT --summary "great feature" --epic M',
+                autocomplete: {verify: (parsed: ParsedCommand): void => {
+                    expect(parsed.state).toBe(ParseState.EndValue);
+                    expect(parsed.binding?.label).toBe('create');
+                    expect(parsed.form?.call?.url).toBe('/create-issue');
+                    expect(parsed.incomplete).toBe('M');
+                    expect(parsed.incompleteStart).toBe(65);
+                    expect(parsed.values?.project).toBe('KT');
+                    expect(parsed.values?.epic).toBeUndefined();
+                }},
+                submit: {verify: (parsed: ParsedCommand): void => {
+                    expect(parsed.state).toBe(ParseState.EndValue);
+                    expect(parsed.binding?.label).toBe('create');
+                    expect(parsed.form?.call?.url).toBe('/create-issue');
+                    expect(parsed.values?.epic).toBe('M');
+                }},
+            },
+
+            {
                 title: 'happy full view',
                 command: '/jira issue view --project=`P 1` MM-123',
                 autocomplete: {verify: (parsed: ParsedCommand): void => {
@@ -444,6 +466,38 @@ describe('AppCommandParser', () => {
                     expect(parsed.form?.call?.url).toBe('/view-issue');
                     expect(parsed.values?.project).toBe('P 1');
                     expect(parsed.values?.issue).toBe('MM-123');
+                }},
+            },
+            {
+                title: 'happy view no parameters',
+                command: '/jira issue view ',
+                submit: {verify: (parsed: ParsedCommand): void => {
+                    expect(parsed.state).toBe(ParseState.StartParameter);
+                    expect(parsed.binding?.label).toBe('view');
+                    expect(parsed.form?.call?.url).toBe('/view-issue');
+                    expect(parsed.incomplete).toBe('');
+                    expect(parsed.incompleteStart).toBe(17);
+                    expect(parsed.values).toEqual({});
+                }},
+            },
+            {
+                title: 'happy create flag no value',
+                command: '/jira issue create --summary ',
+                autocomplete: {verify: (parsed: ParsedCommand): void => {
+                    expect(parsed.state).toBe(ParseState.FlagValueSeparator);
+                    expect(parsed.binding?.label).toBe('create');
+                    expect(parsed.form?.call?.url).toBe('/create-issue');
+                    expect(parsed.incomplete).toBe('');
+                    expect(parsed.values).toEqual({});
+                }},
+                submit: {verify: (parsed: ParsedCommand): void => {
+                    expect(parsed.state).toBe(ParseState.EndValue);
+                    expect(parsed.binding?.label).toBe('create');
+                    expect(parsed.form?.call?.url).toBe('/create-issue');
+                    expect(parsed.incomplete).toBe('');
+                    expect(parsed.values).toEqual({
+                        summary: '',
+                    });
                 }},
             },
             {
@@ -524,298 +578,231 @@ describe('AppCommandParser', () => {
         });
     });
 
-    describe('getSuggestionsForCursorPosition', () => {
+    describe('getSuggestions', () => {
         test('just the app command', async () => {
-            const suggestions = await parser.getSuggestionsForCursorPosition('/jira');
+            const suggestions = await parser.getSuggestions('/jira');
             expect(suggestions).toEqual([]);
         });
 
-        // test('choosing subcommand 1', async () => {
-        //     const suggestions = await parser.getSuggestionsForCursorPosition('/jira ');
-        //     expect(suggestions).toEqual([
-        //         {
-        //             suggestion: 'issue',
-        //             complete: 'issue',
-        //             hint: '',
-        //             description: 'Interact with Jira issues',
-        //         },
-        //     ]);
-        // });
+        test('subcommand 1', async () => {
+            const suggestions = await parser.getSuggestions('/jira ');
+            expect(suggestions).toEqual([
+                {
+                    suggestion: 'issue',
+                    complete: '/jira issue ',
+                    hint: '',
+                    description: 'Interact with Jira issues',
+                },
+            ]);
+        });
 
-        // test('just subcommand 2', async () => {
-        //     const suggestions = await parser.getSuggestionsForCursorPosition('/jira issue');
-        //     expect(suggestions).toEqual([
-        //         {
-        //             suggestion: 'issue',
-        //             complete: 'issue',
-        //             hint: '',
-        //             description: 'Interact with Jira issues',
-        //         },
-        //     ]);
-        // });
+        test('subcommand 2', async () => {
+            const suggestions = await parser.getSuggestions('/jira issue');
+            expect(suggestions).toEqual([
+                {
+                    suggestion: 'issue',
+                    complete: '/jira issue ',
+                    hint: '',
+                    description: 'Interact with Jira issues',
+                },
+            ]);
+        });
 
-        // test('choosing subcommand 2', async () => {
-        //     const suggestions = await parser.getSuggestionsForCursorPosition('/jira issue ');
-        //     expect(suggestions).toEqual([
-        //         {
-        //             suggestion: 'view',
-        //             complete: 'view',
-        //             hint: '',
-        //             description: 'View details of a Jira issue',
-        //         },
-        //         {
-        //             suggestion: 'create',
-        //             complete: 'create',
-        //             hint: '',
-        //             description: 'Create a new Jira issue',
-        //         },
-        //     ]);
-        // });
+        test('subcommand 2 with a space', async () => {
+            const suggestions = await parser.getSuggestions('/jira issue ');
+            expect(suggestions).toEqual([
+                {
+                    suggestion: 'view',
+                    complete: '/jira issue view ',
+                    hint: '',
+                    description: 'View details of a Jira issue',
+                },
+                {
+                    suggestion: 'create',
+                    complete: '/jira issue create ',
+                    hint: '',
+                    description: 'Create a new Jira issue',
+                },
+            ]);
+        });
 
-        // test('choosing subcommand 3', async () => {
-        //     let cmdStr = '';
-        //     let res: AutocompleteSuggestion[] = [];
+        test('subcommand 3 partial', async () => {
+            const suggestions = await parser.getSuggestions('/jira issue c');
+            expect(suggestions).toEqual([
+                {
+                    suggestion: 'create',
+                    complete: '/jira issue create ',
+                    hint: '',
+                    description: 'Create a new Jira issue',
+                },
+            ]);
+        });
 
-        //     cmdStr = [
-        //         '/jira',
-        //         'issue',
-        //         'c',
-        //     ].join(' ');
+        test('view just after subcommand (positional)', async () => {
+            const suggestions = await parser.getSuggestions('/jira issue view ');
+            expect(suggestions).toEqual([
+                {
+                    complete: '/jira issue view ',
+                    description: 'The Jira issue key',
+                    hint: 'MM-11343',
+                    suggestion: '',
+                },
+            ]);
+        });
 
-        //     res = await parser.getSuggestionsForCursorPosition(cmdStr);
+        test('view flags just after subcommand', async () => {
+            let suggestions = await parser.getSuggestions('/jira issue view -');
+            expect(suggestions).toEqual([
+                {
+                    complete: '/jira issue view --project ',
+                    description: 'The Jira project description',
+                    hint: 'The Jira project hint',
+                    suggestion: '--project',
+                },
+            ]);
 
-        //     expect(res).toHaveLength(1);
-        //     expect(res).toEqual([
-        //         {
-        //             suggestion: 'create',
-        //             complete: 'create',
-        //             hint: '',
-        //             description: 'Create a new Jira issue',
-        //         },
-        //     ]);
-        // });
+            suggestions = await parser.getSuggestions('/jira issue view --');
+            expect(suggestions).toEqual([
+                {
+                    complete: '/jira issue view --project ',
+                    description: 'The Jira project description',
+                    hint: 'The Jira project hint',
+                    suggestion: '--project',
+                },
+            ]);
+        });
 
-        // test('typing flag', async () => {
-        //     let cmdStr = '';
-        //     let res: AutocompleteSuggestion[] = [];
+        test('create flags just after subcommand', async () => {
+            const suggestions = await parser.getSuggestions('/jira issue create ');
+            expect(suggestions).toEqual([
+                {
+                    complete: '/jira issue create _execute_current_command',
+                    description: 'Select this option or use Ctrl+Enter to execute the current command.',
+                    hint: '',
+                    iconData: '_execute_current_command',
+                    suggestion: '/Execute Current Command',
+                },
+                {
+                    complete: '/jira issue create --project ',
+                    description: 'The Jira project description',
+                    hint: 'The Jira project hint',
+                    suggestion: '--project',
+                },
+                {
+                    complete: '/jira issue create --summary ',
+                    description: 'The Jira issue summary',
+                    hint: 'The thing is working great!',
+                    suggestion: '--summary',
+                },
+                {
+                    complete: '/jira issue create --verbose ',
+                    description: 'display details',
+                    hint: 'yes or no!',
+                    suggestion: '--verbose',
+                },
+                {
+                    complete: '/jira issue create --epic ',
+                    description: 'The Jira epic',
+                    hint: 'The thing is working great!',
+                    suggestion: '--epic',
+                },
+            ]);
+        });
 
-        //     cmdStr = [
-        //         '/jira',
-        //         'issue',
-        //         'create',
-        //         '--project',
-        //         'KT',
-        //         '--summa',
-        //     ].join(' ');
+        test('create flags mid-flag', async () => {
+            const mid = await parser.getSuggestions('/jira issue create --project KT --summ');
+            expect(mid).toEqual([
+                {
+                    complete: '/jira issue create --project KT --summary ',
+                    description: 'The Jira issue summary',
+                    hint: 'The thing is working great!',
+                    suggestion: '--summary',
+                },
+            ]);
 
-        //     res = await parser.getSuggestionsForCursorPosition(cmdStr);
+            const full = await parser.getSuggestions('/jira issue create --project KT --summary');
+            expect(full).toEqual([
+                {
+                    complete: '/jira issue create --project KT --summary ',
+                    description: 'The Jira issue summary',
+                    hint: 'The thing is working great!',
+                    suggestion: '--summary',
+                },
+            ]);
+        });
 
-        //     expect(res).toHaveLength(2);
-        //     expect(res).toEqual([
-        //         parser.getSuggestionForExecute(cmdStr),
-        //         {
-        //             suggestion: '--summary',
-        //             complete: '--summary',
-        //             description: 'The Jira issue summary',
-        //             hint: 'The thing is working great!',
-        //         },
-        //     ]);
-        // });
+        test('create flag summary value', async () => {
+            const suggestions = await parser.getSuggestions('/jira issue create --summary ');
+            expect(suggestions).toEqual([
+                {
+                    complete: '/jira issue create --summary ',
+                    description: 'The Jira issue summary',
+                    hint: 'The thing is working great!',
+                    suggestion: '',
+                },
+            ]);
+        });
 
-        // test('show flag args', async () => {
-        //     let cmdStr = '';
-        //     let res: AutocompleteSuggestion[] = [];
+        test('create flag project dynamic select value', async () => {
+            const f = Client4.executeAppCall;
+            Client4.executeAppCall = jest.fn().mockResolvedValue(Promise.resolve({data: {items: [{label: 'special-label', value: 'special-value'}]}}));
 
-        //     cmdStr = [
-        //         '/jira',
-        //         'issue',
-        //         'create',
-        //         '',
-        //     ].join(' ');
+            const suggestions = await parser.getSuggestions('/jira issue create --project ');
+            Client4.executeAppCall = f;
 
-        //     res = await parser.getSuggestionsForCursorPosition(cmdStr);
+            expect(suggestions).toEqual([
+                {
+                    complete: '/jira issue create --project special-value ',
+                    suggestion: 'special-value',
+                    description: 'special-label',
+                    hint: '',
+                    iconData: undefined,
+                },
+            ]);
+        });
 
-        //     expect(res).toHaveLength(4);
-        // });
+        test('create flag epic static select value', async () => {
+            let suggestions = await parser.getSuggestions('/jira issue create --project KT --summary "great feature" --epic ');
+            expect(suggestions).toEqual([
+                {
+                    complete: '/jira issue create --project KT --summary "great feature" --epic Dylan Epic ',
+                    suggestion: 'Dylan Epic',
+                    description: '',
+                    hint: '',
+                },
+                {
+                    complete: '/jira issue create --project KT --summary "great feature" --epic Michael Epic ',
+                    suggestion: 'Michael Epic',
+                    description: '',
+                    hint: '',
+                },
+            ]);
 
-        // test('show positional arg for project value', async () => {
-        //     let cmdStr = '';
-        //     let res: AutocompleteSuggestion[] = [];
+            suggestions = await parser.getSuggestions('/jira issue create --project KT --summary "great feature" --epic M');
+            expect(suggestions).toEqual([
+                {
+                    complete: '/jira issue create --project KT --summary "great feature" --epic Michael Epic ',
+                    suggestion: 'Michael Epic',
+                    description: '',
+                    hint: '',
+                },
+            ]);
 
-        //     cmdStr = [
-        //         '/jira',
-        //         'issue',
-        //         'view',
-        //         '',
-        //     ].join(' ');
+            suggestions = await parser.getSuggestions('/jira issue create --project KT --summary "great feature" --epic Nope');
+            expect(suggestions).toEqual([]);
+        });
 
-        //     const f = Client4.executeAppCall;
-        //     Client4.executeAppCall = jest.fn().mockResolvedValue(Promise.resolve({data: {items: [{label: 'special-label', value: 'special-value'}]}}));
-
-        //     res = await parser.getSuggestionsForCursorPosition(cmdStr);
-        //     Client4.executeAppCall = f;
-
-        //     expect(res).toHaveLength(2);
-        //     expect(res).toEqual([
-        //         parser.getSuggestionForExecute(cmdStr),
-        //         {
-        //             suggestion: 'special-value',
-        //             description: 'special-label',
-        //             hint: '',
-        //             iconData: undefined,
-        //         },
-        //     ]);
-        // });
-
-        // test('show positional arg for issue view project value', async () => {
-        //     let cmdStr = '';
-        //     let res: AutocompleteSuggestion[] = [];
-
-        //     cmdStr = [
-        //         '/jira',
-        //         'issue',
-        //         'view',
-        //         'KT',
-        //         '',
-        //     ].join(' ');
-
-        //     res = await parser.getSuggestionsForCursorPosition(cmdStr);
-
-        //     expect(res).toHaveLength(2);
-        //     expect(res).toEqual([
-        //         parser.getSuggestionForExecute(cmdStr),
-        //         {
-        //             suggestion: '--issue',
-        //             complete: '--issue',
-        //             description: 'The Jira issue key',
-        //             hint: 'MM-11343',
-        //         },
-        //     ]);
-        // });
-
-        // test('works with random spaces', async () => {
-        //     let cmdStr = '';
-        //     let res: AutocompleteSuggestion[] = [];
-
-        //     cmdStr = [
-        //         '/jira',
-        //         '    ',
-        //         'issue',
-        //         '   ',
-        //         'view',
-        //         '   ',
-        //         'KT    ',
-        //         '  ',
-        //     ].join(' ');
-
-        //     res = await parser.getSuggestionsForCursorPosition(cmdStr);
-
-        //     expect(res).toHaveLength(2);
-        //     expect(res).toEqual([
-        //         parser.getSuggestionForExecute(cmdStr),
-        //         {
-        //             suggestion: '--issue',
-        //             complete: '--issue',
-        //             description: 'The Jira issue key',
-        //             hint: 'MM-11343',
-        //         },
-        //     ]);
-        // });
-
-        // test('static options', async () => {
-        //     let cmdStr = '';
-        //     let res: AutocompleteSuggestion[] = [];
-
-        //     cmdStr = [
-        //         '/jira',
-        //         'issue',
-        //         'create',
-        //         '--project',
-        //         'KT',
-        //         '--summary',
-        //         '"The feature is great!"',
-        //         '--epic',
-        //         '',
-        //     ].join(' ');
-
-        //     res = await parser.getSuggestionsForCursorPosition(cmdStr);
-
-        //     expect(res).toHaveLength(3);
-        //     expect(res).toEqual([
-        //         parser.getSuggestionForExecute(cmdStr),
-        //         {
-        //             suggestion: 'Dylan Epic',
-        //             complete: 'Dylan Epic',
-        //             hint: '',
-        //             description: '',
-        //         },
-        //         {
-        //             suggestion: 'Michael Epic',
-        //             complete: 'Michael Epic',
-        //             hint: '',
-        //             description: '',
-        //         },
-        //     ]);
-
-        //     cmdStr = [
-        //         '/jira',
-        //         'issue',
-        //         'create',
-        //         '--project',
-        //         'KT',
-        //         '--summary',
-        //         '"The feature is great!"',
-        //         '--epic',
-        //         'M',
-        //     ].join(' ');
-
-        //     res = await parser.getSuggestionsForCursorPosition(cmdStr);
-
-        //     expect(res).toHaveLength(2);
-        //     const sug = res[1];
-        //     expect(sug).toEqual({
-        //         suggestion: 'Michael Epic',
-        //         complete: 'Michael Epic',
-        //         hint: '',
-        //         description: '',
-        //     });
-
-        //     cmdStr = [
-        //         '/jira',
-        //         'issue',
-        //         'create',
-        //         '--project',
-        //         'KT',
-        //         '--summary',
-        //         '"The feature is great!"',
-        //         '--epic',
-        //         'Nope',
-        //     ].join(' ');
-
-        //     res = await parser.getSuggestionsForCursorPosition(cmdStr);
-        //     expect(res).toHaveLength(1);
-        //     expect(res).toEqual([parser.getSuggestionForExecute(cmdStr)]);
-        // });
-
-        // test('form is filled out, show execute command suggestion', async () => {
-        //     let cmdStr = '';
-        //     let res: AutocompleteSuggestion[] = [];
-
-        //     cmdStr = [
-        //         '/jira',
-        //         'issue',
-        //         'create',
-        //         '--project',
-        //         'KT',
-        //         '--summary',
-        //         '"The feature is great!"',
-        //         '--epic',
-        //         'the_epic',
-        //     ].join(' ');
-
-        //     res = await parser.getSuggestionsForCursorPosition(cmdStr);
-        //     expect(res).toHaveLength(1);
-        //     expect(res).toEqual([parser.getSuggestionForExecute(cmdStr)]);
-        // });
+        test('filled out form shows execute', async () => {
+            const suggestions = await parser.getSuggestions('/jira issue create --project KT --summary "great feature" --epic epicvalue ');
+            expect(suggestions).toEqual([
+                {
+                    complete: '/jira issue create --project KT --summary "great feature" --epic epicvalue _execute_current_command',
+                    suggestion: '/Execute Current Command',
+                    description: 'Select this option or use Ctrl+Enter to execute the current command.',
+                    iconData: '_execute_current_command',
+                    hint: '',
+                },
+            ]);
+        });
     });
 });

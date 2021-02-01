@@ -67,6 +67,7 @@ export class ParsedCommand {
     binding: AppBinding | undefined;
     form: AppForm | undefined;
     field: AppField | undefined;
+    position: number;
     values: {[name: string]: string};
     location: string;
     error: string;
@@ -76,6 +77,7 @@ export class ParsedCommand {
         this.command = command;
         this.incomplete = '';
         this.incompleteStart = 0;
+        this.position = 0;
         this.values = {};
         this.location = '';
         this.error = '';
@@ -111,8 +113,8 @@ export class AppCommandParser {
         return this.composeCallFromParsed(parsed);
     }
 
-    // getSuggestionsForBaseCommands is a synchronous function that returns results for base commands
-    public getSuggestionsForBaseCommands = (pretext: string): AutocompleteSuggestionWithComplete[] => {
+    // getSuggestionsBase is a synchronous function that returns results for base commands
+    public getSuggestionsBase = (pretext: string): AutocompleteSuggestionWithComplete[] => {
         const result: AutocompleteSuggestionWithComplete[] = [];
 
         const bindings = this.getCommandBindings();
@@ -138,10 +140,44 @@ export class AppCommandParser {
         return result;
     }
 
-    // getSuggestionsForSubCommandsAndArguments returns suggestions for subcommands and/or form arguments
-    public getSuggestionsForSubCommandsAndArguments = async (pretext: string): Promise<AutocompleteSuggestionWithComplete[]> => {
-        const suggestions = await this.getSuggestionsForCursorPosition(pretext);
-        return suggestions.map((suggestion) => this.decorateSuggestionComplete(pretext, suggestion));
+    // getSuggestions returns suggestions for subcommands and/or form arguments
+    public getSuggestions = async (pretext: string): Promise<AutocompleteSuggestionWithComplete[]> => {
+        const commandBindings = this.getCommandBindings();
+        if (!commandBindings) {
+            return [];
+        }
+
+        let parsed = await this.matchBinding(pretext, commandBindings, true);
+        let suggestions: AutocompleteSuggestion[] = [];
+        if (parsed.state === ParseState.Command || parsed.state === ParseState.CommandSeparator) {
+            suggestions = this.getCommandSuggestions(parsed);
+        }
+
+        if (parsed.form || parsed.incomplete) {
+            parsed = this.parseForm(parsed, true);
+            const argSuggestions = await this.getParameterSuggestions(parsed);
+            suggestions = suggestions.concat(argSuggestions);
+        }
+
+        // Add "Execute Current Command" suggestion
+        // TODO get full text from SuggestionBox
+        const executableStates = [
+            ParseState.EndCommand,
+            ParseState.CommandSeparator,
+            ParseState.StartParameter,
+            ParseState.ParameterSeparator,
+            ParseState.EndValue,
+        ];
+        const call = parsed.binding?.call || parsed.binding?.form?.call;
+        const hasRequired = this.getMissingFields(parsed).length === 0;
+        const hasValue = (parsed.state !== ParseState.EndValue || (parsed.field && parsed.values[parsed.field.name] !== undefined));
+
+        if (executableStates.includes(parsed.state) && call && hasRequired && hasValue) {
+            const execute = this.getExecuteSuggestion(parsed);
+            suggestions = [execute, ...suggestions];
+        }
+
+        return suggestions.map((suggestion) => this.decorateSuggestionComplete(parsed, suggestion));
     }
 
     parseSubmitCommand = async (command: string): Promise<ParsedCommand> => {
@@ -309,7 +345,6 @@ export class AppCommandParser {
         parsed.state = ParseState.StartParameter;
         let i = parsed.incompleteStart || 0;
         let flagEqualsUsed = false;
-        let positional = 0;
         let escaped = false;
         const command = parsed.command || '';
 
@@ -333,11 +368,11 @@ export class AppCommandParser {
                 }
                 default: {
                     // Positional parameter.
-                    positional++;
+                    parsed.position++;
                     // eslint-disable-next-line no-loop-func
-                    const field = fields.find((f: AppField) => f.position === positional);
+                    const field = fields.find((f: AppField) => f.position === parsed.position);
                     if (!field) {
-                        return this.parseError('command does not accept ' + positional + ' positional arguments: ' + i);
+                        return this.parseError('command does not accept ' + parsed.position + ' positional arguments: ' + i);
                     }
                     parsed.field = field;
                     parsed.state = ParseState.StartValue;
@@ -394,6 +429,7 @@ export class AppCommandParser {
                     }
                     parsed.state = ParseState.FlagValueSeparator;
                     parsed.field = field;
+                    parsed.incomplete = '';
                     break;
                 }
                 default: {
@@ -406,7 +442,15 @@ export class AppCommandParser {
             }
 
             case ParseState.FlagValueSeparator: {
+                parsed.incompleteStart = i;
                 switch (c) {
+                case '': {
+                    if (autocompleteMode) {
+                        return parsed;
+                    }
+                    parsed.state = ParseState.StartValue;
+                    break;
+                }
                 case ' ':
                 case '\t': {
                     i++;
@@ -420,7 +464,6 @@ export class AppCommandParser {
                     i++;
                     break;
                 }
-                case '':
                 default: {
                     parsed.state = ParseState.StartValue;
                 }
@@ -556,27 +599,24 @@ export class AppCommandParser {
             }
             }
         }
-
-        return parsed;
     }
 
     // decorateSuggestionComplete applies the necessary modifications for a suggestion to be processed
-    decorateSuggestionComplete = (pretext: string, choice: AutocompleteSuggestion): AutocompleteSuggestionWithComplete => {
+    decorateSuggestionComplete = (parsed: ParsedCommand, choice: AutocompleteSuggestion): AutocompleteSuggestionWithComplete => {
         if (choice.complete && choice.complete.endsWith(EXECUTE_CURRENT_COMMAND_ITEM_ID)) {
             return choice as AutocompleteSuggestionWithComplete;
         }
 
-        // AutocompleteSuggestion.complete is required to be all text leading up to the current suggestion
-        const words = pretext.split(' ');
-        words.pop();
-        const before = words.join(' ') + ' ';
-
+        let complete = parsed.command.substring(0, parsed.incompleteStart);
+        complete += choice.complete || choice.suggestion;
+        if (!complete.endsWith(' ')) {
+            complete += ' ';
+        }
         choice.hint = choice.hint || '';
 
         return {
             ...choice,
-            suggestion: '/' + choice.suggestion,
-            complete: before + (choice.complete || choice.suggestion),
+            complete,
         };
     }
 
@@ -699,37 +739,6 @@ export class AppCommandParser {
         // TODO display error under the command line
     }
 
-    // getSuggestionsForCursorPosition computes subcommand/form suggestions
-    // TODO we need the full text here, not just the pretext. Rework.
-    getSuggestionsForCursorPosition = async (command: string): Promise<AutocompleteSuggestion[]> => {
-        const commandBindings = this.getCommandBindings();
-        if (!commandBindings) {
-            return [];
-        }
-
-        let parsed = await this.matchBinding(command, commandBindings, true);
-        let suggestions: AutocompleteSuggestion[] = [];
-        if (parsed.state === ParseState.CommandSeparator) {
-            suggestions = this.getCommandSuggestions(parsed);
-        }
-
-        if (parsed.form || parsed.incomplete) {
-            parsed = this.parseForm(parsed, true);
-            const argSuggestions = await this.getParameterSuggestions(parsed);
-            suggestions = suggestions.concat(argSuggestions);
-        }
-
-        // Add "Execute Current Command" suggestion
-        // eslint-disable-next-line no-warning-comments
-        // TODO get full text from SuggestionBox
-        if (this.getMissingFields(parsed).length === 0) {
-            const execute = this.getExecuteSuggestion(parsed);
-            suggestions = [execute, ...suggestions];
-        }
-
-        return suggestions;
-    }
-
     // getSuggestionsForSubCommands returns suggestions for a subcommand's name
     getCommandSuggestions = (parsed: ParsedCommand): AutocompleteSuggestion[] => {
         if (!parsed.binding || !parsed.binding.bindings || !parsed.binding.bindings.length) {
@@ -755,9 +764,21 @@ export class AppCommandParser {
     // getParameterSuggestions computes suggestions for positional argument values, flag names, and flag argument values
     getParameterSuggestions = async (parsed: ParsedCommand): Promise<AutocompleteSuggestion[]> => {
         switch (Number(parsed.state)) {
+        case ParseState.StartParameter: {
+            // see if there's a matching positional field
+            const positional = parsed.form?.fields?.find((f: AppField) => f.position === parsed.position + 1);
+            if (positional) {
+                parsed.field = positional;
+                return this.getValueSuggestions(parsed);
+            }
+            return this.getFlagNameSuggestions(parsed);
+        }
+
         case ParseState.Flag:
             return this.getFlagNameSuggestions(parsed);
 
+        case ParseState.EndValue:
+        case ParseState.FlagValueSeparator:
         case ParseState.NonspaceValue:
         case ParseState.QuotedValue:
         case ParseState.TickValue:
@@ -802,10 +823,16 @@ export class AppCommandParser {
         return missing;
     }
 
-    // getParameterSuggestions computes suggestions for positional argument values, flag names, and flag argument values
+    // getFlagNameSuggestions returns suggestions for flag names
     getFlagNameSuggestions = (parsed: ParsedCommand): AutocompleteSuggestion[] => {
         if (!parsed.form || !parsed.form.fields || !parsed.form.fields.length) {
             return [];
+        }
+
+        // There have been 0 to 2 dashes in the command prior to this call, adjust.
+        let prefix = '--';
+        for (let i = parsed.incompleteStart - 1; i > 0 && i >= parsed.incompleteStart - 2 && parsed.command[i] === '-'; i--) {
+            prefix = prefix.substring(1);
         }
 
         const applicable = parsed.form.fields.filter((field) => field.label && field.label.startsWith(parsed.incomplete));
@@ -818,7 +845,7 @@ export class AppCommandParser {
                     suffix = ' ~';
                 }
                 return {
-                    complete: '--' + (f.label || f.name) + suffix,
+                    complete: prefix + (f.label || f.name) + suffix,
                     suggestion: '--' + (f.label || f.name),
                     description: f.description,
                     hint: f.hint,
@@ -850,7 +877,7 @@ export class AppCommandParser {
         }
 
         return [{
-            complete: parsed.command,
+            complete: '',
             suggestion: '',
             description: f.description,
             hint: f.hint,

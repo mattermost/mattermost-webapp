@@ -112,7 +112,7 @@ export default class CommandProvider extends Provider {
 
         const command = pretext.toLowerCase();
         if (this.parser.isAppCommand(command)) {
-            this.parser.getSuggestionsForSubCommandsAndArguments(command).then((matches) => {
+            this.parser.getSuggestions(command).then((matches) => {
                 const terms = matches.map((suggestion) => suggestion.complete);
                 resultCallback({
                     matchedPretext: command,
@@ -141,7 +141,7 @@ export default class CommandProvider extends Provider {
         Client4.getCommandsList(getCurrentTeamId(this.store.getState())).then(
             (data) => {
                 let matches: AutocompleteSuggestion[] = [];
-                const appCommandSuggestions = this.parser.getSuggestionsForBaseCommands(pretext);
+                const appCommandSuggestions = this.parser.getSuggestionsBase(pretext);
                 matches = matches.concat(appCommandSuggestions);
 
                 data.forEach((cmd) => {
@@ -206,7 +206,7 @@ export default class CommandProvider extends Provider {
                     cmd = '⌘';
                 }
 
-                const appCommandSuggestions = this.parser.getSuggestionsForBaseCommands(pretext);
+                const appCommandSuggestions = this.parser.getSuggestionsBase(pretext);
                 matches = matches.concat(appCommandSuggestions);
 
                 data.forEach((s) => {
