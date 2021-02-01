@@ -27,6 +27,7 @@ import Avatar from 'components/widgets/users/avatar';
 import Popover from 'components/widgets/popover';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import CustomStatusModal from 'components/custom_status/custom_status_modal';
+import Markdown from 'components/markdown';
 
 /**
  * The profile popover, or hovercard, that appears with user information when clicking
@@ -268,7 +269,6 @@ class ProfilePopover extends React.PureComponent {
         const canSetCustomStatus = (user.id === currentUserId);
         const shouldShowCustomStatus = isCustomStatusEnabled && customStatus && (customStatusSet || canSetCustomStatus);
 
-
         if (!shouldShowCustomStatus) {
             return null;
         }
@@ -292,7 +292,10 @@ class ProfilePopover extends React.PureComponent {
                     className='text-nowrap user-popover__email pb-1'
                     ref={this.customStatusTextRef}
                 >
-                    {customStatus.text}
+                    <Markdown
+                        message={customStatus.text}
+                        enableFormatting={true}
+                    />
                 </div>
             );
 
@@ -303,7 +306,10 @@ class ProfilePopover extends React.PureComponent {
                         placement='top'
                         overlay={
                             <Tooltip id='custom-status-text-tooltip'>
-                                {customStatus.text}
+                                <Markdown
+                                    message={customStatus.text}
+                                    enableFormatting={true}
+                                />
                             </Tooltip>
                         }
                     >

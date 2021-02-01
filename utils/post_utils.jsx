@@ -497,7 +497,7 @@ export function areConsecutivePostsBySameUser(post, previousPost) {
         !isSystemMessage(post) && !isSystemMessage(previousPost); // And neither is a system message
 }
 
-export function getPostFromId(state, id) {
+export function getValidUserPostFromId(state, id) {
     if (isIdNotPost(id)) {
         //not a post
         return null;
@@ -517,7 +517,7 @@ export function getCurrentUserLastPostGroupFirstPostId(state, postListIds) {
 
     for (let i = 0; i < postListIds.length; i++) {
         const id = postListIds[i];
-        const post = getPostFromId(state, id);
+        const post = getValidUserPostFromId(state, id);
         if (!post) {
             //if it is an combinedUserActivityPost, return if the currentUserLastPost is already set
             if (currentUserLastPost) {

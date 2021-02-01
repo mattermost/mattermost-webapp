@@ -372,6 +372,7 @@
     }
 
     .header-status__text {
+        display: flex;
         margin-right: 3px;
 
         &:after {

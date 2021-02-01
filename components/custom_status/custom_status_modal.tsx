@@ -53,7 +53,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
     const handleSetStatus = () => {
         const customStatus = {
             emoji: emoji || 'speech_balloon',
-            text,
+            text: text.trim(),
         };
         dispatch(setCustomStatus(customStatus));
     };
@@ -81,7 +81,10 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
     };
 
     const handleTextChange = (event: any) => {
-        setText(event.target.value);
+        const inputText = event.target.value;
+        if (inputText.length <= Constants.CUSTOM_STATUS_TEXT_CHARACTER_LIMIT) {
+            setText(inputText);
+        }
     };
 
     const handleRecentCustomStatusClear = (status: any) => {
