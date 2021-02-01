@@ -60,7 +60,6 @@ describe('Direct Message', () => {
         cy.apiLogin(testUser).then(() => {
             // # Visit the DM channel
             cy.visit(`/${testTeam.name}/messages/@${otherUser.username}`);
-            cy.wait(TIMEOUTS.ONE_SEC);
 
             // # Edit the last post
             cy.get('#post_textbox').should('be.visible');

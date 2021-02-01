@@ -44,7 +44,7 @@ describe('Messaging', () => {
             cy.get('#selectItems input').should('be.focused').type(deactivatedUser.email, {force: true});
 
             // * Verify that the inactive user is not found
-            cy.get('#moreDmModal .no-channel-message').should('be.visible').and('contain', 'No items found');
+            cy.get('.no-channel-message').should('be.visible').and('contain', 'No results found matching');
         });
     });
 

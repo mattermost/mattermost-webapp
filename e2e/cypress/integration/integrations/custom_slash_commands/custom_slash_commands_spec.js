@@ -90,7 +90,6 @@ describe('Slash commands', () => {
 
         // # Go back to home channel
         cy.visit(`/${team1.name}/channels/town-square`);
-        cy.wait(TIMEOUTS.TWO_SEC);
 
         // # Run slash command
         cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').clear().type(`/${trigger}{enter}`);
@@ -124,7 +123,6 @@ describe('Slash commands', () => {
 
         // # Go back to home channel
         cy.visit(`/${team1.name}/channels/town-square`);
-        cy.wait(TIMEOUTS.TWO_SEC);
 
         // # Run slash command
         cy.postMessage(`/${trigger}`);
@@ -164,7 +162,6 @@ describe('Slash commands', () => {
 
         // # Go back to home channel
         cy.visit(`/${team1.name}/channels/town-square`);
-        cy.wait(TIMEOUTS.TWO_SEC);
 
         // # Run slash command
         cy.postMessage(`/${trigger}`);
@@ -205,7 +202,6 @@ describe('Slash commands', () => {
 
         // # Go back to home channel
         cy.visit(`/${team1.name}/channels/town-square`);
-        cy.wait(TIMEOUTS.TWO_SEC);
 
         // # Type slash
         cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').clear().type('/');
@@ -233,7 +229,6 @@ describe('Slash commands', () => {
 
         // # Go back to home channel
         cy.visit(`/${team1.name}/channels/town-square`);
-        cy.wait(TIMEOUTS.TWO_SEC);
 
         // # Run slash command
         cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').clear().type('/');

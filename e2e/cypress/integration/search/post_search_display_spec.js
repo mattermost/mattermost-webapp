@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @search
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -113,7 +114,7 @@ describe('Post search display', () => {
             });
 
             // # Visit town-square.
-            cy.visit(`/${testTeam.name}/channels/town-square`).wait(TIMEOUTS.HALF_SEC);
+            cy.visit(`/${testTeam.name}/channels/town-square`);
 
             // # Search for posts from that user
             cy.get('#searchBox').click().type(testSearch, {force: true});
@@ -243,7 +244,7 @@ describe('Post search display', () => {
 
 const enableTestCommands = (team) => {
     // # Visit system console
-    cy.visit('/admin_console/environment/developer').wait(TIMEOUTS.HALF_SEC);
+    cy.visit('/admin_console/environment/developer');
 
     // # Enable testing commands
     cy.get('[data-testid="ServiceSettings.EnableTestingtrue"]').click();
