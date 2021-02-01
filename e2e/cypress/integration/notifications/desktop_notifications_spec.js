@@ -8,6 +8,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @notifications
 
 import * as MESSAGES from '../../fixtures/messages';
@@ -83,7 +84,6 @@ describe('Desktop notifications', () => {
                 cy.visit(`/${testTeam.name}/channels/town-square`);
 
                 // * Desktop notification is not received.
-                cy.wait(TIMEOUTS.HALF_SEC);
                 cy.get('@withoutNotification').should('not.have.been.called');
 
                 // * Should not have unread mentions indicator.
@@ -246,7 +246,6 @@ describe('Desktop notifications', () => {
 
                 // # Visit Town square
                 cy.visit(`/${testTeam.name}/channels/town-square`);
-                cy.wait(TIMEOUTS.HALF_SEC);
 
                 spyNotificationAs('withNotification', 'granted');
 
