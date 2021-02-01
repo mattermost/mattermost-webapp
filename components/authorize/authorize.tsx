@@ -29,18 +29,15 @@ type Props = {
 }
 
 type State = {
-    app: OAuthApp | null;
-    error: string | null;
+    app?: OAuthApp;
+    error?: string;
 }
 
 export default class Authorize extends React.PureComponent<Props, State> {
     public constructor(props: Props) {
         super(props);
 
-        this.state = {
-            app: null,
-            error: null,
-        };
+        this.state = {};
     }
 
     public componentDidMount(): void {
