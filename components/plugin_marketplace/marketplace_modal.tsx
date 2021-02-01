@@ -6,7 +6,8 @@ import {FormattedMessage} from 'react-intl';
 import debounce from 'lodash/debounce';
 import {Tabs, Tab, SelectCallback} from 'react-bootstrap';
 
-import {MarketplacePlugin, PluginStatusRedux} from 'mattermost-redux/types/plugins';
+import {PluginStatusRedux} from 'mattermost-redux/types/plugins';
+import type {MarketplaceApp, MarketplacePlugin} from 'mattermost-redux/types/marketplace';
 import {Dictionary} from 'mattermost-redux/types/utilities';
 
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
@@ -25,19 +26,19 @@ import './marketplace_modal.scss';
 import MarketplaceList from './marketplace_list/marketplace_list';
 
 const MarketplaceTabs = {
-    ALL_PLUGINS: 'allPlugins',
-    INSTALLED_PLUGINS: 'installed',
+    ALL_LISTING: 'allListing',
+    INSTALLED_LISTING: 'installed',
 };
 
 const SEARCH_TIMEOUT_MILLISECONDS = 200;
 
-type AllPluginsProps = {
-    plugins: MarketplacePlugin[];
+type AllListingProps = {
+    listing: Array<MarketplacePlugin | MarketplaceApp>;
 };
 
-// AllPlugins renders the contents of the all plugins tab.
-export const AllPlugins = ({plugins}: AllPluginsProps): JSX.Element => {
-    if (plugins.length === 0) {
+// AllListing renders the contents of the all listing tab.
+export const AllListing = ({listing}: AllListingProps): JSX.Element => {
+    if (listing.length === 0) {
         return (
             <div className='no_plugins_div'>
                 <br/>
@@ -52,17 +53,17 @@ export const AllPlugins = ({plugins}: AllPluginsProps): JSX.Element => {
         );
     }
 
-    return <MarketplaceList plugins={plugins}/>;
+    return <MarketplaceList listing={listing}/>;
 };
 
-type InstalledPluginsProps = {
-    installedPlugins: MarketplacePlugin[];
+type InstalledListingProps = {
+    installedItems: Array<MarketplacePlugin | MarketplaceApp>;
     changeTab: SelectCallback;
 };
 
-// InstalledPlugins renders the contents of the installed plugins tab.
-export const InstalledPlugins = ({installedPlugins, changeTab}: InstalledPluginsProps): JSX.Element => {
-    if (installedPlugins.length === 0) {
+// InstalledListing renders the contents of the installed listing tab.
+export const InstalledListing = ({installedItems, changeTab}: InstalledListingProps): JSX.Element => {
+    if (installedItems.length === 0) {
         return (
             <div className='no_plugins_div'>
                 <br/>
@@ -75,7 +76,7 @@ export const InstalledPlugins = ({installedPlugins, changeTab}: InstalledPlugins
                 </div>
                 <button
                     className='mt-5 style--none color--link'
-                    onClick={() => changeTab(MarketplaceTabs.ALL_PLUGINS)}
+                    onClick={() => changeTab(MarketplaceTabs.ALL_LISTING)}
                     data-testid='Install-Plugins-button'
                 >
                     <FormattedMessage
@@ -87,30 +88,30 @@ export const InstalledPlugins = ({installedPlugins, changeTab}: InstalledPlugins
         );
     }
 
-    return <MarketplaceList plugins={installedPlugins}/>;
+    return <MarketplaceList listing={installedItems}/>;
 };
 
 export type MarketplaceModalProps = {
     show: boolean;
-    plugins: MarketplacePlugin[];
-    installedPlugins: MarketplacePlugin[];
+    listing: Array<MarketplacePlugin | MarketplaceApp>;
+    installedListing: Array<MarketplacePlugin | MarketplaceApp>;
     siteURL: string;
     pluginStatuses?: Dictionary<PluginStatusRedux>;
     actions: {
         closeModal: () => void;
-        fetchPlugins: (localOnly?: boolean) => Promise<{error?: Error}>;
-        filterPlugins(filter: string): Promise<{error?: Error}>;
+        fetchListing(localOnly?: boolean): Promise<{error?: Error}>;
+        filterListing(filter: string): Promise<{error?: Error}>;
     };
 };
 
 type MarketplaceModalState = {
-    tabKey: any;
+    tabKey: unknown;
     loading: boolean;
     serverError?: Error;
     filter: string;
 };
 
-// MarketplaceModal is the plugin marketplace.
+// MarketplaceModal is the marketplace modal.
 export class MarketplaceModal extends React.PureComponent<MarketplaceModalProps, MarketplaceModalState> {
     private filterRef: React.RefObject<QuickInput>;
 
@@ -118,7 +119,7 @@ export class MarketplaceModal extends React.PureComponent<MarketplaceModalProps,
         super(props);
 
         this.state = {
-            tabKey: MarketplaceTabs.ALL_PLUGINS,
+            tabKey: MarketplaceTabs.ALL_LISTING,
             loading: true,
             serverError: undefined,
             filter: '',
@@ -130,7 +131,7 @@ export class MarketplaceModal extends React.PureComponent<MarketplaceModalProps,
     componentDidMount(): void {
         trackEvent('plugins', 'ui_marketplace_opened');
 
-        this.fetchPlugins();
+        this.fetchListing();
 
         this.filterRef.current?.focus();
     }
@@ -138,13 +139,12 @@ export class MarketplaceModal extends React.PureComponent<MarketplaceModalProps,
     componentDidUpdate(prevProps: MarketplaceModalProps): void {
         // Automatically refresh the component when a plugin is installed or uninstalled.
         if (this.props.pluginStatuses !== prevProps.pluginStatuses) {
-            this.fetchPlugins();
+            this.fetchListing();
         }
     }
 
-    fetchPlugins = async (): Promise<void> => {
-        const {error} = await this.props.actions.fetchPlugins();
-
+    fetchListing = async (): Promise<void> => {
+        const {error} = await this.props.actions.fetchListing();
         this.setState({loading: false, serverError: error});
     }
 
@@ -175,8 +175,7 @@ export class MarketplaceModal extends React.PureComponent<MarketplaceModalProps,
     doSearch = async (): Promise<void> => {
         trackEvent('plugins', 'ui_marketplace_search', {filter: this.state.filter});
 
-        const {error} = await this.props.actions.filterPlugins(this.state.filter);
-
+        const {error} = await this.props.actions.filterListing(this.state.filter);
         this.setState({serverError: error});
     }
 
@@ -190,7 +189,7 @@ export class MarketplaceModal extends React.PureComponent<MarketplaceModalProps,
                         id='searchMarketplaceTextbox'
                         ref={this.filterRef}
                         className='form-control filter-textbox search_input'
-                        placeholder={{id: t('marketplace_modal.search'), defaultMessage: 'Search Plugins'}}
+                        placeholder={{id: t('marketplace_modal.search'), defaultMessage: 'Search Marketplace'}}
                         inputComponent={LocalizedInput}
                         onInput={this.onInput}
                         value={this.state.filter}
@@ -224,7 +223,7 @@ export class MarketplaceModal extends React.PureComponent<MarketplaceModalProps,
                 <FullScreenModal
                     show={this.props.show}
                     onClose={this.close}
-                    ariaLabel={localizeMessage('marketplace_modal.title', 'Plugin Marketplace')}
+                    ariaLabel={localizeMessage('marketplace_modal.title', 'Marketplace')}
                 >
                     {errorBanner}
                     <div
@@ -235,7 +234,7 @@ export class MarketplaceModal extends React.PureComponent<MarketplaceModalProps,
                             <strong>
                                 <FormattedMessage
                                     id='marketplace_modal.title'
-                                    defaultMessage='Plugin Marketplace'
+                                    defaultMessage='Marketplace'
                                 />
                             </strong>
                         </h1>
@@ -243,23 +242,23 @@ export class MarketplaceModal extends React.PureComponent<MarketplaceModalProps,
                         <Tabs
                             id='marketplaceTabs'
                             className='tabs'
-                            defaultActiveKey='allPlugins'
+                            defaultActiveKey={MarketplaceTabs.ALL_LISTING}
                             activeKey={this.state.tabKey}
                             onSelect={this.changeTab}
                             unmountOnExit={true}
                         >
                             <Tab
-                                eventKey={MarketplaceTabs.ALL_PLUGINS}
-                                title={localizeMessage('marketplace_modal.tabs.all_plugins', 'All Plugins')}
+                                eventKey={MarketplaceTabs.ALL_LISTING}
+                                title={localizeMessage('marketplace_modal.tabs.all_listing', 'All')}
                             >
-                                {this.state.loading ? <LoadingScreen/> : <AllPlugins plugins={this.props.plugins}/>}
+                                {this.state.loading ? <LoadingScreen/> : <AllListing listing={this.props.listing}/>}
                             </Tab>
                             <Tab
-                                eventKey={MarketplaceTabs.INSTALLED_PLUGINS}
-                                title={localizeMessage('marketplace_modal.tabs.installed_plugins', 'Installed') + ` (${this.props.installedPlugins.length})`}
+                                eventKey={MarketplaceTabs.INSTALLED_LISTING}
+                                title={localizeMessage('marketplace_modal.tabs.installed_listing', 'Installed') + ` (${this.props.installedListing.length})`}
                             >
-                                <InstalledPlugins
-                                    installedPlugins={this.props.installedPlugins}
+                                <InstalledListing
+                                    installedItems={this.props.installedListing}
                                     changeTab={this.changeTab}
                                 />
                             </Tab>

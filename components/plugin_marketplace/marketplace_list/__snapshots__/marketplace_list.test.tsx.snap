@@ -4,7 +4,7 @@ exports[`components/marketplace/marketplace_list should render with multiple plu
 <div
   className="more-modal__list"
 >
-  <Connect(MarketplaceItem)
+  <Connect(MarketplaceItemPlugin)
     description="This plugin sends quarterly user satisfaction surveys to gather feedback and help improve Mattermost"
     homepageUrl="https://github.com/mattermost/mattermost-plugin-nps"
     id="com.mattermost.nps"
@@ -13,7 +13,7 @@ exports[`components/marketplace/marketplace_list should render with multiple plu
     name="User Satisfaction Surveys"
     version="1.0.3"
   />
-  <Connect(MarketplaceItem)
+  <Connect(MarketplaceItemPlugin)
     description="This plugin sends quarterly user satisfaction surveys to gather feedback and help improve Mattermost"
     homepageUrl="https://github.com/mattermost/mattermost-plugin-nps"
     id="com.mattermost.nps"
@@ -22,7 +22,7 @@ exports[`components/marketplace/marketplace_list should render with multiple plu
     name="User Satisfaction Surveys"
     version="1.0.3"
   />
-  <Connect(MarketplaceItem)
+  <Connect(MarketplaceItemPlugin)
     description="This plugin sends quarterly user satisfaction surveys to gather feedback and help improve Mattermost"
     homepageUrl="https://github.com/mattermost/mattermost-plugin-nps"
     id="com.mattermost.nps"
@@ -31,7 +31,7 @@ exports[`components/marketplace/marketplace_list should render with multiple plu
     name="User Satisfaction Surveys"
     version="1.0.3"
   />
-  <Connect(MarketplaceItem)
+  <Connect(MarketplaceItemPlugin)
     description="This plugin sends quarterly user satisfaction surveys to gather feedback and help improve Mattermost"
     homepageUrl="https://github.com/mattermost/mattermost-plugin-nps"
     id="com.mattermost.nps"
@@ -40,7 +40,7 @@ exports[`components/marketplace/marketplace_list should render with multiple plu
     name="User Satisfaction Surveys"
     version="1.0.3"
   />
-  <Connect(MarketplaceItem)
+  <Connect(MarketplaceItemPlugin)
     description="This plugin sends quarterly user satisfaction surveys to gather feedback and help improve Mattermost"
     homepageUrl="https://github.com/mattermost/mattermost-plugin-nps"
     id="com.mattermost.nps"
@@ -49,7 +49,7 @@ exports[`components/marketplace/marketplace_list should render with multiple plu
     name="User Satisfaction Surveys"
     version="1.0.3"
   />
-  <Connect(MarketplaceItem)
+  <Connect(MarketplaceItemPlugin)
     description="This plugin sends quarterly user satisfaction surveys to gather feedback and help improve Mattermost"
     homepageUrl="https://github.com/mattermost/mattermost-plugin-nps"
     id="com.mattermost.nps"
@@ -58,7 +58,7 @@ exports[`components/marketplace/marketplace_list should render with multiple plu
     name="User Satisfaction Surveys"
     version="1.0.3"
   />
-  <Connect(MarketplaceItem)
+  <Connect(MarketplaceItemPlugin)
     description="This plugin sends quarterly user satisfaction surveys to gather feedback and help improve Mattermost"
     homepageUrl="https://github.com/mattermost/mattermost-plugin-nps"
     id="com.mattermost.nps"
@@ -67,7 +67,7 @@ exports[`components/marketplace/marketplace_list should render with multiple plu
     name="User Satisfaction Surveys"
     version="1.0.3"
   />
-  <Connect(MarketplaceItem)
+  <Connect(MarketplaceItemPlugin)
     description="This plugin sends quarterly user satisfaction surveys to gather feedback and help improve Mattermost"
     homepageUrl="https://github.com/mattermost/mattermost-plugin-nps"
     id="com.mattermost.nps"
@@ -76,7 +76,7 @@ exports[`components/marketplace/marketplace_list should render with multiple plu
     name="User Satisfaction Surveys"
     version="1.0.3"
   />
-  <Connect(MarketplaceItem)
+  <Connect(MarketplaceItemPlugin)
     description="This plugin sends quarterly user satisfaction surveys to gather feedback and help improve Mattermost"
     homepageUrl="https://github.com/mattermost/mattermost-plugin-nps"
     id="com.mattermost.nps"
@@ -85,7 +85,7 @@ exports[`components/marketplace/marketplace_list should render with multiple plu
     name="User Satisfaction Surveys"
     version="1.0.3"
   />
-  <Connect(MarketplaceItem)
+  <Connect(MarketplaceItemPlugin)
     description="This plugin sends quarterly user satisfaction surveys to gather feedback and help improve Mattermost"
     homepageUrl="https://github.com/mattermost/mattermost-plugin-nps"
     id="com.mattermost.nps"
@@ -94,7 +94,7 @@ exports[`components/marketplace/marketplace_list should render with multiple plu
     name="User Satisfaction Surveys"
     version="1.0.3"
   />
-  <Connect(MarketplaceItem)
+  <Connect(MarketplaceItemPlugin)
     description="This plugin sends quarterly user satisfaction surveys to gather feedback and help improve Mattermost"
     homepageUrl="https://github.com/mattermost/mattermost-plugin-nps"
     id="com.mattermost.nps"
@@ -103,7 +103,7 @@ exports[`components/marketplace/marketplace_list should render with multiple plu
     name="User Satisfaction Surveys"
     version="1.0.3"
   />
-  <Connect(MarketplaceItem)
+  <Connect(MarketplaceItemPlugin)
     description="This plugin sends quarterly user satisfaction surveys to gather feedback and help improve Mattermost"
     homepageUrl="https://github.com/mattermost/mattermost-plugin-nps"
     id="com.mattermost.nps"
@@ -112,7 +112,7 @@ exports[`components/marketplace/marketplace_list should render with multiple plu
     name="User Satisfaction Surveys"
     version="1.0.3"
   />
-  <Connect(MarketplaceItem)
+  <Connect(MarketplaceItemPlugin)
     description="This plugin sends quarterly user satisfaction surveys to gather feedback and help improve Mattermost"
     homepageUrl="https://github.com/mattermost/mattermost-plugin-nps"
     id="com.mattermost.nps"
@@ -121,7 +121,7 @@ exports[`components/marketplace/marketplace_list should render with multiple plu
     name="User Satisfaction Surveys"
     version="1.0.3"
   />
-  <Connect(MarketplaceItem)
+  <Connect(MarketplaceItemPlugin)
     description="This plugin sends quarterly user satisfaction surveys to gather feedback and help improve Mattermost"
     homepageUrl="https://github.com/mattermost/mattermost-plugin-nps"
     id="com.mattermost.nps"
@@ -130,7 +130,7 @@ exports[`components/marketplace/marketplace_list should render with multiple plu
     name="User Satisfaction Surveys"
     version="1.0.3"
   />
-  <Connect(MarketplaceItem)
+  <Connect(MarketplaceItemPlugin)
     description="This plugin sends quarterly user satisfaction surveys to gather feedback and help improve Mattermost"
     homepageUrl="https://github.com/mattermost/mattermost-plugin-nps"
     id="com.mattermost.nps"

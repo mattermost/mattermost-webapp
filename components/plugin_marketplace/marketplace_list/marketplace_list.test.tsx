@@ -4,9 +4,9 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {AuthorType, MarketplacePlugin, ReleaseStage} from 'mattermost-redux/types/plugins';
+import {AuthorType, MarketplacePlugin, ReleaseStage} from 'mattermost-redux/types/marketplace';
 
-import MarketplaceItem from '../marketplace_item';
+import MarketplaceItem from '../marketplace_item/marketplace_item_plugin';
 
 import MarketplaceList from './marketplace_list';
 import NavigationRow from './navigation_row';
@@ -31,7 +31,7 @@ describe('components/marketplace/marketplace_list', () => {
     it('should render with multiple plugins', () => {
         const wrapper = shallow<MarketplaceList>(
             <MarketplaceList
-                plugins={[
+                listing={[
                     samplePlugin, samplePlugin, samplePlugin, samplePlugin, samplePlugin,
                     samplePlugin, samplePlugin, samplePlugin, samplePlugin, samplePlugin,
                     samplePlugin, samplePlugin, samplePlugin, samplePlugin, samplePlugin,
@@ -52,12 +52,12 @@ describe('components/marketplace/marketplace_list', () => {
     it('should set page to 0 when list of plugins changed', () => {
         const wrapper = shallow<MarketplaceList>(
             <MarketplaceList
-                plugins={[samplePlugin, samplePlugin]}
+                listing={[samplePlugin, samplePlugin]}
             />,
         );
 
         wrapper.setState({page: 10});
-        wrapper.setProps({plugins: [samplePlugin]});
+        wrapper.setProps({listing: [samplePlugin]});
 
         expect(wrapper.state().page).toEqual(0);
     });
