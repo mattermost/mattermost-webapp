@@ -451,6 +451,14 @@
         display: flex;
         margin-right: 7px;
         line-height: 16px;
+        max-width: calc(100% - 200px);
+
+        &:after {
+            content: '\2022';
+            margin: 0 2px 0 5px;
+            position: relative;
+            top: 1px;
+        }
     }
 
     .status {

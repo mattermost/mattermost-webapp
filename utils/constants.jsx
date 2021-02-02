@@ -923,7 +923,9 @@ export const Constants = {
     // This is the same limit set https://github.com/mattermost/mattermost-server/blob/master/model/config.go#L105
     MAXIMUM_LOGIN_ATTEMPTS_DEFAULT: 10,
 
-    CUSTOM_STATUS_TEXT_CHARACTER_LIMIT: 200,
+    // This is the same limit set
+    // https://github.com/mattermost/mattermost-server/pull/16835/files#diff-73c61af5954b16f5e3cb5ee786af9eb698f660eff0d65db5556949be5fb6e60bR15
+    CUSTOM_STATUS_TEXT_CHARACTER_LIMIT: 250,
 
     // This is the same limit set https://github.com/mattermost/mattermost-server/blob/master/api4/team.go#L23
     MAX_ADD_MEMBERS_BATCH: 256,
