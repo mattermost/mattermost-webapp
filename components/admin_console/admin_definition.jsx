@@ -151,20 +151,20 @@ const SAML_SETTINGS_CANONICAL_ALGORITHM_C14N11 = 'Canonical1.1';
 //   - fileType: A list of extensions separated by ",". E.g. ".jpg,.png,.gif".
 
 export const it = {
-    not: (func) => (config, state, license, enterpriseReady, consoleAccess, cloud) => {
-        return typeof func === 'function' ? !func(config, state, license, enterpriseReady, consoleAccess, cloud) : !func;
+    not: (func) => (config, state, license, enterpriseReady, consoleAccess, cloud, isSystemAdmin) => {
+        return typeof func === 'function' ? !func(config, state, license, enterpriseReady, consoleAccess, cloud, isSystemAdmin) : !func;
     },
-    all: (...funcs) => (config, state, license, enterpriseReady, consoleAccess, cloud) => {
+    all: (...funcs) => (config, state, license, enterpriseReady, consoleAccess, cloud, isSystemAdmin) => {
         for (const func of funcs) {
-            if (typeof func === 'function' ? !func(config, state, license, enterpriseReady, consoleAccess, cloud) : !func) {
+            if (typeof func === 'function' ? !func(config, state, license, enterpriseReady, consoleAccess, cloud, isSystemAdmin) : !func) {
                 return false;
             }
         }
         return true;
     },
-    any: (...funcs) => (config, state, license, enterpriseReady, consoleAccess, cloud) => {
+    any: (...funcs) => (config, state, license, enterpriseReady, consoleAccess, cloud, isSystemAdmin) => {
         for (const func of funcs) {
-            if (typeof func === 'function' ? func(config, state, license, enterpriseReady, consoleAccess, cloud) : func) {
+            if (typeof func === 'function' ? func(config, state, license, enterpriseReady, consoleAccess, cloud, isSystemAdmin) : func) {
                 return true;
             }
         }
@@ -188,6 +188,7 @@ export const it = {
     },
     userHasReadPermissionOnResource: (key) => (config, state, license, enterpriseReady, consoleAccess) => consoleAccess?.read?.[key],
     userHasWritePermissionOnResource: (key) => (config, state, license, enterpriseReady, consoleAccess) => consoleAccess?.write?.[key],
+    isSystemAdmin: (config, state, license, enterpriseReady, consoleAccess, icloud, isSystemAdmin) => isSystemAdmin,
 };
 
 const usesLegacyOauth = (config, state, license, enterpriseReady, consoleAccess, cloud) => {
@@ -845,6 +846,8 @@ const AdminDefinition = {
                 'admin.sql.queryTimeoutDescription',
                 'admin.sql.connMaxLifetimeTitle',
                 'admin.sql.connMaxLifetimeDescription',
+                'admin.sql.connMaxIdleTimeTitle',
+                'admin.sql.connMaxIdleTimeDescription',
                 'admin.sql.traceTitle',
                 'admin.sql.traceDescription',
             ],
@@ -1334,6 +1337,8 @@ const AdminDefinition = {
                 'admin.cluster.UseExperimentalGossipDesc',
                 'admin.cluster.EnableExperimentalGossipEncryption',
                 'admin.cluster.EnableExperimentalGossipEncryptionDesc',
+                'admin.cluster.EnableGossipCompression',
+                'admin.cluster.EnableGossipCompressionDesc',
                 'admin.cluster.GossipPort',
                 'admin.cluster.GossipPortDesc',
                 'admin.cluster.StreamingPort',
@@ -1367,7 +1372,8 @@ const AdminDefinition = {
                         label: t('admin.rate.enableLimiterTitle'),
                         label_default: 'Enable Rate Limiting:',
                         help_text: t('admin.rate.enableLimiterDescription'),
-                        help_text_default: 'When true, APIs are throttled at rates specified below.',
+                        help_text_default: 'When true, APIs are throttled at rates specified below.\n \nRate limiting prevents server overload from too many requests. This is useful to prevent third-party applications or malicous attacks from impacting your server.',
+                        help_text_markdown: true,
                         isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
                     },
                     {
@@ -2456,6 +2462,7 @@ const AdminDefinition = {
             url: 'site_config/public_links',
             title: t('admin.sidebar.publicLinks'),
             title_default: 'Public Links',
+            isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
             schema: {
                 id: 'PublicLinkSettings',
                 name: t('admin.site.public_links'),
@@ -2951,7 +2958,7 @@ const AdminDefinition = {
                         label: t('admin.ldap.enableAdminFilterTitle'),
                         label_default: 'Enable Admin Filter:',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.isSystemAdmin),
                             it.all(
                                 it.stateIsFalse('LdapSettings.Enable'),
                                 it.stateIsFalse('LdapSettings.EnableSync'),
@@ -2969,7 +2976,7 @@ const AdminDefinition = {
                         placeholder: t('admin.ldap.adminFilterEx'),
                         placeholder_default: 'E.g.: "(objectClass=user)"',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.isSystemAdmin),
                             it.stateIsFalse('LdapSettings.EnableAdminFilter'),
                             it.all(
                                 it.stateIsFalse('LdapSettings.Enable'),
@@ -3815,7 +3822,7 @@ const AdminDefinition = {
                         label: t('admin.saml.enableAdminAttrTitle'),
                         label_default: 'Enable Admin Attribute:',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.isSystemAdmin),
                             it.stateIsFalse('SamlSettings.Enable'),
                         ),
                     },
@@ -3830,7 +3837,7 @@ const AdminDefinition = {
                         help_text_default: '(Optional) The attribute in the SAML Assertion for designating System Admins. The users selected by the query will have access to your Mattermost server as System Admins. By default, System Admins have complete access to the Mattermost System Console.\n \nExisting members that are identified by this attribute will be promoted from member to System Admin upon next login. The next login is based upon Session lengths set in **System Console > Session Lengths.** It is highly recommend to manually demote users to members in **System Console > User Management** to ensure access is restricted immediately.\n \nNote: If this filter is removed/changed, System Admins that were promoted via this filter will be demoted to members and will not retain access to the System Console. When this filter is not in use, System Admins can be manually promoted/demoted in **System Console > User Management**.',
                         help_text_markdown: true,
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.isSystemAdmin),
                             it.stateIsFalse('SamlSettings.EnableAdminAttribute'),
                             it.stateIsFalse('SamlSettings.Enable'),
                         ),
@@ -4069,11 +4076,14 @@ const AdminDefinition = {
                         defaultMessage='deprecated'
                     />
                 ),
-                shouldDisplay: () => true,
+                shouldDisplay: (license) => license.IsLicensed && license.OpenId === 'true',
             },
             isHidden: it.any(
                 it.not(it.licensed),
-                it.not(usesLegacyOauth),
+                it.all(
+                    it.licensedForFeature('OpenId'),
+                    it.not(usesLegacyOauth),
+                ),
             ),
             schema: {
                 id: 'OAuthSettings',
@@ -4126,8 +4136,7 @@ const AdminDefinition = {
                         component: OpenIdConvert,
                         key: 'OpenIdConvert',
                         isHidden: it.any(
-                            it.not(it.licensedForFeature('GoogleOAuth')),
-                            it.not(it.licensedForFeature('Office365OAuth')),
+                            it.not(it.licensedForFeature('OpenId')),
                             it.not(usesLegacyOauth),
                         ),
                         isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
@@ -4448,7 +4457,6 @@ const AdminDefinition = {
                         component: OpenIdConvert,
                         key: 'OpenIdConvert',
                         isHidden: it.any(
-                            it.not(it.licensed),
                             it.not(usesLegacyOauth),
                         ),
                         isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
@@ -4468,7 +4476,6 @@ const AdminDefinition = {
                                 value: Constants.GITLAB_SERVICE,
                                 display_name: t('admin.openid.gitlab'),
                                 display_name_default: 'GitLab',
-                                isHidden: it.not(it.licensedForFeature('OpenId')),
                                 help_text: t('admin.gitlab.EnableMarkdownDesc'),
                                 help_text_default: '1. Log in to your GitLab account and go to Profile Settings -> Applications.\n2. Enter Redirect URIs "<your-mattermost-url>/login/gitlab/complete" (example: http://localhost:8065/login/gitlab/complete) and "<your-mattermost-url>/signup/gitlab/complete".\n3. Then use "Application Secret Key" and "Application ID" fields from GitLab to complete the options below.\n4. Complete the Endpoint URLs below.',
                                 help_text_markdown: true,
@@ -4477,25 +4484,22 @@ const AdminDefinition = {
                                 value: Constants.GOOGLE_SERVICE,
                                 display_name: t('admin.openid.google'),
                                 display_name_default: 'Google Apps',
-                                isHidden: it.not(it.licensedForFeature('OpenId')),
                                 help_text: t('admin.google.EnableMarkdownDesc'),
-                                help_text_default: '1. [Log in](!https://accounts.google.com/login) to your Google account.\n2. Go to [https://console.developers.google.com](!https://console.developers.google.com), click **Credentials** in the left hand sidebar and enter "Mattermost - your-company-name" as the **Project Name**, then click **Create**.\n3. Click the **OAuth consent screen** header and enter "Mattermost" as the **Product name shown to users**, then click **Save**.\n4. Under the **Credentials** header, click **Create credentials**, choose **OAuth client ID** and select **Web Application**.\n5. Under **Restrictions** and **Authorized redirect URIs** enter **your-mattermost-url/signup/google/complete** (example: http://localhost:8065/signup/google/complete). Click **Create**.\n6. Paste the **Client ID** and **Client Secret** to the fields below, then click **Save**.\n7. Go to the [Google People API](!https://console.developers.google.com/apis/library/people.googleapis.com) and click *Enable*.',
+                                help_text_default: '1. [Log in](!https://accounts.google.com/login) to your Google account.\n2. Go to [https://console.developers.google.com](!https://console.developers.google.com), click **Credentials** in the left hand side.\n 3. Under the **Credentials** header, click **Create credentials**, choose **OAuth client ID** and select **Web Application**.\n 4. Enter "Mattermost - your-company-name" as the **Name**.\n 5. Under **Authorized redirect URIs** enter **your-mattermost-url/signup/google/complete** (example: http://localhost:8065/signup/google/complete). Click **Create**.\n 6. Paste the **Client ID** and **Client Secret** to the fields below, then click **Save**.\n 7. Go to the [Google People API](!https://console.developers.google.com/apis/library/people.googleapis.com) and click *Enable*.',
                                 help_text_markdown: true,
                             },
                             {
                                 value: Constants.OFFICE365_SERVICE,
                                 display_name: t('admin.openid.office365'),
                                 display_name_default: 'Office 365',
-                                isHidden: it.not(it.licensedForFeature('OpenId')),
                                 help_text: t('admin.office365.EnableMarkdownDesc'),
-                                help_text_default: '1. [Log in](!https://login.microsoftonline.com/) to your Microsoft or Office 365 account. Make sure it`s the account on the same [tenant](!https://msdn.microsoft.com/en-us/library/azure/jj573650.aspx#Anchor_0) that you would like users to log in with.\n2. Go to [https://apps.dev.microsoft.com](!https://apps.dev.microsoft.com), click **Go to app list** > **Add an app** and use "Mattermost - your-company-name" as the **Application Name**.\n3. Under **Application Secrets**, click **Generate New Password** and paste it to the **Application Secret Password** field below.\n4. Under **Platforms**, click **Add Platform**, choose **Web** and enter **your-mattermost-url/signup/office365/complete** (example: http://localhost:8065/signup/office365/complete) under **Redirect URIs**. Also uncheck **Allow Implicit Flow**.\n5. Finally, click **Save** and then paste the **Application ID** below.',
+                                help_text_default: '1. [Log in](!https://login.microsoftonline.com/) to your Microsoft or Office 365 account. Make sure it`s the account on the same [tenant](!https://msdn.microsoft.com/en-us/library/azure/jj573650.aspx#Anchor_0) that you would like users to log in with.\n2. Go to [https://apps.dev.microsoft.com](!https://apps.dev.microsoft.com), click **Go to Azure Portal** > click **New Registration**.\n3. Use "Mattermost - your-company-name" as the **Application Name**, click **Registration**, paste **Client ID** and **Tenant ID** below.\n4. Click **Authentication**, under **Platforms**, click **Add Platform**, choose **Web** and enter **your-mattermost-url/signup/office365/complete** (example: http://localhost:8065/signup/office365/complete) under **Redirect URIs**. Also uncheck **Allow Implicit Flow**.\n5. Click **Certificates & secrets**, Generate **New client secret** and paste secret value in **Client Secret** field below.',
                                 help_text_markdown: true,
                             },
                             {
                                 value: Constants.OPENID_SERVICE,
                                 display_name: t('admin.oauth.openid'),
                                 display_name_default: 'OpenID Connect (Other)',
-                                isHidden: it.not(it.licensedForFeature('OpenId')),
                                 help_text: t('admin.openid.EnableMarkdownDesc'),
                                 help_text_default: 'Follow provider directions for creating an OpenID Application. Most OpenID Connect providers require authorization of all redirect URIs. In the appropriate field, enter your-mattermost-url/signup/openid/complete (example: http://domain.com/signup/openid/complete)',
                                 help_text_markdown: true,
@@ -5254,16 +5258,6 @@ const AdminDefinition = {
                         isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
-                        type: Constants.SettingsTypes.TYPE_BOOL,
-                        key: 'ServiceSettings.CloseUnusedDirectMessages',
-                        label: t('admin.experimental.closeUnusedDirectMessages.title'),
-                        label_default: 'Autoclose Direct Messages in Sidebar:',
-                        help_text: t('admin.experimental.closeUnusedDirectMessages.desc'),
-                        help_text_default: 'When true, direct message conversations with no activity for 7 days will be hidden from the sidebar. When false, conversations remain in the sidebar until they are manually closed.',
-                        help_text_markdown: false,
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
-                    },
-                    {
                         type: Constants.SettingsTypes.TYPE_NUMBER,
                         key: 'ExperimentalSettings.LinkMetadataTimeoutMilliseconds',
                         label: t('admin.experimental.linkMetadataTimeoutMilliseconds.title'),
@@ -5534,16 +5528,6 @@ const AdminDefinition = {
                         ),
                     },
                     {
-                        type: Constants.SettingsTypes.TYPE_BOOL,
-                        key: 'TeamSettings.EnableXToLeaveChannelsFromLHS',
-                        label: t('admin.experimental.enableXToLeaveChannelsFromLHS.title'),
-                        label_default: 'Enable X to Leave Channels from Left-Hand Sidebar:',
-                        help_text: t('admin.experimental.enableXToLeaveChannelsFromLHS.desc'),
-                        help_text_default: 'When true, users can leave Public and Private Channels by clicking the “x” beside the channel name. When false, users must use the **Leave Channel** option from the channel menu to leave channels.',
-                        help_text_markdown: true,
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
-                    },
-                    {
                         type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'TeamSettings.ExperimentalPrimaryTeam',
                         label: t('admin.experimental.experimentalPrimaryTeam.title'),
@@ -5600,35 +5584,14 @@ const AdminDefinition = {
                         isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
-                        type: Constants.SettingsTypes.TYPE_DROPDOWN,
-                        key: 'ServiceSettings.ExperimentalChannelSidebarOrganization',
-                        label: t('admin.experimental.experimentalChannelSidebarOrganization.title'),
-                        label_default: 'Experimental Sidebar Features',
-                        help_text: t('admin.experimental.experimentalChannelSidebarOrganization.desc'),
-                        help_text_default: 'When enabled, users can access experimental channel sidebar features, including collapsible sections and unreads filtering. If default on, this enabled the new sidebar features by default for all users on this server. Users can disable the features in **Account Settings > Sidebar > Experimental Sidebar Features**. If default off, users must enable the experimental sidebar features in Account Settings. [Learn more](!https://about.mattermost.com/default-sidebar/) or [give us feedback](!https://about.mattermost.com/default-sidebar-survey/)',
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'ServiceSettings.EnableLegacySidebar',
+                        label: t('admin.experimental.enableLegacySidebar.title'),
+                        label_default: 'Enable Legacy Sidebar',
+                        help_text: t('admin.experimental.enableLegacySidebar.desc'),
+                        help_text_default: 'When enabled, users cannot access new sidebar features including custom, collapsible categories and unread channel filtering. We recommend only enabling the legacy sidebar if users are experiencing breaking changes or bugs.',
                         help_text_markdown: true,
-                        options: [
-                            {
-                                value: 'disabled',
-                                display_name: t('admin.experimental.experimentalChannelSidebarOrganization.disabled'),
-                                display_name_default: 'Disabled',
-                            },
-                            {
-                                value: 'default_on',
-                                display_name: t('admin.experimental.experimentalChannelSidebarOrganization.default_on'),
-                                display_name_default: 'Enabled (Default On)',
-                            },
-                            {
-                                value: 'default_off',
-                                display_name: t('admin.experimental.experimentalChannelSidebarOrganization.default_off'),
-                                display_name_default: 'Enabled (Default Off)',
-                            },
-                            {
-                                value: 'always_on',
-                                display_name: t('admin.experimental.experimentalChannelSidebarOrganization.always_on'),
-                                display_name_default: 'Always On',
-                            },
-                        ],
+                        isHidden: it.licensedForFeature('Cloud'),
                         isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
@@ -5637,8 +5600,55 @@ const AdminDefinition = {
                         label: t('admin.experimental.experimentalChannelOrganization.title'),
                         label_default: 'Channel Grouping and Sorting',
                         help_text: t('admin.experimental.experimentalChannelOrganization.desc'),
-                        help_text_default: 'Enables channel sidebar organization options in **Account Settings > Sidebar > Channel grouping and sorting** including options for grouping unread channels, sorting channels by most recent post and combining all channel types into a single list. These settings are not available if **Account Settings > Sidebar > Experimental Sidebar Features** are enabled.',
+                        help_text_default: 'Enables channel sidebar organization options in **Account Settings > Sidebar > Channel grouping and sorting** including options for grouping unread channels, sorting channels by most recent post and combining all channel types into a single list. These settings are only available if **Enable Legacy Sidebar** is **Enabled**.',
                         help_text_markdown: true,
+                        isHidden: it.any(
+                            it.licensedForFeature('Cloud'),
+                            it.configIsFalse('ServiceSettings', 'EnableLegacySidebar'),
+                        ),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'TeamSettings.EnableXToLeaveChannelsFromLHS',
+                        label: t('admin.experimental.enableXToLeaveChannelsFromLHS.title'),
+                        label_default: 'Enable X to Leave Channels from Left-Hand Sidebar:',
+                        help_text: t('admin.experimental.enableXToLeaveChannelsFromLHS.desc'),
+                        help_text_default: 'When true, users can leave Public and Private Channels by clicking the “x” beside the channel name. When false, users must use the **Leave Channel** option from the channel menu to leave channels. These settings are only available if **Enable Legacy Sidebar** is **Enabled**.',
+                        help_text_markdown: true,
+                        isHidden: it.any(
+                            it.licensedForFeature('Cloud'),
+                            it.configIsFalse('ServiceSettings', 'EnableLegacySidebar'),
+                        ),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'ServiceSettings.CloseUnusedDirectMessages',
+                        label: t('admin.experimental.closeUnusedDirectMessages.title'),
+                        label_default: 'Autoclose Direct Messages in Sidebar:',
+                        help_text: t('admin.experimental.closeUnusedDirectMessages.desc'),
+                        help_text_default: 'When true, direct message conversations with no activity for 7 days will be hidden from the sidebar. When false, conversations remain in the sidebar until they are manually closed. These settings are only available if **Enable Legacy Sidebar** is **Enabled**.',
+                        help_text_markdown: true,
+                        isHidden: it.any(
+                            it.licensedForFeature('Cloud'),
+                            it.configIsFalse('ServiceSettings', 'EnableLegacySidebar'),
+                        ),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'TeamSettings.ExperimentalHideTownSquareinLHS',
+                        label: t('admin.experimental.experimentalHideTownSquareinLHS.title'),
+                        label_default: 'Town Square is Hidden in Left-Hand Sidebar:',
+                        help_text: t('admin.experimental.experimentalHideTownSquareinLHS.desc'),
+                        help_text_default: 'When true, hides Town Square in the left-hand sidebar if there are no unread messages in the channel. When false, Town Square is always visible in the left-hand sidebar even if all messages have been read. These settings are only available if **Enable Legacy Sidebar** is **Enabled**.',
+                        help_text_markdown: true,
+                        isHidden: it.any(
+                            it.not(it.licensed), // E10 and higher
+                            it.licensedForFeature('Cloud'),
+                            it.configIsFalse('ServiceSettings', 'EnableLegacySidebar'),
+                        ),
                         isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {
@@ -5649,17 +5659,6 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.experimentalTimezone.desc'),
                         help_text_default: 'Select the timezone used for timestamps in the user interface and email notifications. When true, the Timezone setting is visible in the Account Settings and a time zone is automatically assigned in the next active session. When false, the Timezone setting is hidden in the Account Settings.',
                         help_text_markdown: false,
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
-                    },
-                    {
-                        type: Constants.SettingsTypes.TYPE_BOOL,
-                        key: 'TeamSettings.ExperimentalHideTownSquareinLHS',
-                        label: t('admin.experimental.experimentalHideTownSquareinLHS.title'),
-                        label_default: 'Town Square is Hidden in Left-Hand Sidebar:',
-                        help_text: t('admin.experimental.experimentalHideTownSquareinLHS.desc'),
-                        help_text_default: 'When true, hides Town Square in the left-hand sidebar if there are no unread messages in the channel. When false, Town Square is always visible in the left-hand sidebar even if all messages have been read.',
-                        help_text_markdown: true,
-                        isHidden: it.not(it.licensed), // E10 and higher
                         isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
                     },
                     {

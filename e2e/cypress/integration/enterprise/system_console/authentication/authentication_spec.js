@@ -95,7 +95,6 @@ describe('Authentication', () => {
         // # Login as test user
         cy.apiLogin(testUser);
         cy.visit('/');
-        cy.wait(TIMEOUTS.ONE_SEC);
 
         let token;
         cy.url().then((url) => {

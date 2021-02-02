@@ -168,7 +168,7 @@ describe('components/SuggestionBox', () => {
         expect(wrapper.state('selection')).toEqual('@user');
 
         instance.nonDebouncedPretextChanged('hello world @');
-        expect(wrapper.state('selection')).toEqual('@user');
+        expect(wrapper.state('selection')).toEqual('@other');
 
         instance.nonDebouncedPretextChanged('hello world ');
         expect(wrapper.state('selection')).toEqual('');

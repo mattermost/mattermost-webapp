@@ -183,6 +183,7 @@ export default class PostHeader extends React.PureComponent<Props> {
         } else if (isSystemMessage) {
             userProfile = (
                 <UserProfile
+                    userId=''
                     overwriteName={
                         <FormattedMessage
                             id='post_info.system'

@@ -66,20 +66,12 @@ Cypress.Commands.add('postIncomingWebhook', ({url, data, waitFor}) => {
     }));
 });
 
-/**
-* externalRequest is a task which is wrapped as command with post-verification
-* that the external request is successfully completed
-* @param {Object} user - a user initiating external request
-* @param {String} method - an HTTP method (e.g. get, post, etc)
-* @param {String} path - API path that is relative to Cypress.config().baseUrl
-* @param {Object} data - payload
-*/
-Cypress.Commands.add('externalRequest', ({user, method, path, data}) => {
+Cypress.Commands.add('externalRequest', ({user, method, path, data, failOnStatusCode = true}) => {
     const baseUrl = Cypress.config('baseUrl');
 
     return cy.task('externalRequest', {baseUrl, user, method, path, data}).then((response) => {
         // Temporarily ignore error related to Cloud
-        if (response.data.id !== 'ent.cloud.request_error') {
+        if (response.data && response.data.id !== 'ent.cloud.request_error' && failOnStatusCode) {
             expect(response.status).to.be.oneOf([200, 201, 204]);
         }
 
@@ -93,11 +85,13 @@ Cypress.Commands.add('externalRequest', ({user, method, path, data}) => {
 * @param {String} message - message in a post
 * @param {Object} channelId - where a post will be posted
 */
-Cypress.Commands.add('postBotMessage', ({token, message, props, channelId, rootId, createAt}) => {
+Cypress.Commands.add('postBotMessage', ({token, message, props, channelId, rootId, createAt, failOnStatus = true}) => {
     const baseUrl = Cypress.config('baseUrl');
 
     return cy.task('postBotMessage', {token, message, props, channelId, rootId, createAt, baseUrl}).then(({status, data}) => {
-        expect(status).to.equal(201);
+        if (failOnStatus) {
+            expect(status).to.equal(201);
+        }
 
         // # Return the data so it can be interacted in a test
         return cy.wrap({id: data.id, status, data});
