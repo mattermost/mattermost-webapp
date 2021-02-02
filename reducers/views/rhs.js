@@ -123,6 +123,15 @@ function searchTerms(state = '', action) {
     }
 }
 
+function searchType(state = '', action) {
+    switch (action.type) {
+    case ActionTypes.UPDATE_RHS_SEARCH_TYPE:
+        return action.searchType;
+    default:
+        return state;
+    }
+}
+
 function initialSearchType(state = '', action) {
     switch (action.type) {
     case ActionTypes.UPDATE_RHS_INITIAL_SEARCH_TYPE:
@@ -258,6 +267,7 @@ export default combineReducers({
     filesSearchExtFilter,
     rhsState,
     searchTerms,
+    searchType,
     initialSearchType,
     searchResultsTerms,
     pluggableId,

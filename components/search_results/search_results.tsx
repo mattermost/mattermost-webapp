@@ -70,6 +70,7 @@ const defaultProps: Partial<Props> = {
 };
 
 const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
+    console.log("SEARCH TYPE IN SEARCH RESULTS", props.searchType);
     const scrollbars = useRef<Scrollbars|null>(null);
 
     const intl = useIntl();

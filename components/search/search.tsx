@@ -59,7 +59,7 @@ const determineVisibleSearchHintOptions = (searchTerms: string): SearchHintOptio
 };
 
 const Search: React.FC<Props> = (props: Props): JSX.Element => {
-    const {actions, searchTerms} = props;
+    const {actions, searchTerms, searchType} = props;
 
     const intl = useIntl();
 
@@ -71,7 +71,6 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
     const [visibleSearchHintOptions, setVisibleSearchHintOptions] = useState<SearchHintOption[]>(
         determineVisibleSearchHintOptions(searchTerms),
     );
-    const [searchType, setSearchType] = useState<SearchType>('');
     const [searchFilterType, setSearchFilterType] = useState<SearchFilterType>('all');
 
     const suggestionProviders = useRef<Provider[]>([
@@ -224,6 +223,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
             actions.updateRhsState(RHSStates.SEARCH);
         }
         actions.updateSearchTerms('');
+        actions.updateSearchType('');
     };
 
     const handleShrink = (): void => {
@@ -286,6 +286,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
         }
         actions.showFlaggedPosts();
     };
+
 
     const renderMentionButton = (): JSX.Element => (
         <HeaderIconWrapper
@@ -352,7 +353,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
                     onMouseDown={handleSearchHintSelection}
                     highlightedIndex={highlightedSearchHintIndex}
                     onOptionHover={setHoverHintIndex}
-                    onSearchTypeSelected={searchType || searchTerms ? undefined : setSearchType}
+                    onSearchTypeSelected={(searchType || searchTerms) ? undefined : (value: SearchType) => actions.updateSearchType(value)}
                     searchType={searchType}
                 />
             </Popover>
@@ -390,7 +391,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
                 getFocus={props.getFocus}
                 searchTerms={searchTerms}
                 searchType={searchType}
-                clearSearchType={() => setSearchType('')}
+                clearSearchType={() => actions.updateSearchType('')}
             >
                 {!Utils.isMobile() && renderHintPopover()}
             </SearchBar>
@@ -431,7 +432,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
                     getMorePostsForSearch={props.actions.getMorePostsForSearch}
                     setSearchFilterType={handleSetSearchFilter}
                     searchFilterType={searchFilterType}
-                    setSearchType={setSearchType}
+                    setSearchType={(value: SearchType) => actions.updateSearchType(value)}
                     searchType={searchType || 'messages'}
                 />
             ) : props.children}

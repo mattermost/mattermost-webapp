@@ -16,10 +16,11 @@ import {
     updateRhsState,
     setRhsExpanded,
     filterFilesSearchByExt,
+    updateSearchType,
 } from 'actions/views/rhs';
 import {autocompleteChannelsForSearch} from 'actions/channel_actions';
 import {autocompleteUsersInTeam} from 'actions/user_actions';
-import {getRhsState, getSearchTerms, getIsSearchingTerm, getIsRhsOpen, getIsRhsExpanded} from 'selectors/rhs';
+import {getRhsState, getSearchTerms, getSearchType, getIsSearchingTerm, getIsRhsOpen, getIsRhsExpanded} from 'selectors/rhs';
 import {RHSStates} from 'utils/constants';
 import {GlobalState} from 'types/store';
 
@@ -34,6 +35,7 @@ function mapStateToProps(state: GlobalState) {
         isRhsOpen: getIsRhsOpen(state),
         isSearchingTerm: getIsSearchingTerm(state),
         searchTerms: getSearchTerms(state),
+        searchType: getSearchType(state),
         searchVisible: Boolean(rhsState) && rhsState !== RHSStates.PLUGIN,
         isMentionSearch: rhsState === RHSStates.MENTION,
         isFlaggedPosts: rhsState === RHSStates.FLAG,
@@ -46,6 +48,7 @@ function mapDispatchToProps(dispatch: Dispatch<AnyAction>) {
     return {
         actions: bindActionCreators({
             updateSearchTerms,
+            updateSearchType,
             updateInitialSearchType,
             showSearchResults,
             showChannelFiles,

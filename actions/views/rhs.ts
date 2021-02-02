@@ -102,6 +102,13 @@ export function updateSearchTerms(terms: string) {
     };
 }
 
+export function updateSearchType(searchType: string) {
+    return {
+        type: ActionTypes.UPDATE_RHS_SEARCH_TYPE,
+        searchType,
+    };
+}
+
 export function updateInitialSearchType(searchType: string) {
     return {
         type: ActionTypes.UPDATE_RHS_INITIAL_SEARCH_TYPE,
