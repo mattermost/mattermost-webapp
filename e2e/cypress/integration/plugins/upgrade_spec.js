@@ -29,11 +29,11 @@ describe('Plugin remains enabled when upgraded', () => {
     before(() => {
         // # Initialize setup and visit town-square
         cy.apiInitSetup().then(({team}) => {
-            cy.visitAndWait(`/${team.name}/channels/town-square`);
+            cy.visit(`/${team.name}/channels/town-square`);
 
             // # If Demo plugin is already enabled , uninstall it
             cy.apiRemovePluginById(pluginIdDemo);
-            cy.visitAndWait('/admin_console/plugins/plugin_management');
+            cy.visit('/admin_console/plugins/plugin_management');
             cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'Plugin Management');
         });
     });

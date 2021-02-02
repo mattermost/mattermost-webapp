@@ -14,7 +14,7 @@ describe('Status dropdown menu', () => {
     before(() => {
         // # Login as test user and visit town-square
         cy.apiInitSetup().then(({team}) => {
-            cy.visitAndWait(`/${team.name}/channels/town-square`);
+            cy.visit(`/${team.name}/channels/town-square`);
         });
     });
 

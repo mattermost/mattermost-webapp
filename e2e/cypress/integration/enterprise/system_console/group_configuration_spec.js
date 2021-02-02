@@ -45,7 +45,7 @@ describe('group configuration', () => {
                 });
 
                 // # Go to the group configuration view of the linked group
-                cy.visitAndWait(`/admin_console/user_management/groups/${groupID}`);
+                cy.visit(`/admin_console/user_management/groups/${groupID}`);
                 cy.get('#adminConsoleWrapper', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').
                     find('.admin-console__header').should('have.text', 'Group Configuration');
 
@@ -65,7 +65,7 @@ describe('group configuration', () => {
                 cy.get('.discard-changes-modal').should('be.visible');
 
                 // # Reload the page
-                cy.visitAndWait(`/admin_console/user_management/groups/${groupID}`);
+                cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
                 // * Check that the team that was added dissappears
                 verifyNoTeamsOrChannelsIsVisible();
@@ -78,7 +78,7 @@ describe('group configuration', () => {
                 savePage();
 
                 // # Reload the page
-                cy.visitAndWait(`/admin_console/user_management/groups/${groupID}`);
+                cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
                 // * Test that the team persisted
                 teamOrChannelIsPresent(teamName);
@@ -110,7 +110,7 @@ describe('group configuration', () => {
                 cy.get('.discard-changes-modal').should('be.visible');
 
                 // # Reload the page
-                cy.visitAndWait(`/admin_console/user_management/groups/${groupID}`);
+                cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
                 // * Check that the channel that was added dissappears
                 verifyNoTeamsOrChannelsIsVisible();
@@ -123,7 +123,7 @@ describe('group configuration', () => {
                 savePage();
 
                 // # Reload the page
-                cy.visitAndWait(`/admin_console/user_management/groups/${groupID}`);
+                cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
                 // * Test that the team persisted
                 teamOrChannelIsPresent(channelName);
@@ -142,7 +142,7 @@ describe('group configuration', () => {
                 cy.apiLinkGroupTeam(groupID, team.id);
 
                 // # Reload the page
-                cy.visitAndWait(`/admin_console/user_management/groups/${groupID}`);
+                cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
                 // * Check that the team was added to the view
                 teamOrChannelIsPresent(team.display_name);
@@ -160,7 +160,7 @@ describe('group configuration', () => {
                 cy.get('#cancelModalButton').click();
 
                 // # Reload the page
-                cy.visitAndWait(`/admin_console/user_management/groups/${groupID}`);
+                cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
                 // * Check that the team is still visible
                 teamOrChannelIsPresent(team.display_name);
@@ -174,7 +174,7 @@ describe('group configuration', () => {
                 cy.apiLinkGroupTeam(groupID, team.id);
 
                 // # Reload the page
-                cy.visitAndWait(`/admin_console/user_management/groups/${groupID}`);
+                cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
                 // * Check that the team was added to the view
                 teamOrChannelIsPresent(team.display_name);
@@ -195,7 +195,7 @@ describe('group configuration', () => {
                 savePage();
 
                 // # Reload the page
-                cy.visitAndWait(`/admin_console/user_management/groups/${groupID}`);
+                cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
                 // * Check that the team is no longer present
                 verifyNoTeamsOrChannelsIsVisible();
@@ -209,7 +209,7 @@ describe('group configuration', () => {
             cy.apiLinkGroupChannel(groupID, testChannel.id);
 
             // # Reload the page
-            cy.visitAndWait(`/admin_console/user_management/groups/${groupID}`);
+            cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
             // * Check that the channel was added to the view
             teamOrChannelIsPresent(testChannel.display_name);
@@ -228,7 +228,7 @@ describe('group configuration', () => {
             cy.get('#cancelModalButton').click();
 
             // # Reload the page
-            cy.visitAndWait(`/admin_console/user_management/groups/${groupID}`);
+            cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
             // * Check that the team is still visible
             teamOrChannelIsPresent(testChannel.display_name);
@@ -239,7 +239,7 @@ describe('group configuration', () => {
             cy.apiLinkGroupChannel(groupID, testChannel.id);
 
             // # Reload the page
-            cy.visitAndWait(`/admin_console/user_management/groups/${groupID}`);
+            cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
             // * Check that the channel was added to the view
             teamOrChannelIsPresent(testChannel.display_name);
@@ -262,7 +262,7 @@ describe('group configuration', () => {
             savePage();
 
             // # Reload the page
-            cy.visitAndWait(`/admin_console/user_management/groups/${groupID}`);
+            cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
             // * Check that the channel is no longer present
             cy.get('.group-teams-and-channels-row', {timeout: TIMEOUTS.ONE_MIN}).scrollIntoView().should('have.length', 1);
@@ -290,7 +290,7 @@ describe('group configuration', () => {
                 savePage();
 
                 // # Reload the page
-                cy.visitAndWait(`/admin_console/user_management/groups/${groupID}`);
+                cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
                 // * Ensure the new role is visible
                 verifyNewRoleIsVisible(teamName, newRole);
@@ -302,7 +302,7 @@ describe('group configuration', () => {
             cy.apiLinkGroupTeam(groupID, testTeam.id);
 
             // # Reload the page
-            cy.visitAndWait(`/admin_console/user_management/groups/${groupID}`);
+            cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
             // * Check that the team was added to the view
             teamOrChannelIsPresent(testTeam.display_name);
@@ -324,7 +324,7 @@ describe('group configuration', () => {
             savePage();
 
             // # Reload the page
-            cy.visitAndWait(`/admin_console/user_management/groups/${groupID}`);
+            cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
             // * Ensure the new role is visible
             verifyNewRoleIsVisible(testTeam.display_name, newRole);
@@ -335,7 +335,7 @@ describe('group configuration', () => {
             cy.apiLinkGroupTeam(groupID, testTeam.id);
 
             // # Reload the page
-            cy.visitAndWait(`/admin_console/user_management/groups/${groupID}`);
+            cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
             // * Check that the team was added to the view
             teamOrChannelIsPresent(testTeam.display_name);
@@ -353,7 +353,7 @@ describe('group configuration', () => {
             cy.get('#cancelModalButton').click();
 
             // # Reload the page
-            cy.visitAndWait(`/admin_console/user_management/groups/${groupID}`);
+            cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
             // * Ensure the new role is visible
             verifyNewRoleIsVisible(testTeam.display_name, 'Member');
@@ -364,7 +364,7 @@ describe('group configuration', () => {
             cy.apiLinkGroupTeam(groupID, testTeam.id);
 
             // # Reload the page
-            cy.visitAndWait(`/admin_console/user_management/groups/${groupID}`);
+            cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
             // * Check that the team was added to the view
             teamOrChannelIsPresent(testTeam.display_name);
@@ -414,7 +414,7 @@ describe('group configuration', () => {
                 savePage();
 
                 // # Reload the page
-                cy.visitAndWait(`/admin_console/user_management/groups/${groupID}`);
+                cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
                 // * Ensure the new role is visible
                 verifyNewRoleIsVisible(channelName, newRole);
@@ -426,7 +426,7 @@ describe('group configuration', () => {
             cy.apiLinkGroupChannel(groupID, testChannel.id);
 
             // # Reload the page
-            cy.visitAndWait(`/admin_console/user_management/groups/${groupID}`);
+            cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
             // * Check that the channel was added to the view
             teamOrChannelIsPresent(testChannel.display_name);
@@ -448,7 +448,7 @@ describe('group configuration', () => {
             savePage();
 
             // # Reload the page
-            cy.visitAndWait(`/admin_console/user_management/groups/${groupID}`);
+            cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
             // * Ensure the new role is visible
             verifyNewRoleIsVisible(testChannel.display_name, newRole);
@@ -459,7 +459,7 @@ describe('group configuration', () => {
             cy.apiLinkGroupChannel(groupID, testChannel.id);
 
             // # Reload the page
-            cy.visitAndWait(`/admin_console/user_management/groups/${groupID}`);
+            cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
             // * Check that the channel was added to the view
             teamOrChannelIsPresent(testChannel.display_name);
@@ -477,7 +477,7 @@ describe('group configuration', () => {
             cy.get('#cancelModalButton').click();
 
             // # Reload the page
-            cy.visitAndWait(`/admin_console/user_management/groups/${groupID}`);
+            cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
             // * Ensure the new role is visible
             verifyNewRoleIsVisible(testChannel.display_name, 'Member');
@@ -488,7 +488,7 @@ describe('group configuration', () => {
             cy.apiLinkGroupChannel(groupID, testChannel.id);
 
             // # Reload the page
-            cy.visitAndWait(`/admin_console/user_management/groups/${groupID}`);
+            cy.visit(`/admin_console/user_management/groups/${groupID}`);
 
             // * Check that the channel was added to the view
             teamOrChannelIsPresent(testChannel.display_name);
