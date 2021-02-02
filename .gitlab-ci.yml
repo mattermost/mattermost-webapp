@@ -1,7 +1,3 @@
-.stagename: &webapp-rules
-  rules:
-    - if: '$TEST == "yes"'
-
 stages:
   - test
   # These need to have separate stages, otherwise artifacts would overwrite each other
@@ -27,7 +23,8 @@ empty:
     - echo "empty"
 
 test: #todo check on how to create junit.xml, there currently is none
-  extends: .check
+  stage: test
+  image: $CI_REGISTRY/mattermost/ci/images/mattermost-build-webapp:20200829_node-10.22
   cache:
     key:
       files:
@@ -60,4 +57,5 @@ test: #todo check on how to create junit.xml, there currently is none
     # unit tests
     - npm run test-ci
   timeout: 3 hours
-  <<: *webapp-rules
+  rules:
+    - if: '$TEST == "yes"'
