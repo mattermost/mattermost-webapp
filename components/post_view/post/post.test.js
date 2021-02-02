@@ -3,6 +3,8 @@
 
 import React from 'react';
 
+import {Posts} from 'mattermost-redux/constants';
+
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import PostPreHeader from 'components/post_view/post_pre_header';
