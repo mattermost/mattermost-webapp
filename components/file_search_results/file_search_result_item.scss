@@ -13,6 +13,7 @@
     align-items: center;
     margin: 0 14px 8px 14px;
     cursor: pointer;
+    max-width: 600px;
     .Menu__content {
         background-color: var(--center-channel-bg);
         border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
