@@ -550,6 +550,7 @@ export const ErrorPageTypes = {
     PERMALINK_NOT_FOUND: 'permalink_not_found',
     TEAM_NOT_FOUND: 'team_not_found',
     CHANNEL_NOT_FOUND: 'channel_not_found',
+    MAX_FREE_USERS_REACHED: 'max_free_users_reached',
 };
 
 export const JobTypes = {
