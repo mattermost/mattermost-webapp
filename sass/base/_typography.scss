@@ -27,15 +27,6 @@ a {
     }
 }
 
-.color--inherit {
-    color: inherit;
-
-    &:hover,
-    &:focus {
-        color: inherit;
-    }
-}
-
 body {
     @include font-smoothing;
     font-family: 'Open Sans', sans-serif;

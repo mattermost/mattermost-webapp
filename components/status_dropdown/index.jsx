@@ -14,17 +14,18 @@ import {openModal} from 'actions/views/modals';
 import StatusDropdown from 'components/status_dropdown/status_dropdown.jsx';
 
 function mapStateToProps(state) {
-    const cUser = getCurrentUser(state);
+    const currentUser = getCurrentUser(state);
 
-    if (!cUser) {
+    if (!currentUser) {
         return {};
     }
 
+    const userId = currentUser.id;
     return {
-        currentUser: cUser,
-        profilePicture: Client4.getProfilePictureUrl(cUser.id, cUser.last_picture_update),
-        autoResetPref: get(state, Preferences.CATEGORY_AUTO_RESET_MANUAL_STATUS, cUser.id, ''),
-        status: getStatusForUserId(state, cUser.id),
+        userId,
+        profilePicture: Client4.getProfilePictureUrl(userId, currentUser.last_picture_update),
+        autoResetPref: get(state, Preferences.CATEGORY_AUTO_RESET_MANUAL_STATUS, userId, ''),
+        status: getStatusForUserId(state, userId),
     };
 }
 
