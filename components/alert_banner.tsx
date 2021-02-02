@@ -8,7 +8,7 @@ import './alert_banner.scss';
 
 type Props = {
     mode: 'danger' | 'warning' | 'info';
-    title: React.ReactNode;
+    title?: React.ReactNode;
     message: React.ReactNode;
     className?: string;
     onDismiss?: () => void;
@@ -28,10 +28,16 @@ const AlertBanner: React.FC<Props> = (props: Props) => {
                 }
             </div>
             <div className='AlertBanner__body'>
-                <div className='AlertBanner__title'>
-                    {title}
-                </div>
-                <div className='AlertBanner__message'>
+                {title &&
+                    <div className='AlertBanner__title'>
+                        {title}
+                    </div>
+                }
+                <div
+                    className={classNames({
+                        AlertBanner__message: Boolean(title),
+                    })}
+                >
                     {message}
                 </div>
             </div>
