@@ -14,7 +14,7 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 
 import {downloadAttachmentAndVerifyItsProperties} from './helpers';
 
-describe('Upload Files - Image', () => {
+describe('Upload Files - Video', () => {
     let testTeam;
 
     beforeEach(() => {
@@ -30,80 +30,83 @@ describe('Upload Files - Image', () => {
         });
     });
 
-    it('MM-T2264_1 - JPG', () => {
+    it('MM-T2264_12 - MP4', () => {
         const properties = {
-            route: 'mm_file_testing/Images/JPG.jpg',
-            originalWidth: 400,
-            originalHeight: 479,
+            route: 'mm_file_testing/Video/MP4.mp4',
+            shouldPreview: true,
         };
-
-        testImage(properties);
+        testVideoFile(properties);
     });
 
-    it('MM-T2264_2 - PNG', () => {
+    it('MM-T2264_13 - AVI', () => {
         const properties = {
-            route: 'mm_file_testing/Images/PNG.png',
-            originalWidth: 400,
-            originalHeight: 479,
+            route: 'mm_file_testing/Video/AVI.avi',
+            shouldPreview: false,
         };
-
-        testImage(properties);
+        testVideoFile(properties);
     });
 
-    it('MM-T2264_4 - GIF', () => {
+    it('MM-T2264_14 - MKV', () => {
         const properties = {
-            route: 'mm_file_testing/Images/GIF.gif',
-            originalWidth: 500,
-            originalHeight: 500,
+            route: 'mm_file_testing/Video/MKV.mkv',
+            shouldPreview: false,
         };
-
-        testImage(properties);
+        testVideoFile(properties);
     });
 
-    it('MM-T2264_5 - TIFF', () => {
+    it('MM-T2264_16 - MPG', () => {
         const properties = {
-            route: 'mm_file_testing/Images/TIFF.tif',
-            originalWidth: 400,
-            originalHeight: 479,
+            route: 'mm_file_testing/Video/MPG.mpg',
+            shouldPreview: false,
         };
+        testVideoFile(properties);
+    });
 
-        testImage(properties);
+    it('MM-T2264_17 - WEBM', () => {
+        const properties = {
+            route: 'mm_file_testing/Video/WEBM.webm',
+            shouldPreview: true,
+        };
+        testVideoFile(properties);
+    });
+
+    it('MM-T2264_18 - WMV', () => {
+        const properties = {
+            route: 'mm_file_testing/Video/WMV.wmv',
+            shouldPreview: false,
+        };
+        testVideoFile(properties);
     });
 });
 
-function testImage(imageProperties) {
-    const {route, originalWidth, originalHeight} = imageProperties;
+function testVideoFile(fileProperties) {
+    const {route, shouldPreview} = fileProperties;
     const filename = route.split('/').pop();
-    const aspectRatio = originalWidth / originalHeight;
 
-    // # Post an image in center channel
+    // # Post file in center channel
     cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(route);
     cy.waitUntil(() => cy.get('#postCreateFooter').then((el) => {
         return el.find('.post-image__thumbnail').length > 0;
     }));
-    cy.get('.post-image').should('be.visible');
     cy.get('#create_post').find('.file-preview').within(() => {
-        // * Img thumbnail exist
-        cy.get('.post-image__thumbnail > div.post-image.normal').should('exist');
+        // * Thumbnail exist
+        cy.get('.post-image__thumbnail > div.video').should('exist');
     });
     cy.postMessage('{enter}');
     cy.wait(TIMEOUTS.ONE_SEC);
 
     cy.getLastPost().within(() => {
-        cy.get('.file-view--single').within(() => {
-            // * Image is posted
-            cy.get('img').should('exist').and((img) => {
-            // * Image aspect ratio is maintained
-                expect(img.width() / img.height()).to.be.closeTo(aspectRatio, 0.01);
-            }).click();
+        cy.get('.post-image__thumbnail').within(() => {
+            // * File is posted
+            cy.get('.file-icon.video').should('exist').click();
         });
     });
 
     cy.get('.modal-body').within(() => {
-        cy.get('.modal-image__content').get('img').should('exist').and((img) => {
-            // * Image aspect ratio is maintained
-            expect(img.width() / img.height()).to.be.closeTo(aspectRatio, 0.01);
-        });
+        if (shouldPreview) {
+            // * Check if the video element exist
+            cy.get('video').should('exist');
+        }
 
         // # Hover over the image
         cy.get('.modal-image__content').trigger('mouseover');
