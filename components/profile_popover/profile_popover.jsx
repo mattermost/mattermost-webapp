@@ -25,6 +25,8 @@ import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 import Avatar from 'components/widgets/users/avatar';
 import Popover from 'components/widgets/popover';
 
+import Markdown from 'components/markdown';
+
 /**
  * The profile popover, or hovercard, that appears with user information when clicking
  * on the username or profile picture of a user.
@@ -383,6 +385,40 @@ class ProfilePopover extends React.PureComponent {
             );
         }
 
+        if (this.props.user.props && 'custom_status' in this.props.user.props) {
+            let statusEmoji = null;
+            const customStatus = JSON.parse(this.props.user.props.custom_status);
+            if (customStatus.emoji !== '') {
+                statusEmoji = customStatus.emoji;
+            }
+            dataContent.push(
+                <div
+                    key='user-custom-status'
+                >
+                    <FormattedMessage
+                        id='user_profile.custom_status'
+                        defaultMessage='Status: '
+                    />
+                    {statusEmoji &&
+                        <span
+                            id='profilePopUpStatusEmoji'
+                        >
+                            <Markdown
+                                message={':' + statusEmoji + ': '}
+                                options={{
+                                    mentionHighlight: false,
+                                    markdown: false,
+                                    emoji: true,
+                                    autolinkedUrlSchemes: [],
+                                }}
+                            />
+                        </span>
+                    }
+                    {customStatus.text}
+                </div>,
+            );
+        }
+
         if (this.props.user.id === this.props.currentUserId && !haveOverrideProp) {
             dataContent.push(
                 <div
@@ -489,7 +525,6 @@ class ProfilePopover extends React.PureComponent {
                 status={this.props.hideStatus ? null : this.props.status}
             />,
         );
-
         let roleTitle;
         if (this.props.user.is_bot) {
             roleTitle = <span className='user-popover__role'>{Utils.localizeMessage('bots.is_bot', 'BOT')}</span>;

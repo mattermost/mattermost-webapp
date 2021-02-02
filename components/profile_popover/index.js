@@ -24,6 +24,7 @@ import {areTimezonesEnabledAndSupported} from 'selectors/general';
 import {getSelectedPost, getRhsState} from 'selectors/rhs';
 
 import ProfilePopover from './profile_popover.jsx';
+import { getCustomStatus } from 'mattermost-redux/actions/users';
 
 function mapStateToProps(state, ownProps) {
     const userId = ownProps.userId;
