@@ -103,34 +103,45 @@ describe('Authentication', () => {
     });
 
     it('MM-T1770 - Default password settings', () => {
-        cy.apiUpdateConfig({
-            PasswordSettings: {
-                MinimumLength: null,
-                Lowercase: null,
-                Number: null,
-                Uppercase: null,
-                Symbol: null,
-            },
+        cy.apiGetClientLicense().then(({isCloudLicensed}) => {
+            const newConfig = {
+                PasswordSettings: {
+                    MinimumLength: null,
+                    Lowercase: null,
+                    Number: null,
+                    Uppercase: null,
+                    Symbol: null,
+                },
+            };
+
+            if (!isCloudLicensed) {
+                newConfig.ServiceSettings = {
+                    MaximumLoginAttempts: null,
+                };
+            }
+
+            cy.apiUpdateConfig(newConfig);
+
+            // * Ensure password has a minimum length of 10 and all password requirements are checked
+            cy.apiGetConfig().then(({config: {PasswordSettings}}) => {
+                expect(PasswordSettings.MinimumLength).equal(10);
+                expect(PasswordSettings.Lowercase).equal(true);
+                expect(PasswordSettings.Number).equal(true);
+                expect(PasswordSettings.Uppercase).equal(true);
+                expect(PasswordSettings.Symbol).equal(true);
+            });
+
+            cy.visit('/admin_console/authentication/password');
+            cy.get('.admin-console__header').should('be.visible').and('have.text', 'Password');
+
+            cy.findByTestId('passwordMinimumLengthinput').should('be.visible').and('have.value', '10');
+            cy.findByRole('checkbox', {name: 'At least one lowercase letter'}).should('be.checked');
+            cy.findByRole('checkbox', {name: 'At least one uppercase letter'}).should('be.checked');
+            cy.findByRole('checkbox', {name: 'At least one number'}).should('be.checked');
+            cy.findByRole('checkbox', {name: 'At least one symbol (e.g. "~!@#$%^&*()")'}).should('be.checked');
+
+            cy.findByTestId('maximumLoginAttemptsinput').should('be.visible').and('have.value', isCloudLicensed ? '' : '10');
         });
-
-        // * Ensure password has a minimum length of 10 and all password requirements are checked
-        cy.apiGetConfig().then(({config: {PasswordSettings}}) => {
-            expect(PasswordSettings.MinimumLength).equal(10);
-            expect(PasswordSettings.Lowercase).equal(true);
-            expect(PasswordSettings.Number).equal(true);
-            expect(PasswordSettings.Uppercase).equal(true);
-            expect(PasswordSettings.Symbol).equal(true);
-        });
-
-        cy.visit('/admin_console/authentication/password');
-        cy.get('.admin-console__header').should('be.visible').and('have.text', 'Password');
-
-        cy.findByTestId('passwordMinimumLengthinput').should('be.visible').and('have.value', '10');
-        cy.findByRole('checkbox', {name: 'At least one lowercase letter'}).should('be.checked');
-        cy.findByRole('checkbox', {name: 'At least one uppercase letter'}).should('be.checked');
-        cy.findByRole('checkbox', {name: 'At least one number'}).should('be.checked');
-        cy.findByRole('checkbox', {name: 'At least one symbol (e.g. "~!@#$%^&*()")'}).should('be.checked');
-        cy.findByTestId('maximumLoginAttemptsinput').should('be.visible').and('have.value', '');
     });
 
     it('MM-T1783 - Username validation shows errors for various username requirements', () => {
