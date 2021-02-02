@@ -54,7 +54,7 @@ describe('MM-18045 Verify Guest User Identification in different screens', () =>
         });
     });
 
-    it('Verify Guest Badge in Channel Members dropdown and dialog', () => {
+    it('MM-T1370 Verify Guest Badge in Channel Members dropdown and dialog', () => {
         cy.get('#sidebarItem_town-square').click({force: true});
 
         // # Open Channel Members List
@@ -106,7 +106,7 @@ describe('MM-18045 Verify Guest User Identification in different screens', () =>
         });
     });
 
-    it('Verify Guest Badge in Posts in Center Channel, RHS and User Profile Popovers', () => {
+    it('MM-T1372 Verify Guest Badge in Posts in Center Channel, RHS and User Profile Popovers', () => {
         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
         // # Get yesterdays date in UTC
@@ -165,7 +165,7 @@ describe('MM-18045 Verify Guest User Identification in different screens', () =>
         cy.get('#quickSwitchModalLabel > .close').click();
     });
 
-    it('Verify Guest Badge in DM Search dialog', () => {
+    it('MM-T1377 Verify Guest Badge in DM Search dialog', () => {
         // #Click on plus icon of Direct Messages
         cy.get('#addDirectChannel').click().wait(TIMEOUTS.HALF_SEC);
 

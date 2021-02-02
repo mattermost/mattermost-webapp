@@ -21,13 +21,10 @@
 .TeamIcon__initials {
     &.TeamIcon__initials__lg {
         font-size: 3em;
-        width: 94px;
-        height: 94px;
+
     }
     &.TeamIcon__initials__sm {
         font-size: 14px;
-        width: 40px;
-        height: 40px;
     }
 }
 
@@ -45,7 +42,7 @@
     transform-origin: center center;
     position: relative;
 
-    &:hover {
+    &:not(.no-hover):hover {
         box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.32);
         border-color: var(--sidebar-header-bg);
         background-color: rgba(255, 255, 255, 0.32);
@@ -60,18 +57,23 @@
             left: -3px;
             top: -3px;
         }
+
+        &.TeamIcon__lg:before {
+            width: 100px;
+            height: 100px;
+        }
     }
 
-    &:active {
+    &:not(.no-hover):active {
         border-color: var(--sidebar-header-bg);
         box-shadow: 0 0 0 3px rgba(var(--sidebar-text-active-border-rgb), 0.72);
     }
 
-    &.active {
+    &:not(.no-hover).active {
         border-color: var(--sidebar-header-bg);
         box-shadow: 0 0 0 3px rgba(var(--sidebar-text-active-border-rgb), 0.72);
         background-color: rgba(255, 255, 255, 0.32);
-        
+
         &:before {
             content: "";
             position: absolute;
@@ -81,6 +83,11 @@
             border-radius: 8px;
             left: -3px;
             top: -3px;
+        }
+
+        &.TeamIcon__lg:before {
+            width: 100px;
+            height: 100px;
         }
     }
 
@@ -96,15 +103,22 @@
 
     &.withImage {
         border: none;
-        width: 40px;
-        height: 40px;
+        &.TeamIcon__lg {
+            width: 100px;
+            height: 100px;
+        }
+
+        &.TeamIcon__sm {
+            height: 40px;
+            width: 40px;
+        }
 
         .TeamIcon__image {
             transition: box-shadow 200ms;
             border-radius: 8px;
         }
 
-        &:hover {
+        &:not(.no-hover):hover {
             box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.32);
 
             &:before {
@@ -138,13 +152,7 @@
         background-repeat: no-repeat;
         width: 100%;
         height: 100%;
-        &.TeamIcon__lg {
-            width: 94px;
-        }
 
-        &.TeamIcon__sm {
-            width: 34px;
-        }
 
     }
 }
