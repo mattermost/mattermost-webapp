@@ -7,14 +7,8 @@ stages:
   # These need to have separate stages, otherwise artifacts would overwrite each other
   - te-build
   - te-s3
-  - ee-build-test # rudder-rc, stripe-test
-  - ee-s3-test
-  - ee-build-live # rudder-live, stripe-live
-  - ee-s3-live
-  - ee-build-onprem-rc # rudder-rc, stripe-test
-  - ee-s3-onprem-rc
-  - ee-build-onprem # rudder-live, stripe-test
-  - ee-s3-onprem
+  - ee-build
+  - ee-s3
   - create-vars
   - trigger
 
@@ -26,16 +20,14 @@ include:
   - project: mattermost/ci/mattermost-webapp
     ref: master
     file: private.yml
-  - local: .gitlab-ci/check.gitlab-ci.yml
 
 empty:
   stage: create-vars
   script:
     - echo "empty"
 
-prepare:
-  stage: .pre
-  image: $CI_REGISTRY/mattermost/ci/images/mattermost-build-webapp:20200829_node-10.22
+test: #todo check on how to create junit.xml, there currently is none
+  extends: .check
   cache:
     key:
       files:
@@ -45,30 +37,8 @@ prepare:
       - .npm/
   script:
     - npm ci --cache .npm --prefer-offline && cd node_modules/mattermost-redux && npm i && npm run build && cd -
-  <<: *webapp-rules
 
-lint:
-  extends: .check
-  script:
-    - npm run check
-  <<: *webapp-rules
-
-test: #todo check on how to create junit.xml, there currently is none
-  extends: .check
-  script:
-    - npm run test-ci
-  timeout: 3 hours
-  <<: *webapp-rules
-
-type-check:
-  extends: .check
-  script:
-    - npm run check-types
-  <<: *webapp-rules
-
-i18n-check:
-  extends: .check
-  script:
+    # i18n
     - cp i18n/en.json /tmp/en.json
     - mkdir -p /tmp/fake-mobile-dir/assets/base/i18n/
     - echo '{}' > /tmp/fake-mobile-dir/assets/base/i18n/en.json
@@ -80,4 +50,14 @@ i18n-check:
     - npm run mmjstool -- i18n check-empty-src --webapp-dir . --mobile-dir /tmp/fake-mobile-dir
 
     - rm -rf tmp
+
+    # typescript
+    - npm run check-types
+
+    # lint
+    - npm run check
+
+    # unit tests
+    - npm run test-ci
+  timeout: 3 hours
   <<: *webapp-rules
