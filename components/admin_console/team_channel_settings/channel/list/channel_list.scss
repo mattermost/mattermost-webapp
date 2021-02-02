@@ -5,7 +5,7 @@
             cursor: pointer;
             padding-left: 16px;
         }
-        
+
         .DataGrid_cell {
             .TeamList_editRow {
                 padding-right: 20px;
@@ -16,13 +16,18 @@
                 color: #333333;
                 opacity: 0.8;
             }
-            
+
             .channel-icon {
                 display: inline-flex;
                 justify-content: center;
                 margin-right: 10px;
                 opacity: 0.8;
                 width: 16px;
+                font-size: 120%;
+            }
+
+            .shared-channel-icon {
+                color: black;
             }
 
             .row-content {
@@ -32,4 +37,3 @@
         }
     }
 }
-

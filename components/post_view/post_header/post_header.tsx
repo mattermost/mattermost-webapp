@@ -16,33 +16,33 @@ import Badge from 'components/widgets/badges/badge';
 export type Props = {
 
     /*
-    * The post to render the header for
-    */
+     * The post to render the header for
+     */
     post: Post;
 
     /*
-    * Function called when the comment icon is clicked
-    */
+     * Function called when the comment icon is clicked
+     */
     handleCommentClick: EventHandler<MouseEvent>;
 
     /*
-    * Function called when the card icon is clicked
-    */
+     * Function called when the card icon is clicked
+     */
     handleCardClick: (post: Post) => void;
 
     /*
-    * Function called when the post options dropdown is opened
-    */
+     * Function called when the post options dropdown is opened
+     */
     handleDropdownOpened: (opened: boolean) => void;
 
     /*
-    * Set to render compactly
-    */
+     * Set to render compactly
+     */
     compactDisplay?: boolean;
 
     /*
-    * The number of replies in the same thread as this post
-    */
+     * The number of replies in the same thread as this post
+     */
     replyCount?: number;
 
     /**
@@ -56,8 +56,8 @@ export type Props = {
     hover: boolean;
 
     /*
-    * Set to render the post time when not hovering
-    */
+     * Set to render the post time when not hovering
+     */
     showTimeWithoutHover: boolean;
 
     /**

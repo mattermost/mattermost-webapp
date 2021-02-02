@@ -810,3 +810,207 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
   />
 </div>
 `;
+
+exports[`admin_console/team_channel_settings/channel/ChannelList should match snapshot with shared channel 1`] = `
+<div
+  className="ChannelsList"
+>
+  <DataGrid
+    columns={
+      Array [
+        Object {
+          "field": "name",
+          "fixed": true,
+          "name": <FormattedMessage
+            defaultMessage="Name"
+            id="admin.channel_settings.channel_list.nameHeader"
+          />,
+          "width": 4,
+        },
+        Object {
+          "field": "team",
+          "fixed": true,
+          "name": <FormattedMessage
+            defaultMessage="Team"
+            id="admin.channel_settings.channel_list.teamHeader"
+          />,
+          "width": 1.5,
+        },
+        Object {
+          "field": "management",
+          "fixed": true,
+          "name": <FormattedMessage
+            defaultMessage="Management"
+            id="admin.channel_settings.channel_list.managementHeader"
+          />,
+        },
+        Object {
+          "field": "edit",
+          "fixed": true,
+          "name": "",
+          "textAlign": "right",
+        },
+      ]
+    }
+    endCount={1}
+    filterProps={
+      Object {
+        "keys": Array [
+          "teams",
+          "channels",
+          "management",
+        ],
+        "onFilter": [Function],
+        "options": Object {
+          "channels": Object {
+            "keys": Array [
+              "public",
+              "private",
+              "deleted",
+            ],
+            "name": "Channels",
+            "values": Object {
+              "deleted": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Archived"
+                  id="admin.channel_list.archived"
+                />,
+                "value": false,
+              },
+              "private": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Private"
+                  id="admin.channel_list.private"
+                />,
+                "value": false,
+              },
+              "public": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Public"
+                  id="admin.channel_list.public"
+                />,
+                "value": false,
+              },
+            },
+          },
+          "management": Object {
+            "keys": Array [
+              "group_constrained",
+              "exclude_group_constrained",
+            ],
+            "name": "Management",
+            "values": Object {
+              "exclude_group_constrained": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Manual Invites"
+                  id="admin.channel_list.manual_invites"
+                />,
+                "value": false,
+              },
+              "group_constrained": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Group Sync"
+                  id="admin.channel_list.group_sync"
+                />,
+                "value": false,
+              },
+            },
+          },
+          "teams": Object {
+            "keys": Array [
+              "team_ids",
+            ],
+            "name": "Teams",
+            "type": Object {
+              "$$typeof": Symbol(react.memo),
+              "WrappedComponent": [Function],
+              "compare": null,
+              "displayName": "Connect(TeamFilterDropdown)",
+              "type": [Function],
+            },
+            "values": Object {
+              "team_ids": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Teams"
+                  id="admin.team_settings.title"
+                />,
+                "value": Array [],
+              },
+            },
+          },
+        },
+      }
+    }
+    loading={false}
+    nextPage={[Function]}
+    onSearch={[Function]}
+    page={0}
+    placeholderEmpty={
+      <FormattedMessage
+        defaultMessage="No channels found"
+        id="admin.channel_settings.channel_list.no_channels_found"
+      />
+    }
+    previousPage={[Function]}
+    rows={
+      Array [
+        Object {
+          "cells": Object {
+            "edit": <span
+              className="group-actions TeamList_editRow"
+              data-testid="DNedit"
+            >
+              <Link
+                to="/admin_console/user_management/channels/123"
+              >
+                <FormattedMessage
+                  defaultMessage="Edit"
+                  id="admin.channel_settings.channel_row.configure"
+                />
+              </Link>
+            </span>,
+            "id": "123",
+            "management": <span
+              className="group-description adjusted row-content"
+            >
+              <FormattedMessage
+                defaultMessage="Manual Invites"
+                id="admin.channel_settings.channel_row.managementMethod.manual"
+              />
+            </span>,
+            "name": <span
+              className="group-name overflow--ellipsis row-content"
+              data-testid="channel-display-name"
+            >
+              <SharedChannelIndicator
+                channelType="O"
+                className="channel-icon"
+              />
+              <span
+                className="TeamList_channelDisplayName"
+              >
+                DN
+              </span>
+            </span>,
+            "team": <span
+              className="group-description row-content"
+            >
+              teamDisplayName
+            </span>,
+          },
+          "onClick": [Function],
+        },
+      ]
+    }
+    rowsContainerStyles={
+      Object {
+        "minHeight": "40px",
+      }
+    }
+    searchPlaceholder=""
+    startCount={1}
+    term=""
+    total={1}
+  />
+</div>
+`;

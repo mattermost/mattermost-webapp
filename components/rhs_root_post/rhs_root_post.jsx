@@ -451,4 +451,3 @@ class RhsRootPost extends React.PureComponent {
 }
 
 export default injectIntl(RhsRootPost);
-

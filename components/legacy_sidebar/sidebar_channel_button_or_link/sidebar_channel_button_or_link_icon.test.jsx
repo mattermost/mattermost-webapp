@@ -13,6 +13,7 @@ describe('component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannel
         const wrapper = shallow(
             <SidebarChannelButtonOrLinkIcon
                 channelIsArchived={false}
+                channelIsShared={false}
                 channelType={Constants.DM_CHANNEL}
                 channelId={'test-channel-id'}
                 channelStatus={'test'}
@@ -26,6 +27,7 @@ describe('component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannel
         const wrapper = shallow(
             <SidebarChannelButtonOrLinkIcon
                 channelIsArchived={false}
+                channelIsShared={false}
                 channelType={Constants.DM_CHANNEL}
                 channelId={'test-channel-id'}
                 teammateId={'test'}
@@ -40,6 +42,7 @@ describe('component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannel
         const wrapper = shallow(
             <SidebarChannelButtonOrLinkIcon
                 channelIsArchived={false}
+                channelIsShared={false}
                 channelType={Constants.GM_CHANNEL}
                 channelId={'test-channel-id'}
                 membersCount={3}
@@ -53,6 +56,20 @@ describe('component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannel
         const wrapper = shallow(
             <SidebarChannelButtonOrLinkIcon
                 channelIsArchived={false}
+                channelIsShared={false}
+                channelType={Constants.PRIVATE_CHANNEL}
+                channelId={'test-channel-id'}
+                hasDraft={false}
+            />,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot, on shared private channel', () => {
+        const wrapper = shallow(
+            <SidebarChannelButtonOrLinkIcon
+                channelIsArchived={false}
+                channelIsShared={true}
                 channelType={Constants.PRIVATE_CHANNEL}
                 channelId={'test-channel-id'}
                 hasDraft={false}
@@ -65,6 +82,7 @@ describe('component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannel
         const wrapper = shallow(
             <SidebarChannelButtonOrLinkIcon
                 channelIsArchived={false}
+                channelIsShared={false}
                 channelType={Constants.OPEN_CHANNEL}
                 channelId={'test-channel-id'}
                 hasDraft={false}
@@ -77,6 +95,20 @@ describe('component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannel
         const wrapper = shallow(
             <SidebarChannelButtonOrLinkIcon
                 channelIsArchived={true}
+                channelIsShared={false}
+                channelType={Constants.OPEN_CHANNEL}
+                channelId={'test-channel-id'}
+                hasDraft={false}
+            />,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot, on shared public channel', () => {
+        const wrapper = shallow(
+            <SidebarChannelButtonOrLinkIcon
+                channelIsArchived={false}
+                channelIsShared={true}
                 channelType={Constants.OPEN_CHANNEL}
                 channelId={'test-channel-id'}
                 hasDraft={false}
@@ -89,6 +121,7 @@ describe('component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannel
         const wrapper = shallow(
             <SidebarChannelButtonOrLinkIcon
                 channelIsArchived={false}
+                channelIsShared={false}
                 channelType={Constants.OPEN_CHANNEL}
                 channelId={'test-channel-id'}
                 hasDraft={true}

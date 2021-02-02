@@ -24,6 +24,7 @@ import FlagIcon from 'components/widgets/icons/flag_icon';
 import MentionsIcon from 'components/widgets/icons/mentions_icon';
 import SearchIcon from 'components/widgets/icons/search_icon';
 import ArchiveIcon from 'components/widgets/icons/archive_icon';
+import SharedChannelIndicator from 'components/shared_channel_indicator';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 import QuickSwitchModal from 'components/quick_switch_modal';
 import {ChannelHeaderDropdown} from 'components/channel_header_dropdown';
@@ -335,6 +336,16 @@ class ChannelHeader extends React.PureComponent {
         let archivedIcon = null;
         if (channelIsArchived) {
             archivedIcon = (<ArchiveIcon className='icon icon__archive icon channel-header-archived-icon svg-text-color'/>);
+        }
+        let sharedIcon = null;
+        if (channel.shared) {
+            sharedIcon = (
+                <SharedChannelIndicator
+                    className='shared-channel-icon'
+                    channelType={channel.type}
+                    withTooltip={true}
+                />
+            );
         }
         const isDirect = (channel.type === Constants.DM_CHANNEL);
         const isGroup = (channel.type === Constants.GM_CHANNEL);
@@ -716,6 +727,7 @@ class ChannelHeader extends React.PureComponent {
                                 <span>
                                     {archivedIcon}
                                     {channelTitle}
+                                    {sharedIcon}
                                 </span>
                             </strong>
                             <span

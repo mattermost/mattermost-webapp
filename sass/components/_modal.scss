@@ -238,6 +238,19 @@
                 color: $white;
                 font-weight: 600;
             }
+
+            .shared-channel-icon {
+                color: #3D3C40;
+                font-size: 16px;
+                width: 16px;
+                height: 16px;
+                line-height: 16px;
+                margin: 0 8px;
+
+                &:before {
+                    margin: 0;
+                }
+            }
         }
 
         .modal-action {
@@ -798,6 +811,20 @@
         overflow: hidden;
         padding-left: 10px;
         text-overflow: ellipsis;
+
+        .shared-channel-icon {
+            font-size: 16px;
+            width: 16px;
+            height: 16px;
+            line-height: 16px;
+            margin-left: 8px;
+            margin-top: 0px;
+            color: rgba(61, 60, 64, 0.72);
+
+            &:before {
+                margin: 0;
+            }
+        }
 
         .more-modal__name {
             margin: 5px 0;

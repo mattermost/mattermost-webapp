@@ -9,6 +9,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
     badge={false}
     channelId="test-channel-id"
     channelIsArchived={false}
+    channelIsShared={false}
     channelName="channel-name"
     channelStatus="test"
     channelType="D"
@@ -38,6 +39,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
     badge={false}
     channelId="test-channel-id"
     channelIsArchived={false}
+    channelIsShared={false}
     channelName="channel-name"
     channelStatus="test"
     channelType="D"
@@ -65,6 +67,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
     badge={false}
     channelId="test"
     channelIsArchived={false}
+    channelIsShared={false}
     channelName="town-square"
     channelStatus="test"
     channelType="O"
@@ -97,6 +100,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
     badge={true}
     channelId="test-channel-id"
     channelIsArchived={false}
+    channelIsShared={false}
     channelName="channel-name"
     channelStatus="test"
     channelType="D"
@@ -124,6 +128,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
     badge={false}
     channelId="test-channel-id"
     channelIsArchived={false}
+    channelIsShared={false}
     channelName="channel-name"
     channelStatus="test"
     channelType="D"
@@ -151,6 +156,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
     badge={false}
     channelId="test-channel-id"
     channelIsArchived={false}
+    channelIsShared={false}
     channelName="channel-name"
     channelStatus="test"
     channelType="D"
@@ -178,6 +184,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
     badge={false}
     channelId="test-channel-id"
     channelIsArchived={false}
+    channelIsShared={false}
     channelName="town-square"
     channelStatus="test"
     channelType="P"
@@ -205,6 +212,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
     badge={false}
     channelId="test-channel-id"
     channelIsArchived={false}
+    channelIsShared={false}
     channelName="town-square"
     channelStatus="test"
     channelType="O"
@@ -232,6 +240,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
     badge={false}
     channelId="test-channel-id"
     channelIsArchived={false}
+    channelIsShared={false}
     channelName="channel-name"
     channelStatus="test"
     channelType="D"
@@ -259,6 +268,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
     badge={false}
     channelId="test-channel-id"
     channelIsArchived={false}
+    channelIsShared={false}
     channelName="channel-name"
     channelStatus="test"
     channelType="P"
@@ -286,6 +296,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
     badge={false}
     channelId="test-channel-id"
     channelIsArchived={false}
+    channelIsShared={false}
     channelName="channel-name"
     channelStatus="test"
     channelType="P"
@@ -313,6 +324,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
     badge={false}
     channelId="test-channel-id"
     channelIsArchived={false}
+    channelIsShared={false}
     channelName="channel-name"
     channelStatus="test"
     channelType="D"
@@ -340,6 +352,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
     badge={false}
     channelId="test-channel-id"
     channelIsArchived={false}
+    channelIsShared={false}
     channelName="channel-name"
     channelStatus="test"
     channelType="P"
@@ -367,6 +380,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
     badge={false}
     channelId="test-channel-id"
     channelIsArchived={false}
+    channelIsShared={false}
     channelName="channel-name"
     channelStatus="test"
     channelType="P"
@@ -394,6 +408,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
     badge={false}
     channelId="test-channel-id"
     channelIsArchived={false}
+    channelIsShared={false}
     channelName="channel-name"
     channelStatus="test"
     channelType="O"
@@ -421,6 +436,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
     badge={false}
     channelId="test-channel-id"
     channelIsArchived={false}
+    channelIsShared={false}
     channelName="channel-name"
     channelStatus="test"
     channelType="O"
