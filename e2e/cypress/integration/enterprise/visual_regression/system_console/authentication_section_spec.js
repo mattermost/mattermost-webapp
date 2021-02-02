@@ -60,9 +60,9 @@ describe('System Console - Authentication', () => {
         },
         {
             section: 'Authentication',
-            header: 'OAuth 2.0',
-            sidebar: 'OAuth 2.0',
-            url: 'admin_console/authentication/oauth',
+            header: 'OpenID Connect',
+            sidebar: 'OpenID Connect',
+            url: 'admin_console/authentication/openid',
         },
         {
             section: 'Authentication',
