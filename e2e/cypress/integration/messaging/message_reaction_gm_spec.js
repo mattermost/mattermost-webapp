@@ -32,14 +32,14 @@ describe('Emoji reactions to posts/messages in GM channels', () => {
 
                 // # Login as userOne and town-square
                 cy.apiLogin(userOne);
-                cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+                cy.visit(`/${testTeam.name}/channels/town-square`);
             });
         });
     });
 
     it('MM-T471 add a reaction to a message in a GM', () => {
         // # Switch to the GM
-        cy.visitAndWait(`/${testTeam.name}/messages/${testGroupChannel.name}`);
+        cy.visit(`/${testTeam.name}/messages/${testGroupChannel.name}`);
 
         // # Post a message
         cy.postMessage('This is a post');

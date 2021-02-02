@@ -290,7 +290,7 @@ class ProfilePopover extends React.PureComponent {
                     key='user-popover-fullname'
                 >
                     <div
-                        data-testId={`popover-fullname-${this.props.user.username}`}
+                        data-testid={`popover-fullname-${this.props.user.username}`}
                         className='overflow--ellipsis text-nowrap'
                     >
                         <strong>{fullname}</strong>

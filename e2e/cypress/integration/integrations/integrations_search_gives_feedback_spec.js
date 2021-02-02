@@ -60,7 +60,7 @@ describe('Integrations', () => {
             });
 
             // # Visit the integrations page
-            cy.visitAndWait(`/${teamName}/integrations`);
+            cy.visit(`/${teamName}/integrations`);
         });
     });
 

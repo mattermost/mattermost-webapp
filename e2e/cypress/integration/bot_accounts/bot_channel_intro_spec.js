@@ -38,7 +38,7 @@ describe('Bot channel intro and avatar', () => {
 
     it('MM-T1839 Bots have default profile image visible', () => {
         // # Open bot DM channel
-        cy.visitAndWait(`/${team.name}/messages/@${bot.username}`);
+        cy.visit(`/${team.name}/messages/@${bot.username}`);
 
         // # Get channel intro and bot-post Avatars
         cy.get(`#channelIntro .profile-icon > img.Avatar, img.Avatar[alt="${bot.username} profile image"]`).

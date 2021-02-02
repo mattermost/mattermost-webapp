@@ -24,7 +24,7 @@ describe('Account Settings > General > Position', () => {
             cy.apiLogin(testUser);
 
             // # Visit town square
-            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+            cy.visit(`/${testTeam.name}/channels/town-square`);
         });
     });
 

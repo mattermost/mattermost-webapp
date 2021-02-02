@@ -23,7 +23,7 @@ describe('Channel sidebar', () => {
 
         // # Login as test user and visit town-square
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visitAndWait(`/${team.name}/channels/town-square`);
+            cy.visit(`/${team.name}/channels/town-square`);
         });
     });
 
@@ -64,7 +64,7 @@ describe('Channel sidebar', () => {
         cy.get('#headerTeamName').should('contain', teamName);
 
         // # Switch to Off Topic
-        cy.visitAndWait(`/${teamName}/channels/off-topic`);
+        cy.visit(`/${teamName}/channels/off-topic`);
 
         // # Wait for the channel to change
         cy.get('#channelHeaderTitle', {timeout: TIMEOUTS.HALF_MIN}).should('contain', 'Off-Topic');
