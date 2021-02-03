@@ -642,7 +642,7 @@
         color: rgba(var(--sidebar-text-rgb), 0.6);
         background-color: var(--sidebar-bg);
         top: 0;
-        box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.33);
+        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.33);
         transition: box-shadow 0.25s ease-in-out;
         z-index: 1;
         display: flex;
@@ -659,11 +659,12 @@
             overflow: hidden;
             text-overflow: ellipsis;
             width: 100%;
+            padding-left: 16px;
         }
 
         &.dragging {
             border-radius: 4px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.12);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.12);
             color: var(--sidebar-text);
         }
 
@@ -673,11 +674,15 @@
             &.hide-arrow {
                 visibility: hidden;
             }
+
+            + .SidebarChannelGroupHeader_text {
+                padding-left: 0;
+            }
         }
     }
 
     .SidebarChannelGroupHeader--static {
-        padding-left: 16px;
+        padding-left: 0;
     }
 
     button.SidebarChannelGroupHeader_groupButton > div {
