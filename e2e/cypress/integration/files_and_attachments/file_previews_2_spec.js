@@ -30,7 +30,7 @@ describe('Upload Files - Generic', () => {
         });
     });
 
-    it('MM-T2264_7 - PDF', () => {
+    it('MM-T3824_1 - PDF', () => {
         const route = 'mm_file_testing/Documents/PDF.pdf';
         const filename = route.split('/').pop();
 
@@ -74,7 +74,7 @@ describe('Upload Files - Generic', () => {
         });
     });
 
-    it('MM-T2264_8 - Excel', () => {
+    it('MM-T3824_2 - Excel', () => {
         const properties = {
             route: 'mm_file_testing/Documents/Excel.xlsx',
             type: 'excel',
@@ -82,7 +82,7 @@ describe('Upload Files - Generic', () => {
         testGenericFile(properties);
     });
 
-    it('MM-T2264_9 - PPT', () => {
+    it('MM-T3824_3 - PPT', () => {
         const properties = {
             route: 'mm_file_testing/Documents/PPT.pptx',
             type: 'ppt',
@@ -90,7 +90,7 @@ describe('Upload Files - Generic', () => {
         testGenericFile(properties);
     });
 
-    it('MM-T2264_10 - Word', () => {
+    it('MM-T3824_4 - Word', () => {
         const properties = {
             route: 'mm_file_testing/Documents/Word.docx',
             type: 'word',
@@ -98,7 +98,7 @@ describe('Upload Files - Generic', () => {
         testGenericFile(properties);
     });
 
-    it('MM-T2264_11 - Text', () => {
+    it('MM-T3824_5 - Text', () => {
         const route = 'mm_file_testing/Documents/Text.txt';
         const filename = route.split('/').pop();
 

@@ -30,7 +30,7 @@ describe('Upload Files - Video', () => {
         });
     });
 
-    it('MM-T2264_12 - MP4', () => {
+    it('MM-T3826_1 - MP4', () => {
         const properties = {
             route: 'mm_file_testing/Video/MP4.mp4',
             shouldPreview: true,
@@ -38,7 +38,7 @@ describe('Upload Files - Video', () => {
         testVideoFile(properties);
     });
 
-    it('MM-T2264_13 - AVI', () => {
+    it('MM-T3826_2 - AVI', () => {
         const properties = {
             route: 'mm_file_testing/Video/AVI.avi',
             shouldPreview: false,
@@ -46,7 +46,7 @@ describe('Upload Files - Video', () => {
         testVideoFile(properties);
     });
 
-    it('MM-T2264_14 - MKV', () => {
+    it('MM-T3826_3 - MKV', () => {
         const properties = {
             route: 'mm_file_testing/Video/MKV.mkv',
             shouldPreview: false,
@@ -54,7 +54,7 @@ describe('Upload Files - Video', () => {
         testVideoFile(properties);
     });
 
-    it('MM-T2264_16 - MPG', () => {
+    it('MM-T3826_5 - MPG', () => {
         const properties = {
             route: 'mm_file_testing/Video/MPG.mpg',
             shouldPreview: false,
@@ -62,7 +62,7 @@ describe('Upload Files - Video', () => {
         testVideoFile(properties);
     });
 
-    it('MM-T2264_17 - WEBM', () => {
+    it('MM-T3826_6 - WEBM', () => {
         const properties = {
             route: 'mm_file_testing/Video/WEBM.webm',
             shouldPreview: true,
@@ -70,7 +70,7 @@ describe('Upload Files - Video', () => {
         testVideoFile(properties);
     });
 
-    it('MM-T2264_18 - WMV', () => {
+    it('MM-T3826_7 - WMV', () => {
         const properties = {
             route: 'mm_file_testing/Video/WMV.wmv',
             shouldPreview: false,

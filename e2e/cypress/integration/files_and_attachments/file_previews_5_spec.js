@@ -49,7 +49,7 @@ describe('Upload Files - Failing cases', () => {
         testImage(properties);
     });
 
-    it('MM-T2264_15 - MOV', () => {
+    it('MM-T3826_4 - MOV', () => {
         const properties = {
             route: 'mm_file_testing/Video/MOV.mov',
             shouldPreview: true,
@@ -57,7 +57,7 @@ describe('Upload Files - Failing cases', () => {
         testVideoFile(properties);
     });
 
-    it('MM-T2264_20 - M4A', () => {
+    it('MM-T3825_2 - M4A', () => {
         const properties = {
             route: 'mm_file_testing/Audio/M4A.m4a',
             shouldPreview: true,
@@ -65,7 +65,7 @@ describe('Upload Files - Failing cases', () => {
         testAudioFile(properties);
     });
 
-    it('MM-T2264_22 - FLAC', () => {
+    it('MM-T3825_4 - FLAC', () => {
         const properties = {
             route: 'mm_file_testing/Audio/FLAC.flac',
             shouldPreview: true,

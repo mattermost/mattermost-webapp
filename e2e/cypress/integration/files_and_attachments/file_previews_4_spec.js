@@ -30,7 +30,7 @@ describe('Upload Files - Audio', () => {
         });
     });
 
-    it('MM-T2264_19 - MP3', () => {
+    it('MM-T3825_1 - MP3', () => {
         const properties = {
             route: 'mm_file_testing/Audio/MP3.mp3',
             shouldPreview: true,
@@ -38,7 +38,7 @@ describe('Upload Files - Audio', () => {
         testAudioFile(properties);
     });
 
-    it('MM-T2264_21 - AAC', () => {
+    it('MM-T3825_3 - AAC', () => {
         const properties = {
             route: 'mm_file_testing/Audio/AAC.aac',
             shouldPreview: false,
@@ -46,7 +46,7 @@ describe('Upload Files - Audio', () => {
         testAudioFile(properties);
     });
 
-    it('MM-T2264_23 - OGG', () => {
+    it('MM-T3825_5 - OGG', () => {
         const properties = {
             route: 'mm_file_testing/Audio/OGG.ogg',
             shouldPreview: true,
@@ -54,7 +54,7 @@ describe('Upload Files - Audio', () => {
         testAudioFile(properties);
     });
 
-    it('MM-T2264_24 - WAV', () => {
+    it('MM-T3825_6 - WAV', () => {
         const properties = {
             route: 'mm_file_testing/Audio/WAV.wav',
             shouldPreview: true,
@@ -62,7 +62,7 @@ describe('Upload Files - Audio', () => {
         testAudioFile(properties);
     });
 
-    it('MM-T2264_25 - WMA', () => {
+    it('MM-T3825_7 - WMA', () => {
         const properties = {
             route: 'mm_file_testing/Audio/WMA.wma',
             shouldPreview: false,
