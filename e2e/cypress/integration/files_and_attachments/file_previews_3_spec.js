@@ -12,7 +12,7 @@
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
-import {downloadAttachmentAndVerifyItsProperties} from './helpers';
+import {testVideoFile} from './helpers';
 
 describe('Upload Files - Video', () => {
     let testTeam;
@@ -78,50 +78,3 @@ describe('Upload Files - Video', () => {
         testVideoFile(properties);
     });
 });
-
-function testVideoFile(fileProperties) {
-    const {route, shouldPreview} = fileProperties;
-    const filename = route.split('/').pop();
-
-    // # Post file in center channel
-    cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(route);
-    cy.waitUntil(() => cy.get('#postCreateFooter').then((el) => {
-        return el.find('.post-image__thumbnail').length > 0;
-    }));
-    cy.get('#create_post').find('.file-preview').within(() => {
-        // * Thumbnail exist
-        cy.get('.post-image__thumbnail > div.video').should('exist');
-    });
-    cy.postMessage('{enter}');
-    cy.wait(TIMEOUTS.ONE_SEC);
-
-    cy.getLastPost().within(() => {
-        cy.get('.post-image__thumbnail').within(() => {
-            // * File is posted
-            cy.get('.file-icon.video').should('exist').click();
-        });
-    });
-
-    cy.get('.modal-body').within(() => {
-        if (shouldPreview) {
-            // * Check if the video element exist
-            cy.get('video').should('exist');
-        }
-
-        // # Hover over the image
-        cy.get('.modal-image__content').trigger('mouseover');
-
-        // * Download button should exist
-        cy.findByText('Download').should('exist').parent().then((downloadLink) => {
-            expect(downloadLink.attr('download')).to.equal(filename);
-
-            const fileAttachmentURL = downloadLink.attr('href');
-
-            // * Verify that download link has correct name
-            downloadAttachmentAndVerifyItsProperties(fileAttachmentURL, filename, 'attachment');
-        });
-
-        // # Close modal
-        cy.get('.modal-close').click();
-    });
-}
