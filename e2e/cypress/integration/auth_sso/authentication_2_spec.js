@@ -10,97 +10,18 @@
 // Stage: @prod
 // Group: @system_console @authentication
 
-import * as TIMEOUTS from '../../../../fixtures/timeouts';
+import * as TIMEOUTS from '../../fixtures/timeouts';
 
-import {getRandomId} from '../../../../utils';
+import {getRandomId} from '../../utils';
 
-describe('Authentication Part 3', () => {
-    let testUser;
-
-    before(() => {
-        cy.apiRequireLicense();
-
-        cy.apiInitSetup().then(() => {
-            cy.apiCreateUser().then(({user: newUser}) => {
-                testUser = newUser;
-            });
-        });
-    });
-
+describe('Authentication', () => {
     beforeEach(() => {
-        // # Log in as a admin.
-        cy.apiAdminLogin({failOnStatusCode: false});
-    });
-
-    after(() => {
-        // # Logout as any current user
-        cy.apiLogout();
-
-        // # Log in as a admin.
-        cy.apiAdminLogin({failOnStatusCode: false});
-
-        cy.apiUpdateConfig({
-            EmailSettings: {
-                EnableSignInWithEmail: true,
-                EnableSignInWithUsername: true,
-            },
-        });
-    });
-
-    const testCases = [
-        {
-            title: 'MM-T1767 - Email signin false Username signin true',
-            signinWithEmail: false,
-            signinWithUsername: true,
-        },
-        {
-            title: 'MM-T1768 - Email signin true Username signin true',
-            signinWithEmail: true,
-            signinWithUsername: true,
-        },
-        {
-            title: 'MM-T1769 - Email signin true Username signin false',
-            signinWithEmail: true,
-            signinWithUsername: false,
-        },
-    ];
-
-    testCases.forEach(({title, signinWithEmail, signinWithUsername}) => {
-        it(title, () => {
-            cy.apiUpdateConfig({
-                EmailSettings: {
-                    EnableSignInWithEmail: signinWithEmail,
-                    EnableSignInWithUsername: signinWithUsername,
-                },
-                LdapSettings: {
-                    Enable: false,
-                },
-            });
-
-            cy.apiLogout();
-
-            // # Go to front page
-            cy.visitAndWait('/login');
-
-            let expectedPlaceholderText;
-            if (signinWithEmail && signinWithUsername) {
-                expectedPlaceholderText = 'Email or Username';
-            } else if (signinWithEmail) {
-                expectedPlaceholderText = 'Email';
-            } else {
-                expectedPlaceholderText = 'Username';
-            }
-
-            // * Make sure the username field has expected placeholder text
-            cy.findByPlaceholderText(expectedPlaceholderText).should('exist').and('be.visible');
-
-            // # Log in as a admin.
-            cy.apiAdminLogin({failOnStatusCode: false});
-        });
+        // # Log in as admin.
+        cy.apiAdminLogin();
     });
 
     it('MM-T1771 - Minimum password length error field shows below 5 and above 64', () => {
-        cy.visitAndWait('/admin_console/authentication/password');
+        cy.visit('/admin_console/authentication/password');
 
         cy.findByPlaceholderText('E.g.: "5"', {timeout: TIMEOUTS.ONE_MIN}).clear().type('88');
 
@@ -122,7 +43,7 @@ describe('Authentication Part 3', () => {
     });
 
     it('MM-T1772 - Change minimum password length, verify help text and error message', () => {
-        cy.visitAndWait('/admin_console/authentication/password');
+        cy.visit('/admin_console/authentication/password');
 
         cy.findByPlaceholderText('E.g.: "5"', {timeout: TIMEOUTS.ONE_MIN}).clear().type('7');
 
@@ -133,7 +54,7 @@ describe('Authentication Part 3', () => {
         cy.apiLogout();
 
         // # Go to sign up with email page
-        cy.visitAndWait('/signup_email');
+        cy.visit('/signup_email');
 
         cy.get('#email', {timeout: TIMEOUTS.ONE_MIN}).type(`Hossein_Is_The_Best_PROGRAMMER${getRandomId()}@BestInTheWorld.com`);
 
@@ -155,7 +76,7 @@ describe('Authentication Part 3', () => {
     });
 
     it('MM-T1773 - Minimum password length field resets to default after saving invalid value', () => {
-        cy.visitAndWait('/admin_console/authentication/password');
+        cy.visit('/admin_console/authentication/password');
 
         cy.findByPlaceholderText('E.g.: "5"', {timeout: TIMEOUTS.ONE_MIN}).clear().type('10');
 
@@ -186,7 +107,7 @@ describe('Authentication Part 3', () => {
         cy.apiLogout();
 
         // # Go to sign up with email page
-        cy.visitAndWait('/signup_email');
+        cy.visit('/signup_email');
 
         cy.get('#email', {timeout: TIMEOUTS.ONE_MIN}).type(`Hossein_Is_The_Best_PROGRAMMER${getRandomId()}@BestInTheWorld.com`);
 
@@ -202,7 +123,7 @@ describe('Authentication Part 3', () => {
     });
 
     it('MM-T1775 - Maximum Login Attempts field resets to default after saving invalid value', () => {
-        cy.visitAndWait('/admin_console/authentication/password');
+        cy.visit('/admin_console/authentication/password');
 
         cy.findByPlaceholderText('E.g.: "10"', {timeout: TIMEOUTS.ONE_MIN}).clear().type('ten');
 
@@ -213,7 +134,7 @@ describe('Authentication Part 3', () => {
     });
 
     it('MM-T1776 - Maximum Login Attempts field successfully saves valid change', () => {
-        cy.visitAndWait('/admin_console/authentication/password');
+        cy.visit('/admin_console/authentication/password');
 
         cy.findByPlaceholderText('E.g.: "10"', {timeout: TIMEOUTS.ONE_MIN}).clear().type('2');
 
@@ -230,7 +151,7 @@ describe('Authentication Part 3', () => {
             },
         });
 
-        cy.visitAndWait('/');
+        cy.visit('/');
 
         cy.toAccountSettingsModal();
 
@@ -247,7 +168,7 @@ describe('Authentication Part 3', () => {
             },
         });
 
-        cy.visitAndWait('/');
+        cy.visit('/');
 
         cy.toAccountSettingsModal();
 
@@ -266,13 +187,15 @@ describe('Authentication Part 3', () => {
             },
         });
 
-        cy.apiLogout();
+        cy.apiCreateUser().then(({user: newUser}) => {
+            cy.apiLogout();
 
-        cy.apiLogin(testUser);
+            // # Login as a new user and visit default page
+            cy.apiLogin(newUser);
+            cy.visit('/');
 
-        cy.visitAndWait('/');
-
-        // * Assert that we are not shown a MFA scren and instead a Teams You Can join page
-        cy.findByText('Teams you can join:', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+            // * Assert that we are not shown a MFA screen and instead a Teams You Can join page
+            cy.findByText('Teams you can join:', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+        });
     });
 });

@@ -37,7 +37,7 @@ describe('more public channels', () => {
                 }
 
                 // # Go to town square
-                cy.visitAndWait(`/${team.name}/channels/town-square`);
+                cy.visit(`/${team.name}/channels/town-square`);
             });
         });
     });
@@ -47,7 +47,7 @@ describe('more public channels', () => {
         cy.apiLogin(otherUser);
 
         // # Go to town square
-        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Go to LHS and click "More..." under Public Channels group
         cy.findByRole('list', {name: 'public channels'}).
@@ -81,7 +81,7 @@ describe('more public channels', () => {
         cy.apiLogin(testUser);
 
         // # Go to town square
-        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Go to LHS and click "More..." under Public Channels group
         cy.findByRole('list', {name: 'public channels'}).

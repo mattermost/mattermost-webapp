@@ -24,7 +24,7 @@ describe('Show GIF images properly', () => {
         // # Login as test user and visit town-square
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
             townsquareLink = `/${team.name}/channels/town-square`;
-            cy.visitAndWait(townsquareLink);
+            cy.visit(townsquareLink);
         });
     });
 

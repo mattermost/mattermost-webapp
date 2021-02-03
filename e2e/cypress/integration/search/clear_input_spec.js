@@ -17,14 +17,11 @@ describe('Search', () => {
     before(() => {
         // # Login as test user and visit town-square
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visitAndWait(`/${team.name}/channels/town-square`);
+            cy.visit(`/${team.name}/channels/town-square`);
         });
     });
 
     it('QuickInput clear X', () => {
-        // # Wait for the page to be completely loaded
-        cy.wait(TIMEOUTS.FIVE_SEC);
-
         // * X should not be visible on empty input
         cy.get('#searchFormContainer').find('.input-clear-x').should('not.be.visible');
 
@@ -56,9 +53,7 @@ describe('Search', () => {
         cy.get('@searchInput').click().wait(TIMEOUTS.HALF_SEC).type(searchText);
 
         // # Click on the pinned post button from the header
-        cy.get('#channel-header').within(() => {
-            cy.findByLabelText('Pin Icon').should('be.visible').and('exist').click();
-        });
+        cy.findByRole('button', {name: 'Pinned posts'}).should('be.visible').click();
 
         // * Verify the pinned post RHS is open
         cy.get('#sidebar-right').should('be.visible').and('contain', 'Pinned Posts');

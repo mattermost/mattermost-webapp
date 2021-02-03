@@ -94,7 +94,7 @@ const languages = {
     },
     bg: {
         value: 'bg',
-        name: 'Български',
+        name: 'Български (Beta)',
         order: 11,
         url: bg,
     },

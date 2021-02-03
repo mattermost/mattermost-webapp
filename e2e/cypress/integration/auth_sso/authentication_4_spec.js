@@ -10,9 +10,9 @@
 // Stage: @prod
 // Group: @system_console @authentication
 
-import * as TIMEOUTS from '../../../fixtures/timeouts';
+import * as TIMEOUTS from '../../fixtures/timeouts';
 
-import {getEmailUrl, reUrl, getRandomId} from '../../../utils';
+import {getEmailUrl, reUrl, getRandomId} from '../../utils';
 
 describe('Authentication', () => {
     let testUser;
@@ -21,13 +21,12 @@ describe('Authentication', () => {
         // # Do email test if setup properly
         cy.apiEmailTest();
 
-        cy.apiInitSetup().then(() => {
-            cy.apiCreateUser().then(({user: newUser}) => {
-                testUser = newUser;
-            });
+        cy.apiCreateUser().then(({user: newUser}) => {
+            testUser = newUser;
         });
+    });
 
-        // # Log in as a admin.
+    beforeEach(() => {
         cy.apiAdminLogin();
     });
 
@@ -44,7 +43,7 @@ describe('Authentication', () => {
 
         // # Login as test user and make sure it goes to team selection
         cy.apiLogin(testUser);
-        cy.visitAndWait('/');
+        cy.visit('/');
         cy.url().should('include', '/select_team');
         cy.findByText('Teams you can join:', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
@@ -60,10 +59,12 @@ describe('Authentication', () => {
         cy.apiLogout();
 
         // # Login as test user and make sure it goes to team selection
-        cy.visitAndWait('/login');
+        cy.visit('/login');
 
         // # Clear email/username field and type username
-        cy.findByPlaceholderText('Email, Username or AD/LDAP Username', {timeout: TIMEOUTS.ONE_MIN}).clear().type(testUser.username);
+        cy.apiGetClientLicense().then(({isLicensed}) => {
+            cy.findByPlaceholderText(isLicensed ? 'Email, Username or AD/LDAP Username' : 'Email or Username', {timeout: TIMEOUTS.ONE_MIN}).clear().type(testUser.username);
+        });
 
         // # Clear password field and type password
         cy.findByPlaceholderText('Password').clear().type(testUser.password);
@@ -88,7 +89,7 @@ describe('Authentication', () => {
             const permalink = bodyText[6].match(reUrl)[0];
 
             // # Visit permalink (e.g. click on email link), view in browser to proceed
-            cy.visitAndWait(permalink);
+            cy.visit(permalink);
 
             // # Clear password field and type password
             cy.findByPlaceholderText('Password').clear().type(testUser.password);
@@ -102,35 +103,48 @@ describe('Authentication', () => {
     });
 
     it('MM-T1770 - Default password settings', () => {
-        cy.apiAdminLogin();
+        cy.apiGetClientLicense().then(({isCloudLicensed}) => {
+            const newConfig = {
+                PasswordSettings: {
+                    MinimumLength: null,
+                    Lowercase: null,
+                    Number: null,
+                    Uppercase: null,
+                    Symbol: null,
+                },
+            };
 
-        cy.apiUpdateConfig({
-            PasswordSettings: {
-                MinimumLength: null,
-                Lowercase: null,
-                Number: null,
-                Uppercase: null,
-                Symbol: null,
-            },
-            ServiceSettings: {
-                MaximumLoginAttempts: null,
-            },
-        });
+            if (!isCloudLicensed) {
+                newConfig.ServiceSettings = {
+                    MaximumLoginAttempts: null,
+                };
+            }
 
-        // * Ensure password has a minimum lenght of 10, all password requirements are checked, and the maximum login attempts is set to 10
-        cy.apiGetConfig().then(({config: {PasswordSettings, ServiceSettings: {MaximumLoginAttempts}}}) => {
-            expect(PasswordSettings.MinimumLength).equal(10);
-            expect(PasswordSettings.Lowercase).equal(true);
-            expect(PasswordSettings.Number).equal(true);
-            expect(PasswordSettings.Uppercase).equal(true);
-            expect(PasswordSettings.Symbol).equal(true);
-            expect(MaximumLoginAttempts).equal(10);
+            cy.apiUpdateConfig(newConfig);
+
+            // * Ensure password has a minimum length of 10 and all password requirements are checked
+            cy.apiGetConfig().then(({config: {PasswordSettings}}) => {
+                expect(PasswordSettings.MinimumLength).equal(10);
+                expect(PasswordSettings.Lowercase).equal(true);
+                expect(PasswordSettings.Number).equal(true);
+                expect(PasswordSettings.Uppercase).equal(true);
+                expect(PasswordSettings.Symbol).equal(true);
+            });
+
+            cy.visit('/admin_console/authentication/password');
+            cy.get('.admin-console__header').should('be.visible').and('have.text', 'Password');
+
+            cy.findByTestId('passwordMinimumLengthinput').should('be.visible').and('have.value', '10');
+            cy.findByRole('checkbox', {name: 'At least one lowercase letter'}).should('be.checked');
+            cy.findByRole('checkbox', {name: 'At least one uppercase letter'}).should('be.checked');
+            cy.findByRole('checkbox', {name: 'At least one number'}).should('be.checked');
+            cy.findByRole('checkbox', {name: 'At least one symbol (e.g. "~!@#$%^&*()")'}).should('be.checked');
+
+            cy.findByTestId('maximumLoginAttemptsinput').should('be.visible').and('have.value', isCloudLicensed ? '' : '10');
         });
     });
 
     it('MM-T1783 - Username validation shows errors for various username requirements', () => {
-        cy.apiAdminLogin();
-
         // # Enable open server
         cy.apiUpdateConfig({
             TeamSettings: {
@@ -139,7 +153,7 @@ describe('Authentication', () => {
         });
 
         // # Go to sign up with email page
-        cy.visitAndWait('/signup_email');
+        cy.visit('/signup_email');
 
         cy.get('#email', {timeout: TIMEOUTS.ONE_MIN}).type('Hossein_Is_The_Best_PROGRAMMER@BestInTheWorld.com');
 
@@ -155,8 +169,6 @@ describe('Authentication', () => {
     });
 
     it('MM-T1752 - Enable account creation - true', () => {
-        cy.apiAdminLogin();
-
         // # Enable open server
         cy.apiUpdateConfig({
             TeamSettings: {
@@ -165,14 +177,15 @@ describe('Authentication', () => {
             },
         });
 
-        // # Go to front page
-        cy.visitAndWait('/login');
+        // # Logout and go to front page
+        cy.apiLogout();
+        cy.visit('/login');
 
         // * Assert that create account button is visible
         cy.findByText('Create one now.', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
         // # Go to sign up with email page
-        cy.visitAndWait('/signup_email');
+        cy.visit('/signup_email');
 
         cy.get('#email', {timeout: TIMEOUTS.ONE_MIN}).type(`Hossein_Is_The_Best_PROGRAMMER${getRandomId()}@BestInTheWorld.com`);
 
@@ -187,8 +200,6 @@ describe('Authentication', () => {
     });
 
     it('MM-T1753 - Enable account creation - false', () => {
-        cy.apiAdminLogin();
-
         // # Enable open server and turn off user account creation
         cy.apiUpdateConfig({
             TeamSettings: {
@@ -200,13 +211,13 @@ describe('Authentication', () => {
         cy.apiLogout();
 
         // # Go to front page
-        cy.visitAndWait('/login');
+        cy.visit('/login');
 
-        // * Assert that create account ubtton is visible
+        // * Assert that create account button is visible
         cy.findByText('Create one now.', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
         // # Go to sign up with email page
-        cy.visitAndWait('/signup_email');
+        cy.visit('/signup_email');
 
         cy.get('#email', {timeout: TIMEOUTS.ONE_MIN}).type(`Hossein_Is_The_Best_PROGRAMMER${getRandomId()}@BestInTheWorld.com`);
 
@@ -221,8 +232,6 @@ describe('Authentication', () => {
     });
 
     it('MM-T1754 - Restrict Domains - Account creation link on signin page', () => {
-        cy.apiAdminLogin();
-
         // # Enable open server and turn off user account creation and set restricted domain
         cy.apiUpdateConfig({
             TeamSettings: {
@@ -235,13 +244,13 @@ describe('Authentication', () => {
         cy.apiLogout();
 
         // # Go to front page
-        cy.visitAndWait('/login');
+        cy.visit('/login');
 
-        // * Assert that create account ubtton is visible
+        // * Assert that create account button is visible
         cy.findByText('Create one now.', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
         // # Go to sign up with email page
-        cy.visitAndWait('/signup_email');
+        cy.visit('/signup_email');
 
         cy.get('#email', {timeout: TIMEOUTS.ONE_MIN}).type(`Hossein_Is_The_Best_PROGRAMMER${getRandomId()}@BestInTheWorld.com`);
 
@@ -256,8 +265,6 @@ describe('Authentication', () => {
     });
 
     it('MM-T1755 - Restrict Domains - Email invite', () => {
-        cy.apiAdminLogin();
-
         // # Enable open server and turn off user account creation
         cy.apiUpdateConfig({
             TeamSettings: {
@@ -267,7 +274,7 @@ describe('Authentication', () => {
             },
         });
 
-        cy.visitAndWait('/');
+        cy.visit('/');
 
         // * Verify the side bar is visible
         cy.get('#sidebarHeaderDropdownButton', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
@@ -284,7 +291,7 @@ describe('Authentication', () => {
         // # Input email, select member
         cy.findByText('Add members or email addresses').type('HosseinTheBestProgrammer@Mattermost.com{enter}{enter}');
 
-        // # Click invite memebers button
+        // # Click invite members button
         cy.findByText('Invite Members').click();
 
         // * Verify message is what you expect it to be

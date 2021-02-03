@@ -17,7 +17,7 @@ describe('Toast', () => {
         cy.apiInitSetup({loginAfer: true}).then(({team}) => {
             testTeam = team;
 
-            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+            cy.visit(`/${testTeam.name}/channels/town-square`);
         });
     });
 

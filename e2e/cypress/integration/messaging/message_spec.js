@@ -23,7 +23,7 @@ describe('Message', () => {
         cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
             testTeam = team;
             testChannel = channel;
-            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+            cy.visit(`/${testTeam.name}/channels/town-square`);
         });
     });
 

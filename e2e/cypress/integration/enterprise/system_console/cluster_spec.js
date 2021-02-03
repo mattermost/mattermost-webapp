@@ -24,7 +24,7 @@ describe('Cluster', () => {
         });
 
         // # Visit high availability system console page
-        cy.visitAndWait('/admin_console/environment/high_availability');
+        cy.visit('/admin_console/environment/high_availability');
     });
 
     it('SC25050 - Can change Experimental Gossip Encryption', () => {

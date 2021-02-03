@@ -36,7 +36,7 @@ describe('Custom Terms of Service', () => {
         });
 
         // # Visit custom terms of service page
-        cy.visitAndWait('/admin_console/compliance/custom_terms_of_service');
+        cy.visit('/admin_console/compliance/custom_terms_of_service');
 
         // # Enable custom terms of service
         cy.findByTestId('SupportSettings.CustomTermsOfServiceEnabledtrue').click();
@@ -51,7 +51,7 @@ describe('Custom Terms of Service', () => {
         cy.apiLogin(testUser);
 
         // # Visit the test team town square
-        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // * Ensure that the terms of service text shows as expected
         cy.findByTestId('termsOfService').should('be.visible').and('contain.text', customTermsOfServiceText);
@@ -81,7 +81,7 @@ describe('Custom Terms of Service', () => {
         });
 
         // # Visit custom terms of service page
-        cy.visitAndWait('/admin_console/compliance/custom_terms_of_service');
+        cy.visit('/admin_console/compliance/custom_terms_of_service');
 
         // # Enable custom terms of service
         cy.findByTestId('SupportSettings.CustomTermsOfServiceEnabledtrue').click();
@@ -102,7 +102,7 @@ describe('Custom Terms of Service', () => {
         cy.apiLogin(testUser);
 
         // # Visit the test team town square
-        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // * Ensure that the first terms of service is visible
         cy.findByTestId('termsOfService').should('be.visible').and('contain.text', firstTOS);
@@ -111,7 +111,7 @@ describe('Custom Terms of Service', () => {
         cy.apiAdminLogin();
 
         // # Visit custom terms of service page
-        cy.visitAndWait('/admin_console/compliance/custom_terms_of_service');
+        cy.visit('/admin_console/compliance/custom_terms_of_service');
 
         // # Set the terms of service to the first value
         cy.findByTestId('SupportSettings.CustomTermsOfServiceTextinput').clear().type(secondTOS);
@@ -132,7 +132,7 @@ describe('Custom Terms of Service', () => {
         cy.apiLogin(testUser);
 
         // # Visit the test team town square
-        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // * Ensure that the new terms of service is visible
         cy.findByTestId('termsOfService').should('be.visible').and('contain.text', secondTOS);
