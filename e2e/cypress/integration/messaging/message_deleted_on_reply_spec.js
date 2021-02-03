@@ -46,7 +46,7 @@ describe('Messaging', () => {
             // # Wait for the message to be deleted
             cy.wait(TIMEOUTS.HALF_SEC);
 
-            // * Aria labels should contain not contain original message
+            // * Aria labels should not contain original message
             cy.get(`#post_${postId}, #rhsPost_${postId}`).each((el) => {
                 cy.wrap(el).
                     should('have.attr', 'aria-label').
