@@ -1,18 +1,18 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
+
 import DataTableHeader from './data_table_header';
 import DataTableRow from './data_table_row';
 
 import 'components/next_steps_view/next_steps_view.scss';
 
 import './data_table.scss';
-import { render } from 'enzyme';
 
 export type Column = {
     name: string | JSX.Element;
@@ -42,19 +42,18 @@ type Props = {
     previousPage: () => void;
 };
 
-const DataTable: React.FC<Props> = (props) => {
-
+const DataTable: React.FC<Props> = (props: Props) => {
     const nextPage = () => {
         if (!props.loading) {
             props.nextPage();
         }
-    }
+    };
 
     const previousPage = () => {
         if (!props.loading) {
             props.previousPage();
         }
-    }
+    };
 
     const renderRows = (): JSX.Element | null => {
         const {rows} = props;
@@ -98,8 +97,8 @@ const DataTable: React.FC<Props> = (props) => {
                         columns={props.columns}
                         key={i}
                     />
-                )
-            })
+                );
+            });
         }
 
         return (
@@ -107,8 +106,7 @@ const DataTable: React.FC<Props> = (props) => {
                 {rowsToRender}
             </>
         );
-    }
-
+    };
 
     const renderFooter = (): JSX.Element | null => {
         const {startCount, endCount, total} = props;
@@ -155,8 +153,8 @@ const DataTable: React.FC<Props> = (props) => {
         }
 
         return footer;
-    }
-    
+    };
+
     return (
         <>
             <table className='Table__table'>

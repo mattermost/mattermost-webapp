@@ -7,9 +7,6 @@ import {shallow} from 'enzyme';
 import DataTable from './data_table';
 
 describe('components/admin_console/data_table/DataTable', () => {
-
-    const RECORDS_PER_PAGE = 5;
-
     const baseProps = {
         page: 1,
         startCount: 0,

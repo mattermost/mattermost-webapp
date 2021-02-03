@@ -7,11 +7,12 @@ import {FormattedMessage} from 'react-intl';
 import {storiesOf} from '@storybook/react';
 import {withKnobs} from '@storybook/addon-knobs';
 
-import DataTable, {Column, Row} from './data_table';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 
-const columns: Column[] =  [
+import DataTable, {Column, Row} from './data_table';
+
+const columns: Column[] = [
     {
         name: (
             <FormattedMessage
@@ -42,54 +43,54 @@ const columns: Column[] =  [
     {
         name: '',
         field: 'actions',
-        customClass: 'Table__table-icon'
+        customClass: 'Table__table-icon',
     },
 ];
 const data = [
     {
-        description: "60 day policy",
-        channel_messages: "60 days",
-        applied_to: "2 teams, 4 channels",
+        description: '60 day policy',
+        channel_messages: '60 days',
+        applied_to: '2 teams, 4 channels',
     },
     {
-        description: "Yearly policy",
-        channel_messages: "1 year",
-        applied_to: "17 teams",
+        description: 'Yearly policy',
+        channel_messages: '1 year',
+        applied_to: '17 teams',
     },
     {
-        description: "60 day policy",
-        channel_messages: "60 days",
-        applied_to: "2 teams, 4 channels",
+        description: '60 day policy',
+        channel_messages: '60 days',
+        applied_to: '2 teams, 4 channels',
     },
     {
-        description: "Yearly policy",
-        channel_messages: "1 year",
-        applied_to: "17 teams",
+        description: 'Yearly policy',
+        channel_messages: '1 year',
+        applied_to: '17 teams',
     },
 ];
 
 const dataNextPage = [
     {
-        description: "60 day policy Next Page",
-        channel_messages: "60 days",
-        applied_to: "2 teams, 4 channels",
+        description: '60 day policy Next Page',
+        channel_messages: '60 days',
+        applied_to: '2 teams, 4 channels',
     },
     {
-        description: "Yearly policy",
-        channel_messages: "1 year",
-        applied_to: "140 teams",
+        description: 'Yearly policy',
+        channel_messages: '1 year',
+        applied_to: '140 teams',
     },
     {
-        description: "60 day policy",
-        channel_messages: "60 days",
-        applied_to: "2 teams, 4 channels",
+        description: '60 day policy',
+        channel_messages: '60 days',
+        applied_to: '2 teams, 4 channels',
     },
     {
-        description: "Yearly policy",
-        channel_messages: "1 year",
-        applied_to: "17 teams",
+        description: 'Yearly policy',
+        channel_messages: '1 year',
+        applied_to: '17 teams',
     },
-]
+];
 const getRows = (entries: any): Row[] => {
     return entries.map((policy: any) => {
         return {
@@ -129,7 +130,7 @@ const getRows = (entries: any): Row[] => {
             },
         };
     });
-}
+};
 
 storiesOf('Admin Console/Data Table', module).
     addDecorator(withKnobs).
@@ -137,9 +138,8 @@ storiesOf('Admin Console/Data Table', module).
         'Data Table - No pagination',
         () => {
             const WrapperComponent = () => {
-                
                 return (
-                    <DataTable 
+                    <DataTable
                         columns={columns}
                         rows={getRows(data)}
                         loading={false}
@@ -167,18 +167,20 @@ storiesOf('Admin Console/Data Table', module).
                 const [tableRows, setRows] = useState(getRows(data));
 
                 return (
-                    <DataTable 
+                    <DataTable
                         columns={columns}
                         rows={tableRows}
                         loading={false}
                         page={page}
                         nextPage={() => {
                             setPage(page + 1);
+
                             // Here you would fetch more records using pagination
                             setRows(getRows(dataNextPage));
                         }}
                         previousPage={() => {
                             setPage(page - 1);
+
                             // Here you would fetch previous records using pagination
                             setRows(getRows(data));
                         }}

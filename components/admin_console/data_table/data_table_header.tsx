@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {CSSProperties} from 'react';
+import React from 'react';
 
 import {Column} from './data_table';
 
@@ -11,8 +11,7 @@ type Props = {
     columns: Column[];
 }
 
-const DataTableHeader: React.FC<Props> = (props) => {
-
+const DataTableHeader: React.FC<Props> = (props: Props) => {
     const renderHeaderElement = (column: Column) => {
         return (
             <th
@@ -21,7 +20,7 @@ const DataTableHeader: React.FC<Props> = (props) => {
                 {column.name}
             </th>
         );
-    }
+    };
 
     return (
         <tr className='Table__table-header'>

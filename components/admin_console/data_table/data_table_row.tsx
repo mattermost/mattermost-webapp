@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {CSSProperties} from 'react';
+import React from 'react';
 
 import {Row, Column} from './data_table';
 
@@ -12,8 +12,7 @@ type Props = {
     row: Row;
 }
 
-const DataTableRow: React.FC<Props> = (props) => {
-
+const DataTableRow: React.FC<Props> = (props: Props) => {
     const renderCell = (row: Row, column: Column) => {
         return (
             <td
@@ -23,7 +22,7 @@ const DataTableRow: React.FC<Props> = (props) => {
                 {row.cells[column.field]}
             </td>
         );
-    }
+    };
 
     return (
         <tr
