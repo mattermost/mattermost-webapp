@@ -9,48 +9,39 @@ import Card, {Props} from './card';
 
 describe('components/admin_console/card', () => {
     const defaultProps: Props = {
-        title: 
-            <FormattedMessage
-                id='admin.data_retention.customPolicies.title'
-                defaultMessage='Custom retention policies'
-            />
-        ,
-        subtitle: 
-            <FormattedMessage
-                id='admin.data_retention.customPolicies.subTitle'
-                defaultMessage='Customize how long specific teams and channels will keep messages.'
-            />
-        ,
-        body: 
-            <>
-                Hello!
-            </>
-        ,
+        title:
+    <FormattedMessage
+        id='admin.data_retention.customPolicies.title'
+        defaultMessage='Custom retention policies'
+    />,
+        subtitle:
+    <FormattedMessage
+        id='admin.data_retention.customPolicies.subTitle'
+        defaultMessage='Customize how long specific teams and channels will keep messages.'
+    />,
+        body:
+    <div>
+        {'Hello!'}
+    </div>,
     };
 
     test('should match snapshot', () => {
         const wrapper = shallow(<Card {...defaultProps}/>);
-
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should show button in card header', () => {
         const wrapper = shallow(<Card {...defaultProps}/>);
-
         wrapper.setProps({
-            buttonText: 
-                <FormattedMessage
-                    id='admin.data_retention.customPolicies.addPolicy'
-                    defaultMessage='Add policy'
-                />
-            ,
+            buttonText:
+    <FormattedMessage
+        id='admin.data_retention.customPolicies.addPolicy'
+        defaultMessage='Add policy'
+    />,
             onClick:
-                () => {
-                    console.log('Test');
-                }
+                () => {}
             ,
         });
-
         expect(wrapper).toMatchSnapshot();
     });
 });

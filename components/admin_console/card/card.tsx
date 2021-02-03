@@ -13,8 +13,7 @@ export type Props = {
     onClick?: () => void;
 };
 
-const Card: React.FC<Props> = (props) => {
-
+const Card: React.FC<Props> = (props: Props) => {
     return (
         <div className='Card__card'>
             <div className='Card__cardHeader'>
@@ -27,15 +26,14 @@ const Card: React.FC<Props> = (props) => {
                     </div>
                 </div>
                 {
-                    props.buttonText && props.onClick ? 
-                    <button
-                        className='Card__cardHeaderButton primary'
-                        onClick={props.onClick}
-                    >
-                        {props.buttonText}
-                    </button>
-                    :
-                    ''
+                    props.buttonText && props.onClick ?
+                        <button
+                            className='Card__cardHeaderButton primary'
+                            onClick={props.onClick}
+                        >
+                            {props.buttonText}
+                        </button> :
+                        ''
                 }
 
             </div>

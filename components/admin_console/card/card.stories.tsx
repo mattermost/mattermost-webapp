@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useState} from 'react';
+import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {storiesOf} from '@storybook/react';
@@ -15,10 +15,9 @@ storiesOf('Admin Console/Card', module).
         'Multiple Cards',
         () => {
             const WrapperComponent = () => {
-
                 return (
                     <>
-                        <Card 
+                        <Card
                             title={
                                 <FormattedMessage
                                     id='admin.data_retention.customPolicies.title'
@@ -32,9 +31,9 @@ storiesOf('Admin Console/Card', module).
                                 />
                             }
                             body={
-                                <>
-                                    Hello this is card content!
-                                </>
+                                <div>
+                                    {'Hello this is card content!'}
+                                </div>
                             }
                             buttonText={
                                 <FormattedMessage
@@ -42,11 +41,9 @@ storiesOf('Admin Console/Card', module).
                                     defaultMessage='Add policy'
                                 />
                             }
-                            onClick={() => {
-                                console.log('hi');
-                            }}
+                            onClick={() => {}}
                         />
-                        <Card 
+                        <Card
                             title={
                                 <FormattedMessage
                                     id='admin.data_retention.customPolicies.title'
@@ -60,9 +57,9 @@ storiesOf('Admin Console/Card', module).
                                 />
                             }
                             body={
-                                <>
-                                    Hello this is card content!
-                                </>
+                                <div>
+                                    {'Hello this is card content!'}
+                                </div>
                             }
                         />
                     </>
