@@ -1,0 +1,8 @@
+// Manual override of the global menu (and item) styling for the sidebar dropdown menu
+#sidebarDropdownMenu .MenuItem {
+    > button,
+    > div,
+    > a {
+        padding: 0 32px 0 24px;
+    }
+}
