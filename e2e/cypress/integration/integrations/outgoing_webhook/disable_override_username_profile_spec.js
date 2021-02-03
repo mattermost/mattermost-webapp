@@ -201,7 +201,7 @@ describe('Outgoing webhook', () => {
         cy.get('.backstage-form').should('be.visible').within(() => {
             cy.get('#iconURL').scrollIntoView().type(webhookIconUrlOverride);
             cy.get('#channelSelect').select(noChannelSelectionOption);
-            cy.get('#saveWebhook').click();
+            cy.get('#saveWebhook').click().wait(TIMEOUTS.ONE_SEC);
         });
 
         // # Click back to site name and verify that it redirects to test team/channel

@@ -89,6 +89,7 @@ function writeLinesToPostTextBox(lines) {
             });
         }
     }
+    cy.wait(TIMEOUTS.THREE_SEC);
 }
 
 function verifyPostTextbox(heightSelector, text) {
