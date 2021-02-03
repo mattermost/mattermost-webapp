@@ -20,6 +20,7 @@ describe('Bot post unread message', () => {
     const sysadmin = getAdminAccount();
     let newChannel;
     let botPost;
+    let testTeam;
 
     before(() => {
         // # Set ServiceSettings to expected values
@@ -32,8 +33,9 @@ describe('Bot post unread message', () => {
 
         // # Create and visit new channel
         cy.apiInitSetup().then(({team, channel}) => {
+            testTeam = team;
             newChannel = channel;
-            cy.visit(`/${team.name}/channels/${channel.name}`);
+            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
         });
 
         // # Create a bot and get userID
@@ -59,7 +61,8 @@ describe('Bot post unread message', () => {
         markAsUnreadFromPost(botPost);
 
         // * Verify the channel is unread in LHS
-        cy.get(`#sidebarItem_${newChannel.name}`).should(beUnread);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.get(`#sidebarItem_${newChannel.name}`).should(beUnread).click();
 
         // * Verify the notification separator line exists and present before the unread message
         verifyPostNextToNewMessageSeparator('this is bot message');

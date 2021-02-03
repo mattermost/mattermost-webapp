@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @dm_category
 
 import {getAdminAccount} from '../../support/env';
@@ -19,7 +20,7 @@ describe('DM category', () => {
         // # Enable channel sidebar organization
         cy.apiUpdateConfig({
             ServiceSettings: {
-                ExperimentalChannelSidebarOrganization: 'default_on',
+                EnableLegacySidebar: 'default_on',
             },
         });
 

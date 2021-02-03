@@ -113,7 +113,6 @@ describe('Guest Accounts', () => {
 
         // # From the main page, invite a Guest user and click on the Join Team in the email sent to the guest user.
         cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.wait(TIMEOUTS.ONE_SEC);
 
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
         cy.get('#invitePeople').should('be.visible').click();
