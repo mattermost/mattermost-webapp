@@ -12,7 +12,7 @@
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
-import {testGenericFile} from './helpers';
+import {downloadAttachmentAndVerifyItsProperties, testGenericFile} from './helpers';
 
 describe('Upload Files - Generic', () => {
     let testTeam;
