@@ -69,6 +69,15 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
         scrollbars.current?.scrollToTop();
     }, [props.searchTerms]);
 
+    useEffect(() => {
+        // after the first page of search results, there is no way to
+        // know if the search has more results to return, so we search
+        // for the second page and stop if it yields no results
+        if (props.searchPage === 0) {
+            props.getMorePostsForSearch();
+        }
+    }, [props.searchPage]);
+
     const handleScroll = (): void => {
         if (!props.isFlaggedPosts && !props.isPinnedPosts && !props.isSearchingTerm && !props.isSearchGettingMore) {
             const scrollHeight = scrollbars.current?.getScrollHeight() || 0;
