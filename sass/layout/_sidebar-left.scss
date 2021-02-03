@@ -1,4 +1,4 @@
-@charset 'UTF-8';
+@charset "UTF-8";
 
 #TeamSidebar {
     display: flex;
@@ -677,7 +677,7 @@
     }
 
     .SidebarChannelGroupHeader--static {
-        margin-left: 16px;
+        padding-left: 16px;
     }
 
     button.SidebarChannelGroupHeader_groupButton > div {
@@ -870,7 +870,7 @@
 
         &.fadeOnDrop {
             opacity: 0;
-            transition: 'all cubic-bezier(.2,1,.1,1) 0.33s';
+            transition: all cubic-bezier(.2,1,.1,1) 0.33s;
         }
 
         &.noFloat {
@@ -879,7 +879,7 @@
 
         &.selectedDragging {
             opacity: 0.25;
-            transition: 'all cubic-bezier(.2,1,.1,1) 0.33s';
+            transition: all cubic-bezier(.2,1,.1,1) 0.33s;
         }
 
         .btn-close {
