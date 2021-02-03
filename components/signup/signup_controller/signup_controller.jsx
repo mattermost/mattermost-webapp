@@ -42,7 +42,7 @@ export default class SignupController extends React.PureComponent {
         openidButtonText: PropTypes.string,
         openidButtonColor: PropTypes.string,
         subscriptionStats: PropTypes.object,
-        isCloud: PropTypes.string,
+        isCloud: PropTypes.bool,
         actions: PropTypes.shape({
             removeGlobalItem: PropTypes.func.isRequired,
             getTeamInviteInfo: PropTypes.func.isRequired,
@@ -107,16 +107,18 @@ export default class SignupController extends React.PureComponent {
 
             const userLoggedIn = this.props.loggedIn;
             const {isCloud, subscriptionStats} = this.props;
-            const isFreeTierWithNoAvailableSeats = subscriptionStats && subscriptionStats.is_free_tier && subscriptionStats.remainin_seats === 0;
+            const isFreeTierWithNoAvailableSeats = subscriptionStats && subscriptionStats.is_free_tier && subscriptionStats.remaining_seats === 0;
 
             if (isCloud && isFreeTierWithNoAvailableSeats) {
                 browserHistory.push('/error?type=max_free_users_reached');
-            } else if ((inviteId || token) && userLoggedIn) {
-                this.addUserToTeamFromInvite(token, inviteId);
-            } else if (inviteId) {
-                this.getInviteInfo(inviteId);
-            } else if (userLoggedIn) {
-                GlobalActions.redirectUserToDefaultTeam();
+            } else {
+                if ((inviteId || token) && userLoggedIn) {
+                    this.addUserToTeamFromInvite(token, inviteId);
+                } else if (inviteId) {
+                    this.getInviteInfo(inviteId);
+                } else if (userLoggedIn) {
+                    GlobalActions.redirectUserToDefaultTeam();
+                }
             }
         }
     }
