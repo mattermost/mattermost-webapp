@@ -1,0 +1,167 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/admin_console/data_table/DataTable should match snapshot while loading 1`] = `
+<Fragment>
+  <table
+    className="Table__table"
+  >
+    <DataTableHeader
+      columns={Array []}
+    />
+    <div
+      className="Table__loading"
+    >
+      <LoadingSpinner
+        text={null}
+      />
+      <FormattedMessage
+        defaultMessage="Loading"
+        id="admin.data_grid.loading"
+      />
+    </div>
+  </table>
+</Fragment>
+`;
+
+exports[`components/admin_console/data_table/DataTable should match snapshot with no items found 1`] = `
+<Fragment>
+  <table
+    className="Table__table"
+  >
+    <DataTableHeader
+      columns={Array []}
+    />
+    <div
+      className="Table__empty"
+    >
+      <FormattedMessage
+        defaultMessage="No items found"
+        id="admin.data_grid.empty"
+      />
+    </div>
+  </table>
+</Fragment>
+`;
+
+exports[`components/admin_console/data_table/DataTable should match snapshot with only one page of results 1`] = `
+<Fragment>
+  <table
+    className="Table__table"
+  >
+    <DataTableHeader
+      columns={
+        Array [
+          Object {
+            "field": "name",
+            "name": "Name",
+          },
+          Object {
+            "field": "team",
+            "name": "Team",
+          },
+        ]
+      }
+    />
+    <DataTableRow
+      columns={
+        Array [
+          Object {
+            "field": "name",
+            "name": "Name",
+          },
+          Object {
+            "field": "team",
+            "name": "Team",
+          },
+        ]
+      }
+      key="0"
+      row={
+        Object {
+          "cells": Object {
+            "name": "Joe Schmoe",
+            "team": "Admin Team",
+          },
+        }
+      }
+    />
+    <DataTableRow
+      columns={
+        Array [
+          Object {
+            "field": "name",
+            "name": "Name",
+          },
+          Object {
+            "field": "team",
+            "name": "Team",
+          },
+        ]
+      }
+      key="1"
+      row={
+        Object {
+          "cells": Object {
+            "name": "Foo Bar",
+            "team": "Admin Team",
+          },
+        }
+      }
+    />
+    <DataTableRow
+      columns={
+        Array [
+          Object {
+            "field": "name",
+            "name": "Name",
+          },
+          Object {
+            "field": "team",
+            "name": "Team",
+          },
+        ]
+      }
+      key="2"
+      row={
+        Object {
+          "cells": Object {
+            "name": "Some Guy",
+            "team": "Admin Team",
+          },
+        }
+      }
+    />
+  </table>
+  <div
+    className="Table__paging"
+  >
+    <injectIntl(FormattedMarkdownMessage)
+      defaultMessage="{startRecord} - {endRecord} of {totalRecords}"
+      id="admin.billing.history.pageInfo"
+      values={
+        Object {
+          "endRecord": 3,
+          "startRecord": 1,
+          "totalRecords": 3,
+        }
+      }
+    />
+    <button
+      disabled={true}
+      onClick={[Function]}
+    >
+      <i
+        className="icon icon-chevron-left"
+      />
+    </button>
+    <button
+      disabled={true}
+      onClick={[Function]}
+    >
+      <i
+        className="icon icon-chevron-right"
+      />
+    </button>
+  </div>
+</Fragment>
+`;
