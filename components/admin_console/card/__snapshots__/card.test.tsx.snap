@@ -31,7 +31,9 @@ exports[`components/admin_console/card should match snapshot 1`] = `
   <div
     className="Card__cardBody"
   >
-    Hello!
+    <div>
+      Hello!
+    </div>
   </div>
 </div>
 `;
@@ -76,7 +78,9 @@ exports[`components/admin_console/card should show button in card header 1`] = `
   <div
     className="Card__cardBody"
   >
-    Hello!
+    <div>
+      Hello!
+    </div>
   </div>
 </div>
 `;
