@@ -43,14 +43,14 @@
         align-items: center;
         width: 32px;
         height: 32px;
-        color: rgba(61, 60, 64, 0.72);
+        color: rgba(var(--sys-center-channel-color-rgb), 0.72);
         margin-left: auto;
     }
     &:hover .Table__table-icon a i {
         display: flex;
     }
     .Table__table-icon a:hover {
-        background: rgba(61, 60, 64, 0.08);
+        background: rgba(var(--sys-center-channel-color-rgb), 0.08);
     }
 }
 
