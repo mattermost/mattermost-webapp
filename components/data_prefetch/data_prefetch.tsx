@@ -15,6 +15,10 @@ type Props = {
     currentChannelId: string;
     prefetchQueueObj: Record<string, string[]>;
     prefetchRequestStatus: Dictionary<string>;
+
+    // Whether or not the categories in the sidebar have been loaded for the current team
+    sidebarLoaded: boolean;
+
     unreadChannels: Channel[];
     actions: {
         prefetchChannelPosts: (channelId: string, delay?: number) => Promise<any>;
@@ -47,8 +51,8 @@ export default class DataPrefetch extends React.PureComponent<Props> {
     private prefetchTimeout?: number;
 
     async componentDidUpdate(prevProps: Props) {
-        const {currentChannelId, prefetchQueueObj} = this.props;
-        if (!prevProps.currentChannelId && currentChannelId) {
+        const {currentChannelId, prefetchQueueObj, sidebarLoaded} = this.props;
+        if (currentChannelId && sidebarLoaded && (!prevProps.currentChannelId || !prevProps.sidebarLoaded)) {
             queue.add(async () => this.prefetchPosts(currentChannelId));
             await loadProfilesForSidebar();
             this.prefetchData();

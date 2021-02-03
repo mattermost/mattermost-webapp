@@ -346,7 +346,6 @@ describe('Teams Suite', () => {
         // # Login as new user
         cy.apiLogin(testUser);
         cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.wait(TIMEOUTS.ONE_SEC);
 
         // # Open the hamburger menu
         cy.findByLabelText('main menu').should('be.visible').click();
