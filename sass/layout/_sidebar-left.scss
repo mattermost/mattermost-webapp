@@ -190,7 +190,7 @@
             width: 100%;
             text-align: left;
             border-radius: 4px;
-            font-family: 'Open Sans';
+            font-family: 'Open Sans', sans-serif;
             font-size: 12px;
             display: flex;
             align-items: center;
@@ -586,7 +586,7 @@
         border: none;
         color: rgba(var(--sidebar-text-rgb), 0.6);
         top: 0;
-        box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.33);
+        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.33);
         transition: box-shadow 0.25s ease-in-out;
         z-index: 1;
         display: flex;
@@ -840,7 +840,7 @@
     }
 
     .SidebarChannelGroup .SidebarChannel.newChannelSpacer {
-        height: 0px;
+        height: 0;
     }
 
     /* Channels */
@@ -865,7 +865,7 @@
         &.dragging {
             background-color: var(--sidebar-bg);
             border-radius: 4px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.12);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.12);
 
             .SidebarLink {
                 background: rgba(255, 255, 255, 0.08);
@@ -916,7 +916,7 @@
             right: -8px;
             height: 25px;
             background: var(--center-channel-color);
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.12);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.12);
             border-radius: 20px;
             padding: 2px 9px 7px 9px;
 
