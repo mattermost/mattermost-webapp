@@ -29,6 +29,7 @@ function mapStateToProps(state: GlobalState) {
 type Actions = {
     sendEmailInvitesToTeamGracefully: (teamId: string, emails: string[]) => Promise<{ data: TeamInviteWithError[]; error: ServerError }>;
     regenerateTeamInviteId: (teamId: string) => void;
+    getSubscriptionStats: () => void;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {

@@ -32,7 +32,7 @@ type Props = StepComponentProps & {
         regenerateTeamInviteId: (teamId: string) => void;
         getSubscriptionStats: () => void;
     };
-    subscriptionStats: SubscriptionStats;
+    subscriptionStats?: SubscriptionStats;
     intl: IntlShape;
 };
 
@@ -244,7 +244,7 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
         return `${getSiteURL()}/signup_user_complete/?id=${this.props.team.invite_id}`;
     }
 
-    render() {
+    render(): JSX.Element {
         return (
             <div className='NextStepsView__stepWrapper'>
                 <div className='InviteMembersStep'>
