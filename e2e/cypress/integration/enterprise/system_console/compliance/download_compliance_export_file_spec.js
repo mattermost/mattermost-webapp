@@ -18,15 +18,7 @@ const path = require('path');
 const EXPORT_FORMAT_CSV = 'csv';
 const EXPORT_FORMAT_actiance ='Actiance XML';
 const EXPORT_FORMAT_GLOBAL = 'global relay EML';
-let zipFilePath,targetDownload,fileURL,lastPostId, pwd;
-
-let botId;
-let botUsername;
-let botName;
-let newTeam;
-let newUser;
-let newChannel;
-let adminUser    
+let targetDownload,fileURL, pwd;    
 
 describe('Compliance Export', () => {
     let newTeam;
@@ -38,9 +30,6 @@ describe('Compliance Export', () => {
     let adminUser;
 
     before(() => {
-        const EXPORT_FORMAT_CSV = 'CSV';
-        const EXPORT_FORMAT_actiance ='Actiance XML';
-        const EXPORT_FORMAT_GLOBAL = 'global relay EML';
 
         cy.exec('PWD').then((result) => {
             pwd = result.stdout;
@@ -66,7 +55,7 @@ describe('Compliance Export', () => {
             newChannel = channel;
         });
 
-        // # Create a test bot
+        //# Create a test bot
         cy.apiCreateBot().then(({bot}) => {
             ({user_id: botId, username: botUsername, display_name: botName} = bot);
             cy.apiPatchUserRoles(bot.user_id, ['system_admin', 'system_user']);
@@ -80,9 +69,9 @@ describe('Compliance Export', () => {
             adminUser = user;
         });
         deleteExportFolder();
-        
        
     });
+
 
     it('MM-T3435 - Download Compliance Export Files - CSV Format', () => {
         // # Go to compliance page and enable export
@@ -143,14 +132,13 @@ describe('Compliance Export', () => {
         const AWS_S3_BUCKET = Cypress.env('AWS_S3_BUCKET');
         const AWS_ACCESS_KEY_ID = Cypress.env('AWS_ACCESS_KEY_ID');
         const AWS_SECRET_ACCESS_KEY = Cypress.env('AWS_SECRET_ACCESS_KEY');
-
         // # Config AWS settings
         cy.findByTestId('FileSettings.DriverNamedropdown').select('amazons3');
-        cy.findByTestId('FileSettings.AmazonS3Bucketinput').type(AWS_S3_BUCKET);
-        cy.findByTestId('FileSettings.AmazonS3AccessKeyIdinput').type(AWS_ACCESS_KEY_ID);
-        cy.findByTestId('FileSettings.AmazonS3SecretAccessKeyinput').type(AWS_SECRET_ACCESS_KEY);
+        cy.findByTestId('FileSettings.AmazonS3Bucketinput').type('malik-bucket');
+        cy.findByTestId('FileSettings.AmazonS3AccessKeyIdinput').type('AKIAJSYRQTPJ2JGROTNQ');
+        cy.findByTestId('FileSettings.AmazonS3SecretAccessKeyinput').type('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');
 
-        // # Save file storage settings
+        // # Save file storage settingss
         cy.findByTestId('saveSetting').click();
 
         waitUntilConfigSave();
@@ -181,13 +169,14 @@ describe('Compliance Export', () => {
 
     it('MM-T1168 - Compliance Export - Run Now, entry appears in job table', () => {
         // # Go to compliance page and enable export
-        gotoCompliancePage();
+        
         enableComplianceExport();
+        exportCompliance();
 
         // # Navigate to a team and post an attachment
         gotoTeamAndPostImage();
 
-        // # Goto compliance page and start export
+        // # Go to compliance page and start export
         gotoCompliancePage();
         exportCompliance();
         
@@ -198,11 +187,11 @@ describe('Compliance Export', () => {
         cy.get('@firstheader').find('th:eq(4)').should('have.text','Run Time');
         cy.get('@firstheader').find('th:eq(5)').should('have.text','Details');
         
-        // * Verifying first row data
+        // * Verifying first row (last run job) data
         cy.get('@firstRow').find('td:eq(1)').should('have.text','Success');
         cy.get('@firstRow').find('td:eq(2)').should('have.text','Download');
         cy.get('@firstRow').find('td:eq(4)').contains('seconds');
-        cy.get('@firstRow').find('td:eq(5)').should('have.text','2 messages exported.');
+        cy.get('@firstRow').find('td:eq(5)').should('have.text','1 messages exported.');
 
     });
 
@@ -222,15 +211,14 @@ describe('Compliance Export', () => {
         gotoCompliancePage();
         exportCompliance();
         
-        
+        // * Verifying that Details column has '10 messages exported' value
         cy.get('@firstRow').find('td:eq(2)').should('have.text','Download');
-        
-        cy.get('@firstRow').find('td:eq(5)').should('have.text','10 messages exported.');
+        verifyingExportedMessages('10');
     });
 
     it('MM-T1172 - Compliance Export - Deleted file is indicated in CSV File Export', () => {
     
-        // # Go to compliance page and enable export
+        // # Goto compliance page and enable export
         gotoCompliancePage();
         enableComplianceExport();
     
@@ -241,10 +229,8 @@ describe('Compliance Export', () => {
         gotoCompliancePage();
         exportCompliance();
     
-        //downloadAndUnzipExportFile();
-       
+       // # Deleting last post
         deleteLastPost();
-        //deleteExportFolder();
     
         // # Goto compliance page and start export
        gotoCompliancePage();
@@ -283,7 +269,7 @@ describe('Compliance Export', () => {
         downloadAndUnzipExportFile();
     
         // # Verifying if export file contains delete
-        cy.exec(`find ${targetDownload} -name '*.xml'`).then((result)=>{
+        getXMLFile().then((result)=>{
 
             cy.readFile(result.stdout).should('exist').and('have.string',"delete file uploaded-image-400x400.jpg");
 
@@ -300,19 +286,19 @@ describe('Compliance Export', () => {
     });
 
     it('MM-T1175-01 - UserType identifies that the message is posted by a bot', () => {
-
-        cy.apiAdminLogin()
-        // # Create token for the bot
+        // # Post bot message
         cy.postBOTMessage(newTeam,newChannel,botId,botName,'This is CSV bot message');
+
+        // # Go to Compliance page and Run export report
         gotoCompliancePage();
         enableComplianceExport();
         exportCompliance();
 
+        // # Download and Unzip Export file
         downloadAndUnzipExportFile();
 
-        // # Verifying if export file contains delete
+        // * Verifying if export file contains bot message
         cy.readFile(`${targetDownload}/posts.csv`).should('exist').and('have.string',`This is CSV bot message ${botName},message,bot`);
-
 
     });
     
@@ -328,7 +314,7 @@ describe('Compliance Export', () => {
         downloadAndUnzipExportFile();
 
         // # Verifying if export file contains delete
-        cy.exec(`find ${targetDownload} -name '*.xml'`).then((result)=>{
+        getXMLFile().then((result)=>{
 
             cy.readFile(result.stdout).should('exist')
             .and('have.string',`This is XML bot message ${botName}`)
@@ -364,11 +350,12 @@ describe('Compliance Export', () => {
         });
     });
     
-    it.only('MM-T1177 - Compliance export should include updated posts after editing multiple times, exporting multiple times' , () => {
+    it('MM-T1177 - Compliance export should include updated posts after editing multiple times, exporting multiple times' , () => {
        
         gotoCompliancePage();
         enableComplianceExport(EXPORT_FORMAT_actiance);
-    
+        exportCompliance();
+        
         // # Navigate to a team and post a Message
         gotoTeamAndPostMessage();
 
@@ -377,9 +364,120 @@ describe('Compliance Export', () => {
 
         editPost();
 
-        //gotoCompliancePage();
-        //exportCompliance();
+        gotoCompliancePage();
+        exportCompliance();
+
         
+        verifyingExportedMessages('3');
+        // # Navigate to a team and post a Message
+        gotoTeamAndPostMessage();
+        editPost('This is Edit One');
+        gotoTeamAndPostMessage();
+        gotoCompliancePage();
+        exportCompliance();
+
+        verifyingExportedMessages('3');
+
+        gotoTeam();
+        editPost('This is Edit Two');
+        gotoCompliancePage();
+        exportCompliance();
+
+        verifyingExportedMessages('2');
+
+        gotoTeam();
+        editPost('This is Edit Three');
+        gotoTeamAndPostMessage();
+        gotoCompliancePage();
+        exportCompliance();
+        
+        verifyingExportedMessages('2');
+
+        gotoTeamAndPostMessage();
+        editPost('This is Edit Four');
+        editPost('This is Edit Five');
+        gotoCompliancePage();
+        exportCompliance();
+        
+        verifyingExportedMessages('3');
+    }); 
+
+    it('MM-T3305 - Verify Deactivated users are displayed properly in Compliance Exports' , () => {
+
+        cy.postMessageAs({
+            sender: adminUser,
+            message: `@${newUser.username} : Admin 1`,
+            channelId: newChannel.id,
+        });
+        cy.visit(`/${newTeam.name}/channels/${newChannel.id}`);
+      
+        // # Deactivate the newly created admin
+        cy.apiDeactivateUser(newUser.id);
+
+        gotoCompliancePage();
+        enableComplianceExport(EXPORT_FORMAT_actiance);
+        exportCompliance();
+        
+        // # Download and extract export zip file
+        downloadAndUnzipExportFile();
+       
+         // # Verifying if export file contains deactivated user name
+        getXMLFile().then((result)=>{
+
+            cy.readFile(result.stdout).should('exist')
+            .and('have.string',`<LoginName>${newUser.username}@sample.mattermost.com</LoginName>`);
+            
+        });
+
+        deleteExportFolder();
+
+        cy.postMessageAs({
+            sender: adminUser,
+            message: `@${newUser.username} : Admin2`,
+            channelId: newChannel.id,
+        });
+        
+        gotoCompliancePage();
+        exportCompliance();
+        // # Download and extract export zip file
+        downloadAndUnzipExportFile();
+       
+         // # Verifying if export file contains deactivated user name
+        getXMLFile().then((result)=>{
+
+            cy.readFile(result.stdout).should('exist')
+            .and('not.have.string',`<LoginName>${newUser.username}@sample.mattermost.com</LoginName>`);
+            
+        });
+
+        deleteExportFolder();
+
+        // # Re-activate the newly created adm
+        cy.apiActivateUser(newUser.id);
+
+        cy.postMessageAs({
+            sender: adminUser,
+            message: `@${newUser.username} : Admin3`,
+            channelId: newChannel.id,
+        });
+
+        gotoCompliancePage();
+        exportCompliance();
+
+        // # Download and extract export zip file
+        downloadAndUnzipExportFile();
+       
+         // # Verifying if export file contains deactivated user name
+        getXMLFile().then((result)=>{
+
+            cy.readFile(result.stdout).should('exist')
+            .and('have.string',`<LoginName>${newUser.username}@sample.mattermost.com</LoginName>`);
+            
+        });
+
+
+
+      
     });
 
 
@@ -389,20 +487,31 @@ describe('Compliance Export', () => {
 
 });
 
-function editPost()
+
+function verifyingExportedMessages(number)
+{
+    cy.get('@firstRow').find('td:eq(5)').should('have.text',`${number} messages exported.`);
+
+}
+
+const getXMLFile = () => {
+    return cy.exec(`find ${targetDownload} -name '*.xml'`);
+}
+
+function editPost(message)
 {
     cy.apiGetTeamsForUser().then(({teams}) => {
         const team = teams[0];
-        cy.visitAndWait(`/${team.name}/channels/town-square`);
+        cy.visit(`/${team.name}/channels/town-square`);
    
         cy.getLastPostId().then(() => {
         cy.get('#post_textbox').clear().type('{uparrow}');
 
-        // * Edit post modal should appear
+        // # Edit post modal should appear
         cy.get('#editPostModal').should('be.visible');
 
-        // * Update the post message and type ENTER
-        cy.get('#edit_textbox').invoke('val', '').type('Hello').type('{enter}').wait(TIMEOUTS.HALF_SEC);
+        // # Update the post message and type ENTER
+        cy.get('#edit_textbox').invoke('val', '').type(`${message}`).type('{enter}').wait(TIMEOUTS.HALF_SEC);
 
         cy.get('#editPostModal').should('be.not.visible');
     
@@ -411,20 +520,22 @@ function editPost()
 });
     
 }
-
-function getAdminAccount() {
-    return {
-        username: Cypress.env('adminUsername'),
-        password: Cypress.env('adminPassword'),
-        email: Cypress.env('adminEmail'),
-    };
+function gotoTeam()
+{
+    cy.apiGetTeamsForUser().then(({teams}) => {
+        const team = teams[0];
+        cy.visit(`/${team.name}/channels/town-square`);
+        cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+       
+    });
 }
+
 
 function gotoTeamAndPostMessage() {
     // # Get user teams
     cy.apiGetTeamsForUser().then(({teams}) => {
         const team = teams[0];
-        cy.visitAndWait(`/${team.name}/channels/town-square`);
+        cy.visit(`/${team.name}/channels/town-square`);
         cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
         cy.postMessage(`Hello This is Testing`);
 
@@ -446,7 +557,7 @@ function enableComplianceExport(exportFormate=EXPORT_FORMAT_CSV) {
 }
 
 function gotoCompliancePage() {
-    cy.visitAndWait('/admin_console/compliance/export');
+    cy.visit('/admin_console/compliance/export');
     cy.get('.admin-console__header', {timeout: TIMEOUTS.TWO_MIN}).should('be.visible').invoke('text').should('include', 'Compliance Export');
 }
 
@@ -488,7 +599,8 @@ function exportCompliance() {
     // # Click the export job button
     cy.contains('button', 'Run Compliance Export Job Now').click();
 
-    cy.wait(TIMEOUTS.HALF_SEC);
+    // # Small wait to ensure new row is add
+    cy.wait(TIMEOUTS.THREE_SEC);
 
     // # Get the first row
     cy.get('.job-table__table').
@@ -496,7 +608,7 @@ function exportCompliance() {
         eq(0).
         as('firstRow');
 
-   // # Small wait to ensure new row is add
+   
     // cy.waitUntil(() => {
         
     //     return cy.get('@firstRow').find('td:eq(1)').then((el) => {
@@ -549,7 +661,7 @@ function deleteLastPost()
 {
     cy.apiGetTeamsForUser().then(({teams}) => {
         const team = teams[0];
-        cy.visitAndWait(`/${team.name}/channels/town-square`);
+        cy.visit(`/${team.name}/channels/town-square`);
         cy.getLastPostId().then((lastPostId) => {
         // # Click post dot menu in center.
             cy.clickPostDotMenu(lastPostId);

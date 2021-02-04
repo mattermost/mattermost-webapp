@@ -319,7 +319,7 @@ Cypress.Commands.add('postBOTMessage',(newTeam,newChannel,botId,botName,message)
 
         // # Re-login to validate post presence
         cy.apiAdminLogin();
-        cy.visitAndWait(`/${newTeam.name}/channels/` + newChannel.name);
+        cy.visit(`/${newTeam.name}/channels/` + newChannel.name);
 
         // * Validate post was created
         cy.findByText(msg1).should('be.visible');
