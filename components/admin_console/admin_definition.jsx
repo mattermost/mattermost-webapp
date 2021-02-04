@@ -5195,11 +5195,16 @@ const AdminDefinition = {
         icon: 'fa-flask',
         sectionTitle: t('admin.sidebar.experimental'),
         sectionTitleDefault: 'Experimental',
-        isHidden: it.not(it.userHasReadPermissionOnResource('experimental')),
+        isHidden: it.all(
+            it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
+            it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURE_FLAG)),
+            it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.BLEVE)),
+        ),
         experimental_features: {
             url: 'experimental/features',
             title: t('admin.sidebar.experimentalFeatures'),
             title_default: 'Features',
+            isHidden: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
             schema: {
                 id: 'ExperimentalSettings',
                 name: t('admin.experimental.experimentalFeatures'),
@@ -5214,7 +5219,7 @@ const AdminDefinition = {
                         help_text_default: 'Specify the color of the AD/LDAP login button for white labeling purposes. Use a hex code with a #-sign before the code. This setting only applies to the mobile apps.',
                         help_text_markdown: false,
                         isHidden: it.not(it.licensedForFeature('LDAP')),
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_COLOR,
@@ -5225,7 +5230,7 @@ const AdminDefinition = {
                         help_text_default: 'Specify the color of the AD/LDAP login button border for white labeling purposes. Use a hex code with a #-sign before the code. This setting only applies to the mobile apps.',
                         help_text_markdown: false,
                         isHidden: it.not(it.licensedForFeature('LDAP')),
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_COLOR,
@@ -5236,7 +5241,7 @@ const AdminDefinition = {
                         help_text_default: 'Specify the color of the AD/LDAP login button text for white labeling purposes. Use a hex code with a #-sign before the code. This setting only applies to the mobile apps.',
                         help_text_markdown: false,
                         isHidden: it.not(it.licensedForFeature('LDAP')),
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -5247,7 +5252,7 @@ const AdminDefinition = {
                         help_text_default: 'When true, users can change their sign-in method to any that is enabled on the server, any via Account Settings or the APIs. When false, Users cannot change their sign-in method, regardless of which authentication options are enabled.',
                         help_text_markdown: false,
                         isHidden: it.not(it.licensed), // documented as E20 and higher, but only E10 in the code
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_NUMBER,
@@ -5259,7 +5264,7 @@ const AdminDefinition = {
                         help_text_markdown: false,
                         placeholder: t('admin.experimental.linkMetadataTimeoutMilliseconds.example'),
                         placeholder_default: 'E.g.: "5000"',
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_NUMBER,
@@ -5271,7 +5276,7 @@ const AdminDefinition = {
                         help_text_markdown: false,
                         placeholder: t('admin.experimental.emailBatchingBufferSize.example'),
                         placeholder_default: 'E.g.: "256"',
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_NUMBER,
@@ -5283,7 +5288,7 @@ const AdminDefinition = {
                         help_text_markdown: false,
                         placeholder: t('admin.experimental.emailBatchingInterval.example'),
                         placeholder_default: 'E.g.: "30"',
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_COLOR,
@@ -5293,7 +5298,7 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.emailSettingsLoginButtonColor.desc'),
                         help_text_default: 'Specify the color of the email login button for white labeling purposes. Use a hex code with a #-sign before the code. This setting only applies to the mobile apps.',
                         help_text_markdown: false,
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_COLOR,
@@ -5303,7 +5308,7 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.emailSettingsLoginButtonBorderColor.desc'),
                         help_text_default: 'Specify the color of the email login button border for white labeling purposes. Use a hex code with a #-sign before the code. This setting only applies to the mobile apps.',
                         help_text_markdown: false,
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_COLOR,
@@ -5313,7 +5318,7 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.emailSettingsLoginButtonTextColor.desc'),
                         help_text_default: 'Specify the color of the email login button text for white labeling purposes. Use a hex code with a #-sign before the code. This setting only applies to the mobile apps.',
                         help_text_markdown: false,
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -5323,7 +5328,7 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.enableUserDeactivation.desc'),
                         help_text_default: 'When true, users may deactivate their own account from **Account Settings > Advanced**. If a user deactivates their own account, they will get an email notification confirming they were deactivated. When false, users may not deactivate their own account.',
                         help_text_markdown: true,
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -5333,7 +5338,7 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.experimentalEnableAutomaticReplies.desc'),
                         help_text_default: 'When true, users can enable Automatic Replies in **Account Settings > Notifications**. Users set a custom message that will be automatically sent in response to Direct Messages. When false, disables the Automatic Direct Message Replies feature and hides it from Account Settings.',
                         help_text_markdown: true,
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -5343,7 +5348,7 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.enableChannelViewedMessages.desc'),
                         help_text_default: 'This setting determines whether `channel_viewed` WebSocket events are sent, which synchronize unread notifications across clients and devices. Disabling the setting in larger deployments may improve server performance.',
                         help_text_markdown: false,
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -5354,7 +5359,7 @@ const AdminDefinition = {
                         help_text_default: 'Enables client-side certification for your Mattermost server. See [documentation](!https://docs.mattermost.com/deployment/certificate-based-authentication.html) to learn more.',
                         help_text_markdown: true,
                         isHidden: it.not(it.licensedForFeature('SAML')),
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_DROPDOWN,
@@ -5378,7 +5383,7 @@ const AdminDefinition = {
                         ],
                         isHidden: it.not(it.licensedForFeature('SAML')),
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('experimental')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                             it.stateIsFalse('ExperimentalSettings.ClientSideCertEnable'),
                         ),
                     },
@@ -5390,7 +5395,7 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.experimentalEnableDefaultChannelLeaveJoinMessages.desc'),
                         help_text_default: 'This setting determines whether team leave/join system messages are posted in the default town-square channel.',
                         help_text_markdown: false,
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -5400,7 +5405,7 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.experimentalEnableHardenedMode.desc'),
                         help_text_default: 'Enables a hardened mode for Mattermost that makes user experience trade-offs in the interest of security. See [documentation](!https://docs.mattermost.com/administration/config-settings.html#enable-hardened-mode-experimental) to learn more.',
                         help_text_markdown: true,
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -5410,7 +5415,7 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.enablePreviewFeatures.desc'),
                         help_text_default: 'When true, preview features can be enabled from **Account Settings > Advanced > Preview pre-release features**. When false, disables and hides preview features from **Account Settings > Advanced > Preview pre-release features**.',
                         help_text_markdown: true,
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -5421,7 +5426,7 @@ const AdminDefinition = {
                         help_text_default: 'Enables the **Display > Theme** tab in Account Settings so users can select their theme.',
                         help_text_markdown: true,
                         isHidden: it.not(it.licensed), // E10 and higher
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -5433,24 +5438,10 @@ const AdminDefinition = {
                         help_text_markdown: true,
                         isHidden: it.not(it.licensed), // E10 and higher
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('experimental')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                             it.stateIsFalse('ThemeSettings.EnableThemeSelection'),
                         ),
                     },
-
-                    // {
-                    //     type: Constants.SettingsTypes.TYPE_LIST,
-                    //     key: 'ThemeSettings.AllowedThemes',
-                    //     label: t('admin.experimental.allowedThemes.title'),
-                    //     label_default: 'Allowed Themes:',
-                    //     help_text: t('admin.experimental.allowedThemes.desc'),
-                    //     help_text_default: 'A comma-separated list of themes that can be chosen by users when "EnableThemeSelection" is set to true.',
-                    //     help_text_markdown: true,
-                    //     placeholder: t('admin.experimental.allowedThemes.example'),
-                    //     placeholder_default: 'E.g.: "default, organization, mattermostDark, windows10"',
-                    //     isHidden: it.not(it.licensed), // E10 and higher
-                    //     isDisabled: it.stateIsTrue('ThemeSettings.EnableThemeSelection'),
-                    // },
                     {
                         type: Constants.SettingsTypes.TYPE_DROPDOWN,
                         key: 'ThemeSettings.DefaultTheme',
@@ -5482,7 +5473,7 @@ const AdminDefinition = {
                             },
                         ],
                         isHidden: it.not(it.licensed), // E10 and higher
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -5492,7 +5483,7 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.enableTutorial.desc'),
                         help_text_default: 'When true, users are prompted with a tutorial when they open Mattermost for the first time after account creation. When false, the tutorial is disabled, and users are placed in Town Square when they open Mattermost for the first time after account creation.',
                         help_text_markdown: false,
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -5502,7 +5493,7 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.enableUserTypingMessages.desc'),
                         help_text_default: 'This setting determines whether "user is typing..." messages are displayed below the message box. Disabling the setting in larger deployments may improve server performance.',
                         help_text_markdown: false,
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_NUMBER,
@@ -5515,7 +5506,7 @@ const AdminDefinition = {
                         placeholder: t('admin.experimental.timeBetweenUserTypingUpdatesMilliseconds.example'),
                         placeholder_default: 'E.g.: "5000"',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('experimental')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                             it.stateIsFalse('ServiceSettings.EnableUserTypingMessages'),
                         ),
                     },
@@ -5529,7 +5520,7 @@ const AdminDefinition = {
                         help_text_markdown: true,
                         placeholder: t('admin.experimental.experimentalPrimaryTeam.example'),
                         placeholder_default: 'E.g.: "teamname"',
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -5540,7 +5531,7 @@ const AdminDefinition = {
                         help_text_default: 'Enable an updated SAML Library, which does not require the XML Security Library (xmlsec1) to be installed. Warning: Not all providers have been tested. If you experience issues, please contact support: [https://about.mattermost.com/support/](!https://about.mattermost.com/support/). Changing this setting requires a server restart before taking effect.',
                         help_text_markdown: true,
                         isHidden: true || it.not(it.licensedForFeature('SAML')),
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_COLOR,
@@ -5551,7 +5542,7 @@ const AdminDefinition = {
                         help_text_default: 'Specify the color of the SAML login button for white labeling purposes. Use a hex code with a #-sign before the code. This setting only applies to the mobile apps.',
                         help_text_markdown: false,
                         isHidden: it.not(it.licensedForFeature('SAML')),
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_COLOR,
@@ -5562,7 +5553,7 @@ const AdminDefinition = {
                         help_text_default: 'Specify the color of the SAML login button border for white labeling purposes. Use a hex code with a #-sign before the code. This setting only applies to the mobile apps.',
                         help_text_markdown: false,
                         isHidden: it.not(it.licensedForFeature('SAML')),
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_COLOR,
@@ -5573,7 +5564,7 @@ const AdminDefinition = {
                         help_text_default: 'Specify the color of the SAML login button text for white labeling purposes. Use a hex code with a #-sign before the code. This setting only applies to the mobile apps.',
                         help_text_markdown: false,
                         isHidden: it.not(it.licensedForFeature('SAML')),
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -5584,7 +5575,7 @@ const AdminDefinition = {
                         help_text_default: 'When enabled, users cannot access new sidebar features including custom, collapsible categories and unread channel filtering. We recommend only enabling the legacy sidebar if users are experiencing breaking changes or bugs.',
                         help_text_markdown: true,
                         isHidden: it.licensedForFeature('Cloud'),
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -5598,7 +5589,7 @@ const AdminDefinition = {
                             it.licensedForFeature('Cloud'),
                             it.configIsFalse('ServiceSettings', 'EnableLegacySidebar'),
                         ),
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -5612,7 +5603,7 @@ const AdminDefinition = {
                             it.licensedForFeature('Cloud'),
                             it.configIsFalse('ServiceSettings', 'EnableLegacySidebar'),
                         ),
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -5626,7 +5617,7 @@ const AdminDefinition = {
                             it.licensedForFeature('Cloud'),
                             it.configIsFalse('ServiceSettings', 'EnableLegacySidebar'),
                         ),
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -5641,7 +5632,7 @@ const AdminDefinition = {
                             it.licensedForFeature('Cloud'),
                             it.configIsFalse('ServiceSettings', 'EnableLegacySidebar'),
                         ),
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -5651,7 +5642,7 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.experimentalTimezone.desc'),
                         help_text_default: 'Select the timezone used for timestamps in the user interface and email notifications. When true, the Timezone setting is visible in the Account Settings and a time zone is automatically assigned in the next active session. When false, the Timezone setting is hidden in the Account Settings.',
                         help_text_markdown: false,
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -5662,7 +5653,7 @@ const AdminDefinition = {
                         help_text_default: 'When true, only System Admins can post in Town Square. Other members are not able to post, reply, upload files, emoji react or pin messages to Town Square, nor are they able to change the channel name, header or purpose. When false, anyone can post in Town Square.',
                         help_text_markdown: true,
                         isHidden: it.not(it.licensed), // E10 and higher
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -5672,7 +5663,7 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.useChannelInEmailNotifications.desc'),
                         help_text_default: 'When true, channel and team name appears in email notification subject lines. Useful for servers using only one team. When false, only team name appears in email notification subject line.',
                         help_text_markdown: false,
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_NUMBER,
@@ -5684,39 +5675,8 @@ const AdminDefinition = {
                         help_text_markdown: false,
                         placeholder: t('admin.experimental.userStatusAwayTimeout.example'),
                         placeholder_default: 'E.g.: "300"',
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
-                    }, // eslint-disable-next-line lines-around-comment
-                    // {
-                    //     type: Constants.SettingsTypes.TYPE_BOOL,
-                    //     key: 'ServiceSettings.ExperimentalStrictCSRFEnforcement',
-                    //     label: t('admin.experimental.experimentalStrictCSRFEnforcement.title'),
-                    //     label_default: 'TODO:',
-                    //     help_text: t('admin.experimental.experimentalStrictCSRFEnforcement.desc'),
-                    //     help_text_default: 'TODO',
-                    //     help_text_markdown: false,
-                    // },
-                    // {
-                    //     type: Constants.SettingsTypes.TYPE_LIST,
-                    //     key: 'TeamSettings.ExperimentalDefaultChannels',
-                    //     label: t('admin.experimental.experimentalDefaultChannels.title'),
-                    //     label_default: 'Default Channels:',
-                    //     help_text: t('admin.experimental.experimentalDefaultChannels.desc'),
-                    //     help_text_default: 'A comma-separated list of default channels every user is added to automatically after joining a new team. Only applies to public channels, but affects all teams on the server. When not set, every user is added to `off-topic` and `town-square` channel by default. Note that even if `town-square` is not listed, every user is added to that channel after joining a new team.',
-                    //     help_text_markdown: true,
-                    //     placeholder: t('admin.experimental.experimentalDefaultChannels.example'),
-                    //     placeholder_default: 'E.g.: "channel1, channel2, off-topic"',
-                    // },
-                    // {
-                    //     type: Constants.SettingsTypes.TYPE_TEXT,
-                    //     key: 'EmailSettings.ReplyToAddress',
-                    //     label: t('admin.experimental.replyToAddress.title'),
-                    //     label_default: 'Reply To Address:',
-                    //     help_text: t('admin.experimental.replyToAddress.desc'),
-                    //     help_text_default: 'TODO',
-                    //     help_text_markdown: true,
-                    //     placeholder: t('admin.experimental.replyToAddress.example'),
-                    //     placeholder_default: 'E.g.: "reply-to@example.com"',
-                    // },
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
+                    }, 
                 ],
             },
         },
@@ -5724,7 +5684,10 @@ const AdminDefinition = {
             url: 'experimental/feature_flags',
             title: t('admin.feature_flags.title'),
             title_default: 'Feature Flags',
-            isHidden: it.configIsTrue('ExperimentalSettings'),
+            isHidden: it.any(
+                it.configIsTrue('ExperimentalSettings'),
+                it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURE_FLAG)),
+            ),
             isDisabled: true,
             searchableStrings: [
                 'admin.feature_flags.title',
@@ -5738,8 +5701,11 @@ const AdminDefinition = {
             url: 'experimental/blevesearch',
             title: t('admin.sidebar.blevesearch'),
             title_default: 'Bleve',
-            isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
-            isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
+            isHidden: it.any(
+                it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
+                it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.BLEVE))
+            ),
+            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.BLEVE)),
             searchableStrings: [
                 'admin.bleve.title',
                 'admin.bleve.enableIndexingTitle',
