@@ -61,7 +61,7 @@ describe('Messaging', () => {
         writeLinesToPostTextBox(lines);
 
         // # Visit a different channel by URL and verify textbox
-        cy.visit(`/${testTeam.name}/channels/off-topic`);
+        cy.visit(`/${testTeam.name}/channels/off-topic`).wait(TIMEOUTS.THREE_SEC);
         verifyPostTextbox('@initialHeight', '');
 
         // # Should have returned to the channel by URL. However, Cypress is clearing storage for some reason.
@@ -90,6 +90,7 @@ function writeLinesToPostTextBox(lines) {
             });
         }
     }
+    cy.wait(TIMEOUTS.THREE_SEC);
 }
 
 function verifyPostTextbox(heightSelector, text) {
