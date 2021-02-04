@@ -588,7 +588,7 @@ describe('AppCommandParser', () => {
             const suggestions = await parser.getSuggestions('/jira ');
             expect(suggestions).toEqual([
                 {
-                    suggestion: 'issue',
+                    suggestion: '/issue',
                     complete: '/jira issue ',
                     hint: '',
                     description: 'Interact with Jira issues',
@@ -600,7 +600,7 @@ describe('AppCommandParser', () => {
             const suggestions = await parser.getSuggestions('/jira issue');
             expect(suggestions).toEqual([
                 {
-                    suggestion: 'issue',
+                    suggestion: '/issue',
                     complete: '/jira issue ',
                     hint: '',
                     description: 'Interact with Jira issues',
@@ -612,13 +612,13 @@ describe('AppCommandParser', () => {
             const suggestions = await parser.getSuggestions('/jira issue ');
             expect(suggestions).toEqual([
                 {
-                    suggestion: 'view',
+                    suggestion: '/view',
                     complete: '/jira issue view ',
                     hint: '',
                     description: 'View details of a Jira issue',
                 },
                 {
-                    suggestion: 'create',
+                    suggestion: '/create',
                     complete: '/jira issue create ',
                     hint: '',
                     description: 'Create a new Jira issue',
@@ -630,7 +630,7 @@ describe('AppCommandParser', () => {
             const suggestions = await parser.getSuggestions('/jira issue c');
             expect(suggestions).toEqual([
                 {
-                    suggestion: 'create',
+                    suggestion: '/create',
                     complete: '/jira issue create ',
                     hint: '',
                     description: 'Create a new Jira issue',
@@ -645,7 +645,7 @@ describe('AppCommandParser', () => {
                     complete: '/jira issue view ',
                     description: 'The Jira issue key',
                     hint: 'MM-11343',
-                    suggestion: '',
+                    suggestion: '/',
                 },
             ]);
         });
@@ -657,7 +657,7 @@ describe('AppCommandParser', () => {
                     complete: '/jira issue view --project ',
                     description: 'The Jira project description',
                     hint: 'The Jira project hint',
-                    suggestion: '--project',
+                    suggestion: '/--project',
                 },
             ]);
 
@@ -667,7 +667,7 @@ describe('AppCommandParser', () => {
                     complete: '/jira issue view --project ',
                     description: 'The Jira project description',
                     hint: 'The Jira project hint',
-                    suggestion: '--project',
+                    suggestion: '/--project',
                 },
             ]);
         });
@@ -686,25 +686,25 @@ describe('AppCommandParser', () => {
                     complete: '/jira issue create --project ',
                     description: 'The Jira project description',
                     hint: 'The Jira project hint',
-                    suggestion: '--project',
+                    suggestion: '/--project',
                 },
                 {
                     complete: '/jira issue create --summary ',
                     description: 'The Jira issue summary',
                     hint: 'The thing is working great!',
-                    suggestion: '--summary',
+                    suggestion: '/--summary',
                 },
                 {
                     complete: '/jira issue create --verbose ',
                     description: 'display details',
                     hint: 'yes or no!',
-                    suggestion: '--verbose',
+                    suggestion: '/--verbose',
                 },
                 {
                     complete: '/jira issue create --epic ',
                     description: 'The Jira epic',
                     hint: 'The thing is working great!',
-                    suggestion: '--epic',
+                    suggestion: '/--epic',
                 },
             ]);
         });
@@ -716,7 +716,7 @@ describe('AppCommandParser', () => {
                     complete: '/jira issue create --project KT --summary ',
                     description: 'The Jira issue summary',
                     hint: 'The thing is working great!',
-                    suggestion: '--summary',
+                    suggestion: '/--summary',
                 },
             ]);
 
@@ -726,7 +726,7 @@ describe('AppCommandParser', () => {
                     complete: '/jira issue create --project KT --summary ',
                     description: 'The Jira issue summary',
                     hint: 'The thing is working great!',
-                    suggestion: '--summary',
+                    suggestion: '/--summary',
                 },
             ]);
         });
@@ -738,7 +738,7 @@ describe('AppCommandParser', () => {
                     complete: '/jira issue create --summary ',
                     description: 'The Jira issue summary',
                     hint: 'The thing is working great!',
-                    suggestion: '',
+                    suggestion: '/',
                 },
             ]);
         });
@@ -753,7 +753,7 @@ describe('AppCommandParser', () => {
             expect(suggestions).toEqual([
                 {
                     complete: '/jira issue create --project special-value ',
-                    suggestion: 'special-value',
+                    suggestion: '/special-value',
                     description: 'special-label',
                     hint: '',
                     iconData: undefined,
@@ -766,13 +766,13 @@ describe('AppCommandParser', () => {
             expect(suggestions).toEqual([
                 {
                     complete: '/jira issue create --project KT --summary "great feature" --epic Dylan Epic ',
-                    suggestion: 'Dylan Epic',
+                    suggestion: '/Dylan Epic',
                     description: '',
                     hint: '',
                 },
                 {
                     complete: '/jira issue create --project KT --summary "great feature" --epic Michael Epic ',
-                    suggestion: 'Michael Epic',
+                    suggestion: '/Michael Epic',
                     description: '',
                     hint: '',
                 },
@@ -782,7 +782,7 @@ describe('AppCommandParser', () => {
             expect(suggestions).toEqual([
                 {
                     complete: '/jira issue create --project KT --summary "great feature" --epic Michael Epic ',
-                    suggestion: 'Michael Epic',
+                    suggestion: '/Michael Epic',
                     description: '',
                     hint: '',
                 },

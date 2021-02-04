@@ -168,7 +168,7 @@ export class AppCommandParser {
             ParseState.ParameterSeparator,
             ParseState.EndValue,
         ];
-        const call = parsed.binding?.call || parsed.binding?.form?.call;
+        const call = parsed.form?.call || parsed.binding?.call || parsed.binding?.form?.call;
         const hasRequired = this.getMissingFields(parsed).length === 0;
         const hasValue = (parsed.state !== ParseState.EndValue || (parsed.field && parsed.values[parsed.field.name] !== undefined));
 
@@ -196,15 +196,12 @@ export class AppCommandParser {
             return null;
         }
 
-        let call = parsed.binding.call;
-        if (parsed.form && parsed.form.call) {
-            call = parsed.form.call;
-        }
+        const call = parsed.form?.call || parsed.binding.call;
         if (!call) {
             return null;
         }
 
-        const payload: AppCall = {
+        return {
             ...call,
             type: AppCallTypes.SUBMIT,
             context: {
@@ -214,7 +211,6 @@ export class AppCommandParser {
             values: parsed.values,
             raw_command: parsed.command,
         };
-        return payload;
     }
 
     // matchBinding finds the closest matching command binding.
@@ -322,7 +318,10 @@ export class AppCommandParser {
             return this.parseError('"' + command + '": no match');
         }
 
-        const form = parsed.binding.form || this.forms[parsed.location] || await this.fetchForm(parsed.binding);
+        let form: AppForm | undefined = parsed.binding.form || this.forms[parsed.location];
+        if (!form) {
+            form = await this.fetchForm(parsed.binding);
+        }
         if (form) {
             this.forms[parsed.location] = form;
             parsed.form = form;
@@ -613,6 +612,7 @@ export class AppCommandParser {
             complete += ' ';
         }
         choice.hint = choice.hint || '';
+        choice.suggestion = '/' + choice.suggestion;
 
         return {
             ...choice,
@@ -721,11 +721,7 @@ export class AppCommandParser {
             return undefined;
         }
 
-        if (callResponse?.form) {
-            return callResponse.form;
-        }
-
-        return undefined;
+        return callResponse?.form;
     }
 
     // displayError shows an error that was caught by the parser
@@ -741,7 +737,7 @@ export class AppCommandParser {
 
     // getSuggestionsForSubCommands returns suggestions for a subcommand's name
     getCommandSuggestions = (parsed: ParsedCommand): AutocompleteSuggestion[] => {
-        if (!parsed.binding || !parsed.binding.bindings || !parsed.binding.bindings.length) {
+        if (!parsed.binding?.bindings?.length) {
             return [];
         }
         const bindings = parsed.binding.bindings;
