@@ -51,6 +51,9 @@ const CustomStatusEmoji = (props: ComponentProps) => {
                             <RenderEmoji
                                 emoji={customStatus.emoji}
                                 size={14}
+                                emojiStyle={{
+                                    marginTop: 2,
+                                }}
                             />
                             {/* This string acts as a whitespace character */}
                             {'\u00A0'}
