@@ -100,25 +100,27 @@ export default class SignupController extends React.PureComponent {
 
     componentDidMount() {
         this.props.actions.removeGlobalItem('team');
-        if (this.props.location.search) {
+        let isFreeTierWithNoFreeSeats = false;
+        if (this.props.subscriptionStats) {
+            const {is_paid_tier: isPaidTier, remaining_seats: remainingSeats} = this.props.subscriptionStats;
+            isFreeTierWithNoFreeSeats = isPaidTier === 'false' && remainingSeats === 0;
+        }
+
+        if (this.props.isCloud && isFreeTierWithNoFreeSeats) {
+            browserHistory.push('/error?type=max_free_users_reached');
+        } else if (this.props.location.search) {
             const params = new URLSearchParams(this.props.location.search);
             const token = params.get('t') || '';
             const inviteId = params.get('id') || '';
 
             const userLoggedIn = this.props.loggedIn;
-            const {isCloud, subscriptionStats} = this.props;
-            const isFreeTierWithNoAvailableSeats = subscriptionStats && subscriptionStats.is_free_tier && subscriptionStats.remaining_seats === 0;
 
-            if (isCloud && isFreeTierWithNoAvailableSeats) {
-                browserHistory.push('/error?type=max_free_users_reached');
-            } else {
-                if ((inviteId || token) && userLoggedIn) {
-                    this.addUserToTeamFromInvite(token, inviteId);
-                } else if (inviteId) {
-                    this.getInviteInfo(inviteId);
-                } else if (userLoggedIn) {
-                    GlobalActions.redirectUserToDefaultTeam();
-                }
+            if ((inviteId || token) && userLoggedIn) {
+                this.addUserToTeamFromInvite(token, inviteId);
+            } else if (inviteId) {
+                this.getInviteInfo(inviteId);
+            } else if (userLoggedIn) {
+                GlobalActions.redirectUserToDefaultTeam();
             }
         }
     }

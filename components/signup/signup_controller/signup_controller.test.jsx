@@ -115,8 +115,8 @@ describe('components/SignupController', () => {
             },
             subscriptionStats: {
                 ...baseProps.subscriptionStats,
-                is_free_tier: 'true',
-                remaining_seats: 0
+                is_paid_tier: 'false',
+                remaining_seats: 0,
             },
             actions: {
                 ...baseProps.actions,
