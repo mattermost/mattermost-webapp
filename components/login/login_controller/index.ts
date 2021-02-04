@@ -20,8 +20,8 @@ import {login} from 'actions/views/login';
 import LoginController from './login_controller';
 
 type Actions = {
-    login: (loginId: string, password: string, mfaToken: string) => Promise<{ data: boolean, error: ServerError }>;
-    addUserToTeamFromInvite: (token: string, inviteId: string) => Promise<{ data: Team, error: ServerError }>
+    login: (loginId: string, password: string, mfaToken: string) => Promise<{ data: boolean; error: ServerError }>;
+    addUserToTeamFromInvite: (token: string, inviteId: string) => Promise<{ data: Team; error: ServerError }>;
 }
 
 function mapStateToProps(state: GlobalState) {

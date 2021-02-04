@@ -3235,6 +3235,8 @@
   "login_mfa.submit": "Submit",
   "login_mfa.submitting": "Submitting...",
   "login_mfa.token": "MFA Token",
+  "login.changed": " Sign-in method changed successfully",
+  "login.create": "Create one now",
   "login.createTeam": "Create a team",
   "login.email": "Email",
   "login.forgot": "I forgot my password.",

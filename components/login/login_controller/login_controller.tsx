@@ -29,6 +29,7 @@ import WarningIcon from 'components/widgets/icons/fa_warning_icon';
 import LocalizedInput from 'components/localized_input/localized_input';
 import Markdown from 'components/markdown';
 import LoginMfa from '../login_mfa.jsx';
+
 interface Props extends RouteProps {
     intl: IntlShape;
     isLicensed: boolean;
@@ -49,8 +50,8 @@ interface Props extends RouteProps {
     experimentalPrimaryTeam?: string;
     ldapLoginFieldName?: string;
     samlLoginButtonText?: string;
-    openidButtonText: string;
-    openidButtonColor: string;
+    openidButtonText?: string;
+    openidButtonColor?: string;
     siteName?: string;
     initializing?: boolean;
     actions: {
@@ -64,7 +65,7 @@ type State = {
     usernameSigninEnabled: boolean;
     emailSigninEnabled: boolean;
     samlEnabled: boolean;
-    loginId: string;
+    loginId?: string;
     password: string;
     showMfa: boolean;
     loading: boolean;
@@ -82,8 +83,8 @@ export class LoginController extends React.PureComponent<Props, State> {
         super(props);
 
         let loginId = '';
-        if ((new URLSearchParams(this.props.location!.search)).get('extra') === Constants.SIGNIN_VERIFIED && (new URLSearchParams(this.props.location!.search)).get('email')) {
-            loginId = (new URLSearchParams(this.props.location!.search)).get('email')!;
+        if ((new URLSearchParams(this.props.location?.search)).get('extra') === Constants.SIGNIN_VERIFIED && (new URLSearchParams(this.props.location?.search)).get('email')) {
+            loginId = (new URLSearchParams(this.props.location?.search)).get('email')!;
         }
 
         this.state = {
@@ -112,7 +113,7 @@ export class LoginController extends React.PureComponent<Props, State> {
             return;
         }
 
-        const search = new URLSearchParams(this.props.location!.search);
+        const search = new URLSearchParams(this.props.location?.search);
         const extra = search.get('extra');
         const email = search.get('email');
 
@@ -134,7 +135,7 @@ export class LoginController extends React.PureComponent<Props, State> {
                 // eslint-disable-next-line react/no-did-mount-set-state
                 this.setState({sessionExpired: true});
                 search.set('extra', Constants.SESSION_EXPIRED);
-                browserHistory.replace(`${this.props.location!.pathname}?${search}`);
+                browserHistory.replace(`${this.props.location?.pathname}?${search}`);
             }
         }
 
@@ -184,7 +185,7 @@ export class LoginController extends React.PureComponent<Props, State> {
                     }
                 },
             }).then((closeNotification) => {
-                this.closeSessionExpiredNotification = closeNotification!;
+                this.closeSessionExpiredNotification = closeNotification;
             }).catch(() => {
                 // Ignore the failure to display the notification.
             });
@@ -201,9 +202,9 @@ export class LoginController extends React.PureComponent<Props, State> {
         this.onDismissSessionExpired();
 
         const {location} = this.props;
-        const newQuery = location!.search.replace(/(extra=password_change)&?/i, '');
-        if (newQuery !== location!.search) {
-            browserHistory.replace(`${location!.pathname}${newQuery}${location!.hash}`);
+        const newQuery = location?.search.replace(/(extra=password_change)&?/i, '');
+        if (newQuery !== location?.search) {
+            browserHistory.replace(`${location?.pathname}${newQuery}${location?.hash}`);
         }
 
         // password managers don't always call onInput handlers for form fields so it's possible
@@ -320,7 +321,7 @@ export class LoginController extends React.PureComponent<Props, State> {
             }
 
             // check for query params brought over from signup_user_complete
-            const params = new URLSearchParams(this.props.location!.search);
+            const params = new URLSearchParams(this.props.location?.search);
             const inviteToken = params.get('t') || '';
             const inviteId = params.get('id') || '';
 
@@ -340,7 +341,7 @@ export class LoginController extends React.PureComponent<Props, State> {
 
     finishSignin = (team?: Team): void => {
         const experimentalPrimaryTeam = this.props.experimentalPrimaryTeam;
-        const query = new URLSearchParams(this.props.location!.search);
+        const query = new URLSearchParams(this.props.location?.search);
         const redirectTo = query.get('redirect_to');
 
         Utils.setCSRFFromCookie();
@@ -451,7 +452,7 @@ export class LoginController extends React.PureComponent<Props, State> {
     }
 
     createExtraText = (): JSX.Element | null => {
-        const extraParam = (new URLSearchParams(this.props.location!.search)).get('extra');
+        const extraParam = (new URLSearchParams(this.props.location?.search)).get('extra');
 
         if (this.state.sessionExpired) {
             return (
@@ -637,7 +638,7 @@ export class LoginController extends React.PureComponent<Props, State> {
                         />
                         <Link
                             id='signup'
-                            to={'/signup_user_complete' + this.props.location!.search}
+                            to={'/signup_user_complete' + this.props.location?.search}
                             className='signup-team-login'
                         >
                             <FormattedMessage
@@ -696,7 +697,7 @@ export class LoginController extends React.PureComponent<Props, State> {
                     id='GitLabButton'
                     className='btn btn-custom-login gitlab'
                     key='gitlab'
-                    href={Client4.getOAuthRoute() + '/gitlab/login' + this.props.location!.search}
+                    href={Client4.getOAuthRoute() + '/gitlab/login' + this.props.location?.search}
                 >
                     <span>
                         <span className='icon'/>
@@ -717,7 +718,7 @@ export class LoginController extends React.PureComponent<Props, State> {
                     id='GoogleButton'
                     className='btn btn-custom-login google'
                     key='google'
-                    href={Client4.getOAuthRoute() + '/google/login' + this.props.location!.search}
+                    href={Client4.getOAuthRoute() + '/google/login' + this.props.location?.search}
                 >
                     <span>
                         <span className='icon'/>
@@ -738,7 +739,7 @@ export class LoginController extends React.PureComponent<Props, State> {
                     id='Office365Button'
                     className='btn btn-custom-login office365'
                     key='office365'
-                    href={Client4.getOAuthRoute() + '/office365/login' + this.props.location!.search}
+                    href={Client4.getOAuthRoute() + '/office365/login' + this.props.location?.search}
                 >
                     <span>
                         <span className='icon'/>
@@ -789,7 +790,7 @@ export class LoginController extends React.PureComponent<Props, State> {
                 <a
                     className='btn btn-custom-login saml'
                     key='saml'
-                    href={Client4.getUrl() + '/login/sso/saml' + this.props.location!.search}
+                    href={Client4.getUrl() + '/login/sso/saml' + this.props.location?.search}
                 >
                     <span>
                         <span
