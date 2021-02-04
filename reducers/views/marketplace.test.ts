@@ -5,7 +5,6 @@ import type {MarketplacePlugin} from 'mattermost-redux/types/marketplace';
 import type {GenericAction} from 'mattermost-redux/types/actions';
 
 import marketplaceReducer from 'reducers/views/marketplace';
-
 import {ActionTypes, ModalIdentifiers} from 'utils/constants';
 
 describe('marketplace', () => {

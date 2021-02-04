@@ -176,6 +176,7 @@ export class MarketplaceModal extends React.PureComponent<MarketplaceModalProps,
         trackEvent('plugins', 'ui_marketplace_search', {filter: this.state.filter});
 
         const {error} = await this.props.actions.filterListing(this.state.filter);
+
         this.setState({serverError: error});
     }
 
