@@ -226,7 +226,7 @@ export class LoginController extends React.PureComponent<Props, State> {
         }
 
         // don't trim the password since we support spaces in passwords
-        loginId = loginId.trim().toLowerCase();
+        loginId = loginId?.trim().toLowerCase();
 
         if (!loginId) {
             t('login.noEmail');
