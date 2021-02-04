@@ -104,7 +104,7 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
     getRemainingUsers = (): number => {
         const {subscriptionStats} = this.props;
         const {emails} = this.state;
-        return subscriptionStats.remaining_seats - emails.length;
+        return subscriptionStats!.remaining_seats - emails.length;
     }
 
     onInputChange = (value: string, change: InputActionMeta) => {
@@ -128,10 +128,10 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
             this.setState({
                 emails: newEmails,
                 emailInput: '',
-                emailError: newEmails.length > subscriptionStats.remaining_seats ? this.props.intl.formatMessage({
+                emailError: newEmails.length > subscriptionStats!.remaining_seats ? this.props.intl.formatMessage({
                     id: 'next_steps_view.invite_members_step.tooManyEmails',
                     defaultMessage: 'Invitations are limited to {num}'},
-                {num: subscriptionStats.remaining_seats}) : undefined,
+                {num: subscriptionStats!.remaining_seats}) : undefined,
             });
         } else {
             this.setState({emailInput: value});
@@ -149,11 +149,11 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
 
         const {subscriptionStats} = this.props;
 
-        if (value.length > subscriptionStats.remaining_seats) {
+        if (value.length > subscriptionStats!.remaining_seats) {
             this.setState({emailError: this.props.intl.formatMessage({
                 id: 'next_steps_view.invite_members_step.tooManyEmails',
                 defaultMessage: 'Invitations are limited to {num}'},
-            {num: subscriptionStats.remaining_seats})});
+            {num: subscriptionStats!.remaining_seats})});
         }
 
         this.setState({emails: value});
@@ -168,10 +168,10 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
             this.setState({
                 emails: newEmails,
                 emailInput: '',
-                emailError: newEmails.length > subscriptionStats.remaining_seats ? this.props.intl.formatMessage({
+                emailError: newEmails.length > subscriptionStats!.remaining_seats ? this.props.intl.formatMessage({
                     id: 'next_steps_view.invite_members_step.tooManyEmails',
                     defaultMessage: 'Invitations are limited to {num}'},
-                {num: subscriptionStats.remaining_seats}) : undefined,
+                {num: subscriptionStats!.remaining_seats}) : undefined,
             });
         }
     }
@@ -260,7 +260,7 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
                                 id='next_steps_view.invite_members_step.youCanInviteUpTo'
                                 defaultMessage='You can invite up to {members} team members using a space or comma between addresses'
                                 values={{
-                                    members: this.props.subscriptionStats.remaining_seats,
+                                    members: this.props.subscriptionStats!.remaining_seats,
                                 }}
                             />
                             <MultiInput
