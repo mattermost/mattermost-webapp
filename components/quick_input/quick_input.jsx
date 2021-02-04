@@ -7,9 +7,8 @@ import {FormattedMessage} from 'react-intl';
 import {Tooltip} from 'react-bootstrap';
 
 import OverlayTrigger from 'components/overlay_trigger';
+import AutosizeTextarea from 'components/autosize_textarea';
 import Constants from 'utils/constants.jsx';
-
-import AutosizeTextarea from './autosize_textarea';
 
 // A component that can be used to make controlled inputs that function properly in certain
 // environments (ie. IE11) where typing quickly would sometimes miss inputs
