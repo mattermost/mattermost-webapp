@@ -61,7 +61,7 @@ function mapStateToProps(state: GlobalState) {
                 experimentalPrimaryTeam = undefined;
             }
         } else {
-            experimentalPrimaryTeam = '';
+            experimentalPrimaryTeam = undefined;
         }
     }
 
