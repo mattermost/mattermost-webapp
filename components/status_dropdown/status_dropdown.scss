@@ -7,15 +7,21 @@
     max-width: 238px;
     &:hover {
         background-color: rgba(var(--center-channel-color-rgb), 0.08);
+        .custom-status-emoji{
+            fill: var(--center-channel-color-72);
+        }
     }
 
     &:active {
         background-color: rgba(var(--button-bg-rgb), 0.08);
-        color: var(--button-bg);
     }
 }
 .custom_status__icon{
     margin-right: 10px;
+}
+
+.custom-status-emoji{
+    fill: var(--center-channel-color-56);
 }
 
 .custom_status__text{

@@ -305,7 +305,7 @@ class ProfilePopover extends React.PureComponent {
                         delayShow={Constants.OVERLAY_TIME_DELAY}
                         placement='top'
                         overlay={
-                            <Tooltip id='custom-status-text-tooltip'>
+                            <Tooltip id='custom-status-tooltip'>
                                 <Markdown
                                     message={customStatus.text}
                                     enableFormatting={true}

@@ -22,7 +22,7 @@ type Props = {
 const CustomStatusSuggestion: React.FC<Props> = (props: Props) => {
     const {handleSuggestionClick, emoji, text, handleClear} = props;
     const [show, setShow] = useState(false);
-    const textRef = useRef(null);
+    const textRef = useRef<HTMLSpanElement>(null);
 
     const showClearButton = () => {
         setShow(true);
@@ -89,7 +89,7 @@ const CustomStatusSuggestion: React.FC<Props> = (props: Props) => {
                 delayShow={Constants.OVERLAY_TIME_DELAY}
                 placement='top'
                 overlay={
-                    <Tooltip id='custom-status-text'>
+                    <Tooltip id='custom-status-tooltip'>
                         <Markdown
                             message={text}
                             enableFormatting={true}

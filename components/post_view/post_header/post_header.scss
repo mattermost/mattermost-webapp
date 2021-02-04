@@ -2,17 +2,17 @@
     display: none;
 }
 
-.post.other--root.current--user {
+.post.other--root.current--user, .post.post--root.current--user {
     .post__header-set-custom-status {
         display: revert;
         background: rgba(var(--center-channel-color-rgb), 0.08);
-        padding: 0 4px;
+        padding: 0 6px;
         border-radius: 4px;
         margin-left: 8px;
         
         .post__header-set-custom-status-icon > svg {
-            height: 14px;
-            width: 14px;
+            height: 12px;
+            width: 12px;
             vertical-align: middle;
             background: inherit;
             fill: rgba(var(--center-channel-color-rgb), 0.56);

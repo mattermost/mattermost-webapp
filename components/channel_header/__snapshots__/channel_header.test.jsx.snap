@@ -1029,6 +1029,7 @@ exports[`components/ChannelHeader should render properly when custom status is s
             <MenuWrapper
               animationComponent={[Function]}
               className=""
+              onToggle={[Function]}
             >
               <div
                 className="channel-header__top"
@@ -1036,7 +1037,7 @@ exports[`components/ChannelHeader should render properly when custom status is s
               >
                 <button
                   aria-label="channel menu"
-                  className="channel-header__trigger style--none"
+                  className="channel-header__trigger style--none "
                 >
                   <strong
                     aria-level="2"
@@ -1065,7 +1066,7 @@ exports[`components/ChannelHeader should render properly when custom status is s
                   </strong>
                   <span
                     aria-label="dropdown icon"
-                    className="fa fa-angle-down header-dropdown__icon"
+                    className="icon icon-chevron-down header-dropdown-chevron-icon"
                     id="channelHeaderDropdownIcon"
                   />
                 </button>
@@ -1102,8 +1103,28 @@ exports[`components/ChannelHeader should render properly when custom status is s
               tooltipDirection="top"
               userID="user_id"
             />
-            In a meeting
+            <span
+              className="overflow--ellipsis text-nowrap"
+            >
+              <Connect(Markdown)
+                enableFormatting={true}
+                message="In a meeting"
+              />
+            </span>
           </span>
+          <HeaderIconWrapper
+            ariaLabel={true}
+            buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
+            buttonId="channelHeaderPinButton"
+            iconComponent={
+              <i
+                aria-hidden="true"
+                className="icon icon-pin-outline channel-header__pin"
+              />
+            }
+            onClick={[Function]}
+            tooltipKey="pinnedPosts"
+          />
           <div
             className="header-popover-text-measurer"
           >
@@ -1135,7 +1156,7 @@ exports[`components/ChannelHeader should render properly when custom status is s
               target={null}
             >
               <Popover
-                className="channel-header__popover"
+                className="channel-header__popover chanel-header__popover--new_sidebar"
                 id="header-popover"
                 placement="bottom"
                 popoverSize="lg"
@@ -1179,9 +1200,6 @@ exports[`components/ChannelHeader should render properly when custom status is s
         </div>
       </div>
     </div>
-    <div
-      className="flex-child"
-    />
     <Connect(ChannelHeaderPlug)
       channel={
         Object {
@@ -1196,19 +1214,6 @@ exports[`components/ChannelHeader should render properly when custom status is s
           "user_id": "user_id",
         }
       }
-    />
-    <HeaderIconWrapper
-      ariaLabel={true}
-      buttonClass="channel-header__icon channel-header__icon--wide"
-      buttonId="channelHeaderPinButton"
-      iconComponent={
-        <PinIcon
-          aria-hidden="true"
-          className="icon icon--standard"
-        />
-      }
-      onClick={[Function]}
-      tooltipKey="pinnedPosts"
     />
     <HeaderIconWrapper
       ariaLabel={true}

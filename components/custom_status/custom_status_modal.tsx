@@ -8,6 +8,7 @@ import {setCustomStatus, unsetCustomStatus, removeRecentCustomStatus} from 'matt
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {Tooltip} from 'react-bootstrap';
 
+import {UserCustomStatus} from 'mattermost-redux/types/users';
 import GenericModal from 'components/generic_modal';
 import 'components/category_modal.scss';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
@@ -28,6 +29,13 @@ type Props = {
 };
 
 const EMOJI_PICKER_WIDTH_OFFSET = 308;
+const defaultCustomStatusSuggestions: UserCustomStatus[] = [
+    {emoji: 'calendar', text: 'In a meeting'},
+    {emoji: 'hamburger', text: 'Out for lunch'},
+    {emoji: 'sneezing_face', text: 'Out Sick'},
+    {emoji: 'house', text: 'Working from home'},
+    {emoji: 'palm_tree', text: 'On a vacation'},
+];
 
 const CustomStatusModal: React.FC<Props> = (props: Props) => {
     const dispatch = useDispatch();
@@ -96,6 +104,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
         customStatusEmoji = (
             <RenderEmoji
                 emoji={emoji || 'speech_balloon'}
+                size={20}
             />
         );
     }
@@ -130,7 +139,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
         ) : null;
 
     const disableSetStatus = (currentCustomStatus.text === text && currentCustomStatus.emoji === emoji) ||
-    (text === '' && emoji === '');
+        (text === '' && emoji === '');
 
     const handleSuggestionClick = (status: any) => {
         setEmoji(status.emoji);
@@ -157,7 +166,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
                 {'RECENT'}
             </div>
             {
-                recentCustomStatuses.map((status: any) => (
+                recentCustomStatuses.map((status: UserCustomStatus) => (
                     <CustomStatusSuggestion
                         key={status.text}
                         handleSuggestionClick={handleSuggestionClick}
@@ -170,39 +179,39 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
         </div>
     );
 
+    const renderCustomStatusSuggestions = () => {
+        const recentCustomStatusTexts = recentCustomStatuses.map((status: UserCustomStatus) => status.text);
+        const customStatusSuggestions = defaultCustomStatusSuggestions.
+            filter((status: UserCustomStatus) => !recentCustomStatusTexts.includes(status.text)).
+            map((status: UserCustomStatus, index: number) => (
+                <CustomStatusSuggestion
+                    key={index}
+                    handleSuggestionClick={handleSuggestionClick}
+                    emoji={status.emoji}
+                    text={status.text}
+                />
+            ));
+
+        if (customStatusSuggestions.length > 0) {
+            return (
+                <>
+                    <div className='statusSuggestion__title'>
+                        {'SUGGESTIONS'}
+                    </div>
+                    {customStatusSuggestions}
+                </>
+            );
+        }
+
+        return null;
+    };
+
     const suggestion = (
         <div className='statusSuggestion'>
             <div className='statusSuggestion__content'>
                 {recentCustomStatuses.length > 0 && recentStatuses}
                 <div>
-                    <div className='statusSuggestion__title'>
-                        {'SUGGESTIONS'}
-                    </div>
-                    <CustomStatusSuggestion
-                        handleSuggestionClick={handleSuggestionClick}
-                        emoji={'calendar'}
-                        text={'In a meeting'}
-                    />
-                    <CustomStatusSuggestion
-                        handleSuggestionClick={handleSuggestionClick}
-                        emoji={'hamburger'}
-                        text={'Out for lunch'}
-                    />
-                    <CustomStatusSuggestion
-                        handleSuggestionClick={handleSuggestionClick}
-                        emoji={'sneezing_face'}
-                        text={'Out Sick'}
-                    />
-                    <CustomStatusSuggestion
-                        handleSuggestionClick={handleSuggestionClick}
-                        emoji={'house'}
-                        text={'Working from home'}
-                    />
-                    <CustomStatusSuggestion
-                        handleSuggestionClick={handleSuggestionClick}
-                        emoji={'palm_tree'}
-                        text={'On a vacation'}
-                    />
+                    {renderCustomStatusSuggestions()}
                 </div>
             </div>
         </div>
@@ -245,14 +254,14 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
                         className='StatusModal__emoji-container'
                     >
                         {showEmojiPicker &&
-                        <EmojiPickerOverlay
-                            target={getCustomStatusControlRef}
-                            show={showEmojiPicker}
-                            onHide={handleEmojiClose}
-                            onEmojiClose={handleEmojiClose}
-                            onEmojiClick={handleEmojiClick}
-                            rightOffset={calculateRightOffSet()}
-                        />
+                            <EmojiPickerOverlay
+                                target={getCustomStatusControlRef}
+                                show={showEmojiPicker}
+                                onHide={handleEmojiClose}
+                                onEmojiClose={handleEmojiClose}
+                                onEmojiClick={handleEmojiClick}
+                                rightOffset={calculateRightOffSet()}
+                            />
                         }
                         <button
                             type='button'

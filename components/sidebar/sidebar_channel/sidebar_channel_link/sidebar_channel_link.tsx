@@ -21,6 +21,7 @@ import {cmdOrCtrlPressed, localizeMessage} from 'utils/utils';
 import ChannelMentionBadge from '../channel_mention_badge';
 import SidebarChannelIcon from '../sidebar_channel_icon';
 import SidebarChannelMenu from '../sidebar_channel_menu';
+import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 
 type Props = {
     channel: Channel;
@@ -56,6 +57,8 @@ type Props = {
     isCollapsed: boolean;
 
     isChannelSelected: boolean;
+
+    teammateId?: string;
 
     actions: {
         clearChannelSelection: () => void;
@@ -203,6 +206,17 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
             );
         }
 
+        const customStatus = (
+            <CustomStatusEmoji
+                userID={this.props.teammateId}
+                showTooltip={true}
+                emojiStyle={{
+                    marginLeft: 6,
+                    marginBottom: 1,
+                }}
+            />
+        );
+
         const content = (
             <React.Fragment>
                 <SidebarChannelIcon
@@ -214,6 +228,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
                     ref={this.labelRef}
                 >
                     {labelElement}
+                    {customStatus}
                 </div>
                 <ChannelMentionBadge
                     channelId={channel.id}

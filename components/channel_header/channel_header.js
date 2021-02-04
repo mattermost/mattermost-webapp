@@ -335,7 +335,7 @@ class ChannelHeader extends React.PureComponent {
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='bottom'
                     overlay={
-                        <Tooltip id='custom-status-text-tooltip'>
+                        <Tooltip id='custom-status-tooltip'>
                             <Markdown
                                 message={customStatus.text}
                                 enableFormatting={true}

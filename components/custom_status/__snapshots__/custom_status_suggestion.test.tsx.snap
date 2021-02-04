@@ -17,6 +17,11 @@ exports[`components/custom_status/custom_status_emoji should match snapshot 1`] 
   </div>
   <span
     className="statusSuggestion__text"
-  />
+  >
+    <Connect(Markdown)
+      enableFormatting={true}
+      message=""
+    />
+  </span>
 </div>
 `;

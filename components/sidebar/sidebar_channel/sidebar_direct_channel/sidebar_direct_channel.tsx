@@ -139,6 +139,7 @@ class SidebarDirectChannel extends React.PureComponent<Props, State> {
 
         return (
             <SidebarChannelLink
+                teammateId={teammate.id}
                 channel={channel}
                 link={`/${currentTeamName}/messages/@${teammate.username}`}
                 label={displayName}

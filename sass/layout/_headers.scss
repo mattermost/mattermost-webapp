@@ -451,7 +451,12 @@
         display: flex;
         margin-right: 7px;
         line-height: 16px;
-        max-width: calc(100% - 200px);
+        max-width: calc(100% - 225px);
+        align-items: center;
+
+        p{
+            margin: 0;
+        }
 
         &:after {
             content: '\2022';

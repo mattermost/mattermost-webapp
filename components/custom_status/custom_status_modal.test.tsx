@@ -6,19 +6,13 @@ import {shallow} from 'enzyme';
 import configureStore from 'redux-mock-store';
 import {Provider} from 'react-redux';
 
-import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+import * as UserSelectors from 'mattermost-redux/selectors/entities/users';
 
 import {TestHelper} from 'utils/test_helper';
 
 import CustomStatusModal from './custom_status_modal';
 
-jest.mock('mattermost-redux/selectors/entities/users', () => {
-    const original = jest.requireActual('mattermost-redux/selectors/entities/users');
-    return {
-        ...original,
-        getCurrentUser: jest.fn(),
-    };
-});
+jest.mock('mattermost-redux/selectors/entities/users');
 
 describe('components/custom_status/custom_status_modal', () => {
     const mockStore = configureStore();
@@ -50,7 +44,7 @@ describe('components/custom_status/custom_status_modal', () => {
                 recentCustomStatuses: JSON.stringify(recentCustomStatuses),
             },
         });
-        getCurrentUser.mockReturnValue(user);
+        (UserSelectors.getCurrentUser as jest.Mock).mockReturnValue(user);
         const wrapper = shallow(
             <Provider store={store}>
                 <CustomStatusModal {...baseProps}/>

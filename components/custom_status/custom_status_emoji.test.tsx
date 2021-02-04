@@ -6,18 +6,11 @@ import React from 'react';
 import configureStore from 'redux-mock-store';
 import {Provider} from 'react-redux';
 
-import {getCustomStatus, isCustomStatusEnabled} from 'selectors/views/custom_status';
+import * as CustomStatusSelectors from 'selectors/views/custom_status';
 
 import CustomStatusEmoji from './custom_status_emoji';
 
-jest.mock('selectors/views/custom_status', () => {
-    const original = jest.requireActual('selectors/views/custom_status');
-    return {
-        ...original,
-        isCustomStatusEnabled: jest.fn(),
-        getCustomStatus: jest.fn(),
-    };
-});
+jest.mock('selectors/views/custom_status');
 
 describe('components/custom_status/custom_status_emoji', () => {
     const mockStore = configureStore();
@@ -48,7 +41,7 @@ describe('components/custom_status/custom_status_emoji', () => {
     });
 
     it('should not render when EnableCustomStatus in config is false', () => {
-        isCustomStatusEnabled.mockReturnValue(false);
+        (CustomStatusSelectors.isCustomStatusEnabled as jest.Mock).mockReturnValue(false);
         const wrapper = mount(
             <Provider store={store}>
                 <CustomStatusEmoji/>
@@ -59,8 +52,8 @@ describe('components/custom_status/custom_status_emoji', () => {
     });
 
     it('should not render when getCustomStatus returns null', () => {
-        isCustomStatusEnabled.mockReturnValue(true);
-        getCustomStatus.mockReturnValue(null);
+        (CustomStatusSelectors.isCustomStatusEnabled as jest.Mock).mockReturnValue(true);
+        (CustomStatusSelectors.getCustomStatus as jest.Mock).mockReturnValue(null);
         const wrapper = mount(
             <Provider store={store}>
                 <CustomStatusEmoji/>

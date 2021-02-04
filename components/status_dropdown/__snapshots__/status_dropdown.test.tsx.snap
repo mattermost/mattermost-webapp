@@ -159,7 +159,10 @@ exports[`components/StatusDropdown should match snapshot when tooltip is enabled
       <span
         className="custom_status__text"
       >
-        Set a Custom Status
+        <Connect(Markdown)
+          enableFormatting={true}
+          message="Set a Custom Status"
+        />
       </span>
     </div>
     <MenuGroup>
@@ -271,7 +274,10 @@ exports[`components/StatusDropdown should match snapshot with custom status enab
       <span
         className="custom_status__text"
       >
-        Set a Custom Status
+        <Connect(Markdown)
+          enableFormatting={true}
+          message="Set a Custom Status"
+        />
       </span>
     </div>
     <MenuGroup>
@@ -383,7 +389,10 @@ exports[`components/StatusDropdown should match snapshot with custom status puls
       <span
         className="custom_status__text"
       >
-        Set a Custom Status
+        <Connect(Markdown)
+          enableFormatting={true}
+          message="Set a Custom Status"
+        />
       </span>
       <div
         className="pulsating_dot"
