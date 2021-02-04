@@ -13,3 +13,19 @@
         }
     }
 }
+
+// legacy
+.sidebar--left .SidebarGlobalThreads {
+    margin-top: 10px;
+    padding-bottom: 0;
+
+    .icon {
+        width: auto;
+        margin-top: 1px;
+        padding-left: 1px;
+    }
+
+    + ul .sidebar-section__header {
+        margin-top: 0;
+    }
+}

@@ -14,8 +14,6 @@ import Pluggable from 'plugins/pluggable';
 import Constants, {ModalIdentifiers} from 'utils/constants';
 import * as Utils from 'utils/utils';
 
-import GlobalThreadsLink from '../threading/global_threads_link';
-
 import ChannelNavigator from './channel_navigator';
 import SidebarChannelList from './sidebar_channel_list';
 import SidebarHeader from './sidebar_header';
@@ -190,7 +188,6 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                     />
                 </div>
                 <Pluggable pluggableName='LeftSidebarHeader'/>
-                <GlobalThreadsLink/>
                 <SidebarChannelList
                     handleOpenMoreDirectChannelsModal={this.handleOpenMoreDirectChannelsModal}
                     onDragStart={this.onDragStart}

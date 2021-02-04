@@ -25,6 +25,8 @@ import SidebarCategory from '../sidebar_category';
 import UnreadChannelIndicator from '../unread_channel_indicator';
 import UnreadChannels from '../unread_channels';
 
+import GlobalThreadsLink from 'components/threading/global_threads_link';
+
 export function renderView(props: any) {
     return (
         <div
@@ -536,6 +538,7 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
                     onScroll={this.onScroll}
                     style={{position: 'absolute'}}
                 >
+                    <GlobalThreadsLink/>
                     {channelList}
                 </Scrollbars>
             </div>

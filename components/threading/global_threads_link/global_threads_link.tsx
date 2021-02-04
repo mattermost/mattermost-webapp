@@ -8,7 +8,7 @@ import {useIntl} from 'react-intl';
 import {useSelector, useDispatch} from 'react-redux';
 
 import {getThreadCountsInCurrentTeam} from 'mattermost-redux/selectors/entities/threads';
-import {getThreads} from 'mattermost-redux/actions/threads';
+import {getThreads, getThreadMentionCountsByChannel} from 'mattermost-redux/actions/threads';
 
 import {t} from 'utils/i18n';
 
@@ -37,9 +37,10 @@ const GlobalThreadsLink = () => {
 
     useEffect(() => {
         if (!threadsMatch) {
-            // only load initial 5 unread threads when not in /:team/threads
+            // only preload 5 unread threads when not in /:team/threads
             // else, /:team/threads will take care of first counts on initial load of threads
-            dispatch(getThreads(currentUserId, currentTeamId, {perPage: 5, unread: true}));
+            dispatch(getThreads(currentUserId, currentTeamId));
+            dispatch(getThreadMentionCountsByChannel(currentUserId, currentTeamId));
         }
     }, [team, Boolean(threadsMatch)]);
 
@@ -49,9 +50,9 @@ const GlobalThreadsLink = () => {
     }
 
     return (
-        <ul className='NavGroupContent'>
+        <ul className='SidebarGlobalThreads NavGroupContent nav nav-pills__container'>
             <li
-                className={classNames('SidebarChannel SidebarGlobalThreads', {
+                className={classNames('SidebarChannel', {
                     active: Boolean(threadsMatch),
                     unread: someUnreadThreads,
                 })}
@@ -59,7 +60,9 @@ const GlobalThreadsLink = () => {
                 <Link
                     to={`${url}/threads`}
                     draggable='false'
-                    className='SidebarLink'
+                    className={classNames('SidebarLink sidebar-item', {
+                        'unread-title': Boolean(someUnreadThreads),
+                    })}
                     role='listitem'
                     tabIndex={-1}
                 >
@@ -67,7 +70,7 @@ const GlobalThreadsLink = () => {
                         <ThreadsIcon/>
                     </span>
                     <div className='SidebarChannelLinkLabel_wrapper'>
-                        <span className='SidebarChannelLinkLabel'>
+                        <span className='SidebarChannelLinkLabel sidebar-item__name'>
                             {formatMessage({id: t('globalThreads.sidebarLink'), defaultMessage: 'Threads'})}
                         </span>
                     </div>
