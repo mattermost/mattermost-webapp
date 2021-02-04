@@ -9,6 +9,7 @@ import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {Tooltip} from 'react-bootstrap';
 
 import {UserCustomStatus} from 'mattermost-redux/types/users';
+
 import GenericModal from 'components/generic_modal';
 import 'components/category_modal.scss';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
