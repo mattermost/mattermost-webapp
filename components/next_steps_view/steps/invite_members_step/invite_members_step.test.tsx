@@ -19,6 +19,7 @@ describe('components/next_steps_view/steps/invite_members_step', () => {
         expanded: true,
         isAdmin: true,
         isEmailInvitesEnabled: true,
+        cloudUserLimit: 10,
         subscriptionStats: {
             remaining_seats: 10,
             is_paid_tier: 'false',

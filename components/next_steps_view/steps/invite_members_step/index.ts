@@ -22,6 +22,7 @@ function mapStateToProps(state: GlobalState) {
     return {
         team: getCurrentTeam(state),
         isEmailInvitesEnabled: config.EnableEmailInvitations === 'true',
+        cloudUserLimit: config.ExperimentalCloudUserLimit || 10,
         subscriptionStats: state.entities.cloud.subscriptionStats,
     };
 }

@@ -27,6 +27,7 @@ import './invite_members_step.scss';
 type Props = StepComponentProps & {
     team: Team;
     isEmailInvitesEnabled: boolean;
+    cloudUserLimit: string | number;
     actions: {
         sendEmailInvitesToTeamGracefully: (teamId: string, emails: string[]) => Promise<{ data: TeamInviteWithError[]; error: ServerError }>;
         regenerateTeamInviteId: (teamId: string) => void;
@@ -123,7 +124,7 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
         if (value.indexOf(' ') !== -1 || value.indexOf(',') !== -1) {
             const emails = value.split(/[\s,]+/).filter((email) => email.length).map((email) => ({label: email, value: email, error: !isEmail(email)}));
             const newEmails = [...this.state.emails, ...emails];
-            const {subscriptionStats} = this.props;
+            const {subscriptionStats, cloudUserLimit} = this.props;
 
             this.setState({
                 emails: newEmails,
@@ -131,7 +132,7 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
                 emailError: newEmails.length > subscriptionStats!.remaining_seats ? this.props.intl.formatMessage({
                     id: 'next_steps_view.invite_members_step.tooManyEmails',
                     defaultMessage: 'Invitations are limited to {num}'},
-                {num: subscriptionStats!.remaining_seats}) : undefined,
+                {num: cloudUserLimit}) : undefined,
             });
         } else {
             this.setState({emailInput: value});
@@ -147,13 +148,13 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
             this.setState({emailError: undefined});
         }
 
-        const {subscriptionStats} = this.props;
+        const {subscriptionStats, cloudUserLimit} = this.props;
 
         if (value.length > subscriptionStats!.remaining_seats) {
             this.setState({emailError: this.props.intl.formatMessage({
                 id: 'next_steps_view.invite_members_step.tooManyEmails',
                 defaultMessage: 'Invitations are limited to {num}'},
-            {num: subscriptionStats!.remaining_seats})});
+            {num: cloudUserLimit})});
         }
 
         this.setState({emails: value});
@@ -163,7 +164,7 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
         if (this.state.emailInput) {
             const emails = this.state.emailInput.split(/[\s,]+/).filter((email) => email.length).map((email) => ({label: email, value: email, error: !isEmail(email)}));
             const newEmails = [...this.state.emails, ...emails];
-            const {subscriptionStats} = this.props;
+            const {subscriptionStats, cloudUserLimit} = this.props;
 
             this.setState({
                 emails: newEmails,
@@ -171,7 +172,7 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
                 emailError: newEmails.length > subscriptionStats!.remaining_seats ? this.props.intl.formatMessage({
                     id: 'next_steps_view.invite_members_step.tooManyEmails',
                     defaultMessage: 'Invitations are limited to {num}'},
-                {num: subscriptionStats!.remaining_seats}) : undefined,
+                {num: cloudUserLimit}) : undefined,
             });
         }
     }
