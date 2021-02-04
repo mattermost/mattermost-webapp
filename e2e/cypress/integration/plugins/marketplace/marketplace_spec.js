@@ -7,7 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @plugin_marketplace @plugin
+// Group: @not_cloud @plugin_marketplace @plugin
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
@@ -17,6 +17,9 @@ describe('Plugin Marketplace', () => {
     let regularUser;
 
     before(() => {
+        cy.shouldNotRunOnCloudEdition();
+        cy.shouldHavePluginUploadEnabled();
+
         cy.apiInitSetup().then(({team, user}) => {
             regularUser = user;
             townsquareLink = `/${team.name}/channels/town-square`;
@@ -172,7 +175,7 @@ describe('Plugin Marketplace', () => {
             });
         });
 
-        it('render an error bar', () => {
+        it('MM-T1966 render an error bar', () => {
             // * Verify should be an error connecting to the marketplace server
             cy.get('#error_bar').contains('Error connecting to the marketplace server');
         });
@@ -269,7 +272,7 @@ describe('Plugin Marketplace', () => {
             cy.get('.more-modal__list').scrollIntoView().should('be.visible');
         });
 
-        it('autofocus on search plugin input box', () => {
+        it('MM-T2001 autofocus on search plugin input box', () => {
             cy.uiCloseAnnouncementBar().then(() => {
                 cy.findByLabelText('Close').click();
             });
@@ -421,7 +424,7 @@ describe('Plugin Marketplace', () => {
         });
 
         // This tests fails, if any plugins are previously installed. See https://mattermost.atlassian.net/browse/MM-21610
-        it('change tab to "All Plugins" when "Install Plugins" link is clicked', () => {
+        it('MM-T1986 change tab to "All Plugins" when "Install Plugins" link is clicked', () => {
             cy.get('#marketplaceTabs').scrollIntoView().should('be.visible').within(() => {
                 // # Switch tab to installed plugin
                 cy.findByText(/Installed/).should('be.visible').click();
@@ -489,7 +492,7 @@ describe('Plugin Marketplace', () => {
             cy.get('#error_bar').should('not.exist');
         });
 
-        it('display installed plugins', () => {
+        it('MM-T1979 display installed plugins', () => {
             // # Install one plugin
             cy.apiInstallPluginFromUrl('https://github.com/mattermost/mattermost-plugin-github/releases/download/v0.7.0/github-0.7.0.tar.gz', true);
 

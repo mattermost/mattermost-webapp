@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @notifications
 
 describe('Notifications', () => {
@@ -18,6 +19,12 @@ describe('Notifications', () => {
     let siteName;
 
     before(() => {
+        cy.apiUpdateConfig({
+            ServiceSettings: {
+                EnableLegacySidebar: false,
+            },
+        });
+
         cy.apiInitSetup().then(({team, user}) => {
             team1 = team;
             user1 = user;
@@ -41,7 +48,8 @@ describe('Notifications', () => {
             // # Remove mention notification (for initial channel).
             cy.apiLogin(user1);
             cy.visit(testTeam1TownSquareUrl);
-            cy.get('#publicChannelList').get('.unread-title').click();
+            cy.findByText('CHANNELS').get('.unread-title').click();
+            cy.findByText('CHANNELS').get('.unread-title').should('not.be.visible');
             cy.apiLogout();
         });
     });

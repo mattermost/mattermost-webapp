@@ -19,11 +19,3 @@ export function spyNotificationAs(name, permission) {
 
     cy.window().should('have.property', 'Notification');
 }
-
-// Ignore an uncaught exception
-export function ignoreUncaughtException() {
-    cy.on('uncaught:exception', (err) => {
-        expect(err.message).to.include('.close is not a function');
-        return false;
-    });
-}

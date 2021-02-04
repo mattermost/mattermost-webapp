@@ -9,7 +9,7 @@ import {UserProfile} from 'mattermost-redux/types/users';
 import {ServerError} from 'mattermost-redux/types/errors';
 import {Team} from 'mattermost-redux/types/teams';
 
-import * as GlobalActions from 'actions/global_actions.jsx';
+import * as GlobalActions from 'actions/global_actions';
 import LocalStorageStore from 'stores/local_storage_store';
 import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants.jsx';
@@ -29,7 +29,6 @@ import WarningIcon from 'components/widgets/icons/fa_warning_icon';
 import LocalizedInput from 'components/localized_input/localized_input';
 import Markdown from 'components/markdown';
 import LoginMfa from '../login_mfa.jsx';
-
 interface Props extends RouteProps {
     intl: IntlShape;
     isLicensed: boolean;
@@ -46,14 +45,17 @@ interface Props extends RouteProps {
     enableSignUpWithGitLab: boolean;
     enableSignUpWithGoogle: boolean;
     enableSignUpWithOffice365: boolean;
+    enableSignUpWithOpenId: boolean;
     experimentalPrimaryTeam?: string;
     ldapLoginFieldName?: string;
     samlLoginButtonText?: string;
+    openidButtonText: string;
+    openidButtonColor: string;
     siteName?: string;
     initializing?: boolean;
     actions: {
-        login: (loginId: string, password: string, mfaToken: string) => Promise<{ data: boolean, error: ServerError }>;
-        addUserToTeamFromInvite: (token: string, inviteId: string) => Promise<{ data: Team, error: ServerError }>
+        login: (loginId: string, password: string, mfaToken: string) => Promise<{ data: boolean; error: ServerError }>;
+        addUserToTeamFromInvite: (token: string, inviteId: string) => Promise<{ data: Team; error: ServerError }>;
     };
 }
 
@@ -61,7 +63,7 @@ type State = {
     ldapEnabled: boolean;
     usernameSigninEnabled: boolean;
     emailSigninEnabled: boolean;
-    samlEnabled: boolean
+    samlEnabled: boolean;
     loginId: string;
     password: string;
     showMfa: boolean;
@@ -115,7 +117,7 @@ export class LoginController extends React.PureComponent<Props, State> {
         const email = search.get('email');
 
         if (extra === Constants.SIGNIN_VERIFIED && email) {
-            this.passwordInput.current!.focus();
+            this.passwordInput.current?.focus();
         }
 
         // Determine if the user was unexpectedly logged out.
@@ -438,6 +440,7 @@ export class LoginController extends React.PureComponent<Props, State> {
             this.props.enableSignUpWithGitLab ||
             this.props.enableSignUpWithOffice365 ||
             this.props.enableSignUpWithGoogle ||
+            this.props.enableSignUpWithOpenId ||
             this.props.enableLdap ||
             this.props.enableSaml;
     }
@@ -551,6 +554,7 @@ export class LoginController extends React.PureComponent<Props, State> {
         const gitlabSigninEnabled = this.props.enableSignUpWithGitLab;
         const googleSigninEnabled = this.props.enableSignUpWithGoogle;
         const office365SigninEnabled = this.props.enableSignUpWithOffice365;
+        const openIdSigninEnabled = this.props.enableSignUpWithOpenId;
         const samlSigninEnabled = this.state.samlEnabled;
         const usernameSigninEnabled = this.state.usernameSigninEnabled;
         const emailSigninEnabled = this.state.emailSigninEnabled;
@@ -663,7 +667,7 @@ export class LoginController extends React.PureComponent<Props, State> {
             );
         }
 
-        if ((emailSigninEnabled || usernameSigninEnabled || ldapEnabled) && (gitlabSigninEnabled || googleSigninEnabled || samlSigninEnabled || office365SigninEnabled)) {
+        if ((emailSigninEnabled || usernameSigninEnabled || ldapEnabled) && (gitlabSigninEnabled || googleSigninEnabled || samlSigninEnabled || office365SigninEnabled || openIdSigninEnabled)) {
             loginControls.push(
                 <div
                     key='divider'
@@ -689,6 +693,7 @@ export class LoginController extends React.PureComponent<Props, State> {
         if (gitlabSigninEnabled) {
             loginControls.push(
                 <a
+                    id='GitLabButton'
                     className='btn btn-custom-login gitlab'
                     key='gitlab'
                     href={Client4.getOAuthRoute() + '/gitlab/login' + this.props.location!.search}
@@ -709,6 +714,7 @@ export class LoginController extends React.PureComponent<Props, State> {
         if (googleSigninEnabled) {
             loginControls.push(
                 <a
+                    id='GoogleButton'
                     className='btn btn-custom-login google'
                     key='google'
                     href={Client4.getOAuthRoute() + '/google/login' + this.props.location!.search}
@@ -729,6 +735,7 @@ export class LoginController extends React.PureComponent<Props, State> {
         if (office365SigninEnabled) {
             loginControls.push(
                 <a
+                    id='Office365Button'
                     className='btn btn-custom-login office365'
                     key='office365'
                     href={Client4.getOAuthRoute() + '/office365/login' + this.props.location!.search}
@@ -740,6 +747,37 @@ export class LoginController extends React.PureComponent<Props, State> {
                                 id='login.office365'
                                 defaultMessage='Office 365'
                             />
+                        </span>
+                    </span>
+                </a>,
+            );
+        }
+
+        if (openIdSigninEnabled) {
+            const buttonStyle: {backgroundColor?: string} = {};
+            if (this.props.openidButtonColor) {
+                buttonStyle.backgroundColor = this.props.openidButtonColor;
+            }
+            let buttonText: React.ReactNode = (
+                <FormattedMessage
+                    id='login.openid'
+                    defaultMessage='Open ID'
+                />
+            );
+            if (this.props.openidButtonText) {
+                buttonText = this.props.openidButtonText;
+            }
+            loginControls.push(
+                <a
+                    id='OpenIdButton'
+                    className='btn btn-custom-login openid'
+                    style={buttonStyle}
+                    key='openid'
+                    href={Client4.getOAuthRoute() + '/openid/login' + this.props.location?.search}
+                >
+                    <span>
+                        <span>
+                            {buttonText}
                         </span>
                     </span>
                 </a>,

@@ -9,7 +9,7 @@ import {FormattedMessage, injectIntl} from 'react-intl';
 import {Posts} from 'mattermost-redux/constants';
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
-import * as GlobalActions from 'actions/global_actions.jsx';
+import * as GlobalActions from 'actions/global_actions';
 import Constants, {StoragePrefixes, ModalIdentifiers, Locations, A11yClassNames} from 'utils/constants';
 import {t} from 'utils/i18n';
 import {
@@ -1037,8 +1037,10 @@ class CreatePost extends React.PureComponent {
         const ctrlEnterKeyCombo = (this.props.ctrlSend || this.props.codeBlockOnCtrlEnter) && Utils.isKeyPressed(e, KeyCodes.ENTER) && ctrlOrMetaKeyPressed;
         const upKeyOnly = !ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey && Utils.isKeyPressed(e, KeyCodes.UP);
         const shiftUpKeyCombo = !ctrlOrMetaKeyPressed && !e.altKey && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.UP);
-        const ctrlKeyCombo = ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey;
+        const ctrlKeyCombo = Utils.cmdOrCtrlPressed(e) && !e.altKey && !e.shiftKey;
         const markdownHotkey = Utils.isKeyPressed(e, KeyCodes.B) || Utils.isKeyPressed(e, KeyCodes.I);
+        const ctrlAltCombo = Utils.cmdOrCtrlPressed(e, true) && e.altKey;
+        const markdownLinkKey = Utils.isKeyPressed(e, KeyCodes.K);
 
         // listen for line break key combo and insert new line character
         if (Utils.isUnhandledLineBreakKeyCombo(e)) {
@@ -1053,7 +1055,7 @@ class CreatePost extends React.PureComponent {
             this.loadPrevMessage(e);
         } else if (ctrlKeyCombo && draftMessageIsEmpty && Utils.isKeyPressed(e, KeyCodes.DOWN)) {
             this.loadNextMessage(e);
-        } else if (ctrlKeyCombo && markdownHotkey) {
+        } else if ((ctrlKeyCombo && markdownHotkey) || (ctrlAltCombo && markdownLinkKey)) {
             this.applyHotkeyMarkdown(e);
         }
     }

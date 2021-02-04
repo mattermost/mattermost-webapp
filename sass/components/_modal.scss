@@ -398,6 +398,10 @@
             .post-code {
                 background: transparent;
 
+                .post-code__line-numbers {
+                    padding: 5px 0;
+                }
+
                 code {
                     margin: 0;
                     padding: 5px 0;
@@ -588,9 +592,19 @@
         bottom: 0;
         position: absolute;
     }
+
+    .suggestion-list__content--bottom {
+        top: 0;
+        position: absolute;
+    }
 }
 
 .more-modal {
+    .loading-screen{
+        padding: 1.9em 1em;
+        font-size: 1.25em;
+        height: auto;
+    }
     .Select-input {
         >input {
             padding: 8px 0;
@@ -714,7 +728,7 @@
                 font-weight: 900;
                 justify-content: center;
                 align-items: center;
-
+                background: var(--center-channel-bg);
                 &:active {
                     opacity: 1;
                 }
@@ -923,7 +937,6 @@
     >div {
         flex: 1 1 auto;
     }
-
     .multi-select__wrapper {
         display: flex;
         flex-direction: column;

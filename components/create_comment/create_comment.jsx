@@ -1,6 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable react/no-string-refs */
 
 import $ from 'jquery';
 import PropTypes from 'prop-types';
@@ -10,7 +9,7 @@ import {FormattedMessage, injectIntl} from 'react-intl';
 
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
-import * as GlobalActions from 'actions/global_actions.jsx';
+import * as GlobalActions from 'actions/global_actions';
 
 import Constants, {Locations} from 'utils/constants';
 import {intlShape} from 'utils/react_intl';
@@ -270,6 +269,10 @@ class CreateComment extends React.PureComponent {
         this.lastBlurAt = 0;
         this.draftsForPost = {};
         this.doInitialScrollToBottom = false;
+
+        this.textboxRef = React.createRef();
+        this.fileUploadRef = React.createRef();
+        this.createCommentControlsRef = React.createRef();
     }
 
     componentDidMount() {
@@ -297,6 +300,12 @@ class CreateComment extends React.PureComponent {
         this.props.resetCreatePostRequest();
         document.removeEventListener('paste', this.pasteHandler);
         document.removeEventListener('keydown', this.focusTextboxIfNecessary);
+
+        if (this.saveDraftFrame) {
+            cancelAnimationFrame(this.saveDraftFrame);
+
+            this.props.onUpdateCommentDraft(this.state.draft);
+        }
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -350,7 +359,7 @@ class CreateComment extends React.PureComponent {
     }
 
     setCaretPosition = (newCaretPosition) => {
-        const textbox = this.refs.textbox.getInputBox();
+        const textbox = this.textboxRef.current && this.textboxRef.current.getInputBox();
 
         this.setState({
             caretPosition: newCaretPosition,
@@ -642,8 +651,8 @@ class CreateComment extends React.PureComponent {
 
         if (allowSending) {
             e.persist();
-            if (this.refs.textbox) {
-                this.refs.textbox.blur();
+            if (this.textboxRef.current) {
+                this.textboxRef.current.blur();
             }
 
             if (withClosedCodeBlock && message) {
@@ -697,7 +706,12 @@ class CreateComment extends React.PureComponent {
 
         const {draft} = this.state;
         const updatedDraft = {...draft, message};
-        this.props.onUpdateCommentDraft(updatedDraft);
+
+        cancelAnimationFrame(this.saveDraftFrame);
+        this.saveDraftFrame = requestAnimationFrame(() => {
+            this.props.onUpdateCommentDraft(updatedDraft);
+        });
+
         this.setState({draft: updatedDraft, serverError}, () => {
             this.scrollToBottom();
         });
@@ -712,7 +726,7 @@ class CreateComment extends React.PureComponent {
     }
 
     handleSelect = (e) => {
-        Utils.adjustSelection(this.refs.textbox.getInputBox(), e);
+        Utils.adjustSelection(this.textboxRef.current.getInputBox(), e);
     }
 
     handleKeyDown = (e) => {
@@ -745,8 +759,8 @@ class CreateComment extends React.PureComponent {
 
         if (!e.ctrlKey && !e.metaKey && !e.altKey && !e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.UP) && message === '') {
             e.preventDefault();
-            if (this.refs.textbox) {
-                this.refs.textbox.blur();
+            if (this.textboxRef.current) {
+                this.textboxRef.current.blur();
             }
 
             const {data: canEditNow} = this.props.onEditLatestPost();
@@ -755,7 +769,10 @@ class CreateComment extends React.PureComponent {
             }
         }
 
-        if ((e.ctrlKey || e.metaKey) && !e.altKey && !e.shiftKey) {
+        const ctrlKeyCombo = Utils.cmdOrCtrlPressed(e) && !e.altKey && !e.shiftKey;
+        const ctrlAltCombo = Utils.cmdOrCtrlPressed(e, true) && e.altKey;
+
+        if (ctrlKeyCombo) {
             if (Utils.isKeyPressed(e, Constants.KeyCodes.UP)) {
                 e.preventDefault();
                 this.props.onMoveHistoryIndexBack();
@@ -766,6 +783,10 @@ class CreateComment extends React.PureComponent {
                        Utils.isKeyPressed(e, Constants.KeyCodes.I)) {
                 this.applyHotkeyMarkdown(e);
             }
+        }
+
+        if (ctrlAltCombo && Utils.isKeyPressed(e, Constants.KeyCodes.K)) {
+            this.applyHotkeyMarkdown(e);
         }
 
         if (lastMessageReactionKeyCombo) {
@@ -788,7 +809,7 @@ class CreateComment extends React.PureComponent {
         this.setState({
             draft: modifiedDraft,
         }, () => {
-            const textbox = this.refs.textbox.getInputBox();
+            const textbox = this.textboxRef.current.getInputBox();
             Utils.setSelectionRange(textbox, res.selectionStart, res.selectionEnd);
         });
     }
@@ -894,8 +915,8 @@ class CreateComment extends React.PureComponent {
             if (index !== -1) {
                 uploadsInProgress.splice(index, 1);
 
-                if (this.refs.fileUpload && this.refs.fileUpload) {
-                    this.refs.fileUpload.cancelUpload(id);
+                if (this.fileUploadRef.current) {
+                    this.fileUploadRef.current.cancelUpload(id);
                 }
             }
         } else {
@@ -926,16 +947,16 @@ class CreateComment extends React.PureComponent {
     }
 
     getFileUploadTarget = () => {
-        return this.refs.textbox;
+        return this.textboxRef.current;
     }
 
     getCreateCommentControls = () => {
-        return this.refs.createCommentControls;
+        return this.createCommentControlsRef.current;
     }
 
     focusTextbox = (keepFocus = false) => {
-        if (this.refs.textbox && (keepFocus || !UserAgent.isMobile())) {
-            this.refs.textbox.focus();
+        if (this.textboxRef.current && (keepFocus || !UserAgent.isMobile())) {
+            this.textboxRef.current.focus();
         }
     }
 
@@ -968,8 +989,8 @@ class CreateComment extends React.PureComponent {
     handleHeightChange = (height, maxHeight) => {
         this.setState({renderScrollbar: height > maxHeight});
         window.requestAnimationFrame(() => {
-            if (this.refs.textbox) {
-                this.setState({scrollbarWidth: Utils.scrollbarWidth(this.refs.textbox.getInputBox())});
+            if (this.textboxRef.current) {
+                this.setState({scrollbarWidth: Utils.scrollbarWidth(this.textboxRef.current.getInputBox())});
             }
         });
 
@@ -1110,7 +1131,6 @@ class CreateComment extends React.PureComponent {
                     onRemove={this.removePreview}
                     uploadsInProgress={draft.uploadsInProgress}
                     uploadsProgressPercent={this.state.uploadsProgressPercent}
-                    ref='preview'
                 />
             );
         }
@@ -1143,7 +1163,7 @@ class CreateComment extends React.PureComponent {
         if (!readOnlyChannel && !this.props.shouldShowPreview) {
             fileUpload = (
                 <FileUpload
-                    ref='fileUpload'
+                    ref={this.fileUploadRef}
                     fileCount={this.getFileCount()}
                     getTarget={this.getFileUploadTarget}
                     onFileUploadChange={this.handleFileUploadChange}
@@ -1199,7 +1219,7 @@ class CreateComment extends React.PureComponent {
             scrollbarClass = ' scroll';
         }
 
-        const textboxRef = this.refs.textbox;
+        const textboxRef = this.textboxRef.current;
         let suggestionListStyle = 'top';
         if (textboxRef) {
             const textboxPosTop = textboxRef.getInputBox().getBoundingClientRect().top;
@@ -1244,7 +1264,7 @@ class CreateComment extends React.PureComponent {
                                 isRHS={true}
                                 popoverMentionKeyClick={true}
                                 id='reply_textbox'
-                                ref='textbox'
+                                ref={this.textboxRef}
                                 disabled={readOnlyChannel}
                                 characterLimit={this.props.maxPostSize}
                                 preview={this.props.shouldShowPreview}
@@ -1254,7 +1274,7 @@ class CreateComment extends React.PureComponent {
                                 useChannelMentions={this.props.useChannelMentions}
                             />
                             <span
-                                ref='createCommentControls'
+                                ref={this.createCommentControlsRef}
                                 className='post-body__actions'
                             >
                                 {fileUpload}
@@ -1315,4 +1335,3 @@ class CreateComment extends React.PureComponent {
 }
 
 export default injectIntl(CreateComment);
-/* eslint-enable react/no-string-refs */

@@ -14,6 +14,8 @@
  * Note: This test requires Enterprise license to be uploaded
  */
 
+import * as TIMEOUTS from '../../../fixtures/timeouts';
+
 describe('Guest Account - Verify Guest Access UI', () => {
     beforeEach(() => {
         // * Check if server has license for Guest Accounts
@@ -90,15 +92,18 @@ describe('Guest Account - Verify Guest Access UI', () => {
         cy.get('#confirmModal').should('not.exist');
         cy.get('.error-message').should('be.visible');
 
-        // # Click on the Save Settings and confirm
+        // # Click on the Save Settings, confirm and wait for some time to complete successful save
         cy.get('#saveSetting').should('be.visible').click();
-        cy.get('#confirmModalButton').should('be.visible').click();
+        cy.get('#confirmModalButton').should('be.visible').click().wait(TIMEOUTS.TWO_SEC);
 
         // # Visit the chat facing application
-        cy.visit('/');
+        cy.get('.header__info').should('be.visible').click();
+        cy.findByLabelText('Admin Console Menu').should('exist').within(() => {
+            cy.findByText('Switch to eligendi').click();
+        });
 
         // # Open Invite People
-        cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
+        cy.get('#sidebarHeaderDropdownButton', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').click();
         cy.get('#invitePeople').should('be.visible').click();
 
         // * Verify that an option to Invite via Guest should not be available

@@ -13,6 +13,8 @@
 import * as MESSAGES from '../../fixtures/messages';
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
+import {downloadAttachmentAndVerifyItsProperties} from './helpers';
+
 describe('Upload Files', () => {
     let testTeam;
     let testChannel;
@@ -204,8 +206,8 @@ describe('Upload Files', () => {
         // # Reload the page
         cy.reload();
 
-        // * Verify the image loading component is visible
-        cy.get('.image-container').should('be.visible').find('.image-loading__container').should('be.visible');
+        // * Verify the image container is visible
+        cy.get('.image-container').should('be.visible');
 
         Cypress._.times(5, () => {
             // # OtherUser creates posts in the channel
@@ -219,94 +221,6 @@ describe('Upload Files', () => {
             cy.get('.image-container').should('be.visible').find('.image-loading__container').should('not.exist');
 
             cy.wait(TIMEOUTS.HALF_SEC);
-        });
-    });
-
-    it('MM-T346 Public link related to a deleted post should no longer open the file', () => {
-        // # Enable option for public file links
-        cy.apiUpdateConfig({
-            FileSettings: {
-                EnablePublicLink: true,
-            },
-        }).then(({config}) => {
-            expect(config.FileSettings.EnablePublicLink).to.be.true;
-
-            // # Reload to ensure that the new config takes effect
-            cy.reload();
-
-            const attachmentFilename = 'jpg-image-file.jpg';
-
-            // # Make a post with a file attached
-            cy.get('#fileUploadInput').attachFile(attachmentFilename);
-            cy.postMessage('Post with attachment to be deleted');
-
-            // # Get the last post
-            cy.getLastPostId().then((lastPostId) => {
-                // # Scan inside of the last post message
-                cy.get(`#${lastPostId}_message`).and('be.visible').within(() => {
-                    // * Check if the attached image is in the post and then click to open the preview
-                    cy.findByLabelText(`file thumbnail ${attachmentFilename}`).should('be.visible').click();
-                });
-            });
-
-            // * Verify preview modal is opened
-            cy.get('.a11y__modal').should('exist').and('be.visible').
-                within(() => {
-                // * Check if get public link button is present and click it
-                    cy.findByText('Get a public link').should('be.visible').click({force: true});
-                });
-
-            // # Wait a little for link to get generate
-            cy.wait(TIMEOUTS.ONE_SEC);
-
-            // * Verify copy public link modal is opened
-            cy.get('.a11y__modal.modal-dialog').should('exist').and('be.visible').
-                within(() => {
-                    // * Verify that copy link button is present
-                    cy.findByText('Copy Link').should('be.visible');
-
-                    // # Get the copy link of the attachment and save for later purpose
-                    cy.get('#linkModalTextArea').invoke('text').as('publicLinkOfAttachment');
-                });
-
-            // # Close the image preview modal
-            cy.get('body').type('{esc}');
-
-            // # Once again get the last post with attachment, this time to delete it
-            cy.getLastPostId().then((lastPostId) => {
-                // # Click post dot menu in center.
-                cy.clickPostDotMenu(lastPostId);
-
-                // # Scan inside the post menu dropdown
-                cy.get(`#CENTER_dropdown_${lastPostId}`).should('exist').within(() => {
-                    // # Click on the delete post button from the dropdown
-                    cy.findByText('Delete').should('exist').click();
-                });
-            });
-
-            // * Verify caution dialog for delete post is visible
-            cy.get('.a11y__modal.modal-dialog').should('exist').and('be.visible').
-                within(() => {
-                    // # Confirm click on the delete button for the post
-                    cy.findByText('Delete').should('be.visible').click();
-                });
-
-            // # Try to fetch the url of the attachment we previously deleted
-            cy.get('@publicLinkOfAttachment').then((publicLinkOfAttachment) => {
-                cy.request({url: publicLinkOfAttachment, failOnStatusCode: false}).then((response) => {
-                    // * Verify that the link no longer exists in the system
-                    expect(response.status).to.be.equal(404);
-                });
-
-                // # Open the deleted link in the browser
-                cy.visit(publicLinkOfAttachment, {failOnStatusCode: false});
-            });
-
-            // * Verify that we land on attachment not found page
-            cy.findByText('Error').should('be.visible');
-            cy.findByText('Unable to get the file info.').should('be.visible');
-            cy.findByText('Back to Mattermost').should('be.visible').parent().
-                should('have.attr', 'href', '/').click();
         });
     });
 
@@ -382,82 +296,143 @@ describe('Upload Files', () => {
         });
     });
 
-    it('MM-T345 Public links for common file types should open in a new browser tab', () => {
-        // # Enable option for public file links
-        cy.apiUpdateConfig({
-            FileSettings: {
-                EnablePublicLink: true,
-            },
+    it('MM-T2261 Upload SVG and post', () => {
+        const filename = 'svg.svg';
+        const aspectRatio = 1;
+
+        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+
+        // # Attach file
+        cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(filename);
+        cy.waitUntil(() => cy.get('#postCreateFooter').then((el) => {
+            return el.find('.post-image.normal').length > 0;
+        }));
+
+        cy.get('#create_post').find('.file-preview').within(() => {
+            // * Filename is correct
+            cy.get('.post-image__name').should('contain.text', filename);
+
+            // * Type is correct
+            cy.get('.post-image__type').should('contain.text', 'SVG');
+
+            // * Size is correct
+            cy.get('.post-image__size').should('contain.text', '6KB');
+
+            // * Img thumbnail exist
+            cy.get('.post-image__thumbnail > img').should('exist');
         });
 
-        // # Save Show Preview Preference to true
-        cy.apiSaveLinkPreviewsPreference('true');
+        // # Post message
+        cy.postMessage('');
 
-        // # Save Preview Collapsed Preference to false
-        cy.apiSaveCollapsePreviewsPreference('false');
+        cy.getLastPost().within(() => {
+            // * Click to open preview
+            cy.get('.file-preview__button').click();
+        });
 
-        const commonTypeFiles = ['jpg-image-file.jpg', 'gif-image-file.gif', 'png-image-file.png',
-            'tiff-image-file.tif', 'mp3-audio-file.mp3', 'mp4-video-file.mp4', 'mpeg-video-file.mpg'];
-
-        commonTypeFiles.forEach((file) => {
-            // # Make a post with a file attached
-            cy.get('#fileUploadInput').attachFile(file);
-            cy.postMessage(`Attached with ${file}`);
-
-            // # Get the last post
-            cy.getLastPostId().then((lastPostId) => {
-            // # Scan inside of the last post message
-                cy.get(`#${lastPostId}_message`).and('be.visible').within(() => {
-                // * Check if the attached file is in the post and then click to open preview
-                    cy.findByLabelText(`file thumbnail ${file}`).should('be.visible').click();
-                });
+        cy.get('.modal-body').within(() => {
+            cy.get('.modal-image__content').get('img').should('exist').and((img) => {
+                // * Image aspect ratio is maintained
+                expect(img.width() / img.height()).to.be.closeTo(aspectRatio, 0.01);
             });
 
-            // * Verify preview modal is opened
-            cy.get('.a11y__modal').should('exist').and('be.visible').
-                within(() => {
-                    // * Check if get public link button is present and click it
-                    cy.findByText('Get a public link').should('be.visible').click({force: true});
-                });
+            // # Hover over the image
+            cy.get('.modal-image__content').trigger('mouseover');
 
-            // # Wait a little for url to be (re)generated
-            cy.wait(TIMEOUTS.ONE_SEC);
+            // * Download button should exist
+            cy.findByText('Download').should('exist').parent().then((downloadLink) => {
+                expect(downloadLink.attr('download')).to.equal(filename);
 
-            // * Verify copy public link modal is opened
-            cy.get('.a11y__modal.modal-dialog').should('exist').and('be.visible').
-                within(() => {
-                    // * Verify that copy link button is present and click it
-                    cy.findByText('Copy Link').should('be.visible').parent().click({force: true});
+                const fileAttachmentURL = downloadLink.attr('href');
 
-                    // # Get the copy link of the attachment and save for later purpose
-                    cy.get('#linkModalTextArea').invoke('text').as(`publicLinkOfAttachment-${file}`);
+                // * Verify that download link has correct name
+                downloadAttachmentAndVerifyItsProperties(fileAttachmentURL, filename, 'attachment');
+            });
 
-                    cy.get('.modal-footer').should('exist').within(() => {
-                        // # Click close modal
-                        cy.findByText('Close').should('be.visible').click();
+            // # Close modal
+            cy.get('.modal-close').click();
+        });
+    });
+
+    it('MM-T2265 Multiple File Upload - 5 is successful (image, video, code, pdf, audio, other)', () => {
+        const attachmentFilesList = [
+            {
+                filename: 'word-file.doc',
+                extensions: 'DOC',
+                type: 'document',
+            },
+            {
+                filename: 'wordx-file.docx',
+                extensions: 'DOCX',
+                type: 'document',
+            },
+            {
+                filename: 'powerpoint-file.ppt',
+                extensions: 'PPT',
+                type: 'document',
+            },
+            {
+                filename: 'powerpointx-file.pptx',
+                extensions: 'PPTX',
+                type: 'document',
+            },
+            {
+                filename: 'jpg-image-file.jpg',
+                extensions: 'JPG',
+                type: 'image',
+            },
+        ];
+        const minimumSeparation = 5;
+
+        cy.visit(`/${testTeam.name}/channels/town-square`);
+        cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+
+        // # Upload files
+        cy.get('#centerChannelFooter').find('#fileUploadInput').
+            attachFile(attachmentFilesList[0].filename).
+            attachFile(attachmentFilesList[1].filename).
+            attachFile(attachmentFilesList[2].filename).
+            attachFile(attachmentFilesList[3].filename).
+            attachFile(attachmentFilesList[4].filename);
+
+        // # Wait for files to finish uploading
+        cy.wait(TIMEOUTS.THREE_SEC);
+
+        // # Post message
+        cy.postMessage('test');
+        cy.findByTestId('fileAttachmentList').within(() => {
+            for (let i = 1; i < 5; i++) {
+                // * Elements should have space between them
+                cy.get(`:nth-child(${i}) > .post-image__details`).then((firstAttachment) => {
+                    cy.get(`:nth-child(${i + 1}) > .post-image__thumbnail`).then((secondAttachment) => {
+                        expect(firstAttachment[0].getBoundingClientRect().right + minimumSeparation < secondAttachment[0].getBoundingClientRect().left ||
+                        firstAttachment[0].getBoundingClientRect().bottom + minimumSeparation < secondAttachment[0].getBoundingClientRect().top).to.be.true;
                     });
                 });
+            }
 
-            cy.get(`@publicLinkOfAttachment-${file}`).then((publicLinkOfAttachment) => {
-                // # Post the link of attachment as a message
-                cy.uiPostMessageQuickly(publicLinkOfAttachment);
+            // # Click on one element
+            cy.get(':nth-child(1)').first().click();
+        });
+        cy.get('.modal-body').within(() => {
+            // * File information should be OK
+            cy.get('.file-details__name').should('contain.text', attachmentFilesList[0].filename);
+            cy.get('.file-details__info').should('contain.text', `File type ${attachmentFilesList[0].extensions}`);
 
-                // * Check the attachment url contains the attachment
-                downloadAttachmentAndVerifyItsProperties(publicLinkOfAttachment, file, 'inline');
-            });
+            // # Move to the next element using arrows
+            cy.get('.modal-image__content').type('{rightarrow}');
+
+            // * Next file information should be OK
+            cy.get('.file-details__name').should('contain.text', attachmentFilesList[1].filename);
+            cy.get('.file-details__info').should('contain.text', `File type ${attachmentFilesList[1].extensions}`);
+
+            // # Move back to the previous element using arrows
+            cy.get('.modal-image__content').type('{leftarrow}');
+
+            // * First element information should be still OK
+            cy.get('.file-details__name').should('contain.text', attachmentFilesList[0].filename);
+            cy.get('.file-details__info').should('contain.text', `File type ${attachmentFilesList[0].extensions}`);
         });
     });
 });
-
-function downloadAttachmentAndVerifyItsProperties(fileURL, filename, httpContext) {
-    // * Verify it has not empty download link
-    cy.request(fileURL).then((response) => {
-        // * Verify that link can be downloaded
-        expect(response.status).to.equal(200);
-
-        // * Verify if link is an appropriate httpContext for opening in new tab or same and that can be saved locally
-        // and it contains the correct filename* which will be used to name the downloaded file
-        expect(response.headers['content-disposition']).to.
-            equal(`${httpContext};filename="${filename}"; filename*=UTF-8''${filename}`);
-    });
-}

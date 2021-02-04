@@ -7,8 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
-
 import {beRead, beUnread} from '../../support/assertions';
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
@@ -50,7 +48,7 @@ describe('Multi-user group header', () => {
         cy.contains('#channelHeaderDescription button span', 'Add a channel description').should('be.visible');
 
         // # click add a channel description
-        cy.get('#channelHeaderDescription button').click();
+        cy.findByRoleExtended('button', {name: 'Add a channel description'}).should('be.visible').click();
 
         // # type a header
         const header = 'this is a header!';

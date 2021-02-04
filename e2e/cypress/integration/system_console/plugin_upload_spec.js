@@ -8,7 +8,7 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @system_console @plugin
+// Group: @not_cloud @system_console @plugin
 
 /**
  * Note : This test requires draw plugin tar file under fixtures folder.
@@ -22,11 +22,13 @@ describe('Draw Plugin - Upload', () => {
     const pluginId = 'com.mattermost.draw-plugin';
 
     before(() => {
+        cy.shouldNotRunOnCloudEdition();
+        cy.shouldHavePluginUploadEnabled();
+
         // # Update config
         cy.apiUpdateConfig({
             PluginSettings: {
                 Enable: true,
-                RequirePluginSignature: false,
             },
         });
 
@@ -74,10 +76,10 @@ describe('Draw Plugin - Upload', () => {
         // # Disable draw plugin
         doTaskOnDrawPlugin(() => {
             // * Verify plugin is starting
-            waitForAlert('This plugin is starting.');
+            waitForAlert('This plugin is starting.', '.alert-success');
 
             // * Verify plugin is running
-            waitForAlert('This plugin is running.');
+            waitForAlert('This plugin is running.', '.alert-success');
 
             // # Click on Disable link
             cy.findByText('Disable').click();
@@ -86,7 +88,7 @@ describe('Draw Plugin - Upload', () => {
         // # Attempt to remove draw plugin
         doTaskOnDrawPlugin(() => {
             // * Verify plugin is not enabled
-            waitForAlert('This plugin is not enabled.');
+            waitForAlert('This plugin is not enabled.', '.alert-info');
 
             // # Click on Remove link
             cy.findByText('Remove').click();
@@ -111,8 +113,8 @@ describe('Draw Plugin - Upload', () => {
     });
 });
 
-function waitForAlert(message) {
-    cy.waitUntil(() => cy.get('.alert').scrollIntoView().should('be.visible').then((alert) => {
+function waitForAlert(message, type) {
+    cy.waitUntil(() => cy.get(type).scrollIntoView().should('be.visible').then((alert) => {
         return alert[0].innerText === message;
     }));
 }

@@ -76,7 +76,6 @@ describe('Messaging', () => {
         // # Change to the other user and go to Town Square
         cy.apiAdminLogin();
         cy.visit(testChannelLink);
-        cy.wait(TIMEOUTS.FIVE_SEC);
 
         // * Post should not exist
         cy.get('@postId').then((postId) => {

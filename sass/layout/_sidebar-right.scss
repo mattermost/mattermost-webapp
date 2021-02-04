@@ -13,10 +13,6 @@
         height: calc(100% - #{$announcement-bar-height});
     }
 
-    body.announcement-banner-tall--fixed & {
-        height: calc(100% - 40px);
-    }
-
     &.move--left {
         @include single-transition(width, 0.25s, ease-in);
     }
@@ -142,7 +138,7 @@
         @include single-transition(all, .2s, ease-in);
         border-radius: 4px;
         text-decoration: none;
-        color: v(center-channel-color-56);
+        color: rgba(var(--center-channel-color-rgb), 0.56);
         font-size: 12px;
         width: 2.4rem;
         height: 2.4rem;
@@ -153,8 +149,8 @@
         text-decoration: none;
 
         &:hover {
-            background-color: v(center-channel-color-08);
-            color: v(center-channel-color-72);
+            background-color: rgba(var(--center-channel-color-rgb), 0.08);
+            color: rgba(var(--center-channel-color-rgb), 0.72);
         }
 
         &:active {
@@ -234,7 +230,7 @@
 
     .sidebar--right__title__channel {
         border-left: 1px solid v(center-channel-color-16);
-        color: v(center-channel-color-56);
+        color: rgba(var(--center-channel-color-rgb), 0.56);
         cursor: pointer;
         margin: 0 0 0 8px;
         font-size: 12px;
@@ -249,8 +245,8 @@
         &:hover {
             border-radius: 4px;
             border-color: transparent;
-            background: v(center-channel-color-08);
-            color: v(center-channel-color-72);
+            background: rgba(var(--center-channel-color-rgb), 0.08);
+            color: rgba(var(--center-channel-color-rgb), 0.72);
         }
 
         &:active {
@@ -264,7 +260,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        background: v(center-channel-color-04);
+        background: rgba(var(--center-channel-color-rgb), 0.04);
         border-bottom: 1px solid v(center-channel-color-08);
         color: inherit;
         overflow: hidden;
