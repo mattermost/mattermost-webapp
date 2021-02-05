@@ -6,7 +6,7 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
-    "@formatjs/intl-pluralrules": "3.2.3",
+    "@formatjs/intl-pluralrules": "4.0.6",
     "@formatjs/intl-relativetimeformat": "6.2.3",
     "@stripe/react-stripe-js": "1.1.2",
     "@stripe/stripe-js": "1.9.0",
