@@ -47,7 +47,7 @@ function UnreadChannelIndicator(props: Props) {
             id={'unreadIndicator' + props.name}
             className={classNames('nav-pills__unread-indicator', {
                 'nav-pills__unread-indicator--visible': props.show,
-                'nav-pills__unread-indicator-top--withStickyHeaders': supportsStickyHeaders(),
+                withStickyHeaders: supportsStickyHeaders(),
             }, props.extraClass)}
             onClick={props.onClick}
         >
