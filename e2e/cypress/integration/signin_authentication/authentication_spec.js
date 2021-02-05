@@ -206,8 +206,19 @@ describe('Authentication', () => {
     });
 
     it('MM-T419 Desktop session expires when the focus is on the tab', () => {
-        // # Stub notifications API
-        spyNotificationAs('withNotification', 'granted');
+        Cypress.on('window:before:load', (win) => {
+            function Notification(title, opts) {
+                this.title = title;
+                this.opts = opts;
+            }
+
+            Notification.requestPermission = () => 'granted';
+            Notification.close = () => true;
+
+            win.Notification = Notification;
+
+            cy.stub(win, 'Notification').as('withNotification');
+        });
 
         cy.visit('/login');
         fillCredentialsForUser(testUser);
