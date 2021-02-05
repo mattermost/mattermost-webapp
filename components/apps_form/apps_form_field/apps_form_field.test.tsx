@@ -188,22 +188,6 @@ describe('components/apps_form/apps_form_field/AppsFormField', () => {
             expect(wrapper.find(AppsFormSelectField).exists()).toBe(true);
         });
 
-        test('ButtonSelector is rendered when type isSubmit is true', () => {
-            const wrapper = shallow(
-                <AppsFormField
-                    {...baseDialogSelectProps}
-                    field={{
-                        ...selectField,
-                        type: 'static_select',
-                        options,
-                    }}
-                    onChange={jest.fn()}
-                />,
-            );
-
-            expect(wrapper.find(ButtonSelector).exists()).toBe(true);
-        });
-
         test('GenericUserProvider is used when field type is user', () => {
             const wrapper = shallow(
                 <AppsFormField
