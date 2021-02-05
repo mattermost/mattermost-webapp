@@ -126,7 +126,6 @@
     "babel-jest": "26.1.0",
     "babel-loader": "8.1.0",
     "babel-plugin-typescript-to-proptypes": "0.17.1",
-    "browser-resolve": "1.11.3",
     "bundle-loader": "0.5.6",
     "clone": "2.1.2",
     "copy-webpack-plugin": "6.0.3",
