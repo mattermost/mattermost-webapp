@@ -15,7 +15,7 @@ import * as TIMEOUTS from '../../../fixtures/timeouts';
 describe('Account Settings -> General -> Profile Picture', () => {
     before(() => {
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visitAndWait(`/${team.name}/channels/town-square`);
+            cy.visit(`/${team.name}/channels/town-square`);
         });
     });
 
