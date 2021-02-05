@@ -4,7 +4,6 @@
 import {getEmailUrl} from '../../utils';
 import {getAdminAccount} from '../../support/env';
 import timeouts from '../../fixtures/timeouts';
-import {spyNotificationAs} from '../../support/notification';
 
 const authenticator = require('authenticator');
 
@@ -176,7 +175,7 @@ describe('Authentication', () => {
 
         // # Logout
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-        cy.get('#logout').should('be.visible').click();
+        cy.get('#logout').scrollIntoView().should('be.visible').click();
 
         // # Login as user B and switch to a different team and channel
         cy.visit('/login');
@@ -186,7 +185,7 @@ describe('Authentication', () => {
 
         // # Logout
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-        cy.get('#logout').scrollIntoView().should('be.visible').click();
+        cy.get('#logout').should('be.visible').click();
 
         // # Login as user A again, observe you're viewing the team/channel you switched to in step 1
         cy.visit('/login');
