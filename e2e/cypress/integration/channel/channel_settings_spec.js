@@ -79,7 +79,7 @@ describe('Channel Settings', () => {
             cy.get('#channel_name').clear().type('another-town-square');
             cy.get('#save-button').click();
 
-            // URL is updated and no errors are displayed
+            // * URL is updated and no errors are displayed
             cy.url().should('include', `/${testTeam.name}/channels/another-town-square`);
         });
     });
