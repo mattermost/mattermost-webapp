@@ -306,7 +306,6 @@
     }
 
     .SidebarMenu {
-        height: 30px;
         opacity: 1;
 
         .dropdown-menu {
@@ -866,6 +865,9 @@
             background-color: var(--sidebar-bg);
             border-radius: 4px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.12);
+
+            /* MM-32401: Needed to ensure that the channel selected count is displayed correctly */
+            overflow: visible;
 
             .SidebarLink {
                 background: rgba(255, 255, 255, 0.08);
