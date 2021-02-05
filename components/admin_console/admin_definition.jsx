@@ -5687,7 +5687,7 @@ const AdminDefinition = {
             title_default: 'Feature Flags',
             isHidden: it.any(
                 it.configIsTrue('ExperimentalSettings'),
-                it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURE_FLAG)),
+                it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURE_FLAGS)),
             ),
             isDisabled: true,
             searchableStrings: [
