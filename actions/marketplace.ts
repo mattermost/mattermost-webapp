@@ -119,23 +119,13 @@ export function installPlugin(id: string, version: string) {
 // On success, it also requests the current state of the plugins to reflect the newly installed plugin.
 export function installApp(id: string, url: string) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc): Promise<void> => {
-        dispatch({
-            type: ActionTypes.INSTALLING_MARKETPLACE_PLUGIN,
-            id,
-        });
-
         const state = getState() as GlobalState;
 
         const channelID = getCurrentChannelId(state);
         const teamID = getCurrentTeamId(state);
 
-        const marketplacePlugin = getApp(state, id);
-        if (!marketplacePlugin) {
-            dispatch({
-                type: ActionTypes.INSTALLING_MARKETPLACE_PLUGIN_FAILED,
-                id,
-                error: 'Unknown plugin: ' + id,
-            });
+        const app = getApp(state, id);
+        if (!app) {
             return;
         }
 
