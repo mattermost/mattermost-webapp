@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 import computerWithAlert from 'images/cloud/computer-with-alert.svg';
 import mattermostCloud from 'images/cloud/mattermost-cloud.svg';
 import wavesBackground from 'images/cloud/waves.svg';
-import blueDotes from 'images/cloud/blue.svg';
+import blueDots from 'images/cloud/blue.svg';
 
 const WorkspaceUserLimitReached: React.FC = () => {
     return (
@@ -37,7 +37,7 @@ const WorkspaceUserLimitReached: React.FC = () => {
                 />
                 <img
                     className='blue-dots'
-                    src={blueDotes}
+                    src={blueDots}
                 />
             </div>
         </div>

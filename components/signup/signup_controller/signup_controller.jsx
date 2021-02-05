@@ -72,9 +72,8 @@ export default class SignupController extends React.PureComponent {
 
             if (inviteId) {
                 loading = true;
-
                 // load stats to be used to restrict users after free maximum number reached
-                if (isEmpty(this.props.subscriptionStats)) {
+                if (this.props.isCloud && isEmpty(this.props.subscriptionStats)) {
                     this.props.actions.getSubscriptionStats();
                 }
             } else if (!this.props.loggedIn) {
@@ -101,7 +100,7 @@ export default class SignupController extends React.PureComponent {
     componentDidMount() {
         this.props.actions.removeGlobalItem('team');
         let isFreeTierWithNoFreeSeats = false;
-        if (this.props.subscriptionStats) {
+        if (!isEmpty(this.props.subscriptionStats)) {
             const {is_paid_tier: isPaidTier, remaining_seats: remainingSeats} = this.props.subscriptionStats;
             isFreeTierWithNoFreeSeats = isPaidTier === 'false' && remainingSeats === 0;
         }

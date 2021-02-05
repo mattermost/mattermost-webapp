@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {getConfig, getLicense, subscriptionStatsFromState} from 'mattermost-redux/selectors/entities/general';
+import {getConfig, getLicense, getSubscriptionStats as subscriptionStatsSelector} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getTeamInviteInfo} from 'mattermost-redux/actions/teams';
 import {getSubscriptionStats} from 'mattermost-redux/actions/cloud';
@@ -18,9 +18,9 @@ import SignupController from './signup_controller.jsx';
 function mapStateToProps(state, ownProps) {
     const license = getLicense(state);
     const config = getConfig(state);
-    const subscriptionStats = subscriptionStatsFromState(state);
-    const isLicensed = license && license.IsLicensed === 'true';
     const isCloud = license && license.Cloud === 'true';
+    const subscriptionStats = isCloud ? subscriptionStatsSelector(state) : {};
+    const isLicensed = license && license.IsLicensed === 'true';
     const enableOpenServer = config.EnableOpenServer === 'true';
     const noAccounts = config.NoAccounts === 'true';
     const enableSignUpWithEmail = config.EnableSignUpWithEmail === 'true';
