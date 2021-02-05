@@ -185,7 +185,7 @@ describe('Authentication', () => {
 
         // # Logout
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-        cy.get('#logout').should('be.visible').click();
+        cy.get('#logout').scrollIntoView().should('be.visible').click();
 
         // # Login as user A again, observe you're viewing the team/channel you switched to in step 1
         cy.visit('/login');
@@ -195,7 +195,7 @@ describe('Authentication', () => {
 
         // # Logout
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-        cy.get('#logout').scrollIntoView().should('be.visible').click();
+        cy.get('#logout').should('be.visible').click();
 
         // # Login as user B again, observe you're viewing the team/channel you switched to in step 2
         cy.visit('/login');
