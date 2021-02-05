@@ -39,7 +39,6 @@ describe('components/apps_form/apps_form_field/AppsFormField', () => {
             value: '',
             onChange: () => {},
             performLookup: jest.fn(),
-            isSubmit: false,
         };
 
         const baseTextSettingProps = {
@@ -150,7 +149,6 @@ describe('components/apps_form/apps_form_field/AppsFormField', () => {
             value: null,
             onChange: () => {},
             performLookup: jest.fn(),
-            isSubmit: false,
         };
 
         const options = [
@@ -200,7 +198,6 @@ describe('components/apps_form/apps_form_field/AppsFormField', () => {
                         options,
                     }}
                     onChange={jest.fn()}
-                    isSubmit={true}
                 />,
             );
 
