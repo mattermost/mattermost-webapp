@@ -4,6 +4,7 @@
 import {getEmailUrl} from '../../utils';
 import {getAdminAccount} from '../../support/env';
 import timeouts from '../../fixtures/timeouts';
+import {spyNotificationAs} from '../../support/notification';
 
 const authenticator = require('authenticator');
 
@@ -175,7 +176,7 @@ describe('Authentication', () => {
 
         // # Logout
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-        cy.get('#logout').scrollIntoView().should('be.visible').click();
+        cy.get('#logout').should('be.visible').click();
 
         // # Login as user B and switch to a different team and channel
         cy.visit('/login');
@@ -204,20 +205,9 @@ describe('Authentication', () => {
         cy.url().should('include', `/${testTeam2.name}/channels/town-square`);
     });
 
-    it('MM-T419 Desktop session expires when the focus is on the tab', () => {
-        Cypress.on('window:before:load', (win) => {
-            function Notification(title, opts) {
-                this.title = title;
-                this.opts = opts;
-            }
-
-            Notification.requestPermission = () => 'granted';
-            Notification.close = () => true;
-
-            win.Notification = Notification;
-
-            cy.stub(win, 'Notification').as('withNotification');
-        });
+    it.only('MM-T419 Desktop session expires when the focus is on the tab', () => {
+        // # Stub notifications API
+        spyNotificationAs('withNotification', 'granted');
 
         cy.visit('/login');
         fillCredentialsForUser(testUser);
