@@ -205,7 +205,7 @@ describe('Authentication', () => {
         cy.url().should('include', `/${testTeam2.name}/channels/town-square`);
     });
 
-    it.only('MM-T419 Desktop session expires when the focus is on the tab', () => {
+    it('MM-T419 Desktop session expires when the focus is on the tab', () => {
         // # Stub notifications API
         spyNotificationAs('withNotification', 'granted');
 
