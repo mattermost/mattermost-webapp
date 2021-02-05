@@ -42,50 +42,49 @@
     svg {
         fill: var(--mention-color);
     }
-}
 
-.nav-pills__unread-indicator-top {
-    top: 32px;
+    &-top {
+        top: 16px;
 
-    .icon {
-        svg {
-            transform: rotate(180deg);
+        &--withStickyHeaders {
+            top: 32px;
+        }
+
+        .icon {
+            svg {
+                transform: rotate(180deg);
+            }
         }
     }
-}
 
-.nav-pills__unread-indicator-bottom {
-    bottom: 16px;
-}
-
-.nav-pills__unread-indicator--visible {
-    opacity: 1;
-    visibility: visible;
-
-    body.enable-animations & {
-        transition-property: opacity, visibility;
-        transition-duration: $transition-quick;
-        transition-delay: 0s;
-        transition-timing-function: ease-out, step-start;
+    &-bottom {
+        bottom: 16px;
     }
-}
 
-@media screen and (max-width: 768px) {
-    .nav-pills__unread-indicator {
+    &--visible {
+        opacity: 1;
+        visibility: visible;
+
+        body.enable-animations & {
+            transition-property: opacity, visibility;
+            transition-duration: $transition-quick;
+            transition-delay: 0s;
+            transition-timing-function: ease-out, step-start;
+        }
+    }
+
+    @media screen and (max-width: 768px) {
         width: 260px;
     }
-}
 
-@media screen and (max-width: 480px) {
-    .nav-pills__unread-indicator {
+    @media screen and (max-width: 480px) {
         width: 230px;
     }
-}
 
-@media screen and (max-width: 320px) {
-    .multi-teams {
-        .nav-pills__unread-indicator {
+    @media screen and (max-width: 320px) {
+        .multi-teams & {
             width: 190px;
         }
     }
 }
+
