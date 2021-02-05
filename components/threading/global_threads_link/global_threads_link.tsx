@@ -8,13 +8,12 @@ import {useIntl} from 'react-intl';
 import {useSelector, useDispatch} from 'react-redux';
 
 import {getThreadCountsInCurrentTeam} from 'mattermost-redux/selectors/entities/threads';
-import {getThreads, getThreadMentionCountsByChannel} from 'mattermost-redux/actions/threads';
+import {getThreads} from 'mattermost-redux/actions/threads';
 
 import {t} from 'utils/i18n';
 
 import {isUnreadFilterEnabled} from 'selectors/views/channel_sidebar';
 import {isCollapsedThreadsEnabled} from 'selectors/threads';
-
 import {useThreadRouting} from '../hooks';
 
 import ThreadsIcon from './threads_icon';
@@ -40,9 +39,8 @@ const GlobalThreadsLink = () => {
             // only preload 5 unread threads when not in /:team/threads
             // else, /:team/threads will take care of first counts on initial load of threads
             dispatch(getThreads(currentUserId, currentTeamId));
-            dispatch(getThreadMentionCountsByChannel(currentUserId, currentTeamId));
         }
-    }, [team, Boolean(threadsMatch)]);
+    }, [team]);
 
     if (!isFeatureEnabled || (unreadsOnly && !threadsMatch && !someUnreadThreads)) {
         // hide link if filtering unreads and there are no unread threads
