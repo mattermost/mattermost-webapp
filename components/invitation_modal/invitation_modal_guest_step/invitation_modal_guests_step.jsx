@@ -10,6 +10,7 @@ import {debounce} from 'mattermost-redux/actions/helpers';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import InviteIcon from 'components/widgets/icons/invite_icon';
 import CloseCircleIcon from 'components/widgets/icons/close_circle_icon';
+import UpgradeLink from 'components/widgets/links/upgrade_link';
 
 import ChannelsInput from 'components/widgets/inputs/channels_input.jsx';
 import UsersEmailsInput from 'components/widgets/inputs/users_emails_input.jsx';
@@ -231,11 +232,12 @@ class InvitationModalGuestsStep extends React.PureComponent {
                                 'invitation_modal.invite_members.hit_cloud_user_limit',
                             )}
                             errorMessageDefault={
-                                'You have reached the user limit for your tier'
+                                'You can only invite **{num} more {num, plural, one {member} other {members}}** to the team on the free tier.'
                             }
                             errorMessageValues={{
-                                text: remainingUsers < 0 ? '0' : remainingUsers,
+                                num: remainingUsers < 0 ? '0' : remainingUsers,
                             }}
+                            extraErrorText={<UpgradeLink telemetryInfo='click_upgrade_users_emails_input'/>}
                             onChange={this.onUsersEmailsChange}
                             value={this.state.usersAndEmails}
                             onInputChange={this.onUsersInputChange}

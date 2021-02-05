@@ -46,6 +46,7 @@ export default class UsersEmailsInput extends React.PureComponent {
         loadingMessageId: PropTypes.string,
         loadingMessageDefault: PropTypes.string,
         emailInvitationsEnabled: PropTypes.bool,
+        extraErrorText: PropTypes.any,
     }
 
     static defaultProps = {
@@ -318,6 +319,7 @@ export default class UsersEmailsInput extends React.PureComponent {
                                 defaultMessage={this.props.errorMessageDefault}
                                 values={this.props.errorMessageValues || null}
                                 disableLinks={true}
+                                dangerouslySetInnerHTML={<UpgradeLink/>}
                             >
                                 {(message) => (
                                     <components.NoOptionsMessage>
@@ -325,9 +327,7 @@ export default class UsersEmailsInput extends React.PureComponent {
                                     </components.NoOptionsMessage>
                                 )}
                             </FormattedMarkdownMessage>
-                            {this.props.errorMessageId === 'invitation_modal.invite_members.hit_cloud_user_limit' &&
-                                <UpgradeLink telemetryInfo='click_upgrade_users_emails_input'/>
-                            }
+                            {this.props.extraErrorText || null}
                         </div>
                     </div>
                 )}
