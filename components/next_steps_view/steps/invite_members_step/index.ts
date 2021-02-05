@@ -10,6 +10,7 @@ import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
 import {ServerError} from 'mattermost-redux/types/errors';
 import {TeamInviteWithError} from 'mattermost-redux/types/teams';
+import {getSubscriptionStats} from 'mattermost-redux/actions/cloud';
 
 import {GlobalState} from 'types/store';
 
@@ -21,12 +22,15 @@ function mapStateToProps(state: GlobalState) {
     return {
         team: getCurrentTeam(state),
         isEmailInvitesEnabled: config.EnableEmailInvitations === 'true',
+        cloudUserLimit: config.ExperimentalCloudUserLimit || 10,
+        subscriptionStats: state.entities.cloud.subscriptionStats,
     };
 }
 
 type Actions = {
     sendEmailInvitesToTeamGracefully: (teamId: string, emails: string[]) => Promise<{ data: TeamInviteWithError[]; error: ServerError }>;
     regenerateTeamInviteId: (teamId: string) => void;
+    getSubscriptionStats: () => void;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
@@ -34,6 +38,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
             sendEmailInvitesToTeamGracefully,
             regenerateTeamInviteId,
+            getSubscriptionStats,
         }, dispatch),
     };
 }
