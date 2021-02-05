@@ -22,7 +22,7 @@ type State = {
 
 declare module 'react-bootstrap/lib/OverlayTrigger' {
     interface OverlayTriggerProps {
-        shouldUpdatePosition: boolean;
+        shouldUpdatePosition?: boolean;
     }
 }
 
