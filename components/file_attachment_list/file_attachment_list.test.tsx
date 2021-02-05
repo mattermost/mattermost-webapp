@@ -4,17 +4,57 @@
 import {shallow} from 'enzyme';
 import React from 'react';
 
+import {Post} from 'mattermost-redux/src/types/posts';
+
 import FileAttachment from 'components/file_attachment';
 import SingleImageView from 'components/single_image_view';
 
 import FileAttachmentList from './file_attachment_list';
 
 describe('FileAttachmentList', () => {
-    const post = {id: 'post_id', file_ids: ['file_id_1', 'file_id_2', 'file_id_3']};
+    const post: Post = {
+        id: 'post_id',
+        file_ids: ['file_id_1', 'file_id_2', 'file_id_3'],
+        create_at: 0,
+        update_at: 0,
+        edit_at: 0,
+        delete_at: 0,
+        is_pinned: false,
+        user_id: '',
+        channel_id: '',
+        root_id: '',
+        parent_id: '',
+        original_id: '',
+        message: '',
+        type: 'system_add_to_team',
+        props: {},
+        hashtags: '',
+        pending_post_id: '',
+        reply_count: 0,
+        metadata: {
+            embeds: [],
+            emojis: [],
+            files: [],
+            images: {},
+            reactions: [],
+        },
+    };
+    const baseFileInfo = {
+        user_id: '0',
+        create_at: 0,
+        update_at: 0,
+        delete_at: 0,
+        size: 0,
+        mime_type: '',
+        width: 0,
+        height: 0,
+        has_preview_image: false,
+        clientId: '',
+    };
     const fileInfos = [
-        {id: 'file_id_3', name: 'image_3.png', extension: 'png', create_at: 3},
-        {id: 'file_id_2', name: 'image_2.png', extension: 'png', create_at: 2},
-        {id: 'file_id_1', name: 'image_1.png', extension: 'png', create_at: 1},
+        {...baseFileInfo, id: 'file_id_3', name: 'image_3.png', extension: 'png', create_at: 3},
+        {...baseFileInfo, id: 'file_id_2', name: 'image_2.png', extension: 'png', create_at: 2},
+        {...baseFileInfo, id: 'file_id_1', name: 'image_1.png', extension: 'png', create_at: 1},
     ];
     const baseProps = {
         post,
@@ -32,7 +72,21 @@ describe('FileAttachmentList', () => {
             ...baseProps,
             fileCount: 1,
             fileInfos: [
-                {id: 'file_id_1', name: 'file.txt', extension: 'txt'},
+                {
+                    id: 'file_id_1',
+                    name: 'file.txt',
+                    extension: 'txt',
+                    user_id: '0',
+                    create_at: 0,
+                    update_at: 0,
+                    delete_at: 0,
+                    size: 0,
+                    mime_type: '',
+                    width: 0,
+                    height: 0,
+                    has_preview_image: false,
+                    clientId: '',
+                },
             ],
         };
 
@@ -58,7 +112,7 @@ describe('FileAttachmentList', () => {
             ...baseProps,
             fileCount: 1,
             fileInfos: [
-                {id: 'file_id_1', name: 'image.png', extension: 'png'},
+                {...baseFileInfo, id: 'file_id_1', name: 'image.png', extension: 'png'},
             ],
         };
 
@@ -75,7 +129,7 @@ describe('FileAttachmentList', () => {
             enableSVGs: true,
             fileCount: 1,
             fileInfos: [
-                {id: 'file_id_1', name: 'image.svg', extension: 'svg'},
+                {...baseFileInfo, id: 'file_id_1', name: 'image.svg', extension: 'svg'},
             ],
         };
 
@@ -91,7 +145,7 @@ describe('FileAttachmentList', () => {
             ...baseProps,
             fileCount: 1,
             fileInfos: [
-                {id: 'file_id_1', name: 'image.svg', extension: 'svg'},
+                {...baseFileInfo, id: 'file_id_1', name: 'image.svg', extension: 'svg'},
             ],
         };
 
@@ -104,7 +158,7 @@ describe('FileAttachmentList', () => {
     });
 
     test('should match state on handleImageClick', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<FileAttachmentList>(
             <FileAttachmentList {...baseProps}/>,
         );
 
@@ -117,7 +171,7 @@ describe('FileAttachmentList', () => {
     });
 
     test('should match state on hidePreviewModal', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<FileAttachmentList>(
             <FileAttachmentList {...baseProps}/>,
         );
 
