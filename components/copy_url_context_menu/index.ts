@@ -8,7 +8,7 @@ import {GlobalState} from 'types/store/index.js';
 
 import {copyToClipboard} from 'utils/utils';
 
-import CopyUrlContextMenu from './copy_url_context_menu.jsx';
+import CopyUrlContextMenu from './copy_url_context_menu';
 
 function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);

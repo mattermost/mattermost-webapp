@@ -1,30 +1,35 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {ContextMenu, ContextMenuTrigger, MenuItem} from 'react-contextmenu';
 import {FormattedMessage} from 'react-intl';
 
-export default class CopyUrlContextMenu extends React.PureComponent {
-    static propTypes = {
+type Props = {
 
-        // The child component that will be right-clicked on to show the context menu
-        children: PropTypes.element,
+    /**
+     * The child component that will be right-clicked on to show the context menu
+     */
+    children: React.ReactNode;
 
-        // The link to copy to the user's clipboard when the 'Copy' option is selected from the context menu
-        link: PropTypes.string.isRequired,
+    /**
+     * The link to copy to the user's clipboard when the 'Copy' option is selected from the context menu
+     */
+    link: string;
 
-        // A unique id differentiating this instance of context menu from others on the page.
-        menuId: PropTypes.string.isRequired,
+    /**
+     * A unique id differentiating this instance of context menu from others on the page
+     */
+    menuId: string;
 
-        siteURL: PropTypes.string.isRequired,
+    siteURL?: string;
 
-        actions: PropTypes.shape({
-            copyToClipboard: PropTypes.func.isRequired,
-        }),
+    actions: {
+        copyToClipboard: (link: string) => void;
     };
+}
 
+export default class CopyUrlContextMenu extends React.PureComponent<Props> {
     copy = () => {
         let link = this.props.link;
 
