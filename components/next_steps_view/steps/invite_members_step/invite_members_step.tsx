@@ -269,7 +269,7 @@ export default class InviteMembersStep extends React.PureComponent<Props, State>
                                         </>
                                     }
                                     {(this.state.emailError && this.state.emails.length > 10) &&
-                                        <UpgradeLink/>
+                                        <UpgradeLink telemetryInfo='click_upgrade_invite_members_step'/>
                                     }
                                 </div>
                             </div>

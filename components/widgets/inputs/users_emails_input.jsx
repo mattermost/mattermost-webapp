@@ -24,7 +24,7 @@ import {t} from 'utils/i18n.jsx';
 import {isGuest} from 'utils/utils';
 
 import './users_emails_input.scss';
-import UpgradeLink from '../links/upgrade_link';
+import UpgradeLink from 'components/widgets/links/upgrade_link';
 
 export default class UsersEmailsInput extends React.PureComponent {
     static propTypes = {
@@ -326,7 +326,8 @@ export default class UsersEmailsInput extends React.PureComponent {
                                 )}
                             </FormattedMarkdownMessage>
                             {this.props.errorMessageId === 'invitation_modal.invite_members.hit_cloud_user_limit' &&
-                            <UpgradeLink/>}
+                                <UpgradeLink telemetryInfo='click_upgrade_users_emails_input'/>
+                            }
                         </div>
                     </div>
                 )}
