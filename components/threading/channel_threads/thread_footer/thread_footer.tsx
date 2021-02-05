@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, ComponentProps} from 'react';
+import React, {memo, useCallback, ComponentProps} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import './thread_footer.scss';
@@ -24,8 +24,7 @@ type Props = {
     lastReplyAt: ComponentProps<typeof Timestamp>['value'];
     isFollowing: boolean;
     actions: {
-        follow: () => void;
-        unFollow: () => void;
+        setFollowing: (isFollowing: boolean) => void;
         openThread: () => void;
     };
 };
@@ -38,8 +37,7 @@ function ThreadFooter({
     lastReplyAt,
     isFollowing,
     actions: {
-        follow,
-        unFollow,
+        setFollowing,
         openThread,
     },
 }: Props) {
@@ -91,9 +89,10 @@ function ThreadFooter({
 
             <FollowButton
                 isFollowing={isFollowing}
-                follow={follow}
-                unFollow={unFollow}
                 className='separated'
+                onClick={useCallback(() => {
+                    setFollowing(!isFollowing);
+                }, [setFollowing, isFollowing])}
             />
 
             {Boolean(lastReplyAt) && (

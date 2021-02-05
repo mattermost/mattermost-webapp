@@ -69,9 +69,8 @@ exports[`components/threading/channel_threads/thread_footer should report total 
   </Memo(Button)>
   <Memo(FollowButton)
     className="separated"
-    follow={[MockFunction]}
     isFollowing={true}
-    unFollow={[MockFunction]}
+    onClick={[Function]}
   />
   <Connect(injectIntl(Timestamp))
     day="numeric"
@@ -181,9 +180,8 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
   </Memo(Button)>
   <Memo(FollowButton)
     className="separated"
-    follow={[MockFunction]}
     isFollowing={true}
-    unFollow={[MockFunction]}
+    onClick={[Function]}
   />
   <Connect(injectIntl(Timestamp))
     day="numeric"
