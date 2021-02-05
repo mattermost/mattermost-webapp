@@ -4,6 +4,8 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import {RESOURCE_KEYS} from 'mattermost-redux/constants/permissions_sysconsole';
+
 import {Constants} from 'utils/constants';
 import {getSiteURL} from 'utils/url';
 import {t} from 'utils/i18n';
@@ -22,7 +24,6 @@ import PluginManagement from 'components/admin_console/plugin_management';
 import CustomPluginSettings from 'components/admin_console/custom_plugin_settings';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
-import {RESOURCE_KEYS} from 'mattermost-redux/constants/permissions_sysconsole';
 
 import OpenIdConvert from './openid_convert';
 import Audits from './audits';
@@ -5676,7 +5677,7 @@ const AdminDefinition = {
                         placeholder: t('admin.experimental.userStatusAwayTimeout.example'),
                         placeholder_default: 'E.g.: "300"',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
-                    }, 
+                    },
                 ],
             },
         },
@@ -5703,7 +5704,7 @@ const AdminDefinition = {
             title_default: 'Bleve',
             isHidden: it.any(
                 it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
-                it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.BLEVE))
+                it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.BLEVE)),
             ),
             isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.BLEVE)),
             searchableStrings: [

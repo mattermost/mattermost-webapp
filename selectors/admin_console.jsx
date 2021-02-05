@@ -35,10 +35,10 @@ export const getConsoleAccess = createSelector(
             consoleAccess.write[entryKey] = permissions.some((permission) => permission.startsWith('sysconsole_write_'));
         };
         const mapAccessValuesForKey = ([key]) => {
-            if (typeof RESOURCE_KEYS[key.toUpperCase()] === 'object') { 
-                Object.values(RESOURCE_KEYS[key.toUpperCase()]).forEach(entry => {
+            if (typeof RESOURCE_KEYS[key.toUpperCase()] === 'object') {
+                Object.values(RESOURCE_KEYS[key.toUpperCase()]).forEach((entry) => {
                     addEntriesForKey(entry);
-                })
+                });
             } else {
                 addEntriesForKey(key);
             }
