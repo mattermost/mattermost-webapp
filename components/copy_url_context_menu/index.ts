@@ -4,11 +4,13 @@
 import {connect} from 'react-redux';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
+import {GlobalState} from 'types/store/index.js';
+
 import {copyToClipboard} from 'utils/utils';
 
 import CopyUrlContextMenu from './copy_url_context_menu.jsx';
 
-function mapStateToProps(state) {
+function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
 
     return {
