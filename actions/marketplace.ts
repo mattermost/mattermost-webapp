@@ -61,7 +61,7 @@ export function fetchListing(localOnly = false): ActionFunc {
     };
 }
 
-// filterApps sets a search filter for marketplace listing, fetching the latest data.
+// filterListing sets a search filter for marketplace listing, fetching the latest data.
 export function filterListing(filter: string): ActionFunc {
     return async (dispatch: DispatchFunc) => {
         dispatch({

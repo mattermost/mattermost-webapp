@@ -116,11 +116,11 @@ describe('marketplace', () => {
             expect(getApp(state, 'some.id')).toEqual(sampleApp);
         });
 
-        it('should return sampleInstalledPlugin', () => {
+        it('should return sampleInstalledApp', () => {
             expect(getApp(state, 'some.other.id')).toEqual(sampleInstalledApp);
         });
 
-        it('should return undefined for unknown plugin', () => {
+        it('should return undefined for unknown app', () => {
             expect(getApp(state, 'unknown')).toBeUndefined();
         });
     });
