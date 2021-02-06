@@ -72,6 +72,7 @@ export default class SignupController extends React.PureComponent {
 
             if (inviteId) {
                 loading = true;
+
                 // load stats to be used to restrict users after free maximum number reached
                 if (this.props.isCloud && isEmpty(this.props.subscriptionStats)) {
                     this.props.actions.getSubscriptionStats();
