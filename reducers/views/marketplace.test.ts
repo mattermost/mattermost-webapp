@@ -45,7 +45,7 @@ describe('marketplace', () => {
         expect(marketplaceReducer(currentState, action)).toEqual(expectedState);
     });
 
-    describe(ActionTypes.INSTALLING_MARKETPLACE_PLUGIN, () => {
+    describe(ActionTypes.INSTALLING_MARKETPLACE_ITEM, () => {
         const currentState = {
             plugins: [{manifest: {id: 'plugin1'}}, {manifest: {id: 'plugin2'}}] as MarketplacePlugin[],
             apps: [],
@@ -56,7 +56,7 @@ describe('marketplace', () => {
 
         it('should set installing for not already installing plugin', () => {
             const action: GenericAction = {
-                type: ActionTypes.INSTALLING_MARKETPLACE_PLUGIN,
+                type: ActionTypes.INSTALLING_MARKETPLACE_ITEM,
                 id: 'plugin2',
             };
             const expectedState = {
@@ -72,7 +72,7 @@ describe('marketplace', () => {
 
         it('should no-op for already installing plugin', () => {
             const action: GenericAction = {
-                type: ActionTypes.INSTALLING_MARKETPLACE_PLUGIN,
+                type: ActionTypes.INSTALLING_MARKETPLACE_ITEM,
                 id: 'plugin1',
             };
             const expectedState = currentState;
@@ -82,7 +82,7 @@ describe('marketplace', () => {
 
         it('should clear error for previously failed plugin', () => {
             const action: GenericAction = {
-                type: ActionTypes.INSTALLING_MARKETPLACE_PLUGIN,
+                type: ActionTypes.INSTALLING_MARKETPLACE_ITEM,
                 id: 'plugin3',
             };
             const expectedState = {
@@ -97,7 +97,7 @@ describe('marketplace', () => {
         });
     });
 
-    describe(ActionTypes.INSTALLING_MARKETPLACE_PLUGIN_SUCCEEDED, () => {
+    describe(ActionTypes.INSTALLING_MARKETPLACE_ITEM_SUCCEEDED, () => {
         const currentState = {
             plugins: [{manifest: {id: 'plugin1'}}, {manifest: {id: 'plugin2'}}] as MarketplacePlugin[],
             apps: [],
@@ -108,7 +108,7 @@ describe('marketplace', () => {
 
         it('should clear installing', () => {
             const action: GenericAction = {
-                type: ActionTypes.INSTALLING_MARKETPLACE_PLUGIN_SUCCEEDED,
+                type: ActionTypes.INSTALLING_MARKETPLACE_ITEM_SUCCEEDED,
                 id: 'plugin1',
             };
             const expectedState = {
@@ -124,7 +124,7 @@ describe('marketplace', () => {
 
         it('should clear error', () => {
             const action: GenericAction = {
-                type: ActionTypes.INSTALLING_MARKETPLACE_PLUGIN_SUCCEEDED,
+                type: ActionTypes.INSTALLING_MARKETPLACE_ITEM_SUCCEEDED,
                 id: 'plugin3',
             };
             const expectedState = {
@@ -139,7 +139,7 @@ describe('marketplace', () => {
         });
     });
 
-    describe(ActionTypes.INSTALLING_MARKETPLACE_PLUGIN_FAILED, () => {
+    describe(ActionTypes.INSTALLING_MARKETPLACE_ITEM_FAILED, () => {
         const currentState = {
             plugins: [{manifest: {id: 'plugin1'}}, {manifest: {id: 'plugin2'}}] as MarketplacePlugin[],
             apps: [],
@@ -150,7 +150,7 @@ describe('marketplace', () => {
 
         it('should clear installing and set error', () => {
             const action: GenericAction = {
-                type: ActionTypes.INSTALLING_MARKETPLACE_PLUGIN_FAILED,
+                type: ActionTypes.INSTALLING_MARKETPLACE_ITEM_FAILED,
                 id: 'plugin1',
                 error: 'Failed to intall',
             };

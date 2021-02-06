@@ -44,10 +44,10 @@ function apps(state: MarketplaceApp[] = [], action: GenericAction): MarketplaceA
     }
 }
 
-// installing tracks the plugins pending installation
+// installing tracks the items pending installation
 function installing(state: {[pluginId: string]: boolean} = {}, action: GenericAction): {[pluginId: string]: boolean} {
     switch (action.type) {
-    case ActionTypes.INSTALLING_MARKETPLACE_PLUGIN:
+    case ActionTypes.INSTALLING_MARKETPLACE_ITEM:
         if (state[action.id]) {
             return state;
         }
@@ -57,8 +57,8 @@ function installing(state: {[pluginId: string]: boolean} = {}, action: GenericAc
             [action.id]: true,
         };
 
-    case ActionTypes.INSTALLING_MARKETPLACE_PLUGIN_SUCCEEDED:
-    case ActionTypes.INSTALLING_MARKETPLACE_PLUGIN_FAILED: {
+    case ActionTypes.INSTALLING_MARKETPLACE_ITEM_SUCCEEDED:
+    case ActionTypes.INSTALLING_MARKETPLACE_ITEM_FAILED: {
         if (!Object.prototype.hasOwnProperty.call(state, action.id)) {
             return state;
         }
@@ -84,14 +84,14 @@ function installing(state: {[pluginId: string]: boolean} = {}, action: GenericAc
 // errors tracks the error messages for plugins that failed installation
 function errors(state: {[pluginId: string]: string} = {}, action: GenericAction): {[pluginId: string]: string} {
     switch (action.type) {
-    case ActionTypes.INSTALLING_MARKETPLACE_PLUGIN_FAILED:
+    case ActionTypes.INSTALLING_MARKETPLACE_ITEM_FAILED:
         return {
             ...state,
             [action.id]: action.error,
         };
 
-    case ActionTypes.INSTALLING_MARKETPLACE_PLUGIN_SUCCEEDED:
-    case ActionTypes.INSTALLING_MARKETPLACE_PLUGIN: {
+    case ActionTypes.INSTALLING_MARKETPLACE_ITEM_SUCCEEDED:
+    case ActionTypes.INSTALLING_MARKETPLACE_ITEM: {
         if (!Object.prototype.hasOwnProperty.call(state, action.id)) {
             return state;
         }

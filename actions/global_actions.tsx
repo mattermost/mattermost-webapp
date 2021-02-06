@@ -183,7 +183,7 @@ export function showMobileSubMenuModal(elements: any[]) { // TODO Use more speci
     dispatch(openModal(submenuModalData));
 }
 
-export function sendEphemeralPost(message: string, channelId: string, parentId: string) {
+export function sendEphemeralPost(message: string, channelId: string, parentId?: string): void {
     const timestamp = Utils.getTimestamp();
     const post = {
         id: Utils.generateId(),

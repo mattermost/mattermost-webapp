@@ -285,39 +285,8 @@ export default class MarketplaceItemPlugin extends React.PureComponent <Marketpl
     }
 
     getItemButton(): JSX.Element {
-        let actionButton = (
-            <FormattedMessage
-                id='marketplace_modal.list.Install'
-                defaultMessage='Install'
-            />
-        );
-        if (this.props.error) {
-            actionButton = (
-                <FormattedMessage
-                    id='marketplace_modal.list.try_again'
-                    defaultMessage='Try Again'
-                />
-            );
-        }
-
-        let button = (
-            <button
-                onClick={this.onInstall}
-                className='btn btn-primary'
-                disabled={this.props.installing}
-            >
-                <LoadingWrapper
-                    loading={this.props.installing}
-                    text={localizeMessage('marketplace_modal.installing', 'Installing...')}
-                >
-                    {actionButton}
-                </LoadingWrapper>
-
-            </button>
-        );
-
         if (this.props.installedVersion !== '' && !this.props.installing && !this.props.error) {
-            button = (
+            return (
                 <Link
                     to={'/admin_console/plugins/plugin_' + this.props.id}
                 >
@@ -334,7 +303,38 @@ export default class MarketplaceItemPlugin extends React.PureComponent <Marketpl
             );
         }
 
-        return button;
+        let actionButton: JSX.Element;
+        if (this.props.error) {
+            actionButton = (
+                <FormattedMessage
+                    id='marketplace_modal.list.try_again'
+                    defaultMessage='Try Again'
+                />
+            );
+        } else {
+            actionButton = (
+                <FormattedMessage
+                    id='marketplace_modal.list.Install'
+                    defaultMessage='Install'
+                />
+            );
+        }
+
+        return (
+            <button
+                onClick={this.onInstall}
+                className='btn btn-primary'
+                disabled={this.props.installing}
+            >
+                <LoadingWrapper
+                    loading={this.props.installing}
+                    text={localizeMessage('marketplace_modal.installing', 'Installing...')}
+                >
+                    {actionButton}
+                </LoadingWrapper>
+
+            </button>
+        );
     }
 
     render(): JSX.Element {

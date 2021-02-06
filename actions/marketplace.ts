@@ -7,7 +7,6 @@ import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
 
 import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
-
 import type {MarketplaceApp, MarketplacePlugin} from 'mattermost-redux/types/marketplace';
 import type {CommandArgs} from 'mattermost-redux/types/integrations';
 
@@ -15,6 +14,8 @@ import {GlobalState} from 'types/store';
 
 import {getApp, getFilter, getPlugin} from 'selectors/views/marketplace';
 import {ActionTypes} from 'utils/constants';
+
+import {isError} from 'types/actions';
 
 import {executeCommand} from './command';
 
@@ -79,7 +80,7 @@ export function filterListing(filter: string): ActionFunc {
 export function installPlugin(id: string, version: string) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc): Promise<void> => {
         dispatch({
-            type: ActionTypes.INSTALLING_MARKETPLACE_PLUGIN,
+            type: ActionTypes.INSTALLING_MARKETPLACE_ITEM,
             id,
         });
 
@@ -88,7 +89,7 @@ export function installPlugin(id: string, version: string) {
         const marketplacePlugin = getPlugin(state, id);
         if (!marketplacePlugin) {
             dispatch({
-                type: ActionTypes.INSTALLING_MARKETPLACE_PLUGIN_FAILED,
+                type: ActionTypes.INSTALLING_MARKETPLACE_ITEM_FAILED,
                 id,
                 error: 'Unknown plugin: ' + id,
             });
@@ -99,7 +100,7 @@ export function installPlugin(id: string, version: string) {
             await Client4.installMarketplacePlugin(id, version);
         } catch (error) {
             dispatch({
-                type: ActionTypes.INSTALLING_MARKETPLACE_PLUGIN_FAILED,
+                type: ActionTypes.INSTALLING_MARKETPLACE_ITEM_FAILED,
                 id,
                 error: error.message,
             });
@@ -108,7 +109,7 @@ export function installPlugin(id: string, version: string) {
 
         await dispatch(fetchListing());
         dispatch({
-            type: ActionTypes.INSTALLING_MARKETPLACE_PLUGIN_SUCCEEDED,
+            type: ActionTypes.INSTALLING_MARKETPLACE_ITEM_SUCCEEDED,
             id,
         });
     };
@@ -118,7 +119,12 @@ export function installPlugin(id: string, version: string) {
 //
 // On success, it also requests the current state of the plugins to reflect the newly installed plugin.
 export function installApp(id: string, url: string) {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc): Promise<void> => {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc): Promise<boolean> => {
+        dispatch({
+            type: ActionTypes.INSTALLING_MARKETPLACE_ITEM,
+            id,
+        });
+
         const state = getState() as GlobalState;
 
         const channelID = getCurrentChannelId(state);
@@ -126,7 +132,12 @@ export function installApp(id: string, url: string) {
 
         const app = getApp(state, id);
         if (!app) {
-            return;
+            dispatch({
+                type: ActionTypes.INSTALLING_MARKETPLACE_ITEM_FAILED,
+                id,
+                error: 'Unknown app: ' + id,
+            });
+            return false;
         }
 
         const args: CommandArgs = {
@@ -134,6 +145,20 @@ export function installApp(id: string, url: string) {
             team_id: teamID,
         };
 
-        dispatch(executeCommand('/apps install --force --url ' + url + ' --app-secret some-secret', args));
+        const result = await dispatch(executeCommand('/apps install --force --url ' + url + ' --app-secret some-secret', args));
+        if (isError(result)) {
+            dispatch({
+                type: ActionTypes.INSTALLING_MARKETPLACE_ITEM_FAILED,
+                id,
+                error: result.error.message,
+            });
+            return false;
+        }
+
+        dispatch({
+            type: ActionTypes.INSTALLING_MARKETPLACE_ITEM_SUCCEEDED,
+            id,
+        });
+        return true;
     };
 }

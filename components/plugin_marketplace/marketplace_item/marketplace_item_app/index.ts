@@ -5,15 +5,27 @@ import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
+import {GlobalState} from 'types/store';
+
 import {installApp} from 'actions/marketplace';
 import {closeModal} from 'actions/views/modals';
-import {ModalIdentifiers} from 'utils/constants';
 import {trackEvent} from 'actions/telemetry_actions.jsx';
+import {getInstalling, getError} from 'selectors/views/marketplace';
+import {ModalIdentifiers} from 'utils/constants';
 
 import MarketplaceItemApp, {MarketplaceItemAppProps} from './marketplace_item_app';
 
-function mapStateToProps() {
+type Props = {
+    id: string;
+}
+
+function mapStateToProps(state: GlobalState, props: Props) {
+    const installing = getInstalling(state, props.id);
+    const error = getError(state, props.id);
+
     return {
+        installing,
+        error,
         trackEvent,
     };
 }

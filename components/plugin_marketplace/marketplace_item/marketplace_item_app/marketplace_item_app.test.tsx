@@ -4,9 +4,9 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import MarketplaceItemPlugin, {MarketplaceItemAppProps} from './marketplace_item_app';
+import MarketplaceItemApp, {MarketplaceItemAppProps} from './marketplace_item_app';
 
-describe('components/MarketplaceItemPlugin', () => {
+describe('components/MarketplaceItemApp', () => {
     describe('MarketplaceItem', () => {
         const baseProps: MarketplaceItemAppProps = {
             id: 'id',
@@ -15,16 +15,17 @@ describe('components/MarketplaceItemPlugin', () => {
             homepage_url: 'http://example.com',
             root_url: 'http://example.com/install',
             installed: false,
+            installing: false,
             trackEvent: jest.fn(() => {}),
             actions: {
-                installApp: jest.fn(() => {}),
+                installApp: jest.fn(async () => Promise.resolve(true)),
                 closeMarketplaceModal: jest.fn(() => {}),
             },
         };
 
         test('should render', () => {
-            const wrapper = shallow<MarketplaceItemPlugin>(
-                <MarketplaceItemPlugin {...baseProps}/>,
+            const wrapper = shallow<MarketplaceItemApp>(
+                <MarketplaceItemApp {...baseProps}/>,
             );
 
             expect(wrapper).toMatchSnapshot();
@@ -35,7 +36,7 @@ describe('components/MarketplaceItemPlugin', () => {
             delete props.description;
 
             const wrapper = shallow(
-                <MarketplaceItemPlugin {...props}/>,
+                <MarketplaceItemApp {...props}/>,
             );
 
             expect(wrapper).toMatchSnapshot();
@@ -45,8 +46,33 @@ describe('components/MarketplaceItemPlugin', () => {
             const props = {...baseProps};
             delete props.homepage_url;
 
-            const wrapper = shallow<MarketplaceItemPlugin>(
-                <MarketplaceItemPlugin {...props}/>,
+            const wrapper = shallow<MarketplaceItemApp>(
+                <MarketplaceItemApp {...props}/>,
+            );
+
+            expect(wrapper).toMatchSnapshot();
+        });
+
+        test('should render with server error', () => {
+            const props = {
+                ...baseProps,
+                error: 'An error occurred.',
+            };
+
+            const wrapper = shallow<MarketplaceItemApp>(
+                <MarketplaceItemApp {...props}/>,
+            );
+
+            expect(wrapper).toMatchSnapshot();
+        });
+
+        it('when installing', () => {
+            const props = {
+                ...baseProps,
+                isInstalling: true,
+            };
+            const wrapper = shallow<MarketplaceItemApp>(
+                <MarketplaceItemApp {...props}/>,
             );
 
             expect(wrapper).toMatchSnapshot();
@@ -58,8 +84,8 @@ describe('components/MarketplaceItemPlugin', () => {
                 installed: true,
             };
 
-            const wrapper = shallow<MarketplaceItemPlugin>(
-                <MarketplaceItemPlugin {...props}/>,
+            const wrapper = shallow<MarketplaceItemApp>(
+                <MarketplaceItemApp {...props}/>,
             );
 
             expect(wrapper).toMatchSnapshot();
@@ -71,8 +97,8 @@ describe('components/MarketplaceItemPlugin', () => {
                 labels: [],
             };
 
-            const wrapper = shallow<MarketplaceItemPlugin>(
-                <MarketplaceItemPlugin {...props}/>,
+            const wrapper = shallow<MarketplaceItemApp>(
+                <MarketplaceItemApp {...props}/>,
             );
 
             expect(wrapper).toMatchSnapshot();
@@ -90,8 +116,8 @@ describe('components/MarketplaceItemPlugin', () => {
                 ],
             };
 
-            const wrapper = shallow<MarketplaceItemPlugin>(
-                <MarketplaceItemPlugin {...props}/>,
+            const wrapper = shallow<MarketplaceItemApp>(
+                <MarketplaceItemApp {...props}/>,
             );
 
             expect(wrapper).toMatchSnapshot();
@@ -113,8 +139,8 @@ describe('components/MarketplaceItemPlugin', () => {
                 ],
             };
 
-            const wrapper = shallow<MarketplaceItemPlugin>(
-                <MarketplaceItemPlugin {...props}/>,
+            const wrapper = shallow<MarketplaceItemApp>(
+                <MarketplaceItemApp {...props}/>,
             );
 
             expect(wrapper).toMatchSnapshot();
@@ -126,8 +152,8 @@ describe('components/MarketplaceItemPlugin', () => {
                 isDefaultMarketplace: true,
             };
 
-            const wrapper = shallow<MarketplaceItemPlugin>(
-                <MarketplaceItemPlugin {...props}/>,
+            const wrapper = shallow<MarketplaceItemApp>(
+                <MarketplaceItemApp {...props}/>,
             );
 
             wrapper.instance().onInstall();
@@ -135,7 +161,6 @@ describe('components/MarketplaceItemPlugin', () => {
                 app_id: 'id',
             });
             expect(props.actions.installApp).toHaveBeenCalledWith('id', 'http://example.com/install');
-            expect(props.actions.closeMarketplaceModal).toBeCalled();
         });
     });
 });
