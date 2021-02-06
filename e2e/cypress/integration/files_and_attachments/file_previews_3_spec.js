@@ -12,9 +12,9 @@
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
-import {testImage} from './helpers';
+import {testVideoFile} from './helpers';
 
-describe('Upload Files - Image', () => {
+describe('Upload Files - Video', () => {
     let testTeam;
 
     beforeEach(() => {
@@ -30,43 +30,51 @@ describe('Upload Files - Image', () => {
         });
     });
 
-    it('MM-T2264_1 - JPG', () => {
+    it('MM-T3826_1 - MP4', () => {
         const properties = {
-            route: 'mm_file_testing/Images/JPG.jpg',
-            originalWidth: 400,
-            originalHeight: 479,
+            route: 'mm_file_testing/Video/MP4.mp4',
+            shouldPreview: true,
         };
-
-        testImage(properties);
+        testVideoFile(properties);
     });
 
-    it('MM-T2264_2 - PNG', () => {
+    it('MM-T3826_2 - AVI', () => {
         const properties = {
-            route: 'mm_file_testing/Images/PNG.png',
-            originalWidth: 400,
-            originalHeight: 479,
+            route: 'mm_file_testing/Video/AVI.avi',
+            shouldPreview: false,
         };
-
-        testImage(properties);
+        testVideoFile(properties);
     });
 
-    it('MM-T2264_4 - GIF', () => {
+    it('MM-T3826_3 - MKV', () => {
         const properties = {
-            route: 'mm_file_testing/Images/GIF.gif',
-            originalWidth: 500,
-            originalHeight: 500,
+            route: 'mm_file_testing/Video/MKV.mkv',
+            shouldPreview: false,
         };
-
-        testImage(properties);
+        testVideoFile(properties);
     });
 
-    it('MM-T2264_5 - TIFF', () => {
+    it('MM-T3826_5 - MPG', () => {
         const properties = {
-            route: 'mm_file_testing/Images/TIFF.tif',
-            originalWidth: 400,
-            originalHeight: 479,
+            route: 'mm_file_testing/Video/MPG.mpg',
+            shouldPreview: false,
         };
+        testVideoFile(properties);
+    });
 
-        testImage(properties);
+    it('MM-T3826_6 - WEBM', () => {
+        const properties = {
+            route: 'mm_file_testing/Video/WEBM.webm',
+            shouldPreview: true,
+        };
+        testVideoFile(properties);
+    });
+
+    it('MM-T3826_7 - WMV', () => {
+        const properties = {
+            route: 'mm_file_testing/Video/WMV.wmv',
+            shouldPreview: false,
+        };
+        testVideoFile(properties);
     });
 });

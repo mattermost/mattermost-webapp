@@ -118,8 +118,9 @@ describe('Account Settings -> General -> Email', () => {
         cy.get('#confirmEmail').should('be.visible').type(`user-${randomId}@example.com`);
         cy.get('#currentPassword').should('be.visible').type(testUser.password);
 
-        // # Save the settings
+        // # Save the settings and close
         cy.get('#saveSetting').click().wait(TIMEOUTS.HALF_SEC);
+        cy.uiClose();
 
         // * Verify the announcement bar
         cy.get('.announcement-bar').should('be.visible').should('contain.text', 'Check your email inbox to verify the address.');
