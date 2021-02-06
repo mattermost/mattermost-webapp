@@ -14,10 +14,8 @@ describe('components/threading/global_threads/thread_list', () => {
         props = {
             currentFilter: '',
             someUnread: true,
-            actions: {
-                markAllRead: jest.fn(),
-                setFilter: jest.fn(),
-            },
+            markAllRead: jest.fn(),
+            setFilter: jest.fn(),
         };
     });
 

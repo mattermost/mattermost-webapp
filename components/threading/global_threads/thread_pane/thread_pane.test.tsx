@@ -8,10 +8,14 @@ import {shallow} from 'enzyme';
 import {setThreadFollow} from 'mattermost-redux/actions/threads';
 jest.mock('mattermost-redux/actions/threads');
 
+import {set} from 'lodash';
+
 import Header from 'components/widgets/header';
 
 import FollowButton from 'components/threading/common/follow_button';
 import Button from 'components/threading/common/button';
+
+import {GlobalState} from 'types/store';
 
 import ThreadPane from './thread_pane';
 
@@ -19,6 +23,7 @@ const mockRouting = {
     currentUserId: 'uid',
     currentTeamId: 'tid',
     goToInChannel: jest.fn(),
+    select: jest.fn(),
 };
 jest.mock('../../hooks', () => {
     return {
@@ -27,10 +32,11 @@ jest.mock('../../hooks', () => {
 });
 
 const mockDispatch = jest.fn();
+let mockState: GlobalState;
 
 jest.mock('react-redux', () => ({
     ...jest.requireActual('react-redux') as typeof import('react-redux'),
-    useSelector: () => '',
+    useSelector: (selector: (state: typeof mockState) => unknown) => selector(mockState),
     useDispatch: () => mockDispatch,
 }));
 
@@ -47,7 +53,7 @@ describe('components/threading/global_threads/thread_header', () => {
             post: {
                 id: '1y8hpek81byspd4enyk9mp1ncw',
                 user_id: 'mt5td9mdriyapmwuh5pc84dmhr',
-                channel_id: 'sqgmq95ewirszjiep6rsuu5kpr',
+                channel_id: 'pnzsh7kwt7rmzgj8yb479sc9yw',
                 create_at: 1610486901110,
                 edit_at: 1611786714912,
             },
@@ -56,6 +62,25 @@ describe('components/threading/global_threads/thread_header', () => {
         props = {
             thread: mockThread,
         };
+
+        mockState = {} as GlobalState;
+        set(mockState, 'entities.general.config', {});
+        set(mockState, 'entities.preferences.myPreferences', {});
+        set(mockState, 'entities.posts.posts', {
+            '1y8hpek81byspd4enyk9mp1ncw': {
+                id: '1y8hpek81byspd4enyk9mp1ncw',
+                user_id: 'mt5td9mdriyapmwuh5pc84dmhr',
+                channel_id: 'pnzsh7kwt7rmzgj8yb479sc9yw',
+                create_at: 1610486901110,
+                edit_at: 1611786714912,
+            },
+        });
+        set(mockState, 'entities.channels.channels', {
+            pnzsh7kwt7rmzgj8yb479sc9yw: {
+                id: 'pnzsh7kwt7rmzgj8yb479sc9yw',
+                display_name: 'Team name',
+            },
+        });
     });
 
     test('should match snapshot', () => {
@@ -72,8 +97,9 @@ describe('components/threading/global_threads/thread_header', () => {
         );
         wrapper.find(Header).shallow().find(FollowButton).shallow().simulate('click');
         expect(setThreadFollow).toHaveBeenCalledWith(mockRouting.currentUserId, mockRouting.currentTeamId, mockThread.id, true);
-        expect(mockDispatch).toHaveBeenCalled();
+        expect(mockDispatch).toHaveBeenCalledTimes(1);
     });
+
     test('should support unfollow', () => {
         props.thread.is_following = true;
         const wrapper = shallow(
@@ -82,7 +108,7 @@ describe('components/threading/global_threads/thread_header', () => {
 
         wrapper.find(Header).shallow().find(FollowButton).shallow().simulate('click');
         expect(setThreadFollow).toHaveBeenCalledWith(mockRouting.currentUserId, mockRouting.currentTeamId, mockThread.id, false);
-        expect(mockDispatch).toHaveBeenCalled();
+        expect(mockDispatch).toHaveBeenCalledTimes(1);
     });
 
     test('should support openInChannel', () => {
@@ -93,5 +119,13 @@ describe('components/threading/global_threads/thread_header', () => {
         wrapper.find(Header).shallow().find('h3').find(Button).simulate('click');
         expect(mockRouting.goToInChannel).toHaveBeenCalledWith('1y8hpek81byspd4enyk9mp1ncw');
     });
-});
 
+    test('should support go back to list', () => {
+        const wrapper = shallow(
+            <ThreadPane {...props}/>,
+        );
+
+        wrapper.find(Header).shallow().find(Button).find('.back').simulate('click');
+        expect(mockRouting.select).toHaveBeenCalledWith();
+    });
+});

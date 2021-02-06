@@ -26,7 +26,9 @@ exports[`components/threading/global_threads/thread_header should match snapshot
             clamp={true}
             className="separated"
             onClick={[Function]}
-          />
+          >
+            Team name
+          </Memo(Button)>
         </h3>
       </React.Fragment>
     }
@@ -41,6 +43,7 @@ exports[`components/threading/global_threads/thread_header should match snapshot
           hasUnreads={false}
           isFollowing={true}
           threadId="1y8hpek81byspd4enyk9mp1ncw"
+          unreadTimestamp={1611786714912}
         >
           <Memo(SimpleTooltip)
             content="More Actions"
