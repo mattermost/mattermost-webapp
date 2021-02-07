@@ -202,7 +202,7 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
         }
     }
 
-    joinTeam = async (props: Props, firstLoad: boolean = false) => {
+    joinTeam = async (props: Props, firstLoad = false) => {
         const {data: team} = await this.props.actions.getTeamByName(props.match.params.team);
         if (team && team.delete_at === 0) {
             const {error} = await props.actions.addUserToTeam(team.id, props.currentUser && props.currentUser.id);
