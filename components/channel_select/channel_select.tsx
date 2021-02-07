@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Channel} from 'mattermost-redux/src/types/channels';
+import {Channel} from 'mattermost-redux/types/channels';
 import React, {useEffect, useState} from 'react';
 
 import Constants from 'utils/constants';
@@ -16,6 +16,12 @@ type Props = {
     selectDm: boolean;
 };
 
+type State = Array<{
+    key: string;
+    value: string;
+    text: string;
+}>;
+
 const ChannelSelect = ({
     channels,
     onChange,
@@ -23,14 +29,13 @@ const ChannelSelect = ({
     selectOpen = false,
     selectPrivate = false,
     selectDm = false,
-}: Props) => {
-    const [options, setOptions] = useState([
-        <option
-            key=''
-            value=''
-        >
-            {Utils.localizeMessage('channel_select.placeholder', '--- Select a channel ---')}
-        </option>,
+}: Props): JSX.Element => {
+    const [options, setOptions] = useState<State>([
+        {
+            key: '',
+            value: '',
+            text: Utils.localizeMessage('channel_select.placeholder', '--- Select a channel ---'),
+        },
     ]);
 
     useEffect(() => {
@@ -38,30 +43,27 @@ const ChannelSelect = ({
             const channelName = channel.display_name || channel.name;
             if (channel.type === Constants.OPEN_CHANNEL && selectOpen) {
                 setOptions([...options,
-                    <option
-                        key={channel.id}
-                        value={channel.id}
-                    >
-                        {channelName}
-                    </option>,
+                    {
+                        key: channel.id,
+                        value: channel.id,
+                        text: channelName,
+                    },
                 ]);
             } else if (channel.type === Constants.PRIVATE_CHANNEL && selectPrivate) {
                 setOptions([...options,
-                    <option
-                        key={channel.id}
-                        value={channel.id}
-                    >
-                        {channelName}
-                    </option>,
+                    {
+                        key: channel.id,
+                        value: channel.id,
+                        text: channelName,
+                    },
                 ]);
             } else if (channel.type === Constants.DM_CHANNEL && selectDm) {
                 setOptions([...options,
-                    <option
-                        key={channel.id}
-                        value={channel.id}
-                    >
-                        {channelName}
-                    </option>,
+                    {
+                        key: channel.id,
+                        value: channel.id,
+                        text: channelName,
+                    },
                 ]);
             }
         });
@@ -74,7 +76,10 @@ const ChannelSelect = ({
             onChange={onChange}
             id='channelSelect'
         >
-            {options}
+            {options.map((option) => (<option
+                key={option.key}
+                value={option.value}
+            >{option.text}</option>))}
         </select>
     );
 };
