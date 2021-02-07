@@ -94,6 +94,7 @@ describe('components/PermalinkView', () => {
         expect(baseProps.actions.focusPost).toHaveBeenCalledTimes(1);
 
         wrapper.setState({valid: false});
+        wrapper.instance().focusPostPending = false;
         await wrapper.instance().doPermalinkEvent(baseProps);
         expect(baseProps.actions.focusPost).toHaveBeenCalledTimes(2);
         expect(baseProps.actions.focusPost).toBeCalledWith(baseProps.match.params.postid, baseProps.returnTo, baseProps.currentUserId);
