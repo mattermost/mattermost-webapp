@@ -158,7 +158,7 @@ export function goToChannelByChannelName(match: Match, history: History): Action
         if (!channel || !member) {
             // Prompt system admin before joining the private channel
             const user = getCurrentUser(getState());
-            const isSystemAdmin = Utils.isSystemAdmin(user.roles);
+            const isSystemAdmin = Utils.isSystemAdmin(user?.roles);
             if (isSystemAdmin) {
                 const getChannelDispatchResult = await dispatch(getChannelByNameAndTeamName(team, channelName, true));
                 if ('data' in getChannelDispatchResult) {
