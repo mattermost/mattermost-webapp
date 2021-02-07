@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {Channel} from 'mattermost-redux/src/types/channels';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
@@ -16,13 +16,14 @@ type Props = {
     selectDm: boolean;
 };
 
-const ChannelSelect: React.FC<Props> = ({
+const ChannelSelect = ({
     channels,
     onChange,
     value,
     selectOpen = false,
     selectPrivate = false,
-    selectDm = false}: Props) => {
+    selectDm = false,
+}: Props) => {
     const [options, setOptions] = useState([
         <option
             key=''
@@ -32,37 +33,39 @@ const ChannelSelect: React.FC<Props> = ({
         </option>,
     ]);
 
-    channels.forEach((channel) => {
-        const channelName = channel.display_name || channel.name;
-        if (channel.type === Constants.OPEN_CHANNEL && selectOpen) {
-            setOptions([...options,
-                <option
-                    key={channel.id}
-                    value={channel.id}
-                >
-                    {channelName}
-                </option>,
-            ]);
-        } else if (channel.type === Constants.PRIVATE_CHANNEL && selectPrivate) {
-            setOptions([...options,
-                <option
-                    key={channel.id}
-                    value={channel.id}
-                >
-                    {channelName}
-                </option>,
-            ]);
-        } else if (channel.type === Constants.DM_CHANNEL && selectDm) {
-            setOptions([...options,
-                <option
-                    key={channel.id}
-                    value={channel.id}
-                >
-                    {channelName}
-                </option>,
-            ]);
-        }
-    });
+    useEffect(() => {
+        channels.forEach((channel) => {
+            const channelName = channel.display_name || channel.name;
+            if (channel.type === Constants.OPEN_CHANNEL && selectOpen) {
+                setOptions([...options,
+                    <option
+                        key={channel.id}
+                        value={channel.id}
+                    >
+                        {channelName}
+                    </option>,
+                ]);
+            } else if (channel.type === Constants.PRIVATE_CHANNEL && selectPrivate) {
+                setOptions([...options,
+                    <option
+                        key={channel.id}
+                        value={channel.id}
+                    >
+                        {channelName}
+                    </option>,
+                ]);
+            } else if (channel.type === Constants.DM_CHANNEL && selectDm) {
+                setOptions([...options,
+                    <option
+                        key={channel.id}
+                        value={channel.id}
+                    >
+                        {channelName}
+                    </option>,
+                ]);
+            }
+        });
+    }, []);
 
     return (
         <select
