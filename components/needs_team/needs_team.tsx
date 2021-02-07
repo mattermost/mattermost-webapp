@@ -23,6 +23,8 @@ const LazyBackstageController = React.lazy(() => import('components/backstage'))
 import ChannelController from 'components/channel_layout/channel_controller';
 import Pluggable from 'plugins/pluggable';
 
+import LocalStorageStore from 'stores/local_storage_store';
+
 const BackstageController = makeAsyncComponent(LazyBackstageController);
 
 let wakeUpInterval: number;
@@ -114,8 +116,10 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
             teamsList: this.props.teamsList,
         };
 
+        LocalStorageStore.setTeamIdJoinedOnLoad(null);
+
         if (!team) {
-            this.joinTeam(this.props);
+            this.joinTeam(this.props, true);
         }
     }
 
@@ -198,13 +202,16 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
         }
     }
 
-    joinTeam = async (props: Props) => {
+    joinTeam = async (props: Props, firstLoad: boolean = false) => {
         const {data: team} = await this.props.actions.getTeamByName(props.match.params.team);
         if (team && team.delete_at === 0) {
             const {error} = await props.actions.addUserToTeam(team.id, props.currentUser && props.currentUser.id);
             if (error) {
                 props.history.push('/error?type=team_not_found');
             } else {
+                if (firstLoad) {
+                    LocalStorageStore.setTeamIdJoinedOnLoad(team.id);
+                }
                 this.setState({team});
                 this.initTeam(team);
             }

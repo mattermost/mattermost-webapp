@@ -281,6 +281,7 @@ export const ModalIdentifiers = {
     CLOUD_PURCHASE: 'cloud_purchase',
     COMMERCIAL_SUPPORT: 'commercial_support',
     NO_INTERNET_CONNECTION: 'no_internet_connection',
+    JOIN_CHANNEL_PROMPT: 'join_channel_prompt',
 };
 
 export const UserStatuses = {
