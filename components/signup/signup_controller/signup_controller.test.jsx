@@ -137,6 +137,28 @@ describe('components/SignupController', () => {
         expect(browserHistory.push).toHaveBeenCalledWith('/error?type=max_free_users_reached');
     });
 
+    test('if is not cloud, we do not call getSubscriptionStats', async () => {
+        const getSubscriptionStats = jest.fn();
+        const props = {
+            ...baseProps,
+            isCloud: false,
+            subscriptionStats: {
+                ...baseProps.subscriptionStats,
+            },
+            actions: {
+                ...baseProps.actions,
+                getSubscriptionStats,
+            },
+        };
+
+        const wrapper = shallow(
+            <SignupController {...props}/>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+        expect(getSubscriptionStats).not.toHaveBeenCalled();
+    });
+
     test('should match snapshot for addUserToTeamFromInvite error', async () => {
         const addUserToTeamFromInvite = jest.fn().mockImplementation(() => Promise.resolve({error: {message: 'access denied'}}));
         const props = {
