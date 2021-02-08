@@ -76,3 +76,78 @@ exports[`components/card/card should match snapshot when expanded 1`] = `
   </div>
 </Card>
 `;
+
+exports[`components/card/card should match snapshot when using alternate header and a button 1`] = `
+<div
+  className="Card console expanded"
+>
+  <CardHeader
+    body={
+      <div>
+        Hello!
+      </div>
+    }
+    buttonText={
+      <FormattedMessage
+        defaultMessage="Add policy"
+        id="admin.data_retention.customPolicies.addPolicy"
+      />
+    }
+    expanded={true}
+    key=".0"
+    onClick={[Function]}
+    subtitle={
+      <FormattedMessage
+        defaultMessage="Customize how long specific teams and channels will keep messages."
+        id="admin.data_retention.customPolicies.subTitle"
+      />
+    }
+    title={
+      <FormattedMessage
+        defaultMessage="Custom retention policies"
+        id="admin.data_retention.customPolicies.title"
+      />
+    }
+  />
+  <CardBody
+    expanded={true}
+    key=".1"
+  >
+    Body Test
+  </CardBody>
+</div>
+`;
+
+exports[`components/card/card should match snapshot when using alternate header and no button 1`] = `
+<div
+  className="Card console expanded"
+>
+  <CardHeader
+    body={
+      <div>
+        Hello!
+      </div>
+    }
+    expanded={true}
+    key=".0"
+    subtitle={
+      <FormattedMessage
+        defaultMessage="Customize how long specific teams and channels will keep messages."
+        id="admin.data_retention.customPolicies.subTitle"
+      />
+    }
+    title={
+      <FormattedMessage
+        defaultMessage="Custom retention policies"
+        id="admin.data_retention.customPolicies.title"
+      />
+    }
+  />
+  <CardBody
+    expanded={true}
+    key=".1"
+  >
+    Body Test
+  </CardBody>
+</div>
+`;
