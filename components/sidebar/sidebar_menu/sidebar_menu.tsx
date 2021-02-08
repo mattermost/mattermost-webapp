@@ -11,8 +11,6 @@ import Menu from 'components/widgets/menu/menu';
 import {DraggingState} from 'types/store';
 import {DraggingStates} from 'utils/constants';
 
-import './sidebar_menu.scss';
-
 const MENU_BOTTOM_MARGIN = 80;
 
 type Props = {
