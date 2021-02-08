@@ -1,4 +1,4 @@
-@charset 'UTF-8';
+@charset "UTF-8";
 
 @media screen and (max-width: 768px) {
     #navbar_wrapper {
@@ -1379,7 +1379,6 @@
         padding: 0;
 
         .search-form__container {
-            color: $black;
             padding: 0 20px 0 0;
         }
 
@@ -1395,13 +1394,13 @@
             &--focused,
             &--focused:hover {
                 border-color: transparent;
+                border-width: 1px;
             }
 
             .form-control {
                 @include border-radius(3px);
                 background: var(--center-channel-bg);
                 border: none;
-                color: $dark-gray;
                 padding: 0 31px;
             }
         }
