@@ -23,12 +23,6 @@ type Output = {
     latex: string;
 };
 
-type Error = {
-    active: boolean;
-    id: string;
-    defaultMessage: string;
-};
-
 function LatexBlock({
     content,
     enableLatex = false,
@@ -39,11 +33,7 @@ function LatexBlock({
         latex: '',
     });
 
-    const [error, setError] = useState<Error>({
-        active: false,
-        id: 'katex.error',
-        defaultMessage: "Couldn't compile your Latex code. Please review the syntax and try again.",
-    });
+    const [hasError, setHasError] = useState<boolean>(false);
 
     useEffect(() => {
         try {
@@ -59,10 +49,7 @@ function LatexBlock({
                 latex: katex.renderToString(content, katexOptions),
             });
         } catch (e) {
-            setError({
-                ...error,
-                active: true,
-            });
+            setHasError(true);
         }
     }, []);
 
@@ -82,10 +69,10 @@ function LatexBlock({
                 />
             }
 
-            {error.active &&
+            {hasError &&
                 <FormattedMessage
-                    id={error.id}
-                    defaultMessage={error.defaultMessage}
+                    id='katex.error'
+                    defaultMessage="Couldn't compile your Latex code. Please review the syntax and try again."
                 />
             }
         </div>
