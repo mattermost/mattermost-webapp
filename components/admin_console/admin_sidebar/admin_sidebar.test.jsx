@@ -5,6 +5,7 @@ import React from 'react';
 
 import {samplePlugin1} from 'tests/helpers/admin_console_plugin_index_sample_pluings';
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
+import {RESOURCE_KEYS} from 'mattermost-redux/constants/permissions_sysconsole';
 
 import AdminSidebar from 'components/admin_console/admin_sidebar/admin_sidebar.jsx';
 import AdminDefinition from 'components/admin_console/admin_definition';
@@ -59,29 +60,41 @@ describe('components/AdminSidebar', () => {
             read: {
                 about: true,
                 reporting: true,
-                user_management: true,
                 environment: true,
                 site_configuration: true,
                 authentication: true,
                 plugins: true,
                 integrations: true,
                 compliance: true,
-                experimental: true,
             },
             write: {
                 about: true,
                 reporting: true,
-                user_management: true,
                 environment: true,
                 site_configuration: true,
                 authentication: true,
                 plugins: true,
                 integrations: true,
                 compliance: true,
-                experimental: true,
             },
         },
     };
+
+    Object.keys(RESOURCE_KEYS).forEach((key) => {
+        Object.values(RESOURCE_KEYS[key]).forEach((value) => {
+            defaultProps.consoleAccess = {
+                ...defaultProps.consoleAccess,
+                read: {
+                    ...defaultProps.consoleAccess.read,
+                    [value]: true
+                },
+                write: {
+                    ...defaultProps.consoleAccess.write,
+                    [value]: true
+                },
+            }
+        });
+    });
 
     test('should match snapshot', () => {
         const props = {...defaultProps};
@@ -90,35 +103,10 @@ describe('components/AdminSidebar', () => {
     });
 
     test('should match snapshot, no access', () => {
-        const ca = {
-            consoleAccess: {
-                read: {
-                    about: false,
-                    reporting: false,
-                    user_management: false,
-                    environment: false,
-                    site_configuration: false,
-                    authentication: false,
-                    plugins: false,
-                    integrations: false,
-                    compliance: false,
-                    experimental: false,
-                },
-                write: {
-                    about: false,
-                    reporting: false,
-                    user_management: false,
-                    environment: false,
-                    site_configuration: false,
-                    authentication: false,
-                    plugins: false,
-                    integrations: false,
-                    compliance: false,
-                    experimental: false,
-                },
-            },
+        const props = {
+            ...defaultProps,
+            consoleAccess: {},
         };
-        const props = {...defaultProps, ...ca};
         const wrapper = shallowWithIntl(<AdminSidebar {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
@@ -309,30 +297,7 @@ describe('components/AdminSidebar', () => {
                 getPlugins: jest.fn(),
             },
             consoleAccess: {
-                read: {
-                    about: true,
-                    reporting: true,
-                    user_management: true,
-                    environment: true,
-                    site_configuration: true,
-                    authentication: true,
-                    plugins: true,
-                    integrations: true,
-                    compliance: true,
-                    experimental: true,
-                },
-                write: {
-                    about: true,
-                    reporting: true,
-                    user_management: true,
-                    environment: true,
-                    site_configuration: true,
-                    authentication: true,
-                    plugins: true,
-                    integrations: true,
-                    compliance: true,
-                    experimental: true,
-                },
+                ...defaultProps.consoleAccess,
             },
         };
 
