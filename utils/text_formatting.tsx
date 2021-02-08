@@ -402,7 +402,9 @@ function autolinkChannelMentions(
     team?: Team,
 ) {
     function channelMentionExists(c: string) {
-        return Boolean(channelNamesMap[c]);
+        return Boolean(channelNamesMap[c]) &&
+            typeof channelNamesMap[c] === 'object' &&
+            Boolean(channelNamesMap[c].display_name);
     }
     function addToken(channelName: string, teamName: string, mention: string, displayName: string) {
         const index = tokens.size;
@@ -441,13 +443,12 @@ function autolinkChannelMentions(
             if ('team_name' in channelValue) {
                 teamName = channelValue.team_name || '';
             }
-            const alias = addToken(
+            return addToken(
                 channelNameLower,
                 teamName,
                 mention,
                 escapeHtml(channelValue.display_name),
             );
-            return alias;
         }
 
         // Not an exact match, attempt to truncate any punctuation to see if we can find a channel
