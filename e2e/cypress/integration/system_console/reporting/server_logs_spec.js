@@ -14,7 +14,7 @@ import * as TIMEOUTS from '../../../fixtures/timeouts';
 describe('System Console > Server Logs', () => {
     before(() => {
         // # Visit the system console.
-        cy.visitAndWait('/admin_console');
+        cy.visit('/admin_console');
 
         // # Go to the Server Logs section.
         cy.get('#reporting\\/server_logs').click().wait(TIMEOUTS.TWO_SEC);

@@ -1,0 +1,31 @@
+.noInternetConnection__container {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+
+    .noInternetConnection__noAccessToInternet {
+        font-family: Open Sans;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 20px;
+        line-height: 28px;
+        text-align: center;
+        color: rgba(var(--center-channel-color-rgb), 1);
+        width: 304px;
+        height: 56px;
+        margin: 0 auto;
+    }
+    
+    .noInternetConnection__contactSupport, .noInternetConnection__emailUs {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 16px;
+        line-height: 28px;
+        text-align: center;
+        color: rgba(var(--center-channel-color-rgb), 0.72);
+    }
+    
+    .noInternetConnection__image {
+        margin: 0 auto;
+    }
+}

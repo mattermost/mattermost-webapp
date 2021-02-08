@@ -28,7 +28,7 @@ describe('Team Settings', () => {
                 newUser = user;
             });
 
-            cy.visitAndWait(`/${team.name}`);
+            cy.visit(`/${team.name}`);
         });
     });
 

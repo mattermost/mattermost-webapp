@@ -18,7 +18,7 @@ describe('Account Settings -> Security -> View and Log Out of Active Sessions', 
         // # Login as new user and visit town-square
         cy.apiInitSetup({loginAfter: true}).then(({team, user}) => {
             testUser = user;
-            cy.visitAndWait(`/${team.name}/channels/town-square`);
+            cy.visit(`/${team.name}/channels/town-square`);
         });
     });
 
@@ -38,7 +38,7 @@ describe('Account Settings -> Security -> View and Log Out of Active Sessions', 
         cy.findByTestId('viewAndLogOutOfActiveSessions').should('be.visible').click();
 
         // * Verify an appropriate platform is shown
-        const platforms = ['Macintosh', 'Windows', 'Native Desktop App', 'iPhone Native App', 'Android Native App', 'iPhone Native Classic App', 'Android Native Classic App'];
+        const platforms = ['Linux', 'Macintosh', 'Windows', 'Native Desktop App', 'iPhone Native App', 'Android Native App', 'iPhone Native Classic App', 'Android Native Classic App'];
         const platformRegex = new RegExp(`${platforms.join('|')}`, 'g');
         cy.get('.report__platform').contains(platformRegex);
 

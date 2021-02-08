@@ -32,7 +32,7 @@ describe('Permalink message edit', () => {
     it('MM-T180 Edit a message in permalink view', () => {
         // # Login as test user and visit town-square
         cy.apiLogin(testUser);
-        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
         const searchWord = `searchtest ${Date.now()}`;
 
@@ -68,7 +68,7 @@ describe('Permalink message edit', () => {
 
             // # Login as other user, visit town-square and post any message
             cy.apiLogin(otherUser);
-            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+            cy.visit(`/${testTeam.name}/channels/town-square`);
             cy.postMessage('hello');
 
             // # Find searchWord and verify edited post

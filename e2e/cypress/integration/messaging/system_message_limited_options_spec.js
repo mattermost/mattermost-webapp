@@ -21,7 +21,7 @@ describe('Messaging', () => {
         cy.apiInitSetup().then(({team, user}) => {
             otherUser = user;
             townsquareLink = `/${team.name}/channels/town-square`;
-            cy.visitAndWait(townsquareLink);
+            cy.visit(townsquareLink);
         });
     });
 
@@ -56,7 +56,7 @@ describe('Messaging', () => {
 
             // # Log-in as a different user
             cy.apiLogin(otherUser);
-            cy.visitAndWait(townsquareLink);
+            cy.visit(townsquareLink);
 
             // # Mouse over the post to show the options
             cy.get(`#post_${lastPostId}`).trigger('mouseover', {force: true});

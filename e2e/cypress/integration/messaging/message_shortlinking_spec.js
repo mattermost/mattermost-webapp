@@ -20,7 +20,7 @@ describe('Message', () => {
             testChannel = channel;
             testTeam = team;
 
-            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+            cy.visit(`/${testTeam.name}/channels/town-square`);
         });
     });
 

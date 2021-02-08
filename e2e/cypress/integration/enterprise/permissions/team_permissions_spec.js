@@ -23,7 +23,7 @@ const createTeamOverrideSchemeWithPermission = (name, team, permissionId, permis
     cy.apiAdminLogin();
 
     // # Go to `User Management / Permissions` section
-    cy.visitAndWait('/admin_console/user_management/permissions');
+    cy.visit('/admin_console/user_management/permissions');
 
     // # Click `New Team Override Scheme`
     cy.findByTestId('team-override-schemes-link').should('be.visible').click().wait(TIMEOUTS.HALF_SEC);
@@ -88,7 +88,7 @@ describe('Team Permissions', () => {
         cy.apiLogin(testUser);
 
         // # Go to main channel
-        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Open hamburger menu
         cy.uiOpenMainMenu().wait(TIMEOUTS.HALF_SEC);
@@ -114,7 +114,7 @@ describe('Team Permissions', () => {
         cy.apiLogin(testUser);
 
         // # Go to private channel
-        cy.visitAndWait(`/${testTeam.name}/channels/${testPrivateCh.name}`);
+        cy.visit(`/${testTeam.name}/channels/${testPrivateCh.name}`);
 
         // # Open channel header menu
         cy.uiOpenChannelMenu().wait(TIMEOUTS.HALF_SEC);
@@ -131,6 +131,9 @@ describe('Team Permissions', () => {
         // * Verify `View Members` menu item is visible
         cy.get('#channelViewMembers').should('be.visible');
 
+        // # Close channel header menu
+        cy.uiCloseChannelMenu().wait(TIMEOUTS.HALF_SEC);
+
         // # Open channel members list
         cy.get('#channelMember').should('be.visible').click().wait(TIMEOUTS.HALF_SEC);
         cy.get('#member-list-popover').should('be.visible');
@@ -144,7 +147,7 @@ describe('Team Permissions', () => {
         cy.apiLogin(testUser);
 
         // # Go to main channel
-        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // * Verify that the create private channel `+` button is not present
         cy.get('#createPrivateChannel').should('not.exist');
@@ -156,7 +159,7 @@ describe('Team Permissions', () => {
         // # Create new public channel
         cy.apiCreateChannel(testTeam.id, 'public-permissions-test', 'Public Permissions Test', 'O', '').then(({channel}) => {
             // # Visit the created channel
-            cy.visitAndWait(`/${testTeam.name}/channels/${channel.name}`);
+            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
 
             // # Open channel header menu
             cy.uiOpenChannelMenu().wait(TIMEOUTS.HALF_SEC);
@@ -201,7 +204,7 @@ describe('Team Permissions', () => {
         // # Create new team
         cy.apiCreateTeam('test-team-permissions', 'Test Team Permissions').then(({team}) => {
             // # Visit the `Off-Topic` channel in the new team
-            cy.visitAndWait(`/${team.name}/channels/off-topic`);
+            cy.visit(`/${team.name}/channels/off-topic`);
 
             // # Open channel header menu
             cy.uiOpenChannelMenu().wait(TIMEOUTS.HALF_SEC);
