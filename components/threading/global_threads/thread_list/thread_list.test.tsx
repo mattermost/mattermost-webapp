@@ -14,7 +14,6 @@ describe('components/threading/global_threads/thread_list', () => {
         props = {
             currentFilter: '',
             someUnread: true,
-            markAllRead: jest.fn(),
             setFilter: jest.fn(),
         };
     });
@@ -26,22 +25,13 @@ describe('components/threading/global_threads/thread_list', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should support markAllRead', () => {
-        const wrapper = mountWithIntl(
-            <ThreadList {...props}/>,
-        );
-
-        wrapper.find('.icon-playlist-check').simulate('click');
-        expect(props.actions.markAllRead).toHaveBeenCalled();
-    });
-
     test('should support filter:all', () => {
         const wrapper = mountWithIntl(
             <ThreadList {...props}/>,
         );
 
         wrapper.find('button').first().simulate('click');
-        expect(props.actions.setFilter).toHaveBeenCalledWith('');
+        expect(props.setFilter).toHaveBeenCalledWith('');
     });
 
     test('should support filter:unread', () => {
@@ -50,7 +40,7 @@ describe('components/threading/global_threads/thread_list', () => {
         );
 
         wrapper.find('button .dot').simulate('click');
-        expect(props.actions.setFilter).toHaveBeenCalledWith('unread');
+        expect(props.setFilter).toHaveBeenCalledWith('unread');
     });
 });
 

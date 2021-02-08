@@ -18,7 +18,7 @@ import {Preferences} from 'utils/constants';
 
 import {GlobalState} from 'types/store';
 
-import {isCollapsedThreadsAllowed, isCollapsedThreadsForced, getCollapsedThreadsPreference} from 'selectors/threads';
+import {isCollapsedThreadsAllowed, getCollapsedThreadsPreference} from 'selectors/threads';
 
 import UserSettingsDisplay from './user_settings_display';
 
@@ -54,8 +54,8 @@ function mapStateToProps(state: GlobalState) {
         channelDisplayMode: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.CHANNEL_DISPLAY_MODE, Preferences.CHANNEL_DISPLAY_MODE_DEFAULT),
         messageDisplay: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT),
         collapseDisplay: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.COLLAPSE_DISPLAY, Preferences.COLLAPSE_DISPLAY_DEFAULT),
-        collapsedReplyThreadsAllowUserPreference: isCollapsedThreadsAllowed(state) && config.CollapsedThreads !== 'always_on',
-        collapsedReplyThreads: getCollapsedThreadsPreference(state),
+        collapsedReplyThreadsAllowUserPreference: isCollapsedThreadsAllowed(state) && getConfig(state).CollapsedThreads as string !== 'always_on',
+        collapsedReplyThreadsPreference: getCollapsedThreadsPreference(state),
         linkPreviewDisplay: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.LINK_PREVIEW_DISPLAY, Preferences.LINK_PREVIEW_DISPLAY_DEFAULT),
     };
 }

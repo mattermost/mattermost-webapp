@@ -35,11 +35,7 @@ const GlobalThreadsLink = () => {
     const someUnreadThreads = counts?.total_unread_threads;
 
     useEffect(() => {
-        if (!threadsMatch) {
-            // only preload 5 unread threads when not in /:team/threads
-            // else, /:team/threads will take care of first counts on initial load of threads
-            dispatch(getThreads(currentUserId, currentTeamId));
-        }
+        dispatch(getThreads(currentUserId, currentTeamId, {perPage: 5}));
     }, [team]);
 
     if (!isFeatureEnabled || (unreadsOnly && !threadsMatch && !someUnreadThreads)) {

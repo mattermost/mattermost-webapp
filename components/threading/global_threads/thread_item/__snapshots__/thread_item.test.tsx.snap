@@ -3,15 +3,17 @@
 exports[`components/threading/global_threads/thread_item should report total number of replies 1`] = `
 <article
   className="ThreadItem"
-  onClick={[MockFunction]}
+  onClick={[Function]}
   tabIndex={0}
 >
   <h1>
-    Johnny Depp
+    <span>
+      Someone
+    </span>
     <Memo(Badge)
       onClick={[Function]}
     >
-      Enterprise Team
+      Team name
     </Memo(Badge)>
     <Connect(injectIntl(Timestamp))
       capitalize={true}
@@ -27,29 +29,16 @@ exports[`components/threading/global_threads/thread_item should report total num
         ]
       }
       useTime={false}
-      value={2020-09-29T02:30:15.701Z}
     />
   </h1>
   <span
     className="menu-anchor alt-visible"
   >
     <Memo(ThreadMenu)
-      actions={
-        Object {
-          "copyLink": [MockFunction],
-          "follow": [MockFunction],
-          "markRead": [MockFunction],
-          "markUnread": [MockFunction],
-          "openInChannel": [MockFunction],
-          "save": [MockFunction],
-          "select": [MockFunction],
-          "unFollow": [MockFunction],
-          "unSave": [MockFunction],
-        }
-      }
       hasUnreads={false}
       isFollowing={true}
-      isSaved={false}
+      threadId="1y8hpek81byspd4enyk9mp1ncw"
+      unreadTimestamp={1611786714912}
     >
       <Memo(SimpleTooltip)
         content={
@@ -70,45 +59,37 @@ exports[`components/threading/global_threads/thread_item should report total num
       </Memo(SimpleTooltip)>
     </Memo(ThreadMenu)>
   </span>
-  <p>
-    Lobortis phasellus feugiat vivamus facilisis ac suspendisse elit orci augue, metus hac libero cum diam accumsan magnis.
-  </p>
+  <div
+    className="preview"
+  >
+    <Connect(Markdown)
+      message="test msg"
+      options={
+        Object {
+          "atMentions": false,
+          "mentionHighlight": false,
+          "singleline": true,
+        }
+      }
+    />
+  </div>
   <div
     className="activity"
   >
     <Memo(Avatars)
       size="xs"
+      totalUsers={0}
       users={
         Array [
           Object {
-            "name": "Johnny Depp",
-            "url": "test-url-1",
-            "username": "johnny.depp",
+            "name": "Frodo Baggins",
+            "url": "/api/v4/users/7n4ach3i53bbmj84dfmu5b7c1c/image?_=0",
+            "username": "frodo.baggins",
           },
           Object {
-            "name": "Bilbo Baggins",
-            "url": "test-url-2",
-            "username": "bilbo.baggins",
-          },
-          Object {
-            "name": "Anthony Michael Hall",
-            "url": "test-url-3",
-            "username": "michael.hall",
-          },
-          Object {
-            "name": "Kathy Baker",
-            "url": "test-url-4",
-            "username": "kathy.baker",
-          },
-          Object {
-            "name": "Vincent Price",
-            "url": "test-url-5",
-            "username": "vincent.price",
-          },
-          Object {
-            "name": "Alan Arkin",
-            "url": "test-url-6",
-            "username": "alan.arkin",
+            "name": "Samwise Gamgee",
+            "url": "/api/v4/users/ij61jet1bbdk8fhhxitywdj4ih/image?_=0",
+            "username": "samwise.gamgee",
           },
         ]
       }
@@ -129,7 +110,7 @@ exports[`components/threading/global_threads/thread_item should report total num
 exports[`components/threading/global_threads/thread_item should report unread mentions 1`] = `
 <article
   className="ThreadItem has-unreads"
-  onClick={[MockFunction]}
+  onClick={[Function]}
   tabIndex={0}
 >
   <h1>
@@ -139,14 +120,16 @@ exports[`components/threading/global_threads/thread_item should report unread me
       <div
         className="dot-mentions"
       >
-        1
+        2
       </div>
     </div>
-    Johnny Depp
+    <span>
+      Someone
+    </span>
     <Memo(Badge)
       onClick={[Function]}
     >
-      Enterprise Team
+      Team name
     </Memo(Badge)>
     <Connect(injectIntl(Timestamp))
       capitalize={true}
@@ -162,29 +145,16 @@ exports[`components/threading/global_threads/thread_item should report unread me
         ]
       }
       useTime={false}
-      value={2020-09-29T02:30:15.701Z}
     />
   </h1>
   <span
     className="menu-anchor alt-visible"
   >
     <Memo(ThreadMenu)
-      actions={
-        Object {
-          "copyLink": [MockFunction],
-          "follow": [MockFunction],
-          "markRead": [MockFunction],
-          "markUnread": [MockFunction],
-          "openInChannel": [MockFunction],
-          "save": [MockFunction],
-          "select": [MockFunction],
-          "unFollow": [MockFunction],
-          "unSave": [MockFunction],
-        }
-      }
       hasUnreads={true}
       isFollowing={true}
-      isSaved={false}
+      threadId="1y8hpek81byspd4enyk9mp1ncw"
+      unreadTimestamp={1611786714912}
     >
       <Memo(SimpleTooltip)
         content={
@@ -205,45 +175,37 @@ exports[`components/threading/global_threads/thread_item should report unread me
       </Memo(SimpleTooltip)>
     </Memo(ThreadMenu)>
   </span>
-  <p>
-    Lobortis phasellus feugiat vivamus facilisis ac suspendisse elit orci augue, metus hac libero cum diam accumsan magnis.
-  </p>
+  <div
+    className="preview"
+  >
+    <Connect(Markdown)
+      message="test msg"
+      options={
+        Object {
+          "atMentions": false,
+          "mentionHighlight": false,
+          "singleline": true,
+        }
+      }
+    />
+  </div>
   <div
     className="activity"
   >
     <Memo(Avatars)
       size="xs"
+      totalUsers={0}
       users={
         Array [
           Object {
-            "name": "Johnny Depp",
-            "url": "test-url-1",
-            "username": "johnny.depp",
+            "name": "Frodo Baggins",
+            "url": "/api/v4/users/7n4ach3i53bbmj84dfmu5b7c1c/image?_=0",
+            "username": "frodo.baggins",
           },
           Object {
-            "name": "Bilbo Baggins",
-            "url": "test-url-2",
-            "username": "bilbo.baggins",
-          },
-          Object {
-            "name": "Anthony Michael Hall",
-            "url": "test-url-3",
-            "username": "michael.hall",
-          },
-          Object {
-            "name": "Kathy Baker",
-            "url": "test-url-4",
-            "username": "kathy.baker",
-          },
-          Object {
-            "name": "Vincent Price",
-            "url": "test-url-5",
-            "username": "vincent.price",
-          },
-          Object {
-            "name": "Alan Arkin",
-            "url": "test-url-6",
-            "username": "alan.arkin",
+            "name": "Samwise Gamgee",
+            "url": "/api/v4/users/ij61jet1bbdk8fhhxitywdj4ih/image?_=0",
+            "username": "samwise.gamgee",
           },
         ]
       }
@@ -253,7 +215,7 @@ exports[`components/threading/global_threads/thread_item should report unread me
       id="threading.numNewReplies"
       values={
         Object {
-          "newReplies": 2,
+          "newReplies": 5,
         }
       }
     />
@@ -264,7 +226,7 @@ exports[`components/threading/global_threads/thread_item should report unread me
 exports[`components/threading/global_threads/thread_item should report unread messages 1`] = `
 <article
   className="ThreadItem has-unreads"
-  onClick={[MockFunction]}
+  onClick={[Function]}
   tabIndex={0}
 >
   <h1>
@@ -275,11 +237,13 @@ exports[`components/threading/global_threads/thread_item should report unread me
         className="dot-unreads"
       />
     </div>
-    Johnny Depp
+    <span>
+      Someone
+    </span>
     <Memo(Badge)
       onClick={[Function]}
     >
-      Enterprise Team
+      Team name
     </Memo(Badge)>
     <Connect(injectIntl(Timestamp))
       capitalize={true}
@@ -295,29 +259,16 @@ exports[`components/threading/global_threads/thread_item should report unread me
         ]
       }
       useTime={false}
-      value={2020-09-29T02:30:15.701Z}
     />
   </h1>
   <span
     className="menu-anchor alt-visible"
   >
     <Memo(ThreadMenu)
-      actions={
-        Object {
-          "copyLink": [MockFunction],
-          "follow": [MockFunction],
-          "markRead": [MockFunction],
-          "markUnread": [MockFunction],
-          "openInChannel": [MockFunction],
-          "save": [MockFunction],
-          "select": [MockFunction],
-          "unFollow": [MockFunction],
-          "unSave": [MockFunction],
-        }
-      }
       hasUnreads={true}
       isFollowing={true}
-      isSaved={false}
+      threadId="1y8hpek81byspd4enyk9mp1ncw"
+      unreadTimestamp={1611786714912}
     >
       <Memo(SimpleTooltip)
         content={
@@ -338,45 +289,37 @@ exports[`components/threading/global_threads/thread_item should report unread me
       </Memo(SimpleTooltip)>
     </Memo(ThreadMenu)>
   </span>
-  <p>
-    Lobortis phasellus feugiat vivamus facilisis ac suspendisse elit orci augue, metus hac libero cum diam accumsan magnis.
-  </p>
+  <div
+    className="preview"
+  >
+    <Connect(Markdown)
+      message="test msg"
+      options={
+        Object {
+          "atMentions": false,
+          "mentionHighlight": false,
+          "singleline": true,
+        }
+      }
+    />
+  </div>
   <div
     className="activity"
   >
     <Memo(Avatars)
       size="xs"
+      totalUsers={0}
       users={
         Array [
           Object {
-            "name": "Johnny Depp",
-            "url": "test-url-1",
-            "username": "johnny.depp",
+            "name": "Frodo Baggins",
+            "url": "/api/v4/users/7n4ach3i53bbmj84dfmu5b7c1c/image?_=0",
+            "username": "frodo.baggins",
           },
           Object {
-            "name": "Bilbo Baggins",
-            "url": "test-url-2",
-            "username": "bilbo.baggins",
-          },
-          Object {
-            "name": "Anthony Michael Hall",
-            "url": "test-url-3",
-            "username": "michael.hall",
-          },
-          Object {
-            "name": "Kathy Baker",
-            "url": "test-url-4",
-            "username": "kathy.baker",
-          },
-          Object {
-            "name": "Vincent Price",
-            "url": "test-url-5",
-            "username": "vincent.price",
-          },
-          Object {
-            "name": "Alan Arkin",
-            "url": "test-url-6",
-            "username": "alan.arkin",
+            "name": "Samwise Gamgee",
+            "url": "/api/v4/users/ij61jet1bbdk8fhhxitywdj4ih/image?_=0",
+            "username": "samwise.gamgee",
           },
         ]
       }

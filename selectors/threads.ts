@@ -36,10 +36,8 @@ export function isCollapsedThreadsAllowed(state: GlobalState): boolean {
 }
 
 export function isCollapsedThreadsEnabled(state: GlobalState): boolean {
-    return (
-        isCollapsedThreadsAllowed(state) && (
-            getCollapsedThreadsPreference(state) === Preferences.COLLAPSED_REPLY_THREADS_ON ||
-            getConfig(state).CollapsedThreads === 'always_on'
-        )
-    );
+    const isAllowed = isCollapsedThreadsAllowed(state);
+    const userPreference = getCollapsedThreadsPreference(state);
+
+    return isAllowed && (userPreference === Preferences.COLLAPSED_REPLY_THREADS_ON || getConfig(state).CollapsedThreads as string === 'always_on');
 }

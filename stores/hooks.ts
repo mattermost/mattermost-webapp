@@ -37,10 +37,9 @@ export function useGlobalState<TVal>(
     initialValue: TVal,
     name: string,
     suffix: string = useSelector(currentUserAndTeamSuffix),
-): [TVal, (value: TVal) => void] {
-    const storedKey = name + suffix;
-
+): [TVal, (value: TVal) => ReturnType<typeof setGlobalItem>] {
     const dispatch = useDispatch();
+    const storedKey = name + suffix;
 
     return [
         useSelector(makeGetGlobalItem(storedKey, initialValue)),
