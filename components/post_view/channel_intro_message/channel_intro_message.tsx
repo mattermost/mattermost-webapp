@@ -11,6 +11,8 @@ import {Channel} from 'mattermost-redux/types/channels';
 
 import React from 'react';
 
+import {isEmpty} from 'lodash';
+
 import {Constants, ModalIdentifiers} from 'utils/constants';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
@@ -23,6 +25,7 @@ import TeamPermissionGate from 'components/permissions_gates/team_permission_gat
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import EditIcon from 'components/widgets/icons/fa_edit_icon';
 import InvitationModal from 'components/invitation_modal';
+import UserLimitModal from 'components/user_limit_modal';
 import AddGroupsToChannelModal from 'components/add_groups_to_channel_modal';
 import AddGroupsToTeamModal from 'components/add_groups_to_team_modal';
 
@@ -41,9 +44,25 @@ type Props = {
     creatorName: string;
     teammate: UserProfileRedux;
     teammateName?: string;
+    isCloud: boolean;
+    userIsAdmin: boolean;
+    subscriptionStats: {is_paid_tier: string; remaining_seats: number};
+    actions?: {
+        getSubscriptionStats: () => void;
+    };
 }
 
+type ModalInfo = {
+    modalId: string;
+    dialogType: any;
+};
 export default class ChannelIntroMessage extends React.PureComponent<Props> {
+    componentDidMount() {
+        const {isCloud, userIsAdmin, subscriptionStats} = this.props;
+        if (isCloud && userIsAdmin && isEmpty(subscriptionStats)) {
+            this.props.actions!.getSubscriptionStats();
+        }
+    }
     render() {
         const {
             currentUserId,
@@ -57,11 +76,19 @@ export default class ChannelIntroMessage extends React.PureComponent<Props> {
             teamIsGroupConstrained,
             teammate,
             teammateName,
+            subscriptionStats,
         } = this.props;
 
         let centeredIntro = '';
         if (!fullWidth) {
             centeredIntro = 'channel-intro--centered';
+        }
+        let modalInfo: ModalInfo = {modalId: ModalIdentifiers.INVITATION, dialogType: InvitationModal};
+        if (!isEmpty(subscriptionStats)) {
+            const {is_paid_tier: isPaidTier, remaining_seats: remainingSeats} = subscriptionStats;
+            if (isPaidTier === 'false' && remainingSeats === 0) {
+                modalInfo = {modalId: ModalIdentifiers.UPGRADE_CLOUD_ACCOUNT, dialogType: UserLimitModal};
+            }
         }
 
         if (channel.type === Constants.DM_CHANNEL) {
@@ -69,7 +96,7 @@ export default class ChannelIntroMessage extends React.PureComponent<Props> {
         } else if (channel.type === Constants.GM_CHANNEL) {
             return createGMIntroMessage(channel, centeredIntro, channelProfiles, currentUserId);
         } else if (channel.name === Constants.DEFAULT_CHANNEL) {
-            return createDefaultIntroMessage(channel, centeredIntro, enableUserCreation, isReadOnly, teamIsGroupConstrained);
+            return createDefaultIntroMessage(channel, centeredIntro, enableUserCreation, isReadOnly, teamIsGroupConstrained, modalInfo);
         } else if (channel.name === Constants.OFFTOPIC_CHANNEL) {
             return createOffTopicIntroMessage(channel, centeredIntro);
         } else if (channel.type === Constants.OPEN_CHANNEL || channel.type === Constants.PRIVATE_CHANNEL) {
@@ -232,7 +259,12 @@ function createOffTopicIntroMessage(channel: Channel, centeredIntro: string) {
     );
 }
 
-export function createDefaultIntroMessage(channel: Channel, centeredIntro: string, enableUserCreation?: boolean, isReadOnly?: boolean, teamIsGroupConstrained?: boolean) {
+export function createDefaultIntroMessage(channel: Channel,
+    centeredIntro: string,
+    enableUserCreation?: boolean,
+    isReadOnly?: boolean,
+    teamIsGroupConstrained?: boolean,
+    modalInfo?: ModalInfo) {
     let teamInviteLink = null;
 
     if (!isReadOnly && enableUserCreation) {
@@ -250,8 +282,8 @@ export function createDefaultIntroMessage(channel: Channel, centeredIntro: strin
                         accessibilityLabel={Utils.localizeMessage('intro_messages.inviteOthers', 'Invite others to this team')}
                         id='introTextInvite'
                         className='intro-links color--link cursor--pointer'
-                        modalId={ModalIdentifiers.INVITATION}
-                        dialogType={InvitationModal}
+                        modalId={modalInfo?.modalId}
+                        dialogType={modalInfo?.dialogType}
                     >
                         <FormattedMessage
                             id='generic_icons.add'
