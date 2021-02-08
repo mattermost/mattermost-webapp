@@ -3,9 +3,10 @@
 
 import React from 'react';
 
+import {RESOURCE_KEYS} from 'mattermost-redux/constants/permissions_sysconsole';
+
 import {samplePlugin1} from 'tests/helpers/admin_console_plugin_index_sample_pluings';
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
-import {RESOURCE_KEYS} from 'mattermost-redux/constants/permissions_sysconsole';
 
 import AdminSidebar from 'components/admin_console/admin_sidebar/admin_sidebar.jsx';
 import AdminDefinition from 'components/admin_console/admin_definition';
@@ -86,13 +87,13 @@ describe('components/AdminSidebar', () => {
                 ...defaultProps.consoleAccess,
                 read: {
                     ...defaultProps.consoleAccess.read,
-                    [value]: true
+                    [value]: true,
                 },
                 write: {
                     ...defaultProps.consoleAccess.write,
-                    [value]: true
+                    [value]: true,
                 },
-            }
+            };
         });
     });
 
