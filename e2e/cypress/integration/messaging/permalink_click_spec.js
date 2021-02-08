@@ -103,7 +103,7 @@ describe('Permalink message edit', () => {
                         cy.uiLeaveChannel(true);
 
                         // * Prompt should be shown even if we navigate back
-                        cy.go('back');
+                        cy.go('back').wait(TIMEOUTS.THREE_SEC);
                         verifyPrivateChannelJoinPromptIsVisible(channel2);
                     });
                 });
