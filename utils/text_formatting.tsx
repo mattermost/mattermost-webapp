@@ -19,7 +19,7 @@ import Constants from './constants';
 
 import EmojiMap from './emoji_map.js';
 
-const punctuation = XRegExp.cache('[^\\pL\\d]');
+const punctuation = XRegExp.cache('[^\\pL\\d]', '');
 
 const AT_MENTION_PATTERN = /(?:\B|\b_+)@([a-z0-9.\-_]+)/gi;
 const UNICODE_EMOJI_REGEX = emojiRegex();
@@ -332,10 +332,12 @@ const reEmail = XRegExp.cache(
 // Convert emails into tokens
 function autolinkEmails(text: string, tokens: Tokens) {
     function replaceEmailWithToken(
-        fullMatch: string,
-        prefix: string,
-        email: string,
+        fullMatch: XRegExp.MatchSubString,
+        ...args: Array<string | number | XRegExp.NamedGroupsArray>
     ) {
+        const prefix = args[0] as string;
+        const email = args[1] as string;
+
         const index = tokens.size;
         const alias = `$MM_EMAIL${index}$`;
 
@@ -646,8 +648,8 @@ function autolinkHashtags(
     );
 }
 
-const puncStart = XRegExp.cache('^[^\\pL\\d\\s#]+');
-const puncEnd = XRegExp.cache('[^\\pL\\d\\s]+$');
+const puncStart = XRegExp.cache('^[^\\pL\\d\\s#]+', '');
+const puncEnd = XRegExp.cache('[^\\pL\\d\\s]+$', '');
 
 export function parseSearchTerms(searchTerm: string): string[] {
     let terms = [];
