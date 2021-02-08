@@ -14,6 +14,7 @@ import {GlobalState} from 'types/store';
 
 import {getApp, getFilter, getPlugin} from 'selectors/views/marketplace';
 import {ActionTypes} from 'utils/constants';
+import {shouldProcessApps} from 'utils/utils';
 
 import {isError} from 'types/actions';
 
@@ -26,7 +27,7 @@ export function fetchListing(localOnly = false): ActionFunc {
         const filter = getFilter(state);
 
         let plugins: MarketplacePlugin[];
-        let apps: MarketplaceApp[];
+        let apps: MarketplaceApp[] = [];
 
         try {
             plugins = await Client4.getMarketplacePlugins(filter, localOnly);
@@ -43,16 +44,18 @@ export function fetchListing(localOnly = false): ActionFunc {
             plugins,
         });
 
-        try {
-            apps = await Client4.getMarketplaceApps(filter);
-        } catch (error) {
-            return {data: plugins};
-        }
+        if (shouldProcessApps(state)) {
+            try {
+                apps = await Client4.getMarketplaceApps(filter);
+            } catch (error) {
+                return {data: plugins};
+            }
 
-        dispatch({
-            type: ActionTypes.RECEIVED_MARKETPLACE_APPS,
-            apps,
-        });
+            dispatch({
+                type: ActionTypes.RECEIVED_MARKETPLACE_APPS,
+                apps,
+            });
+        }
 
         if (plugins) {
             return {data: (plugins as Array<MarketplacePlugin | MarketplaceApp>).concat(apps)};
