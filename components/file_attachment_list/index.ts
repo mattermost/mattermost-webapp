@@ -5,17 +5,22 @@ import {connect} from 'react-redux';
 
 import {makeGetFilesForPost} from 'mattermost-redux/selectors/entities/files';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {Post} from 'mattermost-redux/types/posts';
 
 import {GlobalState} from 'types/store';
 import {getCurrentLocale} from 'selectors/i18n';
 import {isEmbedVisible} from 'selectors/posts';
 
-import FileAttachmentList, {Props} from './file_attachment_list';
+import FileAttachmentList from './file_attachment_list';
+
+type OwnProps = {
+    post: Post;
+}
 
 function makeMapStateToProps() {
     const selectFilesForPost = makeGetFilesForPost();
 
-    return function mapStateToProps(state: GlobalState, ownProps: Props) {
+    return function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         const postId = ownProps.post ? ownProps.post.id : '';
         const fileInfos = selectFilesForPost(state, postId);
 
