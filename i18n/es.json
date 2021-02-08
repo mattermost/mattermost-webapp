@@ -2600,7 +2600,7 @@
   "delete_channel.cancel": "Cancelar",
   "delete_channel.confirm": "Confirmar ARCHIVAR Canal",
   "delete_channel.del": "Archivar",
-  "delete_channel.question": "Se archivará el canal del equipo y hará que su contenido sea inaccesible para todos los usuarios.\n \n¿Estás seguro de que quieres archivar el canal **{display_name}**?",
+  "delete_channel.question": "Esto archivará el canal del equipo y lo eliminará de la interfaz de usuario. Los canales archivados pueden ser restaurados de ser necesario.\n \n¿Estás seguro de que quieres archivar el canal **{display_name}**?",
   "delete_channel.viewArchived.question": "Esta operación archivará el canal para su equipo. El contenido del canal seguirá estando disponibles para los miembros del canal.\n\n¿Estás seguro que quieres archivar el canal **{display_name}**?",
   "delete_post.cancel": "Cancelar",
   "delete_post.comment": "Comentario",
