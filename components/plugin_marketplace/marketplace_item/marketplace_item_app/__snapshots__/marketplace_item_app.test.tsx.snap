@@ -27,12 +27,12 @@ exports[`components/MarketplaceItemApp MarketplaceItem should render 1`] = `
       </button>
     }
     description="test plugin"
-    homepage_url="http://example.com"
+    homepageUrl="http://example.com"
     id="id"
     installed={false}
     installing={false}
     name="name"
-    root_url="http://example.com/install"
+    rootUrl="http://example.com/install"
     trackEvent={[MockFunction]}
     updateDetails={null}
     versionLabel={null}
@@ -61,12 +61,12 @@ exports[`components/MarketplaceItemApp MarketplaceItem should render installed a
       </button>
     }
     description="test plugin"
-    homepage_url="http://example.com"
+    homepageUrl="http://example.com"
     id="id"
     installed={true}
     installing={false}
     name="name"
-    root_url="http://example.com/install"
+    rootUrl="http://example.com/install"
     trackEvent={[MockFunction]}
     updateDetails={null}
     versionLabel={null}
@@ -101,13 +101,13 @@ exports[`components/MarketplaceItemApp MarketplaceItem should render with empty 
       </button>
     }
     description="test plugin"
-    homepage_url="http://example.com"
+    homepageUrl="http://example.com"
     id="id"
     installed={false}
     installing={false}
     labels={Array []}
     name="name"
-    root_url="http://example.com/install"
+    rootUrl="http://example.com/install"
     trackEvent={[MockFunction]}
     updateDetails={null}
     versionLabel={null}
@@ -146,7 +146,7 @@ exports[`components/MarketplaceItemApp MarketplaceItem should render with no hom
     installed={false}
     installing={false}
     name="name"
-    root_url="http://example.com/install"
+    rootUrl="http://example.com/install"
     trackEvent={[MockFunction]}
     updateDetails={null}
     versionLabel={null}
@@ -180,12 +180,12 @@ exports[`components/MarketplaceItemApp MarketplaceItem should render with no plu
         </LoadingWrapper>
       </button>
     }
-    homepage_url="http://example.com"
+    homepageUrl="http://example.com"
     id="id"
     installed={false}
     installing={false}
     name="name"
-    root_url="http://example.com/install"
+    rootUrl="http://example.com/install"
     trackEvent={[MockFunction]}
     updateDetails={null}
     versionLabel={null}
@@ -220,7 +220,7 @@ exports[`components/MarketplaceItemApp MarketplaceItem should render with one la
       </button>
     }
     description="test plugin"
-    homepage_url="http://example.com"
+    homepageUrl="http://example.com"
     id="id"
     installed={false}
     installing={false}
@@ -234,7 +234,7 @@ exports[`components/MarketplaceItemApp MarketplaceItem should render with one la
       ]
     }
     name="name"
-    root_url="http://example.com/install"
+    rootUrl="http://example.com/install"
     trackEvent={[MockFunction]}
     updateDetails={null}
     versionLabel={null}
@@ -270,12 +270,12 @@ exports[`components/MarketplaceItemApp MarketplaceItem should render with server
     }
     description="test plugin"
     error="An error occurred."
-    homepage_url="http://example.com"
+    homepageUrl="http://example.com"
     id="id"
     installed={false}
     installing={false}
     name="name"
-    root_url="http://example.com/install"
+    rootUrl="http://example.com/install"
     trackEvent={[MockFunction]}
     updateDetails={null}
     versionLabel={null}
@@ -310,7 +310,7 @@ exports[`components/MarketplaceItemApp MarketplaceItem should render with two la
       </button>
     }
     description="test plugin"
-    homepage_url="http://example.com"
+    homepageUrl="http://example.com"
     id="id"
     installed={false}
     installing={false}
@@ -329,7 +329,7 @@ exports[`components/MarketplaceItemApp MarketplaceItem should render with two la
       ]
     }
     name="name"
-    root_url="http://example.com/install"
+    rootUrl="http://example.com/install"
     trackEvent={[MockFunction]}
     updateDetails={null}
     versionLabel={null}
@@ -364,13 +364,13 @@ exports[`components/MarketplaceItemApp MarketplaceItem when installing 1`] = `
       </button>
     }
     description="test plugin"
-    homepage_url="http://example.com"
+    homepageUrl="http://example.com"
     id="id"
     installed={false}
     installing={false}
     isInstalling={true}
     name="name"
-    root_url="http://example.com/install"
+    rootUrl="http://example.com/install"
     trackEvent={[MockFunction]}
     updateDetails={null}
     versionLabel={null}

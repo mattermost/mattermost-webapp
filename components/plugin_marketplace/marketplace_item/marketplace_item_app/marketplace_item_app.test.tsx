@@ -12,8 +12,8 @@ describe('components/MarketplaceItemApp', () => {
             id: 'id',
             name: 'name',
             description: 'test plugin',
-            homepage_url: 'http://example.com',
-            root_url: 'http://example.com/install',
+            homepageUrl: 'http://example.com',
+            rootUrl: 'http://example.com/install',
             installed: false,
             installing: false,
             trackEvent: jest.fn(() => {}),
@@ -44,7 +44,7 @@ describe('components/MarketplaceItemApp', () => {
 
         test('should render with no homepage url', () => {
             const props = {...baseProps};
-            delete props.homepage_url;
+            delete props.homepageUrl;
 
             const wrapper = shallow<MarketplaceItemApp>(
                 <MarketplaceItemApp {...props}/>,
