@@ -1810,41 +1810,36 @@ export async function handleFormattedTextClick(e, currentRelativeTeamUrl) {
             if (isSystemAdmin(user.roles)) {
                 const match = isChannelOrPermalink(linkAttribute.value);
                 if (match) {
+                    // Get team by name
                     const {teamName} = match;
                     let team = getTeamByName(state, teamName);
                     if (!team) {
                         const {data: teamData} = await store.dispatch(getTeamByNameAction(teamName));
-                        if (teamData) {
-                            team = teamData;
-                        }
+                        team = teamData;
                     }
                     if (team && team.delete_at === 0) {
                         let channel;
+
+                        // Handle channel url - Get channel data from channel name
                         if (match.type === 'channel') {
                             const {channelName} = match;
                             channel = getChannelsNameMapInTeam(state, team.id)[channelName];
                             if (!channel) {
                                 const {data: channelData} = await store.dispatch(getChannelByNameAndTeamName(teamName, channelName, true));
-                                if (channelData) {
-                                    channel = channelData;
-                                }
+                                channel = channelData;
                             }
-                        } else if (match.type === 'permalink') {
+                        } else { // Handle permalink - Get channel data from post
                             const {postId} = match;
                             let post = getPost(state, postId);
                             if (!post) {
                                 const {data: postData} = await store.dispatch(getPostAction(match.postId));
-                                if (postData) {
-                                    post = postData;
-                                }
+                                post = postData;
                             }
                             if (post) {
                                 channel = getChannel(state, post.channel_id);
                                 if (!channel) {
                                     const {data: channelData} = await store.dispatch(getChannelAction(post.channel_id));
-                                    if (channelData) {
-                                        channel = channelData;
-                                    }
+                                    channel = channelData;
                                 }
                             }
                         }
