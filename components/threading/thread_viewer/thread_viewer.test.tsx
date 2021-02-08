@@ -12,7 +12,7 @@ import {TestHelper} from 'utils/test_helper';
 
 import ThreadViewer from './thread_viewer';
 
-describe('components/RhsThread', () => {
+describe('components/threading/ThreadViewer', () => {
     const post: Post = TestHelper.getPostMock({
         channel_id: 'channel_id',
         create_at: 1502715365009,

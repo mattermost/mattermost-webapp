@@ -32,7 +32,8 @@ import NoResultsIndicator from 'components/no_results_indicator';
 import {useThreadRouting} from '../hooks';
 import {ChatIllustrationImg, BalloonIllustrationImg} from '../common/graphics';
 
-import ThreadViewer from './thread_viewer';
+import ThreadViewer from '../thread_viewer';
+
 import ThreadList, {ThreadFilter} from './thread_list';
 import ThreadPane from './thread_pane';
 import ThreadItem from './thread_item';

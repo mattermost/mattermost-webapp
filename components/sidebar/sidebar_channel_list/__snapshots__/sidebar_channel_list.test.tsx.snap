@@ -55,6 +55,7 @@ exports[`SidebarChannelList should match snapshot 1`] = `
     thumbMinSize={30}
     universal={false}
   >
+    <Memo(GlobalThreadsLink) />
     <DragDropContext
       onBeforeCapture={[Function]}
       onBeforeDragStart={[Function]}

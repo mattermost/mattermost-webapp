@@ -15,6 +15,7 @@ describe('components/channel_layout/CenterChannel', () => {
         lhsOpen: true,
         rhsOpen: true,
         rhsMenuOpen: true,
+        isCollapsedThreadsEnabled: true,
         match: {
             url: '/url',
         },
