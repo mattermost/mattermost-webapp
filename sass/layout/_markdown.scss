@@ -259,7 +259,10 @@ h6 {
     td {
         border: 1px solid #ddd;
         padding: 6px 13px;
-        white-space: nowrap;
+    }
+
+    a {
+        word-break: initial;
     }
 
     tbody tr {
