@@ -13,8 +13,14 @@ import {joinPrivateChannelPrompt} from 'utils/channel_utils';
 import {ActionTypes, Constants, ErrorPageTypes} from 'utils/constants';
 import {getUserIdFromChannelId, isSystemAdmin} from 'utils/utils';
 
+let privateChannelJoinPromptVisible = false;
+
 export function focusPost(postId, returnTo = '', currentUserId) {
     return async (dispatch, getState) => {
+        // Ignore if prompt is still visible
+        if (privateChannelJoinPromptVisible) {
+            return;
+        }
         const {data} = await dispatch(getPostThread(postId));
 
         if (!data) {
@@ -51,7 +57,9 @@ export function focusPost(postId, returnTo = '', currentUserId) {
             // Prompt system admin before joining the private channel
             const user = getCurrentUser(state);
             if (channel.type === Constants.PRIVATE_CHANNEL && isSystemAdmin(user.roles)) {
+                privateChannelJoinPromptVisible = true;
                 const joinPromptResult = await dispatch(joinPrivateChannelPrompt(currentTeam, channel));
+                privateChannelJoinPromptVisible = false;
                 if ('data' in joinPromptResult && !joinPromptResult.data.join) {
                     return;
                 }
