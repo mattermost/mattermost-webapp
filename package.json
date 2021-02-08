@@ -122,7 +122,6 @@
     "@typescript-eslint/eslint-plugin": "4.15.0",
     "@typescript-eslint/parser": "4.15.0",
     "babel-eslint": "10.1.0",
-    "babel-jest": "26.1.0",
     "babel-loader": "8.2.2",
     "babel-plugin-typescript-to-proptypes": "1.4.2",
     "bundle-loader": "0.5.6",
