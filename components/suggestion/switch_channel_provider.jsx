@@ -249,7 +249,7 @@ function makeChannelSearchFilter(channelPrefix) {
     const userSearchStrings = {};
 
     return (channel) => {
-        let searchString = channel.display_name;
+        let searchString = `${channel.display_name}${channel.name}`;
         if (channel.type === Constants.GM_CHANNEL || channel.type === Constants.DM_CHANNEL) {
             const usersInChannel = usersInChannels[channel.id] || new Set([]);
 
