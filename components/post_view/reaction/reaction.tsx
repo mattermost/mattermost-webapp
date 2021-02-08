@@ -20,6 +20,12 @@ type State = {
     reactedClass: 'Reaction--reacted' | 'Reaction--reacting' | 'Reaction--unreacted' | 'Reaction--unreacting';
 };
 
+declare module 'react-bootstrap/lib/OverlayTrigger' {
+    interface OverlayTriggerProps {
+        shouldUpdatePosition?: boolean;
+    }
+}
+
 type Props = {
 
     /*
@@ -313,6 +319,7 @@ export default class Reaction extends React.PureComponent<Props, State> {
             <OverlayTrigger
                 delayShow={500}
                 placement='top'
+                shouldUpdatePosition={true}
                 overlay={
                     <Tooltip id={`${this.props.post.id}-${this.props.emojiName}-reaction`}>
                         {tooltip}
