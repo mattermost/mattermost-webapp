@@ -11,7 +11,6 @@ import Constants, {UserStatuses, ModalIdentifiers} from 'utils/constants';
 import {localizeMessage} from 'utils/utils.jsx';
 import ResetStatusModal from 'components/reset_status_modal';
 import StatusIcon from 'components/status_icon';
-
 import Avatar from 'components/widgets/users/avatar';
 import CustomStatusModal from 'components/custom_status/custom_status_modal';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
@@ -22,10 +21,10 @@ import StatusAwayIcon from 'components/widgets/icons/status_away_icon';
 import StatusOnlineIcon from 'components/widgets/icons/status_online_icon';
 import StatusDndIcon from 'components/widgets/icons/status_dnd_icon';
 import StatusOfflineIcon from 'components/widgets/icons/status_offline_icon';
-
 import OverlayTrigger from 'components/overlay_trigger';
+import CustomStatusText from 'components/custom_status/custom_status_text';
+
 import './status_dropdown.scss';
-import Markdown from 'components/markdown';
 
 export default class StatusDropdown extends React.PureComponent {
     static propTypes = {
@@ -51,15 +50,6 @@ export default class StatusDropdown extends React.PureComponent {
         profilePicture: '',
         status: UserStatuses.OFFLINE,
         customStatus: {},
-    }
-
-    constructor(props) {
-        super(props);
-        this.customStatusTextRef = React.createRef();
-    }
-
-    state = {
-        showCustomStatusTooltip: false,
     }
 
     isUserOutOfOffice = () => {
@@ -103,25 +93,6 @@ export default class StatusDropdown extends React.PureComponent {
         this.props.actions.openModal(resetStatusModalData);
     };
 
-    showCustomStatusModal = () => {
-        const customStatusInputModalData = {
-            ModalId: ModalIdentifiers.CUSTOM_STATUS,
-            dialogType: CustomStatusModal,
-            dialogProps: {userId: this.props.userId},
-        };
-
-        this.props.actions.openModal(customStatusInputModalData);
-    }
-
-    showCustomStatusTextTooltip = () => {
-        const element = this.customStatusTextRef;
-        if (element && element.offsetWidth < element.scrollWidth) {
-            this.setState({showCustomStatusTooltip: true});
-        } else {
-            this.setState({showCustomStatusTooltip: false});
-        }
-    }
-
     renderProfilePicture = () => {
         if (!this.props.profilePicture) {
             return null;
@@ -151,69 +122,34 @@ export default class StatusDropdown extends React.PureComponent {
     }
     handleClearStatus = (e) => {
         e.stopPropagation();
+        e.preventDefault();
         this.props.actions.unsetCustomStatus();
     };
 
-    onToggle = (open) => {
-        this.props.actions.setStatusDropdown(open);
-    }
+    onToggle = (open) => this.props.actions.setStatusDropdown(open);
 
     renderCustomStatus = () => {
         if (!this.props.isCustomStatusEnabled) {
             return null;
         }
-        let customStatusText = localizeMessage('status_dropdown.set_custom', 'Set a Custom Status');
-        let customStatusEmoji = <EmojiIcon className={'custom-status-emoji'}/>;
         const customStatus = this.props.customStatus;
         const isStatusSet = customStatus && (customStatus.text || customStatus.emoji);
-        if (isStatusSet) {
-            customStatusEmoji = (
+        const customStatusText = isStatusSet ? customStatus.text : localizeMessage('status_dropdown.set_custom', 'Set a Custom Status');
+        const customStatusEmoji = isStatusSet ?
+            (
                 <span className='d-flex'>
                     <CustomStatusEmoji
                         showTooltip={false}
+                        emojiStyle={{marginLeft: 0}}
                     />
                 </span>
+            ) : (
+                <EmojiIcon className={'custom-status-emoji'}/>
             );
-            customStatusText = customStatus.text;
-        }
-
-        let customStatusTextComponent = (
-            <span
-                className='custom_status__text'
-                ref={(element) => {
-                    this.customStatusTextRef = element;
-                    this.showCustomStatusTextTooltip();
-                }}
-            >
-                <Markdown
-                    message={customStatusText}
-                    enableFormatting={true}
-                />
-            </span>
-        );
-
-        if (isStatusSet && this.state.showCustomStatusTooltip) {
-            customStatusTextComponent = (
-                <OverlayTrigger
-                    delayShow={Constants.OVERLAY_TIME_DELAY}
-                    placement='bottom'
-                    overlay={
-                        <Tooltip id='custom-status-tooltip'>
-                            <Markdown
-                                message={customStatusText}
-                                enableFormatting={true}
-                            />
-                        </Tooltip>
-                    }
-                >
-                    {customStatusTextComponent}
-                </OverlayTrigger>
-            );
-        }
 
         const clearButton = isStatusSet &&
             (
-                <div
+                <span
                     className='custom_status__clear'
                 >
                     <OverlayTrigger
@@ -228,31 +164,49 @@ export default class StatusDropdown extends React.PureComponent {
                             </Tooltip>
                         }
                     >
-                        <span
-                            className='input-clear-x'
+                        <button
+                            className='style--none input-clear-x'
                             onClick={this.handleClearStatus}
                         >
                             <i className='icon icon-close-circle'/>
-                        </span>
+                        </button>
                     </OverlayTrigger>
-                </div>
+                </span>
             );
 
         const pulsatingDot = !isStatusSet && this.props.showCustomStatusPulsatingDot && (
-            <div className='pulsating_dot'/>
+            <span className='pulsating_dot'/>
         );
 
         return (
-            <div
-                className='custom_status__row cursor--pointer a11y--active'
-                onClick={this.showCustomStatusModal}
-            >
-                <div className='custom_status__icon'>
-                    {customStatusEmoji}
-                </div>
-                {customStatusTextComponent}
-                {clearButton || pulsatingDot}
-            </div>
+            <Menu.Group>
+                <Menu.ItemToggleModalRedux
+                    text={''}
+                    modalId={ModalIdentifiers.CUSTOM_STATUS}
+                    dialogType={CustomStatusModal}
+                    dialogProps={{userId: this.props.userId}}
+                    className='custom_status__row'
+                    id={'status-menu-custom-status'}
+                >
+                    <span className='custom_status__icon'>
+                        {customStatusEmoji}
+                    </span>
+                    <CustomStatusText
+                        text={customStatusText}
+                        className='custom_status__text'
+                    />
+                    {pulsatingDot}
+                </Menu.ItemToggleModalRedux>
+                {clearButton &&
+                    <li
+                        className='MenuItem'
+                        role='menuitem'
+                        id='status-menu-custom-status-clear'
+                    >
+                        {clearButton}
+                    </li>
+                }
+            </Menu.Group>
         );
     }
 

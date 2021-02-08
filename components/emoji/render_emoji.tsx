@@ -14,7 +14,7 @@ interface ComponentProps {
     emojiStyle?: React.CSSProperties;
 }
 
-const RenderEmoji = ({emoji, emojiStyle = {}, size = 16}: ComponentProps) => {
+const RenderEmoji = ({emoji, emojiStyle, size}: ComponentProps) => {
     if (!emoji) {
         return null;
     }
@@ -41,6 +41,12 @@ const RenderEmoji = ({emoji, emojiStyle = {}, size = 16}: ComponentProps) => {
             }}
         />
     );
+};
+
+RenderEmoji.defaultProps = {
+    emoji: '',
+    emojiStyle: {},
+    size: 16,
 };
 
 export default RenderEmoji;

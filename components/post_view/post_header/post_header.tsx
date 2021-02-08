@@ -16,6 +16,7 @@ import BotBadge from 'components/widgets/badges/bot_badge';
 import Badge from 'components/widgets/badges/badge';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
+
 import './post_header.scss';
 
 export type Props = {
@@ -114,9 +115,7 @@ export type Props = {
 };
 
 export default class PostHeader extends React.PureComponent<Props> {
-    updateStatus = () => {
-        this.props.actions.setStatusDropdown(true);
-    }
+    updateStatus = () => this.props.actions.setStatusDropdown(true);
 
     render(): JSX.Element {
         const {post} = this.props;

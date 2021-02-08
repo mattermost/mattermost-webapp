@@ -132,9 +132,6 @@ export default class AtMentionSuggestion extends Suggestion {
                     showTooltip={true}
                     userID={item.id}
                     emojiSize={15}
-                    emojiStyle={{
-                        marginLeft: 4,
-                    }}
                 />
             );
         }

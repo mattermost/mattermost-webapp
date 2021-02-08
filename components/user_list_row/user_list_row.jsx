@@ -121,6 +121,7 @@ export default class UserListRow extends React.PureComponent {
                             userID={this.props.user.id}
                             emojiSize={15}
                             showTooltip={true}
+                            emojiStyle={{marginLeft: 0}}
                         />
                     </div>
                     <div

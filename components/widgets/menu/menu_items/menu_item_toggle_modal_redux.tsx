@@ -5,6 +5,8 @@ import React from 'react';
 
 import {Dictionary} from 'mattermost-redux/types/utilities';
 
+import classNames from 'classnames';
+
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 
 import menuItem from './menu_item';
@@ -15,18 +17,24 @@ type Props = {
     dialogProps?: Dictionary<any>;
     extraText?: string;
     text: string;
+    children?: React.ReactNode;
+    className?: string;
 }
 
-export const MenuItemToggleModalReduxImpl: React.FC<Props> = ({modalId, dialogType, dialogProps, text, extraText}: Props) => (
+export const MenuItemToggleModalReduxImpl: React.FC<Props> = ({modalId, dialogType, dialogProps, text, extraText, children, className}: Props) => (
     <ToggleModalButtonRedux
         accessibilityLabel={text}
         modalId={modalId}
         dialogType={dialogType}
         dialogProps={dialogProps}
-        className={extraText && 'MenuItem__with-help'}
+        className={classNames({
+            'MenuItem__with-help': extraText,
+            [`${className}`]: className,
+        })}
     >
         {text && <span className='MenuItem__primary-text'>{text}</span>}
         {extraText && <span className='MenuItem__help-text'>{extraText}</span>}
+        {children}
     </ToggleModalButtonRedux>
 );
 

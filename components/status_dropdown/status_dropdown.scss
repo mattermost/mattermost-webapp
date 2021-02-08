@@ -1,13 +1,13 @@
 .custom_status__row {
-    display: flex;
+    display: flex !important;
     font-size: inherit;
-    padding: 0 24px;
+    padding: 0 24px !important;
     align-items: center;
     height: 34px;
     max-width: 238px;
     &:hover {
         background-color: rgba(var(--center-channel-color-rgb), 0.08);
-        .custom-status-emoji{
+        .custom-status-emoji {
             fill: var(--center-channel-color-72);
         }
     }
@@ -16,37 +16,38 @@
         background-color: rgba(var(--button-bg-rgb), 0.08);
     }
 }
-.custom_status__icon{
-    margin-right: 10px;
+
+.custom_status {
+    &__icon {
+        margin-right: 10px;
+    }
+
+    &__text {
+        overflow: hidden;
+        height: 28px;
+        max-width: 73%;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    &__clear {
+        display: flex;
+        align-items: center;
+        color: rgba(var(--center-channel-color-rgb), 0.52);
+        position: absolute;
+        top: 15px;
+        right: 24px;
+    }
 }
 
-.custom-status-emoji{
-    fill: var(--center-channel-color-56);
-}
+.custom-status {
+    &-emoji {
+        fill: var(--center-channel-color-56);
+    }
 
-.custom_status__text{
-    overflow: hidden;
-    height: 20px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.custom-status-suggestion-emoji > span:first-child {
-    background-size: 20px;
-}
-
-.custom_status__clear {
-    display: flex;
-    align-items: center;
-    margin-left: auto;
-    color: rgba(var(--center-channel-color-rgb), 0.52);
-}
-
-.pulsating_dot, .pulsating_dot:before, .pulsating_dot:after {
-    height: 12px;
-    width : 12px;
-    background-color : var(--online-indicator);
-    border-radius : 50%;
+    &-suggestion-emoji > span:first-child {
+        background-size: 20px;
+    }
 }
 
 .pulsating_dot {
@@ -55,22 +56,29 @@
     justify-content: center;
     margin-left: auto;
     position: relative;
-}
 
-.pulsating_dot:before, .pulsating_dot:after {
-    content:"";
-    display:block;
-    position: absolute;
-    left: 0;
-    top: 0;
-}
+    &, &::before, &::after {
+        height: 12px;
+        width: 12px;
+        background-color: var(--online-indicator);
+        border-radius: 50%;
+    }
 
-.pulsating_dot:after {
-    animation: pulse1 2s ease 0s infinite;
-}
+    &::before, &::after {
+        content: "";
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
 
-.pulsating_dot:before {
-    animation: pulse2 2s ease 0s infinite;
+    &::after {
+        animation: pulse1 2s ease 0s infinite;
+    }
+
+    &::before {
+        animation: pulse2 2s ease 0s infinite;
+    }
 }
 
 @keyframes pulse1 {

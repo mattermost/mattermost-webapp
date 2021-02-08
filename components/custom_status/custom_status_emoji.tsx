@@ -39,42 +39,42 @@ const CustomStatusEmoji = (props: ComponentProps) => {
         />
     );
 
-    let status = statusEmoji;
-    if (showTooltip) {
-        status = (
-            <OverlayTrigger
-                delayShow={Constants.OVERLAY_TIME_DELAY}
-                placement={tooltipDirection}
-                overlay={
-                    <Tooltip id='custom-status-tooltip'>
-                        <div className='custom-status'>
-                            <RenderEmoji
-                                emoji={customStatus.emoji}
-                                size={14}
-                                emojiStyle={{
-                                    marginTop: 2,
-                                }}
-                            />
-                            {/* This string acts as a whitespace character */}
-                            {'\u00A0'}
-                            <span className='custom-status-text'>
-                                <Markdown
-                                    message={customStatus.text}
-                                    enableFormatting={true}
-                                />
-                            </span>
-                        </div>
-                    </Tooltip>
-                }
-            >
-                <span>
-                    {statusEmoji}
-                </span>
-            </OverlayTrigger>
-        );
+    if (!showTooltip) {
+        return statusEmoji;
     }
 
-    return status;
+    return (
+        <OverlayTrigger
+            delayShow={Constants.OVERLAY_TIME_DELAY}
+            placement={tooltipDirection}
+            overlay={
+                <Tooltip id='custom-status-tooltip'>
+                    <div className='custom-status'>
+                        <RenderEmoji
+                            emoji={customStatus.emoji}
+                            size={14}
+                            emojiStyle={{
+                                marginTop: 2,
+                            }}
+                        />
+                        <span
+                            className='custom-status-text'
+                            style={{marginLeft: 5}}
+                        >
+                            <Markdown
+                                message={customStatus.text}
+                                enableFormatting={true}
+                            />
+                        </span>
+                    </div>
+                </Tooltip>
+            }
+        >
+            <span>
+                {statusEmoji}
+            </span>
+        </OverlayTrigger>
+    );
 };
 
 CustomStatusEmoji.defaultProps = {
@@ -82,7 +82,9 @@ CustomStatusEmoji.defaultProps = {
     emojiSize: 16,
     tooltipDirection: 'top',
     showTooltip: false,
-    emojiStyle: {},
+    emojiStyle: {
+        marginLeft: 4,
+    },
 };
 
 export default CustomStatusEmoji;

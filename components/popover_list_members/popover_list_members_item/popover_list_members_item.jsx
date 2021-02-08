@@ -79,9 +79,6 @@ export default class PopoverListMembersItem extends React.PureComponent {
                             userID={this.props.user.id}
                             showTooltip={true}
                             emojiSize={15}
-                            emojiStyle={{
-                                marginLeft: 4,
-                            }}
                         />
                     </div>
                 </div>

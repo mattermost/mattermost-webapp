@@ -11,19 +11,19 @@ import {Tooltip} from 'react-bootstrap';
 import {UserCustomStatus} from 'mattermost-redux/types/users';
 
 import GenericModal from 'components/generic_modal';
-import 'components/category_modal.scss';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
-import './custom_status.scss';
 import {GlobalState} from 'types/store';
 import OverlayTrigger from 'components/overlay_trigger';
 import Constants from 'utils/constants';
 import RenderEmoji from 'components/emoji/render_emoji';
-
 import {showStatusDropdownPulsatingDot} from 'utils/custom_status';
 import {setCustomStatusInitialisationState} from 'actions/views/custom_status';
 
 import CustomStatusSuggestion from './custom_status_suggestion';
+
+import 'components/category_modal.scss';
+import './custom_status.scss';
 
 type Props = {
     onHide: () => void;
@@ -68,7 +68,9 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
     };
 
     const handleClearStatus = () => {
-        dispatch(unsetCustomStatus());
+        if (currentCustomStatus.text || currentCustomStatus.emoji) {
+            dispatch(unsetCustomStatus());
+        }
     };
 
     const getCustomStatusControlRef = () => {
@@ -89,7 +91,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
         setShowEmojiPicker(!showEmojiPicker);
     };
 
-    const handleTextChange = (event: any) => {
+    const handleTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const inputText = event.target.value;
         if (inputText.length <= Constants.CUSTOM_STATUS_TEXT_CHARACTER_LIMIT) {
             setText(inputText);
@@ -100,17 +102,18 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
         dispatch(removeRecentCustomStatus(status));
     };
 
-    let customStatusEmoji = <EmojiIcon className={'icon icon--emoji'}/>;
-    if (emoji || text) {
-        customStatusEmoji = (
+    const customStatusEmoji = emoji || text ?
+        (
             <RenderEmoji
                 emoji={emoji || 'speech_balloon'}
                 size={20}
             />
+        ) : (
+            <EmojiIcon className={'icon icon--emoji'}/>
         );
-    }
 
-    const clearHandle = () => {
+    const clearHandle = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
         setText('');
         setEmoji('');
     };
@@ -129,12 +132,12 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
                         </Tooltip>
                     }
                 >
-                    <span
-                        className='input-clear-x'
+                    <button
+                        className='style--none input-clear-x'
                         onClick={clearHandle}
                     >
                         <i className='icon icon-close-circle'/>
-                    </span>
+                    </button>
                 </OverlayTrigger>
             </div>
         ) : null;
@@ -244,9 +247,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
             id='custom_status_modal'
             className={'StatusModal'}
             handleConfirm={handleSetStatus}
-            handleCancel={(currentCustomStatus.text || currentCustomStatus.emoji) ?
-                handleClearStatus : undefined
-            }
+            handleCancel={handleClearStatus}
         >
             <div className='StatusModal__body'>
                 <div className='StatusModal__input'>
@@ -254,7 +255,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
                         ref={customStatusControlRef}
                         className='StatusModal__emoji-container'
                     >
-                        {showEmojiPicker &&
+                        {showEmojiPicker && (
                             <EmojiPickerOverlay
                                 target={getCustomStatusControlRef}
                                 show={showEmojiPicker}
@@ -263,7 +264,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
                                 onEmojiClick={handleEmojiClick}
                                 rightOffset={calculateRightOffSet()}
                             />
-                        }
+                        )}
                         <button
                             type='button'
                             onClick={toggleEmojiPicker}

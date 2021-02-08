@@ -43,6 +43,7 @@ import * as Utils from 'utils/utils';
 import ChannelHeaderPlug from 'plugins/channel_header_plug';
 
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
+import CustomStatusText from 'components/custom_status/custom_status_text';
 
 import HeaderIconWrapper from './components/header_icon_wrapper';
 import UserGuideDropdown from './components/user_guide_dropdown';
@@ -100,7 +101,6 @@ class ChannelHeader extends React.PureComponent {
         this.headerDescriptionRef = React.createRef();
         this.headerPopoverTextMeasurerRef = React.createRef();
         this.headerOverlayRef = React.createRef();
-        this.customStatusTextRef = React.createRef();
 
         this.state = {
             showSearchBar: ChannelHeader.getShowSearchBar(props),
@@ -109,7 +109,6 @@ class ChannelHeader extends React.PureComponent {
             leftOffset: 0,
             topOffset: 0,
             titleMenuOpen: false,
-            showCustomStatusTooltip: false,
         };
 
         this.getHeaderMarkdownOptions = memoizeResult((channelNamesMap) => (
@@ -299,56 +298,14 @@ class ChannelHeader extends React.PureComponent {
 
     handleFormattedTextClick = (e) => Utils.handleFormattedTextClick(e, this.props.currentRelativeTeamUrl);
 
-    showCustomStatusTextTooltip = () => {
-        const element = this.customStatusTextRef;
-        if (element && element.offsetWidth < element.scrollWidth) {
-            this.setState({showCustomStatusTooltip: true});
-        } else {
-            this.setState({showCustomStatusTooltip: false});
-        }
-    }
-
     renderCustomStatus = () => {
         const customStatus = this.props.customStatus;
         const isStatusSet = customStatus && (customStatus.text || customStatus.emoji);
         if (!(this.props.isCustomStatusEnabled && isStatusSet)) {
             return null;
         }
-        let customStatusTextComponent = (
-            <span
-                className='overflow--ellipsis text-nowrap'
-                ref={(element) => {
-                    this.customStatusTextRef = element;
-                    this.showCustomStatusTextTooltip();
-                }}
-            >
-                <Markdown
-                    message={customStatus.text}
-                    enableFormatting={true}
-                />
-            </span>
-        );
 
-        if (this.state.showCustomStatusTooltip) {
-            customStatusTextComponent = (
-                <OverlayTrigger
-                    delayShow={Constants.OVERLAY_TIME_DELAY}
-                    placement='bottom'
-                    overlay={
-                        <Tooltip id='custom-status-tooltip'>
-                            <Markdown
-                                message={customStatus.text}
-                                enableFormatting={true}
-                            />
-                        </Tooltip>
-                    }
-                >
-                    {customStatusTextComponent}
-                </OverlayTrigger>
-            );
-        }
-
-        const dmHeaderCustomStatus = (
+        return (
             <>
                 <CustomStatusEmoji
                     userID={this.props.dmUser.id}
@@ -358,11 +315,11 @@ class ChannelHeader extends React.PureComponent {
                         margin: '0 4px',
                     }}
                 />
-                {customStatusTextComponent}
+                <CustomStatusText
+                    text={customStatus.text}
+                />
             </>
         );
-
-        return dmHeaderCustomStatus;
     }
 
     render() {
@@ -506,14 +463,13 @@ class ChannelHeader extends React.PureComponent {
                 />
             );
 
-            const dmHeaderCustomStatus = this.renderCustomStatus();
             dmHeaderTextStatus = (
                 <span className='header-status__text'>
                     <FormattedMessage
                         id={`status_dropdown.set_${channel.status}`}
                         defaultMessage={Utils.toTitleCase(channel.status)}
                     />
-                    {dmHeaderCustomStatus}
+                    {this.renderCustomStatus()}
                 </span>
             );
         }

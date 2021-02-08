@@ -8,7 +8,6 @@ import {FormattedMessage, injectIntl} from 'react-intl';
 
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
 
-import './profile_popover.scss';
 import Timestamp from 'components/timestamp';
 import OverlayTrigger from 'components/overlay_trigger';
 import UserSettingsModal from 'components/user_settings/modal';
@@ -19,7 +18,6 @@ import {t} from 'utils/i18n';
 import {intlShape} from 'utils/react_intl';
 import * as Utils from 'utils/utils.jsx';
 import Pluggable from 'plugins/pluggable';
-
 import AddUserToChannelModal from 'components/add_user_to_channel_modal';
 import LocalizedIcon from 'components/localized_icon';
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
@@ -27,7 +25,9 @@ import Avatar from 'components/widgets/users/avatar';
 import Popover from 'components/widgets/popover';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import CustomStatusModal from 'components/custom_status/custom_status_modal';
-import Markdown from 'components/markdown';
+import CustomStatusText from 'components/custom_status/custom_status_text';
+
+import './profile_popover.scss';
 
 /**
  * The profile popover, or hovercard, that appears with user information when clicking
@@ -149,25 +149,13 @@ class ProfilePopover extends React.PureComponent {
 
     constructor(props) {
         super(props);
-        this.customStatusTextRef = React.createRef();
         this.state = {
             loadingDMChannel: -1,
-            showCustomStatusTooltip: false,
         };
     }
 
     componentDidMount() {
         this.props.actions.getMembershipForCurrentEntities(this.props.userId);
-        this.showCustomStatusTextTooltip();
-    }
-
-    showCustomStatusTextTooltip = () => {
-        const element = this.customStatusTextRef.current;
-        if (element && element.offsetWidth < element.scrollWidth) {
-            this.setState({showCustomStatusTooltip: true});
-        } else {
-            this.setState({showCustomStatusTooltip: false});
-        }
     }
 
     handleShowDirectChannel = (e) => {
@@ -282,46 +270,20 @@ class ProfilePopover extends React.PureComponent {
                         showTooltip={false}
                         emojiStyle={{
                             marginRight: 4,
+                            marginTop: 3,
                         }}
                     />
                 </span>
             );
 
-            let customStatusText = (
-                <div
-                    className='text-nowrap user-popover__email pb-1'
-                    ref={this.customStatusTextRef}
-                >
-                    <Markdown
-                        message={customStatus.text}
-                        enableFormatting={true}
-                    />
-                </div>
-            );
-
-            if (this.state.showCustomStatusTooltip) {
-                customStatusText = (
-                    <OverlayTrigger
-                        delayShow={Constants.OVERLAY_TIME_DELAY}
-                        placement='top'
-                        overlay={
-                            <Tooltip id='custom-status-tooltip'>
-                                <Markdown
-                                    message={customStatus.text}
-                                    enableFormatting={true}
-                                />
-                            </Tooltip>
-                        }
-                    >
-                        {customStatusText}
-                    </OverlayTrigger>
-                );
-            }
-
             customStatusContent = (
                 <div className='d-flex'>
                     {customStatusEmoji}
-                    {customStatusText}
+                    <CustomStatusText
+                        tooltipDirection='top'
+                        text={customStatus.text}
+                        className='user-popover__email pb-1'
+                    />
                 </div>
             );
         } else if (canSetCustomStatus) {
