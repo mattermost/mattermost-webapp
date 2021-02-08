@@ -7,7 +7,6 @@
 // Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @messaging
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -30,7 +29,7 @@ describe('Permalink message edit', () => {
      * 2. Should show prompts when opened directly from address bar.
      * 3. Should show prompts without leaving the screen upon pressing on channel url/permalink.
      */
-    it('MM-27241 System admins prompted before joining private channel via permalink', () => {
+    it('MM-T3830 System admins prompted before joining private channel via permalink', () => {
         // # Go to test channel
         gotoChannel(testTeam, testChannel);
 
@@ -104,7 +103,7 @@ describe('Permalink message edit', () => {
                         cy.uiLeaveChannel(true);
 
                         // * Prompt should be shown even if we navigate back
-                        cy.go('back');
+                        cy.go('back').wait(TIMEOUTS.THREE_SEC);
                         verifyPrivateChannelJoinPromptIsVisible(channel2);
                     });
                 });
