@@ -16,21 +16,21 @@ type Props = {
     selectDm: boolean;
 };
 
-type State = Array<{
+type OptionsState = Array<{
     key: string;
     value: string;
     text: string;
 }>;
 
-const ChannelSelect = ({
+function ChannelSelect({
     channels,
     onChange,
     value,
     selectOpen = false,
     selectPrivate = false,
     selectDm = false,
-}: Props): JSX.Element => {
-    const [options, setOptions] = useState<State>([
+}: Props): JSX.Element {
+    const [options, setOptions] = useState<OptionsState>([
         {
             key: '',
             value: '',
@@ -42,7 +42,8 @@ const ChannelSelect = ({
         channels.forEach((channel) => {
             const channelName = channel.display_name || channel.name;
             if (channel.type === Constants.OPEN_CHANNEL && selectOpen) {
-                setOptions([...options,
+                setOptions([
+                    ...options,
                     {
                         key: channel.id,
                         value: channel.id,
@@ -50,7 +51,8 @@ const ChannelSelect = ({
                     },
                 ]);
             } else if (channel.type === Constants.PRIVATE_CHANNEL && selectPrivate) {
-                setOptions([...options,
+                setOptions([
+                    ...options,
                     {
                         key: channel.id,
                         value: channel.id,
@@ -58,7 +60,8 @@ const ChannelSelect = ({
                     },
                 ]);
             } else if (channel.type === Constants.DM_CHANNEL && selectDm) {
-                setOptions([...options,
+                setOptions([
+                    ...options,
                     {
                         key: channel.id,
                         value: channel.id,
@@ -76,12 +79,16 @@ const ChannelSelect = ({
             onChange={onChange}
             id='channelSelect'
         >
-            {options.map((option) => (<option
-                key={option.key}
-                value={option.value}
-            >{option.text}</option>))}
+            {options.map((option) => (
+                <option
+                    key={option.key}
+                    value={option.value}
+                >
+                    {option.text}
+                </option>),
+            )}
         </select>
     );
-};
+}
 
 export default ChannelSelect;
