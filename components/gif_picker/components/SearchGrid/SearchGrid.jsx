@@ -53,7 +53,6 @@ export class SearchGrid extends PureComponent {
         containerClassName: PropTypes.string,
         keyword: PropTypes.string, // searchText, tagName
         handleItemClick: PropTypes.func,
-        onCategories: PropTypes.func,
         loadMore: PropTypes.func,
         numberOfColumns: PropTypes.number,
         scrollPosition: PropTypes.number,
@@ -159,7 +158,6 @@ export class SearchGrid extends PureComponent {
             resultsByTerm,
             scrollPosition,
             loadMore,
-            onCategories,
         } = this.props;
 
         const {containerWidth} = this.state;
@@ -221,8 +219,8 @@ export class SearchGrid extends PureComponent {
 
         const emptySearch = !isFetching && isEmpty ? (
             <NoResultsIndicator
-                    variant={NoResultsVariant.ChannelSearch}
-                    titleValues={{channelName: `"${keyword}"`}}
+                variant={NoResultsVariant.ChannelSearch}
+                titleValues={{channelName: `"${keyword}"`}}
             />
         ) : null;
 
