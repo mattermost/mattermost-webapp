@@ -177,7 +177,7 @@ describe('Compliance Export', () => {
     });
 
     it('MM-T1167 - Compliance Export job can be canceled', () => {
-    // # Go to compliance page and enable export
+        // # Go to compliance page and enable export
         cy.gotoCompliancePage();
         cy.enableComplianceExport();
 
