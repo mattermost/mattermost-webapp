@@ -40,7 +40,7 @@ const mapDispatchToProps = ({
 const getStyle = makeStyleFromTheme((theme) => {
     return {
         background: {
-            backgroundColor: changeOpacity(theme.centerChannelColor, 0.05),
+            backgroundColor: changeOpacity(theme.centerChannelColor, 0),
         },
     };
 });
