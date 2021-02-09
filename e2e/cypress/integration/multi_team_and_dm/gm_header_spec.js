@@ -7,6 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @multi_team_and_dm
+
 import {beRead, beUnread} from '../../support/assertions';
 import * as TIMEOUTS from '../../fixtures/timeouts';
 

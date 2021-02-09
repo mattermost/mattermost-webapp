@@ -42,6 +42,7 @@ exports[`components/post_view/Reaction should apply read-only class if user does
     </Tooltip>
   }
   placement="top"
+  shouldUpdatePosition={true}
   trigger={
     Array [
       "hover",
@@ -137,6 +138,7 @@ exports[`components/post_view/Reaction should apply read-only class if user does
     </Tooltip>
   }
   placement="top"
+  shouldUpdatePosition={true}
   trigger={
     Array [
       "hover",
@@ -236,6 +238,7 @@ exports[`components/post_view/Reaction should match snapshot 1`] = `
     </Tooltip>
   }
   placement="top"
+  shouldUpdatePosition={true}
   trigger={
     Array [
       "hover",
@@ -335,6 +338,7 @@ exports[`components/post_view/Reaction should match snapshot when a current user
     </Tooltip>
   }
   placement="top"
+  shouldUpdatePosition={true}
   trigger={
     Array [
       "hover",
