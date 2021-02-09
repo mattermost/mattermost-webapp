@@ -8,6 +8,7 @@ import {UserCustomStatus} from 'mattermost-redux/types/users';
 import OverlayTrigger from 'components/overlay_trigger';
 import Constants from 'utils/constants';
 import RenderEmoji from 'components/emoji/render_emoji';
+
 import CustomStatusText from './custom_status_text';
 
 import './custom_status.scss';
