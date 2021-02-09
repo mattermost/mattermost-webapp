@@ -145,7 +145,7 @@ describe('Compliance Export', () => {
         cy.get('@firstRow').find('td:eq(5)').should('have.text', '1 messages exported.');
     });
 
-    it('MM-T1169 _ 01 - Compliance Export - CSV and Global Relay', () => {
+    it('MM-T1169_1 - Compliance Export - CSV and Global Relay', () => {
         // # Go to compliance page and enable export
         cy.gotoCompliancePage();
         cy.enableComplianceExport();
