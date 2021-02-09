@@ -128,9 +128,7 @@ describe('Leave an archived channel', () => {
             cy.get('#channelInfoModalLabel span.icon__archive').should('not.be.visible');
 
             // # Search for a post in an archived channel
-            cy.get('#searchBox').focus().clear();
-
-            cy.get('#searchBox').should('be.visible').type(`${testArchivedMessage}{enter}`);
+            cy.get('#searchBox').click().clear().type(`${testArchivedMessage}{enter}`);
 
             // # Open the archived channel by selecting Jump from search results and then selecting the link to move to the most recent posts in the channel
             cy.get('#searchContainer').should('be.visible');
@@ -176,7 +174,7 @@ describe('Leave an archived channel', () => {
             cy.visit(`/${testTeam.name}/channels/off-topic`);
 
             // # Search for content from an archived channel
-            cy.get('#searchBox').should('be.visible').clear().type(`${testArchivedMessage}{enter}`);
+            cy.get('#searchBox').click().clear().type(`${testArchivedMessage}{enter}`);
 
             // # Open the channel from search results
             cy.get('#searchContainer').should('be.visible');
@@ -189,7 +187,7 @@ describe('Leave an archived channel', () => {
             });
 
             // # Search for content from a different archived channel
-            cy.get('#searchBox').should('be.visible').clear().type(`${messageText}{enter}`);
+            cy.get('#searchBox').click().clear().type(`${messageText}{enter}`);
 
             // # Open that channel from search results
             cy.get('#searchContainer').should('be.visible');
@@ -302,8 +300,7 @@ describe('Leave an archived channel', () => {
         const messageList = Array.from({length: 40}, (_, i) => `${i}. ${MESSAGES.SMALL} - ${getRandomId()}`);
         createArchivedChannel({prefix: 'archived-search-for'}, messageList).then(({channelName}) => {
             // # Locate the post in a search
-            cy.get('#searchBox').focus().clear();
-            cy.get('#searchBox').should('be.visible').type(`${messageList[1]}{enter}`);
+            cy.get('#searchBox').click().clear().type(`${messageList[1]}{enter}`);
 
             // # Click jump to open an archive post in permalink view
             cy.get('#searchContainer').should('be.visible');
