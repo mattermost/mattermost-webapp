@@ -41,7 +41,7 @@ export default class CopyUrlContextMenu extends React.PureComponent<Props> {
         this.props.actions.copyToClipboard(link);
     }
 
-    render() {
+    render(): JSX.Element {
         const contextMenu = (
             <ContextMenu id={'copy-url-context-menu' + this.props.menuId}>
                 <MenuItem
