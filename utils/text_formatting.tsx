@@ -224,13 +224,28 @@ export function formatText(
         // the markdown renderer will call doFormatText as necessary
         output = Markdown.format(output, options, emojiMap);
         if (output.includes('class="markdown-inline-img"')) {
-            /*
-            ** remove p tag to allow other divs to be nested,
-            ** which allows markdown images to open preview window
-            */
             const replacer = (match: string) => {
+            /*
+            * remove p tag to allow other divs to be nested,
+            * which allows markdown images to open preview window
+            */
                 return match === '<p>' ? '<div class="markdown-inline-img__container">' : '</div>';
             };
+
+            /*
+            * Fix for MM-22267 - replace any carriage-return (\r), line-feed (\n)
+            * or cr-lf (\r\n) occurences in enclosing `<p>` tags with `</p><p>` combinations
+            * to show correct line-breaks in the UI
+            *
+            * @link to regex101.com: https://regex101.com/r/utwsom/1
+            */
+            output = output.replace(/[\r\n]+(?=(?:[^<]+|<(?!\/?p\b))*<\/p>)/g, '<p></p>');
+
+            /*
+            * the replacer is not ideal, since it replaces every occurence with a new div
+            * It would be better to more accurately match only the element in question
+            * and replace it with an inlione-version
+            */
             output = output.replace(/<p>|<\/p>/g, replacer);
         }
     } else {
