@@ -37,21 +37,11 @@ describe('FileAttachmentList', () => {
             ...baseProps,
             fileCount: 1,
             fileInfos: [
-                {
+                TestHelper.getFileInfoMock({
                     id: 'file_id_1',
                     name: 'file.txt',
                     extension: 'txt',
-                    user_id: '0',
-                    create_at: 0,
-                    update_at: 0,
-                    delete_at: 0,
-                    size: 0,
-                    mime_type: '',
-                    width: 0,
-                    height: 0,
-                    has_preview_image: false,
-                    clientId: '',
-                },
+                }),
             ],
         };
 
