@@ -160,7 +160,7 @@ export class SearchGrid extends PureComponent {
         } = this.props;
 
         const {containerWidth} = this.state;
-        const {moreRemaining, items = [], isEmpty} = resultsByTerm[keyword] ? resultsByTerm[keyword] : {};
+        const {moreRemaining, items = [], isEmpty = items.length === 0, isFetching} = resultsByTerm[keyword] ? resultsByTerm[keyword] : {};
 
         /**
          * Columns 'left' values
@@ -216,7 +216,7 @@ export class SearchGrid extends PureComponent {
             </InfiniteScroll>
         ) : null;
 
-        const emptySearch = isEmpty ? (
+        const emptySearch = !isFetching && isEmpty ? (
             <div className='empty-search'>
                 <div className='empty-search-image'/>
                 <p>{'0 Gifs found for '}<strong>{keyword}</strong></p>
