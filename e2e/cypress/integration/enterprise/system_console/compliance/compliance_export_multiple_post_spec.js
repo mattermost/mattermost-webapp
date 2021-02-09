@@ -34,7 +34,7 @@ describe('Compliance Export', () => {
         cy.postMessage('this testing');
 
         // # Edit last post
-        cy.editPost();
+        cy.editPost('edited');
 
         // # Go to compliance page and export
         cy.gotoCompliancePage();
