@@ -24,14 +24,11 @@ const UpgradeLink: React.FC<UpgradeLinkProps> = (props: UpgradeLinkProps) => {
         if (props.telemetryInfo) {
             trackEvent('upgrade_mm_cloud', props.telemetryInfo);
         }
-        try {
-            dispatch(openModal({
-                modalId: ModalIdentifiers.CLOUD_PURCHASE,
-                dialogType: PurchaseModal,
-            }));
-        } catch (error) {
-            // do nothing
-        }
+        dispatch(openModal({
+            modalId: ModalIdentifiers.CLOUD_PURCHASE,
+            dialogType: PurchaseModal,
+        }));
+
     };
 
     return (
