@@ -57,7 +57,7 @@ describe('Compliance Export', () => {
         deleteExportFolder();
     });
 
-    it('MM-T1175-01 - UserType identifies that the message is posted by a bot', () => {
+    it('MM-T1175_1 - UserType identifies that the message is posted by a bot', () => {
         // # Post bot message
         cy.postBOTMessage(newTeam, newChannel, botId, botName, 'This is CSV bot message');
 
@@ -73,7 +73,7 @@ describe('Compliance Export', () => {
         cy.readFile(`${targetDownload}/posts.csv`).should('exist').and('have.string', `This is CSV bot message ${botName},message,bot`);
     });
 
-    it('MM-T1175-02 - UserType identifies that the message is posted by a bot', () => {
+    it('MM-T1175_2 - UserType identifies that the message is posted by a bot', () => {
         // # Create token for the bot
         cy.postBOTMessage(newTeam, newChannel, botId, botName, 'This is XML bot message');
 
@@ -123,4 +123,3 @@ function downloadAndUnzipExportFile() {
         cy.exec(`find ${targetDownload}/export -name '*.zip' | xargs unzip -d ${targetDownload}`);
     });
 }
-

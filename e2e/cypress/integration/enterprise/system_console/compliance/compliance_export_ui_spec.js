@@ -145,7 +145,7 @@ describe('Compliance Export', () => {
         cy.get('@firstRow').find('td:eq(5)').should('have.text', '1 messages exported.');
     });
 
-    it('MM-T1169 _ 01 - Compliance Export - CSV and Global Relay', () => {
+    it('MM-T1169_1 - Compliance Export - CSV and Global Relay', () => {
         // # Go to compliance page and enable export
         cy.gotoCompliancePage();
         cy.enableComplianceExport();
@@ -168,7 +168,7 @@ describe('Compliance Export', () => {
     });
 
     it('MM-T1165 - Compliance Export - Fields disabled when disabled', () => {
-    // # Go to compliance page and disable export
+        // # Go to compliance page and disable export
         cy.gotoCompliancePage();
         cy.findByTestId('enableComplianceExportfalse').click();
 
@@ -177,7 +177,7 @@ describe('Compliance Export', () => {
     });
 
     it('MM-T1167 - Compliance Export job can be canceled', () => {
-    // # Go to compliance page and enable export
+        // # Go to compliance page and enable export
         cy.gotoCompliancePage();
         cy.enableComplianceExport();
 
