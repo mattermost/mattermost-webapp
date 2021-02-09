@@ -2,13 +2,14 @@
 // See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
-import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import React, {useState} from 'react';
+import {useIntl, FormattedMessage} from 'react-intl';
 import AsyncSelect from 'react-select/lib/AsyncCreatable';
 import {components} from 'react-select';
 import classNames from 'classnames';
 
 import {isEmail} from 'mattermost-redux/utils/helpers';
+import {Client4} from 'mattermost-redux/client';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import MailIcon from 'components/widgets/icons/mail_icon';
@@ -24,6 +25,48 @@ import {t} from 'utils/i18n.jsx';
 import {isGuest} from 'utils/utils';
 
 import './users_emails_input.scss';
+
+const NotifyButton = () => {
+    const NOT_STARTED = 'Not_Started';
+    const STARTED = 'Started';
+    const SUCCESS = 'Success';
+    const FAILED = 'Failed';
+
+    const [notifyStatus, setStatus] = useState(NOT_STARTED);
+    const {formatMessage} = useIntl();
+
+    const notifyFunc = async () => {
+        try {
+            setStatus(STARTED);
+            await Client4.sendOverLimitAlert();
+            setStatus(SUCCESS);
+        } catch (error) {
+            if (error) {
+                setStatus(FAILED);
+            }
+        }
+    };
+
+    const btnText = (status) => {
+        switch (status) {
+        case STARTED:
+            return formatMessage({id: 'invitation-modal.notify-admin.sending', defaultMessage: 'Sending...'});
+        case SUCCESS:
+            return formatMessage({id: 'invitation-modal.notify-admin.sent', defaultMessage: 'Sent!'});
+        case FAILED:
+            return formatMessage({id: 'invitation-modal.notify-admin.failed', defaultMessage: 'Failed. Try again later.'});
+        default:
+            return formatMessage({id: 'invitation-modal.notify-admin.notify', defaultMessage: 'Notify the admin.'});
+        }
+    };
+    return (
+        <button
+            disabled={notifyStatus !== NOT_STARTED}
+            onClick={() => notifyFunc()}
+            className='btn-link'
+        >{btnText(notifyStatus)}</button>
+    );
+};
 
 export default class UsersEmailsInput extends React.PureComponent {
     static propTypes = {
@@ -323,6 +366,7 @@ export default class UsersEmailsInput extends React.PureComponent {
                                 </components.NoOptionsMessage>
                             )}
                         </FormattedMarkdownMessage>
+                        <NotifyButton/>
                     </div>
                 )}
             </>

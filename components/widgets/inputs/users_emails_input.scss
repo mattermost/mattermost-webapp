@@ -250,13 +250,13 @@
     border-radius: 4px;
     display: flex;
     align-items: center;
+    justify-content: center;
 
     span {
         height: 20px;
         position: relative;
         font-size: 16px;
         line-height: 20px;
-        margin: auto;
         text-align: center;
         color: var(--error-text)
     }
