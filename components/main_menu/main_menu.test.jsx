@@ -54,6 +54,7 @@ describe('components/Menu', () => {
         teamIsGroupConstrained: false,
         isCloud: false,
         subscription: {},
+        userIsAdmin: true,
     };
 
     test('should match snapshot with id', () => {
