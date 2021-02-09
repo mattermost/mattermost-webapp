@@ -241,7 +241,7 @@ class InvitationModalGuestsStep extends React.PureComponent {
                                 'invitation_modal.guests.add_people.title',
                                 'Invite People',
                             )}
-                            showError={true}
+                            showError={this.shouldShowPickerError()}
                             errorMessageId={t(
                                 'invitation_modal.invite_members.hit_cloud_user_limit',
                             )}
