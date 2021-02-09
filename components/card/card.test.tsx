@@ -14,19 +14,19 @@ describe('components/card/card', () => {
 
     const headerProps = {
         title:
-            <FormattedMessage
-                id='admin.data_retention.customPolicies.title'
-                defaultMessage='Custom retention policies'
-            />,
+    <FormattedMessage
+        id='admin.data_retention.customPolicies.title'
+        defaultMessage='Custom retention policies'
+    />,
         subtitle:
-            <FormattedMessage
-                id='admin.data_retention.customPolicies.subTitle'
-                defaultMessage='Customize how long specific teams and channels will keep messages.'
-            />,
+    <FormattedMessage
+        id='admin.data_retention.customPolicies.subTitle'
+        defaultMessage='Customize how long specific teams and channels will keep messages.'
+    />,
         body:
-            <div>
-                {'Hello!'}
-            </div>,
+    <div>
+        {'Hello!'}
+    </div>,
     };
 
     test('should match snapshot', () => {
@@ -82,18 +82,21 @@ describe('components/card/card', () => {
 
         const buttonProps = {
             buttonText:
-                <FormattedMessage
-                    id='admin.data_retention.customPolicies.addPolicy'
-                    defaultMessage='Add policy'
-                />,
+    <FormattedMessage
+        id='admin.data_retention.customPolicies.addPolicy'
+        defaultMessage='Add policy'
+    />,
             onClick:
                 () => {}
             ,
-        }
+        };
 
         const wrapper = shallow(
             <Card {...props}>
-                <Card.Header {...headerProps} {...buttonProps}>{''}</Card.Header>
+                <Card.Header
+                    {...headerProps}
+                    {...buttonProps}
+                >{''}</Card.Header>
                 <Card.Body>{'Body Test'}</Card.Body>
             </Card>,
         );

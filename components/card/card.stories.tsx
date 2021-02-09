@@ -17,7 +17,7 @@ storiesOf('Admin Console/Card', module).
             const WrapperComponent = () => {
                 return (
                     <>
-                        <Card 
+                        <Card
                             expanded={true}
                         >
                             <Card.Header>
@@ -27,7 +27,7 @@ storiesOf('Admin Console/Card', module).
                                 {'Hello this is card content!'}
                             </Card.Body>
                         </Card>
-                        <Card 
+                        <Card
                             expanded={true}
                             className={'console'}
                         >

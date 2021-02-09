@@ -37,14 +37,14 @@ const CardHeader: React.FC<Props> = (props: Props) => {
                                 </button> :
                                 ''
                         }
-                    
-                    </> : 
+
+                    </> :
                     <>
                         {props.children}
                         {props.expanded && <hr className='Card__hr'/>}
                     </>
             }
-            
+
         </div>
     );
 };
