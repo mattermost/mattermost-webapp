@@ -7,7 +7,7 @@ Cypress.Commands.add('verifyingExportedMessages', (number = {}) => {
     cy.get('@firstRow').find('td:eq(5)').should('have.text', `${number} messages exported.`);
 });
 
-Cypress.Commands.add('editPost', (message = {}) => {
+Cypress.Commands.add('editPost', (message = '') => {
     cy.apiGetTeamsForUser().then(({teams}) => {
         const team = teams[0];
         cy.visit(`/${team.name}/channels/town-square`);
@@ -174,4 +174,3 @@ Cypress.Commands.add('postBOTMessage', (newTeam, newChannel, botId, botName, mes
         cy.findByText(msg1).should('be.visible');
     });
 });
-
