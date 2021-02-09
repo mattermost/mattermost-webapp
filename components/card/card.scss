@@ -42,7 +42,7 @@
                 font-size: 14px;
                 line-height: 20px;
             }
-            .button {
+            .content-button {
                 margin-left: auto;
                 padding: 10px 16px;
                 font-size: 12px;
@@ -58,7 +58,9 @@
             }
         }
         .Card__body {
-            padding: 20px 32px;
+            &.expanded {
+                margin: 20px 32px;
+            }
         }
     }
     

@@ -31,28 +31,28 @@ storiesOf('Admin Console/Card', module).
                             expanded={true}
                             className={'console'}
                         >
-                            <Card.Header
-                                title={
-                                    <FormattedMessage
-                                        id='admin.data_retention.customPolicies.title'
-                                        defaultMessage='Custom retention policies'
-                                    />
-                                }
-                                subtitle={
-                                    <FormattedMessage
-                                        id='admin.data_retention.customPolicies.subTitle'
-                                        defaultMessage='Customize how long specific teams and channels will keep messages.'
-                                    />
-                                }
-                                buttonText={
-                                    <FormattedMessage
-                                        id='admin.data_retention.customPolicies.addPolicy'
-                                        defaultMessage='Add policy'
-                                    />
-                                }
-                                onClick={() => {}}
-                            >
-                                {''}
+                            <Card.Header>
+                                <Card.HeaderContent
+                                    title={
+                                        <FormattedMessage
+                                            id='admin.data_retention.customPolicies.title'
+                                            defaultMessage='Custom retention policies'
+                                        />
+                                    }
+                                    subtitle={
+                                        <FormattedMessage
+                                            id='admin.data_retention.customPolicies.subTitle'
+                                            defaultMessage='Customize how long specific teams and channels will keep messages.'
+                                        />
+                                    }
+                                    buttonText={
+                                        <FormattedMessage
+                                            id='admin.data_retention.customPolicies.addPolicy'
+                                            defaultMessage='Add policy'
+                                        />
+                                    }
+                                    onClick={() => {}}
+                                />
                             </Card.Header>
                             <Card.Body>
                                 {'Hello this is card content!'}
