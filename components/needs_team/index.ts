@@ -15,7 +15,8 @@ import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId, getMyTeams} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
 import {Action} from 'mattermost-redux/types/actions';
-import {getThreadMentionCountsByChannel} from 'mattermost-redux/actions/threads';
+
+import {fetchThreadMentionCountsByChannel} from 'actions/team_actions.jsx';
 
 import {GlobalState} from 'types/store';
 
@@ -65,7 +66,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
             addUserToTeam,
             setPreviousTeamId,
             selectTeam,
-            getThreadMentionCountsByChannel,
+            fetchThreadMentionCountsByChannel,
             loadStatusesForChannelAndSidebar,
             loadProfilesForDirect,
             getAllGroupsAssociatedToChannelsInTeam,
