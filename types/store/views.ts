@@ -122,8 +122,8 @@ export type ViewsState = {
     marketplace: {
         plugins: MarketplacePlugin[];
         apps: MarketplaceApp[];
-        installing: {[pluginId: string]: boolean};
-        errors: {[pluginId: string]: string};
+        installing: {[id: string]: boolean};
+        errors: {[id: string]: string};
         filter: string;
     };
 

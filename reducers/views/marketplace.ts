@@ -45,7 +45,7 @@ function apps(state: MarketplaceApp[] = [], action: GenericAction): MarketplaceA
 }
 
 // installing tracks the items pending installation
-function installing(state: {[pluginId: string]: boolean} = {}, action: GenericAction): {[pluginId: string]: boolean} {
+function installing(state: {[id: string]: boolean} = {}, action: GenericAction): {[id: string]: boolean} {
     switch (action.type) {
     case ActionTypes.INSTALLING_MARKETPLACE_ITEM:
         if (state[action.id]) {
@@ -81,8 +81,8 @@ function installing(state: {[pluginId: string]: boolean} = {}, action: GenericAc
     }
 }
 
-// errors tracks the error messages for plugins that failed installation
-function errors(state: {[pluginId: string]: string} = {}, action: GenericAction): {[pluginId: string]: string} {
+// errors tracks the error messages for items that failed installation
+function errors(state: {[id: string]: string} = {}, action: GenericAction): {[id: string]: string} {
     switch (action.type) {
     case ActionTypes.INSTALLING_MARKETPLACE_ITEM_FAILED:
         return {
