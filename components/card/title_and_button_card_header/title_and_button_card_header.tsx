@@ -10,7 +10,7 @@ type Props = {
     onClick?: () => void;
 };
 
-// This component is used in the card header
+// This component can be used in the card header
 const TitleAndButtonCardHeader: React.FC<Props> = (props: Props) => {
     return (
         <>
