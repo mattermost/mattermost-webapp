@@ -200,8 +200,8 @@ export function formatText(
     text: string,
     inputOptions: TextFormattingOptions = DEFAULT_OPTIONS,
     emojiMap: EmojiMap,
-) {
-    if (!text || typeof text !== 'string') {
+): string {
+    if (!text) {
         return '';
     }
 
@@ -229,7 +229,7 @@ export function formatText(
             ** which allows markdown images to open preview window
             */
             const replacer = (match: string) => {
-                return match === '<p>' ? '<div className="markdown-inline-img__container">' : '</div>';
+                return match === '<p>' ? '<div class="markdown-inline-img__container">' : '</div>';
             };
             output = output.replace(/<p>|<\/p>/g, replacer);
         }
@@ -251,7 +251,7 @@ export function formatText(
 }
 
 // Performs most of the actual formatting work for formatText. Not intended to be called normally.
-export function doFormatText(text: string, options: TextFormattingOptions, emojiMap: EmojiMap) {
+export function doFormatText(text: string, options: TextFormattingOptions, emojiMap: EmojiMap): string {
     let output = text;
 
     const tokens = new Map();
@@ -295,7 +295,7 @@ export function doFormatText(text: string, options: TextFormattingOptions, emoji
     return output;
 }
 
-export function sanitizeHtml(text: string) {
+export function sanitizeHtml(text: string): string {
     let output = text;
 
     // normal string.replace only does a single occurrence so use a regex instead
@@ -347,13 +347,10 @@ function autolinkEmails(text: string, tokens: Tokens) {
         return prefix + alias;
     }
 
-    let output = text;
-    output = XRegExp.replace(text, reEmail, replaceEmailWithToken);
-
-    return output;
+    return XRegExp.replace(text, reEmail, replaceEmailWithToken);
 }
 
-export function autolinkAtMentions(text: string, tokens: Tokens) {
+export function autolinkAtMentions(text: string, tokens: Tokens): string {
     function replaceAtMentionWithToken(fullMatch: string, username: string) {
         let originalText = fullMatch;
 
@@ -391,7 +388,7 @@ export function autolinkAtMentions(text: string, tokens: Tokens) {
     return output;
 }
 
-export function allAtMentions(text: string) {
+export function allAtMentions(text: string): RegExpMatchArray {
     return text.match(Constants.SPECIAL_MENTIONS_REGEX && AT_MENTION_PATTERN) || [];
 }
 
@@ -402,7 +399,9 @@ function autolinkChannelMentions(
     team?: Team,
 ) {
     function channelMentionExists(c: string) {
-        return Boolean(channelNamesMap[c]);
+        return Boolean(channelNamesMap[c]) &&
+            typeof channelNamesMap[c] === 'object' &&
+            Boolean(channelNamesMap[c].display_name);
     }
     function addToken(channelName: string, teamName: string, mention: string, displayName: string) {
         const index = tokens.size;
@@ -441,13 +440,12 @@ function autolinkChannelMentions(
             if ('team_name' in channelValue) {
                 teamName = channelValue.team_name || '';
             }
-            const alias = addToken(
+            return addToken(
                 channelNameLower,
                 teamName,
                 mention,
                 escapeHtml(channelValue.display_name),
             );
-            return alias;
         }
 
         // Not an exact match, attempt to truncate any punctuation to see if we can find a channel
@@ -490,11 +488,8 @@ function autolinkChannelMentions(
     return output;
 }
 
-export function escapeRegex(text?: string) {
-    if (text == null) {
-        return '';
-    }
-    return text.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
+export function escapeRegex(text?: string): string {
+    return text?.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&') || '';
 }
 
 const htmlEntities = {
@@ -505,14 +500,14 @@ const htmlEntities = {
     "'": '&#039;',
 };
 
-export function escapeHtml(text: string) {
+export function escapeHtml(text: string): string {
     return text.replace(
         /[&<>"']/g,
         (match: string) => htmlEntities[match as keyof (typeof htmlEntities)],
     );
 }
 
-export function convertEntityToCharacter(text: string) {
+export function convertEntityToCharacter(text: string): string {
     return text.
         replace(/&lt;/g, '<').
         replace(/&gt;/g, '>').
@@ -654,7 +649,7 @@ function autolinkHashtags(
 const puncStart = XRegExp.cache('^[^\\pL\\d\\s#]+');
 const puncEnd = XRegExp.cache('[^\\pL\\d\\s]+$');
 
-export function parseSearchTerms(searchTerm: string) {
+export function parseSearchTerms(searchTerm: string): string[] {
     let terms = [];
 
     let termString = searchTerm;
@@ -744,7 +739,7 @@ export function highlightSearchTerms(
     text: string,
     tokens: Tokens,
     searchPatterns: SearchPattern[],
-) {
+): string {
     if (!searchPatterns || searchPatterns.length === 0) {
         return text;
     }
@@ -818,7 +813,7 @@ export function highlightSearchTerms(
     return output;
 }
 
-export function replaceTokens(text: string, tokens: Tokens) {
+export function replaceTokens(text: string, tokens: Tokens): string {
     let output = text;
 
     // iterate backwards through the map so that we do replacement in the opposite order that we added tokens
@@ -836,7 +831,7 @@ function replaceNewlines(text: string) {
     return text.replace(/\n/g, ' ');
 }
 
-export function handleUnicodeEmoji(text: string, emojiMap: EmojiMap, searchPattern: RegExp) {
+export function handleUnicodeEmoji(text: string, emojiMap: EmojiMap, searchPattern: RegExp): string {
     let output = text;
 
     // replace all occurances of unicode emoji with additional markup

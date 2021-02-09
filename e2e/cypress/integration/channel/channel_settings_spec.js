@@ -59,27 +59,29 @@ describe('Channel Settings', () => {
     });
 
     it('MM-T882 Channel URL validation works properly', () => {
-        // # Visit off-tipic
-        cy.visit(`/${testTeam.name}/channels/off-topic`);
+        cy.apiCreateChannel(testTeam.id, 'channel-test', 'Channel').then(({channel}) => {
+            // # Go to test channel
+            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
 
-        // # Go to channel dropdown > Rename channel
-        cy.get('#channelHeaderDropdownIcon').click();
-        cy.findByText('Rename Channel').click();
+            // # Go to channel dropdown > Rename channel
+            cy.get('#channelHeaderDropdownIcon').click();
+            cy.findByText('Rename Channel').click();
 
-        // # Try to enter existing URL and save
-        cy.get('#channel_name').clear().type('town-square');
-        cy.get('#save-button').click();
+            // # Try to enter existing URL and save
+            cy.get('#channel_name').clear().type('town-square');
+            cy.get('#save-button').click();
 
-        // # Error is displayed and URL is unchanged
-        cy.get('.has-error').should('be.visible').and('contain', 'Unable to update the channel');
-        cy.url().should('include', `/${testTeam.name}/channels/off-topic`);
+            // # Error is displayed and URL is unchanged
+            cy.get('.has-error').should('be.visible').and('contain', 'Unable to update the channel');
+            cy.url().should('include', `/${testTeam.name}/channels/${channel.name}`);
 
-        // # Enter a new URL and save
-        cy.get('#channel_name').clear().type('another-town-square');
-        cy.get('#save-button').click();
+            // # Enter a new URL and save
+            cy.get('#channel_name').clear().type('another-town-square');
+            cy.get('#save-button').click();
 
-        // URL is updated and no errors are displayed
-        cy.url().should('include', `/${testTeam.name}/channels/another-town-square`);
+            // * URL is updated and no errors are displayed
+            cy.url().should('include', `/${testTeam.name}/channels/another-town-square`);
+        });
     });
 
     it('MM-T887 Channel dropdown menu - Mute / Unmute', () => {
