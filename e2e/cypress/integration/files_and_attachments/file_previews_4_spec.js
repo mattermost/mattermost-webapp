@@ -12,9 +12,9 @@
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
-import {testImage} from './helpers';
+import {testAudioFile} from './helpers';
 
-describe('Upload Files - Image', () => {
+describe('Upload Files - Audio', () => {
     let testTeam;
 
     beforeEach(() => {
@@ -30,43 +30,43 @@ describe('Upload Files - Image', () => {
         });
     });
 
-    it('MM-T2264_1 - JPG', () => {
+    it('MM-T3825_1 - MP3', () => {
         const properties = {
-            route: 'mm_file_testing/Images/JPG.jpg',
-            originalWidth: 400,
-            originalHeight: 479,
+            route: 'mm_file_testing/Audio/MP3.mp3',
+            shouldPreview: true,
         };
-
-        testImage(properties);
+        testAudioFile(properties);
     });
 
-    it('MM-T2264_2 - PNG', () => {
+    it('MM-T3825_3 - AAC', () => {
         const properties = {
-            route: 'mm_file_testing/Images/PNG.png',
-            originalWidth: 400,
-            originalHeight: 479,
+            route: 'mm_file_testing/Audio/AAC.aac',
+            shouldPreview: false,
         };
-
-        testImage(properties);
+        testAudioFile(properties);
     });
 
-    it('MM-T2264_4 - GIF', () => {
+    it('MM-T3825_5 - OGG', () => {
         const properties = {
-            route: 'mm_file_testing/Images/GIF.gif',
-            originalWidth: 500,
-            originalHeight: 500,
+            route: 'mm_file_testing/Audio/OGG.ogg',
+            shouldPreview: true,
         };
-
-        testImage(properties);
+        testAudioFile(properties);
     });
 
-    it('MM-T2264_5 - TIFF', () => {
+    it('MM-T3825_6 - WAV', () => {
         const properties = {
-            route: 'mm_file_testing/Images/TIFF.tif',
-            originalWidth: 400,
-            originalHeight: 479,
+            route: 'mm_file_testing/Audio/WAV.wav',
+            shouldPreview: true,
         };
+        testAudioFile(properties);
+    });
 
-        testImage(properties);
+    it('MM-T3825_7 - WMA', () => {
+        const properties = {
+            route: 'mm_file_testing/Audio/WMA.wma',
+            shouldPreview: false,
+        };
+        testAudioFile(properties);
     });
 });
