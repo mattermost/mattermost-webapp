@@ -16,6 +16,8 @@ import {GlobalState} from 'types/store';
 
 import {isAdmin} from 'utils/utils.jsx';
 
+import {openModal} from 'actions/views/modals';
+
 import InvitationModalGuestsStep from './invitation_modal_guests_step';
 
 function mapStateToProps(state: GlobalState) {
@@ -34,6 +36,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             {
                 getStandardAnalytics,
                 getCloudSubscription,
+                openModal,
             },
             dispatch,
         ),

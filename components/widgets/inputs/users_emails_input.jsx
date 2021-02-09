@@ -24,7 +24,6 @@ import {t} from 'utils/i18n.jsx';
 import {isGuest} from 'utils/utils';
 
 import './users_emails_input.scss';
-import UpgradeLink from 'components/widgets/links/upgrade_link';
 
 export default class UsersEmailsInput extends React.PureComponent {
     static propTypes = {
@@ -319,7 +318,6 @@ export default class UsersEmailsInput extends React.PureComponent {
                                 defaultMessage={this.props.errorMessageDefault}
                                 values={this.props.errorMessageValues || null}
                                 disableLinks={true}
-                                dangerouslySetInnerHTML={<UpgradeLink/>}
                             >
                                 {(message) => (
                                     <components.NoOptionsMessage>

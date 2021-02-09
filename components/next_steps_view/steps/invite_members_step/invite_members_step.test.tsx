@@ -28,6 +28,7 @@ describe('components/next_steps_view/steps/invite_members_step', () => {
             sendEmailInvitesToTeamGracefully: jest.fn(),
             regenerateTeamInviteId: jest.fn(),
             getSubscriptionStats: jest.fn(),
+            openModal: jest.fn(),
         },
     };
 

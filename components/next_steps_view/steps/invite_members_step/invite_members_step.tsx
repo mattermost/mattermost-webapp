@@ -17,13 +17,16 @@ import {pageVisited, trackEvent} from 'actions/telemetry_actions';
 import {getAnalyticsCategory} from 'components/next_steps_view/step_helpers';
 import MultiInput from 'components/multi_input';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
+import PurchaseModal from 'components/purchase_modal';
+import UpgradeLink from 'components/widgets/links/upgrade_link';
+
 import {getSiteURL} from 'utils/url';
 import * as Utils from 'utils/utils';
+import {ModalIdentifiers} from 'utils/constants';
 
 import {StepComponentProps} from '../../steps';
 
 import './invite_members_step.scss';
-import UpgradeLink from 'components/widgets/links/upgrade_link';
 
 type Props = StepComponentProps & {
     team: Team;
@@ -33,6 +36,7 @@ type Props = StepComponentProps & {
         sendEmailInvitesToTeamGracefully: (teamId: string, emails: string[]) => Promise<{ data: TeamInviteWithError[]; error: ServerError }>;
         regenerateTeamInviteId: (teamId: string) => void;
         getSubscriptionStats: () => void;
+        openModal?: (modalData: { modalId: string; dialogType: any; dialogProps?: any }) => void;
     };
     subscriptionStats?: SubscriptionStats;
     intl: IntlShape;
@@ -246,6 +250,15 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
         return `${getSiteURL()}/signup_user_complete/?id=${this.props.team.invite_id}`;
     }
 
+    handleLinkClick = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        e.preventDefault();
+        trackEvent('upgrade_mm_cloud', 'click_upgrade_invite_members_step');
+        this.props.actions.openModal({
+            modalId: ModalIdentifiers.CLOUD_PURCHASE,
+            dialogType: PurchaseModal,
+        });
+    };
+
     render(): JSX.Element {
         return (
             <div className='NextStepsView__stepWrapper'>
@@ -310,7 +323,9 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
                                         </>
                                     }
                                     {(this.state.emailError && this.state.emails.length > 10) &&
-                                        <UpgradeLink telemetryInfo='click_upgrade_invite_members_step'/>
+
+                                        // <UpgradeLink telemetryInfo='click_upgrade_invite_members_step'/>
+                                        <UpgradeLink handleClick={(e) => this.handleLinkClick(e)}/>
                                     }
                                 </div>
                             </div>

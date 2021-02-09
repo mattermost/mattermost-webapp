@@ -13,7 +13,6 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import InviteMembersIcon from 'components/widgets/icons/invite_members_icon';
 import UsersEmailsInput from 'components/widgets/inputs/users_emails_input.jsx';
 import UpgradeLink from 'components/widgets/links/upgrade_link';
-import {Constants} from 'utils/constants';
 
 import LinkIcon from 'components/widgets/icons/link_icon';
 import withGetCloudSubscription from '../../common/hocs/cloud/with_get_cloud_subcription';
@@ -21,6 +20,8 @@ import withGetCloudSubscription from '../../common/hocs/cloud/with_get_cloud_sub
 import {getSiteURL} from 'utils/url';
 import {t} from 'utils/i18n.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
+import {Constants, ModalIdentifiers} from 'utils/constants';
+import PurchaseModal from 'components/purchase_modal';
 
 import './invitation_modal_members_step.scss';
 
@@ -43,6 +44,7 @@ class InvitationModalMembersStep extends React.PureComponent {
         actions: PropTypes.shape({
             getStandardAnalytics: PropTypes.func.isRequired,
             getCloudSubscription: PropTypes.func.isRequired,
+            openModal: PropTypes.func,
         }).isRequired,
     };
 
@@ -183,6 +185,15 @@ class InvitationModalMembersStep extends React.PureComponent {
         }
     }
 
+    handleLinkClick = async (e) => {
+        e.preventDefault();
+        trackEvent('upgrade_mm_cloud', 'click_upgrade_modal_members_step');
+        this.props.actions.openModal({
+            modalId: ModalIdentifiers.CLOUD_PURCHASE,
+            dialogType: PurchaseModal,
+        });
+    };
+
     render() {
         const inviteUrl =
             getSiteURL() + '/signup_user_complete/?id=' + this.props.inviteId;
@@ -219,7 +230,7 @@ class InvitationModalMembersStep extends React.PureComponent {
             errorMessageValues: {
                 num: remainingUsers < 0 ? '0' : remainingUsers,
             },
-            extraErrorText: (<UpgradeLink telemetryInfo='click_upgrade_users_emails_input'/>),
+            extraErrorText: (<UpgradeLink handleClick={(e) => this.handleLinkClick(e)}/>),
         };
 
         if (this.state.usersAndEmails.length > Constants.MAX_ADD_MEMBERS_BATCH) {

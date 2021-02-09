@@ -12,6 +12,8 @@ import {bindActionCreators, Dispatch} from 'redux';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {getCloudSubscription} from 'mattermost-redux/actions/cloud';
 
+import {openModal} from 'actions/views/modals';
+
 import {GlobalState} from 'types/store';
 
 import {isAdmin} from 'utils/utils.jsx';
@@ -34,6 +36,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             {
                 getStandardAnalytics,
                 getCloudSubscription,
+                openModal,
             },
             dispatch,
         ),

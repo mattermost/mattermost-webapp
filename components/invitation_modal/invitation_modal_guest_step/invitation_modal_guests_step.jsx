@@ -16,6 +16,11 @@ import ChannelsInput from 'components/widgets/inputs/channels_input.jsx';
 import UsersEmailsInput from 'components/widgets/inputs/users_emails_input.jsx';
 import withGetCloudSubscription from '../../common/hocs/cloud/with_get_cloud_subcription';
 
+import {ModalIdentifiers} from 'utils/constants';
+import PurchaseModal from 'components/purchase_modal';
+
+import {trackEvent} from 'actions/telemetry_actions';
+
 import './invitation_modal_guests_step.scss';
 
 import {t} from 'utils/i18n.jsx';
@@ -42,6 +47,7 @@ class InvitationModalGuestsStep extends React.PureComponent {
         actions: PropTypes.shape({
             getStandardAnalytics: PropTypes.func.isRequired,
             getCloudSubscription: PropTypes.func.isRequired,
+            openModal: PropTypes.func,
         }).isRequired,
     }
 
@@ -186,6 +192,15 @@ class InvitationModalGuestsStep extends React.PureComponent {
         }
     }
 
+    handleLinkClick = async (e) => {
+        e.preventDefault();
+        trackEvent('upgrade_mm_cloud', 'click_upgrade_modal_guest_step');
+        this.props.actions.openModal({
+            modalId: ModalIdentifiers.CLOUD_PURCHASE,
+            dialogType: PurchaseModal,
+        });
+    };
+
     render() {
         let inputPlaceholder = localizeMessage('invitation_modal.guests.search-and-add.placeholder', 'Add guests or email addresses');
         let noMatchMessageId = t('invitation_modal.guests.users_emails_input.no_user_found_matching');
@@ -227,7 +242,7 @@ class InvitationModalGuestsStep extends React.PureComponent {
                                 'invitation_modal.guests.add_people.title',
                                 'Invite People',
                             )}
-                            showError={this.shouldShowPickerError()}
+                            showError={true}
                             errorMessageId={t(
                                 'invitation_modal.invite_members.hit_cloud_user_limit',
                             )}
@@ -237,7 +252,7 @@ class InvitationModalGuestsStep extends React.PureComponent {
                             errorMessageValues={{
                                 num: remainingUsers < 0 ? '0' : remainingUsers,
                             }}
-                            extraErrorText={<UpgradeLink telemetryInfo='click_upgrade_users_emails_input'/>}
+                            extraErrorText={(<UpgradeLink handleClick={(e) => this.handleLinkClick(e)}/>)}
                             onChange={this.onUsersEmailsChange}
                             value={this.state.usersAndEmails}
                             onInputChange={this.onUsersInputChange}

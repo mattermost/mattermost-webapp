@@ -14,6 +14,8 @@ import {getSubscriptionStats} from 'mattermost-redux/actions/cloud';
 
 import {GlobalState} from 'types/store';
 
+import {openModal} from 'actions/views/modals';
+
 import InviteMembersStep from './invite_members_step';
 
 function mapStateToProps(state: GlobalState) {
@@ -31,6 +33,7 @@ type Actions = {
     sendEmailInvitesToTeamGracefully: (teamId: string, emails: string[]) => Promise<{ data: TeamInviteWithError[]; error: ServerError }>;
     regenerateTeamInviteId: (teamId: string) => void;
     getSubscriptionStats: () => void;
+    openModal: (modalData: { modalId: string; dialogType: any; dialogProps?: any }) => void;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
@@ -39,6 +42,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             sendEmailInvitesToTeamGracefully,
             regenerateTeamInviteId,
             getSubscriptionStats,
+            openModal,
         }, dispatch),
     };
 }
