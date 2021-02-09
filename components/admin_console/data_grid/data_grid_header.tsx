@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, {CSSProperties} from 'react';
+import classNames from 'classnames';
 
 import './data_grid.scss';
 
@@ -9,6 +10,7 @@ import {Column} from './data_grid';
 
 export type Props = {
     columns: Column[];
+    customHeaderClass?: string;
 }
 
 class DataGridHeader extends React.Component<Props> {
@@ -31,7 +33,7 @@ class DataGridHeader extends React.Component<Props> {
 
     render() {
         return (
-            <div className='DataGrid_header'>
+            <div className={classNames('DataGrid_header', this.props.customHeaderClass)}>
                 {this.props.columns.map((col) => this.renderHeaderElement(col))}
             </div>
         );

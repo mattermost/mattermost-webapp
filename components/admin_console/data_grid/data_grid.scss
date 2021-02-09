@@ -7,6 +7,10 @@
     background: $bg--gray;
     color: var(--sys-center-channel-color);
 
+    &.customTable {
+        background: #ffffff;
+    }
+
     .DataGrid_search {
         height: 48px;
         background: $white;
@@ -66,6 +70,16 @@
         padding: .5em 0;
     }
 
+    .DataGrid_customHeader {
+        line-height: 16px;
+        font-weight: 600;
+        border-bottom: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.16);
+        padding: 0 16px;
+        &:last-child {
+            border-bottom: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.08);
+        }
+    }
+
     .DataGrid_rows {
         display: flex;
         flex-direction: column;
@@ -87,7 +101,7 @@
             color: rgba(0, 0, 0, 0.3);
             text-align: center;
         }
-
+       
         .DataGrid_row {
             border-left: 2px solid transparent;
 
@@ -105,6 +119,55 @@
                 text-overflow: ellipsis;
                 overflow: hidden;
                 white-space: nowrap;
+            }
+        }
+
+        .DataGrid_customRow {
+            height: 41px;
+            display: flex;
+            flex-direction: row;
+            padding: 0 16px;
+
+            &:nth-child(odd) {
+                background: #ffffff;
+            }
+
+            &:nth-child(even) {
+                background: rgba(var(--sys-button-bg-rgb), 0.04);
+            }
+            &:hover {
+                background-color: rgba(var(--sys-button-bg-rgb), 0.08);
+                cursor: pointer;
+                color: #3D3C40;
+                border-left: none;
+            }
+            .actionIcon {
+                width: 56px;
+            }
+            .actionIcon a i {
+                display: none;
+            }
+            .actionIcon a {
+                text-decoration: none;
+                padding: 8px;
+                border-radius: 4px;
+                background: transparent;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                width: 32px;
+                height: 32px;
+                color: rgba(var(--sys-center-channel-color-rgb), 0.72);
+                margin-left: auto;
+            }
+            &:hover .actionIcon a i {
+                display: flex;
+            }
+            .actionIcon a:hover {
+                background: rgba(var(--sys-center-channel-color-rgb), 0.08);
+            }
+            .DataGrid_cell.actionIcon {
+                overflow: visible;
             }
         }
     }

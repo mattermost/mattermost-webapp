@@ -10,7 +10,7 @@ import {withKnobs} from '@storybook/addon-knobs';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 
-import DataTable, {Column, Row} from './data_table';
+import DataGrid, {Column, Row} from 'components/admin_console/data_grid/data_grid';
 
 const columns: Column[] = [
     {
@@ -43,7 +43,7 @@ const columns: Column[] = [
     {
         name: '',
         field: 'actions',
-        customClass: 'Table__table-icon',
+        customClass: 'actionIcon',
     },
 ];
 const data = [
@@ -132,14 +132,14 @@ const getRows = (entries: any): Row[] => {
     });
 };
 
-storiesOf('Admin Console/Data Table', module).
+storiesOf('Admin Console/Data Grid', module).
     addDecorator(withKnobs).
     add(
-        'Data Table - No pagination',
+        'Custom Data Grid - No pagination',
         () => {
             const WrapperComponent = () => {
                 return (
-                    <DataTable
+                    <DataGrid
                         columns={columns}
                         rows={getRows(data)}
                         loading={false}
@@ -149,6 +149,9 @@ storiesOf('Admin Console/Data Table', module).
                         startCount={1}
                         endCount={4}
                         total={0}
+                        customGridClass={'customTable'}
+                        customHeaderClass={'DataGrid_customHeader'}
+                        customRowClass={'DataGrid_customRow'}
                     />
                 );
             };
@@ -158,7 +161,7 @@ storiesOf('Admin Console/Data Table', module).
         },
     ).
     add(
-        'Data Table - Pagination',
+        'Custom Data Grid - Pagination',
         () => {
             const WrapperComponent = () => {
                 const MAX_PER_PAGE = 4;
@@ -167,7 +170,7 @@ storiesOf('Admin Console/Data Table', module).
                 const [tableRows, setRows] = useState(getRows(data));
 
                 return (
-                    <DataTable
+                    <DataGrid
                         columns={columns}
                         rows={tableRows}
                         loading={false}
@@ -187,6 +190,9 @@ storiesOf('Admin Console/Data Table', module).
                         startCount={(page * MAX_PER_PAGE) + 1}
                         endCount={(page + 1) * MAX_PER_PAGE}
                         total={8}
+                        customGridClass={'customTable'}
+                        customHeaderClass={'DataGrid_customHeader'}
+                        customRowClass={'DataGrid_customRow'}
                     />
                 );
             };

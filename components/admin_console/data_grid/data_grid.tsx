@@ -3,6 +3,7 @@
 
 import React, {CSSProperties} from 'react';
 import {FormattedMessage} from 'react-intl';
+import classNames from 'classnames';
 
 import NextIcon from 'components/widgets/icons/fa_next_icon';
 import PreviousIcon from 'components/widgets/icons/fa_previous_icon';
@@ -21,6 +22,7 @@ export type Column = {
     fixed?: boolean;
 
     // Optional styling overrides
+    customClass?: string;
     width?: number;
     textAlign?: '-moz-initial' | 'inherit' | 'initial' | 'revert' | 'unset' | 'center' | 'end' | 'justify' | 'left' | 'match-parent' | 'right' | 'start' | undefined;
     overflow?: string;
@@ -61,6 +63,10 @@ type Props = {
         keys: string[];
         onFilter: (options: FilterOptions) => void;
     };
+
+    customGridClass?: string;
+    customHeaderClass?: string;
+    customRowClass?: string;
 };
 
 type State = {
@@ -165,11 +171,11 @@ class DataGrid extends React.PureComponent<Props, State> {
                         key={index}
                         row={row}
                         columns={visibleColumns}
+                        customRowClass={this.props.customRowClass}
                     />
                 );
             });
         }
-
         return (
             <div
                 className='DataGrid_rows'
@@ -184,6 +190,7 @@ class DataGrid extends React.PureComponent<Props, State> {
         return (
             <DataGridHeader
                 columns={this.state.visibleColumns}
+                customHeaderClass={this.props.customHeaderClass}
             />
         );
     }
@@ -278,7 +285,7 @@ class DataGrid extends React.PureComponent<Props, State> {
     public render() {
         return (
             <div
-                className='DataGrid'
+                className={classNames('DataGrid', this.props.customGridClass)}
                 ref={this.ref}
             >
                 {this.renderSearch()}

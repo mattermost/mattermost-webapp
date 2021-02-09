@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, {CSSProperties} from 'react';
+import classNames from 'classnames';
 
 import {Row, Column} from './data_grid';
 
@@ -10,6 +11,7 @@ import './data_grid.scss';
 type Props = {
     columns: Column[];
     row: Row;
+    customRowClass?: string;
 }
 
 class DataGridRow extends React.Component<Props> {
@@ -30,7 +32,7 @@ class DataGridRow extends React.Component<Props> {
         return (
             <div
                 key={column.field}
-                className='DataGrid_cell'
+                className={classNames('DataGrid_cell', column.customClass)}
                 style={style}
             >
                 {row.cells[column.field]}
@@ -42,7 +44,7 @@ class DataGridRow extends React.Component<Props> {
         const cells = this.props.columns.map((col) => this.renderCell(this.props.row, col));
         return (
             <div
-                className='DataGrid_row'
+                className={classNames('DataGrid_row', this.props.customRowClass)}
                 onClick={this.props.row.onClick}
             >
                 {cells}
