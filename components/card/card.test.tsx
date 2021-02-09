@@ -6,6 +6,7 @@ import {FormattedMessage} from 'react-intl';
 import {mount, shallow} from 'enzyme';
 
 import Card from './card';
+import TitleAndButtonCardHeader from './title_and_button_card_header/title_and_button_card_header';
 
 describe('components/card/card', () => {
     const baseProps = {
@@ -66,7 +67,7 @@ describe('components/card/card', () => {
         const wrapper = shallow(
             <Card {...props}>
                 <Card.Header>
-                    <Card.HeaderContent
+                    <TitleAndButtonCardHeader
                         {...headerProps}
                     />
                 </Card.Header>
@@ -98,7 +99,7 @@ describe('components/card/card', () => {
         const wrapper = shallow(
             <Card {...props}>
                 <Card.Header>
-                    <Card.HeaderContent
+                    <TitleAndButtonCardHeader
                         {...headerProps}
                         {...buttonProps}
                     />

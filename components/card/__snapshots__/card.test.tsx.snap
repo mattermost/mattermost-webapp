@@ -85,7 +85,7 @@ exports[`components/card/card should match snapshot when using header content an
     expanded={true}
     key=".0"
   >
-    <CardHeaderContent
+    <TitleAndButtonCardHeader
       body={
         <div>
           Hello!
@@ -129,7 +129,7 @@ exports[`components/card/card should match snapshot when using header content an
     expanded={true}
     key=".0"
   >
-    <CardHeaderContent
+    <TitleAndButtonCardHeader
       body={
         <div>
           Hello!

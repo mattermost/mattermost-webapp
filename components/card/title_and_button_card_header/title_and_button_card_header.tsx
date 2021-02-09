@@ -10,30 +10,33 @@ type Props = {
     onClick?: () => void;
 };
 
-const CardHeaderContent: React.FC<Props> = (props: Props) => {
+// This component is used in the card header
+const TitleAndButtonCardHeader: React.FC<Props> = (props: Props) => {
     return (
         <>
             <div>
                 <div className='text-top'>
                     {props.title}
                 </div>
-                <div className='text-bottom'>
-                    {props.subtitle}
-                </div>
+                {
+                    props.subtitle &&
+                    <div className='text-bottom'>
+                        {props.subtitle}
+                    </div>
+                }
             </div>
             {
-                props.buttonText && props.onClick ?
+                props.buttonText && props.onClick &&
                     <button
                         className='content-button primary'
                         onClick={props.onClick}
                     >
                         {props.buttonText}
-                    </button> :
-                    ''
+                    </button>
             }
 
         </>
     );
 };
 
-export default CardHeaderContent;
+export default TitleAndButtonCardHeader;

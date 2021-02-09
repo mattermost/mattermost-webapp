@@ -8,8 +8,9 @@ import {storiesOf} from '@storybook/react';
 import {withKnobs} from '@storybook/addon-knobs';
 
 import Card from 'components/card/card';
+import TitleAndButtonCardHeader from './title_and_button_card_header/title_and_button_card_header';
 
-storiesOf('Admin Console/Card', module).
+storiesOf('Components/Card', module).
     addDecorator(withKnobs).
     add(
         'Multiple Cards',
@@ -32,7 +33,7 @@ storiesOf('Admin Console/Card', module).
                             className={'console'}
                         >
                             <Card.Header>
-                                <Card.HeaderContent
+                                <TitleAndButtonCardHeader
                                     title={
                                         <FormattedMessage
                                             id='admin.data_retention.customPolicies.title'

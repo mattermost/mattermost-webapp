@@ -5,7 +5,6 @@ import React, {Children, isValidElement, cloneElement} from 'react';
 import classNames from 'classnames';
 
 import CardHeader from './card_header';
-import CardHeaderContent from './card_header_content';
 import CardBody from './card_body';
 
 import './card.scss';
@@ -17,7 +16,6 @@ type Props = {
 
 export default class Card extends React.PureComponent<Props> {
     public static Header = CardHeader;
-    public static HeaderContent = CardHeaderContent;
     public static Body = CardBody;
 
     render() {

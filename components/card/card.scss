@@ -56,6 +56,9 @@
                     color: var(--button-color);
                 }
             }
+            .Card__hr {
+                display: none;
+            }
         }
         .Card__body {
             &.expanded {
