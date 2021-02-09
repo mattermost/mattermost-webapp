@@ -168,7 +168,7 @@ describe('Compliance Export', () => {
     });
 
     it('MM-T1165 - Compliance Export - Fields disabled when disabled', () => {
-    // # Go to compliance page and disable export
+        // # Go to compliance page and disable export
         cy.gotoCompliancePage();
         cy.findByTestId('enableComplianceExportfalse').click();
 
