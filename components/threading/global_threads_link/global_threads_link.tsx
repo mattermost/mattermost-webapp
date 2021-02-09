@@ -16,6 +16,8 @@ import {isUnreadFilterEnabled} from 'selectors/views/channel_sidebar';
 import {isCollapsedThreadsEnabled} from 'selectors/threads';
 import {useThreadRouting} from '../hooks';
 
+import ChannelMentionBadge from 'components/sidebar/sidebar_channel/channel_mention_badge';
+
 import ThreadsIcon from './threads_icon';
 
 import './global_threads_link.scss';
@@ -69,12 +71,7 @@ const GlobalThreadsLink = () => {
                         </span>
                     </div>
                     {counts?.total_unread_mentions > 0 && (
-                        <span
-                            id='unreadMentions'
-                            className='badge'
-                        >
-                            {counts.total_unread_mentions}
-                        </span>
+                        <ChannelMentionBadge unreadMentions={counts.total_unread_mentions}/>
                     )}
                 </Link>
             </li>

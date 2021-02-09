@@ -13,6 +13,7 @@ import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 
 import {clearChannelSelection, multiSelectChannelAdd, multiSelectChannelTo} from 'actions/views/channel_sidebar';
 import {isChannelSelected} from 'selectors/views/channel_sidebar';
+import {isCollapsedThreadsEnabled} from 'selectors/threads';
 import {GlobalState} from 'types/store';
 import {NotificationLevels} from 'utils/constants';
 
@@ -31,7 +32,11 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     let unreadMsgs = 0;
     let showUnreadForMsgs = true;
     if (member) {
-        unreadMentions = member.mention_count - threadMentionCountInChannel;
+        unreadMentions = member.mention_count;
+
+        if (isCollapsedThreadsEnabled(state)) {
+            unreadMentions -= threadMentionCountInChannel;
+        }
 
         if (ownProps.channel) {
             unreadMsgs = Math.max(ownProps.channel.total_msg_count - member.msg_count, 0);

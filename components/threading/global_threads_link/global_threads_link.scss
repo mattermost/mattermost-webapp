@@ -11,6 +11,13 @@
                 vertical-align: middle;
             }
         }
+        #SidebarContainer &:hover {
+            padding-right: 16px !important;
+            .badge {
+                visibility: visible !important;
+                position: initial !important;
+            }
+        }
     }
 }
 
@@ -27,5 +34,14 @@
 
     + ul .sidebar-section__header {
         margin-top: 0;
+    }
+
+    .SidebarChannelLinkLabel_wrapper {
+        display: flex;
+        flex: 1;
+    }
+
+    .badge {
+        margin: 0 12px 0 0;
     }
 }
