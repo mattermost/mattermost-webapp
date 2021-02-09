@@ -11,6 +11,9 @@ import {changeOpacity, makeStyleFromTheme} from 'mattermost-redux/utils/theme_ut
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 
+import NoResultsIndicator from 'components/no_results_indicator/no_results_indicator.tsx';
+import {NoResultsVariant} from 'components/no_results_indicator/types';
+
 import InfiniteScroll from 'components/gif_picker/components/InfiniteScroll';
 import SearchItem from 'components/gif_picker/components/SearchItem';
 
@@ -217,13 +220,10 @@ export class SearchGrid extends PureComponent {
         ) : null;
 
         const emptySearch = !isFetching && isEmpty ? (
-            <div className='empty-search'>
-                <div className='empty-search-image'/>
-                <p>{'0 Gifs found for '}<strong>{keyword}</strong></p>
-                <a onClick={onCategories}>
-                    <div className='empty-search-button'>{'Go to Reactions'}</div>
-                </a>
-            </div>
+            <NoResultsIndicator
+                    variant={NoResultsVariant.ChannelSearch}
+                    titleValues={{channelName: `"${keyword}"`}}
+            />
         ) : null;
 
         return (
