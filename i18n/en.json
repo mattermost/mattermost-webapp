@@ -2895,7 +2895,7 @@
   "globalThreads.heading": "Followed threads",
   "globalThreads.noThreads.subtitle": "Any threads you are mentioned in or have participated in will show here along with any threads you have followed.",
   "globalThreads.noThreads.title": "No followed threads yet",
-  "globalThreads.sidebarLink": "",
+  "globalThreads.sidebarLink": "Threads",
   "globalThreads.subtitle": "Threads you’re participating in will automatically show here",
   "globalThreads.threadList.noUnreadThreads": "No unread threads",
   "globalThreads.threadPane.unselectedTitle": "{numUnread, plural, =0 {Looks like you’re all caught up} other {Catch up on your threads}}",
