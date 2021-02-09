@@ -19,6 +19,8 @@ import {getPost} from 'mattermost-redux/selectors/entities/posts';
 
 import './thread_item.scss';
 
+import {UserProfile} from 'mattermost-redux/types/users';
+
 import Badge from 'components/widgets/badges/badge';
 import Timestamp from 'components/timestamp';
 import Avatars from 'components/widgets/users/avatars';
@@ -32,7 +34,6 @@ import ThreadMenu from '../thread_menu';
 import {THREADING_TIME} from '../../common/options';
 import {GlobalState} from 'types/store';
 import {useThreadRouting} from '../../hooks';
-import {UserProfile} from '../../../../../mattermost-mobile/app/mm-redux/types/users';
 import {imageURLForUser} from 'utils/utils';
 import {getDirectTeammate} from 'utils/utils.jsx';
 
