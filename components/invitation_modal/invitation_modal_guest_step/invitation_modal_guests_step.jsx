@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {isEmpty} from 'lodash';
+import {isNull} from 'lodash';
 import {isEmail} from 'mattermost-redux/utils/helpers';
 import {debounce} from 'mattermost-redux/actions/helpers';
 
@@ -146,7 +146,7 @@ class InvitationModalGuestsStep extends React.PureComponent {
     getRemainingUsers = () => {
         const {subscriptionStats} = this.props;
         const {usersAndEmails} = this.state;
-        return subscriptionStats.remaining_seats - usersAndEmails.length;
+        return subscriptionStats && subscriptionStats.remaining_seats - usersAndEmails.length;
     }
 
     shouldShowPickerError = () => {
@@ -157,7 +157,7 @@ class InvitationModalGuestsStep extends React.PureComponent {
             subscriptionStats,
         } = this.props;
 
-        if (subscriptionStats.is_paid_tier === 'true') {
+        if (subscriptionStats && subscriptionStats.is_paid_tier === 'true') {
             return false;
         }
 
@@ -176,7 +176,8 @@ class InvitationModalGuestsStep extends React.PureComponent {
     };
 
     componentDidMount() {
-        if (isEmpty(this.props.subscriptionStats)) {
+        const {subscriptionStats, isCloud} = this.props;
+        if (isNull(subscriptionStats) && isCloud) {
             this.props.actions.getSubscriptionStats();
         }
     }
@@ -191,7 +192,9 @@ class InvitationModalGuestsStep extends React.PureComponent {
             noMatchMessageId = t('invitation_modal.guests.users_emails_input.no_user_found_matching-email-disabled');
             noMatchMessageDefault = 'No one found matching **{text}**';
         }
-        const remainingUsers = this.props.subscriptionStats.remaining_seats;
+
+        const {subscriptionStats} = this.props;
+        const remainingUsers = subscriptionStats && subscriptionStats.remaining_seats;
         return (
             <div className='InvitationModalGuestsStep'>
                 <div className='modal-icon'>

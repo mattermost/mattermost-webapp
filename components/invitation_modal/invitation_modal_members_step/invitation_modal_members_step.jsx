@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {injectIntl, FormattedMessage} from 'react-intl';
-import {isEmpty} from 'lodash';
+import {isNull} from 'lodash';
 
 import {debounce} from 'mattermost-redux/actions/helpers';
 import {isEmail} from 'mattermost-redux/utils/helpers';
@@ -152,13 +152,13 @@ class InvitationModalMembersStep extends React.PureComponent {
     getRemainingUsers = () => {
         const {subscriptionStats} = this.props;
         const {usersAndEmails} = this.state;
-        return subscriptionStats.remaining_seats - usersAndEmails.length;
+        return subscriptionStats && subscriptionStats.remaining_seats - usersAndEmails.length;
     }
 
     shouldShowPickerError = () => {
         const {userLimit, isCloud, subscriptionStats} = this.props;
 
-        if (subscriptionStats.is_paid_tier === 'true') {
+        if (subscriptionStats && subscriptionStats.is_paid_tier === 'true') {
             return false;
         }
 
@@ -177,7 +177,8 @@ class InvitationModalMembersStep extends React.PureComponent {
     };
 
     componentDidMount() {
-        if (isEmpty(this.props.subscriptionStats)) {
+        const {subscriptionStats, isCloud} = this.props;
+        if (isNull(subscriptionStats) && isCloud) {
             this.props.actions.getSubscriptionStats();
         }
     }
@@ -206,7 +207,9 @@ class InvitationModalMembersStep extends React.PureComponent {
             );
             noMatchMessageDefault = 'No one found matching **{text}**';
         }
-        const remainingUsers = this.props.subscriptionStats.remaining_seats;
+
+        const {subscriptionStats} = this.props;
+        const remainingUsers = subscriptionStats && subscriptionStats.remaining_seats;
         const inviteMembersButtonDisabled = this.state.usersAndEmails.length > Constants.MAX_ADD_MEMBERS_BATCH || this.state.usersAndEmails.length === 0;
 
         const errorProperties = {
