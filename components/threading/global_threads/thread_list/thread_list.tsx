@@ -52,7 +52,9 @@ const ThreadList = ({
                             className={'Button___large Margined'}
                             isActive={currentFilter === 'unread'}
                             hasDot={someUnread}
-                            onClick={useCallback(() => setFilter('unread'), [setFilter])}
+                            onClick={useCallback(() => {
+                                setFilter('unread');
+                            }, [setFilter])}
                         >
                             <FormattedMessage
                                 id='threading.filters.unreads'

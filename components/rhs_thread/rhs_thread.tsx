@@ -8,7 +8,7 @@ import {Post} from 'mattermost-redux/types/posts';
 import {FakePost} from 'types/store/rhs';
 
 import RhsHeaderPost from 'components/rhs_header_post';
-import ThreadViewer from 'components/threading/global_threads/thread_viewer';
+import ThreadViewer from 'components/threading/thread_viewer';
 
 type Props = {
     posts: Post[];

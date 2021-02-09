@@ -27,15 +27,11 @@ const getChannel = makeGetChannel();
 
 type Props = {
     thread: UserThread;
-    isFollowing: boolean;
-    hasUnreads: boolean;
-    children: ReactNode;
+    children?: ReactNode;
 };
 
 const ThreadPane = ({
     thread,
-    isFollowing,
-    hasUnreads,
     children,
 }: Props) => {
     const {formatMessage} = useIntl();
@@ -49,6 +45,7 @@ const ThreadPane = ({
 
     const {
         id: threadId,
+        is_following: isFollowing,
         post: {
             channel_id: channelId,
         },
@@ -100,7 +97,7 @@ const ThreadPane = ({
                         <ThreadMenu
                             threadId={threadId}
                             isFollowing={isFollowing}
-                            hasUnreads={hasUnreads}
+                            hasUnreads={Boolean(thread.unread_replies || thread.unread_mentions)}
                             unreadTimestamp={post.edit_at || post.create_at}
                         >
                             <SimpleTooltip

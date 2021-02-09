@@ -3,7 +3,9 @@
 
 import React from 'react';
 
-import {mountWithIntl} from 'tests/helpers/intl-test-helper';
+import {shallow} from 'enzyme';
+
+import Avatar from '../avatar';
 
 import Avatars from './avatars';
 
@@ -37,7 +39,7 @@ const users = [
 
 describe('components/widgets/users/Avatars', () => {
     test('should match the snapshot', () => {
-        const wrapper = mountWithIntl(
+        const wrapper = shallow(
             <Avatars
                 size='xl'
                 users={users}
@@ -48,7 +50,7 @@ describe('components/widgets/users/Avatars', () => {
     });
 
     test('should properly count overflow', () => {
-        const wrapper = mountWithIntl(
+        const wrapper = shallow(
             <Avatars
                 size='xl'
                 users={users}
@@ -56,10 +58,10 @@ describe('components/widgets/users/Avatars', () => {
         );
 
         expect(wrapper).toMatchSnapshot();
-        expect(wrapper.exists('img[src="test-url-1"]')).toBe(true);
-        expect(wrapper.exists('img[src="test-url-2"]')).toBe(true);
-        expect(wrapper.exists('img[src="test-url-3"]')).toBe(true);
-        expect(wrapper.exists('img[src="test-url-4"]')).toBe(false);
-        expect(wrapper.exists('img[src="test-url-5"]')).toBe(false);
+        expect(wrapper.find(Avatar).find({url: 'test-url-1'}).exists()).toBe(true);
+        expect(wrapper.find(Avatar).find({url: 'test-url-2'}).exists()).toBe(true);
+        expect(wrapper.find(Avatar).find({url: 'test-url-3'}).exists()).toBe(true);
+        expect(wrapper.find(Avatar).find({url: 'test-url-4'}).exists()).toBe(false);
+        expect(wrapper.find(Avatar).find({url: 'test-url-5'}).exists()).toBe(false);
     });
 });

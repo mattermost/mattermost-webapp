@@ -3,9 +3,39 @@
 
 import React, {ComponentProps} from 'react';
 
-import {mountWithIntl} from 'tests/helpers/intl-test-helper';
+import {shallow} from 'enzyme';
+
+import {markAllThreadsInTeamRead} from 'mattermost-redux/actions/threads';
+jest.mock('mattermost-redux/actions/threads');
+
+import {GlobalState} from 'types/store';
+
+import Header from 'components/widgets/header';
+
+import Button from '../../common/button';
 
 import ThreadList from './thread_list';
+
+const mockRouting = {
+    currentUserId: 'uid',
+    currentTeamId: 'tid',
+    goToInChannel: jest.fn(),
+    select: jest.fn(),
+};
+jest.mock('../../hooks', () => {
+    return {
+        useThreadRouting: () => mockRouting,
+    };
+});
+
+const mockDispatch = jest.fn();
+let mockState: GlobalState;
+
+jest.mock('react-redux', () => ({
+    ...jest.requireActual('react-redux') as typeof import('react-redux'),
+    useSelector: (selector: (state: typeof mockState) => unknown) => selector(mockState),
+    useDispatch: () => mockDispatch,
+}));
 
 describe('components/threading/global_threads/thread_list', () => {
     let props: ComponentProps<typeof ThreadList>;
@@ -14,45 +44,44 @@ describe('components/threading/global_threads/thread_list', () => {
         props = {
             currentFilter: '',
             someUnread: true,
-            actions: {
-                markAllRead: jest.fn(),
-                setFilter: jest.fn(),
-            },
+            setFilter: jest.fn(),
         };
+
+        mockState = {} as GlobalState;
     });
 
     test('should match snapshot', () => {
-        const wrapper = mountWithIntl(
+        const wrapper = shallow(
             <ThreadList {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should support markAllRead', () => {
-        const wrapper = mountWithIntl(
-            <ThreadList {...props}/>,
-        );
-
-        wrapper.find('.icon-playlist-check').simulate('click');
-        expect(props.actions.markAllRead).toHaveBeenCalled();
-    });
-
     test('should support filter:all', () => {
-        const wrapper = mountWithIntl(
+        const wrapper = shallow(
             <ThreadList {...props}/>,
         );
 
-        wrapper.find('button').first().simulate('click');
-        expect(props.actions.setFilter).toHaveBeenCalledWith('');
+        wrapper.find(Header).shallow().find(Button).first().shallow().simulate('click');
+        expect(props.setFilter).toHaveBeenCalledWith('');
     });
 
     test('should support filter:unread', () => {
-        const wrapper = mountWithIntl(
+        const wrapper = shallow(
             <ThreadList {...props}/>,
         );
 
-        wrapper.find('button .dot').simulate('click');
-        expect(props.actions.setFilter).toHaveBeenCalledWith('unread');
+        wrapper.find(Header).shallow().find(Button).find({hasDot: true}).simulate('click');
+        expect(props.setFilter).toHaveBeenCalledWith('unread');
+    });
+
+    test('should support markAllThreadsInTeamRead', () => {
+        const wrapper = shallow(
+            <ThreadList {...props}/>,
+        );
+
+        wrapper.find(Header).shallow().find({content: 'Mark all as read'}).find(Button).simulate('click');
+        expect(markAllThreadsInTeamRead).toHaveBeenCalledWith('uid', 'tid');
     });
 });
 

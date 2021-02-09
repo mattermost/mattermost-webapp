@@ -3,94 +3,129 @@
 
 import React, {ComponentProps} from 'react';
 
-import {mountWithIntl} from 'tests/helpers/intl-test-helper';
+import {shallow} from 'enzyme';
+
+import {setThreadFollow} from 'mattermost-redux/actions/threads';
+jest.mock('mattermost-redux/actions/threads');
+
+import {set} from 'lodash';
+
+import Header from 'components/widgets/header';
 
 import FollowButton from 'components/threading/common/follow_button';
-import ThreadMenu from 'components/threading/global_threads/thread_menu';
+import Button from 'components/threading/common/button';
+
+import {GlobalState} from 'types/store';
 
 import ThreadPane from './thread_pane';
 
+const mockRouting = {
+    currentUserId: 'uid',
+    currentTeamId: 'tid',
+    goToInChannel: jest.fn(),
+    select: jest.fn(),
+};
+jest.mock('../../hooks', () => {
+    return {
+        useThreadRouting: () => mockRouting,
+    };
+});
+
+const mockDispatch = jest.fn();
+let mockState: GlobalState;
+
+jest.mock('react-redux', () => ({
+    ...jest.requireActual('react-redux') as typeof import('react-redux'),
+    useSelector: (selector: (state: typeof mockState) => unknown) => selector(mockState),
+    useDispatch: () => mockDispatch,
+}));
+
 describe('components/threading/global_threads/thread_header', () => {
     let props: ComponentProps<typeof ThreadPane>;
+    let mockThread: typeof props['thread'];
 
     beforeEach(() => {
-        props = {
-            isFollowing: false,
-            isSaved: false,
-            channelName: 'This is a channel name',
-            hasUnreads: false,
-            actions: {
-                follow: jest.fn(),
-                unFollow: jest.fn(),
-                openInChannel: jest.fn(),
-                markRead: jest.fn(),
-                markUnread: jest.fn(),
-                save: jest.fn(),
-                unSave: jest.fn(),
-                copyLink: jest.fn(),
+        mockThread = {
+            id: '1y8hpek81byspd4enyk9mp1ncw',
+            unread_replies: 0,
+            unread_mentions: 0,
+            is_following: true,
+            post: {
+                id: '1y8hpek81byspd4enyk9mp1ncw',
+                user_id: 'mt5td9mdriyapmwuh5pc84dmhr',
+                channel_id: 'pnzsh7kwt7rmzgj8yb479sc9yw',
+                create_at: 1610486901110,
+                edit_at: 1611786714912,
             },
+        } as typeof props['thread'];
+
+        props = {
+            thread: mockThread,
         };
+
+        mockState = {} as GlobalState;
+        set(mockState, 'entities.general.config', {});
+        set(mockState, 'entities.preferences.myPreferences', {});
+        set(mockState, 'entities.posts.posts', {
+            '1y8hpek81byspd4enyk9mp1ncw': {
+                id: '1y8hpek81byspd4enyk9mp1ncw',
+                user_id: 'mt5td9mdriyapmwuh5pc84dmhr',
+                channel_id: 'pnzsh7kwt7rmzgj8yb479sc9yw',
+                create_at: 1610486901110,
+                edit_at: 1611786714912,
+            },
+        });
+        set(mockState, 'entities.channels.channels', {
+            pnzsh7kwt7rmzgj8yb479sc9yw: {
+                id: 'pnzsh7kwt7rmzgj8yb479sc9yw',
+                display_name: 'Team name',
+            },
+        });
     });
 
     test('should match snapshot', () => {
-        const wrapper = mountWithIntl(
+        const wrapper = shallow(
             <ThreadPane {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should support follow', () => {
-        const wrapper = mountWithIntl(
+        props.thread.is_following = false;
+        const wrapper = shallow(
             <ThreadPane {...props}/>,
         );
-
-        wrapper.find(FollowButton).find('button').simulate('click');
-        expect(props.actions.follow).toHaveBeenCalled();
+        wrapper.find(Header).shallow().find(FollowButton).shallow().simulate('click');
+        expect(setThreadFollow).toHaveBeenCalledWith(mockRouting.currentUserId, mockRouting.currentTeamId, mockThread.id, true);
+        expect(mockDispatch).toHaveBeenCalledTimes(1);
     });
+
     test('should support unfollow', () => {
-        props.isFollowing = true;
-        const wrapper = mountWithIntl(
+        props.thread.is_following = true;
+        const wrapper = shallow(
             <ThreadPane {...props}/>,
         );
 
-        wrapper.find(FollowButton).find('button').simulate('click');
-        expect(props.actions.unFollow).toHaveBeenCalled();
+        wrapper.find(Header).shallow().find(FollowButton).shallow().simulate('click');
+        expect(setThreadFollow).toHaveBeenCalledWith(mockRouting.currentUserId, mockRouting.currentTeamId, mockThread.id, false);
+        expect(mockDispatch).toHaveBeenCalledTimes(1);
     });
 
     test('should support openInChannel', () => {
-        props.isFollowing = true;
-        const wrapper = mountWithIntl(
+        const wrapper = shallow(
             <ThreadPane {...props}/>,
         );
 
-        wrapper.find('h3 button').simulate('click');
-        expect(props.actions.openInChannel).toHaveBeenCalled();
+        wrapper.find(Header).shallow().find('h3').find(Button).simulate('click');
+        expect(mockRouting.goToInChannel).toHaveBeenCalledWith('1y8hpek81byspd4enyk9mp1ncw');
     });
 
-    test('should pass required props to ThreadMenu', () => {
-        const wrapper = mountWithIntl(
-            <ThreadPane
-                {...props}
-            />,
+    test('should support go back to list', () => {
+        const wrapper = shallow(
+            <ThreadPane {...props}/>,
         );
-        const {actions} = props;
 
-        // verify ThreadMenu received transient/required props
-        new Map<string, any>([
-            ['hasUnreads', props.hasUnreads],
-            ['isFollowing', props.isFollowing],
-            ['isSaved', props.isSaved],
-            ['actions.follow', actions.follow],
-            ['actions.unFollow', actions.unFollow],
-            ['actions.openInChannel', actions.openInChannel],
-            ['actions.markRead', actions.markRead],
-            ['actions.markUnread', actions.markUnread],
-            ['actions.save', actions.save],
-            ['actions.unSave', actions.unSave],
-            ['actions.copyLink', actions.copyLink],
-        ]).forEach((val, prop) => {
-            expect(wrapper.find(ThreadMenu).props()).toHaveProperty(prop, val);
-        });
+        wrapper.find(Header).shallow().find(Button).find('.back').simulate('click');
+        expect(mockRouting.select).toHaveBeenCalledWith();
     });
 });
-

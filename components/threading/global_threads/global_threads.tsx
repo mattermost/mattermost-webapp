@@ -20,7 +20,7 @@ import {selectChannel} from 'mattermost-redux/actions/channels';
 
 import {GlobalState} from 'types/store/index';
 
-import {useStickyState} from 'stores/hooks';
+import {useGlobalState} from 'stores/hooks';
 import {setSelectedThreadId} from 'actions/views/threads';
 import {loadProfilesForSidebar} from 'actions/user_actions';
 
@@ -32,7 +32,8 @@ import NoResultsIndicator from 'components/no_results_indicator';
 import {useThreadRouting} from '../hooks';
 import {ChatIllustrationImg, BalloonIllustrationImg} from '../common/graphics';
 
-import ThreadViewer from './thread_viewer';
+import ThreadViewer from '../thread_viewer';
+
 import ThreadList, {ThreadFilter} from './thread_list';
 import ThreadPane from './thread_pane';
 import ThreadItem from './thread_item';
@@ -44,7 +45,7 @@ const GlobalThreads = () => {
     const dispatch = useDispatch();
 
     const {url, params: {threadIdentifier}} = useRouteMatch<{threadIdentifier?: string}>();
-    const [filter, setFilter] = useStickyState<ThreadFilter>('', 'globalThreads_filter');
+    const [filter, setFilter] = useGlobalState<ThreadFilter>('', 'globalThreads_filter');
     const {currentTeamId, currentUserId, clear} = useThreadRouting();
 
     const counts = useSelector(getThreadCountsInCurrentTeam);
@@ -60,7 +61,7 @@ const GlobalThreads = () => {
         loadProfilesForSidebar();
     }, []);
     useEffect(() => {
-        dispatch(getThreads(currentUserId, currentTeamId, {unread: filter === 'unread'}));
+        dispatch(getThreads(currentUserId, currentTeamId, {unread: filter === 'unread', perPage: 200}));
     }, [currentUserId, currentTeamId, filter]);
 
     useEffect(() => {
@@ -135,8 +136,6 @@ const GlobalThreads = () => {
                     {selectedThread ? (
                         <ThreadPane
                             thread={selectedThread}
-                            isFollowing={selectedThread.is_following ?? false}
-                            hasUnreads={!isEmpty(unreadThreadIds)}
                         >
                             <ThreadViewer
                                 currentUserId={currentUserId}

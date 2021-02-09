@@ -57,8 +57,7 @@ describe('components/threading/channel_threads/thread_footer', () => {
             lastReplyAt: new Date('2020-09-29T02:30:15.701Z'),
             isFollowing: true,
             actions: {
-                follow: jest.fn(),
-                unFollow: jest.fn(),
+                setFollowing: jest.fn(),
                 openThread: jest.fn(),
             },
         };
@@ -115,6 +114,8 @@ describe('components/threading/channel_threads/thread_footer', () => {
     });
 
     test('should have a follow button', () => {
+        props.isFollowing = false;
+
         const wrapper = shallow(
             <ThreadFooter
                 {...props}
@@ -124,10 +125,23 @@ describe('components/threading/channel_threads/thread_footer', () => {
 
         expect(wrapper.find(FollowButton).props()).toHaveProperty('isFollowing', props.isFollowing);
 
-        wrapper.find(FollowButton).props().follow({} as any);
-        expect(props.actions.follow).toHaveBeenCalled();
+        wrapper.find(FollowButton).simulate('click');
+        expect(props.actions.setFollowing).toHaveBeenCalledWith(true);
+    });
 
-        wrapper.find(FollowButton).props().unFollow({} as any);
-        expect(props.actions.unFollow).toHaveBeenCalled();
+    test('should have an unfollow button', () => {
+        props.isFollowing = true;
+
+        const wrapper = shallow(
+            <ThreadFooter
+                {...props}
+            />,
+        );
+        expect(wrapper.exists(FollowButton)).toBe(true);
+
+        expect(wrapper.find(FollowButton).props()).toHaveProperty('isFollowing', props.isFollowing);
+
+        wrapper.find(FollowButton).simulate('click');
+        expect(props.actions.setFollowing).toHaveBeenCalledWith(false);
     });
 });

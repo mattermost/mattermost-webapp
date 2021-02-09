@@ -1,191 +1,63 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/threading/global_threads/thread_list should match snapshot 1`] = `
-<Memo(ThreadList)
-  actions={
-    Object {
-      "markAllRead": [MockFunction],
-      "setFilter": [MockFunction],
-    }
-  }
-  currentFilter=""
-  someUnread={true}
+<div
+  className="ThreadList"
 >
-  <div
-    className="ThreadList"
-  >
-    <div
-      className="header"
-    >
-      <Memo(Button)
-        className="Button___large Margined"
-        isActive={true}
-        onClick={[Function]}
-      >
-        <button
-          className="Button Button___transparent is-active Button___large Margined"
+  <Memo(Header)
+    heading={
+      <React.Fragment>
+        <Memo(Button)
+          className="Button___large Margined"
+          isActive={true}
           onClick={[Function]}
         >
-          <span
-            className="Button_label"
-          >
-            <FormattedMessage
-              defaultMessage="All your threads"
-              id="threading.filters.allThreads"
-            >
-              <span>
-                All your threads
-              </span>
-            </FormattedMessage>
-          </span>
-        </button>
-      </Memo(Button)>
-      <Memo(Button)
-        className="Button___large Margined"
-        hasDot={true}
-        isActive={false}
-        onClick={[Function]}
-      >
-        <button
-          className="Button Button___transparent Button___large Margined"
+          <FormattedMessage
+            defaultMessage="All your threads"
+            id="threading.filters.allThreads"
+          />
+        </Memo(Button)>
+        <Memo(Button)
+          className="Button___large Margined"
+          hasDot={true}
+          isActive={false}
           onClick={[Function]}
         >
-          <span
-            className="Button_label"
-          >
-            <FormattedMessage
-              defaultMessage="Unreads"
-              id="threading.filters.unreads"
-            >
-              <span>
-                Unreads
-              </span>
-            </FormattedMessage>
-            <span
-              className="dot"
-            />
-          </span>
-        </button>
-      </Memo(Button)>
+          <FormattedMessage
+            defaultMessage="Unreads"
+            id="threading.filters.unreads"
+          />
+        </Memo(Button)>
+      </React.Fragment>
+    }
+    right={
       <div
         className="right-anchor"
       >
         <Memo(SimpleTooltip)
           content="Mark all as read"
+          disabled={false}
           id="threadListMarkRead"
         >
-          <OverlayTrigger
-            defaultOverlayShown={false}
-            delayShow={500}
-            overlay={
-              <Tooltip
-                bsClass="tooltip"
-                className="hidden-xs"
-                id="threadListMarkRead"
-                placement="top"
-              >
-                Mark all as read
-              </Tooltip>
-            }
-            placement="top"
-            trigger={
-              Array [
-                "hover",
-                "focus",
-              ]
-            }
+          <Memo(Button)
+            className="Button___large Button___icon"
+            disabled={false}
+            onClick={[Function]}
           >
-            <OverlayTrigger
-              defaultOverlayShown={false}
-              delayShow={500}
-              overlay={
-                <OverlayWrapper
-                  bsClass="tooltip"
-                  className="hidden-xs"
-                  id="threadListMarkRead"
-                  intl={
-                    Object {
-                      "defaultFormats": Object {},
-                      "defaultLocale": "en",
-                      "formatDate": [Function],
-                      "formatDateToParts": [Function],
-                      "formatDisplayName": [Function],
-                      "formatList": [Function],
-                      "formatMessage": [Function],
-                      "formatNumber": [Function],
-                      "formatNumberToParts": [Function],
-                      "formatPlural": [Function],
-                      "formatRelativeTime": [Function],
-                      "formatTime": [Function],
-                      "formatTimeToParts": [Function],
-                      "formats": Object {},
-                      "formatters": Object {
-                        "getDateTimeFormat": [Function],
-                        "getDisplayNames": [Function],
-                        "getListFormat": [Function],
-                        "getMessageFormat": [Function],
-                        "getNumberFormat": [Function],
-                        "getPluralRules": [Function],
-                        "getRelativeTimeFormat": [Function],
-                      },
-                      "locale": "en",
-                      "messages": Object {},
-                      "onError": [Function],
-                      "textComponent": "span",
-                      "timeZone": "Etc/UTC",
-                      "wrapRichTextChunksInFragment": undefined,
-                    }
-                  }
-                  placement="top"
-                >
-                  Mark all as read
-                </OverlayWrapper>
-              }
-              placement="top"
-              trigger={
-                Array [
-                  "hover",
-                  "focus",
-                ]
-              }
+            <span
+              className="Icon"
             >
-              <Memo(Button)
-                className="Button___large Button___icon"
-                onBlur={[Function]}
-                onClick={[MockFunction]}
-                onFocus={[Function]}
-                onMouseOut={[Function]}
-                onMouseOver={[Function]}
-              >
-                <button
-                  className="Button Button___transparent Button___large Button___icon"
-                  onBlur={[Function]}
-                  onClick={[MockFunction]}
-                  onFocus={[Function]}
-                  onMouseOut={[Function]}
-                  onMouseOver={[Function]}
-                >
-                  <span
-                    className="Button_label"
-                  >
-                    <span
-                      className="Icon"
-                    >
-                      <i
-                        className="icon-playlist-check"
-                      />
-                    </span>
-                  </span>
-                </button>
-              </Memo(Button)>
-            </OverlayTrigger>
-          </OverlayTrigger>
+              <i
+                className="icon-playlist-check"
+              />
+            </span>
+          </Memo(Button)>
         </Memo(SimpleTooltip)>
       </div>
-    </div>
-    <div
-      className="threads"
-    />
-  </div>
-</Memo(ThreadList)>
+    }
+  />
+  <div
+    className="threads"
+  />
+</div>
 `;

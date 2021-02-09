@@ -32,7 +32,7 @@ import './thread_menu.scss';
 
 type Props = {
     threadId: $ID<UserThread>;
-    isFollowing: boolean;
+    isFollowing?: boolean;
     hasUnreads: boolean;
     children: ReactNode;
     unreadTimestamp: number;
@@ -40,7 +40,7 @@ type Props = {
 
 function ThreadMenu({
     threadId,
-    isFollowing,
+    isFollowing = false,
     unreadTimestamp,
     hasUnreads,
     children,

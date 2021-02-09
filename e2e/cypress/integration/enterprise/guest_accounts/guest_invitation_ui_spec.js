@@ -47,7 +47,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
             });
 
             // # Go to town square
-            cy.visitAndWait(`/${team.name}/channels/town-square`);
+            cy.visit(`/${team.name}/channels/town-square`);
         });
     });
 
@@ -149,7 +149,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         changeGuestFeatureSettings(false, true);
 
         // # reload current page
-        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Open Invite People
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
@@ -186,7 +186,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         changeGuestFeatureSettings();
 
         // # Visit Team page
-        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Invite a email containing uppercase letters
         const email = `tEMp-${getRandomId()}@mattermost.com`;

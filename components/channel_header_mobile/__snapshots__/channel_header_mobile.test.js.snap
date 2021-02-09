@@ -18,6 +18,9 @@ exports[`components/ChannelHeaderMobile/ChannelHeaderMobile should match snapsho
       >
         <Connect(MobileChannelHeaderDropdown) />
       </div>
+      <div
+        className="spacer"
+      />
       <Connect(NavbarInfoButton)
         channel={
           Object {
@@ -64,6 +67,9 @@ exports[`components/ChannelHeaderMobile/ChannelHeaderMobile should match snapsho
       >
         <Connect(MobileChannelHeaderDropdown) />
       </div>
+      <div
+        className="spacer"
+      />
       <Connect(NavbarInfoButton)
         channel={
           Object {
@@ -112,6 +118,9 @@ exports[`components/ChannelHeaderMobile/ChannelHeaderMobile should match snapsho
       >
         <Connect(MobileChannelHeaderDropdown) />
       </div>
+      <div
+        className="spacer"
+      />
       <Connect(NavbarInfoButton)
         channel={
           Object {
@@ -158,6 +167,9 @@ exports[`components/ChannelHeaderMobile/ChannelHeaderMobile should match snapsho
       >
         <Connect(MobileChannelHeaderDropdown) />
       </div>
+      <div
+        className="spacer"
+      />
       <Connect(NavbarInfoButton)
         channel={
           Object {
@@ -204,6 +216,9 @@ exports[`components/ChannelHeaderMobile/ChannelHeaderMobile should match snapsho
       >
         <Connect(MobileChannelHeaderDropdown) />
       </div>
+      <div
+        className="spacer"
+      />
       <Connect(NavbarInfoButton)
         channel={
           Object {
@@ -252,6 +267,9 @@ exports[`components/ChannelHeaderMobile/ChannelHeaderMobile should match snapsho
       >
         <Connect(MobileChannelHeaderDropdown) />
       </div>
+      <div
+        className="spacer"
+      />
       <Connect(NavbarInfoButton)
         channel={
           Object {

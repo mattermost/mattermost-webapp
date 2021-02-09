@@ -22,7 +22,7 @@ describe('Integrations', () => {
 
     it('MM-T569 Integrations Page', () => {
         // # Visit the integrations page
-        cy.visitAndWait(`/${teamA}/integrations`);
+        cy.visit(`/${teamA}/integrations`);
 
         // # Shrink the page
         cy.viewport(500, 500);
@@ -48,7 +48,7 @@ describe('Integrations', () => {
         cy.url().should('include', '/bots');
 
         // # Return to integrations home
-        cy.visitAndWait(`/${teamA}/integrations`);
+        cy.visit(`/${teamA}/integrations`);
 
         // # Isolate icon links
         cy.get('.integrations-list.d-flex.flex-wrap').within(() => {
@@ -58,7 +58,7 @@ describe('Integrations', () => {
         });
 
         // # Return to integrations home
-        cy.visitAndWait(`/${teamA}/integrations`);
+        cy.visit(`/${teamA}/integrations`);
 
         // * Outgoing Webhooks link is visible and works
         cy.get('.integrations-list.d-flex.flex-wrap').within(() => {
@@ -67,7 +67,7 @@ describe('Integrations', () => {
         });
 
         // # Return to integrations home
-        cy.visitAndWait(`/${teamA}/integrations`);
+        cy.visit(`/${teamA}/integrations`);
 
         // * Slash Commands link is visible and works
         cy.get('.integrations-list.d-flex.flex-wrap').within(() => {
@@ -76,7 +76,7 @@ describe('Integrations', () => {
         });
 
         // # Return to integrations home
-        cy.visitAndWait(`/${teamA}/integrations`);
+        cy.visit(`/${teamA}/integrations`);
 
         // * Bot Accounts link is visible and works
         cy.get('.integrations-list.d-flex.flex-wrap').within(() => {

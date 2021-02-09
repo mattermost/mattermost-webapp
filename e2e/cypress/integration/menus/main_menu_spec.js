@@ -23,7 +23,7 @@ describe('Main menu', () => {
 
     it('MM-T711_1 - Click on menu item should toggle the menu', () => {
         cy.apiLogin(testUser);
-        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
         cy.uiOpenMainMenu();
         cy.findByRole('menu').should('exist').findByText('Account Settings').click();
@@ -32,7 +32,7 @@ describe('Main menu', () => {
 
     it('MM-T711_2 - Click on menu divider shouldn\'t toggle the menu', () => {
         cy.apiLogin(testUser);
-        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
         cy.uiOpenMainMenu();
 
@@ -42,7 +42,7 @@ describe('Main menu', () => {
 
     it('should show integrations option for system administrator', () => {
         cy.apiAdminLogin();
-        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
         cy.uiOpenMainMenu();
         cy.findByRole('menu').findByText('Integrations').should('be.visible');
@@ -50,7 +50,7 @@ describe('Main menu', () => {
 
     it('should not show integrations option for team member without permissions', () => {
         cy.apiLogin(testUser);
-        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
         cy.uiOpenMainMenu();
         cy.findByRole('menu').findByText('Integrations').should('not.exist');
