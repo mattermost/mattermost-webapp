@@ -77,38 +77,41 @@ exports[`components/card/card should match snapshot when expanded 1`] = `
 </Card>
 `;
 
-exports[`components/card/card should match snapshot when using alternate header and a button 1`] = `
+exports[`components/card/card should match snapshot when using header content and a button 1`] = `
 <div
   className="Card console expanded"
 >
   <CardHeader
-    body={
-      <div>
-        Hello!
-      </div>
-    }
-    buttonText={
-      <FormattedMessage
-        defaultMessage="Add policy"
-        id="admin.data_retention.customPolicies.addPolicy"
-      />
-    }
     expanded={true}
     key=".0"
-    onClick={[Function]}
-    subtitle={
-      <FormattedMessage
-        defaultMessage="Customize how long specific teams and channels will keep messages."
-        id="admin.data_retention.customPolicies.subTitle"
-      />
-    }
-    title={
-      <FormattedMessage
-        defaultMessage="Custom retention policies"
-        id="admin.data_retention.customPolicies.title"
-      />
-    }
-  />
+  >
+    <CardHeaderContent
+      body={
+        <div>
+          Hello!
+        </div>
+      }
+      buttonText={
+        <FormattedMessage
+          defaultMessage="Add policy"
+          id="admin.data_retention.customPolicies.addPolicy"
+        />
+      }
+      onClick={[Function]}
+      subtitle={
+        <FormattedMessage
+          defaultMessage="Customize how long specific teams and channels will keep messages."
+          id="admin.data_retention.customPolicies.subTitle"
+        />
+      }
+      title={
+        <FormattedMessage
+          defaultMessage="Custom retention policies"
+          id="admin.data_retention.customPolicies.title"
+        />
+      }
+    />
+  </CardHeader>
   <CardBody
     expanded={true}
     key=".1"
@@ -118,31 +121,34 @@ exports[`components/card/card should match snapshot when using alternate header 
 </div>
 `;
 
-exports[`components/card/card should match snapshot when using alternate header and no button 1`] = `
+exports[`components/card/card should match snapshot when using header content and no button 1`] = `
 <div
   className="Card console expanded"
 >
   <CardHeader
-    body={
-      <div>
-        Hello!
-      </div>
-    }
     expanded={true}
     key=".0"
-    subtitle={
-      <FormattedMessage
-        defaultMessage="Customize how long specific teams and channels will keep messages."
-        id="admin.data_retention.customPolicies.subTitle"
-      />
-    }
-    title={
-      <FormattedMessage
-        defaultMessage="Custom retention policies"
-        id="admin.data_retention.customPolicies.title"
-      />
-    }
-  />
+  >
+    <CardHeaderContent
+      body={
+        <div>
+          Hello!
+        </div>
+      }
+      subtitle={
+        <FormattedMessage
+          defaultMessage="Customize how long specific teams and channels will keep messages."
+          id="admin.data_retention.customPolicies.subTitle"
+        />
+      }
+      title={
+        <FormattedMessage
+          defaultMessage="Custom retention policies"
+          id="admin.data_retention.customPolicies.title"
+        />
+      }
+    />
+  </CardHeader>
   <CardBody
     expanded={true}
     key=".1"

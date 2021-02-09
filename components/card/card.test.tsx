@@ -56,7 +56,7 @@ describe('components/card/card', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match snapshot when using alternate header and no button', () => {
+    test('should match snapshot when using header content and no button', () => {
         const props = {
             ...baseProps,
             expanded: true,
@@ -65,7 +65,11 @@ describe('components/card/card', () => {
 
         const wrapper = shallow(
             <Card {...props}>
-                <Card.Header {...headerProps}>{''}</Card.Header>
+                <Card.Header>
+                    <Card.HeaderContent
+                        {...headerProps}
+                    />
+                </Card.Header>
                 <Card.Body>{'Body Test'}</Card.Body>
             </Card>,
         );
@@ -73,7 +77,7 @@ describe('components/card/card', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match snapshot when using alternate header and a button', () => {
+    test('should match snapshot when using header content and a button', () => {
         const props = {
             ...baseProps,
             expanded: true,
@@ -93,10 +97,12 @@ describe('components/card/card', () => {
 
         const wrapper = shallow(
             <Card {...props}>
-                <Card.Header
-                    {...headerProps}
-                    {...buttonProps}
-                >{''}</Card.Header>
+                <Card.Header>
+                    <Card.HeaderContent
+                        {...headerProps}
+                        {...buttonProps}
+                    />
+                </Card.Header>
                 <Card.Body>{'Body Test'}</Card.Body>
             </Card>,
         );
