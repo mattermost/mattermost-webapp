@@ -239,7 +239,7 @@ export function formatText(
             *
             * @link to regex101.com: https://regex101.com/r/utwsom/1
             */
-            output = output.replace(/[\r\n]+(?=(?:[^<]+|<(?!\/?p\b))*<\/p>)/g, '<p></p>');
+            output = output.replace(/[\r\n]+(?=(?:[^<]+|<(?!\/?p\b))*<\/p>)/g, '</p><p>');
 
             /*
             * the replacer is not ideal, since it replaces every occurence with a new div
