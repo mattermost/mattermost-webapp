@@ -21,7 +21,7 @@ exports[`components/MarketplaceItemPlugin MarketplaceItem should render 1`] = `
         >
           <FormattedMessage
             defaultMessage="Install"
-            id="marketplace_modal.list.Install"
+            id="marketplace_modal.list.install"
           />
         </LoadingWrapper>
       </button>
@@ -145,7 +145,7 @@ exports[`components/MarketplaceItemPlugin MarketplaceItem should render with emp
         >
           <FormattedMessage
             defaultMessage="Install"
-            id="marketplace_modal.list.Install"
+            id="marketplace_modal.list.install"
           />
         </LoadingWrapper>
       </button>
@@ -209,7 +209,7 @@ exports[`components/MarketplaceItemPlugin MarketplaceItem should render with no 
         >
           <FormattedMessage
             defaultMessage="Install"
-            id="marketplace_modal.list.Install"
+            id="marketplace_modal.list.install"
           />
         </LoadingWrapper>
       </button>
@@ -271,7 +271,7 @@ exports[`components/MarketplaceItemPlugin MarketplaceItem should render with no 
         >
           <FormattedMessage
             defaultMessage="Install"
-            id="marketplace_modal.list.Install"
+            id="marketplace_modal.list.install"
           />
         </LoadingWrapper>
       </button>
@@ -333,7 +333,7 @@ exports[`components/MarketplaceItemPlugin MarketplaceItem should render with no 
         >
           <FormattedMessage
             defaultMessage="Install"
-            id="marketplace_modal.list.Install"
+            id="marketplace_modal.list.install"
           />
         </LoadingWrapper>
       </button>
@@ -395,7 +395,7 @@ exports[`components/MarketplaceItemPlugin MarketplaceItem should render with one
         >
           <FormattedMessage
             defaultMessage="Install"
-            id="marketplace_modal.list.Install"
+            id="marketplace_modal.list.install"
           />
         </LoadingWrapper>
       </button>
@@ -531,7 +531,7 @@ exports[`components/MarketplaceItemPlugin MarketplaceItem should render with two
         >
           <FormattedMessage
             defaultMessage="Install"
-            id="marketplace_modal.list.Install"
+            id="marketplace_modal.list.install"
           />
         </LoadingWrapper>
       </button>

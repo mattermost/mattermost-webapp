@@ -21,7 +21,7 @@ exports[`components/MarketplaceItemApp MarketplaceItem should render 1`] = `
         >
           <FormattedMessage
             defaultMessage="Install"
-            id="marketplace_modal.list.Install"
+            id="marketplace_modal.list.install"
           />
         </LoadingWrapper>
       </button>
@@ -95,7 +95,7 @@ exports[`components/MarketplaceItemApp MarketplaceItem should render with empty 
         >
           <FormattedMessage
             defaultMessage="Install"
-            id="marketplace_modal.list.Install"
+            id="marketplace_modal.list.install"
           />
         </LoadingWrapper>
       </button>
@@ -136,7 +136,7 @@ exports[`components/MarketplaceItemApp MarketplaceItem should render with no hom
         >
           <FormattedMessage
             defaultMessage="Install"
-            id="marketplace_modal.list.Install"
+            id="marketplace_modal.list.install"
           />
         </LoadingWrapper>
       </button>
@@ -175,7 +175,7 @@ exports[`components/MarketplaceItemApp MarketplaceItem should render with no plu
         >
           <FormattedMessage
             defaultMessage="Install"
-            id="marketplace_modal.list.Install"
+            id="marketplace_modal.list.install"
           />
         </LoadingWrapper>
       </button>
@@ -214,7 +214,7 @@ exports[`components/MarketplaceItemApp MarketplaceItem should render with one la
         >
           <FormattedMessage
             defaultMessage="Install"
-            id="marketplace_modal.list.Install"
+            id="marketplace_modal.list.install"
           />
         </LoadingWrapper>
       </button>
@@ -304,7 +304,7 @@ exports[`components/MarketplaceItemApp MarketplaceItem should render with two la
         >
           <FormattedMessage
             defaultMessage="Install"
-            id="marketplace_modal.list.Install"
+            id="marketplace_modal.list.install"
           />
         </LoadingWrapper>
       </button>
@@ -358,7 +358,7 @@ exports[`components/MarketplaceItemApp MarketplaceItem when installing 1`] = `
         >
           <FormattedMessage
             defaultMessage="Install"
-            id="marketplace_modal.list.Install"
+            id="marketplace_modal.list.install"
           />
         </LoadingWrapper>
       </button>
