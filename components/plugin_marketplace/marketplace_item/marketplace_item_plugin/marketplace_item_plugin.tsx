@@ -314,7 +314,7 @@ export default class MarketplaceItemPlugin extends React.PureComponent <Marketpl
         } else {
             actionButton = (
                 <FormattedMessage
-                    id='marketplace_modal.list.Install'
+                    id='marketplace_modal.list.install'
                     defaultMessage='Install'
                 />
             );

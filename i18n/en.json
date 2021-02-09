@@ -3279,7 +3279,7 @@
   "marketplace_modal.install_plugins": "Install Plugins",
   "marketplace_modal.installing": "Installing...",
   "marketplace_modal.list.configure": "Configure",
-  "marketplace_modal.list.Install": "Install",
+  "marketplace_modal.list.install": "Install",
   "marketplace_modal.list.installed": "Installed",
   "marketplace_modal.list.try_again": "Try Again",
   "marketplace_modal.list.update": "Update",

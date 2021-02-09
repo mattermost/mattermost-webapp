@@ -72,7 +72,7 @@ export default class MarketplaceItemApp extends React.PureComponent <Marketplace
         } else {
             actionButton = (
                 <FormattedMessage
-                    id='marketplace_modal.list.Install'
+                    id='marketplace_modal.list.install'
                     defaultMessage='Install'
                 />
             );
