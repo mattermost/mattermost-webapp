@@ -7,14 +7,13 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @files_and_attachments
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
-import {testImage} from './helpers';
+import {testAudioFile, testImage, testVideoFile} from './helpers';
 
-describe('Upload Files - Image', () => {
+describe('Upload Files - Failing cases', () => {
     let testTeam;
 
     beforeEach(() => {
@@ -30,9 +29,9 @@ describe('Upload Files - Image', () => {
         });
     });
 
-    it('MM-T2264_1 - JPG', () => {
+    it('MM-T2264_3 - BMP', () => {
         const properties = {
-            route: 'mm_file_testing/Images/JPG.jpg',
+            route: 'mm_file_testing/Images/BMP.bmp',
             originalWidth: 400,
             originalHeight: 479,
         };
@@ -40,9 +39,9 @@ describe('Upload Files - Image', () => {
         testImage(properties);
     });
 
-    it('MM-T2264_2 - PNG', () => {
+    it('MM-T2264_6 - PSD', () => {
         const properties = {
-            route: 'mm_file_testing/Images/PNG.png',
+            route: 'mm_file_testing/Images/PSD.psd',
             originalWidth: 400,
             originalHeight: 479,
         };
@@ -50,23 +49,27 @@ describe('Upload Files - Image', () => {
         testImage(properties);
     });
 
-    it('MM-T2264_4 - GIF', () => {
+    it('MM-T3826_4 - MOV', () => {
         const properties = {
-            route: 'mm_file_testing/Images/GIF.gif',
-            originalWidth: 500,
-            originalHeight: 500,
+            route: 'mm_file_testing/Video/MOV.mov',
+            shouldPreview: true,
         };
-
-        testImage(properties);
+        testVideoFile(properties);
     });
 
-    it('MM-T2264_5 - TIFF', () => {
+    it('MM-T3825_2 - M4A', () => {
         const properties = {
-            route: 'mm_file_testing/Images/TIFF.tif',
-            originalWidth: 400,
-            originalHeight: 479,
+            route: 'mm_file_testing/Audio/M4A.m4a',
+            shouldPreview: true,
         };
+        testAudioFile(properties);
+    });
 
-        testImage(properties);
+    it('MM-T3825_4 - FLAC', () => {
+        const properties = {
+            route: 'mm_file_testing/Audio/FLAC.flac',
+            shouldPreview: true,
+        };
+        testAudioFile(properties);
     });
 });
