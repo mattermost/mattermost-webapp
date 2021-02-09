@@ -4,6 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+import {isNull} from 'lodash';
 import {isEmail} from 'mattermost-redux/utils/helpers';
 import {debounce} from 'mattermost-redux/actions/helpers';
 
@@ -14,7 +15,6 @@ import UpgradeLink from 'components/widgets/links/upgrade_link';
 
 import ChannelsInput from 'components/widgets/inputs/channels_input.jsx';
 import UsersEmailsInput from 'components/widgets/inputs/users_emails_input.jsx';
-import withGetCloudSubscription from '../../common/hocs/cloud/with_get_cloud_subcription';
 
 import {ModalIdentifiers} from 'utils/constants';
 import PurchaseModal from 'components/purchase_modal';
@@ -39,15 +39,12 @@ class InvitationModalGuestsStep extends React.PureComponent {
         onSubmit: PropTypes.func.isRequired,
         emailInvitationsEnabled: PropTypes.bool.isRequired,
         userLimit: PropTypes.string.isRequired,
-        currentUsers: PropTypes.number.isRequired,
         userIsAdmin: PropTypes.bool.isRequired,
         isCloud: PropTypes.bool.isRequired,
-        analytics: PropTypes.object.isRequired,
-        subscription: PropTypes.object.isRequired,
+        subscriptionStats: PropTypes.object,
         actions: PropTypes.shape({
-            getStandardAnalytics: PropTypes.func.isRequired,
-            getCloudSubscription: PropTypes.func.isRequired,
             openModal: PropTypes.func,
+            getSubscriptionStats: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -153,20 +150,21 @@ class InvitationModalGuestsStep extends React.PureComponent {
         this.props.onSubmit(users, emails, this.state.channels, this.state.customMessageOpen ? this.state.customMessage : '', this.state.usersInputValue, this.state.channelsInputValue);
     }
 
+    getRemainingUsers = () => {
+        const {subscriptionStats} = this.props;
+        const {usersAndEmails} = this.state;
+        return subscriptionStats && subscriptionStats.remaining_seats - usersAndEmails.length;
+    }
+
     shouldShowPickerError = () => {
         const {
             userLimit,
-            analytics,
             userIsAdmin,
             isCloud,
-            subscription,
+            subscriptionStats,
         } = this.props;
 
-        if (subscription === null) {
-            return false;
-        }
-
-        if (subscription.is_paid_tier === 'true') {
+        if (subscriptionStats && subscriptionStats.is_paid_tier === 'true') {
             return false;
         }
 
@@ -175,9 +173,7 @@ class InvitationModalGuestsStep extends React.PureComponent {
         }
 
         // usersRemaining is calculated against the limit, the current users, and how many are being invited in the current flow
-        const usersRemaining =
-            userLimit -
-            (analytics.TOTAL_USERS + this.state.usersAndEmails.length);
+        const usersRemaining = this.getRemainingUsers();
         if (usersRemaining === 0 && this.state.usersInputValue !== '') {
             return true;
         } else if (usersRemaining < 0) {
@@ -187,8 +183,9 @@ class InvitationModalGuestsStep extends React.PureComponent {
     };
 
     componentDidMount() {
-        if (!this.props.analytics) {
-            this.props.actions.getStandardAnalytics();
+        const {subscriptionStats, isCloud} = this.props;
+        if (isNull(subscriptionStats) && isCloud) {
+            this.props.actions.getSubscriptionStats();
         }
     }
 
@@ -211,7 +208,9 @@ class InvitationModalGuestsStep extends React.PureComponent {
             noMatchMessageId = t('invitation_modal.guests.users_emails_input.no_user_found_matching-email-disabled');
             noMatchMessageDefault = 'No one found matching **{text}**';
         }
-        const remainingUsers = this.props.userLimit - this.props.analytics.TOTAL_USERS;
+
+        const {subscriptionStats} = this.props;
+        const remainingUsers = subscriptionStats && subscriptionStats.remaining_seats;
         return (
             <div className='InvitationModalGuestsStep'>
                 <div className='modal-icon'>
@@ -388,4 +387,4 @@ class InvitationModalGuestsStep extends React.PureComponent {
     }
 }
 
-export default withGetCloudSubscription(InvitationModalGuestsStep);
+export default InvitationModalGuestsStep;

@@ -4,6 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {injectIntl, FormattedMessage} from 'react-intl';
+import {isNull} from 'lodash';
 
 import {debounce} from 'mattermost-redux/actions/helpers';
 import {isEmail} from 'mattermost-redux/utils/helpers';
@@ -15,7 +16,6 @@ import UsersEmailsInput from 'components/widgets/inputs/users_emails_input.jsx';
 import UpgradeLink from 'components/widgets/links/upgrade_link';
 
 import LinkIcon from 'components/widgets/icons/link_icon';
-import withGetCloudSubscription from '../../common/hocs/cloud/with_get_cloud_subcription';
 
 import {getSiteURL} from 'utils/url';
 import {t} from 'utils/i18n.jsx';
@@ -39,12 +39,10 @@ class InvitationModalMembersStep extends React.PureComponent {
         currentUsers: PropTypes.number.isRequired,
         userIsAdmin: PropTypes.bool.isRequired,
         isCloud: PropTypes.bool.isRequired,
-        analytics: PropTypes.object.isRequired,
-        subscription: PropTypes.object.isRequired,
+        subscriptionStats: PropTypes.object,
         actions: PropTypes.shape({
-            getStandardAnalytics: PropTypes.func.isRequired,
-            getCloudSubscription: PropTypes.func.isRequired,
             openModal: PropTypes.func,
+            getSubscriptionStats: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -123,7 +121,7 @@ class InvitationModalMembersStep extends React.PureComponent {
     onChange = (usersAndEmails) => {
         this.setState({usersAndEmails}, () => {
             if (this.shouldShowPickerError() && this.props.isCloud) {
-                trackEvent('cloud_invite_users', 'warning_near_limit', {remaining: this.props.userLimit - (this.props.analytics.TOTAL_USERS + this.state.usersAndEmails.length)});
+                trackEvent('cloud_invite_users', 'warning_near_limit', {remaining: this.getRemainingUsers() - this.state.usersAndEmails.length});
             }
         });
         this.props.onEdit(
@@ -154,23 +152,25 @@ class InvitationModalMembersStep extends React.PureComponent {
         this.props.onSubmit(users, emails, this.state.usersInputValue);
     };
 
+    getRemainingUsers = () => {
+        const {subscriptionStats} = this.props;
+        const {usersAndEmails} = this.state;
+        return subscriptionStats && subscriptionStats.remaining_seats - usersAndEmails.length;
+    }
+
     shouldShowPickerError = () => {
-        const {userLimit, analytics, userIsAdmin, isCloud, subscription} = this.props;
+        const {userLimit, isCloud, subscriptionStats} = this.props;
 
-        if (subscription === null) {
-            return false;
-        }
-        if (subscription.is_paid_tier === 'true') {
+        if (subscriptionStats && subscriptionStats.is_paid_tier === 'true') {
             return false;
         }
 
-        if (userLimit === '0' || !userIsAdmin || !isCloud) {
+        if (userLimit === '0' || !isCloud) {
             return false;
         }
 
         // usersRemaining is calculated against the limit, the current users, and how many are being invited in the current flow
-        const usersRemaining =
-            userLimit - (analytics.TOTAL_USERS + this.state.usersAndEmails.length);
+        const usersRemaining = this.getRemainingUsers();
         if (usersRemaining === 0 && this.state.usersInputValue !== '') {
             return true;
         } else if (usersRemaining < 0) {
@@ -180,8 +180,9 @@ class InvitationModalMembersStep extends React.PureComponent {
     };
 
     componentDidMount() {
-        if (!this.props.analytics) {
-            this.props.actions.getStandardAnalytics();
+        const {subscriptionStats, isCloud} = this.props;
+        if (isNull(subscriptionStats) && isCloud) {
+            this.props.actions.getSubscriptionStats();
         }
     }
 
@@ -218,7 +219,9 @@ class InvitationModalMembersStep extends React.PureComponent {
             );
             noMatchMessageDefault = 'No one found matching **{text}**';
         }
-        const remainingUsers = this.props.userLimit - this.props.analytics.TOTAL_USERS;
+
+        const {subscriptionStats} = this.props;
+        const remainingUsers = subscriptionStats && subscriptionStats.remaining_seats;
         const inviteMembersButtonDisabled = this.state.usersAndEmails.length > Constants.MAX_ADD_MEMBERS_BATCH || this.state.usersAndEmails.length === 0;
 
         const errorProperties = {
@@ -385,4 +388,4 @@ class InvitationModalMembersStep extends React.PureComponent {
     }
 }
 
-export default injectIntl(withGetCloudSubscription((InvitationModalMembersStep)));
+export default injectIntl(InvitationModalMembersStep);

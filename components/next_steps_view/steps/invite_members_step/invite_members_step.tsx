@@ -253,7 +253,7 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
     handleLinkClick = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
         trackEvent('upgrade_mm_cloud', 'click_upgrade_invite_members_step');
-        this.props.actions.openModal({
+        this.props.actions.openModal!({
             modalId: ModalIdentifiers.CLOUD_PURCHASE,
             dialogType: PurchaseModal,
         });

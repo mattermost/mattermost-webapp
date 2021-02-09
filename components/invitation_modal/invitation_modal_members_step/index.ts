@@ -7,10 +7,9 @@ import {
     getLicense,
 } from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
-import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
 import {bindActionCreators, Dispatch} from 'redux';
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {getCloudSubscription} from 'mattermost-redux/actions/cloud';
+import {getSubscriptionStats} from 'mattermost-redux/actions/cloud';
 
 import {openModal} from 'actions/views/modals';
 
@@ -23,10 +22,9 @@ import InvitationModalMembersStep from './invitation_modal_members_step';
 function mapStateToProps(state: GlobalState) {
     return {
         userLimit: getConfig(state).ExperimentalCloudUserLimit,
-        analytics: state.entities.admin.analytics,
         userIsAdmin: isAdmin(getCurrentUser(state).roles),
         isCloud: getLicense(state).Cloud === 'true',
-        subscription: state.entities.cloud.subscription,
+        subscriptionStats: state.entities.cloud.subscriptionStats,
     };
 }
 
@@ -34,9 +32,8 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators(
             {
-                getStandardAnalytics,
-                getCloudSubscription,
                 openModal,
+                getSubscriptionStats,
             },
             dispatch,
         ),
