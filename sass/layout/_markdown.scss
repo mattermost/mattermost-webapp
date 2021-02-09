@@ -1,4 +1,4 @@
-@charset 'UTF-8';
+@charset "UTF-8";
 
 h1 {
     font-size: 28px;
@@ -263,6 +263,7 @@ h6 {
 
     a {
         word-break: initial;
+        white-space: nowrap;
     }
 
     tbody tr {
