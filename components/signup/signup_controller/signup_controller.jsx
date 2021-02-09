@@ -47,7 +47,6 @@ export default class SignupController extends React.PureComponent {
             removeGlobalItem: PropTypes.func.isRequired,
             getTeamInviteInfo: PropTypes.func.isRequired,
             addUserToTeamFromInvite: PropTypes.func.isRequired,
-            getSubscriptionStats: PropTypes.func,
         }).isRequired,
     }
 
@@ -72,11 +71,6 @@ export default class SignupController extends React.PureComponent {
 
             if (inviteId) {
                 loading = true;
-
-                // load stats to be used to restrict users after free maximum number reached
-                if (this.props.isCloud && isEmpty(this.props.subscriptionStats)) {
-                    this.props.actions.getSubscriptionStats();
-                }
             } else if (!this.props.loggedIn) {
                 usedBefore = props.usedBefore;
             } else if (!inviteId && !this.props.enableOpenServer && !this.props.noAccounts) {
@@ -103,7 +97,7 @@ export default class SignupController extends React.PureComponent {
         let isFreeTierWithNoFreeSeats = false;
         if (!isEmpty(this.props.subscriptionStats)) {
             const {is_paid_tier: isPaidTier, remaining_seats: remainingSeats} = this.props.subscriptionStats;
-            isFreeTierWithNoFreeSeats = isPaidTier === 'false' && remainingSeats === 0;
+            isFreeTierWithNoFreeSeats = isPaidTier === 'false' && remainingSeats <= 0;
         }
 
         if (this.props.isCloud && isFreeTierWithNoFreeSeats) {

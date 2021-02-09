@@ -7,7 +7,6 @@ import {bindActionCreators} from 'redux';
 import {getConfig, getLicense, getSubscriptionStats as subscriptionStatsSelector} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getTeamInviteInfo} from 'mattermost-redux/actions/teams';
-import {getSubscriptionStats} from 'mattermost-redux/actions/cloud';
 
 import {getGlobalItem} from 'selectors/storage';
 import {removeGlobalItem} from 'actions/storage';
@@ -69,7 +68,6 @@ function mapDispatchToProps(dispatch) {
             removeGlobalItem,
             getTeamInviteInfo,
             addUserToTeamFromInvite,
-            getSubscriptionStats,
         }, dispatch),
     };
 }
