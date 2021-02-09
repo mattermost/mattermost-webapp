@@ -310,21 +310,6 @@ Cypress.Commands.add('apiDeleteLinkFromTeamToGroup', (groupId, teamId) => {
         return cy.wrap(response);
     });
 });
-Cypress.Commands.add('postBOTMessage', (newTeam, newChannel, botId, botName, message) => {
-    cy.apiCreateToken(botId).then(({token}) => {
-        // # Logout to allow posting as bot
-        cy.apiLogout();
-        const msg1 = `${message} ${botName}`;
-        cy.apiCreatePost(newChannel.id, msg1, '', {attachments: [{pretext: 'Look some text', text: 'This is text'}]}, token);
-
-        // # Re-login to validate post presence
-        cy.apiAdminLogin();
-        cy.visit(`/${newTeam.name}/channels/` + newChannel.name);
-
-        // * Validate post was created
-        cy.findByText(msg1).should('be.visible');
-    });
-});
 
 Cypress.Commands.add('apiLinkGroup', (groupID) => {
     return linkUnlinkGroup(groupID, 'POST');
