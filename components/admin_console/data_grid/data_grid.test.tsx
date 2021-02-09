@@ -74,8 +74,6 @@ describe('components/admin_console/data_grid/DataGrid', () => {
                     {name: 'Team', field: 'team'},
                 ]}
                 customGridClass={'customTable'}
-                customHeaderClass={'DataGrid_customHeader'}
-                customRowClass={'DataGrid_customRow'}
             />,
         );
         expect(wrapper).toMatchSnapshot();

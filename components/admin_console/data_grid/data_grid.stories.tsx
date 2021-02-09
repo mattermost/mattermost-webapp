@@ -150,8 +150,6 @@ storiesOf('Admin Console/Data Grid', module).
                         endCount={4}
                         total={0}
                         customGridClass={'customTable'}
-                        customHeaderClass={'DataGrid_customHeader'}
-                        customRowClass={'DataGrid_customRow'}
                     />
                 );
             };
@@ -191,8 +189,6 @@ storiesOf('Admin Console/Data Grid', module).
                         endCount={(page + 1) * MAX_PER_PAGE}
                         total={8}
                         customGridClass={'customTable'}
-                        customHeaderClass={'DataGrid_customHeader'}
-                        customRowClass={'DataGrid_customRow'}
                     />
                 );
             };

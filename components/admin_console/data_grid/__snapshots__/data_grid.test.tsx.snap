@@ -165,7 +165,6 @@ exports[`components/admin_console/data_grid/DataGrid should match snapshot with 
         },
       ]
     }
-    customHeaderClass="DataGrid_customHeader"
   />
   <div
     className="DataGrid_rows"
@@ -184,7 +183,6 @@ exports[`components/admin_console/data_grid/DataGrid should match snapshot with 
           },
         ]
       }
-      customRowClass="DataGrid_customRow"
       key="0"
       row={
         Object {
@@ -208,7 +206,6 @@ exports[`components/admin_console/data_grid/DataGrid should match snapshot with 
           },
         ]
       }
-      customRowClass="DataGrid_customRow"
       key="1"
       row={
         Object {
@@ -232,7 +229,6 @@ exports[`components/admin_console/data_grid/DataGrid should match snapshot with 
           },
         ]
       }
-      customRowClass="DataGrid_customRow"
       key="2"
       row={
         Object {

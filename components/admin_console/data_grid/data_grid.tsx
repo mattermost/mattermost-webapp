@@ -65,8 +65,6 @@ type Props = {
     };
 
     customGridClass?: string;
-    customHeaderClass?: string;
-    customRowClass?: string;
 };
 
 type State = {
@@ -171,7 +169,6 @@ class DataGrid extends React.PureComponent<Props, State> {
                         key={index}
                         row={row}
                         columns={visibleColumns}
-                        customRowClass={this.props.customRowClass}
                     />
                 );
             });
@@ -190,7 +187,6 @@ class DataGrid extends React.PureComponent<Props, State> {
         return (
             <DataGridHeader
                 columns={this.state.visibleColumns}
-                customHeaderClass={this.props.customHeaderClass}
             />
         );
     }
