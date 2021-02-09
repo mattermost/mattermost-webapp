@@ -10,93 +10,14 @@
 // Stage: @prod
 // Group: @system_console @authentication
 
-import * as TIMEOUTS from '../../../../fixtures/timeouts';
+import * as TIMEOUTS from '../../fixtures/timeouts';
 
-import {getRandomId} from '../../../../utils';
+import {getRandomId} from '../../utils';
 
-describe('Authentication Part 3', () => {
-    let testUser;
-
-    before(() => {
-        cy.apiRequireLicense();
-
-        cy.apiInitSetup().then(() => {
-            cy.apiCreateUser().then(({user: newUser}) => {
-                testUser = newUser;
-            });
-        });
-    });
-
+describe('Authentication', () => {
     beforeEach(() => {
-        // # Log in as a admin.
-        cy.apiAdminLogin({failOnStatusCode: false});
-    });
-
-    after(() => {
-        // # Logout as any current user
-        cy.apiLogout();
-
-        // # Log in as a admin.
-        cy.apiAdminLogin({failOnStatusCode: false});
-
-        cy.apiUpdateConfig({
-            EmailSettings: {
-                EnableSignInWithEmail: true,
-                EnableSignInWithUsername: true,
-            },
-        });
-    });
-
-    const testCases = [
-        {
-            title: 'MM-T1767 - Email signin false Username signin true',
-            signinWithEmail: false,
-            signinWithUsername: true,
-        },
-        {
-            title: 'MM-T1768 - Email signin true Username signin true',
-            signinWithEmail: true,
-            signinWithUsername: true,
-        },
-        {
-            title: 'MM-T1769 - Email signin true Username signin false',
-            signinWithEmail: true,
-            signinWithUsername: false,
-        },
-    ];
-
-    testCases.forEach(({title, signinWithEmail, signinWithUsername}) => {
-        it(title, () => {
-            cy.apiUpdateConfig({
-                EmailSettings: {
-                    EnableSignInWithEmail: signinWithEmail,
-                    EnableSignInWithUsername: signinWithUsername,
-                },
-                LdapSettings: {
-                    Enable: false,
-                },
-            });
-
-            cy.apiLogout();
-
-            // # Go to front page
-            cy.visit('/login');
-
-            let expectedPlaceholderText;
-            if (signinWithEmail && signinWithUsername) {
-                expectedPlaceholderText = 'Email or Username';
-            } else if (signinWithEmail) {
-                expectedPlaceholderText = 'Email';
-            } else {
-                expectedPlaceholderText = 'Username';
-            }
-
-            // * Make sure the username field has expected placeholder text
-            cy.findByPlaceholderText(expectedPlaceholderText).should('exist').and('be.visible');
-
-            // # Log in as a admin.
-            cy.apiAdminLogin({failOnStatusCode: false});
-        });
+        // # Log in as admin.
+        cy.apiAdminLogin();
     });
 
     it('MM-T1771 - Minimum password length error field shows below 5 and above 64', () => {
@@ -266,13 +187,15 @@ describe('Authentication Part 3', () => {
             },
         });
 
-        cy.apiLogout();
+        cy.apiCreateUser().then(({user: newUser}) => {
+            cy.apiLogout();
 
-        cy.apiLogin(testUser);
+            // # Login as a new user and visit default page
+            cy.apiLogin(newUser);
+            cy.visit('/');
 
-        cy.visit('/');
-
-        // * Assert that we are not shown a MFA scren and instead a Teams You Can join page
-        cy.findByText('Teams you can join:', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+            // * Assert that we are not shown a MFA screen and instead a Teams You Can join page
+            cy.findByText('Teams you can join:', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+        });
     });
 });

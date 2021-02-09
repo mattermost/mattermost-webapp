@@ -250,7 +250,7 @@ describe('User Management', () => {
 
         // * Check View Members modal dialog
         cy.get('#teamMembersModal').should('be.visible').within(() => {
-            cy.get('#searchUsersInput').should('be.visible').type(otherUser.email);
+            cy.get('#searchUsersInput').should('be.visible').type(otherUser.email, {delay: TIMEOUTS.ONE_HUNDRED_MILLIS});
 
             // * Deactivated user does not show up in View Members for teams
             cy.findByTestId('noUsersFound').should('be.visible');
@@ -269,7 +269,7 @@ describe('User Management', () => {
 
         // * Deactivated user does not show up in View Members for channels
         cy.get('#channelMembersModal').should('be.visible').within(() => {
-            cy.get('#searchUsersInput').should('be.visible').type(otherUser.email);
+            cy.get('#searchUsersInput').should('be.visible').type(otherUser.email, {delay: TIMEOUTS.ONE_HUNDRED_MILLIS});
             cy.findByTestId('noUsersFound').should('be.visible');
             cy.findByLabelText('Close').click();
         });
@@ -375,7 +375,7 @@ describe('User Management', () => {
         cy.visit('/admin_console/user_management/users');
 
         // # Search for the user.
-        cy.get('#searchUsers').clear().type(user.email).wait(TIMEOUTS.HALF_SEC);
+        cy.get('#searchUsers').clear().type(user.email, {delay: TIMEOUTS.ONE_HUNDRED_MILLIS}).wait(TIMEOUTS.HALF_SEC);
 
         cy.findByTestId('userListRow').within(() => {
             if (activate) {

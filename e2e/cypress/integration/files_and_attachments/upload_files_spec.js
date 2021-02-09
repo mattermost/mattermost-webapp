@@ -206,8 +206,8 @@ describe('Upload Files', () => {
         // # Reload the page
         cy.reload();
 
-        // * Verify the image loading component is visible
-        cy.get('.image-container').should('be.visible').find('.image-loading__container').should('be.visible');
+        // * Verify the image container is visible
+        cy.get('.image-container').should('be.visible');
 
         Cypress._.times(5, () => {
             // # OtherUser creates posts in the channel

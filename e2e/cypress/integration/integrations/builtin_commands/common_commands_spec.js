@@ -125,7 +125,7 @@ describe('Integrations', () => {
 
     it('MM-T680 /help', () => {
         loginAndVisitChannel(user1, testChannelUrl, {
-            onBeforeLoad: (win) => {
+            onLoad: (win) => {
                 cy.stub(win, 'open');
             },
         });
