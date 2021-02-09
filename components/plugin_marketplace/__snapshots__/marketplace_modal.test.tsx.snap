@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/marketplace/ AllPlugins should render with no plugins 1`] = `
+exports[`components/marketplace/ AllListing should render with no plugins 1`] = `
 <div
   className="no_plugins_div"
 >
@@ -19,9 +19,9 @@ exports[`components/marketplace/ AllPlugins should render with no plugins 1`] = 
 </div>
 `;
 
-exports[`components/marketplace/ AllPlugins should render with one plugin 1`] = `
+exports[`components/marketplace/ AllListing should render with one plugin 1`] = `
 <MarketplaceList
-  plugins={
+  listing={
     Array [
       Object {
         "author_type": "mattermost",
@@ -43,9 +43,9 @@ exports[`components/marketplace/ AllPlugins should render with one plugin 1`] = 
 />
 `;
 
-exports[`components/marketplace/ AllPlugins should render with plugins 1`] = `
+exports[`components/marketplace/ AllListing should render with plugins 1`] = `
 <MarketplaceList
-  plugins={
+  listing={
     Array [
       Object {
         "author_type": "mattermost",
@@ -84,7 +84,7 @@ exports[`components/marketplace/ AllPlugins should render with plugins 1`] = `
 
 exports[`components/marketplace/ InstalledPlugins should render with multiple plugins 1`] = `
 <MarketplaceList
-  plugins={
+  listing={
     Array [
       Object {
         "author_type": "mattermost",
@@ -152,7 +152,7 @@ exports[`components/marketplace/ InstalledPlugins should render with no plugins 
 
 exports[`components/marketplace/ InstalledPlugins should render with one plugin 1`] = `
 <MarketplaceList
-  plugins={
+  listing={
     Array [
       Object {
         "author_type": "mattermost",
@@ -177,7 +177,7 @@ exports[`components/marketplace/ InstalledPlugins should render with one plugin 
 exports[`components/marketplace/ MarketplaceModal should render with error banner 1`] = `
 <RootPortal>
   <injectIntl(FullScreenModal)
-    ariaLabel="Plugin Marketplace"
+    ariaLabel="Marketplace"
     onClose={[Function]}
     show={true}
   >
@@ -206,7 +206,7 @@ exports[`components/marketplace/ MarketplaceModal should render with error banne
       <h1>
         <strong>
           <FormattedMessage
-            defaultMessage="Plugin Marketplace"
+            defaultMessage="Marketplace"
             id="marketplace_modal.title"
           />
         </strong>
@@ -233,7 +233,7 @@ exports[`components/marketplace/ MarketplaceModal should render with error banne
             onInput={[Function]}
             placeholder={
               Object {
-                "defaultMessage": "Search Plugins",
+                "defaultMessage": "Search Marketplace",
                 "id": "marketplace_modal.search",
               }
             }
@@ -242,16 +242,16 @@ exports[`components/marketplace/ MarketplaceModal should render with error banne
         </div>
       </div>
       <Uncontrolled(Tabs)
-        activeKey="allPlugins"
+        activeKey="allListing"
         className="tabs"
-        defaultActiveKey="allPlugins"
+        defaultActiveKey="allListing"
         id="marketplaceTabs"
         onSelect={[Function]}
         unmountOnExit={true}
       >
         <Tab
-          eventKey="allPlugins"
-          title="All Plugins"
+          eventKey="allListing"
+          title="All"
         >
           <LoadingScreen
             position="relative"
@@ -262,9 +262,9 @@ exports[`components/marketplace/ MarketplaceModal should render with error banne
           eventKey="installed"
           title="Installed (0)"
         >
-          <InstalledPlugins
+          <InstalledListing
             changeTab={[Function]}
-            installedPlugins={Array []}
+            installedItems={Array []}
           />
         </Tab>
       </Uncontrolled(Tabs)>
@@ -276,7 +276,7 @@ exports[`components/marketplace/ MarketplaceModal should render with error banne
 exports[`components/marketplace/ MarketplaceModal should render with no plugins installed 1`] = `
 <RootPortal>
   <injectIntl(FullScreenModal)
-    ariaLabel="Plugin Marketplace"
+    ariaLabel="Marketplace"
     onClose={[Function]}
     show={true}
   >
@@ -287,7 +287,7 @@ exports[`components/marketplace/ MarketplaceModal should render with no plugins 
       <h1>
         <strong>
           <FormattedMessage
-            defaultMessage="Plugin Marketplace"
+            defaultMessage="Marketplace"
             id="marketplace_modal.title"
           />
         </strong>
@@ -314,7 +314,7 @@ exports[`components/marketplace/ MarketplaceModal should render with no plugins 
             onInput={[Function]}
             placeholder={
               Object {
-                "defaultMessage": "Search Plugins",
+                "defaultMessage": "Search Marketplace",
                 "id": "marketplace_modal.search",
               }
             }
@@ -323,16 +323,16 @@ exports[`components/marketplace/ MarketplaceModal should render with no plugins 
         </div>
       </div>
       <Uncontrolled(Tabs)
-        activeKey="allPlugins"
+        activeKey="allListing"
         className="tabs"
-        defaultActiveKey="allPlugins"
+        defaultActiveKey="allListing"
         id="marketplaceTabs"
         onSelect={[Function]}
         unmountOnExit={true}
       >
         <Tab
-          eventKey="allPlugins"
-          title="All Plugins"
+          eventKey="allListing"
+          title="All"
         >
           <LoadingScreen
             position="relative"
@@ -343,9 +343,9 @@ exports[`components/marketplace/ MarketplaceModal should render with no plugins 
           eventKey="installed"
           title="Installed (0)"
         >
-          <InstalledPlugins
+          <InstalledListing
             changeTab={[Function]}
-            installedPlugins={Array []}
+            installedItems={Array []}
           />
         </Tab>
       </Uncontrolled(Tabs)>
@@ -357,7 +357,7 @@ exports[`components/marketplace/ MarketplaceModal should render with no plugins 
 exports[`components/marketplace/ MarketplaceModal should render with plugins installed 1`] = `
 <RootPortal>
   <injectIntl(FullScreenModal)
-    ariaLabel="Plugin Marketplace"
+    ariaLabel="Marketplace"
     onClose={[Function]}
     show={true}
   >
@@ -368,7 +368,7 @@ exports[`components/marketplace/ MarketplaceModal should render with plugins ins
       <h1>
         <strong>
           <FormattedMessage
-            defaultMessage="Plugin Marketplace"
+            defaultMessage="Marketplace"
             id="marketplace_modal.title"
           />
         </strong>
@@ -395,7 +395,7 @@ exports[`components/marketplace/ MarketplaceModal should render with plugins ins
             onInput={[Function]}
             placeholder={
               Object {
-                "defaultMessage": "Search Plugins",
+                "defaultMessage": "Search Marketplace",
                 "id": "marketplace_modal.search",
               }
             }
@@ -404,16 +404,16 @@ exports[`components/marketplace/ MarketplaceModal should render with plugins ins
         </div>
       </div>
       <Uncontrolled(Tabs)
-        activeKey="allPlugins"
+        activeKey="allListing"
         className="tabs"
-        defaultActiveKey="allPlugins"
+        defaultActiveKey="allListing"
         id="marketplaceTabs"
         onSelect={[Function]}
         unmountOnExit={true}
       >
         <Tab
-          eventKey="allPlugins"
-          title="All Plugins"
+          eventKey="allListing"
+          title="All"
         >
           <LoadingScreen
             position="relative"
@@ -424,9 +424,9 @@ exports[`components/marketplace/ MarketplaceModal should render with plugins ins
           eventKey="installed"
           title="Installed (1)"
         >
-          <InstalledPlugins
+          <InstalledListing
             changeTab={[Function]}
-            installedPlugins={
+            installedItems={
               Array [
                 Object {
                   "author_type": "mattermost",

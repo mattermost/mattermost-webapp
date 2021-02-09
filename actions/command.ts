@@ -8,6 +8,9 @@ import {getCurrentChannel, getRedirectChannelNameForTeam, isFavoriteChannel} fro
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentRelativeTeamUrl, getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {IntegrationTypes} from 'mattermost-redux/action_types';
+import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
+import type {CommandArgs} from 'mattermost-redux/types/integrations';
+
 import {AppCallTypes} from 'mattermost-redux/constants/apps';
 
 import {openModal} from 'actions/views/modals';
@@ -23,10 +26,12 @@ import {browserHistory} from 'utils/browser_history';
 import UserSettingsModal from 'components/user_settings/modal';
 import {AppCommandParser} from 'components/suggestion/command_provider/app_command_parser';
 
+import {GlobalState} from 'types/store';
+
 import {doAppCall} from './apps';
 
-export function executeCommand(message, args) {
-    return async (dispatch, getState) => {
+export function executeCommand(message: string, args: CommandArgs): ActionFunc {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
 
         let msg = message;
@@ -97,7 +102,9 @@ export function executeCommand(message, args) {
             dispatch(PostActions.resetEmbedVisibility());
         }
 
-        const parser = new AppCommandParser({dispatch, getState}, args.root_id);
+        const getGlobalState = () => getState() as GlobalState;
+
+        const parser = new AppCommandParser({dispatch, getState: getGlobalState}, args.root_id);
         if (parser.isAppCommand(msg)) {
             try {
                 const call = await parser.composeCallFromCommandString(msg);

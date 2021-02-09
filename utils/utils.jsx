@@ -2155,3 +2155,9 @@ export function stringToNumber(s) {
 
     return parseInt(s, 10);
 }
+
+export function shouldProcessApps(state) {// eslint-disable-line no-unused-vars
+    // TODO uncomment when featur flag is in place
+    //return getConfig(state)?.['FeatureFlagApps' as keyof Partial<ClientConfig>];
+    return true;
+}
