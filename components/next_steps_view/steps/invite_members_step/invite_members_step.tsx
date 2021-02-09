@@ -131,7 +131,7 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
                 emailInput: '',
                 emailError: newEmails.length > subscriptionStats!.remaining_seats ? this.props.intl.formatMessage({
                     id: 'next_steps_view.invite_members_step.tooManyEmails',
-                    defaultMessage: 'Invitations are limited to {num}'},
+                    defaultMessage: 'The free tier is limited to {num} members'},
                 {num: cloudUserLimit}) : undefined,
             });
         } else {
@@ -153,7 +153,7 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
         if (value.length > subscriptionStats!.remaining_seats) {
             this.setState({emailError: this.props.intl.formatMessage({
                 id: 'next_steps_view.invite_members_step.tooManyEmails',
-                defaultMessage: 'Invitations are limited to {num}'},
+                defaultMessage: 'The free tier is limited to {num} members'},
             {num: cloudUserLimit})});
         }
 
@@ -171,7 +171,7 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
                 emailInput: '',
                 emailError: newEmails.length > subscriptionStats!.remaining_seats ? this.props.intl.formatMessage({
                     id: 'next_steps_view.invite_members_step.tooManyEmails',
-                    defaultMessage: 'Invitations are limited to {num}'},
+                    defaultMessage: 'The free tier is limited to {num} members'},
                 {num: cloudUserLimit}) : undefined,
             });
         }
