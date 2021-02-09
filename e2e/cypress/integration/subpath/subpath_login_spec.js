@@ -7,14 +7,14 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
-// Group: @not_cloud @signin_authentication
+// Group: @subpath @not_cloud @signin_authentication
 
 describe('Cookie with Subpath', () => {
     let testUser;
     let townsquareLink;
 
     before(() => {
+        cy.shouldRunWithSubpath();
         cy.shouldNotRunOnCloudEdition();
 
         // # Create new team and user
