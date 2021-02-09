@@ -129,7 +129,7 @@ Cypress.Commands.add('downloadAttachmentAndVerifyItsProperties', (fileURL = {}) 
     });
 });
 
-Cypress.Commands.add(' deleteLastPost', () => {
+Cypress.Commands.add('deleteLastPost', () => {
     cy.apiGetTeamsForUser().then(({teams}) => {
         const team = teams[0];
         cy.visit(`/${team.name}/channels/town-square`);
