@@ -120,7 +120,7 @@ describe('Compliance Export', () => {
         cy.verifyingExportedMessages('3');
     });
 
-    it('MM-T1177-05 - Compliance export should include updated posts after editing multiple times, exporting multiple times', () => {
+    it('MM-T1177_5 - Compliance export should include updated posts after editing multiple times, exporting multiple times', () => {
         // # Go to compliance page and enable export
         cy.gotoCompliancePage();
         cy.enableComplianceExport();
