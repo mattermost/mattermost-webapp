@@ -5,6 +5,8 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
 import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
+import {getThreadCountsInCurrentTeam} from 'mattermost-redux/selectors/entities/threads';
+
 import {Channel} from 'mattermost-redux/types/channels';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
@@ -22,13 +24,14 @@ type OwnProps = {
 
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const member = getMyChannelMemberships(state)[ownProps.channel.id];
+    const threadMentionCountInChannel = getThreadCountsInCurrentTeam(state)?.unread_mentions_per_channel?.[ownProps.channel.id] || 0;
 
     // Unread counts
     let unreadMentions = 0;
     let unreadMsgs = 0;
     let showUnreadForMsgs = true;
     if (member) {
-        unreadMentions = member.mention_count;
+        unreadMentions = member.mention_count - threadMentionCountInChannel;
 
         if (ownProps.channel) {
             unreadMsgs = Math.max(ownProps.channel.total_msg_count - member.msg_count, 0);
