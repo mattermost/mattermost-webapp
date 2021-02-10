@@ -52,7 +52,7 @@ describe('channel unread posts', () => {
             });
 
             cy.apiLogin(testUser);
-            cy.visitAndWait(`/${team.name}/channels/town-square`);
+            cy.visit(`/${team.name}/channels/town-square`);
         });
     });
 

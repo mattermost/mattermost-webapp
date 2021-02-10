@@ -7,6 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @multi_team_and_dm
+
 import {beRead, beUnread} from '../../support/assertions';
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
@@ -42,7 +45,7 @@ describe('Multi-user group header', () => {
 
     it('MM-T472 Add a channel header to a GM', () => {
         cy.apiLogin(testUser);
-        cy.visitAndWait(`/${testTeam.name}/channels/${groupChannel.name}`);
+        cy.visit(`/${testTeam.name}/channels/${groupChannel.name}`);
 
         // * no channel description is set
         cy.contains('#channelHeaderDescription button span', 'Add a channel description').should('be.visible');
@@ -67,7 +70,7 @@ describe('Multi-user group header', () => {
         // * channel is marked as unread for other user
         cy.apiLogout();
         cy.apiLogin(userList[0]);
-        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
         cy.get(`#sidebarItem_${groupChannel.name}`).should(beUnread);
         cy.apiLogout();
     });
@@ -75,7 +78,7 @@ describe('Multi-user group header', () => {
     it('MM-T473_1 Edit GM channel header (1/2)', () => {
         // # open existing GM
         cy.apiLogin(testUser);
-        cy.visitAndWait(`/${testTeam.name}/channels/${groupChannel.name}`);
+        cy.visit(`/${testTeam.name}/channels/${groupChannel.name}`);
 
         // * verify header is set
         cy.contains('#channelHeaderDescription button span', 'Add a channel description').should('not.be.visible');
@@ -91,7 +94,7 @@ describe('Multi-user group header', () => {
         // * channel is marked as unread for other users
         cy.apiLogout();
         cy.apiLogin(userList[0]);
-        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
         cy.get(`#sidebarItem_${groupChannel.name}`).should(beUnread);
         cy.apiLogout();
     });
@@ -99,7 +102,7 @@ describe('Multi-user group header', () => {
     it('MM-T473_2 Edit GM channel header (2/2)', () => {
         // # open existing GM
         cy.apiLogin(testUser);
-        cy.visitAndWait(`/${testTeam.name}/channels/${groupChannel.name}`);
+        cy.visit(`/${testTeam.name}/channels/${groupChannel.name}`);
 
         // * verify header is set
         cy.contains('#channelHeaderDescription button span', 'Add a channel description').should('not.be.visible');

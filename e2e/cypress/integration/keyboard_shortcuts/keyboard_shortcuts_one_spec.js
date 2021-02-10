@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @keyboard_shortcuts
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -36,7 +37,7 @@ describe('Keyboard Shortcuts', () => {
     beforeEach(() => {
         // # Login as admin and visit town-square
         cy.apiAdminLogin();
-        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
     });
 
     it('MM-T1227 - CTRL/CMD+K - Join public channel', () => {
@@ -99,14 +100,14 @@ describe('Keyboard Shortcuts', () => {
             // # Set up DM channel
             cy.apiCreateDirectChannel([testUser.id, otherUser.id]).wait(TIMEOUTS.ONE_SEC).then(({channel}) => {
                 dmChannels.push(channel);
-                cy.visitAndWait(`/${team.name}/channels/${testUser.id}__${otherUser.id}`);
+                cy.visit(`/${team.name}/channels/${testUser.id}__${otherUser.id}`);
                 cy.get('#post_textbox').clear().type(`message from ${testUser.username}`).type('{enter}');
             });
 
             // # Add posts by second user to the newly created channels in the first team
             cy.apiLogout();
             cy.apiLogin(otherUser).then(() => {
-                cy.visitAndWait(`/${team.name}/channels/off-topic`);
+                cy.visit(`/${team.name}/channels/off-topic`);
 
                 cy.get('#sidebarItem_' + publicChannels[0].name).scrollIntoView().click();
                 cy.get('#post_textbox').clear().type('message to public channel').type('{enter}');
@@ -120,7 +121,7 @@ describe('Keyboard Shortcuts', () => {
 
             cy.apiLogout();
             cy.apiLogin(testUser).then(() => {
-                cy.visitAndWait(`/${team.name}/channels/off-topic`);
+                cy.visit(`/${team.name}/channels/off-topic`);
 
                 // # Verify that the channels are unread
                 cy.get(`#sidebarItem_${publicChannels[0].name}`).should('have.class', 'unread-title');
@@ -172,7 +173,7 @@ describe('Keyboard Shortcuts', () => {
             // # Set up DM favorite channel
             cy.apiCreateDirectChannel([testUser.id, otherUser.id]).wait(TIMEOUTS.ONE_SEC).then(({channel}) => {
                 favDMChannels.push(channel);
-                cy.visitAndWait(`/${team.name}/channels/${testUser.id}__${otherUser.id}`);
+                cy.visit(`/${team.name}/channels/${testUser.id}__${otherUser.id}`);
                 cy.get('#post_textbox').clear().type(`message from ${testUser.username}`).type('{enter}');
                 markAsFavorite(channel.name);
             });
@@ -180,7 +181,7 @@ describe('Keyboard Shortcuts', () => {
             // # Add posts by second user to the newly created channels in the first team
             cy.apiLogout();
             cy.apiLogin(otherUser).then(() => {
-                cy.visitAndWait(`/${team.name}/channels/off-topic`);
+                cy.visit(`/${team.name}/channels/off-topic`);
 
                 cy.get('#sidebarItem_' + favPublicChannels[0].name).scrollIntoView().click();
                 cy.get('#post_textbox').clear().type('message to public channel').type('{enter}');
@@ -194,7 +195,7 @@ describe('Keyboard Shortcuts', () => {
 
             cy.apiLogout();
             cy.apiLogin(testUser).then(() => {
-                cy.visitAndWait(`/${team.name}/channels/off-topic`);
+                cy.visit(`/${team.name}/channels/off-topic`);
 
                 // # Verify that the channels are unread - in the Favorites tab the unread channels are ordered alphabetically
                 cy.get(`#sidebarItem_${favDMChannels[0].name}`).should('have.class', 'unread-title');
@@ -258,14 +259,14 @@ describe('Keyboard Shortcuts', () => {
             // # Set up DM channel
             cy.apiCreateDirectChannel([testUser.id, otherUser.id]).wait(TIMEOUTS.ONE_SEC).then(({channel}) => {
                 dmChannels.push(channel);
-                cy.visitAndWait(`/${team.name}/channels/${testUser.id}__${otherUser.id}`);
+                cy.visit(`/${team.name}/channels/${testUser.id}__${otherUser.id}`);
                 cy.get('#post_textbox').clear().type(`message from ${testUser.username}`).type('{enter}');
             });
 
             // # Add posts by second user to the newly created channels in the first team
             cy.apiLogout();
             cy.apiLogin(otherUser).then(() => {
-                cy.visitAndWait(`/${team.name}/channels/off-topic`);
+                cy.visit(`/${team.name}/channels/off-topic`);
 
                 cy.get('#sidebarItem_' + publicChannels[0].name).scrollIntoView().click();
                 cy.get('#post_textbox').clear().type('message to public channel').type('{enter}');
@@ -279,7 +280,7 @@ describe('Keyboard Shortcuts', () => {
 
             cy.apiLogout();
             cy.apiLogin(testUser).then(() => {
-                cy.visitAndWait(`/${team.name}/channels/off-topic`);
+                cy.visit(`/${team.name}/channels/off-topic`);
 
                 // # Verify that the channels are unread
                 cy.get(`#sidebarItem_${publicChannels[0].name}`).should('have.class', 'unread-title');
@@ -331,7 +332,7 @@ describe('Keyboard Shortcuts', () => {
             // # Set up DM favorite channel
             cy.apiCreateDirectChannel([testUser.id, otherUser.id]).wait(TIMEOUTS.ONE_SEC).then(({channel}) => {
                 favDMChannels.push(channel);
-                cy.visitAndWait(`/${team.name}/channels/${testUser.id}__${otherUser.id}`);
+                cy.visit(`/${team.name}/channels/${testUser.id}__${otherUser.id}`);
                 cy.get('#post_textbox').clear().type(`message from ${testUser.username}`).type('{enter}');
                 markAsFavorite(channel.name);
             });
@@ -339,7 +340,7 @@ describe('Keyboard Shortcuts', () => {
             // # Add posts by second user to the newly created channels in the first team
             cy.apiLogout();
             cy.apiLogin(otherUser).then(() => {
-                cy.visitAndWait(`/${team.name}/channels/off-topic`);
+                cy.visit(`/${team.name}/channels/off-topic`);
 
                 cy.get('#sidebarItem_' + favPublicChannels[0].name).scrollIntoView().click();
                 cy.get('#post_textbox').clear().type('message to public channel').type('{enter}');
@@ -353,7 +354,7 @@ describe('Keyboard Shortcuts', () => {
 
             cy.apiLogout();
             cy.apiLogin(testUser).then(() => {
-                cy.visitAndWait(`/${team.name}/channels/off-topic`);
+                cy.visit(`/${team.name}/channels/off-topic`);
 
                 // # Verify that the channels are unread - in the Favorites tab the unread channels are ordered alphabetically
                 cy.get(`#sidebarItem_${favDMChannels[0].name}`).should('have.class', 'unread-title');
@@ -400,7 +401,7 @@ describe('Keyboard Shortcuts', () => {
 
     it('MM-T1248 - CTRL/CMD+SHIFT+L - Set focus to center channel message box', () => {
         // # Open search box to change focus
-        cy.get('#searchBox').focus().should('be.focused').then(() => {
+        cy.get('#searchBox').click().should('be.focused').then(() => {
             // # Type CTRL/CMD+SHIFT+L
             cy.get('body').cmdOrCtrlShortcut('{shift}L');
             cy.get('#post_textbox').should('be.focused');

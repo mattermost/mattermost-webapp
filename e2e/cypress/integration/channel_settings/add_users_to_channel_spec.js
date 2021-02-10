@@ -40,7 +40,7 @@ describe('Channel Settings', () => {
     it('MM-T859_1 Single User: Usernames are links, open profile popovers', () => {
         // # Create and visit new channel
         cy.apiCreateChannel(testTeam.id, 'channel-test', 'Channel').then(({channel}) => {
-            cy.visitAndWait(`/${testTeam.name}/channels/${channel.name}`);
+            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
 
             // # Add users to channel
             addNumberOfUsersToChannel(1);
@@ -58,7 +58,7 @@ describe('Channel Settings', () => {
     it('MM-T859_2 Combined Users: Usernames are links, open profile popovers', () => {
         // # Create and visit new channel
         cy.apiCreateChannel(testTeam.id, 'channel-test', 'Channel').then(({channel}) => {
-            cy.visitAndWait(`/${testTeam.name}/channels/${channel.name}`);
+            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
 
             addNumberOfUsersToChannel(3);
 
@@ -76,7 +76,7 @@ describe('Channel Settings', () => {
 
     it('MM-T856_1 Add existing users to public channel from drop-down > Add Members', () => {
         // # Visit the add users channel
-        cy.visitAndWait(`/${testTeam.name}/channels/${addedUsersChannel.name}`);
+        cy.visit(`/${testTeam.name}/channels/${addedUsersChannel.name}`);
 
         // # Open channel menu and click 'Add Members'
         cy.uiOpenChannelMenu('Add Members');
@@ -123,7 +123,7 @@ describe('Channel Settings', () => {
         cy.apiAdminLogin();
 
         // # Visit the add users channel
-        cy.visitAndWait(`/${testTeam.name}/channels/${addedUsersChannel.name}`);
+        cy.visit(`/${testTeam.name}/channels/${addedUsersChannel.name}`);
 
         // # Verify that the system message for adding users displays
         cy.getLastPostId().then((id) => {
@@ -131,7 +131,7 @@ describe('Channel Settings', () => {
         });
 
         // Visit off topic where all users are added
-        cy.visitAndWait(`/${testTeam.name}/channels/off-topic`);
+        cy.visit(`/${testTeam.name}/channels/off-topic`);
 
         // # Open channel menu and click 'Add Members'
         cy.uiOpenChannelMenu('Add Members');

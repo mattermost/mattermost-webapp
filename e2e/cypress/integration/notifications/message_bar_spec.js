@@ -23,7 +23,7 @@ describe('Notifications', () => {
             testChannel = channel;
             otherUser = user;
 
-            cy.visitAndWait(`/${testTeam.name}/channels/${channel.name}`);
+            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
         });
     });
 

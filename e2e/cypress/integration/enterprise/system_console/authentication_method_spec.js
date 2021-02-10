@@ -7,7 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @enterpise @system_console @mfa
+// Group: @enterprise @system_console @mfa
 
 import ldapUsers from '../../../fixtures/ldap_users.json';
 import * as TIMEOUTS from '../../../fixtures/timeouts';
@@ -74,7 +74,7 @@ describe('Settings', () => {
     });
 
     it('MM-T953: Verify correct authentication method', () => {
-        cy.visitAndWait('/admin_console/user_management/users');
+        cy.visit('/admin_console/user_management/users');
 
         const adminUsername = getAdminAccount().username;
 

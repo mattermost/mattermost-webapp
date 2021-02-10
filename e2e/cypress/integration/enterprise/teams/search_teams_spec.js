@@ -21,7 +21,7 @@ describe('Search teams', () => {
 
     beforeEach(() => {
         cy.apiAdminLogin();
-        cy.visitAndWait('/admin_console/user_management/teams');
+        cy.visit('/admin_console/user_management/teams');
     });
 
     it('loads with no search text', () => {

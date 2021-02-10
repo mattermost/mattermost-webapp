@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***********************************************************  ****
 
+// Stage: @prod
 // Group: @messaging @keyboard_shortcuts
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -31,7 +32,7 @@ describe('Messaging', () => {
             cy.apiLogin(firstUser);
 
             // # Visit created test team
-            cy.visitAndWait(`/${testTeam.name}`);
+            cy.visit(`/${testTeam.name}`);
         });
     });
 
@@ -69,7 +70,7 @@ describe('Messaging', () => {
         cy.apiLogout();
         cy.reload();
         cy.apiLogin(secondUser);
-        cy.visitAndWait(`/${testTeam.name}`);
+        cy.visit(`/${testTeam.name}`);
 
         // * Check that the DM exists and receives the message with mention
         cy.get('#directChannelList').should('be.visible').within(() => {

@@ -15,7 +15,7 @@ import {getAdminAccount} from '../../support/env';
 
 function removeTeamMember(teamName, username) {
     cy.apiAdminLogin();
-    cy.visitAndWait(`/${teamName}`);
+    cy.visit(`/${teamName}`);
     cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
     cy.get('#manageMembers').click();
     cy.get(`#teamMembersDropdown_${username}`).should('be.visible').click();
@@ -47,7 +47,7 @@ describe('Teams Suite', () => {
     it('MM-T393 Cancel out of leaving team', () => {
         // # Login and go to /
         cy.apiLogin(testUser);
-        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // * check the team name
         cy.get('#headerTeamName').should('contain', testTeam.display_name);
@@ -89,7 +89,7 @@ describe('Teams Suite', () => {
         cy.apiCreateUser().then(({user}) => {
             otherUser = user;
 
-            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+            cy.visit(`/${testTeam.name}/channels/town-square`);
 
             // # Click hamburger menu > Invite People
             cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
@@ -142,7 +142,7 @@ describe('Teams Suite', () => {
             cy.apiLogin(otherUser);
 
             // # Visit the new team and verify that it's in the correct team view
-            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+            cy.visit(`/${testTeam.name}/channels/town-square`);
             cy.get('#headerTeamName').should('contain', testTeam.display_name);
 
             const sysadmin = getAdminAccount();
@@ -183,7 +183,7 @@ describe('Teams Suite', () => {
         // # Leave all teams
         cy.apiGetTeamsForUser().then(({teams}) => {
             teams.forEach((team) => {
-                cy.visitAndWait(`/${team.name}/channels/town-square`);
+                cy.visit(`/${team.name}/channels/town-square`);
                 cy.get('#headerTeamName').should('be.visible').and('have.text', team.display_name);
                 cy.leaveTeam();
             });
@@ -201,7 +201,7 @@ describe('Teams Suite', () => {
 
     it('MM-T1535 Team setting / Invite code text', () => {
         // # visit /
-        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Open the hamburger menu
         cy.findByLabelText('main menu').should('be.visible').click();
@@ -225,7 +225,7 @@ describe('Teams Suite', () => {
         const teamName = 'Test Team';
 
         // # Visit town-square channel
-        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Open the hamburger menu
         cy.findByLabelText('main menu').should('be.visible').click();
@@ -259,7 +259,7 @@ describe('Teams Suite', () => {
         const teamDescription = 'This is the best team';
 
         // # Visit town-square channel
-        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Open the hamburger menu
         cy.findByLabelText('main menu').should('be.visible').click();
@@ -286,7 +286,7 @@ describe('Teams Suite', () => {
 
     it('MM-T2318 Allow anyone to join this team', () => {
         // # Visit town-square channel
-        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Open the hamburger menu
         cy.findByLabelText('main menu').should('be.visible').click();
@@ -308,7 +308,7 @@ describe('Teams Suite', () => {
 
         // # Login as new user
         cy.apiLogin(newUser);
-        cy.visitAndWait('/');
+        cy.visit('/');
 
         // * Verify if the user is redirected to the Select Team page
         cy.url().should('include', '/select_team');
@@ -323,7 +323,7 @@ describe('Teams Suite', () => {
     });
 
     it('MM-T2322 Do not allow anyone to join this team', () => {
-        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Open the hamburger menu
         cy.findByLabelText('main menu').should('be.visible').click();
@@ -345,7 +345,7 @@ describe('Teams Suite', () => {
 
         // # Login as new user
         cy.apiLogin(testUser);
-        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Open the hamburger menu
         cy.findByLabelText('main menu').should('be.visible').click();
@@ -363,7 +363,7 @@ describe('Teams Suite', () => {
 
         // * Login as test user and join town square
         cy.apiLogin(testUser);
-        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Open the hamburger menu
         cy.findByLabelText('main menu').should('be.visible').click();

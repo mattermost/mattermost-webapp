@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @channel_sidebar
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -30,7 +31,7 @@ describe('Category muting', () => {
             testTeam = team;
             testUser = user;
 
-            cy.visitAndWait(`/${team.name}/channels/town-square`);
+            cy.visit(`/${team.name}/channels/town-square`);
 
             // # Wait for the team to load
             cy.get('#headerTeamName', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
