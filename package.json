@@ -108,6 +108,7 @@
     "@types/mark.js": "8.11.5",
     "@types/marked": "0.7.4",
     "@types/moment-timezone": "0.5.30",
+    "@types/node": "14.14.25",
     "@types/react": "16.9.49",
     "@types/react-beautiful-dnd": "^13.0.0",
     "@types/react-bootstrap": "0.32.22",
