@@ -80,9 +80,6 @@ var MYSTATS = {
     // Add the hash of the compilation
     hash: true,
 
-    // Set the maximum number of modules to be shown
-    maxModules: 0,
-
     // Add built modules information
     modules: false,
 
@@ -250,6 +247,9 @@ var config = {
             superagent: 'node_modules/superagent/lib/client',
         },
         extensions: ['.ts', '.tsx', '.js', '.jsx'],
+        fallback: {
+            stream: require.resolve('stream-browserify'),
+        },
     },
     performance: {
         hints: 'warning',
