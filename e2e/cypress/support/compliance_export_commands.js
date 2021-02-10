@@ -41,7 +41,7 @@ Cypress.Commands.add('enableComplianceExport', (exportFormat = 'csv') => {
     cy.findByTestId('enableComplianceExporttrue').click();
 
     // # Change export format
-    cy.findByTestId('exportFormatdropdown').select(exportFormate);
+    cy.findByTestId('exportFormatdropdown').select(exportFormat);
 
     // # Save settings
     cy.findByTestId('saveSetting').click();
