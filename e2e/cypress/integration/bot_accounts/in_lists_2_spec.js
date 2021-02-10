@@ -69,26 +69,6 @@ describe('Bots in lists', () => {
         });
     });
 
-    it('MM-T1834 Bots are not listed on “Users” list in System Console > Users', () => {
-        cy.makeClient().then(async (client) => {
-            // # Go to system console > users
-            cy.visit('/admin_console/user_management/users');
-
-            const {total_users_count: nonBotCount} = await client.getFilteredUsersStats({include_bots: false});
-
-            bots.forEach(({username}) => {
-                // # Search for bot
-                cy.get('#searchUsers').clear().type(`@${username}`);
-
-                // * Verify bot not in list
-                cy.findByTestId('noUsersFound').should('have.text', 'No users found');
-
-                // * Verify pseudo checksum total of non bot users
-                cy.get('#searchableUserListTotal').should('have.text', `0 users of ${nonBotCount} total`);
-            });
-        });
-    });
-
     it('MM-T1835 Channel Members list for BOTs', () => {
         cy.makeClient({user: testUser}).then((client) => {
             // # Login as regular user and visit a channel
