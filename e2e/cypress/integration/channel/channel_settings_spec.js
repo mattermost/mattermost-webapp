@@ -8,7 +8,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @channel @channel_settings
+
 import {
     beMuted,
     beUnmuted,
