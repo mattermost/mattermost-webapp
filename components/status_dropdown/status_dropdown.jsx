@@ -187,6 +187,7 @@ export default class StatusDropdown extends React.PureComponent {
                     dialogProps={{userId: this.props.userId}}
                     className='custom_status__row'
                     id={'status-menu-custom-status'}
+                    sibling={clearButton}
                 >
                     <span className='custom_status__icon'>
                         {customStatusEmoji}
@@ -197,15 +198,6 @@ export default class StatusDropdown extends React.PureComponent {
                     />
                     {pulsatingDot}
                 </Menu.ItemToggleModalRedux>
-                {clearButton &&
-                    <li
-                        className='MenuItem'
-                        role='menuitem'
-                        id='status-menu-custom-status-clear'
-                    >
-                        {clearButton}
-                    </li>
-                }
             </Menu.Group>
         );
     }

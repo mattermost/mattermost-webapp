@@ -14,8 +14,7 @@ import {GenericAction} from 'mattermost-redux/types/actions';
 import {GlobalState} from 'types/store';
 import {isGuest} from 'utils/utils.jsx';
 
-import {getCustomStatus, isCustomStatusEnabled} from 'selectors/views/custom_status';
-import {showPostHeaderUpdateStatusButton} from 'utils/custom_status';
+import {getCustomStatus, isCustomStatusEnabled, showPostHeaderUpdateStatusButton} from 'selectors/views/custom_status';
 import {setStatusDropdown} from 'actions/views/status_dropdown';
 
 import PostHeader, {Props} from './post_header';

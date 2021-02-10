@@ -1103,14 +1103,11 @@ exports[`components/ChannelHeader should render properly when custom status is s
               tooltipDirection="top"
               userID="user_id"
             />
-            <span
-              className="overflow--ellipsis text-nowrap"
-            >
-              <Connect(Markdown)
-                enableFormatting={true}
-                message="In a meeting"
-              />
-            </span>
+            <CustomStatusText
+              className=""
+              text="In a meeting"
+              tooltipDirection="bottom"
+            />
           </span>
           <HeaderIconWrapper
             ariaLabel={true}

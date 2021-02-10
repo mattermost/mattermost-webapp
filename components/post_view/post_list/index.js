@@ -13,7 +13,7 @@ import {RequestStatus} from 'mattermost-redux/constants';
 
 import {updateNewMessagesAtInChannel} from 'actions/global_actions';
 import {getLatestPostId, makeCreateAriaLabelForPost, getLastCurrentUserPostWithHeaderId} from 'utils/post_utils.jsx';
-import {showPostHeaderUpdateStatusButton} from 'utils/custom_status';
+import {showPostHeaderUpdateStatusButton} from 'selectors/views/custom_status';
 import {
     checkAndSetMobileView,
     loadPosts,

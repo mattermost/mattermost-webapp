@@ -23,7 +23,7 @@ const CustomStatusText = (props: ComponentProps) => {
     });
     const [show, setShow] = useState<boolean>(false);
     let spanElement: HTMLSpanElement | null = null;
-    if (!(customStatusEnabled)) {
+    if (!customStatusEnabled) {
         return null;
     }
 

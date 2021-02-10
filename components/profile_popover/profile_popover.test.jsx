@@ -29,7 +29,6 @@ describe('components/ProfilePopover', () => {
             openModal: jest.fn(),
             closeModal: jest.fn(),
             loadBot: jest.fn(),
-            setCustomStatusInitialisationState: jest.fn(),
         },
     };
 
@@ -89,31 +88,5 @@ describe('components/ProfilePopover', () => {
         };
         expect(wrapper.find(Pluggable).first().props()).toEqual({...pluggableProps, pluggableName: 'PopoverUserAttributes'});
         expect(wrapper.find(Pluggable).last().props()).toEqual({...pluggableProps, pluggableName: 'PopoverUserActions'});
-    });
-
-    test('should match snapshot when tooltip is enabled', () => {
-        const wrapper = shallowWithIntl(
-            <ProfilePopover {...baseProps}/>,
-        );
-
-        wrapper.setState({showCustomStatusTooltip: true});
-        expect(wrapper).toMatchSnapshot();
-    });
-
-    test('should enable tooltip when needed', () => {
-        const wrapper = shallowWithIntl(
-            <ProfilePopover {...baseProps}/>,
-        );
-
-        const instance = wrapper.instance();
-        instance.customStatusTextRef = {
-            current: {
-                offsetWidth: 50,
-                scrollWidth: 60,
-            },
-        };
-
-        instance.showCustomStatusTextTooltip();
-        expect(instance.state.showCustomStatusTooltip).toBe(true);
     });
 });

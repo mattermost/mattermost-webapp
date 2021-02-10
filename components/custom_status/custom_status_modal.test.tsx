@@ -6,13 +6,11 @@ import {shallow} from 'enzyme';
 import configureStore from 'redux-mock-store';
 import {Provider} from 'react-redux';
 
-import * as UserSelectors from 'mattermost-redux/selectors/entities/users';
-
-import {TestHelper} from 'utils/test_helper';
+import * as StatusSelectors from 'selectors/views/custom_status';
 
 import CustomStatusModal from './custom_status_modal';
 
-jest.mock('mattermost-redux/selectors/entities/users');
+jest.mock('selectors/views/custom_status');
 
 describe('components/custom_status/custom_status_modal', () => {
     const mockStore = configureStore();
@@ -20,7 +18,6 @@ describe('components/custom_status/custom_status_modal', () => {
     const baseProps = {
         onHide: jest.fn(),
     };
-    let user = TestHelper.getUserMock();
 
     it('should match snapshot', () => {
         const wrapper = shallow(
@@ -37,14 +34,7 @@ describe('components/custom_status/custom_status_modal', () => {
             emoji: 'speech_balloon',
             text: 'speaking',
         };
-        const recentCustomStatuses = [customStatus];
-        user = TestHelper.getUserMock({
-            props: {
-                customStatus: JSON.stringify(customStatus),
-                recentCustomStatuses: JSON.stringify(recentCustomStatuses),
-            },
-        });
-        (UserSelectors.getCurrentUser as jest.Mock).mockReturnValue(user);
+        (StatusSelectors.getCustomStatus as jest.Mock).mockReturnValue(customStatus);
         const wrapper = shallow(
             <Provider store={store}>
                 <CustomStatusModal {...baseProps}/>

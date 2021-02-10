@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/custom_status/custom_status_emoji should match snapshot 1`] = `
+exports[`components/custom_status/custom_status_text should match snapshot 1`] = `
 <ContextProvider
   value={
     Object {
@@ -32,21 +32,15 @@ exports[`components/custom_status/custom_status_emoji should match snapshot 1`] 
     }
   }
 >
-  <CustomStatusEmoji
-    emojiSize={16}
-    emojiStyle={
-      Object {
-        "marginLeft": 4,
-      }
-    }
-    showTooltip={false}
-    tooltipDirection="top"
-    userID=""
+  <CustomStatusText
+    className=""
+    text=""
+    tooltipDirection="bottom"
   />
 </ContextProvider>
 `;
 
-exports[`components/custom_status/custom_status_emoji should match snapshot with props 1`] = `
+exports[`components/custom_status/custom_status_text should match snapshot with props 1`] = `
 <ContextProvider
   value={
     Object {
@@ -78,16 +72,10 @@ exports[`components/custom_status/custom_status_emoji should match snapshot with
     }
   }
 >
-  <CustomStatusEmoji
-    emojiSize={34}
-    emojiStyle={
-      Object {
-        "marginLeft": 4,
-      }
-    }
-    showTooltip={true}
-    tooltipDirection="bottom"
-    userID=""
+  <CustomStatusText
+    className=""
+    text="In a meeting"
+    tooltipDirection="top"
   />
 </ContextProvider>
 `;

@@ -2,7 +2,7 @@
 
 exports[`components/custom_status/custom_status_emoji should match snapshot 1`] = `
 <div
-  className="statusSuggestion__row cursor--pointer a11y--active"
+  className="statusSuggestion__row cursor--pointer"
   onClick={[Function]}
   onMouseEnter={[Function]}
   onMouseLeave={[Function]}
@@ -12,16 +12,14 @@ exports[`components/custom_status/custom_status_emoji should match snapshot 1`] 
   >
     <RenderEmoji
       emoji=""
+      emojiStyle={Object {}}
       size={20}
     />
   </div>
-  <span
+  <CustomStatusText
     className="statusSuggestion__text"
-  >
-    <Connect(Markdown)
-      enableFormatting={true}
-      message=""
-    />
-  </span>
+    text=""
+    tooltipDirection="top"
+  />
 </div>
 `;

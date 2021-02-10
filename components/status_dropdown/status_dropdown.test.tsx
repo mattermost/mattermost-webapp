@@ -79,40 +79,4 @@ describe('components/StatusDropdown', () => {
         );
         expect(wrapper).toMatchSnapshot();
     });
-
-    test('should match snapshot when tooltip is enabled', () => {
-        const props = {
-            ...baseProps,
-            isStatusDropdownOpen: true,
-            isCustomStatusEnabled: true,
-        };
-        const wrapper = shallow(
-            <StatusDropdown {...props}/>,
-        );
-
-        wrapper.setState({showCustomStatusTooltip: true});
-        expect(wrapper).toMatchSnapshot();
-    });
-
-    test('should enable tooltip when needed', () => {
-        const props = {
-            ...baseProps,
-            isStatusDropdownOpen: true,
-            isCustomStatusEnabled: true,
-        };
-        const wrapper = shallow<StatusDropdown>(
-            <StatusDropdown {...props}/>,
-        );
-
-        const instance = wrapper.instance();
-        instance.customStatusTextRef = {
-            current: {
-                offsetWidth: 50,
-                scrollWidth: 60,
-            },
-        } as any;
-
-        instance.showCustomStatusTextTooltip();
-        expect(instance.state.showCustomStatusTooltip).toBe(true);
-    });
 });

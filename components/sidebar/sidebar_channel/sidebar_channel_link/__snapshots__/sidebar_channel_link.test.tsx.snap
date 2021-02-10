@@ -40,18 +40,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
     >
       channel_label
     </span>
-    <CustomStatusEmoji
-      emojiSize={16}
-      emojiStyle={
-        Object {
-          "marginBottom": 1,
-          "marginLeft": 6,
-        }
-      }
-      showTooltip={true}
-      tooltipDirection="top"
-      userID=""
-    />
   </div>
   <ChannelMentionBadge
     channelId="channel_id"
@@ -127,18 +115,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
     >
       channel_label
     </span>
-    <CustomStatusEmoji
-      emojiSize={16}
-      emojiStyle={
-        Object {
-          "marginBottom": 1,
-          "marginLeft": 6,
-        }
-      }
-      showTooltip={true}
-      tooltipDirection="top"
-      userID=""
-    />
   </div>
   <ChannelMentionBadge
     channelId="channel_id"
@@ -238,18 +214,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
         </span>
       </div>
     </OverlayTrigger>
-    <CustomStatusEmoji
-      emojiSize={16}
-      emojiStyle={
-        Object {
-          "marginBottom": 1,
-          "marginLeft": 6,
-        }
-      }
-      showTooltip={true}
-      tooltipDirection="top"
-      userID=""
-    />
   </div>
   <ChannelMentionBadge
     channelId="channel_id"
@@ -325,18 +289,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
     >
       channel_label
     </span>
-    <CustomStatusEmoji
-      emojiSize={16}
-      emojiStyle={
-        Object {
-          "marginBottom": 1,
-          "marginLeft": 6,
-        }
-      }
-      showTooltip={true}
-      tooltipDirection="top"
-      userID=""
-    />
   </div>
   <ChannelMentionBadge
     channelId="channel_id"
