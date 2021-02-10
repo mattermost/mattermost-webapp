@@ -1,9 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable max-lines */
 
 import {batchActions} from 'redux-batched-actions';
 import {
     ChannelTypes,
+    ThreadTypes,
     EmojiTypes,
     GroupTypes,
     PostTypes,
@@ -483,6 +485,15 @@ export function handleEvent(msg) {
         break;
     case SocketEvents.CLOUD_PAYMENT_STATUS_UPDATED:
         dispatch(handleCloudPaymentStatusUpdated(msg));
+        break;
+    case SocketEvents.THREAD_FOLLOW_CHANGED:
+        dispatch(handleThreadsFollowChanged(msg));
+        break;
+    case SocketEvents.THREAD_READ_CHANGED:
+        dispatch(handleThreadsReadChanged(msg));
+        break;
+    case SocketEvents.THREAD_UPDATED:
+        dispatch(handleThreadsUpdated(msg));
         break;
 
     default:
@@ -1360,3 +1371,44 @@ function handleUserActivationStatusChange() {
 function handleCloudPaymentStatusUpdated() {
     return (doDispatch) => doDispatch(getCloudSubscription());
 }
+
+function handleThreadsReadChanged(msg) {
+    return (doDispatch) => {
+        if (msg.data.thread_id) { // all threads marked as read
+            dispatch({
+                type: ThreadTypes.READ_CHANGED_THREAD,
+                data: {
+                    id: msg.data.thread_id,
+                    team_id: msg.broadcast.team_id,
+                    timestamp: msg.data.timestamp,
+                },
+            });
+        } else {
+            doDispatch({
+                type: ThreadTypes.ALL_TEAM_THREADS_READ,
+                data: {
+                    team_id: msg.broadcast.team_id,
+                },
+            });
+        }
+    };
+}
+
+function handleThreadsUpdated(msg) {
+    return (doDispatch) => {
+    };
+}
+
+function handleThreadsFollowChanged(msg) {
+    return (doDispatch) => {
+        doDispatch({
+            type: ThreadTypes.FOLLOW_CHANGED_THREAD,
+            data: {
+                id: msg.data.thread_id,
+                team_id: msg.broadcast.team_id,
+                following: msg.data.state,
+            },
+        });
+    };
+}
+
