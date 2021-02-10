@@ -87,11 +87,29 @@
         ]
     },
     {
-        "section": "experimental",
+        "section": "experimental.experimental_features",
         "disabledInputs": [
             {
                 "path": "/admin_console/experimental/features",
                 "selector": "ExperimentalSettings.LinkMetadataTimeoutMillisecondsnumber"
+            }
+        ]
+    },
+    {
+        "section": "experimental.feature_flags",
+        "disabledInputs": [
+            {
+                "path": "/admin_console/experimental/feature_flags",
+                "selector": ""
+            }
+        ]
+    },
+    {
+        "section": "experimental.bleve",
+        "disabledInputs": [
+            {
+                "path": "/admin_console/experimental/blevesearch",
+                "selector": "indexDirinput"
             }
         ]
     }
