@@ -11,7 +11,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with no extended compon
   channel={Object {}}
   channelMember={Object {}}
   components={Array []}
-  shouldProcessApps={false}
+  appsEnabled={false}
   theme={Object {}}
 />
 `;
@@ -40,7 +40,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with one extended compo
       },
     ]
   }
-  shouldProcessApps={false}
+  appsEnabled={false}
   theme={Object {}}
 >
   <HeaderIconWrapper
@@ -194,7 +194,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
       },
     ]
   }
-  shouldProcessApps={false}
+  appsEnabled={false}
   theme={Object {}}
 >
   <div

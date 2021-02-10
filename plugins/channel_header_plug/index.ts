@@ -12,16 +12,16 @@ import {GenericAction} from 'mattermost-redux/types/actions';
 import {doAppCall} from 'actions/apps';
 import {GlobalState} from 'types/store';
 
-import {shouldProcessApps} from 'utils/utils';
+import {appsEnabled} from 'utils/utils';
 
 import ChannelHeaderPlug from './channel_header_plug';
 
 function mapStateToProps(state: GlobalState) {
-    const processApps = shouldProcessApps(state);
+    const apps = appsEnabled(state);
     return {
         components: state.plugins.components.ChannelHeaderButton || [],
-        appBindings: processApps ? getAppBindings(state, AppBindingLocations.CHANNEL_HEADER_ICON) : [],
-        shouldProcessApps: processApps,
+        appBindings: apps ? getAppBindings(state, AppBindingLocations.CHANNEL_HEADER_ICON) : [],
+        appsEnabled: apps,
         theme: getTheme(state),
     };
 }

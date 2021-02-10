@@ -22,7 +22,7 @@ export type Props = {
     children?: JSX.Element;
     isEmbedVisible?: boolean;
     options?: Partial<TextFormattingOptions>;
-    shouldProcessApps: boolean;
+    appsEnabled: boolean;
     actions: {
         toggleEmbedVisibility: (id: string) => void;
     };
@@ -133,7 +133,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent<Props
     render() {
         const embed = this.getEmbed();
 
-        if (this.props.shouldProcessApps) {
+        if (this.props.appsEnabled) {
             if (hasValidEmbeddedForm(this.props.post.props)) {
                 // TODO Put some log / message if the form is not valid?
                 return (

@@ -101,7 +101,7 @@ export default class CommandProvider extends Provider {
             }
         }
 
-        if (Utils.shouldProcessApps(this.store.getState())) {
+        if (Utils.appsEnabled(this.store.getState())) {
             this.appCommandParser = new AppCommandParser(this.store, rootId);
         }
     }

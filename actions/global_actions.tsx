@@ -96,7 +96,7 @@ export function emitChannelClickEvent(channel: Channel) {
             member: member || {},
         }]));
 
-        if (Utils.shouldProcessApps(state)) {
+        if (Utils.appsEnabled(state)) {
             dispatch(fetchAppBindings(userId, chan.id));
         }
     }

@@ -45,7 +45,7 @@ type Props = {
     channelIsArchived?: boolean; // TechDebt: Made non-mandatory while converting to typescript
     currentTeamUrl?: string; // TechDebt: Made non-mandatory while converting to typescript
     appBindings: AppBinding[];
-    shouldProcessApps: boolean;
+    appsEnabled: boolean;
 
     /**
      * Components for overriding provided by plugins
@@ -330,7 +330,7 @@ export default class DotMenu extends React.PureComponent<Props, State> {
             }) || [];
 
         let appBindings = [] as JSX.Element[];
-        if (this.props.shouldProcessApps) {
+        if (this.props.appsEnabled) {
             appBindings = this.props.appBindings.map((item) => {
                 let icon: JSX.Element | undefined;
                 if (item.icon) {

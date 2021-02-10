@@ -32,7 +32,7 @@ describe('plugins/ChannelHeaderPlug', () => {
                     doAppCall: jest.fn(),
                 }}
                 appBindings={[]}
-                shouldProcessApps={false}
+                appsEnabled={false}
             />,
         );
         expect(wrapper).toMatchSnapshot();
@@ -49,7 +49,7 @@ describe('plugins/ChannelHeaderPlug', () => {
                     doAppCall: jest.fn(),
                 }}
                 appBindings={[]}
-                shouldProcessApps={false}
+                appsEnabled={false}
             />,
         );
         expect(wrapper).toMatchSnapshot();
@@ -73,7 +73,7 @@ describe('plugins/ChannelHeaderPlug', () => {
                     doAppCall: jest.fn(),
                 }}
                 appBindings={[]}
-                shouldProcessApps={false}
+                appsEnabled={false}
             />,
         );
         expect(wrapper).toMatchSnapshot();

@@ -94,7 +94,7 @@ class CustomToggle extends React.PureComponent<CustomToggleProps> {
 type ChannelHeaderPlugProps = {
     components: PluginComponent[];
     appBindings: AppBinding[];
-    shouldProcessApps: boolean;
+    appsEnabled: boolean;
     channel: Channel;
     channelMember: ChannelMembership;
     theme: Theme;
@@ -198,7 +198,7 @@ export default class ChannelHeaderPlug extends React.PureComponent<ChannelHeader
         });
 
         let items = componentItems;
-        if (this.props.shouldProcessApps) {
+        if (this.props.appsEnabled) {
             items = componentItems.concat(appBindings.filter((binding) => binding.call).map((binding) => {
                 return (
                     <li
@@ -281,12 +281,12 @@ export default class ChannelHeaderPlug extends React.PureComponent<ChannelHeader
 
     render() {
         const components = this.props.components || [];
-        const appBindings = this.props.shouldProcessApps ? this.props.appBindings || [] : [];
+        const appBindings = this.props.appsEnabled ? this.props.appBindings || [] : [];
         if (components.length === 0 && appBindings.length === 0) {
             return null;
         } else if ((components.length + appBindings.length) <= 5) {
             let componentButtons = components.filter((plug) => plug.icon && plug.action).map(this.createComponentButton);
-            if (this.props.shouldProcessApps) {
+            if (this.props.appsEnabled) {
                 componentButtons = componentButtons.concat(appBindings.map(this.createAppBindingButton));
             }
             return componentButtons;

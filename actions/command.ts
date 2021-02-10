@@ -18,7 +18,7 @@ import * as GlobalActions from 'actions/global_actions';
 import * as PostActions from 'actions/post_actions.jsx';
 
 import {isUrlSafe, getSiteURL} from 'utils/url';
-import {localizeMessage, getUserIdFromChannelName, shouldProcessApps} from 'utils/utils.jsx';
+import {localizeMessage, getUserIdFromChannelName, appsEnabled} from 'utils/utils.jsx';
 import * as UserAgent from 'utils/user_agent';
 import {Constants, ModalIdentifiers} from 'utils/constants';
 import {browserHistory} from 'utils/browser_history';
@@ -102,7 +102,7 @@ export function executeCommand(message: string, args: CommandArgs): ActionFunc {
             dispatch(PostActions.resetEmbedVisibility());
         }
 
-        if (shouldProcessApps(state)) {
+        if (appsEnabled(state)) {
             const getGlobalState = () => getState() as GlobalState;
 
             const parser = new AppCommandParser({dispatch, getState: getGlobalState}, args.root_id);
