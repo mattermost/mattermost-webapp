@@ -233,13 +233,15 @@ export function formatText(
             };
 
             /*
-            * Fix for MM-22267 - replace any carriage-return (\r), line-feed (\n)
-            * or cr-lf (\r\n) occurences in enclosing `<p>` tags with `</p><p>` combinations
-            * to show correct line-breaks in the UI
+            * Fix for MM-22267 - replace any carriage-return (\r), line-feed (\n) or cr-lf (\r\n) occurences
+            * in enclosing `<p>` tags with `<br/>` breaks to show correct line-breaks in the UI
             *
-            * @link to regex101.com: https://regex101.com/r/utwsom/1
+            * the Markdown.format function removes all duplicate line-breaks beforehand, so it is safe to just
+            * replace occurrences which are not followed by opening <p> tags to prevent duplicate line-breaks
+            *
+            * @link to regex101.com: https://regex101.com/r/iPZ02c/1
             */
-            output = output.replace(/[\r\n]+(?=(?:[^<]+)*<\/p>)/g, '</p><p>');
+            output = output.replace(/[\r\n]+(?!(<p>))/g, '<br/>');
 
             /*
             * the replacer is not ideal, since it replaces every occurence with a new div
