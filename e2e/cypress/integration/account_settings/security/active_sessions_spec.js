@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @account_setting
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
@@ -38,7 +39,7 @@ describe('Account Settings -> Security -> View and Log Out of Active Sessions', 
         cy.findByTestId('viewAndLogOutOfActiveSessions').should('be.visible').click();
 
         // * Verify an appropriate platform is shown
-        const platforms = ['Macintosh', 'Windows', 'Native Desktop App', 'iPhone Native App', 'Android Native App', 'iPhone Native Classic App', 'Android Native Classic App'];
+        const platforms = ['Linux', 'Macintosh', 'Windows', 'Native Desktop App', 'iPhone Native App', 'Android Native App', 'iPhone Native Classic App', 'Android Native Classic App'];
         const platformRegex = new RegExp(`${platforms.join('|')}`, 'g');
         cy.get('.report__platform').contains(platformRegex);
 

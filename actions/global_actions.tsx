@@ -96,7 +96,9 @@ export function emitChannelClickEvent(channel: Channel) {
             member: member || {},
         }]));
 
-        dispatch(fetchAppBindings(userId, chan.id));
+        if (Utils.appsEnabled(state)) {
+            dispatch(fetchAppBindings(userId, chan.id));
+        }
     }
 
     if (channel.fake) {
@@ -183,7 +185,7 @@ export function showMobileSubMenuModal(elements: any[]) { // TODO Use more speci
     dispatch(openModal(submenuModalData));
 }
 
-export function sendEphemeralPost(message: string, channelId: string, parentId: string) {
+export function sendEphemeralPost(message: string, channelId: string, parentId?: string): void {
     const timestamp = Utils.getTimestamp();
     const post = {
         id: Utils.generateId(),

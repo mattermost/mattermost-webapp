@@ -23,6 +23,7 @@ export type Props = {
     children?: JSX.Element;
     isEmbedVisible?: boolean;
     options?: Partial<TextFormattingOptions>;
+    appsEnabled: boolean;
     actions: {
         toggleEmbedVisibility: (id: string) => void;
     };
@@ -133,17 +134,19 @@ export default class PostBodyAdditionalContent extends React.PureComponent<Props
     render() {
         const embed = this.getEmbed();
 
-        if (hasValidEmbeddedForm(this.props.post.props)) {
-            // TODO Put some log / message if the form is not valid?
-            return (
-                <React.Fragment>
-                    {this.props.children}
-                    <EmbeddedForms
-                        embeds={this.props.post.props.app_bindings}
-                        post={this.props.post}
-                    />
-                </React.Fragment>
-            );
+        if (this.props.appsEnabled) {
+            if (hasValidEmbeddedForm(this.props.post.props)) {
+                // TODO Put some log / message if the form is not valid?
+                return (
+                    <React.Fragment>
+                        {this.props.children}
+                        <EmbeddedForms
+                            embeds={this.props.post.props.app_bindings}
+                            post={this.props.post}
+                        />
+                    </React.Fragment>
+                );
+            }
         }
 
         if (embed) {

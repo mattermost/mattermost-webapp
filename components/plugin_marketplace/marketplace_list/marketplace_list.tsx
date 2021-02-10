@@ -3,16 +3,18 @@
 
 import React from 'react';
 
-import {MarketplacePlugin} from 'mattermost-redux/types/plugins';
+import type {MarketplaceApp, MarketplacePlugin} from 'mattermost-redux/types/marketplace';
+import {isPlugin, getName} from 'mattermost-redux/utils/marketplace';
 
-import MarketplaceItem from '../marketplace_item';
+import MarketplaceItemPlugin from '../marketplace_item/marketplace_item_plugin';
+import MarketplaceItemApp from '../marketplace_item/marketplace_item_app';
 
 import NavigationRow from './navigation_row';
 
-const PLUGINS_PER_PAGE = 15;
+const ITEMS_PER_PAGE = 15;
 
 type MarketplaceListProps = {
-    plugins: MarketplacePlugin[];
+    listing: Array<MarketplacePlugin | MarketplaceApp>;
 };
 
 type MarketplaceListState = {
@@ -21,7 +23,7 @@ type MarketplaceListState = {
 
 export default class MarketplaceList extends React.PureComponent <MarketplaceListProps, MarketplaceListState> {
     static getDerivedStateFromProps(props: MarketplaceListProps, state: MarketplaceListState): MarketplaceListState | null {
-        if (state.page > 0 && props.plugins.length < PLUGINS_PER_PAGE) {
+        if (state.page > 0 && props.listing.length < ITEMS_PER_PAGE) {
             return {page: 0};
         }
 
@@ -49,30 +51,53 @@ export default class MarketplaceList extends React.PureComponent <MarketplaceLis
     };
 
     render(): JSX.Element {
-        const pageStart = this.state.page * PLUGINS_PER_PAGE;
-        const pageEnd = pageStart + PLUGINS_PER_PAGE;
-        const pluginsToDisplay = this.props.plugins.slice(pageStart, pageEnd);
+        const pageStart = this.state.page * ITEMS_PER_PAGE;
+        const pageEnd = pageStart + ITEMS_PER_PAGE;
+
+        this.props.listing.sort((a, b) => {
+            return getName(a).localeCompare(getName(b));
+        });
+
+        const itemsToDisplay = this.props.listing.slice(pageStart, pageEnd);
 
         return (
             <div className='more-modal__list'>
-                {pluginsToDisplay.map((p) => (
-                    <MarketplaceItem
-                        key={p.manifest.id}
-                        id={p.manifest.id}
-                        name={p.manifest.name}
-                        description={p.manifest.description}
-                        version={p.manifest.version}
-                        homepageUrl={p.homepage_url}
-                        releaseNotesUrl={p.release_notes_url}
-                        labels={p.labels}
-                        iconData={p.icon_data}
-                        installedVersion={p.installed_version}
-                    />
-                ))}
+                {itemsToDisplay.map((i) => {
+                    if (isPlugin(i)) {
+                        return (
+                            <MarketplaceItemPlugin
+                                key={i.manifest.id}
+                                id={i.manifest.id}
+                                name={i.manifest.name}
+                                description={i.manifest.description}
+                                version={i.manifest.version}
+                                homepageUrl={i.homepage_url}
+                                releaseNotesUrl={i.release_notes_url}
+                                labels={i.labels}
+                                iconData={i.icon_data}
+                                installedVersion={i.installed_version}
+                            />
+                        );
+                    }
+
+                    return (
+                        <MarketplaceItemApp
+                            key={i.manifest.app_id}
+                            id={i.manifest.app_id}
+                            name={i.manifest.display_name}
+                            description={i.manifest.description}
+                            homepageUrl={i.manifest.homepage_url}
+                            rootUrl={i.manifest.root_url}
+                            installed={i.installed}
+                            labels={i.labels}
+                        />
+                    );
+                })
+                }
                 <NavigationRow
                     page={this.state.page}
-                    total={this.props.plugins.length}
-                    maximumPerPage={PLUGINS_PER_PAGE}
+                    total={this.props.listing.length}
+                    maximumPerPage={ITEMS_PER_PAGE}
                     onNextPageButtonClick={this.nextPage}
                     onPreviousPageButtonClick={this.previousPage}
                 />
