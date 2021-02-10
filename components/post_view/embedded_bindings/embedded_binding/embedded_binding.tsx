@@ -4,11 +4,9 @@
 
 import React, {CSSProperties} from 'react';
 
-import {AppBinding, AppPostEmbed} from 'mattermost-redux/types/apps';
+import {AppBinding} from 'mattermost-redux/types/apps';
 
 import {Post} from 'mattermost-redux/types/posts';
-
-import memoize from 'memoize-one';
 
 import * as Utils from 'utils/utils';
 import LinkOnlyRenderer from 'utils/markdown/link_only_renderer';
@@ -32,7 +30,7 @@ type Props = {
     /**
      * The attachment to render
      */
-    embed: AppPostEmbed;
+    embed: AppBinding;
 
     /**
      * Options specific to text formatting
@@ -42,17 +40,12 @@ type Props = {
     currentRelativeTeamUrl: string;
 }
 
-export default class AppPostEmbedComponent extends React.PureComponent<Props> {
-    fillBindings = memoize(
-        (bindings: AppBinding[], appId: string) => {
-            const copiedBindings = JSON.parse(JSON.stringify(bindings)) as AppBinding[];
-            copiedBindings.forEach((b) => {
-                b.app_id = appId;
-                fillBindingsInformation(b);
-            });
-            return copiedBindings;
-        },
-    )
+export default class EmbeddedBinding extends React.PureComponent<Props> {
+    fillBindings = (binding: AppBinding) => {
+        const copiedBindings = JSON.parse(JSON.stringify(binding)) as AppBinding;
+        fillBindingsInformation(copiedBindings);
+        return copiedBindings.bindings;
+    }
 
     renderBindings = () => {
         if (!this.props.embed.app_id) {
@@ -63,7 +56,7 @@ export default class AppPostEmbedComponent extends React.PureComponent<Props> {
             return null;
         }
 
-        const bindings = this.fillBindings(this.props.embed.bindings, this.props.embed.app_id);
+        const bindings = this.fillBindings(this.props.embed);
         if (!bindings || !bindings.length) {
             return null;
         }
@@ -109,11 +102,11 @@ export default class AppPostEmbedComponent extends React.PureComponent<Props> {
         const {embed, options} = this.props;
 
         let title;
-        if (embed.title) {
+        if (embed.label) {
             title = (
                 <h1 className='attachment__title'>
                     <Markdown
-                        message={embed.title}
+                        message={embed.label}
                         options={{
                             mentionHighlight: false,
                             renderer: new LinkOnlyRenderer(),
@@ -125,14 +118,14 @@ export default class AppPostEmbedComponent extends React.PureComponent<Props> {
         }
 
         let attachmentText;
-        if (embed.text) {
+        if (embed.description) {
             attachmentText = (
                 <ShowMore
                     isAttachmentText={true}
-                    text={embed.text}
+                    text={embed.description}
                 >
                     <Markdown
-                        message={embed.text || ''}
+                        message={embed.description}
                         options={options}
                     />
                 </ShowMore>

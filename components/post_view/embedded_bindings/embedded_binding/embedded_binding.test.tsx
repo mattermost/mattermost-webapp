@@ -7,11 +7,11 @@ import {shallow} from 'enzyme';
 import {MessageAttachment as MessageAttachmentType} from 'mattermost-redux/types/message_attachments';
 import {Post} from 'mattermost-redux/types/posts';
 
-import {AppBinding, AppPostEmbed} from 'mattermost-redux/types/apps';
+import {AppBinding} from 'mattermost-redux/types/apps';
 
-import AppPostEmbedComponent from './app_post_embed';
+import EmbeddedBinding from './embedded_binding';
 
-describe('components/post_view/app_post_embeds/app_post_embed', () => {
+describe('components/post_view/embedded_bindings/embedded_binding', () => {
     const post = {
         id: 'post_id',
         channel_id: 'channel_id',
@@ -20,9 +20,9 @@ describe('components/post_view/app_post_embeds/app_post_embed', () => {
     const embed = {
         app_id: 'app_id',
         bindings: [] as AppBinding[],
-        text: 'some text',
-        title: 'some title',
-    } as AppPostEmbed;
+        label: 'some text',
+        description: 'some title',
+    } as AppBinding;
 
     const baseProps = {
         post,
@@ -31,7 +31,7 @@ describe('components/post_view/app_post_embeds/app_post_embed', () => {
     };
 
     test('should match snapshot', () => {
-        const wrapper = shallow(<AppPostEmbedComponent {...baseProps}/>);
+        const wrapper = shallow(<EmbeddedBinding {...baseProps}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -43,7 +43,7 @@ describe('components/post_view/app_post_embeds/app_post_embed', () => {
             } as MessageAttachmentType,
         };
 
-        const wrapper = shallow(<AppPostEmbedComponent {...props}/>);
+        const wrapper = shallow(<EmbeddedBinding {...props}/>);
 
         expect(wrapper).toMatchSnapshot();
     });
@@ -56,7 +56,7 @@ describe('components/post_view/app_post_embeds/app_post_embed', () => {
             } as MessageAttachmentType,
         };
 
-        const wrapper = shallow(<AppPostEmbedComponent {...props}/>);
+        const wrapper = shallow(<EmbeddedBinding {...props}/>);
 
         expect(wrapper).toMatchSnapshot();
     });
@@ -69,7 +69,7 @@ describe('components/post_view/app_post_embeds/app_post_embed', () => {
             } as MessageAttachmentType,
         };
 
-        const wrapper = shallow(<AppPostEmbedComponent {...props}/>);
+        const wrapper = shallow(<EmbeddedBinding {...props}/>);
 
         expect(wrapper).toMatchSnapshot();
     });

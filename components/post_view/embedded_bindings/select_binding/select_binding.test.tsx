@@ -8,7 +8,7 @@ import React from 'react';
 
 import SelectBinding from './select_binding';
 
-describe('components/post_view/app_bost_embeds/select_binding/select_binding', () => {
+describe('components/post_view/embedded_bindings/select_binding', () => {
     const post = {
         id: 'post_id',
         channel_id: 'channel_id',

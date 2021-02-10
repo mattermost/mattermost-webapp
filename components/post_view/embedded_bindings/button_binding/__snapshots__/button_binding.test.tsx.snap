@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/post_view/app_post_embeds/button_binding/button_binding should match snapshot 1`] = `
+exports[`components/post_view/embedded_bindings/button_binding/ should match snapshot 1`] = `
 <button
   onClick={[Function]}
 >

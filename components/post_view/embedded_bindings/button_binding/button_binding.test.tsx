@@ -9,7 +9,7 @@ import {AppBinding} from 'mattermost-redux/types/apps';
 
 import ButtonBinding from './button_binding';
 
-describe('components/post_view/app_post_embeds/button_binding/button_binding', () => {
+describe('components/post_view/embedded_bindings/button_binding/', () => {
     const post = {
         id: 'post_id',
         channel_id: 'channel_id',

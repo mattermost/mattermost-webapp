@@ -4,7 +4,7 @@
 import {Post, PostEmbed} from 'mattermost-redux/types/posts';
 
 import {getEmbedFromMetadata} from 'mattermost-redux/utils/post_utils';
-import {AppPostEmbed} from 'mattermost-redux/types/apps';
+import {AppBinding} from 'mattermost-redux/types/apps';
 
 import React from 'react';
 
@@ -14,7 +14,7 @@ import PostImage from 'components/post_view/post_image';
 import YoutubeVideo from 'components/youtube_video';
 
 import {PostWillRenderEmbedPluginComponent} from 'types/store/plugins';
-import AppPostEmbedsComponent from '../app_post_embeds/app_post_embeds';
+import EmbeddedBindings from '../embedded_bindings/embedded_bindings';
 import {TextFormattingOptions} from 'utils/text_formatting';
 
 export type Props = {
@@ -135,13 +135,13 @@ export default class PostBodyAdditionalContent extends React.PureComponent<Props
         const embed = this.getEmbed();
 
         if (this.props.appsEnabled) {
-            if (hasValidAppPostEmbed(this.props.post.props)) {
+            if (hasValidEmbeddedBinding(this.props.post.props)) {
                 // TODO Put some log / message if the form is not valid?
                 return (
                     <React.Fragment>
                         {this.props.children}
-                        <AppPostEmbedsComponent
-                            embeds={this.props.post.props.app_embed}
+                        <EmbeddedBindings
+                            embeds={this.props.post.props.app_bindings}
                             post={this.props.post}
                         />
                     </React.Fragment>
@@ -167,16 +167,16 @@ export default class PostBodyAdditionalContent extends React.PureComponent<Props
     }
 }
 
-function hasValidAppPostEmbed(props: Record<string, any>) {
+function hasValidEmbeddedBinding(props: Record<string, any>) {
     if (!props) {
         return false;
     }
 
-    if (!props.app_embed) {
+    if (!props.app_bindings) {
         return false;
     }
 
-    const embeds = props.app_embed as AppPostEmbed[];
+    const embeds = props.app_bindings as AppBinding[];
 
     if (!embeds.length) {
         return false;
