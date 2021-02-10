@@ -149,13 +149,14 @@
             font-weight: 600;
             border-bottom: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.16);
             padding: 8px 16px;
+            color: #000000;
             &:last-child {
                 border-bottom: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.08);
             }
         }
 
         .DataGrid_row {
-            height: 41px;
+            height: 40px;
             display: flex;
             flex-direction: row;
             padding: 0 16px;
@@ -175,7 +176,12 @@
                 border-left: none;
             }
             .actionIcon {
-                width: 56px;
+                width: 32px;
+
+                .MenuWrapper {
+                    width: 32px;
+                    margin-left: auto;
+                }
             }
             .actionIcon a i {
                 display: none;

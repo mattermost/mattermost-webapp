@@ -22,7 +22,7 @@ export type Column = {
     fixed?: boolean;
 
     // Optional styling overrides
-    customClass?: string;
+    className?: string;
     width?: number;
     textAlign?: '-moz-initial' | 'inherit' | 'initial' | 'revert' | 'unset' | 'center' | 'end' | 'justify' | 'left' | 'match-parent' | 'right' | 'start' | undefined;
     overflow?: string;
@@ -64,7 +64,7 @@ type Props = {
         onFilter: (options: FilterOptions) => void;
     };
 
-    customGridClass?: string;
+    className?: string;
 };
 
 type State = {
@@ -281,7 +281,7 @@ class DataGrid extends React.PureComponent<Props, State> {
     public render() {
         return (
             <div
-                className={classNames('DataGrid', this.props.customGridClass)}
+                className={classNames('DataGrid', this.props.className)}
                 ref={this.ref}
             >
                 {this.renderSearch()}

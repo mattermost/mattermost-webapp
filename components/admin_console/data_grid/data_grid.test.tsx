@@ -73,7 +73,7 @@ describe('components/admin_console/data_grid/DataGrid', () => {
                     {name: 'Name', field: 'name'},
                     {name: 'Team', field: 'team'},
                 ]}
-                customGridClass={'customTable'}
+                className={'customTable'}
             />,
         );
         expect(wrapper).toMatchSnapshot();

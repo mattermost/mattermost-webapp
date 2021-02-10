@@ -43,7 +43,7 @@ const columns: Column[] = [
     {
         name: '',
         field: 'actions',
-        customClass: 'actionIcon',
+        className: 'actionIcon',
     },
 ];
 const data = [
@@ -108,7 +108,7 @@ const getRows = (entries: any): Row[] => {
                             </a>
                         </div>
                         <Menu
-                            openLeft={false}
+                            openLeft={true}
                             openUp={false}
                             ariaLabel={'User Actions Menu'}
                         >
@@ -149,7 +149,7 @@ storiesOf('Admin Console/Data Grid', module).
                         startCount={1}
                         endCount={4}
                         total={0}
-                        customGridClass={'customTable'}
+                        className={'customTable'}
                     />
                 );
             };
@@ -188,7 +188,7 @@ storiesOf('Admin Console/Data Grid', module).
                         startCount={(page * MAX_PER_PAGE) + 1}
                         endCount={(page + 1) * MAX_PER_PAGE}
                         total={8}
-                        customGridClass={'customTable'}
+                        className={'customTable'}
                     />
                 );
             };
