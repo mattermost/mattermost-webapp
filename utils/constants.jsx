@@ -193,10 +193,11 @@ export const ActionTypes = keyMirror({
     UPDATE_ACTIVE_SECTION: null,
 
     RECEIVED_MARKETPLACE_PLUGINS: null,
-    INSTALLING_MARKETPLACE_PLUGIN: null,
-    INSTALLING_MARKETPLACE_PLUGIN_SUCCEEDED: null,
-    INSTALLING_MARKETPLACE_PLUGIN_FAILED: null,
-    FILTER_MARKETPLACE_PLUGINS: null,
+    RECEIVED_MARKETPLACE_APPS: null,
+    FILTER_MARKETPLACE_LISTING: null,
+    INSTALLING_MARKETPLACE_ITEM: null,
+    INSTALLING_MARKETPLACE_ITEM_SUCCEEDED: null,
+    INSTALLING_MARKETPLACE_ITEM_FAILED: null,
 
     POST_UNREAD_SUCCESS: null,
 
@@ -280,6 +281,7 @@ export const ModalIdentifiers = {
     MORE_CHANNELS: 'more_channels',
     NEW_CHANNEL_FLOW: 'new_channel_flow',
     CLOUD_PURCHASE: 'cloud_purchase',
+    COMMERCIAL_SUPPORT: 'commercial_support',
     NO_INTERNET_CONNECTION: 'no_internet_connection',
 };
 

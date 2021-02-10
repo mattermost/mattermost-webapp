@@ -24,6 +24,13 @@ const currentTeamId = '321';
 const currentUserId = 'user123';
 const initialState = {
     entities: {
+        admin: {
+            pluginStatuses: {
+                'com.mattermost.apps': {
+                    state: 2,
+                },
+            },
+        },
         general: {
             config: {
                 ExperimentalViewArchivedChannels: 'false',

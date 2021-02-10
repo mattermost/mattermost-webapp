@@ -19,51 +19,61 @@ const ephemeral = (text: string, call?: AppCall) => sendEphemeralPost(text, (cal
 
 export function doAppCall<Res=unknown>(call: AppCall): ActionFunc {
     return async (dispatch: DispatchFunc) => {
-        const res = await Client4.executeAppCall(call) as AppCallResponse<Res>;
+        try {
+            const res = await Client4.executeAppCall(call) as AppCallResponse<Res>;
 
-        const responseType = res.type || AppCallResponseTypes.OK;
+            const responseType = res.type || AppCallResponseTypes.OK;
 
-        switch (responseType) {
-        case AppCallResponseTypes.OK:
-            if (res.markdown) {
-                if (!call.context.channel_id) {
+            switch (responseType) {
+            case AppCallResponseTypes.OK:
+                if (res.markdown) {
+                    if (!call.context.channel_id) {
+                        return {data: res};
+                    }
+
+                    ephemeral(res.markdown, call);
+                }
+                return {data: res};
+            case AppCallResponseTypes.ERROR:
+                return {data: res};
+            case AppCallResponseTypes.FORM:
+                if (!res.form) {
+                    const errMsg = 'An error has occurred. Please contact the App developer. Details: Response type is `form`, but no form was included in response.';
+                    ephemeral(errMsg, call);
                     return {data: res};
                 }
 
-                ephemeral(res.markdown, call);
-            }
-            return {data: res};
-        case AppCallResponseTypes.ERROR:
-            return {data: res};
-        case AppCallResponseTypes.FORM:
-            if (!res.form) {
-                const errMsg = 'An error has occurred. Please contact the App developer. Details: Response type is `form`, but no form was included in response.';
-                ephemeral(errMsg, call);
+                if (call.type === AppCallTypes.SUBMIT) {
+                    dispatch(openAppsModal(res.form, call));
+                }
+
+                return {data: res};
+            case AppCallResponseTypes.NAVIGATE:
+                if (!res.url) {
+                    const errMsg = 'An error has occurred. Please contact the App developer. Details: Response type is `navigate`, but no url was included in response.';
+                    ephemeral(errMsg, call);
+                    return {data: res};
+                }
+
+                if (shouldOpenInNewTab(res.url, getSiteURL())) {
+                    window.open(res.url);
+                    return {data: res};
+                }
+
+                browserHistory.push(res.url);
                 return {data: res};
             }
-
-            if (call.type === AppCallTypes.SUBMIT) {
-                dispatch(openAppsModal(res.form, call));
-            }
-
             return {data: res};
-        case AppCallResponseTypes.NAVIGATE:
-            if (!res.url) {
-                const errMsg = 'An error has occurred. Please contact the App developer. Details: Response type is `navigate`, but no url was included in response.';
-                ephemeral(errMsg, call);
-                return {data: res};
+        } catch (error) {
+            let msg = 'Received an unexpected error.';
+            if (error.message) {
+                msg = error.message;
             }
-
-            if (shouldOpenInNewTab(res.url, getSiteURL())) {
-                window.open(res.url);
-                return {data: res};
-            }
-
-            browserHistory.push(res.url);
-            return {data: res};
+            ephemeral(msg, call);
+            return {data: {
+                error: msg,
+            }};
         }
-
-        return {data: res};
     };
 }
 
