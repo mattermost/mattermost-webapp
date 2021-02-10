@@ -5591,7 +5591,7 @@ const AdminDefinition = {
                         label: t('admin.experimental.collapsedThreads.title'),
                         label_default: 'Collapsed Reply Threads',
                         help_text: t('admin.experimental.collapsedThreads.desc'),
-                        help_text_default: 'When this feature is on, replies to threads in channels will be collapsed, and users will have access to Threads in the left hand sidebar. If default on, this enables collapsed reply threads by default for all users on this server. Users can disable the feature in **Account Settings > Display > Collased Reply Threads**. If default off, users may enable the feature in Account Settings. [Learn more](!https://about.mattermost.com/) or [give us feedback](!https://about.mattermost.com/).',
+                        help_text_default: 'When enabled (default on), this setting enables collapsed reply threads for all users on this server. Users can disable the feature in Account Settings > Display > Collapsed Reply Threads (Beta). When enabled (default off), users must enable collapsed reply threads in Account Settings. When disabled, users cannot access collapsed reply threads. [Learn more about collapsed reply threads](!https://about.mattermost.com/default-threads).',
                         help_text_markdown: true,
                         options: [
                             {

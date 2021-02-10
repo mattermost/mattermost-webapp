@@ -714,7 +714,7 @@
   "admin.experimental.closeUnusedDirectMessages.title": "Autoclose Direct Messages in Sidebar:",
   "admin.experimental.collapsedThreads.default_off": "Enabled (Default Off)",
   "admin.experimental.collapsedThreads.default_on": "Enabled (Default On)",
-  "admin.experimental.collapsedThreads.desc": "When this feature is on, replies to threads in channels will be collapsed, and users will have access to Threads in the left hand sidebar. If default on, this enables collapsed reply threads by default for all users on this server. Users can disable the feature in **Account Settings > Display > Collased Reply Threads**. If default off, users may enable the feature in Account Settings. [Learn more](!https://about.mattermost.com/) or [give us feedback](!https://about.mattermost.com/).",
+  "admin.experimental.collapsedThreads.desc": "When enabled (default on), this setting enables collapsed reply threads for all users on this server. Users can disable the feature in Account Settings > Display > Collapsed Reply Threads (Beta). When enabled (default off), users must enable collapsed reply threads in Account Settings. When disabled, users cannot access collapsed reply threads. [Learn more about collapsed reply threads](!https://about.mattermost.com/default-threads).",
   "admin.experimental.collapsedThreads.off": "Disabled",
   "admin.experimental.collapsedThreads.title": "Collapsed Reply Threads",
   "admin.experimental.defaultTheme.desc": "Set a default theme that applies to all new users on the system.",
