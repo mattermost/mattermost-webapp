@@ -36,7 +36,7 @@ Cypress.Commands.add('gotoTeamAndPostMessage', () => {
     });
 });
 
-Cypress.Commands.add('enableComplianceExport', (exportFormate = 'csv') => {
+Cypress.Commands.add('enableComplianceExport', (exportFormat = 'csv') => {
     // # Enable compliance export
     cy.findByTestId('enableComplianceExporttrue').click();
 
