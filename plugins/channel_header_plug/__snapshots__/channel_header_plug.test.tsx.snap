@@ -8,10 +8,10 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with no extended compon
     }
   }
   appBindings={Array []}
+  appsEnabled={false}
   channel={Object {}}
   channelMember={Object {}}
   components={Array []}
-  appsEnabled={false}
   theme={Object {}}
 />
 `;
@@ -24,6 +24,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with one extended compo
     }
   }
   appBindings={Array []}
+  appsEnabled={false}
   channel={Object {}}
   channelMember={Object {}}
   components={
@@ -40,7 +41,6 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with one extended compo
       },
     ]
   }
-  appsEnabled={false}
   theme={Object {}}
 >
   <HeaderIconWrapper
@@ -128,6 +128,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
     }
   }
   appBindings={Array []}
+  appsEnabled={false}
   channel={Object {}}
   channelMember={Object {}}
   components={
@@ -194,7 +195,6 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
       },
     ]
   }
-  appsEnabled={false}
   theme={Object {}}
 >
   <div
