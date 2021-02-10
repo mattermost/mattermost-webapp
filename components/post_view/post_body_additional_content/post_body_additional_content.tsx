@@ -4,7 +4,7 @@
 import {Post, PostEmbed} from 'mattermost-redux/types/posts';
 
 import {getEmbedFromMetadata} from 'mattermost-redux/utils/post_utils';
-import {PostEmbed as AppEmbed} from 'mattermost-redux/types/apps';
+import {AppPostEmbed} from 'mattermost-redux/types/apps';
 
 import React from 'react';
 
@@ -14,7 +14,7 @@ import PostImage from 'components/post_view/post_image';
 import YoutubeVideo from 'components/youtube_video';
 
 import {PostWillRenderEmbedPluginComponent} from 'types/store/plugins';
-import EmbeddedForms from '../embedded_forms/embedded_forms';
+import AppPostEmbedsComponent from '../app_post_embeds/app_post_embeds';
 import {TextFormattingOptions} from 'utils/text_formatting';
 
 export type Props = {
@@ -135,13 +135,13 @@ export default class PostBodyAdditionalContent extends React.PureComponent<Props
         const embed = this.getEmbed();
 
         if (this.props.appsEnabled) {
-            if (hasValidEmbeddedForm(this.props.post.props)) {
+            if (hasValidAppPostEmbed(this.props.post.props)) {
                 // TODO Put some log / message if the form is not valid?
                 return (
                     <React.Fragment>
                         {this.props.children}
-                        <EmbeddedForms
-                            embeds={this.props.post.props.app_bindings}
+                        <AppPostEmbedsComponent
+                            embeds={this.props.post.props.app_embed}
                             post={this.props.post}
                         />
                     </React.Fragment>
@@ -167,16 +167,16 @@ export default class PostBodyAdditionalContent extends React.PureComponent<Props
     }
 }
 
-function hasValidEmbeddedForm(props: Record<string, any>) {
+function hasValidAppPostEmbed(props: Record<string, any>) {
     if (!props) {
         return false;
     }
 
-    if (!props.app_bindings) {
+    if (!props.app_embed) {
         return false;
     }
 
-    const embeds = props.app_bindings as AppEmbed[];
+    const embeds = props.app_embed as AppPostEmbed[];
 
     if (!embeds.length) {
         return false;

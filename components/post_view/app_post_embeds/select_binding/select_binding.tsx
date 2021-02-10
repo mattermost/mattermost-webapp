@@ -33,7 +33,7 @@ type State = {
     selected?: Option;
 };
 
-export default class ActionMenu extends React.PureComponent<Props, State> {
+export default class SelectBinding extends React.PureComponent<Props, State> {
     private providers: MenuActionProvider[];
 
     constructor(props: Props) {

@@ -7,9 +7,9 @@ import {shallow} from 'enzyme';
 import {Post} from 'mattermost-redux/types/posts';
 import {AppBinding} from 'mattermost-redux/types/apps';
 
-import ActionButton from './action_button';
+import ButtonBinding from './button_binding';
 
-describe('components/post_view/embedded_forms/embedded_form/action_button', () => {
+describe('components/post_view/app_post_embeds/button_binding/button_binding', () => {
     const post = {
         id: 'post_id',
         channel_id: 'channel_id',
@@ -28,12 +28,12 @@ describe('components/post_view/embedded_forms/embedded_form/action_button', () =
     };
 
     test('should match snapshot', () => {
-        const wrapper = shallow(<ActionButton {...baseProps}/>);
+        const wrapper = shallow(<ButtonBinding {...baseProps}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should call handleAction on click', () => {
-        const wrapper = shallow(<ActionButton {...baseProps}/>);
+        const wrapper = shallow(<ButtonBinding {...baseProps}/>);
 
         wrapper.find('button').simulate('click');
 

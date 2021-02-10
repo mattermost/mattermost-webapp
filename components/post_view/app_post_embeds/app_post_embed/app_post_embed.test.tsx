@@ -7,11 +7,11 @@ import {shallow} from 'enzyme';
 import {MessageAttachment as MessageAttachmentType} from 'mattermost-redux/types/message_attachments';
 import {Post} from 'mattermost-redux/types/posts';
 
-import {AppBinding, PostEmbed} from 'mattermost-redux/types/apps';
+import {AppBinding, AppPostEmbed} from 'mattermost-redux/types/apps';
 
-import EmbeddedForm from './embedded_form';
+import AppPostEmbedComponent from './app_post_embed';
 
-describe('components/post_view/embedded_forms/EmbeddedForm', () => {
+describe('components/post_view/app_post_embeds/app_post_embed', () => {
     const post = {
         id: 'post_id',
         channel_id: 'channel_id',
@@ -22,7 +22,7 @@ describe('components/post_view/embedded_forms/EmbeddedForm', () => {
         bindings: [] as AppBinding[],
         text: 'some text',
         title: 'some title',
-    } as PostEmbed;
+    } as AppPostEmbed;
 
     const baseProps = {
         post,
@@ -31,7 +31,7 @@ describe('components/post_view/embedded_forms/EmbeddedForm', () => {
     };
 
     test('should match snapshot', () => {
-        const wrapper = shallow(<EmbeddedForm {...baseProps}/>);
+        const wrapper = shallow(<AppPostEmbedComponent {...baseProps}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -43,7 +43,7 @@ describe('components/post_view/embedded_forms/EmbeddedForm', () => {
             } as MessageAttachmentType,
         };
 
-        const wrapper = shallow(<EmbeddedForm {...props}/>);
+        const wrapper = shallow(<AppPostEmbedComponent {...props}/>);
 
         expect(wrapper).toMatchSnapshot();
     });
@@ -56,7 +56,7 @@ describe('components/post_view/embedded_forms/EmbeddedForm', () => {
             } as MessageAttachmentType,
         };
 
-        const wrapper = shallow(<EmbeddedForm {...props}/>);
+        const wrapper = shallow(<AppPostEmbedComponent {...props}/>);
 
         expect(wrapper).toMatchSnapshot();
     });
@@ -69,7 +69,7 @@ describe('components/post_view/embedded_forms/EmbeddedForm', () => {
             } as MessageAttachmentType,
         };
 
-        const wrapper = shallow(<EmbeddedForm {...props}/>);
+        const wrapper = shallow(<AppPostEmbedComponent {...props}/>);
 
         expect(wrapper).toMatchSnapshot();
     });

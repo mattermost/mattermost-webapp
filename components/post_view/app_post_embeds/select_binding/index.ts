@@ -13,7 +13,7 @@ import {AppCall} from 'mattermost-redux/types/apps';
 import {doAppCall} from 'actions/apps';
 import {GlobalState} from 'types/store';
 
-import ActionMenu from './action_menu';
+import SelectBinding from './select_binding';
 
 function mapStateToProps(state: GlobalState) {
     return {
@@ -33,4 +33,4 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ActionMenu);
+export default connect(mapStateToProps, mapDispatchToProps)(SelectBinding);

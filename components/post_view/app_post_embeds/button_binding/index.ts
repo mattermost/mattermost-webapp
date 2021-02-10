@@ -11,7 +11,7 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {doAppCall} from 'actions/apps';
 
-import ActionButton from './action_button';
+import ButtonBinding from './button_binding';
 
 function mapStateToProps(state: GlobalState) {
     return {
@@ -31,4 +31,4 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ActionButton);
+export default connect(mapStateToProps, mapDispatchToProps)(ButtonBinding);

@@ -6,9 +6,9 @@ import {AppBinding} from 'mattermost-redux/types/apps';
 import {Post} from 'mattermost-redux/types/posts';
 import React from 'react';
 
-import ActionMenu from './action_menu';
+import SelectBinding from './select_binding';
 
-describe('components/post_view/embedded_forms/embedded_form/action_menu', () => {
+describe('components/post_view/app_bost_embeds/select_binding/select_binding', () => {
     const post = {
         id: 'post_id',
         channel_id: 'channel_id',
@@ -24,7 +24,7 @@ describe('components/post_view/embedded_forms/embedded_form/action_menu', () => 
     };
 
     test('should start with nothing selected', () => {
-        const wrapper = shallow(<ActionMenu {...baseProps}/>);
+        const wrapper = shallow(<SelectBinding {...baseProps}/>);
 
         expect(wrapper.state()).toMatchObject({});
     });

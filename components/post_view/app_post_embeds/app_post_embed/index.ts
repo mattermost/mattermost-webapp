@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 import {GlobalState} from 'mattermost-redux/types/store';
 
-import EmbeddedForm from './embedded_form';
+import AppPostEmbedComponent from './app_post_embed';
 
 function mapStateToProps(state: GlobalState) {
     return {
@@ -14,4 +14,4 @@ function mapStateToProps(state: GlobalState) {
     };
 }
 
-export default connect(mapStateToProps)(EmbeddedForm);
+export default connect(mapStateToProps)(AppPostEmbedComponent);

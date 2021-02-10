@@ -4,7 +4,7 @@
 
 import React, {CSSProperties} from 'react';
 
-import {AppBinding, PostEmbed} from 'mattermost-redux/types/apps';
+import {AppBinding, AppPostEmbed} from 'mattermost-redux/types/apps';
 
 import {Post} from 'mattermost-redux/types/posts';
 
@@ -17,8 +17,8 @@ import {TextFormattingOptions} from 'utils/text_formatting';
 import Markdown from 'components/markdown';
 import ShowMore from 'components/post_view/show_more';
 
-import ActionButton from '../action_button';
-import ActionMenu from '../action_menu';
+import ButtonBinding from '../button_binding';
+import SelectBinding from '../select_binding';
 
 import {fillBindingsInformation} from 'utils/apps';
 
@@ -32,7 +32,7 @@ type Props = {
     /**
      * The attachment to render
      */
-    embed: PostEmbed;
+    embed: AppPostEmbed;
 
     /**
      * Options specific to text formatting
@@ -42,7 +42,7 @@ type Props = {
     currentRelativeTeamUrl: string;
 }
 
-export default class EmbeddedForm extends React.PureComponent<Props> {
+export default class AppPostEmbedComponent extends React.PureComponent<Props> {
     fillBindings = memoize(
         (bindings: AppBinding[], appId: string) => {
             const copiedBindings = JSON.parse(JSON.stringify(bindings)) as AppBinding[];
@@ -77,7 +77,7 @@ export default class EmbeddedForm extends React.PureComponent<Props> {
 
             if (binding.bindings && binding.bindings.length > 0) {
                 content.push(
-                    <ActionMenu
+                    <SelectBinding
                         key={binding.location}
                         post={this.props.post}
                         binding={binding}
@@ -85,7 +85,7 @@ export default class EmbeddedForm extends React.PureComponent<Props> {
                 );
             } else {
                 content.push(
-                    <ActionButton
+                    <ButtonBinding
                         key={binding.location}
                         post={this.props.post}
                         binding={binding}
