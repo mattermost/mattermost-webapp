@@ -8,8 +8,6 @@ import {AppField} from 'mattermost-redux/types/apps';
 
 import TextSetting from 'components/widgets/settings/text_setting';
 
-import ButtonSelector from 'components/button_selector';
-
 import AutocompleteSelector from 'components/autocomplete_selector';
 import GenericUserProvider from 'components/suggestion/generic_user_provider.jsx';
 import GenericChannelProvider from 'components/suggestion/generic_channel_provider.jsx';
@@ -39,7 +37,6 @@ describe('components/apps_form/apps_form_field/AppsFormField', () => {
             value: '',
             onChange: () => {},
             performLookup: jest.fn(),
-            isSubmit: false,
         };
 
         const baseTextSettingProps = {
@@ -150,7 +147,6 @@ describe('components/apps_form/apps_form_field/AppsFormField', () => {
             value: null,
             onChange: () => {},
             performLookup: jest.fn(),
-            isSubmit: false,
         };
 
         const options = [
@@ -188,23 +184,6 @@ describe('components/apps_form/apps_form_field/AppsFormField', () => {
             );
 
             expect(wrapper.find(AppsFormSelectField).exists()).toBe(true);
-        });
-
-        test('ButtonSelector is rendered when type isSubmit is true', () => {
-            const wrapper = shallow(
-                <AppsFormField
-                    {...baseDialogSelectProps}
-                    field={{
-                        ...selectField,
-                        type: 'static_select',
-                        options,
-                    }}
-                    onChange={jest.fn()}
-                    isSubmit={true}
-                />,
-            );
-
-            expect(wrapper.find(ButtonSelector).exists()).toBe(true);
         });
 
         test('GenericUserProvider is used when field type is user', () => {
