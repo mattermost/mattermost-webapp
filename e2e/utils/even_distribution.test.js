@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {getTestFilesIdentifier} from './file';
+import {getTestFilesIdentifier} from './even_distribution';
 
 describe('getTestFilesIdentifier', () => {
     it('should return expected output', () => {

@@ -52,11 +52,8 @@ const chalk = require('chalk');
 const cypress = require('cypress');
 const argv = require('yargs').argv;
 
-const {
-    getSkippedFiles,
-    getTestFiles,
-    getTestFilesIdentifier,
-} = require('./utils/file');
+const {getTestFiles, getSkippedFiles} = require('./utils/file');
+const {getTestFilesIdentifier} = require('./utils/even_distribution');
 const {writeJsonToFile} = require('./utils/report');
 const {MOCHAWESOME_REPORT_DIR, RESULTS_DIR} = require('./utils/constants');
 
