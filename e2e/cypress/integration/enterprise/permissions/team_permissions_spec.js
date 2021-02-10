@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @enterprise @permissions
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
@@ -130,6 +131,9 @@ describe('Team Permissions', () => {
 
         // * Verify `View Members` menu item is visible
         cy.get('#channelViewMembers').should('be.visible');
+
+        // # Close channel header menu
+        cy.uiCloseChannelMenu().wait(TIMEOUTS.HALF_SEC);
 
         // # Open channel members list
         cy.get('#channelMember').should('be.visible').click().wait(TIMEOUTS.HALF_SEC);
