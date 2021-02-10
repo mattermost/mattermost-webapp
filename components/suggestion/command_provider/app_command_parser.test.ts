@@ -321,7 +321,7 @@ describe('AppCommandParser', () => {
                 command: '/jira',
                 autocomplete: {expectError: '"/jira": no match'},
                 submit: {verify: (parsed: ParsedCommand): void => {
-                    expect(parsed.state).toBe(ParseState.CommandSeparator);
+                    expect(parsed.state).toBe(ParseState.Command);
                     expect(parsed.binding?.label).toBe('jira');
                 }},
             },
@@ -329,7 +329,7 @@ describe('AppCommandParser', () => {
                 title: 'space after the top command',
                 command: '/jira ',
                 submit: {verify: (parsed: ParsedCommand): void => {
-                    expect(parsed.state).toBe(ParseState.CommandSeparator);
+                    expect(parsed.state).toBe(ParseState.Command);
                     expect(parsed.binding?.label).toBe('jira');
                 }},
             },
@@ -359,7 +359,7 @@ describe('AppCommandParser', () => {
                     expect(parsed.incompleteStart).toBe(6);
                 }},
                 submit: {verify: (parsed: ParsedCommand): void => {
-                    expect(parsed.state).toBe(ParseState.CommandSeparator);
+                    expect(parsed.state).toBe(ParseState.Command);
                     expect(parsed.binding?.label).toBe('issue');
                     expect(parsed.location).toBe('/jira/issue');
                 }},

@@ -149,7 +149,7 @@ export class AppCommandParser {
 
         let parsed = await this.matchBinding(pretext, commandBindings, true);
         let suggestions: AutocompleteSuggestion[] = [];
-        if (parsed.state === ParseState.Command || parsed.state === ParseState.CommandSeparator) {
+        if (parsed.state === ParseState.Command) {
             suggestions = this.getCommandSuggestions(parsed);
         }
 
@@ -215,6 +215,10 @@ export class AppCommandParser {
 
     // matchBinding finds the closest matching command binding.
     matchBinding = async (command: string, commandBindings: AppBinding[], autocompleteMode = false): Promise<ParsedCommand> => {
+        if (commandBindings.length === 0) {
+            return this.parseError('no command bindings');
+        }
+
         const parsed = new ParsedCommand(command);
         let bindings = commandBindings;
         let i = 0;
@@ -230,9 +234,6 @@ export class AppCommandParser {
             case ParseState.Start: {
                 if (c !== '/') {
                     return this.parseError('command must start with a /: ' + i);
-                }
-                if (bindings.length === 0) {
-                    return this.parseError('no command bindings: ' + i);
                 }
                 i++;
                 parsed.incomplete = '';
@@ -275,29 +276,22 @@ export class AppCommandParser {
                 }
                 parsed.binding = binding;
                 parsed.location += '/' + binding.label;
-                if (binding.bindings) {
-                    bindings = binding.bindings;
-                } else {
-                    bindings = [];
-                }
+                bindings = binding.bindings || [];
                 parsed.state = ParseState.CommandSeparator;
                 break;
             }
 
             case ParseState.CommandSeparator: {
                 switch (c) {
-                case '': {
-                    // Reached the end of input.
-                    parsed.incomplete = '';
-                    parsed.incompleteStart = i;
-                    done = true;
-                    break;
-                }
                 case ' ':
                 case '\t': {
                     i++;
                     break;
                 }
+
+                case '':
+                    done = true;
+                // eslint-disable-next-line no-fallthrough
                 default: {
                     parsed.incomplete = '';
                     parsed.incompleteStart = i;
