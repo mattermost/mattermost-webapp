@@ -14,9 +14,10 @@ import {GlobalState} from 'types/store';
 
 import {getApp, getFilter, getPlugin} from 'selectors/views/marketplace';
 import {ActionTypes} from 'utils/constants';
-import {appsEnabled} from 'utils/utils';
 
 import {isError} from 'types/actions';
+
+import {appsEnabled} from 'utils/apps';
 
 import {executeCommand} from './command';
 

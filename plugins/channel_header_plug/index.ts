@@ -12,7 +12,7 @@ import {GenericAction} from 'mattermost-redux/types/actions';
 import {doAppCall} from 'actions/apps';
 import {GlobalState} from 'types/store';
 
-import {appsEnabled} from 'utils/utils';
+import {appsEnabled} from 'utils/apps';
 
 import ChannelHeaderPlug from './channel_header_plug';
 

@@ -2,6 +2,13 @@
 // See LICENSE.txt for license information.
 
 import {AppBinding} from 'mattermost-redux/types/apps';
+import {GlobalState} from 'mattermost-redux/types/store';
+
+export function appsEnabled(state: GlobalState) {// eslint-disable-line @typescript-eslint/no-unused-vars
+    // TODO uncomment when featur flag is in place
+    //return getConfig(state)?.['FeatureFlagApps' as keyof Partial<ClientConfig>];
+    return true;
+}
 
 export function fillBindingsInformation(binding: AppBinding) {
     binding.bindings?.forEach((b) => {

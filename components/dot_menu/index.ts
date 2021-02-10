@@ -32,7 +32,7 @@ import * as PostUtils from 'utils/post_utils.jsx';
 import {isArchivedChannel} from 'utils/channel_utils';
 import {getSiteURL} from 'utils/url';
 
-import {appsEnabled} from 'utils/utils';
+import {appsEnabled} from 'utils/apps';
 
 import DotMenu from './dot_menu';
 

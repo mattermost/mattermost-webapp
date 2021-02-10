@@ -21,6 +21,8 @@ import {Constants} from 'utils/constants';
 import Suggestion from '../suggestion';
 import Provider from '../provider';
 
+import {appsEnabled} from 'utils/apps';
+
 import {AppCommandParser, Store} from './app_command_parser';
 
 const EXECUTE_CURRENT_COMMAND_ITEM_ID = Constants.Integrations.EXECUTE_CURRENT_COMMAND_ITEM_ID;
@@ -101,7 +103,7 @@ export default class CommandProvider extends Provider {
             }
         }
 
-        if (Utils.appsEnabled(this.store.getState())) {
+        if (appsEnabled(this.store.getState())) {
             this.appCommandParser = new AppCommandParser(this.store, rootId);
         }
     }

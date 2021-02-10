@@ -18,7 +18,7 @@ import * as GlobalActions from 'actions/global_actions';
 import * as PostActions from 'actions/post_actions.jsx';
 
 import {isUrlSafe, getSiteURL} from 'utils/url';
-import {localizeMessage, getUserIdFromChannelName, appsEnabled} from 'utils/utils.jsx';
+import {localizeMessage, getUserIdFromChannelName} from 'utils/utils.jsx';
 import * as UserAgent from 'utils/user_agent';
 import {Constants, ModalIdentifiers} from 'utils/constants';
 import {browserHistory} from 'utils/browser_history';
@@ -27,6 +27,8 @@ import UserSettingsModal from 'components/user_settings/modal';
 import {AppCommandParser} from 'components/suggestion/command_provider/app_command_parser';
 
 import {GlobalState} from 'types/store';
+
+import {appsEnabled} from 'utils/apps';
 
 import {doAppCall} from './apps';
 
