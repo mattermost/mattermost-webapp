@@ -177,7 +177,7 @@ describe('components/SuggestionBox', () => {
     });
 
     test('Test for suggestionBoxAlgn when slash command at beginning and when slash command in middle of text', () => {
-        const provider = new CommandProvider({ isInRHS: true });
+        const provider = new CommandProvider({isInRHS: true});
         const props = {
             ...baseProps,
             providers: [provider],
@@ -189,12 +189,12 @@ describe('components/SuggestionBox', () => {
         );
         const instance = wrapper.instance();
 
-        Utils.getSuggestionBoxAlgn = jest.fn().mockReturnValue({"pixelsToMoveX": 0, "pixelsToMoveY": 35})
+        Utils.getSuggestionBoxAlgn = jest.fn().mockReturnValue({pixelsToMoveX: 0, pixelsToMoveY: 35});
 
         instance.nonDebouncedPretextChanged('/');
         expect(wrapper.state('suggestionBoxAlgn')).toEqual({pixelsToMoveX: 0, pixelsToMoveY: 35});
 
-        instance.setState({suggestionBoxAlgn: {}})
+        instance.setState({suggestionBoxAlgn: {}});
 
         instance.nonDebouncedPretextChanged('I should still have a empty suggestionBoxAlgn /');
         expect(wrapper.state('suggestionBoxAlgn')).toEqual({});
