@@ -1,4 +1,4 @@
-@charset 'UTF-8';
+@charset "UTF-8";
 
 @media screen and (max-width: 768px) {
     #navbar_wrapper {
@@ -36,7 +36,7 @@
                 .post-pre-header__icons-container {
                     padding-right: 12px; // If the padding of post__img changes, this needs to be adjusted accordingly
                     width: 60px; // If the width of post__img changes, this needs to be adjusted accordingly
-                    margin-left: 0px; // if left margin of post__content changes, this needs to be adjusted accordingly
+                    margin-left: 0; // if left margin of post__content changes, this needs to be adjusted accordingly
                 }
             }
         }
@@ -193,8 +193,8 @@
                 margin-bottom: 0;
                 max-height: inherit;
                 max-width: inherit;
-                border: 0px;
-                padding-top: 0px;
+                border: 0;
+                padding-top: 0;
                 box-shadow: none;
                 color: inherit;
 
@@ -260,7 +260,7 @@
         .post, .SidebarMenu, .AddChannelDropdown {
             .Menu {
                 @include border-radius(0);
-                border: 0px;
+                border: 0;
                 height: 100%;
                 left: 0;
                 position: fixed;
@@ -299,7 +299,7 @@
                     background: var(--center-channel-bg);
 
                     &:last-child button {
-                        border-bottom: 0px;
+                        border-bottom: 0;
                     }
                 }
             }
@@ -679,7 +679,7 @@
             .post-pre-header__icons-container {
                 padding-right: 8px; // If the padding of post__img changes, this needs to be adjusted accordingly
                 width: 40px; // If the width of post__img changes, this needs to be adjusted accordingly
-                margin-left: 0px;
+                margin-left: 0;
 
                 .icon--post-pre-header {
                     &:nth-of-type(even) {
@@ -1331,7 +1331,7 @@
             }
 
             .status {
-                margin: 0 8px 0 0px;
+                margin: 0 8px 0 0;
                 top: 2px;
                 width: 16px;
 
@@ -1379,7 +1379,6 @@
         padding: 0;
 
         .search-form__container {
-            color: $black;
             padding: 0 20px 0 0;
         }
 
@@ -1395,13 +1394,13 @@
             &--focused,
             &--focused:hover {
                 border-color: transparent;
+                border-width: 1px;
             }
 
             .form-control {
                 @include border-radius(3px);
                 background: var(--center-channel-bg);
                 border: none;
-                color: $dark-gray;
                 padding: 0 31px;
             }
         }
@@ -1517,7 +1516,7 @@
                 }
 
                 h4 {
-                    margin: 1.5 0 1em;
+                    margin: 1.5em 0 1em;
                 }
 
                 >a {
@@ -1638,7 +1637,7 @@
                 }
 
                 h4 {
-                    margin: 1.5 0 1em;
+                    margin: 1.5em 0 1em;
                 }
 
                 >a {
