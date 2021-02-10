@@ -201,7 +201,7 @@ describe('Outgoing webhook', () => {
         cy.get('.backstage-form').should('be.visible').within(() => {
             cy.get('#iconURL').scrollIntoView().type(webhookIconUrlOverride);
             cy.get('#channelSelect').select(noChannelSelectionOption);
-            cy.get('#saveWebhook').click();
+            cy.get('#saveWebhook').click().wait(TIMEOUTS.ONE_SEC);
         });
 
         // # Click back to site name and verify that it redirects to test team/channel
@@ -211,7 +211,6 @@ describe('Outgoing webhook', () => {
         // # Post a message in a channel
         cy.apiLogin(testUser);
         cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.wait(TIMEOUTS.HALF_SEC);
         cy.postMessage(triggerWordExpanded);
         cy.uiWaitUntilMessagePostedIncludes(triggerWord);
         cy.uiWaitUntilMessagePostedIncludes('#### Outgoing Webhook Payload');
@@ -298,7 +297,6 @@ describe('Outgoing webhook', () => {
         // # Post a message in a channel
         cy.apiLogin(testUser);
         cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.wait(TIMEOUTS.HALF_SEC);
         cy.postMessage(triggerWordExpanded);
         cy.uiWaitUntilMessagePostedIncludes(triggerWord);
         cy.uiWaitUntilMessagePostedIncludes('#### Outgoing Webhook Payload');
@@ -386,7 +384,6 @@ describe('Outgoing webhook', () => {
         // # Post a message in a channel by user1
         cy.apiLogin(testUser);
         cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.wait(TIMEOUTS.HALF_SEC);
         cy.postMessage(triggerWordExpanded);
         cy.uiWaitUntilMessagePostedIncludes(triggerWord);
         cy.uiWaitUntilMessagePostedIncludes('#### Outgoing Webhook Payload');
@@ -489,7 +486,6 @@ describe('Outgoing webhook', () => {
         // # Post a message in a channel by user1
         cy.apiLogin(testUser);
         cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.wait(TIMEOUTS.HALF_SEC);
         cy.postMessage(triggerWordExpanded);
         cy.uiWaitUntilMessagePostedIncludes(triggerWord);
         cy.uiWaitUntilMessagePostedIncludes('#### Outgoing Webhook Payload');
@@ -536,7 +532,6 @@ describe('Outgoing webhook', () => {
         // # Post a message in a channel by user1
         cy.apiLogin(testUser);
         cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.wait(TIMEOUTS.HALF_SEC);
         cy.postMessage(triggerWordExpanded);
         cy.uiWaitUntilMessagePostedIncludes(triggerWord);
         cy.uiWaitUntilMessagePostedIncludes('#### Outgoing Webhook Payload');
@@ -600,7 +595,6 @@ describe('Outgoing webhook', () => {
         // # Post a message in a channel
         cy.apiLogin(testUser);
         cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.wait(TIMEOUTS.HALF_SEC);
         cy.postMessage(triggerWordExpanded);
         cy.uiWaitUntilMessagePostedIncludes(triggerWord);
         cy.uiWaitUntilMessagePostedIncludes('#### Outgoing Webhook Payload');
