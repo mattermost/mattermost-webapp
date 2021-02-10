@@ -26,6 +26,7 @@ describe('/components/common/hocs/with_get_cloud_subcription', () => {
                 isCloud={true}
                 actions={actions}
                 subscription={{}}
+                userIsAdmin={true}
             />,
         );
 
@@ -45,6 +46,27 @@ describe('/components/common/hocs/with_get_cloud_subcription', () => {
                 isCloud={false}
                 actions={actions}
                 subscription={{}}
+                userIsAdmin={true}
+            />,
+        );
+
+        expect(getCloudSubscriptionSpy).toHaveBeenCalledTimes(0);
+    });
+
+    test('should NOT call the getCloudSubscription when user is NOT admin', () => {
+        const EnhancedComponent = withGetCloudSubscription(TestComponent);
+        const actions = {
+            getCloudSubscription: () => {},
+        };
+
+        const getCloudSubscriptionSpy = jest.spyOn(actions, 'getCloudSubscription');
+
+        mount(
+            <EnhancedComponent
+                isCloud={true}
+                actions={actions}
+                subscription={{}}
+                userIsAdmin={false}
             />,
         );
 

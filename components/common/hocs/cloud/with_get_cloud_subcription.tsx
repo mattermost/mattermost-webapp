@@ -15,14 +15,15 @@ interface UsedHocProps {
     subscription: Subscription;
     isCloud: boolean;
     actions: Actions;
+    userIsAdmin: boolean;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function withGetCloudSubscription<P>(WrappedComponent: ComponentType<P>): ComponentType<any> {
     return class extends React.Component<P & UsedHocProps> {
         async componentDidMount() {
-            const {subscription, actions, isCloud} = this.props;
-            if (isEmpty(subscription) && isCloud) {
+            const {subscription, actions, isCloud, userIsAdmin} = this.props;
+            if (isEmpty(subscription) && isCloud && userIsAdmin) {
                 await actions.getCloudSubscription();
             }
         }
