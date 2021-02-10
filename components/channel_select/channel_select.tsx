@@ -1,14 +1,18 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Channel} from 'mattermost-redux/types/channels';
 import React, {useEffect, useState} from 'react';
 
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
 type Props = {
-    channels: Channel[];
+    channels: Array<{
+        id: string;
+        display_name?: string;
+        name: string;
+        type: string;
+    }>;
     onChange: () => void;
     value: string;
     selectOpen: boolean;
