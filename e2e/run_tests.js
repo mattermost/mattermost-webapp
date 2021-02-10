@@ -52,7 +52,11 @@ const chalk = require('chalk');
 const cypress = require('cypress');
 const argv = require('yargs').argv;
 
-const {getTestFiles, getSkippedFiles} = require('./utils/file');
+const {
+    getSkippedFiles,
+    getTestFiles,
+    getTestFilesIdentifier,
+} = require('./utils/file');
 const {writeJsonToFile} = require('./utils/report');
 const {MOCHAWESOME_REPORT_DIR, RESULTS_DIR} = require('./utils/constants');
 
@@ -84,12 +88,11 @@ async function runTests() {
     const {
         start,
         end,
-        lastIndex,
-        multiplier,
-    } = getTestFilesIdentifier(numberOfTestFiles);
+        count,
+    } = getTestFilesIdentifier(numberOfTestFiles, argv.part, argv.of);
 
-    for (let i = start; i < end; i++) {
-        printMessage(finalTestFiles, i, (i % multiplier) + 1, lastIndex);
+    for (let i = start, j = 0; i < end && j < count; i++, j++) {
+        printMessage(finalTestFiles, i, j + 1, count);
 
         const testFile = finalTestFiles[i];
 
@@ -107,29 +110,28 @@ async function runTests() {
                 batchName: APPLITOOLS_BATCH_NAME,
             },
             reporter: 'cypress-multi-reporters',
-            reporterOptions:
-                {
-                    reporterEnabled: 'mocha-junit-reporters, mochawesome',
-                    mochaJunitReportersReporterOptions: {
-                        mochaFile: 'results/junit/test_results[hash].xml',
-                        toConsole: false,
-                    },
-                    mochawesomeReporterOptions: {
-                        reportDir: MOCHAWESOME_REPORT_DIR,
-                        reportFilename: `json/${testFile}`,
-                        quiet: true,
-                        overwrite: false,
-                        html: false,
-                        json: true,
-                        testMeta: {
-                            platform,
-                            browser,
-                            headless,
-                            branch: BRANCH,
-                            buildId: BUILD_ID,
-                        },
+            reporterOptions: {
+                reporterEnabled: 'mocha-junit-reporters, mochawesome',
+                mochaJunitReportersReporterOptions: {
+                    mochaFile: 'results/junit/test_results[hash].xml',
+                    toConsole: false,
+                },
+                mochawesomeReporterOptions: {
+                    reportDir: MOCHAWESOME_REPORT_DIR,
+                    reportFilename: `json/${testFile}`,
+                    quiet: true,
+                    overwrite: false,
+                    html: false,
+                    json: true,
+                    testMeta: {
+                        platform,
+                        browser,
+                        headless,
+                        branch: BRANCH,
+                        buildId: BUILD_ID,
                     },
                 },
+            },
         });
 
         // Write test environment details once only
@@ -149,7 +151,7 @@ async function runTests() {
     }
 }
 
-function printMessage(testFiles, overallIndex, currentIndex, lastIndex) {
+function printMessage(testFiles, overallIndex, currentItem, lastItem) {
     const {invert, excludeGroup, group, stage} = argv;
 
     const testFile = testFiles[overallIndex];
@@ -163,26 +165,8 @@ function printMessage(testFiles, overallIndex, currentIndex, lastIndex) {
     console.log(chalk.magenta.bold(`${invert ? 'All Except --> ' : ''}${testStage}${stage && withGroup ? '| ' : ''}${testGroup}`));
     console.log(chalk.magenta(`(Testing ${overallIndex + 1} of ${testFiles.length})  - `, testFile));
     if (process.env.CI_BASE_URL) {
-        console.log(chalk.magenta(`Testing ${currentIndex}/${lastIndex} in "${process.env.CI_BASE_URL}" server`));
+        console.log(chalk.magenta(`Testing ${currentItem}/${lastItem} in "${process.env.CI_BASE_URL}" server`));
     }
-}
-
-function getTestFilesIdentifier(numberOfTestFiles) {
-    const {part, of} = argv;
-    const PART = parseInt(part, 10) || 1;
-    const OF = parseInt(of, 10) || 1;
-    if (PART > OF) {
-        throw new Error(`"--part=${PART}" should not be greater than "--of=${OF}"`);
-    }
-
-    const multiplier = Math.ceil(numberOfTestFiles / OF);
-    const start = (PART - 1) * multiplier;
-    let end = start + multiplier;
-    end = end < numberOfTestFiles ? end : numberOfTestFiles;
-
-    const lastIndex = end < numberOfTestFiles ? multiplier : numberOfTestFiles - start;
-
-    return {start, end, lastIndex, multiplier};
 }
 
 runTests();
