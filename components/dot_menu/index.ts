@@ -32,6 +32,8 @@ import * as PostUtils from 'utils/post_utils.jsx';
 import {isArchivedChannel} from 'utils/channel_utils';
 import {getSiteURL} from 'utils/url';
 
+import {appsEnabled} from 'utils/utils';
+
 import DotMenu from './dot_menu';
 
 type Props = {
@@ -57,7 +59,8 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
     const currentTeam = getCurrentTeam(state) || {};
     const currentTeamUrl = `${getSiteURL()}/${currentTeam.name}`;
 
-    const appBindings = getAppBindings(state, AppBindingLocations.POST_MENU_ITEM);
+    const apps = appsEnabled(state);
+    const appBindings = apps ? getAppBindings(state, AppBindingLocations.POST_MENU_ITEM) : [];
 
     return {
         channelIsArchived: isArchivedChannel(channel),
@@ -70,6 +73,7 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
         canDelete: PostUtils.canDeletePost(state, post, channel),
         currentTeamUrl,
         appBindings,
+        appsEnabled: apps,
         ...ownProps,
     };
 }

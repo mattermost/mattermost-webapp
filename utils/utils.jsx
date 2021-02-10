@@ -16,6 +16,8 @@ import {
 } from 'mattermost-redux/utils/theme_utils';
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
 import {getCurrentTeamId, getCurrentRelativeTeamUrl, getTeam} from 'mattermost-redux/selectors/entities/teams';
+
+//import PluginStates from 'mattermost-redux/constants/plugins';
 import cssVars from 'css-vars-ponyfill';
 
 import moment from 'moment';
@@ -2156,7 +2158,7 @@ export function stringToNumber(s) {
     return parseInt(s, 10);
 }
 
-export function shouldProcessApps(state) {// eslint-disable-line no-unused-vars
+export function appsEnabled(state) {// eslint-disable-line no-unused-vars
     // TODO uncomment when featur flag is in place
     //return getConfig(state)?.['FeatureFlagApps' as keyof Partial<ClientConfig>];
     return true;

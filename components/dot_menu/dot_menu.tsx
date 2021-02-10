@@ -45,6 +45,7 @@ type Props = {
     channelIsArchived?: boolean; // TechDebt: Made non-mandatory while converting to typescript
     currentTeamUrl?: string; // TechDebt: Made non-mandatory while converting to typescript
     appBindings: AppBinding[];
+    appsEnabled: boolean;
 
     /**
      * Components for overriding provided by plugins
@@ -328,21 +329,25 @@ export default class DotMenu extends React.PureComponent<Props, State> {
                 );
             }) || [];
 
-        const appBindings = this.props.appBindings.map((item) => {
-            let icon: JSX.Element | undefined;
-            if (item.icon) {
-                icon = (<img src={item.icon}/>);
-            }
+        let appBindings = [] as JSX.Element[];
+        if (this.props.appsEnabled) {
+            appBindings = this.props.appBindings.map((item) => {
+                let icon: JSX.Element | undefined;
+                if (item.icon) {
+                    icon = (<img src={item.icon}/>);
+                }
 
-            return (
-                <Menu.ItemAction
-                    text={item.label}
-                    key={item.app_id + item.location}
-                    onClick={() => this.onClickAppBinding(item)}
-                    icon={icon}
-                />
-            );
-        });
+                return (
+                    <Menu.ItemAction
+                        text={item.label}
+                        key={item.app_id + item.location}
+                        onClick={() => this.onClickAppBinding(item)}
+                        icon={icon}
+                    />
+                );
+            });
+        }
+
         if (!this.state.canDelete && !this.state.canEdit && typeof pluginItems !== 'undefined' && pluginItems.length === 0 && isSystemMessage) {
             return null;
         }

@@ -14,7 +14,7 @@ import {GlobalState} from 'types/store';
 
 import {getApp, getFilter, getPlugin} from 'selectors/views/marketplace';
 import {ActionTypes} from 'utils/constants';
-import {shouldProcessApps} from 'utils/utils';
+import {appsEnabled} from 'utils/utils';
 
 import {isError} from 'types/actions';
 
@@ -44,7 +44,7 @@ export function fetchListing(localOnly = false): ActionFunc {
             plugins,
         });
 
-        if (shouldProcessApps(state)) {
+        if (appsEnabled(state)) {
             try {
                 apps = await Client4.getMarketplaceApps(filter);
             } catch (error) {

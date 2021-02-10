@@ -96,7 +96,9 @@ export function emitChannelClickEvent(channel: Channel) {
             member: member || {},
         }]));
 
-        dispatch(fetchAppBindings(userId, chan.id));
+        if (Utils.appsEnabled(state)) {
+            dispatch(fetchAppBindings(userId, chan.id));
+        }
     }
 
     if (channel.fake) {
