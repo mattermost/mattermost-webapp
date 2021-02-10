@@ -63,8 +63,6 @@ describe('Bots in lists', () => {
             // # Go to system console > users
             cy.visit('/admin_console/user_management/users');
 
-            const {total_users_count: nonBotCount} = await client.getFilteredUsersStats({include_bots: false});
-
             bots.forEach(({username}) => {
                 // # Search for bot
                 cy.get('#searchUsers').clear().type(`@${username}`);
@@ -73,7 +71,7 @@ describe('Bots in lists', () => {
                 cy.findByTestId('noUsersFound').should('have.text', 'No users found');
 
                 // * Verify pseudo checksum total of non bot users
-                cy.get('#searchableUserListTotal').should('have.text', `0 users of ${nonBotCount} total`);
+                cy.get('#searchableUserListTotal').contains('0 users of').should('be.visible');
             });
         });
     });
