@@ -15,7 +15,7 @@ const ActionTypes = Constants.ActionTypes;
 
 type State = {
     value: string;
-    inputError: any;
+    inputError: JSX.Element | null;
     show: boolean;
     callback: ((args: Theme) => void) | null;
 }
@@ -26,7 +26,7 @@ class ImportThemeModal extends React.PureComponent<WrappedComponentProps, State>
 
         this.state = {
             value: '',
-            inputError: '',
+            inputError: null,
             show: false,
             callback: null,
         };
@@ -52,7 +52,7 @@ class ImportThemeModal extends React.PureComponent<WrappedComponentProps, State>
 
         const text = this.state.value;
 
-        if (!this.isInputValid(text)) {
+        if (!ImportThemeModal.isInputValid(text)) {
             this.setState({
                 inputError: (
                     <FormattedMessage
@@ -120,7 +120,7 @@ class ImportThemeModal extends React.PureComponent<WrappedComponentProps, State>
         });
     }
 
-    private isInputValid(text: string) {
+    private static isInputValid(text: string) {
         if (text.length === 0) {
             return false;
         }
@@ -158,7 +158,7 @@ class ImportThemeModal extends React.PureComponent<WrappedComponentProps, State>
         const value = e.target.value;
         this.setState({value});
 
-        if (this.isInputValid(value)) {
+        if (ImportThemeModal.isInputValid(value)) {
             this.setState({inputError: null});
         } else {
             this.setState({
