@@ -42,7 +42,7 @@ describe('components/user_settings/ImportThemeModal', () => {
             mentionHighlightLink: '#166de0',
             codeTheme: 'github',
             type: 'custom',
-        }
+        };
 
         const themeString = '#1d2229,#0b161e,#537aa6,#ffffff,#313843,#ffffff,#94e864,#78af8f,#0b161e,#ffffff';
         const wrapper = mountWithIntl(<ImportThemeModal/>);
