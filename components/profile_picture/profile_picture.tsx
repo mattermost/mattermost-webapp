@@ -104,11 +104,12 @@ export default class ProfilePicture extends React.PureComponent<Props> {
                         url={this.props.src}
                     />
                 </span>
-                {this.props.newStatusIcon ?
+                {this.props.newStatusIcon ? (
                     <StatusIconNew
                         className={this.props.statusClass}
                         status={this.props.status}
-                    /> : <StatusIcon status={this.props.status}/>}
+                    />
+                ) : <StatusIcon status={this.props.status}/>}
             </span>
         );
     }
