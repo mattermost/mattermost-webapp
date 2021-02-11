@@ -394,9 +394,12 @@ describe('AppCommandParser', () => {
 
         table.forEach((tc) => {
             test(tc.title, async () => {
-                const a = await parser.matchBinding(tc.command, definitions, true);
+                let a = new ParsedCommand(tc.command, parser);
+                a = await a.matchBinding(definitions, true);
                 checkResult(a, tc.autocomplete || tc.submit);
-                const s = await parser.matchBinding(tc.command, definitions, false);
+
+                let s = new ParsedCommand(tc.command, parser);
+                s = await s.matchBinding(definitions, false);
                 checkResult(s, tc.submit);
             });
         });
@@ -429,7 +432,7 @@ describe('AppCommandParser', () => {
                 }},
             },
             {
-                title: '<><> !!!!',
+                title: 'partial epic',
                 command: '/jira issue create --project KT --summary "great feature" --epic M',
                 autocomplete: {verify: (parsed: ParsedCommand): void => {
                     expect(parsed.state).toBe(ParseState.EndValue);
@@ -512,7 +515,7 @@ describe('AppCommandParser', () => {
                     expect(parsed.values?.project).toBe(undefined);
                     expect(parsed.values?.issue).toBe(undefined);
                 }},
-                submit: {expectError: 'matching tick quote expected before end of input: 31'},
+                submit: {expectError: 'matching tick quote expected before end of input'},
             },
             {
                 title: 'error: unmatched quote',
@@ -526,7 +529,7 @@ describe('AppCommandParser', () => {
                     expect(parsed.values?.project).toBe(undefined);
                     expect(parsed.values?.issue).toBe(undefined);
                 }},
-                submit: {expectError: 'matching double quote expected before end of input: 32'},
+                submit: {expectError: 'matching double quote expected before end of input'},
             },
             {
                 title: 'missing required fields not a problem for parseCommand',
@@ -551,28 +554,30 @@ describe('AppCommandParser', () => {
             {
                 title: 'error: invalid flag',
                 command: '/jira issue view --wrong test',
-                submit: {expectError: 'command does not accept flag wrong: 24'},
+                submit: {expectError: 'command does not accept flag wrong'},
             },
             {
                 title: 'error: unexpected positional',
                 command: '/jira issue create wrong',
-                submit: {expectError: 'command does not accept 1 positional arguments: 19'},
+                submit: {expectError: 'command does not accept 1 positional arguments'},
             },
             {
                 title: 'error: multiple equal signs',
                 command: '/jira issue create --project == test',
-                submit: {expectError: 'multiple = signs are not allowed: 30'},
+                submit: {expectError: 'multiple = signs are not allowed'},
             },
         ];
 
         table.forEach((tc) => {
             test(tc.title, async () => {
-                let a = await parser.matchBinding(tc.command, definitions, true);
-                a = parser.parseForm(a, true);
+                let a = new ParsedCommand(tc.command, parser);
+                a = await a.matchBinding(definitions, true);
+                a = a.parseForm(true);
                 checkResult(a, tc.autocomplete || tc.submit);
 
-                let s = await parser.matchBinding(tc.command, definitions, false);
-                s = parser.parseForm(s, false);
+                let s = new ParsedCommand(tc.command, parser);
+                s = await s.matchBinding(definitions, false);
+                s = s.parseForm(false);
                 checkResult(s, tc.submit);
             });
         });
