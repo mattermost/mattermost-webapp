@@ -88,21 +88,29 @@ describe('Compliance Export', () => {
         cy.visit('/admin_console/environment/file_storage');
         cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'File Storage');
 
-        // # Get AWS credentials
-        const AWS_S3_BUCKET = Cypress.env('AWS_S3_BUCKET');
-        const AWS_ACCESS_KEY_ID = Cypress.env('AWS_ACCESS_KEY_ID');
-        const AWS_SECRET_ACCESS_KEY = Cypress.env('AWS_SECRET_ACCESS_KEY');
+        const {
+            minioAccessKey,
+            minioSecretKey,
+            minioS3Bucket,
+            minioS3Endpoint,
+            minioS3SSL,
+        } = Cypress.env();
 
-        // # Config AWS settings
+        // # Update S3 Storage settings
         cy.findByTestId('FileSettings.DriverNamedropdown').select('amazons3');
-        cy.findByTestId('FileSettings.AmazonS3Bucketinput').type(AWS_S3_BUCKET);
-        cy.findByTestId('FileSettings.AmazonS3AccessKeyIdinput').type(AWS_ACCESS_KEY_ID);
-        cy.findByTestId('FileSettings.AmazonS3SecretAccessKeyinput').type(AWS_SECRET_ACCESS_KEY);
+        cy.findByTestId('FileSettings.AmazonS3Bucketinput').clear().type(minioS3Bucket);
+        cy.findByTestId('FileSettings.AmazonS3AccessKeyIdinput').clear().type(minioAccessKey);
+        cy.findByTestId('FileSettings.AmazonS3SecretAccessKeyinput').clear().type(minioSecretKey);
+        cy.findByTestId('FileSettings.AmazonS3Endpointinput').clear().type(minioS3Endpoint);
+        cy.findByTestId(`FileSettings.AmazonS3SSL${minioS3SSL}`).check();
 
         // # Save file storage settings
         cy.findByTestId('saveSetting').click();
-
         waitUntilConfigSave();
+
+        // # Test connection and verify that it's successful
+        cy.findByRole('button', {name: 'Test Connection'}).click();
+        cy.findByText('Connection was successful').should('be.visible');
 
         // # Go to compliance page and enable export
         cy.gotoCompliancePage();

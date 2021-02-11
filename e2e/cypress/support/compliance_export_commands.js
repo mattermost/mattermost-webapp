@@ -5,7 +5,7 @@ import * as TIMEOUTS from '../fixtures/timeouts';
 
 Cypress.Commands.add('enableComplianceExport', (exportFormate = 'csv') => {
     // # Enable compliance export
-    cy.findByRole('radio', {  name: /true/i}).click();
+    cy.findByRole('radio', {name: /true/i}).click();
 
     // # Change export format
     cy.findByRole('combobox', {name: /export format:/i}).select(exportFormate);

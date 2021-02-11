@@ -8,6 +8,7 @@
 // ***************************************************************
 
 // Group: @enterprise @system_console
+import * as TIMEOUTS from '../../../../fixtures/timeouts';
 
 import {downloadAndUnzipExportFile, deleteExportFolder, getXMLFile, gotoTeamAndPostImage, gotoTeamAndPostMessage, editLastPost} from './helpers';
 
@@ -143,6 +144,7 @@ describe('Compliance Export', () => {
     });
 
     it('MM-T3305 - Verify Deactivated users are displayed properly in Compliance Exports', () => {
+        
         // # Post a message by Admin
         cy.postMessageAs({
             sender: adminUser,
@@ -151,7 +153,7 @@ describe('Compliance Export', () => {
         });
 
         cy.visit(`/${newTeam.name}/channels/${newChannel.id}`);
-
+        
         // # Deactivate the newly created user
         cy.apiDeactivateUser(newUser.id);
 
@@ -159,7 +161,7 @@ describe('Compliance Export', () => {
         cy.gotoCompliancePage();
         cy.enableComplianceExport(ExportFormatActiance);
         cy.exportCompliance();
-
+        
         // # Download and extract exported zip file
         downloadAndUnzipExportFile(targetDownload);
 
@@ -185,6 +187,7 @@ describe('Compliance Export', () => {
         // # Download and extract exported zip file
         downloadAndUnzipExportFile(targetDownload);
 
+        
         // * Verifying export file should not contain deactivated user name
         getXMLFile(targetDownload).then((result) => {
             cy.readFile(result.stdout).should('exist').
