@@ -4,14 +4,16 @@ exports[`components/ConfigurationBar should match snapshot, expired 1`] = `
 <Connect(AnnouncementBar)
   message={
     <React.Fragment>
-      <img
-        className="advisor-icon"
-        src={null}
-      />
-      <FormattedMessage
-        defaultMessage="Enterprise license is expired and some features may be disabled."
-        id="announcement_bar.error.license_expired"
-      />
+      <React.Fragment>
+        <img
+          className="advisor-icon"
+          src={null}
+        />
+        <FormattedMessage
+          defaultMessage="Enterprise license is expired and some features may be disabled."
+          id="announcement_bar.error.license_expired"
+        />
+      </React.Fragment>
       <Memo(Connect(RenewalLink))
         telemetryInfo={
           Object {
@@ -19,6 +21,18 @@ exports[`components/ConfigurationBar should match snapshot, expired 1`] = `
             "success": "renew_license_banner_success",
           }
         }
+      />
+    </React.Fragment>
+  }
+  tooltipMsg={
+    <React.Fragment>
+      <img
+        className="advisor-icon"
+        src={null}
+      />
+      <FormattedMessage
+        defaultMessage="Enterprise license is expired and some features may be disabled."
+        id="announcement_bar.error.license_expired"
       />
     </React.Fragment>
   }
@@ -30,14 +44,16 @@ exports[`components/ConfigurationBar should match snapshot, expired, in grace pe
 <Connect(AnnouncementBar)
   message={
     <React.Fragment>
-      <img
-        className="advisor-icon"
-        src={null}
-      />
-      <FormattedMessage
-        defaultMessage="Enterprise license is expired and some features may be disabled."
-        id="announcement_bar.error.license_expired"
-      />
+      <React.Fragment>
+        <img
+          className="advisor-icon"
+          src={null}
+        />
+        <FormattedMessage
+          defaultMessage="Enterprise license is expired and some features may be disabled."
+          id="announcement_bar.error.license_expired"
+        />
+      </React.Fragment>
       <Memo(Connect(RenewalLink))
         telemetryInfo={
           Object {
@@ -45,6 +61,18 @@ exports[`components/ConfigurationBar should match snapshot, expired, in grace pe
             "success": "renew_license_banner_success",
           }
         }
+      />
+    </React.Fragment>
+  }
+  tooltipMsg={
+    <React.Fragment>
+      <img
+        className="advisor-icon"
+        src={null}
+      />
+      <FormattedMessage
+        defaultMessage="Enterprise license is expired and some features may be disabled."
+        id="announcement_bar.error.license_expired"
       />
     </React.Fragment>
   }

@@ -10,6 +10,7 @@
     "env": {
         "adminUsername": "sysadmin",
         "adminPassword": "Sys@dmin-sample1",
+        "allowedUntrustedInternalConnections": "localhost",
         "dbClient": "postgres",
         "dbConnection": "postgres://mmuser:mostest@localhost/mattermost_test?sslmode=disable\u0026connect_timeout=10",
         "adminEmail": "sysadmin@sample.mattermost.com",
