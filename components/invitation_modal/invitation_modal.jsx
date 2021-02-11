@@ -322,12 +322,12 @@ export default class InvitationModal extends React.PureComponent {
             closeModal: this.props.actions.closeModal,
             openModal: this.props.actions.openModal,
         };
-        const userLimitModal = (<>
+        const userLimitModal = (
             <UserLimitModal
                 show={Boolean(this.props.show)}
                 actions={actionsUserLimitModal}
             />
-        </>);
+        );
         return (
             <>
                 {this.props.isFreeTierWithNoFreeSeats ? userLimitModal : invitationModal}

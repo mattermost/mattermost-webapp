@@ -13,6 +13,8 @@ import {searchChannels as reduxSearchChannels} from 'mattermost-redux/actions/ch
 import {getTeam} from 'mattermost-redux/actions/teams';
 import {Permissions} from 'mattermost-redux/constants';
 
+import {isEmpty} from 'lodash';
+
 import {closeModal, openModal} from 'actions/views/modals';
 import {isModalOpen} from 'selectors/views/modals';
 import {ModalIdentifiers, Constants} from 'utils/constants';
@@ -52,7 +54,7 @@ export function mapStateToProps(state) {
     const isGroupConstrained = Boolean(currentTeam.group_constrained);
     const canInviteGuests = !isGroupConstrained && isLicensed && guestAccountsEnabled && haveITeamPermission(state, {team: currentTeam.id, permission: Permissions.INVITE_GUEST});
     const isCloud = license.Cloud === 'true';
-    const freeTierWithNoFreeSeats = isCloud && subscriptionStats && subscriptionStats.is_paid_tier === 'false' && subscriptionStats.remaining_seats <= 0;
+    const isFreeTierWithNoFreeSeats = isCloud && !isEmpty(subscriptionStats) && subscriptionStats.is_paid_tier === 'false' && subscriptionStats.remaining_seats <= 0;
 
     const canAddUsers = haveITeamPermission(state, {team: currentTeam.id, permission: Permissions.ADD_USER_TO_TEAM});
     return {
@@ -60,7 +62,7 @@ export function mapStateToProps(state) {
         currentTeam,
         canInviteGuests,
         canAddUsers,
-        isFreeTierWithNoFreeSeats: freeTierWithNoFreeSeats,
+        isFreeTierWithNoFreeSeats,
         emailInvitationsEnabled,
         show: isModalOpen(state, ModalIdentifiers.INVITATION),
         isCloud,
