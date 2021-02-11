@@ -18,6 +18,7 @@ describe('components/next_steps_view/steps/invite_members_step', () => {
         currentUser: TestHelper.getUserMock(),
         expanded: true,
         isAdmin: true,
+        isCloud: false,
         isEmailInvitesEnabled: true,
         cloudUserLimit: 10,
         subscriptionStats: {
