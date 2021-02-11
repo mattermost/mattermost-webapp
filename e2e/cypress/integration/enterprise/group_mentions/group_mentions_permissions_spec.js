@@ -6,6 +6,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @enterprise @system_console @group_mentions
 
 import ldapUsers from '../../../fixtures/ldap_users.json';
@@ -133,7 +134,7 @@ describe('Group Mentions', () => {
             cy.get('#suggestionList').should('not.be.visible');
 
             // # Submit a post containing the group mention
-            cy.postMessage(`@${groupName}`);
+            cy.postMessage(`@${groupName} hello {enter}`);
 
             // * Verify if a system message is not displayed
             cy.getLastPostId().then((postId) => {
@@ -167,7 +168,7 @@ describe('Group Mentions', () => {
             });
 
             // # Submit a post containing the group mention
-            cy.postMessage(`@${groupName}`);
+            cy.postMessage(`@${groupName} hello {enter}`);
 
             // * Verify if a system message is displayed
             cy.getLastPostId().then((postId) => {
@@ -210,7 +211,7 @@ describe('Group Mentions', () => {
                 cy.get('#suggestionList').should('not.be.visible');
 
                 // # Submit a post containing the group mention
-                cy.postMessage(`@${groupName}`);
+                cy.postMessage(`@${groupName} hello {enter}`);
 
                 // * Verify if a system message is not displayed
                 cy.getLastPostId().then((postId) => {
@@ -244,7 +245,7 @@ describe('Group Mentions', () => {
                 });
 
                 // # Submit a post containing the group mention
-                cy.postMessage(`@${groupName}`);
+                cy.postMessage(`@${groupName} hello {enter}`);
 
                 // * Verify if a system message is displayed
                 cy.getLastPostId().then((postId) => {
@@ -298,7 +299,7 @@ describe('Group Mentions', () => {
                 cy.get('#suggestionList').should('not.be.visible');
 
                 // # Submit a post containing the group mention
-                cy.postMessage(`@${groupName}`);
+                cy.postMessage(`@${groupName} hello {enter}`);
 
                 // * Verify if a system message is not displayed
                 cy.getLastPostId().then((postId) => {
@@ -332,7 +333,7 @@ describe('Group Mentions', () => {
                 });
 
                 // # Submit a post containing the group mention
-                cy.postMessage(`@${groupName}`);
+                cy.postMessage(`@${groupName} hello {enter}`);
 
                 // * Verify if a system message is displayed
                 cy.getLastPostId().then((postId) => {

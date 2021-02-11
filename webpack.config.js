@@ -249,7 +249,7 @@ var config = {
             jquery: 'jquery/src/jquery',
             superagent: 'node_modules/superagent/lib/client',
         },
-        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+        extensions: ['.ts', '.tsx', '.js', '.jsx'],
     },
     performance: {
         hints: 'warning',
@@ -291,6 +291,10 @@ var config = {
                 {from: 'images/logo-email.png', to: 'images'},
                 {from: 'images/browser-icons', to: 'images/browser-icons'},
                 {from: 'images/cloud', to: 'images'},
+                {from: 'images/welcome_illustration.svg', to: 'images'},
+                {from: 'images/logo_email_blue.svg', to: 'images'},
+                {from: 'images/forgot_password_illustration.svg', to: 'images'},
+                {from: 'images/invite_illustration.svg', to: 'images'},
             ],
         }),
 

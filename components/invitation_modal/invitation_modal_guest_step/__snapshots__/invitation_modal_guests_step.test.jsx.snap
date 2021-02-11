@@ -42,7 +42,7 @@ exports[`components/invitation_modal/InvitationModalGuestsStep should match the 
         errorMessageId="invitation_modal.invite_members.hit_cloud_user_limit"
         errorMessageValues={
           Object {
-            "text": "0",
+            "text": 6,
           }
         }
         inputValue=""
@@ -178,7 +178,7 @@ exports[`components/invitation_modal/InvitationModalGuestsStep should match the 
         errorMessageId="invitation_modal.invite_members.hit_cloud_user_limit"
         errorMessageValues={
           Object {
-            "text": "0",
+            "text": 6,
           }
         }
         inputValue=""

@@ -107,6 +107,7 @@ exports[`components/MoreDirectChannels should exclude deleted users if there is 
       }
       perPage={50}
       placeholderText="Search and add members"
+      saveButtonPosition="top"
       saving={false}
       selectedItemRef={
         Object {
@@ -149,6 +150,7 @@ exports[`components/MoreDirectChannels should exclude deleted users if there is 
         ]
       }
       valueRenderer={[Function]}
+      valueWithImage={false}
       values={Array []}
     />
   </ModalBody>
@@ -328,6 +330,7 @@ exports[`components/MoreDirectChannels should match snapshot 1`] = `
       }
       perPage={50}
       placeholderText="Search and add members"
+      saveButtonPosition="top"
       saving={false}
       selectedItemRef={
         Object {
@@ -358,6 +361,7 @@ exports[`components/MoreDirectChannels should match snapshot 1`] = `
         ]
       }
       valueRenderer={[Function]}
+      valueWithImage={false}
       values={
         Array [
           Object {

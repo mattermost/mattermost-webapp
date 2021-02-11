@@ -73,7 +73,7 @@ describe('SidebarChannelList', () => {
             scheme_id: 'test',
             group_constrained: false,
         }),
-        currentChannel,
+        currentChannelId: currentChannel.id,
         categories: [
             {
                 id: 'category1',
@@ -83,26 +83,31 @@ describe('SidebarChannelList', () => {
                 display_name: 'custom_category_1',
                 sorting: CategorySorting.Alphabetical,
                 channel_ids: ['channel_id', 'channel_id_2'],
+                muted: false,
             },
         ],
         unreadChannelIds: ['channel_id_2'],
         displayedChannels: [currentChannel, unreadChannel],
         newCategoryIds: [],
+        multiSelectedChannelIds: [],
         isUnreadFilterEnabled: false,
         draggingState: {},
         categoryCollapsedState: {},
         handleOpenMoreDirectChannelsModal: jest.fn(),
         onDragStart: jest.fn(),
         onDragEnd: jest.fn(),
+        showUnreadsCategory: false,
         actions: {
             switchToChannelById: jest.fn(),
             close: jest.fn(),
-            moveChannelInSidebar: jest.fn(),
+            moveChannelsInSidebar: jest.fn(),
             moveCategory: jest.fn(),
             removeFromCategory: jest.fn(),
             setDraggingState: jest.fn(),
             stopDragging: jest.fn(),
             expandCategory: jest.fn(),
+            clearChannelSelection: jest.fn(),
+            multiSelectChannelAdd: jest.fn(),
         },
     };
 
@@ -126,7 +131,7 @@ describe('SidebarChannelList', () => {
             <SidebarChannelList {...baseProps}/>,
         );
 
-        wrapper.setProps({currentChannel: TestHelper.getChannelMock({id: 'new_channel_id'})});
+        wrapper.setProps({currentChannelId: 'new_channel_id'});
         expect(baseProps.actions.close).toHaveBeenCalled();
     });
 
@@ -280,6 +285,6 @@ describe('SidebarChannelList', () => {
         };
 
         wrapper.instance().onDragEnd(channelResult);
-        expect(baseProps.actions.moveChannelInSidebar).toHaveBeenCalledWith(channelResult.destination!.droppableId, channelResult.draggableId, channelResult.destination!.index);
+        expect(baseProps.actions.moveChannelsInSidebar).toHaveBeenCalledWith(channelResult.destination!.droppableId, channelResult.destination!.index, channelResult.draggableId);
     });
 });

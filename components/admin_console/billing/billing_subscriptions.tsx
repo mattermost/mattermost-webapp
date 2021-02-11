@@ -6,7 +6,7 @@ import {useDispatch, useStore, useSelector} from 'react-redux';
 import {FormattedMessage, useIntl} from 'react-intl';
 
 import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
-import {getCloudSubscription, getCloudProducts} from 'mattermost-redux/actions/cloud';
+import {getCloudSubscription, getCloudProducts, getCloudCustomer} from 'mattermost-redux/actions/cloud';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
@@ -21,7 +21,7 @@ import BlockableLink from 'components/admin_console/blockable_link';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import PurchaseModal from 'components/purchase_modal';
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
-import {getCloudContactUsLink, InquiryType} from 'selectors/cloud';
+import {getCloudContactUsLink, InquiryType, InquiryIssue} from 'selectors/cloud';
 import {GlobalState} from 'types/store';
 import {
     Preferences,
@@ -53,14 +53,16 @@ const BillingSubscriptions: React.FC<Props> = () => {
     const currentUser = useSelector((state: GlobalState) => getCurrentUser(state));
     const isCloud = useSelector((state: GlobalState) => getLicense(state).Cloud === 'true');
     const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription);
-    const customer = useSelector((state: GlobalState) => state.entities.cloud.customer);
+
     const products = useSelector((state: GlobalState) => state.entities.cloud.products);
+    const isCardExpired = useSelector((state: GlobalState) => isCustomerCardExpired(state.entities.cloud.customer));
     const getCategory = makeGetCategory();
     const preferences = useSelector<GlobalState, PreferenceType[]>((state) => getCategory(state, Preferences.ADMIN_CLOUD_UPGRADE_PANEL));
 
     const contactSalesLink = useSelector((state: GlobalState) => getCloudContactUsLink(state, InquiryType.Sales));
+    const cancelAccountLink = useSelector((state: GlobalState) => getCloudContactUsLink(state, InquiryType.Sales, InquiryIssue.CancelAccount));
 
-    const [showCreditCardBanner, setShowCreditCardBanner] = useState(isCustomerCardExpired(customer));
+    const [showCreditCardBanner, setShowCreditCardBanner] = useState(true);
 
     const onUpgradeMattermostCloud = () => {
         trackEvent('cloud_admin', 'click_upgrade_mattermost_cloud');
@@ -74,6 +76,7 @@ const BillingSubscriptions: React.FC<Props> = () => {
     useEffect(() => {
         getCloudSubscription()(dispatch, store.getState());
         getCloudProducts()(dispatch, store.getState());
+        getCloudCustomer()(dispatch, store.getState());
 
         if (!analytics) {
             (async function getAllAnalytics() {
@@ -183,6 +186,37 @@ const BillingSubscriptions: React.FC<Props> = () => {
         </div>
     );
 
+    const cancelSubscription = () => (
+        <div className='cancelSubscriptionSection'>
+            <div className='cancelSubscriptionSection__text'>
+                <div className='cancelSubscriptionSection__text-title'>
+                    <FormattedMessage
+                        id='admin.billing.subscription.cancelSubscriptionSection.title'
+                        defaultMessage='Cancel your subscription'
+                    />
+                </div>
+                <div className='cancelSubscriptionSection__text-description'>
+                    <FormattedMessage
+                        id='admin.billing.subscription.cancelSubscriptionSection.description'
+                        defaultMessage='At this time, deleting a workspace can only be done with the help of a customer support representative.'
+                    />
+                </div>
+                <a
+                    href={cancelAccountLink}
+                    rel='noopener noreferrer'
+                    target='_new'
+                    className='cancelSubscriptionSection__contactUs'
+                    onClick={() => trackEvent('cloud_admin', 'click_contact_us')}
+                >
+                    <FormattedMessage
+                        id='admin.billing.subscription.cancelSubscriptionSection.contactUs'
+                        defaultMessage='Contact Us'
+                    />
+                </a>
+            </div>
+        </div>
+    );
+
     if (!subscription || !products) {
         return null;
     }
@@ -239,7 +273,7 @@ const BillingSubscriptions: React.FC<Props> = () => {
                             onDismiss={() => handleHide()}
                         />
                     )}
-                    {showCreditCardBanner && (
+                    {showCreditCardBanner && isCardExpired && (
                         <AlertBanner
                             mode='danger'
                             title={
@@ -276,6 +310,7 @@ const BillingSubscriptions: React.FC<Props> = () => {
                         {subscription?.is_paid_tier === 'true' ? <BillingSummary/> : upgradeMattermostCloud()}
                     </div>
                     {privateCloudCard()}
+                    {cancelSubscription()}
                 </div>
             </div>
         </div>

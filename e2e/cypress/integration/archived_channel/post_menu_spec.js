@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @channel
 
 describe('Archived channels', () => {
@@ -25,7 +26,7 @@ describe('Archived channels', () => {
 
     it('MM-T1721 Archive channel posts menu should have copy link and reply options', () => {
         // # Click to add a channel description
-        cy.get('#channelHeaderDescription button').click();
+        cy.findByRoleExtended('button', {name: 'Add a channel description'}).should('be.visible').click();
 
         // # Add channel header for system message
         const header = 'this is a header!';

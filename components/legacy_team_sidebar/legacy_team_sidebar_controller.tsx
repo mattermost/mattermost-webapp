@@ -30,7 +30,7 @@ type Actions = {
 
 type State = {
     showOrder: boolean;
-    teamsOrder: Array<Team>;
+    teamsOrder: Team[];
 }
 
 interface Props {
@@ -80,7 +80,7 @@ export default class LegacyTeamSidebar extends React.PureComponent<Props, State>
         };
     }
 
-    switchToPrevOrNextTeam = (e: KeyboardEvent, currentTeamId: string, teams: Array<Team>) => {
+    switchToPrevOrNextTeam = (e: KeyboardEvent, currentTeamId: string, teams: Team[]) => {
         if (Utils.isKeyPressed(e, Constants.KeyCodes.UP) || Utils.isKeyPressed(e, Constants.KeyCodes.DOWN)) {
             e.preventDefault();
             const delta = Utils.isKeyPressed(e, Constants.KeyCodes.DOWN) ? 1 : -1;
@@ -102,7 +102,7 @@ export default class LegacyTeamSidebar extends React.PureComponent<Props, State>
         return false;
     }
 
-    switchToTeamByNumber = (e: KeyboardEvent, currentTeamId: string, teams: Array<Team>) => {
+    switchToTeamByNumber = (e: KeyboardEvent, currentTeamId: string, teams: Team[]) => {
         const digits = [
             Constants.KeyCodes.ONE,
             Constants.KeyCodes.TWO,
@@ -249,7 +249,7 @@ export default class LegacyTeamSidebar extends React.PureComponent<Props, State>
                             defaultMessage='Other teams you can join'
                         />
                     }
-                    content={'+'}
+                    content={<i className='icon icon-plus'/>}
                     switchTeam={this.props.actions.switchTeam}
                 />,
             );
@@ -268,7 +268,7 @@ export default class LegacyTeamSidebar extends React.PureComponent<Props, State>
                                 defaultMessage='Create a Team'
                             />
                         }
-                        content={'+'}
+                        content={<i className='icon icon-plus'/>}
                         switchTeam={this.props.actions.switchTeam}
                     />
                 </SystemPermissionGate>,

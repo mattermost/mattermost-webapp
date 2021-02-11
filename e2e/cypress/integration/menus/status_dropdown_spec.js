@@ -100,4 +100,85 @@ describe('Status dropdown menu', () => {
         // * Check that icon is offline icon
         cy.get('.MenuWrapper.status-dropdown-menu > .status-wrapper > button.status > span > svg.offline--icon').should('exist');
     });
+
+    describe('MM-T2927 Set user status', () => {
+        const statusTestCases = [
+            {id: 'status-menu-online', icon: 'online--icon', text: 'Online'},
+            {id: 'status-menu-away', icon: 'away--icon', text: 'Away'},
+            {id: 'status-menu-dnd', icon: 'dnd--icon', text: 'Do Not Disturb', helpText: 'Disables all notifications'},
+            {id: 'status-menu-offline', text: 'Offline'},
+        ];
+
+        it('MM-T2927_1 should open status menu', () => {
+            // # Wait for posts to load
+            cy.get('#postListContent').should('be.visible');
+
+            // # Open status menu
+            cy.get('.MenuWrapper .status-wrapper.status-selector button.status').click();
+
+            // # Wait for status menu to transition in
+            cy.get('.MenuWrapper.status-dropdown-menu .Menu__content.dropdown-menu').should('be.visible');
+        });
+
+        it('MM-T2927_2 should show all available statuses with their icons', () => {
+            // # Wait for posts to load
+            cy.get('#postListContent').should('be.visible');
+
+            // # Open status menu
+            cy.get('.MenuWrapper .status-wrapper.status-selector button.status').click();
+
+            // # Wait for status menu to transition in
+            cy.get('.MenuWrapper.status-dropdown-menu .Menu__content.dropdown-menu').should('be.visible');
+
+            statusTestCases.forEach((tc) => {
+                // * Verify status text
+                cy.get(`.MenuWrapper.status-dropdown-menu .Menu__content.dropdown-menu li#${tc.id} span.MenuItem__primary-text`).should('have.text', tc.text);
+
+                // * Verify status help text
+                if (tc.helpText) {
+                    cy.get(`.MenuWrapper.status-dropdown-menu .Menu__content.dropdown-menu li#${tc.id} span.MenuItem__help-text`).should('have.text', tc.helpText);
+                }
+
+                // * Verify status icon
+                if (tc.icon) {
+                    cy.get(`.MenuWrapper.status-dropdown-menu .Menu__content.dropdown-menu li#${tc.id} span.icon span.${tc.icon}`).should('be.visible');
+                } else {
+                    cy.get(`.MenuWrapper.status-dropdown-menu .Menu__content.dropdown-menu li#${tc.id} span.icon span:not([class])`).should('be.visible');
+                }
+            });
+        });
+
+        it('MM-T2927_3 should select each status, and have the user\'s active status change', () => {
+            // # Wait for posts to load
+            cy.get('#postListContent').should('be.visible');
+
+            // * Verify all statuses will change the user's status icon
+            statusTestCases.forEach((tc) => {
+                // # Open status menu
+                cy.get('.MenuWrapper .status-wrapper.status-selector button.status').click();
+
+                // # Wait for status menu to transition in
+                cy.get('.MenuWrapper.status-dropdown-menu .Menu__content.dropdown-menu').should('be.visible');
+
+                // # Click status choice
+                cy.get(`.MenuWrapper.status-dropdown-menu .Menu__content.dropdown-menu li#${tc.id}`).should('be.visible').
+                    and('have.css', 'cursor', 'pointer').click();
+
+                // # Verify correct status icon is shown on user's profile picture
+                cy.get('.MenuWrapper.status-dropdown-menu svg').should('have.attr', 'aria-label', `${tc.text} Icon`);
+            });
+        });
+
+        it('MM-T2927_4 should show Status header, with no pointer cursor', () => {
+            // # Wait for posts to load
+            cy.get('#postListContent').should('be.visible');
+
+            // # Open status menu
+            cy.get('.MenuWrapper .status-wrapper.status-selector button.status').click();
+
+            // * Verify "Status" header does not have pointer cursor
+            cy.get('.MenuWrapper.status-dropdown-menu .Menu__content.dropdown-menu li:first-child').should('be.visible').
+                and('have.text', 'Status').and('not.have.css', 'cursor', 'pointer');
+        });
+    });
 });

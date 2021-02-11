@@ -41,14 +41,20 @@ describe('plugins/MainMenuActions', () => {
                 closeRightHandSide: jest.fn(),
                 closeRhsMenu: jest.fn(),
                 unhideNextSteps: jest.fn(),
+                getCloudSubscription: jest.fn(),
             },
+            isCloud: false,
+            subscription: {},
+            userIsAdmin: true,
         };
 
-        const wrapper = shallowWithIntl(
+        let wrapper = shallowWithIntl(
             <MainMenu
                 {...requiredProps}
             />,
         );
+
+        wrapper = wrapper.find('MainMenu').shallow();
 
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.findWhere((node) => node.key() === 'someplugin_pluginmenuitem').props().text).toBe('some plugin text');

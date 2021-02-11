@@ -14,6 +14,15 @@ import FilePreview from 'components/file_preview';
 import Textbox from 'components/textbox';
 
 describe('components/CreateComment', () => {
+    jest.useFakeTimers();
+    beforeEach(() => {
+        jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb) => setTimeout(cb, 16));
+    });
+
+    afterEach(() => {
+        window.requestAnimationFrame.mockRestore();
+    });
+
     const channelId = 'g6139tbospd18cmxroesdk3kkc';
     const rootId = '';
     const latestPostId = '3498nv24823948v23m4nv34';
@@ -178,7 +187,7 @@ describe('components/CreateComment', () => {
             return document.createElement('div');
         };
 
-        wrapper.instance().refs = {textbox: {getInputBox: jest.fn(mockImpl), getBoundingClientRect: jest.fn(), focus: jest.fn()}};
+        wrapper.instance().textboxRef.current = {getInputBox: jest.fn(mockImpl), getBoundingClientRect: jest.fn(), focus: jest.fn()};
 
         wrapper.instance().handleEmojiClick({name: 'smile'});
         expect(onUpdateCommentDraft).toHaveBeenCalled();
@@ -449,13 +458,12 @@ describe('components/CreateComment', () => {
     });
 
     test('handleChange should update comment draft correctly', () => {
-        const onUpdateCommentDraft = jest.fn();
         const draft = {
             message: 'Test message',
             uploadsInProgress: [1, 2, 3],
             fileInfos: [{}, {}, {}],
         };
-        const props = {...baseProps, onUpdateCommentDraft, draft};
+        const props = {...baseProps, draft};
 
         const wrapper = shallowWithIntl(
             <CreateComment {...props}/>,
@@ -466,8 +474,13 @@ describe('components/CreateComment', () => {
         wrapper.instance().scrollToBottom = scrollToBottom;
         wrapper.instance().handleChange({target: {value: testMessage}});
 
-        expect(onUpdateCommentDraft).toHaveBeenCalled();
-        expect(onUpdateCommentDraft.mock.calls[0][0]).toEqual(
+        // The callback won't we called until after a short delay
+        expect(baseProps.onUpdateCommentDraft).not.toHaveBeenCalled();
+
+        jest.runOnlyPendingTimers();
+
+        expect(baseProps.onUpdateCommentDraft).toHaveBeenCalled();
+        expect(baseProps.onUpdateCommentDraft.mock.calls[0][0]).toEqual(
             expect.objectContaining({message: testMessage}),
         );
         expect(wrapper.state().draft.message).toBe(testMessage);
@@ -1148,7 +1161,7 @@ describe('components/CreateComment', () => {
             return document.createElement('div');
         };
 
-        instance.refs = {textbox: {blur, focus, getInputBox: jest.fn(mockImpl)}};
+        instance.textboxRef.current = {blur, focus, getInputBox: jest.fn(mockImpl)};
 
         const commentMsgKey = {
             preventDefault: jest.fn(),
@@ -1277,7 +1290,7 @@ describe('components/CreateComment', () => {
             };
         };
 
-        wrapper.instance().refs = {textbox: {getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()}};
+        wrapper.instance().textboxRef.current = {getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()};
 
         const event = {
             target: {
@@ -1325,7 +1338,7 @@ describe('components/CreateComment', () => {
             };
         };
 
-        wrapper.instance().refs = {textbox: {getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()}};
+        wrapper.instance().textboxRef.current = {getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()};
 
         const event = {
             target: {
@@ -1376,7 +1389,7 @@ describe('components/CreateComment', () => {
             };
         };
 
-        wrapper.instance().refs = {textbox: {getInputBox: jest.fn(mockImpl), getBoundingClientRect: jest.fn(), focus: jest.fn()}};
+        wrapper.instance().textboxRef.current = {getInputBox: jest.fn(mockImpl), getBoundingClientRect: jest.fn(), focus: jest.fn()};
         wrapper.setState({
             draft: {
                 ...draft,
@@ -1453,8 +1466,8 @@ describe('components/CreateComment', () => {
             const mockTop = () => {
                 return document.createElement('div');
             };
-            wrapper.instance().refs = {
-                textbox: {
+            wrapper.instance().textboxRef = {
+                current: {
                     getInputBox: jest.fn(() => {
                         return {
                             focus: jest.fn(),
@@ -1486,8 +1499,8 @@ describe('components/CreateComment', () => {
         const mockTop = () => {
             return document.createElement('div');
         };
-        wrapper.instance().refs = {
-            textbox: {
+        wrapper.instance().textboxRef = {
+            current: {
                 getInputBox: jest.fn(() => {
                     return {
                         focus: jest.fn(),

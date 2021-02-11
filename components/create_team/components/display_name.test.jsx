@@ -88,6 +88,63 @@ describe('/components/create_team/components/display_name', () => {
         );
     });
 
+    test('should display isRequired error for null team in props', () => {
+        const nullTeamProps = {
+            updateParent: jest.fn(),
+            state: {
+                wizard: 'display_name',
+            },
+            actions: {
+                trackEvent: jest.fn(),
+            },
+        };
+
+        const wrapper = mountWithIntl(<DisplayName {...nullTeamProps}/>);
+
+        wrapper.find('.form-control').instance().value = '';
+        wrapper.find('.form-control').simulate('change');
+
+        wrapper.find('button').simulate('click', {
+            preventDefault: () => jest.fn(),
+        });
+
+        expect(wrapper.state('nameError')).toEqual(
+            <FormattedMessage
+                id='create_team.display_name.required'
+                defaultMessage='This field is required'
+            />,
+        );
+    });
+
+    test('should display isRequired error for empty team in props', () => {
+        const nullTeamProps = {
+            updateParent: jest.fn(),
+            state: {
+                team: {},
+                wizard: 'display_name',
+            },
+            actions: {
+                trackEvent: jest.fn(),
+            },
+        };
+
+        const wrapper = mountWithIntl(<DisplayName {...nullTeamProps}/>);
+
+        wrapper.find('.form-control').instance().value = '';
+        wrapper.find('.form-control').simulate('change');
+
+        wrapper.find('button').simulate('click', {
+            preventDefault: () => jest.fn(),
+        });
+
+        expect(wrapper.state('nameError')).toEqual(
+            <FormattedMessage
+                id='create_team.display_name.required'
+                defaultMessage='This field is required'
+            />,
+        );
+    });
+
     test('should display charLength error', () => {
         const wrapper = mountWithIntl(<DisplayName {...defaultProps}/>);
         const input = wrapper.find('.form-control').instance();

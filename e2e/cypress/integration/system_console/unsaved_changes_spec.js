@@ -7,9 +7,14 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @system_console
+// Stage: @prod
+// Group: @not_cloud @system_console
 
 describe('Unsaved Changes', () => {
+    before(() => {
+        cy.shouldNotRunOnCloudEdition();
+    });
+
     it('MM-T955 Warning leaving changed page without saving: Leave page, discard changes', () => {
         // # Make a change on any page.
         cy.visit('/admin_console/environment/file_storage');

@@ -12,19 +12,15 @@ exports[`components/sidebar should match snapshot 1`] = `
     className="a11y__region"
     data-a11y-sort-order="6"
   >
-    <Connect(ChannelNavigator) />
-    <div
-      className="SidebarContainer_filterAddChannel"
-    >
-      <Connect(ChannelFilter) />
-      <injectIntl(AddChannelDropdown)
-        canCreateChannel={true}
-        canJoinPublicChannel={true}
-        showCreateCategoryModal={[Function]}
-        showMoreChannelsModal={[Function]}
-        showNewChannelModal={[Function]}
-      />
-    </div>
+    <Connect(ChannelNavigator)
+      canCreateChannel={true}
+      canJoinPublicChannel={true}
+      handleOpenDirectMessagesModal={[Function]}
+      showCreateCategoryModal={[Function]}
+      showMoreChannelsModal={[Function]}
+      showNewChannelModal={[Function]}
+      unreadFilterEnabled={false}
+    />
   </div>
   <Connect(Pluggable)
     pluggableName="LeftSidebarHeader"
@@ -48,19 +44,15 @@ exports[`components/sidebar should match snapshot when direct channels modal is 
     className="a11y__region"
     data-a11y-sort-order="6"
   >
-    <Connect(ChannelNavigator) />
-    <div
-      className="SidebarContainer_filterAddChannel"
-    >
-      <Connect(ChannelFilter) />
-      <injectIntl(AddChannelDropdown)
-        canCreateChannel={true}
-        canJoinPublicChannel={true}
-        showCreateCategoryModal={[Function]}
-        showMoreChannelsModal={[Function]}
-        showNewChannelModal={[Function]}
-      />
-    </div>
+    <Connect(ChannelNavigator)
+      canCreateChannel={true}
+      canJoinPublicChannel={true}
+      handleOpenDirectMessagesModal={[Function]}
+      showCreateCategoryModal={[Function]}
+      showMoreChannelsModal={[Function]}
+      showNewChannelModal={[Function]}
+      unreadFilterEnabled={false}
+    />
   </div>
   <Connect(Pluggable)
     pluggableName="LeftSidebarHeader"
@@ -78,41 +70,6 @@ exports[`components/sidebar should match snapshot when direct channels modal is 
 </div>
 `;
 
-exports[`components/sidebar should match snapshot when isDataPrefechEnabled is disabled 1`] = `
-<div
-  className=""
-  id="SidebarContainer"
->
-  <Connect(SidebarHeader) />
-  <div
-    className="a11y__region"
-    data-a11y-sort-order="6"
-  >
-    <Connect(ChannelNavigator) />
-    <div
-      className="SidebarContainer_filterAddChannel"
-    >
-      <Connect(ChannelFilter) />
-      <injectIntl(AddChannelDropdown)
-        canCreateChannel={true}
-        canJoinPublicChannel={true}
-        showCreateCategoryModal={[Function]}
-        showMoreChannelsModal={[Function]}
-        showNewChannelModal={[Function]}
-      />
-    </div>
-  </div>
-  <Connect(Pluggable)
-    pluggableName="LeftSidebarHeader"
-  />
-  <Connect(SidebarChannelList)
-    handleOpenMoreDirectChannelsModal={[Function]}
-    onDragEnd={[Function]}
-    onDragStart={[Function]}
-  />
-</div>
-`;
-
 exports[`components/sidebar should match snapshot when more channels modal is open 1`] = `
 <div
   className=""
@@ -123,19 +80,15 @@ exports[`components/sidebar should match snapshot when more channels modal is op
     className="a11y__region"
     data-a11y-sort-order="6"
   >
-    <Connect(ChannelNavigator) />
-    <div
-      className="SidebarContainer_filterAddChannel"
-    >
-      <Connect(ChannelFilter) />
-      <injectIntl(AddChannelDropdown)
-        canCreateChannel={true}
-        canJoinPublicChannel={true}
-        showCreateCategoryModal={[Function]}
-        showMoreChannelsModal={[Function]}
-        showNewChannelModal={[Function]}
-      />
-    </div>
+    <Connect(ChannelNavigator)
+      canCreateChannel={true}
+      canJoinPublicChannel={true}
+      handleOpenDirectMessagesModal={[Function]}
+      showCreateCategoryModal={[Function]}
+      showMoreChannelsModal={[Function]}
+      showNewChannelModal={[Function]}
+      unreadFilterEnabled={false}
+    />
   </div>
   <Connect(Pluggable)
     pluggableName="LeftSidebarHeader"

@@ -5,7 +5,6 @@ import React from 'react';
 
 import {getFilePreviewUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
 import {FileInfo} from 'mattermost-redux/types/files';
-import {Post} from 'mattermost-redux/types/posts';
 
 import SizeAwareImage from 'components/size_aware_image';
 import {FileTypes} from 'utils/constants';
@@ -18,7 +17,7 @@ import ViewImageModal from 'components/view_image';
 const PREVIEW_IMAGE_MIN_DIMENSION = 50;
 
 type Props = {
-    post: Post;
+    postId: string;
     fileInfo?: FileInfo;
     isRhsOpen: boolean;
     compactDisplay?: boolean;
@@ -34,7 +33,7 @@ type State = {
     dimensions: {
         width: number;
         height: number;
-    },
+    };
 }
 
 export default class SingleImageView extends React.PureComponent<Props, State> {
@@ -92,7 +91,7 @@ export default class SingleImageView extends React.PureComponent<Props, State> {
     }
 
     toggleEmbedVisibility = () => {
-        this.props.actions.toggleEmbedVisibility(this.props.post.id);
+        this.props.actions.toggleEmbedVisibility(this.props.postId);
     }
 
     render() {
@@ -185,7 +184,7 @@ export default class SingleImageView extends React.PureComponent<Props, State> {
                     show={this.state.showPreviewModal}
                     onModalDismissed={this.showPreviewModal}
                     fileInfos={[fileInfo]}
-                    post={this.props.post}
+                    postId={this.props.postId}
                 />
             );
 
