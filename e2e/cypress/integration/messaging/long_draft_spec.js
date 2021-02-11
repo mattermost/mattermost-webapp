@@ -22,7 +22,7 @@ describe('Messaging', () => {
         // # Login as test user and visit town-square
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
             testTeam = team;
-            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+            cy.visit(`/${testTeam.name}/channels/town-square`);
         });
     });
 
@@ -35,7 +35,7 @@ describe('Messaging', () => {
             'facilisis in purus sed, auctor.',
         ];
 
-        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
         cy.postMessage('Hello');
 
         // # Get the height before starting to write
@@ -61,7 +61,7 @@ describe('Messaging', () => {
         writeLinesToPostTextBox(lines);
 
         // # Visit a different channel by URL and verify textbox
-        cy.visitAndWait(`/${testTeam.name}/channels/off-topic`);
+        cy.visit(`/${testTeam.name}/channels/off-topic`).wait(TIMEOUTS.THREE_SEC);
         verifyPostTextbox('@initialHeight', '');
 
         // # Should have returned to the channel by URL. However, Cypress is clearing storage for some reason.
@@ -90,6 +90,7 @@ function writeLinesToPostTextBox(lines) {
             });
         }
     }
+    cy.wait(TIMEOUTS.THREE_SEC);
 }
 
 function verifyPostTextbox(heightSelector, text) {

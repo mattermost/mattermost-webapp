@@ -279,6 +279,7 @@ export const ModalIdentifiers = {
     MORE_CHANNELS: 'more_channels',
     NEW_CHANNEL_FLOW: 'new_channel_flow',
     CLOUD_PURCHASE: 'cloud_purchase',
+    COMMERCIAL_SUPPORT: 'commercial_support',
     NO_INTERNET_CONNECTION: 'no_internet_connection',
 };
 
@@ -965,7 +966,7 @@ export const Constants = {
         other: 'generic',
         image: 'image',
     },
-    MAX_UPLOAD_FILES: 10,
+    MAX_UPLOAD_FILES: 5,
     MAX_FILENAME_LENGTH: 35,
     THUMBNAIL_WIDTH: 128,
     THUMBNAIL_HEIGHT: 100,

@@ -29,7 +29,7 @@ describe('Messaging', () => {
 
                 cy.apiAddUserToTeam(testTeam.id, otherUser.id).then(() => {
                     cy.apiLogin(testUser);
-                    cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+                    cy.visit(`/${testTeam.name}/channels/town-square`);
                 });
             });
         });
@@ -42,7 +42,7 @@ describe('Messaging', () => {
 
         // # Create new DM channel
         cy.apiCreateDirectChannel([testUser.id, otherUser.id]).then(() => {
-            cy.visitAndWait(`/${testTeam.name}/messages/@${otherUser.username}`);
+            cy.visit(`/${testTeam.name}/messages/@${otherUser.username}`);
 
             // # Post message to use
             cy.postMessage(message);
@@ -68,7 +68,7 @@ describe('Messaging', () => {
                 cy.reload();
                 cy.apiLogin(otherUser);
                 cy.apiSaveSidebarSettingPreference();
-                cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+                cy.visit(`/${testTeam.name}/channels/town-square`);
 
                 // # Check Message is in Unread List
                 cy.get('#unreadsChannelList').should('be.visible').within(() => {

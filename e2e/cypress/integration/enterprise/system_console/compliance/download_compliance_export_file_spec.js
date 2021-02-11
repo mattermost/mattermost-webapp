@@ -29,7 +29,7 @@ describe('Compliance Export', () => {
         // # Navigate to a team and post an attachment
         gotoTeamAndPostImage();
 
-        // # Goto compliance page and start export
+        // # Go to compliance page and start export
         gotoCompliancePage();
         exportCompliance();
 
@@ -50,7 +50,7 @@ describe('Compliance Export', () => {
         // # Navigate to a team and post an attachment
         gotoTeamAndPostImage();
 
-        // # Goto compliance page and start export
+        // # Go to compliance page and start export
         gotoCompliancePage();
         exportCompliance();
 
@@ -72,34 +72,42 @@ describe('Compliance Export', () => {
     });
 
     it('MM-T3439 - Download Compliance Export Files - S3 Bucket Storage', () => {
-        // # Goto file storage settings Page
-        cy.visitAndWait('/admin_console/environment/file_storage');
+        // # Go to file storage settings Page
+        cy.visit('/admin_console/environment/file_storage');
         cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'File Storage');
 
-        // # Get AWS credentials
-        const AWS_S3_BUCKET = Cypress.env('AWS_S3_BUCKET');
-        const AWS_ACCESS_KEY_ID = Cypress.env('AWS_ACCESS_KEY_ID');
-        const AWS_SECRET_ACCESS_KEY = Cypress.env('AWS_SECRET_ACCESS_KEY');
+        const {
+            minioAccessKey,
+            minioSecretKey,
+            minioS3Bucket,
+            minioS3Endpoint,
+            minioS3SSL,
+        } = Cypress.env();
 
-        // # Config AWS settings
+        // # Update S3 Storage settings
         cy.findByTestId('FileSettings.DriverNamedropdown').select('amazons3');
-        cy.findByTestId('FileSettings.AmazonS3Bucketinput').type(AWS_S3_BUCKET);
-        cy.findByTestId('FileSettings.AmazonS3AccessKeyIdinput').type(AWS_ACCESS_KEY_ID);
-        cy.findByTestId('FileSettings.AmazonS3SecretAccessKeyinput').type(AWS_SECRET_ACCESS_KEY);
+        cy.findByTestId('FileSettings.AmazonS3Bucketinput').clear().type(minioS3Bucket);
+        cy.findByTestId('FileSettings.AmazonS3AccessKeyIdinput').clear().type(minioAccessKey);
+        cy.findByTestId('FileSettings.AmazonS3SecretAccessKeyinput').clear().type(minioSecretKey);
+        cy.findByTestId('FileSettings.AmazonS3Endpointinput').clear().type(minioS3Endpoint);
+        cy.findByTestId(`FileSettings.AmazonS3SSL${minioS3SSL}`).check();
 
         // # Save file storage settings
         cy.findByTestId('saveSetting').click();
-
         waitUntilConfigSave();
 
-        // # Goto compliance page and enable export
+        // # Test connection and verify that it's successful
+        cy.findByRole('button', {name: 'Test Connection'}).click();
+        cy.findByText('Connection was successful').should('be.visible');
+
+        // # Go to compliance page and enable export
         gotoCompliancePage();
         enableComplianceExport();
 
         // # Navigate to a team and post an attachment
         gotoTeamAndPostImage();
 
-        // # Goto compliance page and start export
+        // # Go to compliance page and start export
         gotoCompliancePage();
         exportCompliance();
 
@@ -127,7 +135,7 @@ function enableComplianceExport() {
 }
 
 function gotoCompliancePage() {
-    cy.visitAndWait('/admin_console/compliance/export');
+    cy.visit('/admin_console/compliance/export');
     cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').invoke('text').should('include', 'Compliance Export');
 }
 
@@ -135,7 +143,7 @@ function gotoTeamAndPostImage() {
     // # Get user teams
     cy.apiGetTeamsForUser().then(({teams}) => {
         const team = teams[0];
-        cy.visitAndWait(`/${team.name}/channels/town-square`);
+        cy.visit(`/${team.name}/channels/town-square`);
         cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
     });
 
@@ -157,7 +165,7 @@ function gotoTeamAndPostImage() {
     cy.waitUntil(() => cy.get('#postCreateFooter').then((el) => {
         return el.find('.post-image.normal').length > 0;
     }), {
-        timeout: TIMEOUTS.FIVE_MIN,
+        timeout: TIMEOUTS.HALF_MIN,
         interval: TIMEOUTS.ONE_SEC,
         errorMsg: 'Unable to upload attachment in time',
     });
@@ -184,7 +192,7 @@ function exportCompliance() {
             return el[0].innerText.trim() === 'Success';
         });
     }, {
-        timeout: TIMEOUTS.FIVE_MIN,
+        timeout: TIMEOUTS.ONE_MIN,
         interval: TIMEOUTS.ONE_SEC,
         errorMsg: 'Compliance export did not finish in time',
     });

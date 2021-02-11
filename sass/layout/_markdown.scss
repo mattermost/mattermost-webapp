@@ -1,4 +1,4 @@
-@charset 'UTF-8';
+@charset "UTF-8";
 
 h1 {
     font-size: 28px;
@@ -175,7 +175,7 @@ h6 {
         font-size: 13px;
         display: block;
         position: relative;
-        padding: 0px;
+        padding: 0;
         text-align: left;
     }
 
@@ -259,6 +259,10 @@ h6 {
     td {
         border: 1px solid #ddd;
         padding: 6px 13px;
+    }
+
+    a {
+        word-break: initial;
         white-space: nowrap;
     }
 
@@ -300,7 +304,7 @@ blockquote {
         @include opacity(.6);
         content: '\f10d';
         display: inline-block;
-        font-family: FontAwesome;
+        font-family: FontAwesome, sans-serif;
         font-size: 20px;
         font-style: normal;
         font-weight: normal;

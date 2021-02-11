@@ -23,6 +23,7 @@ const RenewLicenseCard: React.FC<RenewLicenseCardProps> = ({license, totalUsers,
     const today = moment(Date.now());
     const endOfLicense = moment(new Date(parseInt(license?.ExpiresAt, 10)));
     const daysToEndLicense = endOfLicense.diff(today, 'days');
+    const renewLinkTelemetry = {success: 'renew_license_admin_console_success', error: 'renew_license_admin_console_fail'};
     let cardTitle = (
         <FormattedMessage
             id='admin.license.renewalCard.licenseExpiring'
@@ -83,7 +84,7 @@ const RenewLicenseCard: React.FC<RenewLicenseCardProps> = ({license, totalUsers,
                         }}
                     />
                 </div>
-                <RenewalLink/>
+                <RenewalLink telemetryInfo={renewLinkTelemetry}/>
             </div>
         </div>
     );

@@ -33,7 +33,7 @@ describe('Multi Team and DM', () => {
 
             // # Login with testUser and visit test channel
             cy.apiLogin(testUser);
-            cy.visitAndWait(`/${testTeam.name}/channels/${testChannel.name}`);
+            cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
         });
     });
 

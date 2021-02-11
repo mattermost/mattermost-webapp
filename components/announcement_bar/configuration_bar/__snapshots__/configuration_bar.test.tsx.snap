@@ -4,6 +4,28 @@ exports[`components/ConfigurationBar should match snapshot, expired 1`] = `
 <Connect(AnnouncementBar)
   message={
     <React.Fragment>
+      <React.Fragment>
+        <img
+          className="advisor-icon"
+          src={null}
+        />
+        <FormattedMessage
+          defaultMessage="Enterprise license is expired and some features may be disabled."
+          id="announcement_bar.error.license_expired"
+        />
+      </React.Fragment>
+      <Memo(Connect(RenewalLink))
+        telemetryInfo={
+          Object {
+            "error": "renew_license_banner_fail",
+            "success": "renew_license_banner_success",
+          }
+        }
+      />
+    </React.Fragment>
+  }
+  tooltipMsg={
+    <React.Fragment>
       <img
         className="advisor-icon"
         src={null}
@@ -12,7 +34,6 @@ exports[`components/ConfigurationBar should match snapshot, expired 1`] = `
         defaultMessage="Enterprise license is expired and some features may be disabled."
         id="announcement_bar.error.license_expired"
       />
-      <Memo(Connect(RenewalLink)) />
     </React.Fragment>
   }
   type="critical"
@@ -23,6 +44,28 @@ exports[`components/ConfigurationBar should match snapshot, expired, in grace pe
 <Connect(AnnouncementBar)
   message={
     <React.Fragment>
+      <React.Fragment>
+        <img
+          className="advisor-icon"
+          src={null}
+        />
+        <FormattedMessage
+          defaultMessage="Enterprise license is expired and some features may be disabled."
+          id="announcement_bar.error.license_expired"
+        />
+      </React.Fragment>
+      <Memo(Connect(RenewalLink))
+        telemetryInfo={
+          Object {
+            "error": "renew_license_banner_fail",
+            "success": "renew_license_banner_success",
+          }
+        }
+      />
+    </React.Fragment>
+  }
+  tooltipMsg={
+    <React.Fragment>
       <img
         className="advisor-icon"
         src={null}
@@ -31,7 +74,6 @@ exports[`components/ConfigurationBar should match snapshot, expired, in grace pe
         defaultMessage="Enterprise license is expired and some features may be disabled."
         id="announcement_bar.error.license_expired"
       />
-      <Memo(Connect(RenewalLink)) />
     </React.Fragment>
   }
   type="critical"

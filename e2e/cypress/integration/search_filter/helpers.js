@@ -96,7 +96,7 @@ export function setupTestData(data, {team, admin, anotherAdmin}) {
     cy.externalRequest({user: admin, method: 'put', baseUrl, path: `users/${anotherAdmin.id}/roles`, data: {roles: 'system_user system_admin'}});
 
     // # Visit town-square
-    cy.visitAndWait(`/${team.name}/channels/town-square`);
+    cy.visit(`/${team.name}/channels/town-square`);
 
     // # Create a post from today
     cy.get('#postListContent', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible');

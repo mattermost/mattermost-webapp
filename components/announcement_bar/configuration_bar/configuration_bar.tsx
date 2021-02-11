@@ -68,6 +68,8 @@ const ConfigurationAnnouncementBar: React.FC<Props> = (props: Props) => {
         props.actions.dismissNotice(AnnouncementBarMessages.WARN_METRIC_STATUS_NUMBER_OF_POSTS_ACK);
     };
 
+    const renewLinkTelemetry = {success: 'renew_license_banner_success', error: 'renew_license_banner_fail'};
+
     const getNoticeForWarnMetric = (warnMetricStatus: any) => {
         if (!warnMetricStatus ||
             (warnMetricStatus.id !== WarnMetricTypes.SYSTEM_WARN_METRIC_NUMBER_OF_ACTIVE_USERS_500 &&
@@ -162,48 +164,69 @@ const ConfigurationAnnouncementBar: React.FC<Props> = (props: Props) => {
     // System administrators
     if (props.canViewSystemErrors) {
         if (isLicensePastGracePeriod(props.license)) {
+            const message = (<>
+                <img
+                    className='advisor-icon'
+                    src={warningIcon}
+                />
+                <FormattedMessage
+                    id='announcement_bar.error.license_expired'
+                    defaultMessage='Enterprise license is expired and some features may be disabled.'
+                />
+            </>);
             return (
                 <AnnouncementBar
                     type={AnnouncementBarTypes.CRITICAL}
                     message={
                         <>
-                            <img
-                                className='advisor-icon'
-                                src={warningIcon}
-                            />
-                            <FormattedMessage
-                                id='announcement_bar.error.license_expired'
-                                defaultMessage='Enterprise license is expired and some features may be disabled.'
-                            />
-                            <RenewalLink/>
+                            {message}
+                            <RenewalLink telemetryInfo={renewLinkTelemetry}/>
                         </>
                     }
+                    tooltipMsg={message}
                 />
             );
         }
 
         if (isLicenseExpired(props.license)) {
+            const message = (<>
+                <img
+                    className='advisor-icon'
+                    src={warningIcon}
+                />
+                <FormattedMessage
+                    id='announcement_bar.error.license_expired'
+                    defaultMessage='Enterprise license is expired and some features may be disabled.'
+                />
+            </>);
             return (
                 <AnnouncementBar
                     type={AnnouncementBarTypes.CRITICAL}
                     message={
                         <>
-                            <img
-                                className='advisor-icon'
-                                src={warningIcon}
-                            />
-                            <FormattedMessage
-                                id='announcement_bar.error.license_expired'
-                                defaultMessage='Enterprise license is expired and some features may be disabled.'
-                            />
-                            <RenewalLink/>
+                            {message}
+                            <RenewalLink telemetryInfo={renewLinkTelemetry}/>
                         </>
                     }
+                    tooltipMsg={message}
                 />
             );
         }
 
         if (isLicenseExpiring(props.license) && !props.dismissedExpiringLicense) {
+            const message = (<>
+                <img
+                    className='advisor-icon'
+                    src={alertIcon}
+                />
+                <FormattedMessage
+                    id='announcement_bar.error.license_expiring'
+                    defaultMessage='Enterprise license expires on {date, date, long}.'
+                    values={{
+                        date: new Date(parseInt(props.license?.ExpiresAt, 10)),
+                    }}
+                />
+            </>);
             return (
                 <AnnouncementBar
                     showCloseButton={true}
@@ -211,20 +234,11 @@ const ConfigurationAnnouncementBar: React.FC<Props> = (props: Props) => {
                     type={AnnouncementBarTypes.ANNOUNCEMENT}
                     message={
                         <>
-                            <img
-                                className='advisor-icon'
-                                src={alertIcon}
-                            />
-                            <FormattedMessage
-                                id='announcement_bar.error.license_expiring'
-                                defaultMessage='Enterprise license expires on {date, date, long}.'
-                                values={{
-                                    date: new Date(parseInt(props.license?.ExpiresAt, 10)),
-                                }}
-                            />
-                            <RenewalLink/>
+                            {message}
+                            <RenewalLink telemetryInfo={renewLinkTelemetry}/>
                         </>
                     }
+                    tooltipMsg={message}
                 />
             );
         }

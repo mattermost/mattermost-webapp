@@ -98,7 +98,7 @@ function inviteUser(user) {
 function inviteUserToTeamAsMember(testUser, testTeam, user) {
     // # Login and visit
     cy.apiLogin(testUser);
-    cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+    cy.visit(`/${testTeam.name}/channels/town-square`);
 
     // # Open and select invite menu item
     openClickInviteMenuItem();
@@ -113,7 +113,7 @@ function inviteUserToTeamAsMember(testUser, testTeam, user) {
 function inviteUserToTeamAsSysadmin(testTeam, user) {
     // # Login and visit
     cy.apiAdminLogin();
-    cy.visitAndWait(`/${testTeam.name}/channels/off-topic`);
+    cy.visit(`/${testTeam.name}/channels/off-topic`);
 
     // # Open and select invite menu item
     openClickInviteMenuItem();
