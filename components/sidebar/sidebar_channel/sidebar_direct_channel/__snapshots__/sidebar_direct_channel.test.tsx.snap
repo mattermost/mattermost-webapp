@@ -24,9 +24,15 @@ exports[`components/sidebar/sidebar_channel/sidebar_direct_channel should match 
   }
   closeHandler={[Function]}
   icon={
-    <StatusIconNew
-      className=""
-      status=""
+    <ProfilePicture
+      hasMention={false}
+      isEmoji={false}
+      isRHS={false}
+      newStatusIcon={true}
+      size="xs"
+      src="/api/v4/users/user_id/image"
+      statusClass="DirectChannel__status-icon "
+      wrapperClass="DirectChannel__profile-picture"
     />
   }
   isCollapsed={false}
@@ -59,13 +65,15 @@ exports[`components/sidebar/sidebar_channel/sidebar_direct_channel should match 
   }
   closeHandler={[Function]}
   icon={
-    <InlineSVG
-      cacheRequests={true}
-      className="icon icon-robot-happy"
-      onError={[Function]}
-      onLoad={[Function]}
-      src="http://a.fake.url"
-      uniquifyIDs={false}
+    <ProfilePicture
+      hasMention={false}
+      isEmoji={false}
+      isRHS={false}
+      newStatusIcon={true}
+      size="xs"
+      src="/api/v4/users/user_id/image"
+      statusClass="DirectChannel__status-icon "
+      wrapperClass="DirectChannel__profile-picture"
     />
   }
   isCollapsed={false}
@@ -98,9 +106,15 @@ exports[`components/sidebar/sidebar_channel/sidebar_direct_channel should match 
   }
   closeHandler={[Function]}
   icon={
-    <StatusIconNew
-      className=""
-      status=""
+    <ProfilePicture
+      hasMention={false}
+      isEmoji={false}
+      isRHS={false}
+      newStatusIcon={true}
+      size="xs"
+      src="/api/v4/users/user_id/image"
+      statusClass="DirectChannel__status-icon "
+      wrapperClass="DirectChannel__profile-picture"
     />
   }
   isCollapsed={false}

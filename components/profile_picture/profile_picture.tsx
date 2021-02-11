@@ -6,6 +6,7 @@ import React, {ComponentProps} from 'react';
 import OverlayTrigger, {BaseOverlayTrigger} from 'components/overlay_trigger';
 import ProfilePopover from 'components/profile_popover';
 import StatusIcon from 'components/status_icon';
+import StatusIconNew from 'components/status_icon_new';
 import Avatar from 'components/widgets/users/avatar';
 
 import './profile_picture.scss';
@@ -28,6 +29,8 @@ type Props = {
     wrapperClass?: string;
     overwriteIcon?: string;
     overwriteName?: string;
+    newStatusIcon?: boolean;
+    statusClass?: string;
 }
 
 export default class ProfilePicture extends React.PureComponent<Props> {
@@ -94,14 +97,18 @@ export default class ProfilePicture extends React.PureComponent<Props> {
             );
         }
         return (
-            <span className='status-wrapper'>
+            <span className={`status-wrapper style--none ${this.props.wrapperClass}`}>
                 <span className={profileIconClass}>
                     <Avatar
                         size={this.props.size}
                         url={this.props.src}
                     />
                 </span>
-                <StatusIcon status={this.props.status}/>
+                {this.props.newStatusIcon ?
+                    <StatusIconNew
+                        className={this.props.statusClass}
+                        status={this.props.status}
+                    /> : <StatusIcon status={this.props.status}/>}
             </span>
         );
     }

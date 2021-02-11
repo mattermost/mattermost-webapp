@@ -1070,7 +1070,7 @@
     }
     .SidebarChannel .SidebarLink > i {
         font-size: 14.4px;
-        margin: 0 5px 0 0;
+        margin: 0 7px 0 2px;
         display: flex;
     }
 
@@ -1093,31 +1093,37 @@
         }
     }
 
-    /* .SidebarChannel__absolute {
-        height: 44px;
-        list-style-type: none;
-        width: 100%;
-        position: relative;
-    }
+    .DirectChannel__profile-picture {
+        @media (max-width: 768px) {
+            height: 24px;
+            width: 24px;
+        }
 
-    .SidebarChannel__absolute:hover {
-        background: rgba(255, 255, 255, 0.16);
-    }
+        height: 20px;
+        margin-right: 9px;
 
-    .SidebarChannel__absolute > a {
-        text-decoration: none;
-        position: absolute;
-        line-height: 44px;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 24px;
-        color: #BCCDE7;
-    }
+        .DirectChannel__status-icon {
+            @media (max-width: 768px) {
+                height: 14px;
+                width: 14px;
+                font-size: 14px;
+                top: 12px;
+                left: 12px;
+            }
 
-    .SidebarChannel__absolute > a:hover {
-        color: #BCCDE7;
-    } */
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            border-radius: 100%;
+            background: var(--sidebar-bg);
+            height: 12px;
+            width: 12px;
+            font-size: 12px;
+            align-items: center;
+            justify-content: center;
+            display: flex;
+        }
+    }
 
     .icon {
         display: inline-block;
