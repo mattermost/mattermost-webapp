@@ -32,7 +32,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     let unreadMsgs = 0;
     let showUnreadForMsgs = true;
     if (member) {
-        unreadMentions = member.mention_count;
+        unreadMentions = member.mention_count - threadMentionCountInChannel;
 
         if (isCollapsedThreadsEnabled(state)) {
             unreadMentions -= threadMentionCountInChannel;

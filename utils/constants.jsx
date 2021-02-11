@@ -393,7 +393,9 @@ export const SocketEvents = {
     SIDEBAR_CATEGORY_ORDER_UPDATED: 'sidebar_category_order_updated',
     USER_ACTIVATION_STATUS_CHANGED: 'user_activation_status_change',
     CLOUD_PAYMENT_STATUS_UPDATED: 'cloud_payment_status_updated',
-    FOLLOW_CHANGED_THREAD: 'follow_changed_thread',
+    THREAD_UPDATED: 'thread_updated',
+    THREAD_FOLLOW_CHANGED: 'thread_follow_changed',
+    THREAD_READ_CHANGED: 'thread_read_changed',
 };
 
 export const TutorialSteps = {
