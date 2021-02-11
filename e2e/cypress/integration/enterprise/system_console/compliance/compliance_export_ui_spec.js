@@ -209,26 +209,10 @@ describe('Compliance Export', () => {
         // # Click the export job button
         cy.findByRole('button', {name: /run compliance export job now/i}).click();
 
-        // # Small wait to ensure new row is add
-        cy.wait(TIMEOUTS.THREE_SEC);
+        cy.findByTitle(/cancel/i, {timeout: TIMEOUTS.FIVE_SEC}).should('be.visible').click();
 
         // # Get the first row
         cy.get('.job-table__table').find('tbody > tr').eq(0).as('firstRow');
-
-        // # Wait until export is finished
-        cy.waitUntil(() => {
-            return cy.get('@firstRow').find('td:eq(1)').then((el) => {
-                return el[0].innerText.trim() === 'Pending';
-            });
-        },
-        {
-            timeout: TIMEOUTS.FIVE_MIN,
-            interval: TIMEOUTS.ONE_SEC,
-            errorMsg: 'Compliance export did not finish in time',
-        });
-
-        // # Click X button
-        cy.get('@firstRow').find('td:eq(0)').click();
 
         // * Canceled text should be shown in the first row of the table
         cy.get('@firstRow').find('td:eq(1)').should('have.text', 'Canceled');
