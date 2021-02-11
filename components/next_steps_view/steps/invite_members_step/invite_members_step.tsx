@@ -5,7 +5,7 @@ import React, {CSSProperties} from 'react';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 import {ActionMeta, InputActionMeta} from 'react-select';
 import classNames from 'classnames';
-import {isEmpty} from 'lodash';
+import {isNull} from 'lodash';
 
 import {ServerError} from 'mattermost-redux/types/errors';
 import {TeamInviteWithError, Team} from 'mattermost-redux/types/teams';
@@ -40,6 +40,7 @@ type Props = StepComponentProps & {
     };
     subscriptionStats?: SubscriptionStats;
     intl: IntlShape;
+    isCloud: boolean;
 };
 
 type State = {
@@ -96,7 +97,7 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
             this.props.actions.regenerateTeamInviteId(this.props.team.id);
         }
 
-        if (isEmpty(this.props.subscriptionStats)) {
+        if (isNull(this.props.subscriptionStats) && this.props.isCloud) {
             this.props.actions.getSubscriptionStats();
         }
     }
@@ -110,7 +111,11 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
     getRemainingUsers = (): number => {
         const {subscriptionStats} = this.props;
         const {emails} = this.state;
-        return subscriptionStats!.remaining_seats - emails.length;
+        if (subscriptionStats) {
+            return subscriptionStats.remaining_seats - emails.length;
+        }
+
+        return 0;
     }
 
     onInputChange = (value: string, change: InputActionMeta) => {
@@ -275,7 +280,7 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
                                 id='next_steps_view.invite_members_step.youCanInviteUpTo'
                                 defaultMessage='You can invite up to {members} team members using a space or comma between addresses'
                                 values={{
-                                    members: this.props.subscriptionStats!.remaining_seats,
+                                    members: this.props?.subscriptionStats?.remaining_seats,
                                 }}
                             />
                             <MultiInput
@@ -323,8 +328,6 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
                                         </>
                                     }
                                     {(this.state.emailError && this.state.emails.length > 10) &&
-
-                                        // <UpgradeLink telemetryInfo='click_upgrade_invite_members_step'/>
                                         <UpgradeLink handleClick={(e) => this.handleLinkClick(e)}/>
                                     }
                                 </div>
