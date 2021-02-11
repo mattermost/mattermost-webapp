@@ -94,8 +94,11 @@ describe('Compliance Export', () => {
 
         // # Save file storage settings
         cy.findByTestId('saveSetting').click();
-
         waitUntilConfigSave();
+
+        // # Test connection and verify that it's successful
+        cy.findByRole('button', {name: 'Test Connection'}).click();
+        cy.findByText('Connection was successful').should('be.visible');
 
         // # Go to compliance page and enable export
         gotoCompliancePage();
@@ -162,7 +165,7 @@ function gotoTeamAndPostImage() {
     cy.waitUntil(() => cy.get('#postCreateFooter').then((el) => {
         return el.find('.post-image.normal').length > 0;
     }), {
-        timeout: TIMEOUTS.FIVE_MIN,
+        timeout: TIMEOUTS.HALF_MIN,
         interval: TIMEOUTS.ONE_SEC,
         errorMsg: 'Unable to upload attachment in time',
     });
@@ -189,7 +192,7 @@ function exportCompliance() {
             return el[0].innerText.trim() === 'Success';
         });
     }, {
-        timeout: TIMEOUTS.FIVE_MIN,
+        timeout: TIMEOUTS.ONE_MIN,
         interval: TIMEOUTS.ONE_SEC,
         errorMsg: 'Compliance export did not finish in time',
     });
