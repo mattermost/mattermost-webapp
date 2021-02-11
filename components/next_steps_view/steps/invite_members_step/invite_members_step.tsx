@@ -327,7 +327,7 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
                                             <span>{this.state.emailError}</span>
                                         </>
                                     }
-                                    {(this.state.emailError && this.state.emails.length > this.props?.subscriptionStats!.remaining_seats) &&
+                                    {(this.state.emailError && this.state.emails.length >= this.props?.subscriptionStats!.remaining_seats) &&
                                         <UpgradeLink handleClick={(e) => this.handleLinkClick(e)}/>
                                     }
                                 </div>
