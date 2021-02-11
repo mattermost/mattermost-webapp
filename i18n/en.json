@@ -567,15 +567,12 @@
   "admin.data_retention.confirmChangesModal.title": "Confirm data retention policy",
   "admin.data_retention.createJob.help": "Initiates a Data Retention deletion job immediately.",
   "admin.data_retention.createJob.title": "Run Deletion Job Now",
-<<<<<<< HEAD
   "admin.data_retention.customPolicies.addPolicy": "Add policy",
   "admin.data_retention.customPolicies.subTitle": "Customize how long specific teams and channels will keep messages.",
   "admin.data_retention.customPolicies.title": "Custom retention policies",
-=======
   "admin.data_retention.customPoliciesTable.appliedTo": "Applied to",
   "admin.data_retention.customPoliciesTable.channelMessages": "Channel messages",
   "admin.data_retention.customPoliciesTable.description": "Description",
->>>>>>> MM-32425_new-data-table-component
   "admin.data_retention.deletionJobStartTime.description": "Set the start time of the daily scheduled data retention job. Choose a time when fewer people are using your system. Must be a 24-hour time stamp in the form HH:MM.",
   "admin.data_retention.deletionJobStartTime.example": "E.g.: \"02:00\"",
   "admin.data_retention.deletionJobStartTime.title": "Data Deletion Time:",
