@@ -234,6 +234,8 @@ const DropdownInputTransformer: React.FC<Props> = (props) => {
                             styles={{...baseStyles, ...styles, ...getMenuStyles()}}
                             defaultValue={defaultValue}
                             value={value}
+                            hideSelectedOptions
+                            isSearchable={false}
                             {...otherProps}
                         />
                     </div>
