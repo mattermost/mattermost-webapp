@@ -3531,7 +3531,6 @@
   "payment.card_number": "Card Number",
   "payment.field_required": "This field is required",
   "payment.invalid_card_number": "Please enter a valid credit card",
-  "pdf_preview.max_pages": "Download to read more pages",
   "pending_post_actions.cancel": "Cancel",
   "pending_post_actions.retry": "Retry",
   "permalink.error.access": "Permalink belongs to a deleted message or to a channel to which you do not have access.",
