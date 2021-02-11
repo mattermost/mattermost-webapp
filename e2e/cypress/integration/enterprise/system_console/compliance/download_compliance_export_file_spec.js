@@ -14,9 +14,9 @@ import {downloadAndUnzipExportFile, deleteExportFolder, getXMLFile, gotoTeamAndP
 const path = require('path');
 
 const ExportFormatActiance = 'Actiance XML';
-let targetDownload;
 
 describe('Compliance Export', () => {
+    let targetDownload;
     let pwd;
     let newTeam;
     let newUser;

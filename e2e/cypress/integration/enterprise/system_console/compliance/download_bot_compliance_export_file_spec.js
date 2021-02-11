@@ -14,9 +14,8 @@ import {downloadAndUnzipExportFile, getXMLFile, deleteExportFolder} from './help
 const ExportFormatActiance = 'Actiance XML';
 const path = require('path');
 
-let targetDownload;
-
 describe('Compliance Export', () => {
+    let targetDownload;
     let newTeam;
     let newChannel;
     let botId;
