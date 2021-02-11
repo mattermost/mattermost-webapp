@@ -15,7 +15,7 @@ const ActionTypes = Constants.ActionTypes;
 
 type State = {
     value: string;
-    inputError: JSX.Element | null;
+    inputError: React.ReactNode | null;
     show: boolean;
     callback: ((args: Theme) => void) | null;
 }
