@@ -26,6 +26,7 @@ type Props = {
     textColor: string;
     type: string;
     message: React.ReactNode;
+    tooltipMsg?: React.ReactNode;
     handleClose?: (e?: any) => void;
     showModal?: boolean;
     announcementBarCount?: number;
@@ -115,7 +116,7 @@ export default class AnnouncementBar extends React.PureComponent<Props> {
         }
         const announcementTooltip = (
             <Tooltip id='announcement-bar__tooltip'>
-                {message}
+                {this.props.tooltipMsg ? this.props.tooltipMsg : message}
             </Tooltip>
         );
 
