@@ -72,7 +72,7 @@ export default class StatusDropdown extends React.PureComponent {
         this.props.actions.setStatus({
             user_id: this.props.userId,
             status,
-            dndEndTime,
+            dnd_end_time: dndEndTime,
         });
     }
 
