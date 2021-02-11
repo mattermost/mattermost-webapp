@@ -48,9 +48,9 @@ describe('mapStateToProps', () => {
             cloud: {
                 subscriptionStats: {
                     is_paid_tier: 'false',
-                    remaining_seats: 1
-                }
-            }
+                    remaining_seats: 1,
+                },
+            },
         },
         views: {
             modals: {
