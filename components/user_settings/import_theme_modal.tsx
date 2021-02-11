@@ -5,6 +5,7 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage, WrappedComponentProps, injectIntl} from 'react-intl';
 
+import {setThemeDefaults} from 'mattermost-redux/utils/theme_utils';
 import {Theme} from 'mattermost-redux/types/preferences';
 
 import ModalStore from 'stores/modal_store.jsx';
@@ -89,6 +90,8 @@ class ImportThemeModal extends React.PureComponent<WrappedComponentProps, State>
             mentionBg,
             sidebarTeamBarBg,
         };
+
+        setThemeDefaults(theme as Theme);
 
         this.state.callback?.(theme as Theme);
 

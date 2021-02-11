@@ -6,6 +6,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {defineMessages, FormattedMessage} from 'react-intl';
 
+import {setThemeDefaults} from 'mattermost-redux/utils/theme_utils';
+
 import {t} from 'utils/i18n';
 
 import Constants from 'utils/constants';
@@ -183,6 +185,8 @@ export default class CustomThemeChooser extends React.PureComponent {
         } catch (err) {
             return;
         }
+
+        setThemeDefaults(theme);
 
         this.setState({
             copyTheme: JSON.stringify(theme),
