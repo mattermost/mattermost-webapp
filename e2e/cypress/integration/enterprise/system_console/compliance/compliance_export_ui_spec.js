@@ -209,6 +209,7 @@ describe('Compliance Export', () => {
         // # Click the export job button
         cy.findByRole('button', {name: /run compliance export job now/i}).click();
 
+        // # Click X button to cancel import
         cy.findByTitle(/cancel/i, {timeout: TIMEOUTS.FIVE_SEC}).should('be.visible').click();
 
         // # Get the first row
