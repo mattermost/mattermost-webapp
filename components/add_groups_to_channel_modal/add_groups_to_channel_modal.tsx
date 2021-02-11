@@ -40,12 +40,12 @@ export type Props = {
 
     actions: {
         getGroupsNotAssociatedToChannel: (channelID: string, q?: string, page?: number | null, perPage?: number | null, filterParentTeamPermitted?: boolean) => Promise<ActionFunc>;
-        setModalSearchTerm: (term: string) => { type: string, data: string};
+        setModalSearchTerm: (term: string) => { type: string; data: string};
         linkGroupSyncable: (groupID: string, syncableID: string, syncableType: string, patch: Partial<SyncablePatch>) => Promise<{error?: ServerError; data?: null}>;
         getAllGroupsAssociatedToChannel: (channelID: string, filterAllowReference: boolean, includeMemberCount: boolean) => ActionFunc;
         getTeam: (teamId: string) => ActionFunc;
         getAllGroupsAssociatedToTeam: (teamID: string, filterAllowReference: boolean, includeMemberCount: boolean) => ActionFunc;
-    }
+    };
 }
 
 type State = {
@@ -232,7 +232,7 @@ export default class AddGroupsToChannelModal extends React.PureComponent<Props, 
         );
     }
 
-    renderValue(props: { data: Partial<Value>; }) {
+    renderValue(props: { data: Partial<Value> }) {
         return props.data.display_name;
     }
 

@@ -24,7 +24,7 @@ type OwnProps = {
     excludeGroups: Group[];
 }
 
-function mapStateToProps(state: GlobalState, ownProps:OwnProps) {
+function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const searchTerm = state.views.search.modalSearch;
 
     const channel = ownProps.channel || getCurrentChannel(state) || {};
