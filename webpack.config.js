@@ -261,6 +261,7 @@ var config = {
             'window.jQuery': 'jquery',
             $: 'jquery',
             jQuery: 'jquery',
+            process: 'process/browser',
         }),
         new webpack.DefinePlugin({
             COMMIT_HASH: JSON.stringify(childProcess.execSync('git rev-parse HEAD || echo dev').toString()),
