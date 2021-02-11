@@ -5,7 +5,6 @@
 import {batchActions} from 'redux-batched-actions';
 import {
     ChannelTypes,
-    ThreadTypes,
     EmojiTypes,
     GroupTypes,
     PostTypes,
@@ -30,6 +29,7 @@ import {
 } from 'mattermost-redux/actions/channels';
 import {getCloudSubscription} from 'mattermost-redux/actions/cloud';
 import {loadRolesIfNeeded} from 'mattermost-redux/actions/roles';
+import {handleAllMarkedRead, handleReadChanged, handleFollowChanged, handleThreadArrived} from 'mattermost-redux/actions/threads';
 
 import {setServerVersion} from 'mattermost-redux/actions/general';
 import {
@@ -1374,41 +1374,28 @@ function handleCloudPaymentStatusUpdated() {
 
 function handleThreadsReadChanged(msg) {
     return (doDispatch) => {
-        if (msg.data.thread_id) { // all threads marked as read
-            dispatch({
-                type: ThreadTypes.READ_CHANGED_THREAD,
-                data: {
-                    id: msg.data.thread_id,
-                    team_id: msg.broadcast.team_id,
-                    timestamp: msg.data.timestamp,
-                },
-            });
+        if (msg.data.thread_id) {
+            handleReadChanged(doDispatch, msg.data.thread_id, msg.broadcast.team_id, msg.data.timestamp);
         } else {
-            doDispatch({
-                type: ThreadTypes.ALL_TEAM_THREADS_READ,
-                data: {
-                    team_id: msg.broadcast.team_id,
-                },
-            });
+            handleAllMarkedRead(doDispatch, msg.broadcast.team_id);
         }
     };
 }
 
 function handleThreadsUpdated(msg) {
     return (doDispatch) => {
+        try {
+            const threadData = JSON.parse(msg.data.thread);
+            handleThreadArrived(doDispatch, threadData, msg.broadcast.team_id);
+        } catch {
+            // invalid JSON
+        }
     };
 }
 
 function handleThreadsFollowChanged(msg) {
     return (doDispatch) => {
-        doDispatch({
-            type: ThreadTypes.FOLLOW_CHANGED_THREAD,
-            data: {
-                id: msg.data.thread_id,
-                team_id: msg.broadcast.team_id,
-                following: msg.data.state,
-            },
-        });
+        handleFollowChanged(doDispatch, msg.data.thread_id, msg.broadcast.team_id, msg.data.state);
     };
 }
 
