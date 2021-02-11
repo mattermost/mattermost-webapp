@@ -24,7 +24,7 @@ describe('components/user_settings/ImportThemeModal', () => {
             sidebarTextActiveBorder: '#4c9689',
             sidebarTextActiveColor: '#ffffff',
             sidebarHeaderBg: '#3e313c',
-            sidebarTeamBarBg: '#0b428c',
+            sidebarTeamBarBg: 'rgba(49,39,48,1)',
             sidebarHeaderTextColor: '#ffffff',
             onlineIndicator: '#38978d',
             awayIndicator: '#ffbc42',
