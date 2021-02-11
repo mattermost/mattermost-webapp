@@ -29,7 +29,7 @@ describe('Leaving archived channels', () => {
         // # Create a new public channel
         cy.apiCreateChannel(testTeam.id, 'channel', 'channel').then(({channel}) => {
             // # Visit the channel
-            cy.visitAndWait(`/${testTeam.name}/channels/${channel.name}`);
+            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
 
             // # Archive the channel
             cy.uiArchiveChannel();
@@ -46,7 +46,7 @@ describe('Leaving archived channels', () => {
         // # Create a new private channel
         cy.apiCreateChannel(testTeam.id, 'channel', 'channel', 'P').then(({channel}) => {
             // # Visit the channel
-            cy.visitAndWait(`/${testTeam.name}/channels/${channel.name}`);
+            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
 
             // # Archive the channel
             cy.uiArchiveChannel();

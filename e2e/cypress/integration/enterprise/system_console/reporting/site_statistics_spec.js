@@ -15,7 +15,7 @@ import {getAdminAccount} from '../../../../support/env';
 // # Goes to the System Scheme page as System Admin
 const goToAdminConsole = () => {
     cy.apiAdminLogin();
-    cy.visitAndWait('/admin_console');
+    cy.visit('/admin_console');
 };
 
 describe('System Console > Site Statistics', () => {
@@ -31,9 +31,9 @@ describe('System Console > Site Statistics', () => {
         cy.apiPatchMe({locale: 'en'});
     });
 
-    it('MM-T904_1 Site Statistics displays expected content categories', () => {
+    it('MM-T904 Site Statistics displays expected content categories', () => {
         // # Visit site statistics page.
-        cy.visitAndWait('/admin_console/reporting/system_analytics');
+        cy.visit('/admin_console/reporting/system_analytics');
 
         // * Check that the header has loaded correctly and contains the expected text.
         cy.get('.admin-console__header span', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').should('contain', 'System Statistics');
@@ -126,7 +126,7 @@ describe('System Console > Site Statistics', () => {
 
             // # Login as admin and set the langauge to french
             cy.apiAdminLogin();
-            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+            cy.visit(`/${testTeam.name}/channels/town-square`);
             cy.get('#headerUsername', {timeout: TIMEOUTS.ONE_MIN}).click();
             cy.get('#accountSettings').should('be.visible').click();
             cy.get('#displayButton').click();
@@ -135,7 +135,7 @@ describe('System Console > Site Statistics', () => {
             cy.get('#saveSetting').click();
 
             // * Once in site statistics, check and make sure the boxes are truncated or not according to image on test
-            cy.visitAndWait('/admin_console/reporting/system_analytics');
+            cy.visit('/admin_console/reporting/system_analytics');
 
             const testIds = ['totalActiveUsersTitle', 'totalTeamsTitle', 'totalChannelsTitle', 'totalPostsTitle', 'totalSessionsTitle', 'totalCommandsTitle', 'incomingWebhooksTitle',
                 'outgoingWebhooksTitle', 'dailyActiveUsersTitle', 'monthlyActiveUsersTitle', 'websocketConnsTitle', 'masterDbConnsTitle', 'replicaDbConnsTitle'];

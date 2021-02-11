@@ -42,7 +42,7 @@ describe('Desktop notifications', () => {
                 cy.apiPatchUser(user.id, {notify_props: {...user.notify_props, desktop: 'all'}});
 
                 // Visit the MM webapp with the notification API stubbed.
-                cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+                cy.visit(`/${testTeam.name}/channels/town-square`);
                 spyNotificationAs('withNotification', 'granted');
 
                 // Make sure user is marked as online.
@@ -64,7 +64,7 @@ describe('Desktop notifications', () => {
             cy.apiLogin(user);
 
             // Visit town-square.
-            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+            cy.visit(`/${testTeam.name}/channels/town-square`);
             spyNotificationAs('withoutNotification', 'granted');
 
             // # Ensure notifications are set up to fire a desktop notification if are mentioned.
@@ -81,7 +81,7 @@ describe('Desktop notifications', () => {
             // # Login with the user.
             cy.apiLogin(user).then(() => {
                 // Visit town-square.
-                cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+                cy.visit(`/${testTeam.name}/channels/town-square`);
 
                 // * Desktop notification is not received.
                 cy.get('@withoutNotification').should('not.have.been.called');
@@ -134,7 +134,7 @@ describe('Desktop notifications', () => {
             cy.apiLogin(user);
 
             // Visit the MM webapp with the notification API stubbed.
-            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+            cy.visit(`/${testTeam.name}/channels/town-square`);
             spyNotificationAs('withNotification', 'granted');
 
             const actualMsg = '*I\'m* [hungry](http://example.com) :taco: ![Mattermost](http://www.mattermost.org/wp-content/uploads/2016/03/logoHorizontal.png)';
@@ -167,7 +167,7 @@ describe('Desktop notifications', () => {
                 cy.apiPatchUser(user.id, {notify_props: {...user.notify_props, desktop: 'all'}});
 
                 // Visit the MM webapp with the notification API stubbed.
-                cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+                cy.visit(`/${testTeam.name}/channels/town-square`);
                 spyNotificationAs('withoutNotification', 'granted');
 
                 // # Post the following: /dnd
@@ -193,7 +193,7 @@ describe('Desktop notifications', () => {
             cy.apiLogin(user);
 
             // # Visit the MM webapp with the notification API stubbed.
-            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+            cy.visit(`/${testTeam.name}/channels/town-square`);
             spyNotificationAs('withNotification', 'granted');
 
             const actualMsg = '---';
@@ -225,7 +225,7 @@ describe('Desktop notifications', () => {
             cy.apiLogin(user);
 
             // Visit town-square.
-            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+            cy.visit(`/${testTeam.name}/channels/town-square`);
 
             // # Ensure notifications are set up to fire a desktop notification
             changeDesktopNotificationSettingsAs('#desktopNotificationAllActivity');
@@ -235,7 +235,7 @@ describe('Desktop notifications', () => {
                 const expected = `@${testUser.username}: ${messageWithNotification}`;
 
                 // # Go to Off topic
-                cy.visitAndWait(`/${testTeam.name}/channels/${channel.name}`);
+                cy.visit(`/${testTeam.name}/channels/${channel.name}`);
 
                 // # Set channel notifications to show on mention only
                 cy.get('#channelHeaderDropdownIcon').click();
@@ -245,7 +245,7 @@ describe('Desktop notifications', () => {
                 cy.get('#saveSetting').click();
 
                 // # Visit Town square
-                cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+                cy.visit(`/${testTeam.name}/channels/town-square`);
 
                 spyNotificationAs('withNotification', 'granted');
 
@@ -276,7 +276,7 @@ describe('Desktop notifications', () => {
             cy.apiLogin(user);
 
             // Visit town-square.
-            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+            cy.visit(`/${testTeam.name}/channels/town-square`);
             spyNotificationAs('withNotification', 'granted');
 
             // # Ensure notifications are set up to fire a desktop notification if are mentioned
@@ -316,7 +316,7 @@ describe('Desktop notifications', () => {
                 cy.apiLogin(user);
 
                 // Visit town-square.
-                cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+                cy.visit(`/${testTeam.name}/channels/town-square`);
                 spyNotificationAs('withNotification', 'granted');
 
                 // # Ensure notifications are set up to fire a desktop notification if are mentioned
@@ -351,7 +351,7 @@ describe('Desktop notifications', () => {
                 cy.apiLogin(user);
 
                 // Visit town-square.
-                cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+                cy.visit(`/${testTeam.name}/channels/town-square`);
                 spyNotificationAs('withNotification', 'granted');
 
                 // # Ensure notifications are set up to fire a desktop notification if are mentioned
@@ -384,7 +384,7 @@ describe('Desktop notifications', () => {
             cy.apiLogin(user);
 
             // Visit town-square.
-            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+            cy.visit(`/${testTeam.name}/channels/town-square`);
             spyNotificationAs('withNotification', 'granted');
 
             // # Ensure notifications are set up to fire a desktop notification if are mentioned
@@ -419,7 +419,7 @@ describe('Desktop notifications', () => {
                 const message = '/echo test 3';
 
                 // # Go to Off topic
-                cy.visitAndWait(`/${testTeam.name}/channels/${channel.name}`);
+                cy.visit(`/${testTeam.name}/channels/${channel.name}`);
                 spyNotificationAs('withNotification', 'granted');
 
                 // # Have another user send a post with delay
@@ -437,7 +437,7 @@ describe('Desktop notifications', () => {
             cy.apiLogin(user);
 
             // # Visit town-square.
-            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+            cy.visit(`/${testTeam.name}/channels/town-square`);
             spyNotificationAs('withNotification', 'granted');
 
             // # Ensure notifications are set up to fire a desktop notification
@@ -480,7 +480,7 @@ describe('Desktop notifications', () => {
             cy.apiLogin(user);
 
             // Visit town-square.
-            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+            cy.visit(`/${testTeam.name}/channels/town-square`);
             spyNotificationAs('withNotification', 'granted');
 
             // # Ensure notifications are set up to never fire a desktop notification
@@ -512,7 +512,7 @@ describe('Desktop notifications', () => {
             cy.apiLogin(user);
 
             // # Visit town-square.
-            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+            cy.visit(`/${testTeam.name}/channels/town-square`);
             spyNotificationAs('withNotification', 'granted');
 
             // # Click hamburger main menu.

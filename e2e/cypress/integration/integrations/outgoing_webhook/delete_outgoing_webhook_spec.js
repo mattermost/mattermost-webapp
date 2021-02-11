@@ -51,7 +51,7 @@ describe('Integrations', () => {
 
     it('MM-T617 Delete outgoing webhook', () => {
         // # Confirm outgoing webhook is working
-        cy.visitAndWait(`/${testTeam}/channels/${testChannel}`);
+        cy.visit(`/${testTeam}/channels/${testChannel}`);
         cy.postMessage('testing');
         cy.uiWaitUntilMessagePostedIncludes('Outgoing Webhook Payload');
 
@@ -64,7 +64,7 @@ describe('Integrations', () => {
         });
 
         // # Delete outgoing webhook
-        cy.visitAndWait(`/${testTeam}/integrations/outgoing_webhooks`);
+        cy.visit(`/${testTeam}/integrations/outgoing_webhooks`);
         cy.findAllByText('Delete', {timeout: TIMEOUTS.ONE_MIN}).click();
         cy.get('#confirmModalButton').click();
 
@@ -76,7 +76,7 @@ describe('Integrations', () => {
 
         // * Return to app and assert trigger word no longer works
         cy.apiLogin(testUser);
-        cy.visitAndWait(`/${testTeam}/channels/${testChannel}`);
+        cy.visit(`/${testTeam}/channels/${testChannel}`);
         cy.postMessage('testing');
 
         // * Assert bot message does not arrive

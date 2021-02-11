@@ -80,6 +80,7 @@
 
 .suggestion-list--bottom {
     position: absolute;
+    top: 0;
 }
 
 .suggestion-list__content {
@@ -165,6 +166,11 @@
 
 .suggestion-list__content--top {
     bottom: 0;
+    position: absolute;
+}
+
+.suggestion-list__content--bottom {
+    top: 0;
     position: absolute;
 }
 

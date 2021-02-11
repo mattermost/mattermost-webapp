@@ -2437,7 +2437,6 @@
   "password_send.reset": "Скинути пароль ",
   "password_send.title": "Скидання пароля",
   "payment.field_required": "Обов'язкове поле",
-  "pdf_preview.max_pages": "Завантажити, щоб читати більше сторінок",
   "pending_post_actions.cancel": "Відміна",
   "pending_post_actions.retry": "Повторити",
   "permalink.error.access": "Постійне посилання належить до видаленого повідомлення або до каналу, на який ви не маєте доступу.",

@@ -10,7 +10,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
   >
     <TeamIcon
       content="testTeam"
-      size="md"
+      size="sm"
       url={null}
     />
     <div

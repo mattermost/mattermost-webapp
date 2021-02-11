@@ -29,7 +29,7 @@ describe('Image Link Preview', () => {
             cy.apiSaveLinkPreviewsPreference('true');
             cy.apiSaveCollapsePreviewsPreference('false');
 
-            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+            cy.visit(`/${testTeam.name}/channels/town-square`);
         });
     });
 
