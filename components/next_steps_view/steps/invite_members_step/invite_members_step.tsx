@@ -33,7 +33,7 @@ type Props = StepComponentProps & {
         regenerateTeamInviteId: (teamId: string) => void;
         getSubscriptionStats: () => void;
     };
-    subscriptionStats: SubscriptionStats;
+    subscriptionStats?: SubscriptionStats;
     intl: IntlShape;
     isCloud: boolean;
 };
@@ -106,7 +106,11 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
     getRemainingUsers = (): number => {
         const {subscriptionStats} = this.props;
         const {emails} = this.state;
-        return subscriptionStats && subscriptionStats.remaining_seats - emails.length;
+        if (subscriptionStats) {
+            return subscriptionStats.remaining_seats - emails.length;
+        }
+
+        return 0;
     }
 
     onInputChange = (value: string, change: InputActionMeta) => {
@@ -130,7 +134,7 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
             this.setState({
                 emails: newEmails,
                 emailInput: '',
-                emailError: newEmails.length > (subscriptionStats && subscriptionStats.remaining_seats) ? this.props.intl.formatMessage({
+                emailError: newEmails.length > subscriptionStats!.remaining_seats ? this.props.intl.formatMessage({
                     id: 'next_steps_view.invite_members_step.tooManyEmails',
                     defaultMessage: 'The free tier is limited to {num} members'},
                 {num: cloudUserLimit}) : undefined,
@@ -150,9 +154,8 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
         }
 
         const {subscriptionStats, cloudUserLimit} = this.props;
-        const remainingSeats = subscriptionStats && subscriptionStats.remaining_seats;
 
-        if (value.length > remainingSeats) {
+        if (value.length > subscriptionStats!.remaining_seats) {
             this.setState({emailError: this.props.intl.formatMessage({
                 id: 'next_steps_view.invite_members_step.tooManyEmails',
                 defaultMessage: 'The free tier is limited to {num} members'},
@@ -171,7 +174,7 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
             this.setState({
                 emails: newEmails,
                 emailInput: '',
-                emailError: newEmails.length > (subscriptionStats && subscriptionStats.remaining_seats) ? this.props.intl.formatMessage({
+                emailError: newEmails.length > subscriptionStats!.remaining_seats ? this.props.intl.formatMessage({
                     id: 'next_steps_view.invite_members_step.tooManyEmails',
                     defaultMessage: 'The free tier is limited to {num} members'},
                 {num: cloudUserLimit}) : undefined,
@@ -248,7 +251,6 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
     }
 
     render(): JSX.Element {
-        const {subscriptionStats} = this.props;
         return (
             <div className='NextStepsView__stepWrapper'>
                 <div className='InviteMembersStep'>
@@ -264,7 +266,7 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
                                 id='next_steps_view.invite_members_step.youCanInviteUpTo'
                                 defaultMessage='You can invite up to {members} team members using a space or comma between addresses'
                                 values={{
-                                    members: subscriptionStats && subscriptionStats.remaining_seats,
+                                    members: this.props?.subscriptionStats?.remaining_seats,
                                 }}
                             />
                             <MultiInput
