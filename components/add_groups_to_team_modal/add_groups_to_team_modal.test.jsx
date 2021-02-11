@@ -4,6 +4,8 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
+import {Groups} from 'mattermost-redux/constants';
+
 import AddGroupsToTeamModal from 'components/add_groups_to_team_modal/add_groups_to_team_modal.jsx';
 
 describe('components/AddGroupsToTeamModal', () => {
@@ -56,7 +58,7 @@ describe('components/AddGroupsToTeamModal', () => {
         expect(wrapper.state('addError')).toEqual(message);
     });
 
-    /*test('should match state when handleSubmit is called', async () => {
+    test('should match state when handleSubmit is called', async () => {
         const linkGroupSyncable = jest.fn().
             mockResolvedValueOnce({error: true}).
             mockResolvedValue({data: true});
@@ -72,6 +74,7 @@ describe('components/AddGroupsToTeamModal', () => {
         wrapper.setState({values: []});
         await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
         expect(actions.linkGroupSyncable).not.toBeCalled();
+        expect(instance.handleHide).not.toBeCalled();
 
         wrapper.setState({saving: false, values: [{id: 'id_1'}, {id: 'id_2'}]});
         await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
@@ -83,9 +86,9 @@ describe('components/AddGroupsToTeamModal', () => {
         setTimeout(() => {
             expect(instance.handleResponse).toBeCalledTimes(2);
         }, 0);
-        expect(instance.handleHide).not.toBeCalled();
+        expect(instance.handleHide).toHaveBeenCalledTimes(1);
         expect(wrapper.state('saving')).toEqual(true);
-    });*/
+    });
 
     test('should match state when addValue is called', () => {
         const wrapper = shallow(
