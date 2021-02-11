@@ -5050,7 +5050,7 @@ const AdminDefinition = {
         data_retention: {
             url: 'compliance/data_retention',
             title: t('admin.sidebar.dataRetentionPolicy'),
-            title_default: 'Data Retention Policy',
+            title_default: 'Data Retention Polic',
             searchableStrings: [
                 'admin.data_retention.title',
                 'admin.data_retention.messageRetentionDays.description',
