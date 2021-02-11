@@ -10,6 +10,7 @@ import {Post} from 'mattermost-redux/types/posts';
 
 import Markdown from 'components/markdown';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
+import {createCallRequest} from 'utils/apps';
 
 type Props = {
     binding: AppBinding;
@@ -34,21 +35,19 @@ export default class ButtonBinding extends React.PureComponent<Props, State> {
 
     handleClick = async () => {
         const {binding, post, userId} = this.props;
-        const call: AppCall = {
-            url: binding.call?.url || '',
-            expand: {
-                post: AppExpandLevels.EXPAND_ALL,
-            },
-            context: {
-                ...binding.call?.context,
-                acting_user_id: userId,
-                app_id: binding.app_id,
-                channel_id: post.channel_id,
-                location: AppBindingLocations.IN_POST + '/' + binding.location,
-                post_id: post.id,
-                user_id: userId,
-            },
-        };
+        if (!binding.call) {
+            return;
+        }
+
+        const call = createCallRequest(
+            binding.call,
+            userId,
+            binding.app_id,
+            AppBindingLocations.IN_POST + '/' + binding.location,
+            {post: AppExpandLevels.EXPAND_ALL},
+            post.channel_id,
+            post.id,
+        );
         this.setState({executing: true});
         await this.props.actions.doAppCall(call);
         this.setState({executing: false});

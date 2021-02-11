@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {AppBinding} from 'mattermost-redux/types/apps';
+import {AppBinding, AppCall, AppCallValues, AppExpand} from 'mattermost-redux/types/apps';
 import {GlobalState} from 'mattermost-redux/types/store';
 
 export function appsEnabled(state: GlobalState) {// eslint-disable-line @typescript-eslint/no-unused-vars
@@ -10,7 +10,11 @@ export function appsEnabled(state: GlobalState) {// eslint-disable-line @typescr
     return true;
 }
 
-export function fillBindingsInformation(binding: AppBinding) {
+export function fillBindingsInformation(binding?: AppBinding) {
+    if (!binding) {
+        return;
+    }
+
     binding.bindings?.forEach((b) => {
         // Propagate id down if not defined
         if (!b.app_id) {
@@ -47,4 +51,40 @@ export function fillBindingsInformation(binding: AppBinding) {
     if (binding.bindings?.length && !binding.call) {
         binding.call = binding.bindings[0].call;
     }
+}
+
+export function createCallRequest(
+    call: AppCall,
+    userId: string,
+    appId: string,
+    location: string,
+    expand: AppExpand = {},
+    channelId = '',
+    postId = '',
+    type = '',
+    rawCommand = '',
+    values?: AppCallValues,
+): AppCall {
+    return {
+        type,
+        url: call.url,
+        context: {
+            ...call.context,
+            acting_user_id: userId,
+            app_id: appId,
+            channel_id: channelId,
+            location,
+            post_id: postId,
+            user_id: userId,
+        },
+        values: {
+            ...call.values,
+            ...values,
+        },
+        expand: {
+            ...call.expand,
+            ...expand,
+        },
+        raw_command: rawCommand,
+    };
 }
