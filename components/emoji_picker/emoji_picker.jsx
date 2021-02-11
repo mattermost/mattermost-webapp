@@ -685,6 +685,15 @@ export default class EmojiPicker extends React.PureComponent {
 
     emojiSearch() {
         const handIndex = Emoji.EmojiIndicesByAlias.get('raised_hand_with_fingers_splayed');
+        const skinToneAliases = [
+            'raised_hand_with_fingers_splayed_dark_skin_tone',
+            'raised_hand_with_fingers_splayed_medium_dark_skin_tone',
+            'raised_hand_with_fingers_splayed_medium_skin_tone',
+            'raised_hand_with_fingers_splayed_medium_light_skin_tone',
+            'raised_hand_with_fingers_splayed_light_skin_tone',
+            'raised_hand_with_fingers_splayed',
+        ];
+        const skinToneEmojis = skinToneAliases.map((alias) => Emoji.Emojis[Emoji.EmojiIndicesByAlias.get(alias)]);
         const skinToneEmoji = Emoji.Emojis[handIndex];
         return (
             <div className='emoji-picker__search-container'>
@@ -725,26 +734,16 @@ export default class EmojiPicker extends React.PureComponent {
                             </div>
                         </div>
                         <div className='skin-tones__icons'>
-                            <EmojiPickerItem
-                                emoji={skinToneEmoji}
-                                onItemClick={this.showSkinTones}
-                            />
-                            <EmojiPickerItem
-                                emoji={skinToneEmoji}
-                                onItemClick={this.showSkinTones}
-                            />
-                            <EmojiPickerItem
-                                emoji={skinToneEmoji}
-                                onItemClick={this.showSkinTones}
-                            />
-                            <EmojiPickerItem
-                                emoji={skinToneEmoji}
-                                onItemClick={this.showSkinTones}
-                            />
-                            <EmojiPickerItem
-                                emoji={skinToneEmoji}
-                                onItemClick={this.showSkinTones}
-                            />
+                            {
+                                skinToneEmojis.map((emoji, idx) => (
+                                    <EmojiPickerItem
+                                        key={idx}
+                                        emoji={emoji}
+                                        onItemClick={this.showSkinTones}
+                                        onItemOver={() => null}
+                                    />
+                                ))
+                            }
                         </div>
                     </div>
                 </div>

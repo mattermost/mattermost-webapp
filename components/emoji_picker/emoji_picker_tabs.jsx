@@ -13,7 +13,7 @@ import EmojiPickerHeader from './components/emoji_picker_header';
 
 import EmojiPicker from './';
 
-import './emoji_picker_tabs.css';
+import './emoji_picker_tabs.scss';
 
 export default class EmojiPickerTabs extends PureComponent {
     static propTypes = {
@@ -102,7 +102,9 @@ export default class EmojiPickerTabs extends PureComponent {
                         onExit={this.handleExitEmojiTab}
                         title={
                             <div className='custom-emoji-tab'>
-                                <EmojiIcon/>
+                                <EmojiIcon
+                                    className='custom-emoji-tab__icon'
+                                />
                                 <div>
                                     {'Emojis'}
                                 </div>

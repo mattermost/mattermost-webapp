@@ -1,0 +1,40 @@
+.emoji-picker {
+    li {
+        a {
+            padding-top: 7px !important;
+            width: max-content;
+
+            .custom-emoji-tab__icon svg {
+                fill: #777679;
+            }
+            div {
+                color: #777679;
+            }
+        }
+    }
+
+    li.active {
+        a {
+            .custom-emoji-tab__icon svg {
+                fill: #166de0;
+            }
+            div {
+                color: #166de0;
+            }
+        }
+    }
+}
+
+.custom-emoji-tab {
+    display: flex;
+}
+
+.custom-emoji-tab__icon {
+    margin-right: 7px;
+}
+
+.emoji-picker {
+    .nav.nav-tabs {
+        width: fit-content;
+    }
+}
