@@ -9,6 +9,10 @@
 
 // Group: @enterprise @system_console
 
+import * as TIMEOUTS from '../../../../fixtures/timeouts';
+
+import {verifyExportedMessagesCount, gotoTeamAndPostMessage, editLastPost} from './helpers';
+
 describe('Compliance Export', () => {
     before(() => {
         cy.apiRequireLicenseForFeature('Compliance');
@@ -27,21 +31,21 @@ describe('Compliance Export', () => {
         cy.enableComplianceExport();
         cy.exportCompliance();
 
-        // # Navigate to a team and post a Message
-        cy.gotoTeamAndPostMessage();
+        // # Navigate to a team and post a message
+        gotoTeamAndPostMessage();
 
-        // Post a Message
+        // Post a message
         cy.postMessage('this testing');
 
         // # Edit last post
-        cy.editPost();
+        editLastPost('This is Edit Post');
 
         // # Go to compliance page and export
         cy.gotoCompliancePage();
         cy.exportCompliance();
 
         // * 3 messages should be exported
-        cy.verifyingExportedMessages('3');
+        verifyExportedMessagesCount('3');
     });
 
     it('MM-T1177_2 - Compliance export should include updated posts after editing multiple times, exporting multiple times', () => {
@@ -51,10 +55,10 @@ describe('Compliance Export', () => {
         cy.exportCompliance();
 
         // # Navigate to a team and post a Message
-        cy.gotoTeamAndPostMessage();
+        gotoTeamAndPostMessage();
 
         // # Edit last post
-        cy.editPost('This is Edit One');
+        editLastPost('This is Edit One');
 
         // # Post a Message
         cy.postMessage('This is Edit Two');
@@ -64,7 +68,7 @@ describe('Compliance Export', () => {
         cy.exportCompliance();
 
         // * 3 messages should be exported
-        cy.verifyingExportedMessages('3');
+        verifyExportedMessagesCount('3');
     });
 
     it('MM-T1177_3 - Compliance export should include updated posts after editing multiple times, exporting multiple times', () => {
@@ -73,23 +77,23 @@ describe('Compliance Export', () => {
         cy.enableComplianceExport();
         cy.exportCompliance();
 
-        // # Navigate to a team and post a Message
-        cy.gotoTeamAndPostMessage();
+        // # Navigate to a team and post a message
+        gotoTeamAndPostMessage();
 
         // # Go to compliance page and export
         cy.gotoCompliancePage();
         cy.exportCompliance();
 
         // # Editing previously exported post
-        cy.gotoTeam();
-        cy.editPost('This is Edit Three');
+        goToUserTeam();
+        editLastPost('This is Edit Three');
 
         // # Go to compliance page and export
         cy.gotoCompliancePage();
         cy.exportCompliance();
 
         // * 2 messages should be exported
-        cy.verifyingExportedMessages('2');
+        verifyExportedMessagesCount('2');
     });
 
     it('MM-T1177_4 - Compliance export should include updated posts after editing multiple times, exporting multiple times', () => {
@@ -99,17 +103,17 @@ describe('Compliance Export', () => {
         cy.exportCompliance();
 
         // # Navigate to a team and post a Message
-        cy.gotoTeamAndPostMessage();
+        gotoTeamAndPostMessage();
 
         // # Go to compliance page and export
         cy.gotoCompliancePage();
         cy.exportCompliance();
 
         // # Editing previously exported post
-        cy.gotoTeam();
-        cy.editPost('This is Edit Three');
+        goToUserTeam();
+        editLastPost('This is Edit Three');
 
-        // # Post new Message
+        // # Post new message
         cy.postMessage('This is the post');
 
         // # Go to compliance page and export
@@ -117,7 +121,7 @@ describe('Compliance Export', () => {
         cy.exportCompliance();
 
         // * 3 messages should be exported
-        cy.verifyingExportedMessages('3');
+        verifyExportedMessagesCount('3');
     });
 
     it('MM-T1177_5 - Compliance export should include updated posts after editing multiple times, exporting multiple times', () => {
@@ -126,18 +130,26 @@ describe('Compliance Export', () => {
         cy.enableComplianceExport();
         cy.exportCompliance();
 
-        // # Navigate to a team and post a Message
-        cy.gotoTeamAndPostMessage();
+        // # Navigate to a team and post a message
+        gotoTeamAndPostMessage();
 
         // # Editing previously exported post
-        cy.editPost('This is Edit Four');
-        cy.editPost('This is Edit Five');
+        editLastPost('This is Edit Four');
+        editLastPost('This is Edit Five');
 
         // # Go to compliance page and export
         cy.gotoCompliancePage();
         cy.exportCompliance();
 
         // * 3 messages should be exported
-        cy.verifyingExportedMessages('3');
+        verifyExportedMessagesCount('3');
     });
 });
+
+function goToUserTeam() {
+    cy.apiGetTeamsForUser().then(({teams}) => {
+        const team = teams[0];
+        cy.visit(`/${team.name}/channels/town-square`);
+        cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+    });
+}

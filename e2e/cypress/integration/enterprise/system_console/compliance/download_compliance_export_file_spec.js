@@ -9,16 +9,15 @@
 
 // Group: @enterprise @system_console
 
-// /// <reference types="cypress-downloadfile"/>
+import {downloadAndUnzipExportFile, deleteExportFolder, getXMLFile, gotoTeamAndPostImage, gotoTeamAndPostMessage, editLastPost} from './helpers';
 
 const path = require('path');
 
 const ExportFormatActiance = 'Actiance XML';
 let targetDownload;
-let fileURL;
-let pwd;
 
 describe('Compliance Export', () => {
+    let pwd;
     let newTeam;
     let newUser;
     let newChannel;
@@ -53,7 +52,7 @@ describe('Compliance Export', () => {
     });
 
     afterEach(() => {
-        deleteExportFolder();
+        deleteExportFolder(targetDownload);
     });
 
     it('MM-T1172 - Compliance Export - Deleted file is indicated in CSV File Export', () => {
@@ -62,21 +61,21 @@ describe('Compliance Export', () => {
         cy.enableComplianceExport();
 
         // # Navigate to a team and post an attachment
-        cy.gotoTeamAndPostImage();
+        gotoTeamAndPostImage();
 
         // # Go to compliance page and start export
         cy.gotoCompliancePage();
         cy.exportCompliance();
 
         // # Deleting last post
-        cy.deleteLastPost();
+        deleteLastPost();
 
         // # Go to compliance page and start export
         cy.gotoCompliancePage();
         cy.exportCompliance();
 
         // # Download and extract export zip file
-        downloadAndUnzipExportFile();
+        downloadAndUnzipExportFile(targetDownload);
 
         // * Verifying if export file contains delete
         cy.readFile(`${targetDownload}/posts.csv`).should('exist').and('have.string', 'deleted attachment');
@@ -88,23 +87,24 @@ describe('Compliance Export', () => {
         cy.enableComplianceExport(ExportFormatActiance);
 
         // # Navigate to a team and post an attachment
-        cy.gotoTeamAndPostImage();
+        gotoTeamAndPostImage();
 
         // # Go to compliance page and start export
         cy.gotoCompliancePage();
         cy.exportCompliance();
 
-        cy.deleteLastPost();
+        // # Delete last post
+        deleteLastPost();
 
         // # Go to compliance page and start export
         cy.gotoCompliancePage();
         cy.exportCompliance();
 
-        // # Download and extract export zip file
-        downloadAndUnzipExportFile();
+        // # Download and extract exported zip file
+        downloadAndUnzipExportFile(targetDownload);
 
         // * Verifying if export file contains deleted image
-        getXMLFile().then((result) => {
+        getXMLFile(targetDownload).then((result) => {
             cy.readFile(result.stdout).should('exist').and('have.string', 'delete file uploaded-image-400x400.jpg');
         });
 
@@ -117,24 +117,24 @@ describe('Compliance Export', () => {
     it('MM-T1176 - Compliance export should include updated post after editing', () => {
         // # Go to compliance page and enable export
         cy.gotoCompliancePage();
-        cy.enableComplianceExport();
+        cy.enableComplianceExport(ExportFormatActiance);
 
         // # Navigate to a team and post a Message
-        cy.gotoTeamAndPostMessage();
+        gotoTeamAndPostMessage();
 
         // # Go to compliance page and start export
         cy.gotoCompliancePage();
         cy.exportCompliance();
 
-        // # Edit previous post
-        cy.editPost('Hello');
+        // # Edit last post
+        editLastPost('Hello');
 
         // # Go to compliance page and start export
         cy.gotoCompliancePage();
         cy.exportCompliance();
 
         // # Download and extract exported zip file
-        downloadAndUnzipExportFile();
+        downloadAndUnzipExportFile(targetDownload);
 
         // * Verifying if export file contains edited text
         cy.exec(`find ${targetDownload} -name '*.xml'`).then((result) => {
@@ -143,7 +143,7 @@ describe('Compliance Export', () => {
     });
 
     it('MM-T3305 - Verify Deactivated users are displayed properly in Compliance Exports', () => {
-        // # Post message by Admin
+        // # Post a message by Admin
         cy.postMessageAs({
             sender: adminUser,
             message: `@${newUser.username} : Admin 1`,
@@ -161,17 +161,17 @@ describe('Compliance Export', () => {
         cy.exportCompliance();
 
         // # Download and extract exported zip file
-        downloadAndUnzipExportFile();
+        downloadAndUnzipExportFile(targetDownload);
 
         // * Verifying if export file contains deactivated user info
-        getXMLFile().then((result) => {
+        getXMLFile(targetDownload).then((result) => {
             cy.readFile(result.stdout).should('exist').
                 and('have.string', `<LoginName>${newUser.username}@sample.mattermost.com</LoginName>`);
         });
 
-        deleteExportFolder();
+        deleteExportFolder(targetDownload);
 
-        // # Post message by Admin
+        // # Post a message by Admin
         cy.postMessageAs({
             sender: adminUser,
             message: `@${newUser.username} : Admin2`,
@@ -183,20 +183,20 @@ describe('Compliance Export', () => {
         cy.exportCompliance();
 
         // # Download and extract exported zip file
-        downloadAndUnzipExportFile();
+        downloadAndUnzipExportFile(targetDownload);
 
         // * Verifying export file should not contain deactivated user name
-        getXMLFile().then((result) => {
+        getXMLFile(targetDownload).then((result) => {
             cy.readFile(result.stdout).should('exist').
                 and('not.have.string', `<LoginName>${newUser.username}@sample.mattermost.com</LoginName>`);
         });
 
-        deleteExportFolder();
+        deleteExportFolder(targetDownload);
 
         // # Re-activate the user
         cy.apiActivateUser(newUser.id);
 
-        // # Post message by Admin
+        // # Post a message by Admin
         cy.postMessageAs({
             sender: adminUser,
             message: `@${newUser.username} : Admin3`,
@@ -208,40 +208,34 @@ describe('Compliance Export', () => {
         cy.exportCompliance();
 
         // # Download and extract exported zip file
-        downloadAndUnzipExportFile();
+        downloadAndUnzipExportFile(targetDownload);
 
         // * Verifying if export file contains deactivated user name
-        getXMLFile().then((result) => {
+        getXMLFile(targetDownload).then((result) => {
             cy.readFile(result.stdout).should('exist').
                 and('have.string', `<LoginName>${newUser.username}@sample.mattermost.com</LoginName>`);
         });
     });
 });
 
-const getXMLFile = () => {
-    return cy.exec(`find ${targetDownload} -name '*.xml'`);
-};
+function deleteLastPost() {
+    cy.apiGetTeamsForUser().then(({teams}) => {
+        const team = teams[0];
+        cy.visit(`/${team.name}/channels/town-square`);
+        cy.getLastPostId().then((lastPostId) => {
+        // # Click post dot menu in center.
+            cy.clickPostDotMenu(lastPostId);
 
-function deleteExportFolder() {
-    // # Delete export folder
-    cy.exec(`rm -rf ${targetDownload}`);
-}
-
-function downloadAndUnzipExportFile() {
-    // # Get the download link
-    cy.get('@firstRow').findByText('Download').parents('a').should('exist').then((fileAttachment) => {
-        // # Getting export file url
-        fileURL = fileAttachment.attr('href');
-        const zipFilePath = path.join(targetDownload, 'export.zip');
-
-        // # Downloading zip file
-        cy.request({url: fileURL, encoding: 'binary'}).then((response) => {
-            expect(response.status).to.equal(200);
-            cy.writeFile(zipFilePath, response.body, 'binary');
+            // # Scan inside the post menu dropdown
+            cy.get(`#CENTER_dropdown_${lastPostId}`).should('exist').within(() => {
+                // # Click on the delete post button from the dropdown
+                cy.findByText('Delete').should('exist').click();
+            });
         });
-
-        // # Unzipping exported file
-        cy.exec(`unzip ${zipFilePath} -d ${targetDownload}`);
-        cy.exec(`find ${targetDownload}/export -name '*.zip' | xargs unzip -d ${targetDownload}`);
+        cy.get('.a11y__modal.modal-dialog').should('exist').and('be.visible').
+            within(() => {
+                // # Confirm click on the delete button for the post
+                cy.findByText('Delete').should('be.visible').click();
+            });
     });
 }

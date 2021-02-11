@@ -11,6 +11,8 @@
 
 import * as TIMEOUTS from '../../../../fixtures/timeouts';
 
+import {verifyExportedMessagesCount, gotoTeamAndPostImage} from './helpers';
+
 describe('Compliance Export', () => {
     before(() => {
         cy.apiRequireLicenseForFeature('Compliance');
@@ -30,18 +32,20 @@ describe('Compliance Export', () => {
         cy.exportCompliance();
 
         // # Navigate to a team and post an attachment
-        cy.gotoTeamAndPostImage();
+        gotoTeamAndPostImage();
 
-        // # Goto compliance page and start export
+        // # Go to compliance page and start export
         cy.gotoCompliancePage();
-
         cy.exportCompliance();
+
+        // # Get the first row
+        cy.get('.job-table__table').find('tbody > tr').eq(0).as('firstRow');
 
         // # Get the download link
         cy.get('@firstRow').findByText('Download').parents('a').should('exist').then((fileAttachment) => {
             const fileURL = fileAttachment.attr('href');
 
-            // # Download the file
+            // * Download and verify export file properties
             cy.downloadAttachmentAndVerifyItsProperties(fileURL);
         });
     });
@@ -53,23 +57,26 @@ describe('Compliance Export', () => {
         cy.exportCompliance();
 
         // # Navigate to a team and post an attachment
-        cy.gotoTeamAndPostImage();
+        gotoTeamAndPostImage();
 
-        // # Goto compliance page and start export
+        // # Go to compliance page and start export
         cy.gotoCompliancePage();
         cy.exportCompliance();
+
+        // # Get the first row
+        cy.get('.job-table__table').find('tbody > tr').eq(0).as('firstRow');
 
         // # Get the download link
         cy.get('@firstRow').findByText('Download').parents('a').should('exist').then((fileAttachment) => {
             const fileURL = fileAttachment.attr('href');
 
-            // # Download the File
+            // * Download and verify export file properties
             cy.downloadAttachmentAndVerifyItsProperties(fileURL);
 
             // # Export compliance again
             cy.exportCompliance();
 
-            // # Download link should not exist this time
+            // * Download link should not exist this time
             cy.get('.job-table__table').
                 find('tbody > tr:eq(0)').
                 findByText('Download').should('not.exist');
@@ -77,7 +84,7 @@ describe('Compliance Export', () => {
     });
 
     it('MM-T3439 - Download Compliance Export Files - S3 Bucket Storage', () => {
-        // # Goto file storage settings Page
+        // # Go to file storage settings Page
         cy.visit('/admin_console/environment/file_storage');
         cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'File Storage');
 
@@ -92,28 +99,31 @@ describe('Compliance Export', () => {
         cy.findByTestId('FileSettings.AmazonS3AccessKeyIdinput').type(AWS_ACCESS_KEY_ID);
         cy.findByTestId('FileSettings.AmazonS3SecretAccessKeyinput').type(AWS_SECRET_ACCESS_KEY);
 
-        // # Save file storage settingss
+        // # Save file storage settings
         cy.findByTestId('saveSetting').click();
 
         waitUntilConfigSave();
 
-        // # Goto compliance page and enable export
+        // # Go to compliance page and enable export
         cy.gotoCompliancePage();
         cy.enableComplianceExport();
         cy.exportCompliance();
 
         // # Navigate to a team and post an attachment
-        cy.gotoTeamAndPostImage();
+        gotoTeamAndPostImage();
 
-        // # Goto compliance page and start export
+        // # Go to compliance page and start export
         cy.gotoCompliancePage();
         cy.exportCompliance();
+
+        // # Get the first row
+        cy.get('.job-table__table').find('tbody > tr').eq(0).as('firstRow');
 
         // # Get the download link
         cy.get('@firstRow').findByText('Download').parents('a').should('exist').then((fileAttachment) => {
             const fileURL = fileAttachment.attr('href');
 
-            // # Download the file
+            // * Download link should not exist this time
             cy.downloadAttachmentAndVerifyItsProperties(fileURL);
         });
     });
@@ -125,24 +135,31 @@ describe('Compliance Export', () => {
         cy.exportCompliance();
 
         // # Navigate to a team and post an attachment
-        cy.gotoTeamAndPostImage();
+        gotoTeamAndPostImage();
 
         // # Go to compliance page and start export
         cy.gotoCompliancePage();
         cy.exportCompliance();
 
-        // * Verifying table header
-        cy.get('@firstheader').find('th:eq(1)').should('have.text', 'Status');
-        cy.get('@firstheader').find('th:eq(2)').should('have.text', 'Files');
-        cy.get('@firstheader').find('th:eq(3)').should('have.text', 'Finish Time');
-        cy.get('@firstheader').find('th:eq(4)').should('have.text', 'Run Time');
-        cy.get('@firstheader').find('th:eq(5)').should('have.text', 'Details');
+        // # Get the first row
+        cy.get('.job-table__table').find('tbody > tr').eq(0).as('firstRow');
 
-        // * Verifying first row (last run job) data
-        cy.get('@firstRow').find('td:eq(1)').should('have.text', 'Success');
-        cy.get('@firstRow').find('td:eq(2)').should('have.text', 'Download');
-        cy.get('@firstRow').find('td:eq(4)').contains('seconds');
-        cy.get('@firstRow').find('td:eq(5)').should('have.text', '1 messages exported.');
+        // * Verify table header
+        cy.get('@firstheader').within(() => {
+            cy.get('th:eq(1)').should('have.text', 'Status');
+            cy.get('th:eq(2)').should('have.text', 'Files');
+            cy.get('th:eq(3)').should('have.text', 'Finish Time');
+            cy.get('th:eq(4)').should('have.text', 'Run Time');
+            cy.get('th:eq(5)').should('have.text', 'Details');
+        });
+
+        // * Verify first row (last run job) data
+        cy.get('@firstRow').within(() => {
+            cy.get('td:eq(1)').should('have.text', 'Success');
+            cy.get('td:eq(2)').should('have.text', 'Download');
+            cy.get('td:eq(4)').contains('seconds');
+            cy.get('td:eq(5)').should('have.text', '1 messages exported.');
+        });
     });
 
     it('MM-T1169_1 - Compliance Export - CSV and Global Relay', () => {
@@ -152,19 +169,19 @@ describe('Compliance Export', () => {
         cy.exportCompliance();
 
         // # Navigate to a team and post an attachment
-        cy.gotoTeamAndPostImage();
+        gotoTeamAndPostImage();
 
-        // # Post 10 text messages
-        for (var i = 1; i < 10; i++) {
-            cy.postMessage(`This is the ${i} post`);
-        }
+        // # Post 9 text messages
+        Cypress._.times(9, (i) => {
+            cy.postMessage(`This is the post ${i}`);
+        });
 
         // # Go to compliance page and start export
         cy.gotoCompliancePage();
         cy.exportCompliance();
 
-        // * 10 Messages should be exported
-        cy.verifyingExportedMessages('10');
+        // * 10 messages should be exported
+        verifyExportedMessagesCount('10');
     });
 
     it('MM-T1165 - Compliance Export - Fields disabled when disabled', () => {
@@ -210,7 +227,7 @@ describe('Compliance Export', () => {
     });
 });
 
-// # Wait's until the Saving text becomes Save
+// # Wait until the Saving text becomes Save
 const waitUntilConfigSave = () => {
     cy.waitUntil(() => cy.get('#saveSetting').then((el) => {
         return el[0].innerText === 'Save';

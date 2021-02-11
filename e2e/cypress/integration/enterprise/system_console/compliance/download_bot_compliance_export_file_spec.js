@@ -9,12 +9,12 @@
 
 // Group: @enterprise @system_console
 
-const path = require('path');
+import {downloadAndUnzipExportFile, getXMLFile, deleteExportFolder} from './helpers';
 
 const ExportFormatActiance = 'Actiance XML';
+const path = require('path');
+
 let targetDownload;
-let fileURL;
-let pwd;
 
 describe('Compliance Export', () => {
     let newTeam;
@@ -24,7 +24,7 @@ describe('Compliance Export', () => {
 
     before(() => {
         cy.exec('PWD').then((result) => {
-            pwd = result.stdout;
+            const pwd = result.stdout;
             targetDownload = path.join(pwd, 'Downloads');
         });
 
@@ -54,39 +54,39 @@ describe('Compliance Export', () => {
     });
 
     afterEach(() => {
-        deleteExportFolder();
+        deleteExportFolder(targetDownload);
     });
 
     it('MM-T1175_1 - UserType identifies that the message is posted by a bot', () => {
         // # Post bot message
-        cy.postBOTMessage(newTeam, newChannel, botId, botName, 'This is CSV bot message');
+        postBOTMessage(newTeam, newChannel, botId, botName, 'This is CSV bot message');
 
         // # Go to Compliance page and Run report
         cy.gotoCompliancePage();
         cy.enableComplianceExport();
         cy.exportCompliance();
 
-        // # Download and Unzip Export file
-        downloadAndUnzipExportFile();
+        // # Download and Unzip exported file
+        downloadAndUnzipExportFile(targetDownload);
 
         // * Export file should contain bot messages
         cy.readFile(`${targetDownload}/posts.csv`).should('exist').and('have.string', `This is CSV bot message ${botName},message,bot`);
     });
 
     it('MM-T1175_2 - UserType identifies that the message is posted by a bot', () => {
-        // # Create token for the bot
-        cy.postBOTMessage(newTeam, newChannel, botId, botName, 'This is XML bot message');
+        // # Post bot message
+        postBOTMessage(newTeam, newChannel, botId, botName, 'This is XML bot message');
 
-        // # Go to Compliance and enabele Run export
+        // # Go to Compliance and enable Run export
         cy.gotoCompliancePage();
         cy.enableComplianceExport(ExportFormatActiance);
         cy.exportCompliance();
 
-        // # Download and Unzip Export File
-        downloadAndUnzipExportFile();
+        // # Download and Unzip exported File
+        downloadAndUnzipExportFile(targetDownload);
 
         // * Export file should contain Delete text
-        getXMLFile().then((result) => {
+        getXMLFile(targetDownload).then((result) => {
             cy.readFile(result.stdout).should('exist').
                 and('have.string', `This is XML bot message ${botName}`).
                 and('have.string', '<UserType>bot</UserType>');
@@ -94,32 +94,18 @@ describe('Compliance Export', () => {
     });
 });
 
-const getXMLFile = () => {
-    // Finding xml file location
-    return cy.exec(`find ${targetDownload} -name '*.xml'`);
-};
+function postBOTMessage(newTeam, newChannel, botId, botName, message) {
+    cy.apiCreateToken(botId).then(({token}) => {
+        // # Logout to allow posting as bot
+        cy.apiLogout();
+        const msg1 = `${message} ${botName}`;
+        cy.apiCreatePost(newChannel.id, msg1, '', {attachments: [{pretext: 'Look some text', text: 'This is text'}]}, token);
 
-function deleteExportFolder() {
-    // # Delete local download folder
-    cy.exec(`rm -rf ${targetDownload}`);
-}
+        // # Re-login to validate post presence
+        cy.apiAdminLogin();
+        cy.visit(`/${newTeam.name}/channels/` + newChannel.name);
 
-function downloadAndUnzipExportFile() {
-    // # Get the download link
-    cy.get('@firstRow').findByText('Download').parents('a').should('exist').then((fileAttachment) => {
-        // # Getting export file url
-        fileURL = fileAttachment.attr('href');
-
-        const zipFilePath = path.join(targetDownload, 'export.zip');
-
-        // # Downloading zip file
-        cy.request({url: fileURL, encoding: 'binary'}).then((response) => {
-            expect(response.status).to.equal(200);
-            cy.writeFile(zipFilePath, response.body, 'binary');
-        });
-
-        // # Unzipping exported file
-        cy.exec(`unzip ${zipFilePath} -d ${targetDownload}`);
-        cy.exec(`find ${targetDownload}/export -name '*.zip' | xargs unzip -d ${targetDownload}`);
+        // * Validate post was created
+        cy.findByText(msg1).should('be.visible');
     });
 }
