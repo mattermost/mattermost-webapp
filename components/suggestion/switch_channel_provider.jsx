@@ -119,7 +119,7 @@ class SwitchChannelSuggestion extends Suggestion {
             icon = (
                 <div className='pull-left'>
                     <Avatar
-                        size='md'
+                        size='sm'
                         url={userImageUrl}
                     />
                 </div>
