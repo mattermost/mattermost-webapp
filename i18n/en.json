@@ -1241,7 +1241,7 @@
   "admin.openid.off": "Do not allow sign-in via an OpenID provider.",
   "admin.openid.office365": "Office 365",
   "admin.openid.select": "Select service provider:",
-  "admin.openIdConvert.heading": "OAuth 2.0 is being deprecated and replace by OpenID Connect.",
+  "admin.openIdConvert.heading": "OAuth 2.0 is being deprecated and replaced by OpenID Connect.",
   "admin.openIdConvert.help": "Learn more",
   "admin.openIdConvert.message": "Convert your OAuth 2.0 configuration to the new OpenID Connect standard.",
   "admin.openIdConvert.text": "Convert to OpenID Connect",
