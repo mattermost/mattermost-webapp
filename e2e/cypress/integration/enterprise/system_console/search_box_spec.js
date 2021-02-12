@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @enterprise @system_console
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
@@ -15,7 +14,7 @@ import * as TIMEOUTS from '../../../fixtures/timeouts';
 // # Goes to the System Scheme page as System Admin
 const goToAdminConsole = () => {
     cy.apiAdminLogin();
-    cy.visitAndWait('/admin_console');
+    cy.visit('/admin_console');
 };
 
 describe('System console', () => {

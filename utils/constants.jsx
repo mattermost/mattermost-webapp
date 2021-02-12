@@ -279,6 +279,8 @@ export const ModalIdentifiers = {
     MORE_CHANNELS: 'more_channels',
     NEW_CHANNEL_FLOW: 'new_channel_flow',
     CLOUD_PURCHASE: 'cloud_purchase',
+    COMMERCIAL_SUPPORT: 'commercial_support',
+    NO_INTERNET_CONNECTION: 'no_internet_connection',
 };
 
 export const UserStatuses = {
@@ -571,11 +573,11 @@ export const JobStatuses = {
 export const AnnouncementBarTypes = {
     ANNOUNCEMENT: 'announcement',
     CRITICAL: 'critical',
-    CRITICAL_LIGHT: 'critical_light',
     DEVELOPER: 'developer',
     SUCCESS: 'success',
     ADVISOR: 'advisor',
     ADVISOR_ACK: 'advisor-ack',
+    GENERAL: 'general',
 };
 
 export const AnnouncementBarMessages = {
@@ -964,7 +966,7 @@ export const Constants = {
         other: 'generic',
         image: 'image',
     },
-    MAX_UPLOAD_FILES: 10,
+    MAX_UPLOAD_FILES: 5,
     MAX_FILENAME_LENGTH: 35,
     MAX_INLINE_IMAGE_HEIGHT: 100,
     THUMBNAIL_WIDTH: 128,

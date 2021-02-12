@@ -44,7 +44,7 @@ describe('Search in DMs', () => {
             });
 
             cy.apiLogin(testUser);
-            cy.visitAndWait(`/${team.name}/channels/${channel.name}`);
+            cy.visit(`/${team.name}/channels/${channel.name}`);
         });
     });
 

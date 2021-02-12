@@ -45,6 +45,7 @@ describe('plugins/MainMenuActions', () => {
             },
             isCloud: false,
             subscription: {},
+            userIsAdmin: true,
         };
 
         let wrapper = shallowWithIntl(

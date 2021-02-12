@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @integrations
 
 describe('Integrations', () => {
@@ -32,7 +31,7 @@ describe('Integrations', () => {
             };
 
             cy.apiCreateWebhook(newOutgoingHook, false);
-            cy.visitAndWait(`/${testTeam}/integrations/outgoing_webhooks`);
+            cy.visit(`/${testTeam}/integrations/outgoing_webhooks`);
         });
     });
 
@@ -41,7 +40,7 @@ describe('Integrations', () => {
         let generatedToken;
         cy.get('.item-details__token').then((number1) => {
             generatedToken = number1.text().split(' ').pop();
-            cy.visitAndWait(`/${testTeam}/channels/${testChannel}`);
+            cy.visit(`/${testTeam}/channels/${testChannel}`);
 
             // * Post message and assert token is present in test message
             cy.postMessage('testing');
@@ -49,7 +48,7 @@ describe('Integrations', () => {
         });
 
         // # Regenerate the token
-        cy.visitAndWait(`/${testTeam}/integrations/outgoing_webhooks`);
+        cy.visit(`/${testTeam}/integrations/outgoing_webhooks`);
         cy.findAllByText('Regenerate Token').click();
 
         // # Grab the regenerated token
@@ -58,7 +57,7 @@ describe('Integrations', () => {
             regeneratedToken = number2.text().split(' ').pop();
 
             // * Post a message and confirm regenerated token appears only
-            cy.visitAndWait(`/${testTeam}/channels/${testChannel}`);
+            cy.visit(`/${testTeam}/channels/${testChannel}`);
             cy.postMessage('testing');
             cy.uiWaitUntilMessagePostedIncludes(regeneratedToken).then(() => {
                 cy.getLastPostId().then((lastPostId) => {

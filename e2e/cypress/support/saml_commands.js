@@ -14,7 +14,7 @@ Cypress.Commands.add('checkCreateTeamPage', (settings = {}) => {
 Cypress.Commands.add('doSamlLogin', (settings = {}) => {
     // # Go to login page
     cy.apiLogout();
-    cy.visitAndWait('/login');
+    cy.visit('/login');
     cy.checkLoginPage(settings);
 
     //click the login button

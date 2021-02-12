@@ -20,7 +20,7 @@ describe('Integrations', () => {
         cy.apiInitSetup().then(({team, channel}) => {
             testTeam = team;
             testChannel = channel;
-            cy.visitAndWait(`/${team.name}/integrations/commands/add`);
+            cy.visit(`/${team.name}/integrations/commands/add`);
         });
     });
 
@@ -40,7 +40,7 @@ describe('Integrations', () => {
         });
 
         // # Return to channel
-        cy.visitAndWait(`/${testTeam.name}/channels/${testChannel.name}`);
+        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
         // * Post first message and assert token1 is present in the message
         cy.postMessage('/regen testing');
@@ -50,7 +50,7 @@ describe('Integrations', () => {
         });
 
         // # Return to slash command setup and regenerate the token
-        cy.visitAndWait(`/${testTeam.name}/integrations/commands/installed`);
+        cy.visit(`/${testTeam.name}/integrations/commands/installed`);
         cy.findByText('Regenerate Token').click();
         cy.wait(TIMEOUTS.HALF_SEC);
 
@@ -61,7 +61,7 @@ describe('Integrations', () => {
         });
 
         // Return to channel
-        cy.visitAndWait(`/${testTeam.name}/channels/${testChannel.name}`);
+        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
         // * Post second message and assert token2 is present in the message
         cy.postMessage('/regen testing 2nd message');

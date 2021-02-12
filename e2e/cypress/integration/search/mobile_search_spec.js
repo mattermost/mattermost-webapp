@@ -41,7 +41,7 @@ describe('Mobile Search', () => {
         cy.viewport('iphone-6');
 
         // # Visit town-square
-        cy.visitAndWait(townsquareLink);
+        cy.visit(townsquareLink);
     });
 
     it('Opening the Recent Mentions eventually loads the results', () => {

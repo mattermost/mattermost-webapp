@@ -20,7 +20,7 @@ exports[`components/OpenIdConvert should match snapshot 1`] = `
       className="OpenIdConvert__heading"
     >
       <FormattedMessage
-        defaultMessage="OAuth 2.0 is being deprecated and replace by OpenID Connect."
+        defaultMessage="OAuth 2.0 is being deprecated and replaced by OpenID Connect."
         id="admin.openIdConvert.heading"
       />
     </div>
@@ -46,7 +46,7 @@ exports[`components/OpenIdConvert should match snapshot 1`] = `
       <a
         className="btn-secondary"
         data-testid="openIdLearnMore"
-        href="https://docs.mattermost.com/deployment/sso-gitlab.html"
+        href="https://www.mattermost.com/default-openid-docs"
         rel="noopener noreferrer"
         target="_blank"
       >

@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @search
 
 describe('Search', () => {
@@ -45,7 +44,7 @@ describe('Search', () => {
     it('S14673 - Search "in:[username]" returns results in GMs', () => {
         const groupMembers = [testUser, userOne, userTwo, userThree];
         cy.apiCreateGroupChannel(groupMembers.map((member) => member.id)).then(({channel}) => {
-            cy.visitAndWait(`/${testTeam.name}/messages/${channel.name}`);
+            cy.visit(`/${testTeam.name}/messages/${channel.name}`);
 
             const message = `hello${Date.now()}`;
 

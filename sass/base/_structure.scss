@@ -14,10 +14,6 @@ body {
         padding-top: $announcement-bar-height;
     }
 
-    &.announcement-banner-tall--fixed {
-        padding-top: 40px;
-    }
-
     &.sticky {
         .container-fluid {
             -webkit-overflow-scrolling: touch;
@@ -84,6 +80,10 @@ body {
     @include clearfix;
     height: 100%;
     position: relative;
+}
+
+#channel_view.channel-view {
+    background: var(--center-channel-bg);
 }
 
 img {

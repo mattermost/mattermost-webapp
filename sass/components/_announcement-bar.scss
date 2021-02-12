@@ -1,53 +1,16 @@
 @charset 'UTF-8';
 
 .announcement-bar {
-    &.tall {
-        height: 40px;
-        max-height: 40px;
-        min-height: 40px;
-        padding: 0;
-        margin: 0;
-        > span {
-            font-size: 14px;
-            line-height: 20px;
-            > span {
-                font-weight: 600;
-            }
-        }
-
-        .announcement-bar__close {
-            &:hover {
-                background-color: rgba(255, 255, 255, 0.08);
-                opacity: 0.72;
-            }
-            font-family: 'compass-icons';
-            font-size: 18px;
-            line-height: 32px;
-            display: inline-block;
-            position: absolute;
-            right: 4px;
-            top: 4px;
-            width: 32px;
-            height: 32px;
-            text-decoration: none;
-            padding: 0;
-            font-weight: normal;
-            vertical-align: middle;
-            opacity: 0.56;
-        }
-        z-index: 1029;
-    }
-
-    background-color: #113166;
+    background-color: #579EFF;
     color: $white;
     min-height: $announcement-bar-height;
     position: fixed;
     text-align: center;
     top: 0;
     width: 100%;
-    z-index: 9999;
+    z-index: 999;
     overflow: hidden;
-    padding: 5px 30px;
+    padding: 10px 30px;
     max-height: $announcement-bar-height;
 
     > span {
@@ -77,7 +40,7 @@
             position: absolute;
             right: 0;
             text-decoration: none;
-            top: 1px;
+            top: 5px;
             &:hover {
                 color: $white;
                 text-decoration: none;
@@ -107,15 +70,14 @@
         margin-right: 8px;
     }
 
-    .upgrade-button {
+    button {
         &:hover {
             background-color: rgba(255, 255, 255, 0.08)
         }
         display: inline-block;
-        margin-top: 8px;
         margin-bottom: 8px;
         margin-left: 8px;
-        background-color: #579EFF;
+        background-color:var(--sidebar-text-active-border);
         font-family: Open Sans;
         font-style: normal;
         font-weight: 600;
@@ -130,23 +92,13 @@
     }
 }
 
-
-
 .announcement-bar-critical {
-    background-color: #B0171F;
-}
-
-.announcement-bar-critical-light {
-    background-color: var(--error-text);
-}
-
-.announcement-bar-developer {
-    background-color: purple;
+    background-color: #F74343;
 }
 
 .announcement-bar-success {
-    color: #3c763d;
-    background-color: #dff0d8;
+    background-color: #06D6A0;
+    ;
 }
 
 .announcement-bar-advisor {
@@ -155,6 +107,10 @@
 
 .announcement-bar-advisor-ack {
     background-color: #06D6A0;
+}
+
+.announcement-bar-general {
+    background-color: #3D3C40;
 }
 
 .announcement-bar__link {
