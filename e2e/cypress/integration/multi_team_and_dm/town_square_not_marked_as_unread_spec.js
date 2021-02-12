@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @multi_team_and_dm
 
 import {getAdminAccount} from '../../support/env';
@@ -37,15 +38,14 @@ describe('Multi Team and DM', () => {
     });
 
     it('MM-T439 Town Square is not marked as unread for existing users when a new user is added to the team', () => {
-        // # Disable join/ leave messages for testUser
-        cy.findByLabelText('main menu').click();
-        cy.findByText('Account Settings').click();
-        cy.findByLabelText('advanced').click();
-        cy.findByText('Enable Join/Leave Messages').click();
-        cy.get('#joinLeaveOff').click();
-        cy.findByText('Save').click();
-        cy.get('#accountSettingsHeader').within(() => {
-            cy.findByLabelText('Close').click();
+        // # Open 'Advanced' section of 'Account Settings' modal
+        cy.uiOpenAccountSettingsModal('Advanced').within(() => {
+            // # Open 'Enable Join/Leave Messages' and turn it off
+            cy.findByRole('heading', {name: 'Enable Join/Leave Messages'}).click();
+            cy.findByRole('radio', {name: 'Off'}).click();
+
+            // # Save and close the modal
+            cy.uiSaveAndClose();
         });
 
         // # Confirm Town Square is marked as read

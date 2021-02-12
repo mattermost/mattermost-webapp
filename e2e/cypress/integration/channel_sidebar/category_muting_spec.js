@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @channel_sidebar
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -22,7 +23,7 @@ describe('Category muting', () => {
     before(() => {
         cy.apiUpdateConfig({
             ServiceSettings: {
-                ExperimentalChannelSidebarOrganization: 'default_on',
+                EnableLegacySidebar: false,
             },
         });
 

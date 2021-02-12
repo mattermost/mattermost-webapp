@@ -3,13 +3,16 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import ReactSelect from 'react-select';
+import ReactSelect, {components} from 'react-select';
 
 import {InputActionMeta} from 'react-select/src/types';
 import {getOptionValue} from 'react-select/src/builtins';
 
+import {imageURLForUser, getDisplayName} from 'utils/utils.jsx';
+import CloseCircleSolidIcon from 'components/widgets/icons/close_circle_solid_icon';
 import {Constants, A11yCustomEventTypes} from 'utils/constants';
 import SaveButton from 'components/save_button';
+import Avatar from 'components/widgets/users/avatar';
 
 import MultiSelectList from './multiselect_list';
 
@@ -32,6 +35,7 @@ export type Props<T extends Value> = {
     handlePageChange?: (newPage: number, currentPage: number) => void;
     handleSubmit: (value?: T[]) => void;
     loading?: boolean;
+    saveButtonPosition?: string;
     maxValues?: number;
     noteText?: JSX.Element;
     numRemainingText?: JSX.Element;
@@ -49,7 +53,8 @@ export type Props<T extends Value> = {
     submitImmediatelyOn?: (value: T) => void;
     totalCount?: number;
     users?: unknown[];
-    valueRenderer: (props: {data: T}) => any;
+    valueWithImage: boolean;
+    valueRenderer?: (props: {data: T}) => any;
     values: T[];
 }
 
@@ -68,6 +73,8 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
 
     public static defaultProps = {
         ariaLabelRenderer: defaultAriaLabelRenderer,
+        saveButtonPosition: 'top',
+        valueWithImage: false,
     }
 
     public constructor(props: Props<T>) {
@@ -240,6 +247,33 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
         this.props.handleDelete(values);
     }
 
+    MultiValueRemove = ({children, innerProps}: any) => (
+        <div {...innerProps}>
+            {children || <CloseCircleSolidIcon/>}
+        </div>
+    );
+
+    formatOptionLabel = (user: any) => {
+        const profileImg = imageURLForUser(user.id, user.last_picture_update);
+
+        return (
+            <React.Fragment>
+                <Avatar
+                    size='sm'
+                    username={user.username}
+                    url={profileImg}
+                />
+                <div className='react-select__value__name'>
+                    {getDisplayName(user)}
+                </div>
+            </React.Fragment>
+        );
+    }
+
+    valueRenderer = (props: any) => {
+        return this.props.valueWithImage ? <components.MultiValueLabel {...props}/> : this.props.valueRenderer;
+    }
+
     public render() {
         const options = Object.assign([...this.props.options]);
         const {totalCount, users, values} = this.props;
@@ -345,6 +379,45 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
             optionsToDisplay = options;
         }
 
+        let multiSelectList;
+
+        if (this.props.saveButtonPosition === 'bottom') {
+            if (this.state.input) {
+                multiSelectList = (
+                    <MultiSelectList
+                        ref={this.listRef}
+                        options={optionsToDisplay}
+                        optionRenderer={this.props.optionRenderer}
+                        ariaLabelRenderer={this.props.ariaLabelRenderer}
+                        page={this.state.page}
+                        perPage={this.props.perPage}
+                        onPageChange={this.props.handlePageChange}
+                        onAdd={this.onAdd}
+                        onSelect={this.onSelect}
+                        loading={this.props.loading}
+                        query={this.state.input}
+                        selectedItemRef={this.props.selectedItemRef}
+                    />
+                );
+            }
+        } else {
+            multiSelectList = (
+                <MultiSelectList
+                    ref={this.listRef}
+                    options={optionsToDisplay}
+                    optionRenderer={this.props.optionRenderer}
+                    ariaLabelRenderer={this.props.ariaLabelRenderer}
+                    page={this.state.page}
+                    perPage={this.props.perPage}
+                    onPageChange={this.props.handlePageChange}
+                    onAdd={this.onAdd}
+                    onSelect={this.onSelect}
+                    loading={this.props.loading}
+                    selectedItemRef={this.props.selectedItemRef}
+                />
+            );
+        }
+
         let memberCount;
         if (users && users.length && totalCount) {
             memberCount = (
@@ -360,76 +433,81 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
         }
 
         return (
-            <div className='filtered-user-list'>
-                <div className='filter-row filter-row--full'>
-                    <div className='multi-select__container react-select'>
-                        <ReactSelect
-                            id='selectItems'
-                            ref={this.reactSelectRef as React.RefObject<any>} // type of ref on @types/react-select is outdated
-                            isMulti={true}
-                            options={this.props.options}
-                            styles={styles}
-                            components={{
-                                Menu: nullComponent,
-                                IndicatorsContainer: nullComponent,
-                                MultiValueLabel: paddedComponent(this.props.valueRenderer),
-                            }}
-                            isClearable={false}
-                            openMenuOnFocus={false}
-                            menuIsOpen={false}
-                            onInputChange={this.onInput}
-                            onKeyDown={this.onInputKeyDown as React.KeyboardEventHandler}
-                            onChange={this.onChange}
-                            value={this.props.values}
-                            placeholder={this.props.placeholderText}
-                            inputValue={this.state.input}
-                            getOptionValue={(option: Value) => option.id}
-                            getOptionLabel={this.props.ariaLabelRenderer}
-                            aria-label={this.props.placeholderText}
-                            className={this.state.a11yActive ? 'multi-select__focused' : ''}
-                            classNamePrefix='react-select-auto react-select'
-                        />
-                        <SaveButton
-                            id='saveItems'
-                            saving={this.props.saving}
-                            disabled={this.props.saving}
-                            onClick={this.handleOnClick}
-                            defaultMessage={buttonSubmitText}
-                            savingMessage={this.props.buttonSubmitLoadingText}
-                        />
+            <React.Fragment>
+                <div className='filtered-user-list'>
+                    <div className='filter-row filter-row--full'>
+                        <div className='multi-select__container react-select'>
+                            <ReactSelect
+                                id='selectItems'
+                                ref={this.reactSelectRef as React.RefObject<any>} // type of ref on @types/react-select is outdated
+                                isMulti={true}
+                                options={this.props.options}
+                                styles={styles}
+                                components={{
+                                    Menu: nullComponent,
+                                    IndicatorsContainer: nullComponent,
+                                    MultiValueLabel: this.props.valueWithImage ? components.MultiValueLabel : paddedComponent(this.props.valueRenderer),
+                                    MultiValueRemove: this.props.valueWithImage ? this.MultiValueRemove : components.MultiValueRemove,
+                                }}
+                                isClearable={false}
+                                openMenuOnFocus={false}
+                                menuIsOpen={false}
+                                onInputChange={this.onInput}
+                                onKeyDown={this.onInputKeyDown as React.KeyboardEventHandler}
+                                onChange={this.onChange}
+                                value={this.props.values}
+                                formatOptionLabel={this.props.valueWithImage ? this.formatOptionLabel : undefined}
+                                placeholder={this.props.placeholderText}
+                                inputValue={this.state.input}
+                                getOptionValue={(option: Value) => option.id}
+                                getOptionLabel={this.props.ariaLabelRenderer}
+                                aria-label={this.props.placeholderText}
+                                className={this.state.a11yActive ? 'multi-select__focused' : ''}
+                                classNamePrefix='react-select-auto react-select'
+                            />
+                            {this.props.saveButtonPosition === 'top' &&
+                            <SaveButton
+                                id='saveItems'
+                                saving={this.props.saving}
+                                disabled={this.props.saving}
+                                onClick={this.handleOnClick}
+                                defaultMessage={buttonSubmitText}
+                                savingMessage={this.props.buttonSubmitLoadingText}
+                            />}
+                        </div>
+                        <div
+                            id='multiSelectHelpMemberInfo'
+                            className='multi-select__help'
+                        >
+                            {numRemainingText}
+                            {memberCount}
+                        </div>
                     </div>
-                    <div
-                        id='multiSelectHelpMemberInfo'
-                        className='multi-select__help'
-                    >
-                        {numRemainingText}
-                        {memberCount}
-                    </div>
+                    {multiSelectList}
                     <div
                         id='multiSelectMessageNote'
                         className='multi-select__help'
                     >
                         {noteTextContainer}
                     </div>
+                    {this.props.saveButtonPosition === 'top' &&
+                    <div className='filter-controls'>
+                        {previousButton}
+                        {nextButton}
+                    </div>}
                 </div>
-                <MultiSelectList
-                    ref={this.listRef}
-                    options={optionsToDisplay}
-                    optionRenderer={this.props.optionRenderer}
-                    ariaLabelRenderer={this.props.ariaLabelRenderer}
-                    page={this.state.page}
-                    perPage={this.props.perPage}
-                    onPageChange={this.props.handlePageChange}
-                    onAdd={this.onAdd}
-                    onSelect={this.onSelect}
-                    loading={this.props.loading}
-                    selectedItemRef={this.props.selectedItemRef}
-                />
-                <div className='filter-controls'>
-                    {previousButton}
-                    {nextButton}
-                </div>
-            </div>
+                {this.props.saveButtonPosition === 'bottom' &&
+                <div className='channel-switcher__footer'>
+                    <SaveButton
+                        id='saveItems'
+                        saving={this.props.saving}
+                        disabled={this.props.saving}
+                        onClick={this.handleOnClick}
+                        defaultMessage={buttonSubmitText}
+                        savingMessage={this.props.buttonSubmitLoadingText}
+                    />
+                </div>}
+            </React.Fragment>
         );
     }
 }
@@ -446,7 +524,7 @@ const nullComponent = () => null;
 const paddedComponent = (WrappedComponent: any) => {
     return (props: {data: any}) => {
         return (
-            <div style={{paddingLeft: '10px'}}>
+            <div className='react-select__padded-component'>
                 <WrappedComponent {...props}/>
             </div>
         );
@@ -457,7 +535,6 @@ const styles = {
     container: () => {
         return {
             display: 'table-cell',
-            paddingRight: '15px',
             verticalAlign: 'top',
             width: '100%',
         };

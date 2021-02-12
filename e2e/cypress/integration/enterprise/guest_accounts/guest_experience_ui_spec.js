@@ -57,7 +57,7 @@ describe('Guest Account - Guest User Experience', () => {
         });
     });
 
-    it('MM-18043 Verify Guest User Restrictions', () => {
+    it('MM-T1354 Verify Guest User Restrictions', () => {
         // * Verify Reduced Options in Main Menu
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
         const missingMainOptions = ['#invitePeople', '#teamSettings', '#manageMembers', '#createTeam', '#joinTeam', '#integrations', '#systemConsole'];
@@ -139,14 +139,13 @@ describe('Guest Account - Guest User Experience', () => {
         cy.reload();
 
         // * Verify Options in Main Menu are changed
-        cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-        const includeMainOptions = ['#accountSettings', '#viewMembers', '#leaveTeam', '#invitePeople', '#createTeam'];
-        includeMainOptions.forEach((includeOption) => {
-            cy.get(includeOption).should('be.visible');
+        cy.uiOpenMainMenu();
+        Cypress._.forEach(['Account Settings', 'Invite People', 'View Members', 'Create a Team', 'Leave Team'], (item) => {
+            cy.findByRole('menu').findByText(item).should('be.visible');
         });
 
         // # Close the main menu
-        cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
+        cy.uiCloseMainMenu();
 
         // * Verify Options in LHS are changed
         const missingLHSOptions = ['#createPublicChannel', "li[data-testid='morePublicButton']", '#createPrivateChannel'];

@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @autocomplete
 
 import {getTestUsers} from '../enterprise/elasticsearch_autocomplete/helpers';
@@ -169,7 +170,7 @@ describe('Autocomplete without Elasticsearch - Users', () => {
         describe('search for user in channel switcher', () => {
             const area = {
                 getInput: () => {
-                    cy.get('#quickSwitchInput').
+                    cy.findByRole('textbox', {name: 'quick switch input'}).
                         should('be.visible').
                         as('input').
                         clear();
@@ -187,7 +188,7 @@ describe('Autocomplete without Elasticsearch - Users', () => {
                 // # Navigate to the new teams town square
                 cy.visit(`/${testTeam.name}/channels/town-square`);
                 cy.typeCmdOrCtrl().type('k');
-                cy.get('#quickSwitchInput').should('be.visible');
+                cy.findByRole('textbox', {name: 'quick switch input'}).should('be.visible');
             });
 
             describe('by @username', () => {

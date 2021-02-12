@@ -7,11 +7,12 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @channel
 
 import {getRandomId} from '../../utils';
 import * as MESSAGES from '../../fixtures/messages';
+
+import {createArchivedChannel} from './helpers';
 
 describe('Leave an archived channel', () => {
     let testTeam;
@@ -127,9 +128,7 @@ describe('Leave an archived channel', () => {
             cy.get('#channelInfoModalLabel span.icon__archive').should('not.be.visible');
 
             // # Search for a post in an archived channel
-            cy.get('#searchBox').focus().clear();
-
-            cy.get('#searchBox').should('be.visible').type(`${testArchivedMessage}{enter}`);
+            cy.get('#searchBox').click().clear().type(`${testArchivedMessage}{enter}`);
 
             // # Open the archived channel by selecting Jump from search results and then selecting the link to move to the most recent posts in the channel
             cy.get('#searchContainer').should('be.visible');
@@ -175,7 +174,7 @@ describe('Leave an archived channel', () => {
             cy.visit(`/${testTeam.name}/channels/off-topic`);
 
             // # Search for content from an archived channel
-            cy.get('#searchBox').should('be.visible').clear().type(`${testArchivedMessage}{enter}`);
+            cy.get('#searchBox').click().clear().type(`${testArchivedMessage}{enter}`);
 
             // # Open the channel from search results
             cy.get('#searchContainer').should('be.visible');
@@ -188,7 +187,7 @@ describe('Leave an archived channel', () => {
             });
 
             // # Search for content from a different archived channel
-            cy.get('#searchBox').should('be.visible').clear().type(`${messageText}{enter}`);
+            cy.get('#searchBox').click().clear().type(`${messageText}{enter}`);
 
             // # Open that channel from search results
             cy.get('#searchContainer').should('be.visible');
@@ -215,7 +214,7 @@ describe('Leave an archived channel', () => {
         cy.typeCmdOrCtrl().type('K', {release: true});
 
         // # Start typing the name of a private channel on this team that has been archived which the test user belongs to
-        cy.get('#quickSwitchInput').type('archived-');
+        cy.findByRole('textbox', {name: 'quick switch input'}).type('archived-');
 
         // * Suggestion list should be visible
         cy.get('#suggestionList').should('be.visible');
@@ -231,7 +230,7 @@ describe('Leave an archived channel', () => {
         cy.typeCmdOrCtrl().type('K', {release: true});
 
         // # Start typing the name of a private channel on this team that has been archived which the test user belongs to
-        cy.get('#quickSwitchInput').type('archived-');
+        cy.findByRole('textbox', {name: 'quick switch input'}).type('archived-');
 
         // * Suggestion list should be visible
         cy.get('#suggestionList').should('be.visible');
@@ -257,7 +256,7 @@ describe('Leave an archived channel', () => {
             cy.typeCmdOrCtrl().type('K', {release: true});
 
             // # Start typing the name of a private channel located above
-            cy.get('#quickSwitchInput').type('archived-');
+            cy.findByRole('textbox', {name: 'quick switch input'}).type('archived-');
 
             cy.get('#suggestionList').should('be.visible');
 
@@ -274,7 +273,7 @@ describe('Leave an archived channel', () => {
         cy.typeCmdOrCtrl().type('K', {release: true});
 
         // # Start typing the name of a public or private channel on this team that has been archived
-        cy.get('#quickSwitchInput').type(testChannel.display_name);
+        cy.findByRole('textbox', {name: 'quick switch input'}).type(testChannel.display_name);
 
         // # Select an archived channel from the list
         cy.get('#suggestionList').should('be.visible');
@@ -301,8 +300,7 @@ describe('Leave an archived channel', () => {
         const messageList = Array.from({length: 40}, (_, i) => `${i}. ${MESSAGES.SMALL} - ${getRandomId()}`);
         createArchivedChannel({prefix: 'archived-search-for'}, messageList).then(({channelName}) => {
             // # Locate the post in a search
-            cy.get('#searchBox').focus().clear();
-            cy.get('#searchBox').should('be.visible').type(`${messageList[1]}{enter}`);
+            cy.get('#searchBox').click().clear().type(`${messageList[1]}{enter}`);
 
             // # Click jump to open an archive post in permalink view
             cy.get('#searchContainer').should('be.visible');
@@ -328,26 +326,3 @@ describe('Leave an archived channel', () => {
     });
 });
 
-async function createArchivedChannel(channelOptions, messages, memberUsernames) {
-    const channelName = await new Promise((resolve) => {
-        cy.uiCreateChannel(channelOptions).then((newChannel) => {
-            if (memberUsernames) {
-                cy.uiAddUsersToCurrentChannel(memberUsernames);
-            }
-            if (messages) {
-                let messageList = messages;
-                if (!Array.isArray(messages)) {
-                    messageList = [messages];
-                }
-                messageList.forEach((message) => {
-                    cy.postMessage(message);
-                });
-            }
-            cy.uiArchiveChannel();
-            resolve(newChannel.name);
-        });
-    });
-
-    cy.get('#channelArchivedMessage').should('be.visible');
-    return cy.wrap({channelName});
-}

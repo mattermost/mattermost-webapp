@@ -73,7 +73,7 @@
             cursor: pointer;
             display: flex;
             font-weight: normal;
-            padding: 0 32px 0 24px;
+            padding: 1px 16px;
             text-align: left;
             white-space: nowrap;
             width: 100%;
@@ -85,7 +85,6 @@
             &.MenuItem__with-help {
                 display: block;
                 height: auto;
-                padding: 0 24px;
 
                 .MenuItem__primary-text {
                     padding: 7px 0 3px;
@@ -142,31 +141,30 @@
 }
 
 .SubMenu__icon-left {
-    color: rgba(var(--sys-center-channel-color-rgb), 0.48);
-    font-size: 18px;
+    color: rgba(var(--center-channel-color-rgb), 0.56);
+    font-size: 19px;
+    position: relative;
+    top: 0;
 }
 
 .SubMenu__icon-left-empty {
     display: none;
     visibility: hidden;
     font-size: 19px;
-    padding: 0 8px 0 9px;
     position: relative;
     top: 0;
     width: 0;
-
-    &.mobile {
-        padding: 0 4px 0 9px;
-    }
 }
 
 .SubMenu__icon-right {
-    color: rgba(var(--sys-center-channel-color-rgb), 0.48);
-    font-size: 18px;
+    color: rgba(var(--center-channel-color-rgb), 0.56);
+    font-size: 19px;
+    padding-top: 3px;
+    float: right;
 }
 
 .SubMenu__icon-right-empty {
-    visibility: hidden;
+    display: none;
     font-size: 19px;
     padding: 0;
     margin-left: auto;

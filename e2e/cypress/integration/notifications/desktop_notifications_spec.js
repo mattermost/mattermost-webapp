@@ -1,3 +1,4 @@
+
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
@@ -13,7 +14,7 @@
 import * as MESSAGES from '../../fixtures/messages';
 import * as TIMEOUTS from '../../fixtures/timeouts';
 import {getEmailUrl} from '../../utils';
-import {ignoreUncaughtException, spyNotificationAs} from '../../support/notification';
+import {spyNotificationAs} from '../../support/notification';
 
 describe('Desktop notifications', () => {
     let testTeam;
@@ -83,7 +84,6 @@ describe('Desktop notifications', () => {
                 cy.visit(`/${testTeam.name}/channels/town-square`);
 
                 // * Desktop notification is not received.
-                cy.wait(TIMEOUTS.HALF_SEC);
                 cy.get('@withoutNotification').should('not.have.been.called');
 
                 // * Should not have unread mentions indicator.
@@ -246,7 +246,6 @@ describe('Desktop notifications', () => {
 
                 // # Visit Town square
                 cy.visit(`/${testTeam.name}/channels/town-square`);
-                cy.wait(TIMEOUTS.HALF_SEC);
 
                 spyNotificationAs('withNotification', 'granted');
 
@@ -272,8 +271,6 @@ describe('Desktop notifications', () => {
     });
 
     it('MM-T488 Desktop Notifications - Teammate name display set to username', () => {
-        ignoreUncaughtException();
-
         cy.apiCreateUser({}).then(({user}) => {
             cy.apiAddUserToTeam(testTeam.id, user.id);
             cy.apiLogin(user);
@@ -307,8 +304,6 @@ describe('Desktop notifications', () => {
 
     describe('MM-T489 Desktop Notifications - Teammate name display set to nickname', () => {
         it('displays teammates nickname when nickname exists', () => {
-            ignoreUncaughtException();
-
             const nickname = 'the rock';
 
             // # Ensure user has a nickname set up
@@ -348,8 +343,6 @@ describe('Desktop notifications', () => {
         });
 
         it('displays teammates first and last name when nickname does not exists', () => {
-            ignoreUncaughtException();
-
             // # Ensure user has a nickname set up
             cy.apiPatchUser(testUser.id, {nickname: ''});
 
@@ -386,8 +379,6 @@ describe('Desktop notifications', () => {
     });
 
     it('MM-T490 Desktop Notifications - Teammate name display set to first and last name', () => {
-        ignoreUncaughtException();
-
         cy.apiCreateUser({}).then(({user}) => {
             cy.apiAddUserToTeam(testTeam.id, user.id);
             cy.apiLogin(user);
@@ -413,6 +404,153 @@ describe('Desktop notifications', () => {
                 cy.wait(TIMEOUTS.HALF_SEC);
                 cy.get('@withNotification').should('have.been.calledWithMatch', 'Off-Topic', (args) => {
                     expect(args.body, `Notification body: "${args.body}" should match: "${expected}"`).to.equal(expected);
+                    return true;
+                });
+            });
+        });
+    });
+
+    it('MM-T491 - Channel notifications: No desktop notification when in focus', () => {
+        cy.apiCreateUser().then(({user}) => {
+            cy.apiAddUserToTeam(testTeam.id, user.id);
+            cy.apiLogin(user);
+
+            cy.apiGetChannelByName(testTeam.name, 'Off-Topic').then(({channel}) => {
+                const message = '/echo test 3';
+
+                // # Go to Off topic
+                cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+                spyNotificationAs('withNotification', 'granted');
+
+                // # Have another user send a post with delay
+                cy.postMessageAs({sender: testUser, message, channelId: channel.id});
+
+                // * Desktop notification is not received
+                cy.get('@withNotification').should('not.have.been.called');
+            });
+        });
+    });
+
+    it('MM-T494 - Channel notifications: Send Desktop Notifications - Only mentions and DMs', () => {
+        cy.apiCreateUser().then(({user}) => {
+            cy.apiAddUserToTeam(testTeam.id, user.id);
+            cy.apiLogin(user);
+
+            // # Visit town-square.
+            cy.visit(`/${testTeam.name}/channels/town-square`);
+            spyNotificationAs('withNotification', 'granted');
+
+            // # Ensure notifications are set up to fire a desktop notification
+            changeDesktopNotificationSettingsAs('#desktopNotificationMentions');
+
+            cy.apiGetChannelByName(testTeam.name, 'Off-Topic').then(({channel}) => {
+                const messageWithoutNotification = 'message without notification';
+                const messageWithNotification = `random message with mention @${user.username}`;
+                const expected = `@${testUser.username}: ${messageWithNotification}`;
+
+                // # Have another user send a post with no mention
+                cy.postMessageAs({sender: testUser, message: messageWithoutNotification, channelId: channel.id});
+
+                // * Desktop notification is not received
+                cy.get('@withNotification').should('not.have.been.called');
+
+                // Have another user send a post with a mention
+                cy.postMessageAs({sender: testUser, message: messageWithNotification, channelId: channel.id});
+
+                // * Desktop notification is received
+                cy.get('@withNotification').should('have.been.calledWithMatch', 'Off-Topic', (args) => {
+                    expect(args.body, `Notification body: "${args.body}" should match: "${expected}"`).to.equal(expected);
+                    return true;
+                });
+
+                // # Have another user post a direct message
+                cy.apiCreateDirectChannel([user.id, testUser.id]).then(({channel: dmChannel}) => {
+                    cy.postMessageAs({sender: testUser, message: 'hi', channelId: dmChannel.id});
+
+                    // * DM notification is received
+                    cy.get('@withNotification').should('have.been.called');
+                });
+            });
+        });
+    });
+
+    it('MM-T496 - Channel notifications: Send Desktop Notifications - Never', () => {
+        cy.apiCreateUser().then(({user}) => {
+            cy.apiAddUserToTeam(testTeam.id, user.id);
+            cy.apiLogin(user);
+
+            // Visit town-square.
+            cy.visit(`/${testTeam.name}/channels/town-square`);
+            spyNotificationAs('withNotification', 'granted');
+
+            // # Ensure notifications are set up to never fire a desktop notification
+            changeDesktopNotificationSettingsAs('#desktopNotificationNever');
+
+            cy.apiGetChannelByName(testTeam.name, 'Off-Topic').then(({channel}) => {
+                const messageWithNotification = `random message with mention @${user.username}`;
+
+                // Have another user send a post with a mention
+                cy.postMessageAs({sender: testUser, message: messageWithNotification, channelId: channel.id});
+
+                // * Desktop notification is not received
+                cy.get('@withNotification').should('not.have.been.called');
+
+                // # Have another user post a direct message
+                cy.apiCreateDirectChannel([user.id, testUser.id]).then(({channel: dmChannel}) => {
+                    cy.postMessageAs({sender: testUser, message: 'hi', channelId: dmChannel.id});
+
+                    // * DM notification is not received
+                    cy.get('@withNotification').should('not.have.been.called');
+                });
+            });
+        });
+    });
+
+    it('MM-T499 - Channel notifications: Desktop Notification Sounds OFF', () => {
+        cy.apiCreateUser().then(({user}) => {
+            cy.apiAddUserToTeam(testTeam.id, user.id);
+            cy.apiLogin(user);
+
+            // # Visit town-square.
+            cy.visit(`/${testTeam.name}/channels/town-square`);
+            spyNotificationAs('withNotification', 'granted');
+
+            // # Click hamburger main menu.
+            cy.get('#sidebarHeaderDropdownButton').click();
+
+            // # Click "Account settings"
+            cy.findByText('Account Settings').should('be.visible').click();
+
+            // * Check that the "Account Settings" modal was opened.
+            cy.get('#accountSettingsModal').should('exist').within(() => {
+                // # Click "Notifications"
+                cy.findByText('Notifications').should('be.visible').click();
+
+                // # Click "Desktop"
+                cy.findByText('Desktop Notifications').should('be.visible').click();
+
+                // # Select sound off.
+                cy.get('#soundOff').check();
+
+                // # Ensure sound dropdown is not visible
+                cy.get('#displaySoundNotification').should('not.be.visible');
+
+                // # Click "Save"
+                cy.findByText('Save').scrollIntoView().should('be.visible').click();
+
+                // # Close the modal.
+                cy.get('#accountSettingsHeader').find('button').should('be.visible').click();
+            });
+
+            cy.apiGetChannelByName(testTeam.name, 'Off-Topic').then(({channel}) => {
+                const messageWithNotification = `random message with mention @${user.username}`;
+
+                // # Have another user send a post with a mention
+                cy.postMessageAs({sender: testUser, message: messageWithNotification, channelId: channel.id});
+
+                // * Desktop notification is received without sound
+                cy.get('@withNotification').should('have.been.calledWithMatch', 'Off-Topic', (args) => {
+                    expect(args.silent).to.equal(true);
                     return true;
                 });
             });

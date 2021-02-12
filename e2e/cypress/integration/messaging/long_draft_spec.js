@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @messaging
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -89,6 +90,7 @@ function writeLinesToPostTextBox(lines) {
             });
         }
     }
+    cy.wait(TIMEOUTS.THREE_SEC);
 }
 
 function verifyPostTextbox(heightSelector, text) {
