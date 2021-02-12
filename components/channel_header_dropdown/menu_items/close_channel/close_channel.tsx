@@ -10,7 +10,7 @@ import Menu from 'components/widgets/menu/menu';
 type Props = {
     isArchived: boolean;
     actions: {
-        goToLastViewedChannel: () => () => void;
+        goToLastViewedChannel: () => void;
     };
 }
 

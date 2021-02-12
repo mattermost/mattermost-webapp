@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow, ShallowWrapper} from 'enzyme';
+import {shallow} from 'enzyme';
 
 import Menu from 'components/widgets/menu/menu';
 
@@ -17,7 +17,7 @@ describe('components/ChannelHeaderDropdown/MenuItem.CloseChannel', () => {
     };
 
     it('should match snapshot', () => {
-        const wrapper: ShallowWrapper<any, any, CloseChannel> = shallow(<CloseChannel {...baseProps}/>);
+        const wrapper = shallow<CloseChannel>(<CloseChannel {...baseProps}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -26,7 +26,7 @@ describe('components/ChannelHeaderDropdown/MenuItem.CloseChannel', () => {
             ...baseProps,
             isArchived: false,
         };
-        const wrapper: ShallowWrapper<any, any, CloseChannel> = shallow(<CloseChannel {...props}/>);
+        const wrapper = shallow<CloseChannel>(<CloseChannel {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -38,7 +38,7 @@ describe('components/ChannelHeaderDropdown/MenuItem.CloseChannel', () => {
                 goToLastViewedChannel: jest.fn(),
             },
         };
-        const wrapper: ShallowWrapper<any, any, CloseChannel> = shallow(<CloseChannel {...props}/>);
+        const wrapper = shallow<CloseChannel>(<CloseChannel {...props}/>);
         wrapper.find(Menu.ItemAction).simulate('click');
         expect(props.actions.goToLastViewedChannel).toHaveBeenCalled();
     });
