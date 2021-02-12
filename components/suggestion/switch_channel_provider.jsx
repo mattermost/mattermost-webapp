@@ -25,6 +25,8 @@ import {
     getUserIdsInChannels,
     getUser,
     makeSearchProfilesMatchingWithTerm,
+    getStatusForUserId,
+    getUserByUsername,
 } from 'mattermost-redux/selectors/entities/users';
 import {searchChannels} from 'mattermost-redux/actions/channels';
 import {logError} from 'mattermost-redux/actions/errors';
@@ -34,6 +36,7 @@ import {sortChannelsByTypeAndDisplayName, isGroupChannelVisible, isUnreadChannel
 import BotBadge from 'components/widgets/badges/bot_badge';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 import Avatar from 'components/widgets/users/avatar';
+import StatusIcon from 'components/status_icon';
 
 import {getPostDraft} from 'selectors/rhs';
 import store from 'stores/redux_store.jsx';
@@ -64,6 +67,11 @@ class SwitchChannelSuggestion extends Suggestion {
 
         const member = this.props.channelMember;
         let badge = null;
+
+        const state = getState();
+        const currentUserId = getCurrentUserId(state);
+        const status = getStatusForUserId(state, currentUserId);
+
         if (member) {
             if (member.notify_props && member.mention_count > 0) {
                 badge = <span className='badge'>{member.mention_count}</span>;
@@ -75,7 +83,7 @@ class SwitchChannelSuggestion extends Suggestion {
             className += ' suggestion--selected';
         }
 
-        const displayName = channel.display_name;
+        let displayName = (channel.display_name);
         let icon = null;
         if (channelIsArchived) {
             icon = (
@@ -111,11 +119,40 @@ class SwitchChannelSuggestion extends Suggestion {
             icon = (
                 <div className='pull-left'>
                     <Avatar
-                        size='sm'
+                        size='md'
                         url={userImageUrl}
                     />
                 </div>
             );
+
+            const userItem = getUserByUsername(state, channel.name);
+
+            if (userItem.firstName || userItem.last_name) {
+                displayName = (
+                    <React.Fragment>
+                        {`${userItem.first_name} ${userItem.last_name}`}
+                        <StatusIcon
+                            className={`${status}--icon`}
+                            status={status}
+                            button={false}
+                        />
+                        <div className='mentions__fullname'>
+                            {userItem.username}
+                        </div>
+                    </React.Fragment>
+                );
+            } else {
+                displayName = (
+                    <React.Fragment>
+                        {userItem.username}
+                        <StatusIcon
+                            className={`${status}--icon`}
+                            status={status}
+                            button={false}
+                        />
+                    </React.Fragment>
+                );
+            }
         }
 
         let tag = null;
@@ -150,7 +187,9 @@ class SwitchChannelSuggestion extends Suggestion {
                 {...Suggestion.baseProps}
             >
                 {icon}
-                <span>{displayName}</span>
+                <span className='suggestion-list__info_user'>
+                    {displayName}
+                </span>
                 {tag}
                 {badge}
             </div>

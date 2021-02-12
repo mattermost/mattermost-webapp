@@ -100,7 +100,7 @@
 
     .mentions__name {
         font-size: inherit;
-        height: 4rem;
+        height: 4.8rem;
         display: flex;
         align-items: center;
         padding: 0 2.4rem;
@@ -111,14 +111,9 @@
         width: 100%;
     }
 
-    .suggestion-list__info_user
-        .status
-            .offline--icon,
-            .online--icon,
-            .away--icon,
-            .dnd--icon {
-                margin: auto 3px;
-            }
+    .suggestion-list__info_user {
+        display: flex;
+    }
 }
 
 .slash-command {
