@@ -33,36 +33,64 @@ body {
         }
 
         .ErrorPage__container_max_free_users {
-            margin: 5% auto;
             display: flex;
             text-align: center;
             flex-direction: column;
 
             .ErrorPage__mattermostCloudImg {
-                margin: 3% auto;
-            }
-
-            .ErrorPage__computerWithAlertImg {
-                margin: 7% auto;
-            }
-
-            .ErrorPage__maxFreeUsersReachedTitle {
-                font-style: normal;
-                font-weight: 600;
-                font-size: 24px;
-                line-height: 32px;
-                color: #3D3C40;
                 margin: auto;
+                align-self: flex-start;
+                height: 100px;
+
+                img {
+                    margin: 32px 40px;
+                }
             }
 
-            .ErrorPage__maxFreeUsersReachedDescription {
-                font-family: Open Sans;
-                font-style: normal;
-                font-weight: normal;
-                font-size: 14px;
-                line-height: 20px;
-                width: 60%;
-                margin: 1% auto;
+            .ErrorPage__mainContentContainer {
+                display: flex;
+                justify-content: center;
+                flex-direction: column;
+                height: calc(100vh - 100px);
+
+                .ErrorPage__mainContentItem {
+                    align-self: stretch;
+                    padding: 16px;
+
+                    .ErrorPage__computerWithAlertImg {
+                        width: 50vw;
+                        min-width: 320px;
+                        max-width: 520px;
+                        max-height: calc(100vh - 320px);
+                        min-height: 270px;
+                        margin: 0 auto 32px auto;
+                    }
+
+                    article {
+                        display: block;
+                        text-align: center;
+                        width: 100%;
+                        margin: 0 auto;
+                        .ErrorPage__maxFreeUsersReachedTitle {
+                            font-style: normal;
+                            font-weight: 600;
+                            font-size: 24px;
+                            line-height: 32px;
+                            color: #3D3C40;
+                            margin: auto;
+                        }
+
+                        .ErrorPage__maxFreeUsersReachedDescription {
+                            font-family: Open Sans;
+                            font-style: normal;
+                            font-weight: normal;
+                            font-size: 14px;
+                            line-height: 20px;
+                            width: 50%;
+                            margin: 1% auto;
+                        }
+                    }
+                }
             }
 
             .waves {
@@ -78,7 +106,7 @@ body {
             .blue-dots {
                 transform: rotate(180deg);
                 position: fixed;
-                margin-top: -7%;
+                margin-top: -27%;
                 right: 1%;
                 z-index: -1;
             }

@@ -126,23 +126,25 @@ export default class ErrorPage extends React.PureComponent<Props> {
         }
 
         let errorPage = (
-            <div className='error__container'>
-                <div className='error__icon'>
-                    <WarningIcon/>
-                </div>
-                <h2 data-testid='errorMessageTitle'>
-                    <ErrorTitle
+            <div className='container-fluid'>
+                <div className='error__container'>
+                    <div className='error__icon'>
+                        <WarningIcon/>
+                    </div>
+                    <h2 data-testid='errorMessageTitle'>
+                        <ErrorTitle
+                            type={type}
+                            title={title}
+                        />
+                    </h2>
+                    <ErrorMessage
                         type={type}
-                        title={title}
+                        message={message}
+                        service={service}
+                        isGuest={isGuest}
                     />
-                </h2>
-                <ErrorMessage
-                    type={type}
-                    message={message}
-                    service={service}
-                    isGuest={isGuest}
-                />
-                {backButton}
+                    {backButton}
+                </div>
             </div>
         );
 
@@ -151,9 +153,9 @@ export default class ErrorPage extends React.PureComponent<Props> {
         }
 
         return (
-            <div className='container-fluid'>
+            <>
                 {errorPage}
-            </div>
+            </>
         );
     }
 }

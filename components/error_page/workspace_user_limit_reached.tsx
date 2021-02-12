@@ -12,24 +12,31 @@ import blueDots from 'images/cloud/blue.svg';
 const WorkspaceUserLimitReached: React.FC = () => {
     return (
         <div className='ErrorPage__container_max_free_users'>
-            <div className='ErrorPage__mattermostCloudImg'>
+            <header className='ErrorPage__mattermostCloudImg'>
                 <img src={mattermostCloud}/>
-            </div>
-            <div className='ErrorPage__computerWithAlertImg'>
-                <img src={computerWithAlert}/>
-            </div>
-            <div className='ErrorPage__maxFreeUsersReachedTitle'>
-                <FormattedMessage
-                    id='error.maxFreeUsersReached.title'
-                    defaultMessage='This workspace has reached the user limit.'
-                />
-            </div>
-            <div className='ErrorPage__maxFreeUsersReachedDescription'>
-                <FormattedMessage
-                    id='error.maxFreeUsersReached.description'
-                    defaultMessage='New users cannot be added to this workspace because it has reached the user limit for the free version of Mattermost Cloud. The system administrator has been notified'
-                />
-            </div>
+            </header>
+            <section className='ErrorPage__mainContentContainer'>
+                <div className='ErrorPage__mainContentItem'>
+                    <img
+                        src={computerWithAlert}
+                        className='ErrorPage__computerWithAlertImg'
+                    />
+                    <article>
+                        <div className='ErrorPage__maxFreeUsersReachedTitle'>
+                            <FormattedMessage
+                                id='error.maxFreeUsersReached.title'
+                                defaultMessage='This workspace has reached the user limit.'
+                            />
+                        </div>
+                        <div className='ErrorPage__maxFreeUsersReachedDescription'>
+                            <FormattedMessage
+                                id='error.maxFreeUsersReached.description'
+                                defaultMessage='New users cannot be added to this workspace because it has reached the user limit for the free version of Mattermost Cloud. The system administrator has been notified'
+                            />
+                        </div>
+                    </article>
+                </div>
+            </section>
             <div>
                 <img
                     className='waves'
