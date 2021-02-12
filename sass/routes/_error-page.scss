@@ -71,6 +71,7 @@ body {
                         text-align: center;
                         width: 100%;
                         margin: 0 auto;
+                        max-width: 500px;
                         .ErrorPage__maxFreeUsersReachedTitle {
                             font-style: normal;
                             font-weight: 600;
@@ -86,7 +87,6 @@ body {
                             font-weight: normal;
                             font-size: 14px;
                             line-height: 20px;
-                            width: 50%;
                             margin: 1% auto;
                         }
                     }
