@@ -9,7 +9,6 @@ import {ActionFunc} from 'mattermost-redux/types/actions';
 import {UserStatus} from 'mattermost-redux/types/users';
 
 import {UserTimezone} from 'mattermost-redux/src/types/users';
-import {localizeMessage} from 'mattermost-redux/utils/i18n_utils';
 
 import GenericModal from 'components/generic_modal';
 
@@ -23,7 +22,7 @@ type Props = {
     onHide: () => void;
     userId: string;
     userTimezone: UserTimezone;
-    enableTimezone: boolean;
+    isTimezoneEnabled: boolean;
     getCurrentDateTime: (tz: UserTimezone, enable: boolean) => Date;
     actions: {
         setStatus: (status: UserStatus) => ActionFunc;
@@ -43,7 +42,7 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
 
         this.state = {
             userId: props.userId || '',
-            dateString: this.formatDateString(this.props.getCurrentDateTime(this.props.userTimezone, this.props.enableTimezone)) || '',
+            dateString: this.formatDateString(this.props.getCurrentDateTime(this.props.userTimezone, this.props.isTimezoneEnabled)) || '',
             timeString: '',
             timeMenuList: [],
         };
@@ -58,13 +57,13 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
         const modalHeaderText = (
             <FormattedMessage
                 id='dnd_custom_time_picker_modal.defautlMsg'
-                defaultMessage={localizeMessage('dnd_custom_time_picker_modal.defaultMsg', 'Disable notifications till')}
+                defaultMessage='Disable notifications till'
             />
         );
         const confirmButtonText = (
             <FormattedMessage
                 id='rename_category_modal.rename'
-                defaultMessage={localizeMessage('dnd_custom_time_picker_modal.rename', 'Rename')}
+                defaultMessage='Rename'
             />
         );
 
@@ -85,7 +84,7 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
         const timeMenuItems = [];
         let h = 0;
         let m = 0;
-        const curr = this.props.getCurrentDateTime(this.props.userTimezone, this.props.enableTimezone);
+        const curr = this.props.getCurrentDateTime(this.props.userTimezone, this.props.isTimezoneEnabled);
         if (curr.toDateString() === this.state.dateString) {
             h = curr.getHours();
             m = curr.getMinutes();
@@ -149,7 +148,7 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
             });
         };
 
-        const now = this.props.getCurrentDateTime(this.props.userTimezone, this.props.enableTimezone);
+        const now = this.props.getCurrentDateTime(this.props.userTimezone, this.props.isTimezoneEnabled);
 
         return (
             <GenericModal
@@ -162,7 +161,12 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
                 <div className='DndModal__content'>
                     <div>
                         <div className='DndModal__input DndModal__input--no-border'>
-                            <div className='DndModal__input__label'>{'Date'}</div>
+                            <div className='DndModal__input__label'>
+                                <FormattedMessage
+                                    id='dnd_custom_time_picker_modal.date'
+                                    defaultMessage='Date'
+                                />
+                            </div>
                             <i className='icon icon--no-spacing icon-calendar-outline icon--xs icon-14'/>
                             <DayPickerInput
                                 placeholder={this.state.dateString}

@@ -26,7 +26,7 @@ export default class StatusDropdown extends React.PureComponent {
         status: PropTypes.string,
         userId: PropTypes.string.isRequired,
         userTimezone: PropTypes.object,
-        enableTimezone: PropTypes.bool,
+        isTimezoneEnabled: PropTypes.bool,
         profilePicture: PropTypes.string,
         autoResetPref: PropTypes.string,
         actions: PropTypes.shape({
@@ -94,18 +94,18 @@ export default class StatusDropdown extends React.PureComponent {
     setDnd = (event, index) => {
         event.preventDefault();
 
-        var currentTime = this.getCurrentDateTime(this.props.userTimezone, this.props.enableTimezone).getTime();
+        var currentTime = this.getCurrentDateTime(this.props.userTimezone, this.props.isTimezoneEnabled).getTime();
         var endTime = new Date().getTime();
         switch (index) {
         case 0:
-            endTime = new Date(currentTime + (1 * 30 * 60000));
+            endTime = new Date(currentTime + (30 * 60 * 1000));
             break;
         case 1:
-            endTime = new Date(currentTime + (2 * 30 * 60000));
+            endTime = new Date(currentTime + (1 * 60 * 60 * 1000));
             break;
         case 2:
             // add 2 hours in current time
-            endTime = new Date(currentTime + (4 * 30 * 60000));
+            endTime = new Date(currentTime + (2 * 60 * 60 * 1000));
             break;
         case 3:
             // set hours of date to point to last moment of the day
@@ -115,7 +115,7 @@ export default class StatusDropdown extends React.PureComponent {
             // set hours of date to point to last moment of the day
             // and add 24 hours to it to point to last moment of tomorrow
             currentTime.setHours(23, 59, 59, 999);
-            endTime = new Date(currentTime + (48 * 30 * 60000));
+            endTime = new Date(currentTime + (24 * 60 * 60 * 1000));
             break;
         }
 
@@ -130,7 +130,7 @@ export default class StatusDropdown extends React.PureComponent {
             dialogProps: {
                 userId: this.props.userId,
                 userTimezone: this.props.userTimezone,
-                enableTimezone: this.props.enableTimezone,
+                isTimezoneEnabled: this.props.isTimezoneEnabled,
                 getCurrentDateTime: this.getCurrentDateTime,
             },
         };
@@ -196,19 +196,11 @@ export default class StatusDropdown extends React.PureComponent {
         const setCustomTimedDnd = needsConfirm ? () => this.showStatusChangeConfirmation('dnd') : this.setCustomTimedDnd;
 
         const dndSubMenuItems = this.dndTimes.map((time, index) => {
-            if (index === 5) {
-                return {
-                    id: `dndTime-${time}`,
-                    direction: 'right',
-                    text: time,
-                    action: () => setCustomTimedDnd(),
-                };
-            }
             return {
-                id: `dndTime-${time}`,
+                id: `dndTime-${index}-${time.split(' ')[0]}`,
                 direction: 'right',
-                text: time,
-                action: () => setDnd(event, index),
+                text: localizeMessage('status_dropdown.dnd_sub_menu_item.time',time),
+                action: index === 5 ? () => setCustomTimedDnd() : () => setDnd(event, index),
             };
         });
 
