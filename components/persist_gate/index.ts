@@ -3,9 +3,11 @@
 
 import {connect} from 'react-redux';
 
+import {GlobalState} from 'types/store';
+
 import PersistGate from './persist_gate';
 
-function mapStateToProps(state) {
+function mapStateToProps(state: GlobalState) {
     return {
         initialized: state.storage.initialized,
     };
