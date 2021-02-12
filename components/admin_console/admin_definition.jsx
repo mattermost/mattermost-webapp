@@ -2376,7 +2376,7 @@ const AdminDefinition = {
                         help_text: t('admin.customization.restrictLinkPreviewsDesc'),
                         help_text_default: 'Link previews and image link previews will not be shown for the above list of comma-separated domains.',
                         placeholder: t('admin.customization.restrictLinkPreviewsExample'),
-                        placeholder_default: 'E.g.: "corp.mattermost.com, mattermost.org"',
+                        placeholder_default: 'E.g.: "internal.mycompany.com, images.example.com"',
                         isDisabled: it.any(
                             it.not(it.userHasWritePermissionOnResource('site')),
                             it.configIsFalse('ServiceSettings', 'EnableLinkPreviews'),
