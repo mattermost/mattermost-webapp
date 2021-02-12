@@ -1,10 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
+
+import {FileInfo} from 'mattermost-redux/src/types/files';
+import {Post} from 'mattermost-redux/types/posts';
 
 import {FileTypes} from 'utils/constants';
 import {getFileType} from 'utils/utils';
@@ -13,37 +15,39 @@ import FileAttachment from 'components/file_attachment';
 import SingleImageView from 'components/single_image_view';
 import ViewImageModal from 'components/view_image';
 
-export default class FileAttachmentList extends React.PureComponent {
-    static propTypes = {
+export type Props = {
 
-        /*
-         * The post the files are attached to
-         */
-        post: PropTypes.object.isRequired,
+    /*
+     * The post the files are attached to
+     */
+    post: Post;
+    fileCount: number;
 
-        /*
-         * The number of files attached to the post
-         */
-        fileCount: PropTypes.number.isRequired,
+    /*
+     * Sorted array of metadata for each file attached to the post
+     */
+    fileInfos: FileInfo[];
 
-        /*
-         * Sorted array of metadata for each file attached to the post
-         */
-        fileInfos: PropTypes.arrayOf(PropTypes.object),
+    compactDisplay?: boolean;
+    enableSVGs?: boolean;
+    isEmbedVisible?: boolean;
+    locale: string;
 
-        compactDisplay: PropTypes.bool,
-        enableSVGs: PropTypes.bool,
-        isEmbedVisible: PropTypes.bool,
-        locale: PropTypes.string.isRequired,
-    }
+}
 
-    constructor(props) {
+type State = {
+    showPreviewModal: boolean;
+    startImgIndex: number;
+}
+
+export default class FileAttachmentList extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
         super(props);
 
         this.state = {showPreviewModal: false, startImgIndex: 0};
     }
 
-    handleImageClick = (indexClicked) => {
+    handleImageClick = (indexClicked: number) => {
         this.setState({showPreviewModal: true, startImgIndex: indexClicked});
     }
 
@@ -107,7 +111,7 @@ export default class FileAttachmentList extends React.PureComponent {
         }
 
         return (
-            <React.Fragment>
+            <>
                 <div
                     data-testid='fileAttachmentList'
                     className='post-image__columns clearfix'
@@ -121,7 +125,7 @@ export default class FileAttachmentList extends React.PureComponent {
                     fileInfos={sortedFileInfos}
                     postId={this.props.post.id}
                 />
-            </React.Fragment>
+            </>
         );
     }
 }
