@@ -75,21 +75,3 @@
     font-size: 12px;
     line-height: 16px;
 }
-
-.markdown-image-expand__expanded-view-enter {
-    flex: 0;
-}
-
-.markdown-image-expand__expanded-view-enter-active {
-    flex: 1;
-    transition: flex 250ms cubic-bezier(0.5, 0, 0.5, 1);
-}
-
-.markdown-image-expand__expanded-view-exit {
-    flex: 1;
-}
-
-.markdown-image-expand__expanded-view-exit-active {
-    flex: 0;
-    transition: flex 250ms cubic-bezier(0.5, 0, 0.5, 1);
-}

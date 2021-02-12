@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {useState, useEffect} from 'react';
-import {CSSTransition} from 'react-transition-group';
+import React from 'react';
 import './markdown_image_expand.scss';
 
 export type Props = {
@@ -9,40 +8,25 @@ export type Props = {
     children: React.ReactNode;
     isEmbedVisible: boolean;
     postId: string;
+    actions: {
+        toggleEmbedVisibility: (postId: string) => void;
+    };
 };
 
-type State = {
-    isExpanded: boolean;
-};
-
-const MarkdownImageExpand: React.FC<Props> = ({children, alt, isEmbedVisible}: Props) => {
-    const [state, setState] = useState<State>({
-        isExpanded: isEmbedVisible,
-    });
-    const {isExpanded} = state;
-
-    useEffect(() => {
-        setState({
-            isExpanded: isEmbedVisible,
-        });
-    }, [setState, isEmbedVisible]);
+const MarkdownImageExpand: React.FC<Props> = ({children, alt, isEmbedVisible, postId, actions}: Props) => {
+    const {toggleEmbedVisibility} = actions;
 
     const handleToggleButtonClick = () => {
-        setState((oldState) => ({...oldState, isExpanded: !oldState.isExpanded}));
+        toggleEmbedVisibility(postId);
     };
 
-    const wrapperClassName = `markdown-image-expand ${isExpanded ? 'markdown-image-expand--expanded' : ''}`;
+    const wrapperClassName = `markdown-image-expand ${isEmbedVisible ? 'markdown-image-expand--expanded' : ''}`;
 
     return (
         <div className={wrapperClassName}>
-            <CSSTransition
-                in={isExpanded}
-                timeout={200}
-                mountOnEnter={true}
-                unmountOnExit={true}
-                classNames='markdown-image-expand__expanded-view'
-            >
-                <div>
+            {
+                isEmbedVisible &&
+                <>
                     <button
                         className='markdown-image-expand__collapse-button'
                         type='button'
@@ -51,30 +35,23 @@ const MarkdownImageExpand: React.FC<Props> = ({children, alt, isEmbedVisible}: P
                         <span className='icon icon-menu-down'/>
                     </button>
                     {children}
-                </div>
-            </CSSTransition>
+                </>
+            }
 
-            <CSSTransition
-                in={!isExpanded}
-                timeout={200}
-                mountOnEnter={true}
-                unmountOnExit={true}
-                classNames='markdown-image-expand__collapsed-view'
-            >
-                <div>
-                    <button
-                        className='markdown-image-expand__expand-button'
-                        type='button'
-                        onClick={handleToggleButtonClick}
-                    >
-                        <span className='icon icon-menu-right markdown-image-expand__expand-icon'/>
+            {
+                !isEmbedVisible &&
+                <button
+                    className='markdown-image-expand__expand-button'
+                    type='button'
+                    onClick={handleToggleButtonClick}
+                >
+                    <span className='icon icon-menu-right markdown-image-expand__expand-icon'/>
 
-                        <span className='markdown-image-expand__alt-text'>
-                            {alt}
-                        </span>
-                    </button>
-                </div>
-            </CSSTransition>
+                    <span className='markdown-image-expand__alt-text'>
+                        {alt}
+                    </span>
+                </button>
+            }
         </div>
     );
 };
