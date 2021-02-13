@@ -5,7 +5,6 @@ import React, {CSSProperties} from 'react';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 import {ActionMeta, InputActionMeta} from 'react-select';
 import classNames from 'classnames';
-import {isNull} from 'lodash';
 
 import {ServerError} from 'mattermost-redux/types/errors';
 import {TeamInviteWithError, Team} from 'mattermost-redux/types/teams';
@@ -17,12 +16,10 @@ import {pageVisited, trackEvent} from 'actions/telemetry_actions';
 import {getAnalyticsCategory} from 'components/next_steps_view/step_helpers';
 import MultiInput from 'components/multi_input';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-import PurchaseModal from 'components/purchase_modal';
 import UpgradeLink from 'components/widgets/links/upgrade_link';
 
 import {getSiteURL} from 'utils/url';
 import * as Utils from 'utils/utils';
-import {ModalIdentifiers} from 'utils/constants';
 
 import {StepComponentProps} from '../../steps';
 
@@ -35,8 +32,6 @@ type Props = StepComponentProps & {
     actions: {
         sendEmailInvitesToTeamGracefully: (teamId: string, emails: string[]) => Promise<{ data: TeamInviteWithError[]; error: ServerError }>;
         regenerateTeamInviteId: (teamId: string) => void;
-        getSubscriptionStats: () => void;
-        openModal?: (modalData: { modalId: string; dialogType: any; dialogProps?: any }) => void;
     };
     subscriptionStats?: SubscriptionStats;
     intl: IntlShape;
@@ -96,10 +91,6 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
             // force a regenerate if an invite ID hasn't been generated yet
             this.props.actions.regenerateTeamInviteId(this.props.team.id);
         }
-
-        if (isNull(this.props.subscriptionStats) && this.props.isCloud) {
-            this.props.actions.getSubscriptionStats();
-        }
     }
 
     componentDidUpdate(prevProps: Props) {
@@ -114,7 +105,6 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
         if (subscriptionStats) {
             return subscriptionStats.remaining_seats - emails.length;
         }
-
         return 0;
     }
 
@@ -255,15 +245,6 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
         return `${getSiteURL()}/signup_user_complete/?id=${this.props.team.invite_id}`;
     }
 
-    handleLinkClick = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        e.preventDefault();
-        trackEvent('upgrade_mm_cloud', 'click_upgrade_invite_members_step');
-        this.props.actions.openModal!({
-            modalId: ModalIdentifiers.CLOUD_PURCHASE,
-            dialogType: PurchaseModal,
-        });
-    };
-
     render(): JSX.Element {
         return (
             <div className='NextStepsView__stepWrapper'>
@@ -328,7 +309,7 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
                                         </>
                                     }
                                     {(this.state.emailError && this.state.emails.length >= this.props?.subscriptionStats!.remaining_seats) &&
-                                        <UpgradeLink handleClick={(e) => this.handleLinkClick(e)}/>
+                                        <UpgradeLink telemetryInfo='click_upgrade_invite_members_step'/>
                                     }
                                 </div>
                             </div>

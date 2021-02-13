@@ -4,7 +4,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {isNull} from 'lodash';
 import {isEmail} from 'mattermost-redux/utils/helpers';
 import {debounce} from 'mattermost-redux/actions/helpers';
 
@@ -15,11 +14,6 @@ import UpgradeLink from 'components/widgets/links/upgrade_link';
 
 import ChannelsInput from 'components/widgets/inputs/channels_input.jsx';
 import UsersEmailsInput from 'components/widgets/inputs/users_emails_input.jsx';
-
-import {ModalIdentifiers} from 'utils/constants';
-import PurchaseModal from 'components/purchase_modal';
-
-import {trackEvent} from 'actions/telemetry_actions';
 
 import './invitation_modal_guests_step.scss';
 
@@ -42,10 +36,6 @@ class InvitationModalGuestsStep extends React.PureComponent {
         userIsAdmin: PropTypes.bool.isRequired,
         isCloud: PropTypes.bool.isRequired,
         subscriptionStats: PropTypes.object,
-        actions: PropTypes.shape({
-            openModal: PropTypes.func,
-            getSubscriptionStats: PropTypes.func.isRequired,
-        }).isRequired,
     }
 
     constructor(props) {
@@ -180,22 +170,6 @@ class InvitationModalGuestsStep extends React.PureComponent {
             return true;
         }
         return false;
-    };
-
-    componentDidMount() {
-        const {subscriptionStats, isCloud} = this.props;
-        if (isNull(subscriptionStats) && isCloud) {
-            this.props.actions.getSubscriptionStats();
-        }
-    }
-
-    handleLinkClick = async (e) => {
-        e.preventDefault();
-        trackEvent('upgrade_mm_cloud', 'click_upgrade_modal_guest_step');
-        this.props.actions.openModal({
-            modalId: ModalIdentifiers.CLOUD_PURCHASE,
-            dialogType: PurchaseModal,
-        });
     };
 
     render() {

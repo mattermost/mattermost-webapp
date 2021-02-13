@@ -1,25 +1,70 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/widgets/links/UpgradeLink should match the snapshot on show 1`] = `
-<button
-  className="upgradeLink"
-  onClick={[Function]}
+<ContextProvider
+  value={
+    Object {
+      "store": Object {
+        "clearActions": [Function],
+        "dispatch": [Function],
+        "getActions": [Function],
+        "getState": [Function],
+        "replaceReducer": [Function],
+        "subscribe": [Function],
+      },
+      "subscription": Subscription {
+        "handleChangeWrapper": [Function],
+        "listeners": Object {
+          "notify": [Function],
+        },
+        "onStateChange": [Function],
+        "parentSub": undefined,
+        "store": Object {
+          "clearActions": [Function],
+          "dispatch": [Function],
+          "getActions": [Function],
+          "getState": [Function],
+          "replaceReducer": [Function],
+          "subscribe": [Function],
+        },
+        "unsubscribe": null,
+      },
+    }
+  }
 >
-  <FormattedMessage
-    defaultMessage="Upgrade now"
-    id="upgradeLink.warn.upgrade_now"
-  />
-</button>
+  <UpgradeLink />
+</ContextProvider>
 `;
 
 exports[`components/widgets/links/UpgradeLink should trigger telemetry call when button clicked 1`] = `
-<button
-  className="upgradeLink"
-  onClick={[Function]}
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
 >
-  <FormattedMessage
-    defaultMessage="Upgrade now"
-    id="upgradeLink.warn.upgrade_now"
-  />
-</button>
+  <UpgradeLink
+    telemetryInfo="testing"
+  >
+    <button
+      className="upgradeLink"
+      onClick={[Function]}
+    >
+      <FormattedMessage
+        defaultMessage="Upgrade now"
+        id="upgradeLink.warn.upgrade_now"
+      >
+        <span>
+          Upgrade now
+        </span>
+      </FormattedMessage>
+    </button>
+  </UpgradeLink>
+</Provider>
 `;

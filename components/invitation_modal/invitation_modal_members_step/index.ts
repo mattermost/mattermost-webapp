@@ -5,13 +5,9 @@ import {connect} from 'react-redux';
 import {
     getConfig,
     getLicense,
+    getSubscriptionStats,
 } from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
-import {bindActionCreators, Dispatch} from 'redux';
-import {GenericAction} from 'mattermost-redux/types/actions';
-import {getSubscriptionStats} from 'mattermost-redux/selectors/entities/general';
-
-import {openModal} from 'actions/views/modals';
 
 import {GlobalState} from 'types/store';
 
@@ -28,15 +24,4 @@ function mapStateToProps(state: GlobalState) {
     };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
-    return {
-        actions: bindActionCreators(
-            {
-                openModal,
-            },
-            dispatch,
-        ),
-    };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(InvitationModalMembersStep);
+export default connect(mapStateToProps)(InvitationModalMembersStep);

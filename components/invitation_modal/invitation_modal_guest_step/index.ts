@@ -5,17 +5,13 @@ import {connect} from 'react-redux';
 import {
     getConfig,
     getLicense,
+    getSubscriptionStats,
 } from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
-import {bindActionCreators, Dispatch} from 'redux';
-import {GenericAction} from 'mattermost-redux/types/actions';
-import {getSubscriptionStats} from 'mattermost-redux/actions/cloud';
 
 import {GlobalState} from 'types/store';
 
 import {isAdmin} from 'utils/utils.jsx';
-
-import {openModal} from 'actions/views/modals';
 
 import InvitationModalGuestsStep from './invitation_modal_guests_step';
 
@@ -24,20 +20,8 @@ function mapStateToProps(state: GlobalState) {
         userLimit: getConfig(state).ExperimentalCloudUserLimit,
         userIsAdmin: isAdmin(getCurrentUser(state).roles),
         isCloud: getLicense(state).Cloud === 'true',
-        subscriptionStats: state.entities.cloud.subscriptionStats,
+        subscriptionStats: getSubscriptionStats(state),
     };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
-    return {
-        actions: bindActionCreators(
-            {
-                openModal,
-                getSubscriptionStats,
-            },
-            dispatch,
-        ),
-    };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(InvitationModalGuestsStep);
+export default connect(mapStateToProps)(InvitationModalGuestsStep);

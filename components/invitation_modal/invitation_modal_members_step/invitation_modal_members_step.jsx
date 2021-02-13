@@ -19,8 +19,7 @@ import LinkIcon from 'components/widgets/icons/link_icon';
 import {getSiteURL} from 'utils/url';
 import {t} from 'utils/i18n.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
-import {Constants, ModalIdentifiers} from 'utils/constants';
-import PurchaseModal from 'components/purchase_modal';
+import {Constants} from 'utils/constants';
 
 import './invitation_modal_members_step.scss';
 
@@ -40,7 +39,6 @@ class InvitationModalMembersStep extends React.PureComponent {
         isCloud: PropTypes.bool.isRequired,
         subscriptionStats: PropTypes.object,
         actions: PropTypes.shape({
-            openModal: PropTypes.func,
         }).isRequired,
     };
 
@@ -157,7 +155,6 @@ class InvitationModalMembersStep extends React.PureComponent {
     }
 
     shouldShowPickerError = () => {
-        debugger;
         const {userLimit, isCloud, subscriptionStats} = this.props;
 
         if (subscriptionStats && subscriptionStats.is_paid_tier === 'true') {
@@ -176,15 +173,6 @@ class InvitationModalMembersStep extends React.PureComponent {
             return true;
         }
         return false;
-    };
-
-    handleLinkClick = async (e) => {
-        e.preventDefault();
-        trackEvent('upgrade_mm_cloud', 'click_upgrade_modal_members_step');
-        this.props.actions.openModal({
-            modalId: ModalIdentifiers.CLOUD_PURCHASE,
-            dialogType: PurchaseModal,
-        });
     };
 
     render() {
@@ -224,7 +212,7 @@ class InvitationModalMembersStep extends React.PureComponent {
             errorMessageValues: {
                 num: remainingUsers < 0 ? '0' : remainingUsers,
             },
-            extraErrorText: (<UpgradeLink handleClick={(e) => this.handleLinkClick(e)}/>),
+            extraErrorText: (<UpgradeLink telemetryInfo='click_upgrade_users_emails_input'/>),
         };
 
         if (this.state.usersAndEmails.length > Constants.MAX_ADD_MEMBERS_BATCH) {

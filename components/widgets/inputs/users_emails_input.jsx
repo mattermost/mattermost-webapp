@@ -312,21 +312,19 @@ export default class UsersEmailsInput extends React.PureComponent {
                 />
                 {this.props.showError && (
                     <div className='InputErrorBox'>
-                        <div className='InputErrorBox__wrapper'>
-                            <FormattedMarkdownMessage
-                                id={this.props.errorMessageId}
-                                defaultMessage={this.props.errorMessageDefault}
-                                values={this.props.errorMessageValues || null}
-                                disableLinks={true}
-                            >
-                                {(message) => (
-                                    <components.NoOptionsMessage>
-                                        {message}
-                                    </components.NoOptionsMessage>
-                                )}
-                            </FormattedMarkdownMessage>
-                            {this.props.extraErrorText || null}
-                        </div>
+                        <FormattedMarkdownMessage
+                            id={this.props.errorMessageId}
+                            defaultMessage={this.props.errorMessageDefault}
+                            values={this.props.errorMessageValues || null}
+                            disableLinks={true}
+                        >
+                            {(message) => (
+                                <components.NoOptionsMessage>
+                                    {message}
+                                </components.NoOptionsMessage>
+                            )}
+                        </FormattedMarkdownMessage>
+                        {this.props.extraErrorText || null}
                     </div>
                 )}
             </>
