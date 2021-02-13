@@ -92,11 +92,15 @@ export default class AppsForm extends React.PureComponent<Props, State> {
         return null;
     }
 
-    handleSubmit = async (e: React.FormEvent) => {
+    handleSubmit = async (e: React.FormEvent, submitName?: string, value?: string) => {
         e.preventDefault();
 
         const {fields} = this.props.form;
         const values = this.state.values;
+        if (submitName && value) {
+            values[submitName] = value;
+        }
+
         const errors: {[name: string]: React.ReactNode} = {};
         if (fields) {
             fields.forEach((field) => {
@@ -228,7 +232,7 @@ export default class AppsForm extends React.PureComponent<Props, State> {
                 role='dialog'
                 aria-labelledby='appsModalLabel'
             >
-                <form onSubmit={this.handleSubmit}>
+                <form onSubmit={(e: React.FormEvent) => this.handleSubmit(e)}>
                     <Modal.Header
                         closeButton={true}
                         style={{borderBottom: fields && fields.length ? '' : '0px'}}
@@ -309,13 +313,10 @@ export default class AppsForm extends React.PureComponent<Props, State> {
             return null;
         }
 
-        return fields.map((field, index) => {
-            const isSubmit = field.name === form.submit_buttons;
-
+        return fields.filter((f) => f.name !== form.submit_buttons).map((field, index) => {
             return (
                 <AppsFormField
                     field={field}
-                    isSubmit={isSubmit}
                     key={field.name}
                     autoFocus={index === 0}
                     name={field.name}
@@ -356,6 +357,47 @@ export default class AppsForm extends React.PureComponent<Props, State> {
             />
         );
 
+        let submitButtons = [(
+            <SpinnerButton
+                id='appsModalSubmit'
+                key='submit'
+                type='submit'
+                autoFocus={!fields || fields.length === 0}
+                className='btn btn-primary save-button'
+                spinning={this.state.submitting}
+                spinningText={localizeMessage(
+                    'interactive_dialog.submitting',
+                    'Submitting...',
+                )}
+            >
+                {submitText}
+            </SpinnerButton>
+        )];
+
+        if (this.props.form.submit_buttons) {
+            const field = fields?.find((f) => f.name === this.props.form.submit_buttons);
+            if (field) {
+                const buttons = field.options?.map((o) => (
+                    <SpinnerButton
+                        id={'appsModalSubmit' + o.value}
+                        key={o.value}
+                        type='submit'
+                        className='btn btn-primary save-button'
+                        spinningText={localizeMessage(
+                            'interactive_dialog.submitting',
+                            'Submitting...',
+                        )}
+                        onClick={(e: React.MouseEvent) => this.handleSubmit(e, field.name, o.value)}
+                    >
+                        {o.label}
+                    </SpinnerButton>
+                ));
+                if (buttons) {
+                    submitButtons = buttons;
+                }
+            }
+        }
+
         return (
             <React.Fragment>
                 {this.state.error && (
@@ -372,19 +414,7 @@ export default class AppsForm extends React.PureComponent<Props, State> {
                         defaultMessage='Cancel'
                     />
                 </button>
-                <SpinnerButton
-                    id='appsModalSubmit'
-                    type='submit'
-                    autoFocus={!fields || fields.length === 0}
-                    className='btn btn-primary save-button'
-                    spinning={this.state.submitting}
-                    spinningText={localizeMessage(
-                        'interactive_dialog.submitting',
-                        'Submitting...',
-                    )}
-                >
-                    {submitText}
-                </SpinnerButton>
+                {submitButtons}
             </React.Fragment>
         );
     }

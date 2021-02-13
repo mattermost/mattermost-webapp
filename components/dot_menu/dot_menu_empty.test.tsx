@@ -46,6 +46,7 @@ describe('components/dot_menu/DotMenu returning empty ("")', () => {
             canDelete: false,
             appBindings: [],
             pluginMenuItems: [],
+            appsEnabled: false,
         };
 
         const wrapper: ShallowWrapper<any, any, DotMenu> = shallow(

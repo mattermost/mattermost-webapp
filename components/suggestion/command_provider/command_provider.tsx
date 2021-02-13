@@ -10,17 +10,16 @@ import {AutocompleteSuggestion, AutocompleteSuggestionWithComplete} from 'matter
 import {ServerAutocompleteSuggestion} from 'mattermost-redux/types/integrations';
 import {Post} from 'mattermost-redux/types/posts';
 
-import globalStore from 'stores/redux_store.jsx';
+import globalStore from 'stores/redux_store';
 
 import {getSelectedPost} from 'selectors/rhs';
 
 import * as UserAgent from 'utils/user_agent';
-import * as Utils from 'utils/utils.jsx';
-
+import * as Utils from 'utils/utils';
 import {Constants} from 'utils/constants';
 
-import Suggestion from '../suggestion.jsx';
-import Provider from '../provider.jsx';
+import Suggestion from '../suggestion';
+import Provider from '../provider';
 
 import {AppCommandParser, Store} from './app_command_parser';
 
@@ -28,7 +27,8 @@ const EXECUTE_CURRENT_COMMAND_ITEM_ID = Constants.Integrations.EXECUTE_CURRENT_C
 
 export class CommandSuggestion extends Suggestion {
     render() {
-        const {item, isSelection} = this.props;
+        const {isSelection} = this.props;
+        const item = this.props.item as AutocompleteSuggestion;
 
         let className = 'slash-command';
         if (isSelection) {
@@ -72,7 +72,7 @@ export class CommandSuggestion extends Suggestion {
 
 type Props = {
     isInRHS: boolean;
-}
+};
 
 export type Results = {
     matchedPretext: string;
@@ -85,9 +85,8 @@ type ResultsCallback = (results: Results) => void;
 
 export default class CommandProvider extends Provider {
     private isInRHS: boolean;
-
-    private parser: AppCommandParser;
-    store: Store;
+    private store: Store;
+    private appCommandParser?: AppCommandParser;
 
     constructor(props: Props) {
         super();
@@ -102,7 +101,9 @@ export default class CommandProvider extends Provider {
             }
         }
 
-        this.parser = new AppCommandParser(this.store, rootId);
+        if (Utils.appsEnabled(this.store.getState())) {
+            this.appCommandParser = new AppCommandParser(this.store, rootId);
+        }
     }
 
     handlePretextChanged(pretext: string, resultCallback: ResultsCallback) {
@@ -111,8 +112,13 @@ export default class CommandProvider extends Provider {
         }
 
         const command = pretext.toLowerCase();
+<<<<<<< HEAD
         if (this.parser.isAppCommand(command)) {
             this.parser.getSuggestions(command).then((matches) => {
+=======
+        if (this.appCommandParser?.isAppCommand(command)) {
+            this.appCommandParser.getSuggestionsForSubCommandsAndArguments(command).then((matches) => {
+>>>>>>> 50babb5bcef3dbc044e2cb69ef40cee69fefa820
                 const terms = matches.map((suggestion) => suggestion.complete);
                 resultCallback({
                     matchedPretext: command,
@@ -141,8 +147,15 @@ export default class CommandProvider extends Provider {
         Client4.getCommandsList(getCurrentTeamId(this.store.getState())).then(
             (data) => {
                 let matches: AutocompleteSuggestion[] = [];
+<<<<<<< HEAD
                 const appCommandSuggestions = this.parser.getSuggestionsBase(pretext);
                 matches = matches.concat(appCommandSuggestions);
+=======
+                if (this.appCommandParser) {
+                    const appCommandSuggestions = this.appCommandParser.getSuggestionsForBaseCommands(pretext);
+                    matches = matches.concat(appCommandSuggestions);
+                }
+>>>>>>> 50babb5bcef3dbc044e2cb69ef40cee69fefa820
 
                 data.forEach((cmd) => {
                     if (!cmd.auto_complete) {
@@ -158,8 +171,10 @@ export default class CommandProvider extends Provider {
                             }
                             matches.push({
                                 suggestion: s,
+                                complete: '',
                                 hint,
                                 description: cmd.auto_complete_desc,
+                                iconData: '',
                             });
                         }
                     }
@@ -206,8 +221,15 @@ export default class CommandProvider extends Provider {
                     cmd = '⌘';
                 }
 
+<<<<<<< HEAD
                 const appCommandSuggestions = this.parser.getSuggestionsBase(pretext);
                 matches = matches.concat(appCommandSuggestions);
+=======
+                if (this.appCommandParser) {
+                    const appCommandSuggestions = this.appCommandParser.getSuggestionsForBaseCommands(pretext);
+                    matches = matches.concat(appCommandSuggestions);
+                }
+>>>>>>> 50babb5bcef3dbc044e2cb69ef40cee69fefa820
 
                 data.forEach((s) => {
                     if (!this.contains(matches, '/' + s.Complete)) {

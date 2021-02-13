@@ -49,9 +49,6 @@ describe('Messaging', () => {
         cy.apiLogin(testUser);
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
-        // # Wait for the page to be loaded
-        cy.wait(TIMEOUTS.FIVE_SEC);
-
         // # Click Reply button to open the RHS
         cy.clickPostCommentIcon();
 

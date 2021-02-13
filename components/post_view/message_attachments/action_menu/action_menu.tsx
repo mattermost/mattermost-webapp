@@ -4,6 +4,7 @@
 import React from 'react';
 
 import {ActionResult, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
+import {PostAction} from 'mattermost-redux/types/integration_actions';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {Channel} from 'mattermost-redux/types/channels';
 import {ServerError} from 'mattermost-redux/types/errors';
@@ -41,20 +42,11 @@ type Option = {
 
 type Provider = GenericUserProvider | GenericChannelProvider | MenuActionProvider;
 
-type Action = {
-    name: string;
-    options?: Option[];
-    data_source?: 'users' | 'channels';
-    default_option?: string;
-    id: string;
-    cookie: string;
-};
-
 type Selected = Option | UserProfile | Channel;
 
 export type Props = {
     postId: string;
-    action: Action;
+    action: PostAction;
     selected?: Selected;
     disabled?: boolean;
     actions: {
@@ -137,7 +129,7 @@ export default class ActionMenu extends React.PureComponent<Props, State> {
         }
 
         this.props.actions.selectAttachmentMenuAction(
-            this.props.postId, this.props.action.id, this.props.action.cookie, this.props.action?.data_source, text, value);
+            this.props.postId, this.props.action.id || '', this.props.action.cookie || '', this.props.action?.data_source, text, value);
 
         this.setState({value: text});
     }

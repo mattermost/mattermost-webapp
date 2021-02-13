@@ -22,9 +22,6 @@ describe('Search', () => {
     });
 
     it('QuickInput clear X', () => {
-        // # Wait for the page to be completely loaded
-        cy.wait(TIMEOUTS.FIVE_SEC);
-
         // * X should not be visible on empty input
         cy.get('#searchFormContainer').find('.input-clear-x').should('not.be.visible');
 
@@ -52,15 +49,14 @@ describe('Search', () => {
 
         // * Verify search input field exists and not search button, as inputs contains placeholder not buttons/icons
         // and then type in a search text
-        cy.findByPlaceholderText('Search').should('be.visible').and('exist').click().type(searchText).as('searchInput');
+        cy.get('#searchBox').should('be.visible').as('searchInput');
+        cy.get('@searchInput').click().wait(TIMEOUTS.HALF_SEC).type(searchText);
 
         // # Click on the pinned post button from the header
-        cy.get('#channel-header').within(() => {
-            cy.findByLabelText('Pin Icon').should('be.visible').and('exist').click();
-        });
+        cy.findByRole('button', {name: 'Pinned posts'}).should('be.visible').click();
 
         // * Verify the pinned post RHS is open
-        cy.get('#sidebar-right').should('be.visible').and('contain', 'Pinned posts');
+        cy.get('#sidebar-right').should('be.visible').and('contain', 'Pinned Posts');
 
         // * Check that search input value remains the same as we entered before
         cy.get('@searchInput').should('have.value', searchText);

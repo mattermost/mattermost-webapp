@@ -94,6 +94,7 @@ class CustomToggle extends React.PureComponent<CustomToggleProps> {
 type ChannelHeaderPlugProps = {
     components: PluginComponent[];
     appBindings: AppBinding[];
+    appsEnabled: boolean;
     channel: Channel;
     channelMember: ChannelMembership;
     theme: Theme;
@@ -196,32 +197,35 @@ export default class ChannelHeaderPlug extends React.PureComponent<ChannelHeader
             );
         });
 
-        const items = componentItems.concat(appBindings.filter((binding) => binding.call).map((binding) => {
-            return (
-                <li
-                    key={'channelHeaderPlug' + binding.app_id + binding.location}
-                >
-                    <a
-                        href='#'
-                        className='d-flex align-items-center'
-                        onClick={() => this.fireActionAndClose(() => this.props.actions.doAppCall({
-                            ...binding.call,
-                            url: binding?.call?.url || '',
-                            type: AppCallTypes.SUBMIT,
-                            context: {
-                                app_id: binding.app_id,
-                                location: binding.location,
-                                team_id: this.props.channel.team_id,
-                                channel_id: this.props.channel.id,
-                            },
-                        }))}
+        let items = componentItems;
+        if (this.props.appsEnabled) {
+            items = componentItems.concat(appBindings.filter((binding) => binding.call).map((binding) => {
+                return (
+                    <li
+                        key={'channelHeaderPlug' + binding.app_id + binding.location}
                     >
-                        <span className='d-flex align-items-center overflow--ellipsis'>{(<img src={binding.icon}/>)}</span>
-                        <span>{binding.label}</span>
-                    </a>
-                </li>
-            );
-        }));
+                        <a
+                            href='#'
+                            className='d-flex align-items-center'
+                            onClick={() => this.fireActionAndClose(() => this.props.actions.doAppCall({
+                                ...binding.call,
+                                url: binding?.call?.url || '',
+                                type: AppCallTypes.SUBMIT,
+                                context: {
+                                    app_id: binding.app_id,
+                                    location: binding.location,
+                                    team_id: this.props.channel.team_id,
+                                    channel_id: this.props.channel.id,
+                                },
+                            }))}
+                        >
+                            <span className='d-flex align-items-center overflow--ellipsis'>{(<img src={binding.icon}/>)}</span>
+                            <span>{binding.label}</span>
+                        </a>
+                    </li>
+                );
+            }));
+        }
 
         return (
             <div className='flex-child'>
@@ -277,13 +281,15 @@ export default class ChannelHeaderPlug extends React.PureComponent<ChannelHeader
 
     render() {
         const components = this.props.components || [];
-        const appBindings = this.props.appBindings || [];
-
+        const appBindings = this.props.appsEnabled ? this.props.appBindings || [] : [];
         if (components.length === 0 && appBindings.length === 0) {
             return null;
         } else if ((components.length + appBindings.length) <= 5) {
-            const componentButtons = components.filter((plug) => plug.icon && plug.action).map(this.createComponentButton);
-            return componentButtons.concat(appBindings.map(this.createAppBindingButton));
+            let componentButtons = components.filter((plug) => plug.icon && plug.action).map(this.createComponentButton);
+            if (this.props.appsEnabled) {
+                componentButtons = componentButtons.concat(appBindings.map(this.createAppBindingButton));
+            }
+            return componentButtons;
         }
 
         return this.createDropdown(components, appBindings);

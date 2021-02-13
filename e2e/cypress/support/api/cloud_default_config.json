@@ -22,13 +22,13 @@
         "ExperimentalEnableDefaultChannelLeaveJoinMessages": true,
         "ExperimentalGroupUnreadChannels": "disabled",
         "ExperimentalChannelOrganization": false,
-        "ExperimentalChannelSidebarOrganization": "disabled",
         "EnableAPITeamDeletion": true,
         "ExperimentalEnableHardenedMode": false,
         "EnableEmailInvitations": true,
         "EnableBotAccountCreation": true,
         "EnableSVGs": true,
-        "EnableLatex": false
+        "EnableLatex": false,
+        "EnableLegacySidebar": true
     },
     "TeamSettings": {
         "SiteName": "Mattermost",

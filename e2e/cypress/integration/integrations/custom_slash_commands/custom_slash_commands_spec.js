@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @integrations
 
 /**
@@ -21,7 +22,7 @@ import {
     saveConfigForScheme,
 } from '../../enterprise/system_console/channel_moderation/helpers';
 
-import {addNewCommand} from './slash_commands_spec';
+import {addNewCommand} from './helpers';
 
 describe('Slash commands', () => {
     const trigger = 'my_trigger';
@@ -89,7 +90,6 @@ describe('Slash commands', () => {
 
         // # Go back to home channel
         cy.visit(`/${team1.name}/channels/town-square`);
-        cy.wait(TIMEOUTS.TWO_SEC);
 
         // # Run slash command
         cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').clear().type(`/${trigger}{enter}`);
@@ -123,7 +123,6 @@ describe('Slash commands', () => {
 
         // # Go back to home channel
         cy.visit(`/${team1.name}/channels/town-square`);
-        cy.wait(TIMEOUTS.TWO_SEC);
 
         // # Run slash command
         cy.postMessage(`/${trigger}`);
@@ -163,7 +162,6 @@ describe('Slash commands', () => {
 
         // # Go back to home channel
         cy.visit(`/${team1.name}/channels/town-square`);
-        cy.wait(TIMEOUTS.TWO_SEC);
 
         // # Run slash command
         cy.postMessage(`/${trigger}`);
@@ -180,7 +178,7 @@ describe('Slash commands', () => {
         deleteCommand(team1, trigger);
     });
 
-    it('MM-T703/MM-704 Show custom slash command in autocomplete', () => {
+    it('MM-T703 Show custom slash command in autocomplete', () => {
         // # Open slash command page
         cy.visit(`/${team1.name}/integrations/commands/installed`);
 
@@ -204,7 +202,6 @@ describe('Slash commands', () => {
 
         // # Go back to home channel
         cy.visit(`/${team1.name}/channels/town-square`);
-        cy.wait(TIMEOUTS.TWO_SEC);
 
         // # Type slash
         cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').clear().type('/');
@@ -232,7 +229,6 @@ describe('Slash commands', () => {
 
         // # Go back to home channel
         cy.visit(`/${team1.name}/channels/town-square`);
-        cy.wait(TIMEOUTS.TWO_SEC);
 
         // # Run slash command
         cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').clear().type('/');
