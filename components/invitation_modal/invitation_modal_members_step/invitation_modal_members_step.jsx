@@ -4,7 +4,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {injectIntl, FormattedMessage} from 'react-intl';
-import {isNull} from 'lodash';
 
 import {debounce} from 'mattermost-redux/actions/helpers';
 import {isEmail} from 'mattermost-redux/utils/helpers';
@@ -42,7 +41,6 @@ class InvitationModalMembersStep extends React.PureComponent {
         subscriptionStats: PropTypes.object,
         actions: PropTypes.shape({
             openModal: PropTypes.func,
-            getSubscriptionStats: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -159,6 +157,7 @@ class InvitationModalMembersStep extends React.PureComponent {
     }
 
     shouldShowPickerError = () => {
+        debugger;
         const {userLimit, isCloud, subscriptionStats} = this.props;
 
         if (subscriptionStats && subscriptionStats.is_paid_tier === 'true') {
@@ -178,13 +177,6 @@ class InvitationModalMembersStep extends React.PureComponent {
         }
         return false;
     };
-
-    componentDidMount() {
-        const {subscriptionStats, isCloud} = this.props;
-        if (isNull(subscriptionStats) && isCloud) {
-            this.props.actions.getSubscriptionStats();
-        }
-    }
 
     handleLinkClick = async (e) => {
         e.preventDefault();

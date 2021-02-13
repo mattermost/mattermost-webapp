@@ -9,7 +9,7 @@ import {
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {bindActionCreators, Dispatch} from 'redux';
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {getSubscriptionStats} from 'mattermost-redux/actions/cloud';
+import {getSubscriptionStats} from 'mattermost-redux/selectors/entities/general';
 
 import {openModal} from 'actions/views/modals';
 
@@ -24,7 +24,7 @@ function mapStateToProps(state: GlobalState) {
         userLimit: getConfig(state).ExperimentalCloudUserLimit,
         userIsAdmin: isAdmin(getCurrentUser(state).roles),
         isCloud: getLicense(state).Cloud === 'true',
-        subscriptionStats: state.entities.cloud.subscriptionStats,
+        subscriptionStats: getSubscriptionStats(state),
     };
 }
 
@@ -33,7 +33,6 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
         actions: bindActionCreators(
             {
                 openModal,
-                getSubscriptionStats,
             },
             dispatch,
         ),
