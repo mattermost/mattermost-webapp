@@ -31,5 +31,85 @@ body {
         p {
             font-size: 1.2em;
         }
+
+        .ErrorPage__container_max_free_users {
+            display: flex;
+            text-align: center;
+            flex-direction: column;
+
+            .ErrorPage__mattermostCloudImg {
+                margin: auto;
+                align-self: flex-start;
+                height: 100px;
+
+                img {
+                    margin: 32px 40px;
+                }
+            }
+
+            .ErrorPage__mainContentContainer {
+                display: flex;
+                justify-content: center;
+                flex-direction: column;
+                height: calc(100vh - 100px);
+
+                .ErrorPage__mainContentItem {
+                    align-self: stretch;
+                    padding: 16px;
+
+                    .ErrorPage__computerWithAlertImg {
+                        width: 50vw;
+                        min-width: 320px;
+                        max-width: 520px;
+                        max-height: calc(100vh - 320px);
+                        min-height: 270px;
+                        margin: 0 auto 32px auto;
+                    }
+
+                    article {
+                        display: block;
+                        text-align: center;
+                        width: 100%;
+                        margin: 0 auto;
+                        max-width: 500px;
+                        .ErrorPage__maxFreeUsersReachedTitle {
+                            font-style: normal;
+                            font-weight: 600;
+                            font-size: 24px;
+                            line-height: 32px;
+                            color: #3D3C40;
+                            margin: auto;
+                        }
+
+                        .ErrorPage__maxFreeUsersReachedDescription {
+                            font-family: Open Sans;
+                            font-style: normal;
+                            font-weight: normal;
+                            font-size: 14px;
+                            line-height: 20px;
+                            margin: 1% auto;
+                        }
+                    }
+                }
+            }
+
+            .waves {
+                transform: rotate(180deg);
+                width: 110%;
+                position: fixed;
+                margin-top: -10%;
+                left: 0;
+                z-index: -1;
+                bottom: 0;
+            }
+
+            .blue-dots {
+                transform: rotate(180deg);
+                position: fixed;
+                margin-top: -27%;
+                right: 1%;
+                z-index: -1;
+            }
+        }
     }
 }
