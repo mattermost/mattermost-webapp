@@ -104,7 +104,7 @@ export function executeCommand(message: string, args: CommandArgs): ActionFunc {
 
         if (appsEnabled(state)) {
             const getGlobalState = () => getState() as GlobalState;
-            const parser = new AppCommandParser({dispatch, getGlobalState}, args.root_id);
+            const parser = new AppCommandParser({dispatch, getState: getGlobalState}, args.root_id);
             if (parser.isAppCommand(msg)) {
                 try {
                     const call = await parser.composeCallFromCommand(msg);
