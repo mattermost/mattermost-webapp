@@ -112,13 +112,8 @@ export default class CommandProvider extends Provider {
         }
 
         const command = pretext.toLowerCase();
-<<<<<<< HEAD
-        if (this.parser.isAppCommand(command)) {
-            this.parser.getSuggestions(command).then((matches) => {
-=======
         if (this.appCommandParser?.isAppCommand(command)) {
-            this.appCommandParser.getSuggestionsForSubCommandsAndArguments(command).then((matches) => {
->>>>>>> 50babb5bcef3dbc044e2cb69ef40cee69fefa820
+            this.appCommandParser.getSuggestions(command).then((matches) => {
                 const terms = matches.map((suggestion) => suggestion.complete);
                 resultCallback({
                     matchedPretext: command,
@@ -147,15 +142,10 @@ export default class CommandProvider extends Provider {
         Client4.getCommandsList(getCurrentTeamId(this.store.getState())).then(
             (data) => {
                 let matches: AutocompleteSuggestion[] = [];
-<<<<<<< HEAD
-                const appCommandSuggestions = this.parser.getSuggestionsBase(pretext);
-                matches = matches.concat(appCommandSuggestions);
-=======
                 if (this.appCommandParser) {
-                    const appCommandSuggestions = this.appCommandParser.getSuggestionsForBaseCommands(pretext);
+                    const appCommandSuggestions = this.appCommandParser.getSuggestionsBase(pretext);
                     matches = matches.concat(appCommandSuggestions);
                 }
->>>>>>> 50babb5bcef3dbc044e2cb69ef40cee69fefa820
 
                 data.forEach((cmd) => {
                     if (!cmd.auto_complete) {
@@ -221,15 +211,10 @@ export default class CommandProvider extends Provider {
                     cmd = '⌘';
                 }
 
-<<<<<<< HEAD
-                const appCommandSuggestions = this.parser.getSuggestionsBase(pretext);
-                matches = matches.concat(appCommandSuggestions);
-=======
                 if (this.appCommandParser) {
-                    const appCommandSuggestions = this.appCommandParser.getSuggestionsForBaseCommands(pretext);
+                    const appCommandSuggestions = this.appCommandParser.getSuggestionsBase(pretext);
                     matches = matches.concat(appCommandSuggestions);
                 }
->>>>>>> 50babb5bcef3dbc044e2cb69ef40cee69fefa820
 
                 data.forEach((s) => {
                     if (!this.contains(matches, '/' + s.Complete)) {
