@@ -113,7 +113,7 @@ export default class CommandProvider extends Provider {
 
         const command = pretext.toLowerCase();
         if (this.appCommandParser?.isAppCommand(command)) {
-            this.appCommandParser.getSuggestionsForSubCommandsAndArguments(command).then((matches) => {
+            this.appCommandParser.getSuggestions(command).then((matches) => {
                 const terms = matches.map((suggestion) => suggestion.complete);
                 resultCallback({
                     matchedPretext: command,
@@ -143,7 +143,7 @@ export default class CommandProvider extends Provider {
             (data) => {
                 let matches: AutocompleteSuggestion[] = [];
                 if (this.appCommandParser) {
-                    const appCommandSuggestions = this.appCommandParser.getSuggestionsForBaseCommands(pretext);
+                    const appCommandSuggestions = this.appCommandParser.getSuggestionsBase(pretext);
                     matches = matches.concat(appCommandSuggestions);
                 }
 
@@ -212,7 +212,7 @@ export default class CommandProvider extends Provider {
                 }
 
                 if (this.appCommandParser) {
-                    const appCommandSuggestions = this.appCommandParser.getSuggestionsForBaseCommands(pretext);
+                    const appCommandSuggestions = this.appCommandParser.getSuggestionsBase(pretext);
                     matches = matches.concat(appCommandSuggestions);
                 }
 

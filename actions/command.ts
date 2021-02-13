@@ -108,13 +108,9 @@ export function executeCommand(message: string, args: CommandArgs): ActionFunc {
             const parser = new AppCommandParser({dispatch, getState: getGlobalState}, args.root_id);
             if (parser.isAppCommand(msg)) {
                 try {
-                    const call = await parser.composeCallFromCommandString(msg);
+                    const call = await parser.composeCallFromCommand(msg);
                     if (!call) {
                         return {error: new Error('Error composing command submission')};
-                    }
-                    const binding = await parser.getBindingWithForm(msg);
-                    if (!binding) {
-                        return {error: new Error('Error fetching binding for command')};
                     }
 
                     return dispatch(doAppCall({
