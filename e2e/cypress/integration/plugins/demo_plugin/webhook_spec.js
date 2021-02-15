@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @plugin
 
 /**
@@ -93,7 +94,7 @@ describe('Demo plugin - Webhook events', () => {
         });
     });
 
-    it('MM-T2408/2 - User posts a message Webhook event', () => {
+    it('MM-T2408_1 - User posts a message Webhook event', () => {
         // # Post message
         cy.visit(`/${team1.name}/channels/town-square`);
         cy.postMessage(MESSAGES.SMALL);
@@ -103,7 +104,7 @@ describe('Demo plugin - Webhook events', () => {
         cy.findAllByTestId('postView').should('contain', `MessageHasBeenPosted: @${testUser.username}, ~Town Square`);
     });
 
-    it('MM-T2408/3 - User joined a channel Webhook event', () => {
+    it('MM-T2408_2 - User joined a channel Webhook event', () => {
         // # Join channel
         cy.visit(`/${team1.name}/channels/${testChannel}`);
 
@@ -112,7 +113,7 @@ describe('Demo plugin - Webhook events', () => {
         cy.findAllByTestId('postView').should('contain', `UserHasJoinedChannel: @${testUser.username}, ~my_test_channel`);
     });
 
-    it('MM-T2408/4 - ​User left a channel Webhook event', () => {
+    it('MM-T2408_3 - ​User left a channel Webhook event', () => {
         // # Leave channel
         cy.visit(`/${team1.name}/channels/${testChannel}`);
         cy.uiLeaveChannel(false);
@@ -122,7 +123,7 @@ describe('Demo plugin - Webhook events', () => {
         cy.findAllByTestId('postView').should('contain', `UserHasLeftChannel: @${testUser.username}, ~my_test_channel`);
     });
 
-    it('MM-T2408/5/6 - User edited a message Webhook event', () => {
+    it('MM-T2408_4 - User edited a message Webhook event', () => {
         // # Post message
         cy.visit(`/${team1.name}/channels/town-square`);
         cy.postMessage(MESSAGES.SMALL);
@@ -153,7 +154,7 @@ describe('Demo plugin - Webhook events', () => {
         });
     });
 
-    it('MM-T2408/7 - User adds a reaction to a message Webhook event', () => {
+    it('MM-T2408_5 - User adds a reaction to a message Webhook event', () => {
         // # Post message
         cy.visit(`/${team1.name}/channels/town-square`);
         cy.postMessage(MESSAGES.SMALL);
@@ -175,7 +176,7 @@ describe('Demo plugin - Webhook events', () => {
         });
     });
 
-    it('MM-T2408/8/9 - ​User joined the team Webhook event', () => {
+    it('MM-T2408_6 - ​User joined the team Webhook event', () => {
         // # Add user to the team
         cy.apiAdminLogin(admin);
         cy.apiAddUserToTeam(team2.id, testUser.id);
@@ -185,7 +186,9 @@ describe('Demo plugin - Webhook events', () => {
 
         // * Verify event is posted in the channel
         cy.findAllByTestId('postView').should('contain', `UserHasJoinedTeam: @${testUser.username}`);
+    });
 
+    it('MM-T2408_7 - ​User left a team Webhook event', () => {
         // # Delete user from team
         cy.apiDeleteUserFromTeam(team2.id, testUser.id);
 
@@ -196,7 +199,7 @@ describe('Demo plugin - Webhook events', () => {
         cy.findAllByTestId('postView').should('contain', `UserHasLeftTeam: @${testUser.username}`);
     });
 
-    it('MM-T2408/10 - ​User user login Webhook event', () => {
+    it('MM-T2408_8 - ​User user login Webhook event', () => {
         // # Login
         cy.apiLogin(testUser);
 
@@ -207,7 +210,7 @@ describe('Demo plugin - Webhook events', () => {
         cy.findAllByTestId('postView').should('contain', `User @${testUser.username} has logged in`);
     });
 
-    it('MM-T2408/11 - ​User user created Webhook event', () => {
+    it('MM-T2408_9 - ​User user created Webhook event', () => {
         // # Login
         cy.apiAdminLogin(admin);
 
