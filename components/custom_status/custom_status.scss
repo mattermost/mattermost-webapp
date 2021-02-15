@@ -40,8 +40,8 @@
         border-radius: 4px;
 
         &:focus {
-            box-shadow: inset 0 0 0 1px rgba(var(--button-bg-rgb), 1);
-            border-color: rgba(var(--button-bg-rgb), 1);
+            box-shadow: inset 0 0 0 1px var(--button-bg);
+            border-color: var(--button-bg);
         }
     }
 

@@ -33,7 +33,7 @@ const EMOJI_PICKER_WIDTH_OFFSET = 308;
 const defaultCustomStatusSuggestions: UserCustomStatus[] = [
     {emoji: 'calendar', text: 'In a meeting'},
     {emoji: 'hamburger', text: 'Out for lunch'},
-    {emoji: 'sneezing_face', text: 'Out Sick'},
+    {emoji: 'sneezing_face', text: 'Out sick'},
     {emoji: 'house', text: 'Working from home'},
     {emoji: 'palm_tree', text: 'On a vacation'},
 ];
