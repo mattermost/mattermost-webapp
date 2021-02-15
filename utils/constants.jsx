@@ -688,6 +688,8 @@ export const AboutLinks = {
 
 export const CloudLinks = {
     BILLING_DOCS: 'https://docs.mattermost.com/cloud/cloud-billing/cloud-billing.html',
+    EXPORTING_DATA: 'https://docs.mattermost.com/cloud/exporting-data-from-other-chat-service',
+    IMPORTING_DATA: 'https://docs.mattermost.com/cloud/importing-data-from-other-chat-service',
 };
 
 export const PermissionsScope = {

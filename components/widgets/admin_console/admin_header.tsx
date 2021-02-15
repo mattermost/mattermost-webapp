@@ -5,12 +5,13 @@ import React from 'react';
 
 type Props = {
     children: JSX.Element[] | JSX.Element | string;
+    className?: string;
 };
 
 export default class AdminHeader extends React.PureComponent<Props> {
     public render() {
         return (
-            <div className={'admin-console__header'}>
+            <div className={`admin-console__header ${this.props.className}`}>
                 {this.props.children}
             </div>
         );

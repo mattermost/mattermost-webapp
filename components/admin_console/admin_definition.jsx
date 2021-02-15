@@ -58,6 +58,7 @@ import LDAPFeatureDiscovery from './feature_discovery/ldap.tsx';
 import SAMLFeatureDiscovery from './feature_discovery/saml.tsx';
 import BillingSubscriptions from './billing/billing_subscriptions.tsx';
 import BillingHistory from './billing/billing_history';
+import MigrateWorkspace from './cloud_migrate/migrate_workspace';
 import CompanyInfo from './billing/company_info';
 import PaymentInfo from './billing/payment_info';
 import CompanyInfoEdit from './billing/company_info_edit';
@@ -565,6 +566,31 @@ const AdminDefinition = {
             schema: {
                 id: 'SystemRoles',
                 component: SystemRoles,
+            },
+        },
+        // import_workspace: {
+        //     url: 'user_management/import_workspace/:worspace_id',
+        //     isDisabled: it.not(it.userHasWritePermissionOnResource('user_management.import_workspace')),
+        //     schema: {
+        //         id: 'ImportWorkspace',
+        //         component: ImportWorkspace,
+        //     },
+        // },
+        migrate_workspaces: {
+            url: 'user_management/migrate_workspace',
+            title: t('admin.sidebar.migrateWorkspace'),
+            title_default: 'Import Workspace (Beta)',
+            searchableStrings: [],
+            isHidden: false,
+            // isHidden: it.any(
+            //     it.not(it.licensedForFeature('LDAPGroups')),
+            //     it.not(it.userHasReadPermissionOnResource('user_management.migrate_workspace')),
+            // ),
+            // isDisabled: it.not(it.userHasWritePermissionOnResource('user_management.migrate_workspace')),
+            isDisabled: false,
+            schema: {
+                id: 'ImportWorkspace',
+                component: MigrateWorkspace,
             },
         },
     },
