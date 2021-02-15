@@ -30,10 +30,9 @@ const UpgradeLink: React.FC<UpgradeLinkProps> = (props: UpgradeLinkProps) => {
                 modalId: ModalIdentifiers.CLOUD_PURCHASE,
                 dialogType: PurchaseModal,
             }));
-        } catch (e) {
+        } catch (error) {
             // do nothing
         }
-
     };
     return (
         <button
