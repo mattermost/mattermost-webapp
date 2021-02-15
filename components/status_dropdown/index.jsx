@@ -26,13 +26,15 @@ function mapStateToProps(state) {
         return {};
     }
 
+    const userId = currentUser.id;
+
     return {
-        userId: currentUser.id,
+        userId,
         profilePicture: Client4.getProfilePictureUrl(userId, currentUser.last_picture_update),
         autoResetPref: get(state, Preferences.CATEGORY_AUTO_RESET_MANUAL_STATUS, userId, ''),
         status: getStatusForUserId(state, userId),
         userTimezone: getUserTimezone(state, userId),
-        enableTimezone: areTimezonesEnabledAndSupported(state),
+        isTimezoneEnabled: areTimezonesEnabledAndSupported(state),
     };
 }
 
