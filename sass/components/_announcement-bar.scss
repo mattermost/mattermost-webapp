@@ -92,30 +92,6 @@
     }
 }
 
-#announcement-bar__tooltip {
-    button {
-        &:hover {
-            background-color: rgba(255, 255, 255, 0.08)
-        }
-        display: inline-block;
-        margin-bottom: 8px;
-        margin-left: 4px;
-        background-color:var(--sidebar-text-active-border);
-        font-family: Open Sans;
-        font-style: normal;
-        font-weight: 600;
-        font-size: 12px;
-        line-height: 16px;
-        padding: 4px 8px;
-        border: none;
-        outline: none;
-        height: 24px;
-        box-sizing: border-box;
-        border-radius: 4px;
-        background-color: inherit
-    }
-}
-
 .announcement-bar-critical {
     background-color: #F74343;
 }
