@@ -12,6 +12,8 @@ import {isEmail} from 'mattermost-redux/utils/helpers';
 
 import {SubscriptionStats} from 'mattermost-redux/types/cloud';
 
+import {isNull} from 'lodash';
+
 import {pageVisited, trackEvent} from 'actions/telemetry_actions';
 import {getAnalyticsCategory} from 'components/next_steps_view/step_helpers';
 import MultiInput from 'components/multi_input';
@@ -33,7 +35,7 @@ type Props = StepComponentProps & {
         sendEmailInvitesToTeamGracefully: (teamId: string, emails: string[]) => Promise<{ data: TeamInviteWithError[]; error: ServerError }>;
         regenerateTeamInviteId: (teamId: string) => void;
     };
-    subscriptionStats?: SubscriptionStats;
+    subscriptionStats: SubscriptionStats;
     intl: IntlShape;
     isCloud: boolean;
 };
@@ -308,7 +310,8 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
                                             <span>{this.state.emailError}</span>
                                         </>
                                     }
-                                    {(this.state.emailError && this.state.emails.length >= this.props?.subscriptionStats!.remaining_seats) &&
+                                    {(this.state.emailError && !isNull(this.props.subscriptionStats) &&
+                                        this.state.emails.length >= this.props.subscriptionStats.remaining_seats) &&
                                         <UpgradeLink telemetryInfo='click_upgrade_invite_members_step'/>
                                     }
                                 </div>
