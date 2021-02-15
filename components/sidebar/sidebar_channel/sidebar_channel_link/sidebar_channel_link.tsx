@@ -85,18 +85,18 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
         };
     }
 
-    componentDidMount() {
+    componentDidMount(): void {
         this.enableToolTipIfNeeded();
     }
 
-    componentDidUpdate(prevProps: Props) {
+    componentDidUpdate(prevProps: Props): void {
         if (prevProps.label !== this.props.label) {
             this.enableToolTipIfNeeded();
         }
     }
 
     // TODO: Is there a better way to do this?
-    enableToolTipIfNeeded = () => {
+    enableToolTipIfNeeded = (): void => {
         const element = this.gmItemRef.current || this.labelRef.current;
         if (element && element.offsetWidth < element.scrollWidth) {
             this.setState({showTooltip: true});
@@ -105,7 +105,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
         }
     }
 
-    getAriaLabel = () => {
+    getAriaLabel = (): string => {
         const {label, ariaLabelPrefix, unreadMentions} = this.props;
 
         let ariaLabel = label;
@@ -130,14 +130,14 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
     // Bootstrap adds the attr dynamically, removing it to prevent a11y readout
     removeTooltipLink = (): void => this.gmItemRef.current?.removeAttribute?.('aria-describedby');
 
-    handleChannelClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    handleChannelClick = (event: React.MouseEvent<HTMLAnchorElement>): void => {
         mark('SidebarLink#click');
         trackEvent('ui', 'ui_channel_selected_v2');
 
         this.handleSelectChannel(event);
     }
 
-    handleSelectChannel = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    handleSelectChannel = (event: React.MouseEvent<HTMLAnchorElement>): void => {
         if (event.defaultPrevented) {
             return;
         }
@@ -157,7 +157,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
         }
     }
 
-    handleMenuToggle = (isMenuOpen: boolean) => {
+    handleMenuToggle = (isMenuOpen: boolean): void => {
         this.setState({isMenuOpen});
     }
 
@@ -165,11 +165,11 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
      * Show as unread if you have unread mentions
      * OR if you have unread messages and the channel can be marked unread by preferences
      */
-    showChannelAsUnread = () => {
+    showChannelAsUnread = (): boolean => {
         return this.props.unreadMentions > 0 || (this.props.unreadMsgs > 0 && this.props.showUnreadForMsgs);
     };
 
-    render() {
+    render(): JSX.Element {
         const {link, label, channel, unreadMentions, icon, isMuted, isChannelSelected} = this.props;
 
         let labelElement: JSX.Element = (
