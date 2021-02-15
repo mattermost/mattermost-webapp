@@ -127,12 +127,8 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
         return ariaLabel.toLowerCase();
     }
 
-    removeTooltipLink = () => {
-        // Bootstrap adds the attr dynamically, removing it to prevent a11y readout
-        if (this.gmItemRef.current) {
-            this.gmItemRef.current.removeAttribute('aria-describedby');
-        }
-    }
+    // Bootstrap adds the attr dynamically, removing it to prevent a11y readout
+    removeTooltipLink = (): void => this.gmItemRef.current?.removeAttribute?.('aria-describedby');
 
     handleChannelClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
         mark('SidebarLink#click');
@@ -178,7 +174,12 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
 
         let labelElement: JSX.Element = (
             <span
-                className={'SidebarChannelLinkLabel'}
+                className={classNames(
+                    'SidebarChannelLinkLabel',
+                    {
+                        truncated: this.state.showTooltip,
+                    },
+                )}
             >
                 {wrapEmojis(label)}
             </span>
