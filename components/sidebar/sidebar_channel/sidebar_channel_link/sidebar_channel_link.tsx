@@ -95,14 +95,10 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
         }
     }
 
-    // TODO: Is there a better way to do this?
     enableToolTipIfNeeded = (): void => {
         const element = this.gmItemRef.current || this.labelRef.current;
-        if (element && element.offsetWidth < element.scrollWidth) {
-            this.setState({showTooltip: true});
-        } else {
-            this.setState({showTooltip: false});
-        }
+        const showTooltip = element && element.offsetWidth < element.scrollWidth;
+        this.setState({showTooltip: Boolean(showTooltip)});
     }
 
     getAriaLabel = (): string => {
@@ -138,11 +134,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
     }
 
     handleSelectChannel = (event: React.MouseEvent<HTMLAnchorElement>): void => {
-        if (event.defaultPrevented) {
-            return;
-        }
-
-        if (event.button !== 0) {
+        if (event.defaultPrevented || event.button !== 0) {
             return;
         }
 
@@ -157,17 +149,13 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
         }
     }
 
-    handleMenuToggle = (isMenuOpen: boolean): void => {
-        this.setState({isMenuOpen});
-    }
+    handleMenuToggle = (isMenuOpen: boolean): void => this.setState({isMenuOpen});
 
     /**
      * Show as unread if you have unread mentions
      * OR if you have unread messages and the channel can be marked unread by preferences
      */
-    showChannelAsUnread = (): boolean => {
-        return this.props.unreadMentions > 0 || (this.props.unreadMsgs > 0 && this.props.showUnreadForMsgs);
-    };
+    showChannelAsUnread = (): boolean => this.props.unreadMentions > 0 || (this.props.unreadMsgs > 0 && this.props.showUnreadForMsgs);
 
     render(): JSX.Element {
         const {link, label, channel, unreadMentions, icon, isMuted, isChannelSelected} = this.props;
@@ -205,7 +193,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
         }
 
         const content = (
-            <React.Fragment>
+            <>
                 <SidebarChannelIcon
                     channel={channel}
                     icon={icon}
@@ -229,7 +217,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
                     isMenuOpen={this.state.isMenuOpen}
                     onToggleMenu={this.handleMenuToggle}
                 />
-            </React.Fragment>
+            </>
         );
 
         // NOTE: class added to temporarily support the desktop app's at-mention DOM scraping of the old sidebar
