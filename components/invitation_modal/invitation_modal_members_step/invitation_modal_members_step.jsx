@@ -200,7 +200,8 @@ class InvitationModalMembersStep extends React.PureComponent {
             noMatchMessageDefault = 'No one found matching **{text}**';
         }
 
-        const remainingUsers = this.props.subscriptionStats?.remaining_seats;
+        const {subscriptionStats} = this.props;
+        const remainingUsers = subscriptionStats && subscriptionStats.remaining_seats;
         const inviteMembersButtonDisabled = this.state.usersAndEmails.length > Constants.MAX_ADD_MEMBERS_BATCH || this.state.usersAndEmails.length === 0;
 
         const errorProperties = {
