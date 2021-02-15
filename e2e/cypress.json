@@ -14,6 +14,7 @@
         "allowedUntrustedInternalConnections": "localhost",
         "dbClient": "postgres",
         "dbConnection": "postgres://mmuser:mostest@localhost/mattermost_test?sslmode=disable\u0026connect_timeout=10",
+        "elasticsearchConnectionUrl": "http://localhost:9200",
         "enableApplitools": false,
         "enableVisualTest": false,
         "keycloakAppName": "mattermost",

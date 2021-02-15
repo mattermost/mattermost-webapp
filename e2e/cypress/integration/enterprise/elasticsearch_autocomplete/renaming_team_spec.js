@@ -17,7 +17,8 @@ import {
     searchAndVerifyUser,
 } from './helpers';
 
-describe('Autocomplete with Elasticsearch - Renaming', () => {
+describe('Autocomplete with Elasticsearch - Renaming Team', () => {
+    const randomId = getRandomId();
     let testUser;
     let testChannel;
 
@@ -32,32 +33,25 @@ describe('Autocomplete with Elasticsearch - Renaming', () => {
             // # Enable Elasticsearch
             enableElasticSearch();
 
-            // # Visit town-square channel
+            cy.visit(`/${team.name}/channels/town-square`);
+
+            // # Verify user and channel appears in search results before change
+            searchAndVerifyUser(user);
+            searchAndVerifyChannel(channel);
+
+            // # Rename the team
+            cy.apiPatchTeam(team.id, {display_name: 'updatedteam' + randomId});
+
             cy.visit(`/${team.name}/channels/town-square`);
         });
     });
 
-    it('MM-T2512 Change is reflected in the search when renaming a user', () => {
-        // # Verify user appears in search results before change
+    it('MM-T2514_1 Renaming a Team does not affect user autocomplete suggestions', () => {
         searchAndVerifyUser(testUser);
-
-        // # Rename a user
-        cy.apiPatchUser(testUser.id, {username: `newusername-${getRandomId()}`}).then(({user}) => {
-            // # Verify user appears in search results post-change
-            searchAndVerifyUser(user);
-        });
     });
 
-    it('MM-T2513 Change is reflected in the search when renaming a channel', () => {
-        // # Verify channel appears in search results before change
+    it('MM-T2514_2 Renaming a Team does not affect channel autocomplete suggestions', () => {
+        cy.get('body').type('{esc}');
         searchAndVerifyChannel(testChannel);
-
-        // # Change the channels name
-        cy.apiPatchChannel(testChannel.id, {name: `newname-${getRandomId()}`}).then(({channel}) => {
-            cy.reload();
-
-            // # Search for channel and verify it appears
-            searchAndVerifyChannel(channel);
-        });
     });
 });
