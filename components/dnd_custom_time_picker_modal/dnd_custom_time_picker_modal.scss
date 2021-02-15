@@ -1,3 +1,8 @@
+@import 'compass/utilities';
+@import 'compass/css3';
+
+@import '../../sass/utils/module';
+
 .DndModal {
     width: 600px;
 
@@ -10,7 +15,7 @@
         font-weight: 600;
         padding: 0 2rem;
         height: 4rem;
-        border-radius: 4px;
+        border-radius: $border-rad*2;
     }
 
     .GenericModal__header {
