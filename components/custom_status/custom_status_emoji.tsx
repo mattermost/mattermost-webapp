@@ -17,10 +17,11 @@ interface ComponentProps {
     tooltipDirection?: 'top' | 'right' | 'bottom' | 'left';
     emojiStyle?: React.CSSProperties;
     userID?: string;
+    onClick?: () => void;
 }
 
 const CustomStatusEmoji = (props: ComponentProps) => {
-    const {emojiSize, emojiStyle, showTooltip, tooltipDirection, userID} = props;
+    const {emojiSize, emojiStyle, showTooltip, tooltipDirection, userID, onClick} = props;
     const customStatusEnabled = useSelector((state: GlobalState) => {
         return isCustomStatusEnabled(state);
     });
@@ -36,6 +37,7 @@ const CustomStatusEmoji = (props: ComponentProps) => {
             emoji={customStatus.emoji}
             size={emojiSize}
             emojiStyle={emojiStyle}
+            onClick={onClick}
         />
     );
 

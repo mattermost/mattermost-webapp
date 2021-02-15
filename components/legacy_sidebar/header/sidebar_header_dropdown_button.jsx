@@ -8,10 +8,11 @@ import {Tooltip} from 'react-bootstrap';
 import {localizeMessage} from 'utils/utils.jsx';
 import OverlayTrigger from 'components/overlay_trigger';
 import MenuIcon from 'components/widgets/icons/menu_icon';
-import Constants from 'utils/constants';
+import Constants, {ModalIdentifiers} from 'utils/constants';
 
 import MenuTutorialTip from 'components/tutorial/menu_tutorial_tip';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
+import CustomStatusModal from 'components/custom_status/custom_status_modal';
 
 export default class SidebarHeaderDropdownButton extends React.PureComponent {
     static propTypes = {
@@ -20,7 +21,18 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent {
         teamId: PropTypes.string.isRequired,
         currentUser: PropTypes.object.isRequired,
         teamDisplayName: PropTypes.string.isRequired,
+        openModal: PropTypes.func,
     };
+
+    handleCustomStatusEmojiClick = (event) => {
+        event.stopPropagation();
+        const customStatusInputModalData = {
+            ModalId: ModalIdentifiers.CUSTOM_STATUS,
+            dialogType: CustomStatusModal,
+            dialogProps: {userId: this.props.currentUser.id},
+        };
+        this.props.openModal(customStatusInputModalData);
+    }
 
     render() {
         let tutorialTip = null;
@@ -79,6 +91,7 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent {
                                 verticalAlign: 'top',
                                 marginLeft: 4,
                             }}
+                            onClick={this.handleCustomStatusEmojiClick}
                         />
                     </div>
                     <button

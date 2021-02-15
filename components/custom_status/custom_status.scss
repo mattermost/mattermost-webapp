@@ -1,28 +1,27 @@
 .StatusModal {
     width: 600px;
 
-    .modal{
+    .modal {
         &-dialog {
             margin: auto;
         }
-    
+
         &-content {
             width: 100%;
-            padding: 28px 24px 0;
+            padding: 28px 0 24px 24px;
         }
-    
+
         &-body {
             overflow: visible;
-            padding: 12px 0 0 12px;
         }
-    
+
         &-footer {
             margin-top: 20px;
-            padding: 0 24px 8px;
+            padding: 0 24px;
         }
     }
 
-    .GenericModal{
+    .GenericModal {
         &__header {
             padding: 0 0 20px;
         }
@@ -62,9 +61,9 @@
         position: absolute;
         top: 15px;
         right: 14px;
-    
+
     }
-    
+
     &__emoji-button {
         background: transparent;
         border: none;
@@ -76,13 +75,13 @@
         justify-content: center;
         fill: rgba(var(--center-channel-color-rgb), 0.56);
         color: rgba(var(--center-channel-color-rgb), 0.56);
-    
+
         &:hover {
             background: rgba(var(--center-channel-color-rgb), 0.08);
             fill: rgba(var(--center-channel-color-rgb), 0.72);
             color: rgba(var(--center-channel-color-rgb), 0.72);
         }
-    
+
         &:active,
         &--active,
         &--active:hover {
@@ -90,7 +89,7 @@
             fill: var(--button-bg);
             color: var(--button-bg);
         }
-    
+
         svg {
             width: 20px;
             height: 20px;
@@ -103,7 +102,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-    
+
         .btn {
             font-size: 14px;
             font-weight: 600;
@@ -116,9 +115,10 @@
 }
 
 
-.input-clear-x{
+.input-clear-x {
     color: var(--center-channel-color-56);
-    .icon{
+
+    .icon {
         font-size: 20px;
     }
 }
@@ -138,12 +138,12 @@
     height: 2rem;
 }
 
-.statusSuggestion  {
+.statusSuggestion {
     height: 232px;
     overflow: auto;
     margin-top: 8px;
 
-    &__content  {
+    &__content {
         display: flex;
         flex-direction: column;
         height: 100%;
@@ -152,7 +152,7 @@
         border: none;
         overflow: auto;
     }
-    
+
     &__row {
         display: flex;
         font-size: inherit;
@@ -161,31 +161,32 @@
         align-items: center;
         padding: 0 18px;
         color: var(--center-channel-color);
+
         &:hover {
             background-color: rgba(var(--center-channel-color-rgb), 0.08);
             border-radius: 4px;
         }
-    
+
         &:active {
             background-color: rgba(var(--button-bg-rgb), 0.08);
             color: v(button-bg);
         }
     }
-    
-    &__icon{
+
+    &__icon {
         margin-right: 15px;
         margin-bottom: 1px;
     }
-    
-    &__title{
+
+    &__title {
         display: flex;
         font-weight: 600;
         height: 24px;
         margin-top: 8px;
         color: rgba(var(--center-channel-color-rgb), 0.55);
     }
-    
-    &__text{
+
+    &__text {
         font-weight: 600;
         overflow: hidden;
         height: 20px;
@@ -195,17 +196,17 @@
 }
 
 
-.suggestion-clear{
-   margin-left: auto;
-   margin-top: 3px;
+.suggestion-clear {
+    margin-left: auto;
+    margin-top: 3px;
 }
 
-.custom-status{
+.custom-status {
     display: flex;
 }
 
-#custom-status-tooltip{
-    p{
+#custom-status-tooltip {
+    p {
         margin: 0;
     }
 }
