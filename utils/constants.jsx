@@ -552,6 +552,7 @@ export const ErrorPageTypes = {
     PERMALINK_NOT_FOUND: 'permalink_not_found',
     TEAM_NOT_FOUND: 'team_not_found',
     CHANNEL_NOT_FOUND: 'channel_not_found',
+    MAX_FREE_USERS_REACHED: 'max_free_users_reached',
 };
 
 export const JobTypes = {
@@ -972,7 +973,7 @@ export const Constants = {
         other: 'generic',
         image: 'image',
     },
-    MAX_UPLOAD_FILES: 10,
+    MAX_UPLOAD_FILES: 5,
     MAX_FILENAME_LENGTH: 35,
     THUMBNAIL_WIDTH: 128,
     THUMBNAIL_HEIGHT: 100,

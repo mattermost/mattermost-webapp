@@ -347,7 +347,10 @@ export function makeCreateAriaLabelForPost() {
 export function createAriaLabelForPost(post, author, isFlagged, reactions, intl, emojiMap) {
     const {formatMessage, formatTime, formatDate} = intl;
 
-    let message = post.message || '';
+    let message = post.state === Posts.POST_DELETED ? formatMessage({
+        id: 'post_body.deleted',
+        defaultMessage: '(message deleted)',
+    }) : post.message || '';
     let match;
 
     // Match all the shorthand forms of emojis first
