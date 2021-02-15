@@ -57,22 +57,22 @@ describe('Compliance Export', () => {
 
     it('MM-T1172 - Compliance Export - Deleted file is indicated in CSV File Export', () => {
         // # Go to compliance page and enable export
-        cy.gotoCompliancePage();
-        cy.enableComplianceExport();
+        cy.uiGoToCompliancePage();
+        cy.uiEnableComplianceExport();
 
         // # Navigate to a team and post an attachment
         gotoTeamAndPostImage();
 
         // # Go to compliance page and start export
-        cy.gotoCompliancePage();
-        cy.exportCompliance();
+        cy.uiGoToCompliancePage();
+        cy.uiExportCompliance();
 
         // # Deleting last post
         deleteLastPost();
 
         // # Go to compliance page and start export
-        cy.gotoCompliancePage();
-        cy.exportCompliance();
+        cy.uiGoToCompliancePage();
+        cy.uiExportCompliance();
 
         // # Download and extract export zip file
         downloadAndUnzipExportFile(targetDownload);
@@ -83,22 +83,22 @@ describe('Compliance Export', () => {
 
     it('MM-T1173 - Compliance Export - Deleted file is indicated in Actiance XML File Export', () => {
         // # Go to compliance page and enable export
-        cy.gotoCompliancePage();
-        cy.enableComplianceExport(ExportFormatActiance);
+        cy.uiGoToCompliancePage();
+        cy.uiEnableComplianceExport(ExportFormatActiance);
 
         // # Navigate to a team and post an attachment
         gotoTeamAndPostImage();
 
         // # Go to compliance page and start export
-        cy.gotoCompliancePage();
-        cy.exportCompliance();
+        cy.uiGoToCompliancePage();
+        cy.uiExportCompliance();
 
         // # Delete last post
         deleteLastPost();
 
         // # Go to compliance page and start export
-        cy.gotoCompliancePage();
-        cy.exportCompliance();
+        cy.uiGoToCompliancePage();
+        cy.uiExportCompliance();
 
         // # Download and extract exported zip file
         downloadAndUnzipExportFile(targetDownload);
@@ -116,22 +116,22 @@ describe('Compliance Export', () => {
 
     it('MM-T1176 - Compliance export should include updated post after editing', () => {
         // # Go to compliance page and enable export
-        cy.gotoCompliancePage();
-        cy.enableComplianceExport(ExportFormatActiance);
+        cy.uiGoToCompliancePage();
+        cy.uiEnableComplianceExport(ExportFormatActiance);
 
         // # Navigate to a team and post a Message
         gotoTeamAndPostMessage();
 
         // # Go to compliance page and start export
-        cy.gotoCompliancePage();
-        cy.exportCompliance();
+        cy.uiGoToCompliancePage();
+        cy.uiExportCompliance();
 
         // # Edit last post
         editLastPost('Hello');
 
         // # Go to compliance page and start export
-        cy.gotoCompliancePage();
-        cy.exportCompliance();
+        cy.uiGoToCompliancePage();
+        cy.uiExportCompliance();
 
         // # Download and extract exported zip file
         downloadAndUnzipExportFile(targetDownload);
@@ -156,9 +156,9 @@ describe('Compliance Export', () => {
         cy.apiDeactivateUser(newUser.id);
 
         // # Go to compliance page and enable export
-        cy.gotoCompliancePage();
-        cy.enableComplianceExport(ExportFormatActiance);
-        cy.exportCompliance();
+        cy.uiGoToCompliancePage();
+        cy.uiEnableComplianceExport(ExportFormatActiance);
+        cy.uiExportCompliance();
 
         // # Download and extract exported zip file
         downloadAndUnzipExportFile(targetDownload);
@@ -179,8 +179,8 @@ describe('Compliance Export', () => {
         });
 
         // # Go to compliance page and start export
-        cy.gotoCompliancePage();
-        cy.exportCompliance();
+        cy.uiGoToCompliancePage();
+        cy.uiExportCompliance();
 
         // # Download and extract exported zip file
         downloadAndUnzipExportFile(targetDownload);
@@ -204,8 +204,8 @@ describe('Compliance Export', () => {
         });
 
         // # Go to compliance page and start export
-        cy.gotoCompliancePage();
-        cy.exportCompliance();
+        cy.uiGoToCompliancePage();
+        cy.uiExportCompliance();
 
         // # Download and extract exported zip file
         downloadAndUnzipExportFile(targetDownload);

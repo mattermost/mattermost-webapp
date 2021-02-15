@@ -61,9 +61,9 @@ describe('Compliance Export', () => {
         postBOTMessage(newTeam, newChannel, botId, botName, 'This is CSV bot message');
 
         // # Go to Compliance page and Run report
-        cy.gotoCompliancePage();
-        cy.enableComplianceExport();
-        cy.exportCompliance();
+        cy.uiGoToCompliancePage();
+        cy.uiEnableComplianceExport();
+        cy.uiExportCompliance();
 
         // # Download and Unzip exported file
         downloadAndUnzipExportFile(targetDownload);
@@ -77,9 +77,9 @@ describe('Compliance Export', () => {
         postBOTMessage(newTeam, newChannel, botId, botName, 'This is XML bot message');
 
         // # Go to Compliance and enable Run export
-        cy.gotoCompliancePage();
-        cy.enableComplianceExport(ExportFormatActiance);
-        cy.exportCompliance();
+        cy.uiGoToCompliancePage();
+        cy.uiEnableComplianceExport(ExportFormatActiance);
+        cy.uiExportCompliance();
 
         // # Download and Unzip exported File
         downloadAndUnzipExportFile(targetDownload);

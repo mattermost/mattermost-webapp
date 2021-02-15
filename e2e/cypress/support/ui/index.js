@@ -13,3 +13,4 @@ import './search';
 import './system';
 import './channel';
 import './team';
+import './compliance_export';

@@ -27,16 +27,16 @@ describe('Compliance Export', () => {
 
     it('MM-T3435 - Download Compliance Export Files - CSV Format', () => {
         // # Go to compliance page and enable export
-        cy.gotoCompliancePage();
-        cy.enableComplianceExport();
-        cy.exportCompliance();
+        cy.uiGoToCompliancePage();
+        cy.uiEnableComplianceExport();
+        cy.uiExportCompliance();
 
         // # Navigate to a team and post an attachment
         gotoTeamAndPostImage();
 
         // # Go to compliance page and start export
-        cy.gotoCompliancePage();
-        cy.exportCompliance();
+        cy.uiGoToCompliancePage();
+        cy.uiExportCompliance();
 
         // # Get the first row
         cy.get('.job-table__table').find('tbody > tr').eq(0).as('firstRow');
@@ -46,22 +46,22 @@ describe('Compliance Export', () => {
             const fileURL = fileAttachment.attr('href');
 
             // * Download and verify export file properties
-            cy.downloadAttachmentAndVerifyItsProperties(fileURL);
+            cy.apiDownloadFileAndVerifyContentType(fileURL);
         });
     });
 
     it('MM-T3438 - Download Compliance Export Files when 0 messages exported', () => {
         // # Go to compliance page and enable export
-        cy.gotoCompliancePage();
-        cy.enableComplianceExport();
-        cy.exportCompliance();
+        cy.uiGoToCompliancePage();
+        cy.uiEnableComplianceExport();
+        cy.uiExportCompliance();
 
         // # Navigate to a team and post an attachment
         gotoTeamAndPostImage();
 
         // # Go to compliance page and start export
-        cy.gotoCompliancePage();
-        cy.exportCompliance();
+        cy.uiGoToCompliancePage();
+        cy.uiExportCompliance();
 
         // # Get the first row
         cy.get('.job-table__table').find('tbody > tr').eq(0).as('firstRow');
@@ -71,10 +71,10 @@ describe('Compliance Export', () => {
             const fileURL = fileAttachment.attr('href');
 
             // * Download and verify export file properties
-            cy.downloadAttachmentAndVerifyItsProperties(fileURL);
+            cy.apiDownloadFileAndVerifyContentType(fileURL);
 
             // # Export compliance again
-            cy.exportCompliance();
+            cy.uiExportCompliance();
 
             // * Download link should not exist this time
             cy.get('.job-table__table').
@@ -113,16 +113,16 @@ describe('Compliance Export', () => {
         cy.findByText('Connection was successful').should('be.visible');
 
         // # Go to compliance page and enable export
-        cy.gotoCompliancePage();
-        cy.enableComplianceExport();
-        cy.exportCompliance();
+        cy.uiGoToCompliancePage();
+        cy.uiEnableComplianceExport();
+        cy.uiExportCompliance();
 
         // # Navigate to a team and post an attachment
         gotoTeamAndPostImage();
 
         // # Go to compliance page and start export
-        cy.gotoCompliancePage();
-        cy.exportCompliance();
+        cy.uiGoToCompliancePage();
+        cy.uiExportCompliance();
 
         // # Get the first row
         cy.get('.job-table__table').find('tbody > tr').eq(0).as('firstRow');
@@ -132,22 +132,22 @@ describe('Compliance Export', () => {
             const fileURL = fileAttachment.attr('href');
 
             // * Download link should not exist this time
-            cy.downloadAttachmentAndVerifyItsProperties(fileURL);
+            cy.apiDownloadFileAndVerifyContentType(fileURL);
         });
     });
 
     it('MM-T1168 - Compliance Export - Run Now, entry appears in job table', () => {
         // # Go to compliance page and enable export
-        cy.gotoCompliancePage();
-        cy.enableComplianceExport();
-        cy.exportCompliance();
+        cy.uiGoToCompliancePage();
+        cy.uiEnableComplianceExport();
+        cy.uiExportCompliance();
 
         // # Navigate to a team and post an attachment
         gotoTeamAndPostImage();
 
         // # Go to compliance page and start export
-        cy.gotoCompliancePage();
-        cy.exportCompliance();
+        cy.uiGoToCompliancePage();
+        cy.uiExportCompliance();
 
         // # Get the first row
         cy.get('.job-table__table').find('tbody > tr').eq(0).as('firstRow');
@@ -172,9 +172,9 @@ describe('Compliance Export', () => {
 
     it('MM-T1169_1 - Compliance Export - CSV and Global Relay', () => {
         // # Go to compliance page and enable export
-        cy.gotoCompliancePage();
-        cy.enableComplianceExport();
-        cy.exportCompliance();
+        cy.uiGoToCompliancePage();
+        cy.uiEnableComplianceExport();
+        cy.uiExportCompliance();
 
         // # Navigate to a team and post an attachment
         gotoTeamAndPostImage();
@@ -185,8 +185,8 @@ describe('Compliance Export', () => {
         });
 
         // # Go to compliance page and start export
-        cy.gotoCompliancePage();
-        cy.exportCompliance();
+        cy.uiGoToCompliancePage();
+        cy.uiExportCompliance();
 
         // * 10 messages should be exported
         verifyExportedMessagesCount('10');
@@ -194,7 +194,7 @@ describe('Compliance Export', () => {
 
     it('MM-T1165 - Compliance Export - Fields disabled when disabled', () => {
         // # Go to compliance page and disable export
-        cy.gotoCompliancePage();
+        cy.uiGoToCompliancePage();
         cy.findByTestId('enableComplianceExportfalse').click();
 
         // * Verify that exported button is disabled
@@ -203,8 +203,8 @@ describe('Compliance Export', () => {
 
     it('MM-T1167 - Compliance Export job can be canceled', () => {
         // # Go to compliance page and enable export
-        cy.gotoCompliancePage();
-        cy.enableComplianceExport();
+        cy.uiGoToCompliancePage();
+        cy.uiEnableComplianceExport();
 
         // # Click the export job button
         cy.findByRole('button', {name: /run compliance export job now/i}).click();

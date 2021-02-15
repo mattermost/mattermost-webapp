@@ -31,7 +31,6 @@ import './task_commands';
 import './ui';
 import './ui_commands'; // soon to deprecate
 import './visual_commands';
-import './compliance_export_commands';
 
 import {getDefaultConfig} from './api/system';
 
