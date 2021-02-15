@@ -1,0 +1,32 @@
+#statusDropdownMenu {
+    .icon {
+        width: 24px;
+        height: 24px;
+        justify-content: center;
+        display: inline-flex;
+        padding: 0;
+        margin: 0 8px 0 0;
+        position: relative;
+
+        span {
+            display: flex;
+        }
+
+        svg {
+            width: 16px;
+            height: 16px;
+        }
+    }
+
+    #status-menu-dnd {
+        padding: 4px 16px;
+
+        .icon {
+            top: 2px;
+        }
+
+        .SubMenu__icon-right {
+            padding-top: 5px;
+        }
+    }
+}

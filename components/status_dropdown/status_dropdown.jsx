@@ -20,6 +20,8 @@ import StatusOfflineIcon from 'components/widgets/icons/status_offline_icon';
 import DndCustomTimePicker from 'components/dnd_custom_time_picker_modal';
 import {getCurrentDateTimeForTimezone} from 'utils/timezone';
 
+import './status_dropdown.scss';
+
 export default class StatusDropdown extends React.PureComponent {
     static propTypes = {
         style: PropTypes.object,
