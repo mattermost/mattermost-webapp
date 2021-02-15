@@ -6,16 +6,14 @@ import {FormattedMessage} from 'react-intl';
 
 import {Post} from 'mattermost-redux/types/posts';
 
-import {UserCustomStatus} from 'mattermost-redux/types/users';
-
 import Constants from 'utils/constants';
 import * as PostUtils from 'utils/post_utils.jsx';
 import PostInfo from 'components/post_view/post_info';
 import UserProfile from 'components/user_profile';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import Badge from 'components/widgets/badges/badge';
-import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
-import EmojiIcon from 'components/widgets/icons/emoji_icon';
+
+import PostHeaderCustomStatus from './post_header_custom_status';
 
 import './post_header.scss';
 
@@ -87,36 +85,12 @@ export type Props = {
     isLastPost?: boolean;
 
     /**
-     * To Check if the current post is last in the list by the current user
-     */
-    isCurrentUserLastPostGroupFirstPost?: boolean;
-
-    /**
      * Source of image that should be override current user profile.
      */
     overwriteIcon?: string;
-
-    /**
-     * Custom status of the user
-     */
-    customStatus: UserCustomStatus;
-
-    /**
-     * User id of logged in user.
-     */
-    currentUserID: string;
-
-    isCustomStatusEnabled: boolean;
-    showUpdateStatusButton: boolean;
-
-    actions: {
-        setStatusDropdown: (open: boolean) => void;
-    };
 };
 
 export default class PostHeader extends React.PureComponent<Props> {
-    updateStatus = () => this.props.actions.setStatusDropdown(true);
-
     render(): JSX.Element {
         const {post} = this.props;
         const isSystemMessage = PostUtils.isSystemMessage(post);
@@ -131,7 +105,6 @@ export default class PostHeader extends React.PureComponent<Props> {
         );
         let indicator;
         let colon;
-        let customStatus;
 
         if (fromWebhook) {
             if (post.props.override_username && this.props.enablePostUsernameOverride) {
@@ -199,37 +172,12 @@ export default class PostHeader extends React.PureComponent<Props> {
             colon = (<strong className='colon'>{':'}</strong>);
         }
 
-        const userCustomStatus = this.props.customStatus;
-        const isCustomStatusSet = userCustomStatus && userCustomStatus.emoji;
-        if (this.props.isCustomStatusEnabled && !isSystemMessage && isCustomStatusSet) {
-            customStatus = (
-                <CustomStatusEmoji
-                    userID={this.props.post.user_id}
-                    showTooltip={true}
-                    emojiSize={14}
-                    emojiStyle={{
-                        margin: '4px 0 0 4px',
-                    }}
-                />
-            );
-        }
-
-        if (this.props.isCustomStatusEnabled && !isCustomStatusSet && this.props.showUpdateStatusButton && this.props.isCurrentUserLastPostGroupFirstPost) {
-            customStatus = (
-                <div
-                    onClick={this.updateStatus}
-                    className='post__header-set-custom-status cursor--pointer'
-                >
-                    <EmojiIcon className='post__header-set-custom-status-icon'/>
-                    <span className='post__header-set-custom-status-text'>
-                        <FormattedMessage
-                            id='post_header.update_status'
-                            defaultMessage='Update your status'
-                        />
-                    </span>
-                </div>
-            );
-        }
+        const customStatus = (
+            <PostHeaderCustomStatus
+                userId={this.props.post.user_id}
+                isSystemMessage={isSystemMessage}
+            />
+        );
 
         return (
             <div className='post__header'>

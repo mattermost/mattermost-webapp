@@ -8,19 +8,19 @@ import {getEmojiImageUrl} from 'mattermost-redux/utils/emoji_utils';
 import {getEmojiMap} from 'selectors/emojis';
 import {GlobalState} from 'types/store';
 interface ComponentProps {
-    emoji: string;
+    emojiName: string;
     size?: number;
     emojiStyle?: React.CSSProperties;
     onClick?: () => void;
 }
 
-const RenderEmoji = ({emoji, emojiStyle, size, onClick}: ComponentProps) => {
-    if (!emoji) {
+const RenderEmoji = ({emojiName, emojiStyle, size, onClick}: ComponentProps) => {
+    if (!emojiName) {
         return null;
     }
 
     const emojiMap = useSelector((state: GlobalState) => getEmojiMap(state));
-    const emojiFromMap = emojiMap.get(emoji);
+    const emojiFromMap = emojiMap.get(emojiName);
     if (!emojiFromMap) {
         return null;
     }
@@ -30,8 +30,8 @@ const RenderEmoji = ({emoji, emojiStyle, size, onClick}: ComponentProps) => {
         <span
             onClick={onClick}
             className='emoticon'
-            alt={`:${emoji}:`}
-            data-emoticon={emoji}
+            alt={`:${emojiName}:`}
+            data-emoticon={emojiName}
             style={{
                 backgroundImage: `url(${emojiImageUrl})`,
                 backgroundSize: size,

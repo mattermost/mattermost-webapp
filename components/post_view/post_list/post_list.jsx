@@ -82,11 +82,6 @@ export default class PostList extends React.PureComponent {
          */
         isPrefetchingInProcess: PropTypes.bool.isRequired,
 
-        /**
-         * Used for showing the Update custom status button on the post header
-         */
-        currentUserLastPostId: PropTypes.string,
-
         actions: PropTypes.shape({
 
             /*
@@ -326,7 +321,6 @@ export default class PostList extends React.PureComponent {
                             latestPostTimeStamp={this.props.latestPostTimeStamp}
                             latestAriaLabelFunc={this.props.latestAriaLabelFunc}
                             latestPostId={this.props.latestPostId}
-                            currentUserLastPostId={this.props.currentUserLastPostId}
                         />
                     </div>
                 </div>

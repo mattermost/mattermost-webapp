@@ -84,11 +84,6 @@ class PostList extends React.PureComponent {
         loadingNewerPosts: PropTypes.bool,
         loadingOlderPosts: PropTypes.bool,
 
-        /**
-         * Used for showing the Update custom status button on the post header
-         */
-        currentUserLastPostId: PropTypes.string,
-
         intl: intlShape.isRequired,
 
         latestPostTimeStamp: PropTypes.number,
@@ -310,7 +305,6 @@ class PostList extends React.PureComponent {
 
         // Since the first in the list is the latest message
         const isLastPost = itemId === this.state.postListIds[0];
-        const isCurrentUserLastPostGroupFirstPost = itemId === this.props.currentUserLastPostId;
 
         return (
             <div
@@ -325,7 +319,6 @@ class PostList extends React.PureComponent {
                     loadNewerPosts={this.props.actions.loadNewerPosts}
                     togglePostMenu={this.togglePostMenu}
                     isLastPost={isLastPost}
-                    isCurrentUserLastPostGroupFirstPost={isCurrentUserLastPostGroupFirstPost}
                     loadingNewerPosts={this.props.loadingNewerPosts}
                     loadingOlderPosts={this.props.loadingOlderPosts}
                 />

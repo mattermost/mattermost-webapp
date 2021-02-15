@@ -78,7 +78,7 @@ const CustomStatusSuggestion: React.FC<Props> = (props: Props) => {
         >
             <div className='statusSuggestion__icon'>
                 <RenderEmoji
-                    emoji={emoji}
+                    emojiName={emoji}
                     size={20}
                 />
             </div>

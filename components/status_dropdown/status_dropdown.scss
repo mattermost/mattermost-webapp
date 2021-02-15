@@ -28,15 +28,19 @@
         text-overflow: ellipsis;
         white-space: nowrap;
     }
+}
 
-    &__clear {
-        display: flex;
-        align-items: center;
-        color: rgba(var(--center-channel-color-rgb), 0.52);
-        position: absolute;
-        top: 15px;
-        right: 24px;
+#custom_status__clear {
+    color: rgba(var(--center-channel-color-rgb), 0.52);
+    position: absolute;
+    width: auto;
+    top: 10px;
+    right: 21px;
+    padding: 0;
+    &:hover{
+        background: transparent;
     }
+
 }
 
 .custom-status {

@@ -3,22 +3,22 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import classNames from 'classnames';
-import {FormattedMessage} from 'react-intl';
-import {Tooltip} from 'react-bootstrap';
+import {FormattedMessage, useIntl} from 'react-intl';
+
 import {setCustomStatus, unsetCustomStatus, removeRecentCustomStatus} from 'mattermost-redux/actions/users';
 import {setCustomStatusInitialisationState} from 'mattermost-redux/actions/preferences';
 import {Preferences} from 'mattermost-redux/constants';
-
 import {UserCustomStatus} from 'mattermost-redux/types/users';
 
 import GenericModal from 'components/generic_modal';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import {GlobalState} from 'types/store';
-import OverlayTrigger from 'components/overlay_trigger';
-import Constants from 'utils/constants';
 import RenderEmoji from 'components/emoji/render_emoji';
+import QuickInput from 'components/quick_input';
 import {getCustomStatus, getRecentCustomStatuses, showStatusDropdownPulsatingDot} from 'selectors/views/custom_status';
+import Constants from 'utils/constants';
+import {t} from 'utils/i18n';
 
 import CustomStatusSuggestion from './custom_status_suggestion';
 
@@ -30,12 +30,19 @@ type Props = {
 };
 
 const EMOJI_PICKER_WIDTH_OFFSET = 308;
-const defaultCustomStatusSuggestions: UserCustomStatus[] = [
-    {emoji: 'calendar', text: 'In a meeting'},
-    {emoji: 'hamburger', text: 'Out for lunch'},
-    {emoji: 'sneezing_face', text: 'Out sick'},
-    {emoji: 'house', text: 'Working from home'},
-    {emoji: 'palm_tree', text: 'On a vacation'},
+
+type DefaultUserCustomStatus = {
+    emoji: string;
+    message: string;
+    messageDefault: string;
+};
+
+const defaultCustomStatusSuggestions: DefaultUserCustomStatus[] = [
+    {emoji: 'calendar', message: t('custom_status.suggestions.in_a_meeting'), messageDefault: 'In a meeting'},
+    {emoji: 'hamburger', message: t('custom_status.suggestions.out_for_lunch'), messageDefault: 'Out for lunch'},
+    {emoji: 'sneezing_face', message: t('custom_status.suggestions.out_sick'), messageDefault: 'Out sick'},
+    {emoji: 'house', message: t('custom_status.suggestions.working_from_home'), messageDefault: 'Working from home'},
+    {emoji: 'palm_tree', message: t('custom_status.suggestions.on_a_vacation'), messageDefault: 'On a vacation'},
 ];
 
 const CustomStatusModal: React.FC<Props> = (props: Props) => {
@@ -103,42 +110,17 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
     const customStatusEmoji = emoji || text ?
         (
             <RenderEmoji
-                emoji={emoji || 'speech_balloon'}
+                emojiName={emoji || 'speech_balloon'}
                 size={20}
             />
         ) : (
             <EmojiIcon className={'icon icon--emoji'}/>
         );
 
-    const clearHandle = (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
+    const clearHandle = () => {
         setText('');
         setEmoji('');
     };
-
-    const clearButton = isStatusSet ?
-        (
-            <div
-                className='StatusModal__clear-container'
-            >
-                <OverlayTrigger
-                    delayShow={Constants.OVERLAY_TIME_DELAY}
-                    placement='top'
-                    overlay={
-                        <Tooltip id='clear-custom-status'>
-                            {'Clear'}
-                        </Tooltip>
-                    }
-                >
-                    <button
-                        className='style--none input-clear-x'
-                        onClick={clearHandle}
-                    >
-                        <i className='icon icon-close-circle'/>
-                    </button>
-                </OverlayTrigger>
-            </div>
-        ) : null;
 
     const disableSetStatus = (currentCustomStatus.text === text && currentCustomStatus.emoji === emoji) ||
         (text === '' && emoji === '');
@@ -182,8 +164,14 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
     );
 
     const renderCustomStatusSuggestions = () => {
+        const {formatMessage} = useIntl();
+
         const recentCustomStatusTexts = recentCustomStatuses.map((status: UserCustomStatus) => status.text);
         const customStatusSuggestions = defaultCustomStatusSuggestions.
+            map((status) => ({
+                emoji: status.emoji,
+                text: formatMessage({id: status.message, defaultMessage: status.messageDefault}),
+            })).
             filter((status: UserCustomStatus) => !recentCustomStatusTexts.includes(status.text)).
             map((status: UserCustomStatus, index: number) => (
                 <CustomStatusSuggestion
@@ -276,14 +264,15 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
                             {customStatusEmoji}
                         </button>
                     </div>
-                    <input
-                        className='form-control'
-                        placeholder='Set a status'
-                        type='text'
+                    <QuickInput
                         value={text}
+                        clearable={Boolean(isStatusSet)}
+                        onClear={clearHandle}
+                        className='form-control'
+                        clearClassName='StatusModal__clear-container'
+                        tooltipPosition='top'
                         onChange={handleTextChange}
                     />
-                    {clearButton}
                 </div>
                 {!isStatusSet && suggestion}
             </div>

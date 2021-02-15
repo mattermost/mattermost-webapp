@@ -3,19 +3,12 @@
 
 import {connect} from 'react-redux';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getCurrentUser, getUser} from 'mattermost-redux/selectors/entities/users';
+import {getUser} from 'mattermost-redux/selectors/entities/users';
 
 import {Client4} from 'mattermost-redux/client';
 
-import {bindActionCreators, Dispatch} from 'redux';
-
-import {GenericAction} from 'mattermost-redux/types/actions';
-
 import {GlobalState} from 'types/store';
 import {isGuest} from 'utils/utils.jsx';
-
-import {getCustomStatus, isCustomStatusEnabled, showPostHeaderUpdateStatusButton} from 'selectors/views/custom_status';
-import {setStatusDropdown} from 'actions/views/status_dropdown';
 
 import PostHeader, {Props} from './post_header';
 
@@ -31,8 +24,6 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
     }
 
     const user = getUser(state, ownProps.post.user_id);
-    const currentUser = getCurrentUser(state);
-    const customStatus = user ? getCustomStatus(state, user.id) : {};
     const isBot = Boolean(user && user.is_bot);
 
     return {
@@ -40,19 +31,7 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
         isBot,
         overwriteIcon,
         isGuest: Boolean(user && isGuest(user)),
-        customStatus,
-        currentUserID: currentUser.id,
-        isCustomStatusEnabled: isCustomStatusEnabled(state),
-        showUpdateStatusButton: showPostHeaderUpdateStatusButton(state),
     };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
-    return {
-        actions: bindActionCreators({
-            setStatusDropdown,
-        }, dispatch),
-    };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(PostHeader);
+export default connect(mapStateToProps)(PostHeader);

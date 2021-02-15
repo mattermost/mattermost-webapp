@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import {shallow, mount} from 'enzyme';
+import {mount} from 'enzyme';
 import React from 'react';
 
 import configureStore from 'redux-mock-store';
@@ -17,23 +17,18 @@ describe('components/custom_status/custom_status_text', () => {
     const store = mockStore({});
 
     it('should match snapshot', () => {
-        const wrapper = shallow(
-            <Provider store={store}>
-                <CustomStatusText/>
-            </Provider>,
-        );
+        const wrapper = mount(<CustomStatusText/>, {wrappingComponent: Provider, wrappingComponentProps: {store}});
 
         expect(wrapper).toMatchSnapshot();
     });
 
     it('should match snapshot with props', () => {
-        const wrapper = shallow(
-            <Provider store={store}>
-                <CustomStatusText
-                    tooltipDirection='top'
-                    text='In a meeting'
-                />
-            </Provider>,
+        const wrapper = mount(
+            <CustomStatusText
+                tooltipDirection='top'
+                text='In a meeting'
+            />,
+            {wrappingComponent: Provider, wrappingComponentProps: {store}},
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -41,11 +36,7 @@ describe('components/custom_status/custom_status_text', () => {
 
     it('should not render when EnableCustomStatus in config is false', () => {
         (CustomStatusSelectors.isCustomStatusEnabled as jest.Mock).mockReturnValue(false);
-        const wrapper = mount(
-            <Provider store={store}>
-                <CustomStatusText/>
-            </Provider>,
-        );
+        const wrapper = mount(<CustomStatusText/>, {wrappingComponent: Provider, wrappingComponentProps: {store}});
 
         expect(wrapper.isEmptyRender()).toBeTruthy();
     });

@@ -12,6 +12,7 @@ exports[`components/custom_status/custom_status_emoji should match snapshot 1`] 
   >
     <RenderEmoji
       emoji=""
+      emojiName=""
       emojiStyle={Object {}}
       size={20}
     />

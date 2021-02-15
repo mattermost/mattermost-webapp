@@ -671,7 +671,7 @@ export default class EmojiPicker extends React.PureComponent {
                             type='text'
                             onChange={this.handleFilterChange}
                             onKeyDown={this.handleKeyDown}
-                            autoComplete='off'
+                            autocomplete='off'
                             placeholder={{id: t('emoji_picker.search'), defaultMessage: 'Search Emoji'}}
                             value={this.props.filter}
                         />

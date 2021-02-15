@@ -149,29 +149,26 @@ export default class StatusDropdown extends React.PureComponent {
 
         const clearButton = isStatusSet &&
             (
-                <span
-                    className='custom_status__clear'
+                <OverlayTrigger
+                    delayShow={Constants.OVERLAY_TIME_DELAY}
+                    placement='top'
+                    overlay={
+                        <Tooltip id='clear-custom-status'>
+                            <FormattedMessage
+                                id='status_dropdown.custom_status.tooltip_clear'
+                                defaultMessage='Clear'
+                            />
+                        </Tooltip>
+                    }
                 >
-                    <OverlayTrigger
-                        delayShow={Constants.OVERLAY_TIME_DELAY}
-                        placement='top'
-                        overlay={
-                            <Tooltip id='clear-custom-status'>
-                                <FormattedMessage
-                                    id='status_dropdown.custom_status.tooltip_clear'
-                                    defaultMessage='Clear'
-                                />
-                            </Tooltip>
-                        }
+                    <button
+                        className='style--none input-clear-x'
+                        id='custom_status__clear'
+                        onClick={this.handleClearStatus}
                     >
-                        <button
-                            className='style--none input-clear-x'
-                            onClick={this.handleClearStatus}
-                        >
-                            <i className='icon icon-close-circle'/>
-                        </button>
-                    </OverlayTrigger>
-                </span>
+                        <i className='icon icon-close-circle'/>
+                    </button>
+                </OverlayTrigger>
             );
 
         const pulsatingDot = !isStatusSet && this.props.showCustomStatusPulsatingDot && (

@@ -57,11 +57,12 @@
         left: 10px;
     }
 
-    &__clear-container {
+    &.GenericModal &__clear-container {
         position: absolute;
-        top: 15px;
-        right: 14px;
-
+        top: 17px;
+        right: 20px;
+        color: rgba(var(--center-channel-color-rgb), 0.72);
+        opacity: 1;
     }
 
     &__emoji-button {
@@ -116,7 +117,7 @@
 
 
 .input-clear-x {
-    color: var(--center-channel-color-56);
+    color: rgba(var(--center-channel-color-rgb), 0.56);
 
     .icon {
         font-size: 20px;
