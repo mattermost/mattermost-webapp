@@ -21,8 +21,8 @@ declare namespace Cypress {
          * @param {string} exportFormat - compliance export format
          *
          * @example
-         *  const EXPORTFORMAT = "Actiance XML"
-            cy.uiEnableComplianceExport(Compliance Export Format)
+         *   const EXPORTFORMAT = "Actiance XML";
+         *   cy.uiEnableComplianceExport(Compliance Export Format);
          */
         uiEnableComplianceExport(exportFormat: string): Chainable;
 
