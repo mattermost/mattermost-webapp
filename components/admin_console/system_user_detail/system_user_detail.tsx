@@ -437,9 +437,6 @@ export default class SystemUserDetail extends React.PureComponent<Props & RouteC
                                         <SheidOutlineIcon className='SystemUserDetail__field-icon'/>
                                         <span className='SystemUserDetail__field-text'>{this.getAuthenticationText()}</span>
                                     </div>
-
-                                    {/* <span className='SystemUserDetail__field-label'>{Utils.localizeMessage('admin.userManagement.userDetail.role', 'Role')}</span>
-                                    <p>{currentRoles}</p> */}
                                 </React.Fragment>
                             }
                             footer={
