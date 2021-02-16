@@ -133,6 +133,11 @@ class RhsComment extends React.PureComponent {
             // Opening the emoji picker when more than one post in rhs is present
             this.handleShortcutReactToLastPost(isLastPost);
         }
+
+        if (this.props.post.state === Posts.POST_DELETED && prevProps.post.state !== Posts.POST_DELETED) {
+            // ensure deleted message content does not remain in stale aria-label
+            this.updateAriaLabel();
+        }
     }
 
     handleShortcutReactToLastPost = (isLastPost) => {
@@ -276,6 +281,10 @@ class RhsComment extends React.PureComponent {
     }
 
     handlePostFocus = () => {
+        this.updateAriaLabel();
+    }
+
+    updateAriaLabel = () => {
         const {post, author, reactions, isFlagged, intl, emojiMap} = this.props;
         this.setState({currentAriaLabel: PostUtils.createAriaLabelForPost(post, author, isFlagged, reactions, intl, emojiMap)});
     }
