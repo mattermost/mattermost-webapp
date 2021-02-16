@@ -25,16 +25,16 @@ type OwnProps = {
 
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const member = getMyChannelMemberships(state)[ownProps.channel.id];
-    const threadMentionCountInChannel = getThreadCountsInCurrentTeam(state)?.unread_mentions_per_channel?.[ownProps.channel.id] || 0;
 
     // Unread counts
     let unreadMentions = 0;
     let unreadMsgs = 0;
     let showUnreadForMsgs = true;
     if (member) {
-        unreadMentions = member.mention_count - threadMentionCountInChannel;
+        unreadMentions = member.mention_count;
 
         if (isCollapsedThreadsEnabled(state)) {
+            const threadMentionCountInChannel = getThreadCountsInCurrentTeam(state)?.unread_mentions_per_channel?.[ownProps.channel.id] || 0;
             unreadMentions -= threadMentionCountInChannel;
         }
 
