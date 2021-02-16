@@ -2,17 +2,29 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 import {getGroupsNotAssociatedToChannel, linkGroupSyncable, getAllGroupsAssociatedToChannel, getAllGroupsAssociatedToTeam} from 'mattermost-redux/actions/groups';
 import {getTeam} from 'mattermost-redux/actions/teams';
 import {getGroupsNotAssociatedToChannel as selectGroupsNotAssociatedToChannel} from 'mattermost-redux/selectors/entities/groups';
 import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 
+import {Channel} from 'mattermost-redux/types/channels';
+import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
+import {Group} from 'mattermost-redux/types/groups';
+
+import {GlobalState} from 'types/store';
 import {setModalSearchTerm} from 'actions/views/search';
 
-import AddGroupsToChannelModal from './add_groups_to_channel_modal';
+import AddGroupsToChannelModal, {Props} from './add_groups_to_channel_modal';
 
-function mapStateToProps(state, ownProps) {
+type OwnProps = {
+    channel: Channel;
+    skipCommit: boolean;
+    onAddCallback: (groupIDs: string[]) => void;
+    excludeGroups: Group[];
+}
+
+function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const searchTerm = state.views.search.modalSearch;
 
     const channel = ownProps.channel || getCurrentChannel(state) || {};
@@ -35,9 +47,9 @@ function mapStateToProps(state, ownProps) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
-        actions: bindActionCreators({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc| GenericAction>, Props['actions']>({
             getGroupsNotAssociatedToChannel,
             setModalSearchTerm,
             linkGroupSyncable,
