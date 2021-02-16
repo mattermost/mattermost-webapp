@@ -72,8 +72,8 @@ describe('Messaging', () => {
                 cy.wait(TIMEOUTS.FIVE_SEC);
 
                 // * Verify that only "def" is posted and not "ghi"
-                cy.get('#rhsPostList').should('be.visible').children().should('have.length', 1);
-                cy.get('#rhsPostList').within(() => {
+                cy.get('#rhsContainer .post-right-comments-container').should('be.visible').children().should('have.length', 1);
+                cy.get('#rhsContainer .post-right-comments-container').within(() => {
                     cy.findByText('def').should('be.visible');
                     cy.findByText('ghi').should('not.exist');
                 }).then(() => {
@@ -86,8 +86,8 @@ describe('Messaging', () => {
                     cy.wait(TIMEOUTS.TEN_SEC);
 
                     // * Verify that both "def" and "ghi" are posted on websocket reconnect
-                    cy.get('#rhsPostList').should('be.visible').children().should('have.length', 2);
-                    cy.get('#rhsPostList').within(() => {
+                    cy.get('#rhsContainer .post-right-comments-container').should('be.visible').children().should('have.length', 2);
+                    cy.get('#rhsContainer .post-right-comments-container').within(() => {
                         cy.findByText('def').should('be.visible');
                         cy.findByText('ghi').should('be.visible');
                     });

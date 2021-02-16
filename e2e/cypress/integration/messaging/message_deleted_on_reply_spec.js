@@ -63,7 +63,7 @@ describe('Messaging', () => {
             cy.findAllByTestId('postDeletedModalOkButton').click();
 
             // * The message should not have been sent
-            cy.get('#rhsPostList').should('be.empty');
+            cy.get('#rhsContainer .post-right-comments-container').should('be.empty');
 
             // * Textbox should still have the draft message
             cy.get('#reply_textbox').should('contain', '123');
@@ -78,7 +78,7 @@ describe('Messaging', () => {
             cy.findAllByTestId('postDeletedModalOkButton').click();
 
             // * The message should not have been sent
-            cy.get('#rhsPostList').should('be.empty');
+            cy.get('#rhsContainer .post-right-comments-container').should('be.empty');
 
             // * Textbox should still have the draft message
             cy.get('#reply_textbox').should('contain', '123');

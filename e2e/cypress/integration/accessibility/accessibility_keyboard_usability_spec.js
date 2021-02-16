@@ -99,7 +99,7 @@ describe('Verify Accessibility keyboard usability across different regions in th
         });
 
         // * Verify that the highlight order is in the reverse direction in RHS
-        cy.get('#rhsContent').should('have.attr', 'data-a11y-order-reversed', 'true').and('have.attr', 'data-a11y-focus-child', 'true');
+        cy.get('#rhsContainer .post-right__content').should('have.attr', 'data-a11y-order-reversed', 'true').and('have.attr', 'data-a11y-focus-child', 'true');
 
         // # Change the focus to the last post
         cy.get('#rhsContainer').within(() => {
@@ -112,7 +112,7 @@ describe('Verify Accessibility keyboard usability across different regions in th
         let row = total - 1; // # the row index which should be focused
 
         for (let index = count; index > 0; index--) {
-            cy.get('#rhsPostList').children('.post').eq(row).then(($el) => {
+            cy.get('#rhsContainer .post-right-comments-container').children('.post').eq(row).then(($el) => {
                 // * Verify search result is highlighted
                 cy.get($el).should('have.class', 'a11y--active a11y--focused');
                 cy.get('body').type('{uparrow}');
@@ -122,7 +122,7 @@ describe('Verify Accessibility keyboard usability across different regions in th
 
         // # Use down arrow keys and verify if posts are highlighted sequentially
         for (let index = count; index > 0; index--) {
-            cy.get('#rhsPostList').children('.post').eq(row).then(($el) => {
+            cy.get('#rhsContainer .post-right-comments-container').children('.post').eq(row).then(($el) => {
                 // * Verify search result is highlighted
                 cy.get($el).should('have.class', 'a11y--active a11y--focused');
                 cy.get('body').type('{downarrow}');
