@@ -27,8 +27,8 @@ declare namespace Cypress {
         uiEnableComplianceExport(exportFormat: string): Chainable;
 
         /**
-        * Go to Compliance Page
-        */
+         * Go to Compliance Page
+         */
         uiGoToCompliancePage(): Chainable;
 
         /**
