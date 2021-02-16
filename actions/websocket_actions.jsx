@@ -487,13 +487,13 @@ export function handleEvent(msg) {
         dispatch(handleCloudPaymentStatusUpdated(msg));
         break;
     case SocketEvents.THREAD_FOLLOW_CHANGED:
-        dispatch(handleThreadsFollowChanged(msg));
+        dispatch(handleThreadFollowChanged(msg));
         break;
     case SocketEvents.THREAD_READ_CHANGED:
-        dispatch(handleThreadsReadChanged(msg));
+        dispatch(handleThreadReadChanged(msg));
         break;
     case SocketEvents.THREAD_UPDATED:
-        dispatch(handleThreadsUpdated(msg));
+        dispatch(handleThreadUpdated(msg));
         break;
 
     default:
@@ -1372,7 +1372,7 @@ function handleCloudPaymentStatusUpdated() {
     return (doDispatch) => doDispatch(getCloudSubscription());
 }
 
-function handleThreadsReadChanged(msg) {
+function handleThreadReadChanged(msg) {
     return (doDispatch, doGetState) => {
         if (msg.data.thread_id) {
             const thread = doGetState().entities.threads.threads?.[msg.data.thread_id];
@@ -1386,7 +1386,7 @@ function handleThreadsReadChanged(msg) {
     };
 }
 
-function handleThreadsUpdated(msg) {
+function handleThreadUpdated(msg) {
     return (doDispatch) => {
         try {
             const threadData = JSON.parse(msg.data.thread);
@@ -1397,7 +1397,7 @@ function handleThreadsUpdated(msg) {
     };
 }
 
-function handleThreadsFollowChanged(msg) {
+function handleThreadFollowChanged(msg) {
     return (doDispatch) => {
         handleFollowChanged(doDispatch, msg.data.thread_id, msg.broadcast.team_id, msg.data.state);
     };
