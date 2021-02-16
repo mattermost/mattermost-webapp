@@ -206,7 +206,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
             );
         }
 
-        const customStatus = this.props.teammateId && (
+        const customStatus = this.props.teammateId ? (
             <CustomStatusEmoji
                 userID={this.props.teammateId}
                 showTooltip={true}
@@ -215,7 +215,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
                     marginBottom: 1,
                 }}
             />
-        );
+        ) : null;
 
         const content = (
             <React.Fragment>

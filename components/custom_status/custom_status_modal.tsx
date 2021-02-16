@@ -9,6 +9,7 @@ import {setCustomStatus, unsetCustomStatus, removeRecentCustomStatus} from 'matt
 import {setCustomStatusInitialisationState} from 'mattermost-redux/actions/preferences';
 import {Preferences} from 'mattermost-redux/constants';
 import {UserCustomStatus} from 'mattermost-redux/types/users';
+import {Emoji} from 'mattermost-redux/types/emojis';
 
 import GenericModal from 'components/generic_modal';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
@@ -50,7 +51,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
     const dispatch = useDispatch();
     const currentCustomStatus = useSelector((state: GlobalState) => getCustomStatus(state)) || {};
     const recentCustomStatuses = useSelector((state: GlobalState) => getRecentCustomStatuses(state));
-    const customStatusControlRef = useRef(null);
+    const customStatusControlRef = useRef<HTMLDivElement>(null);
     const {formatMessage} = useIntl();
     const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
     const [text, setText] = useState<string>(currentCustomStatus.text);
@@ -80,23 +81,17 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
         }
     };
 
-    const getCustomStatusControlRef = () => {
-        return customStatusControlRef.current;
-    };
+    const getCustomStatusControlRef = () => customStatusControlRef.current;
 
-    const handleEmojiClose = () => {
-        setShowEmojiPicker(false);
-    };
+    const handleEmojiClose = () => setShowEmojiPicker(false);
 
-    const handleEmojiClick = (selectedEmoji: any) => {
+    const handleEmojiClick = (selectedEmoji: Emoji) => {
         setShowEmojiPicker(false);
-        const emojiName = selectedEmoji.name || selectedEmoji.aliases[0];
+        const emojiName = ('name' in selectedEmoji) ? selectedEmoji.name : selectedEmoji.aliases[0];
         setEmoji(emojiName);
     };
 
-    const toggleEmojiPicker = () => {
-        setShowEmojiPicker(!showEmojiPicker);
-    };
+    const toggleEmojiPicker = () => setShowEmojiPicker((prevShow) => !prevShow);
 
     const handleTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const inputText = event.target.value;
@@ -105,9 +100,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
         }
     };
 
-    const handleRecentCustomStatusClear = (status: any) => {
-        dispatch(removeRecentCustomStatus(status));
-    };
+    const handleRecentCustomStatusClear = (status: UserCustomStatus) => dispatch(removeRecentCustomStatus(status));
 
     const customStatusEmoji = emoji || text ?
         (
@@ -115,9 +108,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
                 emojiName={emoji || 'speech_balloon'}
                 size={20}
             />
-        ) : (
-            <EmojiIcon className={'icon icon--emoji'}/>
-        );
+        ) : <EmojiIcon className={'icon icon--emoji'}/>;
 
     const clearHandle = () => {
         setText('');
@@ -127,7 +118,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
     const disableSetStatus = (currentCustomStatus.text === text && currentCustomStatus.emoji === emoji) ||
         (text === '' && emoji === '');
 
-    const handleSuggestionClick = (status: any) => {
+    const handleSuggestionClick = (status: UserCustomStatus) => {
         setEmoji(status.emoji);
         setText(status.text);
     };
@@ -136,8 +127,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
         let rightOffset = Constants.DEFAULT_EMOJI_PICKER_RIGHT_OFFSET;
         const target = getCustomStatusControlRef();
         if (target) {
-            const anyTarget: any = target;
-            rightOffset = window.innerWidth - anyTarget.getBoundingClientRect().left - EMOJI_PICKER_WIDTH_OFFSET;
+            rightOffset = window.innerWidth - target.getBoundingClientRect().left - EMOJI_PICKER_WIDTH_OFFSET;
             if (rightOffset < 0) {
                 rightOffset = Constants.DEFAULT_EMOJI_PICKER_RIGHT_OFFSET;
             }
@@ -182,18 +172,18 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
                 />
             ));
 
-        if (customStatusSuggestions.length > 0) {
-            return (
-                <>
-                    <div className='statusSuggestion__title'>
-                        {formatMessage({id: 'custom_status.suggestions.title', defaultMessage: 'SUGGESTIONS'})}
-                    </div>
-                    {customStatusSuggestions}
-                </>
-            );
+        if (customStatusSuggestions.length <= 0) {
+            return null;
         }
 
-        return null;
+        return (
+            <>
+                <div className='statusSuggestion__title'>
+                    {formatMessage({id: 'custom_status.suggestions.title', defaultMessage: 'SUGGESTIONS'})}
+                </div>
+                {customStatusSuggestions}
+            </>
+        );
     };
 
     const suggestion = (

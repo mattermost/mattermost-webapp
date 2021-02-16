@@ -68,13 +68,7 @@ const CustomStatusSuggestion: React.FC<Props> = (props: Props) => {
             className='statusSuggestion__row cursor--pointer'
             onMouseEnter={showClearButton}
             onMouseLeave={hideClearButton}
-            onClick={
-                () => handleSuggestionClick(
-                    {
-                        emoji,
-                        text,
-                    })
-            }
+            onClick={() => handleSuggestionClick({emoji, text})}
         >
             <div className='statusSuggestion__icon'>
                 <RenderEmoji

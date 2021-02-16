@@ -43,11 +43,13 @@ const PostHeaderCustomStatus = (props: ComponentProps) => {
         );
     }
 
+    // This must be checked after checking that custom status is not null
     if (!showUpdateStatusButton) {
         return null;
     }
 
     const updateStatus = () => dispatch(setStatusDropdown(true));
+
     return (
         <div
             onClick={updateStatus}

@@ -299,7 +299,7 @@ class ChannelHeader extends React.PureComponent {
     handleFormattedTextClick = (e) => Utils.handleFormattedTextClick(e, this.props.currentRelativeTeamUrl);
 
     renderCustomStatus = () => {
-        const customStatus = this.props.customStatus;
+        const {customStatus} = this.props;
         const isStatusSet = customStatus && (customStatus.text || customStatus.emoji);
         if (!(this.props.isCustomStatusEnabled && isStatusSet)) {
             return null;

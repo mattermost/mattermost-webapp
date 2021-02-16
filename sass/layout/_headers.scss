@@ -452,7 +452,7 @@
         max-width: calc(100% - 225px);
         align-items: center;
 
-        p{
+        p {
             margin: 0;
         }
 
@@ -718,7 +718,7 @@
             }
         }
 
-        .header__info__content{
+        .header__info__content {
             display: flex;
             max-width: 120px;
         }
@@ -748,6 +748,7 @@
             padding-right: 4px;
             position: relative;
         }
+
         .custom-status {
             display: flex;
             font-weight: bold;
@@ -756,12 +757,13 @@
             &-text {
                 margin-left: 4px;
             }
-    
+
             &-emoji {
                 display: flex;
                 height: 16px;
                 min-width: 16px;
             }
+
             &-emoji > span:first-child {
                 height: 16px;
                 width: 16px;
@@ -769,7 +771,6 @@
                 min-width: 16px;
             }
         }
-
     }
 
     .search__clear {

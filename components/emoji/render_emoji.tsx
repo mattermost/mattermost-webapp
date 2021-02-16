@@ -7,6 +7,7 @@ import {getEmojiImageUrl} from 'mattermost-redux/utils/emoji_utils';
 
 import {getEmojiMap} from 'selectors/emojis';
 import {GlobalState} from 'types/store';
+
 interface ComponentProps {
     emojiName: string;
     size?: number;
@@ -14,7 +15,7 @@ interface ComponentProps {
     onClick?: () => void;
 }
 
-const RenderEmoji = ({emojiName, emojiStyle, size, onClick}: ComponentProps) => {
+const RenderEmoji = React.memo(({emojiName, emojiStyle, size, onClick}: ComponentProps) => {
     if (!emojiName) {
         return null;
     }
@@ -43,7 +44,7 @@ const RenderEmoji = ({emojiName, emojiStyle, size, onClick}: ComponentProps) => 
             }}
         />
     );
-};
+});
 
 RenderEmoji.defaultProps = {
     emoji: '',
