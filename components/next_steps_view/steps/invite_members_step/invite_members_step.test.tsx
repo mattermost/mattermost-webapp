@@ -5,6 +5,7 @@ import React from 'react';
 import {shallow, ShallowWrapper} from 'enzyme';
 
 import {TestHelper} from 'utils/test_helper';
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import InviteMembersStep from './invite_members_step';
 
@@ -17,10 +18,17 @@ describe('components/next_steps_view/steps/invite_members_step', () => {
         currentUser: TestHelper.getUserMock(),
         expanded: true,
         isAdmin: true,
+        isCloud: false,
         isEmailInvitesEnabled: true,
+        cloudUserLimit: 10,
+        subscriptionStats: {
+            remaining_seats: 10,
+            is_paid_tier: 'false',
+        },
         actions: {
             sendEmailInvitesToTeamGracefully: jest.fn(),
             regenerateTeamInviteId: jest.fn(),
+            getSubscriptionStats: jest.fn(),
         },
     };
 
@@ -33,7 +41,7 @@ describe('components/next_steps_view/steps/invite_members_step', () => {
     });
 
     test('should set emails based on specified delimiters', () => {
-        const wrapper: ShallowWrapper<any, any, InviteMembersStep> = shallow(
+        const wrapper: ShallowWrapper<any, any, any> = shallowWithIntl(
             <InviteMembersStep {...baseProps}/>,
         );
 
@@ -53,7 +61,7 @@ describe('components/next_steps_view/steps/invite_members_step', () => {
     });
 
     test('should not allow more than 10 emails', () => {
-        const wrapper: ShallowWrapper<any, any, InviteMembersStep> = shallow(
+        const wrapper: ShallowWrapper<any, any, any> = shallowWithIntl(
             <InviteMembersStep {...baseProps}/>,
         );
 
@@ -71,7 +79,7 @@ describe('components/next_steps_view/steps/invite_members_step', () => {
     });
 
     test('do not fire onChange unless it is a removal or a pop', () => {
-        const wrapper: ShallowWrapper<any, any, InviteMembersStep> = shallow(
+        const wrapper: ShallowWrapper<any, any, any> = shallowWithIntl(
             <InviteMembersStep {...baseProps}/>,
         );
 
