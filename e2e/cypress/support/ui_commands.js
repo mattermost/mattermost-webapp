@@ -1,4 +1,3 @@
-
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
@@ -111,7 +110,13 @@ function postMessageAndWait(textboxSelector, message) {
     // some operation which caused to prolong complete page loading.
     cy.wait(TIMEOUTS.THREE_SEC);
 
-    cy.get(textboxSelector, {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').clear().type(`${message}{enter}`).wait(TIMEOUTS.HALF_SEC);
+    cy.get(textboxSelector, {timeout: TIMEOUTS.HALF_MIN}).as('textboxSelector');
+    cy.get('@textboxSelector').should('be.visible').clear().type(`${message}{enter}`).wait(TIMEOUTS.HALF_SEC);
+    cy.get('@textboxSelector').invoke('val').then((value) => {
+        if (value.length > 0) {
+            cy.get('@textboxSelector').type('{enter}').wait(TIMEOUTS.HALF_SEC);
+        }
+    });
     cy.waitUntil(() => {
         return cy.get(textboxSelector).then((el) => {
             return el[0].textContent === '';
