@@ -264,7 +264,7 @@ describe('Guest Account - Member Invitation Flow', () => {
         cy.get('#headerTeamName').should('have.text', testTeam.display_name);
 
         // * Verify if user has access to the default channels
-        cy.get('#sidebarChannelContainer').within(() => {
+        cy.get('#lhsList').within(() => {
             cy.findByText('Off-Topic').should('be.visible');
             cy.findByText('Town Square').should('be.visible');
         });
@@ -299,7 +299,7 @@ describe('Guest Account - Member Invitation Flow', () => {
             cy.get('@teamButton').click().wait(TIMEOUTS.TWO_SEC);
 
             // * Verify if user has access to the default channels in the invited teams
-            cy.get('#sidebarChannelContainer').within(() => {
+            cy.get('#lhsList').within(() => {
                 cy.findByText('Off-Topic').should('be.visible');
                 cy.findByText('Town Square').should('be.visible');
             });

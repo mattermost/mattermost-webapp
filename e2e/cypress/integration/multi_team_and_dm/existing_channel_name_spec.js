@@ -89,7 +89,7 @@ function channelNameTest(channelTypeHeading, channel) {
     cy.get(`${listSelector} a.sidebar-item`).its('length').as('origChannelLength');
 
     // * Verify channel `channelName` exists
-    cy.get('#sidebarChannelContainer').should('contain', channel.display_name);
+    cy.get('#lhsList').should('contain', channel.display_name);
 
     // * Verify new public channel cannot be created with existing public channel name; see verifyExistingChannelError function
     verifyExistingChannelError(channel.name);

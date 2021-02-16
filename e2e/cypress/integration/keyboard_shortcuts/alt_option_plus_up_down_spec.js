@@ -90,7 +90,7 @@ function verifyChannelSwitch(teamName, toChannel, fromChannel, arrowKey) {
         cy.url().should('include', `/${teamName}/channels/${toChannel.name}`);
     }
 
-    cy.get('#sidebarChannelContainer').should('be.visible').within(() => {
+    cy.get('#lhsList').should('be.visible').within(() => {
         // * Verify that the toChannel is active in LHS
         verifyClass(toChannel, 'have.class');
 

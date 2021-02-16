@@ -67,7 +67,7 @@ describe('Integrations', () => {
             cy.visit(`${testTeam.name}/channels/town-square`);
 
             // * Added user sees channel added to LHS, mention badge
-            cy.get('#sidebarChannelContainer', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').within(() => {
+            cy.get('#lhsList', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').within(() => {
                 cy.findByLabelText(`${testChannel.display_name.toLowerCase()} public channel 1 mention`).
                     should('be.visible').
                     click();
@@ -118,7 +118,7 @@ describe('Integrations', () => {
         loginAndVisitChannel(userToInvite, townSquareUrl);
 
         // * Added user sees channel added to LHS, mention badge.
-        cy.get('#sidebarChannelContainer', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').within(() => {
+        cy.get('#lhsList', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').within(() => {
             cy.findByLabelText(`${testChannel.display_name.toLowerCase()} public channel 1 mention`).
                 should('be.visible').
                 click();
