@@ -16,7 +16,7 @@ import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx
 import {GlobalState} from 'types/store';
 import RenderEmoji from 'components/emoji/render_emoji';
 import QuickInput from 'components/quick_input';
-import {getCustomStatus, getRecentCustomStatuses, showStatusDropdownPulsatingDot} from 'selectors/views/custom_status';
+import {makeGetCustomStatus, getRecentCustomStatuses, showStatusDropdownPulsatingDot} from 'selectors/views/custom_status';
 import Constants from 'utils/constants';
 import {t} from 'utils/i18n';
 
@@ -46,10 +46,12 @@ const defaultCustomStatusSuggestions: DefaultUserCustomStatus[] = [
 ];
 
 const CustomStatusModal: React.FC<Props> = (props: Props) => {
+    const getCustomStatus = makeGetCustomStatus();
     const dispatch = useDispatch();
-    const currentCustomStatus = useSelector((state: GlobalState) => getCustomStatus(state));
+    const currentCustomStatus = useSelector((state: GlobalState) => getCustomStatus(state)) || {};
     const recentCustomStatuses = useSelector((state: GlobalState) => getRecentCustomStatuses(state));
     const customStatusControlRef = useRef(null);
+    const {formatMessage} = useIntl();
     const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
     const [text, setText] = useState<string>(currentCustomStatus.text);
     const [emoji, setEmoji] = useState<string>(currentCustomStatus.emoji);
@@ -147,7 +149,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
     const recentStatuses = (
         <div>
             <div className='statusSuggestion__title'>
-                {'RECENT'}
+                {formatMessage({id: 'custom_status.suggestions.recent_title', defaultMessage: 'RECENT'})}
             </div>
             {
                 recentCustomStatuses.map((status: UserCustomStatus) => (
@@ -164,8 +166,6 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
     );
 
     const renderCustomStatusSuggestions = () => {
-        const {formatMessage} = useIntl();
-
         const recentCustomStatusTexts = recentCustomStatuses.map((status: UserCustomStatus) => status.text);
         const customStatusSuggestions = defaultCustomStatusSuggestions.
             map((status) => ({
@@ -186,7 +186,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
             return (
                 <>
                     <div className='statusSuggestion__title'>
-                        {'SUGGESTIONS'}
+                        {formatMessage({id: 'custom_status.suggestions.title', defaultMessage: 'SUGGESTIONS'})}
                     </div>
                     {customStatusSuggestions}
                 </>
@@ -213,19 +213,19 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
             onHide={props.onHide}
             modalHeaderText={
                 <FormattedMessage
-                    id='custom_status_modal_header'
+                    id='custom_status.set_status'
                     defaultMessage='Set a status'
                 />
             }
             confirmButtonText={
                 <FormattedMessage
-                    id='custom_status_modal_confirm'
+                    id='custom_status.modal_confirm'
                     defaultMessage='Set Status'
                 />
             }
             cancelButtonText={
                 <FormattedMessage
-                    id='custom_status_modal_cancel'
+                    id='custom_status.modal_cancel'
                     defaultMessage='Clear Status'
                 />
             }
@@ -272,6 +272,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
                         clearClassName='StatusModal__clear-container'
                         tooltipPosition='top'
                         onChange={handleTextChange}
+                        placeholder={formatMessage({id: 'custom_status.set_status', defaultMessage: 'Set a status'})}
                     />
                 </div>
                 {!isStatusSet && suggestion}

@@ -6,7 +6,7 @@ import {useSelector} from 'react-redux';
 
 import OverlayTrigger from 'components/overlay_trigger';
 import RenderEmoji from 'components/emoji/render_emoji';
-import {getCustomStatus, isCustomStatusEnabled} from 'selectors/views/custom_status';
+import {makeGetCustomStatus, isCustomStatusEnabled} from 'selectors/views/custom_status';
 import {GlobalState} from 'types/store';
 import Constants from 'utils/constants';
 import Markdown from 'components/markdown';
@@ -21,6 +21,7 @@ interface ComponentProps {
 }
 
 const CustomStatusEmoji = (props: ComponentProps) => {
+    const getCustomStatus = makeGetCustomStatus();
     const {emojiSize, emojiStyle, showTooltip, tooltipDirection, userID, onClick} = props;
     const customStatusEnabled = useSelector(isCustomStatusEnabled);
     const customStatus = useSelector((state: GlobalState) => {

@@ -13,11 +13,12 @@ import {openModal} from 'actions/views/modals';
 import {setStatusDropdown} from 'actions/views/status_dropdown';
 
 import StatusDropdown from 'components/status_dropdown/status_dropdown.jsx';
-import {getCustomStatus, isCustomStatusEnabled, showStatusDropdownPulsatingDot} from 'selectors/views/custom_status';
+import {makeGetCustomStatus, isCustomStatusEnabled, showStatusDropdownPulsatingDot} from 'selectors/views/custom_status';
 import {isStatusDropdownOpen} from 'selectors/views/status_dropdown';
 
 function mapStateToProps(state) {
     const currentUser = getCurrentUser(state);
+    const getCustomStatus = makeGetCustomStatus();
 
     if (!currentUser) {
         return {};

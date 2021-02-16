@@ -34,7 +34,7 @@ describe('components/custom_status/custom_status_modal', () => {
             emoji: 'speech_balloon',
             text: 'speaking',
         };
-        (StatusSelectors.getCustomStatus as jest.Mock).mockReturnValue(customStatus);
+        (StatusSelectors.makeGetCustomStatus as jest.Mock).mockReturnValue(() => customStatus);
         const wrapper = shallow(
             <Provider store={store}>
                 <CustomStatusModal {...baseProps}/>

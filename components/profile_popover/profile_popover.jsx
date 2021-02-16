@@ -224,7 +224,6 @@ class ProfilePopover extends React.PureComponent {
         const customStatusInputModalData = {
             ModalId: ModalIdentifiers.CUSTOM_STATUS,
             dialogType: CustomStatusModal,
-            dialogProps: {userId: this.props.currentUserId},
         };
 
         this.props.actions.openModal(customStatusInputModalData);
@@ -291,11 +290,10 @@ class ProfilePopover extends React.PureComponent {
                 <div>
                     <button
                         className='user-popover__set-custom-status-btn'
-                        aria-label={Utils.localizeMessage('user_profile.custom-status.set-status', 'Set a status').toLowerCase()}
                         onClick={this.showCustomStatusModal}
                     >
                         <FormattedMessage
-                            id='user_profile.custom-status.set-status'
+                            id='user_profile.custom_status.set_status'
                             defaultMessage='Set a status'
                         />
                     </button>
@@ -370,7 +368,7 @@ class ProfilePopover extends React.PureComponent {
                         data-testid={`popover-fullname-${this.props.user.username}`}
                         className='overflow--ellipsis text-nowrap'
                     >
-                        <strong>{fullname}</strong>
+                        <span className='user-profile-popover__heading'>{fullname}</span>
                     </div>
                 </OverlayTrigger>,
             );
@@ -446,12 +444,12 @@ class ProfilePopover extends React.PureComponent {
                     key='user-popover-local-time'
                     className='pb-1'
                 >
-                    <strong>
+                    <span className='user-profile-popover__heading'>
                         <FormattedMessage
                             id='user_profile.account.localTime'
                             defaultMessage='Local Time'
                         />
-                    </strong>
+                    </span>
                     <div>
                         <Timestamp
                             useRelative={false}
@@ -471,12 +469,12 @@ class ProfilePopover extends React.PureComponent {
                     key='user-popover-status'
                     className='pb-1'
                 >
-                    <strong>
+                    <span className='user-profile-popover__heading'>
                         <FormattedMessage
-                            id='user_profile.custom-status'
+                            id='user_profile.custom_status'
                             defaultMessage='Status'
                         />
-                    </strong>
+                    </span>
                     {customStatusContent}
                 </div>,
             );

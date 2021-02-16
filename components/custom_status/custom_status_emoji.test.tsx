@@ -16,6 +16,10 @@ describe('components/custom_status/custom_status_emoji', () => {
     const mockStore = configureStore();
     const store = mockStore({});
 
+    const getCustomStatus = () => {
+        return null;
+    };
+    (CustomStatusSelectors.makeGetCustomStatus as jest.Mock).mockReturnValue(getCustomStatus);
     it('should match snapshot', () => {
         const wrapper = mount(<CustomStatusEmoji/>, {wrappingComponent: Provider, wrappingComponentProps: {store}});
         expect(wrapper).toMatchSnapshot();
@@ -43,7 +47,6 @@ describe('components/custom_status/custom_status_emoji', () => {
 
     it('should not render when getCustomStatus returns null', () => {
         (CustomStatusSelectors.isCustomStatusEnabled as jest.Mock).mockReturnValue(true);
-        (CustomStatusSelectors.getCustomStatus as jest.Mock).mockReturnValue(null);
         const wrapper = mount(<CustomStatusEmoji/>, {wrappingComponent: Provider, wrappingComponentProps: {store}});
 
         expect(wrapper.isEmptyRender()).toBeTruthy();

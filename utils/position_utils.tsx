@@ -6,7 +6,7 @@ export function popOverOverlayPosition(
     innerHeight: number,
     spaceRequiredAbove: number,
     spaceRequiredBelow?: number,
-    defaultHorizontalPosition?: 'left' | 'right',
+    horizontalPosition?: 'left' | 'right',
 ): string {
     let placement: string;
 
@@ -15,7 +15,7 @@ export function popOverOverlayPosition(
     } else if (innerHeight - targetBounds.bottom > (spaceRequiredBelow || spaceRequiredAbove)) {
         placement = 'bottom';
     } else {
-        placement = defaultHorizontalPosition || 'left';
+        placement = horizontalPosition || 'left';
     }
     return placement;
 }

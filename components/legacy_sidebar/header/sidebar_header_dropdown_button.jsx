@@ -29,7 +29,6 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent {
         const customStatusInputModalData = {
             ModalId: ModalIdentifiers.CUSTOM_STATUS,
             dialogType: CustomStatusModal,
-            dialogProps: {userId: this.props.currentUser.id},
         };
         this.props.openModal(customStatusInputModalData);
     }
