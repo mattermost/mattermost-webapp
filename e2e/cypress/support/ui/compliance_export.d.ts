@@ -32,8 +32,8 @@ declare namespace Cypress {
         uiGoToCompliancePage(): Chainable;
 
         /**
-        * Click Run Export Compliance and wait for Success status
-        */
+         * Click Run Export Compliance and wait for Success status
+         */
         uiExportCompliance(): Chainable;
     }
 }
