@@ -37,6 +37,6 @@ declare namespace Cypress {
          * @param {String} fileURL - Export file URL
          * @param {String} contentType - File content-Type
          */
-        uiDownloadAttachmentAndVerifyItsProperties(fileURL: string, contentType: string): Chainable;
+        apiDownloadFileAndVerifyContentType(fileURL: string, contentType: string): Chainable;
     }
 }
