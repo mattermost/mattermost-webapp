@@ -30,6 +30,7 @@ export default class MarkdownImage extends React.PureComponent {
         imageIsLink: PropTypes.bool.isRequired,
         onImageLoaded: PropTypes.func,
         postType: PropTypes.string,
+        index: PropTypes.number,
     }
 
     constructor(props) {
@@ -141,7 +142,7 @@ export default class MarkdownImage extends React.PureComponent {
                         className = `${this.props.className} ${loadingClass}`;
                     }
 
-                    const {height, width, title, postId} = this.props;
+                    const {height, width, title, postId, index} = this.props;
 
                     const imageElement = (
                         <>
@@ -181,6 +182,7 @@ export default class MarkdownImage extends React.PureComponent {
                             <MarkdownImageExpand
                                 alt={alt || safeSrc}
                                 postId={postId}
+                                imageIndex={index}
                             >
                                 {imageElement}
                             </MarkdownImageExpand>

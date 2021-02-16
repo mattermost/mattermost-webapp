@@ -31,6 +31,8 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
     const parser = new Parser();
     const processNodeDefinitions = new ProcessNodeDefinitions(React);
 
+    let currentImageIndex = -1;
+
     function isValidNode() {
         return true;
     }
@@ -109,6 +111,7 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
         processingInstructions.push({
             shouldProcessNode: (node) => node.type === 'tag' && node.name === 'img',
             processNode: (node) => {
+                currentImageIndex += 1;
                 const {
                     class: className,
                     ...attribs
@@ -126,6 +129,7 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
 
                 return (
                     <MarkdownImage
+                        index={currentImageIndex}
                         className={className}
                         imageMetadata={options.imagesMetadata && options.imagesMetadata[attribs.src]}
                         {...attribs}

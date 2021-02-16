@@ -5,27 +5,28 @@ import './markdown_image_expand.scss';
 
 export type Props = {
     alt: string;
+    imageIndex: number;
     children: React.ReactNode;
-    isEmbedVisible: boolean;
+    isExpanded: boolean;
     postId: string;
     actions: {
-        toggleEmbedVisibility: (postId: string) => void;
+        toggleInlineImageVisibility: (postId: string, imageIndex: number) => void;
     };
 };
 
-const MarkdownImageExpand: React.FC<Props> = ({children, alt, isEmbedVisible, postId, actions}: Props) => {
-    const {toggleEmbedVisibility} = actions;
+const MarkdownImageExpand: React.FC<Props> = ({children, alt, isExpanded, postId, actions, imageIndex}: Props) => {
+    const {toggleInlineImageVisibility} = actions;
 
     const handleToggleButtonClick = () => {
-        toggleEmbedVisibility(postId);
+        toggleInlineImageVisibility(postId, imageIndex);
     };
 
-    const wrapperClassName = `markdown-image-expand ${isEmbedVisible ? 'markdown-image-expand--expanded' : ''}`;
+    const wrapperClassName = `markdown-image-expand ${isExpanded ? 'markdown-image-expand--expanded' : ''}`;
 
     return (
         <div className={wrapperClassName}>
             {
-                isEmbedVisible &&
+                isExpanded &&
                 <>
                     <button
                         className='markdown-image-expand__collapse-button'
@@ -39,7 +40,7 @@ const MarkdownImageExpand: React.FC<Props> = ({children, alt, isEmbedVisible, po
             }
 
             {
-                !isEmbedVisible &&
+                !isExpanded &&
                 <button
                     className='markdown-image-expand__expand-button'
                     type='button'

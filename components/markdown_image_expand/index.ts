@@ -10,20 +10,20 @@ import {connect} from 'react-redux';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
 
-import {toggleEmbedVisibility} from 'actions/post_actions';
-import {isEmbedVisible} from 'selectors/posts';
+import {toggleInlineImageVisibility} from 'actions/post_actions';
+import {isInlineImageVisible} from 'selectors/posts';
 
 import MarkdownImageExpand, {Props} from './markdown_image_expand';
 
 const mapStateToProps = (state: GlobalState, ownProps: Props) => {
     return {
-        isEmbedVisible: isEmbedVisible(state, ownProps.postId),
+        isExpanded: isInlineImageVisible(state, ownProps.postId, ownProps.imageIndex),
     };
 };
 
 const mapDispatchToProps = (dispatch: Dispatch<GenericAction>) => {
     return {
-        actions: bindActionCreators({toggleEmbedVisibility}, dispatch),
+        actions: bindActionCreators({toggleInlineImageVisibility}, dispatch),
     };
 };
 

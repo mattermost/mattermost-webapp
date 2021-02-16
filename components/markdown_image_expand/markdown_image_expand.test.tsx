@@ -12,8 +12,9 @@ describe('components/MarkdownImageExpand', () => {
             <MarkdownImageExpand
                 alt={'Some alt text'}
                 postId={'abc'}
-                isEmbedVisible={false}
-                actions={{toggleEmbedVisibility: imageCollapseHandler}}
+                isExpanded={false}
+                imageIndex={0}
+                actions={{toggleInlineImageVisibility: imageCollapseHandler}}
             >{'An image to expand'}</MarkdownImageExpand>,
         );
 
@@ -26,8 +27,9 @@ describe('components/MarkdownImageExpand', () => {
             <MarkdownImageExpand
                 alt={'Some alt text'}
                 postId={'abc'}
-                isEmbedVisible={true}
-                actions={{toggleEmbedVisibility: imageCollapseHandler}}
+                isExpanded={true}
+                imageIndex={0}
+                actions={{toggleInlineImageVisibility: imageCollapseHandler}}
             >{'An image to expand'}</MarkdownImageExpand>,
         );
 
@@ -40,8 +42,9 @@ describe('components/MarkdownImageExpand', () => {
             <MarkdownImageExpand
                 alt={'Some alt text'}
                 postId={'abc'}
-                isEmbedVisible={true}
-                actions={{toggleEmbedVisibility: imageCollapseHandler}}
+                isExpanded={true}
+                imageIndex={0}
+                actions={{toggleInlineImageVisibility: imageCollapseHandler}}
             >{'An image to expand'}</MarkdownImageExpand>,
         );
 
@@ -56,8 +59,9 @@ describe('components/MarkdownImageExpand', () => {
             <MarkdownImageExpand
                 alt={'Some alt text'}
                 postId={'abc'}
-                isEmbedVisible={false}
-                actions={{toggleEmbedVisibility: imageCollapseHandler}}
+                isExpanded={false}
+                imageIndex={0}
+                actions={{toggleInlineImageVisibility: imageCollapseHandler}}
             >{'An image to expand'}</MarkdownImageExpand>,
         );
 

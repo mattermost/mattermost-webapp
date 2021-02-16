@@ -13,7 +13,7 @@ import {addRecentEmoji} from 'actions/emoji_actions';
 import * as StorageActions from 'actions/storage';
 import {loadNewDMIfNeeded, loadNewGMIfNeeded} from 'actions/user_actions.jsx';
 import * as RhsActions from 'actions/views/rhs';
-import {isEmbedVisible} from 'selectors/posts';
+import {isEmbedVisible, isInlineImageVisible} from 'selectors/posts';
 import {getSelectedPostId, getSelectedPostCardId, getRhsState} from 'selectors/rhs';
 import {
     ActionTypes,
@@ -286,6 +286,20 @@ export function toggleEmbedVisibility(postId) {
 
 export function resetEmbedVisibility() {
     return StorageActions.actionOnGlobalItemsWithPrefix(StoragePrefixes.EMBED_VISIBLE, () => null);
+}
+
+export function toggleInlineImageVisibility(postId, imageIndex) {
+    return (dispatch, getState) => {
+        const state = getState();
+        const currentUserId = getCurrentUserId(state);
+        const visible = isInlineImageVisible(state, postId, imageIndex);
+
+        dispatch(StorageActions.setGlobalItem(StoragePrefixes.INLINE_IMAGE_VISIBLE + currentUserId + '_' + postId + '_' + imageIndex, !visible));
+    };
+}
+
+export function resetInlineImageVisibility() {
+    return StorageActions.actionOnGlobalItemsWithPrefix(StoragePrefixes.INLINE_IMAGE_VISIBLE, () => null);
 }
 
 /**
