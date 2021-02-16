@@ -1373,9 +1373,13 @@ function handleCloudPaymentStatusUpdated() {
 }
 
 function handleThreadsReadChanged(msg) {
-    return (doDispatch) => {
+    return (doDispatch, doGetState) => {
         if (msg.data.thread_id) {
-            handleReadChanged(doDispatch, msg.data.thread_id, msg.broadcast.team_id, msg.data.timestamp);
+            const thread = doGetState().entities.threads.threads?.[msg.data.thread_id];
+            if (thread) {
+                const unreadDiff = msg.data.unread_mentions - thread.unread_mentions;
+                handleReadChanged(doDispatch, msg.data.thread_id, msg.broadcast.team_id, unreadDiff, msg.data.channel_id);
+            }
         } else {
             handleAllMarkedRead(doDispatch, msg.broadcast.team_id);
         }
