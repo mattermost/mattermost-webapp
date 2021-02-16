@@ -43,6 +43,8 @@ import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 import SubMenuModal from '../components/widgets/menu/menu_modals/submenu_modal/submenu_modal';
 
+import {appsEnabled} from 'utils/apps';
+
 import {openModal} from './views/modals';
 
 const dispatch = store.dispatch;
@@ -96,7 +98,7 @@ export function emitChannelClickEvent(channel: Channel) {
             member: member || {},
         }]));
 
-        if (Utils.appsEnabled(state)) {
+        if (appsEnabled(state)) {
             dispatch(fetchAppBindings(userId, chan.id));
         }
     }

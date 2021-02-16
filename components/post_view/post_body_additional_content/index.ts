@@ -10,7 +10,7 @@ import {isEmbedVisible} from 'selectors/posts';
 import {GlobalState} from 'types/store';
 import {PostWillRenderEmbedPluginComponent} from 'types/store/plugins';
 
-import {appsEnabled} from 'utils/utils';
+import {appsEnabled} from 'utils/apps';
 
 import PostBodyAdditionalContent, {
     Props,
