@@ -17,12 +17,12 @@
     display: none;
     width: 24px;
     height: 24px;
-    border: 1px solid var(--center-channel-color-16);
+    border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
     padding: 0;
 
     font-size: 18px;
     line-height: 21px;
-    color: var(--center-channel-color-56);
+    color: rgba(var(--center-channel-color-rgb), 0.56);
 
     background-color: var(--center-channel-bg);
     border-radius: 16px;
@@ -38,7 +38,7 @@
     }
 
     &:hover {
-        border: 1px solid var(--center-channel-color-24);
+        border: 1px solid rgba(var(--center-channel-color-rgb), 0.24);
 
         @include box-shadow($elevation-2);
     }
@@ -50,13 +50,13 @@
 
     font-size: 18px;
     line-height: 21px;
-    color: var(--center-channel-color-56);
+    color: rgba(var(--center-channel-color-rgb), 0.56);
 
     background: transparent;
     border-radius: 4px;
 
     &:hover {
-        color: var(--center-channel-color-72);
+        color: rgba(var(--center-channel-color-rgb), 0.72);
     }
 
     .icon {
