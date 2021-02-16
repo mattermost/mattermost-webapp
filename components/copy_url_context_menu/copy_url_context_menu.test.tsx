@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import CopyUrlContextMenu from 'components/copy_url_context_menu/copy_url_context_menu.jsx';
+import CopyUrlContextMenu from 'components/copy_url_context_menu/copy_url_context_menu';
 
 describe('components/CopyUrlContextMenu', () => {
     test('should copy relative url on click', () => {
