@@ -27,8 +27,7 @@
         "EnableEmailInvitations": true,
         "EnableBotAccountCreation": true,
         "EnableSVGs": true,
-        "EnableLatex": false,
-        "EnableLegacySidebar": true
+        "EnableLatex": false
     },
     "TeamSettings": {
         "SiteName": "Mattermost",

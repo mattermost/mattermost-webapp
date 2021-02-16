@@ -32,6 +32,7 @@
   "accessibility.sections.channelHeader": "channel header region",
   "accessibility.sections.lhsHeader": "team menu region",
   "accessibility.sections.lhsList": "channel sidebar region",
+  "accessibility.sections.lhsNavigator": "channel navigator region",
   "accessibility.sections.rhs": "{regionTitle} complimentary region",
   "accessibility.sections.rhsContent": "message details complimentary region",
   "accessibility.sections.rhsFooter": "reply input region",
