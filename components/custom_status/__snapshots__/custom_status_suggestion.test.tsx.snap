@@ -10,10 +10,8 @@ exports[`components/custom_status/custom_status_emoji should match snapshot 1`] 
   <div
     className="statusSuggestion__icon"
   >
-    <RenderEmoji
-      emoji=""
+    <Memo(RenderEmoji)
       emojiName=""
-      emojiStyle={Object {}}
       size={20}
     />
   </div>

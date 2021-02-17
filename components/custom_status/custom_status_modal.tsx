@@ -57,6 +57,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
     const [text, setText] = useState<string>(currentCustomStatus.text);
     const [emoji, setEmoji] = useState<string>(currentCustomStatus.emoji);
     const isStatusSet = emoji || text;
+    const isCurrentCustomStatusSet = currentCustomStatus.text || currentCustomStatus.emoji;
     const firstTimeModalOpened = useSelector((state: GlobalState) => showStatusDropdownPulsatingDot(state));
 
     const handleCustomStatusInitializationState = () => {
@@ -75,11 +76,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
         dispatch(setCustomStatus(customStatus));
     };
 
-    const handleClearStatus = () => {
-        if (currentCustomStatus.text || currentCustomStatus.emoji) {
-            dispatch(unsetCustomStatus());
-        }
-    };
+    const handleClearStatus = isCurrentCustomStatusSet ? () => dispatch(unsetCustomStatus()) : undefined;
 
     const getCustomStatusControlRef = () => customStatusControlRef.current;
 
@@ -93,12 +90,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
 
     const toggleEmojiPicker = () => setShowEmojiPicker((prevShow) => !prevShow);
 
-    const handleTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const inputText = event.target.value;
-        if (inputText.length <= Constants.CUSTOM_STATUS_TEXT_CHARACTER_LIMIT) {
-            setText(inputText);
-        }
-    };
+    const handleTextChange = (event: React.ChangeEvent<HTMLInputElement>) => setText(event.target.value);
 
     const handleRecentCustomStatusClear = (status: UserCustomStatus) => dispatch(removeRecentCustomStatus(status));
 
@@ -256,6 +248,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
                     </div>
                     <QuickInput
                         value={text}
+                        maxLength={Constants.CUSTOM_STATUS_TEXT_CHARACTER_LIMIT}
                         clearable={Boolean(isStatusSet)}
                         onClear={clearHandle}
                         className='form-control'

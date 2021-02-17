@@ -9,7 +9,6 @@ import RenderEmoji from 'components/emoji/render_emoji';
 import {makeGetCustomStatus, isCustomStatusEnabled} from 'selectors/views/custom_status';
 import {GlobalState} from 'types/store';
 import Constants from 'utils/constants';
-import Markdown from 'components/markdown';
 
 interface ComponentProps {
     emojiSize?: number;
@@ -54,18 +53,12 @@ const CustomStatusEmoji = (props: ComponentProps) => {
                         <RenderEmoji
                             emojiName={customStatus.emoji}
                             size={14}
-                            emojiStyle={{
-                                marginTop: 2,
-                            }}
                         />
                         <span
                             className='custom-status-text'
                             style={{marginLeft: 5}}
                         >
-                            <Markdown
-                                message={customStatus.text}
-                                enableFormatting={true}
-                            />
+                            {customStatus.text}
                         </span>
                     </div>
                 </Tooltip>

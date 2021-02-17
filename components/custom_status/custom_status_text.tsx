@@ -8,7 +8,6 @@ import OverlayTrigger from 'components/overlay_trigger';
 import {isCustomStatusEnabled} from 'selectors/views/custom_status';
 import {GlobalState} from 'types/store';
 import Constants from 'utils/constants';
-import Markdown from 'components/markdown';
 
 interface ComponentProps {
     tooltipDirection?: 'top' | 'right' | 'bottom' | 'left';
@@ -39,10 +38,7 @@ const CustomStatusText = (props: ComponentProps) => {
                 showTooltip();
             }}
         >
-            <Markdown
-                message={text}
-                enableFormatting={true}
-            />
+            {text}
         </span>
     );
 
@@ -56,10 +52,7 @@ const CustomStatusText = (props: ComponentProps) => {
             placement={tooltipDirection}
             overlay={
                 <Tooltip id='custom-status-tooltip'>
-                    <Markdown
-                        message={text}
-                        enableFormatting={true}
-                    />
+                    {text}
                 </Tooltip>
             }
         >

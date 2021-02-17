@@ -52,4 +52,4 @@ RenderEmoji.defaultProps = {
     size: 16,
 };
 
-export default RenderEmoji;
+export default React.memo(RenderEmoji);

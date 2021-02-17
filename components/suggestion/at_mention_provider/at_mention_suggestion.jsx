@@ -13,6 +13,7 @@ import Avatar from 'components/widgets/users/avatar';
 
 import Suggestion from '../suggestion.jsx';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
+import Nbsp from "../../html_entities/nbsp";
 
 export default class AtMentionSuggestion extends Suggestion {
     render() {
@@ -132,6 +133,9 @@ export default class AtMentionSuggestion extends Suggestion {
                     showTooltip={true}
                     userID={item.id}
                     emojiSize={15}
+                    emojiStyle={{
+                        margin: '0 4px 4px',
+                    }}
                 />
             );
         }
@@ -170,7 +174,7 @@ export default class AtMentionSuggestion extends Suggestion {
                         className='badge-autocomplete'
                     />
                     {customStatus}
-                    <span className='light ml-2'>
+                    <span className='light'>
                         {description}
                         {youElement}
                     </span>

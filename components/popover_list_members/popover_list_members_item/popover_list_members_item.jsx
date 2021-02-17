@@ -66,7 +66,9 @@ export default class PopoverListMembersItem extends React.PureComponent {
                 />
                 <div className='more-modal__details d-flex whitespace--nowrap'>
                     <div className='more-modal__name'>
-                        {this.props.displayName}
+                        <span>
+                            {this.props.displayName}
+                        </span>
                         <BotBadge
                             show={Boolean(this.props.user.is_bot)}
                             className='badge-popoverlist'
@@ -75,12 +77,16 @@ export default class PopoverListMembersItem extends React.PureComponent {
                             show={Utils.isGuest(this.props.user)}
                             className='badge-popoverlist'
                         />
-                        <CustomStatusEmoji
-                            userID={this.props.user.id}
-                            showTooltip={true}
-                            emojiSize={15}
-                        />
                     </div>
+                    <CustomStatusEmoji
+                        userID={this.props.user.id}
+                        showTooltip={true}
+                        emojiSize={15}
+                        emojiStyle={{
+                            marginBottom: -3,
+                            marginLeft: 4,
+                        }}
+                    />
                 </div>
                 <div className='more-modal__actions'>
                     {messageIcon}

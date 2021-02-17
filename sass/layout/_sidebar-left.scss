@@ -1075,7 +1075,7 @@
     }
 
     .SidebarChannel span.SidebarChannelLinkLabel {
-        max-width: 85%;
+        max-width: 100%;
         white-space: nowrap;
         line-height: 18px;
         text-align: justify;
@@ -1087,7 +1087,7 @@
         display: flex;
         flex-grow: 1;
 
-        > span {
+        > span.SidebarChannelLinkLabel {
             text-overflow: ellipsis;
             overflow: hidden;
         }

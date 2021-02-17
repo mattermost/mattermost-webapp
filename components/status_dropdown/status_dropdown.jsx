@@ -181,7 +181,7 @@ export default class StatusDropdown extends React.PureComponent {
                     text={''}
                     modalId={ModalIdentifiers.CUSTOM_STATUS}
                     dialogType={CustomStatusModal}
-                    className='custom_status__row'
+                    className='MenuItem__primary-text custom_status__row'
                     id={'status-menu-custom-status'}
                     sibling={clearButton}
                 >

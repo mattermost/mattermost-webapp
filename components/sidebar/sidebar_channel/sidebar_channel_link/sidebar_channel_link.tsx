@@ -212,7 +212,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
                 showTooltip={true}
                 emojiStyle={{
                     marginLeft: 6,
-                    marginBottom: 1,
+                    marginBottom: 6,
                 }}
             />
         ) : null;

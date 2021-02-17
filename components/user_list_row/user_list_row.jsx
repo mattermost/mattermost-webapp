@@ -100,28 +100,32 @@ export default class UserListRow extends React.PureComponent {
                     className='more-modal__details'
                     data-testid='userListItemDetails'
                 >
-                    <div
-                        id={userCountID}
-                        className='more-modal__name'
-                    >
-                        <UserProfile
-                            userId={this.props.user.id}
-                            hasMention={true}
-                            displayUsername={true}
-                        />
-                        <Nbsp/>
-                        {
-                            this.props.user.first_name || this.props.user.last_name || this.props.user.nickname ?
-                                '-' : null
-                        }
-                        <Nbsp/>
-                        {Utils.displayFullAndNicknameForUser(this.props.user)}
-                        <Nbsp/>
+                    <div className='d-flex whitespace--nowrap'>
+                        <div
+                            id={userCountID}
+                            className='more-modal__name'
+                        >
+                            <UserProfile
+                                userId={this.props.user.id}
+                                hasMention={true}
+                                displayUsername={true}
+                            />
+                            <Nbsp/>
+                            {
+                                this.props.user.first_name || this.props.user.last_name || this.props.user.nickname ?
+                                    '-' : null
+                            }
+                            <Nbsp/>
+                            {Utils.displayFullAndNicknameForUser(this.props.user)}
+                        </div>
                         <CustomStatusEmoji
                             userID={this.props.user.id}
                             emojiSize={15}
                             showTooltip={true}
-                            emojiStyle={{marginLeft: 0}}
+                            emojiStyle={{
+                                marginLeft: 0,
+                                marginBottom: -3,
+                            }}
                         />
                     </div>
                     <div
