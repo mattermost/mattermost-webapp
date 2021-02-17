@@ -90,7 +90,11 @@ const sectionsList: SystemSection[] = [
     {
         name: 'experimental',
         hasDescription: true,
-        subsections: [],
+        subsections: [
+            {name: 'experimental_features'},
+            {name: 'experimental_feature_flags'},
+            {name: 'experimental_bleve'},
+        ],
     },
 ];
 
@@ -234,3 +238,6 @@ t('admin.permissions.sysconsole_section_compliance.name');
 t('admin.permissions.sysconsole_section_compliance.description');
 t('admin.permissions.sysconsole_section_experimental.name');
 t('admin.permissions.sysconsole_section_experimental.description');
+t('admin.permissions.sysconsole_section_experimental_features.name');
+t('admin.permissions.sysconsole_section_experimental_feature_flags.name');
+t('admin.permissions.sysconsole_section_experimental_bleve.name');
