@@ -99,7 +99,7 @@ const filterGroupChannels = memoizeResult((channels: Array<{profiles: UserProfil
     });
 });
 
-const filterDirectChannels = memoizeResult((channels: Channel[], userId: string) => {
+const filterDirectChannels = memoizeResult((channels: Record<string, Channel>, userId: string) => {
     return Object.values(channels).filter((channel) => {
         if (channel.type !== 'D') {
             return false;
