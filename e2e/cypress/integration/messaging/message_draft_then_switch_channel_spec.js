@@ -64,7 +64,7 @@ describe('Message Draft and Switch Channels', () => {
 });
 
 function verifyDraftIcon(channelName, isVisible) {
-    cy.get('#lhsList').findByLabelText(`${channelName.toLowerCase()} public channel`).
+    cy.uiGetLhsSection('CHANNELS').findByLabelText(`${channelName.toLowerCase()} public channel`).
         should('be.visible').
         findByTestId('draftIcon').
         should(isVisible ? 'be.visible' : 'not.exist');
@@ -72,7 +72,7 @@ function verifyDraftIcon(channelName, isVisible) {
 
 function openChannelFromLhs(teamName, displayName, name) {
     // # Go to test channel and check if it opened correctly
-    cy.get('#lhsList').findByText(displayName).click();
+    cy.uiGetLhsSection('CHANNELS').findByText(displayName).click();
     cy.url().should('include', `/${teamName}/channels/${name || displayName.toLowerCase()}`);
 }
 

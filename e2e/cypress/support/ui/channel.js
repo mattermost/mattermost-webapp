@@ -75,7 +75,7 @@ Cypress.Commands.add('uiLeaveChannel', (isPrivate = false) => {
 });
 
 Cypress.Commands.add('goToDm', (username) => {
-    cy.get('#addDirectChannel').click({force: true});
+    cy.uiAddDirectMessage().click({force: true});
 
     // # Start typing part of a username that matches previously created users
     cy.get('#selectItems input').type(username, {force: true});

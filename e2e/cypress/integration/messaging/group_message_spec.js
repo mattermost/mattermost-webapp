@@ -248,8 +248,8 @@ describe('Group Message', () => {
             // # Remove GM from the LHS
             cy.get(`#sidebarItem_${channelName} .btn-close`).first().click({force: true}).wait(TIMEOUTS.HALF_SEC);
 
-            // # Click on More...
-            cy.get('#moreDirectMessage').click().wait(TIMEOUTS.HALF_SEC);
+            // # Open DM modal
+            cy.uiAddDirectMessage().click().wait(TIMEOUTS.HALF_SEC);
 
             // # Open previously closed group message
             cy.get('#selectItems input').type(`${participants[0].username}`).wait(TIMEOUTS.HALF_SEC);
@@ -269,7 +269,7 @@ describe('Group Message', () => {
 
 const createGroupMessageWith = (users) => {
     const defaultUserLimit = 7;
-    cy.get('#addDirectChannel').click().wait(TIMEOUTS.HALF_SEC);
+    cy.uiAddDirectMessage().click().wait(TIMEOUTS.HALF_SEC);
     cy.get('#multiSelectHelpMemberInfo').should('contain', 'You can add 7 more people');
 
     users.forEach((user, index) => {

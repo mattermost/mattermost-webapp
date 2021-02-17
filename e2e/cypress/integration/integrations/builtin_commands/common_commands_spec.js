@@ -158,7 +158,7 @@ describe('Integrations', () => {
         cy.get('#lhsList').should('be.visible').should('not.contain', 'Off-Topic');
 
         // * Verify user is redirected to Town Square
-        cy.get('#lhsList').should('be.visible').should('contain', 'Town Square');
+        cy.uiGetLhsSection('CHANNELS').find('.active').should('contain', 'Town Square');
         cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'Town Square');
     });
 

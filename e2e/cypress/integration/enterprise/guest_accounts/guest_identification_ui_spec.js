@@ -150,7 +150,7 @@ describe('MM-18045 Verify Guest User Identification in different screens', () =>
 
     it('Verify Guest Badge in Switch Channel Dialog', () => {
         // # Click the sidebar switcher button
-        cy.get('#sidebarSwitcherButton').click();
+        cy.uiGetChannelSwitcher().click();
 
         // # Type the guest user name on Channel switcher input
         cy.findByRole('textbox', {name: 'quick switch input'}).type(guest.username).wait(TIMEOUTS.HALF_SEC);
@@ -167,7 +167,7 @@ describe('MM-18045 Verify Guest User Identification in different screens', () =>
 
     it('MM-T1377 Verify Guest Badge in DM Search dialog', () => {
         // #Click on plus icon of Direct Messages
-        cy.get('#addDirectChannel').click().wait(TIMEOUTS.HALF_SEC);
+        cy.uiAddDirectMessage().click().wait(TIMEOUTS.HALF_SEC);
 
         // # Search for the Guest User
         cy.focused().type(guest.username, {force: true}).wait(TIMEOUTS.HALF_SEC);
@@ -182,7 +182,7 @@ describe('MM-18045 Verify Guest User Identification in different screens', () =>
 
     it('Verify Guest Badge in DM header and GM header', () => {
         // # Open a DM with Guest User
-        cy.get('#addDirectChannel').click().wait(TIMEOUTS.HALF_SEC);
+        cy.uiAddDirectMessage().click().wait(TIMEOUTS.HALF_SEC);
         cy.focused().type(guest.username, {force: true}).type('{enter}', {force: true}).wait(TIMEOUTS.HALF_SEC);
         cy.get('#saveItems').click().wait(TIMEOUTS.HALF_SEC);
 
@@ -193,7 +193,7 @@ describe('MM-18045 Verify Guest User Identification in different screens', () =>
         });
 
         // # Open a GM with Guest User and Sysadmin
-        cy.get('#addDirectChannel').click().wait(TIMEOUTS.HALF_SEC);
+        cy.uiAddDirectMessage().click().wait(TIMEOUTS.HALF_SEC);
         cy.focused().type(guest.username, {force: true}).type('{enter}', {force: true}).wait(TIMEOUTS.HALF_SEC);
         cy.get('#saveItems').click().wait(TIMEOUTS.HALF_SEC);
 

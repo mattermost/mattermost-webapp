@@ -4,7 +4,7 @@
 
 export async function createArchivedChannel(channelOptions, messages, memberUsernames) {
     const channelName = await new Promise((resolve) => {
-        cy.uiCreateChannel(channelOptions).then((newChannel) => {
+        cy.uiCreateChannel({isNewSidebar: true, ...channelOptions}).then((newChannel) => {
             if (memberUsernames) {
                 cy.uiAddUsersToCurrentChannel(memberUsernames);
             }

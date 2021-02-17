@@ -101,7 +101,7 @@ const expectActiveChannelToBe = (title, url) => {
 
 const sendDirectMessageToUser = (user, message) => {
     // # Open a new direct message with firstDMUser
-    cy.get('#addDirectChannel').click();
+    cy.uiAddDirectMessage().click();
 
     // # Type username
     cy.get('#selectItems input').should('be.enabled').type(`@${user.username}`, {force: true});
