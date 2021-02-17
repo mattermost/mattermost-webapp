@@ -4,10 +4,10 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import AddGroupsToChannelModal from 'components/add_groups_to_channel_modal/add_groups_to_channel_modal.jsx';
+import AddGroupsToChannelModal, {Props} from 'components/add_groups_to_channel_modal/add_groups_to_channel_modal';
 
 describe('components/AddGroupsToChannelModal', () => {
-    const baseProps = {
+    const baseProps: Props = {
         currentChannelName: 'foo',
         currentChannelId: '123',
         teamID: '456',
@@ -38,7 +38,7 @@ describe('components/AddGroupsToChannelModal', () => {
             <AddGroupsToChannelModal {...props}/>,
         );
 
-        wrapper.instance().handleExit();
+        (wrapper.instance() as AddGroupsToChannelModal).handleExit();
         expect(onHide).toHaveBeenCalledTimes(1);
     });
 
@@ -48,13 +48,13 @@ describe('components/AddGroupsToChannelModal', () => {
         );
 
         wrapper.setState({saving: true, addError: ''});
-        wrapper.instance().handleResponse();
+        (wrapper.instance() as AddGroupsToChannelModal).handleResponse();
         expect(wrapper.state('saving')).toEqual(false);
         expect(wrapper.state('addError')).toEqual(null);
 
         const message = 'error message';
         wrapper.setState({saving: true, addError: ''});
-        wrapper.instance().handleResponse({message});
+        (wrapper.instance() as AddGroupsToChannelModal).handleResponse({message});
         expect(wrapper.state('saving')).toEqual(false);
         expect(wrapper.state('addError')).toEqual(message);
     });
@@ -94,15 +94,15 @@ describe('components/AddGroupsToChannelModal', () => {
         const wrapper = shallow(
             <AddGroupsToChannelModal {...baseProps}/>,
         );
-        const value1 = {id: 'id_1', label: 'label_1', value: 'value_1'};
-        const value2 = {id: 'id_2', label: 'label_2', value: 'value_2'};
+        const value1: any = {id: 'id_1', label: 'label_1', value: 'value_1'};
+        const value2: any = {id: 'id_2', label: 'label_2', value: 'value_2'};
 
         wrapper.setState({values: [value1]});
-        wrapper.instance().addValue(value2);
+        (wrapper.instance() as AddGroupsToChannelModal).addValue(value2);
         expect(wrapper.state('values')).toEqual([value1, value2]);
 
         wrapper.setState({values: [value1]});
-        wrapper.instance().addValue(value1);
+        (wrapper.instance() as AddGroupsToChannelModal).addValue(value1);
         expect(wrapper.state('values')).toEqual([value1]);
     });
 
@@ -112,13 +112,13 @@ describe('components/AddGroupsToChannelModal', () => {
         );
 
         wrapper.setState({users: [{id: 'id_1'}]});
-        wrapper.instance().handlePageChange(0, 1);
+        (wrapper.instance() as AddGroupsToChannelModal).handlePageChange(0, 1);
         expect(baseProps.actions.getGroupsNotAssociatedToChannel).toHaveBeenCalledTimes(1);
 
-        wrapper.instance().handlePageChange(1, 0);
+        (wrapper.instance() as AddGroupsToChannelModal).handlePageChange(1, 0);
         expect(baseProps.actions.getGroupsNotAssociatedToChannel).toHaveBeenCalledTimes(2);
 
-        wrapper.instance().handlePageChange(0, 1);
+        (wrapper.instance() as AddGroupsToChannelModal).handlePageChange(0, 1);
         expect(baseProps.actions.getGroupsNotAssociatedToChannel).toHaveBeenCalledTimes(2);
     });
 
@@ -127,12 +127,12 @@ describe('components/AddGroupsToChannelModal', () => {
             <AddGroupsToChannelModal {...baseProps}/>,
         );
 
-        wrapper.instance().search('');
+        (wrapper.instance() as AddGroupsToChannelModal).search('');
         expect(baseProps.actions.setModalSearchTerm).toHaveBeenCalledTimes(1);
         expect(baseProps.actions.setModalSearchTerm).toBeCalledWith('');
 
         const searchTerm = 'term';
-        wrapper.instance().search(searchTerm);
+        (wrapper.instance() as AddGroupsToChannelModal).search(searchTerm);
         expect(wrapper.state('loadingGroups')).toEqual(true);
         expect(baseProps.actions.setModalSearchTerm).toHaveBeenCalledTimes(2);
         expect(baseProps.actions.setModalSearchTerm).toBeCalledWith(searchTerm);
@@ -148,8 +148,8 @@ describe('components/AddGroupsToChannelModal', () => {
         const value3 = {id: 'id_3', label: 'label_3', value: 'value_3'};
 
         wrapper.setState({values: [value1]});
-        const newValues = [value2, value3];
-        wrapper.instance().handleDelete(newValues);
+        const newValues: any = [value2, value3];
+        (wrapper.instance() as AddGroupsToChannelModal).handleDelete(newValues);
         expect(wrapper.state('values')).toEqual(newValues);
     });
 
@@ -158,17 +158,17 @@ describe('components/AddGroupsToChannelModal', () => {
             <AddGroupsToChannelModal {...baseProps}/>,
         );
 
-        const option = {id: 'id', last_picture_update: '12345', email: 'test@test.com'};
+        const option: any = {id: 'id', last_picture_update: '12345', email: 'test@test.com'};
         let isSelected = false;
         function onAdd() {} //eslint-disable-line no-empty-function
 
-        expect(wrapper.instance().renderOption(option, isSelected, onAdd)).toMatchSnapshot();
+        expect((wrapper.instance() as AddGroupsToChannelModal).renderOption(option, isSelected, onAdd)).toMatchSnapshot();
 
         isSelected = true;
-        expect(wrapper.instance().renderOption(option, isSelected, onAdd)).toMatchSnapshot();
+        expect((wrapper.instance() as AddGroupsToChannelModal).renderOption(option, isSelected, onAdd)).toMatchSnapshot();
 
-        const optionBot = {id: 'id', is_bot: true, last_picture_update: '12345'};
-        expect(wrapper.instance().renderOption(optionBot, isSelected, onAdd)).toMatchSnapshot();
+        const optionBot: any = {id: 'id', is_bot: true, last_picture_update: '12345'};
+        expect((wrapper.instance() as AddGroupsToChannelModal).renderOption(optionBot, isSelected, onAdd)).toMatchSnapshot();
     });
 
     test('should match when renderValue is called', () => {
@@ -176,6 +176,6 @@ describe('components/AddGroupsToChannelModal', () => {
             <AddGroupsToChannelModal {...baseProps}/>,
         );
 
-        expect(wrapper.instance().renderValue({data: {display_name: 'foo'}})).toEqual('foo');
+        expect((wrapper.instance() as AddGroupsToChannelModal).renderValue({data: {display_name: 'foo'}})).toEqual('foo');
     });
 });

@@ -1,4 +1,3 @@
-
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
@@ -167,7 +166,7 @@ Cypress.Commands.add('uiWaitUntilMessagePostedIncludes', (message) => {
 Cypress.Commands.add('getLastPostIdRHS', () => {
     waitUntilPermanentPost();
 
-    cy.get('#rhsPostList > div').last().should('have.attr', 'id').and('not.include', ':').
+    cy.get('#rhsContainer .post-right-comments-container > div').last().should('have.attr', 'id').and('not.include', ':').
         invoke('replace', 'rhsPost_', '');
 });
 
