@@ -15,7 +15,7 @@
  * @param {String} text - DM channel name
  */
 function createNewDMChannel(channelname) {
-    cy.get('#addDirectChannel').scrollIntoView().click();
+    cy.uiAddDirectMessage().scrollIntoView().click();
 
     cy.get('#selectItems').within(() => {
         cy.get('input[type="text"]').scrollIntoView().type(channelname, {force: true});
