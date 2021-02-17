@@ -1377,8 +1377,7 @@ function handleThreadReadChanged(msg) {
         if (msg.data.thread_id) {
             const thread = doGetState().entities.threads.threads?.[msg.data.thread_id];
             if (thread) {
-                const unreadDiff = msg.data.unread_mentions - thread.unread_mentions;
-                handleReadChanged(doDispatch, msg.data.thread_id, msg.broadcast.team_id, unreadDiff, msg.data.channel_id);
+                handleReadChanged(doDispatch, msg.data.thread_id, msg.broadcast.team_id, thread.unread_mentions, msg.data.unread_mentions, msg.data.channel_id);
             }
         } else {
             handleAllMarkedRead(doDispatch, msg.broadcast.team_id);
@@ -1387,10 +1386,10 @@ function handleThreadReadChanged(msg) {
 }
 
 function handleThreadUpdated(msg) {
-    return (doDispatch) => {
+    return (doDispatch, doGetState) => {
         try {
             const threadData = JSON.parse(msg.data.thread);
-            handleThreadArrived(doDispatch, threadData, msg.broadcast.team_id);
+            handleThreadArrived(doDispatch, doGetState, threadData, msg.broadcast.team_id);
         } catch {
             // invalid JSON
         }
