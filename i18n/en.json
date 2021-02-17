@@ -4100,6 +4100,7 @@
   "user.settings.custom_theme.sidebarBg": "Sidebar BG",
   "user.settings.custom_theme.sidebarHeaderBg": "Sidebar Header BG",
   "user.settings.custom_theme.sidebarHeaderTextColor": "Sidebar Header Text",
+  "user.settings.custom_theme.sidebarTeamBarBg": "Team Sidebar BG",
   "user.settings.custom_theme.sidebarText": "Sidebar Text",
   "user.settings.custom_theme.sidebarTextActiveBorder": "Sidebar Text Active Border",
   "user.settings.custom_theme.sidebarTextActiveColor": "Sidebar Text Active Color",
