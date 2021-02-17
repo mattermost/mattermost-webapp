@@ -41,6 +41,7 @@
             .text-bottom {
                 font-size: 14px;
                 line-height: 20px;
+                margin-right: 24px;
             }
             .content-button {
                 margin-left: auto;
@@ -51,6 +52,7 @@
                 line-height: 9.5px;
                 border: none;
                 border-radius: 4px;
+                white-space: nowrap;
                 &.primary {
                     background: var(--button-bg);
                     color: var(--button-color);
