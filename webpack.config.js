@@ -80,9 +80,6 @@ var MYSTATS = {
     // Add the hash of the compilation
     hash: true,
 
-    // Set the maximum number of modules to be shown
-    maxModules: 0,
-
     // Add built modules information
     modules: false,
 
@@ -250,6 +247,10 @@ var config = {
             superagent: 'node_modules/superagent/lib/client',
         },
         extensions: ['.ts', '.tsx', '.js', '.jsx'],
+        fallback: {
+            crypto: require.resolve('crypto-browserify'),
+            stream: require.resolve('stream-browserify'),
+        },
     },
     performance: {
         hints: 'warning',
@@ -260,6 +261,7 @@ var config = {
             'window.jQuery': 'jquery',
             $: 'jquery',
             jQuery: 'jquery',
+            process: 'process/browser',
         }),
         new webpack.DefinePlugin({
             COMMIT_HASH: JSON.stringify(childProcess.execSync('git rev-parse HEAD || echo dev').toString()),

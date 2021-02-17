@@ -14,7 +14,7 @@
 // ***************************************************************
 
 declare namespace Cypress {
-    interface Chainable<Subject = any> {
+    interface Chainable {
 
         /**
         * runLdapSync is a task that runs an external request to run an ldap sync job.

@@ -15,7 +15,7 @@
 // ***************************************************************
 
 declare namespace Cypress {
-    interface Chainable<Subject = any> {
+    interface Chainable {
 
         /**
         * keycloakGetAccessTokenAPI is a task wrapped as command with post-verification
