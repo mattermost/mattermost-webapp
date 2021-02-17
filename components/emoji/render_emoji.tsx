@@ -15,7 +15,7 @@ interface ComponentProps {
     onClick?: () => void;
 }
 
-const RenderEmoji = React.memo(({emojiName, emojiStyle, size, onClick}: ComponentProps) => {
+const RenderEmoji = ({emojiName, emojiStyle, size, onClick}: ComponentProps) => {
     if (!emojiName) {
         return null;
     }
@@ -44,7 +44,7 @@ const RenderEmoji = React.memo(({emojiName, emojiStyle, size, onClick}: Componen
             }}
         />
     );
-});
+};
 
 RenderEmoji.defaultProps = {
     emoji: '',

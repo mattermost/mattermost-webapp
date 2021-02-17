@@ -5,12 +5,13 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {Preferences} from 'mattermost-redux/constants';
+import {UserCustomStatus} from 'mattermost-redux/types/users';
 
 import {createSelector} from 'reselect';
 
 import {GlobalState} from 'types/store';
 
-export function makeGetCustomStatus() {
+export function makeGetCustomStatus(): (state: GlobalState, userID?: string) => UserCustomStatus {
     return createSelector(
         (state: GlobalState, userID?: string) => (userID ? getUser(state, userID) : getCurrentUser(state)),
         (user) => {
