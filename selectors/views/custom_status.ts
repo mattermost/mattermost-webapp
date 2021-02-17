@@ -7,13 +7,12 @@ import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {Preferences} from 'mattermost-redux/constants';
 
 import {createSelector} from 'reselect';
-import {memoizeResult} from 'mattermost-redux/utils/helpers';
 
 import {GlobalState} from 'types/store';
 
 export function makeGetCustomStatus() {
     return createSelector(
-        (state: GlobalState, userID?: string) => userID ? getUser(state, userID) : getCurrentUser(state),
+        (state: GlobalState, userID?: string) => (userID ? getUser(state, userID) : getCurrentUser(state)),
         (user) => {
             const userProps = user.props || {};
             return userProps.customStatus && JSON.parse(userProps.customStatus);
