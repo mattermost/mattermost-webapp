@@ -7,6 +7,7 @@
         "sidebarTextActiveBorder":"#579eff",
         "sidebarTextActiveColor":"#ffffff",
         "sidebarHeaderBg":"#1153ab",
+        "sidebarTeamBarBg": "#0b428c",
         "sidebarHeaderTextColor":"#ffffff",
         "onlineIndicator":"#06d6a0",
         "awayIndicator":"#ffbc42",
