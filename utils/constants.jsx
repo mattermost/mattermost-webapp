@@ -551,6 +551,7 @@ export const ErrorPageTypes = {
     PERMALINK_NOT_FOUND: 'permalink_not_found',
     TEAM_NOT_FOUND: 'team_not_found',
     CHANNEL_NOT_FOUND: 'channel_not_found',
+    MAX_FREE_USERS_REACHED: 'max_free_users_reached',
 };
 
 export const JobTypes = {
@@ -1064,6 +1065,7 @@ export const Constants = {
             sidebarTextActiveBorder: '#579eff',
             sidebarTextActiveColor: '#ffffff',
             sidebarHeaderBg: '#1153ab',
+            sidebarTeamBarBg: '#0b428c',
             sidebarHeaderTextColor: '#ffffff',
             onlineIndicator: '#06d6a0',
             awayIndicator: '#ffbc42',
@@ -1091,6 +1093,7 @@ export const Constants = {
             sidebarTextActiveBorder: '#7ab0d6',
             sidebarTextActiveColor: '#ffffff',
             sidebarHeaderBg: '#2f81b7',
+            sidebarTeamBarBg: '#256996',
             sidebarHeaderTextColor: '#ffffff',
             onlineIndicator: '#7dbe00',
             awayIndicator: '#dcbd4e',
@@ -1118,6 +1121,7 @@ export const Constants = {
             sidebarTextActiveBorder: '#66b9a7',
             sidebarTextActiveColor: '#ffffff',
             sidebarHeaderBg: '#1b2c3e',
+            sidebarTeamBarBg: '#152231',
             sidebarHeaderTextColor: '#ffffff',
             onlineIndicator: '#65dcc8',
             awayIndicator: '#c1b966',
@@ -1145,6 +1149,7 @@ export const Constants = {
             sidebarTextActiveBorder: '#196caf',
             sidebarTextActiveColor: '#ffffff',
             sidebarHeaderBg: '#1f1f1f',
+            sidebarTeamBarBg: '#181818',
             sidebarHeaderTextColor: '#ffffff',
             onlineIndicator: '#399fff',
             awayIndicator: '#c1b966',
@@ -1179,6 +1184,11 @@ export const Constants = {
             group: 'sidebarElements',
             id: 'sidebarHeaderBg',
             uiName: 'Sidebar Header BG',
+        },
+        {
+            group: 'sidebarElements',
+            id: 'sidebarTeamBarBg',
+            uiName: 'Team Sidebar BG',
         },
         {
             group: 'sidebarElements',
