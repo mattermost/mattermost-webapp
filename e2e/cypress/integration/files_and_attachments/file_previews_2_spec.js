@@ -54,7 +54,7 @@ describe('Upload Files - Generic', () => {
         });
 
         cy.get('.modal-body').within(() => {
-            cy.get('.pdf').get('.post-code').get('canvas').should('have.length', 5);
+            cy.get('.pdf').get('.post-code').get('canvas').should('have.length', 10);
 
             // # Hover over the image
             cy.get('.modal-image__content').trigger('mouseover');
