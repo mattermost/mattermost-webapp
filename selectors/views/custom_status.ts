@@ -12,11 +12,13 @@ import {memoizeResult} from 'mattermost-redux/utils/helpers';
 import {GlobalState} from 'types/store';
 
 export function makeGetCustomStatus() {
-    return memoizeResult((state: GlobalState, userID?: string) => {
-        const user = userID ? getUser(state, userID) : getCurrentUser(state);
-        const userProps = user.props || {};
-        return userProps.customStatus && JSON.parse(userProps.customStatus);
-    });
+    return createSelector(
+        (state: GlobalState, userID?: string) => userID ? getUser(state, userID) : getCurrentUser(state),
+        (user) => {
+            const userProps = user.props || {};
+            return userProps.customStatus && JSON.parse(userProps.customStatus);
+        },
+    );
 }
 
 export const getRecentCustomStatuses = createSelector(
