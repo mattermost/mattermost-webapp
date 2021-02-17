@@ -20,7 +20,6 @@
     "country-list": "2.2.0",
     "crypto-browserify": "3.12.0",
     "css-vars-ponyfill": "2.4.3",
-    "custom-protocol-detection": "github:ismailhabib/custom-protocol-detection",
     "dynamic-virtualized-list": "github:mattermost/dynamic-virtualized-list#119db968c96643c7106d4d2c965f05b2e251bc83",
     "emoji-regex": "9.2.1",
     "exif2css": "1.3.0",
