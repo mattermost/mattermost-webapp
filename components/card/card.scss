@@ -61,6 +61,8 @@
             }
         }
         .Card__body {
+            overflow: visible;
+
             &.expanded {
                 margin: 20px 32px;
             }

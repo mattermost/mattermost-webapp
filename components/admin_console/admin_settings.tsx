@@ -18,6 +18,7 @@ export type BaseProps = {
     setNavigationBlocked?: (blocked: boolean) => void;
     isDisabled?: boolean;
     updateConfig?: (config: AdminConfig) => {data: AdminConfig; error: ClientErrorPlaceholder};
+    headerClassName?: string;
 }
 
 export type BaseState = {
@@ -46,6 +47,7 @@ export default abstract class AdminSettings <Props extends BaseProps, State exte
             saving: false,
             serverError: null,
             errorTooltip: false,
+            headerClassName: '',
         };
         if (props.config) {
             this.state = Object.assign(this.getStateFromConfig(props.config), stateInit) as Readonly<State>;
@@ -244,7 +246,9 @@ export default abstract class AdminSettings <Props extends BaseProps, State exte
                 onSubmit={this.handleSubmit}
             >
                 <div className='wrapper--fixed'>
-                    <AdminHeader>
+                    <AdminHeader
+                        className={this.state.headerClassName}
+                    >
                         {this.renderTitle()}
                     </AdminHeader>
                     {this.renderSettings()}

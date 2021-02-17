@@ -46,6 +46,7 @@ import ChannelDetails from './team_channel_settings/channel/details';
 import PasswordSettings from './password_settings.jsx';
 import PushNotificationsSettings from './push_settings.jsx';
 import DataRetentionSettings from './data_retention_settings';
+import GlobalDataRetentionForm from './data_retention_settings/global_policy_form/global_policy_form.tsx';
 import MessageExportSettings from './message_export_settings.jsx';
 import DatabaseSettings from './database_settings.jsx';
 import ElasticSearchSettings from './elasticsearch_settings.jsx';
@@ -5047,6 +5048,14 @@ const AdminDefinition = {
         sectionTitle: t('admin.sidebar.compliance'),
         sectionTitleDefault: 'Compliance',
         isHidden: it.not(it.userHasReadPermissionOnResource('compliance')),
+        global_policy_form: {
+            url: 'compliance/data_retention/global_policy',
+            isDisabled: it.not(it.userHasWritePermissionOnResource('compliance')),
+            schema: {
+                id: 'GlobalDataRetentionForm',
+                component: GlobalDataRetentionForm,
+            },
+        },
         data_retention: {
             url: 'compliance/data_retention',
             title: t('admin.sidebar.dataRetentionPolicy'),

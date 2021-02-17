@@ -38,6 +38,10 @@ const baseStyles = {
         ...provided,
         display: 'none',
     }),
+    menuPortal: (provided: CSSProperties) => ({
+        ...provided,
+        zIndex: 99999999,
+    }),
 };
 
 
@@ -91,7 +95,7 @@ const DropdownInputTransformer: React.FC<Props> = (props) => {
     const inputRef: any = React.createRef();
     const [inputFocused, setInputFocused] = useState(false);
     const [focused, setFocused] = useState(false);
-    const [showInput, setShowInput] = useState(false);
+    const [showInput, setShowInput] = useState(inputValue ? true : false);
 
     useEffect(() => {
         if (showInput) {
@@ -236,6 +240,7 @@ const DropdownInputTransformer: React.FC<Props> = (props) => {
                             value={value}
                             hideSelectedOptions
                             isSearchable={false}
+                            menuPortalTarget={document.body}
                             {...otherProps}
                         />
                     </div>

@@ -2,15 +2,17 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import classNames from 'classnames';
 
 type Props = {
     children: JSX.Element[] | JSX.Element | string;
+    className?: string;
 };
 
 export default class AdminHeader extends React.PureComponent<Props> {
     public render() {
         return (
-            <div className={'admin-console__header'}>
+            <div className={classNames('admin-console__header', this.props.className)}>
                 {this.props.children}
             </div>
         );

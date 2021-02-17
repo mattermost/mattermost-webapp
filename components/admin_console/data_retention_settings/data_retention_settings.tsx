@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+import {AdminConfig} from 'mattermost-redux/types/config';
 
 import {JobTypes} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
@@ -16,14 +17,22 @@ import DropdownSetting from 'components/admin_console/dropdown_setting.jsx';
 import JobsTable from 'components/admin_console/jobs';
 import SettingsGroup from 'components/admin_console/settings_group.jsx';
 import TextSetting from 'components/admin_console/text_setting';
+import MenuWrapper from 'components/widgets/menu/menu_wrapper';
+import Menu from 'components/widgets/menu/menu';
+import {browserHistory} from 'utils/browser_history';
 
 type Props = {
-
+    config: AdminConfig;
+    actions: {
+        getCustomDataRetentionPolicies: () => Promise<{ data: {policies: []} }>;
+    };
 };
 
 type State = {
     enableMessageDeletion: boolean;
     enableFileDeletion: boolean;
+    customPolicyData: [];
+    customPoliciesLoading: boolean;
 }
 
 export default class DataRetentionSettings extends React.PureComponent<Props, State> {
@@ -31,7 +40,9 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
         super(props);
         this.state = {
             enableMessageDeletion: true,
-            enableFileDeletion: true
+            enableFileDeletion: true,
+            customPolicyData: [],
+            customPoliciesLoading: true,
         }
     }
    
@@ -68,7 +79,7 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
             {
                 name: '',
                 field: 'actions',
-                customClass: 'Table__table-icon'
+                className: 'actionIcon',
             },
         ];
     }
@@ -104,13 +115,113 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
             {
                 name: '',
                 field: 'actions',
-                customClass: 'Table__table-icon'
+                className: 'actionIcon',
             },
         ];
     }
+    getGlobalPolicyRows = () => {
+        const { DataRetentionSettings } = this.props.config;
+            return [{
+                cells: {
+                    description: 'Applies to all teams and channels, but does not apply to custom retention policies.',
+                    channel_messages: DataRetentionSettings.EnableMessageDeletion ? `${DataRetentionSettings.MessageRetentionDays} days` : 'Keep Forever',
+                    files: DataRetentionSettings.EnableFileDeletion ? `${DataRetentionSettings.FileRetentionDays} days` : 'Keep Forever',
+                    actions: (
+                        <MenuWrapper
+                            isDisabled={false}
+                        >
+                            <div className='text-right'>
+                                <a>
+                                    <i className='icon icon-dots-vertical'/>
+                                </a>
+                            </div>
+                            <Menu
+                                openLeft={false}
+                                openUp={false}
+                                ariaLabel={'User Actions Menu'}
+                            >
+                                <Menu.ItemAction
+                                    show={true}
+                                    onClick={() => {
+                                        browserHistory.push(`/admin_console/compliance/data_retention/global_policy`);
+                                    }}
+                                    text={'Edit'}
+                                    disabled={false}
+                                />
+                            </Menu>
+                        </MenuWrapper>
+                    ),
+                },
+                // onClick: () => {
+                //     browserHistory.push(`/admin_console/compliance/global_data_retention`);
+                // }
+            }];
+    }
+    getChannelAndTeamCounts = (policy): string => {
+        if (!policy.channels.length && !policy.teams.length) {
+            return 'N/A';
+        }
+        let appliedTo = '';
+        if (policy.channels.length) {
+            appliedTo = `${policy.channels.length} channels`;
+        }
 
-    componentDidMount = () => {
+        if (policy.channels.length && policy.teams.length) {
+            appliedTo += `, `;
+        }
 
+        if (policy.teams.length) {
+            appliedTo += `${policy.teams.length} teams`;
+        }
+        return appliedTo;
+    }
+    getCustomPolicyRows = (): Row[] => {
+        return this.state.customPolicyData.map((policy: any) => {
+            return {
+                cells: {
+                    description: policy.display_name,
+                    channel_messages: `${policy.post_duration} days`,
+                    applied_to: this.getChannelAndTeamCounts(policy),
+                    actions: (
+                        <MenuWrapper
+                            isDisabled={false}
+                        >
+                            <div className='text-right'>
+                                <a>
+                                    <i className='icon icon-dots-vertical'/>
+                                </a>
+                            </div>
+                            <Menu
+                                openLeft={true}
+                                openUp={false}
+                                ariaLabel={'User Actions Menu'}
+                            >
+                                <Menu.ItemAction
+                                    show={true}
+                                    onClick={() => {
+
+                                    }}
+                                    text={'Edit'}
+                                    disabled={false}
+                                />
+                                <Menu.ItemAction
+                                    show={true}
+                                    onClick={() => {}}
+                                    text={'Delete'}
+                                    disabled={false}
+                                />
+                            </Menu>
+                        </MenuWrapper>
+                    ),
+                },
+            };
+        });
+    };
+
+    componentDidMount = async () => {
+        const {actions} = this.props;
+        const policies = await actions.getCustomDataRetentionPolicies();
+        this.setState({customPolicyData: policies.data.policies, customPoliciesLoading: false})
     }
 
     render = () => {
@@ -144,7 +255,18 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                                 />
                             </Card.Header>
                             <Card.Body>
-                                
+                                <DataGrid
+                                    columns={this.getGlobalPolicyColumns()}
+                                    rows={this.getGlobalPolicyRows()}
+                                    loading={false}
+                                    page={0}
+                                    nextPage={() => {}}
+                                    previousPage={() => {}}
+                                    startCount={1}
+                                    endCount={4}
+                                    total={0}
+                                    className={'customTable'}
+                                />
                             </Card.Body>
                         </Card>
                         <Card
@@ -175,7 +297,18 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                                 />
                             </Card.Header>
                             <Card.Body>
-                                
+                                <DataGrid
+                                    columns={this.getCustomPolicyColumns()}
+                                    rows={this.getCustomPolicyRows()}
+                                    loading={this.state.customPoliciesLoading}
+                                    page={0}
+                                    nextPage={() => {}}
+                                    previousPage={() => {}}
+                                    startCount={1}
+                                    endCount={4}
+                                    total={0}
+                                    className={'customTable'}
+                                />
                             </Card.Body>
                         </Card>
                         <Card
