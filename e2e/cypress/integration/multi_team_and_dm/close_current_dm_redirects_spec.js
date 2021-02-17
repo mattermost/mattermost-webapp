@@ -45,7 +45,7 @@ describe('Direct messages: redirections', () => {
         sendDirectMessageToUser(firstDMUser, 'hi');
 
         // # Close the direct message via 'x' button right of the username in the direct messages's list
-        closeDirectMessageViaXButton(testUser, firstDMUser, testTeam);
+        closeDirectMessage(testUser, firstDMUser, testTeam);
 
         // * Expect to be redirected to off-topic channel, check channel title and url
         expectActiveChannelToBe('Off-Topic', offTopicChannelUrl);
@@ -71,7 +71,7 @@ describe('Direct messages: redirections', () => {
         sendDirectMessageToUser(secondDMUser, 'hi second');
 
         // # Close the direct message previously opened with the first user
-        closeDirectMessageViaXButton(testUser, firstDMUser, testTeam);
+        closeDirectMessage(testUser, firstDMUser, testTeam);
 
         // * Expect channel title and url to secondDMUser's username
         expectActiveChannelToBe(secondDMUser.username, `/messages/@${secondDMUser.username}`);
@@ -130,7 +130,7 @@ const sendDirectMessageToUser = (user, message) => {
         type('{enter}');
 };
 
-const closeDirectMessageViaXButton = (sender, recipient, team) => {
+const closeDirectMessage = (sender, recipient, team) => {
     // # Find the username in the 'Direct Messages' list and trigger the 'x' button to appear (hover over the username)
     cy.apiGetChannelsForUser(sender.id, team.id).then(({channels}) => {
         // Get the name of the channel to build the CSS selector for that specific DM link in the sidebar
@@ -138,8 +138,7 @@ const closeDirectMessageViaXButton = (sender, recipient, team) => {
             channel.type === 'D' && channel.name.includes(recipient.id),
         );
 
-        // # Close the DM via 'x' button next to username in direct message list
-        cy.get(`#sidebarItem_${channelDmWithFirstUser.name} .btn-close`).
-            click({force: true});
+        // # Close the DM via sidebar channel menu
+        cy.uiGetChannelSidebarMenu(channelDmWithFirstUser.name).findByText('Close Conversation').click();
     });
 };

@@ -61,7 +61,7 @@ describe('Keyboard Shortcuts', () => {
             cy.get('#channelIntro').contains('.channel-intro__title', `Beginning of ${testChannel.display_name}`).should('be.visible');
 
             // # Verify that the right channel is displayed in LHS
-            cy.contains('.sidebar-item', testChannel.display_name);
+            cy.uiGetLhsSection('CHANNELS').findByText(testChannel.display_name).should('be.visible');
 
             // # Verify that the current user(sysadmin) created the channel
             cy.get('#channelIntro').contains('.channel-intro__content', `This is the start of the ${testChannel.display_name} channel, created by sysadmin`).should('be.visible');
@@ -80,7 +80,7 @@ describe('Keyboard Shortcuts', () => {
             // # Create two public channels
             for (let index = 0; index < 2; index++) {
                 const otherUserId = otherUser.id;
-                cy.apiCreateChannel(team.id, 'public', 'public').then(({channel}) => {
+                cy.apiCreateChannel(team.id, `a-public-${index}`, `A Public ${index}`).then(({channel}) => {
                     publicChannels.push(channel);
                     cy.apiAddUserToTeam(team.id, otherUserId).then(() => {
                         cy.apiAddUserToChannel(channel.id, otherUserId);
@@ -91,7 +91,7 @@ describe('Keyboard Shortcuts', () => {
             // # Create two private channels
             for (let index = 0; index < 2; index++) {
                 const otherUserId = otherUser.id;
-                cy.apiCreateChannel(team.id, 'private', 'private', 'P').then(({channel}) => {
+                cy.apiCreateChannel(team.id, `b-private-${index}`, `B Private ${index}`, 'P').then(({channel}) => {
                     privateChannels.push(channel);
                     cy.apiAddUserToChannel(channel.id, otherUserId);
                 });
@@ -239,7 +239,7 @@ describe('Keyboard Shortcuts', () => {
             // # Create two public channels
             for (let index = 0; index < 2; index++) {
                 const otherUserId = otherUser.id;
-                cy.apiCreateChannel(team.id, 'public', 'public').then(({channel}) => {
+                cy.apiCreateChannel(team.id, `a-public-${index}`, `A Public ${index}`).then(({channel}) => {
                     publicChannels.push(channel);
                     cy.apiAddUserToTeam(team.id, otherUserId).then(() => {
                         cy.apiAddUserToChannel(channel.id, otherUserId);
@@ -250,7 +250,7 @@ describe('Keyboard Shortcuts', () => {
             // # Create two private channels
             for (let index = 0; index < 2; index++) {
                 const otherUserId = otherUser.id;
-                cy.apiCreateChannel(team.id, 'private', 'private', 'P').then(({channel}) => {
+                cy.apiCreateChannel(team.id, `b-private-${index}`, `B Private ${index}`).then(({channel}) => {
                     privateChannels.push(channel);
                     cy.apiAddUserToChannel(channel.id, otherUserId);
                 });

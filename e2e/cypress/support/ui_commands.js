@@ -299,26 +299,6 @@ Cypress.Commands.add('sendDirectMessageToUsers', (users, message) => {
         type('{enter}');
 });
 
-/**
- * Close a DM via the X button
- * @param {User} sender - the one currently observing and who will close the DM
- * @param {User} recipient - the other user in a DM
- * @param {String} team - a team where the sender is member of
- */
-Cypress.Commands.add('closeDirectMessageViaXButton', (sender, recipient, team) => {
-    // # Find the username in the 'Direct Messages' list and trigger the 'x' button to appear (hover over the username)
-    cy.apiGetChannelsForUser(sender.id, team.id).then(({channels}) => {
-        // Get the name of the channel to build the CSS selector for that specific DM link in the sidebar
-        const channelDmWithFirstUser = channels.find((channel) =>
-            channel.type === 'D' && channel.name.includes(recipient.id),
-        );
-
-        // # Close the DM via 'x' button next to username in direct message list
-        cy.get(`#sidebarItem_${channelDmWithFirstUser.name} .btn-close`).
-            click({force: true});
-    });
-});
-
 // ***********************************************************
 // Post header
 // ***********************************************************

@@ -32,7 +32,6 @@ describe('MM-18045 Verify Guest User Identification in different screens', () =>
             },
             ServiceSettings: {
                 EnableEmailInvitations: true,
-                EnableLegacySidebar: true,
             },
         });
 

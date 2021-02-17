@@ -25,3 +25,9 @@ Cypress.Commands.add('uiAddDirectMessage', () => {
 Cypress.Commands.add('uiGetChannelSwitcher', () => {
     return cy.get('#lhsNavigator').findByRole('button', {name: 'Channel Switcher'});
 });
+
+Cypress.Commands.add('uiGetChannelSidebarMenu', (channelName) => {
+    cy.get(`#sidebarItem_${channelName}`).find('.SidebarMenu_menuButton').click({force: true});
+
+    return cy.get('.dropdown-menu').should('be.visible');
+});

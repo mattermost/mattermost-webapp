@@ -9,14 +9,9 @@ Cypress.Commands.add('uiCreateChannel', ({
     isPrivate = false,
     purpose = '',
     header = '',
-    isNewSidebar = false,
 }) => {
-    if (isNewSidebar) {
-        cy.get('#SidebarContainer .AddChannelDropdown_dropdownButton').click();
-        cy.get('#showNewChannel button').click();
-    } else {
-        cy.get('#createPrivateChannel').click();
-    }
+    cy.get('#SidebarContainer .AddChannelDropdown_dropdownButton').click();
+    cy.get('#showNewChannel button').click();
 
     cy.get('#newChannelModalLabel').should('be.visible');
     if (isPrivate) {
