@@ -392,7 +392,7 @@ class RhsRootPost extends React.PureComponent {
                     showTooltip={true}
                     emojiSize={14}
                     emojiStyle={{
-                        margin: '0 1px 0',
+                        margin: '4px 0 0 4px',
                     }}
                 />
             );
