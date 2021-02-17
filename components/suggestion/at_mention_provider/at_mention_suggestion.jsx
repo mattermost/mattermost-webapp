@@ -13,7 +13,6 @@ import Avatar from 'components/widgets/users/avatar';
 
 import Suggestion from '../suggestion.jsx';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
-import Nbsp from "../../html_entities/nbsp";
 
 export default class AtMentionSuggestion extends Suggestion {
     render() {
