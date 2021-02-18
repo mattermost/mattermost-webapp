@@ -62,9 +62,7 @@ describe('components/AddGroupsToChannelModal', () => {
     });
 
     test('should match state when handleSubmit is called', async () => {
-        const linkGroupSyncable = jest.fn().
-            mockResolvedValueOnce({error: true}).
-            mockResolvedValue({data: true});
+        const linkGroupSyncable = jest.fn().mockResolvedValue({error: true, data: true});
         const actions = {...baseProps.actions, linkGroupSyncable};
         const props = {...baseProps, actions};
         const wrapper = shallow(
@@ -77,6 +75,7 @@ describe('components/AddGroupsToChannelModal', () => {
         wrapper.setState({values: []});
         await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
         expect(actions.linkGroupSyncable).not.toBeCalled();
+        expect(instance.handleResponse).not.toBeCalled();
         expect(instance.handleHide).not.toBeCalled();
 
         wrapper.setState({saving: false, values: [{id: 'id_1'}, {id: 'id_2'}]});
@@ -86,10 +85,8 @@ describe('components/AddGroupsToChannelModal', () => {
         expect(actions.linkGroupSyncable).toBeCalledWith('id_1', baseProps.currentChannelId, Groups.SYNCABLE_TYPE_CHANNEL, {auto_add: true});
         expect(actions.linkGroupSyncable).toBeCalledWith('id_2', baseProps.currentChannelId, Groups.SYNCABLE_TYPE_CHANNEL, {auto_add: true});
 
-        setTimeout(() => {
-            expect(instance.handleResponse).toBeCalledTimes(2);
-        }, 0);
-        expect(instance.handleHide).toHaveBeenCalledTimes(1);
+          expect(instance.handleResponse).toBeCalledTimes(2);
+        expect(instance.handleHide).not.toBeCalled();
         expect(wrapper.state('saving')).toEqual(true);
     });
 
