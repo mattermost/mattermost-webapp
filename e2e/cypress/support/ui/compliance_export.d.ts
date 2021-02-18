@@ -14,7 +14,7 @@
 // ***************************************************************
 
 declare namespace Cypress {
-    interface Chainable<Subject = any> {
+    interface Chainable {
 
         /**
          * Select compliance export format
