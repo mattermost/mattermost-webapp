@@ -144,7 +144,7 @@ describe('MM-18045 Verify Guest User Identification in different screens', () =>
 
             // # Close RHS
             cy.closeRHS();
-        });
+       });
     });
 
     it('Verify Guest Badge in Switch Channel Dialog', () => {
@@ -245,4 +245,6 @@ describe('MM-18045 Verify Guest User Identification in different screens', () =>
             cy.wrap($el).find('.has-guest-header').should('not.exist');
         });
     });
+
+   
 });
