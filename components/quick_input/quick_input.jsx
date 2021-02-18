@@ -44,11 +44,6 @@ export default class QuickInput extends React.PureComponent {
         clearableTooltipText: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
 
         /**
-         * The optional placeholder text to display on the input.
-         */
-        placeholder: PropTypes.string,
-
-        /**
          * Callback to clear the input value, and used in tandem with the clearable prop above.
          */
         onClear: PropTypes.func,

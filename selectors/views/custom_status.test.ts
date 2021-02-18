@@ -37,8 +37,9 @@ describe('getCustomStatus', () => {
 
     it('should return customStatus object when there is custom status set', async () => {
         const store = await configureStore();
-        user.props.customStatus = JSON.stringify(customStatus);
-        (UserSelectors.getCurrentUser as jest.Mock).mockReturnValue(user);
+        const newUser = {...user};
+        newUser.props.customStatus = JSON.stringify(customStatus);
+        (UserSelectors.getCurrentUser as jest.Mock).mockReturnValue(newUser);
         expect(getCustomStatus(store.getState())).toStrictEqual(customStatus);
     });
 });
@@ -96,7 +97,7 @@ describe('showStatusDropdownPulsatingDot and showPostHeaderUpdateStatusButton', 
 
     it('should return false if user has opened the custom status modal before', async () => {
         const store = await configureStore();
-        preference.myPreference.value = Preferences.CUSTOM_STATUS_MODAL_VIEWED;
+        preference.myPreference.value = JSON.stringify({[Preferences.CUSTOM_STATUS_MODAL_VIEWED]: true});
         (PreferenceSelectors.get as jest.Mock).mockReturnValue(preference.myPreference.value);
         expect(showPostHeaderUpdateStatusButton(store.getState())).toBeFalsy();
     });
