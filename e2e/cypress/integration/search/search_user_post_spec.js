@@ -48,11 +48,11 @@ describe('Search in DMs', () => {
         });
     });
 
-    it('S14672 Search "in:[username]" returns results in DMs', () => {
+    it('MM-T358 Search "in:[username]" returns results in DMs', () => {
         const message = 'Hello' + Date.now();
 
         // # Ensure Direct Message is visible in LHS sidebar
-        cy.get('#directChannel').scrollIntoView().should('be.visible');
+        cy.uiGetLhsSection('DIRECT MESSAGES').should('be.visible');
 
         // # Create new DM channel with user's email
         createNewDMChannel(otherUser.email);

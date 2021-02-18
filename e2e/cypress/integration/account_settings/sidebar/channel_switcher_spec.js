@@ -49,7 +49,7 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
         enableOrDisableChannelSwitcher(true);
 
         // # Click the sidebar switcher button
-        cy.uiGetChannelSwitcher().click();
+        cy.get('#sidebarSwitcherButton').click();
 
         verifyChannelSwitch(testTeam, testChannel);
     });
