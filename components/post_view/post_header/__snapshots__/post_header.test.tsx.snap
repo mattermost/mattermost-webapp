@@ -16,6 +16,11 @@ exports[`components/post_view/post_header should match snapshot 1`] = `
           id="post_info.system"
         />
       }
+      userId=""
+    />
+    <PostHeaderCustomStatus
+      isSystemMessage={true}
+      userId="user_id"
     />
   </div>
   <div
@@ -76,23 +81,12 @@ exports[`components/post_view/post_header should match snapshot when custom stat
           id="post_info.system"
         />
       }
+      userId=""
     />
-    <div
-      className="post__header-set-custom-status cursor--pointer"
-      onClick={[Function]}
-    >
-      <EmojiIcon
-        className="post__header-set-custom-status-icon"
-      />
-      <span
-        className="post__header-set-custom-status-text"
-      >
-        <FormattedMessage
-          defaultMessage="Update your status"
-          id="post_header.update_status"
-        />
-      </span>
-    </div>
+    <PostHeaderCustomStatus
+      isSystemMessage={true}
+      userId="user_id"
+    />
   </div>
   <div
     className="col"
@@ -152,6 +146,11 @@ exports[`components/post_view/post_header should match snapshot when custom stat
           id="post_info.system"
         />
       }
+      userId=""
+    />
+    <PostHeaderCustomStatus
+      isSystemMessage={true}
+      userId="user_id"
     />
   </div>
   <div
