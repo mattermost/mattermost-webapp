@@ -73,6 +73,7 @@ class ImportThemeModal extends React.PureComponent<WrappedComponentProps, State>
             sidebarText, // 5
             onlineIndicator, // 6
             mentionBg, // 7
+            sidebarTeamBarBg,
         ] = text.split(',');
 
         const theme: Partial<Theme> = {
@@ -87,6 +88,7 @@ class ImportThemeModal extends React.PureComponent<WrappedComponentProps, State>
             sidebarHeaderTextColor: sidebarText,
             onlineIndicator,
             mentionBg,
+            sidebarTeamBarBg,
         };
 
         setThemeDefaults(theme as Theme);
