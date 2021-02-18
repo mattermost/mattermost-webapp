@@ -446,8 +446,22 @@
     }
 
     .header-status__text {
+        display: flex;
         margin-right: 7px;
         line-height: 16px;
+        max-width: calc(100% - 225px);
+        align-items: center;
+
+        p {
+            margin: 0;
+        }
+
+        &:after {
+            content: '\2022';
+            margin: 0 2px 0 5px;
+            position: relative;
+            top: 1px;
+        }
     }
 
     .status {
@@ -704,12 +718,16 @@
             }
         }
 
+        .header__info__content {
+            display: flex;
+            max-width: 120px;
+        }
+
         .team__name,
         .user__name {
             display: block;
             font-size: 14px;
             font-weight: 600;
-            max-width: 120px;
             overflow: hidden;
             text-decoration: none;
             text-overflow: ellipsis;
@@ -727,7 +745,31 @@
             font-size: 14px;
             font-weight: 400;
             top: -3px;
+            padding-right: 4px;
             position: relative;
+        }
+
+        .custom-status {
+            display: flex;
+            font-weight: bold;
+            font-size: 12px;
+
+            &-text {
+                margin-left: 4px;
+            }
+
+            &-emoji {
+                display: flex;
+                height: 16px;
+                min-width: 16px;
+            }
+
+            &-emoji > span:first-child {
+                height: 16px;
+                width: 16px;
+                min-height: 16px;
+                min-width: 16px;
+            }
         }
     }
 
