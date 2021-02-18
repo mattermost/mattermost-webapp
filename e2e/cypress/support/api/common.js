@@ -26,7 +26,7 @@ Cypress.Commands.add('apiDownloadFileAndVerifyContentType', (fileURL, contentTyp
         // * Verify the download
         expect(response.status).to.equal(200);
 
-        // * Confirm it's a zip file
+        // * Confirm its content type
         expect(response.headers['content-type']).to.equal(contentType);
     });
 });
