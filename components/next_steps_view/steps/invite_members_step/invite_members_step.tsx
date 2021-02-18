@@ -19,6 +19,7 @@ import {getAnalyticsCategory} from 'components/next_steps_view/step_helpers';
 import MultiInput from 'components/multi_input';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import UpgradeLink from 'components/widgets/links/upgrade_link';
+import NotifyLink from 'components/widgets/links/notify_link';
 
 import {getSiteURL} from 'utils/url';
 import * as Utils from 'utils/utils';
@@ -28,6 +29,7 @@ import {StepComponentProps} from '../../steps';
 import './invite_members_step.scss';
 
 type Props = StepComponentProps & {
+    isAdmin: boolean;
     team: Team;
     isEmailInvitesEnabled: boolean;
     cloudUserLimit: string | number;
@@ -312,7 +314,7 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
                                     }
                                     {(this.state.emailError && !isNull(this.props.subscriptionStats) &&
                                         this.state.emails.length >= this.props.subscriptionStats.remaining_seats) &&
-                                        <UpgradeLink telemetryInfo='click_upgrade_invite_members_step'/>
+                                        (this.props.isAdmin ? <UpgradeLink telemetryInfo='click_upgrade_invite_members_step'/> : <NotifyLink/>)
                                     }
                                 </div>
                             </div>
