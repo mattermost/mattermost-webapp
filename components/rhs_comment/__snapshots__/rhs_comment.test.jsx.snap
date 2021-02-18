@@ -67,7 +67,8 @@ exports[`components/RhsComment should match snapshot 1`] = `
             emojiSize={14}
             emojiStyle={
               Object {
-                "margin": "4px 0 0 4px",
+                "marginLeft": 4,
+                "marginTop": 1,
               }
             }
             showTooltip={true}
@@ -213,7 +214,8 @@ exports[`components/RhsComment should match snapshot hovered 1`] = `
             emojiSize={14}
             emojiStyle={
               Object {
-                "margin": "4px 0 0 4px",
+                "marginLeft": 4,
+                "marginTop": 1,
               }
             }
             showTooltip={true}
@@ -406,7 +408,8 @@ exports[`components/RhsComment should match snapshot hovered on deleted post 1`]
             emojiSize={14}
             emojiStyle={
               Object {
-                "margin": "4px 0 0 4px",
+                "marginLeft": 4,
+                "marginTop": 1,
               }
             }
             showTooltip={true}
@@ -565,7 +568,8 @@ exports[`components/RhsComment should match snapshot mobile 1`] = `
             emojiSize={14}
             emojiStyle={
               Object {
-                "margin": "4px 0 0 4px",
+                "marginLeft": 4,
+                "marginTop": 1,
               }
             }
             showTooltip={true}

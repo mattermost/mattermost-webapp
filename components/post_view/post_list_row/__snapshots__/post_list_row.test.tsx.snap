@@ -45,7 +45,6 @@ exports[`components/post_view/post_list_row should render channel intro message 
 exports[`components/post_view/post_list_row should render combined post 1`] = `
 <Connect(Connect(injectIntl(Post)))
   combinedId="user-activity-1234-5678"
-  isCurrentUserLastPostGroupFirstPost={false}
   isLastPost={false}
   previousPostId="abcd"
   shouldHighlight={false}
@@ -100,7 +99,6 @@ exports[`components/post_view/post_list_row should render new messages line 1`] 
 
 exports[`components/post_view/post_list_row should render post 1`] = `
 <Connect(injectIntl(Post))
-  isCurrentUserLastPostGroupFirstPost={false}
   isLastPost={false}
   postId="1234"
   previousPostId="abcd"
