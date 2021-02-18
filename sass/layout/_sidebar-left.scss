@@ -1078,7 +1078,7 @@
     }
     .SidebarChannel .SidebarLink > i {
         font-size: 18px;
-        margin: 0 7px;
+        margin-right: 7px;
         display: flex;
     }
 
@@ -1108,7 +1108,7 @@
         }
 
         height: 20px;
-        margin: 0 10px 0 8px;
+        margin-right: 13px;
 
         .DirectChannel__status-icon {
             @media (max-width: 768px) {
@@ -1154,7 +1154,7 @@
 
     .status.status--group {
         background: rgba(var(--sidebar-text-rgb), 0.16);
-        margin: 0px 13px 0 11px;
+        margin: 0px 14px 0 4px;
         width: 18px;
         height: 18px;
         flex-shrink: 0;
