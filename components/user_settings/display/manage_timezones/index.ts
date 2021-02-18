@@ -13,18 +13,16 @@ import ManageTimezones from './manage_timezones';
 type Actions = {
     updateMe: (user: UserProfile) => Promise<ActionResult>;
 }
-
 function mapDispatchToProps(dispatch: Dispatch) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
             updateMe,
         }, dispatch)};
 }
-function mapStateToProps(state:GlobalState) {
+function mapStateToProps(state: GlobalState) {
     return {
-       times:getSupportedTimezones(state),
+        timezones: getSupportedTimezones(state),
     };
 }
-
-export default connect(mapStateToProps,mapDispatchToProps)(ManageTimezones);
+export default connect(mapStateToProps, mapDispatchToProps)(ManageTimezones);
 

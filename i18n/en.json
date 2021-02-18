@@ -4410,7 +4410,6 @@
   "user.settings.sidebar.unreadsFavoritesShort": "Unreads and favorites grouped separately",
   "user.settings.sidebar.unreadsShort": "Unreads grouped separately",
   "user.settings.timezones.automatic": "Automatic",
-  "user.settings.timezones.change": "Change timezone",
   "user.settings.timezones.promote": "Select the timezone used for timestamps in the user interface and email notifications.",
   "user.settings.tokens.activate": "Enable",
   "user.settings.tokens.cancel": "Cancel",
