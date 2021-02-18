@@ -5,7 +5,7 @@ import {createSelector} from 'reselect';
 
 import {Client4} from 'mattermost-redux/client';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
-import {makeGetReactionsForPost, getPost} from 'mattermost-redux/selectors/entities/posts';
+import {makeGetReactionsForPost} from 'mattermost-redux/selectors/entities/posts';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {makeGetDisplayName, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {Permissions, Posts} from 'mattermost-redux/constants';
@@ -21,7 +21,6 @@ import {formatWithRenderer} from 'utils/markdown';
 import MentionableRenderer from 'utils/markdown/mentionable_renderer';
 import * as Utils from 'utils/utils.jsx';
 import {isMobile} from 'utils/user_agent';
-import {isFirstReply} from 'components/post_view/post';
 
 import * as Emoticons from './emoticons';
 
@@ -499,69 +498,4 @@ export function areConsecutivePostsBySameUser(post, previousPost) {
         post.create_at - previousPost.create_at <= Posts.POST_COLLAPSE_TIMEOUT && // And was within a short time period
         !(post.props && post.props.from_webhook) && !(previousPost.props && previousPost.props.from_webhook) && // And neither is from a webhook
         !isSystemMessage(post) && !isSystemMessage(previousPost); // And neither is a system message
-}
-
-export function getValidUserPostFromId(state, id) {
-    if (isIdNotPost(id)) {
-        //not a post
-        return null;
-    }
-
-    if (PostListUtils.isCombinedUserActivityPost(id)) {
-        // This is a combined post, so this cannot be a valid user post
-        return null;
-    }
-
-    return getPost(state, id);
-}
-
-function isPostHeaderVisible(post, previousPost, getReplyCount) {
-    //If there is no previous post then current post must have visible header
-    if (!previousPost) {
-        return true;
-    }
-
-    //If current post is first message of a thread then it must have header visible
-    if (isFirstReply(post, previousPost)) {
-        return true;
-    }
-
-    //If current post is a comment and not the first comment of a thread then its header must be hidden
-    if (post.root_id) {
-        return false;
-    }
-
-    //If current post and previous posts both are not comments
-    if (!post.root_id && !previousPost.root_id) {
-        //If the current post has some replies then its header must be visible
-        if (getReplyCount(post) > 0) {
-            return true;
-        }
-
-        //If the current post and previous post are consequetive, then the current post's header must be hidden
-        if (areConsecutivePostsBySameUser(post, previousPost)) {
-            return false;
-        }
-    }
-
-    return true;
-}
-
-export function getLastCurrentUserPostWithHeaderId(state, postListIds) {
-    //This function returns the first post id of the last post group by the current user
-
-    const getReplyCount = makeGetReplyCount().bind(null, state);
-    const firstPostWithHeaderID = postListIds.find((postID, index) => {
-        const post = getValidUserPostFromId(state, postID);
-
-        let nextPost;
-        if (index + 1 < postListIds.length) {
-            const nextPostID = postListIds[index + 1];
-            nextPost = getValidUserPostFromId(state, nextPostID);
-        }
-
-        return (isPostOwner(state, post) && !isSystemMessage(post) && isPostHeaderVisible(post, nextPost, getReplyCount));
-    });
-
-    return firstPostWithHeaderID || '';
 }
