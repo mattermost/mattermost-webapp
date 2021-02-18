@@ -2019,7 +2019,7 @@ const AdminDefinition = {
                         label: t('admin.team.editOthersPostsTitle'),
                         label_default: 'Allow Team Administrators to edit others posts:',
                         help_text: t('admin.team.editOthersPostsDesc'),
-                        help_text_default: 'When true, Team Administrators and System Administrators can edit other user\'s posts.  When false, only System Administrators can edit other user\'s posts. Regardless of selection Team Administrators and System Administrators can delete other user\'s posts',
+                        help_text_default: 'When true, Team Administrators and System Administrators can edit other user\'s posts.  When false, only System Administrators can edit other user\'s posts. Regardless of selection Team Administrators and System Administrators can delete other user\'s posts.',
                         permissions_mapping_name: 'editOthersPosts',
                         isHidden: it.any(
                             it.licensed,
