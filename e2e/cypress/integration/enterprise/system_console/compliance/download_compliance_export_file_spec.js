@@ -223,7 +223,7 @@ function deleteLastPost() {
         const team = teams[0];
         cy.visit(`/${team.name}/channels/town-square`);
         cy.getLastPostId().then((lastPostId) => {
-        // # Click post dot menu in center.
+            // # Click post dot menu in center.
             cy.clickPostDotMenu(lastPostId);
 
             // # Scan inside the post menu dropdown
