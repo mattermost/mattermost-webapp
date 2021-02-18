@@ -170,7 +170,7 @@ describe('Compliance Export', () => {
         });
     });
 
-    it('MM-T1169_1 - Compliance Export - CSV and Global Relay', () => {
+    it('MM-T1169 - Compliance Export - CSV and Global Relay', () => {
         // # Go to compliance page and enable export
         cy.uiGoToCompliancePage();
         cy.uiEnableComplianceExport();
