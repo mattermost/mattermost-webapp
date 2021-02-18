@@ -28,7 +28,6 @@ import {StepComponentProps} from '../../steps';
 import './invite_members_step.scss';
 
 type Props = StepComponentProps & {
-    isAdmin: boolean;
     team: Team;
     isEmailInvitesEnabled: boolean;
     cloudUserLimit: string | number;
@@ -312,7 +311,8 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
                                         </>
                                     }
                                     {(this.state.emailError && !isNull(this.props.subscriptionStats) &&
-                                        this.state.emails.length >= this.props.subscriptionStats.remaining_seats) && <UpgradeLink telemetryInfo='click_upgrade_invite_members_step'/>
+                                        this.state.emails.length >= this.props.subscriptionStats.remaining_seats) &&
+                                        <UpgradeLink telemetryInfo='click_upgrade_invite_members_step'/>
                                     }
                                 </div>
                             </div>
