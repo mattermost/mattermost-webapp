@@ -143,13 +143,15 @@
 
     &.customTable {
         background: #ffffff;
+        padding: 0;
 
         .DataGrid_header {
-            line-height: 16px;
             font-weight: 600;
+            font-size: 14px;
+            line-height: 16px;
             border-bottom: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.16);
-            padding: 8px 16px;
-            color: #000000;
+            padding: 8px 0px;
+            color: var(--sys-center-channel-color);
             &:last-child {
                 border-bottom: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.08);
             }
@@ -159,7 +161,7 @@
             height: 40px;
             display: flex;
             flex-direction: row;
-            padding: 0 16px;
+            padding: 0;
             border-left: none;
 
             &:nth-child(odd) {
@@ -205,9 +207,15 @@
             .actionIcon a:hover {
                 background: rgba(var(--sys-center-channel-color-rgb), 0.08);
             }
-            .DataGrid_cell.actionIcon {
-                overflow: visible;
+            .DataGrid_cell {
+                white-space: normal;
+                &.actionIcon {
+                    overflow: visible;
+                }
             }
+        }
+        .DataGrid_cell {
+            padding: 0 16px;
         }
     }
 }
