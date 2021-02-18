@@ -1011,6 +1011,10 @@
 
         padding-right: 5px;
 
+        .DirectChannel__status-icon {
+            box-shadow: inset 0 0 14px rgba(255, 255, 255, 0.12)
+        }
+
         .SidebarMenu_menuButton {
             margin-right: 11px;
         }
@@ -1028,6 +1032,10 @@
     }
     .SidebarChannel.active .SidebarLink {
         background: rgba(255, 255, 255, 0.16);
+        
+        .DirectChannel__profile-picture .DirectChannel__status-icon {
+            box-shadow: inset 0 0 14px rgba(255, 255, 255, 0.24)
+        }
 
         .SidebarChannelLinkLabel {
             color: var(--sidebar-text);
@@ -1069,8 +1077,8 @@
         color: var(--sidebar-unread-text);
     }
     .SidebarChannel .SidebarLink > i {
-        font-size: 14.4px;
-        margin: 0 7px 0 2px;
+        font-size: 18px;
+        margin: 0 7px;
         display: flex;
     }
 
@@ -1100,7 +1108,7 @@
         }
 
         height: 20px;
-        margin-right: 9px;
+        margin: 0 10px 0 8px;
 
         .DirectChannel__status-icon {
             @media (max-width: 768px) {
@@ -1146,11 +1154,12 @@
 
     .status.status--group {
         background: rgba(var(--sidebar-text-rgb), 0.16);
-        margin: 0 8px 0 3px;
-        width: 14px;
-        height: 14px;
+        margin: 0px 13px 0 11px;
+        width: 18px;
+        height: 18px;
         flex-shrink: 0;
-        font-size: 11px;
+        font-size: 12px;
+        line-height: 18px;
     }
 
     .status-away {
