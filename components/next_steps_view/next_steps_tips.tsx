@@ -19,6 +19,10 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import RemoveNextStepsModal from 'components/sidebar/sidebar_next_steps/remove_next_steps_modal';
 import Menu from 'components/widgets/menu/menu';
 import downloadApps from 'images/download-app.svg';
+import tipsNextStepsImage1 from 'images/tips_next_steps1.svg';
+import tipsNextStepsImage2 from 'images/tips_next_steps2.svg';
+import tipsNextStepsImage3 from 'images/tips_next_steps3.svg';
+
 import {browserHistory} from 'utils/browser_history';
 import * as UserAgent from 'utils/user_agent';
 import NewChannelFlow from 'components/new_channel_flow';
@@ -150,6 +154,39 @@ export default function NextStepsTips(props: Props) {
         nonMobileTips = (
             <>
                 <Card expanded={true}>
+                    <div className='Card__image'>
+                        <img
+                            src={tipsNextStepsImage3}
+                        />
+                    </div>
+                    <div className='Card__body'>
+                        <h3>
+                            <FormattedMessage
+                                id='next_steps_view.tips.addPlugins'
+                                defaultMessage='Add plugins to Mattermost'
+                            />
+                        </h3>
+                        <FormattedMessage
+                            id='next_steps_view.tips.addPlugins.text'
+                            defaultMessage='Install and configure plugins like GitHub, GitLab, Jira & more!'
+                        />
+                        <button
+                            className='NextStepsView__button NextStepsView__finishButton primary'
+                            onClick={openPluginMarketplace}
+                        >
+                            <FormattedMessage
+                                id='next_steps_view.tips.addPlugins.button'
+                                defaultMessage='Add plugins'
+                            />
+                        </button>
+                    </div>
+                </Card>
+                <Card expanded={true}>
+                    <div className='Card__image'>
+                        <img
+                            src={tipsNextStepsImage2}
+                        />
+                    </div>
                     <div className='Card__body'>
                         <h3>
                             <FormattedMessage
@@ -186,29 +223,6 @@ export default function NextStepsTips(props: Props) {
                                 />
                             </Menu>
                         </MenuWrapper>
-                    </div>
-                </Card>
-                <Card expanded={true}>
-                    <div className='Card__body'>
-                        <h3>
-                            <FormattedMessage
-                                id='next_steps_view.tips.addPlugins'
-                                defaultMessage='Add plugins to Mattermost'
-                            />
-                        </h3>
-                        <FormattedMessage
-                            id='next_steps_view.tips.addPlugins.text'
-                            defaultMessage='Visit the Plugins Marketplace to install and configure plugins.'
-                        />
-                        <button
-                            className='NextStepsView__button NextStepsView__finishButton primary'
-                            onClick={openPluginMarketplace}
-                        >
-                            <FormattedMessage
-                                id='next_steps_view.tips.addPlugins.button'
-                                defaultMessage='Add plugins'
-                            />
-                        </button>
                     </div>
                 </Card>
             </>
@@ -318,6 +332,11 @@ export default function NextStepsTips(props: Props) {
     if (props.isFirstAdmin) {
         channelsSection = (
             <Card expanded={true}>
+                <div className='Card__image'>
+                    <img
+                        src={tipsNextStepsImage1}
+                    />
+                </div>
                 <div className='Card__body'>
                     <h3>
                         <FormattedMessage
@@ -405,8 +424,8 @@ export default function NextStepsTips(props: Props) {
             </header>
             <div className='NextStepsView__body'>
                 <div className='NextStepsView__nextStepsCards'>
-                    {channelsSection}
                     {nonMobileTips}
+                    {channelsSection}
                 </div>
                 {downloadSection}
             </div>

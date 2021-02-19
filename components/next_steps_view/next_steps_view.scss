@@ -389,6 +389,14 @@
         //margin-left: 24px;
     }
 
+    .Card__image {
+        padding-bottom: 12px;
+        height: auto;
+        width: fit-content;
+        display: flex;
+        flex-direction: column;
+    }
+
     .Card__body {
         padding: 32px;
         border: none;

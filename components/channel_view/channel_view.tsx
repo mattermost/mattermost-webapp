@@ -151,6 +151,7 @@ export default class ChannelView extends React.PureComponent<Props, State> {
 
     render() {
         const {channelIsArchived} = this.props;
+
         if (this.props.showTutorial && !this.props.isCloud) {
             return (
                 <TutorialView
