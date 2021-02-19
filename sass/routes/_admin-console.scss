@@ -393,7 +393,8 @@
         z-index: 100;
         align-items: center;
 
-        &.with-back {
+        &.with-back,
+        .with-back {
             padding: 0;
 
             > div {

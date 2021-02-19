@@ -4,6 +4,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {AdminConfig} from 'mattermost-redux/types/config';
+import {DataRetentionCustomPolicies, DataRetentionCustomPolicy} from 'mattermost-redux/types/data_retention';
 
 import {JobTypes} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
@@ -24,14 +25,14 @@ import {browserHistory} from 'utils/browser_history';
 type Props = {
     config: AdminConfig;
     actions: {
-        getCustomDataRetentionPolicies: () => Promise<{ data: {policies: []} }>;
+        getDataRetentionCustomPolicies: () => Promise<{ data: DataRetentionCustomPolicies }>;
     };
 };
 
 type State = {
     enableMessageDeletion: boolean;
     enableFileDeletion: boolean;
-    customPolicyData: [];
+    customPolicyData: DataRetentionCustomPolicy[];
     customPoliciesLoading: boolean;
 }
 
@@ -220,7 +221,7 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
 
     componentDidMount = async () => {
         const {actions} = this.props;
-        const policies = await actions.getCustomDataRetentionPolicies();
+        const policies = await actions.getDataRetentionCustomPolicies();
         this.setState({customPolicyData: policies.data.policies, customPoliciesLoading: false})
     }
 
@@ -240,7 +241,7 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                         >
                             <Card.Header>
                                 <TitleAndButtonCardHeader
-                                title={
+                                    title={
                                         <FormattedMessage
                                             id='admin.data_retention.globalPolicy.title'
                                             defaultMessage='Global retention policy'

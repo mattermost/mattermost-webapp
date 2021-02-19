@@ -47,6 +47,7 @@ import PasswordSettings from './password_settings.jsx';
 import PushNotificationsSettings from './push_settings.jsx';
 import DataRetentionSettings from './data_retention_settings';
 import GlobalDataRetentionForm from './data_retention_settings/global_policy_form/global_policy_form.tsx';
+import CustomDataRetentionForm from './data_retention_settings/custom_policy_form/custom_policy_form.tsx';
 import MessageExportSettings from './message_export_settings.jsx';
 import DatabaseSettings from './database_settings.jsx';
 import ElasticSearchSettings from './elasticsearch_settings.jsx';
@@ -5055,6 +5056,24 @@ const AdminDefinition = {
                 id: 'GlobalDataRetentionForm',
                 component: GlobalDataRetentionForm,
             },
+        },
+        custom_policy_form: {
+            url: 'compliance/data_retention/custom_policy/:policy_id',
+            isDisabled: it.not(it.userHasWritePermissionOnResource('compliance')),
+            schema: {
+                id: 'CustomDataRetentionForm',
+                component: CustomDataRetentionForm,
+            },
+            
+        },
+        custom_policy_form: {
+            url: 'compliance/data_retention/custom_policy',
+            isDisabled: it.not(it.userHasWritePermissionOnResource('compliance')),
+            schema: {
+                id: 'CustomDataRetentionForm',
+                component: CustomDataRetentionForm,
+            },
+            
         },
         data_retention: {
             url: 'compliance/data_retention',

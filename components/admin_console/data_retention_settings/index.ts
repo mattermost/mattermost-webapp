@@ -4,16 +4,17 @@
 
 import {connect} from 'react-redux';
 
-import {getCustomDataRetentionPolicies} from 'mattermost-redux/actions/general';
+import {getDataRetentionCustomPolicies} from 'mattermost-redux/actions/admin';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
+import {DataRetentionCustomPolicies} from 'mattermost-redux/types/data_retention';
 
 import {GlobalState} from 'types/store';
 
 import DataRetentionSettings from './data_retention_settings';
 
 type Actions = {
-    getCustomDataRetentionPolicies: () => Promise<{ data: {policies: []} }>;
+    getDataRetentionCustomPolicies: () => Promise<{ data: DataRetentionCustomPolicies}>;
 };
 
 function mapStateToProps(state: GlobalState) {
@@ -23,7 +24,7 @@ function mapStateToProps(state: GlobalState) {
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
-            getCustomDataRetentionPolicies,
+            getDataRetentionCustomPolicies,
         }, dispatch),
     };
 }
