@@ -15,7 +15,7 @@
 // ***************************************************************
 
 declare namespace Cypress {
-    interface Chainable<Subject = any> {
+    interface Chainable {
 
         /**
          * A wrapper that creates an Applitools test. This will start a session with the Applitools server.

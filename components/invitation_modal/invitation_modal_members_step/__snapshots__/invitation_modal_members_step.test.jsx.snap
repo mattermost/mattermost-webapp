@@ -91,12 +91,17 @@ exports[`components/invitation_modal/InvitationModalMembersStep should match the
       <UsersEmailsInput
         ariaLabel="Invite People"
         emailInvitationsEnabled={true}
-        errorMessageDefault="You have reached the user limit for your tier"
+        errorMessageDefault="You can only invite **{num} more {num, plural, one {member} other {members}}** to the team on the free tier."
         errorMessageId="invitation_modal.invite_members.hit_cloud_user_limit"
         errorMessageValues={
           Object {
-            "text": 6,
+            "num": 6,
           }
+        }
+        extraErrorText={
+          <UpgradeLink
+            telemetryInfo="click_upgrade_users_emails_input"
+          />
         }
         inputValue=""
         loadingMessageDefault="Loading"
@@ -231,12 +236,17 @@ exports[`components/invitation_modal/InvitationModalMembersStep should match the
       <UsersEmailsInput
         ariaLabel="Invite People"
         emailInvitationsEnabled={true}
-        errorMessageDefault="You have reached the user limit for your tier"
+        errorMessageDefault="You can only invite **{num} more {num, plural, one {member} other {members}}** to the team on the free tier."
         errorMessageId="invitation_modal.invite_members.hit_cloud_user_limit"
         errorMessageValues={
           Object {
-            "text": 6,
+            "num": 6,
           }
+        }
+        extraErrorText={
+          <UpgradeLink
+            telemetryInfo="click_upgrade_users_emails_input"
+          />
         }
         inputValue=""
         loadingMessageDefault="Loading"

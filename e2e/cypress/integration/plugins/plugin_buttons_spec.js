@@ -27,7 +27,6 @@ describe('collapse on 5 plugin buttons', () => {
         const newSettings = {
             PluginSettings: {
                 Enable: true,
-                RequirePluginSignature: false,
             },
         };
         cy.apiUpdateConfig(newSettings);
