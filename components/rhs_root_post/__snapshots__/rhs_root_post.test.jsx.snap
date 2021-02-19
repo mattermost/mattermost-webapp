@@ -63,6 +63,18 @@ exports[`components/RhsRootPost should match snapshot 1`] = `
             key="user_id"
             userId="user_id"
           />
+          <CustomStatusEmoji
+            emojiSize={14}
+            emojiStyle={
+              Object {
+                "marginLeft": 4,
+                "marginTop": 1,
+              }
+            }
+            showTooltip={true}
+            tooltipDirection="top"
+            userID="user_id"
+          />
         </div>
         <div
           className="col"
@@ -246,6 +258,18 @@ exports[`components/RhsRootPost should match snapshot on deleted post 1`] = `
             key="user_id"
             userId="user_id"
           />
+          <CustomStatusEmoji
+            emojiSize={14}
+            emojiStyle={
+              Object {
+                "marginLeft": 4,
+                "marginTop": 1,
+              }
+            }
+            showTooltip={true}
+            tooltipDirection="top"
+            userID="user_id"
+          />
         </div>
         <div
           className="col"
@@ -385,6 +409,18 @@ exports[`components/RhsRootPost should match snapshot on flagged, deleted post 1
             key="user_id"
             userId="user_id"
           />
+          <CustomStatusEmoji
+            emojiSize={14}
+            emojiStyle={
+              Object {
+                "marginLeft": 4,
+                "marginTop": 1,
+              }
+            }
+            showTooltip={true}
+            tooltipDirection="top"
+            userID="user_id"
+          />
         </div>
         <div
           className="col"
@@ -523,6 +559,18 @@ exports[`components/RhsRootPost should match snapshot when flagged 1`] = `
             isRHS={true}
             key="user_id"
             userId="user_id"
+          />
+          <CustomStatusEmoji
+            emojiSize={14}
+            emojiStyle={
+              Object {
+                "marginLeft": 4,
+                "marginTop": 1,
+              }
+            }
+            showTooltip={true}
+            tooltipDirection="top"
+            userID="user_id"
           />
         </div>
         <div

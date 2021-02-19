@@ -250,14 +250,25 @@
     border-radius: 4px;
     display: flex;
     align-items: center;
+    justify-content: center;
 
     span {
         height: 20px;
         position: relative;
         font-size: 16px;
         line-height: 20px;
-        margin: auto;
         text-align: center;
         color: var(--error-text)
+    }
+
+    button.upgradeLink {
+        background: none!important;
+        border: none;
+        padding: 0!important;
+        margin-left: 10px;
+        font-weight: 600;
+        span {
+           color: var(--sys-button-bg);
+        }
     }
 }

@@ -7,7 +7,10 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @integrations
+
+import {getRandomId} from '../../utils';
 
 /**
 * Note: This test requires webhook server running. Initiate `npm run start:webhook` to start.
@@ -56,7 +59,7 @@ describe('Integrations', () => {
     });
 
     it('MM-T662 /join command for private channels', () => {
-        const privateChannelName = 'private-channel';
+        const privateChannelName = `private-channel-${getRandomId()}`;
 
         cy.apiLogin(user1);
         cy.visit(testChannelUrl1);
@@ -101,7 +104,7 @@ describe('Integrations', () => {
     });
 
     it('MM-T663 /open command for private channels', () => {
-        const privateChannelName = 'private-channel';
+        const privateChannelName = `private-channel-${getRandomId()}`;
 
         cy.apiLogin(user1);
         cy.visit(testChannelUrl1);
