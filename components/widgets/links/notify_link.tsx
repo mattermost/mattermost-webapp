@@ -5,42 +5,51 @@ import React, {useState} from 'react';
 import {useIntl} from 'react-intl';
 import {Client4} from 'mattermost-redux/client';
 
-const NotifyLink = (): JSX.Element => {
-    const NOT_STARTED = 'Not_Started';
-    const STARTED = 'Started';
-    const SUCCESS = 'Success';
-    const FAILED = 'Failed';
+enum NotifyStatus {
+    NotStarted = 'NOT_STARTED',
+    Started = 'STARTED',
+    Success = 'SUCCESS',
+    Failed = 'FAILED'
+}
 
-    const [notifyStatus, setStatus] = useState(NOT_STARTED);
+export enum DafaultBtnText {
+    NotifyAdmin = 'Notify the admin.',
+    Sending = 'Sending...',
+    Sent = 'Sent!',
+    Failed = 'Failed. Try again later.',
+}
+
+const NotifyLink = (): JSX.Element => {
+    const [notifyStatus, setStatus] = useState(NotifyStatus.NotStarted);
     const {formatMessage} = useIntl();
 
     const notifyFunc = async () => {
         try {
-            setStatus(STARTED);
+            setStatus(NotifyStatus.Started);
             await Client4.sendAdminUpgradeRequestEmail();
-            setStatus(SUCCESS);
+            setStatus(NotifyStatus.Success);
         } catch (error) {
             if (error) {
-                setStatus(FAILED);
+                setStatus(NotifyStatus.Failed);
             }
         }
     };
 
-    const btnText = (status: string): string => {
+    const btnText = (status: NotifyStatus): string => {
         switch (status) {
-        case STARTED:
-            return formatMessage({id: 'invitation-modal.notify-admin.sending', defaultMessage: 'Sending...'});
-        case SUCCESS:
-            return formatMessage({id: 'invitation-modal.notify-admin.sent', defaultMessage: 'Sent!'});
-        case FAILED:
-            return formatMessage({id: 'invitation-modal.notify-admin.failed', defaultMessage: 'Failed. Try again later.'});
+        case NotifyStatus.Started:
+            return formatMessage({id: 'invitation-modal.notify-admin.sending', defaultMessage: DafaultBtnText.Sending});
+        case NotifyStatus.Success:
+            return formatMessage({id: 'invitation-modal.notify-admin.sent', defaultMessage: DafaultBtnText.Sent});
+        case NotifyStatus.Failed:
+            return formatMessage({id: 'invitation-modal.notify-admin.failed', defaultMessage: DafaultBtnText.Failed});
         default:
-            return formatMessage({id: 'invitation-modal.notify-admin.notify', defaultMessage: 'Notify the admin.'});
+            return formatMessage({id: 'invitation-modal.notify-admin.notify', defaultMessage: DafaultBtnText.NotifyAdmin});
         }
     };
     return (
         <button
-            disabled={notifyStatus !== NOT_STARTED}
+            disabled={notifyStatus !== NotifyStatus.NotStarted}
             onClick={() => notifyFunc()}
             className='btn-link'
         >{btnText(notifyStatus)}</button>
