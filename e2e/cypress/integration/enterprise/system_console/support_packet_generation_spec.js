@@ -26,6 +26,7 @@ describe('Support Packet Generation', () => {
 
         cy.findByRole('button', {name: 'Menu Icon'}).should('exist').click();
 
+        // * Make sure the commercial support button takes you to external link
         cy.findByRole('link', {name: 'Commercial Support'}).and('have.attr', 'href').and('include', '/commercial-support/');
     });
 
@@ -48,6 +49,7 @@ describe('Support Packet Generation', () => {
 
         cy.findByRole('button', {name: 'Commercial Support dialog'}).click();
 
+        // * Ensure the download support packet button exist and that text regarding setting the proper settings exist
         cy.findByRole('link', {name: 'Download Support Packet'}).should('exist');
 
         cy.get('.AlertBanner__body').should('have.text', 'Before downloading the support packet, set Output Logs to File to true and set File Log Level to DEBUG here.');
@@ -74,7 +76,7 @@ describe('Support Packet Generation', () => {
 
         cy.findByRole('link', {name: 'Download Support Packet'}).should('exist');
 
-        // * Veryify the links exist
+        // * Veryify the links exist that take you to loggin page and ticket page exist
         cy.findByRole('link', {name: 'submit a support ticket.'}).should('have.attr', 'href').and('include', 'https://support.mattermost.com/hc/en-us/requests/new');
         cy.findByRole('link', {name: 'here'}).should('have.attr', 'href').and('include', '/admin_console/environment/logging');
     });
