@@ -387,18 +387,6 @@ const PluginItem = ({
     );
 };
 
-interface PluginSettings {
-    Enable: boolean;
-    EnableUploads: boolean;
-    AllowInsecureDownloadUrl: boolean;
-    EnableMarketplace: boolean;
-    EnableRemoteMarketplace: boolean;
-    AutomaticPrepackagedPlugins: boolean;
-    MarketplaceUrl: string;
-    RequirePluginSignature: boolean;
-    isDisabled: boolean;
-}
-
 type Props = BaseProps & {
     config: DeepPartial<AdminConfig>;
     pluginStatuses: Record<string, PluginStatus>;
