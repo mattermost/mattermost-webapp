@@ -2,12 +2,12 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators, Dispatch} from 'redux';
+import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 import {getAppBindings} from 'mattermost-redux/selectors/entities/apps';
 import {AppBindingLocations} from 'mattermost-redux/constants/apps';
-import {GenericAction} from 'mattermost-redux/types/actions';
+import {ActionFunc, ActionResult, GenericAction} from 'mattermost-redux/types/actions';
 
 import {doAppCall} from 'actions/apps';
 import {GlobalState} from 'types/store';
@@ -15,6 +15,7 @@ import {GlobalState} from 'types/store';
 import {appsEnabled} from 'utils/apps';
 
 import ChannelHeaderPlug from './channel_header_plug';
+import { AppCall } from 'mattermost-redux/types/apps';
 
 function mapStateToProps(state: GlobalState) {
     const apps = appsEnabled(state);
@@ -26,9 +27,13 @@ function mapStateToProps(state: GlobalState) {
     };
 }
 
+type Actions = {
+    doAppCall: (call: AppCall) => Promise<ActionResult>;
+}
+
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
-        actions: bindActionCreators({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
             doAppCall,
         }, dispatch),
     };
