@@ -113,12 +113,11 @@ export default class CommandProvider extends Provider {
             return false;
         }
 
-        const command = pretext.toLowerCase();
-        if (this.appCommandParser?.isAppCommand(command)) {
-            this.appCommandParser.getSuggestions(command).then((matches) => {
+        if (this.appCommandParser?.isAppCommand(pretext)) {
+            this.appCommandParser.getSuggestions(pretext).then((matches) => {
                 const terms = matches.map((suggestion) => suggestion.complete);
                 resultCallback({
-                    matchedPretext: command,
+                    matchedPretext: pretext,
                     terms,
                     items: matches,
                     component: CommandSuggestion,
