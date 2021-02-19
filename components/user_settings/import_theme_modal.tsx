@@ -5,7 +5,7 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage, WrappedComponentProps, injectIntl} from 'react-intl';
 
-import {setThemeDefaults} from 'mattermost-redux/utils/theme_utils';
+import {blendColors, setThemeDefaults} from 'mattermost-redux/utils/theme_utils';
 import {Theme} from 'mattermost-redux/types/preferences';
 
 import ModalStore from 'stores/modal_store.jsx';
@@ -105,6 +105,7 @@ class ImportThemeModal extends React.PureComponent<WrappedComponentProps, State>
             sidebarTextActiveBorder,
             sidebarTextActiveColor,
             sidebarHeaderBg,
+            sidebarTeamBarBg: blendColors(sidebarHeaderBg, '#000000', 0.2, true),
             sidebarHeaderTextColor: sidebarText,
             onlineIndicator,
             mentionBg,
