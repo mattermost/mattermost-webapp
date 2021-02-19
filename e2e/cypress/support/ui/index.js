@@ -5,6 +5,7 @@ import './account_settings_modal';
 import './announcement_bar';
 import './channel_sidebar';
 import './common';
+import './compliance_export';
 import './extend_testing_library';
 import './menu';
 import './modal';
