@@ -389,7 +389,7 @@ export class ParsedCommand {
                     return this;
                 }
                 case '"': {
-                    if (this.incompleteStart === this.i-1) {
+                    if (this.incompleteStart === this.i - 1) {
                         return this.asError('empty values are not allowed');
                     }
                     this.i++;
@@ -423,7 +423,7 @@ export class ParsedCommand {
                     return this;
                 }
                 case '`': {
-                    if (this.incompleteStart === this.i-1) {
+                    if (this.incompleteStart === this.i - 1) {
                         return this.asError('empty values are not allowed');
                     }
                     this.i++;
