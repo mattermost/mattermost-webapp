@@ -8,8 +8,10 @@ import {Tooltip} from 'react-bootstrap';
 
 import Permissions from 'mattermost-redux/constants/permissions';
 import {Post} from 'mattermost-redux/types/posts';
-import {AppBinding, AppCall} from 'mattermost-redux/types/apps';
-import {AppCallTypes} from 'mattermost-redux/constants/apps';
+import {AppBinding, AppCall, AppCallResponse} from 'mattermost-redux/types/apps';
+import {AppCallResponseTypes, AppCallTypes} from 'mattermost-redux/constants/apps';
+
+import {ActionResult} from 'mattermost-redux/types/actions';
 
 import {Locations, ModalIdentifiers, Constants} from 'utils/constants';
 import DeletePostModal from 'components/delete_post_modal';
@@ -23,6 +25,7 @@ import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import DotsHorizontalIcon from 'components/widgets/icons/dots_horizontal';
 import {PluginComponent} from 'types/store/plugins';
+import {sendEphemeralPost} from 'actions/global_actions';
 
 const MENU_BOTTOM_MARGIN = 80;
 
@@ -94,7 +97,7 @@ type Props = {
         /**
          * Function to perform an app call
          */
-        doAppCall: (call: AppCall) => void;
+        doAppCall: (call: AppCall) => Promise<ActionResult>;
     }; // TechDebt: Made non-mandatory while converting to typescript
 
     canEdit: boolean;
@@ -290,6 +293,12 @@ export default class DotMenu extends React.PureComponent<Props, State> {
                 post_id: this.props.post.id,
                 root_id: this.props.post.root_id,
             },
+        }).then((res) => {
+            const callResp = (res as {data: AppCallResponse}).data;
+            if (callResp?.type === AppCallResponseTypes.ERROR) {
+                const errorMessage = callResp.error || 'Unknown error happenned';
+                sendEphemeralPost(errorMessage, this.props.post.channel_id, this.props.post.root_id);
+            }
         });
     }
 

@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators, Dispatch} from 'redux';
+import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
@@ -11,9 +11,11 @@ import {getCurrentTeamId, getCurrentTeam} from 'mattermost-redux/selectors/entit
 import {getAppBindings} from 'mattermost-redux/selectors/entities/apps';
 import {AppBindingLocations} from 'mattermost-redux/constants/apps';
 
-import {GenericAction} from 'mattermost-redux/types/actions';
+import {ActionFunc, ActionResult, GenericAction} from 'mattermost-redux/types/actions';
 
 import {Post} from 'mattermost-redux/types/posts';
+
+import {AppCall} from 'mattermost-redux/types/apps';
 
 import {GlobalState} from 'types/store';
 
@@ -78,9 +80,20 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
     };
 }
 
+type Actions = {
+    flagPost: (postId: string) => void;
+    unflagPost: (postId: string) => void;
+    setEditingPost: (postId?: string, commentCount?: number, refocusId?: string, title?: string, isRHS?: boolean) => void;
+    pinPost: (postId: string) => void;
+    unpinPost: (postId: string) => void;
+    openModal: (postId: any) => void;
+    markPostAsUnread: (post: Post) => void;
+    doAppCall: (call: AppCall) => Promise<ActionResult>;
+}
+
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
-        actions: bindActionCreators({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
             flagPost,
             unflagPost,
             setEditingPost,

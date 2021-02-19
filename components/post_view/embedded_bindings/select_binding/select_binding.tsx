@@ -7,14 +7,15 @@ import {ActionResult} from 'mattermost-redux/types/actions';
 
 import {Post} from 'mattermost-redux/types/posts';
 
-import {AppBinding, AppCall} from 'mattermost-redux/types/apps';
+import {AppBinding, AppCall, AppCallResponse} from 'mattermost-redux/types/apps';
 
-import {AppBindingLocations, AppExpandLevels} from 'mattermost-redux/constants/apps';
+import {AppBindingLocations, AppCallResponseTypes, AppExpandLevels} from 'mattermost-redux/constants/apps';
 
 import MenuActionProvider from 'components/suggestion/menu_action_provider';
 import AutocompleteSelector from 'components/autocomplete_selector';
 import PostContext from 'components/post_view/post_context';
 import {createCallRequest} from 'utils/apps';
+import {sendEphemeralPost} from 'actions/global_actions';
 
 type Option = {
     text: string;
@@ -80,7 +81,13 @@ export default class SelectBinding extends React.PureComponent<Props, State> {
             post.id,
         );
 
-        this.props.actions.doAppCall(call);
+        this.props.actions.doAppCall(call).then((res) => {
+            const callResp = (res as {data: AppCallResponse}).data;
+            if (callResp?.type === AppCallResponseTypes.ERROR) {
+                const errorMessage = callResp.error || 'Unknown error happenned';
+                sendEphemeralPost(errorMessage, post.channel_id, post.root_id);
+            }
+        });
     }
 
     render() {

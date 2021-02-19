@@ -10,14 +10,17 @@ import {FormattedMessage} from 'react-intl';
 
 import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
 import {Theme} from 'mattermost-redux/types/preferences';
-import {AppBinding, AppCall} from 'mattermost-redux/types/apps';
-import {AppCallTypes} from 'mattermost-redux/constants/apps';
+import {AppBinding, AppCall, AppCallResponse} from 'mattermost-redux/types/apps';
+import {AppCallResponseTypes, AppCallTypes} from 'mattermost-redux/constants/apps';
+
+import {ActionResult} from 'mattermost-redux/types/actions';
 
 import HeaderIconWrapper from 'components/channel_header/components/header_icon_wrapper';
 import PluginChannelHeaderIcon from 'components/widgets/icons/plugin_channel_header_icon';
 import {Constants} from 'utils/constants';
 import OverlayTrigger from 'components/overlay_trigger';
 import {PluginComponent} from 'types/store/plugins';
+import {sendEphemeralPost} from 'actions/global_actions';
 
 type CustomMenuProps = {
     open?: boolean;
@@ -99,7 +102,7 @@ type ChannelHeaderPlugProps = {
     channelMember: ChannelMembership;
     theme: Theme;
     actions: {
-        doAppCall: (call: AppCall) => void;
+        doAppCall: (call: AppCall) => Promise<ActionResult>;
     };
 }
 
@@ -156,6 +159,12 @@ export default class ChannelHeaderPlug extends React.PureComponent<ChannelHeader
                 team_id: this.props.channel.team_id,
                 channel_id: this.props.channel.id,
             },
+        }).then((res) => {
+            const callResp = (res as {data: AppCallResponse}).data;
+            if (callResp?.type === AppCallResponseTypes.ERROR) {
+                const errorMessage = callResp.error || 'Unknown error happenned';
+                sendEphemeralPost(errorMessage, this.props.channel.id);
+            }
         });
     }
 

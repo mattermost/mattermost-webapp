@@ -3,14 +3,15 @@
 
 import React from 'react';
 
-import {AppBinding, AppCall} from 'mattermost-redux/types/apps';
+import {AppBinding, AppCall, AppCallResponse} from 'mattermost-redux/types/apps';
 import {ActionResult} from 'mattermost-redux/types/actions';
-import {AppBindingLocations, AppExpandLevels} from 'mattermost-redux/constants/apps';
+import {AppBindingLocations, AppCallResponseTypes, AppExpandLevels} from 'mattermost-redux/constants/apps';
 import {Post} from 'mattermost-redux/types/posts';
 
 import Markdown from 'components/markdown';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 import {createCallRequest} from 'utils/apps';
+import {sendEphemeralPost} from 'actions/global_actions';
 
 type Props = {
     binding: AppBinding;
@@ -49,8 +50,14 @@ export default class ButtonBinding extends React.PureComponent<Props, State> {
             post.id,
         );
         this.setState({executing: true});
-        await this.props.actions.doAppCall(call);
-        this.setState({executing: false});
+        this.props.actions.doAppCall(call).then((res) => {
+            this.setState({executing: false});
+            const callResp = (res as {data: AppCallResponse}).data;
+            if (callResp?.type === AppCallResponseTypes.ERROR) {
+                const errorMessage = callResp.error || 'Unknown error happenned';
+                sendEphemeralPost(errorMessage, post.channel_id, post.root_id);
+            }
+        });
     }
 
     render() {
