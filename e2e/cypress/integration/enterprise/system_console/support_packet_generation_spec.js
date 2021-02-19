@@ -16,11 +16,11 @@ const goToAdminConsole = () => {
 };
 
 describe('Support Packet Generation', () => {
-    it('MM-T3817-Step1 - Commercial Support Dialog UI', () => { 
+    it('MM-T3817-Step1 - Commercial Support Dialog UI', () => {
         // # Remove license
         cy.apiAdminLogin();
-        cy.apiDeleteLicense();    
-        
+        cy.apiDeleteLicense();
+
         // # Go to System Console
         goToAdminConsole();
 
@@ -29,16 +29,16 @@ describe('Support Packet Generation', () => {
         cy.findByRole('link', {name: 'Commercial Support'}).and('have.attr', 'href').and('include', '/commercial-support/');
     });
 
-    it('MM-T3817-Step2And3 - Commercial Support Dialog UI', () => { 
+    it('MM-T3817-Step2And3 - Commercial Support Dialog UI', () => {
         // Running on E10/E20 License
-        cy.apiRequireLicense(); 
+        cy.apiRequireLicense();
         cy.apiAdminLogin();
 
         cy.apiUpdateConfig({
             LogSettings: {
                 EnableFile: true,
-                FileLevel: "ERROR",
-            }
+                FileLevel: 'ERROR',
+            },
         });
 
         // # Go to System Console
@@ -50,19 +50,19 @@ describe('Support Packet Generation', () => {
 
         cy.findByRole('link', {name: 'Download Support Packet'}).should('exist');
 
-        cy.get('.AlertBanner__body').should('have.text', 'Before downloading the support packet, set Output Logs to File to true and set File Log Level to DEBUG here.');  
+        cy.get('.AlertBanner__body').should('have.text', 'Before downloading the support packet, set Output Logs to File to true and set File Log Level to DEBUG here.');
     });
 
-    it('MM-T3818 - Commercial Support Dialog UI - Links', () => { 
+    it('MM-T3818 - Commercial Support Dialog UI - Links', () => {
         // Running on E10/E20 License
-        cy.apiRequireLicense(); 
+        cy.apiRequireLicense();
         cy.apiAdminLogin();
 
         cy.apiUpdateConfig({
             LogSettings: {
                 EnableFile: true,
-                FileLevel: "ERROR",
-            }
+                FileLevel: 'ERROR',
+            },
         });
 
         // # Go to System Console
@@ -76,8 +76,6 @@ describe('Support Packet Generation', () => {
 
         // * Veryify the links exist
         cy.findByRole('link', {name: 'submit a support ticket.'}).should('have.attr', 'href').and('include', 'https://support.mattermost.com/hc/en-us/requests/new');
-        cy.findByRole('link', {name: 'here'}).should('have.attr', 'href').and('include', '/admin_console/environment/logging');         
+        cy.findByRole('link', {name: 'here'}).should('have.attr', 'href').and('include', '/admin_console/environment/logging');
     });
-
-
 });
