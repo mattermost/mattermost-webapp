@@ -9,13 +9,14 @@ import {getAppBindings} from 'mattermost-redux/selectors/entities/apps';
 import {AppBindingLocations} from 'mattermost-redux/constants/apps';
 import {ActionFunc, ActionResult, GenericAction} from 'mattermost-redux/types/actions';
 
+import {AppCall} from 'mattermost-redux/types/apps';
+
 import {doAppCall} from 'actions/apps';
 import {GlobalState} from 'types/store';
 
 import {appsEnabled} from 'utils/apps';
 
 import ChannelHeaderPlug from './channel_header_plug';
-import { AppCall } from 'mattermost-redux/types/apps';
 
 function mapStateToProps(state: GlobalState) {
     const apps = appsEnabled(state);
