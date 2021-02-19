@@ -172,14 +172,6 @@ export default class ManageTimezones extends React.PureComponent<Props, State> {
         }
 
         const inputs = [];
-
-        /*const timezoneRegion = (
-            <div
-                className='section-describe pt-2'
-            >
-                {useAutomaticTimezone && getTimezoneRegion(automaticTimezone)}
-            </div>
-        );*/
         const reactStyles = {
 
             menuPortal: (provided: React.CSSProperties) => ({
