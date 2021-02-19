@@ -413,7 +413,7 @@ if (targetIsTest) {
 if (targetIsDevServer) {
     config = {
         ...config,
-        devtool: 'cheap-module-eval-source-map',
+        devtool: 'eval-cheap-module-source-map',
         devServer: {
             hot: true,
             injectHot: true,
