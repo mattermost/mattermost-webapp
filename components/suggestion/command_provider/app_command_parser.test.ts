@@ -867,7 +867,7 @@ describe('AppCommandParser', () => {
                     complete: '/jira issue create --project KT --summary',
                     description: 'The Jira issue summary',
                     hint: 'The thing is working great!',
-                    suggestion: '/Sum',
+                    suggestion: '/',
                 },
             ]);
         });
