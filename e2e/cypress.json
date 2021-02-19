@@ -16,6 +16,7 @@
         "dbConnection": "postgres://mmuser:mostest@localhost/mattermost_test?sslmode=disable\u0026connect_timeout=10",
         "enableApplitools": false,
         "enableVisualTest": false,
+        "firstTest": false,
         "keycloakAppName": "mattermost",
         "keycloakBaseUrl": "http://localhost:8484",
         "ldapServer": "localhost",
