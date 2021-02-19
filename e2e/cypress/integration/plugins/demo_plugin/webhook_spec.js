@@ -37,13 +37,9 @@ describe('Demo plugin - Webhook events', () => {
         const newSettings = {
             PluginSettings: {
                 Enable: true,
-                RequirePluginSignature: false,
             },
             ServiceSettings: {
                 EnableGifPicker: true,
-            },
-            FileSettings: {
-                EnablePublicLink: true,
             },
         };
         cy.apiUpdateConfig(newSettings);
