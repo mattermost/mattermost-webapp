@@ -38,6 +38,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_direct_channel should match 
   isCollapsed={false}
   label="channel_display_name"
   link="/team_name/messages/@some-user"
+  teammateId="user_id"
 />
 `;
 
@@ -79,6 +80,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_direct_channel should match 
   isCollapsed={false}
   label="channel_display_name"
   link="/team_name/messages/@some-user"
+  teammateId="user_id"
 />
 `;
 
@@ -120,6 +122,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_direct_channel should match 
   isCollapsed={false}
   label="channel_display_name (you)"
   link="/team_name/messages/@some-user"
+  teammateId="user_id"
 />
 `;
 
@@ -154,5 +157,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_direct_channel should match 
   isCollapsed={false}
   label="channel_display_name"
   link="/team_name/messages/@some-user"
+  teammateId="user_id"
 />
 `;
