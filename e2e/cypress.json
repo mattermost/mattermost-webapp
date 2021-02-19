@@ -17,6 +17,7 @@
         "elasticsearchConnectionUrl": "http://localhost:9200",
         "enableApplitools": false,
         "enableVisualTest": false,
+        "firstTest": false,
         "keycloakAppName": "mattermost",
         "keycloakBaseUrl": "http://localhost:8484",
         "ldapServer": "localhost",
