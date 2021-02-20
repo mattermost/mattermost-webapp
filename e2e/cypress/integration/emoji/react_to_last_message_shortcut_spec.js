@@ -72,9 +72,7 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
 
     it('Should open emoji picker for last message by shortcut in the channel view when the focus is not on the center text box', () => {
         // # Click anywhere to take focus away from center text box
-        cy.get('#lhsList').within(() => {
-            cy.findByText('Town Square').click();
-        });
+        cy.uiGetLhsSection('CHANNELS').findByText('Town Square').click();
 
         // # Emulate react to last message shortcut without focus on center
         pressShortcutReactToLastMessage();
@@ -299,9 +297,7 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
         cy.wait(TIMEOUTS.FIVE_SEC);
 
         // # Click anywhere to take focus away from RHS text box
-        cy.get('#lhsList').within(() => {
-            cy.findByText('Town Square').click();
-        });
+        cy.uiGetLhsSection('CHANNELS').findByText('Town Square').click();
 
         // # Focus back on Center textbox and enter shortcut
         pressShortcutReactToLastMessage('CENTER');
@@ -353,9 +349,7 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
         cy.wait(TIMEOUTS.FIVE_SEC);
 
         // # Click anywhere to take focus away from RHS text box
-        cy.get('#lhsList').within(() => {
-            cy.findByText('Town Square').click();
-        });
+        cy.uiGetLhsSection('CHANNELS').findByText('Town Square').click();
 
         // # Enter shortcut without focus on Center textbox
         pressShortcutReactToLastMessage();
