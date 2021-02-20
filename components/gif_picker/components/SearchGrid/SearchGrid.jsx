@@ -6,8 +6,6 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
 import {saveSearchScrollPosition} from 'mattermost-redux/actions/gifs';
-import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
-import {changeOpacity, makeStyleFromTheme} from 'mattermost-redux/utils/theme_utils';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 
@@ -28,21 +26,12 @@ function mapStateToProps(state) {
     return {
         ...state.entities.gifs.cache,
         ...state.entities.gifs.search,
-        theme: getTheme(state),
         appProps: state.entities.gifs.app,
     };
 }
 
 const mapDispatchToProps = ({
     saveSearchScrollPosition,
-});
-
-const getStyle = makeStyleFromTheme((theme) => {
-    return {
-        background: {
-            backgroundColor: changeOpacity(theme.centerChannelColor, 0),
-        },
-    };
 });
 
 export class SearchGrid extends PureComponent {
@@ -57,7 +46,6 @@ export class SearchGrid extends PureComponent {
         numberOfColumns: PropTypes.number,
         scrollPosition: PropTypes.number,
         saveSearchScrollPosition: PropTypes.func,
-        theme: PropTypes.object.isRequired,
     }
 
     constructor(props) {
@@ -150,7 +138,6 @@ export class SearchGrid extends PureComponent {
     }
 
     render() {
-        const style = getStyle(this.props.theme);
         const {
             containerClassName,
             gifs,
@@ -228,7 +215,6 @@ export class SearchGrid extends PureComponent {
             <div
                 id='search-grid-container'
                 className={`search-grid-container ${containerClassName}`}
-                style={style.background}
             >
                 {content}
                 {emptySearch}
