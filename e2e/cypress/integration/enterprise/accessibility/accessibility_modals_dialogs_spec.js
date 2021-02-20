@@ -88,7 +88,7 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
 
     it('MM-T1466 Accessibility Support in Direct Messages Dialog screen', () => {
         // * Verify the aria-label in create direct message button
-        cy.get('#addDirectChannel').should('have.attr', 'aria-label', 'write a direct message').click();
+        cy.uiAddDirectMessage().click();
 
         // * Verify the accessibility support in Direct Messages Dialog`
         cy.get('#moreDmModal').should('have.attr', 'role', 'dialog').and('have.attr', 'aria-labelledby', 'moreDmModalLabel').within(() => {
@@ -140,9 +140,7 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
                 cy.reload();
 
                 // * Verify the aria-label in more public channels button
-                cy.get('#sidebarPublicChannelsMore', {timeout: TIMEOUTS.ONE_MIN}).
-                    should('be.visible').
-                    and('have.attr', 'aria-label', 'See more public channels').click();
+                cy.uiBrowseOrCreateChannel('Browse Channels').click();
 
                 // * Verify the accessibility support in More Channels Dialog`
                 cy.get('#moreChannelsModal').
