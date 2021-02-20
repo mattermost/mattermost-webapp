@@ -1,93 +1,89 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-
 import React, {useEffect, useState} from 'react';
-import {useDispatch, useStore, useSelector} from 'react-redux';
-import {FormattedMessage, useIntl, FormattedDate} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 
-import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
-import {getCloudSubscription, getCloudProducts, getCloudCustomer} from 'mattermost-redux/actions/cloud';
-import {savePreferences} from 'mattermost-redux/actions/preferences';
-import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
-import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
-import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
-import {DispatchFunc} from 'mattermost-redux/types/actions';
-import {PreferenceType} from 'mattermost-redux/types/preferences';
+import {trackEvent} from 'actions/telemetry_actions';
 
-import {pageVisited, trackEvent} from 'actions/telemetry_actions';
-import {openModal} from 'actions/views/modals';
 import AlertBanner from 'components/alert_banner';
 import BlockableLink from 'components/admin_console/blockable_link';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-import PurchaseModal from 'components/purchase_modal';
 import AdminHeader from 'components/widgets/admin_console/admin_header';
+import CloudCard from 'components/common/cloud_card';
+import {useInterval} from 'components/common/hooks/set_interval';
 
-import {getCloudContactUsLink, InquiryType, InquiryIssue} from 'selectors/cloud';
-import {GlobalState} from 'types/store';
 import {
-    Preferences,
-    CloudBanners,
     CloudLinks,
-    ModalIdentifiers,
-    TELEMETRY_CATEGORIES,
 } from 'utils/constants';
 
 import './migrate_workspace.scss';
-import ImportSvg from './import.svg';
-import CloudCard from 'components/common/cloud_card';
+
 import Badge from 'components/widgets/badges/badge';
 
+import ProgressBar from './widgets/progress_bar';
+
+import importsListTable from './components/import_list';
+
+import ImportSvg from './import.svg';
+
+// temporal hardcoded data
+const importList = [{
+    id: 1,
+    type: 'Slack',
+    date: new Date(),
+    channels: 5,
+    users: 13,
+    status: 'completed',
+    log: 'Download log',
+},
+{
+    id: 2,
+    type: 'Slack',
+    date: new Date(),
+    channels: 5,
+    users: 13,
+    status: 'in_progress',
+    log: 'Download log',
+},
+{
+    id: 3,
+    type: 'Slack',
+    date: new Date(),
+    channels: 5,
+    users: 13,
+    status: 'failed',
+    log: 'Download log',
+},
+];
+
 const MigrateWorkspace: React.FC = () => {
-    const {formatMessage} = useIntl();
-    const store = useStore();
-    const [importList, setImportList] = useState(["Import 1", "Import 2"]);
-    const [chatService, setchatService] = useState('Slack');
-    const [toBackButton, setToBackButton] = useState('null');
-    const [step, setStep] = useState(0);
+    // const {formatMessage} = useIntl();
+    // const store = useStore();
+    const [importListData] = useState(importList);
+    const [chatService] = useState('Slack');
+    const [toBackButton] = useState('null');
+    const [percentage, setPercentage] = useState(1);
+
+    // const [step, setStep] = useState(0);
+
+    useInterval(() => {
+        setPercentage(percentage + 1);
+    }, 1000);
 
     useEffect(() => {
-        
     }, []);
-
-    const importListData = [{
-            id: 1,    
-            type: 'Slack',
-            date: new Date(),
-            channels: 5,
-            users: 13,
-            status: 'completed',
-            log: 'Download log'
-        },
-        {
-            id: 2,
-            type: 'Slack',
-            date: new Date(),
-            channels: 5,
-            users: 13,
-            status: 'in_progress',
-            log: 'Download log'
-        },
-        {
-            id: 3,
-            type: 'Slack',
-            date: new Date(),
-            channels: 5,
-            users: 13,
-            status: 'failed',
-            log: 'Download log'
-        }
-    ];
 
     const adminHeader = () => (
         <AdminHeader className={`admin-console__migrate-header ${toBackButton ? 'with-back' : ''}`}>
             <>
-                {toBackButton && <BlockableLink
+                {toBackButton &&
+                <BlockableLink
                     to='/admin_console/billing/payment_info'
                     className='fa fa-angle-left back'
                 />}
                 <FormattedMessage
-                    id='admin.cloud.migrate.home.title'
+                    id='admin.cloud.migrate.header.title'
                     defaultMessage='Import a Workspace'
                 />
                 <Badge
@@ -95,85 +91,152 @@ const MigrateWorkspace: React.FC = () => {
                     show={true}
                 >
                     <FormattedMessage
-                        id='admin.cloud.migrate.home.BetaBadge'
+                        id='admin.cloud.migrate.header.BetaBadge'
                         defaultMessage='Beta'
                     />
                 </Badge>
+                {/* this probably should go to the shared admin header and the state to the main redux store*/}
+                {shouldShowImportInProgressHeaderChip() && <ProgressBar percentage={percentage}/>}
             </>
         </AdminHeader>
+    );
+
+    const shouldShowImportInProgressHeaderChip = () => {
+        return true;
+    };
+
+    const shouldShowImportInProgressAlertBanner = () => {
+        return true;
+    };
+
+    const shouldShowImportRecommended4NewWorkspacesAlertBanner = () => {
+        return true;
+    };
+
+    const importInProgress = (
+        <AlertBanner
+            mode='info'
+            title={
+                <FormattedMessage
+                    id='admin.cloud.migrate.importInProgress.banner.title'
+                    defaultMessage='Import in progress'
+                />
+            }
+            message={
+                <>
+                    <FormattedMarkdownMessage
+                        id='admin.cloud.migrate.importInProgress.banner.description'
+                        defaultMessage='New imports are disabled until this import is complete. You may continue using Mattermost while the import progresses and we will email you once the import is complete.'
+                    />
+                    <a
+                        target='_new'
+                        rel='noopener noreferrer'
+                        href={CloudLinks.BILLING_DOCS}
+                        className='migrationInProgress'
+                    >
+                        <FormattedMessage
+                            id='admin.cloud.migrate.importInProgress.banner.link'
+                            defaultMessage='View in-progress import'
+                        />
+                    </a>
+                </>
+            }
+        />
+    );
+
+    const importRecommended4NewWorkspaces = (
+        <AlertBanner
+            mode='info'
+            title={
+                <FormattedMessage
+                    id='admin.cloud.migrate.recommended4NewWorkspaces.banner.title'
+                    defaultMessage='Importing is recommended for new workspaces'
+                />
+            }
+            message={
+                <FormattedMarkdownMessage
+                    id='admin.cloud.migrate.recommended4NewWorkspaces.banner.description'
+                    defaultMessage='It looks like your workspace has quite a bit of data in it already. While this feature is in Beta, it is recommended for new workspaces. If you wish to continue, there is a risk that conflicting data may cause problems.'
+                />
+            }
+            onDismiss={() => (true)}
+        />
     );
 
     return (
         <div className='wrapper--fixed MigrateWorkspace'>
             {adminHeader()}
             <div className='admin-console__wrapper'>
-                <div className='MigrateWorkspace__topWrapper'>
-                    <CloudCard className='ImportCard'>
-                        <div className='ImportCard__importImg'>
-                            <ImportSvg />
-                        </div>
-                        <FormattedMessage
+                <div className='admin-console__content'>
+                    {shouldShowImportInProgressAlertBanner() && importInProgress}
+                    {shouldShowImportRecommended4NewWorkspacesAlertBanner() && importRecommended4NewWorkspaces}
+                    <div className='MigrateWorkspace__topWrapper'>
+                        <CloudCard className='ImportCard'>
+                            <div className='ImportCard__importImg'>
+                                <ImportSvg/>
+                            </div>
+                            <FormattedMessage
                                 id='admin.cloud.migrate.importCard.title'
                                 defaultMessage='Import {chatService} Workspace'
                                 values={{chatService}}
-                        />
-                        <FormattedMessage
+                            />
+                            <FormattedMessage
                                 id='admin.cloud.migrate.importCard.description'
                                 defaultMessage='You’ll need an exported ZIP file with your workspace data ready to go. '
-                        />
-                    <button
-                    >
-                        <FormattedMessage
-                            id='admin.cloud.migrate.importCard.buttonText'
-                            defaultMessage='Start a new import'
-                        />
-                    </button>
-                    </CloudCard>
-                    <CloudCard className='GetHelpCard'>
-                        <FormattedMessage
-                            id='admin.cloud.migrate.getHelpWithImporting.title'
-                            defaultMessage='Get help with importing'
-                        />
-                        <FormattedMessage
-                            id='admin.cloud.migrate.getHelpWithImporting.description'
-                            defaultMessage='Review the guides below for help with importing workspace data..'
-                        />
-                        <a
-                            target='_new'
-                            rel='noopener noreferrer'
-                            href={CloudLinks.EXPORTING_DATA}
-                            className='Migration__GetHelp__exporting-data'
-                            onClick={() => trackEvent('cloud_admin', 'click_exporting_data_info_pages', {screen: 'migrate_workspace'})}
-                        >
-                            <FormattedMessage
-                                id='admin.cloud.migrate.getHelpWithImporting.exportingWorkspace'
-                                defaultMessage='Exporting {chatService} Workspace data'
-                                values={{chatService}}
                             />
-                        </a>
-                        <a
-                            target='_new'
-                            rel='noopener noreferrer'
-                            href={CloudLinks.IMPORTING_DATA}
-                            className='Migration__GetHelp__exporting-data'
-                            onClick={() => trackEvent('cloud_admin', 'click_exporting_data_info_pages', {screen: 'migrate_workspace'})}
-                        >
+                            <button >
+                                <FormattedMessage
+                                    id='admin.cloud.migrate.importCard.buttonText'
+                                    defaultMessage='Start a new import'
+                                />
+                            </button>
+                        </CloudCard>
+                        <CloudCard className='GetHelpCard'>
                             <FormattedMessage
-                                id='admin.cloud.migrate.getHelpWithImporting.importingWorkspace'
-                                defaultMessage='Importing {chatService} Workspace data'
-                                values={{chatService}}
+                                id='admin.cloud.migrate.getHelpWithImporting.title'
+                                defaultMessage='Get help with importing'
                             />
-                        </a>
-                    </CloudCard>
+                            <FormattedMessage
+                                id='admin.cloud.migrate.getHelpWithImporting.description'
+                                defaultMessage='Review the guides below for help with importing workspace data..'
+                            />
+                            <a
+                                target='_new'
+                                rel='noopener noreferrer'
+                                href={CloudLinks.EXPORTING_DATA}
+                                className='Migration__GetHelp__exporting-data'
+                                onClick={() => trackEvent('cloud_admin', 'click_exporting_data_info_pages', {screen: 'migrate_workspace'})}
+                            >
+                                <FormattedMessage
+                                    id='admin.cloud.migrate.getHelpWithImporting.exportingWorkspace'
+                                    defaultMessage='Exporting {chatService} Workspace data'
+                                    values={{chatService}}
+                                />
+                            </a>
+                            <a
+                                target='_new'
+                                rel='noopener noreferrer'
+                                href={CloudLinks.IMPORTING_DATA}
+                                className='Migration__GetHelp__exporting-data'
+                                onClick={() => trackEvent('cloud_admin', 'click_exporting_data_info_pages', {screen: 'migrate_workspace'})}
+                            >
+                                <FormattedMessage
+                                    id='admin.cloud.migrate.getHelpWithImporting.importingWorkspace'
+                                    defaultMessage='Importing {chatService} Workspace data'
+                                    values={{chatService}}
+                                />
+                            </a>
+                        </CloudCard>
+                    </div>
+                    {importListSection(importListData)}
                 </div>
-                {importListSection(importListData)}
             </div>
         </div>
     );
 };
 
 const importListSection = (importListData: any) => (
-    (importListData && importListData.length > 1) && 
+    (importListData && importListData.length > 1) &&
     <CloudCard className='ImportListCard'>
         <header>
             <FormattedMessage
@@ -187,148 +250,6 @@ const importListSection = (importListData: any) => (
         </header>
         {importsListTable(importListData)}
     </CloudCard>
-)
-
-const importsListTable = (importListData: any) => (
-    <>
-        <table className='MigrateWorkspace__table'>
-            <tr className='MigrateWorkspace__table-header'>
-                <th>
-                    <FormattedMessage
-                        id='admin.cloud.migrate.type'
-                        defaultMessage='Import Type'
-                    />
-                </th>
-                <th>
-                    <FormattedMessage
-                        id='admin.cloud.migrate.date'
-                        defaultMessage='Date'
-                    />
-                </th>
-                <th>
-                    <FormattedMessage
-                        id='admin.cloud.migrate.channels'
-                        defaultMessage='Channels'
-                    />
-                </th>
-                <th>
-                    <FormattedMessage
-                        id='admin.cloud.migrate.users'
-                        defaultMessage='Users'
-                    />
-                </th>
-                <th>
-                    <FormattedMessage
-                        id='admin.cloud.migrate.status'
-                        defaultMessage='Status'
-                    />
-                </th>
-                <th>
-                    <FormattedMessage
-                        id='admin.cloud.migrate.log'
-                        defaultMessage='Log'
-                    />
-                </th>
-                <th>{''}</th>
-            </tr>
-            {importListData.map((importElement: any) => {
-                const chatService = importElement.type
-                    return (
-                        <tr
-                            className='MigrateWorkspace__table-row'
-                            key={importElement.id}
-                        >
-                            <td>
-                                <div className='MigrateWorkspace__table-importType'>
-                                    <FormattedMarkdownMessage
-                                        id='admin.cloud.migrate.tableType'
-                                        defaultMessage='{chatService} Import'
-                                        values={{
-                                            chatService,
-                                        }}
-                                    />
-                                </div>
-                            </td>
-                            <td>
-                                <FormattedDate
-                                    value={new Date(importElement.period_start)}
-                                    month='2-digit'
-                                    day='2-digit'
-                                    year='numeric'
-                                    timeZone='UTC'
-                                />
-                            </td>
-                            <td>
-                                <div className='MigrateWorkspace__table-bottomDesc'>
-                                    {importElement.channels}
-                                </div>
-                            </td>
-                            <td>
-                                <div className='MigrateWorkspace__table-bottomDesc'>
-                                    {importElement.users}
-                                </div>
-                            </td>
-                            <td>
-                                <div className='MigrateWorkspace__table-bottomDesc'>
-                                    {statusLegend(importElement.status)}
-                                </div>
-                            </td>
-                            <td>
-                                <div className='MigrateWorkspace__table-bottomDesc'>
-                                    {downloadLogLink(importElement.log)}
-                                </div>
-                            </td>   
-                        </tr>
-                    );
-                })}
-        </table>
-    </>
 );
-
-const statusLegend = (status: string) => {
-    switch (status) {
-    case 'failed':
-        return (
-            <div className='admin-console__migrate-importStatus failed'>
-                <i className='icon icon-alert-outline'/>
-                <FormattedMessage
-                    id='admin.cloud.migrate.importStatus.failed'
-                    defaultMessage='Failed'
-                />
-            </div>
-        );
-    case 'completed':
-        return (
-            <div className='admin-console__migrate-importStatus completed'>
-                <i className='icon icon-check-circle-outline'/>
-                <FormattedMessage
-                    id='admin.cloud.migrate.importStatus.completed'
-                    defaultMessage='Completed'
-                />
-            </div>
-        );
-    default:
-        return (
-            <div className='admin-console__migrate-importStatus in_progress'>
-                <i className='icon fa fa-refresh fa-spin'/>
-                <FormattedMessage
-                    id='admin.cloud.migrate.importStatus.inProgress'
-                    defaultMessage='In Progress'
-                />
-            </div>
-        );
-    }
-};
-
-const downloadLogLink = (url: string) => (
-    <a
-        target='_new'
-        rel='noopener noreferrer'
-        href={url}
-        className='download_log'
-    >
-        Download Log
-    </a>
-)
 
 export default MigrateWorkspace;

@@ -568,6 +568,7 @@ const AdminDefinition = {
                 component: SystemRoles,
             },
         },
+
         // import_workspace: {
         //     url: 'user_management/import_workspace/:worspace_id',
         //     isDisabled: it.not(it.userHasWritePermissionOnResource('user_management.import_workspace')),
@@ -582,6 +583,7 @@ const AdminDefinition = {
             title_default: 'Import Workspace (Beta)',
             searchableStrings: [],
             isHidden: false,
+
             // isHidden: it.any(
             //     it.not(it.licensedForFeature('LDAPGroups')),
             //     it.not(it.userHasReadPermissionOnResource('user_management.migrate_workspace')),

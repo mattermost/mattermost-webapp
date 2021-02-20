@@ -1,0 +1,23 @@
+.CloudTable {
+    width: 100%;
+
+    th, td {
+        padding: 8px 12px;
+    }
+}
+
+.CloudTable__table-header {
+    background: rgba(var(--sys-center-channel-color-rgb), 0.08);
+    line-height: 16px;
+    font-weight: 600;
+    border-bottom: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.16);
+
+    &:last-child {
+        border-bottom: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.08);
+    }
+}
+
+.CloudTable__table-row {
+    border-bottom: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.08);
+    height: 50px;
+}

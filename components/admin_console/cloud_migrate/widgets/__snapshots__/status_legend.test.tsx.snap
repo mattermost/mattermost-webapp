@@ -1,0 +1,81 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`admin_console/status_legend status legend match snapshot 1`] = `
+<div
+  className="StatusLegend completed"
+>
+  <i
+    className="icon icon-check-circle-outline"
+  />
+  <FormattedMessage
+    defaultMessage="Completed"
+    id="admin.general.completed"
+  />
+</div>
+`;
+
+exports[`admin_console/status_legend status legend shows failed 1`] = `
+<StatusLegend
+  status="failed"
+>
+  <div
+    className="StatusLegend failed"
+  >
+    <i
+      className="icon icon-alert-outline"
+    />
+    <FormattedMessage
+      defaultMessage="Failed"
+      id="admin.general.failed"
+    >
+      <span>
+        Failed
+      </span>
+    </FormattedMessage>
+  </div>
+</StatusLegend>
+`;
+
+exports[`admin_console/status_legend status legend shows failed 2`] = `
+<StatusLegend
+  status="completed"
+>
+  <div
+    className="StatusLegend completed"
+  >
+    <i
+      className="icon icon-check-circle-outline"
+    />
+    <FormattedMessage
+      defaultMessage="Completed"
+      id="admin.general.completed"
+    >
+      <span>
+        Completed
+      </span>
+    </FormattedMessage>
+  </div>
+</StatusLegend>
+`;
+
+exports[`admin_console/status_legend status legend shows failed 3`] = `
+<StatusLegend
+  status="in_progress"
+>
+  <div
+    className="StatusLegend in_progress"
+  >
+    <i
+      className="icon fa fa-refresh fa-spin"
+    />
+    <FormattedMessage
+      defaultMessage="In Progress"
+      id="admin.general.inProgress"
+    >
+      <span>
+        In Progress
+      </span>
+    </FormattedMessage>
+  </div>
+</StatusLegend>
+`;

@@ -1,0 +1,26 @@
+.StatusLegend {
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 20px;
+
+    img.spinner {
+        height: 16px;
+        margin-right: 5px;
+        margin-top: -4px;
+        width: 16px;
+    }
+}
+
+.completed {
+    color: var(--sys-online-indicator);
+}
+
+.failed {
+    color: var(--sys-error-text);
+}
+
+.in_progress {
+    color: var(--sys-mention-color);
+}
