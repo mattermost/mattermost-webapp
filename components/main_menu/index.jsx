@@ -8,6 +8,7 @@ import {
     getConfig,
     getLicense,
 } from 'mattermost-redux/selectors/entities/general';
+
 import {
     getMyTeams,
     getJoinableTeamIds,

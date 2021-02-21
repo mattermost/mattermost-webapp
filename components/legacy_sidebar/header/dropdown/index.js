@@ -4,6 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
+import {firstAdminVisitMarketplaceStatus as getFirstAdminVisitMarketplaceStatus} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getInt} from 'mattermost-redux/selectors/entities/preferences';
@@ -19,12 +20,14 @@ function mapStateToProps(state) {
     const currentTeam = getCurrentTeam(state);
     const currentUser = getCurrentUser(state);
     const showTutorialTip = getInt(state, Preferences.TUTORIAL_STEP, currentUser.id) === TutorialSteps.MENU_POPOVER && !Utils.isMobile();
+    const firstAdminVisitMarketplaceStatus = getFirstAdminVisitMarketplaceStatus(state);
     return {
         currentUser,
         teamDescription: currentTeam.description,
         teamDisplayName: currentTeam.display_name,
         teamId: currentTeam.id,
         showTutorialTip,
+        firstAdminVisitMarketplaceStatus,
     };
 }
 

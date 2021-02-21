@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getConfig, firstAdminVisitMarketplaceStatus as getFirstAdminVisitMarketplaceStatus} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getInt} from 'mattermost-redux/selectors/entities/preferences';
 
@@ -19,9 +19,12 @@ function mapStateToProps(state) {
 
     const showTutorialTip = getInt(state, Preferences.TUTORIAL_STEP, currentUser.id) === TutorialSteps.MENU_POPOVER && !Utils.isMobile();
 
+    const firstAdminVisitMarketplaceStatus = getFirstAdminVisitMarketplaceStatus(state);
+
     return {
         enableTutorial,
         showTutorialTip,
+        firstAdminVisitMarketplaceStatus,
     };
 }
 

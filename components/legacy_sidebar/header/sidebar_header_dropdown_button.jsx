@@ -19,10 +19,13 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent {
         teamId: PropTypes.string.isRequired,
         currentUser: PropTypes.object.isRequired,
         teamDisplayName: PropTypes.string.isRequired,
+        firstAdminVisitMarketplaceStatus: PropTypes.bool.isRequired,
     };
 
     render() {
         let tutorialTip = null;
+        let badge = null;
+
         if (this.props.showTutorialTip) {
             tutorialTip = (
                 <MenuTutorialTip onBottom={false}/>
@@ -50,6 +53,12 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent {
             );
         }
 
+        if (!this.props.firstAdminVisitMarketplaceStatus) {
+            badge = (
+                <span className={'unread-badge'}/>
+            );
+        }
+
         return (
             <div
                 className='SidebarHeaderDropdownButton'
@@ -71,6 +80,7 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent {
                         className='style--none sidebar-header-dropdown__icon'
                         aria-label={localizeMessage('navbar_dropdown.menuAriaLabel', 'main menu')}
                     >
+                        {badge}
                         <MenuIcon/>
                     </button>
                 </div>

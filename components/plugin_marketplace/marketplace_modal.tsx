@@ -96,10 +96,12 @@ export type MarketplaceModalProps = {
     installedPlugins: MarketplacePlugin[];
     siteURL: string;
     pluginStatuses?: Dictionary<PluginStatusRedux>;
+    firstAdminVisitMarketplaceStatus: boolean;
     actions: {
         closeModal: () => void;
         fetchPlugins: (localOnly?: boolean) => Promise<{error?: Error}>;
         filterPlugins(filter: string): Promise<{error?: Error}>;
+        setFirstAdminVisitMarketplaceStatus: () => void;
     };
 };
 
@@ -131,6 +133,9 @@ export class MarketplaceModal extends React.PureComponent<MarketplaceModalProps,
         trackEvent('plugins', 'ui_marketplace_opened');
 
         this.fetchPlugins();
+        if (!this.props.firstAdminVisitMarketplaceStatus) {
+            this.props.actions.setFirstAdminVisitMarketplaceStatus();
+        }
 
         this.filterRef.current?.focus();
     }

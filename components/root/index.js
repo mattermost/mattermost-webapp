@@ -8,6 +8,8 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {shouldShowTermsOfService, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getTeam} from 'mattermost-redux/selectors/entities/teams';
 
+import {getFirstAdminVisitMarketplaceStatus} from 'mattermost-redux/actions/general';
+
 import {loadMeAndConfig} from 'actions/views/root';
 import LocalStorageStore from 'stores/local_storage_store';
 
@@ -35,6 +37,7 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             loadMeAndConfig,
+            getFirstAdminVisitMarketplaceStatus,
         }, dispatch),
     };
 }

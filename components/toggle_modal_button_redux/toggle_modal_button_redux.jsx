@@ -3,9 +3,15 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+
+import {firstAdminVisitMarketplaceStatus as getFirstAdminVisitMarketplaceStatus} from 'mattermost-redux/selectors/entities/general';
+
 import {injectIntl} from 'react-intl';
 
+import store from 'stores/redux_store.jsx';
+
 import {intlShape} from 'utils/react_intl';
+import {ModalIdentifiers} from 'utils/constants';
 
 class ModalToggleButtonRedux extends React.PureComponent {
     static propTypes = {
@@ -55,6 +61,16 @@ class ModalToggleButtonRedux extends React.PureComponent {
 
         const ariaLabel = formatMessage({id: 'accessibility.button.dialog', defaultMessage: '{dialogName} dialog'}, {dialogName: props.accessibilityLabel});
 
+        let badge = null;
+        if (this.props.modalId === ModalIdentifiers.PLUGIN_MARKETPLACE) {
+            const firstAdminVisitMarketplaceStatus = getFirstAdminVisitMarketplaceStatus(store.getState());
+            if (!firstAdminVisitMarketplaceStatus) {
+                badge = (
+                    <span className={'unread-badge'}/>
+                );
+            }
+        }
+
         // removing these three props since they are not valid props on buttons
         delete props.modalId;
         delete props.dialogType;
@@ -81,6 +97,7 @@ class ModalToggleButtonRedux extends React.PureComponent {
                 onClick={clickHandler}
             >
                 {children}
+                {badge}
             </button>
         );
     }

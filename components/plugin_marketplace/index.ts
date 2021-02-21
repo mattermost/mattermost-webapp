@@ -7,6 +7,9 @@ import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
 
+import {setFirstAdminVisitMarketplaceStatus} from 'mattermost-redux/actions/general';
+import {firstAdminVisitMarketplaceStatus as getFirstAdminVisitMarketplaceStatus} from 'mattermost-redux/selectors/entities/general';
+
 import {getPlugins, getInstalledPlugins} from 'selectors/views/marketplace';
 import {isModalOpen} from 'selectors/views/modals';
 import {ModalIdentifiers} from 'utils/constants';
@@ -24,6 +27,7 @@ function mapStateToProps(state: GlobalState) {
         installedPlugins: getInstalledPlugins(state),
         siteURL: getSiteURL(),
         pluginStatuses: state.entities.admin.pluginStatuses,
+        firstAdminVisitMarketplaceStatus: getFirstAdminVisitMarketplaceStatus(state),
     };
 }
 
@@ -31,6 +35,7 @@ type Actions = {
     closeModal(): void;
     fetchPlugins(localOnly?: boolean): Promise<{error?: Error}>;
     filterPlugins(filter: string): Promise<{error?: Error}>;
+    setFirstAdminVisitMarketplaceStatus(): void;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
@@ -39,6 +44,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             closeModal: () => closeModal(ModalIdentifiers.PLUGIN_MARKETPLACE),
             fetchPlugins,
             filterPlugins,
+            setFirstAdminVisitMarketplaceStatus,
         }, dispatch),
     };
 }

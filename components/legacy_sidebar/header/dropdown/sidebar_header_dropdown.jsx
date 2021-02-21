@@ -23,8 +23,9 @@ export default class SidebarHeaderDropdown extends React.PureComponent {
         teamId: PropTypes.string.isRequired,
         currentUser: PropTypes.object,
         showTutorialTip: PropTypes.bool.isRequired,
+        firstAdminVisitMarketplaceStatus: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
-            openModal: PropTypes.func.isRequred,
+            openModal: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -73,6 +74,7 @@ export default class SidebarHeaderDropdown extends React.PureComponent {
                     currentUser={this.props.currentUser}
                     teamDisplayName={this.props.teamDisplayName}
                     teamId={this.props.teamId}
+                    firstAdminVisitMarketplaceStatus={this.props.firstAdminVisitMarketplaceStatus}
                 />
                 <MainMenu id='sidebarDropdownMenu'/>
             </MenuWrapper>
