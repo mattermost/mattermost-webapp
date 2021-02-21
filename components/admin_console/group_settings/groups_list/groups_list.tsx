@@ -268,8 +268,6 @@ export default class GroupsList extends React.PureComponent<Props, State> {
         let {searchString} = this.state;
 
         const newState = {...this.state};
-        delete newState.page;
-        delete newState.checked;
 
         let q = searchString;
         let opts = {q: ''};

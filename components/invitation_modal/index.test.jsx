@@ -45,6 +45,12 @@ describe('mapStateToProps', () => {
                     test_user_role: {permissions: [Permissions.INVITE_GUEST]},
                 },
             },
+            cloud: {
+                subscriptionStats: {
+                    is_paid_tier: 'false',
+                    remaining_seats: 1,
+                },
+            },
         },
         views: {
             modals: {

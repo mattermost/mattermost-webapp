@@ -118,6 +118,7 @@ describe('Leave an archived channel', () => {
             });
         });
     });
+
     it('MM-T1672_1 User can close archived channel (1/2)', () => {
         // # Open a channel that's not the town square
         cy.visit(`/${testTeam.name}/channels/off-topic`);
@@ -128,9 +129,7 @@ describe('Leave an archived channel', () => {
             cy.get('#channelInfoModalLabel span.icon__archive').should('not.be.visible');
 
             // # Search for a post in an archived channel
-            cy.get('#searchBox').focus().clear();
-
-            cy.get('#searchBox').should('be.visible').type(`${testArchivedMessage}{enter}`);
+            cy.get('#searchBox').click().clear().type(`${testArchivedMessage}{enter}`);
 
             // # Open the archived channel by selecting Jump from search results and then selecting the link to move to the most recent posts in the channel
             cy.get('#searchContainer').should('be.visible');
@@ -157,6 +156,7 @@ describe('Leave an archived channel', () => {
             cy.url().should('include', `${testTeam.name}/channels/off-topic`);
         });
     });
+
     it('MM-T1672_2 User can close archived channel (2/2)', () => {
         // # Add text to channel you land on (after closing the archived channel via Close Channel button)
         // * Able to add test
@@ -176,7 +176,7 @@ describe('Leave an archived channel', () => {
             cy.visit(`/${testTeam.name}/channels/off-topic`);
 
             // # Search for content from an archived channel
-            cy.get('#searchBox').should('be.visible').clear().type(`${testArchivedMessage}{enter}`);
+            cy.get('#searchBox').click().clear().type(`${testArchivedMessage}{enter}`);
 
             // # Open the channel from search results
             cy.get('#searchContainer').should('be.visible');
@@ -189,7 +189,7 @@ describe('Leave an archived channel', () => {
             });
 
             // # Search for content from a different archived channel
-            cy.get('#searchBox').should('be.visible').clear().type(`${messageText}{enter}`);
+            cy.get('#searchBox').click().clear().type(`${messageText}{enter}`);
 
             // # Open that channel from search results
             cy.get('#searchContainer').should('be.visible');
@@ -286,11 +286,11 @@ describe('Leave an archived channel', () => {
         cy.get('#channelHeaderTitle').should('contain', testChannel.display_name);
 
         // * Archived icon is visible in header
-        cy.get('#channelHeaderInfo .icon__archive').should('be.visible');
+        cy.get('#channelHeaderInfo .icon-archive-outline').should('be.visible');
 
         // * Channel is listed In drawer
         cy.get(`#sidebarItem_${testChannel.name}`).should('be.visible');
-        cy.get(`#sidebarItem_${testChannel.name} .icon__archive`).should('be.visible');
+        cy.get(`#sidebarItem_${testChannel.name} .icon-archive-outline`).should('be.visible');
 
         // * footer shows you are viewing an archived channel
         cy.get('#channelArchivedMessage').should('be.visible');
@@ -302,8 +302,7 @@ describe('Leave an archived channel', () => {
         const messageList = Array.from({length: 40}, (_, i) => `${i}. ${MESSAGES.SMALL} - ${getRandomId()}`);
         createArchivedChannel({prefix: 'archived-search-for'}, messageList).then(({channelName}) => {
             // # Locate the post in a search
-            cy.get('#searchBox').focus().clear();
-            cy.get('#searchBox').should('be.visible').type(`${messageList[1]}{enter}`);
+            cy.get('#searchBox').click().clear().type(`${messageList[1]}{enter}`);
 
             // # Click jump to open an archive post in permalink view
             cy.get('#searchContainer').should('be.visible');
@@ -318,10 +317,10 @@ describe('Leave an archived channel', () => {
             // * Channel is listed In drawer
             // * Channel name visible in header
             cy.get(`#sidebarItem_${channelName}`).should('be.visible');
-            cy.get(`#sidebarItem_${channelName} .icon__archive`).should('be.visible');
+            cy.get(`#sidebarItem_${channelName} .icon-archive-outline`).should('be.visible');
 
             // * Archived icon is visible in header
-            cy.get('#channelHeaderInfo .icon__archive').should('be.visible');
+            cy.get('#channelHeaderInfo .icon-archive-outline').should('be.visible');
 
             // * Footer shows "You are viewing an archived channel. New messages cannot be posted. Close Channel"
             cy.get('#channelArchivedMessage').should('be.visible');

@@ -94,16 +94,18 @@ type ResultsCallback = (results: Results) => void;
 export default class CommandProvider extends Provider {
     private isInRHS: boolean;
     private store: Store<GlobalState>;
+    private triggerCharacter: string;
 
     constructor(props: Props) {
         super();
 
         this.store = globalStore;
         this.isInRHS = props.isInRHS;
+        this.triggerCharacter = '/';
     }
 
     handlePretextChanged(pretext: string, resultCallback: ResultsCallback) {
-        if (!pretext.startsWith('/')) {
+        if (!pretext.startsWith(this.triggerCharacter)) {
             return false;
         }
 
@@ -131,8 +133,8 @@ export default class CommandProvider extends Provider {
                     }
 
                     if (cmd.trigger !== 'shortcuts') {
-                        if (('/' + cmd.trigger).indexOf(command) === 0) {
-                            const s = '/' + cmd.trigger;
+                        if ((this.triggerCharacter + cmd.trigger).indexOf(command) === 0) {
+                            const s = this.triggerCharacter + cmd.trigger;
                             let hint = '';
                             if (cmd.auto_complete_hint && cmd.auto_complete_hint.length !== 0) {
                                 hint = cmd.auto_complete_hint;
@@ -190,10 +192,10 @@ export default class CommandProvider extends Provider {
                 }
 
                 data.forEach((s) => {
-                    if (!this.contains(matches, '/' + s.Complete)) {
+                    if (!this.contains(matches, this.triggerCharacter + s.Complete)) {
                         matches.push({
-                            complete: '/' + s.Complete,
-                            suggestion: '/' + s.Suggestion,
+                            complete: this.triggerCharacter + s.Complete,
+                            suggestion: this.triggerCharacter + s.Suggestion,
                             hint: s.Hint,
                             description: s.Description,
                             iconData: s.IconData,

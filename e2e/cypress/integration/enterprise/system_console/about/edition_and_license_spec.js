@@ -34,19 +34,19 @@ describe('System console', () => {
             // * Login as system admin and go the channel we created earlier and expect the create public channel button is visible
             cy.apiAdminLogin();
             cy.visit(`/${testTeam.name}/channels/${channel.name}`);
-            cy.get('#createPublicChannel', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+            cy.findByRole('button', {name: 'Add Channel Dropdown'}).should('be.visible');
             cy.wait(TIMEOUTS.FIVE_SEC);
 
             // * Login as team admin and go the channel we created earlier and expect the create public channel button is visible
             cy.apiLogin(testUserTeamAdmin);
             cy.visit(`/${testTeam.name}/channels/${channel.name}`);
-            cy.get('#createPublicChannel', {timeout: TIMEOUTS.ONE_MIN}).should('not.be.visible');
+            cy.findByRole('button', {name: 'Add Channel Dropdown'}).should('not.be.visible');
             cy.wait(TIMEOUTS.FIVE_SEC);
 
             // * Login as non-team admin and go the channel we created earlier and expect the create public channel button is not visible
             cy.apiLogin(testUserNonTeamAdmin);
             cy.visit(`/${testTeam.name}/channels/${channel.name}`);
-            cy.get('#createPublicChannel', {timeout: TIMEOUTS.ONE_MIN}).should('not.be.visible');
+            cy.findByRole('button', {name: 'Add Channel Dropdown'}).should('not.be.visible');
             cy.wait(TIMEOUTS.FIVE_SEC);
         };
 
