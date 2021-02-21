@@ -74,6 +74,7 @@ export default class SidebarHeaderDropdown extends React.PureComponent {
                     currentUser={this.props.currentUser}
                     teamDisplayName={this.props.teamDisplayName}
                     teamId={this.props.teamId}
+                    openModal={this.props.actions.openModal}
                     firstAdminVisitMarketplaceStatus={this.props.firstAdminVisitMarketplaceStatus}
                 />
                 <MainMenu id='sidebarDropdownMenu'/>

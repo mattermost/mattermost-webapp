@@ -8,9 +8,11 @@ import {Tooltip} from 'react-bootstrap';
 import {localizeMessage} from 'utils/utils.jsx';
 import OverlayTrigger from 'components/overlay_trigger';
 import MenuIcon from 'components/widgets/icons/menu_icon';
-import Constants from 'utils/constants';
+import Constants, {ModalIdentifiers} from 'utils/constants';
 
 import MenuTutorialTip from 'components/tutorial/menu_tutorial_tip';
+import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
+import CustomStatusModal from 'components/custom_status/custom_status_modal';
 
 export default class SidebarHeaderDropdownButton extends React.PureComponent {
     static propTypes = {
@@ -19,8 +21,18 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent {
         teamId: PropTypes.string.isRequired,
         currentUser: PropTypes.object.isRequired,
         teamDisplayName: PropTypes.string.isRequired,
+        openModal: PropTypes.func,
         firstAdminVisitMarketplaceStatus: PropTypes.bool.isRequired,
     };
+
+    handleCustomStatusEmojiClick = (event) => {
+        event.stopPropagation();
+        const customStatusInputModalData = {
+            ModalId: ModalIdentifiers.CUSTOM_STATUS,
+            dialogType: CustomStatusModal,
+        };
+        this.props.openModal(customStatusInputModalData);
+    }
 
     render() {
         let tutorialTip = null;
@@ -71,10 +83,25 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent {
                 >
                     {teamNameWithToolTip}
                     <div
-                        id='headerUsername'
-                        className='user__name'
+                        id='headerInfoContent'
+                        className='header__info__content'
                     >
-                        {'@' + this.props.currentUser.username}
+                        <div
+                            id='headerUsername'
+                            className='user__name'
+                        >
+                            {'@' + this.props.currentUser.username}
+                        </div>
+                        <CustomStatusEmoji
+                            showTooltip={true}
+                            tooltipDirection='bottom'
+                            emojiSize={13}
+                            emojiStyle={{
+                                verticalAlign: 'top',
+                                marginLeft: 2,
+                            }}
+                            onClick={this.handleCustomStatusEmojiClick}
+                        />
                     </div>
                     <button
                         className='style--none sidebar-header-dropdown__icon'
