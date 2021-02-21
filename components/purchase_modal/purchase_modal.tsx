@@ -12,7 +12,7 @@ import {Dictionary} from 'mattermost-redux/types/utilities';
 
 import upgradeImage from 'images/cloud/upgrade.svg';
 import wavesBackground from 'images/cloud/waves.svg';
-import blueDotes from 'images/cloud/blue.svg';
+import blueDots from 'images/cloud/blue.svg';
 import LowerBlueDots from 'images/cloud/blue-lower.svg';
 import cloudLogo from 'images/cloud/mattermost-cloud.svg';
 import {trackEvent, pageVisited} from 'actions/telemetry_actions';
@@ -287,7 +287,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                                 />
                                 <img
                                     className='blue-dots'
-                                    src={blueDotes}
+                                    src={blueDots}
                                 />
                                 <img
                                     className='lower-blue-dots'

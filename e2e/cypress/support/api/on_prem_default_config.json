@@ -17,7 +17,6 @@
         "ReadTimeout": 300,
         "WriteTimeout": 300,
         "IdleTimeout": 300,
-        "MaximumLoginAttempts": 10,
         "GoroutineHealthThreshold": -1,
         "GoogleDeveloperKey": "",
         "EnableOAuthServiceProvider": false,
@@ -83,7 +82,7 @@
         "EnableBotAccountCreation": true,
         "EnableSVGs": true,
         "EnableLatex": false,
-        "EnableLegacySidebar": true
+        "EnableLegacySidebar": false
     },
     "TeamSettings": {
         "SiteName": "Mattermost",

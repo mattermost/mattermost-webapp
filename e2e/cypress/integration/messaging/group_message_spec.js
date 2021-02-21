@@ -49,7 +49,7 @@ describe('Group Message', () => {
         const otherUser2 = users[1];
 
         // # Click on '+' sign to open DM modal
-        cy.findByLabelText('write a direct message').should('be.visible').click();
+        cy.uiAddDirectMessage().click();
 
         // * Verify that the DM modal is open
         cy.get('#moreDmModal').should('be.visible').contains('Direct Messages');
@@ -79,7 +79,7 @@ describe('Group Message', () => {
         cy.get('#post_textbox').type('Hi!').type('{enter}');
 
         // # Click on '+' sign to open DM modal
-        cy.findByLabelText('write a direct message').should('be.visible').click();
+        cy.uiAddDirectMessage().click();
 
         // * Verify that the DM modal is open
         cy.get('#moreDmModal').should('be.visible').contains('Direct Messages');
@@ -246,10 +246,10 @@ describe('Group Message', () => {
             const channelName = loc.pathname.split('/').slice(-1)[0];
 
             // # Remove GM from the LHS
-            cy.get(`#sidebarItem_${channelName} .btn-close`).first().click({force: true}).wait(TIMEOUTS.HALF_SEC);
+            cy.uiGetChannelSidebarMenu(channelName).findByText('Close Conversation').click();
 
-            // # Click on More...
-            cy.get('#moreDirectMessage').click().wait(TIMEOUTS.HALF_SEC);
+            // # Open DM modal
+            cy.uiAddDirectMessage().click().wait(TIMEOUTS.HALF_SEC);
 
             // # Open previously closed group message
             cy.get('#selectItems input').type(`${participants[0].username}`).wait(TIMEOUTS.HALF_SEC);
@@ -269,7 +269,7 @@ describe('Group Message', () => {
 
 const createGroupMessageWith = (users) => {
     const defaultUserLimit = 7;
-    cy.get('#addDirectChannel').click().wait(TIMEOUTS.HALF_SEC);
+    cy.uiAddDirectMessage().click().wait(TIMEOUTS.HALF_SEC);
     cy.get('#multiSelectHelpMemberInfo').should('contain', 'You can add 7 more people');
 
     users.forEach((user, index) => {

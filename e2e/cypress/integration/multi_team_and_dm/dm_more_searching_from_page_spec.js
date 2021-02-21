@@ -40,7 +40,7 @@ describe('Multi Team and DM', () => {
 
     it('MM-T446 DM More... searching from page 2 of user list', () => {
         // # Open the Direct Message modal
-        cy.findByLabelText('write a direct message').click();
+        cy.uiAddDirectMessage().click();
 
         // # Move to the next page of users
         cy.findByText('Next').click();

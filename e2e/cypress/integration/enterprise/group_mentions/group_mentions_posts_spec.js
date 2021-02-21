@@ -6,6 +6,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @enterprise @system_console @group_mentions
 
 import ldapUsers from '../../../fixtures/ldap_users.json';
@@ -175,7 +176,7 @@ describe('Group Mentions', () => {
         cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
         // # Trigger DM with a user
-        cy.get('#addDirectChannel').click();
+        cy.uiAddDirectMessage().click();
         cy.get('.more-modal__row.clickable').first().click();
         cy.get('#saveItems').click();
 
@@ -216,7 +217,7 @@ describe('Group Mentions', () => {
         cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
         // # Trigger DM with couple of users
-        cy.get('#addDirectChannel').click();
+        cy.uiAddDirectMessage().click();
         cy.get('.more-modal__row.clickable').first().click();
         cy.get('.more-modal__row.clickable').eq(1).click();
         cy.get('#saveItems').click();
