@@ -237,6 +237,7 @@
   "admin.billing.history.pending": "보류 중",
   "admin.billing.history.seeHowBillingWorks": "청구방식 보기",
   "admin.billing.history.status": "상태",
+  "admin.billing.history.title": "결제 내역",
   "admin.billing.history.total": "합계",
   "admin.billing.history.transactions": "트랜잭션",
   "admin.billing.payment_info.add": "신용 카드 추가",
