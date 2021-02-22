@@ -62,9 +62,7 @@ describe('components/AddGroupsToChannelModal', () => {
     });
 
     test('should match state when handleSubmit is called', async () => {
-        const linkGroupSyncable = jest.fn().
-            mockResolvedValueOnce({error: true}).
-            mockResolvedValue({data: true});
+        const linkGroupSyncable = jest.fn().mockResolvedValue({error: true, data: true});
         const actions = {...baseProps.actions, linkGroupSyncable};
         const props = {...baseProps, actions};
         const wrapper = shallow(
@@ -76,6 +74,7 @@ describe('components/AddGroupsToChannelModal', () => {
         wrapper.setState({values: []});
         await (wrapper.instance() as AddGroupsToChannelModal).handleSubmit();
         expect(actions.linkGroupSyncable).not.toBeCalled();
+        expect((wrapper.instance() as AddGroupsToChannelModal).handleResponse).not.toBeCalled();
         expect((wrapper.instance() as AddGroupsToChannelModal).handleHide).not.toBeCalled();
 
         wrapper.setState({saving: false, values: [{id: 'id_1'}, {id: 'id_2'}]});
