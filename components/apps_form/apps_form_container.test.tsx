@@ -41,7 +41,7 @@ describe('components/apps_model/AppsFormContainer', () => {
         },
         call: {
             context,
-            url: '/form_url',
+            path: '/form_url',
         },
         actions: {
             doAppCall: jest.fn().mockResolvedValue({}),
@@ -91,7 +91,7 @@ describe('components/apps_model/AppsFormContainer', () => {
                     team_id: 'team',
                 },
                 type: '',
-                url: '/form_url',
+                path: '/form_url',
                 values: {
                     field1: 'value1',
                     field2: {
@@ -149,7 +149,7 @@ describe('components/apps_model/AppsFormContainer', () => {
                     team_id: 'team',
                 },
                 type: 'lookup',
-                url: '/form_url',
+                path: '/form_url',
                 values: {
                     name: 'field2',
                     user_input: 'My search',

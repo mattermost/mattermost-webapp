@@ -209,7 +209,7 @@ export default class ChannelHeaderPlug extends React.PureComponent<ChannelHeader
                             className='d-flex align-items-center'
                             onClick={() => this.fireActionAndClose(() => this.props.actions.doAppCall({
                                 ...binding.call,
-                                url: binding?.call?.url || '',
+                                path: binding?.call?.path || '',
                                 type: AppCallTypes.SUBMIT,
                                 context: {
                                     app_id: binding.app_id,
