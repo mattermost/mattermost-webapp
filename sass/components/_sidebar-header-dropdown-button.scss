@@ -25,13 +25,13 @@
     }
 
     .unread-badge {
-        display: inline-block;
-        text-align: center;
+        position: absolute;
         border-radius: 50%;
         width: 8px;
         height: 8px;
-        margin: 0 8px;
-        background: rgba(var(--sidebar-text-active-border-rgb), 1);
+        right: 2%;
+        bottom: 50%;
+        background: #F74343;
     }
 
     .menu-icon {

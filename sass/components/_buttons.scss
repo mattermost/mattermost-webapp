@@ -3,12 +3,11 @@
 button {
     .unread-badge {
         display: inline-block;
-        text-align: center;
         border-radius: 50%;
         width: 8px;
         height: 8px;
-        margin: 0 8px;
-        background: rgba(var(--sidebar-text-active-border-rgb), 1);
+        margin: 0 8px 0 24px;
+        background: #F74343;
     }
 
     &.style--none {
