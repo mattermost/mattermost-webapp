@@ -17,12 +17,6 @@ describe('Cloud Onboarding - Sysadmin', () => {
     let sysadmin;
 
     before(() => {
-        cy.apiUpdateConfig({
-            ServiceSettings: {
-                EnableLegacySidebar: false,
-            },
-        });
-
         // # Check if with license and has matching database
         cy.apiRequireLicenseForFeature('Cloud');
 
@@ -44,7 +38,7 @@ describe('Cloud Onboarding - Sysadmin', () => {
         };
 
         cy.apiSaveUserPreference(adminSteps.map((step) => ({...preference, name: step})));
-        cy.visitAndWait(townSquarePage);
+        cy.visit(townSquarePage);
     });
 
     /*
@@ -376,7 +370,7 @@ describe('Cloud Onboarding - Sysadmin', () => {
 
     it('MM-T3333 Sysadmin - Copy Invite Link', () => {
         cy.apiCreateTeam('team').then(({team}) => {
-            cy.visitAndWait(`/${team.name}/channels/town-square`);
+            cy.visit(`/${team.name}/channels/town-square`);
 
             // # Stub out clipboard
             const clipboard = {link: '', wasCalled: false};

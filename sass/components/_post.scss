@@ -370,7 +370,7 @@
 .post-create__container {
     @include flex(0 0 auto);
     width: 100%;
-    z-index: 10;
+    z-index: 12;
 
     label {
         font-weight: normal;
@@ -1861,6 +1861,10 @@
     .post-collapse__show-more-button {
         @include single-transition(all, .15s, ease);
         @include border-radius(2px);
+        &:hover {
+            color: var(--center-channel-bg);
+        }
+        background: var(--center-channel-bg);
         border: 1px solid transparent;
         display: inline-block;
         flex-shrink: 0;

@@ -1,4 +1,3 @@
-
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
@@ -28,14 +27,14 @@ describe('Elasticsearch system console', () => {
         });
 
         // # Visit the Elasticsearch settings page
-        cy.visitAndWait('/admin_console/environment/elasticsearch');
+        cy.visit('/admin_console/environment/elasticsearch');
 
         // * Verify that we can connect to Elasticsearch
         cy.get('#testConfig').find('button').click();
         cy.get('.alert-success').should('have.text', 'Test successful. Configuration saved.');
     });
 
-    it('can purge indexes', () => {
+    it('MM-T2519 can purge indexes', () => {
         cy.get('#purgeIndexesSection').within(() => {
             // # Click Purge Indexes button
             cy.contains('button', 'Purge Indexes').click();
@@ -45,7 +44,7 @@ describe('Elasticsearch system console', () => {
         });
     });
 
-    it('can perform bulk index', () => {
+    it('MM-T2520 Can perform a bulk index', () => {
         // # Click the Index Now button to start the index
         cy.contains('button', 'Index Now').click();
 
@@ -76,12 +75,12 @@ describe('Elasticsearch system console', () => {
             and('have.text', 'Success');
     });
 
-    it('autocomplete queries can be disabled', () => {
+    it('MM-T2521 Elasticsearch for autocomplete queries can be disabled', () => {
         //  Check the false checkbox for enable autocomplete
         cy.get('#enableAutocompletefalse').check().should('be.checked');
 
         // # Save the settings
-        cy.get('#saveSetting').click();
+        cy.get('#saveSetting').click().wait(TIMEOUTS.TWO_SEC);
 
         // * Get config from API and verify that EnableAutocomplete setting is false
         cy.apiGetConfig().then(({config}) => {

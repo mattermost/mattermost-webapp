@@ -17,7 +17,7 @@ describe('Message Draft and Switch Channels', () => {
         // # Create new team and new user and visit Town Square channel
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
             testTeam = team;
-            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+            cy.visit(`/${testTeam.name}/channels/town-square`);
         });
     });
 
@@ -64,15 +64,15 @@ describe('Message Draft and Switch Channels', () => {
 });
 
 function verifyDraftIcon(channelName, isVisible) {
-    cy.get('#sidebar-left').findByLabelText(`${channelName.toLowerCase()} public channel`).
+    cy.uiGetLhsSection('CHANNELS').findByLabelText(`${channelName.toLowerCase()} public channel`).
         should('be.visible').
-        find('#draftIcon').
+        findByTestId('draftIcon').
         should(isVisible ? 'be.visible' : 'not.exist');
 }
 
 function openChannelFromLhs(teamName, displayName, name) {
     // # Go to test channel and check if it opened correctly
-    cy.get('#sidebar-left').findByText(displayName).click();
+    cy.uiGetLhsSection('CHANNELS').findByText(displayName).click();
     cy.url().should('include', `/${teamName}/channels/${name || displayName.toLowerCase()}`);
 }
 

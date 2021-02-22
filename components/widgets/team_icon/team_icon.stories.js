@@ -8,7 +8,7 @@ import {withKnobs, select, boolean} from '@storybook/addon-knobs';
 
 import TeamIcon from './team_icon';
 const hoverKnob = () => boolean('With Hover', false);
-const sizeKnob = () => select('Size', ['sm', 'md', 'lg']);
+const sizeKnob = () => select('Size', ['sm', 'lg']);
 
 storiesOf('Widgets/Team Icon', module).
     addDecorator(withKnobs).

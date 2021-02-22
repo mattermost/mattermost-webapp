@@ -8,7 +8,7 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @websocket
+// Group: @websocket @not_cloud
 
 import {getRandomId} from '../../../utils';
 
@@ -23,8 +23,17 @@ describe('Handle removed user - old sidebar', () => {
     const sidebarItemClass = '.sidebar-item';
 
     before(() => {
+        cy.shouldNotRunOnCloudEdition();
+
+        // # Update config
+        cy.apiUpdateConfig({
+            ServiceSettings: {
+                EnableLegacySidebar: true,
+            },
+        });
+
         cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
-            cy.visitAndWait(`/${team.name}/channels/${channel.name}`);
+            cy.visit(`/${team.name}/channels/${channel.name}`);
         });
     });
 

@@ -50,7 +50,7 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
     beforeEach(() => {
         // # Login as test user and visit town-square
         cy.apiLogin(testUser);
-        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
         cy.get('#channelHeaderTitle', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('contain', 'Town Square');
 
         // # Make sure there is at least a message without reaction for each test
@@ -72,9 +72,7 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
 
     it('Should open emoji picker for last message by shortcut in the channel view when the focus is not on the center text box', () => {
         // # Click anywhere to take focus away from center text box
-        cy.get('#lhsList').within(() => {
-            cy.findByText('Town Square').click();
-        });
+        cy.uiGetLhsSection('CHANNELS').findByText('Town Square').click();
 
         // # Emulate react to last message shortcut without focus on center
         pressShortcutReactToLastMessage();
@@ -299,9 +297,7 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
         cy.wait(TIMEOUTS.FIVE_SEC);
 
         // # Click anywhere to take focus away from RHS text box
-        cy.get('#lhsList').within(() => {
-            cy.findByText('Town Square').click();
-        });
+        cy.uiGetLhsSection('CHANNELS').findByText('Town Square').click();
 
         // # Focus back on Center textbox and enter shortcut
         pressShortcutReactToLastMessage('CENTER');
@@ -353,9 +349,7 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
         cy.wait(TIMEOUTS.FIVE_SEC);
 
         // # Click anywhere to take focus away from RHS text box
-        cy.get('#lhsList').within(() => {
-            cy.findByText('Town Square').click();
-        });
+        cy.uiGetLhsSection('CHANNELS').findByText('Town Square').click();
 
         // # Enter shortcut without focus on Center textbox
         pressShortcutReactToLastMessage();
@@ -550,7 +544,7 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
         cy.apiAdminLogin();
 
         // # Visit the new empty channel
-        cy.visitAndWait(`/${testTeam.name}/channels/${emptyChannel.name}`);
+        cy.visit(`/${testTeam.name}/channels/${emptyChannel.name}`);
 
         // * Check that there are no posts except you joined message
         cy.findAllByTestId('postView').should('have.length', 1);

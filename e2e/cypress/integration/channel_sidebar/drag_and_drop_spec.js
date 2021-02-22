@@ -20,12 +20,6 @@ describe('Channel sidebar', () => {
     let channelName;
 
     before(() => {
-        cy.apiUpdateConfig({
-            ServiceSettings: {
-                EnableLegacySidebar: false,
-            },
-        });
-
         cy.apiInitSetup({loginAfter: true});
     });
 
@@ -36,7 +30,7 @@ describe('Channel sidebar', () => {
             cy.apiCreateChannel(team.id, 'channel', 'Channel').then(({channel}) => {
                 channelName = channel.display_name;
             });
-            cy.visitAndWait(`/${team.name}/channels/town-square`);
+            cy.visit(`/${team.name}/channels/town-square`);
         });
     });
 

@@ -26,13 +26,13 @@ describe('Channel routing', () => {
 
             // # Login as test user and go to town square
             cy.apiLogin(testUser);
-            cy.visitAndWait(`/${team.name}/channels/town-square`);
+            cy.visit(`/${team.name}/channels/town-square`);
         });
     });
 
     it('MM-T884_1 Renaming channel name validates against two user IDs being used in URL', () => {
         // # click on create public channel
-        cy.get('#createPublicChannel').click();
+        cy.uiBrowseOrCreateChannel('Create New Channel').click();
 
         // * Verify that the new channel modal is visible
         cy.get('.new-channel__modal').should('be.visible').within(() => {
@@ -59,7 +59,7 @@ describe('Channel routing', () => {
 
     it('MM-T884_2 Creating new channel validates against two user IDs being used as channel name', () => {
         // # click on create public channel
-        cy.get('#createPublicChannel').click();
+        cy.uiBrowseOrCreateChannel('Create New Channel').click();
 
         // * Verify that the new channel modal is visible
         cy.get('.new-channel__modal').should('be.visible').within(() => {

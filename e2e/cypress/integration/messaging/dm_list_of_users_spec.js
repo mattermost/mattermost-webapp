@@ -7,6 +7,7 @@
 // Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @messaging
 
 describe('Messaging', () => {
@@ -32,13 +33,10 @@ describe('Messaging', () => {
 
             // # Login as test user and visit town-square
             cy.apiLogin(testUser);
-            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+            cy.visit(`/${testTeam.name}/channels/town-square`);
 
             // # Click on '+' sign to open DM modal
-            cy.findByLabelText('write a direct message').should('be.visible').click();
-
-            // * Verify that the DM modal is open
-            cy.get('#moreDmModal').should('be.visible').contains('Direct Messages');
+            cy.uiAddDirectMessage().click();
 
             // # Search for the deactivated user
             cy.get('#selectItems input').should('be.focused').type(deactivatedUser.email, {force: true});
@@ -55,7 +53,7 @@ describe('Messaging', () => {
 
             // # Login as test user and visit town-square
             cy.apiLogin(testUser);
-            cy.visitAndWait(`/${testTeam.name}/messages/@${deactivatedUser.username}`);
+            cy.visit(`/${testTeam.name}/messages/@${deactivatedUser.username}`);
 
             // # Post first message in case it is a new Channel
             cy.postMessage(`Hello ${deactivatedUser.username}`);
@@ -63,7 +61,7 @@ describe('Messaging', () => {
             cy.externalActivateUser(deactivatedUser.id, false);
 
             // # Click on '+' sign to open DM modal
-            cy.findByLabelText('write a direct message').should('be.visible').click();
+            cy.uiAddDirectMessage().click();
 
             // * Verify that the DM modal is open
             cy.get('#moreDmModal').should('be.visible').contains('Direct Messages');

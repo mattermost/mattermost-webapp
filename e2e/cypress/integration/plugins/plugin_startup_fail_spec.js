@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @system_console @plugin
 
 /**
@@ -25,11 +26,11 @@ describe('If plugins fail to start, they can be disabled', () => {
     before(() => {
         // # Initialize setup and visit town-square
         cy.apiInitSetup().then(({team}) => {
-            cy.visitAndWait(`/${team.name}/channels/town-square`);
+            cy.visit(`/${team.name}/channels/town-square`);
 
             // If GitLab plugin is already installed, uninstall it
             cy.apiRemovePluginById(pluginID);
-            cy.visitAndWait('/admin_console/plugins/plugin_management');
+            cy.visit('/admin_console/plugins/plugin_management');
             cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'Plugin Management');
         });
     });

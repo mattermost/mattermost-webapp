@@ -1,0 +1,60 @@
+.RenewLicenseCard {
+    margin-bottom: 20px;
+    padding: 32px 54px 18px 32px;
+    display: flex;
+    background-color: var(--sys-center-channel-bg);
+    border: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.08);
+    box-shadow: 0px 2px 3px #00000014;
+    border-radius: 4px;
+
+    button {
+        background: var(--button-bg);
+        color: var(--button-color);
+        padding: 12px 20px;
+        border: none;
+        border-radius: 4px;
+        display: block;
+        margin-top: 15px;
+
+        span {
+            font-weight: 600;
+            font-size: 14px;
+            line-height: 14px;
+        }
+    }
+}
+
+.RenewLicenseCard__text-title {
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 24px;
+    margin-bottom: 5px;
+    color: var( --sidebar-text-active-border);
+
+    &.critical {
+        color: var( --error-text);
+    }
+}
+
+.RenewLicenseCard__text-description {
+    color: var(----center-channel-color);
+    font-family: Open Sans;
+    font-style: normal;
+    font-size: 14px;
+    line-height: 30px;
+    margin-bottom: 5px;
+    &.bolder {
+        font-weight: 600;
+    }
+}
+
+.RenewLicenseCard__licensedUsersNum {
+    display: inline-block;
+}
+
+.RenewLicenseCard__activeUsersNum {
+    display: inline-block;
+    margin-left: 25px;
+}

@@ -45,7 +45,7 @@ describe('Archived channels', () => {
                 const permalink = `/${testTeam.name}/pl/${post.id}`;
 
                 // # Visit the channel
-                cy.visitAndWait(`/${testTeam.name}/channels/${channel.name}`);
+                cy.visit(`/${testTeam.name}/channels/${channel.name}`);
 
                 // # Archive the channel
                 cy.uiArchiveChannel();
@@ -54,7 +54,7 @@ describe('Archived channels', () => {
                 cy.apiLogin(testUser);
 
                 // # Visit the permalink
-                cy.visitAndWait(permalink);
+                cy.visit(permalink);
 
                 // * Verify that we've logged in as the test user
                 cy.get('#headerUsername').should('contain', '@' + testUser.username);
@@ -73,11 +73,11 @@ describe('Archived channels', () => {
             const channelLink = `/${testTeam.name}/channels/${channel.name}`;
 
             // # Visit the channel and archive it
-            cy.visitAndWait(`/${testTeam.name}/channels/${channel.name}`);
+            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
             cy.uiArchiveChannel();
 
             // # Visit Town Square
-            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+            cy.visit(`/${testTeam.name}/channels/town-square`);
 
             // # Make a post linking to the archived channel
             const linkText = `link ${getRandomId()}`;
@@ -93,7 +93,7 @@ describe('Archived channels', () => {
             cy.apiLogin(testUser);
 
             // # Visit Town Square
-            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+            cy.visit(`/${testTeam.name}/channels/town-square`);
 
             // * Verify that we've logged in as the test user
             cy.get('#headerUsername').should('contain', '@' + testUser.username);
@@ -112,8 +112,8 @@ function verifyViewingArchivedChannel(channel) {
     cy.get('#channelHeaderInfo .icon__archive').should('be.visible');
 
     // * Verify that the channel is visible in the sidebar with the archived icon
-    cy.get(`#sidebarItem_${channel.name}`).should('be.visible');
-    cy.get(`#sidebarItem_${channel.name} .icon__archive`).should('be.visible');
+    cy.get(`#sidebarItem_${channel.name}`).should('be.visible').
+        find('.icon-archive-outline').should('be.visible');
 
     // * Verify that the archived channel banner is visible at the bottom of the channel view
     cy.get('#channelArchivedMessage').should('be.visible');

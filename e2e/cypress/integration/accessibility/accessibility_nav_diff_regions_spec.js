@@ -44,7 +44,7 @@ describe('Verify Quick Navigation support across different regions in the app', 
                     cy.apiAddUserToChannel(testChannel.id, otherUser.id).then(() => {
                         // # Login as test user, visit town-square and post few messages
                         cy.apiLogin(user);
-                        cy.visitAndWait(`/${team.name}/channels/${testChannel.name}`);
+                        cy.visit(`/${team.name}/channels/${testChannel.name}`);
 
                         // # Post few messages
                         postMessages(testChannel, otherUser, 5);
@@ -101,10 +101,16 @@ describe('Verify Quick Navigation support across different regions in the app', 
         verifyNavSupport('#lhsHeader', 'team menu region', '5');
 
         // # Change the focus to the LHS sidebar
-        cy.get('#headerInfo button').focus().tab({shift: true}).tab().tab();
+        cy.get('#headerInfo button').focus().tab();
+
+        // * Verify nav support in LHS channel navigator
+        verifyNavSupport('#lhsNavigator', 'channel navigator region', '6');
+
+        // # Change the focus to the LHS sidebar
+        cy.get('#headerInfo button').focus().tab().tab().tab().tab();
 
         // * Verify nav support in LHS sidebar
-        verifyNavSupport('#lhsList', 'channel sidebar region', '6');
+        verifyNavSupport('#lhsList', 'channel sidebar region', '7');
     });
 
     it('MM-T1460_6 Verify Navigation Support in Channel Header', () => {

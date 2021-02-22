@@ -51,7 +51,7 @@ describe('channel name tooltips', () => {
             });
 
             cy.apiLogin(loggedUser);
-            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+            cy.visit(`/${testTeam.name}/channels/town-square`);
         });
     });
 
@@ -103,7 +103,7 @@ describe('channel name tooltips', () => {
 
     it('Should show tooltip on hover - user with a long username', () => {
         // # Open a DM with the user
-        cy.get('#addDirectChannel').should('be.visible').click();
+        cy.uiAddDirectMessage().click();
         cy.focused().as('searchBox').type(longUser.username, {force: true});
 
         // * Verify that the user is selected in the results list before typing enter

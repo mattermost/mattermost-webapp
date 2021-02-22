@@ -49,12 +49,11 @@ describe('Multi-user group messages', () => {
         cy.apiLogin(testUser);
 
         // # Go to town-square channel
-        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
         cy.contains('#channelHeaderTitle', 'Town Square');
 
         // # Open the 'Direct messages' dialog
-        cy.get('#addDirectChannel').
-            click();
+        cy.uiAddDirectMessage().click();
 
         // # Start typing part of a username that matches previously created users
         cy.get('#selectItems input').
@@ -101,7 +100,7 @@ describe('Multi-user group messages', () => {
         cy.apiLogin(testUser);
 
         // # add some messages to the channel
-        cy.visitAndWait(`/${testTeam.name}/channels/${groupChannel.name}`);
+        cy.visit(`/${testTeam.name}/channels/${groupChannel.name}`);
         cy.postMessage('some');
         cy.postMessage('historical');
         cy.postMessage('messages');

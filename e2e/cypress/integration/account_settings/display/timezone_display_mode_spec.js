@@ -43,7 +43,7 @@ describe('Account Settings > Display > Timezone Mode', () => {
 
         // # Create and visit town-square
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visitAndWait(`/${team.name}/channels/town-square`);
+            cy.visit(`/${team.name}/channels/town-square`);
 
             // # Post messages from the past
             [date1, date2, date3, date4].forEach((createAt, index) => {
@@ -235,7 +235,7 @@ function setTimezoneDisplayTo(isAutomatic, timezone) {
     });
 
     // # Click Save button
-    cy.get('#saveSetting').should('be.visible').click();
+    cy.get('#saveSetting').should('be.visible').click({force: true});
 
     // * Verify timezone description is correct
     cy.get('#timezoneDesc').should('be.visible').invoke('text').then((timezoneDesc) => {

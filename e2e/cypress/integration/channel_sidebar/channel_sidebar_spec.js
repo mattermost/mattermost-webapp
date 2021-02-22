@@ -25,18 +25,12 @@ describe('Channel sidebar', () => {
     let testUser;
 
     before(() => {
-        cy.apiUpdateConfig({
-            ServiceSettings: {
-                EnableLegacySidebar: false,
-            },
-        });
-
         // # Login as test user and visit town-square
         cy.apiInitSetup({loginAfter: true}).then(({team, user}) => {
             testTeam = team;
             testUser = user;
 
-            cy.visitAndWait(`/${team.name}/channels/town-square`);
+            cy.visit(`/${team.name}/channels/town-square`);
         });
     });
 
@@ -93,7 +87,7 @@ describe('Channel sidebar', () => {
         cy.get('#headerTeamName').should('be.visible').should('contain', teamName);
 
         // # Switch to Off Topic
-        cy.visitAndWait(`/${teamName}/channels/off-topic`);
+        cy.visit(`/${teamName}/channels/off-topic`);
 
         // # Wait for the channel to change
         cy.get('#channelHeaderTitle', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').should('contain', 'Off-Topic');
@@ -118,7 +112,7 @@ describe('Channel sidebar', () => {
         cy.get('#headerTeamName').should('be.visible').should('contain', teamName);
 
         // # Switch to Off Topic
-        cy.visitAndWait(`/${teamName}/channels/off-topic`);
+        cy.visit(`/${teamName}/channels/off-topic`);
 
         // # Wait for the channel to change
         cy.get('#channelHeaderTitle', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').should('contain', 'Off-Topic');
@@ -137,7 +131,7 @@ describe('Channel sidebar', () => {
 
     it('MM-T3351 Channels created from another instance should immediately appear in the sidebar', () => {
         // # Go to Town Square on the test team
-        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // * Verify that we've switched to the new team
         cy.get('#headerTeamName').should('be.visible').should('contain', testTeam.display_name);

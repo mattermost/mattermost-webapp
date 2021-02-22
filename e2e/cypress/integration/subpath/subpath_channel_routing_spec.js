@@ -35,7 +35,7 @@ describe('Subpath Channel routing', () => {
 
     it('MM-T986 - Should go to town square channel view', () => {
         // # Go to town square channel
-        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // * Check if the channel is loaded correctly
         cy.get('#channelHeaderTitle', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').should('contain', 'Town Square');
@@ -43,12 +43,12 @@ describe('Subpath Channel routing', () => {
 
     it('MM-T987 - Rejoin channel with permalink', () => {
         // # Visit Town Square channel
-        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Create a new channel
         cy.apiCreateChannel(testTeam.id, 'subpath-channel', 'subpath-channel', 'O', 'subpath-ch').then(({channel}) => {
             // # Visit newly created channel
-            cy.visitAndWait(`/${testTeam.name}/channels/${channel.name}`);
+            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
 
             // # Post a message
             cy.postMessage('Subpath Test Message');
@@ -67,7 +67,7 @@ describe('Subpath Channel routing', () => {
                 cy.uiLeaveChannel();
 
                 // # Visit the permalink
-                cy.visitAndWait(permalink);
+                cy.visit(permalink);
 
                 // * Check that we have rejoined the channel
                 cy.get('#channelHeaderTitle', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').should('contain', 'subpath-channel');
@@ -87,7 +87,7 @@ describe('Subpath Channel routing', () => {
             cy.apiLogout();
 
             // # Visit the channel using the channel name
-            cy.visitAndWait(dmChannelURL);
+            cy.visit(dmChannelURL);
 
             // # Login
             cy.findByPlaceholderText('Email or Username').clear().type(testUser.username);

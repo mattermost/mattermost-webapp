@@ -53,7 +53,7 @@ describe('Mark as Unread', () => {
             });
 
             cy.apiLogin(testUser);
-            cy.visitAndWait(`/${team.name}/channels/${channelA.name}`);
+            cy.visit(`/${team.name}/channels/${channelA.name}`);
         });
     });
 

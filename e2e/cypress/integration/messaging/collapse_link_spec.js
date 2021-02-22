@@ -31,7 +31,7 @@ describe('Messaging', () => {
             cy.apiSaveLinkPreviewsPreference('true');
             cy.apiSaveCollapsePreviewsPreference('false');
 
-            cy.visitAndWait(townSquareLink);
+            cy.visit(townSquareLink);
         });
     });
 
@@ -48,7 +48,7 @@ describe('Messaging', () => {
 
             // # Log-in to the other user
             cy.apiAdminLogin();
-            cy.visitAndWait(townSquareLink);
+            cy.visit(townSquareLink);
 
             // * Check the preview is shown
             cy.get(`#${postId}_message`).find('.attachment--opengraph').should('exist');
@@ -56,7 +56,7 @@ describe('Messaging', () => {
 
             // # Log-in back to the first user
             cy.apiLogin(testUser);
-            cy.visitAndWait(townSquareLink);
+            cy.visit(townSquareLink);
 
             // # Collapse the preview
             cy.get(`#${postId}_message`).find('.post__embed-visibility').click({force: true});
@@ -67,7 +67,7 @@ describe('Messaging', () => {
 
             // # Log-in to the other user
             cy.apiAdminLogin();
-            cy.visitAndWait(townSquareLink);
+            cy.visit(townSquareLink);
 
             // * Check the preview is shown
             cy.get(`#${postId}_message`).find('.attachment--opengraph').should('exist');
@@ -75,7 +75,7 @@ describe('Messaging', () => {
 
             // # Log-in back to the first user
             cy.apiLogin(testUser);
-            cy.visitAndWait(townSquareLink);
+            cy.visit(townSquareLink);
 
             // # Remove the preview
             cy.get(`#${postId}_message`).within(() => {
@@ -88,7 +88,7 @@ describe('Messaging', () => {
 
             // # Log-in to the other user
             cy.apiAdminLogin();
-            cy.visitAndWait(townSquareLink);
+            cy.visit(townSquareLink);
 
             // * Preview should not exist
             cy.get(`#${postId}_message`).find('.attachment--opengraph').should('not.exist');

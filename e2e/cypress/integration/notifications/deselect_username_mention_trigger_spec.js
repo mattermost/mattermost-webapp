@@ -1,4 +1,3 @@
-
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
@@ -26,7 +25,7 @@ describe('Notifications', () => {
                 cy.apiLogin(otherUser);
             });
 
-            cy.visitAndWait(`/${testTeam.name}`);
+            cy.visit(`/${testTeam.name}`);
 
             // # Open 'Account Settings' modal
             cy.findByLabelText('main menu').should('be.visible').click();
@@ -47,7 +46,7 @@ describe('Notifications', () => {
 
             // # Login as sysadmin
             cy.apiAdminLogin();
-            cy.visitAndWait(`/${testTeam.name}`);
+            cy.visit(`/${testTeam.name}`);
         });
     });
 
@@ -60,7 +59,7 @@ describe('Notifications', () => {
 
             // # Login as otherUser and visit team
             cy.apiLogin(otherUser);
-            cy.visitAndWait(`/${testTeam.name}`);
+            cy.visit(`/${testTeam.name}`);
 
             // * Verify that the channel appears in LHS
             cy.get(`#sidebarItem_${channel.name}`, {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').within(() => {

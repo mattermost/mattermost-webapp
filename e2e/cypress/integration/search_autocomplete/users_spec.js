@@ -63,7 +63,7 @@ describe('Autocomplete without Elasticsearch - Users', () => {
 
             before(() => {
                 // # Navigate to the new teams town square
-                cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+                cy.visit(`/${testTeam.name}/channels/town-square`);
             });
 
             describe('by @username', () => {
@@ -186,7 +186,7 @@ describe('Autocomplete without Elasticsearch - Users', () => {
 
             before(() => {
                 // # Navigate to the new teams town square
-                cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+                cy.visit(`/${testTeam.name}/channels/town-square`);
                 cy.typeCmdOrCtrl().type('k');
                 cy.findByRole('textbox', {name: 'quick switch input'}).should('be.visible');
             });
@@ -303,7 +303,7 @@ describe('Autocomplete without Elasticsearch - Users', () => {
                     cy.apiAddUserToChannel(channel.id, user.id);
                 });
 
-                cy.visitAndWait(`/${testTeam.name}/channels/${channel.name}`);
+                cy.visit(`/${testTeam.name}/channels/${channel.name}`);
             });
 
             // # Start an at mention that should return 2 users (in this case, the users share a last name)
@@ -332,7 +332,7 @@ describe('Autocomplete without Elasticsearch - Users', () => {
             const thor = testUsers.thor;
 
             // # Open of the add direct message modal
-            cy.get('#addDirectChannel').click({force: true});
+            cy.uiAddDirectMessage().click({force: true});
 
             // # Type username into input
             cy.get('.more-direct-channels').

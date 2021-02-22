@@ -51,10 +51,10 @@ describe('Subpath Direct Message Search', () => {
                 const otherSubpathUser = userRes.body;
 
                 // # Go to town square channel of primary subpath server
-                cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+                cy.visit(`/${testTeam.name}/channels/town-square`);
 
-                // # Click on More... section
-                cy.get('#moreDirectMessage', {timeout: TIMEOUTS.ONE_MIN}).click().wait(TIMEOUTS.HALF_SEC);
+                // # Open DM modal
+                cy.uiAddDirectMessage().click().wait(TIMEOUTS.HALF_SEC);
 
                 // # Search for username from other subpath server
                 cy.get('#selectItems input').

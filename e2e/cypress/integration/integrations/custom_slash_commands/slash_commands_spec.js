@@ -15,6 +15,8 @@
 */
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
+import {addNewCommand} from './helpers';
+
 describe('Slash commands page', () => {
     const trigger = 'test-message';
     let testTeam;
@@ -28,7 +30,7 @@ describe('Slash commands page', () => {
             testTeam = team;
 
             // # Go to integrations
-            cy.visitAndWait(`/${team.name}/integrations`);
+            cy.visit(`/${team.name}/integrations`);
 
             // * Validate that slash command section is enabled
             cy.get('#slashCommands').should('be.visible');
@@ -109,7 +111,7 @@ describe('Slash commands page', () => {
         cy.get('#saveCommand').click();
 
         // # Go to integrations
-        cy.visitAndWait(`/${testTeam.name}/integrations`);
+        cy.visit(`/${testTeam.name}/integrations`);
 
         // * Validate that slash command section is enabled
         cy.get('#slashCommands').should('be.visible');
@@ -140,7 +142,7 @@ describe('Slash commands page', () => {
         addNewCommand(testTeam, trigger, 'http://example.com');
 
         // # Go to integrations
-        cy.visitAndWait(`/${testTeam.name}/integrations`);
+        cy.visit(`/${testTeam.name}/integrations`);
 
         // # Open slash command page
         cy.get('#slashCommands').click();
@@ -165,7 +167,7 @@ describe('Slash commands page', () => {
         addNewCommand(testTeam, trigger, '');
 
         // # Go to integrations
-        cy.visitAndWait(`/${testTeam.name}/integrations`);
+        cy.visit(`/${testTeam.name}/integrations`);
 
         // # Open slash command page
         cy.get('#slashCommands').click();
@@ -186,37 +188,9 @@ describe('Slash commands page', () => {
     });
 });
 
-export function addNewCommand(team, trigger, url) {
-    // # Add new command
-    cy.get('#addSlashCommand').click();
-
-    // # Type a trigger word, url and display name
-    cy.get('#trigger').type(`${trigger}`);
-    cy.get('#displayName').type('Test Message');
-    cy.apiGetChannelByName(team.name, 'town-square').then(({channel}) => {
-        let urlToType = url;
-        if (url === '') {
-            urlToType = `${Cypress.env('webhookBaseUrl')}/send_message_to_channel?channel_id=${channel.id}`;
-        }
-        cy.get('#url').type(urlToType);
-
-        // # Save
-        cy.get('#saveCommand').click();
-
-        // * Verify we are at setup successful URL
-        cy.url().should('include', '/integrations/commands/confirm');
-
-        // * Verify slash was successfully created
-        cy.findByText('Setup Successful').should('exist').and('be.visible');
-
-        // * Verify token was created
-        cy.findByText('Token').should('exist').and('be.visible');
-    });
-}
-
 function runSlashCommand(team, trigger) {
     // # Go back to home channel
-    cy.visitAndWait(`/${team.name}/channels/town-square`);
+    cy.visit(`/${team.name}/channels/town-square`);
 
     // # Run slash command
     cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').clear().type(`/${trigger}{enter}{enter}`);

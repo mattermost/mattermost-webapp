@@ -34,13 +34,13 @@ describe('Multi Team and DM', () => {
 
             // # Login with testUser and visit test channel
             cy.apiLogin(testUser);
-            cy.visitAndWait(`/${testTeam.name}/channels/${testChannel.name}`);
+            cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
         });
     });
 
     it('MM-T446 DM More... searching from page 2 of user list', () => {
         // # Open the Direct Message modal
-        cy.findByLabelText('write a direct message').click();
+        cy.uiAddDirectMessage().click();
 
         // # Move to the next page of users
         cy.findByText('Next').click();

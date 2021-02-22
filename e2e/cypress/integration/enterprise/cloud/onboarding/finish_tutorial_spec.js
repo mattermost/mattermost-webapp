@@ -1,4 +1,3 @@
-
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
@@ -27,7 +26,7 @@ describe('Onboarding', () => {
 
         cy.apiInitSetup().then(({team}) => {
             testTeam = team;
-            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+            cy.visit(`/${testTeam.name}/channels/town-square`);
         });
     });
 
@@ -51,7 +50,7 @@ describe('Onboarding', () => {
         cy.apiLogout();
 
         // # Visit the team url
-        cy.visitAndWait(`/${testTeam.name}`);
+        cy.visit(`/${testTeam.name}`);
 
         // # Attempt to create a new account
         cy.get('#signup', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').click();
