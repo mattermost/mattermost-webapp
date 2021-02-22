@@ -37,13 +37,13 @@ describe('System Console > User Management > Deactivation', () => {
                 cy.sendDirectMessageToUsers([user1, user2], message);
 
                 // * Verify names on the LHS are still ordered alphabetically
-                cy.get('#directChannelList .active .sidebar-item__name').should('contain', user1.username + ', ' + user2.username);
+                cy.uiGetLhsSection('DIRECT MESSAGES').find('.active').should('contain', user1.username + ', ' + user2.username);
 
                 // # Deactivate user 1
                 cy.apiDeactivateUser(user1.id);
 
                 // * Verify names on the LHS are still ordered alphabetically
-                cy.get('#directChannelList .active .sidebar-item__name').should('contain', user1.username + ', ' + user2.username);
+                cy.uiGetLhsSection('DIRECT MESSAGES').find('.active').should('contain', user1.username + ', ' + user2.username);
 
                 // # Search for the message send in the GM
                 cy.uiSearchPosts(message);
@@ -69,7 +69,7 @@ describe('System Console > User Management > Deactivation', () => {
             cy.apiDeactivateUser(other.id);
 
             // # Open Channel Switcher
-            cy.get('#sidebarSwitcherButton').click();
+            cy.uiGetChannelSwitcher().click();
 
             // # Type the user name on Channel switcher input
             cy.get('#quickSwitchInput').type(other.username).wait(TIMEOUTS.HALF_SEC);
@@ -78,10 +78,10 @@ describe('System Console > User Management > Deactivation', () => {
             cy.get('[data-testid="' + other.username + '"]').contains('Deactivated');
 
             // # Close Channel Switcher
-            cy.get('#quickSwitchModalLabel .close').click();
+            cy.uiClose();
 
-            // # Open DM More... Modal
-            cy.get('#moreDirectMessage').click();
+            // # Open DM Modal
+            cy.uiAddDirectMessage().click();
 
             // # Type the guest user name on Channel switcher input
             cy.get('.more-direct-channels #selectItems').type(other.username).wait(TIMEOUTS.HALF_SEC);
@@ -110,8 +110,8 @@ describe('System Console > User Management > Deactivation', () => {
                 // # Deactivate user 2
                 cy.apiDeactivateUser(user2.id);
 
-                // # Open DM More... Modal
-                cy.get('#moreDirectMessage').click().wait(TIMEOUTS.HALF_SEC);
+                // # Open DM Modal
+                cy.uiAddDirectMessage().click().wait(TIMEOUTS.HALF_SEC);
 
                 // # Type the user name of user1 on Channel switcher input
                 cy.get('.more-direct-channels #selectItems').type(user1.username).wait(TIMEOUTS.HALF_SEC);
@@ -153,7 +153,9 @@ describe('System Console > User Management > Deactivation', () => {
             cy.get('#channelHeaderDescription .status').should('not.be.visible');
 
             // * Verify archived icon is shown in LHS
-            cy.get('#directChannelList .active .icon__archive').scrollIntoView().should('be.visible');
+            cy.uiGetLhsSection('DIRECT MESSAGES').
+                find('.active').should('be.visible').
+                find('.icon-archive-outline').should('be.visible');
         });
     });
 });
