@@ -65,6 +65,18 @@ exports[`components/RhsComment should match snapshot 1`] = `
             isRHS={true}
             userId="user_id"
           />
+          <CustomStatusEmoji
+            emojiSize={14}
+            emojiStyle={
+              Object {
+                "marginLeft": 4,
+                "marginTop": 1,
+              }
+            }
+            showTooltip={true}
+            tooltipDirection="top"
+            userID="user_id"
+          />
         </div>
         <div
           className="col"
@@ -206,6 +218,18 @@ exports[`components/RhsComment should match snapshot hovered 1`] = `
             isBusy={false}
             isRHS={true}
             userId="user_id"
+          />
+          <CustomStatusEmoji
+            emojiSize={14}
+            emojiStyle={
+              Object {
+                "marginLeft": 4,
+                "marginTop": 1,
+              }
+            }
+            showTooltip={true}
+            tooltipDirection="top"
+            userID="user_id"
           />
         </div>
         <div
@@ -396,6 +420,18 @@ exports[`components/RhsComment should match snapshot hovered on deleted post 1`]
             isRHS={true}
             userId="user_id"
           />
+          <CustomStatusEmoji
+            emojiSize={14}
+            emojiStyle={
+              Object {
+                "marginLeft": 4,
+                "marginTop": 1,
+              }
+            }
+            showTooltip={true}
+            tooltipDirection="top"
+            userID="user_id"
+          />
         </div>
         <div
           className="col"
@@ -550,6 +586,18 @@ exports[`components/RhsComment should match snapshot mobile 1`] = `
             isBusy={false}
             isRHS={true}
             userId="user_id"
+          />
+          <CustomStatusEmoji
+            emojiSize={14}
+            emojiStyle={
+              Object {
+                "marginLeft": 4,
+                "marginTop": 1,
+              }
+            }
+            showTooltip={true}
+            tooltipDirection="top"
+            userID="user_id"
           />
         </div>
         <div

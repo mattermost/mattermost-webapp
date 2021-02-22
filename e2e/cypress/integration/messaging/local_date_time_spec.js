@@ -49,7 +49,7 @@ describe('Messaging', () => {
         const testCases = [
             {
                 name: 'in English',
-                publicChannel: 'PUBLIC CHANNELS',
+                publicChannel: 'CHANNELS',
                 locale: 'en',
                 manualTimezone: 'UTC',
                 localTimes: [
@@ -61,7 +61,7 @@ describe('Messaging', () => {
             },
             {
                 name: 'in Spanish',
-                publicChannel: 'CANALES PÚBLICOS',
+                publicChannel: 'CANALES',
                 locale: 'es',
                 manualTimezone: 'UTC',
                 localTimes: [
@@ -73,7 +73,7 @@ describe('Messaging', () => {
             },
             {
                 name: 'in react-intl unsupported timezone',
-                publicChannel: 'PUBLIC CHANNELS',
+                publicChannel: 'CHANNELS',
                 locale: 'en',
                 manualTimezone: 'NZ-CHAT',
                 localTimes: [

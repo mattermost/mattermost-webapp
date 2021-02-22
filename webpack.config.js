@@ -293,10 +293,10 @@ var config = {
                 {from: 'images/logo-email.png', to: 'images'},
                 {from: 'images/browser-icons', to: 'images/browser-icons'},
                 {from: 'images/cloud', to: 'images'},
-                {from: 'images/welcome_illustration.svg', to: 'images'},
-                {from: 'images/logo_email_blue.svg', to: 'images'},
-                {from: 'images/forgot_password_illustration.svg', to: 'images'},
-                {from: 'images/invite_illustration.svg', to: 'images'},
+                {from: 'images/welcome_illustration.png', to: 'images'},
+                {from: 'images/logo_email_blue.png', to: 'images'},
+                {from: 'images/forgot_password_illustration.png', to: 'images'},
+                {from: 'images/invite_illustration.png', to: 'images'},
             ],
         }),
 
@@ -413,7 +413,7 @@ if (targetIsTest) {
 if (targetIsDevServer) {
     config = {
         ...config,
-        devtool: 'cheap-module-eval-source-map',
+        devtool: 'eval-cheap-module-source-map',
         devServer: {
             hot: true,
             injectHot: true,

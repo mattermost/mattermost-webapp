@@ -9,14 +9,9 @@ Cypress.Commands.add('uiCreateChannel', ({
     isPrivate = false,
     purpose = '',
     header = '',
-    isNewSidebar = false,
 }) => {
-    if (isNewSidebar) {
-        cy.get('#SidebarContainer .AddChannelDropdown_dropdownButton').click();
-        cy.get('#showNewChannel button').click();
-    } else {
-        cy.get('#createPrivateChannel').click();
-    }
+    cy.get('#SidebarContainer .AddChannelDropdown_dropdownButton').click();
+    cy.get('#showNewChannel button').click();
 
     cy.get('#newChannelModalLabel').should('be.visible');
     if (isPrivate) {
@@ -75,7 +70,7 @@ Cypress.Commands.add('uiLeaveChannel', (isPrivate = false) => {
 });
 
 Cypress.Commands.add('goToDm', (username) => {
-    cy.get('#addDirectChannel').click({force: true});
+    cy.uiAddDirectMessage().click({force: true});
 
     // # Start typing part of a username that matches previously created users
     cy.get('#selectItems input').type(username, {force: true});

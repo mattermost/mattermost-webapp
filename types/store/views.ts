@@ -141,6 +141,9 @@ export type ViewsState = {
     nextSteps: {
         show: boolean;
     };
+    statusDropdown: {
+        isOpen: boolean;
+    };
     threads: {
         selectedThreadIdInTeam: RelationOneToOne<Team, $ID<UserThread> | null>;
     };
