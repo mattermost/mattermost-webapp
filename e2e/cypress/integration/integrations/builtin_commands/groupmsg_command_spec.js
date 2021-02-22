@@ -20,7 +20,6 @@ describe('Integrations', () => {
     let townSquareUrl;
 
     before(() => {
-        cy.apiAdminLogin();
         cy.apiInitSetup().then(({team, user}) => {
             testUser = user;
             townSquareUrl = `/${team.name}/channels/town-square`;
@@ -48,7 +47,7 @@ describe('Integrations', () => {
             });
 
             // # Go back to town-square channel
-            cy.contains('.sidebar-item', 'Town Square').click();
+            cy.uiGetLhsSection('CHANNELS').findByText('Town Square').click();
         }
 
         loginAndVisitChannel(testUser, townSquareUrl);

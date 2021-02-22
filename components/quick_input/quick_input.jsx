@@ -47,12 +47,28 @@ export default class QuickInput extends React.PureComponent {
          * Callback to clear the input value, and used in tandem with the clearable prop above.
          */
         onClear: PropTypes.func,
+
+        /**
+         * ClassName for the clear button container
+         */
+        clearClassName: PropTypes.string,
+
+        /**
+         * Position in which the tooltip will be displayed
+         */
+        tooltipPosition: PropTypes.oneOf(['top', 'bottom']),
+
+        /**
+         * Callback to handle the change event of the input
+         */
+        onChange: PropTypes.func,
     };
 
     static defaultProps = {
         delayInputUpdate: false,
         value: '',
         clearable: false,
+        tooltipPosition: 'bottom',
     };
 
     componentDidUpdate(prevProps) {
@@ -123,12 +139,14 @@ export default class QuickInput extends React.PureComponent {
             </Tooltip>
         );
 
-        const {value, inputComponent, clearable, ...props} = this.props;
+        const {value, inputComponent, clearable, clearClassName, tooltipPosition, ...props} = this.props;
 
         Reflect.deleteProperty(props, 'delayInputUpdate');
         Reflect.deleteProperty(props, 'onClear');
         Reflect.deleteProperty(props, 'clearableTooltipText');
         Reflect.deleteProperty(props, 'channelId');
+        Reflect.deleteProperty(props, 'clearClassName');
+        Reflect.deleteProperty(props, 'tooltipPosition');
 
         if (inputComponent !== AutosizeTextarea) {
             Reflect.deleteProperty(props, 'onHeightChange');
@@ -147,13 +165,13 @@ export default class QuickInput extends React.PureComponent {
             {inputElement}
             {clearable && value && this.props.onClear &&
                 <div
-                    className='input-clear visible'
+                    className={`${clearClassName} input-clear visible`}
                     onMouseDown={this.onClear}
                     onTouchEnd={this.onClear}
                 >
                     <OverlayTrigger
                         delayShow={Constants.OVERLAY_TIME_DELAY}
-                        placement='bottom'
+                        placement={tooltipPosition}
                         overlay={clearableTooltip}
                     >
                         <span

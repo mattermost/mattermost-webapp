@@ -5,6 +5,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {defineMessages, FormattedMessage} from 'react-intl';
+
 import {setThemeDefaults} from 'mattermost-redux/utils/theme_utils';
 
 import {t} from 'utils/i18n';
@@ -31,6 +32,10 @@ const messages = defineMessages({
     sidebarHeaderBg: {
         id: t('user.settings.custom_theme.sidebarHeaderBg'),
         defaultMessage: 'Sidebar Header BG',
+    },
+    sidebarTeamBarBg: {
+        id: t('user.settings.custom_theme.sidebarTeamBarBg'),
+        defaultMessage: 'Team Sidebar BG',
     },
     sidebarHeaderTextColor: {
         id: t('user.settings.custom_theme.sidebarHeaderTextColor'),

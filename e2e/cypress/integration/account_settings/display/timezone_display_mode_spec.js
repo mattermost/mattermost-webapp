@@ -235,7 +235,7 @@ function setTimezoneDisplayTo(isAutomatic, timezone) {
     });
 
     // # Click Save button
-    cy.get('#saveSetting').should('be.visible').click();
+    cy.get('#saveSetting').should('be.visible').click({force: true});
 
     // * Verify timezone description is correct
     cy.get('#timezoneDesc').should('be.visible').invoke('text').then((timezoneDesc) => {
