@@ -16,6 +16,7 @@ describe('Status dropdown menu', () => {
         cy.apiInitSetup().then(({team}) => {
             cy.visit(`/${team.name}/channels/town-square`);
         });
+        cy.apiUpdateConfig({TeamSettings: {EnableCustomUserStatuses: false}});
     });
 
     afterEach(() => {
@@ -179,6 +180,35 @@ describe('Status dropdown menu', () => {
             // * Verify "Status" header does not have pointer cursor
             cy.get('.MenuWrapper.status-dropdown-menu .Menu__content.dropdown-menu li:first-child').should('be.visible').
                 and('have.text', 'Status').and('not.have.css', 'cursor', 'pointer');
+        });
+    });
+
+    describe('Custom status option in Status dropdown menu', () => {
+        before(() => {
+            cy.apiUpdateConfig({TeamSettings: {EnableCustomUserStatuses: true}});
+            cy.apiClearUserCustomStatus();
+        });
+
+        it('should show Set a Custom Status header when EnableCustomStatuses option is enabled, with cursor pointer', () => {
+            // # Wait for posts to load
+            cy.get('#postListContent').should('be.visible');
+
+            // # Open status menu
+            cy.get('.MenuWrapper .status-wrapper.status-selector button.status').click();
+
+            // # Verify "Set a Custom Status" header is visible
+            cy.get('.MenuWrapper.status-dropdown-menu .Menu__content.dropdown-menu li#status-menu-custom-status').should('be.visible').
+                and('have.text', 'Set a Custom Status').and('have.css', 'cursor', 'pointer');
+        });
+
+        specify('clear button should not be visible if status is not set', () => {
+            // # Wait for posts to load
+            cy.get('#postListContent').should('be.visible');
+
+            // # Open status menu
+            cy.get('.MenuWrapper .status-wrapper.status-selector button.status').click();
+
+            cy.get('.MenuWrapper.status-dropdown-menu .Menu__content.dropdown-menu li#status-menu-custom-status #custom_status__clear').should('not.exist');
         });
     });
 });

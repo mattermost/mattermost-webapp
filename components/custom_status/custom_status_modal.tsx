@@ -129,7 +129,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
     };
 
     const recentStatuses = (
-        <div>
+        <div className='statusSuggestion__recents'>
             <div className='statusSuggestion__title'>
                 {formatMessage({id: 'custom_status.suggestions.recent_title', defaultMessage: 'RECENT'})}
             </div>
@@ -182,7 +182,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
         <div className='statusSuggestion'>
             <div className='statusSuggestion__content'>
                 {recentCustomStatuses.length > 0 && recentStatuses}
-                <div>
+                <div className='statusSuggestion__suggestions'>
                     {renderCustomStatusSuggestions()}
                 </div>
             </div>
