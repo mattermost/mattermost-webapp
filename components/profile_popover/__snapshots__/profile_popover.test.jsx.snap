@@ -206,7 +206,9 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
 
 exports[`components/ProfilePopover should match snapshot for shared user 1`] = `
 <Popover
+  customStatus={Object {}}
   id="user-profile-popover"
+  isCustomStatusEnabled={true}
   isInCurrentTeam={true}
   placement="right"
   popoverSize="sm"
@@ -258,9 +260,11 @@ exports[`components/ProfilePopover should match snapshot for shared user 1`] = `
         ]
       }
     >
-      <strong>
+      <span
+        className="user-profile-popover__heading"
+      >
         shared
-      </strong>
+      </span>
     </OverlayTrigger>
     <SharedUserIndicator
       className="shared-user-icon"
