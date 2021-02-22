@@ -238,9 +238,6 @@ module.exports = {
         cy.get('#suggestionList', {timeout: TIMEOUTS.FIVE_SEC}).should('be.visible');
 
         // # Verify user appears in results post-change
-        return cy.findByTestId(`mentionSuggestion_${user.username}`, {exact: false}).within((name) => {
-            cy.wrap(name).find('.mention--align').should('have.text', `@${user.username}`);
-            cy.wrap(name).find('.ml-2').should('have.text', `${user.first_name} ${user.last_name} (${user.nickname})`);
-        });
+        return cy.uiVerifyAtMentionSuggestion(user);
     },
 };
