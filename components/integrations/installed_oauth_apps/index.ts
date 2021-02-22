@@ -2,17 +2,19 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {AnyAction, bindActionCreators, Dispatch} from 'redux';
-import * as Actions from 'mattermost-redux/actions/integrations';
+import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
+
+import {regenOAuthAppSecret, deleteOAuthApp} from 'mattermost-redux/actions/integrations';
 import {getOAuthApps} from 'mattermost-redux/selectors/entities/integrations';
 import {haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
 import {Permissions} from 'mattermost-redux/constants';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import {GlobalState} from 'mattermost-redux/types/store';
 
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
+
+import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {loadOAuthAppsAndProfiles} from 'actions/integration_actions';
 
@@ -31,16 +33,17 @@ function mapStateToProps(state: GlobalState) {
 }
 
 type Actions = {
-    regenOAuthAppSecret: (appId: string) => ActionFunc;
-    deleteOAuthApp: (appId: string) => ActionFunc;
+    loadOAuthAppsAndProfiles: (page?: number, perPage?: number) => Promise<void>;
+    regenOAuthAppSecret: (appId: string) => Promise<{ error?: Error }>;
+    deleteOAuthApp: (appId: string) => Promise<void>;
 }
 
-function mapDispatchToProps(dispatch: Dispatch<AnyAction>) {
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
-        actions: bindActionCreators({
+        actions: bindActionCreators<ActionCreatorsMapObject, Actions>({
             loadOAuthAppsAndProfiles,
-            regenOAuthAppSecret: Actions.regenOAuthAppSecret,
-            deleteOAuthApp: Actions.deleteOAuthApp,
+            regenOAuthAppSecret,
+            deleteOAuthApp,
         }, dispatch),
     };
 }

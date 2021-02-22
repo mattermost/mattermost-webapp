@@ -4,7 +4,6 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {OAuthApp} from 'mattermost-redux/types/integrations';
-import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import {localizeMessage} from 'utils/utils.jsx';
 import BackstageList from 'components/backstage/components/backstage_list.jsx';
@@ -41,17 +40,17 @@ type Props = {
         /**
         * The function to call to fetch OAuth apps
         */
-        loadOAuthAppsAndProfiles: (page?: any, perPage?: any) => any;
+        loadOAuthAppsAndProfiles: (page?: number, perPage?: number) => Promise<void>;
 
         /**
         * The function to call when Regenerate Secret link is clicked
         */
-        regenOAuthAppSecret: (appId: string) => ActionFunc;
+        regenOAuthAppSecret: (appId: string) => Promise<{ error?: Error }>;
 
         /**
         * The function to call when Delete link is clicked
         */
-        deleteOAuthApp: (appId: string) => ActionFunc;
+        deleteOAuthApp: (appId: string) => Promise<void>;
     });
 };
 
@@ -67,7 +66,7 @@ export default class InstalledOAuthApps extends React.PureComponent<Props, State
         };
     }
 
-    componentDidMount() {
+    componentDidMount(): void {
         if (this.props.enableOAuthServiceProvider) {
             this.props.actions.loadOAuthAppsAndProfiles().then(
                 () => this.setState({loading: false}),
@@ -75,13 +74,13 @@ export default class InstalledOAuthApps extends React.PureComponent<Props, State
         }
     }
 
-    deleteOAuthApp = (app: OAuthApp) => {
+    deleteOAuthApp = (app: OAuthApp): void => {
         if (app && app.id) {
             this.props.actions.deleteOAuthApp(app.id);
         }
     }
 
-    oauthAppCompare(a: OAuthApp, b: OAuthApp) {
+    oauthAppCompare(a: OAuthApp, b: OAuthApp): number {
         let nameA = a.name.toString();
         if (!nameA) {
             nameA = localizeMessage('installed_integrations.unnamed_oauth_app', 'Unnamed OAuth 2.0 Application');
@@ -111,7 +110,7 @@ export default class InstalledOAuthApps extends React.PureComponent<Props, State
             );
         });
 
-    render() {
+    render(): JSX.Element {
         const integrationsEnabled = this.props.enableOAuthServiceProvider && this.props.canManageOauth;
         let props;
         if (integrationsEnabled) {
