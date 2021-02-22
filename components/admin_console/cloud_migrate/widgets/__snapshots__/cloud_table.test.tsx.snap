@@ -5,36 +5,25 @@ exports[`admin_console/cloud_table cloud table displays without header 1`] = `
   list={
     Array [
       Array [
+        <p>
+          content
+        </p>,
+        <p>
+          content
+        </p>,
         <ReaactEl>
-          row 1
-        </ReaactEl>,
-        <ReaactEl>
-          row 1
-        </ReaactEl>,
-        <ReaactEl>
-          row 1
-        </ReaactEl>,
-      ],
-      Array [
-        <ReaactEl>
-          row 2
-        </ReaactEl>,
-        <ReaactEl>
-          row 2
-        </ReaactEl>,
-        <ReaactEl>
-          row 2
+          content
         </ReaactEl>,
       ],
       Array [
+        <p>
+          content
+        </p>,
+        <p>
+          content
+        </p>,
         <ReaactEl>
-          row 3
-        </ReaactEl>,
-        <ReaactEl>
-          row 3
-        </ReaactEl>,
-        <ReaactEl>
-          row 3
+          content
         </ReaactEl>,
       ],
     ]
@@ -50,29 +39,31 @@ exports[`admin_console/cloud_table cloud table displays without header 1`] = `
         key="0"
       >
         <td
-          key="0"
+          key="row1-td1"
         >
-          <ReaactEl>
-            <p>
-              row 1
-            </p>
-          </ReaactEl>
+          <p
+            key="row1-td1"
+          >
+            content
+          </p>
         </td>
         <td
-          key="1"
+          key="row1-td2"
         >
-          <ReaactEl>
-            <p>
-              row 1
-            </p>
-          </ReaactEl>
+          <p
+            key="row1-td2"
+          >
+            content
+          </p>
         </td>
         <td
-          key="2"
+          key="row1-td3"
         >
-          <ReaactEl>
+          <ReaactEl
+            key="row1-td3"
+          >
             <p>
-              row 1
+              content
             </p>
           </ReaactEl>
         </td>
@@ -82,61 +73,31 @@ exports[`admin_console/cloud_table cloud table displays without header 1`] = `
         key="1"
       >
         <td
-          key="0"
+          key="row2-td1"
         >
-          <ReaactEl>
-            <p>
-              row 2
-            </p>
-          </ReaactEl>
+          <p
+            key="row2-td1"
+          >
+            content
+          </p>
         </td>
         <td
-          key="1"
+          key="row2-td2"
         >
-          <ReaactEl>
-            <p>
-              row 2
-            </p>
-          </ReaactEl>
+          <p
+            key="row2-td2"
+          >
+            content
+          </p>
         </td>
         <td
-          key="2"
+          key="row2-td3"
         >
-          <ReaactEl>
+          <ReaactEl
+            key="row2-td3"
+          >
             <p>
-              row 2
-            </p>
-          </ReaactEl>
-        </td>
-      </tr>
-      <tr
-        className="CloudTable__table-row"
-        key="2"
-      >
-        <td
-          key="0"
-        >
-          <ReaactEl>
-            <p>
-              row 3
-            </p>
-          </ReaactEl>
-        </td>
-        <td
-          key="1"
-        >
-          <ReaactEl>
-            <p>
-              row 3
-            </p>
-          </ReaactEl>
-        </td>
-        <td
-          key="2"
-        >
-          <ReaactEl>
-            <p>
-              row 3
+              content
             </p>
           </ReaactEl>
         </td>
@@ -157,22 +118,19 @@ exports[`admin_console/cloud_table cloud table match snapshot 1`] = `
       <th
         key="0"
       >
-        <ReaactEl>
-          header 1
-        </ReaactEl>
+        <p
+          key="header1"
+        >
+          content
+        </p>
       </th>
       <th
         key="1"
       >
-        <ReaactEl>
-          header 2
-        </ReaactEl>
-      </th>
-      <th
-        key="2"
-      >
-        <ReaactEl>
-          header 3
+        <ReaactEl
+          key="header2"
+        >
+          content
         </ReaactEl>
       </th>
     </tr>
@@ -183,24 +141,30 @@ exports[`admin_console/cloud_table cloud table match snapshot 1`] = `
       key="0"
     >
       <td
-        key="0"
+        key="row1-td1"
       >
-        <ReaactEl>
-          row 1
-        </ReaactEl>
+        <p
+          key="row1-td1"
+        >
+          content
+        </p>
       </td>
       <td
-        key="1"
+        key="row1-td2"
       >
-        <ReaactEl>
-          row 1
-        </ReaactEl>
+        <p
+          key="row1-td2"
+        >
+          content
+        </p>
       </td>
       <td
-        key="2"
+        key="row1-td3"
       >
-        <ReaactEl>
-          row 1
+        <ReaactEl
+          key="row1-td3"
+        >
+          content
         </ReaactEl>
       </td>
     </tr>
@@ -209,50 +173,30 @@ exports[`admin_console/cloud_table cloud table match snapshot 1`] = `
       key="1"
     >
       <td
-        key="0"
+        key="row2-td1"
       >
-        <ReaactEl>
-          row 2
-        </ReaactEl>
+        <p
+          key="row2-td1"
+        >
+          content
+        </p>
       </td>
       <td
-        key="1"
+        key="row2-td2"
       >
-        <ReaactEl>
-          row 2
-        </ReaactEl>
+        <p
+          key="row2-td2"
+        >
+          content
+        </p>
       </td>
       <td
-        key="2"
+        key="row2-td3"
       >
-        <ReaactEl>
-          row 2
-        </ReaactEl>
-      </td>
-    </tr>
-    <tr
-      className="CloudTable__table-row"
-      key="2"
-    >
-      <td
-        key="0"
-      >
-        <ReaactEl>
-          row 3
-        </ReaactEl>
-      </td>
-      <td
-        key="1"
-      >
-        <ReaactEl>
-          row 3
-        </ReaactEl>
-      </td>
-      <td
-        key="2"
-      >
-        <ReaactEl>
-          row 3
+        <ReaactEl
+          key="row2-td3"
+        >
+          content
         </ReaactEl>
       </td>
     </tr>

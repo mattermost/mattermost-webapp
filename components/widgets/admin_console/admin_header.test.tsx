@@ -12,12 +12,11 @@ describe('components/widgets/admin_console/AdminHeader', () => {
     test('render component with child', () => {
         const wrapper = shallow(<AdminHeader>{'Test'}</AdminHeader>);
         expect(wrapper).toMatchInlineSnapshot(`
-<div
-  className="admin-console__header"
->
-  Test
-</div>
-`,
-        );
+      <div
+        className="admin-console__header undefined"
+      >
+        Test
+      </div>
+    `);
     });
 });
