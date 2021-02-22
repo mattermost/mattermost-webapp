@@ -57,6 +57,7 @@ export default class SidebarBaseChannel extends React.PureComponent<Props, State
                 <SharedChannelIndicator
                     className='icon'
                     channelType={channel.type}
+                    withTooltip={true}
                 />
             );
         } else if (channel.type === Constants.OPEN_CHANNEL) {
