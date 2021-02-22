@@ -37,7 +37,6 @@ describe('SupportSettings', () => {
         cy.visit('/admin_console/site_config/customization');
     });
 
-    // not cloud
     it('MM-T1032 - Customization: Custom Terms and Privacy links in the About modal', () => {
         // # Edit links in the TOS and Privacy fields
         cy.findByTestId('SupportSettings.TermsOfServiceLinkinput').clear().type(tosLink);
@@ -56,7 +55,6 @@ describe('SupportSettings', () => {
         cy.get('#privacyLink').should('contain', 'Privacy Policy').and('have.attr', 'href').and('equal', defaultPrivacyLink);
     });
 
-    // not cloud
     it('MM-T1034 - Customization: Blank TOS link field (About modal)', () => {
         // # Empty the "terms of services" field
         cy.findByTestId('SupportSettings.TermsOfServiceLinkinput').type('any').clear();
@@ -73,7 +71,6 @@ describe('SupportSettings', () => {
         cy.get('#tosLink').should('contain', 'Terms of Service').and('have.attr', 'href').and('equal', defaultTosLink);
     });
 
-    // not cloud
     it('MM-T1035 - Customization Blank Privacy hides the link', () => {
         cy.findByTestId('SupportSettings.PrivacyPolicyLinkinput').clear();
 
@@ -107,7 +104,6 @@ describe('SupportSettings', () => {
         cy.get('#privacy_link').should('not.exist');
     });
 
-    // not cloud
     it('MM-T1037 - Customization Custom Support Email', () => {
         // # Edit links in the support email field
         cy.findByTestId('SupportSettings.SupportEmailinput').clear().type(email);
@@ -133,7 +129,6 @@ describe('SupportSettings', () => {
         });
     });
 
-    // not cloud
     it('MM-T1039 - Customization App download link - Remove', () => {
         // # Edit links in the support email field
         cy.findByTestId('NativeAppSettings.AppDownloadLinkinput').type('any').clear();
