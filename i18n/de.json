@@ -252,7 +252,7 @@
   "admin.billing.payment_info_display.noPaymentInfo": "Zurzeit sind keine Kreditkarten hinterlegt.",
   "admin.billing.payment_info_display.savedPaymentDetails": "Gespeicherte Zahlungsarten",
   "admin.billing.payment_info_edit.cancel": "Abbrechen",
-  "admin.billing.payment_info_edit.creditCardWarningDescription": "Kreditkartendaten werden für zukünftige Zahlungen gespeichert.  Sie wird nur belastet wenn Sie auf eine bezahlte Option von Mattermost Cloud wechseln oder die Limiten der Gratisedition überschreiten. ",
+  "admin.billing.payment_info_edit.creditCardWarningDescription": "Kreditkartendaten werden für zukünftige Zahlungen gespeichert. Sie wird nur belastet wenn Sie auf eine bezahlte Option von Mattermost Cloud wechseln oder die Limiten der Gratisedition überschreiten. ",
   "admin.billing.payment_info_edit.creditCardWarningTitle": "Hinweis: Ihre Kreditkarte wird jetzt nicht belastet",
   "admin.billing.payment_info_edit.formError": "Es sind Fehler im obigen Formular vorhanden",
   "admin.billing.payment_info_edit.save": "Kreditkarte speichern",
