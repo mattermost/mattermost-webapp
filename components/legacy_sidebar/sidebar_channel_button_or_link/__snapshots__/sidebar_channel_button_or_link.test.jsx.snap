@@ -24,6 +24,17 @@ exports[`component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannelB
       test-channel-name
     </span>
   </span>
+  <CustomStatusEmoji
+    emojiSize={16}
+    emojiStyle={
+      Object {
+        "marginLeft": 4,
+      }
+    }
+    showTooltip={true}
+    tooltipDirection="top"
+    userID="test-teammate-id"
+  />
   <SidebarChannelButtonOrLinkCloseButton
     badge={false}
     channelId="test-channel-id"
@@ -58,6 +69,17 @@ exports[`component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannelB
       test-channel-name
     </span>
   </span>
+  <CustomStatusEmoji
+    emojiSize={16}
+    emojiStyle={
+      Object {
+        "marginLeft": 4,
+      }
+    }
+    showTooltip={true}
+    tooltipDirection="top"
+    userID="test-teammate-id"
+  />
   <span
     className="badge"
     id="unreadMentions"
@@ -98,6 +120,17 @@ exports[`component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannelB
       test-channel-name
     </span>
   </span>
+  <CustomStatusEmoji
+    emojiSize={16}
+    emojiStyle={
+      Object {
+        "marginLeft": 4,
+      }
+    }
+    showTooltip={true}
+    tooltipDirection="top"
+    userID="test-teammate-id"
+  />
   <SidebarChannelButtonOrLinkCloseButton
     channelId="test-channel-id"
     channelType="D"
@@ -131,6 +164,17 @@ exports[`component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannelB
       test-channel-name
     </span>
   </span>
+  <CustomStatusEmoji
+    emojiSize={16}
+    emojiStyle={
+      Object {
+        "marginLeft": 4,
+      }
+    }
+    showTooltip={true}
+    tooltipDirection="top"
+    userID="test-teammate-id"
+  />
   <span
     className="badge"
     id="unreadMentions"
@@ -171,6 +215,17 @@ exports[`component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannelB
       test-channel-name
     </span>
   </span>
+  <CustomStatusEmoji
+    emojiSize={16}
+    emojiStyle={
+      Object {
+        "marginLeft": 4,
+      }
+    }
+    showTooltip={true}
+    tooltipDirection="top"
+    userID="test-teammate-id"
+  />
   <SidebarChannelButtonOrLinkCloseButton
     channelId="test-channel-id"
     channelType="D"

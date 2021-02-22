@@ -53,8 +53,7 @@ describe('Multi-user group messages', () => {
         cy.contains('#channelHeaderTitle', 'Town Square');
 
         // # Open the 'Direct messages' dialog
-        cy.get('#addDirectChannel').
-            click();
+        cy.uiAddDirectMessage().click();
 
         // # Start typing part of a username that matches previously created users
         cy.get('#selectItems input').
