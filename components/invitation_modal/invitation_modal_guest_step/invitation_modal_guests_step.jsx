@@ -4,13 +4,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {isNull} from 'lodash';
 import {isEmail} from 'mattermost-redux/utils/helpers';
 import {debounce} from 'mattermost-redux/actions/helpers';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import InviteIcon from 'components/widgets/icons/invite_icon';
 import CloseCircleIcon from 'components/widgets/icons/close_circle_icon';
+import UpgradeLink from 'components/widgets/links/upgrade_link';
 
 import ChannelsInput from 'components/widgets/inputs/channels_input.jsx';
 import UsersEmailsInput from 'components/widgets/inputs/users_emails_input.jsx';
@@ -36,9 +36,6 @@ class InvitationModalGuestsStep extends React.PureComponent {
         userIsAdmin: PropTypes.bool.isRequired,
         isCloud: PropTypes.bool.isRequired,
         subscriptionStats: PropTypes.object,
-        actions: PropTypes.shape({
-            getSubscriptionStats: PropTypes.func.isRequired,
-        }).isRequired,
     }
 
     constructor(props) {
@@ -175,13 +172,6 @@ class InvitationModalGuestsStep extends React.PureComponent {
         return false;
     };
 
-    componentDidMount() {
-        const {subscriptionStats, isCloud} = this.props;
-        if (isNull(subscriptionStats) && isCloud) {
-            this.props.actions.getSubscriptionStats();
-        }
-    }
-
     render() {
         let inputPlaceholder = localizeMessage('invitation_modal.guests.search-and-add.placeholder', 'Add guests or email addresses');
         let noMatchMessageId = t('invitation_modal.guests.users_emails_input.no_user_found_matching');
@@ -230,11 +220,12 @@ class InvitationModalGuestsStep extends React.PureComponent {
                                 'invitation_modal.invite_members.hit_cloud_user_limit',
                             )}
                             errorMessageDefault={
-                                'You have reached the user limit for your tier'
+                                'You can only invite **{num} more {num, plural, one {member} other {members}}** to the team on the free tier.'
                             }
                             errorMessageValues={{
-                                text: remainingUsers < 0 ? '0' : remainingUsers,
+                                num: remainingUsers < 0 ? '0' : remainingUsers,
                             }}
+                            extraErrorText={(<UpgradeLink handleClick={(e) => this.handleLinkClick(e)}/>)}
                             onChange={this.onUsersEmailsChange}
                             value={this.state.usersAndEmails}
                             onInputChange={this.onUsersInputChange}

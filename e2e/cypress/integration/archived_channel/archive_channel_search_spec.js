@@ -1,4 +1,3 @@
-
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
@@ -57,6 +56,7 @@ describe('archive tests while preventing viewing archived channels', () => {
 
                 cy.visit(`/${testTeam.name}/channels/off-topic`);
                 cy.contains('#channelHeaderTitle', 'Off-Topic');
+                cy.postMessage(getRandomId());
 
                 // # Search for the post from step 1')
                 cy.get('#searchBox').click().clear().type(`${messageText}{enter}`);
