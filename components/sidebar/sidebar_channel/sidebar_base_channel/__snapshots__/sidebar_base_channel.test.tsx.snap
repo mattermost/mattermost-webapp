@@ -99,6 +99,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_base_channel should match sn
     <SharedChannelIndicator
       channelType="O"
       className="icon"
+      withTooltip={true}
     />
   }
   isCollapsed={false}
@@ -136,6 +137,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_base_channel should match sn
     <SharedChannelIndicator
       channelType="P"
       className="icon"
+      withTooltip={true}
     />
   }
   isCollapsed={false}
