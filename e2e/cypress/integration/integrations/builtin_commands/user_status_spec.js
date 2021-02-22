@@ -46,11 +46,11 @@ describe('Integrations', () => {
         verifyUserStatus(offline);
 
         // # Switch to off-topic channel
-        cy.findByLabelText('public channels').findByText('Off-Topic').click();
+        cy.uiGetLhsSection('CHANNELS').findByText('Off-Topic').click();
         cy.findByLabelText('channel header region').findByText('Off-Topic').should('be.visible');
 
         // # Then switch back to town-square channel again
-        cy.findByLabelText('public channels').findByText('Town Square').click();
+        cy.uiGetLhsSection('CHANNELS').findByText('Town Square').click();
         cy.findByLabelText('channel header region').findByText('Town Square').should('be.visible');
 
         // * Should not appear "New Messages" line

@@ -1075,23 +1075,26 @@
         display: flex;
     }
 
-    .SidebarChannel span.SidebarChannelLinkLabel {
-        width: 100%;
-        white-space: nowrap;
-        line-height: 18px;
-        text-align: justify;
-        height: 18px;
+    .SidebarChannel {
+        & span.SidebarChannelLinkLabel {
+            max-width: 100%;
+            white-space: nowrap;
+            line-height: 18px;
+            text-align: justify;
+            height: 18px;
+
+            &.truncated {
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
+        }
     }
 
-    .SidebarChannelLinkLabel_wrapper {
+    .SidebarChannelLinkLabel_wrapper,
+    .SidebarChannelLinkLabel_wrapper > div {
         overflow: hidden;
         display: flex;
         flex-grow: 1;
-
-        > span {
-            text-overflow: ellipsis;
-            overflow: hidden;
-        }
     }
 
     /* .SidebarChannel__absolute {

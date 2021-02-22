@@ -38,6 +38,9 @@ import * as Utils from 'utils/utils';
 
 import ChannelHeaderPlug from 'plugins/channel_header_plug';
 
+import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
+import CustomStatusText from 'components/custom_status/custom_status_text';
+
 import HeaderIconWrapper from './components/header_icon_wrapper';
 
 const headerMarkdownOptions = {singleline: true, mentionHighlight: false, atMentions: true};
@@ -81,6 +84,8 @@ class ChannelHeader extends React.PureComponent {
         currentRelativeTeamUrl: PropTypes.string.isRequired,
         isLegacySidebar: PropTypes.bool,
         announcementBarCount: PropTypes.number,
+        customStatus: PropTypes.object,
+        isCustomStatusEnabled: PropTypes.bool.isRequired,
     };
 
     constructor(props) {
@@ -204,6 +209,30 @@ class ChannelHeader extends React.PureComponent {
     }
 
     handleFormattedTextClick = (e) => Utils.handleFormattedTextClick(e, this.props.currentRelativeTeamUrl);
+
+    renderCustomStatus = () => {
+        const {customStatus} = this.props;
+        const isStatusSet = customStatus && (customStatus.text || customStatus.emoji);
+        if (!(this.props.isCustomStatusEnabled && isStatusSet)) {
+            return null;
+        }
+
+        return (
+            <>
+                <CustomStatusEmoji
+                    userID={this.props.dmUser.id}
+                    emojiSize={15}
+                    emojiStyle={{
+                        verticalAlign: 'top',
+                        margin: '0 4px 4px',
+                    }}
+                />
+                <CustomStatusText
+                    text={customStatus.text}
+                />
+            </>
+        );
+    }
 
     render() {
         const {
@@ -352,6 +381,7 @@ class ChannelHeader extends React.PureComponent {
                         id={`status_dropdown.set_${channel.status}`}
                         defaultMessage={Utils.toTitleCase(channel.status)}
                     />
+                    {this.renderCustomStatus()}
                 </span>
             );
         }
@@ -391,8 +421,10 @@ class ChannelHeader extends React.PureComponent {
                     style={{maxWidth: `${this.state.popoverOverlayWidth}px`, transform: `translate(${this.state.leftOffset}px, ${this.state.topOffset}px)`}}
                     placement='bottom'
                     className={classNames(['channel-header__popover',
-                        {'chanel-header__popover--lhs_offset': this.props.hasMoreThanOneTeam,
-                            'chanel-header__popover--new_sidebar': !isLegacySidebar}])}
+                        {
+                            'chanel-header__popover--lhs_offset': this.props.hasMoreThanOneTeam,
+                            'chanel-header__popover--new_sidebar': !isLegacySidebar,
+                        }])}
                 >
                     <span
                         onClick={this.handleFormattedTextClick}

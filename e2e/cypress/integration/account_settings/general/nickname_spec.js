@@ -146,8 +146,8 @@ describe('Account Settings > Sidebar > General', () => {
             // # Close modal
             cy.get('body').type('{esc}');
 
-            // # Click More... in the sidebar
-            cy.get('#moreDirectMessage').scrollIntoView().should('be.visible').click();
+            // # Open DM modal from the sidebar
+            cy.uiAddDirectMessage().click();
 
             // # Go to direct messages modal
             cy.get('.more-modal').should('be.visible').within(() => {

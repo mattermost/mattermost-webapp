@@ -150,8 +150,11 @@ describe('Team Permissions', () => {
         // # Go to main channel
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
-        // * Verify that the create private channel `+` button is not present
-        cy.get('#createPrivateChannel').should('not.exist');
+        // # Click on create new channel at LHS
+        cy.uiBrowseOrCreateChannel('Create New Channel').click();
+
+        // * Verify that the create private channel is not present
+        cy.findByRole('dialog', {name: 'New Channel'}).find('.radio').should('have.length', 1).and('contain', 'Public').and('not.contain', 'Private');
     });
 
     it('MM-T2900 As a Channel Admin, the test user is now able to add or remove other users from public channel', () => {
