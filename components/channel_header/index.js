@@ -19,7 +19,8 @@ import {
     isCurrentChannelReadOnly,
     getCurrentChannelStats,
 } from 'mattermost-redux/selectors/entities/channels';
-import {getTeammateNameDisplaySetting, getNewSidebarPreference} from 'mattermost-redux/selectors/entities/preferences';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentRelativeTeamUrl, getCurrentTeamId, getMyTeams} from 'mattermost-redux/selectors/entities/teams';
 import {
     getCurrentUser,
@@ -37,6 +38,7 @@ import {
     openRHSSearch,
     closeRightHandSide,
 } from 'actions/views/rhs';
+import {makeGetCustomStatus, isCustomStatusEnabled} from 'selectors/views/custom_status';
 import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
 import {isModalOpen} from 'selectors/views/modals';
 import {getAnnouncementBarCount} from 'selectors/views/announcement_bar';
@@ -46,8 +48,10 @@ import ChannelHeader from './channel_header';
 
 function makeMapStateToProps() {
     const doGetProfilesInChannel = makeGetProfilesInChannel();
+    const getCustomStatus = makeGetCustomStatus();
 
     return function mapStateToProps(state) {
+        const config = getConfig(state);
         const channel = getCurrentChannel(state) || {};
         const user = getCurrentUser(state);
         const teams = getMyTeams(state);
@@ -55,9 +59,11 @@ function makeMapStateToProps() {
 
         let dmUser;
         let gmMembers;
+        let customStatus;
         if (channel && channel.type === General.DM_CHANNEL) {
             const dmUserId = getUserIdFromChannelName(user.id, channel.name);
             dmUser = getUser(state, dmUserId);
+            customStatus = dmUser && getCustomStatus(state, dmUser.id);
         } else if (channel && channel.type === General.GM_CHANNEL) {
             gmMembers = doGetProfilesInChannel(state, channel.id, false);
         }
@@ -81,8 +87,10 @@ function makeMapStateToProps() {
             hasMoreThanOneTeam,
             teammateNameDisplaySetting: getTeammateNameDisplaySetting(state),
             currentRelativeTeamUrl: getCurrentRelativeTeamUrl(state),
-            newSideBarPreference: getNewSidebarPreference(state),
+            isLegacySidebar: config.EnableLegacySidebar === 'true',
             announcementBarCount: getAnnouncementBarCount(state),
+            customStatus,
+            isCustomStatusEnabled: isCustomStatusEnabled(state),
         };
     };
 }

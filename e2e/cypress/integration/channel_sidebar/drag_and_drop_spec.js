@@ -20,11 +20,6 @@ describe('Channel sidebar', () => {
     let channelName;
 
     before(() => {
-        cy.apiUpdateConfig({
-            ServiceSettings: {
-                ExperimentalChannelSidebarOrganization: 'default_on',
-            },
-        });
         cy.apiInitSetup({loginAfter: true});
     });
 

@@ -7,7 +7,8 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @onboarding @smoke
+// Stage: @prod
+// Group: @onboarding @smoke @not_cloud
 
 describe('Test Tutorial Navigation', () => {
     let testUser;
@@ -16,6 +17,8 @@ describe('Test Tutorial Navigation', () => {
     let config;
 
     before(() => {
+        cy.shouldNotRunOnCloudEdition();
+
         cy.apiGetConfig().then((data) => {
             ({config} = data);
         });

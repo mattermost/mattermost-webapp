@@ -17,7 +17,6 @@
         "ReadTimeout": 300,
         "WriteTimeout": 300,
         "IdleTimeout": 300,
-        "MaximumLoginAttempts": 10,
         "GoroutineHealthThreshold": -1,
         "GoogleDeveloperKey": "",
         "EnableOAuthServiceProvider": false,
@@ -74,7 +73,6 @@
         "ExperimentalEnableDefaultChannelLeaveJoinMessages": true,
         "ExperimentalGroupUnreadChannels": "disabled",
         "ExperimentalChannelOrganization": false,
-        "ExperimentalChannelSidebarOrganization": "disabled",
         "EnableAPITeamDeletion": true,
         "ExperimentalEnableHardenedMode": false,
         "DisableLegacyMFA": true,
@@ -83,7 +81,8 @@
         "DisableBotsWhenOwnerIsDeactivated": true,
         "EnableBotAccountCreation": true,
         "EnableSVGs": true,
-        "EnableLatex": false
+        "EnableLatex": false,
+        "EnableLegacySidebar": false
     },
     "TeamSettings": {
         "SiteName": "Mattermost",

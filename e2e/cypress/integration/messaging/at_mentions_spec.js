@@ -108,7 +108,7 @@ describe('at-mention', () => {
         });
     });
 
-    it('N14571 still triggers notification if username is not listed in words that trigger mentions', () => {
+    it('MM-T547 still triggers notification if username is not listed in words that trigger mentions', () => {
         // # Set Notification settings
         setNotificationSettings({first: false, username: true, shouts: true, custom: true}, otherChannel);
 
@@ -129,8 +129,6 @@ describe('at-mention', () => {
             'Town Square', {body, tag: body, requireInteraction: false, silent: false});
 
         // * Verify unread mentions badge
-        cy.get('#publicChannel').scrollIntoView();
-
         cy.get('#sidebarItem_town-square').
             scrollIntoView().
             find('#unreadMentions').
@@ -157,7 +155,7 @@ describe('at-mention', () => {
             and('have.text', `@${receiver.username}`);
     });
 
-    it('N14570 does not trigger notifications with "Your non case-sensitive username" unchecked', () => {
+    it('MM-T545 does not trigger notifications with "Your non case-sensitive username" unchecked', () => {
         // # Set Notification settings
         setNotificationSettings({first: false, username: false, shouts: true, custom: true}, otherChannel);
 
@@ -170,7 +168,6 @@ describe('at-mention', () => {
         cy.get('@notifySpy').should('be.not.called');
 
         // * Verify unread mentions badge does not exist
-        cy.get('#publicChannel').scrollIntoView();
         cy.get('#sidebarItem_town-square').
             scrollIntoView().
             find('#unreadMentions').
@@ -195,7 +192,7 @@ describe('at-mention', () => {
             should('not.exist');
     });
 
-    it('N14572 does not trigger notifications with "channel-wide mentions" unchecked', () => {
+    it('MM-T548 does not trigger notifications with "channel-wide mentions" unchecked', () => {
         // # Set Notification settings
         setNotificationSettings({first: false, username: false, shouts: false, custom: true}, otherChannel);
 
@@ -211,7 +208,6 @@ describe('at-mention', () => {
             cy.get('@notifySpy').should('be.not.called');
 
             // * Verify unread mentions badge does not exist
-            cy.get('#publicChannel').scrollIntoView();
             cy.get('#sidebarItem_town-square').
                 find('#unreadMentions').
                 should('be.not.visible');
@@ -249,8 +245,6 @@ describe('at-mention', () => {
 
         // # Check mention on town-square channel
         // * Verify unread mentions badge
-        cy.get('#publicChannel').scrollIntoView();
-
         cy.get('#sidebarItem_town-square').
             scrollIntoView().
             find('#unreadMentions').
@@ -280,8 +274,6 @@ describe('at-mention', () => {
         cy.postMessageAs({sender: admin, message: message2, channelId: offTopicChannelId});
 
         // * Verify unread mentions badge
-        cy.get('#publicChannel').scrollIntoView();
-
         cy.get('#sidebarItem_off-topic').
             scrollIntoView().
             find('#unreadMentions').

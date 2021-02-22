@@ -35,7 +35,7 @@ function mapStateToProps(state: GlobalState) {
     const team = getCurrentTeam(state) || {};
 
     return {
-        channels: getNotArchivedOtherChannels(state, null) || [],
+        channels: getNotArchivedOtherChannels(state) || [],
         archivedChannels: getArchivedOtherChannels(state) || [],
         currentUserId: getCurrentUserId(state),
         teamId: team.id,

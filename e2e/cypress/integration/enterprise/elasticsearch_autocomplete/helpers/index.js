@@ -39,9 +39,7 @@ module.exports = {
         cy.contains('button', 'Index Now').click();
 
         // Small wait to ensure new row is added
-        cy.wait(TIMEOUTS.HALF_SEC);
-
-        cy.get('.job-table__table').find('tbody > tr').eq(0).as('firstRow').find('.status-icon-warning', {timeout: TIMEOUTS.TWO_MIN}).should('be.visible');
+        cy.wait(TIMEOUTS.ONE_SEC).get('.job-table__table').find('tbody > tr').eq(0).as('firstRow');
 
         // Newest row should eventually result in Success
         cy.waitUntil(() => {
@@ -50,7 +48,7 @@ module.exports = {
             });
         }
         , {
-            timeout: TIMEOUTS.FIVE_MIN,
+            timeout: TIMEOUTS.TWO_MIN,
             interval: TIMEOUTS.TWO_SEC,
             errorMsg: 'Reindex did not succeed in time',
         });

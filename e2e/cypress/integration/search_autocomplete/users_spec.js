@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @autocomplete
 
 import {getTestUsers} from '../enterprise/elasticsearch_autocomplete/helpers';
@@ -331,7 +332,7 @@ describe('Autocomplete without Elasticsearch - Users', () => {
             const thor = testUsers.thor;
 
             // # Open of the add direct message modal
-            cy.get('#addDirectChannel').click({force: true});
+            cy.uiAddDirectMessage().click({force: true});
 
             // # Type username into input
             cy.get('.more-direct-channels').

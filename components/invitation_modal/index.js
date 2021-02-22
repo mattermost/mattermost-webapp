@@ -7,13 +7,15 @@ import {bindActionCreators} from 'redux';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getChannelsInCurrentTeam} from 'mattermost-redux/selectors/entities/channels';
 import {haveIChannelPermission, haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
-import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
+import {getConfig, getLicense, getSubscriptionStats} from 'mattermost-redux/selectors/entities/general';
 import {getProfiles, searchProfiles as reduxSearchProfiles} from 'mattermost-redux/actions/users';
 import {searchChannels as reduxSearchChannels} from 'mattermost-redux/actions/channels';
 import {getTeam} from 'mattermost-redux/actions/teams';
 import {Permissions} from 'mattermost-redux/constants';
 
-import {closeModal} from 'actions/views/modals';
+import {isEmpty} from 'lodash';
+
+import {closeModal, openModal} from 'actions/views/modals';
 import {isModalOpen} from 'selectors/views/modals';
 import {ModalIdentifiers, Constants} from 'utils/constants';
 import {sendMembersInvites, sendGuestsInvites} from 'actions/invite_actions';
@@ -36,6 +38,7 @@ export function mapStateToProps(state) {
     const license = getLicense(state);
     const channels = getChannelsInCurrentTeam(state);
     const currentTeam = getCurrentTeam(state);
+    const subscriptionStats = getSubscriptionStats(state);
     const invitableChannels = channels.filter((channel) => {
         if (channel.type === Constants.DM_CHANNEL || channel.type === Constants.GM_CHANNEL) {
             return false;
@@ -50,6 +53,8 @@ export function mapStateToProps(state) {
     const isLicensed = license && license.IsLicensed === 'true';
     const isGroupConstrained = Boolean(currentTeam.group_constrained);
     const canInviteGuests = !isGroupConstrained && isLicensed && guestAccountsEnabled && haveITeamPermission(state, {team: currentTeam.id, permission: Permissions.INVITE_GUEST});
+    const isCloud = license.Cloud === 'true';
+    const isFreeTierWithNoFreeSeats = isCloud && !isEmpty(subscriptionStats) && subscriptionStats.is_paid_tier === 'false' && subscriptionStats.remaining_seats <= 0;
 
     const canAddUsers = haveITeamPermission(state, {team: currentTeam.id, permission: Permissions.ADD_USER_TO_TEAM});
     return {
@@ -57,9 +62,10 @@ export function mapStateToProps(state) {
         currentTeam,
         canInviteGuests,
         canAddUsers,
+        isFreeTierWithNoFreeSeats,
         emailInvitationsEnabled,
         show: isModalOpen(state, ModalIdentifiers.INVITATION),
-        isCloud: license.Cloud === 'true',
+        isCloud,
     };
 }
 
@@ -72,6 +78,7 @@ function mapDispatchToProps(dispatch) {
             searchProfiles,
             searchChannels,
             getTeam,
+            openModal: (modalData) => openModal(modalData),
         }, dispatch),
     };
 }

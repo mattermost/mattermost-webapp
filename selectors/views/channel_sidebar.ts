@@ -11,11 +11,12 @@ import {
     getMyChannelMemberships,
     getUnreadChannelIds,
 } from 'mattermost-redux/selectors/entities/channels';
-import {makeGetChannelsByCategory, makeGetCategoriesForTeam} from 'mattermost-redux/selectors/entities/channel_categories';
+import {makeGetChannelsByCategory, makeGetCategoriesForTeam, makeGetChannelsForCategory} from 'mattermost-redux/selectors/entities/channel_categories';
 import {getLastPostPerChannel} from 'mattermost-redux/selectors/entities/posts';
+import {shouldShowUnreadsCategory} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {Channel} from 'mattermost-redux/types/channels';
-import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
+import {CategorySorting, ChannelCategory} from 'mattermost-redux/types/channel_categories';
 import {RelationOneToOne} from 'mattermost-redux/types/utilities';
 import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 import {createIdsSelector, memoizeResult} from 'mattermost-redux/utils/helpers';
@@ -46,6 +47,15 @@ export const getCategoriesForCurrentTeam: (state: GlobalState) => ChannelCategor
     });
 })();
 
+export const getAutoSortedCategoryIds: (state: GlobalState) => Set<string> = (() => createSelector(
+    (state: GlobalState) => getCategoriesForCurrentTeam(state),
+    (categories) => {
+        return new Set(categories.filter((category) =>
+            category.sorting === CategorySorting.Alphabetical ||
+            category.sorting === CategorySorting.Recency).map((category) => category.id));
+    },
+))();
+
 export const getChannelsByCategoryForCurrentTeam: (state: GlobalState) => RelationOneToOne<ChannelCategory, Channel[]> = (() => {
     const getChannelsByCategory = makeGetChannelsByCategory();
 
@@ -55,8 +65,15 @@ export const getChannelsByCategoryForCurrentTeam: (state: GlobalState) => Relati
     });
 })();
 
+const getUnreadChannelIdsSet = createSelector(
+    (state: GlobalState) => getUnreadChannelIds(state, state.views.channel.lastUnreadChannel),
+    (unreadChannelIds) => {
+        return new Set(unreadChannelIds);
+    },
+);
+
 // getChannelsInCategoryOrder returns an array of channels on the current team that are currently visible in the sidebar.
-// Channels are returned in the same order as in the sidebar.
+// Channels are returned in the same order as in the sidebar. Channels in the Unreads category are not included.
 export const getChannelsInCategoryOrder = (() => {
     const getCollapsedStateForAllCategories = createIdsSelector(
         getPrefix,
@@ -75,23 +92,32 @@ export const getChannelsInCategoryOrder = (() => {
         getCategoriesForCurrentTeam,
         getChannelsByCategoryForCurrentTeam,
         getCurrentChannelId,
-        (state: GlobalState) => getUnreadChannelIds(state),
-        (collapsedState, categories, channelsByCategory, currentChannelId, unreadChannelIds) => {
+        getUnreadChannelIdsSet,
+        shouldShowUnreadsCategory,
+        (collapsedState, categories, channelsByCategory, currentChannelId, unreadChannelIds, showUnreadsCategory) => {
             return categories.map((category) => {
                 const channels = channelsByCategory[category.id];
                 const isCollapsed = collapsedState[category.id];
 
-                if (isCollapsed) {
-                    const filter = (channel: Channel) => {
-                        const filterByUnread = (channelId: string) => channel.id === channelId;
-                        const isUnread = unreadChannelIds.some(filterByUnread);
+                return channels.filter((channel: Channel) => {
+                    const isUnread = unreadChannelIds.has(channel.id);
 
-                        return isUnread || currentChannelId === channel.id;
-                    };
-                    return channels.filter(filter);
-                }
+                    if (showUnreadsCategory) {
+                        // Filter out channels that have been moved to the Unreads category
+                        if (isUnread) {
+                            return false;
+                        }
+                    }
 
-                return channels;
+                    if (isCollapsed) {
+                        // Filter out channels that would be hidden by a collapsed category
+                        if (!isUnread && currentChannelId !== channel.id) {
+                            return false;
+                        }
+                    }
+
+                    return true;
+                });
             }).flat();
         },
     );
@@ -102,9 +128,10 @@ export const getChannelsInCategoryOrder = (() => {
 export const getUnreadChannels = (() => {
     const getUnsortedUnreadChannels = createSelector(
         getAllChannels,
-        (state: GlobalState) => getUnreadChannelIds(state),
+        getUnreadChannelIdsSet,
         getCurrentChannelId,
-        (allChannels, unreadChannelIds, currentChannelId) => {
+        isUnreadFilterEnabled,
+        (allChannels, unreadChannelIds, currentChannelId, unreadFilterEnabled) => {
             const unreadChannels = [];
             for (const channelId of unreadChannelIds) {
                 const channel = allChannels[channelId];
@@ -117,8 +144,14 @@ export const getUnreadChannels = (() => {
                 unreadChannels.push(channel);
             }
 
-            if (unreadChannels.findIndex((channel) => channel.id === currentChannelId) === -1) {
-                unreadChannels.push(allChannels[currentChannelId]);
+            // This selector is used for both the unread filter and the unreads category which treat the current
+            // channel differently
+            if (unreadFilterEnabled) {
+                // The current channel is already in unreadChannels if it was previously unread but we need to add it
+                // if it wasn't previously unread
+                if (currentChannelId && unreadChannels.findIndex((channel) => channel.id === currentChannelId) === -1) {
+                    unreadChannels.push(allChannels[currentChannelId]);
+                }
             }
 
             return unreadChannels;
@@ -181,8 +214,48 @@ function maxDefined(a: number, b?: number) {
     return typeof b === 'undefined' ? a : Math.max(a, b);
 }
 
-export function getDisplayedChannels(state: GlobalState) {
-    return isUnreadFilterEnabled(state) ? getUnreadChannels(state) : getChannelsInCategoryOrder(state);
+// Returns an array of channels in the order that they currently appear in the sidebar. Channels are filtered out if they
+// are hidden such as by a collapsed category or the unread filter.
+export const getDisplayedChannels = (() => {
+    const memoizedConcat = memoizeResult((unreadChannels: Channel[], channelsInCategoryOrder: Channel[]) => {
+        return [...unreadChannels, ...channelsInCategoryOrder];
+    }) as (a: Channel[], b: Channel[]) => Channel[];
+
+    return (state: GlobalState) => {
+        // If the unread filter is enabled, only unread channels are shown
+        if (isUnreadFilterEnabled(state)) {
+            return getUnreadChannels(state);
+        }
+
+        // Otherwise, if the Unreads category is enabled, unread channels are shown first followed by non-unread channels in category order
+        if (shouldShowUnreadsCategory(state)) {
+            return memoizedConcat(getUnreadChannels(state), getChannelsInCategoryOrder(state));
+        }
+
+        // Otherwise, channels are shown in category order
+        return getChannelsInCategoryOrder(state);
+    };
+})();
+
+// Returns a selector that, given a category, returns the channels visible in that category. The returned channels do not
+// include unread channels when the Unreads category is enabled.
+export function makeGetFilteredChannelsForCategory() {
+    const getChannelsForCategory = makeGetChannelsForCategory();
+
+    return createSelector(
+        getChannelsForCategory,
+        getUnreadChannelIdsSet,
+        shouldShowUnreadsCategory,
+        (channels, unreadChannelIdsSet, showUnreadsCategory) => {
+            if (!showUnreadsCategory) {
+                return channels;
+            }
+
+            const filtered = channels.filter((channel) => !unreadChannelIdsSet.has(channel.id));
+
+            return filtered.length === channels.length ? channels : filtered;
+        },
+    );
 }
 
 export function getDraggingState(state: GlobalState) {

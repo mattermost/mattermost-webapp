@@ -50,7 +50,6 @@ describe('SupportSettings', () => {
 
         // # Click Main Menu
         cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.wait(TIMEOUTS.TWO_SEC);
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
 
         // * Verify that report link is changed
@@ -105,7 +104,6 @@ describe('SupportSettings', () => {
 
         // # Open about modal
         cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.wait(TIMEOUTS.TWO_SEC);
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
         cy.get('#about').click();
 
@@ -140,7 +138,6 @@ describe('SupportSettings', () => {
 
         // # Open about modal
         cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.wait(TIMEOUTS.TWO_SEC);
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
         cy.get('#about').click();
 
@@ -156,7 +153,6 @@ describe('SupportSettings', () => {
 
         // # Open about modal
         cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.wait(TIMEOUTS.TWO_SEC);
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
         cy.get('#about').click();
 
@@ -192,7 +188,6 @@ describe('SupportSettings', () => {
 
         // # Click Main Menu
         cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.wait(TIMEOUTS.TWO_SEC);
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
 
         // * Verify that report link does not exist
@@ -237,7 +232,6 @@ describe('SupportSettings', () => {
 
         // # Click Main Menu
         cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.wait(TIMEOUTS.TWO_SEC);
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
 
         // * Verify that app link is changed
@@ -257,7 +251,6 @@ describe('SupportSettings', () => {
 
         // # Click Main Menu
         cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.wait(TIMEOUTS.TWO_SEC);
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
 
         // * Verify that app link does not exist
@@ -287,26 +280,27 @@ describe('SupportSettings', () => {
 
         // # Click Main Menu
         cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.wait(TIMEOUTS.TWO_SEC);
 
-        // * Verify that hover shows "Help" text
-        cy.get('#channelHeaderUserGuideButton').trigger('mouseover', {force: true});
-        cy.get('#channelHeaderUserGuideButton').should('have.attr', 'aria-describedby').and('equal', 'userGuideHelpTooltip');
-        cy.get('#channelHeaderUserGuideButton').trigger('mouseout', {force: true});
-        cy.get('#channelHeaderUserGuideButton').should('not.have.attr', 'aria-describedby');
+        cy.get('#channel-header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').within(() => {
+            // * Verify that hover shows "Help" text
+            cy.get('#channelHeaderUserGuideButton').trigger('mouseover', {force: true});
+            cy.get('#channelHeaderUserGuideButton').should('have.attr', 'aria-describedby').and('equal', 'userGuideHelpTooltip');
+            cy.get('#channelHeaderUserGuideButton').trigger('mouseout', {force: true});
+            cy.get('#channelHeaderUserGuideButton').should('not.have.attr', 'aria-describedby');
 
-        // # Click on the help icon
-        cy.get('#channelHeaderUserGuideButton').click();
+            // # Click on the help icon
+            cy.get('#channelHeaderUserGuideButton').click();
 
-        // * Verify 4 options shown
-        cy.get('#askTheCommunityLink').should('be.visible');
-        cy.get('#helpResourcesLink').should('be.visible');
-        cy.get('#reportAProblemLink').should('be.visible');
-        cy.get('#keyboardShortcuts').should('be.visible');
+            // * Verify 4 options shown
+            cy.get('#askTheCommunityLink').should('be.visible');
+            cy.get('#helpResourcesLink').should('be.visible');
+            cy.get('#reportAProblemLink').should('be.visible');
+            cy.get('#keyboardShortcuts').should('be.visible');
 
-        // * Verify ask the default ask the community link
-        cy.get('#askTheCommunityLink').within(() => {
-            cy.get('a').should('have.attr', 'href').and('equal', 'https://mattermost.com/pl/default-ask-mattermost-community/');
+            // * Verify ask the default ask the community link
+            cy.get('#askTheCommunityLink').within(() => {
+                cy.get('a').should('have.attr', 'href').and('equal', 'https://mattermost.com/pl/default-ask-mattermost-community/');
+            });
         });
     });
 
@@ -323,29 +317,30 @@ describe('SupportSettings', () => {
 
         // # Go to town-square
         cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.wait(TIMEOUTS.TWO_SEC);
 
-        // # Click on the help icon
-        cy.get('#channelHeaderUserGuideButton').click();
+        cy.get('#channel-header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').within(() => {
+            // # Click on the help icon
+            cy.get('#channelHeaderUserGuideButton').click();
 
-        // * Verify only 3 options shown
-        cy.get('#askTheCommunityLink').should('not.exist');
-        cy.get('#helpResourcesLink').should('be.visible');
-        cy.get('#reportAProblemLink').should('be.visible');
-        cy.get('#keyboardShortcuts').should('be.visible');
+            // * Verify only 3 options shown
+            cy.get('#askTheCommunityLink').should('not.exist');
+            cy.get('#helpResourcesLink').should('be.visible');
+            cy.get('#reportAProblemLink').should('be.visible');
+            cy.get('#keyboardShortcuts').should('be.visible');
 
-        // * Verify help link has changed
-        cy.get('#helpResourcesLink').within(() => {
-            cy.get('a').should('have.attr', 'href').and('equal', helpLink);
+            // * Verify help link has changed
+            cy.get('#helpResourcesLink').within(() => {
+                cy.get('a').should('have.attr', 'href').and('equal', helpLink);
+            });
+
+            // * Verify report a problem link has changed
+            cy.get('#reportAProblemLink').within(() => {
+                cy.get('a').should('have.attr', 'href').and('equal', problemLink);
+            });
+
+            // # Click on keyboard shortcuts
+            cy.get('#keyboardShortcuts').click();
         });
-
-        // * Verify report a problem link has changed
-        cy.get('#reportAProblemLink').within(() => {
-            cy.get('a').should('have.attr', 'href').and('equal', problemLink);
-        });
-
-        // # Click on keyboard shortcuts
-        cy.get('#keyboardShortcuts').click();
 
         // * Verify link opens keyboard shortcuts modal
         cy.get('#shortcutsModalLabel').should('be.visible');

@@ -12,10 +12,6 @@
         height: calc(100% - #{$announcement-bar-height});
     }
 
-    body.announcement-banner-tall--fixed & {
-        height: calc(100% - 40px);
-    }
-
     .fa {
         @include single-transition(all, 0.15s, ease);
         @include opacity(0.6);
@@ -35,101 +31,54 @@
 
     .team-wrapper {
         -webkit-overflow-scrolling: touch;
-        background-color: alpha-color($black, 0.2);
+        background-color: var(--sidebar-teambar-bg);
         overflow: hidden;
         height: 100%;
         flex: 1 1 auto;
         position: relative;
 
+        .draggable-team-container {
+            margin-bottom: 12px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+        }
+
         .team-container {
             display: flex;
             justify-content: center;
-            margin-bottom: 16px;
-            position: relative;
+            align-items: center;
             text-align: center;
-            width: 100%;
-
-            &:before {
-                @include border-radius(4px);
-                content: "";
-                transform-origin: center center;
-                position: absolute;
-                top: 0;
-                left: 0;
-                transition: all 0.1s;
-                width: 8px;
-                height: 32px;
-            }
-
-            &:not(.unread) {
-                &:before {
-                    transform: translateX(-100%) translateY(22%) scaleY(0);
-                }
-            }
-
-            &.isDragging {
-                transition-timing-function: ease-in;
-                &:before,
-                &:hover::before,
-                &.unread:before,
-                &.active:before {
-                    transform: translateX(-100%) translateY(22%) scaleY(0);
-                }
-            }
-
-            &:hover::before {
-                transform: translateX(-50%) translateY(22%) scaleY(1);
-            }
-
-            &.special {
-                &:before {
-                    display: none;
-                }
-            }
-
-            &.active {
-                &:before {
-                    transform: translateX(-50%) translateY(22%) scaleY(1.25);
-                }
-
-                &:hover::before {
-                    transform: translateX(-50%) translateY(22%) scaleY(1);
-                }
-            }
 
             &.unread {
-                &:before {
+                .unread-badge {
+                    position: absolute;
+                    top: -2px;
+                    right: -3px;
                     border-radius: 100%;
-                    transform: translateX(0px) translateY(22%) scaleX(0.8)
-                        scaleY(0.2);
-                }
-
-                &:hover::before {
-                    border-radius: 8px;
-                    transform: translateX(-50%) translateY(22%) scaleY(1);
+                    width: 8px;
+                    height: 8px;
+                    box-shadow: 0 0 0 3px var(--sidebar-teambar-bg);
+                    background: white;
+                    z-index: 1;
                 }
             }
 
             a {
                 display: block;
-                height: 100%;
                 text-decoration: none;
+                transition: transform 0.1s;
+                transform: translate(0, 0);
+                transform-origin: center center;
+
+                &:active {
+                    transform: translate(0, 2px);
+                }
             }
 
             &.active {
                 .TeamIcon__content {
                     @include opacity(1);
-                }
-            }
-
-            .TeamIcon__content {
-                @include opacity(0.5);
-                &:hover {
-                    @include opacity(0.8);
-
-                    &.no-hover {
-                        @include opacity(0.5);
-                    }
                 }
             }
 
@@ -168,6 +117,18 @@
                 font-weight: 500;
                 font-size: 12px;
             }
+
+            &.isDragging {
+                cursor: grab;
+
+                .TeamIcon {
+                    background-color: rgba(255, 255, 255, 0.32);
+
+                    .TeamIcon__image {
+                        box-shadow: inset 0 0 0 3px var(--sidebar-teambar-bg);
+                    }
+                }
+            }
         }
 
         .scrollbar--view {
@@ -187,16 +148,5 @@
 
     .app__content {
         margin-left: 285px;
-    }
-    .team-sidebar {
-        .team-wrapper {
-            .team-container {
-                &::before,
-                &.active::before,
-                &.unread::before {
-                    background: var(--sidebar-text-active-border);
-                }
-            }
-        }
     }
 }

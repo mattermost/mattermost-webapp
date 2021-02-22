@@ -14,13 +14,10 @@ import Pluggable from 'plugins/pluggable';
 import Constants, {ModalIdentifiers} from 'utils/constants';
 import * as Utils from 'utils/utils';
 
-import AddChannelDropdown from './add_channel_dropdown';
 import ChannelNavigator from './channel_navigator';
-import ChannelFilter from './channel_filter';
 import SidebarChannelList from './sidebar_channel_list';
 import SidebarHeader from './sidebar_header';
 import SidebarNextSteps from './sidebar_next_steps';
-import SidebarWhatsNewModal from './sidebar_whats_new_modal';
 
 type Props = {
     teamId: string;
@@ -58,13 +55,6 @@ export default class Sidebar extends React.PureComponent<Props, State> {
     componentDidMount() {
         if (this.props.teamId) {
             this.props.actions.fetchMyCategories(this.props.teamId);
-        }
-
-        if (!this.props.hasSeenModal && !this.props.isCloud) {
-            this.props.actions.openModal({
-                modalId: ModalIdentifiers.SIDEBAR_WHATS_NEW_MODAL,
-                dialogType: SidebarWhatsNewModal,
-            });
         }
 
         window.addEventListener('click', this.handleClickClearChannelSelection);
@@ -174,6 +164,8 @@ export default class Sidebar extends React.PureComponent<Props, State> {
             return (<div/>);
         }
 
+        const ariaLabel = Utils.localizeMessage('accessibility.sections.lhsNavigator', 'channel navigator region');
+
         return (
             <div
                 id='SidebarContainer'
@@ -184,22 +176,21 @@ export default class Sidebar extends React.PureComponent<Props, State> {
             >
                 <SidebarHeader/>
                 <div
+                    id='lhsNavigator'
+                    role='application'
+                    aria-label={ariaLabel}
                     className='a11y__region'
                     data-a11y-sort-order='6'
                 >
-                    <ChannelNavigator/>
-                    <div className='SidebarContainer_filterAddChannel'>
-                        <ChannelFilter/>
-                        <AddChannelDropdown
-                            showNewChannelModal={this.showNewChannelModal}
-                            showMoreChannelsModal={this.showMoreChannelsModal}
-                            showCreateCategoryModal={this.showCreateCategoryModal}
-                            canCreateChannel={this.props.canCreatePrivateChannel || this.props.canCreatePublicChannel}
-                            canJoinPublicChannel={this.props.canJoinPublicChannel}
-                            handleOpenDirectMessagesModal={this.handleOpenMoreDirectChannelsModal}
-                            unreadFilterEnabled={this.props.unreadFilterEnabled}
-                        />
-                    </div>
+                    <ChannelNavigator
+                        showNewChannelModal={this.showNewChannelModal}
+                        showMoreChannelsModal={this.showMoreChannelsModal}
+                        showCreateCategoryModal={this.showCreateCategoryModal}
+                        canCreateChannel={this.props.canCreatePrivateChannel || this.props.canCreatePublicChannel}
+                        canJoinPublicChannel={this.props.canJoinPublicChannel}
+                        handleOpenDirectMessagesModal={this.handleOpenMoreDirectChannelsModal}
+                        unreadFilterEnabled={this.props.unreadFilterEnabled}
+                    />
                 </div>
                 <Pluggable pluggableName='LeftSidebarHeader'/>
                 <SidebarChannelList

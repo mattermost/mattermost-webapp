@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @notifications
 
 describe('Notifications', () => {
@@ -41,7 +42,8 @@ describe('Notifications', () => {
             // # Remove mention notification (for initial channel).
             cy.apiLogin(user1);
             cy.visit(testTeam1TownSquareUrl);
-            cy.get('#publicChannelList').get('.unread-title').click();
+            cy.findByText('CHANNELS').get('.unread-title').click();
+            cy.findByText('CHANNELS').get('.unread-title').should('not.be.visible');
             cy.apiLogout();
         });
     });

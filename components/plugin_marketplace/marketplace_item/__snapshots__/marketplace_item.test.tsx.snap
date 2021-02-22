@@ -1,0 +1,1174 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/MarketplaceItem MarketplaceItem should render 1`] = `
+<Fragment>
+  <div
+    className="more-modal__row more-modal__row--link"
+    id="marketplace-plugin-id"
+    key="id"
+  >
+    <div
+      className="icon__plugin icon__plugin--background"
+    >
+      <img
+        src="icon"
+      />
+    </div>
+    <div
+      className="more-modal__details"
+    >
+      <a
+        aria-label="name"
+        className="style--none more-modal__row--link"
+        href="http://example.com"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        name
+        <span
+          className="light subtitle"
+        >
+          (1.0.0)
+        </span>
+      </a>
+      <a
+        aria-label="Plugin's website"
+        className="style--none more-modal__row--link"
+        href="http://example.com"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <p
+          className="more-modal__description"
+        >
+          test plugin
+        </p>
+      </a>
+      <UpdateDetails
+        installedVersion=""
+        isInstalling={false}
+        onUpdate={[Function]}
+        version="1.0.0"
+      />
+    </div>
+    <div
+      className="more-modal__actions"
+    >
+      <button
+        className="btn btn-primary"
+        disabled={false}
+        onClick={[Function]}
+      >
+        <LoadingWrapper
+          loading={false}
+          text="Installing..."
+        >
+          <FormattedMessage
+            defaultMessage="Install"
+            id="marketplace_modal.list.Install"
+          />
+        </LoadingWrapper>
+      </button>
+    </div>
+    <UpdateConfirmationModal
+      installedVersion=""
+      name="name"
+      onCancel={[Function]}
+      onUpdate={[Function]}
+      show={false}
+      version="1.0.0"
+    />
+  </div>
+</Fragment>
+`;
+
+exports[`components/MarketplaceItem MarketplaceItem should render installed plugin 1`] = `
+<Fragment>
+  <div
+    className="more-modal__row more-modal__row--link"
+    id="marketplace-plugin-id"
+    key="id"
+  >
+    <div
+      className="icon__plugin icon__plugin--background"
+    >
+      <img
+        src="icon"
+      />
+    </div>
+    <div
+      className="more-modal__details"
+    >
+      <a
+        aria-label="name"
+        className="style--none more-modal__row--link"
+        href="http://example.com"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        name
+        <span
+          className="light subtitle"
+        >
+          (1.0.0)
+        </span>
+      </a>
+      <a
+        aria-label="Plugin's website"
+        className="style--none more-modal__row--link"
+        href="http://example.com"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <p
+          className="more-modal__description"
+        >
+          test plugin
+        </p>
+      </a>
+      <UpdateDetails
+        installedVersion="1.0.0"
+        isInstalling={false}
+        onUpdate={[Function]}
+        version="1.0.0"
+      />
+    </div>
+    <div
+      className="more-modal__actions"
+    >
+      <Link
+        to="/admin_console/plugins/plugin_id"
+      >
+        <button
+          className="btn btn-outline"
+          onClick={[Function]}
+        >
+          <FormattedMessage
+            defaultMessage="Configure"
+            id="marketplace_modal.list.configure"
+          />
+        </button>
+      </Link>
+    </div>
+    <UpdateConfirmationModal
+      installedVersion="1.0.0"
+      name="name"
+      onCancel={[Function]}
+      onUpdate={[Function]}
+      show={false}
+      version="1.0.0"
+    />
+  </div>
+</Fragment>
+`;
+
+exports[`components/MarketplaceItem MarketplaceItem should render with empty list of labels 1`] = `
+<Fragment>
+  <div
+    className="more-modal__row more-modal__row--link"
+    id="marketplace-plugin-id"
+    key="id"
+  >
+    <div
+      className="icon__plugin icon__plugin--background"
+    >
+      <img
+        src="icon"
+      />
+    </div>
+    <div
+      className="more-modal__details"
+    >
+      <a
+        aria-label="name"
+        className="style--none more-modal__row--link"
+        href="http://example.com"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        name
+        <span
+          className="light subtitle"
+        >
+          (1.0.0)
+        </span>
+      </a>
+      <a
+        aria-label="Plugin's website"
+        className="style--none more-modal__row--link"
+        href="http://example.com"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <p
+          className="more-modal__description"
+        >
+          test plugin
+        </p>
+      </a>
+      <UpdateDetails
+        installedVersion=""
+        isInstalling={false}
+        onUpdate={[Function]}
+        version="1.0.0"
+      />
+    </div>
+    <div
+      className="more-modal__actions"
+    >
+      <button
+        className="btn btn-primary"
+        disabled={false}
+        onClick={[Function]}
+      >
+        <LoadingWrapper
+          loading={false}
+          text="Installing..."
+        >
+          <FormattedMessage
+            defaultMessage="Install"
+            id="marketplace_modal.list.Install"
+          />
+        </LoadingWrapper>
+      </button>
+    </div>
+    <UpdateConfirmationModal
+      installedVersion=""
+      name="name"
+      onCancel={[Function]}
+      onUpdate={[Function]}
+      show={false}
+      version="1.0.0"
+    />
+  </div>
+</Fragment>
+`;
+
+exports[`components/MarketplaceItem MarketplaceItem should render with no plugin description 1`] = `
+<Fragment>
+  <div
+    className="more-modal__row more-modal__row--link"
+    id="marketplace-plugin-id"
+    key="id"
+  >
+    <div
+      className="icon__plugin icon__plugin--background"
+    >
+      <img
+        src="icon"
+      />
+    </div>
+    <div
+      className="more-modal__details"
+    >
+      <a
+        aria-label="name"
+        className="style--none more-modal__row--link"
+        href="http://example.com"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        name
+        <span
+          className="light subtitle"
+        >
+          (1.0.0)
+        </span>
+      </a>
+      <a
+        aria-label="Plugin's website"
+        className="style--none more-modal__row--link"
+        href="http://example.com"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <p
+          className="more-modal__description"
+        />
+      </a>
+      <UpdateDetails
+        installedVersion=""
+        isInstalling={false}
+        onUpdate={[Function]}
+        version="1.0.0"
+      />
+    </div>
+    <div
+      className="more-modal__actions"
+    >
+      <button
+        className="btn btn-primary"
+        disabled={false}
+        onClick={[Function]}
+      >
+        <LoadingWrapper
+          loading={false}
+          text="Installing..."
+        >
+          <FormattedMessage
+            defaultMessage="Install"
+            id="marketplace_modal.list.Install"
+          />
+        </LoadingWrapper>
+      </button>
+    </div>
+    <UpdateConfirmationModal
+      installedVersion=""
+      name="name"
+      onCancel={[Function]}
+      onUpdate={[Function]}
+      show={false}
+      version="1.0.0"
+    />
+  </div>
+</Fragment>
+`;
+
+exports[`components/MarketplaceItem MarketplaceItem should render with no plugin icon 1`] = `
+<Fragment>
+  <div
+    className="more-modal__row more-modal__row--link"
+    id="marketplace-plugin-id"
+    key="id"
+  >
+    <PluginIcon
+      className="icon__plugin icon__plugin--background"
+    />
+    <div
+      className="more-modal__details"
+    >
+      <a
+        aria-label="name"
+        className="style--none more-modal__row--link"
+        href="http://example.com"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        name
+        <span
+          className="light subtitle"
+        >
+          (1.0.0)
+        </span>
+      </a>
+      <a
+        aria-label="Plugin's website"
+        className="style--none more-modal__row--link"
+        href="http://example.com"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <p
+          className="more-modal__description"
+        >
+          test plugin
+        </p>
+      </a>
+      <UpdateDetails
+        installedVersion=""
+        isInstalling={false}
+        onUpdate={[Function]}
+        version="1.0.0"
+      />
+    </div>
+    <div
+      className="more-modal__actions"
+    >
+      <button
+        className="btn btn-primary"
+        disabled={false}
+        onClick={[Function]}
+      >
+        <LoadingWrapper
+          loading={false}
+          text="Installing..."
+        >
+          <FormattedMessage
+            defaultMessage="Install"
+            id="marketplace_modal.list.Install"
+          />
+        </LoadingWrapper>
+      </button>
+    </div>
+    <UpdateConfirmationModal
+      installedVersion=""
+      name="name"
+      onCancel={[Function]}
+      onUpdate={[Function]}
+      show={false}
+      version="1.0.0"
+    />
+  </div>
+</Fragment>
+`;
+
+exports[`components/MarketplaceItem MarketplaceItem should render with one labels 1`] = `
+<Fragment>
+  <div
+    className="more-modal__row more-modal__row--link"
+    id="marketplace-plugin-id"
+    key="id"
+  >
+    <div
+      className="icon__plugin icon__plugin--background"
+    >
+      <img
+        src="icon"
+      />
+    </div>
+    <div
+      className="more-modal__details"
+    >
+      <a
+        aria-label="name"
+        className="style--none more-modal__row--link"
+        href="http://example.com"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        name
+        <span
+          className="light subtitle"
+        >
+          (1.0.0)
+        </span>
+      </a>
+      <Label
+        description="some description"
+        key="someName"
+        name="someName"
+        url="http://example.com/info"
+      />
+      <a
+        aria-label="Plugin's website"
+        className="style--none more-modal__row--link"
+        href="http://example.com"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <p
+          className="more-modal__description"
+        >
+          test plugin
+        </p>
+      </a>
+      <UpdateDetails
+        installedVersion=""
+        isInstalling={false}
+        onUpdate={[Function]}
+        version="1.0.0"
+      />
+    </div>
+    <div
+      className="more-modal__actions"
+    >
+      <button
+        className="btn btn-primary"
+        disabled={false}
+        onClick={[Function]}
+      >
+        <LoadingWrapper
+          loading={false}
+          text="Installing..."
+        >
+          <FormattedMessage
+            defaultMessage="Install"
+            id="marketplace_modal.list.Install"
+          />
+        </LoadingWrapper>
+      </button>
+    </div>
+    <UpdateConfirmationModal
+      installedVersion=""
+      name="name"
+      onCancel={[Function]}
+      onUpdate={[Function]}
+      show={false}
+      version="1.0.0"
+    />
+  </div>
+</Fragment>
+`;
+
+exports[`components/MarketplaceItem MarketplaceItem should render with server error 1`] = `
+<Fragment>
+  <div
+    className="more-modal__row more-modal__row--link item_error"
+    id="marketplace-plugin-id"
+    key="id"
+  >
+    <div
+      className="icon__plugin icon__plugin--background"
+    >
+      <img
+        src="icon"
+      />
+    </div>
+    <div
+      className="more-modal__details"
+    >
+      <a
+        aria-label="name"
+        className="style--none more-modal__row--link"
+        href="http://example.com"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        name
+        <span
+          className="light subtitle"
+        >
+          (1.0.0)
+        </span>
+      </a>
+      <a
+        aria-label="Plugin's website"
+        className="style--none more-modal__row--link"
+        href="http://example.com"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <p
+          className="more-modal__description error_text"
+        >
+          An error occurred.
+        </p>
+      </a>
+      <UpdateDetails
+        installedVersion=""
+        isInstalling={false}
+        onUpdate={[Function]}
+        version="1.0.0"
+      />
+    </div>
+    <div
+      className="more-modal__actions"
+    >
+      <button
+        className="btn btn-primary"
+        disabled={false}
+        onClick={[Function]}
+      >
+        <LoadingWrapper
+          loading={false}
+          text="Installing..."
+        >
+          <FormattedMessage
+            defaultMessage="Try Again"
+            id="marketplace_modal.list.try_again"
+          />
+        </LoadingWrapper>
+      </button>
+    </div>
+    <UpdateConfirmationModal
+      installedVersion=""
+      name="name"
+      onCancel={[Function]}
+      onUpdate={[Function]}
+      show={false}
+      version="1.0.0"
+    />
+  </div>
+</Fragment>
+`;
+
+exports[`components/MarketplaceItem MarketplaceItem should render with two labels 1`] = `
+<Fragment>
+  <div
+    className="more-modal__row more-modal__row--link"
+    id="marketplace-plugin-id"
+    key="id"
+  >
+    <div
+      className="icon__plugin icon__plugin--background"
+    >
+      <img
+        src="icon"
+      />
+    </div>
+    <div
+      className="more-modal__details"
+    >
+      <a
+        aria-label="name"
+        className="style--none more-modal__row--link"
+        href="http://example.com"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        name
+        <span
+          className="light subtitle"
+        >
+          (1.0.0)
+        </span>
+      </a>
+      <Label
+        description="some description"
+        key="someName"
+        name="someName"
+        url="http://example.com/info"
+      />
+      <Label
+        description="some description2"
+        key="someName2"
+        name="someName2"
+        url="http://example.com/info2"
+      />
+      <a
+        aria-label="Plugin's website"
+        className="style--none more-modal__row--link"
+        href="http://example.com"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <p
+          className="more-modal__description"
+        >
+          test plugin
+        </p>
+      </a>
+      <UpdateDetails
+        installedVersion=""
+        isInstalling={false}
+        onUpdate={[Function]}
+        version="1.0.0"
+      />
+    </div>
+    <div
+      className="more-modal__actions"
+    >
+      <button
+        className="btn btn-primary"
+        disabled={false}
+        onClick={[Function]}
+      >
+        <LoadingWrapper
+          loading={false}
+          text="Installing..."
+        >
+          <FormattedMessage
+            defaultMessage="Install"
+            id="marketplace_modal.list.Install"
+          />
+        </LoadingWrapper>
+      </button>
+    </div>
+    <UpdateConfirmationModal
+      installedVersion=""
+      name="name"
+      onCancel={[Function]}
+      onUpdate={[Function]}
+      show={false}
+      version="1.0.0"
+    />
+  </div>
+</Fragment>
+`;
+
+exports[`components/MarketplaceItem MarketplaceItem should render with update and release notes available 1`] = `
+<Fragment>
+  <div
+    className="more-modal__row more-modal__row--link"
+    id="marketplace-plugin-id"
+    key="id"
+  >
+    <div
+      className="icon__plugin icon__plugin--background"
+    >
+      <img
+        src="icon"
+      />
+    </div>
+    <div
+      className="more-modal__details"
+    >
+      <a
+        aria-label="name"
+        className="style--none more-modal__row--link"
+        href="http://example.com"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        name
+        <span
+          className="light subtitle"
+        >
+          (0.9.9)
+        </span>
+      </a>
+      <a
+        aria-label="Plugin's website"
+        className="style--none more-modal__row--link"
+        href="http://example.com"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <p
+          className="more-modal__description"
+        >
+          test plugin
+        </p>
+      </a>
+      <UpdateDetails
+        installedVersion="0.9.9"
+        isInstalling={false}
+        onUpdate={[Function]}
+        releaseNotesUrl="http://example.com/release"
+        version="1.0.0"
+      />
+    </div>
+    <div
+      className="more-modal__actions"
+    >
+      <Link
+        to="/admin_console/plugins/plugin_id"
+      >
+        <button
+          className="btn btn-outline"
+          onClick={[Function]}
+        >
+          <FormattedMessage
+            defaultMessage="Configure"
+            id="marketplace_modal.list.configure"
+          />
+        </button>
+      </Link>
+    </div>
+    <UpdateConfirmationModal
+      installedVersion="0.9.9"
+      name="name"
+      onCancel={[Function]}
+      onUpdate={[Function]}
+      releaseNotesUrl="http://example.com/release"
+      show={false}
+      version="1.0.0"
+    />
+  </div>
+</Fragment>
+`;
+
+exports[`components/MarketplaceItem MarketplaceItem should render with update available 1`] = `
+<Fragment>
+  <div
+    className="more-modal__row more-modal__row--link"
+    id="marketplace-plugin-id"
+    key="id"
+  >
+    <div
+      className="icon__plugin icon__plugin--background"
+    >
+      <img
+        src="icon"
+      />
+    </div>
+    <div
+      className="more-modal__details"
+    >
+      <a
+        aria-label="name"
+        className="style--none more-modal__row--link"
+        href="http://example.com"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        name
+        <span
+          className="light subtitle"
+        >
+          (0.9.9)
+        </span>
+      </a>
+      <a
+        aria-label="Plugin's website"
+        className="style--none more-modal__row--link"
+        href="http://example.com"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <p
+          className="more-modal__description"
+        >
+          test plugin
+        </p>
+      </a>
+      <UpdateDetails
+        installedVersion="0.9.9"
+        isInstalling={false}
+        onUpdate={[Function]}
+        version="1.0.0"
+      />
+    </div>
+    <div
+      className="more-modal__actions"
+    >
+      <Link
+        to="/admin_console/plugins/plugin_id"
+      >
+        <button
+          className="btn btn-outline"
+          onClick={[Function]}
+        >
+          <FormattedMessage
+            defaultMessage="Configure"
+            id="marketplace_modal.list.configure"
+          />
+        </button>
+      </Link>
+    </div>
+    <UpdateConfirmationModal
+      installedVersion="0.9.9"
+      name="name"
+      onCancel={[Function]}
+      onUpdate={[Function]}
+      show={false}
+      version="1.0.0"
+    />
+  </div>
+</Fragment>
+`;
+
+exports[`components/MarketplaceItem MarketplaceItem should render wtih no homepage url 1`] = `
+<Fragment>
+  <div
+    className="more-modal__row more-modal__row--link"
+    id="marketplace-plugin-id"
+    key="id"
+  >
+    <div
+      className="icon__plugin icon__plugin--background"
+    >
+      <img
+        src="icon"
+      />
+    </div>
+    <div
+      className="more-modal__details"
+    >
+      <span
+        aria-label="name"
+        className="style--none"
+      >
+        name
+        <span
+          className="light subtitle"
+        >
+          (1.0.0)
+        </span>
+      </span>
+      <span
+        aria-label="Plugin\\\\'s website"
+        className="style--none"
+      >
+        <p
+          className="more-modal__description"
+        >
+          test plugin
+        </p>
+      </span>
+      <UpdateDetails
+        installedVersion=""
+        isInstalling={false}
+        onUpdate={[Function]}
+        version="1.0.0"
+      />
+    </div>
+    <div
+      className="more-modal__actions"
+    >
+      <button
+        className="btn btn-primary"
+        disabled={false}
+        onClick={[Function]}
+      >
+        <LoadingWrapper
+          loading={false}
+          text="Installing..."
+        >
+          <FormattedMessage
+            defaultMessage="Install"
+            id="marketplace_modal.list.Install"
+          />
+        </LoadingWrapper>
+      </button>
+    </div>
+    <UpdateConfirmationModal
+      installedVersion=""
+      name="name"
+      onCancel={[Function]}
+      onUpdate={[Function]}
+      show={false}
+      version="1.0.0"
+    />
+  </div>
+</Fragment>
+`;
+
+exports[`components/MarketplaceItem UpdateConfirmationModal should add extra warning for major version change 1`] = `
+<ConfirmModal
+  confirmButtonClass="btn btn-primary"
+  confirmButtonText={
+    <FormattedMessage
+      defaultMessage="Update"
+      id="marketplace_modal.list.update_confirmation.confirm_button"
+    />
+  }
+  message={
+    Array [
+      <p>
+        <FormattedMessage
+          defaultMessage="Are you sure you want to update the pluginName plugin to 1.0.0?"
+          id="marketplace_modal.list.update_confirmation.message.intro"
+          values={
+            Object {
+              "name": "pluginName",
+              "version": "1.0.0",
+            }
+          }
+        />
+      </p>,
+      <p>
+        <injectIntl(FormattedMarkdownMessage)
+          defaultMessage="You currently have {installedVersion} installed. View the [release notes](!{releaseNotesUrl}) to learn about the changes included in this update."
+          id="marketplace_modal.list.update_confirmation.message.current_with_release_notes"
+          values={
+            Object {
+              "installedVersion": "0.0.1",
+              "releaseNotesUrl": "http://example.com/release",
+            }
+          }
+        />
+      </p>,
+      <p
+        className="alert alert-warning"
+      >
+        <injectIntl(FormattedMarkdownMessage)
+          defaultMessage="This update may contain breaking changes. Consult the [release notes](!{releaseNotesUrl}) before upgrading."
+          id="marketplace_modal.list.update_confirmation.message.warning_major_version_with_release_notes"
+          values={
+            Object {
+              "releaseNotesUrl": "http://example.com/release",
+            }
+          }
+        />
+      </p>,
+    ]
+  }
+  modalClass=""
+  onCancel={[Function]}
+  onConfirm={[Function]}
+  show={true}
+  title={
+    <FormattedMessage
+      defaultMessage="Confirm Plugin Update"
+      id="marketplace_modal.list.update_confirmation.title"
+    />
+  }
+/>
+`;
+
+exports[`components/MarketplaceItem UpdateConfirmationModal should add extra warning for major version change, even without release notes 1`] = `
+<ConfirmModal
+  confirmButtonClass="btn btn-primary"
+  confirmButtonText={
+    <FormattedMessage
+      defaultMessage="Update"
+      id="marketplace_modal.list.update_confirmation.confirm_button"
+    />
+  }
+  message={
+    Array [
+      <p>
+        <FormattedMessage
+          defaultMessage="Are you sure you want to update the pluginName plugin to 1.0.0?"
+          id="marketplace_modal.list.update_confirmation.message.intro"
+          values={
+            Object {
+              "name": "pluginName",
+              "version": "1.0.0",
+            }
+          }
+        />
+      </p>,
+      <p>
+        <FormattedMessage
+          defaultMessage="You currently have 0.0.1 installed."
+          id="marketplace_modal.list.update_confirmation.message.current"
+          values={
+            Object {
+              "installedVersion": "0.0.1",
+            }
+          }
+        />
+      </p>,
+      <p
+        className="alert alert-warning"
+      >
+        <FormattedMessage
+          defaultMessage="This update may contain breaking changes."
+          id="marketplace_modal.list.update_confirmation.message.warning_major_version"
+        />
+      </p>,
+    ]
+  }
+  modalClass=""
+  onCancel={[Function]}
+  onConfirm={[Function]}
+  show={true}
+  title={
+    <FormattedMessage
+      defaultMessage="Confirm Plugin Update"
+      id="marketplace_modal.list.update_confirmation.title"
+    />
+  }
+/>
+`;
+
+exports[`components/MarketplaceItem UpdateConfirmationModal should avoid exception on invalid semver 1`] = `null`;
+
+exports[`components/MarketplaceItem UpdateConfirmationModal should render without release notes url 1`] = `
+<ConfirmModal
+  confirmButtonClass="btn btn-primary"
+  confirmButtonText={
+    <FormattedMessage
+      defaultMessage="Update"
+      id="marketplace_modal.list.update_confirmation.confirm_button"
+    />
+  }
+  message={
+    Array [
+      <p>
+        <FormattedMessage
+          defaultMessage="Are you sure you want to update the pluginName plugin to 0.0.2?"
+          id="marketplace_modal.list.update_confirmation.message.intro"
+          values={
+            Object {
+              "name": "pluginName",
+              "version": "0.0.2",
+            }
+          }
+        />
+      </p>,
+      <p>
+        <FormattedMessage
+          defaultMessage="You currently have 0.0.1 installed."
+          id="marketplace_modal.list.update_confirmation.message.current"
+          values={
+            Object {
+              "installedVersion": "0.0.1",
+            }
+          }
+        />
+      </p>,
+    ]
+  }
+  modalClass=""
+  onCancel={[Function]}
+  onConfirm={[Function]}
+  show={true}
+  title={
+    <FormattedMessage
+      defaultMessage="Confirm Plugin Update"
+      id="marketplace_modal.list.update_confirmation.title"
+    />
+  }
+/>
+`;
+
+exports[`components/MarketplaceItem UpdateDetails should render with release notes url 1`] = `
+<UpdateDetails
+  installedVersion="0.0.1"
+  isInstalling={false}
+  onUpdate={[Function]}
+  releaseNotesUrl="http://example.com/release"
+  version="0.0.2"
+>
+  <div
+    className="update"
+  >
+    <FormattedMessage
+      defaultMessage="Update available:"
+      id="marketplace_modal.list.update_available"
+    >
+      <span>
+        Update available:
+      </span>
+    </FormattedMessage>
+     
+    <UpdateVersion
+      releaseNotesUrl="http://example.com/release"
+      version="0.0.2"
+    >
+      <a
+        href="http://example.com/release"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        0.0.2
+      </a>
+    </UpdateVersion>
+     - 
+    <b>
+      <a
+        onClick={[Function]}
+      >
+        <FormattedMessage
+          defaultMessage="Update"
+          id="marketplace_modal.list.update"
+        >
+          <span>
+            Update
+          </span>
+        </FormattedMessage>
+      </a>
+    </b>
+  </div>
+</UpdateDetails>
+`;
+
+exports[`components/MarketplaceItem UpdateDetails should render without release notes url 1`] = `
+<UpdateDetails
+  installedVersion="0.0.1"
+  isInstalling={false}
+  onUpdate={[Function]}
+  releaseNotesUrl=""
+  version="0.0.2"
+>
+  <div
+    className="update"
+  >
+    <FormattedMessage
+      defaultMessage="Update available:"
+      id="marketplace_modal.list.update_available"
+    >
+      <span>
+        Update available:
+      </span>
+    </FormattedMessage>
+     
+    <UpdateVersion
+      releaseNotesUrl=""
+      version="0.0.2"
+    >
+      <span>
+        0.0.2
+      </span>
+    </UpdateVersion>
+     - 
+    <b>
+      <a
+        onClick={[Function]}
+      >
+        <FormattedMessage
+          defaultMessage="Update"
+          id="marketplace_modal.list.update"
+        >
+          <span>
+            Update
+          </span>
+        </FormattedMessage>
+      </a>
+    </b>
+  </div>
+</UpdateDetails>
+`;

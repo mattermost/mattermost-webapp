@@ -1,4 +1,3 @@
-
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
@@ -57,10 +56,10 @@ describe('archive tests while preventing viewing archived channels', () => {
 
                 cy.visit(`/${testTeam.name}/channels/off-topic`);
                 cy.contains('#channelHeaderTitle', 'Off-Topic');
+                cy.postMessage(getRandomId());
 
                 // # Search for the post from step 1')
-                cy.get('#searchBox').focus().clear();
-                cy.get('#searchBox').should('be.visible').type(`${messageText}{enter}`);
+                cy.get('#searchBox').click().clear().type(`${messageText}{enter}`);
 
                 // * Post is returned by search, since it's not archived anymore
                 cy.get('#searchContainer').should('be.visible');
@@ -94,8 +93,7 @@ describe('archive tests while preventing viewing archived channels', () => {
         cy.uiArchiveChannel();
 
         // # Archive dialogue message reads "This will archive the channel from the team and make its contents inaccessible for all users" (Mobile dialogue makes no mention of the data will be accessible)
-        cy.get('#searchBox').focus().clear();
-        cy.get('#searchBox').focus().type(`${testArchivedMessage}{enter}`);
+        cy.get('#searchBox').click().clear().type(`${testArchivedMessage}{enter}`);
 
         // * Post is not returned by search
         cy.get('#searchContainer').should('be.visible');
@@ -110,8 +108,7 @@ describe('archive tests while preventing viewing archived channels', () => {
             cy.postMessage(messageText);
 
             // # Search for the string of text from step 1
-            cy.get('#searchBox').focus().clear();
-            cy.get('#searchBox').focus().type(`${messageText}{enter}`);
+            cy.get('#searchBox').click().clear().type(`${messageText}{enter}`);
 
             // * Post is returned by search, since it's not archived anymore
             cy.get('#searchContainer').should('be.visible');
@@ -128,12 +125,8 @@ describe('archive tests while preventing viewing archived channels', () => {
 
     it('MM-T1710 archived channels are not listed on the "in:" autocomplete', () => {
         // # Archive a channel and make a mental note of the channel name
-
-        // # Place the focus in the search box
-        cy.get('#searchBox').focus().clear();
-
         // # Type "in:" and note the list of channels that appear
-        cy.get('#searchBox').focus().type(`in:${testChannel.name}`);
+        cy.get('#searchBox').click().clear().type(`in:${testChannel.name}`);
         cy.findByTestId(testChannel.name).should('not.exist');
     });
 });

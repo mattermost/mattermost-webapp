@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @channel_sidebar
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -20,12 +21,6 @@ describe('Category muting', () => {
     let testUser;
 
     before(() => {
-        cy.apiUpdateConfig({
-            ServiceSettings: {
-                ExperimentalChannelSidebarOrganization: 'default_on',
-            },
-        });
-
         cy.apiInitSetup({loginAfter: true}).then((({team, user}) => {
             testTeam = team;
             testUser = user;

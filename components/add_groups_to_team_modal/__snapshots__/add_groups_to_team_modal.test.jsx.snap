@@ -86,6 +86,7 @@ exports[`components/AddGroupsToTeamModal should match snapshot 1`] = `
       options={Array []}
       perPage={50}
       placeholderText="Search and add groups"
+      saveButtonPosition="top"
       saving={false}
       selectedItemRef={
         Object {
@@ -93,6 +94,7 @@ exports[`components/AddGroupsToTeamModal should match snapshot 1`] = `
         }
       }
       valueRenderer={[Function]}
+      valueWithImage={false}
       values={Array []}
     />
   </ModalBody>

@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @dm_category
 
 import {getAdminAccount} from '../../support/env';
@@ -16,13 +17,6 @@ describe('DM category', () => {
     const sysadmin = getAdminAccount();
     let testUser;
     before(() => {
-        // # Enable channel sidebar organization
-        cy.apiUpdateConfig({
-            ServiceSettings: {
-                ExperimentalChannelSidebarOrganization: 'default_on',
-            },
-        });
-
         // # Login as test user and visit town-square
         cy.apiInitSetup({loginAfter: true}).then(({team, user}) => {
             testUser = user;

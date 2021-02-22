@@ -119,9 +119,14 @@ describe('Account Settings > Sidebar > General', () => {
             // # Go to test channel
             cy.visit(`/${testTeam.name}/channels/${channel.name}`);
 
-            // # Click 'Add Members'
-            cy.get('#channelHeaderTitle').click();
-            cy.get('#channelAddMembers').click();
+            // # Open channel menu and click 'Add Members'
+            cy.uiOpenChannelMenu('Add Members');
+
+            // * Verify that the modal is open
+            cy.get('#addUsersToChannelModal').should('be.visible').findByText(`Add people to ${channel.display_name}`);
+
+            // # Type into the input box to search for a user
+            cy.get('#selectItems input').type('sys');
 
             // * Verify that the username span contains the '@' symbol and the dark colour
             cy.get('#multiSelectList > div > .more-modal__details > .more-modal__name > span').should('contain', '@').and('have.css', 'color', 'rgb(61, 60, 64)');
@@ -130,7 +135,7 @@ describe('Account Settings > Sidebar > General', () => {
             cy.get('body').type('{esc}');
 
             // # Go to manage members modal
-            cy.get('#channelMemberIcon').click();
+            cy.get('#channelMember').click();
             cy.get('#member-list-popover').should('be.visible').within(() => {
                 cy.findByTestId('membersModal').click();
             });
@@ -141,8 +146,8 @@ describe('Account Settings > Sidebar > General', () => {
             // # Close modal
             cy.get('body').type('{esc}');
 
-            // # Click More... in the sidebar
-            cy.get('#moreDirectMessage').scrollIntoView().should('be.visible').click();
+            // # Open DM modal from the sidebar
+            cy.uiAddDirectMessage().click();
 
             // # Go to direct messages modal
             cy.get('.more-modal').should('be.visible').within(() => {

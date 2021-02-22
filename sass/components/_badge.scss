@@ -12,13 +12,47 @@
         line-height: 18px;
     }
 
+    .team-sidebar,
+    #SidebarContainer {
+        .badge {
+            padding: 0 6px;
+            min-width: 20px;
+            height: auto;
+            font-size: 11px;
+            font-weight: 700;
+            line-height: 16px;
+            letter-spacing: 0px;
+            text-align: center;
+            color: var(--mention-color);
+            border-radius: 8px;
+            background: var(--mention-bg);
+            -webkit-font-smoothing: subpixel-antialiased;
+            -moz-osx-font-smoothing: grayscale;
+
+            &.badge-max-number {
+                padding: 0 4px 0 5px;
+            }
+        }
+    }
+
     .team-sidebar {
         .badge {
-            border: 1px solid transparent;
+            display: inline-block;
+            flex-shrink: 0;
             position: absolute;
-            right: -8px;
-            top: -6px;
+            right: -3px;
+            top: -3px;
+            box-shadow:0 0 0 3px var(--sidebar-teambar-bg);
             z-index: 5;
+        }
+    }
+
+    #SidebarContainer {
+        .badge {
+            display: inline-block;
+            flex-shrink: 0;
+            margin-left: 6px;
+            margin-right: 3px;
         }
     }
 

@@ -20,14 +20,8 @@ describe('MM-T3156 DM category', () => {
     const sysadmin = getAdminAccount();
     let testUser;
     const usernames = [];
-    before(() => {
-        // # Enable channel sidebar organization
-        cy.apiUpdateConfig({
-            ServiceSettings: {
-                ExperimentalChannelSidebarOrganization: 'default_on',
-            },
-        });
 
+    before(() => {
         // # Login as test user and visit town-square
         cy.apiInitSetup({loginAfter: true}).then(({team, user}) => {
             testUser = user;
@@ -73,13 +67,19 @@ describe('MM-T3156 DM category', () => {
     });
 
     it('MM-T3156_3 should order DMs alphabetically ', () => {
-        // get DM category group
-        cy.findByLabelText('DIRECT MESSAGES').parents('.SidebarChannelGroup').within(() => {
-            // # Change sorting to be alphabetical
-            cy.get('.SidebarChannelGroupHeader_sortButton').invoke('show').click().wait(TIMEOUTS.HALF_SEC);
+        // # Hover over DIRECT MESSAGES and click channel options
+        cy.get('.SidebarChannelGroupHeader:contains(DIRECT MESSAGES) .SidebarMenu').invoke('show').
+            get('.SidebarChannelGroupHeader:contains(DIRECT MESSAGES) .SidebarMenu_menuButton').should('be.visible').click();
+
+        // # Change sorting to be alphabetical
+        cy.findByText('Sort').trigger('mouseover');
+        cy.findByText('Alphabetically').click();
+
+        cy.get('.autoSortedCategory').should('be.visible').within(() => {
+            cy.findByLabelText('DIRECT MESSAGES').should('be.visible');
             cy.get('.NavGroupContent').children().each(($el, index) => {
                 // * Verify that the usernames are in alphabetical order
-                cy.wrap($el).find('.SidebarChannelLinkLabel').should('contain', usernames[index]);
+                cy.wrap($el).findByText(usernames[index]).should('be.visible');
             });
         });
     });

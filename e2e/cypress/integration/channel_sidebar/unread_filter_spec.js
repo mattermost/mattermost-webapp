@@ -17,18 +17,13 @@ import {
 } from '../../support/assertions';
 import {getAdminAccount} from '../../support/env';
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
 import {getRandomId} from '../../utils';
 
 describe('Channel sidebar unread filter', () => {
     let testUser;
 
     before(() => {
-        cy.apiUpdateConfig({
-            ServiceSettings: {
-                ExperimentalChannelSidebarOrganization: 'default_on',
-            },
-        });
-
         cy.apiInitSetup({loginAfter: true}).then(({user}) => {
             testUser = user;
 
@@ -38,20 +33,29 @@ describe('Channel sidebar unread filter', () => {
 
     it('MM-T3441 should change the filter label when the unread filter changes state', () => {
         // * Verify that the unread filter is in all channels state
-        cy.get('.SidebarFilters:contains(VIEWING:)').should('be.visible');
-        cy.get('.SidebarFilters:contains(All channels)').should('be.visible');
+        cy.findByRole('application', {name: 'channel sidebar region'}).within(() => {
+            cy.findAllByText('UNREADS').should('not.exist');
+            cy.findAllByRole('button', {name: 'CHANNELS'}).should('be.visible');
+            cy.findAllByRole('button', {name: 'DIRECT MESSAGES'}).should('be.visible');
+        });
 
         enableUnreadFilter();
 
         // * Verify that the unread filter is in filter by unread state
-        cy.get('.SidebarFilters:contains(FILTERED BY:)').should('be.visible');
-        cy.get('.SidebarFilters:contains(Unread)').should('be.visible');
+        cy.findByRole('application', {name: 'channel sidebar region'}).within(() => {
+            cy.findAllByText('UNREADS').should('be.visible');
+            cy.findAllByRole('button', {name: 'CHANNELS'}).should('not.exist');
+            cy.findAllByRole('button', {name: 'DIRECT MESSAGES'}).should('not.exist');
+        });
 
         disableUnreadFilter();
 
         // * Verify that the unread filter is back in all channels state
-        cy.get('.SidebarFilters:contains(VIEWING:)').should('be.visible');
-        cy.get('.SidebarFilters:contains(All channels)').should('be.visible');
+        cy.findByRole('application', {name: 'channel sidebar region'}).within(() => {
+            cy.findAllByText('UNREADS').should('not.exist');
+            cy.findAllByRole('button', {name: 'CHANNELS'}).should('be.visible');
+            cy.findAllByRole('button', {name: 'DIRECT MESSAGES'}).should('be.visible');
+        });
     });
 
     it('MM-T3442 should not persist the state of the unread filter on reload', () => {
@@ -79,24 +83,24 @@ describe('Channel sidebar unread filter', () => {
         cy.getCurrentTeamId().then((teamId) => {
             createChannel(teamId, readChannelName);
             createChannel(teamId, unreadChannelName, 'test');
+
+            // * Verify that the channels are correctly read and unread
+            cy.get(`#sidebarItem_${readChannelName}`).should(beRead);
+            cy.get(`#sidebarItem_${unreadChannelName}`).should(beUnread);
+
+            enableUnreadFilter();
+
+            // * Verify that the read channel has been hidden
+            cy.get(`#sidebarItem_${readChannelName}`).should('not.exist');
+
+            // * Verify that the unread channel is still visible
+            cy.get(`#sidebarItem_${unreadChannelName}`).should('be.visible').should(beUnread);
+
+            disableUnreadFilter();
+
+            // * Verify that the read channel has reappeared
+            cy.get(`#sidebarItem_${readChannelName}`).should('be.visible').should(beRead);
         });
-
-        // * Verify that the channels are correctly read and unread
-        cy.get(`#sidebarItem_${readChannelName}`).should(beRead);
-        cy.get(`#sidebarItem_${unreadChannelName}`).should(beUnread);
-
-        enableUnreadFilter();
-
-        // * Verify that the read channel has been hidden
-        cy.get(`#sidebarItem_${readChannelName}`).should('not.exist');
-
-        // * Verify that the unread channel is still visible
-        cy.get(`#sidebarItem_${unreadChannelName}`).should('be.visible').should(beUnread);
-
-        disableUnreadFilter();
-
-        // * Verify that the read channel has reappeared
-        cy.get(`#sidebarItem_${readChannelName}`).should('be.visible').should(beRead);
     });
 
     it('MM-T3444 should always show the current channel, even if it is not unread', () => {
@@ -200,7 +204,7 @@ function enableUnreadFilter() {
     cy.get('.SidebarFilters_filterButton').click();
 
     // * Verify that the unread filter is enabled
-    cy.get('.SidebarChannelGroupHeader:contains(ALL UNREADS)').should('be.visible');
+    cy.get('.SidebarChannelGroupHeader:contains(UNREADS)').should('be.visible');
 }
 
 function disableUnreadFilter() {
@@ -208,12 +212,13 @@ function disableUnreadFilter() {
     cy.get('.SidebarFilters_filterButton').click();
 
     // * Verify that the unread filter is disabled
-    cy.get('.SidebarChannelGroupHeader:contains(ALL UNREADS)').should('not.exist');
+    cy.get('.SidebarChannelGroupHeader:contains(UNREADS)').should('not.exist');
 }
 
 function createChannel(teamId, channelName, message) {
     cy.apiCreateChannel(teamId, channelName, channelName, 'O', '', '', false).then(({channel}) => {
         if (message) {
+            cy.wait(TIMEOUTS.THREE_SEC);
             cy.postMessageAs({sender: getAdminAccount(), message, channelId: channel.id});
         }
     });

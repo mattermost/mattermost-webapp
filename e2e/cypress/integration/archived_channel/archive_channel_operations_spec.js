@@ -7,10 +7,13 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @channel
 
 import {getAdminAccount} from '../../support/env';
 import {getRandomId} from '../../utils';
+
+import {createArchivedChannel} from './helpers';
 
 describe('Leave an archived channel', () => {
     let testTeam;
@@ -93,7 +96,7 @@ describe('Leave an archived channel', () => {
             cy.get('#post_textbox').should('be.visible');
 
             // * Channel is displayed in LHS with the normal icon, not an archived channel icon
-            cy.get(`#sidebarItem_${name}`).should('be.visible');
+            cy.get(`#sidebarItem_${name}`).scrollIntoView().should('be.visible');
 
             cy.get(`#sidebarItem_${name} span`).should('have.class', 'icon__globe');
         });
@@ -128,26 +131,3 @@ describe('Leave an archived channel', () => {
         });
     });
 });
-
-function createArchivedChannel(channelOptions, messages, memberUsernames) {
-    let channelName;
-    return cy.uiCreateChannel(channelOptions).then((newChannel) => {
-        channelName = newChannel.name;
-        if (memberUsernames) {
-            cy.uiAddUsersToCurrentChannel(memberUsernames);
-        }
-        if (messages) {
-            let messageList = messages;
-            if (!Array.isArray(messages)) {
-                messageList = [messages];
-            }
-            messageList.forEach((message) => {
-                cy.postMessage(message);
-            });
-        }
-        cy.uiArchiveChannel();
-        cy.get('#channelArchivedMessage').should('be.visible');
-
-        return cy.wrap({name: channelName});
-    });
-}

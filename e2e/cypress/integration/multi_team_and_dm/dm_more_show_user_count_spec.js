@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @multi_team_and_dm
 
 import {getRandomId} from '../../utils';
@@ -47,14 +48,14 @@ describe('Multi Team and DM', () => {
 
     it('MM-T444 DM More... show user count', () => {
         // # Open the Direct Message modal
-        cy.findByLabelText('See more direct messages').click();
+        cy.uiAddDirectMessage().click();
 
         cy.get('#multiSelectHelpMemberInfo > :nth-child(2)').then((number) => {
             // # Grab total number of users before filter applied
             const totalUsers = number.text().split(' ').slice(2, 3);
 
             // * Assert that 2 unique users are displayed
-            cy.findByText('Search and add members').click().type(unique).then(() => {
+            cy.findByText('Search for people').click().type(unique).then(() => {
                 cy.get('#multiSelectList').within(() => {
                     cy.get('.more-modal__details').should('have.length', 2);
                 });

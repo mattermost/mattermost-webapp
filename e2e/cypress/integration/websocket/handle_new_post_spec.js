@@ -22,12 +22,6 @@ describe('Handle new post', () => {
     let user1;
 
     before(() => {
-        cy.apiUpdateConfig({
-            ServiceSettings: {
-                ExperimentalChannelSidebarOrganization: 'default_on',
-            },
-        });
-
         cy.apiInitSetup().then(({channel, team, user}) => {
             channel1 = channel;
             team1 = team;

@@ -161,6 +161,7 @@ export const ActionTypes = keyMirror({
 
     INCREMENT_EMOJI_PICKER_PAGE: null,
 
+    STATUS_DROPDOWN_TOGGLE: null,
     TOGGLE_LHS: null,
     OPEN_LHS: null,
     CLOSE_LHS: null,
@@ -279,6 +280,10 @@ export const ModalIdentifiers = {
     MORE_CHANNELS: 'more_channels',
     NEW_CHANNEL_FLOW: 'new_channel_flow',
     CLOUD_PURCHASE: 'cloud_purchase',
+    CUSTOM_STATUS: 'custom_status',
+    COMMERCIAL_SUPPORT: 'commercial_support',
+    NO_INTERNET_CONNECTION: 'no_internet_connection',
+    JOIN_CHANNEL_PROMPT: 'join_channel_prompt',
 };
 
 export const UserStatuses = {
@@ -548,6 +553,7 @@ export const ErrorPageTypes = {
     PERMALINK_NOT_FOUND: 'permalink_not_found',
     TEAM_NOT_FOUND: 'team_not_found',
     CHANNEL_NOT_FOUND: 'channel_not_found',
+    MAX_FREE_USERS_REACHED: 'max_free_users_reached',
 };
 
 export const JobTypes = {
@@ -571,11 +577,11 @@ export const JobStatuses = {
 export const AnnouncementBarTypes = {
     ANNOUNCEMENT: 'announcement',
     CRITICAL: 'critical',
-    CRITICAL_LIGHT: 'critical_light',
     DEVELOPER: 'developer',
     SUCCESS: 'success',
     ADVISOR: 'advisor',
     ADVISOR_ACK: 'advisor-ack',
+    GENERAL: 'general',
 };
 
 export const AnnouncementBarMessages = {
@@ -919,6 +925,10 @@ export const Constants = {
     // This is the same limit set https://github.com/mattermost/mattermost-server/blob/master/model/config.go#L105
     MAXIMUM_LOGIN_ATTEMPTS_DEFAULT: 10,
 
+    // This is the same limit set
+    // https://github.com/mattermost/mattermost-server/pull/16835/files#diff-73c61af5954b16f5e3cb5ee786af9eb698f660eff0d65db5556949be5fb6e60bR15
+    CUSTOM_STATUS_TEXT_CHARACTER_LIMIT: 100,
+
     // This is the same limit set https://github.com/mattermost/mattermost-server/blob/master/api4/team.go#L23
     MAX_ADD_MEMBERS_BATCH: 256,
 
@@ -964,7 +974,7 @@ export const Constants = {
         other: 'generic',
         image: 'image',
     },
-    MAX_UPLOAD_FILES: 10,
+    MAX_UPLOAD_FILES: 5,
     MAX_FILENAME_LENGTH: 35,
     THUMBNAIL_WIDTH: 128,
     THUMBNAIL_HEIGHT: 100,
@@ -1009,6 +1019,9 @@ export const Constants = {
     SYSTEM_MESSAGE_PREFIX: 'system_',
     SUGGESTION_LIST_MAXHEIGHT: 292,
     SUGGESTION_LIST_SPACE_RHS: 420,
+    SUGGESTION_LIST_MODAL_WIDTH: 496,
+    MENTION_NAME_PADDING_LEFT: 2.4,
+    AVATAR_WIDTH: 24,
     AUTO_RESPONDER: 'system_auto_responder',
     SYSTEM_MESSAGE_PROFILE_IMAGE: logoImage,
     RESERVED_TEAM_NAMES: [
@@ -1058,6 +1071,7 @@ export const Constants = {
             sidebarTextActiveBorder: '#579eff',
             sidebarTextActiveColor: '#ffffff',
             sidebarHeaderBg: '#1153ab',
+            sidebarTeamBarBg: '#0b428c',
             sidebarHeaderTextColor: '#ffffff',
             onlineIndicator: '#06d6a0',
             awayIndicator: '#ffbc42',
@@ -1085,6 +1099,7 @@ export const Constants = {
             sidebarTextActiveBorder: '#7ab0d6',
             sidebarTextActiveColor: '#ffffff',
             sidebarHeaderBg: '#2f81b7',
+            sidebarTeamBarBg: '#256996',
             sidebarHeaderTextColor: '#ffffff',
             onlineIndicator: '#7dbe00',
             awayIndicator: '#dcbd4e',
@@ -1112,6 +1127,7 @@ export const Constants = {
             sidebarTextActiveBorder: '#66b9a7',
             sidebarTextActiveColor: '#ffffff',
             sidebarHeaderBg: '#1b2c3e',
+            sidebarTeamBarBg: '#152231',
             sidebarHeaderTextColor: '#ffffff',
             onlineIndicator: '#65dcc8',
             awayIndicator: '#c1b966',
@@ -1139,6 +1155,7 @@ export const Constants = {
             sidebarTextActiveBorder: '#196caf',
             sidebarTextActiveColor: '#ffffff',
             sidebarHeaderBg: '#1f1f1f',
+            sidebarTeamBarBg: '#181818',
             sidebarHeaderTextColor: '#ffffff',
             onlineIndicator: '#399fff',
             awayIndicator: '#c1b966',
@@ -1173,6 +1190,11 @@ export const Constants = {
             group: 'sidebarElements',
             id: 'sidebarHeaderBg',
             uiName: 'Sidebar Header BG',
+        },
+        {
+            group: 'sidebarElements',
+            id: 'sidebarTeamBarBg',
+            uiName: 'Team Sidebar BG',
         },
         {
             group: 'sidebarElements',
@@ -1490,6 +1512,7 @@ export const Constants = {
         OUTGOING_WEBHOOK: 'outgoing_webhooks',
         OAUTH_APP: 'oauth2-apps',
         BOT: 'bots',
+        EXECUTE_CURRENT_COMMAND_ITEM_ID: '_execute_current_command',
     },
     FeatureTogglePrefix: 'feature_enabled_',
     PRE_RELEASE_FEATURES: {
@@ -1604,4 +1627,3 @@ t('suggestion.archive');
 t('suggestion.mention.groups');
 
 export default Constants;
-

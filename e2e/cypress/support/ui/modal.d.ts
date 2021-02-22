@@ -15,7 +15,7 @@
 // ***************************************************************
 
 declare namespace Cypress {
-    interface Chainable<Subject = any> {
+    interface Chainable {
 
         /**
          * Close modal with header label
@@ -26,13 +26,5 @@ declare namespace Cypress {
          *   cy.uiCloseModal(headerLabel);
          */
         uiCloseModal(headerLabel: string): Chainable;
-
-        /**
-         * Close "What's new" modal
-         *
-         * @example
-         *   cy.uiCloseWhatsNewModal();
-         */
-        uiCloseWhatsNewModal(): Chainable;
     }
 }

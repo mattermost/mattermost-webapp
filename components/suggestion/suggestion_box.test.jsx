@@ -4,9 +4,11 @@
 import React from 'react';
 import {shallow, mount} from 'enzyme';
 
+import CommandProvider from 'components/suggestion/command_provider/command_provider';
 import AtMentionProvider from 'components/suggestion/at_mention_provider/at_mention_provider.jsx';
 import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
+import * as Utils from 'utils/utils.jsx';
 
 jest.mock('utils/user_agent', () => {
     const original = jest.requireActual('utils/user_agent');
@@ -168,10 +170,34 @@ describe('components/SuggestionBox', () => {
         expect(wrapper.state('selection')).toEqual('@user');
 
         instance.nonDebouncedPretextChanged('hello world @');
-        expect(wrapper.state('selection')).toEqual('@user');
+        expect(wrapper.state('selection')).toEqual('@other');
 
         instance.nonDebouncedPretextChanged('hello world ');
         expect(wrapper.state('selection')).toEqual('');
+    });
+
+    test('Test for suggestionBoxAlgn when slash command at beginning and when slash command in middle of text', () => {
+        const provider = new CommandProvider({isInRHS: true});
+        const props = {
+            ...baseProps,
+            providers: [provider],
+        };
+        const wrapper = shallow(
+            <SuggestionBox
+                {...props}
+            />,
+        );
+        const instance = wrapper.instance();
+
+        Utils.getSuggestionBoxAlgn = jest.fn().mockReturnValue({pixelsToMoveX: 0, pixelsToMoveY: 35});
+
+        instance.nonDebouncedPretextChanged('/');
+        expect(wrapper.state('suggestionBoxAlgn')).toEqual({pixelsToMoveX: 0, pixelsToMoveY: 35});
+
+        instance.setState({suggestionBoxAlgn: {}});
+
+        instance.nonDebouncedPretextChanged('I should still have a empty suggestionBoxAlgn /');
+        expect(wrapper.state('suggestionBoxAlgn')).toEqual({});
     });
 
     test('should call setState for clear based on present cleared state', () => {

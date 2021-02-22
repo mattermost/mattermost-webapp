@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @not_cloud @messaging
 
 describe('Header', () => {
@@ -34,7 +35,7 @@ describe('Header', () => {
         // # Create a bot
         cy.apiCreateBot().then(({bot}) => {
             // # Open a DM with the bot
-            cy.get('#addDirectChannel').click();
+            cy.uiAddDirectMessage().click();
             cy.get('.more-modal__list .more-modal__row');
             cy.get('#moreDmModal input').
                 type(bot.username, {force: true}).
@@ -60,7 +61,7 @@ describe('Header', () => {
         });
 
         // # Open a DM with the bot
-        cy.get('#addDirectChannel').click();
+        cy.uiAddDirectMessage().click();
         cy.get('.more-modal__list .more-modal__row');
         cy.get('#moreDmModal input').
             type('matterpoll', {force: true}).
