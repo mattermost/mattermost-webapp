@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import InstalledOAuthApps from 'components/integrations/installed_oauth_apps/installed_oauth_apps.jsx';
+import InstalledOAuthApps from 'components/integrations/installed_oauth_apps/installed_oauth_apps';
 import BackstageList from 'components/backstage/components/backstage_list.jsx';
 
 describe('components/integrations/InstalledOAuthApps', () => {
@@ -38,7 +38,9 @@ describe('components/integrations/InstalledOAuthApps', () => {
     };
 
     const baseProps = {
-        team: {name: 'test'},
+        team: {
+            name: 'test',
+        },
         oauthApps,
         canManageOauth: true,
         actions: {
@@ -53,16 +55,14 @@ describe('components/integrations/InstalledOAuthApps', () => {
         const newGetOAuthApps = jest.fn().mockImplementation(
             () => {
                 return new Promise((resolve) => {
-                    process.nextTick(() => resolve());
+                    process.nextTick(() => resolve({}));
                 });
             },
         );
 
         const props = {...baseProps};
         props.actions.loadOAuthAppsAndProfiles = newGetOAuthApps;
-        const wrapper = shallow(
-            <InstalledOAuthApps {...props}/>,
-        );
+        const wrapper = shallow<InstalledOAuthApps>(<InstalledOAuthApps {...props}/>);
 
         expect(wrapper).toMatchSnapshot();
         expect(shallow(<div>{wrapper.instance().oauthApps('first')}</div>)).toMatchSnapshot(); // successful filter
@@ -80,7 +80,7 @@ describe('components/integrations/InstalledOAuthApps', () => {
         const newDeleteOAuthApp = jest.fn();
         const props = {...baseProps};
         props.actions.deleteOAuthApp = newDeleteOAuthApp;
-        const wrapper = shallow(
+        const wrapper = shallow<InstalledOAuthApps>(
             <InstalledOAuthApps {...props}/>,
         );
 

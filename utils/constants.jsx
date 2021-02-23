@@ -161,6 +161,7 @@ export const ActionTypes = keyMirror({
 
     INCREMENT_EMOJI_PICKER_PAGE: null,
 
+    STATUS_DROPDOWN_TOGGLE: null,
     TOGGLE_LHS: null,
     OPEN_LHS: null,
     CLOSE_LHS: null,
@@ -279,6 +280,7 @@ export const ModalIdentifiers = {
     MORE_CHANNELS: 'more_channels',
     NEW_CHANNEL_FLOW: 'new_channel_flow',
     CLOUD_PURCHASE: 'cloud_purchase',
+    CUSTOM_STATUS: 'custom_status',
     COMMERCIAL_SUPPORT: 'commercial_support',
     NO_INTERNET_CONNECTION: 'no_internet_connection',
     JOIN_CHANNEL_PROMPT: 'join_channel_prompt',
@@ -922,6 +924,10 @@ export const Constants = {
 
     // This is the same limit set https://github.com/mattermost/mattermost-server/blob/master/model/config.go#L105
     MAXIMUM_LOGIN_ATTEMPTS_DEFAULT: 10,
+
+    // This is the same limit set
+    // https://github.com/mattermost/mattermost-server/pull/16835/files#diff-73c61af5954b16f5e3cb5ee786af9eb698f660eff0d65db5556949be5fb6e60bR15
+    CUSTOM_STATUS_TEXT_CHARACTER_LIMIT: 100,
 
     // This is the same limit set https://github.com/mattermost/mattermost-server/blob/master/api4/team.go#L23
     MAX_ADD_MEMBERS_BATCH: 256,

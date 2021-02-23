@@ -67,11 +67,10 @@ describe('Integrations', () => {
             cy.visit(`${testTeam.name}/channels/town-square`);
 
             // * Added user sees channel added to LHS, mention badge
-            cy.get('#sidebarChannelContainer', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').within(() => {
-                cy.findByLabelText(`${testChannel.display_name.toLowerCase()} public channel 1 mention`).
-                    should('be.visible').
-                    click();
-            });
+            cy.uiGetLhsSection('CHANNELS').
+                findByLabelText(`${testChannel.display_name.toLowerCase()} public channel 1 mention`).
+                should('be.visible').
+                click();
 
             // * Added user sees system message "username added to the channel by username."
             cy.uiWaitUntilMessagePostedIncludes(`You were added to the channel by @${testUser.username}`);
@@ -90,7 +89,7 @@ describe('Integrations', () => {
         // * User added to channel as expected
         cy.uiWaitUntilMessagePostedIncludes(`${userToInviteGM.username} added to ${testChannel.name} channel.`);
 
-        cy.get('#addDirectChannel').click();
+        cy.uiAddDirectMessage().click();
         cy.get('#selectItems').type(`${userToInviteDM.username}`).wait(TIMEOUTS.ONE_SEC);
         cy.get('#multiSelectList').findByText(`@${userToInviteDM.username}`).click();
         cy.findByText('Go').click();
@@ -118,11 +117,10 @@ describe('Integrations', () => {
         loginAndVisitChannel(userToInvite, townSquareUrl);
 
         // * Added user sees channel added to LHS, mention badge.
-        cy.get('#sidebarChannelContainer', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').within(() => {
-            cy.findByLabelText(`${testChannel.display_name.toLowerCase()} public channel 1 mention`).
-                should('be.visible').
-                click();
-        });
+        cy.uiGetLhsSection('CHANNELS').
+            findByLabelText(`${testChannel.display_name.toLowerCase()} public channel 1 mention`).
+            should('be.visible').
+            click();
 
         // * Added user sees system message "username added to the channel by username."
         cy.uiWaitUntilMessagePostedIncludes(`You were added to the channel by @${testUser.username}`);
@@ -140,7 +138,7 @@ describe('Integrations', () => {
         // * Error appears: "We couldn't find the user. They may have been deactivated by the System Administrator."
         cy.uiWaitUntilMessagePostedIncludes('We couldn\'t find the user. They may have been deactivated by the System Administrator.');
 
-        cy.get('#addDirectChannel').click();
+        cy.uiAddDirectMessage().click();
         cy.get('#selectItems').type(`${userDM.username}`).wait(TIMEOUTS.ONE_SEC);
         cy.get('#multiSelectList').findByText(`@${userDM.username}`).click();
         cy.findByText('Go').click();
@@ -166,7 +164,7 @@ describe('Integrations', () => {
         // * Error appears: "[username] is already in the channel"
         cy.uiWaitUntilMessagePostedIncludes(`${userToInvite.username} is already in the channel.`);
 
-        cy.get('#addDirectChannel').click();
+        cy.uiAddDirectMessage().click();
         cy.get('#selectItems').type(`${userDM.username}`).wait(TIMEOUTS.ONE_SEC);
         cy.get('#multiSelectList').findByText(`@${userDM.username}`).click();
         cy.findByText('Go').click();
@@ -184,7 +182,7 @@ describe('Integrations', () => {
 
         // # As UserA create a new public channel
         loginAndVisitChannel(testUser, townSquareUrl);
-        cy.get('#createPublicChannel', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').click();
+        cy.uiBrowseOrCreateChannel('Create New Channel').click();
         cy.get('#newChannelName').type(`${userA.username}-channel`);
         cy.get('#submitNewChannel').click();
         cy.get('#postListContent').should('be.visible');
@@ -192,7 +190,7 @@ describe('Integrations', () => {
         cy.apiLogout();
         loginAndVisitChannel(userB, townSquareUrl);
 
-        cy.get('#addDirectChannel', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').click();
+        cy.uiAddDirectMessage().click();
         cy.get('#selectItems').type(`${userDM.username}`).wait(TIMEOUTS.ONE_SEC);
         cy.get('#multiSelectList').findByText(`@${userDM.username}`).click();
         cy.findByText('Go').click();
