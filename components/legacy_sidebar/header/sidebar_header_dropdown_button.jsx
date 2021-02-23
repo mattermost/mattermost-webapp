@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Tooltip} from 'react-bootstrap';
 
-import {localizeMessage} from 'utils/utils.jsx';
+import {isAdmin, localizeMessage} from 'utils/utils.jsx';
 import OverlayTrigger from 'components/overlay_trigger';
 import MenuIcon from 'components/widgets/icons/menu_icon';
 import Constants, {ModalIdentifiers} from 'utils/constants';
@@ -65,7 +65,8 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent {
             );
         }
 
-        if (!this.props.firstAdminVisitMarketplaceStatus) {
+        const isSystemAdmin = isAdmin(this.props.currentUser.roles);
+        if (isSystemAdmin && !this.props.firstAdminVisitMarketplaceStatus) {
             badge = (
                 <span className={'unread-badge'}/>
             );
