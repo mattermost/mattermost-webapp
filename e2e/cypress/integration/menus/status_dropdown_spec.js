@@ -196,7 +196,7 @@ describe('Status dropdown menu', () => {
             // # Open status menu
             cy.get('.MenuWrapper .status-wrapper.status-selector button.status').click();
 
-            // # Verify "Set a Custom Status" header is visible
+            // * Verify "Set a Custom Status" header is visible
             cy.get('.MenuWrapper.status-dropdown-menu .Menu__content.dropdown-menu li#status-menu-custom-status').should('be.visible').
                 and('have.text', 'Set a Custom Status').and('have.css', 'cursor', 'pointer');
         });
