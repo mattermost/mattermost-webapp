@@ -115,14 +115,17 @@
         }
     }
 }
-
-.input-clear-x {
-    color: rgba(var(--center-channel-color-rgb), 0.56);
-
-    .icon {
-        font-size: 20px;
+.status-dropdown-menu,
+.StatusModal__input {
+    .input-clear-x {
+        color: rgba(var(--center-channel-color-rgb), 0.56);
+    
+        .icon {
+            font-size: 20px;
+        }
     }
 }
+
 
 .ic-clear-search, .ic-search {
     background-repeat: no-repeat;
