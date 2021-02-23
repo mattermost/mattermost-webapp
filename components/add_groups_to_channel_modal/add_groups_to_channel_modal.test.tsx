@@ -86,7 +86,7 @@ describe('components/AddGroupsToChannelModal', () => {
         setTimeout(() => {
             expect((wrapper.instance() as AddGroupsToChannelModal).handleResponse).toBeCalledTimes(2);
         }, 0);
-        expect((wrapper.instance() as AddGroupsToChannelModal).handleHide).toHaveBeenCalledTimes(1);
+        expect((wrapper.instance() as AddGroupsToChannelModal).handleHide).not.toBeCalled();
         expect(wrapper.state('saving')).toEqual(true);
     });
 
