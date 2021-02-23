@@ -20,13 +20,15 @@ import AddIcon from 'components/widgets/icons/fa_add_icon';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 import BotBadge from 'components/widgets/badges/bot_badge';
 
+import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
+
 import GroupMessageOption from './group_message_option';
 
 const USERS_PER_PAGE = 50;
 const MAX_SELECTABLE_VALUES = Constants.MAX_USERS_IN_GM - 1;
 
 type UserProfileValue = (UserProfile & Value);
-type GroupChannelValue = (Channel & Value & {profiles: UserProfile[]});
+type GroupChannelValue = (Channel & Value & { profiles: UserProfile[] });
 
 type OptionType = UserProfileValue | GroupChannelValue;
 
@@ -36,7 +38,7 @@ type Props = {
     currentTeamName: string;
     searchTerm: string;
     users: UserProfile[];
-    groupChannels: Array<{profiles: UserProfile[]} & Channel>;
+    groupChannels: Array<{ profiles: UserProfile[] } & Channel>;
     myDirectChannels: Channel[];
     statuses: RelationOneToOne<UserProfile, string>;
     totalCount?: number;
@@ -379,6 +381,11 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
                             show={isGuest(option)}
                             className='badge-popoverlist'
                         />
+                        <CustomStatusEmoji
+                            userID={option.id}
+                            showTooltip={true}
+                            emojiSize={15}
+                        />
                     </div>
                     <div className='more-modal__description'>
                         {email}
@@ -393,7 +400,7 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
         );
     }
 
-    renderValue(props: {data: OptionType}) {
+    renderValue(props: { data: OptionType }) {
         return (props.data as UserProfileValue).username;
     }
 
