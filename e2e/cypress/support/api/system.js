@@ -104,6 +104,9 @@ export const getDefaultConfig = () => {
     const cypressEnv = Cypress.env();
 
     const fromCypressEnv = {
+        ElasticsearchSettings: {
+            ConnectionUrl: cypressEnv.elasticsearchConnectionUrl,
+        },
         LdapSettings: {
             LdapServer: cypressEnv.ldapServer,
             LdapPort: cypressEnv.ldapPort,

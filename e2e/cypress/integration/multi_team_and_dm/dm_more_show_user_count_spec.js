@@ -48,7 +48,7 @@ describe('Multi Team and DM', () => {
 
     it('MM-T444 DM More... show user count', () => {
         // # Open the Direct Message modal
-        cy.findByLabelText('See more direct messages').click();
+        cy.uiAddDirectMessage().click();
 
         cy.get('#multiSelectHelpMemberInfo > :nth-child(2)').then((number) => {
             // # Grab total number of users before filter applied
