@@ -581,10 +581,12 @@
             }
         }
         .input-clear {
-            color: $white;
-            font-weight: bold;
-            position: absolute;
-            right: 16px
+            .input-clear-x {
+                color: $white;
+                font-weight: bold;
+                position: absolute;
+                right: 16px
+            }
         }
     }
 
