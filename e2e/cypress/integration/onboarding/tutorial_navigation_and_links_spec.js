@@ -8,7 +8,7 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @onboarding @smoke
+// Group: @onboarding @smoke @not_cloud
 
 describe('Test Tutorial Navigation', () => {
     let testUser;
@@ -17,6 +17,8 @@ describe('Test Tutorial Navigation', () => {
     let config;
 
     before(() => {
+        cy.shouldNotRunOnCloudEdition();
+
         cy.apiGetConfig().then((data) => {
             ({config} = data);
         });

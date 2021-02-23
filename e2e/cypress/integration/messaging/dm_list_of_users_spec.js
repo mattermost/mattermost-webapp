@@ -7,6 +7,7 @@
 // Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @messaging
 
 describe('Messaging', () => {
@@ -35,10 +36,7 @@ describe('Messaging', () => {
             cy.visit(`/${testTeam.name}/channels/town-square`);
 
             // # Click on '+' sign to open DM modal
-            cy.findByLabelText('write a direct message').should('be.visible').click();
-
-            // * Verify that the DM modal is open
-            cy.get('#moreDmModal').should('be.visible').contains('Direct Messages');
+            cy.uiAddDirectMessage().click();
 
             // # Search for the deactivated user
             cy.get('#selectItems input').should('be.focused').type(deactivatedUser.email, {force: true});
@@ -63,7 +61,7 @@ describe('Messaging', () => {
             cy.externalActivateUser(deactivatedUser.id, false);
 
             // # Click on '+' sign to open DM modal
-            cy.findByLabelText('write a direct message').should('be.visible').click();
+            cy.uiAddDirectMessage().click();
 
             // * Verify that the DM modal is open
             cy.get('#moreDmModal').should('be.visible').contains('Direct Messages');

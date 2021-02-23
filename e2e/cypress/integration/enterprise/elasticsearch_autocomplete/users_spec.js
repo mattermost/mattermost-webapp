@@ -335,7 +335,7 @@ describe('Autocomplete with Elasticsearch - Users', () => {
             const thor = testUsers.thor;
 
             // # Open of the add direct message modal
-            cy.get('#addDirectChannel').click({force: true});
+            cy.uiAddDirectMessage().click();
 
             // # Type username into input
             cy.get('.more-direct-channels').

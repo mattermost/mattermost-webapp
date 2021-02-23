@@ -4,7 +4,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {injectIntl, FormattedMessage} from 'react-intl';
-import {isNull} from 'lodash';
 
 import {debounce} from 'mattermost-redux/actions/helpers';
 import {isEmail} from 'mattermost-redux/utils/helpers';
@@ -13,13 +12,15 @@ import {trackEvent} from 'actions/telemetry_actions';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import InviteMembersIcon from 'components/widgets/icons/invite_members_icon';
 import UsersEmailsInput from 'components/widgets/inputs/users_emails_input.jsx';
-import {Constants} from 'utils/constants';
+import UpgradeLink from 'components/widgets/links/upgrade_link';
+import NotifyLink from 'components/widgets/links/notify_link';
 
 import LinkIcon from 'components/widgets/icons/link_icon';
 
 import {getSiteURL} from 'utils/url';
 import {t} from 'utils/i18n.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
+import {Constants} from 'utils/constants';
 
 import './invitation_modal_members_step.scss';
 
@@ -39,7 +40,6 @@ class InvitationModalMembersStep extends React.PureComponent {
         isCloud: PropTypes.bool.isRequired,
         subscriptionStats: PropTypes.object,
         actions: PropTypes.shape({
-            getSubscriptionStats: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -176,13 +176,6 @@ class InvitationModalMembersStep extends React.PureComponent {
         return false;
     };
 
-    componentDidMount() {
-        const {subscriptionStats, isCloud} = this.props;
-        if (isNull(subscriptionStats) && isCloud) {
-            this.props.actions.getSubscriptionStats();
-        }
-    }
-
     render() {
         const inviteUrl =
             getSiteURL() + '/signup_user_complete/?id=' + this.props.inviteId;
@@ -217,10 +210,11 @@ class InvitationModalMembersStep extends React.PureComponent {
             errorMessageId: t(
                 'invitation_modal.invite_members.hit_cloud_user_limit',
             ),
-            errorMessageDefault: 'You have reached the user limit for your tier',
+            errorMessageDefault: 'You can only invite **{num} more {num, plural, one {member} other {members}}** to the team on the free tier.',
             errorMessageValues: {
-                text: remainingUsers < 0 ? '0' : remainingUsers,
+                num: remainingUsers < 0 ? '0' : remainingUsers,
             },
+            extraErrorText: (this.props.userIsAdmin ? <UpgradeLink telemetryInfo='click_upgrade_users_emails_input'/> : <NotifyLink/>),
         };
 
         if (this.state.usersAndEmails.length > Constants.MAX_ADD_MEMBERS_BATCH) {
