@@ -7,7 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @enterprise @system_console
+// Group: @system_console
 
 // # Goes to the System Scheme page as System Admin
 const goToAdminConsole = () => {
