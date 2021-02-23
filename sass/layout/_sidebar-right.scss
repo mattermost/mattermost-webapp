@@ -14,8 +14,7 @@
     }
 
     &.move--left {
-        @include single-transition(width, 0.25s, ease-in);
-        @include single-transition(z-index, 0s, steps(1, end));
+        transition: width 0.25s 0s ease-in, z-index 0.25s 0s step-end;
     }
 
     &.sidebar--right--expanded {
@@ -24,6 +23,10 @@
 
         .sidebar-right__body {
             overflow: hidden;
+        }
+
+        &.move--left {
+            transition: width 0.25s 0s ease-in, z-index 0.15s 0.1s step-start;
         }
     }
 
