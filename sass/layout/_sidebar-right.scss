@@ -15,10 +15,12 @@
 
     &.move--left {
         @include single-transition(width, 0.25s, ease-in);
+        @include single-transition(z-index, 0s, steps(1, end));
     }
 
     &.sidebar--right--expanded {
         @include box-shadow(0px 8px 24px alpha-color($black, .24));
+        z-index: 13;
 
         .sidebar-right__body {
             overflow: hidden;
