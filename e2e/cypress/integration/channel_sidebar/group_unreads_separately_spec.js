@@ -12,17 +12,9 @@
 
 import {getAdminAccount} from '../../support/env';
 
-describe('Channel sidebar - group unreads seperately setting', () => {
+describe('Channel sidebar - group unreads separately', () => {
     let testTeam;
     let testChannel;
-
-    before(() => {
-        cy.apiUpdateConfig({
-            ServiceSettings: {
-                EnableLegacySidebar: 'default_on',
-            },
-        });
-    });
 
     beforeEach(() => {
         cy.apiAdminLogin().then(() => {

@@ -3,6 +3,7 @@
 
 import './account_settings_modal';
 import './announcement_bar';
+import './channel';
 import './channel_sidebar';
 import './common';
 import './compliance_export';
@@ -11,6 +12,6 @@ import './menu';
 import './modal';
 import './post_dropdown_menu';
 import './search';
+import './sidebar_left';
 import './system';
-import './channel';
 import './team';

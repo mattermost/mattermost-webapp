@@ -67,9 +67,6 @@ describe('SAML Guest', () => {
             UsernameAttribute: 'username',
             LoginButtonText: loginButtonText,
         },
-        ServiceSettings: {
-            EnableLegacySidebar: false,
-        },
     };
 
     let testSettings;
