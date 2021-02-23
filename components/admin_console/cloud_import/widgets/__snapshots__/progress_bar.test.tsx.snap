@@ -1,0 +1,124 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`admin_console/progress_bar progress bar match snapshot 1`] = `
+<div
+  className="ProgressBar"
+>
+  <svg
+    fill="none"
+    height="4"
+    viewBox="0 0 50 4"
+    width={50}
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <rect
+      fill="#3D3C40"
+      fillOpacity="0.16"
+      height="4"
+      rx="2"
+      width={50}
+    />
+    <rect
+      fill="#166DE0"
+      height="4"
+      rx="2"
+      width="5"
+    />
+  </svg>
+  <span
+    className="percetageText"
+  >
+    10%
+  </span>
+</div>
+`;
+
+exports[`admin_console/progress_bar progress bar shows 10% 1`] = `
+<ProgressBar
+  percentage={10}
+  width={50}
+>
+  <div
+    className="ProgressBar"
+  >
+    <svg
+      fill="none"
+      height="4"
+      viewBox="0 0 50 4"
+      width={50}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <rect
+        fill="#3D3C40"
+        fillOpacity="0.16"
+        height="4"
+        rx="2"
+        width={50}
+      />
+      <rect
+        fill="#166DE0"
+        height="4"
+        rx="2"
+        width="5"
+      />
+    </svg>
+    <span
+      className="percetageText"
+    >
+      10%
+    </span>
+  </div>
+</ProgressBar>
+`;
+
+exports[`admin_console/progress_bar progress bar shows right title 1`] = `
+<ProgressBar
+  percentage={10}
+  title={
+    <FormattedMessage
+      defaultMessage="the title"
+      id="title"
+    />
+  }
+  width={50}
+>
+  <div
+    className="ProgressBar"
+  >
+    <FormattedMessage
+      defaultMessage="the title"
+      id="title"
+    >
+      <span>
+        the title
+      </span>
+    </FormattedMessage>
+    <svg
+      fill="none"
+      height="4"
+      viewBox="0 0 50 4"
+      width={50}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <rect
+        fill="#3D3C40"
+        fillOpacity="0.16"
+        height="4"
+        rx="2"
+        width={50}
+      />
+      <rect
+        fill="#166DE0"
+        height="4"
+        rx="2"
+        width="5"
+      />
+    </svg>
+    <span
+      className="percetageText"
+    >
+      10%
+    </span>
+  </div>
+</ProgressBar>
+`;

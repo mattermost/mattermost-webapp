@@ -3,7 +3,7 @@
 
 import {useRef, useEffect, MutableRefObject} from 'react';
 
-export function useInterval(callback: any, delay: number) {
+export function useInterval(callback: any, delay: number, killInterval: number) {
     const savedCallback: MutableRefObject<any> = useRef();
 
     // Remember the latest callback.
@@ -20,8 +20,15 @@ export function useInterval(callback: any, delay: number) {
         }
         if (delay !== null) {
             const id = setInterval(tick, delay);
+            const clearTheInterval = () => clearInterval(id);
+            if (killInterval) {
+                setTimeout(() => {
+                    clearTheInterval();
+                }, killInterval);
+            }
             return () => clearInterval(id);
         }
+
         return delay;
     }, [delay]);
 }

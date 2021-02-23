@@ -9,6 +9,8 @@ import CloudTable from '../widgets/cloud_table';
 
 import StatusLegend from '../widgets/status_legend';
 
+import ProgressBar from '../widgets/progress_bar';
+
 const downloadLogLink = (url: string) => (
     <a
         target='_new'
@@ -17,7 +19,7 @@ const downloadLogLink = (url: string) => (
         className='download_log'
     >
         <FormattedMessage
-            id='admin.cloud.migrate.downloadLog'
+            id='admin.cloud.import.downloadLog'
             defaultMessage='Download Log'
         />
     </a>
@@ -25,43 +27,49 @@ const downloadLogLink = (url: string) => (
 
 const header = [
     <FormattedMessage
-        id='admin.cloud.migrate.type'
+        id='admin.cloud.import.type'
         defaultMessage='Import Type'
         key='type'
     />,
     <FormattedMessage
-        id='admin.cloud.migrate.date'
+        id='admin.cloud.import.date'
         defaultMessage='Date'
         key='date'
     />,
     <FormattedMessage
-        id='admin.cloud.migrate.channels'
+        id='admin.cloud.import.channels'
         defaultMessage='Channels'
         key='channels'
     />,
     <FormattedMessage
-        id='admin.cloud.migrate.users'
+        id='admin.cloud.import.users'
         defaultMessage='Users'
         key='users'
     />,
     <FormattedMessage
-        id='admin.cloud.migrate.status'
+        id='admin.cloud.import.status'
         defaultMessage='Status'
         key='status'
     />,
     <FormattedMessage
-        id='admin.cloud.migrate.log'
+        id='admin.cloud.import.log'
         defaultMessage='Log'
         key='log'
     />,
 ];
 
-const list = (importListData: any) => importListData.map((importElement: any) => {
+const list = (importListData: any, percentage: number) => importListData.map((importElement: any) => {
     const chatService = importElement.type;
+    const logCell = importElement.status === 'in_progress' ? (
+        <ProgressBar
+            percentage={percentage}
+            width={100}
+        />
+    ) : downloadLogLink(importElement.log);
     return [
         <FormattedMarkdownMessage
-            id='admin.cloud.migrate.tableType'
-            defaultMessage='{chatService} Import'
+            id='admin.cloud.import.tableType'
+            defaultMessage='**{chatService} Import**'
             values={{
                 chatService,
             }}
@@ -81,12 +89,12 @@ const list = (importListData: any) => importListData.map((importElement: any) =>
             status={importElement.status}
             key='status'
         />,
-        downloadLogLink(importElement.log),
+        logCell,
     ];
 });
 
-const importsListTable = (importListData: any) => {
-    const list1 = list(importListData);
+const importsListTable = (importListData: any, percentage: number) => {
+    const list1 = list(importListData, percentage);
     return (
         <CloudTable
             header={header}
