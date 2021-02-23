@@ -11,6 +11,7 @@ import {Channel} from 'mattermost-redux/types/channels';
 import {ExtendedPost} from 'mattermost-redux/actions/posts';
 import {Post} from 'mattermost-redux/types/posts';
 import {UserProfile} from 'mattermost-redux/types/users';
+import {UserThread} from 'mattermost-redux/types/threads';
 
 import Constants from 'utils/constants';
 import DelayedAction from 'utils/delayed_action';
@@ -66,11 +67,14 @@ export function renderThumbVertical(props: Record<string, any>) {
 type Attrs = Pick<HTMLAttributes<HTMLDivElement>, 'className' | 'id'>;
 
 type Props = Attrs & {
+    isCollapsedThreadsEnabled: boolean;
+    userThread?: UserThread | null;
     posts: Post[];
     channel: Channel | null;
     selected: Post | FakePost;
     previousRhsState?: string;
     currentUserId: string;
+    currentTeamId: string;
     previewCollapsed: string;
     previewEnabled: boolean;
     socketConnectionStatus: boolean;
@@ -78,6 +82,8 @@ type Props = Attrs & {
         removePost: (post: ExtendedPost) => void;
         selectPostCard: (post: Post) => void;
         getPostThread: (rootId: string, root?: boolean) => void;
+        getThread: (userId: string, teamId: string, threadId: string, extended: boolean) => unknown;
+        updateThreadRead: (userId: string, teamId: string, threadId: string, timestamp: number) => unknown;
     };
     directTeammate: UserProfile;
     useRelativeTimestamp?: boolean;
@@ -152,8 +158,17 @@ export default class ThreadViewer extends React.Component<Props, State> {
         this.scrollToBottom();
         this.resizeRhsPostList();
         window.addEventListener('resize', this.handleResize);
+
         if (this.morePostsToFetch()) {
             this.props.actions.getPostThread(this.props.selected.id, true);
+        }
+
+        if (this.props.isCollapsedThreadsEnabled) {
+            if (this.props.userThread == null) {
+                this.fetchThread();
+            } else {
+                this.markThreadRead();
+            }
         }
     }
 
@@ -165,6 +180,33 @@ export default class ThreadViewer extends React.Component<Props, State> {
         return this.props.posts.length <= 1 || this.props.posts.length < (Utils.getRootPost(this.props.posts).reply_count + 1);
     }
 
+    fetchThread() {
+        this.props.actions.getThread(
+            this.props.currentUserId,
+            this.props.currentTeamId,
+            this.props.selected.id,
+            true,
+        );
+    }
+
+    markThreadRead() {
+        if (
+            this.props.userThread &&
+            (
+                this.props.userThread.last_viewed_at < this.props.userThread.last_reply_at ||
+                this.props.userThread.unread_mentions ||
+                this.props.userThread.unread_replies
+            )
+        ) {
+            this.props.actions.updateThreadRead(
+                this.props.currentUserId,
+                this.props.currentTeamId,
+                this.props.selected.id,
+                this.props.userThread.last_reply_at,
+            );
+        }
+    }
+
     public componentDidUpdate(prevProps: Props) {
         const prevPostsArray = prevProps.posts || [];
         const curPostsArray = this.props.posts || [];
@@ -174,6 +216,20 @@ export default class ThreadViewer extends React.Component<Props, State> {
 
         if (reconnected || selectedChanged) {
             this.props.actions.getPostThread(this.props.selected.id);
+
+            if (
+                this.props.isCollapsedThreadsEnabled &&
+                this.props.userThread == null
+            ) {
+                this.fetchThread();
+            }
+        }
+
+        if (
+            this.props.isCollapsedThreadsEnabled &&
+            this.props.userThread?.id !== prevProps.userThread?.id
+        ) {
+            this.markThreadRead();
         }
 
         if (prevPostsArray.length >= curPostsArray.length) {
@@ -193,6 +249,10 @@ export default class ThreadViewer extends React.Component<Props, State> {
         }
 
         if (!Utils.areObjectsEqual(nextState.selected, this.props.selected)) {
+            return true;
+        }
+
+        if (!Utils.areObjectsEqual(nextProps.userThread, this.props.userThread)) {
             return true;
         }
 

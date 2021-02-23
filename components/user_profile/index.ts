@@ -3,7 +3,7 @@
 
 import {connect} from 'react-redux';
 
-import {getUser, makeGetDisplayName} from 'mattermost-redux/selectors/entities/users';
+import {getUser, getDisplayName} from 'mattermost-redux/selectors/entities/users';
 
 import {GlobalState} from 'mattermost-redux/types/store';
 
@@ -13,14 +13,10 @@ type OwnProps = {
     userId: string;
 }
 
-function makeMapStateToProps() {
-    const getDisplayName = makeGetDisplayName();
-
-    return (state: GlobalState, ownProps: OwnProps) => {
-        return {
-            displayName: getDisplayName(state, ownProps.userId, true),
-            user: getUser(state, ownProps.userId),
-        };
+function makeMapStateToProps(state: GlobalState, ownProps: OwnProps) {
+    return {
+        displayName: getDisplayName(state, ownProps.userId, true),
+        user: getUser(state, ownProps.userId),
     };
 }
 

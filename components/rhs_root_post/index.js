@@ -7,7 +7,7 @@ import {bindActionCreators} from 'redux';
 import {isChannelReadOnlyById, getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {makeGetReactionsForPost} from 'mattermost-redux/selectors/entities/posts';
-import {makeGetDisplayName} from 'mattermost-redux/selectors/entities/users';
+import {getDisplayName} from 'mattermost-redux/selectors/entities/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 
@@ -23,7 +23,6 @@ import RhsRootPost from './rhs_root_post.jsx';
 
 function mapStateToProps(state, ownProps) {
     const getReactionsForPost = makeGetReactionsForPost();
-    const getDisplayName = makeGetDisplayName();
 
     const config = getConfig(state);
     const enableEmojiPicker = config.EnableEmojiPicker === 'true';

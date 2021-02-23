@@ -36,12 +36,14 @@ type Props = {
     hasUnreads: boolean;
     children: ReactNode;
     unreadTimestamp: number;
+    lastReplyTimestamp: number;
 };
 
 function ThreadMenu({
     threadId,
     isFollowing = false,
     unreadTimestamp,
+    lastReplyTimestamp,
     hasUnreads,
     children,
 }: Props) {
@@ -109,7 +111,7 @@ function ThreadMenu({
                         defaultMessage: 'Mark as unread',
                     })}
                     onClick={useCallback(() => {
-                        dispatch(updateThreadRead(currentUserId, currentTeamId, threadId, hasUnreads ? Date.now() : unreadTimestamp));
+                        dispatch(updateThreadRead(currentUserId, currentTeamId, threadId, hasUnreads ? lastReplyTimestamp : unreadTimestamp));
                     }, [currentUserId, currentTeamId, threadId, hasUnreads, updateThreadRead])}
                 />
 

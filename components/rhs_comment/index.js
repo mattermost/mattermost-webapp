@@ -8,7 +8,7 @@ import {Posts} from 'mattermost-redux/constants';
 import {isChannelReadOnlyById} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {makeGetReactionsForPost, getPost} from 'mattermost-redux/selectors/entities/posts';
-import {getUser, makeGetDisplayName} from 'mattermost-redux/selectors/entities/users';
+import {getUser, getDisplayName} from 'mattermost-redux/selectors/entities/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {isSystemMessage} from 'mattermost-redux/utils/post_utils';
@@ -47,7 +47,6 @@ function isConsecutivePost(state, ownProps) {
 
 function mapStateToProps(state, ownProps) {
     const getReactionsForPost = makeGetReactionsForPost();
-    const getDisplayName = makeGetDisplayName();
     const emojiMap = getEmojiMap(state);
 
     const config = getConfig(state);

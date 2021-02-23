@@ -198,7 +198,7 @@ class RhsComment extends React.PureComponent {
                 eventTime={post.create_at}
                 postId={post.id}
                 location={Locations.RHS_COMMENT}
-                timestampProps={{...this.props.timestampProps, style: this.props.isConsecutivePost ? 'narrow' : undefined}}
+                timestampProps={{...this.props.timestampProps, style: this.props.isConsecutivePost && !this.props.compactDisplay ? 'narrow' : undefined}}
             />
         );
     };

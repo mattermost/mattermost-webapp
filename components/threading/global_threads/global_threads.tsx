@@ -52,7 +52,7 @@ const GlobalThreads = () => {
     const selectedThread = useSelector((state: GlobalState) => getThread(state, threadIdentifier));
 
     const threadIds = useSelector(getThreadOrderInCurrentTeam);
-    const unreadThreadIds = useSelector(getUnreadThreadOrderInCurrentTeam);
+    const unreadThreadIds = useSelector((state: GlobalState) => getUnreadThreadOrderInCurrentTeam(state, selectedThread?.id));
     const numUnread = counts?.total_unread_threads || 0;
     const isLoading = counts?.total == null || (counts.total && isEmpty(threadIds));
 
@@ -122,7 +122,7 @@ const GlobalThreads = () => {
                                 isSelected={threadIdentifier === id}
                             />
                         ))}
-                        {filter === 'unread' && !numUnread ? (
+                        {filter === 'unread' && !numUnread && isEmpty(unreadThreadIds) ? (
                             <NoResultsIndicator
                                 expanded={true}
                                 iconGraphic={BalloonIllustrationImg}
@@ -138,7 +138,6 @@ const GlobalThreads = () => {
                             thread={selectedThread}
                         >
                             <ThreadViewer
-                                currentUserId={currentUserId}
                                 rootPostId={selectedThread.id}
                                 useRelativeTimestamp={true}
                             />

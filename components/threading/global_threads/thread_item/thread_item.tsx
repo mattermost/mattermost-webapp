@@ -13,7 +13,7 @@ import {makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getChannel as fetchChannel} from 'mattermost-redux/actions/channels';
 import {getUser as fetchUser} from 'mattermost-redux/actions/users';
 
-import {makeGetDisplayName} from 'mattermost-redux/selectors/entities/users';
+import {getDisplayName} from 'mattermost-redux/selectors/entities/users';
 import {getThread} from 'mattermost-redux/selectors/entities/threads';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 
@@ -42,7 +42,6 @@ type Props = {
     isSelected: boolean;
 };
 
-const getDisplayName = makeGetDisplayName();
 const getChannel = makeGetChannel();
 
 const markdownPreviewOptions = {
@@ -140,6 +139,7 @@ const ThreadItem = ({
                     isFollowing={isFollowing ?? false}
                     hasUnreads={Boolean(newReplies)}
                     unreadTimestamp={post.edit_at || post.create_at}
+                    lastReplyTimestamp={lastReplyAt}
                 >
                     <SimpleTooltip
                         id='threadActionMenu'
