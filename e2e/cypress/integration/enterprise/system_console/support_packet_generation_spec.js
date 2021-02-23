@@ -16,21 +16,7 @@ const goToAdminConsole = () => {
 };
 
 describe('Support Packet Generation', () => {
-    it('MM-T3817-Step1 - Commercial Support Dialog UI', () => {
-        // # Remove license
-        cy.apiAdminLogin();
-        cy.apiDeleteLicense();
-
-        // # Go to System Console
-        goToAdminConsole();
-
-        cy.findByRole('button', {name: 'Menu Icon'}).should('exist').click();
-
-        // * Make sure the commercial support button takes you to external link
-        cy.findByRole('link', {name: 'Commercial Support'}).and('have.attr', 'href').and('include', '/commercial-support/');
-    });
-
-    it('MM-T3817-Step2And3 - Commercial Support Dialog UI', () => {
+    before(() => {
         // Running on E10/E20 License
         cy.apiRequireLicense();
         cy.apiAdminLogin();
@@ -41,7 +27,9 @@ describe('Support Packet Generation', () => {
                 FileLevel: 'ERROR',
             },
         });
+    });
 
+    it('MM-T3849 - Commercial Support Dialog UI - E10/E20 License', () => {
         // # Go to System Console
         goToAdminConsole();
 
@@ -56,17 +44,6 @@ describe('Support Packet Generation', () => {
     });
 
     it('MM-T3818 - Commercial Support Dialog UI - Links', () => {
-        // Running on E10/E20 License
-        cy.apiRequireLicense();
-        cy.apiAdminLogin();
-
-        cy.apiUpdateConfig({
-            LogSettings: {
-                EnableFile: true,
-                FileLevel: 'ERROR',
-            },
-        });
-
         // # Go to System Console
         goToAdminConsole();
 
