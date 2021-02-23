@@ -157,8 +157,8 @@ describe('components/AddGroupsToTeamModal', () => {
 
         const option = {id: 'id_1', label: 'label_1', value: 'value_1'};
         let isSelected = false;
-        function onAdd() {} //eslint-disable-line no-empty-function
-        function onMouseMove() {} //eslint-disable-line no-empty-function
+        const onAdd = jest.fn();
+        const onMouseMove = jest.fn();
 
         expect(wrapper.instance().renderOption(option, isSelected, onAdd, onMouseMove)).toMatchSnapshot();
 

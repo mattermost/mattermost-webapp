@@ -180,14 +180,10 @@ export default class AddGroupsToTeamModal extends React.PureComponent<Props, Sta
     }
 
     // public for tests
-    public handleDelete = (values: GroupValue[]): void => {
-        this.setState({values});
-    }
+    public handleDelete = (values: GroupValue[]): void => this.setState({values});
 
     // public for tests
-    public search = (term: string): void => {
-        this.props.actions.setModalSearchTerm(term);
-    }
+    public search = (term: string): void => this.props.actions.setModalSearchTerm(term);
 
     // public for tests
     public renderOption = (option: GroupValue, isSelected: boolean, onAdd: (value: GroupValue) => void, onMouseMove: (value: GroupValue) => void): JSX.Element => {
@@ -233,9 +229,7 @@ export default class AddGroupsToTeamModal extends React.PureComponent<Props, Sta
     }
 
     // public for tests
-    public renderValue(props: { data: Value }): string | undefined {
-        return props.data.display_name;
-    }
+    public renderValue = (props: { data: Value }): string | undefined => props.data.display_name;
 
     public render(): JSX.Element {
         const numRemainingText = (
@@ -255,8 +249,13 @@ export default class AddGroupsToTeamModal extends React.PureComponent<Props, Sta
 
         let addError = null;
         if (this.state.addError) {
-            addError = (<div className='has-error col-sm-12'><label
-                className='control-label font-weight--normal'>{this.state.addError}</label></div>);
+            addError = (
+                <div className='has-error col-sm-12'>
+                    <label className='control-label font-weight--normal'>
+                        {this.state.addError}
+                    </label>
+                </div>
+            );
         }
 
         let groupsToShow = this.props.groups;
