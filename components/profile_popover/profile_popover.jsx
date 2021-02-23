@@ -466,6 +466,7 @@ class ProfilePopover extends React.PureComponent {
             dataContent.push(
                 <div
                     key='user-popover-status'
+                    id='user-popover-status'
                     className='pb-1'
                 >
                     <span className='user-profile-popover__heading'>
