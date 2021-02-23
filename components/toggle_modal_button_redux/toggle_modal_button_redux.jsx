@@ -4,11 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import {firstAdminVisitMarketplaceStatus as getFirstAdminVisitMarketplaceStatus} from 'mattermost-redux/selectors/entities/general';
-
 import {injectIntl} from 'react-intl';
-
-import store from 'stores/redux_store.jsx';
 
 import {intlShape} from 'utils/react_intl';
 import {ModalIdentifiers} from 'utils/constants';
@@ -23,6 +19,7 @@ class ModalToggleButtonRedux extends React.PureComponent {
         intl: intlShape.isRequired,
         onClick: PropTypes.func,
         className: PropTypes.string,
+        firstAdminVisitMarketplaceStatus: PropTypes.bool,
         actions: PropTypes.shape({
             openModal: PropTypes.func.isRequired,
         }).isRequired,
@@ -62,13 +59,10 @@ class ModalToggleButtonRedux extends React.PureComponent {
         const ariaLabel = formatMessage({id: 'accessibility.button.dialog', defaultMessage: '{dialogName} dialog'}, {dialogName: props.accessibilityLabel});
 
         let badge = null;
-        if (this.props.modalId === ModalIdentifiers.PLUGIN_MARKETPLACE) {
-            const firstAdminVisitMarketplaceStatus = getFirstAdminVisitMarketplaceStatus(store.getState());
-            if (!firstAdminVisitMarketplaceStatus) {
-                badge = (
-                    <span className={'unread-badge'}/>
-                );
-            }
+        if (this.props.modalId === ModalIdentifiers.PLUGIN_MARKETPLACE && !this.props.firstAdminVisitMarketplaceStatus) {
+            badge = (
+                <span className={'unread-badge'}/>
+            );
         }
 
         // removing these three props since they are not valid props on buttons
@@ -77,6 +71,7 @@ class ModalToggleButtonRedux extends React.PureComponent {
         delete props.dialogProps;
         delete props.accessibilityLabel;
         delete props.actions;
+        delete props.firstAdminVisitMarketplaceStatus;
 
         // allow callers to provide an onClick which will be called before the modal is shown
         let clickHandler = () => this.show();

@@ -8,7 +8,7 @@ import {GlobalState} from 'mattermost-redux/types/store';
 import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
 
 import {setFirstAdminVisitMarketplaceStatus} from 'mattermost-redux/actions/general';
-import {firstAdminVisitMarketplaceStatus as getFirstAdminVisitMarketplaceStatus} from 'mattermost-redux/selectors/entities/general';
+import {getFirstAdminVisitMarketplaceStatus} from 'mattermost-redux/selectors/entities/general';
 
 import {getPlugins, getInstalledPlugins} from 'selectors/views/marketplace';
 import {isModalOpen} from 'selectors/views/modals';
@@ -35,7 +35,7 @@ type Actions = {
     closeModal(): void;
     fetchPlugins(localOnly?: boolean): Promise<{error?: Error}>;
     filterPlugins(filter: string): Promise<{error?: Error}>;
-    setFirstAdminVisitMarketplaceStatus(): void;
+    setFirstAdminVisitMarketplaceStatus(): Promise<void>;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {

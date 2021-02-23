@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {firstAdminVisitMarketplaceStatus as getFirstAdminVisitMarketplaceStatus} from 'mattermost-redux/selectors/entities/general';
+import {getFirstAdminVisitMarketplaceStatus} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getInt} from 'mattermost-redux/selectors/entities/preferences';

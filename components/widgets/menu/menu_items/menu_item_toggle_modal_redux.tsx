@@ -20,9 +20,10 @@ type Props = {
     className?: string;
     children?: React.ReactNode;
     sibling?: React.ReactNode;
+    firstAdminVisitMarketplaceStatus?: boolean;
 }
 
-export const MenuItemToggleModalReduxImpl: React.FC<Props> = ({modalId, dialogType, dialogProps, text, extraText, children, className, sibling}: Props) => (
+export const MenuItemToggleModalReduxImpl: React.FC<Props> = ({modalId, dialogType, dialogProps, text, extraText, firstAdminVisitMarketplaceStatus, children, className, sibling}: Props) => (
     <>
         <ToggleModalButtonRedux
             accessibilityLabel={text}
@@ -33,6 +34,7 @@ export const MenuItemToggleModalReduxImpl: React.FC<Props> = ({modalId, dialogTy
                 'MenuItem__with-help': extraText,
                 [`${className}`]: className,
             })}
+            firstAdminVisitMarketplaceStatus={firstAdminVisitMarketplaceStatus}
         >
             {text && <span className='MenuItem__primary-text'>{text}</span>}
             {extraText && <span className='MenuItem__help-text'>{extraText}</span>}
