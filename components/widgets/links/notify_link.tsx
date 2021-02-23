@@ -23,7 +23,6 @@ type Props = {
     className?: string;
 }
 
-// NotifyLink can take in some extra function to run at the end of notifyFunc
 const NotifyLink = (props: Props): JSX.Element => {
     const [notifyStatus, setStatus] = useState(NotifyStatus.NotStarted);
     const {formatMessage} = useIntl();
