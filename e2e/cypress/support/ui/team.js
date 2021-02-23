@@ -9,7 +9,7 @@ Cypress.Commands.add('uiInviteMemberToCurrentTeam', (username) => {
     // # Open members section if licensed for guest accounts
     cy.findByTestId('invitationModal').
         then((container) => container.find('[data-testid="inviteMembersLink"]')).
-        then((link) => link?.click());
+        then((link) => link && link.click());
 
     // # Enter bot username and submit
     cy.findByTestId('inputPlaceholder').find('input').type(username, {force: true}).as('input');

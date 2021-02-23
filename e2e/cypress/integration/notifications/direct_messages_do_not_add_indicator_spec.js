@@ -19,12 +19,6 @@ describe('Notifications', () => {
     let siteName;
 
     before(() => {
-        cy.apiUpdateConfig({
-            ServiceSettings: {
-                EnableLegacySidebar: false,
-            },
-        });
-
         cy.apiInitSetup().then(({team, user}) => {
             team1 = team;
             user1 = user;
