@@ -8,6 +8,7 @@ import {createSelector} from 'reselect';
 import {getDataRetentionCustomPolicyTeams} from 'mattermost-redux/actions/admin';
 import {searchTeams} from 'mattermost-redux/actions/teams';
 import {getTeams} from 'mattermost-redux/selectors/entities/teams';
+import {getDataRetentionCustomPolicy} from 'mattermost-redux/selectors/entities/admin';
 
 import {ActionFunc} from 'mattermost-redux/types/actions';
 
@@ -17,25 +18,29 @@ import {GlobalState} from 'types/store';
 
 import TeamList from './team_list';
 
+type OwnProps = {
+    match: {
+        params: {
+            policy_id: string;
+        };
+    };
+}
+
 type Actions = {
     searchTeams(term: string, opts: TeamSearchOpts): Promise<{data: TeamsWithCount}>;
-    getData(page: number, size: number): void;
+    getDataRetentionCustomPolicyTeams(id: string, page: number, size: number): void;
 }
 const getSortedListOfTeams = createSelector(
     getTeams,
     (teams) => Object.values(teams).sort((a, b) => a.display_name.localeCompare(b.display_name)),
 );
 
-function mapStateToProps(state: GlobalState, ownProps) {
-    const { teams } = ownProps;
-    let data = [];
-    if (teams) {
-        data = teams;
-    } else {
-        data = getSortedListOfTeams(state)
-    }
+function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
+    const policyId = ownProps.match.params.policy_id;
+
     return {
-        data: data,
+        policyId,
+        data: getSortedListOfTeams(state),
         total: state.entities.teams.totalCount || 0,
     };
 }
@@ -43,7 +48,7 @@ function mapStateToProps(state: GlobalState, ownProps) {
 function mapDispatchToProps(dispatch: Dispatch) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
-            getData: (page: number, pageSize: number) => getDataRetentionCustomPolicyTeams(id, page, pageSize, true),
+            getDataRetentionCustomPolicyTeams,
             searchTeams,
         }, dispatch),
     };

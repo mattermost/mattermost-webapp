@@ -24,6 +24,7 @@ import {browserHistory} from 'utils/browser_history';
 
 type Props = {
     config: AdminConfig;
+    customPolicies: DataRetentionCustomPolicies;
     actions: {
         getDataRetentionCustomPolicies: () => Promise<{ data: DataRetentionCustomPolicies }>;
     };
@@ -32,7 +33,6 @@ type Props = {
 type State = {
     enableMessageDeletion: boolean;
     enableFileDeletion: boolean;
-    customPolicyData: DataRetentionCustomPolicy[];
     customPoliciesLoading: boolean;
 }
 
@@ -42,7 +42,6 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
         this.state = {
             enableMessageDeletion: true,
             enableFileDeletion: true,
-            customPolicyData: [],
             customPoliciesLoading: true,
         }
     }
@@ -158,26 +157,26 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                 // }
             }];
     }
-    getChannelAndTeamCounts = (policy): string => {
-        if (!policy.channels.length && !policy.teams.length) {
+    getChannelAndTeamCounts = (policy: DataRetentionCustomPolicy): string => {
+        if (policy.channel_count === 0 && policy.team_count === 0) {
             return 'N/A';
         }
         let appliedTo = '';
-        if (policy.channels.length) {
-            appliedTo = `${policy.channels.length} channels`;
+        if (policy.channel_count > 0) {
+            appliedTo = `${policy.channel_count} channels`;
         }
 
-        if (policy.channels.length && policy.teams.length) {
+        if (policy.channel_count > 0 && policy.team_count > 0) {
             appliedTo += `, `;
         }
 
-        if (policy.teams.length) {
-            appliedTo += `${policy.teams.length} teams`;
+        if (policy.team_count > 0) {
+            appliedTo += `${policy.team_count} teams`;
         }
         return appliedTo;
     }
     getCustomPolicyRows = (): Row[] => {
-        return this.state.customPolicyData.map((policy: any) => {
+        return Object.values(this.props.customPolicies).map((policy: any) => {
             return {
                 cells: {
                     description: policy.display_name,
@@ -221,8 +220,8 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
 
     componentDidMount = async () => {
         const {actions} = this.props;
-        const policies = await actions.getDataRetentionCustomPolicies();
-        this.setState({customPolicyData: policies.data.policies, customPoliciesLoading: false})
+        await actions.getDataRetentionCustomPolicies();
+        this.setState({customPoliciesLoading: false})
     }
 
     render = () => {
