@@ -18,9 +18,6 @@ describe('Leave an archived channel', () => {
 
     before(() => {
         cy.apiUpdateConfig({
-            ServiceSettings: {
-                EnableLegacySidebar: false,
-            },
             TeamSettings: {
                 ExperimentalViewArchivedChannels: true,
             },
@@ -302,9 +299,6 @@ describe('Leave an archived channel', () => {
     it('MM-T1696 - When clicking Browse Channels no options for archived channels are shown when the feature is disabled', () => {
         cy.apiAdminLogin();
         cy.apiUpdateConfig({
-            ServiceSettings: {
-                EnableLegacySidebar: 'default_on',
-            },
             TeamSettings: {
                 ExperimentalViewArchivedChannels: false,
             },

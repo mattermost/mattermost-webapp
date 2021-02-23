@@ -1076,7 +1076,7 @@
 
     .SidebarChannel {
         & span.SidebarChannelLinkLabel {
-            width: 100%;
+            max-width: 100%;
             white-space: nowrap;
             line-height: 18px;
             text-align: justify;
