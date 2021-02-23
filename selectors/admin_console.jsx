@@ -5,7 +5,7 @@ import {createSelector} from 'reselect';
 import {cloneDeep} from 'lodash';
 
 import {getMySystemPermissions} from 'mattermost-redux/selectors/entities/roles_helpers';
-import {ResourceToSysConsolePermissionsTable} from 'mattermost-redux/constants/permissions_sysconsole';
+import {ResourceToSysConsolePermissionsTable, RESOURCE_KEYS} from 'mattermost-redux/constants/permissions_sysconsole';
 
 import AdminDefinition from 'components/admin_console/admin_definition.jsx';
 
@@ -35,9 +35,9 @@ export const getConsoleAccess = createSelector(
             consoleAccess.write[entryKey] = permissions.some((permission) => permission.startsWith('sysconsole_write_'));
         };
         const mapAccessValuesForKey = ([key]) => {
-            if (key === 'user_management') {
-                ['users', 'groups', 'teams', 'channels', 'permissions', 'system_roles'].forEach((userManagementKey) => {
-                    addEntriesForKey(`${key}.${userManagementKey}`);
+            if (typeof RESOURCE_KEYS[key.toUpperCase()] === 'object') {
+                Object.values(RESOURCE_KEYS[key.toUpperCase()]).forEach((entry) => {
+                    addEntriesForKey(entry);
                 });
             } else {
                 addEntriesForKey(key);
