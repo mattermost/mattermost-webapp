@@ -28,8 +28,6 @@ export type BaseState = {
     errorTooltip: boolean;
 }
 
-type StateKeys = keyof BaseState;
-
 // Placeholder type until ClientError is exported from redux.
 // TODO: remove ClientErrorPlaceholder and change the return type of updateConfig
 type ClientErrorPlaceholder = {

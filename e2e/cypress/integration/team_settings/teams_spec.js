@@ -37,11 +37,6 @@ describe('Teams Suite', () => {
             testTeam = team;
             testUser = user;
         });
-        cy.apiUpdateConfig({
-            ServiceSettings: {
-                EnableLegacySidebar: 'true',
-            },
-        });
     });
 
     it('MM-T393 Cancel out of leaving team', () => {

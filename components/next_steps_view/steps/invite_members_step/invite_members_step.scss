@@ -130,6 +130,17 @@
         i {
             color: var(--error-text);
         }
+
+        button.upgradeLink {
+            background: none!important;
+            border: none;
+            padding: 0!important;
+            margin-left: 5px;
+            font-weight: 600;
+            span {
+               color: var(--sys-button-bg);
+            }
+        }
     }
 }
 
