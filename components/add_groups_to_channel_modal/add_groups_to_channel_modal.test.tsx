@@ -66,9 +66,8 @@ describe('components/AddGroupsToChannelModal', () => {
         const actions = {...baseProps.actions, linkGroupSyncable};
         const props = {...baseProps, actions};
         const wrapper = shallow(
-            <AddGroupsToChannelModal {...props}/>
+            <AddGroupsToChannelModal {...props}/>,
         );
-        const instance = wrapper.instance();
         (wrapper.instance() as AddGroupsToChannelModal).handleResponse = jest.fn();
         (wrapper.instance() as AddGroupsToChannelModal).handleHide = jest.fn();
         wrapper.setState({values: []});

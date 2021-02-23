@@ -63,7 +63,7 @@ describe('components/AddGroupsToTeamModal', () => {
         const actions = {...baseProps.actions, linkGroupSyncable};
         const props = {...baseProps, actions};
         const wrapper = shallow(
-            <AddGroupsToTeamModal {...props}/>
+            <AddGroupsToTeamModal {...props}/>,
         );
         const instance = wrapper.instance();
         instance.handleResponse = jest.fn();
@@ -83,7 +83,7 @@ describe('components/AddGroupsToTeamModal', () => {
         expect(actions.linkGroupSyncable).toBeCalledWith('id_2', baseProps.currentTeamId, Groups.SYNCABLE_TYPE_TEAM, {auto_add: true});
 
         expect(instance.handleResponse).toBeCalledTimes(2);
-      expect(instance.handleHide).not.toBeCalled();
+        expect(instance.handleHide).not.toBeCalled();
         expect(wrapper.state('saving')).toEqual(true);
     });
 
