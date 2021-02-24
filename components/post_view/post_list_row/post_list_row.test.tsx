@@ -28,6 +28,7 @@ describe('components/post_view/post_list_row', () => {
         shortcutReactToLastPostEmittedFrom: 'NO_WHERE',
         loadingNewerPosts: false,
         loadingOlderPosts: false,
+        isCurrentUserLastPostGroupFirstPost: false,
         actions: {
             emitShortcutReactToLastPostFrom: jest.fn(),
         },
