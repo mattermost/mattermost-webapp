@@ -15,14 +15,14 @@ const goToAdminConsole = () => {
     cy.visit('/admin_console');
 };
 
-const goToSupportPacketGenerationModal = () {
+const goToSupportPacketGenerationModal = () => {
     cy.findByRole('button', {name: 'Menu Icon'}).should('exist').click();
 
     cy.findByRole('button', {name: 'Commercial Support dialog'}).click();
 
     // * Ensure the download support packet button exist and that text regarding setting the proper settings exist
     cy.findByRole('link', {name: 'Download Support Packet'}).should('exist');
-}
+};
 
 describe('Support Packet Generation', () => {
     before(() => {
@@ -41,9 +41,9 @@ describe('Support Packet Generation', () => {
     it('MM-T3849 - Commercial Support Dialog UI - E10/E20 License', () => {
         // # Go to System Console
         goToAdminConsole();
-        
+
         goToSupportPacketGenerationModal();
-        
+
         cy.get('.AlertBanner__body').should('have.text', 'Before downloading the support packet, set Output Logs to File to true and set File Log Level to DEBUG here.');
     });
 
