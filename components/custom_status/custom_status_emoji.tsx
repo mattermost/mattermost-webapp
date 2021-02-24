@@ -1,8 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Tooltip} from 'react-bootstrap';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+
+import {getCustomEmojis} from 'mattermost-redux/actions/emojis';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import OverlayTrigger from 'components/overlay_trigger';
 import RenderEmoji from 'components/emoji/render_emoji';
@@ -20,8 +23,17 @@ interface ComponentProps {
 }
 
 const CustomStatusEmoji = (props: ComponentProps) => {
+    const dispatch = useDispatch();
     const getCustomStatus = makeGetCustomStatus();
     const {emojiSize, emojiStyle, showTooltip, tooltipDirection, userID, onClick} = props;
+
+    const isCustomEmojiEnabled = useSelector((state: GlobalState) => getConfig(state).EnableCustomEmoji === 'true');
+    useEffect(() => {
+        if (isCustomEmojiEnabled) {
+            dispatch(getCustomEmojis());
+        }
+    }, [isCustomEmojiEnabled]);
+
     const customStatusEnabled = useSelector(isCustomStatusEnabled);
     const customStatus = useSelector((state: GlobalState) => {
         return getCustomStatus(state, userID);
