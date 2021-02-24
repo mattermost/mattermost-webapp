@@ -55,7 +55,7 @@ describe('Account Settings > Sidebar > General', () => {
         cy.apiLogin(otherUser);
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
-        // # Type in user`s firstName substring
+        // # Type in user's first name substring
         cy.get('#post_textbox').clear().type(`@${newFirstName.substring(0, 11)}`);
 
         // # Verify that the testUser is selected from mention autocomplete
