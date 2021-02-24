@@ -12,19 +12,15 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import AdminHeader from 'components/widgets/admin_console/admin_header';
 import CloudCard from 'components/common/cloud_card';
 import {useInterval} from 'components/common/hooks/set_interval';
+import Badge from 'components/widgets/badges/badge';
 
 import {
     CloudLinks,
 } from 'utils/constants';
 
-import './import_workspace.scss';
-
-import Badge from 'components/widgets/badges/badge';
-
-import ProgressBar from './widgets/progress_bar';
-
 import importsListTable from './components/import_list';
-
+import './import_workspace.scss';
+import ProgressBar from './widgets/progress_bar';
 import ImportSvg from './import.svg';
 
 // temporal hardcoded data
@@ -128,7 +124,7 @@ const ImportWorkspace: React.FC = () => {
         return true;
     };
 
-    const shouldShowImportRecommended4NewWorkspacesAlertBanner = () => {
+    const shouldShowImportRecommendedForNewWorkspacesAlertBanner = () => {
         return true;
     };
 
@@ -163,7 +159,7 @@ const ImportWorkspace: React.FC = () => {
         />
     );
 
-    const importRecommended4NewWorkspaces = (
+    const importRecommendedForNewWorkspaces = (
         <AlertBanner
             mode='info'
             title={
@@ -188,7 +184,7 @@ const ImportWorkspace: React.FC = () => {
             <div className='admin-console__wrapper'>
                 <div className='admin-console__content'>
                     {shouldShowImportInProgressAlertBanner() && importInProgress}
-                    {shouldShowImportRecommended4NewWorkspacesAlertBanner() && importRecommended4NewWorkspaces}
+                    {shouldShowImportRecommendedForNewWorkspacesAlertBanner() && importRecommendedForNewWorkspaces}
                     <div className='ImportWorkspace__topWrapper'>
                         <CloudCard className='ImportCard'>
                             <div className='ImportCard__importImg'>
