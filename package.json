@@ -169,7 +169,7 @@
     "webpack": "5.20.2",
     "webpack-cli": "4.5.0",
     "webpack-dev-server": "3.11.2",
-    "webpack-livereload-plugin": "2.3.0",
+    "webpack-livereload-plugin": "3.0.0",
     "webpack-node-externals": "2.5.2",
     "webpack-pwa-manifest": "4.3.0",
     "yup": "0.32.8"
