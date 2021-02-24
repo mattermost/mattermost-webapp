@@ -10,6 +10,8 @@ import {AutocompleteSuggestion, AutocompleteSuggestionWithComplete} from 'matter
 import {ServerAutocompleteSuggestion} from 'mattermost-redux/types/integrations';
 import {Post} from 'mattermost-redux/types/posts';
 
+import {Store} from 'redux';
+
 import globalStore from 'stores/redux_store';
 
 import {getSelectedPost} from 'selectors/rhs';
@@ -23,7 +25,9 @@ import Provider from '../provider';
 
 import {appsEnabled} from 'utils/apps';
 
-import {AppCommandParser, Store} from './app_command_parser';
+import {GlobalState} from 'types/store';
+
+import {AppCommandParser} from './app_command_parser';
 
 const EXECUTE_CURRENT_COMMAND_ITEM_ID = Constants.Integrations.EXECUTE_CURRENT_COMMAND_ITEM_ID;
 
@@ -87,7 +91,8 @@ type ResultsCallback = (results: Results) => void;
 
 export default class CommandProvider extends Provider {
     private isInRHS: boolean;
-    private store: Store;
+    private store: Store<GlobalState>;
+    private triggerCharacter: string;
     private appCommandParser?: AppCommandParser;
 
     constructor(props: Props) {
@@ -106,10 +111,11 @@ export default class CommandProvider extends Provider {
         if (appsEnabled(this.store.getState())) {
             this.appCommandParser = new AppCommandParser(this.store, rootId);
         }
+        this.triggerCharacter = '/';
     }
 
     handlePretextChanged(pretext: string, resultCallback: ResultsCallback) {
-        if (!pretext.startsWith('/')) {
+        if (!pretext.startsWith(this.triggerCharacter)) {
             return false;
         }
 
@@ -155,8 +161,8 @@ export default class CommandProvider extends Provider {
                     }
 
                     if (cmd.trigger !== 'shortcuts') {
-                        if (('/' + cmd.trigger).indexOf(command) === 0) {
-                            const s = '/' + cmd.trigger;
+                        if ((this.triggerCharacter + cmd.trigger).indexOf(command) === 0) {
+                            const s = this.triggerCharacter + cmd.trigger;
                             let hint = '';
                             if (cmd.auto_complete_hint && cmd.auto_complete_hint.length !== 0) {
                                 hint = cmd.auto_complete_hint;
@@ -219,10 +225,10 @@ export default class CommandProvider extends Provider {
                 }
 
                 data.forEach((s) => {
-                    if (!this.contains(matches, '/' + s.Complete)) {
+                    if (!this.contains(matches, this.triggerCharacter + s.Complete)) {
                         matches.push({
-                            complete: '/' + s.Complete,
-                            suggestion: '/' + s.Suggestion,
+                            complete: this.triggerCharacter + s.Complete,
+                            suggestion: this.triggerCharacter + s.Suggestion,
                             hint: s.Hint,
                             description: s.Description,
                             iconData: s.IconData,

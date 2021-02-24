@@ -17,12 +17,6 @@ describe('Cloud Onboarding - Sysadmin', () => {
     let sysadmin;
 
     before(() => {
-        cy.apiUpdateConfig({
-            ServiceSettings: {
-                EnableLegacySidebar: false,
-            },
-        });
-
         // # Check if with license and has matching database
         cy.apiRequireLicenseForFeature('Cloud');
 

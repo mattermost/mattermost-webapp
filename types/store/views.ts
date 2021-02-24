@@ -138,4 +138,8 @@ export type ViewsState = {
     nextSteps: {
         show: boolean;
     };
+
+    statusDropdown: {
+        isOpen: boolean;
+    };
 };

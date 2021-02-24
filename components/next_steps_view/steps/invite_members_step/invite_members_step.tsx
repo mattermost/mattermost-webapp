@@ -5,7 +5,6 @@ import React, {CSSProperties} from 'react';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 import {ActionMeta, InputActionMeta} from 'react-select';
 import classNames from 'classnames';
-import {isNull} from 'lodash';
 
 import {ServerError} from 'mattermost-redux/types/errors';
 import {TeamInviteWithError, Team} from 'mattermost-redux/types/teams';
@@ -13,10 +12,14 @@ import {isEmail} from 'mattermost-redux/utils/helpers';
 
 import {SubscriptionStats} from 'mattermost-redux/types/cloud';
 
+import {isNull} from 'lodash';
+
 import {pageVisited, trackEvent} from 'actions/telemetry_actions';
 import {getAnalyticsCategory} from 'components/next_steps_view/step_helpers';
 import MultiInput from 'components/multi_input';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
+import UpgradeLink from 'components/widgets/links/upgrade_link';
+
 import {getSiteURL} from 'utils/url';
 import * as Utils from 'utils/utils';
 
@@ -31,9 +34,8 @@ type Props = StepComponentProps & {
     actions: {
         sendEmailInvitesToTeamGracefully: (teamId: string, emails: string[]) => Promise<{ data: TeamInviteWithError[]; error: ServerError }>;
         regenerateTeamInviteId: (teamId: string) => void;
-        getSubscriptionStats: () => void;
     };
-    subscriptionStats?: SubscriptionStats;
+    subscriptionStats: SubscriptionStats;
     intl: IntlShape;
     isCloud: boolean;
 };
@@ -91,10 +93,6 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
             // force a regenerate if an invite ID hasn't been generated yet
             this.props.actions.regenerateTeamInviteId(this.props.team.id);
         }
-
-        if (isNull(this.props.subscriptionStats) && this.props.isCloud) {
-            this.props.actions.getSubscriptionStats();
-        }
     }
 
     componentDidUpdate(prevProps: Props) {
@@ -109,7 +107,6 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
         if (subscriptionStats) {
             return subscriptionStats.remaining_seats - emails.length;
         }
-
         return 0;
     }
 
@@ -136,7 +133,7 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
                 emailInput: '',
                 emailError: newEmails.length > subscriptionStats!.remaining_seats ? this.props.intl.formatMessage({
                     id: 'next_steps_view.invite_members_step.tooManyEmails',
-                    defaultMessage: 'The free tier is limited to {num} members'},
+                    defaultMessage: 'The free tier is limited to {num} members.'},
                 {num: cloudUserLimit}) : undefined,
             });
         } else {
@@ -158,7 +155,7 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
         if (value.length > subscriptionStats!.remaining_seats) {
             this.setState({emailError: this.props.intl.formatMessage({
                 id: 'next_steps_view.invite_members_step.tooManyEmails',
-                defaultMessage: 'The free tier is limited to {num} members'},
+                defaultMessage: 'The free tier is limited to {num} members.'},
             {num: cloudUserLimit})});
         }
 
@@ -176,7 +173,7 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
                 emailInput: '',
                 emailError: newEmails.length > subscriptionStats!.remaining_seats ? this.props.intl.formatMessage({
                     id: 'next_steps_view.invite_members_step.tooManyEmails',
-                    defaultMessage: 'The free tier is limited to {num} members'},
+                    defaultMessage: 'The free tier is limited to {num} members.'},
                 {num: cloudUserLimit}) : undefined,
             });
         }
@@ -312,6 +309,10 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
                                             <i className='icon icon-alert-outline'/>
                                             <span>{this.state.emailError}</span>
                                         </>
+                                    }
+                                    {(this.state.emailError && !isNull(this.props.subscriptionStats) &&
+                                        this.state.emails.length >= this.props.subscriptionStats.remaining_seats) &&
+                                        <UpgradeLink telemetryInfo='click_upgrade_invite_members_step'/>
                                     }
                                 </div>
                             </div>

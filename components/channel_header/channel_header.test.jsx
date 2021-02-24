@@ -35,6 +35,7 @@ describe('components/ChannelHeader', () => {
         penultimateViewedChannelName: '',
         teammateNameDisplaySetting: '',
         currentRelativeTeamUrl: '',
+        isCustomStatusEnabled: false,
     };
 
     const populatedProps = {
@@ -238,5 +239,30 @@ describe('components/ChannelHeader', () => {
         expect(wrapper.containsMatchingElement(
             <GuestBadge show={true}/>,
         )).toEqual(true);
+    });
+
+    test('should render properly when custom status is set', () => {
+        const props = {
+            ...populatedProps,
+            channel: {
+                header: 'not the bot description',
+                type: Constants.DM_CHANNEL,
+                status: 'offline',
+            },
+            dmUser: {
+                id: 'user_id',
+                is_bot: false,
+            },
+            isCustomStatusEnabled: true,
+            customStatus: {
+                emoji: 'calender',
+                text: 'In a meeting',
+            },
+        };
+
+        const wrapper = shallowWithIntl(
+            <ChannelHeader {...props}/>,
+        );
+        expect(wrapper).toMatchSnapshot();
     });
 });
