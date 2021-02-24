@@ -9,7 +9,7 @@
 
 // Group: @system_console
 
-// # Goes to the System Scheme page as System Admin
+// # Go to the System Scheme page as System Admin
 const goToAdminConsole = () => {
     cy.apiAdminLogin();
     cy.visit('/admin_console');
