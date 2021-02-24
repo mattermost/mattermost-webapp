@@ -2744,7 +2744,7 @@
   "error.local_storage.help3": "Use a supported browser (IE 11, Chrome 61+, Firefox 60+, Safari 12+, Edge 42+)",
   "error.local_storage.message": "Mattermost was unable to load because a setting in your browser prevents the use of its local storage features. To allow Mattermost to load, try the following actions:",
   "error.local_storage.title": "Cannot Load Mattermost",
-  "error.maxFreeUsersReached.description": "New users cannot be added to this workspace because it has reached the user limit for the free version of Mattermost Cloud.",
+  "error.maxFreeUsersReached.description": "New users cannot be added to this workspace because it has reached the user limit for the free version of Mattermost Cloud. The system administrator has been notified",
   "error.maxFreeUsersReached.title": "This workspace has reached the user limit.",
   "error.not_found.message": "The page you were trying to reach does not exist",
   "error.not_found.title": "Page Not Found",
