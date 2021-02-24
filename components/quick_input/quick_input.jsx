@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Tooltip} from 'react-bootstrap';
+import classNames from 'classnames';
 
 import OverlayTrigger from 'components/overlay_trigger';
 import AutosizeTextarea from 'components/autosize_textarea';
@@ -165,7 +166,7 @@ export default class QuickInput extends React.PureComponent {
             {inputElement}
             {clearable && value && this.props.onClear &&
                 <div
-                    className={`${clearClassName} input-clear visible`}
+                    className={classNames(clearClassName, 'input-clear visible')}
                     onMouseDown={this.onClear}
                     onTouchEnd={this.onClear}
                 >
