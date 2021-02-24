@@ -10,23 +10,23 @@
 // Stage: @prod
 // Group: @account_setting
 
-import * as TIMEOUTS from '../../../../fixtures/timeouts';
 import {hexToRgbArray, rgbArrayToString} from '../../../../utils';
 
 const testCases = [
     {key: 0, name: 'Sidebar BG', themeId: 'sidebarBg'},
     {key: 1, name: 'Sidebar Text', themeId: 'sidebarText'},
     {key: 2, name: 'Sidebar Header BG', themeId: 'sidebarHeaderBg'},
-    {key: 3, name: 'Sidebar Header Text', themeId: 'sidebarHeaderTextColor'},
-    {key: 4, name: 'Sidebar Unread Text', themeId: 'sidebarUnreadText'},
-    {key: 5, name: 'Sidebar Text Hover BG', themeId: 'sidebarTextHoverBg'},
-    {key: 6, name: 'Sidebar Text Active Border', themeId: 'sidebarTextActiveBorder'},
-    {key: 7, name: 'Sidebar Text Active Color', themeId: 'sidebarTextActiveColor'},
-    {key: 8, name: 'Online Indicator', themeId: 'onlineIndicator'},
-    {key: 9, name: 'Away Indicator', themeId: 'awayIndicator'},
-    {key: 10, name: 'Do Not Disturb Indicator', themeId: 'dndIndicator'},
-    {key: 11, name: 'Mention Jewel BG', themeId: 'mentionBg'},
-    {key: 12, name: 'Mention Jewel Text', themeId: 'mentionColor'},
+    {key: 3, name: 'Team Sidebar BG', themeId: 'sidebarTeamBarBg'},
+    {key: 4, name: 'Sidebar Header Text', themeId: 'sidebarHeaderTextColor'},
+    {key: 5, name: 'Sidebar Unread Text', themeId: 'sidebarUnreadText'},
+    {key: 6, name: 'Sidebar Text Hover BG', themeId: 'sidebarTextHoverBg'},
+    {key: 7, name: 'Sidebar Text Active Border', themeId: 'sidebarTextActiveBorder'},
+    {key: 8, name: 'Sidebar Text Active Color', themeId: 'sidebarTextActiveColor'},
+    {key: 9, name: 'Online Indicator', themeId: 'onlineIndicator'},
+    {key: 10, name: 'Away Indicator', themeId: 'awayIndicator'},
+    {key: 11, name: 'Do Not Disturb Indicator', themeId: 'dndIndicator'},
+    {key: 12, name: 'Mention Jewel BG', themeId: 'mentionBg'},
+    {key: 13, name: 'Mention Jewel Text', themeId: 'mentionColor'},
 ];
 
 describe('AS14318 Theme Colors - Custom Sidebar Styles input change', () => {
@@ -38,8 +38,12 @@ describe('AS14318 Theme Colors - Custom Sidebar Styles input change', () => {
             cy.visit(`/${team.name}/channels/town-square`);
 
             // # Go to Theme > Custom > Sidebar Styles
-            toThemeDisplaySettings();
-            openSidebarStyles();
+            cy.uiOpenAccountSettingsModal('Display').within(() => {
+                cy.uiGetHeading('Display Settings').scrollIntoView().should('be.visible');
+                cy.uiGetHeading('Theme').scrollIntoView().should('be.visible').click();
+                cy.uiGetRadioButton('Custom Theme').click();
+                cy.findByText('Sidebar Styles').scrollIntoView().should('be.visible').click({force: true});
+            });
         });
     });
 
@@ -110,23 +114,3 @@ describe('AS14318 Theme Colors - Custom Sidebar Styles input change', () => {
         cy.userStatus(0);
     });
 });
-
-function toThemeDisplaySettings() {
-    // # Go to account settings modal
-    cy.toAccountSettingsModal();
-
-    // * Check that the Display tab is loaded, then click on it
-    cy.get('#displayButton', {timeout: TIMEOUTS.FIVE_SEC}).should('be.visible').click();
-}
-
-// Open sidebar styles at Account Settings > Display > Theme
-function openSidebarStyles() {
-    // # Click "Edit" on Theme
-    cy.get('#themeEdit').scrollIntoView().click();
-
-    // # Select Custom Theme
-    cy.get('#customThemes').click();
-
-    // # Expand sidebar styles
-    cy.get('#sidebarStyles').click({force: true});
-}

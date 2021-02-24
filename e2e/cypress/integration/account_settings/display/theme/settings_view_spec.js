@@ -19,22 +19,16 @@ describe('AS14318 Theme Colors - Settings View', () => {
     });
 
     it('Theme Display should render in min setting view', () => {
-        // # Go to Account Settings
-        cy.toAccountSettingsModal();
+        // # Go to Account Settings > Display
+        cy.uiOpenAccountSettingsModal('Display').within(() => {
+            // * Check that it changed into the Display section
+            cy.uiGetHeading('Display Settings').should('be.visible');
 
-        // * Check that the Display tab is loaded
-        cy.get('#displayButton').should('be.visible');
+            // * Check the min setting view for each element that is present and contains the expected values
+            verifyMinDisplayView();
 
-        // # Click the Display tab
-        cy.get('#displayButton').click();
-
-        // * Check that it changed into the Display section
-        cy.get('#displaySettingsTitle').should('be.visible').should('contain', 'Display Settings');
-
-        // * Check the min setting view for each element that is present and contains the expected values
-        verifyMinDisplayView();
-
-        cy.get('#accountSettingsHeader > .close').click();
+            cy.uiClose();
+        });
     });
 });
 
