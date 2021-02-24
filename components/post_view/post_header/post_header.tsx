@@ -175,6 +175,7 @@ export default class PostHeader extends React.PureComponent<Props> {
         const customStatus = (
             <PostHeaderCustomStatus
                 userId={this.props.post.user_id}
+                isBot={this.props.isBot}
                 isSystemMessage={isSystemMessage}
             />
         );

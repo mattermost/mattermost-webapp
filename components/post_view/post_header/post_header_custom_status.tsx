@@ -15,10 +15,11 @@ import EmojiIcon from 'components/widgets/icons/emoji_icon';
 interface ComponentProps {
     userId: string;
     isSystemMessage: boolean;
+    isBot: boolean;
 }
 
 const PostHeaderCustomStatus = (props: ComponentProps) => {
-    const {userId, isSystemMessage} = props;
+    const {userId, isSystemMessage, isBot} = props;
     const getCustomStatus = makeGetCustomStatus();
     const dispatch = useDispatch();
     const userCustomStatus = useSelector((state: GlobalState) => getCustomStatus(state, userId));
@@ -26,7 +27,7 @@ const PostHeaderCustomStatus = (props: ComponentProps) => {
     const customStatusEnabled = useSelector(isCustomStatusEnabled);
 
     const isCustomStatusSet = userCustomStatus && userCustomStatus.emoji;
-    if (!customStatusEnabled || isSystemMessage) {
+    if (!customStatusEnabled || isSystemMessage || isBot) {
         return null;
     }
 
