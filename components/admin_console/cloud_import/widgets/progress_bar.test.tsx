@@ -39,8 +39,8 @@ describe('admin_console/progress_bar', () => {
         const percent = 10;
         const title = (
             <FormattedMessage
-                id='title'
-                defaultMessage='the title'
+                id='admin.general.importInProgress'
+                defaultMessage='Import in Progress'
             />
         );
         const wrapper = mountWithIntl(
@@ -52,6 +52,6 @@ describe('admin_console/progress_bar', () => {
         );
         expect(wrapper).toMatchSnapshot();
         const span = wrapper.find('span');
-        expect(span.first().text()).toBe('the title');
+        expect(span.first().text()).toBe('Import in Progress');
     });
 });

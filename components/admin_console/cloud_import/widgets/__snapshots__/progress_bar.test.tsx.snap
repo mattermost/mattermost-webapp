@@ -76,8 +76,8 @@ exports[`admin_console/progress_bar progress bar shows right title 1`] = `
   percentage={10}
   title={
     <FormattedMessage
-      defaultMessage="the title"
-      id="title"
+      defaultMessage="Import in Progress"
+      id="admin.general.importInProgress"
     />
   }
   width={50}
@@ -86,11 +86,11 @@ exports[`admin_console/progress_bar progress bar shows right title 1`] = `
     className="ProgressBar"
   >
     <FormattedMessage
-      defaultMessage="the title"
-      id="title"
+      defaultMessage="Import in Progress"
+      id="admin.general.importInProgress"
     >
       <span>
-        the title
+        Import in Progress
       </span>
     </FormattedMessage>
     <svg
