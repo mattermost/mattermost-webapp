@@ -267,8 +267,8 @@ var config = {
             COMMIT_HASH: JSON.stringify(childProcess.execSync('git rev-parse HEAD || echo dev').toString()),
         }),
         new MiniCssExtractPlugin({
-            filename: '[name].[contentHash].css',
-            chunkFilename: '[name].[contentHash].css',
+            filename: '[name].[contenthash].css',
+            chunkFilename: '[name].[contenthash].css',
         }),
         new HtmlWebpackPlugin({
             filename: 'root.html',
