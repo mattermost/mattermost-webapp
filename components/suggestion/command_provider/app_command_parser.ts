@@ -21,12 +21,13 @@ import {
     AppLookupCallValues,
 } from 'mattermost-redux/types/apps';
 
-import {DispatchFunc} from 'mattermost-redux/types/actions';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getChannel, getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 import {Channel} from 'mattermost-redux/types/channels';
 
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+
+import {Store} from 'redux';
 
 import {Constants} from 'utils/constants';
 import {GlobalState} from 'types/store';
@@ -35,11 +36,6 @@ import {doAppCall} from 'actions/apps';
 import * as Utils from 'utils/utils.jsx';
 
 const EXECUTE_CURRENT_COMMAND_ITEM_ID = Constants.Integrations.EXECUTE_CURRENT_COMMAND_ITEM_ID;
-
-export type Store = {
-    dispatch: DispatchFunc;
-    getState: () => GlobalState;
-}
 
 export enum ParseState {
     Start = 0,
@@ -468,7 +464,7 @@ export class ParsedCommand {
 }
 
 export class AppCommandParser {
-    private store: Store;
+    private store: Store<GlobalState>;
     private rootPostID: string;
 
     forms: {[location: string]: AppForm} = {};
@@ -707,7 +703,7 @@ export class AppCommandParser {
 
         let callResponse: AppCallResponse | undefined;
         try {
-            const res = await this.store.dispatch(doAppCall(payload)) as {data?: AppCallResponse; error?: Error};
+            const res = await this.store.dispatch(doAppCall(payload) as any) as {data?: AppCallResponse; error?: Error};
             if (res.error) {
                 this.displayError(res.error);
                 return undefined;
@@ -925,7 +921,7 @@ export class AppCommandParser {
         type ResponseType = {items: AppSelectOption[]};
         let res: {data?: AppCallResponse<ResponseType>; error?: any};
         try {
-            res = await this.store.dispatch(doAppCall<ResponseType>(payload));
+            res = await this.store.dispatch(doAppCall<ResponseType>(payload) as any);
         } catch (e) {
             return [{suggestion: `Error: ${e.message}`}];
         }

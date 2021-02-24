@@ -15,7 +15,7 @@
 // ***************************************************************
 
 declare namespace Cypress {
-    interface Chainable<Subject = any> {
+    interface Chainable {
 
         /**
          * Click 'Save' button
@@ -48,5 +48,53 @@ declare namespace Cypress {
          *   cy.uiSaveAndClose();
          */
         uiSaveAndClose(): Chainable;
+
+        /**
+         * Get a button by its text using "cy.findByRole"
+         *
+         * @example
+         *   cy.uiGetButton('Save');
+         */
+        uiGetButton(): Chainable;
+
+        /**
+         * Get save button
+         *
+         * @example
+         *   cy.uiSaveButton();
+         */
+        uiSaveButton(): Chainable;
+
+        /**
+         * Get cancel button
+         *
+         * @example
+         *   cy.uiCancelButton();
+         */
+        uiCancelButton(): Chainable;
+
+        /**
+         * Get close button
+         *
+         * @example
+         *   cy.uiCloseButton();
+         */
+        uiCloseButton(): Chainable;
+
+        /**
+         * Get a heading by its text using "cy.findByRole"
+         *
+         * @example
+         *   cy.uiGetHeading('General Settings');
+         */
+        uiGetHeading(): Chainable;
+
+        /**
+         * Get a textbox by its text using "cy.findByRole"
+         *
+         * @example
+         *   cy.uiGetTextbox('Nickname');
+         */
+        uiGetTextbox(): Chainable;
     }
 }

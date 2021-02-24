@@ -237,6 +237,7 @@ exports[`components/marketplace/ MarketplaceModal should render with error banne
                 "id": "marketplace_modal.search",
               }
             }
+            tooltipPosition="bottom"
             value=""
           />
         </div>
@@ -318,6 +319,7 @@ exports[`components/marketplace/ MarketplaceModal should render with no plugins 
                 "id": "marketplace_modal.search",
               }
             }
+            tooltipPosition="bottom"
             value=""
           />
         </div>
@@ -399,6 +401,7 @@ exports[`components/marketplace/ MarketplaceModal should render with plugins ins
                 "id": "marketplace_modal.search",
               }
             }
+            tooltipPosition="bottom"
             value=""
           />
         </div>

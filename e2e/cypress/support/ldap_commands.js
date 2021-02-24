@@ -18,6 +18,7 @@ Cypress.Commands.add('doLDAPLogin', (settings = {}, useEmail = false) => {
     // # Go to login page
     cy.apiLogout();
     cy.visit('/login');
+    cy.wait(TIMEOUTS.FIVE_SEC);
     cy.checkLoginPage(settings);
     cy.performLDAPLogin(settings, useEmail);
 });

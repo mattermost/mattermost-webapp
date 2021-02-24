@@ -207,37 +207,43 @@ function generateTitle() {
         MM_DOCKER_IMAGE,
         MM_DOCKER_TAG,
         PULL_REQUEST,
+        RELEASE_DATE,
         TYPE,
     } = process.env;
 
     let dockerImageLink = '';
     if (MM_DOCKER_IMAGE && MM_DOCKER_TAG) {
-        dockerImageLink = `[${MM_DOCKER_IMAGE}:${MM_DOCKER_TAG}](https://hub.docker.com/r/mattermost/${MM_DOCKER_IMAGE}/tags?name=${MM_DOCKER_TAG})`;
+        dockerImageLink = ` with [${MM_DOCKER_IMAGE}:${MM_DOCKER_TAG}](https://hub.docker.com/r/mattermost/${MM_DOCKER_IMAGE}/tags?name=${MM_DOCKER_TAG})`;
+    }
+
+    let releaseDate = '';
+    if (RELEASE_DATE) {
+        releaseDate = ` for ${RELEASE_DATE}`;
     }
 
     let title;
 
     switch (TYPE) {
     case 'PR':
-        title = `E2E for Pull Request Build: [${BRANCH}](${PULL_REQUEST}) ${dockerImageLink}`;
+        title = `E2E for Pull Request Build: [${BRANCH}](${PULL_REQUEST})${dockerImageLink}`;
         break;
     case 'RELEASE':
-        title = `E2E for Release Build with ${dockerImageLink}`;
+        title = `E2E for Release Build${dockerImageLink}${releaseDate}`;
         break;
     case 'MASTER':
-        title = `E2E for Master Nightly Build (Prod tests) with ${dockerImageLink}`;
+        title = `E2E for Master Nightly Build (Prod tests)${dockerImageLink}`;
         break;
     case 'MASTER_UNSTABLE':
-        title = `E2E for Master Nightly Build (Unstable tests) with ${dockerImageLink}`;
+        title = `E2E for Master Nightly Build (Unstable tests)${dockerImageLink}`;
         break;
     case 'CLOUD':
-        title = `E2E for Cloud Build (Prod tests) with ${dockerImageLink}`;
+        title = `E2E for Cloud Build (Prod tests)${dockerImageLink}${releaseDate}`;
         break;
     case 'CLOUD_UNSTABLE':
-        title = `E2E for Cloud Build (Unstable tests) with ${dockerImageLink}`;
+        title = `E2E for Cloud Build (Unstable tests)${dockerImageLink}`;
         break;
     default:
-        title = `E2E for Build with ${dockerImageLink}`;
+        title = `E2E for Build${dockerImageLink}`;
     }
 
     return title;

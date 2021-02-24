@@ -27,8 +27,8 @@ const STANDARD_EXCLUDE = [
     path.join(__dirname, 'node_modules'),
 ];
 
-// react-hot-loader requires eval
-const CSP_UNSAFE_EVAL_IF_DEV = targetIsDevServer ? ' \'unsafe-eval\'' : '';
+// react-hot-loader and development source maps require eval
+const CSP_UNSAFE_EVAL_IF_DEV = DEV ? ' \'unsafe-eval\'' : '';
 
 var MYSTATS = {
 
@@ -79,9 +79,6 @@ var MYSTATS = {
 
     // Add the hash of the compilation
     hash: true,
-
-    // Set the maximum number of modules to be shown
-    maxModules: 0,
 
     // Add built modules information
     modules: false,
@@ -250,6 +247,10 @@ var config = {
             superagent: 'node_modules/superagent/lib/client',
         },
         extensions: ['.ts', '.tsx', '.js', '.jsx'],
+        fallback: {
+            crypto: require.resolve('crypto-browserify'),
+            stream: require.resolve('stream-browserify'),
+        },
     },
     performance: {
         hints: 'warning',
@@ -260,6 +261,7 @@ var config = {
             'window.jQuery': 'jquery',
             $: 'jquery',
             jQuery: 'jquery',
+            process: 'process/browser',
         }),
         new webpack.DefinePlugin({
             COMMIT_HASH: JSON.stringify(childProcess.execSync('git rev-parse HEAD || echo dev').toString()),
@@ -291,10 +293,10 @@ var config = {
                 {from: 'images/logo-email.png', to: 'images'},
                 {from: 'images/browser-icons', to: 'images/browser-icons'},
                 {from: 'images/cloud', to: 'images'},
-                {from: 'images/welcome_illustration.svg', to: 'images'},
-                {from: 'images/logo_email_blue.svg', to: 'images'},
-                {from: 'images/forgot_password_illustration.svg', to: 'images'},
-                {from: 'images/invite_illustration.svg', to: 'images'},
+                {from: 'images/welcome_illustration.png', to: 'images'},
+                {from: 'images/logo_email_blue.png', to: 'images'},
+                {from: 'images/forgot_password_illustration.png', to: 'images'},
+                {from: 'images/invite_illustration.png', to: 'images'},
             ],
         }),
 
@@ -371,14 +373,12 @@ if (!targetIsStats) {
     config.stats = MYSTATS;
 }
 
-// Development mode configuration
 if (DEV) {
+    // Development mode configuration
     config.mode = 'development';
-    config.devtool = 'source-map';
-}
-
-// Production mode configuration
-if (!DEV) {
+    config.devtool = 'eval-cheap-module-source-map';
+} else {
+    // Production mode configuration
     config.mode = 'production';
     config.devtool = 'source-map';
 }
@@ -411,7 +411,7 @@ if (targetIsTest) {
 if (targetIsDevServer) {
     config = {
         ...config,
-        devtool: 'cheap-module-eval-source-map',
+        devtool: 'eval-cheap-module-source-map',
         devServer: {
             hot: true,
             injectHot: true,
