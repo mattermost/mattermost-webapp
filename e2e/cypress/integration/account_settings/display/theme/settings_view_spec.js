@@ -10,7 +10,7 @@
 // Stage: @prod
 // Group: @account_setting
 
-describe('AS14318 Theme Colors - Settings View', () => {
+describe('Account Settings Theme - Settings View', () => {
     before(() => {
         // # Login as new user and visit town-square
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
@@ -18,7 +18,7 @@ describe('AS14318 Theme Colors - Settings View', () => {
         });
     });
 
-    it('Theme Display should render in min setting view', () => {
+    it('MM-T3855 Theme Display should render in min setting view', () => {
         // # Go to Account Settings > Display
         cy.uiOpenAccountSettingsModal('Display').within(() => {
             // * Check that it changed into the Display section
