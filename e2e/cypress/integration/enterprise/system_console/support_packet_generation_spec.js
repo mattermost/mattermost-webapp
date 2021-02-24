@@ -15,6 +15,15 @@ const goToAdminConsole = () => {
     cy.visit('/admin_console');
 };
 
+const goToSupportPacketGenerationModal = () {
+    cy.findByRole('button', {name: 'Menu Icon'}).should('exist').click();
+
+    cy.findByRole('button', {name: 'Commercial Support dialog'}).click();
+
+    // * Ensure the download support packet button exist and that text regarding setting the proper settings exist
+    cy.findByRole('link', {name: 'Download Support Packet'}).should('exist');
+}
+
 describe('Support Packet Generation', () => {
     before(() => {
         // Running on E10/E20 License
@@ -32,14 +41,9 @@ describe('Support Packet Generation', () => {
     it('MM-T3849 - Commercial Support Dialog UI - E10/E20 License', () => {
         // # Go to System Console
         goToAdminConsole();
-
-        cy.findByRole('button', {name: 'Menu Icon'}).should('exist').click();
-
-        cy.findByRole('button', {name: 'Commercial Support dialog'}).click();
-
-        // * Ensure the download support packet button exist and that text regarding setting the proper settings exist
-        cy.findByRole('link', {name: 'Download Support Packet'}).should('exist');
-
+        
+        goToSupportPacketGenerationModal();
+        
         cy.get('.AlertBanner__body').should('have.text', 'Before downloading the support packet, set Output Logs to File to true and set File Log Level to DEBUG here.');
     });
 
@@ -47,11 +51,7 @@ describe('Support Packet Generation', () => {
         // # Go to System Console
         goToAdminConsole();
 
-        cy.findByRole('button', {name: 'Menu Icon'}).should('exist').click();
-
-        cy.findByRole('button', {name: 'Commercial Support dialog'}).click();
-
-        cy.findByRole('link', {name: 'Download Support Packet'}).should('exist');
+        goToSupportPacketGenerationModal();
 
         // * Veryify the links exist that take you to loggin page and ticket page exist
         cy.findByRole('link', {name: 'submit a support ticket.'}).should('have.attr', 'href').and('include', 'https://support.mattermost.com/hc/en-us/requests/new');
