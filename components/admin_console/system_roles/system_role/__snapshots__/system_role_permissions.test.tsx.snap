@@ -26,7 +26,11 @@ exports[`admin_console/system_role_permissions should match snapshot 1`] = `
         Object {
           "hasDescription": true,
           "name": "about",
-          "subsections": Array [],
+          "subsections": Array [
+            Object {
+              "name": "about_edition_and_license",
+            },
+          ],
         }
       }
       setSectionVisible={[Function]}
@@ -283,7 +287,11 @@ exports[`admin_console/system_role_permissions should match snapshot with isLice
         Object {
           "hasDescription": true,
           "name": "about",
-          "subsections": Array [],
+          "subsections": Array [
+            Object {
+              "name": "about_edition_and_license",
+            },
+          ],
         }
       }
       setSectionVisible={[Function]}
