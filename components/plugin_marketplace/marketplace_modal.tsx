@@ -134,6 +134,8 @@ export class MarketplaceModal extends React.PureComponent<MarketplaceModalProps,
 
         this.fetchPlugins();
         if (!this.props.firstAdminVisitMarketplaceStatus) {
+            trackEvent('plugins', 'ui_first_admin_visit_marketplace_status');
+
             this.props.actions.setFirstAdminVisitMarketplaceStatus();
         }
 
