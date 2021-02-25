@@ -55,13 +55,13 @@ class AppsFormContainer extends React.PureComponent<Props, State> {
         const {form} = this.state;
         if (!form) {
             const errMsg = this.props.intl.formatMessage({id: 'apps.error.form.no_form', defaultMessage: '`form` is not defined'});
-            return makeCallErrorResponse(makeErrorMsg(errMsg));
+            return {data: makeCallErrorResponse(makeErrorMsg(errMsg))};
         }
 
         const call = this.getCall();
         if (!call) {
             const errMsg = this.props.intl.formatMessage({id: 'apps.error.form.no_call', defaultMessage: '`call` is not defined'});
-            return makeCallErrorResponse(makeErrorMsg(errMsg));
+            return {data: makeCallErrorResponse(makeErrorMsg(errMsg))};
         }
 
         const res = await this.props.actions.doAppCall({
@@ -84,10 +84,10 @@ class AppsFormContainer extends React.PureComponent<Props, State> {
         case AppCallResponseTypes.ERROR:
             break;
         default:
-            return makeCallErrorResponse(makeErrorMsg(this.props.intl.formatMessage(
+            return {data: makeCallErrorResponse(makeErrorMsg(this.props.intl.formatMessage(
                 {id: 'apps.error.responses.unknown_type', defaultMessage: 'App response type not supported. Response type: {type}.'},
                 {type: callResp.type},
-            )));
+            )))};
         }
         return res;
     };
@@ -102,12 +102,12 @@ class AppsFormContainer extends React.PureComponent<Props, State> {
         );
         const {form} = this.state;
         if (!form) {
-            return makeCallErrorResponse(makeErrMsg(this.props.intl.formatMessage({id: 'apps.error.form.no_form', defaultMessage: '`form` is not defined.'})));
+            return {data: makeCallErrorResponse(makeErrMsg(this.props.intl.formatMessage({id: 'apps.error.form.no_form', defaultMessage: '`form` is not defined.'})))};
         }
 
         const call = this.getCall();
         if (!call) {
-            return makeCallErrorResponse(makeErrMsg(this.props.intl.formatMessage({id: 'apps.error.form.no_call', defaultMessage: '`call` is not defined.'})));
+            return {data: makeCallErrorResponse(makeErrMsg(this.props.intl.formatMessage({id: 'apps.error.form.no_call', defaultMessage: '`call` is not defined.'})))};
         }
 
         if (!field.refresh) {
@@ -136,17 +136,17 @@ class AppsFormContainer extends React.PureComponent<Props, State> {
             break;
         case AppCallResponseTypes.OK:
         case AppCallResponseTypes.NAVIGATE:
-            return makeCallErrorResponse(makeErrMsg(this.props.intl.formatMessage(
+            return {data: makeCallErrorResponse(makeErrMsg(this.props.intl.formatMessage(
                 {id: 'apps.error.responses.unexpected_type', defaultMessage: 'App response type was not expected. Response type: {type}.'},
                 {type: callResp.type},
-            )));
+            )))};
         case AppCallResponseTypes.ERROR:
             break;
         default:
-            return makeCallErrorResponse(makeErrMsg(this.props.intl.formatMessage(
+            return {data: makeCallErrorResponse(makeErrMsg(this.props.intl.formatMessage(
                 {id: 'apps.error.responses.unknown_type', defaultMessage: 'App response type not supported. Response type: {type}.'},
                 {type: callResp.type},
-            )));
+            )))};
         }
         return res;
     };

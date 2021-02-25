@@ -146,6 +146,7 @@ export class AppsForm extends React.PureComponent<Props, State> {
         this.setState({submitting: false});
 
         let hasErrors = false;
+        let updatedForm = false;
         switch (callResp.type) {
         case AppCallResponseTypes.ERROR: {
             if (callResp.error) {
@@ -166,8 +167,10 @@ export class AppsForm extends React.PureComponent<Props, State> {
             }
             break;
         }
-        case AppCallResponseTypes.OK:
         case AppCallResponseTypes.FORM:
+            updatedForm = true;
+            break;
+        case AppCallResponseTypes.OK:
         case AppCallResponseTypes.NAVIGATE:
             break;
         default:
@@ -178,7 +181,7 @@ export class AppsForm extends React.PureComponent<Props, State> {
             )});
         }
 
-        if (!hasErrors) {
+        if (!hasErrors && !updatedForm) {
             this.handleHide(true);
         }
     };

@@ -91,9 +91,7 @@ export function createCallRequest(
 
 export const makeCallErrorResponse = (errMessage: string) => {
     return {
-        data: {
-            type: 'error',
-            error: errMessage,
-        },
+        type: 'error',
+        error: errMessage,
     };
 };
