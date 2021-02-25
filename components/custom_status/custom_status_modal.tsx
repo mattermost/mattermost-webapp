@@ -216,6 +216,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
             className={'StatusModal'}
             handleConfirm={handleSetStatus}
             handleCancel={handleClearStatus}
+            confirmButtonClassName='btn btn-primary'
         >
             <div className='StatusModal__body'>
                 <div className='StatusModal__input'>

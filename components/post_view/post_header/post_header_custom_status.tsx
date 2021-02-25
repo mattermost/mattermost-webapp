@@ -39,7 +39,7 @@ const PostHeaderCustomStatus = (props: ComponentProps) => {
                 emojiSize={14}
                 emojiStyle={{
                     marginLeft: 4,
-                    marginTop: 1,
+                    marginTop: 4,
                 }}
             />
         );
