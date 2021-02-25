@@ -41,7 +41,7 @@ describe('Account Settings > Sidebar > General', () => {
             // # Open Full Name section
             cy.get('#nameDesc').click();
 
-            // * Set first name value
+            // # Set first name value
             cy.get('#firstName').clear().type(newFirstName);
 
             // # Save form
@@ -58,19 +58,19 @@ describe('Account Settings > Sidebar > General', () => {
         // # Type in user's first name substring
         cy.get('#post_textbox').clear().type(`@${newFirstName.substring(0, 11)}`);
 
-        // # Verify that the testUser is selected from mention autocomplete
+        // * Verify that the testUser is selected from mention autocomplete
         cy.uiVerifyAtMentionInSuggestionList('Channel Members', {...testUser, first_name: newFirstName}, true);
 
         // # Press tab on text input
         cy.get('#post_textbox').tab();
 
-        // # Verify that after enter user`s username match
+        // * Verify that after enter user's username match
         cy.get('#post_textbox').should('have.value', `@${username} `);
 
         // # Click enter in post textbox
         cy.get('#post_textbox').type('{enter}');
 
-        // # Verify that message has been post in chat
+        // * Verify that message has been post in chat
         cy.get(`[data-mention="${username}"]`).
             last().
             scrollIntoView().

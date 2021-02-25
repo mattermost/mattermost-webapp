@@ -237,7 +237,7 @@ module.exports = {
         // * Suggestion list should appear
         cy.get('#suggestionList', {timeout: TIMEOUTS.FIVE_SEC}).should('be.visible');
 
-        // # Verify user appears in results post-change
+        // * Verify user appears in results post-change
         return cy.uiVerifyAtMentionSuggestion(user);
     },
 };
