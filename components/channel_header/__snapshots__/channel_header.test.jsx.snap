@@ -1197,7 +1197,7 @@ exports[`components/ChannelHeader should render properly when custom status is s
         </div>
       </div>
     </div>
-    <Connect(ChannelHeaderPlug)
+    <Connect(injectIntl(ChannelHeaderPlug))
       channel={
         Object {
           "header": "not the bot description",
