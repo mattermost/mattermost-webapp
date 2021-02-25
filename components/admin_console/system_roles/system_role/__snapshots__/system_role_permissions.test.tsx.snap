@@ -215,7 +215,20 @@ exports[`admin_console/system_role_permissions should match snapshot 1`] = `
         Object {
           "hasDescription": true,
           "name": "compliance",
-          "subsections": Array [],
+          "subsections": Array [
+            Object {
+              "name": "compliance_data_retention",
+            },
+            Object {
+              "name": "compliance_compliance_export",
+            },
+            Object {
+              "name": "compliance_compliance_monitoring",
+            },
+            Object {
+              "name": "compliance_custom_terms_of_service",
+            },
+          ],
         }
       }
       setSectionVisible={[Function]}
@@ -472,7 +485,20 @@ exports[`admin_console/system_role_permissions should match snapshot with isLice
         Object {
           "hasDescription": true,
           "name": "compliance",
-          "subsections": Array [],
+          "subsections": Array [
+            Object {
+              "name": "compliance_data_retention",
+            },
+            Object {
+              "name": "compliance_compliance_export",
+            },
+            Object {
+              "name": "compliance_compliance_monitoring",
+            },
+            Object {
+              "name": "compliance_custom_terms_of_service",
+            },
+          ],
         }
       }
       setSectionVisible={[Function]}

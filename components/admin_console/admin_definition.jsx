@@ -5048,7 +5048,12 @@ const AdminDefinition = {
         icon: 'fa-list',
         sectionTitle: t('admin.sidebar.compliance'),
         sectionTitleDefault: 'Compliance',
-        isHidden: it.not(it.userHasReadPermissionOnResource('compliance')),
+        isHidden: it.all(
+            it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.COMPLIANCE.DATA_RETENTION)),
+            it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.COMPLIANCE.COMPLIANCE_EXPORT)),
+            it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.COMPLIANCE.COMPLIANCE_MONITORING)),
+            it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.COMPLIANCE.CUSTOM_TERMS_OF_SERVICE)),
+        ),
         data_retention: {
             url: 'compliance/data_retention',
             title: t('admin.sidebar.dataRetentionPolicy'),
@@ -5067,8 +5072,11 @@ const AdminDefinition = {
                 'admin.data_retention.createJob.title',
                 'admin.data_retention.createJob.help',
             ],
-            isHidden: it.not(it.licensedForFeature('DataRetention')),
-            isDisabled: it.not(it.userHasWritePermissionOnResource('compliance')),
+            isHidden: it.any(
+                it.not(it.licensedForFeature('DataRetention')),
+                it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.COMPLIANCE.DATA_RETENTION)),
+            ),
+            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.COMPLIANCE.DATA_RETENTION)),
             schema: {
                 id: 'DataRetentionSettings',
                 component: DataRetentionSettings,
@@ -5096,8 +5104,11 @@ const AdminDefinition = {
                 'admin.complianceExport.globalRelayEmailAddress.title',
                 'admin.complianceExport.globalRelayEmailAddress.description',
             ],
-            isHidden: it.not(it.licensedForFeature('MessageExport')),
-            isDisabled: it.not(it.userHasWritePermissionOnResource('compliance')),
+            isHidden: it.any(
+                it.not(it.licensedForFeature('MessageExport')),
+                it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.COMPLIANCE.COMPLIANCE_EXPORT)),
+            ),
+            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.COMPLIANCE.COMPLIANCE_EXPORT)),
             schema: {
                 id: 'MessageExportSettings',
                 component: MessageExportSettings,
@@ -5107,8 +5118,11 @@ const AdminDefinition = {
             url: 'compliance/monitoring',
             title: t('admin.sidebar.complianceMonitoring'),
             title_default: 'Compliance Monitoring',
-            isHidden: it.not(it.licensed),
-            isDisabled: it.not(it.userHasWritePermissionOnResource('compliance')),
+            isHidden: it.any(
+                it.not(it.licensed),
+                it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.COMPLIANCE.COMPLIANCE_MONITORING)),
+            ),
+            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.COMPLIANCE.COMPLIANCE_MONITORING)),
             searchableStrings: [
                 'admin.audits.title',
                 'admin.audits.reload',
@@ -5138,7 +5152,7 @@ const AdminDefinition = {
                         help_text_default: 'When true, Mattermost allows compliance reporting from the **Compliance and Auditing** tab. See [documentation](!https://docs.mattermost.com/administration/compliance.html) to learn more.',
                         help_text_markdown: true,
                         isHidden: it.not(it.licensedForFeature('Compliance')),
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('compliance')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.COMPLIANCE.COMPLIANCE_MONITORING)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -5151,7 +5165,7 @@ const AdminDefinition = {
                         placeholder_default: 'E.g.: "./data/"',
                         isHidden: it.not(it.licensedForFeature('Compliance')),
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('compliance')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.COMPLIANCE.COMPLIANCE_MONITORING)),
                             it.stateIsFalse('ComplianceSettings.Enable'),
                         ),
                     },
@@ -5164,7 +5178,7 @@ const AdminDefinition = {
                         help_text_default: 'When true, Mattermost will generate a daily compliance report.',
                         isHidden: it.not(it.licensedForFeature('Compliance')),
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('compliance')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.COMPLIANCE.COMPLIANCE_MONITORING)),
                             it.stateIsFalse('ComplianceSettings.Enable'),
                         ),
                     },
@@ -5184,8 +5198,11 @@ const AdminDefinition = {
                 'admin.support.termsOfServiceReAcceptanceTitle',
                 'admin.support.termsOfServiceReAcceptanceHelp',
             ],
-            isHidden: it.not(it.licensedForFeature('CustomTermsOfService')),
-            isDisabled: it.not(it.userHasWritePermissionOnResource('compliance')),
+            isHidden: it.any(
+                it.not(it.licensedForFeature('CustomTermsOfService')),
+                it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.COMPLIANCE.CUSTOM_TERMS_OF_SERVICE)),
+            ),
+            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.COMPLIANCE.CUSTOM_TERMS_OF_SERVICE)),
             schema: {
                 id: 'TermsOfServiceSettings',
                 component: CustomTermsOfServiceSettings,

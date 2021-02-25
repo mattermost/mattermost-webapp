@@ -78,11 +78,38 @@
         ]
     },
     {
-        "section": "compliance",
+        "section": "compliance.data_retention",
         "disabledInputs": [
             {
                 "path": "/admin_console/compliance/data_retention",
                 "selector": "deletionJobStartTimeinput"
+            }
+        ]
+    },
+    {
+        "section": "compliance.message_export",
+        "disabledInputs": [
+            {
+                "path": "/admin_console/compliance/export",
+                "selector": "enableComplianceExport"
+            }
+        ]
+    },
+    {
+        "section": "compliance.audits",
+        "disabledInputs": [
+            {
+                "path": "/admin_console/compliance/monitoring",
+                "selector": "ComplianceSettings.Enable"
+            }
+        ]
+    },
+    {
+        "section": "compliance.custom_terms_of_service",
+        "disabledInputs": [
+            {
+                "path": "/admin_console/compliance/custom_terms_of_service",
+                "selector": "SupportSettings.CustomTermsOfServiceEnabled"
             }
         ]
     },
