@@ -5,7 +5,7 @@ import React from 'react';
 import './card_container.scss';
 
 type CardContainerProps = {
-    children: JSX.Element[] | JSX.Element | string;
+    children: React.ReactNode;
     className: string;
 }
 

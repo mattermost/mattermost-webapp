@@ -420,6 +420,25 @@
          }
     }
 
+    .admin-console__footer {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        border-bottom: 1px solid alpha-color($black, .1);
+        background: white;
+        height: 65px;
+        -webkit-flex: 0 0 65px;
+        flex: 0 0 65px;
+        padding: 10px 20px;
+        font-size: 22px;
+        font-weight: normal;
+        z-index: 100;
+        position: absolute;
+        bottom: 0px;
+        align-items: center;
+        width: 100%;
+    }
+
     .admin-console-save {
         display: flex;
         align-items: center;

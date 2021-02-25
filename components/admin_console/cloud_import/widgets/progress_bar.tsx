@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import * as React from 'react';
+import React, {memo} from 'react';
 
 import './progress_bar.scss';
 
@@ -8,6 +8,7 @@ export interface ProgressBarProps {
     percentage: number;
     width: number;
     title?: React.ReactElement;
+    showPercentageTex?: boolean;
     extraClass?: string;
     clickProgressBar?: () => void;
 }
@@ -55,9 +56,9 @@ const ProgressBar: React.FC<ProgressBarProps> = (props: ProgressBarProps) => {
                     fill='#166DE0'
                 />
             </svg>
-            <span className='percetageText'>{percetageText}</span>
+            {props.showPercentageTex && <span className='percetageText'>{percetageText}</span>}
         </div>
     );
 };
 
-export default ProgressBar;
+export default memo(ProgressBar);

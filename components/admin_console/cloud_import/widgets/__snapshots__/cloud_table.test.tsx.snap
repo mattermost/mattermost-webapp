@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`admin_console/cloud_table cloud table displays without header 1`] = `
-<CloudTable
+<Memo(CloudTable)
   list={
     Array [
       Array [
@@ -104,7 +104,7 @@ exports[`admin_console/cloud_table cloud table displays without header 1`] = `
       </tr>
     </tbody>
   </table>
-</CloudTable>
+</Memo(CloudTable)>
 `;
 
 exports[`admin_console/cloud_table cloud table match snapshot 1`] = `

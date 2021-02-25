@@ -26,17 +26,13 @@ exports[`admin_console/progress_bar progress bar match snapshot 1`] = `
       width="5"
     />
   </svg>
-  <span
-    className="percetageText"
-  >
-    10%
-  </span>
 </div>
 `;
 
 exports[`admin_console/progress_bar progress bar shows 10% 1`] = `
-<ProgressBar
+<Memo(ProgressBar)
   percentage={10}
+  showPercentageTex={true}
   width={50}
 >
   <div
@@ -70,12 +66,13 @@ exports[`admin_console/progress_bar progress bar shows 10% 1`] = `
       10%
     </span>
   </div>
-</ProgressBar>
+</Memo(ProgressBar)>
 `;
 
 exports[`admin_console/progress_bar progress bar shows right title 1`] = `
-<ProgressBar
+<Memo(ProgressBar)
   percentage={10}
+  showPercentageTex={true}
   title={
     <FormattedMessage
       defaultMessage="Import in Progress"
@@ -123,5 +120,5 @@ exports[`admin_console/progress_bar progress bar shows right title 1`] = `
       10%
     </span>
   </div>
-</ProgressBar>
+</Memo(ProgressBar)>
 `;

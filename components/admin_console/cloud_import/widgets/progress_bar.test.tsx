@@ -27,6 +27,7 @@ describe('admin_console/progress_bar', () => {
         const wrapper = mountWithIntl(
             <ProgressBar
                 percentage={percent}
+                showPercentageTex={true}
                 width={50}
             />,
         );
@@ -46,6 +47,7 @@ describe('admin_console/progress_bar', () => {
         const wrapper = mountWithIntl(
             <ProgressBar
                 percentage={percent}
+                showPercentageTex={true}
                 width={50}
                 title={title}
             />,

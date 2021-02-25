@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React from 'react';
+import React, {memo} from 'react';
 import {FormattedMessage} from 'react-intl';
 import './status_legend.scss';
 
@@ -48,4 +48,4 @@ const StatusLegend = (props: StatusLegendProps) => {
     }
 };
 
-export default StatusLegend;
+export default memo(StatusLegend);

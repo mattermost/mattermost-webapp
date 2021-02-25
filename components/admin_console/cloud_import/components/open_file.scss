@@ -1,0 +1,187 @@
+.OpenFile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0px;
+    position: static;
+    width: 920px;
+    min-height: 417px;
+    box-sizing: border-box;
+    padding: 30px;
+
+    header {
+        height: 50px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
+
+        > span {
+            font-weight: 600;
+            font-size: 16px;
+            line-height: 24px;
+        }
+
+        a {
+            span {
+            font-weight: 600;
+            font-size: 12px;
+            line-height: 16px;
+            }
+
+            i {
+                font-size: 12px;
+            }
+        }
+    }
+
+    main {
+        border: 2px dashed  rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+
+        .OpenFile__openFileContent {
+            margin: 10px auto;
+            width: auto;
+            display: flex;
+            flex-direction: column;
+            margin-top: 20px;
+            text-align: center;
+
+            .mainDescription {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-around;
+
+                span:nth-of-type(1) {
+                    font-weight: 600;
+                    font-size: 18px;
+                    line-height: 24px;
+                }
+    
+                button {
+                    padding: 0;
+                }
+
+                input[type='file'] {
+                    display: none;
+                }
+            }
+
+            > span:nth-of-type(1) {
+                font-weight: normal;
+                font-size: 14px;
+                line-height: 20px;
+                color: rgba(61, 60, 64, 0.72);
+            }
+
+            .OpenFile__openFileImg{
+                margin: 10px auto;
+            }
+        }
+    }
+
+    .OpenFile__openFileCompletedContent {
+        .grayContainer {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            padding: 24px;
+            position: static;
+            width: 856px;
+            height: 221px;
+            left: 32px;
+            top: 76px;
+            background: rgba(61, 60, 64, 0.04);
+            border-radius: 4px;
+            flex: none;
+            order: 1;
+            align-self: stretch;
+            flex-grow: 0;
+            margin: 24px 0px;
+
+            .logoAndFile {
+                display: flex;
+                flex-direction: column;
+    
+                .file-preview__container {
+                    margin-top: 10px;
+    
+                    a.file-preview__remove {
+                        border-radius: 4px;
+                        text-decoration: none;
+                        color: rgba(var(--center-channel-color-rgb), 0.56);
+                        position: absolute;
+                        right: 4px;
+                        text-align: center;
+                        top: 4px;
+                        width: 2.8rem;
+                        height: 2.8rem;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 1.4rem;
+                        &:hover {
+                            background: rgba(var(--center-channel-color-rgb), 0.08);
+                            color: rgba(var(--center-channel-color-rgb), 0.72);
+                        }
+                    }
+                }
+            }
+    
+            .fileSummaryInfo {
+                width: 456px;
+                height: 100%;
+                margin-left: 30px;
+    
+                .fileSummaryList {
+                    border-bottom: 1px solid rgba(61, 60, 64, 0.16);
+                    display: flex;
+                    height: 41px;
+                    align-items: center;
+    
+                    span {
+                        min-width: 140px;
+                        display: inline-block;
+                    }
+
+                    .usersPreviewInfo {
+                        display: flex;
+                        flex-direction: row;
+                        align-items: flex-start;
+                        i {
+                            font-size: 14px;
+                            color: var( --sys-sidebar-text-active-border);
+                            margin-top: 3px;
+                        }
+                        span {
+                            min-width: auto;
+                            margin-left: 0.5rem;
+                        }
+                        .info {
+                            color: var( --sys-sidebar-text-active-border);
+                        }
+                    }
+                }
+    
+                .header {
+                    font-weight: 600;
+                    font-size: 14px;
+                    line-height: 20px;
+                    span {
+                        width: 400px;
+                        display: inline-block;                }
+                }
+            }
+        }
+
+        .freeTierLimitBanner {
+            .buttons {
+                margin-top: 10px;
+            }
+        }
+    }
+}

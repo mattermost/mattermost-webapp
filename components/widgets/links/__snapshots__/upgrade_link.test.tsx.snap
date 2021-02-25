@@ -53,7 +53,7 @@ exports[`components/widgets/links/UpgradeLink should trigger telemetry call when
     telemetryInfo="testing"
   >
     <button
-      className="upgradeLink"
+      className="upgradeLink "
       onClick={[Function]}
     >
       <FormattedMessage

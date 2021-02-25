@@ -9,10 +9,11 @@ import overlayLogoImage from 'images/logoWhite.png';
 
 type Props = {
     overlayType: string;
+    show?: boolean;
 }
 
 const FileUploadOverlay: React.FC<Props> = (props: Props) => {
-    let overlayClass = 'file-overlay hidden';
+    let overlayClass = 'file-overlay';
     if (props.overlayType === 'right') {
         overlayClass += ' right-file-overlay';
     } else if (props.overlayType === 'center') {
@@ -20,7 +21,7 @@ const FileUploadOverlay: React.FC<Props> = (props: Props) => {
     }
 
     return (
-        <div className={overlayClass}>
+        <div className={`${overlayClass} ${props.show ? '' : 'hidden'}`}>
             <div className='overlay__indent'>
                 <div className='overlay__circle'>
                     <img
