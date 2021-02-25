@@ -20,6 +20,7 @@ exports[`components/AdminSidebar Plugins should filter plugins 1`] = `
       onChange={[Function]}
       onClear={[Function]}
       placeholder="Find settings"
+      tooltipPosition="bottom"
       type="text"
       value="autolink"
     />
@@ -98,6 +99,7 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
       onChange={[Function]}
       onClear={[Function]}
       placeholder="Find settings"
+      tooltipPosition="bottom"
       type="text"
       value=""
     />
@@ -190,6 +192,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
       onChange={[Function]}
       onClear={[Function]}
       placeholder="Find settings"
+      tooltipPosition="bottom"
       type="text"
       value=""
     />
@@ -758,6 +761,7 @@ exports[`components/AdminSidebar should match snapshot, no access 1`] = `
       onChange={[Function]}
       onClear={[Function]}
       placeholder="Find settings"
+      tooltipPosition="bottom"
       type="text"
       value=""
     />
@@ -814,6 +818,7 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
       onChange={[Function]}
       onClear={[Function]}
       placeholder="Find settings"
+      tooltipPosition="bottom"
       type="text"
       value=""
     />
@@ -870,6 +875,7 @@ exports[`components/AdminSidebar should match snapshot, render plugins without a
       onChange={[Function]}
       onClear={[Function]}
       placeholder="Find settings"
+      tooltipPosition="bottom"
       type="text"
       value=""
     />
@@ -926,6 +932,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
       onChange={[Function]}
       onClear={[Function]}
       placeholder="Find settings"
+      tooltipPosition="bottom"
       type="text"
       value=""
     />
@@ -1737,6 +1744,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
       onChange={[Function]}
       onClear={[Function]}
       placeholder="Find settings"
+      tooltipPosition="bottom"
       type="text"
       value=""
     />
