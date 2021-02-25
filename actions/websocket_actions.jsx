@@ -1377,7 +1377,19 @@ function handleThreadReadChanged(msg) {
         if (msg.data.thread_id) {
             const thread = doGetState().entities.threads.threads?.[msg.data.thread_id];
             if (thread) {
-                handleReadChanged(doDispatch, msg.data.thread_id, msg.broadcast.team_id, thread.unread_mentions, msg.data.unread_mentions, msg.data.channel_id);
+                handleReadChanged(
+                    doDispatch,
+                    msg.data.thread_id,
+                    msg.broadcast.team_id,
+                    msg.data.channel_id,
+                    {
+                        lastViewedAt: msg.data.timestamp,
+                        prevUnreadMentions: thread.unread_mentions,
+                        newUnreadMentions: msg.data.unread_mentions,
+                        prevUnreadReplies: thread.unread_replies,
+                        newUnreadReplies: msg.data.unread_replies,
+                    },
+                );
             }
         } else {
             handleAllMarkedRead(doDispatch, msg.broadcast.team_id);

@@ -31,7 +31,7 @@ const ThreadList = ({
 }: PropsWithChildren<Props>) => {
     const {formatMessage} = useIntl();
     const dispatch = useDispatch();
-    const {currentTeamId, currentUserId} = useThreadRouting();
+    const {currentTeamId, currentUserId, clear} = useThreadRouting();
 
     return (
         <div className={'ThreadList'}>
@@ -78,6 +78,9 @@ const ThreadList = ({
                                 disabled={!someUnread}
                                 onClick={useCallback(() => {
                                     dispatch(markAllThreadsInTeamRead(currentUserId, currentTeamId));
+                                    if (currentFilter === 'unread') {
+                                        clear();
+                                    }
                                 }, [currentTeamId, currentUserId])}
                             >
                                 <span className='Icon'>

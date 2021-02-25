@@ -202,7 +202,7 @@ export default class ThreadViewer extends React.Component<Props, State> {
                 this.props.currentUserId,
                 this.props.currentTeamId,
                 this.props.selected.id,
-                this.props.userThread.last_reply_at,
+                Date.now(),
             );
         }
     }

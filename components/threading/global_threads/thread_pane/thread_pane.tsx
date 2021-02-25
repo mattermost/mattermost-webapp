@@ -99,7 +99,6 @@ const ThreadPane = ({
                             isFollowing={isFollowing}
                             hasUnreads={Boolean(thread.unread_replies || thread.unread_mentions)}
                             unreadTimestamp={post.edit_at || post.create_at}
-                            lastReplyTimestamp={thread.last_reply_at}
                         >
                             <SimpleTooltip
                                 id='threadActionMenu'

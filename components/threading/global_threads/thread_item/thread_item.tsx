@@ -139,7 +139,6 @@ const ThreadItem = ({
                     isFollowing={isFollowing ?? false}
                     hasUnreads={Boolean(newReplies)}
                     unreadTimestamp={post.edit_at || post.create_at}
-                    lastReplyTimestamp={lastReplyAt}
                 >
                     <SimpleTooltip
                         id='threadActionMenu'
