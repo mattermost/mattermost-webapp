@@ -10,7 +10,7 @@ import AlertBanner from 'components/alert_banner';
 import BlockableLink from 'components/admin_console/blockable_link';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import AdminHeader from 'components/widgets/admin_console/admin_header';
-import CloudCard from 'components/common/card_container';
+import CardContainer from 'components/common/card_container';
 import {useInterval} from 'components/common/hooks/set_interval';
 import Badge from 'components/widgets/badges/badge';
 
@@ -192,7 +192,7 @@ const ImportWorkspace: React.FC = () => {
                     {shouldShowImportInProgressAlertBanner() && importInProgress}
                     {shouldShowImportRecommendedForNewWorkspacesAlertBanner() && importRecommendedForNewWorkspaces}
                     <div className='ImportWorkspace__topWrapper'>
-                        <CloudCard className='ImportCard'>
+                        <CardContainer className='ImportCard'>
                             <div className='ImportCard__importImg'>
                                 <ImportSvg/>
                             </div>
@@ -211,8 +211,8 @@ const ImportWorkspace: React.FC = () => {
                                     defaultMessage='Start a new import'
                                 />
                             </button>
-                        </CloudCard>
-                        <CloudCard className='GetHelpCard'>
+                        </CardContainer>
+                        <CardContainer className='GetHelpCard'>
                             <FormattedMessage
                                 id='admin.cloud.import.getHelpWithImporting.title'
                                 defaultMessage='Get help with importing'
@@ -247,7 +247,7 @@ const ImportWorkspace: React.FC = () => {
                                     values={{chatService}}
                                 />
                             </a>
-                        </CloudCard>
+                        </CardContainer>
                     </div>
                     {importListSection(importListData, percentage)}
                 </div>
@@ -259,7 +259,7 @@ const ImportWorkspace: React.FC = () => {
 // temporaly passing the percentage here. Once we define how the UI is aware of the import in progress, we will define the right way to draw that in the table
 const importListSection = (importListData: any, percentage: number) => (
     (importListData && importListData.length > 1) &&
-    <CloudCard className='ImportListCard'>
+    <CardContainer className='ImportListCard'>
         <header>
             <FormattedMessage
                 id='admin.cloud.import.importListSection.title'
@@ -271,7 +271,7 @@ const importListSection = (importListData: any, percentage: number) => (
             />
         </header>
         {importsListTable(importListData, percentage)}
-    </CloudCard>
+    </CardContainer>
 );
 
 export default ImportWorkspace;
