@@ -2,7 +2,8 @@
 
 exports[`admin_console/progress_bar progress bar match snapshot 1`] = `
 <div
-  className="ProgressBar"
+  className="ProgressBar  null"
+  onClick={[Function]}
 >
   <svg
     fill="none"
@@ -39,7 +40,8 @@ exports[`admin_console/progress_bar progress bar shows 10% 1`] = `
   width={50}
 >
   <div
-    className="ProgressBar"
+    className="ProgressBar  null"
+    onClick={[Function]}
   >
     <svg
       fill="none"
@@ -83,7 +85,8 @@ exports[`admin_console/progress_bar progress bar shows right title 1`] = `
   width={50}
 >
   <div
-    className="ProgressBar"
+    className="ProgressBar  null"
+    onClick={[Function]}
   >
     <FormattedMessage
       defaultMessage="Import in Progress"

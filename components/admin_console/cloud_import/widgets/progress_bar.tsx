@@ -6,8 +6,10 @@ import './progress_bar.scss';
 
 export interface ProgressBarProps {
     percentage: number;
-    title?: React.ReactElement;
     width: number;
+    title?: React.ReactElement;
+    extraClass?: string;
+    clickProgressBar?: () => void;
 }
 
 const calculateFillingPercentage = (percentage: number, width: number) => {
@@ -19,8 +21,18 @@ const ProgressBar: React.FC<ProgressBarProps> = (props: ProgressBarProps) => {
     const percetageText = `${props.percentage}%`;
     const percentage = calculateFillingPercentage(props.percentage, props.width);
     const viewBoxVal = `0 0 ${props.width} 4`;
+    const clickableClass = props.clickProgressBar && typeof props.clickProgressBar === 'function' ? 'clickable' : '';
+    const handleClick = (e: React.MouseEvent<HTMLElement>): void => {
+        e.preventDefault();
+        if (props.clickProgressBar && typeof props.clickProgressBar === 'function') {
+            props.clickProgressBar();
+        }
+    };
     return (
-        <div className='ProgressBar'>
+        <div
+            className={`ProgressBar ${clickableClass} ${props.extraClass || null}`}
+            onClick={(e) => handleClick(e)}
+        >
             {props.title || null}
             <svg
                 width={props.width}

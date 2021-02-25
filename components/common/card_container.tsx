@@ -2,19 +2,19 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import './cloud_card.scss';
+import './card_container.scss';
 
-type CloudCardProps = {
+type CardContainerProps = {
     children: JSX.Element[] | JSX.Element | string;
     className: string;
 }
 
-const CloudCard: React.FC<CloudCardProps> = (props: CloudCardProps) => {
+const CardContainer: React.FC<CardContainerProps> = (props: CardContainerProps) => {
     return (
-        <div className={`CloudCard ${props.className}`}>
+        <div className={`CardContainer ${props.className}`}>
             {props.children}
         </div>
     );
 };
 
-export default CloudCard;
+export default CardContainer;

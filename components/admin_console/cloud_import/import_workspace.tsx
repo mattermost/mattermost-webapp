@@ -10,7 +10,7 @@ import AlertBanner from 'components/alert_banner';
 import BlockableLink from 'components/admin_console/blockable_link';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import AdminHeader from 'components/widgets/admin_console/admin_header';
-import CloudCard from 'components/common/cloud_card';
+import CloudCard from 'components/common/card_container';
 import {useInterval} from 'components/common/hooks/set_interval';
 import Badge from 'components/widgets/badges/badge';
 
@@ -82,6 +82,11 @@ const ImportWorkspace: React.FC = () => {
         />
     );
 
+    const clickProgressBar = () => {
+        // temporal, this will redirect to the import in progress page
+        // console.error('progress bar clicked');
+    };
+
     const adminHeader = () => (
         <AdminHeader className={`admin-console__import-header ${toBackButton ? 'with-back' : ''}`}>
             <>
@@ -110,6 +115,7 @@ const ImportWorkspace: React.FC = () => {
                         percentage={percentage}
                         title={inProgress}
                         width={50}
+                        clickProgressBar={clickProgressBar}
                     />
                 }
             </>
