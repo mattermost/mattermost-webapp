@@ -48,7 +48,6 @@ describe('components/Root', () => {
         showTermsOfService: false,
         actions: {
             loadMeAndConfig: async () => [{}, {}, {data: true}], // eslint-disable-line no-empty-function
-            getFirstAdminVisitMarketplaceStatus: async () => {},
         },
         location: {
             pathname: '/',

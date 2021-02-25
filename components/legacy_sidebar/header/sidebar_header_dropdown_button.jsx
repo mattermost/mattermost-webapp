@@ -22,7 +22,8 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent {
         currentUser: PropTypes.object.isRequired,
         teamDisplayName: PropTypes.string.isRequired,
         openModal: PropTypes.func,
-        firstAdminVisitMarketplaceStatus: PropTypes.bool.isRequired,
+        getFirstAdminVisitMarketplaceStatus: PropTypes.func,
+        firstAdminVisitMarketplaceStatus: PropTypes.bool,
     };
 
     handleCustomStatusEmojiClick = (event) => {
@@ -32,6 +33,13 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent {
             dialogType: CustomStatusModal,
         };
         this.props.openModal(customStatusInputModalData);
+    }
+
+    componentDidMount() {
+        const isSystemAdmin = isAdmin(this.props.currentUser.roles);
+        if (isSystemAdmin) {
+            this.props.getFirstAdminVisitMarketplaceStatus();
+        }
     }
 
     render() {
