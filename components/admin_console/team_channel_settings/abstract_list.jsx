@@ -88,11 +88,7 @@ export default class AbstractList extends React.PureComponent {
     }
 
     performSearch = (page) => {
-        const newState = {...this.state};
-        delete newState.page;
-
-        newState.loading = true;
-        this.setState(newState);
+        this.setState({loading: true});
 
         this.props.actions.getData(page, PAGE_SIZE, '', false, true).then((response) => {
             if (this.props.onPageChangedCallback) {

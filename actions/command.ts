@@ -113,7 +113,7 @@ export function executeCommand(message: string, args: CommandArgs): ActionFunc {
             const createErrorMessage = (errMessage: string) => {
                 return {error: new Error(errMessage)};
             };
-            const parser = new AppCommandParser({dispatch, getState: getGlobalState}, args.channel_id, args.root_id);
+            const parser = new AppCommandParser({dispatch, getState: getGlobalState} as any, args.channel_id, args.root_id);
             if (parser.isAppCommand(msg)) {
                 try {
                     const call = await parser.composeCallFromCommand(msg);

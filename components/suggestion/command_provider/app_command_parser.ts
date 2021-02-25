@@ -21,12 +21,13 @@ import {
     AppLookupCallValues,
 } from 'mattermost-redux/types/apps';
 
-import {DispatchFunc} from 'mattermost-redux/types/actions';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getChannel, getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 import {Channel} from 'mattermost-redux/types/channels';
 
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+
+import {Store} from 'redux';
 
 import {Constants} from 'utils/constants';
 import {GlobalState} from 'types/store';
@@ -36,11 +37,6 @@ import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 
 const EXECUTE_CURRENT_COMMAND_ITEM_ID = Constants.Integrations.EXECUTE_CURRENT_COMMAND_ITEM_ID;
-
-export type Store = {
-    dispatch: DispatchFunc;
-    getState: () => GlobalState;
-}
 
 export enum ParseState {
     Start = 0,
@@ -485,7 +481,7 @@ export class ParsedCommand {
 }
 
 export class AppCommandParser {
-    private store: Store;
+    private store: Store<GlobalState>;
     private rootPostID: string;
     private channelID: string;
 
@@ -727,7 +723,7 @@ export class AppCommandParser {
             },
         };
 
-        const res = await this.store.dispatch(doAppCall(payload)) as {data: AppCallResponse};
+        const res = await this.store.dispatch(doAppCall(payload) as any) as {data: AppCallResponse};
         const callResponse = res.data;
         switch (callResponse.type) {
         case AppCallResponseTypes.FORM:
@@ -957,7 +953,7 @@ export class AppCommandParser {
         payload.values = values;
 
         type ResponseType = {items: AppSelectOption[]};
-        const res = await this.store.dispatch(doAppCall(payload)) as {data: AppCallResponse<ResponseType>};
+        const res = await this.store.dispatch(doAppCall(payload) as any) as {data: AppCallResponse<ResponseType>};
         const callResponse = res.data;
         switch (callResponse.type) {
         case AppCallResponseTypes.OK:
