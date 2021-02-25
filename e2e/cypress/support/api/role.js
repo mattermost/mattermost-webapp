@@ -167,7 +167,7 @@ export const defaultRolesPermissions = {
         'sysconsole_read_about_edition_and_license',
         'sysconsole_write_about_edition_and_license',
         'read_license_information',
-        'manage_license_information'
+        'manage_license_information',
     ],
     system_guest: [
         'create_direct_channel',
