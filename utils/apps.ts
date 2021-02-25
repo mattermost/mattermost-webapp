@@ -88,3 +88,12 @@ export function createCallRequest(
         raw_command: rawCommand,
     };
 }
+
+export const makeCallErrorResponse = (errMessage: string) => {
+    return {
+        data: {
+            type: 'error',
+            error: errMessage,
+        },
+    };
+};

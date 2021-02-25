@@ -212,7 +212,7 @@ exports[`components/RhsComment should match snapshot hovered 1`] = `
         <div
           className="col post-menu"
         >
-          <Connect(DotMenu)
+          <Connect(injectIntl(DotMenu))
             enableEmojiPicker={true}
             handleAddReactionClick={[Function]}
             handleDropdownOpened={[Function]}
@@ -542,7 +542,7 @@ exports[`components/RhsComment should match snapshot mobile 1`] = `
         <div
           className="col post-menu"
         >
-          <Connect(DotMenu)
+          <Connect(injectIntl(DotMenu))
             enableEmojiPicker={true}
             handleAddReactionClick={[Function]}
             handleDropdownOpened={[Function]}

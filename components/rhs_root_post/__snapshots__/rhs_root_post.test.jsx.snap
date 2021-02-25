@@ -77,7 +77,7 @@ exports[`components/RhsRootPost should match snapshot 1`] = `
         <div
           className="col post-menu"
         >
-          <Connect(DotMenu)
+          <Connect(injectIntl(DotMenu))
             commentCount={0}
             enableEmojiPicker={true}
             handleAddReactionClick={[Function]}
@@ -538,7 +538,7 @@ exports[`components/RhsRootPost should match snapshot when flagged 1`] = `
         <div
           className="col post-menu"
         >
-          <Connect(DotMenu)
+          <Connect(injectIntl(DotMenu))
             commentCount={0}
             enableEmojiPicker={true}
             handleAddReactionClick={[Function]}

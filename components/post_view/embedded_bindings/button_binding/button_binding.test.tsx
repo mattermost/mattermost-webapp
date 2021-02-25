@@ -2,10 +2,11 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
 
 import {Post} from 'mattermost-redux/types/posts';
 import {AppBinding} from 'mattermost-redux/types/apps';
+
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import ButtonBinding from './button_binding';
 
@@ -28,12 +29,12 @@ describe('components/post_view/embedded_bindings/button_binding/', () => {
     };
 
     test('should match snapshot', () => {
-        const wrapper = shallow(<ButtonBinding {...baseProps}/>);
+        const wrapper = shallowWithIntl(<ButtonBinding {...baseProps}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should call handleAction on click', () => {
-        const wrapper = shallow(<ButtonBinding {...baseProps}/>);
+        const wrapper = shallowWithIntl(<ButtonBinding {...baseProps}/>);
 
         wrapper.find('button').simulate('click');
 

@@ -3,7 +3,7 @@
 
 import React from 'react';
 import {Modal} from 'react-bootstrap';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, injectIntl, WrappedComponentProps} from 'react-intl';
 import {
     checkDialogElementForError, checkIfErrorsMatchElements,
 } from 'mattermost-redux/utils/integration_utils';
@@ -21,7 +21,7 @@ import {localizeMessage} from 'utils/utils.jsx';
 import AppsFormField from './apps_form_field';
 import AppsFormHeader from './apps_form_header';
 
-export type Props = {
+export type AppsFormProps = {
     call: AppCall;
     form: AppForm;
     isEmbedded?: boolean;
@@ -37,6 +37,8 @@ export type Props = {
     };
     emojiMap: EmojiMap;
 }
+
+type Props = AppsFormProps & WrappedComponentProps<'intl'>;
 
 type FormResponseData = {
     errors: {
@@ -64,7 +66,7 @@ const initFormValues = (form: AppForm): {[name: string]: string} => {
     return values;
 };
 
-export default class AppsForm extends React.PureComponent<Props, State> {
+export class AppsForm extends React.PureComponent<Props, State> {
     constructor(props: Props) {
         super(props);
 
@@ -138,24 +140,20 @@ export default class AppsForm extends React.PureComponent<Props, State> {
 
         this.setState({submitting: true});
 
-        const {data} = await this.props.actions.submit(submission);
+        const res = await this.props.actions.submit(submission);
+        const callResp = res.data as AppCallResponse<FormResponseData>;
 
         this.setState({submitting: false});
 
-        if (data?.type === 'form' && data.form) {
-            this.setState({values: initFormValues(data.form)});
-            return;
-        }
-
         let hasErrors = false;
-
-        if (data && data.type === AppCallResponseTypes.ERROR) {
-            if (data.error) {
+        switch (callResp.type) {
+        case AppCallResponseTypes.ERROR: {
+            if (callResp.error) {
                 hasErrors = true;
-                this.setState({error: data.error});
+                this.setState({error: callResp.error});
             }
 
-            const newErrors = data.data?.errors;
+            const newErrors = callResp.data?.errors;
 
             const elements = fields.map((field) => ({name: field.name})) as DialogElement[];
             if (
@@ -166,6 +164,18 @@ export default class AppsForm extends React.PureComponent<Props, State> {
                 hasErrors = true;
                 this.setState({errors: newErrors});
             }
+            break;
+        }
+        case AppCallResponseTypes.OK:
+        case AppCallResponseTypes.FORM:
+        case AppCallResponseTypes.NAVIGATE:
+            break;
+        default:
+            hasErrors = true;
+            this.setState({error: this.props.intl.formatMessage(
+                {id: 'apps.error.responses.unknown_type', defaultMessage: 'App response type not supported. Response type: {type}.'},
+                {type: callResp.type},
+            )});
         }
 
         if (!hasErrors) {
@@ -423,3 +433,5 @@ export default class AppsForm extends React.PureComponent<Props, State> {
         return this.props.isEmbedded ? this.renderEmbedded() : this.renderModal();
     }
 }
+
+export default injectIntl(AppsForm);

@@ -10,6 +10,8 @@ import {Client4} from 'mattermost-redux/client';
 import * as Channels from 'mattermost-redux/selectors/entities/channels';
 import * as Teams from 'mattermost-redux/selectors/entities/teams';
 
+import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
+
 import {ActionTypes, Constants} from 'utils/constants';
 import * as UserAgent from 'utils/user_agent';
 import * as GlobalActions from 'actions/global_actions';
@@ -225,7 +227,10 @@ describe('executeCommand', () => {
     describe('app command', () => {
         test('should call executeAppCall', async () => {
             const f = Client4.executeAppCall;
-            const mocked = jest.fn().mockResolvedValue(Promise.resolve({markdown: 'Success'}));
+            const mocked = jest.fn().mockResolvedValue(Promise.resolve({
+                type: AppCallResponseTypes.OK,
+                markdown: 'Success',
+            }));
             Client4.executeAppCall = mocked;
 
             const result = await store.dispatch(executeCommand('/appid custom value1 --key2 value2', {channel_id: '123', root_id: 'root_id'}));
@@ -247,7 +252,7 @@ describe('executeCommand', () => {
                     key2: 'value2',
                 },
             });
-            expect(result).toEqual({data: {markdown: 'Success'}});
+            expect(result).toEqual({data: true});
         });
     });
 });

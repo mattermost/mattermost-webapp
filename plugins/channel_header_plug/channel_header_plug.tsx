@@ -6,7 +6,7 @@
 import React from 'react';
 import {Dropdown, Tooltip} from 'react-bootstrap';
 import {RootCloseWrapper} from 'react-overlays';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
 import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
 import {Theme} from 'mattermost-redux/types/preferences';
@@ -95,6 +95,7 @@ class CustomToggle extends React.PureComponent<CustomToggleProps> {
 }
 
 type ChannelHeaderPlugProps = {
+    intl: IntlShape;
     components: PluginComponent[];
     appBindings: AppBinding[];
     appsEnabled: boolean;
@@ -110,7 +111,7 @@ type ChannelHeaderPlugState = {
     dropdownOpen: boolean;
 }
 
-export default class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, ChannelHeaderPlugState> {
+class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, ChannelHeaderPlugState> {
     constructor(props: ChannelHeaderPlugProps) {
         super(props);
         this.state = {
@@ -150,7 +151,7 @@ export default class ChannelHeaderPlug extends React.PureComponent<ChannelHeader
             return;
         }
 
-        this.props.actions.doAppCall({
+        const res = await this.props.actions.doAppCall({
             ...binding.call,
             type: AppCallTypes.SUBMIT,
             context: {
@@ -159,13 +160,32 @@ export default class ChannelHeaderPlug extends React.PureComponent<ChannelHeader
                 team_id: this.props.channel.team_id,
                 channel_id: this.props.channel.id,
             },
-        }).then((res) => {
-            const callResp = (res as {data: AppCallResponse}).data;
-            if (callResp?.type === AppCallResponseTypes.ERROR) {
-                const errorMessage = callResp.error || 'Unknown error happenned';
-                sendEphemeralPost(errorMessage, this.props.channel.id);
-            }
         });
+
+        const callResp = (res as {data: AppCallResponse}).data;
+        const ephemeral = (message: string) => sendEphemeralPost(message, this.props.channel.id);
+        switch (callResp.type) {
+        case AppCallResponseTypes.OK:
+            if (callResp.markdown) {
+                ephemeral(callResp.markdown);
+            }
+            break;
+        case AppCallResponseTypes.ERROR: {
+            const errorMessage = callResp.error || this.props.intl.formatMessage({id: 'apps.error.unknown', defaultMessage: 'Unknown error happenned'});
+            ephemeral(errorMessage);
+            break;
+        }
+        case AppCallResponseTypes.NAVIGATE:
+        case AppCallResponseTypes.FORM:
+            break;
+        default: {
+            const errorMessage = this.props.intl.formatMessage(
+                {id: 'apps.error.responses.unknown_type', defaultMessage: 'App response type not supported. Response type: {type}.'},
+                {type: callResp.type},
+            );
+            ephemeral(errorMessage);
+        }
+        }
     }
 
     createAppBindingButton = (binding: AppBinding) => {
@@ -216,17 +236,7 @@ export default class ChannelHeaderPlug extends React.PureComponent<ChannelHeader
                         <a
                             href='#'
                             className='d-flex align-items-center'
-                            onClick={() => this.fireActionAndClose(() => this.props.actions.doAppCall({
-                                ...binding.call,
-                                url: binding?.call?.url || '',
-                                type: AppCallTypes.SUBMIT,
-                                context: {
-                                    app_id: binding.app_id,
-                                    location: binding.location,
-                                    team_id: this.props.channel.team_id,
-                                    channel_id: this.props.channel.id,
-                                },
-                            }))}
+                            onClick={() => this.fireActionAndClose(() => this.onClick(binding))}
                         >
                             <span className='d-flex align-items-center overflow--ellipsis'>{(<img src={binding.icon}/>)}</span>
                             <span>{binding.label}</span>
@@ -305,4 +315,5 @@ export default class ChannelHeaderPlug extends React.PureComponent<ChannelHeader
     }
 }
 
+export default injectIntl(ChannelHeaderPlug);
 /* eslint-enable react/no-multi-comp */

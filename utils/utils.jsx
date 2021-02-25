@@ -1689,6 +1689,19 @@ export function localizeMessage(id, defaultMessage) {
     return translations[id];
 }
 
+export function localizeAndFormatMessage(id, defaultMessage, template) {
+    const base = localizeMessage(id, defaultMessage);
+
+    if (!template) {
+        return base;
+    }
+
+    return base.replace(/{[\w]+}/g, (match) => {
+        const key = match.substr(1, match.length - 2);
+        return template[key] || match;
+    });
+}
+
 export function mod(a, b) {
     return ((a % b) + b) % b;
 }

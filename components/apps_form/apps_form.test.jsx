@@ -2,31 +2,29 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
 import {Modal} from 'react-bootstrap';
 import {Provider} from 'react-redux';
 import configureStore from 'redux-mock-store';
 
-import {AppCall, AppCallResponse, AppField, AppForm} from 'mattermost-redux/types/apps';
 import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 
 import EmojiMap from 'utils/emoji_map';
 
-import {mountWithIntl} from 'tests/helpers/intl-test-helper';
+import {mountWithIntl, shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
-import AppsForm, {Props as AppsFormProps} from './apps_form';
+import AppsForm from './apps_form';
 
 describe('components/apps_form/AppsForm', () => {
-    const baseProps: AppsFormProps = {
+    const baseProps = {
         form: {
             fields: [{
                 name: 'field1',
                 type: 'text',
             }],
-        } as AppForm,
+        },
         call: {
             url: '/submit_url',
-        } as AppCall,
+        },
         onHide: () => {},
         actions: {
             performLookupCall: jest.fn(),
@@ -34,7 +32,7 @@ describe('components/apps_form/AppsForm', () => {
             submit: jest.fn().mockResolvedValue({
                 data: {
                     type: '',
-                } as AppCallResponse,
+                },
             }),
         },
         emojiMap: new EmojiMap(new Map()),
@@ -51,9 +49,9 @@ describe('components/apps_form/AppsForm', () => {
                     }),
                 },
             };
-            const wrapper = shallow<AppsForm>(<AppsForm {...props}/>);
+            const wrapper = shallowWithIntl(<AppsForm {...props}/>);
 
-            await wrapper.instance().handleSubmit({preventDefault: jest.fn()} as any);
+            await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
 
             const expected = (
                 <div className='error-text'>
@@ -64,8 +62,8 @@ describe('components/apps_form/AppsForm', () => {
         });
 
         test('should not appear when submit does not return an error', async () => {
-            const wrapper = shallow<AppsForm>(<AppsForm {...baseProps}/>);
-            await wrapper.instance().handleSubmit({preventDefault: jest.fn()} as any);
+            const wrapper = shallowWithIntl(<AppsForm {...baseProps}/>);
+            await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
 
             expect(wrapper.find(Modal.Footer).exists('.error-text')).toBe(false);
         });
@@ -75,7 +73,7 @@ describe('components/apps_form/AppsForm', () => {
         const mockStore = configureStore();
 
         test('should be enabled by default', () => {
-            const selectField: AppField = {
+            const selectField = {
                 type: 'static_select',
                 value: {label: 'Option3', value: 'opt3'},
                 modal_label: 'Option Selector',
@@ -94,9 +92,9 @@ describe('components/apps_form/AppsForm', () => {
             };
 
             const fields = [selectField];
-            const props: AppsFormProps = {
+            const props = {
                 ...baseProps,
-                call: {} as AppCall,
+                call: {},
                 form: {
                     fields,
                 },

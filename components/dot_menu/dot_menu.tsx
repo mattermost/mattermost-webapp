@@ -3,7 +3,7 @@
 
 import React from 'react';
 import classNames from 'classnames';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 import {Tooltip} from 'react-bootstrap';
 
 import Permissions from 'mattermost-redux/constants/permissions';
@@ -31,6 +31,7 @@ const MENU_BOTTOM_MARGIN = 80;
 
 export const PLUGGABLE_COMPONENT = 'PostDropdownMenuItem';
 type Props = {
+    intl: IntlShape;
     post: Post;
     teamId?: string;
     location?: 'CENTER' | 'RHS_ROOT' | 'RHS_COMMENT' | 'SEARCH' | string;
@@ -111,7 +112,7 @@ type State = {
     canDelete: boolean;
 }
 
-export default class DotMenu extends React.PureComponent<Props, State> {
+class DotMenu extends React.PureComponent<Props, State> {
     static defaultProps = {
         commentCount: 0,
         isFlagged: false,
@@ -282,7 +283,7 @@ export default class DotMenu extends React.PureComponent<Props, State> {
         if (!binding.call) {
             return;
         }
-        this.props.actions?.doAppCall({
+        const res = await this.props.actions?.doAppCall({
             ...binding.call,
             type: AppCallTypes.SUBMIT,
             context: {
@@ -293,13 +294,32 @@ export default class DotMenu extends React.PureComponent<Props, State> {
                 post_id: this.props.post.id,
                 root_id: this.props.post.root_id,
             },
-        }).then((res) => {
-            const callResp = (res as {data: AppCallResponse}).data;
-            if (callResp?.type === AppCallResponseTypes.ERROR) {
-                const errorMessage = callResp.error || 'Unknown error happenned';
-                sendEphemeralPost(errorMessage, this.props.post.channel_id, this.props.post.root_id);
-            }
         });
+
+        const callResp = (res as {data: AppCallResponse}).data;
+        const ephemeral = (message: string) => sendEphemeralPost(message, this.props.post.channel_id, this.props.post.root_id);
+        switch (callResp.type) {
+        case AppCallResponseTypes.OK:
+            if (callResp.markdown) {
+                ephemeral(callResp.markdown);
+            }
+            break;
+        case AppCallResponseTypes.ERROR: {
+            const errorMessage = callResp.error || this.props.intl.formatMessage({id: 'apps.error.unknown', defaultMessage: 'Unknown error happenned'});
+            ephemeral(errorMessage);
+            break;
+        }
+        case AppCallResponseTypes.NAVIGATE:
+        case AppCallResponseTypes.FORM:
+            break;
+        default: {
+            const errMessage = this.props.intl.formatMessage(
+                {id: 'apps.error.responses.unknown_type', defaultMessage: 'App response type not supported. Response type: {type}.'},
+                {type: callResp.type},
+            );
+            ephemeral(errMessage);
+        }
+        }
     }
 
     render() {
@@ -466,3 +486,5 @@ export default class DotMenu extends React.PureComponent<Props, State> {
         );
     }
 }
+
+export default injectIntl(DotMenu);

@@ -11,14 +11,16 @@ import {IntegrationTypes} from 'mattermost-redux/action_types';
 import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 import type {CommandArgs} from 'mattermost-redux/types/integrations';
 
-import {AppCallTypes} from 'mattermost-redux/constants/apps';
+import {AppCallResponseTypes, AppCallTypes} from 'mattermost-redux/constants/apps';
+
+import {AppCallResponse} from 'mattermost-redux/types/apps';
 
 import {openModal} from 'actions/views/modals';
 import * as GlobalActions from 'actions/global_actions';
 import * as PostActions from 'actions/post_actions.jsx';
 
 import {isUrlSafe, getSiteURL} from 'utils/url';
-import {localizeMessage, getUserIdFromChannelName} from 'utils/utils.jsx';
+import {localizeMessage, getUserIdFromChannelName, localizeAndFormatMessage} from 'utils/utils.jsx';
 import * as UserAgent from 'utils/user_agent';
 import {Constants, ModalIdentifiers} from 'utils/constants';
 import {browserHistory} from 'utils/browser_history';
@@ -29,6 +31,8 @@ import {AppCommandParser} from 'components/suggestion/command_provider/app_comma
 import {GlobalState} from 'types/store';
 
 import {appsEnabled} from 'utils/apps';
+
+import {t} from 'utils/i18n';
 
 import {doAppCall} from './apps';
 
@@ -106,19 +110,41 @@ export function executeCommand(message: string, args: CommandArgs): ActionFunc {
 
         if (appsEnabled(state)) {
             const getGlobalState = () => getState() as GlobalState;
-
-            const parser = new AppCommandParser({dispatch, getState: getGlobalState}, args.root_id);
+            const createErrorMessage = (errMessage: string) => {
+                return {error: new Error(errMessage)};
+            };
+            const parser = new AppCommandParser({dispatch, getState: getGlobalState}, args.channel_id, args.root_id);
             if (parser.isAppCommand(msg)) {
                 try {
                     const call = await parser.composeCallFromCommand(msg);
                     if (!call) {
-                        return {error: new Error('Error composing command submission')};
+                        return createErrorMessage(localizeMessage('apps.error.commands.compose_call', 'Error composing command submission'));
                     }
 
-                    return dispatch(doAppCall({
+                    const res = await dispatch(doAppCall({
                         ...call,
                         type: AppCallTypes.SUBMIT,
-                    }));
+                    })) as {data: AppCallResponse};
+
+                    const callResp = res.data;
+                    switch (callResp.type) {
+                    case AppCallResponseTypes.OK:
+                        if (callResp.markdown) {
+                            GlobalActions.sendEphemeralPost(callResp.markdown, args.channel_id, args.parent_id);
+                        }
+                        return {data: true};
+                    case AppCallResponseTypes.ERROR:
+                        return createErrorMessage(callResp.error || localizeMessage('apps.error.unknown', 'Unknown error.'));
+                    case AppCallResponseTypes.FORM:
+                    case AppCallResponseTypes.NAVIGATE:
+                        return {data: true};
+                    default:
+                        return createErrorMessage(localizeAndFormatMessage(
+                            t('apps.error.responses.unknown_type'),
+                            'App response type not supported. Response type: {type}.',
+                            {type: callResp.type},
+                        ));
+                    }
                 } catch (err) {
                     return {error: err};
                 }
