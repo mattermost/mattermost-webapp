@@ -5,11 +5,11 @@ import {Tooltip} from 'react-bootstrap';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {getCustomEmojis} from 'mattermost-redux/actions/emojis';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import OverlayTrigger from 'components/overlay_trigger';
 import RenderEmoji from 'components/emoji/render_emoji';
 import {makeGetCustomStatus, isCustomStatusEnabled} from 'selectors/views/custom_status';
+import {isCustomEmojiEnabled} from 'selectors/emojis';
 import {GlobalState} from 'types/store';
 import Constants from 'utils/constants';
 
@@ -27,9 +27,9 @@ const CustomStatusEmoji = (props: ComponentProps) => {
     const getCustomStatus = makeGetCustomStatus();
     const {emojiSize, emojiStyle, showTooltip, tooltipDirection, userID, onClick} = props;
 
-    const isCustomEmojiEnabled = useSelector((state: GlobalState) => getConfig(state).EnableCustomEmoji === 'true');
+    const customEmojiEnabled = useSelector(isCustomEmojiEnabled);
     useEffect(() => {
-        if (isCustomEmojiEnabled) {
+        if (customEmojiEnabled) {
             dispatch(getCustomEmojis());
         }
     }, [isCustomEmojiEnabled]);
