@@ -1108,6 +1108,7 @@
         @media (max-width: 768px) {
             height: 24px;
             width: 24px;
+            margin-right: 8px;
         }
 
         height: 20px;
@@ -1156,6 +1157,9 @@
     }
 
     .status.status--group {
+        @media (max-width: 768px) {
+            margin: 0px 10px 0 4px;
+        }
         background: rgba(var(--sidebar-text-rgb), 0.16);
         margin: 0px 14px 0 2px;
         width: 18px;
