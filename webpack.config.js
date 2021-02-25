@@ -27,8 +27,8 @@ const STANDARD_EXCLUDE = [
     path.join(__dirname, 'node_modules'),
 ];
 
-// react-hot-loader requires eval
-const CSP_UNSAFE_EVAL_IF_DEV = targetIsDevServer ? ' \'unsafe-eval\'' : '';
+// react-hot-loader and development source maps require eval
+const CSP_UNSAFE_EVAL_IF_DEV = DEV ? ' \'unsafe-eval\'' : '';
 
 var MYSTATS = {
 
@@ -373,14 +373,12 @@ if (!targetIsStats) {
     config.stats = MYSTATS;
 }
 
-// Development mode configuration
 if (DEV) {
+    // Development mode configuration
     config.mode = 'development';
-    config.devtool = 'source-map';
-}
-
-// Production mode configuration
-if (!DEV) {
+    config.devtool = 'eval-cheap-module-source-map';
+} else {
+    // Production mode configuration
     config.mode = 'production';
     config.devtool = 'source-map';
 }
@@ -413,7 +411,7 @@ if (targetIsTest) {
 if (targetIsDevServer) {
     config = {
         ...config,
-        devtool: 'cheap-module-eval-source-map',
+        devtool: 'eval-cheap-module-source-map',
         devServer: {
             hot: true,
             injectHot: true,

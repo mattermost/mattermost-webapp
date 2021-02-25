@@ -58,6 +58,10 @@
                 opacity: .8;
             }
         }
+
+        &.react-select__control--is-disabled {
+            background: #eeeeee;
+        }
     }
 
     .react-select__padded-component {

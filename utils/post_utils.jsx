@@ -169,6 +169,12 @@ export function shouldFocusMainTextbox(e, activeElement) {
         return false;
     }
 
+    // Do not focus when pressing space on link elements
+    const spaceKeepFocusTags = ['BUTTON', 'A'];
+    if (Utils.isKeyPressed(e, Constants.KeyCodes.SPACE) && spaceKeepFocusTags.includes(activeElement.tagName)) {
+        return false;
+    }
+
     return true;
 }
 
