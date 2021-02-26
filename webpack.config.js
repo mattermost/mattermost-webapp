@@ -133,7 +133,7 @@ var config = {
     entry: ['./root.jsx', 'root.html'],
     output: {
         publicPath,
-        filename: '[name].[hash].js',
+        filename: '[name].[contenthash].js',
         chunkFilename: '[name].[contenthash].js',
     },
     module: {
@@ -159,7 +159,7 @@ var config = {
                 exclude: [/en\.json$/],
                 use: [
                     {
-                        loader: 'file-loader?name=i18n/[name].[hash].[ext]',
+                        loader: 'file-loader?name=i18n/[name].[contenthash].[ext]',
                     },
                 ],
             },
@@ -195,7 +195,7 @@ var config = {
                     {
                         loader: 'file-loader',
                         options: {
-                            name: 'files/[hash].[ext]',
+                            name: 'files/[contenthash].[ext]',
                         },
                     },
                     {
@@ -210,7 +210,7 @@ var config = {
                     {
                         loader: 'file-loader',
                         options: {
-                            name: 'files/[hash].[ext]',
+                            name: 'files/[contenthash].[ext]',
                         },
                     },
                 ],
