@@ -132,7 +132,6 @@ if (DEV) {
 var config = {
     entry: ['./root.jsx', 'root.html'],
     output: {
-        path: path.join(__dirname, 'dist'),
         publicPath,
         filename: '[name].[hash].js',
         chunkFilename: '[name].[contenthash].js',
