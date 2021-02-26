@@ -13,7 +13,7 @@ import {makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getChannel as fetchChannel} from 'mattermost-redux/actions/channels';
 import {getUser as fetchUser} from 'mattermost-redux/actions/users';
 
-import {getDisplayName} from 'mattermost-redux/selectors/entities/users';
+import {makeGetDisplayName} from 'mattermost-redux/selectors/entities/users';
 import {getThread} from 'mattermost-redux/selectors/entities/threads';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 
@@ -41,8 +41,6 @@ type Props = {
     threadId: $ID<UserThread>;
     isSelected: boolean;
 };
-
-const getChannel = makeGetChannel();
 
 const markdownPreviewOptions = {
     singleline: true,
@@ -77,9 +75,9 @@ const ThreadItem = ({
         },
     } = thread;
 
-    const channel = useSelector((state: GlobalState) => getChannel(state, {id: channelId}));
+    const channel = useSelector((state: GlobalState) => makeGetChannel()(state, {id: channelId}));
     const directTeammate = useSelector((state: GlobalState) => getDirectTeammate(state, channelId));
-    const displayName = useSelector((state: GlobalState) => getDisplayName(state, userId, true));
+    const displayName = useSelector((state: GlobalState) => makeGetDisplayName()(state, userId, true));
 
     useEffect(() => {
         if (!channel) {

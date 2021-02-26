@@ -7,7 +7,7 @@ import {Client4} from 'mattermost-redux/client';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {makeGetReactionsForPost} from 'mattermost-redux/selectors/entities/posts';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
-import {getDisplayName, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {makeGetDisplayName, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {Permissions, Posts} from 'mattermost-redux/constants';
 import * as PostListUtils from 'mattermost-redux/utils/post_list';
 import {canEditPost as canEditPostRedux, isPostEphemeral} from 'mattermost-redux/utils/post_utils';
@@ -329,6 +329,7 @@ export function getLatestPostId(postIds) {
 
 export function makeCreateAriaLabelForPost() {
     const getReactionsForPost = makeGetReactionsForPost();
+    const getDisplayName = makeGetDisplayName();
 
     return createSelector(
         (state, post) => post,
