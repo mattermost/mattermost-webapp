@@ -25,7 +25,7 @@ describe('components/apps_form/AppsForm', () => {
             }],
         } as AppForm,
         call: {
-            url: '/submit_url',
+            path: '/submit_url',
         } as AppCall,
         onHide: () => {},
         actions: {
