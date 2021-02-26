@@ -350,7 +350,7 @@ class MainMenu extends React.PureComponent {
                             show={!this.props.mobile && this.props.enablePluginMarketplace}
                             dialogType={MarketplaceModal}
                             text={formatMessage({id: 'navbar_dropdown.marketplace', defaultMessage: 'Plugin Marketplace'})}
-                            firstAdminVisitMarketplaceStatus={this.props.firstAdminVisitMarketplaceStatus}
+                            showUnread={!this.props.firstAdminVisitMarketplaceStatus}
                         />
                     </TeamPermissionGate>
                     <Menu.ItemLink

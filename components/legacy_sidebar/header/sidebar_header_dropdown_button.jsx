@@ -23,8 +23,16 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent {
         teamDisplayName: PropTypes.string.isRequired,
         openModal: PropTypes.func,
         getFirstAdminVisitMarketplaceStatus: PropTypes.func,
-        firstAdminVisitMarketplaceStatus: PropTypes.bool,
+        showUnread: PropTypes.bool,
     };
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            showUnread: false,
+        };
+    }
 
     handleCustomStatusEmojiClick = (event) => {
         event.stopPropagation();
@@ -35,10 +43,24 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent {
         this.props.openModal(customStatusInputModalData);
     }
 
+    getFirstAdminVisitMarketplaceStatus = async () => {
+        const {data} = await this.props.getFirstAdminVisitMarketplaceStatus();
+        this.setState({showUnread: !data});
+    }
+
     componentDidMount() {
         const isSystemAdmin = isAdmin(this.props.currentUser.roles);
         if (isSystemAdmin) {
-            this.props.getFirstAdminVisitMarketplaceStatus();
+            this.getFirstAdminVisitMarketplaceStatus();
+        }
+    }
+
+    componentDidUpdate() {
+        const isSystemAdmin = isAdmin(this.props.currentUser.roles);
+        const {showUnread} = this.props;
+        if (isSystemAdmin && showUnread !== this.state.showUnread) {
+            // eslint-disable-next-line react/no-did-update-set-state
+            this.setState({showUnread: this.props.showUnread});
         }
     }
 
@@ -73,8 +95,7 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent {
             );
         }
 
-        const isSystemAdmin = isAdmin(this.props.currentUser.roles);
-        if (isSystemAdmin && !this.props.firstAdminVisitMarketplaceStatus) {
+        if (this.state.showUnread) {
             badge = (
                 <span className={'unread-badge'}/>
             );

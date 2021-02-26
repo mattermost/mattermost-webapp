@@ -7,7 +7,6 @@ import React from 'react';
 import {injectIntl} from 'react-intl';
 
 import {intlShape} from 'utils/react_intl';
-import {ModalIdentifiers} from 'utils/constants';
 
 class ModalToggleButtonRedux extends React.PureComponent {
     static propTypes = {
@@ -19,7 +18,7 @@ class ModalToggleButtonRedux extends React.PureComponent {
         intl: intlShape.isRequired,
         onClick: PropTypes.func,
         className: PropTypes.string,
-        firstAdminVisitMarketplaceStatus: PropTypes.bool,
+        showUnread: PropTypes.bool,
         actions: PropTypes.shape({
             openModal: PropTypes.func.isRequired,
         }).isRequired,
@@ -59,7 +58,7 @@ class ModalToggleButtonRedux extends React.PureComponent {
         const ariaLabel = formatMessage({id: 'accessibility.button.dialog', defaultMessage: '{dialogName} dialog'}, {dialogName: props.accessibilityLabel});
 
         let badge = null;
-        if (this.props.modalId === ModalIdentifiers.PLUGIN_MARKETPLACE && !this.props.firstAdminVisitMarketplaceStatus) {
+        if (this.props.showUnread) {
             badge = (
                 <span className={'unread-badge'}/>
             );
@@ -71,7 +70,7 @@ class ModalToggleButtonRedux extends React.PureComponent {
         delete props.dialogProps;
         delete props.accessibilityLabel;
         delete props.actions;
-        delete props.firstAdminVisitMarketplaceStatus;
+        delete props.showUnread;
 
         // allow callers to provide an onClick which will be called before the modal is shown
         let clickHandler = () => this.show();
