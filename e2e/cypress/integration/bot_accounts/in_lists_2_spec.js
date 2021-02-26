@@ -9,7 +9,8 @@
 
 // Group: @bot_accounts
 
-import {zip, sortBy} from 'lodash';
+import sortBy from 'lodash.sortby';
+import zip from 'lodash.zip';
 
 import {createBotPatch} from '../../support/api/bots';
 import {generateRandomUser} from '../../support/api/user';
