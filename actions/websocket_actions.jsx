@@ -58,6 +58,8 @@ import {getPost, getMostRecentPostIdInChannel} from 'mattermost-redux/selectors/
 import {haveISystemPermission, haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
 
+import {fetchAppBindings} from 'mattermost-redux/actions/apps';
+
 import {getSelectedChannelId} from 'selectors/rhs';
 
 import {openModal} from 'actions/views/modals';
@@ -79,6 +81,7 @@ import {getSiteURL} from 'utils/url';
 import {isGuest} from 'utils/utils';
 import RemovedFromChannelModal from 'components/removed_from_channel_modal';
 import InteractiveDialog from 'components/interactive_dialog';
+import {appsEnabled} from 'utils/apps';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
@@ -479,7 +482,13 @@ export function handleEvent(msg) {
     case SocketEvents.CLOUD_PAYMENT_STATUS_UPDATED:
         dispatch(handleCloudPaymentStatusUpdated(msg));
         break;
-
+    case 'custom_com.mattermost.apps_refresh_bindings': {
+        const state = getState();
+        if (appsEnabled(state)) {
+            dispatch(fetchAppBindings(getCurrentUserId(state), getCurrentChannelId(state)));
+        }
+        break;
+    }
     default:
     }
 
