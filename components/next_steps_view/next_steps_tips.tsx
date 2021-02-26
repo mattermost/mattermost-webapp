@@ -196,7 +196,7 @@ export default function NextStepsTips(props: Props) {
                         </h3>
                         <FormattedMessage
                             id='next_steps_view.tips.configureLogin.text'
-                            defaultMessage='Set up OAuth, SAML or AD/LDAP authentication.'
+                            defaultMessage='Set up OpenID, SAML or AD/LDAP authentication.'
                         />
                         <MenuWrapper>
                             <button
@@ -210,8 +210,8 @@ export default function NextStepsTips(props: Props) {
                             </button>
                             <Menu ariaLabel={Utils.localizeMessage('next_steps_view.tips.auth.menuAriaLabel', 'Configure Authentication Menu')}>
                                 <Menu.ItemAction
-                                    onClick={() => openAuthPage('oauth', props.isFirstAdmin)}
-                                    text={Utils.localizeMessage('next_steps_view.tips.auth.oauth', 'OAuth')}
+                                    onClick={() => openAuthPage('openid', props.isFirstAdmin)}
+                                    text={Utils.localizeMessage('next_steps_view.tips.auth.openid', 'OpenID')}
                                 />
                                 <Menu.ItemAction
                                     onClick={() => openAuthPage('saml', props.isFirstAdmin)}
