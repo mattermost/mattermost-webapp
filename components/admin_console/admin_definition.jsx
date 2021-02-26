@@ -2017,9 +2017,9 @@ const AdminDefinition = {
                         type: Constants.SettingsTypes.TYPE_PERMISSION,
                         key: 'TeamSettings.EditOthersPosts',
                         label: t('admin.team.editOthersPostsTitle'),
-                        label_default: 'Allow Team Administrators to edit others posts:',
+                        label_default: 'Allow Team Administrators to edit others\' posts:',
                         help_text: t('admin.team.editOthersPostsDesc'),
-                        help_text_default: 'When true, Team Administrators and System Administrators can edit other user\'s posts.  When false, only System Administrators can edit other user\'s posts. Regardless of selection Team Administrators and System Administrators can delete other user\'s posts.',
+                        help_text_default: 'When **true**, both Team Admins and System Admins can edit other users\' posts.  When **false**, only System Admins can edit other users\' posts. However, Team Admins and System Admins can always delete other users\' posts.',
                         permissions_mapping_name: 'editOthersPosts',
                         isHidden: it.any(
                             it.licensed,
