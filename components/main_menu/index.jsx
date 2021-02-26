@@ -8,19 +8,16 @@ import {
     getConfig,
     getLicense,
     getFirstAdminVisitMarketplaceStatus,
+    getSubscriptionStats as selectSubscriptionStats,
 } from 'mattermost-redux/selectors/entities/general';
 import {
     getMyTeams,
     getJoinableTeamIds,
     getCurrentTeam,
-    getMyTeamMember,
 } from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {haveITeamPermission, haveICurrentTeamPermission, haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
 import {Permissions} from 'mattermost-redux/constants';
-import {getCloudSubscription} from 'mattermost-redux/actions/cloud';
-
-import {isAdmin} from 'utils/utils.jsx';
 
 import {RHSStates} from 'utils/constants';
 
@@ -49,8 +46,6 @@ function mapStateToProps(state) {
     const enableIncomingWebhooks = config.EnableIncomingWebhooks === 'true';
     const enableOAuthServiceProvider = config.EnableOAuthServiceProvider === 'true';
     const enableOutgoingWebhooks = config.EnableOutgoingWebhooks === 'true';
-    const enableUserCreation = config.EnableUserCreation === 'true';
-    const enableEmailInvitations = config.EnableEmailInvitations === 'true';
     const enablePluginMarketplace = config.PluginsEnabled === 'true' && config.EnableMarketplace === 'true';
     const experimentalPrimaryTeam = config.ExperimentalPrimaryTeam;
     const helpLink = config.HelpLink;
@@ -84,8 +79,6 @@ function mapStateToProps(state) {
         enableOAuthServiceProvider,
         enableOutgoingWebhooks,
         canManageSystemBots,
-        enableUserCreation,
-        enableEmailInvitations,
         enablePluginMarketplace,
         experimentalPrimaryTeam,
         helpLink,
@@ -96,20 +89,16 @@ function mapStateToProps(state) {
         siteName,
         teamId: currentTeam.id,
         teamName: currentTeam.name,
-        teamType: currentTeam.type,
         currentUser,
         isMentionSearch: rhsState === RHSStates.MENTION,
         teamIsGroupConstrained: Boolean(currentTeam.group_constrained),
         isLicensedForLDAPGroups:
             state.entities.general.license.LDAPGroups === 'true',
-        userLimit: getConfig(state).ExperimentalCloudUserLimit,
-        currentUsers: state.entities.admin.analytics.TOTAL_USERS,
-        userIsAdmin: isAdmin(getMyTeamMember(state, currentTeam.id).roles),
         showGettingStarted: showOnboarding(state),
         showNextStepsTips: showNextStepsTips(state),
         showNextSteps: showNextSteps(state),
-        subscription: state.entities.cloud.subscription,
         isCloud: getLicense(state).Cloud === 'true',
+        subscriptionStats: selectSubscriptionStats(state), // subscriptionStats are loaded in actions/views/root
         firstAdminVisitMarketplaceStatus: getFirstAdminVisitMarketplaceStatus(state),
     };
 }
@@ -123,7 +112,6 @@ function mapDispatchToProps(dispatch) {
             closeRightHandSide,
             closeRhsMenu,
             unhideNextSteps,
-            getCloudSubscription,
         }, dispatch),
     };
 }
