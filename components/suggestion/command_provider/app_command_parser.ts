@@ -5,7 +5,7 @@
 
 import {getAppBindings} from 'mattermost-redux/selectors/entities/apps';
 
-import {AppBindingLocations, AppCallTypes, AppFieldTypes} from 'mattermost-redux/constants/apps';
+import {AppBindingLocations, AppCallResponseTypes, AppCallTypes, AppFieldTypes} from 'mattermost-redux/constants/apps';
 
 import {
     AppCall,
@@ -86,7 +86,7 @@ export class ParsedCommand {
     };
 
     errorMessage = (): string => {
-        return this.error + '\n\n' + this.command + '\n' + ' '.repeat(this.i) + '^';
+        return 'Parsing error: ' + this.error + '.\n```\n' + this.command + '\n' + ' '.repeat(this.i) + '^\n```';
     }
 
     // matchBinding finds the closest matching command binding.
@@ -140,7 +140,7 @@ export class ParsedCommand {
             }
 
             case ParseState.EndCommand: {
-                const binding = bindings.find((b: AppBinding) => b.label === this.incomplete);
+                const binding = bindings.find((b: AppBinding) => b.label === this.incomplete.toLowerCase());
                 if (!binding) {
                     // gone as far as we could, this token doesn't match a sub-command.
                     // return the state from the last matching binding
@@ -244,8 +244,10 @@ export class ParsedCommand {
             }
 
             case ParseState.ParameterSeparator: {
+                this.incompleteStart = this.i;
                 switch (c) {
                 case '':
+                    this.state = ParseState.StartParameter;
                     return this;
                 case ' ':
                 case '\t': {
@@ -284,7 +286,7 @@ export class ParsedCommand {
                 case ' ':
                 case '\t':
                 case '=': {
-                    const field = fields.find((f) => f.label === this.incomplete);
+                    const field = fields.find((f) => f.label === this.incomplete.toLowerCase());
                     if (!field) {
                         return this.asError('command does not accept flag ' + this.incomplete);
                     }
@@ -380,10 +382,12 @@ export class ParsedCommand {
                     if (!autocompleteMode) {
                         return this.asError('matching double quote expected before end of input');
                     }
-                    this.state = ParseState.EndValue;
-                    break;
+                    return this;
                 }
                 case '"': {
+                    if (this.incompleteStart === this.i - 1) {
+                        return this.asError('empty values are not allowed');
+                    }
                     this.i++;
                     this.state = ParseState.EndValue;
                     break;
@@ -412,10 +416,12 @@ export class ParsedCommand {
                     if (!autocompleteMode) {
                         return this.asError('matching tick quote expected before end of input');
                     }
-                    this.state = ParseState.EndValue;
-                    break;
+                    return this;
                 }
                 case '`': {
+                    if (this.incompleteStart === this.i - 1) {
+                        return this.asError('empty values are not allowed');
+                    }
                     this.i++;
                     this.state = ParseState.EndValue;
                     break;
@@ -503,6 +509,7 @@ export class AppCommandParser {
 
     // getSuggestionsBase is a synchronous function that returns results for base commands
     public getSuggestionsBase = (pretext: string): AutocompleteSuggestionWithComplete[] => {
+        const command = pretext.toLowerCase();
         const result: AutocompleteSuggestionWithComplete[] = [];
 
         const bindings = this.getCommandBindings();
@@ -515,7 +522,7 @@ export class AppCommandParser {
             if (base[0] !== '/') {
                 base = '/' + base;
             }
-            if (base.startsWith(pretext)) {
+            if (base.startsWith(command)) {
                 result.push({
                     suggestion: base,
                     complete: base,
@@ -599,11 +606,12 @@ export class AppCommandParser {
             return choice as AutocompleteSuggestionWithComplete;
         }
 
-        let complete = parsed.command.substring(0, parsed.incompleteStart);
-        complete += choice.complete || choice.suggestion;
-        if (!complete.endsWith(' ')) {
-            complete += ' ';
+        let goBackSpace = 0;
+        if (choice.complete === '') {
+            goBackSpace = 1;
         }
+        let complete = parsed.command.substring(0, parsed.incompleteStart - goBackSpace);
+        complete += choice.complete || choice.suggestion;
         choice.hint = choice.hint || '';
         choice.suggestion = '/' + choice.suggestion;
 
@@ -652,6 +660,7 @@ export class AppCommandParser {
 
     // isAppCommand determines if subcommand/form suggestions need to be returned
     isAppCommand = (pretext: string): boolean => {
+        const command = pretext.toLowerCase();
         for (const binding of this.getCommandBindings()) {
             let base = binding.app_id;
             if (!base) {
@@ -662,7 +671,7 @@ export class AppCommandParser {
                 base = '/' + base;
             }
 
-            if (pretext.startsWith(base + ' ')) {
+            if (command.startsWith(base + ' ')) {
                 return true;
             }
         }
@@ -709,6 +718,11 @@ export class AppCommandParser {
                 return undefined;
             }
             callResponse = res.data;
+            if (callResponse?.type === AppCallResponseTypes.ERROR) {
+                const errorMessage = callResponse.error || 'Unknown error.';
+                this.displayError(errorMessage);
+                return undefined;
+            }
         } catch (e) {
             this.displayError(e);
             return undefined;
@@ -750,7 +764,7 @@ export class AppCommandParser {
         const result: AutocompleteSuggestion[] = [];
 
         bindings.forEach((b) => {
-            if (b.label.toLowerCase().startsWith(parsed.incomplete)) {
+            if (b.label.toLowerCase().startsWith(parsed.incomplete.toLowerCase())) {
                 result.push({
                     complete: b.label,
                     suggestion: b.label,
@@ -782,9 +796,11 @@ export class AppCommandParser {
         case ParseState.EndValue:
         case ParseState.FlagValueSeparator:
         case ParseState.NonspaceValue:
-        case ParseState.QuotedValue:
-        case ParseState.TickValue:
             return this.getValueSuggestions(parsed);
+        case ParseState.QuotedValue:
+            return this.getValueSuggestions(parsed, '"');
+        case ParseState.TickValue:
+            return this.getValueSuggestions(parsed, '`');
         }
         return [];
     }
@@ -837,7 +853,7 @@ export class AppCommandParser {
             prefix = prefix.substring(1);
         }
 
-        const applicable = parsed.form.fields.filter((field) => field.label && field.label.startsWith(parsed.incomplete));
+        const applicable = parsed.form.fields.filter((field) => field.label && field.label.startsWith(parsed.incomplete.toLowerCase()) && !parsed.values[field.name]);
         if (applicable) {
             return applicable.map((f) => {
                 let suffix = '';
@@ -859,7 +875,7 @@ export class AppCommandParser {
     }
 
     // getSuggestionsForField gets suggestions for a positional or flag field value
-    getValueSuggestions = async (parsed: ParsedCommand): Promise<AutocompleteSuggestion[]> => {
+    getValueSuggestions = async (parsed: ParsedCommand, delimiter?: string): Promise<AutocompleteSuggestion[]> => {
         if (!parsed || !parsed.field) {
             return [];
         }
@@ -878,9 +894,14 @@ export class AppCommandParser {
             return this.getStaticSelectSuggestions(parsed);
         }
 
+        let complete = parsed.incomplete;
+        if (complete && delimiter) {
+            complete = delimiter + complete + delimiter;
+        }
+
         return [{
-            complete: '',
-            suggestion: '',
+            complete,
+            suggestion: parsed.incomplete,
             description: f.description,
             hint: f.hint,
         }];
