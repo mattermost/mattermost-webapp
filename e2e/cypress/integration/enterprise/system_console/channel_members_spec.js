@@ -49,10 +49,13 @@ describe('Channel members test', () => {
         cy.get('#channelMembers').scrollIntoView().should('be.visible');
 
         // # Click the sync group members switch
-        cy.findByTestId('syncGroupSwitch').scrollIntoView().click();
+        cy.findByTestId('syncGroupSwitch').
+            scrollIntoView().
+            findByRole('button').
+            click({force: true});
 
         // * Assert that the members block is no longer visible
-        cy.get('#channelMembers').should('not.be.visible');
+        cy.get('#channelMembers').should('not.exist');
     });
 
     it('MM-23938 - Channel Members block can search for users, remove users, add users and modify their roles', () => {
