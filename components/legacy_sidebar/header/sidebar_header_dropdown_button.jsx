@@ -97,6 +97,7 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent {
 
         if (this.state.showUnread) {
             badge = (
+                <span className={'style--none unread-badge-addon'}/>
                 <span className={'unread-badge'}/>
             );
         }
