@@ -4,13 +4,9 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-<<<<<<< HEAD:components/add_groups_to_team_modal/add_groups_to_team_modal.test.jsx
 import {Groups} from 'mattermost-redux/constants';
 
-import AddGroupsToTeamModal from 'components/add_groups_to_team_modal/add_groups_to_team_modal.jsx';
-=======
 import AddGroupsToTeamModal from 'components/add_groups_to_team_modal/add_groups_to_team_modal';
->>>>>>> master:components/add_groups_to_team_modal/add_groups_to_team_modal.test.tsx
 
 describe('components/AddGroupsToTeamModal', () => {
     const baseProps = {
@@ -69,22 +65,22 @@ describe('components/AddGroupsToTeamModal', () => {
         const wrapper = shallow(
             <AddGroupsToTeamModal {...props}/>,
         );
-        const instance = wrapper.instance();
+        const instance = wrapper.instance() as AddGroupsToTeamModal;
         instance.handleResponse = jest.fn();
         instance.handleHide = jest.fn();
 
         wrapper.setState({values: []});
-        await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
+        await instance.handleSubmit();
         expect(actions.linkGroupSyncable).not.toBeCalled();
         expect(instance.handleResponse).not.toBeCalled();
         expect(instance.handleHide).not.toBeCalled();
 
         wrapper.setState({saving: false, values: [{id: 'id_1'}, {id: 'id_2'}]});
-        await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
+        await instance.handleSubmit();
         expect(actions.linkGroupSyncable).toBeCalled();
         expect(actions.linkGroupSyncable).toHaveBeenCalledTimes(2);
-        expect(actions.linkGroupSyncable).toBeCalledWith('id_1', baseProps.currentTeamId, Groups.SYNCABLE_TYPE_TEAM, {auto_add: true});
-        expect(actions.linkGroupSyncable).toBeCalledWith('id_2', baseProps.currentTeamId, Groups.SYNCABLE_TYPE_TEAM, {auto_add: true});
+        expect(actions.linkGroupSyncable).toBeCalledWith('id_1', baseProps.currentTeamId, Groups.SYNCABLE_TYPE_TEAM, {auto_add: true, "scheme_admin": false,});
+        expect(actions.linkGroupSyncable).toBeCalledWith('id_2', baseProps.currentTeamId, Groups.SYNCABLE_TYPE_TEAM, {auto_add: true, "scheme_admin": false,});
 
         expect(instance.handleResponse).toBeCalledTimes(2);
         expect(instance.handleHide).not.toBeCalled();

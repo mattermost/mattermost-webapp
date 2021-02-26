@@ -50,7 +50,7 @@ describe('components/AddGroupsToChannelModal', () => {
         );
 
         wrapper.setState({saving: true, addError: ''});
-        const instance = wrapper.instance() as AddGroupsToChannelModal
+        const instance = wrapper.instance() as AddGroupsToChannelModal;
         instance.handleResponse();
         expect(wrapper.state('saving')).toEqual(false);
         expect(wrapper.state('addError')).toEqual(null);
@@ -69,7 +69,7 @@ describe('components/AddGroupsToChannelModal', () => {
         const wrapper = shallow(
             <AddGroupsToChannelModal {...props}/>,
         );
-        const instance = wrapper.instance() as AddGroupsToChannelModal
+        const instance = wrapper.instance() as AddGroupsToChannelModal;
         instance.handleResponse = jest.fn();
         instance.handleHide = jest.fn();
         wrapper.setState({values: []});
@@ -98,7 +98,7 @@ describe('components/AddGroupsToChannelModal', () => {
         const value2: any = {id: 'id_2', label: 'label_2', value: 'value_2'};
 
         wrapper.setState({values: [value1]});
-        const instance = wrapper.instance() as AddGroupsToChannelModal
+        const instance = wrapper.instance() as AddGroupsToChannelModal;
         instance.addValue(value2);
         expect(wrapper.state('values')).toEqual([value1, value2]);
 
@@ -113,7 +113,7 @@ describe('components/AddGroupsToChannelModal', () => {
         );
 
         wrapper.setState({users: [{id: 'id_1'}]});
-        const instance = wrapper.instance() as AddGroupsToChannelModal
+        const instance = wrapper.instance() as AddGroupsToChannelModal;
         instance.handlePageChange(0, 1);
         expect(baseProps.actions.getGroupsNotAssociatedToChannel).toHaveBeenCalledTimes(1);
 
@@ -128,7 +128,7 @@ describe('components/AddGroupsToChannelModal', () => {
         const wrapper = shallow(
             <AddGroupsToChannelModal {...baseProps}/>,
         );
-        const instance = wrapper.instance() as AddGroupsToChannelModal
+        const instance = wrapper.instance() as AddGroupsToChannelModal;
         instance.search('');
         expect(baseProps.actions.setModalSearchTerm).toHaveBeenCalledTimes(1);
         expect(baseProps.actions.setModalSearchTerm).toBeCalledWith('');
@@ -164,7 +164,7 @@ describe('components/AddGroupsToChannelModal', () => {
         let isSelected = false;
         function onAdd() {} //eslint-disable-line no-empty-function
 
-        const instance = wrapper.instance() as AddGroupsToChannelModal
+        const instance = wrapper.instance() as AddGroupsToChannelModal;
         expect(instance.renderOption(option, isSelected, onAdd)).toMatchSnapshot();
 
         isSelected = true;
