@@ -297,7 +297,6 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
         if (this.state.team === null) {
             return <div/>;
         }
-        const teamType = this.state.team ? this.state.team.type : '';
 
         return (
             <Switch>
@@ -325,7 +324,6 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
                     render={(renderProps) => (
                         <ChannelController
                             pathName={renderProps.location.pathname}
-                            teamType={teamType}
                             fetchingChannels={!this.state.finishedFetchingChannels}
                             useLegacyLHS={this.props.useLegacyLHS}
                         />
