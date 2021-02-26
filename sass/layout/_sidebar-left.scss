@@ -1105,24 +1105,10 @@
     }
 
     .DirectChannel__profile-picture {
-        @media (max-width: 768px) {
-            height: 24px;
-            width: 24px;
-            margin-right: 8px;
-        }
-
         height: 20px;
         margin-right: 13px;
 
         .DirectChannel__status-icon {
-            @media (max-width: 768px) {
-                height: 14px;
-                width: 14px;
-                font-size: 14px;
-                top: 12px;
-                left: 12px;
-            }
-
             position: absolute;
             top: 10px;
             left: 10px;
@@ -1157,9 +1143,6 @@
     }
 
     .status.status--group {
-        @media (max-width: 768px) {
-            margin: 0px 10px 0 4px;
-        }
         background: rgba(var(--sidebar-text-rgb), 0.16);
         margin: 0px 14px 0 2px;
         width: 18px;
