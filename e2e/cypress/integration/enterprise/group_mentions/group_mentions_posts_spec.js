@@ -260,16 +260,21 @@ describe('Group Mentions', () => {
             // # Link the group and the channel.
             cy.apiLinkGroupChannel(groupID1, channel.id);
 
-            cy.apiLogin({username: 'board.one', password: 'Password1'}).then(({user}) => {
-                cy.apiAddUserToChannel(channel.id, user.id);
+            cy.apiLogin({username: 'board.one', password: 'Password1'}).then(({user: boardOne}) => {
+                cy.apiAddUserToChannel(channel.id, boardOne.id);
 
                 // # Make the channel private and group-synced.
                 cy.apiPatchChannel(channel.id, {group_constrained: true, type: 'P'});
 
                 // # Login to create the dev user
-                cy.apiLogin({username: 'dev.one', password: 'Password1'}).then(({user: user2}) => {
+                cy.apiLogin({username: 'dev.one', password: 'Password1'}).then(({user: devOne}) => {
                     cy.apiAdminLogin();
-                    cy.apiAddUserToTeam(testTeam.id, user2.id);
+                    cy.apiGetClientLicense().then(({isCloudLicensed}) => {
+                        if (isCloudLicensed) {
+                            cy.apiSaveCloudOnboardingPreference(boardOne.id, 'hide', 'true');
+                        }
+                    });
+                    cy.apiAddUserToTeam(testTeam.id, devOne.id);
 
                     cy.apiLogin({username: 'board.one', password: 'Password1'});
 
