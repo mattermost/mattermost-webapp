@@ -168,7 +168,9 @@ exports[`components/invitation_modal/InvitationModal should match the snapshot w
         "openModal": [MockFunction],
       }
     }
+    cloudUserLimit="10"
     show={true}
+    userIsAdmin={false}
   />
 </Fragment>
 `;
