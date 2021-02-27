@@ -169,6 +169,12 @@ export function shouldFocusMainTextbox(e, activeElement) {
         return false;
     }
 
+    // Do not focus when pressing space on link elements
+    const spaceKeepFocusTags = ['BUTTON', 'A'];
+    if (Utils.isKeyPressed(e, Constants.KeyCodes.SPACE) && spaceKeepFocusTags.includes(activeElement.tagName)) {
+        return false;
+    }
+
     return true;
 }
 
@@ -346,7 +352,10 @@ export function makeCreateAriaLabelForPost() {
 export function createAriaLabelForPost(post, author, isFlagged, reactions, intl, emojiMap) {
     const {formatMessage, formatTime, formatDate} = intl;
 
-    let message = post.message || '';
+    let message = post.state === Posts.POST_DELETED ? formatMessage({
+        id: 'post_body.deleted',
+        defaultMessage: '(message deleted)',
+    }) : post.message || '';
     let match;
 
     // Match all the shorthand forms of emojis first
@@ -485,4 +494,14 @@ export function makeGetReplyCount() {
             return postIds.map((id) => allPosts[id]).filter((post) => post && !isPostEphemeral(post)).length;
         },
     );
+}
+
+export function areConsecutivePostsBySameUser(post, previousPost) {
+    if (!(post && previousPost)) {
+        return false;
+    }
+    return post.user_id === previousPost.user_id && // The post is by the same user
+        post.create_at - previousPost.create_at <= Posts.POST_COLLAPSE_TIMEOUT && // And was within a short time period
+        !(post.props && post.props.from_webhook) && !(previousPost.props && previousPost.props.from_webhook) && // And neither is from a webhook
+        !isSystemMessage(post) && !isSystemMessage(previousPost); // And neither is a system message
 }

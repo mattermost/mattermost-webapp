@@ -498,11 +498,15 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
             />
         );
 
+        const ariaLabel = Utils.localizeMessage('accessibility.sections.lhsList', 'channel sidebar region');
+
         return (
 
             // NOTE: id attribute added to temporarily support the desktop app's at-mention DOM scraping of the old sidebar
             <div
-                id='sidebar-left'
+                id='lhsList'
+                role='application'
+                aria-label={ariaLabel}
                 className={classNames('SidebarNavContainer a11y__region', {
                     disabled: this.props.isUnreadFilterEnabled,
                 })}
