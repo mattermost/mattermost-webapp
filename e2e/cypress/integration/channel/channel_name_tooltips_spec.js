@@ -8,7 +8,7 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @channel
+// Group: @channel @not_cloud
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
@@ -40,6 +40,15 @@ describe('channel name tooltips', () => {
     let testTeam;
 
     before(() => {
+        cy.shouldNotRunOnCloudEdition();
+
+        // # Update config
+        cy.apiUpdateConfig({
+            ServiceSettings: {
+                EnableLegacySidebar: true,
+            },
+        });
+
         // # Login as new user and visit town-square
         cy.apiInitSetup().then(({team, user}) => {
             testTeam = team;

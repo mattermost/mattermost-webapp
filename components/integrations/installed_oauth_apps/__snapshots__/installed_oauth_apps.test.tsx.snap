@@ -63,6 +63,7 @@ exports[`components/integrations/InstalledOAuthApps should match snapshot 1`] = 
 exports[`components/integrations/InstalledOAuthApps should match snapshot 2`] = `
 <div>
   <Connect(InstalledOAuthApp)
+    creatorName=""
     key="facxd9wpzpbpfp8pad78xj75pr"
     oauthApp={
       Object {
