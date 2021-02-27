@@ -233,7 +233,6 @@ export default class Root extends React.PureComponent {
             }
             this.onConfigLoaded();
         });
-
         trackLoadTime();
     }
 
