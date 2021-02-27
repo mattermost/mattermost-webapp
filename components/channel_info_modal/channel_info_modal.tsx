@@ -15,11 +15,27 @@ import ArchiveIcon from 'components/widgets/icons/archive_icon';
 import Constants from 'utils/constants.jsx';
 import {getSiteURL} from 'utils/url';
 import * as Utils from 'utils/utils.jsx';
+import { Team } from 'mattermost-redux/types/teams';
+import { Channel } from 'mattermost-redux/types/channels';
 
 const headerMarkdownOptions = {singleline: false, mentionHighlight: false};
 
-export default class ChannelInfoModal extends React.PureComponent {
-    static propTypes = {
+type Props = {
+    onHide: () => void,
+    channel: Channel,
+    currentChannel: Channel,
+    currentTeam: Team,
+    isRHSOpen?: boolean,
+    currentRelativeTeamUrl?: string
+}
+
+type State = {
+    show: boolean
+}
+
+export default class ChannelInfoModal extends React.PureComponent<Props, State> {
+    private getHeaderMarkdownOptions: Function;
+    static propTypes = { 
 
         /**
          * Function that is called when modal is hidden
@@ -52,17 +68,17 @@ export default class ChannelInfoModal extends React.PureComponent {
         currentRelativeTeamUrl: PropTypes.string,
     };
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
 
         this.state = {show: true};
 
-        this.getHeaderMarkdownOptions = memoizeResult((channelNamesMap) => (
+        this.getHeaderMarkdownOptions = memoizeResult((channelNamesMap: Function) => (
             {...headerMarkdownOptions, channelNamesMap}
         ));
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: Props) {
         const RHSChanged = !prevProps.isRHSOpen && this.props.isRHSOpen;
         const channelChanged = prevProps.channel?.id !== this.props.currentChannel?.id;
         if (RHSChanged || channelChanged) {
@@ -74,7 +90,7 @@ export default class ChannelInfoModal extends React.PureComponent {
         this.setState({show: false});
     }
 
-    handleFormattedTextClick = (e) => Utils.handleFormattedTextClick(e, this.props.currentRelativeTeamUrl);
+    handleFormattedTextClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => Utils.handleFormattedTextClick(e, this.props.currentRelativeTeamUrl);
 
     render() {
         let channel = this.props.channel;
@@ -90,6 +106,17 @@ export default class ChannelInfoModal extends React.PureComponent {
                 purpose: notFound,
                 header: notFound,
                 id: notFound,
+                team_id: notFound,
+                type: notFound,
+                delete_at: 0,
+                create_at: 0,
+                update_at: 0,
+                last_post_at: 0,
+                total_msg_count: 0,
+                extra_update_at: 0,
+                creator_id: notFound,
+                scheme_id: notFound,
+                group_constrained: false,
             };
         }
 

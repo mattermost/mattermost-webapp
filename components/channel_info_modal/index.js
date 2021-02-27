@@ -7,7 +7,7 @@ import {getCurrentRelativeTeamUrl, getCurrentTeam} from 'mattermost-redux/select
 
 import {getIsRhsOpen} from 'selectors/rhs';
 
-import ChannelInfoModal from './channel_info_modal.jsx';
+import ChannelInfoModal from './channel_info_modal.tsx';
 
 function mapStateToProps(state) {
     return {
