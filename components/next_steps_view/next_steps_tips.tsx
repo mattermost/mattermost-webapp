@@ -154,12 +154,12 @@ export default function NextStepsTips(props: Props) {
         nonMobileTips = (
             <>
                 <Card expanded={true}>
-                    <div className='Card__image'>
-                        <img
-                            src={tipsNextStepsImage3}
-                        />
-                    </div>
                     <div className='Card__body'>
+                        <div className='Card__image'>
+                            <img
+                                src={tipsNextStepsImage3}
+                            />
+                        </div>
                         <h3>
                             <FormattedMessage
                                 id='next_steps_view.tips.addPlugins'
@@ -182,12 +182,12 @@ export default function NextStepsTips(props: Props) {
                     </div>
                 </Card>
                 <Card expanded={true}>
-                    <div className='Card__image'>
-                        <img
-                            src={tipsNextStepsImage2}
-                        />
-                    </div>
                     <div className='Card__body'>
+                        <div className='Card__image'>
+                            <img
+                                src={tipsNextStepsImage2}
+                            />
+                        </div>
                         <h3>
                             <FormattedMessage
                                 id='next_steps_view.tips.configureLogin'
@@ -332,12 +332,12 @@ export default function NextStepsTips(props: Props) {
     if (props.isFirstAdmin) {
         channelsSection = (
             <Card expanded={true}>
-                <div className='Card__image'>
-                    <img
-                        src={tipsNextStepsImage1}
-                    />
-                </div>
                 <div className='Card__body'>
+                    <div className='Card__image'>
+                        <img
+                            src={tipsNextStepsImage1}
+                        />
+                    </div>
                     <h3>
                         <FormattedMessage
                             id='next_steps_view.tips.createChannels'
