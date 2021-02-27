@@ -51,11 +51,8 @@ describe('components/threading/global_threads/thread_header', () => {
             unread_mentions: 0,
             is_following: true,
             post: {
-                id: '1y8hpek81byspd4enyk9mp1ncw',
                 user_id: 'mt5td9mdriyapmwuh5pc84dmhr',
                 channel_id: 'pnzsh7kwt7rmzgj8yb479sc9yw',
-                create_at: 1610486901110,
-                edit_at: 1611786714912,
             },
         } as typeof props['thread'];
 
