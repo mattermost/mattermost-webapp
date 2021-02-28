@@ -14,15 +14,14 @@ import {removePost, getPostThread} from 'mattermost-redux/actions/posts';
 import {getThread as fetchThread, updateThreadRead} from 'mattermost-redux/actions/threads';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {Post} from 'mattermost-redux/types/posts';
-import {UserProfile} from 'mattermost-redux/src/types/users';
+import {UserProfile} from 'mattermost-redux/types/users';
+import {UserThread} from 'mattermost-redux/types/threads';
 
 import {Preferences} from 'utils/constants';
 import {getDirectTeammate} from 'utils/utils.jsx';
 import {getSocketStatus} from 'selectors/views/websocket';
 import {selectPostCard} from 'actions/views/rhs';
 import {GlobalState} from 'types/store';
-
-import {UserThread} from '../../../../mattermost-redux/src/types/threads';
 
 import {isCollapsedThreadsEnabled} from 'selectors/threads';
 
