@@ -73,8 +73,6 @@ describe('Messaging', () => {
         cy.visit(`/${testTeam.name}`);
 
         // * Check that the DM exists and receives the message with mention
-        cy.get('#directChannelList').should('be.visible').within(() => {
-            cy.findByLabelText(`${firstUser.username} 1 mention`).should('exist');
-        });
+        cy.uiGetLhsSection('DIRECT MESSAGES').findByLabelText(`${firstUser.username} 1 mention`).should('exist');
     });
 });

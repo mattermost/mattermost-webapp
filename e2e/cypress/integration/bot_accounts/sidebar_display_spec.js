@@ -8,7 +8,7 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @bot_accounts
+// Group: @bot_accounts @not_cloud
 
 import {createBotPatch} from '../../support/api/bots';
 import {generateRandomUser} from '../../support/api/user';
@@ -21,6 +21,8 @@ describe('Bot accounts', () => {
     let createdUsers;
 
     before(() => {
+        cy.shouldNotRunOnCloudEdition();
+
         cy.apiUpdateConfig({
             ServiceSettings: {
                 EnableBotAccountCreation: true,

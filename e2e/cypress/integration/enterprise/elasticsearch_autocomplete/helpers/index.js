@@ -39,9 +39,7 @@ module.exports = {
         cy.contains('button', 'Index Now').click();
 
         // Small wait to ensure new row is added
-        cy.wait(TIMEOUTS.HALF_SEC);
-
-        cy.get('.job-table__table').find('tbody > tr').eq(0).as('firstRow').find('.status-icon-warning', {timeout: TIMEOUTS.TWO_MIN}).should('be.visible');
+        cy.wait(TIMEOUTS.ONE_SEC).get('.job-table__table').find('tbody > tr').eq(0).as('firstRow');
 
         // Newest row should eventually result in Success
         cy.waitUntil(() => {
@@ -50,7 +48,7 @@ module.exports = {
             });
         }
         , {
-            timeout: TIMEOUTS.FIVE_MIN,
+            timeout: TIMEOUTS.TWO_MIN,
             interval: TIMEOUTS.TWO_SEC,
             errorMsg: 'Reindex did not succeed in time',
         });
@@ -239,10 +237,7 @@ module.exports = {
         // * Suggestion list should appear
         cy.get('#suggestionList', {timeout: TIMEOUTS.FIVE_SEC}).should('be.visible');
 
-        // # Verify user appears in results post-change
-        return cy.findByTestId(`mentionSuggestion_${user.username}`, {exact: false}).within((name) => {
-            cy.wrap(name).find('.mention--align').should('have.text', `@${user.username}`);
-            cy.wrap(name).find('.ml-2').should('have.text', `${user.first_name} ${user.last_name} (${user.nickname})`);
-        });
+        // * Verify user appears in results post-change
+        return cy.uiVerifyAtMentionSuggestion(user);
     },
 };
