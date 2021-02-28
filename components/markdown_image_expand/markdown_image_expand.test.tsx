@@ -13,7 +13,7 @@ describe('components/MarkdownImageExpand', () => {
                 alt={'Some alt text'}
                 postId={'abc'}
                 isExpanded={false}
-                imageIndex={0}
+                imageKey={'1'}
                 actions={{toggleInlineImageVisibility: imageCollapseHandler}}
             >{'An image to expand'}</MarkdownImageExpand>,
         );
@@ -28,7 +28,7 @@ describe('components/MarkdownImageExpand', () => {
                 alt={'Some alt text'}
                 postId={'abc'}
                 isExpanded={true}
-                imageIndex={0}
+                imageKey={'1'}
                 actions={{toggleInlineImageVisibility: imageCollapseHandler}}
             >{'An image to expand'}</MarkdownImageExpand>,
         );
@@ -43,7 +43,7 @@ describe('components/MarkdownImageExpand', () => {
                 alt={'Some alt text'}
                 postId={'abc'}
                 isExpanded={true}
-                imageIndex={0}
+                imageKey={'1'}
                 actions={{toggleInlineImageVisibility: imageCollapseHandler}}
             >{'An image to expand'}</MarkdownImageExpand>,
         );
@@ -60,7 +60,7 @@ describe('components/MarkdownImageExpand', () => {
                 alt={'Some alt text'}
                 postId={'abc'}
                 isExpanded={false}
-                imageIndex={0}
+                imageKey={'1'}
                 actions={{toggleInlineImageVisibility: imageCollapseHandler}}
             >{'An image to expand'}</MarkdownImageExpand>,
         );

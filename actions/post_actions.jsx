@@ -288,13 +288,13 @@ export function resetEmbedVisibility() {
     return StorageActions.actionOnGlobalItemsWithPrefix(StoragePrefixes.EMBED_VISIBLE, () => null);
 }
 
-export function toggleInlineImageVisibility(postId, imageIndex) {
+export function toggleInlineImageVisibility(postId, imageKey) {
     return (dispatch, getState) => {
         const state = getState();
         const currentUserId = getCurrentUserId(state);
-        const visible = isInlineImageVisible(state, postId, imageIndex);
+        const visible = isInlineImageVisible(state, postId, imageKey);
 
-        dispatch(StorageActions.setGlobalItem(StoragePrefixes.INLINE_IMAGE_VISIBLE + currentUserId + '_' + postId + '_' + imageIndex, !visible));
+        dispatch(StorageActions.setGlobalItem(StoragePrefixes.INLINE_IMAGE_VISIBLE + currentUserId + '_' + postId + '_' + imageKey, !visible));
     };
 }
 

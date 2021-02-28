@@ -15,9 +15,9 @@ import {isInlineImageVisible} from 'selectors/posts';
 
 import MarkdownImageExpand, {Props} from './markdown_image_expand';
 
-const mapStateToProps = (state: GlobalState, ownProps: Props) => {
+const mapStateToProps = (state: GlobalState, {postId, imageKey}: Props) => {
     return {
-        isExpanded: isInlineImageVisible(state, ownProps.postId, ownProps.imageIndex),
+        isExpanded: isInlineImageVisible(state, postId, imageKey),
     };
 };
 

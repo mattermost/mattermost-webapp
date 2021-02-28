@@ -34,11 +34,11 @@ export function isEmbedVisible(state, postId) {
     return getGlobalItem(state, StoragePrefixes.EMBED_VISIBLE + currentUserId + '_' + postId, !previewCollapsed);
 }
 
-export function isInlineImageVisible(state, postId, imageIndex) {
+export function isInlineImageVisible(state, postId, imageKey) {
     const currentUserId = getCurrentUserId(state);
     const imageCollapsed = arePreviewsCollapsed(state);
 
-    return getGlobalItem(state, StoragePrefixes.INLINE_IMAGE_VISIBLE + currentUserId + '_' + postId + '_' + imageIndex, !imageCollapsed);
+    return getGlobalItem(state, StoragePrefixes.INLINE_IMAGE_VISIBLE + currentUserId + '_' + postId + '_' + imageKey, !imageCollapsed);
 }
 
 export function shouldShowJoinLeaveMessages(state) {

@@ -51,6 +51,7 @@ exports[`components/MarkdownImage should provide image src as an alt text for Ma
 <div>
   <Connect(MarkdownImageExpand)
     alt="https://example.com/image.png"
+    imageKey="https://example.com/image.png"
     postId="post_id"
   >
     <SizeAwareImage
@@ -162,10 +163,11 @@ exports[`components/MarkdownImage should render an image with preview modal if t
 </div>
 `;
 
-exports[`components/MarkdownImage should render image with MarkdownImageExpand if it is taller than 100px 1`] = `
+exports[`components/MarkdownImage should render image with MarkdownImageExpand if it is taller than undefinedpx 1`] = `
 <div>
   <Connect(MarkdownImageExpand)
     alt="test image"
+    imageKey="https://example.com/image.png"
     postId="post_id"
   >
     <SizeAwareImage

@@ -5,20 +5,20 @@ import './markdown_image_expand.scss';
 
 export type Props = {
     alt: string;
-    imageIndex: number;
+    imageKey: string;
     children: React.ReactNode;
     isExpanded: boolean;
     postId: string;
     actions: {
-        toggleInlineImageVisibility: (postId: string, imageIndex: number) => void;
+        toggleInlineImageVisibility: (postId: string, imageKey: string) => void;
     };
 };
 
-const MarkdownImageExpand: React.FC<Props> = ({children, alt, isExpanded, postId, actions, imageIndex}: Props) => {
+const MarkdownImageExpand: React.FC<Props> = ({children, alt, isExpanded, postId, actions, imageKey}: Props) => {
     const {toggleInlineImageVisibility} = actions;
 
     const handleToggleButtonClick = () => {
-        toggleInlineImageVisibility(postId, imageIndex);
+        toggleInlineImageVisibility(postId, imageKey);
     };
 
     const wrapperClassName = `markdown-image-expand ${isExpanded ? 'markdown-image-expand--expanded' : ''}`;
