@@ -15,7 +15,7 @@
 // ***************************************************************
 
 declare namespace Cypress {
-    interface Chainable<Subject = any> {
+    interface Chainable {
 
         /**
          * Makes an external request as a sysadmin and activate/deactivate a user directly via API

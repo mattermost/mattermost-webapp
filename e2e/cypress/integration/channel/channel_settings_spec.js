@@ -1,4 +1,3 @@
-
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
@@ -29,34 +28,6 @@ describe('Channel Settings', () => {
 
             // # Visit town-square channel
             cy.visit(`/${testTeam.name}/channels/town-square`);
-        });
-    });
-
-    it('C15052 All channel types have appropriate close button', () => {
-        cy.get('#publicChannelList').find('a.sidebar-item').each(($el) => {
-            cy.wrap($el).find('span.btn-close').should('not.exist');
-        });
-
-        cy.get('#privateChannelList').find('a.sidebar-item').each(($el) => {
-            cy.wrap($el).find('span.btn-close').should('not.exist');
-        });
-
-        // add a direct message incase there is not one
-        cy.get('#addDirectChannel').click();
-        cy.get('.more-modal__row.clickable').first().click();
-        cy.get('#saveItems').click();
-
-        // click on all the messages to make sure there are none left unread
-        cy.get('#directChannelList').find('a.sidebar-item').each(($el) => {
-            cy.wrap($el).as('channel');
-
-            // Click to mark as unread
-            cy.get('@channel').click({force: true});
-
-            cy.get('#postListContent').should('be.visible');
-
-            // check for the close button
-            cy.get('@channel').find('span.btn-close').should('exist');
         });
     });
 
@@ -101,7 +72,9 @@ describe('Channel Settings', () => {
         cy.get('#toggleMute').should('be.visible');
 
         // # Verify that off topic is last in the list of channels
-        cy.get('#publicChannelList').children().not('[data-testid="morePublicButton"]').last().should('contain', 'Off-Topic').get('a').should('have.class', 'muted');
+        cy.uiGetLhsSection('CHANNELS').find('.SidebarChannel').
+            last().should('contain', 'Off-Topic').
+            get('a').should('have.class', 'muted');
 
         // # Go to channel dropdown > Unmute channel
         cy.get('#channelHeaderDropdownIcon').click();
@@ -114,6 +87,7 @@ describe('Channel Settings', () => {
         cy.get('#toggleMute').should('not.be.visible');
 
         // # Verify that off topic is not last in the list of channels
-        cy.get('#publicChannelList').children().not('[data-testid="morePublicButton"]').last().should('not.contain', 'Off-Topic');
+        cy.uiGetLhsSection('CHANNELS').find('.SidebarChannel').
+            last().should('not.contain', 'Off-Topic');
     });
 });
