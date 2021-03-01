@@ -332,7 +332,11 @@ const AdminDefinition = {
         icon: 'fa-bar-chart',
         sectionTitle: t('admin.sidebar.reporting'),
         sectionTitleDefault: 'Reporting',
-        isHidden: it.not(it.userHasReadPermissionOnResource('reporting')),
+        isHidden: it.all(
+            it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.REPORTING.SITE_STATISTICS)),
+            it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.REPORTING.TEAM_STATISTICS)),
+            it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.REPORTING.SERVER_LOGS)),
+        ),
         system_analytics: {
             url: 'reporting/system_analytics',
             title: t('admin.sidebar.siteStatistics'),
@@ -360,6 +364,8 @@ const AdminDefinition = {
                 id: 'SystemAnalytics',
                 component: SystemAnalytics,
             },
+            isHidden: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.REPORTING.SITE_STATISTICS)),
+            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.REPORTING.SITE_STATISTICS)),
         },
         team_statistics: {
             url: 'reporting/team_statistics',
@@ -380,6 +386,8 @@ const AdminDefinition = {
                 id: 'TeamAnalytics',
                 component: TeamAnalytics,
             },
+            isHidden: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.REPORTING.TEAM_STATISTICS)),
+            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.REPORTING.TEAM_STATISTICS)),
         },
         server_logs: {
             url: 'reporting/server_logs',
@@ -387,7 +395,9 @@ const AdminDefinition = {
             title_default: 'Server Logs',
             isHidden: it.any(
                 it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
+                it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.REPORTING.SERVER_LOGS)),
             ),
+            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.REPORTING.SERVER_LOGS)),
             searchableStrings: [
                 'admin.logs.bannerDesc',
                 'admin.logs.title',
