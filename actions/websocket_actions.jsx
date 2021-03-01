@@ -482,7 +482,8 @@ export function handleEvent(msg) {
     case SocketEvents.CLOUD_PAYMENT_STATUS_UPDATED:
         dispatch(handleCloudPaymentStatusUpdated(msg));
         break;
-    case 'custom_com.mattermost.apps_refresh_bindings': {
+    // Apps framework events
+    case SocketEvents.APPS_FRAMEWORK_REFRESH_BINDING: {
         const state = getState();
         if (appsEnabled(state)) {
             dispatch(fetchAppBindings(getCurrentUserId(state), getCurrentChannelId(state)));
