@@ -1,0 +1,14 @@
+.TeamList_nameColumn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 0px;
+
+    .TeamList__lowerOpacity .TeamIcon {
+        background-color: rgba(var(--sys-center-channel-color-rgb), .16);
+    }
+
+    .TeamList_nameText {
+        padding-left: 12px;
+    }
+}

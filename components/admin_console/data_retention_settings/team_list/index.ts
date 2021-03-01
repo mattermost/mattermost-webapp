@@ -24,6 +24,7 @@ type OwnProps = {
             policy_id: string;
         };
     };
+    teams: Team[]
 }
 
 type Actions = {
