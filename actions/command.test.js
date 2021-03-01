@@ -77,7 +77,7 @@ const initialState = {
                     label: 'custom',
                     description: 'Run the command.',
                     call: {
-                        url: 'https://someserver.com/command',
+                        path: 'https://someserver.com/command',
                     },
                     form: {
                         fields: [
@@ -246,7 +246,7 @@ describe('executeCommand', () => {
                 },
                 raw_command: '/appid custom value1 --key2 value2',
                 type: '',
-                url: 'https://someserver.com/command',
+                path: 'https://someserver.com/command',
                 values: {
                     key1: 'value1',
                     key2: 'value2',

@@ -18,7 +18,7 @@ exports[`components/apps_model/AppsFormContainer should match snapshot 1`] = `
         "post_id": "post",
         "team_id": "team",
       },
-      "url": "/form_url",
+      "path": "/form_url",
     }
   }
   emojiMap={

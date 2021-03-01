@@ -18,7 +18,7 @@ describe('components/post_view/embedded_bindings/button_binding/', () => {
 
     const binding = {
         call: {
-            url: 'some_url',
+            path: 'some_url',
         },
     } as AppBinding;
     const baseProps = {

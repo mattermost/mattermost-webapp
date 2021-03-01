@@ -67,7 +67,7 @@ export function createCallRequest(
 ): AppCall {
     return {
         type,
-        url: call.url,
+        path: call.path,
         context: {
             ...call.context,
             acting_user_id: userId,

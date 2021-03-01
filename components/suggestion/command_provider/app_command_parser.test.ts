@@ -109,7 +109,7 @@ const viewCommand: AppBinding = {
     description: 'View details of a Jira issue',
     form: {
         call: {
-            url: '/view-issue',
+            path: '/view-issue',
         },
         fields: [
             {
@@ -139,7 +139,7 @@ const createCommand: AppBinding = {
     description: 'Create a new Jira issue',
     form: {
         call: {
-            url: '/create-issue',
+            path: '/create-issue',
         },
         fields: [
             {
@@ -282,6 +282,11 @@ describe('AppCommandParser', () => {
             expect(res).toHaveLength(1);
         });
 
+        test('string matches case insensitive', () => {
+            const res = parser.getSuggestionsBase('/JiRa');
+            expect(res).toHaveLength(1);
+        });
+
         test('string is past base command', () => {
             const res = parser.getSuggestionsBase('/jira ');
             expect(res).toHaveLength(0);
@@ -307,6 +312,16 @@ describe('AppCommandParser', () => {
                     expect(parsed.state).toBe(ParseState.EndCommand);
                     expect(parsed.binding?.label).toBe('create');
                     expect(parsed.incomplete).toBe('--project');
+                    expect(parsed.incompleteStart).toBe(19);
+                }},
+            },
+            {
+                title: 'full command case insensitive',
+                command: '/JiRa IsSuE CrEaTe --PrOjEcT P  --SuMmArY = "SUM MA RY" --VeRbOsE --EpIc=epic2',
+                submit: {verify: (parsed: ParsedCommand): void => {
+                    expect(parsed.state).toBe(ParseState.EndCommand);
+                    expect(parsed.binding?.label).toBe('create');
+                    expect(parsed.incomplete).toBe('--PrOjEcT');
                     expect(parsed.incompleteStart).toBe(19);
                 }},
             },
@@ -413,7 +428,7 @@ describe('AppCommandParser', () => {
                 autocomplete: {verify: (parsed: ParsedCommand): void => {
                     expect(parsed.state).toBe(ParseState.EndValue);
                     expect(parsed.binding?.label).toBe('create');
-                    expect(parsed.form?.call?.url).toBe('/create-issue');
+                    expect(parsed.form?.call?.path).toBe('/create-issue');
                     expect(parsed.incomplete).toBe('epic2');
                     expect(parsed.incompleteStart).toBe(75);
                     expect(parsed.values?.project).toBe('P 1');
@@ -424,7 +439,31 @@ describe('AppCommandParser', () => {
                 submit: {verify: (parsed: ParsedCommand): void => {
                     expect(parsed.state).toBe(ParseState.EndValue);
                     expect(parsed.binding?.label).toBe('create');
-                    expect(parsed.form?.call?.url).toBe('/create-issue');
+                    expect(parsed.form?.call?.path).toBe('/create-issue');
+                    expect(parsed.values?.project).toBe('P 1');
+                    expect(parsed.values?.epic).toBe('epic2');
+                    expect(parsed.values?.summary).toBe('SUM MA RY');
+                    expect(parsed.values?.verbose).toBe('true');
+                }},
+            },
+            {
+                title: 'happy full create case insensitive',
+                command: '/JiRa IsSuE CrEaTe --PrOjEcT `P 1`  --SuMmArY "SUM MA RY" --VeRbOsE --EpIc=epic2',
+                autocomplete: {verify: (parsed: ParsedCommand): void => {
+                    expect(parsed.state).toBe(ParseState.EndValue);
+                    expect(parsed.binding?.label).toBe('create');
+                    expect(parsed.form?.call?.path).toBe('/create-issue');
+                    expect(parsed.incomplete).toBe('epic2');
+                    expect(parsed.incompleteStart).toBe(75);
+                    expect(parsed.values?.project).toBe('P 1');
+                    expect(parsed.values?.epic).toBeUndefined();
+                    expect(parsed.values?.summary).toBe('SUM MA RY');
+                    expect(parsed.values?.verbose).toBe('true');
+                }},
+                submit: {verify: (parsed: ParsedCommand): void => {
+                    expect(parsed.state).toBe(ParseState.EndValue);
+                    expect(parsed.binding?.label).toBe('create');
+                    expect(parsed.form?.call?.path).toBe('/create-issue');
                     expect(parsed.values?.project).toBe('P 1');
                     expect(parsed.values?.epic).toBe('epic2');
                     expect(parsed.values?.summary).toBe('SUM MA RY');
@@ -437,7 +476,7 @@ describe('AppCommandParser', () => {
                 autocomplete: {verify: (parsed: ParsedCommand): void => {
                     expect(parsed.state).toBe(ParseState.EndValue);
                     expect(parsed.binding?.label).toBe('create');
-                    expect(parsed.form?.call?.url).toBe('/create-issue');
+                    expect(parsed.form?.call?.path).toBe('/create-issue');
                     expect(parsed.incomplete).toBe('M');
                     expect(parsed.incompleteStart).toBe(65);
                     expect(parsed.values?.project).toBe('KT');
@@ -446,7 +485,7 @@ describe('AppCommandParser', () => {
                 submit: {verify: (parsed: ParsedCommand): void => {
                     expect(parsed.state).toBe(ParseState.EndValue);
                     expect(parsed.binding?.label).toBe('create');
-                    expect(parsed.form?.call?.url).toBe('/create-issue');
+                    expect(parsed.form?.call?.path).toBe('/create-issue');
                     expect(parsed.values?.epic).toBe('M');
                 }},
             },
@@ -457,7 +496,7 @@ describe('AppCommandParser', () => {
                 autocomplete: {verify: (parsed: ParsedCommand): void => {
                     expect(parsed.state).toBe(ParseState.EndValue);
                     expect(parsed.binding?.label).toBe('view');
-                    expect(parsed.form?.call?.url).toBe('/view-issue');
+                    expect(parsed.form?.call?.path).toBe('/view-issue');
                     expect(parsed.incomplete).toBe('MM-123');
                     expect(parsed.incompleteStart).toBe(33);
                     expect(parsed.values?.project).toBe('P 1');
@@ -466,7 +505,7 @@ describe('AppCommandParser', () => {
                 submit: {verify: (parsed: ParsedCommand): void => {
                     expect(parsed.state).toBe(ParseState.EndValue);
                     expect(parsed.binding?.label).toBe('view');
-                    expect(parsed.form?.call?.url).toBe('/view-issue');
+                    expect(parsed.form?.call?.path).toBe('/view-issue');
                     expect(parsed.values?.project).toBe('P 1');
                     expect(parsed.values?.issue).toBe('MM-123');
                 }},
@@ -477,7 +516,7 @@ describe('AppCommandParser', () => {
                 submit: {verify: (parsed: ParsedCommand): void => {
                     expect(parsed.state).toBe(ParseState.StartParameter);
                     expect(parsed.binding?.label).toBe('view');
-                    expect(parsed.form?.call?.url).toBe('/view-issue');
+                    expect(parsed.form?.call?.path).toBe('/view-issue');
                     expect(parsed.incomplete).toBe('');
                     expect(parsed.incompleteStart).toBe(17);
                     expect(parsed.values).toEqual({});
@@ -489,14 +528,14 @@ describe('AppCommandParser', () => {
                 autocomplete: {verify: (parsed: ParsedCommand): void => {
                     expect(parsed.state).toBe(ParseState.FlagValueSeparator);
                     expect(parsed.binding?.label).toBe('create');
-                    expect(parsed.form?.call?.url).toBe('/create-issue');
+                    expect(parsed.form?.call?.path).toBe('/create-issue');
                     expect(parsed.incomplete).toBe('');
                     expect(parsed.values).toEqual({});
                 }},
                 submit: {verify: (parsed: ParsedCommand): void => {
                     expect(parsed.state).toBe(ParseState.EndValue);
                     expect(parsed.binding?.label).toBe('create');
-                    expect(parsed.form?.call?.url).toBe('/create-issue');
+                    expect(parsed.form?.call?.path).toBe('/create-issue');
                     expect(parsed.incomplete).toBe('');
                     expect(parsed.values).toEqual({
                         summary: '',
@@ -507,9 +546,9 @@ describe('AppCommandParser', () => {
                 title: 'error: unmatched tick',
                 command: '/jira issue view --project `P 1',
                 autocomplete: {verify: (parsed: ParsedCommand): void => {
-                    expect(parsed.state).toBe(ParseState.EndValue);
+                    expect(parsed.state).toBe(ParseState.TickValue);
                     expect(parsed.binding?.label).toBe('view');
-                    expect(parsed.form?.call?.url).toBe('/view-issue');
+                    expect(parsed.form?.call?.path).toBe('/view-issue');
                     expect(parsed.incomplete).toBe('P 1');
                     expect(parsed.incompleteStart).toBe(27);
                     expect(parsed.values?.project).toBe(undefined);
@@ -521,9 +560,9 @@ describe('AppCommandParser', () => {
                 title: 'error: unmatched quote',
                 command: '/jira issue view --project "P \\1',
                 autocomplete: {verify: (parsed: ParsedCommand): void => {
-                    expect(parsed.state).toBe(ParseState.EndValue);
+                    expect(parsed.state).toBe(ParseState.QuotedValue);
                     expect(parsed.binding?.label).toBe('view');
-                    expect(parsed.form?.call?.url).toBe('/view-issue');
+                    expect(parsed.form?.call?.path).toBe('/view-issue');
                     expect(parsed.incomplete).toBe('P 1');
                     expect(parsed.incompleteStart).toBe(27);
                     expect(parsed.values?.project).toBe(undefined);
@@ -537,7 +576,7 @@ describe('AppCommandParser', () => {
                 autocomplete: {verify: (parsed: ParsedCommand): void => {
                     expect(parsed.state).toBe(ParseState.EndValue);
                     expect(parsed.binding?.label).toBe('view');
-                    expect(parsed.form?.call?.url).toBe('/view-issue');
+                    expect(parsed.form?.call?.path).toBe('/view-issue');
                     expect(parsed.incomplete).toBe('P 1');
                     expect(parsed.incompleteStart).toBe(27);
                     expect(parsed.values?.project).toBe(undefined);
@@ -546,7 +585,7 @@ describe('AppCommandParser', () => {
                 submit: {verify: (parsed: ParsedCommand): void => {
                     expect(parsed.state).toBe(ParseState.EndValue);
                     expect(parsed.binding?.label).toBe('view');
-                    expect(parsed.form?.call?.url).toBe('/view-issue');
+                    expect(parsed.form?.call?.path).toBe('/view-issue');
                     expect(parsed.values?.project).toBe('P 1');
                     expect(parsed.values?.issue).toBe(undefined);
                 }},
@@ -594,7 +633,19 @@ describe('AppCommandParser', () => {
             expect(suggestions).toEqual([
                 {
                     suggestion: '/issue',
-                    complete: '/jira issue ',
+                    complete: '/jira issue',
+                    hint: '',
+                    description: 'Interact with Jira issues',
+                },
+            ]);
+        });
+
+        test('subcommand 1 case insensitive', async () => {
+            const suggestions = await parser.getSuggestions('/JiRa ');
+            expect(suggestions).toEqual([
+                {
+                    suggestion: '/issue',
+                    complete: '/JiRa issue',
                     hint: '',
                     description: 'Interact with Jira issues',
                 },
@@ -606,7 +657,19 @@ describe('AppCommandParser', () => {
             expect(suggestions).toEqual([
                 {
                     suggestion: '/issue',
-                    complete: '/jira issue ',
+                    complete: '/jira issue',
+                    hint: '',
+                    description: 'Interact with Jira issues',
+                },
+            ]);
+        });
+
+        test('subcommand 2 case insensitive', async () => {
+            const suggestions = await parser.getSuggestions('/JiRa IsSuE');
+            expect(suggestions).toEqual([
+                {
+                    suggestion: '/issue',
+                    complete: '/JiRa issue',
                     hint: '',
                     description: 'Interact with Jira issues',
                 },
@@ -618,13 +681,31 @@ describe('AppCommandParser', () => {
             expect(suggestions).toEqual([
                 {
                     suggestion: '/view',
-                    complete: '/jira issue view ',
+                    complete: '/jira issue view',
                     hint: '',
                     description: 'View details of a Jira issue',
                 },
                 {
                     suggestion: '/create',
-                    complete: '/jira issue create ',
+                    complete: '/jira issue create',
+                    hint: '',
+                    description: 'Create a new Jira issue',
+                },
+            ]);
+        });
+
+        test('subcommand 2 with a space case insensitive', async () => {
+            const suggestions = await parser.getSuggestions('/JiRa IsSuE ');
+            expect(suggestions).toEqual([
+                {
+                    suggestion: '/view',
+                    complete: '/JiRa IsSuE view',
+                    hint: '',
+                    description: 'View details of a Jira issue',
+                },
+                {
+                    suggestion: '/create',
+                    complete: '/JiRa IsSuE create',
                     hint: '',
                     description: 'Create a new Jira issue',
                 },
@@ -636,7 +717,19 @@ describe('AppCommandParser', () => {
             expect(suggestions).toEqual([
                 {
                     suggestion: '/create',
-                    complete: '/jira issue create ',
+                    complete: '/jira issue create',
+                    hint: '',
+                    description: 'Create a new Jira issue',
+                },
+            ]);
+        });
+
+        test('subcommand 3 partial case insensitive', async () => {
+            const suggestions = await parser.getSuggestions('/JiRa IsSuE C');
+            expect(suggestions).toEqual([
+                {
+                    suggestion: '/create',
+                    complete: '/JiRa IsSuE create',
                     hint: '',
                     description: 'Create a new Jira issue',
                 },
@@ -647,7 +740,7 @@ describe('AppCommandParser', () => {
             const suggestions = await parser.getSuggestions('/jira issue view ');
             expect(suggestions).toEqual([
                 {
-                    complete: '/jira issue view ',
+                    complete: '/jira issue view',
                     description: 'The Jira issue key',
                     hint: 'MM-11343',
                     suggestion: '/',
@@ -659,7 +752,7 @@ describe('AppCommandParser', () => {
             let suggestions = await parser.getSuggestions('/jira issue view -');
             expect(suggestions).toEqual([
                 {
-                    complete: '/jira issue view --project ',
+                    complete: '/jira issue view --project',
                     description: 'The Jira project description',
                     hint: 'The Jira project hint',
                     suggestion: '/--project',
@@ -669,7 +762,7 @@ describe('AppCommandParser', () => {
             suggestions = await parser.getSuggestions('/jira issue view --');
             expect(suggestions).toEqual([
                 {
-                    complete: '/jira issue view --project ',
+                    complete: '/jira issue view --project',
                     description: 'The Jira project description',
                     hint: 'The Jira project hint',
                     suggestion: '/--project',
@@ -688,25 +781,56 @@ describe('AppCommandParser', () => {
                     suggestion: '/Execute Current Command',
                 },
                 {
-                    complete: '/jira issue create --project ',
+                    complete: '/jira issue create --project',
                     description: 'The Jira project description',
                     hint: 'The Jira project hint',
                     suggestion: '/--project',
                 },
                 {
-                    complete: '/jira issue create --summary ',
+                    complete: '/jira issue create --summary',
                     description: 'The Jira issue summary',
                     hint: 'The thing is working great!',
                     suggestion: '/--summary',
                 },
                 {
-                    complete: '/jira issue create --verbose ',
+                    complete: '/jira issue create --verbose',
                     description: 'display details',
                     hint: 'yes or no!',
                     suggestion: '/--verbose',
                 },
                 {
-                    complete: '/jira issue create --epic ',
+                    complete: '/jira issue create --epic',
+                    description: 'The Jira epic',
+                    hint: 'The thing is working great!',
+                    suggestion: '/--epic',
+                },
+            ]);
+        });
+
+        test('used flags do not appear', async () => {
+            const suggestions = await parser.getSuggestions('/jira issue create --project KT ');
+            expect(suggestions).toEqual([
+                {
+                    complete: '/jira issue create --project KT _execute_current_command',
+                    description: 'Select this option or use Ctrl+Enter to execute the current command.',
+                    hint: '',
+                    iconData: '_execute_current_command',
+                    suggestion: '/Execute Current Command',
+                },
+                {
+                    complete: '/jira issue create --project KT --summary',
+                    description: 'The Jira issue summary',
+                    hint: 'The thing is working great!',
+                    suggestion: '/--summary',
+                },
+                {
+                    complete: '/jira issue create --project KT --verbose',
+                    description: 'display details',
+                    hint: 'yes or no!',
+                    suggestion: '/--verbose',
+                },
+                {
+                    complete: '/jira issue create --project KT --epic',
                     description: 'The Jira epic',
                     hint: 'The thing is working great!',
                     suggestion: '/--epic',
@@ -718,7 +842,7 @@ describe('AppCommandParser', () => {
             const mid = await parser.getSuggestions('/jira issue create --project KT --summ');
             expect(mid).toEqual([
                 {
-                    complete: '/jira issue create --project KT --summary ',
+                    complete: '/jira issue create --project KT --summary',
                     description: 'The Jira issue summary',
                     hint: 'The thing is working great!',
                     suggestion: '/--summary',
@@ -728,10 +852,58 @@ describe('AppCommandParser', () => {
             const full = await parser.getSuggestions('/jira issue create --project KT --summary');
             expect(full).toEqual([
                 {
-                    complete: '/jira issue create --project KT --summary ',
+                    complete: '/jira issue create --project KT --summary',
                     description: 'The Jira issue summary',
                     hint: 'The thing is working great!',
                     suggestion: '/--summary',
+                },
+            ]);
+        });
+
+        test('empty text value suggestion', async () => {
+            const suggestions = await parser.getSuggestions('/jira issue create --project KT --summary ');
+            expect(suggestions).toEqual([
+                {
+                    complete: '/jira issue create --project KT --summary',
+                    description: 'The Jira issue summary',
+                    hint: 'The thing is working great!',
+                    suggestion: '/',
+                },
+            ]);
+        });
+
+        test('partial text value suggestion', async () => {
+            const suggestions = await parser.getSuggestions('/jira issue create --project KT --summary Sum');
+            expect(suggestions).toEqual([
+                {
+                    complete: '/jira issue create --project KT --summary Sum',
+                    description: 'The Jira issue summary',
+                    hint: 'The thing is working great!',
+                    suggestion: '/Sum',
+                },
+            ]);
+        });
+
+        test('quote text value suggestion close quotes', async () => {
+            const suggestions = await parser.getSuggestions('/jira issue create --project KT --summary "Sum');
+            expect(suggestions).toEqual([
+                {
+                    complete: '/jira issue create --project KT --summary "Sum"',
+                    description: 'The Jira issue summary',
+                    hint: 'The thing is working great!',
+                    suggestion: '/Sum',
+                },
+            ]);
+        });
+
+        test('tick text value suggestion close quotes', async () => {
+            const suggestions = await parser.getSuggestions('/jira issue create --project KT --summary `Sum');
+            expect(suggestions).toEqual([
+                {
+                    complete: '/jira issue create --project KT --summary `Sum`',
+                    description: 'The Jira issue summary',
+                    hint: 'The thing is working great!',
+                    suggestion: '/Sum',
                 },
             ]);
         });
@@ -740,7 +912,7 @@ describe('AppCommandParser', () => {
             const suggestions = await parser.getSuggestions('/jira issue create --summary ');
             expect(suggestions).toEqual([
                 {
-                    complete: '/jira issue create --summary ',
+                    complete: '/jira issue create --summary',
                     description: 'The Jira issue summary',
                     hint: 'The thing is working great!',
                     suggestion: '/',
@@ -757,7 +929,7 @@ describe('AppCommandParser', () => {
 
             expect(suggestions).toEqual([
                 {
-                    complete: '/jira issue create --project special-value ',
+                    complete: '/jira issue create --project special-value',
                     suggestion: '/special-value',
                     description: 'special-label',
                     hint: '',
@@ -770,13 +942,13 @@ describe('AppCommandParser', () => {
             let suggestions = await parser.getSuggestions('/jira issue create --project KT --summary "great feature" --epic ');
             expect(suggestions).toEqual([
                 {
-                    complete: '/jira issue create --project KT --summary "great feature" --epic Dylan Epic ',
+                    complete: '/jira issue create --project KT --summary "great feature" --epic Dylan Epic',
                     suggestion: '/Dylan Epic',
                     description: '',
                     hint: '',
                 },
                 {
-                    complete: '/jira issue create --project KT --summary "great feature" --epic Michael Epic ',
+                    complete: '/jira issue create --project KT --summary "great feature" --epic Michael Epic',
                     suggestion: '/Michael Epic',
                     description: '',
                     hint: '',
@@ -786,7 +958,7 @@ describe('AppCommandParser', () => {
             suggestions = await parser.getSuggestions('/jira issue create --project KT --summary "great feature" --epic M');
             expect(suggestions).toEqual([
                 {
-                    complete: '/jira issue create --project KT --summary "great feature" --epic Michael Epic ',
+                    complete: '/jira issue create --project KT --summary "great feature" --epic Michael Epic',
                     suggestion: '/Michael Epic',
                     description: '',
                     hint: '',
@@ -798,10 +970,10 @@ describe('AppCommandParser', () => {
         });
 
         test('filled out form shows execute', async () => {
-            const suggestions = await parser.getSuggestions('/jira issue create --project KT --summary "great feature" --epic epicvalue ');
+            const suggestions = await parser.getSuggestions('/jira issue create --project KT --summary "great feature" --epic epicvalue --verbose true ');
             expect(suggestions).toEqual([
                 {
-                    complete: '/jira issue create --project KT --summary "great feature" --epic epicvalue _execute_current_command',
+                    complete: '/jira issue create --project KT --summary "great feature" --epic epicvalue --verbose true _execute_current_command',
                     suggestion: '/Execute Current Command',
                     description: 'Select this option or use Ctrl+Enter to execute the current command.',
                     iconData: '_execute_current_command',
