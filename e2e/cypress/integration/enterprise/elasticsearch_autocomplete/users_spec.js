@@ -97,7 +97,7 @@ describe('Autocomplete with Elasticsearch - Users', () => {
         // # Click on save
         cy.get('#saveItems').click();
 
-        // # Should land on direct message channel for that user
+        // * Should land on direct message channel for that user
         cy.get('#channelHeaderTitle').should('have.text', thor.username + ' ');
     });
 });
