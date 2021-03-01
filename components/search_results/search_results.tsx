@@ -389,7 +389,7 @@ export const arePropsEqual = (props: Props, nextProps: Props): boolean => {
     for (let i = 0; i < fileResults.length; i++) {
         // Only need a shallow compare on each file
         if (fileResults[i] !== nextFileResults[i]) {
-            return true;
+            return false;
         }
     }
 
