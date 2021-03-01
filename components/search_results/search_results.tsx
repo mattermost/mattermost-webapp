@@ -70,7 +70,6 @@ const defaultProps: Partial<Props> = {
 };
 
 const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
-    console.log("SEARCH TYPE IN SEARCH RESULTS", props.searchType);
     const scrollbars = useRef<Scrollbars|null>(null);
 
     const intl = useIntl();
@@ -135,6 +134,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
         setSearchFilterType,
         searchType,
         setSearchType,
+        filesSearchEnabled,
     } = props;
 
     const noResults = (!results || !Array.isArray(results) || results.length === 0);
@@ -288,7 +288,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
                 {formattedTitle}
                 {props.channelDisplayName && <div className='sidebar--right__title__channel'>{props.channelDisplayName}</div>}
             </SearchResultsHeader>
-            {isMessagesSearch &&
+            {isMessagesSearch && filesSearchEnabled &&
                 <MessageOrFileSelector
                     selected={searchType}
                     selectedFilter={searchFilterType}
@@ -297,7 +297,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
                     onChange={setSearchType}
                     onFilter={setSearchFilterType}
                 />}
-            {isChannelFiles &&
+            {isChannelFiles && filesSearchEnabled &&
                 <div className='channel-files__header'>
                     <div className='channel-files__title'>
                         <FormattedMessage

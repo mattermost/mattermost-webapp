@@ -28,6 +28,7 @@ export type StateProps = {
     isFlaggedPosts: boolean;
     isPinnedPosts: boolean;
     isChannelFiles: boolean;
+    filesSearchEnabled: boolean;
 }
 
 export type DispatchProps = {

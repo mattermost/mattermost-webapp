@@ -59,7 +59,7 @@ const determineVisibleSearchHintOptions = (searchTerms: string): SearchHintOptio
 };
 
 const Search: React.FC<Props> = (props: Props): JSX.Element => {
-    const {actions, searchTerms, searchType} = props;
+    const {actions, searchTerms, searchType, filesSearchEnabled} = props;
 
     const intl = useIntl();
 
@@ -355,6 +355,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
                     onOptionHover={setHoverHintIndex}
                     onSearchTypeSelected={(searchType || searchTerms) ? undefined : (value: SearchType) => actions.updateSearchType(value)}
                     searchType={searchType}
+                    filesSearchEnabled={filesSearchEnabled}
                 />
             </Popover>
         );
@@ -392,6 +393,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
                 searchTerms={searchTerms}
                 searchType={searchType}
                 clearSearchType={() => actions.updateSearchType('')}
+                filesSearchEnabled={filesSearchEnabled}
             >
                 {!Utils.isMobile() && renderHintPopover()}
             </SearchBar>
@@ -434,6 +436,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
                     searchFilterType={searchFilterType}
                     setSearchType={(value: SearchType) => actions.updateSearchType(value)}
                     searchType={searchType || 'messages'}
+                    filesSearchEnabled={filesSearchEnabled}
                 />
             ) : props.children}
         </div>
