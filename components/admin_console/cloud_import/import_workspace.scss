@@ -1,0 +1,160 @@
+.ImportWorkspace {
+    .admin-console__import-header {
+        justify-content: flex-start;
+
+        .BetaBadge {
+            background: var(--sys-button-bg);
+            color: #FFF;
+            text-transform: uppercase;
+            padding: 0 4px;
+            border-radius: 3px;
+            margin-left: 10px;
+
+            span {
+                font-weight: 600;
+                font-size: 10px;
+                letter-spacing: 0.02em;
+                line-height: 16px;
+            }
+        }
+    }
+
+    .AlertBanner {
+        margin-bottom: 20px;
+        a.importInProgress {
+            display: block;
+            margin-top: 20px;
+            font-weight: 600;
+            font-size: 12px;
+            line-height: 9px;
+            color: var(--sys-button-bg);
+        }
+    }
+
+    .ImportWorkspace__topWrapper {
+        display: flex;
+        .ImportCard {
+            padding: 28px 32px;
+            width: 568px;
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            font-family: Open Sans;
+            font-style: normal;
+
+            > span:nth-of-type(1) {
+                font-weight: 600;
+                font-size: 22px;
+                line-height: 30px;
+                /* identical to box height */
+                text-align: center;
+                letter-spacing: -0.5px;
+                margin-top: 20px;
+            }
+
+            > span:nth-of-type(2) {
+                font-weight: normal;
+                font-size: 14px;
+                line-height: 20px;
+                color: rgba(var(--sys-center-channel-color-rgb), 0.72);
+                /* identical to box height */
+                text-align: center;
+                margin-top: 20px;
+            }
+
+            button {
+                background-color: var(--sys-button-bg);
+                padding: 12px 20px;
+                border-radius: 4px;
+                width: fit-content;
+                display: flex;
+                color: var(--sys-button-color);
+                align-items: center;
+                border: none;
+                margin: 20px auto;
+
+                &:hover:not(.disabled) {
+                    background: linear-gradient(0deg, rgba(var(--sys-center-channel-color-rgb), 0.16), rgba(var(--sys-center-channel-color-rgb), 0.16)), var(--sys-button-bg);
+                    text-decoration: none;
+                    color: var(--sys-button-color);
+                }
+
+                span {
+                    font-family: Open Sans;
+                    font-style: normal;
+                    font-weight: 600;
+                    font-size: 14px;
+                    line-height: 14px;
+                }
+            }
+        }
+        .GetHelpCard {
+            border-radius: 4px;
+            width: 332px;
+            margin-left: 20px;
+            padding: 28px 32px;
+            display: flex;
+            flex-direction: column;
+            font-family: Open Sans;
+            font-style: normal;
+
+            > span:nth-of-type(1) {
+                font-weight: 600;
+                font-size: 16px;
+                line-height: 24px;
+            }
+
+            > span:nth-of-type(2) {
+                font-weight: normal;
+                font-size: 14px;
+                line-height: 20px;
+                margin-top: 20px;
+                color: rgba(var(--sys-center-channel-color-rgb), 0.72);
+            }
+
+            a {
+                font-weight: 600;
+                font-size: 14px;
+                line-height: 20px;
+                color: var(--sys-button-bg);
+                margin-top: 20px;
+            }
+        }
+    }
+
+    .ImportListCard {
+        width: 920px;
+        height: 350px;
+        margin-top: 20px;
+        padding: 32px 54px 18px 32px;
+        display: flex;
+        flex-direction: column;
+        border-radius: 4px;
+        overflow-y: auto;
+        header {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+            height: 60px;
+            border-bottom: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.08);
+
+            span:nth-of-type(1) {
+                font-weight: 600;
+                font-size: 16px;
+                line-height: 24px;
+            }
+
+            span:nth-of-type(2) {
+                font-size: 14px;
+                line-height: 20px;
+            }
+        }
+        table a.download_log {
+            font-weight: 600;
+            font-size: 14px;
+            line-height: 14px;
+        }
+    }
+    
+}

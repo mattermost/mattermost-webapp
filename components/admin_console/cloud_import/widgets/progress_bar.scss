@@ -1,0 +1,27 @@
+.ProgressBar {
+    width: auto;
+    margin-left: auto;
+    margin-right: 40px;
+    display: flex;
+    align-items: center;
+
+    span:nth-of-type(1) {
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 16px;
+        color: var(--sys-button-bg);
+        margin-right: 10px;
+    }
+
+    span.percetageText {
+        margin-left: 10px;
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 16px;
+        color: var(--sys-center-channel-color);
+    }
+}
+
+.clickable {
+    cursor: pointer;
+}
