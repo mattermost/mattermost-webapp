@@ -7,6 +7,8 @@ import {AppField, AppSelectOption} from 'mattermost-redux/types/apps';
 import {Channel} from 'mattermost-redux/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
 
+import {displayUsername} from 'mattermost-redux/utils/user_utils';
+
 import MenuActionProvider from 'components/suggestion/menu_action_provider';
 import GenericUserProvider from 'components/suggestion/generic_user_provider.jsx';
 import GenericChannelProvider from 'components/suggestion/generic_channel_provider.jsx';
@@ -26,6 +28,7 @@ export type Props = {
     field: AppField;
     name: string;
     errorText?: React.ReactNode;
+    teammateNameDisplay?: string;
 
     value: AppSelectOption | string | boolean | number | null;
     onChange: (name: string, value: any) => void;
@@ -38,42 +41,28 @@ export type Props = {
     };
 }
 
-type State = {
-    userInput?: string;
-};
-
-export default class AppsFormField extends React.PureComponent<Props, State> {
+export default class AppsFormField extends React.PureComponent<Props> {
     private provider?: Provider;
 
     static defaultProps = {
         listComponent: ModalSuggestionList,
     };
 
-    constructor(props: Props) {
-        super(props);
-
-        let defaultText = (props.value as string) || '';
-        if (props.value && props.field.type === 'static_select' && props.field.options) {
-            const defaultOption = props.field.options.find((option) => option.value === props.value);
-            defaultText = defaultOption ? defaultOption.label : '';
-        }
-
-        this.state = {
-            userInput: defaultText,
-        };
-    }
-
     handleSelected = (selected: AppSelectOption | UserProfile | Channel) => {
         const {name, field, onChange} = this.props;
 
         if (field.type === 'user') {
             const user = selected as UserProfile;
-            onChange(name, user.id);
-            this.setState({userInput: user.username});
+            let selectedLabel = user.username;
+            if (this.props.teammateNameDisplay) {
+                selectedLabel = displayUsername(user, this.props.teammateNameDisplay);
+            }
+            const option = {label: selectedLabel, value: user.id};
+            onChange(name, option);
         } else if (field.type === 'channel') {
             const channel = selected as Channel;
-            onChange(name, channel.id);
-            this.setState({userInput: channel.display_name});
+            const option = {label: channel.display_name, value: channel.id};
+            onChange(name, option);
         } else {
             const option = selected as AppSelectOption;
             onChange(name, option);
@@ -168,6 +157,10 @@ export default class AppsFormField extends React.PureComponent<Props, State> {
                 />
             );
         } else if (field.type === 'channel' || field.type === 'user') {
+            let selectedValue: string | undefined;
+            if (this.props.value) {
+                selectedValue = (this.props.value as AppSelectOption).label;
+            }
             return (
                 <AutocompleteSelector
                     id={name}
@@ -177,7 +170,7 @@ export default class AppsFormField extends React.PureComponent<Props, State> {
                     label={displayNameContent}
                     helpText={helpTextContent}
                     placeholder={placeholder}
-                    value={this.state.userInput}
+                    value={selectedValue}
                     listComponent={listComponent}
                 />
             );
