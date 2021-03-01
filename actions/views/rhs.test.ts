@@ -29,6 +29,8 @@ import {
     openMenu,
     closeMenu,
     openAtPrevious,
+    updateSearchType,
+    updateInitialSearchType,
 } from 'actions/views/rhs';
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 import {ActionTypes, RHSStates} from 'utils/constants';
@@ -107,6 +109,7 @@ describe('rhs view actions', () => {
         views: {
             rhs: {
                 rhsState: null,
+                filesSearchExtFilter: [] as string[],
             },
         },
     } as GlobalState;
@@ -154,6 +157,7 @@ describe('rhs view actions', () => {
                     views: {
                         rhs: {
                             rhsState: RHSStates.FLAG,
+                            filesSearchExtFilter: [] as string[],
                         },
                     } as ViewsState,
                 });
@@ -217,6 +221,7 @@ describe('rhs view actions', () => {
             views: {
                 rhs: {
                     searchTerms: terms,
+                    filesSearchExtFilter: [] as string[],
                 },
             },
         } as GlobalState;
@@ -483,6 +488,7 @@ describe('rhs view actions', () => {
                 rhs: {
                     rhsState: RHSStates.PLUGIN,
                     pluggableId,
+                    filesSearchExtFilter: [] as string[],
                 },
             },
         } as GlobalState;
@@ -492,6 +498,7 @@ describe('rhs view actions', () => {
             views: {
                 rhs: {
                     rhsState: RHSStates.PIN,
+                    filesSearchExtFilter: [] as string[],
                 },
             },
         } as GlobalState;
@@ -736,6 +743,7 @@ describe('rhs view actions', () => {
                 views: {
                     rhs: {
                         searchTerms: terms,
+                        filesSearchExtFilter: [] as string[],
                     },
                 },
             } as GlobalState;
@@ -758,6 +766,26 @@ describe('rhs view actions', () => {
             store.dispatch(openAtPrevious({}));
 
             expect(store.getActions()).toEqual(actionsForEmptySearch());
+        });
+    });
+
+    describe('searchType', () => {
+        test('updateSearchType', () => {
+            const store = mockStore(initialState);
+            store.dispatch(updateSearchType('files'));
+            expect(store.getActions()).toEqual([{
+                type: ActionTypes.UPDATE_RHS_SEARCH_TYPE,
+                searchType: 'files',
+            }]);
+        });
+
+        test('updateInitialSearchType', () => {
+            const store = mockStore(initialState);
+            store.dispatch(updateInitialSearchType('files'));
+            expect(store.getActions()).toEqual([{
+                type: ActionTypes.UPDATE_RHS_INITIAL_SEARCH_TYPE,
+                searchType: 'files',
+            }]);
         });
     });
 });
