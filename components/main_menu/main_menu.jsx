@@ -38,7 +38,6 @@ class MainMenu extends React.PureComponent {
         mobile: PropTypes.bool.isRequired,
         id: PropTypes.string,
         teamId: PropTypes.string,
-        teamType: PropTypes.string,
         teamName: PropTypes.string,
         siteName: PropTypes.string,
         currentUser: PropTypes.object,
@@ -51,8 +50,6 @@ class MainMenu extends React.PureComponent {
         canManageSystemBots: PropTypes.bool.isRequired,
         canCreateOrDeleteCustomEmoji: PropTypes.bool.isRequired,
         canManageIntegrations: PropTypes.bool.isRequired,
-        enableUserCreation: PropTypes.bool.isRequired,
-        enableEmailInvitations: PropTypes.bool.isRequired,
         enablePluginMarketplace: PropTypes.bool.isRequired,
         experimentalPrimaryTeam: PropTypes.string,
         helpLink: PropTypes.string,
@@ -62,14 +59,11 @@ class MainMenu extends React.PureComponent {
         isMentionSearch: PropTypes.bool,
         teamIsGroupConstrained: PropTypes.bool.isRequired,
         isLicensedForLDAPGroups: PropTypes.bool,
-        currentUsers: PropTypes.number,
-        userLimit: PropTypes.string,
-        userIsAdmin: PropTypes.bool,
         showGettingStarted: PropTypes.bool.isRequired,
         intl: intlShape.isRequired,
         showNextStepsTips: PropTypes.bool,
-        subscription: PropTypes.object,
         isCloud: PropTypes.bool,
+        subscriptionStats: PropTypes.object,
         actions: PropTypes.shape({
             openModal: PropTypes.func.isRequred,
             showMentions: PropTypes.func,
@@ -77,7 +71,6 @@ class MainMenu extends React.PureComponent {
             closeRightHandSide: PropTypes.func.isRequired,
             closeRhsMenu: PropTypes.func.isRequired,
             unhideNextSteps: PropTypes.func.isRequired,
-            getCloudSubscription: PropTypes.func,
         }).isRequired,
     };
 
@@ -128,11 +121,12 @@ class MainMenu extends React.PureComponent {
     }
 
     shouldShowUpgradeModal = () => {
-        if (this.props.subscription?.is_paid_tier === 'true') { // eslint-disable-line camelcase
+        const {subscriptionStats, isCloud} = this.props;
+
+        if (subscriptionStats?.is_paid_tier === 'true') { // eslint-disable-line camelcase
             return false;
         }
-
-        return this.props.isCloud && (this.props.currentUsers >= this.props.userLimit) && (this.props.userLimit !== '0') && this.props.userIsAdmin;
+        return isCloud && subscriptionStats.remaining_seats <= 0;
     }
 
     render() {
