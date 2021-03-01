@@ -151,7 +151,7 @@ THE SOFTWARE.
 
 ## types/react-overlays
 
-This product contains 'bootstrap' by react-bootstrap.
+This product contains 'types/react-overlays' by react-bootstrap.
 
 Utilities for creating robust overlay components.
 
@@ -1993,7 +1993,7 @@ This product contains 'prop-types' by Facebook.
 Runtime type checking for React props and similar objects.
 
 * HOMEPAGE:
-  * https://github.com/facebook/prop-types
+  * https://facebook.github.io/react/
 
 * LICENSE: MIT
 
