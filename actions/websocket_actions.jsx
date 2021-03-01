@@ -482,12 +482,10 @@ export function handleEvent(msg) {
     case SocketEvents.CLOUD_PAYMENT_STATUS_UPDATED:
         dispatch(handleCloudPaymentStatusUpdated(msg));
         break;
+
     // Apps framework events
-    case SocketEvents.APPS_FRAMEWORK_REFRESH_BINDING: {
-        const state = getState();
-        if (appsEnabled(state)) {
-            dispatch(fetchAppBindings(getCurrentUserId(state), getCurrentChannelId(state)));
-        }
+    case SocketEvents.APPS_FRAMEWORK_REFRESH_BINDINGS: {
+        dispatch(handleRefreshAppsBindings(msg));
         break;
     }
     default:
@@ -1364,4 +1362,14 @@ function handleUserActivationStatusChange() {
 
 function handleCloudPaymentStatusUpdated() {
     return (doDispatch) => doDispatch(getCloudSubscription());
+}
+
+function handleRefreshAppsBindings() {
+    return (doDispatch, doGetState) => {
+        const state = doGetState();
+        if (appsEnabled(state)) {
+            doDispatch(fetchAppBindings(getCurrentUserId(state), getCurrentChannelId(state)));
+        }
+        return {data: true};
+    };
 }

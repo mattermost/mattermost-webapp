@@ -394,7 +394,7 @@ export const SocketEvents = {
     SIDEBAR_CATEGORY_ORDER_UPDATED: 'sidebar_category_order_updated',
     USER_ACTIVATION_STATUS_CHANGED: 'user_activation_status_change',
     CLOUD_PAYMENT_STATUS_UPDATED: 'cloud_payment_status_updated',
-    APPS_FRAMEWORK_REFRESH_BINDING: 'custom_com.mattermost.apps_refresh_bindings',
+    APPS_FRAMEWORK_REFRESH_BINDINGS: 'custom_com.mattermost.apps_refresh_bindings',
 };
 
 export const TutorialSteps = {
