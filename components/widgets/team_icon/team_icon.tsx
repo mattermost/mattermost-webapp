@@ -21,7 +21,7 @@ type Props = {
      *
      * @default "regular"
      **/
-    size?: 'sm'|'md'|'lg';
+    size?: 'sm' | 'lg';
 
     /** Whether to add hover effect to the icon */
     withHover?: boolean;
@@ -36,7 +36,7 @@ type Props = {
  */
 export class TeamIcon extends React.PureComponent<Props> {
     public static defaultProps = {
-        size: 'md',
+        size: 'sm',
     };
 
     public render() {

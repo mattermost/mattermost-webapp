@@ -105,7 +105,7 @@ class LoginController extends React.PureComponent {
         const email = search.get('email');
 
         if (extra === Constants.SIGNIN_VERIFIED && email) {
-            this.passwordInput.current.focus();
+            this.passwordInput.current?.focus();
         }
 
         // Determine if the user was unexpectedly logged out.

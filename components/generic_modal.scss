@@ -14,6 +14,27 @@
             box-sizing: border-box;
             border-radius: 4px;
             height: 40px;
+
+            &.has-error {
+                border-color: var(--error-text);
+            }
+        }
+
+        .MaxLengthInput {
+            &.form-control.has-error {
+                padding-right: 66px;
+            }
+
+            &__validation {
+                font-style: normal;
+                font-weight: normal;
+                font-size: 14px;
+                line-height: 16px;
+                color: var(--error-text);
+                position: absolute;
+                right: 56px;
+                top: 12px;
+            }
         }
 
         .input-clear {
@@ -24,7 +45,7 @@
             color: var(--center-channel-color);
             opacity: 0.48;
             right: 36px;
-            top: 11px;
+            top: 12px;
             width: 16px;
             height: 16px;
         }
@@ -32,6 +53,7 @@
 
     .modal-content {
         border-radius: 8px;
+        padding: 16px 15px;
     }
 
     .modal-header {
