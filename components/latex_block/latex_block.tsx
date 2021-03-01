@@ -1,82 +1,72 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 
 import {FormattedMessage} from 'react-intl';
-import katex from 'katex';
 
 type Props = {
     content: string;
     enableLatex: boolean;
 };
 
-type KatexOptions = {
-    throwOnError?: boolean;
-    displayMode?: boolean;
-    maxSize?: number;
-    maxExpand?: number;
-    fleqn?: boolean;
-};
+type State = {
+    katex: any;
+}
 
-type Output = {
-    latex: string;
-};
+export default class LatexBlock extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
+        super(props);
 
-function LatexBlock({
-    content,
-    enableLatex = false,
-}: Props): JSX.Element {
-    const [katexOptions, setKatexOptions] = useState<KatexOptions>();
+        this.state = {
+            katex: null,
+        };
+    }
 
-    const [output, setOutput] = useState<Output>({
-        latex: '',
-    });
+    componentDidMount() {
+        import('katex').then((katex) => {
+            this.setState({katex});
+        });
+    }
 
-    const [hasError, setHasError] = useState<boolean>(false);
+    render() {
+        if (this.state.katex == null || !this.props.enableLatex) {
+            return (
+                <div
+                    className='post-body--code tex'
+                >
+                    {this.props.content}
+                </div>
+            );
+        }
 
-    useEffect(() => {
         try {
-            setKatexOptions({
+            const katexOptions = {
                 throwOnError: false,
                 displayMode: true,
                 maxSize: 200,
                 maxExpand: 100,
                 fleqn: true,
-            });
+            };
+            const html = this.state.katex.renderToString(this.props.content, katexOptions);
 
-            setOutput({
-                latex: katex.renderToString(content, katexOptions),
-            });
-        } catch (e) {
-            setHasError(true);
-        }
-    }, []);
-
-    return (
-        <div className='post-body--code tex'>
-            {!enableLatex &&
-                <div>
-                    {content}
-                </div>
-            }
-
-            {enableLatex &&
+            return (
                 <div
-                    dangerouslySetInnerHTML={{
-                        __html: output.latex,
-                    }}
+                    className='post-body--code tex'
+                    dangerouslySetInnerHTML={{__html: html}}
                 />
-            }
-
-            {hasError &&
-                <FormattedMessage
-                    id='katex.error'
-                    defaultMessage="Couldn't compile your Latex code. Please review the syntax and try again."
-                />
-            }
-        </div>
-    );
+            );
+        } catch (e) {
+            return (
+                <div
+                    className='post-body--code tex'
+                >
+                    <FormattedMessage
+                        id='katex.error'
+                        defaultMessage="Couldn't compile your Latex code. Please review the syntax and try again."
+                    />
+                </div>
+            );
+        }
+    }
 }
-
-export default LatexBlock;
