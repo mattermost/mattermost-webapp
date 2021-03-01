@@ -6,7 +6,7 @@ import React from 'react';
 
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
 
-import QuickInput from 'components/quick_input.jsx';
+import QuickInput from 'components/quick_input';
 import Constants from 'utils/constants';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
@@ -657,7 +657,7 @@ export default class SuggestionBox extends React.PureComponent {
             if (handled) {
                 if (this.state.suggestionBoxAlgn.pixelsToMoveX === undefined &&
                     this.state.suggestionBoxAlgn.pixelsToMoveY === undefined &&
-                    provider.triggerCharacter && ['@', ':', '~'].indexOf(provider.triggerCharacter) !== -1) {
+                    ['@', ':', '~', '/'].includes(provider.triggerCharacter)) {
                     const char = provider.triggerCharacter;
                     const pxToSubstract = Utils.getPxToSubstract(char);
 

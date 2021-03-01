@@ -4,16 +4,17 @@
 import {joinChannel, getChannelByNameAndTeamName, markGroupChannelOpen, fetchMyChannelsAndMembers} from 'mattermost-redux/actions/channels';
 import {getUser, getUserByUsername, getUserByEmail} from 'mattermost-redux/actions/users';
 import {getTeamByName} from 'mattermost-redux/selectors/entities/teams';
-import {getCurrentUserId, getUserByUsername as selectUserByUsername, getUser as selectUser, getUserByEmail as selectUserByEmail} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUser, getCurrentUserId, getUserByUsername as selectUserByUsername, getUser as selectUser, getUserByEmail as selectUserByEmail} from 'mattermost-redux/selectors/entities/users';
 import {getChannelByName, getOtherChannels, getChannel, getChannelsNameMapInTeam, getRedirectChannelNameForTeam} from 'mattermost-redux/selectors/entities/channels';
 import {GetStateFunc, DispatchFunc, ActionFunc} from 'mattermost-redux/types/actions';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {Channel} from 'mattermost-redux/types/channels';
 import {History} from 'history';
 
-import {Constants} from 'utils/constants';
 import {openDirectChannelToUserId} from 'actions/channel_actions';
 import * as GlobalActions from 'actions/global_actions';
+import {joinPrivateChannelPrompt} from 'utils/channel_utils';
+import {Constants} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
 import {Match, MatchAndHistory} from './channel_identifier_router';
@@ -155,15 +156,33 @@ export function goToChannelByChannelName(match: Match, history: History): Action
         }
 
         if (!channel || !member) {
+            // Prompt system admin before joining the private channel
+            const user = getCurrentUser(getState());
+            const isSystemAdmin = Utils.isSystemAdmin(user?.roles);
+            if (isSystemAdmin) {
+                const getChannelDispatchResult = await dispatch(getChannelByNameAndTeamName(team, channelName, true));
+                if ('data' in getChannelDispatchResult) {
+                    channel = getChannelDispatchResult.data;
+                    if (channel.type === Constants.PRIVATE_CHANNEL) {
+                        const joinPromptResult = await dispatch(joinPrivateChannelPrompt(teamObj, channel));
+                        if ('data' in joinPromptResult && !joinPromptResult.data.join) {
+                            return {data: undefined};
+                        }
+                    }
+                }
+            }
+
             const joinChannelDispatchResult = await dispatch(joinChannel(getCurrentUserId(state), teamObj!.id, '', channelName));
             if ('error' in joinChannelDispatchResult) {
-                const getChannelDispatchResult = await dispatch(getChannelByNameAndTeamName(team, channelName, true));
-                if ('error' in getChannelDispatchResult || getChannelDispatchResult.data.delete_at === 0) {
-                    await dispatch(fetchMyChannelsAndMembers(teamObj!.id));
-                    handleChannelJoinError(match, history, getRedirectChannelNameForTeam(state, teamObj!.id));
-                    return {data: undefined};
+                if (!channel) {
+                    const getChannelDispatchResult = await dispatch(getChannelByNameAndTeamName(team, channelName, true));
+                    if ('error' in getChannelDispatchResult || getChannelDispatchResult.data.delete_at === 0) {
+                        await dispatch(fetchMyChannelsAndMembers(teamObj!.id));
+                        handleChannelJoinError(match, history, getRedirectChannelNameForTeam(state, teamObj!.id));
+                        return {data: undefined};
+                    }
+                    channel = getChannelDispatchResult.data;
                 }
-                channel = getChannelDispatchResult.data;
             } else {
                 channel = joinChannelDispatchResult.data.channel;
             }

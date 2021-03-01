@@ -1,6 +1,6 @@
-@charset 'UTF-8';
+@charset "UTF-8";
 
-@import 'utils/variables';
+@import 'sass/utils/variables';
 
 .nav-pills__unread-indicator {
     display: flex;
@@ -15,7 +15,7 @@
     line-height: 16px;
     text-align: center;
     border-radius: 4px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.12);
     font-weight: 700;
     z-index: 2;
     cursor: pointer;
@@ -42,50 +42,49 @@
     svg {
         fill: var(--mention-color);
     }
-}
 
-.nav-pills__unread-indicator-top {
-    top: 16px;
+    &-top {
+        top: 16px;
 
-    .icon {
-        svg {
-            transform: rotate(180deg);
+        &.withStickyHeaders {
+            top: 32px;
+        }
+
+        .icon {
+            svg {
+                transform: rotate(180deg);
+            }
         }
     }
-}
 
-.nav-pills__unread-indicator-bottom {
-    bottom: 16px;
-}
-
-.nav-pills__unread-indicator--visible {
-    opacity: 1;
-    visibility: visible;
-
-    body.enable-animations & {
-        transition-property: opacity, visibility;
-        transition-duration: $transition-quick;
-        transition-delay: 0s;
-        transition-timing-function: ease-out, step-start;
+    &-bottom {
+        bottom: 16px;
     }
-}
 
-@media screen and (max-width: 768px) {
-    .nav-pills__unread-indicator {
+    &--visible {
+        opacity: 1;
+        visibility: visible;
+
+        body.enable-animations & {
+            transition-property: opacity, visibility;
+            transition-duration: $transition-quick;
+            transition-delay: 0s;
+            transition-timing-function: ease-out, step-start;
+        }
+    }
+
+    @media screen and (max-width: 768px) {
         width: 260px;
     }
-}
 
-@media screen and (max-width: 480px) {
-    .nav-pills__unread-indicator {
+    @media screen and (max-width: 480px) {
         width: 230px;
     }
-}
 
-@media screen and (max-width: 320px) {
-    .multi-teams {
-        .nav-pills__unread-indicator {
+    @media screen and (max-width: 320px) {
+        .multi-teams & {
             width: 190px;
         }
     }
 }
+

@@ -163,7 +163,7 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
     }
     message={
       <FormattedMessage
-        defaultMessage="This action promotes the guest {username} to a member. It will allow the user to join public channels and interact with users outside of the channels they are currently members of. Are you sure you want to promote guest {username} to user?"
+        defaultMessage="This action promotes the guest {username} to a member. It will allow the user to join public channels and interact with users outside of the channels they are currently members of. Are you sure you want to promote guest {username} to member?"
         id="promote_to_user_modal.desc"
         values={
           Object {
@@ -178,7 +178,7 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
     show={false}
     title={
       <FormattedMessage
-        defaultMessage="Promote guest {username} to user"
+        defaultMessage="Promote guest {username} to member"
         id="promote_to_user_modal.title"
         values={
           Object {
@@ -299,7 +299,7 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
       <MenuItemAction
         onClick={[Function]}
         show={false}
-        text="Promote to User"
+        text="Promote to Member"
       />
       <MenuItemAction
         onClick={[Function]}
@@ -417,7 +417,7 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
     }
     message={
       <FormattedMessage
-        defaultMessage="This action promotes the guest {username} to a member. It will allow the user to join public channels and interact with users outside of the channels they are currently members of. Are you sure you want to promote guest {username} to user?"
+        defaultMessage="This action promotes the guest {username} to a member. It will allow the user to join public channels and interact with users outside of the channels they are currently members of. Are you sure you want to promote guest {username} to member?"
         id="promote_to_user_modal.desc"
         values={
           Object {
@@ -432,7 +432,7 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
     show={false}
     title={
       <FormattedMessage
-        defaultMessage="Promote guest {username} to user"
+        defaultMessage="Promote guest {username} to member"
         id="promote_to_user_modal.title"
         values={
           Object {
@@ -553,7 +553,7 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
       <MenuItemAction
         onClick={[Function]}
         show={false}
-        text="Promote to User"
+        text="Promote to Member"
       />
       <MenuItemAction
         onClick={[Function]}
