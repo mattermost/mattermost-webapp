@@ -27,7 +27,6 @@ type Props = {
     active: boolean;
     botIconUrl: string | null;
     isCollapsed: boolean;
-    isMobile: boolean;
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => Promise<{data: boolean}>;
         leaveDirectChannel: (channelId: string) => Promise<{data: boolean}>;
@@ -99,7 +98,7 @@ class SidebarDirectChannel extends React.PureComponent<Props, State> {
         return (
             <ProfilePicture
                 src={Client4.getProfilePictureUrl(teammate.id, teammate.last_picture_update)}
-                size={this.props.isMobile ? 'sm' : 'xs'}
+                size={'xs'}
                 status={channel.status}
                 wrapperClass='DirectChannel__profile-picture'
                 newStatusIcon={true}

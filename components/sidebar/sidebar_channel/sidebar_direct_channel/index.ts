@@ -16,7 +16,6 @@ import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser, getUser} from 'mattermost-redux/selectors/entities/users';
 
 import {leaveDirectChannel} from 'actions/views/channel';
-import {isMobile} from 'utils/utils.jsx';
 
 import SidebarDirectChannel from './sidebar_direct_channel';
 
@@ -54,7 +53,6 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         redirectChannel,
         active,
         botIconUrl: botIconImageUrl(teammate),
-        isMobile: isMobile(),
     };
 }
 
