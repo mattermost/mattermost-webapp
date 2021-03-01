@@ -1090,7 +1090,7 @@
   "admin.office365.directoryIdTitle": "Verzeichnis-(tenant-)ID:",
   "admin.office365.tokenTitle": "Token Endpunkt:",
   "admin.office365.userTitle": "API-Endpunkt des Benutzers:",
-  "admin.openid.buttonTextDesc": "Text, der auf dem Login-Button angezeigt wird",
+  "admin.openid.buttonTextDesc": "Text, der auf dem Login-Button angezeigt wird.",
   "admin.password.lowercase": "Mindestens ein Kleinbuchstabe",
   "admin.password.minimumLength": "Minimale Passwortlänge:",
   "admin.password.minimumLengthDescription": "Minimale Anzahl der Zeichen, die für ein gültiges Passwort benötigt werden. Muss eine ganze Zahl größer oder gleich {min} und weniger oder gleich {max} sein.",
