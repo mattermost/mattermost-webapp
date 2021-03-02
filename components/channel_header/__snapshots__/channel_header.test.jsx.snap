@@ -1077,6 +1077,7 @@ exports[`components/ChannelHeader should render properly when custom status is s
         </div>
         <div
           className="channel-header__description"
+          dir="auto"
           id="channelHeaderDescription"
         >
           <StatusIcon
@@ -1527,6 +1528,7 @@ exports[`components/ChannelHeader should render properly when populated with cha
         </div>
         <div
           className="channel-header__description"
+          dir="auto"
           id="channelHeaderDescription"
         >
           <Connect(PopoverListMembers)
