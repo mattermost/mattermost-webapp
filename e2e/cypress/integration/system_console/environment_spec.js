@@ -8,6 +8,7 @@
 // ***************************************************************
 
 // Stage: @prod
+// Group: @not_cloud
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
@@ -17,6 +18,7 @@ describe('Environment', () => {
 
     const mattermostIcon = 'mattermost-icon_128x128.png';
     before(() => {
+        cy.shouldNotRunOnCloudEdition();
         cy.apiInitSetup().then(({team}) => {
             testTeam = team;
             townsquareLink = `/${team.name}/channels/town-square`;
@@ -246,6 +248,7 @@ describe('Environment', () => {
 
         const amazonS3BucketName = 'test';
         const amazonS3PathPrefix = 'test';
+        cy.findByTestId('FileSettings.MaxFileSizenumber').clear().type(52428800);
         cy.findByTestId('FileSettings.AmazonS3Bucketinput').clear().type(amazonS3BucketName);
         cy.findByTestId('FileSettings.AmazonS3PathPrefixinput').clear().type(amazonS3PathPrefix);
 

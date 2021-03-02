@@ -1,4 +1,3 @@
-
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
@@ -265,7 +264,7 @@ describe('Desktop notifications', () => {
                 });
 
                 // * Notification badge is aligned 10px to the right of LHS
-                cy.get(`#sidebarItem_${channel.name} .badge`).should('exist').and('have.css', 'margin', '0px 10px 0px 0px');
+                cy.get(`#sidebarItem_${channel.name} .badge`).should('exist').and('have.css', 'margin', '0px 3px 0px 6px');
             });
         });
     });

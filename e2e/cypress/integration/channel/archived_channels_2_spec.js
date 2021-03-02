@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @channel
 
 import {getAdminAccount} from '../../support/env';
@@ -18,9 +19,6 @@ describe('Leave an archived channel', () => {
 
     before(() => {
         cy.apiUpdateConfig({
-            ServiceSettings: {
-                EnableLegacySidebar: false,
-            },
             TeamSettings: {
                 ExperimentalViewArchivedChannels: true,
             },

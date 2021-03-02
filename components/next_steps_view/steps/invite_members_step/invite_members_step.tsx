@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, {CSSProperties} from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 import {ActionMeta, InputActionMeta} from 'react-select';
 import classNames from 'classnames';
 
@@ -10,24 +10,35 @@ import {ServerError} from 'mattermost-redux/types/errors';
 import {TeamInviteWithError, Team} from 'mattermost-redux/types/teams';
 import {isEmail} from 'mattermost-redux/utils/helpers';
 
+import {SubscriptionStats} from 'mattermost-redux/types/cloud';
+
+import {isNull} from 'lodash';
+
 import {pageVisited, trackEvent} from 'actions/telemetry_actions';
 import {getAnalyticsCategory} from 'components/next_steps_view/step_helpers';
 import MultiInput from 'components/multi_input';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
+import UpgradeLink from 'components/widgets/links/upgrade_link';
+
 import {getSiteURL} from 'utils/url';
 import * as Utils from 'utils/utils';
 
 import {StepComponentProps} from '../../steps';
 
 import './invite_members_step.scss';
+import NotifyLink from 'components/widgets/links/notify_link';
 
 type Props = StepComponentProps & {
     team: Team;
     isEmailInvitesEnabled: boolean;
+    cloudUserLimit: string | number;
     actions: {
         sendEmailInvitesToTeamGracefully: (teamId: string, emails: string[]) => Promise<{ data: TeamInviteWithError[]; error: ServerError }>;
         regenerateTeamInviteId: (teamId: string) => void;
     };
+    subscriptionStats: SubscriptionStats;
+    intl: IntlShape;
+    isCloud: boolean;
 };
 
 type State = {
@@ -58,7 +69,7 @@ const styles = {
     },
 };
 
-export default class InviteMembersStep extends React.PureComponent<Props, State> {
+class InviteMembersStep extends React.PureComponent<Props, State> {
     inviteLinkRef: React.RefObject<HTMLInputElement>;
     timeout?: NodeJS.Timeout;
 
@@ -91,6 +102,15 @@ export default class InviteMembersStep extends React.PureComponent<Props, State>
         }
     }
 
+    getRemainingUsers = (): number => {
+        const {subscriptionStats} = this.props;
+        const {emails} = this.state;
+        if (subscriptionStats) {
+            return subscriptionStats.remaining_seats - emails.length;
+        }
+        return 0;
+    }
+
     onInputChange = (value: string, change: InputActionMeta) => {
         if (!change) {
             return;
@@ -107,11 +127,15 @@ export default class InviteMembersStep extends React.PureComponent<Props, State>
         if (value.indexOf(' ') !== -1 || value.indexOf(',') !== -1) {
             const emails = value.split(/[\s,]+/).filter((email) => email.length).map((email) => ({label: email, value: email, error: !isEmail(email)}));
             const newEmails = [...this.state.emails, ...emails];
+            const {subscriptionStats, cloudUserLimit} = this.props;
 
             this.setState({
                 emails: newEmails,
                 emailInput: '',
-                emailError: newEmails.length > 10 ? Utils.localizeMessage('next_steps_view.invite_members_step.tooManyEmails', 'Invitations are limited to 10 email addresses.') : undefined,
+                emailError: newEmails.length > subscriptionStats!.remaining_seats ? this.props.intl.formatMessage({
+                    id: 'next_steps_view.invite_members_step.tooManyEmails',
+                    defaultMessage: 'The free tier is limited to {num} members.'},
+                {num: cloudUserLimit}) : undefined,
             });
         } else {
             this.setState({emailInput: value});
@@ -127,8 +151,13 @@ export default class InviteMembersStep extends React.PureComponent<Props, State>
             this.setState({emailError: undefined});
         }
 
-        if (value.length > 10) {
-            this.setState({emailError: Utils.localizeMessage('next_steps_view.invite_members_step.tooManyEmails', 'Invitations are limited to 10 email addresses.')});
+        const {subscriptionStats, cloudUserLimit} = this.props;
+
+        if (value.length > subscriptionStats!.remaining_seats) {
+            this.setState({emailError: this.props.intl.formatMessage({
+                id: 'next_steps_view.invite_members_step.tooManyEmails',
+                defaultMessage: 'The free tier is limited to {num} members.'},
+            {num: cloudUserLimit})});
         }
 
         this.setState({emails: value});
@@ -138,7 +167,16 @@ export default class InviteMembersStep extends React.PureComponent<Props, State>
         if (this.state.emailInput) {
             const emails = this.state.emailInput.split(/[\s,]+/).filter((email) => email.length).map((email) => ({label: email, value: email, error: !isEmail(email)}));
             const newEmails = [...this.state.emails, ...emails];
-            this.setState({emails: newEmails, emailInput: '', emailError: newEmails.length > 10 ? Utils.localizeMessage('next_steps_view.invite_members_step.tooManyEmails', 'Invitations are limited to 10 email addresses.') : undefined});
+            const {subscriptionStats, cloudUserLimit} = this.props;
+
+            this.setState({
+                emails: newEmails,
+                emailInput: '',
+                emailError: newEmails.length > subscriptionStats!.remaining_seats ? this.props.intl.formatMessage({
+                    id: 'next_steps_view.invite_members_step.tooManyEmails',
+                    defaultMessage: 'The free tier is limited to {num} members.'},
+                {num: cloudUserLimit}) : undefined,
+            });
         }
     }
 
@@ -210,7 +248,8 @@ export default class InviteMembersStep extends React.PureComponent<Props, State>
         return `${getSiteURL()}/signup_user_complete/?id=${this.props.team.invite_id}`;
     }
 
-    render() {
+    render(): JSX.Element {
+        const linkBtn = this.props.isAdmin ? <UpgradeLink telemetryInfo='click_upgrade_invite_members_step'/> : <NotifyLink/>;
         return (
             <div className='NextStepsView__stepWrapper'>
                 <div className='InviteMembersStep'>
@@ -224,7 +263,10 @@ export default class InviteMembersStep extends React.PureComponent<Props, State>
                             </h3>
                             <FormattedMessage
                                 id='next_steps_view.invite_members_step.youCanInviteUpTo'
-                                defaultMessage='You can invite up to 10 team members using a space or comma between addresses'
+                                defaultMessage='You can invite up to {members} team members using a space or comma between addresses'
+                                values={{
+                                    members: this.props?.subscriptionStats?.remaining_seats,
+                                }}
                             />
                             <MultiInput
                                 onBlur={this.onBlur}
@@ -240,8 +282,11 @@ export default class InviteMembersStep extends React.PureComponent<Props, State>
                             <div className='InviteMembersStep__send'>
                                 <button
                                     data-testid='InviteMembersStep__sendButton'
-                                    className={classNames('NextStepsView__button InviteMembersStep__sendButton secondary', {disabled: !this.state.emails.length || Boolean(this.state.emailsSent) || this.state.emailError})}
-                                    disabled={!this.state.emails.length || Boolean(this.state.emailsSent) || Boolean(this.state.emailError)}
+                                    className={classNames('NextStepsView__button InviteMembersStep__sendButton secondary',
+                                        {disabled: this.getRemainingUsers() < 0 || !this.state.emails.length || Boolean(this.state.emailsSent) || Boolean(this.state.emailError)},
+                                    )
+                                    }
+                                    disabled={this.getRemainingUsers() < 0 || !this.state.emails.length || Boolean(this.state.emailsSent) || Boolean(this.state.emailError)}
                                     onClick={this.sendEmailInvites}
                                 >
                                     <i className='icon icon-send'/>
@@ -266,6 +311,9 @@ export default class InviteMembersStep extends React.PureComponent<Props, State>
                                             <i className='icon icon-alert-outline'/>
                                             <span>{this.state.emailError}</span>
                                         </>
+                                    }
+                                    {(this.state.emailError && !isNull(this.props.subscriptionStats) &&
+                                        this.state.emails.length >= this.props.subscriptionStats.remaining_seats) && linkBtn
                                     }
                                 </div>
                             </div>
@@ -339,3 +387,5 @@ export default class InviteMembersStep extends React.PureComponent<Props, State>
         );
     }
 }
+
+export default injectIntl(InviteMembersStep);
