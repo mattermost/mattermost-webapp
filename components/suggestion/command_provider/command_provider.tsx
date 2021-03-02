@@ -5,7 +5,7 @@ import React from 'react';
 
 import {Client4} from 'mattermost-redux/client';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {getChannel, getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
+import {getChannel, getCurrentChannel, getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
 import {AutocompleteSuggestion, AutocompleteSuggestionWithComplete} from 'mattermost-redux/types/apps';
 import {ServerAutocompleteSuggestion} from 'mattermost-redux/types/integrations';
 import {Post} from 'mattermost-redux/types/posts';
@@ -101,15 +101,17 @@ export default class CommandProvider extends Provider {
         this.store = globalStore;
         this.isInRHS = props.isInRHS;
         let rootId;
+        let channelId = getCurrentChannelId(this.store.getState());
         if (this.isInRHS) {
             const selectedPost = getSelectedPost(this.store.getState()) as Post;
             if (selectedPost) {
+                channelId = selectedPost?.channel_id;
                 rootId = selectedPost?.root_id ? selectedPost.root_id : selectedPost.id;
             }
         }
 
         if (appsEnabled(this.store.getState())) {
-            this.appCommandParser = new AppCommandParser(this.store, rootId);
+            this.appCommandParser = new AppCommandParser(this.store, channelId, rootId);
         }
         this.triggerCharacter = '/';
     }

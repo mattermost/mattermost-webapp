@@ -3,16 +3,20 @@
 
 import React from 'react';
 
-import {AppBinding, AppCall} from 'mattermost-redux/types/apps';
+import {AppBinding, AppCall, AppCallResponse} from 'mattermost-redux/types/apps';
 import {ActionResult} from 'mattermost-redux/types/actions';
-import {AppBindingLocations, AppExpandLevels} from 'mattermost-redux/constants/apps';
+import {AppBindingLocations, AppCallResponseTypes, AppExpandLevels} from 'mattermost-redux/constants/apps';
 import {Post} from 'mattermost-redux/types/posts';
+
+import {injectIntl, IntlShape} from 'react-intl';
 
 import Markdown from 'components/markdown';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 import {createCallRequest} from 'utils/apps';
+import {sendEphemeralPost} from 'actions/global_actions';
 
 type Props = {
+    intl: IntlShape;
     binding: AppBinding;
     userId: string;
     post: Post;
@@ -25,7 +29,7 @@ type State = {
     executing: boolean;
 }
 
-export default class ButtonBinding extends React.PureComponent<Props, State> {
+class ButtonBinding extends React.PureComponent<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
@@ -49,8 +53,33 @@ export default class ButtonBinding extends React.PureComponent<Props, State> {
             post.id,
         );
         this.setState({executing: true});
-        await this.props.actions.doAppCall(call);
+        const res = await this.props.actions.doAppCall(call);
+
         this.setState({executing: false});
+        const callResp = (res as {data: AppCallResponse}).data;
+        const ephemeral = (message: string) => sendEphemeralPost(message, this.props.post.channel_id, this.props.post.root_id);
+        switch (callResp.type) {
+        case AppCallResponseTypes.OK:
+            if (callResp.markdown) {
+                ephemeral(callResp.markdown);
+            }
+            break;
+        case AppCallResponseTypes.ERROR: {
+            const errorMessage = callResp.error || this.props.intl.formatMessage({id: 'apps.error.unknown', defaultMessage: 'Unknown error happenned'});
+            ephemeral(errorMessage);
+            break;
+        }
+        case AppCallResponseTypes.NAVIGATE:
+        case AppCallResponseTypes.FORM:
+            break;
+        default: {
+            const errorMessage = this.props.intl.formatMessage(
+                {id: 'apps.error.responses.unknown_type', defaultMessage: 'App response type not supported. Response type: {type}.'},
+                {type: callResp.type},
+            );
+            ephemeral(errorMessage);
+        }
+        }
     }
 
     render() {
@@ -83,3 +112,5 @@ export default class ButtonBinding extends React.PureComponent<Props, State> {
         );
     }
 }
+
+export default injectIntl(ButtonBinding);

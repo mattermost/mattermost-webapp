@@ -9,7 +9,7 @@ import configureStore from 'redux-mock-store';
 import {Client4} from 'mattermost-redux/client';
 
 import {AppBinding, AppForm} from 'mattermost-redux/types/apps';
-import {AppFieldTypes} from 'mattermost-redux/constants/apps';
+import {AppCallResponseTypes, AppFieldTypes} from 'mattermost-redux/constants/apps';
 
 import {AppCommandParser, ParseState, ParsedCommand} from './app_command_parser';
 
@@ -237,7 +237,7 @@ describe('AppCommandParser', () => {
     let parser: AppCommandParser;
     beforeEach(async () => {
         const store = await makeStore(definitions);
-        parser = new AppCommandParser(store as any, '');
+        parser = new AppCommandParser(store as any, '', '');
     });
 
     type Variant = {
@@ -328,13 +328,13 @@ describe('AppCommandParser', () => {
             {
                 title: 'incomplete top command',
                 command: '/jir',
-                autocomplete: {expectError: '"/jir": no match'},
-                submit: {expectError: '"/jir": no match'},
+                autocomplete: {expectError: '`/jir`: no match.'},
+                submit: {expectError: '`/jir`: no match.'},
             },
             {
                 title: 'no space after the top command',
                 command: '/jira',
-                autocomplete: {expectError: '"/jira": no match'},
+                autocomplete: {expectError: '`/jira`: no match.'},
                 submit: {verify: (parsed: ParsedCommand): void => {
                     expect(parsed.state).toBe(ParseState.Command);
                     expect(parsed.binding?.label).toBe('jira');
@@ -554,7 +554,7 @@ describe('AppCommandParser', () => {
                     expect(parsed.values?.project).toBe(undefined);
                     expect(parsed.values?.issue).toBe(undefined);
                 }},
-                submit: {expectError: 'matching tick quote expected before end of input'},
+                submit: {expectError: 'Matching tick quote expected before end of input.'},
             },
             {
                 title: 'error: unmatched quote',
@@ -568,7 +568,7 @@ describe('AppCommandParser', () => {
                     expect(parsed.values?.project).toBe(undefined);
                     expect(parsed.values?.issue).toBe(undefined);
                 }},
-                submit: {expectError: 'matching double quote expected before end of input'},
+                submit: {expectError: 'Matching double quote expected before end of input.'},
             },
             {
                 title: 'missing required fields not a problem for parseCommand',
@@ -593,17 +593,17 @@ describe('AppCommandParser', () => {
             {
                 title: 'error: invalid flag',
                 command: '/jira issue view --wrong test',
-                submit: {expectError: 'command does not accept flag wrong'},
+                submit: {expectError: 'Command does not accept flag `wrong`.'},
             },
             {
                 title: 'error: unexpected positional',
                 command: '/jira issue create wrong',
-                submit: {expectError: 'command does not accept 1 positional arguments'},
+                submit: {expectError: 'Command does not accept 1 positional arguments.'},
             },
             {
                 title: 'error: multiple equal signs',
                 command: '/jira issue create --project == test',
-                submit: {expectError: 'multiple = signs are not allowed'},
+                submit: {expectError: 'Multiple `=` signs are not allowed.'},
             },
         ];
 
@@ -922,7 +922,7 @@ describe('AppCommandParser', () => {
 
         test('create flag project dynamic select value', async () => {
             const f = Client4.executeAppCall;
-            Client4.executeAppCall = jest.fn().mockResolvedValue(Promise.resolve({data: {items: [{label: 'special-label', value: 'special-value'}]}}));
+            Client4.executeAppCall = jest.fn().mockResolvedValue(Promise.resolve({type: AppCallResponseTypes.OK, data: {items: [{label: 'special-label', value: 'special-value'}]}}));
 
             const suggestions = await parser.getSuggestions('/jira issue create --project ');
             Client4.executeAppCall = f;
