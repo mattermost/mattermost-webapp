@@ -58,6 +58,8 @@ import {getPost, getMostRecentPostIdInChannel} from 'mattermost-redux/selectors/
 import {haveISystemPermission, haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
 
+import {fetchAppBindings} from 'mattermost-redux/actions/apps';
+
 import {getSelectedChannelId} from 'selectors/rhs';
 
 import {openModal} from 'actions/views/modals';
@@ -79,6 +81,7 @@ import {getSiteURL} from 'utils/url';
 import {isGuest} from 'utils/utils';
 import RemovedFromChannelModal from 'components/removed_from_channel_modal';
 import InteractiveDialog from 'components/interactive_dialog';
+import {appsEnabled} from 'utils/apps';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
@@ -480,6 +483,11 @@ export function handleEvent(msg) {
         dispatch(handleCloudPaymentStatusUpdated(msg));
         break;
 
+    // Apps framework events
+    case SocketEvents.APPS_FRAMEWORK_REFRESH_BINDINGS: {
+        dispatch(handleRefreshAppsBindings(msg));
+        break;
+    }
     default:
     }
 
@@ -1354,4 +1362,14 @@ function handleUserActivationStatusChange() {
 
 function handleCloudPaymentStatusUpdated() {
     return (doDispatch) => doDispatch(getCloudSubscription());
+}
+
+function handleRefreshAppsBindings() {
+    return (doDispatch, doGetState) => {
+        const state = doGetState();
+        if (appsEnabled(state)) {
+            doDispatch(fetchAppBindings(getCurrentUserId(state), getCurrentChannelId(state)));
+        }
+        return {data: true};
+    };
 }
