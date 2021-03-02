@@ -441,6 +441,7 @@ class ChannelHeader extends React.PureComponent {
                 <div
                     id='channelHeaderDescription'
                     className='channel-header__description'
+                    dir='auto'
                 >
                     {dmHeaderIconStatus}
                     {dmHeaderTextStatus}

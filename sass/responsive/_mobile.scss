@@ -1379,7 +1379,7 @@
 
     .search-bar__container {
         @include flex(0 0 50px);
-        background: $primary-color;
+        background: var(--sidebar-header-bg);
         color: var(--sidebar-header-text-color);
         padding: 0;
 
