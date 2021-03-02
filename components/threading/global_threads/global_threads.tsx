@@ -4,7 +4,7 @@
 import React, {memo, useEffect} from 'react';
 import {useIntl} from 'react-intl';
 import {isEmpty} from 'lodash';
-import {Link, useRouteMatch} from 'react-router-dom';
+import {Link, useRouteMatch, useLocation} from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
 import classNames from 'classnames';
 
@@ -43,6 +43,7 @@ import './global_threads.scss';
 const GlobalThreads = () => {
     const {formatMessage} = useIntl();
     const dispatch = useDispatch();
+    const location = useLocation();
 
     const {url, params: {threadIdentifier}} = useRouteMatch<{threadIdentifier?: string}>();
     const [filter, setFilter] = useGlobalState<ThreadFilter>('', 'globalThreads_filter');
@@ -50,16 +51,15 @@ const GlobalThreads = () => {
 
     const counts = useSelector(getThreadCountsInCurrentTeam);
     const selectedThread = useSelector((state: GlobalState) => getThread(state, threadIdentifier));
-
-    const threadIds = useSelector(getThreadOrderInCurrentTeam);
-    const unreadThreadIds = useSelector(getUnreadThreadOrderInCurrentTeam);
+    const threadIds = useSelector((state: GlobalState) => getThreadOrderInCurrentTeam(state, selectedThread?.id));
+    const unreadThreadIds = useSelector((state: GlobalState) => getUnreadThreadOrderInCurrentTeam(state, selectedThread?.id));
     const numUnread = counts?.total_unread_threads || 0;
     const isLoading = counts?.total == null || (counts.total && isEmpty(threadIds));
 
     useEffect(() => {
         dispatch(selectChannel(''));
         loadProfilesForSidebar();
-    }, []);
+    }, [location]);
     useEffect(() => {
         dispatch(getThreads(currentUserId, currentTeamId, {unread: filter === 'unread', perPage: 200}));
     }, [currentUserId, currentTeamId, filter]);
@@ -69,7 +69,7 @@ const GlobalThreads = () => {
         if (!selectedThread && !isLoading) {
             clear();
         }
-    }, [currentUserId, currentTeamId, threadIdentifier, counts]);
+    }, [currentUserId, currentTeamId, threadIdentifier, counts, filter]);
 
     return (
         <div
@@ -122,7 +122,7 @@ const GlobalThreads = () => {
                                 isSelected={threadIdentifier === id}
                             />
                         ))}
-                        {filter === 'unread' && !numUnread ? (
+                        {filter === 'unread' && !numUnread && isEmpty(unreadThreadIds) ? (
                             <NoResultsIndicator
                                 expanded={true}
                                 iconGraphic={BalloonIllustrationImg}
@@ -138,7 +138,6 @@ const GlobalThreads = () => {
                             thread={selectedThread}
                         >
                             <ThreadViewer
-                                currentUserId={currentUserId}
                                 rootPostId={selectedThread.id}
                                 useRelativeTimestamp={true}
                             />

@@ -13,14 +13,11 @@ type OwnProps = {
     userId: string;
 }
 
-function makeMapStateToProps() {
+function makeMapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const getDisplayName = makeGetDisplayName();
-
-    return (state: GlobalState, ownProps: OwnProps) => {
-        return {
-            displayName: getDisplayName(state, ownProps.userId, true),
-            user: getUser(state, ownProps.userId),
-        };
+    return {
+        displayName: getDisplayName(state, ownProps.userId, true),
+        user: getUser(state, ownProps.userId),
     };
 }
 

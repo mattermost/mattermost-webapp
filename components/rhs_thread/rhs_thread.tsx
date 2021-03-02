@@ -15,14 +15,12 @@ type Props = {
     channel: Channel | null;
     selected: Post | FakePost;
     previousRhsState?: string;
-    currentUserId: string;
 }
 
 const RhsThread = ({
     selected,
     posts,
     channel,
-    currentUserId,
     previousRhsState,
 }: Props) => {
     if (posts == null || selected == null || !channel) {
@@ -42,7 +40,6 @@ const RhsThread = ({
                 previousRhsState={previousRhsState}
             />
             <ThreadViewer
-                currentUserId={currentUserId}
                 rootPostId={selected.id}
                 useRelativeTimestamp={false}
             />

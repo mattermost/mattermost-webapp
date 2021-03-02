@@ -42,9 +42,6 @@ type Props = {
     isSelected: boolean;
 };
 
-const getDisplayName = makeGetDisplayName();
-const getChannel = makeGetChannel();
-
 const markdownPreviewOptions = {
     singleline: true,
     mentionHighlight: false,
@@ -78,9 +75,9 @@ const ThreadItem = ({
         },
     } = thread;
 
-    const channel = useSelector((state: GlobalState) => getChannel(state, {id: channelId}));
+    const channel = useSelector((state: GlobalState) => makeGetChannel()(state, {id: channelId}));
     const directTeammate = useSelector((state: GlobalState) => getDirectTeammate(state, channelId));
-    const displayName = useSelector((state: GlobalState) => getDisplayName(state, userId, true));
+    const displayName = useSelector((state: GlobalState) => makeGetDisplayName()(state, userId, true));
 
     useEffect(() => {
         if (!channel) {

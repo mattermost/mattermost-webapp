@@ -357,7 +357,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
         </>
     );
 
-    // when inserted in the `ChannelHeader` component just return the for with `SearchBar`
+    // when inserted in RHSSearchNav component, just return SearchBar
     if (!props.isSideBarRight) {
         return (
             <div className='sidebar-right__table'>

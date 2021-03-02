@@ -27,7 +27,7 @@ const GlobalThreadsLink = () => {
     const dispatch = useDispatch();
     const isFeatureEnabled = useSelector(isCollapsedThreadsEnabled);
 
-    const {url, params: {team}} = useRouteMatch<{team: string}>();
+    const {url} = useRouteMatch();
     const {pathname} = useLocation();
     const threadsMatch = matchPath<{team: string; threadIdentifier?: string}>(pathname, '/:team/threads');
     const {currentTeamId, currentUserId} = useThreadRouting();
@@ -38,7 +38,7 @@ const GlobalThreadsLink = () => {
 
     useEffect(() => {
         dispatch(getThreads(currentUserId, currentTeamId, {perPage: 5}));
-    }, [team]);
+    }, [currentTeamId]);
 
     if (!isFeatureEnabled || (unreadsOnly && !threadsMatch && !someUnreadThreads)) {
         // hide link if filtering unreads and there are no unread threads

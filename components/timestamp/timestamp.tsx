@@ -114,6 +114,7 @@ export type Props = FormatOptions & {
 
 type State = {
     now: Date;
+    prevValue: Props['value'];
 }
 
 /**
@@ -144,6 +145,7 @@ class Timestamp extends PureComponent<Props, State> {
         super(props);
         this.state = {
             now: new Date(),
+            prevValue: props.value,
         };
     }
 
@@ -347,6 +349,14 @@ class Timestamp extends PureComponent<Props, State> {
             clearTimeout(this.nextUpdate);
             this.nextUpdate = null;
         }
+    }
+
+    static getDerivedStateFromProps(props: Props, state: State) {
+        if (props.value !== state.prevValue) {
+            return ({now: new Date(), prevValue: props.value});
+        }
+
+        return null;
     }
 
     private maybeUpdate(relative: ResolvedFormats['relative']): ReturnType<typeof setTimeout> | null {

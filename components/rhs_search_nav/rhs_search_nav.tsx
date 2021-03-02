@@ -43,11 +43,11 @@ type State = {
 const HEADER_ICON = 'channel-header__icon';
 const HEADER_ICON_ACTIVE = 'channel-header__icon--active';
 
-class RHSNavigation extends React.PureComponent<Props, State> {
+class RHSSearchNav extends React.PureComponent<Props, State> {
     constructor(props: Props) {
         super(props);
 
-        this.state = {showSearchBar: RHSNavigation.getShowSearchBar(props)};
+        this.state = {showSearchBar: RHSSearchNav.getShowSearchBar(props)};
     }
 
     componentDidMount() {
@@ -63,7 +63,7 @@ class RHSNavigation extends React.PureComponent<Props, State> {
     }
 
     static getDerivedStateFromProps(nextProps: Props) {
-        return {showSearchBar: RHSNavigation.getShowSearchBar(nextProps)};
+        return {showSearchBar: RHSSearchNav.getShowSearchBar(nextProps)};
     }
 
     static getShowSearchBar(props: Props) {
@@ -71,7 +71,7 @@ class RHSNavigation extends React.PureComponent<Props, State> {
     }
 
     handleResize = () => {
-        this.setState({showSearchBar: RHSNavigation.getShowSearchBar(this.props)});
+        this.setState({showSearchBar: RHSSearchNav.getShowSearchBar(this.props)});
     };
 
     searchMentions = (e: KeyboardEvent) => {
@@ -198,4 +198,4 @@ class RHSNavigation extends React.PureComponent<Props, State> {
     }
 }
 
-export default RHSNavigation;
+export default RHSSearchNav;

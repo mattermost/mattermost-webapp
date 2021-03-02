@@ -3,7 +3,6 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 
 import {getSelectedThreadIdInCurrentTeam} from 'selectors/views/threads';
@@ -34,7 +33,6 @@ function mapStateToProps(state) {
         isExpanded: getIsRhsExpanded(state),
         isOpen: getIsRhsOpen(state),
         channel,
-        currentUserId: getCurrentUserId(state),
         postRightVisible: Boolean(selectedPostId),
         postRightSameAsSelectedThread: selectedPostId === selectedThreadId,
         postCardVisible: Boolean(selectedPostCardId),

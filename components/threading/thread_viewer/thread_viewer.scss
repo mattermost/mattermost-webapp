@@ -2,5 +2,9 @@
 // See LICENSE.txt for license information.
 
 .ThreadViewer {
-    //height: 100%;
+    // negate conflicting css for timestamp
+    .post:not(.same--root.same--user) a.post__permalink {
+        position: initial !important;
+        text-align: left !important;
+    }
 }

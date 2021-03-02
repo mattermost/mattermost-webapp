@@ -62,12 +62,8 @@ describe('components/threading/global_threads/thread_item', () => {
                 },
             ],
             post: {
-                id: '1y8hpek81byspd4enyk9mp1ncw',
                 user_id: 'mt5td9mdriyapmwuh5pc84dmhr',
                 channel_id: 'pnzsh7kwt7rmzgj8yb479sc9yw',
-                message: 'test msg',
-                create_at: 1610486901110,
-                edit_at: 1611786714912,
             },
         } as UserThread;
 
@@ -98,7 +94,14 @@ describe('components/threading/global_threads/thread_item', () => {
         });
 
         set(mockState, 'entities.posts.posts', {
-            '1y8hpek81byspd4enyk9mp1ncw': mockThread.post,
+            '1y8hpek81byspd4enyk9mp1ncw': {
+                id: '1y8hpek81byspd4enyk9mp1ncw',
+                user_id: 'mt5td9mdriyapmwuh5pc84dmhr',
+                channel_id: 'pnzsh7kwt7rmzgj8yb479sc9yw',
+                message: 'test msg',
+                create_at: 1610486901110,
+                edit_at: 1611786714912,
+            },
         });
         set(mockState, 'entities.channels.channels', {
             pnzsh7kwt7rmzgj8yb479sc9yw: {
@@ -181,7 +184,7 @@ describe('components/threading/global_threads/thread_item', () => {
             ['hasUnreads', Boolean(mockThread.unread_replies)],
             ['threadId', mockThread.id],
             ['isFollowing', mockThread.is_following],
-            ['unreadTimestamp', mockThread.post.edit_at],
+            ['unreadTimestamp', 1611786714912],
         ]).forEach((val, prop) => {
             expect(wrapper.find(ThreadMenu).props()).toHaveProperty(prop, val);
         });

@@ -36,6 +36,8 @@ describe('components/threading/ThreadViewer', () => {
         removePost: jest.fn(),
         selectPostCard: jest.fn(),
         getPostThread: jest.fn(),
+        getThread: jest.fn(),
+        updateThreadRead: jest.fn(),
     };
 
     const directTeammate: UserProfile = TestHelper.getUserMock();
@@ -45,11 +47,13 @@ describe('components/threading/ThreadViewer', () => {
         selected: post,
         channel,
         currentUserId: 'user_id',
+        currentTeamId: 'team_id',
         previewCollapsed: 'false',
         previewEnabled: true,
         socketConnectionStatus: true,
         actions,
         directTeammate,
+        isCollapsedThreadsEnabled: false,
     };
 
     test('should match snapshot', () => {
