@@ -132,12 +132,10 @@ if (DEV) {
 var config = {
     entry: ['./root.jsx', 'root.html'],
     output: {
+        path: path.join(__dirname, 'dist'),
         publicPath,
-        filename: '[name].[contenthash].js',
+        filename: '[name].[hash].js',
         chunkFilename: '[name].[contenthash].js',
-    },
-    snapshot: {
-        managedPaths: [],
     },
     module: {
         rules: [
@@ -162,7 +160,7 @@ var config = {
                 exclude: [/en\.json$/],
                 use: [
                     {
-                        loader: 'file-loader?name=i18n/[name].[contenthash].[ext]',
+                        loader: 'file-loader?name=i18n/[name].[hash].[ext]',
                     },
                 ],
             },
@@ -198,7 +196,7 @@ var config = {
                     {
                         loader: 'file-loader',
                         options: {
-                            name: 'files/[contenthash].[ext]',
+                            name: 'files/[hash].[ext]',
                         },
                     },
                     {
@@ -213,7 +211,7 @@ var config = {
                     {
                         loader: 'file-loader',
                         options: {
-                            name: 'files/[contenthash].[ext]',
+                            name: 'files/[hash].[ext]',
                         },
                     },
                 ],
@@ -269,8 +267,8 @@ var config = {
             COMMIT_HASH: JSON.stringify(childProcess.execSync('git rev-parse HEAD || echo dev').toString()),
         }),
         new MiniCssExtractPlugin({
-            filename: '[name].[contenthash].css',
-            chunkFilename: '[name].[contenthash].css',
+            filename: '[name].[contentHash].css',
+            chunkFilename: '[name].[contentHash].css',
         }),
         new HtmlWebpackPlugin({
             filename: 'root.html',

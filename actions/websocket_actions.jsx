@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-/* eslint-disable max-lines */
 import {batchActions} from 'redux-batched-actions';
 import {
     ChannelTypes,
@@ -27,7 +26,7 @@ import {
     markChannelAsRead,
     getChannelMemberCountsByGroup,
 } from 'mattermost-redux/actions/channels';
-import {getCloudSubscription, getSubscriptionStats} from 'mattermost-redux/actions/cloud';
+import {getCloudSubscription} from 'mattermost-redux/actions/cloud';
 import {loadRolesIfNeeded} from 'mattermost-redux/actions/roles';
 import {setServerVersion} from 'mattermost-redux/actions/general';
 import {
@@ -1340,17 +1339,15 @@ function handleSidebarCategoryOrderUpdated(msg) {
     return receivedCategoryOrder(msg.broadcast.team_id, msg.data.order);
 }
 
-export function handleUserActivationStatusChange() {
+function handleUserActivationStatusChange() {
     return (doDispatch, doGetState) => {
         const state = doGetState();
         const license = getLicense(state);
 
         // This event is fired when a user first joins the server, so refresh analytics to see if we're now over the user limit
-        if (license.Cloud === 'true') {
-            if (isCurrentUserSystemAdmin(state)) {
-                doDispatch(getStandardAnalytics());
-            }
-            doDispatch(getSubscriptionStats());
+        if (license.Cloud === 'true' && isCurrentUserSystemAdmin(state)
+        ) {
+            doDispatch(getStandardAnalytics());
         }
     };
 }

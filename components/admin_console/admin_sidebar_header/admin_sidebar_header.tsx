@@ -6,8 +6,6 @@ import {FormattedMessage} from 'react-intl';
 import {Client4} from 'mattermost-redux/client';
 import {UserProfile} from 'mattermost-redux/src/types/users';
 
-import * as Utils from 'utils/utils.jsx';
-
 import MenuIcon from 'components/widgets/icons/menu_icon';
 
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
@@ -54,7 +52,6 @@ export default class SidebarHeader extends React.PureComponent<Props> {
                     <button
                         type='button'
                         className='style--none'
-                        aria-label={Utils.localizeMessage('generic_icons.menu', 'Menu Icon')}
                     >
                         <MenuIcon className='menu-icon'/>
                     </button>

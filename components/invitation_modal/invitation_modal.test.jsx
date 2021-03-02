@@ -22,8 +22,6 @@ describe('components/invitation_modal/InvitationModal', () => {
         emailInvitationsEnabled: true,
         isFreeTierWithNoFreeSeats: false,
         isCloud: false,
-        userIsAdmin: false,
-        cloudUserLimit: '10',
         actions: {
             closeModal: jest.fn(),
             openModal: jest.fn(),

@@ -12,14 +12,12 @@
 
 describe('Channel Switcher', () => {
     let testTeam;
-    let testChannelName;
     const channelNamePrefix = 'aswitchchannel';
     const channelDisplayNamePrefix = 'ASwitchChannel';
 
     before(() => {
-        cy.apiInitSetup({channelPrefix: {name: `${channelNamePrefix}-a`, displayName: `${channelDisplayNamePrefix} A`}}).then(({team, channel, user}) => {
+        cy.apiInitSetup({channelPrefix: {name: `${channelNamePrefix}-a`, displayName: `${channelDisplayNamePrefix} A`}}).then(({team, user}) => {
             testTeam = team;
-            testChannelName = channel.display_name;
 
             // # Add some channels
             cy.apiCreateChannel(testTeam.id, `${channelNamePrefix}-b`, `${channelDisplayNamePrefix} B`, 'O');
@@ -38,17 +36,19 @@ describe('Channel Switcher', () => {
         // # Start typing channel name in the "Switch Channels" modal message box
         // # Use up/down arrow keys to highlight second channel
         // # Press ENTER
-        cy.findByRole('textbox', {name: 'quick switch input'}).
-            type(`${channelDisplayNamePrefix} `).
-            type('{downarrow}{downarrow}{enter}');
+        cy.findByRole('textbox', {name: 'quick switch input'}).as('quickSwitchInput');
+        cy.get('@quickSwitchInput').type(`${channelDisplayNamePrefix} `).type('{downarrow}').type('{downarrow}');
+        cy.get('.suggestion--selected').invoke('text').then((channelName) => {
+            cy.get('@quickSwitchInput').type('{enter}');
 
-        // * Expect channel title to match title
-        cy.get('#channelHeaderTitle').
-            should('be.visible').
-            and('contain.text', testChannelName);
+            // * Expect channel title to match title
+            cy.get('#channelHeaderTitle').
+                should('be.visible').
+                and('contain.text', channelName);
 
-        // * Expect url to match url
-        cy.url().should('contain', `${testChannelName.replace(/ /g, '-').toLowerCase()}`);
+            // * Expect url to match url
+            cy.url().should('contain', `${channelName.replace(/ /g, '-').toLowerCase()}`);
+        });
     });
 
     it('MM-T2031_2 - should switch channels by mouse', () => {

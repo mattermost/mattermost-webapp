@@ -19,11 +19,7 @@ export enum DafaultBtnText {
     Failed = 'Failed. Try again later.',
 }
 
-type Props = {
-    className?: string;
-}
-
-const NotifyLink = (props: Props): JSX.Element => {
+const NotifyLink = (): JSX.Element => {
     const [notifyStatus, setStatus] = useState(NotifyStatus.NotStarted);
     const {formatMessage} = useIntl();
 
@@ -55,7 +51,7 @@ const NotifyLink = (props: Props): JSX.Element => {
         <button
             disabled={notifyStatus !== NotifyStatus.NotStarted}
             onClick={() => notifyFunc()}
-            className={props.className ? props.className : 'btn-link'}
+            className='btn-link'
         >{btnText(notifyStatus)}</button>
     );
 };

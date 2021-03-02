@@ -49,10 +49,7 @@ describe('Team members test', () => {
         cy.get('#teamMembers').scrollIntoView().should('be.visible');
 
         // # Click the sync group members switch
-        cy.findByTestId('syncGroupSwitch').
-            scrollIntoView().
-            findByRole('button').
-            click({force: true});
+        cy.findByTestId('syncGroupSwitch').scrollIntoView().click();
 
         // * Assert that the members block is no longer visible
         cy.get('#teamMembers').should('not.be.visible');

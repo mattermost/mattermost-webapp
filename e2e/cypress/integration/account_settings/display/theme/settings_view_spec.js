@@ -10,7 +10,7 @@
 // Stage: @prod
 // Group: @account_setting
 
-describe('Account Settings Theme - Settings View', () => {
+describe('AS14318 Theme Colors - Settings View', () => {
     before(() => {
         // # Login as new user and visit town-square
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
@@ -18,17 +18,23 @@ describe('Account Settings Theme - Settings View', () => {
         });
     });
 
-    it('MM-T3855 Theme Display should render in min setting view', () => {
-        // # Go to Account Settings > Display
-        cy.uiOpenAccountSettingsModal('Display').within(() => {
-            // * Check that it changed into the Display section
-            cy.uiGetHeading('Display Settings').should('be.visible');
+    it('Theme Display should render in min setting view', () => {
+        // # Go to Account Settings
+        cy.toAccountSettingsModal();
 
-            // * Check the min setting view for each element that is present and contains the expected values
-            verifyMinDisplayView();
+        // * Check that the Display tab is loaded
+        cy.get('#displayButton').should('be.visible');
 
-            cy.uiClose();
-        });
+        // # Click the Display tab
+        cy.get('#displayButton').click();
+
+        // * Check that it changed into the Display section
+        cy.get('#displaySettingsTitle').should('be.visible').should('contain', 'Display Settings');
+
+        // * Check the min setting view for each element that is present and contains the expected values
+        verifyMinDisplayView();
+
+        cy.get('#accountSettingsHeader > .close').click();
     });
 });
 

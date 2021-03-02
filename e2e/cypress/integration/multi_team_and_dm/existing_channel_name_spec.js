@@ -64,7 +64,7 @@ function verifyExistingChannelError(newChannelName, makePrivate = false) {
     cy.get('@channelType').should('be.checked');
 
     // Type `newChannelName` in the input field for new channel
-    cy.get('#newChannelName').should('be.visible').click().type(newChannelName);
+    cy.get('#newChannelName').click().type(newChannelName);
     cy.wait(TIMEOUTS.HALF_SEC);
 
     // Click 'Create New Channel' button

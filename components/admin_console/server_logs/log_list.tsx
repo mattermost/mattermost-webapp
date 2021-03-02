@@ -38,6 +38,7 @@ export default class Logs extends React.PureComponent<Props, State> {
         const node = this.logPanel.current;
         if (node) {
             node.scrollTop = node.scrollHeight;
+            node.focus();
         }
     }
 

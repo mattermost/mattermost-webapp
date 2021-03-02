@@ -18,6 +18,7 @@ function mapStateToProps(state) {
         config: getConfig(state),
         license: getLicense(state),
         roles: getRoles(state),
+        rolesRequest: state.requests.roles.getRolesByNames,
     };
 }
 

@@ -1,18 +1,17 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {RefObject} from 'react';
+import PropTypes from 'prop-types';
+import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {Groups} from 'mattermost-redux/constants';
 
-import {Group, GroupsWithCount, SyncablePatch, SyncableType} from 'mattermost-redux/types/groups';
-
 import Constants from 'utils/constants';
 import {localizeMessage} from 'utils/utils.jsx';
 
-import MultiSelect, {Value} from 'components/multiselect/multiselect';
+import MultiSelect from 'components/multiselect/multiselect';
 import groupsAvatar from 'images/groups-avatar.png';
 import AddIcon from 'components/widgets/icons/fa_add_icon';
 import Nbsp from 'components/html_entities/nbsp';
@@ -20,44 +19,28 @@ import Nbsp from 'components/html_entities/nbsp';
 const GROUPS_PER_PAGE = 50;
 const MAX_SELECTABLE_VALUES = 10;
 
-type GroupValue = Value & {member_count?: number};
+export default class AddGroupsToTeamModal extends React.PureComponent {
+    static propTypes = {
+        currentTeamName: PropTypes.string.isRequired,
+        currentTeamId: PropTypes.string.isRequired,
+        searchTerm: PropTypes.string.isRequired,
+        groups: PropTypes.array.isRequired,
 
-type Props = {
-    currentTeamName: string;
-    currentTeamId: string;
-    searchTerm: string;
-    groups: Group[];
+        // used in tandem with 'skipCommit' to allow using this component without performing actual linking
+        excludeGroups: PropTypes.arrayOf(PropTypes.object),
+        includeGroups: PropTypes.arrayOf(PropTypes.object),
+        onHide: PropTypes.func,
+        skipCommit: PropTypes.bool,
+        onAddCallback: PropTypes.func,
+        actions: PropTypes.shape({
+            getGroupsNotAssociatedToTeam: PropTypes.func.isRequired,
+            setModalSearchTerm: PropTypes.func.isRequired,
+            linkGroupSyncable: PropTypes.func.isRequired,
+            getAllGroupsAssociatedToTeam: PropTypes.func.isRequired,
+        }).isRequired,
+    }
 
-    // used in tandem with 'skipCommit' to allow using this component without performing actual linking
-    excludeGroups?: Group[];
-    includeGroups?: Group[];
-    onHide?: () => void;
-    skipCommit?: boolean;
-    onAddCallback?: (groupIDs: string[]) => void;
-    actions: Actions;
-}
-
-export type Actions = {
-    getGroupsNotAssociatedToTeam: (teamID: string, q?: string, page?: number, perPage?: number) => Promise<{ data: Group[] } | { error: Error }>;
-    setModalSearchTerm: (term: string) => void;
-    linkGroupSyncable: (groupID: string, syncableID: string, syncableType: SyncableType, patch: SyncablePatch) => Promise<{ data?: boolean; error?: Error }>;
-    getAllGroupsAssociatedToTeam: (teamID: string, filterAllowReference: boolean, includeMemberCount: boolean) => Promise<{ data: GroupsWithCount } | { error: Error }>;
-};
-
-type State = {
-    values: GroupValue[];
-    show: boolean;
-    search: boolean;
-    saving: boolean;
-    addError: null | string;
-    loadingGroups: boolean;
-}
-
-export default class AddGroupsToTeamModal extends React.PureComponent<Props, State> {
-    private searchTimeoutId: number;
-    private readonly selectedItemRef: RefObject<HTMLDivElement>;
-
-    constructor(props: Props) {
+    constructor(props) {
         super(props);
 
         this.searchTimeoutId = 0;
@@ -74,7 +57,7 @@ export default class AddGroupsToTeamModal extends React.PureComponent<Props, Sta
         this.selectedItemRef = React.createRef();
     }
 
-    public componentDidMount() {
+    componentDidMount() {
         Promise.all([
             this.props.actions.getGroupsNotAssociatedToTeam(this.props.currentTeamId, '', 0, GROUPS_PER_PAGE + 1),
             this.props.actions.getAllGroupsAssociatedToTeam(this.props.currentTeamId, false, true),
@@ -83,7 +66,7 @@ export default class AddGroupsToTeamModal extends React.PureComponent<Props, Sta
         });
     }
 
-    public componentDidUpdate(prevProps: Props) {
+    componentDidUpdate(prevProps) {
         if (this.props.searchTerm !== prevProps.searchTerm) {
             clearTimeout(this.searchTimeoutId);
 
@@ -92,7 +75,7 @@ export default class AddGroupsToTeamModal extends React.PureComponent<Props, Sta
                 return;
             }
 
-            this.searchTimeoutId = window.setTimeout(
+            this.searchTimeoutId = setTimeout(
                 async () => {
                     this.setGroupsLoadingState(true);
                     await this.props.actions.getGroupsNotAssociatedToTeam(this.props.currentTeamId, searchTerm);
@@ -103,20 +86,18 @@ export default class AddGroupsToTeamModal extends React.PureComponent<Props, Sta
         }
     }
 
-    private handleHide = () => {
+    handleHide = () => {
         this.props.actions.setModalSearchTerm('');
         this.setState({show: false});
     }
 
-    // public for tests
-    public handleExit = (): void => {
+    handleExit = () => {
         if (this.props.onHide) {
             this.props.onHide();
         }
     }
 
-    // public for tests
-    public handleResponse = (err?: Error): void => {
+    handleResponse = (err) => {
         let addError = null;
         if (err && err.message) {
             addError = err.message;
@@ -128,7 +109,11 @@ export default class AddGroupsToTeamModal extends React.PureComponent<Props, Sta
         });
     }
 
-    private handleSubmit = async () => {
+    handleSubmit = async (e) => {
+        if (e) {
+            e.preventDefault();
+        }
+
         const groupIDs = this.state.values.map((v) => v.id);
         if (groupIDs.length === 0) {
             return;
@@ -144,7 +129,7 @@ export default class AddGroupsToTeamModal extends React.PureComponent<Props, Sta
         this.setState({saving: true});
 
         groupIDs.forEach(async (groupID) => {
-            const {error} = await this.props.actions.linkGroupSyncable(groupID, this.props.currentTeamId, Groups.SYNCABLE_TYPE_TEAM, {auto_add: true, scheme_admin: false});
+            const {error} = await this.props.actions.linkGroupSyncable(groupID, this.props.currentTeamId, Groups.SYNCABLE_TYPE_TEAM, {auto_add: true});
             this.handleResponse(error);
             if (!error) {
                 this.handleHide();
@@ -152,9 +137,8 @@ export default class AddGroupsToTeamModal extends React.PureComponent<Props, Sta
         });
     }
 
-    // public for tests
-    public addValue = (value: GroupValue): void => {
-        const values = Object.assign<GroupValue[], GroupValue[]>([], this.state.values);
+    addValue = (value) => {
+        const values = Object.assign([], this.state.values);
         const userIds = values.map((v) => v.id);
         if (value && value.id && userIds.indexOf(value.id) === -1) {
             values.push(value);
@@ -163,14 +147,13 @@ export default class AddGroupsToTeamModal extends React.PureComponent<Props, Sta
         this.setState({values});
     }
 
-    private setGroupsLoadingState = (loadingState: boolean) => {
+    setGroupsLoadingState = (loadingState) => {
         this.setState({
             loadingGroups: loadingState,
         });
     }
 
-    // public for tests
-    public handlePageChange = (page: number, prevPage: number): void => {
+    handlePageChange = (page, prevPage) => {
         if (page > prevPage) {
             this.setGroupsLoadingState(true);
             this.props.actions.getGroupsNotAssociatedToTeam(this.props.currentTeamId, this.props.searchTerm, page, GROUPS_PER_PAGE + 1).then(() => {
@@ -179,14 +162,15 @@ export default class AddGroupsToTeamModal extends React.PureComponent<Props, Sta
         }
     }
 
-    // public for tests
-    public handleDelete = (values: GroupValue[]): void => this.setState({values});
+    handleDelete = (values) => {
+        this.setState({values});
+    }
 
-    // public for tests
-    public search = (term: string): void => this.props.actions.setModalSearchTerm(term);
+    search = (term) => {
+        this.props.actions.setModalSearchTerm(term);
+    }
 
-    // public for tests
-    public renderOption = (option: GroupValue, isSelected: boolean, onAdd: (value: GroupValue) => void, onMouseMove: (value: GroupValue) => void): JSX.Element => {
+    renderOption = (option, isSelected, onAdd, onMouseMove) => {
         const rowSelected = isSelected ? 'more-modal__row--selected' : '';
 
         return (
@@ -228,10 +212,11 @@ export default class AddGroupsToTeamModal extends React.PureComponent<Props, Sta
         );
     }
 
-    // public for tests
-    public renderValue = (props: { data: Value }): string | undefined => props.data.display_name;
+    renderValue(props) {
+        return props.data.display_name;
+    }
 
-    public render(): JSX.Element {
+    render() {
         const numRemainingText = (
             <div id='numGroupsRemaining'>
                 <FormattedMessage
@@ -249,27 +234,21 @@ export default class AddGroupsToTeamModal extends React.PureComponent<Props, Sta
 
         let addError = null;
         if (this.state.addError) {
-            addError = (
-                <div className='has-error col-sm-12'>
-                    <label className='control-label font-weight--normal'>
-                        {this.state.addError}
-                    </label>
-                </div>
-            );
+            addError = (<div className='has-error col-sm-12'><label className='control-label font-weight--normal'>{this.state.addError}</label></div>);
         }
 
         let groupsToShow = this.props.groups;
         if (this.props.excludeGroups) {
-            const hasGroup = (og: Group) => !this.props.excludeGroups?.find((g) => g.id === og.id);
+            const hasGroup = (og) => !this.props.excludeGroups.find((g) => g.id === og.id);
             groupsToShow = groupsToShow.filter(hasGroup);
         }
         if (this.props.includeGroups) {
-            const hasGroup = (og: Group) => this.props.includeGroups?.find((g) => g.id === og.id);
+            const hasGroup = (og) => this.props.includeGroups.find((g) => g.id === og.id);
             groupsToShow = [...groupsToShow, ...this.props.includeGroups.filter(hasGroup)];
         }
 
-        const groupsOptionsToShow = groupsToShow.map((group) => {
-            return {...group, label: group.display_name, value: group.id};
+        groupsToShow = groupsToShow.map((group) => {
+            return {label: group.display_name, value: group.id, ...group};
         });
 
         return (
@@ -297,7 +276,7 @@ export default class AddGroupsToTeamModal extends React.PureComponent<Props, Sta
                     {addError}
                     <MultiSelect
                         key='addGroupsToTeamKey'
-                        options={groupsOptionsToShow}
+                        options={groupsToShow}
                         optionRenderer={this.renderOption}
                         selectedItemRef={this.selectedItemRef}
                         values={this.state.values}

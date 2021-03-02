@@ -1,9 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect} from 'react';
+import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {Client4} from 'mattermost-redux/client';
 
 import computerWithAlert from 'images/cloud/computer-with-alert.svg';
 import mattermostCloud from 'images/cloud/mattermost-cloud.svg';
@@ -11,10 +10,6 @@ import wavesBackground from 'images/cloud/waves.svg';
 import blueDots from 'images/cloud/blue.svg';
 
 const WorkspaceUserLimitReached: React.FC = () => {
-    useEffect(() => {
-        Client4.sendAdminUpgradeRequestEmailOnJoin();
-    }, []);
-
     return (
         <div className='ErrorPage__container_max_free_users'>
             <header className='ErrorPage__mattermostCloudImg'>

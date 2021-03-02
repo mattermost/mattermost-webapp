@@ -79,11 +79,6 @@ export default class PDFPreview extends React.PureComponent {
         }
         if (this.props.scale !== prevProps.scale) {
             this.pdfPagesRendered = {};
-            if (this.state.success) {
-                for (let i = 0; i < this.state.numPages; i++) {
-                    this.renderPDFPage(i);
-                }
-            }
         }
 
         if (!prevState.success && this.state.success) {

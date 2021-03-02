@@ -3,7 +3,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import PopoverBar from 'components/view_image/popover_bar/popover_bar';
+import PopoverBar from 'components/view_image/popover_bar/popover_bar.jsx';
 
 describe('components/view_image/popover_bar/PopoverBar', () => {
     const defaultProps = {

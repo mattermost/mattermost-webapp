@@ -57,7 +57,6 @@ describe('components/widgets/settings/TextSetting', () => {
             <textarea
               className="form-control"
               data-testid="string.idinput"
-              dir="auto"
               id="string.id"
               maxLength={-1}
               onChange={[Function]}

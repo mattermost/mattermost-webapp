@@ -31,7 +31,6 @@ export type StepType = {
     id: string;
     title: string;
     component: React.ComponentType<StepComponentProps>;
-    visible: boolean;
 
     // An array of all roles a user must have in order to see the step e.g. admins are both system_admin and system_user
     // so you would require ['system_admin','system_user'] to match.
@@ -48,7 +47,6 @@ export const Steps: StepType[] = [
         ),
         component: CompleteProfileStep,
         roles: [],
-        visible: true,
     },
     {
         id: RecommendedNextSteps.TEAM_SETUP,
@@ -58,7 +56,15 @@ export const Steps: StepType[] = [
         ),
         roles: ['system_admin', 'system_user'],
         component: TeamProfileStep,
-        visible: true,
+    },
+    {
+        id: RecommendedNextSteps.INVITE_MEMBERS,
+        title: localizeMessage(
+            'next_steps_view.titles.inviteMembers',
+            'Invite members to the team',
+        ),
+        roles: ['system_admin', 'system_user'],
+        component: InviteMembersStep,
     },
     {
         id: RecommendedNextSteps.NOTIFICATION_SETUP,
@@ -68,7 +74,6 @@ export const Steps: StepType[] = [
         ),
         roles: ['system_user'],
         component: EnableNotificationsStep,
-        visible: true,
     },
     {
         id: RecommendedNextSteps.PREFERENCES_SETUP,
@@ -78,17 +83,6 @@ export const Steps: StepType[] = [
         ),
         roles: ['system_user'],
         component: SetupPreferencesStep,
-        visible: false,
-    },
-    {
-        id: RecommendedNextSteps.INVITE_MEMBERS,
-        title: localizeMessage(
-            'next_steps_view.titles.inviteMembers',
-            'Invite members to the team',
-        ),
-        roles: [],
-        component: InviteMembersStep,
-        visible: true,
     },
 ];
 
@@ -121,7 +115,7 @@ export const getSteps = createSelector(
             roles = 'system_user';
         }
         return Steps.filter((step) =>
-            isStepForUser(step, roles) && step.visible,
+            isStepForUser(step, roles),
         );
     },
 );

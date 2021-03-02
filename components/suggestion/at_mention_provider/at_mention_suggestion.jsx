@@ -173,7 +173,7 @@ export default class AtMentionSuggestion extends Suggestion {
                         className='badge-autocomplete'
                     />
                     {customStatus}
-                    <span className='light ml-2'>
+                    <span className='light'>
                         {description}
                         {youElement}
                     </span>

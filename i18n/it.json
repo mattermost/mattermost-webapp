@@ -3909,6 +3909,7 @@
   "user.settings.sidebar.unreadsFavoritesShort": "Non letti e preferiti raggruppati separatamente",
   "user.settings.sidebar.unreadsShort": "Non letti raggruppati separatamente",
   "user.settings.timezones.automatic": "Imposta automaticamente",
+  "user.settings.timezones.change": "Cambia fuso orario",
   "user.settings.timezones.promote": "Seleziona il fuso orario utilizzato per le ore nell'interfaccia utente e nelle notifiche email.",
   "user.settings.tokens.activate": "Attiva",
   "user.settings.tokens.cancel": "Annulla",

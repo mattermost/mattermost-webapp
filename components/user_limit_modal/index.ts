@@ -3,7 +3,7 @@
 import {connect} from 'react-redux';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+import {getMyTeamMember} from 'mattermost-redux/selectors/entities/teams';
 
 import {bindActionCreators, Dispatch} from 'redux';
 
@@ -19,12 +19,18 @@ import {closeModal, openModal} from 'actions/views/modals';
 
 import UserLimitModal from './user_limit_modal';
 
-function mapStateToProps(state: GlobalState) {
-    const config = getConfig(state);
+type OwnProps = {
+    currentTeamId: string;
+};
+
+function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     return {
-        userIsAdmin: isAdmin(getCurrentUser(state).roles),
+        userLimit: getConfig(state).ExperimentalCloudUserLimit,
+        currentUsers: state.entities.admin.analytics!.TOTAL_USERS,
+        userIsAdmin: isAdmin(
+            getMyTeamMember(state, ownProps.currentTeamId).roles,
+        ),
         show: isModalOpen(state, ModalIdentifiers.UPGRADE_CLOUD_ACCOUNT),
-        cloudUserLimit: config.ExperimentalCloudUserLimit || '10',
     };
 }
 

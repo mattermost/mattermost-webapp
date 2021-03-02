@@ -47,7 +47,6 @@ exports[`components/GetLinkModal should have called onHide 1`] = `
   >
     <textarea
       className="form-control no-resize min-height"
-      dir="auto"
       id="linkModalTextArea"
       onClick={[Function]}
       readOnly={true}
@@ -141,7 +140,6 @@ exports[`components/GetLinkModal should have called onHide 2`] = `
   >
     <textarea
       className="form-control no-resize min-height"
-      dir="auto"
       id="linkModalTextArea"
       onClick={[Function]}
       readOnly={true}
@@ -231,7 +229,6 @@ exports[`components/GetLinkModal should match snapshot when all props is set 1`]
     </p>
     <textarea
       className="form-control no-resize min-height"
-      dir="auto"
       id="linkModalTextArea"
       onClick={[Function]}
       readOnly={true}
@@ -316,7 +313,6 @@ exports[`components/GetLinkModal should match snapshot when helpText is not set 
   >
     <textarea
       className="form-control no-resize min-height"
-      dir="auto"
       id="linkModalTextArea"
       onClick={[Function]}
       readOnly={true}

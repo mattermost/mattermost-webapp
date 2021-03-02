@@ -57,7 +57,7 @@ describe('Messaging', () => {
             cy.postMessageReplyInRHS('def');
 
             // # Change channel
-            cy.uiGetLhsSection('CHANNELS').findByText('Town Square').click().then(() => {
+            cy.get('#sidebarItem_town-square').click({force: true}).then(() => {
                 // # Close all sockets
                 window.mockWebsockets.forEach((value) => {
                     if (value.close) {
@@ -83,12 +83,7 @@ describe('Messaging', () => {
                     });
 
                     // # Wait for sockets to be connected
-                    cy.wait(TIMEOUTS.THREE_SEC);
-                    cy.uiGetLhsSection('CHANNELS').findByText('Off-Topic').click();
-                    cy.postMessage('any');
-                    cy.uiGetLhsSection('CHANNELS').findByText('Town Square').click();
-                    cy.postMessage('any');
-                    cy.wait(TIMEOUTS.THREE_SEC);
+                    cy.wait(TIMEOUTS.TEN_SEC);
 
                     // * Verify that both "def" and "ghi" are posted on websocket reconnect
                     cy.get('#rhsPostList').should('be.visible').children().should('have.length', 2);

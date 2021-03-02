@@ -343,7 +343,6 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
                       aria-label="message"
                       className="form-control"
                       data-testid="autoResponderMessageInput"
-                      dir="auto"
                       height={0}
                       id="autoResponderMessageInput"
                       maxLength={200}
@@ -368,7 +367,6 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
                       <textarea
                         aria-hidden={true}
                         className="form-control"
-                        dir="auto"
                         disabled={true}
                         id="autoResponderMessageInput-reference"
                         maxLength={200}
