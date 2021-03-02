@@ -32,6 +32,7 @@ import Badge from 'components/widgets/badges/badge';
 import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 import PostPreHeader from 'components/post_view/post_pre_header';
 import UserProfile from 'components/user_profile';
+import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 
 class RhsComment extends React.PureComponent {
     static propTypes = {
@@ -132,6 +133,11 @@ class RhsComment extends React.PureComponent {
         if (shortcutReactToLastPostEmittedFromRHS) {
             // Opening the emoji picker when more than one post in rhs is present
             this.handleShortcutReactToLastPost(isLastPost);
+        }
+
+        if (this.props.post.state === Posts.POST_DELETED && prevProps.post.state !== Posts.POST_DELETED) {
+            // ensure deleted message content does not remain in stale aria-label
+            this.updateAriaLabel();
         }
     }
 
@@ -276,6 +282,10 @@ class RhsComment extends React.PureComponent {
     }
 
     handlePostFocus = () => {
+        this.updateAriaLabel();
+    }
+
+    updateAriaLabel = () => {
         const {post, author, reactions, isFlagged, intl, emojiMap} = this.props;
         this.setState({currentAriaLabel: PostUtils.createAriaLabelForPost(post, author, isFlagged, reactions, intl, emojiMap)});
     }
@@ -522,6 +532,21 @@ class RhsComment extends React.PureComponent {
             );
         }
 
+        let customStatus;
+        if (!isSystemMessage) {
+            customStatus = (
+                <CustomStatusEmoji
+                    userID={post.user_id}
+                    showTooltip={true}
+                    emojiSize={14}
+                    emojiStyle={{
+                        marginLeft: 4,
+                        marginTop: 1,
+                    }}
+                />
+            );
+        }
+
         return (
             <div
                 role='listitem'
@@ -556,6 +581,7 @@ class RhsComment extends React.PureComponent {
                             <div className='col col__name'>
                                 {userProfile}
                                 {botIndicator}
+                                {customStatus}
                             </div>
                             <div className='col'>
                                 {postTime}

@@ -370,7 +370,7 @@
 .post-create__container {
     @include flex(0 0 auto);
     width: 100%;
-    z-index: 10;
+    z-index: 12;
 
     label {
         font-weight: normal;
@@ -1940,6 +1940,14 @@
     .post-collapse__gradient, .post-attachment-collapse__gradient {
         height: 0;
     }
+}
+
+.post-message__text {
+    text-align: left;
+}
+
+.post-message__text > ul, .post-code, .table-responsive {
+    direction: ltr;
 }
 
 .file-attachment-menu-item-input {

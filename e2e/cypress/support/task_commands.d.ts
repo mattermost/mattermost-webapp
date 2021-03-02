@@ -15,7 +15,7 @@
 // ***************************************************************
 
 declare namespace Cypress {
-    interface Chainable<Subject = any> {
+    interface Chainable {
 
         /**
          * externalRequest is a task which is wrapped as command with post-verification
