@@ -48,7 +48,79 @@
     "system_read_only_admin": "none"
   },
   {
-    "section": "environment",
+    "section": "environment.web_server",
+    "system_manager": "read+write",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "environment.database",
+    "system_manager": "read+write",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "environment.elasticsearch",
+    "system_manager": "read+write",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "environment.file_storage",
+    "system_manager": "read+write",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "environment.image_proxy",
+    "system_manager": "read+write",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "environment.smtp",
+    "system_manager": "read+write",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "environment.push_notification_server",
+    "system_manager": "read+write",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "environment.high_availability",
+    "system_manager": "read+write",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "environment.rate_limiting",
+    "system_manager": "read+write",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "environment.logging",
+    "system_manager": "read+write",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "environment.session_lengths",
+    "system_manager": "read+write",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "environment.metrics",
+    "system_manager": "read+write",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "environment.developer",
     "system_manager": "read+write",
     "system_user_manager": "none",
     "system_read_only_admin": "read"

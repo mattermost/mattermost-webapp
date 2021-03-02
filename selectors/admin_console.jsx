@@ -39,6 +39,14 @@ export const getConsoleAccess = createSelector(
                 ['users', 'groups', 'teams', 'channels', 'permissions', 'system_roles'].forEach((userManagementKey) => {
                     addEntriesForKey(`${key}.${userManagementKey}`);
                 });
+            } else if (key === 'environment') {
+                for (const environmentKey of [
+                        'web_server', 'database', 'elasticsearch', 'file_storage', 'image_proxy',
+                        'smtp', 'push_notification_server', 'high_availability', 'rate_limiting',
+                        'logging', 'session_lengths', 'performance_monitoring', 'developer'
+                    ]) {
+                    addEntriesForKey(`${key}.${environmentKey}`);
+                }
             } else {
                 addEntriesForKey(key);
             }

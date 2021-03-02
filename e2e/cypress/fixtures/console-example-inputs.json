@@ -33,11 +33,119 @@
         "disabledInputs": []
     },
     {
-        "section": "environment",
+        "section": "environment.web_server",
         "disabledInputs": [
             {
                 "path": "/admin_console/environment/web_server",
                 "selector": "ServiceSettings.ListenAddressinput"
+            }
+        ]
+    },
+    {
+        "section": "environment.database",
+        "disabledInputs": [
+            {
+                "path": "/admin_console/environment/database",
+                "selector": "maxIdleConns"
+            }
+        ]
+    },
+    {
+        "section": "environment.elasticsearch",
+        "disabledInputs": [
+            {
+                "path": "/admin_console/environment/elasticsearch",
+                "selector": "enableIndexingtrue"
+            }
+        ]
+    },
+    {
+        "section": "environment.file_storage",
+        "disabledInputs": [
+            {
+                "path": "/admin_console/environment/file_storage",
+                "selector": "FileSettings.DriverName"
+            }
+        ]
+    },
+    {
+        "section": "environment.image_proxy",
+        "disabledInputs": [
+            {
+                "path": "/admin_console/environment/image_proxy",
+                "selector": "ImageProxySettings.Enabletrue"
+            }
+        ]
+    },
+    {
+        "section": "environment.smtp",
+        "disabledInputs": [
+            {
+                "path": "/admin_console/environment/smtp",
+                "selector": "EmailSettings.SMTPServer"
+            }
+        ]
+    },
+    {
+        "section": "environment.push_notification_server",
+        "disabledInputs": [
+            {
+                "path": "/admin_console/environment/push_notification_server",
+                "selector": "pushNotificationServerType"
+            }
+        ]
+    },
+    {
+        "section": "environment.high_availability",
+        "disabledInputs": [
+            {
+                "path": "/admin_console/environment/high_availability",
+                "selector": "Enabletrue"
+            }
+        ]
+    },
+    {
+        "section": "environment.rate_limiting",
+        "disabledInputs": [
+            {
+                "path": "/admin_console/environment/rate_limiting",
+                "selector": "RateLimitSettings.Enabletrue"
+            }
+        ]
+    },
+    {
+        "section": "environment.logging",
+        "disabledInputs": [
+            {
+                "path": "/admin_console/environment/logging",
+                "selector": "LogSettings.ConsoleLevel"
+            }
+        ]
+    },
+    {
+        "section": "environment.session_lengths",
+        "disabledInputs": [
+            {
+                "path": "/admin_console/environment/session_lengths",
+                "selector": "sessionLengthWebInDays"
+            }
+        ]
+    },
+    {
+        "section": "environment.metrics",
+        "disabledInputs": [
+            {
+                "path": "/admin_console/environment/metrics",
+                "selector": "MetricsSettings.ListenAddress"
+            }
+        ]
+    },
+    {
+        "section": "environment.developer",
+        "disabledInputs": [
+            {
+                "path": "/admin_console/environment/developer",
+                "selector": "ServiceSettings.EnableTestingtrue"
             }
         ]
     },
