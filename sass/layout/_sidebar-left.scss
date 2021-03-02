@@ -1089,15 +1089,11 @@
         }
     }
 
-    .SidebarChannelLinkLabel_wrapper {
+    .SidebarChannelLinkLabel_wrapper,
+    .SidebarChannelLinkLabel_wrapper > div {
         overflow: hidden;
         display: flex;
         flex-grow: 1;
-
-        > span {
-            text-overflow: ellipsis;
-            overflow: hidden;
-        }
     }
 
     /* .SidebarChannel__absolute {

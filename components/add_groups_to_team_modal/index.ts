@@ -2,16 +2,27 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 import {getGroupsNotAssociatedToTeam, linkGroupSyncable, getAllGroupsAssociatedToTeam} from 'mattermost-redux/actions/groups';
 import {getGroupsNotAssociatedToTeam as selectGroupsNotAssociatedToTeam} from 'mattermost-redux/selectors/entities/groups';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
+import {Team} from 'mattermost-redux/types/teams';
+import {Group} from 'mattermost-redux/types/groups';
+import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 
 import {setModalSearchTerm} from 'actions/views/search';
+import {GlobalState} from '../../types/store';
 
-import AddGroupsToTeamModal from './add_groups_to_team_modal';
+import AddGroupsToTeamModal, {Actions} from './add_groups_to_team_modal';
 
-function mapStateToProps(state, ownProps) {
+type Props = {
+    team?: Team;
+    skipCommit?: boolean;
+    onAddCallback?: (groupIDs: string[]) => void;
+    excludeGroups?: Group[];
+}
+
+function mapStateToProps(state: GlobalState, ownProps: Props) {
     const searchTerm = state.views.search.modalSearch;
 
     const team = ownProps.team || getCurrentTeam(state) || {};
@@ -33,9 +44,9 @@ function mapStateToProps(state, ownProps) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
-        actions: bindActionCreators({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc|GenericAction>, Actions>({
             getGroupsNotAssociatedToTeam,
             setModalSearchTerm,
             linkGroupSyncable,
