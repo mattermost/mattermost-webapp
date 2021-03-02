@@ -30,7 +30,8 @@ import LoadingScreen from 'components/loading_screen';
 import NoResultsIndicator from 'components/no_results_indicator';
 
 import {useThreadRouting} from '../hooks';
-import {ChatIllustrationImg, BalloonIllustrationImg} from '../common/graphics';
+import ChatIllustration from '../common/chat_illustration';
+import BalloonIllustration from '../common/balloon_illustration';
 
 import ThreadViewer from '../thread_viewer';
 
@@ -96,7 +97,7 @@ const GlobalThreads = () => {
                     ) : (
                         <NoResultsIndicator
                             expanded={true}
-                            iconGraphic={ChatIllustrationImg}
+                            iconGraphic={ChatIllustration}
                             title={formatMessage({
                                 id: 'globalThreads.noThreads.title',
                                 defaultMessage: 'No followed threads yet',
@@ -125,7 +126,7 @@ const GlobalThreads = () => {
                         {filter === 'unread' && !numUnread && isEmpty(unreadThreadIds) ? (
                             <NoResultsIndicator
                                 expanded={true}
-                                iconGraphic={BalloonIllustrationImg}
+                                iconGraphic={BalloonIllustration}
                                 title={formatMessage({
                                     id: 'globalThreads.threadList.noUnreadThreads',
                                     defaultMessage: 'No unread threads',
@@ -145,7 +146,7 @@ const GlobalThreads = () => {
                     ) : (
                         <NoResultsIndicator
                             expanded={true}
-                            iconGraphic={ChatIllustrationImg}
+                            iconGraphic={ChatIllustration}
                             title={formatMessage({
                                 id: 'globalThreads.threadPane.unselectedTitle',
                                 defaultMessage: '{numUnread, plural, =0 {Looks like you’re all caught up} other {Catch up on your threads}}',
