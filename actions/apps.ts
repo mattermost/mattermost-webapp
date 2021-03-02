@@ -6,7 +6,6 @@ import {Action, ActionFunc, DispatchFunc} from 'mattermost-redux/types/actions';
 import {AppCallResponse, AppCall, AppForm} from 'mattermost-redux/types/apps';
 import {AppCallTypes, AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 
-import {sendEphemeralPost} from 'actions/global_actions';
 import {openModal} from 'actions/views/modals';
 
 import AppsForm from 'components/apps_form';
@@ -14,33 +13,25 @@ import AppsForm from 'components/apps_form';
 import {ModalIdentifiers} from 'utils/constants';
 import {getSiteURL, shouldOpenInNewTab} from 'utils/url';
 import {browserHistory} from 'utils/browser_history';
-
-const ephemeral = (text: string, call?: AppCall) => sendEphemeralPost(text, (call && call.context.channel_id) || '', (call && call.context.root_id) || '');
+import {makeCallErrorResponse} from 'utils/apps';
+import {localizeAndFormatMessage, localizeMessage} from 'utils/utils';
+import {t} from 'utils/i18n';
 
 export function doAppCall<Res=unknown>(call: AppCall): ActionFunc {
     return async (dispatch: DispatchFunc) => {
         try {
             const res = await Client4.executeAppCall(call) as AppCallResponse<Res>;
-
             const responseType = res.type || AppCallResponseTypes.OK;
 
             switch (responseType) {
             case AppCallResponseTypes.OK:
-                if (res.markdown) {
-                    if (!call.context.channel_id) {
-                        return {data: res};
-                    }
-
-                    ephemeral(res.markdown, call);
-                }
                 return {data: res};
             case AppCallResponseTypes.ERROR:
                 return {data: res};
             case AppCallResponseTypes.FORM:
                 if (!res.form) {
-                    const errMsg = 'An error has occurred. Please contact the App developer. Details: Response type is `form`, but no form was included in response.';
-                    ephemeral(errMsg, call);
-                    return {data: res};
+                    const errMsg = localizeMessage('apps.error.responses.form.no_form', 'Response type is `form`, but no form was included in response.');
+                    return {data: makeCallErrorResponse(errMsg)};
                 }
 
                 if (call.type === AppCallTypes.SUBMIT) {
@@ -50,9 +41,13 @@ export function doAppCall<Res=unknown>(call: AppCall): ActionFunc {
                 return {data: res};
             case AppCallResponseTypes.NAVIGATE:
                 if (!res.url) {
-                    const errMsg = 'An error has occurred. Please contact the App developer. Details: Response type is `navigate`, but no url was included in response.';
-                    ephemeral(errMsg, call);
-                    return {data: res};
+                    const errMsg = localizeMessage('apps.error.responses.navigate.no_url', 'Response type is `navigate`, but no url was included in response.');
+                    return {data: makeCallErrorResponse(errMsg)};
+                }
+
+                if (call.type !== AppCallTypes.SUBMIT) {
+                    const errMsg = localizeMessage('apps.error.responses.navigate.no_submit', 'Response type is `navigate`, but the call was not a submission.');
+                    return {data: makeCallErrorResponse(errMsg)};
                 }
 
                 if (shouldOpenInNewTab(res.url, getSiteURL())) {
@@ -62,17 +57,17 @@ export function doAppCall<Res=unknown>(call: AppCall): ActionFunc {
 
                 browserHistory.push(res.url);
                 return {data: res};
+            default: {
+                const errMsg = localizeAndFormatMessage(
+                    t('apps.error.responses.unknown_type'),
+                    'App response type not supported. Response type: {type}.',
+                    {type: responseType});
+                return {data: makeCallErrorResponse(errMsg)};
             }
-            return {data: res};
+            }
         } catch (error) {
-            let msg = 'Received an unexpected error.';
-            if (error.message) {
-                msg = error.message;
-            }
-            ephemeral(msg, call);
-            return {data: {
-                error: msg,
-            }};
+            const errMsg = error.message || localizeMessage('apps.error.responses.unexpected_error', 'Received an unexpected error.');
+            return {data: makeCallErrorResponse(errMsg)};
         }
     };
 }

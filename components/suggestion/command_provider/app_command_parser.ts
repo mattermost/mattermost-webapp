@@ -34,6 +34,7 @@ import {GlobalState} from 'types/store';
 import {sendEphemeralPost} from 'actions/global_actions';
 import {doAppCall} from 'actions/apps';
 import * as Utils from 'utils/utils.jsx';
+import {t} from 'utils/i18n';
 
 const EXECUTE_CURRENT_COMMAND_ITEM_ID = Constants.Integrations.EXECUTE_CURRENT_COMMAND_ITEM_ID;
 
@@ -92,7 +93,7 @@ export class ParsedCommand {
     // matchBinding finds the closest matching command binding.
     matchBinding = async (commandBindings: AppBinding[], autocompleteMode = false): Promise<ParsedCommand> => {
         if (commandBindings.length === 0) {
-            return this.asError('no command bindings');
+            return this.asError(Utils.localizeMessage('apps.error.command.no_bindings', 'No command bindings.'));
         }
         let bindings = commandBindings;
 
@@ -106,7 +107,7 @@ export class ParsedCommand {
             switch (Number(this.state)) {
             case ParseState.Start: {
                 if (c !== '/') {
-                    return this.asError('command must start with a /');
+                    return this.asError(Utils.localizeMessage('apps.error.parser.no_slash_start', 'Command must start with a `/`.'));
                 }
                 this.i++;
                 this.incomplete = '';
@@ -176,13 +177,21 @@ export class ParsedCommand {
             }
 
             default: {
-                return this.asError('unreachable: unexpected state in matchBinding: ' + this.state);
+                return this.asError(Utils.localizeAndFormatMessage(
+                    t('apps.error.parser.unexpected_state'),
+                    'Unreachable: Unexpected state in matchBinding: `{state}`.',
+                    {state: this.state},
+                ));
             }
             }
         }
 
         if (!this.binding) {
-            return this.asError('"' + this.command + '": no match');
+            return this.asError(Utils.localizeAndFormatMessage(
+                t('apps.error.parser.no_match'),
+                '`{command}`: no match.',
+                {command: this.command},
+            ));
         }
 
         this.form = this.binding.form;
@@ -233,7 +242,11 @@ export class ParsedCommand {
                     // eslint-disable-next-line no-loop-func
                     const field = fields.find((f: AppField) => f.position === this.position);
                     if (!field) {
-                        return this.asError('command does not accept ' + this.position + ' positional arguments');
+                        return this.asError(Utils.localizeAndFormatMessage(
+                            t('apps.error.parser.no_argument_pos_x'),
+                            'Command does not accept {positionX} positional arguments.',
+                            {positionX: this.position},
+                        ));
                     }
                     this.field = field;
                     this.state = ParseState.StartValue;
@@ -288,7 +301,11 @@ export class ParsedCommand {
                 case '=': {
                     const field = fields.find((f) => f.label === this.incomplete.toLowerCase());
                     if (!field) {
-                        return this.asError('command does not accept flag ' + this.incomplete);
+                        return this.asError(Utils.localizeAndFormatMessage(
+                            t('apps.error.parser.unexpected_flag'),
+                            'Command does not accept flag `{flagName}`.',
+                            {flagName: this.incomplete},
+                        ));
                     }
                     this.state = ParseState.FlagValueSeparator;
                     this.field = field;
@@ -321,7 +338,7 @@ export class ParsedCommand {
                 }
                 case '=': {
                     if (flagEqualsUsed) {
-                        return this.asError('multiple = signs are not allowed');
+                        return this.asError(Utils.localizeMessage('apps.error.parser.multiple_equal', 'Multiple `=` signs are not allowed.'));
                     }
                     flagEqualsUsed = true;
                     this.i++;
@@ -350,7 +367,7 @@ export class ParsedCommand {
                 }
                 case ' ':
                 case '\t':
-                    return this.asError('unreachable: unexpected whitespace');
+                    return this.asError(Utils.localizeMessage('apps.error.parser.unexpected_whitespace', 'Unreachable: Unexpected whitespace.'));
                 default: {
                     this.state = ParseState.NonspaceValue;
                     break;
@@ -380,7 +397,7 @@ export class ParsedCommand {
                 switch (c) {
                 case '': {
                     if (!autocompleteMode) {
-                        return this.asError('matching double quote expected before end of input');
+                        return this.asError(Utils.localizeMessage('apps.error.parser.missing_quote', 'Matching double quote expected before end of input.'));
                     }
                     return this;
                 }
@@ -414,7 +431,7 @@ export class ParsedCommand {
                 switch (c) {
                 case '': {
                     if (!autocompleteMode) {
-                        return this.asError('matching tick quote expected before end of input');
+                        return this.asError(Utils.localizeMessage('apps.error.parser.missing_tick', 'Matching tick quote expected before end of input.'));
                     }
                     return this;
                 }
@@ -437,7 +454,7 @@ export class ParsedCommand {
 
             case ParseState.EndValue: {
                 if (!this.field) {
-                    return this.asError('field value expected');
+                    return this.asError(Utils.localizeMessage('apps.error.parser.missing_field_value', 'Field value Expected.'));
                 }
 
                 // special handling for optional BOOL values ('--boolflag true'
@@ -472,12 +489,14 @@ export class ParsedCommand {
 export class AppCommandParser {
     private store: Store<GlobalState>;
     private rootPostID: string;
+    private channelID: string;
 
     forms: {[location: string]: AppForm} = {};
 
-    constructor(store: Store, rootPostID = '') {
+    constructor(store: Store, channelID: string, rootPostID = '') {
         this.store = store;
         this.rootPostID = rootPostID;
+        this.channelID = channelID;
     }
 
     // composeCallFromCommand creates the form submission call
@@ -486,7 +505,7 @@ export class AppCommandParser {
 
         const commandBindings = this.getCommandBindings();
         if (!commandBindings) {
-            this.displayError('no command bindings');
+            this.displayError(Utils.localizeMessage('apps.error.command.no_bindings', 'No command bindings.'));
             return null;
         }
 
@@ -500,7 +519,10 @@ export class AppCommandParser {
         const missing = this.getMissingFields(parsed);
         if (missing.length > 0) {
             const missingStr = missing.map((f) => f.label).join(', ');
-            this.displayError('Required fields missing: ' + missingStr);
+            this.displayError(Utils.localizeAndFormatMessage(
+                t('apps.error.command.field_missing'),
+                'Required fields missing: `{fieldName}`.',
+                {fieldName: missingStr}));
             return null;
         }
 
@@ -710,25 +732,32 @@ export class AppCommandParser {
             },
         };
 
-        let callResponse: AppCallResponse | undefined;
-        try {
-            const res = await this.store.dispatch(doAppCall(payload) as any) as {data?: AppCallResponse; error?: Error};
-            if (res.error) {
-                this.displayError(res.error);
-                return undefined;
-            }
-            callResponse = res.data;
-            if (callResponse?.type === AppCallResponseTypes.ERROR) {
-                const errorMessage = callResponse.error || 'Unknown error.';
-                this.displayError(errorMessage);
-                return undefined;
-            }
-        } catch (e) {
-            this.displayError(e);
+        const res = await this.store.dispatch(doAppCall(payload) as any) as {data: AppCallResponse};
+        const callResponse = res.data;
+        switch (callResponse.type) {
+        case AppCallResponseTypes.FORM:
+            break;
+        case AppCallResponseTypes.ERROR:
+            this.displayError(callResponse.error || Utils.localizeMessage('apps.error.unknown', 'Unknown error.'));
+            return undefined;
+        case AppCallResponseTypes.NAVIGATE:
+        case AppCallResponseTypes.OK:
+            this.displayError(Utils.localizeAndFormatMessage(
+                t('apps.error.responses.unexpected_type'),
+                'App response type was not expected. Response type: {type}',
+                {type: callResponse.type},
+            ));
+            return undefined;
+        default:
+            this.displayError(Utils.localizeAndFormatMessage(
+                t('apps.error.responses.unknown_type'),
+                'App response type not supported. Response type: {type}.',
+                {type: callResponse.type},
+            ));
             return undefined;
         }
 
-        return callResponse?.form;
+        return callResponse.form;
     }
 
     getForm = async (location: string, binding: AppBinding): Promise<AppForm | undefined> => {
@@ -750,7 +779,7 @@ export class AppCommandParser {
         if (err.message) {
             errStr = err.message;
         }
-        sendEphemeralPost(errStr, '', '');
+        sendEphemeralPost(errStr, this.channelID, this.rootPostID);
 
         // TODO display error under the command line
     }
@@ -940,16 +969,31 @@ export class AppCommandParser {
         payload.values = values;
 
         type ResponseType = {items: AppSelectOption[]};
-        let res: {data?: AppCallResponse<ResponseType>; error?: any};
-        try {
-            res = await this.store.dispatch(doAppCall<ResponseType>(payload) as any);
-        } catch (e) {
-            return [{suggestion: `Error: ${e.message}`}];
+        const res = await this.store.dispatch(doAppCall(payload) as any) as {data: AppCallResponse<ResponseType>};
+        const callResponse = res.data;
+        switch (callResponse.type) {
+        case AppCallResponseTypes.OK:
+            break;
+        case AppCallResponseTypes.ERROR:
+            return makeSuggestionError(callResponse.error || Utils.localizeMessage('apps.error.unknown', 'Unknown error.'));
+        case AppCallResponseTypes.NAVIGATE:
+        case AppCallResponseTypes.FORM:
+            return makeSuggestionError(Utils.localizeAndFormatMessage(
+                t('apps.error.responses.unexpected_type'),
+                'App response type was not expected. Response type: {type}',
+                {type: callResponse.type},
+            ));
+        default:
+            return makeSuggestionError(Utils.localizeAndFormatMessage(
+                t('apps.error.responses.unknown_type'),
+                'App response type not supported. Response type: {type}.',
+                {type: callResponse.type},
+            ));
         }
 
         const items = res?.data?.data?.items;
         if (!items) {
-            return [{suggestion: 'Received no data for dynamic suggestions'}];
+            return [{suggestion: Utils.localizeMessage('apps.suggestion.no_dynamic', 'Received no data for dynamic suggestions')}];
         }
 
         return items.map((s): AutocompleteSuggestion => ({
@@ -1004,4 +1048,13 @@ export class AppCommandParser {
         }
         return suggestions;
     }
+}
+
+function makeSuggestionError(message: string) {
+    const errMsg = Utils.localizeAndFormatMessage(
+        t('apps.error'),
+        'Error: {error}',
+        {error: message},
+    );
+    return [{suggestion: errMsg}];
 }

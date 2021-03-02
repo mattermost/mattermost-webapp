@@ -3,13 +3,15 @@
 
 import React from 'react';
 import classNames from 'classnames';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 import {Tooltip} from 'react-bootstrap';
 
 import Permissions from 'mattermost-redux/constants/permissions';
 import {Post} from 'mattermost-redux/types/posts';
-import {AppBinding, AppCall} from 'mattermost-redux/types/apps';
-import {AppCallTypes} from 'mattermost-redux/constants/apps';
+import {AppBinding, AppCall, AppCallResponse} from 'mattermost-redux/types/apps';
+import {AppCallResponseTypes, AppCallTypes} from 'mattermost-redux/constants/apps';
+
+import {ActionResult} from 'mattermost-redux/types/actions';
 
 import {Locations, ModalIdentifiers, Constants} from 'utils/constants';
 import DeletePostModal from 'components/delete_post_modal';
@@ -23,11 +25,13 @@ import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import DotsHorizontalIcon from 'components/widgets/icons/dots_horizontal';
 import {PluginComponent} from 'types/store/plugins';
+import {sendEphemeralPost} from 'actions/global_actions';
 
 const MENU_BOTTOM_MARGIN = 80;
 
 export const PLUGGABLE_COMPONENT = 'PostDropdownMenuItem';
 type Props = {
+    intl: IntlShape;
     post: Post;
     teamId?: string;
     location?: 'CENTER' | 'RHS_ROOT' | 'RHS_COMMENT' | 'SEARCH' | string;
@@ -94,7 +98,7 @@ type Props = {
         /**
          * Function to perform an app call
          */
-        doAppCall: (call: AppCall) => void;
+        doAppCall: (call: AppCall) => Promise<ActionResult>;
     }; // TechDebt: Made non-mandatory while converting to typescript
 
     canEdit: boolean;
@@ -108,7 +112,7 @@ type State = {
     canDelete: boolean;
 }
 
-export default class DotMenu extends React.PureComponent<Props, State> {
+class DotMenu extends React.PureComponent<Props, State> {
     static defaultProps = {
         commentCount: 0,
         isFlagged: false,
@@ -279,7 +283,7 @@ export default class DotMenu extends React.PureComponent<Props, State> {
         if (!binding.call) {
             return;
         }
-        this.props.actions?.doAppCall({
+        const res = await this.props.actions?.doAppCall({
             ...binding.call,
             type: AppCallTypes.SUBMIT,
             context: {
@@ -291,6 +295,31 @@ export default class DotMenu extends React.PureComponent<Props, State> {
                 root_id: this.props.post.root_id,
             },
         });
+
+        const callResp = (res as {data: AppCallResponse}).data;
+        const ephemeral = (message: string) => sendEphemeralPost(message, this.props.post.channel_id, this.props.post.root_id);
+        switch (callResp.type) {
+        case AppCallResponseTypes.OK:
+            if (callResp.markdown) {
+                ephemeral(callResp.markdown);
+            }
+            break;
+        case AppCallResponseTypes.ERROR: {
+            const errorMessage = callResp.error || this.props.intl.formatMessage({id: 'apps.error.unknown', defaultMessage: 'Unknown error happenned'});
+            ephemeral(errorMessage);
+            break;
+        }
+        case AppCallResponseTypes.NAVIGATE:
+        case AppCallResponseTypes.FORM:
+            break;
+        default: {
+            const errMessage = this.props.intl.formatMessage(
+                {id: 'apps.error.responses.unknown_type', defaultMessage: 'App response type not supported. Response type: {type}.'},
+                {type: callResp.type},
+            );
+            ephemeral(errMessage);
+        }
+        }
     }
 
     render() {
@@ -457,3 +486,5 @@ export default class DotMenu extends React.PureComponent<Props, State> {
         );
     }
 }
+
+export default injectIntl(DotMenu);

@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {mount} from 'enzyme';
 
 import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
 import {Theme} from 'mattermost-redux/types/preferences';
@@ -22,7 +21,7 @@ describe('plugins/ChannelHeaderPlug', () => {
     } as PluginComponent;
 
     test('should match snapshot with no extended component', () => {
-        const wrapper = mount(
+        const wrapper = mountWithIntl(
             <ChannelHeaderPlug
                 components={[]}
                 channel={{} as Channel}
@@ -39,7 +38,7 @@ describe('plugins/ChannelHeaderPlug', () => {
     });
 
     test('should match snapshot with one extended component', () => {
-        const wrapper = mount(
+        const wrapper = mountWithIntl(
             <ChannelHeaderPlug
                 components={[testPlug]}
                 channel={{} as Channel}

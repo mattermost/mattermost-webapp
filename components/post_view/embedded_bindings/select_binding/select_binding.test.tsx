@@ -1,10 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {shallow} from 'enzyme';
 import {AppBinding} from 'mattermost-redux/types/apps';
 import {Post} from 'mattermost-redux/types/posts';
 import React from 'react';
+
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import SelectBinding from './select_binding';
 
@@ -24,7 +25,7 @@ describe('components/post_view/embedded_bindings/select_binding', () => {
     };
 
     test('should start with nothing selected', () => {
-        const wrapper = shallow(<SelectBinding {...baseProps}/>);
+        const wrapper = shallowWithIntl(<SelectBinding {...baseProps}/>);
 
         expect(wrapper.state()).toMatchObject({});
     });
