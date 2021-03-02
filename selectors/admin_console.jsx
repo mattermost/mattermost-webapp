@@ -39,14 +39,6 @@ export const getConsoleAccess = createSelector(
                 Object.values(RESOURCE_KEYS[key.toUpperCase()]).forEach((entry) => {
                     addEntriesForKey(entry);
                 });
-            } else if (key === 'environment') {
-                for (const environmentKey of [
-                        'web_server', 'database', 'elasticsearch', 'file_storage', 'image_proxy',
-                        'smtp', 'push_notification_server', 'high_availability', 'rate_limiting',
-                        'logging', 'session_lengths', 'performance_monitoring', 'developer'
-                    ]) {
-                    addEntriesForKey(`${key}.${environmentKey}`);
-                }
             } else {
                 addEntriesForKey(key);
             }

@@ -46,7 +46,7 @@
         "disabledInputs": [
             {
                 "path": "/admin_console/environment/database",
-                "selector": "maxIdleConns"
+                "selector": "maxIdleConnsinput"
             }
         ]
     },
@@ -60,11 +60,11 @@
         ]
     },
     {
-        "section": "environment.file_storage",
+        "section": "environment.storage",
         "disabledInputs": [
             {
                 "path": "/admin_console/environment/file_storage",
-                "selector": "FileSettings.DriverName"
+                "selector": "FileSettings.DriverNamedropdown"
             }
         ]
     },
@@ -82,7 +82,7 @@
         "disabledInputs": [
             {
                 "path": "/admin_console/environment/smtp",
-                "selector": "EmailSettings.SMTPServer"
+                "selector": "EmailSettings.EnableSMTPAuthtrue"
             }
         ]
     },
@@ -91,7 +91,7 @@
         "disabledInputs": [
             {
                 "path": "/admin_console/environment/push_notification_server",
-                "selector": "pushNotificationServerType"
+                "selector": "pushNotificationServerTypedropdown"
             }
         ]
     },
@@ -118,7 +118,7 @@
         "disabledInputs": [
             {
                 "path": "/admin_console/environment/logging",
-                "selector": "LogSettings.ConsoleLevel"
+                "selector": "LogSettings.ConsoleLeveldropdown"
             }
         ]
     },
@@ -127,7 +127,7 @@
         "disabledInputs": [
             {
                 "path": "/admin_console/environment/session_lengths",
-                "selector": "sessionLengthWebInDays"
+                "selector": "sessionLengthWebInDaysinput"
             }
         ]
     },
@@ -135,8 +135,8 @@
         "section": "environment.metrics",
         "disabledInputs": [
             {
-                "path": "/admin_console/environment/metrics",
-                "selector": "MetricsSettings.ListenAddress"
+                "path": "/admin_console/environment/performance_monitoring",
+                "selector": "MetricsSettings.ListenAddressinput"
             }
         ]
     },
