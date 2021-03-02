@@ -58,14 +58,14 @@ const importList = [{
 const ImportWorkspace: React.FC = () => {
     const [importListData] = useState(importList);
     const [chatService] = useState('Slack');
-    const [percentage, setPercentage] = useState(7);
-    const [screenStep, setScreenStep] = useState(1);
+    const [percentage] = useState(7);
+    const [screenStep, setScreenStep] = useState(0);
     const [isImportInProgress] = useState(true);
     const [isNewWorkspace] = useState(true);
 
-    useInterval(() => {
-        setPercentage((prevPercentage) => prevPercentage + 1);
-    }, 1000, 99000);
+    // useInterval(() => {
+    //     setPercentage((prevPercentage) => prevPercentage + 1);
+    // }, 1000, 99000);
 
     useEffect(() => {
     }, []);
