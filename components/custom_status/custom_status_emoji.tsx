@@ -1,15 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {useEffect} from 'react';
+import React from 'react';
 import {Tooltip} from 'react-bootstrap';
-import {useDispatch, useSelector} from 'react-redux';
-
-import {getCustomEmojis} from 'mattermost-redux/actions/emojis';
+import {useSelector} from 'react-redux';
 
 import OverlayTrigger from 'components/overlay_trigger';
 import RenderEmoji from 'components/emoji/render_emoji';
 import {makeGetCustomStatus, isCustomStatusEnabled} from 'selectors/views/custom_status';
-import {isCustomEmojiEnabled} from 'selectors/emojis';
 import {GlobalState} from 'types/store';
 import Constants from 'utils/constants';
 
@@ -24,17 +21,8 @@ interface ComponentProps {
 }
 
 const CustomStatusEmoji = (props: ComponentProps) => {
-    const dispatch = useDispatch();
     const getCustomStatus = makeGetCustomStatus();
     const {emojiSize, emojiStyle, spanStyle, showTooltip, tooltipDirection, userID, onClick} = props;
-
-    const customEmojiEnabled = useSelector(isCustomEmojiEnabled);
-    useEffect(() => {
-        if (customEmojiEnabled) {
-            dispatch(getCustomEmojis());
-        }
-    }, [isCustomEmojiEnabled]);
-
     const customStatusEnabled = useSelector(isCustomStatusEnabled);
     const customStatus = useSelector((state: GlobalState) => {
         return getCustomStatus(state, userID);
@@ -92,7 +80,6 @@ CustomStatusEmoji.defaultProps = {
     emojiSize: 16,
     tooltipDirection: 'top',
     showTooltip: false,
-    spanStyle: {},
     emojiStyle: {
         marginLeft: 4,
     },
