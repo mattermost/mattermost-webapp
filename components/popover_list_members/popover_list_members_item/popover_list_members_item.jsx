@@ -12,6 +12,7 @@ import {UserStatuses} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import GuestBadge from 'components/widgets/badges/guest_badge';
+import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 
 export default class PopoverListMembersItem extends React.PureComponent {
     static propTypes = {
@@ -65,15 +66,26 @@ export default class PopoverListMembersItem extends React.PureComponent {
                 />
                 <div className='more-modal__details d-flex whitespace--nowrap'>
                     <div className='more-modal__name'>
-                        {this.props.displayName}
+                        <span>
+                            {this.props.displayName}
+                        </span>
+                        <BotBadge
+                            show={Boolean(this.props.user.is_bot)}
+                            className='badge-popoverlist'
+                        />
+                        <GuestBadge
+                            show={Utils.isGuest(this.props.user)}
+                            className='badge-popoverlist'
+                        />
                     </div>
-                    <BotBadge
-                        show={Boolean(this.props.user.is_bot)}
-                        className='badge-popoverlist'
-                    />
-                    <GuestBadge
-                        show={Utils.isGuest(this.props.user)}
-                        className='badge-popoverlist'
+                    <CustomStatusEmoji
+                        userID={this.props.user.id}
+                        showTooltip={true}
+                        emojiSize={15}
+                        emojiStyle={{
+                            marginBottom: -3,
+                            marginLeft: 4,
+                        }}
                     />
                 </div>
                 <div className='more-modal__actions'>

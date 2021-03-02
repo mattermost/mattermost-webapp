@@ -11,6 +11,7 @@ import UserProfile from 'components/user_profile';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import Nbsp from 'components/html_entities/nbsp';
+import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 
 export default class UserListRow extends React.PureComponent {
     static propTypes = {
@@ -99,22 +100,33 @@ export default class UserListRow extends React.PureComponent {
                     className='more-modal__details'
                     data-testid='userListItemDetails'
                 >
-                    <div
-                        id={userCountID}
-                        className='more-modal__name'
-                    >
-                        <UserProfile
-                            userId={this.props.user.id}
-                            hasMention={true}
-                            displayUsername={true}
+                    <div className='d-flex whitespace--nowrap'>
+                        <div
+                            id={userCountID}
+                            className='more-modal__name'
+                        >
+                            <UserProfile
+                                userId={this.props.user.id}
+                                hasMention={true}
+                                displayUsername={true}
+                            />
+                            <Nbsp/>
+                            {
+                                this.props.user.first_name || this.props.user.last_name || this.props.user.nickname ?
+                                    '-' : null
+                            }
+                            <Nbsp/>
+                            {Utils.displayFullAndNicknameForUser(this.props.user)}
+                        </div>
+                        <CustomStatusEmoji
+                            userID={this.props.user.id}
+                            emojiSize={15}
+                            showTooltip={true}
+                            emojiStyle={{
+                                marginLeft: 0,
+                                marginBottom: -3,
+                            }}
                         />
-                        <Nbsp/>
-                        {
-                            this.props.user.first_name || this.props.user.last_name || this.props.user.nickname ?
-                                '-' : null
-                        }
-                        <Nbsp/>
-                        {Utils.displayFullAndNicknameForUser(this.props.user)}
                     </div>
                     <div
                         id={userCountEmail}
