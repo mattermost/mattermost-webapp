@@ -80,6 +80,7 @@ CustomStatusEmoji.defaultProps = {
     emojiSize: 16,
     tooltipDirection: 'top',
     showTooltip: false,
+    spanStyle: {},
     emojiStyle: {
         marginLeft: 4,
     },
