@@ -1,6 +1,4 @@
 dist
-.npminstall
-.yarninstall
 node_modules
 *.swp
 .idea
@@ -33,3 +31,12 @@ Session.vim
 .netrwhist
 *~
 .eslintcache
+
+# Yarn
+.yarn/*
+!.yarn/patches
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+.pnp.*

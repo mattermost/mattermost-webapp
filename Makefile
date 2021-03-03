@@ -9,38 +9,38 @@ export NODE_OPTIONS=--max-old-space-size=4096
 build-storybook: node_modules ## Build the storybook
 	@echo Building storybook
 
-	npm run build-storybook
+	yarn run build-storybook
 
 storybook: node_modules ## Run the storybook development environment
-	npm run storybook
+	yarn run storybook
 
 check-style: node_modules ## Checks JS file for ESLint confirmity
 	@echo Checking for style guide compliance
 
-	npm run check
+	yarn run check
 
 fix-style: node_modules ## Fix JS file ESLint issues
 	@echo Fixing lint issues to follow style guide
 
-	npm run fix
+	yarn run fix
 
 check-types: node_modules ## Checks TS file for TypeScript confirmity
 	@echo Checking for TypeScript compliance
 
-	npm run check-types
+	yarn run check-types
 
 test: node_modules ## Runs tests
 	@echo Running jest unit/component testing
 
-	npm run test
+	yarn run test
 
 i18n-extract: ## Extract strings for translation from the source code
-	npm run mmjstool -- i18n extract-webapp
+	yarn run mmjstool -- i18n extract-webapp
 
-node_modules: package.json package-lock.json
-	@echo Getting dependencies using npm
+node_modules: package.json yarn.lock
+	@echo Getting dependencies using yarn
 
-	npm install
+	yarn install
 	touch $@
 
 package: build ## Packages app
@@ -52,11 +52,11 @@ package: build ## Packages app
 	mv tmp/client dist
 	rmdir tmp
 
-package-ci: ## used in the CI to build the package and bypass the npm install
+package-ci: ## used in the CI to build the package and bypass the yarn install
 	@echo Building mattermost Webapp
 
 	rm -rf dist
-	npm run build
+	yarn run build
 
 	@echo Packaging webapp
 
@@ -71,20 +71,20 @@ build: node_modules ## Builds the app
 
 	rm -rf dist
 
-	npm run build
+	yarn run build
 
 run: node_modules ## Runs app
 	@echo Running mattermost Webapp for development
 
-	npm run run &
+	yarn run run &
 
 dev: node_modules ## Runs webpack-dev-server
-	npm run dev-server
+	yarn run dev-server
 
 run-fullmap: node_modules ## Legacy alias to run
 	@echo Running mattermost Webapp for development
 
-	npm run run &
+	yarn run run &
 
 stop: ## Stops webpack
 	@echo Stopping changes watching
@@ -125,7 +125,7 @@ e2e-test: node_modules
 	cd $(BUILD_SERVER_DIR) && $(MAKE) test-data
 
 	@echo E2E: Running end-to-end testing
-	cd e2e && npm install && npm run cypress:run
+	cd e2e && yarn install && yarn run cypress:run
 
 	@echo E2E: Stoppping the server
 	cd $(BUILD_SERVER_DIR) && $(MAKE) stop
@@ -157,9 +157,3 @@ emojis: ## Creates emoji JSON, JSX and Go files and extracts emoji images from t
 ## Help documentatin à la https://marmelab.com/blog/2016/02/29/auto-documented-makefile.html
 help:
 	@grep -E '^[0-9a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
-
-update-dependencies: # Updates the dependencies
-	npm update --depth 9999
-	npm audit fix
-	@echo Automatic dependency update complete.
-	@echo You should manually inspect changes to package.json and pin exact versions of packages where appropriate.
