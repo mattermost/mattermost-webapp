@@ -47,7 +47,17 @@ exports[`admin_console/system_role_permissions should match snapshot 1`] = `
         Object {
           "hasDescription": true,
           "name": "reporting",
-          "subsections": Array [],
+          "subsections": Array [
+            Object {
+              "name": "reporting_site_statistics",
+            },
+            Object {
+              "name": "reporting_team_statistics",
+            },
+            Object {
+              "name": "reporting_server_logs",
+            },
+          ],
         }
       }
       setSectionVisible={[Function]}
@@ -304,7 +314,17 @@ exports[`admin_console/system_role_permissions should match snapshot with isLice
         Object {
           "hasDescription": true,
           "name": "reporting",
-          "subsections": Array [],
+          "subsections": Array [
+            Object {
+              "name": "reporting_site_statistics",
+            },
+            Object {
+              "name": "reporting_team_statistics",
+            },
+            Object {
+              "name": "reporting_server_logs",
+            },
+          ],
         }
       }
       setSectionVisible={[Function]}
