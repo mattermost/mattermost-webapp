@@ -38,6 +38,8 @@ const RenderEmoji = ({emojiName, emojiStyle, size, onClick}: ComponentProps) => 
                 backgroundSize: size,
                 height: size,
                 width: size,
+                maxHeight: size,
+                maxWidth: size,
                 minHeight: size,
                 minWidth: size,
                 ...emojiStyle,
