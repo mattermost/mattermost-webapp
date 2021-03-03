@@ -28,7 +28,7 @@ jobs:
     steps:
       - checkout
       - run: |
-          yarn version
+          yarn --version
           yarn install
         # cd node_modules/mattermost-redux && yarn install && yarn run build
       - *save_cache
@@ -152,7 +152,7 @@ jobs:
       - *restore_cache
       - run: |
           node --version
-          yarn version
+          yarn --version
           make package-ci
       - store_artifacts:
           path: ~/mattermost/mattermost-webapp/mattermost-webapp.tar.gz
