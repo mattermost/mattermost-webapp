@@ -200,7 +200,8 @@ export default class SystemRole extends React.PureComponent<Props, State> {
             ...updatedPermissions,
         };
 
-        let updatedRolePermissions: string[] = [...role.permissions];
+        let updatedRolePermissions: string[] = role.permissions.
+            filter((permission) => permission.startsWith('sysconsole_') && !(permission.replace(/sysconsole_(read|write)_/, '') in permissionsToUpdate));
 
         Object.keys(permissionsToUpdate).forEach((permissionShortName) => {
             const value = permissionsToUpdate[permissionShortName];
