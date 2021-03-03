@@ -13,12 +13,12 @@ executors:
 aliases:
   - &restore_cache
     restore_cache:
-      key: dependencies-{{ .Branch }}-{{ checksum "yarn.lock" }}-6
+      key: yarn-packages-{{ checksum "yarn.lock" }}
   - &save_cache
     save_cache:
-      key: dependencies-{{ .Branch }}-{{ checksum "yarn.lock" }}-6
+      key: yarn-packages-{{ checksum "yarn.lock" }}
       paths:
-        - ~/mattermost/mattermost-webapp/node_modules
+        - ~/.cache/yarn
 
 jobs:
   install:
