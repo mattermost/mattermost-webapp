@@ -59,7 +59,7 @@ describe('Upload Files', () => {
             const attachmentFilename = 'jpg-image-file.jpg';
 
             // # Make a post with a file attached
-            cy.get('#fileUploadInput').attachFile(attachmentFilename);
+            cy.uiUploadFiles().attachFile(attachmentFilename);
             cy.postMessage('Post with attachment to be deleted');
 
             // # Get the last post
@@ -151,7 +151,7 @@ describe('Upload Files', () => {
 
         commonTypeFiles.forEach((file) => {
             // # Make a post with a file attached
-            cy.get('#fileUploadInput').attachFile(file);
+            cy.uiUploadFiles().attachFile(file);
             cy.postMessage(`Attached with ${file}`);
 
             // # Get the last post

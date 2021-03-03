@@ -10,6 +10,7 @@ import './compliance_export';
 import './extend_testing_library';
 import './menu';
 import './modal';
+import './post_draft';
 import './post_dropdown_menu';
 import './search';
 import './sidebar_left';

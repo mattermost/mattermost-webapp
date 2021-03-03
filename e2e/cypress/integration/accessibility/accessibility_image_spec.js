@@ -31,7 +31,7 @@ describe('Verify Accessibility Support in Different Images', () => {
         });
 
         // # Upload an image in the post
-        cy.get('#fileUploadInput').attachFile('small-image.png');
+        cy.uiUploadFiles().attachFile('small-image.png');
         cy.postMessage('Image upload');
 
         // * Verify accessibility in images uploaded in a post

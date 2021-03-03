@@ -48,7 +48,7 @@ describe('Upload Files', () => {
         const aspectRatio = originalWidth / originalHeight;
 
         // # Post an image in center channel
-        cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(filename);
+        cy.uiUploadFiles().attachFile(filename);
         cy.get('.post-image').should('be.visible');
         cy.postMessage('{enter}');
 
@@ -107,7 +107,7 @@ describe('Upload Files', () => {
 
         attachmentFilesList.forEach((file) => {
             // # Attach the file as attachment and post a message
-            cy.get('#fileUploadInput').attachFile(file.filename);
+            cy.uiUploadFiles().attachFile(file.filename);
             cy.postMessage(MESSAGES.SMALL);
 
             // # Get the post id of the last message
@@ -166,7 +166,7 @@ describe('Upload Files', () => {
     it('MM-T341 Download link on preview - Image file (non SVG)', () => {
         ['bmp-image-file.bmp', 'png-image-file.png', 'jpg-image-file.jpg', 'gif-image-file.gif', 'tiff-image-file.tif'].
             forEach((image) => {
-                cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(image);
+                cy.uiUploadFiles().attachFile(image);
                 cy.get('.post-image').should('be.visible');
                 cy.postMessage(MESSAGES.SMALL);
                 cy.uiWaitUntilMessagePostedIncludes(MESSAGES.SMALL);
@@ -196,7 +196,7 @@ describe('Upload Files', () => {
         const filename = 'huge-image.jpg';
 
         // # Post an image in center channel
-        cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(filename);
+        cy.uiUploadFiles().attachFile(filename);
         cy.get('.post-image').should('be.visible');
         cy.postMessage('{enter}');
 
@@ -227,7 +227,7 @@ describe('Upload Files', () => {
     it('MM-T337 CTRL/CMD+U - Five files on one message, thumbnails while uploading', () => {
         cy.visit(`/${testTeam.name}/channels/town-square`);
         const filename = 'huge-image.jpg';
-        cy.get('#centerChannelFooter').find('#fileUploadInput').
+        cy.uiUploadFiles().
             attachFile(filename).
             attachFile(filename).
             attachFile(filename).
@@ -260,7 +260,7 @@ describe('Upload Files', () => {
         const imageType = 'JPG';
 
         // # Attach an image but don't post it yet
-        cy.get('#fileUploadInput').attachFile(imageFilename);
+        cy.uiUploadFiles().attachFile(imageFilename);
 
         // # Scan inside of the message footer region
         cy.get('#postCreateFooter').should('be.visible').within(() => {
@@ -304,7 +304,7 @@ describe('Upload Files', () => {
         cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
         // # Attach file
-        cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(filename);
+        cy.uiUploadFiles().attachFile(filename);
         cy.waitUntil(() => cy.get('#postCreateFooter').then((el) => {
             return el.find('.post-image.normal').length > 0;
         }));
@@ -389,7 +389,7 @@ describe('Upload Files', () => {
         cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
         // # Upload files
-        cy.get('#centerChannelFooter').find('#fileUploadInput').
+        cy.uiUploadFiles().
             attachFile(attachmentFilesList[0].filename).
             attachFile(attachmentFilesList[1].filename).
             attachFile(attachmentFilesList[2].filename).

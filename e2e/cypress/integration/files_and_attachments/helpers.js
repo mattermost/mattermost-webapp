@@ -21,7 +21,7 @@ export function testAudioFile(fileProperties) {
     const filename = route.split('/').pop();
 
     // # Post file in center channel
-    cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(route);
+    cy.uiUploadFiles().attachFile(route);
     cy.waitUntil(() => cy.get('#postCreateFooter').then((el) => {
         return el.find('.post-image__thumbnail').length > 0;
     }));
@@ -70,7 +70,7 @@ export function testImage(imageProperties) {
     const aspectRatio = originalWidth / originalHeight;
 
     // # Post an image in center channel
-    cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(route);
+    cy.uiUploadFiles().attachFile(route);
     cy.waitUntil(() => cy.get('#postCreateFooter').then((el) => {
         return el.find('.post-image__thumbnail').length > 0;
     }));
@@ -121,7 +121,7 @@ export function testGenericFile(fileProperties) {
     const filename = route.split('/').pop();
 
     // # Post file in center channel
-    cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(route);
+    cy.uiUploadFiles().attachFile(route);
     cy.waitUntil(() => cy.get('#postCreateFooter').then((el) => {
         return el.find('.post-image__thumbnail').length > 0;
     }));
@@ -164,7 +164,7 @@ export function testVideoFile(fileProperties) {
     const filename = route.split('/').pop();
 
     // # Post file in center channel
-    cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(route);
+    cy.uiUploadFiles().attachFile(route);
     cy.waitUntil(() => cy.get('#postCreateFooter').then((el) => {
         return el.find('.post-image__thumbnail').length > 0;
     }));

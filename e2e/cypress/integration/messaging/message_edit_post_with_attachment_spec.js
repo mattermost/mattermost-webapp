@@ -31,7 +31,7 @@ describe('MM-13697 Edit Post with attachment', () => {
         cy.url().should('include', townsquareLink);
 
         // # Upload a file on center view
-        cy.get('#fileUploadInput').attachFile('mattermost-icon.png');
+        cy.uiUploadFiles().attachFile('mattermost-icon.png');
 
         // # Type 'This is sample text' and submit
         cy.postMessage('This is sample text');

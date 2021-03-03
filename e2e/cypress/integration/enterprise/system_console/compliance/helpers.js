@@ -90,7 +90,7 @@ export function gotoTeamAndPostImage() {
         originalSize: {width: 400, height: 400},
         thumbnailSize: {width: 400, height: 400},
     };
-    cy.get('#fileUploadInput').attachFile(file.filename);
+    cy.uiUploadFiles().attachFile(file.filename);
 
     // # Wait until the image is uploaded
     cy.waitUntil(() => cy.get('#postCreateFooter').then((el) => {

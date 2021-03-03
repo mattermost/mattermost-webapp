@@ -32,7 +32,7 @@ describe('Image attachment', () => {
 
     it('Image smaller than 48px in both width and height', () => {
         // # Upload a file on center view
-        cy.get('#fileUploadInput').attachFile('small-image.png');
+        cy.uiUploadFiles().attachFile('small-image.png');
 
         verifyImageInPostFooter();
 
@@ -63,7 +63,7 @@ describe('Image attachment', () => {
 
     it('Image with height smaller than 48px', () => {
         // # Upload a file on center view
-        cy.get('#fileUploadInput').attachFile('image-small-height.png');
+        cy.uiUploadFiles().attachFile('image-small-height.png');
 
         verifyImageInPostFooter();
 
@@ -93,7 +93,7 @@ describe('Image attachment', () => {
 
     it('Image with width smaller than 48px', () => {
         // # Upload a file on center view
-        cy.get('#fileUploadInput').attachFile('image-small-width.png');
+        cy.uiUploadFiles().attachFile('image-small-width.png');
 
         verifyImageInPostFooter();
 
@@ -126,7 +126,7 @@ describe('Image attachment', () => {
 
     it('Image with width and height bigger than 48px', () => {
         // # Upload a file on center view
-        cy.get('#fileUploadInput').attachFile('MM-logo-horizontal.png');
+        cy.uiUploadFiles().attachFile('MM-logo-horizontal.png');
 
         verifyImageInPostFooter();
 
@@ -152,7 +152,7 @@ describe('Image attachment', () => {
 
     it('opens image preview window when image is clicked', () => {
         // # Upload a file on center view
-        cy.get('#fileUploadInput').attachFile('MM-logo-horizontal.png');
+        cy.uiUploadFiles().attachFile('MM-logo-horizontal.png');
 
         verifyImageInPostFooter();
 
@@ -184,7 +184,7 @@ describe('Image attachment', () => {
 
     it('opens image preview window when small image is clicked', () => {
         // # Upload a file on center view
-        cy.get('#fileUploadInput').attachFile('small-image.png');
+        cy.uiUploadFiles().attachFile('small-image.png');
 
         verifyImageInPostFooter();
 

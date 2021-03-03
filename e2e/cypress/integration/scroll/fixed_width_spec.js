@@ -45,7 +45,7 @@ describe('Scroll', () => {
         // Posting different type of images and Videos
         const commonTypeFiles = ['jpg-image-file.jpg', 'gif-image-file.gif', 'mp3-audio-file.mp3', 'mpeg-video-file.mpg'];
         commonTypeFiles.forEach((file) => {
-            cy.get('#fileUploadInput').attachFile(file);
+            cy.uiUploadFiles().attachFile(file);
             cy.postMessage(`Attached with ${file}`);
             cy.getLastPostId().as(`${file}PostId`);
         });

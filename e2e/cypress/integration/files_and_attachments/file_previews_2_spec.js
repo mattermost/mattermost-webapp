@@ -35,7 +35,7 @@ describe('Upload Files - Generic', () => {
         const filename = route.split('/').pop();
 
         // # Post file in center channel
-        cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(route);
+        cy.uiUploadFiles().attachFile(route);
         cy.waitUntil(() => cy.get('#postCreateFooter').then((el) => {
             return el.find('.post-image__thumbnail').length > 0;
         }));
@@ -103,7 +103,7 @@ describe('Upload Files - Generic', () => {
         const filename = route.split('/').pop();
 
         // # Post file in center channel
-        cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(route);
+        cy.uiUploadFiles().attachFile(route);
         cy.wait(TIMEOUTS.ONE_SEC);
         cy.get('#create_post').find('.file-preview').within(() => {
             // * Thumbnail exist
