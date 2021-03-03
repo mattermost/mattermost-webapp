@@ -23,7 +23,7 @@ describe('Custom Status modal', () => {
         });
     });
 
-    describe('MM-T3851 Custom status CTAs for new users', () => {
+    describe('Custom Status - CTAs for New Users', () => {
         it('MM-T3851_1 should show Update your status in the post header', () => {
             // # Post a message in the channel
             cy.postMessage('Hello World!');
@@ -57,7 +57,7 @@ describe('Custom Status modal', () => {
         });
     });
 
-    describe('MM-T3836 Setting a custom status', () => {
+    describe('Custom Status - Setting a Custom Status', () => {
         before(() => {
             cy.apiClearUserCustomStatus();
             cy.reload();
@@ -171,7 +171,7 @@ describe('Custom Status modal', () => {
         });
     });
 
-    describe('MM-T3846 Setting your own custom status', () => {
+    describe('Custom Status - Setting Your Own Custom Status', () => {
         before(() => {
             cy.apiClearUserCustomStatus();
             cy.reload();
@@ -290,7 +290,7 @@ describe('Custom Status modal', () => {
         });
     });
 
-    describe('MM-T3847 Recent statuses', () => {
+    describe('Custom Status - Recent Statuses', () => {
         before(() => {
             cy.apiClearUserCustomStatus();
             cy.reload();
@@ -385,7 +385,7 @@ describe('Custom Status modal', () => {
         });
     });
 
-    describe('MM-T3850 Verifying where the custom status appears', () => {
+    describe('Custom Status - Verifying Where Custom Status Appears', () => {
         before(() => {
             cy.apiClearUserCustomStatus();
             cy.reload();
@@ -517,7 +517,7 @@ describe('Custom Status modal', () => {
         });
     });
 
-    describe('MM-T3852 Custom Status slash commands', () => {
+    describe('Custom Status - Slash Commands', () => {
         before(() => {
             cy.apiClearUserCustomStatus();
             cy.reload();
