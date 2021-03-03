@@ -1095,11 +1095,12 @@ exports[`components/ChannelHeader should render properly when custom status is s
               emojiSize={15}
               emojiStyle={
                 Object {
-                  "margin": "0 4px 4px",
+                  "margin": "0 4px 1px",
                   "verticalAlign": "top",
                 }
               }
               showTooltip={false}
+              spanStyle={Object {}}
               tooltipDirection="top"
               userID="user_id"
             />
