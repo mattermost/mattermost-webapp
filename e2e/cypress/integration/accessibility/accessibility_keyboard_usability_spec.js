@@ -137,7 +137,7 @@ describe('Verify Accessibility keyboard usability across different regions in th
             cy.clickPostCommentIcon(postId);
 
             // * Verify Screen reader should not switch to virtual cursor mode. This is handled by adding a role=application attribute
-            const regions = ['#lhsHeader', '#lhsList', '#rhsContent', '.search__form', '#centerChannelFooter'];
+            const regions = ['#lhsHeader', '#sidebar-left', '#rhsContent', '.search__form', '#centerChannelFooter'];
             regions.forEach((region) => {
                 cy.get(region).should('have.attr', 'role', 'application');
             });
