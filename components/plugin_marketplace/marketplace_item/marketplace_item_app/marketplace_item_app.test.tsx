@@ -13,7 +13,6 @@ describe('components/MarketplaceItemApp', () => {
             name: 'name',
             description: 'test plugin',
             homepageUrl: 'http://example.com',
-            rootUrl: 'http://example.com/install',
             installed: false,
             installing: false,
             trackEvent: jest.fn(() => {}),

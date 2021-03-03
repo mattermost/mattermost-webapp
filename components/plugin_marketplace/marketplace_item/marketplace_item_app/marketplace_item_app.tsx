@@ -17,7 +17,6 @@ export type MarketplaceItemAppProps = {
     name: string;
     description?: string;
     homepageUrl?: string;
-    rootUrl: string;
 
     installed: boolean;
     labels?: MarketplaceLabel[];
@@ -28,7 +27,7 @@ export type MarketplaceItemAppProps = {
     trackEvent: (category: string, event: string, props?: unknown) => void;
 
     actions: {
-        installApp: (id: string, url: string) => Promise<boolean>;
+        installApp: (id: string) => Promise<boolean>;
         closeMarketplaceModal: () => void;
     };
 };
@@ -39,7 +38,7 @@ export default class MarketplaceItemApp extends React.PureComponent <Marketplace
             app_id: this.props.id,
         });
 
-        this.props.actions.installApp(this.props.id, this.props.rootUrl).then((res) => {
+        this.props.actions.installApp(this.props.id).then((res) => {
             if (res) {
                 this.props.actions.closeMarketplaceModal();
             }
