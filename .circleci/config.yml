@@ -107,8 +107,7 @@ jobs:
     steps:
       - checkout
       - *restore_cache
-      - run: |
-        echo "Skipping i18n-check"
+      - run: echo "Skipping i18n-check"
       # cp i18n/en.json /tmp/en.json
       # mkdir -p /tmp/fake-mobile-dir/assets/base/i18n/
       # echo '{}' > /tmp/fake-mobile-dir/assets/base/i18n/en.json
