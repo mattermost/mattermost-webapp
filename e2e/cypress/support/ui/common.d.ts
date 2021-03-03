@@ -82,6 +82,14 @@ declare namespace Cypress {
         uiCloseButton(): Chainable;
 
         /**
+         * Get a radio button by its text using "cy.findByRole"
+         *
+         * @example
+         *   cy.uiGetRadioButton('Custom Theme');
+         */
+        uiGetRadioButton(): Chainable;
+
+        /**
          * Get a heading by its text using "cy.findByRole"
          *
          * @example

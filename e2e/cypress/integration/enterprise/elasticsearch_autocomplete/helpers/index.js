@@ -14,9 +14,19 @@ function createEmail(name, timestamp) {
     return name + timestamp + '@sample.mattermost.com';
 }
 
+// Helper function to start @mention
+function startAtMention(string) {
+    // # Get the expected input
+    cy.get('@input').clear().type(string);
+
+    // * Suggestion list should appear
+    cy.get('#suggestionList').should('be.visible');
+}
+
 module.exports = {
     withTimestamp,
     createEmail,
+    startAtMention,
     enableElasticSearch: () => {
         // Enable elastic search via the API
         cy.apiUpdateConfig({
