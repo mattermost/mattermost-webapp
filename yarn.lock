@@ -13824,9 +13824,9 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"mattermost-redux@github:mattermost/mattermost-redux#affa75ca39ec9fa6f9bb51d5b455affe9f4cdfd3":
+"mattermost-redux@mattermost/mattermost-redux#5712295a4c80c180f1e52c687776a03e087175a8":
   version: 5.3.1
-  resolution: "mattermost-redux@https://github.com/mattermost/mattermost-redux.git#commit=affa75ca39ec9fa6f9bb51d5b455affe9f4cdfd3"
+  resolution: "mattermost-redux@https://github.com/mattermost/mattermost-redux.git#commit=5712295a4c80c180f1e52c687776a03e087175a8"
   dependencies:
     core-js: 3.8.3
     form-data: 3.0.0
@@ -13843,7 +13843,7 @@ fsevents@^1.2.7:
     rudder-sdk-js: 1.0.14
     serialize-error: 6.0.0
     shallow-equals: 1.0.0
-  checksum: a82bd0f105110ceb9666571270fcd9983d06eee3e8ff7f6db7f7d02ed9d4aba77c3885f097bb528bd8eab27e3435cc8857158c902f2bec36fcddf3828257690f
+  checksum: 6b76b89b9cc6de2ef4caadc0e1334de45a21c54d4b68e166d6a73147828cd8c2915912e16c889657471332836e81e42256c1a6ee627d443fbff2a1d9576bdcb0
   languageName: node
   linkType: hard
 
@@ -13959,7 +13959,7 @@ fsevents@^1.2.7:
     localforage-observable: 2.1.1
     mark.js: 8.11.1
     marked: "github:mattermost/marked#be741d411d4642c4cd3e009645f4cb6baa7e92bb"
-    mattermost-redux: "github:mattermost/mattermost-redux#affa75ca39ec9fa6f9bb51d5b455affe9f4cdfd3"
+    mattermost-redux: "mattermost/mattermost-redux#5712295a4c80c180f1e52c687776a03e087175a8"
     mini-css-extract-plugin: 1.3.5
     moment-timezone: 0.5.31
     node-sass: 5.0.0
