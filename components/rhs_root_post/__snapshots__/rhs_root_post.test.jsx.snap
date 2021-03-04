@@ -73,6 +73,7 @@ exports[`components/RhsRootPost should match snapshot 1`] = `
               }
             }
             showTooltip={true}
+            spanStyle={Object {}}
             tooltipDirection="top"
             userID="user_id"
           />
@@ -269,6 +270,7 @@ exports[`components/RhsRootPost should match snapshot on deleted post 1`] = `
               }
             }
             showTooltip={true}
+            spanStyle={Object {}}
             tooltipDirection="top"
             userID="user_id"
           />
@@ -421,6 +423,7 @@ exports[`components/RhsRootPost should match snapshot on flagged, deleted post 1
               }
             }
             showTooltip={true}
+            spanStyle={Object {}}
             tooltipDirection="top"
             userID="user_id"
           />
@@ -573,6 +576,7 @@ exports[`components/RhsRootPost should match snapshot when flagged 1`] = `
               }
             }
             showTooltip={true}
+            spanStyle={Object {}}
             tooltipDirection="top"
             userID="user_id"
           />

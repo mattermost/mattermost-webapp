@@ -220,6 +220,7 @@ exports[`components/MoreDirectChannels should match renderOption snapshot 1`] = 
           }
         }
         showTooltip={true}
+        spanStyle={Object {}}
         tooltipDirection="top"
         userID="user_id_1"
       />
