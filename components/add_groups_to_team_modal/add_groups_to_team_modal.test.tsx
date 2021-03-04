@@ -79,8 +79,8 @@ describe('components/AddGroupsToTeamModal', () => {
         await instance.handleSubmit();
         expect(actions.linkGroupSyncable).toBeCalled();
         expect(actions.linkGroupSyncable).toHaveBeenCalledTimes(2);
-        expect(actions.linkGroupSyncable).toBeCalledWith('id_1', baseProps.currentTeamId, Groups.SYNCABLE_TYPE_TEAM, {auto_add: true, "scheme_admin": false,});
-        expect(actions.linkGroupSyncable).toBeCalledWith('id_2', baseProps.currentTeamId, Groups.SYNCABLE_TYPE_TEAM, {auto_add: true, "scheme_admin": false,});
+        expect(actions.linkGroupSyncable).toBeCalledWith('id_1', baseProps.currentTeamId, Groups.SYNCABLE_TYPE_TEAM, {auto_add: true, scheme_admin: false});
+        expect(actions.linkGroupSyncable).toBeCalledWith('id_2', baseProps.currentTeamId, Groups.SYNCABLE_TYPE_TEAM, {auto_add: true, scheme_admin: false});
 
         expect(instance.handleResponse).toBeCalledTimes(2);
         expect(instance.handleHide).not.toBeCalled();
