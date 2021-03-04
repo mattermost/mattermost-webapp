@@ -13,11 +13,12 @@ executors:
 aliases:
   - &restore_cache
     restore_cache:
-      key: yarn-packages-{{ checksum "yarn.lock" }}
+      key: yarn-packages-{{ checksum "yarn.lock" }}-aa
   - &save_cache
     save_cache:
-      key: yarn-packages-{{ checksum "yarn.lock" }}
+      key: yarn-packages-{{ checksum "yarn.lock" }}-aa
       paths:
+        - node_modules
         - ~/.cache/yarn
 
 jobs:
