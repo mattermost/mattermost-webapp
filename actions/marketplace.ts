@@ -122,7 +122,7 @@ export function installPlugin(id: string, version: string) {
 // installApp installed an App using a given URL via the /apps install slash command.
 //
 // On success, it also requests the current state of the plugins to reflect the newly installed plugin.
-export function installApp(id: string, url: string) {
+export function installApp(id: string) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc): Promise<boolean> => {
         dispatch({
             type: ActionTypes.INSTALLING_MARKETPLACE_ITEM,
@@ -149,7 +149,7 @@ export function installApp(id: string, url: string) {
             team_id: teamID,
         };
 
-        const result = await dispatch(executeCommand('/apps install --force --url ' + url + ' --app-secret some-secret', args));
+        const result = await dispatch(executeCommand('/apps install --app-id ' + id, args));
         if (isError(result)) {
             dispatch({
                 type: ActionTypes.INSTALLING_MARKETPLACE_ITEM_FAILED,

@@ -87,7 +87,6 @@ export default class MarketplaceList extends React.PureComponent <MarketplaceLis
                             name={i.manifest.display_name}
                             description={i.manifest.description}
                             homepageUrl={i.manifest.homepage_url}
-                            rootUrl={i.manifest.root_url}
                             installed={i.installed}
                             labels={i.labels}
                         />
