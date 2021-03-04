@@ -14,7 +14,26 @@ describe('components/LatexBlock', () => {
 
     test('should match snapshot', () => {
         const wrapper = shallow(<LatexBlock {...defaultProps}/>);
+        expect(wrapper).toMatchSnapshot();
+    });
 
+    test('latex is disabled', () => {
+        const props = {
+            ...defaultProps,
+            enableLatex: false,
+        };
+
+        const wrapper = shallow(<LatexBlock {...props}/>);
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('error in katex', () => {
+        const props = {
+            content: '```latex e^{i\\pi + 1 = 0```',
+            enableLatex: true,
+        };
+
+        const wrapper = shallow(<LatexBlock {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 });

@@ -1,15 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`components/LatexBlock error in katex 1`] = `
+<div
+  className="post-body--code tex"
+>
+  \`\`\`latex e^{i\\pi + 1 = 0\`\`\`
+</div>
+`;
+
+exports[`components/LatexBlock latex is disabled 1`] = `
+<div
+  className="post-body--code tex"
+>
+  \`\`\`latex e^{i\\pi} + 1 = 0\`\`\`
+</div>
+`;
+
 exports[`components/LatexBlock should match snapshot 1`] = `
 <div
   className="post-body--code tex"
 >
-  <div
-    dangerouslySetInnerHTML={
-      Object {
-        "__html": "",
-      }
-    }
-  />
+  \`\`\`latex e^{i\\pi} + 1 = 0\`\`\`
 </div>
 `;
