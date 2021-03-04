@@ -31,7 +31,7 @@ jobs:
       - run: |
           yarn --version
           yarn install --immutable
-        # cd node_modules/mattermost-redux && yarn install && yarn run build
+          cd node_modules/mattermost-redux && yarn install && yarn run build
       - *save_cache
 
   check-deps:
