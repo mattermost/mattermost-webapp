@@ -15,12 +15,12 @@ Cypress.Commands.add('uiCreateChannel', ({
 
     cy.get('#newChannelModalLabel').should('be.visible');
     if (isPrivate) {
-        cy.get('#private').click();
+        cy.get('#private').click().wait(TIMEOUTS.HALF_SEC);
     } else {
-        cy.get('#public').click();
+        cy.get('#public').click().wait(TIMEOUTS.HALF_SEC);
     }
     const channelName = `${prefix}${getRandomId()}`;
-    cy.get('#newChannelName').clear().type(channelName);
+    cy.get('#newChannelName').should('be.visible').clear().type(channelName);
     if (purpose) {
         cy.get('#newChannelPurpose').clear().type(purpose);
     }
