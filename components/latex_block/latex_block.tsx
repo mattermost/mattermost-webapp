@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {KatexOptions} from 'katex';
 import React from 'react';
 
 import {FormattedMessage} from 'react-intl';
@@ -41,14 +42,15 @@ export default class LatexBlock extends React.PureComponent<Props, State> {
         }
 
         try {
-            const katexOptions = {
+            const katexOptions: KatexOptions = {
                 throwOnError: false,
                 displayMode: true,
                 maxSize: 200,
                 maxExpand: 100,
                 fleqn: true,
             };
-            const html = this.state.katex.renderToString(this.props.content, katexOptions);
+
+            const html: string = this.state.katex.renderToString(this.props.content, katexOptions);
 
             return (
                 <div
