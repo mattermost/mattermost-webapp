@@ -4,8 +4,8 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
-import {debounce} from 'mattermost-redux/actions/helpers';
-import {Team, TeamSearchOpts, TeamsWithCount} from 'mattermost-redux/types/teams';
+import {Constants} from 'utils/constants';
+import {ChannelWithTeamData as Channel} from 'mattermost-redux/types/channels';
 import {Dictionary} from 'mattermost-redux/types/utilities';
 
 import {browserHistory} from 'utils/browser_history';
@@ -15,25 +15,29 @@ import * as Utils from 'utils/utils.jsx';
 import DataGrid, {Column, Row} from 'components/admin_console/data_grid/data_grid';
 import TeamIcon from 'components/widgets/team_icon/team_icon';
 
-import './team_list.scss';
+import './channel_list.scss';
 import {FilterOptions} from 'components/admin_console/filter/filter';
+import GlobeIcon from 'components/widgets/icons/globe_icon';
+import LockIcon from 'components/widgets/icons/lock_icon';
+import ArchiveIcon from 'components/widgets/icons/archive_icon';
+import {isArchivedChannel} from 'utils/channel_utils';
 
 const ROW_HEIGHT = 80;
 
 type Props = {
-    teams: Team[];
+    channels: Channel[];
     totalCount: number;
 
-    policyId: string;
+    policyId: string | undefined;
 
-    onRemoveCallback: (user: Team) => void;
-    onAddCallback: (users: Team[]) => void;
-    teamsToRemove: Dictionary<Team>;
-    teamsToAdd: Dictionary<Team>;
+    onRemoveCallback: (channel: Channel) => void;
+    onAddCallback: (channels: Channel[]) => void;
+    channelsToRemove: Dictionary<Channel>;
+    channelsToAdd: Dictionary<Channel>;
 
     actions: {
-        searchTeams: (term: string, opts: TeamSearchOpts) => Promise<{data: TeamsWithCount}>;
-        getDataRetentionCustomPolicyTeams: (id: string, page: number, perPage: number) => Promise<{ data: Team[] }>;
+        // searchTeams: (term: string, opts: TeamSearchOpts) => Promise<{data: TeamsWithCount}>;
+        getDataRetentionCustomPolicyChannels: (id: string, page: number, perPage: number) => Promise<{ data: Channel[] }>;
     };
 }
 
@@ -55,7 +59,7 @@ export default class TeamList extends React.PureComponent<Props, State> {
 
     componentDidMount = async () => {
         if (this.props.policyId) {
-            await this.props.actions.getDataRetentionCustomPolicyTeams(this.props.policyId, 0, PAGE_SIZE * 2);
+            await this.props.actions.getDataRetentionCustomPolicyChannels(this.props.policyId, 0, PAGE_SIZE * 2);
         }
     }
 
@@ -67,7 +71,7 @@ export default class TeamList extends React.PureComponent<Props, State> {
 
     private fetchTeams = async (page: number) => {
         if (this.props.policyId) {
-            await this.props.actions.getDataRetentionCustomPolicyTeams(this.props.policyId, page + 1, PAGE_SIZE);
+            await this.props.actions.getDataRetentionCustomPolicyChannels(this.props.policyId, page + 1, PAGE_SIZE);
         }
     }
 
@@ -80,14 +84,14 @@ export default class TeamList extends React.PureComponent<Props, State> {
     }
 
     private getVisibleTotalCount = (): number => {
-        const {teamsToAdd, teamsToRemove, totalCount} = this.props;
-        const teamsToAddCount = Object.keys(teamsToAdd).length;
-        const teamsToRemoveCount = Object.keys(teamsToRemove).length;
-        return totalCount + (teamsToAddCount - teamsToRemoveCount);
+        const {channelsToAdd, channelsToRemove, totalCount} = this.props;
+        const channelsToAddCount = Object.keys(channelsToAdd).length;
+        const channelsToRemoveCount = Object.keys(channelsToRemove).length;
+        return totalCount + (channelsToAddCount - channelsToRemoveCount);
     }
 
     public getPaginationProps = (): {startCount: number; endCount: number; total: number} => {
-        // const {teamsToAdd, teamsToRemove, term} = this.props;
+        // const {channelsToAdd, channelsToRemove, term} = this.props;
         const {page} = this.state;
 
         let total: number;
@@ -97,9 +101,9 @@ export default class TeamList extends React.PureComponent<Props, State> {
         //if (term === '') {
             total = this.getVisibleTotalCount();
         // } else {
-        //     total = this.props.teams.length + Object.keys(teamsToAdd).length;
+        //     total = this.props.teams.length + Object.keys(channelsToAdd).length;
         //     this.props.teams.forEach((u) => {
-        //         if (teamsToRemove[u.id]) {
+        //         if (channelsToRemove[u.id]) {
         //             total -= 1;
         //         }
         //     });
@@ -111,16 +115,16 @@ export default class TeamList extends React.PureComponent<Props, State> {
         return {startCount, endCount, total};
     }
 
-    private removeTeam = (team: Team) => {
-        const {teamsToRemove} = this.props;
-        if (teamsToRemove[team.id] === team) {
+    private removeTeam = (channel: Channel) => {
+        const {channelsToRemove} = this.props;
+        if (channelsToRemove[channel.id] === channel) {
             return;
         }
 
         let {page} = this.state;
         const {endCount} = this.getPaginationProps();
 
-        this.props.onRemoveCallback(team);
+        this.props.onRemoveCallback(channel);
         if (endCount > this.getVisibleTotalCount() && (endCount % PAGE_SIZE) === 1 && page > 0) {
             page--;
         }
@@ -143,6 +147,11 @@ export default class TeamList extends React.PureComponent<Props, State> {
                 fixed: true,
             },
             {
+                name: 'Team',
+                field: 'team',
+                fixed: true,
+            },
+            {
                 name: '',
                 field: 'remove',
                 textAlign: 'right',
@@ -153,20 +162,20 @@ export default class TeamList extends React.PureComponent<Props, State> {
 
     getRows = () => {
         const {page} = this.state;
-        const {teams, teamsToRemove, teamsToAdd, totalCount} = this.props; // term was here
+        const {channels, channelsToRemove, channelsToAdd, totalCount} = this.props; // term was here
         const {startCount, endCount} = this.getPaginationProps();
-        console.log(teams);
-        let teamsToDisplay = teams;
-        const includeTeamsList = Object.values(teamsToAdd);
+
+        let channelsToDisplay = channels;
+        const includeTeamsList = Object.values(channelsToAdd);
 
         // Remove users to remove and add users to add
-        teamsToDisplay = teamsToDisplay.filter((user) => !teamsToRemove[user.id]);
-        teamsToDisplay = [...includeTeamsList, ...teamsToDisplay];
-        teamsToDisplay = teamsToDisplay.slice(startCount - 1, endCount);
+        channelsToDisplay = channelsToDisplay.filter((user) => !channelsToRemove[user.id]);
+        channelsToDisplay = [...includeTeamsList, ...channelsToDisplay];
+        channelsToDisplay = channelsToDisplay.slice(startCount - 1, endCount);
 
         // Dont load more elements if searching
-        if (teamsToDisplay.length < PAGE_SIZE && teams.length < totalCount) { //term === '' &&  was included
-            const numberOfTeamsRemoved = Object.keys(teamsToRemove).length;
+        if (channelsToDisplay.length < PAGE_SIZE && channels.length < totalCount) { //term === '' &&  was included
+            const numberOfTeamsRemoved = Object.keys(channelsToRemove).length;
             const pagesOfTeamsRemoved = Math.floor(numberOfTeamsRemoved / PAGE_SIZE);
             const pageToLoad = page + pagesOfTeamsRemoved + 1;
 
@@ -177,32 +186,44 @@ export default class TeamList extends React.PureComponent<Props, State> {
             }
         }
 
-        return teamsToDisplay.map((team) => {
+        return channelsToDisplay.map((channel) => {
+            let iconToDisplay = <GlobeIcon className='channel-icon'/>;
+
+            if (channel.type === Constants.PRIVATE_CHANNEL) {
+                iconToDisplay = <LockIcon className='channel-icon'/>;
+            }
+            if (isArchivedChannel(channel)) {
+                iconToDisplay = (
+                    <ArchiveIcon
+                        className='channel-icon'
+                        data-testid={`${channel.name}-archive-icon`}
+                    />
+                );
+            }
             return {
                 cells: {
-                    id: team.id,
+                    id: channel.id,
                     name: (
-                        <div className='TeamList__nameColumn'>
-                            <div className='TeamList__lowerOpacity'>
-                                <TeamIcon
-                                    size='sm'
-                                    url={Utils.imageURLForTeam(team)}
-                                    content={team.display_name}
-                                />
-                            </div>
-                            <div className='TeamList__nameText'>
+                        <div className='ChannelList__nameColumn'>
+                            {iconToDisplay}
+                            <div className='ChannelList__nameText'>
                                 <b data-testid='team-display-name'>
-                                    {team.display_name}
+                                    {channel.display_name}
                                 </b>
                             </div>
                         </div>
                     ),
+                    team: (
+                        <>
+                            eligendi
+                        </>
+                    ),
                     remove: (
                         <a
-                            data-testid={`${team.display_name}edit`}
+                            data-testid={`${channel.display_name}edit`}
                             className='group-actions TeamList_editText'
                             onClick={(e) => {
-                                this.removeTeam(team);
+                                this.removeTeam(channel);
                             }}
                         >
                             <FormattedMessage
@@ -220,9 +241,9 @@ export default class TeamList extends React.PureComponent<Props, State> {
         const rows: Row[] = this.getRows();
         const columns: Column[] = this.getColumns();
         const {startCount, endCount, total} = this.getPaginationProps();
-        console.log(total);
+
         return (
-            <div className='TeamsList'>
+            <div className='PolicyChannelsList'>
                 <DataGrid
                     columns={columns}
                     rows={rows}

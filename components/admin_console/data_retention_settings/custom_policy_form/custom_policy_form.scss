@@ -1,14 +1,11 @@
-.TeamList_nameColumn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px 0px;
+.custom_policy_fields {
+    width: 380px;
 
-    .TeamList__lowerOpacity .TeamIcon {
-        background-color: rgba(var(--sys-center-channel-color-rgb), .16);
+    .DropdownInput .Input.form-control {
+        padding: 6px 12px;
     }
 
-    .TeamList_nameText {
-        padding-left: 12px;
+    i.icon.icon-infinity.option-icon {
+        vertical-align: middle;
     }
 }

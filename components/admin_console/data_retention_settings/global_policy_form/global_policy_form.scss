@@ -1,3 +1,8 @@
-.Input.form-control {
-    padding: 6px 12px;
+.global_policy {
+    .Input.form-control {
+        padding: 6px 12px;
+    }
+    i.icon.icon-infinity.option-icon {
+        vertical-align: middle;
+    }
 }

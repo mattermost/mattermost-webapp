@@ -64,7 +64,9 @@
         }
         .Card__body {
             overflow: visible;
-
+            &.expanding {
+                transition: none;
+            }
             &.expanded {
                 margin: 28px 32px;
             }

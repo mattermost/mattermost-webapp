@@ -6,20 +6,42 @@ import {connect} from 'react-redux';
 import {createSelector} from 'reselect';
 
 import {getTeamsInPolicy} from 'mattermost-redux/selectors/entities/teams';
-import {getDataRetentionCustomPolicy as fetchPolicy, getDataRetentionCustomPolicyTeams as fetchPolicyTeams} from 'mattermost-redux/actions/admin';
+import {
+    getDataRetentionCustomPolicy as fetchPolicy, 
+    getDataRetentionCustomPolicyTeams as fetchPolicyTeams, 
+    createDataRetentionCustomPolicy,
+    updateDataRetentionCustomPolicy,
+    addDataRetentionCustomPolicyTeams,
+    removeDataRetentionCustomPolicyTeams,
+    addDataRetentionCustomPolicyChannels,
+    removeDataRetentionCustomPolicyChannels,
+} from 'mattermost-redux/actions/admin';
 import {getDataRetentionCustomPolicy} from 'mattermost-redux/selectors/entities/admin';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
-import {DataRetentionCustomPolicy} from 'mattermost-redux/types/data_retention';
+import {
+    DataRetentionCustomPolicy, 
+    CreateDataRetentionCustomPolicy, 
+    PatchDataRetentionCustomPolicy, 
+    PatchDataRetentionCustomPolicyTeams, 
+    PatchDataRetentionCustomPolicyChannels
+} from 'mattermost-redux/types/data_retention';
 import {Team} from 'mattermost-redux/types/teams';
 
 import {GlobalState} from 'types/store';
 
 import CustomPolicyForm from './custom_policy_form';
+import { ChannelWithTeamData } from 'mattermost-redux/types/channels';
 
 type Actions = {
     fetchPolicy: (id: string) => Promise<{ data: DataRetentionCustomPolicy }>;
     fetchPolicyTeams: (id: string, page: number, perPage: number) => Promise<{ data: Team[] }>;
+    createDataRetentionCustomPolicy: (policy: CreateDataRetentionCustomPolicy) => Promise<{ data: DataRetentionCustomPolicy }>;
+    updateDataRetentionCustomPolicy: (id: string, policy: PatchDataRetentionCustomPolicy) => Promise<{ data: DataRetentionCustomPolicy }>;
+    addDataRetentionCustomPolicyTeams: (id: string, policy: PatchDataRetentionCustomPolicyTeams) => Promise<{ data: Team[] }>;
+    removeDataRetentionCustomPolicyTeams: (id: string, policy: PatchDataRetentionCustomPolicyTeams) => Promise<{ data: Team[] }>;
+    addDataRetentionCustomPolicyChannels: (id: string, policy: PatchDataRetentionCustomPolicyChannels) => Promise<{ data: ChannelWithTeamData[] }>;
+    removeDataRetentionCustomPolicyChannels: (id: string, policy: PatchDataRetentionCustomPolicyChannels) => Promise<{ data: ChannelWithTeamData[] }>;
 };
 
 type OwnProps = {
@@ -52,6 +74,12 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
             fetchPolicy: fetchPolicy,
             fetchPolicyTeams: fetchPolicyTeams,
+            createDataRetentionCustomPolicy,
+            updateDataRetentionCustomPolicy,
+            addDataRetentionCustomPolicyTeams,
+            removeDataRetentionCustomPolicyTeams,
+            addDataRetentionCustomPolicyChannels,
+            removeDataRetentionCustomPolicyChannels,
         }, dispatch),
     };
 }

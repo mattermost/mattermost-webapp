@@ -12,7 +12,7 @@ type Props = {
 export default class AdminHeader extends React.PureComponent<Props> {
     public render() {
         return (
-            <div className={classNames('admin-console__header', this.props.className)}>
+            <div className={classNames('admin-console__header with-back', this.props.className)}>
                 {this.props.children}
             </div>
         );

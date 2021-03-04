@@ -162,17 +162,22 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
             return 'N/A';
         }
         let appliedTo = '';
-        if (policy.channel_count > 0) {
-            appliedTo = `${policy.channel_count} channels`;
+        if (policy.team_count > 0) {
+            appliedTo = `${policy.team_count} team`;
+            if (policy.team_count > 1) {
+                appliedTo += `s`;
+            }
         }
-
         if (policy.channel_count > 0 && policy.team_count > 0) {
             appliedTo += `, `;
         }
-
-        if (policy.team_count > 0) {
-            appliedTo += `${policy.team_count} teams`;
+        if (policy.channel_count > 0) {
+            appliedTo += `${policy.channel_count} channel`;
+            if (policy.channel_count > 1) {
+                appliedTo += `s`;
+            }
         }
+        
         return appliedTo;
     }
     getCustomPolicyRows = (): Row[] => {
@@ -199,7 +204,7 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                                 <Menu.ItemAction
                                     show={true}
                                     onClick={() => {
-
+                                        browserHistory.push(`/admin_console/compliance/data_retention/custom_policy/${policy.id}`);
                                     }}
                                     text={'Edit'}
                                     disabled={false}
@@ -221,17 +226,19 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
     componentDidMount = async () => {
         const {actions} = this.props;
         await actions.getDataRetentionCustomPolicies();
-        this.setState({customPoliciesLoading: false})
+        this.setState({customPoliciesLoading: false});
     }
 
     render = () => {
 
         return (
             <div className='wrapper--fixed DataRetentionSettings'>
-                <FormattedAdminHeader
-                    id='admin.data_retention.title'
-                    defaultMessage='Data Retention Policy'
-                />
+                <div className='admin-console__header'>
+                    <FormattedMessage
+                        id='admin.data_retention.title'
+                        defaultMessage='Data Retention Policy'
+                    />
+                </div>
                 <div className='admin-console__wrapper'>
                     <div className='admin-console__content'>
                         <Card
@@ -293,7 +300,9 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                                             defaultMessage='Add policy'
                                         />
                                     }
-                                    onClick={() => {}}
+                                    onClick={() => {
+                                        browserHistory.push(`/admin_console/compliance/data_retention/custom_policy`);
+                                    }}
                                 />
                             </Card.Header>
                             <Card.Body>

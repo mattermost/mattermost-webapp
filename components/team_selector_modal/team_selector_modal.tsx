@@ -244,11 +244,14 @@ export default class TeamSelectorModal extends React.PureComponent<Props, State>
         const buttonSubmitText = localizeMessage('multiselect.add', 'Add');
 
         let teams = [] as Team[];
+
         if (this.props.teams) {
             teams = this.props.teams.filter((team) => team.delete_at === 0);
             teams = teams.filter((team) => team.scheme_id !== this.currentSchemeId);
             teams = this.props.excludeGroupConstrained ? teams.filter((team) => !team.group_constrained) : teams;
-            teams = teams.filter((team) => this.props.alreadySelected?.indexOf(team.id) === -1);
+            if (this.props.alreadySelected) {
+                teams = teams.filter((team) => this.props.alreadySelected?.indexOf(team.id) === -1);
+            }
             teams.sort((a, b) => {
                 const aName = a.display_name.toUpperCase();
                 const bName = b.display_name.toUpperCase();
@@ -265,7 +268,7 @@ export default class TeamSelectorModal extends React.PureComponent<Props, State>
         const teamsValues = teams.map((team) => {
             return {label: team.name, value: team.id, ...team};
         });
-
+        console.log(teamsValues);
         return (
             <Modal
                 dialogClassName='a11y__modal more-modal more-direct-channels team-selector-modal'

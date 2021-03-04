@@ -7,42 +7,41 @@ import {createSelector} from 'reselect';
 
 import {getDataRetentionCustomPolicyTeams} from 'mattermost-redux/actions/admin';
 import {searchTeams} from 'mattermost-redux/actions/teams';
-import {getTeams} from 'mattermost-redux/selectors/entities/teams';
+import {getTeamsInPolicy} from 'mattermost-redux/selectors/entities/teams';
 import {getDataRetentionCustomPolicy} from 'mattermost-redux/selectors/entities/admin';
 
 import {ActionFunc} from 'mattermost-redux/types/actions';
 
-import {TeamSearchOpts, TeamsWithCount} from 'mattermost-redux/types/teams';
+import {Team, TeamSearchOpts, TeamsWithCount} from 'mattermost-redux/types/teams';
 
 import {GlobalState} from 'types/store';
 
 import TeamList from './team_list';
 
 type OwnProps = {
-    match: {
-        params: {
-            policy_id: string;
-        };
-    };
-    teams: Team[]
+    policyId: string;
 }
 
 type Actions = {
-    searchTeams(term: string, opts: TeamSearchOpts): Promise<{data: TeamsWithCount}>;
-    getDataRetentionCustomPolicyTeams(id: string, page: number, size: number): void;
+    searchTeams: (term: string, opts: TeamSearchOpts) => Promise<{data: TeamsWithCount}>;
+    getDataRetentionCustomPolicyTeams: (id: string, page: number, perPage: number) => Promise<{ data: Team[] }>;
 }
 const getSortedListOfTeams = createSelector(
-    getTeams,
+    getTeamsInPolicy,
     (teams) => Object.values(teams).sort((a, b) => a.display_name.localeCompare(b.display_name)),
 );
 
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
-    const policyId = ownProps.match.params.policy_id;
+    const teams = ownProps.policyId ? getSortedListOfTeams(state) : [];
+    const policy = ownProps.policyId ? getDataRetentionCustomPolicy(state, ownProps.policyId) || {} : {};
+    let totalCount = 0;
 
+    if (policy && policy.team_count) {
+        totalCount = policy.team_count;
+    }
     return {
-        policyId,
-        data: getSortedListOfTeams(state),
-        total: state.entities.teams.totalCount || 0,
+        teams,
+        totalCount,
     };
 }
 

@@ -98,7 +98,7 @@ const DropdownInputTransformer: React.FC<Props> = (props) => {
     const [showInput, setShowInput] = useState(inputValue ? true : false);
 
     useEffect(() => {
-        if (showInput) {
+        if (showInput && !inputValue) {
             inputRef.current.focus();
         }
     }, [showInput]);
@@ -177,7 +177,7 @@ const DropdownInputTransformer: React.FC<Props> = (props) => {
     const showLegend = Boolean(focused || value);
     return (
         <div 
-            className='DropdownInput Input_container'
+            className='DropdownInput hybrid_container'
             style={{
                 width: `${width}px`
             }}
