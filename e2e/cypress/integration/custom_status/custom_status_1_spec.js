@@ -24,7 +24,7 @@ describe('Custom Status - CTAs for New Users', () => {
         cy.postMessage('Hello World!');
 
         // * Check if the post header contains "Update your status" button
-        cy.get('.post.current--user .post__header').findByText('Update your status').should('exist');
+        cy.get('.post.current--user .post__header').findByText('Update your status').should('exist').and('be.visible');
     });
 
     it('MM-T3851_2 should open status dropdown with pulsating dot when clicked on Update your status post header', () => {

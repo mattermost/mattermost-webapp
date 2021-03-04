@@ -68,7 +68,7 @@ describe('Custom Status - Recent Statuses', () => {
         cy.get('#custom_status_modal #statusSuggestion__recents .statusSuggestion__row').first().get('.suggestion-clear').click();
 
         // * The custom status should be removed from the Recents
-        cy.get('#custom_status_modal #statusSuggestion__recents').should('not.contain', customStatus.text);
+        cy.get('#custom_status_modal .statusSuggestion__content').should('not.contain', customStatus.text);
     });
 
     it('MM-T3847_4 should set default status when clicked on the status', () => {
@@ -105,7 +105,7 @@ describe('Custom Status - Recent Statuses', () => {
         cy.get('#custom_status_modal #statusSuggestion__recents .statusSuggestion__row').first().get('.suggestion-clear').click();
 
         // * The status should be moved from the Recents list to the Suggestions list
-        cy.get('#custom_status_modal #statusSuggestion__recents').should('not.contain', defaultStatus.text);
+        cy.get('#custom_status_modal #statusSuggestion__recents').should('not.exist');
         cy.get('#custom_status_modal #statusSuggestion__suggestions').should('contain', defaultStatus.text);
     });
 });
