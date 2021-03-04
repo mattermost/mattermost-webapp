@@ -1942,6 +1942,14 @@
     }
 }
 
+.post-message__text {
+    text-align: left;
+}
+
+.post-message__text > ul, .post-code, .table-responsive {
+    direction: ltr;
+}
+
 .file-attachment-menu-item-input {
     @include opacity(0);
     cursor: pointer;
