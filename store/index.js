@@ -15,7 +15,6 @@ import {storageRehydrate} from 'actions/storage';
 import {clearUserCookie} from 'actions/views/cookie';
 import appReducer from 'reducers';
 import {transformSet} from 'store/utils';
-import {detect} from 'utils/network.js';
 import {ActionTypes} from 'utils/constants';
 import {getBasePath} from 'selectors/general';
 
@@ -209,7 +208,6 @@ export default function configureStore(initialState) {
                 return state;
             },
         },
-        detectNetwork: detect,
     };
 
     return configureServiceStore(initialState, appReducer, offlineOptions, getAppReducer);
