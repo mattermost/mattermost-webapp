@@ -217,7 +217,7 @@ exports[`admin_console/system_role_permissions should match snapshot 1`] = `
           "name": "compliance",
           "subsections": Array [
             Object {
-              "name": "compliance_data_retention",
+              "name": "compliance_data_retention_policy",
             },
             Object {
               "name": "compliance_compliance_export",
@@ -487,7 +487,7 @@ exports[`admin_console/system_role_permissions should match snapshot with isLice
           "name": "compliance",
           "subsections": Array [
             Object {
-              "name": "compliance_data_retention",
+              "name": "compliance_data_retention_policy",
             },
             Object {
               "name": "compliance_compliance_export",

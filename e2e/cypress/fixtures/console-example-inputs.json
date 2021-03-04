@@ -91,7 +91,7 @@
         "disabledInputs": [
             {
                 "path": "/admin_console/compliance/export",
-                "selector": "enableComplianceExport"
+                "selector": "enableComplianceExporttrue"
             }
         ]
     },
@@ -100,7 +100,7 @@
         "disabledInputs": [
             {
                 "path": "/admin_console/compliance/monitoring",
-                "selector": "ComplianceSettings.Enable"
+                "selector": "ComplianceSettings.Enabletrue"
             }
         ]
     },
@@ -109,7 +109,7 @@
         "disabledInputs": [
             {
                 "path": "/admin_console/compliance/custom_terms_of_service",
-                "selector": "SupportSettings.CustomTermsOfServiceEnabled"
+                "selector": "SupportSettings.CustomTermsOfServiceEnabledtrue"
             }
         ]
     },

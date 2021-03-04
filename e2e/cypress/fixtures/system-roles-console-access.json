@@ -81,25 +81,25 @@
     "section": "compliance.data_retention",
     "system_manager": "none",
     "system_user_manager": "none",
-    "system_read_only_admin": "none"
+    "system_read_only_admin": "read"
   },
   {
     "section": "compliance.message_export",
     "system_manager": "none",
     "system_user_manager": "none",
-    "system_read_only_admin": "none"
+    "system_read_only_admin": "read"
   },
   {
     "section": "compliance.audits",
     "system_manager": "none",
     "system_user_manager": "none",
-    "system_read_only_admin": "none"
+    "system_read_only_admin": "read"
   },
   {
     "section": "compliance.custom_terms_of_service",
     "system_manager": "none",
     "system_user_manager": "none",
-    "system_read_only_admin": "none"
+    "system_read_only_admin": "read"
   },
   {
     "section": "experimental.experimental_features",
