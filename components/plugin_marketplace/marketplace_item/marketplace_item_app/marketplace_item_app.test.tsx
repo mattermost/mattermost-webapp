@@ -159,7 +159,7 @@ describe('components/MarketplaceItemApp', () => {
             expect(props.trackEvent).toBeCalledWith('plugins', 'ui_marketplace_install_app', {
                 app_id: 'id',
             });
-            expect(props.actions.installApp).toHaveBeenCalledWith('id', 'http://example.com/install');
+            expect(props.actions.installApp).toHaveBeenCalledWith('id');
         });
     });
 });
