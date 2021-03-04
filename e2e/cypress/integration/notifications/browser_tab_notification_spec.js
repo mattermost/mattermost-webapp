@@ -45,7 +45,7 @@ describe('Notifications', () => {
             // # Remove mention notification (for initial channel).
             cy.apiLogin(user1);
             cy.visit(testTeam1TownSquareUrl);
-            cy.get('#lhsList').get('.unread-title').click();
+            cy.get('#sidebar-left').get('.unread-title').click();
             cy.apiLogout();
         });
     });
