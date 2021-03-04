@@ -751,12 +751,14 @@ export function applyTheme(theme) {
                     '.app__body .post-list__table .post.post--compact.post--highlight .post-collapse__gradient',
                     `background:linear-gradient(${changeOpacity(highlightBg, 0)}, ${highlightBg})`,
                 );
+                changeCss('.app__body .post-list__table .post:not(.current--user).post--highlight .post-collapse>.post-collapse__show-more', `background: ${highlightBg}`);
 
                 // For permalinked posts made by the current user
                 changeCss(
                     '.app__body .post-list__table .post.current--user.post--highlight:not(.post--compact) .post-collapse__gradient',
                     `background:linear-gradient(${changeOpacity(ownPostHighlightBg, 0)}, ${ownPostHighlightBg})`,
                 );
+                changeCss('.app__body .post-list__table .post.current--user.post--highlight:not(.post--compact) .post-collapse>.post-collapse__show-more', `background: ${highlightBg}`);
 
                 // For hovered posts
                 changeCss(
