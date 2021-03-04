@@ -100,7 +100,18 @@ describe('components/apps_form/AppsForm', () => {
                 },
             };
 
-            const store = mockStore({});
+            const state = {
+                entities: {
+                    general: {
+                        config: {},
+                    },
+                    preferences: {
+                        myPreferences: {},
+                    },
+                },
+            };
+
+            const store = mockStore(state);
             const wrapper = mountWithIntl(
                 <Provider store={store}>
                     <AppsForm {...props}/>
