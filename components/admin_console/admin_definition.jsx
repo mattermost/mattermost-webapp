@@ -590,7 +590,7 @@ const AdminDefinition = {
             it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.DEVELOPER)),
         ),
         web_server: {
-            url: RESOURCE_KEYS.ENVIRONMENT.WEB_SERVER,
+            url: 'environment/web_server',
             title: t('admin.sidebar.webServer'),
             title_default: 'Web Server',
             isHidden: it.any(
@@ -632,7 +632,7 @@ const AdminDefinition = {
                         error_message_default: 'Test unsuccessful: {error}',
                         success_message: t('admin.service.testSiteURLSuccess'),
                         success_message_default: 'Test successful. This is a valid URL.',
-                        isDisabled: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.WEB_SERVER)),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.WEB_SERVER)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -841,7 +841,7 @@ const AdminDefinition = {
             },
         },
         database: {
-            url: RESOURCE_KEYS.ENVIRONMENT.DATABASE,
+            url: 'environment/database',
             title: t('admin.sidebar.database'),
             title_default: 'Database',
             searchableStrings: [
@@ -887,7 +887,7 @@ const AdminDefinition = {
             isHidden: it.any(
                 it.not(it.licensedForFeature('Elasticsearch')),
                 it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
-                it.not(it.userHasReadPermissionOnResource('environment.elasticsearch')),
+                it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.ELASTICSEARCH)),
             ),
             searchableStrings: [
                 'admin.elasticsearch.title',
@@ -915,14 +915,14 @@ const AdminDefinition = {
                 'admin.elasticsearch.enableSearchingTitle',
                 'admin.elasticsearch.enableSearchingDescription',
             ],
-            isDisabled: it.not(it.userHasWritePermissionOnResource('environment.elasticsearch')),
+            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.ELASTICSEARCH)),
             schema: {
                 id: 'ElasticSearchSettings',
                 component: ElasticSearchSettings,
             },
         },
         storage: {
-            url: RESOURCE_KEYS.ENVIRONMENT.FILE_STORAGE,
+            url: 'environment/file_storage',
             title: t('admin.sidebar.fileStorage'),
             title_default: 'File Storage',
             isHidden: it.any(
@@ -1124,7 +1124,7 @@ const AdminDefinition = {
             },
         },
         image_proxy: {
-            url: RESOURCE_KEYS.ENVIRONMENT.IMAGE_PROXY,
+            url: 'environment/image_proxy',
             title: t('admin.sidebar.imageProxy'),
             title_default: 'Image Proxy',
             isHidden: it.any(
@@ -1200,7 +1200,7 @@ const AdminDefinition = {
             },
         },
         smtp: {
-            url: RESOURCE_KEYS.ENVIRONMENT.SMTP,
+            url: 'environment/smtp',
             title: t('admin.sidebar.smtp'),
             title_default: 'SMTP',
             isHidden: it.any(
@@ -1353,7 +1353,7 @@ const AdminDefinition = {
             },
         },
         high_availability: {
-            url: RESOURCE_KEYS.ENVIRONMENT.HIGH_AVAILABILITY,
+            url: 'environment/high_availability',
             title: t('admin.sidebar.highAvailability'),
             title_default: 'High Availability',
             isHidden: it.any(
@@ -1390,7 +1390,7 @@ const AdminDefinition = {
             },
         },
         rate_limiting: {
-            url: RESOURCE_KEYS.ENVIRONMENT.RATE_LIMITING,
+            url: 'environment/rate_limiting',
             title: t('admin.sidebar.rateLimiting'),
             title_default: 'Rate Limiting',
             isHidden: it.any(
@@ -1503,7 +1503,7 @@ const AdminDefinition = {
             },
         },
         logging: {
-            url: RESOURCE_KEYS.ENVIRONMENT.LOGGING,
+            url: 'environment/logging',
             title: t('admin.sidebar.logging'),
             title_default: 'Logging',
             isHidden: it.any(
@@ -1636,7 +1636,7 @@ const AdminDefinition = {
             },
         },
         session_lengths: {
-            url: RESOURCE_KEYS.ENVIRONMENT.SESSION_LENGTHS,
+            url: 'environment/session_lengths',
             title: t('admin.sidebar.sessionLengths'),
             title_default: 'Session Lengths',
             isHidden: it.any(
@@ -1669,7 +1669,7 @@ const AdminDefinition = {
             },
         },
         metrics: {
-            url: RESOURCE_KEYS.ENVIRONMENT.PERFORMANCE_MONITORING,
+            url: 'environment/performance_monitoring',
             title: t('admin.sidebar.metrics'),
             title_default: 'Performance Monitoring',
             isHidden: it.any(
@@ -1707,7 +1707,7 @@ const AdminDefinition = {
             },
         },
         developer: {
-            url: RESOURCE_KEYS.ENVIRONMENT.DEVELOPER,
+            url: 'environment/developer',
             title: t('admin.sidebar.developer'),
             title_default: 'Developer',
             isHidden: it.any(
