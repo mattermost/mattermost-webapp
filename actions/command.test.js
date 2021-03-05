@@ -226,6 +226,20 @@ describe('executeCommand', () => {
 
     describe('app command', () => {
         test('should call executeAppCall', async () => {
+            const state = {
+                ...initialState,
+                entities: {
+                    ...initialState.entities,
+                    general: {
+                        ...initialState.entities.general,
+                        config: {
+                            ...initialState.entities.general.config,
+                            FeatureFlagAppsEnabled: 'true',
+                        },
+                    },
+                },
+            };
+            store = await mockStore(state);
             const f = Client4.executeAppCall;
             const mocked = jest.fn().mockResolvedValue(Promise.resolve({
                 type: AppCallResponseTypes.OK,

@@ -7,8 +7,8 @@ import {ClientConfig} from 'mattermost-redux/types/config';
 import {GlobalState} from 'mattermost-redux/types/store';
 
 export function appsEnabled(state: GlobalState): boolean {
-    const appsEnabled = getConfig(state)?.['FeatureFlagAppsEnabled' as keyof Partial<ClientConfig>];
-    if (appsEnabled === 'true') {
+    const enabled = getConfig(state)?.['FeatureFlagAppsEnabled' as keyof Partial<ClientConfig>];
+    if (enabled === 'true') {
         return true;
     }
     return false;
