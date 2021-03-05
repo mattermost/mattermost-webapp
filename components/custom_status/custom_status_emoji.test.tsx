@@ -6,9 +6,10 @@ import React from 'react';
 import configureStore from 'redux-mock-store';
 import {Provider} from 'react-redux';
 
+import * as ReduxEmojiSelectors from 'mattermost-redux/selectors/entities/emojis';
+
 import * as CustomStatusSelectors from 'selectors/views/custom_status';
 import * as EmojiSelectors from 'selectors/emojis';
-import * as ReduxEmojiSelectors from 'mattermost-redux/selectors/entities/emojis';
 
 import CustomStatusEmoji from './custom_status_emoji';
 
@@ -21,9 +22,9 @@ describe('components/custom_status/custom_status_emoji', () => {
     const store = mockStore({
         entities: {
             emojis: {
-                nonExistentEmoji: {}
-            }
-        }
+                nonExistentEmoji: {},
+            },
+        },
     });
 
     const getCustomStatus = () => {
