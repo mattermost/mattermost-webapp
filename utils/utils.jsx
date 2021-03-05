@@ -739,34 +739,6 @@ export function applyTheme(theme) {
                 '.app__body .sidebar-right__body .post.post--hovered .post-collapse__show-more',
                 `background:${hoveredPostBg}`,
             );
-
-            // Fade out effect for permalinked posts
-            if (theme.mentionHighlightBg) {
-                const highlightBg = blendColors(theme.centerChannelBg, theme.mentionHighlightBg, 0.5);
-                const ownPostHighlightBg = blendColors(highlightBg, theme.centerChannelColor, 0.05);
-
-                // For permalinked posts made by another user
-                changeCss(
-                    '.app__body .post-list__table .post:not(.current--user).post--highlight .post-collapse__gradient, ' +
-                    '.app__body .post-list__table .post.post--compact.post--highlight .post-collapse__gradient',
-                    `background:linear-gradient(${changeOpacity(highlightBg, 0)}, ${highlightBg})`,
-                );
-                changeCss('.app__body .post-list__table .post:not(.current--user).post--highlight .post-collapse>.post-collapse__show-more', `background: ${highlightBg}`);
-
-                // For permalinked posts made by the current user
-                changeCss(
-                    '.app__body .post-list__table .post.current--user.post--highlight:not(.post--compact) .post-collapse__gradient',
-                    `background:linear-gradient(${changeOpacity(ownPostHighlightBg, 0)}, ${ownPostHighlightBg})`,
-                );
-                changeCss('.app__body .post-list__table .post.current--user.post--highlight:not(.post--compact) .post-collapse>.post-collapse__show-more', `background: ${highlightBg}`);
-
-                // For hovered posts
-                changeCss(
-                    '.app__body .post-list__table .post.current--user.post--highlight:hover .post-collapse__gradient, ' +
-                    '.app__body .post-list__table .post.current--user.post--highlight.post--hovered .post-collapse__gradient',
-                    `background:linear-gradient(${changeOpacity(highlightBg, 0)}, ${highlightBg})`,
-                );
-            }
         }
     }
 
@@ -846,6 +818,8 @@ export function applyTheme(theme) {
             'mention-color-rgb': toRgbValues(theme.mentionColor),
             'mention-highlight-bg-rgb': toRgbValues(theme.mentionHighlightBg),
             'mention-highlight-link-rgb': toRgbValues(theme.mentionHighlightLink),
+            'mention-highlight-bg-mixed-rgb': blendColors(theme.centerChannelBg, theme.mentionHighlightBg, 0.5),
+            'own-highlight-bg-rgb': blendColors(theme.mentionHighlightBg, theme.centerChannelColor, 0.05),
             'new-message-separator-rgb': toRgbValues(theme.newMessageSeparator),
             'online-indicator-rgb': toRgbValues(theme.onlineIndicator),
             'sidebar-bg-rgb': toRgbValues(theme.sidebarBg),

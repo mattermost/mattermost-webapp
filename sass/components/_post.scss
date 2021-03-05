@@ -2006,6 +2006,30 @@
     animation-fill-mode: forwards;
 }
 
+// Handle fade out effect for permalink highlightning
+.app__body .post-list__table .post:not(.current--user).post--highlight .post-collapse__gradient,
+.app__body .post-list__table .post.post--compact.post--highlight .post-collapse__gradient {
+    background:linear-gradient(rgba(var(--mention-highlight-bg-mixed-rgb), 0), rgba(var(--mention-highlight-bg-mixed-rgb), 1));
+}
+
+.app__body .post-list__table .post:not(current--user).post--highlight:not(.post--compact) .post-collapse>.post-collapse__show-more
+{
+    background: rgba(var(--mention-highlight-bg-mixed-rgb), 1);
+}
+
+.app__body .post-list__table .post.current--user.post--highlight:not(.post--compact) .post-collapse__gradient {
+    background:linear-gradient(rgba(var(--own-highlight-bg-rgb), 0), var(--own-highlight-bg-rgb));
+}
+
+.app__body .post-list__table .post.current--user.post--highlight:not(.post--compact) .post-collapse>.post-collapse__show-more {
+    background: var(--mention-highlight-bg-mixed-rgb);
+}
+
+.app__body .post-list__table .post.current--user.post--highlight:hover .post-collapse__gradient, 
+.app__body .post-list__table .post.current--user.post--highlight.post--hovered .post-collapse__gradient {
+    background:linear-gradient(rgba(var(--mention-highlight-bg-mixed-rgb), 0.5), var(--mention-highlight-bg-mixed-rgb));
+}
+
 @keyframes postPinnedOrFlaggedHighlight {
     100% {
       background: initial;
