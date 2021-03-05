@@ -60,10 +60,8 @@ describe('Channels', () => {
         cy.apiLogin(otherUser);
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
-        // # Go to LHS and click "More..." under Public Channels group
-        cy.get('#publicChannelList').should('be.visible').within(() => {
-            cy.findByText('More...').scrollIntoView().should('be.visible').click();
-        });
+        // # Go to LHS and click 'Browse Channels'
+        cy.uiBrowseOrCreateChannel('Browse Channels').click();
 
         cy.get('#moreChannelsModal').should('be.visible').within(() => {
             // * Dropdown should be visible, defaulting to "Public Channels"
@@ -105,10 +103,8 @@ describe('Channels', () => {
             cy.findByText('Archive').should('be.visible').click();
         });
 
-        // # Go to LHS and click "More..." under Public Channels group
-        cy.get('#publicChannelList').should('be.visible').within(() => {
-            cy.findByText('More...').scrollIntoView().should('be.visible').click();
-        });
+        // # Go to LHS and click 'Browse Channels'
+        cy.uiBrowseOrCreateChannel('Browse Channels').click();
 
         cy.get('#moreChannelsModal').should('be.visible').within(() => {
             // # CLick dropdown to open selection
@@ -141,7 +137,7 @@ describe('Channels', () => {
         cy.get('#sidebarItem_town-square').click();
 
         // * Assert that archived channel doesn't show up in LHS list
-        cy.get('#publicChannelList').should('not.contain', testChannel.display_name);
+        cy.get('#sidebar-left').should('not.contain', testChannel.display_name);
     });
 
     it('MM-T1702 Search works when changing public/archived options in the dropdown', () => {
@@ -193,10 +189,8 @@ describe('Channels', () => {
             cy.visit(`/${testTeam.name}/channels/town-square`);
         });
 
-        // # Go to LHS and click "More..." under Public Channels group
-        cy.get('#publicChannelList').should('be.visible').within(() => {
-            cy.findByText('More...').scrollIntoView().should('be.visible').click();
-        });
+        // # Go to LHS and click 'Browse Channels'
+        cy.uiBrowseOrCreateChannel('Browse Channels').click();
 
         // * Dropdown should be visible, defaulting to "Public Channels"
         cy.get('#channelsMoreDropdown').should('be.visible').within((el) => {
@@ -247,10 +241,8 @@ function verifyMoreChannelsModalWithArchivedSelection(isEnabled, testUser, testT
 }
 
 function verifyMoreChannelsModal(isEnabled) {
-    // # Select "More..." on the left hand side menu
-    cy.get('#publicChannelList').should('be.visible').within(() => {
-        cy.findByText('More...').scrollIntoView().should('be.visible').click({force: true});
-    });
+    // # Go to LHS and click 'Browse Channels'
+    cy.uiBrowseOrCreateChannel('Browse Channels').click();
 
     // * Verify that the more channels modal is open and with or without option to view archived channels
     cy.get('#moreChannelsModal').should('be.visible').within(() => {

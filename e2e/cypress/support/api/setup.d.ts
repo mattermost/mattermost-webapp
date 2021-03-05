@@ -15,7 +15,7 @@
 // ***************************************************************
 
 declare namespace Cypress {
-    interface Chainable<Subject = any> {
+    interface Chainable {
 
         /**
          * Creates a new user and make it a member of the new public team and its channels - one public channel, town-square and off-topic.

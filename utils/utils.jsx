@@ -1,27 +1,33 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable max-lines */
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import {getChannel as getChannelAction, getChannelByNameAndTeamName, joinChannel} from 'mattermost-redux/actions/channels';
+import {getPost as getPostAction} from 'mattermost-redux/actions/posts';
+import {getTeamByName as getTeamByNameAction} from 'mattermost-redux/actions/teams';
 import {Client4} from 'mattermost-redux/client';
 import {Posts} from 'mattermost-redux/constants';
-import {getChannel, getRedirectChannelNameForTeam} from 'mattermost-redux/selectors/entities/channels';
+import {getChannel, getChannelsNameMapInTeam, getMyChannelMemberships, getRedirectChannelNameForTeam} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getTeammateNameDisplaySetting, getBool} from 'mattermost-redux/selectors/entities/preferences';
-import {getCurrentUserId, getUser} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUser, getCurrentUserId, getUser} from 'mattermost-redux/selectors/entities/users';
 import {
     blendColors,
     changeOpacity,
 } from 'mattermost-redux/utils/theme_utils';
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
-import {getCurrentTeamId, getCurrentRelativeTeamUrl, getTeam} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentTeamId, getCurrentRelativeTeamUrl, getTeam, getTeamByName, getTeamMemberships} from 'mattermost-redux/selectors/entities/teams';
 import cssVars from 'css-vars-ponyfill';
 
 import moment from 'moment';
 
-import {browserHistory} from 'utils/browser_history';
+import {addUserToTeam} from 'actions/team_actions';
 import {searchForTerm} from 'actions/post_actions';
+import {browserHistory} from 'utils/browser_history';
 import Constants, {FileTypes, UserStatuses, ValidationErrors} from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils';
@@ -33,7 +39,10 @@ import ripple from 'sounds/ripple.mp3';
 import upstairs from 'sounds/upstairs.mp3';
 import {t} from 'utils/i18n';
 import store from 'stores/redux_store.jsx';
+
 import {getCurrentLocale, getTranslations} from 'selectors/i18n';
+
+import {joinPrivateChannelPrompt} from './channel_utils';
 
 export function isMac() {
     return navigator.platform.toUpperCase().indexOf('MAC') >= 0;
@@ -525,11 +534,7 @@ export function applyTheme(theme) {
 
     if (theme.sidebarHeaderBg) {
         changeCss('.app__body .MenuWrapper .status-wrapper .status, .app__body #status-dropdown .status-wrapper .status-edit, .sidebar--left .team__header, .app__body .sidebar--menu .team__header, .app__body .post-list__timestamp > div', 'background:' + theme.sidebarHeaderBg);
-        changeCss('.app__body .modal .modal-header', 'background:' + theme.sidebarHeaderBg);
         changeCss('.app__body .multi-teams .team-sidebar, .app__body #navbar_wrapper .navbar-default', 'background:' + theme.sidebarHeaderBg);
-        changeCss('@media(max-width: 768px){.app__body .search-bar__container', 'background:' + theme.sidebarHeaderBg);
-        changeCss('.app__body .attachment .attachment__container', 'border-left-color:' + theme.sidebarHeaderBg);
-        changeCss('.emoji-picker .emoji-picker__header', 'background:' + theme.sidebarHeaderBg);
     }
 
     if (theme.sidebarHeaderTextColor) {
@@ -843,6 +848,7 @@ export function applyTheme(theme) {
             'online-indicator-rgb': toRgbValues(theme.onlineIndicator),
             'sidebar-bg-rgb': toRgbValues(theme.sidebarBg),
             'sidebar-header-bg-rgb': toRgbValues(theme.sidebarHeaderBg),
+            'sidebar-teambar-bg-rgb': toRgbValues(theme.sidebarTeamBarBg),
             'sidebar-header-text-color-rgb': toRgbValues(theme.sidebarHeaderTextColor),
             'sidebar-text-rgb': toRgbValues(theme.sidebarText),
             'sidebar-text-active-border-rgb': toRgbValues(theme.sidebarTextActiveBorder),
@@ -867,6 +873,7 @@ export function applyTheme(theme) {
             'sidebar-text-active-border': theme.sidebarTextActiveBorder,
             'sidebar-text-active-color': theme.sidebarTextActiveColor,
             'sidebar-header-bg': theme.sidebarHeaderBg,
+            'sidebar-teambar-bg': theme.sidebarTeamBarBg,
             'sidebar-header-text-color': theme.sidebarHeaderTextColor,
             'sidebar-header-text-color-80': changeOpacity(theme.sidebarHeaderTextColor, 0.8),
             'online-indicator': theme.onlineIndicator,
@@ -1761,7 +1768,27 @@ export function isValidPassword(password, passwordConfig) {
     return {valid, error};
 }
 
-export function handleFormattedTextClick(e, currentRelativeTeamUrl) {
+export function isChannelOrPermalink(link) {
+    let match = (/\/([^/]+)\/channels\/(\S+)/).exec(link);
+    if (match) {
+        return {
+            type: 'channel',
+            teamName: match[1],
+            channelName: match[2],
+        };
+    }
+    match = (/\/([^/]+)\/pl\/(\w+)/).exec(link);
+    if (match) {
+        return {
+            type: 'permalink',
+            teamName: match[1],
+            postId: match[2],
+        };
+    }
+    return match;
+}
+
+export async function handleFormattedTextClick(e, currentRelativeTeamUrl) {
     const hashtagAttribute = e.target.getAttributeNode('data-hashtag');
     const linkAttribute = e.target.getAttributeNode('data-link');
     const channelMentionAttribute = e.target.getAttributeNode('data-channel-mention');
@@ -1775,6 +1802,63 @@ export function handleFormattedTextClick(e, currentRelativeTeamUrl) {
 
         if (!(e.button === MIDDLE_MOUSE_BUTTON || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey)) {
             e.preventDefault();
+
+            const state = store.getState();
+            const user = getCurrentUser(state);
+            if (isSystemAdmin(user.roles)) {
+                const match = isChannelOrPermalink(linkAttribute.value);
+                if (match) {
+                    // Get team by name
+                    const {teamName} = match;
+                    let team = getTeamByName(state, teamName);
+                    if (!team) {
+                        const {data: teamData} = await store.dispatch(getTeamByNameAction(teamName));
+                        team = teamData;
+                    }
+                    if (team && team.delete_at === 0) {
+                        let channel;
+
+                        // Handle channel url - Get channel data from channel name
+                        if (match.type === 'channel') {
+                            const {channelName} = match;
+                            channel = getChannelsNameMapInTeam(state, team.id)[channelName];
+                            if (!channel) {
+                                const {data: channelData} = await store.dispatch(getChannelByNameAndTeamName(teamName, channelName, true));
+                                channel = channelData;
+                            }
+                        } else { // Handle permalink - Get channel data from post
+                            const {postId} = match;
+                            let post = getPost(state, postId);
+                            if (!post) {
+                                const {data: postData} = await store.dispatch(getPostAction(match.postId));
+                                post = postData;
+                            }
+                            if (post) {
+                                channel = getChannel(state, post.channel_id);
+                                if (!channel) {
+                                    const {data: channelData} = await store.dispatch(getChannelAction(post.channel_id));
+                                    channel = channelData;
+                                }
+                            }
+                        }
+                        if (channel && channel.type === Constants.PRIVATE_CHANNEL && !getMyChannelMemberships(state)[channel.id]) {
+                            const {data} = await store.dispatch(joinPrivateChannelPrompt(team, channel, false));
+                            if (data.join) {
+                                let error = false;
+                                if (!getTeamMemberships(state)[team.id]) {
+                                    const joinTeamResult = await store.dispatch(addUserToTeam(team.id, user.id));
+                                    error = joinTeamResult.error;
+                                }
+                                if (!error) {
+                                    await store.dispatch(joinChannel(user.id, team.id, channel.id, channel.name));
+                                }
+                            } else {
+                                return;
+                            }
+                        }
+                    }
+                }
+            }
 
             browserHistory.push(linkAttribute.value);
         }

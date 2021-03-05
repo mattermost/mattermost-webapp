@@ -16,7 +16,7 @@
 // ***************************************************************
 
 declare namespace Cypress {
-    interface Chainable<Subject = any> {
+    interface Chainable {
 
         /**
          * Synchronize any user attribute changes in the configured AD/LDAP server with Mattermost.

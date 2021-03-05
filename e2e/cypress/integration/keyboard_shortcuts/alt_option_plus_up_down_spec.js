@@ -46,23 +46,23 @@ describe('Keyboard Shortcuts', () => {
         });
     });
 
-    it('Alt/Option + Up', () => {
+    it('MM-T1229 Alt/Option + Up', () => {
         cy.visit(`/${testTeam.name}/messages/@${sysadmin.username}`);
 
         // * Verify that the channel is loaded
         cy.get('#channelHeaderTitle').should('contain', sysadmin.username);
 
         // * Switch to channels by Alt+Up/Down keypress and verify
-        verifyChannelSwitch(testTeam.name, privateChannel, dmWithSysadmin, '{uparrow}');
-        verifyChannelSwitch(testTeam.name, townSquare, privateChannel, '{uparrow}');
-        verifyChannelSwitch(testTeam.name, offTopic, townSquare, '{uparrow}');
+        verifyChannelSwitch(testTeam.name, townSquare, dmWithSysadmin, '{uparrow}');
+        verifyChannelSwitch(testTeam.name, privateChannel, townSquare, '{uparrow}');
+        verifyChannelSwitch(testTeam.name, offTopic, privateChannel, '{uparrow}');
         verifyChannelSwitch(testTeam.name, publicChannel, offTopic, '{uparrow}');
 
         // * Should switch to bottom of channel list when current channel is at the very top
         verifyChannelSwitch(testTeam.name, dmWithSysadmin, publicChannel, '{uparrow}');
     });
 
-    it('Alt/Option + Down', () => {
+    it('MM-T1230 Alt/Option + Down', () => {
         cy.visit(`/${testTeam.name}/channels/${publicChannel.name}`);
 
         // * Verify that the channel is loaded
@@ -70,9 +70,9 @@ describe('Keyboard Shortcuts', () => {
 
         // # Switch to channels by Alt+Up/Down keypress and verify
         verifyChannelSwitch(testTeam.name, offTopic, publicChannel, '{downarrow}');
-        verifyChannelSwitch(testTeam.name, townSquare, offTopic, '{downarrow}');
-        verifyChannelSwitch(testTeam.name, privateChannel, townSquare, '{downarrow}');
-        verifyChannelSwitch(testTeam.name, dmWithSysadmin, privateChannel, '{downarrow}');
+        verifyChannelSwitch(testTeam.name, privateChannel, offTopic, '{downarrow}');
+        verifyChannelSwitch(testTeam.name, townSquare, privateChannel, '{downarrow}');
+        verifyChannelSwitch(testTeam.name, dmWithSysadmin, townSquare, '{downarrow}');
 
         // * Should switch to top of channel list when current channel is at the very bottom
         verifyChannelSwitch(testTeam.name, publicChannel, dmWithSysadmin, '{downarrow}');
@@ -90,7 +90,7 @@ function verifyChannelSwitch(teamName, toChannel, fromChannel, arrowKey) {
         cy.url().should('include', `/${teamName}/channels/${toChannel.name}`);
     }
 
-    cy.get('#sidebarChannelContainer').should('be.visible').within(() => {
+    cy.get('#sidebar-left').should('be.visible').within(() => {
         // * Verify that the toChannel is active in LHS
         verifyClass(toChannel, 'have.class');
 
