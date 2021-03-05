@@ -8,21 +8,31 @@ import {Provider} from 'react-redux';
 
 import * as CustomStatusSelectors from 'selectors/views/custom_status';
 import * as EmojiSelectors from 'selectors/emojis';
+import * as ReduxEmojiSelectors from 'mattermost-redux/selectors/entities/emojis';
 
 import CustomStatusEmoji from './custom_status_emoji';
 
+jest.mock('mattermost-redux/selectors/entities/emojis');
 jest.mock('selectors/views/custom_status');
 jest.mock('selectors/emojis');
 
 describe('components/custom_status/custom_status_emoji', () => {
     const mockStore = configureStore();
-    const store = mockStore({});
+    const store = mockStore({
+        entities: {
+            emojis: {
+                nonExistentEmoji: {}
+            }
+        }
+    });
 
     const getCustomStatus = () => {
         return null;
     };
     (CustomStatusSelectors.makeGetCustomStatus as jest.Mock).mockReturnValue(getCustomStatus);
     (EmojiSelectors.isCustomEmojiEnabled as jest.Mock).mockReturnValue(false);
+    (ReduxEmojiSelectors.getCustomEmojisByName as jest.Mock).mockReturnValue({});
+
     it('should match snapshot', () => {
         const wrapper = mount(<CustomStatusEmoji/>, {wrappingComponent: Provider, wrappingComponentProps: {store}});
         expect(wrapper).toMatchSnapshot();
