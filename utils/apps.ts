@@ -1,13 +1,17 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {AppBinding, AppCall, AppCallValues, AppExpand} from 'mattermost-redux/types/apps';
+import {ClientConfig} from 'mattermost-redux/types/config';
 import {GlobalState} from 'mattermost-redux/types/store';
 
-export function appsEnabled(state: GlobalState) {// eslint-disable-line @typescript-eslint/no-unused-vars
-    // TODO uncomment when featur flag is in place
-    //return getConfig(state)?.['FeatureFlagApps' as keyof Partial<ClientConfig>];
-    return true;
+export function appsEnabled(state: GlobalState): boolean {
+    const appsEnabled = getConfig(state)?.['FeatureFlagAppsEnabled' as keyof Partial<ClientConfig>];
+    if (appsEnabled === 'true') {
+        return true;
+    }
+    return false;
 }
 
 export function fillBindingsInformation(binding?: AppBinding) {
