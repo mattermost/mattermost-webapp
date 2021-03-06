@@ -6,7 +6,6 @@ import {Modal} from 'react-bootstrap';
 import {shallow} from 'enzyme';
 import {Channel} from 'mattermost-redux/src/types/channels';
 
-
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 import ChannelInfoModal from 'components/channel_info_modal/channel_info_modal';
 import {TestHelper} from 'utils/test_helper';
@@ -38,7 +37,7 @@ describe('components/ChannelInfoModal', () => {
                         display_name: 'Test',
                     },
                 },
-            } ,
+            },
         };
 
         const wrapper = shallow(
@@ -55,7 +54,6 @@ describe('components/ChannelInfoModal', () => {
 
     it('should call onHide callback when modal is hidden', () => {
         const onHide = jest.fn();
-
 
         const wrapper = mountWithIntl(
             <ChannelInfoModal

@@ -8,13 +8,13 @@ import {FormattedMessage} from 'react-intl';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
 import {Team} from 'mattermost-redux/types/teams';
 import {Channel} from 'mattermost-redux/types/channels';
-import {ChannelNamesMap} from 'utils/text_formatting';
 
 import Markdown from 'components/markdown';
 import GlobeIcon from 'components/widgets/icons/globe_icon';
 import LockIcon from 'components/widgets/icons/lock_icon';
 import ArchiveIcon from 'components/widgets/icons/archive_icon';
 
+import {ChannelNamesMap} from 'utils/text_formatting';
 import Constants from 'utils/constants.jsx';
 import {getSiteURL} from 'utils/url';
 import * as Utils from 'utils/utils.jsx';
@@ -22,20 +22,20 @@ import * as Utils from 'utils/utils.jsx';
 const headerMarkdownOptions = {singleline: false, mentionHighlight: false};
 
 type Props = {
-    onHide: () => void,
-    channel: Channel,
-    currentChannel: Channel,
-    currentTeam: Team,
-    isRHSOpen?: boolean,
-    currentRelativeTeamUrl?: string
+    onHide: () => void;
+    channel: Channel;
+    currentChannel: Channel;
+    currentTeam: Team;
+    isRHSOpen?: boolean;
+    currentRelativeTeamUrl?: string;
 };
 
 type State = {
-    show: boolean
+    show: boolean;
 };
 
 export default class ChannelInfoModal extends React.PureComponent<Props, State> {
-    static propTypes = { 
+    static propTypes = {
 
         /**
          * Function that is called when modal is hidden
@@ -87,7 +87,7 @@ export default class ChannelInfoModal extends React.PureComponent<Props, State> 
     }
 
     handleFormattedTextClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => Utils.handleFormattedTextClick(e, this.props.currentRelativeTeamUrl);
-    
+
     getHeaderMarkdownOptions = memoizeResult((channelNamesMap: ChannelNamesMap) => ({...headerMarkdownOptions, channelNamesMap}));
 
     render() {
