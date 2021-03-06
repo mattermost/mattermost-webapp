@@ -7,6 +7,7 @@ import MarkdownImageExpand from './markdown_image_expand';
 
 describe('components/MarkdownImageExpand', () => {
     it('should match snapshot for collapsed embeds', () => {
+        const toggleHandler = jest.fn();
         const imageCollapseHandler = jest.fn();
         const wrapper = shallow(
             <MarkdownImageExpand
@@ -14,6 +15,7 @@ describe('components/MarkdownImageExpand', () => {
                 postId={'abc'}
                 isExpanded={false}
                 imageKey={'1'}
+                onToggle={toggleHandler}
                 actions={{toggleInlineImageVisibility: imageCollapseHandler}}
             >{'An image to expand'}</MarkdownImageExpand>,
         );
@@ -22,6 +24,7 @@ describe('components/MarkdownImageExpand', () => {
     });
 
     it('should match snapshot for expanded embeds', () => {
+        const toggleHandler = jest.fn();
         const imageCollapseHandler = jest.fn();
         const wrapper = shallow(
             <MarkdownImageExpand
@@ -29,6 +32,7 @@ describe('components/MarkdownImageExpand', () => {
                 postId={'abc'}
                 isExpanded={true}
                 imageKey={'1'}
+                onToggle={toggleHandler}
                 actions={{toggleInlineImageVisibility: imageCollapseHandler}}
             >{'An image to expand'}</MarkdownImageExpand>,
         );
@@ -37,6 +41,7 @@ describe('components/MarkdownImageExpand', () => {
     });
 
     it('should emit toggle action on collapse button click', () => {
+        const toggleHandler = jest.fn();
         const imageCollapseHandler = jest.fn();
         const wrapper = shallow(
             <MarkdownImageExpand
@@ -44,6 +49,7 @@ describe('components/MarkdownImageExpand', () => {
                 postId={'abc'}
                 isExpanded={true}
                 imageKey={'1'}
+                onToggle={toggleHandler}
                 actions={{toggleInlineImageVisibility: imageCollapseHandler}}
             >{'An image to expand'}</MarkdownImageExpand>,
         );
@@ -54,6 +60,7 @@ describe('components/MarkdownImageExpand', () => {
     });
 
     it('should emit toggle action on expand button click', () => {
+        const toggleHandler = jest.fn();
         const imageCollapseHandler = jest.fn();
         const wrapper = shallow(
             <MarkdownImageExpand
@@ -61,6 +68,7 @@ describe('components/MarkdownImageExpand', () => {
                 postId={'abc'}
                 isExpanded={false}
                 imageKey={'1'}
+                onToggle={toggleHandler}
                 actions={{toggleInlineImageVisibility: imageCollapseHandler}}
             >{'An image to expand'}</MarkdownImageExpand>,
         );

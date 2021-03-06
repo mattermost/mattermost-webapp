@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React from 'react';
+import React, {useEffect} from 'react';
 import './markdown_image_expand.scss';
 
 export type Props = {
@@ -9,13 +9,18 @@ export type Props = {
     children: React.ReactNode;
     isExpanded: boolean;
     postId: string;
+    onToggle: (isExpanded: boolean) => void;
     actions: {
         toggleInlineImageVisibility: (postId: string, imageKey: string) => void;
     };
 };
 
-const MarkdownImageExpand: React.FC<Props> = ({children, alt, isExpanded, postId, actions, imageKey}: Props) => {
+const MarkdownImageExpand: React.FC<Props> = ({children, alt, isExpanded, postId, actions, onToggle, imageKey}: Props) => {
     const {toggleInlineImageVisibility} = actions;
+
+    useEffect(() => {
+        onToggle(isExpanded);
+    }, [isExpanded]);
 
     const handleToggleButtonClick = () => {
         toggleInlineImageVisibility(postId, imageKey);

@@ -29,6 +29,7 @@ export default class MarkdownImage extends React.PureComponent {
         postId: PropTypes.string.isRequired,
         imageIsLink: PropTypes.bool.isRequired,
         onImageLoaded: PropTypes.func,
+        onImageHeightChanged: PropTypes.func,
         postType: PropTypes.string,
     }
 
@@ -141,7 +142,7 @@ export default class MarkdownImage extends React.PureComponent {
                         className = `${this.props.className} ${loadingClass}`;
                     }
 
-                    const {height, width, title, postId} = this.props;
+                    const {height, width, title, postId, onImageHeightChanged} = this.props;
 
                     const imageElement = (
                         <>
@@ -182,6 +183,7 @@ export default class MarkdownImage extends React.PureComponent {
                                 alt={alt || safeSrc}
                                 postId={postId}
                                 imageKey={safeSrc}
+                                onToggle={onImageHeightChanged}
                             >
                                 {imageElement}
                             </MarkdownImageExpand>
