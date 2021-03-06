@@ -254,7 +254,7 @@ const PluginItem = ({
             />
         );
     }
-    const removeButton = (
+    let removeButton = (
         <span>
             {' - '}
             <a
@@ -357,6 +357,23 @@ const PluginItem = ({
                     </div>
                 ))}
             </div>
+        );
+    }
+
+    if (pluginStatus.id === 'com.mattermost.apps') {
+        activateButton = (<></>);
+        removeButton = (<></>);
+        settingsButton = (
+            <span>
+                <Link
+                    to={'/admin_console/plugins/plugin_' + pluginStatus.id}
+                >
+                    <FormattedMessage
+                        id='admin.plugin.settingsButton'
+                        defaultMessage='Settings'
+                    />
+                </Link>
+            </span>
         );
     }
 

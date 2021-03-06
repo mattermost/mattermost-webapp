@@ -64,9 +64,11 @@ function makeGetPluginSchema() {
                 });
             }
 
-            const pluginEnableSetting = getEnablePluginSetting(plugin);
-            pluginEnableSetting.isDisabled = it.any(pluginEnableSetting.isDisabled, it.not(it.userHasWritePermissionOnResource('plugins')));
-            settings.unshift(pluginEnableSetting);
+            if (plugin.id !== 'com.mattermost.apps') {
+                const pluginEnableSetting = getEnablePluginSetting(plugin);
+                pluginEnableSetting.isDisabled = it.any(pluginEnableSetting.isDisabled, it.not(it.userHasWritePermissionOnResource('plugins')));
+                settings.unshift(pluginEnableSetting);
+            }
 
             settings.forEach((s) => {
                 s.isDisabled = it.any(s.isDisabled, it.not(it.userHasWritePermissionOnResource('plugins')));
