@@ -238,7 +238,7 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
                             className='d-flex align-items-center'
                             onClick={() => this.fireActionAndClose(() => this.onClick(binding))}
                         >
-                            <span className='d-flex align-items-center overflow--ellipsis'>{(<img src={binding.icon}/>)}</span>
+                            <span className='d-flex align-items-center overflow--ellipsis icon'>{(<img src={binding.icon}/>)}</span>
                             <span>{binding.label}</span>
                         </a>
                     </li>
@@ -281,7 +281,7 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
                                     id='pluginCount'
                                     className='icon__text'
                                 >
-                                    {plugs.length}
+                                    {items.length}
                                 </span>
                             </React.Fragment>
                         </OverlayTrigger>
