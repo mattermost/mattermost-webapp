@@ -163,6 +163,46 @@ exports[`components/MarkdownImage should render an image with preview modal if t
 </div>
 `;
 
+exports[`components/MarkdownImage should render image with MarkdownImageExpand if it is taller than 100px 1`] = `
+<div>
+  <Connect(MarkdownImageExpand)
+    alt="test image"
+    imageKey="https://example.com/image.png"
+    postId="post_id"
+  >
+    <SizeAwareImage
+      alt="test image"
+      className="markdown-inline-img markdown-inline-img--hover cursor--pointer a11y--active"
+      dimensions={Object {}}
+      height={250}
+      onClick={[Function]}
+      onImageLoadFail={[Function]}
+      onImageLoaded={[Function]}
+      showLoader={false}
+      src="https://example.com/image.png"
+      title="test title"
+      width={50}
+    />
+    <Connect(ViewImageModal)
+      fileInfos={
+        Array [
+          Object {
+            "extension": "png",
+            "has_preview_image": false,
+            "link": "https://example.com/image.png",
+            "name": "test image",
+          },
+        ]
+      }
+      onModalDismissed={[Function]}
+      postId="post_id"
+      show={false}
+      startIndex={0}
+    />
+  </Connect(MarkdownImageExpand)>
+</div>
+`;
+
 exports[`components/MarkdownImage should render image with MarkdownImageExpand if it is taller than undefinedpx 1`] = `
 <div>
   <Connect(MarkdownImageExpand)
