@@ -256,7 +256,7 @@ describe('components/MarkdownImage', () => {
         expect(childrenWrapper.find(SizeAwareImage).prop('title')).toEqual('test title');
     });
 
-    test(`should render image with MarkdownImageExpand if it is taller than ${Constants.MAX_INLINE_IMAGE_HEIGHT}px`, () => {
+    test(`should render image with MarkdownImageExpand if it is taller than ${Constants.EXPANDABLE_INLINE_IMAGE_MIN_HEIGHT}px`, () => {
         const props = {
             alt: 'test image',
             title: 'test title',

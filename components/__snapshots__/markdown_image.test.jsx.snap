@@ -52,7 +52,6 @@ exports[`components/MarkdownImage should provide image src as an alt text for Ma
   <Connect(MarkdownImageExpand)
     alt="https://example.com/image.png"
     imageKey="https://example.com/image.png"
-    onToggle={[Function]}
     postId="post_id"
   >
     <SizeAwareImage
@@ -169,7 +168,6 @@ exports[`components/MarkdownImage should render image with MarkdownImageExpand i
   <Connect(MarkdownImageExpand)
     alt="test image"
     imageKey="https://example.com/image.png"
-    onToggle={[Function]}
     postId="post_id"
   >
     <SizeAwareImage
