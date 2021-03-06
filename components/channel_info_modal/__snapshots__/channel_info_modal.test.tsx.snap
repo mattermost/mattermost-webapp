@@ -48,7 +48,7 @@ exports[`components/ChannelInfoModal should match snapshot 1`] = `
         <GlobeIcon
           className="icon icon__globe icon--body"
         />
-        testchannel
+        name
       </strong>
     </ModalTitle>
   </ModalHeader>
@@ -63,6 +63,50 @@ exports[`components/ChannelInfoModal should match snapshot 1`] = `
         className="info__label"
       >
         <FormattedMessage
+          defaultMessage="Purpose:"
+          id="channel_info.purpose"
+        />
+      </div>
+      <div
+        className="info__value"
+      >
+        purpose
+      </div>
+    </div>
+    <div
+      className="form-group"
+    >
+      <div
+        className="info__label"
+      >
+        <FormattedMessage
+          defaultMessage="Header:"
+          id="channel_info.header"
+        />
+      </div>
+      <div
+        className="info__value"
+        onClick={[Function]}
+      >
+        <Connect(Markdown)
+          message="header"
+          options={
+            Object {
+              "channelNamesMap": undefined,
+              "mentionHighlight": false,
+              "singleline": false,
+            }
+          }
+        />
+      </div>
+    </div>
+    <div
+      className="form-group"
+    >
+      <div
+        className="info__label"
+      >
+        <FormattedMessage
           defaultMessage="URL:"
           id="channel_info.url"
         />
@@ -70,7 +114,7 @@ exports[`components/ChannelInfoModal should match snapshot 1`] = `
       <div
         className="info__value"
       >
-        http://localhost:8065/testteam/channels/testchannel
+        http://localhost:8065/DN/channels/DN
       </div>
     </div>
     <div
@@ -81,7 +125,7 @@ exports[`components/ChannelInfoModal should match snapshot 1`] = `
           defaultMessage="ID: "
           id="channel_info.id"
         />
-        testchannel
+        channel_id
       </p>
     </div>
   </ModalBody>
@@ -136,7 +180,7 @@ exports[`components/ChannelInfoModal should match snapshot with channel props 1`
         <GlobeIcon
           className="icon icon__globe icon--body"
         />
-        testchannel
+        name
       </strong>
     </ModalTitle>
   </ModalHeader>
@@ -206,7 +250,7 @@ exports[`components/ChannelInfoModal should match snapshot with channel props 1`
       <div
         className="info__value"
       >
-        http://localhost:8065/testteam/channels/testchannel
+        http://localhost:8065/DN/channels/DN
       </div>
     </div>
     <div
@@ -217,7 +261,7 @@ exports[`components/ChannelInfoModal should match snapshot with channel props 1`
           defaultMessage="ID: "
           id="channel_info.id"
         />
-        testchannel
+        channel_id
       </p>
     </div>
   </ModalBody>

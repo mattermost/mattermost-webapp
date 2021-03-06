@@ -4,52 +4,16 @@
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {shallow} from 'enzyme';
+import {Channel} from 'mattermost-redux/src/types/channels';
+
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 import ChannelInfoModal from 'components/channel_info_modal/channel_info_modal';
-import { Channel } from 'mattermost-redux/src/types/channels';
-import { Team } from 'mattermost-redux/types/teams';
+import {TestHelper} from 'utils/test_helper';
 
 describe('components/ChannelInfoModal', () => {
-    let mockChannel: Channel;
-    let mockTeam: Team;
-    beforeEach(() => {
-        mockChannel = {
-            id: 'testchannel',
-            name: 'testchannel', 
-            display_name: 'testchannel',
-            header: '',
-            purpose: '',
-            create_at: 12345,
-            update_at: 12345,
-            delete_at: 0,
-            team_id: 'testid',
-            last_post_at: 12345,
-            total_msg_count: 0,
-            type: 'O',
-            extra_update_at: 0,
-            creator_id: 'testchannel',
-            scheme_id: 'testchannel',
-            group_constrained: false,
-        };
-        mockTeam = {
-            id: 'testid', 
-            name: 'testteam',
-            create_at: 1234,
-            update_at: 1234,
-            delete_at: 0,
-            display_name: 'testteam',
-            description: 'testteam',
-            email: 'testteam@team.com',
-            company_name: 'testcompany',
-            type: 'O',
-            allowed_domains: 'testdomain',
-            invite_id: 'testinviteid',
-            allow_open_invite: true,
-            scheme_id: 'testteam',
-            group_constrained: false,
-        }
-    })
+    const mockChannel = TestHelper.getChannelMock();
+    const mockTeam = TestHelper.getTeamMock();
     it('should match snapshot', () => {
         const wrapper = shallow(
             <ChannelInfoModal

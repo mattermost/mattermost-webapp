@@ -6,6 +6,9 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
+import {Team} from 'mattermost-redux/types/teams';
+import {Channel} from 'mattermost-redux/types/channels';
+import {ChannelNamesMap} from 'utils/text_formatting';
 
 import Markdown from 'components/markdown';
 import GlobeIcon from 'components/widgets/icons/globe_icon';
@@ -15,8 +18,6 @@ import ArchiveIcon from 'components/widgets/icons/archive_icon';
 import Constants from 'utils/constants.jsx';
 import {getSiteURL} from 'utils/url';
 import * as Utils from 'utils/utils.jsx';
-import { Team } from 'mattermost-redux/types/teams';
-import { Channel } from 'mattermost-redux/types/channels';
 
 const headerMarkdownOptions = {singleline: false, mentionHighlight: false};
 
@@ -27,14 +28,13 @@ type Props = {
     currentTeam: Team,
     isRHSOpen?: boolean,
     currentRelativeTeamUrl?: string
-}
+};
 
 type State = {
     show: boolean
-}
+};
 
 export default class ChannelInfoModal extends React.PureComponent<Props, State> {
-    private getHeaderMarkdownOptions: Function;
     static propTypes = { 
 
         /**
@@ -72,10 +72,6 @@ export default class ChannelInfoModal extends React.PureComponent<Props, State> 
         super(props);
 
         this.state = {show: true};
-
-        this.getHeaderMarkdownOptions = memoizeResult((channelNamesMap: Function) => (
-            {...headerMarkdownOptions, channelNamesMap}
-        ));
     }
 
     componentDidUpdate(prevProps: Props) {
@@ -91,6 +87,8 @@ export default class ChannelInfoModal extends React.PureComponent<Props, State> 
     }
 
     handleFormattedTextClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => Utils.handleFormattedTextClick(e, this.props.currentRelativeTeamUrl);
+    
+    getHeaderMarkdownOptions = memoizeResult((channelNamesMap: ChannelNamesMap) => ({...headerMarkdownOptions, channelNamesMap}));
 
     render() {
         let channel = this.props.channel;
