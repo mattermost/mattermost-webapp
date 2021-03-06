@@ -158,6 +158,7 @@ export default class PostMessageView extends React.PureComponent<Props, State> {
                     tabIndex={0}
                     id={id}
                     className='post-message__text'
+                    dir='auto'
                     onClick={this.handleFormattedTextClick}
                 >
                     <PostMarkdown
