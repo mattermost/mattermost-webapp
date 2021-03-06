@@ -19,15 +19,18 @@ import {
     AutocompleteStaticSelect,
     AutocompleteSuggestionWithComplete,
     AppLookupCallValues,
+    AppCallValues,
 } from 'mattermost-redux/types/apps';
 
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
-import {getChannel, getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
+import {getChannel, getChannelByName, getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 import {Channel} from 'mattermost-redux/types/channels';
 
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
 import {Store} from 'redux';
+
+import {getUserByUsername} from 'mattermost-redux/selectors/entities/users';
 
 import {Constants} from 'utils/constants';
 import {GlobalState} from 'types/store';
@@ -609,6 +612,39 @@ export class AppCommandParser {
         if (!call) {
             return null;
         }
+
+        const values: AppCallValues = parsed.values;
+        parsed.form?.fields.forEach((f) => {
+            if (!values[f.name]) {
+                return;
+            }
+            switch (f.type) {
+            case AppFieldTypes.DYNAMIC_SELECT:
+                values[f.name] = {label: '', value: values[f.name]};
+                break;
+            case AppFieldTypes.STATIC_SELECT:
+                values[f.name] = f.options?.find((o) => (o.value === values[f.name]));
+                break;
+            case AppFieldTypes.USER: {
+                let userName = values[f.name] as string;
+                if (userName[0] === '@') {
+                    userName = userName.substr(1);
+                }
+                const user = getUserByUsername(this.store.getState(), userName);
+                values[f.name] = {label: user?.username, value: user?.id};
+                break;
+            }
+            case AppFieldTypes.CHANNEL: {
+                let channelName = values[f.name] as string;
+                if (channelName[0] === '~') {
+                    channelName = channelName.substr(1);
+                }
+                const channel = getChannelByName(this.store.getState(), channelName);
+                values[f.name] = {label: channel?.display_name, value: channel?.id};
+                break;
+            }
+            }
+        });
 
         return {
             ...call,
