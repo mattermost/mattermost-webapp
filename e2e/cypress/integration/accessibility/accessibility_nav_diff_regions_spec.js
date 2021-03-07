@@ -110,7 +110,7 @@ describe('Verify Quick Navigation support across different regions in the app', 
         cy.get('#headerInfo button').focus().tab().tab().tab().tab();
 
         // * Verify nav support in LHS sidebar
-        verifyNavSupport('#lhsList', 'channel sidebar region', '7');
+        verifyNavSupport('#sidebar-left', 'channel sidebar region', '7');
     });
 
     it('MM-T1460_6 Verify Navigation Support in Channel Header', () => {

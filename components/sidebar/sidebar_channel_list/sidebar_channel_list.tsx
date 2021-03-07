@@ -506,7 +506,7 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
 
             // NOTE: id attribute added to temporarily support the desktop app's at-mention DOM scraping of the old sidebar
             <div
-                id='lhsList'
+                id='sidebar-left'
                 role='application'
                 aria-label={ariaLabel}
                 className={classNames('SidebarNavContainer a11y__region', {
