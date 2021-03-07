@@ -30,6 +30,7 @@ import {Constants, NotificationLevels, StoragePrefixes} from 'utils/constants';
 import {leaveChannel, leaveDirectChannel} from 'actions/views/channel';
 import {open as openLhs} from 'actions/views/lhs.js';
 import {getPostDraft} from 'selectors/rhs';
+import {isCollapsedThreadsEnabled} from 'selectors/threads';
 
 import SidebarChannel from './sidebar_channel.jsx';
 
@@ -63,14 +64,19 @@ function makeMapStateToProps() {
         let unreadMsgs = 0;
         let showUnreadForMsgs = true;
         if (member) {
-            const threadCounts = getThreadCountsInCurrentTeam(
-                state,
-            );
-            const threadMentionCountInChannel = (threadCounts && threadCounts.unread_mentions_per_channel && threadCounts.unread_mentions_per_channel[channel.id]) || 0;
-            unreadMentions = member.mention_count - threadMentionCountInChannel;
-
             if (channel) {
                 unreadMsgs = Math.max(channel.total_msg_count - member.msg_count, 0);
+            }
+            if (isCollapsedThreadsEnabled(state)) {
+                const threadCounts = getThreadCountsInCurrentTeam(
+                    state,
+                );
+                const threadMentionCountInChannel = (threadCounts && threadCounts.unread_mentions_per_channel && threadCounts.unread_mentions_per_channel[channel.id]) || 0;
+                const threadReplyCountInChannel = (threadCounts && threadCounts.unread_replies_per_channel && threadCounts.unread_replies_per_channel[channel.id]) || 0;
+                unreadMentions = member.mention_count - threadMentionCountInChannel;
+                if (unreadMsgs > 0) {
+                    unreadMsgs -= threadReplyCountInChannel;
+                }
             }
 
             if (member.notify_props) {

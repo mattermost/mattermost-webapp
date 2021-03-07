@@ -33,13 +33,16 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     if (member) {
         unreadMentions = member.mention_count;
 
-        if (isCollapsedThreadsEnabled(state)) {
-            const threadMentionCountInChannel = getThreadCountsInCurrentTeam(state)?.unread_mentions_per_channel?.[ownProps.channel.id] || 0;
-            unreadMentions -= threadMentionCountInChannel;
-        }
-
         if (ownProps.channel) {
             unreadMsgs = Math.max(ownProps.channel.total_msg_count - member.msg_count, 0);
+        }
+
+        if (isCollapsedThreadsEnabled(state)) {
+            const counts = getThreadCountsInCurrentTeam(state);
+            const threadMentionCountInChannel = counts?.unread_mentions_per_channel?.[ownProps.channel.id] || 0;
+            const threadReplyCountInChannel = counts?.unread_replies_per_channel?.[ownProps.channel.id] || 0;
+            unreadMentions -= threadMentionCountInChannel;
+            unreadMsgs -= threadReplyCountInChannel;
         }
 
         if (member.notify_props) {
