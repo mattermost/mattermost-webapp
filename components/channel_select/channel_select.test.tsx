@@ -4,30 +4,34 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
+import {ChannelType} from 'mattermost-redux/types/channels';
+
 import ChannelSelect from 'components/channel_select/channel_select';
 import Constants from 'utils/constants';
+
+import {TestHelper} from 'utils/test_helper';
 
 describe('components/ChannelSelect', () => {
     const defaultProps = {
         channels: [
-            {
+            TestHelper.getChannelMock({
                 id: 'id1',
                 display_name: 'Channel 1',
                 name: 'channel1',
-                type: Constants.OPEN_CHANNEL,
-            },
-            {
+                type: Constants.OPEN_CHANNEL as ChannelType,
+            }),
+            TestHelper.getChannelMock({
                 id: 'id2',
                 display_name: 'Channel 2',
                 name: 'channel2',
-                type: Constants.PRIVATE_CHANNEL,
-            },
-            {
+                type: Constants.PRIVATE_CHANNEL as ChannelType,
+            }),
+            TestHelper.getChannelMock({
                 id: 'id3',
                 display_name: 'Channel 3',
                 name: 'channel3',
-                type: Constants.DM_CHANNEL,
-            },
+                type: Constants.DM_CHANNEL as ChannelType,
+            }),
         ],
         onChange: jest.fn(),
         value: 'testValue',
@@ -38,7 +42,6 @@ describe('components/ChannelSelect', () => {
 
     test('should match snapshot', () => {
         const wrapper = shallow(<ChannelSelect {...defaultProps}/>);
-
         expect(wrapper).toMatchSnapshot();
     });
 });
