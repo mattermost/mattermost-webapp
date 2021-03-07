@@ -26,7 +26,7 @@ import AddGroupsToTeamModal from 'components/add_groups_to_team_modal';
 import {getMonthLong} from 'utils/i18n.jsx';
 import * as Utils from 'utils/utils.jsx';
 
-import AddMembersCallToAction from './add_members_call_to_action';
+import AddMembersButton from './add_members_button';
 
 type Props = {
     currentUserId: string;
@@ -42,7 +42,6 @@ type Props = {
     teammateName?: string;
     stats: any;
     usersLimit: number;
-    isCloud: boolean;
 }
 
 export default class ChannelIntroMessage extends React.PureComponent<Props> {
@@ -210,7 +209,7 @@ function createOffTopicIntroMessage(channel: Channel, centeredIntro: string, sta
     }
 
     const channelInviteButton = (
-        <AddMembersCallToAction
+        <AddMembersButton
             setHeader={setHeaderButton}
             totalUsers={totalUsers}
             usersLimit={usersLimit}
@@ -290,7 +289,7 @@ export function createDefaultIntroMessage(
                     permissions={[Permissions.ADD_USER_TO_TEAM]}
                 >
                     {!teamIsGroupConstrained &&
-                        <AddMembersCallToAction
+                        <AddMembersButton
                             setHeader={setHeaderButton}
                             totalUsers={totalUsers}
                             usersLimit={usersLimit}
@@ -493,7 +492,7 @@ function createStandardIntroMessage(channel: Channel, centeredIntro: string, sta
     }
 
     const channelInviteButton = (
-        <AddMembersCallToAction
+        <AddMembersButton
             totalUsers={totalUsers}
             usersLimit={usersLimit}
             channel={channel}

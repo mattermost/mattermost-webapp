@@ -18,18 +18,18 @@ import ChannelPermissionGate from 'components/permissions_gates/channel_permissi
 import {Constants, ModalIdentifiers} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
-import './add_members_call_to_action.scss';
+import './add_members_button.scss';
 
 import MembersSvg from './members_illustration.svg';
 
-export interface AddMembersCallToActionProps {
+export interface AddMembersButtonProps {
     totalUsers: number;
     usersLimit: number;
     channel: Channel;
     setHeader: React.ReactNode;
 }
 
-const AddMembersCallToAction: React.FC<AddMembersCallToActionProps> = ({totalUsers, usersLimit, channel, setHeader}: AddMembersCallToActionProps) => {
+const AddMembersButton: React.FC<AddMembersButtonProps> = ({totalUsers, usersLimit, channel, setHeader}: AddMembersButtonProps) => {
     const inviteUsers = totalUsers < usersLimit;
     return (
         inviteUsers ? lessThanMaxFreeUsers(setHeader) : moreThanMaxFreeUsers(channel, setHeader)
@@ -130,4 +130,4 @@ const moreThanMaxFreeUsers = (channel: Channel, setHeader: React.ReactNode) => {
     );
 };
 
-export default AddMembersCallToAction;
+export default AddMembersButton;

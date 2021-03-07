@@ -3,7 +3,7 @@
 
 import {connect} from 'react-redux';
 
-import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getAdminAnalytics} from 'mattermost-redux/selectors/entities/admin';
 import {isCurrentChannelReadOnly, getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
@@ -42,8 +42,7 @@ function mapStateToProps(state: GlobalState) {
         teammate,
         teammateName: getDisplayNameByUser(state, teammate),
         stats: getAdminAnalytics(state),
-        usersLimit: parseInt(getConfig(state).ExperimentalCloudUserLimit!, 10),
-        isCloud: getLicense(state).Cloud === 'true',
+        usersLimit: parseInt(getConfig(state).ExperimentalCloudUserLimit! || '10', 10),
     };
 }
 
