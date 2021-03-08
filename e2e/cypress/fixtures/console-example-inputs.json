@@ -51,11 +51,74 @@
         ]
     },
     {
-        "section": "authentication",
+        "section": "authentication.signup",
+        "disabledInputs": [
+            {
+                "path": "/admin_console/authentication/signup",
+                "selector": "TeamSettings.EnableUserCreationfalse"
+            }
+        ]
+    },
+    {
+        "section": "authentication.email",
+        "disabledInputs": [
+            {
+                "path": "/admin_console/authentication/email",
+                "selector": "EmailSettings.EnableSignUpWithEmailfalse"
+            }
+        ]
+    },
+    {
+        "section": "authentication.password",
         "disabledInputs": [
             {
                 "path": "/admin_console/authentication/password",
                 "selector": "passwordMinimumLengthinput"
+            }
+        ]
+    },
+    {
+        "section": "authentication.mfa",
+        "disabledInputs": [
+            {
+                "path": "/admin_console/authentication/mfa",
+                "selector": "ServiceSettings.EnableMultifactorAuthenticationfalse"
+            }
+        ]
+    },
+    {
+        "section": "authentication.ldap",
+        "disabledInputs": [
+            {
+                "path": "/admin_console/authentication/ldap",
+                "selector": "LdapSettings.Enablefalse"
+            }
+        ]
+    },
+    {
+        "section": "authentication.saml",
+        "disabledInputs": [
+            {
+                "path": "/admin_console/authentication/saml",
+                "selector": "SamlSettings.Enablefalse"
+            }
+        ]
+    },
+    {
+        "section": "authentication.openid",
+        "disabledInputs": [
+            {
+                "path": "/admin_console/authentication/openid",
+                "selector": "openidTypedropdown"
+            }
+        ]
+    },
+    {
+        "section": "authentication.guest_access",
+        "disabledInputs": [
+            {
+                "path": "/admin_console/authentication/guest_access",
+                "selector": "GuestAccountsSettings.Enablefalse"
             }
         ]
     },

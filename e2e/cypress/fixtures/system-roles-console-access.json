@@ -60,7 +60,49 @@
     "system_read_only_admin": "read"
   },
   {
-    "section": "authentication",
+    "section": "authentication.signup",
+    "system_manager": "read",
+    "system_user_manager": "read",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "authentication.email",
+    "system_manager": "read",
+    "system_user_manager": "read",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "authentication.password",
+    "system_manager": "read",
+    "system_user_manager": "read",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "authentication.mfa",
+    "system_manager": "read",
+    "system_user_manager": "read",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "authentication.ldap",
+    "system_manager": "read",
+    "system_user_manager": "read",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "authentication.saml",
+    "system_manager": "read",
+    "system_user_manager": "read",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "authentication.openid",
+    "system_manager": "read",
+    "system_user_manager": "read",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "authentication.guest_access",
     "system_manager": "read",
     "system_user_manager": "read",
     "system_read_only_admin": "read"

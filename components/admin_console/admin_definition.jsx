@@ -2535,10 +2535,7 @@ const AdminDefinition = {
             it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.PASSWORD)),
             it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.MFA)),
             it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
-            it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.GITLAB)),
             it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SAML)),
-            it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OAUTH)),
-            it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
             it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.GUEST_ACCESS)),
         ),
         signup: {
@@ -3455,7 +3452,7 @@ const AdminDefinition = {
                         type: Constants.SettingsTypes.TYPE_CUSTOM,
                         component: LDAPFeatureDiscovery,
                         key: 'LDAPFeatureDiscovery',
-                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SAML)),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
                     },
                 ],
             },
@@ -4003,7 +4000,7 @@ const AdminDefinition = {
             title_default: 'GitLab',
             isHidden: it.any(
                 it.licensed,
-                it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.GITLAB)),
+                it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
             ),
             schema: {
                 id: 'GitLabSettings',
@@ -4028,7 +4025,7 @@ const AdminDefinition = {
                         help_text: t('admin.gitlab.enableDescription'),
                         help_text_default: "When true, Mattermost allows team creation and account signup using GitLab OAuth.\n \n1. Log in to your GitLab account and go to Profile Settings -> Applications.\n2. Enter Redirect URIs \"'<your-mattermost-url>'/login/gitlab/complete\" (example: http://localhost:8065/login/gitlab/complete) and \"<your-mattermost-url>/signup/gitlab/complete\".\n3. Then use \"Application Secret Key\" and \"Application ID\" fields from GitLab to complete the options below.\n4. Complete the Endpoint URLs below.",
                         help_text_markdown: true,
-                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.GITLAB)),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -4040,7 +4037,7 @@ const AdminDefinition = {
                         placeholder: t('admin.gitlab.clientIdExample'),
                         placeholder_default: 'E.g.: "jcuS8PuvcpGhpgHhlcpT1Mx42pnqMxQY"',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.GITLAB)),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                             it.stateIsFalse('GitLabSettings.Enable'),
                         ),
                     },
@@ -4054,7 +4051,7 @@ const AdminDefinition = {
                         placeholder: t('admin.gitlab.clientSecretExample'),
                         placeholder_default: 'E.g.: "jcuS8PuvcpGhpgHhlcpT1Mx42pnqMxQY"',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.GITLAB)),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                             it.stateIsFalse('GitLabSettings.Enable'),
                         ),
                     },
@@ -4068,7 +4065,7 @@ const AdminDefinition = {
                         placeholder: t('admin.gitlab.siteUrlExample'),
                         placeholder_default: 'E.g.: https://',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.GITLAB)),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                             it.stateIsFalse('GitLabSettings.Enable'),
                         ),
                     },
@@ -4133,7 +4130,7 @@ const AdminDefinition = {
                     it.licensedForFeature('OpenId'),
                     it.not(usesLegacyOauth),
                 ),
-                it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OAUTH)),
+                it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
             ),
             schema: {
                 id: 'OAuthSettings',
@@ -4189,7 +4186,7 @@ const AdminDefinition = {
                             it.not(it.licensedForFeature('OpenId')),
                             it.not(usesLegacyOauth),
                         ),
-                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OAUTH)),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_DROPDOWN,
@@ -4229,7 +4226,7 @@ const AdminDefinition = {
                                 help_text_markdown: true,
                             },
                         ],
-                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OAUTH)),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -4241,7 +4238,7 @@ const AdminDefinition = {
                         placeholder: t('admin.gitlab.clientIdExample'),
                         placeholder_default: 'E.g.: "jcuS8PuvcpGhpgHhlcpT1Mx42pnqMxQY"',
                         isHidden: it.not(it.stateEquals('oauthType', 'gitlab')),
-                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OAUTH)),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -4253,7 +4250,7 @@ const AdminDefinition = {
                         placeholder: t('admin.gitlab.clientSecretExample'),
                         placeholder_default: 'E.g.: "jcuS8PuvcpGhpgHhlcpT1Mx42pnqMxQY"',
                         isHidden: it.not(it.stateEquals('oauthType', 'gitlab')),
-                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OAUTH)),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -4265,7 +4262,7 @@ const AdminDefinition = {
                         placeholder: t('admin.gitlab.siteUrlExample'),
                         placeholder_default: 'E.g.: https://',
                         isHidden: it.not(it.stateEquals('oauthType', 'gitlab')),
-                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OAUTH)),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -4319,7 +4316,7 @@ const AdminDefinition = {
                         placeholder: t('admin.google.clientIdExample'),
                         placeholder_default: 'E.g.: "7602141235235-url0fhs1mayfasbmop5qlfns8dh4.apps.googleusercontent.com"',
                         isHidden: it.not(it.stateEquals('oauthType', 'google')),
-                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OAUTH)),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -4331,7 +4328,7 @@ const AdminDefinition = {
                         placeholder: t('admin.google.clientSecretExample'),
                         placeholder_default: 'E.g.: "H8sz0Az-dDs2p15-7QzD231"',
                         isHidden: it.not(it.stateEquals('oauthType', 'google')),
-                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OAUTH)),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -4370,7 +4367,7 @@ const AdminDefinition = {
                         placeholder: t('admin.office365.clientIdExample'),
                         placeholder_default: 'E.g.: "adf3sfa2-ag3f-sn4n-ids0-sh1hdax192qq"',
                         isHidden: it.not(it.stateEquals('oauthType', 'office365')),
-                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OAUTH)),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -4382,7 +4379,7 @@ const AdminDefinition = {
                         placeholder: t('admin.office365.clientSecretExample'),
                         placeholder_default: 'E.g.: "shAieM47sNBfgl20f8ci294"',
                         isHidden: it.not(it.stateEquals('oauthType', 'office365')),
-                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OAUTH)),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -4394,7 +4391,7 @@ const AdminDefinition = {
                         placeholder: t('admin.office365.directoryIdExample'),
                         placeholder_default: 'E.g.: "adf3sfa2-ag3f-sn4n-ids0-sh1hdax192qq"',
                         isHidden: it.not(it.stateEquals('oauthType', 'office365')),
-                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OAUTH)),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
