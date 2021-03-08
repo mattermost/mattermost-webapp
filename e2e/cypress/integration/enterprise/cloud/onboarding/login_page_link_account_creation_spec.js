@@ -1,4 +1,3 @@
-
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
@@ -35,7 +34,7 @@ describe('Onboarding', () => {
 
         cy.apiInitSetup().then(({team}) => {
             testTeam = team;
-            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+            cy.visit(`/${testTeam.name}/channels/town-square`);
         });
     });
 
@@ -65,7 +64,7 @@ describe('Onboarding', () => {
         cy.apiLogout();
 
         // # Visit the team url
-        cy.visitAndWait(`/${testTeam.name}`);
+        cy.visit(`/${testTeam.name}`);
 
         // # Attempt to create a new account
         cy.get('#login_section', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').click();
@@ -111,7 +110,7 @@ describe('Onboarding', () => {
             const permalink = bodyText[6].match(reUrl)[0];
 
             // # Visit permalink (e.g. click on email link)
-            cy.visitAndWait(permalink);
+            cy.visit(permalink);
         });
     }
 

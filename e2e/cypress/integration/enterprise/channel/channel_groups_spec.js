@@ -51,7 +51,7 @@ describe('channel groups', () => {
 
     it('limits the listed groups if the parent team is group-constrained', () => {
         // # Visit a channel
-        cy.visitAndWait(`/${testTeam.name}/channels/off-topic`);
+        cy.visit(`/${testTeam.name}/channels/off-topic`);
 
         // # Open the Add Groups modal
         openAddGroupsToChannelModal();
@@ -65,7 +65,7 @@ describe('channel groups', () => {
 
         // # Group-constrain the parent team
         cy.apiPatchTeam(testTeam.id, {group_constrained: true});
-        cy.visitAndWait(`/${testTeam.name}/channels/off-topic`);
+        cy.visit(`/${testTeam.name}/channels/off-topic`);
 
         // # Close and re-open the Add Groups modal again
         openAddGroupsToChannelModal();

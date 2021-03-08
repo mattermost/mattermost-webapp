@@ -1,4 +1,3 @@
-
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
@@ -37,14 +36,14 @@ describe('Notifications', () => {
             });
 
             // # As otherUser, set status to offline and logout
-            cy.visitAndWait(`/${testTeam.name}/channels/off-topic`);
+            cy.visit(`/${testTeam.name}/channels/off-topic`);
             cy.findByLabelText('set status').should('be.visible').click();
             cy.findByText('Offline').should('be.visible').click();
             cy.apiLogout();
 
             // # Login as sysadmin and go to the Off-Topic channel
             cy.apiAdminLogin();
-            cy.visitAndWait(`/${testTeam.name}/channels/off-topic`);
+            cy.visit(`/${testTeam.name}/channels/off-topic`);
         });
     });
 
@@ -79,7 +78,7 @@ describe('Notifications', () => {
             const permalink = bodyText[9].match(reUrl)[0];
 
             // # Visit permalink (e.g. click on email link)
-            cy.visitAndWait(permalink);
+            cy.visit(permalink);
 
             // # Choose the 'View in Browser' option
             cy.findByText('View in Browser', {timeout: TIMEOUTS.HALF_MIN}).click();

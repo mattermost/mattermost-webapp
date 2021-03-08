@@ -58,7 +58,7 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
     beforeEach(() => {
         // # Login as sysadmin and visit the town-square
         cy.apiAdminLogin();
-        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
     });
 
     it('MM-T1454 Accessibility Support in Different Modals and Dialog screen', () => {
@@ -74,7 +74,7 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
         // * Verify the accessibility support in Manage Members Dialog
         verifyMainMenuModal('Manage Members', 'teamMembersModal', 'teamMemberModalLabel', `${testTeam.display_name} Members`);
 
-        cy.visitAndWait(`/${testTeam.name}/channels/off-topic`);
+        cy.visit(`/${testTeam.name}/channels/off-topic`);
 
         // * Verify the accessibility support in Channel Edit Header Dialog
         verifyChannelMenuModal('Edit Channel Header', 'Edit Header for Off-Topic', 'editChannelHeaderModalLabel');
@@ -88,7 +88,7 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
 
     it('MM-T1466 Accessibility Support in Direct Messages Dialog screen', () => {
         // * Verify the aria-label in create direct message button
-        cy.get('#addDirectChannel').should('have.attr', 'aria-label', 'write a direct message').click();
+        cy.uiAddDirectMessage().click();
 
         // * Verify the accessibility support in Direct Messages Dialog`
         cy.get('#moreDmModal').should('have.attr', 'role', 'dialog').and('have.attr', 'aria-labelledby', 'moreDmModalLabel').within(() => {
@@ -121,7 +121,7 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
             cy.get('#selectItems input').type('somethingwhichdoesnotexist', {force: true}).wait(TIMEOUTS.HALF_SEC);
 
             // * Check if reader can read no results
-            cy.get('.multi-select__wrapper').should('have.attr', 'aria-live', 'polite').and('have.text', 'No items found');
+            cy.get('.multi-select__wrapper').should('have.attr', 'aria-live', 'polite').and('have.text', 'No results found matching ****');
         });
     });
 
@@ -140,9 +140,7 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
                 cy.reload();
 
                 // * Verify the aria-label in more public channels button
-                cy.get('#sidebarPublicChannelsMore', {timeout: TIMEOUTS.ONE_MIN}).
-                    should('be.visible').
-                    and('have.attr', 'aria-label', 'See more public channels').click();
+                cy.uiBrowseOrCreateChannel('Browse Channels').click();
 
                 // * Verify the accessibility support in More Channels Dialog`
                 cy.get('#moreChannelsModal').
@@ -193,7 +191,7 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
         }
 
         // # Visit the test channel
-        cy.visitAndWait(`/${testTeam.name}/channels/${testChannel.name}`);
+        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
         // # Open Add Members Dialog
         cy.get('#channelHeaderDropdownIcon').click();
@@ -236,7 +234,7 @@ describe('Verify Accessibility Support in Modals & Dialogs', () => {
 
     it('MM-T1487 Accessibility Support in Manage Channel Members Dialog screen', () => {
         // # Visit test team and channel
-        cy.visitAndWait(`/${testTeam.name}/channels/off-topic`);
+        cy.visit(`/${testTeam.name}/channels/off-topic`);
 
         // # Open Channel Members Dialog
         cy.get('#channelHeaderDropdownIcon').click();

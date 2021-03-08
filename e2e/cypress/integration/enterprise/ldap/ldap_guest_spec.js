@@ -132,7 +132,7 @@ describe('LDAP guest', () => {
         cy.findByTestId('LdapSettings.GuestFilterinput').should('have.attr', 'disabled');
 
         // # Go to SAML settings page
-        cy.visitAndWait('/admin_console/authentication/saml');
+        cy.visit('/admin_console/authentication/saml');
         cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'SAML 2.0');
         cy.findByTestId('SamlSettings.GuestAttributeinput').should('be.disabled');
 
@@ -159,7 +159,7 @@ describe('LDAP guest', () => {
         // # Create team if no membership
         cy.skipOrCreateTeam(testSettings, getRandomId()).then(() => {
             // * Verify user is a member
-            cy.get('#createPublicChannel').should('exist');
+            cy.findByRole('button', {name: 'Add Channel Dropdown'}).should('exist');
 
             // # Demote the user
             demoteUserToGuest(user2Data);
@@ -170,10 +170,10 @@ describe('LDAP guest', () => {
                 cy.doLDAPLogin(testSettings);
 
                 // * Check if user is in the team
-                cy.get('#addDirectChannel').should('exist');
+                cy.uiAddDirectMessage().should('exist');
 
                 // * Check the user is a guest
-                cy.get('#createPublicChannel').should('not.exist');
+                cy.findByRole('button', {name: 'Add Channel Dropdown'}).should('not.exist');
             });
         });
     });
@@ -189,7 +189,7 @@ describe('LDAP guest', () => {
                 // # Link group
                 cy.apiLinkGroup(board.primary_key).then(() => {
                     // # Add board-one to test team
-                    cy.visitAndWait(`/admin_console/user_management/teams/${team.id}`);
+                    cy.visit(`/admin_console/user_management/teams/${team.id}`);
                     cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'Team Configuration');
 
                     // # Turn on sync group members
@@ -215,7 +215,7 @@ describe('LDAP guest', () => {
                     cy.wait(TIMEOUTS.TWO_SEC);
 
                     // # Go to the new team
-                    cy.visitAndWait(`/${team.name}/channels/town-square`);
+                    cy.visit(`/${team.name}/channels/town-square`);
 
                     // # Open Invite People
                     cy.get('#sidebarHeaderDropdownButton', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').click();
@@ -232,13 +232,13 @@ describe('LDAP guest', () => {
 });
 
 function gotoGuestAccessSettings() {
-    cy.visitAndWait('/admin_console/authentication/guest_access');
+    cy.visit('/admin_console/authentication/guest_access');
     cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'Guest Access (Beta)');
 }
 
 function gotoLDAPSettings() {
     // # Go to settings page and wait until page is loaded
-    cy.visitAndWait('/admin_console/authentication/ldap');
+    cy.visit('/admin_console/authentication/ldap');
     cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'AD/LDAP');
 }
 

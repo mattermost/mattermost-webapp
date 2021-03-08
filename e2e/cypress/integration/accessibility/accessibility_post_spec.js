@@ -45,7 +45,7 @@ describe('Verify Accessibility Support in Post', () => {
     beforeEach(() => {
         // # Login as test user and visit the Town Square channel
         cy.apiLogin(testUser);
-        cy.visitAndWait(`/${testTeam.name}/channels/${testChannel.name}`);
+        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
         cy.get('#postListContent', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
     });
 
@@ -253,14 +253,15 @@ describe('Verify Accessibility Support in Post', () => {
 
     it('MM-T1462 Verify incoming messages are read', () => {
         // # Make channel as read by switching back and forth to testChannel
-        cy.get('#sidebarChannelContainer').should('be.visible').findByText('Off-Topic').click();
+        cy.uiGetLhsSection('CHANNELS').findByText('Off-Topic').click();
         cy.get('#postListContent', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
-        cy.get('#sidebarChannelContainer').should('be.visible').findByText(testChannel.display_name).click();
+        cy.uiGetLhsSection('CHANNELS').findByText(testChannel.display_name).click();
         cy.get('#postListContent', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
         // # Submit a post as another user
         const message = `verify incoming message from ${otherUser.username}: ${getRandomId()}`;
         cy.postMessageAs({sender: otherUser, message, channelId: testChannel.id});
+        cy.uiWaitUntilMessagePostedIncludes(message);
 
         // # Get the element which stores the incoming messages
         cy.get('#postListContent').within(() => {

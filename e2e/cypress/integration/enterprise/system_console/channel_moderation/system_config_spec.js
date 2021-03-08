@@ -46,7 +46,7 @@ describe('Channel Moderation', () => {
     it('MM-22276 - Enable and Disable all channel moderated permissions', () => {
         // # Go to system admin page and to channel configuration page of test channel
         cy.apiAdminLogin();
-        cy.visitAndWait('/admin_console/user_management/channels');
+        cy.visit('/admin_console/user_management/channels');
 
         // # Search for the channel.
         cy.get('.DataGrid_searchBar').within(() => {

@@ -7,16 +7,19 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @channel @smoke
 
 describe('Channel Switcher', () => {
     let testTeam;
-    const channelNamePrefix = 'achannel';
+    let testChannelName;
+    const channelNamePrefix = 'aswitchchannel';
     const channelDisplayNamePrefix = 'ASwitchChannel';
 
     before(() => {
-        cy.apiInitSetup({channelPrefix: {name: `${channelNamePrefix}-a`, displayName: `${channelDisplayNamePrefix} A`}}).then(({team, user}) => {
+        cy.apiInitSetup({channelPrefix: {name: `${channelNamePrefix}-a`, displayName: `${channelDisplayNamePrefix} A`}}).then(({team, channel, user}) => {
             testTeam = team;
+            testChannelName = channel.display_name;
 
             // # Add some channels
             cy.apiCreateChannel(testTeam.id, `${channelNamePrefix}-b`, `${channelDisplayNamePrefix} B`, 'O');
@@ -24,7 +27,7 @@ describe('Channel Switcher', () => {
 
             // # Login as test user and go to town square
             cy.apiLogin(user);
-            cy.visitAndWait(`/${team.name}/channels/town-square`);
+            cy.visit(`/${team.name}/channels/town-square`);
         });
     });
 
@@ -35,15 +38,17 @@ describe('Channel Switcher', () => {
         // # Start typing channel name in the "Switch Channels" modal message box
         // # Use up/down arrow keys to highlight second channel
         // # Press ENTER
-        cy.findByRole('textbox', {name: 'quick switch input'}).type(`${channelDisplayNamePrefix} `).type('{downarrow}').type('{downarrow}').type('{enter}');
+        cy.findByRole('textbox', {name: 'quick switch input'}).
+            type(`${channelDisplayNamePrefix} `).
+            type('{downarrow}{downarrow}{enter}');
 
         // * Expect channel title to match title
         cy.get('#channelHeaderTitle').
             should('be.visible').
-            and('contain.text', `${channelDisplayNamePrefix} B`);
+            and('contain.text', testChannelName);
 
         // * Expect url to match url
-        cy.url().should('contain', `${channelNamePrefix}-b`);
+        cy.url().should('contain', `${testChannelName.replace(/ /g, '-').toLowerCase()}`);
     });
 
     it('MM-T2031_2 - should switch channels by mouse', () => {
@@ -76,7 +81,7 @@ describe('Channel Switcher', () => {
     });
 
     it('MM-T2031_4 - should close on esc and outside click', () => {
-        cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Press CTRL+K (Windows) or CMD+K(Mac)
         cy.typeCmdOrCtrl().type('K', {release: true});

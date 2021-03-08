@@ -20,7 +20,7 @@ describe('MM-T940 Users - Revoke all sessions', () => {
         // # Login as System Admin
         cy.apiAdminLogin();
 
-        cy.visitAndWait('/admin_console/user_management/users');
+        cy.visit('/admin_console/user_management/users');
 
         // * Verify the presence of Revoke All Sessions button
         cy.get('#revoke-all-users').should('be.visible').and('not.have.class', 'btn-danger').click();
@@ -54,14 +54,14 @@ describe('MM-T940 Users - Revoke all sessions', () => {
 
         // # Create new setup, login as test user and visit town-square
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visitAndWait(`/${team.name}/channels/town-square`);
+            cy.visit(`/${team.name}/channels/town-square`);
             cy.get('#sidebarItem_off-topic').click({force: true});
 
             // # Issue a Request to Revoke All Sessions as SysAdmin
             const baseUrl = Cypress.config('baseUrl');
             cy.externalRequest({user: admin, method: 'post', baseUrl, path: 'users/sessions/revoke/all'}).then(() => {
                 // # Initiate browser activity like visit to town-square
-                cy.visitAndWait(`/${team.name}/channels/town-square`);
+                cy.visit(`/${team.name}/channels/town-square`);
 
                 // * Verify if the regular member is logged out and redirected to login page
                 cy.url({timeout: TIMEOUTS.HALF_MIN}).should('include', '/login');

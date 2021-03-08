@@ -31,6 +31,10 @@
             border-color: rgba(var(--center-channel-color-rgb), 0.16);
             color: v(center-channel-color);
         }
+
+        .modal-header {
+            background: var(--sidebar-header-bg);
+        }
     }
 
     .edit-modal-body {
@@ -728,7 +732,7 @@
                 font-weight: 900;
                 justify-content: center;
                 align-items: center;
-
+                background: var(--center-channel-bg);
                 &:active {
                     opacity: 1;
                 }
@@ -799,7 +803,6 @@
         align-self: center;
         flex-grow: 1;
         flex-shrink: 1;
-        font-size: .9em;
         overflow: hidden;
         padding-left: 10px;
         text-overflow: ellipsis;

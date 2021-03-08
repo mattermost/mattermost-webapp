@@ -29,7 +29,7 @@ describe('Scroll', () => {
                 });
             });
 
-            cy.visitAndWait(`/${testTeam.name}/channels/${channel.name}`);
+            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
         });
     });
 

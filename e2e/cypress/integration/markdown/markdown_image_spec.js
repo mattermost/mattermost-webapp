@@ -22,7 +22,7 @@ describe('Markdown', () => {
 
         // # Login as new user, create new team and visit its URL
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visitAndWait(`/${team.name}/channels/town-square`);
+            cy.visit(`/${team.name}/channels/town-square`);
         });
     });
 
@@ -85,8 +85,8 @@ describe('Markdown', () => {
             cy.get(`#postMessageText_${postId}`).should('be.visible').within(() => {
                 cy.get('.markdown-inline-img').should('be.visible').
                     and((inlineImg) => {
-                        expect(inlineImg.height()).to.be.closeTo(153, 2);
-                        expect(inlineImg.width()).to.be.closeTo(971, 2);
+                        expect(inlineImg.height()).to.be.closeTo(151, 2);
+                        expect(inlineImg.width()).to.be.closeTo(951, 2);
                     }).
                     click();
             });

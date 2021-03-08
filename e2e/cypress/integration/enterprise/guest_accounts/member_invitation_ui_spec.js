@@ -82,7 +82,7 @@ function loginAsNewUser(team) {
         cy.apiAddUserToTeam(team.id, user.id);
 
         cy.apiLogin(user);
-        cy.visitAndWait(`/${team.name}`);
+        cy.visit(`/${team.name}`);
     });
 }
 
@@ -113,7 +113,7 @@ describe('Guest Account - Member Invitation Flow', () => {
             testTeam = team;
 
             // # Go to town square
-            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+            cy.visit(`/${testTeam.name}/channels/town-square`);
         });
     });
 
@@ -246,7 +246,7 @@ describe('Guest Account - Member Invitation Flow', () => {
         cy.apiLogout();
 
         // # Visit the Invite Members link
-        cy.visitAndWait(inviteMembersLink);
+        cy.visit(inviteMembersLink);
 
         // * Verify the sign up options
         cy.findByText('AD/LDAP Credentials').should('be.visible');
@@ -264,7 +264,7 @@ describe('Guest Account - Member Invitation Flow', () => {
         cy.get('#headerTeamName').should('have.text', testTeam.display_name);
 
         // * Verify if user has access to the default channels
-        cy.get('#sidebarChannelContainer').within(() => {
+        cy.uiGetLhsSection('CHANNELS').within(() => {
             cy.findByText('Off-Topic').should('be.visible');
             cy.findByText('Town Square').should('be.visible');
         });
@@ -275,13 +275,13 @@ describe('Guest Account - Member Invitation Flow', () => {
         cy.apiAdminLogin();
         cy.apiCreateTeam('team', 'Team').then(({team}) => {
             // # Visit the team and wait for page to load and then logout.
-            cy.visitAndWait(`/${team.name}/channels/town-square`);
+            cy.visit(`/${team.name}/channels/town-square`);
             cy.get('#post_textbox').should('be.visible').wait(TIMEOUTS.TWO_SEC);
             const inviteMembersLink = `/signup_user_complete/?id=${team.invite_id}`;
             cy.apiLogout();
 
             // # Visit the Invite Members link
-            cy.visitAndWait(inviteMembersLink);
+            cy.visit(inviteMembersLink);
 
             // # Click on the login option
             cy.findByText('Click here to sign in.').should('be.visible').click();
@@ -299,7 +299,7 @@ describe('Guest Account - Member Invitation Flow', () => {
             cy.get('@teamButton').click().wait(TIMEOUTS.TWO_SEC);
 
             // * Verify if user has access to the default channels in the invited teams
-            cy.get('#sidebarChannelContainer').within(() => {
+            cy.uiGetLhsSection('CHANNELS').within(() => {
                 cy.findByText('Off-Topic').should('be.visible');
                 cy.findByText('Town Square').should('be.visible');
             });

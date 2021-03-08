@@ -20,7 +20,7 @@ describe('Message Reply', () => {
         // # Create and visit new channel
         cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
             newChannel = channel;
-            cy.visitAndWait(`/${team.name}/channels/${channel.name}`);
+            cy.visit(`/${team.name}/channels/${channel.name}`);
         });
     });
 

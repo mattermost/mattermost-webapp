@@ -24,7 +24,7 @@ describe('Header', () => {
             });
 
             cy.apiLogin(user);
-            cy.visitAndWait(`/${team.name}/channels/town-square`);
+            cy.visit(`/${team.name}/channels/town-square`);
         });
     });
 
@@ -47,7 +47,7 @@ describe('Header', () => {
         cy.uiChangeMessageDisplaySetting('COMPACT');
 
         // # Open a DM with other user
-        cy.get('#addDirectChannel').click().wait(TIMEOUTS.HALF_SEC);
+        cy.uiAddDirectMessage().click().wait(TIMEOUTS.HALF_SEC);
         cy.focused().type(otherUser.username, {force: true}).type('{enter}', {force: true}).wait(TIMEOUTS.HALF_SEC);
         cy.get('#saveItems').click().wait(TIMEOUTS.HALF_SEC);
 

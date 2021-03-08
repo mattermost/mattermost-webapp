@@ -21,7 +21,7 @@ describe('System Console > User Management > Reactivation', () => {
         // # Do initial setup
         cy.apiInitSetup().then(({team}) => {
             // # Visit town-square
-            cy.visitAndWait(`/${team.name}`);
+            cy.visit(`/${team.name}`);
         });
     });
 
@@ -38,7 +38,7 @@ describe('System Console > User Management > Reactivation', () => {
                 cy.sendDirectMessageToUser(user2, MESSAGES.SMALL);
 
                 // # Open DM More... Modal
-                cy.get('#moreDirectMessage').click().wait(TIMEOUTS.HALF_SEC);
+                cy.uiAddDirectMessage().click().wait(TIMEOUTS.HALF_SEC);
 
                 // # Type the user name of the other user on Channel switcher input
                 cy.get('.more-direct-channels #selectItems').type(id).wait(TIMEOUTS.HALF_SEC);

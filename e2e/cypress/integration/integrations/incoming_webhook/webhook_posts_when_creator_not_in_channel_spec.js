@@ -1,4 +1,3 @@
-
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
@@ -66,7 +65,7 @@ describe('Integrations', () => {
                             cy.apiLogin(secondUser);
 
                             // # Visit the test channel
-                            cy.visitAndWait(`/${testTeam.name}/channels/${testChannel.name}`);
+                            cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
                         });
                     });
                 });

@@ -79,7 +79,11 @@
     margin-right: 3px;
     position: absolute;
     width: 315px;
-    z-index: 999;
+    z-index: 1100;
+
+    .emoji-picker__header{
+        background: var(--sidebar-header-bg);
+    }
 
     &.emoji-picker--single {
         .emoji-picker__header {

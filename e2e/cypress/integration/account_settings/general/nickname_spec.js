@@ -10,6 +10,8 @@
 // Stage: @prod
 // Group: @account_setting
 
+import * as TIMEOUTS from '../../../fixtures/timeouts';
+
 describe('Account Settings > Sidebar > General', () => {
     let testUser;
     let testTeam;
@@ -19,109 +21,79 @@ describe('Account Settings > Sidebar > General', () => {
         cy.apiInitSetup({loginAfter: true}).then(({team, user}) => {
             testUser = user;
             testTeam = team;
-            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+            cy.visit(`/${testTeam.name}/channels/town-square`);
         });
     });
 
-    it('Nickname should render in before clicking edit', () => {
-        cy.toAccountSettingsModal();
+    it('MM-T3848 No nickname is present', () => {
+        // # Open 'Account Settings' modal and view the default 'General Settings'
+        cy.uiOpenAccountSettingsModal().within(() => {
+            // # Open 'Nickname' setting
+            cy.uiGetHeading('Nickname').click();
 
-        // # Check that the General tab is loaded and click it
-        cy.get('#generalButton').should('be.visible').click();
+            // # Clear the nickname text field contents
+            cy.uiGetTextbox('Nickname').should('be.visible').clear();
 
-        // * Check if element is present before nickname is set and contains expected text values
-        cy.get('#generalSettingsTitle').should('be.visible').should('contain', 'General Settings');
-        cy.get('#nicknameTitle').should('be.visible').should('contain', 'Nickname');
-        cy.get('#nicknameDesc').should('be.visible').should('contain', testUser.nickname);
-        cy.get('#nicknameEdit').should('be.visible').should('contain', 'Edit');
-        cy.get('#accountSettingsHeader > .close').should('be.visible').click();
-    });
+            // # Save and close the modal
+            cy.uiSaveAndClose();
+        });
 
-    it('Nickname should render after clicking edit', () => {
-        cy.toAccountSettingsModal();
-
-        // # Click "Edit" to the right of "Nickname"
-        cy.get('#nicknameEdit').should('be.visible').click();
-
-        // * Check elements after clicking 'Edit'
-        cy.get('#generalSettingsTitle').should('be.visible').should('contain', 'General Settings');
-        cy.get('#settingTitle').should('be.visible').should('contain', 'Nickname');
-        cy.get('#nickname').should('be.visible');
-        cy.get('#saveSetting').should('be.visible').should('contain', 'Save');
-        cy.get('#cancelSetting').should('be.visible').should('contain', 'Cancel');
-        cy.get('#accountSettingsHeader > .close').should('be.visible').click();
-    });
-
-    it('No nickname is present', () => {
-        cy.toAccountSettingsModal();
-
-        // # Click "Edit" to the right of "Nickname"
-        cy.get('#nicknameEdit').should('be.visible').click();
-
-        // # Clear the nickname text field contents
-        cy.get('#nickname').clear();
-        cy.get('#saveSetting').click();
-
-        cy.get('#nicknameDesc').should('be.visible').should('contain', "Click 'Edit' to add a nickname");
-
-        // # Close Account settings and open channel dropdown menu
-        cy.get('#accountSettingsHeader > .close').should('be.visible').click();
-        cy.get('#sidebarHeaderDropdownButton').click();
-
-        // # Click view members
-        cy.get('#viewMembers').should('be.visible').click();
+        // # Open main menu and click "View Members"
+        cy.uiOpenMainMenu('View Members');
 
         // # Search for username and check that no nickname is present
         cy.get('.modal-title').should('be.visible');
-        cy.get('#searchUsersInput').should('be.visible').type(testUser.first_name);
-        cy.get('.more-modal__details > .more-modal__name').should('be.visible').then((el) => {
+        cy.get('#searchUsersInput').should('be.visible').type(testUser.first_name).wait(TIMEOUTS.ONE_SEC);
+        cy.findByTestId('userListItemDetails').find('.more-modal__name').should('be.visible').then((el) => {
             expect(getInnerText(el)).equal(`@${testUser.username} - ${testUser.first_name} ${testUser.last_name}`);
         });
 
         // # Close Team Members modal
-        cy.get('#teamMembersModal').should('be.visible').within(() => cy.get('.close').click());
+        cy.uiClose();
     });
 
     it('MM-T268 Account Settings > Add Nickname', () => {
-        cy.toAccountSettingsModal();
+        const newNickname = 'victor_nick';
 
-        // # Click the General tab
-        cy.get('#generalButton').should('be.visible').click();
+        // # Open 'Account Settings' modal and view the default 'General Settings'
+        cy.uiOpenAccountSettingsModal().within(() => {
+            // # Open 'Nickname' setting
+            cy.uiGetHeading('Nickname').click();
 
-        // # Add the nickname to textfield contents
-        cy.get('#nicknameEdit').click();
-        cy.get('#nickname').clear().type('victor_nick');
-        cy.get('#saveSetting').click();
+            // # Clear the nickname text field contents
+            cy.uiGetTextbox('Nickname').should('be.visible').clear().type('victor_nick');
 
-        // * Check if element is present and contains expected text values
-        cy.get('#nicknameDesc').should('be.visible').should('contain', 'victor_nick');
+            // # Save and close the modal
+            cy.uiSaveAndClose();
+        });
 
-        // # Close Account settings and open channel dropdown menu
-        cy.get('#accountSettingsHeader > .close').should('be.visible').click();
-        cy.get('#sidebarHeaderDropdownButton').click();
-
-        // # Click view members
-        cy.get('#viewMembers').should('be.visible').click();
+        // # Open main menu and click "View Members"
+        cy.uiOpenMainMenu('View Members');
 
         // # Search for username and check that expected nickname is present
         cy.get('.modal-title').should('be.visible');
-        cy.get('#searchUsersInput').should('be.visible').type(testUser.first_name);
-        cy.get('.more-modal__details > .more-modal__name').should('be.visible').then((el) => {
-            expect(getInnerText(el)).equal(`@${testUser.username} - ${testUser.first_name} ${testUser.last_name} (victor_nick)`);
+        cy.get('#searchUsersInput').should('be.visible').type(testUser.first_name).wait(TIMEOUTS.ONE_SEC);
+        cy.findByTestId('userListItemDetails').find('.more-modal__name').should('be.visible').then((el) => {
+            expect(getInnerText(el)).equal(`@${testUser.username} - ${testUser.first_name} ${testUser.last_name} (${newNickname})`);
         });
 
         // # Close Channel Members modal
-        cy.get('#teamMembersModal').should('be.visible').within(() => cy.get('.close').click());
+        cy.uiClose();
     });
 
     it('MM-T2060 Nickname and username styles', () => {
         cy.apiCreateChannel(testTeam.id, 'channel-test', 'Channel').then(({channel}) => {
             // # Go to test channel
-            cy.visitAndWait(`/${testTeam.name}/channels/${channel.name}`);
+            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
 
-            // # Click 'Add Members'
-            cy.get('#channelHeaderTitle').click();
-            cy.get('#channelAddMembers').click();
+            // # Open channel menu and click 'Add Members'
+            cy.uiOpenChannelMenu('Add Members');
+
+            // * Verify that the modal is open
+            cy.get('#addUsersToChannelModal').should('be.visible').findByText(`Add people to ${channel.display_name}`);
+
+            // # Type into the input box to search for a user
+            cy.get('#selectItems input').type('sys').wait(TIMEOUTS.ONE_SEC);
 
             // * Verify that the username span contains the '@' symbol and the dark colour
             cy.get('#multiSelectList > div > .more-modal__details > .more-modal__name > span').should('contain', '@').and('have.css', 'color', 'rgb(61, 60, 64)');
@@ -136,13 +108,13 @@ describe('Account Settings > Sidebar > General', () => {
             });
 
             // * Verify that the username span contains the '@' symbol and the dark colour
-            cy.get('.more-modal__details > .more-modal__name').should('contain', '@').and('have.css', 'color', 'rgb(61, 60, 64)');
+            cy.findByTestId('userListItemDetails').find('.more-modal__name').should('be.visible').should('contain', '@').and('have.css', 'color', 'rgb(61, 60, 64)');
 
             // # Close modal
             cy.get('body').type('{esc}');
 
-            // # Click More... in the sidebar
-            cy.get('#moreDirectMessage').scrollIntoView().should('be.visible').click();
+            // # Open DM modal from the sidebar
+            cy.uiAddDirectMessage().click();
 
             // # Go to direct messages modal
             cy.get('.more-modal').should('be.visible').within(() => {
@@ -159,45 +131,47 @@ describe('Account Settings > Sidebar > General', () => {
     });
 
     it('MM-T2061 Nickname should reset on cancel of edit', () => {
-        cy.toAccountSettingsModal();
+        // # Open 'Account Settings' modal and view the default 'General Settings'
+        cy.uiOpenAccountSettingsModal().within(() => {
+            // # Open 'Nickname' setting
+            cy.uiGetHeading('Nickname').click();
 
-        cy.get('#generalButton').should('be.visible').click();
+            // # Clear the nickname text field contents
+            cy.uiGetTextbox('Nickname').should('be.visible').clear().type('nickname_edit');
 
-        // # Add the nickname to textfield contents
-        cy.get('#nicknameEdit').click();
-        cy.get('#nickname').clear().type('nickname_edit');
-
-        // # Cancel the edit of nickname
-        cy.get('#cancelSetting').click();
+            // # Cancel the edit of nickname
+            cy.uiCancelButton().click();
+        });
 
         // # Click edit of nickname
-        cy.get('#nicknameEdit').click();
+        cy.uiGetHeading('Nickname').click();
 
         // * Check if element is present and contains old nickname
-        cy.get('#nickname').should('be.visible').should('contain', '');
+        cy.uiGetTextbox('Nickname').should('be.visible').should('contain', '');
 
-        cy.get('#accountSettingsHeader > .close').should('be.visible').click();
+        // # Close the modal
+        cy.uiClose();
     });
 
     it('MM-T2062 Clear nickname and save', () => {
-        cy.toAccountSettingsModal();
+        // # Open 'Account Settings' modal and view the default 'General Settings'
+        cy.uiOpenAccountSettingsModal().within(() => {
+            // # Open 'Nickname' setting
+            cy.uiGetHeading('Nickname').click();
 
-        // # Go to general settings > Edit nickname
-        cy.get('#generalButton').should('be.visible').click();
-        cy.get('#nicknameEdit').click();
+            // # Clear the nickname
+            cy.uiGetTextbox('Nickname').clear();
 
-        // # Clear the nickname
-        cy.get('#nickname').clear();
-
-        // * Check if nickname element is present and it does not contain any nickname
-        cy.get('#nickname').should('be.visible').should('contain', '');
-        cy.get('#saveSetting').click();
+            // * Check if nickname element is present and it does not contain any nickname
+            cy.uiGetTextbox('Nickname').should('contain', '');
+            cy.uiSaveButton().click();
+        });
 
         // * Verify nickname help text is visible
         cy.get('#nicknameDesc').should('be.visible').should('contain', "Click 'Edit' to add a nickname");
 
         // # Close the modal
-        cy.get('#accountSettingsHeader > .close').should('be.visible').click();
+        cy.uiClose();
     });
 
     function getInnerText(el) {

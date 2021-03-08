@@ -7,14 +7,22 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
-// Group: @messaging
+// Group: @messaging @not_cloud
 
 describe('Messaging', () => {
     let testTeam;
     let testChannelName;
 
     before(() => {
+        cy.shouldNotRunOnCloudEdition();
+
+        // # Update config
+        cy.apiUpdateConfig({
+            ServiceSettings: {
+                EnableLegacySidebar: true,
+            },
+        });
+
         // # Login as test user and visit the newly created test channel
         cy.apiInitSetup().then(({team, user}) => {
             testTeam = team;
@@ -30,7 +38,7 @@ describe('Messaging', () => {
             cy.apiCreateChannel(testTeam.id, 'channel-test', 'Public channel with a long name').then(({channel}) => {
                 testChannelName = channel.display_name;
             });
-            cy.visitAndWait(`/${testTeam.name}/channels/town-square`);
+            cy.visit(`/${testTeam.name}/channels/town-square`);
         });
     });
 
@@ -72,7 +80,7 @@ describe('Messaging', () => {
         downloadLink().trigger('mouseout');
 
         // * Long channel name (shown truncated on the LHS)
-        cy.findByRole('application', {name: 'channel sidebar region'}).findByText(testChannelName).should('be.visible').as('longChannelAtSidebar');
+        cy.uiGetLhsSection('CHANNELS').findByText(testChannelName).should('be.visible').as('longChannelAtSidebar');
         cy.get('@longChannelAtSidebar').trigger('mouseover');
         verifyTooltip(testChannelName);
         cy.get('@longChannelAtSidebar').trigger('mouseout');

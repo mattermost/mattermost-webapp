@@ -8,11 +8,13 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @account_setting
+// Group: @account_setting @not_cloud
 
 describe('Account Settings > Sidebar > Channel Switcher', () => {
     before(() => {
-        // # Update config and visit town-square channel
+        cy.shouldNotRunOnCloudEdition();
+
+        // # Update config
         cy.apiUpdateConfig({
             ServiceSettings: {
                 EnableLegacySidebar: true,
@@ -21,7 +23,7 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
 
         // # Login as test user and visit town-square
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visitAndWait(`/${team.name}/channels/town-square`);
+            cy.visit(`/${team.name}/channels/town-square`);
         });
     });
 

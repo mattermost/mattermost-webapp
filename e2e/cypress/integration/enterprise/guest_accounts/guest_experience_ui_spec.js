@@ -50,7 +50,7 @@ describe('Guest Account - Guest User Experience', () => {
                 cy.apiAddUserToTeam(team.id, guestUser.id).then(() => {
                     cy.apiAddUserToChannel(channel.id, guestUser.id).then(() => {
                         cy.apiLogin(guestUser);
-                        cy.visitAndWait(`/${team.name}/channels/${channel.name}`);
+                        cy.visit(`/${team.name}/channels/${channel.name}`);
                     });
                 });
             });
@@ -70,10 +70,7 @@ describe('Guest Account - Guest User Experience', () => {
         });
 
         // * Verify Reduced Options in LHS
-        const missingLHSOptions = ['#createPublicChannel', "li[data-testid='morePublicButton']", '#createPrivateChannel'];
-        missingLHSOptions.forEach((missingOption) => {
-            cy.get(missingOption).should('not.exist');
-        });
+        cy.findByRole('button', {name: 'Add Channel Dropdown'}).should('not.exist');
 
         // * Verify Guest Badge in Channel Header
         cy.get('#channelHeaderDescription').within(($el) => {
@@ -96,7 +93,7 @@ describe('Guest Account - Guest User Experience', () => {
         cy.get('#member_popover').click();
 
         // * Verify list of Users in Direct Messages Dialog
-        cy.get('#addDirectChannel').click().wait(TIMEOUTS.FIVE_SEC);
+        cy.uiAddDirectMessage().click().wait(TIMEOUTS.FIVE_SEC);
         cy.get('#multiSelectList').should('be.visible').within(($el) => {
             // * Verify only 2 users - Guest and sysadmin are listed
             cy.wrap($el).children().should('have.length', 2);
@@ -121,7 +118,7 @@ describe('Guest Account - Guest User Experience', () => {
         cy.get('#channel-header').click();
 
         // * Verify Guest User can see only 1 additional channel in LHS plus town-square and off-topic
-        cy.get('#publicChannelList').find('a').should('have.length', 3);
+        cy.uiGetLhsSection('CHANNELS').find('.SidebarChannel').should('have.length', 3);
 
         // * Verify list of Users a Guest User can see in Team Members dialog
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
@@ -148,10 +145,7 @@ describe('Guest Account - Guest User Experience', () => {
         cy.uiCloseMainMenu();
 
         // * Verify Options in LHS are changed
-        const missingLHSOptions = ['#createPublicChannel', "li[data-testid='morePublicButton']", '#createPrivateChannel'];
-        missingLHSOptions.forEach((missingOption) => {
-            cy.get(missingOption).should('be.visible');
-        });
+        cy.findByRole('button', {name: 'Add Channel Dropdown'}).should('be.visible');
 
         // * Verify Guest Badge in Channel Header is removed
         cy.get('#sidebarItem_town-square').click();
@@ -234,7 +228,7 @@ describe('Guest Account - Guest User Experience', () => {
         // # Wait for page to load and then logout
         cy.get('#post_textbox').should('be.visible').wait(TIMEOUTS.TWO_SEC);
         cy.apiLogout();
-        cy.visitAndWait('/');
+        cy.visit('/');
 
         // # Login with guest user credentials and check the error message
         cy.get('#loginId').type(guestUser.username);

@@ -1,4 +1,3 @@
-
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
@@ -109,9 +108,15 @@ Cypress.Commands.add('uiPostMessageQuickly', (message) => {
 function postMessageAndWait(textboxSelector, message) {
     // Add explicit wait to let the page load freely since `cy.get` seemed to block
     // some operation which caused to prolong complete page loading.
-    cy.wait(TIMEOUTS.THREE_SEC);
+    cy.wait(TIMEOUTS.HALF_SEC);
 
-    cy.get(textboxSelector, {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').clear().type(`${message}{enter}`).wait(TIMEOUTS.HALF_SEC);
+    cy.get(textboxSelector, {timeout: TIMEOUTS.HALF_MIN}).as('textboxSelector');
+    cy.get('@textboxSelector').should('be.visible').clear().type(`${message}{enter}`).wait(TIMEOUTS.HALF_SEC);
+    cy.get('@textboxSelector').invoke('val').then((value) => {
+        if (value.length > 0) {
+            cy.get('@textboxSelector').type('{enter}').wait(TIMEOUTS.HALF_SEC);
+        }
+    });
     cy.waitUntil(() => {
         return cy.get(textboxSelector).then((el) => {
             return el[0].textContent === '';
@@ -120,6 +125,9 @@ function postMessageAndWait(textboxSelector, message) {
 }
 
 function waitUntilPermanentPost() {
+    // Add explicit wait to let the page load freely since `cy.get` seemed to block
+    // some operation which caused to prolong complete page loading.
+    cy.wait(TIMEOUTS.HALF_SEC);
     cy.get('#postListContent', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
     cy.waitUntil(() => cy.findAllByTestId('postView').last().then((el) => !(el[0].id.includes(':'))));
 }
@@ -224,7 +232,7 @@ Cypress.Commands.add('compareLastPostHTMLContentFromFile', (file, timeout = TIME
  */
 Cypress.Commands.add('sendDirectMessageToUser', (user, message) => {
     // # Open a new direct message with firstDMUser
-    cy.get('#addDirectChannel').click();
+    cy.uiAddDirectMessage().click();
 
     // # Type username
     cy.get('#selectItems input').should('be.enabled').type(`@${user.username}`, {force: true});
@@ -260,7 +268,7 @@ Cypress.Commands.add('sendDirectMessageToUser', (user, message) => {
  */
 Cypress.Commands.add('sendDirectMessageToUsers', (users, message) => {
     // # Open a new direct message
-    cy.get('#addDirectChannel').click();
+    cy.uiAddDirectMessage().click();
 
     users.forEach((user) => {
         // # Type username
@@ -291,26 +299,6 @@ Cypress.Commands.add('sendDirectMessageToUsers', (users, message) => {
     cy.get('#post_textbox').
         type(message).
         type('{enter}');
-});
-
-/**
- * Close a DM via the X button
- * @param {User} sender - the one currently observing and who will close the DM
- * @param {User} recipient - the other user in a DM
- * @param {String} team - a team where the sender is member of
- */
-Cypress.Commands.add('closeDirectMessageViaXButton', (sender, recipient, team) => {
-    // # Find the username in the 'Direct Messages' list and trigger the 'x' button to appear (hover over the username)
-    cy.apiGetChannelsForUser(sender.id, team.id).then(({channels}) => {
-        // Get the name of the channel to build the CSS selector for that specific DM link in the sidebar
-        const channelDmWithFirstUser = channels.find((channel) =>
-            channel.type === 'D' && channel.name.includes(recipient.id),
-        );
-
-        // # Close the DM via 'x' button next to username in direct message list
-        cy.get(`#sidebarItem_${channelDmWithFirstUser.name} .btn-close`).
-            click({force: true});
-    });
 });
 
 // ***********************************************************
@@ -402,10 +390,10 @@ Cypress.Commands.add('closeRHS', () => {
 // ***********************************************************
 
 Cypress.Commands.add('createNewTeam', (teamName, teamURL) => {
-    cy.visitAndWait('/create_team');
+    cy.visit('/create_team');
     cy.get('#teamNameInput').type(teamName).type('{enter}');
     cy.get('#teamURLInput').type(teamURL).type('{enter}');
-    cy.visitAndWait(`/${teamURL}`);
+    cy.visit(`/${teamURL}`);
 });
 
 Cypress.Commands.add('getCurrentTeamId', () => {
@@ -545,7 +533,7 @@ Cypress.Commands.add('checkRunLDAPSync', () => {
         // # Run LDAP Sync if no job exists (or) last status is an error (or) last run time is more than 1 day old
         if (jobs.length === 0 || jobs[0].status === 'error' || ((currentTime - (new Date(jobs[0].last_activity_at))) > 8640000)) {
             // # Go to system admin LDAP page and run the group sync
-            cy.visitAndWait('/admin_console/authentication/ldap');
+            cy.visit('/admin_console/authentication/ldap');
 
             // # Click on AD/LDAP Synchronize Now button and verify if succesful
             cy.findByText('AD/LDAP Test').click();
