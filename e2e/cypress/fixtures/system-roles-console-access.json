@@ -96,7 +96,7 @@
     "system_read_only_admin": "read"
   },
   {
-    "section": "site.file_sharing_and_downloads",
+    "section": "site.file_sharing_downloads",
     "system_manager": "read+write",
     "system_user_manager": "none",
     "system_read_only_admin": "read"
