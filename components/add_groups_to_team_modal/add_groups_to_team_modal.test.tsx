@@ -4,7 +4,9 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import AddGroupsToTeamModal from 'components/add_groups_to_team_modal/add_groups_to_team_modal.jsx';
+import {Groups} from 'mattermost-redux/constants';
+
+import AddGroupsToTeamModal from 'components/add_groups_to_team_modal/add_groups_to_team_modal';
 
 describe('components/AddGroupsToTeamModal', () => {
     const baseProps = {
@@ -31,7 +33,7 @@ describe('components/AddGroupsToTeamModal', () => {
     test('should have called onHide when handleExit is called', () => {
         const onHide = jest.fn();
         const props = {...baseProps, onHide};
-        const wrapper = shallow(
+        const wrapper = shallow<AddGroupsToTeamModal>(
             <AddGroupsToTeamModal {...props}/>,
         );
 
@@ -40,7 +42,7 @@ describe('components/AddGroupsToTeamModal', () => {
     });
 
     test('should match state when handleResponse is called', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<AddGroupsToTeamModal>(
             <AddGroupsToTeamModal {...baseProps}/>,
         );
 
@@ -51,44 +53,42 @@ describe('components/AddGroupsToTeamModal', () => {
 
         const message = 'error message';
         wrapper.setState({saving: true, addError: ''});
-        wrapper.instance().handleResponse({message});
+        wrapper.instance().handleResponse(new Error(message));
         expect(wrapper.state('saving')).toEqual(false);
         expect(wrapper.state('addError')).toEqual(message);
     });
 
-    /*test('should match state when handleSubmit is called', async () => {
-        const linkGroupSyncable = jest.fn().
-            mockResolvedValueOnce({error: true}).
-            mockResolvedValue({data: true});
+    test('should match state when handleSubmit is called', async () => {
+        const linkGroupSyncable = jest.fn().mockResolvedValue({error: true, data: true});
         const actions = {...baseProps.actions, linkGroupSyncable};
         const props = {...baseProps, actions};
         const wrapper = shallow(
-            <AddGroupsToTeamModal {...props}/>
+            <AddGroupsToTeamModal {...props}/>,
         );
-        const instance = wrapper.instance();
+        const instance = wrapper.instance() as AddGroupsToTeamModal;
         instance.handleResponse = jest.fn();
         instance.handleHide = jest.fn();
 
         wrapper.setState({values: []});
-        await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
+        await instance.handleSubmit();
         expect(actions.linkGroupSyncable).not.toBeCalled();
+        expect(instance.handleResponse).not.toBeCalled();
+        expect(instance.handleHide).not.toBeCalled();
 
         wrapper.setState({saving: false, values: [{id: 'id_1'}, {id: 'id_2'}]});
-        await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
+        await instance.handleSubmit();
         expect(actions.linkGroupSyncable).toBeCalled();
         expect(actions.linkGroupSyncable).toHaveBeenCalledTimes(2);
-        expect(actions.linkGroupSyncable).toBeCalledWith('id_1', baseProps.currentTeamId, Groups.SYNCABLE_TYPE_TEAM, {auto_add: true});
-        expect(actions.linkGroupSyncable).toBeCalledWith('id_2', baseProps.currentTeamId, Groups.SYNCABLE_TYPE_TEAM, {auto_add: true});
+        expect(actions.linkGroupSyncable).toBeCalledWith('id_1', baseProps.currentTeamId, Groups.SYNCABLE_TYPE_TEAM, {auto_add: true, scheme_admin: false});
+        expect(actions.linkGroupSyncable).toBeCalledWith('id_2', baseProps.currentTeamId, Groups.SYNCABLE_TYPE_TEAM, {auto_add: true, scheme_admin: false});
 
-        setTimeout(() => {
-            expect(instance.handleResponse).toBeCalledTimes(2);
-        }, 0);
+        expect(instance.handleResponse).toBeCalledTimes(2);
         expect(instance.handleHide).not.toBeCalled();
         expect(wrapper.state('saving')).toEqual(true);
-    });*/
+    });
 
     test('should match state when addValue is called', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<AddGroupsToTeamModal>(
             <AddGroupsToTeamModal {...baseProps}/>,
         );
 
@@ -105,13 +105,10 @@ describe('components/AddGroupsToTeamModal', () => {
     });
 
     test('should match state when handlePageChange is called', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<AddGroupsToTeamModal>(
             <AddGroupsToTeamModal {...baseProps}/>,
         );
 
-        const user = {id: 'id_1', label: 'label_1', value: 'value_1'};
-
-        wrapper.setState({users: [user]});
         wrapper.instance().handlePageChange(0, 1);
         expect(baseProps.actions.getGroupsNotAssociatedToTeam).toHaveBeenCalledTimes(1);
 
@@ -123,7 +120,7 @@ describe('components/AddGroupsToTeamModal', () => {
     });
 
     test('should match state when search is called', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<AddGroupsToTeamModal>(
             <AddGroupsToTeamModal {...baseProps}/>,
         );
 
@@ -139,7 +136,7 @@ describe('components/AddGroupsToTeamModal', () => {
     });
 
     test('should match state when handleDelete is called', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<AddGroupsToTeamModal>(
             <AddGroupsToTeamModal {...baseProps}/>,
         );
 
@@ -154,28 +151,26 @@ describe('components/AddGroupsToTeamModal', () => {
     });
 
     test('should match when renderOption is called', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<AddGroupsToTeamModal>(
             <AddGroupsToTeamModal {...baseProps}/>,
         );
 
-        const option = {id: 'id', last_picture_update: '12345', email: 'test@test.com'};
+        const option = {id: 'id_1', label: 'label_1', value: 'value_1'};
         let isSelected = false;
-        function onAdd() {} //eslint-disable-line no-empty-function
+        const onAdd = jest.fn();
+        const onMouseMove = jest.fn();
 
-        expect(wrapper.instance().renderOption(option, isSelected, onAdd)).toMatchSnapshot();
+        expect(wrapper.instance().renderOption(option, isSelected, onAdd, onMouseMove)).toMatchSnapshot();
 
         isSelected = true;
-        expect(wrapper.instance().renderOption(option, isSelected, onAdd)).toMatchSnapshot();
-
-        const optionBot = {id: 'id', is_bot: true, last_picture_update: '12345'};
-        expect(wrapper.instance().renderOption(optionBot, isSelected, onAdd)).toMatchSnapshot();
+        expect(wrapper.instance().renderOption(option, isSelected, onAdd, onMouseMove)).toMatchSnapshot();
     });
 
     test('should match when renderValue is called', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<AddGroupsToTeamModal>(
             <AddGroupsToTeamModal {...baseProps}/>,
         );
 
-        expect(wrapper.instance().renderValue({data: {display_name: 'foo'}})).toEqual('foo');
+        expect(wrapper.instance().renderValue({data: {id: 'id_1', label: 'label_1', value: 'value_1', display_name: 'foo'}})).toEqual('foo');
     });
 });
