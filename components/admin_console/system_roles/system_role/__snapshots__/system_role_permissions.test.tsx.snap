@@ -110,7 +110,47 @@ exports[`admin_console/system_role_permissions should match snapshot 1`] = `
         Object {
           "hasDescription": true,
           "name": "environment",
-          "subsections": Array [],
+          "subsections": Array [
+            Object {
+              "name": "environment_web_server",
+            },
+            Object {
+              "name": "environment_database",
+            },
+            Object {
+              "name": "environment_elasticsearch",
+            },
+            Object {
+              "name": "environment_file_storage",
+            },
+            Object {
+              "name": "environment_image_proxy",
+            },
+            Object {
+              "name": "environment_smtp",
+            },
+            Object {
+              "name": "environment_push_notification_server",
+            },
+            Object {
+              "name": "environment_high_availability",
+            },
+            Object {
+              "name": "environment_rate_limiting",
+            },
+            Object {
+              "name": "environment_logging",
+            },
+            Object {
+              "name": "environment_session_lengths",
+            },
+            Object {
+              "name": "environment_performance_monitoring",
+            },
+            Object {
+              "name": "environment_developer",
+            },
+          ],
         }
       }
       setSectionVisible={[Function]}
@@ -367,7 +407,47 @@ exports[`admin_console/system_role_permissions should match snapshot with isLice
         Object {
           "hasDescription": true,
           "name": "environment",
-          "subsections": Array [],
+          "subsections": Array [
+            Object {
+              "name": "environment_web_server",
+            },
+            Object {
+              "name": "environment_database",
+            },
+            Object {
+              "name": "environment_elasticsearch",
+            },
+            Object {
+              "name": "environment_file_storage",
+            },
+            Object {
+              "name": "environment_image_proxy",
+            },
+            Object {
+              "name": "environment_smtp",
+            },
+            Object {
+              "name": "environment_push_notification_server",
+            },
+            Object {
+              "name": "environment_high_availability",
+            },
+            Object {
+              "name": "environment_rate_limiting",
+            },
+            Object {
+              "name": "environment_logging",
+            },
+            Object {
+              "name": "environment_session_lengths",
+            },
+            Object {
+              "name": "environment_performance_monitoring",
+            },
+            Object {
+              "name": "environment_developer",
+            },
+          ],
         }
       }
       setSectionVisible={[Function]}
