@@ -2,23 +2,37 @@
 // See LICENSE.txt for license information.
 
 import React, {PureComponent} from 'react';
-import PropTypes from 'prop-types';
 
-export default class InfiniteScroll extends PureComponent {
-    static propTypes = {
-        children: PropTypes.array,
-        element: PropTypes.string,
-        hasMore: PropTypes.bool,
-        initialLoad: PropTypes.bool,
-        loader: PropTypes.object,
-        loadMore: PropTypes.func.isRequired,
-        pageStart: PropTypes.number,
-        threshold: PropTypes.number,
-        useWindow: PropTypes.bool,
-        isReverse: PropTypes.bool,
-        containerHeight: PropTypes.number,
-        scrollPosition: PropTypes.number,
-    }
+type Props = typeof InfiniteScroll.defaultProps & {
+    children?: any[];
+    element?: string;
+    hasMore?: boolean;
+    initialLoad?: boolean;
+    loader?: Record<string, unknown>;
+    loadMore: () => void;
+    pageStart?: number;
+    threshold?: number;
+    useWindow?: boolean;
+    isReverse?: boolean;
+    containerHeight?: number;
+    scrollPosition?: number;
+}
+
+export default class InfiniteScroll extends PureComponent<Props> {
+    // static propTypes = {
+    //     children: PropTypes.array,
+    //     element: PropTypes.string,
+    //     hasMore: PropTypes.bool,
+    //     initialLoad: PropTypes.bool,
+    //     loader: PropTypes.object,
+    //     loadMore: PropTypes.func.isRequired,
+    //     pageStart: PropTypes.number,
+    //     threshold: PropTypes.number,
+    //     useWindow: PropTypes.bool,
+    //     isReverse: PropTypes.bool,
+    //     containerHeight: PropTypes.number,
+    //     scrollPosition: PropTypes.number,
+    // }
 
     static defaultProps = {
         element: 'div',
@@ -31,6 +45,10 @@ export default class InfiniteScroll extends PureComponent {
         containerHeight: null,
         scrollPosition: null,
     }
+
+    pageLoaded: number | undefined;
+    scrollComponent: any;
+    defaultLoader: Record<string, unknown>;
 
     componentDidMount() {
         this.pageLoaded = this.props.pageStart;
@@ -59,7 +77,7 @@ export default class InfiniteScroll extends PureComponent {
             ...props
         } = this.props;
 
-        props.ref = (node) => {
+        props.ref = (node: any) => {
             this.scrollComponent = node;
         };
 
@@ -88,7 +106,7 @@ export default class InfiniteScroll extends PureComponent {
 
         let offset;
         if (this.props.useWindow) {
-            var scrollTop = ('pageYOffset' in scrollEl) ? scrollEl.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
+            const scrollTop = ('pageYOffset' in scrollEl) ? scrollEl.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
             if (this.props.isReverse) {
                 offset = scrollTop;
             } else {
@@ -129,7 +147,7 @@ export default class InfiniteScroll extends PureComponent {
     }
 
     detachScrollListener() {
-        var scrollEl = window;
+        let scrollEl = window;
         if (this.props.useWindow === false) {
             scrollEl = this.scrollComponent.parentNode;
         }
