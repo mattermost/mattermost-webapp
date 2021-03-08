@@ -389,11 +389,19 @@
         //margin-left: 24px;
     }
 
+    .Card__image {
+        padding-bottom: 12px;
+        height: auto;
+        width: fit-content;
+        display: flex;
+        flex-direction: column;
+    }
+
     .Card__body {
         padding: 32px;
         border: none;
         margin: 0;
-        height: 194px;
+        height: auto;
         display: flex;
         flex-direction: column;
         overflow: visible;
