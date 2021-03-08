@@ -76,9 +76,7 @@ const sectionsList: SystemSection[] = [
             {name: 'authentication_password'},
             {name: 'authentication_mfa'},
             {name: 'authentication_ldap'},
-            {name: 'authentication_gitlab'},
             {name: 'authentication_saml'},
-            {name: 'authentication_oauth'},
             {name: 'authentication_openid'},
             {name: 'authentication_guest_access'},
         ],
@@ -246,9 +244,7 @@ t('admin.permissions.sysconsole_section_authentication_email.name');
 t('admin.permissions.sysconsole_section_authentication_password.name');
 t('admin.permissions.sysconsole_section_authentication_mfa.name');
 t('admin.permissions.sysconsole_section_authentication_ldap.name');
-t('admin.permissions.sysconsole_section_authentication_gitlab.name');
 t('admin.permissions.sysconsole_section_authentication_saml.name');
-t('admin.permissions.sysconsole_section_authentication_oauth.name');
 t('admin.permissions.sysconsole_section_authentication_openid.name');
 t('admin.permissions.sysconsole_section_authentication_guest_access.name');
 t('admin.permissions.sysconsole_section_plugins.name');
