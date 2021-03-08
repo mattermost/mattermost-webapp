@@ -137,7 +137,7 @@ describe('Channels', () => {
         cy.get('#sidebarItem_town-square').click();
 
         // * Assert that archived channel doesn't show up in LHS list
-        cy.get('#lhsList').should('not.contain', testChannel.display_name);
+        cy.get('#sidebar-left').should('not.contain', testChannel.display_name);
     });
 
     it('MM-T1702 Search works when changing public/archived options in the dropdown', () => {
