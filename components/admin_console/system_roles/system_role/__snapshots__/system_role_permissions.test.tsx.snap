@@ -152,7 +152,32 @@ exports[`admin_console/system_role_permissions should match snapshot 1`] = `
         Object {
           "hasDescription": true,
           "name": "authentication",
-          "subsections": Array [],
+          "subsections": Array [
+            Object {
+              "name": "authentication_signup",
+            },
+            Object {
+              "name": "authentication_email",
+            },
+            Object {
+              "name": "authentication_password",
+            },
+            Object {
+              "name": "authentication_mfa",
+            },
+            Object {
+              "name": "authentication_ldap",
+            },
+            Object {
+              "name": "authentication_saml",
+            },
+            Object {
+              "name": "authentication_openid",
+            },
+            Object {
+              "name": "authentication_guest_access",
+            },
+          ],
         }
       }
       setSectionVisible={[Function]}
@@ -409,7 +434,32 @@ exports[`admin_console/system_role_permissions should match snapshot with isLice
         Object {
           "hasDescription": true,
           "name": "authentication",
-          "subsections": Array [],
+          "subsections": Array [
+            Object {
+              "name": "authentication_signup",
+            },
+            Object {
+              "name": "authentication_email",
+            },
+            Object {
+              "name": "authentication_password",
+            },
+            Object {
+              "name": "authentication_mfa",
+            },
+            Object {
+              "name": "authentication_ldap",
+            },
+            Object {
+              "name": "authentication_saml",
+            },
+            Object {
+              "name": "authentication_openid",
+            },
+            Object {
+              "name": "authentication_guest_access",
+            },
+          ],
         }
       }
       setSectionVisible={[Function]}
