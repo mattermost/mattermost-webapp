@@ -131,7 +131,38 @@ exports[`admin_console/system_role_permissions should match snapshot 1`] = `
         Object {
           "hasDescription": true,
           "name": "site",
-          "subsections": Array [],
+          "subsections": Array [
+            Object {
+              "name": "site_customization",
+            },
+            Object {
+              "name": "site_localization",
+            },
+            Object {
+              "name": "site_users_and_teams",
+            },
+            Object {
+              "name": "site_notifications",
+            },
+            Object {
+              "name": "site_announcement_banner",
+            },
+            Object {
+              "name": "site_emoji",
+            },
+            Object {
+              "name": "site_posts",
+            },
+            Object {
+              "name": "site_file_sharing_and_downloads",
+            },
+            Object {
+              "name": "site_public_links",
+            },
+            Object {
+              "name": "site_notices",
+            },
+          ],
         }
       }
       setSectionVisible={[Function]}
@@ -388,7 +419,38 @@ exports[`admin_console/system_role_permissions should match snapshot with isLice
         Object {
           "hasDescription": true,
           "name": "site",
-          "subsections": Array [],
+          "subsections": Array [
+            Object {
+              "name": "site_customization",
+            },
+            Object {
+              "name": "site_localization",
+            },
+            Object {
+              "name": "site_users_and_teams",
+            },
+            Object {
+              "name": "site_notifications",
+            },
+            Object {
+              "name": "site_announcement_banner",
+            },
+            Object {
+              "name": "site_emoji",
+            },
+            Object {
+              "name": "site_posts",
+            },
+            Object {
+              "name": "site_file_sharing_and_downloads",
+            },
+            Object {
+              "name": "site_public_links",
+            },
+            Object {
+              "name": "site_notices",
+            },
+          ],
         }
       }
       setSectionVisible={[Function]}

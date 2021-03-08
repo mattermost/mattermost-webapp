@@ -42,11 +42,92 @@
         ]
     },
     {
-        "section": "site",
+        "section": "site.customization",
         "disabledInputs": [
             {
                 "path": "admin_console/site_config/customization",
                 "selector": "TeamSettings.SiteNameinput"
+            }
+        ]
+    },
+    {
+        "section": "site.localization",
+        "disabledInputs": [
+            {
+                "path": "admin_console/site_config/localization",
+                "selector": "LocalizationSettings.DefaultServerLocaledropdown"
+            }
+        ]
+    },
+    {
+        "section": "site.users_and_teams",
+        "disabledInputs": [
+            {
+                "path": "admin_console/site_config/users_and_teams",
+                "selector": "TeamSettings.MaxUsersPerTeamnumber"
+            }
+        ]
+    },
+    {
+        "section": "site.notifications",
+        "disabledInputs": [
+            {
+                "path": "admin_console/site_config/notifications",
+                "selector": "TeamSettings.EnableConfirmNotificationsToChanneltrue"
+            }
+        ]
+    },
+    {
+        "section": "site.announcement_banner",
+        "disabledInputs": [
+            {
+                "path": "admin_console/site_config/announcement_banner",
+                "selector": "AnnouncementSettings.EnableBannertrue"
+            }
+        ]
+    },
+    {
+        "section": "site.emoji",
+        "disabledInputs": [
+            {
+                "path": "admin_console/site_config/emoji",
+                "selector": "ServiceSettings.EnableEmojiPickertrue"
+            }
+        ]
+    },
+    {
+        "section": "site.posts",
+        "disabledInputs": [
+            {
+                "path": "admin_console/site_config/posts",
+                "selector": "ServiceSettings.EnableLinkPreviewstrue"
+            }
+        ]
+    },
+    {
+        "section": "site.file_sharing_and_downloads",
+        "disabledInputs": [
+            {
+                "path": "admin_console/site_config/file_sharing_downloads",
+                "selector": "FileSettings.EnableFileAttachmentstrue"
+            }
+        ]
+    },
+    {
+        "section": "site.public_links",
+        "disabledInputs": [
+            {
+                "path": "admin_console/site_config/public_links",
+                "selector": "FileSettings.EnablePublicLinktrue"
+            }
+        ]
+    },
+    {
+        "section": "site.notices",
+        "disabledInputs": [
+            {
+                "path": "admin_console/site_config/notices",
+                "selector": "AnnouncementSettings.AdminNoticesEnabledtrue"
             }
         ]
     },

@@ -54,7 +54,61 @@
     "system_read_only_admin": "read"
   },
   {
-    "section": "site",
+    "section": "site.customization",
+    "system_manager": "read+write",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "site.localization",
+    "system_manager": "read+write",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "site.users_and_teams",
+    "system_manager": "read+write",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "site.notifications",
+    "system_manager": "read+write",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "site.announcement_banner",
+    "system_manager": "read+write",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "site.emoji",
+    "system_manager": "read+write",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "site.posts",
+    "system_manager": "read+write",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "site.file_sharing_and_downloads",
+    "system_manager": "read+write",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "site.public_links",
+    "system_manager": "read+write",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "site.notices",
     "system_manager": "read+write",
     "system_user_manager": "none",
     "system_read_only_admin": "read"
