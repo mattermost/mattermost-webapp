@@ -1,13 +1,28 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import GeneralTab from 'components/team_general_tab';
 import ImportTab from 'components/team_import_tab.jsx';
 
-const TeamSettings = ({activeTab, activeSection, updateSection, closeModal, collapseModal, team}) => {
+type Props = {
+    activeTab: string;
+    activeSection: string;
+    updateSection: () => void;
+    closeModal: () => void;
+    collapseModal: () => void;
+    team?: Record<string, unknown>;
+};
+
+const TeamSettings = ({
+    activeTab = '',
+    activeSection = '',
+    updateSection,
+    closeModal,
+    collapseModal,
+    team,
+}: Props): JSX.Element | null | undefined => {
     if (!team) {
         return null;
     }
@@ -48,20 +63,6 @@ const TeamSettings = ({activeTab, activeSection, updateSection, closeModal, coll
     }
 
     return result;
-};
-
-TeamSettings.defaultProps = {
-    activeTab: '',
-    activeSection: '',
-};
-
-TeamSettings.propTypes = {
-    activeTab: PropTypes.string.isRequired,
-    activeSection: PropTypes.string.isRequired,
-    updateSection: PropTypes.func.isRequired,
-    closeModal: PropTypes.func.isRequired,
-    collapseModal: PropTypes.func.isRequired,
-    team: PropTypes.object,
 };
 
 export default TeamSettings;
