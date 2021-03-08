@@ -89,7 +89,7 @@ export const Preferences = {
     COLLAPSE_DISPLAY: 'collapse_previews',
     COLLAPSE_DISPLAY_DEFAULT: 'false',
     AVAILABILITY_STATUS_ON_POSTS: 'availability_status_on_posts',
-    AVAILABILITY_STATUS_ON_POSTS_DEFAULT: 'true',
+    AVAILABILITY_STATUS_ON_POSTS_DEFAULT: 'false',
     USE_MILITARY_TIME: 'use_military_time',
     USE_MILITARY_TIME_DEFAULT: 'false',
     CATEGORY_THEME: 'theme',
