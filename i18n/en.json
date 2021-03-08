@@ -1428,7 +1428,7 @@
   "admin.permissions.sysconsole_section_about.description": "The ability to install or upgrade your servers enterprise licensing.",
   "admin.permissions.sysconsole_section_about.name": "Edition and License",
   "admin.permissions.sysconsole_section_authentication_email.name": "Email",
-  "admin.permissions.sysconsole_section_authentication_guest_access.name": "Guest Access (Beat)",
+  "admin.permissions.sysconsole_section_authentication_guest_access.name": "Guest Access (Beta)",
   "admin.permissions.sysconsole_section_authentication_ldap.name": "AD/LDAP",
   "admin.permissions.sysconsole_section_authentication_mfa.name": "MFA",
   "admin.permissions.sysconsole_section_authentication_openid.name": "OpenID Connect",
