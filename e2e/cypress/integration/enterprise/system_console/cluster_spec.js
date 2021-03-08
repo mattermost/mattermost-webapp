@@ -7,10 +7,12 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @enterprise @system_console @high_availability
+// Group: @enterprise @system_console @high_availability @not_cloud
 
 describe('Cluster', () => {
     before(() => {
+        cy.shouldNotRunOnCloudEdition();
+
         // * Check if server has license
         cy.apiRequireLicense();
 
