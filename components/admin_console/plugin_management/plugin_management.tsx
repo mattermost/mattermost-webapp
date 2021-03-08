@@ -177,7 +177,7 @@ const PluginItem = ({
     hasSettings,
     isDisabled,
 }: PluginItemProps) => {
-    let activateButton;
+    let activateButton: JSX.Element | null;
     const activating = pluginStatus.state === PluginState.PLUGIN_STATE_STARTING;
     const deactivating = pluginStatus.state === PluginState.PLUGIN_STATE_STOPPING;
 
@@ -254,7 +254,7 @@ const PluginItem = ({
             />
         );
     }
-    let removeButton = (
+    let removeButton: JSX.Element | null = (
         <span>
             {' - '}
             <a
@@ -361,8 +361,8 @@ const PluginItem = ({
     }
 
     if (pluginStatus.id === 'com.mattermost.apps') {
-        activateButton = (<></>);
-        removeButton = (<></>);
+        activateButton = null;
+        removeButton = null;
         settingsButton = (
             <span>
                 <Link
