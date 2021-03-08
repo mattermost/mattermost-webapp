@@ -32,6 +32,8 @@
 .form-control {
     @include border-radius($border-rad);
 
+    text-align: left;
+
     &:focus {
         @include box-shadow(none);
     }
