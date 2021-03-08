@@ -574,7 +574,7 @@ describe('AppCommandParser', () => {
                 title: 'missing required fields not a problem for parseCommand',
                 command: '/jira issue view --project "P 1"',
                 autocomplete: {verify: (parsed: ParsedCommand): void => {
-                    expect(parsed.state).toBe(ParseState.EndValue);
+                    expect(parsed.state).toBe(ParseState.EndQuotedValue);
                     expect(parsed.binding?.label).toBe('view');
                     expect(parsed.form?.call?.path).toBe('/view-issue');
                     expect(parsed.incomplete).toBe('P 1');
@@ -583,7 +583,7 @@ describe('AppCommandParser', () => {
                     expect(parsed.values?.issue).toBe(undefined);
                 }},
                 submit: {verify: (parsed: ParsedCommand): void => {
-                    expect(parsed.state).toBe(ParseState.EndValue);
+                    expect(parsed.state).toBe(ParseState.EndQuotedValue);
                     expect(parsed.binding?.label).toBe('view');
                     expect(parsed.form?.call?.path).toBe('/view-issue');
                     expect(parsed.values?.project).toBe('P 1');
@@ -930,8 +930,8 @@ describe('AppCommandParser', () => {
             expect(suggestions).toEqual([
                 {
                     complete: '/jira issue create --project special-value',
-                    suggestion: '/special-value',
-                    description: 'special-label',
+                    suggestion: '/special-label',
+                    description: '',
                     hint: '',
                     iconData: undefined,
                 },
@@ -942,13 +942,13 @@ describe('AppCommandParser', () => {
             let suggestions = await parser.getSuggestions('/jira issue create --project KT --summary "great feature" --epic ');
             expect(suggestions).toEqual([
                 {
-                    complete: '/jira issue create --project KT --summary "great feature" --epic Dylan Epic',
+                    complete: '/jira issue create --project KT --summary "great feature" --epic epic1',
                     suggestion: '/Dylan Epic',
                     description: '',
                     hint: '',
                 },
                 {
-                    complete: '/jira issue create --project KT --summary "great feature" --epic Michael Epic',
+                    complete: '/jira issue create --project KT --summary "great feature" --epic epic2',
                     suggestion: '/Michael Epic',
                     description: '',
                     hint: '',
@@ -958,7 +958,7 @@ describe('AppCommandParser', () => {
             suggestions = await parser.getSuggestions('/jira issue create --project KT --summary "great feature" --epic M');
             expect(suggestions).toEqual([
                 {
-                    complete: '/jira issue create --project KT --summary "great feature" --epic Michael Epic',
+                    complete: '/jira issue create --project KT --summary "great feature" --epic epic2',
                     suggestion: '/Michael Epic',
                     description: '',
                     hint: '',

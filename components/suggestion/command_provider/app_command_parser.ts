@@ -1021,6 +1021,7 @@ export class AppCommandParser {
                 complete,
                 suggestion: s.label,
                 hint: '',
+                description: '',
                 iconData: s.icon_data,
             });
         });
