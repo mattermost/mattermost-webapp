@@ -655,7 +655,7 @@ export class AppCommandParser {
                 if (!option) {
                     ok = false;
                     this.displayError(Utils.localizeAndFormatMessage(
-                        t('apps.error.command.unkonw_option'),
+                        t('apps.error.command.unknown_option'),
                         'Unknown option for field `{fieldName}`: `{option}`.',
                         {
                             fieldName: f.name,
@@ -677,7 +677,7 @@ export class AppCommandParser {
                     if ('error' in dispatchResult) {
                         ok = false;
                         this.displayError(Utils.localizeAndFormatMessage(
-                            t('apps.error.command.unkonw_user'),
+                            t('apps.error.command.unknown_user'),
                             'Unknown user for field `{fieldName}`: `{option}`.',
                             {
                                 fieldName: f.name,
@@ -701,7 +701,7 @@ export class AppCommandParser {
                     if ('error' in dispatchResult) {
                         ok = false;
                         this.displayError(Utils.localizeAndFormatMessage(
-                            t('apps.error.command.unkonw_option'),
+                            t('apps.error.command.unknown_channel'),
                             'Unknown channel for field `{fieldName}`: `{option}`.',
                             {
                                 fieldName: f.name,
