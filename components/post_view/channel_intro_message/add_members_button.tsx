@@ -27,21 +27,22 @@ export interface AddMembersButtonProps {
     usersLimit: number;
     channel: Channel;
     setHeader: React.ReactNode;
+    theme: any;
 }
 
-const AddMembersButton: React.FC<AddMembersButtonProps> = ({totalUsers, usersLimit, channel, setHeader}: AddMembersButtonProps) => {
+const AddMembersButton: React.FC<AddMembersButtonProps> = ({totalUsers, usersLimit, channel, setHeader, theme}: AddMembersButtonProps) => {
     const inviteUsers = totalUsers < usersLimit;
     return (
-        inviteUsers ? lessThanMaxFreeUsers(setHeader) : moreThanMaxFreeUsers(channel, setHeader)
+        inviteUsers ? lessThanMaxFreeUsers(setHeader, theme) : moreThanMaxFreeUsers(channel, setHeader)
     );
 };
 
-const lessThanMaxFreeUsers = (setHeader: React.ReactNode) => {
+const lessThanMaxFreeUsers = (setHeader: React.ReactNode, theme: any) => {
     return (
         <>
             {setHeader}
             <div className='LessThanMaxFreeUsers'>
-                <MembersSvg/>
+                <MembersSvg theme={theme}/>
                 <div className='titleAndButton'>
                     <FormattedMessage
                         id='intro_messages.inviteOthersToWorkspace.title'

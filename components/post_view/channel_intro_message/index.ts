@@ -8,7 +8,7 @@ import {getAdminAnalytics} from 'mattermost-redux/selectors/entities/admin';
 import {isCurrentChannelReadOnly, getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getProfilesInCurrentChannel, getCurrentUserId, getUser} from 'mattermost-redux/selectors/entities/users';
-import {get} from 'mattermost-redux/selectors/entities/preferences';
+import {get, getTheme} from 'mattermost-redux/selectors/entities/preferences';
 
 import {UserProfile} from 'mattermost-redux/types/users';
 
@@ -43,6 +43,7 @@ function mapStateToProps(state: GlobalState) {
         teammateName: getDisplayNameByUser(state, teammate),
         stats: getAdminAnalytics(state),
         usersLimit: parseInt(getConfig(state).ExperimentalCloudUserLimit! || '10', 10),
+        theme: getTheme(state),
     };
 }
 
