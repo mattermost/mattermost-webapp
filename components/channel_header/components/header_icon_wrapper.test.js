@@ -68,6 +68,17 @@ describe('components/channel_header/components/HeaderIconWrapper', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should match snapshot, on ChannelFilesIcon', () => {
+        const channelFilesIcon = <i className='icon icon-file-document-outline'/>;
+
+        const props = {...baseProps, iconComponent: channelFilesIcon, tooltipKey: 'channelFiles', buttonClass: 'channel_files_class'};
+        const wrapper = shallow(
+            <HeaderIconWrapper {...props}/>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('should match snapshot, on SearchIcon', () => {
         const searchIcon = (
             <SearchIcon

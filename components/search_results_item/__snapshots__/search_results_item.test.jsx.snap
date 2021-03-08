@@ -915,3 +915,58 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
   </div>
 </div>
 `;
+
+exports[`components/SearchResultsItem should match snapshot for fileInfo 1`] = `
+<div
+  className="search-item__container"
+  data-testid="search-item-container"
+>
+  <FileSearchResultItem
+    fileInfo={
+      Object {
+        "clientId": "test-client-id",
+        "create_at": 1502715365009,
+        "delete_at": 0,
+        "extension": "png",
+        "has_preview_image": "true",
+        "height": "480",
+        "id": "file_id",
+        "mime_type": "image/png",
+        "name": "test-file.png",
+        "post_id": "id",
+        "size": 1234,
+        "update_at": 1502715372443,
+        "user_id": "user_id",
+        "width": "640",
+      }
+    }
+    onClick={[Function]}
+    teamName="test"
+  />
+  <Connect(ViewImageModal)
+    fileInfos={
+      Array [
+        Object {
+          "clientId": "test-client-id",
+          "create_at": 1502715365009,
+          "delete_at": 0,
+          "extension": "png",
+          "has_preview_image": "true",
+          "height": "480",
+          "id": "file_id",
+          "mime_type": "image/png",
+          "name": "test-file.png",
+          "post_id": "id",
+          "size": 1234,
+          "update_at": 1502715372443,
+          "user_id": "user_id",
+          "width": "640",
+        },
+      ]
+    }
+    onModalDismissed={[Function]}
+    show={false}
+    startIndex={0}
+  />
+</div>
+`;

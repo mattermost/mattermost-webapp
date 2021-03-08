@@ -32,6 +32,7 @@ describe('components/SearchResultsItem', () => {
     let mockFunc;
     let user;
     let post;
+    let fileInfo;
     let defaultProps;
 
     beforeEach(() => {
@@ -59,6 +60,23 @@ describe('components/SearchResultsItem', () => {
             type: '',
             update_at: 1502715372443,
             user_id: 'user_id',
+        };
+
+        fileInfo = {
+            id: 'file_id',
+            user_id: 'user_id',
+            create_at: 1502715365009,
+            delete_at: 0,
+            update_at: 1502715372443,
+            name: 'test-file.png',
+            extension: 'png',
+            size: 1234,
+            mime_type: 'image/png',
+            width: '640',
+            height: '480',
+            has_preview_image: 'true',
+            clientId: 'test-client-id',
+            post_id: 'id',
         };
 
         defaultProps = {
@@ -209,6 +227,20 @@ describe('components/SearchResultsItem', () => {
         const props = {
             ...defaultProps,
             channelIsArchived: true,
+        };
+
+        const wrapper = shallowWithIntl(
+            <SearchResultsItem {...props}/>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot for fileInfo', () => {
+        const props = {
+            ...defaultProps,
+            post: null,
+            fileInfo,
         };
 
         const wrapper = shallowWithIntl(

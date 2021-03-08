@@ -41,7 +41,7 @@ class SearchResultsItem extends React.PureComponent {
         post: PropTypes.object,
 
         /**
-        *  Data used for rendering post
+        *  Data used for rendering file
         */
         fileInfo: PropTypes.object,
 

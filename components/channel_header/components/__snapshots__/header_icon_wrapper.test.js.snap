@@ -1,5 +1,43 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`components/channel_header/components/HeaderIconWrapper should match snapshot, on ChannelFilesIcon 1`] = `
+<div>
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    delayShow={400}
+    overlay={
+      <Tooltip
+        bsClass="tooltip"
+        className="channel-files"
+        id="channelFilesTooltip"
+        placement="right"
+      >
+        <FormattedMessage
+          defaultMessage="Channel files"
+          id="channel_header.channelFiles"
+        />
+      </Tooltip>
+    }
+    placement="bottom"
+    trigger={
+      Array [
+        "hover",
+      ]
+    }
+  >
+    <button
+      className="channel_files_class"
+      id="button_id"
+      onClick={[Function]}
+    >
+      <i
+        className="icon icon-file-document-outline"
+      />
+    </button>
+  </OverlayTrigger>
+</div>
+`;
+
 exports[`components/channel_header/components/HeaderIconWrapper should match snapshot, on FlagIcon 1`] = `
 <div>
   <OverlayTrigger
