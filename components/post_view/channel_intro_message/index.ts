@@ -29,6 +29,11 @@ function mapStateToProps(state: GlobalState) {
     const teammate = getDirectTeammate(state, channel.id) as UserProfile;
     const creator = getUser(state, channel.creator_id);
 
+    let usersLimit = parseInt(getConfig(state).ExperimentalCloudUserLimit! || '10', 10);
+    if (usersLimit === 0) {
+        usersLimit = 10;
+    }
+
     return {
         currentUserId: getCurrentUserId(state),
         channel,
@@ -42,7 +47,7 @@ function mapStateToProps(state: GlobalState) {
         teammate,
         teammateName: getDisplayNameByUser(state, teammate),
         stats: getAdminAnalytics(state),
-        usersLimit: parseInt(getConfig(state).ExperimentalCloudUserLimit! || '10', 10),
+        usersLimit: usersLimit,
         theme: getTheme(state),
     };
 }

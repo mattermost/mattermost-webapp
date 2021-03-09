@@ -61,7 +61,7 @@ export default class ChannelIntroMessage extends React.PureComponent<Props> {
             teammateName,
             stats,
             usersLimit,
-            theme
+            theme,
         } = this.props;
 
         let centeredIntro = '';
@@ -78,7 +78,7 @@ export default class ChannelIntroMessage extends React.PureComponent<Props> {
         } else if (channel.name === Constants.OFFTOPIC_CHANNEL) {
             return createOffTopicIntroMessage(channel, centeredIntro, stats, usersLimit, theme);
         } else if (channel.type === Constants.OPEN_CHANNEL || channel.type === Constants.PRIVATE_CHANNEL) {
-            return createStandardIntroMessage(channel, centeredIntro, theme,  stats, usersLimit, locale, creatorName);
+            return createStandardIntroMessage(channel, centeredIntro, theme, stats, usersLimit, locale, creatorName);
         }
         return null;
     }
