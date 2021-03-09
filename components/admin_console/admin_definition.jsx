@@ -1725,7 +1725,7 @@ const AdminDefinition = {
             url: 'site_config/customization',
             title: t('admin.sidebar.customization'),
             title_default: 'Customization',
-            isHiddem: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.SITE.CUSTOMIZATION)),
+            isHidden: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.SITE.CUSTOMIZATION)),
             schema: {
                 id: 'Customization',
                 name: t('admin.site.customization'),
