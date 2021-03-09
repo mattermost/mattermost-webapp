@@ -29,6 +29,7 @@ export function testAudioFile(fileProperties) {
         // * Thumbnail exist
         cy.get('.post-image__thumbnail > div.audio').should('exist');
     });
+    cy.wait(TIMEOUTS.THREE_SEC);
     cy.postMessage('{enter}');
     cy.wait(TIMEOUTS.ONE_SEC);
 
@@ -79,6 +80,7 @@ export function testImage(imageProperties) {
         // * Img thumbnail exist
         cy.get('.post-image__thumbnail > div.post-image.normal').should('exist');
     });
+    cy.wait(TIMEOUTS.THREE_SEC);
     cy.postMessage('{enter}');
     cy.wait(TIMEOUTS.ONE_SEC);
 
@@ -129,6 +131,7 @@ export function testGenericFile(fileProperties) {
         // * Thumbnail exist
         cy.get(`.post-image__thumbnail > div.${type}`).should('exist');
     });
+    cy.wait(TIMEOUTS.THREE_SEC);
     cy.postMessage('{enter}');
     cy.wait(TIMEOUTS.ONE_SEC);
 
@@ -172,6 +175,7 @@ export function testVideoFile(fileProperties) {
         // * Thumbnail exist
         cy.get('.post-image__thumbnail > div.video').should('exist');
     });
+    cy.wait(TIMEOUTS.THREE_SEC);
     cy.postMessage('{enter}');
     cy.wait(TIMEOUTS.ONE_SEC);
 
