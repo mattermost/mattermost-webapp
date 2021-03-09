@@ -3471,7 +3471,7 @@
   "next_steps_view.tips.addPlugins": "Lägg till plugins till Mattermost",
   "next_steps_view.tips.addPlugins.button": "Lägg till plugin",
   "next_steps_view.tips.addPlugins.buttons": "Se genvägar",
-  "next_steps_view.tips.addPlugins.text": "Besök Plugins Marketplace för att installera och konfigurera plugins.",
+  "next_steps_view.tips.addPlugins.text": "Besök Plugins Marketplace för att installera och konfigurera plugins!",
   "next_steps_view.tips.addPlugins.texts": "Var mer effektiv med tangentbordsgenvägar i Mattermost.",
   "next_steps_view.tips.addPluginss": "Lär dig tangentbordsgenvägar",
   "next_steps_view.tips.auth.ldap": "AD/LDAP",
