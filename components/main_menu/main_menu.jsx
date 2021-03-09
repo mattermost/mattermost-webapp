@@ -71,6 +71,7 @@ class MainMenu extends React.PureComponent {
             closeRightHandSide: PropTypes.func.isRequired,
             closeRhsMenu: PropTypes.func.isRequired,
             unhideNextSteps: PropTypes.func.isRequired,
+            getSubscriptionStats: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -126,7 +127,7 @@ class MainMenu extends React.PureComponent {
         if (subscriptionStats?.is_paid_tier === 'true') { // eslint-disable-line camelcase
             return false;
         }
-        return isCloud && subscriptionStats.remaining_seats <= 0;
+        return isCloud && subscriptionStats?.remaining_seats <= 0;
     }
 
     render() {
