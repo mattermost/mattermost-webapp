@@ -2012,7 +2012,7 @@
     background:linear-gradient(rgba(var(--mention-highlight-bg-mixed-rgb), 0), rgba(var(--mention-highlight-bg-mixed-rgb), 1));
 }
 
-.app__body .post-list__table .post:not(current--user).post--highlight:not(.post--compact) .post-collapse>.post-collapse__show-more
+.app__body .post-list__table .post:not(current--user).post--highlight:not(.post--compact) .post-collapse__show-more
 {
     background: rgba(var(--mention-highlight-bg-mixed-rgb), 1);
 }
@@ -2021,7 +2021,7 @@
     background:linear-gradient(rgba(var(--own-highlight-bg-rgb), 0), var(--own-highlight-bg-rgb));
 }
 
-.app__body .post-list__table .post.current--user.post--highlight:not(.post--compact) .post-collapse>.post-collapse__show-more {
+.app__body .post-list__table .post.current--user.post--highlight:not(.post--compact) .post-collapse__show-more {
     background: var(--mention-highlight-bg-mixed-rgb);
 }
 
