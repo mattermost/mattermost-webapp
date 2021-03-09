@@ -1077,6 +1077,7 @@ exports[`components/ChannelHeader should render properly when custom status is s
         </div>
         <div
           className="channel-header__description"
+          dir="auto"
           id="channelHeaderDescription"
         >
           <StatusIcon
@@ -1095,11 +1096,12 @@ exports[`components/ChannelHeader should render properly when custom status is s
               emojiSize={15}
               emojiStyle={
                 Object {
-                  "margin": "0 4px 4px",
+                  "margin": "0 4px 1px",
                   "verticalAlign": "top",
                 }
               }
               showTooltip={false}
+              spanStyle={Object {}}
               tooltipDirection="top"
               userID="user_id"
             />
@@ -1527,6 +1529,7 @@ exports[`components/ChannelHeader should render properly when populated with cha
         </div>
         <div
           className="channel-header__description"
+          dir="auto"
           id="channelHeaderDescription"
         >
           <Connect(PopoverListMembers)

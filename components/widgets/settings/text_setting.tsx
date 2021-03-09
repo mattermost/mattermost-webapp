@@ -62,6 +62,7 @@ export default class TextSetting extends React.PureComponent<WidgetTextSettingPr
                     autoFocus={this.props.autoFocus}
                     data-testid={this.props.id + 'input'}
                     id={this.props.id}
+                    dir='auto'
                     style={style}
                     className='form-control'
                     rows={5}

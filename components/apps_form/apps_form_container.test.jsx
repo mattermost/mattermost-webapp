@@ -93,7 +93,7 @@ describe('components/apps_model/AppsFormContainer', () => {
                     post_id: 'post',
                     team_id: 'team',
                 },
-                type: '',
+                type: 'submit',
                 path: '/form_url',
                 values: {
                     field1: 'value1',
