@@ -23,7 +23,7 @@ jest.mock('actions/global_actions', () => ({
 
 jest.mock('mattermost-redux/actions/channels', () => ({
     joinChannel: jest.fn(() => ({type: '', data: {channel: {id: 'channel_id3', name: 'achannel3', team_id: 'team_id1', type: 'O'}}})),
-    getChannelByNameAndTeamName: jest.fn(() => ({type: '', data: {channel: {id: 'channel_id3', name: 'achannel3', team_id: 'team_id1', type: 'O'}}})),
+    getChannelByNameAndTeamName: jest.fn(() => ({type: '', data: {id: 'channel_id3', name: 'achannel3', team_id: 'team_id1', type: 'O'}})),
     getChannelMember: jest.fn(() => ({type: '', error: {}})),
 }));
 
