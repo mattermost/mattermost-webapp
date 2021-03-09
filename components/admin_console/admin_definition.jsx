@@ -2080,6 +2080,7 @@ const AdminDefinition = {
                         help_text: t('admin.team.customUserStatusesDescription'),
                         help_text_default: 'When true, users can set a descriptive status message and status emoji visible to all users.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.USERS_AND_TEAMS)),
+                        isHidden: it.not(it.configIsTrue('FeatureFlags', 'CustomUserStatuses')),
                     },
                 ],
             },

@@ -3,7 +3,6 @@
 /* eslint-disable react/no-string-refs */
 
 import debounce from 'lodash/debounce';
-import PropTypes from 'prop-types';
 import React from 'react';
 import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
@@ -11,25 +10,29 @@ import {FormattedMessage} from 'react-intl';
 import OverlayTrigger from 'components/overlay_trigger';
 import {Constants, ZoomSettings} from 'utils/constants';
 
-export default class PopoverBar extends React.PureComponent {
-    static propTypes = {
-        fileIndex: PropTypes.number.isRequired,
-        totalFiles: PropTypes.number.isRequired,
-        filename: PropTypes.string.isRequired,
-        fileURL: PropTypes.string.isRequired,
-        showPublicLink: PropTypes.bool,
-        enablePublicLink: PropTypes.bool.isRequired,
-        canDownloadFiles: PropTypes.bool.isRequired,
-        isExternalFile: PropTypes.bool.isRequired,
-        onGetPublicLink: PropTypes.func,
-        scale: PropTypes.number,
-        showZoomControls: PropTypes.bool,
-        handleZoomIn: PropTypes.func,
-        handleZoomOut: PropTypes.func,
-        handleZoomReset: PropTypes.func,
-    };
+export interface Props {
+    fileIndex: number;
+    totalFiles: number;
+    filename: string;
+    fileURL: string;
+    showPublicLink?: boolean;
+    enablePublicLink: boolean;
+    canDownloadFiles: boolean;
+    isExternalFile: boolean;
+    onGetPublicLink?: () => void;
+    scale?: number;
+    showZoomControls?: boolean;
+    handleZoomIn?: () => void;
+    handleZoomOut?: () => void;
+    handleZoomReset?: () => void;
+}
 
-    static defaultProps = {
+interface DownloadLinkProps {
+    download?: string;
+}
+
+export default class PopoverBar extends React.PureComponent<Props> {
+    static defaultProps: Partial<Props> = {
         fileIndex: 0,
         totalFiles: 0,
         filename: '',
@@ -38,7 +41,7 @@ export default class PopoverBar extends React.PureComponent {
     };
 
     render() {
-        var publicLink = '';
+        let publicLink: React.ReactNode = '';
         if (this.props.enablePublicLink && this.props.showPublicLink) {
             publicLink = (
                 <span>
@@ -61,7 +64,7 @@ export default class PopoverBar extends React.PureComponent {
         let downloadLinks = null;
         if (this.props.canDownloadFiles) {
             let downloadLinkText;
-            const downloadLinkProps = {};
+            const downloadLinkProps: DownloadLinkProps = {};
             if (this.props.isExternalFile) {
                 downloadLinkText = (
                     <FormattedMessage
@@ -96,16 +99,17 @@ export default class PopoverBar extends React.PureComponent {
             );
         }
 
-        let zoomControls = [];
+        const zoomControls: React.ReactNode[] = [];
+        let wrappedZoomControls: React.ReactNode = null;
         if (this.props.showZoomControls) {
             let zoomResetButton;
             let zoomOutButton;
             let zoomInButton;
 
-            if (this.props.scale > ZoomSettings.MIN_SCALE) {
+            if (this.props.scale && this.props.scale > ZoomSettings.MIN_SCALE) {
                 zoomOutButton = (
                     <span className='modal-zoom-btn'>
-                        <a onClick={debounce(this.props.handleZoomOut, 300, {maxWait: 300})}>
+                        <a onClick={this.props.handleZoomOut && debounce(this.props.handleZoomOut, 300, {maxWait: 300})}>
                             <i className='icon icon-minus'/>
                         </a>
                     </span>
@@ -135,7 +139,7 @@ export default class PopoverBar extends React.PureComponent {
                 </OverlayTrigger>,
             );
 
-            if (this.props.scale > ZoomSettings.DEFAULT_SCALE) {
+            if (this.props.scale && this.props.scale > ZoomSettings.DEFAULT_SCALE) {
                 zoomResetButton = (
                     <span className='modal-zoom-btn'>
                         <a onClick={this.props.handleZoomReset}>
@@ -143,7 +147,7 @@ export default class PopoverBar extends React.PureComponent {
                         </a>
                     </span>
                 );
-            } else if (this.props.scale < ZoomSettings.DEFAULT_SCALE) {
+            } else if (this.props.scale && this.props.scale < ZoomSettings.DEFAULT_SCALE) {
                 zoomResetButton = (
                     <span className='modal-zoom-btn'>
                         <a onClick={this.props.handleZoomReset}>
@@ -176,10 +180,10 @@ export default class PopoverBar extends React.PureComponent {
                 </OverlayTrigger>,
             );
 
-            if (this.props.scale < ZoomSettings.MAX_SCALE) {
+            if (this.props.scale && this.props.scale < ZoomSettings.MAX_SCALE) {
                 zoomInButton = (
                     <span className='modal-zoom-btn'>
-                        <a onClick={debounce(this.props.handleZoomIn, 300, {maxWait: 300})}>
+                        <a onClick={this.props.handleZoomIn && debounce(this.props.handleZoomIn, 300, {maxWait: 300})}>
                             <i className='icon icon-plus'/>
                         </a>
                     </span>
@@ -210,7 +214,7 @@ export default class PopoverBar extends React.PureComponent {
                 </OverlayTrigger>,
             );
 
-            zoomControls = (
+            wrappedZoomControls = (
                 <div className='modal-column'>
                     {zoomControls}
                 </div>
@@ -235,7 +239,7 @@ export default class PopoverBar extends React.PureComponent {
                         />
                     </span>
                 </div>
-                {zoomControls}
+                {wrappedZoomControls}
                 <div className='modal-column text'>
                     {downloadLinks}
                 </div>
