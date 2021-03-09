@@ -13,7 +13,6 @@ import {cmdOrCtrlPressed, isKeyPressed} from 'utils/utils';
 import {useSafeUrl} from 'utils/url';
 import * as UserAgent from 'utils/user_agent';
 import InvitationModal from 'components/invitation_modal';
-import UserLimitModal from 'components/user_limit_modal';
 
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
@@ -175,23 +174,6 @@ class MainMenu extends React.PureComponent {
             />
         );
 
-        const upgradeCloudModal = (
-            <Menu.ItemToggleModalRedux
-                id='invitePeople'
-                modalId={ModalIdentifiers.UPGRADE_CLOUD_ACCOUNT}
-                dialogType={UserLimitModal}
-                text={formatMessage({
-                    id: 'navbar_dropdown.invitePeople',
-                    defaultMessage: 'Invite People',
-                })}
-                extraText={formatMessage({
-                    id: 'navbar_dropdown.invitePeopleExtraText',
-                    defaultMessage: 'Add or invite people to the team',
-                })}
-                icon={this.props.mobile && <i className='fa fa-user-plus'/>}
-            />
-        );
-
         return (
             <Menu
                 mobile={this.props.mobile}
@@ -241,7 +223,7 @@ class MainMenu extends React.PureComponent {
                         teamId={this.props.teamId}
                         permissions={[Permissions.ADD_USER_TO_TEAM, Permissions.INVITE_GUEST]}
                     >
-                        {this.shouldShowUpgradeModal() ? upgradeCloudModal : invitePeopleModal}
+                        {invitePeopleModal}
                     </TeamPermissionGate>
                 </Menu.Group>
                 <Menu.Group>
