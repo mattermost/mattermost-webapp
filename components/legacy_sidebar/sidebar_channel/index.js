@@ -71,8 +71,8 @@ function makeMapStateToProps() {
                 const threadCounts = getThreadCountsInCurrentTeam(
                     state,
                 );
-                const threadMentionCountInChannel = (threadCounts && threadCounts.unread_mentions_per_channel && threadCounts.unread_mentions_per_channel[channel.id]) || 0;
-                const threadReplyCountInChannel = (threadCounts && threadCounts.unread_replies_per_channel && threadCounts.unread_replies_per_channel[channel.id]) || 0;
+                const threadMentionCountInChannel = threadCounts?.unread_mentions_per_channel?.[channel.id] || 0;
+                const threadReplyCountInChannel = threadCounts?.unread_replies_per_channel?.[channel.id] || 0;
                 unreadMentions = member.mention_count - threadMentionCountInChannel;
                 if (unreadMsgs > 0) {
                     unreadMsgs -= threadReplyCountInChannel;
