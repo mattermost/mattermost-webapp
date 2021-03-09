@@ -61,7 +61,7 @@ const lessThanMaxFreeUsers = (setHeader: React.ReactNode, theme: any) => {
                         >
                             {(title: string) => (
                                 <i
-                                    className='icon fa fa-envelope'
+                                    className='icon-email-plus-outline'
                                     title={title}
                                 />
                             )}
@@ -103,7 +103,7 @@ const moreThanMaxFreeUsers = (channel: Channel, setHeader: React.ReactNode) => {
                         >
                             {(title: string) => (
                                 <i
-                                    className='fa fa-user-plus'
+                                    className='icon-account-plus-outline'
                                     title={title}
                                 />
                             )}
