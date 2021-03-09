@@ -72,7 +72,25 @@
     "system_read_only_admin": "read"
   },
   {
-    "section": "integrations",
+    "section": "integrations.integration_management",
+    "system_manager": "read+write",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "integrations.bot_accounts",
+    "system_manager": "read+write",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "integrations.gif",
+    "system_manager": "read+write",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "integrations.cors",
     "system_manager": "read+write",
     "system_user_manager": "none",
     "system_read_only_admin": "read"

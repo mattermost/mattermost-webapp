@@ -69,11 +69,38 @@
         ]
     },
     {
-        "section": "integrations",
+        "section": "integrations.integration_management",
+        "disabledInputs": [
+            {
+                "path": "/admin_console/integrations/integration_management",
+                "selector": "ServiceSettings.EnableIncomingWebhookstrue"
+            }
+        ]
+    },
+    {
+        "section": "integrations.bot_accounts",
+        "disabledInputs": [
+            {
+                "path": "/admin_console/integrations/bot_accounts",
+                "selector": "ServiceSettings.EnableBotAccountCreationtrue"
+            }
+        ]
+    },
+    {
+        "section": "integrations.gif",
         "disabledInputs": [
             {
                 "path": "/admin_console/integrations/gif",
-                "selector": "ServiceSettings.GfycatApiKeyinput"
+                "selector": "ServiceSettings.EnableGifPickertrue"
+            }
+        ]
+    },
+    {
+        "section": "integrations.cors",
+        "disabledInputs": [
+            {
+                "path": "/admin_console/integrations/cors",
+                "selector": "ServiceSettings.AllowCorsFrominput"
             }
         ]
     },

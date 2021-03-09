@@ -80,7 +80,12 @@ const sectionsList: SystemSection[] = [
     {
         name: 'integrations',
         hasDescription: true,
-        subsections: [],
+        subsections: [
+            {name: 'integrations_integration_management'},
+            {name: 'integrations_bot_accounts'},
+            {name: 'integrations_gif'},
+            {name: 'integrations_cors'},
+        ],
     },
     {
         name: 'compliance',
@@ -234,6 +239,10 @@ t('admin.permissions.sysconsole_section_plugins.name');
 t('admin.permissions.sysconsole_section_plugins.description');
 t('admin.permissions.sysconsole_section_integrations.name');
 t('admin.permissions.sysconsole_section_integrations.description');
+t('admin.permissions.sysconsole_section_integrations_integration_management.name');
+t('admin.permissions.sysconsole_section_integrations_bot_accounts.name');
+t('admin.permissions.sysconsole_section_integrations_gif.name');
+t('admin.permissions.sysconsole_section_integrations_cors.name');
 t('admin.permissions.sysconsole_section_compliance.name');
 t('admin.permissions.sysconsole_section_compliance.description');
 t('admin.permissions.sysconsole_section_experimental.name');
