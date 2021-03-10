@@ -4,7 +4,7 @@
 import thunk from 'redux-thunk';
 import configureStore from 'redux-mock-store';
 
-import {joinChannel} from 'mattermost-redux/actions/channels';
+import {getChannelByNameAndTeamName, getChannelMember, joinChannel} from 'mattermost-redux/actions/channels';
 import {getUserByEmail} from 'mattermost-redux/actions/users';
 
 import {emitChannelClickEvent} from 'actions/global_actions';
@@ -16,6 +16,7 @@ import {
     goToDirectChannelByEmail,
     getPathFromIdentifier,
 } from 'components/channel_layout/channel_identifier_router/actions';
+import {joinPrivateChannelPrompt} from 'utils/channel_utils';
 
 jest.mock('actions/global_actions', () => ({
     emitChannelClickEvent: jest.fn(),
@@ -30,6 +31,14 @@ jest.mock('mattermost-redux/actions/channels', () => ({
 jest.mock('mattermost-redux/actions/users', () => ({
     getUserByEmail: jest.fn(() => ({type: '', data: {id: 'user_id3', email: 'user3@bladekick.com', username: 'user3'}})),
     getUser: jest.fn(() => ({type: '', data: {id: 'user_id3', email: 'user3@bladekick.com', username: 'user3'}})),
+}));
+
+jest.mock('utils/channel_utils', () => ({
+    joinPrivateChannelPrompt: jest.fn(() => {
+        return async () => {
+            return {data: {join: true}};
+        };
+    }),
 }));
 
 const mockStore = configureStore([thunk]);
@@ -147,6 +156,32 @@ describe('Actions', () => {
             await testStore.dispatch((goToChannelByChannelName({params: {team: 'team1', identifier: 'achannel3', path: '/'}, url: ''}, {} as any) as any));
             expect(joinChannel).toHaveBeenCalledWith('current_user_id', 'team_id1', '', 'achannel3');
             expect(emitChannelClickEvent).toHaveBeenCalledWith(channel3);
+        });
+
+        test('switch to private channel we don\'t have locally and get prompted if super user and then join', async () => {
+            const testStore = await mockStore({
+                ...initialState,
+                entities: {
+                    ...initialState.entities,
+                    users: {
+                        ...initialState.entities.users,
+                        profiles: {
+                            ...initialState.entities.users.profiles,
+                            current_user_id: {
+                                roles: 'system_admin',
+                            },
+                        },
+                    },
+                },
+            });
+            const channel = {id: 'channel_id6', name: 'achannel6', team_id: 'team_id1', type: 'P'};
+            (joinChannel as jest.Mock).mockReturnValueOnce({type: '', data: {channel}});
+            (getChannelByNameAndTeamName as jest.Mock).mockReturnValueOnce({type: '', data: channel});
+            await testStore.dispatch((goToChannelByChannelName({params: {team: 'team1', identifier: channel.name, path: '/'}, url: ''}, {} as any) as any));
+            expect(getChannelByNameAndTeamName).toHaveBeenCalledWith('team1', channel.name, true);
+            expect(getChannelMember).toHaveBeenCalledWith(channel.id, 'current_user_id');
+            expect(joinPrivateChannelPrompt).toHaveBeenCalled();
+            expect(joinChannel).toHaveBeenCalledWith('current_user_id', 'team_id1', '', channel.name);
         });
     });
 
