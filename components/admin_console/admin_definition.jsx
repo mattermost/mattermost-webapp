@@ -228,7 +228,9 @@ const AdminDefinition = {
         sectionTitleDefault: 'About',
         isHidden: it.any(
             it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
-            it.not(it.userHasReadPermissionOnResource('about')),
+            it.all(
+                it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.ABOUT.EDITION_AND_LICENSE)),
+            ),
         ),
         license: {
             url: 'about/license',
@@ -244,7 +246,8 @@ const AdminDefinition = {
                 'Mattermost Enterprise Edition. Unlock enterprise features in this software through the purchase of a subscription from ',
                 'This software is offered under a commercial license.\n\nSee ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. See NOTICE.txt for information about open source software used in this system.',
             ],
-            isDisabled: it.not(it.userHasWritePermissionOnResource('about')),
+            isHidden: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.ABOUT.EDITION_AND_LICENSE)),
+            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ABOUT.EDITION_AND_LICENSE)),
             schema: {
                 id: 'LicenseSettings',
                 component: LicenseSettings,
