@@ -188,9 +188,7 @@ export const it = {
         }
         return cloud.subscription.is_paid_tier === 'true';
     },
-    userHasReadPermissionOnResource: (key) => (config, state, license, enterpriseReady, consoleAccess) => {
-        return consoleAccess?.read?.[key];
-    },
+    userHasReadPermissionOnResource: (key) => (config, state, license, enterpriseReady, consoleAccess) => consoleAccess?.read?.[key],
     userHasWritePermissionOnResource: (key) => (config, state, license, enterpriseReady, consoleAccess) => consoleAccess?.write?.[key],
     isSystemAdmin: (config, state, license, enterpriseReady, consoleAccess, icloud, isSystemAdmin) => isSystemAdmin,
 };
