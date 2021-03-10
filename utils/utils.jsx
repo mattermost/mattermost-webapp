@@ -5,7 +5,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {getChannel as getChannelAction, getChannelByNameAndTeamName, joinChannel} from 'mattermost-redux/actions/channels';
+import {getChannel as getChannelAction, getChannelByNameAndTeamName, getChannelMember, joinChannel} from 'mattermost-redux/actions/channels';
 import {getPost as getPostAction} from 'mattermost-redux/actions/posts';
 import {getTeamByName as getTeamByNameAction} from 'mattermost-redux/actions/teams';
 import {Client4} from 'mattermost-redux/client';
@@ -1845,19 +1845,28 @@ export async function handleFormattedTextClick(e, currentRelativeTeamUrl) {
                                 }
                             }
                         }
-                        if (channel && channel.type === Constants.PRIVATE_CHANNEL && !getMyChannelMemberships(state)[channel.id]) {
-                            const {data} = await store.dispatch(joinPrivateChannelPrompt(team, channel, false));
-                            if (data.join) {
-                                let error = false;
-                                if (!getTeamMemberships(state)[team.id]) {
-                                    const joinTeamResult = await store.dispatch(addUserToTeam(team.id, user.id));
-                                    error = joinTeamResult.error;
+                        if (channel && channel.type === Constants.PRIVATE_CHANNEL) {
+                            let member = getMyChannelMemberships(state)[channel.id];
+                            if (!member) {
+                                const membership = await store.dispatch(getChannelMember(channel.id, getCurrentUserId(state)));
+                                if ('data' in membership) {
+                                    member = membership.data;
                                 }
-                                if (!error) {
-                                    await store.dispatch(joinChannel(user.id, team.id, channel.id, channel.name));
+                            }
+                            if (!member) {
+                                const {data} = await store.dispatch(joinPrivateChannelPrompt(team, channel, false));
+                                if (data.join) {
+                                    let error = false;
+                                    if (!getTeamMemberships(state)[team.id]) {
+                                        const joinTeamResult = await store.dispatch(addUserToTeam(team.id, user.id));
+                                        error = joinTeamResult.error;
+                                    }
+                                    if (!error) {
+                                        await store.dispatch(joinChannel(user.id, team.id, channel.id, channel.name));
+                                    }
+                                } else {
+                                    return;
                                 }
-                            } else {
-                                return;
                             }
                         }
                     }
