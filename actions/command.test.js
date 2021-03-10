@@ -91,6 +91,12 @@ const initialState = {
                                 name: 'key2',
                                 label: 'key2',
                                 type: 'static_select',
+                                options: [
+                                    {
+                                        label: 'Value 2',
+                                        value: 'value2',
+                                    },
+                                ],
                             },
                         ],
                     },
@@ -249,7 +255,7 @@ describe('executeCommand', () => {
                 path: 'https://someserver.com/command',
                 values: {
                     key1: 'value1',
-                    key2: 'value2',
+                    key2: {label: 'Value 2', value: 'value2'},
                 },
             });
             expect(result).toEqual({data: true});

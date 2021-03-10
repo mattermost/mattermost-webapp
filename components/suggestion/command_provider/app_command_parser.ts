@@ -19,15 +19,22 @@ import {
     AutocompleteStaticSelect,
     AutocompleteSuggestionWithComplete,
     AppLookupCallValues,
+    AppCallValues,
 } from 'mattermost-redux/types/apps';
 
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
-import {getChannel, getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
+import {getChannel, getChannelByName as selectChannelByName, getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 import {Channel} from 'mattermost-redux/types/channels';
 
-import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentTeam, getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
 import {Store} from 'redux';
+
+import {getUserByUsername as selectUserByUsername} from 'mattermost-redux/selectors/entities/users';
+
+import {getUserByUsername} from 'mattermost-redux/actions/users';
+
+import {getChannelByNameAndTeamName} from 'mattermost-redux/actions/channels';
 
 import {Constants} from 'utils/constants';
 import {GlobalState} from 'types/store';
@@ -604,13 +611,20 @@ export class AppCommandParser {
     }
 
     // composeCallFromParsed creates the form submission call
-    composeCallFromParsed = (parsed: ParsedCommand): AppCall | null => {
+    composeCallFromParsed = async (parsed: ParsedCommand): Promise<AppCall | null> => {
         if (!parsed.binding) {
             return null;
         }
 
         const call = parsed.form?.call || parsed.binding.call;
         if (!call) {
+            return null;
+        }
+
+        const values: AppCallValues = parsed.values;
+        const ok = await this.expandOptions(parsed, values);
+
+        if (!ok) {
             return null;
         }
 
@@ -624,6 +638,90 @@ export class AppCommandParser {
             values: parsed.values,
             raw_command: parsed.command,
         };
+    }
+
+    expandOptions = async (parsed: ParsedCommand, values: AppCallValues) => {
+        if (!parsed.form) {
+            return true;
+        }
+
+        let ok = true;
+        await Promise.all(parsed.form.fields.map(async (f) => {
+            if (!values[f.name]) {
+                return;
+            }
+            switch (f.type) {
+            case AppFieldTypes.DYNAMIC_SELECT:
+                values[f.name] = {label: '', value: values[f.name]};
+                break;
+            case AppFieldTypes.STATIC_SELECT: {
+                const option = f.options?.find((o) => (o.value === values[f.name]));
+                if (!option) {
+                    ok = false;
+                    this.displayError(Utils.localizeAndFormatMessage(
+                        t('apps.error.command.unknown_option'),
+                        'Unknown option for field `{fieldName}`: `{option}`.',
+                        {
+                            fieldName: f.name,
+                            option: values[f.name],
+                        }));
+                    return;
+                }
+                values[f.name] = option;
+                break;
+            }
+            case AppFieldTypes.USER: {
+                let userName = values[f.name] as string;
+                if (userName[0] === '@') {
+                    userName = userName.substr(1);
+                }
+                let user = selectUserByUsername(this.store.getState(), userName);
+                if (!user) {
+                    const dispatchResult = await this.store.dispatch(getUserByUsername(userName) as any);
+                    if ('error' in dispatchResult) {
+                        ok = false;
+                        this.displayError(Utils.localizeAndFormatMessage(
+                            t('apps.error.command.unknown_user'),
+                            'Unknown user for field `{fieldName}`: `{option}`.',
+                            {
+                                fieldName: f.name,
+                                option: values[f.name],
+                            }));
+                        return;
+                    }
+                    user = dispatchResult.data;
+                }
+                values[f.name] = {label: user.username, value: user.id};
+                break;
+            }
+            case AppFieldTypes.CHANNEL: {
+                let channelName = values[f.name] as string;
+                if (channelName[0] === '~') {
+                    channelName = channelName.substr(1);
+                }
+                let channel = selectChannelByName(this.store.getState(), channelName);
+                if (!channel) {
+                    const dispatchResult = await this.store.dispatch(getChannelByNameAndTeamName(getCurrentTeam(this.store.getState()).name, channelName) as any);
+                    if ('error' in dispatchResult) {
+                        ok = false;
+                        this.displayError(Utils.localizeAndFormatMessage(
+                            t('apps.error.command.unknown_channel'),
+                            'Unknown channel for field `{fieldName}`: `{option}`.',
+                            {
+                                fieldName: f.name,
+                                option: values[f.name],
+                            }));
+                        return;
+                    }
+                    channel = dispatchResult.data;
+                }
+                values[f.name] = {label: channel?.display_name, value: channel?.id};
+                break;
+            }
+            }
+        }));
+
+        return ok;
     }
 
     // decorateSuggestionComplete applies the necessary modifications for a suggestion to be processed
@@ -975,7 +1073,7 @@ export class AppCommandParser {
             values: parsed.values,
         };
 
-        const payload = this.composeCallFromParsed(parsed);
+        const payload = await this.composeCallFromParsed(parsed);
         if (!payload) {
             return [];
         }
