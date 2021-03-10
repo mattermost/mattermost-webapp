@@ -989,14 +989,8 @@ export class AppCommandParser {
         const applicable = parsed.form.fields.filter((field) => field.label && field.label.startsWith(parsed.incomplete.toLowerCase()) && !parsed.values[field.name]);
         if (applicable) {
             return applicable.map((f) => {
-                let suffix = '';
-                if (f.type === AppFieldTypes.USER) {
-                    suffix = ' @';
-                } else if (f.type === AppFieldTypes.CHANNEL) {
-                    suffix = ' ~';
-                }
                 return {
-                    complete: prefix + (f.label || f.name) + suffix,
+                    complete: prefix + (f.label || f.name),
                     suggestion: '--' + (f.label || f.name),
                     description: f.description,
                     hint: f.hint,
@@ -1129,9 +1123,10 @@ export class AppCommandParser {
     getUserSuggestions = (parsed: ParsedCommand): AutocompleteSuggestion[] => {
         if (parsed.incomplete.trim().length === 0) {
             return [{
-                suggestion: '@',
+                complete: '',
+                suggestion: '',
                 description: parsed.field?.description || '',
-                hint: parsed.field?.hint || '',
+                hint: parsed.field?.hint || '@username',
             }];
         }
 
@@ -1142,9 +1137,10 @@ export class AppCommandParser {
     getChannelSuggestions = (parsed: ParsedCommand): AutocompleteSuggestion[] => {
         if (parsed.incomplete.trim().length === 0) {
             return [{
-                suggestion: '~',
+                complete: '',
+                suggestion: '',
                 description: parsed.field?.description || '',
-                hint: parsed.field?.hint || '',
+                hint: parsed.field?.hint || '~channelname',
             }];
         }
 
