@@ -251,7 +251,7 @@ describe('executeCommand', () => {
                     team_id: '456',
                 },
                 raw_command: '/appid custom value1 --key2 value2',
-                type: '',
+                type: 'submit',
                 path: 'https://someserver.com/command',
                 values: {
                     key1: 'value1',

@@ -31,7 +31,7 @@ describe('components/apps_form/AppsForm', () => {
             refreshOnSelect: jest.fn(),
             submit: jest.fn().mockResolvedValue({
                 data: {
-                    type: '',
+                    type: 'ok',
                 },
             }),
         },

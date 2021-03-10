@@ -60,6 +60,8 @@ export enum ParseState {
     QuotedValue,
     TickValue,
     EndValue,
+    EndQuotedValue,
+    EndTickedValue,
     Error,
 }
 
@@ -413,7 +415,7 @@ export class ParsedCommand {
                         return this.asError('empty values are not allowed');
                     }
                     this.i++;
-                    this.state = ParseState.EndValue;
+                    this.state = ParseState.EndQuotedValue;
                     break;
                 }
                 case '\\': {
@@ -447,7 +449,7 @@ export class ParsedCommand {
                         return this.asError('empty values are not allowed');
                     }
                     this.i++;
-                    this.state = ParseState.EndValue;
+                    this.state = ParseState.EndTickedValue;
                     break;
                 }
                 default: {
@@ -459,6 +461,8 @@ export class ParsedCommand {
                 break;
             }
 
+            case ParseState.EndTickedValue:
+            case ParseState.EndQuotedValue:
             case ParseState.EndValue: {
                 if (!this.field) {
                     return this.asError(Utils.localizeMessage('apps.error.parser.missing_field_value', 'Field value Expected.'));
@@ -924,8 +928,10 @@ export class AppCommandParser {
         case ParseState.FlagValueSeparator:
         case ParseState.NonspaceValue:
             return this.getValueSuggestions(parsed);
+        case ParseState.EndQuotedValue:
         case ParseState.QuotedValue:
             return this.getValueSuggestions(parsed, '"');
+        case ParseState.EndTickedValue:
         case ParseState.TickValue:
             return this.getValueSuggestions(parsed, '`');
         }
@@ -1016,9 +1022,9 @@ export class AppCommandParser {
         case AppFieldTypes.BOOL:
             return this.getBooleanSuggestions(parsed);
         case AppFieldTypes.DYNAMIC_SELECT:
-            return this.getDynamicSelectSuggestions(parsed);
+            return this.getDynamicSelectSuggestions(parsed, delimiter);
         case AppFieldTypes.STATIC_SELECT:
-            return this.getStaticSelectSuggestions(parsed);
+            return this.getStaticSelectSuggestions(parsed, delimiter);
         }
 
         let complete = parsed.incomplete;
@@ -1035,19 +1041,27 @@ export class AppCommandParser {
     }
 
     // getStaticSelectSuggestions returns suggestions specified in the field's options property
-    getStaticSelectSuggestions = (parsed: ParsedCommand): AutocompleteSuggestion[] => {
+    getStaticSelectSuggestions = (parsed: ParsedCommand, delimiter?: string): AutocompleteSuggestion[] => {
         const f = parsed.field as AutocompleteStaticSelect;
         const opts = f.options.filter((opt) => opt.label.toLowerCase().startsWith(parsed.incomplete.toLowerCase()));
-        return opts.map((opt) => ({
-            complete: opt.label,
-            suggestion: opt.label,
-            hint: '',
-            description: '',
-        }));
+        return opts.map((opt) => {
+            let complete = opt.value;
+            if (delimiter) {
+                complete = delimiter + complete + delimiter;
+            } else if (isMultiword(opt.value)) {
+                complete = '`' + complete + '`';
+            }
+            return {
+                complete,
+                suggestion: opt.label,
+                hint: '',
+                description: '',
+            };
+        });
     }
 
     // getDynamicSelectSuggestions fetches and returns suggestions from the server
-    getDynamicSelectSuggestions = async (parsed: ParsedCommand): Promise<AutocompleteSuggestion[]> => {
+    getDynamicSelectSuggestions = async (parsed: ParsedCommand, delimiter?: string): Promise<AutocompleteSuggestion[]> => {
         const f = parsed.field;
         if (!f) {
             return [];
@@ -1094,12 +1108,21 @@ export class AppCommandParser {
             return [{suggestion: Utils.localizeMessage('apps.suggestion.no_dynamic', 'Received no data for dynamic suggestions')}];
         }
 
-        return items.map((s): AutocompleteSuggestion => ({
-            description: s.label,
-            suggestion: s.value,
-            hint: '',
-            iconData: s.icon_data,
-        }));
+        return items.map((s): AutocompleteSuggestion => {
+            let complete = s.value;
+            if (delimiter) {
+                complete = delimiter + complete + delimiter;
+            } else if (isMultiword(s.value)) {
+                complete = '`' + complete + '`';
+            }
+            return ({
+                complete,
+                suggestion: s.label,
+                hint: '',
+                description: '',
+                iconData: s.icon_data,
+            });
+        });
     }
 
     // getUserSuggestions returns a suggestion with `@` if the user has not started typing
@@ -1155,4 +1178,16 @@ function makeSuggestionError(message: string) {
         {error: message},
     );
     return [{suggestion: errMsg}];
+}
+
+function isMultiword(value: string) {
+    if (value.indexOf(' ') !== -1) {
+        return true;
+    }
+
+    if (value.indexOf('\t') !== -1) {
+        return true;
+    }
+
+    return false;
 }
