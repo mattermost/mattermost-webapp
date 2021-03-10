@@ -159,6 +159,7 @@ export default class AutosizeTextarea extends React.PureComponent<Props> {
                     {...otherProps}
                     role='textbox'
                     aria-label={placeholderAriaLabel}
+                    dir='auto'
                     disabled={disabled}
                     onChange={this.handleChange}
                     onInput={onInput}
@@ -170,6 +171,7 @@ export default class AutosizeTextarea extends React.PureComponent<Props> {
                         ref={this.referenceRef}
                         id={id + '-reference'}
                         style={style.reference}
+                        dir='auto'
                         disabled={true}
                         rows={1}
                         {...otherProps}

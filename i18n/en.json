@@ -3479,7 +3479,7 @@
   "next_steps_view.tips.addPlugins": "Add plugins to Mattermost",
   "next_steps_view.tips.addPlugins.button": "Add plugins",
   "next_steps_view.tips.addPlugins.buttons": "See shortcuts",
-  "next_steps_view.tips.addPlugins.text": "Visit the Plugins Marketplace to install and configure plugins.",
+  "next_steps_view.tips.addPlugins.text": "Install and configure plugins like GitHub, GitLab, Jira & more!",
   "next_steps_view.tips.addPlugins.texts": "Work more efficiently with Keyboard Shortcuts in Mattermost.",
   "next_steps_view.tips.addPluginss": "Learn Keyboard Shortcuts",
   "next_steps_view.tips.auth.ldap": "AD/LDAP",
