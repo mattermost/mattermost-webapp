@@ -212,6 +212,7 @@ describe('Channels', () => {
                 // * Modal should show the archived channels list
                 cy.wrap(el).should('contain', 'Show: Archived Channels');
             }).wait(TIMEOUTS.HALF_SEC);
+            cy.get('#searchChannelsTextbox').clear();
             cy.get('#moreChannelsList').should('be.visible').children().should('have.length', 2);
             cy.get('#moreChannelsList').within(() => {
                 cy.findByText(testArchivedChannel.display_name).should('be.visible');

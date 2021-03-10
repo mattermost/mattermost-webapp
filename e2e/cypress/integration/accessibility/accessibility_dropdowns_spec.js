@@ -119,7 +119,7 @@ describe('Verify Accessibility Support in Dropdown Menus', () => {
         cy.focused().tab();
 
         // * Verify the accessibility support in the Status Dropdown menu items
-        const labels = ['online', 'away', 'do not disturb. disables all notifications', 'offline'];
+        const labels = [' dialog', 'online', 'away', 'do not disturb. disables all notifications', 'offline'];
         verifyMenuItems('#statusDropdownMenu', labels);
 
         // * Verify if menu is closed when we press Escape

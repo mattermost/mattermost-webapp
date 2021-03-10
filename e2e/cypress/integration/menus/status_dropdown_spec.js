@@ -176,9 +176,9 @@ describe('Status dropdown menu', () => {
             // # Open status menu
             cy.get('.MenuWrapper .status-wrapper.status-selector button.status').click();
 
-            // * Verify "Status" header does not have pointer cursor
-            cy.get('.MenuWrapper.status-dropdown-menu .Menu__content.dropdown-menu li:first-child').should('be.visible').
-                and('have.text', 'Status').and('not.have.css', 'cursor', 'pointer');
+            // * Verify "Set a Custom Status" header is clickable
+            cy.get('.MenuWrapper.status-dropdown-menu .Menu__content.dropdown-menu li:nth-child(3)').should('be.visible').
+                and('have.text', 'Set a Custom Status').and('have.css', 'cursor', 'pointer');
         });
     });
 });
