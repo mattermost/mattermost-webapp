@@ -9,6 +9,22 @@
         ]
     },
     {
+        "section": "billing.subscription",
+        "disabledInputs": []
+    },
+    {
+        "section": "billing.billing_history",
+        "disabledInputs": []
+    },
+    {
+        "section": "billing.company_info",
+        "disabledInputs": []
+    },
+    {
+        "section": "billing.payment_info",
+        "disabledInputs": []
+    },
+    {
         "section": "reporting",
         "disabledInputs": []
     },

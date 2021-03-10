@@ -6,6 +6,30 @@
     "system_read_only_admin": "read"
   },
   {
+    "section": "billing.subscription",
+    "system_manager": "none",
+    "system_user_manager": "none",
+    "system_read_only_admin": "none"
+  },
+  {
+    "section": "billing.billing_history",
+    "system_manager": "none",
+    "system_user_manager": "none",
+    "system_read_only_admin": "none"
+  },
+  {
+    "section": "billing.company_info",
+    "system_manager": "none",
+    "system_user_manager": "none",
+    "system_read_only_admin": "none"
+  },
+  {
+    "section": "billing.payment_info",
+    "system_manager": "none",
+    "system_user_manager": "none",
+    "system_read_only_admin": "none"
+  },
+  {
     "section": "reporting",
     "system_manager": "read",
     "system_user_manager": "none",
