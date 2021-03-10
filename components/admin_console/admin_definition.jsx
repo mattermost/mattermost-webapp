@@ -261,7 +261,7 @@ const AdminDefinition = {
                 it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.BILLING.BILLING_HISTORY)),
                 it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.BILLING.COMPANY_INFORMATION)),
                 it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.BILLING.PAYMENT_INFORMATION)),
-            )
+            ),
         ),
         subscription: {
             url: 'billing/subscription',

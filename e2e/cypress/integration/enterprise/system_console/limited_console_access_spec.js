@@ -15,6 +15,7 @@ import {forEachConsoleSection, makeUserASystemRole} from './helpers';
 describe('Limited console access', () => {
     const roleNames = ['system_manager', 'system_user_manager', 'system_read_only_admin'];
     const testUsers = {};
+    const isCloud = true;
 
     before(() => {
         cy.apiRequireLicense();
@@ -33,7 +34,7 @@ describe('Limited console access', () => {
         makeUserASystemRole(testUsers, role);
 
         // * Login as the new user and verify the role permissions (ensure they really are a system user manager)
-        forEachConsoleSection(testUsers, role);
+        forEachConsoleSection(testUsers, role, isCloud);
     });
 
     it('MM-T3388 - Verify the Admin Role - System Read Only Admin', () => {
@@ -43,6 +44,6 @@ describe('Limited console access', () => {
         makeUserASystemRole(testUsers, role);
 
         // * Login as the new user and verify the role permissions (ensure they really are a system read only manager)
-        forEachConsoleSection(testUsers, role);
+        forEachConsoleSection(testUsers, role, isCloud);
     });
 });

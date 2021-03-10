@@ -59,7 +59,7 @@ export function makeUserASystemRole(testUsers, role) {
     cy.findByRole('button', {name: 'Save'}).click().wait(TIMEOUTS.HALF_SEC);
 }
 
-export function forEachConsoleSection(testUsers, roleName) {
+export function forEachConsoleSection(testUsers, roleName, isCloud = false) {
     const ACCESS_NONE = 'none';
     const ACCESS_READ_ONLY = 'read';
     const ACCESS_READ_WRITE = 'read+write';
@@ -75,6 +75,9 @@ export function forEachConsoleSection(testUsers, roleName) {
 
     accessRules.forEach((rule) => {
         const {section} = rule;
+        if (!isCloud && section.includes('billing')) {
+            return;
+        }
         const access = rule[roleName];
         switch (access) {
         case ACCESS_NONE:
