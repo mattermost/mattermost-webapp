@@ -38,7 +38,12 @@ const sectionsList: SystemSection[] = [
     {
         name: 'billing',
         hasDescription: true,
-        subsections: [],
+        subsections: [
+            {name: 'billing_subscription'},
+            {name: 'billing_billing_history'},
+            {name: 'billing_company_information'},
+            {name: 'billing_payment_information'},
+        ],
     },
     {
         name: 'reporting',
@@ -213,6 +218,10 @@ t('admin.permissions.sysconsole_section_about.name');
 t('admin.permissions.sysconsole_section_about.description');
 t('admin.permissions.sysconsole_section_billing.name');
 t('admin.permissions.sysconsole_section_billing.description');
+t('admin.permissions.sysconsole_section_billing_subscription.name');
+t('admin.permissions.sysconsole_section_billing_billing_history.name');
+t('admin.permissions.sysconsole_section_billing_company_information.name');
+t('admin.permissions.sysconsole_section_billing_payment_information.name');
 t('admin.permissions.sysconsole_section_reporting.name');
 t('admin.permissions.sysconsole_section_reporting.description');
 t('admin.permissions.sysconsole_section_user_management.name');

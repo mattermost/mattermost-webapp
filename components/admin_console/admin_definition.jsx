@@ -256,7 +256,12 @@ const AdminDefinition = {
         isHidden: it.any(
             it.not(it.licensedForFeature('Cloud')),
             it.configIsFalse('ExperimentalSettings', 'CloudBilling'),
-            it.not(it.userHasReadPermissionOnResource('billing')),
+            it.all(
+                it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.BILLING.SUBSCRIPTION)),
+                it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.BILLING.BILLING_HISTORY)),
+                it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.BILLING.COMPANY_INFORMATION)),
+                it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.BILLING.PAYMENT_INFORMATION)),
+            )
         ),
         subscription: {
             url: 'billing/subscription',
@@ -269,7 +274,7 @@ const AdminDefinition = {
                 id: 'BillingSubscriptions',
                 component: BillingSubscriptions,
             },
-            isDisabled: it.not(it.userHasWritePermissionOnResource('billing')),
+            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.BILLING.SUBSCRIPTION)),
         },
         billing_history: {
             url: 'billing/billing_history',
@@ -282,7 +287,7 @@ const AdminDefinition = {
                 id: 'BillingHistory',
                 component: BillingHistory,
             },
-            isDisabled: it.not(it.userHasWritePermissionOnResource('billing')),
+            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.BILLING.BILLING_HISTORY)),
         },
         company_info: {
             url: 'billing/company_info',
@@ -295,7 +300,7 @@ const AdminDefinition = {
                 id: 'CompanyInfo',
                 component: CompanyInfo,
             },
-            isDisabled: it.not(it.userHasWritePermissionOnResource('billing')),
+            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.BILLING.COMPANY_INFORMATION)),
         },
         company_info_edit: {
             url: 'billing/company_info_edit',
@@ -303,7 +308,7 @@ const AdminDefinition = {
                 id: 'CompanyInfoEdit',
                 component: CompanyInfoEdit,
             },
-            isDisabled: it.not(it.userHasWritePermissionOnResource('billing')),
+            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.BILLING.COMPANY_INFORMATION)),
         },
         payment_info: {
             url: 'billing/payment_info',
@@ -317,7 +322,7 @@ const AdminDefinition = {
                 id: 'PaymentInfo',
                 component: PaymentInfo,
             },
-            isDisabled: it.not(it.userHasWritePermissionOnResource('billing')),
+            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.BILLING.PAYMENT_INFORMATION)),
         },
         payment_info_edit: {
             url: 'billing/payment_info_edit',
@@ -325,7 +330,7 @@ const AdminDefinition = {
                 id: 'PaymentInfoEdit',
                 component: PaymentInfoEdit,
             },
-            isDisabled: it.not(it.userHasWritePermissionOnResource('billing')),
+            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.BILLING.PAYMENT_INFORMATION)),
         },
     },
     reporting: {
