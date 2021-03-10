@@ -111,7 +111,7 @@ export function executeCommand(message: string, args: CommandArgs): ActionFunc {
         if (appsEnabled(state)) {
             const getGlobalState = () => getState() as GlobalState;
             const createErrorMessage = (errMessage: string) => {
-                return {error: new Error(errMessage)};
+                return {error: {message: errMessage}};
             };
             const parser = new AppCommandParser({dispatch, getState: getGlobalState} as any, args.channel_id, args.root_id);
             if (parser.isAppCommand(msg)) {
@@ -146,7 +146,7 @@ export function executeCommand(message: string, args: CommandArgs): ActionFunc {
                         ));
                     }
                 } catch (err) {
-                    return {error: err};
+                    return {error: createErrorMessage(err.message || localizeMessage('apps.error.unknown', 'Unknown error.'))};
                 }
             }
         }
