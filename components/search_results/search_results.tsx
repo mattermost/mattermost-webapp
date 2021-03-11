@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 /* eslint-disable react/no-string-refs */
 
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {MessageDescriptor, useIntl, FormattedMessage} from 'react-intl';
 import Scrollbars from 'react-custom-scrollbars';
 
@@ -181,7 +181,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
         }
 
         titleDescriptor.id = 'search_header.channelFiles';
-        titleDescriptor.defaultMessage = 'Channel Files';
+        titleDescriptor.defaultMessage = 'Files';
     } else if (isCard) {
         titleDescriptor.id = 'search_header.title5';
         titleDescriptor.defaultMessage = 'Extra information';
@@ -218,6 +218,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
                 <SearchHint
                     onOptionSelected={handleOptionSelection}
                     options={searchHintOptions}
+                    filesSearchEnabled={filesSearchEnabled}
                 />
             </div>
         );
@@ -297,7 +298,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
                     onChange={setSearchType}
                     onFilter={setSearchFilterType}
                 />}
-            {isChannelFiles && filesSearchEnabled &&
+            {isChannelFiles && filesSearchEnabled && !noFileResults &&
                 <div className='channel-files__header'>
                     <div className='channel-files__title'>
                         <FormattedMessage
@@ -324,7 +325,13 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
                 <div
                     id='search-items-container'
                     role='application'
-                    className={classNames(['search-items-container post-list__table a11y__region', {'no-results': (noResults && searchType === MESSAGES_SEARCH_TYPE) || (noFileResults && searchType === FILES_SEARCH_TYPE)}])}
+                    className={classNames([
+                        'search-items-container post-list__table a11y__region',
+                        {
+                            'no-results': (noResults && searchType === MESSAGES_SEARCH_TYPE) || (noFileResults && searchType === FILES_SEARCH_TYPE),
+                            'channel-files-container': isChannelFiles,
+                        },
+                    ])}
                     data-a11y-sort-order='3'
                     data-a11y-focus-child={true}
                     data-a11y-loop-navigation={false}

@@ -96,7 +96,7 @@
         display: flex;
         background: rgba(v(button-bg-rgb), 0.08);
         color: v(button-bg);
-        padding: 2px 0 2px 7px;
+        padding: 2px 2px 2px 7px;
         @include border-radius(4px);
         position: relative;
         left: 26px;
@@ -106,6 +106,7 @@
         font-size: 10px;
         .icon-close {
             cursor: pointer;
+            padding: 2px;
         }
         &:hover {
             background: rgba(v(button-bg-rgb), 0.16);
@@ -328,7 +329,7 @@
 }
 
 .search-hint__search-type-selector {
-    padding: 18px 24px 16px 24px;
+    padding: 18px 24px 8px 24px;
     font-weight: 600;
     font-size: 14px;
 
@@ -343,12 +344,14 @@
         justify-content: center;
         font-size: 12px;
         color: v(button-bg);
-        border-color: v(button-bg);
+        border: 1px solid v(button-bg);
         background: v(center-channel-bg);
-        padding: 9px 15px;
+        padding: 8px 16px;
         margin: 18px 8px 16px 0;
+        line-height: 1;
         .icon {
             font-size: 14px;
+            margin-right: 6px;
         }
         &:hover {
             background: rgba(v(button-bg-rgb), 0.04);

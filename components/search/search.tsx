@@ -233,7 +233,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
     const handleSetSearchFilter = (filterType: SearchFilterType): void => {
         switch (filterType) {
         case 'documents':
-            props.actions.filterFilesSearchByExt(['doc', 'pdf', 'docx', 'odt', 'rtf']);
+            props.actions.filterFilesSearchByExt(['doc', 'pdf', 'docx', 'odt', 'rtf', 'txt']);
             break;
         case 'spreadsheets':
             props.actions.filterFilesSearchByExt(['xls', 'xlsx', 'ods']);
@@ -334,9 +334,9 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
             }
         });
 
-        if (visibleSearchHintOptions.length === 0 || props.isMentionSearch) {
-            return <></>;
-        }
+        // if (visibleSearchHintOptions.length === 0 || props.isMentionSearch) {
+        //     return <></>;
+        // }
 
         const helpClass = `search-help-popover${(focused && termsUsed <= 2) ? ' visible' : ''}`;
 
@@ -384,11 +384,11 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
                 handleFocus={handleFocus}
                 handleBlur={handleBlur}
                 keepFocused={keepInputFocused}
-                isFocused={focused}
+                isFocused={true || focused}
                 suggestionProviders={suggestionProviders.current}
                 isSideBarRight={props.isSideBarRight}
                 isSearchingTerm={props.isSearchingTerm}
-                isFocus={props.isFocus}
+                isFocus={true || props.isFocus}
                 getFocus={props.getFocus}
                 searchTerms={searchTerms}
                 searchType={searchType}

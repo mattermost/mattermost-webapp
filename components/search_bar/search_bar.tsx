@@ -137,7 +137,7 @@ const SearchBar: React.FunctionComponent<Props> = (props: Props): JSX.Element =>
                                 defaultMessage='FILES'
                             />}
                         <i
-                            className='icon icon-close icon-16'
+                            className='icon icon-close icon-12'
                             onClick={() => props.clearSearchType && props.clearSearchType()}
                         />
                     </div>}
