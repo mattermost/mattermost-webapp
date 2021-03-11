@@ -61,16 +61,12 @@ class SwitchChannelSuggestion extends Suggestion {
     }
 
     render() {
-        const {item, isSelection, userImageUrl} = this.props;
+        const {item, isSelection, userImageUrl, status, userItem} = this.props;
         const channel = item.channel;
         const channelIsArchived = channel.delete_at && channel.delete_at !== 0;
 
         const member = this.props.channelMember;
         let badge = null;
-
-        const state = getState();
-        const currentUserId = getCurrentUserId(state);
-        const status = getStatusForUserId(state, currentUserId);
 
         if (member) {
             if (member.notify_props && member.mention_count > 0) {
@@ -124,8 +120,6 @@ class SwitchChannelSuggestion extends Suggestion {
                     />
                 </div>
             );
-
-            const userItem = getUserByUsername(state, channel.name);
 
             if (userItem.firstName || userItem.last_name) {
                 displayName = (
@@ -198,12 +192,16 @@ class SwitchChannelSuggestion extends Suggestion {
 }
 
 function mapStateToPropsForSwitchChannelSuggestion(state, ownProps) {
+    const currentUserId = getCurrentUserId(state);
+    const status = getStatusForUserId(state, currentUserId);
     const channel = ownProps.item && ownProps.item.channel;
     const channelId = channel ? channel.id : '';
     const draft = channelId ? getPostDraft(state, StoragePrefixes.DRAFT, channelId) : false;
     const user = channel && getUser(state, channel.userId);
     const userImageUrl = user && Utils.imageURLForUser(user.id, user.last_picture_update);
     let dmChannelTeammate = channel && channel.type === Constants.DM_CHANNEL && Utils.getDirectTeammate(state, channel.id);
+    const userItem = getUserByUsername(state, channel.name);
+
     if (channel && Utils.isEmptyObject(dmChannelTeammate)) {
         dmChannelTeammate = getUser(state, channel.userId);
     }
@@ -213,6 +211,8 @@ function mapStateToPropsForSwitchChannelSuggestion(state, ownProps) {
         hasDraft: draft && Boolean(draft.message.trim() || draft.fileInfos.length || draft.uploadsInProgress.length),
         userImageUrl,
         dmChannelTeammate,
+        status,
+        userItem,
     };
 }
 
