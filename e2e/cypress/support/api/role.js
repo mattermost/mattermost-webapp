@@ -335,6 +335,7 @@ export const defaultRolesPermissions = {
         'sysconsole_read_authentication_password',
         'sysconsole_read_authentication_mfa',
         'sysconsole_read_authentication_ldap',
+        'read_ldap_sync_job',
         'sysconsole_read_authentication_saml',
         'sysconsole_read_authentication_openid',
         'sysconsole_read_authentication_guest_access',
