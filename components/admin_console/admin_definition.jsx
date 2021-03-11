@@ -3293,7 +3293,7 @@ const AdminDefinition = {
                         success_message: t('admin.ldap.testSuccess'),
                         success_message_default: 'AD/LDAP Test Successful',
                         isDisabled: it.any(
-                            it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
                             it.all(
                                 it.stateIsFalse('LdapSettings.Enable'),
                                 it.stateIsFalse('LdapSettings.EnableSync'),
@@ -3440,7 +3440,6 @@ const AdminDefinition = {
             title_default: 'AD/LDAP',
             isHidden: it.any(
                 it.licensedForFeature('LDAP'),
-                it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
                 it.not(it.enterpriseReady),
             ),
             schema: {
@@ -3452,7 +3451,7 @@ const AdminDefinition = {
                         type: Constants.SettingsTypes.TYPE_CUSTOM,
                         component: LDAPFeatureDiscovery,
                         key: 'LDAPFeatureDiscovery',
-                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ABOUT.EDITION_AND_LICENSE)),
                     },
                 ],
             },
@@ -3857,8 +3856,6 @@ const AdminDefinition = {
                         label: t('admin.saml.enableAdminAttrTitle'),
                         label_default: 'Enable Admin Attribute:',
                         isDisabled: it.any(
-
-                            // Should this be removed?
                             it.not(it.isSystemAdmin),
                             it.stateIsFalse('SamlSettings.Enable'),
                             it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SAML)),
@@ -3875,8 +3872,6 @@ const AdminDefinition = {
                         help_text_default: '(Optional) The attribute in the SAML Assertion for designating System Admins. The users selected by the query will have access to your Mattermost server as System Admins. By default, System Admins have complete access to the Mattermost System Console.\n \nExisting members that are identified by this attribute will be promoted from member to System Admin upon next login. The next login is based upon Session lengths set in **System Console > Session Lengths.** It is highly recommend to manually demote users to members in **System Console > User Management** to ensure access is restricted immediately.\n \nNote: If this filter is removed/changed, System Admins that were promoted via this filter will be demoted to members and will not retain access to the System Console. When this filter is not in use, System Admins can be manually promoted/demoted in **System Console > User Management**.',
                         help_text_markdown: true,
                         isDisabled: it.any(
-
-                            // Should this be removed?
                             it.not(it.isSystemAdmin),
                             it.stateIsFalse('SamlSettings.EnableAdminAttribute'),
                             it.stateIsFalse('SamlSettings.Enable'),
@@ -3976,7 +3971,6 @@ const AdminDefinition = {
             title: t('admin.sidebar.saml'),
             title_default: 'SAML 2.0',
             isHidden: it.any(
-                it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SAML)),
                 it.licensedForFeature('SAML'),
                 it.not(it.enterpriseReady),
             ),
@@ -3989,7 +3983,7 @@ const AdminDefinition = {
                         type: Constants.SettingsTypes.TYPE_CUSTOM,
                         component: SAMLFeatureDiscovery,
                         key: 'SAMLFeatureDiscovery',
-                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SAML)),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ABOUT.EDITION_AND_LICENSE)),
                     },
                 ],
             },
