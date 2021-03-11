@@ -4,24 +4,24 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import SignupEmail from 'components/signup/signup_email/signup_email.jsx';
+import {UserProfile} from 'mattermost-redux/types/users'
+
+import SignupEmail from 'components/signup/signup_email/signup_email';
+import {PasswordConfig} from 'components/signup/signup_email/index';
 
 import {browserHistory} from 'utils/browser_history';
 
 describe('components/SignupEmail', () => {
     const requiredProps = {
         location: {
-            query: {
-                token: '9f392f193973g11ggh398h39hg0ghH',
-                email: 'test@example.com',
-            },
+            search: '?token=9f392f193973g11ggh398h39hg0ghH&email=test@example.com' 
         },
         enableSignUpWithEmail: true,
         siteName: 'Mattermost',
         termsOfServiceLink: '',
         privacyPolicyLink: '',
         customDescriptionText: '',
-        passwordConfig: {},
+        passwordConfig: {} as PasswordConfig,
         actions: {
             createUser: jest.fn().mockResolvedValue({data: true}),
             loginById: jest.fn().mockResolvedValue({data: true}),
@@ -32,7 +32,7 @@ describe('components/SignupEmail', () => {
     };
 
     test('should match snapshot', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<SignupEmail>(
             <SignupEmail {...requiredProps}/>,
         );
 
@@ -56,14 +56,17 @@ describe('components/SignupEmail', () => {
                 getTeamInviteInfo: jest.fn().mockResolvedValue({data: true}),
             };
 
-            const wrapper = shallow(
+            const wrapper = shallow<SignupEmail>(
                 <SignupEmail
                     {...requiredProps}
                     actions={actions}
                 />,
             );
 
-            await wrapper.instance().handleSignupSuccess({email: 'test@example.com', password: 'bar'}, {id: 'foo'});
+            await wrapper.instance().handleSignupSuccess(
+                {email: 'test@example.com', password: 'bar', username: 'testusername', allow_marketing: true}, 
+                {id: 'foo'} as UserProfile
+            );
             expect(browserHistory.push).toHaveBeenCalledWith('/should_verify_email?email=test%40example.com');
         });
 
@@ -83,7 +86,7 @@ describe('components/SignupEmail', () => {
                 getTeamInviteInfo: jest.fn().mockResolvedValue({data: true}),
             };
 
-            const wrapper = shallow(
+            const wrapper = shallow<SignupEmail>(
                 <SignupEmail
                     {...requiredProps}
                     actions={actions}
@@ -92,7 +95,10 @@ describe('components/SignupEmail', () => {
 
             wrapper.setState({teamName: 'sample'});
 
-            await wrapper.instance().handleSignupSuccess({email: 'test@example.com', password: 'bar'}, {id: 'foo'});
+            await wrapper.instance().handleSignupSuccess(
+                {email: 'test@example.com', password: 'bar', username: 'testusername', allow_marketing: true}, 
+                {id: 'foo'} as UserProfile
+            );
             expect(browserHistory.push).toHaveBeenCalledWith('/should_verify_email?email=test%40example.com&teamname=sample');
         });
     });
