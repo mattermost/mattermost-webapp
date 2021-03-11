@@ -7,6 +7,7 @@ import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 
 import {PreferenceType} from 'mattermost-redux/types/preferences';
+import {Team} from 'mattermost-redux/types/teams';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import {toggleShortcutsModal} from 'actions/global_actions';
@@ -21,7 +22,6 @@ import Menu from 'components/widgets/menu/menu';
 import downloadApps from 'images/download-app.svg';
 import tipsNextStepsImage1 from 'images/tips_next_steps1.svg';
 import tipsNextStepsImage2 from 'images/tips_next_steps2.svg';
-import tipsNextStepsImage3 from 'images/tips_next_steps3.svg';
 
 import {browserHistory} from 'utils/browser_history';
 import * as UserAgent from 'utils/user_agent';
@@ -35,6 +35,9 @@ import CloseIcon from 'components/widgets/icons/close_icon';
 import * as Utils from 'utils/utils';
 
 import {getAnalyticsCategory} from './step_helpers';
+import IncidentsSvg from './images/incidents.svg';
+import DocumentsSvg from './images/documents.svg';
+import PluginsSvg from './images/plugins.svg';
 
 const seeAllApps = (isAdmin: boolean) => {
     trackEvent(getAnalyticsCategory(isAdmin), 'cloud_see_all_apps');
@@ -65,8 +68,8 @@ const getDownloadButtonString = () => {
     if (UserAgent.isWindows()) {
         return (
             <FormattedMessage
-                id='next_steps_view.tips.downloadForWindows'
-                defaultMessage='Download Mattermost for Windows'
+                id='next_steps_view.tips.getForWindows'
+                defaultMessage='Get Mattermost for Windows'
             />
         );
     }
@@ -74,8 +77,8 @@ const getDownloadButtonString = () => {
     if (UserAgent.isMac()) {
         return (
             <FormattedMessage
-                id='next_steps_view.tips.downloadForMac'
-                defaultMessage='Download Mattermost for Mac'
+                id='next_steps_view.tips.getForMac'
+                defaultMessage='Get Mattermost for Mac'
             />
         );
     }
@@ -84,10 +87,20 @@ const getDownloadButtonString = () => {
 
     return (
         <FormattedMessage
-            id='next_steps_view.tips.downloadForDefault'
-            defaultMessage='Download Mattermost'
+            id='next_steps_view.tips.getForDefault'
+            defaultMessage='Get Mattermost'
         />
     );
+};
+
+const openAdminConsole = (isAdmin: boolean) => {
+    trackEvent(getAnalyticsCategory(isAdmin), 'click_admin_console');
+    browserHistory.push('/admin_console/');
+};
+
+const openIncidentsPlugin = (isAdmin: boolean, team: Team) => {
+    trackEvent(getAnalyticsCategory(isAdmin), 'click_open_incidents');
+    browserHistory.push(`/${team.name}/com.mattermost.plugin-incident-management/playbooks/`);
 };
 
 const openAuthPage = (page: string, isAdmin: boolean) => {
@@ -100,6 +113,8 @@ type Props = {
     animating: boolean;
     currentUserId: string;
     isFirstAdmin: boolean;
+    isCloud: boolean;
+    team: Team;
     stopAnimating: () => void;
     savePreferences: (userId: string, preferences: PreferenceType[]) => void;
     setShowNextStepsView: (show: boolean) => void;
@@ -156,19 +171,17 @@ export default function NextStepsTips(props: Props) {
                 <Card expanded={true}>
                     <div className='Card__body'>
                         <div className='Card__image'>
-                            <img
-                                src={tipsNextStepsImage3}
-                            />
+                            <PluginsSvg/>
                         </div>
                         <h3>
                             <FormattedMessage
-                                id='next_steps_view.tips.addPlugins'
-                                defaultMessage='Add plugins to Mattermost'
+                                id='next_steps_view.tips.connectPlugins'
+                                defaultMessage='Connect your favorite tools'
                             />
                         </h3>
                         <FormattedMessage
-                            id='next_steps_view.tips.addPlugins.text'
-                            defaultMessage='Install and configure plugins like GitHub, GitLab, Jira & more!'
+                            id='next_steps_view.tips.connectPlugins.text'
+                            defaultMessage='Install Mattermost plugins to connect with your favorite tools'
                         />
                         <button
                             className='NextStepsView__button NextStepsView__finishButton primary'
@@ -181,50 +194,76 @@ export default function NextStepsTips(props: Props) {
                         </button>
                     </div>
                 </Card>
-                <Card expanded={true}>
-                    <div className='Card__body'>
-                        <div className='Card__image'>
-                            <img
-                                src={tipsNextStepsImage2}
-                            />
-                        </div>
-                        <h3>
+                { props.isCloud ?
+                    <Card expanded={true}>
+                        <div className='Card__body'>
+                            <div className='Card__image'>
+                                <IncidentsSvg/>
+                            </div>
+                            <h3>
+                                <FormattedMessage
+                                    id='next_steps_view.tips.resolveIncidents'
+                                    defaultMessage='Resolve incidents faster'
+                                />
+                            </h3>
                             <FormattedMessage
-                                id='next_steps_view.tips.configureLogin'
-                                defaultMessage='Configure your login method'
+                                id='next_steps_view.tips.resolveIncidents.text'
+                                defaultMessage='Resolve incidents faster with Mattermost Incident Collaboration.'
                             />
-                        </h3>
-                        <FormattedMessage
-                            id='next_steps_view.tips.configureLogin.text'
-                            defaultMessage='Set up OpenID, SAML or AD/LDAP authentication.'
-                        />
-                        <MenuWrapper>
                             <button
                                 className='NextStepsView__button NextStepsView__finishButton primary'
+                                onClick={() => openIncidentsPlugin(props.isFirstAdmin, props.team)}
                             >
                                 <FormattedMessage
-                                    id='next_steps_view.tips.configureLogin.button'
-                                    defaultMessage='Configure'
+                                    id='next_steps_view.tips.resolveIncidents.button'
+                                    defaultMessage='Open playbooks'
                                 />
-                                <i className='icon icon-chevron-down'/>
                             </button>
-                            <Menu ariaLabel={Utils.localizeMessage('next_steps_view.tips.auth.menuAriaLabel', 'Configure Authentication Menu')}>
-                                <Menu.ItemAction
-                                    onClick={() => openAuthPage('openid', props.isFirstAdmin)}
-                                    text={Utils.localizeMessage('next_steps_view.tips.auth.openid', 'OpenID')}
+                        </div>
+                    </Card> : <Card expanded={true}>
+                        <div className='Card__body'>
+                            <div className='Card__image'>
+                                <img
+                                    src={tipsNextStepsImage2}
                                 />
-                                <Menu.ItemAction
-                                    onClick={() => openAuthPage('saml', props.isFirstAdmin)}
-                                    text={Utils.localizeMessage('next_steps_view.tips.auth.saml', 'SAML')}
+                            </div>
+                            <h3>
+                                <FormattedMessage
+                                    id='next_steps_view.tips.configureLogin'
+                                    defaultMessage='Configure your login method'
                                 />
-                                <Menu.ItemAction
-                                    onClick={() => openAuthPage('ldap', props.isFirstAdmin)}
-                                    text={Utils.localizeMessage('next_steps_view.tips.auth.ldap', 'AD/LDAP')}
-                                />
-                            </Menu>
-                        </MenuWrapper>
-                    </div>
-                </Card>
+                            </h3>
+                            <FormattedMessage
+                                id='next_steps_view.tips.configureLogin.text'
+                                defaultMessage='Set up OpenID, SAML or AD/LDAP authentication.'
+                            />
+                            <MenuWrapper>
+                                <button
+                                    className='NextStepsView__button NextStepsView__finishButton primary'
+                                >
+                                    <FormattedMessage
+                                        id='next_steps_view.tips.configureLogin.button'
+                                        defaultMessage='Configure'
+                                    />
+                                    <i className='icon icon-chevron-down'/>
+                                </button>
+                                <Menu ariaLabel={Utils.localizeMessage('next_steps_view.tips.auth.menuAriaLabel', 'Configure Authentication Menu')}>
+                                    <Menu.ItemAction
+                                        onClick={() => openAuthPage('openid', props.isFirstAdmin)}
+                                        text={Utils.localizeMessage('next_steps_view.tips.auth.openid', 'OpenID')}
+                                    />
+                                    <Menu.ItemAction
+                                        onClick={() => openAuthPage('saml', props.isFirstAdmin)}
+                                        text={Utils.localizeMessage('next_steps_view.tips.auth.saml', 'SAML')}
+                                    />
+                                    <Menu.ItemAction
+                                        onClick={() => openAuthPage('ldap', props.isFirstAdmin)}
+                                        text={Utils.localizeMessage('next_steps_view.tips.auth.ldap', 'AD/LDAP')}
+                                    />
+                                </Menu>
+                            </MenuWrapper>
+                        </div>
+                    </Card>}
             </>
         );
     } else if (!Utils.isMobile() && !props.isFirstAdmin) {
@@ -330,7 +369,34 @@ export default function NextStepsTips(props: Props) {
 
     let channelsSection;
     if (props.isFirstAdmin) {
-        channelsSection = (
+        channelsSection = props.isCloud ? (
+            <Card expanded={true}>
+                <div className='Card__body'>
+                    <div className='Card__image'>
+                        <DocumentsSvg/>
+                    </div>
+                    <h3>
+                        <FormattedMessage
+                            id='next_steps_view.tips.manageWorkspace'
+                            defaultMessage='Manage your workspace'
+                        />
+                    </h3>
+                    <FormattedMessage
+                        id='next_steps_view.tips.manageWorkspace.text'
+                        defaultMessage='Visit the system console to manage users, teams, and plugins'
+                    />
+                    <button
+                        onClick={() => openAdminConsole(props.isFirstAdmin)}
+                        className='NextStepsView__button NextStepsView__finishButton primary'
+                    >
+                        <FormattedMessage
+                            id='next_steps_view.tips.manageWorkspace.button'
+                            defaultMessage='Open the system console'
+                        />
+                    </button>
+                </div>
+            </Card>
+        ) : (
             <Card expanded={true}>
                 <div className='Card__body'>
                     <div className='Card__image'>

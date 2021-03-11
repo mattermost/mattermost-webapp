@@ -5,7 +5,7 @@
 
 .backstage-navbar {
     background: $white;
-    height: 41px;
+    height: $backstage-bar-height;
     border-bottom: 1px solid $light-gray;
     padding: 10px 20px;
     z-index: 10;

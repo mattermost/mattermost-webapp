@@ -4,6 +4,8 @@
 import React from 'react';
 import {shallow, ShallowWrapper} from 'enzyme';
 
+import {Team} from 'mattermost-redux/types/teams';
+
 import NextStepsView from 'components/next_steps_view/next_steps_view';
 import {TestHelper} from 'utils/test_helper';
 
@@ -35,6 +37,8 @@ describe('components/next_steps_view', () => {
         currentUser: TestHelper.getUserMock(),
         preferences: [],
         isFirstAdmin: true,
+        isCloud: false,
+        team: {name: 'TestTeam'} as Team,
         actions: {
             setShowNextStepsView: jest.fn(),
             savePreferences: jest.fn(),

@@ -12,6 +12,7 @@ import {Role} from 'mattermost-redux/types/roles';
 import {ConsoleAccess} from 'mattermost-redux/types/admin';
 import {Dictionary} from 'mattermost-redux/types/utilities';
 import {CloudState} from 'mattermost-redux/types/cloud';
+import {Team} from 'mattermost-redux/types/teams';
 
 import AnnouncementBar from 'components/announcement_bar';
 import SystemNotice from 'components/system_notice';
@@ -19,6 +20,8 @@ import ModalController from 'components/modal_controller';
 
 import SchemaAdminSettings from 'components/admin_console/schema_admin_settings';
 import DiscardChangesModal from 'components/discard_changes_modal';
+
+import BackstageNavbar from 'components/backstage/components/backstage_navbar';
 
 import AdminSidebar from './admin_sidebar';
 import Highlight from './highlight';
@@ -38,6 +41,7 @@ type Props = {
     currentUserHasAnAdminRole: boolean;
     consoleAccess: ConsoleAccess;
     cloud: CloudState;
+    team: Team;
     actions: {
         getConfig: () => ActionFunc;
         getEnvironmentConfig: () => ActionFunc;
@@ -248,6 +252,9 @@ export default class AdminConsole extends React.PureComponent<Props, State> {
                 id='adminConsoleWrapper'
             >
                 <AnnouncementBar/>
+                <BackstageNavbar
+                    team={this.props.team}
+                />
                 <SystemNotice/>
                 <AdminSidebar onFilterChange={this.onFilterChange}/>
                 <div className='admin-console'>

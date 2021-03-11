@@ -102,11 +102,17 @@ exports[`components/next_steps_view should match snapshot 1`] = `
   <NextStepsTips
     animating={false}
     currentUserId="user_id"
+    isCloud={false}
     isFirstAdmin={true}
     savePreferences={[MockFunction]}
     setShowNextStepsView={[MockFunction]}
     showFinalScreen={false}
     stopAnimating={[Function]}
+    team={
+      Object {
+        "name": "TestTeam",
+      }
+    }
   />
 </section>
 `;

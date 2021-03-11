@@ -51,6 +51,7 @@ function mapStateToProps(state: GlobalState) {
         adminDefinition,
         consoleAccess,
         cloud: state.entities.cloud,
+        team,
     };
 }
 
