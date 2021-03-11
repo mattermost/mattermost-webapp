@@ -2978,10 +2978,7 @@ const AdminDefinition = {
                         label: t('admin.ldap.enableAdminFilterTitle'),
                         label_default: 'Enable Admin Filter:',
                         isDisabled: it.any(
-
-                            // Should this one be removed?
                             it.not(it.isSystemAdmin),
-                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
                             it.all(
                                 it.stateIsFalse('LdapSettings.Enable'),
                                 it.stateIsFalse('LdapSettings.EnableSync'),
@@ -2999,9 +2996,6 @@ const AdminDefinition = {
                         placeholder: t('admin.ldap.adminFilterEx'),
                         placeholder_default: 'E.g.: "(objectClass=user)"',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
-
-                            // Should this one be removed?
                             it.not(it.isSystemAdmin),
                             it.stateIsFalse('LdapSettings.EnableAdminFilter'),
                             it.all(
@@ -3858,7 +3852,6 @@ const AdminDefinition = {
                         isDisabled: it.any(
                             it.not(it.isSystemAdmin),
                             it.stateIsFalse('SamlSettings.Enable'),
-                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SAML)),
                         ),
                     },
                     {
@@ -3875,7 +3868,6 @@ const AdminDefinition = {
                             it.not(it.isSystemAdmin),
                             it.stateIsFalse('SamlSettings.EnableAdminAttribute'),
                             it.stateIsFalse('SamlSettings.Enable'),
-                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SAML)),
                         ),
                     },
                     {
