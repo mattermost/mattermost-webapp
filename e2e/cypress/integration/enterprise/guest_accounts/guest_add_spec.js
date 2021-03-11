@@ -73,7 +73,6 @@ describe('Guest Account - Guest User Experience', () => {
     it('MM-T1397 Guest tag in search in:', () => {
         demoteGuestUser(guestUser);
 
-        // cy.apiLogin(guestUser);
         cy.apiAdminLogin();
         cy.visit(`/${testTeam.name}/channels/town-square`);
         cy.sendDirectMessageToUser(guestUser, 'hello');
@@ -98,4 +97,3 @@ function demoteGuestUser(guestUser) {
         }
     });
 }
-
