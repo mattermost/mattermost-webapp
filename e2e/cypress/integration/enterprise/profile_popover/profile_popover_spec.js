@@ -456,7 +456,7 @@ const verifyAddToChannel = (user, visible = true) => {
 const clickAddToChannel = (user) => {
     // # Open profile popover
     cy.get('#postListContent', {timeout: TIMEOUTS.ONE_MIN}).within(() => {
-        cy.findAllByText(user.username).first().should('have.text', user.username).click();
+        cy.findAllByText(`@${user.username}`).first().should('have.text', '@' + user.username).click();
     });
 
     // * Add to a Channel should not be visible

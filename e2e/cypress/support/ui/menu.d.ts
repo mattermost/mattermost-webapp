@@ -68,5 +68,14 @@ declare namespace Cypress {
          *   cy.uiGetChannelMenu();
          */
         uiGetChannelMenu(): Chainable;
+
+        /**
+         * Set Status
+         * @param {string} item -such as `'Online'`,`'Set a Custom Status'`, `'Away'`, `'Do Not Disturb'` and `'Offline'`
+         *
+         * @example
+         *   uiOpenSetStatusMenu(item);
+         */
+        uiOpenSetStatusMenu(): Chainable;
     }
 }
