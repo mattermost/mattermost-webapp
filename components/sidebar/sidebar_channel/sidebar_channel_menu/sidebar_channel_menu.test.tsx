@@ -31,7 +31,7 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
         managePrivateChannelMembers: true,
         closeHandler: jest.fn(),
         isCollapsed: false,
-        isMenuOpen: false,
+        isMenuOpen: true,
         onToggleMenu: jest.fn(),
         multiSelectedChannelIds: [],
         displayedChannels: [],
