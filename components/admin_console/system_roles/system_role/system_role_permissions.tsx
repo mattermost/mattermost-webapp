@@ -33,7 +33,9 @@ const sectionsList: SystemSection[] = [
     {
         name: 'about',
         hasDescription: true,
-        subsections: [],
+        subsections: [
+            {name: 'about_edition_and_license'},
+        ],
     },
     {
         name: 'billing',
@@ -220,6 +222,7 @@ export default class SystemRolePermissions extends React.PureComponent<Props, St
 
 t('admin.permissions.sysconsole_section_about.name');
 t('admin.permissions.sysconsole_section_about.description');
+t('admin.permissions.sysconsole_section_about_edition_and_license.name');
 t('admin.permissions.sysconsole_section_billing.name');
 t('admin.permissions.sysconsole_section_billing.description');
 t('admin.permissions.sysconsole_section_reporting.name');

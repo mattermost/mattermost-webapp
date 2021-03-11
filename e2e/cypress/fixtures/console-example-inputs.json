@@ -1,6 +1,6 @@
 [
     {
-        "section": "about",
+        "section": "about.license",
         "disabledInputs": [
             {
                 "path": "/admin_console/about/license",
