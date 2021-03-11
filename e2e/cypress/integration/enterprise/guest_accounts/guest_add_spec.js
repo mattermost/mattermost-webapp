@@ -40,7 +40,6 @@ describe('Guest Account - Guest User Experience', () => {
         cy.apiInitSetup({userPrefix: 'guest'}).then(({user, team}) => {
             guestUser = user;
             testTeam = team;
-           
         });
     });
 
@@ -49,49 +48,45 @@ describe('Guest Account - Guest User Experience', () => {
         demoteGuestUser(guestUser);
 
         // # Ceate a new team
-       cy.apiCreateTeam('test-team2', 'Test Team2').then(({team: teamTwo}) => {
-
+        cy.apiCreateTeam('test-team2', 'Test Team2').then(({team: teamTwo}) => {
             // # Add the guest user to this team
-           cy.apiAddUserToTeam(teamTwo.id, guestUser.id).then(() => {
+            cy.apiAddUserToTeam(teamTwo.id, guestUser.id).then(() => {
                 // # Login as guest user
                 cy.apiLogin(guestUser);
                 cy.reload();
-           });
-       });
+            });
+        });
 
-       // # Create Private Channel
-       createPrivateChannel(testTeam.id, guestUser).then((channel) => {
-        privateChannel = channel;   
+        // # Create Private Channel
+        createPrivateChannel(testTeam.id, guestUser).then((channel) => {
+            privateChannel = channel;
 
-        cy.visit(`/${testTeam.name}/channels/${privateChannel.name}`);
-    });
-    
-    // * The system message should contain 'added to the channel as a guest'
-    cy.getLastPostId().then((id) => {
-        cy.get(`#postMessageText_${id}`).should('contain', `@${guestUser.username} added to the channel as a guest`);
-    });
+            cy.visit(`/${testTeam.name}/channels/${privateChannel.name}`);
+        });
 
+        // * The system message should contain 'added to the channel as a guest'
+        cy.getLastPostId().then((id) => {
+            cy.get(`#postMessageText_${id}`).should('contain', `@${guestUser.username} added to the channel as a guest`);
+        });
     });
 
     it('MM-T1397 Guest tag in search in:', () => {
         demoteGuestUser(guestUser);
 
-       // cy.apiLogin(guestUser);
+        // cy.apiLogin(guestUser);
         cy.apiAdminLogin();
         cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.sendDirectMessageToUser(guestUser,'hello');
-       
+        cy.sendDirectMessageToUser(guestUser, 'hello');
+
         // # Search for the Guest User
         cy.get('#searchBox').wait(TIMEOUTS.FIVE_SEC).type(`in:${guestUser.username}`);
 
         // * Verify Guest Badge is not displayed at Search auto-complete
         cy.get('#search-autocomplete__popover').should('be.visible');
         cy.contains('.search-autocomplete__item', guestUser.username).should('be.visible').within(($el) => {
-        cy.wrap($el).find('.Badge').should('not.exist');
+            cy.wrap($el).find('.Badge').should('not.exist');
         });
     });
-
-
 });
 
 function demoteGuestUser(guestUser) {

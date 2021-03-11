@@ -57,23 +57,18 @@ describe('Guest Account - Guest User Badge and Popover', () => {
     });
 
     it('MM-T1371 User profile popover shows guest badge', () => {
-       
-         // # Post a day old message
-         cy.postMessageAs({sender: guest, message: 'Hello from yesterday', channelId: testChannel.id}).
-         its('id').
-         should('exist').
-         as('yesterdaysPost');
+        // # Post a day old message
+        cy.postMessageAs({sender: guest, message: 'Hello from yesterday', channelId: testChannel.id}).
+            its('id').
+            should('exist').
+            as('yesterdaysPost');
 
-      // * Verify Guest Badge when guest user posts a message in Center Channel
-      cy.get('@yesterdaysPost').then((postId) => {
-        cy.get(`#post_${postId}`).within(($el) => {
-            cy.wrap($el).find('.post__header .Badge').should('be.visible');
-            cy.wrap($el).find('.post__header .user-popover').should('be.visible').click().wait(TIMEOUTS.HALF_SEC);
+        // * Verify Guest Badge when guest user posts a message in Center Channel
+        cy.get('@yesterdaysPost').then((postId) => {
+            cy.get(`#post_${postId}`).within(($el) => {
+                cy.wrap($el).find('.post__header .Badge').should('be.visible');
+                cy.wrap($el).find('.post__header .user-popover').should('be.visible').click().wait(TIMEOUTS.HALF_SEC);
+            });
         });
     });
-
-       
-    });
-
-
-    });
+});
