@@ -354,7 +354,7 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
                 tooltipText={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.editChannel', defaultMessage: 'Channel options'})}
                 tabIndex={isCollapsed ? -1 : 0}
             >
-                {this.renderDropdownItems()}
+                {isMenuOpen && this.renderDropdownItems()}
             </SidebarMenu>
         );
     }
