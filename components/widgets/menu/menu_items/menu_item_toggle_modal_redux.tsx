@@ -16,7 +16,6 @@ type Props = {
     dialogType: React.ComponentType<any>;
     dialogProps?: Dictionary<any>;
     extraText?: string;
-    aaccessibilityLabel?: string;
     text: string;
     className?: string;
     children?: React.ReactNode;
