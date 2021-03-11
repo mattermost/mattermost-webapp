@@ -749,22 +749,7 @@ export class AppCommandParser {
     // They are grouped by app id since each app has one base command
     getCommandBindings = (): AppBinding[] => {
         const bindings = getAppBindings(this.store.getState(), AppBindingLocations.COMMAND);
-        const grouped: {[appID: string]: AppBinding} = {};
-
-        for (const b of bindings) {
-            grouped[b.app_id] = grouped[b.app_id] || {
-                app_id: b.app_id,
-                label: b.app_id,
-                location: AppBindingLocations.COMMAND,
-                bindings: [],
-            };
-
-            const group = grouped[b.app_id];
-            group.bindings = group.bindings || [];
-            group.bindings.push(b);
-        }
-
-        return Object.values(grouped);
+        return bindings;
     }
 
     // getChannel computes the right channel, based on if this command is running in the center channel or RHS
