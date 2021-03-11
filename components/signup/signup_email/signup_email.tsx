@@ -7,6 +7,9 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
+import {UserProfile} from 'mattermost-redux/types/users';
+import {ServerError} from 'mattermost-redux/types/errors';
+
 import {isEmail} from 'mattermost-redux/utils/helpers';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
@@ -23,7 +26,18 @@ import SiteNameAndDescription from 'components/common/site_name_and_description'
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
-export default class SignupEmail extends React.PureComponent {
+import {Props, State} from 'components/signup/signup_email/index';
+
+
+type UserSignUpInfo = {
+    email: string;
+    username: string;
+    password: string;
+    allow_marketing: boolean;
+};
+
+
+export default class SignupEmail extends React.PureComponent<Props, State> {
     static propTypes = {
         location: PropTypes.object,
         enableSignUpWithEmail: PropTypes.bool.isRequired,
@@ -41,16 +55,20 @@ export default class SignupEmail extends React.PureComponent {
         }).isRequired,
     }
 
-    constructor(props) {
+    private emailRef: React.RefObject<HTMLInputElement>;
+    private nameRef: React.RefObject<HTMLInputElement>;
+    private passwordRef: React.RefObject<HTMLInputElement>;
+
+    constructor(props: Props) {
         super(props);
 
         const data = (new URLSearchParams(this.props.location.search)).get('d');
         const token = (new URLSearchParams(this.props.location.search)).get('t');
         const inviteId = (new URLSearchParams(this.props.location.search)).get('id');
 
-        this.state = {};
+        this.state = {} as State;
         if (token && token.length > 0) {
-            this.state = this.getTokenData(token, data);
+            this.state = this.getTokenData(token, data!);
         } else if (inviteId && inviteId.length > 0) {
             this.state = {
                 loading: true,
@@ -82,13 +100,13 @@ export default class SignupEmail extends React.PureComponent {
         this.setDocumentTitle(this.props.siteName);
     }
 
-    setDocumentTitle = (siteName) => {
+    setDocumentTitle = (siteName: string) => {
         if (siteName) {
             document.title = siteName;
         }
     }
 
-    getTokenData = (token, data) => {
+    getTokenData = (token: string, data: string) => {
         const parsedData = JSON.parse(data);
 
         return {
@@ -99,16 +117,16 @@ export default class SignupEmail extends React.PureComponent {
         };
     }
 
-    getInviteInfo = async (inviteId) => {
-        const {data, error} = await this.props.actions.getTeamInviteInfo(inviteId);
-        if (data) {
+    getInviteInfo = async (inviteId: string) => {
+        const teamInviteInfo = await this.props.actions.getTeamInviteInfo(inviteId);
+        if ("data" in teamInviteInfo) {
             this.setState({
                 loading: false,
                 noOpenServerError: false,
                 serverError: '',
-                teamName: data.name,
+                teamName: teamInviteInfo.data.name,
             });
-        } else if (error) {
+        } else if ("error" in teamInviteInfo) {
             this.setState({
                 loading: false,
                 noOpenServerError: true,
@@ -122,13 +140,13 @@ export default class SignupEmail extends React.PureComponent {
         }
     }
 
-    handleSignupSuccess = (user, data) => {
+    handleSignupSuccess = (user: UserSignUpInfo, data: UserProfile) => {
         trackEvent('signup', 'signup_user_02_complete');
         const redirectTo = (new URLSearchParams(this.props.location.search)).get('redirect_to');
 
-        this.props.actions.loginById(data.id, user.password, '').then(({error}) => {
-            if (error) {
-                if (error.server_error_id === 'api.user.login.not_verified.app_error') {
+        this.props.actions.loginById(data.id, user.password, '').then((result: {data: boolean} | {error: ServerError}) => {
+            if ("error" in result) {
+                if (result.error.server_error_id === 'api.user.login.not_verified.app_error') {
                     let verifyUrl = '/should_verify_email?email=' + encodeURIComponent(user.email);
                     if (this.state.teamName) {
                         verifyUrl += '&teamname=' + encodeURIComponent(this.state.teamName);
@@ -139,7 +157,7 @@ export default class SignupEmail extends React.PureComponent {
                     browserHistory.push(verifyUrl);
                 } else {
                     this.setState({
-                        serverError: error.message,
+                        serverError: result.error.message,
                         isSubmitting: false,
                     });
                 }
@@ -147,7 +165,7 @@ export default class SignupEmail extends React.PureComponent {
                 return;
             }
 
-            if (this.state.token > 0) {
+            if (this.state.token && this.state.token.length > 0) {
                 this.props.actions.setGlobalItem(this.state.token, JSON.stringify({usedBefore: true}));
             }
 
@@ -160,7 +178,7 @@ export default class SignupEmail extends React.PureComponent {
     }
 
     isUserValid = () => {
-        const providedEmail = this.emailRef.current.value.trim();
+        const providedEmail = this.emailRef.current?.value.trim();
         if (!providedEmail) {
             this.setState({
                 nameError: '',
@@ -181,7 +199,7 @@ export default class SignupEmail extends React.PureComponent {
             return false;
         }
 
-        const providedUsername = this.nameRef.current.value.trim().toLowerCase();
+        const providedUsername = this.nameRef.current?.value.trim().toLowerCase();
         if (!providedUsername) {
             this.setState({
                 nameError: (<FormattedMessage id='signup_user_completed.required'/>),
@@ -222,7 +240,7 @@ export default class SignupEmail extends React.PureComponent {
             return false;
         }
 
-        const providedPassword = this.passwordRef.current.value;
+        const providedPassword = this.passwordRef.current?.value;
         const {valid, error} = Utils.isValidPassword(providedPassword, this.props.passwordConfig);
         if (!valid && error) {
             this.setState({
@@ -237,7 +255,7 @@ export default class SignupEmail extends React.PureComponent {
         return true;
     }
 
-    handleSubmit = (e) => {
+    handleSubmit = (e: React.SyntheticEvent) => {
         e.preventDefault();
         trackEvent('signup_email', 'click_create_account');
 
@@ -256,24 +274,25 @@ export default class SignupEmail extends React.PureComponent {
             });
 
             const user = {
-                email: this.emailRef.current.value.trim(),
-                username: this.nameRef.current.value.trim().toLowerCase(),
-                password: this.passwordRef.current.value,
+                email: this.emailRef.current?.value.trim(),
+                username: this.nameRef.current?.value.trim().toLowerCase(),
+                password: this.passwordRef.current?.value,
                 allow_marketing: true,
-            };
+            } as UserProfile;
 
             const redirectTo = (new URLSearchParams(this.props.location.search)).get('redirect_to');
 
-            this.props.actions.createUser(user, this.state.token, this.state.inviteId, redirectTo).then((result) => {
-                if (result.error) {
-                    this.setState({
-                        serverError: result.error.message,
-                        isSubmitting: false,
-                    });
-                    return;
-                }
+            this.props.actions.createUser(user, this.state.token as string, this.state.inviteId as string, redirectTo as string)
+                .then((result: {data: UserProfile} | {error: ServerError}) => {
+                    if ("error" in result) {
+                        this.setState({
+                            serverError: result.error.message,
+                            isSubmitting: false,
+                        });
+                        return;
+                    }
 
-                this.handleSignupSuccess(user, result.data);
+                    this.handleSignupSuccess(user, result.data);
             });
         }
     }
@@ -290,7 +309,7 @@ export default class SignupEmail extends React.PureComponent {
                     defaultMessage='Valid email required for sign-up'
                 />
             </span>
-        );
+        ) as React.ReactNode; /* Assertion used to allow for setting variable to an empty string below */
         let emailDivStyle = 'form-group';
         if (this.state.emailError) {
             emailError = (<label className='control-label'>{this.state.emailError}</label>);
@@ -309,7 +328,7 @@ export default class SignupEmail extends React.PureComponent {
                     defaultMessage='You can use lowercase letters, numbers, periods, dashes, and underscores.'
                 />
             </span>
-        );
+        ) as React.ReactNode;
         let nameDivStyle = 'form-group';
         if (this.state.nameError) {
             nameError = <label className='control-label'>{this.state.nameError}</label>;
@@ -363,7 +382,7 @@ export default class SignupEmail extends React.PureComponent {
                                 className='form-control'
                                 defaultValue={this.state.email}
                                 placeholder=''
-                                maxLength='128'
+                                maxLength={128}
                                 autoFocus={true}
                                 spellCheck='false'
                                 autoCapitalize='off'
@@ -413,7 +432,7 @@ export default class SignupEmail extends React.PureComponent {
                                 ref={this.passwordRef}
                                 className='form-control'
                                 placeholder=''
-                                maxLength='128'
+                                maxLength={128}
                                 spellCheck='false'
                             />
                             {passwordError}
