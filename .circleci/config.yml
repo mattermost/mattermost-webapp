@@ -283,4 +283,3 @@ workflows:
           requires:
             - type-check
             - i18n-check
-            - lint
