@@ -16,6 +16,7 @@ export type OwnProps = {
     isPinnedPosts: boolean;
     updateSearchTerms: (terms: string) => void;
     getMorePostsForSearch: () => void;
+    getMoreFilesForSearch: () => void;
     shrink: () => void;
     isCard?: boolean;
     isOpened?: boolean;

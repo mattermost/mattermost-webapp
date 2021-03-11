@@ -86,26 +86,40 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
         // know if the search has more results to return, so we search
         // for the second page and stop if it yields no results
         if (props.searchPage === 0) {
-            props.getMorePostsForSearch();
+            setTimeout(() => {
+                props.getMorePostsForSearch();
+                props.getMoreFilesForSearch();
+            }, 100);
         }
-    }, [props.searchPage]);
+    }, [props.searchPage, props.searchTerms]);
 
     const handleScroll = (): void => {
         if (!props.isFlaggedPosts && !props.isPinnedPosts && !props.isSearchingTerm && !props.isSearchGettingMore) {
             const scrollHeight = scrollbars.current?.getScrollHeight() || 0;
             const scrollTop = scrollbars.current?.getScrollTop() || 0;
             const clientHeight = scrollbars.current?.getClientHeight() || 0;
-            // TODO: Check if this is for messages or for files and do it accordingly
             if ((scrollTop + clientHeight + GET_MORE_BUFFER) >= scrollHeight) {
-                loadMorePosts();
+                if (searchType === FILES_SEARCH_TYPE) {
+                    loadMoreFiles();
+                } else {
+                    loadMorePosts();
+                }
             }
         }
     };
 
-    // TODO: Create another function to load more files
     const loadMorePosts = debounce(
         () => {
             props.getMorePostsForSearch();
+        },
+        100,
+        false,
+        (): void => {},
+    );
+
+    const loadMoreFiles = debounce(
+        () => {
+            props.getMoreFilesForSearch();
         },
         100,
         false,
@@ -140,7 +154,8 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
     const noResults = (!results || !Array.isArray(results) || results.length === 0);
     const noFileResults = (!fileResults || !Array.isArray(fileResults) || fileResults.length === 0);
     const isLoading = isSearchingTerm || isSearchingFlaggedPost || isSearchingPinnedPost || !isOpened;
-    const showLoadMore = !isSearchAtEnd && !isFlaggedPosts && !isPinnedPosts;
+    const isAtEnd = (searchType === MESSAGES_SEARCH_TYPE && isSearchAtEnd) || (searchType === FILES_SEARCH_TYPE && isSearchFilesAtEnd);
+    const showLoadMore = !isAtEnd && !isFlaggedPosts && !isPinnedPosts;
     const isMessagesSearch = (!isFlaggedPosts && !isMentionSearch && !isCard && !isPinnedPosts && !isChannelFiles);
 
     let contentItems;

@@ -432,6 +432,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
                     handleSearchHintSelection={handleSearchHintSelection}
                     isSideBarExpanded={props.isRhsExpanded}
                     getMorePostsForSearch={props.actions.getMorePostsForSearch}
+                    getMoreFilesForSearch={props.actions.getMoreFilesForSearch}
                     setSearchFilterType={handleSetSearchFilter}
                     searchFilterType={searchFilterType}
                     setSearchType={(value: SearchType) => actions.updateSearchType(value)}
