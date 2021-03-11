@@ -22,10 +22,12 @@
         .counter {
             background-color: rgba(var(--center-channel-color-rgb), 0.08);
             border-radius: 50%;
-            padding: 2px 5px;
+            padding: 1px 6px;
             margin-left: 4px;
             font-size: 10px;
             font-weight: 700;
+            position: relative;
+            bottom: 1px;
         }
     }
 }
