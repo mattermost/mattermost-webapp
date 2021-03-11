@@ -819,6 +819,7 @@ export function applyTheme(theme) {
             'mention-highlight-bg-rgb': toRgbValues(theme.mentionHighlightBg),
             'mention-highlight-link-rgb': toRgbValues(theme.mentionHighlightLink),
             'mention-highlight-bg-mixed-rgb': blendColors(theme.centerChannelBg, theme.mentionHighlightBg, 0.5),
+            'pinned-highlight-bg-mixed-rgb': blendColors(theme.centerChannelBg, theme.mentionHighlightBg, 0.12),
             'own-highlight-bg-rgb': blendColors(theme.mentionHighlightBg, theme.centerChannelColor, 0.05),
             'new-message-separator-rgb': toRgbValues(theme.newMessageSeparator),
             'online-indicator-rgb': toRgbValues(theme.onlineIndicator),
