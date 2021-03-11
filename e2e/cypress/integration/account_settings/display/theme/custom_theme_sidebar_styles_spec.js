@@ -93,7 +93,7 @@ describe('Custom Theme - Sidebar Styles', () => {
         cy.get('#unreadIndicatorBottom').should('have.css', 'color', rgbArrayToString(themeRgbColor.mentionColor));
 
         // # Set user status to online
-        cy.userStatus(1);
+        cy.uiOpenSetStatusMenu('Online');
 
         // * Check Online Indicator color
         cy.get('.online--icon').should('have.css', 'fill', rgbArrayToString(themeRgbColor.onlineIndicator));
