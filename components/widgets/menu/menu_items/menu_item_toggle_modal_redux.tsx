@@ -17,7 +17,7 @@ type Props = {
     dialogProps?: Dictionary<any>;
     extraText?: string;
     text: string;
-    accessibilityLabel: string;
+    accessibilityLabel?: string;
     className?: string;
     children?: React.ReactNode;
     sibling?: React.ReactNode;
