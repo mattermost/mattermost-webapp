@@ -25,7 +25,10 @@ describe('components/post_view/embedded_bindings/button_binding/', () => {
         post,
         userId: 'user_id',
         binding,
-        actions: {doAppCall: jest.fn()},
+        actions: {
+            doAppCall: jest.fn(),
+            getChannel: jest.fn(),
+        },
     };
 
     test('should match snapshot', () => {

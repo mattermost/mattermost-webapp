@@ -6,9 +6,7 @@ import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {GlobalState} from 'mattermost-redux/types/store';
 import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
-import {AppCall, AppCallResponse, AppModalState} from 'mattermost-redux/types/apps';
-import {getPost} from 'mattermost-redux/selectors/entities/posts';
-import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
+import {AppCallRequest, AppCallResponse, AppCallType, AppModalState} from 'mattermost-redux/types/apps';
 
 import {doAppCall} from 'actions/apps';
 import {getEmojiMap} from 'selectors/emojis';
@@ -16,21 +14,10 @@ import {getEmojiMap} from 'selectors/emojis';
 import AppsFormContainer from './apps_form_container';
 
 type Actions = {
-    doAppCall: (call: AppCall) => Promise<{data: AppCallResponse}>;
+    doAppCall: (call: AppCallRequest, type: AppCallType) => Promise<{data: AppCallResponse}>;
 };
 
-function mapStateToProps(state: GlobalState, ownProps: {modal?: AppModalState; postID?: string}) {
-    let postID: string | undefined;
-    let channelID: string | undefined;
-    let teamID: string | undefined;
-
-    if (ownProps.postID) {
-        const post = getPost(state, ownProps.postID);
-        postID = post.id;
-        channelID = post.channel_id;
-        teamID = getCurrentTeam(state).id;
-    }
-
+function mapStateToProps(state: GlobalState, ownProps: {modal?: AppModalState}) {
     const emojiMap = getEmojiMap(state);
     if (!ownProps.modal) {
         return {emojiMap};
@@ -39,9 +26,6 @@ function mapStateToProps(state: GlobalState, ownProps: {modal?: AppModalState; p
     return {
         modal: ownProps.modal,
         emojiMap,
-        postID,
-        channelID,
-        teamID,
     };
 }
 

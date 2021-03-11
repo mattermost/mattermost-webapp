@@ -15,7 +15,7 @@ import {ActionFunc, ActionResult, GenericAction} from 'mattermost-redux/types/ac
 
 import {Post} from 'mattermost-redux/types/posts';
 
-import {AppCall} from 'mattermost-redux/types/apps';
+import {AppCallRequest, AppCallType} from 'mattermost-redux/types/apps';
 
 import {GlobalState} from 'types/store';
 
@@ -88,7 +88,7 @@ type Actions = {
     unpinPost: (postId: string) => void;
     openModal: (postId: any) => void;
     markPostAsUnread: (post: Post) => void;
-    doAppCall: (call: AppCall) => Promise<ActionResult>;
+    doAppCall: (call: AppCallRequest, type: AppCallType) => Promise<ActionResult>;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {

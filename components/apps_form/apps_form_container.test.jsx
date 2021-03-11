@@ -48,10 +48,6 @@ describe('components/apps_model/AppsFormContainer', () => {
             doAppCall: jest.fn().mockResolvedValue({}),
         },
         onHide: jest.fn(),
-        postID: context.post_id,
-        channelID: context.channel_id,
-        teamID: context.team_id,
-        isEmbedded: false,
     };
 
     test('should match snapshot', () => {

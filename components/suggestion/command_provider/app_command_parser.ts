@@ -8,7 +8,6 @@ import {getAppBindings} from 'mattermost-redux/selectors/entities/apps';
 import {AppBindingLocations, AppCallResponseTypes, AppCallTypes, AppFieldTypes} from 'mattermost-redux/constants/apps';
 
 import {
-    AppCall,
     AppBinding,
     AppField,
     AppSelectOption,
@@ -18,8 +17,8 @@ import {
     AutocompleteSuggestion,
     AutocompleteStaticSelect,
     AutocompleteSuggestionWithComplete,
-    AppLookupCallValues,
     AppCallValues,
+    AppCallRequest,
 } from 'mattermost-redux/types/apps';
 
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
@@ -42,6 +41,7 @@ import {sendEphemeralPost} from 'actions/global_actions';
 import {doAppCall} from 'actions/apps';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
+import {createCallRequest} from 'utils/apps';
 
 const EXECUTE_CURRENT_COMMAND_ITEM_ID = Constants.Integrations.EXECUTE_CURRENT_COMMAND_ITEM_ID;
 
@@ -511,7 +511,7 @@ export class AppCommandParser {
     }
 
     // composeCallFromCommand creates the form submission call
-    public composeCallFromCommand = async (command: string): Promise<AppCall | null> => {
+    public composeCallFromCommand = async (command: string): Promise<AppCallRequest | null> => {
         let parsed = new ParsedCommand(command, this);
 
         const commandBindings = this.getCommandBindings();
@@ -611,7 +611,7 @@ export class AppCommandParser {
     }
 
     // composeCallFromParsed creates the form submission call
-    composeCallFromParsed = async (parsed: ParsedCommand): Promise<AppCall | null> => {
+    composeCallFromParsed = async (parsed: ParsedCommand): Promise<AppCallRequest | null> => {
         if (!parsed.binding) {
             return null;
         }
@@ -628,16 +628,8 @@ export class AppCommandParser {
             return null;
         }
 
-        return {
-            ...call,
-            type: AppCallTypes.SUBMIT,
-            context: {
-                ...this.getAppContext(),
-                app_id: parsed.binding.app_id,
-            },
-            values: parsed.values,
-            raw_command: parsed.command,
-        };
+        const context = this.getAppContext(parsed.binding.app_id);
+        return createCallRequest(call, context, {}, values, parsed.command);
     }
 
     expandOptions = async (parsed: ParsedCommand, values: AppCallValues) => {
@@ -803,20 +795,22 @@ export class AppCommandParser {
     }
 
     // getAppContext collects post/channel/team info for performing calls
-    getAppContext = (): Partial<AppContext> | null => {
+    getAppContext = (appID: string): AppContext => {
+        const context: AppContext = {
+            app_id: appID,
+            location: AppBindingLocations.COMMAND,
+            root_id: this.rootPostID,
+        };
+
         const channel = this.getChannel();
         if (!channel) {
-            return null;
+            return context;
         }
 
-        const teamID = channel.team_id || getCurrentTeamId(this.store.getState());
+        context.channel_id = channel.id;
+        context.team_id = channel.team_id || getCurrentTeamId(this.store.getState());
 
-        return {
-            channel_id: channel.id,
-            team_id: teamID,
-            root_id: this.rootPostID,
-            location: AppBindingLocations.COMMAND,
-        };
+        return context;
     }
 
     // fetchForm unconditionaly retrieves the form for the given binding (subcommand)
@@ -825,16 +819,12 @@ export class AppCommandParser {
             return undefined;
         }
 
-        const payload: AppCall = {
-            ...binding.call,
-            type: AppCallTypes.FORM,
-            context: {
-                ...this.getAppContext(),
-                app_id: binding.app_id,
-            },
-        };
+        const payload = createCallRequest(
+            binding.call,
+            this.getAppContext(binding.app_id),
+        );
 
-        const res = await this.store.dispatch(doAppCall(payload) as any) as {data: AppCallResponse};
+        const res = await this.store.dispatch(doAppCall(payload, AppCallTypes.FORM) as any) as {data: AppCallResponse};
         const callResponse = res.data;
         switch (callResponse.type) {
         case AppCallResponseTypes.FORM:
@@ -1061,21 +1051,15 @@ export class AppCommandParser {
             return [];
         }
 
-        const values: AppLookupCallValues = {
-            name: f.name,
-            user_input: parsed.incomplete,
-            values: parsed.values,
-        };
-
         const payload = await this.composeCallFromParsed(parsed);
         if (!payload) {
             return [];
         }
-        payload.type = AppCallTypes.LOOKUP;
-        payload.values = values;
+        payload.selected_field = f.name;
+        payload.query = parsed.incomplete;
 
         type ResponseType = {items: AppSelectOption[]};
-        const res = await this.store.dispatch(doAppCall(payload) as any) as {data: AppCallResponse<ResponseType>};
+        const res = await this.store.dispatch(doAppCall(payload, AppCallTypes.LOOKUP) as any) as {data: AppCallResponse<ResponseType>};
         const callResponse = res.data;
         switch (callResponse.type) {
         case AppCallResponseTypes.OK:

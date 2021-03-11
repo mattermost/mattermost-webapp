@@ -8,8 +8,8 @@ import {Tooltip} from 'react-bootstrap';
 
 import Permissions from 'mattermost-redux/constants/permissions';
 import {Post} from 'mattermost-redux/types/posts';
-import {AppBinding, AppCall, AppCallResponse} from 'mattermost-redux/types/apps';
-import {AppCallResponseTypes, AppCallTypes} from 'mattermost-redux/constants/apps';
+import {AppBinding, AppCallRequest, AppCallResponse, AppCallType} from 'mattermost-redux/types/apps';
+import {AppCallResponseTypes, AppCallTypes, AppExpandLevels} from 'mattermost-redux/constants/apps';
 
 import {ActionResult} from 'mattermost-redux/types/actions';
 
@@ -26,6 +26,7 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import DotsHorizontalIcon from 'components/widgets/icons/dots_horizontal';
 import {PluginComponent} from 'types/store/plugins';
 import {sendEphemeralPost} from 'actions/global_actions';
+import {createCallContext, createCallRequest} from 'utils/apps';
 
 const MENU_BOTTOM_MARGIN = 80;
 
@@ -98,7 +99,7 @@ type Props = {
         /**
          * Function to perform an app call
          */
-        doAppCall: (call: AppCall) => Promise<ActionResult>;
+        doAppCall: (call: AppCallRequest, type: AppCallType) => Promise<ActionResult>;
     }; // TechDebt: Made non-mandatory while converting to typescript
 
     canEdit: boolean;
@@ -283,18 +284,22 @@ class DotMenu extends React.PureComponent<Props, State> {
         if (!binding.call) {
             return;
         }
-        const res = await this.props.actions?.doAppCall({
-            ...binding.call,
-            type: AppCallTypes.SUBMIT,
-            context: {
-                app_id: binding.app_id,
-                location: binding.location,
-                team_id: this.props.teamId,
-                channel_id: this.props.post.channel_id,
-                post_id: this.props.post.id,
-                root_id: this.props.post.root_id,
+        const context = createCallContext(
+            binding.app_id,
+            binding.location,
+            this.props.post.channel_id,
+            this.props.teamId,
+            this.props.post.id,
+            this.props.post.root_id,
+        );
+        const call = createCallRequest(
+            binding.call,
+            context,
+            {
+                post: AppExpandLevels.ALL,
             },
-        });
+        );
+        const res = await this.props.actions?.doAppCall(call, AppCallTypes.SUBMIT);
 
         const callResp = (res as {data: AppCallResponse}).data;
         const ephemeral = (message: string) => sendEphemeralPost(message, this.props.post.channel_id, this.props.post.root_id);

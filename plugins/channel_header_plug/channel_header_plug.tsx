@@ -10,7 +10,7 @@ import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
 import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
 import {Theme} from 'mattermost-redux/types/preferences';
-import {AppBinding, AppCall, AppCallResponse} from 'mattermost-redux/types/apps';
+import {AppBinding, AppCallRequest, AppCallResponse, AppCallType} from 'mattermost-redux/types/apps';
 import {AppCallResponseTypes, AppCallTypes} from 'mattermost-redux/constants/apps';
 
 import {ActionResult} from 'mattermost-redux/types/actions';
@@ -21,6 +21,7 @@ import {Constants} from 'utils/constants';
 import OverlayTrigger from 'components/overlay_trigger';
 import {PluginComponent} from 'types/store/plugins';
 import {sendEphemeralPost} from 'actions/global_actions';
+import {createCallContext, createCallRequest} from 'utils/apps';
 
 type CustomMenuProps = {
     open?: boolean;
@@ -103,7 +104,7 @@ type ChannelHeaderPlugProps = {
     channelMember: ChannelMembership;
     theme: Theme;
     actions: {
-        doAppCall: (call: AppCall) => Promise<ActionResult>;
+        doAppCall: (call: AppCallRequest, type: AppCallType) => Promise<ActionResult>;
     };
 }
 
@@ -151,16 +152,14 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
             return;
         }
 
-        const res = await this.props.actions.doAppCall({
-            ...binding.call,
-            type: AppCallTypes.SUBMIT,
-            context: {
-                app_id: binding.app_id,
-                location: binding.location,
-                team_id: this.props.channel.team_id,
-                channel_id: this.props.channel.id,
-            },
-        });
+        const context = createCallContext(
+            binding.app_id,
+            binding.location,
+            this.props.channel.id,
+            this.props.channel.team_id,
+        );
+        const call = createCallRequest(binding.call, context);
+        const res = await this.props.actions.doAppCall(call, AppCallTypes.SUBMIT);
 
         const callResp = (res as {data: AppCallResponse}).data;
         const ephemeral = (message: string) => sendEphemeralPost(message, this.props.channel.id);

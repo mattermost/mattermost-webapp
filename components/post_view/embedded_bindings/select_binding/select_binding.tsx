@@ -7,16 +7,18 @@ import {ActionResult} from 'mattermost-redux/types/actions';
 
 import {Post} from 'mattermost-redux/types/posts';
 
-import {AppBinding, AppCall, AppCallResponse} from 'mattermost-redux/types/apps';
+import {AppBinding, AppCallRequest, AppCallResponse, AppCallType} from 'mattermost-redux/types/apps';
 
-import {AppBindingLocations, AppCallResponseTypes, AppExpandLevels} from 'mattermost-redux/constants/apps';
+import {AppBindingLocations, AppCallResponseTypes, AppCallTypes, AppExpandLevels} from 'mattermost-redux/constants/apps';
 
 import {injectIntl, IntlShape} from 'react-intl';
+
+import {Channel} from 'mattermost-redux/types/channels';
 
 import MenuActionProvider from 'components/suggestion/menu_action_provider';
 import AutocompleteSelector from 'components/autocomplete_selector';
 import PostContext from 'components/post_view/post_context';
-import {createCallRequest} from 'utils/apps';
+import {createCallContext, createCallRequest} from 'utils/apps';
 import {sendEphemeralPost} from 'actions/global_actions';
 
 type Option = {
@@ -28,9 +30,9 @@ type Props = {
     intl: IntlShape;
     post: Post;
     binding: AppBinding;
-    userId: string;
     actions: {
-        doAppCall: (call: AppCall) => Promise<ActionResult>;
+        doAppCall: (call: AppCallRequest, type: AppCallType) => Promise<ActionResult>;
+        getChannel: (channelId: string) => Promise<ActionResult>;
     };
 };
 
@@ -72,19 +74,29 @@ class SelectBinding extends React.PureComponent<Props, State> {
             return;
         }
 
-        const {userId, post} = this.props;
+        const {post} = this.props;
 
-        const call = createCallRequest(
-            binding.call,
-            userId,
+        let teamID = '';
+        const {data} = await this.props.actions.getChannel(post.channel_id) as {data?: any; error?: any};
+        if (data) {
+            const channel = data as Channel;
+            teamID = channel.team_id;
+        }
+
+        const context = createCallContext(
             binding.app_id,
-            AppBindingLocations.IN_POST + '/' + binding.location,
-            {post: AppExpandLevels.EXPAND_ALL},
+            AppBindingLocations.IN_POST + binding.location,
             post.channel_id,
+            teamID,
             post.id,
         );
+        const call = createCallRequest(
+            binding.call,
+            context,
+            {post: AppExpandLevels.EXPAND_ALL},
+        );
 
-        const res = await this.props.actions.doAppCall(call);
+        const res = await this.props.actions.doAppCall(call, AppCallTypes.SUBMIT);
         const callResp = (res as {data: AppCallResponse}).data;
         const ephemeral = (message: string) => sendEphemeralPost(message, this.props.post.channel_id, this.props.post.root_id);
         switch (callResp.type) {

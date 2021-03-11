@@ -3,7 +3,7 @@
 
 import {Client4} from 'mattermost-redux/client';
 import {Action, ActionFunc, DispatchFunc} from 'mattermost-redux/types/actions';
-import {AppCallResponse, AppCall, AppForm} from 'mattermost-redux/types/apps';
+import {AppCallResponse, AppForm, AppCallType, AppCallRequest} from 'mattermost-redux/types/apps';
 import {AppCallTypes, AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 
 import {openModal} from 'actions/views/modals';
@@ -17,10 +17,10 @@ import {makeCallErrorResponse} from 'utils/apps';
 import {localizeAndFormatMessage, localizeMessage} from 'utils/utils';
 import {t} from 'utils/i18n';
 
-export function doAppCall<Res=unknown>(call: AppCall): ActionFunc {
+export function doAppCall<Res=unknown>(call: AppCallRequest, type: AppCallType): ActionFunc {
     return async (dispatch: DispatchFunc) => {
         try {
-            const res = await Client4.executeAppCall(call) as AppCallResponse<Res>;
+            const res = await Client4.executeAppCall(call, type) as AppCallResponse<Res>;
             const responseType = res.type || AppCallResponseTypes.OK;
 
             switch (responseType) {
@@ -34,7 +34,7 @@ export function doAppCall<Res=unknown>(call: AppCall): ActionFunc {
                     return {data: makeCallErrorResponse(errMsg)};
                 }
 
-                if (call.type === AppCallTypes.SUBMIT) {
+                if (type === AppCallTypes.SUBMIT) {
                     dispatch(openAppsModal(res.form, call));
                 }
 
@@ -45,7 +45,7 @@ export function doAppCall<Res=unknown>(call: AppCall): ActionFunc {
                     return {data: makeCallErrorResponse(errMsg)};
                 }
 
-                if (call.type !== AppCallTypes.SUBMIT) {
+                if (type !== AppCallTypes.SUBMIT) {
                     const errMsg = localizeMessage('apps.error.responses.navigate.no_submit', 'Response type is `navigate`, but the call was not a submission.');
                     return {data: makeCallErrorResponse(errMsg)};
                 }
@@ -72,7 +72,7 @@ export function doAppCall<Res=unknown>(call: AppCall): ActionFunc {
     };
 }
 
-export function openAppsModal(form: AppForm, call: AppCall): Action {
+export function openAppsModal(form: AppForm, call: AppCallRequest): Action {
     return openModal({
         modalId: ModalIdentifiers.APPS_MODAL,
         dialogType: AppsForm,

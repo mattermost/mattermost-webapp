@@ -3,25 +3,27 @@
 
 import React from 'react';
 
-import {AppBinding, AppCall, AppCallResponse} from 'mattermost-redux/types/apps';
+import {AppBinding, AppCallRequest, AppCallResponse, AppCallType} from 'mattermost-redux/types/apps';
 import {ActionResult} from 'mattermost-redux/types/actions';
-import {AppBindingLocations, AppCallResponseTypes, AppExpandLevels} from 'mattermost-redux/constants/apps';
+import {AppBindingLocations, AppCallResponseTypes, AppCallTypes, AppExpandLevels} from 'mattermost-redux/constants/apps';
 import {Post} from 'mattermost-redux/types/posts';
 
 import {injectIntl, IntlShape} from 'react-intl';
 
+import {Channel} from 'mattermost-redux/types/channels';
+
 import Markdown from 'components/markdown';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
-import {createCallRequest} from 'utils/apps';
+import {createCallContext, createCallRequest} from 'utils/apps';
 import {sendEphemeralPost} from 'actions/global_actions';
 
 type Props = {
     intl: IntlShape;
     binding: AppBinding;
-    userId: string;
     post: Post;
     actions: {
-        doAppCall: (call: AppCall) => Promise<ActionResult>;
+        doAppCall: (call: AppCallRequest, type: AppCallType) => Promise<ActionResult>;
+        getChannel: (channelId: string) => Promise<ActionResult>;
     };
 }
 
@@ -38,22 +40,32 @@ class ButtonBinding extends React.PureComponent<Props, State> {
     }
 
     handleClick = async () => {
-        const {binding, post, userId} = this.props;
+        const {binding, post} = this.props;
         if (!binding.call) {
             return;
         }
 
-        const call = createCallRequest(
-            binding.call,
-            userId,
+        let teamID = '';
+        const {data} = await this.props.actions.getChannel(post.channel_id) as {data?: any; error?: any};
+        if (data) {
+            const channel = data as Channel;
+            teamID = channel.team_id;
+        }
+
+        const context = createCallContext(
             binding.app_id,
-            AppBindingLocations.IN_POST + '/' + binding.location,
-            {post: AppExpandLevels.EXPAND_ALL},
+            AppBindingLocations.IN_POST + binding.location,
             post.channel_id,
+            teamID,
             post.id,
         );
+        const call = createCallRequest(
+            binding.call,
+            context,
+            {post: AppExpandLevels.EXPAND_ALL},
+        );
         this.setState({executing: true});
-        const res = await this.props.actions.doAppCall(call);
+        const res = await this.props.actions.doAppCall(call, AppCallTypes.SUBMIT);
 
         this.setState({executing: false});
         const callResp = (res as {data: AppCallResponse}).data;
