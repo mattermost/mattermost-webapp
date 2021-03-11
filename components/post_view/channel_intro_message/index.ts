@@ -47,7 +47,7 @@ function mapStateToProps(state: GlobalState) {
         teammate,
         teammateName: getDisplayNameByUser(state, teammate),
         stats: getAdminAnalytics(state),
-        usersLimit: usersLimit,
+        usersLimit,
         theme: getTheme(state),
     };
 }
