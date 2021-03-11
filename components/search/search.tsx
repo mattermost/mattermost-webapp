@@ -384,6 +384,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
                 handleFocus={handleFocus}
                 handleBlur={handleBlur}
                 keepFocused={keepInputFocused}
+                setKeepFocused={setKeepInputFocused}
                 isFocused={focused}
                 suggestionProviders={suggestionProviders.current}
                 isSideBarRight={props.isSideBarRight}

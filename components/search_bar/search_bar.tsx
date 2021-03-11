@@ -29,6 +29,7 @@ type Props = {
     handleFocus: () => void;
     handleBlur: () => void;
     keepFocused: boolean;
+    setKeepFocused: (boolean) => void;
     isFocused: boolean;
     suggestionProviders: Provider[];
     isSearchingTerm: boolean;
@@ -138,6 +139,9 @@ const SearchBar: React.FunctionComponent<Props> = (props: Props): JSX.Element =>
                             />}
                         <i
                             className='icon icon-close icon-12'
+                            onMouseDown={() => {
+                                props.setKeepFocused(true);
+                            }}
                             onClick={() => props.clearSearchType && props.clearSearchType()}
                         />
                     </div>}
