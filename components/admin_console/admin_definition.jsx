@@ -1118,7 +1118,7 @@ const AdminDefinition = {
                         error_message_default: 'Connection unsuccessful: {error}',
                         success_message: t('admin.s3.s3Success'),
                         success_message_default: 'Connection was successful',
-                        isDisabled: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.FILE_STORAGE)),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.FILE_STORAGE)),
                     },
                 ],
             },
@@ -1308,7 +1308,7 @@ const AdminDefinition = {
                         error_message_default: 'Connection unsuccessful: {error}',
                         success_message: t('admin.environment.smtp.smtpSuccess'),
                         success_message_default: 'No errors were reported while sending an email. Please check your inbox to make sure.',
-                        isDisabled: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.SMTP)),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.SMTP)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -1344,9 +1344,9 @@ const AdminDefinition = {
             ],
             isHidden: it.any(
                 it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
-                it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.SMTP)),
+                it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.PUSH_NOTIFICATION_SERVER)),
             ),
-            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.SMTP)),
+            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.PUSH_NOTIFICATION_SERVER)),
             schema: {
                 id: 'PushNotificationsSettings',
                 component: PushNotificationsSettings,
