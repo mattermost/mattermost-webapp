@@ -244,7 +244,8 @@ workflows:
   version: 2
   untagged-build:
     jobs:
-      - install
+      - install:
+          context: codesign-certificates
       # Disabling check-deps since the new version is not on bintray and all builds will fail
       #       # we've are on top of this, and it's going to be temporary.
       # - check-deps:
