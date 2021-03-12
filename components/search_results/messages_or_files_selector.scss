@@ -1,9 +1,12 @@
 .MessagesOrFilesSelector {
     display: flex;
-    padding: 14px;
+    padding: 7px;
     border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
     align-items: center;
     justify-content: space-between;
+    .buttons-container {
+        margin: 7px 0;
+    }
     .tab {
         text-decoration: none;
         padding: 4px 12px;

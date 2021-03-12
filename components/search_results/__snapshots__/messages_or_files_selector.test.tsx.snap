@@ -4,7 +4,9 @@ exports[`components/search_results/MessagesOrFilesSelector should match snapshot
 <div
   className="MessagesOrFilesSelector"
 >
-  <div>
+  <div
+    className="buttons-container"
+  >
     <span
       className="tab"
       onClick={[Function]}
@@ -45,7 +47,9 @@ exports[`components/search_results/MessagesOrFilesSelector should match snapshot
 <div
   className="MessagesOrFilesSelector"
 >
-  <div>
+  <div
+    className="buttons-container"
+  >
     <span
       className="active tab"
       onClick={[Function]}

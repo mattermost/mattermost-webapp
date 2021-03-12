@@ -23,7 +23,7 @@ type Props = {
 export default function MessagesOrFilesSelector(props: Props): JSX.Element {
     return (
         <div className='MessagesOrFilesSelector'>
-            <div>
+            <div className='buttons-container'>
                 <span
                     onClick={() => props.onChange('messages')}
                     className={props.selected === 'messages' ? 'active tab' : 'tab'}
