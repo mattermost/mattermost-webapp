@@ -60,14 +60,14 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
     });
 
     test('should match snapshot, enable office365', () => {
-        const props = {...requiredProps, enableSignUpWithGoogle: false, enableSaml: false,enableSignUpWithOffice365: true};
+        const props = {...requiredProps, enableSignUpWithGoogle: false, enableSaml: false, enableSignUpWithOffice365: true};
 
         const wrapper = shallow(<UserSettingsSecurity {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot, enable openID', () => {
-        const props = {...requiredProps, enableSignUpWithGoogle: false, enableSaml: false,enableSignUpWithOpenId: true};
+        const props = {...requiredProps, enableSignUpWithGoogle: false, enableSaml: false, enableSignUpWithOpenId: true};
 
         const wrapper = shallow(<UserSettingsSecurity {...props}/>);
         expect(wrapper).toMatchSnapshot();
