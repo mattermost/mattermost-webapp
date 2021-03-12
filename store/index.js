@@ -212,5 +212,5 @@ export default function configureStore(initialState) {
         detectNetwork: detect,
     };
 
-    return configureServiceStore(initialState, appReducer, offlineOptions, getAppReducer, {enableBuffer: false});
+    return configureServiceStore(initialState, appReducer, offlineOptions, getAppReducer);
 }
