@@ -17,11 +17,9 @@ import {setGlobalItem} from 'actions/storage';
 import {loginById} from 'actions/views/login';
 import {getPasswordConfig} from 'utils/utils.jsx';
 
-import SignupEmail from './signup_email.jsx';
-
 import {GlobalState} from '../../../types/store';
-import { CLIEngine } from 'eslint';
 
+import SignupEmail from './signup_email.jsx';
 
 export type PasswordConfig = {
     minimumLength: number;
@@ -30,7 +28,6 @@ export type PasswordConfig = {
     requireSymbol: boolean;
     requireUppercase: boolean;
 }
-
 
 export type Props = {
     location: {search: string};
@@ -43,7 +40,6 @@ export type Props = {
     hasAccounts: boolean;
     actions: Actions;
 };
-
 
 export type State = {
     loading: boolean;
@@ -59,14 +55,12 @@ export type State = {
     serverError?: React.ReactNode;
 };
 
-
 type TeamInviteInfo = {
     display_name: string;
     description: string;
     name: string;
     id: string;
 };
-
 
 export type Actions = {
     createUser: (user: UserProfile, token: string, inviteId: string, redirect: string) => Promise<{data: UserProfile} | {error: ServerError}>;
@@ -75,16 +69,12 @@ export type Actions = {
     getTeamInviteInfo: (inviteId: string) => Promise<{data: TeamInviteInfo} | {error: ServerError}>;
 };
 
-
 type ClientConfigPatched = {
-    NoAccounts: "true" | "false";
+    NoAccounts: 'true' | 'false';
     SiteName: string;
 }
 
-
 type ClientConfigWithNoAccounts = Partial<ClientConfig> & ClientConfigPatched;
-
-
 
 function mapStateToProps(state: GlobalState) {
     const config = getConfig(state) as ClientConfigWithNoAccounts;

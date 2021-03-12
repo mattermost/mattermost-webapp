@@ -28,14 +28,12 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx'
 
 import {Props, State} from 'components/signup/signup_email/index';
 
-
 type UserSignUpInfo = {
     email: string;
     username: string;
     password: string;
     allow_marketing: boolean;
 };
-
 
 export default class SignupEmail extends React.PureComponent<Props, State> {
     static propTypes = {
@@ -119,14 +117,14 @@ export default class SignupEmail extends React.PureComponent<Props, State> {
 
     getInviteInfo = async (inviteId: string) => {
         const teamInviteInfo = await this.props.actions.getTeamInviteInfo(inviteId);
-        if ("data" in teamInviteInfo) {
+        if ('data' in teamInviteInfo) {
             this.setState({
                 loading: false,
                 noOpenServerError: false,
                 serverError: '',
                 teamName: teamInviteInfo.data.name,
             });
-        } else if ("error" in teamInviteInfo) {
+        } else if ('error' in teamInviteInfo) {
             this.setState({
                 loading: false,
                 noOpenServerError: true,
@@ -145,7 +143,7 @@ export default class SignupEmail extends React.PureComponent<Props, State> {
         const redirectTo = (new URLSearchParams(this.props.location.search)).get('redirect_to');
 
         this.props.actions.loginById(data.id, user.password, '').then((result: {data: boolean} | {error: ServerError}) => {
-            if ("error" in result) {
+            if ('error' in result) {
                 if (result.error.server_error_id === 'api.user.login.not_verified.app_error') {
                     let verifyUrl = '/should_verify_email?email=' + encodeURIComponent(user.email);
                     if (this.state.teamName) {
@@ -282,17 +280,16 @@ export default class SignupEmail extends React.PureComponent<Props, State> {
 
             const redirectTo = (new URLSearchParams(this.props.location.search)).get('redirect_to');
 
-            this.props.actions.createUser(user, this.state.token as string, this.state.inviteId as string, redirectTo as string)
-                .then((result: {data: UserProfile} | {error: ServerError}) => {
-                    if ("error" in result) {
-                        this.setState({
-                            serverError: result.error.message,
-                            isSubmitting: false,
-                        });
-                        return;
-                    }
+            this.props.actions.createUser(user, this.state.token as string, this.state.inviteId as string, redirectTo as string).then((result: {data: UserProfile} | {error: ServerError}) => {
+                if ('error' in result) {
+                    this.setState({
+                        serverError: result.error.message,
+                        isSubmitting: false,
+                    });
+                    return;
+                }
 
-                    this.handleSignupSuccess(user, result.data);
+                this.handleSignupSuccess(user, result.data);
             });
         }
     }
