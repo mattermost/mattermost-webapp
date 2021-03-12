@@ -71,7 +71,7 @@ declare namespace Cypress {
 
         /**
          * Set Status
-         * @param {string} item -such as `'Online'`,`'Set a Custom Status'`, `'Away'`, `'Do Not Disturb'` and `'Offline'`
+         * @param {string} item - such as `'Online'`,`'Set a Custom Status'`, `'Away'`, `'Do Not Disturb'` and `'Offline'`
          *
          * @example
          *   uiOpenSetStatusMenu(item);
