@@ -277,7 +277,7 @@ const AdminDefinition = {
                 id: 'BillingSubscriptions',
                 component: BillingSubscriptions,
             },
-            isHidden: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.BILLING.SUBSCRIPTION)), 
+            isHidden: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.BILLING.SUBSCRIPTION)),
             isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.BILLING.SUBSCRIPTION)),
         },
         billing_history: {
@@ -291,7 +291,7 @@ const AdminDefinition = {
                 id: 'BillingHistory',
                 component: BillingHistory,
             },
-            isHidden: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.BILLING.BILLING_HISTORY)), 
+            isHidden: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.BILLING.BILLING_HISTORY)),
             isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.BILLING.BILLING_HISTORY)),
         },
         company_info: {
@@ -305,7 +305,7 @@ const AdminDefinition = {
                 id: 'CompanyInfo',
                 component: CompanyInfo,
             },
-            isHidden: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.BILLING.COMPANY_INFORMATION)), 
+            isHidden: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.BILLING.COMPANY_INFORMATION)),
             isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.BILLING.COMPANY_INFORMATION)),
         },
         company_info_edit: {
