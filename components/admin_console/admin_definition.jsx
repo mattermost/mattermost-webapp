@@ -277,6 +277,7 @@ const AdminDefinition = {
                 id: 'BillingSubscriptions',
                 component: BillingSubscriptions,
             },
+            isHidden: it.not(it.userHasHiddenPermissionOnResource(RESOURCE_KEYS.BILLING.SUBSCRIPTION)), 
             isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.BILLING.SUBSCRIPTION)),
         },
         billing_history: {
@@ -290,6 +291,7 @@ const AdminDefinition = {
                 id: 'BillingHistory',
                 component: BillingHistory,
             },
+            isHidden: it.not(it.userHasHiddenPermissionOnResource(RESOURCE_KEYS.BILLING.BILLING_HISTORY)), 
             isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.BILLING.BILLING_HISTORY)),
         },
         company_info: {
@@ -303,6 +305,7 @@ const AdminDefinition = {
                 id: 'CompanyInfo',
                 component: CompanyInfo,
             },
+            isHidden: it.not(it.userHasHiddenPermissionOnResource(RESOURCE_KEYS.BILLING.COMPANY_INFORMATION)), 
             isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.BILLING.COMPANY_INFORMATION)),
         },
         company_info_edit: {
@@ -317,7 +320,6 @@ const AdminDefinition = {
             url: 'billing/payment_info',
             title: t('admin.sidebar.payment_info'),
             title_default: 'Payment Information',
-            isHidden: it.not(it.isPaidTier),
             searchableStrings: [
                 'admin.billing.payment_info.title',
             ],
@@ -325,6 +327,10 @@ const AdminDefinition = {
                 id: 'PaymentInfo',
                 component: PaymentInfo,
             },
+            isHidden: it.any(
+                it.not(it.userHasHiddenPermissionOnResource(RESOURCE_KEYS.BILLING.PAYMENT_INFORMATION)),
+                it.not(it.isPaidTier),
+            ),
             isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.BILLING.PAYMENT_INFORMATION)),
         },
         payment_info_edit: {
