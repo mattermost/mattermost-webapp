@@ -931,6 +931,18 @@ const AdminDefinition = {
                         isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
                     },
                     {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'FileSettings.ExtractContent',
+                        label: t('admin.image.extractContentTitle'),
+                        label_default: 'Enable Document Content Extraction:',
+                        help_text: t('admin.image.extractContentDescription'),
+                        help_text_default: 'When true, the system indexes the uploaded documents by its content if the file type is supported.',
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('environment')),
+                        ),
+                        isHidden: it.not(it.configIsTrue('FeatureFlags', 'FilesSearch')),
+                    },
+                    {
                         type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'FileSettings.Directory',
                         label: t('admin.image.localTitle'),

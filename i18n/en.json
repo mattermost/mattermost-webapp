@@ -965,6 +965,8 @@
   "admin.image.amazonS3TraceTitle": "Enable Amazon S3 Debugging:",
   "admin.image.enableProxy": "Enable Image Proxy:",
   "admin.image.enableProxyDescription": "When true, enables an image proxy for loading all Markdown images.",
+  "admin.image.extractContentDescription": "When true, the system indexes the uploaded documents by its content if the file type is supported.",
+  "admin.image.extractContentTitle": "Enable Document Content Extraction:",
   "admin.image.localDescription": "Directory to which files and images are written. If blank, defaults to ./data/.",
   "admin.image.localExample": "E.g.: \"./data/\"",
   "admin.image.localTitle": "Local Storage Directory:",
