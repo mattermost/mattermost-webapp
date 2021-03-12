@@ -24,6 +24,10 @@
     white-space: nowrap;
 }
 
+.mentions__fullname {
+    opacity: 0.56;
+}
+
 .mentions__name {
     @include clearfix;
     cursor: pointer;
@@ -58,10 +62,15 @@
     }
 
     .status {
-        font-size: 15px;
-        text-align: center;
-        vertical-align: bottom;
-        width: 20px;
+        width: auto;
+        margin: 0 8px;
+        display: block;
+        top: 1px;
+
+        svg {
+            width: 12px;
+            height: 12px;
+        }
     }
 
     .fa-user {

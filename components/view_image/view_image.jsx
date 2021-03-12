@@ -76,7 +76,7 @@ export default class ViewImageModal extends React.PureComponent {
             progress: Utils.fillArray(0, this.props.fileInfos.length),
             showCloseBtn: false,
             showZoomControls: false,
-            scale: ZoomSettings.DEFAULT_SCALE,
+            scale: Utils.fillArray(ZoomSettings.DEFAULT_SCALE, this.props.fileInfos.length),
         };
         this.videoRef = React.createRef();
     }
@@ -219,25 +219,36 @@ export default class ViewImageModal extends React.PureComponent {
         this.setState({showCloseBtn: false});
     }
 
+    setScale = (index, scale) => {
+        this.setState((prevState) => {
+            return {
+                scale: {
+                    ...prevState.scale,
+                    [index]: scale,
+                },
+            };
+        });
+    }
+
     handleZoomIn = () => {
-        let newScale = this.state.scale;
+        let newScale = this.state.scale[this.state.imageIndex];
         newScale = Math.min(newScale + ZoomSettings.SCALE_DELTA, ZoomSettings.MAX_SCALE);
-        this.setState({scale: newScale});
+        this.setScale(this.state.imageIndex, newScale);
     };
 
     handleZoomOut = () => {
-        let newScale = this.state.scale;
+        let newScale = this.state.scale[this.state.imageIndex];
         newScale = Math.max(newScale - ZoomSettings.SCALE_DELTA, ZoomSettings.MIN_SCALE);
-        this.setState({scale: newScale});
+        this.setScale(this.state.imageIndex, newScale);
     };
 
     handleZoomReset = () => {
-        this.setState({scale: ZoomSettings.DEFAULT_SCALE});
+        this.setScale(this.state.imageIndex, ZoomSettings.DEFAULT_SCALE);
     }
 
     handleModalClose = () => {
         this.props.onModalDismissed();
-        this.setState({scale: ZoomSettings.DEFAULT_SCALE});
+        this.setState({scale: Utils.fillArray(ZoomSettings.DEFAULT_SCALE, this.props.fileInfos.length)});
     }
 
     render() {
@@ -280,7 +291,7 @@ export default class ViewImageModal extends React.PureComponent {
                             <PDFPreview
                                 fileInfo={fileInfo}
                                 fileUrl={fileUrl}
-                                scale={this.state.scale}
+                                scale={this.state.scale[this.state.imageIndex]}
                             />
                         </React.Suspense>
                     </div>
@@ -407,7 +418,7 @@ export default class ViewImageModal extends React.PureComponent {
                                 canDownloadFiles={this.props.canDownloadFiles}
                                 isExternalFile={isExternalFile}
                                 onGetPublicLink={this.handleGetPublicLink}
-                                scale={this.state.scale}
+                                scale={this.state.scale[this.state.imageIndex]}
                                 showZoomControls={this.state.showZoomControls}
                                 handleZoomIn={this.handleZoomIn}
                                 handleZoomOut={this.handleZoomOut}
