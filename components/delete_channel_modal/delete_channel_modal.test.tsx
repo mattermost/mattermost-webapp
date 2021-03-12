@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 import {Modal} from 'react-bootstrap';
-import {ChannelType, Channel} from 'mattermost-redux/types/channels';
+import {ChannelType} from 'mattermost-redux/types/channels';
 
 import {browserHistory} from 'utils/browser_history';
 
@@ -27,13 +27,9 @@ describe('components/delete_channel_modal', () => {
         extra_update_at: 1508265709628,
         creator_id: 'zaktnt8bpbgu8mb6ez9k64r7sa',
         scheme_id: '',
-        isCurrent: false,
-        teammate_id: 'teamid',
-        status: 'open',
-        fake: false,
+        props: null,
         group_constrained: false,
-        props: {no: null},
-    } as Channel;
+    };
 
     const currentTeamDetails = {
         name: 'mattermostDev',
