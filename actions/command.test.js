@@ -77,7 +77,6 @@ describe('executeCommand', () => {
                 {type: 'UPDATE_RHS_SEARCH_TERMS', terms: 'foo bar'},
                 {type: 'UPDATE_RHS_STATE', state: 'search'},
                 {type: 'UPDATE_RHS_SEARCH_RESULTS_TERMS', terms: ''},
-                {type: 'SEARCH_POSTS_REQUEST', isGettingMore: false},
             ]);
         });
     });

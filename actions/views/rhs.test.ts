@@ -64,6 +64,7 @@ jest.mock('mattermost-redux/actions/posts', () => ({
 
 jest.mock('mattermost-redux/actions/search', () => ({
     searchPostsWithParams: (...args: any) => ({type: 'MOCK_SEARCH_POSTS', args}),
+    searchFilesWithParams: (...args: any) => ({type: 'MOCK_SEARCH_FILES', args}),
     clearSearch: (...args: any) => ({type: 'MOCK_CLEAR_SEARCH', args}),
     getFlaggedPosts: jest.fn(),
     getPinnedPosts: jest.fn(),
@@ -203,11 +204,13 @@ describe('rhs view actions', () => {
 
             const compareStore = mockStore(initialState);
             compareStore.dispatch(SearchActions.searchPostsWithParams(currentTeamId, {include_deleted_channels: false, terms, is_or_search: false, time_zone_offset: timeZoneOffset, page: 0, per_page: 20}));
+            compareStore.dispatch(SearchActions.searchFilesWithParams(currentTeamId, {include_deleted_channels: false, terms, is_or_search: false, time_zone_offset: timeZoneOffset, page: 0, per_page: 20}));
 
             expect(store.getActions()).toEqual(compareStore.getActions());
 
             store.dispatch(performSearch(terms, true));
             compareStore.dispatch(SearchActions.searchPostsWithParams(currentTeamId, {include_deleted_channels: false, terms, is_or_search: true, time_zone_offset: timeZoneOffset, page: 0, per_page: 20}));
+            compareStore.dispatch(SearchActions.searchFilesWithParams(currentTeamId, {include_deleted_channels: false, terms, is_or_search: true, time_zone_offset: timeZoneOffset, page: 0, per_page: 20}));
 
             expect(store.getActions()).toEqual(compareStore.getActions());
         });
