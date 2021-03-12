@@ -90,16 +90,6 @@ jobs:
           name: Post results to Mattermost
           command: go run ../security-automation-config/dependency-check/post_results.go
 
-  lint:
-    executor:
-      name: default
-    working_directory: ~/mattermost/mattermost-webapp
-    steps:
-      - checkout
-      - *restore_cache
-      - run: |
-          npm run check
-
   i18n-check:
     executor:
       name: default
@@ -261,9 +251,6 @@ workflows:
       #     context: sast-webhook
       #     requires:
       #       - install
-      - lint:
-          requires:
-            - install
       - i18n-check:
           requires:
             - install
