@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {Post} from 'mattermost-redux/types/posts';
+import {Channel} from 'mattermost-redux/types/channels';
 import {FileInfo} from 'mattermost-redux/types/files';
 import {IntlShape} from 'react-intl';
 
@@ -31,6 +32,7 @@ export type OwnProps = {
 export type StateProps = {
     results: Post[];
     fileResults: FileInfo[];
+    channels: Record<string, Channel>;
     matches: Record<string, string[]>;
     searchTerms: string;
     isSearchingTerm: boolean;

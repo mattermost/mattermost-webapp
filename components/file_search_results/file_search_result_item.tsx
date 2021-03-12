@@ -11,6 +11,7 @@ import {isSameYear} from 'utils/datetime';
 import {browserHistory} from 'utils/browser_history';
 
 import Menu from 'components/widgets/menu/menu';
+import Badge from 'components/widgets/badges/badge';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import FileThumbnail from 'components/file_attachment/file_thumbnail';
 
@@ -18,6 +19,7 @@ import './file_search_result_item.scss';
 
 type Props = {
     fileInfo: FileInfo;
+    channelDisplayName: string;
     teamName: string;
     onClick: (fileInfo: FileInfo) => void;
 };
@@ -42,7 +44,7 @@ export default class FileSearchResultItem extends React.PureComponent<Props> {
     }
 
     public render(): React.ReactNode {
-        const {fileInfo} = this.props;
+        const {fileInfo, channelDisplayName} = this.props;
         return (
             <div
                 className='FileSearchResultItem'
@@ -52,6 +54,7 @@ export default class FileSearchResultItem extends React.PureComponent<Props> {
                 <div className='fileData'>
                     <div className='fileDataName'>{fileInfo.name}</div>
                     <div className='fileMetadata'>
+                        <Badge className='file-search-channel-name'>{channelDisplayName}</Badge>
                         <span>{fileSizeToString(fileInfo.size)}</span>
                         <span>{' • '}</span>
                         <FormattedDate

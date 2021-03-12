@@ -10,6 +10,7 @@ import {getSearchFilesResults} from 'mattermost-redux/selectors/entities/files';
 import * as PreferenceSelectors from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentSearchForCurrentTeam} from 'mattermost-redux/selectors/entities/search';
 import {Post} from 'mattermost-redux/types/posts';
+import {Channel} from 'mattermost-redux/types/channels';
 import {FileSearchResult} from 'mattermost-redux/types/files';
 
 import {
@@ -38,6 +39,8 @@ function makeMapStateToProps() {
 
         const newResults = getSearchResults(state);
 
+        const channels: {[key: string]: Channel} = {};
+
         // Cache posts and channels
         if (newResults && newResults !== results) {
             results = newResults;
@@ -52,6 +55,7 @@ function makeMapStateToProps() {
                 if (channel && channel.delete_at !== 0 && !viewArchivedChannels) {
                     return;
                 }
+                channels[post.channel_id] = channel;
 
                 posts.push(post);
             });
@@ -78,6 +82,22 @@ function makeMapStateToProps() {
             });
         }
 
+        fileResults.forEach((file) => {
+            if (!file) {
+                return;
+            }
+            const channel = getChannel(state, file.channel_id);
+            channels[file.channel_id] = channel;
+        });
+
+        results.forEach((post) => {
+            if (!post) {
+                return;
+            }
+            const channel = getChannel(state, post.channel_id);
+            channels[post.channel_id] = channel;
+        });
+
         // this is basically a hack to make ts compiler happy
         // add correct type when it is known what exactly is returned from the function
         const currentSearch = getCurrentSearchForCurrentTeam(state) as unknown as Record<string, any> || {};
@@ -85,6 +105,7 @@ function makeMapStateToProps() {
         return {
             results: posts,
             fileResults: files,
+            channels,
             matches: getSearchMatches(state),
             searchTerms: getSearchResultsTerms(state),
             isSearchingTerm: getIsSearchingTerm(state),

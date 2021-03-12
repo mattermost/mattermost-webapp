@@ -18,6 +18,14 @@
         background-color: var(--center-channel-bg);
         border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
     }
+    .Badge {
+        margin: 0 4px 0 0;
+        .file-search-channel-name {
+            max-width: 100px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
     &:hover {
         @include box-shadow(0 2px 3px 0 rgba($black, 0.1), 0 2px 3px 0 rgba($black, 0.1));
         .action-icon {

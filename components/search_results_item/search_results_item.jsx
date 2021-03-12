@@ -228,8 +228,20 @@ class SearchResultsItem extends React.PureComponent {
     }
 
     render() {
-        const {post, fileInfo, channelIsArchived} = this.props;
-        const channelName = this.getChannelName();
+        const {post, fileInfo, channelIsArchived, channelType} = this.props;
+        let {channelName} = this.props;
+        if (channelType === Constants.DM_CHANNEL) {
+            channelName = this.props.intl.formatMessage({
+                id: 'search_item.file_badge.direct_message',
+                defaultMessage: 'Direct Message',
+            });
+        }
+        if (channelType === Constants.GM_CHANNEL) {
+            channelName = this.props.intl.formatMessage({
+                id: 'search_item.file_badge.group_message',
+                defaultMessage: 'Group Message',
+            });
+        }
         if (fileInfo) {
             return (
                 <div
@@ -239,6 +251,7 @@ class SearchResultsItem extends React.PureComponent {
                     <FileSearchResultItem
                         fileInfo={this.props.fileInfo}
                         teamName={this.props.currentTeamName}
+                        channelDisplayName={channelName}
                         onClick={() => this.setState({showPreview: this.props.fileInfo.postId})}
                     />
                     <ViewImageModal

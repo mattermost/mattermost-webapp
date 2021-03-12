@@ -85,7 +85,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
         // after the first page of search results, there is no way to
         // know if the search has more results to return, so we search
         // for the second page and stop if it yields no results
-        if (props.searchPage === 0) {
+        if (props.searchPage === 0 && !props.isChannelFiles) {
             setTimeout(() => {
                 props.getMorePostsForSearch();
                 props.getMoreFilesForSearch();
@@ -94,7 +94,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
     }, [props.searchPage, props.searchTerms]);
 
     const handleScroll = (): void => {
-        if (!props.isFlaggedPosts && !props.isPinnedPosts && !props.isSearchingTerm && !props.isSearchGettingMore) {
+        if (!props.isFlaggedPosts && !props.isPinnedPosts && !props.isSearchingTerm && !props.isSearchGettingMore && !props.isChannelFiles) {
             const scrollHeight = scrollbars.current?.getScrollHeight() || 0;
             const scrollTop = scrollbars.current?.getScrollTop() || 0;
             const clientHeight = scrollbars.current?.getClientHeight() || 0;
@@ -155,7 +155,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
     const noFileResults = (!fileResults || !Array.isArray(fileResults) || fileResults.length === 0);
     const isLoading = isSearchingTerm || isSearchingFlaggedPost || isSearchingPinnedPost || !isOpened;
     const isAtEnd = (searchType === MESSAGES_SEARCH_TYPE && isSearchAtEnd) || (searchType === FILES_SEARCH_TYPE && isSearchFilesAtEnd);
-    const showLoadMore = !isAtEnd && !isFlaggedPosts && !isPinnedPosts;
+    const showLoadMore = !isAtEnd && !isChannelFiles && !isFlaggedPosts && !isPinnedPosts;
     const isMessagesSearch = (!isFlaggedPosts && !isMentionSearch && !isCard && !isPinnedPosts && !isChannelFiles);
 
     let contentItems;
@@ -274,6 +274,9 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
                     compactDisplay={props.compactDisplay}
                     post={searchType === MESSAGES_SEARCH_TYPE && !props.isChannelFiles ? item : undefined}
                     fileInfo={searchType === FILES_SEARCH_TYPE || props.isChannelFiles ? item : undefined}
+                    channelName={props.channels[item.channel_id] && props.channels[item.channel_id].display_name}
+                    channelType={props.channels[item.channel_id] && props.channels[item.channel_id].type}
+                    channelIsArchived={props.channels[item.channel_id] && props.channels[item.channel_id].delete_at !== 0}
                     matches={props.matches[item.id]}
                     term={(!props.isFlaggedPosts && !props.isPinnedPosts && !props.isMentionSearch && !props.isChannelFiles) ? searchTerms : ''}
                     isMentionSearch={props.isMentionSearch}
