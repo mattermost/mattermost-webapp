@@ -1427,7 +1427,6 @@
   "admin.permissions.roles.team_user.name": "Team User",
   "admin.permissions.sysconsole_section_about_edition_and_license.name": "Edition and License",
   "admin.permissions.sysconsole_section_about.description": "The ability to install or upgrade your servers enterprise licensing.",
-  "admin.permissions.sysconsole_section_about.name": "Edition and License",
   "admin.permissions.sysconsole_section_authentication_email.name": "Email",
   "admin.permissions.sysconsole_section_authentication_guest_access.name": "Guest Access (Beta)",
   "admin.permissions.sysconsole_section_authentication_ldap.name": "AD/LDAP",
