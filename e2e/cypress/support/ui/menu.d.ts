@@ -76,6 +76,6 @@ declare namespace Cypress {
          * @example
          *   uiOpenSetStatusMenu(item);
          */
-        uiOpenSetStatusMenu(): Chainable;
+        uiOpenSetStatusMenu(item): Chainable;
     }
 }
