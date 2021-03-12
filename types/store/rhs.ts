@@ -7,6 +7,8 @@ import {UserProfile} from 'mattermost-redux/types/users';
 import {FileInfo} from 'mattermost-redux/types/files';
 import {$ID} from 'mattermost-redux/types/utilities';
 
+export type SearchType = '' | 'files' | 'messages';
+
 export type FakePost = {
     id: $ID<Post>;
     exists: boolean;
@@ -31,7 +33,7 @@ export type RhsViewState = {
     filesSearchExtFilter: string[];
     rhsState: RhsState;
     searchTerms: string;
-    searchType: string;
+    searchType: SearchType;
     initialSearchType: string;
     pluggableId: string;
     searchResultsTerms: string;

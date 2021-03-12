@@ -10,7 +10,7 @@ describe('components/search_results/FilesFilterMenu', () => {
     const filters = ['all', 'documents', 'spreadsheets', 'presentations', 'code', 'images', 'audio', 'video'];
     for (const filter of filters) {
         test(`should match snapshot, on ${filter} filter selected`, () => {
-            const wrapper: ShallowWrapper<any, any, FilesFilterMenu> = shallow(
+            const wrapper: ShallowWrapper<any, any, any> = shallow(
                 <FilesFilterMenu
                     selectedFilter={filter}
                     onFilter={jest.fn()}

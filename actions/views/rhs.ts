@@ -294,7 +294,7 @@ export function showChannelFiles(channelId?: string) {
             },
         ]));
 
-        const results = await dispatch(performSearch('channel:' + (channelId || currentChannelId)));
+        const results: any = await dispatch(performSearch('channel:' + (channelId || currentChannelId)));
 
         let data: any;
         if (results && results.length === 2 && 'data' in results[1]) {

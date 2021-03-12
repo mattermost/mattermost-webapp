@@ -36,7 +36,7 @@ exports[`components/search_results/MessagesOrFilesSelector should match snapshot
   </div>
   <FilesFilterMenu
     onFilter={[MockFunction]}
-    selectedFilter="filter"
+    selectedFilter="code"
   />
 </div>
 `;

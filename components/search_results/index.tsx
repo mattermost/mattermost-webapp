@@ -11,7 +11,7 @@ import * as PreferenceSelectors from 'mattermost-redux/selectors/entities/prefer
 import {getCurrentSearchForCurrentTeam} from 'mattermost-redux/selectors/entities/search';
 import {Post} from 'mattermost-redux/types/posts';
 import {Channel} from 'mattermost-redux/types/channels';
-import {FileSearchResult} from 'mattermost-redux/types/files';
+import {FileSearchResultItem} from 'mattermost-redux/types/files';
 
 import {
     getSearchResultsTerms,
@@ -28,8 +28,8 @@ import {StateProps, OwnProps} from './types';
 
 function makeMapStateToProps() {
     let results: Post[];
-    let fileResults: FileSearchResult[];
-    let files: FileSearchResult[] = [];
+    let fileResults: FileSearchResultItem[];
+    let files: FileSearchResultItem[] = [];
     let posts: Post[];
 
     return function mapStateToProps(state: GlobalState) {

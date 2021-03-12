@@ -7,7 +7,8 @@ import {Channel} from 'mattermost-redux/types/channels';
 import {FileInfo} from 'mattermost-redux/types/files';
 import {IntlShape} from 'react-intl';
 
-import {SearchFilterType, SearchType} from '../search/types';
+import {SearchFilterType} from '../search/types';
+import {SearchType} from 'types/store/rhs';
 
 export type OwnProps = {
     [key: string]: any;
@@ -23,9 +24,9 @@ export type OwnProps = {
     isOpened?: boolean;
     channelDisplayName?: string;
     children?: React.ReactNode;
-    searchType: string;
+    searchType: SearchType;
     setSearchType: (searchType: SearchType) => void;
-    searchFilterType: string;
+    searchFilterType: SearchFilterType;
     setSearchFilterType: (filterType: SearchFilterType) => void;
 }
 

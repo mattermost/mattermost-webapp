@@ -31,7 +31,7 @@ import type {StateProps, DispatchProps, OwnProps} from './types';
 function mapStateToProps(state: GlobalState) {
     const rhsState = getRhsState(state);
     const config = getConfig(state);
-    const filesSearchEnabled = config.FeatureFlagFilesSearch === 'true';
+    const filesSearchEnabled = (config as any).FeatureFlagFilesSearch === 'true';
 
     return {
         isRhsExpanded: getIsRhsExpanded(state),

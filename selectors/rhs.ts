@@ -13,7 +13,7 @@ import {makeGetGlobalItem} from 'selectors/storage';
 import {PostTypes} from 'utils/constants';
 import {localizeMessage} from 'utils/utils.jsx';
 import {GlobalState} from 'types/store';
-import {RhsState, FakePost, PostDraft} from 'types/store/rhs';
+import {RhsState, FakePost, PostDraft, SearchType} from 'types/store/rhs';
 
 export function getSelectedPostId(state: GlobalState): $ID<Post> {
     return state.views.rhs.selectedPostId;
@@ -91,7 +91,7 @@ export function getSearchTerms(state: GlobalState): string {
     return state.views.rhs.searchTerms;
 }
 
-export function getSearchType(state: GlobalState): string {
+export function getSearchType(state: GlobalState): SearchType {
     return state.views.rhs.searchType;
 }
 

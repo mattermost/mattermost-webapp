@@ -9,7 +9,7 @@ import Scrollbars from 'react-custom-scrollbars';
 import classNames from 'classnames';
 
 import {debounce} from 'mattermost-redux/actions/helpers';
-import {FileSearchResult} from 'mattermost-redux/types/files';
+import {FileSearchResultItem} from 'mattermost-redux/types/files';
 import {Post} from 'mattermost-redux/types/posts';
 
 import * as Utils from 'utils/utils.jsx';
@@ -184,7 +184,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
         noResultsProps.subtitleValues = {text: <strong>{'Pin to Channel'}</strong>};
 
         sortedResults = [...results];
-        sortedResults.sort((postA: Post|FileSearchResult, postB: Post|FileSearchResult) => postB.create_at - postA.create_at);
+        sortedResults.sort((postA: Post|FileSearchResultItem, postB: Post|FileSearchResultItem) => postB.create_at - postA.create_at);
 
         titleDescriptor.id = 'search_header.pinnedPosts';
         titleDescriptor.defaultMessage = 'Pinned Posts';
@@ -267,7 +267,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
             sortedResults = fileResults;
         }
 
-        contentItems = sortedResults.map((item: Post|FileSearchResult, index: number) => {
+        contentItems = sortedResults.map((item: Post|FileSearchResultItem, index: number) => {
             return (
                 <SearchResultsItem
                     key={item.id}

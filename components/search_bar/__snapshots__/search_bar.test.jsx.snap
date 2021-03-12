@@ -86,7 +86,7 @@ exports[`components/search_bar/SearchBar should match snapshot with search, with
       >
         FILES
         <i
-          class="icon icon-close icon-16"
+          class="icon icon-close icon-12"
         />
       </div>
       <div
@@ -253,7 +253,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search, w
       >
         FILES
         <i
-          class="icon icon-close icon-16"
+          class="icon icon-close icon-12"
         />
       </div>
       <div

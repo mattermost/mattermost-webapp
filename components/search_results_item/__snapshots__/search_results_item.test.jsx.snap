@@ -922,6 +922,7 @@ exports[`components/SearchResultsItem should match snapshot for fileInfo 1`] = `
   data-testid="search-item-container"
 >
   <FileSearchResultItem
+    channelDisplayName="channel_name"
     fileInfo={
       Object {
         "clientId": "test-client-id",

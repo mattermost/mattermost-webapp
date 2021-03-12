@@ -4,7 +4,8 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {SearchFilterType, SearchType} from '../search/types';
+import {SearchFilterType} from '../search/types';
+import {SearchType} from 'types/store/rhs';
 
 import FilesFilterMenu from './files_filter_menu';
 
@@ -12,7 +13,7 @@ import './messages_or_files_selector.scss';
 
 type Props = {
     selected: string;
-    selectedFilter: string;
+    selectedFilter: SearchFilterType;
     messagesCounter: string;
     filesCounter: string;
     onChange: (value: SearchType) => void;

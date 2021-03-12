@@ -29,7 +29,7 @@ type Props = {
     handleFocus: () => void;
     handleBlur: () => void;
     keepFocused: boolean;
-    setKeepFocused: (boolean) => void;
+    setKeepFocused: (value: boolean) => void;
     isFocused: boolean;
     suggestionProviders: Provider[];
     isSearchingTerm: boolean;

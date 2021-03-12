@@ -3711,6 +3711,8 @@
   "search_header.title5": "Extra Information",
   "search_item.channelArchived": "Archived",
   "search_item.direct": "Direct Message (with {username})",
+  "search_item.file_badge.direct_message": "Direct Message",
+  "search_item.file_badge.group_message": "Group Message",
   "search_item.jump": "Jump",
   "search_list_option.after": "Messages after a date",
   "search_list_option.before": "Messages before a date",

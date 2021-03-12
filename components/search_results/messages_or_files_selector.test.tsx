@@ -8,10 +8,10 @@ import MessagesOrFilesSelector from 'components/search_results/messages_or_files
 
 describe('components/search_results/MessagesOrFilesSelector', () => {
     test('should match snapshot, on messages selected', () => {
-        const wrapper: ShallowWrapper<any, any, MessagesOrFilesSelector> = shallow(
+        const wrapper: ShallowWrapper<any, any, any> = shallow(
             <MessagesOrFilesSelector
                 selected='messages'
-                selectedFilter='filter'
+                selectedFilter='code'
                 messagesCounter='5'
                 filesCounter='10'
                 onChange={jest.fn()}
@@ -23,10 +23,10 @@ describe('components/search_results/MessagesOrFilesSelector', () => {
     });
 
     test('should match snapshot, on files selected', () => {
-        const wrapper: ShallowWrapper<any, any, MessagesOrFilesSelector> = shallow(
+        const wrapper: ShallowWrapper<any, any, any> = shallow(
             <MessagesOrFilesSelector
                 selected='files'
-                selectedFilter='filter'
+                selectedFilter='code'
                 messagesCounter='5'
                 filesCounter='10'
                 onChange={jest.fn()}

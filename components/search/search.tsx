@@ -20,8 +20,9 @@ import Provider from 'components/suggestion/provider';
 import SearchDateProvider from 'components/suggestion/search_date_provider';
 import SearchChannelProvider from 'components/suggestion/search_channel_provider';
 import SearchUserProvider from 'components/suggestion/search_user_provider';
+import type {SearchType} from 'types/store/rhs';
 
-import type {Props, SearchFilterType, SearchType} from './types';
+import type {Props, SearchFilterType} from './types';
 
 interface SearchHintOption {
     searchTerm: string;
@@ -286,7 +287,6 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
         }
         actions.showFlaggedPosts();
     };
-
 
     const renderMentionButton = (): JSX.Element => (
         <HeaderIconWrapper

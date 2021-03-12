@@ -98,3 +98,107 @@ exports[`components/file_search_result/FileSearchResultItem should match snapsho
   </a>
 </div>
 `;
+
+exports[`components/file_search_result/FileSearchResultItem should match snapshot with channel name 1`] = `
+<div
+  className="FileSearchResultItem"
+  onClick={[Function]}
+>
+  <Connect(FileThumbnail)
+    fileInfo={
+      Object {
+        "clientId": "client_id",
+        "create_at": 1,
+        "delete_at": 1,
+        "extension": "jpg",
+        "has_preview_image": true,
+        "height": 200,
+        "id": "file_info_id",
+        "mime_type": "mime_type",
+        "name": "name",
+        "size": 1,
+        "update_at": 1,
+        "user_id": "user_id",
+        "width": 350,
+      }
+    }
+  />
+  <div
+    className="fileData"
+  >
+    <div
+      className="fileDataName"
+    >
+      name
+    </div>
+    <div
+      className="fileMetadata"
+    >
+      <Memo(Badge)
+        className="file-search-channel-name"
+      >
+        test
+      </Memo(Badge)>
+      <span>
+        1B
+      </span>
+      <span>
+         • 
+      </span>
+      <FormattedDate
+        day="2-digit"
+        month="short"
+        value={1}
+        year="numeric"
+      />
+      <FormattedTime
+        hour="2-digit"
+        minute="2-digit"
+        value={1}
+      />
+    </div>
+  </div>
+  <div
+    onClick={[Function]}
+  >
+    <MenuWrapper
+      animationComponent={[Function]}
+      className=""
+    >
+      <span
+        className="action-icon dots-icon"
+      >
+        <i
+          className="icon icon-dots-vertical"
+        />
+      </span>
+      <Menu
+        ariaLabel="file menu"
+        openLeft={true}
+      >
+        <MenuItemAction
+          ariaLabel="Open in channel"
+          onClick={[Function]}
+          show={true}
+          text="Open in channel"
+        />
+        <MenuItemAction
+          ariaLabel="Copy link"
+          onClick={[Function]}
+          show={true}
+          text="Copy link"
+        />
+      </Menu>
+    </MenuWrapper>
+  </div>
+  <a
+    className="action-icon download-icon"
+    href="/api/v4/files/file_info_id?download=1"
+    onClick={[Function]}
+  >
+    <i
+      className="icon icon-download-outline"
+    />
+  </a>
+</div>
+`;

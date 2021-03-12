@@ -40,6 +40,7 @@ describe('components/search_bar/SearchBar', () => {
         suggestionProviders,
         searchTerms: '',
         keepFocused: false,
+        setKeepFocused: jest.fn(),
         isFocused: false,
         isSideBarRight: false,
         isSearchingTerm: false,

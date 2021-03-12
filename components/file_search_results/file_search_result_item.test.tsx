@@ -11,6 +11,7 @@ import FileSearchResultItem from './file_search_result_item';
 describe('components/file_search_result/FileSearchResultItem', () => {
     const baseProps = {
         fileInfo: TestHelper.getFileInfoMock({}),
+        channelDisplayName: '',
         teamName: 'test-team-name',
         onClick: jest.fn(),
     };
@@ -18,6 +19,19 @@ describe('components/file_search_result/FileSearchResultItem', () => {
     test('should match snapshot', () => {
         const wrapper: ShallowWrapper<any, any, FileSearchResultItem> = shallow(
             <FileSearchResultItem {...baseProps}/>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot with channel name', () => {
+        const props = {
+            ...baseProps,
+            channelDisplayName: 'test',
+        };
+
+        const wrapper: ShallowWrapper<any, any, FileSearchResultItem> = shallow(
+            <FileSearchResultItem {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
