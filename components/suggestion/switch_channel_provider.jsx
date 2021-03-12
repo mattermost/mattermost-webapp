@@ -192,8 +192,6 @@ class SwitchChannelSuggestion extends Suggestion {
 }
 
 function mapStateToPropsForSwitchChannelSuggestion(state, ownProps) {
-    const currentUserId = getCurrentUserId(state);
-    const status = getStatusForUserId(state, currentUserId);
     const channel = ownProps.item && ownProps.item.channel;
     const channelId = channel ? channel.id : '';
     const draft = channelId ? getPostDraft(state, StoragePrefixes.DRAFT, channelId) : false;
@@ -201,6 +199,7 @@ function mapStateToPropsForSwitchChannelSuggestion(state, ownProps) {
     const userImageUrl = user && Utils.imageURLForUser(user.id, user.last_picture_update);
     let dmChannelTeammate = channel && channel.type === Constants.DM_CHANNEL && Utils.getDirectTeammate(state, channel.id);
     const userItem = getUserByUsername(state, channel.name);
+    const status = getStatusForUserId(state, channel.userId);
 
     if (channel && Utils.isEmptyObject(dmChannelTeammate)) {
         dmChannelTeammate = getUser(state, channel.userId);
