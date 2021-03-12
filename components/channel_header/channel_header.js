@@ -312,7 +312,7 @@ class ChannelHeader extends React.PureComponent {
                     emojiSize={15}
                     emojiStyle={{
                         verticalAlign: 'top',
-                        margin: '0 4px 4px',
+                        margin: '0 4px 1px',
                     }}
                 />
                 <CustomStatusText
@@ -527,6 +527,7 @@ class ChannelHeader extends React.PureComponent {
                 <div
                     id='channelHeaderDescription'
                     className='channel-header__description'
+                    dir='auto'
                 >
                     {dmHeaderIconStatus}
                     {dmHeaderTextStatus}
