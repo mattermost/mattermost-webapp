@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @system_console
 
 import {getEmailUrl, splitEmailBodyText, getRandomId} from '../../utils';
@@ -275,8 +274,8 @@ describe('User Management', () => {
         });
 
         // * User does show up in DM More menu so that DM channels can be viewed.
-        cy.get('#directChannelList').findByText(`${otherUser.username}`).should('not.be.visible');
-        cy.get('#moreDirectMessage').should('be.visible').click();
+        cy.uiGetLhsSection('DIRECT MESSAGES').findByText(otherUser.username).should('not.be.visible');
+        cy.uiAddDirectMessage().click();
 
         // * Verify that new messages cannot be posted.
         cy.get('#moreDmModal').should('be.visible').within(() => {
@@ -310,8 +309,8 @@ describe('User Management', () => {
             join(', ');
 
         // # Observe DM and GM in LHS.
-        cy.get('#directChannelList').findByText(displayName).should('be.visible');
-        cy.get('#directChannelList').findByText(`${otherUser.username}`).should('be.visible');
+        cy.uiGetLhsSection('DIRECT MESSAGES').findByText(displayName).should('be.visible');
+        cy.uiGetLhsSection('DIRECT MESSAGES').findByText(otherUser.username).should('be.visible');
 
         // # System Console > Users Deactivate the user.
         cy.apiLogout().apiAdminLogin();
@@ -321,13 +320,13 @@ describe('User Management', () => {
         cy.apiLogin(testUser).visit(`/${testTeam.name}/channels/${testChannel.name}`).wait(TIMEOUTS.HALF_SEC);
 
         // * On returning to the team the DM has been removed from LHS.
-        cy.get('#directChannelList').findByText(`${otherUser.username}`).should('not.be.visible');
+        cy.uiGetLhsSection('DIRECT MESSAGES').findByText(otherUser.username).should('not.be.visible');
 
         // * GM stays in LHS channel list.
-        cy.get('#directChannelList').findByText(displayName).should('be.visible');
+        cy.uiGetLhsSection('DIRECT MESSAGES').findByText(displayName).should('be.visible');
 
         // # Open GM channel.
-        cy.get('#directChannelList').findByText(displayName).click().wait(TIMEOUTS.HALF_SEC);
+        cy.uiGetLhsSection('DIRECT MESSAGES').findByText(displayName).click().wait(TIMEOUTS.HALF_SEC);
 
         // * GM still has message box (is not archived)
         cy.findByTestId('post_textbox').should('be.visible');

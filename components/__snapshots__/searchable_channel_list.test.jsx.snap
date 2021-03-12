@@ -29,6 +29,7 @@ exports[`components/SearchableChannelList should match init snapshot 1`] = `
             "id": "filtered_channels_list.search",
           }
         }
+        tooltipPosition="bottom"
         value=""
       />
     </div>

@@ -8,6 +8,7 @@ exports[`components/post_view/PostAttachment should match snapshot 1`] = `
   <div
     aria-readonly="true"
     className="post-message__text"
+    dir="auto"
     id="postMessageText_post_id"
     onClick={[Function]}
     tabIndex={0}
@@ -46,6 +47,7 @@ exports[`components/post_view/PostAttachment should match snapshot, on Show Less
   <div
     aria-readonly="true"
     className="post-message__text"
+    dir="auto"
     id="postMessageText_post_id"
     onClick={[Function]}
     tabIndex={0}
@@ -84,6 +86,7 @@ exports[`components/post_view/PostAttachment should match snapshot, on Show More
   <div
     aria-readonly="true"
     className="post-message__text"
+    dir="auto"
     id="postMessageText_post_id"
     onClick={[Function]}
     tabIndex={0}
@@ -140,6 +143,7 @@ exports[`components/post_view/PostAttachment should match snapshot, on edited po
   <div
     aria-readonly="true"
     className="post-message__text"
+    dir="auto"
     id="postMessageText_post_id"
     onClick={[Function]}
     tabIndex={0}
@@ -200,6 +204,7 @@ exports[`components/post_view/PostAttachment should match snapshot, on ephemeral
   <div
     aria-readonly="true"
     className="post-message__text"
+    dir="auto"
     id="postMessageText_post_id"
     onClick={[Function]}
     tabIndex={0}

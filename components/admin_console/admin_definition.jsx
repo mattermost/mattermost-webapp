@@ -1625,7 +1625,6 @@ const AdminDefinition = {
             title: t('admin.sidebar.metrics'),
             title_default: 'Performance Monitoring',
             isHidden: it.any(
-                it.not(it.licensedForFeature('Metrics')),
                 it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
             ),
             schema: {
@@ -2052,6 +2051,16 @@ const AdminDefinition = {
                         label_default: 'Show Full Name:',
                         help_text: t('admin.privacy.showFullNameDescription'),
                         help_text_default: 'When false, hides the full name of members from everyone except System Administrators. Username is shown in place of full name.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'TeamSettings.EnableCustomUserStatuses',
+                        label: t('admin.team.customUserStatusesTitle'),
+                        label_default: 'Enable Custom Statuses: ',
+                        help_text: t('admin.team.customUserStatusesDescription'),
+                        help_text_default: 'When true, users can set a descriptive status message and status emoji visible to all users.',
+                        isHidden: it.not(it.configIsTrue('FeatureFlags', 'CustomUserStatuses')),
                         isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
                     },
                 ],

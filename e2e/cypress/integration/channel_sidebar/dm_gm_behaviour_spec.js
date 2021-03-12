@@ -17,13 +17,6 @@ describe('DM category', () => {
     const sysadmin = getAdminAccount();
     let testUser;
     before(() => {
-        // # Enable channel sidebar organization
-        cy.apiUpdateConfig({
-            ServiceSettings: {
-                EnableLegacySidebar: 'default_on',
-            },
-        });
-
         // # Login as test user and visit town-square
         cy.apiInitSetup({loginAfter: true}).then(({team, user}) => {
             testUser = user;

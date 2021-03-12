@@ -59,7 +59,7 @@ type State = {
     inviteError?: string;
 }
 
-export default class ChannelInviteModal<T extends Value> extends React.PureComponent<Props, State> {
+export default class ChannelInviteModal extends React.PureComponent<Props, State> {
     private searchTimeoutId = 0;
     private selectedItemRef = React.createRef<HTMLDivElement>();
 

@@ -4,7 +4,7 @@
 /// <reference types="cypress" />
 
 declare namespace Cypress {
-    interface Chainable<Subject = any> {
+    interface Chainable {
 
         /**
          * Reload the page, same as cy.reload but extended with explicit wait to allow page to load freely

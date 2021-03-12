@@ -4,13 +4,7 @@ exports[`components/invitation_modal/InvitationModalGuestsStep should match the 
 <InvitationModalGuestsStep
   actions={
     Object {
-      "getCloudSubscription": [Function],
-      "getStandardAnalytics": [Function],
-    }
-  }
-  analytics={
-    Object {
-      "TOTAL_USERS": 10,
+      "getSubscriptionStats": [Function],
     }
   }
   currentTeamId="test-team-id"
@@ -23,9 +17,10 @@ exports[`components/invitation_modal/InvitationModalGuestsStep should match the 
   onSubmit={[MockFunction]}
   searchChannels={[MockFunction]}
   searchProfiles={[MockFunction]}
-  subscription={
+  subscriptionStats={
     Object {
       "is_paid_tier": "false",
+      "remaining_seats": 6,
     }
   }
   teamName="Test Team"
@@ -38,13 +33,7 @@ exports[`components/invitation_modal/InvitationModalGuestsStep should match the 
 <InvitationModalGuestsStep
   actions={
     Object {
-      "getCloudSubscription": [Function],
-      "getStandardAnalytics": [Function],
-    }
-  }
-  analytics={
-    Object {
-      "TOTAL_USERS": 10,
+      "getSubscriptionStats": [Function],
     }
   }
   currentTeamId="test-team-id"
@@ -57,9 +46,10 @@ exports[`components/invitation_modal/InvitationModalGuestsStep should match the 
   onSubmit={[MockFunction]}
   searchChannels={[MockFunction]}
   searchProfiles={[MockFunction]}
-  subscription={
+  subscriptionStats={
     Object {
       "is_paid_tier": "false",
+      "remaining_seats": 6,
     }
   }
   teamName="Test Team"
