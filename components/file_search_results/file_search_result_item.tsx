@@ -54,7 +54,7 @@ export default class FileSearchResultItem extends React.PureComponent<Props> {
                 <div className='fileData'>
                     <div className='fileDataName'>{fileInfo.name}</div>
                     <div className='fileMetadata'>
-                        <Badge className='file-search-channel-name'>{channelDisplayName}</Badge>
+                        {channelDisplayName && <Badge className='file-search-channel-name'>{channelDisplayName}</Badge>}
                         <span>{fileSizeToString(fileInfo.size)}</span>
                         <span>{' • '}</span>
                         <FormattedDate

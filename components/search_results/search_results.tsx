@@ -274,9 +274,9 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
                     compactDisplay={props.compactDisplay}
                     post={searchType === MESSAGES_SEARCH_TYPE && !props.isChannelFiles ? item : undefined}
                     fileInfo={searchType === FILES_SEARCH_TYPE || props.isChannelFiles ? item : undefined}
-                    channelName={props.channels[item.channel_id] && props.channels[item.channel_id].display_name}
-                    channelType={props.channels[item.channel_id] && props.channels[item.channel_id].type}
-                    channelIsArchived={props.channels[item.channel_id] && props.channels[item.channel_id].delete_at !== 0}
+                    channelName={!props.isChannelFiles && props.channels[item.channel_id] && props.channels[item.channel_id].display_name}
+                    channelType={!props.isChannelFiles && props.channels[item.channel_id] && props.channels[item.channel_id].type}
+                    channelIsArchived={!props.isChannelFiles && props.channels[item.channel_id] && props.channels[item.channel_id].delete_at !== 0}
                     matches={props.matches[item.id]}
                     term={(!props.isFlaggedPosts && !props.isPinnedPosts && !props.isMentionSearch && !props.isChannelFiles) ? searchTerms : ''}
                     isMentionSearch={props.isMentionSearch}
