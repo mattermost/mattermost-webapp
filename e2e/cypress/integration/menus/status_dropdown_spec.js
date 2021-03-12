@@ -169,7 +169,7 @@ describe('Status dropdown menu', () => {
             });
         });
 
-        it('MM-T2927_4 should show Status header, with no pointer cursor', () => {
+        it('MM-T2927_5 Verify "Set a Custom Header Status" is clickable', () => {
             // # Wait for posts to load
             cy.get('#postListContent').should('be.visible');
 
