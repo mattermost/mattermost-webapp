@@ -6,7 +6,7 @@ exports[`components/Menu should match snapshot with id 1`] = `
     Object {
       "closeRhsMenu": [MockFunction],
       "closeRightHandSide": [MockFunction],
-      "getCloudSubscription": [MockFunction],
+      "getSubscriptionStats": [MockFunction],
       "openModal": [MockFunction],
       "showFlaggedPosts": [MockFunction],
       "showMentions": [MockFunction],
@@ -87,7 +87,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
     Object {
       "closeRhsMenu": [MockFunction],
       "closeRightHandSide": [MockFunction],
-      "getCloudSubscription": [MockFunction],
+      "getSubscriptionStats": [MockFunction],
       "openModal": [MockFunction],
       "showFlaggedPosts": [MockFunction],
       "showMentions": [MockFunction],
@@ -167,7 +167,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
     Object {
       "closeRhsMenu": [MockFunction],
       "closeRightHandSide": [MockFunction],
-      "getCloudSubscription": [MockFunction],
+      "getSubscriptionStats": [MockFunction],
       "openModal": [MockFunction],
       "showFlaggedPosts": [MockFunction],
       "showMentions": [MockFunction],
@@ -247,7 +247,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
     Object {
       "closeRhsMenu": [MockFunction],
       "closeRightHandSide": [MockFunction],
-      "getCloudSubscription": [MockFunction],
+      "getSubscriptionStats": [MockFunction],
       "openModal": [MockFunction],
       "showFlaggedPosts": [MockFunction],
       "showMentions": [MockFunction],
@@ -327,7 +327,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
     Object {
       "closeRhsMenu": [MockFunction],
       "closeRightHandSide": [MockFunction],
-      "getCloudSubscription": [MockFunction],
+      "getSubscriptionStats": [MockFunction],
       "openModal": [MockFunction],
       "showFlaggedPosts": [MockFunction],
       "showMentions": [MockFunction],
@@ -407,7 +407,7 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
     Object {
       "closeRhsMenu": [MockFunction],
       "closeRightHandSide": [MockFunction],
-      "getCloudSubscription": [MockFunction],
+      "getSubscriptionStats": [MockFunction],
       "openModal": [MockFunction],
       "showFlaggedPosts": [MockFunction],
       "showMentions": [MockFunction],
@@ -502,7 +502,7 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
     Object {
       "closeRhsMenu": [MockFunction],
       "closeRightHandSide": [MockFunction],
-      "getCloudSubscription": [MockFunction],
+      "getSubscriptionStats": [MockFunction],
       "openModal": [MockFunction],
       "showFlaggedPosts": [MockFunction],
       "showMentions": [MockFunction],
