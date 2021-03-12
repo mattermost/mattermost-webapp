@@ -8,7 +8,7 @@ export default function EditIcon() {
     const {formatMessage} = useIntl();
     return (
         <i
-            className='fa fa-pencil'
+            className='icon-pencil-outline'
             title={formatMessage({id: 'generic_icons.edit', defaultMessage: 'Edit Icon'})}
         />
     );

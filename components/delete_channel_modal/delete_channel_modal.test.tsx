@@ -4,9 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 import {Modal} from 'react-bootstrap';
-import {ChannelType} from 'mattermost-redux/types/channels';
-
-import {Channel} from 'mattermost-redux/types/channels';
+import {ChannelType, Channel} from 'mattermost-redux/types/channels';
 
 import {browserHistory} from 'utils/browser_history';
 
@@ -34,7 +32,7 @@ describe('components/delete_channel_modal', () => {
         status: 'open',
         fake: false,
         group_constrained: false,
-        props: {'no' : null},
+        props: {no: null},
     } as Channel;
 
     const currentTeamDetails = {
