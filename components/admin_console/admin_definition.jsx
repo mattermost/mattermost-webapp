@@ -931,18 +931,6 @@ const AdminDefinition = {
                         isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
                     },
                     {
-                        type: Constants.SettingsTypes.TYPE_BOOL,
-                        key: 'FileSettings.ExtractContent',
-                        label: t('admin.image.extractContentTitle'),
-                        label_default: 'Enable Document Content Extraction:',
-                        help_text: t('admin.image.extractContentDescription'),
-                        help_text_default: 'When true, the system indexes the uploaded documents by its content if the file type is supported.',
-                        isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('environment')),
-                        ),
-                        isHidden: it.not(it.configIsTrue('FeatureFlags', 'FilesSearch')),
-                    },
-                    {
                         type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'FileSettings.Directory',
                         label: t('admin.image.localTitle'),
@@ -968,6 +956,18 @@ const AdminDefinition = {
                         onConfigLoad: (configVal) => configVal / MEBIBYTE,
                         onConfigSave: (displayVal) => displayVal * MEBIBYTE,
                         isDisabled: it.not(it.userHasWritePermissionOnResource('environment')),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'FileSettings.ExtractContent',
+                        label: t('admin.image.extractContentTitle'),
+                        label_default: 'Enable document search by content:',
+                        help_text: t('admin.image.extractContentDescription'),
+                        help_text_default: 'When enabled, supported document types are searchable by their content. Search results for existing documents may be incomplete until a data migration is executed.',
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('environment')),
+                        ),
+                        isHidden: it.not(it.configIsTrue('FeatureFlags', 'FilesSearch')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
