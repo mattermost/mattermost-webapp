@@ -1,13 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 import {connect} from 'react-redux';
+import {bindActionCreators, Dispatch} from 'redux';
 
 import {
     getConfig,
     getLicense,
-    getSubscriptionStats,
+    getSubscriptionStats as selectSubscriptionStats,
 } from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+import {getSubscriptionStats} from 'mattermost-redux/actions/cloud';
 
 import {GlobalState} from 'types/store';
 
@@ -20,8 +22,14 @@ function mapStateToProps(state: GlobalState) {
         userLimit: getConfig(state).ExperimentalCloudUserLimit,
         userIsAdmin: isAdmin(getCurrentUser(state).roles),
         isCloud: getLicense(state).Cloud === 'true',
-        subscriptionStats: getSubscriptionStats(state),
+        subscriptionStats: selectSubscriptionStats(state),
     };
 }
 
-export default connect(mapStateToProps)(InvitationModalGuestsStep);
+function mapDispatchToProps(dispatch: Dispatch) {
+    return {
+        actions: bindActionCreators({getSubscriptionStats}, dispatch),
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(InvitationModalGuestsStep);
