@@ -27,7 +27,7 @@ import {appsEnabled} from 'utils/apps';
 
 import {GlobalState} from 'types/store';
 
-import {AppCommandParser} from './app_command_parser';
+import {AppCommandParser} from './app_command_parser/app_command_parser';
 
 const EXECUTE_CURRENT_COMMAND_ITEM_ID = Constants.Integrations.EXECUTE_CURRENT_COMMAND_ITEM_ID;
 

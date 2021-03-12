@@ -26,7 +26,7 @@ import {Constants, ModalIdentifiers} from 'utils/constants';
 import {browserHistory} from 'utils/browser_history';
 
 import UserSettingsModal from 'components/user_settings/modal';
-import {AppCommandParser} from 'components/suggestion/command_provider/app_command_parser';
+import {AppCommandParser} from 'components/suggestion/command_provider/app_command_parser/app_command_parser';
 
 import {GlobalState} from 'types/store';
 
