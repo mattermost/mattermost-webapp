@@ -8,8 +8,9 @@ import {UserProfile} from 'mattermost-redux/types/users';
 
 import {TestHelper} from '../../../../utils/test_helper';
 
-import SystemUsersDropdown, {Props} from './system_users_dropdown';
 import Menu from 'components/widgets/menu/menu';
+
+import SystemUsersDropdown, {Props} from './system_users_dropdown';
 
 describe('components/admin_console/system_users/system_users_dropdown/system_users_dropdown', () => {
     const user: UserProfile & {mfa_active: boolean} = Object.assign(TestHelper.getUserMock(), {mfa_active: true});
