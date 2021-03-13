@@ -63,50 +63,6 @@ exports[`components/ChannelInfoModal should match snapshot 1`] = `
         className="info__label"
       >
         <FormattedMessage
-          defaultMessage="Purpose:"
-          id="channel_info.purpose"
-        />
-      </div>
-      <div
-        className="info__value"
-      >
-        purpose
-      </div>
-    </div>
-    <div
-      className="form-group"
-    >
-      <div
-        className="info__label"
-      >
-        <FormattedMessage
-          defaultMessage="Header:"
-          id="channel_info.header"
-        />
-      </div>
-      <div
-        className="info__value"
-        onClick={[Function]}
-      >
-        <Connect(Markdown)
-          message="header"
-          options={
-            Object {
-              "channelNamesMap": undefined,
-              "mentionHighlight": false,
-              "singleline": false,
-            }
-          }
-        />
-      </div>
-    </div>
-    <div
-      className="form-group"
-    >
-      <div
-        className="info__label"
-      >
-        <FormattedMessage
           defaultMessage="URL:"
           id="channel_info.url"
         />

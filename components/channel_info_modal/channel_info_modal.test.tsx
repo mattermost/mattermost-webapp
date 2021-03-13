@@ -11,7 +11,10 @@ import ChannelInfoModal from 'components/channel_info_modal/channel_info_modal';
 import {TestHelper} from 'utils/test_helper';
 
 describe('components/ChannelInfoModal', () => {
-    const mockChannel = TestHelper.getChannelMock();
+    const mockChannel = TestHelper.getChannelMock({
+        header: '',
+        purpose: '',
+    });
     const mockTeam = TestHelper.getTeamMock();
     it('should match snapshot', () => {
         const wrapper = shallow(
