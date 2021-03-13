@@ -263,7 +263,7 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
       />
       <MenuItemAction
         onClick={[Function]}
-        show={true}
+        show={false}
         text="Manage Roles"
       />
       <MenuItemAction
@@ -517,7 +517,7 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
       />
       <MenuItemAction
         onClick={[Function]}
-        show={true}
+        show={false}
         text="Manage Roles"
       />
       <MenuItemAction
