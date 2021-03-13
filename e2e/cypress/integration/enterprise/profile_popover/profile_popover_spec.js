@@ -39,7 +39,7 @@ describe('Profile popover', () => {
         cy.apiAdminLogin();
         cy.apiResetRoles();
         cy.visit('/admin_console/user_management/permissions/system_scheme');
-        cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'System Scheme');
+        cy.get('.admin-console__header', {timeout: TIMEOUTS.TWO_MIN}).should('be.visible').and('have.text', 'System Scheme');
     });
 
     it('MM-T2 Add user — Error if already in channel', () => {
@@ -136,8 +136,8 @@ describe('Profile popover', () => {
             // * And verify that button is disabled
             cy.get('#add-user-to-channel-modal__add-button').should('be.disabled');
 
-            // # Clear text box, type "private" and press enter.
-            cy.get('input').should('be.visible').clear().type('private').wait(TIMEOUTS.HALF_SEC).type('{enter}');
+            // # Clear text box, type "Test Channel" and press enter.
+            cy.get('input').should('be.visible').clear().type('Test Channel').wait(TIMEOUTS.HALF_SEC).type('{enter}');
 
             // * Verify that button is enabled
             cy.get('#add-user-to-channel-modal__add-button').should('not.be.disabled');
@@ -260,14 +260,14 @@ describe('Profile popover', () => {
         clickAddToChannel(testUser);
 
         cy.get('div[aria-labelledby="addChannelModalLabel"]').within(() => {
-            // # Type "Channel" and press enter.
-            cy.get('input').should('be.visible').type('Channel').wait(TIMEOUTS.HALF_SEC).type('{enter}');
+            // # Type "Public" and press enter.
+            cy.get('input').should('be.visible').type('Public').wait(TIMEOUTS.HALF_SEC).type('{enter}');
 
             // * And verify that button is disabled
             cy.get('#add-user-to-channel-modal__add-button').should('be.disabled');
 
-            // # Clear text box, type "private" and press enter.
-            cy.get('input').should('be.visible').clear().type('private').wait(TIMEOUTS.HALF_SEC).type('{enter}');
+            // # Clear text box, type "Test Channel" and press enter.
+            cy.get('input').should('be.visible').clear().type('Test Channel').wait(TIMEOUTS.HALF_SEC).type('{enter}');
 
             // * Verify that button is enabled.
             cy.get('#add-user-to-channel-modal__add-button').should('not.be.disabled');
@@ -319,8 +319,8 @@ describe('Profile popover', () => {
             // * Verify that button is disabled.
             cy.get('#add-user-to-channel-modal__add-button').should('be.disabled');
 
-            // # Clear text box, type "private" and press enter.
-            cy.get('input').should('be.visible').clear().type('private').wait(TIMEOUTS.HALF_SEC).type('{enter}');
+            // # Clear text box, type "Test Channel" and press enter.
+            cy.get('input').should('be.visible').clear().type('Test Channel').wait(TIMEOUTS.HALF_SEC).type('{enter}');
 
             // * Verify that button is enabled.
             cy.get('#add-user-to-channel-modal__add-button').should('not.be.disabled');
@@ -456,7 +456,7 @@ const verifyAddToChannel = (user, visible = true) => {
 const clickAddToChannel = (user) => {
     // # Open profile popover
     cy.get('#postListContent', {timeout: TIMEOUTS.ONE_MIN}).within(() => {
-        cy.findAllByText(user.username).first().should('have.text', user.username).click();
+        cy.findAllByText(`${user.username}`).first().should('have.text', user.username).click();
     });
 
     // * Add to a Channel should not be visible
