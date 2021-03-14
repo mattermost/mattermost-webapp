@@ -6,9 +6,9 @@ import {bindActionCreators, Dispatch} from 'redux';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 
-import {GlobalState} from 'types/store/index.js';
-
 import {GenericAction} from 'mattermost-redux/types/actions';
+
+import {GlobalState} from 'types/store/index';
 
 import {setRhsExpanded, showPinnedPosts, openRHSSearch, closeRightHandSide, openAtPrevious, updateSearchTerms} from 'actions/views/rhs';
 import {
@@ -22,7 +22,7 @@ import {
 } from 'selectors/rhs';
 import {RHSStates} from 'utils/constants';
 
-import SidebarRight from './sidebar_right.jsx';
+import SidebarRight from './sidebar_right';
 
 function mapStateToProps(state: GlobalState) {
     const rhsState = getRhsState(state);

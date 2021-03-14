@@ -53,8 +53,8 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
     sidebarRight: React.RefObject<HTMLDivElement>;
     previous: { searchVisible: boolean | undefined; isMentionSearch: boolean | undefined; isPinnedPosts: boolean | undefined; isFlaggedPosts: boolean | undefined; selectedPostId: string | undefined; selectedPostCardId: string | undefined; previousRhsState: string | undefined } | undefined;
     toggleSize: unknown;
-    focusSearchBar: unknown;
-    constructor(props: Props) {
+    focusSearchBar: any;
+    public constructor(props: Props) {
         super(props);
 
         this.sidebarRight = React.createRef();
@@ -62,7 +62,6 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
             isOpened: false,
         };
     }
-
 
     setPrevious = (): unknown => {
         if (!this.props.isOpen) {
@@ -91,7 +90,7 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
         }
     }
 
-    componentDidMount(): void {
+    public componentDidMount(): void {
         window.addEventListener('resize', this.determineTransition);
         document.addEventListener('keydown', this.handleShortcut);
         this.determineTransition();
@@ -160,7 +159,7 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
         this.focusSearchBar = focusSearchBar;
     }
 
-    render() {
+    public render(): JSX.Element {
         const {
             rhsChannel,
             currentUserId,
