@@ -1,49 +1,60 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 
-import {trackEvent} from 'actions/telemetry_actions.jsx';
+import {Channel} from 'mattermost-redux/types/channels';
+
+import {trackEvent} from 'actions/telemetry_actions';
 import Constants from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 import FileUploadOverlay from 'components/file_upload_overlay';
 import RhsThread from 'components/rhs_thread';
 import RhsCard from 'components/rhs_card';
-import Search from 'components/search/index.tsx';
+import Search from 'components/search/index';
 
 import RhsPlugin from 'plugins/rhs_plugin';
 
-export default class SidebarRight extends React.PureComponent {
-    static propTypes = {
-        isExpanded: PropTypes.bool.isRequired,
-        isOpen: PropTypes.bool.isRequired,
-        currentUserId: PropTypes.string.isRequired,
-        channel: PropTypes.object,
-        postRightVisible: PropTypes.bool,
-        postCardVisible: PropTypes.bool,
-        searchVisible: PropTypes.bool,
-        isMentionSearch: PropTypes.bool,
-        isFlaggedPosts: PropTypes.bool,
-        isPinnedPosts: PropTypes.bool,
-        isPluginView: PropTypes.bool,
-        previousRhsState: PropTypes.string,
-        rhsChannel: PropTypes.object,
-        selectedPostId: PropTypes.string,
-        selectedPostCardId: PropTypes.string,
-        actions: PropTypes.shape({
-            setRhsExpanded: PropTypes.func.isRequired,
-            showPinnedPosts: PropTypes.func.isRequired,
-            openRHSSearch: PropTypes.func.isRequired,
-            closeRightHandSide: PropTypes.func.isRequired,
-            openAtPrevious: PropTypes.func.isRequired,
-            updateSearchTerms: PropTypes.func.isRequired,
-        }),
-    };
+import {ReturnSetRhsExpanded, ReturnUpdateSearchTerms} from './sidebar_right_types';
 
-    constructor(props) {
+type Props = {
+    isExpanded: boolean;
+    isOpen: boolean;
+    currentUserId: string;
+    channel?: Channel;
+    postRightVisible?: boolean;
+    postCardVisible?: boolean;
+    searchVisible: boolean;
+    isMentionSearch?: boolean;
+    isFlaggedPosts?: boolean;
+    isPinnedPosts?: boolean;
+    isPluginView?: boolean;
+    previousRhsState?: string;
+    rhsChannel: Channel;
+    selectedPostId?: string;
+    selectedPostCardId?: string;
+    actions: {
+        setRhsExpanded: (expanded: boolean) => ReturnSetRhsExpanded;
+        showPinnedPosts: (channelId?: string) => unknown;
+        openRHSSearch: () => unknown;
+        closeRightHandSide: () => unknown;
+        openAtPrevious: (previous: unknown) => unknown;
+        updateSearchTerms: (terms: string) => ReturnUpdateSearchTerms;
+    };
+};
+
+type State = {
+    isOpened: boolean;
+}
+
+export default class SidebarRight extends React.PureComponent<Props, State> {
+    sidebarRight: React.RefObject<HTMLDivElement>;
+    previous: { searchVisible: boolean | undefined; isMentionSearch: boolean | undefined; isPinnedPosts: boolean | undefined; isFlaggedPosts: boolean | undefined; selectedPostId: string | undefined; selectedPostCardId: string | undefined; previousRhsState: string | undefined } | undefined;
+    toggleSize: unknown;
+    focusSearchBar: unknown;
+    constructor(props: Props) {
         super(props);
 
         this.sidebarRight = React.createRef();
@@ -52,6 +63,7 @@ export default class SidebarRight extends React.PureComponent {
         };
     }
 
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     setPrevious = () => {
         if (!this.props.isOpen) {
             return;
@@ -68,7 +80,8 @@ export default class SidebarRight extends React.PureComponent {
         };
     }
 
-    handleShortcut = (e) => {
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+    handleShortcut = (e: { preventDefault: () => void }) => {
         if (Utils.cmdOrCtrlPressed(e) && Utils.isKeyPressed(e, Constants.KeyCodes.PERIOD)) {
             e.preventDefault();
             if (this.props.isOpen) {
@@ -79,12 +92,14 @@ export default class SidebarRight extends React.PureComponent {
         }
     }
 
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     componentDidMount() {
         window.addEventListener('resize', this.determineTransition);
         document.addEventListener('keydown', this.handleShortcut);
         this.determineTransition();
     }
 
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     componentWillUnmount() {
         window.removeEventListener('resize', this.determineTransition);
         document.removeEventListener('keydown', this.handleShortcut);
@@ -93,7 +108,8 @@ export default class SidebarRight extends React.PureComponent {
         }
     }
 
-    componentDidUpdate(prevProps) {
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+    componentDidUpdate(prevProps: Props) {
         const wasOpen = prevProps.searchVisible || prevProps.postRightVisible;
         const isOpen = this.props.searchVisible || this.props.postRightVisible;
 
@@ -114,6 +130,7 @@ export default class SidebarRight extends React.PureComponent {
         this.setPrevious();
     }
 
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     determineTransition = () => {
         const transitionInfo = window.getComputedStyle(this.sidebarRight.current).getPropertyValue('transition');
         const hasTransition = Boolean(transitionInfo) && transitionInfo !== 'all 0s ease 0s';
@@ -129,25 +146,30 @@ export default class SidebarRight extends React.PureComponent {
         }
     }
 
-    onFinishTransition = (e) => {
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+    onFinishTransition = (e: { propertyName: string }) => {
         if (e.propertyName === 'transform') {
             this.setState({isOpened: this.props.isOpen});
         }
     }
 
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     onShrink = () => {
         this.props.actions.setRhsExpanded(false);
     };
 
-    handleUpdateSearchTerms = (term) => {
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+    handleUpdateSearchTerms = (term: string) => {
         this.props.actions.updateSearchTerms(term);
         this.focusSearchBar();
     }
 
-    getSearchBarFocus = (focusSearchBar) => {
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+    getSearchBarFocus = (focusSearchBar: unknown) => {
         this.focusSearchBar = focusSearchBar;
     }
 
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     render() {
         const {
             rhsChannel,

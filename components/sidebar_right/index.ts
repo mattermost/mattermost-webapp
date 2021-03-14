@@ -2,9 +2,13 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {bindActionCreators, Dispatch} from 'redux';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
+
+import {GlobalState} from 'types/store/index.js';
+
+import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {setRhsExpanded, showPinnedPosts, openRHSSearch, closeRightHandSide, openAtPrevious, updateSearchTerms} from 'actions/views/rhs';
 import {
@@ -20,7 +24,7 @@ import {RHSStates} from 'utils/constants';
 
 import SidebarRight from './sidebar_right.jsx';
 
-function mapStateToProps(state) {
+function mapStateToProps(state: GlobalState) {
     const rhsState = getRhsState(state);
     const channel = getCurrentChannel(state);
 
@@ -46,7 +50,7 @@ function mapStateToProps(state) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
             setRhsExpanded,
