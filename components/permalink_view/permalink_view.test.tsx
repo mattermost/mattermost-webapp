@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {shallow} from 'enzyme';
+import {shallow, ShallowWrapper} from 'enzyme';
 import React from 'react';
 import thunk from 'redux-thunk';
 import configureStore from 'redux-mock-store';
@@ -12,7 +12,7 @@ import {ErrorPageTypes} from 'utils/constants';
 import {browserHistory} from 'utils/browser_history';
 
 import {focusPost} from 'components/permalink_view/actions';
-import PermalinkView from 'components/permalink_view/permalink_view.jsx';
+import PermalinkView from 'components/permalink_view/permalink_view';
 
 const mockStore = configureStore([thunk]);
 
@@ -51,9 +51,9 @@ jest.mock('mattermost-redux/actions/posts', () => ({
 }));
 
 jest.mock('mattermost-redux/actions/channels', () => ({
-    selectChannel: (...args) => ({type: 'MOCK_SELECT_CHANNEL', args}),
-    joinChannel: (...args) => ({type: 'MOCK_JOIN_CHANNEL', args}),
-    getChannelStats: (...args) => ({type: 'MOCK_GET_CHANNEL_STATS', args}),
+    selectChannel: (...args: any) => ({type: 'MOCK_SELECT_CHANNEL', args}),
+    joinChannel: (...args: any) => ({type: 'MOCK_JOIN_CHANNEL', args}),
+    getChannelStats: (...args: any) => ({type: 'MOCK_GET_CHANNEL_STATS', args}),
     getChannel: jest.fn((channelId) => {
         switch (channelId) {
         case 'channelid2':
@@ -87,7 +87,7 @@ describe('components/PermalinkView', () => {
     });
 
     test('should call baseProps.actions.focusPost on doPermalinkEvent', async () => {
-        const wrapper = shallow(
+        const wrapper: ShallowWrapper<any,any,PermalinkView> = shallow(
             <PermalinkView {...baseProps}/>,
         );
 

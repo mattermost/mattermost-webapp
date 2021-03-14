@@ -2,41 +2,46 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 
-import Constants from 'utils/constants.jsx';
-import * as Utils from 'utils/utils.jsx';
+import Constants from 'utils/constants';
+import * as Utils from 'utils/utils';
 
-export default class PermalinkView extends React.PureComponent {
-    static propTypes = {
-        channelId: PropTypes.string,
 
-        /*
-         * Object from react-router
-         */
-        match: PropTypes.shape({
-            params: PropTypes.shape({
-                postid: PropTypes.string.isRequired,
-            }).isRequired,
-        }).isRequired,
-        returnTo: PropTypes.string.isRequired,
-        teamName: PropTypes.string,
-        actions: PropTypes.shape({
-            focusPost: PropTypes.func.isRequired,
-        }).isRequired,
-        currentUserId: PropTypes.string.isRequired,
+type Props= {
+    channelId: string;
+    match: {
+        params: {
+            postid: string;
+        };
     };
+    returnTo: string;
+    teamName: string;
+    actions: {
+        focusPost:(postId: string, returnTo?: string,currentUserId?: string) =>void;
+    };
+    currentUserId: string;
+}
+type State ={ 
+    valid: boolean;
+    postid: string;
+}
 
-    static getDerivedStateFromProps(props, state) {
+export default class PermalinkView extends React.PureComponent<Props,State> {
+
+    mounted: boolean | undefined;
+    permalink: any;
+
+
+    static getDerivedStateFromProps(props:Props , state: State) {
         let updatedState = {postid: props.match.params.postid};
         if (state.postid !== props.match.params.postid) {
-            updatedState = {...updatedState, valid: false};
+            updatedState = {...updatedState, ...{valid: false}};
         }
 
         return updatedState;
     }
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
         this.state = {valid: false};
     }
@@ -57,7 +62,7 @@ export default class PermalinkView extends React.PureComponent {
         this.mounted = false;
     }
 
-    doPermalinkEvent = async (props) => {
+    doPermalinkEvent = async (props: Props) => {
         const postId = props.match.params.postid;
         await this.props.actions.focusPost(postId, this.props.returnTo, this.props.currentUserId);
         if (this.mounted) {
@@ -69,7 +74,7 @@ export default class PermalinkView extends React.PureComponent {
         return this.state.valid && this.props.channelId && this.props.teamName;
     }
 
-    onShortcutKeyDown = (e) => {
+    onShortcutKeyDown = (e: any) => {
         if (e.shiftKey && Utils.cmdOrCtrlPressed(e) && Utils.isKeyPressed(e, Constants.KeyCodes.L) && this.permalink.current) {
             this.permalink.current.focus();
         }
