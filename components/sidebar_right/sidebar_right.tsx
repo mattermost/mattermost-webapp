@@ -63,8 +63,8 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
         };
     }
 
-    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-    setPrevious = () => {
+
+    setPrevious = (): unknown => {
         if (!this.props.isOpen) {
             return;
         }
@@ -80,8 +80,7 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
         };
     }
 
-    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-    handleShortcut = (e: { preventDefault: () => void }) => {
+    handleShortcut = (e: { preventDefault: () => void }): void => {
         if (Utils.cmdOrCtrlPressed(e) && Utils.isKeyPressed(e, Constants.KeyCodes.PERIOD)) {
             e.preventDefault();
             if (this.props.isOpen) {
@@ -92,15 +91,13 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
         }
     }
 
-    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-    componentDidMount() {
+    componentDidMount(): void {
         window.addEventListener('resize', this.determineTransition);
         document.addEventListener('keydown', this.handleShortcut);
         this.determineTransition();
     }
 
-    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-    componentWillUnmount() {
+    componentWillUnmount(): void {
         window.removeEventListener('resize', this.determineTransition);
         document.removeEventListener('keydown', this.handleShortcut);
         if (this.sidebarRight.current) {
@@ -108,8 +105,7 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
         }
     }
 
-    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-    componentDidUpdate(prevProps: Props) {
+    componentDidUpdate(prevProps: Props): void {
         const wasOpen = prevProps.searchVisible || prevProps.postRightVisible;
         const isOpen = this.props.searchVisible || this.props.postRightVisible;
 
@@ -130,8 +126,7 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
         this.setPrevious();
     }
 
-    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-    determineTransition = () => {
+    determineTransition = (): void => {
         const transitionInfo = window.getComputedStyle(this.sidebarRight.current).getPropertyValue('transition');
         const hasTransition = Boolean(transitionInfo) && transitionInfo !== 'all 0s ease 0s';
 
@@ -146,30 +141,25 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
         }
     }
 
-    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-    onFinishTransition = (e: { propertyName: string }) => {
+    onFinishTransition = (e: { propertyName: string }): void => {
         if (e.propertyName === 'transform') {
             this.setState({isOpened: this.props.isOpen});
         }
     }
 
-    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-    onShrink = () => {
+    onShrink = (): void => {
         this.props.actions.setRhsExpanded(false);
     };
 
-    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-    handleUpdateSearchTerms = (term: string) => {
+    handleUpdateSearchTerms = (term: string): void => {
         this.props.actions.updateSearchTerms(term);
         this.focusSearchBar();
     }
 
-    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-    getSearchBarFocus = (focusSearchBar: unknown) => {
+    getSearchBarFocus = (focusSearchBar: unknown): void => {
         this.focusSearchBar = focusSearchBar;
     }
 
-    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     render() {
         const {
             rhsChannel,
