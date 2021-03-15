@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {getChannel, selectChannel, joinChannel, getChannelStats} from 'mattermost-redux/actions/channels';
+import {getChannel, getChannelMember, selectChannel, joinChannel, getChannelStats} from 'mattermost-redux/actions/channels';
 import {getPostThread} from 'mattermost-redux/actions/posts';
 import {getCurrentTeam, getTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser, getUser} from 'mattermost-redux/selectors/entities/users';
@@ -45,7 +45,7 @@ export function focusPost(postId, returnTo = '', currentUserId) {
             channel = channelData;
         }
 
-        const myMember = state.entities.channels.myMembers[channelId];
+        let myMember = state.entities.channels.myMembers[channelId];
 
         if (!myMember) {
             // If it's a DM or GM channel and we don't have a channel member for it already, user is not a member
@@ -54,18 +54,24 @@ export function focusPost(postId, returnTo = '', currentUserId) {
                 return;
             }
 
-            // Prompt system admin before joining the private channel
-            const user = getCurrentUser(state);
-            if (channel.type === Constants.PRIVATE_CHANNEL && isSystemAdmin(user.roles)) {
-                privateChannelJoinPromptVisible = true;
-                const joinPromptResult = await dispatch(joinPrivateChannelPrompt(currentTeam, channel));
-                privateChannelJoinPromptVisible = false;
-                if ('data' in joinPromptResult && !joinPromptResult.data.join) {
-                    return;
-                }
+            const membership = await dispatch(getChannelMember(channel.id, currentUserId));
+            if ('data' in membership) {
+                myMember = membership.data;
             }
 
-            await dispatch(joinChannel(currentUserId, null, channelId));
+            if (!myMember) {
+                // Prompt system admin before joining the private channel
+                const user = getCurrentUser(state);
+                if (channel.type === Constants.PRIVATE_CHANNEL && isSystemAdmin(user.roles)) {
+                    privateChannelJoinPromptVisible = true;
+                    const joinPromptResult = await dispatch(joinPrivateChannelPrompt(currentTeam, channel));
+                    privateChannelJoinPromptVisible = false;
+                    if ('data' in joinPromptResult && !joinPromptResult.data.join) {
+                        return;
+                    }
+                }
+                await dispatch(joinChannel(currentUserId, null, channelId));
+            }
         }
 
         if (channel.team_id && channel.team_id !== teamId) {
