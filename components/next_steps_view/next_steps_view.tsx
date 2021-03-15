@@ -32,7 +32,6 @@ type Props = {
     preferences: PreferenceType[];
     isFirstAdmin: boolean;
     steps: StepType[];
-    isCloud: boolean;
     team: Team;
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
@@ -342,7 +341,6 @@ export default class NextStepsView extends React.PureComponent<Props, State> {
                         savePreferences={this.props.actions.savePreferences}
                         currentUserId={this.props.currentUser.id}
                         setShowNextStepsView={this.props.actions.setShowNextStepsView}
-                        isCloud={this.props.isCloud}
                         team={this.props.team}
                     />
                 </>}

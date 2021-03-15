@@ -16,16 +16,11 @@ import Card from 'components/card/card';
 import MoreChannels from 'components/more_channels';
 import TeamMembersModal from 'components/team_members_modal';
 import MarketplaceModal from 'components/plugin_marketplace';
-import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import RemoveNextStepsModal from 'components/sidebar/sidebar_next_steps/remove_next_steps_modal';
-import Menu from 'components/widgets/menu/menu';
 import downloadApps from 'images/download-app.svg';
-import tipsNextStepsImage1 from 'images/tips_next_steps1.svg';
-import tipsNextStepsImage2 from 'images/tips_next_steps2.svg';
 
 import {browserHistory} from 'utils/browser_history';
 import * as UserAgent from 'utils/user_agent';
-import NewChannelFlow from 'components/new_channel_flow';
 import {
     ModalIdentifiers,
     RecommendedNextSteps,
@@ -103,17 +98,11 @@ const openIncidentsPlugin = (isAdmin: boolean, team: Team) => {
     browserHistory.push(`/${team.name}/com.mattermost.plugin-incident-management/playbooks/`);
 };
 
-const openAuthPage = (page: string, isAdmin: boolean) => {
-    trackEvent(getAnalyticsCategory(isAdmin), 'click_configure_login', {method: page});
-    browserHistory.push(`/admin_console/authentication/${page}`);
-};
-
 type Props = {
     showFinalScreen: boolean;
     animating: boolean;
     currentUserId: string;
     isFirstAdmin: boolean;
-    isCloud: boolean;
     team: Team;
     stopAnimating: () => void;
     savePreferences: (userId: string, preferences: PreferenceType[]) => void;
@@ -127,10 +116,7 @@ export default function NextStepsTips(props: Props) {
         openModal({modalId: ModalIdentifiers.PLUGIN_MARKETPLACE, dialogType: MarketplaceModal})(dispatch);
     };
     const openMoreChannels = openModal({modalId: ModalIdentifiers.MORE_CHANNELS, dialogType: MoreChannels});
-    const openNewChannels = openModal({
-        modalId: ModalIdentifiers.NEW_CHANNEL_FLOW,
-        dialogType: NewChannelFlow,
-    });
+
     const openViewMembersModal = openModal({
         modalId: ModalIdentifiers.TEAM_MEMBERS,
         dialogType: TeamMembersModal,
@@ -194,76 +180,32 @@ export default function NextStepsTips(props: Props) {
                         </button>
                     </div>
                 </Card>
-                { props.isCloud ?
-                    <Card expanded={true}>
-                        <div className='Card__body'>
-                            <div className='Card__image'>
-                                <IncidentsSvg/>
-                            </div>
-                            <h3>
-                                <FormattedMessage
-                                    id='next_steps_view.tips.resolveIncidents'
-                                    defaultMessage='Resolve incidents faster'
-                                />
-                            </h3>
-                            <FormattedMessage
-                                id='next_steps_view.tips.resolveIncidents.text'
-                                defaultMessage='Resolve incidents faster with Mattermost Incident Collaboration.'
-                            />
-                            <button
-                                className='NextStepsView__button NextStepsView__finishButton primary'
-                                onClick={() => openIncidentsPlugin(props.isFirstAdmin, props.team)}
-                            >
-                                <FormattedMessage
-                                    id='next_steps_view.tips.resolveIncidents.button'
-                                    defaultMessage='Open playbooks'
-                                />
-                            </button>
+                <Card expanded={true}>
+                    <div className='Card__body'>
+                        <div className='Card__image'>
+                            <IncidentsSvg/>
                         </div>
-                    </Card> : <Card expanded={true}>
-                        <div className='Card__body'>
-                            <div className='Card__image'>
-                                <img
-                                    src={tipsNextStepsImage2}
-                                />
-                            </div>
-                            <h3>
-                                <FormattedMessage
-                                    id='next_steps_view.tips.configureLogin'
-                                    defaultMessage='Configure your login method'
-                                />
-                            </h3>
+                        <h3>
                             <FormattedMessage
-                                id='next_steps_view.tips.configureLogin.text'
-                                defaultMessage='Set up OpenID, SAML or AD/LDAP authentication.'
+                                id='next_steps_view.tips.resolveIncidents'
+                                defaultMessage='Resolve incidents faster'
                             />
-                            <MenuWrapper>
-                                <button
-                                    className='NextStepsView__button NextStepsView__finishButton primary'
-                                >
-                                    <FormattedMessage
-                                        id='next_steps_view.tips.configureLogin.button'
-                                        defaultMessage='Configure'
-                                    />
-                                    <i className='icon icon-chevron-down'/>
-                                </button>
-                                <Menu ariaLabel={Utils.localizeMessage('next_steps_view.tips.auth.menuAriaLabel', 'Configure Authentication Menu')}>
-                                    <Menu.ItemAction
-                                        onClick={() => openAuthPage('openid', props.isFirstAdmin)}
-                                        text={Utils.localizeMessage('next_steps_view.tips.auth.openid', 'OpenID')}
-                                    />
-                                    <Menu.ItemAction
-                                        onClick={() => openAuthPage('saml', props.isFirstAdmin)}
-                                        text={Utils.localizeMessage('next_steps_view.tips.auth.saml', 'SAML')}
-                                    />
-                                    <Menu.ItemAction
-                                        onClick={() => openAuthPage('ldap', props.isFirstAdmin)}
-                                        text={Utils.localizeMessage('next_steps_view.tips.auth.ldap', 'AD/LDAP')}
-                                    />
-                                </Menu>
-                            </MenuWrapper>
-                        </div>
-                    </Card>}
+                        </h3>
+                        <FormattedMessage
+                            id='next_steps_view.tips.resolveIncidents.text'
+                            defaultMessage='Resolve incidents faster with Mattermost Incident Collaboration.'
+                        />
+                        <button
+                            className='NextStepsView__button NextStepsView__finishButton primary'
+                            onClick={() => openIncidentsPlugin(props.isFirstAdmin, props.team)}
+                        >
+                            <FormattedMessage
+                                id='next_steps_view.tips.resolveIncidents.button'
+                                defaultMessage='Open playbooks'
+                            />
+                        </button>
+                    </div>
+                </Card>
             </>
         );
     } else if (!Utils.isMobile() && !props.isFirstAdmin) {
@@ -369,7 +311,7 @@ export default function NextStepsTips(props: Props) {
 
     let channelsSection;
     if (props.isFirstAdmin) {
-        channelsSection = props.isCloud ? (
+        channelsSection = (
             <Card expanded={true}>
                 <div className='Card__body'>
                     <div className='Card__image'>
@@ -392,37 +334,6 @@ export default function NextStepsTips(props: Props) {
                         <FormattedMessage
                             id='next_steps_view.tips.manageWorkspace.button'
                             defaultMessage='Open the system console'
-                        />
-                    </button>
-                </div>
-            </Card>
-        ) : (
-            <Card expanded={true}>
-                <div className='Card__body'>
-                    <div className='Card__image'>
-                        <img
-                            src={tipsNextStepsImage1}
-                        />
-                    </div>
-                    <h3>
-                        <FormattedMessage
-                            id='next_steps_view.tips.createChannels'
-                            defaultMessage='Create a new channel'
-                        />
-                    </h3>
-                    <FormattedMessage
-                        id='next_steps_view.tips.createChannels.text'
-                        defaultMessage={
-                            "Think of a topic you'd like to organize a conversation around."
-                        }
-                    />
-                    <button
-                        className='NextStepsView__button NextStepsView__finishButton primary'
-                        onClick={() => openNewChannels(dispatch)}
-                    >
-                        <FormattedMessage
-                            id='next_steps_view.tips.createChannels.button'
-                            defaultMessage='Create a channel'
                         />
                     </button>
                 </div>
