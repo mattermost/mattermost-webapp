@@ -241,6 +241,11 @@ export default class CustomPolicyForm extends React.PureComponent<Props, State> 
                 team_ids: teamsToAdd,
                 channel_ids: channelsToAdd,
             }
+            if (messageRetentionDropdownValue.value === 'forever') {
+                newPolicy.post_duration = -1;
+            } else if (this.state.messageRetentionDropdownValue.value === 'years') {
+                newPolicy.post_duration = parseInt(messageRetentionInputValue) * 365;
+            }
             const result = await this.props.actions.createDataRetentionCustomPolicy(newPolicy);
             if (!result.error) {
                 browserHistory.push(`/admin_console/compliance/data_retention`);

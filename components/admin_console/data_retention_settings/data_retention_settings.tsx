@@ -185,7 +185,7 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
             return {
                 cells: {
                     description: policy.display_name,
-                    channel_messages: `${policy.post_duration} days`,
+                    channel_messages: policy.post_duration === -1 ? 'Keep forever' : `${policy.post_duration} days`,
                     applied_to: this.getChannelAndTeamCounts(policy),
                     actions: (
                         <MenuWrapper
