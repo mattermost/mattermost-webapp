@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Modal, Button} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
@@ -10,8 +10,10 @@ import {trackEvent, pageVisited} from 'actions/telemetry_actions';
 import {ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
 import PurchaseModal from 'components/purchase_modal';
 import NotifyLink from 'components/widgets/links/notify_link';
+import ConfirmNotifyAdminModal from 'components/confirm_notify_admin_modal';
 
 import UpgradeUserLimitModalSvg from './user_limit_upgrade_svg';
+
 import './user_limit_modal.scss';
 
 type Props = {
@@ -19,12 +21,13 @@ type Props = {
     show: boolean;
     cloudUserLimit: string;
     actions: {
-        closeModal: () => void;
+        closeModal: (identifier: string) => void;
         openModal: (modalData: {modalId: string; dialogType: any; dialogProps?: any}) => void;
     };
 };
 
-export default function UserLimitModal(props: Props) {
+export default function UserLimitModal(props: Props): JSX.Element {
+    const [notificationProcessDone, setNotificationProcessDoneStatus] = useState(false);
     useEffect(() => {
         pageVisited(
             TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
@@ -32,12 +35,22 @@ export default function UserLimitModal(props: Props) {
         );
     }, []);
 
+    useEffect(() => {
+        if (notificationProcessDone === true) {
+            props.actions.closeModal(ModalIdentifiers.UPGRADE_CLOUD_ACCOUNT);
+            props.actions.openModal({
+                modalId: ModalIdentifiers.CONFIRM_NOTIFY_ADMIN,
+                dialogType: ConfirmNotifyAdminModal,
+            });
+        }
+    }, [notificationProcessDone]);
+
     const onSubmit = () => {
         trackEvent(
             TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
             'click_modal_user_limit_upgrade',
         );
-        props.actions.closeModal();
+        props.actions.closeModal(ModalIdentifiers.UPGRADE_CLOUD_ACCOUNT);
         props.actions.openModal({
             modalId: ModalIdentifiers.CLOUD_PURCHASE,
             dialogType: PurchaseModal,
@@ -49,7 +62,7 @@ export default function UserLimitModal(props: Props) {
             TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
             'click_modal_user_limit_not_now',
         );
-        props.actions.closeModal();
+        props.actions.closeModal(ModalIdentifiers.UPGRADE_CLOUD_ACCOUNT);
     };
 
     const confirmBtn = props.userIsAdmin ? (
@@ -62,7 +75,10 @@ export default function UserLimitModal(props: Props) {
                 defaultMessage={'Upgrade Mattermost Cloud'}
             />
         </Button>
-    ) : (<NotifyLink className='confirm-button'/>);
+    ) : (<NotifyLink
+        extraFunc={() => setNotificationProcessDoneStatus(true)}
+        className='confirm-button'
+    />);
 
     return (
         <>
