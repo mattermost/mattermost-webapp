@@ -17,7 +17,7 @@ import {makeCallErrorResponse} from 'utils/apps';
 import {localizeAndFormatMessage, localizeMessage} from 'utils/utils';
 import {t} from 'utils/i18n';
 
-export function doAppCall<Res=unknown>(call: AppCallRequest, type: AppCallType, _intl: any): ActionFunc { // eslint-disable-line @typescript-eslint/no-unused-vars
+export function doAppCall<Res=unknown>(call: AppCallRequest, type: AppCallType, _intl?: any): ActionFunc { // eslint-disable-line @typescript-eslint/no-unused-vars
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         try {
             const res = await Client4.executeAppCall(call, type) as AppCallResponse<Res>;

@@ -23,11 +23,11 @@ import Suggestion from '../suggestion';
 import Provider from '../provider';
 
 import {appsEnabled} from 'utils/apps';
-import {t} from 'utils/i18n';
 
 import {GlobalState} from 'types/store';
 
 import {AppCommandParser} from './app_command_parser/app_command_parser';
+import {intlShim} from './app_command_parser/app_command_parser_dependencies';
 
 const EXECUTE_CURRENT_COMMAND_ITEM_ID = Constants.Integrations.EXECUTE_CURRENT_COMMAND_ITEM_ID;
 
@@ -110,12 +110,7 @@ export default class CommandProvider extends Provider {
             }
         }
 
-        const intl = {
-            formatMessage: (config: {id: string; defaultMessage: string}, values?: {[name: string]: any}) => {
-                return Utils.localizeAndFormatMessage(t(config.id), config.defaultMessage, values);
-            },
-        };
-        this.appCommandParser = new AppCommandParser(this.store as any, intl, channelId, rootId);
+        this.appCommandParser = new AppCommandParser(this.store as any, intlShim, channelId, rootId);
         this.triggerCharacter = '/';
     }
 

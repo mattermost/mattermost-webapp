@@ -46,25 +46,26 @@ export {getAppsBindings};
 
 export {getPost} from 'mattermost-redux/selectors/entities/posts';
 export {getChannel, getCurrentChannel, getChannelByName as selectChannelByName} from 'mattermost-redux/selectors/entities/channels';
-export {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+export {getCurrentTeamId, getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 export {getUserByUsername as selectUserByUsername} from 'mattermost-redux/selectors/entities/users';
-export {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
 export {getUserByUsername} from 'mattermost-redux/actions/users';
 export {getChannelByNameAndTeamName} from 'mattermost-redux/actions/channels';
 
-export {doAppCall} from 'actions/apps';
-export {createCallRequest} from 'utils/apps';
-
 import keyMirror from 'mattermost-redux/utils/key_mirror';
 export {keyMirror};
+
+export {doAppCall} from 'actions/apps';
+import {sendEphemeralPost} from 'actions/global_actions';
+
+export {createCallRequest} from 'utils/apps';
+import {isMac, localizeAndFormatMessage} from 'utils/utils';
+import {t} from 'utils/i18n';
 
 import Store from 'stores/redux_store';
 export const getStore = () => Store;
 
 export const EXECUTE_CURRENT_COMMAND_ITEM_ID = '_execute_current_command';
-
-import {isMac} from 'utils/utils.jsx';
 
 import type {ParsedCommand} from './app_command_parser';
 
@@ -83,8 +84,13 @@ export const getExecuteSuggestion = (parsed: ParsedCommand): AutocompleteSuggest
     };
 };
 
-import {sendEphemeralPost} from 'actions/global_actions';
-import {intlShape} from 'utils/react_intl';
 export const displayError = (err: string) => {
     sendEphemeralPost(err);
+};
+
+// Shim of mobile-version intl
+export const intlShim = {
+    formatMessage: (config: {id: string; defaultMessage: string}, values?: {[name: string]: any}) => {
+        return localizeAndFormatMessage(t(config.id), config.defaultMessage, values);
+    },
 };
