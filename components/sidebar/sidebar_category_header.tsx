@@ -66,8 +66,8 @@ export const SidebarCategoryHeader = React.forwardRef((props: Props, ref?: React
                 >
                     {wrapEmojis(props.displayName)}
                 </div>
-                {props.children}
             </button>
+            {props.children}
         </div>
     );
 });
