@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {Client4} from 'mattermost-redux/client';
-import {Action, ActionFunc, DispatchFunc} from 'mattermost-redux/types/actions';
+import {Action, ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 import {AppCallResponse, AppForm, AppCallType, AppCallRequest} from 'mattermost-redux/types/apps';
 import {AppCallTypes, AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 
@@ -18,7 +18,7 @@ import {localizeAndFormatMessage, localizeMessage} from 'utils/utils';
 import {t} from 'utils/i18n';
 
 export function doAppCall<Res=unknown>(call: AppCallRequest, type: AppCallType): ActionFunc {
-    return async (dispatch: DispatchFunc) => {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         try {
             const res = await Client4.executeAppCall(call, type) as AppCallResponse<Res>;
             const responseType = res.type || AppCallResponseTypes.OK;
@@ -40,7 +40,7 @@ export function doAppCall<Res=unknown>(call: AppCallRequest, type: AppCallType):
 
                 return {data: res};
             case AppCallResponseTypes.NAVIGATE:
-                if (!res.url) {
+                if (!res.navigate_to_url) {
                     const errMsg = localizeMessage('apps.error.responses.navigate.no_url', 'Response type is `navigate`, but no url was included in response.');
                     return {data: makeCallErrorResponse(errMsg)};
                 }
@@ -50,12 +50,12 @@ export function doAppCall<Res=unknown>(call: AppCallRequest, type: AppCallType):
                     return {data: makeCallErrorResponse(errMsg)};
                 }
 
-                if (shouldOpenInNewTab(res.url, getSiteURL())) {
-                    window.open(res.url);
+                if (shouldOpenInNewTab(res.navigate_to_url, getSiteURL())) {
+                    window.open(res.navigate_to_url);
                     return {data: res};
                 }
 
-                browserHistory.push(res.url);
+                browserHistory.push(res.navigate_to_url.slice(getState().entities.general.config.SiteURL?.length));
                 return {data: res};
             default: {
                 const errMsg = localizeAndFormatMessage(
