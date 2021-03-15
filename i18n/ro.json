@@ -3458,7 +3458,7 @@
   "next_steps_view.tips.addPlugins": "Adăugați pluginuri la Mattermost",
   "next_steps_view.tips.addPlugins.button": "Adăugați pluginuri",
   "next_steps_view.tips.addPlugins.buttons": "Vedeți comenzile rapide",
-  "next_steps_view.tips.addPlugins.text": "Accesați Piața pluginurilor pentru a instala și configura pluginuri.",
+  "next_steps_view.tips.addPlugins.text": "Instalați și configurați pluginuri precum GitHub, GitLab, Jira și multe altele!",
   "next_steps_view.tips.addPlugins.texts": "Lucrați mai eficient cu comenzile rapide de la tastatură în Mattermost.",
   "next_steps_view.tips.addPluginss": "Aflați comenzile rapide de la tastatură",
   "next_steps_view.tips.auth.ldap": "AD/LDAP",
