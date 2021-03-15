@@ -60,6 +60,8 @@ type Props = {
         getPostThread: (rootId: string, root?: boolean) => void;
     };
     directTeammate: UserProfile;
+    toggleSize?: string;
+    shrink?: () => void;
 }
 
 type State = {

@@ -17,9 +17,7 @@ import Search from 'components/search/index';
 
 import RhsPlugin from 'plugins/rhs_plugin';
 
-import {ReturnSetRhsExpanded, ReturnUpdateSearchTerms} from './sidebar_right_types';
-
-type Props = {
+export type Props = {
     isExpanded: boolean;
     isOpen: boolean;
     currentUserId: string;
@@ -36,23 +34,23 @@ type Props = {
     selectedPostId?: string;
     selectedPostCardId?: string;
     actions: {
-        setRhsExpanded: (expanded: boolean) => ReturnSetRhsExpanded;
-        showPinnedPosts: (channelId?: string) => unknown;
-        openRHSSearch: () => unknown;
-        closeRightHandSide: () => unknown;
-        openAtPrevious: (previous: unknown) => unknown;
-        updateSearchTerms: (terms: string) => ReturnUpdateSearchTerms;
+        setRhsExpanded: (expanded: boolean) => void;
+        showPinnedPosts: (channelId?: string) => void;
+        openRHSSearch: () => void;
+        closeRightHandSide: () => void;
+        openAtPrevious: (previous: unknown) => void;
+        updateSearchTerms: (terms: string) => void;
     };
 };
 
-type State = {
+export type State = {
     isOpened: boolean;
 }
 
 export default class SidebarRight extends React.PureComponent<Props, State> {
     sidebarRight: React.RefObject<HTMLDivElement>;
     previous: { searchVisible: boolean | undefined; isMentionSearch: boolean | undefined; isPinnedPosts: boolean | undefined; isFlaggedPosts: boolean | undefined; selectedPostId: string | undefined; selectedPostCardId: string | undefined; previousRhsState: string | undefined } | undefined;
-    toggleSize: unknown;
+    toggleSize?: string;
     focusSearchBar: any;
     public constructor(props: Props) {
         super(props);
@@ -126,7 +124,7 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
     }
 
     determineTransition = (): void => {
-        const transitionInfo = window.getComputedStyle(this.sidebarRight.current).getPropertyValue('transition');
+        const transitionInfo = window.getComputedStyle(this.sidebarRight.current as Element).getPropertyValue('transition');
         const hasTransition = Boolean(transitionInfo) && transitionInfo !== 'all 0s ease 0s';
 
         if (this.sidebarRight.current && hasTransition) {
