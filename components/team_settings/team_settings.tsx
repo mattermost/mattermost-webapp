@@ -9,7 +9,7 @@ import ImportTab from 'components/team_import_tab.jsx';
 type Props = {
     activeTab: string;
     activeSection: string;
-    updateSection: () => void;
+    updateSection: (section: string) => void;
     closeModal: () => void;
     collapseModal: () => void;
     team?: Record<string, unknown>;
