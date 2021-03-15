@@ -3444,7 +3444,7 @@
   "next_steps_view.tips.addPlugins": "添加插件到 Mattermost",
   "next_steps_view.tips.addPlugins.button": "添加插件",
   "next_steps_view.tips.addPlugins.buttons": "查看快捷键",
-  "next_steps_view.tips.addPlugins.text": "访问插件市场以安装并配置插件。",
+  "next_steps_view.tips.addPlugins.text": "安装并配置 GitHub、GitLab、Jira 等插件！",
   "next_steps_view.tips.addPlugins.texts": "使用 Mattermost 中的键盘快捷键可以更有效地工作。",
   "next_steps_view.tips.addPluginss": "学习键盘快捷键",
   "next_steps_view.tips.auth.ldap": "AD/LDAP",
