@@ -14,6 +14,7 @@ import UpgradeLink from 'components/widgets/links/upgrade_link';
 
 import ChannelsInput from 'components/widgets/inputs/channels_input.jsx';
 import UsersEmailsInput from 'components/widgets/inputs/users_emails_input.jsx';
+import withGetCloudSubscription from '../../common/hocs/cloud/with_get_cloud_subcription';
 
 import './invitation_modal_guests_step.scss';
 
@@ -36,6 +37,9 @@ class InvitationModalGuestsStep extends React.PureComponent {
         userIsAdmin: PropTypes.bool.isRequired,
         isCloud: PropTypes.bool.isRequired,
         subscriptionStats: PropTypes.object,
+        actions: PropTypes.shape({
+            getSubscriptionStats: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     constructor(props) {
@@ -361,4 +365,4 @@ class InvitationModalGuestsStep extends React.PureComponent {
     }
 }
 
-export default InvitationModalGuestsStep;
+export default withGetCloudSubscription(InvitationModalGuestsStep);
