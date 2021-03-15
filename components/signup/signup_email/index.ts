@@ -6,7 +6,6 @@ import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
 import {UserProfile} from 'mattermost-redux/types/users';
-import {ClientConfig} from 'mattermost-redux/types/config';
 import {ServerError} from 'mattermost-redux/types/errors';
 
 import {createUser} from 'mattermost-redux/actions/users';
@@ -19,7 +18,7 @@ import {getPasswordConfig} from 'utils/utils.jsx';
 
 import {GlobalState} from '../../../types/store';
 
-import SignupEmail from './signup_email.jsx';
+import SignupEmail from './signup_email';
 
 export type PasswordConfig = {
     minimumLength: number;
@@ -69,18 +68,11 @@ export type Actions = {
     getTeamInviteInfo: (inviteId: string) => Promise<{data: TeamInviteInfo} | {error: ServerError}>;
 };
 
-type ClientConfigPatched = {
-    NoAccounts: 'true' | 'false';
-    SiteName: string;
-}
-
-type ClientConfigWithNoAccounts = Partial<ClientConfig> & ClientConfigPatched;
-
 function mapStateToProps(state: GlobalState) {
-    const config = getConfig(state) as ClientConfigWithNoAccounts;
+    const config = getConfig(state);
 
     const enableSignUpWithEmail = config.EnableSignUpWithEmail === 'true';
-    const siteName = config.SiteName;
+    const siteName = config.SiteName as string;
     const termsOfServiceLink = config.TermsOfServiceLink;
     const privacyPolicyLink = config.PrivacyPolicyLink;
     const customDescriptionText = config.CustomDescriptionText;
