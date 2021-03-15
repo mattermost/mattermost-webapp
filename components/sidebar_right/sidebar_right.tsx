@@ -61,20 +61,18 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
         };
     }
 
-    setPrevious = (): unknown => {
-        if (!this.props.isOpen) {
-            return;
+    setPrevious = (): void => {
+        if (this.props.isOpen) {
+            this.previous = {
+                searchVisible: this.props.searchVisible,
+                isMentionSearch: this.props.isMentionSearch,
+                isPinnedPosts: this.props.isPinnedPosts,
+                isFlaggedPosts: this.props.isFlaggedPosts,
+                selectedPostId: this.props.selectedPostId,
+                selectedPostCardId: this.props.selectedPostCardId,
+                previousRhsState: this.props.previousRhsState,
+            };
         }
-
-        this.previous = {
-            searchVisible: this.props.searchVisible,
-            isMentionSearch: this.props.isMentionSearch,
-            isPinnedPosts: this.props.isPinnedPosts,
-            isFlaggedPosts: this.props.isFlaggedPosts,
-            selectedPostId: this.props.selectedPostId,
-            selectedPostCardId: this.props.selectedPostCardId,
-            previousRhsState: this.props.previousRhsState,
-        };
     }
 
     handleShortcut = (e: { preventDefault: () => void }): void => {
