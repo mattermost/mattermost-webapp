@@ -49,8 +49,8 @@ describe('components/SignupController', () => {
             addUserToTeamFromInvite: jest.fn(),
         },
         subscriptionStats: {
-            remaining_seats: 10,
-            is_paid_tier: '',
+            remainingSeats: 0,
+            isPaidTier: 'false',
         },
     };
 
@@ -118,8 +118,8 @@ describe('components/SignupController', () => {
             },
             subscriptionStats: {
                 ...baseProps.subscriptionStats,
-                is_paid_tier: 'false',
-                remaining_seats: 0,
+                isPaidTier: 'false',
+                remainingSeats: 0,
             },
             actions: {
                 ...baseProps.actions,
