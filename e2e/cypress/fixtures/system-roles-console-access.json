@@ -6,7 +6,19 @@
     "system_read_only_admin": "read"
   },
   {
-    "section": "reporting",
+    "section": "reporting.system_analytics",
+    "system_manager": "read",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "reporting.team_statistics",
+    "system_manager": "read",
+    "system_user_manager": "none",
+    "system_read_only_admin": "read"
+  },
+  {
+    "section": "reporting.server_logs",
     "system_manager": "read",
     "system_user_manager": "none",
     "system_read_only_admin": "read"
