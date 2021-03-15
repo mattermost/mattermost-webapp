@@ -54,7 +54,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
     const customStatusControlRef = useRef<HTMLDivElement>(null);
     const {formatMessage} = useIntl();
     const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
-    const [text, setText] = useState<string>(currentCustomStatus.text);
+    const [text, setText] = useState<string>(currentCustomStatus.text || '');
     const [emoji, setEmoji] = useState<string>(currentCustomStatus.emoji);
     const isStatusSet = emoji || text;
     const isCurrentCustomStatusSet = currentCustomStatus.text || currentCustomStatus.emoji;
@@ -129,7 +129,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
     };
 
     const recentStatuses = (
-        <div>
+        <div id='statusSuggestion__recents'>
             <div className='statusSuggestion__title'>
                 {formatMessage({id: 'custom_status.suggestions.recent_title', defaultMessage: 'RECENT'})}
             </div>
@@ -182,7 +182,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
         <div className='statusSuggestion'>
             <div className='statusSuggestion__content'>
                 {recentCustomStatuses.length > 0 && recentStatuses}
-                <div>
+                <div id='statusSuggestion__suggestions'>
                     {renderCustomStatusSuggestions()}
                 </div>
             </div>
@@ -216,6 +216,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
             className={'StatusModal'}
             handleConfirm={handleSetStatus}
             handleCancel={handleClearStatus}
+            confirmButtonClassName='btn btn-primary'
         >
             <div className='StatusModal__body'>
                 <div className='StatusModal__input'>

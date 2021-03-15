@@ -461,11 +461,12 @@ class ProfilePopover extends React.PureComponent {
             );
         }
 
-        const customStatusContent = this.renderCustomStatus();
+        const customStatusContent = !haveOverrideProp && this.renderCustomStatus();
         if (customStatusContent) {
             dataContent.push(
                 <div
                     key='user-popover-status'
+                    id='user-popover-status'
                     className='pb-1'
                 >
                     <span className='user-profile-popover__heading'>
