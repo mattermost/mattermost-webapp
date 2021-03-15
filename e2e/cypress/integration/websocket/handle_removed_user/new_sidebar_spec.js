@@ -23,12 +23,6 @@ describe('Handle removed user - new sidebar', () => {
     const sidebarItemClass = '.SidebarChannel';
 
     before(() => {
-        cy.apiUpdateConfig({
-            ServiceSettings: {
-                EnableLegacySidebar: false,
-            },
-        });
-
         cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
             cy.visit(`/${team.name}/channels/${channel.name}`);
         });

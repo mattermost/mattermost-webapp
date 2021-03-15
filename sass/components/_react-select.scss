@@ -58,6 +58,10 @@
                 opacity: .8;
             }
         }
+
+        &.react-select__control--is-disabled {
+            background: rgba(var(--center-channel-color-rgb), 0.04);
+        }
     }
 
     .react-select__padded-component {

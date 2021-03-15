@@ -7,7 +7,8 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @bot_accounts
+// Stage: @prod
+// Group: @bot_accounts @not_cloud
 
 import {createBotPatch} from '../../support/api/bots';
 import {generateRandomUser} from '../../support/api/user';
@@ -20,6 +21,8 @@ describe('Bot accounts', () => {
     let createdUsers;
 
     before(() => {
+        cy.shouldNotRunOnCloudEdition();
+
         cy.apiUpdateConfig({
             ServiceSettings: {
                 EnableBotAccountCreation: true,

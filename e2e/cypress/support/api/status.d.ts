@@ -16,7 +16,7 @@
 // ***************************************************************
 
 declare namespace Cypress {
-    interface Chainable<Subject = any> {
+    interface Chainable {
 
         /**
          * Update status of a current user.
@@ -43,5 +43,25 @@ declare namespace Cypress {
          *   });
          */
         apiGetStatus(userId: string): Chainable<UserStatus>;
+
+        /**
+         * Update custom status of current user.
+         * See https://api.mattermost.com/#tag/custom_status/paths/~1users~1{user_id}~1status/custom/put
+         * @param {UserCustomStatus} customStatus - custom status to be updated
+         *
+         * @example
+         *   cy.apiUpdateUserCustomStatus({emoji: 'calendar', text: 'In a meeting'});
+         */
+        apiUpdateUserCustomStatus(customStatus: UserCustomStatus);
+
+        /**
+         * Clear custom status of the current user.
+         * See https://api.mattermost.com/#tag/custom_status/paths/~1users~1{user_id}~1status/custom/delete
+         * @param {UserCustomStatus} customStatus - custom status to be updated
+         *
+         * @example
+         *   cy.apiClearUserCustomStatus();
+         */
+        apiClearUserCustomStatus();
     }
 }

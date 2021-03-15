@@ -1625,7 +1625,6 @@ const AdminDefinition = {
             title: t('admin.sidebar.metrics'),
             title_default: 'Performance Monitoring',
             isHidden: it.any(
-                it.not(it.licensedForFeature('Metrics')),
                 it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
             ),
             schema: {
@@ -2052,6 +2051,16 @@ const AdminDefinition = {
                         label_default: 'Show Full Name:',
                         help_text: t('admin.privacy.showFullNameDescription'),
                         help_text_default: 'When false, hides the full name of members from everyone except System Administrators. Username is shown in place of full name.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'TeamSettings.EnableCustomUserStatuses',
+                        label: t('admin.team.customUserStatusesTitle'),
+                        label_default: 'Enable Custom Statuses: ',
+                        help_text: t('admin.team.customUserStatusesDescription'),
+                        help_text_default: 'When true, users can set a descriptive status message and status emoji visible to all users.',
+                        isHidden: it.not(it.configIsTrue('FeatureFlags', 'CustomUserStatuses')),
                         isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
                     },
                 ],
@@ -4476,7 +4485,7 @@ const AdminDefinition = {
                                 display_name: t('admin.openid.google'),
                                 display_name_default: 'Google Apps',
                                 help_text: t('admin.google.EnableMarkdownDesc'),
-                                help_text_default: '1. [Log in](!https://accounts.google.com/login) to your Google account.\n2. Go to [https://console.developers.google.com](!https://console.developers.google.com), click **Credentials** in the left hand sidebar and enter "Mattermost - your-company-name" as the **Project Name**, then click **Create**.\n3. Click the **OAuth consent screen** header and enter "Mattermost" as the **Product name shown to users**, then click **Save**.\n4. Under the **Credentials** header, click **Create credentials**, choose **OAuth client ID** and select **Web Application**.\n5. Under **Restrictions** and **Authorized redirect URIs** enter **your-mattermost-url/signup/google/complete** (example: http://localhost:8065/signup/google/complete). Click **Create**.\n6. Paste the **Client ID** and **Client Secret** to the fields below, then click **Save**.\n7. Go to the [Google People API](!https://console.developers.google.com/apis/library/people.googleapis.com) and click *Enable*.',
+                                help_text_default: '1. [Log in](!https://accounts.google.com/login) to your Google account.\n2. Go to [https://console.developers.google.com](!https://console.developers.google.com), click **Credentials** in the left hand side.\n 3. Under the **Credentials** header, click **Create credentials**, choose **OAuth client ID** and select **Web Application**.\n 4. Enter "Mattermost - your-company-name" as the **Name**.\n 5. Under **Authorized redirect URIs** enter **your-mattermost-url/signup/google/complete** (example: http://localhost:8065/signup/google/complete). Click **Create**.\n 6. Paste the **Client ID** and **Client Secret** to the fields below, then click **Save**.\n 7. Go to the [Google People API](!https://console.developers.google.com/apis/library/people.googleapis.com) and click *Enable*.',
                                 help_text_markdown: true,
                             },
                             {

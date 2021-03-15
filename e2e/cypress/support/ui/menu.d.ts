@@ -15,7 +15,7 @@
 // ***************************************************************
 
 declare namespace Cypress {
-    interface Chainable<Subject = any> {
+    interface Chainable {
 
         /**
          * Open the main menu
@@ -68,5 +68,14 @@ declare namespace Cypress {
          *   cy.uiGetChannelMenu();
          */
         uiGetChannelMenu(): Chainable;
+
+        /**
+         * Set Status
+         * @param {string} item - such as `'Online'`,`'Set a Custom Status'`, `'Away'`, `'Do Not Disturb'` and `'Offline'`
+         *
+         * @example
+         *   uiOpenSetStatusMenu(item);
+         */
+        uiOpenSetStatusMenu(item): Chainable;
     }
 }

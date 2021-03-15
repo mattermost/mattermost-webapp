@@ -49,11 +49,12 @@ describe('components/Menu', () => {
             closeRightHandSide: jest.fn(),
             closeRhsMenu: jest.fn(),
             unhideNextSteps: jest.fn(),
-            getCloudSubscription: jest.fn(),
+            getSubscriptionStats: jest.fn(),
         },
         teamIsGroupConstrained: false,
         isCloud: false,
         subscription: {},
+        userIsAdmin: true,
     };
 
     test('should match snapshot with id', () => {

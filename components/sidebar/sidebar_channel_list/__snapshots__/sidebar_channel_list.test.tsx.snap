@@ -2,11 +2,13 @@
 
 exports[`SidebarChannelList should match snapshot 1`] = `
 <div
+  aria-label="channel sidebar region"
   className="SidebarNavContainer a11y__region"
   data-a11y-disable-nav={false}
   data-a11y-sort-order="7"
   id="sidebar-left"
   onTransitionEnd={[Function]}
+  role="application"
 >
   <UnreadChannelIndicator
     content={

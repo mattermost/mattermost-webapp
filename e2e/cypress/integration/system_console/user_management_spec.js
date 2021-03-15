@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @system_console
 
 import {getEmailUrl, splitEmailBodyText, getRandomId} from '../../utils';
@@ -250,7 +249,7 @@ describe('User Management', () => {
 
         // * Check View Members modal dialog
         cy.get('#teamMembersModal').should('be.visible').within(() => {
-            cy.get('#searchUsersInput').should('be.visible').type(otherUser.email);
+            cy.get('#searchUsersInput').should('be.visible').type(otherUser.email, {delay: TIMEOUTS.ONE_HUNDRED_MILLIS});
 
             // * Deactivated user does not show up in View Members for teams
             cy.findByTestId('noUsersFound').should('be.visible');
@@ -269,14 +268,14 @@ describe('User Management', () => {
 
         // * Deactivated user does not show up in View Members for channels
         cy.get('#channelMembersModal').should('be.visible').within(() => {
-            cy.get('#searchUsersInput').should('be.visible').type(otherUser.email);
+            cy.get('#searchUsersInput').should('be.visible').type(otherUser.email, {delay: TIMEOUTS.ONE_HUNDRED_MILLIS});
             cy.findByTestId('noUsersFound').should('be.visible');
             cy.findByLabelText('Close').click();
         });
 
         // * User does show up in DM More menu so that DM channels can be viewed.
-        cy.get('#directChannelList').findByText(`${otherUser.username}`).should('not.be.visible');
-        cy.get('#moreDirectMessage').should('be.visible').click();
+        cy.uiGetLhsSection('DIRECT MESSAGES').findByText(otherUser.username).should('not.be.visible');
+        cy.uiAddDirectMessage().click();
 
         // * Verify that new messages cannot be posted.
         cy.get('#moreDmModal').should('be.visible').within(() => {
@@ -310,8 +309,8 @@ describe('User Management', () => {
             join(', ');
 
         // # Observe DM and GM in LHS.
-        cy.get('#directChannelList').findByText(displayName).should('be.visible');
-        cy.get('#directChannelList').findByText(`${otherUser.username}`).should('be.visible');
+        cy.uiGetLhsSection('DIRECT MESSAGES').findByText(displayName).should('be.visible');
+        cy.uiGetLhsSection('DIRECT MESSAGES').findByText(otherUser.username).should('be.visible');
 
         // # System Console > Users Deactivate the user.
         cy.apiLogout().apiAdminLogin();
@@ -321,13 +320,13 @@ describe('User Management', () => {
         cy.apiLogin(testUser).visit(`/${testTeam.name}/channels/${testChannel.name}`).wait(TIMEOUTS.HALF_SEC);
 
         // * On returning to the team the DM has been removed from LHS.
-        cy.get('#directChannelList').findByText(`${otherUser.username}`).should('not.be.visible');
+        cy.uiGetLhsSection('DIRECT MESSAGES').findByText(otherUser.username).should('not.be.visible');
 
         // * GM stays in LHS channel list.
-        cy.get('#directChannelList').findByText(displayName).should('be.visible');
+        cy.uiGetLhsSection('DIRECT MESSAGES').findByText(displayName).should('be.visible');
 
         // # Open GM channel.
-        cy.get('#directChannelList').findByText(displayName).click().wait(TIMEOUTS.HALF_SEC);
+        cy.uiGetLhsSection('DIRECT MESSAGES').findByText(displayName).click().wait(TIMEOUTS.HALF_SEC);
 
         // * GM still has message box (is not archived)
         cy.findByTestId('post_textbox').should('be.visible');
@@ -375,7 +374,7 @@ describe('User Management', () => {
         cy.visit('/admin_console/user_management/users');
 
         // # Search for the user.
-        cy.get('#searchUsers').clear().type(user.email).wait(TIMEOUTS.HALF_SEC);
+        cy.get('#searchUsers').clear().type(user.email, {delay: TIMEOUTS.ONE_HUNDRED_MILLIS}).wait(TIMEOUTS.HALF_SEC);
 
         cy.findByTestId('userListRow').within(() => {
             if (activate) {

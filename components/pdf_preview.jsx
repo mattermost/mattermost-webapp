@@ -3,14 +3,14 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
 import PDFJS from 'pdfjs-dist';
+import debounce from 'lodash/debounce';
 import {getFileDownloadUrl} from 'mattermost-redux/utils/file_utils';
 
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 import FileInfoPreview from 'components/file_info_preview';
 
-const MAX_PDF_PAGES = 5;
+const INITIAL_RENDERED_PAGES = 3;
 
 export default class PDFPreview extends React.PureComponent {
     static propTypes = {
@@ -31,6 +31,7 @@ export default class PDFPreview extends React.PureComponent {
         super(props);
 
         this.pdfPagesRendered = {};
+        this.container = React.createRef();
 
         this.state = {
             pdf: null,
@@ -40,14 +41,20 @@ export default class PDFPreview extends React.PureComponent {
             loading: true,
             success: false,
         };
-
-        for (let i = 0; i < MAX_PDF_PAGES; i++) {
-            this[`pdfCanvasRef-${i}`] = React.createRef();
-        }
     }
 
     componentDidMount() {
         this.getPdfDocument();
+        if (this.container.current) {
+            this.parentNode = this.container.current.parentElement.parentElement;
+            this.parentNode.addEventListener('scroll', this.handleScroll);
+        }
+    }
+
+    componentWillUnmount() {
+        if (this.parentNode) {
+            this.parentNode.removeEventListener('scroll', this.handleScroll);
+        }
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -65,15 +72,23 @@ export default class PDFPreview extends React.PureComponent {
         return null;
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps, prevState) {
         if (this.props.fileUrl !== prevProps.fileUrl) {
             this.getPdfDocument();
             this.pdfPagesRendered = {};
         }
+        if (this.props.scale !== prevProps.scale) {
+            this.pdfPagesRendered = {};
+            if (this.state.success) {
+                for (let i = 0; i < this.state.numPages; i++) {
+                    this.renderPDFPage(i);
+                }
+            }
+        }
 
-        if (this.state.success) {
+        if (!prevState.success && this.state.success) {
             for (let i = 0; i < this.state.numPages; i++) {
-                this.renderPDFPage(i, prevProps);
+                this.renderPDFPage(i);
             }
         }
     }
@@ -84,15 +99,34 @@ export default class PDFPreview extends React.PureComponent {
         window.location.href = fileDownloadUrl;
     }
 
-    renderPDFPage = (pageIndex, prevProps) => {
-        if ((this.pdfPagesRendered[pageIndex] || !this.state.pdfPagesLoaded[pageIndex]) &&
-            (prevProps.scale === this.props.scale)) {
+    isInViewport = (page) => {
+        const bounding = page.getBoundingClientRect();
+        const viewportTop = this.container.current.scrollTop;
+        const viewportBottom = viewportTop + this.container.current.parentElement.clientHeight;
+        return (
+            (bounding.top >= viewportTop && bounding.top <= viewportBottom) ||
+            (bounding.bottom >= viewportTop && bounding.bottom <= viewportBottom) ||
+            (bounding.top <= viewportTop && bounding.bottom >= viewportBottom)
+        );
+    };
+
+    renderPDFPage = async (pageIndex) => {
+        const canvas = this[`pdfCanvasRef-${pageIndex}`].current;
+
+        // Always render the first INITIAL_RENDERED_PAGES pages to avoid
+        // problems detecting isInViewport during the open animation
+        if (pageIndex >= INITIAL_RENDERED_PAGES && !this.isInViewport(canvas)) {
             return;
         }
 
-        const canvas = this[`pdfCanvasRef-${pageIndex}`].current;
+        if (this.pdfPagesRendered[pageIndex]) {
+            return;
+        }
+        await this.loadPage(this.state.pdf, pageIndex);
+
+        const page = this.state.pdfPages[pageIndex];
         const context = canvas.getContext('2d');
-        const viewport = this.state.pdfPages[pageIndex].getViewport(this.props.scale);
+        const viewport = page.getViewport(this.props.scale);
 
         this[`pdfCanvasRef-${pageIndex}`].current.height = viewport.height;
         this[`pdfCanvasRef-${pageIndex}`].current.width = viewport.width;
@@ -102,7 +136,7 @@ export default class PDFPreview extends React.PureComponent {
             viewport,
         };
 
-        this.state.pdfPages[pageIndex].render(renderContext);
+        page.render(renderContext);
         this.pdfPagesRendered[pageIndex] = true;
     }
 
@@ -111,11 +145,11 @@ export default class PDFPreview extends React.PureComponent {
     }
 
     onDocumentLoad = (pdf) => {
-        const numPages = pdf.numPages <= MAX_PDF_PAGES ? pdf.numPages : MAX_PDF_PAGES;
-        this.setState({pdf, numPages});
-        for (let i = 1; i <= pdf.numPages; i++) {
-            pdf.getPage(i).then(this.onPageLoad);
+        this.setState({pdf, numPages: pdf.numPages});
+        for (let i = 0; i < pdf.numPages; i++) {
+            this[`pdfCanvasRef-${i}`] = React.createRef();
         }
+        this.setState({loading: false, success: true});
     }
 
     onDocumentLoadError = (reason) => {
@@ -123,7 +157,13 @@ export default class PDFPreview extends React.PureComponent {
         this.setState({loading: false, success: false});
     }
 
-    onPageLoad = (page) => {
+    loadPage = async (pdf, pageIndex) => {
+        if (this.state.pdfPagesLoaded[pageIndex]) {
+            return this.state.pdfPages[pageIndex];
+        }
+
+        const page = await pdf.getPage(pageIndex + 1);
+
         const pdfPages = Object.assign({}, this.state.pdfPages);
         pdfPages[page.pageIndex] = page;
 
@@ -132,15 +172,24 @@ export default class PDFPreview extends React.PureComponent {
 
         this.setState({pdfPages, pdfPagesLoaded});
 
-        if (page.pageIndex === 0) {
-            this.setState({success: true, loading: false});
-        }
+        return page;
     }
+
+    handleScroll = debounce(() => {
+        if (this.state.success) {
+            for (let i = 0; i < this.state.numPages; i++) {
+                this.renderPDFPage(i);
+            }
+        }
+    }, 100)
 
     render() {
         if (this.state.loading) {
             return (
-                <div className='view-image__loading'>
+                <div
+                    ref={this.container}
+                    className='view-image__loading'
+                >
                     <LoadingSpinner/>
                 </div>
             );
@@ -174,28 +223,11 @@ export default class PDFPreview extends React.PureComponent {
             }
         }
 
-        if (this.state.pdf.numPages > MAX_PDF_PAGES) {
-            pdfCanvases.push(
-                <div
-                    className='pdf-max-pages'
-                    key='previewpdfmorepages'
-                >
-                    <button
-                        className='btn btn-primary'
-                        onClick={this.downloadFile}
-                    >
-                        {<i className='icon icon-download-outline pdf-download-btn-spacer'/> }
-                        <FormattedMessage
-                            id='pdf_preview.max_pages'
-                            defaultMessage='Download to read more pages'
-                        />
-                    </button>
-                </div>,
-            );
-        }
-
         return (
-            <div className='post-code'>
+            <div
+                ref={this.container}
+                className='post-code'
+            >
                 {pdfCanvases}
             </div>
         );

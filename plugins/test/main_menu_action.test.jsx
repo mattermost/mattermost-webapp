@@ -42,9 +42,11 @@ describe('plugins/MainMenuActions', () => {
                 closeRhsMenu: jest.fn(),
                 unhideNextSteps: jest.fn(),
                 getCloudSubscription: jest.fn(),
+                getSubscriptionStats: jest.fn(),
             },
             isCloud: false,
             subscription: {},
+            userIsAdmin: true,
         };
 
         let wrapper = shallowWithIntl(
