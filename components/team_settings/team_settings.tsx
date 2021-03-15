@@ -22,7 +22,7 @@ const TeamSettings = ({
     closeModal,
     collapseModal,
     team,
-}: Props): JSX.Element | null | undefined => {
+}: Props): JSX.Element | null => {
     if (!team) {
         return null;
     }
