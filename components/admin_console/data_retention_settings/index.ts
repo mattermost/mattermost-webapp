@@ -5,7 +5,7 @@
 import {connect} from 'react-redux';
 
 import {getDataRetentionCustomPolicies as fetchDataRetentionCustomPolicies} from 'mattermost-redux/actions/admin';
-import {getDataRetentionCustomPolicies} from 'mattermost-redux/selectors/entities/admin';
+import {getDataRetentionCustomPolicies, getDataRetentionCustomPoliciesCount} from 'mattermost-redux/selectors/entities/admin';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
 import {DataRetentionCustomPolicies} from 'mattermost-redux/types/data_retention';
@@ -20,8 +20,11 @@ type Actions = {
 
 function mapStateToProps(state: GlobalState) {
     const customPolicies = getDataRetentionCustomPolicies(state);
+    const customPoliciesCount = getDataRetentionCustomPoliciesCount(state);
+
     return {
-        customPolicies
+        customPolicies,
+        customPoliciesCount
     };
 }
 

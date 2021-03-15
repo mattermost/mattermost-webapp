@@ -25,8 +25,9 @@ import {browserHistory} from 'utils/browser_history';
 type Props = {
     config: AdminConfig;
     customPolicies: DataRetentionCustomPolicies;
+    customPoliciesCount: number;
     actions: {
-        getDataRetentionCustomPolicies: () => Promise<{ data: DataRetentionCustomPolicies }>;
+        getDataRetentionCustomPolicies: (page: number) => Promise<{ data: DataRetentionCustomPolicies }>;
     };
 };
 
@@ -34,8 +35,10 @@ type State = {
     enableMessageDeletion: boolean;
     enableFileDeletion: boolean;
     customPoliciesLoading: boolean;
+    page: number;
+    loading: boolean;
 }
-
+const PAGE_SIZE = 10;
 export default class DataRetentionSettings extends React.PureComponent<Props, State> {
     constructor(props: Props) {
         super(props);
@@ -43,6 +46,8 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
             enableMessageDeletion: true,
             enableFileDeletion: true,
             customPoliciesLoading: true,
+            page: 0,
+            loading: false,
         }
     }
    
@@ -222,14 +227,37 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
             };
         });
     };
-
+    private loadPage = async (page: number) => {
+        this.setState({customPoliciesLoading: true});
+        await this.props.actions.getDataRetentionCustomPolicies(page);
+        this.setState({page, customPoliciesLoading: false});
+    }
     componentDidMount = async () => {
         const {actions} = this.props;
-        await actions.getDataRetentionCustomPolicies();
+        await this.loadPage(this.state.page);
         this.setState({customPoliciesLoading: false});
+    }
+    
+    private nextPage = () => {
+        this.loadPage(this.state.page + 1);
+    }
+
+    private previousPage = () => {
+        this.loadPage(this.state.page - 1);
+    }
+
+    public getPaginationProps = (): {startCount: number; endCount: number; total: number} => {
+        const {page} = this.state;
+        const startCount = (page * PAGE_SIZE) + 1;
+        const total = this.props.customPoliciesCount;
+        let endCount = (page + 1) * PAGE_SIZE;
+        endCount = endCount > total ? total : endCount;
+
+        return {startCount, endCount, total};
     }
 
     render = () => {
+        const {startCount, endCount, total} = this.getPaginationProps();
 
         return (
             <div className='wrapper--fixed DataRetentionSettings'>
@@ -310,12 +338,12 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                                     columns={this.getCustomPolicyColumns()}
                                     rows={this.getCustomPolicyRows()}
                                     loading={this.state.customPoliciesLoading}
-                                    page={0}
-                                    nextPage={() => {}}
-                                    previousPage={() => {}}
-                                    startCount={1}
-                                    endCount={4}
-                                    total={0}
+                                    page={this.state.page}
+                                    nextPage={this.nextPage}
+                                    previousPage={this.previousPage}
+                                    startCount={startCount}
+                                    endCount={endCount}
+                                    total={total}
                                     className={'customTable'}
                                 />
                             </Card.Body>
