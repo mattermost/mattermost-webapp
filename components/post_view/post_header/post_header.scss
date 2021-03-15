@@ -5,7 +5,7 @@
 .post.current--user {
     &.other--root, &.post--root, &.post--comment {
         .post__header-set-custom-status {
-            display: revert;
+            display: block;
             background: rgba(var(--center-channel-color-rgb), 0.08);
             padding: 0 6px;
             border-radius: 4px;
