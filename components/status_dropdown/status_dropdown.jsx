@@ -178,7 +178,7 @@ export default class StatusDropdown extends React.PureComponent {
         return (
             <Menu.Group>
                 <Menu.ItemToggleModalRedux
-                    text={''}
+                    accessibilityLabel='Custom Status'
                     modalId={ModalIdentifiers.CUSTOM_STATUS}
                     dialogType={CustomStatusModal}
                     className='MenuItem__primary-text custom_status__row'

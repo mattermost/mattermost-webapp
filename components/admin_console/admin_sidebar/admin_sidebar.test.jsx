@@ -241,7 +241,6 @@ describe('components/AdminSidebar', () => {
                 LDAPGroups: 'true',
                 LDAP: 'true',
                 Cluster: 'true',
-                Metrics: 'true',
                 SAML: 'true',
                 Compliance: 'true',
                 CustomTermsOfService: 'true',

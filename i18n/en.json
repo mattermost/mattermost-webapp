@@ -4345,6 +4345,7 @@
   "user.settings.security.oauthAppsHelp": "Applications act on your behalf to access your data based on the permissions you grant them.",
   "user.settings.security.office365": "Office 365",
   "user.settings.security.oneSignin": "You may only have one sign-in method at a time. Switching sign-in method will send an email notifying you if the change was successful.",
+  "user.settings.security.openid": "OpenID",
   "user.settings.security.password": "Password",
   "user.settings.security.passwordError": "Your password must contain between {min} and {max} characters.",
   "user.settings.security.passwordErrorLowercase": "Your password must contain between {min} and {max} characters made up of at least one lowercase letter.",
