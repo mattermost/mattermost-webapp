@@ -94,10 +94,10 @@
             position: absolute;
             width: calc(100% - 48px);
             margin: -28px 0 0 24px;
-            background: #fff;
+            background: rgba(var(--sys-center-channel-bg-rgb), 1);
             box-shadow: $elevation-4;
             border-radius: 4px;
-            border: 1px solid #ddd;
+            border: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.16);
             max-height: 272px;
             z-index: 5;
 
