@@ -9,6 +9,7 @@ exports[`components/custom_status/custom_status_emoji should match snapshot 1`] 
     }
   }
   showTooltip={false}
+  spanStyle={Object {}}
   tooltipDirection="top"
   userID=""
 />
@@ -23,6 +24,7 @@ exports[`components/custom_status/custom_status_emoji should match snapshot with
     }
   }
   showTooltip={true}
+  spanStyle={Object {}}
   tooltipDirection="bottom"
   userID=""
 />

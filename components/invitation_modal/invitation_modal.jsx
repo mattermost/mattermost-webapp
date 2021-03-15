@@ -35,6 +35,8 @@ export default class InvitationModal extends React.PureComponent {
         emailInvitationsEnabled: PropTypes.bool.isRequired,
         isCloud: PropTypes.bool.isRequired,
         isFreeTierWithNoFreeSeats: PropTypes.bool.isRequired,
+        userIsAdmin: PropTypes.bool.isRequired,
+        cloudUserLimit: PropTypes.string.isRequired,
         actions: PropTypes.shape({
             closeModal: PropTypes.func.isRequired,
             sendGuestsInvites: PropTypes.func.isRequired,
@@ -324,6 +326,8 @@ export default class InvitationModal extends React.PureComponent {
         };
         const userLimitModal = (
             <UserLimitModal
+                userIsAdmin={this.props.userIsAdmin}
+                cloudUserLimit={this.props.cloudUserLimit}
                 show={Boolean(this.props.show)}
                 actions={actionsUserLimitModal}
             />

@@ -14,6 +14,7 @@ interface ComponentProps {
     emojiSize?: number;
     showTooltip?: boolean;
     tooltipDirection?: 'top' | 'right' | 'bottom' | 'left';
+    spanStyle?: React.CSSProperties;
     emojiStyle?: React.CSSProperties;
     userID?: string;
     onClick?: () => void;
@@ -21,7 +22,7 @@ interface ComponentProps {
 
 const CustomStatusEmoji = (props: ComponentProps) => {
     const getCustomStatus = makeGetCustomStatus();
-    const {emojiSize, emojiStyle, showTooltip, tooltipDirection, userID, onClick} = props;
+    const {emojiSize, emojiStyle, spanStyle, showTooltip, tooltipDirection, userID, onClick} = props;
     const customStatusEnabled = useSelector(isCustomStatusEnabled);
     const customStatus = useSelector((state: GlobalState) => {
         return getCustomStatus(state, userID);
@@ -53,6 +54,9 @@ const CustomStatusEmoji = (props: ComponentProps) => {
                         <RenderEmoji
                             emojiName={customStatus.emoji}
                             size={14}
+                            emojiStyle={{
+                                marginTop: 2,
+                            }}
                         />
                         <span
                             className='custom-status-text'
@@ -64,7 +68,7 @@ const CustomStatusEmoji = (props: ComponentProps) => {
                 </Tooltip>
             }
         >
-            <span>
+            <span style={spanStyle}>
                 {statusEmoji}
             </span>
         </OverlayTrigger>
@@ -76,6 +80,7 @@ CustomStatusEmoji.defaultProps = {
     emojiSize: 16,
     tooltipDirection: 'top',
     showTooltip: false,
+    spanStyle: {},
     emojiStyle: {
         marginLeft: 4,
     },

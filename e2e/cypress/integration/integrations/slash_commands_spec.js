@@ -10,11 +10,12 @@
 // Stage: @prod
 // Group: @integrations
 
-import {getRandomId} from '../../utils';
-
 /**
 * Note: This test requires webhook server running. Initiate `npm run start:webhook` to start.
 */
+
+import {getRandomId} from '../../utils';
+import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Integrations', () => {
     let user1;
@@ -66,8 +67,8 @@ describe('Integrations', () => {
 
         // # User 1 Create a private channel, with ${channelName}
         cy.uiBrowseOrCreateChannel('Create New Channel').click();
-        cy.get('#private').click();
-        cy.get('#newChannelName').type(privateChannelName);
+        cy.get('#private').click().wait(TIMEOUTS.HALF_SEC);
+        cy.get('#newChannelName').should('be.visible').type(privateChannelName);
         cy.get('#submitNewChannel').click();
 
         // # User, who is a member of the channel, try /join command without tilde
@@ -111,8 +112,8 @@ describe('Integrations', () => {
 
         // # User 1 Create a private channel, with ${channelName}
         cy.uiBrowseOrCreateChannel('Create New Channel').click();
-        cy.get('#private').click();
-        cy.get('#newChannelName').type(privateChannelName);
+        cy.get('#private').click().wait(TIMEOUTS.HALF_SEC);
+        cy.get('#newChannelName').should('be.visible').type(privateChannelName);
         cy.get('#submitNewChannel').click();
 
         // # User, who is a member of the channel, try /open command without tilde

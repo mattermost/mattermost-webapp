@@ -282,4 +282,24 @@ describe('wrapEmojis', () => {
             </span>,
         ]);
     });
+
+    test('should return a one character string if it contains no emojis', () => {
+        const input = 'a';
+
+        expect(wrapEmojis(input)).toBe(input);
+    });
+
+    test('should properly wrap an emoji followed by a single character', () => {
+        const input = '🌮a';
+
+        expect(wrapEmojis(input)).toEqual([
+            <span
+                key='0'
+                className='emoji'
+            >
+                {'🌮'}
+            </span>,
+            'a',
+        ]);
+    });
 });

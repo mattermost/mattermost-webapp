@@ -4043,7 +4043,6 @@
   "user.settings.sidebar.unreadsFavoritesShort": "Непрочитанные и избранное сгруппированы отдельно",
   "user.settings.sidebar.unreadsShort": "Непрочитанные сгруппированы отдельно",
   "user.settings.timezones.automatic": "Выбрать автоматически",
-  "user.settings.timezones.change": "Сменить часовой пояс",
   "user.settings.timezones.promote": "Выбрать часовой пояс для отображения времени в пользовательском интерфейсе и уведомлениях по e-mail.",
   "user.settings.tokens.activate": "Включить",
   "user.settings.tokens.cancel": "Отмена",

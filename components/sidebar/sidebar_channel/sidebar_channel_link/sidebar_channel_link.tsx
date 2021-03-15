@@ -199,9 +199,13 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
             <CustomStatusEmoji
                 userID={this.props.teammateId}
                 showTooltip={true}
+                spanStyle={{
+                    height: 18,
+                }}
                 emojiStyle={{
+                    marginTop: -4,
                     marginLeft: 6,
-                    marginBottom: 6,
+                    marginBottom: 0,
                 }}
             />
         ) : null;
