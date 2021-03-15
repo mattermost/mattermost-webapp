@@ -3,74 +3,77 @@
 
 /* eslint-disable max-lines */
 
-import {getAppBindings} from 'mattermost-redux/selectors/entities/apps';
-
-import {AppBindingLocations, AppCallResponseTypes, AppCallTypes, AppFieldTypes} from 'mattermost-redux/constants/apps';
-
 import {
+    AppCallRequest,
     AppBinding,
     AppField,
     AppSelectOption,
     AppCallResponse,
     AppContext,
     AppForm,
+    AppCallValues,
     AutocompleteSuggestion,
     AutocompleteStaticSelect,
-    AutocompleteSuggestionWithComplete,
-    AppCallValues,
-    AppCallRequest,
-} from 'mattermost-redux/types/apps';
+    Channel,
+    DispatchFunc,
+    GlobalState,
 
-import {getPost} from 'mattermost-redux/selectors/entities/posts';
-import {getChannel, getChannelByName as selectChannelByName, getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
-import {Channel} from 'mattermost-redux/types/channels';
+    AppBindingLocations,
+    AppCallResponseTypes,
+    AppCallTypes,
+    AppFieldTypes,
+    getAppsBindings,
+    getChannel,
+    getCurrentTeamId,
+    doAppCall,
+    getStore,
+    EXECUTE_CURRENT_COMMAND_ITEM_ID,
+    getExecuteSuggestion,
+    displayError,
+    keyMirror,
+    createCallRequest,
+    selectUserByUsername,
+    getUserByUsername,
+    getChannelByNameAndTeamName,
+    getCurrentTeam,
+    selectChannelByName,
+} from './app_command_parser_dependencies';
 
-import {getCurrentTeam, getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-
-import {Store} from 'redux';
-
-import {getUserByUsername as selectUserByUsername} from 'mattermost-redux/selectors/entities/users';
-
-import {getUserByUsername} from 'mattermost-redux/actions/users';
-
-import {getChannelByNameAndTeamName} from 'mattermost-redux/actions/channels';
-
-import {Constants} from 'utils/constants';
-import {GlobalState} from 'types/store';
-import {sendEphemeralPost} from 'actions/global_actions';
-import {doAppCall} from 'actions/apps';
-import * as Utils from 'utils/utils.jsx';
-import {t} from 'utils/i18n';
-import {createCallRequest} from 'utils/apps';
-
-const EXECUTE_CURRENT_COMMAND_ITEM_ID = Constants.Integrations.EXECUTE_CURRENT_COMMAND_ITEM_ID;
-
-export enum ParseState {
-    Start = 0,
-    Command,
-    EndCommand,
-    CommandSeparator,
-    StartParameter,
-    ParameterSeparator,
-    Flag1,
-    Flag,
-    FlagValueSeparator,
-    StartValue,
-    NonspaceValue,
-    QuotedValue,
-    TickValue,
-    EndValue,
-    EndQuotedValue,
-    EndTickedValue,
-    Error,
+export type Store = {
+    dispatch: DispatchFunc;
+    getState: () => GlobalState;
 }
+
+export const ParseState = keyMirror({
+    Start: null,
+    Command: null,
+    EndCommand: null,
+    CommandSeparator: null,
+    StartParameter: null,
+    ParameterSeparator: null,
+    Flag1: null,
+    Flag: null,
+    FlagValueSeparator: null,
+    StartValue: null,
+    NonspaceValue: null,
+    QuotedValue: null,
+    TickValue: null,
+    EndValue: null,
+    EndQuotedValue: null,
+    EndTickedValue: null,
+    Error: null,
+});
 
 interface FormsCache {
     getForm: (location: string, binding: AppBinding) => Promise<AppForm | undefined>;
 }
 
+interface Intl {
+    formatMessage(config: {id: string; defaultMessage: string}, values?: {[name: string]: any}): string;
+}
+
 export class ParsedCommand {
-    state: ParseState = ParseState.Start;
+    state: string = ParseState.Start;
     command: string;
     i = 0;
     incomplete = '';
@@ -83,10 +86,12 @@ export class ParsedCommand {
     values: {[name: string]: string} = {};
     location = '';
     error = '';
+    intl: Intl;
 
-    constructor(command: string, formsCache: FormsCache) {
+    constructor(command: string, formsCache: FormsCache, intl: any) {
         this.command = command;
         this.formsCache = formsCache || [];
+        this.intl = intl;
     }
 
     asError = (message: string): ParsedCommand => {
@@ -96,13 +101,23 @@ export class ParsedCommand {
     };
 
     errorMessage = (): string => {
-        return 'Parsing error: ' + this.error + '.\n```\n' + this.command + '\n' + ' '.repeat(this.i) + '^\n```';
+        return this.intl.formatMessage({
+            id: 'apps.error.parser',
+            defaultMessage: 'Parsing error: {error}.\n```\n{command}\n{space}^\n```',
+        }, {
+            error: this.error,
+            command: this.command,
+            space: ' '.repeat(this.i),
+        });
     }
 
     // matchBinding finds the closest matching command binding.
     matchBinding = async (commandBindings: AppBinding[], autocompleteMode = false): Promise<ParsedCommand> => {
         if (commandBindings.length === 0) {
-            return this.asError(Utils.localizeMessage('apps.error.command.no_bindings', 'No command bindings.'));
+            return this.asError(this.intl.formatMessage({
+                id: 'apps.error.parser.no_bindings',
+                defaultMessage: 'No command bindings.',
+            }));
         }
         let bindings = commandBindings;
 
@@ -113,10 +128,13 @@ export class ParsedCommand {
                 c = this.command[this.i];
             }
 
-            switch (Number(this.state)) {
+            switch (this.state) {
             case ParseState.Start: {
                 if (c !== '/') {
-                    return this.asError(Utils.localizeMessage('apps.error.parser.no_slash_start', 'Command must start with a `/`.'));
+                    return this.asError(this.intl.formatMessage({
+                        id: 'apps.error.parser.no_slash_start',
+                        defaultMessage: 'Command must start with a `/`.',
+                    }));
                 }
                 this.i++;
                 this.incomplete = '';
@@ -165,16 +183,16 @@ export class ParsedCommand {
             }
 
             case ParseState.CommandSeparator: {
+                if (c === '') {
+                    done = true;
+                }
+
                 switch (c) {
                 case ' ':
                 case '\t': {
                     this.i++;
                     break;
                 }
-
-                case '':
-                    done = true;
-                // eslint-disable-next-line no-fallthrough
                 default: {
                     this.incomplete = '';
                     this.incompleteStart = this.i;
@@ -186,21 +204,23 @@ export class ParsedCommand {
             }
 
             default: {
-                return this.asError(Utils.localizeAndFormatMessage(
-                    t('apps.error.parser.unexpected_state'),
-                    'Unreachable: Unexpected state in matchBinding: `{state}`.',
-                    {state: this.state},
-                ));
+                return this.asError(this.intl.formatMessage({
+                    id: 'apps.error.parser.unexpected_state',
+                    defaultMessage: 'Unreachable: Unexpected state in matchBinding: `{state}`.',
+                }, {
+                    state: this.state,
+                }));
             }
             }
         }
 
         if (!this.binding) {
-            return this.asError(Utils.localizeAndFormatMessage(
-                t('apps.error.parser.no_match'),
-                '`{command}`: no match.',
-                {command: this.command},
-            ));
+            return this.asError(this.intl.formatMessage({
+                id: 'apps.error.parser.no_match',
+                defaultMessage: '`{command}`: no match.',
+            }, {
+                command: this.command,
+            }));
         }
 
         this.form = this.binding.form;
@@ -234,7 +254,7 @@ export class ParsedCommand {
                 c = this.command[this.i];
             }
 
-            switch (Number(this.state)) {
+            switch (this.state) {
             case ParseState.StartParameter: {
                 switch (c) {
                 case '':
@@ -251,11 +271,12 @@ export class ParsedCommand {
                     // eslint-disable-next-line no-loop-func
                     const field = fields.find((f: AppField) => f.position === this.position);
                     if (!field) {
-                        return this.asError(Utils.localizeAndFormatMessage(
-                            t('apps.error.parser.no_argument_pos_x'),
-                            'Command does not accept {positionX} positional arguments.',
-                            {positionX: this.position},
-                        ));
+                        return this.asError(this.intl.formatMessage({
+                            id: 'apps.error.parser.no_argument_pos_x',
+                            defaultMessage: 'Command does not accept {positionX} positional arguments.',
+                        }, {
+                            positionX: this.position,
+                        }));
                     }
                     this.field = field;
                     this.state = ParseState.StartValue;
@@ -296,25 +317,23 @@ export class ParsedCommand {
             }
 
             case ParseState.Flag: {
-                switch (c) {
-                case '': {
-                    if (autocompleteMode) {
-                        return this;
-                    }
-
-                    // for submit fall through to whitespace, to handle an (implicit) BOOl value.
+                if (c === '' && autocompleteMode) {
+                    return this;
                 }
-                // eslint-disable-next-line no-fallthrough
+
+                switch (c) {
+                case '':
                 case ' ':
                 case '\t':
                 case '=': {
                     const field = fields.find((f) => f.label === this.incomplete.toLowerCase());
                     if (!field) {
-                        return this.asError(Utils.localizeAndFormatMessage(
-                            t('apps.error.parser.unexpected_flag'),
-                            'Command does not accept flag `{flagName}`.',
-                            {flagName: this.incomplete},
-                        ));
+                        return this.asError(this.intl.formatMessage({
+                            id: 'apps.error.parser.unexpected_flag',
+                            defaultMessage: 'Command does not accept flag `{flagName}`.',
+                        }, {
+                            flagName: this.incomplete,
+                        }));
                     }
                     this.state = ParseState.FlagValueSeparator;
                     this.field = field;
@@ -347,7 +366,10 @@ export class ParsedCommand {
                 }
                 case '=': {
                     if (flagEqualsUsed) {
-                        return this.asError(Utils.localizeMessage('apps.error.parser.multiple_equal', 'Multiple `=` signs are not allowed.'));
+                        return this.asError(this.intl.formatMessage({
+                            id: 'apps.error.parser.multiple_equal',
+                            defaultMessage: 'Multiple `=` signs are not allowed.',
+                        }));
                     }
                     flagEqualsUsed = true;
                     this.i++;
@@ -376,7 +398,10 @@ export class ParsedCommand {
                 }
                 case ' ':
                 case '\t':
-                    return this.asError(Utils.localizeMessage('apps.error.parser.unexpected_whitespace', 'Unreachable: Unexpected whitespace.'));
+                    return this.asError(this.intl.formatMessage({
+                        id: 'apps.error.parser.unexpected_whitespace',
+                        defaultMessage: 'Unreachable: Unexpected whitespace.',
+                    }));
                 default: {
                     this.state = ParseState.NonspaceValue;
                     break;
@@ -406,13 +431,19 @@ export class ParsedCommand {
                 switch (c) {
                 case '': {
                     if (!autocompleteMode) {
-                        return this.asError(Utils.localizeMessage('apps.error.parser.missing_quote', 'Matching double quote expected before end of input.'));
+                        return this.asError(this.intl.formatMessage({
+                            id: 'apps.error.parser.missing_quote',
+                            defaultMessage: 'Matching double quote expected before end of input.',
+                        }));
                     }
                     return this;
                 }
                 case '"': {
                     if (this.incompleteStart === this.i - 1) {
-                        return this.asError('empty values are not allowed');
+                        return this.asError(this.intl.formatMessage({
+                            id: 'apps.error.parser.empty_value',
+                            defaultMessage: 'empty values are not allowed',
+                        }));
                     }
                     this.i++;
                     this.state = ParseState.EndQuotedValue;
@@ -440,13 +471,19 @@ export class ParsedCommand {
                 switch (c) {
                 case '': {
                     if (!autocompleteMode) {
-                        return this.asError(Utils.localizeMessage('apps.error.parser.missing_tick', 'Matching tick quote expected before end of input.'));
+                        return this.asError(this.intl.formatMessage({
+                            id: 'apps.error.parser.missing_tick',
+                            defaultMessage: 'Matching tick quote expected before end of input.',
+                        }));
                     }
                     return this;
                 }
                 case '`': {
                     if (this.incompleteStart === this.i - 1) {
-                        return this.asError('empty values are not allowed');
+                        return this.asError(this.intl.formatMessage({
+                            id: 'apps.error.parser.empty_value',
+                            defaultMessage: 'empty values are not allowed',
+                        }));
                     }
                     this.i++;
                     this.state = ParseState.EndTickedValue;
@@ -465,7 +502,10 @@ export class ParsedCommand {
             case ParseState.EndQuotedValue:
             case ParseState.EndValue: {
                 if (!this.field) {
-                    return this.asError(Utils.localizeMessage('apps.error.parser.missing_field_value', 'Field value Expected.'));
+                    return this.asError(this.intl.formatMessage({
+                        id: 'apps.error.parser.missing_field_value',
+                        defaultMessage: 'Field value Expected.',
+                    }));
                 }
 
                 // special handling for optional BOOL values ('--boolflag true'
@@ -498,25 +538,30 @@ export class ParsedCommand {
 }
 
 export class AppCommandParser {
-    private store: Store<GlobalState>;
-    private rootPostID: string;
+    private store: Store;
     private channelID: string;
+    private rootPostID?: string;
+    private intl: Intl;
 
     forms: {[location: string]: AppForm} = {};
 
-    constructor(store: Store, channelID: string, rootPostID = '') {
-        this.store = store;
-        this.rootPostID = rootPostID;
+    constructor(store: Store|null, intl: Intl, channelID: string, rootPostID = '') {
+        this.store = store || getStore() as Store;
         this.channelID = channelID;
+        this.rootPostID = rootPostID;
+        this.intl = intl;
     }
 
     // composeCallFromCommand creates the form submission call
     public composeCallFromCommand = async (command: string): Promise<AppCallRequest | null> => {
-        let parsed = new ParsedCommand(command, this);
+        let parsed = new ParsedCommand(command, this, this.intl);
 
         const commandBindings = this.getCommandBindings();
         if (!commandBindings) {
-            this.displayError(Utils.localizeMessage('apps.error.command.no_bindings', 'No command bindings.'));
+            this.displayError(this.intl.formatMessage({
+                id: 'apps.error.command.no_bindings',
+                defaultMessage: 'No command bindings.',
+            }));
             return null;
         }
 
@@ -530,10 +575,12 @@ export class AppCommandParser {
         const missing = this.getMissingFields(parsed);
         if (missing.length > 0) {
             const missingStr = missing.map((f) => f.label).join(', ');
-            this.displayError(Utils.localizeAndFormatMessage(
-                t('apps.error.command.field_missing'),
-                'Required fields missing: `{fieldName}`.',
-                {fieldName: missingStr}));
+            this.displayError(this.intl.formatMessage({
+                id: 'apps.error.command.field_missing',
+                defaultMessage: 'Required fields missing: `{fieldName}`.',
+            }, {
+                fieldName: missingStr,
+            }));
             return null;
         }
 
@@ -541,9 +588,9 @@ export class AppCommandParser {
     }
 
     // getSuggestionsBase is a synchronous function that returns results for base commands
-    public getSuggestionsBase = (pretext: string): AutocompleteSuggestionWithComplete[] => {
+    public getSuggestionsBase = (pretext: string): AutocompleteSuggestion[] => {
         const command = pretext.toLowerCase();
-        const result: AutocompleteSuggestionWithComplete[] = [];
+        const result: AutocompleteSuggestion[] = [];
 
         const bindings = this.getCommandBindings();
         for (const binding of bindings) {
@@ -557,10 +604,11 @@ export class AppCommandParser {
             }
             if (base.startsWith(command)) {
                 result.push({
-                    suggestion: base,
-                    complete: base,
-                    description: binding.description,
-                    hint: binding.hint || '',
+                    Suggestion: base,
+                    Complete: base.substring(1),
+                    Description: binding.description || '',
+                    Hint: binding.hint || '',
+                    IconData: binding.icon || '',
                 });
             }
         }
@@ -569,8 +617,8 @@ export class AppCommandParser {
     }
 
     // getSuggestions returns suggestions for subcommands and/or form arguments
-    public getSuggestions = async (pretext: string): Promise<AutocompleteSuggestionWithComplete[]> => {
-        let parsed = new ParsedCommand(pretext, this);
+    public getSuggestions = async (pretext: string): Promise<AutocompleteSuggestion[]> => {
+        let parsed = new ParsedCommand(pretext, this, this.intl);
 
         const commandBindings = this.getCommandBindings();
         if (!commandBindings) {
@@ -591,7 +639,7 @@ export class AppCommandParser {
 
         // Add "Execute Current Command" suggestion
         // TODO get full text from SuggestionBox
-        const executableStates = [
+        const executableStates: string[] = [
             ParseState.EndCommand,
             ParseState.CommandSeparator,
             ParseState.StartParameter,
@@ -603,8 +651,10 @@ export class AppCommandParser {
         const hasValue = (parsed.state !== ParseState.EndValue || (parsed.field && parsed.values[parsed.field.name] !== undefined));
 
         if (executableStates.includes(parsed.state) && call && hasRequired && hasValue) {
-            const execute = this.getExecuteSuggestion(parsed);
-            suggestions = [execute, ...suggestions];
+            const execute = getExecuteSuggestion(parsed);
+            if (execute) {
+                suggestions = [execute, ...suggestions];
+            }
         }
 
         return suggestions.map((suggestion) => this.decorateSuggestionComplete(parsed, suggestion));
@@ -650,13 +700,13 @@ export class AppCommandParser {
                 const option = f.options?.find((o) => (o.value === values[f.name]));
                 if (!option) {
                     ok = false;
-                    this.displayError(Utils.localizeAndFormatMessage(
-                        t('apps.error.command.unknown_option'),
-                        'Unknown option for field `{fieldName}`: `{option}`.',
-                        {
-                            fieldName: f.name,
-                            option: values[f.name],
-                        }));
+                    this.displayError(this.intl.formatMessage({
+                        id: 'apps.error.command.unknown_option',
+                        defaultMessage: 'Unknown option for field `{fieldName}`: `{option}`.',
+                    }, {
+                        fieldName: f.name,
+                        option: values[f.name],
+                    }));
                     return;
                 }
                 values[f.name] = option;
@@ -672,13 +722,13 @@ export class AppCommandParser {
                     const dispatchResult = await this.store.dispatch(getUserByUsername(userName) as any);
                     if ('error' in dispatchResult) {
                         ok = false;
-                        this.displayError(Utils.localizeAndFormatMessage(
-                            t('apps.error.command.unknown_user'),
-                            'Unknown user for field `{fieldName}`: `{option}`.',
-                            {
-                                fieldName: f.name,
-                                option: values[f.name],
-                            }));
+                        this.displayError(this.intl.formatMessage({
+                            id: 'apps.error.command.unknown_user',
+                            defaultMessage: 'Unknown user for field `{fieldName}`: `{option}`.',
+                        }, {
+                            fieldName: f.name,
+                            option: values[f.name],
+                        }));
                         return;
                     }
                     user = dispatchResult.data;
@@ -696,13 +746,13 @@ export class AppCommandParser {
                     const dispatchResult = await this.store.dispatch(getChannelByNameAndTeamName(getCurrentTeam(this.store.getState()).name, channelName) as any);
                     if ('error' in dispatchResult) {
                         ok = false;
-                        this.displayError(Utils.localizeAndFormatMessage(
-                            t('apps.error.command.unknown_channel'),
-                            'Unknown channel for field `{fieldName}`: `{option}`.',
-                            {
-                                fieldName: f.name,
-                                option: values[f.name],
-                            }));
+                        this.displayError(this.intl.formatMessage({
+                            id: 'apps.error.command.unknown_channel',
+                            defaultMessage: 'Unknown channel for field `{fieldName}`: `{option}`.',
+                        }, {
+                            fieldName: f.name,
+                            option: values[f.name],
+                        }));
                         return;
                     }
                     channel = dispatchResult.data;
@@ -717,61 +767,42 @@ export class AppCommandParser {
     }
 
     // decorateSuggestionComplete applies the necessary modifications for a suggestion to be processed
-    decorateSuggestionComplete = (parsed: ParsedCommand, choice: AutocompleteSuggestion): AutocompleteSuggestionWithComplete => {
-        if (choice.complete && choice.complete.endsWith(EXECUTE_CURRENT_COMMAND_ITEM_ID)) {
-            return choice as AutocompleteSuggestionWithComplete;
+    decorateSuggestionComplete = (parsed: ParsedCommand, choice: AutocompleteSuggestion): AutocompleteSuggestion => {
+        if (choice.Complete && choice.Complete.endsWith(EXECUTE_CURRENT_COMMAND_ITEM_ID)) {
+            return choice as AutocompleteSuggestion;
         }
 
         let goBackSpace = 0;
-        if (choice.complete === '') {
+        if (choice.Complete === '') {
             goBackSpace = 1;
         }
         let complete = parsed.command.substring(0, parsed.incompleteStart - goBackSpace);
-        complete += choice.complete || choice.suggestion;
-        choice.hint = choice.hint || '';
-        choice.suggestion = '/' + choice.suggestion;
+        complete += choice.Complete || choice.Suggestion;
+        choice.Hint = choice.Hint || '';
+        complete = complete.substring(1);
 
         return {
             ...choice,
-            complete,
+            Complete: complete,
         };
     }
 
     // getCommandBindings returns the commands in the redux store.
     // They are grouped by app id since each app has one base command
     getCommandBindings = (): AppBinding[] => {
-        const bindings = getAppBindings(this.store.getState(), AppBindingLocations.COMMAND);
-        const grouped: {[appID: string]: AppBinding} = {};
-
-        for (const b of bindings) {
-            grouped[b.app_id] = grouped[b.app_id] || {
-                app_id: b.app_id,
-                label: b.app_id,
-                location: AppBindingLocations.COMMAND,
-                bindings: [],
-            };
-
-            const group = grouped[b.app_id];
-            group.bindings = group.bindings || [];
-            group.bindings.push(b);
-        }
-
-        return Object.values(grouped);
+        const bindings = getAppsBindings(this.store.getState(), AppBindingLocations.COMMAND);
+        return bindings;
     }
 
-    // getChannel computes the right channel, based on if this command is running in the center channel or RHS
+    // getChannel gets the channel in which the user is typing the command
     getChannel = (): Channel | null => {
         const state = this.store.getState();
-        if (!this.rootPostID) {
-            return getCurrentChannel(state);
-        }
+        return getChannel(state, this.channelID);
+    }
 
-        const post = getPost(state, this.rootPostID);
-        if (!post) {
-            return null;
-        }
-
-        return getChannel(state, post.channel_id);
+    setChannelContext = (channelID: string, rootPostID?: string) => {
+        this.channelID = channelID;
+        this.rootPostID = rootPostID;
     }
 
     // isAppCommand determines if subcommand/form suggestions need to be returned
@@ -824,28 +855,33 @@ export class AppCommandParser {
             this.getAppContext(binding.app_id),
         );
 
-        const res = await this.store.dispatch(doAppCall(payload, AppCallTypes.FORM) as any) as {data: AppCallResponse};
+        const res = await this.store.dispatch(doAppCall(payload, AppCallTypes.FORM, this.intl)) as {data: AppCallResponse};
         const callResponse = res.data;
         switch (callResponse.type) {
         case AppCallResponseTypes.FORM:
             break;
         case AppCallResponseTypes.ERROR:
-            this.displayError(callResponse.error || Utils.localizeMessage('apps.error.unknown', 'Unknown error.'));
+            this.displayError(callResponse.error || this.intl.formatMessage({
+                id: 'apps.error.unknown',
+                defaultMessage: 'Unknown error.',
+            }));
             return undefined;
         case AppCallResponseTypes.NAVIGATE:
         case AppCallResponseTypes.OK:
-            this.displayError(Utils.localizeAndFormatMessage(
-                t('apps.error.responses.unexpected_type'),
-                'App response type was not expected. Response type: {type}',
-                {type: callResponse.type},
-            ));
+            this.displayError(this.intl.formatMessage({
+                id: 'apps.error.responses.unexpected_type',
+                defaultMessage: 'App response type was not expected. Response type: {type}',
+            }, {
+                type: callResponse.type,
+            }));
             return undefined;
         default:
-            this.displayError(Utils.localizeAndFormatMessage(
-                t('apps.error.responses.unknown_type'),
-                'App response type not supported. Response type: {type}.',
-                {type: callResponse.type},
-            ));
+            this.displayError(this.intl.formatMessage({
+                id: 'apps.error.responses.unknown_type',
+                defaultMessage: 'App response type not supported. Response type: {type}.',
+            }, {
+                type: callResponse.type,
+            }));
             return undefined;
         }
 
@@ -871,9 +907,7 @@ export class AppCommandParser {
         if (err.message) {
             errStr = err.message;
         }
-        sendEphemeralPost(errStr, this.channelID, this.rootPostID);
-
-        // TODO display error under the command line
+        displayError(errStr);
     }
 
     // getSuggestionsForSubCommands returns suggestions for a subcommand's name
@@ -887,10 +921,11 @@ export class AppCommandParser {
         bindings.forEach((b) => {
             if (b.label.toLowerCase().startsWith(parsed.incomplete.toLowerCase())) {
                 result.push({
-                    complete: b.label,
-                    suggestion: b.label,
-                    description: b.description,
-                    hint: b.hint || '',
+                    Complete: b.label,
+                    Suggestion: b.label,
+                    Description: b.description || '',
+                    Hint: b.hint || '',
+                    IconData: b.icon || '',
                 });
             }
         });
@@ -900,7 +935,7 @@ export class AppCommandParser {
 
     // getParameterSuggestions computes suggestions for positional argument values, flag names, and flag argument values
     getParameterSuggestions = async (parsed: ParsedCommand): Promise<AutocompleteSuggestion[]> => {
-        switch (Number(parsed.state)) {
+        switch (parsed.state) {
         case ParseState.StartParameter: {
             // see if there's a matching positional field
             const positional = parsed.form?.fields?.find((f: AppField) => f.position === parsed.position + 1);
@@ -926,22 +961,6 @@ export class AppCommandParser {
             return this.getValueSuggestions(parsed, '`');
         }
         return [];
-    }
-
-    // getExecuteSuggestion returns the "Execute Current Command" suggestion
-    getExecuteSuggestion = (parsed: ParsedCommand): AutocompleteSuggestion => {
-        let key = 'Ctrl';
-        if (Utils.isMac()) {
-            key = '⌘';
-        }
-
-        return {
-            complete: parsed.command + EXECUTE_CURRENT_COMMAND_ITEM_ID,
-            suggestion: '/Execute Current Command',
-            hint: '',
-            description: 'Select this option or use ' + key + '+Enter to execute the current command.',
-            iconData: EXECUTE_CURRENT_COMMAND_ITEM_ID,
-        };
     }
 
     // getMissingFields collects the required fields that were not supplied in a submission
@@ -980,15 +999,16 @@ export class AppCommandParser {
         if (applicable) {
             return applicable.map((f) => {
                 return {
-                    complete: prefix + (f.label || f.name),
-                    suggestion: '--' + (f.label || f.name),
-                    description: f.description,
-                    hint: f.hint,
+                    Complete: prefix + (f.label || f.name),
+                    Suggestion: '--' + (f.label || f.name),
+                    Description: f.description || '',
+                    Hint: f.hint || '',
+                    IconData: parsed.binding?.icon || '',
                 };
             });
         }
 
-        return [{suggestion: 'Could not find any suggestions'}];
+        return [];
     }
 
     // getSuggestionsForField gets suggestions for a positional or flag field value
@@ -1017,10 +1037,11 @@ export class AppCommandParser {
         }
 
         return [{
-            complete,
-            suggestion: parsed.incomplete,
-            description: f.description,
-            hint: f.hint,
+            Complete: complete,
+            Suggestion: parsed.incomplete,
+            Description: f.description || '',
+            Hint: '',
+            IconData: parsed.binding?.icon || '',
         }];
     }
 
@@ -1036,10 +1057,11 @@ export class AppCommandParser {
                 complete = '`' + complete + '`';
             }
             return {
-                complete,
-                suggestion: opt.label,
-                hint: '',
-                description: '',
+                Complete: complete,
+                Suggestion: opt.label,
+                Hint: f.hint || '',
+                Description: f.description || '',
+                IconData: opt.icon_data || parsed.binding?.icon || '',
             };
         });
     }
@@ -1051,39 +1073,51 @@ export class AppCommandParser {
             return [];
         }
 
-        const payload = await this.composeCallFromParsed(parsed);
-        if (!payload) {
+        const call = await this.composeCallFromParsed(parsed);
+        if (!call) {
             return [];
         }
-        payload.selected_field = f.name;
-        payload.query = parsed.incomplete;
+        call.selected_field = f.name;
+        call.query = parsed.incomplete;
 
         type ResponseType = {items: AppSelectOption[]};
-        const res = await this.store.dispatch(doAppCall(payload, AppCallTypes.LOOKUP) as any) as {data: AppCallResponse<ResponseType>};
+        const res = await this.store.dispatch(doAppCall<ResponseType>(call, AppCallTypes.LOOKUP, this.intl)) as {data: AppCallResponse<ResponseType>};
         const callResponse = res.data;
+
         switch (callResponse.type) {
         case AppCallResponseTypes.OK:
             break;
         case AppCallResponseTypes.ERROR:
-            return makeSuggestionError(callResponse.error || Utils.localizeMessage('apps.error.unknown', 'Unknown error.'));
+            return this.makeSuggestionError(callResponse.error || this.intl.formatMessage({
+                id: 'apps.error.unknown',
+                defaultMessage: 'Unknown error.',
+            }));
         case AppCallResponseTypes.NAVIGATE:
         case AppCallResponseTypes.FORM:
-            return makeSuggestionError(Utils.localizeAndFormatMessage(
-                t('apps.error.responses.unexpected_type'),
-                'App response type was not expected. Response type: {type}',
-                {type: callResponse.type},
-            ));
+            return this.makeSuggestionError(this.intl.formatMessage({
+                id: 'apps.error.responses.unexpected_type',
+                defaultMessage: 'App response type was not expected. Response type: {type}',
+            }, {
+                type: callResponse.type,
+            }));
         default:
-            return makeSuggestionError(Utils.localizeAndFormatMessage(
-                t('apps.error.responses.unknown_type'),
-                'App response type not supported. Response type: {type}.',
-                {type: callResponse.type},
-            ));
+            return this.makeSuggestionError(this.intl.formatMessage({
+                id: 'apps.error.responses.unknown_type',
+                defaultMessage: 'App response type not supported. Response type: {type}.',
+            }, {
+                type: callResponse.type,
+            }));
         }
 
-        const items = res?.data?.data?.items;
+        const items = callResponse?.data?.items;
         if (!items) {
-            return [{suggestion: Utils.localizeMessage('apps.suggestion.no_dynamic', 'Received no data for dynamic suggestions')}];
+            return [{
+                Suggestion: this.intl.formatMessage({id: 'apps.suggestion.no_dynamic', defaultMessage: 'Received no data for dynamic suggestions'}),
+                Complete: '',
+                Hint: '',
+                Description: '',
+                IconData: '',
+            }];
         }
 
         return items.map((s): AutocompleteSuggestion => {
@@ -1094,23 +1128,40 @@ export class AppCommandParser {
                 complete = '`' + complete + '`';
             }
             return ({
-                complete,
-                suggestion: s.label,
-                hint: '',
-                description: '',
-                iconData: s.icon_data,
+                Complete: complete,
+                Description: s.label,
+                Suggestion: s.value,
+                Hint: '',
+                IconData: s.icon_data || parsed.binding?.icon || '',
             });
         });
+    }
+
+    makeSuggestionError = (message: string): AutocompleteSuggestion[] => {
+        const errMsg = this.intl.formatMessage({
+            id: 'apps.error',
+            defaultMessage: 'Error: {error}',
+        }, {
+            error: message,
+        });
+        return [{
+            Complete: '',
+            Description: '',
+            Hint: '',
+            IconData: '',
+            Suggestion: errMsg,
+        }];
     }
 
     // getUserSuggestions returns a suggestion with `@` if the user has not started typing
     getUserSuggestions = (parsed: ParsedCommand): AutocompleteSuggestion[] => {
         if (parsed.incomplete.trim().length === 0) {
             return [{
-                complete: '',
-                suggestion: '',
-                description: parsed.field?.description || '',
-                hint: parsed.field?.hint || '@username',
+                Complete: '',
+                Suggestion: '',
+                Description: parsed.field?.description || '',
+                Hint: parsed.field?.hint || '@username',
+                IconData: parsed.binding?.icon || '',
             }];
         }
 
@@ -1121,10 +1172,11 @@ export class AppCommandParser {
     getChannelSuggestions = (parsed: ParsedCommand): AutocompleteSuggestion[] => {
         if (parsed.incomplete.trim().length === 0) {
             return [{
-                complete: '',
-                suggestion: '',
-                description: parsed.field?.description || '',
-                hint: parsed.field?.hint || '~channelname',
+                Complete: '',
+                Suggestion: '',
+                Description: parsed.field?.description || '',
+                Hint: parsed.field?.hint || '~channelname',
+                IconData: parsed.binding?.icon || '',
             }];
         }
 
@@ -1137,27 +1189,24 @@ export class AppCommandParser {
 
         if ('true'.startsWith(parsed.incomplete)) {
             suggestions.push({
-                complete: 'true',
-                suggestion: 'true',
+                Complete: 'true',
+                Suggestion: 'true',
+                Description: parsed.field?.description || '',
+                Hint: parsed.field?.hint || '',
+                IconData: parsed.binding?.icon || '',
             });
         }
         if ('false'.startsWith(parsed.incomplete)) {
             suggestions.push({
-                complete: 'false',
-                suggestion: 'false',
+                Complete: 'false',
+                Suggestion: 'false',
+                Description: parsed.field?.description || '',
+                Hint: parsed.field?.hint || '',
+                IconData: parsed.binding?.icon || '',
             });
         }
         return suggestions;
     }
-}
-
-function makeSuggestionError(message: string) {
-    const errMsg = Utils.localizeAndFormatMessage(
-        t('apps.error'),
-        'Error: {error}',
-        {error: message},
-    );
-    return [{suggestion: errMsg}];
 }
 
 function isMultiword(value: string) {
