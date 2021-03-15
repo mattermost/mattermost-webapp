@@ -683,7 +683,7 @@ export class AppCommandParser {
     }
 
     expandOptions = async (parsed: ParsedCommand, values: AppCallValues) => {
-        if (!parsed.form) {
+        if (!parsed.form?.fields) {
             return true;
         }
 

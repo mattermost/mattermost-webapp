@@ -143,7 +143,7 @@ export function executeCommand(message: string, args: CommandArgs): ActionFunc {
                         ));
                     }
                 } catch (err) {
-                    return {error: createErrorMessage(err.message || localizeMessage('apps.error.unknown', 'Unknown error.'))};
+                    return createErrorMessage(err.message || localizeMessage('apps.error.unknown', 'Unknown error.'));
                 }
             }
         }
