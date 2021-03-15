@@ -8,7 +8,7 @@ import * as GlobalActions from 'actions/global_actions';
 import {browserHistory} from 'utils/browser_history';
 import {Constants} from 'utils/constants';
 
-import SignupController from './signup_controller.jsx';
+import SignupController from './signup_controller';
 
 jest.mock('actions/global_actions', () => ({
     redirectUserToDefaultTeam: jest.fn(),
@@ -47,6 +47,10 @@ describe('components/SignupController', () => {
             removeGlobalItem: jest.fn(),
             getTeamInviteInfo: jest.fn(),
             addUserToTeamFromInvite: jest.fn(),
+        },
+        subscriptionStats: {
+            remaining_seats: 10,
+            is_paid_tier: '',
         },
     };
 

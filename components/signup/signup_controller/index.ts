@@ -2,19 +2,23 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {bindActionCreators, Dispatch} from 'redux';
 
 import {getConfig, getLicense, getSubscriptionStats as subscriptionStatsSelector} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getTeamInviteInfo} from 'mattermost-redux/actions/teams';
 
+import {GlobalState} from 'mattermost-redux/types/store';
+
+import {GenericAction} from 'mattermost-redux/types/actions';
+
 import {getGlobalItem} from 'selectors/storage';
 import {removeGlobalItem} from 'actions/storage';
 import {addUserToTeamFromInvite} from 'actions/team_actions';
 
-import SignupController from './signup_controller.jsx';
+import SignupController, {Props} from './signup_controller';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state: GlobalState, ownProps: Props) {
     const license = getLicense(state);
     const config = getConfig(state);
     const isCloud = license && license.Cloud === 'true';
@@ -33,7 +37,7 @@ function mapStateToProps(state, ownProps) {
     const siteName = config.SiteName;
 
     let usedBefore;
-    if (ownProps.location.search) {
+    if (ownProps?.location?.search) {
         const params = new URLSearchParams(ownProps.location.search);
         let token = params.get('t');
         if (token == null) {
@@ -62,7 +66,7 @@ function mapStateToProps(state, ownProps) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
             removeGlobalItem,
@@ -72,4 +76,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignupController);
+export default connect(mapStateToProps, mapDispatchToProps)(SignupController as unknown as React.ComponentClass);

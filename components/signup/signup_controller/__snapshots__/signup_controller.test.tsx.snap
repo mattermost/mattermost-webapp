@@ -1,0 +1,390 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/SignupController should call addUserToTeamFromInvite if id exists in url 1`] = `
+<LoadingScreen
+  position="relative"
+  style={Object {}}
+/>
+`;
+
+exports[`components/SignupController should match snapshot for addUserToTeamFromInvite error 1`] = `
+<div>
+  <Connect(AnnouncementBarController) />
+  <BackButton
+    url="/"
+  />
+  <div
+    className="col-sm-12"
+  >
+    <div
+      className="signup-team__container"
+    >
+      <img
+        alt="signup team logo"
+        className="signup-team-logo"
+        src={null}
+      />
+      <div
+        className="signup__content"
+      >
+        <h1 />
+        <h4
+          className="color--light"
+        >
+          <FormattedMessage
+            id="web.root.signup_info"
+          />
+        </h4>
+        <div
+          className="mt-8"
+        >
+          <h5>
+            <strong>
+              <FormattedMessage
+                defaultMessage="Create an account with:"
+                id="signup.title"
+              />
+            </strong>
+          </h5>
+        </div>
+        <div
+          className="form-group has-error"
+        >
+          <label
+            className="control-label"
+          >
+            <FormattedMessage
+              defaultMessage="The invite link was invalid.  Please speak with your Administrator to receive an invitation."
+              id="signup_user_completed.invalid_invite"
+            />
+          </label>
+        </div>
+      </div>
+      <span
+        className="color--light"
+      >
+        <FormattedMessage
+          defaultMessage="Already have an account?"
+          id="signup_user_completed.haveAccount"
+        />
+         
+        <Link
+          to="/login?id=ppni7a9t87fn3j4d56rwocdctc"
+        >
+          <FormattedMessage
+            defaultMessage="Click here to sign in."
+            id="signup_user_completed.signIn"
+          />
+        </Link>
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/SignupController should match snapshot for all signup options enabled with isLicensed disabled 1`] = `
+<div>
+  <Connect(AnnouncementBarController) />
+  <BackButton
+    url="/"
+  />
+  <div
+    className="col-sm-12"
+  >
+    <div
+      className="signup-team__container"
+    >
+      <img
+        alt="signup team logo"
+        className="signup-team-logo"
+        src={null}
+      />
+      <div
+        className="signup__content"
+      >
+        <h1 />
+        <h4
+          className="color--light"
+        >
+          <FormattedMessage
+            id="web.root.signup_info"
+          />
+        </h4>
+        <div
+          className="mt-8"
+        >
+          <h5>
+            <strong>
+              <FormattedMessage
+                defaultMessage="Create an account with:"
+                id="signup.title"
+              />
+            </strong>
+          </h5>
+        </div>
+        <Link
+          className="btn btn-custom-login btn--full email"
+          key="email"
+          to="/signup_email"
+        >
+          <span>
+            <LocalizedIcon
+              className="icon fa fa-envelope"
+              component="span"
+              title={
+                Object {
+                  "defaultMessage": "Email Icon",
+                  "id": "signup.email.icon",
+                }
+              }
+            />
+            <FormattedMessage
+              defaultMessage="Email and Password"
+              id="signup.email"
+            />
+          </span>
+        </Link>
+        <a
+          className="btn btn-custom-login btn--full gitlab"
+          href="/oauth/gitlab/signup"
+          key="gitlab"
+        >
+          <span>
+            <span
+              className="icon"
+            />
+            <span>
+              <FormattedMessage
+                defaultMessage="GitLab Single Sign-On"
+                id="signup.gitlab"
+              />
+            </span>
+          </span>
+        </a>
+      </div>
+      <span
+        className="color--light"
+      >
+        <FormattedMessage
+          defaultMessage="Already have an account?"
+          id="signup_user_completed.haveAccount"
+        />
+         
+        <Link
+          to="/login"
+        >
+          <FormattedMessage
+            defaultMessage="Click here to sign in."
+            id="signup_user_completed.signIn"
+          />
+        </Link>
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/SignupController should match snapshot for all signup options enabled with isLicensed enabled 1`] = `
+<div>
+  <Connect(AnnouncementBarController) />
+  <BackButton
+    url="/"
+  />
+  <div
+    className="col-sm-12"
+  >
+    <div
+      className="signup-team__container"
+    >
+      <img
+        alt="signup team logo"
+        className="signup-team-logo"
+        src={null}
+      />
+      <div
+        className="signup__content"
+      >
+        <h1 />
+        <h4
+          className="color--light"
+        >
+          <FormattedMessage
+            id="web.root.signup_info"
+          />
+        </h4>
+        <div
+          className="mt-8"
+        >
+          <h5>
+            <strong>
+              <FormattedMessage
+                defaultMessage="Create an account with:"
+                id="signup.title"
+              />
+            </strong>
+          </h5>
+        </div>
+        <Link
+          className="btn btn-custom-login btn--full email"
+          key="email"
+          to="/signup_email"
+        >
+          <span>
+            <LocalizedIcon
+              className="icon fa fa-envelope"
+              component="span"
+              title={
+                Object {
+                  "defaultMessage": "Email Icon",
+                  "id": "signup.email.icon",
+                }
+              }
+            />
+            <FormattedMessage
+              defaultMessage="Email and Password"
+              id="signup.email"
+            />
+          </span>
+        </Link>
+        <a
+          className="btn btn-custom-login btn--full gitlab"
+          href="/oauth/gitlab/signup"
+          key="gitlab"
+        >
+          <span>
+            <span
+              className="icon"
+            />
+            <span>
+              <FormattedMessage
+                defaultMessage="GitLab Single Sign-On"
+                id="signup.gitlab"
+              />
+            </span>
+          </span>
+        </a>
+        <a
+          className="btn btn-custom-login btn--full google"
+          href="/oauth/google/signup"
+          key="google"
+        >
+          <span>
+            <span
+              className="icon"
+            />
+            <span>
+              <FormattedMessage
+                defaultMessage="Google Account"
+                id="signup.google"
+              />
+            </span>
+          </span>
+        </a>
+        <a
+          className="btn btn-custom-login btn--full office365"
+          href="/oauth/office365/signup"
+          key="office365"
+        >
+          <span>
+            <span
+              className="icon"
+            />
+            <span>
+              <FormattedMessage
+                defaultMessage="Office 365"
+                id="signup.office365"
+              />
+            </span>
+          </span>
+        </a>
+        <a
+          className="btn btn-custom-login btn--full openid"
+          href="/oauth/openid/signup"
+          id="OpenIdButton"
+          key="openid"
+          style={
+            Object {
+              "backgroundColor": "#FFFFFF",
+            }
+          }
+        >
+          <span>
+            <span>
+              OpenId
+            </span>
+          </span>
+        </a>
+        <Link
+          className="btn btn-custom-login btn--full ldap"
+          key="ldap"
+          to="/login?extra=create_ldap"
+        >
+          <span>
+            <LocalizedIcon
+              className="icon fa fa-folder-open fa--margin-top"
+              component="span"
+              title={
+                Object {
+                  "defaultMessage": "AD/LDAP Icon",
+                  "id": "signup.ldap.icon",
+                }
+              }
+            />
+            <span>
+              <FormattedMessage
+                defaultMessage="AD/LDAP Credentials"
+                id="signup.ldap"
+              />
+            </span>
+          </span>
+        </Link>
+        <Link
+          className="btn btn-custom-login btn--full saml"
+          key="saml"
+          to="/login/sso/saml?action=signup"
+        >
+          <span>
+            <LocalizedIcon
+              className="icon fa fa-lock fa--margin-top"
+              component="span"
+              title={
+                Object {
+                  "defaultMessage": "SAML Icon",
+                  "id": "signup.saml.icon",
+                }
+              }
+            />
+            <span>
+              SAML
+            </span>
+          </span>
+        </Link>
+      </div>
+      <span
+        className="color--light"
+      >
+        <FormattedMessage
+          defaultMessage="Already have an account?"
+          id="signup_user_completed.haveAccount"
+        />
+         
+        <Link
+          to="/login"
+        >
+          <FormattedMessage
+            defaultMessage="Click here to sign in."
+            id="signup_user_completed.signIn"
+          />
+        </Link>
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/SignupController should redirect user to the restricted screen when workspace out of free seats 1`] = `
+<LoadingScreen
+  position="relative"
+  style={Object {}}
+/>
+`;
