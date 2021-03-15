@@ -21,6 +21,7 @@ import {getSiteURL} from 'utils/url';
 import {t} from 'utils/i18n.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
 import {Constants} from 'utils/constants';
+import withGetCloudSubscription from '../../common/hocs/cloud/with_get_cloud_subcription';
 
 import './invitation_modal_members_step.scss';
 
@@ -40,6 +41,7 @@ class InvitationModalMembersStep extends React.PureComponent {
         isCloud: PropTypes.bool.isRequired,
         subscriptionStats: PropTypes.object,
         actions: PropTypes.shape({
+            getSubscriptionStats: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -369,4 +371,4 @@ class InvitationModalMembersStep extends React.PureComponent {
     }
 }
 
-export default injectIntl(InvitationModalMembersStep);
+export default injectIntl(withGetCloudSubscription(InvitationModalMembersStep));

@@ -32,3 +32,24 @@ Cypress.Commands.add('apiGetUserStatus', (userId) => {
         return cy.wrap({status: response.body});
     });
 });
+
+Cypress.Commands.add('apiUpdateUserCustomStatus', (customStatus) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/users/me/status/custom',
+        method: 'PUT',
+        body: JSON.stringify(customStatus),
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+    });
+});
+
+Cypress.Commands.add('apiClearUserCustomStatus', () => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/users/me/status/custom',
+        method: 'DELETE',
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+    });
+});
