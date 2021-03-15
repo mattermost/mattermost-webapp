@@ -968,11 +968,11 @@ describe('AppCommandParser', () => {
             suggestions = await parser.getSuggestions('/jira issue create --project KT --summary "great feature" --epic Nope');
             expect(suggestions).toEqual([
                 {
-                    complete: '/jira issue create --project KT --summary \"great feature\" --epic',
+                    complete: '/jira issue create --project KT --summary "great feature" --epic',
                     suggestion: '/',
                     description: 'No matching options.',
                     hint: '',
-                }
+                },
             ]);
         });
 
