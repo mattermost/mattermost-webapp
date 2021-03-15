@@ -226,7 +226,9 @@ const AdminDefinition = {
         sectionTitleDefault: 'About',
         isHidden: it.any(
             it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
-            it.not(it.userHasReadPermissionOnResource('about')),
+            it.all(
+                it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.ABOUT.EDITION_AND_LICENSE)),
+            ),
         ),
         license: {
             url: 'about/license',
@@ -242,7 +244,8 @@ const AdminDefinition = {
                 'Mattermost Enterprise Edition. Unlock enterprise features in this software through the purchase of a subscription from ',
                 'This software is offered under a commercial license.\n\nSee ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. See NOTICE.txt for information about open source software used in this system.',
             ],
-            isDisabled: it.not(it.userHasWritePermissionOnResource('about')),
+            isHidden: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.ABOUT.EDITION_AND_LICENSE)),
+            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ABOUT.EDITION_AND_LICENSE)),
             schema: {
                 id: 'LicenseSettings',
                 component: LicenseSettings,
@@ -332,7 +335,11 @@ const AdminDefinition = {
         icon: 'fa-bar-chart',
         sectionTitle: t('admin.sidebar.reporting'),
         sectionTitleDefault: 'Reporting',
-        isHidden: it.not(it.userHasReadPermissionOnResource('reporting')),
+        isHidden: it.all(
+            it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.REPORTING.SITE_STATISTICS)),
+            it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.REPORTING.TEAM_STATISTICS)),
+            it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.REPORTING.SERVER_LOGS)),
+        ),
         system_analytics: {
             url: 'reporting/system_analytics',
             title: t('admin.sidebar.siteStatistics'),
@@ -360,6 +367,8 @@ const AdminDefinition = {
                 id: 'SystemAnalytics',
                 component: SystemAnalytics,
             },
+            isHidden: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.REPORTING.SITE_STATISTICS)),
+            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.REPORTING.SITE_STATISTICS)),
         },
         team_statistics: {
             url: 'reporting/team_statistics',
@@ -380,6 +389,8 @@ const AdminDefinition = {
                 id: 'TeamAnalytics',
                 component: TeamAnalytics,
             },
+            isHidden: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.REPORTING.TEAM_STATISTICS)),
+            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.REPORTING.TEAM_STATISTICS)),
         },
         server_logs: {
             url: 'reporting/server_logs',
@@ -387,7 +398,9 @@ const AdminDefinition = {
             title_default: 'Server Logs',
             isHidden: it.any(
                 it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
+                it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.REPORTING.SERVER_LOGS)),
             ),
+            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.REPORTING.SERVER_LOGS)),
             searchableStrings: [
                 'admin.logs.bannerDesc',
                 'admin.logs.title',
@@ -1627,7 +1640,6 @@ const AdminDefinition = {
             title: t('admin.sidebar.metrics'),
             title_default: 'Performance Monitoring',
             isHidden: it.any(
-                it.not(it.licensedForFeature('Metrics')),
                 it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
             ),
             schema: {

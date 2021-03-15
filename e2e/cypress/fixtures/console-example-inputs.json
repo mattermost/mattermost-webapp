@@ -1,6 +1,6 @@
 [
     {
-        "section": "about",
+        "section": "about.license",
         "disabledInputs": [
             {
                 "path": "/admin_console/about/license",
@@ -9,7 +9,15 @@
         ]
     },
     {
-        "section": "reporting",
+        "section": "reporting.system_analytics",
+        "disabledInputs": []
+    },
+    {
+        "section": "reporting.team_statistics",
+        "disabledInputs": []
+    },
+    {
+        "section": "reporting.server_logs",
         "disabledInputs": []
     },
     {

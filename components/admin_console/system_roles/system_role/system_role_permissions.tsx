@@ -33,7 +33,9 @@ const sectionsList: SystemSection[] = [
     {
         name: 'about',
         hasDescription: true,
-        subsections: [],
+        subsections: [
+            {name: 'about_edition_and_license'},
+        ],
     },
     {
         name: 'billing',
@@ -43,7 +45,11 @@ const sectionsList: SystemSection[] = [
     {
         name: 'reporting',
         hasDescription: true,
-        subsections: [],
+        subsections: [
+            {name: 'reporting_site_statistics'},
+            {name: 'reporting_team_statistics'},
+            {name: 'reporting_server_logs'},
+        ],
     },
     {
         name: 'user_management',
@@ -216,10 +222,14 @@ export default class SystemRolePermissions extends React.PureComponent<Props, St
 
 t('admin.permissions.sysconsole_section_about.name');
 t('admin.permissions.sysconsole_section_about.description');
+t('admin.permissions.sysconsole_section_about_edition_and_license.name');
 t('admin.permissions.sysconsole_section_billing.name');
 t('admin.permissions.sysconsole_section_billing.description');
 t('admin.permissions.sysconsole_section_reporting.name');
 t('admin.permissions.sysconsole_section_reporting.description');
+t('admin.permissions.sysconsole_section_reporting_site_statistics.name');
+t('admin.permissions.sysconsole_section_reporting_team_statistics.name');
+t('admin.permissions.sysconsole_section_reporting_server_logs.name');
 t('admin.permissions.sysconsole_section_user_management.name');
 t('admin.permissions.sysconsole_section_user_management.description');
 t('admin.permissions.sysconsole_section_user_management_users.name');
