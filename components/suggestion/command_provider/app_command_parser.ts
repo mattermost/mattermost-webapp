@@ -1043,8 +1043,8 @@ export class AppCommandParser {
                 complete: '',
                 suggestion: '',
                 hint: '',
-                description: Utils.localizeMessage('apps.suggestion.no_static', 'No matching options.')
-            }]
+                description: Utils.localizeMessage('apps.suggestion.no_static', 'No matching options.'),
+            }];
         }
         return opts.map((opt) => {
             let complete = opt.value;
@@ -1112,7 +1112,7 @@ export class AppCommandParser {
                 complete: '',
                 suggestion: '',
                 hint: '',
-                description: Utils.localizeMessage('apps.suggestion.no_dynamic', 'Received no data for dynamic suggestions')
+                description: Utils.localizeMessage('apps.suggestion.no_dynamic', 'Received no data for dynamic suggestions'),
             }];
         }
 
@@ -1190,7 +1190,7 @@ function makeSuggestionError(message: string) {
     return [{
         complete: '',
         suggestion: '',
-        description: errMsg
+        description: errMsg,
     }];
 }
 
