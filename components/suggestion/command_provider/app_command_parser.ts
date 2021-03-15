@@ -1037,7 +1037,15 @@ export class AppCommandParser {
     // getStaticSelectSuggestions returns suggestions specified in the field's options property
     getStaticSelectSuggestions = (parsed: ParsedCommand, delimiter?: string): AutocompleteSuggestion[] => {
         const f = parsed.field as AutocompleteStaticSelect;
-        const opts = f.options.filter((opt) => opt.label.toLowerCase().startsWith(parsed.incomplete.toLowerCase()));
+        const opts = f.options?.filter((opt) => opt.label.toLowerCase().startsWith(parsed.incomplete.toLowerCase()));
+        if (!opts?.length) {
+            return [{
+                complete: '',
+                suggestion: '',
+                hint: '',
+                description: Utils.localizeMessage('apps.suggestion.no_static', 'No matching options.')
+            }]
+        }
         return opts.map((opt) => {
             let complete = opt.value;
             if (delimiter) {
@@ -1058,7 +1066,8 @@ export class AppCommandParser {
     getDynamicSelectSuggestions = async (parsed: ParsedCommand, delimiter?: string): Promise<AutocompleteSuggestion[]> => {
         const f = parsed.field;
         if (!f) {
-            return [];
+            // Should never happen
+            return makeSuggestionError('Unexpected error');
         }
 
         const values: AppLookupCallValues = {
@@ -1069,7 +1078,7 @@ export class AppCommandParser {
 
         const payload = await this.composeCallFromParsed(parsed);
         if (!payload) {
-            return [];
+            return makeSuggestionError(Utils.localizeMessage('apps.error.lookup.cannot_compose', 'Cannot compose lookup call.'));
         }
         payload.type = AppCallTypes.LOOKUP;
         payload.values = values;
@@ -1098,8 +1107,13 @@ export class AppCommandParser {
         }
 
         const items = res?.data?.data?.items;
-        if (!items) {
-            return [{suggestion: Utils.localizeMessage('apps.suggestion.no_dynamic', 'Received no data for dynamic suggestions')}];
+        if (!items?.length) {
+            return [{
+                complete: '',
+                suggestion: '',
+                hint: '',
+                description: Utils.localizeMessage('apps.suggestion.no_dynamic', 'Received no data for dynamic suggestions')
+            }];
         }
 
         return items.map((s): AutocompleteSuggestion => {
@@ -1173,7 +1187,11 @@ function makeSuggestionError(message: string) {
         'Error: {error}',
         {error: message},
     );
-    return [{suggestion: errMsg}];
+    return [{
+        complete: '',
+        suggestion: '',
+        description: errMsg
+    }];
 }
 
 function isMultiword(value: string) {
