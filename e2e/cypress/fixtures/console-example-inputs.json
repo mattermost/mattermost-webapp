@@ -9,7 +9,15 @@
         ]
     },
     {
-        "section": "reporting",
+        "section": "reporting.system_analytics",
+        "disabledInputs": []
+    },
+    {
+        "section": "reporting.team_statistics",
+        "disabledInputs": []
+    },
+    {
+        "section": "reporting.server_logs",
         "disabledInputs": []
     },
     {
