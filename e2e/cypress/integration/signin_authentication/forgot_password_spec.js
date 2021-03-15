@@ -40,7 +40,7 @@ describe('Signin/Authentication', () => {
         });
     });
 
-    it('SA15008 - Sign In Forgot password - Email address has account on server', () => {
+    it('MM-T407 - Sign In Forgot password - Email address has account on server', () => {
         resetPasswordAndLogin(testUser, testTeam, testConfig);
     });
 });

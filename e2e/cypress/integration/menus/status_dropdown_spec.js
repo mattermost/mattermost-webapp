@@ -169,16 +169,16 @@ describe('Status dropdown menu', () => {
             });
         });
 
-        it('MM-T2927_4 should show Status header, with no pointer cursor', () => {
+        it('MM-T2927_5 Verify "Set a Custom Header Status" is clickable', () => {
             // # Wait for posts to load
             cy.get('#postListContent').should('be.visible');
 
             // # Open status menu
             cy.get('.MenuWrapper .status-wrapper.status-selector button.status').click();
 
-            // * Verify "Status" header does not have pointer cursor
-            cy.get('.MenuWrapper.status-dropdown-menu .Menu__content.dropdown-menu li:first-child').should('be.visible').
-                and('have.text', 'Status').and('not.have.css', 'cursor', 'pointer');
+            // * Verify "Set a Custom Status" header is clickable
+            cy.get('.MenuWrapper.status-dropdown-menu .Menu__content.dropdown-menu li:nth-child(3)').should('be.visible').
+                and('have.text', 'Set a Custom Status').and('have.css', 'cursor', 'pointer');
         });
     });
 });
