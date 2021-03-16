@@ -22,8 +22,12 @@ describe('components/post_view/embedded_bindings/select_binding', () => {
         userId: 'user_id',
         binding,
         actions: {
-            doAppCall: jest.fn(),
-            getChannel: jest.fn(),
+            doAppCall: jest.fn(async () => {
+                return {data: {type: 'ok'}};
+            }),
+            getChannel: jest.fn(async (id: string) => {
+                return {data: {id, team_id: 'team_id'}};
+            }),
         },
     };
 
