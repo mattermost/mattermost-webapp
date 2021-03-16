@@ -24,17 +24,14 @@ export type State ={
     valid: boolean;
     postid?: string;
 }
-
 export default class PermalinkView extends React.PureComponent<Props, State> {
     mounted: boolean | undefined;
     permalink: any;
-
     static getDerivedStateFromProps(props:Props , state: State) {
         let updatedState = {postid: props.match.params.postid};
         if (state.postid !== props.match.params.postid) {
             updatedState = {...updatedState, ...{valid: false}};
         }
-
         return updatedState;
     }
 
@@ -71,13 +68,13 @@ export default class PermalinkView extends React.PureComponent<Props, State> {
         return this.state.valid && this.props.channelId && this.props.teamName;
     }
 
-    onShortcutKeyDown = (e: any) => {
+    onShortcutKeyDown = (e: KeyboardEvent): void => {
         if (e.shiftKey && Utils.cmdOrCtrlPressed(e) && Utils.isKeyPressed(e, Constants.KeyCodes.L) && this.permalink.current) {
             this.permalink.current.focus();
         }
     }
 
-    render() {
+    public render(): JSX.Element | null {
         if (!this.isStateValid()) {
             return (
                 <div
@@ -86,7 +83,6 @@ export default class PermalinkView extends React.PureComponent<Props, State> {
                 />
             );
         }
-
         return null;
     }
 }
