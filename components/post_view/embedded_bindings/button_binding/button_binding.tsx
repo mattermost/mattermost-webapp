@@ -22,7 +22,7 @@ type Props = {
     binding: AppBinding;
     post: Post;
     actions: {
-        doAppCall: (call: AppCallRequest, type: AppCallType) => Promise<ActionResult>;
+        doAppCall: (call: AppCallRequest, type: AppCallType, intl: IntlShape) => Promise<ActionResult>;
         getChannel: (channelId: string) => Promise<ActionResult>;
     };
 }
@@ -65,7 +65,7 @@ class ButtonBinding extends React.PureComponent<Props, State> {
             {post: AppExpandLevels.EXPAND_ALL},
         );
         this.setState({executing: true});
-        const res = await this.props.actions.doAppCall(call, AppCallTypes.SUBMIT);
+        const res = await this.props.actions.doAppCall(call, AppCallTypes.SUBMIT, this.props.intl);
 
         this.setState({executing: false});
         const callResp = (res as {data: AppCallResponse}).data;

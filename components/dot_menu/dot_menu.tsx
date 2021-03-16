@@ -99,7 +99,7 @@ type Props = {
         /**
          * Function to perform an app call
          */
-        doAppCall: (call: AppCallRequest, type: AppCallType) => Promise<ActionResult>;
+        doAppCall: (call: AppCallRequest, type: AppCallType, intl: IntlShape) => Promise<ActionResult>;
     }; // TechDebt: Made non-mandatory while converting to typescript
 
     canEdit: boolean;
@@ -299,7 +299,7 @@ class DotMenu extends React.PureComponent<Props, State> {
                 post: AppExpandLevels.ALL,
             },
         );
-        const res = await this.props.actions?.doAppCall(call, AppCallTypes.SUBMIT);
+        const res = await this.props.actions?.doAppCall(call, AppCallTypes.SUBMIT, this.props.intl);
 
         const callResp = (res as {data: AppCallResponse}).data;
         const ephemeral = (message: string) => sendEphemeralPost(message, this.props.post.channel_id, this.props.post.root_id);

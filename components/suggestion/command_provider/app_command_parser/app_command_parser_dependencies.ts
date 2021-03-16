@@ -60,7 +60,6 @@ import {sendEphemeralPost} from 'actions/global_actions';
 
 export {createCallRequest} from 'utils/apps';
 import {isMac, localizeAndFormatMessage} from 'utils/utils';
-import {t} from 'utils/i18n';
 
 import Store from 'stores/redux_store';
 export const getStore = () => Store;
@@ -91,6 +90,6 @@ export const displayError = (err: string) => {
 // Shim of mobile-version intl
 export const intlShim = {
     formatMessage: (config: {id: string; defaultMessage: string}, values?: {[name: string]: any}) => {
-        return localizeAndFormatMessage(t(config.id), config.defaultMessage, values);
+        return localizeAndFormatMessage(config.id, config.defaultMessage, values);
     },
 };

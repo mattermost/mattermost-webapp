@@ -122,7 +122,7 @@ export function executeCommand(message: string, args: CommandArgs): ActionFunc {
                         return createErrorMessage(localizeMessage('apps.error.commands.compose_call', 'Error composing command submission'));
                     }
 
-                    const res = await dispatch(doAppCall(call, AppCallTypes.SUBMIT)) as {data: AppCallResponse};
+                    const res = await dispatch(doAppCall(call, AppCallTypes.SUBMIT, intlShim)) as {data: AppCallResponse};
 
                     const callResp = res.data;
                     switch (callResp.type) {
