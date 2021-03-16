@@ -59,7 +59,7 @@ type Props = {
         [componentName: string]: PluginComponent[];
     };
 
-    actions?: {
+    actions: {
 
         /**
          * Function flag the post
@@ -177,9 +177,9 @@ class DotMenu extends React.PureComponent<Props, State> {
 
     handleFlagMenuItemActivated = () => {
         if (this.props.isFlagged) {
-            this.props.actions?.unflagPost(this.props.post.id);
+            this.props.actions.unflagPost(this.props.post.id);
         } else {
-            this.props.actions?.flagPost(this.props.post.id);
+            this.props.actions.flagPost(this.props.post.id);
         }
     }
 
@@ -199,15 +199,15 @@ class DotMenu extends React.PureComponent<Props, State> {
 
     handlePinMenuItemActivated = () => {
         if (this.props.post.is_pinned) {
-            this.props.actions?.unpinPost(this.props.post.id);
+            this.props.actions.unpinPost(this.props.post.id);
         } else {
-            this.props.actions?.pinPost(this.props.post.id);
+            this.props.actions.pinPost(this.props.post.id);
         }
     }
 
     handleUnreadMenuItemActivated = (e: React.MouseEvent) => {
         e.preventDefault();
-        this.props.actions?.markPostAsUnread(this.props.post);
+        this.props.actions.markPostAsUnread(this.props.post);
     }
 
     handleDeleteMenuItemActivated = (e: React.MouseEvent) => {
@@ -223,11 +223,11 @@ class DotMenu extends React.PureComponent<Props, State> {
             },
         };
 
-        this.props.actions?.openModal(deletePostModalData);
+        this.props.actions.openModal(deletePostModalData);
     }
 
     handleEditMenuItemActivated = () => {
-        this.props.actions?.setEditingPost(
+        this.props.actions.setEditingPost(
             this.props.post.id,
             this.props.commentCount,
             this.props.location === Locations.CENTER ? 'post_textbox' : 'reply_textbox',
@@ -299,7 +299,7 @@ class DotMenu extends React.PureComponent<Props, State> {
                 post: AppExpandLevels.ALL,
             },
         );
-        const res = await this.props.actions?.doAppCall(call, AppCallTypes.SUBMIT);
+        const res = await this.props.actions.doAppCall(call, AppCallTypes.SUBMIT);
 
         const callResp = (res as {data: AppCallResponse}).data;
         const ephemeral = (message: string) => sendEphemeralPost(message, this.props.post.channel_id, this.props.post.root_id);

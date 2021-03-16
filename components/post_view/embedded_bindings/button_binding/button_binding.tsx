@@ -6,11 +6,10 @@ import React from 'react';
 import {AppBinding, AppCallRequest, AppCallResponse, AppCallType} from 'mattermost-redux/types/apps';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {AppBindingLocations, AppCallResponseTypes, AppCallTypes, AppExpandLevels} from 'mattermost-redux/constants/apps';
+import {Channel} from 'mattermost-redux/types/channels';
 import {Post} from 'mattermost-redux/types/posts';
 
 import {injectIntl, IntlShape} from 'react-intl';
-
-import {Channel} from 'mattermost-redux/types/channels';
 
 import Markdown from 'components/markdown';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
@@ -54,7 +53,7 @@ class ButtonBinding extends React.PureComponent<Props, State> {
 
         const context = createCallContext(
             binding.app_id,
-            AppBindingLocations.IN_POST + binding.location,
+            AppBindingLocations.IN_POST + '/' + binding.location,
             post.channel_id,
             teamID,
             post.id,

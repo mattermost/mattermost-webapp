@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {Client4} from 'mattermost-redux/client';
-import {Action, ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
+import {Action, ActionFunc, DispatchFunc} from 'mattermost-redux/types/actions';
 import {AppCallResponse, AppForm, AppCallType, AppCallRequest} from 'mattermost-redux/types/apps';
 import {AppCallTypes, AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 
@@ -18,7 +18,7 @@ import {localizeAndFormatMessage, localizeMessage} from 'utils/utils';
 import {t} from 'utils/i18n';
 
 export function doAppCall<Res=unknown>(call: AppCallRequest, type: AppCallType): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+    return async (dispatch: DispatchFunc) => {
         try {
             const res = await Client4.executeAppCall(call, type) as AppCallResponse<Res>;
             const responseType = res.type || AppCallResponseTypes.OK;
@@ -55,7 +55,7 @@ export function doAppCall<Res=unknown>(call: AppCallRequest, type: AppCallType):
                     return {data: res};
                 }
 
-                browserHistory.push(res.navigate_to_url.slice(getState().entities.general.config.SiteURL?.length));
+                browserHistory.push(res.navigate_to_url.slice(getSiteURL().length));
                 return {data: res};
             default: {
                 const errMsg = localizeAndFormatMessage(
