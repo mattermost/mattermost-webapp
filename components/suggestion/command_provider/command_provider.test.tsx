@@ -11,10 +11,10 @@ import CommandProvider, {CommandSuggestion, Results} from './command_provider';
 describe('CommandSuggestion', () => {
     const baseProps = {
         item: {
-            suggestion: '/invite',
-            hint: '@[username] ~[channel]',
-            description: 'Invite a user to a channel',
-            iconData: '',
+            Suggestion: '/invite',
+            Hint: '@[username] ~[channel]',
+            Description: 'Invite a user to a channel',
+            IconData: '',
         },
         isSelection: true,
         term: '/',
