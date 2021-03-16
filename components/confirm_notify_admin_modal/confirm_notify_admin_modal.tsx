@@ -6,7 +6,8 @@ import {Button, Modal} from 'react-bootstrap';
 
 import {FormattedMessage} from 'react-intl';
 
-import UpgradeUserLimitModalSvg from 'components/user_limit_modal/user_limit_upgrade_svg';
+import ConfirmNotifyAdminModalSvg from './confirm_notify_admin.svg';
+
 import './confirm_notify_admin_modal.scss';
 
 type Props = {
@@ -28,7 +29,7 @@ const ConfirmNotifyAdminModal = (props: Props): JSX.Element => {
             >
                 <Modal.Header closeButton={true}/>
                 <Modal.Body>
-                    <UpgradeUserLimitModalSvg/>
+                    <ConfirmNotifyAdminModalSvg/>
                     <div className='title'>
                         <FormattedMessage
                             id={'confirm.notification_sent_to_admin.modal_title'}
