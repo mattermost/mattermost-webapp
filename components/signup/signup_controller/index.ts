@@ -76,4 +76,4 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignupController as unknown as React.ComponentClass);
+export default connect(mapStateToProps, mapDispatchToProps)(SignupController as React.ComponentClass);

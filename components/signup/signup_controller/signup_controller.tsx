@@ -26,26 +26,26 @@ export type Props = {
     location?: {
         search: string;
     };
-    isLicensed: boolean;
-    enableOpenServer: boolean;
-    noAccounts: boolean;
-    enableSignUpWithEmail: boolean;
-    enableSignUpWithGitLab: boolean;
-    enableSignUpWithGoogle: boolean;
-    enableSignUpWithOffice365: boolean;
-    enableSignUpWithOpenId: boolean;
-    enableLDAP: boolean;
-    enableSAML: boolean;
+    isLicensed?: boolean;
+    enableOpenServer?: boolean;
+    noAccounts?: boolean;
+    enableSignUpWithEmail?: boolean;
+    enableSignUpWithGitLab?: boolean;
+    enableSignUpWithGoogle?: boolean;
+    enableSignUpWithOffice365?: boolean;
+    enableSignUpWithOpenId?: boolean;
+    enableLDAP?: boolean;
+    enableSAML?: boolean;
     samlLoginButtonText?: string;
     siteName?: string;
     usedBefore?: boolean;
-    ldapLoginFieldName: string;
+    ldapLoginFieldName?: string;
     openidButtonText?: string;
     openidButtonColor?: string;
     subscriptionStats?: SubscriptionStats;
     isCloud?: boolean;
     loggedIn?: boolean;
-    actions: {
+    actions?: {
         removeGlobalItem: (name: string) => void;
         getTeamInviteInfo: (inviteId: string) => {
             data: any;
@@ -109,11 +109,12 @@ export default class SignupController extends React.PureComponent<Props, State> 
     }
 
     public componentDidMount(): void {
-        this.props.actions.removeGlobalItem('team');
+        this.props?.actions?.removeGlobalItem('team');
         let isFreeTierWithNoFreeSeats = false;
         if (this.props?.subscriptionStats && !isEmpty(this.props.subscriptionStats)) {
-            const {isPaidTier, remainingSeats} = this.props.subscriptionStats;
-            isFreeTierWithNoFreeSeats = isPaidTier === 'false' && remainingSeats <= 0;
+            // eslint-disable-next-line @typescript-eslint/naming-convention
+            const {is_paid_tier, remaining_seats} = this.props.subscriptionStats;
+            isFreeTierWithNoFreeSeats = is_paid_tier === 'false' && remaining_seats <= 0;
         }
 
         if (this.props.isCloud && isFreeTierWithNoFreeSeats) {
@@ -136,23 +137,27 @@ export default class SignupController extends React.PureComponent<Props, State> 
     }
 
     addUserToTeamFromInvite = async (token: string, inviteId: string): Promise<void> => {
-        const {data, error} = await this.props.actions.addUserToTeamFromInvite(token, inviteId);
-        if (data) {
-            browserHistory.push('/' + data.name + `/channels/${Constants.DEFAULT_CHANNEL}`);
-        } else if (error) {
-            this.handleInvalidInvite(error);
+        if (this.props?.actions) {
+            const {data, error} = await this.props.actions.addUserToTeamFromInvite(token, inviteId);
+            if (data) {
+                browserHistory.push('/' + data.name + `/channels/${Constants.DEFAULT_CHANNEL}`);
+            } else if (error) {
+                this.handleInvalidInvite(error);
+            }
         }
     }
 
     getInviteInfo = async (inviteId: string): Promise<void> => {
-        const {data, error} = await this.props.actions.getTeamInviteInfo(inviteId);
-        if (data) {
-            this.setState({
-                serverError: '',
-                loading: false,
-            });
-        } else if (error) {
-            this.handleInvalidInvite(error);
+        if (this.props?.actions) {
+            const {data, error} = await this.props.actions.getTeamInviteInfo(inviteId);
+            if (data) {
+                this.setState({
+                    serverError: '',
+                    loading: false,
+                });
+            } else if (error) {
+                this.handleInvalidInvite(error);
+            }
         }
     }
 
