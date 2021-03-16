@@ -16,6 +16,7 @@ describe('Status dropdown menu', () => {
         cy.apiInitSetup().then(({team}) => {
             cy.visit(`/${team.name}/channels/town-square`);
         });
+        cy.apiUpdateConfig({TeamSettings: {EnableCustomUserStatuses: false}});
     });
 
     afterEach(() => {
