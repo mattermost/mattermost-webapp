@@ -7,18 +7,18 @@ import Constants from 'utils/constants';
 import * as Utils from 'utils/utils';
 
 export type Props= {
-    channelId: string;
-    match: {
+    channelId?: string;
+    match?: {
         params: {
             postid: string;
         };
     };
-    returnTo: string;
-    teamName: string;
-    actions: {
-        focusPost: (postId: string, returnTo?: string, currentUserId?: string) => void;
+    returnTo?: string;
+    teamName?: string;
+    actions?: {
+        focusPost: (postId?: string, returnTo?: string, currentUserId?: string) => void;
     };
-    currentUserId: string;
+    currentUserId?: string;
 }
 export type State ={
     valid: boolean;
@@ -28,8 +28,8 @@ export default class PermalinkView extends React.PureComponent<Props, State> {
     mounted: boolean | undefined;
     permalink: any;
     static getDerivedStateFromProps(props:Props , state: State) {
-        let updatedState = {postid: props.match.params.postid};
-        if (state.postid !== props.match.params.postid) {
+        let updatedState = {postid: props.match?.params.postid};
+        if (state.postid !== props.match?.params.postid) {
             updatedState = {...updatedState, ...{valid: false}};
         }
         return updatedState;
@@ -57,13 +57,14 @@ export default class PermalinkView extends React.PureComponent<Props, State> {
     }
 
     doPermalinkEvent = async (props: Props) => {
-        const postId = props.match.params.postid;
-        await this.props.actions.focusPost(postId, this.props.returnTo, this.props.currentUserId);
+        const postId = props?.match?.params.postid;
+        if (this.props.actions) {
+            await this.props.actions.focusPost(postId, this.props.returnTo, this.props.currentUserId);
+        }
         if (this.mounted) {
             this.setState({valid: true});
         }
     }
-
     isStateValid = () => {
         return this.state.valid && this.props.channelId && this.props.teamName;
     }

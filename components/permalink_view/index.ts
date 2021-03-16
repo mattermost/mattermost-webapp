@@ -15,7 +15,7 @@ import {GenericAction} from 'mattermost-redux/types/actions';
 import React from 'react';
 
 import {focusPost} from './actions';
-import PermalinkView, {Props, State} from './permalink_view';
+import PermalinkView from './permalink_view';
 
 function mapStateToProps(state: GlobalState) {
     const team = getCurrentTeam(state);
@@ -39,4 +39,4 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PermalinkView as React.ComponentClass<Props, State>);
+export default connect(mapStateToProps, mapDispatchToProps)(PermalinkView as React.ComponentClass);
