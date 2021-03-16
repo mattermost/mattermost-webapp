@@ -284,7 +284,6 @@ export const defaultRolesPermissions = {
         'sysconsole_read_site_notices',
         'sysconsole_read_about_edition_and_license',
         'read_license_information',
-        'sysconsole_read_site',
         'sysconsole_read_reporting_server_logs',
         'sysconsole_read_reporting_site_statistics',
         'sysconsole_read_reporting_team_statistics',
