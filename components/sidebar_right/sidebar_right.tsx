@@ -16,6 +16,7 @@ import RhsCard from 'components/rhs_card';
 import Search from 'components/search/index';
 
 import RhsPlugin from 'plugins/rhs_plugin';
+import {Previous} from 'types/actions';
 
 export type Props = {
     isExpanded?: boolean;
@@ -49,9 +50,9 @@ export type State = {
 
 export default class SidebarRight extends React.PureComponent<Props, State> {
     sidebarRight: React.RefObject<HTMLDivElement>;
-    previous: { searchVisible: boolean | undefined; isMentionSearch: boolean | undefined; isPinnedPosts: boolean | undefined; isFlaggedPosts: boolean | undefined; selectedPostId: string | undefined; selectedPostCardId: string | undefined; previousRhsState: string | undefined } | undefined;
+    previous?: Previous;
     toggleSize?: string;
-    focusSearchBar: any;
+    focusSearchBar?: () => void;
     public constructor(props: Props) {
         super(props);
 
@@ -75,7 +76,7 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
         }
     }
 
-    handleShortcut = (e: { preventDefault: () => void }): void => {
+    handleShortcut = (e: KeyboardEvent): void => {
         if (Utils.cmdOrCtrlPressed(e) && Utils.isKeyPressed(e, Constants.KeyCodes.PERIOD)) {
             e.preventDefault();
             if (this.props?.actions) {
@@ -140,7 +141,7 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
         }
     }
 
-    onFinishTransition = (e: { propertyName: string }): void => {
+    onFinishTransition = (e: TransitionEvent): void => {
         if (e.propertyName === 'transform' && this.props.isOpen) {
             this.setState({isOpened: this.props.isOpen});
         }
@@ -152,10 +153,12 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
 
     handleUpdateSearchTerms = (term: string): void => {
         this.props?.actions?.updateSearchTerms(term);
-        this.focusSearchBar();
+        if (this?.focusSearchBar) {
+            this.focusSearchBar();
+        }
     }
 
-    getSearchBarFocus = (focusSearchBar: unknown): void => {
+    getSearchBarFocus = (focusSearchBar: () => void): void => {
         this.focusSearchBar = focusSearchBar;
     }
 
