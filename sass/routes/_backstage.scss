@@ -23,7 +23,8 @@
 
     &:hover,
     &:active {
-        color: inherit;
+        color: var(--button-bg);
+        text-decoration: underline;
     }
 }
 
