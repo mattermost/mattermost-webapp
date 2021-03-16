@@ -1,17 +1,21 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import { connect } from 'react-redux';
-import { bindActionCreators, Dispatch} from 'redux';
+import {connect} from 'react-redux';
+import {bindActionCreators, Dispatch} from 'redux';
 
-import { getCurrentChannel } from 'mattermost-redux/selectors/entities/channels';
-import { getCurrentTeam } from 'mattermost-redux/selectors/entities/teams';
-import { getCurrentUserId } from 'mattermost-redux/selectors/entities/users';
+import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
-import { focusPost } from './actions';
-import PermalinkView from './permalink_view';
-import {GlobalState} from 'mattermost-redux/types/store'
-import {GenericAction} from 'mattermost-redux/types/actions'
+import {GlobalState} from 'mattermost-redux/types/store';
+
+import {GenericAction} from 'mattermost-redux/types/actions';
+
+import React from 'react';
+
+import {focusPost} from './actions';
+import PermalinkView, {Props, State} from './permalink_view';
 
 function mapStateToProps(state: GlobalState) {
     const team = getCurrentTeam(state);
@@ -35,4 +39,4 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PermalinkView);
+export default connect(mapStateToProps, mapDispatchToProps)(PermalinkView as React.ComponentClass<Props, State>);

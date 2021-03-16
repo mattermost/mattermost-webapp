@@ -87,7 +87,7 @@ describe('components/PermalinkView', () => {
     });
 
     test('should call baseProps.actions.focusPost on doPermalinkEvent', async () => {
-        const wrapper: ShallowWrapper<any,any,PermalinkView> = shallow(
+        const wrapper: ShallowWrapper<any, any, PermalinkView> = shallow(
             <PermalinkView {...baseProps}/>,
         );
 

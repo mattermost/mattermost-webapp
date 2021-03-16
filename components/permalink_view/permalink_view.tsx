@@ -6,8 +6,7 @@ import React from 'react';
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils';
 
-
-type Props= {
+export type Props= {
     channelId: string;
     match: {
         params: {
@@ -17,20 +16,18 @@ type Props= {
     returnTo: string;
     teamName: string;
     actions: {
-        focusPost:(postId: string, returnTo?: string,currentUserId?: string) =>void;
+        focusPost: (postId: string, returnTo?: string, currentUserId?: string) => void;
     };
     currentUserId: string;
 }
-type State ={ 
+export type State ={
     valid: boolean;
-    postid: string;
+    postid?: string;
 }
 
-export default class PermalinkView extends React.PureComponent<Props,State> {
-
+export default class PermalinkView extends React.PureComponent<Props, State> {
     mounted: boolean | undefined;
     permalink: any;
-
 
     static getDerivedStateFromProps(props:Props , state: State) {
         let updatedState = {postid: props.match.params.postid};

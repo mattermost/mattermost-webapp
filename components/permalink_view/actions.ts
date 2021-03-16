@@ -1,17 +1,17 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import { getChannel, getChannelMember, selectChannel, joinChannel, getChannelStats } from 'mattermost-redux/actions/channels';
-import { getPostThread } from 'mattermost-redux/actions/posts';
-import { getCurrentTeam, getTeam } from 'mattermost-redux/selectors/entities/teams';
-import { getCurrentUser, getUser } from 'mattermost-redux/selectors/entities/users';
+import {getChannel, getChannelMember, selectChannel, joinChannel, getChannelStats} from 'mattermost-redux/actions/channels';
+import {getPostThread} from 'mattermost-redux/actions/posts';
+import {getCurrentTeam, getTeam} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentUser, getUser} from 'mattermost-redux/selectors/entities/users';
 
-import { loadChannelsForCurrentUser } from 'actions/channel_actions';
-import { loadNewDMIfNeeded, loadNewGMIfNeeded } from 'actions/user_actions';
-import { browserHistory } from 'utils/browser_history';
-import { joinPrivateChannelPrompt } from 'utils/channel_utils';
-import { ActionTypes, Constants, ErrorPageTypes } from 'utils/constants';
-import { getUserIdFromChannelId, isSystemAdmin } from 'utils/utils';
+import {loadChannelsForCurrentUser} from 'actions/channel_actions';
+import {loadNewDMIfNeeded, loadNewGMIfNeeded} from 'actions/user_actions';
+import {browserHistory} from 'utils/browser_history';
+import {joinPrivateChannelPrompt} from 'utils/channel_utils';
+import {ActionTypes, Constants, ErrorPageTypes} from 'utils/constants';
+import {getUserIdFromChannelId, isSystemAdmin} from 'utils/utils';
 
 let privateChannelJoinPromptVisible = false;
 
@@ -21,7 +21,7 @@ export function focusPost(postId: string, returnTo?: string, currentUserId?: str
         if (privateChannelJoinPromptVisible) {
             return;
         }
-        const { data } = await dispatch(getPostThread(postId));
+        const {data} = await dispatch(getPostThread(postId));
 
         if (!data) {
             browserHistory.replace(`/error?type=${ErrorPageTypes.PERMALINK_NOT_FOUND}&returnTo=${returnTo}`);
@@ -35,7 +35,7 @@ export function focusPost(postId: string, returnTo?: string, currentUserId?: str
         const teamId = currentTeam.id;
 
         if (!channel) {
-            const { data: channelData } = await dispatch(getChannel(channelId));
+            const {data: channelData} = await dispatch(getChannel(channelId));
 
             if (!channelData) {
                 browserHistory.replace(`/error?type=${ErrorPageTypes.PERMALINK_NOT_FOUND}&returnTo=${returnTo}`);
@@ -58,13 +58,11 @@ export function focusPost(postId: string, returnTo?: string, currentUserId?: str
                 membership = await dispatch(getChannelMember(channel.id, currentUserId));
             }
 
-
             if ('data' in membership) {
                 myMember = membership.data;
             }
 
             if (!myMember && typeof currentUserId !== 'undefined') {
-
                 // Prompt system admin before joining the private channel
                 const user = getCurrentUser(state);
                 if (channel.type === Constants.PRIVATE_CHANNEL && isSystemAdmin(user.roles)) {
