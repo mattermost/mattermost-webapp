@@ -56,11 +56,11 @@ describe('CommandProvider', () => {
                 matchedPretext: '/jira issue',
                 terms: ['/jira issue'],
                 items: [{
-                    complete: '/jira issue',
-                    suggestion: '/issue',
-                    hint: 'hint',
-                    iconData: 'icon_data',
-                    description: 'description',
+                    Complete: '/jira issue',
+                    Suggestion: '/issue',
+                    Hint: 'hint',
+                    IconData: 'icon_data',
+                    Description: 'description',
                 }],
                 component: CommandSuggestion,
             };

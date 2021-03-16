@@ -14,9 +14,7 @@ import {
     AppCallResponse,
     AppContext,
     AppForm,
-    AutocompleteSuggestion,
     AutocompleteStaticSelect,
-    AutocompleteSuggestionWithComplete,
     AppCallValues,
     AppCallRequest,
 } from 'mattermost-redux/types/apps';
@@ -34,6 +32,8 @@ import {getUserByUsername as selectUserByUsername} from 'mattermost-redux/select
 import {getUserByUsername} from 'mattermost-redux/actions/users';
 
 import {getChannelByNameAndTeamName} from 'mattermost-redux/actions/channels';
+
+import {AutocompleteSuggestion} from 'mattermost-redux/types/integrations';
 
 import {Constants} from 'utils/constants';
 import {GlobalState} from 'types/store';
@@ -541,9 +541,9 @@ export class AppCommandParser {
     }
 
     // getSuggestionsBase is a synchronous function that returns results for base commands
-    public getSuggestionsBase = (pretext: string): AutocompleteSuggestionWithComplete[] => {
+    public getSuggestionsBase = (pretext: string): AutocompleteSuggestion[] => {
         const command = pretext.toLowerCase();
-        const result: AutocompleteSuggestionWithComplete[] = [];
+        const result: AutocompleteSuggestion[] = [];
 
         const bindings = this.getCommandBindings();
         for (const binding of bindings) {
@@ -557,10 +557,11 @@ export class AppCommandParser {
             }
             if (base.startsWith(command)) {
                 result.push({
-                    suggestion: base,
-                    complete: base,
-                    description: binding.description,
-                    hint: binding.hint || '',
+                    Suggestion: base,
+                    Complete: base,
+                    Description: binding.description || '',
+                    Hint: binding.hint || '',
+                    IconData: binding.icon || '',
                 });
             }
         }
@@ -569,7 +570,7 @@ export class AppCommandParser {
     }
 
     // getSuggestions returns suggestions for subcommands and/or form arguments
-    public getSuggestions = async (pretext: string): Promise<AutocompleteSuggestionWithComplete[]> => {
+    public getSuggestions = async (pretext: string): Promise<AutocompleteSuggestion[]> => {
         let parsed = new ParsedCommand(pretext, this);
 
         const commandBindings = this.getCommandBindings();
@@ -717,23 +718,23 @@ export class AppCommandParser {
     }
 
     // decorateSuggestionComplete applies the necessary modifications for a suggestion to be processed
-    decorateSuggestionComplete = (parsed: ParsedCommand, choice: AutocompleteSuggestion): AutocompleteSuggestionWithComplete => {
-        if (choice.complete && choice.complete.endsWith(EXECUTE_CURRENT_COMMAND_ITEM_ID)) {
-            return choice as AutocompleteSuggestionWithComplete;
+    decorateSuggestionComplete = (parsed: ParsedCommand, choice: AutocompleteSuggestion): AutocompleteSuggestion => {
+        if (choice.Complete && choice.Complete.endsWith(EXECUTE_CURRENT_COMMAND_ITEM_ID)) {
+            return choice as AutocompleteSuggestion;
         }
 
         let goBackSpace = 0;
-        if (choice.complete === '') {
+        if (choice.Complete === '') {
             goBackSpace = 1;
         }
         let complete = parsed.command.substring(0, parsed.incompleteStart - goBackSpace);
-        complete += choice.complete || choice.suggestion;
-        choice.hint = choice.hint || '';
-        choice.suggestion = '/' + choice.suggestion;
+        complete += choice.Complete || choice.Suggestion;
+        choice.Hint = choice.Hint || '';
+        choice.Suggestion = '/' + choice.Suggestion;
 
         return {
             ...choice,
-            complete,
+            Complete: complete,
         };
     }
 
@@ -887,10 +888,11 @@ export class AppCommandParser {
         bindings.forEach((b) => {
             if (b.label.toLowerCase().startsWith(parsed.incomplete.toLowerCase())) {
                 result.push({
-                    complete: b.label,
-                    suggestion: b.label,
-                    description: b.description,
-                    hint: b.hint || '',
+                    Complete: b.label,
+                    Suggestion: b.label,
+                    Description: b.description || '',
+                    Hint: b.hint || '',
+                    IconData: b.icon || '',
                 });
             }
         });
@@ -936,11 +938,11 @@ export class AppCommandParser {
         }
 
         return {
-            complete: parsed.command + EXECUTE_CURRENT_COMMAND_ITEM_ID,
-            suggestion: '/Execute Current Command',
-            hint: '',
-            description: 'Select this option or use ' + key + '+Enter to execute the current command.',
-            iconData: EXECUTE_CURRENT_COMMAND_ITEM_ID,
+            Complete: parsed.command + EXECUTE_CURRENT_COMMAND_ITEM_ID,
+            Suggestion: '/Execute Current Command',
+            Hint: '',
+            Description: 'Select this option or use ' + key + '+Enter to execute the current command.',
+            IconData: EXECUTE_CURRENT_COMMAND_ITEM_ID,
         };
     }
 
@@ -980,15 +982,22 @@ export class AppCommandParser {
         if (applicable) {
             return applicable.map((f) => {
                 return {
-                    complete: prefix + (f.label || f.name),
-                    suggestion: '--' + (f.label || f.name),
-                    description: f.description,
-                    hint: f.hint,
+                    Complete: prefix + (f.label || f.name),
+                    Suggestion: '--' + (f.label || f.name),
+                    Description: f.description || '',
+                    Hint: f.hint || '',
+                    IconData: '',
                 };
             });
         }
 
-        return [{suggestion: 'Could not find any suggestions'}];
+        return [{
+            Complete: '',
+            Suggestion: 'Could not find any suggestions',
+            Description: '',
+            Hint: '',
+            IconData: '',
+        }];
     }
 
     // getSuggestionsForField gets suggestions for a positional or flag field value
@@ -1017,10 +1026,11 @@ export class AppCommandParser {
         }
 
         return [{
-            complete,
-            suggestion: parsed.incomplete,
-            description: f.description,
-            hint: f.hint,
+            Complete: complete,
+            Suggestion: parsed.incomplete,
+            Description: f.description || '',
+            Hint: f.hint || '',
+            IconData: '',
         }];
     }
 
@@ -1036,10 +1046,11 @@ export class AppCommandParser {
                 complete = '`' + complete + '`';
             }
             return {
-                complete,
-                suggestion: opt.label,
-                hint: '',
-                description: '',
+                Complete: complete,
+                Suggestion: opt.label,
+                Hint: '',
+                Description: '',
+                IconData: opt.icon_data || '',
             };
         });
     }
@@ -1083,7 +1094,13 @@ export class AppCommandParser {
 
         const items = res?.data?.data?.items;
         if (!items) {
-            return [{suggestion: Utils.localizeMessage('apps.suggestion.no_dynamic', 'Received no data for dynamic suggestions')}];
+            return [{
+                Complete: '',
+                Suggestion: Utils.localizeMessage('apps.suggestion.no_dynamic', 'Received no data for dynamic suggestions'),
+                Description: '',
+                Hint: '',
+                IconData: '',
+            }];
         }
 
         return items.map((s): AutocompleteSuggestion => {
@@ -1094,11 +1111,11 @@ export class AppCommandParser {
                 complete = '`' + complete + '`';
             }
             return ({
-                complete,
-                suggestion: s.label,
-                hint: '',
-                description: '',
-                iconData: s.icon_data,
+                Complete: complete,
+                Suggestion: s.label,
+                Hint: '',
+                Description: '',
+                IconData: s.icon_data || '',
             });
         });
     }
@@ -1107,10 +1124,11 @@ export class AppCommandParser {
     getUserSuggestions = (parsed: ParsedCommand): AutocompleteSuggestion[] => {
         if (parsed.incomplete.trim().length === 0) {
             return [{
-                complete: '',
-                suggestion: '',
-                description: parsed.field?.description || '',
-                hint: parsed.field?.hint || '@username',
+                Complete: '',
+                Suggestion: '',
+                Description: parsed.field?.description || '',
+                Hint: parsed.field?.hint || '@username',
+                IconData: '',
             }];
         }
 
@@ -1121,10 +1139,11 @@ export class AppCommandParser {
     getChannelSuggestions = (parsed: ParsedCommand): AutocompleteSuggestion[] => {
         if (parsed.incomplete.trim().length === 0) {
             return [{
-                complete: '',
-                suggestion: '',
-                description: parsed.field?.description || '',
-                hint: parsed.field?.hint || '~channelname',
+                Complete: '',
+                Suggestion: '',
+                Description: parsed.field?.description || '',
+                Hint: parsed.field?.hint || '~channelname',
+                IconData: '',
             }];
         }
 
@@ -1137,14 +1156,20 @@ export class AppCommandParser {
 
         if ('true'.startsWith(parsed.incomplete)) {
             suggestions.push({
-                complete: 'true',
-                suggestion: 'true',
+                Complete: 'true',
+                Suggestion: 'true',
+                Hint: '',
+                Description: '',
+                IconData: '',
             });
         }
         if ('false'.startsWith(parsed.incomplete)) {
             suggestions.push({
-                complete: 'false',
-                suggestion: 'false',
+                Complete: 'false',
+                Suggestion: 'false',
+                Hint: '',
+                Description: '',
+                IconData: '',
             });
         }
         return suggestions;
@@ -1157,7 +1182,13 @@ function makeSuggestionError(message: string) {
         'Error: {error}',
         {error: message},
     );
-    return [{suggestion: errMsg}];
+    return [{
+        Complete: '',
+        Suggestion: errMsg,
+        Description: '',
+        Hint: '',
+        IconData: '',
+    }];
 }
 
 function isMultiword(value: string) {
