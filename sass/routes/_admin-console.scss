@@ -13,7 +13,7 @@
     .wrapper--fixed {
         display: flex;
         flex-direction: column;
-        height: 100vh;
+        height: calc(100vh - #{$backstage-bar-height});
 
         // Fix for Safari on iOS MM-24361
         @supports (-webkit-touch-callout: none) {
@@ -21,7 +21,7 @@
         }
 
         .announcement-bar--fixed & {
-            height: calc(100vh - 32px);
+            height: calc(100vh - #{$announcement-bar-height} - #{$backstage-bar-height});
         }
     }
 
@@ -548,7 +548,7 @@
     background: #111;
     display: flex;
     flex-direction: column;
-    height: 100%;
+    height: calc(100% - #{$announcement-bar-height});
     left: 0;
     position: fixed;
     top: $backstage-bar-height;
