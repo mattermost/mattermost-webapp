@@ -501,6 +501,10 @@ export function isHexColor(value) {
     return value && (/^#[0-9a-f]{3}([0-9a-f]{3})?$/i).test(value);
 }
 
+export function dropAlpha(value) {
+    return value.substr(value.indexOf('(') + 1).split(',', 3).join(',');
+}
+
 // given '#fffff', returns '255, 255, 255' (no trailing comma)
 export function toRgbValues(hexStr) {
     const rgbaStr = `${parseInt(hexStr.substr(1, 2), 16)}, ${parseInt(hexStr.substr(3, 2), 16)}, ${parseInt(hexStr.substr(5, 2), 16)}`;
@@ -818,9 +822,9 @@ export function applyTheme(theme) {
             'mention-color-rgb': toRgbValues(theme.mentionColor),
             'mention-highlight-bg-rgb': toRgbValues(theme.mentionHighlightBg),
             'mention-highlight-link-rgb': toRgbValues(theme.mentionHighlightLink),
-            'mention-highlight-bg-mixed-rgb': blendColors(theme.centerChannelBg, theme.mentionHighlightBg, 0.5),
-            'pinned-highlight-bg-mixed-rgb': blendColors(theme.centerChannelBg, theme.mentionHighlightBg, 0.12),
-            'own-highlight-bg-rgb': blendColors(theme.mentionHighlightBg, theme.centerChannelColor, 0.05),
+            'mention-highlight-bg-mixed-rgb': dropAlpha(blendColors(theme.centerChannelBg, theme.mentionHighlightBg, 0.5)),
+            'pinned-highlight-bg-mixed-rgb': dropAlpha(blendColors(theme.centerChannelBg, theme.mentionHighlightBg, 0.12)),
+            'own-highlight-bg-rgb': dropAlpha(blendColors(theme.mentionHighlightBg, theme.centerChannelColor, 0.05)),
             'new-message-separator-rgb': toRgbValues(theme.newMessageSeparator),
             'online-indicator-rgb': toRgbValues(theme.onlineIndicator),
             'sidebar-bg-rgb': toRgbValues(theme.sidebarBg),
