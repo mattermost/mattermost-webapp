@@ -638,7 +638,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             section: 'availabilityStatus',
             display: 'availabilityStatusOnPosts',
             value: this.state.availabilityStatusOnPosts,
-            defaultDisplay: 'false',
+            defaultDisplay: 'true',
             title: {
                 id: t('user.settings.display.availabilityStatusOnPostsTitle'),
                 message: 'Show user availability on posts',
