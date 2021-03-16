@@ -63,4 +63,4 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SidebarRight as unknown as React.ComponentClass);
+export default connect(mapStateToProps, mapDispatchToProps)(SidebarRight as React.ComponentClass);
