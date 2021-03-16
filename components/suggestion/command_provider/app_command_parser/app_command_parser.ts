@@ -559,7 +559,7 @@ export class AppCommandParser {
         const commandBindings = this.getCommandBindings();
         if (!commandBindings) {
             this.displayError(this.intl.formatMessage({
-                id: 'apps.error.command.no_bindings',
+                id: 'apps.error.parser.no_bindings',
                 defaultMessage: 'No command bindings.',
             }));
             return null;
