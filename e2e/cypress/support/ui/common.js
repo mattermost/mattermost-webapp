@@ -34,6 +34,10 @@ Cypress.Commands.add('uiCloseButton', () => {
     return cy.uiGetButton('Close');
 });
 
+Cypress.Commands.add('uiGetRadioButton', (name) => {
+    return cy.findByRole('radio', {name}).should('be.visible');
+});
+
 Cypress.Commands.add('uiGetHeading', (name) => {
     return cy.findByRole('heading', {name}).should('be.visible');
 });
