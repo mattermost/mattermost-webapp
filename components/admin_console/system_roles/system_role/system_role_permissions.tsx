@@ -105,7 +105,12 @@ const sectionsList: SystemSection[] = [
     {
         name: 'compliance',
         hasDescription: true,
-        subsections: [],
+        subsections: [
+            {name: 'compliance_data_retention_policy'},
+            {name: 'compliance_compliance_export'},
+            {name: 'compliance_compliance_monitoring'},
+            {name: 'compliance_custom_terms_of_service'},
+        ],
     },
     {
         name: 'experimental',
@@ -273,6 +278,10 @@ t('admin.permissions.sysconsole_section_integrations.name');
 t('admin.permissions.sysconsole_section_integrations.description');
 t('admin.permissions.sysconsole_section_compliance.name');
 t('admin.permissions.sysconsole_section_compliance.description');
+t('admin.permissions.sysconsole_section_compliance_data_retention_policy.name');
+t('admin.permissions.sysconsole_section_compliance_compliance_export.name');
+t('admin.permissions.sysconsole_section_compliance_compliance_monitoring.name');
+t('admin.permissions.sysconsole_section_compliance_custom_terms_of_service.name');
 t('admin.permissions.sysconsole_section_experimental.name');
 t('admin.permissions.sysconsole_section_experimental.description');
 t('admin.permissions.sysconsole_section_experimental_features.name');
