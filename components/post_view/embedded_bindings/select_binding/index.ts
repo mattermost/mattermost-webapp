@@ -11,6 +11,7 @@ import {AppCallRequest, AppCallType} from 'mattermost-redux/types/apps';
 import {getChannel} from 'mattermost-redux/actions/channels';
 
 import {doAppCall} from 'actions/apps';
+import {sendEphemeralPost} from 'actions/global_actions';
 
 import SelectBinding from './select_binding';
 
@@ -25,6 +26,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             doAppCall,
             getChannel,
         }, dispatch),
+        sendEphemeralPost,
     };
 }
 

@@ -2,7 +2,6 @@
 
 exports[`components/post_view/embedded_bindings/button_binding/ should match snapshot 1`] = `
 <button
-  key="some_location"
   onClick={[Function]}
 >
   <LoadingWrapper

@@ -11,7 +11,7 @@ import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import AppsFormContainer from './apps_form_container';
 
-describe('components/apps_model/AppsFormContainer', () => {
+describe('components/apps_form/AppsFormContainer', () => {
     const emojiMap = new EmojiMap(new Map());
 
     const context = {
@@ -88,8 +88,8 @@ describe('components/apps_model/AppsFormContainer', () => {
                     post_id: 'post',
                     team_id: 'team',
                 },
-                expand: {},
                 path: '/form_url',
+                expand: {},
                 values: {
                     field1: 'value1',
                     field2: {
@@ -97,7 +97,7 @@ describe('components/apps_model/AppsFormContainer', () => {
                         value: 'value2',
                     },
                 },
-            }, 'submit');
+            }, 'submit', expect.any(Object));
 
             expect(result).toEqual({
                 data: {
@@ -148,8 +148,8 @@ describe('components/apps_model/AppsFormContainer', () => {
                     post_id: 'post',
                     team_id: 'team',
                 },
-                expand: {},
                 path: '/form_url',
+                expand: {},
                 query: 'My search',
                 selected_field: 'field2',
                 values: {
@@ -159,7 +159,7 @@ describe('components/apps_model/AppsFormContainer', () => {
                         value: 'value2',
                     },
                 },
-            }, 'lookup');
+            }, 'lookup', expect.any(Object));
 
             expect(result).toEqual([{
                 label: 'Fetched Label',

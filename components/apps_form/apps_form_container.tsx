@@ -22,7 +22,7 @@ type Props = {
     call?: AppCallRequest;
     onHide: () => void;
     actions: {
-        doAppCall: (call: AppCallRequest, type: AppCallType) => Promise<{data: AppCallResponse}>;
+        doAppCall: (call: AppCallRequest, type: AppCallType, intl: IntlShape) => Promise<{data: AppCallResponse}>;
     };
     emojiMap: EmojiMap;
 };
@@ -63,7 +63,7 @@ class AppsFormContainer extends React.PureComponent<Props, State> {
         const res = await this.props.actions.doAppCall({
             ...call,
             values: submission.values,
-        }, AppCallTypes.SUBMIT);
+        }, AppCallTypes.SUBMIT, this.props.intl);
 
         const callResp = res.data;
         switch (callResp.type) {
@@ -114,7 +114,7 @@ class AppsFormContainer extends React.PureComponent<Props, State> {
             ...call,
             selected_field: field.name,
             values,
-        }, AppCallTypes.FORM);
+        }, AppCallTypes.FORM, this.props.intl);
 
         const callResp = res.data;
         switch (callResp.type) {
@@ -149,7 +149,7 @@ class AppsFormContainer extends React.PureComponent<Props, State> {
             values: formValues,
             query: userInput,
             selected_field: field.name,
-        }, AppCallTypes.LOOKUP);
+        }, AppCallTypes.LOOKUP, this.props.intl);
 
         // TODO Surface errors?
         if (res.data.type !== AppCallResponseTypes.OK) {
