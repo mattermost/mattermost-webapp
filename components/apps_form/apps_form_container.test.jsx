@@ -11,7 +11,7 @@ import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import AppsFormContainer from './apps_form_container';
 
-describe('components/apps_model/AppsFormContainer', () => {
+describe('components/apps_form/AppsFormContainer', () => {
     const emojiMap = new EmojiMap(new Map());
 
     const context = {
@@ -85,11 +85,9 @@ describe('components/apps_model/AppsFormContainer', () => {
                 context: {
                     app_id: 'app',
                     channel_id: 'channel',
-                    location: '/in_post',
                     post_id: 'post',
                     team_id: 'team',
                 },
-                type: 'submit',
                 path: '/form_url',
                 values: {
                     field1: 'value1',
@@ -98,7 +96,8 @@ describe('components/apps_model/AppsFormContainer', () => {
                         value: 'value2',
                     },
                 },
-            });
+                expand: {},
+            }, 'submit', expect.any(Object));
 
             expect(result).toEqual({
                 data: {
@@ -146,24 +145,21 @@ describe('components/apps_model/AppsFormContainer', () => {
                 context: {
                     app_id: 'app',
                     channel_id: 'channel',
-                    location: '/in_post',
                     post_id: 'post',
                     team_id: 'team',
                 },
-                type: 'lookup',
                 path: '/form_url',
+                selected_field: 'field2',
+                query: 'My search',
                 values: {
-                    name: 'field2',
-                    user_input: 'My search',
-                    values: {
-                        field1: 'value1',
-                        field2: {
-                            label: 'label2',
-                            value: 'value2',
-                        },
+                    field1: 'value1',
+                    field2: {
+                        label: 'label2',
+                        value: 'value2',
                     },
                 },
-            });
+                expand: {},
+            }, 'lookup', expect.any(Object));
 
             expect(result).toEqual([{
                 label: 'Fetched Label',

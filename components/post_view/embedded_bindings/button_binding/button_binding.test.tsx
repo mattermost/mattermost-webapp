@@ -2,13 +2,14 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {ShallowWrapper} from 'enzyme';
 
 import {Post} from 'mattermost-redux/types/posts';
 import {AppBinding} from 'mattermost-redux/types/apps';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
-import ButtonBinding from './button_binding';
+import ButtonBinding, {ButtonBindingUnwrapped} from './button_binding';
 
 describe('components/post_view/embedded_bindings/button_binding/', () => {
     const post = {
@@ -26,8 +27,18 @@ describe('components/post_view/embedded_bindings/button_binding/', () => {
         userId: 'user_id',
         binding,
         actions: {
-            doAppCall: jest.fn(),
-            getChannel: jest.fn(),
+            doAppCall: jest.fn().mockResolvedValue({
+                data: {
+                    type: 'ok',
+                },
+            }),
+            getChannel: jest.fn().mockResolvedValue({
+                data: {
+                    id: 'channel_id',
+                    name: 'channel-name',
+                    team_id: 'team_id',
+                },
+            }),
         },
     };
 
@@ -36,11 +47,11 @@ describe('components/post_view/embedded_bindings/button_binding/', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should call handleAction on click', () => {
-        const wrapper = shallowWithIntl(<ButtonBinding {...baseProps}/>);
+    test('should call doAppCall on click', async () => {
+        const wrapper: ShallowWrapper<any, any, ButtonBindingUnwrapped> = shallowWithIntl(<ButtonBinding {...baseProps}/>);
+        await wrapper.instance().handleClick();
 
-        wrapper.find('button').simulate('click');
-
+        expect(baseProps.actions.getChannel).toHaveBeenCalledWith('channel_id');
         expect(baseProps.actions.doAppCall).toHaveBeenCalledTimes(1);
     });
 });
