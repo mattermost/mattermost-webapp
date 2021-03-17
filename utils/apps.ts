@@ -4,6 +4,8 @@
 import {AppBinding, AppCall, AppCallRequest, AppCallValues, AppContext, AppExpand} from 'mattermost-redux/types/apps';
 import {GlobalState} from 'mattermost-redux/types/store';
 
+export const appsPluginID = 'com.mattermost.apps';
+
 export function appsEnabled(state: GlobalState) {// eslint-disable-line @typescript-eslint/no-unused-vars
     // TODO uncomment when featur flag is in place
     //return getConfig(state)?.['FeatureFlagApps' as keyof Partial<ClientConfig>];

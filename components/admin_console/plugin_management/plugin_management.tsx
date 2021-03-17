@@ -19,6 +19,7 @@ import AdminSettings, {BaseProps, BaseState} from '../admin_settings';
 import BooleanSetting from '../boolean_setting';
 import SettingsGroup from '../settings_group.jsx';
 import TextSetting from '../text_setting';
+import {appsPluginID} from 'utils/apps';
 
 const PluginItemState = ({state}: {state: number}) => {
     switch (state) {
@@ -164,6 +165,7 @@ type PluginItemProps = {
     handleRemove: (e: any) => any;
     showInstances: boolean;
     hasSettings: boolean;
+    appsEnabled: boolean;
     isDisabled?: boolean;
 };
 
@@ -175,6 +177,7 @@ const PluginItem = ({
     handleRemove,
     showInstances,
     hasSettings,
+    appsEnabled,
     isDisabled,
 }: PluginItemProps) => {
     let activateButton: JSX.Element | null;
@@ -360,21 +363,9 @@ const PluginItem = ({
         );
     }
 
-    if (pluginStatus.id === 'com.mattermost.apps') {
-        activateButton = null;
+    if (pluginStatus.id === appsPluginID && !appsEnabled) {
+        activateButton = (<>{'Plugin disabled by feature flag'}</>);
         removeButton = null;
-        settingsButton = (
-            <span>
-                <Link
-                    to={'/admin_console/plugins/plugin_' + pluginStatus.id}
-                >
-                    <FormattedMessage
-                        id='admin.plugin.settingsButton'
-                        defaultMessage='Settings'
-                    />
-                </Link>
-            </span>
-        );
     }
 
     return (
@@ -408,6 +399,7 @@ type Props = BaseProps & {
     config: DeepPartial<AdminConfig>;
     pluginStatuses: Record<string, PluginStatus>;
     plugins: any;
+    appsEnabled: boolean;
     actions: {
         uploadPlugin: (fileData: File, force: boolean) => any;
         removePlugin: (pluginId: string) => any;
@@ -940,6 +932,7 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                         handleRemove={this.showRemovePluginModal}
                         showInstances={showInstances}
                         hasSettings={hasSettings}
+                        appsEnabled={this.props.appsEnabled}
                         isDisabled={this.props.isDisabled}
                     />
                 );
