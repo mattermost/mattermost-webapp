@@ -10,7 +10,7 @@ import Constants from 'utils/constants';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
-type Props ={
+type Props = {
     onHide: () => void;
     channelId: string;
     channelDisplayName: string;
