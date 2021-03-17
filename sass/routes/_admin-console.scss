@@ -551,7 +551,7 @@
     height: 100%;
     left: 0;
     position: fixed;
-    top: 0;
+    top: $backstage-bar-height;
     width: 220px;
     z-index: 10;
 
@@ -602,7 +602,7 @@
     }
 
     body.announcement-bar--fixed & {
-        top: $announcement-bar-height;
+        top: $announcement-bar-height + $backstage-bar-height;
         padding-bottom: $announcement-bar-height;
     }
 

@@ -26,7 +26,7 @@
   "accessibility.button.Info": "Informações",
   "accessibility.button.Search": "Procurar",
   "accessibility.button.attachment": "anexo",
-  "accessibility.button.dialog": "Dialogo {dialogName}",
+  "accessibility.button.dialog": "Diálogo {dialogName}",
   "accessibility.sections.centerContent": "região principal da lista de mensagens",
   "accessibility.sections.centerFooter": "região complementar de entrada de mensagens",
   "accessibility.sections.channelHeader": "região do cabeçalho do canal",

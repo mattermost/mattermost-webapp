@@ -1,33 +1,23 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
+import {Channel} from 'mattermost-redux/types/channels';
 import React from 'react';
 
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
-export default class ChannelSelect extends React.PureComponent {
-    static get propTypes() {
-        return {
-            channels: PropTypes.array.isRequired,
-            onChange: PropTypes.func,
-            value: PropTypes.string,
-            selectOpen: PropTypes.bool.isRequired,
-            selectPrivate: PropTypes.bool.isRequired,
-            selectDm: PropTypes.bool.isRequired,
-        };
-    }
+type Props = {
+    channels: Channel[];
+    onChange?: () => void;
+    value?: string;
+    selectOpen: boolean;
+    selectPrivate: boolean;
+    selectDm: boolean;
+};
 
-    static get defaultProps() {
-        return {
-            selectOpen: false,
-            selectPrivate: false,
-            selectDm: false,
-        };
-    }
-
-    render() {
+export default class ChannelSelect extends React.PureComponent<Props> {
+    render(): JSX.Element {
         const options = [
             <option
                 key=''
@@ -37,7 +27,7 @@ export default class ChannelSelect extends React.PureComponent {
             </option>,
         ];
 
-        this.props.channels.forEach((channel) => {
+        this.props.channels.forEach((channel: Channel) => {
             const channelName = channel.display_name || channel.name;
             if (channel.type === Constants.OPEN_CHANNEL && this.props.selectOpen) {
                 options.push(
