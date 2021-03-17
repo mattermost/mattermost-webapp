@@ -8,12 +8,14 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @enterprise @elasticsearch @autocomplete
+// Group: @enterprise @elasticsearch @autocomplete @not_cloud
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 describe('Elasticsearch system console', () => {
     before(() => {
+        cy.shouldNotRunOnCloudEdition();
+
         // # Check if server has license for Elasticsearch
         cy.apiRequireLicenseForFeature('Elasticsearch');
 
