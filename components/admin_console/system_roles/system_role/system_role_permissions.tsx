@@ -85,7 +85,18 @@ const sectionsList: SystemSection[] = [
     {
         name: 'site',
         hasDescription: true,
-        subsections: [],
+        subsections: [
+            {name: 'site_customization'},
+            {name: 'site_localization'},
+            {name: 'site_users_and_teams'},
+            {name: 'site_notifications'},
+            {name: 'site_announcement_banner'},
+            {name: 'site_emoji'},
+            {name: 'site_posts'},
+            {name: 'site_file_sharing_and_downloads'},
+            {name: 'site_public_links'},
+            {name: 'site_notices'},
+        ],
     },
     {
         name: 'authentication',
@@ -270,6 +281,16 @@ t('admin.permissions.sysconsole_section_environment_performance_monitoring.name'
 t('admin.permissions.sysconsole_section_environment_developer.name');
 t('admin.permissions.sysconsole_section_site.name');
 t('admin.permissions.sysconsole_section_site.description');
+t('admin.permissions.sysconsole_section_site_customization.name');
+t('admin.permissions.sysconsole_section_site_localization.name');
+t('admin.permissions.sysconsole_section_site_users_and_teams.name');
+t('admin.permissions.sysconsole_section_site_notifications.name');
+t('admin.permissions.sysconsole_section_site_announcement_banner.name');
+t('admin.permissions.sysconsole_section_site_emoji.name');
+t('admin.permissions.sysconsole_section_site_posts.name');
+t('admin.permissions.sysconsole_section_site_file_sharing_and_downloads.name');
+t('admin.permissions.sysconsole_section_site_public_links.name');
+t('admin.permissions.sysconsole_section_site_notices.name');
 t('admin.permissions.sysconsole_section_authentication.name');
 t('admin.permissions.sysconsole_section_authentication.description');
 t('admin.permissions.sysconsole_section_plugins.name');
