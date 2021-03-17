@@ -31,10 +31,10 @@ describe('System Console > Site Statistics', () => {
     it('MM-T903 - Site Statistics > Deactivating a user increments the Daily and Monthly Active Users counts down', () => {
         // # Post a message as testUser to make them daily/monthly active
         cy.getCurrentChannelId().then((channelId) => {
-            const message = "New Daily Message"
+            const message = 'New Daily Message';
             cy.postMessageAs({sender: testUser, message, channelId});
         });
-        
+
         // # Go to admin console
         goToAdminConsole();
 
