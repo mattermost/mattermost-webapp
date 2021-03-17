@@ -70,30 +70,41 @@ const initialState = {
         },
         apps: {
             bindings: [{
-                app_id: 'appid',
                 location: '/command',
                 bindings: [{
                     app_id: 'appid',
-                    label: 'custom',
-                    description: 'Run the command.',
-                    call: {
-                        path: 'https://someserver.com/command',
-                    },
-                    form: {
-                        fields: [
-                            {
-                                name: 'key1',
-                                label: 'key1',
-                                type: 'text',
-                                position: 1,
+                    label: 'appid',
+                    bindings: [
+                        {
+                            app_id: 'appid',
+                            label: 'custom',
+                            description: 'Run the command.',
+                            call: {
+                                path: 'https://someserver.com/command',
                             },
-                            {
-                                name: 'key2',
-                                label: 'key2',
-                                type: 'static_select',
+                            form: {
+                                fields: [
+                                    {
+                                        name: 'key1',
+                                        label: 'key1',
+                                        type: 'text',
+                                        position: 1,
+                                    },
+                                    {
+                                        name: 'key2',
+                                        label: 'key2',
+                                        type: 'static_select',
+                                        options: [
+                                            {
+                                                label: 'Value 2',
+                                                value: 'value2',
+                                            },
+                                        ],
+                                    },
+                                ],
                             },
-                        ],
-                    },
+                        },
+                    ],
                 }],
             }],
         },
@@ -259,13 +270,15 @@ describe('executeCommand', () => {
                     team_id: '456',
                 },
                 raw_command: '/appid custom value1 --key2 value2',
-                type: '',
                 path: 'https://someserver.com/command',
                 values: {
                     key1: 'value1',
-                    key2: 'value2',
+                    key2: {label: 'Value 2', value: 'value2'},
                 },
-            });
+                expand: {},
+                query: undefined,
+                selected_field: undefined,
+            }, 'submit');
             expect(result).toEqual({data: true});
         });
     });

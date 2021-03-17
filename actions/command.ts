@@ -26,7 +26,8 @@ import {Constants, ModalIdentifiers} from 'utils/constants';
 import {browserHistory} from 'utils/browser_history';
 
 import UserSettingsModal from 'components/user_settings/modal';
-import {AppCommandParser} from 'components/suggestion/command_provider/app_command_parser';
+import {AppCommandParser} from 'components/suggestion/command_provider/app_command_parser/app_command_parser';
+import {intlShim} from 'components/suggestion/command_provider/app_command_parser/app_command_parser_dependencies';
 
 import {GlobalState} from 'types/store';
 
@@ -38,7 +39,7 @@ import {doAppCall} from './apps';
 
 export function executeCommand(message: string, args: CommandArgs): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        const state = getState();
+        const state = getState() as GlobalState;
 
         let msg = message;
 
@@ -111,9 +112,9 @@ export function executeCommand(message: string, args: CommandArgs): ActionFunc {
         if (appsEnabled(state)) {
             const getGlobalState = () => getState() as GlobalState;
             const createErrorMessage = (errMessage: string) => {
-                return {error: new Error(errMessage)};
+                return {error: {message: errMessage}};
             };
-            const parser = new AppCommandParser({dispatch, getState: getGlobalState} as any, args.channel_id, args.root_id);
+            const parser = new AppCommandParser({dispatch, getState: getGlobalState} as any, intlShim, args.channel_id, args.root_id);
             if (parser.isAppCommand(msg)) {
                 try {
                     const call = await parser.composeCallFromCommand(msg);
@@ -121,10 +122,7 @@ export function executeCommand(message: string, args: CommandArgs): ActionFunc {
                         return createErrorMessage(localizeMessage('apps.error.commands.compose_call', 'Error composing command submission'));
                     }
 
-                    const res = await dispatch(doAppCall({
-                        ...call,
-                        type: AppCallTypes.SUBMIT,
-                    })) as {data: AppCallResponse};
+                    const res = await dispatch(doAppCall(call, AppCallTypes.SUBMIT, intlShim)) as {data: AppCallResponse};
 
                     const callResp = res.data;
                     switch (callResp.type) {
@@ -146,7 +144,7 @@ export function executeCommand(message: string, args: CommandArgs): ActionFunc {
                         ));
                     }
                 } catch (err) {
-                    return {error: err};
+                    return createErrorMessage(err.message || localizeMessage('apps.error.unknown', 'Unknown error.'));
                 }
             }
         }

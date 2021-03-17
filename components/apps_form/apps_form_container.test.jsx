@@ -11,7 +11,7 @@ import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import AppsFormContainer from './apps_form_container';
 
-describe('components/apps_model/AppsFormContainer', () => {
+describe('components/apps_form/AppsFormContainer', () => {
     const emojiMap = new EmojiMap(new Map());
 
     const context = {
@@ -48,10 +48,6 @@ describe('components/apps_model/AppsFormContainer', () => {
             doAppCall: jest.fn().mockResolvedValue({}),
         },
         onHide: jest.fn(),
-        postID: context.post_id,
-        channelID: context.channel_id,
-        teamID: context.team_id,
-        isEmbedded: false,
     };
 
     test('should match snapshot', () => {
@@ -89,12 +85,11 @@ describe('components/apps_model/AppsFormContainer', () => {
                 context: {
                     app_id: 'app',
                     channel_id: 'channel',
-                    location: '/in_post',
                     post_id: 'post',
                     team_id: 'team',
                 },
-                type: '',
                 path: '/form_url',
+                expand: {},
                 values: {
                     field1: 'value1',
                     field2: {
@@ -102,7 +97,7 @@ describe('components/apps_model/AppsFormContainer', () => {
                         value: 'value2',
                     },
                 },
-            });
+            }, 'submit', expect.any(Object));
 
             expect(result).toEqual({
                 data: {
@@ -150,24 +145,21 @@ describe('components/apps_model/AppsFormContainer', () => {
                 context: {
                     app_id: 'app',
                     channel_id: 'channel',
-                    location: '/in_post',
                     post_id: 'post',
                     team_id: 'team',
                 },
-                type: 'lookup',
                 path: '/form_url',
+                expand: {},
+                query: 'My search',
+                selected_field: 'field2',
                 values: {
-                    name: 'field2',
-                    user_input: 'My search',
-                    values: {
-                        field1: 'value1',
-                        field2: {
-                            label: 'label2',
-                            value: 'value2',
-                        },
+                    field1: 'value1',
+                    field2: {
+                        label: 'label2',
+                        value: 'value2',
                     },
                 },
-            });
+            }, 'lookup', expect.any(Object));
 
             expect(result).toEqual([{
                 label: 'Fetched Label',

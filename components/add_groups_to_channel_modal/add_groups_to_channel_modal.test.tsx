@@ -4,6 +4,8 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
+import {Groups} from 'mattermost-redux/constants';
+
 import AddGroupsToChannelModal, {Props} from 'components/add_groups_to_channel_modal/add_groups_to_channel_modal';
 
 describe('components/AddGroupsToChannelModal', () => {
@@ -48,47 +50,45 @@ describe('components/AddGroupsToChannelModal', () => {
         );
 
         wrapper.setState({saving: true, addError: ''});
-        (wrapper.instance() as AddGroupsToChannelModal).handleResponse();
+        const instance = wrapper.instance() as AddGroupsToChannelModal;
+        instance.handleResponse();
         expect(wrapper.state('saving')).toEqual(false);
         expect(wrapper.state('addError')).toEqual(null);
 
         const message = 'error message';
         wrapper.setState({saving: true, addError: ''});
-        (wrapper.instance() as AddGroupsToChannelModal).handleResponse({message});
+        instance.handleResponse({message});
         expect(wrapper.state('saving')).toEqual(false);
         expect(wrapper.state('addError')).toEqual(message);
     });
 
-    /*test('should match state when handleSubmit is called', async () => {
-        const linkGroupSyncable = jest.fn().
-            mockResolvedValueOnce({error: true}).
-            mockResolvedValue({data: true});
+    test('should match state when handleSubmit is called', async () => {
+        const linkGroupSyncable = jest.fn().mockResolvedValue({error: true, data: true});
         const actions = {...baseProps.actions, linkGroupSyncable};
         const props = {...baseProps, actions};
         const wrapper = shallow(
-            <AddGroupsToChannelModal {...props}/>
+            <AddGroupsToChannelModal {...props}/>,
         );
-        const instance = wrapper.instance();
+        const instance = wrapper.instance() as AddGroupsToChannelModal;
         instance.handleResponse = jest.fn();
         instance.handleHide = jest.fn();
-
         wrapper.setState({values: []});
-        await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
+        await instance.handleSubmit();
         expect(actions.linkGroupSyncable).not.toBeCalled();
+        expect(instance.handleResponse).not.toBeCalled();
+        expect(instance.handleHide).not.toBeCalled();
 
         wrapper.setState({saving: false, values: [{id: 'id_1'}, {id: 'id_2'}]});
-        await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
+        await instance.handleSubmit();
         expect(actions.linkGroupSyncable).toBeCalled();
         expect(actions.linkGroupSyncable).toHaveBeenCalledTimes(2);
         expect(actions.linkGroupSyncable).toBeCalledWith('id_1', baseProps.currentChannelId, Groups.SYNCABLE_TYPE_CHANNEL, {auto_add: true});
         expect(actions.linkGroupSyncable).toBeCalledWith('id_2', baseProps.currentChannelId, Groups.SYNCABLE_TYPE_CHANNEL, {auto_add: true});
 
-        setTimeout(() => {
-            expect(instance.handleResponse).toBeCalledTimes(2);
-        }, 0);
+        expect(instance.handleResponse).toBeCalledTimes(2);
         expect(instance.handleHide).not.toBeCalled();
         expect(wrapper.state('saving')).toEqual(true);
-    });*/
+    });
 
     test('should match state when addValue is called', () => {
         const wrapper = shallow(
@@ -98,11 +98,12 @@ describe('components/AddGroupsToChannelModal', () => {
         const value2: any = {id: 'id_2', label: 'label_2', value: 'value_2'};
 
         wrapper.setState({values: [value1]});
-        (wrapper.instance() as AddGroupsToChannelModal).addValue(value2);
+        const instance = wrapper.instance() as AddGroupsToChannelModal;
+        instance.addValue(value2);
         expect(wrapper.state('values')).toEqual([value1, value2]);
 
         wrapper.setState({values: [value1]});
-        (wrapper.instance() as AddGroupsToChannelModal).addValue(value1);
+        instance.addValue(value1);
         expect(wrapper.state('values')).toEqual([value1]);
     });
 
@@ -112,13 +113,14 @@ describe('components/AddGroupsToChannelModal', () => {
         );
 
         wrapper.setState({users: [{id: 'id_1'}]});
-        (wrapper.instance() as AddGroupsToChannelModal).handlePageChange(0, 1);
+        const instance = wrapper.instance() as AddGroupsToChannelModal;
+        instance.handlePageChange(0, 1);
         expect(baseProps.actions.getGroupsNotAssociatedToChannel).toHaveBeenCalledTimes(1);
 
-        (wrapper.instance() as AddGroupsToChannelModal).handlePageChange(1, 0);
+        instance.handlePageChange(1, 0);
         expect(baseProps.actions.getGroupsNotAssociatedToChannel).toHaveBeenCalledTimes(2);
 
-        (wrapper.instance() as AddGroupsToChannelModal).handlePageChange(0, 1);
+        instance.handlePageChange(0, 1);
         expect(baseProps.actions.getGroupsNotAssociatedToChannel).toHaveBeenCalledTimes(2);
     });
 
@@ -126,13 +128,13 @@ describe('components/AddGroupsToChannelModal', () => {
         const wrapper = shallow(
             <AddGroupsToChannelModal {...baseProps}/>,
         );
-
-        (wrapper.instance() as AddGroupsToChannelModal).search('');
+        const instance = wrapper.instance() as AddGroupsToChannelModal;
+        instance.search('');
         expect(baseProps.actions.setModalSearchTerm).toHaveBeenCalledTimes(1);
         expect(baseProps.actions.setModalSearchTerm).toBeCalledWith('');
 
         const searchTerm = 'term';
-        (wrapper.instance() as AddGroupsToChannelModal).search(searchTerm);
+        instance.search(searchTerm);
         expect(wrapper.state('loadingGroups')).toEqual(true);
         expect(baseProps.actions.setModalSearchTerm).toHaveBeenCalledTimes(2);
         expect(baseProps.actions.setModalSearchTerm).toBeCalledWith(searchTerm);
@@ -162,13 +164,14 @@ describe('components/AddGroupsToChannelModal', () => {
         let isSelected = false;
         function onAdd() {} //eslint-disable-line no-empty-function
 
-        expect((wrapper.instance() as AddGroupsToChannelModal).renderOption(option, isSelected, onAdd)).toMatchSnapshot();
+        const instance = wrapper.instance() as AddGroupsToChannelModal;
+        expect(instance.renderOption(option, isSelected, onAdd)).toMatchSnapshot();
 
         isSelected = true;
-        expect((wrapper.instance() as AddGroupsToChannelModal).renderOption(option, isSelected, onAdd)).toMatchSnapshot();
+        expect(instance.renderOption(option, isSelected, onAdd)).toMatchSnapshot();
 
         const optionBot: any = {id: 'id', is_bot: true, last_picture_update: '12345'};
-        expect((wrapper.instance() as AddGroupsToChannelModal).renderOption(optionBot, isSelected, onAdd)).toMatchSnapshot();
+        expect(instance.renderOption(optionBot, isSelected, onAdd)).toMatchSnapshot();
     });
 
     test('should match when renderValue is called', () => {

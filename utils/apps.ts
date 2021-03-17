@@ -2,7 +2,8 @@
 // See LICENSE.txt for license information.
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {AppBinding, AppCall, AppCallValues, AppExpand} from 'mattermost-redux/types/apps';
+import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
+import {AppBinding, AppCall, AppCallRequest, AppCallValues, AppContext, AppExpand} from 'mattermost-redux/types/apps';
 import {ClientConfig} from 'mattermost-redux/types/config';
 import {GlobalState} from 'mattermost-redux/types/store';
 
@@ -54,45 +55,50 @@ export function fillBindingsInformation(binding?: AppBinding) {
     }
 }
 
+export function createCallContext(
+    appID: string,
+    location?: string,
+    channelID?: string,
+    teamID?: string,
+    postID?: string,
+    rootID?: string,
+): AppContext {
+    return {
+        app_id: appID,
+        location,
+        channel_id: channelID,
+        team_id: teamID,
+        post_id: postID,
+        root_id: rootID,
+    };
+}
+
 export function createCallRequest(
     call: AppCall,
-    userId: string,
-    appId: string,
-    location: string,
-    expand: AppExpand = {},
-    channelId = '',
-    postId = '',
-    type = '',
-    rawCommand = '',
+    context: AppContext,
+    defaultExpand: AppExpand = {},
     values?: AppCallValues,
-): AppCall {
+    rawCommand?: string,
+    query?: string,
+    selectedField?: string,
+): AppCallRequest {
     return {
-        type,
-        path: call.path,
-        context: {
-            ...call.context,
-            acting_user_id: userId,
-            app_id: appId,
-            channel_id: channelId,
-            location,
-            post_id: postId,
-            user_id: userId,
-        },
-        values: {
-            ...call.values,
-            ...values,
-        },
+        ...call,
+        context,
+        values,
         expand: {
+            ...defaultExpand,
             ...call.expand,
-            ...expand,
         },
         raw_command: rawCommand,
+        query,
+        selected_field: selectedField,
     };
 }
 
 export const makeCallErrorResponse = (errMessage: string) => {
     return {
-        type: 'error',
+        type: AppCallResponseTypes.ERROR,
         error: errMessage,
     };
 };

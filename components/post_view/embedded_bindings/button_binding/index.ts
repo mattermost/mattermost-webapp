@@ -2,33 +2,31 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {GlobalState} from 'mattermost-redux/types/store';
 
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 import {ActionFunc, ActionResult, GenericAction} from 'mattermost-redux/types/actions';
-import {AppCall} from 'mattermost-redux/types/apps';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {AppCallRequest, AppCallType} from 'mattermost-redux/types/apps';
+
+import {getChannel} from 'mattermost-redux/actions/channels';
 
 import {doAppCall} from 'actions/apps';
+import {sendEphemeralPost} from 'actions/global_actions';
 
 import ButtonBinding from './button_binding';
 
-function mapStateToProps(state: GlobalState) {
-    return {
-        userId: getCurrentUserId(state),
-    };
-}
-
 type Actions = {
-    doAppCall: (call: AppCall) => Promise<ActionResult>;
+    doAppCall: (call: AppCallRequest, type: AppCallType) => Promise<ActionResult>;
+    getChannel: (channelId: string) => Promise<ActionResult>;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
             doAppCall,
+            getChannel,
         }, dispatch),
+        sendEphemeralPost,
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ButtonBinding);
+export default connect(null, mapDispatchToProps)(ButtonBinding);
