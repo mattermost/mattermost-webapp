@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {getMorePostsForSearch, getMoreFilesForSearch} from 'mattermost-redux/actions/search';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getFeatureFlagValue} from 'mattermost-redux/selectors/entities/general';
 import {connect} from 'react-redux';
 import {AnyAction, bindActionCreators, Dispatch} from 'redux';
 
@@ -30,8 +30,7 @@ import type {StateProps, DispatchProps, OwnProps} from './types';
 
 function mapStateToProps(state: GlobalState) {
     const rhsState = getRhsState(state);
-    const config = getConfig(state);
-    const filesSearchEnabled = (config as any).FeatureFlagFilesSearch === 'true';
+    const filesSearchEnabled = getFeatureFlagValue(state, 'FilesSearch') === 'true';
 
     return {
         isRhsExpanded: getIsRhsExpanded(state),
