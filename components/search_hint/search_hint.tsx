@@ -72,7 +72,7 @@ const SearchHint = (props: Props): JSX.Element => {
                 <h4 className='search-hint__title'>
                     <FormattedMessage
                         id='search_bar.usage.title'
-                        defaultMessage='Search Options'
+                        defaultMessage='Search options'
                     />
                 </h4>
             }
@@ -80,7 +80,7 @@ const SearchHint = (props: Props): JSX.Element => {
                 <h4 className='search-hint__title'>
                     <FormattedMessage
                         id='search_bar.usage.title_files'
-                        defaultMessage='File search Options'
+                        defaultMessage='File search options'
                     />
                 </h4>
             }
@@ -88,7 +88,7 @@ const SearchHint = (props: Props): JSX.Element => {
                 <h4 className='search-hint__title'>
                     <FormattedMessage
                         id='search_bar.usage.title_messages'
-                        defaultMessage='Message search Options'
+                        defaultMessage='Message search options'
                     />
                 </h4>
             }

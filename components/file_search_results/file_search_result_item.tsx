@@ -2,13 +2,11 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedDate, FormattedTime} from 'react-intl';
 import {Tooltip} from 'react-bootstrap';
 
 import {FileInfo} from 'mattermost-redux/types/files';
 
 import {fileSizeToString, copyToClipboard, localizeMessage} from 'utils/utils';
-import {isSameYear} from 'utils/datetime';
 import {browserHistory} from 'utils/browser_history';
 
 import OverlayTrigger from 'components/overlay_trigger';

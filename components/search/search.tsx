@@ -5,7 +5,7 @@ import React, {ChangeEvent, FormEvent, useEffect, useState, useRef} from 'react'
 import {useIntl} from 'react-intl';
 import classNames from 'classnames';
 
-import {searchHintOptions, RHSStates} from 'utils/constants';
+import {searchHintOptions, RHSStates, searchFilesHintOptions} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import HeaderIconWrapper from 'components/channel_header/components/header_icon_wrapper';
 import SearchHint from 'components/search_hint/search_hint';
@@ -32,22 +32,27 @@ interface SearchHintOption {
     };
 }
 
-const determineVisibleSearchHintOptions = (searchTerms: string): SearchHintOption[] => {
+const determineVisibleSearchHintOptions = (searchTerms: string, searchType: SearchType): SearchHintOption[] => {
     let newVisibleSearchHintOptions: SearchHintOption[] = [];
+    let options = searchHintOptions;
+    if (searchType === 'files') {
+        options = searchFilesHintOptions;
+    }
+    console.log(options);
 
     if (searchTerms.trim() === '') {
-        return searchHintOptions;
+        return options;
     }
 
     const pretextArray = searchTerms.split(/\s+/g);
     const pretext = pretextArray[pretextArray.length - 1];
     const penultimatePretext = pretextArray[pretextArray.length - 2];
 
-    const shouldShowHintOptions = penultimatePretext ? !searchHintOptions.some(({searchTerm}) => penultimatePretext.toLowerCase().endsWith(searchTerm.toLowerCase())) : !searchHintOptions.some(({searchTerm}) => searchTerms.toLowerCase().endsWith(searchTerm.toLowerCase()));
+    const shouldShowHintOptions = penultimatePretext ? !options.some(({searchTerm}) => penultimatePretext.toLowerCase().endsWith(searchTerm.toLowerCase())) : !options.some(({searchTerm}) => searchTerms.toLowerCase().endsWith(searchTerm.toLowerCase()));
 
     if (shouldShowHintOptions) {
         try {
-            newVisibleSearchHintOptions = searchHintOptions.filter((option) => {
+            newVisibleSearchHintOptions = options.filter((option) => {
                 return new RegExp(pretext, 'ig').
                     test(option.searchTerm) && option.searchTerm.toLowerCase() !== pretext.toLowerCase();
             });
@@ -70,7 +75,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
     const [indexChangedViaKeyPress, setIndexChangedViaKeyPress] = useState<boolean>(false);
     const [highlightedSearchHintIndex, setHighlightedSearchHintIndex] = useState<number>(-1);
     const [visibleSearchHintOptions, setVisibleSearchHintOptions] = useState<SearchHintOption[]>(
-        determineVisibleSearchHintOptions(searchTerms),
+        determineVisibleSearchHintOptions(searchTerms, searchType),
     );
     const [searchFilterType, setSearchFilterType] = useState<SearchFilterType>('all');
 
@@ -82,9 +87,9 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
 
     useEffect((): void => {
         if (!Utils.isMobile()) {
-            setVisibleSearchHintOptions(determineVisibleSearchHintOptions(searchTerms));
+            setVisibleSearchHintOptions(determineVisibleSearchHintOptions(searchTerms, searchType));
         }
-    }, [searchTerms]);
+    }, [searchTerms, searchType]);
 
     useEffect((): void => {
         if (!Utils.isMobile() && focused && keepInputFocused) {
@@ -329,7 +334,11 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
         let termsUsed = 0;
 
         searchTerms?.split(/[: ]/g).forEach((word: string): void => {
-            if (searchHintOptions.some(({searchTerm}) => searchTerm.toLowerCase() === word.toLowerCase())) {
+            let options = searchHintOptions;
+            if (searchType === 'files') {
+                options = searchFilesHintOptions;
+            }
+            if (options.some(({searchTerm}) => searchTerm.toLowerCase() === word.toLowerCase())) {
                 termsUsed++;
             }
         });
