@@ -3,13 +3,15 @@
 
 import React from 'react';
 import {FormattedDate, FormattedTime} from 'react-intl';
+import {Tooltip} from 'react-bootstrap';
 
 import {FileInfo} from 'mattermost-redux/types/files';
 
-import {fileSizeToString, copyToClipboard} from 'utils/utils';
+import {fileSizeToString, copyToClipboard, localizeMessage} from 'utils/utils';
 import {isSameYear} from 'utils/datetime';
 import {browserHistory} from 'utils/browser_history';
 
+import OverlayTrigger from 'components/overlay_trigger';
 import Menu from 'components/widgets/menu/menu';
 import Badge from 'components/widgets/badges/badge';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
@@ -70,35 +72,55 @@ export default class FileSearchResultItem extends React.PureComponent<Props> {
                         />
                     </div>
                 </div>
-                <div onClick={this.stopPropagation}>
-                    <MenuWrapper>
-                        <span className='action-icon dots-icon'>
-                            <i className='icon icon-dots-vertical'/>
-                        </span>
-                        <Menu
-                            ariaLabel={'file menu'}
-                            openLeft={true}
-                        >
-                            <Menu.ItemAction
-                                onClick={this.jumpToConv}
-                                ariaLabel={'Open in channel'}
-                                text={'Open in channel'}
-                            />
-                            <Menu.ItemAction
-                                onClick={this.copyLink}
-                                ariaLabel={'Copy link'}
-                                text={'Copy link'}
-                            />
-                        </Menu>
-                    </MenuWrapper>
-                </div>
-                <a
-                    className='action-icon download-icon'
-                    href={`/api/v4/files/${fileInfo.id}?download=1`}
-                    onClick={this.stopPropagation}
+                <OverlayTrigger
+                    delayShow={1000}
+                    placement='top'
+                    overlay={
+                        <Tooltip id='file-name__tooltip'>
+                            {localizeMessage('file_search_result_item.more_actions', 'More Actions')}
+                        </Tooltip>
+                    }
                 >
-                    <i className='icon icon-download-outline'/>
-                </a>
+                    <div onClick={this.stopPropagation}>
+                        <MenuWrapper>
+                            <span className='action-icon dots-icon'>
+                                <i className='icon icon-dots-vertical'/>
+                            </span>
+                            <Menu
+                                ariaLabel={'file menu'}
+                                openLeft={true}
+                            >
+                                <Menu.ItemAction
+                                    onClick={this.jumpToConv}
+                                    ariaLabel={'Open in channel'}
+                                    text={'Open in channel'}
+                                />
+                                <Menu.ItemAction
+                                    onClick={this.copyLink}
+                                    ariaLabel={'Copy link'}
+                                    text={'Copy link'}
+                                />
+                            </Menu>
+                        </MenuWrapper>
+                    </div>
+                </OverlayTrigger>
+                <OverlayTrigger
+                    delayShow={1000}
+                    placement='top'
+                    overlay={
+                        <Tooltip id='file-name__tooltip'>
+                            {localizeMessage('file_search_result_item.download', 'Download')}
+                        </Tooltip>
+                    }
+                >
+                    <a
+                        className='action-icon download-icon'
+                        href={`/api/v4/files/${fileInfo.id}?download=1`}
+                        onClick={this.stopPropagation}
+                    >
+                        <i className='icon icon-download-outline'/>
+                    </a>
+                </OverlayTrigger>
             </div>
         );
     }

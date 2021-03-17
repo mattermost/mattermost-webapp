@@ -316,7 +316,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
                     onChange={setSearchType}
                     onFilter={setSearchFilterType}
                 />}
-            {isChannelFiles && filesSearchEnabled && !noFileResults &&
+            {isChannelFiles && filesSearchEnabled &&
                 <div className='channel-files__header'>
                     <div className='channel-files__title'>
                         <FormattedMessage
