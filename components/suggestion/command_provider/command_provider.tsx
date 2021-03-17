@@ -131,7 +131,7 @@ export default class CommandProvider extends Provider {
                 resultCallback({
                     matchedPretext: pretext,
                     terms,
-                    items: suggestions,
+                    items: matches,
                     component: CommandSuggestion,
                 });
             });
