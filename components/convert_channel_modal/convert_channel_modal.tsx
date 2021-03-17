@@ -10,16 +10,16 @@ import Constants from 'utils/constants';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
-type Props = {
-    onHide: () => void;
-    channelId: string;
-    channelDisplayName: string;
-    actions: {
-        convertChannelToPrivate: (channelId: string) => void;
+export type Props = {
+    onHide?: () => void;
+    channelId?: string;
+    channelDisplayName?: string;
+    actions?: {
+        convertChannelToPrivate: (channelId?: string) => void;
     };
 }
 
-type State = {
+export type State = {
     show: boolean;
 }
 
@@ -32,11 +32,11 @@ export default class ConvertChannelModal extends React.PureComponent<Props, Stat
 
     handleConvert = () => {
         const {actions, channelId} = this.props;
-        if (channelId.length !== Constants.CHANNEL_ID_LENGTH) {
+        if (channelId?.length !== Constants.CHANNEL_ID_LENGTH) {
             return;
         }
 
-        actions.convertChannelToPrivate(channelId);
+        actions?.convertChannelToPrivate(channelId);
         trackEvent('actions', 'convert_to_private_channel', {channel_id: channelId});
         this.onHide();
     }

@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import React from 'react';
 import {AnyAction, bindActionCreators, Dispatch} from 'redux';
 import {connect} from 'react-redux';
 
@@ -25,4 +26,4 @@ function mapDispatchToProps(dispatch: Dispatch<AnyAction>) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ConvertChannelModal);
+export default connect(mapStateToProps, mapDispatchToProps)(ConvertChannelModal as React.ComponentClass);
