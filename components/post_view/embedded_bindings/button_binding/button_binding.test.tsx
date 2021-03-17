@@ -17,6 +17,8 @@ describe('components/post_view/embedded_bindings/button_binding/', () => {
     } as Post;
 
     const binding = {
+        label: 'some_label',
+        location: 'some_location',
         call: {
             path: 'some_url',
         },
@@ -25,7 +27,14 @@ describe('components/post_view/embedded_bindings/button_binding/', () => {
         post,
         userId: 'user_id',
         binding,
-        actions: {doAppCall: jest.fn()},
+        actions: {
+            doAppCall: jest.fn(async () => {
+                return {data: {type: 'ok'}};
+            }),
+            getChannel: jest.fn(async (id: string) => {
+                return {data: {id, team_id: 'team_id'}};
+            }),
+        },
     };
 
     test('should match snapshot', () => {
@@ -33,11 +42,22 @@ describe('components/post_view/embedded_bindings/button_binding/', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should call handleAction on click', () => {
-        const wrapper = shallowWithIntl(<ButtonBinding {...baseProps}/>);
+    test('should call handleAction on click', (done) => {
+        const doAppCall = jest.fn(async () => {
+            done();
+            return {data: {type: 'ok'}};
+        });
+
+        const props = {
+            ...baseProps,
+            actions: {
+                ...baseProps.actions,
+                doAppCall,
+            },
+        };
+
+        const wrapper = shallowWithIntl(<ButtonBinding {...props}/>);
 
         wrapper.find('button').simulate('click');
-
-        expect(baseProps.actions.doAppCall).toHaveBeenCalledTimes(1);
     });
 });

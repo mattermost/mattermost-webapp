@@ -8,26 +8,32 @@ import {getAppBindings} from 'mattermost-redux/selectors/entities/apps';
 import {AppBindingLocations, AppCallResponseTypes, AppCallTypes, AppFieldTypes} from 'mattermost-redux/constants/apps';
 
 import {
-    AppCall,
     AppBinding,
     AppField,
     AppSelectOption,
     AppCallResponse,
     AppContext,
     AppForm,
-    AutocompleteSuggestion,
     AutocompleteStaticSelect,
-    AutocompleteSuggestionWithComplete,
-    AppLookupCallValues,
+    AppCallValues,
+    AppCallRequest,
 } from 'mattermost-redux/types/apps';
 
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
-import {getChannel, getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
+import {getChannel, getChannelByName as selectChannelByName, getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 import {Channel} from 'mattermost-redux/types/channels';
 
-import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentTeam, getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
 import {Store} from 'redux';
+
+import {getUserByUsername as selectUserByUsername} from 'mattermost-redux/selectors/entities/users';
+
+import {getUserByUsername} from 'mattermost-redux/actions/users';
+
+import {getChannelByNameAndTeamName} from 'mattermost-redux/actions/channels';
+
+import {AutocompleteSuggestion} from 'mattermost-redux/types/integrations';
 
 import {Constants} from 'utils/constants';
 import {GlobalState} from 'types/store';
@@ -35,6 +41,7 @@ import {sendEphemeralPost} from 'actions/global_actions';
 import {doAppCall} from 'actions/apps';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
+import {createCallRequest} from 'utils/apps';
 
 const EXECUTE_CURRENT_COMMAND_ITEM_ID = Constants.Integrations.EXECUTE_CURRENT_COMMAND_ITEM_ID;
 
@@ -504,7 +511,7 @@ export class AppCommandParser {
     }
 
     // composeCallFromCommand creates the form submission call
-    public composeCallFromCommand = async (command: string): Promise<AppCall | null> => {
+    public composeCallFromCommand = async (command: string): Promise<AppCallRequest | null> => {
         let parsed = new ParsedCommand(command, this);
 
         const commandBindings = this.getCommandBindings();
@@ -534,9 +541,9 @@ export class AppCommandParser {
     }
 
     // getSuggestionsBase is a synchronous function that returns results for base commands
-    public getSuggestionsBase = (pretext: string): AutocompleteSuggestionWithComplete[] => {
+    public getSuggestionsBase = (pretext: string): AutocompleteSuggestion[] => {
         const command = pretext.toLowerCase();
-        const result: AutocompleteSuggestionWithComplete[] = [];
+        const result: AutocompleteSuggestion[] = [];
 
         const bindings = this.getCommandBindings();
         for (const binding of bindings) {
@@ -550,10 +557,11 @@ export class AppCommandParser {
             }
             if (base.startsWith(command)) {
                 result.push({
-                    suggestion: base,
-                    complete: base,
-                    description: binding.description,
-                    hint: binding.hint || '',
+                    Suggestion: base,
+                    Complete: base,
+                    Description: binding.description || '',
+                    Hint: binding.hint || '',
+                    IconData: binding.icon || '',
                 });
             }
         }
@@ -562,7 +570,7 @@ export class AppCommandParser {
     }
 
     // getSuggestions returns suggestions for subcommands and/or form arguments
-    public getSuggestions = async (pretext: string): Promise<AutocompleteSuggestionWithComplete[]> => {
+    public getSuggestions = async (pretext: string): Promise<AutocompleteSuggestion[]> => {
         let parsed = new ParsedCommand(pretext, this);
 
         const commandBindings = this.getCommandBindings();
@@ -604,7 +612,7 @@ export class AppCommandParser {
     }
 
     // composeCallFromParsed creates the form submission call
-    composeCallFromParsed = (parsed: ParsedCommand): AppCall | null => {
+    composeCallFromParsed = async (parsed: ParsedCommand): Promise<AppCallRequest | null> => {
         if (!parsed.binding) {
             return null;
         }
@@ -614,36 +622,119 @@ export class AppCommandParser {
             return null;
         }
 
-        return {
-            ...call,
-            type: AppCallTypes.SUBMIT,
-            context: {
-                ...this.getAppContext(),
-                app_id: parsed.binding.app_id,
-            },
-            values: parsed.values,
-            raw_command: parsed.command,
-        };
+        const values: AppCallValues = parsed.values;
+        const ok = await this.expandOptions(parsed, values);
+
+        if (!ok) {
+            return null;
+        }
+
+        const context = this.getAppContext(parsed.binding.app_id);
+        return createCallRequest(call, context, {}, values, parsed.command);
+    }
+
+    expandOptions = async (parsed: ParsedCommand, values: AppCallValues) => {
+        if (!parsed.form?.fields) {
+            return true;
+        }
+
+        let ok = true;
+        await Promise.all(parsed.form.fields.map(async (f) => {
+            if (!values[f.name]) {
+                return;
+            }
+            switch (f.type) {
+            case AppFieldTypes.DYNAMIC_SELECT:
+                values[f.name] = {label: '', value: values[f.name]};
+                break;
+            case AppFieldTypes.STATIC_SELECT: {
+                const option = f.options?.find((o) => (o.value === values[f.name]));
+                if (!option) {
+                    ok = false;
+                    this.displayError(Utils.localizeAndFormatMessage(
+                        t('apps.error.command.unknown_option'),
+                        'Unknown option for field `{fieldName}`: `{option}`.',
+                        {
+                            fieldName: f.name,
+                            option: values[f.name],
+                        }));
+                    return;
+                }
+                values[f.name] = option;
+                break;
+            }
+            case AppFieldTypes.USER: {
+                let userName = values[f.name] as string;
+                if (userName[0] === '@') {
+                    userName = userName.substr(1);
+                }
+                let user = selectUserByUsername(this.store.getState(), userName);
+                if (!user) {
+                    const dispatchResult = await this.store.dispatch(getUserByUsername(userName) as any);
+                    if ('error' in dispatchResult) {
+                        ok = false;
+                        this.displayError(Utils.localizeAndFormatMessage(
+                            t('apps.error.command.unknown_user'),
+                            'Unknown user for field `{fieldName}`: `{option}`.',
+                            {
+                                fieldName: f.name,
+                                option: values[f.name],
+                            }));
+                        return;
+                    }
+                    user = dispatchResult.data;
+                }
+                values[f.name] = {label: user.username, value: user.id};
+                break;
+            }
+            case AppFieldTypes.CHANNEL: {
+                let channelName = values[f.name] as string;
+                if (channelName[0] === '~') {
+                    channelName = channelName.substr(1);
+                }
+                let channel = selectChannelByName(this.store.getState(), channelName);
+                if (!channel) {
+                    const dispatchResult = await this.store.dispatch(getChannelByNameAndTeamName(getCurrentTeam(this.store.getState()).name, channelName) as any);
+                    if ('error' in dispatchResult) {
+                        ok = false;
+                        this.displayError(Utils.localizeAndFormatMessage(
+                            t('apps.error.command.unknown_channel'),
+                            'Unknown channel for field `{fieldName}`: `{option}`.',
+                            {
+                                fieldName: f.name,
+                                option: values[f.name],
+                            }));
+                        return;
+                    }
+                    channel = dispatchResult.data;
+                }
+                values[f.name] = {label: channel?.display_name, value: channel?.id};
+                break;
+            }
+            }
+        }));
+
+        return ok;
     }
 
     // decorateSuggestionComplete applies the necessary modifications for a suggestion to be processed
-    decorateSuggestionComplete = (parsed: ParsedCommand, choice: AutocompleteSuggestion): AutocompleteSuggestionWithComplete => {
-        if (choice.complete && choice.complete.endsWith(EXECUTE_CURRENT_COMMAND_ITEM_ID)) {
-            return choice as AutocompleteSuggestionWithComplete;
+    decorateSuggestionComplete = (parsed: ParsedCommand, choice: AutocompleteSuggestion): AutocompleteSuggestion => {
+        if (choice.Complete && choice.Complete.endsWith(EXECUTE_CURRENT_COMMAND_ITEM_ID)) {
+            return choice as AutocompleteSuggestion;
         }
 
         let goBackSpace = 0;
-        if (choice.complete === '') {
+        if (choice.Complete === '') {
             goBackSpace = 1;
         }
         let complete = parsed.command.substring(0, parsed.incompleteStart - goBackSpace);
-        complete += choice.complete || choice.suggestion;
-        choice.hint = choice.hint || '';
-        choice.suggestion = '/' + choice.suggestion;
+        complete += choice.Complete || choice.Suggestion;
+        choice.Hint = choice.Hint || '';
+        choice.Suggestion = '/' + choice.Suggestion;
 
         return {
             ...choice,
-            complete,
+            Complete: complete,
         };
     }
 
@@ -705,20 +796,22 @@ export class AppCommandParser {
     }
 
     // getAppContext collects post/channel/team info for performing calls
-    getAppContext = (): Partial<AppContext> | null => {
+    getAppContext = (appID: string): AppContext => {
+        const context: AppContext = {
+            app_id: appID,
+            location: AppBindingLocations.COMMAND,
+            root_id: this.rootPostID,
+        };
+
         const channel = this.getChannel();
         if (!channel) {
-            return null;
+            return context;
         }
 
-        const teamID = channel.team_id || getCurrentTeamId(this.store.getState());
+        context.channel_id = channel.id;
+        context.team_id = channel.team_id || getCurrentTeamId(this.store.getState());
 
-        return {
-            channel_id: channel.id,
-            team_id: teamID,
-            root_id: this.rootPostID,
-            location: AppBindingLocations.COMMAND,
-        };
+        return context;
     }
 
     // fetchForm unconditionaly retrieves the form for the given binding (subcommand)
@@ -727,16 +820,12 @@ export class AppCommandParser {
             return undefined;
         }
 
-        const payload: AppCall = {
-            ...binding.call,
-            type: AppCallTypes.FORM,
-            context: {
-                ...this.getAppContext(),
-                app_id: binding.app_id,
-            },
-        };
+        const payload = createCallRequest(
+            binding.call,
+            this.getAppContext(binding.app_id),
+        );
 
-        const res = await this.store.dispatch(doAppCall(payload) as any) as {data: AppCallResponse};
+        const res = await this.store.dispatch(doAppCall(payload, AppCallTypes.FORM) as any) as {data: AppCallResponse};
         const callResponse = res.data;
         switch (callResponse.type) {
         case AppCallResponseTypes.FORM:
@@ -799,10 +888,11 @@ export class AppCommandParser {
         bindings.forEach((b) => {
             if (b.label.toLowerCase().startsWith(parsed.incomplete.toLowerCase())) {
                 result.push({
-                    complete: b.label,
-                    suggestion: b.label,
-                    description: b.description,
-                    hint: b.hint || '',
+                    Complete: b.label,
+                    Suggestion: b.label,
+                    Description: b.description || '',
+                    Hint: b.hint || '',
+                    IconData: b.icon || '',
                 });
             }
         });
@@ -848,11 +938,11 @@ export class AppCommandParser {
         }
 
         return {
-            complete: parsed.command + EXECUTE_CURRENT_COMMAND_ITEM_ID,
-            suggestion: '/Execute Current Command',
-            hint: '',
-            description: 'Select this option or use ' + key + '+Enter to execute the current command.',
-            iconData: EXECUTE_CURRENT_COMMAND_ITEM_ID,
+            Complete: parsed.command + EXECUTE_CURRENT_COMMAND_ITEM_ID,
+            Suggestion: '/Execute Current Command',
+            Hint: '',
+            Description: 'Select this option or use ' + key + '+Enter to execute the current command.',
+            IconData: EXECUTE_CURRENT_COMMAND_ITEM_ID,
         };
     }
 
@@ -891,22 +981,23 @@ export class AppCommandParser {
         const applicable = parsed.form.fields.filter((field) => field.label && field.label.startsWith(parsed.incomplete.toLowerCase()) && !parsed.values[field.name]);
         if (applicable) {
             return applicable.map((f) => {
-                let suffix = '';
-                if (f.type === AppFieldTypes.USER) {
-                    suffix = ' @';
-                } else if (f.type === AppFieldTypes.CHANNEL) {
-                    suffix = ' ~';
-                }
                 return {
-                    complete: prefix + (f.label || f.name) + suffix,
-                    suggestion: '--' + (f.label || f.name),
-                    description: f.description,
-                    hint: f.hint,
+                    Complete: prefix + (f.label || f.name),
+                    Suggestion: '--' + (f.label || f.name),
+                    Description: f.description || '',
+                    Hint: f.hint || '',
+                    IconData: '',
                 };
             });
         }
 
-        return [{suggestion: 'Could not find any suggestions'}];
+        return [{
+            Complete: '',
+            Suggestion: 'Could not find any suggestions',
+            Description: '',
+            Hint: '',
+            IconData: '',
+        }];
     }
 
     // getSuggestionsForField gets suggestions for a positional or flag field value
@@ -935,10 +1026,11 @@ export class AppCommandParser {
         }
 
         return [{
-            complete,
-            suggestion: parsed.incomplete,
-            description: f.description,
-            hint: f.hint,
+            Complete: complete,
+            Suggestion: parsed.incomplete,
+            Description: f.description || '',
+            Hint: f.hint || '',
+            IconData: '',
         }];
     }
 
@@ -954,10 +1046,11 @@ export class AppCommandParser {
                 complete = '`' + complete + '`';
             }
             return {
-                complete,
-                suggestion: opt.label,
-                hint: '',
-                description: '',
+                Complete: complete,
+                Suggestion: opt.label,
+                Hint: '',
+                Description: '',
+                IconData: opt.icon_data || '',
             };
         });
     }
@@ -969,21 +1062,15 @@ export class AppCommandParser {
             return [];
         }
 
-        const values: AppLookupCallValues = {
-            name: f.name,
-            user_input: parsed.incomplete,
-            values: parsed.values,
-        };
-
-        const payload = this.composeCallFromParsed(parsed);
+        const payload = await this.composeCallFromParsed(parsed);
         if (!payload) {
             return [];
         }
-        payload.type = AppCallTypes.LOOKUP;
-        payload.values = values;
+        payload.selected_field = f.name;
+        payload.query = parsed.incomplete;
 
         type ResponseType = {items: AppSelectOption[]};
-        const res = await this.store.dispatch(doAppCall(payload) as any) as {data: AppCallResponse<ResponseType>};
+        const res = await this.store.dispatch(doAppCall(payload, AppCallTypes.LOOKUP) as any) as {data: AppCallResponse<ResponseType>};
         const callResponse = res.data;
         switch (callResponse.type) {
         case AppCallResponseTypes.OK:
@@ -1007,7 +1094,13 @@ export class AppCommandParser {
 
         const items = res?.data?.data?.items;
         if (!items) {
-            return [{suggestion: Utils.localizeMessage('apps.suggestion.no_dynamic', 'Received no data for dynamic suggestions')}];
+            return [{
+                Complete: '',
+                Suggestion: Utils.localizeMessage('apps.suggestion.no_dynamic', 'Received no data for dynamic suggestions'),
+                Description: '',
+                Hint: '',
+                IconData: '',
+            }];
         }
 
         return items.map((s): AutocompleteSuggestion => {
@@ -1018,11 +1111,11 @@ export class AppCommandParser {
                 complete = '`' + complete + '`';
             }
             return ({
-                complete,
-                suggestion: s.label,
-                hint: '',
-                description: '',
-                iconData: s.icon_data,
+                Complete: complete,
+                Suggestion: s.label,
+                Hint: '',
+                Description: '',
+                IconData: s.icon_data || '',
             });
         });
     }
@@ -1031,9 +1124,11 @@ export class AppCommandParser {
     getUserSuggestions = (parsed: ParsedCommand): AutocompleteSuggestion[] => {
         if (parsed.incomplete.trim().length === 0) {
             return [{
-                suggestion: '@',
-                description: parsed.field?.description || '',
-                hint: parsed.field?.hint || '',
+                Complete: '',
+                Suggestion: '',
+                Description: parsed.field?.description || '',
+                Hint: parsed.field?.hint || '@username',
+                IconData: '',
             }];
         }
 
@@ -1044,9 +1139,11 @@ export class AppCommandParser {
     getChannelSuggestions = (parsed: ParsedCommand): AutocompleteSuggestion[] => {
         if (parsed.incomplete.trim().length === 0) {
             return [{
-                suggestion: '~',
-                description: parsed.field?.description || '',
-                hint: parsed.field?.hint || '',
+                Complete: '',
+                Suggestion: '',
+                Description: parsed.field?.description || '',
+                Hint: parsed.field?.hint || '~channelname',
+                IconData: '',
             }];
         }
 
@@ -1059,14 +1156,20 @@ export class AppCommandParser {
 
         if ('true'.startsWith(parsed.incomplete)) {
             suggestions.push({
-                complete: 'true',
-                suggestion: 'true',
+                Complete: 'true',
+                Suggestion: 'true',
+                Hint: '',
+                Description: '',
+                IconData: '',
             });
         }
         if ('false'.startsWith(parsed.incomplete)) {
             suggestions.push({
-                complete: 'false',
-                suggestion: 'false',
+                Complete: 'false',
+                Suggestion: 'false',
+                Hint: '',
+                Description: '',
+                IconData: '',
             });
         }
         return suggestions;
@@ -1079,7 +1182,13 @@ function makeSuggestionError(message: string) {
         'Error: {error}',
         {error: message},
     );
-    return [{suggestion: errMsg}];
+    return [{
+        Complete: '',
+        Suggestion: errMsg,
+        Description: '',
+        Hint: '',
+        IconData: '',
+    }];
 }
 
 function isMultiword(value: string) {

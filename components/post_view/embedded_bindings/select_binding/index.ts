@@ -6,31 +6,26 @@ import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {ActionFunc, ActionResult, GenericAction} from 'mattermost-redux/types/actions';
 
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {AppCallRequest, AppCallType} from 'mattermost-redux/types/apps';
 
-import {AppCall} from 'mattermost-redux/types/apps';
+import {getChannel} from 'mattermost-redux/actions/channels';
 
 import {doAppCall} from 'actions/apps';
-import {GlobalState} from 'types/store';
 
 import SelectBinding from './select_binding';
 
-function mapStateToProps(state: GlobalState) {
-    return {
-        userId: getCurrentUserId(state),
-    };
-}
-
 type Actions = {
-    doAppCall: (call: AppCall) => Promise<ActionResult>;
+    doAppCall: (call: AppCallRequest, type: AppCallType) => Promise<ActionResult>;
+    getChannel: (channelId: string) => Promise<ActionResult>;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
             doAppCall,
+            getChannel,
         }, dispatch),
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SelectBinding);
+export default connect(null, mapDispatchToProps)(SelectBinding);

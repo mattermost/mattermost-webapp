@@ -1,23 +1,33 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, {ReactNode} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import BackButton from 'components/common/back_button';
 import SuccessIcon from 'components/widgets/icons/fa_success_icon';
 
-export default class ShouldVerifyEmail extends React.PureComponent {
-    static propTypes = {
-        location: PropTypes.object.isRequired,
-        siteName: PropTypes.string.isRequired,
-        actions: PropTypes.shape({
-            sendVerificationEmail: PropTypes.func.isRequired,
-        }).isRequired,
+type Props = {
+    location: {
+        search: string;
     };
+    siteName?: string;
+    actions: {
+        sendVerificationEmail: (email: string) => Promise<{
+            data: boolean;
+            error?: {
+                err: string;
+            };
+        }>;
+    };
+}
 
-    constructor(props) {
+type State = {
+    resendStatus: string;
+}
+
+export default class ShouldVerifyEmail extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -25,21 +35,24 @@ export default class ShouldVerifyEmail extends React.PureComponent {
         };
     }
 
-    handleResend = async () => {
+    public handleResend = async (): Promise<void> => {
         const email = (new URLSearchParams(this.props.location.search)).get('email');
 
-        this.setState({resendStatus: 'sending'});
+        if (email) {
+            this.setState({resendStatus: 'sending'});
 
-        const {data, error} = await this.props.actions.sendVerificationEmail(email);
-        if (data) {
-            this.setState({resendStatus: 'success'});
-        } else if (error) {
-            this.setState({resendStatus: 'failure'});
+            const {data, error} = await this.props.actions.sendVerificationEmail(email);
+
+            if (data) {
+                this.setState({resendStatus: 'success'});
+            } else if (error) {
+                this.setState({resendStatus: 'failure'});
+            }
         }
     }
 
-    render() {
-        let resendConfirm = '';
+    public render(): JSX.Element {
+        let resendConfirm: ReactNode = '';
 
         if (this.state.resendStatus === 'success') {
             resendConfirm = (
@@ -68,7 +81,7 @@ export default class ShouldVerifyEmail extends React.PureComponent {
                             id='generic_icons.fail'
                             defaultMessage='Faliure Icon'
                         >
-                            {(title) => (
+                            {(title: string) => (
                                 <i
                                     className='fa fa-times'
                                     title={title}

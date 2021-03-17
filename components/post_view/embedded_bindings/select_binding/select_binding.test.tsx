@@ -21,7 +21,14 @@ describe('components/post_view/embedded_bindings/select_binding', () => {
         post,
         userId: 'user_id',
         binding,
-        actions: {doAppCall: jest.fn()},
+        actions: {
+            doAppCall: jest.fn(async () => {
+                return {data: {type: 'ok'}};
+            }),
+            getChannel: jest.fn(async (id: string) => {
+                return {data: {id, team_id: 'team_id'}};
+            }),
+        },
     };
 
     test('should start with nothing selected', () => {
