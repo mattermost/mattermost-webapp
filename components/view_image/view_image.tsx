@@ -7,6 +7,8 @@ import {getFilePreviewUrl, getFileUrl, getFileDownloadUrl} from 'mattermost-redu
 
 import {FileInfo} from 'mattermost-redux/types/files';
 
+import {Post} from 'mattermost-redux/types/posts';
+
 import * as GlobalActions from 'actions/global_actions';
 import Constants, {FileTypes, ZoomSettings} from 'utils/constants';
 import * as Utils from 'utils/utils';
@@ -31,7 +33,7 @@ export type Props = {
     /**
  * The post the files are attached to
  */
-    post?: any;
+    post?: Post;
 
     /**
  * Set whether to show this modal or not
@@ -66,7 +68,7 @@ type State = {
     showCloseBtn: boolean;
     showZoomControls: boolean;
     scale: number[];
-
+    prevFileInfosCount: number;
 }
 
 export default class ViewImageModal extends React.PureComponent<Props, State> {
@@ -95,6 +97,7 @@ export default class ViewImageModal extends React.PureComponent<Props, State> {
             showZoomControls: false,
             // eslint-disable-next-line react/prop-types
             scale: Utils.fillArray(ZoomSettings.DEFAULT_SCALE, fileInfoLength),
+            prevFileInfosCount: 0,
         };
         this.videoRef = React.createRef();
     }
@@ -103,8 +106,11 @@ export default class ViewImageModal extends React.PureComponent<Props, State> {
         if (e) {
             e.stopPropagation();
         }
-        let id = this.state.imageIndex + 1;
-        if (id > this.props.fileInfos.length - 1) {
+        const imageIndex = this.state?.imageIndex ?? 0;
+        const fileInfosLength = this.props?.fileInfos?.length ?? 0;
+
+        let id = imageIndex + 1;
+        if (id > fileInfosLength - 1) {
             id = 0;
         }
         this.showImage(id);
@@ -114,9 +120,13 @@ export default class ViewImageModal extends React.PureComponent<Props, State> {
         if (e) {
             e.stopPropagation();
         }
-        let id = this.state.imageIndex - 1;
+
+        const imageIndex = this.state.imageIndex ?? 0;
+        const fileInfosLength = this.props?.fileInfos?.length ?? 0;
+
+        let id = imageIndex - 1;
         if (id < 0) {
-            id = this.props.fileInfos.length - 1;
+            id = fileInfosLength - 1;
         }
         this.showImage(id);
     }
@@ -132,7 +142,7 @@ export default class ViewImageModal extends React.PureComponent<Props, State> {
     onModalShown = (nextProps: Props): void => {
         document.addEventListener('keyup', this.handleKeyPress);
 
-        this.showImage(nextProps.startIndex);
+        this.showImage(nextProps.startIndex ?? 0);
     }
 
     onModalHidden = (): void => {
@@ -152,13 +162,19 @@ export default class ViewImageModal extends React.PureComponent<Props, State> {
     }
 
     static getDerivedStateFromProps(props: Props, state: State) {
-        const updatedProps = {};
-        if (props?.fileInfos[state.imageIndex] && props.fileInfos[state.imageIndex].extension === FileTypes.PDF) {
+        const updatedProps = {
+            showZoomControls: false,
+            loaded: [],
+            progress: [],
+            prevFileInfosCount: 0,
+        };
+        const imageIndex = state.imageIndex ?? 0;
+        if (props?.fileInfos && props.fileInfos[imageIndex] && props.fileInfos[imageIndex].extension === FileTypes.PDF) {
             updatedProps.showZoomControls = true;
         } else {
             updatedProps.showZoomControls = false;
         }
-        if (props.fileInfos.length !== state.prevFileInfosCount) {
+        if (props?.fileInfos && props.fileInfos.length !== state.prevFileInfosCount) {
             updatedProps.loaded = Utils.fillArray(false, props.fileInfos.length);
             updatedProps.progress = Utils.fillArray(0, props.fileInfos.length);
             updatedProps.prevFileInfosCount = props.fileInfos.length;
@@ -178,13 +194,13 @@ export default class ViewImageModal extends React.PureComponent<Props, State> {
     }
 
     loadImage = (index: number): void => {
-        const fileInfo = this.props.fileInfos[index];
-        const fileType = Utils.getFileType(fileInfo.extension);
+        const fileInfo = this.props.fileInfos && this.props.fileInfos[index];
+        const fileType = Utils.getFileType(fileInfo?.extension);
 
-        if (fileType === FileTypes.IMAGE && Boolean(fileInfo.id)) {
+        if (fileType === FileTypes.IMAGE && Boolean(fileInfo?.id)) {
             let previewUrl;
-            if (fileInfo.has_image_preview) {
-                previewUrl = getFilePreviewUrl(fileInfo.id);
+            if (fileInfo?.has_image_preview) {
+                previewUrl = getFilePreviewUrl(fileInfo?.id);
             } else {
                 // some images (eg animated gifs) just show the file itself and not a preview
                 previewUrl = getFileUrl(fileInfo.id);
@@ -226,7 +242,10 @@ export default class ViewImageModal extends React.PureComponent<Props, State> {
     handleGetPublicLink = () => {
         this.handleModalClose();
 
-        GlobalActions.showGetPublicLinkModal(this.props.fileInfos[this.state.imageIndex].id);
+        const imageIndex = this.state.imageIndex ?? 0;
+        const fileInfos = this.props?.fileInfos ?? [];
+
+        GlobalActions.showGetPublicLinkModal(fileInfos[imageIndex].id);
     }
 
     onMouseEnterImage = () => {
@@ -249,13 +268,13 @@ export default class ViewImageModal extends React.PureComponent<Props, State> {
     }
 
     handleZoomIn = () => {
-        let newScale = this.state.scale[this.state.imageIndex];
+        let newScale = this.state.scale[this.state.imageIndex ?? 0];
         newScale = Math.min(newScale + ZoomSettings.SCALE_DELTA, ZoomSettings.MAX_SCALE);
         this.setScale(this.state.imageIndex, newScale);
     };
 
     handleZoomOut = () => {
-        let newScale = this.state.scale[this.state.imageIndex];
+        let newScale = this.state.scale[this.state.imageIndex ?? 0];
         newScale = Math.max(newScale - ZoomSettings.SCALE_DELTA, ZoomSettings.MIN_SCALE);
         this.setScale(this.state.imageIndex, newScale);
     };
@@ -265,28 +284,34 @@ export default class ViewImageModal extends React.PureComponent<Props, State> {
     }
 
     handleModalClose = () => {
-        this.props.onModalDismissed();
-        this.setState({scale: Utils.fillArray(ZoomSettings.DEFAULT_SCALE, this.props.fileInfos.length)});
+        if (this.props?.onModalDismissed) {
+            this.props.onModalDismissed();
+        }
+
+        this.setState({scale: Utils.fillArray(ZoomSettings.DEFAULT_SCALE, this.props?.fileInfos?.length)});
     }
 
     public render(): JSX.Element | null {
-        if (this.props.fileInfos.length < 1 || this.props.fileInfos.length - 1 < this.state.imageIndex) {
+        const fileInfosLength = this.props.fileInfos?.length ?? 0;
+        const imageIndex = this.state?.imageIndex ?? 0;
+
+        if (fileInfosLength < 1 || fileInfosLength - 1 < imageIndex) {
             return null;
         }
 
-        const fileInfo = this.props.fileInfos[this.state.imageIndex];
-        const showPublicLink = !fileInfo.link;
-        const fileName = fileInfo.link || fileInfo.name;
-        const fileType = Utils.getFileType(fileInfo.extension);
-        const fileUrl = fileInfo.link || getFileUrl(fileInfo.id);
-        const fileDownloadUrl = fileInfo.link || getFileDownloadUrl(fileInfo.id);
-        const isExternalFile = !fileInfo.id;
+        const fileInfo = this.props?.fileInfos && this.props.fileInfos[imageIndex];
+        const showPublicLink = !fileInfo?.link;
+        const fileName = fileInfo?.link || fileInfo?.name;
+        const fileType = Utils.getFileType(fileInfo?.extension);
+        const fileUrl = fileInfo?.link || getFileUrl(fileInfo?.id ?? '');
+        const fileDownloadUrl = fileInfo?.link || getFileDownloadUrl(fileInfo?.id ?? '');
+        const isExternalFile = !fileInfo?.id;
         let dialogClassName = 'a11y__modal modal-image';
 
         let content;
         let modalImageClass = '';
 
-        if (this.state.loaded[this.state.imageIndex]) {
+        if (this.state.loaded[imageIndex]) {
             if (fileType === FileTypes.IMAGE || fileType === FileTypes.SVG) {
                 content = (
                     <ImagePreview
@@ -309,7 +334,7 @@ export default class ViewImageModal extends React.PureComponent<Props, State> {
                             <PDFPreview
                                 fileInfo={fileInfo}
                                 fileUrl={fileUrl}
-                                scale={this.state.scale[this.state.imageIndex]}
+                                scale={this.state.scale[imageIndex]}
                             />
                         </React.Suspense>
                     </div>
@@ -333,7 +358,7 @@ export default class ViewImageModal extends React.PureComponent<Props, State> {
         } else {
             // display a progress indicator when the preview for an image is still loading
             const loading = Utils.localizeMessage('view_image.loading', 'Loading');
-            const progress = Math.floor(this.state.progress[this.state.imageIndex]);
+            const progress = Math.floor(this.state.progress[imageIndex]);
 
             content = (
                 <LoadingImagePreview
@@ -358,7 +383,7 @@ export default class ViewImageModal extends React.PureComponent<Props, State> {
 
         let leftArrow = null;
         let rightArrow = null;
-        if (this.props.fileInfos.length > 1) {
+        if (fileInfosLength > 1) {
             leftArrow = (
                 <a
                     id='previewArrowLeft'
@@ -428,15 +453,15 @@ export default class ViewImageModal extends React.PureComponent<Props, State> {
                             </div>
                             <PopoverBar
                                 showPublicLink={showPublicLink}
-                                fileIndex={this.state.imageIndex}
-                                totalFiles={this.props.fileInfos.length}
+                                fileIndex={imageIndex}
+                                totalFiles={fileInfosLength}
                                 filename={fileName}
                                 fileURL={fileDownloadUrl}
                                 enablePublicLink={this.props.enablePublicLink}
                                 canDownloadFiles={this.props.canDownloadFiles}
                                 isExternalFile={isExternalFile}
                                 onGetPublicLink={this.handleGetPublicLink}
-                                scale={this.state.scale[this.state.imageIndex]}
+                                scale={this.state.scale[imageIndex]}
                                 showZoomControls={this.state.showZoomControls}
                                 handleZoomIn={this.handleZoomIn}
                                 handleZoomOut={this.handleZoomOut}
