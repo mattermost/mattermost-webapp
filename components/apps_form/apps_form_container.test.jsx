@@ -89,6 +89,7 @@ describe('components/apps_form/AppsFormContainer', () => {
                     team_id: 'team',
                 },
                 path: '/form_url',
+                expand: {},
                 values: {
                     field1: 'value1',
                     field2: {
@@ -96,7 +97,6 @@ describe('components/apps_form/AppsFormContainer', () => {
                         value: 'value2',
                     },
                 },
-                expand: {},
             }, 'submit', expect.any(Object));
 
             expect(result).toEqual({
@@ -149,8 +149,9 @@ describe('components/apps_form/AppsFormContainer', () => {
                     team_id: 'team',
                 },
                 path: '/form_url',
-                selected_field: 'field2',
+                expand: {},
                 query: 'My search',
+                selected_field: 'field2',
                 values: {
                     field1: 'value1',
                     field2: {
@@ -158,7 +159,6 @@ describe('components/apps_form/AppsFormContainer', () => {
                         value: 'value2',
                     },
                 },
-                expand: {},
             }, 'lookup', expect.any(Object));
 
             expect(result).toEqual([{

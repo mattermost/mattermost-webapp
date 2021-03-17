@@ -1008,7 +1008,14 @@ export class AppCommandParser {
             });
         }
 
-        return [];
+        return [{
+            Complete: '',
+            // TODO i18n
+            Suggestion: 'Could not find any suggestions',
+            Description: '',
+            Hint: '',
+            IconData: '',
+        }];
     }
 
     // getSuggestionsForField gets suggestions for a positional or flag field value
@@ -1081,7 +1088,7 @@ export class AppCommandParser {
         call.query = parsed.incomplete;
 
         type ResponseType = {items: AppSelectOption[]};
-        const res = await this.store.dispatch(doAppCall<ResponseType>(call, AppCallTypes.LOOKUP, this.intl)) as {data: AppCallResponse<ResponseType>};
+        const res = await this.store.dispatch(doAppCall(call, AppCallTypes.LOOKUP, this.intl)) as {data: AppCallResponse<ResponseType>};
         const callResponse = res.data;
 
         switch (callResponse.type) {
@@ -1146,10 +1153,10 @@ export class AppCommandParser {
         });
         return [{
             Complete: '',
+            Suggestion: errMsg,
             Description: '',
             Hint: '',
             IconData: '',
-            Suggestion: errMsg,
         }];
     }
 

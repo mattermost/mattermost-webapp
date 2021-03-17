@@ -20,6 +20,7 @@ describe('components/post_view/embedded_bindings/button_binding/', () => {
 
     const binding = {
         app_id: 'some_app_id',
+        label: 'some_label',
         location: 'some_location',
         call: {
             path: 'some_url',

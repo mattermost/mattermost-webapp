@@ -120,14 +120,14 @@ export default class CommandProvider extends Provider {
         }
 
         if (appsEnabled(this.store.getState()) && this.appCommandParser.isAppCommand(pretext)) {
-            this.appCommandParser.getSuggestions(pretext).then((matches) => {
-                const suggestions = matches.map((suggestion) => ({
+            this.appCommandParser.getSuggestions(pretext).then((suggestions) => {
+                const matches = suggestions.map((suggestion) => ({
                     ...suggestion,
                     Complete: '/' + suggestion.Complete,
                     Suggestion: '/' + suggestion.Suggestion,
                 }));
 
-                const terms = suggestions.map((suggestion) => suggestion.Complete);
+                const terms = matches.map((suggestion) => suggestion.Complete);
                 resultCallback({
                     matchedPretext: pretext,
                     terms,

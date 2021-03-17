@@ -39,7 +39,7 @@ import {doAppCall} from './apps';
 
 export function executeCommand(message: string, args: CommandArgs): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        const state = getState();
+        const state = getState() as GlobalState;
 
         let msg = message;
 

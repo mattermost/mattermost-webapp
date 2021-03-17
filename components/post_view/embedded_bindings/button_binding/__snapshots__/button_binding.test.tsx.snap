@@ -9,6 +9,7 @@ exports[`components/post_view/embedded_bindings/button_binding/ should match sna
     text={null}
   >
     <Connect(Markdown)
+      message="some_label"
       options={
         Object {
           "autolinkedUrlSchemes": Array [],
