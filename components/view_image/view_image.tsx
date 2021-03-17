@@ -80,6 +80,8 @@ export default class ViewImageModal extends React.PureComponent<Props, State> {
         post: {}, // Needed to avoid proptypes console errors for cases like channel header, which doesn't have a proper value
     };
     videoRef: React.RefObject<any>;
+    previewArrowRight: LegacyRef<HTMLAnchorElement> | undefined;
+    previewArrowLeft: LegacyRef<HTMLAnchorElement> | undefined;
 
     constructor(props: Props) {
         super(props);
@@ -186,7 +188,7 @@ export default class ViewImageModal extends React.PureComponent<Props, State> {
         this.setState({imageIndex: id});
 
         const imageHeight = window.innerHeight - 100;
-        this.setState({imageHeight});
+        this.setState({imageHeight: imageHeight.toString()});
 
         if (!this.state.loaded[id]) {
             this.loadImage(id);
@@ -200,10 +202,10 @@ export default class ViewImageModal extends React.PureComponent<Props, State> {
         if (fileType === FileTypes.IMAGE && Boolean(fileInfo?.id)) {
             let previewUrl;
             if (fileInfo?.has_image_preview) {
-                previewUrl = getFilePreviewUrl(fileInfo?.id);
+                previewUrl = getFilePreviewUrl(fileInfo?.id ?? '');
             } else {
                 // some images (eg animated gifs) just show the file itself and not a preview
-                previewUrl = getFileUrl(fileInfo.id);
+                previewUrl = getFileUrl(fileInfo?.id ?? '');
             }
 
             Utils.loadImage(
@@ -368,7 +370,9 @@ export default class ViewImageModal extends React.PureComponent<Props, State> {
             );
         }
 
-        for (const preview of this.props.pluginFilePreviewComponents) {
+        const pluginFilePreviewComponents = this.props?.pluginFilePreviewComponents ?? [];
+
+        for (const preview of pluginFilePreviewComponents) {
             if (preview.override(fileInfo, this.props.post)) {
                 content = (
                     <preview.component
