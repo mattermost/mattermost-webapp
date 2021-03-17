@@ -121,10 +121,7 @@ export function executeCommand(message: string, args: CommandArgs): ActionFunc {
                         return createErrorMessage(localizeMessage('apps.error.commands.compose_call', 'Error composing command submission'));
                     }
 
-                    const res = await dispatch(doAppCall({
-                        ...call,
-                        type: AppCallTypes.SUBMIT,
-                    })) as {data: AppCallResponse};
+                    const res = await dispatch(doAppCall(call, AppCallTypes.SUBMIT)) as {data: AppCallResponse};
 
                     const callResp = res.data;
                     switch (callResp.type) {
@@ -146,7 +143,7 @@ export function executeCommand(message: string, args: CommandArgs): ActionFunc {
                         ));
                     }
                 } catch (err) {
-                    return {error: createErrorMessage(err.message || localizeMessage('apps.error.unknown', 'Unknown error.'))};
+                    return createErrorMessage(err.message || localizeMessage('apps.error.unknown', 'Unknown error.'));
                 }
             }
         }

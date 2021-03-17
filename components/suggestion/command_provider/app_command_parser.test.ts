@@ -632,10 +632,11 @@ describe('AppCommandParser', () => {
             const suggestions = await parser.getSuggestions('/jira ');
             expect(suggestions).toEqual([
                 {
-                    suggestion: '/issue',
-                    complete: '/jira issue',
-                    hint: '',
-                    description: 'Interact with Jira issues',
+                    Suggestion: '/issue',
+                    Complete: '/jira issue',
+                    Hint: '',
+                    Description: 'Interact with Jira issues',
+                    IconData: '',
                 },
             ]);
         });
@@ -644,10 +645,11 @@ describe('AppCommandParser', () => {
             const suggestions = await parser.getSuggestions('/JiRa ');
             expect(suggestions).toEqual([
                 {
-                    suggestion: '/issue',
-                    complete: '/JiRa issue',
-                    hint: '',
-                    description: 'Interact with Jira issues',
+                    Suggestion: '/issue',
+                    Complete: '/JiRa issue',
+                    Hint: '',
+                    Description: 'Interact with Jira issues',
+                    IconData: '',
                 },
             ]);
         });
@@ -656,10 +658,11 @@ describe('AppCommandParser', () => {
             const suggestions = await parser.getSuggestions('/jira issue');
             expect(suggestions).toEqual([
                 {
-                    suggestion: '/issue',
-                    complete: '/jira issue',
-                    hint: '',
-                    description: 'Interact with Jira issues',
+                    Suggestion: '/issue',
+                    Complete: '/jira issue',
+                    Hint: '',
+                    Description: 'Interact with Jira issues',
+                    IconData: '',
                 },
             ]);
         });
@@ -668,10 +671,11 @@ describe('AppCommandParser', () => {
             const suggestions = await parser.getSuggestions('/JiRa IsSuE');
             expect(suggestions).toEqual([
                 {
-                    suggestion: '/issue',
-                    complete: '/JiRa issue',
-                    hint: '',
-                    description: 'Interact with Jira issues',
+                    Suggestion: '/issue',
+                    Complete: '/JiRa issue',
+                    Hint: '',
+                    Description: 'Interact with Jira issues',
+                    IconData: '',
                 },
             ]);
         });
@@ -680,16 +684,18 @@ describe('AppCommandParser', () => {
             const suggestions = await parser.getSuggestions('/jira issue ');
             expect(suggestions).toEqual([
                 {
-                    suggestion: '/view',
-                    complete: '/jira issue view',
-                    hint: '',
-                    description: 'View details of a Jira issue',
+                    Suggestion: '/view',
+                    Complete: '/jira issue view',
+                    Hint: '',
+                    Description: 'View details of a Jira issue',
+                    IconData: '',
                 },
                 {
-                    suggestion: '/create',
-                    complete: '/jira issue create',
-                    hint: '',
-                    description: 'Create a new Jira issue',
+                    Suggestion: '/create',
+                    Complete: '/jira issue create',
+                    Hint: '',
+                    Description: 'Create a new Jira issue',
+                    IconData: '',
                 },
             ]);
         });
@@ -698,16 +704,18 @@ describe('AppCommandParser', () => {
             const suggestions = await parser.getSuggestions('/JiRa IsSuE ');
             expect(suggestions).toEqual([
                 {
-                    suggestion: '/view',
-                    complete: '/JiRa IsSuE view',
-                    hint: '',
-                    description: 'View details of a Jira issue',
+                    Suggestion: '/view',
+                    Complete: '/JiRa IsSuE view',
+                    Hint: '',
+                    Description: 'View details of a Jira issue',
+                    IconData: '',
                 },
                 {
-                    suggestion: '/create',
-                    complete: '/JiRa IsSuE create',
-                    hint: '',
-                    description: 'Create a new Jira issue',
+                    Suggestion: '/create',
+                    Complete: '/JiRa IsSuE create',
+                    Hint: '',
+                    Description: 'Create a new Jira issue',
+                    IconData: '',
                 },
             ]);
         });
@@ -716,10 +724,11 @@ describe('AppCommandParser', () => {
             const suggestions = await parser.getSuggestions('/jira issue c');
             expect(suggestions).toEqual([
                 {
-                    suggestion: '/create',
-                    complete: '/jira issue create',
-                    hint: '',
-                    description: 'Create a new Jira issue',
+                    Suggestion: '/create',
+                    Complete: '/jira issue create',
+                    Hint: '',
+                    Description: 'Create a new Jira issue',
+                    IconData: '',
                 },
             ]);
         });
@@ -728,10 +737,11 @@ describe('AppCommandParser', () => {
             const suggestions = await parser.getSuggestions('/JiRa IsSuE C');
             expect(suggestions).toEqual([
                 {
-                    suggestion: '/create',
-                    complete: '/JiRa IsSuE create',
-                    hint: '',
-                    description: 'Create a new Jira issue',
+                    Suggestion: '/create',
+                    Complete: '/JiRa IsSuE create',
+                    Hint: '',
+                    Description: 'Create a new Jira issue',
+                    IconData: '',
                 },
             ]);
         });
@@ -740,10 +750,11 @@ describe('AppCommandParser', () => {
             const suggestions = await parser.getSuggestions('/jira issue view ');
             expect(suggestions).toEqual([
                 {
-                    complete: '/jira issue view',
-                    description: 'The Jira issue key',
-                    hint: 'MM-11343',
-                    suggestion: '/',
+                    Complete: '/jira issue view',
+                    Description: 'The Jira issue key',
+                    Hint: 'MM-11343',
+                    Suggestion: '/',
+                    IconData: '',
                 },
             ]);
         });
@@ -752,20 +763,22 @@ describe('AppCommandParser', () => {
             let suggestions = await parser.getSuggestions('/jira issue view -');
             expect(suggestions).toEqual([
                 {
-                    complete: '/jira issue view --project',
-                    description: 'The Jira project description',
-                    hint: 'The Jira project hint',
-                    suggestion: '/--project',
+                    Complete: '/jira issue view --project',
+                    Description: 'The Jira project description',
+                    Hint: 'The Jira project hint',
+                    Suggestion: '/--project',
+                    IconData: '',
                 },
             ]);
 
             suggestions = await parser.getSuggestions('/jira issue view --');
             expect(suggestions).toEqual([
                 {
-                    complete: '/jira issue view --project',
-                    description: 'The Jira project description',
-                    hint: 'The Jira project hint',
-                    suggestion: '/--project',
+                    Complete: '/jira issue view --project',
+                    Description: 'The Jira project description',
+                    Hint: 'The Jira project hint',
+                    Suggestion: '/--project',
+                    IconData: '',
                 },
             ]);
         });
@@ -774,35 +787,39 @@ describe('AppCommandParser', () => {
             const suggestions = await parser.getSuggestions('/jira issue create ');
             expect(suggestions).toEqual([
                 {
-                    complete: '/jira issue create _execute_current_command',
-                    description: 'Select this option or use Ctrl+Enter to execute the current command.',
-                    hint: '',
-                    iconData: '_execute_current_command',
-                    suggestion: '/Execute Current Command',
+                    Complete: '/jira issue create _execute_current_command',
+                    Description: 'Select this option or use Ctrl+Enter to execute the current command.',
+                    Hint: '',
+                    IconData: '_execute_current_command',
+                    Suggestion: '/Execute Current Command',
                 },
                 {
-                    complete: '/jira issue create --project',
-                    description: 'The Jira project description',
-                    hint: 'The Jira project hint',
-                    suggestion: '/--project',
+                    Complete: '/jira issue create --project',
+                    Description: 'The Jira project description',
+                    Hint: 'The Jira project hint',
+                    Suggestion: '/--project',
+                    IconData: '',
                 },
                 {
-                    complete: '/jira issue create --summary',
-                    description: 'The Jira issue summary',
-                    hint: 'The thing is working great!',
-                    suggestion: '/--summary',
+                    Complete: '/jira issue create --summary',
+                    Description: 'The Jira issue summary',
+                    Hint: 'The thing is working great!',
+                    Suggestion: '/--summary',
+                    IconData: '',
                 },
                 {
-                    complete: '/jira issue create --verbose',
-                    description: 'display details',
-                    hint: 'yes or no!',
-                    suggestion: '/--verbose',
+                    Complete: '/jira issue create --verbose',
+                    Description: 'display details',
+                    Hint: 'yes or no!',
+                    Suggestion: '/--verbose',
+                    IconData: '',
                 },
                 {
-                    complete: '/jira issue create --epic',
-                    description: 'The Jira epic',
-                    hint: 'The thing is working great!',
-                    suggestion: '/--epic',
+                    Complete: '/jira issue create --epic',
+                    Description: 'The Jira epic',
+                    Hint: 'The thing is working great!',
+                    Suggestion: '/--epic',
+                    IconData: '',
                 },
             ]);
         });
@@ -811,29 +828,32 @@ describe('AppCommandParser', () => {
             const suggestions = await parser.getSuggestions('/jira issue create --project KT ');
             expect(suggestions).toEqual([
                 {
-                    complete: '/jira issue create --project KT _execute_current_command',
-                    description: 'Select this option or use Ctrl+Enter to execute the current command.',
-                    hint: '',
-                    iconData: '_execute_current_command',
-                    suggestion: '/Execute Current Command',
+                    Complete: '/jira issue create --project KT _execute_current_command',
+                    Description: 'Select this option or use Ctrl+Enter to execute the current command.',
+                    Hint: '',
+                    IconData: '_execute_current_command',
+                    Suggestion: '/Execute Current Command',
                 },
                 {
-                    complete: '/jira issue create --project KT --summary',
-                    description: 'The Jira issue summary',
-                    hint: 'The thing is working great!',
-                    suggestion: '/--summary',
+                    Complete: '/jira issue create --project KT --summary',
+                    Description: 'The Jira issue summary',
+                    Hint: 'The thing is working great!',
+                    Suggestion: '/--summary',
+                    IconData: '',
                 },
                 {
-                    complete: '/jira issue create --project KT --verbose',
-                    description: 'display details',
-                    hint: 'yes or no!',
-                    suggestion: '/--verbose',
+                    Complete: '/jira issue create --project KT --verbose',
+                    Description: 'display details',
+                    Hint: 'yes or no!',
+                    Suggestion: '/--verbose',
+                    IconData: '',
                 },
                 {
-                    complete: '/jira issue create --project KT --epic',
-                    description: 'The Jira epic',
-                    hint: 'The thing is working great!',
-                    suggestion: '/--epic',
+                    Complete: '/jira issue create --project KT --epic',
+                    Description: 'The Jira epic',
+                    Hint: 'The thing is working great!',
+                    Suggestion: '/--epic',
+                    IconData: '',
                 },
             ]);
         });
@@ -842,20 +862,22 @@ describe('AppCommandParser', () => {
             const mid = await parser.getSuggestions('/jira issue create --project KT --summ');
             expect(mid).toEqual([
                 {
-                    complete: '/jira issue create --project KT --summary',
-                    description: 'The Jira issue summary',
-                    hint: 'The thing is working great!',
-                    suggestion: '/--summary',
+                    Complete: '/jira issue create --project KT --summary',
+                    Description: 'The Jira issue summary',
+                    Hint: 'The thing is working great!',
+                    Suggestion: '/--summary',
+                    IconData: '',
                 },
             ]);
 
             const full = await parser.getSuggestions('/jira issue create --project KT --summary');
             expect(full).toEqual([
                 {
-                    complete: '/jira issue create --project KT --summary',
-                    description: 'The Jira issue summary',
-                    hint: 'The thing is working great!',
-                    suggestion: '/--summary',
+                    Complete: '/jira issue create --project KT --summary',
+                    Description: 'The Jira issue summary',
+                    Hint: 'The thing is working great!',
+                    Suggestion: '/--summary',
+                    IconData: '',
                 },
             ]);
         });
@@ -864,10 +886,11 @@ describe('AppCommandParser', () => {
             const suggestions = await parser.getSuggestions('/jira issue create --project KT --summary ');
             expect(suggestions).toEqual([
                 {
-                    complete: '/jira issue create --project KT --summary',
-                    description: 'The Jira issue summary',
-                    hint: 'The thing is working great!',
-                    suggestion: '/',
+                    Complete: '/jira issue create --project KT --summary',
+                    Description: 'The Jira issue summary',
+                    Hint: 'The thing is working great!',
+                    Suggestion: '/',
+                    IconData: '',
                 },
             ]);
         });
@@ -876,10 +899,11 @@ describe('AppCommandParser', () => {
             const suggestions = await parser.getSuggestions('/jira issue create --project KT --summary Sum');
             expect(suggestions).toEqual([
                 {
-                    complete: '/jira issue create --project KT --summary Sum',
-                    description: 'The Jira issue summary',
-                    hint: 'The thing is working great!',
-                    suggestion: '/Sum',
+                    Complete: '/jira issue create --project KT --summary Sum',
+                    Description: 'The Jira issue summary',
+                    Hint: 'The thing is working great!',
+                    Suggestion: '/Sum',
+                    IconData: '',
                 },
             ]);
         });
@@ -888,10 +912,11 @@ describe('AppCommandParser', () => {
             const suggestions = await parser.getSuggestions('/jira issue create --project KT --summary "Sum');
             expect(suggestions).toEqual([
                 {
-                    complete: '/jira issue create --project KT --summary "Sum"',
-                    description: 'The Jira issue summary',
-                    hint: 'The thing is working great!',
-                    suggestion: '/Sum',
+                    Complete: '/jira issue create --project KT --summary "Sum"',
+                    Description: 'The Jira issue summary',
+                    Hint: 'The thing is working great!',
+                    Suggestion: '/Sum',
+                    IconData: '',
                 },
             ]);
         });
@@ -900,10 +925,11 @@ describe('AppCommandParser', () => {
             const suggestions = await parser.getSuggestions('/jira issue create --project KT --summary `Sum');
             expect(suggestions).toEqual([
                 {
-                    complete: '/jira issue create --project KT --summary `Sum`',
-                    description: 'The Jira issue summary',
-                    hint: 'The thing is working great!',
-                    suggestion: '/Sum',
+                    Complete: '/jira issue create --project KT --summary `Sum`',
+                    Description: 'The Jira issue summary',
+                    Hint: 'The thing is working great!',
+                    Suggestion: '/Sum',
+                    IconData: '',
                 },
             ]);
         });
@@ -912,10 +938,11 @@ describe('AppCommandParser', () => {
             const suggestions = await parser.getSuggestions('/jira issue create --summary ');
             expect(suggestions).toEqual([
                 {
-                    complete: '/jira issue create --summary',
-                    description: 'The Jira issue summary',
-                    hint: 'The thing is working great!',
-                    suggestion: '/',
+                    Complete: '/jira issue create --summary',
+                    Description: 'The Jira issue summary',
+                    Hint: 'The thing is working great!',
+                    Suggestion: '/',
+                    IconData: '',
                 },
             ]);
         });
@@ -929,11 +956,11 @@ describe('AppCommandParser', () => {
 
             expect(suggestions).toEqual([
                 {
-                    complete: '/jira issue create --project special-value',
-                    suggestion: '/special-label',
-                    description: '',
-                    hint: '',
-                    iconData: undefined,
+                    Complete: '/jira issue create --project special-value',
+                    Suggestion: '/special-label',
+                    Description: '',
+                    Hint: '',
+                    IconData: '',
                 },
             ]);
         });
@@ -942,26 +969,29 @@ describe('AppCommandParser', () => {
             let suggestions = await parser.getSuggestions('/jira issue create --project KT --summary "great feature" --epic ');
             expect(suggestions).toEqual([
                 {
-                    complete: '/jira issue create --project KT --summary "great feature" --epic epic1',
-                    suggestion: '/Dylan Epic',
-                    description: '',
-                    hint: '',
+                    Complete: '/jira issue create --project KT --summary "great feature" --epic epic1',
+                    Suggestion: '/Dylan Epic',
+                    Description: '',
+                    Hint: '',
+                    IconData: '',
                 },
                 {
-                    complete: '/jira issue create --project KT --summary "great feature" --epic epic2',
-                    suggestion: '/Michael Epic',
-                    description: '',
-                    hint: '',
+                    Complete: '/jira issue create --project KT --summary "great feature" --epic epic2',
+                    Suggestion: '/Michael Epic',
+                    Description: '',
+                    Hint: '',
+                    IconData: '',
                 },
             ]);
 
             suggestions = await parser.getSuggestions('/jira issue create --project KT --summary "great feature" --epic M');
             expect(suggestions).toEqual([
                 {
-                    complete: '/jira issue create --project KT --summary "great feature" --epic epic2',
-                    suggestion: '/Michael Epic',
-                    description: '',
-                    hint: '',
+                    Complete: '/jira issue create --project KT --summary "great feature" --epic epic2',
+                    Suggestion: '/Michael Epic',
+                    Description: '',
+                    Hint: '',
+                    IconData: '',
                 },
             ]);
 
@@ -973,11 +1003,11 @@ describe('AppCommandParser', () => {
             const suggestions = await parser.getSuggestions('/jira issue create --project KT --summary "great feature" --epic epicvalue --verbose true ');
             expect(suggestions).toEqual([
                 {
-                    complete: '/jira issue create --project KT --summary "great feature" --epic epicvalue --verbose true _execute_current_command',
-                    suggestion: '/Execute Current Command',
-                    description: 'Select this option or use Ctrl+Enter to execute the current command.',
-                    iconData: '_execute_current_command',
-                    hint: '',
+                    Complete: '/jira issue create --project KT --summary "great feature" --epic epicvalue --verbose true _execute_current_command',
+                    Suggestion: '/Execute Current Command',
+                    Description: 'Select this option or use Ctrl+Enter to execute the current command.',
+                    IconData: '_execute_current_command',
+                    Hint: '',
                 },
             ]);
         });

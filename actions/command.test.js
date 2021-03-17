@@ -251,13 +251,15 @@ describe('executeCommand', () => {
                     team_id: '456',
                 },
                 raw_command: '/appid custom value1 --key2 value2',
-                type: 'submit',
                 path: 'https://someserver.com/command',
+                expand: {},
+                query: undefined,
+                selected_field: undefined,
                 values: {
                     key1: 'value1',
                     key2: {label: 'Value 2', value: 'value2'},
                 },
-            });
+            }, 'submit');
             expect(result).toEqual({data: true});
         });
     });

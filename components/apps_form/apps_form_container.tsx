@@ -3,8 +3,8 @@
 
 import React from 'react';
 
-import {AppCall, AppCallResponse, AppField, AppForm, AppFormValue, AppFormValues, AppSelectOption, AppContext, AppLookupCallValues} from 'mattermost-redux/types/apps';
-import {AppCallTypes, AppBindingLocations, AppCallResponseTypes} from 'mattermost-redux/constants/apps';
+import {AppCallResponse, AppField, AppForm, AppFormValues, AppSelectOption, AppCallType, AppCallRequest} from 'mattermost-redux/types/apps';
+import {AppCallTypes, AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 
 import {injectIntl, IntlShape} from 'react-intl';
 
@@ -19,16 +19,12 @@ import AppsForm from './apps_form';
 type Props = {
     intl: IntlShape;
     form?: AppForm;
-    call?: AppCall;
+    call?: AppCallRequest;
     onHide: () => void;
     actions: {
-        doAppCall: (call: AppCall) => Promise<{data: AppCallResponse}>;
+        doAppCall: (call: AppCallRequest, type: AppCallType) => Promise<{data: AppCallResponse}>;
     };
     emojiMap: EmojiMap;
-    postID?: string;
-    channelID?: string;
-    teamID?: string;
-    isEmbedded?: boolean;
 };
 
 type State = {
@@ -66,9 +62,8 @@ class AppsFormContainer extends React.PureComponent<Props, State> {
 
         const res = await this.props.actions.doAppCall({
             ...call,
-            type: AppCallTypes.SUBMIT,
             values: submission.values,
-        });
+        }, AppCallTypes.SUBMIT);
 
         const callResp = res.data;
         switch (callResp.type) {
@@ -92,7 +87,7 @@ class AppsFormContainer extends React.PureComponent<Props, State> {
         return res;
     };
 
-    refreshOnSelect = async (field: AppField, values: AppFormValues, value: AppFormValue): Promise<{data: AppCallResponse<any>}> => {
+    refreshOnSelect = async (field: AppField, values: AppFormValues): Promise<{data: AppCallResponse<any>}> => {
         const makeErrMsg = (message: string) => this.props.intl.formatMessage(
             {
                 id: 'apps.error.form.refresh',
@@ -111,23 +106,15 @@ class AppsFormContainer extends React.PureComponent<Props, State> {
         }
 
         if (!field.refresh) {
-            return {
-                data: {
-                    type: '',
-                    data: {},
-                },
-            };
+            // Should never happen
+            return {data: makeCallErrorResponse(makeErrMsg(this.props.intl.formatMessage({id: 'apps.error.form.refresh_no_refresh', defaultMessage: 'Called refresh on no refresh field.'})))};
         }
 
         const res = await this.props.actions.doAppCall({
             ...call,
-            type: AppCallTypes.FORM,
-            values: {
-                name: field.name,
-                values,
-                value,
-            },
-        });
+            selected_field: field.name,
+            values,
+        }, AppCallTypes.FORM);
 
         const callResp = res.data;
         switch (callResp.type) {
@@ -157,16 +144,12 @@ class AppsFormContainer extends React.PureComponent<Props, State> {
             return [];
         }
 
-        const values: AppLookupCallValues = {
-            name: field.name,
-            user_input: userInput,
-            values: formValues,
-        };
         const res = await this.props.actions.doAppCall({
             ...call,
-            type: AppCallTypes.LOOKUP,
-            values,
-        });
+            values: formValues,
+            query: userInput,
+            selected_field: field.name,
+        }, AppCallTypes.LOOKUP);
 
         // TODO Surface errors?
         if (res.data.type !== AppCallResponseTypes.OK) {
@@ -181,10 +164,10 @@ class AppsFormContainer extends React.PureComponent<Props, State> {
         return [];
     }
 
-    getCall = (): AppCall | null => {
+    getCall = (): AppCallRequest | null => {
         const {form} = this.state;
 
-        const {call, postID, channelID, teamID} = this.props;
+        const {call} = this.props;
         if (!call) {
             return null;
         }
@@ -192,31 +175,10 @@ class AppsFormContainer extends React.PureComponent<Props, State> {
         return {
             ...call,
             ...form?.call,
-            context: {
-                ...call.context,
-                ...form?.call?.context,
-                app_id: call.context.app_id,
-                location: postID ? AppBindingLocations.IN_POST : call.context.location,
-                post_id: postID || call.context.post_id,
-                team_id: postID ? teamID : call.context.team_id,
-                channel_id: postID ? channelID : call.context.channel_id,
+            expand: {
+                ...form?.call?.expand,
+                ...call.expand,
             },
-        };
-    }
-
-    getContext = (): AppContext | null => {
-        const {call, postID, channelID, teamID} = this.props;
-
-        if (!call) {
-            return null;
-        }
-
-        return {
-            app_id: call.context.app_id,
-            location: postID ? AppBindingLocations.IN_POST : call.context.location,
-            post_id: postID,
-            team_id: postID ? teamID : call.context.team_id,
-            channel_id: postID ? channelID : call.context.channel_id,
         };
     }
 
@@ -246,7 +208,6 @@ class AppsFormContainer extends React.PureComponent<Props, State> {
                     performLookupCall: this.performLookupCall,
                     refreshOnSelect: this.refreshOnSelect,
                 }}
-                isEmbedded={this.props.isEmbedded}
             />
         );
     }
