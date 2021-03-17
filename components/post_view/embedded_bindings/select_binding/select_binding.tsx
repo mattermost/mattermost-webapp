@@ -19,7 +19,6 @@ import MenuActionProvider from 'components/suggestion/menu_action_provider';
 import AutocompleteSelector from 'components/autocomplete_selector';
 import PostContext from 'components/post_view/post_context';
 import {createCallContext, createCallRequest} from 'utils/apps';
-import {sendEphemeralPost} from 'actions/global_actions';
 
 type Option = {
     text: string;

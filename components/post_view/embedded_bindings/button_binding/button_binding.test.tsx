@@ -47,7 +47,7 @@ describe('components/post_view/embedded_bindings/button_binding/', () => {
     };
 
     test('should match snapshot', () => {
-        const wrapper = shallowWithIntl(<ButtonBinding {...baseProps} />);
+        const wrapper = shallowWithIntl(<ButtonBinding {...baseProps}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -55,9 +55,9 @@ describe('components/post_view/embedded_bindings/button_binding/', () => {
         const props = {
             ...baseProps,
             intl: {} as any,
-        }
+        };
 
-        const wrapper = shallow<ButtonBindingUnwrapped>(<ButtonBindingUnwrapped {...props} />);
+        const wrapper = shallow<ButtonBindingUnwrapped>(<ButtonBindingUnwrapped {...props}/>);
         await wrapper.instance().handleClick();
 
         expect(baseProps.actions.getChannel).toHaveBeenCalledWith('some_channel_id');
@@ -104,7 +104,7 @@ describe('components/post_view/embedded_bindings/button_binding/', () => {
             intl: {} as any,
         };
 
-        const wrapper = shallow<ButtonBindingUnwrapped>(<ButtonBindingUnwrapped {...props} />);
+        const wrapper = shallow<ButtonBindingUnwrapped>(<ButtonBindingUnwrapped {...props}/>);
         await wrapper.instance().handleClick();
 
         expect(props.sendEphemeralPost).toHaveBeenCalledWith('The error', 'some_channel_id', 'some_root_id');

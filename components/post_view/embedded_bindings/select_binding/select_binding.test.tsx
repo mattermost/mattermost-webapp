@@ -41,7 +41,7 @@ describe('components/post_view/embedded_bindings/select_binding', () => {
                     path: 'some_url_2',
                 },
             },
-        ] as AppBinding[]
+        ] as AppBinding[],
     } as AppBinding;
 
     const baseProps = {
