@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {getFilePreviewUrl, getFileDownloadUrl} from 'mattermost-redux/utils/file_utils';
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function ImagePreview({fileInfo, canDownloadFiles}) {
     const isExternalFile = !fileInfo.id;
 

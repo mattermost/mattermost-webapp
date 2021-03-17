@@ -5,19 +5,21 @@ import {connect} from 'react-redux';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 
-import {canDownloadFiles} from 'utils/file_utils.jsx';
+import {GlobalState} from 'mattermost-redux/types/store';
 
-import ViewImage from './view_image.jsx';
+import {canDownloadFiles} from 'utils/file_utils';
 
-function mapStateToProps(state, ownProps) {
+import ViewImage, {Props} from './view_image';
+
+function mapStateToProps(state: GlobalState, ownProps: Props) {
     const config = getConfig(state);
 
     return {
         canDownloadFiles: canDownloadFiles(config),
         enablePublicLink: config.EnablePublicLink === 'true',
         pluginFilePreviewComponents: state.plugins.components.FilePreview,
-        post: ownProps.post || getPost(state, ownProps.postId),
+        post: ownProps.post || getPost(state, ownProps?.postId ? ownProps.postId : ''),
     };
 }
 
-export default connect(mapStateToProps)(ViewImage);
+export default connect(mapStateToProps)(ViewImage as React.ComponentClass);
