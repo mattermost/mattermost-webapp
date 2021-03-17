@@ -16,6 +16,7 @@ import Menu from 'components/widgets/menu/menu';
 import Badge from 'components/widgets/badges/badge';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import FileThumbnail from 'components/file_attachment/file_thumbnail';
+import Timestamp, {RelativeRanges} from 'components/timestamp';
 
 import './file_search_result_item.scss';
 
@@ -25,6 +26,11 @@ type Props = {
     teamName: string;
     onClick: (fileInfo: FileInfo) => void;
 };
+
+const FILE_TOOLTIP_RANGES = [
+    RelativeRanges.TODAY_TITLE_CASE,
+    RelativeRanges.YESTERDAY_TITLE_CASE,
+];
 
 export default class FileSearchResultItem extends React.PureComponent<Props> {
     private jumpToConv = (e: MouseEvent) => {
@@ -47,6 +53,7 @@ export default class FileSearchResultItem extends React.PureComponent<Props> {
 
     public render(): React.ReactNode {
         const {fileInfo, channelDisplayName} = this.props;
+
         return (
             <div
                 className='FileSearchResultItem'
@@ -59,16 +66,9 @@ export default class FileSearchResultItem extends React.PureComponent<Props> {
                         {channelDisplayName && <Badge className='file-search-channel-name'>{channelDisplayName}</Badge>}
                         <span>{fileSizeToString(fileInfo.size)}</span>
                         <span>{' • '}</span>
-                        <FormattedDate
+                        <Timestamp
                             value={fileInfo.create_at}
-                            year={isSameYear(new Date(fileInfo.create_at), new Date()) ? undefined : 'numeric'}
-                            month='short'
-                            day='2-digit'
-                        />
-                        <FormattedTime
-                            value={fileInfo.create_at}
-                            hour='2-digit'
-                            minute='2-digit'
+                            ranges={FILE_TOOLTIP_RANGES}
                         />
                     </div>
                 </div>

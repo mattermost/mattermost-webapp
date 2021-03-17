@@ -38,9 +38,9 @@
         }
     }
     .file-icon {
-        min-width: 48px;
-        width: 48px;
-        height: 48px;
+        min-width: 4rem;
+        width: 4rem;
+        height: 4rem;
     }
     .fileData {
         white-space: nowrap;
@@ -84,10 +84,12 @@
         align-items: center;
         justify-content: center;
         margin-left: 8px;
-        margin-right: 6px;
         cursor: pointer;
         text-decoration: none;
         opacity: 0;
+        &.download-icon {
+            margin-right: 6px;
+        }
         svg {
             display: flex
         }
