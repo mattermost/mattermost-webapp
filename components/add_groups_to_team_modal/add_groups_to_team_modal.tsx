@@ -103,7 +103,8 @@ export default class AddGroupsToTeamModal extends React.PureComponent<Props, Sta
         }
     }
 
-    private handleHide = () => {
+    // public for tests
+    public handleHide = () => {
         this.props.actions.setModalSearchTerm('');
         this.setState({show: false});
     }
@@ -128,7 +129,8 @@ export default class AddGroupsToTeamModal extends React.PureComponent<Props, Sta
         });
     }
 
-    private handleSubmit = async () => {
+    // public for tests
+    public handleSubmit = async () => {
         const groupIDs = this.state.values.map((v) => v.id);
         if (groupIDs.length === 0) {
             return;
