@@ -51,7 +51,17 @@ exports[`admin_console/system_role_permissions should match snapshot 1`] = `
         Object {
           "hasDescription": true,
           "name": "reporting",
-          "subsections": Array [],
+          "subsections": Array [
+            Object {
+              "name": "reporting_site_statistics",
+            },
+            Object {
+              "name": "reporting_team_statistics",
+            },
+            Object {
+              "name": "reporting_server_logs",
+            },
+          ],
         }
       }
       setSectionVisible={[Function]}
@@ -114,7 +124,47 @@ exports[`admin_console/system_role_permissions should match snapshot 1`] = `
         Object {
           "hasDescription": true,
           "name": "environment",
-          "subsections": Array [],
+          "subsections": Array [
+            Object {
+              "name": "environment_web_server",
+            },
+            Object {
+              "name": "environment_database",
+            },
+            Object {
+              "name": "environment_elasticsearch",
+            },
+            Object {
+              "name": "environment_file_storage",
+            },
+            Object {
+              "name": "environment_image_proxy",
+            },
+            Object {
+              "name": "environment_smtp",
+            },
+            Object {
+              "name": "environment_push_notification_server",
+            },
+            Object {
+              "name": "environment_high_availability",
+            },
+            Object {
+              "name": "environment_rate_limiting",
+            },
+            Object {
+              "name": "environment_logging",
+            },
+            Object {
+              "name": "environment_session_lengths",
+            },
+            Object {
+              "name": "environment_performance_monitoring",
+            },
+            Object {
+              "name": "environment_developer",
+            },
+          ],
         }
       }
       setSectionVisible={[Function]}
@@ -135,7 +185,38 @@ exports[`admin_console/system_role_permissions should match snapshot 1`] = `
         Object {
           "hasDescription": true,
           "name": "site",
-          "subsections": Array [],
+          "subsections": Array [
+            Object {
+              "name": "site_customization",
+            },
+            Object {
+              "name": "site_localization",
+            },
+            Object {
+              "name": "site_users_and_teams",
+            },
+            Object {
+              "name": "site_notifications",
+            },
+            Object {
+              "name": "site_announcement_banner",
+            },
+            Object {
+              "name": "site_emoji",
+            },
+            Object {
+              "name": "site_posts",
+            },
+            Object {
+              "name": "site_file_sharing_and_downloads",
+            },
+            Object {
+              "name": "site_public_links",
+            },
+            Object {
+              "name": "site_notices",
+            },
+          ],
         }
       }
       setSectionVisible={[Function]}
@@ -223,7 +304,20 @@ exports[`admin_console/system_role_permissions should match snapshot 1`] = `
         Object {
           "hasDescription": true,
           "name": "integrations",
-          "subsections": Array [],
+          "subsections": Array [
+            Object {
+              "name": "integrations_integration_management",
+            },
+            Object {
+              "name": "integrations_bot_accounts",
+            },
+            Object {
+              "name": "integrations_gif",
+            },
+            Object {
+              "name": "integrations_cors",
+            },
+          ],
         }
       }
       setSectionVisible={[Function]}
@@ -244,7 +338,20 @@ exports[`admin_console/system_role_permissions should match snapshot 1`] = `
         Object {
           "hasDescription": true,
           "name": "compliance",
-          "subsections": Array [],
+          "subsections": Array [
+            Object {
+              "name": "compliance_data_retention_policy",
+            },
+            Object {
+              "name": "compliance_compliance_export",
+            },
+            Object {
+              "name": "compliance_compliance_monitoring",
+            },
+            Object {
+              "name": "compliance_custom_terms_of_service",
+            },
+          ],
         }
       }
       setSectionVisible={[Function]}
@@ -337,7 +444,17 @@ exports[`admin_console/system_role_permissions should match snapshot with isLice
         Object {
           "hasDescription": true,
           "name": "reporting",
-          "subsections": Array [],
+          "subsections": Array [
+            Object {
+              "name": "reporting_site_statistics",
+            },
+            Object {
+              "name": "reporting_team_statistics",
+            },
+            Object {
+              "name": "reporting_server_logs",
+            },
+          ],
         }
       }
       setSectionVisible={[Function]}
@@ -400,7 +517,47 @@ exports[`admin_console/system_role_permissions should match snapshot with isLice
         Object {
           "hasDescription": true,
           "name": "environment",
-          "subsections": Array [],
+          "subsections": Array [
+            Object {
+              "name": "environment_web_server",
+            },
+            Object {
+              "name": "environment_database",
+            },
+            Object {
+              "name": "environment_elasticsearch",
+            },
+            Object {
+              "name": "environment_file_storage",
+            },
+            Object {
+              "name": "environment_image_proxy",
+            },
+            Object {
+              "name": "environment_smtp",
+            },
+            Object {
+              "name": "environment_push_notification_server",
+            },
+            Object {
+              "name": "environment_high_availability",
+            },
+            Object {
+              "name": "environment_rate_limiting",
+            },
+            Object {
+              "name": "environment_logging",
+            },
+            Object {
+              "name": "environment_session_lengths",
+            },
+            Object {
+              "name": "environment_performance_monitoring",
+            },
+            Object {
+              "name": "environment_developer",
+            },
+          ],
         }
       }
       setSectionVisible={[Function]}
@@ -421,7 +578,38 @@ exports[`admin_console/system_role_permissions should match snapshot with isLice
         Object {
           "hasDescription": true,
           "name": "site",
-          "subsections": Array [],
+          "subsections": Array [
+            Object {
+              "name": "site_customization",
+            },
+            Object {
+              "name": "site_localization",
+            },
+            Object {
+              "name": "site_users_and_teams",
+            },
+            Object {
+              "name": "site_notifications",
+            },
+            Object {
+              "name": "site_announcement_banner",
+            },
+            Object {
+              "name": "site_emoji",
+            },
+            Object {
+              "name": "site_posts",
+            },
+            Object {
+              "name": "site_file_sharing_and_downloads",
+            },
+            Object {
+              "name": "site_public_links",
+            },
+            Object {
+              "name": "site_notices",
+            },
+          ],
         }
       }
       setSectionVisible={[Function]}
@@ -509,7 +697,20 @@ exports[`admin_console/system_role_permissions should match snapshot with isLice
         Object {
           "hasDescription": true,
           "name": "integrations",
-          "subsections": Array [],
+          "subsections": Array [
+            Object {
+              "name": "integrations_integration_management",
+            },
+            Object {
+              "name": "integrations_bot_accounts",
+            },
+            Object {
+              "name": "integrations_gif",
+            },
+            Object {
+              "name": "integrations_cors",
+            },
+          ],
         }
       }
       setSectionVisible={[Function]}
@@ -530,7 +731,20 @@ exports[`admin_console/system_role_permissions should match snapshot with isLice
         Object {
           "hasDescription": true,
           "name": "compliance",
-          "subsections": Array [],
+          "subsections": Array [
+            Object {
+              "name": "compliance_data_retention_policy",
+            },
+            Object {
+              "name": "compliance_compliance_export",
+            },
+            Object {
+              "name": "compliance_compliance_monitoring",
+            },
+            Object {
+              "name": "compliance_custom_terms_of_service",
+            },
+          ],
         }
       }
       setSectionVisible={[Function]}

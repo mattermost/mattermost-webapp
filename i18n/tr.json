@@ -3475,7 +3475,7 @@
   "next_steps_view.tips.addPlugins": "Mattermost üzerine uygulama ekleri kurun",
   "next_steps_view.tips.addPlugins.button": "Uygulama ekleri kurun",
   "next_steps_view.tips.addPlugins.buttons": "Kısayol tuşlarına bakın",
-  "next_steps_view.tips.addPlugins.text": "Uygulama eklerini kurmak ve yapılandırmak için Uygulama Eki Mağazasına bakın.",
+  "next_steps_view.tips.addPlugins.text": "GitHub, GitLab, Jira ve diğer uygulama eklerini kurup yapılandırın!",
   "next_steps_view.tips.addPlugins.texts": "Kısayol tuşlarını kullanarak Mattermost ile daha etkin çalışın.",
   "next_steps_view.tips.addPluginss": "Kısayol Tuşlarını Öğrenin",
   "next_steps_view.tips.auth.ldap": "AD/LDAP",
