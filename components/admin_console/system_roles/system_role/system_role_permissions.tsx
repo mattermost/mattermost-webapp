@@ -66,12 +66,37 @@ const sectionsList: SystemSection[] = [
     {
         name: 'environment',
         hasDescription: true,
-        subsections: [],
+        subsections: [
+            {name: 'environment_web_server'},
+            {name: 'environment_database'},
+            {name: 'environment_elasticsearch'},
+            {name: 'environment_file_storage'},
+            {name: 'environment_image_proxy'},
+            {name: 'environment_smtp'},
+            {name: 'environment_push_notification_server'},
+            {name: 'environment_high_availability'},
+            {name: 'environment_rate_limiting'},
+            {name: 'environment_logging'},
+            {name: 'environment_session_lengths'},
+            {name: 'environment_performance_monitoring'},
+            {name: 'environment_developer'},
+        ],
     },
     {
         name: 'site',
         hasDescription: true,
-        subsections: [],
+        subsections: [
+            {name: 'site_customization'},
+            {name: 'site_localization'},
+            {name: 'site_users_and_teams'},
+            {name: 'site_notifications'},
+            {name: 'site_announcement_banner'},
+            {name: 'site_emoji'},
+            {name: 'site_posts'},
+            {name: 'site_file_sharing_and_downloads'},
+            {name: 'site_public_links'},
+            {name: 'site_notices'},
+        ],
     },
     {
         name: 'authentication',
@@ -96,7 +121,12 @@ const sectionsList: SystemSection[] = [
     {
         name: 'compliance',
         hasDescription: true,
-        subsections: [],
+        subsections: [
+            {name: 'compliance_data_retention_policy'},
+            {name: 'compliance_compliance_export'},
+            {name: 'compliance_compliance_monitoring'},
+            {name: 'compliance_custom_terms_of_service'},
+        ],
     },
     {
         name: 'experimental',
@@ -241,8 +271,31 @@ t('admin.permissions.sysconsole_section_user_management_permissions.name');
 t('admin.permissions.sysconsole_section_user_management_system_roles.name');
 t('admin.permissions.sysconsole_section_environment.name');
 t('admin.permissions.sysconsole_section_environment.description');
+t('admin.permissions.sysconsole_section_environment_web_server.name');
+t('admin.permissions.sysconsole_section_environment_database.name');
+t('admin.permissions.sysconsole_section_environment_elasticsearch.name');
+t('admin.permissions.sysconsole_section_environment_file_storage.name');
+t('admin.permissions.sysconsole_section_environment_image_proxy.name');
+t('admin.permissions.sysconsole_section_environment_smtp.name');
+t('admin.permissions.sysconsole_section_environment_push_notification_server.name');
+t('admin.permissions.sysconsole_section_environment_high_availability.name');
+t('admin.permissions.sysconsole_section_environment_rate_limiting.name');
+t('admin.permissions.sysconsole_section_environment_logging.name');
+t('admin.permissions.sysconsole_section_environment_session_lengths.name');
+t('admin.permissions.sysconsole_section_environment_performance_monitoring.name');
+t('admin.permissions.sysconsole_section_environment_developer.name');
 t('admin.permissions.sysconsole_section_site.name');
 t('admin.permissions.sysconsole_section_site.description');
+t('admin.permissions.sysconsole_section_site_customization.name');
+t('admin.permissions.sysconsole_section_site_localization.name');
+t('admin.permissions.sysconsole_section_site_users_and_teams.name');
+t('admin.permissions.sysconsole_section_site_notifications.name');
+t('admin.permissions.sysconsole_section_site_announcement_banner.name');
+t('admin.permissions.sysconsole_section_site_emoji.name');
+t('admin.permissions.sysconsole_section_site_posts.name');
+t('admin.permissions.sysconsole_section_site_file_sharing_and_downloads.name');
+t('admin.permissions.sysconsole_section_site_public_links.name');
+t('admin.permissions.sysconsole_section_site_notices.name');
 t('admin.permissions.sysconsole_section_authentication.name');
 t('admin.permissions.sysconsole_section_authentication.description');
 t('admin.permissions.sysconsole_section_plugins.name');
@@ -255,6 +308,10 @@ t('admin.permissions.sysconsole_section_integrations_gif.name');
 t('admin.permissions.sysconsole_section_integrations_cors.name');
 t('admin.permissions.sysconsole_section_compliance.name');
 t('admin.permissions.sysconsole_section_compliance.description');
+t('admin.permissions.sysconsole_section_compliance_data_retention_policy.name');
+t('admin.permissions.sysconsole_section_compliance_compliance_export.name');
+t('admin.permissions.sysconsole_section_compliance_compliance_monitoring.name');
+t('admin.permissions.sysconsole_section_compliance_custom_terms_of_service.name');
 t('admin.permissions.sysconsole_section_experimental.name');
 t('admin.permissions.sysconsole_section_experimental.description');
 t('admin.permissions.sysconsole_section_experimental_features.name');
