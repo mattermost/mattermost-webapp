@@ -15,7 +15,6 @@ import {Channel} from 'mattermost-redux/types/channels';
 import Markdown from 'components/markdown';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 import {createCallContext, createCallRequest} from 'utils/apps';
-import {sendEphemeralPost} from 'actions/global_actions';
 
 type Props = {
     intl: IntlShape;
@@ -25,6 +24,7 @@ type Props = {
         doAppCall: (call: AppCallRequest, type: AppCallType, intl: IntlShape) => Promise<ActionResult>;
         getChannel: (channelId: string) => Promise<ActionResult>;
     };
+    sendEphemeralPost: (message: string, channelID?: string, rootID?: string) => void;
 }
 
 type State = {
@@ -69,7 +69,7 @@ export class ButtonBinding extends React.PureComponent<Props, State> {
 
         this.setState({executing: false});
         const callResp = (res as {data: AppCallResponse}).data;
-        const ephemeral = (message: string) => sendEphemeralPost(message, this.props.post.channel_id, this.props.post.root_id);
+        const ephemeral = (message: string) => this.props.sendEphemeralPost(message, this.props.post.channel_id, this.props.post.root_id);
         switch (callResp.type) {
         case AppCallResponseTypes.OK:
             if (callResp.markdown) {
@@ -104,7 +104,6 @@ export class ButtonBinding extends React.PureComponent<Props, State> {
 
         return (
             <button
-                key={binding.location}
                 onClick={this.handleClick}
                 style={customButtonStyle}
             >
