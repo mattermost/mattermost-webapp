@@ -1008,7 +1008,7 @@
 
     .SidebarChannel .SidebarLink:hover,
     .SidebarChannel .SidebarLink.menuOpen {
-        background: rgba(255, 255, 255, 0.08);
+        background-color: var(--sidebar-text-hover-bg);
 
         padding-right: 5px;
 
@@ -1027,6 +1027,7 @@
             visibility: hidden;
         }
     }
+
     .SidebarChannel.active .SidebarLink {
         background: rgba(255, 255, 255, 0.16);
 

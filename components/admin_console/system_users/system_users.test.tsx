@@ -9,6 +9,8 @@ import {Constants, SearchUserTeamFilter, UserFilters} from 'utils/constants';
 
 jest.mock('actions/admin_actions');
 
+jest.useFakeTimers();
+
 describe('components/admin_console/system_users', () => {
     const USERS_PER_PAGE = 50;
     const defaultProps = {
