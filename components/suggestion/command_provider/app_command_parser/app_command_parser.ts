@@ -1055,7 +1055,21 @@ export class AppCommandParser {
     // getStaticSelectSuggestions returns suggestions specified in the field's options property
     getStaticSelectSuggestions = (parsed: ParsedCommand, delimiter?: string): AutocompleteSuggestion[] => {
         const f = parsed.field as AutocompleteStaticSelect;
-        const opts = f.options.filter((opt) => opt.label.toLowerCase().startsWith(parsed.incomplete.toLowerCase()));
+
+        const opts = f.options?.filter((opt) => opt.label.toLowerCase().startsWith(parsed.incomplete.toLowerCase()));
+        if (!opts?.length) {
+            return [{
+                Complete: '',
+                Suggestion: '',
+                Hint: '',
+                Description: this.intl.formatMessage({
+                    id: 'apps.suggestion.no_static',
+                    defaultMessage: 'No matching options.',
+                }),
+                IconData: '',
+            }];
+        }
+
         return opts.map((opt) => {
             let complete = opt.value;
             if (delimiter) {
@@ -1077,12 +1091,19 @@ export class AppCommandParser {
     getDynamicSelectSuggestions = async (parsed: ParsedCommand, delimiter?: string): Promise<AutocompleteSuggestion[]> => {
         const f = parsed.field;
         if (!f) {
-            return [];
+            // Should never happen
+            return this.makeSuggestionError(this.intl.formatMessage({
+                id: 'apps.error.responses.unexpected_error',
+                defaultMessage: 'Received an unexpected error.',
+            }));
         }
 
         const call = await this.composeCallFromParsed(parsed);
         if (!call) {
-            return [];
+            return this.makeSuggestionError(this.intl.formatMessage({
+                id: 'apps.error.lookup.error_preparing_request',
+                defaultMessage: 'Error preparing lookup request.',
+            }));
         }
         call.selected_field = f.name;
         call.query = parsed.incomplete;
@@ -1117,12 +1138,16 @@ export class AppCommandParser {
         }
 
         const items = callResponse?.data?.items;
-        if (!items) {
+
+        if (!items?.length) {
             return [{
-                Suggestion: this.intl.formatMessage({id: 'apps.suggestion.no_dynamic', defaultMessage: 'Received no data for dynamic suggestions'}),
                 Complete: '',
+                Suggestion: '',
                 Hint: '',
-                Description: '',
+                Description: this.intl.formatMessage({
+                    id: 'apps.suggestion.no_dynamic',
+                    defaultMessage: 'Received no data for dynamic suggestions.',
+                }),
                 IconData: '',
             }];
         }
@@ -1153,8 +1178,8 @@ export class AppCommandParser {
         });
         return [{
             Complete: '',
-            Suggestion: errMsg,
-            Description: '',
+            Suggestion: '',
+            Description: errMsg,
             Hint: '',
             IconData: '',
         }];
