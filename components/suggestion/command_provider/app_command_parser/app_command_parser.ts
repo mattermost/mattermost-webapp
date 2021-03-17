@@ -1010,8 +1010,10 @@ export class AppCommandParser {
 
         return [{
             Complete: '',
-            // TODO i18n
-            Suggestion: 'Could not find any suggestions',
+            Suggestion: this.intl.formatMessage({
+                id: 'apps.suggestion.no_suggestions',
+                defaultMessage: 'Could not find any suggestions.',
+            }),
             Description: '',
             Hint: '',
             IconData: '',
