@@ -34,13 +34,14 @@ type Props = {
         doAppCall: (call: AppCallRequest, type: AppCallType, intl: IntlShape) => Promise<ActionResult>;
         getChannel: (channelId: string) => Promise<ActionResult>;
     };
+    sendEphemeralPost: (message: string, channelID?: string, rootID?: string) => void;
 };
 
 type State = {
     selected?: Option;
 };
 
-class SelectBinding extends React.PureComponent<Props, State> {
+export class SelectBinding extends React.PureComponent<Props, State> {
     private providers: MenuActionProvider[];
 
     constructor(props: Props) {
@@ -85,10 +86,11 @@ class SelectBinding extends React.PureComponent<Props, State> {
 
         const context = createCallContext(
             binding.app_id,
-            AppBindingLocations.IN_POST + binding.location,
+            AppBindingLocations.IN_POST + '/' + binding.location,
             post.channel_id,
             teamID,
             post.id,
+            post.root_id,
         );
         const call = createCallRequest(
             binding.call,
@@ -98,7 +100,7 @@ class SelectBinding extends React.PureComponent<Props, State> {
 
         const res = await this.props.actions.doAppCall(call, AppCallTypes.SUBMIT, this.props.intl);
         const callResp = (res as {data: AppCallResponse}).data;
-        const ephemeral = (message: string) => sendEphemeralPost(message, this.props.post.channel_id, this.props.post.root_id);
+        const ephemeral = (message: string) => this.props.sendEphemeralPost(message, this.props.post.channel_id, this.props.post.root_id);
         switch (callResp.type) {
         case AppCallResponseTypes.OK:
             if (callResp.markdown) {

@@ -54,10 +54,11 @@ export class ButtonBinding extends React.PureComponent<Props, State> {
 
         const context = createCallContext(
             binding.app_id,
-            AppBindingLocations.IN_POST + binding.location,
+            AppBindingLocations.IN_POST + '/' + binding.location,
             post.channel_id,
             teamID,
             post.id,
+            post.root_id,
         );
         const call = createCallRequest(
             binding.call,
