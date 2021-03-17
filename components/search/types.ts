@@ -23,6 +23,7 @@ export type StateProps = {
     isMentionSearch: boolean;
     isFlaggedPosts: boolean;
     isPinnedPosts: boolean;
+    currentChannelName: string;
 }
 
 export type DispatchProps = {

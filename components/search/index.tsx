@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {getMorePostsForSearch} from 'mattermost-redux/actions/search';
+import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 import {connect} from 'react-redux';
 import {AnyAction, bindActionCreators, Dispatch} from 'redux';
 
@@ -29,6 +30,7 @@ function mapStateToProps(state: GlobalState) {
         isMentionSearch: rhsState === RHSStates.MENTION,
         isFlaggedPosts: rhsState === RHSStates.FLAG,
         isPinnedPosts: rhsState === RHSStates.PIN,
+        currentChannelName: getCurrentChannel(state)?.name,
     };
 }
 

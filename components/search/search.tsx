@@ -6,6 +6,7 @@ import {useIntl} from 'react-intl';
 import classNames from 'classnames';
 
 import {searchHintOptions, RHSStates} from 'utils/constants';
+import {isDesktopApp} from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
 import HeaderIconWrapper from 'components/channel_header/components/header_icon_wrapper';
 import SearchHint from 'components/search_hint/search_hint';
@@ -59,7 +60,7 @@ const determineVisibleSearchHintOptions = (searchTerms: string): SearchHintOptio
 };
 
 const Search: React.FC<Props> = (props: Props): JSX.Element => {
-    const {actions, searchTerms} = props;
+    const {actions, searchTerms, currentChannelName, isSideBarRight} = props;
 
     const intl = useIntl();
 
@@ -77,6 +78,23 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
         new SearchChannelProvider(actions.autocompleteChannelsForSearch),
         new SearchUserProvider(actions.autocompleteUsersInTeam),
     ]);
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+        if (Utils.cmdOrCtrlPressed(e) && e.key === 'f' && !isSideBarRight) {
+            if (isDesktopApp() || (!isDesktopApp() && e.shiftKey)) {
+                handleAddSearchTerm(`In:${currentChannelName} `);
+                handleFocus();
+            }
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown);
+        };
+    }, []);
 
     useEffect((): void => {
         if (!Utils.isMobile()) {
