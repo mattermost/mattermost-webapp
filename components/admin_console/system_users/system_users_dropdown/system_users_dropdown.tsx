@@ -491,7 +491,7 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
         let showManageTeams = true;
         let showRevokeSessions = true;
         const showMfaReset = this.props.mfaEnabled && Boolean(user.mfa_active);
-        const showManageRoles = !isGuest && Utils.isSystemAdmin(currentUser.roles);
+        const showManageRoles = Utils.isSystemAdmin(currentUser.roles);
 
         if (user.delete_at > 0) {
             currentRoles = (
