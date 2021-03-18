@@ -51,7 +51,6 @@ exports[`components/submenu_modal should match snapshot 1`] = `
           root={false}
           show={true}
           text="Text A"
-          xOffset={0}
         />
         <SubMenuItem
           action={[MockFunction]}
@@ -71,7 +70,6 @@ exports[`components/submenu_modal should match snapshot 1`] = `
             ]
           }
           text="Text B"
-          xOffset={0}
         />
       </Menu>
       <div />
