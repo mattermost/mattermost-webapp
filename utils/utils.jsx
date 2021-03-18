@@ -501,6 +501,10 @@ export function isHexColor(value) {
     return value && (/^#[0-9a-f]{3}([0-9a-f]{3})?$/i).test(value);
 }
 
+export function dropAlpha(value) {
+    return value.substr(value.indexOf('(') + 1).split(',', 3).join(',');
+}
+
 // given '#fffff', returns '255, 255, 255' (no trailing comma)
 export function toRgbValues(hexStr) {
     const rgbaStr = `${parseInt(hexStr.substr(1, 2), 16)}, ${parseInt(hexStr.substr(3, 2), 16)}, ${parseInt(hexStr.substr(5, 2), 16)}`;
@@ -739,32 +743,6 @@ export function applyTheme(theme) {
                 '.app__body .sidebar-right__body .post.post--hovered .post-collapse__show-more',
                 `background:${hoveredPostBg}`,
             );
-
-            // Fade out effect for permalinked posts
-            if (theme.mentionHighlightBg) {
-                const highlightBg = blendColors(theme.centerChannelBg, theme.mentionHighlightBg, 0.5);
-                const ownPostHighlightBg = blendColors(highlightBg, theme.centerChannelColor, 0.05);
-
-                // For permalinked posts made by another user
-                changeCss(
-                    '.app__body .post-list__table .post:not(.current--user).post--highlight .post-collapse__gradient, ' +
-                    '.app__body .post-list__table .post.post--compact.post--highlight .post-collapse__gradient',
-                    `background:linear-gradient(${changeOpacity(highlightBg, 0)}, ${highlightBg})`,
-                );
-
-                // For permalinked posts made by the current user
-                changeCss(
-                    '.app__body .post-list__table .post.current--user.post--highlight:not(.post--compact) .post-collapse__gradient',
-                    `background:linear-gradient(${changeOpacity(ownPostHighlightBg, 0)}, ${ownPostHighlightBg})`,
-                );
-
-                // For hovered posts
-                changeCss(
-                    '.app__body .post-list__table .post.current--user.post--highlight:hover .post-collapse__gradient, ' +
-                    '.app__body .post-list__table .post.current--user.post--highlight.post--hovered .post-collapse__gradient',
-                    `background:linear-gradient(${changeOpacity(highlightBg, 0)}, ${highlightBg})`,
-                );
-            }
         }
     }
 
@@ -844,6 +822,9 @@ export function applyTheme(theme) {
             'mention-color-rgb': toRgbValues(theme.mentionColor),
             'mention-highlight-bg-rgb': toRgbValues(theme.mentionHighlightBg),
             'mention-highlight-link-rgb': toRgbValues(theme.mentionHighlightLink),
+            'mention-highlight-bg-mixed-rgb': dropAlpha(blendColors(theme.centerChannelBg, theme.mentionHighlightBg, 0.5)),
+            'pinned-highlight-bg-mixed-rgb': dropAlpha(blendColors(theme.centerChannelBg, theme.mentionHighlightBg, 0.12)),
+            'own-highlight-bg-rgb': dropAlpha(blendColors(theme.mentionHighlightBg, theme.centerChannelColor, 0.05)),
             'new-message-separator-rgb': toRgbValues(theme.newMessageSeparator),
             'online-indicator-rgb': toRgbValues(theme.onlineIndicator),
             'sidebar-bg-rgb': toRgbValues(theme.sidebarBg),

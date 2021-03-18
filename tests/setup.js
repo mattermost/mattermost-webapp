@@ -13,8 +13,6 @@ global.fetch = jest.fn().mockResolvedValue({status: 200});
 
 configure({adapter: new Adapter()});
 
-jest.useFakeTimers();
-
 global.window = Object.create(window);
 Object.defineProperty(window, 'location', {
     value: {
