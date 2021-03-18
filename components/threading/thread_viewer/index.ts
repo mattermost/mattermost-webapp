@@ -37,7 +37,7 @@ function makeMapStateToProps() {
         const currentUserId = getCurrentUserId(state);
         const currentTeamId = getCurrentTeamId(state);
         const selected = getPost(state, rootPostId);
-        const channel = getChannel(state, selected.channel_id);
+        const channel = getChannel(state, selected?.channel_id);
         const socketStatus = getSocketStatus(state);
 
         let posts: Post[] = [];
