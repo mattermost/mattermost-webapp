@@ -38,7 +38,6 @@ const determineVisibleSearchHintOptions = (searchTerms: string, searchType: Sear
     if (searchType === 'files') {
         options = searchFilesHintOptions;
     }
-    console.log(options);
 
     if (searchTerms.trim() === '') {
         return options;
