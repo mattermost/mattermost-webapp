@@ -969,6 +969,8 @@
   "admin.image.amazonS3SSLTitle": "Enable Secure Amazon S3 Connections:",
   "admin.image.amazonS3TraceDescription": "(Development Mode) When true, log additional debugging information to the system logs.",
   "admin.image.amazonS3TraceTitle": "Enable Amazon S3 Debugging:",
+  "admin.image.archiveRecursionDescription": "When enabled, content of documents within ZIP files will be returned in search results. This may have an impact on server performance for large files.",
+  "admin.image.archiveRecursionTitle": "Enable searching content of documents within ZIP files:",
   "admin.image.enableProxy": "Enable Image Proxy:",
   "admin.image.enableProxyDescription": "When true, enables an image proxy for loading all Markdown images.",
   "admin.image.extractContentDescription": "When enabled, supported document types are searchable by their content. Search results for existing documents may be incomplete until a data migration is executed.",

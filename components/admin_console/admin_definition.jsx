@@ -970,6 +970,19 @@ const AdminDefinition = {
                         isHidden: it.not(it.configIsTrue('FeatureFlags', 'FilesSearch')),
                     },
                     {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'FileSettings.ArchiveRecursion',
+                        label: t('admin.image.archiveRecursionTitle'),
+                        label_default: 'Enable searching content of documents within ZIP files:',
+                        help_text: t('admin.image.archiveRecursionDescription'),
+                        help_text_default: 'When enabled, content of documents within ZIP files will be returned in search results. This may have an impact on server performance for large files. ',
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('environment')),
+                            it.configIsFalse('FileSettings', 'ExtractContent'),
+                        ),
+                        isHidden: it.not(it.configIsTrue('FeatureFlags', 'FilesSearch')),
+                    },
+                    {
                         type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'FileSettings.AmazonS3Bucket',
                         label: t('admin.image.amazonS3BucketTitle'),
