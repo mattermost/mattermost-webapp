@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useIntl} from 'react-intl';
 import {Client4} from 'mattermost-redux/client';
 
@@ -19,9 +19,25 @@ export enum DafaultBtnText {
     Failed = 'Failed. Try again later.',
 }
 
-const NotifyLink = (): JSX.Element => {
+type Props = {
+    className?: string;
+
+    // extraFunc is a function to run after sending notification process
+    extraFunc?: () => void;
+}
+
+const NotifyLink = (props: Props): JSX.Element => {
     const [notifyStatus, setStatus] = useState(NotifyStatus.NotStarted);
     const {formatMessage} = useIntl();
+
+    useEffect(
+        () => {
+            if (typeof props.extraFunc === 'function') {
+                if (notifyStatus === NotifyStatus.Success || notifyStatus === NotifyStatus.Failed) {
+                    props.extraFunc();
+                }
+            }
+        }, [notifyStatus]);
 
     const notifyFunc = async () => {
         try {
@@ -51,7 +67,7 @@ const NotifyLink = (): JSX.Element => {
         <button
             disabled={notifyStatus !== NotifyStatus.NotStarted}
             onClick={() => notifyFunc()}
-            className='btn-link'
+            className={props.className ? props.className : 'btn-link'}
         >{btnText(notifyStatus)}</button>
     );
 };

@@ -9,6 +9,7 @@ import {getChannelsInCurrentTeam} from 'mattermost-redux/selectors/entities/chan
 import {haveIChannelPermission, haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getConfig, getLicense, getSubscriptionStats} from 'mattermost-redux/selectors/entities/general';
 import {getProfiles, searchProfiles as reduxSearchProfiles} from 'mattermost-redux/actions/users';
+import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {searchChannels as reduxSearchChannels} from 'mattermost-redux/actions/channels';
 import {getTeam} from 'mattermost-redux/actions/teams';
 import {Permissions} from 'mattermost-redux/constants';
@@ -18,6 +19,7 @@ import {isEmpty} from 'lodash';
 import {closeModal, openModal} from 'actions/views/modals';
 import {isModalOpen} from 'selectors/views/modals';
 import {ModalIdentifiers, Constants} from 'utils/constants';
+import {isAdmin} from 'utils/utils';
 import {sendMembersInvites, sendGuestsInvites} from 'actions/invite_actions';
 
 import InvitationModal from './invitation_modal.jsx';
@@ -66,6 +68,8 @@ export function mapStateToProps(state) {
         emailInvitationsEnabled,
         show: isModalOpen(state, ModalIdentifiers.INVITATION),
         isCloud,
+        userIsAdmin: isAdmin(getCurrentUser(state).roles),
+        cloudUserLimit: config.ExperimentalCloudUserLimit || '10',
     };
 }
 

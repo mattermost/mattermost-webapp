@@ -88,7 +88,7 @@ exports[`components/invitation_modal/InvitationModal should match the snapshot w
             />
           }
         />
-        <Connect(InvitationModalGuestsStep)
+        <Connect(_class)
           currentTeamId="test"
           defaultChannels={Array []}
           defaultMessage=""
@@ -144,7 +144,7 @@ exports[`components/invitation_modal/InvitationModal should match the snapshot w
             />
           }
         />
-        <Connect(injectIntl(InvitationModalMembersStep))
+        <Connect(injectIntl(_class))
           currentTeamId="test"
           emailInvitationsEnabled={true}
           inviteId="test-invite-id"
@@ -168,7 +168,9 @@ exports[`components/invitation_modal/InvitationModal should match the snapshot w
         "openModal": [MockFunction],
       }
     }
+    cloudUserLimit="10"
     show={true}
+    userIsAdmin={false}
   />
 </Fragment>
 `;

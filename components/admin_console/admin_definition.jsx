@@ -1625,7 +1625,6 @@ const AdminDefinition = {
             title: t('admin.sidebar.metrics'),
             title_default: 'Performance Monitoring',
             isHidden: it.any(
-                it.not(it.licensedForFeature('Metrics')),
                 it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
             ),
             schema: {
@@ -2017,9 +2016,10 @@ const AdminDefinition = {
                         type: Constants.SettingsTypes.TYPE_PERMISSION,
                         key: 'TeamSettings.EditOthersPosts',
                         label: t('admin.team.editOthersPostsTitle'),
-                        label_default: 'Allow Team Administrators to edit others posts:',
+                        label_default: 'Allow Team Administrators to edit others\' posts:',
                         help_text: t('admin.team.editOthersPostsDesc'),
-                        help_text_default: 'When true, Team Administrators and System Administrators can edit other user\'s posts.  When false, only System Administrators can edit other user\'s posts.',
+                        help_text_default: 'When **true**, both Team Admins and System Admins can edit other users\' posts.  When **false**, only System Admins can edit other users\' posts. However, Team Admins and System Admins can always delete other users\' posts.',
+                        help_text_markdown: true,
                         permissions_mapping_name: 'editOthersPosts',
                         isHidden: it.any(
                             it.licensed,
@@ -2061,6 +2061,7 @@ const AdminDefinition = {
                         label_default: 'Enable Custom Statuses: ',
                         help_text: t('admin.team.customUserStatusesDescription'),
                         help_text_default: 'When true, users can set a descriptive status message and status emoji visible to all users.',
+                        isHidden: it.not(it.configIsTrue('FeatureFlags', 'CustomUserStatuses')),
                         isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
                     },
                 ],

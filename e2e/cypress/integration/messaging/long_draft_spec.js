@@ -73,9 +73,10 @@ describe('Messaging', () => {
 });
 
 function writeLinesToPostTextBox(lines) {
-    for (let i = 0; i < lines.length; i++) {
+    Cypress._.forEach(lines, (line, i) => {
         // # Add the text
-        cy.get('#post_textbox').type(lines[i], {delay: TIMEOUTS.ONE_HUNDRED_MILLIS}).wait(TIMEOUTS.HALF_SEC);
+        cy.get('#post_textbox').type(line, {delay: TIMEOUTS.ONE_HUNDRED_MILLIS}).wait(TIMEOUTS.HALF_SEC);
+
         if (i < lines.length - 1) {
             // # Add new line
             cy.get('#post_textbox').type('{shift}{enter}').wait(TIMEOUTS.HALF_SEC);
@@ -89,7 +90,7 @@ function writeLinesToPostTextBox(lines) {
                 cy.wrap(parseInt(height, 10)).as('previousHeight');
             });
         }
-    }
+    });
     cy.wait(TIMEOUTS.THREE_SEC);
 }
 

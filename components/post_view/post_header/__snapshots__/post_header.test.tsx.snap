@@ -19,6 +19,7 @@ exports[`components/post_view/post_header should match snapshot 1`] = `
       userId=""
     />
     <PostHeaderCustomStatus
+      isBot={false}
       isSystemMessage={true}
       userId="user_id"
     />
@@ -84,6 +85,7 @@ exports[`components/post_view/post_header should match snapshot when custom stat
       userId=""
     />
     <PostHeaderCustomStatus
+      isBot={false}
       isSystemMessage={true}
       userId="user_id"
     />
@@ -149,6 +151,7 @@ exports[`components/post_view/post_header should match snapshot when custom stat
       userId=""
     />
     <PostHeaderCustomStatus
+      isBot={false}
       isSystemMessage={true}
       userId="user_id"
     />

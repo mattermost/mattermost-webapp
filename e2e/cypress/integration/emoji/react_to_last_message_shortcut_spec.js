@@ -335,10 +335,8 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
         cy.postMessageReplyInRHS(MESSAGES.SMALL);
         cy.postMessageReplyInRHS(MESSAGES.TINY);
 
-        // # Save the post id in RHS, where reaction should not be added
-        cy.getLastPostId().then((lastPostId) => {
-            cy.get(`#${lastPostId}_message`).as('postInRHS');
-        });
+        // # Save the post ID where reaction should not be added
+        cy.getLastPostId().as('prevLastPostId');
 
         // # Incoming posts from other user
         cy.postMessageAs({
@@ -346,10 +344,11 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
             message: MESSAGES.MEDIUM,
             channelId: townsquareChannel.id,
         });
-        cy.wait(TIMEOUTS.FIVE_SEC);
+        cy.wait(TIMEOUTS.TWO_SEC);
 
         // # Click anywhere to take focus away from RHS text box
-        cy.uiGetLhsSection('CHANNELS').findByText('Town Square').click();
+        cy.get('body').click();
+        cy.wait(TIMEOUTS.TWO_SEC);
 
         // # Enter shortcut without focus on Center textbox
         pressShortcutReactToLastMessage();
@@ -357,20 +356,15 @@ describe('Keyboard shortcut for adding reactions to last message in channel or t
         // * Check that emoji picker is opened when focus is not on CENTER textbox
         addingReactionWithEmojiPicker();
 
-        // # This post is in Center, where reaction is to be added
+        // * Check if the emoji picker has the entered reaction to the last message in the center
         cy.getLastPostId().then((lastPostId) => {
-            cy.get(`#${lastPostId}_message`).as('postInCenter');
+            cy.get(`#post_${lastPostId}`).findByLabelText('remove reaction smile').should('exist');
         });
 
-        // * Check if the emoji picker has the entered reaction to the message in the center
-        cy.get('@postInCenter').within(() => {
-            checkingIfReactionsWereAddedToPost('', false);
-        });
-
-        // * Check if the emoji picker has not entered reaction to the message in the RHS
-        cy.get('@postInRHS').within(() => {
-            cy.findByLabelText('reactions').should('not.exist');
-            cy.findByLabelText('remove reaction smile').should('not.exist');
+        // * Check if the emoji picker has not entered reaction to the message in the RHS or same message at center
+        cy.get('@prevLastPostId').then((lastPostId) => {
+            cy.get(`#rhsPost_${lastPostId}`).findByLabelText('remove reaction smile').should('not.exist');
+            cy.get(`#post_${lastPostId}`).findByLabelText('remove reaction smile').should('not.exist');
         });
 
         cy.closeRHS();

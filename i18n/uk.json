@@ -3133,7 +3133,6 @@
   "user.settings.sidebar.unreadsFavoritesShort": "Непрочитані та обрані згруповані окремо",
   "user.settings.sidebar.unreadsShort": "Непрочитані згруповані окремо",
   "user.settings.timezones.automatic": "Встановити автоматично ",
-  "user.settings.timezones.change": "Змінити часовий пояс ",
   "user.settings.timezones.promote": "Виберіть часовий пояс, який використовується для часових позначок у інтерфейсі користувача та сповіщення електронною поштою.",
   "user.settings.tokens.activate": "Увімкнути",
   "user.settings.tokens.cancel": "Відміна",

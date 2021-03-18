@@ -108,6 +108,7 @@
             border-left-style: solid;
             border-left-width: 4px;
             padding: 12px;
+            border-left-color: var(--sidebar-header-bg);
 
             &.attachment__container--good {
                 border-left-color: #00c100;

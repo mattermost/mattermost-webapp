@@ -5,7 +5,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {getChannel as getChannelAction, getChannelByNameAndTeamName, joinChannel} from 'mattermost-redux/actions/channels';
+import {getChannel as getChannelAction, getChannelByNameAndTeamName, getChannelMember, joinChannel} from 'mattermost-redux/actions/channels';
 import {getPost as getPostAction} from 'mattermost-redux/actions/posts';
 import {getTeamByName as getTeamByNameAction} from 'mattermost-redux/actions/teams';
 import {Client4} from 'mattermost-redux/client';
@@ -501,6 +501,10 @@ export function isHexColor(value) {
     return value && (/^#[0-9a-f]{3}([0-9a-f]{3})?$/i).test(value);
 }
 
+export function dropAlpha(value) {
+    return value.substr(value.indexOf('(') + 1).split(',', 3).join(',');
+}
+
 // given '#fffff', returns '255, 255, 255' (no trailing comma)
 export function toRgbValues(hexStr) {
     const rgbaStr = `${parseInt(hexStr.substr(1, 2), 16)}, ${parseInt(hexStr.substr(3, 2), 16)}, ${parseInt(hexStr.substr(5, 2), 16)}`;
@@ -534,11 +538,7 @@ export function applyTheme(theme) {
 
     if (theme.sidebarHeaderBg) {
         changeCss('.app__body .MenuWrapper .status-wrapper .status, .app__body #status-dropdown .status-wrapper .status-edit, .sidebar--left .team__header, .app__body .sidebar--menu .team__header, .app__body .post-list__timestamp > div', 'background:' + theme.sidebarHeaderBg);
-        changeCss('.app__body .modal .modal-header', 'background:' + theme.sidebarHeaderBg);
         changeCss('.app__body .multi-teams .team-sidebar, .app__body #navbar_wrapper .navbar-default', 'background:' + theme.sidebarHeaderBg);
-        changeCss('@media(max-width: 768px){.app__body .search-bar__container', 'background:' + theme.sidebarHeaderBg);
-        changeCss('.app__body .attachment .attachment__container', 'border-left-color:' + theme.sidebarHeaderBg);
-        changeCss('.emoji-picker .emoji-picker__header', 'background:' + theme.sidebarHeaderBg);
     }
 
     if (theme.sidebarHeaderTextColor) {
@@ -743,32 +743,6 @@ export function applyTheme(theme) {
                 '.app__body .sidebar-right__body .post.post--hovered .post-collapse__show-more',
                 `background:${hoveredPostBg}`,
             );
-
-            // Fade out effect for permalinked posts
-            if (theme.mentionHighlightBg) {
-                const highlightBg = blendColors(theme.centerChannelBg, theme.mentionHighlightBg, 0.5);
-                const ownPostHighlightBg = blendColors(highlightBg, theme.centerChannelColor, 0.05);
-
-                // For permalinked posts made by another user
-                changeCss(
-                    '.app__body .post-list__table .post:not(.current--user).post--highlight .post-collapse__gradient, ' +
-                    '.app__body .post-list__table .post.post--compact.post--highlight .post-collapse__gradient',
-                    `background:linear-gradient(${changeOpacity(highlightBg, 0)}, ${highlightBg})`,
-                );
-
-                // For permalinked posts made by the current user
-                changeCss(
-                    '.app__body .post-list__table .post.current--user.post--highlight:not(.post--compact) .post-collapse__gradient',
-                    `background:linear-gradient(${changeOpacity(ownPostHighlightBg, 0)}, ${ownPostHighlightBg})`,
-                );
-
-                // For hovered posts
-                changeCss(
-                    '.app__body .post-list__table .post.current--user.post--highlight:hover .post-collapse__gradient, ' +
-                    '.app__body .post-list__table .post.current--user.post--highlight.post--hovered .post-collapse__gradient',
-                    `background:linear-gradient(${changeOpacity(highlightBg, 0)}, ${highlightBg})`,
-                );
-            }
         }
     }
 
@@ -848,6 +822,9 @@ export function applyTheme(theme) {
             'mention-color-rgb': toRgbValues(theme.mentionColor),
             'mention-highlight-bg-rgb': toRgbValues(theme.mentionHighlightBg),
             'mention-highlight-link-rgb': toRgbValues(theme.mentionHighlightLink),
+            'mention-highlight-bg-mixed-rgb': dropAlpha(blendColors(theme.centerChannelBg, theme.mentionHighlightBg, 0.5)),
+            'pinned-highlight-bg-mixed-rgb': dropAlpha(blendColors(theme.centerChannelBg, theme.mentionHighlightBg, 0.12)),
+            'own-highlight-bg-rgb': dropAlpha(blendColors(theme.mentionHighlightBg, theme.centerChannelColor, 0.05)),
             'new-message-separator-rgb': toRgbValues(theme.newMessageSeparator),
             'online-indicator-rgb': toRgbValues(theme.onlineIndicator),
             'sidebar-bg-rgb': toRgbValues(theme.sidebarBg),
@@ -1845,19 +1822,28 @@ export async function handleFormattedTextClick(e, currentRelativeTeamUrl) {
                                 }
                             }
                         }
-                        if (channel && channel.type === Constants.PRIVATE_CHANNEL && !getMyChannelMemberships(state)[channel.id]) {
-                            const {data} = await store.dispatch(joinPrivateChannelPrompt(team, channel, false));
-                            if (data.join) {
-                                let error = false;
-                                if (!getTeamMemberships(state)[team.id]) {
-                                    const joinTeamResult = await store.dispatch(addUserToTeam(team.id, user.id));
-                                    error = joinTeamResult.error;
+                        if (channel && channel.type === Constants.PRIVATE_CHANNEL) {
+                            let member = getMyChannelMemberships(state)[channel.id];
+                            if (!member) {
+                                const membership = await store.dispatch(getChannelMember(channel.id, getCurrentUserId(state)));
+                                if ('data' in membership) {
+                                    member = membership.data;
                                 }
-                                if (!error) {
-                                    await store.dispatch(joinChannel(user.id, team.id, channel.id, channel.name));
+                            }
+                            if (!member) {
+                                const {data} = await store.dispatch(joinPrivateChannelPrompt(team, channel, false));
+                                if (data.join) {
+                                    let error = false;
+                                    if (!getTeamMemberships(state)[team.id]) {
+                                        const joinTeamResult = await store.dispatch(addUserToTeam(team.id, user.id));
+                                        error = joinTeamResult.error;
+                                    }
+                                    if (!error) {
+                                        await store.dispatch(joinChannel(user.id, team.id, channel.id, channel.name));
+                                    }
+                                } else {
+                                    return;
                                 }
-                            } else {
-                                return;
                             }
                         }
                     }

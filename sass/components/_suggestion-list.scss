@@ -136,6 +136,10 @@
         max-height: 205px;
         width: 100%;
     }
+
+    .suggestion-list__info_user {
+        display: flex;
+    }
 }
 
 .slash-command {

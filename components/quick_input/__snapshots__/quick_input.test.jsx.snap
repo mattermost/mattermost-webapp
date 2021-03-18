@@ -2,7 +2,7 @@
 
 exports[`components/QuickInput should render clear button with customized tooltip component 1`] = `
 <div
-  className="undefined input-clear visible"
+  className="input-clear visible"
   onMouseDown={[Function]}
   onTouchEnd={[Function]}
 >
@@ -71,7 +71,7 @@ exports[`components/QuickInput should render clear button with customized toolti
 
 exports[`components/QuickInput should render clear button with customized tooltip text 1`] = `
 <div
-  className="undefined input-clear visible"
+  className="input-clear visible"
   onMouseDown={[Function]}
   onTouchEnd={[Function]}
 >
@@ -136,7 +136,7 @@ exports[`components/QuickInput should render clear button with customized toolti
 
 exports[`components/QuickInput should render clear button with default tooltip text 1`] = `
 <div
-  className="undefined input-clear visible"
+  className="input-clear visible"
   onMouseDown={[Function]}
   onTouchEnd={[Function]}
 >
