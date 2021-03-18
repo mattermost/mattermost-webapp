@@ -38,7 +38,18 @@ export function onChannelByIdentifierEnter({match, history}: MatchAndHistory): A
             return {data: undefined};
         }
 
-        const channelPath = getPathFromIdentifier(state, path, identifier);
+        let channelPath = getPathFromIdentifier(state, path, identifier);
+
+        // A channel name that is exactly 26 characters long is recognized by
+        // getPathFromIdentifier as a 'channel_id'. So, if the channel_id does
+        // not exist, try it as a name. See
+        // https://mattermost.atlassian.net/browse/MM-32912.
+        if (channelPath === 'channel_id') {
+            const ch = getChannel(state, identifier.toLowerCase());
+            if (!ch) {
+                channelPath = 'channel_name';
+            }
+        }
 
         switch (channelPath) {
         case 'channel_name':
