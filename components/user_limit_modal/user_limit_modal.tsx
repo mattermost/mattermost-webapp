@@ -78,6 +78,7 @@ export default function UserLimitModal(props: Props): JSX.Element {
     ) : (<NotifyLink
         extraFunc={() => setNotificationProcessDoneStatus(true)}
         className='confirm-button'
+    // eslint-disable-next-line react/jsx-closing-bracket-location
     />);
 
     return (
