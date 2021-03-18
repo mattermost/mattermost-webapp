@@ -49,7 +49,6 @@ type Props = {
 
 type State = {
     openUp: boolean;
-    width: number;
 };
 
 export class SidebarChannelMenu extends React.PureComponent<Props, State> {
@@ -60,7 +59,6 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
 
         this.state = {
             openUp: false,
-            width: 0,
         };
 
         this.isLeaving = false;
@@ -306,7 +304,6 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
                         icon={<i className='icon-folder-move-outline'/>}
                         direction={'right' as any}
                         openUp={this.state.openUp}
-                        xOffset={this.state.width}
                     />
                 </Menu.Group>
                 <Menu.Group>
@@ -322,7 +319,6 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
         if (ref) {
             this.setState({
                 openUp: ref.state.openUp,
-                width: ref.state.width,
             });
         }
     }

@@ -66,7 +66,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
         ]
       }
       text="Move to"
-      xOffset={0}
     />
   </MenuGroup>
   <MenuGroup>
@@ -166,7 +165,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
         ]
       }
       text="Move to"
-      xOffset={0}
     />
   </MenuGroup>
   <MenuGroup>
@@ -266,7 +264,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
         ]
       }
       text="Move to"
-      xOffset={0}
     />
   </MenuGroup>
   <MenuGroup>
@@ -366,7 +363,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
         ]
       }
       text="Move to"
-      xOffset={0}
     />
   </MenuGroup>
   <MenuGroup>
@@ -475,7 +471,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
         ]
       }
       text="Move to"
-      xOffset={0}
     />
   </MenuGroup>
   <MenuGroup />
@@ -561,7 +556,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
         ]
       }
       text="Move to"
-      xOffset={0}
     />
   </MenuGroup>
   <MenuGroup>
@@ -657,7 +651,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
         ]
       }
       text="Move to"
-      xOffset={0}
     />
   </MenuGroup>
   <MenuGroup>
@@ -766,7 +759,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
         ]
       }
       text="Move to"
-      xOffset={0}
     />
   </MenuGroup>
   <MenuGroup>
@@ -875,7 +867,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
         ]
       }
       text="Move to"
-      xOffset={0}
     />
   </MenuGroup>
   <MenuGroup>
@@ -995,7 +986,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
         ]
       }
       text="Move to"
-      xOffset={0}
     />
   </MenuGroup>
   <MenuGroup>
