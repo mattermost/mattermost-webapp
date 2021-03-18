@@ -447,6 +447,20 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
+              definitionKey="environment.metrics"
+              key="environment.metrics"
+              name="environment/performance_monitoring"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="Performance Monitoring"
+                  id="admin.sidebar.metrics"
+                />
+              }
+            />
+            <AdminSidebarSection
               definitionKey="environment.developer"
               key="environment.developer"
               name="environment/developer"
