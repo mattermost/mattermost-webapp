@@ -195,6 +195,7 @@ class SwitchChannelSuggestion extends Suggestion {
                 <span className='suggestion-list__info_user'>
                     {displayName}
                 </span>
+                {sharedIcon}
                 {tag}
                 {badge}
             </div>
