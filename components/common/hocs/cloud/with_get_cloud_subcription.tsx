@@ -5,26 +5,37 @@ import React, {ComponentType} from 'react';
 
 import {isEmpty} from 'lodash';
 
-import {Subscription} from 'mattermost-redux/types/cloud';
+import {Subscription, SubscriptionStats} from 'mattermost-redux/types/cloud';
 
 interface Actions {
-    getCloudSubscription: () => void;
+    getCloudSubscription?: () => void;
+    getSubscriptionStats?: () => void;
 }
 
 interface UsedHocProps {
-    subscription: Subscription;
+    subscription?: Subscription;
+    subscriptionStats?: SubscriptionStats;
     isCloud: boolean;
     actions: Actions;
-    userIsAdmin: boolean;
+    userIsAdmin?: boolean;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function withGetCloudSubscription<P>(WrappedComponent: ComponentType<P>): ComponentType<any> {
     return class extends React.Component<P & UsedHocProps> {
         async componentDidMount() {
-            const {subscription, actions, isCloud, userIsAdmin} = this.props;
+            const {subscription, actions: {getSubscriptionStats, getCloudSubscription}, isCloud, userIsAdmin, subscriptionStats} = this.props;
+
+            if (isEmpty(subscriptionStats) && isCloud) {
+                if (getSubscriptionStats) {
+                    await getSubscriptionStats();
+                }
+            }
+
             if (isEmpty(subscription) && isCloud && userIsAdmin) {
-                await actions.getCloudSubscription();
+                if (getCloudSubscription) {
+                    await getCloudSubscription();
+                }
             }
         }
 

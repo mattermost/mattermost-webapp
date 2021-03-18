@@ -60,7 +60,7 @@
         }
 
         &.react-select__control--is-disabled {
-            background: #eeeeee;
+            background: rgba(var(--center-channel-color-rgb), 0.04);
         }
     }
 
