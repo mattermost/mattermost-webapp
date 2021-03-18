@@ -8,6 +8,7 @@ import {FileInfo} from 'mattermost-redux/types/files';
 
 import {fileSizeToString, copyToClipboard, localizeMessage} from 'utils/utils';
 import {browserHistory} from 'utils/browser_history';
+import {getSiteURL} from 'utils/url';
 
 import OverlayTrigger from 'components/overlay_trigger';
 import Menu from 'components/widgets/menu/menu';
@@ -38,7 +39,7 @@ export default class FileSearchResultItem extends React.PureComponent<Props> {
 
     private copyLink = (e: MouseEvent) => {
         e.stopPropagation();
-        copyToClipboard(`${this.props.teamName}/pl/${this.props.fileInfo.post_id}`);
+        copyToClipboard(`${getSiteURL()}/${this.props.teamName}/pl/${this.props.fileInfo.post_id}`);
     }
 
     private onClickHandler = () => {
@@ -90,13 +91,13 @@ export default class FileSearchResultItem extends React.PureComponent<Props> {
                             >
                                 <Menu.ItemAction
                                     onClick={this.jumpToConv}
-                                    ariaLabel={'Open in channel'}
-                                    text={'Open in channel'}
+                                    ariaLabel={localizeMessage('file_search_result_item.open_in_channel', 'Open in channel')}
+                                    text={localizeMessage('file_search_result_item.open_in_channel', 'Open in channel')}
                                 />
                                 <Menu.ItemAction
                                     onClick={this.copyLink}
-                                    ariaLabel={'Copy link'}
-                                    text={'Copy link'}
+                                    ariaLabel={localizeMessage('file_search_result_item.copy_link', 'Copy link')}
+                                    text={localizeMessage('file_search_result_item.copy_link', 'Copy link')}
                                 />
                             </Menu>
                         </MenuWrapper>
