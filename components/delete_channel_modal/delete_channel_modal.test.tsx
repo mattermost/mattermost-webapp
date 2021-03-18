@@ -4,11 +4,11 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 import {Modal} from 'react-bootstrap';
-import {ChannelType, Channel} from 'mattermost-redux/types/channels';
+import {Channel, ChannelType} from 'mattermost-redux/types/channels';
 
 import {browserHistory} from 'utils/browser_history';
 
-import DeleteChannelModal from 'components/delete_channel_modal/delete_channel_modal';
+import DeleteChannelModal, {Props} from 'components/delete_channel_modal/delete_channel_modal';
 
 describe('components/delete_channel_modal', () => {
     const channel: Channel = {
@@ -34,7 +34,7 @@ describe('components/delete_channel_modal', () => {
         name: 'mattermostDev',
     };
 
-    const baseProps = {
+    const baseProps: Props = {
         channel,
         currentTeamDetails,
         actions: {
