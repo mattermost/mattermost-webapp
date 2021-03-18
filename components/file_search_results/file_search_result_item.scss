@@ -28,7 +28,7 @@
             color: rgba(var(--center-channel-color-rgb), 0.72);
         }
     }
-    &:hover {
+    &:hover, &.keep-open {
         @include box-shadow(0 2px 3px 0 rgba($black, 0.1), 0 2px 3px 0 rgba($black, 0.1));
         overflow: visible;
         .action-icon {
@@ -57,6 +57,7 @@
         flex-direction: column;
         font-weight: 600;
         font-size: 12px;
+        min-width: 0;
         .fileDataName {
             overflow: hidden;
             text-overflow: ellipsis;

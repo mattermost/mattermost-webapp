@@ -26,12 +26,21 @@ type Props = {
     onClick: (fileInfo: FileInfo) => void;
 };
 
+type State = {
+    keepOpen: boolean;
+}
+
 const FILE_TOOLTIP_RANGES = [
     RelativeRanges.TODAY_TITLE_CASE,
     RelativeRanges.YESTERDAY_TITLE_CASE,
 ];
 
-export default class FileSearchResultItem extends React.PureComponent<Props> {
+export default class FileSearchResultItem extends React.PureComponent<Props, State> {
+    public constructor(props: Props) {
+        super(props);
+        this.state = {keepOpen: false};
+    }
+
     private jumpToConv = (e: MouseEvent) => {
         e.stopPropagation();
         browserHistory.push(`/${this.props.teamName}/pl/${this.props.fileInfo.post_id}`);
@@ -50,12 +59,16 @@ export default class FileSearchResultItem extends React.PureComponent<Props> {
         e.stopPropagation();
     }
 
+    private keepOpen = (open: boolean) => {
+        this.setState({keepOpen: open});
+    }
+
     public render(): React.ReactNode {
         const {fileInfo, channelDisplayName} = this.props;
 
         return (
             <div
-                className='FileSearchResultItem'
+                className={'FileSearchResultItem' + (this.state.keepOpen ? ' keep-open' : '')}
                 onClick={this.onClickHandler}
             >
                 <FileThumbnail fileInfo={fileInfo}/>
@@ -81,7 +94,9 @@ export default class FileSearchResultItem extends React.PureComponent<Props> {
                     }
                 >
                     <div onClick={this.stopPropagation}>
-                        <MenuWrapper>
+                        <MenuWrapper
+                            onToggle={this.keepOpen}
+                        >
                             <span className='action-icon dots-icon'>
                                 <i className='icon icon-dots-vertical'/>
                             </span>
