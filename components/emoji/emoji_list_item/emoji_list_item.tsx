@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+
 import Permissions from 'mattermost-redux/constants/permissions';
 import {Client4} from 'mattermost-redux/client';
 import {CustomEmoji} from 'mattermost-redux/types/emojis';

@@ -4,6 +4,7 @@
 import clone from 'clone';
 import thunk from 'redux-thunk';
 import configureStore from 'redux-mock-store';
+
 import {Preferences} from 'mattermost-redux/constants';
 import {getStatusesByIds} from 'mattermost-redux/actions/users';
 

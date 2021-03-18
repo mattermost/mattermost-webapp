@@ -5,8 +5,8 @@ import React, {CSSProperties} from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import {UserProfile} from 'mattermost-redux/src/types/users';
-import {Dictionary} from 'mattermost-redux/src/types/utilities';
+import {UserProfile} from 'mattermost-redux/types/users';
+import {Dictionary} from 'mattermost-redux/types/utilities';
 import {AnalyticsRow} from 'mattermost-redux/types/admin';
 import {ActionFunc} from 'mattermost-redux/types/actions';
 
