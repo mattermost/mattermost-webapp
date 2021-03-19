@@ -5,9 +5,11 @@ import {connect} from 'react-redux';
 
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
-import TeamSettings from './team_settings.jsx';
+import {GlobalState} from 'mattermost-redux/types/store';
 
-function mapStateToProps(state) {
+import TeamSettings from './team_settings';
+
+function mapStateToProps(state: GlobalState) {
     return {
         team: getCurrentTeam(state),
     };
