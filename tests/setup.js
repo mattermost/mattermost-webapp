@@ -4,10 +4,6 @@
 import Adapter from 'enzyme-adapter-react-16';
 import {configure} from 'enzyme';
 import $ from 'jquery';
-import enableHooks from 'jest-react-hooks-shallow';
-
-// pass an instance of jest to `enableHooks()`
-enableHooks(jest);
 
 import '@testing-library/jest-dom';
 
