@@ -210,7 +210,7 @@ describe('Environment', () => {
         cy.findByTestId('minimumHashtagLengthinput').clear().type(minimumHashtagLength1);
 
         // # Click Save button to save the settings
-        cy.get('#saveSetting').click();
+        cy.get('#saveSetting').click({force: true});
 
         // Get config again
         cy.apiGetConfig().then(({config}) => {
@@ -221,7 +221,7 @@ describe('Environment', () => {
         cy.findByTestId('minimumHashtagLengthinput').clear().type(minimumHashtagLength2);
 
         // # Click Save button to save the settings
-        cy.get('#saveSetting').click();
+        cy.get('#saveSetting').click({force: true});
 
         // Get config again
         cy.apiGetConfig().then(({config}) => {
