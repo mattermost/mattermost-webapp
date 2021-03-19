@@ -318,11 +318,12 @@ export default class CustomPolicyForm extends React.PureComponent<Props, State> 
                                         inputValue={this.state.messageRetentionInputValue}
                                         width={95}
                                         exceptionToInput={['forever']}
-                                        defaultValue={this.getMessageRetentionDefaultDropdownValue()}
+                                        defaultValue={{value: 'forever', label: <div><i className='icon icon-infinity option-icon'/><span>Keep Forever</span></div>}}
                                         options={[{value: 'days', label: 'Days'}, {value: 'years', label: 'Years'}, {value: 'forever', label: <div><i className='icon icon-infinity option-icon'/><span>Keep Forever</span></div>}]}
                                         legend={Utils.localizeMessage('admin.data_retention.form.channelAndDirectMessageRetention', 'Channel & direct message retention')}
                                         placeholder={Utils.localizeMessage('admin.data_retention.form.channelAndDirectMessageRetention', 'Channel & direct message retention')}
                                         name={'channel_message_retention'}
+                                        inputType={'number'}
                                     />
                                 </div>
                                 

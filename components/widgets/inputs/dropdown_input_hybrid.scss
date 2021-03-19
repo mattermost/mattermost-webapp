@@ -77,6 +77,16 @@
         height: 40px;
         border: none;
         border-radius: 4px 0px 0px 4px;
+        border-right: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
+        &::-webkit-outer-spin-button,
+        &::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        &[type=number] {
+            -moz-appearance: textfield;
+        }
     
         &:focus {
             border-right: 1px solid rgba(var(--center-channel-color-rgb), 0.16);

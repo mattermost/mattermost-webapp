@@ -3,13 +3,12 @@
 
 import React, {useState, CSSProperties, useEffect, useRef} from 'react';
 import ReactSelect, {Props as SelectProps, ActionMeta, components} from 'react-select';
-import {CSSTransition} from 'react-transition-group';
 import classNames from 'classnames';
 
 import 'components/input.css';
 import './dropdown_input_hybrid.scss';
 
-type OptionType = {
+type ValueType = {
     label: string | JSX.Element;
     value: string;
 }
@@ -18,17 +17,16 @@ type Props<T> = Omit<SelectProps<T>, 'onChange'> & {
     value: T;
     legend?: string;
     error?: string;
-    onDropdownChange: (value: T, action: ActionMeta<T>) => void;
-    onInputChange: (value: T, action: ActionMeta<T>) => void;
+    onDropdownChange: (value: T) => void;
+    onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
     placeholder: string;
     className?: string;
     name?: string;
-    options: OptionType[];
     exceptionToInput: string[];
     width: number;
     inputValue: string;
     inputType?: string;
-    defaultValue: OptionType;
+    defaultValue: T;
 };
 
 const baseStyles = {
@@ -85,7 +83,7 @@ const Option = (props: any) => {
     );
 };
 
-const DropdownInputHybrid: React.FC<Props> = (props: Props) => {
+const DropdownInputHybrid = <T extends ValueType>(props: Props<T>) => {
     const {
         value,
         placeholder,
@@ -94,7 +92,6 @@ const DropdownInputHybrid: React.FC<Props> = (props: Props) => {
         legend, 
         onDropdownChange,
         onInputChange,
-        options,
         error,
         exceptionToInput,
         width,
@@ -104,51 +101,51 @@ const DropdownInputHybrid: React.FC<Props> = (props: Props) => {
         ...otherProps
     } = props;
 
-    const myInput: any = useRef(null);
-    const inputRef: any = React.createRef();
+    const containerRef = useRef<HTMLInputElement>(null);
+    const inputRef = useRef<HTMLInputElement>(null);
     const [inputFocused, setInputFocused] = useState(false);
     const [focused, setFocused] = useState(false);
     const [showInput, setShowInput] = useState(inputValue ? true : false);
 
     useEffect(() => {
-        if (showInput && !inputValue) {
+        if (showInput && !inputValue && inputRef.current) {
             inputRef.current.focus();
         }
     }, [showInput]);
 
     useEffect(() => {
-        showTextInput(inputValue, false);
+        if (!inputFocused) {
+            showTextInput(inputValue, false);
+        }
     }, [inputValue]);
 
     useEffect(() => {
         if (!inputValue && !focused && !inputFocused) {
-            onDropdownChange(defaultValue);
+            onDropdownChange(props.defaultValue);
             showTextInput('');
         }
     }, [focused, inputFocused]);
 
-    const menuStyles = {
-        menu: (provided: CSSProperties) => ({
-            ...provided,
-            width: myInput.current ? `${myInput.current.offsetWidth}px` : '0px',
-            left: inputRef.current ? `-${inputRef.current.offsetWidth}px` : '0px',
-        }),
-    }
-
     const getMenuStyles = () => {
         if (showInput) {
-            return menuStyles;
+            return {
+                menu: (provided: CSSProperties) => ({
+                    ...provided,
+                    width: containerRef.current ? `${containerRef.current.offsetWidth}px` : '0px',
+                    left: inputRef.current ? `-${inputRef.current.offsetWidth}px` : '0px',
+                }),
+            };
         }
         return {};
     }
 
-    const onInputBlur = (event: React.FocusEvent<HTMLElement>) => {
+    const onInputBlur = () => {
         setInputFocused(false);
-        
     };
-    const onInputFocus = (event: React.FocusEvent<HTMLElement>) => {
+    const onInputFocus = () => {
         setInputFocused(true);
     };
+
     const onDropdownInputFocus = (event: React.FocusEvent<HTMLElement>) => {
         const {onFocus} = props;
         
@@ -169,8 +166,9 @@ const DropdownInputHybrid: React.FC<Props> = (props: Props) => {
         }
     };
 
-    const onValueChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const onValueChange = async (event: T) => {
         const {onDropdownChange} = props;
+
         showTextInput(event.value);
 
         if (onDropdownChange) {
@@ -195,7 +193,7 @@ const DropdownInputHybrid: React.FC<Props> = (props: Props) => {
     return (
         <div 
             className='DropdownInput hybrid_container'
-            ref={myInput}
+            ref={containerRef}
             style={{
                 width: `100%`
             }}
@@ -215,11 +213,11 @@ const DropdownInputHybrid: React.FC<Props> = (props: Props) => {
                     onFocus={onInputFocus}
                     onBlur={onInputBlur}
                     style={{
-                        width: showInput && myInput.current ? `${(myInput.current.offsetWidth - 10) - width}px` : '0%' ,
+                        width: showInput && containerRef.current ? `${(containerRef.current.offsetWidth - 10) - width}px` : '0%' ,
                     }}
                 >
                     <input
-                        name='channel_message_retention_input'
+                        name={`Input_${name}`}
                         type={inputType || 'text'}
                         value={inputValue}
                         onChange={onInputChange}
@@ -239,7 +237,6 @@ const DropdownInputHybrid: React.FC<Props> = (props: Props) => {
                 >
                     <ReactSelect
                         id={`DropdownInput_${name}`}
-                        options={options}
                         placeholder={focused ? '' : placeholder}
                         components={{
                             IndicatorsContainer,
@@ -248,9 +245,8 @@ const DropdownInputHybrid: React.FC<Props> = (props: Props) => {
                         }}
                         className={classNames('Input', className, {Input__focus: showLegend})}
                         classNamePrefix={'DropDown'}
-                        onChange={onValueChange}
+                        onChange={onValueChange as any}
                         styles={{...baseStyles, ...getMenuStyles()}}
-                        defaultValue={defaultValue}
                         value={value}
                         hideSelectedOptions
                         isSearchable={false}
@@ -258,7 +254,6 @@ const DropdownInputHybrid: React.FC<Props> = (props: Props) => {
                         {...otherProps}
                     />
                 </div>
-                
             </fieldset>
         </div>
     );
