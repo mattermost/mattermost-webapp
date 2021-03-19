@@ -32,7 +32,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators(
             {
-                closeModal: () => closeModal(ModalIdentifiers.UPGRADE_CLOUD_ACCOUNT),
+                closeModal: (identifier) => closeModal(identifier),
                 openModal: (modalData) => openModal(modalData),
             },
             dispatch,

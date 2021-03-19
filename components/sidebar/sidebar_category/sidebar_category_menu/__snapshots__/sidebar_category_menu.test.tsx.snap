@@ -83,7 +83,6 @@ exports[`components/sidebar/sidebar_category/sidebar_category_menu should match 
           ]
         }
         text="Sort"
-        xOffset={0}
       />
     </MenuGroup>
     <MenuGroup>
@@ -163,7 +162,6 @@ exports[`components/sidebar/sidebar_category/sidebar_category_menu should match 
           ]
         }
         text="Sort"
-        xOffset={0}
       />
     </MenuGroup>
     <MenuGroup>
