@@ -194,7 +194,7 @@ export const it = {
 };
 
 const usesLegacyOauth = (config, state, license, enterpriseReady, consoleAccess, cloud) => {
-    if(!config.GITLAB_SERVICE || !config.GOOGLE_SERVICE || !config.OFFICE365_SERVICE){
+    if (!config.GITLAB_SERVICE || !config.GOOGLE_SERVICE || !config.OFFICE365_SERVICE) {
         return false;
     }
 
