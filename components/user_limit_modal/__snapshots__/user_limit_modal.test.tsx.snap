@@ -80,6 +80,7 @@ exports[`component/UserLimitModal should match snapshot without children 1`] = `
         </Button>
         <NotifyLink
           className="confirm-button"
+          extraFunc={[Function]}
         />
       </div>
     </ModalBody>
