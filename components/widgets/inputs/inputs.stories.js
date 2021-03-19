@@ -7,7 +7,6 @@ import {storiesOf} from '@storybook/react';
 import {withKnobs, text} from '@storybook/addon-knobs';
 
 import ChannelsInput from './channels_input';
-import * as Utils from 'utils/utils.jsx';
 import UsersEmailsInput from './users_emails_input';
 import DropdownInputHybrid from './dropdown_input_hybrid';
 
@@ -78,8 +77,8 @@ storiesOf('Widgets/Inputs', module).
                         exceptionToInput={['forever']}
                         defaultValue={{value: 'forever', label: 'Keep Forever'}}
                         options={[{value: 'days', label: 'Days'}, {value: 'months', label: 'Months'}, {value: 'years', label: 'Years'}, {value: 'forever', label: 'Keep Forever'}]}
-                        legend={Utils.localizeMessage('admin.data_retention.form.channelMessageRetention', 'Channel Message Retention')}
-                        placeholder={Utils.localizeMessage('admin.data_retention.form.channelMessageRetention', 'Channel Message Retention')}
+                        legend={'Channel Message Retention'}
+                        placeholder={'Channel Message Retention'}
                         name={'channel_message_retention'}
                     />
                 );
