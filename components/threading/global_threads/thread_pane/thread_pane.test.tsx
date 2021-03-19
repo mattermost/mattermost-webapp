@@ -40,7 +40,15 @@ jest.mock('react-redux', () => ({
     useDispatch: () => mockDispatch,
 }));
 
-describe('components/threading/global_threads/thread_header', () => {
+jest.mock('react-intl', () => {
+    const reactIntl = jest.requireActual('react-intl');
+    return {
+        ...reactIntl,
+        useIntl: () => reactIntl.createIntl({locale: 'en', defaultLocale: 'en', timeZone: 'Etc/UTC', textComponent: 'span'}),
+    };
+});
+
+describe('components/threading/global_threads/thread_pane', () => {
     let props: ComponentProps<typeof ThreadPane>;
     let mockThread: typeof props['thread'];
 
