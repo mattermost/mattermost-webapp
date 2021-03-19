@@ -21,6 +21,7 @@ import Avatar from 'components/widgets/users/avatar';
 
 import './avatars.scss';
 import {imageURLForUser} from 'utils/utils';
+import {RequireOnlyOne} from 'utils/conditional_types';
 
 type StylingKeys = 'size';
 
@@ -28,21 +29,22 @@ type UserProps = ComponentProps<typeof Avatar> & {name: string};
 type AvatarProps = Omit<UserProps, StylingKeys>;
 type Participants = Array<{id: $ID<UserProfile>}>;
 
-type InputUsers =
-    {participants: Participants; users?: undefined} |
-    {users: AvatarProps[]; participants?: undefined};
-
-export type Props = Pick<UserProps, StylingKeys> & InputUsers & {
-    totalUsers?: number;
-    breakAt?: number;
-}
+export type Props =
+    Pick<UserProps, StylingKeys> &
+    RequireOnlyOne<{
+        participants: Participants;
+        users: AvatarProps[];
+    }> & {
+        totalUsers?: number;
+        breakAt?: number;
+    }
 
 const OTHERS_DISPLAY_LIMIT = 99;
 
 function selectUsers(
     state: GlobalState,
-    users: InputUsers['users'],
-    participants: InputUsers['participants'],
+    users: Props['users'],
+    participants: Props['participants'],
 ): null | {users: AvatarProps[]; missingProfiles?: string[]} {
     if (users) {
         return {users};
@@ -78,6 +80,7 @@ function Avatars({
 }: Props) {
     const {formatMessage} = useIntl();
     const dispatch = useDispatch();
+    const [overlayProps, setImmediate] = useSynchronizedImmediate();
     const result = useSelector((state: GlobalState) => selectUsers(state, unparsedUsers, participants));
 
     useEffect(() => {
@@ -98,8 +101,6 @@ function Avatars({
     const overflowUsers = users.slice(breakAt);
     const overflowUnnamedCount = Math.max(totalUsers - displayUsers.length - overflowUsers.length, 0);
     const nonDisplayCount = overflowUsers.length + overflowUnnamedCount;
-
-    const [overlayProps, setImmediate] = useSynchronizedImmediate();
 
     return (
         <div

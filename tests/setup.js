@@ -4,6 +4,10 @@
 import Adapter from 'enzyme-adapter-react-16';
 import {configure} from 'enzyme';
 import $ from 'jquery';
+import enableHooks from 'jest-react-hooks-shallow';
+
+// pass an instance of jest to `enableHooks()`
+enableHooks(jest);
 
 import '@testing-library/jest-dom';
 
@@ -36,20 +40,6 @@ Object.defineProperty(document, 'execCommand', {
 });
 
 document.documentElement.style.fontSize = '12px';
-
-jest.mock('react-intl', () => {
-    const reactIntl = jest.requireActual('react-intl');
-
-    return {
-        ...reactIntl,
-        useIntl: () => reactIntl.createIntl({
-            locale: 'en',
-            defaultLocale: 'en',
-            timeZone: 'Etc/UTC',
-            textComponent: 'span',
-        }),
-    };
-});
 
 let logs;
 let warns;

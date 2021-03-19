@@ -8,8 +8,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
     className="indicator"
   />
   <Memo(Avatars)
-    size="sm"
-    users={
+    participants={
       Array [
         Object {
           "name": "Johnny Depp",
@@ -43,6 +42,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
         },
       ]
     }
+    size="sm"
   />
   <Memo(Button)
     className="separated"
@@ -119,8 +119,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
     </div>
   </Memo(SimpleTooltip)>
   <Memo(Avatars)
-    size="sm"
-    users={
+    participants={
       Array [
         Object {
           "name": "Johnny Depp",
@@ -154,6 +153,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
         },
       ]
     }
+    size="sm"
   />
   <Memo(Button)
     className="separated"

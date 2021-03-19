@@ -77,22 +77,23 @@ exports[`components/threading/global_threads/thread_item should report total num
     className="activity"
   >
     <Memo(Avatars)
-      size="xs"
-      totalUsers={0}
-      users={
+      participants={
         Array [
           Object {
-            "name": "Frodo Baggins",
-            "url": "/api/v4/users/7n4ach3i53bbmj84dfmu5b7c1c/image?_=0",
+            "first_name": "Frodo",
+            "id": "7n4ach3i53bbmj84dfmu5b7c1c",
+            "last_name": "Baggins",
             "username": "frodo.baggins",
           },
           Object {
-            "name": "Samwise Gamgee",
-            "url": "/api/v4/users/ij61jet1bbdk8fhhxitywdj4ih/image?_=0",
+            "first_name": "Samwise",
+            "id": "ij61jet1bbdk8fhhxitywdj4ih",
+            "last_name": "Gamgee",
             "username": "samwise.gamgee",
           },
         ]
       }
+      size="xs"
     />
     <FormattedMessage
       defaultMessage="{totalReplies, plural, =0 {Reply} =1 {# reply} other {# replies}}"
@@ -193,22 +194,23 @@ exports[`components/threading/global_threads/thread_item should report unread me
     className="activity"
   >
     <Memo(Avatars)
-      size="xs"
-      totalUsers={0}
-      users={
+      participants={
         Array [
           Object {
-            "name": "Frodo Baggins",
-            "url": "/api/v4/users/7n4ach3i53bbmj84dfmu5b7c1c/image?_=0",
+            "first_name": "Frodo",
+            "id": "7n4ach3i53bbmj84dfmu5b7c1c",
+            "last_name": "Baggins",
             "username": "frodo.baggins",
           },
           Object {
-            "name": "Samwise Gamgee",
-            "url": "/api/v4/users/ij61jet1bbdk8fhhxitywdj4ih/image?_=0",
+            "first_name": "Samwise",
+            "id": "ij61jet1bbdk8fhhxitywdj4ih",
+            "last_name": "Gamgee",
             "username": "samwise.gamgee",
           },
         ]
       }
+      size="xs"
     />
     <FormattedMessage
       defaultMessage="{newReplies, plural, =1 {# new reply} other {# new replies}}"
@@ -307,22 +309,23 @@ exports[`components/threading/global_threads/thread_item should report unread me
     className="activity"
   >
     <Memo(Avatars)
-      size="xs"
-      totalUsers={0}
-      users={
+      participants={
         Array [
           Object {
-            "name": "Frodo Baggins",
-            "url": "/api/v4/users/7n4ach3i53bbmj84dfmu5b7c1c/image?_=0",
+            "first_name": "Frodo",
+            "id": "7n4ach3i53bbmj84dfmu5b7c1c",
+            "last_name": "Baggins",
             "username": "frodo.baggins",
           },
           Object {
-            "name": "Samwise Gamgee",
-            "url": "/api/v4/users/ij61jet1bbdk8fhhxitywdj4ih/image?_=0",
+            "first_name": "Samwise",
+            "id": "ij61jet1bbdk8fhhxitywdj4ih",
+            "last_name": "Gamgee",
             "username": "samwise.gamgee",
           },
         ]
       }
+      size="xs"
     />
     <FormattedMessage
       defaultMessage="{newReplies, plural, =1 {# new reply} other {# new replies}}"
