@@ -4934,11 +4934,19 @@ const AdminDefinition = {
         sectionTitle: t('admin.sidebar.integrations'),
         sectionTitleDefault: 'Integrations',
         id: 'integrations',
-        isHidden: it.not(it.userHasReadPermissionOnResource('integrations')),
+        isHidden: it.all(
+            it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
+            it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.BOT_ACCOUNTS)),
+            it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.GIF)),
+            it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.CORS)),
+        ),
         integration_management: {
             url: 'integrations/integration_management',
             title: t('admin.integrations.integrationManagement'),
             title_default: 'Integration Management',
+            isHidden: it.all(
+                it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
+            ),
             schema: {
                 id: 'CustomIntegrationSettings',
                 name: t('admin.integrations.integrationManagement.title'),
@@ -4952,7 +4960,7 @@ const AdminDefinition = {
                         help_text: t('admin.service.webhooksDescription'),
                         help_text_default: 'When true, incoming webhooks will be allowed. To help combat phishing attacks, all posts from webhooks will be labelled by a BOT tag. See [documentation](!http://docs.mattermost.com/developer/webhooks-incoming.html) to learn more.',
                         help_text_markdown: true,
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('integrations')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -4962,7 +4970,7 @@ const AdminDefinition = {
                         help_text: t('admin.service.outWebhooksDesc'),
                         help_text_default: 'When true, outgoing webhooks will be allowed. See [documentation](!http://docs.mattermost.com/developer/webhooks-outgoing.html) to learn more.',
                         help_text_markdown: true,
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('integrations')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -4972,7 +4980,7 @@ const AdminDefinition = {
                         help_text: t('admin.service.cmdsDesc'),
                         help_text_default: 'When true, custom slash commands will be allowed. See [documentation](!http://docs.mattermost.com/developer/slash-commands.html) to learn more.',
                         help_text_markdown: true,
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('integrations')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -4982,7 +4990,7 @@ const AdminDefinition = {
                         help_text: t('admin.oauth.providerDescription'),
                         help_text_default: 'When true, Mattermost can act as an OAuth 2.0 service provider allowing Mattermost to authorize API requests from external applications. See [documentation](!https://docs.mattermost.com/developer/oauth-2-0-applications.html) to learn more.',
                         help_text_markdown: true,
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('integrations')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_PERMISSION,
@@ -4993,7 +5001,7 @@ const AdminDefinition = {
                         help_text_default: 'When true, webhooks and slash commands can only be created, edited and viewed by Team and System Admins, and OAuth 2.0 applications by System Admins. Integrations are available to all users after they have been created by the Admin.',
                         permissions_mapping_name: 'enableOnlyAdminIntegrations',
                         isHidden: it.licensed,
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('integrations')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -5003,7 +5011,7 @@ const AdminDefinition = {
                         help_text: t('admin.service.overrideDescription'),
                         help_text_default: 'When true, webhooks, slash commands and other integrations, such as [Zapier](!https://docs.mattermost.com/integrations/zapier.html), will be allowed to change the username they are posting as. Note: Combined with allowing integrations to override profile picture icons, users may be able to perform phishing attacks by attempting to impersonate other users.',
                         help_text_markdown: true,
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('integrations')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -5013,7 +5021,7 @@ const AdminDefinition = {
                         help_text: t('admin.service.iconDescription'),
                         help_text_default: 'When true, webhooks, slash commands and other integrations, such as [Zapier](!https://docs.mattermost.com/integrations/zapier.html), will be allowed to change the profile picture they post with. Note: Combined with allowing integrations to override usernames, users may be able to perform phishing attacks by attempting to impersonate other users.',
                         help_text_markdown: true,
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('integrations')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -5023,7 +5031,7 @@ const AdminDefinition = {
                         help_text: t('admin.service.userAccessTokensDescription'),
                         help_text_default: 'When true, users can create [user access tokens](!https://about.mattermost.com/default-user-access-tokens) for integrations in **Account Settings > Security**. They can be used to authenticate against the API and give full access to the account.\n\n To manage who can create personal access tokens or to search users by token ID, go to the **User Management > Users** page.',
                         help_text_markdown: true,
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('integrations')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
                     },
                 ],
             },
@@ -5032,6 +5040,9 @@ const AdminDefinition = {
             url: 'integrations/bot_accounts',
             title: t('admin.integrations.botAccounts'),
             title_default: 'Bot Accounts',
+            isHidden: it.all(
+                it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.BOT_ACCOUNTS)),
+            ),
             schema: {
                 id: 'BotAccountSettings',
                 name: t('admin.integrations.botAccounts.title'),
@@ -5046,7 +5057,7 @@ const AdminDefinition = {
                         help_text_default: 'When true, System Admins can create bot accounts for integrations in [Integrations > Bot Accounts]({siteURL}/_redirect/integrations/bots). Bot accounts are similar to user accounts except they cannot be used to log in. See [documentation](https://mattermost.com/pl/default-bot-accounts) to learn more.',
                         help_text_markdown: true,
                         help_text_values: {siteURL: getSiteURL()},
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('integrations')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.BOT_ACCOUNTS)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -5057,7 +5068,7 @@ const AdminDefinition = {
                         help_text_default: 'When a user is deactivated, disables all bot accounts managed by the user. To re-enable bot accounts, go to [Integrations > Bot Accounts]({siteURL}/_redirect/integrations/bots).',
                         help_text_markdown: true,
                         help_text_values: {siteURL: getSiteURL()},
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('integrations')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.BOT_ACCOUNTS)),
                     },
                 ],
             },
@@ -5066,6 +5077,9 @@ const AdminDefinition = {
             url: 'integrations/gif',
             title: t('admin.sidebar.gif'),
             title_default: 'GIF (Beta)',
+            isHidden: it.all(
+                it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.GIF)),
+            ),
             schema: {
                 id: 'GifSettings',
                 name: t('admin.integrations.gif'),
@@ -5078,7 +5092,7 @@ const AdminDefinition = {
                         label_default: 'Enable GIF Picker:',
                         help_text: t('admin.customization.enableGifPickerDesc'),
                         help_text_default: 'Allow users to select GIFs from the emoji picker via a Gfycat integration.',
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('integrations')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.GIF)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -5088,7 +5102,7 @@ const AdminDefinition = {
                         help_text: t('admin.customization.gfycatApiKeyDescription'),
                         help_text_default: 'Request an API key at [https://developers.gfycat.com/signup/#](!https://developers.gfycat.com/signup/#). Enter the client ID you receive via email to this field. When blank, uses the default API key provided by Gfycat.',
                         help_text_markdown: true,
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('integrations')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.GIF)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -5097,7 +5111,7 @@ const AdminDefinition = {
                         label_default: 'Gfycat API Secret:',
                         help_text: t('admin.customization.gfycatApiSecretDescription'),
                         help_text_default: 'The API secret generated by Gfycat for your API key. When blank, uses the default API secret provided by Gfycat.',
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('integrations')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.GIF)),
                     },
                 ],
             },
@@ -5106,7 +5120,10 @@ const AdminDefinition = {
             url: 'integrations/cors',
             title: t('admin.sidebar.cors'),
             title_default: 'CORS',
-            isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
+            isHidden: it.all(
+                it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
+                it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.CORS)),
+            ),
             schema: {
                 id: 'CORS',
                 name: t('admin.integrations.cors'),
@@ -5121,7 +5138,7 @@ const AdminDefinition = {
                         placeholder_default: 'http://example.com',
                         help_text: t('admin.service.corsDescription'),
                         help_text_default: 'Enable HTTP Cross origin request from a specific domain. Use "*" if you want to allow CORS from any domain or leave it blank to disable it. Should not be set to "*" in production.',
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('integrations')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.CORS)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -5132,7 +5149,7 @@ const AdminDefinition = {
                         placeholder_default: 'X-My-Header',
                         help_text: t('admin.service.corsExposedHeadersDescription'),
                         help_text_default: 'Whitelist of headers that will be accessible to the requester.',
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('integrations')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.CORS)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -5141,7 +5158,7 @@ const AdminDefinition = {
                         label_default: 'CORS Allow Credentials:',
                         help_text: t('admin.service.corsAllowCredentialsDescription'),
                         help_text_default: 'When true, requests that pass validation will include the Access-Control-Allow-Credentials header.',
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('integrations')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.CORS)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -5150,7 +5167,7 @@ const AdminDefinition = {
                         label_default: 'CORS Debug:',
                         help_text: t('admin.service.corsDebugDescription'),
                         help_text_default: 'When true, prints messages to the logs to help when developing an integration that uses CORS. These messages will include the structured key value pair "source":"cors".',
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('integrations')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.CORS)),
                     },
                 ],
             },
