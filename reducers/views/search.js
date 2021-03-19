@@ -59,9 +59,20 @@ function userGridSearch(state = {}, action) {
     }
 }
 
+function teamListSearch(state = '', action) {
+    switch (action.type) {
+    case SearchTypes.SET_TEAM_LIST_SEARCH: {
+        return action.data.trim();
+    }
+    default:
+        return state;
+    }
+}
+
 export default combineReducers({
     modalSearch,
     modalFilters,
     systemUsersSearch,
     userGridSearch,
+    teamListSearch,
 });

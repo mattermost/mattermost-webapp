@@ -98,6 +98,7 @@ export type ViewsState = {
                 team_roles?: string[];
             };
         };
+        teamListSearch: string;
     };
 
     notice: {

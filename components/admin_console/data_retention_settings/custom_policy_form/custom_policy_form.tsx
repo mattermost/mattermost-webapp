@@ -24,7 +24,7 @@ import BlockableLink from 'components/admin_console/blockable_link';
 import Input from 'components/input';
 import TeamSelectorModal from 'components/team_selector_modal';
 import ChannelSelectorModal from 'components/channel_selector_modal';
-import DropdownInputTransformer from 'components/widgets/inputs/dropdown_input_transformer';
+import DropdownInputHybrid from 'components/widgets/inputs/dropdown_input_hybrid';
 import SaveButton from 'components/save_button';
 import TeamList from 'components/admin_console/data_retention_settings/team_list';
 import ChannelList from 'components/admin_console/data_retention_settings/channel_list';
@@ -305,7 +305,7 @@ export default class CustomPolicyForm extends React.PureComponent<Props, State> 
                                         placeholder={Utils.localizeMessage('admin.data_retention.custom_policy.form.input', 'Policy name')}
                                         required={true}
                                     />
-                                    <DropdownInputTransformer
+                                    <DropdownInputHybrid
                                         onDropdownChange={(value) => {
                                             if (this.state.messageRetentionDropdownValue.value !== value.value) {
                                                 this.setState({ messageRetentionDropdownValue: value, saveNeeded: true });
@@ -316,7 +316,7 @@ export default class CustomPolicyForm extends React.PureComponent<Props, State> 
                                         }}
                                         value={this.state.messageRetentionDropdownValue}
                                         inputValue={this.state.messageRetentionInputValue}
-                                        width={380}
+                                        width={95}
                                         exceptionToInput={['forever']}
                                         defaultValue={this.getMessageRetentionDefaultDropdownValue()}
                                         options={[{value: 'days', label: 'Days'}, {value: 'years', label: 'Years'}, {value: 'forever', label: <div><i className='icon icon-infinity option-icon'/><span>Keep Forever</span></div>}]}
@@ -335,6 +335,7 @@ export default class CustomPolicyForm extends React.PureComponent<Props, State> 
                                     this.addToNewTeams(teams);
                                 }}
                                 modalID={'CUSTOM_POLICY_TEAMS'}
+                                alreadySelected={Object.keys(this.state.newChannels)}
                             />
                         }
                         <Card

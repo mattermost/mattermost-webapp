@@ -5,6 +5,20 @@
     .Input_wrapper {
         padding: 0;
         margin: 0;
+        &.input_hybrid_wrapper{
+            display: inline-block;
+            width: 0%;
+            &.showInput {
+                transition: width .1s ease-in;
+            }
+        }
+        &.dropdown_hybrid_wrapper{
+            display: inline-block;
+            &.showInput {
+                float: right;
+                transition: width .1s ease-out;
+            }
+        }
     }
 
     .Input {
@@ -62,7 +76,6 @@
     .Input.form-control {
         height: 40px;
         border: none;
-        border-right: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
         border-radius: 4px 0px 0px 4px;
     
         &:focus {

@@ -9,7 +9,7 @@ import {withKnobs, text} from '@storybook/addon-knobs';
 import ChannelsInput from './channels_input';
 import * as Utils from 'utils/utils.jsx';
 import UsersEmailsInput from './users_emails_input';
-import DropdownInputTransformer from './dropdown_input_transformer';
+import DropdownInputHybrid from './dropdown_input_hybrid';
 
 storiesOf('Widgets/Inputs', module).
     addDecorator(withKnobs).
@@ -65,7 +65,7 @@ storiesOf('Widgets/Inputs', module).
                 const [dropdownValue, setDropdownValue] = useState({value: 'forever', label: 'Keep Forever'});
                 const [inputValue, setInputValue] = useState('');
                 return (
-                    <DropdownInputTransformer
+                    <DropdownInputHybrid
                         onDropdownChange={(value) => {
                             setDropdownValue(value);
                         }}

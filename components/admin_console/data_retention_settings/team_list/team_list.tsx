@@ -3,8 +3,8 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {Link} from 'react-router-dom';
-import {debounce} from 'mattermost-redux/actions/helpers';
+import Constants from 'utils/constants';
+import {ActionResult} from 'mattermost-redux/types/actions';
 import {Team, TeamSearchOpts, TeamsWithCount} from 'mattermost-redux/types/teams';
 import {Dictionary} from 'mattermost-redux/types/utilities';
 
@@ -23,6 +23,7 @@ const ROW_HEIGHT = 80;
 type Props = {
     teams: Team[];
     totalCount: number;
+    searchTerm: string;
 
     policyId: string;
 
@@ -32,34 +33,42 @@ type Props = {
     teamsToAdd: Dictionary<Team>;
 
     actions: {
-        searchTeams: (term: string, opts: TeamSearchOpts) => Promise<{data: TeamsWithCount}>;
+        searchTeams: (id: string, term: string, opts: TeamSearchOpts) => Promise<{ data: Team[] }>;
         getDataRetentionCustomPolicyTeams: (id: string, page: number, perPage: number) => Promise<{ data: Team[] }>;
+        clearDataRetentionCustomPolicyTeams: () => {data: {}};
+        setTeamListSearch: (term: string) => ActionResult;
     };
 }
 
 type State = {
     loading: boolean;
     page: number;
+    term: string;
 }
 const PAGE_SIZE = 10;
 export default class TeamList extends React.PureComponent<Props, State> {
+    private searchTimeoutId: number;
     private pageLoaded = 0;
     public constructor(props: Props) {
         super(props);
-
+        this.searchTimeoutId = 0;
         this.state = {
             loading: false,
             page: 0,
+            term: '',
         };
     }
 
     componentDidMount = async () => {
-        if (this.props.policyId) {
-            await this.props.actions.getDataRetentionCustomPolicyTeams(this.props.policyId, 0, PAGE_SIZE * 2);
+        this.setState({loading: true});
+        await this.props.actions.clearDataRetentionCustomPolicyTeams();
+        if (this.props.policyId) { 
+            await this.props.actions.getDataRetentionCustomPolicyTeams(this.props.policyId, 0, PAGE_SIZE * 2);  
         }
+        this.setState({loading: false});
     }
 
-    private loadPage = (page: number) => {
+    private loadPage = async (page: number) => {
         this.setState({loading: true});
         this.fetchTeams(page);
         this.setState({page, loading: false});
@@ -155,7 +164,6 @@ export default class TeamList extends React.PureComponent<Props, State> {
         const {page} = this.state;
         const {teams, teamsToRemove, teamsToAdd, totalCount} = this.props; // term was here
         const {startCount, endCount} = this.getPaginationProps();
-        console.log(teams);
         let teamsToDisplay = teams;
         const includeTeamsList = Object.values(teamsToAdd);
 
@@ -216,11 +224,41 @@ export default class TeamList extends React.PureComponent<Props, State> {
         });
     }
 
+    onSearch = async (searchTerm: string) => {
+        this.props.actions.setTeamListSearch(searchTerm);
+    }
+    public async componentDidUpdate(prevProps: Props) {
+        const searchTermModified = prevProps.searchTerm !== this.props.searchTerm;
+        if (searchTermModified) {
+            this.setState({loading: true});
+            clearTimeout(this.searchTimeoutId);
+            const searchTerm = this.props.searchTerm;
+            if (searchTerm === '') {
+                this.searchTimeoutId = 0;
+                await this.loadPage(0);
+                this.setState({loading: false});
+                return;
+            }
+
+            const searchTimeoutId = window.setTimeout(
+                async () => {
+                    await prevProps.actions.searchTeams(this.props.policyId, this.props.searchTerm, {});
+
+                    if (searchTimeoutId !== this.searchTimeoutId) {
+                        return;
+                    }
+                    this.setState({loading: false});
+                },
+                Constants.SEARCH_TIMEOUT_MILLISECONDS,
+            );
+
+            this.searchTimeoutId = searchTimeoutId;
+        }
+    }
     render() {
         const rows: Row[] = this.getRows();
         const columns: Column[] = this.getColumns();
         const {startCount, endCount, total} = this.getPaginationProps();
-        console.log(total);
         return (
             <div className='TeamsList'>
                 <DataGrid
@@ -234,9 +272,9 @@ export default class TeamList extends React.PureComponent<Props, State> {
                     endCount={endCount}
                     total={total}
                     className={'customTable'}
-                    // onSearch={this.onSearch}
-                    // term={term}
-                    // placeholderEmpty={placeholderEmpty}
+                    onSearch={this.onSearch}
+                    term={this.props.searchTerm}
+                    //placeholderEmpty={placeholderEmpty}
                     // rowsContainerStyles={rowsContainerStyles}
                     // filterProps={filterProps}
                 />

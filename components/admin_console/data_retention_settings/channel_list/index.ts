@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 import {createSelector} from 'reselect';
 
-import {getDataRetentionCustomPolicyChannels} from 'mattermost-redux/actions/admin';
+import {getDataRetentionCustomPolicyChannels, clearDataRetentionCustomPolicyChannels} from 'mattermost-redux/actions/admin';
 import {searchChannels} from 'mattermost-redux/actions/channels';
 import {getChannelsInPolicy} from 'mattermost-redux/selectors/entities/channels';
 import {getDataRetentionCustomPolicy} from 'mattermost-redux/selectors/entities/admin';
@@ -25,6 +25,7 @@ type OwnProps = {
 type Actions = {
     // searchChannels: (term: string, opts: TeamSearchOpts) => Promise<{data: TeamsWithCount}>;
     getDataRetentionCustomPolicyChannels: (id: string, page: number, perPage: number) => Promise<{ data: Channel[] }>;
+    clearDataRetentionCustomPolicyChannels: () => {data: {}};
 }
 const getSortedListOfChannels = createSelector(
     getChannelsInPolicy,
@@ -49,6 +50,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
             getDataRetentionCustomPolicyChannels,
+            clearDataRetentionCustomPolicyChannels,
             // searchTeams,
         }, dispatch),
     };

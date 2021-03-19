@@ -13,7 +13,7 @@ import Card from 'components/card/card';
 import BlockableLink from 'components/admin_console/blockable_link';
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 import {browserHistory} from 'utils/browser_history';
-import DropdownInputTransformer from 'components/widgets/inputs/dropdown_input_transformer';
+import DropdownInputHybrid from 'components/widgets/inputs/dropdown_input_hybrid';
 
 import './global_policy_form.scss';
 
@@ -115,7 +115,7 @@ export default class GlobalPolicyForm extends AdminSettings<Props, State> {
                             className='global_policy'
                         >
                             <p>Applies to all teams and channels, but does not apply to custom retention policies.</p>
-                            <DropdownInputTransformer
+                            <DropdownInputHybrid
                                 onDropdownChange={(value) => {
                                     if (value.value === 'forever') {
                                         this.handleChange('enableMessageDeletion', 'false');
@@ -145,7 +145,7 @@ export default class GlobalPolicyForm extends AdminSettings<Props, State> {
                                 name={'channel_message_retention'}
                             />
 
-                            <DropdownInputTransformer
+                            <DropdownInputHybrid
                                 onDropdownChange={(value) => {
                                     if (value.value === 'forever') {
                                         this.handleChange('enableFileDeletion', 'false');

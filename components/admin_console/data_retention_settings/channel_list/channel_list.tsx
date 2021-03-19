@@ -38,6 +38,7 @@ type Props = {
     actions: {
         // searchTeams: (term: string, opts: TeamSearchOpts) => Promise<{data: TeamsWithCount}>;
         getDataRetentionCustomPolicyChannels: (id: string, page: number, perPage: number) => Promise<{ data: Channel[] }>;
+        clearDataRetentionCustomPolicyChannels: () => {data: {}};
     };
 }
 
@@ -59,7 +60,10 @@ export default class TeamList extends React.PureComponent<Props, State> {
 
     componentDidMount = async () => {
         if (this.props.policyId) {
+            this.setState({loading: true});
+            await this.props.actions.clearDataRetentionCustomPolicyChannels();
             await this.props.actions.getDataRetentionCustomPolicyChannels(this.props.policyId, 0, PAGE_SIZE * 2);
+            this.setState({loading: false});
         }
     }
 

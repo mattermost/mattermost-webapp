@@ -7,19 +7,28 @@ import {CSSTransition} from 'react-transition-group';
 import classNames from 'classnames';
 
 import 'components/input.css';
-import './dropdown_input_transformer.scss';
+import './dropdown_input_hybrid.scss';
 
-type ValueType = {
-    label: string;
+type OptionType = {
+    label: string | JSX.Element;
     value: string;
 }
 
 type Props<T> = Omit<SelectProps<T>, 'onChange'> & {
-    value?: T;
+    value: T;
     legend?: string;
     error?: string;
     onDropdownChange: (value: T, action: ActionMeta<T>) => void;
     onInputChange: (value: T, action: ActionMeta<T>) => void;
+    placeholder: string;
+    className?: string;
+    name?: string;
+    options: OptionType[];
+    exceptionToInput: string[];
+    width: number;
+    inputValue: string;
+    inputType?: string;
+    defaultValue: OptionType;
 };
 
 const baseStyles = {
@@ -43,7 +52,6 @@ const baseStyles = {
         zIndex: 99999999,
     }),
 };
-
 
 
 const IndicatorsContainer = (props: any) => {
@@ -77,21 +85,26 @@ const Option = (props: any) => {
     );
 };
 
-const renderError = (error?: string) => {
-    if (!error) {
-        return null;
-    }
+const DropdownInputHybrid: React.FC<Props> = (props: Props) => {
+    const {
+        value,
+        placeholder,
+        className,
+        name,
+        legend, 
+        onDropdownChange,
+        onInputChange,
+        options,
+        error,
+        exceptionToInput,
+        width,
+        inputValue,
+        inputType,
+        defaultValue,
+        ...otherProps
+    } = props;
 
-    return (
-        <div className='Input___error'>
-            <i className='icon icon-alert-outline'/>
-            <span>{error}</span>
-        </div>
-    );
-};
-const DropdownInputTransformer: React.FC<Props> = (props) => {
-    const {value, placeholder, className, addon, name, textPrefix, legend, onDropdownChange, onInputChange, styles, options, error, exceptionToInput, width, inputValue, defaultValue, ...otherProps} = props;
-
+    const myInput: any = useRef(null);
     const inputRef: any = React.createRef();
     const [inputFocused, setInputFocused] = useState(false);
     const [focused, setFocused] = useState(false);
@@ -104,6 +117,10 @@ const DropdownInputTransformer: React.FC<Props> = (props) => {
     }, [showInput]);
 
     useEffect(() => {
+        showTextInput(inputValue, false);
+    }, [inputValue]);
+
+    useEffect(() => {
         if (!inputValue && !focused && !inputFocused) {
             onDropdownChange(defaultValue);
             showTextInput('');
@@ -113,8 +130,8 @@ const DropdownInputTransformer: React.FC<Props> = (props) => {
     const menuStyles = {
         menu: (provided: CSSProperties) => ({
             ...provided,
-            width: `${width}px`,
-            left: `-${width - width/4}px`
+            width: myInput.current ? `${myInput.current.offsetWidth}px` : '0px',
+            left: inputRef.current ? `-${inputRef.current.offsetWidth}px` : '0px',
         }),
     }
 
@@ -154,7 +171,6 @@ const DropdownInputTransformer: React.FC<Props> = (props) => {
 
     const onValueChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const {onDropdownChange} = props;
-
         showTextInput(event.value);
 
         if (onDropdownChange) {
@@ -163,23 +179,25 @@ const DropdownInputTransformer: React.FC<Props> = (props) => {
     };
     
     // We want to show the text input when we have a dropdown value selected and 
-    const showTextInput = (val: string) => {
+    const showTextInput = (val: string, focus = true) => {
         if (!val || exceptionToInput.includes(val)) {
             setShowInput(false);
         } else {
             setShowInput(true);
-            if (inputRef.current) {
+            if (inputRef.current && focus) {
                 inputRef.current.focus();
             }
         }
     }
 
     const showLegend = Boolean(focused || value);
+
     return (
         <div 
             className='DropdownInput hybrid_container'
+            ref={myInput}
             style={{
-                width: `${width}px`
+                width: `100%`
             }}
         >
             <fieldset
@@ -189,67 +207,61 @@ const DropdownInputTransformer: React.FC<Props> = (props) => {
                     Input_fieldset___split: showInput,
                 })}
             >
-                
-                    <legend className={classNames('Input_legend', {Input_legend___focus: showLegend})}>
-                        {showLegend ? (legend || placeholder) : null}
-                    </legend>
-                    
-                        <div
-                            className='Input_wrapper'
-                            style={{
-                                display: showInput ? 'inline-block' : 'none',
-                                width: `calc(100% - ${width/4}px)`
-                            }}
-                            onFocus={onInputFocus}
-                            onBlur={onInputBlur}
-                        >
-                            <input
-                                name='channel_message_retention_input'
-                                type='text'
-                                value={inputValue}
-                                onChange={onInputChange}
-                                placeholder={placeholder}
-                                required={false}
-                                className={classNames('Input form-control')}
-                                ref={inputRef}
-                            />
-                        </div>
-                    <div
-                        className='Input_wrapper'
-                        onFocus={onDropdownInputFocus}
-                        onBlur={onDropdownInputBlur}
-                        style={{ 
-                            display: 'inline-block',
-                            width: showInput ? `${width/4}px` : '100%' ,
+                <legend className={classNames('Input_legend', {Input_legend___focus: showLegend})}>
+                    {showLegend ? (legend || placeholder) : null}
+                </legend>
+                <div
+                    className={classNames('Input_wrapper input_hybrid_wrapper', {showInput})}
+                    onFocus={onInputFocus}
+                    onBlur={onInputBlur}
+                    style={{
+                        width: showInput && myInput.current ? `${(myInput.current.offsetWidth - 10) - width}px` : '0%' ,
+                    }}
+                >
+                    <input
+                        name='channel_message_retention_input'
+                        type={inputType || 'text'}
+                        value={inputValue}
+                        onChange={onInputChange}
+                        placeholder={placeholder}
+                        required={false}
+                        className={classNames('Input form-control')}
+                        ref={inputRef}
+                    />
+                </div>
+                <div
+                    className={classNames('Input_wrapper dropdown_hybrid_wrapper', {showInput: !showInput})}
+                    onFocus={onDropdownInputFocus}
+                    onBlur={onDropdownInputBlur}
+                    style={{
+                        width: showInput ? `${width}px` : '100%' ,
+                    }}
+                >
+                    <ReactSelect
+                        id={`DropdownInput_${name}`}
+                        options={options}
+                        placeholder={focused ? '' : placeholder}
+                        components={{
+                            IndicatorsContainer,
+                            Option,
+                            Control,
                         }}
-                    >
-                        <ReactSelect
-                            id={`DropdownInput_${name}`}
-                            options={options}
-                            placeholder={focused ? '' : placeholder}
-                            components={{
-                                IndicatorsContainer,
-                                Option,
-                                Control,
-                            }}
-                            className={classNames('Input', className, {Input__focus: showLegend})}
-                            classNamePrefix={'DropDown'}
-                            onChange={onValueChange}
-                            styles={{...baseStyles, ...styles, ...getMenuStyles()}}
-                            defaultValue={defaultValue}
-                            value={value}
-                            hideSelectedOptions
-                            isSearchable={false}
-                            menuPortalTarget={document.body}
-                            {...otherProps}
-                        />
-                    </div>
+                        className={classNames('Input', className, {Input__focus: showLegend})}
+                        classNamePrefix={'DropDown'}
+                        onChange={onValueChange}
+                        styles={{...baseStyles, ...getMenuStyles()}}
+                        defaultValue={defaultValue}
+                        value={value}
+                        hideSelectedOptions
+                        isSearchable={false}
+                        menuPortalTarget={document.body}
+                        {...otherProps}
+                    />
+                </div>
                 
-                {addon}
             </fieldset>
-            {renderError(error)}
         </div>
     );
 };
 
-export default DropdownInputTransformer;
+export default DropdownInputHybrid;

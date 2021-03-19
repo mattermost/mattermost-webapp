@@ -1,5 +1,8 @@
 .custom_policy_fields {
-    width: 380px;
+    width: 100%;
+    @media screen and (min-width: 960px) {
+        width: 50%;
+    }
 
     .DropdownInput .Input.form-control {
         padding: 6px 12px;
