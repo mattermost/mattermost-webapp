@@ -18,6 +18,8 @@ import {
 import {getThreads} from 'mattermost-redux/actions/threads';
 import {selectChannel} from 'mattermost-redux/actions/channels';
 
+import {getPost} from 'mattermost-redux/selectors/entities/posts';
+
 import {GlobalState} from 'types/store/index';
 
 import {useGlobalState} from 'stores/hooks';
@@ -51,10 +53,11 @@ const GlobalThreads = () => {
 
     const counts = useSelector(getThreadCountsInCurrentTeam);
     const selectedThread = useSelector((state: GlobalState) => getThread(state, threadIdentifier));
+    const selectedPost = useSelector((state: GlobalState) => getPost(state, threadIdentifier!));
     const threadIds = useSelector((state: GlobalState) => getThreadOrderInCurrentTeam(state, selectedThread?.id));
     const unreadThreadIds = useSelector((state: GlobalState) => getUnreadThreadOrderInCurrentTeam(state, selectedThread?.id));
     const numUnread = counts?.total_unread_threads || 0;
-    const isLoading = counts?.total == null || (counts.total && isEmpty(threadIds));
+    const isLoading = counts?.total == null;
 
     useEffect(() => {
         dispatch(selectChannel(''));
@@ -66,10 +69,10 @@ const GlobalThreads = () => {
 
     useEffect(() => {
         dispatch(setSelectedThreadId(currentUserId, currentTeamId, selectedThread?.id));
-        if (!selectedThread && !isLoading) {
+        if ((!selectedThread || !selectedPost) && !isLoading) {
             clear();
         }
-    }, [currentUserId, currentTeamId, threadIdentifier, counts, filter]);
+    }, [currentUserId, currentTeamId, selectedThread, selectedPost, isLoading, counts, filter]);
 
     return (
         <div
@@ -133,7 +136,7 @@ const GlobalThreads = () => {
                             />
                         ) : null}
                     </ThreadList>
-                    {selectedThread ? (
+                    {selectedThread && selectedPost ? (
                         <ThreadPane
                             thread={selectedThread}
                         >

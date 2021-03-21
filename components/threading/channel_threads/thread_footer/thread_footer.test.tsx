@@ -91,7 +91,7 @@ describe('components/threading/channel_threads/thread_footer', () => {
                 {...props}
             />,
         );
-        expect(wrapper.find(Avatars).props()).toHaveProperty('users', props.participants);
+        expect(wrapper.find(Avatars).props()).toHaveProperty('participants', props.participants);
     });
 
     test('should have a timestamp', () => {

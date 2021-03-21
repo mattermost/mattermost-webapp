@@ -3,11 +3,15 @@
 
 import React from 'react';
 
-import {shallow} from 'enzyme';
+import {mount} from 'enzyme';
 
 import Avatar from '../avatar';
 
+import {mockStore} from 'tests/test_store';
+
 import Avatars from './avatars';
+
+const userActions = require('mattermost-redux/actions/users');
 
 const users = [
     {
@@ -37,24 +41,84 @@ const users = [
     },
 ];
 
+jest.mock('react-intl', () => {
+    const reactIntl = jest.requireActual('react-intl');
+    return {
+        ...reactIntl,
+        useIntl: () => reactIntl.createIntl({locale: 'en', defaultLocale: 'en', timeZone: 'Etc/UTC', textComponent: 'span'}),
+    };
+});
+
 describe('components/widgets/users/Avatars', () => {
-    test('should match the snapshot', () => {
-        const wrapper = shallow(
+    const state = {
+        entities: {
+            general: {
+                config: {},
+            },
+            users: {
+                currentUserId: 'uid',
+                profiles: {
+                    1: {
+                        id: '1',
+                        username: 'jesus.espino',
+                        nickname: 'nickname1',
+                        first_name: 'Jesus',
+                        last_name: 'Espino',
+                    },
+                },
+            },
+            teams: {
+                currentTeamId: 'tid',
+            },
+            preferences: {
+                myPreferences: {},
+            },
+        },
+    };
+
+    test('should support avatar-users and match snapshot', () => {
+        const {mountOptions} = mockStore(state);
+        const wrapper = mount(
             <Avatars
                 size='xl'
                 users={users}
             />,
+            mountOptions,
         );
 
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should support profile-users and fetch missing ones', () => {
+        const {mountOptions} = mockStore(state);
+        const spy = jest.spyOn(userActions, 'getProfilesByIds');
+        const wrapper = mount(
+            <Avatars
+                size='xl'
+                participants={[
+                    {id: '1'},
+                    {id: '2'},
+                    {id: '3'},
+                    {id: '4'},
+                ]}
+            />,
+            mountOptions,
+        );
+        expect(spy).toBeCalledWith(['2', '3', '4']);
+        expect(wrapper.find(Avatar).find({url: '/api/v4/users/1/image?_=0'}).exists()).toBe(true);
+        expect(wrapper.find(Avatar).length).toBe(1);
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('should properly count overflow', () => {
-        const wrapper = shallow(
+        const {mountOptions} = mockStore(state);
+
+        const wrapper = mount(
             <Avatars
                 size='xl'
                 users={users}
             />,
+            mountOptions,
         );
 
         expect(wrapper).toMatchSnapshot();

@@ -34,6 +34,10 @@
 
         .modal-header {
             background: var(--sidebar-header-bg);
+
+            .close {
+                color: var(--sidebar-header-text-color);
+            }
         }
     }
 
@@ -252,7 +256,7 @@
         .close {
             @include opacity(0.7);
             @include single-transition(all, .1s, ease-in);
-            color: v(sidebar-header-text-color);
+            color: white;
             height: 30px;
             line-height: 30px;
             position: absolute;
@@ -879,7 +883,11 @@
         }
 
         &.more-modal__row--selected {
-            background: rgba(var(--center-channel-color-rgb), 0.08);
+            background: rgba(var(--sys-center-channel-color-rgb), 0.08);
+
+            .app__body & {
+                background: rgba(var(--center-channel-color-rgb), 0.08);
+            }
 
             .more-modal__actions--round {
                 opacity: .5;

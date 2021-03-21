@@ -14,8 +14,6 @@ global.fetch = jest.fn().mockResolvedValue({status: 200});
 
 configure({adapter: new Adapter()});
 
-jest.useFakeTimers();
-
 global.window = Object.create(window);
 Object.defineProperty(window, 'location', {
     value: {
@@ -38,20 +36,6 @@ Object.defineProperty(document, 'execCommand', {
 });
 
 document.documentElement.style.fontSize = '12px';
-
-jest.mock('react-intl', () => {
-    const reactIntl = jest.requireActual('react-intl');
-
-    return {
-        ...reactIntl,
-        useIntl: () => reactIntl.createIntl({
-            locale: 'en',
-            defaultLocale: 'en',
-            timeZone: 'Etc/UTC',
-            textComponent: 'span',
-        }),
-    };
-});
 
 let logs;
 let warns;

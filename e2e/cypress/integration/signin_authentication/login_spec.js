@@ -204,7 +204,7 @@ describe('Login page', () => {
         cy.findByLabelText('main menu').should('exist').and('be.visible').click();
 
         // # Click on the logout menu
-        cy.findByText('Log Out').should('exist').and('be.visible').click();
+        cy.findByText('Log Out').scrollIntoView().should('exist').and('be.visible').click();
 
         // * Check that it logout successfully and it redirects into the login page
         cy.url().should('include', '/login');

@@ -10,12 +10,15 @@
 // Stage: @prod
 // Group: @menu
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
 describe('Status dropdown menu', () => {
     before(() => {
         // # Login as test user and visit town-square
         cy.apiInitSetup().then(({team}) => {
             cy.visit(`/${team.name}/channels/town-square`);
         });
+        cy.apiUpdateConfig({TeamSettings: {EnableCustomUserStatuses: false}});
     });
 
     afterEach(() => {
@@ -27,7 +30,7 @@ describe('Status dropdown menu', () => {
 
     it('Displays default menu when status icon is clicked', () => {
         // # Wait for posts to load
-        cy.get('#postListContent').should('be.visible');
+        cy.get('#postListContent', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
         // # Click status menu
         cy.get('.MenuWrapper .status-wrapper.status-selector button.status').click();
@@ -169,16 +172,19 @@ describe('Status dropdown menu', () => {
             });
         });
 
-        it('MM-T2927_4 should show Status header, with no pointer cursor', () => {
+        it('MM-T2927_5 Verify "Set a Custom Header Status" is clickable', () => {
+            // # Enable Custom Status
+            cy.apiUpdateConfig({TeamSettings: {EnableCustomUserStatuses: true}});
+
             // # Wait for posts to load
             cy.get('#postListContent').should('be.visible');
 
             // # Open status menu
             cy.get('.MenuWrapper .status-wrapper.status-selector button.status').click();
 
-            // * Verify "Status" header does not have pointer cursor
-            cy.get('.MenuWrapper.status-dropdown-menu .Menu__content.dropdown-menu li:first-child').should('be.visible').
-                and('have.text', 'Status').and('not.have.css', 'cursor', 'pointer');
+            // * Verify "Set a Custom Status" header is clickable
+            cy.get('.MenuWrapper.status-dropdown-menu .Menu__content.dropdown-menu li:nth-child(3)').should('be.visible').
+                and('have.text', 'Set a Custom Status').and('have.css', 'cursor', 'pointer');
         });
     });
 });

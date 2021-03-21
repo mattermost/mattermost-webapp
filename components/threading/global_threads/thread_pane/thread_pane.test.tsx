@@ -8,14 +8,10 @@ import {shallow} from 'enzyme';
 import {setThreadFollow} from 'mattermost-redux/actions/threads';
 jest.mock('mattermost-redux/actions/threads');
 
-import {set} from 'lodash';
-
 import Header from 'components/widgets/header';
 
 import FollowButton from 'components/threading/common/follow_button';
 import Button from 'components/threading/common/button';
-
-import {GlobalState} from 'types/store';
 
 import ThreadPane from './thread_pane';
 
@@ -32,7 +28,7 @@ jest.mock('../../hooks', () => {
 });
 
 const mockDispatch = jest.fn();
-let mockState: GlobalState;
+let mockState: any;
 
 jest.mock('react-redux', () => ({
     ...jest.requireActual('react-redux') as typeof import('react-redux'),
@@ -40,7 +36,15 @@ jest.mock('react-redux', () => ({
     useDispatch: () => mockDispatch,
 }));
 
-describe('components/threading/global_threads/thread_header', () => {
+jest.mock('react-intl', () => {
+    const reactIntl = jest.requireActual('react-intl');
+    return {
+        ...reactIntl,
+        useIntl: () => reactIntl.createIntl({locale: 'en', defaultLocale: 'en', timeZone: 'Etc/UTC', textComponent: 'span'}),
+    };
+});
+
+describe('components/threading/global_threads/thread_pane', () => {
     let props: ComponentProps<typeof ThreadPane>;
     let mockThread: typeof props['thread'];
 
@@ -60,24 +64,38 @@ describe('components/threading/global_threads/thread_header', () => {
             thread: mockThread,
         };
 
-        mockState = {} as GlobalState;
-        set(mockState, 'entities.general.config', {});
-        set(mockState, 'entities.preferences.myPreferences', {});
-        set(mockState, 'entities.posts.posts', {
-            '1y8hpek81byspd4enyk9mp1ncw': {
-                id: '1y8hpek81byspd4enyk9mp1ncw',
-                user_id: 'mt5td9mdriyapmwuh5pc84dmhr',
-                channel_id: 'pnzsh7kwt7rmzgj8yb479sc9yw',
-                create_at: 1610486901110,
-                edit_at: 1611786714912,
+        mockState = {
+            entities: {
+                general: {
+                    config: {},
+                },
+                preferences: {
+                    myPreferences: {},
+                },
+                posts: {
+                    posts: {
+                        '1y8hpek81byspd4enyk9mp1ncw': {
+                            id: '1y8hpek81byspd4enyk9mp1ncw',
+                            user_id: 'mt5td9mdriyapmwuh5pc84dmhr',
+                            channel_id: 'pnzsh7kwt7rmzgj8yb479sc9yw',
+                            create_at: 1610486901110,
+                            edit_at: 1611786714912,
+                        },
+                    },
+                },
+                channels: {
+                    channels: {
+                        pnzsh7kwt7rmzgj8yb479sc9yw: {
+                            id: 'pnzsh7kwt7rmzgj8yb479sc9yw',
+                            display_name: 'Team name',
+                        },
+                    },
+                },
+                users: {
+                    currentUserId: 'uid',
+                },
             },
-        });
-        set(mockState, 'entities.channels.channels', {
-            pnzsh7kwt7rmzgj8yb479sc9yw: {
-                id: 'pnzsh7kwt7rmzgj8yb479sc9yw',
-                display_name: 'Team name',
-            },
-        });
+        };
     });
 
     test('should match snapshot', () => {

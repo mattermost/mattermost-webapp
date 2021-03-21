@@ -71,7 +71,12 @@ Cypress.Commands.add('externalRequest', ({user, method, path, data, failOnStatus
 
     return cy.task('externalRequest', {baseUrl, user, method, path, data}).then((response) => {
         // Temporarily ignore error related to Cloud
-        if (response.data && response.data.id !== 'ent.cloud.request_error' && failOnStatusCode) {
+        const cloudErrorId = [
+            'ent.cloud.request_error',
+            'api.cloud.get_subscription.error',
+        ];
+
+        if (response.data && !cloudErrorId.includes(response.data.id) && failOnStatusCode) {
             expect(response.status).to.be.oneOf([200, 201, 204]);
         }
 

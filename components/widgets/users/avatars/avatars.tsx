@@ -1,8 +1,17 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, ComponentProps} from 'react';
+import React, {memo, ComponentProps, useEffect} from 'react';
 import {useIntl} from 'react-intl';
+import {useSelector, useDispatch} from 'react-redux';
+
+import {$ID} from 'mattermost-redux/types/utilities';
+import {UserProfile} from 'mattermost-redux/types/users';
+
+import {getUser, makeGetDisplayName} from 'mattermost-redux/selectors/entities/users';
+import {getProfilesByIds} from 'mattermost-redux/actions/users';
+
+import {GlobalState} from 'types/store';
 
 import {t} from 'utils/i18n';
 
@@ -11,33 +20,87 @@ import SimpleTooltip, {useSynchronizedImmediate} from 'components/widgets/simple
 import Avatar from 'components/widgets/users/avatar';
 
 import './avatars.scss';
+import {imageURLForUser} from 'utils/utils';
+import {RequireOnlyOne} from 'utils/conditional_types';
 
 type StylingKeys = 'size';
 
 type UserProps = ComponentProps<typeof Avatar> & {name: string};
+type AvatarProps = Omit<UserProps, StylingKeys>;
+type Participants = Array<{id: $ID<UserProfile>}>;
 
-export type Props = Pick<UserProps, StylingKeys> & {
-    users: Array<Omit<UserProps, StylingKeys>>;
-    totalUsers?: number;
-    breakAt?: number;
-}
+export type Props =
+    Pick<UserProps, StylingKeys> &
+    RequireOnlyOne<{
+        participants: Participants;
+        users: AvatarProps[];
+    }> & {
+        totalUsers?: number;
+        breakAt?: number;
+    }
 
 const OTHERS_DISPLAY_LIMIT = 99;
 
+function selectUsers(
+    state: GlobalState,
+    users: Props['users'],
+    participants: Props['participants'],
+): null | {users: AvatarProps[]; missingProfiles?: string[]} {
+    if (users) {
+        return {users};
+    }
+    if (!participants) {
+        return null;
+    }
+
+    const getDisplayName = makeGetDisplayName();
+
+    return participants.reduce<NonNullable<ReturnType<typeof selectUsers>>>((result, {id}) => {
+        const user = getUser(state, id);
+
+        if (!user) {
+            result.missingProfiles?.push(id);
+            return result;
+        }
+
+        result.users.push({
+            username: user.username,
+            name: getDisplayName(state, id, true),
+            url: imageURLForUser(id, user.last_picture_update),
+        });
+
+        return result;
+    }, {users: [], missingProfiles: []});
+}
+
 function Avatars({
     size,
-    users,
-    totalUsers = users.length,
-    breakAt = Math.max(users.length, totalUsers) > 4 ? 3 : 4,
+    participants,
+    users: unparsedUsers,
 }: Props) {
+    const {formatMessage} = useIntl();
+    const dispatch = useDispatch();
+    const [overlayProps, setImmediate] = useSynchronizedImmediate();
+    const result = useSelector((state: GlobalState) => selectUsers(state, unparsedUsers, participants));
+
+    useEffect(() => {
+        if (result?.missingProfiles?.length) {
+            dispatch(getProfilesByIds(result.missingProfiles));
+        }
+    }, [result?.missingProfiles?.length]);
+
+    if (!result?.users?.length) {
+        return null;
+    }
+    const {users} = result;
+
+    const totalUsers = users.length;
+    const breakAt = Math.max(users.length, totalUsers) > 4 ? 3 : 4;
+
     const displayUsers = users.slice(0, breakAt);
     const overflowUsers = users.slice(breakAt);
     const overflowUnnamedCount = Math.max(totalUsers - displayUsers.length - overflowUsers.length, 0);
     const nonDisplayCount = overflowUsers.length + overflowUnnamedCount;
-
-    const [overlayProps, setImmediate] = useSynchronizedImmediate();
-
-    const {formatMessage} = useIntl();
 
     return (
         <div
@@ -82,10 +145,7 @@ function Avatars({
                     <Avatar
                         size={size}
                         tabIndex={0}
-                        text={nonDisplayCount > OTHERS_DISPLAY_LIMIT ?
-                            `${OTHERS_DISPLAY_LIMIT}+` :
-                            `+${nonDisplayCount}`
-                        }
+                        text={nonDisplayCount > OTHERS_DISPLAY_LIMIT ? `${OTHERS_DISPLAY_LIMIT}+` : `+${nonDisplayCount}`}
                     />
                 </SimpleTooltip>
             )}

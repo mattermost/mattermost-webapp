@@ -19,8 +19,6 @@ import {getPost} from 'mattermost-redux/selectors/entities/posts';
 
 import './thread_item.scss';
 
-import {UserProfile} from 'mattermost-redux/types/users';
-
 import Badge from 'components/widgets/badges/badge';
 import Timestamp from 'components/timestamp';
 import Avatars from 'components/widgets/users/avatars';
@@ -34,7 +32,6 @@ import ThreadMenu from '../thread_menu';
 import {THREADING_TIME} from '../../common/options';
 import {GlobalState} from 'types/store';
 import {useThreadRouting} from '../../hooks';
-import {imageURLForUser} from 'utils/utils';
 import {getDirectTeammate} from 'utils/utils.jsx';
 
 type Props = {
@@ -48,17 +45,64 @@ const markdownPreviewOptions = {
     atMentions: false,
 };
 
-const ThreadItem = ({
-    threadId,
-    isSelected,
-}: Props) => {
+function useLogic(threadId: string) {
     const {select, goToInChannel} = useThreadRouting();
     const dispatch = useDispatch();
 
     const thread = useSelector((state: GlobalState) => getThread(state, threadId));
     const post = useSelector((state: GlobalState) => getPost(state, threadId));
+    const channel = useSelector((state: GlobalState) => makeGetChannel()(state, {id: post.channel_id}));
+    const directTeammate = useSelector((state: GlobalState) => getDirectTeammate(state, post.channel_id));
+    const displayName = useSelector((state: GlobalState) => makeGetDisplayName()(state, post.user_id, true));
 
-    if (!thread) {
+    useEffect(() => {
+        if (channel?.teammate_id && !directTeammate) {
+            dispatch(fetchUser(channel.teammate_id));
+        }
+    }, [channel, directTeammate]);
+
+    useEffect(() => {
+        if (!channel && thread?.post.channel_id) {
+            dispatch(fetchChannel(thread.post.channel_id));
+        }
+    }, [channel, thread?.post.channel_id]);
+
+    useEffect(() => {
+        if (channel?.teammate_id && !directTeammate) {
+            dispatch(fetchUser(channel.teammate_id));
+        }
+    }, [channel, directTeammate]);
+
+    const selectHandler = useCallback(() => select(threadId), [threadId]);
+    const goToInChannelHandler = useCallback((e: MouseEvent) => {
+        e.stopPropagation();
+        goToInChannel(threadId);
+    }, [history]);
+
+    return {
+        thread,
+        post,
+        channel,
+        displayName,
+        selectHandler,
+        goToInChannelHandler,
+    };
+}
+
+const ThreadItem = ({
+    threadId,
+    isSelected,
+}: Props) => {
+    const {
+        thread,
+        post,
+        channel,
+        displayName,
+        selectHandler,
+        goToInChannelHandler,
+    } = useLogic(threadId);
+
+    if (!thread || !post) {
         return null;
     }
 
@@ -69,27 +113,7 @@ const ThreadItem = ({
         reply_count: totalReplies,
         is_following: isFollowing,
         participants,
-        post: {
-            channel_id: channelId,
-            user_id: userId,
-        },
     } = thread;
-
-    const channel = useSelector((state: GlobalState) => makeGetChannel()(state, {id: channelId}));
-    const directTeammate = useSelector((state: GlobalState) => getDirectTeammate(state, channelId));
-    const displayName = useSelector((state: GlobalState) => makeGetDisplayName()(state, userId, true));
-
-    useEffect(() => {
-        if (!channel) {
-            dispatch(fetchChannel(channelId));
-        }
-    }, [channel, channelId]);
-
-    useEffect(() => {
-        if (channel?.teammate_id && !directTeammate) {
-            dispatch(fetchUser(channel.teammate_id));
-        }
-    }, [channel, directTeammate]);
 
     return (
         <article
@@ -98,7 +122,7 @@ const ThreadItem = ({
                 'is-selected': isSelected,
             })}
             tabIndex={0}
-            onClick={useCallback(() => select(threadId), [threadId])}
+            onClick={selectHandler}
         >
             <h1>
                 {Boolean(newMentions || newReplies) && (
@@ -116,12 +140,9 @@ const ThreadItem = ({
                 <span>{displayName}</span>
                 {Boolean(channel) && (
                     <Badge
-                        onClick={useCallback((e: MouseEvent) => {
-                            e.stopPropagation();
-                            goToInChannel(threadId);
-                        }, [history])}
+                        onClick={goToInChannelHandler}
                     >
-                        {channel.display_name}
+                        {channel?.display_name}
                     </Badge>
                 )}
                 <Timestamp
@@ -162,20 +183,7 @@ const ThreadItem = ({
             {Boolean(totalReplies) && (
                 <div className='activity'>
                     <Avatars
-                        users={(participants as UserProfile[]).map(({
-                            username,
-                            first_name: first,
-                            last_name: last,
-                            id,
-                            last_picture_update: lastPictureUpdate,
-                        }) => {
-                            return {
-                                username,
-                                name: first && last ? `${first} ${last}` : username,
-                                url: imageURLForUser(id, lastPictureUpdate),
-                            };
-                        })}
-                        totalUsers={0}
+                        participants={participants}
                         size='xs'
                     />
                     {newReplies ? (

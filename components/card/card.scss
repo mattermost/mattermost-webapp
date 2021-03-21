@@ -18,6 +18,61 @@
         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.12);
         transition-duration: 0.15s;
     }
+    &.console {
+        background-color: var(--sys-center-channel-bg);
+        border: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.08);
+        box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.08);
+        border-radius: 2px;
+        color: var(--sys-center-channel-color);
+        width: 100%;
+        margin-bottom: 20px;
+
+        .Card__header {
+            padding: 28px 32px 24px 32px;
+            border-bottom: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.08);
+            display: flex;
+            align-items: center;
+
+            .text-top {
+                font-weight: 600;
+                font-size: 16px;
+                line-height: 24px;
+            }
+            .text-bottom {
+                font-size: 14px;
+                line-height: 20px;
+                margin-right: 24px;
+            }
+            .content-button {
+                margin-left: auto;
+                padding: 10px 16px;
+                font-size: 12px;
+                height: 32px;
+                font-weight: 600;
+                line-height: 9.5px;
+                border: none;
+                border-radius: 4px;
+                white-space: nowrap;
+                &.primary {
+                    background: var(--button-bg);
+                    color: var(--button-color);
+                }
+            }
+            .Card__hr {
+                display: none;
+            }
+        }
+        .Card__body {
+            overflow: visible;
+            &.expanding {
+                transition: none;
+            }
+            &.expanded {
+                margin: 28px 32px;
+            }
+        }
+    }
+    
 }
 
 .Card__header {

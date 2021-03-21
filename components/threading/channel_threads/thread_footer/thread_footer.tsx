@@ -6,6 +6,8 @@ import {FormattedMessage} from 'react-intl';
 
 import './thread_footer.scss';
 
+import {Post} from 'mattermost-redux/types/posts';
+
 import Avatars from 'components/widgets/users/avatars';
 
 import Button from 'components/threading/common/button';
@@ -17,7 +19,7 @@ import SimpleTooltip from 'components/widgets/simple_tooltip';
 import {THREADING_TIME} from '../../common/options';
 
 type Props = {
-    participants: ComponentProps<typeof Avatars>['users'];
+    participants: Post['participants'];
     totalParticipants?: number;
     totalReplies: number;
     newReplies: number;
@@ -66,7 +68,7 @@ function ThreadFooter({
             )}
 
             <Avatars
-                users={participants}
+                participants={participants}
                 totalUsers={totalParticipants}
                 size='sm'
             />
