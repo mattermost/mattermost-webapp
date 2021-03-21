@@ -18,41 +18,7 @@ import {getPasswordConfig} from 'utils/utils.jsx';
 
 import {GlobalState} from '../../../types/store';
 
-import SignupEmail from './signup_email';
-
-export type PasswordConfig = {
-    minimumLength: number;
-    requireLowercase: boolean;
-    requireNumber: boolean;
-    requireSymbol: boolean;
-    requireUppercase: boolean;
-}
-
-export type Props = {
-    location: {search: string};
-    enableSignUpWithEmail: boolean;
-    siteName: string;
-    termsOfServiceLink?: string;
-    privacyPolicyLink?: string;
-    customDescriptionText?: string;
-    passwordConfig?: PasswordConfig;
-    hasAccounts: boolean;
-    actions: Actions;
-};
-
-export type State = {
-    loading: boolean;
-    inviteId?: string;
-    token?: string;
-    email?: string;
-    teamName?: string;
-    noOpenServerError?: boolean;
-    isSubmitting?: boolean;
-    nameError?: React.ReactNode;
-    emailError?: React.ReactNode;
-    passwordError?: React.ReactNode;
-    serverError?: React.ReactNode;
-};
+import SignupEmail, {Props, State} from './signup_email';
 
 type TeamInviteInfo = {
     display_name: string;
@@ -72,7 +38,7 @@ function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
 
     const enableSignUpWithEmail = config.EnableSignUpWithEmail === 'true';
-    const siteName = config.SiteName as string;
+    const siteName = config.SiteName || '';
     const termsOfServiceLink = config.TermsOfServiceLink;
     const privacyPolicyLink = config.PrivacyPolicyLink;
     const customDescriptionText = config.CustomDescriptionText;
