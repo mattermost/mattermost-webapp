@@ -26,13 +26,40 @@ import SiteNameAndDescription from 'components/common/site_name_and_description'
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
-import {Props, State} from 'components/signup/signup_email/index';
+import {Actions} from 'components/signup/signup_email/index';
 
-type UserSignUpInfo = {
-    email: string;
-    username: string;
-    password: string;
-    allow_marketing: boolean;
+export type PasswordConfig = {
+    minimumLength: number;
+    requireLowercase: boolean;
+    requireNumber: boolean;
+    requireSymbol: boolean;
+    requireUppercase: boolean;
+}
+
+export type Props = {
+    location: {search: string};
+    enableSignUpWithEmail: boolean;
+    siteName: string;
+    termsOfServiceLink?: string;
+    privacyPolicyLink?: string;
+    customDescriptionText?: string;
+    passwordConfig?: PasswordConfig;
+    hasAccounts: boolean;
+    actions: Actions;
+};
+
+export type State = {
+    loading: boolean;
+    inviteId?: string;
+    token?: string;
+    email?: string;
+    teamName?: string;
+    noOpenServerError?: boolean;
+    isSubmitting?: boolean;
+    nameError?: React.ReactNode;
+    emailError?: React.ReactNode;
+    passwordError?: React.ReactNode;
+    serverError?: React.ReactNode;
 };
 
 export default class SignupEmail extends React.PureComponent<Props, State> {
@@ -64,7 +91,7 @@ export default class SignupEmail extends React.PureComponent<Props, State> {
         const token = (new URLSearchParams(this.props.location.search)).get('t');
         const inviteId = (new URLSearchParams(this.props.location.search)).get('id');
 
-        this.state = {} as State;
+        this.state = {loading: false};
         if (token && token.length > 0) {
             this.state = this.getTokenData(token, data!);
         } else if (inviteId && inviteId.length > 0) {
@@ -138,7 +165,7 @@ export default class SignupEmail extends React.PureComponent<Props, State> {
         }
     }
 
-    handleSignupSuccess = (user: UserSignUpInfo, data: UserProfile) => {
+    handleSignupSuccess = (user: UserProfile, data: UserProfile) => {
         trackEvent('signup', 'signup_user_02_complete');
         const redirectTo = (new URLSearchParams(this.props.location.search)).get('redirect_to');
 
