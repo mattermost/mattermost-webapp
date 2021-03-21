@@ -6,8 +6,7 @@ import {shallow} from 'enzyme';
 
 import {UserProfile} from 'mattermost-redux/types/users';
 
-import SignupEmail from 'components/signup/signup_email/signup_email';
-import {PasswordConfig} from 'components/signup/signup_email/signup_email';
+import SignupEmail, {PasswordConfig} from 'components/signup/signup_email/signup_email';
 
 import {browserHistory} from 'utils/browser_history';
 
