@@ -11,6 +11,7 @@ import deepFreezeAndThrowOnMutation from 'mattermost-redux/utils/deep_freeze';
 import {Reducer, Action} from 'mattermost-redux/types/actions';
 
 import {GlobalState} from 'mattermost-redux/types/store';
+import rootEpic from '../epics';
 
 import reducerRegistry from './reducer_registry';
 
@@ -31,13 +32,21 @@ import {createMiddleware} from './middleware';
 export default function configureServiceStore(preloadedState: any, appReducer: any, persistConfig: any, getAppReducer: any, clientOptions: any): Store {
     const baseState = Object.assign({}, initialState, preloadedState);
 
+    const middlewares = createMiddleware(clientOptions);
+
+    // There's a chance that it might not be epicMiddleWare. Find better way
+    // const epicMiddleW = clientOptions?.enableThunk ? middlewares[1] : middlewares[0];
+    const epicMiddleW: any = middlewares[1];
+
     const store = createStore(
         createDevReducer(baseState, serviceReducer, appReducer) as any,
         baseState,
         composeWithDevTools(
-            applyMiddleware(...createMiddleware(clientOptions)),
+            applyMiddleware(...middlewares),
         ),
     );
+
+    epicMiddleW.run(rootEpic);
 
     reducerRegistry.setChangeListener((reducers: any) => {
         store.replaceReducer(createDevReducer(baseState, reducers) as any);

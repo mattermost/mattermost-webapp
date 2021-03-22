@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 import {Middleware} from 'redux';
 import thunk, {ThunkMiddleware} from 'redux-thunk';
+import {createEpicMiddleware} from 'redux-observable';
 
 const defaultOptions = {
     additionalMiddleware: [],
@@ -18,6 +19,9 @@ export function createMiddleware(clientOptions: any): Middleware[] {
     if (enableThunk) {
         middleware.push(thunk);
     }
+
+    const epicMiddleware = createEpicMiddleware();
+    middleware.push(epicMiddleware);
 
     if (additionalMiddleware) {
         if (typeof additionalMiddleware === 'function') {
