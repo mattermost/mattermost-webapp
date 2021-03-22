@@ -178,6 +178,7 @@ describe('components/PermalinkView', () => {
             });
 
             test('should redirect to DM link with postId for permalink', async () => {
+                Date.now = () => new Date(0).getMilliseconds();
                 const modifiedState = {
                     entities: {
                         ...initialState.entities,
@@ -197,6 +198,22 @@ describe('components/PermalinkView', () => {
                 expect(getPostThread).toHaveBeenCalledWith('dmpostid1');
                 expect(testStore.getActions()).toEqual([
                     {type: 'MOCK_GET_POST_THREAD', data: {posts: {dmpostid1: {id: 'dmpostid1', message: 'some message', channel_id: 'dmchannelid'}}, order: ['dmpostid1']}},
+                    {data: [
+                        {
+                            category: 'direct_channel_show',
+                            name: 'dmchannel',
+                            user_id: 'current_user_id',
+                            value: 'true',
+                        },
+                        {
+                            category: 'channel_open_time',
+                            name: 'dmchannelid',
+                            user_id: 'current_user_id',
+                            value: '0',
+                        },
+                    ],
+                    type: 'RECEIVED_PREFERENCES',
+                    },
                     {type: 'MOCK_SELECT_CHANNEL', args: ['dmchannelid']},
                     {type: 'RECEIVED_FOCUSED_POST', channelId: 'dmchannelid', data: 'dmpostid1'},
                     {type: 'MOCK_LOAD_CHANNELS_FOR_CURRENT_USER'},
