@@ -1,10 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {useSelector, useDispatch} from 'react-redux';
+
+import {createSelector} from 'reselect';
+
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {useSelector, useDispatch} from 'react-redux';
-import {createSelector} from 'reselect';
 
 import {makeGetGlobalItem} from 'selectors/storage';
 import {setGlobalItem} from 'actions/storage';

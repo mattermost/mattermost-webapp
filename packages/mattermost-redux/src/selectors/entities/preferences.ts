@@ -6,7 +6,6 @@ import {createSelector} from 'reselect';
 import {General, Preferences} from 'mattermost-redux/constants';
 
 import {getConfig, getFeatureFlagValue, getLicense} from 'mattermost-redux/selectors/entities/general';
-import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
 import {PreferenceType, Theme} from 'mattermost-redux/types/preferences';
 import {UserProfile} from 'mattermost-redux/types/users';
