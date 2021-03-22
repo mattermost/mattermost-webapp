@@ -315,6 +315,7 @@ function myMembers(state: RelationOneToOne<Channel, ChannelMembership> = {}, act
         const {
             channelId,
             amount,
+            amountRoot,
             onlyMentions,
             fetchedChannelMember,
         } = action.data;
@@ -340,11 +341,12 @@ function myMembers(state: RelationOneToOne<Channel, ChannelMembership> = {}, act
             [channelId]: {
                 ...member,
                 msg_count: member.msg_count + amount,
+                msg_count_root: member.msg_count_root + amountRoot,
             },
         };
     }
     case ChannelTypes.DECREMENT_UNREAD_MSG_COUNT: {
-        const {channelId, amount} = action.data;
+        const {channelId, amount, amountRoot} = action.data;
 
         const member = state[channelId];
 
@@ -358,6 +360,7 @@ function myMembers(state: RelationOneToOne<Channel, ChannelMembership> = {}, act
             [channelId]: {
                 ...member,
                 msg_count: member.msg_count + amount,
+                msg_count_root: member.msg_count_root + amountRoot,
             },
         };
     }
@@ -365,6 +368,7 @@ function myMembers(state: RelationOneToOne<Channel, ChannelMembership> = {}, act
         const {
             channelId,
             amount,
+            amountRoot,
             fetchedChannelMember,
         } = action.data;
         const member = state[channelId];
@@ -384,11 +388,12 @@ function myMembers(state: RelationOneToOne<Channel, ChannelMembership> = {}, act
             [channelId]: {
                 ...member,
                 mention_count: member.mention_count + amount,
+                mention_count_root: member.mention_count_root + amountRoot,
             },
         };
     }
     case ChannelTypes.DECREMENT_UNREAD_MENTION_COUNT: {
-        const {channelId, amount} = action.data;
+        const {channelId, amount, amountRoot} = action.data;
         const member = state[channelId];
 
         if (!member) {
@@ -401,6 +406,7 @@ function myMembers(state: RelationOneToOne<Channel, ChannelMembership> = {}, act
             [channelId]: {
                 ...member,
                 mention_count: Math.max(member.mention_count - amount, 0),
+                mention_count_root: Math.max(member.mention_count_root - amountRoot, 0),
             },
         };
     }
@@ -437,7 +443,7 @@ function myMembers(state: RelationOneToOne<Channel, ChannelMembership> = {}, act
         if (!channelState) {
             return state;
         }
-        return {...state, [data.channelId]: {...channelState, msg_count: data.msgCount, mention_count: data.mentionCount, last_viewed_at: data.lastViewedAt}};
+        return {...state, [data.channelId]: {...channelState, msg_count: data.msgCount, mention_count: data.mentionCount, msg_count_root: data.msgCountRoot, mention_count_root: data.mentionCountRoot, last_viewed_at: data.lastViewedAt}};
     }
 
     case ChannelTypes.RECEIVED_MY_CHANNELS_WITH_MEMBERS: { // Used by the mobile app

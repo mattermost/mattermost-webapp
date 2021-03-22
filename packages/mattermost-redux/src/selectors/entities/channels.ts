@@ -484,9 +484,13 @@ export const getUnreads: (state: GlobalState) => {
     (channels: IDMappedObjects<Channel>, myMembers: RelationOneToOne<Channel, ChannelMembership>, users: IDMappedObjects<UserProfile>, currentUserId: string, currentTeamId: string, myTeams: Team[], myTeamMemberships: RelationOneToOne<Team, TeamMembership>): {
         messageCount: number;
         mentionCount: number;
+        messageCountRoot: number;
+        mentionCountRoot: number;
     } => {
         let messageCountForCurrentTeam = 0; // Includes message count from channels of current team plus all GM'S and all DM's across teams
         let mentionCountForCurrentTeam = 0; // Includes mention count from channels of current team plus all GM'S and all DM's across teams
+        let messageCountForCurrentTeamRoot = 0; // Includes root message count from channels of current team plus all GM'S and all DM's across teams
+        let mentionCountForCurrentTeamRoot = 0; // Includes root mention count from channels of current team plus all GM'S and all DM's across teams
 
         Object.keys(myMembers).forEach((channelId) => {
             const channel = channels[channelId];
@@ -507,19 +511,37 @@ export const getUnreads: (state: GlobalState) => {
 
                 if (users[otherUserId] && users[otherUserId].delete_at === 0) {
                     mentionCountForCurrentTeam += m.mention_count;
+                    mentionCountForCurrentTeamRoot += m.mention_count_root ?? 0;
                 }
-            } else if (m.mention_count > 0 && channel.delete_at === 0) {
-                mentionCountForCurrentTeam += m.mention_count;
+            } else if (channel.delete_at === 0) {
+                if (m.mention_count > 0) {
+                    mentionCountForCurrentTeam += m.mention_count;
+                }
+                if (m.mention_count_root > 0) {
+                    mentionCountForCurrentTeamRoot += m.mention_count_root ?? 0;
+                }
             }
 
-            if (m.notify_props && m.notify_props.mark_unread !== 'mention' && channel.total_msg_count - m.msg_count > 0) {
-                if (channel.type === General.DM_CHANNEL) {
-                    // otherUserId is guaranteed to have been set above
-                    if (users[otherUserId] && users[otherUserId].delete_at === 0) {
+            if (m.notify_props && m.notify_props.mark_unread !== 'mention') {
+                if (channel.total_msg_count - m.msg_count > 0) {
+                    if (channel.type === General.DM_CHANNEL) {
+                        // otherUserId is guaranteed to have been set above
+                        if (users[otherUserId] && users[otherUserId].delete_at === 0) {
+                            messageCountForCurrentTeam += 1;
+                        }
+                    } else if (channel.delete_at === 0) {
                         messageCountForCurrentTeam += 1;
                     }
-                } else if (channel.delete_at === 0) {
-                    messageCountForCurrentTeam += 1;
+                }
+                if (channel.total_msg_count_root - m.msg_count_root > 0) {
+                    if (channel.type === General.DM_CHANNEL) {
+                        // otherUserId is guaranteed to have been set above
+                        if (users[otherUserId] && users[otherUserId].delete_at === 0) {
+                            messageCountForCurrentTeamRoot += 1;
+                        }
+                    } else if (channel.delete_at === 0) {
+                        messageCountForCurrentTeamRoot += 1;
+                    }
                 }
             }
         });
@@ -531,18 +553,24 @@ export const getUnreads: (state: GlobalState) => {
                 const member = myTeamMemberships[team.id];
                 acc.messageCount += member.msg_count;
                 acc.mentionCount += member.mention_count;
+                acc.messageCountRoot += member.msg_count_root ?? 0;
+                acc.mentionCountRoot += member.mention_count_root ?? 0;
             }
 
             return acc;
         }, {
             messageCount: 0,
             mentionCount: 0,
+            messageCountRoot: 0,
+            mentionCountRoot: 0,
         });
 
         // messageCount is the number of unread channels, mention count is the total number of mentions
         return {
             messageCount: messageCountForCurrentTeam + otherTeamsUnreadCountForChannels.messageCount,
             mentionCount: mentionCountForCurrentTeam + otherTeamsUnreadCountForChannels.mentionCount,
+            messageCountRoot: messageCountForCurrentTeamRoot + otherTeamsUnreadCountForChannels.messageCountRoot,
+            mentionCountRoot: mentionCountForCurrentTeamRoot + otherTeamsUnreadCountForChannels.mentionCountRoot,
         };
     },
 );

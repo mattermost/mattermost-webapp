@@ -18,7 +18,7 @@ import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 import {setThemeDefaults} from 'mattermost-redux/utils/theme_utils';
 
 export function getMyPreferences(state: GlobalState): { [x: string]: PreferenceType } {
-    return state.entities.preferences.myPreferences;
+    return state.entities.preferences?.myPreferences ?? {};
 }
 
 export function get(state: GlobalState, category: string, name: string, defaultValue: any = '') {
@@ -112,7 +112,7 @@ export const getTeammateNameDisplaySetting: (state: GlobalState) => string = cre
 
 const getThemePreference = createSelector(
     getMyPreferences,
-    getCurrentTeamId,
+    (state) => state.entities.teams.currentTeamId,
     (myPreferences, currentTeamId) => {
         // Prefer the user's current team-specific theme over the user's current global theme
         let themePreference;
@@ -242,16 +242,11 @@ export function shouldAutocloseDMs(state: GlobalState) {
 }
 
 export function getCollapsedThreadsPreference(state: GlobalState): string {
-    const configValue = getConfig(state).CollapsedThreads;
-    let preferenceDefault;
+    const configValue = getConfig(state)?.CollapsedThreads;
+    let preferenceDefault = Preferences.COLLAPSED_REPLY_THREADS_OFF;
 
-    switch (configValue) {
-    case 'default_off':
-        preferenceDefault = Preferences.COLLAPSED_REPLY_THREADS_OFF;
-        break;
-    case 'default_on':
+    if (configValue === 'default_on') {
         preferenceDefault = Preferences.COLLAPSED_REPLY_THREADS_ON;
-        break;
     }
 
     return get(

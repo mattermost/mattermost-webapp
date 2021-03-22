@@ -421,14 +421,18 @@ export function editPost(post: Post) {
 function getUnreadPostData(unreadChan: ChannelUnread, state: GlobalState) {
     const member = getMyChannelMemberSelector(state, unreadChan.channel_id);
     const delta = member ? member.msg_count - unreadChan.msg_count : unreadChan.msg_count;
+    const deltaRoot = member ? member.msg_count_root - unreadChan.msg_count_root : unreadChan.msg_count_root;
 
     const data = {
         teamId: unreadChan.team_id,
         channelId: unreadChan.channel_id,
         msgCount: unreadChan.msg_count,
         mentionCount: unreadChan.mention_count,
+        msgCountRoot: unreadChan.msg_count_root,
+        mentionCountRoot: unreadChan.mention_count_root,
         lastViewedAt: unreadChan.last_viewed_at,
         deltaMsgs: delta,
+        deltaMsgsRoot: deltaRoot,
     };
 
     return data;

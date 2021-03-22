@@ -3144,7 +3144,7 @@ describe('Selectors.Channels.getUnreads', () => {
     });
 
     it('get unreads', () => {
-        assert.deepEqual(Selectors.getUnreads(testState), {mentionCount: 69, messageCount: 130});
+        assert.deepEqual(Selectors.getUnreads(testState), {mentionCount: 69, messageCount: 130, mentionCountRoot: 0, messageCountRoot: 0});
     });
 
     it('get unreads with a missing profile entity', () => {
@@ -3163,7 +3163,7 @@ describe('Selectors.Channels.getUnreads', () => {
             },
         };
 
-        assert.deepEqual(Selectors.getUnreads(newState), {mentionCount: 69, messageCount: 130});
+        assert.deepEqual(Selectors.getUnreads(newState), {mentionCount: 69, messageCount: 130, mentionCountRoot: 0, messageCountRoot: 0});
     });
 
     it('get unreads with a deactivated user', () => {
@@ -3185,7 +3185,7 @@ describe('Selectors.Channels.getUnreads', () => {
                 },
             },
         };
-        assert.deepEqual(Selectors.getUnreads(newState), {mentionCount: 69, messageCount: 130});
+        assert.deepEqual(Selectors.getUnreads(newState), {mentionCount: 69, messageCount: 130, mentionCountRoot: 0, messageCountRoot: 0});
     });
 
     it('get unreads with a deactivated channel', () => {
@@ -3208,7 +3208,7 @@ describe('Selectors.Channels.getUnreads', () => {
             },
         };
 
-        assert.deepEqual(Selectors.getUnreads(newState), {mentionCount: 65, messageCount: 129});
+        assert.deepEqual(Selectors.getUnreads(newState), {mentionCount: 65, messageCount: 129, mentionCountRoot: 0, messageCountRoot: 0});
     });
 });
 

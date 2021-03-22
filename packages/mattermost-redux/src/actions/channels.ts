@@ -1290,6 +1290,7 @@ export function markChannelAsRead(channelId: string, prevChannelId?: string, upd
                     teamId: channel.team_id,
                     channelId,
                     amount: channel.total_msg_count - channelMember.msg_count,
+                    amountRoot: channel.total_msg_count_root - channelMember.msg_count_root,
                 },
             });
 
@@ -1299,6 +1300,7 @@ export function markChannelAsRead(channelId: string, prevChannelId?: string, upd
                     teamId: channel.team_id,
                     channelId,
                     amount: channelMember.mention_count,
+                    amountRoot: channelMember.mention_count_root,
                 },
             });
         }
@@ -1317,6 +1319,7 @@ export function markChannelAsRead(channelId: string, prevChannelId?: string, upd
                     teamId: prevChannel.team_id,
                     channelId: prevChannelId,
                     amount: prevChannel.total_msg_count - prevChannelMember.msg_count,
+                    amountRoot: prevChannel.total_msg_count_root - prevChannelMember.msg_count_root,
                 },
             });
 
@@ -1326,6 +1329,7 @@ export function markChannelAsRead(channelId: string, prevChannelId?: string, upd
                     teamId: prevChannel.team_id,
                     channelId: prevChannelId,
                     amount: prevChannelMember.mention_count,
+                    amountRoot: prevChannelMember.mention_count_root,
                 },
             });
         }
