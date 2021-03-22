@@ -2,12 +2,14 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {IntlShape} from 'react-intl';
+
 import {Post} from 'mattermost-redux/types/posts';
 import {Channel} from 'mattermost-redux/types/channels';
 import {FileInfo} from 'mattermost-redux/types/files';
-import {IntlShape} from 'react-intl';
 
 import {SearchFilterType} from '../search/types';
+
 import {SearchType} from 'types/store/rhs';
 
 export type OwnProps = {

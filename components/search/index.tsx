@@ -1,10 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {getMorePostsForSearch, getMoreFilesForSearch} from 'mattermost-redux/actions/search';
-import {getFeatureFlagValue} from 'mattermost-redux/selectors/entities/general';
 import {connect} from 'react-redux';
 import {AnyAction, bindActionCreators, Dispatch} from 'redux';
+
+import {getMorePostsForSearch, getMoreFilesForSearch} from 'mattermost-redux/actions/search';
+import {getFeatureFlagValue} from 'mattermost-redux/selectors/entities/general';
 
 import {
     updateSearchTerms,

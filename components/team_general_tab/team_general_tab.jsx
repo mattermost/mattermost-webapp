@@ -21,21 +21,23 @@ import {t} from 'utils/i18n.jsx';
 const ACCEPTED_TEAM_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/bmp'];
 
 export default class GeneralTab extends React.PureComponent {
+    // Removed isRequired from these props: maxFileSize, canInviteTeamMembers,
+    // and actions due to issues with TypeScript migration
     static propTypes = {
         updateSection: PropTypes.func.isRequired,
         team: PropTypes.object.isRequired,
         activeSection: PropTypes.string.isRequired,
         closeModal: PropTypes.func.isRequired,
         collapseModal: PropTypes.func.isRequired,
-        maxFileSize: PropTypes.number.isRequired,
+        maxFileSize: PropTypes.number,
         actions: PropTypes.shape({
             getTeam: PropTypes.func.isRequired,
             patchTeam: PropTypes.func.isRequired,
             regenerateTeamInviteId: PropTypes.func.isRequired,
             removeTeamIcon: PropTypes.func.isRequired,
             setTeamIcon: PropTypes.func.isRequired,
-        }).isRequired,
-        canInviteTeamMembers: PropTypes.bool.isRequired,
+        }),
+        canInviteTeamMembers: PropTypes.bool,
     }
 
     constructor(props) {
@@ -697,9 +699,7 @@ export default class GeneralTab extends React.PureComponent {
                     />
                 );
             } else {
-                minMessage = Utils.isMobile() ?
-                    Utils.localizeMessage('general_tab.teamIconEditHintMobile', 'Click to upload an image') :
-                    Utils.localizeMessage('general_tab.teamIconEditHint', 'Click \'Edit\' to upload an image.');
+                minMessage = Utils.isMobile() ? Utils.localizeMessage('general_tab.teamIconEditHintMobile', 'Click to upload an image') : Utils.localizeMessage('general_tab.teamIconEditHint', 'Click \'Edit\' to upload an image.');
             }
 
             teamIconSection = (
