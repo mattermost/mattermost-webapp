@@ -5,6 +5,8 @@ import {Constants} from 'utils/constants';
 import AtMentionProvider from 'components/suggestion/at_mention_provider/at_mention_provider.jsx';
 import AtMentionSuggestion from 'components/suggestion/at_mention_provider/at_mention_suggestion.jsx';
 
+jest.useFakeTimers();
+
 describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
     const userid10 = {id: 'userid10', username: 'nicknamer', first_name: '', last_name: '', nickname: 'Z'};
     const userid3 = {id: 'userid3', username: 'other', first_name: 'X', last_name: 'Y', nickname: 'Z'};
