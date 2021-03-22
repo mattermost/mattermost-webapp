@@ -45,7 +45,6 @@ export default class SubMenuModal extends React.PureComponent<Props, State> {
                         subMenu={element.subMenu}
                         action={element.action}
                         filter={element.filter}
-                        xOffset={0}
                         root={false}
                     />
                 );

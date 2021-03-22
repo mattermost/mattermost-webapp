@@ -63,7 +63,7 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
         managePrivateChannelMembers: true,
         closeHandler: jest.fn(),
         isCollapsed: false,
-        isMenuOpen: false,
+        isMenuOpen: true,
         onToggleMenu: jest.fn(),
         actions: {
             markChannelAsRead: jest.fn(),
@@ -200,13 +200,11 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
         const ref = {
             state: {
                 openUp: false,
-                width: 1234,
             },
         };
 
         wrapper.instance().refCallback(ref as any);
         expect(wrapper.instance().state.openUp).toEqual(ref.state.openUp);
-        expect(wrapper.instance().state.width).toEqual(ref.state.width);
     });
 
     test('should call the close handler when leave channel is clicked', () => {

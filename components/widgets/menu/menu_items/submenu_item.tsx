@@ -38,7 +38,6 @@ type Props = {
     icon?: React.ReactNode;
     action?: (id?: string) => void;
     filter?: (id?: string) => boolean;
-    xOffset?: number;
     ariaLabel?: string;
     root?: boolean;
     show?: boolean;
@@ -141,7 +140,7 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
     }
 
     public render() {
-        const {id, postId, text, subMenu, root, icon, filter, xOffset, ariaLabel, direction} = this.props;
+        const {id, postId, text, subMenu, icon, filter, ariaLabel, direction} = this.props;
         const isMobile = Utils.isMobile();
 
         if (filter && !filter(id)) {
@@ -159,15 +158,12 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
         }
 
         const hasSubmenu = subMenu && subMenu.length;
-        const parentWidth = this.node && this.node.current ? this.node.current.getBoundingClientRect().width : 0;
-        const childOffset = (React.isValidElement(text)) ? 20 : 0;
-        const offset = (root ? 2 : childOffset);
         const subMenuStyle: CSSProperties = {
             visibility: (this.state.show && hasSubmenu && !isMobile ? 'visible' : 'hidden') as 'visible' | 'hidden',
             top: this.node && this.node.current ? String(this.node.current.offsetTop) + 'px' : 'unset',
         };
 
-        const menuOffset = (parseInt(String(xOffset), 10) - offset) + 'px';
+        const menuOffset = '100%';
         if (direction === 'left') {
             subMenuStyle.right = menuOffset;
         } else {
@@ -193,7 +189,6 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
                                 subMenu={s.subMenu}
                                 action={s.action}
                                 filter={s.filter}
-                                xOffset={parentWidth}
                                 ariaLabel={ariaLabel}
                                 root={false}
                                 direction={s.direction}
