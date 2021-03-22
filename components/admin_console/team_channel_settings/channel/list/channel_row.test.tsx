@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {shallow} from 'enzyme';
+
 import {ChannelType} from 'mattermost-redux/types/channels';
 
 import ChannelRow from './channel_row';

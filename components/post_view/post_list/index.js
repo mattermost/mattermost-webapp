@@ -4,6 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {withRouter} from 'react-router-dom';
+
 import {getRecentPostsChunkInChannel, makeGetPostsChunkAroundPost, getUnreadPostsChunk, getPost} from 'mattermost-redux/selectors/entities/posts';
 import {isManuallyUnread} from 'mattermost-redux/selectors/entities/channels';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';

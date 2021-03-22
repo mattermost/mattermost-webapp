@@ -4,13 +4,18 @@
 import React from 'react';
 import Scrollbars from 'react-custom-scrollbars';
 import {FormattedMessage} from 'react-intl';
-import Permissions from 'mattermost-redux/constants/permissions';
+
 import classNames from 'classnames';
+
 import {DragDropContext, Droppable, DroppableProvided, DropResult} from 'react-beautiful-dnd';
-import {Team} from 'mattermost-redux/types/teams';
-import {Dictionary} from 'mattermost-redux/src/types/utilities';
-import {TeamMembership} from 'mattermost-redux/src/types/teams';
+
 import {Dispatch} from 'redux';
+
+import Permissions from 'mattermost-redux/constants/permissions';
+
+import {Team, TeamMembership} from 'mattermost-redux/types/teams';
+import {Dictionary} from 'mattermost-redux/types/utilities';
+
 import {GenericAction, GetStateFunc} from 'mattermost-redux/types/actions';
 
 import {Constants} from 'utils/constants.jsx';

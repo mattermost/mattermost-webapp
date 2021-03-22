@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {shallow} from 'enzyme';
+
 import {Team} from 'mattermost-redux/types/teams';
 import {Command} from 'mattermost-redux/types/integrations';
 

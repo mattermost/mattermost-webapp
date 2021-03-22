@@ -3,10 +3,12 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
+
+import {withRouter} from 'react-router-dom';
+
 import {getConfig, getEnvironmentConfig, updateConfig} from 'mattermost-redux/actions/admin';
 import {loadRolesIfNeeded, editRole} from 'mattermost-redux/actions/roles';
 import * as Selectors from 'mattermost-redux/selectors/entities/admin';
-import {withRouter} from 'react-router-dom';
 import {getConfig as getGeneralConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getRoles} from 'mattermost-redux/selectors/entities/roles';
 import {selectChannel} from 'mattermost-redux/actions/channels';

@@ -38,6 +38,7 @@ describe('components/sidebar/sidebar_channel/sidebar_direct_channel', () => {
         active: false,
         botIconUrl: null,
         isCollapsed: false,
+        isMobile: false,
         actions: {
             savePreferences: jest.fn(),
             leaveDirectChannel: jest.fn(),

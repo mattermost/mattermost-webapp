@@ -5,8 +5,8 @@ import React, {ChangeEvent, MouseEvent} from 'react';
 import {Modal, Tooltip} from 'react-bootstrap';
 import {defineMessages, FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
-import {Channel} from 'mattermost-redux/src/types/channels';
-import {Team} from 'mattermost-redux/src/types/teams';
+import {Channel} from 'mattermost-redux/types/channels';
+import {Team} from 'mattermost-redux/types/teams';
 import {ServerError} from 'mattermost-redux/types/errors';
 
 import LocalizedInput from 'components/localized_input/localized_input';

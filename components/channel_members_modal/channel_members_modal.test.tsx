@@ -4,6 +4,7 @@
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {shallow} from 'enzyme';
+
 import {ChannelType} from 'mattermost-redux/types/channels';
 
 import ChannelInviteModal from 'components/channel_invite_modal';
