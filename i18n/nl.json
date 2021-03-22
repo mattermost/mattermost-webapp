@@ -4331,6 +4331,7 @@
   "user.settings.security.oauthAppsHelp": "Applicaties behandelen jouw toegangs-gegevens alleen naar de rechten die jij ze geeft.",
   "user.settings.security.office365": "Office 365",
   "user.settings.security.oneSignin": "Je mag maar één inlogmethode tegelijkertijd gebruiken. Veranderen van inlogmethode zal een e-mail versturen om je te melden of de verandering succesvol was.",
+  "user.settings.security.openid": "OpenID",
   "user.settings.security.password": "Wachtwoord",
   "user.settings.security.passwordError": "Een wachtwoord moet tussen {min} en {max} tekens bevatten.",
   "user.settings.security.passwordErrorLowercase": "Jouw wachtwoord moet tussen de {min} en {max} karakters bevatten met minimaal 1 kleine letter.",
