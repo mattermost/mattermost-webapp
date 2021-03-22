@@ -3,6 +3,7 @@
 
 const MAIN_MENU = 'main menu';
 const CHANNEL_MENU = 'channel menu';
+const SET_STATUS_MENU = 'set status';
 
 function openMenu(name, item) {
     const menu = () => cy.findByRole('button', {name}).should('be.visible');
@@ -44,4 +45,8 @@ Cypress.Commands.add('uiCloseChannelMenu', () => {
 
 Cypress.Commands.add('uiGetChannelMenu', () => {
     return getMenu(CHANNEL_MENU);
+});
+
+Cypress.Commands.add('uiOpenSetStatusMenu', (item = '') => {
+    return openMenu(SET_STATUS_MENU, item);
 });
