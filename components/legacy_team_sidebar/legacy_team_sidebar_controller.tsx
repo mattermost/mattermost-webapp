@@ -35,6 +35,7 @@ type State = {
 
 interface Props {
     myTeams: Team[];
+    collapsedThreads: boolean;
     currentTeamId: string;
     match: { url: string };
     moreTeamsToJoin: boolean;
@@ -222,10 +223,10 @@ export default class LegacyTeamSidebar extends React.PureComponent<Props, State>
                     tip={team.display_name}
                     active={team.id === this.props.currentTeamId}
                     displayName={team.display_name}
-                    unread={member.msg_count > 0}
+                    unread={this.props.collapsedThreads ? member.msg_count_root > 0 : member.msg_count > 0}
                     order={index + 1}
                     showOrder={this.state.showOrder}
-                    mentions={member.mention_count}
+                    mentions={this.props.collapsedThreads ? member.mention_count_root : member.mention_count}
                     teamIconUrl={Utils.imageURLForTeam(team)}
                     switchTeam={this.props.actions.switchTeam}
                     isDraggable={true}

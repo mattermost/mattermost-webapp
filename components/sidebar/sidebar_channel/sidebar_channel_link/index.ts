@@ -5,7 +5,6 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
 import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
-import {getThreadCountsInCurrentTeam} from 'mattermost-redux/selectors/entities/threads';
 
 import {Channel} from 'mattermost-redux/types/channels';
 import {GenericAction} from 'mattermost-redux/types/actions';
@@ -30,16 +29,12 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     let unreadMentions = 0;
     let unreadMsgs = 0;
     let showUnreadForMsgs = true;
+    const collapsed = isCollapsedThreadsEnabled(state);
     if (member) {
-        unreadMentions = member.mention_count;
-
-        if (isCollapsedThreadsEnabled(state)) {
-            const threadMentionCountInChannel = getThreadCountsInCurrentTeam(state)?.unread_mentions_per_channel?.[ownProps.channel.id] || 0;
-            unreadMentions -= threadMentionCountInChannel;
-        }
+        unreadMentions = collapsed ? member.mention_count_root : member.mention_count;
 
         if (ownProps.channel) {
-            unreadMsgs = Math.max(ownProps.channel.total_msg_count - member.msg_count, 0);
+            unreadMsgs = collapsed ? Math.max(ownProps.channel.total_msg_count_root - member.msg_count_root, 0) : Math.max(ownProps.channel.total_msg_count - member.msg_count, 0);
         }
 
         if (member.notify_props) {

@@ -62,8 +62,6 @@ import {getPost, getMostRecentPostIdInChannel} from 'mattermost-redux/selectors/
 import {haveISystemPermission, haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
 
-import {fetchThreadMentionCountsByChannel} from 'actions/team_actions.jsx';
-
 import {getSelectedChannelId} from 'selectors/rhs';
 
 import {openModal} from 'actions/views/modals';
@@ -184,7 +182,6 @@ export function reconnect(includeWebSocket = true) {
         const mostRecentId = getMostRecentPostIdInChannel(state, currentChannelId);
         const mostRecentPost = getPost(state, mostRecentId);
         dispatch(loadChannelsForCurrentUser());
-        dispatch(fetchThreadMentionCountsByChannel());
 
         if (mostRecentPost) {
             dispatch(syncPostsInChannel(currentChannelId, mostRecentPost.create_at));

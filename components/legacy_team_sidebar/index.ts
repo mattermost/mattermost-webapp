@@ -13,7 +13,7 @@ import {
     getMyTeams,
     getTeamMemberships,
 } from 'mattermost-redux/selectors/entities/teams';
-import {get} from 'mattermost-redux/selectors/entities/preferences';
+import {get, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import {ClientConfig} from 'mattermost-redux/types/config';
 
@@ -39,6 +39,7 @@ function mapStateToProps(state: GlobalState) {
         myTeams: getMyTeams(state),
         myTeamMembers: getTeamMemberships(state),
         isOpen: getIsLhsOpen(state),
+        collapsedThreads: isCollapsedThreadsEnabled(state),
         experimentalPrimaryTeam,
         locale: getCurrentLocale(state),
         moreTeamsToJoin,
