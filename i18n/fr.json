@@ -3291,6 +3291,8 @@
   "pending_post_actions.retry": "Réessayer",
   "permalink.error.access": "Ce lien correspond à un message supprimé ou appartenant à un canal auquel vous n'avez pas accès.",
   "permalink.error.title": "Message introuvable",
+  "permalink.show_dialog_warn.join": "Rejoindre",
+  "permalink.show_dialog_warn.title": "Rejoindre le canal privé",
   "post.ariaLabel.attachment": ", 1 fichier joint",
   "post.ariaLabel.attachmentMultiple": ", {attachmentCount} fichiers joints",
   "post.ariaLabel.messageIsFlagged": ", le message est marqué d'un indicateur",
