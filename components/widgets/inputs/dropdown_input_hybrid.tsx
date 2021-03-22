@@ -213,7 +213,7 @@ const DropdownInputHybrid = <T extends ValueType>(props: Props<T>) => {
                     onFocus={onInputFocus}
                     onBlur={onInputBlur}
                     style={{
-                        width: showInput && containerRef.current ? `${(containerRef.current.offsetWidth - 10) - width}px` : '0%' ,
+                        maxWidth: showInput && containerRef.current ? '1000px' : '0',
                     }}
                 >
                     <input
