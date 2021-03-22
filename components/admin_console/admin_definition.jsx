@@ -194,6 +194,10 @@ export const it = {
 };
 
 const usesLegacyOauth = (config, state, license, enterpriseReady, consoleAccess, cloud) => {
+    if (!config.GITLAB_SERVICE || !config.GOOGLE_SERVICE || !config.OFFICE365_SERVICE) {
+        return false;
+    }
+
     return it.any(
         it.all(
             it.not(it.configContains('GitLabSettings', 'Scope', 'openid')),
@@ -2631,11 +2635,21 @@ const AdminDefinition = {
         icon: 'fa-shield',
         sectionTitle: t('admin.sidebar.authentication'),
         sectionTitleDefault: 'Authentication',
-        isHidden: it.not(it.userHasReadPermissionOnResource('authentication')),
+        isHidden: it.all(
+            it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SIGNUP)),
+            it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.EMAIL)),
+            it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.PASSWORD)),
+            it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.MFA)),
+            it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
+            it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
+            it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SAML)),
+            it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.GUEST_ACCESS)),
+        ),
         signup: {
             url: 'authentication/signup',
             title: t('admin.sidebar.signup'),
             title_default: 'Signup',
+            isHidden: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SIGNUP)),
             schema: {
                 id: 'SignupSettings',
                 name: t('admin.authentication.signup'),
@@ -2648,7 +2662,7 @@ const AdminDefinition = {
                         label_default: 'Enable Account Creation: ',
                         help_text: t('admin.team.userCreationDescription'),
                         help_text_default: 'When false, the ability to create accounts is disabled. The create account button displays error when pressed.',
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SIGNUP)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -2660,7 +2674,7 @@ const AdminDefinition = {
                         placeholder: t('admin.team.restrictExample'),
                         placeholder_default: 'E.g.: "corp.mattermost.com, mattermost.org"',
                         isHidden: it.licensed,
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SIGNUP)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -2672,7 +2686,7 @@ const AdminDefinition = {
                         placeholder: t('admin.team.restrictExample'),
                         placeholder_default: 'E.g.: "corp.mattermost.com, mattermost.org"',
                         isHidden: it.not(it.licensed),
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SIGNUP)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -2681,7 +2695,7 @@ const AdminDefinition = {
                         label_default: 'Enable Open Server: ',
                         help_text: t('admin.team.openServerDescription'),
                         help_text_default: 'When true, anyone can signup for a user account on this server without the need to be invited.',
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SIGNUP)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -2690,7 +2704,7 @@ const AdminDefinition = {
                         label_default: 'Enable Email Invitations: ',
                         help_text: t('admin.team.emailInvitationsDescription'),
                         help_text_default: 'When true users can invite others to the system using email.',
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SIGNUP)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BUTTON,
@@ -2704,7 +2718,7 @@ const AdminDefinition = {
                         error_message_default: 'Unable to invalidate pending email invites: {error}',
                         success_message: t('admin.team.invalidateEmailInvitesSuccess'),
                         success_message_default: 'Pending email invitations invalidated successfully',
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SIGNUP)),
                     },
                 ],
             },
@@ -2713,6 +2727,7 @@ const AdminDefinition = {
             url: 'authentication/email',
             title: t('admin.sidebar.email'),
             title_default: 'Email',
+            isHidden: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.EMAIL)),
             schema: {
                 id: 'EmailSettings',
                 name: t('admin.authentication.email'),
@@ -2725,7 +2740,7 @@ const AdminDefinition = {
                         label_default: 'Enable account creation with email:',
                         help_text: t('admin.email.allowSignupDescription'),
                         help_text_default: 'When true, Mattermost allows account creation using email and password. This value should be false only when you want to limit sign up to a single sign-on service like AD/LDAP, SAML or GitLab.',
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.EMAIL)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -2734,7 +2749,7 @@ const AdminDefinition = {
                         label_default: 'Require Email Verification: ',
                         help_text: t('admin.email.requireVerificationDescription'),
                         help_text_default: 'Typically set to true in production. When true, Mattermost requires email verification after account creation prior to allowing login. Developers may set this field to false to skip sending verification emails for faster development.',
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.EMAIL)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -2743,7 +2758,7 @@ const AdminDefinition = {
                         label_default: 'Enable sign-in with email:',
                         help_text: t('admin.email.allowEmailSignInDescription'),
                         help_text_default: 'When true, Mattermost allows users to sign in using their email and password.',
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.EMAIL)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -2752,7 +2767,7 @@ const AdminDefinition = {
                         label_default: 'Enable sign-in with username:',
                         help_text: t('admin.email.allowUsernameSignInDescription'),
                         help_text_default: 'When true, users with email login can sign in using their username and password. This setting does not affect AD/LDAP login.',
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.EMAIL)),
                     },
                 ],
             },
@@ -2775,7 +2790,8 @@ const AdminDefinition = {
                 'admin.service.attemptTitle',
                 'admin.service.attemptDescription',
             ],
-            isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
+            isHidden: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.PASSWORD)),
+            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.PASSWORD)),
             schema: {
                 id: 'PasswordSettings',
                 component: PasswordSettings,
@@ -2785,6 +2801,7 @@ const AdminDefinition = {
             url: 'authentication/mfa',
             title: t('admin.sidebar.mfa'),
             title_default: 'MFA',
+            isHidden: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.MFA)),
             schema: {
                 id: 'ServiceSettings',
                 name: t('admin.authentication.mfa'),
@@ -2804,7 +2821,7 @@ const AdminDefinition = {
                         label_default: 'Enable Multi-factor Authentication:',
                         help_text: t('admin.service.mfaDesc'),
                         help_text_default: 'When true, users with AD/LDAP or email login can add multi-factor authentication to their account using Google Authenticator.',
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.MFA)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -2816,7 +2833,7 @@ const AdminDefinition = {
                         help_text_default: 'When true, [multi-factor authentication](!https://docs.mattermost.com/deployment/auth.html) is required for login. New users will be required to configure MFA on signup. Logged in users without MFA configured are redirected to the MFA setup page until configuration is complete.\n \nIf your system has users with login methods other than AD/LDAP and email, MFA must be enforced with the authentication provider outside of Mattermost.',
                         isHidden: it.not(it.licensedForFeature('MFA')),
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.MFA)),
                             it.stateIsFalse('ServiceSettings.EnableMultifactorAuthentication'),
                         ),
                     },
@@ -2827,7 +2844,10 @@ const AdminDefinition = {
             url: 'authentication/ldap',
             title: t('admin.sidebar.ldap'),
             title_default: 'AD/LDAP',
-            isHidden: it.not(it.licensedForFeature('LDAP')),
+            isHidden: it.any(
+                it.not(it.licensedForFeature('LDAP')),
+                it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
+            ),
             schema: {
                 id: 'LdapSettings',
                 name: t('admin.authentication.ldap'),
@@ -2840,7 +2860,7 @@ const AdminDefinition = {
                         label_default: 'Enable sign-in with AD/LDAP:',
                         help_text: t('admin.ldap.enableDesc'),
                         help_text_default: 'When true, Mattermost allows login using AD/LDAP',
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -2849,7 +2869,7 @@ const AdminDefinition = {
                         label_default: 'Enable Synchronization with AD/LDAP:',
                         help_text: t('admin.ldap.enableSyncDesc'),
                         help_text_default: 'When true, Mattermost periodically synchronizes users from AD/LDAP. When false, user attributes are updated from AD/LDAP during user login only.',
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -2861,7 +2881,7 @@ const AdminDefinition = {
                         placeholder: t('admin.ldap.serverEx'),
                         placeholder_default: 'E.g.: "10.0.0.23"',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
                             it.all(
                                 it.stateIsFalse('LdapSettings.Enable'),
                                 it.stateIsFalse('LdapSettings.EnableSync'),
@@ -2878,7 +2898,7 @@ const AdminDefinition = {
                         placeholder: t('admin.ldap.portEx'),
                         placeholder_default: 'E.g.: "389"',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
                             it.all(
                                 it.stateIsFalse('LdapSettings.Enable'),
                                 it.stateIsFalse('LdapSettings.EnableSync'),
@@ -2909,7 +2929,7 @@ const AdminDefinition = {
                             },
                         ],
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
                             it.all(
                                 it.stateIsFalse('LdapSettings.Enable'),
                                 it.stateIsFalse('LdapSettings.EnableSync'),
@@ -2932,6 +2952,7 @@ const AdminDefinition = {
                         uploading_text: t('admin.ldap.uploading.privateKey'),
                         uploading_text_default: 'Uploading Private Key...',
                         isDisabled: it.all(
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
                             it.stateIsFalse('LdapSettings.Enable'),
                             it.stateIsFalse('LdapSettings.EnableSync'),
                         ),
@@ -2955,6 +2976,7 @@ const AdminDefinition = {
                         uploading_text: t('admin.ldap.uploading.certificate'),
                         uploading_text_default: 'Uploading Certificate...',
                         isDisabled: it.all(
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
                             it.stateIsFalse('LdapSettings.Enable'),
                             it.stateIsFalse('LdapSettings.EnableSync'),
                         ),
@@ -2970,7 +2992,7 @@ const AdminDefinition = {
                         help_text: t('admin.ldap.skipCertificateVerificationDesc'),
                         help_text_default: 'Skips the certificate verification step for TLS or STARTTLS connections. Skipping certificate verification is not recommended for production environments where TLS is required.',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
                             it.stateIsFalse('LdapSettings.ConnectionSecurity'),
                         ),
                     },
@@ -2984,7 +3006,7 @@ const AdminDefinition = {
                         placeholder: t('admin.ldap.baseEx'),
                         placeholder_default: 'E.g.: "ou=Unit Name,dc=corp,dc=example,dc=com"',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
                             it.all(
                                 it.stateIsFalse('LdapSettings.Enable'),
                                 it.stateIsFalse('LdapSettings.EnableSync'),
@@ -2999,7 +3021,7 @@ const AdminDefinition = {
                         help_text: t('admin.ldap.bindUserDesc'),
                         help_text_default: 'The username used to perform the AD/LDAP search. This should typically be an account created specifically for use with Mattermost. It should have access limited to read the portion of the AD/LDAP tree specified in the BaseDN field.',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
                             it.all(
                                 it.stateIsFalse('LdapSettings.Enable'),
                                 it.stateIsFalse('LdapSettings.EnableSync'),
@@ -3014,7 +3036,7 @@ const AdminDefinition = {
                         help_text: t('admin.ldap.bindPwdDesc'),
                         help_text_default: 'Password of the user given in "Bind Username".',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
                             it.all(
                                 it.stateIsFalse('LdapSettings.Enable'),
                                 it.stateIsFalse('LdapSettings.EnableSync'),
@@ -3031,7 +3053,7 @@ const AdminDefinition = {
                         placeholder: t('admin.ldap.userFilterEx'),
                         placeholder_default: 'Ex. "(objectClass=user)"',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
                             it.all(
                                 it.stateIsFalse('LdapSettings.Enable'),
                                 it.stateIsFalse('LdapSettings.EnableSync'),
@@ -3049,7 +3071,7 @@ const AdminDefinition = {
                         placeholder: t('admin.ldap.guestFilterEx'),
                         placeholder_default: 'E.g.: "(objectClass=user)"',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
                             it.configIsFalse('GuestAccountsSettings', 'Enable'),
                             it.all(
                                 it.stateIsFalse('LdapSettings.Enable'),
@@ -3102,7 +3124,7 @@ const AdminDefinition = {
                         placeholder_default: 'E.g.: "(objectClass=group)"',
                         isHidden: it.not(it.licensedForFeature('LDAPGroups')),
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
                             it.stateIsFalse('LdapSettings.EnableSync'),
                         ),
                     },
@@ -3117,7 +3139,7 @@ const AdminDefinition = {
                         placeholder_default: 'E.g.: "cn"',
                         isHidden: it.not(it.licensedForFeature('LDAPGroups')),
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
                             it.stateIsFalse('LdapSettings.EnableSync'),
                         ),
                     },
@@ -3133,7 +3155,7 @@ const AdminDefinition = {
                         placeholder_default: 'E.g.: "objectGUID" or "entryUUID"',
                         isHidden: it.not(it.licensedForFeature('LDAPGroups')),
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
                             it.stateIsFalse('LdapSettings.EnableSync'),
                         ),
                     },
@@ -3147,7 +3169,7 @@ const AdminDefinition = {
                         help_text: t('admin.ldap.firstnameAttrDesc'),
                         help_text_default: '(Optional) The attribute in the AD/LDAP server used to populate the first name of users in Mattermost. When set, users cannot edit their first name, since it is synchronized with the LDAP server. When left blank, users can set their first name in Account Settings.',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
                             it.all(
                                 it.stateIsFalse('LdapSettings.Enable'),
                                 it.stateIsFalse('LdapSettings.EnableSync'),
@@ -3164,7 +3186,7 @@ const AdminDefinition = {
                         help_text: t('admin.ldap.lastnameAttrDesc'),
                         help_text_default: '(Optional) The attribute in the AD/LDAP server used to populate the last name of users in Mattermost. When set, users cannot edit their last name, since it is synchronized with the LDAP server. When left blank, users can set their last name in Account Settings.',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
                             it.all(
                                 it.stateIsFalse('LdapSettings.Enable'),
                                 it.stateIsFalse('LdapSettings.EnableSync'),
@@ -3181,7 +3203,7 @@ const AdminDefinition = {
                         help_text: t('admin.ldap.nicknameAttrDesc'),
                         help_text_default: '(Optional) The attribute in the AD/LDAP server used to populate the nickname of users in Mattermost. When set, users cannot edit their nickname, since it is synchronized with the LDAP server. When left blank, users can set their nickname in Account Settings.',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
                             it.all(
                                 it.stateIsFalse('LdapSettings.Enable'),
                                 it.stateIsFalse('LdapSettings.EnableSync'),
@@ -3198,7 +3220,7 @@ const AdminDefinition = {
                         help_text: t('admin.ldap.positionAttrDesc'),
                         help_text_default: '(Optional) The attribute in the AD/LDAP server used to populate the position field in Mattermost. When set, users cannot edit their position, since it is synchronized with the LDAP server. When left blank, users can set their position in Account Settings.',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
                             it.all(
                                 it.stateIsFalse('LdapSettings.Enable'),
                                 it.stateIsFalse('LdapSettings.EnableSync'),
@@ -3215,7 +3237,7 @@ const AdminDefinition = {
                         help_text: t('admin.ldap.emailAttrDesc'),
                         help_text_default: 'The attribute in the AD/LDAP server used to populate the email address field in Mattermost.',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
                             it.all(
                                 it.stateIsFalse('LdapSettings.Enable'),
                                 it.stateIsFalse('LdapSettings.EnableSync'),
@@ -3232,7 +3254,7 @@ const AdminDefinition = {
                         help_text: t('admin.ldap.pictureAttrDesc'),
                         help_text_default: 'The attribute in the AD/LDAP server used to populate the profile picture in Mattermost.',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
                             it.all(
                                 it.stateIsFalse('LdapSettings.Enable'),
                                 it.stateIsFalse('LdapSettings.EnableSync'),
@@ -3249,7 +3271,7 @@ const AdminDefinition = {
                         help_text: t('admin.ldap.usernameAttrDesc'),
                         help_text_default: 'The attribute in the AD/LDAP server used to populate the username field in Mattermost. This may be the same as the Login ID Attribute.',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
                             it.all(
                                 it.stateIsFalse('LdapSettings.Enable'),
                                 it.stateIsFalse('LdapSettings.EnableSync'),
@@ -3267,7 +3289,7 @@ const AdminDefinition = {
                         help_text_markdown: true,
                         help_text_default: 'The attribute in the AD/LDAP server used as a unique identifier in Mattermost. It should be an AD/LDAP attribute with a value that does not change such as `uid` for LDAP or `objectGUID` for Active Directory. If a user\'s ID Attribute changes, it will create a new Mattermost account unassociated with their old one.\n \nIf you need to change this field after users have already logged in, use the [mattermost ldap idmigrate](!https://about.mattermost.com/default-mattermost-ldap-idmigrate) CLI tool.',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
                             it.all(
                                 it.stateEquals('LdapSettings.Enable', false),
                                 it.stateEquals('LdapSettings.EnableSync', false),
@@ -3285,7 +3307,7 @@ const AdminDefinition = {
                         help_text_markdown: true,
                         help_text_default: 'The attribute in the AD/LDAP server used to log in to Mattermost. Normally this attribute is the same as the "Username Attribute" field above.\n \nIf your team typically uses domain/username to log in to other services with AD/LDAP, you may enter domain/username in this field to maintain consistency between sites.',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
                             it.all(
                                 it.stateIsFalse('LdapSettings.Enable'),
                                 it.stateIsFalse('LdapSettings.EnableSync'),
@@ -3302,7 +3324,7 @@ const AdminDefinition = {
                         help_text: t('admin.ldap.loginNameDesc'),
                         help_text_default: 'The placeholder text that appears in the login field on the login page. Defaults to "AD/LDAP Username".',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
                             it.all(
                                 it.stateIsFalse('LdapSettings.Enable'),
                                 it.stateIsFalse('LdapSettings.EnableSync'),
@@ -3317,7 +3339,7 @@ const AdminDefinition = {
                         help_text: t('admin.ldap.syncIntervalHelpText'),
                         help_text_default: 'AD/LDAP Synchronization updates Mattermost user information to reflect updates on the AD/LDAP server. For example, when a user\'s name changes on the AD/LDAP server, the change updates in Mattermost when synchronization is performed. Accounts removed from or disabled in the AD/LDAP server have their Mattermost accounts set to "Inactive" and have their account sessions revoked. Mattermost performs synchronization on the interval entered. For example, if 60 is entered, Mattermost synchronizes every 60 minutes.',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
                             it.all(
                                 it.stateIsFalse('LdapSettings.Enable'),
                                 it.stateIsFalse('LdapSettings.EnableSync'),
@@ -3334,7 +3356,7 @@ const AdminDefinition = {
                         help_text: t('admin.ldap.maxPageSizeHelpText'),
                         help_text_default: 'The maximum number of users the Mattermost server will request from the AD/LDAP server at one time. 0 is unlimited.',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
                             it.all(
                                 it.stateIsFalse('LdapSettings.Enable'),
                                 it.stateIsFalse('LdapSettings.EnableSync'),
@@ -3351,7 +3373,7 @@ const AdminDefinition = {
                         help_text: t('admin.ldap.queryDesc'),
                         help_text_default: 'The timeout value for queries to the AD/LDAP server. Increase if you are getting timeout errors caused by a slow AD/LDAP server.',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
                             it.all(
                                 it.stateIsFalse('LdapSettings.Enable'),
                                 it.stateIsFalse('LdapSettings.EnableSync'),
@@ -3372,7 +3394,7 @@ const AdminDefinition = {
                         success_message: t('admin.ldap.testSuccess'),
                         success_message_default: 'AD/LDAP Test Successful',
                         isDisabled: it.any(
-                            it.not(it.userHasReadPermissionOnResource('authentication')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
                             it.all(
                                 it.stateIsFalse('LdapSettings.Enable'),
                                 it.stateIsFalse('LdapSettings.EnableSync'),
@@ -3388,7 +3410,7 @@ const AdminDefinition = {
                         help_text_markdown: true,
                         help_text_default: 'Initiates an AD/LDAP synchronization immediately. See the table below for status of each synchronization. Please review "System Console > Logs" and [documentation](!https://mattermost.com/default-ldap-docs) to troubleshoot errors.',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
                             it.stateIsFalse('LdapSettings.EnableSync'),
                         ),
                         render_job: (job) => {
@@ -3530,6 +3552,7 @@ const AdminDefinition = {
                         type: Constants.SettingsTypes.TYPE_CUSTOM,
                         component: LDAPFeatureDiscovery,
                         key: 'LDAPFeatureDiscovery',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ABOUT.EDITION_AND_LICENSE)),
                     },
                 ],
             },
@@ -3538,7 +3561,10 @@ const AdminDefinition = {
             url: 'authentication/saml',
             title: t('admin.sidebar.saml'),
             title_default: 'SAML 2.0',
-            isHidden: it.not(it.licensedForFeature('SAML')),
+            isHidden: it.any(
+                it.not(it.licensedForFeature('SAML')),
+                it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SAML)),
+            ),
             schema: {
                 id: 'SamlSettings',
                 name: t('admin.authentication.saml'),
@@ -3552,7 +3578,7 @@ const AdminDefinition = {
                         help_text: t('admin.saml.enableDescription'),
                         help_text_default: 'When true, Mattermost allows login using SAML 2.0. Please see [documentation](!http://docs.mattermost.com/deployment/sso-saml.html) to learn more about configuring SAML for Mattermost.',
                         help_text_markdown: true,
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SAML)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -3563,7 +3589,7 @@ const AdminDefinition = {
                         help_text_default: 'When true, Mattermost periodically synchronizes SAML user attributes, including user deactivation and removal, from AD/LDAP. Enable and configure synchronization settings at **Authentication > AD/LDAP**. When false, user attributes are updated from SAML during user login. See [documentation](!https://about.mattermost.com/default-saml-ldap-sync) to learn more.',
                         help_text_markdown: true,
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SAML)),
                             it.stateIsFalse('SamlSettings.Enable'),
                         ),
                     },
@@ -3575,6 +3601,7 @@ const AdminDefinition = {
                         help_text: t('admin.saml.ignoreGuestsLdapSyncDesc'),
                         help_text_default: 'When true, Mattermost will ignore Guest Users who are identified by the Guest Attribute, when synchronizing with AD/LDAP for user deactivation and removal and Guest deactivation will need to be managed manually via System Console > Users.',
                         isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SAML)),
                             it.configIsFalse('GuestAccountsSettings', 'Enable'),
                             it.stateIsFalse('SamlSettings.EnableSyncWithLdap'),
                             it.stateIsFalse('SamlSettings.Enable'),
@@ -3589,7 +3616,7 @@ const AdminDefinition = {
                         help_text_default: 'When true, Mattermost will override the SAML ID attribute with the AD/LDAP ID attribute if configured or override the SAML Email attribute with the AD/LDAP Email attribute if SAML ID attribute is not present.  This will allow you automatically migrate users from Email binding to ID binding to prevent creation of new users when an email address changes for a user. Moving from true to false, will remove the override from happening.\n \n**Note:** SAML IDs must match the LDAP IDs to prevent disabling of user accounts.  Please review [documentation](!https://docs.mattermost.com/deployment/sso-saml-ldapsync.html) for more information.',
                         help_text_markdown: true,
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SAML)),
                             it.stateIsFalse('SamlSettings.Enable'),
                             it.stateIsFalse('SamlSettings.EnableSyncWithLdap'),
                         ),
@@ -3604,7 +3631,7 @@ const AdminDefinition = {
                         placeholder: t('admin.saml.idpMetadataUrlEx'),
                         placeholder_default: 'E.g.: "https://idp.example.org/SAML2/saml/metadata"',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SAML)),
                             it.stateIsFalse('SamlSettings.Enable'),
                         ),
                     },
@@ -3621,7 +3648,7 @@ const AdminDefinition = {
                         success_message: t('admin.saml.getSamlMetadataFromIDPSuccess'),
                         success_message_default: 'SAML Metadata retrieved successfully. Two fields below have been updated',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SAML)),
                             it.stateIsFalse('SamlSettings.Enable'),
                             it.stateEquals('SamlSettings.IdpMetadataUrl', ''),
                         ),
@@ -3638,7 +3665,7 @@ const AdminDefinition = {
                         placeholder_default: 'E.g.: "https://idp.example.org/SAML2/SSO/Login"',
                         setFromMetadataField: 'idp_url',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SAML)),
                             it.stateIsFalse('SamlSettings.Enable'),
                         ),
                     },
@@ -3653,7 +3680,7 @@ const AdminDefinition = {
                         placeholder_default: 'E.g.: "https://idp.example.org/SAML2/issuer"',
                         setFromMetadataField: 'idp_descriptor_url',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SAML)),
                             it.stateIsFalse('SamlSettings.Enable'),
                         ),
                     },
@@ -3678,7 +3705,7 @@ const AdminDefinition = {
                         remove_action: removeIdpSamlCertificate,
                         setFromMetadataField: 'idp_public_certificate',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SAML)),
                             it.stateIsFalse('SamlSettings.Enable'),
                         ),
                     },
@@ -3690,7 +3717,7 @@ const AdminDefinition = {
                         help_text: t('admin.saml.verifyDescription'),
                         help_text_default: 'When false, Mattermost will not verify that the signature sent from a SAML Response matches the Service Provider Login URL. Disabling verification is not recommended for production environments.',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SAML)),
                             it.stateIsFalse('SamlSettings.Enable'),
                         ),
                     },
@@ -3712,7 +3739,7 @@ const AdminDefinition = {
                             return value;
                         },
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SAML)),
                             it.stateIsFalse('SamlSettings.Enable'),
                             it.stateIsFalse('SamlSettings.Verify'),
                         ),
@@ -3726,7 +3753,10 @@ const AdminDefinition = {
                         help_text_default: 'The unique identifier for the Service Provider, usually the same as Service Provider Login URL. In ADFS, this MUST match the Relying Party Identifier.',
                         placeholder: t('admin.saml.serviceProviderIdentifierEx'),
                         placeholder_default: "E.g.: \"https://'<your-mattermost-url>'/login/sso/saml\"",
-                        isDisabled: it.stateIsFalse('SamlSettings.Enable'),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SAML)),
+                            it.stateIsFalse('SamlSettings.Enable'),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -3736,7 +3766,7 @@ const AdminDefinition = {
                         help_text: t('admin.saml.encryptDescription'),
                         help_text_default: 'When false, Mattermost will not decrypt SAML Assertions encrypted with your Service Provider Public Certificate. Disabling encryption is not recommended for production environments.',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SAML)),
                             it.stateIsFalse('SamlSettings.Enable'),
                         ),
                     },
@@ -3759,7 +3789,7 @@ const AdminDefinition = {
                         upload_action: uploadPrivateSamlCertificate,
                         remove_action: removePrivateSamlCertificate,
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SAML)),
                             it.stateIsFalse('SamlSettings.Enable'),
                             it.stateIsFalse('SamlSettings.Encrypt'),
                         ),
@@ -3783,7 +3813,7 @@ const AdminDefinition = {
                         upload_action: uploadPublicSamlCertificate,
                         remove_action: removePublicSamlCertificate,
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SAML)),
                             it.stateIsFalse('SamlSettings.Enable'),
                             it.stateIsFalse('SamlSettings.Encrypt'),
                         ),
@@ -3796,7 +3826,7 @@ const AdminDefinition = {
                         help_text: t('admin.saml.signRequestDescription'),
                         help_text_default: 'When true, Mattermost will sign the SAML request using your private key. When false, Mattermost will not sign the SAML request.',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SAML)),
                             it.stateIsFalse('SamlSettings.Encrypt'),
                             it.stateIsFalse('SamlSettings.PrivateKeyFile'),
                             it.stateIsFalse('SamlSettings.PublicCertificateFile'),
@@ -3808,7 +3838,7 @@ const AdminDefinition = {
                         label: t('admin.saml.signatureAlgorithmTitle'),
                         label_default: 'Signature Algorithm',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SAML)),
                             it.stateIsFalse('SamlSettings.Encrypt'),
                             it.stateIsFalse('SamlSettings.SignRequest'),
                         ),
@@ -3858,7 +3888,7 @@ const AdminDefinition = {
                             },
                         ],
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SAML)),
                             it.stateIsFalse('SamlSettings.Encrypt'),
                             it.stateIsFalse('SamlSettings.SignRequest'),
                         ),
@@ -3873,7 +3903,7 @@ const AdminDefinition = {
                         help_text: t('admin.saml.emailAttrDesc'),
                         help_text_default: 'The attribute in the SAML Assertion that will be used to populate the email addresses of users in Mattermost.',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SAML)),
                             it.stateIsFalse('SamlSettings.Enable'),
                         ),
                     },
@@ -3887,7 +3917,7 @@ const AdminDefinition = {
                         help_text: t('admin.saml.usernameAttrDesc'),
                         help_text_default: 'The attribute in the SAML Assertion that will be used to populate the username field in Mattermost.',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SAML)),
                             it.stateIsFalse('SamlSettings.Enable'),
                         ),
                     },
@@ -3901,7 +3931,7 @@ const AdminDefinition = {
                         help_text: t('admin.saml.idAttrDesc'),
                         help_text_default: '(Optional) The attribute in the SAML Assertion that will be used to bind users from SAML to users in Mattermost.',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SAML)),
                             it.stateIsFalse('SamlSettings.Enable'),
                         ),
                     },
@@ -3916,7 +3946,7 @@ const AdminDefinition = {
                         help_text_default: '(Optional) Requires Guest Access to be enabled before being applied. The attribute in the SAML Assertion that will be used to apply a guest role to users in Mattermost. Guests are prevented from accessing teams or channels upon logging in until they are assigned a team and at least one channel.\n \nNote: If this attribute is removed/changed from your guest user in SAML and the user is still active, they will not be promoted to a member and will retain their Guest role. Guests can be promoted in **System Console > User Management**.\n \n \nExisting members that are identified by this attribute as a guest will be demoted from a member to a guest when they are asked to login next. The next login is based upon Session lengths set in **System Console > Session Lengths**. It is highly recommend to manually demote users to guests in **System Console > User Management ** to ensure access is restricted immediately.',
                         help_text_markdown: true,
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SAML)),
                             it.configIsFalse('GuestAccountsSettings', 'Enable'),
                             it.stateIsFalse('SamlSettings.Enable'),
                         ),
@@ -3957,7 +3987,7 @@ const AdminDefinition = {
                         help_text: t('admin.saml.firstnameAttrDesc'),
                         help_text_default: '(Optional) The attribute in the SAML Assertion that will be used to populate the first name of users in Mattermost.',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SAML)),
                             it.stateIsFalse('SamlSettings.Enable'),
                         ),
                     },
@@ -3971,7 +4001,7 @@ const AdminDefinition = {
                         help_text: t('admin.saml.lastnameAttrDesc'),
                         help_text_default: '(Optional) The attribute in the SAML Assertion that will be used to populate the last name of users in Mattermost.',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SAML)),
                             it.stateIsFalse('SamlSettings.Enable'),
                         ),
                     },
@@ -3985,7 +4015,7 @@ const AdminDefinition = {
                         help_text: t('admin.saml.nicknameAttrDesc'),
                         help_text_default: '(Optional) The attribute in the SAML Assertion that will be used to populate the nickname of users in Mattermost.',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SAML)),
                             it.stateIsFalse('SamlSettings.Enable'),
                         ),
                     },
@@ -3999,7 +4029,7 @@ const AdminDefinition = {
                         help_text: t('admin.saml.positionAttrDesc'),
                         help_text_default: '(Optional) The attribute in the SAML Assertion that will be used to populate the position of users in Mattermost.',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SAML)),
                             it.stateIsFalse('SamlSettings.Enable'),
                         ),
                     },
@@ -4013,7 +4043,7 @@ const AdminDefinition = {
                         help_text: t('admin.saml.localeAttrDesc'),
                         help_text_default: '(Optional) The attribute in the SAML Assertion that will be used to populate the language of users in Mattermost.',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SAML)),
                             it.stateIsFalse('SamlSettings.Enable'),
                         ),
                     },
@@ -4027,7 +4057,7 @@ const AdminDefinition = {
                         help_text: t('admin.saml.loginButtonTextDesc'),
                         help_text_default: '(Optional) The text that appears in the login button on the login page. Defaults to "SAML".',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SAML)),
                             it.stateIsFalse('SamlSettings.Enable'),
                         ),
                     },
@@ -4052,6 +4082,7 @@ const AdminDefinition = {
                         type: Constants.SettingsTypes.TYPE_CUSTOM,
                         component: SAMLFeatureDiscovery,
                         key: 'SAMLFeatureDiscovery',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ABOUT.EDITION_AND_LICENSE)),
                     },
                 ],
             },
@@ -4060,7 +4091,10 @@ const AdminDefinition = {
             url: 'authentication/gitlab',
             title: t('admin.sidebar.gitlab'),
             title_default: 'GitLab',
-            isHidden: it.licensed,
+            isHidden: it.any(
+                it.licensed,
+                it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
+            ),
             schema: {
                 id: 'GitLabSettings',
                 name: t('admin.authentication.gitlab'),
@@ -4084,7 +4118,7 @@ const AdminDefinition = {
                         help_text: t('admin.gitlab.enableDescription'),
                         help_text_default: "When true, Mattermost allows team creation and account signup using GitLab OAuth.\n \n1. Log in to your GitLab account and go to Profile Settings -> Applications.\n2. Enter Redirect URIs \"'<your-mattermost-url>'/login/gitlab/complete\" (example: http://localhost:8065/login/gitlab/complete) and \"<your-mattermost-url>/signup/gitlab/complete\".\n3. Then use \"Application Secret Key\" and \"Application ID\" fields from GitLab to complete the options below.\n4. Complete the Endpoint URLs below.",
                         help_text_markdown: true,
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -4096,7 +4130,7 @@ const AdminDefinition = {
                         placeholder: t('admin.gitlab.clientIdExample'),
                         placeholder_default: 'E.g.: "jcuS8PuvcpGhpgHhlcpT1Mx42pnqMxQY"',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                             it.stateIsFalse('GitLabSettings.Enable'),
                         ),
                     },
@@ -4110,7 +4144,7 @@ const AdminDefinition = {
                         placeholder: t('admin.gitlab.clientSecretExample'),
                         placeholder_default: 'E.g.: "jcuS8PuvcpGhpgHhlcpT1Mx42pnqMxQY"',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                             it.stateIsFalse('GitLabSettings.Enable'),
                         ),
                     },
@@ -4124,7 +4158,7 @@ const AdminDefinition = {
                         placeholder: t('admin.gitlab.siteUrlExample'),
                         placeholder_default: 'E.g.: https://',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('authentication')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                             it.stateIsFalse('GitLabSettings.Enable'),
                         ),
                     },
@@ -4189,6 +4223,7 @@ const AdminDefinition = {
                     it.licensedForFeature('OpenId'),
                     it.not(usesLegacyOauth),
                 ),
+                it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
             ),
             schema: {
                 id: 'OAuthSettings',
@@ -4244,7 +4279,7 @@ const AdminDefinition = {
                             it.not(it.licensedForFeature('OpenId')),
                             it.not(usesLegacyOauth),
                         ),
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_DROPDOWN,
@@ -4284,7 +4319,7 @@ const AdminDefinition = {
                                 help_text_markdown: true,
                             },
                         ],
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -4296,7 +4331,7 @@ const AdminDefinition = {
                         placeholder: t('admin.gitlab.clientIdExample'),
                         placeholder_default: 'E.g.: "jcuS8PuvcpGhpgHhlcpT1Mx42pnqMxQY"',
                         isHidden: it.not(it.stateEquals('oauthType', 'gitlab')),
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -4308,7 +4343,7 @@ const AdminDefinition = {
                         placeholder: t('admin.gitlab.clientSecretExample'),
                         placeholder_default: 'E.g.: "jcuS8PuvcpGhpgHhlcpT1Mx42pnqMxQY"',
                         isHidden: it.not(it.stateEquals('oauthType', 'gitlab')),
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -4320,7 +4355,7 @@ const AdminDefinition = {
                         placeholder: t('admin.gitlab.siteUrlExample'),
                         placeholder_default: 'E.g.: https://',
                         isHidden: it.not(it.stateEquals('oauthType', 'gitlab')),
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -4374,7 +4409,7 @@ const AdminDefinition = {
                         placeholder: t('admin.google.clientIdExample'),
                         placeholder_default: 'E.g.: "7602141235235-url0fhs1mayfasbmop5qlfns8dh4.apps.googleusercontent.com"',
                         isHidden: it.not(it.stateEquals('oauthType', 'google')),
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -4386,7 +4421,7 @@ const AdminDefinition = {
                         placeholder: t('admin.google.clientSecretExample'),
                         placeholder_default: 'E.g.: "H8sz0Az-dDs2p15-7QzD231"',
                         isHidden: it.not(it.stateEquals('oauthType', 'google')),
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -4425,7 +4460,7 @@ const AdminDefinition = {
                         placeholder: t('admin.office365.clientIdExample'),
                         placeholder_default: 'E.g.: "adf3sfa2-ag3f-sn4n-ids0-sh1hdax192qq"',
                         isHidden: it.not(it.stateEquals('oauthType', 'office365')),
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -4437,7 +4472,7 @@ const AdminDefinition = {
                         placeholder: t('admin.office365.clientSecretExample'),
                         placeholder_default: 'E.g.: "shAieM47sNBfgl20f8ci294"',
                         isHidden: it.not(it.stateEquals('oauthType', 'office365')),
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -4449,7 +4484,7 @@ const AdminDefinition = {
                         placeholder: t('admin.office365.directoryIdExample'),
                         placeholder_default: 'E.g.: "adf3sfa2-ag3f-sn4n-ids0-sh1hdax192qq"',
                         isHidden: it.not(it.stateEquals('oauthType', 'office365')),
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -4495,7 +4530,10 @@ const AdminDefinition = {
             url: 'authentication/openid',
             title: t('admin.sidebar.openid'),
             title_default: 'OpenID Connect',
-            isHidden: it.not(it.licensedForFeature('OpenId')),
+            isHidden: it.any(
+                it.not(it.licensedForFeature('OpenId')),
+                it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
+            ),
             schema: {
                 id: 'OpenIdSettings',
                 name: t('admin.authentication.openid'),
@@ -4564,7 +4602,7 @@ const AdminDefinition = {
                         isHidden: it.any(
                             it.not(usesLegacyOauth),
                         ),
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_DROPDOWN,
@@ -4610,7 +4648,7 @@ const AdminDefinition = {
                                 help_text_markdown: true,
                             },
                         ],
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -4622,7 +4660,7 @@ const AdminDefinition = {
                         placeholder: t('admin.gitlab.siteUrlExample'),
                         placeholder_default: 'E.g.: https://',
                         isHidden: it.not(it.stateEquals('openidType', Constants.GITLAB_SERVICE)),
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -4651,7 +4689,7 @@ const AdminDefinition = {
                         placeholder: t('admin.gitlab.clientIdExample'),
                         placeholder_default: 'E.g.: "jcuS8PuvcpGhpgHhlcpT1Mx42pnqMxQY"',
                         isHidden: it.not(it.stateEquals('openidType', Constants.GITLAB_SERVICE)),
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -4663,7 +4701,7 @@ const AdminDefinition = {
                         placeholder: t('admin.gitlab.clientSecretExample'),
                         placeholder_default: 'E.g.: "jcuS8PuvcpGhpgHhlcpT1Mx442pnqMxQY"',
                         isHidden: it.not(it.stateEquals('openidType', Constants.GITLAB_SERVICE)),
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -4687,7 +4725,7 @@ const AdminDefinition = {
                         placeholder: t('admin.google.clientIdExample'),
                         placeholder_default: 'E.g.: "7602141235235-url0fhs1mayfasbmop5qlfns8dh4.apps.googleusercontent.com"',
                         isHidden: it.not(it.stateEquals('openidType', Constants.GOOGLE_SERVICE)),
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -4699,7 +4737,7 @@ const AdminDefinition = {
                         placeholder: t('admin.google.clientSecretExample'),
                         placeholder_default: 'E.g.: "H8sz0Az-dDs2p15-7QzD231"',
                         isHidden: it.not(it.stateEquals('openidType', Constants.GOOGLE_SERVICE)),
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -4711,7 +4749,7 @@ const AdminDefinition = {
                         placeholder: t('admin.office365.directoryIdExample'),
                         placeholder_default: 'E.g.: "adf3sfa2-ag3f-sn4n-ids0-sh1hdax192qq"',
                         isHidden: it.not(it.stateEquals('openidType', Constants.OFFICE365_SERVICE)),
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -4740,7 +4778,7 @@ const AdminDefinition = {
                         placeholder: t('admin.office365.clientIdExample'),
                         placeholder_default: 'E.g.: "adf3sfa2-ag3f-sn4n-ids0-sh1hdax192qq"',
                         isHidden: it.not(it.stateEquals('openidType', Constants.OFFICE365_SERVICE)),
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -4752,7 +4790,7 @@ const AdminDefinition = {
                         placeholder: t('admin.office365.clientSecretExample'),
                         placeholder_default: 'E.g.: "shAieM47sNBfgl20f8ci294"',
                         isHidden: it.not(it.stateEquals('openidType', Constants.OFFICE365_SERVICE)),
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                     },
 
                     {
@@ -4765,7 +4803,7 @@ const AdminDefinition = {
                         help_text: t('admin.openid.buttonTextDesc'),
                         help_text_default: 'The text that will show on the login button.',
                         isHidden: it.not(it.stateEquals('openidType', Constants.OPENID_SERVICE)),
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_COLOR,
@@ -4776,7 +4814,7 @@ const AdminDefinition = {
                         help_text_default: 'Specify the color of the OpenID login button for white labeling purposes. Use a hex code with a #-sign before the code.',
                         help_text_markdown: false,
                         isHidden: it.not(it.stateEquals('openidType', Constants.OPENID_SERVICE)),
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -4789,6 +4827,7 @@ const AdminDefinition = {
                         help_text_default: 'Enter the URL of the discovery document of the OpenID Connect provider you want to connect with.',
                         help_text_markdown: false,
                         isHidden: it.not(it.stateEquals('openidType', Constants.OPENID_SERVICE)),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -4800,6 +4839,7 @@ const AdminDefinition = {
                         placeholder: t('admin.openid.clientIdExample'),
                         placeholder_default: 'E.g.: "adf3sfa2-ag3f-sn4n-ids0-sh1hdax192qq"',
                         isHidden: it.not(it.stateEquals('openidType', Constants.OPENID_SERVICE)),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -4811,6 +4851,7 @@ const AdminDefinition = {
                         placeholder: t('admin.openid.clientSecretExample'),
                         placeholder_default: 'E.g.: "H8sz0Az-dDs2p15-7QzD231"',
                         isHidden: it.not(it.stateEquals('openidType', Constants.OPENID_SERVICE)),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                     },
                 ],
             },
@@ -4819,7 +4860,10 @@ const AdminDefinition = {
             url: 'authentication/guest_access',
             title: t('admin.sidebar.guest_access'),
             title_default: 'Guest Access (Beta)',
-            isHidden: it.not(it.licensed),
+            isHidden: it.any(
+                it.not(it.licensed),
+                it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.GUEST_ACCESS)),
+            ),
             schema: {
                 id: 'GuestAccountsSettings',
                 name: t('admin.authentication.guest_access'),
@@ -4829,7 +4873,7 @@ const AdminDefinition = {
                         type: Constants.SettingsTypes.TYPE_CUSTOM,
                         component: CustomEnableDisableGuestAccountsSetting,
                         key: 'GuestAccountsSettings.Enable',
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.GUEST_ACCESS)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -4841,7 +4885,7 @@ const AdminDefinition = {
                         help_text_markdown: true,
                         placeholder: t('admin.guest_access.whitelistedDomainsExample'),
                         placeholder_default: 'E.g.: "company.com, othercorp.org"',
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.GUEST_ACCESS)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -4880,7 +4924,7 @@ const AdminDefinition = {
                             it.configIsFalse('ServiceSettings', 'EnableMultifactorAuthentication'),
                             it.configIsFalse('ServiceSettings', 'EnforceMultifactorAuthentication'),
                         ),
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('authentication')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.GUEST_ACCESS)),
                     },
                 ],
             },
