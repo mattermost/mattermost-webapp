@@ -5,6 +5,7 @@
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
+
 import {Channel} from 'mattermost-redux/types/channels';
 import {ActionResult} from 'mattermost-redux/types/actions';
 

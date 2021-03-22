@@ -4,6 +4,7 @@
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
+
 import {Client4} from 'mattermost-redux/client';
 
 import AlertBanner from 'components/alert_banner';
