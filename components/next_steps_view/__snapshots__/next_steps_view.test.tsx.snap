@@ -107,6 +107,11 @@ exports[`components/next_steps_view should match snapshot 1`] = `
     setShowNextStepsView={[MockFunction]}
     showFinalScreen={false}
     stopAnimating={[Function]}
+    team={
+      Object {
+        "name": "TestTeam",
+      }
+    }
   />
 </section>
 `;
