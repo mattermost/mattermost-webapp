@@ -516,6 +516,7 @@ export const SearchTypes = keyMirror({
     SET_USER_GRID_FILTERS: null,
     SET_TEAM_LIST_SEARCH: null,
     SET_CHANNEL_LIST_SEARCH: null,
+    SET_CHANNEL_LIST_FILTERS: null,
 });
 
 export const StorageTypes = keyMirror({

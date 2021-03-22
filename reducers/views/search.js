@@ -72,7 +72,18 @@ function teamListSearch(state = '', action) {
 function channelListSearch(state = '', action) {
     switch (action.type) {
     case SearchTypes.SET_CHANNEL_LIST_SEARCH: {
-        return action.data.trim();
+        const term =  action.data.trim();
+        return {
+            ...state,
+            term,
+        };
+    }
+    case SearchTypes.SET_CHANNEL_LIST_FILTERS: {
+        const filters = action.data;
+        return {
+            ...state,
+            filters,
+        };
     }
     default:
         return state;

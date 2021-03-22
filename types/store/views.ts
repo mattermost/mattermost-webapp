@@ -99,7 +99,15 @@ export type ViewsState = {
             };
         };
         teamListSearch: string;
-        channelListSearch: string;
+        channelListSearch: {
+            term: string;
+            filters: {
+                public?: boolean;
+                private?: boolean;
+                deleted?: boolean;
+                team_ids?: string[];
+            };
+        };
     };
 
     notice: {

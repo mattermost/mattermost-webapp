@@ -18,7 +18,7 @@ import {Channel, ChannelSearchOpts} from 'mattermost-redux/types/channels';
 import {GlobalState} from 'types/store';
 
 import ChannelList from './channel_list';
-import {setChannelListSearch} from 'actions/views/search';
+import {setChannelListSearch, setChannelListFilters} from 'actions/views/search';
 import { Dictionary } from 'mattermost-redux/types/utilities';
 
 type OwnProps = {
@@ -31,6 +31,7 @@ type Actions = {
     getDataRetentionCustomPolicyChannels: (id: string, page: number, perPage: number) => Promise<{ data: Channel[] }>;
     clearDataRetentionCustomPolicyChannels: () => {data: {}};
     setChannelListSearch: (term: string) => ActionResult;
+    setChannelListFilters: (filters: ChannelSearchOpts) => ActionResult;
 }
 const getSortedListOfChannels = createSelector(
     getChannelsInPolicy,
@@ -48,10 +49,11 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const policy = ownProps.policyId? getDataRetentionCustomPolicy(state, ownProps.policyId) || {} : {};
     let channels: Channel[] = [];
     let totalCount = 0;
-    let searchTerm = state.views.search.channelListSearch || '';
+    const searchTerm = state.views.search.channelListSearch.term || '';
+    const filters = state.views.search.channelListSearch?.filters || {};
 
     if (searchTerm) {
-        channels = searchChannelsInPolicy(state, searchTerm) || [];
+        channels = searchChannelsInPolicy(state, searchTerm, filters) || [];
         channelsToAdd = searchChannelsToAdd(channelsToAdd, searchTerm);
         totalCount = channels.length;
     } else {
@@ -65,6 +67,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         totalCount,
         searchTerm,
         channelsToAdd,
+        filters,
     };
 }
 
@@ -75,6 +78,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
             clearDataRetentionCustomPolicyChannels,
             searchChannels: searchDataRetentionCustomPolicyChannels,
             setChannelListSearch,
+            setChannelListFilters,
         }, dispatch),
     };
 }

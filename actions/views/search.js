@@ -51,3 +51,10 @@ export function setChannelListSearch(term) {
         data: term,
     };
 }
+
+export function setChannelListFilters(filters = {}) {
+    return {
+        type: SearchTypes.SET_CHANNEL_LIST_FILTERS,
+        data: filters,
+    };
+}

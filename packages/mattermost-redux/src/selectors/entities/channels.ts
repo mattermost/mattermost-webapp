@@ -32,7 +32,7 @@ import {
 } from 'mattermost-redux/selectors/entities/teams';
 import {isCurrentUserSystemAdmin, getCurrentUserId, getUserIdsInChannels, getStatusForUserId} from 'mattermost-redux/selectors/entities/users';
 
-import {Channel, ChannelStats, ChannelMembership, ChannelModeration, ChannelMemberCountsByGroup} from 'mattermost-redux/types/channels';
+import {Channel, ChannelStats, ChannelMembership, ChannelModeration, ChannelMemberCountsByGroup, ChannelSearchOpts} from 'mattermost-redux/types/channels';
 import {ClientConfig} from 'mattermost-redux/types/config';
 import {Post} from 'mattermost-redux/types/posts';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
@@ -68,6 +68,7 @@ import {
     filterChannelsMatchingTerm,
 } from 'mattermost-redux/utils/channel_utils';
 import {createIdsSelector} from 'mattermost-redux/utils/helpers';
+import {Constants} from 'utils/constants';
 
 export {getCurrentChannelId, getMyChannelMemberships, getMyCurrentChannelMembership};
 
@@ -1343,10 +1344,25 @@ export function isFavoriteChannel(state: GlobalState, channelId: string): boolea
 
     return category.channel_ids.includes(channel.id);
 }
+export function filterChannelList(channels: Channel[], filters: ChannelSearchOpts): Channel[] {
+    if (!filters) {
+        return channels;
+    }
 
-export function searchChannelsInPolicy(state: GlobalState, term: string): Channel[] {
+    if (filters.public) {
+        channels = channels.filter((channel) => channel.type === Constants.OPEN_CHANNEL);
+    } else if (filters.private) {
+        channels = channels.filter((channel) => channel.type === Constants.PRIVATE_CHANNEL);
+    } else if (filters.deleted) {
+        channels = channels.filter((channel) => channel.type === Constants.ARCHIVED_CHANNEL);
+    }
+    return channels;
+}
+export function searchChannelsInPolicy(state: GlobalState, term: string, filters: ChannelSearchOpts): Channel[] {
     const channelDictionary = getChannelsInPolicy(state);
-    const channels = filterChannelsMatchingTerm(Object.keys(channelDictionary).map((key) => channelDictionary[key]), term);
+    const channelArray = Object.keys(channelDictionary).map((key) => channelDictionary[key]);
+    let channels = filterChannelList(channelArray, filters);
+    channels = filterChannelsMatchingTerm(channels, term);
 
     return channels;
 }

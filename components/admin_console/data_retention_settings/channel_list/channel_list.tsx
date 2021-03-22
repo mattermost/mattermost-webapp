@@ -13,7 +13,7 @@ import {browserHistory} from 'utils/browser_history';
 import * as Utils from 'utils/utils.jsx';
 
 import DataGrid, {Column, Row} from 'components/admin_console/data_grid/data_grid';
-import TeamIcon from 'components/widgets/team_icon/team_icon';
+import TeamFilterDropdown from 'components/admin_console/filter/team_filter_dropdown';
 
 import './channel_list.scss';
 import {FilterOptions} from 'components/admin_console/filter/filter';
@@ -29,6 +29,7 @@ type Props = {
     channels: Channel[];
     totalCount: number;
     searchTerm: string;
+    filters: ChannelSearchOpts;
 
     policyId: string | undefined;
 
@@ -42,6 +43,7 @@ type Props = {
         getDataRetentionCustomPolicyChannels: (id: string, page: number, perPage: number) => Promise<{ data: Channel[] }>;
         clearDataRetentionCustomPolicyChannels: () => {data: {}};
         setChannelListSearch: (term: string) => ActionResult;
+        setChannelListFilters: (filters: ChannelSearchOpts) => ActionResult;
     };
 }
 
@@ -73,11 +75,11 @@ export default class TeamList extends React.PureComponent<Props, State> {
 
     private loadPage = (page: number) => {
         this.setState({loading: true});
-        this.fetchTeams(page);
+        this.fetchChannels(page);
         this.setState({page, loading: false});
     }
 
-    private fetchTeams = async (page: number) => {
+    private fetchChannels = async (page: number) => {
         if (this.props.policyId) {
             await this.props.actions.getDataRetentionCustomPolicyChannels(this.props.policyId, page + 1, PAGE_SIZE);
         }
@@ -189,7 +191,7 @@ export default class TeamList extends React.PureComponent<Props, State> {
 
             // Directly call action to load more users from parent component to load more users into the state
             if (pageToLoad > this.pageLoaded) {
-                this.fetchTeams(pageToLoad);
+                this.fetchChannels(pageToLoad);
                 this.pageLoaded = pageToLoad;
             }
         }
@@ -245,15 +247,19 @@ export default class TeamList extends React.PureComponent<Props, State> {
         this.props.actions.setChannelListSearch(searchTerm);
     }
     public async componentDidUpdate(prevProps: Props) {
-        const { policyId, searchTerm } = this.props;
-
+        const { policyId, searchTerm, filters } = this.props;
+        const filtersModified = JSON.stringify(prevProps.filters) !== JSON.stringify(this.props.filters);
         const searchTermModified = prevProps.searchTerm !== searchTerm;
-        if (searchTermModified) {
+        if (searchTermModified || filtersModified) {
             this.setState({loading: true});
             clearTimeout(this.searchTimeoutId);
             if (searchTerm === '') {
                 this.searchTimeoutId = 0;
-                await this.loadPage(0);
+                if (filtersModified && policyId) {
+                    await prevProps.actions.searchChannels(policyId, searchTerm, filters);
+                } else {
+                    await this.loadPage(0);
+                }
                 this.setState({loading: false});
                 return;
             }
@@ -261,7 +267,7 @@ export default class TeamList extends React.PureComponent<Props, State> {
             const searchTimeoutId = window.setTimeout(
                 async () => {
                     if (policyId) {
-                        await prevProps.actions.searchChannels(policyId, searchTerm, {});
+                        await prevProps.actions.searchChannels(policyId, searchTerm, filters);
                     }
 
                     if (searchTimeoutId !== this.searchTimeoutId) {
@@ -275,10 +281,80 @@ export default class TeamList extends React.PureComponent<Props, State> {
             this.searchTimeoutId = searchTimeoutId;
         }
     }
+
+    onFilter = async (filterOptions: FilterOptions) => {
+        const filters: ChannelSearchOpts = {};
+        const {public: publicChannels, private: privateChannels, deleted} = filterOptions.channels.values;
+        const {team_ids: teamIds} = filterOptions.teams.values;
+        if (publicChannels.value || privateChannels.value || deleted.value || (teamIds.value as string[]).length) {
+            filters.public = publicChannels.value as boolean;
+            filters.private = privateChannels.value as boolean;
+            filters.deleted = deleted.value as boolean;
+            filters.team_ids = teamIds.value as string[];
+        }
+        this.props.actions.setChannelListFilters(filters);
+    }
     render() {
         const rows: Row[] = this.getRows();
         const columns: Column[] = this.getColumns();
         const {startCount, endCount, total} = this.getPaginationProps();
+        const filterOptions: FilterOptions = {
+            teams: {
+                name: 'Teams',
+                values: {
+                    team_ids: {
+                        name: (
+                            <FormattedMessage
+                                id='admin.team_settings.title'
+                                defaultMessage='Teams'
+                            />
+                        ),
+                        value: [],
+                    },
+                },
+                keys: ['team_ids'],
+                type: TeamFilterDropdown,
+            },
+            channels: {
+                name: 'Channels',
+                values: {
+                    public: {
+                        name: (
+                            <FormattedMessage
+                                id='admin.channel_list.public'
+                                defaultMessage='Public'
+                            />
+                        ),
+                        value: false,
+                    },
+                    private: {
+                        name: (
+                            <FormattedMessage
+                                id='admin.channel_list.private'
+                                defaultMessage='Private'
+                            />
+                        ),
+                        value: false,
+                    },
+                    deleted: {
+                        name: (
+                            <FormattedMessage
+                                id='admin.channel_list.archived'
+                                defaultMessage='Archived'
+                            />
+                        ),
+                        value: false,
+                    },
+                },
+                keys: ['public', 'private', 'deleted'],
+            },
+        };
+
+        const filterProps = {
+            options: filterOptions,
+            keys: ['teams', 'channels'],
+            onFilter: this.onFilter,
+        };
 
         return (
             <div className='PolicyChannelsList'>
@@ -297,7 +373,7 @@ export default class TeamList extends React.PureComponent<Props, State> {
                     term={this.props.searchTerm}
                     // placeholderEmpty={placeholderEmpty}
                     // rowsContainerStyles={rowsContainerStyles}
-                    // filterProps={filterProps}
+                    filterProps={filterProps}
                 />
             </div>
         );
