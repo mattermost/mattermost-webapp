@@ -3,6 +3,7 @@
 
 import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
+
 import {getMe, updateUserPassword} from 'mattermost-redux/actions/users';
 import {getAuthorizedOAuthApps, deauthorizeOAuthApp} from 'mattermost-redux/actions/integrations';
 import * as UserUtils from 'mattermost-redux/utils/user_utils';

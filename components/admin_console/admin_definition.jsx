@@ -2379,6 +2379,20 @@ const AdminDefinition = {
                         isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
                     },
                     {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'ServiceSettings.RestrictLinkPreviews',
+                        label: t('admin.customization.restrictLinkPreviewsTitle'),
+                        label_default: 'Disable link previews from these domains:',
+                        help_text: t('admin.customization.restrictLinkPreviewsDesc'),
+                        help_text_default: 'Link previews and image link previews will not be shown for the above list of comma-separated domains.',
+                        placeholder: t('admin.customization.restrictLinkPreviewsExample'),
+                        placeholder_default: 'E.g.: "internal.mycompany.com, images.example.com"',
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('site')),
+                            it.configIsFalse('ServiceSettings', 'EnableLinkPreviews'),
+                        ),
+                    },
+                    {
                         type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'ServiceSettings.EnableSVGs',
                         label: t('admin.customization.enableSVGsTitle'),

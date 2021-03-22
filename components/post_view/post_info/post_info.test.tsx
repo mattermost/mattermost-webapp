@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {shallow, ShallowWrapper} from 'enzyme';
+
 import {Posts} from 'mattermost-redux/constants';
 
 import {Post, PostType} from 'mattermost-redux/types/posts';
