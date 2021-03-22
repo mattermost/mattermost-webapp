@@ -10,6 +10,8 @@
 // Stage: @prod
 // Group: @menu
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
 describe('Status dropdown menu', () => {
     before(() => {
         // # Login as test user and visit town-square
@@ -28,7 +30,7 @@ describe('Status dropdown menu', () => {
 
     it('Displays default menu when status icon is clicked', () => {
         // # Wait for posts to load
-        cy.get('#postListContent').should('be.visible');
+        cy.get('#postListContent', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
         // # Click status menu
         cy.get('.MenuWrapper .status-wrapper.status-selector button.status').click();
@@ -171,6 +173,9 @@ describe('Status dropdown menu', () => {
         });
 
         it('MM-T2927_5 Verify "Set a Custom Header Status" is clickable', () => {
+            // # Enable Custom Status
+            cy.apiUpdateConfig({TeamSettings: {EnableCustomUserStatuses: true}});
+
             // # Wait for posts to load
             cy.get('#postListContent').should('be.visible');
 
