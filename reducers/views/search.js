@@ -69,10 +69,21 @@ function teamListSearch(state = '', action) {
     }
 }
 
+function channelListSearch(state = '', action) {
+    switch (action.type) {
+    case SearchTypes.SET_CHANNEL_LIST_SEARCH: {
+        return action.data.trim();
+    }
+    default:
+        return state;
+    }
+}
+
 export default combineReducers({
     modalSearch,
     modalFilters,
     systemUsersSearch,
     userGridSearch,
     teamListSearch,
+    channelListSearch,
 });

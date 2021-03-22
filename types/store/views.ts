@@ -99,6 +99,7 @@ export type ViewsState = {
             };
         };
         teamListSearch: string;
+        channelListSearch: string;
     };
 
     notice: {

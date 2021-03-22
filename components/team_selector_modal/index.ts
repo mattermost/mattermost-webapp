@@ -30,7 +30,7 @@ function mapStateToProps(state: GlobalState) {
 }
 
 type Actions = {
-    loadTeams: (page?: number, perPage?: number, includeTotalCount?: boolean) => Promise<ActionResult>;
+    loadTeams: (page?: number, perPage?: number, includeTotalCount?: boolean, excludePolicyConstrained?: boolean) => Promise<ActionResult>;
     searchTeams: (searchTerm: string) => void;
     setModalSearchTerm: (searchTerm: string) => GenericAction;
 }

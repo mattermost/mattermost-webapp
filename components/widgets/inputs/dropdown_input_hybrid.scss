@@ -5,11 +5,12 @@
     .Input_wrapper {
         padding: 0;
         margin: 0;
-        &.input_hybrid_wrapper{
+        &.input_hybrid_wrapper {
+            flex-grow: 1;
             display: inline-block;
-            width: 0%;
+            transition: max-width .1s ease-out;
             &.showInput {
-                transition: width .1s ease-in;
+                transition: max-width .1s ease-in;
             }
         }
         &.dropdown_hybrid_wrapper{
@@ -31,6 +32,7 @@
     }
     .Input_fieldset {
         padding: 0;
+        display: flex;
     }
     .Input_legend {
         margin-left: 8px;

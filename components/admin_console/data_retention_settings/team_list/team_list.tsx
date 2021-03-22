@@ -25,7 +25,7 @@ type Props = {
     totalCount: number;
     searchTerm: string;
 
-    policyId: string;
+    policyId?: string;
 
     onRemoveCallback: (user: Team) => void;
     onAddCallback: (users: Team[]) => void;
@@ -43,7 +43,6 @@ type Props = {
 type State = {
     loading: boolean;
     page: number;
-    term: string;
 }
 const PAGE_SIZE = 10;
 export default class TeamList extends React.PureComponent<Props, State> {
@@ -55,7 +54,6 @@ export default class TeamList extends React.PureComponent<Props, State> {
         this.state = {
             loading: false,
             page: 0,
-            term: '',
         };
     }
 
@@ -167,7 +165,7 @@ export default class TeamList extends React.PureComponent<Props, State> {
         let teamsToDisplay = teams;
         const includeTeamsList = Object.values(teamsToAdd);
 
-        // Remove users to remove and add users to add
+        // Remove teams to remove and add teams to add
         teamsToDisplay = teamsToDisplay.filter((user) => !teamsToRemove[user.id]);
         teamsToDisplay = [...includeTeamsList, ...teamsToDisplay];
         teamsToDisplay = teamsToDisplay.slice(startCount - 1, endCount);
@@ -228,11 +226,11 @@ export default class TeamList extends React.PureComponent<Props, State> {
         this.props.actions.setTeamListSearch(searchTerm);
     }
     public async componentDidUpdate(prevProps: Props) {
+        const { policyId, searchTerm } = this.props;
         const searchTermModified = prevProps.searchTerm !== this.props.searchTerm;
         if (searchTermModified) {
             this.setState({loading: true});
             clearTimeout(this.searchTimeoutId);
-            const searchTerm = this.props.searchTerm;
             if (searchTerm === '') {
                 this.searchTimeoutId = 0;
                 await this.loadPage(0);
@@ -242,7 +240,9 @@ export default class TeamList extends React.PureComponent<Props, State> {
 
             const searchTimeoutId = window.setTimeout(
                 async () => {
-                    await prevProps.actions.searchTeams(this.props.policyId, this.props.searchTerm, {});
+                    if (policyId) {
+                        await prevProps.actions.searchTeams(policyId, searchTerm, {});
+                    }
 
                     if (searchTimeoutId !== this.searchTimeoutId) {
                         return;

@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, {useState, CSSProperties, useEffect, useRef} from 'react';
-import ReactSelect, {Props as SelectProps, ActionMeta, components} from 'react-select';
+import ReactSelect, {Props as SelectProps, components} from 'react-select';
 import classNames from 'classnames';
 
 import 'components/input.css';
@@ -213,7 +213,7 @@ const DropdownInputHybrid = <T extends ValueType>(props: Props<T>) => {
                     onFocus={onInputFocus}
                     onBlur={onInputBlur}
                     style={{
-                        width: showInput && containerRef.current ? `${(containerRef.current.offsetWidth - 10) - width}px` : '0%' ,
+                        maxWidth: showInput && containerRef.current ? '1000px' : '0',
                     }}
                 >
                     <input

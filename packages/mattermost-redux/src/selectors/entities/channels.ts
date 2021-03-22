@@ -65,6 +65,7 @@ import {
     isDefault,
     sortChannelsByRecency,
     isDirectChannel,
+    filterChannelsMatchingTerm,
 } from 'mattermost-redux/utils/channel_utils';
 import {createIdsSelector} from 'mattermost-redux/utils/helpers';
 
@@ -1341,4 +1342,11 @@ export function isFavoriteChannel(state: GlobalState, channelId: string): boolea
     }
 
     return category.channel_ids.includes(channel.id);
+}
+
+export function searchChannelsInPolicy(state: GlobalState, term: string): Channel[] {
+    const channelDictionary = getChannelsInPolicy(state);
+    const channels = filterChannelsMatchingTerm(Object.keys(channelDictionary).map((key) => channelDictionary[key]), term);
+
+    return channels;
 }

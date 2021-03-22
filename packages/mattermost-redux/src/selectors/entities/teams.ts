@@ -15,7 +15,7 @@ import {$ID, IDMappedObjects, RelationOneToOne} from 'mattermost-redux/types/uti
 
 import {createIdsSelector} from 'mattermost-redux/utils/helpers';
 import {isTeamAdmin} from 'mattermost-redux/utils/user_utils';
-import {sortTeamsWithLocale} from 'mattermost-redux/utils/team_utils';
+import {sortTeamsWithLocale, filterTeamsStartingWithTerm} from 'mattermost-redux/utils/team_utils';
 
 export function getCurrentTeamId(state: GlobalState) {
     return state.entities.teams.currentTeamId;
@@ -298,4 +298,11 @@ export function makeGetBadgeCountForTeamId(): (state: GlobalState, id: string) =
             return badgeCount;
         },
     );
+}
+
+export function searchTeamsInPolicy(state: GlobalState, term: string): Team[] {
+    const teamDictionary = getTeamsInPolicy(state);
+    const teams = filterTeamsStartingWithTerm(Object.keys(teamDictionary).map((key) => teamDictionary[key]), term);
+
+    return teams;
 }

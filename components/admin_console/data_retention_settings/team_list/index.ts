@@ -37,8 +37,6 @@ const getSortedListOfTeams = createSelector(
 
 function searchTeamsToAdd(teams: Dictionary<Team>, term: string): Dictionary<Team> {
     const filteredTeams = filterTeamsStartingWithTerm(Object.keys(teams).map((key) => teams[key]), term);
-    // const filteredProfilesMap = filterProfiles(profileListToMap(profiles), {});
-
     return teamListToMap(filteredTeams);
 }
 
@@ -60,7 +58,6 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
             totalCount = policy.team_count;
         }
     }
-
     
     return {
         teams,

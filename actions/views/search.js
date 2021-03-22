@@ -44,3 +44,10 @@ export function setTeamListSearch(term) {
         data: term,
     };
 }
+
+export function setChannelListSearch(term) {
+    return {
+        type: SearchTypes.SET_CHANNEL_LIST_SEARCH,
+        data: term,
+    };
+}

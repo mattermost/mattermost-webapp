@@ -5,7 +5,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 import {Constants} from 'utils/constants';
-import {ChannelWithTeamData as Channel} from 'mattermost-redux/types/channels';
+import {ChannelSearchOpts, ChannelWithTeamData as Channel} from 'mattermost-redux/types/channels';
 import {Dictionary} from 'mattermost-redux/types/utilities';
 
 import {browserHistory} from 'utils/browser_history';
@@ -21,12 +21,14 @@ import GlobeIcon from 'components/widgets/icons/globe_icon';
 import LockIcon from 'components/widgets/icons/lock_icon';
 import ArchiveIcon from 'components/widgets/icons/archive_icon';
 import {isArchivedChannel} from 'utils/channel_utils';
+import { ActionResult } from 'mattermost-redux/types/actions';
 
 const ROW_HEIGHT = 80;
 
 type Props = {
     channels: Channel[];
     totalCount: number;
+    searchTerm: string;
 
     policyId: string | undefined;
 
@@ -36,9 +38,10 @@ type Props = {
     channelsToAdd: Dictionary<Channel>;
 
     actions: {
-        // searchTeams: (term: string, opts: TeamSearchOpts) => Promise<{data: TeamsWithCount}>;
+        searchChannels: (id: string, term: string, opts: ChannelSearchOpts) => Promise<{ data: Channel[] }>;
         getDataRetentionCustomPolicyChannels: (id: string, page: number, perPage: number) => Promise<{ data: Channel[] }>;
         clearDataRetentionCustomPolicyChannels: () => {data: {}};
+        setChannelListSearch: (term: string) => ActionResult;
     };
 }
 
@@ -48,10 +51,11 @@ type State = {
 }
 const PAGE_SIZE = 10;
 export default class TeamList extends React.PureComponent<Props, State> {
+    private searchTimeoutId: number;
     private pageLoaded = 0;
     public constructor(props: Props) {
         super(props);
-
+        this.searchTimeoutId = 0;
         this.state = {
             loading: false,
             page: 0,
@@ -217,11 +221,7 @@ export default class TeamList extends React.PureComponent<Props, State> {
                             </div>
                         </div>
                     ),
-                    team: (
-                        <>
-                            eligendi
-                        </>
-                    ),
+                    team: channel.team_display_name,
                     remove: (
                         <a
                             data-testid={`${channel.display_name}edit`}
@@ -241,6 +241,40 @@ export default class TeamList extends React.PureComponent<Props, State> {
         });
     }
 
+    onSearch = async (searchTerm: string) => {
+        this.props.actions.setChannelListSearch(searchTerm);
+    }
+    public async componentDidUpdate(prevProps: Props) {
+        const { policyId, searchTerm } = this.props;
+
+        const searchTermModified = prevProps.searchTerm !== searchTerm;
+        if (searchTermModified) {
+            this.setState({loading: true});
+            clearTimeout(this.searchTimeoutId);
+            if (searchTerm === '') {
+                this.searchTimeoutId = 0;
+                await this.loadPage(0);
+                this.setState({loading: false});
+                return;
+            }
+
+            const searchTimeoutId = window.setTimeout(
+                async () => {
+                    if (policyId) {
+                        await prevProps.actions.searchChannels(policyId, searchTerm, {});
+                    }
+
+                    if (searchTimeoutId !== this.searchTimeoutId) {
+                        return;
+                    }
+                    this.setState({loading: false});
+                },
+                Constants.SEARCH_TIMEOUT_MILLISECONDS,
+            );
+
+            this.searchTimeoutId = searchTimeoutId;
+        }
+    }
     render() {
         const rows: Row[] = this.getRows();
         const columns: Column[] = this.getColumns();
@@ -259,8 +293,8 @@ export default class TeamList extends React.PureComponent<Props, State> {
                     endCount={endCount}
                     total={total}
                     className={'customTable'}
-                    // onSearch={this.onSearch}
-                    // term={term}
+                    onSearch={this.onSearch}
+                    term={this.props.searchTerm}
                     // placeholderEmpty={placeholderEmpty}
                     // rowsContainerStyles={rowsContainerStyles}
                     // filterProps={filterProps}

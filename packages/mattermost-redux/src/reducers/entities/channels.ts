@@ -24,6 +24,7 @@ import {
 } from 'mattermost-redux/types/utilities';
 
 import {Team} from 'mattermost-redux/types/teams';
+import { channelListToMap } from 'mattermost-redux/utils/channel_utils';
 
 function removeMemberFromChannels(state: RelationOneToOne<Channel, UserIDMappedObjects<ChannelMembership>>, action: GenericAction) {
     const nextState = {...state};
@@ -789,7 +790,9 @@ export function channelMemberCountsByGroup(state: any = {}, action: GenericActio
 
 export function channelsInPolicy(state: IDMappedObjects<Channel> = {}, action: GenericAction) {
     switch (action.type) {
-    case AdminTypes.RECEIVED_DATA_RETENTION_CUSTOM_POLICY_CHANNELS_SEARCH:
+    case AdminTypes.RECEIVED_DATA_RETENTION_CUSTOM_POLICY_CHANNELS_SEARCH: {
+        return Object.assign({}, state, channelListToMap(action.data));
+    }
     case AdminTypes.RECEIVED_DATA_RETENTION_CUSTOM_POLICY_CHANNELS: {
         const nextState: IDMappedObjects<Channel> = {...state};
 
