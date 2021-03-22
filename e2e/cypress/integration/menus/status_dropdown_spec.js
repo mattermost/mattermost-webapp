@@ -11,7 +11,6 @@
 // Group: @menu @custom_status @status_menu
 
 import theme from '../../fixtures/theme.json';
-import * as TIMEOUTS from '../../fixtures/timeouts';
 
 const statusTestCases = [
     {id: 'status-menu-online', icon: 'online--icon', text: 'Online'},
@@ -35,14 +34,9 @@ describe('Status dropdown menu', () => {
         cy.reload();
     });
 
-    after(() => {
-        // # Reset to enable the custom status
-        cy.apiUpdateConfig({TeamSettings: {EnableCustomUserStatuses: true}});
-    });
-
     it('MM-T2927_1 Should open status menu', () => {
         // # Open status menu
-        openStatusMenu(TIMEOUTS.ONE_MIN);
+        cy.uiOpenSetStatusMenu();
 
         // * Verify that the status dropdown opens and is visible
         cy.get('.MenuWrapper.status-dropdown-menu .Menu__content.dropdown-menu').should('be.visible');
@@ -50,7 +44,7 @@ describe('Status dropdown menu', () => {
 
     it('MM-T2927_2 Should show all available statuses with their icons', () => {
         // # Open status menu
-        openStatusMenu();
+        cy.uiOpenSetStatusMenu();
 
         // # Wait for status menu to transition in
         cy.get('.MenuWrapper.status-dropdown-menu .Menu__content.dropdown-menu').should('be.visible');
@@ -91,7 +85,7 @@ describe('Status dropdown menu', () => {
 
     it('MM-T2927_5 "Set a Custom Header Status" is clickable', () => {
         // # Open status menu
-        openStatusMenu();
+        cy.uiOpenSetStatusMenu();
 
         // * Verify "Set a Custom Status" header is clickable
         cy.get('.MenuWrapper.status-dropdown-menu .Menu__content.dropdown-menu li:nth-child(3)').should('be.visible').
@@ -103,20 +97,12 @@ describe('Status dropdown menu', () => {
         cy.apiUpdateConfig({TeamSettings: {EnableCustomUserStatuses: false}});
 
         // # Open status menu
-        openStatusMenu();
+        cy.uiOpenSetStatusMenu();
 
         // * Verify that the status menu dropdown opens and is visible
         cy.get('.MenuWrapper.status-dropdown-menu .Menu__content.dropdown-menu').should('be.visible');
     });
 });
-
-function openStatusMenu(timeOut) {
-    // # Wait for posts to load
-    cy.get('#postListContent', {timeout: timeOut}).should('be.visible');
-
-    // # Click status menu
-    cy.get('.MenuWrapper .status-wrapper.status-selector button.status').click();
-}
 
 function stepThroughStatuses() {
     // # Wait for posts to load
@@ -124,17 +110,10 @@ function stepThroughStatuses() {
 
     // * Verify the user's status icon changes correctly every time
     statusTestCases.forEach((tc) => {
-        // # Open status menu
-        cy.get('.MenuWrapper .status-wrapper.status-selector button.status').click();
+        // # Step through all the status
+        cy.uiOpenSetStatusMenu(tc.text);
 
-        // # Wait for status menu to transition in
-        cy.get('.MenuWrapper.status-dropdown-menu .Menu__content.dropdown-menu').should('be.visible');
-
-        // # Click status choice
-        cy.get(`.MenuWrapper.status-dropdown-menu .Menu__content.dropdown-menu li#${tc.id}`).should('be.visible').
-            and('have.css', 'cursor', 'pointer').click();
-
-        // # Verify correct status icon is shown on user's profile picture
+        // * Verify correct status icon is shown on user's profile picture
         cy.get('.MenuWrapper.status-dropdown-menu svg').should('have.attr', 'aria-label', `${tc.text} Icon`);
     });
 }
