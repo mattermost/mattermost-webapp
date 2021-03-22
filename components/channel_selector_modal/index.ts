@@ -3,6 +3,7 @@
 
 import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
+
 import {getAllChannels as loadChannels, searchAllChannels} from 'mattermost-redux/actions/channels';
 
 import {ChannelWithTeamData, ChannelSearchOpts} from 'mattermost-redux/types/channels';

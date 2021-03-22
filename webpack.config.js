@@ -245,6 +245,8 @@ var config = {
             path.resolve(__dirname),
         ],
         alias: {
+            'mattermost-redux/test': 'packages/mattermost-redux/test',
+            'mattermost-redux': 'packages/mattermost-redux/src',
             jquery: 'jquery/src/jquery',
             superagent: 'node_modules/superagent/lib/client',
         },

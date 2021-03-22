@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+
 import {Posts} from 'mattermost-redux/constants';
 import {Post} from 'mattermost-redux/types/posts';
 

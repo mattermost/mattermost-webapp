@@ -3,6 +3,7 @@
 
 import React, {useEffect} from 'react';
 import {FormattedMessage} from 'react-intl';
+
 import {Client4} from 'mattermost-redux/client';
 
 import computerWithAlert from 'images/cloud/computer-with-alert.svg';

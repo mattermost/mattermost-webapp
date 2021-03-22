@@ -3914,6 +3914,7 @@
   "signup.office365": "Office 365",
   "signup.saml.icon": "SAML Icon",
   "signup.title": "Create an account with:",
+  "someting.string": "defaultString",
   "status_dropdown.custom_status.tooltip_clear": "Clear",
   "status_dropdown.menuAriaLabel": "set status",
   "status_dropdown.set_away": "Away",

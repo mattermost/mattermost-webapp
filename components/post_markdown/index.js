@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 import {createSelector} from 'reselect';
 import {connect} from 'react-redux';
+
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getMyGroupMentionKeysForChannel, getMyGroupMentionKeys} from 'mattermost-redux/selectors/entities/groups';
 import {getCurrentUserMentionKeys} from 'mattermost-redux/selectors/entities/users';
