@@ -23,6 +23,8 @@ jest.mock('utils/user_agent', () => ({
     isMobile: jest.fn().mockReturnValue(false),
 }));
 
+jest.useFakeTimers();
+
 function createEditPost({canEditPost, canDeletePost, useChannelMentions, ctrlSend, config, license, editingPost, actions} = {canEditPost: true, canDeletePost: true}) { //eslint-disable-line react/prop-types
     const canEditPostProp = canEditPost === undefined ? true : canEditPost;
     const canDeletePostProp = canDeletePost === undefined ? true : canDeletePost;
