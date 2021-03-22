@@ -2,6 +2,8 @@
 // See LICENSE.txt for license information.
 
 import React, {memo} from 'react';
+/* eslint-disable react/no-string-refs */
+
 import {Channel} from 'mattermost-redux/types/channels';
 import {Post} from 'mattermost-redux/types/posts';
 

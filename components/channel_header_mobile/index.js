@@ -4,6 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {createSelector} from 'reselect';
+
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {
     getCurrentChannel,

@@ -3,12 +3,13 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
+
 import {makeGetPostsForThread} from 'mattermost-redux/selectors/entities/posts';
 import {get, getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {removePost, getPostThread} from 'mattermost-redux/actions/posts';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {Post} from 'mattermost-redux/types/posts';
-import {UserProfile} from 'mattermost-redux/src/types/users';
+import {UserProfile} from 'mattermost-redux/types/users';
 
 import {Preferences} from 'utils/constants';
 import {getDirectTeammate} from 'utils/utils.jsx';

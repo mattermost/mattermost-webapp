@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage, injectIntl} from 'react-intl';
 import {Tooltip} from 'react-bootstrap';
+
 import {Posts} from 'mattermost-redux/constants/index';
 import {
     isPostEphemeral,

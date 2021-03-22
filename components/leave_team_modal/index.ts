@@ -3,6 +3,7 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
+
 import {getCurrentUserId, getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getPrivateChannels, getPublicChannels} from 'mattermost-redux/selectors/entities/channels';

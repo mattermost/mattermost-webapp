@@ -3,6 +3,7 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+
 import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 
 import {getSelectedThreadIdInCurrentTeam} from 'selectors/views/threads';

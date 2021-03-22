@@ -5,6 +5,10 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import cssVars from 'css-vars-ponyfill';
+
+import moment from 'moment';
+
 import {getChannel as getChannelAction, getChannelByNameAndTeamName, getChannelMember, joinChannel} from 'mattermost-redux/actions/channels';
 import {getPost as getPostAction} from 'mattermost-redux/actions/posts';
 import {getTeamByName as getTeamByNameAction} from 'mattermost-redux/actions/teams';
@@ -21,9 +25,6 @@ import {
 } from 'mattermost-redux/utils/theme_utils';
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
 import {getCurrentTeamId, getCurrentRelativeTeamUrl, getTeam, getTeamByName, getTeamMemberships} from 'mattermost-redux/selectors/entities/teams';
-import cssVars from 'css-vars-ponyfill';
-
-import moment from 'moment';
 
 import {addUserToTeam} from 'actions/team_actions';
 import {searchForTerm} from 'actions/post_actions';

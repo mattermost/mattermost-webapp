@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {Tooltip} from 'react-bootstrap';
+
 import {getFileDownloadUrl} from 'mattermost-redux/utils/file_utils';
 import {FileInfo} from 'mattermost-redux/types/files';
 
