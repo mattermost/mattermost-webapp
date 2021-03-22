@@ -1,11 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import React from 'react';
+
 import {Post, PostEmbed} from 'mattermost-redux/types/posts';
 
 import {getEmbedFromMetadata} from 'mattermost-redux/utils/post_utils';
-
-import React from 'react';
 
 import MessageAttachmentList from 'components/post_view/message_attachments/message_attachment_list';
 import PostAttachmentOpenGraph from 'components/post_view/post_attachment_opengraph';

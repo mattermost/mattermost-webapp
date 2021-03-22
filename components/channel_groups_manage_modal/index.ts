@@ -3,6 +3,7 @@
 
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 import {connect} from 'react-redux';
+
 import {getGroupsAssociatedToChannel, unlinkGroupSyncable, patchGroupSyncable} from 'mattermost-redux/actions/groups';
 import {getMyChannelMember} from 'mattermost-redux/actions/channels';
 import {GlobalState} from 'mattermost-redux/types/store';

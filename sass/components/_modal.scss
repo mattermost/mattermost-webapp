@@ -883,7 +883,11 @@
         }
 
         &.more-modal__row--selected {
-            background: rgba(var(--center-channel-color-rgb), 0.08);
+            background: rgba(var(--sys-center-channel-color-rgb), 0.08);
+
+            .app__body & {
+                background: rgba(var(--center-channel-color-rgb), 0.08);
+            }
 
             .more-modal__actions--round {
                 opacity: .5;

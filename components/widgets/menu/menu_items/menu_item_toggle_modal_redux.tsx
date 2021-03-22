@@ -3,9 +3,9 @@
 
 import React from 'react';
 
-import {Dictionary} from 'mattermost-redux/types/utilities';
-
 import classNames from 'classnames';
+
+import {Dictionary} from 'mattermost-redux/types/utilities';
 
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 
