@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import semver from 'semver';
+
 import {logError} from 'mattermost-redux/actions/errors';
 import {getProfilesByIds} from 'mattermost-redux/actions/users';
 import {getCurrentChannel, getMyChannelMember, makeGetChannel} from 'mattermost-redux/selectors/entities/channels';

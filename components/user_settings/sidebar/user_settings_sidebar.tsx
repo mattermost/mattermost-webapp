@@ -4,7 +4,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {UserProfile} from 'mattermost-redux/src/types/users';
+import {UserProfile} from 'mattermost-redux/types/users';
 
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 

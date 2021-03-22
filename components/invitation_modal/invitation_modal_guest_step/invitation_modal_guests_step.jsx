@@ -4,6 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+
 import {isEmail} from 'mattermost-redux/utils/helpers';
 import {debounce} from 'mattermost-redux/actions/helpers';
 

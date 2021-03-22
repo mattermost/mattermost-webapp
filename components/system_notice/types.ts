@@ -1,8 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 import React from 'react';
-import {Dictionary} from 'mattermost-redux/src/types/utilities';
-import {AnalyticsRow} from 'mattermost-redux/src/types/admin';
+
+import {Dictionary} from 'mattermost-redux/types/utilities';
+import {AnalyticsRow} from 'mattermost-redux/types/admin';
 
 export type Notice = {
     name: string;

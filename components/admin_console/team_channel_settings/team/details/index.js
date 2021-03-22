@@ -3,6 +3,8 @@
 
 import {bindActionCreators} from 'redux';
 
+import {connect} from 'react-redux';
+
 import {getTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import {getTeam as fetchTeam, membersMinusGroupMembers, patchTeam, removeUserFromTeam, updateTeamMemberSchemeRoles, addUserToTeam} from 'mattermost-redux/actions/teams';
@@ -14,8 +16,6 @@ import {
     unlinkGroupSyncable,
     patchGroupSyncable,
 } from 'mattermost-redux/actions/groups';
-
-import {connect} from 'react-redux';
 
 import {setNavigationBlocked} from 'actions/admin_actions';
 

@@ -2,8 +2,10 @@
 // See LICENSE.txt for license information.
 
 import {shallow, ShallowWrapper} from 'enzyme';
-import {PostType} from 'mattermost-redux/types/posts';
+
 import React from 'react';
+
+import {PostType} from 'mattermost-redux/types/posts';
 
 import {Locations, PostTypes} from 'utils/constants';
 import {TestHelper} from 'utils/test_helper';
