@@ -191,7 +191,7 @@ exports[`components/SearchHint should match snapshot, with title 1`] = `
     className="search-hint__title"
   >
     <FormattedMessage
-      defaultMessage="Search Options"
+      defaultMessage="Search options"
       id="search_bar.usage.title"
     />
   </h4>

@@ -41,61 +41,120 @@ exports[`components/file_search_result/FileSearchResultItem should match snapsho
       <span>
          • 
       </span>
-      <FormattedDate
-        day="2-digit"
-        month="short"
-        value={1}
-        year="numeric"
-      />
-      <FormattedTime
-        hour="2-digit"
-        minute="2-digit"
+      <Connect(injectIntl(Timestamp))
+        ranges={
+          Array [
+            Object {
+              "display": <FormattedMessage
+                defaultMessage="Today"
+                id="date_separator.today"
+              />,
+              "equals": Array [
+                "day",
+                0,
+              ],
+            },
+            Object {
+              "display": <FormattedMessage
+                defaultMessage="Yesterday"
+                id="date_separator.yesterday"
+              />,
+              "equals": Array [
+                "day",
+                -1,
+              ],
+            },
+          ]
+        }
         value={1}
       />
     </div>
   </div>
-  <div
-    onClick={[Function]}
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    delayShow={1000}
+    overlay={
+      <Tooltip
+        bsClass="tooltip"
+        id="file-name__tooltip"
+        placement="right"
+      >
+        More Actions
+      </Tooltip>
+    }
+    placement="top"
+    trigger={
+      Array [
+        "hover",
+        "focus",
+      ]
+    }
   >
-    <MenuWrapper
-      animationComponent={[Function]}
-      className=""
+    <div
+      onClick={[Function]}
     >
-      <span
-        className="action-icon dots-icon"
+      <MenuWrapper
+        animationComponent={[Function]}
+        className=""
+        onToggle={[Function]}
       >
-        <i
-          className="icon icon-dots-vertical"
-        />
-      </span>
-      <Menu
-        ariaLabel="file menu"
-        openLeft={true}
+        <span
+          className="action-icon dots-icon"
+        >
+          <i
+            className="icon icon-dots-vertical"
+          />
+        </span>
+        <Menu
+          ariaLabel="file menu"
+          openLeft={true}
+        >
+          <MenuItemAction
+            ariaLabel="Open in channel"
+            onClick={[Function]}
+            show={true}
+            text="Open in channel"
+          />
+          <MenuItemAction
+            ariaLabel="Copy link"
+            onClick={[Function]}
+            show={true}
+            text="Copy link"
+          />
+        </Menu>
+      </MenuWrapper>
+    </div>
+  </OverlayTrigger>
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    delayShow={1000}
+    overlay={
+      <Tooltip
+        bsClass="tooltip"
+        id="file-name__tooltip"
+        placement="right"
       >
-        <MenuItemAction
-          ariaLabel="Open in channel"
-          onClick={[Function]}
-          show={true}
-          text="Open in channel"
-        />
-        <MenuItemAction
-          ariaLabel="Copy link"
-          onClick={[Function]}
-          show={true}
-          text="Copy link"
-        />
-      </Menu>
-    </MenuWrapper>
-  </div>
-  <a
-    className="action-icon download-icon"
-    href="/api/v4/files/file_info_id?download=1"
-    onClick={[Function]}
+        Download
+      </Tooltip>
+    }
+    placement="top"
+    trigger={
+      Array [
+        "hover",
+        "focus",
+      ]
+    }
   >
-    <i
-      className="icon icon-download-outline"
-    />
-  </a>
+    <a
+      className="action-icon download-icon"
+      href="/api/v4/files/file_info_id?download=1"
+      onClick={[Function]}
+    >
+      <i
+        className="icon icon-download-outline"
+      />
+    </a>
+  </OverlayTrigger>
 </div>
 `;
 
@@ -145,60 +204,119 @@ exports[`components/file_search_result/FileSearchResultItem should match snapsho
       <span>
          • 
       </span>
-      <FormattedDate
-        day="2-digit"
-        month="short"
-        value={1}
-        year="numeric"
-      />
-      <FormattedTime
-        hour="2-digit"
-        minute="2-digit"
+      <Connect(injectIntl(Timestamp))
+        ranges={
+          Array [
+            Object {
+              "display": <FormattedMessage
+                defaultMessage="Today"
+                id="date_separator.today"
+              />,
+              "equals": Array [
+                "day",
+                0,
+              ],
+            },
+            Object {
+              "display": <FormattedMessage
+                defaultMessage="Yesterday"
+                id="date_separator.yesterday"
+              />,
+              "equals": Array [
+                "day",
+                -1,
+              ],
+            },
+          ]
+        }
         value={1}
       />
     </div>
   </div>
-  <div
-    onClick={[Function]}
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    delayShow={1000}
+    overlay={
+      <Tooltip
+        bsClass="tooltip"
+        id="file-name__tooltip"
+        placement="right"
+      >
+        More Actions
+      </Tooltip>
+    }
+    placement="top"
+    trigger={
+      Array [
+        "hover",
+        "focus",
+      ]
+    }
   >
-    <MenuWrapper
-      animationComponent={[Function]}
-      className=""
+    <div
+      onClick={[Function]}
     >
-      <span
-        className="action-icon dots-icon"
+      <MenuWrapper
+        animationComponent={[Function]}
+        className=""
+        onToggle={[Function]}
       >
-        <i
-          className="icon icon-dots-vertical"
-        />
-      </span>
-      <Menu
-        ariaLabel="file menu"
-        openLeft={true}
+        <span
+          className="action-icon dots-icon"
+        >
+          <i
+            className="icon icon-dots-vertical"
+          />
+        </span>
+        <Menu
+          ariaLabel="file menu"
+          openLeft={true}
+        >
+          <MenuItemAction
+            ariaLabel="Open in channel"
+            onClick={[Function]}
+            show={true}
+            text="Open in channel"
+          />
+          <MenuItemAction
+            ariaLabel="Copy link"
+            onClick={[Function]}
+            show={true}
+            text="Copy link"
+          />
+        </Menu>
+      </MenuWrapper>
+    </div>
+  </OverlayTrigger>
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    delayShow={1000}
+    overlay={
+      <Tooltip
+        bsClass="tooltip"
+        id="file-name__tooltip"
+        placement="right"
       >
-        <MenuItemAction
-          ariaLabel="Open in channel"
-          onClick={[Function]}
-          show={true}
-          text="Open in channel"
-        />
-        <MenuItemAction
-          ariaLabel="Copy link"
-          onClick={[Function]}
-          show={true}
-          text="Copy link"
-        />
-      </Menu>
-    </MenuWrapper>
-  </div>
-  <a
-    className="action-icon download-icon"
-    href="/api/v4/files/file_info_id?download=1"
-    onClick={[Function]}
+        Download
+      </Tooltip>
+    }
+    placement="top"
+    trigger={
+      Array [
+        "hover",
+        "focus",
+      ]
+    }
   >
-    <i
-      className="icon icon-download-outline"
-    />
-  </a>
+    <a
+      className="action-icon download-icon"
+      href="/api/v4/files/file_info_id?download=1"
+      onClick={[Function]}
+    >
+      <i
+        className="icon icon-download-outline"
+      />
+    </a>
+  </OverlayTrigger>
 </div>
 `;
