@@ -142,12 +142,12 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
             const newEmails = [...this.state.emails, ...emails];
             const {cloudUserLimit} = this.props;
 
-            const showError = this.shouldShowLimitError(newEmails.length);
+            const showLimitError = this.shouldShowLimitError(newEmails.length);
 
             this.setState({
                 emails: newEmails,
                 emailInput: '',
-                emailError: showError ? this.props.intl.formatMessage({
+                emailError: showLimitError ? this.props.intl.formatMessage({
                     id: 'next_steps_view.invite_members_step.tooManyEmails',
                     defaultMessage: 'The free tier is limited to {num} members.'},
                 {num: cloudUserLimit}) : undefined,
@@ -167,9 +167,9 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
         }
 
         const {cloudUserLimit} = this.props;
-        const showError = this.shouldShowLimitError(value.length);
+        const showLimitError = this.shouldShowLimitError(value.length);
 
-        if (showError) {
+        if (showLimitError) {
             this.setState({emailError: this.props.intl.formatMessage({
                 id: 'next_steps_view.invite_members_step.tooManyEmails',
                 defaultMessage: 'The free tier is limited to {num} members.'},
@@ -184,12 +184,12 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
             const emails = this.state.emailInput.split(/[\s,]+/).filter((email) => email.length).map((email) => ({label: email, value: email, error: !isEmail(email)}));
             const newEmails = [...this.state.emails, ...emails];
             const {cloudUserLimit} = this.props;
-            const showError = this.shouldShowLimitError(newEmails.length);
+            const showLimitError = this.shouldShowLimitError(newEmails.length);
 
             this.setState({
                 emails: newEmails,
                 emailInput: '',
-                emailError: showError ? this.props.intl.formatMessage({
+                emailError: showLimitError ? this.props.intl.formatMessage({
                     id: 'next_steps_view.invite_members_step.tooManyEmails',
                     defaultMessage: 'The free tier is limited to {num} members.'},
                 {num: cloudUserLimit}) : undefined,
