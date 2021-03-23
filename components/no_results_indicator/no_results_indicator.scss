@@ -53,4 +53,8 @@
     width: 11px;
     margin: 2px;
     vertical-align: middle;
+
+    svg {
+        fill: var(--button-bg);
+    }
 }
