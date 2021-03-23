@@ -8,7 +8,7 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @enterprise @elasticsearch @autocomplete
+// Group: @enterprise @elasticsearch @autocomplete @not_cloud
 
 import {getAdminAccount} from '../../../support/env';
 
@@ -24,6 +24,8 @@ describe('Autocomplete with Elasticsearch - Channel', () => {
     let testUser;
 
     before(() => {
+        cy.shouldNotRunOnCloudEdition();
+
         // # Check if server has license for Elasticsearch
         cy.apiRequireLicenseForFeature('Elasticsearch');
 
