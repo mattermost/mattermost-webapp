@@ -8,12 +8,12 @@ import {useIntl} from 'react-intl';
 import {useSelector, useDispatch} from 'react-redux';
 
 import {getThreadCountsInCurrentTeam} from 'mattermost-redux/selectors/entities/threads';
+import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getThreads} from 'mattermost-redux/actions/threads';
 
 import {t} from 'utils/i18n';
 
 import {isUnreadFilterEnabled} from 'selectors/views/channel_sidebar';
-import {isCollapsedThreadsEnabled} from 'selectors/threads';
 import {useThreadRouting} from '../hooks';
 
 import ChannelMentionBadge from 'components/sidebar/sidebar_channel/channel_mention_badge';

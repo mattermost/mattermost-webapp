@@ -12,8 +12,8 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getThreadMentionCountsByChannel} from 'mattermost-redux/actions/threads';
 
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
-import {isCollapsedThreadsEnabled} from 'selectors/threads';
 import {browserHistory} from 'utils/browser_history';
 import {Preferences} from 'utils/constants';
 
