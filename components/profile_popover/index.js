@@ -11,7 +11,6 @@ import {
     getTeamMember,
 } from 'mattermost-redux/selectors/entities/teams';
 import {
-    getCurrentChannel,
     getChannelMembersInChannels,
     canManageAnyChannelMembersInCurrentTeam,
 } from 'mattermost-redux/selectors/entities/channels';
@@ -21,14 +20,13 @@ import {getMembershipForCurrentEntities} from 'actions/views/profile_popover';
 import {closeModal, openModal} from 'actions/views/modals';
 
 import {areTimezonesEnabledAndSupported} from 'selectors/general';
-import {getSelectedPost, getRhsState} from 'selectors/rhs';
+import {getRhsState} from 'selectors/rhs';
 
 import {makeGetCustomStatus, isCustomStatusEnabled} from 'selectors/views/custom_status';
 
 import ProfilePopover from './profile_popover.jsx';
 
-function mapStateToProps(state, ownProps) {
-    const userId = ownProps.userId;
+function mapStateToProps(state, {userId, channelId}) {
     const team = getCurrentTeam(state);
     const teamMember = getTeamMember(state, team.id, userId);
     const getCustomStatus = makeGetCustomStatus();
@@ -36,19 +34,6 @@ function mapStateToProps(state, ownProps) {
     let isTeamAdmin = false;
     if (teamMember && teamMember.scheme_admin) {
         isTeamAdmin = true;
-    }
-
-    const selectedPost = getSelectedPost(state);
-
-    let channelId = ownProps.channelId;
-
-    if (!channelId) {
-        if (selectedPost.exists === false) {
-            const currentChannel = getCurrentChannel(state) || {};
-            channelId = currentChannel.id;
-        } else {
-            channelId = selectedPost.channel_id;
-        }
     }
 
     const channelMember = getChannelMembersInChannels(state)?.[channelId]?.[userId];
@@ -69,7 +54,6 @@ function mapStateToProps(state, ownProps) {
         status: getStatusForUserId(state, userId),
         teamUrl: getCurrentRelativeTeamUrl(state),
         user: getUser(state, userId),
-        channelId,
         modals: state.views.modals.modalState,
         customStatus: getCustomStatus(state, userId),
         isCustomStatusEnabled: isCustomStatusEnabled(state),
