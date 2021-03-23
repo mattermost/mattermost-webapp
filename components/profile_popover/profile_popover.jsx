@@ -55,6 +55,8 @@ class ProfilePopover extends React.PureComponent {
          */
         user: PropTypes.object,
 
+        channelId: PropTypes.string,
+
         /**
          * Status for the user, either 'offline', 'away', 'dnd' or 'online'
          */
@@ -155,7 +157,7 @@ class ProfilePopover extends React.PureComponent {
     }
 
     componentDidMount() {
-        this.props.actions.getMembershipForCurrentEntities(this.props.userId);
+        this.props.actions.getMembershipForCurrentEntities(this.props.userId, this.props.channelId);
     }
 
     handleShowDirectChannel = (e) => {
@@ -311,6 +313,7 @@ class ProfilePopover extends React.PureComponent {
         const popoverProps = Object.assign({}, this.props);
         delete popoverProps.user;
         delete popoverProps.userId;
+        delete popoverProps.channelId;
         delete popoverProps.src;
         delete popoverProps.status;
         delete popoverProps.hideStatus;

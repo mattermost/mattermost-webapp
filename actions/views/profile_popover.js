@@ -8,7 +8,7 @@ import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
 import {getSelectedPost} from 'selectors/rhs';
 
-export function getMembershipForCurrentEntities(userId) {
+export function getMembershipForCurrentEntities(userId, channelId) {
     return async (dispatch, getState) => {
         const state = getState();
         const currentTeamId = getCurrentTeamId(state);
@@ -16,13 +16,13 @@ export function getMembershipForCurrentEntities(userId) {
         const selectedPost = getSelectedPost(state);
         const currentChannel = getCurrentChannel(state) || {};
 
-        let channelId;
+        let defaultChannelId;
         if (selectedPost.exists === false) {
-            channelId = currentChannel.id;
+            defaultChannelId = currentChannel.id;
         } else {
-            channelId = selectedPost.channel_id;
+            defaultChannelId = selectedPost.channel_id;
         }
 
-        return Promise.all([dispatch(getTeamMember(currentTeamId, userId)), dispatch(getChannelMember(channelId, userId))]);
+        return Promise.all([dispatch(getTeamMember(currentTeamId, userId)), dispatch(getChannelMember(channelId ?? defaultChannelId, userId))]);
     };
 }
