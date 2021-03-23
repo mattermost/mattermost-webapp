@@ -158,7 +158,7 @@ class ProfilePopover extends React.PureComponent {
 
     componentDidMount() {
         const {currentTeamId, userId, channelId} = this.props;
-        if (currentTeamId && userId && channelId) {
+        if (currentTeamId && userId) {
             this.props.actions.getMembershipForCurrentEntities(currentTeamId, userId, channelId);
         }
     }

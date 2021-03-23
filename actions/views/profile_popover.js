@@ -6,6 +6,9 @@ import {getChannelMember} from 'mattermost-redux/actions/channels';
 
 export function getMembershipForCurrentEntities(currentTeamId, userId, channelId) {
     return async (dispatch) => {
+        if (!channelId) {
+            return dispatch(getTeamMember(currentTeamId, userId));
+        }
         return Promise.all([
             dispatch(getTeamMember(currentTeamId, userId)),
             dispatch(getChannelMember(channelId, userId)),
