@@ -3,6 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+
 import {Posts} from 'mattermost-redux/constants';
 
 import * as PostUtils from 'utils/post_utils.jsx';

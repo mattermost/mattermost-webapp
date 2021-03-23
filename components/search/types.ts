@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {Action} from 'redux';
+
 import {ActionFunc, DispatchFunc} from 'mattermost-redux/types/actions';
 
 export type OwnProps = {

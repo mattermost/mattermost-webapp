@@ -6,6 +6,7 @@ import {FormattedMessage, defineMessages} from 'react-intl';
 
 import {isNil} from 'lodash';
 import classNames from 'classnames';
+
 import {ChannelModeration as ChannelPermissions} from 'mattermost-redux/types/channels';
 import {Permissions, Roles} from 'mattermost-redux/constants';
 import {ChannelModerationRoles} from 'mattermost-redux/types/roles';
