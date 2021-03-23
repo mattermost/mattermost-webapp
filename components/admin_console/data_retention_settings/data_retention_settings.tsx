@@ -7,20 +7,15 @@ import {AdminConfig} from 'mattermost-redux/types/config';
 import {DataRetentionCustomPolicies, DataRetentionCustomPolicy} from 'mattermost-redux/types/data_retention';
 
 import {JobTypes} from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
-import DataGrid, {Row, Column} from 'components/admin_console/data_grid/data_grid';
+import DataGrid, {Row} from 'components/admin_console/data_grid/data_grid';
 import Card from 'components/card/card';
 import TitleAndButtonCardHeader from 'components/card/title_and_button_card_header/title_and_button_card_header';
 
-import AdminSettings, {BaseProps, BaseState} from 'components/admin_console/admin_settings';
-import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
-import DropdownSetting from 'components/admin_console/dropdown_setting.jsx';
 import JobsTable from 'components/admin_console/jobs';
-import SettingsGroup from 'components/admin_console/settings_group.jsx';
-import TextSetting from 'components/admin_console/text_setting';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 import {browserHistory} from 'utils/browser_history';
+import { Job, JobType } from 'mattermost-redux/types/jobs';
 
 type Props = {
     config: AdminConfig;
@@ -28,12 +23,12 @@ type Props = {
     customPoliciesCount: number;
     actions: {
         getDataRetentionCustomPolicies: (page: number) => Promise<{ data: DataRetentionCustomPolicies }>;
+        createJob: (job: Job) => Promise<{ data: any; }>;
+        getJobsByType: (job: JobType) => Promise<{ data: any}>
     };
 };
 
 type State = {
-    enableMessageDeletion: boolean;
-    enableFileDeletion: boolean;
     customPoliciesLoading: boolean;
     page: number;
     loading: boolean;
@@ -43,14 +38,11 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
     constructor(props: Props) {
         super(props);
         this.state = {
-            enableMessageDeletion: true,
-            enableFileDeletion: true,
             customPoliciesLoading: true,
             page: 0,
             loading: false,
         }
     }
-   
 
     getGlobalPolicyColumns = () => {
         return [
@@ -256,7 +248,18 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
         return {startCount, endCount, total};
     }
 
+    handleCreateJob = async (e: any) => {
+        e.preventDefault();
+        const job = {
+            type: JobTypes.DATA_RETENTION,
+        };
+
+        await this.props.actions.createJob(job);
+        await this.props.actions.getJobsByType(JobTypes.DATA_RETENTION)
+    };
+
     render = () => {
+        const {EnableFileDeletion, EnableMessageDeletion} = this.props.config.DataRetentionSettings;
         const {startCount, endCount, total} = this.getPaginationProps();
 
         return (
@@ -366,12 +369,21 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                                             defaultMessage='Daily log of messages and files removed based on the policies defined above.'
                                         />
                                     }
+                                    buttonText={
+                                        <FormattedMessage
+                                            id='admin.data_retention.createJob.title'
+                                            defaultMessage='Run Deletion Job Now'
+                                        />
+                                    }
+                                    onClick={this.handleCreateJob}
                                 />
                             </Card.Header>
                             <Card.Body>
                                 <JobsTable
                                     jobType={JobTypes.DATA_RETENTION}
-                                    disabled={this.state.enableMessageDeletion !== 'true' && this.state.enableFileDeletion !== 'true'}
+                                    hideJobCreateButton={true}
+                                    className={'job-table__data-retention'}
+                                    disabled={String(EnableMessageDeletion) !== 'true' && String(EnableFileDeletion) !== 'true'}
                                     createJobButtonText={
                                         <FormattedMessage
                                             id='admin.data_retention.createJob.title'
@@ -381,7 +393,7 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                                     createJobHelpText={
                                         <FormattedMessage
                                             id='admin.data_retention.createJob.help'
-                                            defaultMessage='Initiates a Data Retention deletion job immediately.'
+                                            defaultMessage='Daily time to check policies and run delete job: 2:00 AM (UTC)'
                                         />
                                     }
                                 />

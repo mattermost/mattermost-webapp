@@ -9,13 +9,17 @@ import {getDataRetentionCustomPolicies, getDataRetentionCustomPoliciesCount} fro
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
 import {DataRetentionCustomPolicies} from 'mattermost-redux/types/data_retention';
+import {createJob, getJobsByType} from 'mattermost-redux/actions/jobs';
 
 import {GlobalState} from 'types/store';
 
 import DataRetentionSettings from './data_retention_settings';
+import { Job, JobType } from 'mattermost-redux/types/jobs';
 
 type Actions = {
     getDataRetentionCustomPolicies: () => Promise<{ data: DataRetentionCustomPolicies}>;
+    createJob: (job: Job) => Promise<{ data: any}>
+    getJobsByType: (job: JobType) => Promise<{ data: any}>
 };
 
 function mapStateToProps(state: GlobalState) {
@@ -32,6 +36,8 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
             getDataRetentionCustomPolicies: fetchDataRetentionCustomPolicies,
+            createJob,
+            getJobsByType,
         }, dispatch),
     };
 }

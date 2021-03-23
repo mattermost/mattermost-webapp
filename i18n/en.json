@@ -561,7 +561,7 @@
   "admin.data_grid.empty": "No items found",
   "admin.data_grid.loading": "Loading",
   "admin.data_grid.paginatorCount": "{startCount, number} - {endCount, number} of {total, number}",
-  "admin.data_retention.createJob.help": "Initiates a Data Retention deletion job immediately.",
+  "admin.data_retention.createJob.help": "Daily time to check policies and run delete job: 2:00 AM (UTC)",
   "admin.data_retention.createJob.title": "Run Deletion Job Now",
   "admin.data_retention.customPolicies.addPolicy": "Add policy",
   "admin.data_retention.customPolicies.subTitle": "Customize how long specific teams and channels will keep messages.",

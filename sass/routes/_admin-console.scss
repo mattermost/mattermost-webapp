@@ -488,7 +488,7 @@
     }
 
     .status-icon-success {
-        color: #69c169;
+        color: var(--sys-online-indicator);
     }
 
     .status-icon-warning {
@@ -496,7 +496,7 @@
     }
 
     .status-icon-error {
-        color: #ea6262;
+        color: var(--sys-error-text);
     }
 
     .suggestion--selected {
