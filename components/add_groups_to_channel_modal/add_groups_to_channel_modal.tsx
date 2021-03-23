@@ -258,7 +258,7 @@ export default class AddGroupsToChannelModal extends React.PureComponent<Props, 
         }
         let groupsToShow = this.props.groups;
         if (this.props.excludeGroups) {
-            const hasGroup = (og: Group) => this.props.excludeGroups!.find((g) => g.id === og.id);
+            const hasGroup = (og: Group) => !this.props.excludeGroups!.find((g) => g.id === og.id);
             groupsToShow = groupsToShow.filter(hasGroup);
         }
         if (this.props.includeGroups) {

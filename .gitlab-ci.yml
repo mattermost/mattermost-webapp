@@ -33,7 +33,7 @@ test: #todo check on how to create junit.xml, there currently is none
     paths:
       - .npm/
   script:
-    - npm ci --cache .npm --prefer-offline && cd node_modules/mattermost-redux && npm i && npm run build && cd -
+    - npm ci --cache .npm --prefer-offline
 
     # i18n
     - cp i18n/en.json /tmp/en.json

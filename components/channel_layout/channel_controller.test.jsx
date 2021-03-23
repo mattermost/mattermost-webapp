@@ -9,7 +9,6 @@ import ChannelController from './channel_controller.jsx';
 describe('components/channel_layout/ChannelController', () => {
     const props = {
         pathName: 'test',
-        teamType: 'test',
         fetchingChannels: false,
         useLegacyLHS: true,
     };

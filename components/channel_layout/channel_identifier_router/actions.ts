@@ -1,7 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {joinChannel, getChannelByNameAndTeamName, markGroupChannelOpen, fetchMyChannelsAndMembers} from 'mattermost-redux/actions/channels';
+import {History} from 'history';
+
+import {joinChannel, getChannelByNameAndTeamName, getChannelMember, markGroupChannelOpen, fetchMyChannelsAndMembers} from 'mattermost-redux/actions/channels';
 import {getUser, getUserByUsername, getUserByEmail} from 'mattermost-redux/actions/users';
 import {getTeamByName} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser, getCurrentUserId, getUserByUsername as selectUserByUsername, getUser as selectUser, getUserByEmail as selectUserByEmail} from 'mattermost-redux/selectors/entities/users';
@@ -9,7 +11,6 @@ import {getChannelByName, getOtherChannels, getChannel, getChannelsNameMapInTeam
 import {GetStateFunc, DispatchFunc, ActionFunc} from 'mattermost-redux/types/actions';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {Channel} from 'mattermost-redux/types/channels';
-import {History} from 'history';
 
 import {openDirectChannelToUserId} from 'actions/channel_actions';
 import * as GlobalActions from 'actions/global_actions';
@@ -150,9 +151,22 @@ export function goToChannelByChannelName(match: Match, history: History): Action
         }
 
         let channel = getChannelsNameMapInTeam(state, teamObj!.id)[channelName];
+        if (!channel) {
+            const getChannelDispatchResult = await dispatch(getChannelByNameAndTeamName(team, channelName, true));
+            if ('data' in getChannelDispatchResult) {
+                channel = getChannelDispatchResult.data;
+            }
+        }
+
         let member;
         if (channel) {
             member = state.entities.channels.myMembers[channel.id];
+            if (!member) {
+                const membership = await dispatch(getChannelMember(channel.id, getCurrentUserId(state)));
+                if ('data' in membership) {
+                    member = membership.data;
+                }
+            }
         }
 
         if (!channel || !member) {
@@ -160,14 +174,10 @@ export function goToChannelByChannelName(match: Match, history: History): Action
             const user = getCurrentUser(getState());
             const isSystemAdmin = Utils.isSystemAdmin(user?.roles);
             if (isSystemAdmin) {
-                const getChannelDispatchResult = await dispatch(getChannelByNameAndTeamName(team, channelName, true));
-                if ('data' in getChannelDispatchResult) {
-                    channel = getChannelDispatchResult.data;
-                    if (channel.type === Constants.PRIVATE_CHANNEL) {
-                        const joinPromptResult = await dispatch(joinPrivateChannelPrompt(teamObj, channel));
-                        if ('data' in joinPromptResult && !joinPromptResult.data.join) {
-                            return {data: undefined};
-                        }
+                if (channel.type === Constants.PRIVATE_CHANNEL) {
+                    const joinPromptResult = await dispatch(joinPrivateChannelPrompt(teamObj, channel));
+                    if ('data' in joinPromptResult && !joinPromptResult.data.join) {
+                        return {data: undefined};
                     }
                 }
             }

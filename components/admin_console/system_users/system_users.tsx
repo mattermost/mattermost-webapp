@@ -3,6 +3,7 @@
 
 import React, {ChangeEvent} from 'react';
 import {FormattedMessage} from 'react-intl';
+
 import {debounce} from 'mattermost-redux/actions/helpers';
 import {Permissions} from 'mattermost-redux/constants';
 

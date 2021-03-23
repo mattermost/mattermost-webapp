@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+
 import {Posts} from 'mattermost-redux/constants';
 import {Post} from 'mattermost-redux/types/posts';
 
@@ -153,6 +154,7 @@ export default class PostMessageView extends React.PureComponent<Props, State> {
                     tabIndex={0}
                     id={id}
                     className='post-message__text'
+                    dir='auto'
                     onClick={this.handleFormattedTextClick}
                 >
                     <PostMarkdown

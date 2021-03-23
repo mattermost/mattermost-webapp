@@ -6,13 +6,13 @@ import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 import {ActionMeta, InputActionMeta} from 'react-select';
 import classNames from 'classnames';
 
+import {isNull} from 'lodash';
+
 import {ServerError} from 'mattermost-redux/types/errors';
 import {TeamInviteWithError, Team} from 'mattermost-redux/types/teams';
 import {isEmail} from 'mattermost-redux/utils/helpers';
 
 import {SubscriptionStats} from 'mattermost-redux/types/cloud';
-
-import {isNull} from 'lodash';
 
 import {pageVisited, trackEvent} from 'actions/telemetry_actions';
 import {getAnalyticsCategory} from 'components/next_steps_view/step_helpers';
@@ -26,6 +26,7 @@ import * as Utils from 'utils/utils';
 import {StepComponentProps} from '../../steps';
 
 import './invite_members_step.scss';
+import NotifyLink from 'components/widgets/links/notify_link';
 
 type Props = StepComponentProps & {
     team: Team;
@@ -248,6 +249,7 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
     }
 
     render(): JSX.Element {
+        const linkBtn = this.props.isAdmin ? <UpgradeLink telemetryInfo='click_upgrade_invite_members_step'/> : <NotifyLink/>;
         return (
             <div className='NextStepsView__stepWrapper'>
                 <div className='InviteMembersStep'>
@@ -311,8 +313,7 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
                                         </>
                                     }
                                     {(this.state.emailError && !isNull(this.props.subscriptionStats) &&
-                                        this.state.emails.length >= this.props.subscriptionStats.remaining_seats) &&
-                                        <UpgradeLink telemetryInfo='click_upgrade_invite_members_step'/>
+                                        this.state.emails.length >= this.props.subscriptionStats.remaining_seats) && linkBtn
                                     }
                                 </div>
                             </div>

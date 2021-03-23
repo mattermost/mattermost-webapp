@@ -13,6 +13,7 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import InviteMembersIcon from 'components/widgets/icons/invite_members_icon';
 import UsersEmailsInput from 'components/widgets/inputs/users_emails_input.jsx';
 import UpgradeLink from 'components/widgets/links/upgrade_link';
+import NotifyLink from 'components/widgets/links/notify_link';
 
 import LinkIcon from 'components/widgets/icons/link_icon';
 
@@ -20,6 +21,7 @@ import {getSiteURL} from 'utils/url';
 import {t} from 'utils/i18n.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
 import {Constants} from 'utils/constants';
+import withGetCloudSubscription from '../../common/hocs/cloud/with_get_cloud_subcription';
 
 import './invitation_modal_members_step.scss';
 
@@ -39,6 +41,7 @@ class InvitationModalMembersStep extends React.PureComponent {
         isCloud: PropTypes.bool.isRequired,
         subscriptionStats: PropTypes.object,
         actions: PropTypes.shape({
+            getSubscriptionStats: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -213,7 +216,7 @@ class InvitationModalMembersStep extends React.PureComponent {
             errorMessageValues: {
                 num: remainingUsers < 0 ? '0' : remainingUsers,
             },
-            extraErrorText: (<UpgradeLink telemetryInfo='click_upgrade_users_emails_input'/>),
+            extraErrorText: (this.props.userIsAdmin ? <UpgradeLink telemetryInfo='click_upgrade_users_emails_input'/> : <NotifyLink/>),
         };
 
         if (this.state.usersAndEmails.length > Constants.MAX_ADD_MEMBERS_BATCH) {
@@ -368,4 +371,4 @@ class InvitationModalMembersStep extends React.PureComponent {
     }
 }
 
-export default injectIntl(InvitationModalMembersStep);
+export default injectIntl(withGetCloudSubscription(InvitationModalMembersStep));
