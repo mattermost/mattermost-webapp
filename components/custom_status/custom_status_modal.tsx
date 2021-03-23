@@ -21,6 +21,8 @@ import {makeGetCustomStatus, getRecentCustomStatuses, showStatusDropdownPulsatin
 import Constants from 'utils/constants';
 import {t} from 'utils/i18n';
 
+import ExpiryMenu from './expiry_menu';
+import DateTimeInput from './date_time_input';
 import CustomStatusSuggestion from './custom_status_suggestion';
 
 import 'components/category_modal.scss';
@@ -56,9 +58,11 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
     const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
     const [text, setText] = useState<string>(currentCustomStatus.text || '');
     const [emoji, setEmoji] = useState<string>(currentCustomStatus.emoji);
+    const [expiry, setExpiry] = useState<string>('four-hours');
     const isStatusSet = emoji || text;
     const isCurrentCustomStatusSet = currentCustomStatus.text || currentCustomStatus.emoji;
     const firstTimeModalOpened = useSelector((state: GlobalState) => showStatusDropdownPulsatingDot(state));
+    const showDateAndTimeField = isStatusSet && expiry === 'date-and-time';
 
     const handleCustomStatusInitializationState = () => {
         if (firstTimeModalOpened) {
@@ -93,6 +97,11 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
     const handleTextChange = (event: React.ChangeEvent<HTMLInputElement>) => setText(event.target.value);
 
     const handleRecentCustomStatusClear = (status: UserCustomStatus) => dispatch(removeRecentCustomStatus(status));
+
+    const handleExpiryChange = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, expiryValue: string) => {
+        event.preventDefault();
+        setExpiry(expiryValue);
+    };
 
     const customStatusEmoji = emoji || text ?
         (
@@ -260,6 +269,15 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
                     />
                 </div>
                 {!isStatusSet && suggestion}
+                {showDateAndTimeField && (
+                    <DateTimeInput/>
+                )}
+                {isStatusSet && (
+                    <ExpiryMenu
+                        expiry={expiry}
+                        handleExpiryChange={handleExpiryChange}
+                    />
+                )}
             </div>
         </GenericModal>
     );

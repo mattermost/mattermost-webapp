@@ -11,14 +11,18 @@ import {UserCustomStatus} from 'mattermost-redux/types/users';
 
 import {GlobalState} from 'types/store';
 
+// const timer = 1616155500110;
 export function makeGetCustomStatus(): (state: GlobalState, userID?: string) => UserCustomStatus {
-    return createSelector(
-        (state: GlobalState, userID?: string) => (userID ? getUser(state, userID) : getCurrentUser(state)),
-        (user) => {
-            const userProps = user?.props || {};
-            return userProps.customStatus ? JSON.parse(userProps.customStatus) : undefined;
-        },
-    );
+    return (state: GlobalState, userID?: string) => {
+        const user = userID ? getUser(state, userID) : getCurrentUser(state);
+        const userProps = user?.props || {};
+        const rv = userProps.customStatus ? JSON.parse(userProps.customStatus) : undefined;
+
+        // if (Date.now() < timer) {
+        return rv;
+
+        // }
+    };
 }
 
 export const getRecentCustomStatuses = createSelector(

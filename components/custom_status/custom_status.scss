@@ -213,3 +213,71 @@
         margin: 0;
     }
 }
+
+.statusExpiry {
+    position: relative;
+    top: 48px;
+    font-size: 14px;
+    display: inline-block;
+
+    &__menu {
+        cursor: pointer;
+
+        .expiry-value {
+            color: var(--center-channel-color);
+            margin-right: 4px;
+        }
+    }
+}
+
+.dateTime {
+    display: flex;
+    margin-top: 20px;
+    width: calc(100% - 24px);
+
+    & &__date {
+        &-input {
+            position: relative;
+            margin-right: 20px;
+        }
+
+        &-icon {
+            position: absolute;
+            top: 11.3px;
+            left: 15px;
+        }
+    }
+
+    & &__time {
+        &-input {
+            position: relative;
+        }
+
+        &-icon {
+            position: absolute;
+            top: 11.3px;
+            left: 15px;
+        }
+    }
+
+    & &__input-title {
+        position: absolute;
+        bottom: 32px;
+        left: 12px;
+        padding: 0 4px;
+        font-size: 16px;
+        background: var(--center-channel-bg);
+        color: var(--center-channel-color);
+    }
+
+    input {
+        border: 2px solid var(--button-bg);
+        cursor: pointer;
+        padding: 10px 40px;
+        border-radius: 4px;
+        height: 40px;
+        width: 266px;
+        background: var(--center-channel-bg);
+        color: var(--center-channel-color);
+    }
+}
