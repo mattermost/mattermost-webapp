@@ -73,10 +73,6 @@ const customStyles = {
 
 class FileUpload extends PureComponent {
     static propTypes = {
-
-        /**
-         * ChannelID
-         */
         channelId: PropTypes.string.isRequired,
 
         /**
