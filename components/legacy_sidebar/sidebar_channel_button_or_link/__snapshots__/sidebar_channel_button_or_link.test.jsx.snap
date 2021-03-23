@@ -33,6 +33,7 @@ exports[`component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannelB
       }
     }
     showTooltip={true}
+    spanStyle={Object {}}
     tooltipDirection="top"
     userID="test-teammate-id"
   />
@@ -79,6 +80,7 @@ exports[`component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannelB
       }
     }
     showTooltip={true}
+    spanStyle={Object {}}
     tooltipDirection="top"
     userID="test-teammate-id"
   />
@@ -131,6 +133,7 @@ exports[`component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannelB
       }
     }
     showTooltip={true}
+    spanStyle={Object {}}
     tooltipDirection="top"
     userID="test-teammate-id"
   />
@@ -176,6 +179,7 @@ exports[`component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannelB
       }
     }
     showTooltip={true}
+    spanStyle={Object {}}
     tooltipDirection="top"
     userID="test-teammate-id"
   />
@@ -228,6 +232,7 @@ exports[`component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannelB
       }
     }
     showTooltip={true}
+    spanStyle={Object {}}
     tooltipDirection="top"
     userID="test-teammate-id"
   />

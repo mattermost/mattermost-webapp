@@ -1,13 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+import {createSelector} from 'reselect';
+
 import {getCurrentUser, getUser} from 'mattermost-redux/selectors/entities/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {Preferences} from 'mattermost-redux/constants';
 import {UserCustomStatus} from 'mattermost-redux/types/users';
-
-import {createSelector} from 'reselect';
 
 import {GlobalState} from 'types/store';
 
@@ -16,7 +16,7 @@ export function makeGetCustomStatus(): (state: GlobalState, userID?: string) => 
         (state: GlobalState, userID?: string) => (userID ? getUser(state, userID) : getCurrentUser(state)),
         (user) => {
             const userProps = user?.props || {};
-            return userProps.customStatus && JSON.parse(userProps.customStatus);
+            return userProps.customStatus ? JSON.parse(userProps.customStatus) : undefined;
         },
     );
 }

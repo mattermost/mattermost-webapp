@@ -4,6 +4,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
+
 import {UserTypes} from 'mattermost-redux/action_types';
 import {Client4} from 'mattermost-redux/client';
 import {Preferences} from 'mattermost-redux/constants';
@@ -25,6 +26,8 @@ import {
     getUserIdsInChannels,
     getUser,
     makeSearchProfilesMatchingWithTerm,
+    getStatusForUserId,
+    getUserByUsername,
 } from 'mattermost-redux/selectors/entities/users';
 import {searchChannels} from 'mattermost-redux/actions/channels';
 import {logError} from 'mattermost-redux/actions/errors';
@@ -35,6 +38,7 @@ import SharedChannelIndicator from 'components/shared_channel_indicator';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 import Avatar from 'components/widgets/users/avatar';
+import StatusIcon from 'components/status_icon';
 
 import {getPostDraft} from 'selectors/rhs';
 import store from 'stores/redux_store.jsx';
@@ -59,12 +63,13 @@ class SwitchChannelSuggestion extends Suggestion {
     }
 
     render() {
-        const {item, isSelection, userImageUrl} = this.props;
+        const {item, isSelection, userImageUrl, status, userItem} = this.props;
         const channel = item.channel;
         const channelIsArchived = channel.delete_at && channel.delete_at !== 0;
 
         const member = this.props.channelMember;
         let badge = null;
+
         if (member) {
             if (member.notify_props && member.mention_count > 0) {
                 badge = <span className='badge'>{member.mention_count}</span>;
@@ -76,7 +81,7 @@ class SwitchChannelSuggestion extends Suggestion {
             className += ' suggestion--selected';
         }
 
-        const displayName = channel.display_name;
+        let displayName = (channel.display_name);
         let icon = null;
         if (channelIsArchived) {
             icon = (
@@ -117,6 +122,33 @@ class SwitchChannelSuggestion extends Suggestion {
                     />
                 </div>
             );
+
+            if (userItem.firstName || userItem.last_name) {
+                displayName = (
+                    <React.Fragment>
+                        {`${userItem.first_name} ${userItem.last_name}`}
+                        <StatusIcon
+                            className={`${status}--icon`}
+                            status={status}
+                            button={false}
+                        />
+                        <div className='mentions__fullname'>
+                            {userItem.username}
+                        </div>
+                    </React.Fragment>
+                );
+            } else {
+                displayName = (
+                    <React.Fragment>
+                        {userItem.username}
+                        <StatusIcon
+                            className={`${status}--icon`}
+                            status={status}
+                            button={false}
+                        />
+                    </React.Fragment>
+                );
+            }
         }
 
         let tag = null;
@@ -161,7 +193,9 @@ class SwitchChannelSuggestion extends Suggestion {
                 {...Suggestion.baseProps}
             >
                 {icon}
-                <span>{displayName}</span>
+                <span className='suggestion-list__info_user'>
+                    {displayName}
+                </span>
                 {sharedIcon}
                 {tag}
                 {badge}
@@ -177,6 +211,9 @@ function mapStateToPropsForSwitchChannelSuggestion(state, ownProps) {
     const user = channel && getUser(state, channel.userId);
     const userImageUrl = user && Utils.imageURLForUser(user.id, user.last_picture_update);
     let dmChannelTeammate = channel && channel.type === Constants.DM_CHANNEL && Utils.getDirectTeammate(state, channel.id);
+    const userItem = getUserByUsername(state, channel.name);
+    const status = getStatusForUserId(state, channel.userId);
+
     if (channel && Utils.isEmptyObject(dmChannelTeammate)) {
         dmChannelTeammate = getUser(state, channel.userId);
     }
@@ -186,6 +223,8 @@ function mapStateToPropsForSwitchChannelSuggestion(state, ownProps) {
         hasDraft: draft && Boolean(draft.message.trim() || draft.fileInfos.length || draft.uploadsInProgress.length),
         userImageUrl,
         dmChannelTeammate,
+        status,
+        userItem,
     };
 }
 

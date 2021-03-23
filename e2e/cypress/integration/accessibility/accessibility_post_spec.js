@@ -261,6 +261,7 @@ describe('Verify Accessibility Support in Post', () => {
         // # Submit a post as another user
         const message = `verify incoming message from ${otherUser.username}: ${getRandomId()}`;
         cy.postMessageAs({sender: otherUser, message, channelId: testChannel.id});
+        cy.uiWaitUntilMessagePostedIncludes(message);
 
         // # Get the element which stores the incoming messages
         cy.get('#postListContent').within(() => {
