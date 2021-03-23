@@ -11,7 +11,7 @@ import {getChannelsInPolicy, searchChannelsInPolicy} from 'mattermost-redux/sele
 import {getDataRetentionCustomPolicy} from 'mattermost-redux/selectors/entities/admin';
 import {filterChannelsMatchingTerm, channelListToMap} from 'mattermost-redux/utils/channel_utils';
 
-import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
+import {ActionFunc, ActionResult, GenericAction} from 'mattermost-redux/types/actions';
 
 import {Channel, ChannelSearchOpts} from 'mattermost-redux/types/channels';
 
@@ -20,9 +20,10 @@ import {GlobalState} from 'types/store';
 import ChannelList from './channel_list';
 import {setChannelListSearch, setChannelListFilters} from 'actions/views/search';
 import { Dictionary } from 'mattermost-redux/types/utilities';
+import { DataRetentionCustomPolicy } from 'mattermost-redux/types/data_retention';
 
 type OwnProps = {
-    policyId: string;
+    policyId?: string;
     channelsToAdd: Dictionary<Channel>;
 }
 
@@ -46,7 +47,7 @@ function searchChannelsToAdd(channels: Dictionary<Channel>, term: string): Dicti
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     let {channelsToAdd} = ownProps;
 
-    const policy = ownProps.policyId? getDataRetentionCustomPolicy(state, ownProps.policyId) || {} : {};
+    const policy = ownProps.policyId? getDataRetentionCustomPolicy(state, ownProps.policyId) || {} as DataRetentionCustomPolicy : {} as DataRetentionCustomPolicy;
     let channels: Channel[] = [];
     let totalCount = 0;
     const searchTerm = state.views.search.channelListSearch.term || '';
@@ -73,7 +74,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
 
 function mapDispatchToProps(dispatch: Dispatch) {
     return {
-        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc | GenericAction>, Actions>({
             getDataRetentionCustomPolicyChannels,
             clearDataRetentionCustomPolicyChannels,
             searchChannels: searchDataRetentionCustomPolicyChannels,

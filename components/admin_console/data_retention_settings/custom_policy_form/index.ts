@@ -32,6 +32,7 @@ import {GlobalState} from 'types/store';
 
 import CustomPolicyForm from './custom_policy_form';
 import { ChannelWithTeamData } from 'mattermost-redux/types/channels';
+import {setNavigationBlocked} from 'actions/admin_actions.jsx';
 
 type Actions = {
     fetchPolicy: (id: string) => Promise<{ data: DataRetentionCustomPolicy }>;
@@ -42,6 +43,7 @@ type Actions = {
     removeDataRetentionCustomPolicyTeams: (id: string, policy: PatchDataRetentionCustomPolicyTeams) => Promise<{ data: Team[] }>;
     addDataRetentionCustomPolicyChannels: (id: string, policy: PatchDataRetentionCustomPolicyChannels) => Promise<{ data: ChannelWithTeamData[] }>;
     removeDataRetentionCustomPolicyChannels: (id: string, policy: PatchDataRetentionCustomPolicyChannels) => Promise<{ data: ChannelWithTeamData[] }>;
+    setNavigationBlocked: (blocked: boolean) => void;
 };
 
 type OwnProps = {
@@ -71,7 +73,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
-        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc | GenericAction>, Actions>({
             fetchPolicy: fetchPolicy,
             fetchPolicyTeams: fetchPolicyTeams,
             createDataRetentionCustomPolicy,
@@ -80,6 +82,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             removeDataRetentionCustomPolicyTeams,
             addDataRetentionCustomPolicyChannels,
             removeDataRetentionCustomPolicyChannels,
+            setNavigationBlocked,
         }, dispatch),
     };
 }

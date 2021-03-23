@@ -269,7 +269,7 @@ export default class TeamSelectorModal extends React.PureComponent<Props, State>
         const teamsValues = teams.map((team) => {
             return {label: team.name, value: team.id, ...team};
         });
-        console.log(teamsValues);
+
         return (
             <Modal
                 dialogClassName='a11y__modal more-modal more-direct-channels team-selector-modal'

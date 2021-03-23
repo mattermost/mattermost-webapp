@@ -10,7 +10,7 @@ import {getTeamsInPolicy, searchTeamsInPolicy} from 'mattermost-redux/selectors/
 import {getDataRetentionCustomPolicy} from 'mattermost-redux/selectors/entities/admin';
 import {teamListToMap, filterTeamsStartingWithTerm} from 'mattermost-redux/utils/team_utils';
 
-import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
+import {ActionFunc, ActionResult, GenericAction} from 'mattermost-redux/types/actions';
 
 import {Team, TeamSearchOpts, TeamsWithCount} from 'mattermost-redux/types/teams';
 
@@ -18,9 +18,10 @@ import {GlobalState} from 'types/store';
 import {setTeamListSearch} from 'actions/views/search';
 import TeamList from './team_list';
 import { Dictionary } from 'mattermost-redux/types/utilities';
+import { DataRetentionCustomPolicy } from 'mattermost-redux/types/data_retention';
 
 type OwnProps = {
-    policyId: string;
+    policyId?: string;
     teamsToAdd: Dictionary<Team>;
 }
 
@@ -44,7 +45,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     let {teamsToAdd} = ownProps;
 
     let teams: Team[] = [];
-    const policy = ownProps.policyId ? getDataRetentionCustomPolicy(state, ownProps.policyId) || {} : {};
+    const policy = ownProps.policyId ? getDataRetentionCustomPolicy(state, ownProps.policyId) || {} as DataRetentionCustomPolicy : {} as DataRetentionCustomPolicy;
     let totalCount = 0;
     let searchTerm = state.views.search.teamListSearch || '';
 
@@ -69,7 +70,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
 
 function mapDispatchToProps(dispatch: Dispatch) {
     return {
-        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc | GenericAction>, Actions>({
             getDataRetentionCustomPolicyTeams,
             searchTeams: searchDataRetentionCustomPolicyTeams,
             clearDataRetentionCustomPolicyTeams,
