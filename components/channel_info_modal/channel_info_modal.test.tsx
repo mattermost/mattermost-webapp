@@ -4,7 +4,8 @@
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {shallow} from 'enzyme';
-import {Channel} from 'mattermost-redux/src/types/channels';
+
+import {Channel} from 'mattermost-redux/types/channels';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 import ChannelInfoModal from 'components/channel_info_modal/channel_info_modal';
