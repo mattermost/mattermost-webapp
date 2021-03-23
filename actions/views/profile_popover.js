@@ -3,26 +3,12 @@
 
 import {getTeamMember} from 'mattermost-redux/actions/teams';
 import {getChannelMember} from 'mattermost-redux/actions/channels';
-import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
-import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
-import {getSelectedPost} from 'selectors/rhs';
-
-export function getMembershipForCurrentEntities(userId, channelId) {
-    return async (dispatch, getState) => {
-        const state = getState();
-        const currentTeamId = getCurrentTeamId(state);
-
-        const selectedPost = getSelectedPost(state);
-        const currentChannel = getCurrentChannel(state) || {};
-
-        let defaultChannelId;
-        if (selectedPost.exists === false) {
-            defaultChannelId = currentChannel.id;
-        } else {
-            defaultChannelId = selectedPost.channel_id;
-        }
-
-        return Promise.all([dispatch(getTeamMember(currentTeamId, userId)), dispatch(getChannelMember(channelId ?? defaultChannelId, userId))]);
+export function getMembershipForCurrentEntities(currentTeamId, userId, channelId) {
+    return async (dispatch) => {
+        return Promise.all([
+            dispatch(getTeamMember(currentTeamId, userId)),
+            dispatch(getChannelMember(channelId, userId)),
+        ]);
     };
 }
