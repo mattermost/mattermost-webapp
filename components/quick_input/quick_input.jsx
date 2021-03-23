@@ -63,6 +63,12 @@ export default class QuickInput extends React.PureComponent {
          * Callback to handle the change event of the input
          */
         onChange: PropTypes.func,
+
+        /**
+         * When true, and an onClear callback is defined, show an X on the input field even if
+         * the input is empty.
+         */
+        clearableWithoutValue: PropTypes.bool,
     };
 
     static defaultProps = {
@@ -140,7 +146,7 @@ export default class QuickInput extends React.PureComponent {
             </Tooltip>
         );
 
-        const {value, inputComponent, clearable, clearClassName, tooltipPosition, ...props} = this.props;
+        const {value, inputComponent, clearable, clearClassName, tooltipPosition, clearableWithoutValue, ...props} = this.props;
 
         Reflect.deleteProperty(props, 'delayInputUpdate');
         Reflect.deleteProperty(props, 'onClear');
@@ -162,9 +168,10 @@ export default class QuickInput extends React.PureComponent {
             },
         );
 
+        const showClearButton = this.props.onClear && (clearableWithoutValue || (clearable && value));
         return (<div>
             {inputElement}
-            {clearable && value && this.props.onClear &&
+            {showClearButton &&
                 <div
                     className={classNames(clearClassName, 'input-clear visible')}
                     onMouseDown={this.onClear}
