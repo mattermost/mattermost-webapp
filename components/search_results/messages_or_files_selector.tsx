@@ -26,7 +26,7 @@ export default function MessagesOrFilesSelector(props: Props): JSX.Element {
             <div className='buttons-container'>
                 <span
                     onClick={() => props.onChange('messages')}
-                    className={props.selected === 'messages' ? 'active tab' : 'tab'}
+                    className={props.selected === 'messages' ? 'active tab messages-tab' : 'tab messages-tab'}
                 >
                     <FormattedMessage
                         id='search_bar.messages_tab'
@@ -36,7 +36,7 @@ export default function MessagesOrFilesSelector(props: Props): JSX.Element {
                 </span>
                 <span
                     onClick={() => props.onChange('files')}
-                    className={props.selected === 'files' ? 'active tab' : 'tab'}
+                    className={props.selected === 'files' ? 'active tab files-tab' : 'tab files-tab'}
                 >
                     <FormattedMessage
                         id='search_bar.files_tab'

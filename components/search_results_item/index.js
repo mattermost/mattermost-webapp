@@ -40,6 +40,7 @@ function mapStateToProps() {
             const directTeammate = getDirectTeammate(state, channel.id);
 
             return {
+                currentTeamName: getCurrentTeam(state).name,
                 createAriaLabel: createAriaLabelForPost(state, post),
                 channelId: channel.id,
                 channelName: channel.display_name,
