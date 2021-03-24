@@ -73,8 +73,7 @@ export default class FileSearchResultItem extends React.PureComponent<Props, Sta
                     defaultMessage='Direct Message'
                 />
             );
-        }
-        if (channelType === Constants.GM_CHANNEL) {
+        } else if (channelType === Constants.GM_CHANNEL) {
             channelName = (
                 <FormattedMessage
                     id='search_item.file_badge.group_message'

@@ -8,7 +8,7 @@ exports[`components/search_results/MessagesOrFilesSelector should match snapshot
     className="buttons-container"
   >
     <span
-      className="tab"
+      className="tab messages-tab"
       onClick={[Function]}
     >
       <FormattedMessage
@@ -22,7 +22,7 @@ exports[`components/search_results/MessagesOrFilesSelector should match snapshot
       </span>
     </span>
     <span
-      className="active tab"
+      className="active tab files-tab"
       onClick={[Function]}
     >
       <FormattedMessage
@@ -51,7 +51,7 @@ exports[`components/search_results/MessagesOrFilesSelector should match snapshot
     className="buttons-container"
   >
     <span
-      className="active tab"
+      className="active tab messages-tab"
       onClick={[Function]}
     >
       <FormattedMessage
@@ -65,7 +65,7 @@ exports[`components/search_results/MessagesOrFilesSelector should match snapshot
       </span>
     </span>
     <span
-      className="tab"
+      className="tab files-tab"
       onClick={[Function]}
     >
       <FormattedMessage

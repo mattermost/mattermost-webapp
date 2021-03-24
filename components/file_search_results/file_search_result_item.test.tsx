@@ -3,6 +3,7 @@
 
 import {shallow, ShallowWrapper} from 'enzyme';
 import React from 'react';
+import Constants from 'utils/constants';
 
 import {TestHelper} from 'utils/test_helper';
 
@@ -12,6 +13,7 @@ describe('components/file_search_result/FileSearchResultItem', () => {
     const baseProps = {
         fileInfo: TestHelper.getFileInfoMock({}),
         channelDisplayName: '',
+        channelType: Constants.OPEN_CHANNEL,
         teamName: 'test-team-name',
         onClick: jest.fn(),
     };
@@ -28,6 +30,34 @@ describe('components/file_search_result/FileSearchResultItem', () => {
         const props = {
             ...baseProps,
             channelDisplayName: 'test',
+        };
+
+        const wrapper: ShallowWrapper<any, any, FileSearchResultItem> = shallow(
+            <FileSearchResultItem {...props}/>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot with DM', () => {
+        const props = {
+            ...baseProps,
+            channelDisplayName: 'test',
+            channelType: Constants.DM_CHANNEL,
+        };
+
+        const wrapper: ShallowWrapper<any, any, FileSearchResultItem> = shallow(
+            <FileSearchResultItem {...props}/>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot with GM', () => {
+        const props = {
+            ...baseProps,
+            channelDisplayName: 'test',
+            channelType: Constants.GM_CHANNEL,
         };
 
         const wrapper: ShallowWrapper<any, any, FileSearchResultItem> = shallow(
