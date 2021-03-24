@@ -26,7 +26,8 @@ import {appsEnabled} from 'utils/apps';
 
 import {GlobalState} from 'types/store';
 
-import {AppCommandParser} from './app_command_parser';
+import {AppCommandParser} from './app_command_parser/app_command_parser';
+import {intlShim} from './app_command_parser/app_command_parser_dependencies';
 
 const EXECUTE_CURRENT_COMMAND_ITEM_ID = Constants.Integrations.EXECUTE_CURRENT_COMMAND_ITEM_ID;
 
@@ -92,7 +93,7 @@ export default class CommandProvider extends Provider {
     private isInRHS: boolean;
     private store: Store<GlobalState>;
     private triggerCharacter: string;
-    private appCommandParser?: AppCommandParser;
+    private appCommandParser: AppCommandParser;
 
     constructor(props: Props) {
         super();
@@ -109,9 +110,7 @@ export default class CommandProvider extends Provider {
             }
         }
 
-        if (appsEnabled(this.store.getState())) {
-            this.appCommandParser = new AppCommandParser(this.store, channelId, rootId);
-        }
+        this.appCommandParser = new AppCommandParser(this.store as any, intlShim, channelId, rootId);
         this.triggerCharacter = '/';
     }
 
@@ -120,8 +119,14 @@ export default class CommandProvider extends Provider {
             return false;
         }
 
-        if (this.appCommandParser?.isAppCommand(pretext)) {
-            this.appCommandParser.getSuggestions(pretext).then((matches) => {
+        if (appsEnabled(this.store.getState()) && this.appCommandParser.isAppCommand(pretext)) {
+            this.appCommandParser.getSuggestions(pretext).then((suggestions) => {
+                const matches = suggestions.map((suggestion) => ({
+                    ...suggestion,
+                    Complete: '/' + suggestion.Complete,
+                    Suggestion: '/' + suggestion.Suggestion,
+                }));
+
                 const terms = matches.map((suggestion) => suggestion.Complete);
                 resultCallback({
                     matchedPretext: pretext,
@@ -150,7 +155,7 @@ export default class CommandProvider extends Provider {
         Client4.getCommandsList(getCurrentTeamId(this.store.getState())).then(
             (data) => {
                 let matches: AutocompleteSuggestion[] = [];
-                if (this.appCommandParser) {
+                if (appsEnabled(this.store.getState())) {
                     const appCommandSuggestions = this.appCommandParser.getSuggestionsBase(pretext);
                     matches = matches.concat(appCommandSuggestions);
                 }
@@ -219,8 +224,12 @@ export default class CommandProvider extends Provider {
                     cmd = '⌘';
                 }
 
-                if (this.appCommandParser) {
-                    const appCommandSuggestions = this.appCommandParser.getSuggestionsBase(pretext);
+                if (appsEnabled(this.store.getState()) && this.appCommandParser) {
+                    const appCommandSuggestions = this.appCommandParser.getSuggestionsBase(pretext).map((suggestion) => ({
+                        ...suggestion,
+                        Complete: '/' + suggestion.Complete,
+                        Suggestion: suggestion.Suggestion,
+                    }));
                     matches = matches.concat(appCommandSuggestions);
                 }
 

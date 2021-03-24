@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/apps_model/AppsFormContainer should match snapshot 1`] = `
+exports[`components/apps_form/AppsFormContainer should match snapshot 1`] = `
 <injectIntl(AppsForm)
   actions={
     Object {

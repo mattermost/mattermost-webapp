@@ -70,36 +70,41 @@ const initialState = {
         },
         apps: {
             bindings: [{
-                app_id: 'appid',
                 location: '/command',
                 bindings: [{
                     app_id: 'appid',
-                    label: 'custom',
-                    description: 'Run the command.',
-                    call: {
-                        path: 'https://someserver.com/command',
-                    },
-                    form: {
-                        fields: [
-                            {
-                                name: 'key1',
-                                label: 'key1',
-                                type: 'text',
-                                position: 1,
+                    label: 'appid',
+                    bindings: [
+                        {
+                            app_id: 'appid',
+                            label: 'custom',
+                            description: 'Run the command.',
+                            call: {
+                                path: 'https://someserver.com/command',
                             },
-                            {
-                                name: 'key2',
-                                label: 'key2',
-                                type: 'static_select',
-                                options: [
+                            form: {
+                                fields: [
                                     {
-                                        label: 'Value 2',
-                                        value: 'value2',
+                                        name: 'key1',
+                                        label: 'key1',
+                                        type: 'text',
+                                        position: 1,
+                                    },
+                                    {
+                                        name: 'key2',
+                                        label: 'key2',
+                                        type: 'static_select',
+                                        options: [
+                                            {
+                                                label: 'Value 2',
+                                                value: 'value2',
+                                            },
+                                        ],
                                     },
                                 ],
                             },
-                        ],
-                    },
+                        },
+                    ],
                 }],
             }],
         },
@@ -232,6 +237,20 @@ describe('executeCommand', () => {
 
     describe('app command', () => {
         test('should call executeAppCall', async () => {
+            const state = {
+                ...initialState,
+                entities: {
+                    ...initialState.entities,
+                    general: {
+                        ...initialState.entities.general,
+                        config: {
+                            ...initialState.entities.general.config,
+                            FeatureFlagAppsEnabled: 'true',
+                        },
+                    },
+                },
+            };
+            store = await mockStore(state);
             const f = Client4.executeAppCall;
             const mocked = jest.fn().mockResolvedValue(Promise.resolve({
                 type: AppCallResponseTypes.OK,
@@ -252,13 +271,13 @@ describe('executeCommand', () => {
                 },
                 raw_command: '/appid custom value1 --key2 value2',
                 path: 'https://someserver.com/command',
-                expand: {},
-                query: undefined,
-                selected_field: undefined,
                 values: {
                     key1: 'value1',
                     key2: {label: 'Value 2', value: 'value2'},
                 },
+                expand: {},
+                query: undefined,
+                selected_field: undefined,
             }, 'submit');
             expect(result).toEqual({data: true});
         });
