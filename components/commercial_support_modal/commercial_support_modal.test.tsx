@@ -9,12 +9,14 @@ import {TestHelper} from 'utils/test_helper';
 
 describe('components/CommercialSupportModal', () => {
     test('should match snapshot', () => {
+        const mockUser = TestHelper.getUserMock();
         const wrapper = shallow(
             <CommercialSupportModal
                 show={true}
                 onHide={jest.fn()}
                 showBannerWarning={true}
                 isCloud={false}
+                currentUser={mockUser}
             />,
         );
         expect(wrapper).toMatchSnapshot();

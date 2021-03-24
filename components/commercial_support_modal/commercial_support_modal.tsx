@@ -26,7 +26,7 @@ type Props = {
 
     isCloud: boolean;
 
-    currentUser?: UserProfile;
+    currentUser: UserProfile;
 };
 
 type State = {
