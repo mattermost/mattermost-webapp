@@ -168,7 +168,7 @@ export class ParsedCommand {
             }
 
             case ParseState.EndCommand: {
-                const binding = bindings.find((b: AppBinding) => b.label === this.incomplete.toLowerCase());
+                const binding = bindings.find((b: AppBinding) => b.label.toLowerCase() === this.incomplete.toLowerCase());
                 if (!binding) {
                     // gone as far as we could, this token doesn't match a sub-command.
                     // return the state from the last matching binding
@@ -326,7 +326,7 @@ export class ParsedCommand {
                 case ' ':
                 case '\t':
                 case '=': {
-                    const field = fields.find((f) => f.label === this.incomplete.toLowerCase());
+                    const field = fields.find((f) => f.label?.toLowerCase() === this.incomplete.toLowerCase());
                     if (!field) {
                         return this.asError(this.intl.formatMessage({
                             id: 'apps.error.parser.unexpected_flag',
@@ -995,7 +995,7 @@ export class AppCommandParser {
             prefix = prefix.substring(1);
         }
 
-        const applicable = parsed.form.fields.filter((field) => field.label && field.label.startsWith(parsed.incomplete.toLowerCase()) && !parsed.values[field.name]);
+        const applicable = parsed.form.fields.filter((field) => field.label && field.label.toLowerCase().startsWith(parsed.incomplete.toLowerCase()) && !parsed.values[field.name]);
         if (applicable) {
             return applicable.map((f) => {
                 return {
