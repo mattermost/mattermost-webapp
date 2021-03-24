@@ -74,8 +74,8 @@ export default class CommercialSupportModal extends React.PureComponent<Props, S
         const {showBannerWarning} = this.state;
         const {isCloud, currentUser} = this.props;
 
-        const supportLink = isCloud ? `https://customers.mattermost.com/cloud/contact-us?name=${currentUser.first_name} ${currentUser.last_name}&email=${currentUser.email}&inquiry=technical`
-        : 'https://support.mattermost.com/hc/en-us/requests/new';
+        const supportLink = isCloud ? `https://customers.mattermost.com/cloud/contact-us?name=${currentUser.first_name} ${currentUser.last_name}&email=${currentUser.email}&inquiry=technical` :
+            'https://support.mattermost.com/hc/en-us/requests/new';
         return (
             <Modal
                 id='commercialSupportModal'
@@ -98,7 +98,7 @@ export default class CommercialSupportModal extends React.PureComponent<Props, S
                             id='commercial_support.description'
                             defaultMessage={'If you\'re experiencing issues, [submit a support ticket.](!{supportLink})\n \n**Download Support Packet**\n \nWe recommend that you download additional environment details about your Mattermost environment to help with troubleshooting. Once downloaded, attach the packet to your support ticket to share with our Customer Support team.'}
                             values={{
-                                supportLink
+                                supportLink,
                             }}
                         />
                         <a

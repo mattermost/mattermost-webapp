@@ -17,7 +17,7 @@ function mapStateToProps(state: GlobalState) {
     const modalId = ModalIdentifiers.COMMERCIAL_SUPPORT;
     const config = getConfig(state);
     const license = getLicense(state);
-    const isCloud = license.Cloud === "true";
+    const isCloud = license.Cloud === 'true';
     const currentUser = getCurrentUser(state);
     const showBannerWarning = (config.EnableFile !== 'true' || config.FileLevel !== 'DEBUG') && !(isCloud);
 
