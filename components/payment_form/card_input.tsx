@@ -33,6 +33,7 @@ type OwnProps = {
 
 type Props = {
     elements: StripeElements | null | undefined;
+    onCardInputChange?: (event: StripeCardElementChangeEvent) => void;
 } & OwnProps;
 
 type State = {
@@ -84,6 +85,9 @@ class CardInput extends React.PureComponent<Props, State> {
 
     private onChange = (event: StripeCardElementChangeEvent) => {
         this.setState({error: '', empty: event.empty, complete: event.complete});
+        if (this.props.onCardInputChange) {
+            this.props.onCardInputChange(event);
+        }
     }
 
     private validateInput = () => {
