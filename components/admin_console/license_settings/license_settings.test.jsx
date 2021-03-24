@@ -32,6 +32,9 @@ describe('components/admin_console/license_settings/LicenseSettings', () => {
             restartServer: jest.fn(),
             upgradeToE0Status: jest.fn().mockImplementation(() => Promise.resolve({percentage: 0, error: null})),
         },
+        stats: {
+            TOTAL_USERS: 10,
+        },
     };
 
     test('should match snapshot enterprise build with license', () => {

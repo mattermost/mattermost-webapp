@@ -6,19 +6,24 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @enterprise @system_console
+// Stage: @prod
+// Group: @enterprise @system_console @high_availability @not_cloud
 
 describe('Cluster', () => {
     before(() => {
+        cy.shouldNotRunOnCloudEdition();
+
         // * Check if server has license
         cy.apiRequireLicense();
 
         // # Reset Experimental Gossip Encryption
-        cy.apiUpdateConfig({ClusterSettings: {
-            Enable: null,
-            UseExperimentalGossip: null,
-            EnableExperimentalGossipEncryption: null,
-        }});
+        cy.apiUpdateConfig({
+            ClusterSettings: {
+                Enable: null,
+                UseExperimentalGossip: null,
+                EnableExperimentalGossipEncryption: null,
+            },
+        });
 
         // # Visit high availability system console page
         cy.visit('/admin_console/environment/high_availability');
@@ -38,16 +43,47 @@ describe('Cluster', () => {
         });
 
         // # Enable Experimental Gossip Encryption
-        cy.apiUpdateConfig({ClusterSettings: {
-            Enable: true,
-            UseExperimentalGossip: true,
-            EnableExperimentalGossipEncryption: true,
-        }});
+        cy.apiUpdateConfig({
+            ClusterSettings: {
+                Enable: true,
+                UseExperimentalGossip: true,
+                EnableExperimentalGossipEncryption: true,
+            },
+        });
         cy.reload();
 
         cy.findByTestId('EnableExperimentalGossipEncryption').scrollIntoView().should('be.visible').within(() => {
             // * Verify that Experimental Gossip Encryption is set to true
             cy.get('#EnableExperimentalGossipEncryptiontrue').should('have.attr', 'checked');
+        });
+    });
+
+    it('Can change Gossip Compression', () => {
+        cy.findByTestId('EnableGossipCompression').scrollIntoView().should('be.visible').within(() => {
+            // * Verify that setting is visible and matches text content
+            cy.get('.control-label').should('be.visible').and('have.text', 'Enable Gossip compression:');
+
+            // * Verify that the help setting is visible and matches text content
+            const contents = 'When true, all communication through the gossip protocol will be compresssed. It is recommended to keep this flag disabled.';
+            cy.get('.help-text').should('be.visible').and('have.text', contents);
+
+            // * Verify that Gossip Compression is set to true by default
+            cy.get('#EnableGossipCompressiontrue').should('have.attr', 'checked');
+        });
+
+        // # Disable Gossip Compression
+        cy.apiUpdateConfig({
+            ClusterSettings: {
+                Enable: true,
+                UseExperimentalGossip: true,
+                EnableGossipCompression: false,
+            },
+        });
+        cy.reload();
+
+        cy.findByTestId('EnableGossipCompression').scrollIntoView().should('be.visible').within(() => {
+            // * Verify that Gossip Compression is set to false
+            cy.get('#EnableGossipCompressionfalse').should('have.attr', 'checked');
         });
     });
 });

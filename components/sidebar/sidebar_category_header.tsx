@@ -35,12 +35,12 @@ export const SidebarCategoryHeaderStatic = React.forwardRef((props: StaticProps,
 SidebarCategoryHeaderStatic.displayName = 'SidebarCategoryHeaderStatic';
 
 type Props = StaticProps & {
-    dragHandleProps?: DraggableProvidedDragHandleProps
-    isCollapsed: boolean,
-    isCollapsible: boolean,
+    dragHandleProps?: DraggableProvidedDragHandleProps;
+    isCollapsed: boolean;
+    isCollapsible: boolean;
     isDragging?: boolean;
     isDraggingOver?: boolean;
-    muted: boolean,
+    muted: boolean;
     onClick: (event: React.MouseEvent<HTMLElement>) => void;
 }
 

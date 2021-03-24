@@ -7,7 +7,7 @@ exports[`components/channel_invite_modal should match snapshot for channel_invit
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
-  dialogClassName="a11y__modal more-modal"
+  dialogClassName="a11y__modal channel-switcher"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   id="addUsersToChannelModal"
@@ -35,79 +35,74 @@ exports[`components/channel_invite_modal should match snapshot for channel_invit
     bsClass="modal-header"
     closeButton={true}
     closeLabel="Close"
-  >
-    <ModalTitle
-      bsClass="modal-title"
-      componentClass="h1"
-      id="channelInviteModalLabel"
-    >
-      <FormattedMessage
-        defaultMessage="Add New Members to "
-        id="channel_invite.addNewMembers"
-      />
-      <span
-        className="name"
-      >
-        testing
-      </span>
-    </ModalTitle>
-  </ModalHeader>
+    id="channelInviteModalLabel"
+  />
   <ModalBody
     bsClass="modal-body"
+    className="overflow--visible"
     componentClass="div"
     role="application"
   >
-    <MultiSelect
-      ariaLabelRenderer={[Function]}
-      buttonSubmitLoadingText="Adding..."
-      buttonSubmitText="Add"
-      handleAdd={[Function]}
-      handleDelete={[Function]}
-      handleInput={[Function]}
-      handlePageChange={[Function]}
-      handleSubmit={[Function]}
-      key="addUsersToChannelKey"
-      loading={true}
-      maxValues={20}
-      numRemainingText={
+    <div
+      className="channel-switcher__header"
+    >
+      <h1>
         <FormattedMessage
-          defaultMessage="Use ↑↓ to browse, ↵ to select. You can add {num, number} more {num, plural, one {person} other {people}}. "
-          id="multiselect.numPeopleRemaining"
+          defaultMessage="Add people to {channel}"
+          id="channel_invite.addNewMembers"
           values={
             Object {
-              "num": 20,
+              "channel": "testing",
             }
           }
         />
-      }
-      optionRenderer={[Function]}
-      options={
-        Array [
-          Object {
-            "delete_at": 0,
-            "id": "user-1",
-            "label": "user-1",
-            "value": "user-1",
-          },
-          Object {
-            "delete_at": 0,
-            "id": "user-2",
-            "label": "user-2",
-            "value": "user-2",
-          },
-        ]
-      }
-      perPage={50}
-      placeholderText="Search and add members"
-      saving={false}
-      selectedItemRef={
-        Object {
-          "current": null,
+      </h1>
+    </div>
+    <div
+      className="channel-switcher__content"
+    >
+      <MultiSelect
+        ariaLabelRenderer={[Function]}
+        buttonSubmitLoadingText="Adding..."
+        buttonSubmitText="Add"
+        handleAdd={[Function]}
+        handleDelete={[Function]}
+        handleInput={[Function]}
+        handlePageChange={[Function]}
+        handleSubmit={[Function]}
+        key="addUsersToChannelKey"
+        loading={true}
+        maxValues={20}
+        optionRenderer={[Function]}
+        options={
+          Array [
+            Object {
+              "delete_at": 0,
+              "id": "user-1",
+              "label": "user-1",
+              "value": "user-1",
+            },
+            Object {
+              "delete_at": 0,
+              "id": "user-2",
+              "label": "user-2",
+              "value": "user-2",
+            },
+          ]
         }
-      }
-      valueRenderer={[Function]}
-      values={Array []}
-    />
+        perPage={50}
+        placeholderText="Search for people"
+        saveButtonPosition="bottom"
+        saving={false}
+        selectedItemRef={
+          Object {
+            "current": null,
+          }
+        }
+        valueWithImage={true}
+        values={Array []}
+      />
+    </div>
   </ModalBody>
 </Modal>
 `;
@@ -119,7 +114,7 @@ exports[`components/channel_invite_modal should match snapshot with exclude and 
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
-  dialogClassName="a11y__modal more-modal"
+  dialogClassName="a11y__modal channel-switcher"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   id="addUsersToChannelModal"
@@ -147,79 +142,74 @@ exports[`components/channel_invite_modal should match snapshot with exclude and 
     bsClass="modal-header"
     closeButton={true}
     closeLabel="Close"
-  >
-    <ModalTitle
-      bsClass="modal-title"
-      componentClass="h1"
-      id="channelInviteModalLabel"
-    >
-      <FormattedMessage
-        defaultMessage="Add New Members to "
-        id="channel_invite.addNewMembers"
-      />
-      <span
-        className="name"
-      >
-        testing
-      </span>
-    </ModalTitle>
-  </ModalHeader>
+    id="channelInviteModalLabel"
+  />
   <ModalBody
     bsClass="modal-body"
+    className="overflow--visible"
     componentClass="div"
     role="application"
   >
-    <MultiSelect
-      ariaLabelRenderer={[Function]}
-      buttonSubmitLoadingText="Adding..."
-      buttonSubmitText="Add"
-      handleAdd={[Function]}
-      handleDelete={[Function]}
-      handleInput={[Function]}
-      handlePageChange={[Function]}
-      handleSubmit={[Function]}
-      key="addUsersToChannelKey"
-      loading={true}
-      maxValues={20}
-      numRemainingText={
+    <div
+      className="channel-switcher__header"
+    >
+      <h1>
         <FormattedMessage
-          defaultMessage="Use ↑↓ to browse, ↵ to select. You can add {num, number} more {num, plural, one {person} other {people}}. "
-          id="multiselect.numPeopleRemaining"
+          defaultMessage="Add people to {channel}"
+          id="channel_invite.addNewMembers"
           values={
             Object {
-              "num": 20,
+              "channel": "testing",
             }
           }
         />
-      }
-      optionRenderer={[Function]}
-      options={
-        Array [
-          Object {
-            "delete_at": 0,
-            "id": "user-2",
-            "label": "user-2",
-            "value": "user-2",
-          },
-          Object {
-            "delete_at": 0,
-            "id": "user-3",
-            "label": "user-3",
-            "value": "user-3",
-          },
-        ]
-      }
-      perPage={50}
-      placeholderText="Search and add members"
-      saving={false}
-      selectedItemRef={
-        Object {
-          "current": null,
+      </h1>
+    </div>
+    <div
+      className="channel-switcher__content"
+    >
+      <MultiSelect
+        ariaLabelRenderer={[Function]}
+        buttonSubmitLoadingText="Adding..."
+        buttonSubmitText="Add"
+        handleAdd={[Function]}
+        handleDelete={[Function]}
+        handleInput={[Function]}
+        handlePageChange={[Function]}
+        handleSubmit={[Function]}
+        key="addUsersToChannelKey"
+        loading={true}
+        maxValues={20}
+        optionRenderer={[Function]}
+        options={
+          Array [
+            Object {
+              "delete_at": 0,
+              "id": "user-2",
+              "label": "user-2",
+              "value": "user-2",
+            },
+            Object {
+              "delete_at": 0,
+              "id": "user-3",
+              "label": "user-3",
+              "value": "user-3",
+            },
+          ]
         }
-      }
-      valueRenderer={[Function]}
-      values={Array []}
-    />
+        perPage={50}
+        placeholderText="Search for people"
+        saveButtonPosition="bottom"
+        saving={false}
+        selectedItemRef={
+          Object {
+            "current": null,
+          }
+        }
+        valueWithImage={true}
+        values={Array []}
+      />
+    </div>
   </ModalBody>
 </Modal>
 `;

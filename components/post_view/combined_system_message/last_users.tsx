@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {injectIntl, IntlShape, MessageDescriptor} from 'react-intl';
+
 import {Posts} from 'mattermost-redux/constants';
 
 import {t} from 'utils/i18n';
@@ -50,7 +51,7 @@ type Props = {
     formatOptions: Partial<TextFormattingOptions>;
     intl: IntlShape;
     postType: string;
-    usernames: Array<string>;
+    usernames: string[];
 }
 
 type State = {

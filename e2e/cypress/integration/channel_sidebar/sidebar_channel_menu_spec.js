@@ -24,16 +24,12 @@ describe('Sidebar channel menu', () => {
     const sysadmin = getAdminAccount();
 
     let teamName;
+    let userName;
 
     before(() => {
-        cy.apiUpdateConfig({
-            ServiceSettings: {
-                ExperimentalChannelSidebarOrganization: 'default_on',
-            },
-        });
-
-        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+        cy.apiInitSetup({loginAfter: true}).then(({team, user}) => {
             teamName = team.name;
+            userName = user.username;
 
             cy.visit(`/${team.name}/channels/town-square`);
         });
@@ -152,10 +148,38 @@ describe('Sidebar channel menu', () => {
         cy.get('.SidebarMenu').contains('.MenuItem', 'Add Members').click();
 
         // * Verify that the modal appears and then close it
-        cy.contains('.modal-dialog .modal-header', 'Add New Members to').
-            parents().
-            find('.modal-dialog').
-            findByLabelText('Close').
-            click();
+        cy.get('#addUsersToChannelModal').should('be.visible').findByText('Add people to Town Square');
+        cy.uiClose();
+    });
+
+    it('MM-T3350 Mention badge should remain hidden as long as the channel/dm/gm menu is open', () => {
+        // # Start in Town Square
+        cy.get('#sidebarItem_town-square').click();
+        cy.get('#channelHeaderTitle').should('contain', 'Town Square');
+
+        // # Save the ID of the Town Square channel for later
+        cy.getCurrentChannelId().as('townSquareId');
+
+        // # Switch to the Off Topic channel
+        cy.get('#sidebarItem_off-topic').click();
+        cy.get('#channelHeaderTitle').should('contain', 'Off-Topic');
+
+        // # Have another user send a message in the Town Square
+        cy.get('@townSquareId').then((channelId) => {
+            cy.postMessageAs({
+                sender: sysadmin,
+                message: `@${userName} post1`,
+                channelId,
+            });
+        });
+
+        // * Verify that a mention badge appears
+        cy.get('#sidebarItem_town-square .badge').should('be.visible');
+
+        // # Open the channel menu
+        cy.get('#sidebarItem_town-square').find('.SidebarMenu_menuButton').click({force: true});
+
+        // * Verify that the mention badge disappears
+        cy.get('#sidebarItem_town-square .badge').should('not.be.visible');
     });
 });

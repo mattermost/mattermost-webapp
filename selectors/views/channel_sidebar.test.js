@@ -1,6 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {Preferences} from 'mattermost-redux/constants';
+
+import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
+
 import {setCategoryCollapsed} from 'actions/views/channel_sidebar';
 
 import configureStore from 'store';
@@ -68,9 +72,7 @@ describe('getUnreadChannels', () => {
                 currentTeamId: 'team1',
             },
             general: {
-                config: {
-                    test: true,
-                },
+                config: {},
             },
             preferences: {
                 myPreferences: {},
@@ -82,6 +84,9 @@ describe('getUnreadChannels', () => {
                     id: 'currentChannel',
                     hadMentions: false,
                 },
+            },
+            channelSidebar: {
+                unreadFilterEnabled: true,
             },
         },
     };
@@ -137,7 +142,7 @@ describe('getUnreadChannels', () => {
         expect(Selectors.getUnreadChannels(state)).toEqual([unreadChannel2, unreadChannel1, currentChannel]);
     });
 
-    test('should always return the current channel, even if it is not unread', () => {
+    test('with the unread filter enabled, should always return the current channel, even if it is not unread', () => {
         const state = {
             ...baseState,
             entities: {
@@ -151,6 +156,67 @@ describe('getUnreadChannels', () => {
                 },
                 preferences: {
                     ...baseState.entities.preferences,
+                },
+            },
+            views: {
+                ...baseState.views,
+                channel: {
+                    ...baseState.views.channel,
+                    lastUnreadChannel: {
+                        id: 'readChannel',
+                        hasMentions: true,
+                    },
+                },
+                channelSidebar: {
+                    ...baseState.views.channelSidebar,
+                    unreadFilterEnabled: true,
+                },
+            },
+        };
+
+        expect(Selectors.getUnreadChannels(state)).toEqual([readChannel, unreadChannel2, unreadChannel1]);
+    });
+
+    test('with the unreads category enabled, should only return the current channel if it is lastUnreadChannel', () => {
+        let state = {
+            ...baseState,
+            entities: {
+                ...baseState.entities,
+                channels: {
+                    ...baseState.entities.channels,
+                    currentChannelId: 'readChannel',
+                },
+                general: {
+                    ...baseState.entities.general,
+                },
+                preferences: {
+                    ...baseState.entities.preferences,
+                },
+            },
+            views: {
+                ...baseState.views,
+                channel: {
+                    ...baseState.views.channel,
+                    lastUnreadChannel: null,
+                },
+                channelSidebar: {
+                    ...baseState.views.channelSidebar,
+                    unreadFilterEnabled: false,
+                },
+            },
+        };
+
+        expect(Selectors.getUnreadChannels(state)).toEqual([unreadChannel2, unreadChannel1]);
+
+        state = {
+            ...state,
+            views: {
+                ...state.views,
+                channel: {
+                    ...state.views.channels,
+                    lastUnreadChannel: {
+                        id: 'readChannel',
+                    },
                 },
             },
         };
@@ -298,8 +364,333 @@ describe('getUnreadChannels', () => {
                     currentChannelId: 'archivedChannel',
                 },
             },
+            views: {
+                ...state.views,
+                channel: {
+                    ...state.views.channel,
+                    lastUnreadChannel: null,
+                },
+            },
         };
 
         expect(Selectors.getUnreadChannels(state)).toEqual([archivedChannel, unreadChannel2, unreadChannel1]);
+    });
+});
+
+describe('getDisplayedChannels', () => {
+    const currentChannel = TestHelper.getChannelMock({id: 'currentChannel', delete_at: 0, total_msg_count: 0, last_post_at: 0});
+    const readChannel = {id: 'readChannel', delete_at: 0, total_msg_count: 10, last_post_at: 300};
+    const unreadChannel1 = {id: 'unreadChannel1', delete_at: 0, total_msg_count: 10, last_post_at: 100};
+    const unreadChannel2 = {id: 'unreadChannel2', delete_at: 0, total_msg_count: 10, last_post_at: 200};
+
+    const category1 = {id: 'category1', team_id: 'team1', channel_ids: [currentChannel.id, unreadChannel1.id]};
+    const category2 = {id: 'category2', team_id: 'team1', channel_ids: [readChannel.id, unreadChannel2.id]};
+
+    const baseState = {
+        entities: {
+            channels: {
+                channels: {
+                    currentChannel,
+                    readChannel,
+                    unreadChannel1,
+                    unreadChannel2,
+                },
+                channelsInTeam: {
+                    team1: ['unreadChannel1', 'unreadChannel2', 'readChannel'],
+                },
+                currentChannelId: 'currentChannel',
+                myMembers: {
+                    currentChannel: {notify_props: {}, mention_count: 0, msg_count: 0},
+                    readChannel: {notify_props: {}, mention_count: 0, msg_count: 10},
+                    unreadChannel1: {notify_props: {}, mention_count: 0, msg_count: 8},
+                    unreadChannel2: {notify_props: {}, mention_count: 0, msg_count: 8},
+                },
+            },
+            channelCategories: {
+                byId: {
+                    category1,
+                    category2,
+                },
+                orderByTeam: {
+                    team1: [category1.id, category2.id],
+                },
+            },
+            general: {
+                config: {
+                    ExperimentalGroupUnreadChannels: 'true',
+                },
+            },
+            posts: {
+                postsInChannel: {},
+            },
+            preferences: {
+                myPreferences: {
+                    [getPreferenceKey(Preferences.CATEGORY_SIDEBAR_SETTINGS, Preferences.SHOW_UNREAD_SECTION)]: {value: 'false'},
+                },
+            },
+            teams: {
+                currentTeamId: 'team1',
+            },
+            users: {
+                profiles: {},
+            },
+        },
+        storage: {
+            storage: {},
+        },
+        views: {
+            channel: {
+                lastUnreadChannel: null,
+            },
+            channelSidebar: {
+                unreadFilterEnabled: false,
+            },
+        },
+    };
+
+    test('should return channels in the order that they appear in each category', () => {
+        const state = baseState;
+
+        expect(Selectors.getDisplayedChannels(state)).toEqual([
+            currentChannel,
+            unreadChannel1,
+            readChannel,
+            unreadChannel2,
+        ]);
+    });
+
+    test('with unread filter enabled, should not return read channels', () => {
+        const state = {
+            ...baseState,
+            views: {
+                ...baseState.views,
+                channelSidebar: {
+                    unreadFilterEnabled: true,
+                },
+            },
+        };
+
+        expect(Selectors.getDisplayedChannels(state)).toEqual([
+            unreadChannel2,
+            unreadChannel1,
+            currentChannel,
+        ]);
+    });
+
+    test('with unreads section enabled, should have unread channels first', () => {
+        const state = {
+            ...baseState,
+            entities: {
+                ...baseState.entities,
+                preferences: {
+                    ...baseState.preferences,
+                    myPreferences: {
+                        [getPreferenceKey(Preferences.CATEGORY_SIDEBAR_SETTINGS, Preferences.SHOW_UNREAD_SECTION)]: {value: 'true'},
+                    },
+                },
+            },
+        };
+
+        expect(Selectors.getDisplayedChannels(state)).toEqual([
+            unreadChannel2,
+            unreadChannel1,
+            currentChannel,
+            readChannel,
+        ]);
+    });
+
+    describe('memoization', () => {
+        test('should return the same result when called with the same state', () => {
+            expect(Selectors.getDisplayedChannels(baseState)).toBe(Selectors.getDisplayedChannels(baseState));
+        });
+
+        test('should return the same result when called with identical state', () => {
+            const modifiedState = {...baseState};
+
+            expect(Selectors.getDisplayedChannels(baseState)).toBe(Selectors.getDisplayedChannels(modifiedState));
+        });
+
+        test('should return the same result when called with unrelated state changing', () => {
+            const modifiedState = {
+                ...baseState,
+                entities: {
+                    ...baseState.entities,
+                    users: {
+                        ...baseState.entities.users,
+                        profiles: {
+                            someUser: {id: 'someUser'},
+                        },
+                    },
+                },
+            };
+
+            expect(Selectors.getDisplayedChannels(baseState)).toBe(Selectors.getDisplayedChannels(modifiedState));
+        });
+
+        test('should return a new result when the unreads section is enabled', () => {
+            const modifiedState = {
+                ...baseState,
+                entities: {
+                    ...baseState.entities,
+                    preferences: {
+                        ...baseState.preferences,
+                        myPreferences: {
+                            [getPreferenceKey(Preferences.CATEGORY_SIDEBAR_SETTINGS, Preferences.SHOW_UNREAD_SECTION)]: {value: 'true'},
+                        },
+                    },
+                },
+            };
+
+            expect(Selectors.getDisplayedChannels(baseState)).not.toBe(Selectors.getDisplayedChannels(modifiedState));
+            expect(Selectors.getDisplayedChannels(modifiedState)).toBe(Selectors.getDisplayedChannels(modifiedState));
+        });
+    });
+});
+
+describe('makeGetFilteredChannelsForCategory', () => {
+    const currentChannel = TestHelper.getChannelMock({id: 'currentChannel', delete_at: 0, total_msg_count: 0, last_post_at: 0});
+    const readChannel = {id: 'readChannel', delete_at: 0, total_msg_count: 10, last_post_at: 300};
+    const unreadChannel1 = {id: 'unreadChannel1', delete_at: 0, total_msg_count: 10, last_post_at: 100};
+    const unreadChannel2 = {id: 'unreadChannel2', delete_at: 0, total_msg_count: 10, last_post_at: 200};
+
+    const baseState = {
+        entities: {
+            channels: {
+                channels: {
+                    currentChannel,
+                    readChannel,
+                    unreadChannel1,
+                    unreadChannel2,
+                },
+                channelsInTeam: {
+                    team1: ['unreadChannel1', 'unreadChannel2', 'readChannel'],
+                },
+                currentChannelId: 'currentChannel',
+                myMembers: {
+                    currentChannel: {notify_props: {}, mention_count: 0, msg_count: 0},
+                    readChannel: {notify_props: {}, mention_count: 0, msg_count: 10},
+                    unreadChannel1: {notify_props: {}, mention_count: 0, msg_count: 8},
+                    unreadChannel2: {notify_props: {}, mention_count: 0, msg_count: 8},
+                },
+            },
+            general: {
+                config: {
+                    ExperimentalGroupUnreadChannels: 'true',
+                },
+            },
+            posts: {
+                postsInChannel: {},
+            },
+            preferences: {
+                myPreferences: {
+                    [getPreferenceKey(Preferences.CATEGORY_SIDEBAR_SETTINGS, Preferences.SHOW_UNREAD_SECTION)]: {value: 'false'},
+                },
+            },
+            teams: {
+                currentTeamId: 'team1',
+            },
+            users: {
+                profiles: {},
+            },
+        },
+        views: {
+            channel: {
+                lastUnreadChannel: null,
+            },
+        },
+    };
+
+    test('should only include channels in the given category', () => {
+        const category1 = {id: 'category1', team_id: 'team1', channel_ids: [currentChannel.id, unreadChannel1.id]};
+        const category2 = {id: 'category2', team_id: 'team1', channel_ids: [readChannel.id, unreadChannel2.id]};
+
+        const state = {
+            ...baseState,
+            entities: {
+                ...baseState.entities,
+                channelCategories: {
+                    ...baseState.entities.channelCategories,
+                    byId: {
+                        category1,
+                        category2,
+                    },
+                    orderByTeam: {
+                        team1: [category1, category2],
+                    },
+                },
+            },
+        };
+
+        const getFilteredChannelsForCategory = Selectors.makeGetFilteredChannelsForCategory();
+
+        expect(getFilteredChannelsForCategory(state, category1)).toEqual([currentChannel, unreadChannel1]);
+        expect(getFilteredChannelsForCategory(state, category2)).toEqual([readChannel, unreadChannel2]);
+    });
+
+    test('with the unreads category enabled, should not include unread channels', () => {
+        const category1 = {id: 'category1', team_id: 'team1', channel_ids: [currentChannel.id, readChannel.id, unreadChannel1.id, unreadChannel2.id]};
+
+        const state = {
+            ...baseState,
+            entities: {
+                ...baseState.entities,
+                channelCategories: {
+                    ...baseState.entities.channelCategories,
+                    byId: {
+                        category1,
+                    },
+                    orderByTeam: {
+                        team1: [category1],
+                    },
+                },
+                preferences: {
+                    myPreferences: {
+                        [getPreferenceKey(Preferences.CATEGORY_SIDEBAR_SETTINGS, Preferences.SHOW_UNREAD_SECTION)]: {value: 'true'},
+                    },
+                },
+            },
+        };
+
+        const getFilteredChannelsForCategory = Selectors.makeGetFilteredChannelsForCategory();
+
+        expect(getFilteredChannelsForCategory(state, category1)).toEqual([currentChannel, readChannel]);
+    });
+
+    test('with the unreads category enabled, should not include the current channel if it was previously unread', () => {
+        const category1 = {id: 'category1', team_id: 'team1', channel_ids: [currentChannel.id, readChannel.id, unreadChannel1.id, unreadChannel2.id]};
+
+        const state = {
+            ...baseState,
+            entities: {
+                ...baseState.entities,
+                channelCategories: {
+                    ...baseState.entities.channelCategories,
+                    byId: {
+                        category1,
+                    },
+                    orderByTeam: {
+                        team1: [category1],
+                    },
+                },
+                preferences: {
+                    myPreferences: {
+                        [getPreferenceKey(Preferences.CATEGORY_SIDEBAR_SETTINGS, Preferences.SHOW_UNREAD_SECTION)]: {value: 'true'},
+                    },
+                },
+            },
+            views: {
+                ...baseState.views,
+                channel: {
+                    ...baseState.views.channel,
+                    lastUnreadChannel: {
+                        id: currentChannel.id,
+                    },
+                },
+            },
+        };
+
+        const getFilteredChannelsForCategory = Selectors.makeGetFilteredChannelsForCategory();
+
+        expect(getFilteredChannelsForCategory(state, category1)).toEqual([readChannel]);
     });
 });

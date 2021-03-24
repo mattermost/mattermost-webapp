@@ -5,8 +5,8 @@ import React, {CSSProperties} from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import {UserProfile} from 'mattermost-redux/src/types/users';
-import {Dictionary} from 'mattermost-redux/src/types/utilities';
+import {UserProfile} from 'mattermost-redux/types/users';
+import {Dictionary} from 'mattermost-redux/types/utilities';
 import {AnalyticsRow} from 'mattermost-redux/types/admin';
 import {ActionFunc} from 'mattermost-redux/types/actions';
 
@@ -105,7 +105,7 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
             return '';
         }
 
-        const mailRecipient = 'support@mattermost.com';
+        const mailRecipient = 'support-advisor@mattermost.com';
         const mailSubject = 'Mattermost Contact Us request';
         let mailBody = 'Mattermost Contact Us request.';
         if (this.props.warnMetricStatus.id === WarnMetricTypes.SYSTEM_WARN_METRIC_NUMBER_OF_ACTIVE_USERS_500) {

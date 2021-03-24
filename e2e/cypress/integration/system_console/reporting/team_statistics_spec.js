@@ -25,7 +25,7 @@ describe('System Console > Team Statistics', () => {
             cy.apiCreateChannel(team.id, 'mmt906-ch', 'mmt906-ch', 'P');
 
             // # Visit team statistics page.
-            cy.visit('/admin_console/reporting/team_statistics').wait(TIMEOUTS.TWO_SEC);
+            cy.visit('/admin_console/reporting/team_statistics');
 
             // # Select created team.
             cy.get('select.team-statistics__team-filter__dropdown').select(team.id);

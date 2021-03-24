@@ -1,0 +1,363 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/DatabaseSettings should match snapshot 1`] = `
+<form
+  className="form-horizontal"
+  onSubmit={[Function]}
+  role="form"
+>
+  <div
+    className="wrapper--fixed"
+  >
+    <AdminHeader>
+      <FormattedMessage
+        defaultMessage="Database Settings"
+        id="admin.database.title"
+      />
+    </AdminHeader>
+    <SettingsGroup
+      container={true}
+      show={true}
+    >
+      <div
+        className="banner"
+      >
+        <FormattedMessage
+          defaultMessage="Changing properties in this section will require a server restart before taking effect."
+          id="admin.sql.noteDescription"
+        />
+      </div>
+      <div
+        className="form-group"
+      >
+        <label
+          className="control-label col-sm-4"
+          htmlFor="DriverName"
+        >
+          <FormattedMessage
+            defaultMessage="Driver Name:"
+            id="admin.sql.driverName"
+          />
+        </label>
+        <div
+          className="col-sm-8"
+        >
+          <input
+            className="form-control"
+            disabled={true}
+            type="text"
+          />
+          <div
+            className="help-text"
+          >
+            <FormattedMessage
+              defaultMessage="Set the database driver in the config.json file."
+              id="admin.sql.driverNameDescription"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        className="form-group"
+      >
+        <label
+          className="control-label col-sm-4"
+          htmlFor="DataSource"
+        >
+          <FormattedMessage
+            defaultMessage="Data Source:"
+            id="admin.sql.dataSource"
+          />
+        </label>
+        <div
+          className="col-sm-8"
+        >
+          <input
+            className="form-control"
+            disabled={true}
+            type="text"
+            value="**********@localhost/mattermost_test?sslmode=disable&connect_timeout=10"
+          />
+          <div
+            className="help-text"
+          >
+            <FormattedMessage
+              defaultMessage="Set the database source in the config.json file."
+              id="admin.sql.dataSourceDescription"
+            />
+          </div>
+        </div>
+      </div>
+      <AdminTextSetting
+        helpText={
+          <FormattedMessage
+            defaultMessage="Maximum number of idle connections held open to the database."
+            id="admin.sql.maxConnectionsDescription"
+          />
+        }
+        id="maxIdleConns"
+        label={
+          <FormattedMessage
+            defaultMessage="Maximum Idle Connections:"
+            id="admin.sql.maxConnectionsTitle"
+          />
+        }
+        onChange={[Function]}
+        placeholder="E.g.: \\"10\\""
+        setByEnv={false}
+        value={10}
+      />
+      <AdminTextSetting
+        helpText={
+          <FormattedMessage
+            defaultMessage="Maximum number of open connections held open to the database."
+            id="admin.sql.maxOpenDescription"
+          />
+        }
+        id="maxOpenConns"
+        label={
+          <FormattedMessage
+            defaultMessage="Maximum Open Connections:"
+            id="admin.sql.maxOpenTitle"
+          />
+        }
+        onChange={[Function]}
+        placeholder="E.g.: \\"10\\""
+        setByEnv={false}
+        value={100}
+      />
+      <AdminTextSetting
+        helpText={
+          <FormattedMessage
+            defaultMessage="The number of seconds to wait for a response from the database after opening a connection and sending the query. Errors that you see in the UI or in the logs as a result of a query timeout can vary depending on the type of query."
+            id="admin.sql.queryTimeoutDescription"
+          />
+        }
+        id="queryTimeout"
+        label={
+          <FormattedMessage
+            defaultMessage="Query Timeout:"
+            id="admin.sql.queryTimeoutTitle"
+          />
+        }
+        onChange={[Function]}
+        placeholder="E.g.: \\"30\\""
+        setByEnv={false}
+        value={10}
+      />
+      <AdminTextSetting
+        helpText={
+          <FormattedMessage
+            defaultMessage="Maximum lifetime for a connection to the database in milliseconds."
+            id="admin.sql.connMaxLifetimeDescription"
+          />
+        }
+        id="connMaxLifetimeMilliseconds"
+        label={
+          <FormattedMessage
+            defaultMessage="Maximum Connection Lifetime:"
+            id="admin.sql.connMaxLifetimeTitle"
+          />
+        }
+        onChange={[Function]}
+        placeholder="E.g.: \\"3600000\\""
+        setByEnv={false}
+        value={10}
+      />
+      <AdminTextSetting
+        helpText={
+          <FormattedMessage
+            defaultMessage="Maximum idle time for a connection to the database in milliseconds."
+            id="admin.sql.connMaxIdleTimeDescription"
+          />
+        }
+        id="connMaxIdleTimeMilliseconds"
+        label={
+          <FormattedMessage
+            defaultMessage="Maximum Connection Idle Time:"
+            id="admin.sql.connMaxIdleTimeTitle"
+          />
+        }
+        onChange={[Function]}
+        placeholder="E.g.: \\"300000\\""
+        setByEnv={false}
+        value={20}
+      />
+      <AdminTextSetting
+        helpText={
+          <injectIntl(FormattedMarkdownMessage)
+            defaultMessage="Minimum number of characters in a hashtag. This must be greater than or equal to 2. MySQL databases must be configured to support searching strings shorter than three characters, [see documentation](!https://dev.mysql.com/doc/refman/8.0/en/fulltext-fine-tuning.html)."
+            id="admin.service.minimumHashtagLengthDescription"
+          />
+        }
+        id="minimumHashtagLength"
+        label={
+          <FormattedMessage
+            defaultMessage="Minimum Hashtag Length:"
+            id="admin.service.minimumHashtagLengthTitle"
+          />
+        }
+        onChange={[Function]}
+        placeholder="E.g.: \\"3\\""
+        setByEnv={false}
+        value={10}
+      />
+      <BooleanSetting
+        disabled={false}
+        falseText={
+          <FormattedMessage
+            defaultMessage="false"
+            id="admin.false"
+          />
+        }
+        helpText={
+          <FormattedMessage
+            defaultMessage="(Development Mode) When true, executing SQL statements are written to the log."
+            id="admin.sql.traceDescription"
+          />
+        }
+        id="trace"
+        label={
+          <FormattedMessage
+            defaultMessage="SQL Statement Logging: "
+            id="admin.sql.traceTitle"
+          />
+        }
+        onChange={[Function]}
+        setByEnv={false}
+        trueText={
+          <FormattedMessage
+            defaultMessage="true"
+            id="admin.true"
+          />
+        }
+        value={false}
+      />
+      <RequestButton
+        buttonText={
+          <FormattedMessage
+            defaultMessage="Recycle Database Connections"
+            id="admin.recycle.button"
+          />
+        }
+        disabled={false}
+        errorMessage={
+          Object {
+            "defaultMessage": "Recycling unsuccessful: {error}",
+            "id": "admin.recycle.reloadFail",
+          }
+        }
+        helpText={
+          <FormattedMessage
+            defaultMessage="Deployments using multiple databases can switch from one master database to another without restarting the Mattermost server by updating \\"config.json\\" to the new desired configuration and using the {reloadConfiguration} feature to load the new settings while the server is running. The administrator should then use {featureName} feature to recycle the database connections based on the new settings."
+            id="admin.recycle.recycleDescription"
+            values={
+              Object {
+                "featureName": <b>
+                  <FormattedMessage
+                    defaultMessage="Recycle Database Connections"
+                    id="admin.recycle.recycleDescription.featureName"
+                  />
+                </b>,
+                "reloadConfiguration": <a
+                  href="../environment/web_server"
+                >
+                  <b>
+                    <FormattedMessage
+                      defaultMessage="Environment > Web Server > Reload Configuration from Disk"
+                      id="admin.recycle.recycleDescription.reloadConfiguration"
+                    />
+                  </b>
+                </a>,
+              }
+            }
+          />
+        }
+        id={null}
+        includeDetailedError={true}
+        requestAction={[MockFunction]}
+        saveNeeded={false}
+        showSuccessMessage={false}
+        successMessage={
+          Object {
+            "defaultMessage": "Test Successful",
+            "id": "admin.requestButton.requestSuccess",
+          }
+        }
+      />
+      <BooleanSetting
+        disabled={false}
+        falseText={
+          <FormattedMessage
+            defaultMessage="false"
+            id="admin.false"
+          />
+        }
+        helpText={
+          <injectIntl(FormattedMarkdownMessage)
+            defaultMessage="Disables the use of the database to perform searches. Should only be used when other [search engines](!https://mattermost.com/pl/default-search-engine) are configured."
+            id="admin.sql.disableDatabaseSearchDescription"
+          />
+        }
+        id="disableDatabaseSearch"
+        label={
+          <FormattedMessage
+            defaultMessage="Disable database search: "
+            id="admin.sql.disableDatabaseSearchTitle"
+          />
+        }
+        onChange={[Function]}
+        setByEnv={false}
+        trueText={
+          <FormattedMessage
+            defaultMessage="true"
+            id="admin.true"
+          />
+        }
+        value={true}
+      />
+    </SettingsGroup>
+    <div
+      className="admin-console-save"
+    >
+      <SaveButton
+        btnClass="btn-primary"
+        defaultMessage={
+          <FormattedMessage
+            defaultMessage="Save"
+            id="save_button.save"
+          />
+        }
+        disabled={true}
+        extraClasses=""
+        onClick={[Function]}
+        saving={false}
+        savingMessage="Saving Config..."
+      />
+      <div
+        className="error-message"
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+      >
+        <FormError
+          error={null}
+          errors={Array []}
+        />
+      </div>
+      <Overlay
+        animation={[Function]}
+        placement="top"
+        rootClose={false}
+        show={false}
+        target={null}
+      >
+        <Tooltip
+          bsClass="tooltip"
+          id="error-tooltip"
+          placement="right"
+        />
+      </Overlay>
+    </div>
+  </div>
+</form>
+`;

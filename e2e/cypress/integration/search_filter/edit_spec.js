@@ -7,10 +7,10 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @search_date_filter
 
 import {getAdminAccount} from '../../support/env';
+import * as TIMEOUTS from '../../fixtures/timeouts';
 
 import {
     getMsAndQueryForDate,
@@ -50,9 +50,10 @@ describe('SF15699 Search Date Filter - edit', () => {
         // # Set clock to custom date, reload page for it to take effect
         cy.clock(targetDate.ms, ['Date']);
         cy.reload();
+        cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
         // # Type on: into search field
-        cy.get('#searchBox').clear().type('on:');
+        cy.get('#searchBox').click().clear().type('on:');
 
         // * Day picker should appear
         cy.get('.DayPicker').
@@ -66,8 +67,9 @@ describe('SF15699 Search Date Filter - edit', () => {
         // * Search field should populate with the correct date, then send rest of query
         cy.get('#searchBox').
             should('have.value', 'on:2019-01-15 ').
-            focus().
-            type(`${targetMessage}{enter}`);
+            click().
+            type(`${targetMessage}{enter}`).
+            should('be.empty');
 
         cy.get('#loadingSpinner').should('not.be.visible');
 
@@ -79,9 +81,10 @@ describe('SF15699 Search Date Filter - edit', () => {
             should('have.text', targetMessage);
 
         cy.reload();
+        cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
         // # Back space right after the date to bring up date picker again
-        cy.get('#searchBox').focus().clear().
+        cy.get('#searchBox').click().clear().
             type(`on:2019-01-15 ${targetMessage}`).
             type('{leftarrow}'.repeat(targetMessage.length + 1)).
             type('{backspace}');
@@ -97,7 +100,9 @@ describe('SF15699 Search Date Filter - edit', () => {
         // # Add message to search for, and hit enter
         cy.get('#searchBox').
             should('have.value', `on:2019-01-16  ${targetMessage}`).
-            type('{enter}');
+            click().
+            type('{enter}').
+            should('be.empty');
 
         cy.get('#loadingSpinner').should('not.be.visible');
 

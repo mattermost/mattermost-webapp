@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage, injectIntl} from 'react-intl';
 import {Tooltip} from 'react-bootstrap';
+
 import {Posts} from 'mattermost-redux/constants';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 
@@ -26,6 +27,7 @@ import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 
 import UserProfile from 'components/user_profile';
 import PostPreHeader from 'components/post_view/post_pre_header';
+import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 
 class RhsRootPost extends React.PureComponent {
     static propTypes = {
@@ -133,7 +135,7 @@ class RhsRootPost extends React.PureComponent {
         const {shortcutReactToLastPostEmittedFrom, isLastPost} = this.props;
 
         const shortcutReactToLastPostEmittedFromRHS = prevProps.shortcutReactToLastPostEmittedFrom !== shortcutReactToLastPostEmittedFrom &&
-        shortcutReactToLastPostEmittedFrom === Locations.RHS_ROOT;
+            shortcutReactToLastPostEmittedFrom === Locations.RHS_ROOT;
         if (shortcutReactToLastPostEmittedFromRHS) {
             this.handleShortcutReactToLastPost(isLastPost);
         }
@@ -383,6 +385,21 @@ class RhsRootPost extends React.PureComponent {
             );
         }
 
+        let customStatus;
+        if (!isSystemMessage) {
+            customStatus = (
+                <CustomStatusEmoji
+                    userID={post.user_id}
+                    showTooltip={true}
+                    emojiSize={14}
+                    emojiStyle={{
+                        marginLeft: 4,
+                        marginTop: 1,
+                    }}
+                />
+            );
+        }
+
         return (
             <div
                 role='listitem'
@@ -420,6 +437,7 @@ class RhsRootPost extends React.PureComponent {
                             <div className='col__name'>
                                 {userProfile}
                                 {botIndicator}
+                                {customStatus}
                             </div>
                             <div className='col'>
                                 {this.renderPostTime(isEphemeral)}

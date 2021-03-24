@@ -17,12 +17,6 @@ describe('Cloud Onboarding - Sysadmin', () => {
     let sysadmin;
 
     before(() => {
-        cy.apiUpdateConfig({
-            ServiceSettings: {
-                ExperimentalChannelSidebarOrganization: 'default_on',
-            },
-        });
-
         // # Check if with license and has matching database
         cy.apiRequireLicenseForFeature('Cloud');
 
@@ -147,7 +141,7 @@ describe('Cloud Onboarding - Sysadmin', () => {
         cy.url().should('include', townSquarePage);
 
         // * Check to make sure first card is expanded
-        cy.get('.Card__body.expanded .CompleteProfileStep').should('be.visible');
+        cy.findByText('Complete your profile').should('be.visible');
 
         // # Click the 'x' in the Sidebar Next Steps section
         cy.get('button.SidebarNextSteps__close').should('be.visible').click();
@@ -163,8 +157,7 @@ describe('Cloud Onboarding - Sysadmin', () => {
         cy.get('.app__content:not(.NextStepsView)').should('be.visible');
 
         // # Click 'Getting Started' in the main menu
-        cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-        cy.get('.dropdown-menu .MenuItem:contains(Getting Started)').scrollIntoView().should('be.visible').click();
+        cy.uiOpenMainMenu('Getting Started');
 
         // * Verify that sidebar element and next steps view are back
         cy.get('.SidebarNextSteps').should('be.visible');

@@ -9,13 +9,13 @@ import ChannelsList from 'components/admin_console/team_channel_settings/channel
 import AdminPanel from 'components/widgets/admin_console/admin_panel';
 
 interface Props {
-    siteName?: string,
+    siteName?: string;
 }
 
 export interface ChannelSettingsState {
-    startCount: number,
-    endCount: number,
-    total: number,
+    startCount: number;
+    endCount: number;
+    total: number;
 }
 
 export class ChannelsSettings extends React.PureComponent<Props> {

@@ -1,0 +1,115 @@
+.custom_status__row {
+    display: flex !important;
+    font-size: inherit;
+    align-items: center;
+    height: 34px;
+    max-width: 238px;
+    &:hover {
+        background-color: rgba(var(--center-channel-color-rgb), 0.08);
+        .custom-status-emoji {
+            fill: rgba(var(--center-channel-color-rgb), 0.72);
+        }
+    }
+
+    &:active {
+        background-color: rgba(var(--button-bg-rgb), 0.08);
+    }
+}
+
+.custom_status {
+    &__icon {
+        margin-right: 10px;
+    }
+
+    &__text {
+        overflow: hidden;
+        height: 28px;
+        max-width: 73%;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}
+
+#custom_status__clear {
+    color: rgba(var(--center-channel-color-rgb), 0.52);
+    position: absolute;
+    width: auto;
+    top: 10px;
+    right: 21px;
+    padding: 0;
+    &:hover{
+        background: transparent;
+    }
+
+}
+
+.custom-status {
+    &-emoji {
+        fill: rgba(var(--center-channel-color-rgb), 0.56);
+    }
+
+    &-suggestion-emoji > span:first-child {
+        background-size: 20px;
+    }
+}
+
+.pulsating_dot {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+    position: relative;
+
+    &, &::before, &::after {
+        height: 12px;
+        width: 12px;
+        background-color: var(--online-indicator);
+        border-radius: 50%;
+    }
+
+    &::before, &::after {
+        content: "";
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+
+    &::after {
+        animation: pulse1 2s ease 0s infinite;
+    }
+
+    &::before {
+        animation: pulse2 2s ease 0s infinite;
+    }
+}
+
+@keyframes pulse1 {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    80% {
+        opacity: 0;
+        transform: scale(2.5);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(2.5);
+    }
+}
+
+@keyframes pulse2 {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    30% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(2.5);
+    }
+}

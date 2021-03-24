@@ -7,6 +7,7 @@ import Scrollbars from 'react-custom-scrollbars';
 import {DragDropContext, Droppable, DropResult, DragStart, BeforeCapture} from 'react-beautiful-dnd';
 import {Spring, SpringSystem} from 'rebound';
 import classNames from 'classnames';
+
 import debounce from 'lodash/debounce';
 
 import {General} from 'mattermost-redux/constants';
@@ -66,6 +67,7 @@ type Props = {
     newCategoryIds: string[];
     draggingState: DraggingState;
     multiSelectedChannelIds: string[];
+    showUnreadsCategory: boolean;
 
     handleOpenMoreDirectChannelsModal: (e: Event) => void;
     onDragStart: (initial: DragStart) => void;
@@ -357,9 +359,9 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
         );
     }
 
-    onScroll = () => {
+    onScroll = debounce(() => {
         this.updateUnreadIndicators();
-    }
+    }, 100);
 
     onTransitionEnd = debounce(() => {
         this.updateUnreadIndicators();
@@ -440,32 +442,45 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
                 />
             );
         } else {
+            let unreadsCategory;
+            if (this.props.showUnreadsCategory) {
+                unreadsCategory = (
+                    <UnreadChannels
+                        getChannelRef={this.getChannelRef}
+                        setChannelRef={this.setChannelRef}
+                    />
+                );
+            }
+
             const renderedCategories = categories.map(this.renderCategory);
 
             channelList = (
-                <DragDropContext
-                    onDragEnd={this.onDragEnd}
-                    onBeforeDragStart={this.onBeforeDragStart}
-                    onBeforeCapture={this.onBeforeCapture}
-                    onDragStart={this.onDragStart}
-                >
-                    <Droppable
-                        droppableId='droppable-categories'
-                        type='SIDEBAR_CATEGORY'
+                <>
+                    {unreadsCategory}
+                    <DragDropContext
+                        onDragEnd={this.onDragEnd}
+                        onBeforeDragStart={this.onBeforeDragStart}
+                        onBeforeCapture={this.onBeforeCapture}
+                        onDragStart={this.onDragStart}
                     >
-                        {(provided) => {
-                            return (
-                                <div
-                                    ref={provided.innerRef}
-                                    {...provided.droppableProps}
-                                >
-                                    {renderedCategories}
-                                    {provided.placeholder}
-                                </div>
-                            );
-                        }}
-                    </Droppable>
-                </DragDropContext>
+                        <Droppable
+                            droppableId='droppable-categories'
+                            type='SIDEBAR_CATEGORY'
+                        >
+                            {(provided) => {
+                                return (
+                                    <div
+                                        ref={provided.innerRef}
+                                        {...provided.droppableProps}
+                                    >
+                                        {renderedCategories}
+                                        {provided.placeholder}
+                                    </div>
+                                );
+                            }}
+                        </Droppable>
+                    </DragDropContext>
+                </>
             );
         }
 
@@ -483,11 +498,15 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
             />
         );
 
+        const ariaLabel = Utils.localizeMessage('accessibility.sections.lhsList', 'channel sidebar region');
+
         return (
 
             // NOTE: id attribute added to temporarily support the desktop app's at-mention DOM scraping of the old sidebar
             <div
                 id='sidebar-left'
+                role='application'
+                aria-label={ariaLabel}
                 className={classNames('SidebarNavContainer a11y__region', {
                     disabled: this.props.isUnreadFilterEnabled,
                 })}

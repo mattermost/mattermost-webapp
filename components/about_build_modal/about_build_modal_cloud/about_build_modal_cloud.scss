@@ -4,6 +4,11 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) !important;
+
+    .about-modal__hash {
+        padding-bottom: 20px;
+    }
+
     .modal-content{
         overflow: hidden;
         border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
@@ -16,9 +21,9 @@
         }
         .modal-body {
             overflow: hidden;
-            padding: 0px 64px;
-            height: 294px;
+            padding: 0px 50px;
             width: 600px;
+
             .about-modal__logo {
                 padding-left: 0;
                 padding-right: 32px;

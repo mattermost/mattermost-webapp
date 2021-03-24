@@ -24,7 +24,7 @@ describe('Multi-user group messages', () => {
                 createTestUser(prefix, team);
             });
 
-            // # create a GM with at least 3 users
+            // # Create a GM with at least 3 users
             ['charlie', 'diana', 'eddie'].forEach((name) => {
                 cy.apiCreateUser({prefix: name, bypassTutorial: true}).then(({user: groupUser}) => {
                     cy.apiAddUserToTeam(testTeam.id, groupUser.id);
@@ -33,7 +33,7 @@ describe('Multi-user group messages', () => {
                 });
             });
 
-            // # add test user to the list of group members
+            // # Add test user to the list of group members
             userIds.push(testUser.id);
 
             cy.apiCreateGroupChannel(userIds).then(({channel}) => {
@@ -53,8 +53,7 @@ describe('Multi-user group messages', () => {
         cy.contains('#channelHeaderTitle', 'Town Square');
 
         // # Open the 'Direct messages' dialog
-        cy.get('#addDirectChannel').
-            click();
+        cy.uiAddDirectMessage().click();
 
         // # Start typing part of a username that matches previously created users
         cy.get('#selectItems input').
@@ -100,7 +99,7 @@ describe('Multi-user group messages', () => {
     it('MM-T468 Group Messaging: Add member to existing GM', () => {
         cy.apiLogin(testUser);
 
-        // # add some messages to the channel
+        // # Add some messages to the channel
         cy.visit(`/${testTeam.name}/channels/${groupChannel.name}`);
         cy.postMessage('some');
         cy.postMessage('historical');
@@ -110,12 +109,12 @@ describe('Multi-user group messages', () => {
         cy.get('#channelHeaderDropdownButton button').click();
         cy.get('#channelAddMembers button').click();
 
-        // * verify message says: "This will start a new conversation. If you're adding a lot of people, consider creating a private channel instead."
+        // * Verify message says: "This will start a new conversation. If you're adding a lot of people, consider creating a private channel instead."
         cy.get('#moreDmModal').should('be.visible');
         const warnMessage = 'This will start a new conversation. If you\'re adding a lot of people, consider creating a private channel instead.';
         cy.contains(warnMessage).should('be.visible');
 
-        // * verify users are listed in the GM box
+        // * Verify users are listed in the GM box
         userList.forEach((user) => {
             cy.get('.react-select__multi-value div').should('contain', user.username);
         });
@@ -129,22 +128,22 @@ describe('Multi-user group messages', () => {
         // # Click Go
         cy.get('button#saveItems').click({force: true});
 
-        // * modal closes
+        // * Modal closes
         cy.get('#moreDmModal').should('not.be.visible');
         cy.wait(TIMEOUTS.ONE_SEC);
 
-        // * original messages does not exist
+        // * Original messages does not exist
         cy.contains('.post-message__text', 'historical').should('not.be.visible');
 
         cy.contains('p.channel-intro-text span', 'This is the start of your group message history with');
 
-        // * new user is added to the GM
+        // * New user is added to the GM
         cy.get('#member_popover').click();
         cy.get('.more-modal__name').contains(testUser.username).should('be.visible');
 
-        // * other users are still there
+        // * Other users are still there
         userList.forEach((user) => {
-            cy.get('.more-modal__name').contains(user.username).should('be.visible');
+            cy.get('.more-modal__name').contains(user.username).scrollIntoView().should('be.visible');
         });
     });
 });
@@ -171,7 +170,7 @@ const expectUserListSortedAlphabetically = (filterString, excludeFilter = false)
                 const siblingText = immediateNextSibling.find('[id*="displayedUserName"]').text();
                 const stringComparison = currentChildText.localeCompare(siblingText, 'en');
 
-                // both strings equal -> 0, currentChildText comes before siblingText -> -1 (could vary by browser but should not be negative)
+                // Both strings equal -> 0, currentChildText comes before siblingText -> -1 (could vary by browser but should not be negative)
                 expect(stringComparison, `${currentChildText} should be before ${siblingText}`).to.be.lte(0);
             }
 

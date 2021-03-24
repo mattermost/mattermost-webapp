@@ -7,10 +7,10 @@ import classNames from 'classnames';
 import './button.scss';
 
 type Props = {
-    prepend?: ReactNode,
-    append?: ReactNode,
-    isActive?: boolean,
-    hasDot?: boolean,
+    prepend?: ReactNode;
+    append?: ReactNode;
+    isActive?: boolean;
+    hasDot?: boolean;
 }
 
 type Attrs = Exclude<ButtonHTMLAttributes<HTMLButtonElement>, Props>

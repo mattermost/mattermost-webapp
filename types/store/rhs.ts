@@ -18,8 +18,8 @@ export type FakePost = {
 
 export type PostDraft = {
     message: string;
-    fileInfos: Array<FileInfo>;
-    uploadsInProgress: Array<string>;
+    fileInfos: FileInfo[];
+    uploadsInProgress: string[];
 };
 
 export type RhsViewState = {

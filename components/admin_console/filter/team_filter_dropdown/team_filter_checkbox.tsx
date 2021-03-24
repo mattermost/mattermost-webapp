@@ -18,7 +18,13 @@ class TeamFilterCheckbox extends React.PureComponent<Props> {
     }
 
     render() {
-        const {id, checked, label} = this.props;
+        const {
+            checked,
+            id,
+            label,
+            name,
+        } = this.props;
+
         return (
             <div className='TeamFilterDropdown_checkbox'>
                 <label>

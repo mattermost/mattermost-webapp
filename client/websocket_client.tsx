@@ -12,7 +12,7 @@ export default class WebSocketClient {
     private eventSequence: number;
     private connectFailCount: number;
     private eventCallback: ((msg: any) => void) | null;
-    private responseCallbacks: {[x:number]: ((msg: any) => void)};
+    private responseCallbacks: {[x: number]: ((msg: any) => void)};
     private firstConnectCallback: (() => void) | null;
     private reconnectCallback: (() => void) | null;
     private missedEventCallback: (() => void) | null;

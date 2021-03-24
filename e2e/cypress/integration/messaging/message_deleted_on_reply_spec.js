@@ -28,8 +28,10 @@ describe('Messaging', () => {
     });
 
     it('MM-T113 Delete a Message during reply, other user sees "(message deleted)"', () => {
+        const message = 'aaa';
+
         // # Type message to use
-        cy.postMessageAs({sender: admin, message: 'aaa', channelId: testChannelId});
+        cy.postMessageAs({sender: admin, message, channelId: testChannelId});
 
         // # Click Reply button
         cy.clickPostCommentIcon();
@@ -38,48 +40,54 @@ describe('Messaging', () => {
         cy.get('#reply_textbox').type('123');
 
         // # Remove message from the other user
-        cy.getLastPostId().as('postId').then((postId) => {
+        cy.getLastPostId().then((postId) => {
             cy.externalRequest({user: admin, method: 'DELETE', path: `posts/${postId}`});
-        });
 
-        // # Wait for the message to be deleted and hit enter
-        cy.wait(TIMEOUTS.HALF_SEC);
-        cy.get('#reply_textbox').type('{enter}');
+            // # Wait for the message to be deleted
+            cy.wait(TIMEOUTS.HALF_SEC);
 
-        // * Post Deleted Modal should be visible
-        cy.findAllByTestId('postDeletedModal').should('be.visible');
+            // * Aria labels should not contain original message
+            cy.get(`#post_${postId}, #rhsPost_${postId}`).each((el) => {
+                cy.wrap(el).
+                    should('have.attr', 'aria-label').
+                    and('not.contain', message);
+            });
 
-        // # Close the modal
-        cy.findAllByTestId('postDeletedModalOkButton').click();
+            // # Send message
+            cy.get('#reply_textbox').type('{enter}');
 
-        // * The message should not have been sent
-        cy.get('#rhsPostList').should('be.empty');
+            // * Post Deleted Modal should be visible
+            cy.findAllByTestId('postDeletedModal').should('be.visible');
 
-        // * Textbox should still have the draft message
-        cy.get('#reply_textbox').should('contain', '123');
+            // # Close the modal
+            cy.findAllByTestId('postDeletedModalOkButton').click();
 
-        // # Try to post the message one more time pressing enter
-        cy.get('#reply_textbox').type('{enter}');
+            // * The message should not have been sent
+            cy.get('#rhsPostList').should('be.empty');
 
-        // * The modal should have appeared again
-        cy.findAllByTestId('postDeletedModal').should('be.visible');
+            // * Textbox should still have the draft message
+            cy.get('#reply_textbox').should('contain', '123');
 
-        // # Close the modal by hitting the OK button
-        cy.findAllByTestId('postDeletedModalOkButton').click();
+            // # Try to post the message one more time pressing enter
+            cy.get('#reply_textbox').type('{enter}');
 
-        // * The message should not have been sent
-        cy.get('#rhsPostList').should('be.empty');
+            // * The modal should have appeared again
+            cy.findAllByTestId('postDeletedModal').should('be.visible');
 
-        // * Textbox should still have the draft message
-        cy.get('#reply_textbox').should('contain', '123');
+            // # Close the modal by hitting the OK button
+            cy.findAllByTestId('postDeletedModalOkButton').click();
 
-        // # Change to the other user and go to Town Square
-        cy.apiAdminLogin();
-        cy.visit(testChannelLink);
-        cy.wait(TIMEOUTS.FIVE_SEC);
+            // * The message should not have been sent
+            cy.get('#rhsPostList').should('be.empty');
 
-        // * Post should not exist
-        cy.get('@postId').then((postId) => {
+            // * Textbox should still have the draft message
+            cy.get('#reply_textbox').should('contain', '123');
+
+            // # Change to the other user and go to Town Square
+            cy.apiAdminLogin();
+            cy.visit(testChannelLink);
+
+            // * Post should not exist
             cy.get(`#post_${postId}`).should('not.exist');
         });
     });

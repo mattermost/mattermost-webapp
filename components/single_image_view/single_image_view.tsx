@@ -33,7 +33,7 @@ type State = {
     dimensions: {
         width: number;
         height: number;
-    },
+    };
 }
 
 export default class SingleImageView extends React.PureComponent<Props, State> {

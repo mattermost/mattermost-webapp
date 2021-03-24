@@ -8,14 +8,12 @@ import {getRandomId} from '../../utils';
 // https://api.mattermost.com/#tag/bots
 // *****************************************************************************
 
-Cypress.Commands.add('apiCreateBot', ({prefix, bot = null} = {}) => {
-    const newBot = bot || generateRandomBot(prefix);
-
+Cypress.Commands.add('apiCreateBot', ({prefix, bot = createBotPatch(prefix)} = {}) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: '/api/v4/bots',
         method: 'POST',
-        body: newBot,
+        body: bot,
     }).then((response) => {
         expect(response.status).to.equal(201);
         const {body} = response;
@@ -39,7 +37,7 @@ Cypress.Commands.add('apiGetBots', () => {
     });
 });
 
-function generateRandomBot(prefix = 'bot') {
+export function createBotPatch(prefix = 'bot') {
     const randomId = getRandomId();
 
     return {

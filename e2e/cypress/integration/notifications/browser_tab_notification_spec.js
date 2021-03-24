@@ -45,7 +45,7 @@ describe('Notifications', () => {
             // # Remove mention notification (for initial channel).
             cy.apiLogin(user1);
             cy.visit(testTeam1TownSquareUrl);
-            cy.get('#publicChannelList').get('.unread-title').click();
+            cy.get('#sidebar-left').get('.unread-title').click();
             cy.apiLogout();
         });
     });
@@ -70,7 +70,6 @@ describe('Notifications', () => {
         // # User 1 views team A
         cy.apiLogin(user1);
         cy.visit(testTeam1TownSquareUrl);
-        cy.wait(TIMEOUTS.HALF_SEC);
 
         // # Return to town square
         cy.visit(testTeam1TownSquareUrl);
@@ -112,10 +111,9 @@ describe('Notifications', () => {
         // # Have another user view team B
         cy.apiLogin(user2);
         cy.visit(testTeam2TownSquareUrl);
-        cy.wait(TIMEOUTS.HALF_SEC);
 
         // # Create a new channel
-        cy.get('#createPublicChannel').should('be.visible').click();
+        cy.uiBrowseOrCreateChannel('Create New Channel').click();
         cy.wait(TIMEOUTS.HALF_SEC);
         cy.get('#newChannelName').should('be.visible').type('new-channel');
         cy.get('#submitNewChannel').click();
@@ -125,7 +123,7 @@ describe('Notifications', () => {
         cy.get('#member_popover').should('be.visible').click();
         cy.contains('Manage Members').click();
         cy.contains('Add Members').click();
-        cy.contains(`${user1.username}`).click();
+        cy.get('.channel-switcher__content input').should('exist').type(`${user1.username}{enter}`);
         cy.get('#saveItems').click();
         cy.wait(TIMEOUTS.HALF_SEC);
 

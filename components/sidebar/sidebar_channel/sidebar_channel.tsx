@@ -69,7 +69,7 @@ type Props = {
      */
     isCurrentChannel: boolean;
 
-    isDMCategory: boolean;
+    isAutoSortedCategory: boolean;
 
     isDraggable: boolean;
 
@@ -82,6 +82,8 @@ type Props = {
     isChannelSelected: boolean;
 
     multiSelectedChannelIds: string[];
+
+    autoSortedCategoryIds: Set<string>;
 };
 
 type State = {
@@ -135,10 +137,11 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
             currentTeamName,
             isCurrentChannel,
             isDraggable,
-            isDMCategory,
+            isAutoSortedCategory,
             isChannelSelected,
             draggingState,
             multiSelectedChannelIds,
+            autoSortedCategoryIds,
         } = this.props;
 
         let ChannelComponent: React.ComponentType<{channel: Channel; currentTeamName: string; isCollapsed: boolean}> = SidebarBaseChannel;
@@ -188,8 +191,8 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
                                     active: isCurrentChannel,
                                     dragging: snapshot.isDragging,
                                     selectedDragging: isChannelSelected && draggingState.state && draggingState.id !== channel.id,
-                                    fadeDMs: snapshot.isDropAnimating && snapshot.draggingOver?.includes('direct_messages'),
-                                    noFloat: isDMCategory && !snapshot.isDragging,
+                                    fadeOnDrop: snapshot.isDropAnimating && snapshot.draggingOver && autoSortedCategoryIds.has(snapshot.draggingOver),
+                                    noFloat: isAutoSortedCategory && !snapshot.isDragging,
                                 })}
                                 onTransitionEnd={this.removeAnimation}
                                 {...provided.draggableProps}

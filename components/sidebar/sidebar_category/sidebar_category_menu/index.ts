@@ -4,9 +4,10 @@
 import {connect} from 'react-redux';
 import {Dispatch, bindActionCreators, ActionCreatorsMapObject} from 'redux';
 
-import {setCategoryMuted} from 'mattermost-redux/actions/channel_categories';
+import {setCategoryMuted, setCategorySorting} from 'mattermost-redux/actions/channel_categories';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {ActionFunc} from 'mattermost-redux/types/actions';
+import {CategorySorting} from 'mattermost-redux/types/channel_categories';
 import {GlobalState} from 'mattermost-redux/types/store';
 
 import {openModal} from 'actions/views/modals';
@@ -28,6 +29,7 @@ type Actions = {
         data: boolean;
     }>;
     setCategoryMuted: (categoryId: string, muted: boolean) => Promise<void>;
+    setCategorySorting: (categoryId: string, sorting: CategorySorting) => void;
 }
 
 function mapDispatchToProps(dispatch: Dispatch) {
@@ -35,6 +37,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
             openModal,
             setCategoryMuted,
+            setCategorySorting,
         }, dispatch),
     };
 }

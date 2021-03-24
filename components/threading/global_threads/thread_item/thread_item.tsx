@@ -16,25 +16,25 @@ import ThreadMenu from '../thread_menu';
 import {THREADING_TIME} from '../../common/options';
 
 type Props = {
-    participants: ComponentProps<typeof Avatars>['users'],
+    participants: ComponentProps<typeof Avatars>['users'];
     totalParticipants?: number;
-    name: string,
-    channelName: string,
-    previewText: string,
+    name: string;
+    channelName: string;
+    previewText: string;
 
-    lastReplyAt: ComponentProps<typeof Timestamp>['value'],
-    newReplies: number,
-    newMentions: number,
-    totalReplies: number,
+    lastReplyAt: ComponentProps<typeof Timestamp>['value'];
+    newReplies: number;
+    newMentions: number;
+    totalReplies: number;
 
-    isFollowing: boolean,
-    isSaved: boolean,
-    isSelected: boolean,
+    isFollowing: boolean;
+    isSaved: boolean;
+    isSelected: boolean;
 
     actions: {
-        select: () => void,
-        openInChannel: () => void,
-    },
+        select: () => void;
+        openInChannel: () => void;
+    };
 } & Pick<ComponentProps<typeof ThreadMenu>, 'actions'>;
 
 const ThreadItem = ({

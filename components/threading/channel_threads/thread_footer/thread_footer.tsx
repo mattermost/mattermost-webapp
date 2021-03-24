@@ -24,10 +24,10 @@ type Props = {
     lastReplyAt: ComponentProps<typeof Timestamp>['value'];
     isFollowing: boolean;
     actions: {
-        follow: () => void,
-        unFollow: () => void,
+        follow: () => void;
+        unFollow: () => void;
         openThread: () => void;
-    }
+    };
 };
 
 function ThreadFooter({

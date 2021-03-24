@@ -33,19 +33,19 @@ type Props = {
     handleCommentClick?: React.EventHandler<React.MouseEvent>;
     handleDropdownOpened?: (open: boolean) => void;
     handleAddReactionClick?: () => void;
-    isMenuOpen?: boolean,
-    isReadOnly: boolean | null,
+    isMenuOpen?: boolean;
+    isReadOnly: boolean | null;
     pluginMenuItems?: any[];
-    isLicensed?: boolean, // TechDebt: Made non-mandatory while converting to typescript
-    postEditTimeLimit?: string, // TechDebt: Made non-mandatory while converting to typescript
+    isLicensed?: boolean; // TechDebt: Made non-mandatory while converting to typescript
+    postEditTimeLimit?: string; // TechDebt: Made non-mandatory while converting to typescript
     enableEmojiPicker?: boolean; // TechDebt: Made non-mandatory while converting to typescript
-    channelIsArchived?: boolean, // TechDebt: Made non-mandatory while converting to typescript
-    currentTeamUrl?: string, // TechDebt: Made non-mandatory while converting to typescript
+    channelIsArchived?: boolean; // TechDebt: Made non-mandatory while converting to typescript
+    currentTeamUrl?: string; // TechDebt: Made non-mandatory while converting to typescript
 
     /**
      * Components for overriding provided by plugins
      */
-    components?: any, // TechDebt: Made non-mandatory while converting to typescript
+    components?: any; // TechDebt: Made non-mandatory while converting to typescript
 
     actions?: {
 
@@ -91,7 +91,6 @@ type Props = {
 
 type State = {
     openUp: boolean;
-    width?: number;
     canEdit: boolean;
     canDelete: boolean;
 }
@@ -114,7 +113,6 @@ export default class DotMenu extends React.PureComponent<Props, State> {
 
         this.state = {
             openUp: false,
-            width: 0,
             canEdit: props.canEdit && !props.isReadOnly,
             canDelete: props.canDelete && !props.isReadOnly,
         };
@@ -246,7 +244,6 @@ export default class DotMenu extends React.PureComponent<Props, State> {
 
             this.setState({
                 openUp: (spaceOnTop > spaceOnBottom),
-                width: menuRef.rect()?.width,
             });
         }
     }
@@ -279,7 +276,6 @@ export default class DotMenu extends React.PureComponent<Props, State> {
                             text={item.text}
                             subMenu={item.subMenu}
                             action={item.action}
-                            xOffset={this.state.width}
                             root={true}
                         />
                     );

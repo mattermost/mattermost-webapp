@@ -12,7 +12,7 @@ import {Dictionary} from 'mattermost-redux/types/utilities';
 
 import upgradeImage from 'images/cloud/upgrade.svg';
 import wavesBackground from 'images/cloud/waves.svg';
-import blueDotes from 'images/cloud/blue.svg';
+import blueDots from 'images/cloud/blue.svg';
 import LowerBlueDots from 'images/cloud/blue-lower.svg';
 import cloudLogo from 'images/cloud/mattermost-cloud.svg';
 import {trackEvent, pageVisited} from 'actions/telemetry_actions';
@@ -162,7 +162,15 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                                 />
                             </span>
                         </div>
-                        <div className='footer-text'>{`Payment begins: ${getNextBillingDate()}`}</div>
+                        <div className='footer-text'>
+                            <FormattedMessage
+                                defaultMessage={'Payment begins: {beginDate}'}
+                                id={'admin.billing.subscription.payamentBegins'}
+                                values={{
+                                    beginDate: getNextBillingDate(),
+                                }}
+                            />
+                        </div>
                         <button
                             disabled={!this.state.paymentInfoIsValid}
                             onClick={this.handleSubmitClick}
@@ -194,7 +202,12 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                             </a>
                         </div>
                     </div>
-                    <div className='footer-text'>{'Need other billing options?'}</div>
+                    <div className='footer-text'>
+                        <FormattedMessage
+                            defaultMessage={'Need other billing options?'}
+                            id={'admin.billing.subscription.otherBillingOption'}
+                        />
+                    </div>
                     <a
                         className='footer-text'
                         onClick={() => {
@@ -274,7 +287,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                                 />
                                 <img
                                     className='blue-dots'
-                                    src={blueDotes}
+                                    src={blueDots}
                                 />
                                 <img
                                     className='lower-blue-dots'

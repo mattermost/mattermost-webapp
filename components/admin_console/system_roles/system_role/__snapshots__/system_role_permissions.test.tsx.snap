@@ -1,0 +1,495 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`admin_console/system_role_permissions should match snapshot 1`] = `
+<AdminPanel
+  className=""
+  id="SystemRolePermissions"
+  subtitleDefault="Level of access to the system console."
+  subtitleId="admin.permissions.system_role_permissions.description"
+  titleDefault="Privileges"
+  titleId="admin.permissions.system_role_permissions.title"
+>
+  <div
+    className="SystemRolePermissions"
+  >
+    <SystemRolePermission
+      key="about"
+      permissionsMap={Object {}}
+      permissionsToUpdate={
+        Object {
+          "environment": "read",
+          "plugins": "write",
+          "site": "write",
+        }
+      }
+      section={
+        Object {
+          "hasDescription": true,
+          "name": "about",
+          "subsections": Array [],
+        }
+      }
+      setSectionVisible={[Function]}
+      updatePermissions={[MockFunction]}
+      visibleSections={Object {}}
+    />
+    <SystemRolePermission
+      key="reporting"
+      permissionsMap={Object {}}
+      permissionsToUpdate={
+        Object {
+          "environment": "read",
+          "plugins": "write",
+          "site": "write",
+        }
+      }
+      section={
+        Object {
+          "hasDescription": true,
+          "name": "reporting",
+          "subsections": Array [],
+        }
+      }
+      setSectionVisible={[Function]}
+      updatePermissions={[MockFunction]}
+      visibleSections={Object {}}
+    />
+    <SystemRolePermission
+      key="user_management"
+      permissionsMap={Object {}}
+      permissionsToUpdate={
+        Object {
+          "environment": "read",
+          "plugins": "write",
+          "site": "write",
+        }
+      }
+      section={
+        Object {
+          "hasDescription": true,
+          "name": "user_management",
+          "subsections": Array [
+            Object {
+              "hasDescription": true,
+              "name": "user_management_users",
+            },
+            Object {
+              "name": "user_management_groups",
+            },
+            Object {
+              "name": "user_management_teams",
+            },
+            Object {
+              "name": "user_management_channels",
+            },
+            Object {
+              "name": "user_management_permissions",
+            },
+            Object {
+              "disabled": true,
+              "name": "user_management_system_roles",
+            },
+          ],
+        }
+      }
+      setSectionVisible={[Function]}
+      updatePermissions={[MockFunction]}
+      visibleSections={Object {}}
+    />
+    <SystemRolePermission
+      key="environment"
+      permissionsMap={Object {}}
+      permissionsToUpdate={
+        Object {
+          "environment": "read",
+          "plugins": "write",
+          "site": "write",
+        }
+      }
+      section={
+        Object {
+          "hasDescription": true,
+          "name": "environment",
+          "subsections": Array [],
+        }
+      }
+      setSectionVisible={[Function]}
+      updatePermissions={[MockFunction]}
+      visibleSections={Object {}}
+    />
+    <SystemRolePermission
+      key="site"
+      permissionsMap={Object {}}
+      permissionsToUpdate={
+        Object {
+          "environment": "read",
+          "plugins": "write",
+          "site": "write",
+        }
+      }
+      section={
+        Object {
+          "hasDescription": true,
+          "name": "site",
+          "subsections": Array [],
+        }
+      }
+      setSectionVisible={[Function]}
+      updatePermissions={[MockFunction]}
+      visibleSections={Object {}}
+    />
+    <SystemRolePermission
+      key="authentication"
+      permissionsMap={Object {}}
+      permissionsToUpdate={
+        Object {
+          "environment": "read",
+          "plugins": "write",
+          "site": "write",
+        }
+      }
+      section={
+        Object {
+          "hasDescription": true,
+          "name": "authentication",
+          "subsections": Array [],
+        }
+      }
+      setSectionVisible={[Function]}
+      updatePermissions={[MockFunction]}
+      visibleSections={Object {}}
+    />
+    <SystemRolePermission
+      key="plugins"
+      permissionsMap={Object {}}
+      permissionsToUpdate={
+        Object {
+          "environment": "read",
+          "plugins": "write",
+          "site": "write",
+        }
+      }
+      section={
+        Object {
+          "hasDescription": true,
+          "name": "plugins",
+          "subsections": Array [],
+        }
+      }
+      setSectionVisible={[Function]}
+      updatePermissions={[MockFunction]}
+      visibleSections={Object {}}
+    />
+    <SystemRolePermission
+      key="integrations"
+      permissionsMap={Object {}}
+      permissionsToUpdate={
+        Object {
+          "environment": "read",
+          "plugins": "write",
+          "site": "write",
+        }
+      }
+      section={
+        Object {
+          "hasDescription": true,
+          "name": "integrations",
+          "subsections": Array [],
+        }
+      }
+      setSectionVisible={[Function]}
+      updatePermissions={[MockFunction]}
+      visibleSections={Object {}}
+    />
+    <SystemRolePermission
+      key="compliance"
+      permissionsMap={Object {}}
+      permissionsToUpdate={
+        Object {
+          "environment": "read",
+          "plugins": "write",
+          "site": "write",
+        }
+      }
+      section={
+        Object {
+          "hasDescription": true,
+          "name": "compliance",
+          "subsections": Array [],
+        }
+      }
+      setSectionVisible={[Function]}
+      updatePermissions={[MockFunction]}
+      visibleSections={Object {}}
+    />
+    <SystemRolePermission
+      key="experimental"
+      permissionsMap={Object {}}
+      permissionsToUpdate={
+        Object {
+          "environment": "read",
+          "plugins": "write",
+          "site": "write",
+        }
+      }
+      section={
+        Object {
+          "hasDescription": true,
+          "name": "experimental",
+          "subsections": Array [],
+        }
+      }
+      setSectionVisible={[Function]}
+      updatePermissions={[MockFunction]}
+      visibleSections={Object {}}
+    />
+  </div>
+</AdminPanel>
+`;
+
+exports[`admin_console/system_role_permissions should match snapshot with isLicensedForCloud = true 1`] = `
+<AdminPanel
+  className=""
+  id="SystemRolePermissions"
+  subtitleDefault="Level of access to the system console."
+  subtitleId="admin.permissions.system_role_permissions.description"
+  titleDefault="Privileges"
+  titleId="admin.permissions.system_role_permissions.title"
+>
+  <div
+    className="SystemRolePermissions"
+  >
+    <SystemRolePermission
+      key="about"
+      permissionsMap={Object {}}
+      permissionsToUpdate={
+        Object {
+          "environment": "read",
+          "plugins": "write",
+          "site": "write",
+        }
+      }
+      section={
+        Object {
+          "hasDescription": true,
+          "name": "about",
+          "subsections": Array [],
+        }
+      }
+      setSectionVisible={[Function]}
+      updatePermissions={[MockFunction]}
+      visibleSections={Object {}}
+    />
+    <SystemRolePermission
+      key="reporting"
+      permissionsMap={Object {}}
+      permissionsToUpdate={
+        Object {
+          "environment": "read",
+          "plugins": "write",
+          "site": "write",
+        }
+      }
+      section={
+        Object {
+          "hasDescription": true,
+          "name": "reporting",
+          "subsections": Array [],
+        }
+      }
+      setSectionVisible={[Function]}
+      updatePermissions={[MockFunction]}
+      visibleSections={Object {}}
+    />
+    <SystemRolePermission
+      key="user_management"
+      permissionsMap={Object {}}
+      permissionsToUpdate={
+        Object {
+          "environment": "read",
+          "plugins": "write",
+          "site": "write",
+        }
+      }
+      section={
+        Object {
+          "hasDescription": true,
+          "name": "user_management",
+          "subsections": Array [
+            Object {
+              "hasDescription": true,
+              "name": "user_management_users",
+            },
+            Object {
+              "name": "user_management_groups",
+            },
+            Object {
+              "name": "user_management_teams",
+            },
+            Object {
+              "name": "user_management_channels",
+            },
+            Object {
+              "name": "user_management_permissions",
+            },
+            Object {
+              "disabled": true,
+              "name": "user_management_system_roles",
+            },
+          ],
+        }
+      }
+      setSectionVisible={[Function]}
+      updatePermissions={[MockFunction]}
+      visibleSections={Object {}}
+    />
+    <SystemRolePermission
+      key="environment"
+      permissionsMap={Object {}}
+      permissionsToUpdate={
+        Object {
+          "environment": "read",
+          "plugins": "write",
+          "site": "write",
+        }
+      }
+      section={
+        Object {
+          "hasDescription": true,
+          "name": "environment",
+          "subsections": Array [],
+        }
+      }
+      setSectionVisible={[Function]}
+      updatePermissions={[MockFunction]}
+      visibleSections={Object {}}
+    />
+    <SystemRolePermission
+      key="site"
+      permissionsMap={Object {}}
+      permissionsToUpdate={
+        Object {
+          "environment": "read",
+          "plugins": "write",
+          "site": "write",
+        }
+      }
+      section={
+        Object {
+          "hasDescription": true,
+          "name": "site",
+          "subsections": Array [],
+        }
+      }
+      setSectionVisible={[Function]}
+      updatePermissions={[MockFunction]}
+      visibleSections={Object {}}
+    />
+    <SystemRolePermission
+      key="authentication"
+      permissionsMap={Object {}}
+      permissionsToUpdate={
+        Object {
+          "environment": "read",
+          "plugins": "write",
+          "site": "write",
+        }
+      }
+      section={
+        Object {
+          "hasDescription": true,
+          "name": "authentication",
+          "subsections": Array [],
+        }
+      }
+      setSectionVisible={[Function]}
+      updatePermissions={[MockFunction]}
+      visibleSections={Object {}}
+    />
+    <SystemRolePermission
+      key="plugins"
+      permissionsMap={Object {}}
+      permissionsToUpdate={
+        Object {
+          "environment": "read",
+          "plugins": "write",
+          "site": "write",
+        }
+      }
+      section={
+        Object {
+          "hasDescription": true,
+          "name": "plugins",
+          "subsections": Array [],
+        }
+      }
+      setSectionVisible={[Function]}
+      updatePermissions={[MockFunction]}
+      visibleSections={Object {}}
+    />
+    <SystemRolePermission
+      key="integrations"
+      permissionsMap={Object {}}
+      permissionsToUpdate={
+        Object {
+          "environment": "read",
+          "plugins": "write",
+          "site": "write",
+        }
+      }
+      section={
+        Object {
+          "hasDescription": true,
+          "name": "integrations",
+          "subsections": Array [],
+        }
+      }
+      setSectionVisible={[Function]}
+      updatePermissions={[MockFunction]}
+      visibleSections={Object {}}
+    />
+    <SystemRolePermission
+      key="compliance"
+      permissionsMap={Object {}}
+      permissionsToUpdate={
+        Object {
+          "environment": "read",
+          "plugins": "write",
+          "site": "write",
+        }
+      }
+      section={
+        Object {
+          "hasDescription": true,
+          "name": "compliance",
+          "subsections": Array [],
+        }
+      }
+      setSectionVisible={[Function]}
+      updatePermissions={[MockFunction]}
+      visibleSections={Object {}}
+    />
+    <SystemRolePermission
+      key="experimental"
+      permissionsMap={Object {}}
+      permissionsToUpdate={
+        Object {
+          "environment": "read",
+          "plugins": "write",
+          "site": "write",
+        }
+      }
+      section={
+        Object {
+          "hasDescription": true,
+          "name": "experimental",
+          "subsections": Array [],
+        }
+      }
+      setSectionVisible={[Function]}
+      updatePermissions={[MockFunction]}
+      visibleSections={Object {}}
+    />
+  </div>
+</AdminPanel>
+`;

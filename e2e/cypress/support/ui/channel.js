@@ -9,23 +9,18 @@ Cypress.Commands.add('uiCreateChannel', ({
     isPrivate = false,
     purpose = '',
     header = '',
-    isNewSidebar = false,
 }) => {
-    if (isNewSidebar) {
-        cy.get('#SidebarContainer .AddChannelDropdown_dropdownButton').click();
-        cy.get('#showNewChannel button').click();
-    } else {
-        cy.get('#createPrivateChannel').click();
-    }
+    cy.get('#SidebarContainer .AddChannelDropdown_dropdownButton').click();
+    cy.get('#showNewChannel button').click();
 
     cy.get('#newChannelModalLabel').should('be.visible');
     if (isPrivate) {
-        cy.get('#private').click();
+        cy.get('#private').click().wait(TIMEOUTS.HALF_SEC);
     } else {
-        cy.get('#public').click();
+        cy.get('#public').click().wait(TIMEOUTS.HALF_SEC);
     }
     const channelName = `${prefix}${getRandomId()}`;
-    cy.get('#newChannelName').clear().type(channelName);
+    cy.get('#newChannelName').should('be.visible').clear().type(channelName);
     if (purpose) {
         cy.get('#newChannelPurpose').clear().type(purpose);
     }
@@ -33,6 +28,7 @@ Cypress.Commands.add('uiCreateChannel', ({
         cy.get('#newChannelHeader').clear().type(header);
     }
     cy.get('#submitNewChannel').click();
+    cy.get('#newChannelModalLabel').should('not.be.visible');
     cy.get('#channelIntro').should('be.visible');
     return cy.wrap({name: channelName});
 });
@@ -56,6 +52,12 @@ Cypress.Commands.add('uiArchiveChannel', () => {
     return cy.get('#deleteChannelModalDeleteButton').click();
 });
 
+Cypress.Commands.add('uiUnarchiveChannel', () => {
+    cy.get('#channelHeaderDropdownIcon').click();
+    cy.get('#channelUnarchiveChannel').click();
+    return cy.get('#unarchiveChannelModalDeleteButton').click();
+});
+
 Cypress.Commands.add('uiLeaveChannel', (isPrivate = false) => {
     cy.get('#channelHeaderDropdownIcon').click();
 
@@ -68,7 +70,7 @@ Cypress.Commands.add('uiLeaveChannel', (isPrivate = false) => {
 });
 
 Cypress.Commands.add('goToDm', (username) => {
-    cy.get('#addDirectChannel').click({force: true});
+    cy.uiAddDirectMessage().click({force: true});
 
     // # Start typing part of a username that matches previously created users
     cy.get('#selectItems input').type(username, {force: true});

@@ -59,13 +59,12 @@ describe('component/PDFPreview', () => {
         expect(wrapper.state('pdf')).toEqual(pdf);
         expect(wrapper.state('numPages')).toEqual(pdf.numPages);
 
-        const MAX_PDF_PAGES = 5;
         pdf = {
-            numPages: 6,
+            numPages: 100,
             getPage: (i) => Promise.resolve(i),
         };
         wrapper.instance().onDocumentLoad(pdf);
         expect(wrapper.state('pdf')).toEqual(pdf);
-        expect(wrapper.state('numPages')).toEqual(MAX_PDF_PAGES);
+        expect(wrapper.state('numPages')).toEqual(pdf.numPages);
     });
 });

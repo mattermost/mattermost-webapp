@@ -11,7 +11,7 @@ import {ChannelGroups} from './channel_groups';
 
 describe('admin_console/team_channel_settings/channel/ChannelGroups', () => {
     test('should match snapshot', () => {
-        const groups: Partial<Group>[] = [{
+        const groups: Array<Partial<Group>> = [{
             id: '123',
             display_name: 'DN',
             member_count: 3,

@@ -8,13 +8,13 @@ import {localizeMessage} from 'utils/utils';
 import Menu from 'components/widgets/menu/menu';
 
 type Props = {
-    show?: boolean,
-    channel: any,
-    hasPinnedPosts: boolean,
+    show?: boolean;
+    channel: any;
+    hasPinnedPosts: boolean;
     actions: {
-        closeRightHandSide: () => (dispatch: any) => void,
-        showPinnedPosts: (id: any) => void,
-    },
+        closeRightHandSide: () => (dispatch: any) => void;
+        showPinnedPosts: (id: any) => void;
+    };
 }
 
 export default class ViewPinnedPosts extends React.PureComponent<Props> {

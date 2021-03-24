@@ -1,8 +1,8 @@
-
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 import * as TIMEOUTS from '../fixtures/timeouts';
+import {isMac} from '../utils';
 
 // ***********************************************************
 // Read more: https://on.cypress.io/custom-commands
@@ -83,14 +83,6 @@ Cypress.Commands.add('cmdOrCtrlShortcut', {prevSubject: true}, (subject, text) =
     return cy.get(subject).type(`${cmdOrCtrl}${text}`);
 });
 
-Cypress.Commands.add('isMac', () => {
-    isMac();
-});
-
-function isMac() {
-    return navigator.platform.toUpperCase().indexOf('MAC') >= 0;
-}
-
 // ***********************************************************
 // Post
 // ***********************************************************
@@ -114,7 +106,17 @@ Cypress.Commands.add('uiPostMessageQuickly', (message) => {
 });
 
 function postMessageAndWait(textboxSelector, message) {
-    cy.get(textboxSelector, {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').clear().type(`${message}{enter}`).wait(TIMEOUTS.HALF_SEC);
+    // Add explicit wait to let the page load freely since `cy.get` seemed to block
+    // some operation which caused to prolong complete page loading.
+    cy.wait(TIMEOUTS.HALF_SEC);
+
+    cy.get(textboxSelector, {timeout: TIMEOUTS.HALF_MIN}).as('textboxSelector');
+    cy.get('@textboxSelector').should('be.visible').clear().type(`${message}{enter}`).wait(TIMEOUTS.HALF_SEC);
+    cy.get('@textboxSelector').invoke('val').then((value) => {
+        if (value.length > 0) {
+            cy.get('@textboxSelector').type('{enter}').wait(TIMEOUTS.HALF_SEC);
+        }
+    });
     cy.waitUntil(() => {
         return cy.get(textboxSelector).then((el) => {
             return el[0].textContent === '';
@@ -123,6 +125,9 @@ function postMessageAndWait(textboxSelector, message) {
 }
 
 function waitUntilPermanentPost() {
+    // Add explicit wait to let the page load freely since `cy.get` seemed to block
+    // some operation which caused to prolong complete page loading.
+    cy.wait(TIMEOUTS.HALF_SEC);
     cy.get('#postListContent', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
     cy.waitUntil(() => cy.findAllByTestId('postView').last().then((el) => !(el[0].id.includes(':'))));
 }
@@ -214,6 +219,86 @@ Cypress.Commands.add('compareLastPostHTMLContentFromFile', (file, timeout = TIME
             cy.get(postMessageTextId, {timeout}).should('have.html', expectedHtml.replace(/\n$/, ''));
         });
     });
+});
+
+// ***********************************************************
+// DM
+// ***********************************************************
+
+/**
+ * Sends a DM to a given user
+ * @param {User} user - the user that should get the message
+ * @param {String} message - the message to send
+ */
+Cypress.Commands.add('sendDirectMessageToUser', (user, message) => {
+    // # Open a new direct message with firstDMUser
+    cy.uiAddDirectMessage().click();
+
+    // # Type username
+    cy.get('#selectItems input').should('be.enabled').type(`@${user.username}`, {force: true});
+
+    // * Expect user count in the list to be 1
+    cy.get('#multiSelectList').
+        should('be.visible').
+        children().
+        should('have.length', 1);
+
+    // # Select first user in the list
+    cy.get('body').
+        type('{downArrow}').
+        type('{enter}');
+
+    // # Click on "Go" in the group message's dialog to begin the conversation
+    cy.get('#saveItems').click();
+
+    // * Expect the channel title to be the user's username
+    // In the channel header, it seems there is a space after the username, justifying the use of contains.text instead of have.text
+    cy.get('#channelHeaderTitle').should('be.visible').and('contain.text', user.username);
+
+    // # Type message and send it to the user
+    cy.get('#post_textbox').
+        type(message).
+        type('{enter}');
+});
+
+/**
+ * Sends a GM to a given user list
+ * @param {User[]} users - the users that should get the message
+ * @param {String} message - the message to send
+ */
+Cypress.Commands.add('sendDirectMessageToUsers', (users, message) => {
+    // # Open a new direct message
+    cy.uiAddDirectMessage().click();
+
+    users.forEach((user) => {
+        // # Type username
+        cy.get('#selectItems input').should('be.enabled').type(`@${user.username}`, {force: true});
+
+        // * Expect user count in the list to be 1
+        cy.get('#multiSelectList').
+            should('be.visible').
+            children().
+            should('have.length', 1);
+
+        // # Select first user in the list
+        cy.get('body').
+            type('{downArrow}').
+            type('{enter}');
+    });
+
+    // # Click on "Go" in the group message's dialog to begin the conversation
+    cy.get('#saveItems').click();
+
+    // * Expect the channel title to be the user's username
+    // In the channel header, it seems there is a space after the username, justifying the use of contains.text instead of have.text
+    users.forEach((user) => {
+        cy.get('#channelHeaderTitle').should('be.visible').and('contain.text', user.username);
+    });
+
+    // # Type message and send it to the user
+    cy.get('#post_textbox').
+        type(message).
+        type('{enter}');
 });
 
 // ***********************************************************

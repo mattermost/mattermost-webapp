@@ -11,8 +11,8 @@ import * as Utils from 'utils/utils';
 import TeamIcon from 'components/widgets/team_icon/team_icon';
 
 type Props = {
-    team: Team,
-    onRowClick(id: string): void
+    team: Team;
+    onRowClick(id: string): void;
 }
 export default class TeamRow extends React.PureComponent<Props> {
     handleRowClick = () => {
@@ -58,7 +58,7 @@ export default class TeamRow extends React.PureComponent<Props> {
                         <TeamIcon
                             size='sm'
                             url={teamIconUrl}
-                            name={team.display_name}
+                            content={team.display_name}
                         />
                         <div>
                             <b data-testid='team-display-name'>{team.display_name}</b>

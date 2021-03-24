@@ -17,14 +17,14 @@ import './member_list_group.scss';
 
 export type Props = {
     searchTerm: string;
-    users: Array<UserProfile>;
+    users: UserProfile[];
     groupID: string;
     total: number;
     actions: {
         getProfilesInGroup: (groupID: string, page: number, perPage: number) => Promise<{data: UserProfile[]}>;
         getGroupStats: (groupID: string) => Promise<{data: GroupStats}>;
         searchProfiles: (term: string, options?: Record<string, unknown>) => Promise<{data: UserProfile[]}>;
-        setModalSearchTerm: (term: string) => Promise<{data: boolean;}>;
+        setModalSearchTerm: (term: string) => Promise<{data: boolean}>;
     };
 }
 

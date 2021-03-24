@@ -19,37 +19,37 @@ import {PostListRowListIds, Locations} from 'utils/constants';
 
 export type PostListRowProps = {
     channel?: Channel;
-    listId: string,
-    previousListId?: string,
-    fullWidth?: boolean,
-    shouldHighlight?: boolean,
-    loadOlderPosts: () => void,
-    loadNewerPosts: () => void,
-    togglePostMenu: () => void,
+    listId: string;
+    previousListId?: string;
+    fullWidth?: boolean;
+    shouldHighlight?: boolean;
+    loadOlderPosts: () => void;
+    loadNewerPosts: () => void;
+    togglePostMenu: () => void;
 
     /**
      * To Check if the current post is last in the list
      */
-    isLastPost: boolean,
+    isLastPost: boolean;
 
     /**
      * To check if the state of emoji for last message and from where it was emitted
      */
-    shortcutReactToLastPostEmittedFrom: string,
+    shortcutReactToLastPostEmittedFrom: string;
 
     /**
      * is used for hiding animation of loader
      */
-    loadingNewerPosts: boolean,
-    loadingOlderPosts: boolean,
+    loadingNewerPosts: boolean;
+    loadingOlderPosts: boolean;
 
     actions: {
 
         /**
           * Function to set or unset emoji picker for last message
           */
-        emitShortcutReactToLastPostFrom: (location: string) => void
-    },
+        emitShortcutReactToLastPostFrom: (location: string) => void;
+    };
 
 }
 

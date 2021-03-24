@@ -10,7 +10,7 @@ import {toggle as toggleLhs} from 'actions/views/lhs';
 
 import CollapseLhsButton from './collapse_lhs_button';
 
-const mapDispatchToProps = (dispatch:Dispatch<GenericAction>) => ({
+const mapDispatchToProps = (dispatch: Dispatch<GenericAction>) => ({
     actions: bindActionCreators({
         toggleLhs,
     }, dispatch),

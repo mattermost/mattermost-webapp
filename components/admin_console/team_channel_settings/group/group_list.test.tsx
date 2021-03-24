@@ -10,7 +10,7 @@ import GroupList from './group_list';
 
 describe('admin_console/team_channel_settings/group/GroupList', () => {
     test('should match snapshot', () => {
-        const testGroups: Partial<Group>[] = [{
+        const testGroups: Array<Partial<Group>> = [{
             id: '123',
             display_name: 'DN',
             member_count: 3,
@@ -38,7 +38,7 @@ describe('admin_console/team_channel_settings/group/GroupList', () => {
     });
 
     test('should match snapshot with paging', () => {
-        const testGroups: Partial<Group>[] = [];
+        const testGroups: Array<Partial<Group>> = [];
         for (let i = 0; i < 30; i++) {
             testGroups.push({
                 id: 'id' + i,

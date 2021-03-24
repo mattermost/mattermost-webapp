@@ -16,7 +16,7 @@
 // ***************************************************************
 
 declare namespace Cypress {
-    interface Chainable<Subject = any> {
+    interface Chainable {
 
         /**
          * Create a bot.
@@ -30,7 +30,7 @@ declare namespace Cypress {
          *       // do something with bot
          *   });
          */
-        apiCreateBot(): Chainable<Bot>;
+        apiCreateBot({bot: BotPatch, prefix: string}): Chainable<{bot: Bot & {fullDisplayName: string}}>;
 
         /**
          * Get bots.
@@ -40,6 +40,6 @@ declare namespace Cypress {
          * @example
          *   cy.apiGetBots();
          */
-        apiGetBots(): Chainable<Bot[]>;
+        apiGetBots(): Chainable<{bots: Bot[]}>;
     }
 }

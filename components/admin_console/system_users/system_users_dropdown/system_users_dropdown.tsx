@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+
 import * as UserUtils from 'mattermost-redux/utils/user_utils';
 import {Permissions} from 'mattermost-redux/constants';
 import {AdminConfig} from 'mattermost-redux/types/config';
@@ -298,7 +299,7 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
         const title = (
             <FormattedMessage
                 id='promote_to_user_modal.title'
-                defaultMessage='Promote guest {username} to user'
+                defaultMessage='Promote guest {username} to member'
                 values={{
                     username: this.props.user.username,
                 }}
@@ -308,7 +309,7 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
         const message = (
             <FormattedMessage
                 id='promote_to_user_modal.desc'
-                defaultMessage='This action promotes the guest {username} to a member. It will allow the user to join public channels and interact with users outside of the channels they are currently members of. Are you sure you want to promote guest {username} to user?'
+                defaultMessage='This action promotes the guest {username} to a member. It will allow the user to join public channels and interact with users outside of the channels they are currently members of. Are you sure you want to promote guest {username} to member?'
                 values={{
                     username: this.props.user.username,
                 }}
@@ -587,7 +588,7 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
                         <Menu.ItemAction
                             show={isGuest}
                             onClick={this.handlePromoteToUser}
-                            text={Utils.localizeMessage('admin.user_item.promoteToUser', 'Promote to User')}
+                            text={Utils.localizeMessage('admin.user_item.promoteToMember', 'Promote to Member')}
                         />
                         <Menu.ItemAction
                             show={!isGuest && user.id !== currentUser.id && isLicensed && config.GuestAccountsSettings?.Enable}

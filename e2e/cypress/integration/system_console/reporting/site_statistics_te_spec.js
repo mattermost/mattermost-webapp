@@ -16,7 +16,7 @@ describe('System Console > Site Statistics', () => {
         cy.shouldRunOnTeamEdition();
     });
 
-    it('MM-T904_2 Site Statistics displays expected content categories', () => {
+    it('MM-T3804 Site Statistics displays expected content categories', () => {
         // # Visit site statistics page.
         cy.visit('/admin_console/reporting/system_analytics');
 

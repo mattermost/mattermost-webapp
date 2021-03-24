@@ -23,12 +23,15 @@ import {closeModal, openModal} from 'actions/views/modals';
 import {areTimezonesEnabledAndSupported} from 'selectors/general';
 import {getSelectedPost, getRhsState} from 'selectors/rhs';
 
+import {makeGetCustomStatus, isCustomStatusEnabled} from 'selectors/views/custom_status';
+
 import ProfilePopover from './profile_popover.jsx';
 
 function mapStateToProps(state, ownProps) {
     const userId = ownProps.userId;
     const team = getCurrentTeam(state);
     const teamMember = getTeamMember(state, team.id, userId);
+    const getCustomStatus = makeGetCustomStatus();
 
     let isTeamAdmin = false;
     if (teamMember && teamMember.scheme_admin) {
@@ -63,6 +66,8 @@ function mapStateToProps(state, ownProps) {
         teamUrl: getCurrentRelativeTeamUrl(state),
         user: getUser(state, userId),
         modals: state.views.modals.modalState,
+        customStatus: getCustomStatus(state, userId),
+        isCustomStatusEnabled: isCustomStatusEnabled(state),
     };
 }
 

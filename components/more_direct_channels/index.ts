@@ -36,8 +36,6 @@ import {UserProfile} from 'mattermost-redux/types/users';
 import {sortByUsername, filterProfilesStartingWithTerm} from 'mattermost-redux/utils/user_utils';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
 
-import {RelationOneToOne} from 'mattermost-redux/types/utilities';
-
 import {Constants} from 'utils/constants';
 import {openDirectChannelToUserId, openGroupChannelToUserIds} from 'actions/channel_actions';
 import {loadStatusesForProfilesList} from 'actions/status_actions.jsx';
@@ -82,8 +80,8 @@ const makeMapStateToProps = () => {
             users = getProfilesInCurrentTeam(state);
         }
 
-        const filteredGroupChannels = filterGroupChannels(getChannelsWithUserProfiles(state), searchTerm) as Props['groupChannels'];
-        const myDirectChannels = filterDirectChannels(getAllChannels(state), currentUserId) as Props['myDirectChannels'];
+        const filteredGroupChannels = filterGroupChannels(getChannelsWithUserProfiles(state), searchTerm);
+        const myDirectChannels = filterDirectChannels(getAllChannels(state), currentUserId);
 
         let recentDMUsers = myDirectChannels.reduce((results, channel) => {
             if (!channel.last_post_at) {
@@ -129,7 +127,7 @@ const filterGroupChannels = memoizeResult((channels: GroupChannel[], term: strin
     });
 });
 
-const filterDirectChannels = memoizeResult((channels: RelationOneToOne<Channel, Channel>, userId: string) => {
+const filterDirectChannels = memoizeResult((channels: Record<string, Channel>, userId: string) => {
     return Object.values(channels).filter((channel) => (
         channel.type === Constants.DM_CHANNEL &&
         channel.name.includes(userId)

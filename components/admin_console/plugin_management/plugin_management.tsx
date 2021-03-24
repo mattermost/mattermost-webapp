@@ -148,11 +148,11 @@ type PluginStatus = {
     description: string;
     version: string;
     name: string;
-    instances: Array<any>;
+    instances: any[];
     settings_schema?: {
         header: string;
         footer: string;
-        settings?: Array<unknown>;
+        settings?: unknown[];
     };
 }
 
@@ -386,18 +386,6 @@ const PluginItem = ({
         </div>
     );
 };
-
-interface PluginSettings {
-    Enable: boolean;
-    EnableUploads: boolean;
-    AllowInsecureDownloadUrl: boolean;
-    EnableMarketplace: boolean;
-    EnableRemoteMarketplace: boolean;
-    AutomaticPrepackagedPlugins: boolean;
-    MarketplaceUrl: string;
-    RequirePluginSignature: boolean;
-    isDisabled: boolean;
-}
 
 type Props = BaseProps & {
     config: DeepPartial<AdminConfig>;
@@ -915,15 +903,13 @@ export default class PluginManagement extends AdminSettings<Props, State> {
         } else {
             const showInstances = plugins.some((pluginStatus) => pluginStatus.instances.length > 1);
             plugins.sort((a, b) => {
-                if (a.name < b.name) {
-                    return -1;
-                } else if (a.name > b.name) {
-                    return 1;
+                const nameCompare = a.name.localeCompare(b.name);
+                if (nameCompare !== 0) {
+                    return nameCompare;
                 }
 
-                return 0;
+                return a.id.localeCompare(b.id);
             });
-
             pluginsList = plugins.map((pluginStatus: PluginStatus) => {
                 const p = this.props.plugins[pluginStatus.id];
                 const hasSettings = Boolean(p && p.settings_schema && (p.settings_schema.header || p.settings_schema.footer || (p.settings_schema.settings && p.settings_schema.settings.length > 0)));

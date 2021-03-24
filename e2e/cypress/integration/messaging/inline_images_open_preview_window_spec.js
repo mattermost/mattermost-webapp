@@ -18,16 +18,16 @@ describe('Messaging', () => {
             cy.visit(`/${team.name}/channels/${channel.name}`);
         });
     });
+
     it('MM-T187 Inline markdown images open preview window', () => {
-        // # Enable 'Show markdown preview option in message input box' setting in Account Settings > Advanced
-        cy.findAllByLabelText('main menu').should('be.visible').click();
-        cy.findByText('Account Settings').click();
-        cy.get('#accountSettingsModal').should('be.visible').within(() => {
-            cy.findByText('Advanced').click();
-            cy.findByText('Preview Pre-release Features').should('be.visible').click();
-            cy.get('#advancedPreviewFeaturesmarkdown_preview').check().should('be.checked');
-            cy.findByText('Save').click();
-            cy.findAllByLabelText('Close').first().click();
+        // # Open 'Advanced' section of 'Account Settings' modal
+        cy.uiOpenAccountSettingsModal('Advanced').within(() => {
+            // # Open 'Preview Pre-release Features' setting and check 'Show markdown preview option in message input box'
+            cy.findByRole('heading', {name: 'Preview Pre-release Features'}).should('be.visible').click();
+            cy.findByRole('checkbox', {name: 'Show markdown preview option in message input box'}).click().should('be.checked');
+
+            // # Save and close the modal
+            cy.uiSaveAndClose();
         });
 
         // # Post the image link to the channel

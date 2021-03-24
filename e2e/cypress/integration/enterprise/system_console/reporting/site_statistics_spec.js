@@ -31,7 +31,7 @@ describe('System Console > Site Statistics', () => {
         cy.apiPatchMe({locale: 'en'});
     });
 
-    it('MM-T904_1 Site Statistics displays expected content categories', () => {
+    it('MM-T904 Site Statistics displays expected content categories', () => {
         // # Visit site statistics page.
         cy.visit('/admin_console/reporting/system_analytics');
 

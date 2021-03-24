@@ -29,7 +29,7 @@ describe('Messaging - Opening a private channel using keyboard shortcuts', () =>
             // # Type the first letter of a private channel in the "Switch Channels" modal message box
             // # Use up/down arrow keys to highlight a private channel
             // # Press ENTER
-            cy.get('#quickSwitchInput').type('P').type('{downarrow}').type('{uparrow}').type('{enter}');
+            cy.findByRole('textbox', {name: 'quick switch input'}).type('P').type('{downarrow}').type('{uparrow}').type('{enter}');
 
             // * Private channel opens
             cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'Private channel');

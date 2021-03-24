@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {Route, Switch} from 'react-router-dom';
+
 import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import logoImage from 'images/logo.png';
@@ -30,15 +31,15 @@ type Props = {
     ldapLoginFieldName?: string;
     passwordConfig?: PasswordConfig;
     match: {
-        url: string
-    },
+        url: string;
+    };
     actions: {
         switchLdapToEmail: (ldapPassword: string, email: string, emailPassword: string, mfaCode?: string) => ActionFunc;
-    },
+    };
 }
 
 export default class ClaimController extends React.PureComponent<Props> {
-    render() : JSX.Element {
+    render(): JSX.Element {
         const email = (new URLSearchParams(this.props.location.search)).get('email');
         const newType = (new URLSearchParams(this.props.location.search)).get('new_type');
         const currentType = (new URLSearchParams(this.props.location.search)).get('old_type');

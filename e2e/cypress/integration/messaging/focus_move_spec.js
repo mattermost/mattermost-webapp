@@ -35,7 +35,7 @@ function verifyFocusInAddChannelMemberModal() {
     cy.get('#selectItems input').should('have.value', 'A');
 
     // # Click anywhere in the modal that is not on a field that can take focus
-    cy.get('#channelInviteModalLabel').click();
+    cy.get('.channel-switcher__header').click();
 
     // * Note the focus has been removed from the search box
     cy.get('#selectItems input').should('not.be.focused');
@@ -113,7 +113,7 @@ describe('Messaging', () => {
         cy.get('#quickSwitchHint').should('be.visible');
 
         //# Type channel name 'Off-Topic' and select it
-        cy.get('#quickSwitchInput').type('Off-Topic').wait(TIMEOUTS.HALF_SEC).type('{enter}');
+        cy.findByRole('textbox', {name: 'quick switch input'}).type('Off-Topic').wait(TIMEOUTS.HALF_SEC).type('{enter}');
 
         //* Verify that it redirected into selected channel 'Off-Topic'
         cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'Off-Topic');

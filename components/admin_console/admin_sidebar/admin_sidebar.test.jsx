@@ -252,13 +252,13 @@ describe('components/AdminSidebar', () => {
                 LDAPGroups: 'true',
                 LDAP: 'true',
                 Cluster: 'true',
-                Metrics: 'true',
                 SAML: 'true',
                 Compliance: 'true',
                 CustomTermsOfService: 'true',
                 MessageExport: 'true',
                 Elasticsearch: 'true',
                 CustomPermissionsSchemes: 'true',
+                OpenId: 'true',
             },
             config: {
                 ExperimentalSettings: {
@@ -267,6 +267,21 @@ describe('components/AdminSidebar', () => {
                 PluginSettings: {
                     Enable: true,
                     EnableUploads: true,
+                },
+                GoogleSettings: {
+                    Id: 'googleID',
+                    Secret: 'googleSecret',
+                    Scope: 'scope',
+                },
+                GitLabSettings: {
+                    Id: 'gitlabID',
+                    Secret: 'gitlabSecret',
+                    Scope: 'scope',
+                },
+                Office365Settings: {
+                    Id: 'office365ID',
+                    Secret: 'office365Secret',
+                    Scope: 'scope',
                 },
             },
             adminDefinition: AdminDefinition,
@@ -291,6 +306,32 @@ describe('components/AdminSidebar', () => {
             onFilterChange: jest.fn(),
             actions: {
                 getPlugins: jest.fn(),
+            },
+            consoleAccess: {
+                read: {
+                    about: true,
+                    reporting: true,
+                    user_management: true,
+                    environment: true,
+                    site_configuration: true,
+                    authentication: true,
+                    plugins: true,
+                    integrations: true,
+                    compliance: true,
+                    experimental: true,
+                },
+                write: {
+                    about: true,
+                    reporting: true,
+                    user_management: true,
+                    environment: true,
+                    site_configuration: true,
+                    authentication: true,
+                    plugins: true,
+                    integrations: true,
+                    compliance: true,
+                    experimental: true,
+                },
             },
         };
 

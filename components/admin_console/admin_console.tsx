@@ -12,6 +12,7 @@ import {Role} from 'mattermost-redux/types/roles';
 import {ConsoleAccess} from 'mattermost-redux/types/admin';
 import {Dictionary} from 'mattermost-redux/types/utilities';
 import {CloudState} from 'mattermost-redux/types/cloud';
+import {Team} from 'mattermost-redux/types/teams';
 
 import AnnouncementBar from 'components/announcement_bar';
 import SystemNotice from 'components/system_notice';
@@ -19,6 +20,8 @@ import ModalController from 'components/modal_controller';
 
 import SchemaAdminSettings from 'components/admin_console/schema_admin_settings';
 import DiscardChangesModal from 'components/discard_changes_modal';
+
+import BackstageNavbar from 'components/backstage/components/backstage_navbar';
 
 import AdminSidebar from './admin_sidebar';
 import Highlight from './highlight';
@@ -38,6 +41,7 @@ type Props = {
     currentUserHasAnAdminRole: boolean;
     consoleAccess: ConsoleAccess;
     cloud: CloudState;
+    team: Team;
     actions: {
         getConfig: () => ActionFunc;
         getEnvironmentConfig: () => ActionFunc;
@@ -66,11 +70,13 @@ type ExtraProps = {
     roles?: Dictionary<Role>;
     editRole?: (role: Role) => void;
     updateConfig?: (config: AdminConfig) => ActionFunc;
+    cloud: CloudState;
+    isCurrentUserSystemAdmin: boolean;
 }
 
 type Item = {
-    isHidden?: (config?: Record<string, any>, state?: Record<string, any>, license?: Record<string, any>, buildEnterpriseReady?: boolean, consoleAccess?: ConsoleAccess, cloud?: CloudState) => boolean;
-    isDisabled?: (config?: Record<string, any>, state?: Record<string, any>, license?: Record<string, any>, buildEnterpriseReady?: boolean, consoleAccess?: ConsoleAccess, cloud?: CloudState) => boolean;
+    isHidden?: (config?: Record<string, any>, state?: Record<string, any>, license?: Record<string, any>, buildEnterpriseReady?: boolean, consoleAccess?: ConsoleAccess, cloud?: CloudState, isCurrentUserSystemAdmin?: boolean) => boolean;
+    isDisabled?: (config?: Record<string, any>, state?: Record<string, any>, license?: Record<string, any>, buildEnterpriseReady?: boolean, consoleAccess?: ConsoleAccess, cloud?: CloudState, isCurrentUserSystemAdmin?: boolean) => boolean;
     schema: Record<string, any>;
     url: string;
 }
@@ -111,7 +117,7 @@ export default class AdminConsole extends React.PureComponent<Props, State> {
     }
 
     private renderRoutes = (extraProps: ExtraProps) => {
-        const {adminDefinition, config, license, buildEnterpriseReady, consoleAccess, cloud} = this.props;
+        const {adminDefinition, config, license, buildEnterpriseReady, consoleAccess, cloud, isCurrentUserSystemAdmin} = this.props;
 
         const schemas: Item[] = Object.values(adminDefinition).reduce((acc, section) => {
             let items: Item[] = [];
@@ -120,7 +126,7 @@ export default class AdminConsole extends React.PureComponent<Props, State> {
             Object.entries(section).find(([key, value]) => {
                 if (key === 'isHidden') {
                     if (typeof value === 'function') {
-                        isSectionHidden = value(config, this.state, license, buildEnterpriseReady, consoleAccess, cloud);
+                        isSectionHidden = value(config, this.state, license, buildEnterpriseReady, consoleAccess, cloud, isCurrentUserSystemAdmin);
                     } else {
                         isSectionHidden = Boolean(value);
                     }
@@ -138,7 +144,7 @@ export default class AdminConsole extends React.PureComponent<Props, State> {
 
         const schemaRoutes = schemas.map((item: Item, index: number) => {
             if (typeof item.isHidden !== 'undefined') {
-                const isHidden = (typeof item.isHidden === 'function') ? item.isHidden(config, this.state, license, buildEnterpriseReady, consoleAccess, cloud) : Boolean(item.isHidden);
+                const isHidden = (typeof item.isHidden === 'function') ? item.isHidden(config, this.state, license, buildEnterpriseReady, consoleAccess, cloud, isCurrentUserSystemAdmin) : Boolean(item.isHidden);
                 if (isHidden) {
                     return false;
                 }
@@ -147,7 +153,7 @@ export default class AdminConsole extends React.PureComponent<Props, State> {
             let isItemDisabled: boolean;
 
             if (typeof item.isDisabled === 'function') {
-                isItemDisabled = item.isDisabled(config, this.state, license, buildEnterpriseReady, consoleAccess, cloud);
+                isItemDisabled = item.isDisabled(config, this.state, license, buildEnterpriseReady, consoleAccess, cloud, isCurrentUserSystemAdmin);
             } else {
                 isItemDisabled = Boolean(item.isDisabled);
             }
@@ -237,6 +243,8 @@ export default class AdminConsole extends React.PureComponent<Props, State> {
             roles,
             editRole,
             updateConfig,
+            cloud: this.props.cloud,
+            isCurrentUserSystemAdmin: this.props.isCurrentUserSystemAdmin,
         };
         return (
             <div
@@ -244,6 +252,9 @@ export default class AdminConsole extends React.PureComponent<Props, State> {
                 id='adminConsoleWrapper'
             >
                 <AnnouncementBar/>
+                <BackstageNavbar
+                    team={this.props.team}
+                />
                 <SystemNotice/>
                 <AdminSidebar onFilterChange={this.onFilterChange}/>
                 <div className='admin-console'>

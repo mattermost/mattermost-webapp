@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/widgets/links/NotifyLink should match snapshot 1`] = `
+<NotifyLink>
+  <button
+    className="btn-link"
+    disabled={false}
+    onClick={[Function]}
+  >
+    Notify the admin.
+  </button>
+</NotifyLink>
+`;

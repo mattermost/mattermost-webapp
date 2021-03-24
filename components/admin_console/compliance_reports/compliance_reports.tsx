@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {FormattedDate, FormattedMessage, FormattedTime} from 'react-intl';
+
 import {Client4} from 'mattermost-redux/client';
 import {Compliance} from 'mattermost-redux/types/compliance';
 import {UserProfile} from 'mattermost-redux/types/users';
@@ -48,7 +49,7 @@ type Props = {
         /*
             * Function to save compliance reports
             */
-        createComplianceReport: (job: Partial<Compliance>) => Promise<{data: Compliance, error?: Error}>;
+        createComplianceReport: (job: Partial<Compliance>) => Promise<{data: Compliance; error?: Error}>;
     };
 }
 

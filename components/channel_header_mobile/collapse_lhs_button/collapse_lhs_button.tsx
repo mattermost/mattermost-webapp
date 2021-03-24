@@ -9,11 +9,11 @@ import MenuIcon from 'components/widgets/icons/menu_icon';
 
 type Props = {
     actions: {
-        toggleLhs: (e?:React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
-    }
+        toggleLhs: (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+    };
 }
 
-const CollapseLhsButton:React.FunctionComponent<Props> = (props: Props) => (
+const CollapseLhsButton: React.FunctionComponent<Props> = (props: Props) => (
     <button
         key='navbar-toggle-sidebar'
         type='button'

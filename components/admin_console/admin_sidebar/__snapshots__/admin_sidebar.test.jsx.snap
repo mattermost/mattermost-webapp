@@ -20,6 +20,7 @@ exports[`components/AdminSidebar Plugins should filter plugins 1`] = `
       onChange={[Function]}
       onClear={[Function]}
       placeholder="Find settings"
+      tooltipPosition="bottom"
       type="text"
       value="autolink"
     />
@@ -98,6 +99,7 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
       onChange={[Function]}
       onClear={[Function]}
       placeholder="Find settings"
+      tooltipPosition="bottom"
       type="text"
       value=""
     />
@@ -147,6 +149,7 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               name="plugins/plugin_management"
               parentLink=""
               subsection={false}
+              tag=""
               title={
                 <FormattedMessage
                   defaultMessage="Plugin Management"
@@ -189,6 +192,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
       onChange={[Function]}
       onClear={[Function]}
       placeholder="Find settings"
+      tooltipPosition="bottom"
       type="text"
       value=""
     />
@@ -238,6 +242,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               name="about/license"
               parentLink=""
               subsection={false}
+              tag=""
               title={
                 <FormattedMessage
                   defaultMessage="Edition and License"
@@ -265,6 +270,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               name="reporting/system_analytics"
               parentLink=""
               subsection={false}
+              tag=""
               title={
                 <FormattedMessage
                   defaultMessage="Site Statistics"
@@ -278,6 +284,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               name="reporting/team_statistics"
               parentLink=""
               subsection={false}
+              tag=""
               title={
                 <FormattedMessage
                   defaultMessage="Team Statistics"
@@ -291,6 +298,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               name="reporting/server_logs"
               parentLink=""
               subsection={false}
+              tag=""
               title={
                 <FormattedMessage
                   defaultMessage="Server Logs"
@@ -318,6 +326,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               name="environment/web_server"
               parentLink=""
               subsection={false}
+              tag=""
               title={
                 <FormattedMessage
                   defaultMessage="Web Server"
@@ -331,6 +340,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               name="environment/database"
               parentLink=""
               subsection={false}
+              tag=""
               title={
                 <FormattedMessage
                   defaultMessage="Database"
@@ -344,6 +354,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               name="environment/file_storage"
               parentLink=""
               subsection={false}
+              tag=""
               title={
                 <FormattedMessage
                   defaultMessage="File Storage"
@@ -357,6 +368,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               name="environment/image_proxy"
               parentLink=""
               subsection={false}
+              tag=""
               title={
                 <FormattedMessage
                   defaultMessage="Image Proxy"
@@ -370,6 +382,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               name="environment/smtp"
               parentLink=""
               subsection={false}
+              tag=""
               title={
                 <FormattedMessage
                   defaultMessage="SMTP"
@@ -383,6 +396,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               name="environment/push_notification_server"
               parentLink=""
               subsection={false}
+              tag=""
               title={
                 <FormattedMessage
                   defaultMessage="Push Notification Server"
@@ -396,6 +410,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               name="environment/rate_limiting"
               parentLink=""
               subsection={false}
+              tag=""
               title={
                 <FormattedMessage
                   defaultMessage="Rate Limiting"
@@ -409,6 +424,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               name="environment/logging"
               parentLink=""
               subsection={false}
+              tag=""
               title={
                 <FormattedMessage
                   defaultMessage="Logging"
@@ -422,10 +438,25 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               name="environment/session_lengths"
               parentLink=""
               subsection={false}
+              tag=""
               title={
                 <FormattedMessage
                   defaultMessage="Session Lengths"
                   id="admin.sidebar.sessionLengths"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="environment.metrics"
+              key="environment.metrics"
+              name="environment/performance_monitoring"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="Performance Monitoring"
+                  id="admin.sidebar.metrics"
                 />
               }
             />
@@ -435,6 +466,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               name="environment/developer"
               parentLink=""
               subsection={false}
+              tag=""
               title={
                 <FormattedMessage
                   defaultMessage="Developer"
@@ -462,6 +494,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               name="authentication/signup"
               parentLink=""
               subsection={false}
+              tag=""
               title={
                 <FormattedMessage
                   defaultMessage="Signup"
@@ -475,6 +508,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               name="authentication/email"
               parentLink=""
               subsection={false}
+              tag=""
               title={
                 <FormattedMessage
                   defaultMessage="Email"
@@ -488,6 +522,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               name="authentication/password"
               parentLink=""
               subsection={false}
+              tag=""
               title={
                 <FormattedMessage
                   defaultMessage="Password"
@@ -501,6 +536,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               name="authentication/mfa"
               parentLink=""
               subsection={false}
+              tag=""
               title={
                 <FormattedMessage
                   defaultMessage="MFA"
@@ -514,6 +550,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               name="authentication/gitlab"
               parentLink=""
               subsection={false}
+              tag=""
               title={
                 <FormattedMessage
                   defaultMessage="GitLab"
@@ -541,6 +578,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               name="plugins/plugin_management"
               parentLink=""
               subsection={false}
+              tag=""
               title={
                 <FormattedMessage
                   defaultMessage="Plugin Management"
@@ -575,6 +613,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               name="integrations/integration_management"
               parentLink=""
               subsection={false}
+              tag=""
               title={
                 <FormattedMessage
                   defaultMessage="Integration Management"
@@ -588,6 +627,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               name="integrations/bot_accounts"
               parentLink=""
               subsection={false}
+              tag=""
               title={
                 <FormattedMessage
                   defaultMessage="Bot Accounts"
@@ -601,6 +641,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               name="integrations/gif"
               parentLink=""
               subsection={false}
+              tag=""
               title={
                 <FormattedMessage
                   defaultMessage="GIF (Beta)"
@@ -614,6 +655,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               name="integrations/cors"
               parentLink=""
               subsection={false}
+              tag=""
               title={
                 <FormattedMessage
                   defaultMessage="CORS"
@@ -641,6 +683,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               name="experimental/features"
               parentLink=""
               subsection={false}
+              tag=""
               title={
                 <FormattedMessage
                   defaultMessage="Features"
@@ -654,6 +697,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               name="experimental/feature_flags"
               parentLink=""
               subsection={false}
+              tag=""
               title={
                 <FormattedMessage
                   defaultMessage="Feature Flags"
@@ -667,6 +711,7 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               name="experimental/blevesearch"
               parentLink=""
               subsection={false}
+              tag=""
               title={
                 <FormattedMessage
                   defaultMessage="Bleve"
@@ -702,6 +747,7 @@ exports[`components/AdminSidebar should match snapshot, no access 1`] = `
       onChange={[Function]}
       onClear={[Function]}
       placeholder="Find settings"
+      tooltipPosition="bottom"
       type="text"
       value=""
     />
@@ -758,6 +804,7 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
       onChange={[Function]}
       onClear={[Function]}
       placeholder="Find settings"
+      tooltipPosition="bottom"
       type="text"
       value=""
     />
@@ -814,6 +861,7 @@ exports[`components/AdminSidebar should match snapshot, render plugins without a
       onChange={[Function]}
       onClear={[Function]}
       placeholder="Find settings"
+      tooltipPosition="bottom"
       type="text"
       value=""
     />
@@ -870,6 +918,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
       onChange={[Function]}
       onClear={[Function]}
       placeholder="Find settings"
+      tooltipPosition="bottom"
       type="text"
       value=""
     />
@@ -899,7 +948,664 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
       >
         <ul
           className="nav nav-pills nav-stacked"
-        />
+        >
+          <AdminSidebarCategory
+            definitionKey="about"
+            icon="fa-info-circle"
+            key="about"
+            parentLink="/admin_console"
+            sectionClass=""
+            title={
+              <FormattedMessage
+                defaultMessage="About"
+                id="admin.sidebar.about"
+              />
+            }
+          >
+            <AdminSidebarSection
+              definitionKey="about.license"
+              key="about.license"
+              name="about/license"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="Edition and License"
+                  id="admin.sidebar.license"
+                />
+              }
+            />
+          </AdminSidebarCategory>
+          <AdminSidebarCategory
+            definitionKey="reporting"
+            icon="fa-bar-chart"
+            key="reporting"
+            parentLink="/admin_console"
+            sectionClass=""
+            title={
+              <FormattedMessage
+                defaultMessage="Reporting"
+                id="admin.sidebar.reporting"
+              />
+            }
+          >
+            <AdminSidebarSection
+              definitionKey="reporting.system_analytics"
+              key="reporting.system_analytics"
+              name="reporting/system_analytics"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="Site Statistics"
+                  id="admin.sidebar.siteStatistics"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="reporting.team_statistics"
+              key="reporting.team_statistics"
+              name="reporting/team_statistics"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="Team Statistics"
+                  id="admin.sidebar.teamStatistics"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="reporting.server_logs"
+              key="reporting.server_logs"
+              name="reporting/server_logs"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="Server Logs"
+                  id="admin.sidebar.logs"
+                />
+              }
+            />
+          </AdminSidebarCategory>
+          <AdminSidebarCategory
+            definitionKey="environment"
+            icon="fa-server"
+            key="environment"
+            parentLink="/admin_console"
+            sectionClass=""
+            title={
+              <FormattedMessage
+                defaultMessage="Environment"
+                id="admin.sidebar.environment"
+              />
+            }
+          >
+            <AdminSidebarSection
+              definitionKey="environment.web_server"
+              key="environment.web_server"
+              name="environment/web_server"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="Web Server"
+                  id="admin.sidebar.webServer"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="environment.database"
+              key="environment.database"
+              name="environment/database"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="Database"
+                  id="admin.sidebar.database"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="environment.elasticsearch"
+              key="environment.elasticsearch"
+              name="environment/elasticsearch"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="Elasticsearch"
+                  id="admin.sidebar.elasticsearch"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="environment.storage"
+              key="environment.storage"
+              name="environment/file_storage"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="File Storage"
+                  id="admin.sidebar.fileStorage"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="environment.image_proxy"
+              key="environment.image_proxy"
+              name="environment/image_proxy"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="Image Proxy"
+                  id="admin.sidebar.imageProxy"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="environment.smtp"
+              key="environment.smtp"
+              name="environment/smtp"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="SMTP"
+                  id="admin.sidebar.smtp"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="environment.push_notification_server"
+              key="environment.push_notification_server"
+              name="environment/push_notification_server"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="Push Notification Server"
+                  id="admin.sidebar.pushNotificationServer"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="environment.high_availability"
+              key="environment.high_availability"
+              name="environment/high_availability"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="High Availability"
+                  id="admin.sidebar.highAvailability"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="environment.rate_limiting"
+              key="environment.rate_limiting"
+              name="environment/rate_limiting"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="Rate Limiting"
+                  id="admin.sidebar.rateLimiting"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="environment.logging"
+              key="environment.logging"
+              name="environment/logging"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="Logging"
+                  id="admin.sidebar.logging"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="environment.session_lengths"
+              key="environment.session_lengths"
+              name="environment/session_lengths"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="Session Lengths"
+                  id="admin.sidebar.sessionLengths"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="environment.metrics"
+              key="environment.metrics"
+              name="environment/performance_monitoring"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="Performance Monitoring"
+                  id="admin.sidebar.metrics"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="environment.developer"
+              key="environment.developer"
+              name="environment/developer"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="Developer"
+                  id="admin.sidebar.developer"
+                />
+              }
+            />
+          </AdminSidebarCategory>
+          <AdminSidebarCategory
+            definitionKey="authentication"
+            icon="fa-shield"
+            key="authentication"
+            parentLink="/admin_console"
+            sectionClass=""
+            title={
+              <FormattedMessage
+                defaultMessage="Authentication"
+                id="admin.sidebar.authentication"
+              />
+            }
+          >
+            <AdminSidebarSection
+              definitionKey="authentication.signup"
+              key="authentication.signup"
+              name="authentication/signup"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="Signup"
+                  id="admin.sidebar.signup"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="authentication.email"
+              key="authentication.email"
+              name="authentication/email"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="Email"
+                  id="admin.sidebar.email"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="authentication.password"
+              key="authentication.password"
+              name="authentication/password"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="Password"
+                  id="admin.sidebar.password"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="authentication.mfa"
+              key="authentication.mfa"
+              name="authentication/mfa"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="MFA"
+                  id="admin.sidebar.mfa"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="authentication.ldap"
+              key="authentication.ldap"
+              name="authentication/ldap"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="AD/LDAP"
+                  id="admin.sidebar.ldap"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="authentication.saml"
+              key="authentication.saml"
+              name="authentication/saml"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="SAML 2.0"
+                  id="admin.sidebar.saml"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="authentication.oauth"
+              key="authentication.oauth"
+              name="authentication/oauth"
+              parentLink=""
+              subsection={false}
+              tag={
+                <FormattedMessage
+                  defaultMessage="deprecated"
+                  id="admin.sidebar.oauth.tag"
+                />
+              }
+              title={
+                <FormattedMessage
+                  defaultMessage="OAuth 2.0"
+                  id="admin.sidebar.oauth"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="authentication.openid"
+              key="authentication.openid"
+              name="authentication/openid"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="OpenID Connect"
+                  id="admin.sidebar.openid"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="authentication.guest_access"
+              key="authentication.guest_access"
+              name="authentication/guest_access"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="Guest Access (Beta)"
+                  id="admin.sidebar.guest_access"
+                />
+              }
+            />
+          </AdminSidebarCategory>
+          <AdminSidebarCategory
+            definitionKey="plugins"
+            icon="fa-plug"
+            key="plugins"
+            parentLink="/admin_console"
+            sectionClass=""
+            title={
+              <FormattedMessage
+                defaultMessage="Plugins (Beta)"
+                id="admin.sidebar.plugins"
+              />
+            }
+          >
+            <AdminSidebarSection
+              definitionKey="plugins.plugin_management"
+              key="plugins.plugin_management"
+              name="plugins/plugin_management"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="Plugin Management"
+                  id="admin.plugins.pluginManagement"
+                />
+              }
+            />
+            <AdminSidebarSection
+              key="custompluginplugin_0"
+              name="plugins/plugin_plugin_0"
+              parentLink=""
+              subsection={false}
+              title="Plugin 0"
+            />
+          </AdminSidebarCategory>
+          <AdminSidebarCategory
+            definitionKey="integrations"
+            icon="fa-sitemap"
+            key="integrations"
+            parentLink="/admin_console"
+            sectionClass=""
+            title={
+              <FormattedMessage
+                defaultMessage="Integrations"
+                id="admin.sidebar.integrations"
+              />
+            }
+          >
+            <AdminSidebarSection
+              definitionKey="integrations.integration_management"
+              key="integrations.integration_management"
+              name="integrations/integration_management"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="Integration Management"
+                  id="admin.integrations.integrationManagement"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="integrations.bot_accounts"
+              key="integrations.bot_accounts"
+              name="integrations/bot_accounts"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="Bot Accounts"
+                  id="admin.integrations.botAccounts"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="integrations.gif"
+              key="integrations.gif"
+              name="integrations/gif"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="GIF (Beta)"
+                  id="admin.sidebar.gif"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="integrations.cors"
+              key="integrations.cors"
+              name="integrations/cors"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="CORS"
+                  id="admin.sidebar.cors"
+                />
+              }
+            />
+          </AdminSidebarCategory>
+          <AdminSidebarCategory
+            definitionKey="compliance"
+            icon="fa-list"
+            key="compliance"
+            parentLink="/admin_console"
+            sectionClass=""
+            title={
+              <FormattedMessage
+                defaultMessage="Compliance"
+                id="admin.sidebar.compliance"
+              />
+            }
+          >
+            <AdminSidebarSection
+              definitionKey="compliance.data_retention"
+              key="compliance.data_retention"
+              name="compliance/data_retention"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="Data Retention Policy"
+                  id="admin.sidebar.dataRetentionPolicy"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="compliance.message_export"
+              key="compliance.message_export"
+              name="compliance/export"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="Compliance Export (Beta)"
+                  id="admin.sidebar.complianceExport"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="compliance.audits"
+              key="compliance.audits"
+              name="compliance/monitoring"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="Compliance Monitoring"
+                  id="admin.sidebar.complianceMonitoring"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="compliance.custom_terms_of_service"
+              key="compliance.custom_terms_of_service"
+              name="compliance/custom_terms_of_service"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="Custom Terms of Service (Beta)"
+                  id="admin.sidebar.customTermsOfService"
+                />
+              }
+            />
+          </AdminSidebarCategory>
+          <AdminSidebarCategory
+            definitionKey="experimental"
+            icon="fa-flask"
+            key="experimental"
+            parentLink="/admin_console"
+            sectionClass=""
+            title={
+              <FormattedMessage
+                defaultMessage="Experimental"
+                id="admin.sidebar.experimental"
+              />
+            }
+          >
+            <AdminSidebarSection
+              definitionKey="experimental.experimental_features"
+              key="experimental.experimental_features"
+              name="experimental/features"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="Features"
+                  id="admin.sidebar.experimentalFeatures"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="experimental.feature_flags"
+              key="experimental.feature_flags"
+              name="experimental/feature_flags"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="Feature Flags"
+                  id="admin.feature_flags.title"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="experimental.bleve"
+              key="experimental.bleve"
+              name="experimental/blevesearch"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="Bleve"
+                  id="admin.sidebar.blevesearch"
+                />
+              }
+            />
+          </AdminSidebarCategory>
+        </ul>
       </Highlight>
     </div>
   </Scrollbars>
@@ -926,6 +1632,7 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
       onChange={[Function]}
       onClear={[Function]}
       placeholder="Find settings"
+      tooltipPosition="bottom"
       type="text"
       value=""
     />

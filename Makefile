@@ -92,10 +92,7 @@ stop: ## Stops webpack
 ifeq ($(OS),Windows_NT)
 	wmic process where "Caption='node.exe' and CommandLine like '%webpack%'" call terminate
 else
-	@for PROCID in $$(ps -ef | grep "[n]ode.*[w]ebpack" | awk '{ print $$2 }'); do \
-		echo stopping webpack watch $$PROCID; \
-		kill $$PROCID; \
-	done
+	@pkill -f webpack || true
 endif
 
 restart: | stop run ## Restarts the app

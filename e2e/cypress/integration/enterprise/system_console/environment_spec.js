@@ -7,12 +7,14 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @enterprise
+// Stage: @prod
+// Group: @enterprise @not_cloud
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 describe('Environment', () => {
     before(() => {
+        cy.shouldNotRunOnCloudEdition();
         cy.apiInitSetup();
     });
 

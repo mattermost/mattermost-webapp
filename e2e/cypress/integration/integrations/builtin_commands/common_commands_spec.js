@@ -125,7 +125,7 @@ describe('Integrations', () => {
 
     it('MM-T680 /help', () => {
         loginAndVisitChannel(user1, testChannelUrl, {
-            onBeforeLoad: (win) => {
+            onLoad: (win) => {
                 cy.stub(win, 'open');
             },
         });
@@ -155,10 +155,10 @@ describe('Integrations', () => {
         cy.postMessage('/leave');
 
         // * Verity Off-Topic is not shown in LHS
-        cy.get('#sidebarChannelContainer').should('be.visible').should('not.contain', 'Off-Topic');
+        cy.get('#sidebar-left').should('be.visible').should('not.contain', 'Off-Topic');
 
         // * Verify user is redirected to Town Square
-        cy.get('#sidebarChannelContainer').should('be.visible').should('contain', 'Town Square');
+        cy.uiGetLhsSection('CHANNELS').find('.active').should('contain', 'Town Square');
         cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'Town Square');
     });
 

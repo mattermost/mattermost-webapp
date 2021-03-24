@@ -219,6 +219,40 @@ const allShortcuts = defineMessages({
             defaultMessage: 'React to last message:\t⌘|Shift|\u29F5',
         },
     },
+    msgMarkdownHeader: {
+        id: t('shortcuts.msgs.markdown.header'),
+        defaultMessage: 'Formatting',
+    },
+    msgMarkdownBold: {
+        default: {
+            id: t('shortcuts.msgs.markdown.bold'),
+            defaultMessage: 'Bold:\tCtrl|B',
+        },
+        mac: {
+            id: t('shortcuts.msgs.markdown.bold.mac'),
+            defaultMessage: 'Bold:\t⌘|B',
+        },
+    },
+    msgMarkdownItalic: {
+        default: {
+            id: t('shortcuts.msgs.markdown.italic'),
+            defaultMessage: 'Italic:\tCtrl|I',
+        },
+        mac: {
+            id: t('shortcuts.msgs.markdown.italic.mac'),
+            defaultMessage: 'Italic:\t⌘|I',
+        },
+    },
+    msgMarkdownLink: {
+        default: {
+            id: t('shortcuts.msgs.markdown.link'),
+            defaultMessage: 'Link:\tCtrl|Alt|K',
+        },
+        mac: {
+            id: t('shortcuts.msgs.markdown.link.mac'),
+            defaultMessage: 'Link:\t⌘|Alt|K',
+        },
+    },
     filesHeader: {
         id: t('shortcuts.files.header'),
         defaultMessage: 'Files',
@@ -411,6 +445,12 @@ class ShortcutsModal extends React.PureComponent {
                                             {renderShortcut(formatMessage(shortcuts.msgCompUsername))}
                                             {renderShortcut(formatMessage(shortcuts.msgCompChannel))}
                                             {renderShortcut(formatMessage(shortcuts.msgCompEmoji))}
+                                        </div>
+                                        <span><strong>{formatMessage(shortcuts.msgMarkdownHeader)}</strong></span>
+                                        <div className='subsection'>
+                                            {renderShortcut(formatMessage(shortcuts.msgMarkdownBold))}
+                                            {renderShortcut(formatMessage(shortcuts.msgMarkdownItalic))}
+                                            {renderShortcut(formatMessage(shortcuts.msgMarkdownLink))}
                                         </div>
                                     </div>
                                 </div>

@@ -8,7 +8,7 @@ import Button from '../button';
 
 type Props = {
     isFollowing: boolean;
-    follow: MouseEventHandler<HTMLButtonElement>,
+    follow: MouseEventHandler<HTMLButtonElement>;
     unFollow: MouseEventHandler<HTMLButtonElement>;
 }
 

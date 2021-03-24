@@ -12,22 +12,6 @@
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
-function markAsFavorite(channelName) {
-    // # Visit the channel
-    cy.get(`#sidebarItem_${channelName}`).click();
-    cy.get('#postListContent').should('be.visible');
-
-    // # Remove from Favorites if already set
-    cy.get('#channelHeaderInfo').then((el) => {
-        if (el.find('#toggleFavorite.active').length) {
-            cy.get('#toggleFavorite').click();
-        }
-    });
-
-    // # mark it as Favorite
-    cy.get('#toggleFavorite').click();
-}
-
 describe('Verify Accessibility Support in Channel Sidebar Navigation', () => {
     let testUser;
     let otherUser;
@@ -70,144 +54,164 @@ describe('Verify Accessibility Support in Channel Sidebar Navigation', () => {
         cy.get('#postListContent').should('be.visible');
     });
 
-    it('MM-T1475 Verify Up & Down Arrow support in Channel Sidebar', () => {
-        // # Mark few channels as Favorites
-        markAsFavorite('off-topic');
-        markAsFavorite('town-square');
-
-        // # Press tab from the Main Menu button
-        cy.get('#headerInfo button').focus().tab({shift: true}).tab().tab();
-
-        // # Press Down Arrow and then Up Arrow
-        cy.get('body').type('{downarrow}{uparrow}');
-
-        // * Verify if Unread Channels section has focus
-        cy.get('#unreadsChannelList').should('have.attr', 'aria-label', 'unreads').and('have.class', 'a11y__section a11y--active a11y--focused');
-
-        // # Press Down Arrow and check the focus
-        cy.get('body').type('{downarrow}');
-
-        // * Verify if Favorite Channels section has focus
-        cy.get('#favoriteChannelList').should('have.attr', 'aria-label', 'favorite channels').and('have.class', 'a11y__section a11y--active a11y--focused');
-
-        // # Press Down Arrow and check the focus
-        cy.get('body').type('{downarrow}');
-
-        // * Verify if Public Channels section has focus
-        cy.get('#publicChannelList').should('have.attr', 'aria-label', 'public channels').and('have.class', 'a11y__section a11y--active a11y--focused');
-
-        // # Press Down Arrow and check the focus
-        cy.get('body').type('{downarrow}');
-
-        // * Verify if Public Channels section has focus
-        cy.get('#privateChannelList').should('have.attr', 'aria-label', 'private channels').and('have.class', 'a11y__section a11y--active a11y--focused');
-
-        // # Press Down Arrow and check the focus
-        cy.get('body').type('{downarrow}');
-
-        // * Verify if Public Channels section has focus
-        cy.get('#directChannelList').should('have.attr', 'aria-label', 'direct messages').and('have.class', 'a11y__section a11y--active a11y--focused');
-    });
-
-    it('MM-T1473 Verify Tab Support in Unreads section', () => {
-        // # Press tab from the Main Menu button
-        cy.get('#headerInfo button').focus().tab({shift: true}).tab().tab();
-
-        // * Verify if focus changes to different channels in Unread section
-        cy.get('#unreadsChannelList .sidebar-item').each((el) => {
-            cy.wrap(el).should('have.class', 'a11y--active a11y--focused').invoke('attr', 'aria-label').should('not.be.empty');
-            cy.focused().tab();
-        });
-    });
-
-    it('MM-T1474 Verify Tab Support in Favorites section', () => {
-        // # Press tab from the Main Menu button
-        cy.get('#headerInfo button').focus().tab({shift: true}).tab().tab();
-        cy.get('#unreadsChannelList .sidebar-item').each(() => {
-            cy.focused().tab();
-        });
-
-        // * Verify if focus changes to different channels in Favorite Channels section
-        cy.get('#favoriteChannelList .sidebar-item').each((el) => {
-            cy.wrap(el).should('have.class', 'a11y--active a11y--focused').invoke('attr', 'aria-label').should('not.be.empty');
-            cy.focused().tab();
-        });
-    });
-
-    it('MM-T1470 Verify Tab Support in Public Channels section', () => {
+    it('MM-T1470 Verify Tab Support in Channels section', () => {
         // # Create some Public Channels
         Cypress._.times(2, () => {
             cy.apiCreateChannel(testTeam.id, 'public', 'public');
         });
 
         // # Wait for few seconds
-        cy.wait(TIMEOUTS.FIVE_SEC);
+        cy.wait(TIMEOUTS.ONE_SEC);
 
         // # Press tab to the Add Public Channel button
-        cy.get('#createPublicChannel').focus().tab({shift: true}).tab().should('have.attr', 'aria-label', 'create a public channel');
+        cy.get('#headerInfo button').focus().tab().tab();
 
-        // * Verify if the Plus button is round when it has focus
-        cy.get('#createPublicChannel').should('have.class', 'a11y--active a11y--focused').and('have.css', 'border-radius', '50%').tab();
+        // * Verify if the Plus button has focus
+        cy.findByRole('button', {name: 'Add Channel Dropdown'}).should('be.focused').and('have.class', 'a11y--active a11y--focused').and('have.css', 'border-radius', '4px').tab();
 
-        // * Verify if focus changes to different channels in Public Channels section
-        cy.get('#publicChannelList .sidebar-item').each((el) => {
-            cy.wrap(el).should('have.class', 'a11y--active a11y--focused').invoke('attr', 'aria-label').should('contain', 'public channel');
+        // * Verify if focus changes to different channels in Unread section
+        cy.get('.SidebarChannel.unread').each((el) => {
+            cy.wrap(el).find('.unread-title').should('have.class', 'a11y--active a11y--focused').invoke('attr', 'aria-label').should('not.be.empty');
             cy.focused().tab();
         });
 
-        // * Verify if focus is on the more public channels
-        cy.get('#sidebarPublicChannelsMore').should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'See more public channels');
-    });
+        cy.focused().tab();
 
-    it('MM-T1471 Verify Tab Support in Private Channels section', () => {
-        // # Create some Private Channels
-        Cypress._.times(2, () => {
-            cy.apiCreateChannel(testTeam.id, 'private', 'private', 'P');
-        });
+        cy.focused().parent().next().find('.SidebarChannel').each((el, i) => {
+            if (i === 0) {
+                cy.focused().findByText('CHANNELS');
+                cy.focused().tab().tab().tab();
+            }
 
-        // # Wait for few seconds
-        cy.wait(TIMEOUTS.FIVE_SEC);
-
-        // # Press tab to the Add Private Channel button
-        cy.get('#createPrivateChannel').focus().tab({shift: true}).tab().should('have.attr', 'aria-label', 'create a private channel');
-
-        // * Verify if the Plus button is round when it has focus
-        cy.get('#createPrivateChannel').should('have.class', 'a11y--active a11y--focused').and('have.css', 'border-radius', '50%').tab();
-
-        // * Verify if focus changes to different channels in Favorite Channels section
-        cy.get('#privateChannelList .sidebar-item').each((el) => {
-            cy.wrap(el).should('have.class', 'a11y--active a11y--focused').invoke('attr', 'aria-label').should('contain', 'private channel');
-            cy.focused().tab();
+            // * Verify if focus changes to different channels in Channels section
+            cy.wrap(el).find('.SidebarLink').should('have.class', 'a11y--active a11y--focused').invoke('attr', 'aria-label').should('not.be.empty');
+            cy.focused().tab().tab();
         });
     });
 
     it('MM-T1472 Verify Tab Support in Direct Messages section', () => {
         // # Trigger DM with a user
-        cy.get('#addDirectChannel').click();
+        cy.uiAddDirectMessage().click();
         cy.get('.more-modal__row.clickable').first().click();
         cy.get('#saveItems').click();
 
         // # Trigger DM with couple of users
-        cy.get('#addDirectChannel').click();
+        cy.uiAddDirectMessage().click();
         cy.get('.more-modal__row.clickable').first().click();
         cy.get('.more-modal__row.clickable').eq(1).click();
         cy.get('#saveItems').click();
 
-        cy.wait(TIMEOUTS.FIVE_SEC);
+        cy.wait(TIMEOUTS.TWO_SEC);
 
-        // # Press tab to the Create DM button
-        cy.get('#addDirectChannel').focus().tab({shift: true}).tab().should('have.attr', 'aria-label', 'write a direct message');
+        // # Press tab to the Create DM button and verify if the Plus button has focus
+        cy.uiAddDirectMessage().
+            focus().
+            tab({shift: true}).tab().
+            should('have.class', 'a11y--active a11y--focused').and('have.css', 'border-radius', '4px').
+            tab({shift: true}).tab({shift: true});
 
-        // * Verify if the Plus button is round when it has focus
-        cy.get('#addDirectChannel').should('have.class', 'a11y--active a11y--focused').and('have.css', 'border-radius', '50%').tab();
+        cy.focused().parent().next().find('.SidebarChannel').each((el, i) => {
+            if (i === 0) {
+                cy.focused().findByText('DIRECT MESSAGES');
+                cy.focused().tab().tab().tab().tab();
+            }
 
-        // * Verify if focus changes to different channels in Direct Messages section
-        cy.get('#directChannelList .sidebar-item').each((el) => {
-            cy.wrap(el).should('have.class', 'a11y--active a11y--focused').invoke('attr', 'aria-label').should('not.be.empty');
+            // * Verify if focus changes to different channels in Direct Messages section
+            cy.wrap(el).find('.SidebarLink').should('have.class', 'a11y--active a11y--focused').invoke('attr', 'aria-label').should('not.be.empty');
+            cy.focused().tab().tab();
+        });
+    });
+
+    it('MM-T1473 Verify Tab Support in Unreads section', () => {
+        // # Press tab from the Main Menu button
+        cy.get('#headerInfo button').focus().tab().tab().tab();
+
+        // * Verify if focus changes to different channels in Unread section
+        cy.get('.SidebarChannel.unread').each((el) => {
+            cy.wrap(el).find('.unread-title').should('have.class', 'a11y--active a11y--focused').invoke('attr', 'aria-label').should('not.be.empty');
             cy.focused().tab();
         });
+    });
 
-        // * Verify if focus is on the more direct messages
-        cy.get('#moreDirectMessage').should('have.class', 'a11y--active a11y--focused').and('have.attr', 'aria-label', 'See more direct messages');
+    it('MM-T1474 Verify Tab Support in Favorites section', () => {
+        // # Mark few channels as Favorites
+        markAsFavorite('off-topic');
+        markAsFavorite('town-square');
+
+        // # Press tab from the Main Menu button down to all unread channels
+        cy.get('#headerInfo button').focus().tab().tab().tab();
+        cy.get('.SidebarChannel.unread').each(() => {
+            cy.focused().tab().tab();
+        });
+
+        // * Verify if focus changes to different channels in Favorite Channels section
+        cy.focused().parent().next().find('.SidebarChannel').each((el, i) => {
+            if (i === 0) {
+                cy.focused().findByText('FAVORITES');
+                cy.focused().tab().tab().tab();
+            }
+
+            cy.wrap(el).find('.SidebarLink').should('have.class', 'a11y--active a11y--focused').invoke('attr', 'aria-label').should('not.be.empty');
+            cy.focused().tab().tab();
+        });
+    });
+
+    it('MM-T1475 Verify Up & Down Arrow support in Channel Sidebar', () => {
+        cy.apiCreateChannel(testTeam.id, 'public', 'Public', 'O');
+        cy.apiCreateChannel(testTeam.id, 'private', 'Private', 'P');
+
+        // # Mark few channels as Favorites
+        markAsFavorite('off-topic');
+        markAsFavorite('town-square');
+
+        // # Press tab from the Main Menu button
+        cy.get('#headerInfo button').focus().tab().tab().tab();
+
+        // # Press Down Arrow and then Up Arrow
+        cy.get('body').type('{downarrow}{uparrow}');
+
+        // * Verify if Unread Channels section has focus
+        cy.uiGetLhsSection('UNREADS').then(beFocused);
+
+        // # Press Down Arrow and check the focus
+        cy.get('body').type('{downarrow}');
+
+        // * Verify if Favorite Channels section has focus
+        cy.uiGetLhsSection('FAVORITES').then(beFocused);
+
+        // # Press Down Arrow and check the focus
+        cy.get('body').type('{downarrow}');
+
+        // * Verify if Public Channels section has focus
+        cy.uiGetLhsSection('CHANNELS').then(beFocused);
+
+        // # Press Down Arrow and check the focus
+        cy.get('body').type('{downarrow}');
+
+        // * Verify if Direct Messages section has focus
+        cy.uiGetLhsSection('DIRECT MESSAGES').then(beFocused);
     });
 });
+
+function markAsFavorite(channelName) {
+    // # Visit the channel
+    cy.get(`#sidebarItem_${channelName}`).click();
+    cy.get('#postListContent').should('be.visible');
+
+    // # Remove from Favorites if already set
+    cy.get('#channelHeaderInfo').then((el) => {
+        if (el.find('#toggleFavorite.active').length) {
+            cy.get('#toggleFavorite').click();
+        }
+    });
+
+    // # mark it as Favorite
+    cy.get('#toggleFavorite').click();
+}
+
+function beFocused(el) {
+    cy.wrap(el).
+        should('have.class', 'a11y__section').
+        and('have.class', 'a11y--focused').
+        and('have.class', 'a11y--active');
+}

@@ -3,6 +3,7 @@
 
 import React, {ChangeEvent} from 'react';
 import {FormattedMessage} from 'react-intl';
+
 import {debounce} from 'mattermost-redux/actions/helpers';
 import {Permissions} from 'mattermost-redux/constants';
 
@@ -98,15 +99,15 @@ type Props = {
         /**
          * Function to log errors
          */
-        logError: (error: {type: string, message: string}) => void;
+        logError: (error: {type: string; message: string}) => void;
     };
 };
 
 type State = {
-    loading: boolean,
-    searching: boolean,
-    showRevokeAllSessionsModal: boolean,
-    term?: string,
+    loading: boolean;
+    searching: boolean;
+    showRevokeAllSessionsModal: boolean;
+    term?: string;
 };
 
 export default class SystemUsers extends React.PureComponent<Props, State> {

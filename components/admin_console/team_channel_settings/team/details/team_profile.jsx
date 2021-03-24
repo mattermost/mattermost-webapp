@@ -31,7 +31,7 @@ export function TeamProfile({team}) {
                     <div className='d-flex'>
                         <div className='large-team-image-col'>
                             <TeamIcon
-                                name={team.display_name}
+                                content={team.display_name}
                                 size='lg'
                                 url={teamIconUrl}
                             />

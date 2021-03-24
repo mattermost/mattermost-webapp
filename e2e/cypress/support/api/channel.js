@@ -8,21 +8,25 @@ import {getRandomId} from '../../utils';
 // https://api.mattermost.com/#tag/channels
 // *****************************************************************************
 
-Cypress.Commands.add('apiCreateChannel', (teamId, name, displayName, type = 'O', purpose = '', header = '', unique = true) => {
+export function createChannelPatch(teamId, name, displayName, type = 'O', purpose = '', header = '', unique = true) {
     const randomSuffix = getRandomId();
 
+    return {
+        team_id: teamId,
+        name: unique ? `${name}-${randomSuffix}` : name,
+        display_name: unique ? `${displayName} ${randomSuffix}` : displayName,
+        type,
+        purpose,
+        header,
+    };
+}
+
+Cypress.Commands.add('apiCreateChannel', (...args) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: '/api/v4/channels',
         method: 'POST',
-        body: {
-            team_id: teamId,
-            name: unique ? `${name}-${randomSuffix}` : name,
-            display_name: unique ? `${displayName} ${randomSuffix}` : displayName,
-            type,
-            purpose,
-            header,
-        },
+        body: createChannelPatch(...args),
     }).then((response) => {
         expect(response.status).to.equal(201);
         return cy.wrap({channel: response.body});
@@ -153,6 +157,17 @@ Cypress.Commands.add('apiAddUserToChannel', (channelId, userId) => {
         },
     }).then((response) => {
         expect(response.status).to.equal(201);
+        return cy.wrap({member: response.body});
+    });
+});
+
+Cypress.Commands.add('apiRemoveUserFromChannel', (channelId, userId) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/channels/' + channelId + '/members/' + userId,
+        method: 'DELETE',
+    }).then((response) => {
+        expect(response.status).to.equal(200);
         return cy.wrap({member: response.body});
     });
 });

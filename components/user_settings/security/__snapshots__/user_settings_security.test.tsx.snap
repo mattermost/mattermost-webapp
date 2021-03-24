@@ -1,0 +1,597 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/user_settings/display/UserSettingsDisplay should match snapshot, enable gitlab 1`] = `
+<div>
+  <div
+    className="modal-header"
+  >
+    <FormattedMessage
+      defaultMessage="Close"
+      id="user.settings.security.close"
+    >
+      <Component />
+    </FormattedMessage>
+    <h4
+      className="modal-title"
+    >
+      <div
+        className="modal-back"
+      >
+        <FormattedMessage
+          defaultMessage="Collapse Icon"
+          id="generic_icons.collapse"
+        >
+          <Component />
+        </FormattedMessage>
+      </div>
+      <FormattedMessage
+        defaultMessage="Security Settings"
+        id="user.settings.security.title"
+      />
+    </h4>
+  </div>
+  <div
+    className="user-settings"
+  >
+    <h3
+      className="tab-header"
+    >
+      <FormattedMessage
+        defaultMessage="Security Settings"
+        id="user.settings.security.title"
+      />
+    </h3>
+    <div
+      className="divider-dark first"
+    />
+    <SettingItemMin
+      section="password"
+      title={
+        <FormattedMessage
+          defaultMessage="Password"
+          id="user.settings.security.password"
+        />
+      }
+      updateSection={[Function]}
+    />
+    <div
+      className="divider-light"
+    />
+    <Connect(MfaSection)
+      active={false}
+      updateSection={[Function]}
+    />
+    <div
+      className="divider-light"
+    />
+    <div
+      className="divider-light"
+    />
+    <Connect(UserAccessTokenSection)
+      active={false}
+      setRequireConfirm={[MockFunction]}
+      updateSection={[Function]}
+      user={
+        Object {
+          "id": "user_id",
+        }
+      }
+    />
+    <div
+      className="divider-light"
+    />
+    <SettingItemMin
+      describe={
+        <FormattedMessage
+          defaultMessage="Email and Password"
+          id="user.settings.security.emailPwd"
+        />
+      }
+      section="signin"
+      title="Sign-in Method"
+      updateSection={[Function]}
+    />
+    <div
+      className="divider-dark"
+    />
+    <br />
+    <ModalToggleButton
+      className="security-links color--link"
+      dialogProps={Object {}}
+      dialogType={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "displayName": "Connect(AccessHistoryModal)",
+          "type": [Function],
+        }
+      }
+      id="viewAccessHistory"
+    >
+      <FormattedMessage
+        defaultMessage="Access History Icon"
+        id="user.settings.security.viewHistory.icon"
+      >
+        <Component />
+      </FormattedMessage>
+      <FormattedMessage
+        defaultMessage="View Access History"
+        id="user.settings.security.viewHistory"
+      />
+    </ModalToggleButton>
+    <ModalToggleButton
+      className="security-links color--link mt-2"
+      dialogProps={Object {}}
+      dialogType={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "displayName": "Connect(ActivityLogModal)",
+          "type": [Function],
+        }
+      }
+      id="viewAndLogOutOfActiveSessions"
+    >
+      <FormattedMessage
+        defaultMessage="Active Sessions Icon"
+        id="user.settings.security.logoutActiveSessions.icon"
+      >
+        <Component />
+      </FormattedMessage>
+      <FormattedMessage
+        defaultMessage="View and Log Out of Active Sessions"
+        id="user.settings.security.logoutActiveSessions"
+      />
+    </ModalToggleButton>
+  </div>
+</div>
+`;
+
+exports[`components/user_settings/display/UserSettingsDisplay should match snapshot, enable google 1`] = `
+<div>
+  <div
+    className="modal-header"
+  >
+    <FormattedMessage
+      defaultMessage="Close"
+      id="user.settings.security.close"
+    >
+      <Component />
+    </FormattedMessage>
+    <h4
+      className="modal-title"
+    >
+      <div
+        className="modal-back"
+      >
+        <FormattedMessage
+          defaultMessage="Collapse Icon"
+          id="generic_icons.collapse"
+        >
+          <Component />
+        </FormattedMessage>
+      </div>
+      <FormattedMessage
+        defaultMessage="Security Settings"
+        id="user.settings.security.title"
+      />
+    </h4>
+  </div>
+  <div
+    className="user-settings"
+  >
+    <h3
+      className="tab-header"
+    >
+      <FormattedMessage
+        defaultMessage="Security Settings"
+        id="user.settings.security.title"
+      />
+    </h3>
+    <div
+      className="divider-dark first"
+    />
+    <SettingItemMin
+      section="password"
+      title={
+        <FormattedMessage
+          defaultMessage="Password"
+          id="user.settings.security.password"
+        />
+      }
+      updateSection={[Function]}
+    />
+    <div
+      className="divider-light"
+    />
+    <Connect(MfaSection)
+      active={false}
+      updateSection={[Function]}
+    />
+    <div
+      className="divider-light"
+    />
+    <div
+      className="divider-light"
+    />
+    <Connect(UserAccessTokenSection)
+      active={false}
+      setRequireConfirm={[MockFunction]}
+      updateSection={[Function]}
+      user={
+        Object {
+          "id": "user_id",
+        }
+      }
+    />
+    <div
+      className="divider-light"
+    />
+    <SettingItemMin
+      describe={
+        <FormattedMessage
+          defaultMessage="Email and Password"
+          id="user.settings.security.emailPwd"
+        />
+      }
+      section="signin"
+      title="Sign-in Method"
+      updateSection={[Function]}
+    />
+    <div
+      className="divider-dark"
+    />
+    <br />
+    <ModalToggleButton
+      className="security-links color--link"
+      dialogProps={Object {}}
+      dialogType={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "displayName": "Connect(AccessHistoryModal)",
+          "type": [Function],
+        }
+      }
+      id="viewAccessHistory"
+    >
+      <FormattedMessage
+        defaultMessage="Access History Icon"
+        id="user.settings.security.viewHistory.icon"
+      >
+        <Component />
+      </FormattedMessage>
+      <FormattedMessage
+        defaultMessage="View Access History"
+        id="user.settings.security.viewHistory"
+      />
+    </ModalToggleButton>
+    <ModalToggleButton
+      className="security-links color--link mt-2"
+      dialogProps={Object {}}
+      dialogType={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "displayName": "Connect(ActivityLogModal)",
+          "type": [Function],
+        }
+      }
+      id="viewAndLogOutOfActiveSessions"
+    >
+      <FormattedMessage
+        defaultMessage="Active Sessions Icon"
+        id="user.settings.security.logoutActiveSessions.icon"
+      >
+        <Component />
+      </FormattedMessage>
+      <FormattedMessage
+        defaultMessage="View and Log Out of Active Sessions"
+        id="user.settings.security.logoutActiveSessions"
+      />
+    </ModalToggleButton>
+  </div>
+</div>
+`;
+
+exports[`components/user_settings/display/UserSettingsDisplay should match snapshot, enable office365 1`] = `
+<div>
+  <div
+    className="modal-header"
+  >
+    <FormattedMessage
+      defaultMessage="Close"
+      id="user.settings.security.close"
+    >
+      <Component />
+    </FormattedMessage>
+    <h4
+      className="modal-title"
+    >
+      <div
+        className="modal-back"
+      >
+        <FormattedMessage
+          defaultMessage="Collapse Icon"
+          id="generic_icons.collapse"
+        >
+          <Component />
+        </FormattedMessage>
+      </div>
+      <FormattedMessage
+        defaultMessage="Security Settings"
+        id="user.settings.security.title"
+      />
+    </h4>
+  </div>
+  <div
+    className="user-settings"
+  >
+    <h3
+      className="tab-header"
+    >
+      <FormattedMessage
+        defaultMessage="Security Settings"
+        id="user.settings.security.title"
+      />
+    </h3>
+    <div
+      className="divider-dark first"
+    />
+    <SettingItemMin
+      section="password"
+      title={
+        <FormattedMessage
+          defaultMessage="Password"
+          id="user.settings.security.password"
+        />
+      }
+      updateSection={[Function]}
+    />
+    <div
+      className="divider-light"
+    />
+    <Connect(MfaSection)
+      active={false}
+      updateSection={[Function]}
+    />
+    <div
+      className="divider-light"
+    />
+    <div
+      className="divider-light"
+    />
+    <Connect(UserAccessTokenSection)
+      active={false}
+      setRequireConfirm={[MockFunction]}
+      updateSection={[Function]}
+      user={
+        Object {
+          "id": "user_id",
+        }
+      }
+    />
+    <div
+      className="divider-light"
+    />
+    <SettingItemMin
+      describe={
+        <FormattedMessage
+          defaultMessage="Email and Password"
+          id="user.settings.security.emailPwd"
+        />
+      }
+      section="signin"
+      title="Sign-in Method"
+      updateSection={[Function]}
+    />
+    <div
+      className="divider-dark"
+    />
+    <br />
+    <ModalToggleButton
+      className="security-links color--link"
+      dialogProps={Object {}}
+      dialogType={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "displayName": "Connect(AccessHistoryModal)",
+          "type": [Function],
+        }
+      }
+      id="viewAccessHistory"
+    >
+      <FormattedMessage
+        defaultMessage="Access History Icon"
+        id="user.settings.security.viewHistory.icon"
+      >
+        <Component />
+      </FormattedMessage>
+      <FormattedMessage
+        defaultMessage="View Access History"
+        id="user.settings.security.viewHistory"
+      />
+    </ModalToggleButton>
+    <ModalToggleButton
+      className="security-links color--link mt-2"
+      dialogProps={Object {}}
+      dialogType={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "displayName": "Connect(ActivityLogModal)",
+          "type": [Function],
+        }
+      }
+      id="viewAndLogOutOfActiveSessions"
+    >
+      <FormattedMessage
+        defaultMessage="Active Sessions Icon"
+        id="user.settings.security.logoutActiveSessions.icon"
+      >
+        <Component />
+      </FormattedMessage>
+      <FormattedMessage
+        defaultMessage="View and Log Out of Active Sessions"
+        id="user.settings.security.logoutActiveSessions"
+      />
+    </ModalToggleButton>
+  </div>
+</div>
+`;
+
+exports[`components/user_settings/display/UserSettingsDisplay should match snapshot, enable openID 1`] = `
+<div>
+  <div
+    className="modal-header"
+  >
+    <FormattedMessage
+      defaultMessage="Close"
+      id="user.settings.security.close"
+    >
+      <Component />
+    </FormattedMessage>
+    <h4
+      className="modal-title"
+    >
+      <div
+        className="modal-back"
+      >
+        <FormattedMessage
+          defaultMessage="Collapse Icon"
+          id="generic_icons.collapse"
+        >
+          <Component />
+        </FormattedMessage>
+      </div>
+      <FormattedMessage
+        defaultMessage="Security Settings"
+        id="user.settings.security.title"
+      />
+    </h4>
+  </div>
+  <div
+    className="user-settings"
+  >
+    <h3
+      className="tab-header"
+    >
+      <FormattedMessage
+        defaultMessage="Security Settings"
+        id="user.settings.security.title"
+      />
+    </h3>
+    <div
+      className="divider-dark first"
+    />
+    <SettingItemMin
+      section="password"
+      title={
+        <FormattedMessage
+          defaultMessage="Password"
+          id="user.settings.security.password"
+        />
+      }
+      updateSection={[Function]}
+    />
+    <div
+      className="divider-light"
+    />
+    <Connect(MfaSection)
+      active={false}
+      updateSection={[Function]}
+    />
+    <div
+      className="divider-light"
+    />
+    <div
+      className="divider-light"
+    />
+    <Connect(UserAccessTokenSection)
+      active={false}
+      setRequireConfirm={[MockFunction]}
+      updateSection={[Function]}
+      user={
+        Object {
+          "id": "user_id",
+        }
+      }
+    />
+    <div
+      className="divider-light"
+    />
+    <SettingItemMin
+      describe={
+        <FormattedMessage
+          defaultMessage="Email and Password"
+          id="user.settings.security.emailPwd"
+        />
+      }
+      section="signin"
+      title="Sign-in Method"
+      updateSection={[Function]}
+    />
+    <div
+      className="divider-dark"
+    />
+    <br />
+    <ModalToggleButton
+      className="security-links color--link"
+      dialogProps={Object {}}
+      dialogType={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "displayName": "Connect(AccessHistoryModal)",
+          "type": [Function],
+        }
+      }
+      id="viewAccessHistory"
+    >
+      <FormattedMessage
+        defaultMessage="Access History Icon"
+        id="user.settings.security.viewHistory.icon"
+      >
+        <Component />
+      </FormattedMessage>
+      <FormattedMessage
+        defaultMessage="View Access History"
+        id="user.settings.security.viewHistory"
+      />
+    </ModalToggleButton>
+    <ModalToggleButton
+      className="security-links color--link mt-2"
+      dialogProps={Object {}}
+      dialogType={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "displayName": "Connect(ActivityLogModal)",
+          "type": [Function],
+        }
+      }
+      id="viewAndLogOutOfActiveSessions"
+    >
+      <FormattedMessage
+        defaultMessage="Active Sessions Icon"
+        id="user.settings.security.logoutActiveSessions.icon"
+      >
+        <Component />
+      </FormattedMessage>
+      <FormattedMessage
+        defaultMessage="View and Log Out of Active Sessions"
+        id="user.settings.security.logoutActiveSessions"
+      />
+    </ModalToggleButton>
+  </div>
+</div>
+`;

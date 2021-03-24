@@ -96,6 +96,7 @@ describe('SidebarChannelList', () => {
         handleOpenMoreDirectChannelsModal: jest.fn(),
         onDragStart: jest.fn(),
         onDragEnd: jest.fn(),
+        showUnreadsCategory: false,
         actions: {
             switchToChannelById: jest.fn(),
             close: jest.fn(),

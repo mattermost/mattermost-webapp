@@ -37,11 +37,12 @@ describe('components/sidebar/sidebar_channel', () => {
         setChannelRef: jest.fn(),
         isCategoryCollapsed: false,
         isCurrentChannel: false,
-        isDMCategory: false,
+        isAutoSortedCategory: false,
         isCategoryDragged: false,
         isDropDisabled: false,
         draggingState: {},
         multiSelectedChannelIds: [],
+        autoSortedCategoryIds: new Set<string>(),
         isChannelSelected: false,
     };
 

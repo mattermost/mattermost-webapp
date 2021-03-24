@@ -3,6 +3,7 @@
 
 import React, {ReactNode} from 'react';
 import {FormattedMessage, MessageDescriptor} from 'react-intl';
+
 import {Dictionary} from 'mattermost-redux/types/utilities';
 
 import {t} from 'utils/i18n';
@@ -17,7 +18,7 @@ import {NoResultsVariant} from './types';
 interface Props {
     variant: NoResultsVariant;
     titleValues?: Dictionary<ReactNode>;
-    subtitleValues?: Dictionary<ReactNode>
+    subtitleValues?: Dictionary<ReactNode>;
 }
 
 const iconMap: {[key in NoResultsVariant]: React.ReactNode } = {

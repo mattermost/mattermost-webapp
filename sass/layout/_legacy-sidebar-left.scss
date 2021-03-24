@@ -1,4 +1,4 @@
-@charset 'UTF-8';
+@charset "UTF-8";
 
 .sidebar--left {
     display: flex;
@@ -12,10 +12,6 @@
 
     body.announcement-bar--fixed & {
         height: calc(100% - #{$announcement-bar-height});
-    }
-
-    body.announcement-banner-tall--fixed & {
-        height: calc(100% - 40px);
     }
 
     &.sidebar--padded {
@@ -406,5 +402,14 @@
     &:focus,
     span {
         outline: none;
+    }
+}
+
+// Manual override of the global menu (and items) styling for the sidebar dropdown menu
+#sidebarDropdownMenu .MenuItem {
+    > button,
+    > div,
+    > a {
+        padding: 0 32px 0 24px;
     }
 }

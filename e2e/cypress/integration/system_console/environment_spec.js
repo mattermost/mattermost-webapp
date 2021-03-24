@@ -7,6 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @not_cloud
+
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Environment', () => {
@@ -15,6 +18,7 @@ describe('Environment', () => {
 
     const mattermostIcon = 'mattermost-icon_128x128.png';
     before(() => {
+        cy.shouldNotRunOnCloudEdition();
         cy.apiInitSetup().then(({team}) => {
             testTeam = team;
             townsquareLink = `/${team.name}/channels/town-square`;
@@ -206,7 +210,7 @@ describe('Environment', () => {
         cy.findByTestId('minimumHashtagLengthinput').clear().type(minimumHashtagLength1);
 
         // # Click Save button to save the settings
-        cy.get('#saveSetting').click();
+        cy.get('#saveSetting').click({force: true});
 
         // Get config again
         cy.apiGetConfig().then(({config}) => {
@@ -217,7 +221,7 @@ describe('Environment', () => {
         cy.findByTestId('minimumHashtagLengthinput').clear().type(minimumHashtagLength2);
 
         // # Click Save button to save the settings
-        cy.get('#saveSetting').click();
+        cy.get('#saveSetting').click({force: true});
 
         // Get config again
         cy.apiGetConfig().then(({config}) => {
@@ -244,6 +248,7 @@ describe('Environment', () => {
 
         const amazonS3BucketName = 'test';
         const amazonS3PathPrefix = 'test';
+        cy.findByTestId('FileSettings.MaxFileSizenumber').clear().type(52428800);
         cy.findByTestId('FileSettings.AmazonS3Bucketinput').clear().type(amazonS3BucketName);
         cy.findByTestId('FileSettings.AmazonS3PathPrefixinput').clear().type(amazonS3PathPrefix);
 

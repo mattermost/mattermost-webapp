@@ -8,6 +8,7 @@ exports[`components/sidebar/sidebar_category/sidebar_category_menu should match 
     id="SidebarCategoryMenu-category1"
     isMenuOpen={false}
     onToggleMenu={[Function]}
+    refCallback={[Function]}
     tooltipText="Category options"
   >
     <MenuGroup>
@@ -47,6 +48,44 @@ exports[`components/sidebar/sidebar_category/sidebar_category_menu should match 
       />
     </MenuGroup>
     <MenuGroup>
+      <SubMenuItem
+        direction="right"
+        icon={
+          <i
+            className="icon-sort-alphabetical-ascending"
+          />
+        }
+        id="sortChannels"
+        openUp={false}
+        selectedValueText="Alphabetically"
+        show={true}
+        styleSelectableItem={true}
+        subMenu={
+          Array [
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "sortAlphabetical",
+              "text": "Alphabetically",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "sortByMostRecent",
+              "text": "Recent Activity",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "sortManual",
+              "text": "Manually",
+            },
+          ]
+        }
+        text="Sort"
+      />
+    </MenuGroup>
+    <MenuGroup>
       <MenuItemAction
         icon={
           <i
@@ -71,6 +110,7 @@ exports[`components/sidebar/sidebar_category/sidebar_category_menu should match 
     id="SidebarCategoryMenu-category1"
     isMenuOpen={false}
     onToggleMenu={[Function]}
+    refCallback={[Function]}
     tooltipText="Category options"
   >
     <MenuGroup>
@@ -84,6 +124,44 @@ exports[`components/sidebar/sidebar_category/sidebar_category_menu should match 
         onClick={[Function]}
         show={true}
         text="Mute Category"
+      />
+    </MenuGroup>
+    <MenuGroup>
+      <SubMenuItem
+        direction="right"
+        icon={
+          <i
+            className="icon-sort-alphabetical-ascending"
+          />
+        }
+        id="sortChannels"
+        openUp={false}
+        selectedValueText="Alphabetically"
+        show={true}
+        styleSelectableItem={true}
+        subMenu={
+          Array [
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "sortAlphabetical",
+              "text": "Alphabetically",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "sortByMostRecent",
+              "text": "Recent Activity",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "sortManual",
+              "text": "Manually",
+            },
+          ]
+        }
+        text="Sort"
       />
     </MenuGroup>
     <MenuGroup>

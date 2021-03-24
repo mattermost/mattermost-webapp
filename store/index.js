@@ -7,6 +7,7 @@ import Observable from 'zen-observable';
 import localForage from 'localforage';
 import {extendPrototype} from 'localforage-observable';
 import {createTransform, persistStore} from 'redux-persist';
+
 import {General, RequestStatus} from 'mattermost-redux/constants';
 import configureServiceStore from 'mattermost-redux/store';
 import reduxInitialState from 'mattermost-redux/store/initial_state';
@@ -15,7 +16,6 @@ import {storageRehydrate} from 'actions/storage';
 import {clearUserCookie} from 'actions/views/cookie';
 import appReducer from 'reducers';
 import {transformSet} from 'store/utils';
-import {detect} from 'utils/network.js';
 import {ActionTypes} from 'utils/constants';
 import {getBasePath} from 'selectors/general';
 
@@ -195,22 +195,44 @@ export default function configureStore(initialState) {
             },
             _stateGetter: (state, key) => {
                 if (key.indexOf('storage:') === 0) {
-                    state.storage = state.storage || {storage: {}};
-                    return state.storage.storage[key.substr(8)];
+                    return state.storage?.storage?.[key.substr(8)];
                 }
                 return state[key];
             },
             _stateSetter: (state, key, value) => {
-                if (key.indexOf('storage:') === 0) {
-                    state.storage = state.storage || {storage: {}};
-                    state.storage.storage[key.substr(8)] = value;
+                // eslint-disable-next-line no-process-env
+                if (process.env.NODE_ENV === 'production') {
+                    if (key.indexOf('storage:') === 0) {
+                        state.storage = state.storage || {storage: {}};
+                        state.storage.storage[key.substr(8)] = value;
+                    } else {
+                        state[key] = value;
+                    }
+
+                    return state;
                 }
-                state[key] = value;
-                return state;
+
+                // In non-production environments, the store is immutable.
+                if (key.indexOf('storage:') === 0) {
+                    return {
+                        ...state,
+                        storage: {
+                            ...state.storage,
+                            storage: {
+                                ...state.storage?.storage,
+                                [key.substr(8)]: value,
+                            },
+                        },
+                    };
+                }
+
+                return {
+                    ...state,
+                    key: value,
+                };
             },
         },
-        detectNetwork: detect,
     };
 
-    return configureServiceStore(initialState, appReducer, offlineOptions, getAppReducer, {enableBuffer: false});
+    return configureServiceStore(initialState, appReducer, offlineOptions, getAppReducer);
 }

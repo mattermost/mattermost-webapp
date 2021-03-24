@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @markdown
 
 describe('Markdown', () => {
@@ -84,8 +85,8 @@ describe('Markdown', () => {
             cy.get(`#postMessageText_${postId}`).should('be.visible').within(() => {
                 cy.get('.markdown-inline-img').should('be.visible').
                     and((inlineImg) => {
-                        expect(inlineImg.height()).to.be.closeTo(153, 2);
-                        expect(inlineImg.width()).to.be.closeTo(971, 2);
+                        expect(inlineImg.height()).to.be.closeTo(151, 2);
+                        expect(inlineImg.width()).to.be.closeTo(951, 2);
                     }).
                     click();
             });

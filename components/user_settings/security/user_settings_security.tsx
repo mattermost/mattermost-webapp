@@ -5,6 +5,7 @@
 import React from 'react';
 import {FormattedDate, FormattedMessage, FormattedTime} from 'react-intl';
 import {Link} from 'react-router-dom';
+
 import {UserProfile} from 'mattermost-redux/types/users';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {OAuthApp} from 'mattermost-redux/types/integrations';
@@ -50,6 +51,7 @@ type Props = {
     enableSignUpWithEmail: boolean;
     enableSignUpWithGitLab: boolean;
     enableSignUpWithGoogle: boolean;
+    enableSignUpWithOpenId: boolean;
     enableLdap: boolean;
     enableSaml: boolean;
     enableSignUpWithOffice365: boolean;
@@ -508,6 +510,7 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
             let gitlabOption;
             let googleOption;
             let office365Option;
+            let openidOption;
             let ldapOption;
             let samlOption;
 
@@ -577,6 +580,30 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
                                 <FormattedMessage
                                     id='user.settings.security.switchOffice365'
                                     defaultMessage='Switch to Using Office 365 SSO'
+                                />
+                            </Link>
+                            <br/>
+                        </div>
+                    );
+                }
+
+                if (this.props.enableSignUpWithOpenId) {
+                    openidOption = (
+                        <div className='pb-3'>
+                            <Link
+                                className='btn btn-primary'
+                                to={
+                                    '/claim/email_to_oauth?email=' +
+                                    encodeURIComponent(user.email) +
+                                    '&old_type=' +
+                                    user.auth_service +
+                                    '&new_type=' +
+                                    Constants.OPENID_SERVICE
+                                }
+                            >
+                                <FormattedMessage
+                                    id='user.settings.security.switchOpenId'
+                                    defaultMessage='Switch to Using OpenID SSO'
                                 />
                             </Link>
                             <br/>
@@ -664,6 +691,7 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
                     {gitlabOption}
                     {googleOption}
                     {office365Option}
+                    {openidOption}
                     {ldapOption}
                     {samlOption}
                 </div>,
@@ -719,6 +747,15 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
                 <FormattedMessage
                     id='user.settings.security.office365'
                     defaultMessage='Office 365'
+                />
+            );
+        } else if (
+            this.props.user.auth_service === Constants.OPENID_SERVICE
+        ) {
+            describe = (
+                <FormattedMessage
+                    id='user.settings.security.openid'
+                    defaultMessage='OpenID'
                 />
             );
         } else if (this.props.user.auth_service === Constants.LDAP_SERVICE) {
@@ -898,6 +935,7 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
         numMethods = this.props.enableSignUpWithGitLab ? numMethods + 1 : numMethods;
         numMethods = this.props.enableSignUpWithGoogle ? numMethods + 1 : numMethods;
         numMethods = this.props.enableSignUpWithOffice365 ? numMethods + 1 : numMethods;
+        numMethods = this.props.enableSignUpWithOpenId ? numMethods + 1 : numMethods;
         numMethods = this.props.enableLdap ? numMethods + 1 : numMethods;
         numMethods = this.props.enableSaml ? numMethods + 1 : numMethods;
 
@@ -1017,6 +1055,7 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
                     <ToggleModalButton
                         className='security-links color--link mt-2'
                         dialogType={ActivityLogModal}
+                        id='viewAndLogOutOfActiveSessions'
                     >
                         <FormattedMessage
                             id='user.settings.security.logoutActiveSessions.icon'

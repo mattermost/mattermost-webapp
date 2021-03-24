@@ -16,7 +16,7 @@
 // ***************************************************************
 
 declare namespace Cypress {
-    interface Chainable<Subject = any> {
+    interface Chainable {
 
         /**
          * Create a new channel.
@@ -55,7 +55,7 @@ declare namespace Cypress {
          *       // do something with channel
          *   });
          */
-        apiCreateDirectChannel(userIds: Array<string>): Chainable<Channel>;
+        apiCreateDirectChannel(userIds: string[]): Chainable<{channel: Channel}>;
 
         /**
          * Create a new group message channel to group of users via API. If the logged in user's id is not included in the list, it will be appended to the end.
@@ -68,7 +68,7 @@ declare namespace Cypress {
          *       // do something with channel
          *   });
          */
-        apiCreateGroupChannel(userIds: Array<string>): Chainable<Channel>;
+        apiCreateGroupChannel(userIds: string[]): Chainable<{channel: Channel}>;
 
         /**
          * Update a channel.
@@ -85,7 +85,7 @@ declare namespace Cypress {
          * @example
          *   cy.apiUpdateChannel('channel-id', {name: 'new-name', display_name: 'New Display Name'. 'purpose': 'Updated purpose', 'header': 'Updated header'});
          */
-        apiUpdateChannel(channelId: string, channel: Channel): Chainable<Channel>;
+        apiUpdateChannel(channelId: string, channel: Channel): Chainable<{channel: Channel}>;
 
         /**
          * Partially update a channel by providing only the fields you want to update.
@@ -103,7 +103,7 @@ declare namespace Cypress {
          * @example
          *   cy.apiPatchChannel('channel-id', {name: 'new-name', display_name: 'New Display Name'});
          */
-        apiPatchChannel(channelId: string, channel: Channel): Chainable<Channel>;
+        apiPatchChannel(channelId: string, channel: Channel): Chainable<{channel: Channel}>;
 
         /**
          * Updates channel's privacy allowing changing a channel from Public to Private and back.
@@ -115,7 +115,7 @@ declare namespace Cypress {
          * @example
          *   cy.apiPatchChannelPrivacy('channel-id', 'P');
          */
-        apiPatchChannelPrivacy(channelId: string, privacy: string): Chainable<Channel>;
+        apiPatchChannelPrivacy(channelId: string, privacy: string): Chainable<{channel: Channel}>;
 
         /**
          * Get channel from the provided channel id string.
@@ -128,7 +128,7 @@ declare namespace Cypress {
          *       // do something with channel
          *   });
          */
-        apiGetChannel(channelId: string): Chainable<Channel>;
+        apiGetChannel(channelId: string): Chainable<{channel: Channel}>;
 
         /**
          * Gets a channel from the provided team name and channel name strings.
@@ -142,7 +142,7 @@ declare namespace Cypress {
          *       // do something with channel
          *   });
          */
-        apiGetChannelByName(teamName: string, channelName: string): Chainable<Channel>;
+        apiGetChannelByName(teamName: string, channelName: string): Chainable<{channel: Channel}>;
 
         /**
          * Get a list of all channels.
@@ -154,7 +154,7 @@ declare namespace Cypress {
          *       // do something with channels
          *   });
          */
-        apiGetAllChannels(): Chainable<Channel[]>;
+        apiGetAllChannels(): Chainable<{channels: Channel[]}>;
 
         /**
          * Get channels for user.
@@ -166,7 +166,7 @@ declare namespace Cypress {
          *       // do something with channels
          *   });
          */
-        apiGetChannelsForUser(): Chainable<Channel[]>;
+        apiGetChannelsForUser(): Chainable<{channels: Channel[]}>;
 
         /**
          * Soft deletes a channel, by marking the channel as deleted in the database.

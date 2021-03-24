@@ -1,4 +1,4 @@
-@charset 'UTF-8';
+@charset "UTF-8";
 
 @media screen and (max-width: 768px) {
     #navbar_wrapper {
@@ -16,8 +16,18 @@
                 border: none;
             }
         }
+        .modal {
+            .settings-modal {
+                &:not(.settings-modal--tabless) {
+                    &:not(.display--content) {
+                        .modal-content {
+                            background: var(--sidebar-bg);
+                        }
+                    }
+                }
+            }
+        }
     }
-
     .post-right__container {
         height: 100%;
 
@@ -26,7 +36,7 @@
                 .post-pre-header__icons-container {
                     padding-right: 12px; // If the padding of post__img changes, this needs to be adjusted accordingly
                     width: 60px; // If the width of post__img changes, this needs to be adjusted accordingly
-                    margin-left: 0px; // if left margin of post__content changes, this needs to be adjusted accordingly
+                    margin-left: 0; // if left margin of post__content changes, this needs to be adjusted accordingly
                 }
             }
         }
@@ -183,8 +193,8 @@
                 margin-bottom: 0;
                 max-height: inherit;
                 max-width: inherit;
-                border: 0px;
-                padding-top: 0px;
+                border: 0;
+                padding-top: 0;
                 box-shadow: none;
                 color: inherit;
 
@@ -209,7 +219,7 @@
 
                 .MenuGroup {
                     &.menu-divider {
-                        background: $white;
+                        background: var(--center-channel-bg);
                     }
                 }
             }
@@ -250,7 +260,7 @@
         .post, .SidebarMenu, .AddChannelDropdown {
             .Menu {
                 @include border-radius(0);
-                border: 0px;
+                border: 0;
                 height: 100%;
                 left: 0;
                 position: fixed;
@@ -286,10 +296,10 @@
 
                 .MenuItem {
                     z-index: 9999;
-                    background: $white;
+                    background: var(--center-channel-bg);
 
                     &:last-child button {
-                        border-bottom: 0px;
+                        border-bottom: 0;
                     }
                 }
             }
@@ -669,7 +679,7 @@
             .post-pre-header__icons-container {
                 padding-right: 8px; // If the padding of post__img changes, this needs to be adjusted accordingly
                 width: 40px; // If the width of post__img changes, this needs to be adjusted accordingly
-                margin-left: 0px;
+                margin-left: 0;
 
                 .icon--post-pre-header {
                     &:nth-of-type(even) {
@@ -1190,7 +1200,7 @@
             }
 
             .dropdown-menu {
-                background: $white;
+                background: var(--center-channel-bg);
                 left: auto;
                 position: absolute;
                 right: 0;
@@ -1248,11 +1258,6 @@
                 body.announcement-bar--fixed & {
                     height: calc(100% - 48px - #{$announcement-bar-height});
                     top: calc(48px + #{$announcement-bar-height});
-                }
-
-                body.announcement-banner-tall--fixed & {
-                    height: calc(100% - 48px - 40px);
-                    top: calc(48px + 40px);
                 }
             }
 
@@ -1326,7 +1331,7 @@
             }
 
             .status {
-                margin: 0 8px 0 0px;
+                margin: 0 8px 0 0;
                 top: 2px;
                 width: 16px;
 
@@ -1369,19 +1374,18 @@
 
     .search-bar__container {
         @include flex(0 0 50px);
-        background: $primary-color;
-        color: $white;
+        background: var(--sidebar-header-bg);
+        color: var(--sidebar-header-text-color);
         padding: 0;
 
         .search-form__container {
-            color: $black;
             padding: 0 20px 0 0;
         }
 
         .search__form {
             @include single-transition(all, .2s, linear);
             @include translateX(0);
-            background: $white;
+            background: var(--center-channel-bg);
             border-color: transparent;
             margin-top: 9px;
             width: 100%;
@@ -1390,13 +1394,13 @@
             &--focused,
             &--focused:hover {
                 border-color: transparent;
+                border-width: 1px;
             }
 
             .form-control {
                 @include border-radius(3px);
-                background: $white;
+                background: var(--center-channel-bg);
                 border: none;
-                color: $dark-gray;
                 padding: 0 31px;
             }
         }
@@ -1477,7 +1481,7 @@
                     padding-bottom: 25px;
 
                     ul {
-                        background: $white;
+                        background: var(--center-channel-bg);
                         border-radius: 3px;
                         clear: both;
                         position: relative;
@@ -1512,7 +1516,7 @@
                 }
 
                 h4 {
-                    margin: 1.5 0 1em;
+                    margin: 1.5em 0 1em;
                 }
 
                 >a {
@@ -1576,7 +1580,7 @@
                     padding-bottom: 25px;
 
                     ul {
-                        background: $white;
+                        background: var(--center-channel-bg);
                         border-radius: 3px;
                         clear: both;
                         position: relative;
@@ -1600,6 +1604,7 @@
                     .SidebarLink {
                         height: 45px;
                         align-items: center;
+                        width: 290px;
 
                         &::before {
                             height: 45px;
@@ -1632,7 +1637,7 @@
                 }
 
                 h4 {
-                    margin: 1.5 0 1em;
+                    margin: 1.5em 0 1em;
                 }
 
                 >a {
@@ -1920,12 +1925,6 @@
         &.announcement-bar--fixed {
             .modal {
                 padding-top: $announcement-bar-height;
-            }
-        }
-
-        &.announcement-banner-tall--fixed {
-            .modal {
-                padding-top: 40px;
             }
         }
 

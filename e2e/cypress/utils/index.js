@@ -68,6 +68,10 @@ export function rgbArrayToString(rgbArr) {
 
 export const reUrl = /(https?:\/\/[^ ]*)/;
 
+export const isMac = () => {
+    return navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+};
+
 // Stubs out the clipboard so that we can intercept copy events. Note that this only stubs out calls to
 // navigator.clipboard.writeText and not document.execCommand.
 export function stubClipboard() {

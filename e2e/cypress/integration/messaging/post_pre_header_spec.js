@@ -1,4 +1,3 @@
-
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
@@ -135,7 +134,8 @@ describe('Post PreHeader', () => {
             cy.get('#searchContainer').should('be.visible').within(() => {
                 cy.get('.sidebar--right__title').
                     should('be.visible').
-                    and('have.text', 'Pinned postsTown Square');
+                    and('contain', 'Pinned Posts').
+                    and('contain', 'Town Square');
 
                 // * Check that the post pre-header is not shown for the pinned message in RHS
                 cy.findByTestId('search-item-container').within(() => {

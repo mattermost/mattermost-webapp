@@ -206,14 +206,8 @@ describe('Integrations page', () => {
         // # Visit home channel
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
-        // # Open main menu
-        cy.findByLabelText('main menu').should('be.visible').click();
-
-        // # Scan the area of main menu section
-        cy.get('#sidebarDropdownMenu').within(() => {
-            // # Open integrations menu
-            cy.findByText('Integrations').should('exist').and('be.visible').click();
-        });
+        // # Click 'Integrations' at main menu
+        cy.uiOpenMainMenu('Integrations');
 
         // * Verify we are at integrations page URL
         cy.url().should('include', '/integrations');
@@ -284,14 +278,8 @@ describe('Integrations page', () => {
         // # Visit home channel
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
-        // # Open main menu
-        cy.findByLabelText('main menu').should('be.visible').click();
-
-        // # Scan the area of main menu section
-        cy.get('#sidebarDropdownMenu').within(() => {
-            // # Open integrations menu
-            cy.findByText('Integrations').should('exist').and('be.visible').click();
-        });
+        // # Click 'Integrations' at main menu
+        cy.uiOpenMainMenu('Integrations');
 
         // * Verify we are at integrations page URL
         cy.url().should('include', '/integrations');
@@ -378,14 +366,8 @@ describe('Integrations page', () => {
     it('MM-T580 Custom slash command auto-complete displays trigger word and not command name', () => {
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
-        // # Open main menu
-        cy.findByLabelText('main menu').should('be.visible').click();
-
-        // # Scan the area of main menu dropdown
-        cy.get('#sidebarDropdownMenu').within(() => {
-            // # Open integrations menu
-            cy.findByText('Integrations').should('exist').and('be.visible').click();
-        });
+        // # Click 'Integrations' at main menu
+        cy.uiOpenMainMenu('Integrations');
 
         // * Verify we are at integrations page URL
         cy.url().should('include', '/integrations');

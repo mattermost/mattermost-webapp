@@ -22,6 +22,7 @@ import AddIcon from 'components/widgets/icons/fa_add_icon';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import Timestamp from 'components/timestamp';
+import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 
 const USERS_PER_PAGE = 50;
 const MAX_SELECTABLE_VALUES = Constants.MAX_USERS_IN_GM - 1;
@@ -64,7 +65,7 @@ type Props = {
     users: UserProfile[];
     groupChannels: GroupChannel[];
     myDirectChannels: Channel[];
-    recentDMUsers?: (UserProfile & {last_post_at: number })[];
+    recentDMUsers?: Array<UserProfile & {last_post_at: number }>;
     statuses: RelationOneToOne<UserProfile, string>;
     totalCount?: number;
 
@@ -378,24 +379,27 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
                     size='md'
                 />
                 <div className='more-modal__details'>
-                    <div className='more-modal__name_email'>
-                        <div className='more-modal__name'>
-                            {modalName}
-                            <BotBadge
-                                show={isBot}
-                                className='badge-popoverlist'
-                            />
-                            <GuestBadge
-                                show={isGuest(option)}
-                                className='badge-popoverlist'
-                            />
-                        </div>
-                        {!isBot && (
-                            <div className='more-modal__description'>
-                                {option.email}
-                            </div>
-                        )}
+                    <div className='more-modal__name'>
+                        {modalName}
+                        <BotBadge
+                            show={isBot}
+                            className='badge-popoverlist'
+                        />
+                        <GuestBadge
+                            show={isGuest(option)}
+                            className='badge-popoverlist'
+                        />
+                        <CustomStatusEmoji
+                            userID={option.id}
+                            showTooltip={true}
+                            emojiSize={15}
+                        />
                     </div>
+                    {!isBot && (
+                        <div className='more-modal__description'>
+                            {option.email}
+                        </div>
+                    )}
                 </div>
             </>
         );
@@ -482,9 +486,7 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
         const groupChannelsWithAvailableProfiles = this.props.groupChannels.filter(({profiles}) => differenceBy(profiles, values, 'id').length);
         const [recentGroupChannels, groupChannels] = partition(groupChannelsWithAvailableProfiles, 'last_post_at');
 
-        let users = values.length ?
-            activeUsers.filter(({id}) => id !== currentUserId) :
-            activeUsers.concat(inactiveUsers);
+        let users = values.length ? activeUsers.filter(({id}) => id !== currentUserId) : activeUsers.concat(inactiveUsers);
 
         users = users.filter((user) => (
             (user.delete_at === 0 || myDirectChannels.some(({name}) => name.includes(user.id))) &&

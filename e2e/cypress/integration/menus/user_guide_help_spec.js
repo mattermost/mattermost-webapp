@@ -12,6 +12,7 @@
 
 import {getAdminAccount} from '../../support/env';
 import {FixedCloudConfig} from '../../utils/constants';
+import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Main menu', () => {
     let testTeam;
@@ -37,9 +38,9 @@ describe('Main menu', () => {
 
             cy.apiLogin(testUser);
             cy.visit(`/${testTeam.name}/channels/town-square`);
-            cy.get('#channel-header').should('be.visible').then(() => {
+            cy.get('#channel-header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').within(() => {
                 cy.get('#channelHeaderUserGuideButton').click();
-                cy.get('.dropdown-menu').should('be.visible').then(() => {
+                cy.get('.dropdown-menu').should('be.visible').within(() => {
                     cy.get('#askTheCommunityLink').should('be.visible');
                     cy.get('#askTheCommunityLink a').should('have.attr', 'href', 'https://mattermost.com/pl/default-ask-mattermost-community/');
 
@@ -51,9 +52,9 @@ describe('Main menu', () => {
 
                     cy.get('#keyboardShortcuts').should('be.visible');
                     cy.get('#keyboardShortcuts button').click();
-                    cy.get('#shortcutsModalLabel').should('be.visible');
                 });
             });
+            cy.get('#shortcutsModalLabel').should('be.visible');
         });
 
         it('Should not have askTheCommunityLink button when system console setting is false', () => {
@@ -67,10 +68,10 @@ describe('Main menu', () => {
             });
             cy.visit(`/${testTeam.name}/channels/town-square`);
 
-            cy.get('#channel-header').should('be.visible').then(() => {
+            cy.get('#channel-header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').within(() => {
                 // # Click user help button
                 cy.get('#channelHeaderUserGuideButton').click();
-                cy.get('.dropdown-menu').should('be.visible').then(() => {
+                cy.get('.dropdown-menu').should('be.visible').within(() => {
                     // * Check that Ask the community button is not visible
                     cy.get('#askTheCommunityLink').should('be.not.visible');
                     cy.get('#helpResourcesLink').should('be.visible');
@@ -82,11 +83,12 @@ describe('Main menu', () => {
             cy.apiLogin(sysadmin);
             cy.visit('/admin_console/site_config/customization');
 
-            // # Click user help button
-            cy.get('#adminConsoleWrapper').should('be.visible').then(() => {
-                // * Check that enable ask community div exists
-                cy.get("div[data-testid='SupportSettings.EnableAskCommunityLink']").scrollIntoView().should('be.visible');
+            cy.get('.admin-console', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').within(() => {
+                cy.get('.admin-console__header').should('be.visible').and('have.text', 'Customization');
             });
+
+            // * Check that enable ask community div exists
+            cy.get("div[data-testid='SupportSettings.EnableAskCommunityLink']").scrollIntoView().should('be.visible');
         });
     });
 });

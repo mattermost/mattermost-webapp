@@ -14,7 +14,6 @@ import Constants from 'utils/constants';
 import {browserHistory} from 'utils/browser_history';
 
 const TOAST_TEXT_COLLAPSE_WIDTH = 500;
-const THRESHOLD_FROM_BOTTOM = 1000;
 
 const TOAST_REL_RANGES = [
     RelativeRanges.TODAY_YESTERDAY,
@@ -88,28 +87,25 @@ class ToastWrapper extends React.PureComponent {
         } else {
             unreadCount = prevState.unreadCountInChannel + props.newRecentMessagesCount;
         }
-        if (props.atBottom !== null) {
-            // show unread toast on mount when channel is not at bottom and unread count greater than 0
-            if (typeof showUnreadToast === 'undefined') {
-                showUnreadToast = unreadCount > 0 && props.initScrollOffsetFromBottom > THRESHOLD_FROM_BOTTOM;
-            }
 
-            if (typeof showMessageHistoryToast === 'undefined' && props.focusedPostId !== '') {
-                showMessageHistoryToast = props.initScrollOffsetFromBottom > THRESHOLD_FROM_BOTTOM || !props.atLatestPost;
-            }
+        // show unread toast on mount when channel is not at bottom and unread count greater than 0
+        if (typeof showUnreadToast === 'undefined' && props.atBottom !== null) {
+            showUnreadToast = unreadCount > 0 && !props.atBottom;
+        }
 
-            if (!props.atBottom) {
-                // show unread toast when a channel is marked as unread
-                if (props.channelMarkedAsUnread && !prevState.channelMarkedAsUnread && !prevState.showUnreadToast) {
-                    showUnreadToast = true;
-                }
+        if (typeof showMessageHistoryToast === 'undefined' && props.focusedPostId !== '' && props.atBottom !== null) {
+            showMessageHistoryToast = props.initScrollOffsetFromBottom > 1000 || !props.atLatestPost;
+        }
 
-                // show unread toast when a channel is remarked as unread using the change in lastViewedAt
-                // lastViewedAt changes only if a channel is remarked as unread in channelMarkedAsUnread state
-                if (props.channelMarkedAsUnread && props.lastViewedAt !== prevState.lastViewedAt) {
-                    showUnreadToast = true;
-                }
-            }
+        // show unread toast when a channel is marked as unread
+        if (props.channelMarkedAsUnread && !props.atBottom && !prevState.channelMarkedAsUnread && !prevState.showUnreadToast) {
+            showUnreadToast = true;
+        }
+
+        // show unread toast when a channel is remarked as unread using the change in lastViewedAt
+        // lastViewedAt changes only if a channel is remarked as unread in channelMarkedAsUnread state
+        if (props.channelMarkedAsUnread && props.lastViewedAt !== prevState.lastViewedAt && !props.atBottom) {
+            showUnreadToast = true;
         }
 
         if (!showUnreadToast && unreadCount > 0 && !props.atBottom && (props.lastViewedBottom < props.latestPostTimeStamp)) {

@@ -70,6 +70,7 @@ exports[`components/ChannelSelectorModal should match snapshot 1`] = `
       options={Array []}
       perPage={50}
       placeholderText="Search and add channels"
+      saveButtonPosition="top"
       saving={false}
       selectedItemRef={
         Object {
@@ -77,6 +78,7 @@ exports[`components/ChannelSelectorModal should match snapshot 1`] = `
         }
       }
       valueRenderer={[Function]}
+      valueWithImage={false}
       values={Array []}
     />
   </ModalBody>

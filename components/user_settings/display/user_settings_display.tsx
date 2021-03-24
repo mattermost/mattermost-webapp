@@ -3,8 +3,10 @@
 /* eslint-disable react/no-string-refs */
 
 import React from 'react';
-import {getTimezoneRegion} from 'mattermost-redux/utils/timezone_utils';
+
 import {FormattedMessage} from 'react-intl';
+
+import {getTimezoneRegion} from 'mattermost-redux/utils/timezone_utils';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 import {UserProfile, UserTimezone} from 'mattermost-redux/types/users';
 
@@ -91,7 +93,7 @@ type Props = {
     collapseDisplay: string;
     linkPreviewDisplay: string;
     actions: {
-        savePreferences: (userId: string, preferences: Array<PreferenceType>) => void;
+        savePreferences: (userId: string, preferences: PreferenceType[]) => void;
         getSupportedTimezones: () => void;
         autoUpdateTimezone: (deviceTimezone: string) => void;
     };
@@ -611,7 +613,6 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                     <div>
                         <ManageTimezones
                             user={this.props.user}
-                            timezones={this.props.timezones}
                             useAutomaticTimezone={Boolean(userTimezone.useAutomaticTimezone)}
                             automaticTimezone={userTimezone.automaticTimezone}
                             manualTimezone={userTimezone.manualTimezone}

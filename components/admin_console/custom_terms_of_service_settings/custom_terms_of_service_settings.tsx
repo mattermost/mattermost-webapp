@@ -19,16 +19,16 @@ import {Constants} from 'utils/constants';
 type Props = BaseProps & {
     actions: {
         getTermsOfService: () => Promise<{data: TermsOfService}>;
-        createTermsOfService: (text: string) => Promise<{data: TermsOfService, error?: Error}>;
+        createTermsOfService: (text: string) => Promise<{data: TermsOfService; error?: Error}>;
     };
     config: AdminConfig;
-    license: ClientLicense,
-    setNavigationBlocked: () => void,
+    license: ClientLicense;
+    setNavigationBlocked: () => void;
 
     /*
      * Action to save config file
      */
-    updateConfig: () => void
+    updateConfig: () => void;
 };
 
 type State = BaseState & {

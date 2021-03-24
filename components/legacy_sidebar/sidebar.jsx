@@ -8,6 +8,7 @@ import ReactDOM from 'react-dom';
 import {FormattedMessage, injectIntl} from 'react-intl';
 import {PropTypes} from 'prop-types';
 import classNames from 'classnames';
+import throttle from 'lodash/throttle';
 
 import Scrollbars from 'react-custom-scrollbars';
 import {SpringSystem, MathUtil} from 'rebound';
@@ -270,9 +271,9 @@ class LegacySidebar extends React.PureComponent {
         }
     }
 
-    onScroll = () => {
+    onScroll = throttle(() => {
         this.updateUnreadIndicators();
-    }
+    }, 100);
 
     handleScrollAnimationUpdate = (spring) => {
         const {scrollbar} = this.refs;

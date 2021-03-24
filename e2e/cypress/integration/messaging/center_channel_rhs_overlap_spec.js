@@ -7,10 +7,12 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @messaging
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 import * as MESSAGES from '../../fixtures/messages';
+import {isMac} from '../../utils';
 
 describe('Messaging', () => {
     let testTeam;
@@ -88,19 +90,7 @@ describe('Messaging', () => {
 
     it('MM-T712 Editing a post with Ctrl+Enter on for all messages configured', () => {
         // # Enable 'Send Messages on CTRL+ENTER > On for all messages' in Account Settings > Advanced
-        cy.findAllByLabelText('main menu').should('be.visible').click();
-        cy.findByText('Account Settings').click();
-        cy.get('#accountSettingsModal').should('be.visible').within(() => {
-            cy.findByText('Advanced').click();
-            if (cy.isMac()) {
-                cy.findByText('Send Messages on ⌘+ENTER').should('be.visible').click();
-            } else {
-                cy.findByText('Send Messages on CTRL+ENTER').should('be.visible').click();
-            }
-            cy.get('#ctrlSendOn').check().should('be.checked');
-            cy.findByText('Save').click();
-            cy.findAllByLabelText('Close').first().click();
-        });
+        setSendMessagesOnCtrlEnter('On for all messages');
 
         // # [1] Post message
         cy.get('#post_textbox').type(message1).type('{enter}').wait(TIMEOUTS.HALF_SEC);
@@ -247,19 +237,7 @@ describe('Messaging', () => {
 
     it('MM-T3448 Editing a post with Ctrl+Enter only for code blocks starting with ``` configured', () => {
         // # Enable 'Send Messages on CTRL+ENTER > On only for code blocks starting with ```' in Account Settings > Advanced
-        cy.findAllByLabelText('main menu').should('be.visible').click();
-        cy.findByText('Account Settings').click();
-        cy.get('#accountSettingsModal').should('be.visible').within(() => {
-            cy.findByText('Advanced').click();
-            if (cy.isMac()) {
-                cy.findByText('Send Messages on ⌘+ENTER').should('be.visible').click();
-            } else {
-                cy.findByText('Send Messages on CTRL+ENTER').should('be.visible').click();
-            }
-            cy.get('#ctrlSendOnForCode').check().should('be.checked');
-            cy.findByText('Save').click();
-            cy.findAllByLabelText('Close').first().click();
-        });
+        setSendMessagesOnCtrlEnter('On only for code blocks starting with ```');
 
         // # [17] Post message
         cy.get('#post_textbox').type(message1).type('{enter}').wait(TIMEOUTS.HALF_SEC);
@@ -397,19 +375,7 @@ describe('Messaging', () => {
 
     it('MM-T3449 Editing a post with Ctrl+Enter off for code blocks configured', () => {
         // # Enable 'Send Messages on CTRL+ENTER > Off in Account Settings > Advanced
-        cy.findAllByLabelText('main menu').should('be.visible').click();
-        cy.findByText('Account Settings').click();
-        cy.get('#accountSettingsModal').should('be.visible').within(() => {
-            cy.findByText('Advanced').click();
-            if (cy.isMac()) {
-                cy.findByText('Send Messages on ⌘+ENTER').should('be.visible').click();
-            } else {
-                cy.findByText('Send Messages on CTRL+ENTER').should('be.visible').click();
-            }
-            cy.get('#ctrlSendOff').check().should('be.checked');
-            cy.findByText('Save').click();
-            cy.findAllByLabelText('Close').first().click();
-        });
+        setSendMessagesOnCtrlEnter('Off');
 
         // # [29] Post message
         cy.get('#post_textbox').type(message1).wait(TIMEOUTS.HALF_SEC);
@@ -888,3 +854,17 @@ describe('Messaging', () => {
         });
     });
 });
+
+function setSendMessagesOnCtrlEnter(name) {
+    // # Open 'Advanced' section of 'Account Settings' modal
+    cy.uiOpenAccountSettingsModal('Advanced').within(() => {
+        // # Open 'Send Messages on Cmd/Ctrl+Enter' setting
+        cy.findByRole('heading', {name: `Send Messages on ${isMac() ? '⌘+ENTER' : 'CTRL+ENTER'}`}).should('be.visible').click();
+
+        // # Click radio button to select
+        cy.findByRole('radio', {name}).click();
+
+        // # Save and close the  modal
+        cy.uiSaveAndClose();
+    });
+}

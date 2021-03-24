@@ -39,6 +39,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
       <AdminPanelWithLink
         className=""
         disabled={false}
+        id="systemScheme"
         linkTextDefault="Edit Scheme"
         linkTextId="admin.permissions.systemSchemeBannerButton"
         subtitleDefault="Set the default permissions inherited by all teams unless a [Team Override Scheme](!https://about.mattermost.com/default-team-override-scheme) is applied."
@@ -126,6 +127,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
       <AdminPanelWithLink
         className=""
         disabled={false}
+        id="systemScheme"
         linkTextDefault="Edit Scheme"
         linkTextId="admin.permissions.systemSchemeBannerButton"
         subtitleDefault="Set the default permissions inherited by all teams unless a [Team Override Scheme](!https://about.mattermost.com/default-team-override-scheme) is applied."
@@ -191,6 +193,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
       <AdminPanelWithLink
         className=""
         disabled={true}
+        id="systemScheme"
         linkTextDefault="Edit Scheme"
         linkTextId="admin.permissions.systemSchemeBannerButton"
         subtitleDefault="Set the default permissions inherited by all teams unless a [Team Override Scheme](!https://about.mattermost.com/default-team-override-scheme) is applied."
@@ -305,6 +308,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
       <AdminPanelWithLink
         className=""
         disabled={true}
+        id="systemScheme"
         linkTextDefault="Edit Scheme"
         linkTextId="admin.permissions.systemSchemeBannerButton"
         subtitleDefault="Set the default permissions inherited by all teams unless a [Team Override Scheme](!https://about.mattermost.com/default-team-override-scheme) is applied."
@@ -419,6 +423,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
       <AdminPanelWithLink
         className=""
         disabled={false}
+        id="systemScheme"
         linkTextDefault="Edit Scheme"
         linkTextId="admin.permissions.systemSchemeBannerButton"
         subtitleDefault="Set the default permissions inherited by all teams unless a [Team Override Scheme](!https://about.mattermost.com/default-team-override-scheme) is applied."

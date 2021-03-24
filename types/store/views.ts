@@ -101,7 +101,9 @@ export type ViewsState = {
     };
 
     notice: {
-        [noticeType: string]: boolean;
+        hasBeenDismissed: {
+            [message: string]: boolean;
+        };
     };
 
     system: {
@@ -134,5 +136,9 @@ export type ViewsState = {
 
     nextSteps: {
         show: boolean;
+    };
+
+    statusDropdown: {
+        isOpen: boolean;
     };
 };

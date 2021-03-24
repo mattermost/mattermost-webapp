@@ -3,6 +3,7 @@
 
 import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
+
 import {getOutgoingHook, updateOutgoingHook} from 'mattermost-redux/actions/integrations';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {GlobalState} from 'mattermost-redux/types/store';
@@ -19,8 +20,8 @@ type OwnProps = {
 }
 
 type Actions = {
-    updateOutgoingHook: (hook: OutgoingWebhook) => Promise<{ data: OutgoingWebhook, error: ServerError }>;
-    getOutgoingHook: (hookId: string) => Promise<{ data: OutgoingWebhook, error: ServerError }>;
+    updateOutgoingHook: (hook: OutgoingWebhook) => Promise<{ data: OutgoingWebhook; error: ServerError }>;
+    getOutgoingHook: (hookId: string) => Promise<{ data: OutgoingWebhook; error: ServerError }>;
 }
 
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {

@@ -112,8 +112,8 @@ function verifyViewingArchivedChannel(channel) {
     cy.get('#channelHeaderInfo .icon__archive').should('be.visible');
 
     // * Verify that the channel is visible in the sidebar with the archived icon
-    cy.get(`#sidebarItem_${channel.name}`).should('be.visible');
-    cy.get(`#sidebarItem_${channel.name} .icon__archive`).should('be.visible');
+    cy.get(`#sidebarItem_${channel.name}`).should('be.visible').
+        find('.icon-archive-outline').should('be.visible');
 
     // * Verify that the archived channel banner is visible at the bottom of the channel view
     cy.get('#channelArchivedMessage').should('be.visible');

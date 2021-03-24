@@ -99,4 +99,17 @@ describe('multiSelectedChannelIds', () => {
             'channel-2',
         ]);
     });
+
+    test('should not update state when clearing without a selection', () => {
+        const initialState: string[] = [];
+
+        const state = Reducers.multiSelectedChannelIds(
+            initialState,
+            {
+                type: ActionTypes.MULTISELECT_CHANNEL_CLEAR,
+            },
+        );
+
+        expect(state).toBe(initialState);
+    });
 });

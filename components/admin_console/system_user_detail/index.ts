@@ -22,7 +22,7 @@ import {setNavigationBlocked} from 'actions/admin_actions.jsx';
 import SystemUserDetail from './system_user_detail';
 
 type OwnProps = {
-    match: any
+    match: any;
 };
 
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {

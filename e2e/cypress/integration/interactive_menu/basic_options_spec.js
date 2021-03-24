@@ -438,7 +438,7 @@ describe('Interactive Menu', () => {
             // # Get the last messages attachment container
             cy.get(`#messageAttachmentList_${lastPostId}`).within(() => {
                 // # Start typing only first few letters in the input
-                cy.findByPlaceholderText('Select an option...').scrollIntoView().clear({force: true}).type(`${firstFewLettersOfSelectedItem}`);
+                cy.findByPlaceholderText('Select an option...').scrollIntoView().clear({force: true}).type(`${firstFewLettersOfSelectedItem}`).wait(TIMEOUTS.ONE_SEC);
 
                 // * Message attachment dropdown with the selected item should be visible
                 cy.get('#suggestionList').should('exist').within(() => {
@@ -446,7 +446,7 @@ describe('Interactive Menu', () => {
                 });
 
                 // # Now that we know selected option appeared in the list, Click enter on input field
-                cy.findByPlaceholderText('Select an option...').scrollIntoView().clear({force: true}).type('{enter}');
+                cy.findByPlaceholderText('Select an option...').scrollIntoView().type('{enter}');
 
                 // * Verify the input has the selected value
                 cy.findByDisplayValue(selectedItem).should('exist');

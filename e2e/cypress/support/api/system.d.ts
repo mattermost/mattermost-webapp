@@ -16,7 +16,7 @@
 // ***************************************************************
 
 declare namespace Cypress {
-    interface Chainable<Subject = any> {
+    interface Chainable {
 
         /**
          * Get a subset of the server license needed by the client.
@@ -168,5 +168,13 @@ declare namespace Cypress {
          *   cy.shouldHavePluginUploadEnabled();
          */
         shouldHavePluginUploadEnabled(): Chainable;
+
+        /**
+         * Allow test for server running with subpath.
+         * Otherwise, fail fast.
+         * @example
+         *   cy.shouldRunWithSubpath();
+         */
+        shouldRunWithSubpath(): Chainable;
     }
 }

@@ -42,12 +42,12 @@ describe('Verify Accessibility Support in Dropdown Menus', () => {
 
     beforeEach(() => {
         // Visit the Off Topic channel
-        cy.visit(`/${testTeam.name}/channels/off-topic`).wait(TIMEOUTS.FIVE_SEC);
+        cy.visit(`/${testTeam.name}/channels/off-topic`);
     });
 
     it('MM-T1464 Accessibility Support in Channel Menu Dropdown', () => {
         // # Press tab from the Channel Favorite button
-        cy.get('#toggleFavorite').focus().wait(TIMEOUTS.HALF_SEC).tab({shift: true}).tab().tab();
+        cy.get('#toggleFavorite').focus().wait(TIMEOUTS.HALF_SEC).tab({shift: true}).tab().tab({shift: true});
 
         // * Verify the aria-label in channel menu button
         cy.get('#channelHeaderDropdownButton button').should('have.attr', 'aria-label', 'channel menu').and('have.class', 'a11y--active a11y--focused').click();
@@ -119,7 +119,7 @@ describe('Verify Accessibility Support in Dropdown Menus', () => {
         cy.focused().tab();
 
         // * Verify the accessibility support in the Status Dropdown menu items
-        const labels = ['online', 'away', 'do not disturb. disables all notifications', 'offline'];
+        const labels = ['Custom Status dialog', 'online', 'away', 'do not disturb. disables all notifications', 'offline'];
         verifyMenuItems('#statusDropdownMenu', labels);
 
         // * Verify if menu is closed when we press Escape

@@ -31,6 +31,14 @@
             border-color: rgba(var(--center-channel-color-rgb), 0.16);
             color: v(center-channel-color);
         }
+
+        .modal-header {
+            background: var(--sidebar-header-bg);
+
+            .close {
+                color: var(--sidebar-header-text-color);
+            }
+        }
     }
 
     .edit-modal-body {
@@ -248,7 +256,7 @@
         .close {
             @include opacity(0.7);
             @include single-transition(all, .1s, ease-in);
-            color: v(sidebar-header-text-color);
+            color: white;
             height: 30px;
             line-height: 30px;
             position: absolute;
@@ -592,6 +600,11 @@
         bottom: 0;
         position: absolute;
     }
+
+    .suggestion-list__content--bottom {
+        top: 0;
+        position: absolute;
+    }
 }
 
 .more-modal {
@@ -723,7 +736,7 @@
                 font-weight: 900;
                 justify-content: center;
                 align-items: center;
-
+                background: var(--center-channel-bg);
                 &:active {
                     opacity: 1;
                 }
@@ -794,7 +807,6 @@
         align-self: center;
         flex-grow: 1;
         flex-shrink: 1;
-        font-size: .9em;
         overflow: hidden;
         padding-left: 10px;
         text-overflow: ellipsis;
@@ -871,7 +883,11 @@
         }
 
         &.more-modal__row--selected {
-            background: rgba(var(--center-channel-color-rgb), 0.08);
+            background: rgba(var(--sys-center-channel-color-rgb), 0.08);
+
+            .app__body & {
+                background: rgba(var(--center-channel-color-rgb), 0.08);
+            }
 
             .more-modal__actions--round {
                 display: block;

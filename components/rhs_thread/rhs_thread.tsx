@@ -1,10 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 /* eslint-disable react/no-string-refs */
 
 import $ from 'jquery';
-import React, {UIEvent} from 'react';
+import React from 'react';
 import Scrollbars from 'react-custom-scrollbars';
+
 import {Posts} from 'mattermost-redux/constants';
 import {Channel} from 'mattermost-redux/types/channels';
 import {ExtendedPost} from 'mattermost-redux/actions/posts';
@@ -68,7 +70,7 @@ type State = {
     isScrolling: boolean;
     topRhsPostId: string;
     openTime: number;
-    postsArray?: Record<string, any>[];
+    postsArray?: Array<Record<string, any>>;
     isBusy?: boolean;
     postsContainerHeight: number;
     userScrolledToBottom: boolean;
@@ -78,7 +80,7 @@ export default class RhsThread extends React.Component<Props, State> {
     private scrollStopAction: DelayedAction;
     private rhspostlistRef: React.RefObject<HTMLDivElement>;
     private containerRef: React.RefObject<HTMLDivElement>;
-    private postCreateContainerRef : React.RefObject<HTMLDivElement>;
+    private postCreateContainerRef: React.RefObject<HTMLDivElement>;
 
     public static getDerivedStateFromProps(props: Props, state: State) {
         let updatedState: Partial<State> = {selected: props.selected};

@@ -28,8 +28,8 @@ export interface UpdateMyTermsOfServiceStatusResponse {
 }
 
 export interface TermsOfServiceProps {
-    location: {search: string},
-    termsEnabled: boolean,
+    location: {search: string};
+    termsEnabled: boolean;
     actions: {
         getTermsOfService: () => Promise<{ data: ReduxTermsOfService }>;
         updateMyTermsOfServiceStatus: (

@@ -13,6 +13,10 @@ import UserProfile from 'components/user_profile';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import Badge from 'components/widgets/badges/badge';
 
+import PostHeaderCustomStatus from './post_header_custom_status';
+
+import './post_header.scss';
+
 export type Props = {
 
     /*
@@ -151,6 +155,7 @@ export default class PostHeader extends React.PureComponent<Props> {
         } else if (isSystemMessage) {
             userProfile = (
                 <UserProfile
+                    userId=''
                     overwriteName={
                         <FormattedMessage
                             id='post_info.system'
@@ -167,12 +172,21 @@ export default class PostHeader extends React.PureComponent<Props> {
             colon = (<strong className='colon'>{':'}</strong>);
         }
 
+        const customStatus = (
+            <PostHeaderCustomStatus
+                userId={this.props.post.user_id}
+                isBot={this.props.isBot || fromWebhook}
+                isSystemMessage={isSystemMessage}
+            />
+        );
+
         return (
             <div className='post__header'>
                 <div className='col col__name'>
                     {userProfile}
                     {colon}
                     {indicator}
+                    {customStatus}
                 </div>
                 <div className='col'>
                     <PostInfo

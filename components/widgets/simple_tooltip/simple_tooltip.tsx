@@ -12,7 +12,7 @@ type Props = {
     children: ReactNode;
     className?: string;
     arrowOffsetTop?: number | string;
-    style?: CSSProperties
+    style?: CSSProperties;
 }
 
 const SimpleTooltip = ({

@@ -20,13 +20,13 @@ Cypress.Commands.add('apiGetAllPlugins', () => {
     });
 });
 
-Cypress.Commands.add('apiUploadPlugin', (filename) => {
+Cypress.Commands.add('apiUploadPlugin', (filename, waitTime = TIMEOUTS.HALF_MIN) => {
     return cy.apiUploadFile('plugin', filename, {url: '/api/v4/plugins', method: 'POST', successStatus: 201}).then(() => {
-        return cy.wait(TIMEOUTS.HALF_MIN);
+        return cy.wait(waitTime);
     });
 });
 
-Cypress.Commands.add('apiInstallPluginFromUrl', (pluginDownloadUrl, force = false) => {
+Cypress.Commands.add('apiInstallPluginFromUrl', (pluginDownloadUrl, force = false, waitTime = TIMEOUTS.HALF_MIN) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: `/api/v4/plugins/install_from_url?plugin_download_url=${encodeURIComponent(pluginDownloadUrl)}&force=${force}`,
@@ -36,7 +36,7 @@ Cypress.Commands.add('apiInstallPluginFromUrl', (pluginDownloadUrl, force = fals
     }).then((response) => {
         expect(response.status).to.equal(201);
 
-        cy.wait(TIMEOUTS.HALF_MIN);
+        cy.wait(waitTime);
         return cy.wrap({plugin: response.body});
     });
 });

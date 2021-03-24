@@ -29,6 +29,7 @@ describe('components/sidebar/sidebar_category/sidebar_category_menu', () => {
         actions: {
             openModal: jest.fn(),
             setCategoryMuted: jest.fn(),
+            setCategorySorting: jest.fn(),
         },
     };
 
