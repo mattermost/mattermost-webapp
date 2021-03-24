@@ -16,7 +16,7 @@ import {getRandomId} from '../../utils';
 import {clickCategoryMenuItem} from './helpers';
 
 describe('Channel sidebar', () => {
-    beforeEach(() => {
+    before(() => {
         // # Login as test user and visit town-square
         cy.apiAdminLogin();
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
