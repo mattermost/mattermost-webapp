@@ -122,28 +122,7 @@ class SwitchChannelSuggestion extends Suggestion {
                 </div>
             );
 
-            if (userItem.first_name || userItem.last_name || userItem.nickname) {
-                const displayString = [];
-                if (userItem.first_name || userItem.last_name) {
-                    displayString.push(`${userItem.first_name} ${userItem.last_name}`);
-                }
-                if (userItem.nickname) {
-                    displayString.push(`(${userItem.nickname})`);
-                }
-                displayName = (
-                    <React.Fragment>
-                        {displayString.join(' ')}
-                        <StatusIcon
-                            className={`${status}--icon`}
-                            status={status}
-                            button={false}
-                        />
-                        <div className='mentions__fullname'>
-                            {userItem.username}
-                        </div>
-                    </React.Fragment>
-                );
-            } else {
+            if (channel.display_name === userItem.username) {
                 displayName = (
                     <React.Fragment>
                         {userItem.username}
@@ -152,6 +131,20 @@ class SwitchChannelSuggestion extends Suggestion {
                             status={status}
                             button={false}
                         />
+                    </React.Fragment>
+                );
+            } else {
+                displayName = (
+                    <React.Fragment>
+                        {channel.display_name}
+                        <StatusIcon
+                            className={`${status}--icon`}
+                            status={status}
+                            button={false}
+                        />
+                        <div className='mentions__fullname'>
+                            {userItem.username}
+                        </div>
                     </React.Fragment>
                 );
             }
@@ -427,22 +420,22 @@ export default class SwitchChannelProvider extends Provider {
         // Otherwise, it's @username - fullname (nickname)
         if (teammateNameDisplay === Preferences.DISPLAY_PREFER_FULL_NAME) {
             if ((user.first_name || user.last_name) && user.nickname) {
-                displayName = `${Utils.getFullName(user)} - @${user.username} (${user.nickname})`;
+                displayName = `${Utils.getFullName(user)} (${user.nickname})`;
             } else if (user.nickname) {
-                displayName = `@${user.username} - (${user.nickname})`;
+                displayName = `(${user.nickname})`;
             } else if (user.first_name || user.last_name) {
-                displayName = `${Utils.getFullName(user)} - @${user.username}`;
+                displayName = `${Utils.getFullName(user)}`;
             } else {
-                displayName = `@${user.username}`;
+                displayName = `${user.username}`;
             }
         } else {
-            displayName = `@${user.username}`;
+            displayName = `${user.username}`;
             if ((user.first_name || user.last_name) && user.nickname) {
-                displayName += ` - ${Utils.getFullName(user)} (${user.nickname})`;
+                displayName += `${Utils.getFullName(user)} (${user.nickname})`;
             } else if (user.nickname) {
-                displayName += ` - (${user.nickname})`;
+                displayName += `(${user.nickname})`;
             } else if (user.first_name || user.last_name) {
-                displayName += ` - ${Utils.getFullName(user)}`;
+                displayName += `${Utils.getFullName(user)}`;
             }
         }
 
