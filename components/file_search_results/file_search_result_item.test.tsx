@@ -3,8 +3,8 @@
 
 import {shallow, ShallowWrapper} from 'enzyme';
 import React from 'react';
-import Constants from 'utils/constants';
 
+import Constants from 'utils/constants';
 import {TestHelper} from 'utils/test_helper';
 
 import FileSearchResultItem from './file_search_result_item';
