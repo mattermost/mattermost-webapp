@@ -16,6 +16,7 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 import {browserHistory} from 'utils/browser_history';
 import { Job, JobType } from 'mattermost-redux/types/jobs';
+import { ActionResult } from 'mattermost-redux/types/actions';
 
 type Props = {
     config: AdminConfig;
@@ -24,7 +25,8 @@ type Props = {
     actions: {
         getDataRetentionCustomPolicies: (page: number) => Promise<{ data: DataRetentionCustomPolicies }>;
         createJob: (job: Job) => Promise<{ data: any; }>;
-        getJobsByType: (job: JobType) => Promise<{ data: any}>
+        getJobsByType: (job: JobType) => Promise<{ data: any}>;
+        deleteDataRetentionCustomPolicy: (id: string) => Promise<ActionResult>;
     };
 };
 
@@ -42,6 +44,12 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
             page: 0,
             loading: false,
         }
+    }
+
+    deleteCustomPolicy = async (id: string) => {
+        console.log('deleting');
+        await this.props.actions.deleteDataRetentionCustomPolicy(id);
+        this.loadPage(0);
     }
 
     getGlobalPolicyColumns = () => {
@@ -208,7 +216,7 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                                 />
                                 <Menu.ItemAction
                                     show={true}
-                                    onClick={() => {}}
+                                    onClick={() => {this.deleteCustomPolicy(policy.id)}}
                                     text={'Delete'}
                                     disabled={false}
                                 />

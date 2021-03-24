@@ -602,6 +602,13 @@ function dataRetentionCustomPolicies(state: IDMappedObjects<DataRetentionCustomP
         return nextState;
     }
 
+    case AdminTypes.DELETE_DATA_RETENTION_CUSTOM_POLICY_SUCCESS: {
+        const nextState = {...state};
+        console.log(action);
+        // Reflect.deleteProperty(nextState, action.data.schemeId);
+        return nextState;
+    }
+
     case UserTypes.LOGOUT_SUCCESS:
         return {};
 

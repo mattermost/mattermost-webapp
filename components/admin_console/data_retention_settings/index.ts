@@ -4,10 +4,10 @@
 
 import {connect} from 'react-redux';
 
-import {getDataRetentionCustomPolicies as fetchDataRetentionCustomPolicies} from 'mattermost-redux/actions/admin';
+import {getDataRetentionCustomPolicies as fetchDataRetentionCustomPolicies, deleteDataRetentionCustomPolicy} from 'mattermost-redux/actions/admin';
 import {getDataRetentionCustomPolicies, getDataRetentionCustomPoliciesCount} from 'mattermost-redux/selectors/entities/admin';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
-import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
+import {GenericAction, ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
 import {DataRetentionCustomPolicies} from 'mattermost-redux/types/data_retention';
 import {createJob, getJobsByType} from 'mattermost-redux/actions/jobs';
 
@@ -18,6 +18,7 @@ import { Job, JobType } from 'mattermost-redux/types/jobs';
 
 type Actions = {
     getDataRetentionCustomPolicies: () => Promise<{ data: DataRetentionCustomPolicies}>;
+    deleteDataRetentionCustomPolicy: (id: string) => Promise<ActionResult>;
     createJob: (job: Job) => Promise<{ data: any}>
     getJobsByType: (job: JobType) => Promise<{ data: any}>
 };
@@ -38,6 +39,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             getDataRetentionCustomPolicies: fetchDataRetentionCustomPolicies,
             createJob,
             getJobsByType,
+            deleteDataRetentionCustomPolicy,
         }, dispatch),
     };
 }
