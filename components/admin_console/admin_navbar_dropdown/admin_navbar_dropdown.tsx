@@ -29,6 +29,7 @@ type Props = {
         deferNavigation: (onNavigationConfirmed: any) => any;
     };
     isLicensed: boolean;
+    isCloud: boolean;
 };
 
 class AdminNavbarDropdown extends React.PureComponent<Props> {
@@ -42,7 +43,7 @@ class AdminNavbarDropdown extends React.PureComponent<Props> {
     };
 
     render(): JSX.Element {
-        const {locale, teams, siteName, isLicensed} = this.props;
+        const {locale, teams, siteName, isLicensed, isCloud} = this.props;
         const {formatMessage} = this.props.intl;
         const teamToRender = []; // Array of team components
         let switchTeams;
@@ -100,6 +101,11 @@ class AdminNavbarDropdown extends React.PureComponent<Props> {
             );
         }
 
+        let adminGuideLink = 'https://about.mattermost.com/administrators-guide/';
+        if (isCloud) {
+            adminGuideLink = 'https://docs.mattermost.com/guides/cloud-admin-guide.html';
+        }
+
         return (
             <Menu ariaLabel={formatMessage({id: 'admin.nav.menuAriaLabel', defaultMessage: 'Admin Console Menu'})}>
                 <Menu.Group>
@@ -109,12 +115,12 @@ class AdminNavbarDropdown extends React.PureComponent<Props> {
                 <Menu.Group>
                     <Menu.ItemExternalLink
                         onClick={() => trackEvent('admin', 'click_administrators_guide')}
-                        url='https://about.mattermost.com/administrators-guide/'
+                        url={adminGuideLink}
                         text={formatMessage({id: 'admin.nav.administratorsGuide', defaultMessage: 'Administrator Guide'})}
                     />
                     <Menu.ItemExternalLink
                         onClick={() => trackEvent('admin', 'click_administrators_forum')}
-                        url='https://about.mattermost.com/troubleshooting-forum/'
+                        url={'https://about.mattermost.com/troubleshooting-forum/'}
                         text={formatMessage({id: 'admin.nav.troubleshootingForum', defaultMessage: 'Troubleshooting Forum'})}
                     />
                     {commercialSupport}
