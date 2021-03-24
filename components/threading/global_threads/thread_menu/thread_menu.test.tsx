@@ -5,8 +5,6 @@ import React, {ComponentProps} from 'react';
 import {set} from 'lodash';
 import {shallow} from 'enzyme';
 
-import {shallow} from 'enzyme';
-
 import {setThreadFollow, updateThreadRead} from 'mattermost-redux/actions/threads';
 jest.mock('mattermost-redux/actions/threads');
 

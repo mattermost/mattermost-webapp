@@ -18,13 +18,11 @@ import {
 import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getUserIdsInChannels, getUser} from 'mattermost-redux/selectors/entities/users';
-import {getInt, getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
+import {getInt, getTeammateNameDisplaySetting, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
-
-import {isCollapsedThreadsEnabled} from 'selectors/threads';
 
 import {Constants, NotificationLevels, StoragePrefixes} from 'utils/constants';
 
