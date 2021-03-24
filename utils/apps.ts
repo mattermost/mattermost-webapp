@@ -7,6 +7,8 @@ import {AppBinding, AppCall, AppCallRequest, AppCallValues, AppContext, AppExpan
 import {ClientConfig} from 'mattermost-redux/types/config';
 import {GlobalState} from 'mattermost-redux/types/store';
 
+export const appsPluginID = 'com.mattermost.apps';
+
 export function appsEnabled(state: GlobalState): boolean {
     const enabled = getConfig(state)?.['FeatureFlagAppsEnabled' as keyof Partial<ClientConfig>];
     return enabled === 'true';
