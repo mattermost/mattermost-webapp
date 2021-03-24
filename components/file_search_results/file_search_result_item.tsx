@@ -51,7 +51,6 @@ export default class FileSearchResultItem extends React.PureComponent<Props, Sta
     }
 
     private copyLink = (e: MouseEvent) => {
-        e.stopPropagation();
         copyToClipboard(`${getSiteURL()}/${this.props.teamName}/pl/${this.props.fileInfo.post_id}`);
     }
 
