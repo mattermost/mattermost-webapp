@@ -122,10 +122,17 @@ class SwitchChannelSuggestion extends Suggestion {
                 </div>
             );
 
-            if (userItem.firstName || userItem.last_name) {
+            if (userItem.first_name || userItem.last_name || userItem.nickname) {
+                const displayString = [];
+                if (userItem.first_name || userItem.last_name) {
+                    displayString.push(`${userItem.first_name} ${userItem.last_name}`);
+                }
+                if (userItem.nickname) {
+                    displayString.push(`(${userItem.nickname})`);
+                }
                 displayName = (
                     <React.Fragment>
-                        {`${userItem.first_name} ${userItem.last_name}`}
+                        {displayString.join(' ')}
                         <StatusIcon
                             className={`${status}--icon`}
                             status={status}
