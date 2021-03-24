@@ -3,6 +3,7 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
+
 import {editCommand, getCustomTeamCommands} from 'mattermost-redux/actions/integrations';
 import {getCommands} from 'mattermost-redux/selectors/entities/integrations';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
