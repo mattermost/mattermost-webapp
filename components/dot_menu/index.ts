@@ -10,6 +10,8 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId, getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getAppBindings} from 'mattermost-redux/selectors/entities/apps';
 import {AppBindingLocations} from 'mattermost-redux/constants/apps';
+import {isSystemMessage} from 'mattermost-redux/utils/post_utils';
+import {isCombinedUserActivityPost} from 'mattermost-redux/utils/post_list';
 
 import {ActionFunc, ActionResult, GenericAction} from 'mattermost-redux/types/actions';
 
@@ -62,7 +64,8 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
     const currentTeamUrl = `${getSiteURL()}/${currentTeam.name}`;
 
     const apps = appsEnabled(state);
-    const appBindings = apps ? getAppBindings(state, AppBindingLocations.POST_MENU_ITEM) : [];
+    const showBindings = apps && !isSystemMessage(post) && !isCombinedUserActivityPost(post.id);
+    const appBindings = showBindings ? getAppBindings(state, AppBindingLocations.POST_MENU_ITEM) : [];
 
     return {
         channelIsArchived: isArchivedChannel(channel),
@@ -75,7 +78,6 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
         canDelete: PostUtils.canDeletePost(state, post, channel),
         currentTeamUrl,
         appBindings,
-        appsEnabled: apps,
         ...ownProps,
     };
 }
