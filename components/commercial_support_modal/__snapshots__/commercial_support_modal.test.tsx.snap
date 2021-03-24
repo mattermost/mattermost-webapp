@@ -58,6 +58,11 @@ exports[`components/CommercialSupportModal should match snapshot 1`] = `
  
 We recommend that you download additional environment details about your Mattermost environment to help with troubleshooting. Once downloaded, attach the packet to your support ticket to share with our Customer Support team."
         id="commercial_support.description"
+        values={
+          Object {
+            "supportLink": "https://support.mattermost.com/hc/en-us/requests/new",
+          }
+        }
       />
       <a
         className="btn btn-primary DownloadSupportPacket"
