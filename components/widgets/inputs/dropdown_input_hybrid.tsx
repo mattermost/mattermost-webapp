@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, {useState, CSSProperties, useEffect, useRef} from 'react';
-import ReactSelect, {Props as SelectProps, components} from 'react-select';
+import ReactSelect, {Props as SelectProps, components, IndicatorContainerProps, ControlProps, OptionProps} from 'react-select';
 import classNames from 'classnames';
 
 import 'components/input.css';
@@ -52,36 +52,30 @@ const baseStyles = {
 };
 
 
-const IndicatorsContainer = (props: any) => {
-    return (
-        <div className='DropdownInput__indicatorsContainer'>
-            <components.IndicatorsContainer {...props}>
-                <i className='icon icon-chevron-down'/>
-            </components.IndicatorsContainer>
-        </div>
-    );
-};
+const IndicatorsContainer = (props: IndicatorContainerProps<ValueType>) => (
+    <div className='DropdownInput__indicatorsContainer'>
+        <components.IndicatorsContainer {...props}>
+            <i className='icon icon-chevron-down'/>
+        </components.IndicatorsContainer>
+    </div>
+);
 
-const Control = (props: any) => {
-    return (
-        <div className='DropdownInput__controlContainer'>
-            <components.Control {...props}/>
-        </div>
-    );
-};
+const Control = (props: ControlProps<ValueType>) => (
+    <div className='DropdownInput__controlContainer'>
+        <components.Control {...props}/>
+    </div>
+);
 
-const Option = (props: any) => {
-    return (
-        <div
-            className={classNames('DropdownInput__option', {
-                selected: props.isSelected,
-                focused: props.isFocused,
-            })}
-        >
-            <components.Option {...props}/>
-        </div>
-    );
-};
+const Option = (props: OptionProps<ValueType>) => (
+    <div
+        className={classNames('DropdownInput__option', {
+            selected: props.isSelected,
+            focused: props.isFocused,
+        })}
+    >
+        <components.Option {...props}/>
+    </div>
+);
 
 const DropdownInputHybrid = <T extends ValueType>(props: Props<T>) => {
     const {
@@ -105,7 +99,7 @@ const DropdownInputHybrid = <T extends ValueType>(props: Props<T>) => {
     const inputRef = useRef<HTMLInputElement>(null);
     const [inputFocused, setInputFocused] = useState(false);
     const [focused, setFocused] = useState(false);
-    const [showInput, setShowInput] = useState(inputValue ? true : false);
+    const [showInput, setShowInput] = useState(!!inputValue);
 
     useEffect(() => {
         if (showInput && !inputValue && inputRef.current) {
@@ -139,12 +133,9 @@ const DropdownInputHybrid = <T extends ValueType>(props: Props<T>) => {
         return {};
     }
 
-    const onInputBlur = () => {
-        setInputFocused(false);
-    };
-    const onInputFocus = () => {
-        setInputFocused(true);
-    };
+    const onInputBlur = () => setInputFocused(false);
+
+    const onInputFocus = () => setInputFocused(true);;
 
     const onDropdownInputFocus = (event: React.FocusEvent<HTMLElement>) => {
         const {onFocus} = props;
@@ -213,7 +204,7 @@ const DropdownInputHybrid = <T extends ValueType>(props: Props<T>) => {
                     onFocus={onInputFocus}
                     onBlur={onInputBlur}
                     style={{
-                        maxWidth: showInput && containerRef.current ? '1000px' : '0',
+                        maxWidth: showInput && containerRef.current ? '10000px' : '0',
                     }}
                 >
                     <input
