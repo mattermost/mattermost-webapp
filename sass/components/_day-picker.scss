@@ -12,6 +12,7 @@
             border-bottom: 1px solid transparent;
             margin: 0 0.5rem .7rem;
             padding: 0 0.5rem .7rem;
+            text-align: center;
 
             >div {
                 font-size: inherit;
@@ -41,6 +42,17 @@
         .DayPicker-Month {
             width: 100%;
             margin: 0;
+        }
+    }
+}
+
+.DayPickerInput {
+    &-OverlayWrapper &-Overlay {
+        background: var(--center-channel-bg);
+        
+        & .DayPicker {
+            width: 344px;
+            margin-top: 8px;
         }
     }
 }

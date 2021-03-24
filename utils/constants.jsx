@@ -886,6 +886,16 @@ export const ZoomSettings = {
     MAX_SCALE: 3.0,
 };
 
+export const CustomStatusExpiryConstants = {
+    DONT_CLEAR: 'dont-clear',
+    THIRTY_MINUTES: 'thirty-minutes',
+    ONE_HOUR: 'one-hour',
+    FOUR_HOURS: 'four-hours',
+    TODAY: 'today',
+    THIS_WEEK: 'this-week',
+    DATE_AND_TIME: 'date-and-time',
+};
+
 export const Constants = {
     SettingsTypes,
     JobTypes,

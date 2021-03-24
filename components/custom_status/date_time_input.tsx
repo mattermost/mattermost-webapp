@@ -5,13 +5,16 @@ import {useSelector} from 'react-redux';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import {DayModifiers, NavbarElementProps} from 'react-day-picker';
 
-import './daypicker.scss';
+import {localizeMessage} from 'utils/utils';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
 import {getUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {getCurrentLocale} from 'selectors/i18n';
 import {areTimezonesEnabledAndSupported} from 'selectors/general';
 import {getCurrentDateForTimezone} from 'utils/timezone';
+import MenuWrapper from 'components/widgets/menu/menu_wrapper';
+import Menu from 'components/widgets/menu/menu';
+import {CustomStatusExpiryConstants} from 'utils/constants';
 
 const Navbar: React.FC<Partial<NavbarElementProps>> = (navbarProps: Partial<NavbarElementProps>) => {
     const {
@@ -37,19 +40,10 @@ const Navbar: React.FC<Partial<NavbarElementProps>> = (navbarProps: Partial<Navb
                     }
                 }}
             >
-                <svg
-                    width='10'
-                    height='16'
-                    viewBox='0 0 10 16'
-                    fill='none'
-                    xmlns='http://www.w3.org/2000/svg'
-                >
-                    <path
-                        d='M9.878 1.91605L8.528 0.566049L1.094 8.00005L8.528 15.434L9.878 14.066L3.794 8.00005L9.878 1.91605ZM9.5 1.84405L8.15 0.494048L0.5 8.00005L8.15 15.506L9.5 14.156L3.2 8.00005L9.5 1.84405Z'
-                        fill='#3D3C40'
-                        fillOpacity='0.32'
-                    />
-                </svg>
+                <i
+                    className='fa fa-angle-left'
+                    aria-hidden='true'
+                />
             </button>
             <button
                 className='style--none'
@@ -61,26 +55,17 @@ const Navbar: React.FC<Partial<NavbarElementProps>> = (navbarProps: Partial<Navb
                     }
                 }}
             >
-                <svg
-                    width='10'
-                    height='16'
-                    viewBox='0 0 10 16'
-                    fill='none'
-                    xmlns='http://www.w3.org/2000/svg'
-                >
-                    <path
-                        d='M0.41 2.09605L6.314 8.00005L0.41 13.904L1.994 15.506L9.5 8.00005L1.994 0.494048L0.41 2.09605Z'
-                        fill='#3D3C40'
-                        fillOpacity='0.56'
-                    />
-                </svg>
+                <i
+                    className='fa fa-angle-right'
+                    aria-hidden='true'
+                />
             </button>
         </div>
     );
 };
 
 const DateTimeInputContainer: React.FC = () => {
-    const [day, setDay] = useState('Today');
+    const [day, setDay] = useState(CustomStatusExpiryConstants.TODAY);
     const currentUserId = useSelector(getCurrentUserId);
     const userTimezone = useSelector((state: GlobalState) => getUserTimezone(state, currentUserId));
     const locale = useSelector(getCurrentLocale);
@@ -100,7 +85,7 @@ const DateTimeInputContainer: React.FC = () => {
 
     const handleDayChange = (day: Date, modifiers: DayModifiers) => {
         if (modifiers.today) {
-            setDay('Today');
+            setDay(CustomStatusExpiryConstants.TODAY);
         } else {
             setDay(day.toString());
         }
@@ -135,14 +120,34 @@ const DateTimeInputContainer: React.FC = () => {
                 />
             </div>
             <div className='dateTime__time-input'>
-                <span className='dateTime__input-title'>{'Time'}</span>
-                <span className='dateTime__time-icon'>
-                    <i
-                        className='fa fa-clock-o'
-                        aria-hidden='true'
-                    />
-                </span>
-                <input value='12:30 PM'/>
+                <MenuWrapper
+                    className='dateTime__time-menu'
+                >
+                    <div>
+                        <span className='dateTime__input-title'>{'Time'}</span>
+                        <span className='dateTime__time-icon'>
+                            <i
+                                className='fa fa-clock-o'
+                                aria-hidden='true'
+                            />
+                        </span>
+                        <input
+                            value='12:30 PM'
+                            readOnly={true}
+                        />
+                    </div>
+                    <Menu
+                        ariaLabel={localizeMessage('time_dropdown.choose_time', 'Choose a time')}
+                        id='expiryTimeMenu'
+                    >
+                        <Menu.Group>
+                            <Menu.ItemAction
+                                text='12:30 PM'
+                                id={'expiry-time-menu-1230'}
+                            />
+                        </Menu.Group>
+                    </Menu>
+                </MenuWrapper>
             </div>
         </div>
     );

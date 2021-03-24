@@ -17,8 +17,8 @@ import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx
 import {GlobalState} from 'types/store';
 import RenderEmoji from 'components/emoji/render_emoji';
 import QuickInput from 'components/quick_input';
-import {makeGetCustomStatus, getRecentCustomStatuses, showStatusDropdownPulsatingDot} from 'selectors/views/custom_status';
-import Constants from 'utils/constants';
+import {getCustomStatus, getRecentCustomStatuses, showStatusDropdownPulsatingDot} from 'selectors/views/custom_status';
+import {Constants, CustomStatusExpiryConstants} from 'utils/constants';
 import {t} from 'utils/i18n';
 
 import ExpiryMenu from './expiry_menu';
@@ -49,7 +49,6 @@ const defaultCustomStatusSuggestions: DefaultUserCustomStatus[] = [
 ];
 
 const CustomStatusModal: React.FC<Props> = (props: Props) => {
-    const getCustomStatus = makeGetCustomStatus();
     const dispatch = useDispatch();
     const currentCustomStatus = useSelector((state: GlobalState) => getCustomStatus(state)) || {};
     const recentCustomStatuses = useSelector((state: GlobalState) => getRecentCustomStatuses(state));
@@ -58,11 +57,11 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
     const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
     const [text, setText] = useState<string>(currentCustomStatus.text || '');
     const [emoji, setEmoji] = useState<string>(currentCustomStatus.emoji);
-    const [expiry, setExpiry] = useState<string>('four-hours');
+    const [expiry, setExpiry] = useState<string>(CustomStatusExpiryConstants.FOUR_HOURS);
     const isStatusSet = emoji || text;
     const isCurrentCustomStatusSet = currentCustomStatus.text || currentCustomStatus.emoji;
     const firstTimeModalOpened = useSelector((state: GlobalState) => showStatusDropdownPulsatingDot(state));
-    const showDateAndTimeField = isStatusSet && expiry === 'date-and-time';
+    const showDateAndTimeField = isStatusSet && expiry === CustomStatusExpiryConstants.DATE_AND_TIME;
 
     const handleCustomStatusInitializationState = () => {
         if (firstTimeModalOpened) {
