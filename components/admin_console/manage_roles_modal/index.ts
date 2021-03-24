@@ -3,6 +3,7 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
+
 import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
 
 import {updateUserRoles} from 'mattermost-redux/actions/users';

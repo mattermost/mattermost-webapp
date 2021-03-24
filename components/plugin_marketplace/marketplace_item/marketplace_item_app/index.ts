@@ -3,6 +3,7 @@
 
 import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
+
 import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {GlobalState} from 'types/store';

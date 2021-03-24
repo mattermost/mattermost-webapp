@@ -4,6 +4,7 @@
 import {connect} from 'react-redux';
 
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
+
 import {ActionFunc, ActionResult, GenericAction} from 'mattermost-redux/types/actions';
 import {AppCallRequest, AppCallType} from 'mattermost-redux/types/apps';
 

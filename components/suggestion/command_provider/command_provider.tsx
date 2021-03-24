@@ -3,13 +3,13 @@
 
 import React from 'react';
 
+import {Store} from 'redux';
+
 import {Client4} from 'mattermost-redux/client';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getChannel, getCurrentChannel, getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
 import {AutocompleteSuggestion} from 'mattermost-redux/types/integrations';
 import {Post} from 'mattermost-redux/types/posts';
-
-import {Store} from 'redux';
 
 import globalStore from 'stores/redux_store';
 

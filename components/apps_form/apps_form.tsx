@@ -4,6 +4,7 @@
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage, injectIntl, WrappedComponentProps} from 'react-intl';
+
 import {
     checkDialogElementForError, checkIfErrorsMatchElements,
 } from 'mattermost-redux/utils/integration_utils';

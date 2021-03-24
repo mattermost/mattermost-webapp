@@ -3,6 +3,8 @@
 
 import React from 'react';
 
+import {injectIntl, IntlShape} from 'react-intl';
+
 import {ActionResult} from 'mattermost-redux/types/actions';
 
 import {Post} from 'mattermost-redux/types/posts';
@@ -10,8 +12,6 @@ import {Post} from 'mattermost-redux/types/posts';
 import {AppBinding, AppCallRequest, AppCallResponse, AppCallType} from 'mattermost-redux/types/apps';
 
 import {AppBindingLocations, AppCallResponseTypes, AppCallTypes, AppExpandLevels} from 'mattermost-redux/constants/apps';
-
-import {injectIntl, IntlShape} from 'react-intl';
 
 import {Channel} from 'mattermost-redux/types/channels';
 

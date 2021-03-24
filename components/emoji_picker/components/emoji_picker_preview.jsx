@@ -4,6 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+
 import {getEmojiImageUrl} from 'mattermost-redux/utils/emoji_utils';
 
 import imgTrans from 'images/img_trans.gif';

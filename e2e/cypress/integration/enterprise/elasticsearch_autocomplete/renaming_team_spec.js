@@ -8,7 +8,7 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @enterprise @elasticsearch @autocomplete
+// Group: @enterprise @elasticsearch @autocomplete @not_cloud
 
 import {getRandomId} from '../../../utils';
 
@@ -24,6 +24,8 @@ describe('Autocomplete with Elasticsearch - Renaming Team', () => {
     let testChannel;
 
     before(() => {
+        cy.shouldNotRunOnCloudEdition();
+
         // * Check if server has license for Elasticsearch
         cy.apiRequireLicenseForFeature('Elasticsearch');
 

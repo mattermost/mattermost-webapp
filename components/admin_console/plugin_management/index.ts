@@ -3,6 +3,7 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
+
 import {
     getPlugins,
     getPluginStatuses,

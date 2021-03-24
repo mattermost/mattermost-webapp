@@ -3,10 +3,10 @@
 
 import React from 'react';
 
+import {injectIntl, IntlShape} from 'react-intl';
+
 import {AppCallResponse, AppField, AppForm, AppFormValues, AppSelectOption, AppCallType, AppCallRequest} from 'mattermost-redux/types/apps';
 import {AppCallTypes, AppCallResponseTypes} from 'mattermost-redux/constants/apps';
-
-import {injectIntl, IntlShape} from 'react-intl';
 
 import EmojiMap from 'utils/emoji_map';
 

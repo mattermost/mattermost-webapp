@@ -4,6 +4,7 @@
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
+
 import {Client4} from 'mattermost-redux/client';
 import {Dictionary} from 'mattermost-redux/types/utilities';
 import {ActionFunc} from 'mattermost-redux/types/actions';

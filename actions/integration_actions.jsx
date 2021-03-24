@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import request from 'superagent';
+
 import * as IntegrationActions from 'mattermost-redux/actions/integrations';
 import {getProfilesByIds} from 'mattermost-redux/actions/users';
 import {getUser} from 'mattermost-redux/selectors/entities/users';
