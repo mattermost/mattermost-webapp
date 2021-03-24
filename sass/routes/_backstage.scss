@@ -5,14 +5,14 @@
 
 .backstage-navbar {
     background: $white;
-    height: 41px;
+    height: $backstage-bar-height;
     border-bottom: 1px solid $light-gray;
     padding: 10px 20px;
     z-index: 10;
 }
 
 .backstage-navbar__back {
-    color: inherit;
+    color: var(--button-bg);
     text-decoration: none;
 
     .fa {
@@ -23,7 +23,8 @@
 
     &:hover,
     &:active {
-        color: inherit;
+        color: var(--button-bg);
+        text-decoration: underline;
     }
 }
 

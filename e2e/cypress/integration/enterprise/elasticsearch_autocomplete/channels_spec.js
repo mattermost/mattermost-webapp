@@ -7,7 +7,8 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @enterprise @elasticsearch @autocomplete
+// Stage: @prod
+// Group: @enterprise @elasticsearch @autocomplete @not_cloud
 
 import {getAdminAccount} from '../../../support/env';
 
@@ -23,7 +24,9 @@ describe('Autocomplete with Elasticsearch - Channel', () => {
     let testUser;
 
     before(() => {
-        // * Check if server has license for Elasticsearch
+        cy.shouldNotRunOnCloudEdition();
+
+        // # Check if server has license for Elasticsearch
         cy.apiRequireLicenseForFeature('Elasticsearch');
 
         // # Enable Elasticsearch

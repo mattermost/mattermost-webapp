@@ -3,6 +3,7 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators, ActionCreatorsMapObject, Dispatch} from 'redux';
+
 import {
     getProfiles,
     getProfilesInTeam,

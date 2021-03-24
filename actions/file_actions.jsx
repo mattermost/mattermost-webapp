@@ -3,6 +3,7 @@
 
 import {batchActions} from 'redux-batched-actions';
 import request from 'superagent';
+
 import {FileTypes} from 'mattermost-redux/action_types';
 import {getLogErrorAction} from 'mattermost-redux/actions/errors';
 import {forceLogoutIfNecessary} from 'mattermost-redux/actions/helpers';
