@@ -32,7 +32,6 @@ const iconMap: {[key in NoResultsVariant]: React.ReactNode } = {
     [NoResultsVariant.Mentions]: <MentionsIcon className='no-results__icon'/>,
     [NoResultsVariant.FlaggedPosts]: <FlagIcon className='no-results__icon'/>,
     [NoResultsVariant.PinnedPosts]: <PinIcon className='no-results__icon'/>,
-    [NoResultsVariant.PinnedPosts]: <PinIcon className='no-results__icon'/>,
 };
 
 const titleMap: {[key in NoResultsVariant]: MessageDescriptor} = {

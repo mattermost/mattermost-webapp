@@ -9,7 +9,7 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {makeGetPostsForThread, getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getThread} from 'mattermost-redux/selectors/entities/threads';
-import {get, getBool} from 'mattermost-redux/selectors/entities/preferences';
+import {get, getBool, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {removePost, getPostThread} from 'mattermost-redux/actions/posts';
 import {getThread as fetchThread, updateThreadRead} from 'mattermost-redux/actions/threads';
 import {GenericAction} from 'mattermost-redux/types/actions';
@@ -22,8 +22,6 @@ import {getDirectTeammate} from 'utils/utils.jsx';
 import {getSocketStatus} from 'selectors/views/websocket';
 import {selectPostCard} from 'actions/views/rhs';
 import {GlobalState} from 'types/store';
-
-import {isCollapsedThreadsEnabled} from 'selectors/threads';
 
 import ThreadViewer from './thread_viewer';
 

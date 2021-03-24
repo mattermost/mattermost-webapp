@@ -8,8 +8,9 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 
-import UserGuideDropdown from 'components/channel_header/components/user_guide_dropdown/user_guide_dropdown';
-import {toggleShortcutsModal} from 'actions/global_actions';
+import * as GlobalActions from 'actions/global_actions';
+
+import UserGuideDropdown from './user_guide_dropdown';
 
 jest.mock('actions/global_actions', () => ({
     toggleShortcutsModal: jest.fn(),
@@ -68,7 +69,7 @@ describe('components/channel_header/components/UserGuideDropdown', () => {
         );
 
         wrapper.find(Menu.ItemAction).prop('onClick')({preventDefault: jest.fn()});
-        expect(toggleShortcutsModal).toHaveBeenCalled();
+        expect(GlobalActions.toggleShortcutsModal).toHaveBeenCalled();
     });
 
     test('Should call for track event on click of askTheCommunityLink', () => {

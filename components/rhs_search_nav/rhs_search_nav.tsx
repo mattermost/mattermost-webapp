@@ -17,7 +17,8 @@ import {
 
 import * as Utils from 'utils/utils';
 
-import HeaderIconWrapper from './components/header_icon_wrapper';
+import HeaderIconWrapper from 'components/channel_header/components/header_icon_wrapper';
+
 import UserGuideDropdown from './components/user_guide_dropdown';
 
 const SEARCH_BAR_MINIMUM_WINDOW_SIZE = 1140;

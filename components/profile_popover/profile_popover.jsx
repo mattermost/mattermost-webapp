@@ -157,7 +157,10 @@ class ProfilePopover extends React.PureComponent {
     }
 
     componentDidMount() {
-        this.props.actions.getMembershipForCurrentEntities(this.props.userId, this.props.channelId);
+        const {currentTeamId, userId, channelId} = this.props;
+        if (currentTeamId && userId) {
+            this.props.actions.getMembershipForCurrentEntities(currentTeamId, userId, channelId);
+        }
     }
 
     handleShowDirectChannel = (e) => {
@@ -335,8 +338,7 @@ class ProfilePopover extends React.PureComponent {
         const {formatMessage} = this.props.intl;
 
         var dataContent = [];
-        const urlSrc = this.props.overwriteIcon ?
-            this.props.overwriteIcon : this.props.src;
+        const urlSrc = this.props.overwriteIcon ? this.props.overwriteIcon : this.props.src;
 
         dataContent.push(
             <Avatar

@@ -3,6 +3,7 @@
 
 import React, {ComponentProps} from 'react';
 import {set} from 'lodash';
+import {shallow} from 'enzyme';
 
 import {shallow} from 'enzyme';
 
