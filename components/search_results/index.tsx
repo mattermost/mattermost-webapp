@@ -12,6 +12,7 @@ import {getCurrentSearchForCurrentTeam} from 'mattermost-redux/selectors/entitie
 import {Post} from 'mattermost-redux/types/posts';
 import {Channel} from 'mattermost-redux/types/channels';
 import {FileSearchResultItem} from 'mattermost-redux/types/files';
+import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import {
     getSearchResultsTerms,
@@ -116,6 +117,7 @@ function makeMapStateToProps() {
             isSearchFilesAtEnd: currentSearch.isFilesEnd,
             searchPage: currentSearch.params?.page,
             compactDisplay: PreferenceSelectors.get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT,
+            currentTeamName: getCurrentTeam(state).name,
         };
     };
 }

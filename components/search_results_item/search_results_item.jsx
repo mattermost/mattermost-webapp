@@ -27,7 +27,6 @@ import BotBadge from 'components/widgets/badges/bot_badge';
 import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 import PostPreHeader from 'components/post_view/post_pre_header';
 import FileSearchResultItem from 'components/file_search_results/file_search_result_item';
-import ViewImageModal from 'components/view_image';
 
 import Constants, {Locations} from 'utils/constants';
 import * as PostUtils from 'utils/post_utils.jsx';
@@ -41,11 +40,6 @@ class SearchResultsItem extends React.PureComponent {
         *  Data used for rendering post
         */
         post: PropTypes.object,
-
-        /**
-        *  Data used for rendering file
-        */
-        fileInfo: PropTypes.object,
 
         /**
          * The function to create an aria-label
@@ -146,7 +140,7 @@ class SearchResultsItem extends React.PureComponent {
 
         this.state = {
             dropdownOpened: false,
-            showPreview: null,
+            showPreview: false,
         };
     }
 
@@ -230,44 +224,8 @@ class SearchResultsItem extends React.PureComponent {
     }
 
     render() {
-        const {post, fileInfo, channelIsArchived, channelType} = this.props;
-        let channelName = this.getChannelName();
-
-        if (fileInfo) {
-            channelName = this.props.channelName;
-            if (channelType === Constants.DM_CHANNEL) {
-                channelName = this.props.intl.formatMessage({
-                    id: 'search_item.file_badge.direct_message',
-                    defaultMessage: 'Direct Message',
-                });
-            }
-            if (channelType === Constants.GM_CHANNEL) {
-                channelName = this.props.intl.formatMessage({
-                    id: 'search_item.file_badge.group_message',
-                    defaultMessage: 'Group Message',
-                });
-            }
-            return (
-                <div
-                    data-testid='search-item-container'
-                    className='search-item__container'
-                >
-                    <FileSearchResultItem
-                        fileInfo={this.props.fileInfo}
-                        teamName={this.props.currentTeamName}
-                        channelDisplayName={channelName}
-                        onClick={() => this.setState({showPreview: this.props.fileInfo.postId})}
-                    />
-                    <ViewImageModal
-                        show={this.state.showPreview === this.props.fileInfo.postId}
-                        onModalDismissed={() => this.setState({showPreview: null})}
-                        startIndex={0}
-                        fileInfos={[this.props.fileInfo]}
-                        postId={this.props.fileInfo.postId}
-                    />
-                </div>
-            );
-        }
+        const {post, channelIsArchived} = this.props;
+        const channelName = this.getChannelName();
 
         let overrideUsername;
         let disableProfilePopover = false;

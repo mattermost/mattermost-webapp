@@ -9,7 +9,7 @@ import Scrollbars from 'react-custom-scrollbars';
 import classNames from 'classnames';
 
 import {debounce} from 'mattermost-redux/actions/helpers';
-import {FileSearchResultItem} from 'mattermost-redux/types/files';
+import {FileSearchResultItem as FileSearchResultItemType} from 'mattermost-redux/types/files';
 import {Post} from 'mattermost-redux/types/posts';
 
 import * as Utils from 'utils/utils.jsx';
@@ -21,6 +21,7 @@ import SearchHint from 'components/search_hint/search_hint';
 import LoadingSpinner from 'components/widgets/loading/loading_wrapper';
 import NoResultsIndicator from 'components/no_results_indicator/no_results_indicator';
 import FlagIcon from 'components/widgets/icons/flag_icon';
+import FileSearchResultItem from 'components/file_search_results/file_search_result_item';
 
 import {NoResultsVariant} from 'components/no_results_indicator/types';
 
@@ -184,7 +185,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
         noResultsProps.subtitleValues = {text: <strong>{'Pin to Channel'}</strong>};
 
         sortedResults = [...results];
-        sortedResults.sort((postA: Post|FileSearchResultItem, postB: Post|FileSearchResultItem) => postB.create_at - postA.create_at);
+        sortedResults.sort((postA: Post|FileSearchResultItemType, postB: Post|FileSearchResultItemType) => postB.create_at - postA.create_at);
 
         titleDescriptor.id = 'search_header.pinnedPosts';
         titleDescriptor.defaultMessage = 'Pinned Posts';
@@ -267,22 +268,32 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
             sortedResults = fileResults;
         }
 
-        contentItems = sortedResults.map((item: Post|FileSearchResultItem, index: number) => {
+        contentItems = sortedResults.map((item: Post|FileSearchResultItemType, index: number) => {
+            if (searchType === MESSAGES_SEARCH_TYPE && !props.isChannelFiles) {
+                return (
+                    <SearchResultsItem
+                        key={item.id}
+                        compactDisplay={props.compactDisplay}
+                        post={item}
+                        channelName={props.channels[item.channel_id] && props.channels[item.channel_id].display_name}
+                        channelType={props.channels[item.channel_id] && props.channels[item.channel_id].type}
+                        channelIsArchived={props.channels[item.channel_id] && props.channels[item.channel_id].delete_at !== 0}
+                        matches={props.matches[item.id]}
+                        term={(!props.isFlaggedPosts && !props.isPinnedPosts && !props.isMentionSearch) ? searchTerms : ''}
+                        isMentionSearch={props.isMentionSearch}
+                        a11yIndex={index}
+                        isFlaggedPosts={props.isFlaggedPosts}
+                        isPinnedPosts={props.isPinnedPosts}
+                    />
+                );
+            }
             return (
-                <SearchResultsItem
+                <FileSearchResultItem
                     key={item.id}
-                    compactDisplay={props.compactDisplay}
-                    post={searchType === MESSAGES_SEARCH_TYPE && !props.isChannelFiles ? item : undefined}
-                    fileInfo={searchType === FILES_SEARCH_TYPE || props.isChannelFiles ? item : undefined}
-                    channelName={!props.isChannelFiles && props.channels[item.channel_id] && props.channels[item.channel_id].display_name}
-                    channelType={!props.isChannelFiles && props.channels[item.channel_id] && props.channels[item.channel_id].type}
-                    channelIsArchived={!props.isChannelFiles && props.channels[item.channel_id] && props.channels[item.channel_id].delete_at !== 0}
-                    matches={props.matches[item.id]}
-                    term={(!props.isFlaggedPosts && !props.isPinnedPosts && !props.isMentionSearch && !props.isChannelFiles) ? searchTerms : ''}
-                    isMentionSearch={props.isMentionSearch}
-                    a11yIndex={index}
-                    isFlaggedPosts={props.isFlaggedPosts}
-                    isPinnedPosts={props.isPinnedPosts}
+                    fileInfo={item as FileSearchResultItemType}
+                    teamName={props.currentTeamName}
+                    channelType={props.channels[item.channel_id] && props.channels[item.channel_id].type}
+                    channelDisplayName={props.channels[item.channel_id] && props.channels[item.channel_id].display_name}
                 />
             );
         });
