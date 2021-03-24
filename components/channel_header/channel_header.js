@@ -207,12 +207,11 @@ class ChannelHeader extends React.PureComponent {
         }
     };
 
-    showChannelFiles = (e) => {
-        e.preventDefault();
+    showChannelFiles = () => {
         if (this.props.rhsState === RHSStates.CHANNEL_FILES) {
             this.props.actions.closeRightHandSide();
         } else {
-            this.props.actions.showChannelFiles();
+            this.props.actions.showChannelFiles(this.props.channel.id);
         }
     };
 

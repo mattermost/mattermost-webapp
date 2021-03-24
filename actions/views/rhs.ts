@@ -109,13 +109,6 @@ export function updateSearchType(searchType: string) {
     };
 }
 
-export function updateInitialSearchType(searchType: string) {
-    return {
-        type: ActionTypes.UPDATE_RHS_INITIAL_SEARCH_TYPE,
-        searchType,
-    };
-}
-
 function updateSearchResultsTerms(terms: string) {
     return {
         type: ActionTypes.UPDATE_RHS_SEARCH_RESULTS_TERMS,
@@ -130,8 +123,11 @@ export function performSearch(terms: string, isMentionSearch?: boolean) {
         const viewArchivedChannels = config.ExperimentalViewArchivedChannels === 'true';
         const extensionsFilters = getFilesSearchExtFilter(getState() as GlobalState);
 
-        const extensions = extensionsFilters.length > 0 ? ' ' + extensionsFilters.map((ext) => `ext:${ext}`).join(' ') : '';
-        const termsWithExtensionsFilteres = terms + extensions;
+        const extensions = extensionsFilters?.map((ext) => `ext:${ext}`).join(' ');
+        let termsWithExtensionsFilters = terms;
+        if (extensions?.trim().length > 0) {
+            termsWithExtensionsFilters += ` ${extensions}`;
+        }
 
         // timezone offset in seconds
         const userId = getCurrentUserId(getState());
@@ -139,7 +135,7 @@ export function performSearch(terms: string, isMentionSearch?: boolean) {
         const userCurrentTimezone = getUserCurrentTimezone(userTimezone);
         const timezoneOffset = ((userCurrentTimezone && (userCurrentTimezone.length > 0)) ? getUtcOffsetForTimeZone(userCurrentTimezone) : getBrowserUtcOffset()) * 60;
         const messagesPromise = dispatch(searchPostsWithParams(teamId, {terms, is_or_search: Boolean(isMentionSearch), include_deleted_channels: viewArchivedChannels, time_zone_offset: timezoneOffset, page: 0, per_page: 20}));
-        const filesPromise = dispatch(searchFilesWithParams(teamId, {terms: termsWithExtensionsFilteres, is_or_search: Boolean(isMentionSearch), include_deleted_channels: viewArchivedChannels, time_zone_offset: timezoneOffset, page: 0, per_page: 20}));
+        const filesPromise = dispatch(searchFilesWithParams(teamId, {terms: termsWithExtensionsFilters, is_or_search: Boolean(isMentionSearch), include_deleted_channels: viewArchivedChannels, time_zone_offset: timezoneOffset, page: 0, per_page: 20}));
         return Promise.all([filesPromise, messagesPromise]);
     };
 }
@@ -247,13 +243,11 @@ export function showPinnedPosts(channelId?: string) {
         const currentChannelId = getCurrentChannelId(state);
         const teamId = getCurrentTeamId(state);
 
-        dispatch(batchActions([
-            {
-                type: ActionTypes.UPDATE_RHS_STATE,
-                channelId: channelId || currentChannelId,
-                state: RHSStates.PIN,
-            },
-        ]));
+        dispatch({
+            type: ActionTypes.UPDATE_RHS_STATE,
+            channelId: channelId || currentChannelId,
+            state: RHSStates.PIN,
+        });
 
         const results = await dispatch(getPinnedPosts(channelId || currentChannelId));
 
@@ -281,21 +275,18 @@ export function showPinnedPosts(channelId?: string) {
     };
 }
 
-export function showChannelFiles(channelId?: string) {
+export function showChannelFiles(channelId: string) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
-        const currentChannelId = getCurrentChannelId(state);
         const teamId = getCurrentTeamId(state);
 
-        dispatch(batchActions([
-            {
-                type: ActionTypes.UPDATE_RHS_STATE,
-                channelId: channelId || currentChannelId,
-                state: RHSStates.CHANNEL_FILES,
-            },
-        ]));
+        dispatch({
+            type: ActionTypes.UPDATE_RHS_STATE,
+            channelId,
+            state: RHSStates.CHANNEL_FILES,
+        });
 
-        const results: any = await dispatch(performSearch('channel:' + (channelId || currentChannelId)));
+        const results: any = await dispatch(performSearch('channel:' + channelId));
 
         let data: any;
         if (results && results.length === 2 && 'data' in results[1]) {

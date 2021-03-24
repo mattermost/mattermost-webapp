@@ -64,7 +64,7 @@ const determineVisibleSearchHintOptions = (searchTerms: string, searchType: Sear
 };
 
 const Search: React.FC<Props> = (props: Props): JSX.Element => {
-    const {actions, searchTerms, searchType, filesSearchEnabled} = props;
+    const {actions, searchTerms, searchType, filesSearchEnabled, currentChannelId} = props;
 
     const intl = useIntl();
 
@@ -263,7 +263,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
         }
         setSearchFilterType(filterType);
         if (props.isChannelFiles) {
-            props.actions.showChannelFiles();
+            props.actions.showChannelFiles(currentChannelId);
         } else {
             props.actions.showSearchResults(false);
         }

@@ -31,7 +31,6 @@ import {
     closeMenu,
     openAtPrevious,
     updateSearchType,
-    updateInitialSearchType,
 } from 'actions/views/rhs';
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 import {ActionTypes, RHSStates} from 'utils/constants';
@@ -779,15 +778,6 @@ describe('rhs view actions', () => {
             store.dispatch(updateSearchType('files'));
             expect(store.getActions()).toEqual([{
                 type: ActionTypes.UPDATE_RHS_SEARCH_TYPE,
-                searchType: 'files',
-            }]);
-        });
-
-        test('updateInitialSearchType', () => {
-            const store = mockStore(initialState);
-            store.dispatch(updateInitialSearchType('files'));
-            expect(store.getActions()).toEqual([{
-                type: ActionTypes.UPDATE_RHS_INITIAL_SEARCH_TYPE,
                 searchType: 'files',
             }]);
         });

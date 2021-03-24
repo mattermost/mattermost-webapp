@@ -31,6 +31,7 @@ export type StateProps = {
     isPinnedPosts: boolean;
     isChannelFiles: boolean;
     filesSearchEnabled: boolean;
+    currentChannelId: string;
 }
 
 export type DispatchProps = {

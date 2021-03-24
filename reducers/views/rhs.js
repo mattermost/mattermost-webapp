@@ -40,8 +40,7 @@ function selectedPostFocussedAt(state = 0, action) {
     }
 }
 
-// selectedPostFocussedAt keeps track of the last time a post was selected, whether or not it
-// is currently selected.
+// filesSearchExtFilter keeps track of the extension filters used for file search.
 function filesSearchExtFilter(state = [], action) {
     switch (action.type) {
     case ActionTypes.SET_FILES_FILTER_BY_EXT:
@@ -128,17 +127,6 @@ function searchType(state = '', action) {
     switch (action.type) {
     case ActionTypes.UPDATE_RHS_SEARCH_TYPE:
         return action.searchType;
-    default:
-        return state;
-    }
-}
-
-function initialSearchType(state = '', action) {
-    switch (action.type) {
-    case ActionTypes.UPDATE_RHS_INITIAL_SEARCH_TYPE:
-        return action.searchType;
-    case ActionTypes.CLOSE_RHS_MENU:
-        return '';
     default:
         return state;
     }
@@ -269,7 +257,6 @@ export default combineReducers({
     rhsState,
     searchTerms,
     searchType,
-    initialSearchType,
     searchResultsTerms,
     pluggableId,
     isSearchingFlaggedPost,

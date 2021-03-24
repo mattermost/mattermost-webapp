@@ -34,7 +34,6 @@ export type RhsViewState = {
     rhsState: RhsState;
     searchTerms: string;
     searchType: SearchType;
-    initialSearchType: string;
     pluggableId: string;
     searchResultsTerms: string;
     isSearchingFlaggedPost: boolean;

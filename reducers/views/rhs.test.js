@@ -9,7 +9,6 @@ import {ActionTypes, RHSStates} from 'utils/constants';
 describe('Reducers.RHS', () => {
     const initialState = {
         filesSearchExtFilter: [],
-        initialSearchType: '',
         selectedPostId: '',
         selectedPostFocussedAt: 0,
         selectedPostCardId: '',
@@ -505,21 +504,6 @@ describe('Reducers.RHS', () => {
         expect(nextState).toEqual({
             ...initialState,
             searchType: 'files',
-        });
-    });
-
-    test('should set the initial type for a search', () => {
-        const nextState = rhsReducer(
-            {},
-            {
-                type: ActionTypes.UPDATE_RHS_INITIAL_SEARCH_TYPE,
-                searchType: 'messages',
-            },
-        );
-
-        expect(nextState).toEqual({
-            ...initialState,
-            initialSearchType: 'messages',
         });
     });
 });

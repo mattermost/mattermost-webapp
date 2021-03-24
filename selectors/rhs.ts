@@ -95,10 +95,6 @@ export function getSearchType(state: GlobalState): SearchType {
     return state.views.rhs.searchType;
 }
 
-export function getInitialSearchType(state: GlobalState): string {
-    return state.views.rhs.initialSearchType;
-}
-
 export function getSearchResultsTerms(state: GlobalState): string {
     return state.views.rhs.searchResultsTerms;
 }
