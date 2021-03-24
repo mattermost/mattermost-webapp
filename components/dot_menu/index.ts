@@ -78,6 +78,7 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
         canDelete: PostUtils.canDeletePost(state, post, channel),
         currentTeamUrl,
         appBindings,
+        appsEnabled: apps,
         ...ownProps,
     };
 }
