@@ -230,9 +230,7 @@ const AdminDefinition = {
         sectionTitleDefault: 'About',
         isHidden: it.any(
             it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
-            it.all(
-                it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.ABOUT.EDITION_AND_LICENSE)),
-            ),
+            it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.ABOUT.EDITION_AND_LICENSE)),
         ),
         license: {
             url: 'about/license',
@@ -2951,10 +2949,12 @@ const AdminDefinition = {
                         removing_text_default: 'Removing Private Key...',
                         uploading_text: t('admin.ldap.uploading.privateKey'),
                         uploading_text_default: 'Uploading Private Key...',
-                        isDisabled: it.all(
+                        isDisabled: it.any(
                             it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
-                            it.stateIsFalse('LdapSettings.Enable'),
-                            it.stateIsFalse('LdapSettings.EnableSync'),
+                            it.all(
+                                it.stateIsFalse('LdapSettings.Enable'),
+                                it.stateIsFalse('LdapSettings.EnableSync'),
+                            ),
                         ),
                         fileType: '.key',
                         upload_action: uploadPrivateLdapCertificate,
@@ -2975,10 +2975,12 @@ const AdminDefinition = {
                         removing_text_default: 'Removing Certificate...',
                         uploading_text: t('admin.ldap.uploading.certificate'),
                         uploading_text_default: 'Uploading Certificate...',
-                        isDisabled: it.all(
+                        isDisabled: it.any(
                             it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
-                            it.stateIsFalse('LdapSettings.Enable'),
-                            it.stateIsFalse('LdapSettings.EnableSync'),
+                            it.all(
+                                it.stateIsFalse('LdapSettings.Enable'),
+                                it.stateIsFalse('LdapSettings.EnableSync'),
+                            ),
                         ),
                         fileType: '.crt,.cer',
                         upload_action: uploadPublicLdapCertificate,
