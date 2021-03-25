@@ -63,7 +63,7 @@ describe('Teams Suite', () => {
         cy.get('#leaveTeamNo').click();
 
         // * Check that the "leave team modal" closed
-        cy.get('#leaveTeamModal').should('not.be.visible');
+        cy.get('#leaveTeamModal').should('not.exist');
 
         // * check the team name
         cy.get('#headerTeamName').should('contain', testTeam.display_name);
@@ -375,6 +375,6 @@ describe('Teams Suite', () => {
         cy.findByText(label).should('be.visible');
 
         cy.get(targetElement).trigger('mouseout', {force: true});
-        cy.findByText(label).should('not.be.visible');
+        cy.findByText(label).should('not.exist');
     }
 });
