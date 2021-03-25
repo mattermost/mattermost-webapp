@@ -421,8 +421,8 @@ export default class SwitchChannelProvider extends Provider {
     userWrappedChannel(user, channel) {
         let displayName = '';
 
-        // The naming format is fullname - @username (nickname) if DISPLAY_PREFER_FULL_NAME is set.
-        // Otherwise, it's @username - fullname (nickname)
+        // The naming format is fullname (nickname)
+        // username is shown seperately
         if ((user.first_name || user.last_name) && user.nickname) {
             displayName += `${Utils.getFullName(user)} (${user.nickname})`;
         } else if (user.nickname) {
