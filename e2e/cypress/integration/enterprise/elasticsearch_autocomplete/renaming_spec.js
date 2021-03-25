@@ -7,7 +7,8 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @enterprise @elasticsearch @autocomplete
+// Stage: @prod
+// Group: @enterprise @elasticsearch @autocomplete @not_cloud
 
 import {getRandomId} from '../../../utils';
 
@@ -22,6 +23,8 @@ describe('Autocomplete with Elasticsearch - Renaming', () => {
     let testChannel;
 
     before(() => {
+        cy.shouldNotRunOnCloudEdition();
+
         // * Check if server has license for Elasticsearch
         cy.apiRequireLicenseForFeature('Elasticsearch');
 

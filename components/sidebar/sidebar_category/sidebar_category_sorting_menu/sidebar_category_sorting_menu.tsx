@@ -34,7 +34,6 @@ type Props = {
 
 type State = {
     openUp: boolean;
-    width: number;
 };
 
 export class SidebarCategorySortingMenu extends React.PureComponent<Props, State> {
@@ -43,7 +42,6 @@ export class SidebarCategorySortingMenu extends React.PureComponent<Props, State
 
         this.state = {
             openUp: false,
-            width: 0,
         };
     }
 
@@ -128,7 +126,6 @@ export class SidebarCategorySortingMenu extends React.PureComponent<Props, State
                         icon={category.sorting === CategorySorting.Alphabetical ? <i className='icon-sort-alphabetical-ascending'/> : <i className='icon-clock-outline'/>}
                         direction={'right' as any}
                         openUp={this.state.openUp}
-                        xOffset={this.state.width}
                         styleSelectableItem={true}
                     />
                     <Menu.ItemSubMenu
@@ -139,7 +136,6 @@ export class SidebarCategorySortingMenu extends React.PureComponent<Props, State
                         icon={<i className='icon-account-multiple-outline'/>}
                         direction={'right' as any}
                         openUp={this.state.openUp}
-                        xOffset={this.state.width}
                         styleSelectableItem={true}
                     />
                 </Menu.Group>
@@ -152,7 +148,6 @@ export class SidebarCategorySortingMenu extends React.PureComponent<Props, State
         if (ref) {
             this.setState({
                 openUp: ref.state.openUp,
-                width: ref.state.width,
             });
         }
     }

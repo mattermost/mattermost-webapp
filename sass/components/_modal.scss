@@ -845,7 +845,7 @@
 
         span {
             overflow: hidden;
-            max-width: 90%;
+            max-width: 100%;
             text-overflow: ellipsis;
         }
     }
@@ -883,11 +883,30 @@
         }
 
         &.more-modal__row--selected {
-            background: rgba(var(--center-channel-color-rgb), 0.08);
+            background: rgba(var(--sys-center-channel-color-rgb), 0.08);
+
+            .app__body & {
+                background: rgba(var(--center-channel-color-rgb), 0.08);
+            }
 
             .more-modal__actions--round {
-                opacity: .5;
+                display: block;
             }
+
+            .more-modal__lastPostAt {
+                display: none;
+            }
+        }
+
+    }
+
+    .more-modal__lastPostAt {
+        display: block;
+        opacity: 0.6;
+        margin-left: 5px;
+        time {
+            font-weight: bold;
+            white-space: nowrap;
         }
     }
 
@@ -898,9 +917,10 @@
     .more-modal__actions--round {
         height: 32px;
         line-height: 32px;
-        opacity: 0;
+        display: none;
         text-align: center;
         width: 32px;
+        opacity: .5;
     }
 
     .more-modal__right {
@@ -976,6 +996,10 @@
     }
 }
 
+.more-modal__list .more-modal__row {
+    min-height: 65px;
+}
+
 .team-selector-modal,
 .channel-selector-modal {
     .more-modal__row {
@@ -1030,7 +1054,7 @@
             background-color: lighten($primary-color, 40%);
 
             .more-modal__actions--round {
-                opacity: .5;
+                display: block;
             }
         }
 

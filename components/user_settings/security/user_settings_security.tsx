@@ -5,6 +5,7 @@
 import React from 'react';
 import {FormattedDate, FormattedMessage, FormattedTime} from 'react-intl';
 import {Link} from 'react-router-dom';
+
 import {UserProfile} from 'mattermost-redux/types/users';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {OAuthApp} from 'mattermost-redux/types/integrations';
@@ -748,6 +749,15 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
                     defaultMessage='Office 365'
                 />
             );
+        } else if (
+            this.props.user.auth_service === Constants.OPENID_SERVICE
+        ) {
+            describe = (
+                <FormattedMessage
+                    id='user.settings.security.openid'
+                    defaultMessage='OpenID'
+                />
+            );
         } else if (this.props.user.auth_service === Constants.LDAP_SERVICE) {
             describe = (
                 <FormattedMessage
@@ -925,6 +935,7 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
         numMethods = this.props.enableSignUpWithGitLab ? numMethods + 1 : numMethods;
         numMethods = this.props.enableSignUpWithGoogle ? numMethods + 1 : numMethods;
         numMethods = this.props.enableSignUpWithOffice365 ? numMethods + 1 : numMethods;
+        numMethods = this.props.enableSignUpWithOpenId ? numMethods + 1 : numMethods;
         numMethods = this.props.enableLdap ? numMethods + 1 : numMethods;
         numMethods = this.props.enableSaml ? numMethods + 1 : numMethods;
 

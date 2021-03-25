@@ -34,7 +34,6 @@ type Props = {
 type State = {
     showDeleteCategoryModal: boolean;
     openUp: boolean;
-    width: number;
 }
 
 class SidebarCategoryMenu extends React.PureComponent<Props, State> {
@@ -44,7 +43,6 @@ class SidebarCategoryMenu extends React.PureComponent<Props, State> {
         this.state = {
             showDeleteCategoryModal: false,
             openUp: false,
-            width: 0,
         };
     }
 
@@ -202,7 +200,6 @@ class SidebarCategoryMenu extends React.PureComponent<Props, State> {
                         icon={icon}
                         direction={'right' as any}
                         openUp={this.state.openUp}
-                        xOffset={this.state.width}
                         styleSelectableItem={true}
                     />
                 </Menu.Group>
@@ -222,7 +219,6 @@ class SidebarCategoryMenu extends React.PureComponent<Props, State> {
         if (ref) {
             this.setState({
                 openUp: ref.state.openUp,
-                width: ref.state.width,
             });
         }
     }

@@ -2,8 +2,10 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {Post} from 'mattermost-redux/types/posts';
+
 import {IntlShape} from 'react-intl';
+
+import {Post} from 'mattermost-redux/types/posts';
 
 export type OwnProps = {
     [key: string]: any;

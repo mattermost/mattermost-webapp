@@ -3,12 +3,12 @@
 
 import React from 'react';
 import {shallow} from 'enzyme';
-import {_} from 'lodash';
+import {range} from 'lodash';
 
 import GroupUsers from 'components/admin_console/group_settings/group_details/group_users.jsx';
 
 describe('components/admin_console/group_settings/group_details/GroupUsers', () => {
-    const members = _.range(0, 55).map((i) => ({
+    const members = range(0, 55).map((i) => ({
         id: 'id' + i,
         username: 'username' + i,
         first_name: 'Name' + i,

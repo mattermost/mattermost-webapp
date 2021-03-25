@@ -4,10 +4,11 @@
 import {connect} from 'react-redux';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getAdminAnalytics} from 'mattermost-redux/selectors/entities/admin';
 import {isCurrentChannelReadOnly, getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getProfilesInCurrentChannel, getCurrentUserId, getUser} from 'mattermost-redux/selectors/entities/users';
-import {get} from 'mattermost-redux/selectors/entities/preferences';
+import {get, getTheme} from 'mattermost-redux/selectors/entities/preferences';
 
 import {UserProfile} from 'mattermost-redux/types/users';
 
@@ -28,6 +29,11 @@ function mapStateToProps(state: GlobalState) {
     const teammate = getDirectTeammate(state, channel.id) as UserProfile;
     const creator = getUser(state, channel.creator_id);
 
+    let usersLimit = parseInt(getConfig(state).ExperimentalCloudUserLimit! || '10', 10);
+    if (usersLimit === 0) {
+        usersLimit = 10;
+    }
+
     return {
         currentUserId: getCurrentUserId(state),
         channel,
@@ -40,6 +46,9 @@ function mapStateToProps(state: GlobalState) {
         creatorName: getDisplayNameByUser(state, creator),
         teammate,
         teammateName: getDisplayNameByUser(state, teammate),
+        stats: getAdminAnalytics(state),
+        usersLimit,
+        theme: getTheme(state),
     };
 }
 
