@@ -963,7 +963,8 @@ const AdminDefinition = {
                         label: t('admin.image.extractContentTitle'),
                         label_default: 'Enable document search by content:',
                         help_text: t('admin.image.extractContentDescription'),
-                        help_text_default: 'When enabled, supported document types are searchable by their content. Search results for existing documents may be incomplete until a data migration is executed.',
+                        help_text_markdown: true,
+                        help_text_default: 'When enabled, supported document types are searchable by their content. Search results for existing documents may be incomplete [until a data migration is executed](!https://www.mattermost.com/file-content-extraction).',
                         isDisabled: it.any(
                             it.not(it.userHasWritePermissionOnResource('environment')),
                         ),
