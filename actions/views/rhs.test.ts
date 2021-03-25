@@ -304,17 +304,9 @@ describe('rhs view actions', () => {
 
             expect(store.getActions()).toEqual([
                 {
-                    type: 'BATCHING_REDUCER.BATCH',
-                    meta: {
-                        batch: true,
-                    },
-                    payload: [
-                        {
-                            type: ActionTypes.UPDATE_RHS_STATE,
-                            channelId: currentChannelId,
-                            state: RHSStates.PIN,
-                        },
-                    ],
+                    type: ActionTypes.UPDATE_RHS_STATE,
+                    channelId: currentChannelId,
+                    state: RHSStates.PIN,
                 },
                 {
                     type: 'MOCK_GET_PINNED_POSTS',
@@ -357,17 +349,9 @@ describe('rhs view actions', () => {
 
             expect(store.getActions()).toEqual([
                 {
-                    type: 'BATCHING_REDUCER.BATCH',
-                    meta: {
-                        batch: true,
-                    },
-                    payload: [
-                        {
-                            type: ActionTypes.UPDATE_RHS_STATE,
-                            channelId,
-                            state: RHSStates.PIN,
-                        },
-                    ],
+                    type: ActionTypes.UPDATE_RHS_STATE,
+                    channelId,
+                    state: RHSStates.PIN,
                 },
                 {
                     type: 'MOCK_GET_PINNED_POSTS',
@@ -652,17 +636,9 @@ describe('rhs view actions', () => {
 
             expect(store.getActions()).toEqual([
                 {
-                    type: 'BATCHING_REDUCER.BATCH',
-                    meta: {
-                        batch: true,
-                    },
-                    payload: [
-                        {
-                            type: ActionTypes.UPDATE_RHS_STATE,
-                            channelId: currentChannelId,
-                            state: RHSStates.PIN,
-                        },
-                    ],
+                    type: ActionTypes.UPDATE_RHS_STATE,
+                    channelId: currentChannelId,
+                    state: RHSStates.PIN,
                 },
                 {
                     type: 'MOCK_GET_PINNED_POSTS',
