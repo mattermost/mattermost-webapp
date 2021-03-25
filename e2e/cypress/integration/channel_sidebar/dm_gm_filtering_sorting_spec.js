@@ -31,7 +31,7 @@ describe('DM/GM filtering and sorting', () => {
         // * Verify that we can see the sidebar
         cy.get('#headerTeamName').should('be.visible');
 
-        // # Collapse the DM category (so that we can check all unread DMs quickly without the sidebar scrolling beind an issue)
+        // # Collapse the DM category (so that we can check all unread DMs quickly without the sidebar scrolling being an issue)
         cy.get('button.SidebarChannelGroupHeader_groupButton:contains(DIRECT MESSAGES)').should('be.visible').click();
 
         // # Create 41 DMs (ie. one over the max displayable read limit)
