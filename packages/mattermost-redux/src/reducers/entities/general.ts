@@ -127,7 +127,7 @@ function warnMetricsStatus(state: any = {}, action: GenericAction) {
 
 function firstAdminVisitMarketplaceStatus(state = false, action: GenericAction) {
     switch (action.type) {
-    case GeneralTypes.RECEIVED_FIRST_ADMIN_VISIT_MARKETPLACE_STATUS:
+    case GeneralTypes.FIRST_ADMIN_VISIT_MARKETPLACE_STATUS_RECEIVED:
         return action.data;
 
     default:

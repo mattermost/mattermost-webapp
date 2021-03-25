@@ -208,7 +208,7 @@ export function setFirstAdminVisitMarketplaceStatus(): ActionFunc {
             dispatch(logError(e));
             return {error: e.message};
         }
-        dispatch({type: GeneralTypes.RECEIVED_FIRST_ADMIN_VISIT_MARKETPLACE_STATUS, data: true});
+        dispatch({type: GeneralTypes.FIRST_ADMIN_VISIT_MARKETPLACE_STATUS_RECEIVED, data: true});
         return {data: true};
     };
 }
@@ -224,7 +224,7 @@ export function getFirstAdminVisitMarketplaceStatus(): ActionFunc {
         }
 
         data = JSON.parse(data.value);
-        dispatch({type: GeneralTypes.RECEIVED_FIRST_ADMIN_VISIT_MARKETPLACE_STATUS, data});
+        dispatch({type: GeneralTypes.FIRST_ADMIN_VISIT_MARKETPLACE_STATUS_RECEIVED, data});
         return {data};
     };
 }

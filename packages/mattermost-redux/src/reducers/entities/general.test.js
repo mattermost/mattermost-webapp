@@ -17,10 +17,10 @@ describe('reducers.entities.general', () => {
             assert.deepStrictEqual(actualState.firstAdminVisitMarketplaceStatus, expectedState);
         });
 
-        it('RECEIVED_FIRST_ADMIN_VISIT_MARKETPLACE_STATUS, empty initial state', () => {
+        it('FIRST_ADMIN_VISIT_MARKETPLACE_STATUS_RECEIVED, empty initial state', () => {
             const state = {};
             const action = {
-                type: GeneralTypes.RECEIVED_FIRST_ADMIN_VISIT_MARKETPLACE_STATUS,
+                type: GeneralTypes.FIRST_ADMIN_VISIT_MARKETPLACE_STATUS_RECEIVED,
                 data: true,
             };
             const expectedState = true;
@@ -29,10 +29,10 @@ describe('reducers.entities.general', () => {
             assert.deepStrictEqual(actualState.firstAdminVisitMarketplaceStatus, expectedState);
         });
 
-        it('RECEIVED_FIRST_ADMIN_VISIT_MARKETPLACE_STATUS, previously populated state', () => {
+        it('FIRST_ADMIN_VISIT_MARKETPLACE_STATUS_RECEIVED, previously populated state', () => {
             const state = true;
             const action = {
-                type: GeneralTypes.RECEIVED_FIRST_ADMIN_VISIT_MARKETPLACE_STATUS,
+                type: GeneralTypes.FIRST_ADMIN_VISIT_MARKETPLACE_STATUS_RECEIVED,
                 data: true,
             };
             const expectedState = true;
