@@ -5,6 +5,7 @@
 import React from 'react';
 import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
+
 import Permissions from 'mattermost-redux/constants/permissions';
 import {Post} from 'mattermost-redux/types/posts';
 import {Reaction as ReactionType} from 'mattermost-redux/types/reactions';

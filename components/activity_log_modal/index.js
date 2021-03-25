@@ -3,6 +3,7 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+
 import {getSessions, revokeSession} from 'mattermost-redux/actions/users';
 import {getCurrentUserId, getUserSessions} from 'mattermost-redux/selectors/entities/users';
 
