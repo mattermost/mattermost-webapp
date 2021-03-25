@@ -63,7 +63,7 @@ export function focusPost(postId: string, returnTo?: string, currentUserId?: str
                 myMember = membership.data;
             }
 
-            if (!myMember && typeof currentUserId !== 'undefined') {
+            if (!myMember && currentUserId) {
                 // Prompt system admin before joining the private channel
                 const user = getCurrentUser(state);
                 if (channel.type === Constants.PRIVATE_CHANNEL && isSystemAdmin(user.roles)) {
