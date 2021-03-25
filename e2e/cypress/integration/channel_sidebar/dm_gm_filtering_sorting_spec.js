@@ -55,7 +55,7 @@ describe('DM/GM filtering and sorting', () => {
             });
         }
 
-        // # Expand the DM category (so that we can check all unread DMs quickly without the sidebar scrolling beind an issue)
+        // # Expand the DM category (so that we can check all unread DMs quickly without the sidebar scrolling being an issue)
         cy.get('button.SidebarChannelGroupHeader_groupButton:contains(DIRECT MESSAGES)').should('be.visible').click();
 
         // * Verify that there are 20 DMs shown in the sidebar
