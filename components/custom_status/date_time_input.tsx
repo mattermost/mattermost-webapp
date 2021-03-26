@@ -1,20 +1,19 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import {DayModifiers, NavbarElementProps} from 'react-day-picker';
 
+import moment from 'moment-timezone';
+
 import {localizeMessage} from 'utils/utils';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
-import {getUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
-import {GlobalState} from 'mattermost-redux/types/store';
 import {getCurrentLocale} from 'selectors/i18n';
-import {areTimezonesEnabledAndSupported} from 'selectors/general';
-import {getCurrentDateForTimezone} from 'utils/timezone';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 import {CustomStatusExpiryConstants} from 'utils/constants';
+import Timestamp from 'components/timestamp';
+import {getCurrentDateAndTimeForTimezone} from 'utils/timezone';
 
 const Navbar: React.FC<Partial<NavbarElementProps>> = (navbarProps: Partial<NavbarElementProps>) => {
     const {
@@ -64,40 +63,77 @@ const Navbar: React.FC<Partial<NavbarElementProps>> = (navbarProps: Partial<Navb
     );
 };
 
-const DateTimeInputContainer: React.FC = () => {
-    const [day, setDay] = useState(CustomStatusExpiryConstants.TODAY);
-    const currentUserId = useSelector(getCurrentUserId);
-    const userTimezone = useSelector((state: GlobalState) => getUserTimezone(state, currentUserId));
-    const locale = useSelector(getCurrentLocale);
-
-    const enableTimezone = useSelector(areTimezonesEnabledAndSupported);
-
-    let currentDate;
-    if (enableTimezone) {
-        if (userTimezone.useAutomaticTimezone) {
-            currentDate = getCurrentDateForTimezone(userTimezone.automaticTimezone);
-        } else {
-            currentDate = getCurrentDateForTimezone(userTimezone.manualTimezone);
-        }
-    } else {
-        currentDate = new Date();
+const {TIME_PICKER_INTERVALS_IN_MINUTES} = CustomStatusExpiryConstants;
+export function getRoundedTime(value: Date) {
+    const roundedTo = TIME_PICKER_INTERVALS_IN_MINUTES;
+    const start = moment(value);
+    const diff = start.minute() % roundedTo;
+    if (diff === 0) {
+        return value;
     }
+    const remainder = roundedTo - diff;
+    return moment(start).add(remainder, 'm').seconds(0).toDate();
+}
+
+const getDateInIntervals = (startTime: Date, interval: number): Date[] => {
+    let time = startTime;
+    const nextDay = moment(startTime).add(1, 'days').startOf('day').toDate();
+    const intervals: Date[] = [];
+    while (time < nextDay) {
+        intervals.push(time);
+        time = moment(time).add(interval, 'minutes').seconds(0).toDate();
+    }
+
+    return intervals;
+};
+
+type Props = {
+    time: Date;
+    handleChange: (date: Date) => void;
+    timezone?: string;
+}
+
+const DateTimeInputContainer: React.FC<Props> = (props: Props) => {
+    const locale = useSelector(getCurrentLocale);
+    const {time, handleChange, timezone} = props;
+    const [timeOptions, setTimeOptions] = useState<Date[]>([]);
+
+    const setTimeAndOptions = () => {
+        const currentTime = timezone ? getCurrentDateAndTimeForTimezone(timezone) : new Date();
+        let startTime: Date;
+        if (time.getDate() === currentTime.getDate()) {
+            startTime = getRoundedTime(currentTime);
+        } else {
+            startTime = moment(time).startOf('day').toDate();
+        }
+        setTimeOptions(getDateInIntervals(startTime, TIME_PICKER_INTERVALS_IN_MINUTES));
+    };
+
+    useEffect(setTimeAndOptions, [time]);
 
     const handleDayChange = (day: Date, modifiers: DayModifiers) => {
         if (modifiers.today) {
-            setDay(CustomStatusExpiryConstants.TODAY);
+            const currentTime = timezone ? getCurrentDateAndTimeForTimezone(timezone) : new Date();
+            const roundedTime = getRoundedTime(currentTime);
+            handleChange(roundedTime);
         } else {
-            setDay(day.toString());
+            const dateWithProperTime = moment(day).startOf('day').toDate();
+            handleChange(dateWithProperTime);
         }
     };
 
+    const handleTimeChange = (e: React.MouseEvent, time: Date) => {
+        e.preventDefault();
+        handleChange(time);
+    };
+
     const modifiers = {
-        today: currentDate,
+        today: timezone ? getCurrentDateAndTimeForTimezone(timezone) : new Date(),
     };
 
     return (
         <div className='dateTime'>
-            <div className='dateTime__date-input'>
+            <div className='dateTime__date'>
                 <span className='dateTime__input-title'>{'Date'}</span>
                 <span className='dateTime__date-icon'>
                     <i
@@ -106,20 +142,21 @@ const DateTimeInputContainer: React.FC = () => {
                     />
                 </span>
                 <DayPickerInput
-                    value={day}
+                    value={time}
                     onDayChange={handleDayChange}
                     inputProps={{
                         readOnly: true,
+                        className: 'dateTime__input',
                     }}
                     dayPickerProps={{
                         navbarElement: <Navbar/>,
-                        fromMonth: currentDate,
+                        fromMonth: time,
                         modifiers,
                         locale: locale.toLowerCase(),
                     }}
                 />
             </div>
-            <div className='dateTime__time-input'>
+            <div className='dateTime__time'>
                 <MenuWrapper
                     className='dateTime__time-menu'
                 >
@@ -131,20 +168,34 @@ const DateTimeInputContainer: React.FC = () => {
                                 aria-hidden='true'
                             />
                         </span>
-                        <input
-                            value='12:30 PM'
-                            readOnly={true}
-                        />
+                        <div
+                            className='dateTime__input'
+                        >
+                            <Timestamp
+                                useRelative={false}
+                                useDate={false}
+                                value={time}
+                            />
+                        </div>
                     </div>
                     <Menu
                         ariaLabel={localizeMessage('time_dropdown.choose_time', 'Choose a time')}
                         id='expiryTimeMenu'
                     >
                         <Menu.Group>
-                            <Menu.ItemAction
-                                text='12:30 PM'
-                                id={'expiry-time-menu-1230'}
-                            />
+                            {Array.isArray(timeOptions) && timeOptions.map((option, index) => (
+                                <Menu.ItemAction
+                                    onClick={(e: React.MouseEvent) => handleTimeChange(e, option)}
+                                    key={index}
+                                    text={
+                                        <Timestamp
+                                            useRelative={false}
+                                            useDate={false}
+                                            value={option}
+                                        />
+                                    }
+                                />
+                            ))}
                         </Menu.Group>
                     </Menu>
                 </MenuWrapper>

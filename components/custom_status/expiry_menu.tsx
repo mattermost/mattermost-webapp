@@ -18,34 +18,44 @@ type Props = {
     handleExpiryChange: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, expiryValue: string) => void;
 }
 
+const {
+    DONT_CLEAR,
+    THIRTY_MINUTES,
+    ONE_HOUR,
+    FOUR_HOURS,
+    TODAY,
+    THIS_WEEK,
+    DATE_AND_TIME,
+} = CustomStatusExpiryConstants;
+
 const ExpiryMenu: React.FC<Props> = (props: Props) => {
     const {expiry, handleExpiryChange} = props;
     const expiryMenuItems: { [key: string]: ExpiryMenuItem } = {
-        [CustomStatusExpiryConstants.DONT_CLEAR]: {
+        [DONT_CLEAR]: {
             text: localizeMessage('expiry_dropdown.dont_clear', "Don't clear"),
             value: "Don't clear",
         },
-        [CustomStatusExpiryConstants.THIRTY_MINUTES]: {
+        [THIRTY_MINUTES]: {
             text: localizeMessage('expiry_dropdown.thirty_minutes', '30 minutes'),
             value: '30 minutes',
         },
-        [CustomStatusExpiryConstants.ONE_HOUR]: {
+        [ONE_HOUR]: {
             text: localizeMessage('expiry_dropdown.one_hour', '1 hour'),
             value: '1 hour',
         },
-        [CustomStatusExpiryConstants.FOUR_HOURS]: {
+        [FOUR_HOURS]: {
             text: localizeMessage('expiry_dropdown.four_hours', '4 hours'),
             value: '4 hours',
         },
-        [CustomStatusExpiryConstants.TODAY]: {
+        [TODAY]: {
             text: localizeMessage('expiry_dropdown.today', 'Today'),
             value: 'Today',
         },
-        [CustomStatusExpiryConstants.THIS_WEEK]: {
+        [THIS_WEEK]: {
             text: localizeMessage('expiry_dropdown.this_week', 'This week'),
             value: 'This week',
         },
-        [CustomStatusExpiryConstants.DATE_AND_TIME]: {
+        [DATE_AND_TIME]: {
             text: localizeMessage('expiry_dropdown.choose_date_and_time', 'Choose date and time'),
             value: 'Date and Time',
         },

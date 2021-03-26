@@ -894,6 +894,7 @@ export const CustomStatusExpiryConstants = {
     TODAY: 'today',
     THIS_WEEK: 'this-week',
     DATE_AND_TIME: 'date-and-time',
+    TIME_PICKER_INTERVALS_IN_MINUTES: 30,
 };
 
 export const Constants = {

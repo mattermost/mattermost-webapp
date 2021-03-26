@@ -10,6 +10,8 @@ import {setCustomStatusInitialisationState} from 'mattermost-redux/actions/prefe
 import {Preferences} from 'mattermost-redux/constants';
 import {UserCustomStatus} from 'mattermost-redux/types/users';
 import {Emoji} from 'mattermost-redux/types/emojis';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
+import {getUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
 
 import GenericModal from 'components/generic_modal';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
@@ -18,12 +20,14 @@ import {GlobalState} from 'types/store';
 import RenderEmoji from 'components/emoji/render_emoji';
 import QuickInput from 'components/quick_input';
 import {getCustomStatus, getRecentCustomStatuses, showStatusDropdownPulsatingDot} from 'selectors/views/custom_status';
+import {areTimezonesEnabledAndSupported} from 'selectors/general';
 import {Constants, CustomStatusExpiryConstants} from 'utils/constants';
+import {getCurrentDateAndTimeForTimezone} from 'utils/timezone';
 import {t} from 'utils/i18n';
 
-import ExpiryMenu from './expiry_menu';
-import DateTimeInput from './date_time_input';
-import CustomStatusSuggestion from './custom_status_suggestion';
+import CustomStatusSuggestion from 'components/custom_status/custom_status_suggestion';
+import ExpiryMenu from 'components/custom_status/expiry_menu';
+import DateTimeInput, {getRoundedTime} from 'components/custom_status/date_time_input';
 
 import 'components/category_modal.scss';
 import './custom_status.scss';
@@ -62,6 +66,25 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
     const isCurrentCustomStatusSet = currentCustomStatus.text || currentCustomStatus.emoji;
     const firstTimeModalOpened = useSelector((state: GlobalState) => showStatusDropdownPulsatingDot(state));
     const showDateAndTimeField = isStatusSet && expiry === CustomStatusExpiryConstants.DATE_AND_TIME;
+
+    const currentUserId = useSelector(getCurrentUserId);
+    const userTimezone = useSelector((state: GlobalState) => getUserTimezone(state, currentUserId));
+    const enableTimezone = useSelector(areTimezonesEnabledAndSupported);
+
+    let currentTime: Date;
+    let timezone: string | undefined;
+    if (enableTimezone) {
+        if (userTimezone.useAutomaticTimezone) {
+            currentTime = getCurrentDateAndTimeForTimezone(userTimezone.automaticTimezone);
+            timezone = userTimezone.automaticTimezone;
+        } else {
+            currentTime = getCurrentDateAndTimeForTimezone(userTimezone.manualTimezone);
+            timezone = userTimezone.manualTimezone;
+        }
+    } else {
+        currentTime = new Date();
+    }
+    const [customExpiryTime, setCustomExpiryTime] = useState<Date>(getRoundedTime(currentTime));
 
     const handleCustomStatusInitializationState = () => {
         if (firstTimeModalOpened) {
@@ -269,7 +292,11 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
                 </div>
                 {!isStatusSet && suggestion}
                 {showDateAndTimeField && (
-                    <DateTimeInput/>
+                    <DateTimeInput
+                        time={customExpiryTime}
+                        handleChange={setCustomExpiryTime}
+                        timezone={timezone}
+                    />
                 )}
                 {isStatusSet && (
                     <ExpiryMenu
