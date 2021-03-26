@@ -37,7 +37,7 @@ describe('components/PostMarkdown', () => {
         const props = {
             ...baseProps,
             message: 'See ~test',
-            post: {
+            post: TestHelper.getPostMock({
                 props: {
                     channel_mentions: {
                         test: {
@@ -45,7 +45,7 @@ describe('components/PostMarkdown', () => {
                         },
                     },
                 },
-            },
+            }),
         };
         const wrapper = shallow(<PostMarkdown {...props}/>);
         expect(wrapper).toMatchSnapshot();
@@ -58,7 +58,7 @@ describe('components/PostMarkdown', () => {
             options: {
                 mentionHighlight: false,
             },
-            post: {},
+            post: TestHelper.getPostMock(),
         };
         const wrapper = shallow(<PostMarkdown {...props}/>);
         expect(wrapper).toMatchSnapshot();
@@ -69,11 +69,11 @@ describe('components/PostMarkdown', () => {
             ...baseProps,
             message: 'No @group highlight',
             options: {},
-            post: {
+            post: TestHelper.getPostMock({
                 props: {
                     disable_group_highlight: true,
                 },
-            },
+            }),
         };
         const wrapper = shallow(<PostMarkdown {...props}/>);
         expect(wrapper).toMatchSnapshot();
@@ -82,9 +82,9 @@ describe('components/PostMarkdown', () => {
     test('should correctly pass postId down', () => {
         const props = {
             ...baseProps,
-            post: {
+            post: TestHelper.getPostMock({
                 id: 'post_id',
-            },
+            }),
         };
         const wrapper = shallow(<PostMarkdown {...props}/>);
         expect(wrapper.find(Markdown).prop('postId')).toEqual(props.post.id);
@@ -94,7 +94,7 @@ describe('components/PostMarkdown', () => {
     test('should render header change properly', () => {
         const props = {
             ...baseProps,
-            post: {
+            post: TestHelper.getPostMock({
                 id: 'post_id',
                 type: Posts.POST_TYPES.HEADER_CHANGE as PostType,
                 props: {
@@ -107,7 +107,7 @@ describe('components/PostMarkdown', () => {
                         },
                     },
                 },
-            },
+            }),
         };
         const wrapper = shallow(<PostMarkdown {...props}/>);
         expect(wrapper).toMatchSnapshot();
@@ -117,7 +117,7 @@ describe('components/PostMarkdown', () => {
         const props = {
             ...baseProps,
             message: 'world',
-            post: {
+            post: TestHelper.getPostMock({
                 message: 'world',
                 props: {
                     channel_mentions: {
@@ -126,7 +126,7 @@ describe('components/PostMarkdown', () => {
                         },
                     },
                 },
-            },
+            }),
             pluginHooks: [
                 {
                     hook: (post: Post, updatedMessage: string) => {
@@ -148,7 +148,7 @@ describe('components/PostMarkdown', () => {
         const props = {
             ...baseProps,
             message: 'world',
-            post: {
+            post: TestHelper.getPostMock({
                 message: 'world',
                 props: {
                     channel_mentions: {
@@ -157,7 +157,7 @@ describe('components/PostMarkdown', () => {
                         },
                     },
                 },
-            },
+            }),
             pluginHooks: [
                 {
                     hook: (post: Post) => {

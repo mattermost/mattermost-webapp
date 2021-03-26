@@ -10,6 +10,7 @@ exports[`components/PostMarkdown plugin hooks can build upon other hook message 
     }
   }
   imageProps={Object {}}
+  imagesMetadata={Object {}}
   isRHS={false}
   mentionKeys={
     Array [
@@ -31,6 +32,7 @@ exports[`components/PostMarkdown plugin hooks can build upon other hook message 
       "mentionHighlight": true,
     }
   }
+  postId="id"
   proxyImages={true}
 />
 `;
@@ -45,6 +47,7 @@ exports[`components/PostMarkdown plugin hooks can overwrite other hooks messages
     }
   }
   imageProps={Object {}}
+  imagesMetadata={Object {}}
   isRHS={false}
   mentionKeys={
     Array [
@@ -66,6 +69,7 @@ exports[`components/PostMarkdown plugin hooks can overwrite other hooks messages
       "mentionHighlight": true,
     }
   }
+  postId="id"
   proxyImages={true}
 />
 `;
@@ -73,6 +77,7 @@ exports[`components/PostMarkdown plugin hooks can overwrite other hooks messages
 exports[`components/PostMarkdown should correctly pass postId down 1`] = `
 <Connect(Markdown)
   imageProps={Object {}}
+  imagesMetadata={Object {}}
   isRHS={false}
   mentionKeys={
     Array [
@@ -91,6 +96,7 @@ exports[`components/PostMarkdown should correctly pass postId down 1`] = `
   options={
     Object {
       "disableGroupHighlight": false,
+      "mentionHighlight": true,
     }
   }
   postId="post_id"
@@ -163,6 +169,7 @@ exports[`components/PostMarkdown should render properly with a post 1`] = `
     }
   }
   imageProps={Object {}}
+  imagesMetadata={Object {}}
   isRHS={false}
   mentionKeys={
     Array [
@@ -184,6 +191,7 @@ exports[`components/PostMarkdown should render properly with a post 1`] = `
       "mentionHighlight": true,
     }
   }
+  postId="id"
   proxyImages={true}
 />
 `;
@@ -221,6 +229,7 @@ exports[`components/PostMarkdown should render properly with an empty post 1`] =
 exports[`components/PostMarkdown should render properly without group highlight on a post 1`] = `
 <Connect(Markdown)
   imageProps={Object {}}
+  imagesMetadata={Object {}}
   isRHS={false}
   mentionKeys={
     Array [
@@ -242,6 +251,7 @@ exports[`components/PostMarkdown should render properly without group highlight 
       "mentionHighlight": true,
     }
   }
+  postId="id"
   proxyImages={true}
 />
 `;
@@ -249,6 +259,7 @@ exports[`components/PostMarkdown should render properly without group highlight 
 exports[`components/PostMarkdown should render properly without highlight a post 1`] = `
 <Connect(Markdown)
   imageProps={Object {}}
+  imagesMetadata={Object {}}
   isRHS={false}
   mentionKeys={
     Array [
@@ -267,9 +278,10 @@ exports[`components/PostMarkdown should render properly without highlight a post
   options={
     Object {
       "disableGroupHighlight": false,
-      "mentionHighlight": false,
+      "mentionHighlight": true,
     }
   }
+  postId="id"
   proxyImages={true}
 />
 `;

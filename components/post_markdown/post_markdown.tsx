@@ -32,7 +32,7 @@ type Props = {
     /*
      * The optional post for which this message is being rendered
      */
-    post?: Partial<Post>;
+    post?: Post;
 
     /*
      * The id of the channel that this post is being rendered in
@@ -47,7 +47,7 @@ type Props = {
      */
     hasPluginTooltips?: boolean;
     isUserCanManageMembers?: boolean;
-    mentionKeys?: MentionKey[];
+    mentionKeys: MentionKey[];
 }
 
 export default class PostMarkdown extends React.PureComponent<Props> {
