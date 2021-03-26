@@ -58,7 +58,7 @@ describe('components/channel_header/components/UserGuideDropdown', () => {
         );
 
         expect(wrapper.state('buttonActive')).toBe(false);
-        wrapper.find(MenuWrapper).prop('onToggle')(true);
+        wrapper.find(MenuWrapper).prop('onToggle')!(true);
         expect(wrapper.state('buttonActive')).toBe(true);
     });
 
@@ -76,7 +76,7 @@ describe('components/channel_header/components/UserGuideDropdown', () => {
             <UserGuideDropdown {...baseProps}/>,
         );
 
-        wrapper.find(Menu.ItemExternalLink).find('#askTheCommunityLink').prop('onClick')();
+        wrapper.find(Menu.ItemExternalLink).find('#askTheCommunityLink').prop('onClick')!({} as unknown as React.MouseEvent);
         expect(trackEvent).toBeCalledWith('ui', 'help_ask_the_community');
     });
 });
