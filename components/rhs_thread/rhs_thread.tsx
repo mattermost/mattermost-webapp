@@ -132,7 +132,8 @@ export default class RhsThread extends React.Component<Props, State> {
         this.scrollToBottom();
         this.resizeRhsPostList();
         window.addEventListener('resize', this.handleResize);
-        if (this.props.posts.length < (Utils.getRootPost(this.props.posts).reply_count + 1)) {
+        const rootPost = Utils.getRootPost(this.props.posts);
+        if (rootPost && this.props.posts.length < (rootPost.reply_count + 1)) {
             this.props.actions.getPostThread(this.props.selected.id, true);
         }
     }
