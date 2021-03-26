@@ -53,6 +53,14 @@
         & .DayPicker {
             width: 344px;
             margin-top: 8px;
+
+            &-Caption {
+                border: none;
+            }
+
+            &-wrapper {
+                padding: 20px 24px;
+            }
         }
     }
 }

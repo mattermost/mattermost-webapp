@@ -23,10 +23,13 @@ const Navbar: React.FC<Partial<NavbarElementProps>> = (navbarProps: Partial<Navb
     } = navbarProps;
     const styleLeft: React.CSSProperties = {
         float: 'left',
+        fontSize: 18,
     };
     const styleRight: React.CSSProperties = {
         float: 'right',
+        fontSize: 18,
     };
+
     return (
         <div className={className}>
             <button
@@ -127,8 +130,9 @@ const DateTimeInputContainer: React.FC<Props> = (props: Props) => {
         handleChange(time);
     };
 
+    const currentTime = timezone ? getCurrentDateAndTimeForTimezone(timezone) : new Date();
     const modifiers = {
-        today: timezone ? getCurrentDateAndTimeForTimezone(timezone) : new Date(),
+        today: currentTime,
     };
 
     return (
@@ -150,9 +154,12 @@ const DateTimeInputContainer: React.FC<Props> = (props: Props) => {
                     }}
                     dayPickerProps={{
                         navbarElement: <Navbar/>,
-                        fromMonth: time,
+                        fromMonth: currentTime,
                         modifiers,
                         locale: locale.toLowerCase(),
+                        disabledDays: {
+                            before: currentTime,
+                        },
                     }}
                 />
             </div>
