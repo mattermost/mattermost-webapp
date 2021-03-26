@@ -2,15 +2,14 @@
 // See LICENSE.txt for license information.
 
 import React, {PureComponent} from 'react';
-import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
-export default class DataRetentionHint extends PureComponent {
-    static propTypes = {
-        dataRetentionMessageRetentionDays: PropTypes.string,
-    }
+type Props = {
+    dataRetentionMessageRetentionDays?: string;
+};
 
-    render() {
+export default class DataRetentionHint extends PureComponent<Props> {
+    render(): React.ReactNode {
         return (
             <li>
                 <FormattedMessage
