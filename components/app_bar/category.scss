@@ -1,0 +1,14 @@
+@import 'compass/utilities';
+@import 'compass/css3';
+
+.CategoryIcon {
+   margin-top: 5px;
+   background: transparent;
+   border: none;
+
+   .CategoryCount {
+      color: var(--sidebar-text);
+      margin-left: 3px;
+      font-family: 'Open Sans', sans-serif;
+   }
+}
