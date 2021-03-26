@@ -189,7 +189,7 @@ export const it = {
         return cloud.subscription.is_paid_tier === 'true';
     },
     userHasReadPermissionOnResource: (key) => (config, state, license, enterpriseReady, consoleAccess) => consoleAccess?.read?.[key],
-    userHasReadPermissionOnResources: (key) => Object.values(key).every((permission) => it.userHasReadPermissionOnResource(permission)),
+    userHasReadPermissionOnSomeResources: (key) => Object.values(key).some((permission) => it.userHasReadPermissionOnResource(permission)),
     userHasWritePermissionOnResource: (key) => (config, state, license, enterpriseReady, consoleAccess) => consoleAccess?.write?.[key],
     isSystemAdmin: (config, state, license, enterpriseReady, consoleAccess, icloud, isSystemAdmin) => isSystemAdmin,
 };
@@ -231,7 +231,7 @@ const AdminDefinition = {
         sectionTitleDefault: 'About',
         isHidden: it.any(
             it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
-            it.not(it.userHasReadPermissionOnResources(RESOURCE_KEYS.ABOUT)),
+            it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.ABOUT)),
         ),
         license: {
             url: 'about/license',
@@ -338,7 +338,7 @@ const AdminDefinition = {
         icon: 'fa-bar-chart',
         sectionTitle: t('admin.sidebar.reporting'),
         sectionTitleDefault: 'Reporting',
-        isHidden: it.not(it.userHasReadPermissionOnResources(RESOURCE_KEYS.REPORTING)),
+        isHidden: it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.REPORTING)),
         system_analytics: {
             url: 'reporting/system_analytics',
             title: t('admin.sidebar.siteStatistics'),
@@ -414,7 +414,7 @@ const AdminDefinition = {
         icon: 'fa-users',
         sectionTitle: t('admin.sidebar.userManagement'),
         sectionTitleDefault: 'User Management',
-        isHidden: it.not(it.userHasReadPermissionOnResources(RESOURCE_KEYS.USER_MANAGEMENT)),
+        isHidden: it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.USER_MANAGEMENT)),
         system_users: {
             url: 'user_management/users',
             title: t('admin.sidebar.users'),
@@ -580,7 +580,7 @@ const AdminDefinition = {
         icon: 'fa-server',
         sectionTitle: t('admin.sidebar.environment'),
         sectionTitleDefault: 'Environment',
-        isHidden: it.not(it.userHasReadPermissionOnResources(RESOURCE_KEYS.ENVIRONMENT)),
+        isHidden: it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.ENVIRONMENT)),
         web_server: {
             url: 'environment/web_server',
             title: t('admin.sidebar.webServer'),
@@ -1748,7 +1748,7 @@ const AdminDefinition = {
         icon: 'fa-cogs',
         sectionTitle: t('admin.sidebar.site'),
         sectionTitleDefault: 'Site Configuration',
-        isHidden: it.not(it.userHasReadPermissionOnResources(RESOURCE_KEYS.SITE)),
+        isHidden: it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.SITE)),
         customization: {
             url: 'site_config/customization',
             title: t('admin.sidebar.customization'),
@@ -2598,7 +2598,7 @@ const AdminDefinition = {
         icon: 'fa-shield',
         sectionTitle: t('admin.sidebar.authentication'),
         sectionTitleDefault: 'Authentication',
-        isHidden: it.not(it.userHasReadPermissionOnResources(RESOURCE_KEYS.AUTHENTICATION)),
+        isHidden: it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.AUTHENTICATION)),
         signup: {
             url: 'authentication/signup',
             title: t('admin.sidebar.signup'),
@@ -4936,7 +4936,7 @@ const AdminDefinition = {
         sectionTitle: t('admin.sidebar.integrations'),
         sectionTitleDefault: 'Integrations',
         id: 'integrations',
-        isHidden: it.not(it.userHasReadPermissionOnResources(RESOURCE_KEYS.INTEGRATIONS)),
+        isHidden: it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.INTEGRATIONS)),
         integration_management: {
             url: 'integrations/integration_management',
             title: t('admin.integrations.integrationManagement'),
@@ -5174,7 +5174,7 @@ const AdminDefinition = {
         icon: 'fa-list',
         sectionTitle: t('admin.sidebar.compliance'),
         sectionTitleDefault: 'Compliance',
-        isHidden: it.not(it.userHasReadPermissionOnResources(RESOURCE_KEYS.COMPLIANCE)),
+        isHidden: it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.COMPLIANCE)),
         data_retention: {
             url: 'compliance/data_retention',
             title: t('admin.sidebar.dataRetentionPolicy'),
@@ -5334,7 +5334,7 @@ const AdminDefinition = {
         icon: 'fa-flask',
         sectionTitle: t('admin.sidebar.experimental'),
         sectionTitleDefault: 'Experimental',
-        isHidden: it.not(it.userHasReadPermissionOnResources(RESOURCE_KEYS.EXPERIMENTAL)),
+        isHidden: it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.EXPERIMENTAL)),
         experimental_features: {
             url: 'experimental/features',
             title: t('admin.sidebar.experimentalFeatures'),
