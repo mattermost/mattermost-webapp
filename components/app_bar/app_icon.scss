@@ -1,0 +1,62 @@
+@import 'compass/utilities';
+@import 'compass/css3';
+
+.AppIconContainer {
+   background-color: transparent;
+   margin: 5px 8px;
+   border-radius: 25px;
+
+   transition: background-color 0.5s step-end; 
+   &.expanded {
+      background-color: rgba(255, 255, 255, 0.08);
+      transition: background-color 0.5s step-start; 
+   }
+
+   .AppIcon {
+      padding-top: 10px;
+      padding-bottom: 10px;
+      background-color: var(--sidebar-teambar-bg);
+      border: none;
+      position: relative;
+      width: 100%;
+      border-radius: 25px;
+
+   transition: background-color 0.5s ease-out; 
+      &.expanded {
+         background-color: rgba(0, 0, 0, 0.1);
+         transition: background-color 0.5s step-start;
+      }
+
+      .AppBadge {
+         background-color: #145DBF;
+         border-radius: 8px;
+         color: #fff;
+         display: inline-block;
+         font-size: 12px;
+         font-weight: bold;
+         line-height: 1;
+         padding: 3px 5px;
+         text-align: center;
+         vertical-align: middle;
+         white-space: nowrap;
+         position: absolute;
+         top: 12px;
+         right: 7px;
+         border: 1px solid #FFFFFF;
+      }
+   }
+
+   .AppIconCategories {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      margin: 0px 6px;
+
+      max-height: 0px;
+      transition: max-height 0.5s ease-out;
+      &.expanded {
+         max-height: 200px;
+         transition: max-height 0.5s ease-in;
+      }
+   }
+}

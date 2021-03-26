@@ -23,7 +23,7 @@ import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
-import Pluggable from 'plugins/pluggable';
+import AppBar from 'components/app_bar/app_bar';
 
 import TeamButton from './components/team_button';
 
@@ -215,7 +215,6 @@ export default class LegacyTeamSidebar extends React.PureComponent<Props, State>
         }
         root!.classList.add('multi-teams');
 
-        const plugins = [];
         const sortedTeams = filterAndSortTeamsByDisplayName(this.props.myTeams, this.props.locale, this.props.userTeamsOrderPreference);
 
         const teams = sortedTeams.map((team: Team, index: number) => {
@@ -280,15 +279,6 @@ export default class LegacyTeamSidebar extends React.PureComponent<Props, State>
             );
         }
 
-        plugins.push(
-            <div
-                key='team-sidebar-bottom-plugin'
-                className='team-sidebar-bottom-plugin is-empty'
-            >
-                <Pluggable pluggableName='BottomTeamSidebar'/>
-            </div>,
-        );
-
         return (
             <div
                 className={classNames('team-sidebar', {'move--right': this.props.isOpen})}
@@ -330,7 +320,7 @@ export default class LegacyTeamSidebar extends React.PureComponent<Props, State>
                         {joinableTeams}
                     </Scrollbars>
                 </div>
-                {plugins}
+                <AppBar/>
             </div>
         );
     }
