@@ -42,7 +42,7 @@ describe('Legacy sidebar settings', () => {
         });
 
         // * Verify that the legacy sidebar is gone and the new sidebar displays
-        cy.get('.sidebar--left').should('not.be.visible');
+        cy.get('.sidebar--left').should('not.exist');
         cy.get('#SidebarContainer').should('be.visible');
     });
 });

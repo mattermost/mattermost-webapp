@@ -51,7 +51,7 @@ describe('Toast', () => {
             const permalink = `${Cypress.config('baseUrl')}/${testTeam.name}/pl/${id}`;
 
             // * Check that the ... button is not visible in last post right side
-            cy.get(`#CENTER_button_${id}`).should('not.be.visible');
+            cy.get(`#CENTER_button_${id}`).should('not.exist');
 
             // # Click on ... button of last post
             cy.clickPostDotMenu(id);
@@ -76,7 +76,7 @@ describe('Toast', () => {
             cy.postMessageAs({sender: otherUser, message: 'Last Message', channelId: townsquareChannelId});
 
             // * Verify that the last message is currently not visible
-            cy.findByText('Last Message').should('not.be.visible');
+            cy.findByText('Last Message').should('not.exist');
 
             // # Click on the 'Jump to New Messages' button
             cy.get('.toast__visible').should('be.visible').click();
