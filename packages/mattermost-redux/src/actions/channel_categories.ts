@@ -34,16 +34,22 @@ import {$ID} from 'mattermost-redux/types/utilities';
 import {insertMultipleWithoutDuplicates, insertWithoutDuplicates, removeItem} from 'mattermost-redux/utils/array_utils';
 
 export function expandCategory(categoryId: string) {
-    return {
-        type: ChannelCategoryTypes.CATEGORY_EXPANDED,
-        data: categoryId,
-    };
+    return setCategoryCollapsed(categoryId, false);
 }
 
 export function collapseCategory(categoryId: string) {
-    return {
-        type: ChannelCategoryTypes.CATEGORY_COLLAPSED,
-        data: categoryId,
+    return setCategoryCollapsed(categoryId, true);
+}
+
+export function setCategoryCollapsed(categoryId: string, collapsed: boolean) {
+    return (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const state = getState();
+        const category = getCategory(state, categoryId);
+
+        return dispatch(updateCategory({
+            ...category,
+            collapsed,
+        }));
     };
 }
 
