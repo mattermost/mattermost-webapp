@@ -37,9 +37,9 @@ export type PasswordConfig = {
 }
 
 export type Props = {
-    location: {search: string};
+    location?: {search: string};
     enableSignUpWithEmail: boolean;
-    siteName: string;
+    siteName: string | '';
     termsOfServiceLink?: string;
     privacyPolicyLink?: string;
     customDescriptionText?: string;
@@ -87,9 +87,9 @@ export default class SignupEmail extends React.PureComponent<Props, State> {
     constructor(props: Props) {
         super(props);
 
-        const data = (new URLSearchParams(this.props.location.search)).get('d');
-        const token = (new URLSearchParams(this.props.location.search)).get('t');
-        const inviteId = (new URLSearchParams(this.props.location.search)).get('id');
+        const data = (new URLSearchParams(this.props.location!.search)).get('d');
+        const token = (new URLSearchParams(this.props.location!.search)).get('t');
+        const inviteId = (new URLSearchParams(this.props.location!.search)).get('id');
 
         this.state = {loading: false};
         if (token && token.length > 0) {
@@ -167,7 +167,7 @@ export default class SignupEmail extends React.PureComponent<Props, State> {
 
     handleSignupSuccess = (user: UserProfile, data: UserProfile) => {
         trackEvent('signup', 'signup_user_02_complete');
-        const redirectTo = (new URLSearchParams(this.props.location.search)).get('redirect_to');
+        const redirectTo = (new URLSearchParams(this.props.location!.search)).get('redirect_to');
 
         this.props.actions.loginById(data.id, user.password, '').then((result: {data: boolean} | {error: ServerError}) => {
             if ('error' in result) {
@@ -305,7 +305,7 @@ export default class SignupEmail extends React.PureComponent<Props, State> {
                 allow_marketing: true,
             } as UserProfile;
 
-            const redirectTo = (new URLSearchParams(this.props.location.search)).get('redirect_to');
+            const redirectTo = (new URLSearchParams(this.props.location!.search)).get('redirect_to');
 
             this.props.actions.createUser(user, this.state.token as string, this.state.inviteId as string, redirectTo as string).then((result: {data: UserProfile} | {error: ServerError}) => {
                 if ('error' in result) {
@@ -323,7 +323,7 @@ export default class SignupEmail extends React.PureComponent<Props, State> {
 
     renderEmailSignup = () => {
         let emailError = null;
-        let emailHelpText = (
+        let emailHelpText: React.ReactNode = (
             <span
                 id='valid_email'
                 className='help-block'
@@ -333,7 +333,7 @@ export default class SignupEmail extends React.PureComponent<Props, State> {
                     defaultMessage='Valid email required for sign-up'
                 />
             </span>
-        ) as React.ReactNode; /* Assertion used to allow for setting variable to an empty string below */
+        );
         let emailDivStyle = 'form-group';
         if (this.state.emailError) {
             emailError = (<label className='control-label'>{this.state.emailError}</label>);
@@ -342,7 +342,7 @@ export default class SignupEmail extends React.PureComponent<Props, State> {
         }
 
         let nameError = null;
-        let nameHelpText = (
+        let nameHelpText: React.ReactNode = (
             <span
                 id='valid_name'
                 className='help-block'
@@ -352,7 +352,7 @@ export default class SignupEmail extends React.PureComponent<Props, State> {
                     defaultMessage='You can use lowercase letters, numbers, periods, dashes, and underscores.'
                 />
             </span>
-        ) as React.ReactNode;
+        );
         let nameDivStyle = 'form-group';
         if (this.state.nameError) {
             nameError = <label className='control-label'>{this.state.nameError}</label>;
@@ -573,7 +573,7 @@ export default class SignupEmail extends React.PureComponent<Props, State> {
                             {' '}
                             <Link
                                 id='signin_account_link'
-                                to={'/login' + location.search}
+                                to={'/login' + location!.search}
                                 onClick={() => trackEvent('signup_email', 'click_signin_account')}
                             >
                                 <FormattedMessage
