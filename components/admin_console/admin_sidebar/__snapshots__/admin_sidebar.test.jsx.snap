@@ -131,6 +131,48 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
           className="nav nav-pills nav-stacked"
         >
           <AdminSidebarCategory
+            definitionKey="authentication"
+            icon="fa-shield"
+            key="authentication"
+            parentLink="/admin_console"
+            sectionClass=""
+            title={
+              <FormattedMessage
+                defaultMessage="Authentication"
+                id="admin.sidebar.authentication"
+              />
+            }
+          >
+            <AdminSidebarSection
+              definitionKey="authentication.ldap_feature_discovery"
+              key="authentication.ldap_feature_discovery"
+              name="authentication/ldap"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="AD/LDAP"
+                  id="admin.sidebar.ldap"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="authentication.saml_feature_discovery"
+              key="authentication.saml_feature_discovery"
+              name="authentication/saml"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="SAML 2.0"
+                  id="admin.sidebar.saml"
+                />
+              }
+            />
+          </AdminSidebarCategory>
+          <AdminSidebarCategory
             definitionKey="plugins"
             icon="fa-plug"
             key="plugins"
@@ -163,6 +205,34 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               parentLink=""
               subsection={false}
               title="Autolink"
+            />
+          </AdminSidebarCategory>
+          <AdminSidebarCategory
+            definitionKey="integrations"
+            icon="fa-sitemap"
+            key="integrations"
+            parentLink="/admin_console"
+            sectionClass=""
+            title={
+              <FormattedMessage
+                defaultMessage="Integrations"
+                id="admin.sidebar.integrations"
+              />
+            }
+          >
+            <AdminSidebarSection
+              definitionKey="integrations.cors"
+              key="integrations.cors"
+              name="integrations/cors"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="CORS"
+                  id="admin.sidebar.cors"
+                />
+              }
             />
           </AdminSidebarCategory>
         </ul>
@@ -945,7 +1015,36 @@ exports[`components/AdminSidebar should match snapshot, no access 1`] = `
       >
         <ul
           className="nav nav-pills nav-stacked"
-        />
+        >
+          <AdminSidebarCategory
+            definitionKey="integrations"
+            icon="fa-sitemap"
+            key="integrations"
+            parentLink="/admin_console"
+            sectionClass=""
+            title={
+              <FormattedMessage
+                defaultMessage="Integrations"
+                id="admin.sidebar.integrations"
+              />
+            }
+          >
+            <AdminSidebarSection
+              definitionKey="integrations.cors"
+              key="integrations.cors"
+              name="integrations/cors"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="CORS"
+                  id="admin.sidebar.cors"
+                />
+              }
+            />
+          </AdminSidebarCategory>
+        </ul>
       </Highlight>
     </div>
   </Scrollbars>
@@ -1002,7 +1101,36 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
       >
         <ul
           className="nav nav-pills nav-stacked"
-        />
+        >
+          <AdminSidebarCategory
+            definitionKey="integrations"
+            icon="fa-sitemap"
+            key="integrations"
+            parentLink="/admin_console"
+            sectionClass=""
+            title={
+              <FormattedMessage
+                defaultMessage="Integrations"
+                id="admin.sidebar.integrations"
+              />
+            }
+          >
+            <AdminSidebarSection
+              definitionKey="integrations.cors"
+              key="integrations.cors"
+              name="integrations/cors"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="CORS"
+                  id="admin.sidebar.cors"
+                />
+              }
+            />
+          </AdminSidebarCategory>
+        </ul>
       </Highlight>
     </div>
   </Scrollbars>
@@ -1059,7 +1187,36 @@ exports[`components/AdminSidebar should match snapshot, render plugins without a
       >
         <ul
           className="nav nav-pills nav-stacked"
-        />
+        >
+          <AdminSidebarCategory
+            definitionKey="integrations"
+            icon="fa-sitemap"
+            key="integrations"
+            parentLink="/admin_console"
+            sectionClass=""
+            title={
+              <FormattedMessage
+                defaultMessage="Integrations"
+                id="admin.sidebar.integrations"
+              />
+            }
+          >
+            <AdminSidebarSection
+              definitionKey="integrations.cors"
+              key="integrations.cors"
+              name="integrations/cors"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="CORS"
+                  id="admin.sidebar.cors"
+                />
+              }
+            />
+          </AdminSidebarCategory>
+        </ul>
       </Highlight>
     </div>
   </Scrollbars>
@@ -2063,7 +2220,78 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
       >
         <ul
           className="nav nav-pills nav-stacked"
-        />
+        >
+          <AdminSidebarCategory
+            definitionKey="authentication"
+            icon="fa-shield"
+            key="authentication"
+            parentLink="/admin_console"
+            sectionClass=""
+            title={
+              <FormattedMessage
+                defaultMessage="Authentication"
+                id="admin.sidebar.authentication"
+              />
+            }
+          >
+            <AdminSidebarSection
+              definitionKey="authentication.ldap_feature_discovery"
+              key="authentication.ldap_feature_discovery"
+              name="authentication/ldap"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="AD/LDAP"
+                  id="admin.sidebar.ldap"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="authentication.saml_feature_discovery"
+              key="authentication.saml_feature_discovery"
+              name="authentication/saml"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="SAML 2.0"
+                  id="admin.sidebar.saml"
+                />
+              }
+            />
+          </AdminSidebarCategory>
+          <AdminSidebarCategory
+            definitionKey="integrations"
+            icon="fa-sitemap"
+            key="integrations"
+            parentLink="/admin_console"
+            sectionClass=""
+            title={
+              <FormattedMessage
+                defaultMessage="Integrations"
+                id="admin.sidebar.integrations"
+              />
+            }
+          >
+            <AdminSidebarSection
+              definitionKey="integrations.cors"
+              key="integrations.cors"
+              name="integrations/cors"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="CORS"
+                  id="admin.sidebar.cors"
+                />
+              }
+            />
+          </AdminSidebarCategory>
+        </ul>
       </Highlight>
     </div>
   </Scrollbars>
