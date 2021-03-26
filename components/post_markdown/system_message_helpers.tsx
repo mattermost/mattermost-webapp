@@ -198,8 +198,8 @@ function renderHeaderChangeMessage(post: Post): ReactNode {
                         username,
                         old: oldHeader,
                         new: newHeader,
-                        strong: (chunks: Record<string, any>) => (<strong>{chunks}</strong>),
-                        br: (x: Record<string, any>) => (<><br/>{x}</>),
+                        strong: (chunks: React.ReactNode) => (<strong>{chunks}</strong>),
+                        br: (x: React.ReactNode) => (<><br/>{x}</>),
                     }}
                 />
             );
@@ -380,7 +380,7 @@ const systemMessageRenderers = {
     [Posts.POST_TYPES.ME]: renderMeMessage,
 };
 
-export function renderSystemMessage(post: Post, channel?: Channel, isUserCanManageMembers?: boolean): ReactNode {
+export function renderSystemMessage(post: Post, channel: Channel, isUserCanManageMembers?: boolean): ReactNode {
     if (post.props && post.props.add_channel_member) {
         const isEphemeral = Utils.isPostEphemeral(post);
 

@@ -19,6 +19,7 @@ describe('components/PostMarkdown', () => {
         post: TestHelper.getPostMock(),
         mentionKeys: [{key: 'a'}, {key: 'b'}, {key: 'c'}],
         channelId: 'channel-id',
+        channel: TestHelper.getChannelMock(),
     };
 
     test('should not error when rendering without a post', () => {

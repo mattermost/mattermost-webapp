@@ -38,7 +38,7 @@ type Props = {
      * The id of the channel that this post is being rendered in
      */
     channelId?: string;
-    channel?: Channel;
+    channel: Channel;
     options?: TextFormattingOptions;
     pluginHooks?: Array<Record<string, any>>;
 
@@ -62,7 +62,7 @@ export default class PostMarkdown extends React.PureComponent<Props> {
         const {post, mentionKeys} = this.props;
 
         if (post) {
-            const renderedSystemMessage = renderSystemMessage(post as Post, this.props.channel, this.props.isUserCanManageMembers);
+            const renderedSystemMessage = renderSystemMessage(post, this.props.channel, this.props.isUserCanManageMembers);
             if (renderedSystemMessage) {
                 return <div>{renderedSystemMessage}</div>;
             }
