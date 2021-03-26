@@ -1,11 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 import React from 'react';
-import {shallow} from 'enzyme';
+import {ReactWrapper, shallow} from 'enzyme';
 import {FormattedMessage} from 'react-intl';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
-import DisplayName from 'components/create_team/components/display_name.jsx';
+import DisplayName from 'components/create_team/components/display_name';
 import Constants from 'utils/constants';
 import {cleanUpUrlable} from 'utils/url';
 
@@ -60,7 +60,7 @@ describe('/components/create_team/components/display_name', () => {
             },
         };
 
-        wrapper.find('.form-control').instance().value = teamDisplayName;
+        (wrapper.find('.form-control') as unknown as ReactWrapper<any, any, HTMLInputElement>).instance().value = teamDisplayName;
         wrapper.find('.form-control').simulate('change');
 
         wrapper.find('button').simulate('click', {
@@ -73,7 +73,7 @@ describe('/components/create_team/components/display_name', () => {
 
     test('should display isRequired error', () => {
         const wrapper = mountWithIntl(<DisplayName {...defaultProps}/>);
-        wrapper.find('.form-control').instance().value = '';
+        (wrapper.find('.form-control') as unknown as ReactWrapper<any, any, HTMLInputElement>).instance().value = '';
         wrapper.find('.form-control').simulate('change');
 
         wrapper.find('button').simulate('click', {
@@ -101,7 +101,7 @@ describe('/components/create_team/components/display_name', () => {
 
         const wrapper = mountWithIntl(<DisplayName {...nullTeamProps}/>);
 
-        wrapper.find('.form-control').instance().value = '';
+        (wrapper.find('.form-control') as unknown as ReactWrapper<any, any, HTMLInputElement>).instance().value = '';
         wrapper.find('.form-control').simulate('change');
 
         wrapper.find('button').simulate('click', {
@@ -130,7 +130,7 @@ describe('/components/create_team/components/display_name', () => {
 
         const wrapper = mountWithIntl(<DisplayName {...nullTeamProps}/>);
 
-        wrapper.find('.form-control').instance().value = '';
+        (wrapper.find('.form-control') as unknown as ReactWrapper<any, any, HTMLInputElement>).instance().value = '';
         wrapper.find('.form-control').simulate('change');
 
         wrapper.find('button').simulate('click', {
@@ -147,7 +147,7 @@ describe('/components/create_team/components/display_name', () => {
 
     test('should display charLength error', () => {
         const wrapper = mountWithIntl(<DisplayName {...defaultProps}/>);
-        const input = wrapper.find('.form-control').instance();
+        const input = (wrapper.find('.form-control') as unknown as ReactWrapper<any, any, HTMLInputElement>).instance();
         input.value = 'should_trigger_an_error_because_it_exceeds_MAX_TEAMNAME_LENGTH';
         wrapper.find('.form-control').simulate('change');
 

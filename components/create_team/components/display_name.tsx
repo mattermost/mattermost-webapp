@@ -2,9 +2,10 @@
 // See LICENSE.txt for license information.
 /* eslint-disable react/no-string-refs */
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+
+import {Team} from 'mattermost-redux/types/teams';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 import Constants from 'utils/constants.jsx';
@@ -12,21 +13,31 @@ import {cleanUpUrlable} from 'utils/url';
 import logoImage from 'images/logo.png';
 import NextIcon from 'components/widgets/icons/fa_next_icon';
 
-export default class TeamSignupDisplayNamePage extends React.PureComponent {
-    static propTypes = {
+type CreateTeamState = {
+    team?: Partial<Team>;
+    wizard: string;
+};
 
-        /*
-         * Object containing team's display_name and name
-         */
-        state: PropTypes.object,
+type Props = {
 
-        /*
-         * Function that updates parent component with state props
-         */
-        updateParent: PropTypes.func,
-    }
+    /*
+     * Object containing team's display_name and name
+     */
+    state: CreateTeamState;
 
-    constructor(props) {
+    /*
+     * Function that updates parent component with state props
+     */
+    updateParent: (state: CreateTeamState) => void;
+}
+
+type State = {
+    teamDisplayName: string;
+    nameError?: React.ReactNode;
+}
+
+export default class TeamSignupDisplayNamePage extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -34,14 +45,14 @@ export default class TeamSignupDisplayNamePage extends React.PureComponent {
         };
     }
 
-    componentDidMount() {
+    componentDidMount(): void {
         trackEvent('signup', 'signup_team_01_name');
     }
 
-    submitNext = (e) => {
+    submitNext = (e: React.MouseEvent): void => {
         e.preventDefault();
         trackEvent('display_name', 'click_next');
-        var displayName = this.state.teamDisplayName.trim();
+        const displayName = this.state.teamDisplayName.trim();
         if (!displayName) {
             this.setState({nameError: (
                 <FormattedMessage
@@ -66,23 +77,23 @@ export default class TeamSignupDisplayNamePage extends React.PureComponent {
 
         const newState = this.props.state;
         newState.wizard = 'team_url';
-        newState.team.display_name = displayName;
-        newState.team.name = cleanUpUrlable(displayName);
+        newState.team!.display_name = displayName;
+        newState.team!.name = cleanUpUrlable(displayName);
         this.props.updateParent(newState);
     }
 
-    handleFocus = (e) => {
+    handleFocus = (e: React.FocusEvent<HTMLInputElement>): void => {
         e.preventDefault();
         e.currentTarget.select();
     }
 
-    handleDisplayNameChange = (e) => {
+    handleDisplayNameChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         this.setState({teamDisplayName: e.target.value});
     }
 
-    render() {
-        var nameError = null;
-        var nameDivClass = 'form-group';
+    render(): React.ReactNode {
+        let nameError = null;
+        let nameDivClass = 'form-group';
         if (this.state.nameError) {
             nameError = <label className='control-label'>{this.state.nameError}</label>;
             nameDivClass += ' has-error';
@@ -110,7 +121,7 @@ export default class TeamSignupDisplayNamePage extends React.PureComponent {
                                     type='text'
                                     className='form-control'
                                     placeholder=''
-                                    maxLength='128'
+                                    maxLength={128}
                                     value={this.state.teamDisplayName}
                                     autoFocus={true}
                                     onFocus={this.handleFocus}
