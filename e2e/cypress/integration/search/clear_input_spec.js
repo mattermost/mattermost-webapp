@@ -23,7 +23,7 @@ describe('Search', () => {
 
     it('QuickInput clear X', () => {
         // * X should not be visible on empty input
-        cy.get('#searchFormContainer').find('.input-clear-x').should('not.be.visible');
+        cy.get('#searchFormContainer').find('.input-clear-x').should('not.exist');
 
         // # Write something on the input
         cy.get('#searchBox').clear().type('abc');
@@ -38,7 +38,7 @@ describe('Search', () => {
         cy.get('#searchFormContainer').find('.input-clear-x').click({force: true});
 
         // * The X should not be visible since the input is cleared
-        cy.get('#searchFormContainer').find('.input-clear-x').should('not.be.visible');
+        cy.get('#searchFormContainer').find('.input-clear-x').should('not.exist');
 
         // * The value of the input is empty
         cy.get('#searchBox').should('have.value', '');

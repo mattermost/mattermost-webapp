@@ -122,7 +122,7 @@ describe('Emoji reactions to posts/messages', () => {
             cy.get('.emoji-picker__items #emoji-1f605').wait(500).click();
 
             // * The emoji picker is no longer open
-            cy.get('#emojiPicker').should('be.not.visible');
+            cy.get('#emojiPicker').should('not.exist');
 
             // * The "sweat_smile" emoji is added to the post
             cy.get(`#postReaction-${postId}-sweat_smile`).should('be.visible');
@@ -138,7 +138,7 @@ describe('Emoji reactions to posts/messages', () => {
             cy.get(`#postReaction-${postId}-sweat_smile`).click();
 
             // * The "sweat_smile" emoji is removed
-            cy.get(`#postReaction-${postId}-sweat_smile`).should('be.not.visible');
+            cy.get(`#postReaction-${postId}-sweat_smile`).should('not.exist');
         });
     });
 });

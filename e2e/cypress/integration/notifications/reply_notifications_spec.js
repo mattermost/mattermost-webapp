@@ -103,7 +103,7 @@ describe('reply-notifications', () => {
             cy.get('@notifySpy').should('be.not.called');
 
             // * Verify unread mentions badge does not exist
-            cy.get('#sidebarItem_town-square').find('#unreadMentions').should('be.not.visible');
+            cy.get('#sidebarItem_town-square').find('#unreadMentions').should('not.exist');
 
             // # Switch again to other channel
             cy.get(`#sidebarItem_${otherChannel.name}`).click({force: true});
