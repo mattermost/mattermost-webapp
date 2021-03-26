@@ -43,9 +43,21 @@ type Props = {
     stats: any;
     theme: any;
     usersLimit: number;
+    actions: {
+        getTotalUsersStats: () => any;
+    };
 }
 
 export default class ChannelIntroMessage extends React.PureComponent<Props> {
+    showAddMemberButton = false;
+
+    componentDidMount() {
+        if (this.props.actions.getTotalUsersStats) {
+            this.props.actions.getTotalUsersStats().then(() => {
+                this.showAddMemberButton = true;
+            });
+        }
+    }
     render() {
         const {
             currentUserId,
@@ -74,11 +86,11 @@ export default class ChannelIntroMessage extends React.PureComponent<Props> {
         } else if (channel.type === Constants.GM_CHANNEL) {
             return createGMIntroMessage(channel, centeredIntro, channelProfiles, currentUserId);
         } else if (channel.name === Constants.DEFAULT_CHANNEL) {
-            return createDefaultIntroMessage(channel, centeredIntro, stats, usersLimit, theme, enableUserCreation, isReadOnly, teamIsGroupConstrained);
+            return createDefaultIntroMessage(channel, centeredIntro, stats, usersLimit, theme, this.showAddMemberButton, enableUserCreation, isReadOnly, teamIsGroupConstrained);
         } else if (channel.name === Constants.OFFTOPIC_CHANNEL) {
-            return createOffTopicIntroMessage(channel, centeredIntro, stats, usersLimit, theme);
+            return createOffTopicIntroMessage(channel, centeredIntro, stats, usersLimit, theme, this.showAddMemberButton);
         } else if (channel.type === Constants.OPEN_CHANNEL || channel.type === Constants.PRIVATE_CHANNEL) {
-            return createStandardIntroMessage(channel, centeredIntro, theme, stats, usersLimit, locale, creatorName);
+            return createStandardIntroMessage(channel, centeredIntro, theme, this.showAddMemberButton, stats, usersLimit, locale, creatorName);
         }
         return null;
     }
@@ -190,12 +202,12 @@ function createDMIntroMessage(channel: Channel, centeredIntro: string, teammate:
     );
 }
 
-function createOffTopicIntroMessage(channel: Channel, centeredIntro: string, stats: any, usersLimit: number, theme: any) {
+function createOffTopicIntroMessage(channel: Channel, centeredIntro: string, stats: any, usersLimit: number, theme: any, showAddMemberButton: boolean) {
     const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
     const children = createSetHeaderButton(channel);
     let totalUsers = 0;
-    if (stats && (typeof stats.TOTAL_USERS === 'number')) {
-        totalUsers = stats.TOTAL_USERS;
+    if (stats && (typeof stats.total_users_count === 'number')) {
+        totalUsers = stats.total_users_count;
     }
     let setHeaderButton = null;
     if (children) {
@@ -217,6 +229,7 @@ function createOffTopicIntroMessage(channel: Channel, centeredIntro: string, sta
             usersLimit={usersLimit}
             channel={channel}
             theme={theme}
+            showAddMemberButton={showAddMemberButton}
         />
     );
 
@@ -254,14 +267,15 @@ export function createDefaultIntroMessage(
     stats: any,
     usersLimit: number,
     theme: any,
+    showAddMemberButton: boolean,
     enableUserCreation?: boolean,
     isReadOnly?: boolean,
     teamIsGroupConstrained?: boolean,
 ) {
     let teamInviteLink = null;
     let totalUsers = 0;
-    if (stats && (typeof stats.TOTAL_USERS === 'number')) {
-        totalUsers = stats.TOTAL_USERS;
+    if (stats && (typeof stats.total_users_count === 'number')) {
+        totalUsers = stats.total_users_count;
     }
 
     const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
@@ -299,6 +313,7 @@ export function createDefaultIntroMessage(
                             usersLimit={usersLimit}
                             channel={channel}
                             theme={theme}
+                            showAddMemberButton={showAddMemberButton}
                         />
                     }
                     {teamIsGroupConstrained &&
@@ -370,14 +385,14 @@ export function createDefaultIntroMessage(
     );
 }
 
-function createStandardIntroMessage(channel: Channel, centeredIntro: string, theme: any, stats: any, usersLimit: number, locale: string, creatorName: string) {
+function createStandardIntroMessage(channel: Channel, centeredIntro: string, theme: any, showAddMemberButton: boolean, stats: any, usersLimit: number, locale: string, creatorName: string) {
     const uiName = channel.display_name;
     let memberMessage;
     const channelIsArchived = channel.delete_at !== 0;
 
     let totalUsers = 0;
-    if (stats && (typeof stats.TOTAL_USERS === 'number')) {
-        totalUsers = stats.TOTAL_USERS;
+    if (stats && (typeof stats.total_users_count === 'number')) {
+        totalUsers = stats.total_users_count;
     }
 
     if (channelIsArchived) {
@@ -503,6 +518,7 @@ function createStandardIntroMessage(channel: Channel, centeredIntro: string, the
             channel={channel}
             setHeader={setHeaderButton}
             theme={theme}
+            showAddMemberButton={showAddMemberButton}
         />
     );
 
