@@ -30,13 +30,13 @@ export interface AddMembersButtonProps {
     channel: Channel;
     setHeader: React.ReactNode;
     theme: any;
-    showAddMemberButton: boolean;
 }
 
-const AddMembersButton: React.FC<AddMembersButtonProps> = ({totalUsers, usersLimit, channel, setHeader, theme, showAddMemberButton}: AddMembersButtonProps) => {
+const AddMembersButton: React.FC<AddMembersButtonProps> = ({totalUsers, usersLimit, channel, setHeader, theme}: AddMembersButtonProps) => {
     const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
     const inviteUsers = totalUsers < usersLimit;
-    if (!showAddMemberButton) {
+
+    if (!totalUsers) {
         return (<LoadingSpinner/>);
     }
     return (
