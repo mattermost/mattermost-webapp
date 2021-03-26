@@ -50,7 +50,7 @@ type Props = {
 
 export default class ChannelIntroMessage extends React.PureComponent<Props> {
     componentDidMount() {
-        if (this.props.stats && !this.props.stats.total_users_count) {
+        if (!this.props.stats?.total_users_count) {
             this.props.actions.getTotalUsersStats();
         }
     }
