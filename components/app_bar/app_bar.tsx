@@ -5,7 +5,7 @@ import React from 'react';
 
 import AppIcon from './app_icon';
 
-import {App} from './types';
+import {App} from 'mattermost-redux/types/notifications';
 
 import './app_bar.scss';
 
@@ -17,81 +17,48 @@ const apps: App[]= [
     {
         name: 'GitHub',
         icon: 'fa-github',
-        notifications_categories: [
+        notification_types: [
             {
                 name: 'Pull Requests',
                 icon: 'fa-compress',
-                hoverText: 'Your open pull requests',
-                notifications: [
-                    {
-                        message: '',
-                        link: 'https://github.com',
-                    }
-                ]
+                description: 'Your open pull requests',
             },
             {
                 name: 'Review Requests',
                 icon: 'fa-code-fork',
-                hoverText: 'Pull requests to review',
-                notifications: [
-                    {
-                        message: '',
-                        link: 'https://github.com',
-                    }
-                ]
+                description: 'Pull requests to review',
             },
             {
                 name: 'Assignments',
                 icon: 'fa-list-ol',
-                hoverText: 'Issues/pull requests assigned to you',
-                notifications: [
-                    {
-                        message: '',
-                        link: 'https://github.com',
-                    }
-                ]
+                description: 'Issues/pull requests assigned to you',
             },
             {
                 name: 'Unreads',
                 icon: 'fa-envelope',
-                hoverText: 'Unreads on issues/pull requests',
-                notifications: [
-                    {
-                        message: '',
-                        link: 'https://github.com',
-                    },
-                    {
-                        message: '',
-                        link: 'https://github.com',
-                    }
-                ]
+                description: 'Unreads on issues/pull requests',
             }
         ],
     },
     {
         name: 'GitLab',
         icon: 'fa-gitlab',
-        notifications_categories: [
+        notification_types: [
             {
                 name: 'Merge Requests',
-                hoverText: 'MRs to review',
-                notifications: []
+                description: 'MRs to review',
+                icon: '',
             }
         ],
     },
     {
         name: 'JIRA',
         icon: 'fa-rocket',
-        notifications_categories: [
+        notification_types: [
             {
                 name: 'Unread Comments',
-                hoverText: 'Unread comments',
-                notifications: [
-                    {
-                        message: '',
-                        link: 'https://gitlab.com',
-                    }
-                ]
+                description: 'Unread comments',
+                icon: '',
             }
         ],
     }
@@ -106,7 +73,7 @@ const AppBar = (props: ComponentProps) => {
 
     return (
         <div className='AppBar'>
-            {apps.map(app => <AppIcon app={app}/>)} 
+            {apps.map(app => <AppIcon notificationTypes={app.notification_types}/>)} 
         </div>
     );
 };

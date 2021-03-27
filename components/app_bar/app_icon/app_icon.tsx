@@ -3,14 +3,18 @@
 
 import React from 'react';
 
-import {App, NotificationCategory} from './types';
+import {NotificationType, NotificationCount} from 'mattermost-redux/types/notifications';
+import {Dictionary} from 'mattermost-redux/types/utilities';
 
-import Category from './category';
+import Category from '../category';
 
 import './app_icon.scss';
 
-type Props = {
-    app: App;
+export type Props = {
+    name: string;
+    notificationTypes: NotificationType[];
+    icon: string;
+    counts: Dictionary<NotificationCount>;
 }
 
 type State = {
@@ -23,16 +27,16 @@ export default class AppIcon extends React.Component<Props, State> {
         super(props);
 
         this.state = {
-            //collapsed: props.app.notifications_categories.length <= 1,
+            //collapsed: props.app.notification_types.length <= 1,
             collapsed: true,
             animating: false,
         };
     }
 
     handleClick = () => {
-        const {app} = this.props;
+        const {notificationTypes} = this.props;
 
-        if (app.notifications_categories.length <= 1) {
+        if (notificationTypes.length <= 1) {
             return;
         }
 
@@ -49,10 +53,9 @@ export default class AppIcon extends React.Component<Props, State> {
             return null;
         }
 
-        const {app} = this.props;
-        const notificationCatgeories = app.notifications_categories;
+        const {notificationTypes, counts} = this.props;
         let numNotifications = 0;
-        notificationCatgeories.forEach((category: NotificationCategory) => numNotifications += category.notifications.length)
+        notificationTypes.forEach((category: NotificationType) => numNotifications += counts[category.name].value)
 
         if (numNotifications <= 0) {
             return null;
@@ -64,13 +67,22 @@ export default class AppIcon extends React.Component<Props, State> {
     renderCategories = () => {
         const {collapsed, animating} = this.state;
 
-        const {app} = this.props;
-        const notificationCatgeories = app.notifications_categories;
+        const {notificationTypes, counts} = this.props;
 
         let content = null;
 
         if (!collapsed || animating) {
-            content = notificationCatgeories.map((category: NotificationCategory) => <Category key={category.name} category={category}/>);
+            content = notificationTypes.map((category: NotificationType) => {
+                const notificationCount = counts[category.name];
+                return (
+                    <Category
+                        key={category.name}
+                        icon={category.icon}
+                        hoverText={category.description}
+                        count={notificationCount.value}
+                    />
+                );
+            });
         }
 
         return (
@@ -81,10 +93,10 @@ export default class AppIcon extends React.Component<Props, State> {
     }
 
     render() {
-        const {app} = this.props;
+        const {icon, notificationTypes} = this.props;
         const {collapsed} = this.state;
 
-        if (!app.notifications_categories.length) {
+        if (!notificationTypes.length) {
             return null;
         }
 
@@ -92,7 +104,7 @@ export default class AppIcon extends React.Component<Props, State> {
             <div className={collapsed ? 'AppIconContainer' : 'AppIconContainer expanded'}>
                 {this.renderCategories()}
                 <button className={collapsed ? 'AppIcon' : 'AppIcon expanded'} onClick={this.handleClick}>
-                    <i className={'fa fa-2x ' + app.icon} />
+                    <i className={'fa fa-2x ' + icon} />
                     {this.renderBadge()} 
                 </button>
             </div>

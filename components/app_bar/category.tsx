@@ -3,12 +3,14 @@
 
 import React from 'react';
 
-import {NotificationCategory} from './types';
+import {NotificationType} from 'mattermost-redux/types/notifications';
 
 import './category.scss';
 
 type Props = {
-    category: NotificationCategory;
+    count: number;
+    icon: string;
+    hoverText: string;
 }
 
 type State = {
@@ -16,14 +18,12 @@ type State = {
 
 export default class Category extends React.Component<Props, State> {
     render() {
-        const {category} = this.props;
-
-        const numNotifications = category.notifications.length;
+        const {icon, count} = this.props;
 
         return (
             <button className='CategoryIcon animating'>
-                <i className={'fa ' + category.icon}>
-                    <span className='CategoryCount'>{numNotifications}</span>
+                <i className={'fa ' + icon}>
+                    <span className='CategoryCount'>{count}</span>
                 </i>
             </button>
         );
