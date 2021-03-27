@@ -25,6 +25,7 @@ export type UserProfileProps = {
     hideStatus?: boolean;
     isRHS?: boolean;
     overwriteImage?: React.ReactNode;
+    channelId?: string;
 }
 
 export default class UserProfile extends PureComponent<UserProfileProps> {
@@ -63,6 +64,7 @@ export default class UserProfile extends PureComponent<UserProfileProps> {
             overwriteIcon,
             user,
             userId,
+            channelId,
         } = this.props;
 
         let name: React.ReactNode;
@@ -99,6 +101,7 @@ export default class UserProfile extends PureComponent<UserProfileProps> {
                         <ProfilePopover
                             className='user-profile-popover'
                             userId={userId}
+                            channelId={channelId}
                             src={profileImg}
                             isBusy={isBusy}
                             hide={this.hideProfilePopover}
