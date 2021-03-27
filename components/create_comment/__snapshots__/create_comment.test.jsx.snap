@@ -277,6 +277,7 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
           className="post-body__actions"
         >
           <Connect(injectIntl(FileUpload))
+            channelId="g6139tbospd18cmxroesdk3kkc"
             fileCount={0}
             getTarget={[Function]}
             onFileUpload={[Function]}
@@ -425,6 +426,7 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
           className="post-body__actions"
         >
           <Connect(injectIntl(FileUpload))
+            channelId="g6139tbospd18cmxroesdk3kkc"
             fileCount={3}
             getTarget={[Function]}
             onFileUpload={[Function]}
@@ -561,6 +563,7 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
           className="post-body__actions"
         >
           <Connect(injectIntl(FileUpload))
+            channelId="g6139tbospd18cmxroesdk3kkc"
             fileCount={0}
             getTarget={[Function]}
             onFileUpload={[Function]}
@@ -709,6 +712,7 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
           className="post-body__actions"
         >
           <Connect(injectIntl(FileUpload))
+            channelId="g6139tbospd18cmxroesdk3kkc"
             fileCount={4}
             getTarget={[Function]}
             onFileUpload={[Function]}

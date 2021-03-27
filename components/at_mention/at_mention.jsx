@@ -17,6 +17,7 @@ export default class AtMention extends React.PureComponent {
     static propTypes = {
         children: PropTypes.node,
         currentUserId: PropTypes.string.isRequired,
+        channelId: PropTypes.string,
         hasMention: PropTypes.bool,
         disableHighlight: PropTypes.bool,
         disableGroupHighlight: PropTypes.bool,
@@ -118,6 +119,7 @@ export default class AtMention extends React.PureComponent {
                         isRHS={this.props.isRHS}
                         hasMention={this.props.hasMention}
                         hide={this.hideOverlay}
+                        channelId={this.props.channelId}
                     />
                 </Overlay>
                 <a
