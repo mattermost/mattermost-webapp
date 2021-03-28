@@ -12,7 +12,7 @@ type Props = {
 }
 
 export default function ImagePreview(props: Props): JSX.Element {
-    const fileInfo = props?.fileInfo;
+    const fileInfo = props.fileInfo;
     const isExternalFile = !fileInfo.id;
 
     let fileUrl;

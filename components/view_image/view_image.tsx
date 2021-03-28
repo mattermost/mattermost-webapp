@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {LegacyRef} from 'react';
 import {Modal} from 'react-bootstrap';
 
 import {getFilePreviewUrl, getFileUrl, getFileDownloadUrl} from 'mattermost-redux/utils/file_utils';
@@ -58,7 +58,7 @@ export type Props = {
 
     canDownloadFiles?: boolean;
     enablePublicLink?: boolean;
-    pluginFilePreviewComponents?: any[];
+    pluginFilePreviewComponents?: unknown[];
 };
 
 type State = {
@@ -80,9 +80,9 @@ export default class ViewImageModal extends React.PureComponent<Props, State> {
         pluginFilePreviewComponents: [],
         post: {}, // Needed to avoid proptypes console errors for cases like channel header, which doesn't have a proper value
     };
-    videoRef: React.RefObject<any>;
-    previewArrowRight: LegacyRef<HTMLAnchorElement> | undefined;
-    previewArrowLeft: LegacyRef<HTMLAnchorElement> | undefined;
+    videoRef: React.RefObject<unknown>;
+    previewArrowRight: LegacyRef<HTMLAnchorElement> = '';
+    previewArrowLeft: LegacyRef<HTMLAnchorElement> = '';
 
     constructor(props: Props) {
         super(props);
@@ -202,7 +202,7 @@ export default class ViewImageModal extends React.PureComponent<Props, State> {
 
         if (fileType === FileTypes.IMAGE && Boolean(fileInfo?.id)) {
             let previewUrl;
-            if (fileInfo?.has_image_preview) {
+            if (fileInfo.has_image_preview) {
                 previewUrl = getFilePreviewUrl(fileInfo?.id ?? '');
             } else {
                 // some images (eg animated gifs) just show the file itself and not a preview
@@ -212,7 +212,7 @@ export default class ViewImageModal extends React.PureComponent<Props, State> {
             Utils.loadImage(
                 previewUrl,
                 () => this.handleImageLoaded(index),
-                (completedPercentage: any) => this.handleImageProgress(index, completedPercentage),
+                (completedPercentage: unknown) => this.handleImageProgress(index, completedPercentage),
             );
         } else {
             // there's nothing to load for non-image files
@@ -220,7 +220,7 @@ export default class ViewImageModal extends React.PureComponent<Props, State> {
         }
     }
 
-    handleImageLoaded = (index: number) => {
+    handleImageLoaded = (index: number): void => {
         this.setState((prevState) => {
             return {
                 loaded: {
@@ -231,7 +231,7 @@ export default class ViewImageModal extends React.PureComponent<Props, State> {
         });
     }
 
-    handleImageProgress = (index: number, completedPercentage: any) => {
+    handleImageProgress = (index: number, completedPercentage: unknown): void => {
         this.setState((prevState) => {
             return {
                 progress: {
@@ -242,7 +242,7 @@ export default class ViewImageModal extends React.PureComponent<Props, State> {
         });
     }
 
-    handleGetPublicLink = () => {
+    handleGetPublicLink = (): void => {
         this.handleModalClose();
 
         const imageIndex = this.state.imageIndex ?? 0;
@@ -251,15 +251,15 @@ export default class ViewImageModal extends React.PureComponent<Props, State> {
         GlobalActions.showGetPublicLinkModal(fileInfos[imageIndex].id);
     }
 
-    onMouseEnterImage = () => {
+    onMouseEnterImage = (): void => {
         this.setState({showCloseBtn: true});
     }
 
-    onMouseLeaveImage = () => {
+    onMouseLeaveImage = (): void => {
         this.setState({showCloseBtn: false});
     }
 
-    setScale = (index: any, scale: number) => {
+    setScale = (index: any, scale: number): void => {
         this.setState((prevState) => {
             return {
                 scale: {
@@ -270,23 +270,23 @@ export default class ViewImageModal extends React.PureComponent<Props, State> {
         });
     }
 
-    handleZoomIn = () => {
+    handleZoomIn = (): void => {
         let newScale = this.state.scale[this.state.imageIndex ?? 0];
         newScale = Math.min(newScale + ZoomSettings.SCALE_DELTA, ZoomSettings.MAX_SCALE);
         this.setScale(this.state.imageIndex, newScale);
     };
 
-    handleZoomOut = () => {
+    handleZoomOut = (): void => {
         let newScale = this.state.scale[this.state.imageIndex ?? 0];
         newScale = Math.max(newScale - ZoomSettings.SCALE_DELTA, ZoomSettings.MIN_SCALE);
         this.setScale(this.state.imageIndex, newScale);
     };
 
-    handleZoomReset = () => {
+    handleZoomReset = (): void => {
         this.setScale(this.state.imageIndex, ZoomSettings.DEFAULT_SCALE);
     }
 
-    handleModalClose = () => {
+    handleModalClose = (): void => {
         if (this.props?.onModalDismissed) {
             this.props.onModalDismissed();
         }
