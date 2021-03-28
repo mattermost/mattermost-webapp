@@ -10,6 +10,8 @@ import {isEmpty} from 'lodash';
 
 import {SubscriptionStats} from 'mattermost-redux/types/cloud';
 
+import {ServerError} from 'mattermost-redux/types/errors';
+
 import {browserHistory} from 'utils/browser_history';
 import * as GlobalActions from 'actions/global_actions';
 import logoImage from 'images/logo.png';
@@ -48,8 +50,8 @@ export type Props = {
     actions?: {
         removeGlobalItem: (name: string) => void;
         getTeamInviteInfo: (inviteId: string) => {
-            data: any;
-            error: any;
+            data: unknown;
+            error: ServerError;
         };
         addUserToTeamFromInvite: (token: string, inviteId: string) => {
             data: any;
@@ -60,7 +62,7 @@ export type Props = {
 
 export type State = {
     loading: boolean;
-    serverError: unknown;
+    serverError: React.ReactNode;
     noOpenServerError: boolean;
     usedBefore: boolean;
 }
@@ -70,7 +72,7 @@ export default class SignupController extends React.PureComponent<Props, State> 
         super(props);
 
         let loading = false;
-        let serverError: any = '';
+        let serverError: React.ReactNode = '';
         let noOpenServerError = false;
         let usedBefore = false;
 
@@ -88,7 +90,7 @@ export default class SignupController extends React.PureComponent<Props, State> 
             if (inviteId) {
                 loading = true;
             } else if (!this.props.loggedIn) {
-                usedBefore = props?.usedBefore ? props.usedBefore : usedBefore;
+                usedBefore = props?.usedBefore ?? usedBefore;
             } else if (!inviteId && !this.props.enableOpenServer && !this.props.noAccounts) {
                 noOpenServerError = true;
                 serverError = (
@@ -161,7 +163,7 @@ export default class SignupController extends React.PureComponent<Props, State> 
         }
     }
 
-    handleInvalidInvite = (err: { server_error_id: string; message: unknown }): void => {
+    handleInvalidInvite = (err: ServerError): void => {
         let serverError;
         if (err.server_error_id === 'store.sql_user.save.max_accounts.app_error') {
             serverError = err.message;
@@ -183,8 +185,8 @@ export default class SignupController extends React.PureComponent<Props, State> 
         });
     }
 
-    renderSignupControls = (): unknown[] | void => {
-        let signupControls: any = [];
+    renderSignupControls = (): React.ReactNode[] => {
+        let signupControls: React.ReactNode[] = [];
 
         if (this.props.enableSignUpWithEmail) {
             signupControls.push(
@@ -275,7 +277,7 @@ export default class SignupController extends React.PureComponent<Props, State> 
             if (this.props.openidButtonColor) {
                 buttonStyle.backgroundColor = this.props.openidButtonColor;
             }
-            let buttonText: any = (
+            let buttonText: React.ReactNode = (
                 <FormattedMessage
                     id='login.openid'
                     defaultMessage='Open Id'
@@ -306,7 +308,7 @@ export default class SignupController extends React.PureComponent<Props, State> 
             params.append('extra', 'create_ldap');
             const query = '?' + params.toString();
 
-            let LDAPText: any = (
+            let LDAPText: React.ReactNode = (
                 <FormattedMessage
                     id='signup.ldap'
                     defaultMessage='AD/LDAP Credentials'
@@ -419,11 +421,6 @@ export default class SignupController extends React.PureComponent<Props, State> 
             signupControls = this.renderSignupControls();
         }
 
-        let locationSearch;
-        if (this.props?.location) {
-            locationSearch = this.props.location?.search && this.props.location.search;
-        }
-
         return (
             <div>
                 <AnnouncementBar/>
@@ -460,7 +457,7 @@ export default class SignupController extends React.PureComponent<Props, State> 
                             />
                             {' '}
                             <Link
-                                to={'/login' + locationSearch}
+                                to={'/login' + this.props?.location?.search ?? ''}
                             >
                                 <FormattedMessage
                                     id='signup_user_completed.signIn'
