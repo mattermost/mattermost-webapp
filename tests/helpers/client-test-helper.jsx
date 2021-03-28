@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import jqd from 'jquery-deferred';
+
 import {Client4} from 'mattermost-redux/client';
 
 import WebSocketClient from 'client/websocket_client';

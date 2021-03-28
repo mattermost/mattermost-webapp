@@ -3,8 +3,10 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {Client4} from 'mattermost-redux/client';
+
 import {FormattedDate, FormattedMessage, FormattedTime, injectIntl} from 'react-intl';
+
+import {Client4} from 'mattermost-redux/client';
 
 import {JobStatuses, exportFormats, JobTypes} from 'utils/constants';
 import {intlShape} from 'utils/react_intl';

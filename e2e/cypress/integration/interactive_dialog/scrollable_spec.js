@@ -77,7 +77,7 @@ describe('Interactive Dialog', () => {
                 cy.wrap($elForm).find('input').should('be.visible').and('have.attr', 'autocomplete', 'off').and('have.attr', 'placeholder', element.placeholder);
 
                 // * Verify that the suggestion list or autocomplete open up on click of input element
-                cy.wrap($elForm).find('#suggestionList').should('not.be.visible');
+                cy.wrap($elForm).find('#suggestionList').should('not.exist');
                 cy.wrap($elForm).find('input').click();
                 cy.wrap($elForm).find('#suggestionList').scrollIntoView().should('be.visible').children();
 
@@ -115,7 +115,7 @@ describe('Interactive Dialog', () => {
             cy.get('.modal-header').should('be.visible').within(($elForm) => {
                 cy.wrap($elForm).find('button.close').should('be.visible').click();
             });
-            cy.get('#interactiveDialogModal').should('not.be.visible');
+            cy.get('#interactiveDialogModal').should('not.exist');
         });
     });
 });

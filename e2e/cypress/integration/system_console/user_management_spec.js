@@ -274,7 +274,7 @@ describe('User Management', () => {
         });
 
         // * User does show up in DM More menu so that DM channels can be viewed.
-        cy.uiGetLhsSection('DIRECT MESSAGES').findByText(otherUser.username).should('not.be.visible');
+        cy.uiGetLhsSection('DIRECT MESSAGES').findByText(otherUser.username).should('not.exist');
         cy.uiAddDirectMessage().click();
 
         // * Verify that new messages cannot be posted.
@@ -320,7 +320,7 @@ describe('User Management', () => {
         cy.apiLogin(testUser).visit(`/${testTeam.name}/channels/${testChannel.name}`).wait(TIMEOUTS.HALF_SEC);
 
         // * On returning to the team the DM has been removed from LHS.
-        cy.uiGetLhsSection('DIRECT MESSAGES').findByText(otherUser.username).should('not.be.visible');
+        cy.uiGetLhsSection('DIRECT MESSAGES').findByText(otherUser.username).should('not.exist');
 
         // * GM stays in LHS channel list.
         cy.uiGetLhsSection('DIRECT MESSAGES').findByText(displayName).should('be.visible');
