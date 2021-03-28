@@ -54,8 +54,8 @@ export type Props = {
             error: ServerError;
         };
         addUserToTeamFromInvite: (token: string, inviteId: string) => {
-            data: any;
-            error: any;
+            data: unknown;
+            error: ServerError;
         };
     };
 }
