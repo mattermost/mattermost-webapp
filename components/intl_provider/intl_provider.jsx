@@ -63,7 +63,7 @@ export default class IntlProvider extends React.PureComponent {
             return null;
         }
 
-        return (
+        const component =  (
             <BaseIntlProvider
                 key={this.props.locale}
                 locale={this.props.locale}
@@ -73,6 +73,18 @@ export default class IntlProvider extends React.PureComponent {
             >
                 {this.props.children}
             </BaseIntlProvider>
+        );
+
+        const filtered = Object.values(this.props.contexts).filter(Boolean);
+        if (!filtered.length) {
+            return component;
+        }
+
+        const Provider = filtered[0].component;
+        return (
+            <Provider>
+                {component}
+            </Provider>
         );
     }
 }

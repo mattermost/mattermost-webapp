@@ -189,6 +189,23 @@ export default class PluginRegistry {
         return id;
     }
 
+    // Register a React context provider to be used at the top of the React tree.
+    // Returns a unique identifier.
+    registerContext(provider) {
+        const id = generateId();
+
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_CONTEXT,
+            data: {
+                id,
+                pluginId: this.id,
+                provider,
+            },
+        });
+
+        return id;
+    }
+
     // Register a component to render a custom body for post cards with a specific type.
     // Custom post types must be prefixed with 'custom_'.
     // Accepts a string type and a component.

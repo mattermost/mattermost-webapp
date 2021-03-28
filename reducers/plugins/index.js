@@ -225,6 +225,27 @@ function postTypes(state = {}, action) {
     }
 }
 
+function contexts(state = {}, action) {
+    switch (action.type) {
+        case ActionTypes.RECEIVED_PLUGIN_CONTEXT: {
+        if (action.data) {
+            const nextState = {...state};
+            nextState[action.data.pluginId] = action.data;
+            return nextState;
+        }
+        return state;
+    }
+    case ActionTypes.REMOVED_PLUGIN_CONTEXT:
+        if (action.data) {
+            const nextState = {...state};
+            nextState[action.data.pluginId] = null;
+            return nextState;
+        }
+    default:
+        return state;
+    }
+}
+
 function postCardTypes(state = {}, action) {
     switch (action.type) {
     case ActionTypes.RECEIVED_PLUGIN_POST_CARD_COMPONENT: {
@@ -323,6 +344,10 @@ export default combineReducers({
 
     // object where every key is a plugin id and values are webapp plugin manifests
     plugins,
+
+    // object where every key is a plugin id and values are React contexts
+    // wrapped in an object that contains an id and plugin id
+    contexts,
 
     // object where every key is a component name and the values are arrays of
     // components wrapped in an object that contains an id and plugin id

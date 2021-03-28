@@ -16,6 +16,7 @@ function mapStateToProps(state) {
     return {
         locale,
         translations: getTranslations(state, locale),
+        contexts: state.plugins.contexts,
     };
 }
 
