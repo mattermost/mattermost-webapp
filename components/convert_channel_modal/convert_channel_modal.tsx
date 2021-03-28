@@ -1,36 +1,30 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import {trackEvent} from 'actions/telemetry_actions.jsx';
+import {trackEvent} from 'actions/telemetry_actions';
 import Constants from 'utils/constants';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
-export default class ConvertChannelModal extends React.PureComponent {
-    static propTypes = {
+export type Props = {
+    onHide?: () => void;
+    channelId?: string;
+    channelDisplayName?: string;
+    actions?: {
+        convertChannelToPrivate: (channelId?: string) => void;
+    };
+}
 
-        /**
-        * Function called when modal is dismissed
-        */
-        onHide: PropTypes.func.isRequired,
-        channelId: PropTypes.string.isRequired,
-        channelDisplayName: PropTypes.string.isRequired,
+export type State = {
+    show: boolean;
+}
 
-        actions: PropTypes.shape({
-
-            /**
-            * Function called for converting channel to private,
-            */
-            convertChannelToPrivate: PropTypes.func.isRequired,
-        }),
-    }
-
-    constructor(props) {
+export default class ConvertChannelModal extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
         super(props);
 
         this.state = {show: true};
@@ -38,11 +32,11 @@ export default class ConvertChannelModal extends React.PureComponent {
 
     handleConvert = () => {
         const {actions, channelId} = this.props;
-        if (channelId.length !== Constants.CHANNEL_ID_LENGTH) {
+        if (channelId?.length !== Constants.CHANNEL_ID_LENGTH) {
             return;
         }
 
-        actions.convertChannelToPrivate(channelId);
+        actions?.convertChannelToPrivate(channelId);
         trackEvent('actions', 'convert_to_private_channel', {channel_id: channelId});
         this.onHide();
     }
