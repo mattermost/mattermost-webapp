@@ -32,7 +32,7 @@ describe('Environment', () => {
         cy.findByTestId('ServiceSettings.WebserverModedropdown').select('gzip');
 
         // # Click Save button to save the settings
-        cy.get('#saveSetting').click();
+        cy.get('#saveSetting').click().wait(TIMEOUTS.ONE_SEC);
 
         // # Navigate to a channel
         cy.visit(townsquareLink);
@@ -84,7 +84,7 @@ describe('Environment', () => {
         cy.findByTestId('ServiceSettings.WebserverModedropdown').select('Uncompressed');
 
         // # Click Save button to save the settings
-        cy.get('#saveSetting').click();
+        cy.get('#saveSetting').click().wait(TIMEOUTS.ONE_SEC);
 
         // # Navigate to a channel
         cy.visit(townsquareLink);
@@ -136,7 +136,7 @@ describe('Environment', () => {
         cy.findByTestId('ServiceSettings.WebserverModedropdown').select('Disabled');
 
         // # Click Save button to save the settings
-        cy.get('#saveSetting').click();
+        cy.get('#saveSetting').click().wait(TIMEOUTS.ONE_SEC);
 
         // # Navigate to a channel
         cy.visit(townsquareLink);
@@ -190,7 +190,7 @@ describe('Environment', () => {
         cy.findByTestId('maxOpenConnsinput').clear().type(maxOpenConnsValue);
 
         // # Click Save button to save the settings
-        cy.get('#saveSetting').click();
+        cy.get('#saveSetting').click().wait(TIMEOUTS.ONE_SEC);
 
         // Get config again
         cy.apiGetConfig().then(({config}) => {
@@ -201,33 +201,27 @@ describe('Environment', () => {
     });
 
     it('MM-T993 - Minimum hashtag length at least 2', () => {
+        const defaultHashtagLength = 3;
+        const minimumHashtagLength = 2;
+
+        function setAndVerifyHashtagLength(length) {
+            cy.findByTestId('minimumHashtagLengthinput').clear().type(length);
+
+            // # Click Save button to save the settings
+            cy.get('#saveSetting').click({force: true}).wait(TIMEOUTS.ONE_SEC);
+
+            // * Verify saved config value
+            cy.apiGetConfig().then(({config}) => {
+                const expectedLength = length < minimumHashtagLength ? defaultHashtagLength : length;
+                expect(config.ServiceSettings.MinimumHashtagLength).to.eq(expectedLength);
+            });
+        }
+
         cy.visit('/admin_console/environment/database');
 
-        const minimumHashtagOrig = 3;
-        const minimumHashtagLength1 = 2;
-        const minimumHashtagLength2 = 1;
-
-        cy.findByTestId('minimumHashtagLengthinput').clear().type(minimumHashtagLength1);
-
-        // # Click Save button to save the settings
-        cy.get('#saveSetting').click();
-
-        // Get config again
-        cy.apiGetConfig().then(({config}) => {
-            // * Verify the database setting value is saved
-            expect(config.ServiceSettings.MinimumHashtagLength).to.eq(minimumHashtagLength1);
-        });
-
-        cy.findByTestId('minimumHashtagLengthinput').clear().type(minimumHashtagLength2);
-
-        // # Click Save button to save the settings
-        cy.get('#saveSetting').click();
-
-        // Get config again
-        cy.apiGetConfig().then(({config}) => {
-            // * Verify the database setting value is reset to original value
-            expect(config.ServiceSettings.MinimumHashtagLength).to.eq(minimumHashtagOrig);
-        });
+        setAndVerifyHashtagLength(4);
+        setAndVerifyHashtagLength(1);
+        setAndVerifyHashtagLength(2);
     });
 
     it('MM-T995 - Amazon S3 settings', () => {
@@ -253,7 +247,7 @@ describe('Environment', () => {
         cy.findByTestId('FileSettings.AmazonS3PathPrefixinput').clear().type(amazonS3PathPrefix);
 
         // # Click Save button to save the settings
-        cy.get('#saveSetting').click().wait(TIMEOUTS.HALF_MIN);
+        cy.get('#saveSetting').click().wait(TIMEOUTS.ONE_SEC);
 
         // Get config again
         cy.apiGetConfig().then(({config}) => {
@@ -274,7 +268,7 @@ describe('Environment', () => {
         cy.findByTestId('FileSettings.AmazonS3PathPrefixinput').scrollIntoView().clear().type(amazonS3PathPrefix);
 
         // # Click Save button to save the settings
-        cy.get('#saveSetting').click().wait(TIMEOUTS.FIVE_SEC);
+        cy.get('#saveSetting').click().wait(TIMEOUTS.ONE_SEC);
 
         cy.get('#TestS3Connection').scrollIntoView().should('be.visible').within(() => {
             cy.findByText('Test Connection').should('be.visible').click().wait(TIMEOUTS.ONE_SEC);
