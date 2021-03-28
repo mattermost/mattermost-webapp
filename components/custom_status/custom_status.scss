@@ -124,6 +124,16 @@
             font-size: 20px;
         }
     }
+    
+    .MaxLengthInput__validation {
+        right: 44px !important;
+        top: 17px !important;
+    }
+    
+    .MaxLengthInput.form-control.has-error {
+        padding-right: 76px !important;
+    }
+
 }
 
 .ic-clear-search, .ic-search {
