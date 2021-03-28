@@ -1,12 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
+
+import {UserProfile} from 'mattermost-redux/src/types/users';
+
 import {Constants} from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 import DropdownIcon from 'components/widgets/icons/fa_dropdown_icon';
 import Menu from 'components/widgets/menu/menu';
@@ -14,26 +17,47 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 
 const ROWS_FROM_BOTTOM_TO_OPEN_UP = 3;
 
-export default class ChannelMembersDropdown extends React.PureComponent {
-    static propTypes = {
-        channel: PropTypes.object.isRequired,
-        user: PropTypes.object.isRequired,
-        currentUserId: PropTypes.string.isRequired,
-        channelMember: PropTypes.object.isRequired,
-        isLicensed: PropTypes.bool.isRequired,
-        canChangeMemberRoles: PropTypes.bool.isRequired,
-        canRemoveMember: PropTypes.bool.isRequired,
-        index: PropTypes.number.isRequired,
-        totalUsers: PropTypes.number.isRequired,
-        actions: PropTypes.shape({
-            getChannelStats: PropTypes.func.isRequired,
-            updateChannelMemberSchemeRoles: PropTypes.func.isRequired,
-            removeChannelMember: PropTypes.func.isRequired,
-            getChannelMember: PropTypes.func.isRequired,
-        }).isRequired,
+export type Props = {
+    channel: Channel;
+    user: UserProfile;
+    currentUserId: string;
+    channelMember: ChannelMembership;
+    isLicensed: boolean;
+    canChangeMemberRoles: boolean;
+    canRemoveMember: boolean;
+    index: number;
+    totalUsers: number;
+    actions: {
+        getChannelStats: (channelId: string) => void;
+        updateChannelMemberSchemeRoles: (channelId: string, userId: string, isSchemeUser: boolean, isSchemeAdmin: boolean) => void;
+        removeChannelMember: (channelId: string, userId: string) => string;
+        getChannelMember: (channelId: string, userId: string) => void;
     };
+}
+export type State = {
+    removing: boolean;
+    serverError: null;
+}
+export default class ChannelMembersDropdown extends React.PureComponent<Props, State> {
+    // static propTypes = {
+    //     channel: PropTypes.object.isRequired,
+    //     user: PropTypes.object.isRequired,
+    //     currentUserId: PropTypes.string.isRequired,
+    //     channelMember: PropTypes.object.isRequired,
+    //     isLicensed: PropTypes.bool.isRequired,
+    //     canChangeMemberRoles: PropTypes.bool.isRequired,
+    //     canRemoveMember: PropTypes.bool.isRequired,
+    //     index: PropTypes.number.isRequired,
+    //     totalUsers: PropTypes.number.isRequired,
+    //     actions: PropTypes.shape({
+    //         getChannelStats: PropTypes.func.isRequired,
+    //         updateChannelMemberSchemeRoles: PropTypes.func.isRequired,
+    //         removeChannelMember: PropTypes.func.isRequired,
+    //         getChannelMember: PropTypes.func.isRequired,
+    //     }).isRequired,
+    // };
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -84,7 +108,7 @@ export default class ChannelMembersDropdown extends React.PureComponent {
         }
     };
 
-    renderRole(isChannelAdmin, isGuest) {
+    renderRole(isChannelAdmin: boolean, isGuest: boolean) {
         if (isChannelAdmin) {
             return (
                 <FormattedMessage
