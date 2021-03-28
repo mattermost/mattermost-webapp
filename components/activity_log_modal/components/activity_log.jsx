@@ -4,6 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedDate, FormattedMessage, FormattedTime} from 'react-intl';
+
 import {General} from 'mattermost-redux/constants';
 
 import {localizeMessage} from 'utils/utils.jsx';

@@ -65,8 +65,8 @@ describe('Post Header', () => {
         cy.getLastPostId().then((postId) => {
             // * Check that the center dot menu' button and dropdown are hidden
             cy.get(`#post_${postId}`).should('be.visible').within(() => {
-                cy.get(`#CENTER_button_${postId}`).should('not.be.visible');
-                cy.get('.dropdown-menu').should('not.be.visible');
+                cy.get(`#CENTER_button_${postId}`).should('not.exist');
+                cy.get('.dropdown-menu').should('not.exist');
             });
 
             // # Click dot menu of a post
@@ -83,8 +83,8 @@ describe('Post Header', () => {
 
             // * Check that the center dot menu and dropdown are hidden
             cy.get(`#post_${postId}`).should('be.visible').within(() => {
-                cy.get(`#CENTER_button_${postId}`).should('not.be.visible');
-                cy.get('.dropdown-menu').should('not.be.visible');
+                cy.get(`#CENTER_button_${postId}`).should('not.exist');
+                cy.get('.dropdown-menu').should('not.exist');
             });
         });
     });
@@ -133,7 +133,7 @@ describe('Post Header', () => {
         cy.closeRHS();
 
         // * Check that the RHS is close
-        cy.get('#rhsContainer').should('not.be.visible');
+        cy.get('#rhsContainer').should('not.exist');
     });
 
     it('MM-T122 Visual verification of "Searching" animation for Saved and Pinned posts', () => {

@@ -3,8 +3,9 @@
 
 import React, {useEffect, useState} from 'react';
 
-import {Client4} from 'mattermost-redux/client';
 import {FormattedMessage} from 'react-intl';
+
+import {Client4} from 'mattermost-redux/client';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import {

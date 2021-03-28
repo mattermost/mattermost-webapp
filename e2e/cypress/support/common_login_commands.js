@@ -46,7 +46,7 @@ Cypress.Commands.add('checkLeftSideBar', (settings = {}) => {
         });
     } else {
         cy.get('#sidebarHeaderDropdownButton').click().then(() => {
-            cy.findByText('System Console').should('not.be.visible');
+            cy.findByText('System Console').should('not.exist');
             cy.get('#sidebarHeaderDropdownButton').click();
         });
     }

@@ -264,7 +264,7 @@ describe('Desktop notifications', () => {
                 });
 
                 // * Notification badge is aligned 10px to the right of LHS
-                cy.get(`#sidebarItem_${channel.name} .badge`).should('exist').and('have.css', 'margin', '0px 3px 0px 6px');
+                cy.get(`#sidebarItem_${channel.name} .badge`).should('exist').and('have.css', 'margin', '0px 6px');
             });
         });
     });
@@ -532,7 +532,7 @@ describe('Desktop notifications', () => {
                 cy.get('#soundOff').check();
 
                 // # Ensure sound dropdown is not visible
-                cy.get('#displaySoundNotification').should('not.be.visible');
+                cy.get('#displaySoundNotification').should('not.exist');
 
                 // # Click "Save"
                 cy.findByText('Save').scrollIntoView().should('be.visible').click();

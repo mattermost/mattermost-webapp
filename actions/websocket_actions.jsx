@@ -3,6 +3,7 @@
 
 /* eslint-disable max-lines */
 import {batchActions} from 'redux-batched-actions';
+
 import {
     ChannelTypes,
     EmojiTypes,

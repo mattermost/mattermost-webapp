@@ -4,12 +4,12 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 import {Modal} from 'react-bootstrap';
+import {noop as emptyFunction} from 'lodash';
 
 import MoreDirectChannels from 'components/more_direct_channels/more_direct_channels';
 
+jest.useFakeTimers();
 describe('components/MoreDirectChannels', () => {
-    function emptyFunction() {} //eslint-disable-line no-empty-function
-
     const baseProps = {
         currentUserId: 'current_user_id',
         currentTeamId: 'team_id',
@@ -33,8 +33,10 @@ describe('components/MoreDirectChannels', () => {
                 label: 'user_id_3',
                 value: 'user_id_3',
                 delete_at: 0,
-            }],
+            },
+        ],
         myDirectChannels: [],
+        recentDirectChannelUsers: [],
         groupChannels: [],
         statuses: {user_id_1: 'online', user_id_2: 'away'},
         currentChannelMembers: [
@@ -139,10 +141,12 @@ describe('components/MoreDirectChannels', () => {
     });
 
     test('should call on search', () => {
+        jest.useFakeTimers('modern');
         const props = {...baseProps, actions: {...baseProps.actions, setModalSearchTerm: jest.fn()}};
         const wrapper = shallow(<MoreDirectChannels {...props}/>);
-
         wrapper.instance().search('user_search');
+        expect(props.actions.setModalSearchTerm).not.toBeCalled();
+        jest.runAllTimers();
         expect(props.actions.setModalSearchTerm).toHaveBeenCalledTimes(1);
         expect(props.actions.setModalSearchTerm).toBeCalledWith('user_search');
     });
@@ -168,11 +172,11 @@ describe('components/MoreDirectChannels', () => {
         expect(wrapper.state('values')).toEqual([user2]);
     });
 
-    test('should match renderOption snapshot', () => {
+    test('should match renderOptionValue snapshot', () => {
         const props = {...baseProps};
         const wrapper = shallow(<MoreDirectChannels {...props}/>);
 
-        expect(wrapper.instance().renderOption({id: 'user_id_1', username: 'username1', delete_at: 0}, true, jest.fn())).toMatchSnapshot();
+        expect(wrapper.instance().renderOptionValue({id: 'user_id_1', username: 'username1', delete_at: 0}, true, jest.fn())).toMatchSnapshot();
     });
 
     test('should match output on renderValue', () => {
@@ -197,7 +201,7 @@ describe('components/MoreDirectChannels', () => {
             type: 'G',
         };
 
-        expect(wrapper.instance().renderOption(channel, false, jest.fn())).toMatchSnapshot();
+        expect(wrapper.instance().renderOptionValue(channel, false, jest.fn())).toMatchSnapshot();
     });
 
     test('should not open a DM or GM if no user Ids', () => {
@@ -210,6 +214,7 @@ describe('components/MoreDirectChannels', () => {
     });
 
     test('should open a DM', (done) => {
+        jest.useFakeTimers('legacy');
         const user = {
             id: 'user_id_1',
             label: 'user_label_1',
@@ -235,6 +240,7 @@ describe('components/MoreDirectChannels', () => {
     });
 
     test('should open a GM', (done) => {
+        jest.useFakeTimers('legacy');
         const wrapper = shallow(<MoreDirectChannels {...baseProps}/>);
         const handleHide = jest.fn();
         const exitToChannel = null;
@@ -295,5 +301,212 @@ describe('components/MoreDirectChannels', () => {
         const props = {...baseProps, users, myDirectChannels, currentChannelMembers};
         const wrapper = shallow(<MoreDirectChannels {...props}/>);
         expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should show up to 20 recent DMs/GMs if not searching, excluding current user', () => {
+        const recentDMUsers = [
+            {
+                id: 'user_id_98',
+                label: 'z_user_id_98',
+                value: 'z_user_id_98',
+                delete_at: 0,
+                last_post_at: 1603600100601,
+            },
+            {
+                id: 'user_id_99',
+                label: 'a_user_id_99',
+                value: 'a_user_id_99',
+                delete_at: 0,
+                last_post_at: 1603600100601,
+            },
+            {
+                id: 'current_user_id',
+                label: 'current_user_label',
+                value: 'current_user_value',
+                delete_at: 0,
+                last_post_at: 1603600100601,
+            },
+        ];
+
+        for (let i = 0; i < 25; i++) {
+            recentDMUsers.push(
+                {
+                    id: 'dm_user_id_' + i,
+                    label: 'dm_user_id' + i,
+                    value: 'dm_user_id' + i,
+                    delete_at: 0,
+                    last_post_at: 1603600100601,
+                },
+            );
+        }
+
+        const users = [];
+        for (let i = 0; i < 25; i++) {
+            users.push(
+                {
+                    id: 'user_id_' + i,
+                    label: 'user_id' + i,
+                    value: 'user_id' + i,
+                    delete_at: 0,
+                },
+            );
+        }
+
+        const groupChannels = [
+            {
+                display_name: 'group_name_1',
+                id: 'group_1',
+            },
+            {
+                display_name: 'group_name_2',
+                id: 'group_2',
+            },
+
+        ];
+
+        const props = {...baseProps, users, recentDMUsers, groupChannels};
+
+        const wrapper = shallow(<MoreDirectChannels {...props}/>);
+        const multiselect = wrapper.find('MultiSelect');
+        const options = multiselect.prop('options');
+        expect(options.length).toBe(20);
+    });
+
+    test('should show normal results if no recent DMs/GMs, excluding those already added, excluding currentUserId', () => {
+        const recentDMUsers = [];
+
+        const users = [
+            {
+                id: 'current_user_id',
+                label: 'current_user_label',
+                value: 'current_user_value',
+                delete_at: 0,
+            },
+        ];
+        for (let i = 0; i < 25; i++) {
+            users.push(
+                {
+                    id: 'user_id_' + i,
+                    label: 'user_id' + i,
+                    value: 'user_id' + i,
+                    delete_at: 0,
+                },
+            );
+        }
+
+        const groupChannels = [
+            {
+                display_name: 'group_name_1',
+                id: 'group_1',
+            },
+            {
+                display_name: 'group_name_2',
+                id: 'group_2',
+            },
+
+        ];
+
+        const props = {...baseProps, users, recentDMUsers, groupChannels};
+
+        const wrapper = shallow(<MoreDirectChannels {...props}/>);
+        const multiselect = wrapper.find('MultiSelect');
+        const options = multiselect.prop('options');
+        expect(options.length).toBe(25);
+    });
+
+    test('should show normal results if searching', () => {
+        const recentDMUsers = [
+            {
+                id: 'user_id_98',
+                label: 'z_user_id_98',
+                value: 'z_user_id_98',
+                delete_at: 0,
+                last_post_at: 1603600100601,
+            },
+            {
+                id: 'user_id_99',
+                label: 'a_user_id_99',
+                value: 'a_user_id_99',
+                delete_at: 0,
+                last_post_at: 1603600100601,
+            },
+        ];
+
+        for (let i = 0; i < 25; i++) {
+            recentDMUsers.push(
+                {
+                    id: 'dm_user_id_' + i,
+                    label: 'dm_user_id' + i,
+                    value: 'dm_user_id' + i,
+                    delete_at: 0,
+                    last_post_at: 1603600100601,
+                },
+            );
+        }
+
+        const users = [];
+        for (let i = 0; i < 25; i++) {
+            users.push(
+                {
+                    id: 'user_id_' + i,
+                    label: 'user_id' + i,
+                    value: 'user_id' + i,
+                    delete_at: 0,
+                },
+            );
+        }
+
+        const groupChannels = [
+            {
+                display_name: 'group_name_1',
+                id: 'group_1',
+                last_post_at: 1603600100601,
+            },
+            {
+                display_name: 'group_name_2',
+                id: 'group_2',
+                last_post_at: 1603600100601,
+            },
+
+        ];
+
+        const props = {...baseProps, users, recentDMUsers, groupChannels, searchTerm: '*'};
+
+        const wrapper = shallow(<MoreDirectChannels {...props}/>);
+        const multiselect = wrapper.find('MultiSelect');
+        const options = multiselect.prop('options');
+        expect(options.length).toBe(52);
+    });
+
+    test('should not include the users in the recent direct channel list again', () => {
+        const user1 = {
+            id: 'user_id_1',
+            username: 'z_user_id_1',
+            delete_at: 0,
+            last_post_at: 1603600100601,
+        };
+
+        const user2 = {
+            id: 'user_id_2',
+            username: 'a_user_id_2',
+            delete_at: 0,
+            last_post_at: 1603600100601,
+        };
+
+        const user3 = {
+            id: 'user_id_3',
+            username: 'a_user_id_3',
+            delete_at: 0,
+        };
+
+        const recentDMUsers = [user1, user2];
+        const users = [user1, user2, user3];
+
+        const props = {...baseProps, users, recentDMUsers};
+
+        const wrapper = shallow(<MoreDirectChannels {...props}/>);
+        const multiselect = wrapper.find('MultiSelect');
+        const options = multiselect.prop('options');
+        expect(options.length).toBe(2);
     });
 });
