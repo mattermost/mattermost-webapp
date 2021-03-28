@@ -16,6 +16,7 @@ import {getCurrentTeamId, getMyTeams, getTeam, getMyTeamMember, getTeamMembershi
 import {getCurrentUser, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentChannelStats, getCurrentChannelId, getMyChannelMember, getRedirectChannelNameForTeam, getChannelsNameMapInTeam, getAllDirectChannels} from 'mattermost-redux/selectors/entities/channels';
 import {ChannelTypes} from 'mattermost-redux/action_types';
+import {fetchAppBindings} from 'mattermost-redux/actions/apps';
 import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
@@ -41,6 +42,8 @@ import {ActionTypes, Constants, PostTypes, RHSStates, ModalIdentifiers} from 'ut
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 import SubMenuModal from '../components/widgets/menu/menu_modals/submenu_modal/submenu_modal';
+
+import {appsEnabled} from 'utils/apps';
 
 import {openModal} from './views/modals';
 
@@ -94,6 +97,10 @@ export function emitChannelClickEvent(channel: Channel) {
             channel: chan,
             member: member || {},
         }]));
+
+        if (appsEnabled(state)) {
+            dispatch(fetchAppBindings(userId, chan.id));
+        }
     }
 
     if (channel.fake) {
@@ -180,7 +187,7 @@ export function showMobileSubMenuModal(elements: any[]) { // TODO Use more speci
     dispatch(openModal(submenuModalData));
 }
 
-export function sendEphemeralPost(message: string, channelId: string, parentId: string) {
+export function sendEphemeralPost(message: string, channelId?: string, parentId?: string): void {
     const timestamp = Utils.getTimestamp();
     const post = {
         id: Utils.generateId(),
