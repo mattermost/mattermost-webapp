@@ -113,7 +113,7 @@ describe('Manage Members', () => {
                         cy.get(`#teamMembersDropdown_${user.username} ~ div button:contains(Remove from Team)`).should('be.visible').click();
 
                         // * Verify teammate no longer appears
-                        cy.get(`#teamMembersDropdown_${user.username}`).should('not.be.visible');
+                        cy.get(`#teamMembersDropdown_${user.username}`).should('not.exist');
 
                         // # Login as non admin user
                         cy.apiLogin(user);
@@ -161,7 +161,7 @@ describe('Manage Members', () => {
                 cy.get(`#teamMembersDropdown_${user.username} ~ div button:contains(Remove from Team)`).should('be.visible').click();
 
                 // * Verify teammate no longer appears
-                cy.get(`#teamMembersDropdown_${user.username}`).should('not.be.visible');
+                cy.get(`#teamMembersDropdown_${user.username}`).should('not.exist');
 
                 // # Close the modal
                 cy.get('#teamMembersModal').find('button.close').should('be.visible').click();

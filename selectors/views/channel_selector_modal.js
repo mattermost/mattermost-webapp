@@ -3,7 +3,7 @@
 
 import {createSelector} from 'reselect';
 
-import {getAllChannels} from 'mattermost-redux/selectors/entities/channels.js';
+import {getAllChannels} from 'mattermost-redux/selectors/entities/channels';
 
 export const getChannelsForChannelSelector = createSelector(
     (state) => state.views.channelSelectorModal.channels,

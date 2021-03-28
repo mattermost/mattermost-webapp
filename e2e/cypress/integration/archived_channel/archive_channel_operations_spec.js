@@ -87,7 +87,7 @@ describe('Leave an archived channel', () => {
 
         createArchivedChannel({prefix: 'unarchive-'}, [messageText]).then(({name}) => {
             // # View the archived channel, noting that it is read-only
-            cy.get('#post_textbox').should('not.be.visible');
+            cy.get('#post_textbox').should('not.exist');
 
             // # Unarchive the channel:
             cy.uiUnarchiveChannel();
@@ -117,7 +117,7 @@ describe('Leave an archived channel', () => {
 
         createArchivedChannel(channelOptions, [messageText]).then(({name}) => {
             // # View the archived channel, noting that it is read-only
-            cy.get('#post_textbox').should('not.be.visible');
+            cy.get('#post_textbox').should('not.exist');
 
             // # Unarchive the channel:
             cy.uiUnarchiveChannel().then(() => {

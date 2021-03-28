@@ -3,6 +3,7 @@
 
 import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
+
 import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import {joinChannelById, switchToChannel} from 'actions/views/channel';

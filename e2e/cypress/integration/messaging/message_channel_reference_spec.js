@@ -39,7 +39,7 @@ describe('Messaging', () => {
         cy.get('#edit_textbox').type('{home}{rightarrow}{backspace}');
 
         // * autocomplete closes
-        cy.get('#suggestionList').should('not.be.visible');
+        cy.get('#suggestionList').should('not.exist');
 
         // close the edit modal
         cy.get('#editButton').click();
