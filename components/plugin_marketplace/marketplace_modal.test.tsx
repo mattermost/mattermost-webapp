@@ -4,11 +4,12 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {AuthorType, MarketplacePlugin, PluginStatusRedux, ReleaseStage} from 'mattermost-redux/types/plugins';
+import {AuthorType, MarketplacePlugin, ReleaseStage} from 'mattermost-redux/types/marketplace';
+import type {PluginStatusRedux} from 'mattermost-redux/types/plugins';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 
-import {AllPlugins, InstalledPlugins, MarketplaceModal, MarketplaceModalProps} from './marketplace_modal';
+import {AllListing, InstalledListing, MarketplaceModal, MarketplaceModalProps} from './marketplace_modal';
 
 jest.mock('actions/telemetry_actions.jsx', () => {
     const original = jest.requireActual('actions/telemetry_actions.jsx');
@@ -51,24 +52,24 @@ describe('components/marketplace/', () => {
         installed_version: '1.0.3',
     };
 
-    describe('AllPlugins', () => {
+    describe('AllListing', () => {
         it('should render with no plugins', () => {
             const wrapper = shallow(
-                <AllPlugins plugins={[]}/>,
+                <AllListing listing={[]}/>,
             );
             expect(wrapper).toMatchSnapshot();
         });
 
         it('should render with one plugin', () => {
             const wrapper = shallow(
-                <AllPlugins plugins={[samplePlugin]}/>,
+                <AllListing listing={[samplePlugin]}/>,
             );
             expect(wrapper).toMatchSnapshot();
         });
 
         it('should render with plugins', () => {
             const wrapper = shallow(
-                <AllPlugins plugins={[samplePlugin, sampleInstalledPlugin]}/>,
+                <AllListing listing={[samplePlugin, sampleInstalledPlugin]}/>,
             );
             expect(wrapper).toMatchSnapshot();
         });
@@ -81,9 +82,9 @@ describe('components/marketplace/', () => {
 
         it('should render with no plugins', () => {
             const wrapper = shallow(
-                <InstalledPlugins
+                <InstalledListing
                     {...baseProps}
-                    installedPlugins={[]}
+                    installedItems={[]}
                 />,
             );
             expect(wrapper).toMatchSnapshot();
@@ -91,9 +92,9 @@ describe('components/marketplace/', () => {
 
         it('should render with one plugin', () => {
             const wrapper = shallow(
-                <InstalledPlugins
+                <InstalledListing
                     {...baseProps}
-                    installedPlugins={[sampleInstalledPlugin]}
+                    installedItems={[sampleInstalledPlugin]}
                 />,
             );
             expect(wrapper).toMatchSnapshot();
@@ -101,9 +102,9 @@ describe('components/marketplace/', () => {
 
         it('should render with multiple plugins', () => {
             const wrapper = shallow(
-                <InstalledPlugins
+                <InstalledListing
                     {...baseProps}
-                    installedPlugins={[sampleInstalledPlugin, sampleInstalledPlugin]}
+                    installedItems={[sampleInstalledPlugin, sampleInstalledPlugin]}
                 />,
             );
             expect(wrapper).toMatchSnapshot();
@@ -113,14 +114,18 @@ describe('components/marketplace/', () => {
     describe('MarketplaceModal', () => {
         const baseProps: MarketplaceModalProps = {
             show: true,
-            plugins: [samplePlugin],
-            installedPlugins: [],
+            listing: [samplePlugin],
+            installedListing: [],
             pluginStatuses: {},
             siteURL: 'http://example.com',
             actions: {
                 closeModal: jest.fn(),
-                fetchPlugins: jest.fn(),
-                filterPlugins: jest.fn(),
+                fetchListing: jest.fn(() => {
+                    return Promise.resolve({});
+                }),
+                filterListing: jest.fn(() => {
+                    return Promise.resolve({});
+                }),
             },
         };
 
@@ -135,10 +140,10 @@ describe('components/marketplace/', () => {
             const props = {
                 ...baseProps,
                 plugins: [
-                    ...baseProps.plugins,
+                    ...baseProps.listing,
                     sampleInstalledPlugin,
                 ],
-                installedPlugins: [
+                installedListing: [
                     sampleInstalledPlugin,
                 ],
             };
@@ -151,7 +156,7 @@ describe('components/marketplace/', () => {
         });
 
         test('should fetch plugins when plugin status is changed', () => {
-            const fetchPlugins = baseProps.actions.fetchPlugins;
+            const fetchPlugins = baseProps.actions.fetchListing;
             const wrapper = shallow<MarketplaceModal>(<MarketplaceModal {...baseProps}/>);
 
             expect(fetchPlugins).toBeCalledTimes(1);
