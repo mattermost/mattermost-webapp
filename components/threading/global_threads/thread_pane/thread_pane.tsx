@@ -75,7 +75,7 @@ const ThreadPane = ({
                             </span>
                             <Button
                                 className='separated'
-                                clamp={true}
+                                allowTextOverflow={true}
                                 onClick={useCallback(() => {
                                     goToInChannel(threadId);
                                 }, [goToInChannel, threadId])}

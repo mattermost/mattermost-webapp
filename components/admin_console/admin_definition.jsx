@@ -5622,12 +5622,6 @@ const AdminDefinition = {
                                 display_name: t('admin.experimental.collapsedThreads.off'),
                                 display_name_default: 'Disabled',
                             },
-
-                            /* {
-                                value: 'off',
-                                display_name: t('admin.experimental.collapsedThreads.off'),
-                                display_name_default: 'Disabled',
-                            }, */
                             {
                                 value: 'default_on',
                                 display_name: t('admin.experimental.collapsedThreads.default_on'),

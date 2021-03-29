@@ -5,7 +5,6 @@ import {ComponentProps} from 'react';
 import Timestamp from 'components/timestamp';
 
 export const THREADING_TIME: Partial<ComponentProps<typeof Timestamp>> = {
-
     units: [
         'now',
         'minute',

@@ -29,7 +29,7 @@ import NewChannelFlow from 'components/new_channel_flow';
 import UnreadChannelIndicator from 'components/sidebar/unread_channel_indicator';
 import Pluggable from 'plugins/pluggable';
 
-import GlobalThreadsLink from '../threading/global_threads_link';
+import GlobalThreadsLink from 'components/threading/global_threads_link';
 
 import SidebarHeader from './header';
 import SidebarChannel from './sidebar_channel';

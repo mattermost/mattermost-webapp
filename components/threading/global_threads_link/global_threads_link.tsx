@@ -29,7 +29,7 @@ const GlobalThreadsLink = () => {
 
     const {url} = useRouteMatch();
     const {pathname} = useLocation();
-    const threadsMatch = matchPath<{team: string; threadIdentifier?: string}>(pathname, '/:team/threads');
+    const inGlobalThreads = matchPath(pathname, {path: '/:team/threads/:threadIdentifier?'}) != null;
     const {currentTeamId, currentUserId} = useThreadRouting();
 
     const counts = useSelector(getThreadCountsInCurrentTeam);
@@ -40,7 +40,7 @@ const GlobalThreadsLink = () => {
         dispatch(getThreads(currentUserId, currentTeamId, {perPage: 5}));
     }, [currentTeamId]);
 
-    if (!isFeatureEnabled || (unreadsOnly && !threadsMatch && !someUnreadThreads)) {
+    if (!isFeatureEnabled || (unreadsOnly && !inGlobalThreads && !someUnreadThreads)) {
         // hide link if filtering unreads and there are no unread threads
         return null;
     }
@@ -49,7 +49,7 @@ const GlobalThreadsLink = () => {
         <ul className='SidebarGlobalThreads NavGroupContent nav nav-pills__container'>
             <li
                 className={classNames('SidebarChannel', {
-                    active: Boolean(threadsMatch),
+                    active: inGlobalThreads,
                     unread: someUnreadThreads,
                 })}
             >

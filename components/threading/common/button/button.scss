@@ -58,7 +58,7 @@
 
     color: rgba(var(--center-channel-color-rgb), .56);
 
-    &.clamp {
+    &.allowTextOverflow {
         min-width: 4rem;
         .Button_label {
             overflow: hidden;

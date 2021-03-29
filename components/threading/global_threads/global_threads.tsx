@@ -48,7 +48,7 @@ const GlobalThreads = () => {
     const dispatch = useDispatch();
 
     const {url, params: {threadIdentifier}} = useRouteMatch<{threadIdentifier?: string}>();
-    const [filter, setFilter] = useGlobalState<ThreadFilter>('', 'globalThreads_filter');
+    const [filter, setFilter] = useGlobalState(ThreadFilter.none, 'globalThreads_filter');
     const {currentTeamId, currentUserId, clear} = useThreadRouting();
 
     const counts = useSelector(getThreadCountsInCurrentTeam);
@@ -68,11 +68,11 @@ const GlobalThreads = () => {
     }, [currentUserId, currentTeamId, filter]);
 
     useEffect(() => {
-        dispatch(setSelectedThreadId(currentUserId, currentTeamId, selectedThread?.id));
+        dispatch(setSelectedThreadId(currentTeamId, selectedThread?.id));
         if ((!selectedThread || !selectedPost) && !isLoading) {
             clear();
         }
-    }, [currentUserId, currentTeamId, selectedThread, selectedPost, isLoading, counts, filter]);
+    }, [currentTeamId, selectedThread, selectedPost, isLoading, counts, filter]);
 
     return (
         <div
@@ -92,6 +92,7 @@ const GlobalThreads = () => {
                 })}
                 right={<RHSSearchNav/>}
             />
+
             {isEmpty(threadIds) ? (
                 <div className='no-results__holder'>
                     {isLoading ? (

@@ -154,8 +154,6 @@ export default class SidebarRight extends React.PureComponent {
             isFlaggedPosts,
             isPinnedPosts,
             postRightVisible,
-
-            // postRightSameAsSelectedThread,
             postCardVisible,
             previousRhsState,
             searchVisible,
@@ -163,10 +161,6 @@ export default class SidebarRight extends React.PureComponent {
             isOpen,
             isExpanded,
         } = this.props;
-
-        /* if (postRightSameAsSelectedThread) {
-            return null;
-        } */
 
         let content = null;
         const isSidebarRightExpanded = (postRightVisible || postCardVisible || isPluginView || searchVisible) && isExpanded;

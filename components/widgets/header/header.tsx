@@ -13,7 +13,9 @@ type Props = {
     right?: ReactNode;
 };
 
-const Headings: Array<keyof JSX.IntrinsicElements | typeof Fragment> = [Fragment, 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
+type HeadingTag = keyof Pick<JSX.IntrinsicElements, 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'>;
+
+const Headings: Array<typeof Fragment | HeadingTag> = [Fragment, 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
 
 const Header = ({
     level = 0,

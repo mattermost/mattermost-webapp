@@ -15,7 +15,10 @@ import Button from '../../common/button';
 import './thread_list.scss';
 import {useThreadRouting} from '../../hooks';
 
-export type ThreadFilter = '' | 'unread';
+export enum ThreadFilter {
+    none = '',
+    unread = 'unread'
+}
 
 type Props = {
     currentFilter: ThreadFilter;
@@ -24,7 +27,7 @@ type Props = {
 };
 
 const ThreadList = ({
-    currentFilter = '',
+    currentFilter = ThreadFilter.none,
     someUnread,
     children,
     setFilter,
@@ -41,7 +44,7 @@ const ThreadList = ({
                         <Button
                             className={'Button___large Margined'}
                             isActive={currentFilter === ''}
-                            onClick={useCallback(() => setFilter(''), [])}
+                            onClick={useCallback(() => setFilter(ThreadFilter.none), [])}
                         >
                             <FormattedMessage
                                 id='threading.filters.allThreads'
@@ -50,10 +53,10 @@ const ThreadList = ({
                         </Button>
                         <Button
                             className={'Button___large Margined'}
-                            isActive={currentFilter === 'unread'}
+                            isActive={currentFilter === ThreadFilter.unread}
                             hasDot={someUnread}
                             onClick={useCallback(() => {
-                                setFilter('unread');
+                                setFilter(ThreadFilter.unread);
                             }, [setFilter])}
                         >
                             <FormattedMessage
@@ -78,7 +81,7 @@ const ThreadList = ({
                                 disabled={!someUnread}
                                 onClick={useCallback(() => {
                                     dispatch(markAllThreadsInTeamRead(currentUserId, currentTeamId));
-                                    if (currentFilter === 'unread') {
+                                    if (currentFilter === ThreadFilter.unread) {
                                         clear();
                                     }
                                 }, [currentTeamId, currentUserId])}

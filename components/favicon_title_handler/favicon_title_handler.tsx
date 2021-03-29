@@ -49,7 +49,7 @@ type Props = {
     currentChannel?: Channel;
     currentTeam: Team;
     currentTeammate: Channel | null;
-    isGlobalThreadsView: boolean;
+    inGlobalThreads: boolean;
 };
 
 class FaviconTitleHandler extends React.PureComponent<Props> {
@@ -84,7 +84,7 @@ class FaviconTitleHandler extends React.PureComponent<Props> {
             currentTeam,
             currentTeammate,
             unreads,
-            isGlobalThreadsView,
+            inGlobalThreads,
         } = this.props;
         const {formatMessage} = this.props.intl;
 
@@ -101,7 +101,7 @@ class FaviconTitleHandler extends React.PureComponent<Props> {
                 }
             }
             document.title = `${mentionTitle + unreadTitle + currentChannelName} - ${currentTeam.display_name} ${currentSiteName}`;
-        } else if (currentTeam && isGlobalThreadsView) {
+        } else if (currentTeam && inGlobalThreads) {
             document.title = formatMessage({
                 id: 'globalThreads.title',
                 defaultMessage: '{prefix} Threads - {displayName} {siteName}',
