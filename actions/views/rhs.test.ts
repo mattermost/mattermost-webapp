@@ -4,6 +4,7 @@
 import {batchActions} from 'redux-batched-actions';
 import configureStore, {MockStoreEnhanced} from 'redux-mock-store';
 import thunk from 'redux-thunk';
+
 import * as PostActions from 'mattermost-redux/actions/posts';
 import * as SearchActions from 'mattermost-redux/actions/search';
 import {SearchTypes} from 'mattermost-redux/action_types';

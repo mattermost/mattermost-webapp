@@ -4,6 +4,7 @@
 import {connect} from 'react-redux';
 import {createSelector} from 'reselect';
 import {bindActionCreators, Dispatch} from 'redux';
+
 import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
