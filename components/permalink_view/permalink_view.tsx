@@ -24,10 +24,11 @@ export type State ={
     valid: boolean;
     postid?: string;
 }
+
 export default class PermalinkView extends React.PureComponent<Props, State> {
     mounted: boolean | undefined;
     permalink: any;
-    static getDerivedStateFromProps(props:Props , state: State) {
+    static getDerivedStateFromProps(props: Props, state: State) {
         let updatedState = {postid: props.match?.params.postid};
         if (state.postid !== props.match?.params.postid) {
             updatedState = {...updatedState, ...{valid: false}};
@@ -58,7 +59,7 @@ export default class PermalinkView extends React.PureComponent<Props, State> {
 
     doPermalinkEvent = async (props: Props) => {
         const postId = props?.match?.params.postid;
-        if (this.props?.actions) {
+        if (this.props.actions) {
             await this.props.actions.focusPost(postId, this.props.returnTo, this.props.currentUserId);
         }
         if (this.mounted) {

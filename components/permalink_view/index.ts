@@ -1,18 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-
+import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
-
 import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-
 import {GlobalState} from 'mattermost-redux/types/store';
-
 import {GenericAction} from 'mattermost-redux/types/actions';
-
-import React from 'react';
 
 import {focusPost} from './actions';
 import PermalinkView from './permalink_view';

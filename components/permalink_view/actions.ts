@@ -5,7 +5,7 @@ import {getChannel, getChannelMember, selectChannel, joinChannel, getChannelStat
 import {getPostThread} from 'mattermost-redux/actions/posts';
 import {getCurrentTeam, getTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser, getUser} from 'mattermost-redux/selectors/entities/users';
-import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
+import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 
 import {loadChannelsForCurrentUser} from 'actions/channel_actions';
 import {loadNewDMIfNeeded, loadNewGMIfNeeded} from 'actions/user_actions';
@@ -16,7 +16,7 @@ import {getUserIdFromChannelId, isSystemAdmin} from 'utils/utils';
 
 let privateChannelJoinPromptVisible = false;
 
-export function focusPost(postId: string, returnTo?: string, currentUserId?: string): Promise<ActionFunc> {
+export function focusPost(postId: string, returnTo?: string, currentUserId?: string) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         // Ignore if prompt is still visible
         if (privateChannelJoinPromptVisible) {
@@ -58,8 +58,7 @@ export function focusPost(postId: string, returnTo?: string, currentUserId?: str
             if (typeof currentUserId !== 'undefined') {
                 membership = await dispatch(getChannelMember(channel.id, currentUserId));
             }
-
-            if ('data' in membership) {
+            if (membership && 'data' in membership) {
                 myMember = membership.data;
             }
 
@@ -74,7 +73,7 @@ export function focusPost(postId: string, returnTo?: string, currentUserId?: str
                         return;
                     }
                 }
-                await dispatch(joinChannel(currentUserId, null, channelId));
+                await dispatch(joinChannel(currentUserId, teamId, channelId, channel));
             }
         }
 
