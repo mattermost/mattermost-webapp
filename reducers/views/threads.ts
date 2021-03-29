@@ -10,7 +10,8 @@ import {ViewsState} from 'types/store/views';
 import {Threads} from 'utils/constants';
 
 export const selectedThreadIdInTeam = (state: ViewsState['threads']['selectedThreadIdInTeam'] | null = null, action: GenericAction) => {
-    if (action.type === Threads.CHANGED_SELECTED_THREAD) {
+    switch (action.type) {
+    case Threads.CHANGED_SELECTED_THREAD:
         return {
             ...state,
             [action.data.team_id]: action.data.id,
