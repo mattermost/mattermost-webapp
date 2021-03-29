@@ -48,6 +48,7 @@ exports[`components/create_post Show tutorial 1`] = `
         >
           <Connect(injectIntl(CallButton)) />
           <Connect(injectIntl(FileUpload))
+            channelId="owsyt8n43jfxjpzh9np93mx1wa"
             fileCount={0}
             getTarget={[Function]}
             onFileUpload={[Function]}
@@ -224,6 +225,7 @@ exports[`components/create_post should match snapshot for center textbox 1`] = `
         >
           <Connect(injectIntl(CallButton)) />
           <Connect(injectIntl(FileUpload))
+            channelId="owsyt8n43jfxjpzh9np93mx1wa"
             fileCount={0}
             getTarget={[Function]}
             onFileUpload={[Function]}
@@ -480,6 +482,7 @@ exports[`components/create_post should match snapshot when cannot post 1`] = `
         >
           <Connect(injectIntl(CallButton)) />
           <Connect(injectIntl(FileUpload))
+            channelId="owsyt8n43jfxjpzh9np93mx1wa"
             fileCount={0}
             getTarget={[Function]}
             onFileUpload={[Function]}
@@ -626,6 +629,7 @@ exports[`components/create_post should match snapshot when file upload disabled 
         >
           <Connect(injectIntl(CallButton)) />
           <Connect(injectIntl(FileUpload))
+            channelId="owsyt8n43jfxjpzh9np93mx1wa"
             fileCount={0}
             getTarget={[Function]}
             onFileUpload={[Function]}
@@ -772,6 +776,7 @@ exports[`components/create_post should match snapshot, init 1`] = `
         >
           <Connect(injectIntl(CallButton)) />
           <Connect(injectIntl(FileUpload))
+            channelId="owsyt8n43jfxjpzh9np93mx1wa"
             fileCount={0}
             getTarget={[Function]}
             onFileUpload={[Function]}

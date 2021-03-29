@@ -4,7 +4,6 @@
 import React from 'react';
 
 type Props = {
-    channelId: string;
     unreadMentions: number;
 };
 
