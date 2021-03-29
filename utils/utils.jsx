@@ -796,6 +796,7 @@ export function applyTheme(theme) {
         changeCss('.app__body .mention--highlight, .app__body .search-highlight', 'background:' + theme.mentionHighlightBg);
         changeCss('.app__body .post.post--comment .post__body.mention-comment', 'border-color:' + theme.mentionHighlightBg);
         changeCss('.app__body .post.post--highlight', 'background:' + changeOpacity(theme.mentionHighlightBg, 0.5));
+        changeCss('.app__body .post.post--highlight .post-collapse__gradient', 'background:' + changeOpacity(theme.mentionHighlightBg, 0.5));
     }
 
     if (theme.mentionHighlightLink) {

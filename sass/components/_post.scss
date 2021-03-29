@@ -2026,30 +2026,14 @@
     animation-fill-mode: forwards;
 }
 
-.app__body .app__content .post--highlight .post-collapse__show-more {
-    animation-duration: 1s;
-    animation-name: postHighlightShowMore;
-    animation-delay: 4.9s;
-    animation-fill-mode: forwards;
-}
-
 // Handle fade out effect for permalink highlightning
 .app__body .post-list__table .post:not(.current--user).post--highlight .post-collapse__gradient,
 .app__body .post-list__table .post.post--compact.post--highlight .post-collapse__gradient {
     background:linear-gradient(rgba(var(--mention-highlight-bg-mixed-rgb), 0.5), rgba(var(--mention-highlight-bg-mixed-rgb), 0.5));
 }
 
-.app__body .post-list__table .post:not(current--user).post--highlight:not(.post--compact) .post-collapse__show-more
-{
-    background: rgba(var(--mention-highlight-bg-mixed-rgb), 1);
-}
-
 .app__body .post-list__table .post.current--user.post--highlight:not(.post--compact) .post-collapse__gradient {
     background:linear-gradient(transparent, rgba(var(--mention-highlight-bg-mixed-rgb), 1));
-}
-
-.app__body .post-list__table .post.current--user.post--highlight:not(.post--compact) .post-collapse__show-more {
-    background: rgba(var(--mention-highlight-bg-mixed-rgb), 1);
 }
 
 .app__body .post-list__table .post.current--user.post--highlight:hover .post-collapse__gradient, 
