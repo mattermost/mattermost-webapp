@@ -16,6 +16,7 @@ import {$ID, IDMappedObjects, RelationOneToOne} from 'mattermost-redux/types/uti
 import {createIdsSelector} from 'mattermost-redux/utils/helpers';
 import {isTeamAdmin} from 'mattermost-redux/utils/user_utils';
 import {sortTeamsWithLocale, filterTeamsStartingWithTerm} from 'mattermost-redux/utils/team_utils';
+import { getDataRetentionCustomPolicy } from 'mattermost-redux/selectors/entities/admin';
 
 export function getCurrentTeamId(state: GlobalState) {
     return state.entities.teams.currentTeamId;
@@ -31,8 +32,28 @@ export function getTeams(state: GlobalState): IDMappedObjects<Team> {
     return state.entities.teams.teams;
 }
 
-export function getTeamsInPolicy(state: GlobalState): IDMappedObjects<Team> {
-    return state.entities.teams.teamsInPolicy;
+export function getTeamsInPolicy() {
+    return (createSelector(
+        getTeams,
+        (state: GlobalState, props: {policyId: string}) => getDataRetentionCustomPolicy(state, props.policyId),
+        (allTeams, policy) => {
+            if (!policy) {
+                return [];
+            }
+
+            const policyTeams: Team[] = [];
+
+            Object.entries(allTeams).forEach((item: [string, Team]) => {
+                const [, team] = item;
+                if (team.policy_id === policy.id) {
+                    policyTeams.push(team);
+                }
+            });
+
+            return policyTeams;
+        }) as (b: GlobalState, a: {
+        policyId: string;
+    }) => Team[]);
 }
 
 export function getTeamStats(state: GlobalState) {

@@ -54,20 +54,17 @@ type OwnProps = {
     };
 }
 
-const getSortedListOfTeams = createSelector(
-    getTeamsInPolicy,
-    (teams) => Object.values(teams).sort((a, b) => a.display_name.localeCompare(b.display_name)),
-);
-
-function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
-    const policyId = ownProps.match.params.policy_id;
-    const policy = getDataRetentionCustomPolicy(state, policyId) || {};
-    const teams = getSortedListOfTeams(state);
-
-    return {
-        policyId,
-        policy,
-        teams,
+function mapStateToProps() {
+    const getPolicyTeams = getTeamsInPolicy();
+    return (state: GlobalState, ownProps: OwnProps) => {
+        const policyId = ownProps.match.params.policy_id;
+        const policy = getDataRetentionCustomPolicy(state, policyId) || {};
+        const teams = getPolicyTeams(state, {policyId});
+        return {
+            policyId,
+            policy,
+            teams,
+        };
     };
 }
 

@@ -43,6 +43,7 @@ export type Channel = {
     fake?: boolean;
     group_constrained: boolean;
     props?: Record<string, any>;
+    policy_id?: string;
 };
 
 export type ChannelWithTeamData = Channel & {
@@ -92,7 +93,6 @@ export type ChannelsState = {
     manuallyUnread: RelationOneToOne<Channel, boolean>;
     channelModerations: RelationOneToOne<Channel, ChannelModeration[]>;
     channelMemberCountsByGroup: RelationOneToOne<Channel, ChannelMemberCountsByGroup>;
-    channelsInPolicy: Dictionary<Channel>;
 };
 
 export type ChannelModeration = {

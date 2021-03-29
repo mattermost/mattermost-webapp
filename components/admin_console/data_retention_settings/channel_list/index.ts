@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 import {createSelector} from 'reselect';
 
-import {getDataRetentionCustomPolicyChannels, clearDataRetentionCustomPolicyChannels, searchDataRetentionCustomPolicyChannels} from 'mattermost-redux/actions/admin';
+import {getDataRetentionCustomPolicyChannels, searchDataRetentionCustomPolicyChannels} from 'mattermost-redux/actions/admin';
 import {searchChannels} from 'mattermost-redux/actions/channels';
 import {getChannelsInPolicy, searchChannelsInPolicy} from 'mattermost-redux/selectors/entities/channels';
 import {getDataRetentionCustomPolicy} from 'mattermost-redux/selectors/entities/admin';
@@ -30,45 +30,44 @@ type OwnProps = {
 type Actions = {
     searchDataRetentionCustomPolicyChannels: (id: string, term: string, opts: ChannelSearchOpts) => Promise<{ data: Channel[] }>;
     getDataRetentionCustomPolicyChannels: (id: string, page: number, perPage: number) => Promise<{ data: Channel[] }>;
-    clearDataRetentionCustomPolicyChannels: () => {data: {}};
     setChannelListSearch: (term: string) => ActionResult;
     setChannelListFilters: (filters: ChannelSearchOpts) => ActionResult;
 }
-const getSortedListOfChannels = createSelector(
-    getChannelsInPolicy,
-    (channels) => Object.values(channels).sort((a, b) => a.display_name.localeCompare(b.display_name)),
-);
 
 function searchChannelsToAdd(channels: Dictionary<Channel>, term: string): Dictionary<Channel> {
     const filteredTeams = filterChannelsMatchingTerm(Object.keys(channels).map((key) => channels[key]), term);
     return channelListToMap(filteredTeams);
 }
 
-function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
-    let {channelsToAdd} = ownProps;
+function mapStateToProps() {
+    const getPolicyChannels = getChannelsInPolicy();
+    return (state: GlobalState, ownProps: OwnProps) => {
+        let {channelsToAdd} = ownProps;
 
-    const policy = ownProps.policyId? getDataRetentionCustomPolicy(state, ownProps.policyId) || {} as DataRetentionCustomPolicy : {} as DataRetentionCustomPolicy;
-    let channels: Channel[] = [];
-    let totalCount = 0;
-    const searchTerm = state.views.search.channelListSearch.term || '';
-    const filters = state.views.search.channelListSearch?.filters || {};
+        let channels: Channel[] = [];
+        let totalCount = 0;
+        const policyId = ownProps.policyId;
+        const policy = policyId ? getDataRetentionCustomPolicy(state, policyId) || {} as DataRetentionCustomPolicy : {} as DataRetentionCustomPolicy;
+        const searchTerm = state.views.search.channelListSearch.term || '';
+        const filters = state.views.search.channelListSearch?.filters || {};
 
-    if (searchTerm) {
-        channels = searchChannelsInPolicy(state, searchTerm, filters) || [];
-        channelsToAdd = searchChannelsToAdd(channelsToAdd, searchTerm);
-        totalCount = channels.length;
-    } else {
-        channels = ownProps.policyId ? getSortedListOfChannels(state) : [];
-        if (policy && policy.channel_count) {
-            totalCount = policy.channel_count;
+        if (searchTerm) {
+            channels = policyId ? searchChannelsInPolicy(state, policyId, searchTerm, filters) : [];
+            channelsToAdd = searchChannelsToAdd(channelsToAdd, searchTerm);
+            totalCount = channels.length;
+        } else {
+            channels = policyId ? getPolicyChannels(state, {policyId}) : [];
+            if (policy && policy.channel_count) {
+                totalCount = policy.channel_count;
+            }
         }
-    }
-    return {
-        channels,
-        totalCount,
-        searchTerm,
-        channelsToAdd,
-        filters,
+        return {
+            channels,
+            totalCount,
+            searchTerm,
+            channelsToAdd,
+            filters,
+        };
     };
 }
 
@@ -76,7 +75,6 @@ function mapDispatchToProps(dispatch: Dispatch) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc | GenericAction>, Actions>({
             getDataRetentionCustomPolicyChannels,
-            clearDataRetentionCustomPolicyChannels,
             searchChannels: searchDataRetentionCustomPolicyChannels,
             setChannelListSearch,
             setChannelListFilters,

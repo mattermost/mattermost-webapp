@@ -243,6 +243,7 @@ export default class CustomPolicyForm extends React.PureComponent<Props, State> 
             
             for (const result of results) {
                 if (result.error) {
+                    console.log(result);
                     error = true;
                 }
             }
@@ -357,7 +358,8 @@ export default class CustomPolicyForm extends React.PureComponent<Props, State> 
                                     this.addToNewTeams(teams);
                                 }}
                                 modalID={'CUSTOM_POLICY_TEAMS'}
-                                alreadySelected={Object.keys(this.state.newChannels)}
+                                alreadySelected={Object.keys(this.state.newTeams)}
+                                excludePolicyConstrained={true}
                             />
                         }
                         <Card
@@ -404,6 +406,8 @@ export default class CustomPolicyForm extends React.PureComponent<Props, State> 
                                     this.addToNewChannels(channels);
                                 }}
                                 groupID={''}
+                                alreadySelected={Object.keys(this.state.newChannels)}
+                                excludePolicyConstrained={true}
                             />
                         }
                         <Card

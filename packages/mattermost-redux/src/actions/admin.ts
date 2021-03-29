@@ -882,21 +882,3 @@ export function removeDataRetentionCustomPolicyChannels(id: string, policy: Patc
         ],
     });
 }
-
-export function clearDataRetentionCustomPolicyTeams(): ActionFunc {
-    return (dispatch: DispatchFunc) => {
-        dispatch(
-            {type: AdminTypes.CLEAR_DATA_RETENTION_CUSTOM_POLICY_TEAMS, data: {}},
-        );
-        return {data: {}};
-    };
-}
-
-export function clearDataRetentionCustomPolicyChannels(): ActionFunc {
-    return (dispatch: DispatchFunc) => {
-        dispatch(
-            {type: AdminTypes.CLEAR_DATA_RETENTION_CUSTOM_POLICY_CHANNELS, data: {}},
-        );
-        return {data: {}};
-    };
-}

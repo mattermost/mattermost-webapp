@@ -41,7 +41,6 @@ type Props = {
     actions: {
         searchChannels: (id: string, term: string, opts: ChannelSearchOpts) => Promise<{ data: Channel[] }>;
         getDataRetentionCustomPolicyChannels: (id: string, page: number, perPage: number) => Promise<{ data: Channel[] }>;
-        clearDataRetentionCustomPolicyChannels: () => {data: {}};
         setChannelListSearch: (term: string) => ActionResult;
         setChannelListFilters: (filters: ChannelSearchOpts) => ActionResult;
     };
@@ -67,7 +66,6 @@ export default class TeamList extends React.PureComponent<Props, State> {
     componentDidMount = async () => {
         if (this.props.policyId) {
             this.setState({loading: true});
-            await this.props.actions.clearDataRetentionCustomPolicyChannels();
             await this.props.actions.getDataRetentionCustomPolicyChannels(this.props.policyId, 0, PAGE_SIZE * 2);
             this.setState({loading: false});
         }

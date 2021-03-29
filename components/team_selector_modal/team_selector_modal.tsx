@@ -253,6 +253,9 @@ export default class TeamSelectorModal extends React.PureComponent<Props, State>
             if (this.props.alreadySelected) {
                 teams = teams.filter((team) => this.props.alreadySelected?.indexOf(team.id) === -1);
             }
+            if (this.props.excludePolicyConstrained) {
+                teams = teams.filter((team) => team.policy_id === undefined);
+            }
             teams.sort((a, b) => {
                 const aName = a.display_name.toUpperCase();
                 const bName = b.display_name.toUpperCase();

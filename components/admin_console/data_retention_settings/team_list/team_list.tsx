@@ -35,7 +35,6 @@ type Props = {
     actions: {
         searchTeams: (id: string, term: string, opts: TeamSearchOpts) => Promise<{ data: Team[] }>;
         getDataRetentionCustomPolicyTeams: (id: string, page: number, perPage: number) => Promise<{ data: Team[] }>;
-        clearDataRetentionCustomPolicyTeams: () => {data: {}};
         setTeamListSearch: (term: string) => ActionResult;
     };
 }
@@ -59,7 +58,6 @@ export default class TeamList extends React.PureComponent<Props, State> {
 
     componentDidMount = async () => {
         this.setState({loading: true});
-        await this.props.actions.clearDataRetentionCustomPolicyTeams();
         if (this.props.policyId) { 
             await this.props.actions.getDataRetentionCustomPolicyTeams(this.props.policyId, 0, PAGE_SIZE * 2);  
         }

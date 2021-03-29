@@ -1482,7 +1482,7 @@ export default class Client4 {
 
     // Channel Routes
 
-    getAllChannels = (page = 0, perPage = PER_PAGE_DEFAULT, notAssociatedToGroup = '', excludeDefaultChannels = false, includeTotalCount = false, includeDeleted = false) => {
+    getAllChannels = (page = 0, perPage = PER_PAGE_DEFAULT, notAssociatedToGroup = '', excludeDefaultChannels = false, includeTotalCount = false, includeDeleted = false, excludePolicyConstrained = false) => {
         const queryData = {
             page,
             per_page: perPage,
@@ -1490,6 +1490,7 @@ export default class Client4 {
             exclude_default_channels: excludeDefaultChannels,
             include_total_count: includeTotalCount,
             include_deleted: includeDeleted,
+            exclude_policy_constrained: excludePolicyConstrained,
         };
         return this.doFetch<ChannelWithTeamData[] | ChannelsWithTotalCount>(
             `${this.getChannelsRoute()}${buildQueryString(queryData)}`,

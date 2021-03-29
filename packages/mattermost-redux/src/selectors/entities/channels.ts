@@ -69,6 +69,7 @@ import {
 } from 'mattermost-redux/utils/channel_utils';
 import {createIdsSelector} from 'mattermost-redux/utils/helpers';
 import {Constants} from 'utils/constants';
+import { getDataRetentionCustomPolicy } from 'mattermost-redux/selectors/entities/admin';
 
 export {getCurrentChannelId, getMyChannelMemberships, getMyCurrentChannelMembership};
 
@@ -86,8 +87,28 @@ export function getChannelsInTeam(state: GlobalState): RelationOneToMany<Team, C
     return state.entities.channels.channelsInTeam;
 }
 
-export function getChannelsInPolicy(state: GlobalState): IDMappedObjects<Channel> {
-    return state.entities.channels.channelsInPolicy;
+export function getChannelsInPolicy() {
+    return (createSelector(
+        getAllChannels,
+        (state: GlobalState, props: {policyId: string}) => getDataRetentionCustomPolicy(state, props.policyId),
+        (getAllChannels, policy) => {
+            if (!policy) {
+                return [];
+            }
+
+            const policyChannels: Channel[] = [];
+
+            Object.entries(getAllChannels).forEach((item: [string, Channel]) => {
+                const [, channel] = item;
+                if (channel.policy_id === policy.id) {
+                    policyChannels.push(channel);
+                }
+            });
+
+            return policyChannels;
+        }) as (b: GlobalState, a: {
+        policyId: string;
+    }) => Channel[]);
 }
 
 export const getDirectChannelsSet: (state: GlobalState) => Set<string> = createSelector(
@@ -1358,11 +1379,13 @@ export function filterChannelList(channels: Channel[], filters: ChannelSearchOpt
     }
     return channels;
 }
-export function searchChannelsInPolicy(state: GlobalState, term: string, filters: ChannelSearchOpts): Channel[] {
-    const channelDictionary = getChannelsInPolicy(state);
-    const channelArray = Object.keys(channelDictionary).map((key) => channelDictionary[key]);
-    let channels = filterChannelList(channelArray, filters);
-    channels = filterChannelsMatchingTerm(channels, term);
+export function searchChannelsInPolicy(state: GlobalState, policyId: string, term: string, filters: ChannelSearchOpts): Channel[] {
+    const channelsInPolicy = getChannelsInPolicy();
+    const channelArray = channelsInPolicy(state, {policyId});
+    // let channels = filterChannelList(channelArray, filters);
+    console.log(channelArray);
+    console.log(term);
+    let channels = filterChannelsMatchingTerm(channelArray, term);
 
     return channels;
 }

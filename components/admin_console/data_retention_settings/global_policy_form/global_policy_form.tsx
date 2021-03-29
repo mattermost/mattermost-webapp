@@ -136,7 +136,7 @@ export default class GlobalPolicyForm extends AdminSettings<Props, State> {
                                 }}
                                 value={this.state.messageRetentionDropdownValue}
                                 inputValue={this.state.messageRetentionInputValue}
-                                width={500}
+                                width={90}
                                 exceptionToInput={['forever']}
                                 defaultValue={this.getMessageRetentionDefaultValue()}
                                 options={[{value: 'days', label: 'Days'}, {value: 'years', label: 'Years'}, {value: 'forever', label: <div><i className='icon icon-infinity option-icon'/><span>Keep Forever</span></div>}]}
@@ -166,7 +166,7 @@ export default class GlobalPolicyForm extends AdminSettings<Props, State> {
                                 }}
                                 value={this.state.fileRetentionDropdownValue}
                                 inputValue={this.state.fileRetentionInputValue}
-                                width={500}
+                                width={90}
                                 exceptionToInput={['forever']}
                                 defaultValue={this.getFileRetentionDefaultValue()}
                                 options={[{value: 'days', label: 'Days'}, {value: 'years', label: 'Years'}, {value: 'forever', label: <div><i className='icon icon-infinity option-icon'/><span>Keep Forever</span></div>}]}
