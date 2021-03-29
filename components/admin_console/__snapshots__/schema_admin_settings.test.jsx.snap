@@ -331,7 +331,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 },
                 Object {
                   "order": 9,
-                  "text": "Svenska (Beta)",
+                  "text": "Svenska",
                   "value": "sv",
                 },
                 Object {
@@ -341,7 +341,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 },
                 Object {
                   "order": 11,
-                  "text": "Български (Beta)",
+                  "text": "Български",
                   "value": "bg",
                 },
                 Object {
@@ -447,7 +447,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 },
                 Object {
                   "order": 9,
-                  "text": "Svenska (Beta)",
+                  "text": "Svenska",
                   "value": "sv",
                 },
                 Object {
@@ -457,7 +457,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 },
                 Object {
                   "order": 11,
-                  "text": "Български (Beta)",
+                  "text": "Български",
                   "value": "bg",
                 },
                 Object {

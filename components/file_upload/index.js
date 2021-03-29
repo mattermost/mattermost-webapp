@@ -4,7 +4,6 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {uploadFile, handleFileUploadEnd} from 'actions/file_actions.jsx';
@@ -18,7 +17,6 @@ function mapStateToProps(state) {
     const maxFileSize = parseInt(config.MaxFileSize, 10);
 
     return {
-        currentChannelId: getCurrentChannelId(state),
         maxFileSize,
         canUploadFiles: canUploadFiles(config),
         locale: getCurrentLocale(state),

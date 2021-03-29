@@ -10,7 +10,6 @@
 // Stage: @prod
 // Group: @channel_sidebar
 
-import * as TIMEOUTS from '../../fixtures/timeouts';
 import {getAdminAccount} from '../../support/env';
 import {getRandomId} from '../../utils';
 
@@ -27,8 +26,8 @@ describe('Category muting', () => {
 
             cy.visit(`/${team.name}/channels/town-square`);
 
-            // # Wait for the team to load
-            cy.get('#headerTeamName', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+            // # Post any message
+            cy.postMessage('hello');
         }));
     });
 
@@ -50,7 +49,7 @@ describe('Category muting', () => {
         clickCategoryMenuItem('channels', 'Unmute Category');
 
         // * Verify that the category is no longer muted
-        cy.get('.SidebarChannelGroupHeader:contains(CHANNELS)').should('have.class', 'muted');
+        cy.get('.SidebarChannelGroupHeader:contains(CHANNELS)').should('not.have.class', 'muted');
         cy.get('#sidebarItem_town-square').should('not.have.class', 'muted');
         cy.get('#sidebarItem_off-topic').should('not.have.class', 'muted');
     });
