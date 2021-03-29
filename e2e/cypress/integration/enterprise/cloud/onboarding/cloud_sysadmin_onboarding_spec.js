@@ -111,7 +111,7 @@ describe('Cloud Onboarding - Sysadmin', () => {
         cy.get('.Card.expanded + .Card button.NextStepsView__cardHeader').should('be.visible').click();
 
         // * Check to make sure next card is expanded and current card is collapsed
-        cy.get('.Card__body:not(.expanded) .CompleteProfileStep').should('exist').should('not.be.visible');
+        cy.get('.Card__body:not(.expanded) .CompleteProfileStep').should('exist').should('not.exist');
         cy.get('.Card__body.expanded .TeamProfileStep').should('exist').should('be.visible');
 
         // * Step counter should not increment
@@ -129,7 +129,7 @@ describe('Cloud Onboarding - Sysadmin', () => {
         cy.get('.NextStepsView__skipGettingStarted button').should('be.visible').click();
 
         // * Main screen should be out of view and the completed screen should be visible
-        cy.get('.NextStepsView__mainView.completed').should('exist');//.should('not.be.visible');
+        cy.get('.NextStepsView__mainView.completed').should('exist');//.should('not.exist');
         cy.get('.NextStepsView__completedView.completed').should('be.visible');
 
         // * Step counter should not increment
