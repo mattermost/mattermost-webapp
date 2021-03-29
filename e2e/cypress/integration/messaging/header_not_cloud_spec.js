@@ -10,6 +10,8 @@
 // Stage: @prod
 // Group: @not_cloud @messaging
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
 describe('Header', () => {
     before(() => {
         cy.shouldNotRunOnCloudEdition();
@@ -56,16 +58,16 @@ describe('Header', () => {
         cy.apiRemovePluginById('com.github.matterpoll.matterpoll');
 
         // # Upload and enable "matterpoll" plugin
-        cy.apiUploadPlugin('com.github.matterpoll.matterpoll.tar.gz', 0).then(() => {
+        cy.apiUploadPlugin('com.github.matterpoll.matterpoll.tar.gz').then(() => {
             cy.apiEnablePluginById('com.github.matterpoll.matterpoll');
         });
 
         // # Open a DM with the bot
-        cy.uiAddDirectMessage().click();
-        cy.get('.more-modal__list .more-modal__row');
-        cy.get('#moreDmModal input').
-            type('matterpoll', {force: true}).
-            type('{enter}', {force: true});
+        cy.uiAddDirectMessage().click().wait(TIMEOUTS.ONE_SEC);
+        cy.findByRole('dialog', {name: 'Direct Messages'}).should('be.visible').wait(TIMEOUTS.ONE_SEC);
+        cy.findByRole('textbox', {name: 'Search for people'}).click({force: true}).
+            type('matterpoll').wait(TIMEOUTS.ONE_SEC).
+            type('{enter}');
         cy.get('#selectItems').contains('matterpoll');
         cy.get('#saveItems').click();
 

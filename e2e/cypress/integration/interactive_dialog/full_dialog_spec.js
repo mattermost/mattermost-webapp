@@ -102,7 +102,7 @@ describe('Interactive Dialog', () => {
                     cy.wrap($elForm).find('input').should('be.visible').and('have.attr', 'autocomplete', 'off').and('have.attr', 'placeholder', element.placeholder);
 
                     // * Verify that the suggestion list or autocomplete open up on click of input element
-                    cy.wrap($elForm).find('#suggestionList').should('not.be.visible');
+                    cy.wrap($elForm).find('#suggestionList').should('not.exist');
                     cy.wrap($elForm).find('input').click();
                     cy.wrap($elForm).find('#suggestionList').scrollIntoView().should('be.visible').children().then((el) => {
                         if (element.name === 'someuserselector' && config.ElasticsearchSettings && config.ElasticsearchSettings.EnableIndexing) {
@@ -165,7 +165,7 @@ describe('Interactive Dialog', () => {
         cy.get('#interactiveDialogCancel').click();
 
         // * Verify that the interactive dialog modal is closed
-        cy.get('#interactiveDialogModal').should('not.be.visible');
+        cy.get('#interactiveDialogModal').should('not.exist');
     });
 
     it('MM-T2493 - "X" closes the dialog', () => {
@@ -181,7 +181,7 @@ describe('Interactive Dialog', () => {
         });
 
         // * Verify that the interactive dialog modal is closed
-        cy.get('#interactiveDialogModal').should('not.be.visible');
+        cy.get('#interactiveDialogModal').should('not.exist');
     });
 
     it('MM-T2494 - Correct error messages displayed if empty form is submitted', () => {
@@ -204,7 +204,7 @@ describe('Interactive Dialog', () => {
             if (!element.optional && !element.default) {
                 cy.wrap($elForm).find('div.error-text').scrollIntoView().should('be.visible').and('have.text', 'This field is required.').and('have.css', 'color', 'rgb(253, 89, 96)');
             } else {
-                cy.wrap($elForm).find('div.error-text').should('not.be.visible');
+                cy.wrap($elForm).find('div.error-text').should('not.exist');
             }
         });
 
@@ -284,7 +284,7 @@ describe('Interactive Dialog', () => {
         cy.get('#interactiveDialogSubmit').click();
 
         cy.get('.modal-body').should('be.visible').children().eq(2).within(($elForm) => {
-            cy.wrap($elForm).find('div.error-text').should('not.be.visible');
+            cy.wrap($elForm).find('div.error-text').should('not.exist');
         });
 
         closeInteractiveDialog();
@@ -311,5 +311,5 @@ function closeInteractiveDialog() {
     cy.get('.modal-header').should('be.visible').within(($elForm) => {
         cy.wrap($elForm).find('button.close').should('be.visible').click();
     });
-    cy.get('#interactiveDialogModal').should('not.be.visible');
+    cy.get('#interactiveDialogModal').should('not.exist');
 }

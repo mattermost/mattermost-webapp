@@ -53,10 +53,10 @@ describe('Archived channels', () => {
         cy.uiArchiveChannel();
 
         // * Post text box should not be visible
-        cy.get('#post_textbox').should('not.be.visible');
+        cy.get('#post_textbox').should('not.exist');
 
         // * RHS text box should not be visible
-        cy.get('#reply_textbox').should('not.be.visible');
+        cy.get('#reply_textbox').should('not.exist');
     });
 
     it('MM-T1722 Can click reply arrow on a post from archived channel, from saved posts list', () => {
@@ -113,7 +113,7 @@ describe('Archived channels', () => {
                 cy.clickPostCommentIcon(rhsPostId, 'SEARCH');
 
                 // * RHS text box should not be visible
-                cy.get('#reply_textbox').should('not.be.visible');
+                cy.get('#reply_textbox').should('not.exist');
             });
     });
 });
