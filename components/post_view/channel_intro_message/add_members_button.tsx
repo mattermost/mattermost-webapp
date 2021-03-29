@@ -20,6 +20,8 @@ import * as Utils from 'utils/utils.jsx';
 
 import './add_members_button.scss';
 
+import LoadingSpinner from 'components/widgets/loading/loading_spinner';
+
 import MembersSvg from './members_illustration.svg';
 
 export interface AddMembersButtonProps {
@@ -34,6 +36,9 @@ const AddMembersButton: React.FC<AddMembersButtonProps> = ({totalUsers, usersLim
     const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
     const inviteUsers = totalUsers < usersLimit;
 
+    if (!totalUsers) {
+        return (<LoadingSpinner/>);
+    }
     return (
         inviteUsers && !isPrivate ? lessThanMaxFreeUsers(setHeader, theme) : moreThanMaxFreeUsers(channel, setHeader)
     );
@@ -133,4 +138,4 @@ const moreThanMaxFreeUsers = (channel: Channel, setHeader: React.ReactNode) => {
     );
 };
 
-export default AddMembersButton;
+export default React.memo(AddMembersButton);

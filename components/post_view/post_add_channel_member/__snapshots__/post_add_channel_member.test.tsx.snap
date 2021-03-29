@@ -9,6 +9,7 @@ exports[`components/post_view/PostAddChannelMember should match snapshot, more t
   <p>
     <span>
       <Connect(AtMention)
+        channelId="channel_id"
         key="username_1"
         mentionName="username_1"
       />
@@ -37,6 +38,7 @@ exports[`components/post_view/PostAddChannelMember should match snapshot, more t
         key="1"
       />
       <Connect(AtMention)
+        channelId="channel_id"
         key="username_4"
         mentionName="username_4"
       />
@@ -68,6 +70,7 @@ exports[`components/post_view/PostAddChannelMember should match snapshot, more t
   <p>
     <span>
       <Connect(AtMention)
+        channelId="channel_id"
         key="username_1"
         mentionName="username_1"
       />
@@ -77,6 +80,7 @@ exports[`components/post_view/PostAddChannelMember should match snapshot, more t
         , 
       </span>
       <Connect(AtMention)
+        channelId="channel_id"
         key="username_2"
         mentionName="username_2"
       />
@@ -86,6 +90,7 @@ exports[`components/post_view/PostAddChannelMember should match snapshot, more t
         , 
       </span>
       <Connect(AtMention)
+        channelId="channel_id"
         key="username_3"
         mentionName="username_3"
       />
@@ -95,6 +100,7 @@ exports[`components/post_view/PostAddChannelMember should match snapshot, more t
         key="3"
       />
       <Connect(AtMention)
+        channelId="channel_id"
         key="username_4"
         mentionName="username_4"
       />
@@ -125,6 +131,7 @@ exports[`components/post_view/PostAddChannelMember should match snapshot, privat
 <Fragment>
   <p>
     <Connect(AtMention)
+      channelId="channel_id"
       mentionName="username_1"
     />
      
@@ -153,6 +160,7 @@ exports[`components/post_view/PostAddChannelMember should match snapshot, public
 <Fragment>
   <p>
     <Connect(AtMention)
+      channelId="channel_id"
       mentionName="username_1"
     />
      
@@ -181,6 +189,7 @@ exports[`components/post_view/PostAddChannelMember should match snapshot, with n
 <Fragment>
   <p>
     <Connect(AtMention)
+      channelId="channel_id"
       mentionName="username_1"
     />
      
@@ -204,6 +213,7 @@ exports[`components/post_view/PostAddChannelMember should match snapshot, with n
   </p>
   <p>
     <Connect(AtMention)
+      channelId="channel_id"
       mentionName="user_id_2"
     />
      
