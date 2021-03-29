@@ -37,9 +37,6 @@ export const getSelectedThreadInCurrentTeam: (state: GlobalState) => UserThread 
         threads,
     ) => {
         const threadId = selectedThreadIdInTeam?.[currentTeamId];
-        if (!threadId) {
-            return null;
-        }
         return threadId ? threads[threadId] : null;
     },
 );

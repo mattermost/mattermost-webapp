@@ -54,6 +54,16 @@ const ThreadPane = ({
     const channel = useSelector((state: GlobalState) => getChannel(state, {id: channelId}));
     const post = useSelector((state: GlobalState) => getPost(state, thread.id));
 
+    const selectHandler = useCallback(() => select(), []);
+
+    const goToInChannelHandler = useCallback(() => {
+        goToInChannel(threadId);
+    }, [goToInChannel, threadId]);
+
+    const followHandler = useCallback(() => {
+        dispatch(setThreadFollow(currentUserId, currentTeamId, threadId, !isFollowing));
+    }, [currentUserId, currentTeamId, threadId, isFollowing, setThreadFollow]);
+
     return (
         <div className='ThreadPane'>
             <Header
@@ -62,7 +72,7 @@ const ThreadPane = ({
                     <>
                         <Button
                             className='Button___icon Button___large back'
-                            onClick={useCallback(() => select(), [])}
+                            onClick={selectHandler}
                         >
                             <i className='icon icon-arrow-back-ios'/>
                         </Button>
@@ -76,9 +86,7 @@ const ThreadPane = ({
                             <Button
                                 className='separated'
                                 allowTextOverflow={true}
-                                onClick={useCallback(() => {
-                                    goToInChannel(threadId);
-                                }, [goToInChannel, threadId])}
+                                onClick={goToInChannelHandler}
                             >
                                 {channel.display_name}
                             </Button>
@@ -90,9 +98,7 @@ const ThreadPane = ({
                         <FollowButton
                             isFollowing={isFollowing}
                             disabled={isFollowing == null}
-                            onClick={useCallback(() => {
-                                dispatch(setThreadFollow(currentUserId, currentTeamId, threadId, !isFollowing));
-                            }, [currentUserId, currentTeamId, threadId, isFollowing, setThreadFollow])}
+                            onClick={followHandler}
                         />
                         <ThreadMenu
                             threadId={threadId}

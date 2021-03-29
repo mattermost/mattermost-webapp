@@ -67,12 +67,6 @@ function useLogic(threadId: string) {
         }
     }, [channel, thread?.post.channel_id]);
 
-    useEffect(() => {
-        if (channel?.teammate_id && !directTeammate) {
-            dispatch(fetchUser(channel.teammate_id));
-        }
-    }, [channel, directTeammate]);
-
     const selectHandler = useCallback(() => select(threadId), [threadId]);
     const goToInChannelHandler = useCallback((e: MouseEvent) => {
         e.stopPropagation();

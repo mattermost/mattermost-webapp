@@ -37,7 +37,9 @@ const GlobalThreadsLink = () => {
     const someUnreadThreads = counts?.total_unread_threads;
 
     useEffect(() => {
-        dispatch(getThreads(currentUserId, currentTeamId, {perPage: 5}));
+        if (isFeatureEnabled) {
+            dispatch(getThreads(currentUserId, currentTeamId, {perPage: 5}));
+        }
     }, [currentTeamId]);
 
     if (!isFeatureEnabled || (unreadsOnly && !inGlobalThreads && !someUnreadThreads)) {
