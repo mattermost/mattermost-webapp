@@ -16,7 +16,7 @@ import {$ID, IDMappedObjects, RelationOneToOne} from 'mattermost-redux/types/uti
 import {createIdsSelector} from 'mattermost-redux/utils/helpers';
 import {isTeamAdmin} from 'mattermost-redux/utils/user_utils';
 import {sortTeamsWithLocale, filterTeamsStartingWithTerm} from 'mattermost-redux/utils/team_utils';
-import { getDataRetentionCustomPolicy } from 'mattermost-redux/selectors/entities/admin';
+import {getDataRetentionCustomPolicy} from 'mattermost-redux/selectors/entities/admin';
 
 export function getCurrentTeamId(state: GlobalState) {
     return state.entities.teams.currentTeamId;

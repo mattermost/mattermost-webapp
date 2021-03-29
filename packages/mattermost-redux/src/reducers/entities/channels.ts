@@ -24,7 +24,7 @@ import {
 } from 'mattermost-redux/types/utilities';
 
 import {Team} from 'mattermost-redux/types/teams';
-import { channelListToMap } from 'mattermost-redux/utils/channel_utils';
+import {channelListToMap} from 'mattermost-redux/utils/channel_utils';
 
 function removeMemberFromChannels(state: RelationOneToOne<Channel, UserIDMappedObjects<ChannelMembership>>, action: GenericAction) {
     const nextState = {...state};

@@ -163,7 +163,7 @@ describe('components/admin_console/jobs/table', () => {
 
     test('hide create job button', () => {
         const wrapper = shallowWithIntl(
-            <JobTable 
+            <JobTable
                 {...baseProps}
                 hideCreateJobButton={true}
             />,
@@ -175,7 +175,7 @@ describe('components/admin_console/jobs/table', () => {
 
     test('add custom class', () => {
         const wrapper = shallowWithIntl(
-            <JobTable 
+            <JobTable
                 {...baseProps}
                 className={'job-table__data-retention'}
             />,

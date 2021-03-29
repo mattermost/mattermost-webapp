@@ -6,7 +6,7 @@ import {MarkUnread} from 'mattermost-redux/constants/channels';
 
 import {hasNewPermissions} from 'mattermost-redux/selectors/entities/general';
 import {haveITeamPermission, haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
-import {Channel, ChannelMembership, ChannelType, ChannelNotifyProps, ChannelSearchOpts} from 'mattermost-redux/types/channels';
+import {Channel, ChannelMembership, ChannelType, ChannelNotifyProps} from 'mattermost-redux/types/channels';
 import {Post} from 'mattermost-redux/types/posts';
 import {UsersState, UserProfile, UserNotifyProps} from 'mattermost-redux/types/users';
 import {GlobalState} from 'mattermost-redux/types/store';

@@ -381,17 +381,17 @@ class JobTable extends React.PureComponent {
             <div className={classNames('job-table__panel', this.props.className)}>
                 <div className='job-table__create-button'>
                     {
-                    !this.props.hideJobCreateButton && 
-                    <div>
-                        <button
-                            type='button'
-                            className='btn btn-default'
-                            onClick={this.handleCreateJob}
-                            disabled={this.props.disabled}
-                        >
-                            {this.props.createJobButtonText}
-                        </button>
-                    </div>
+                        !this.props.hideJobCreateButton &&
+                        <div>
+                            <button
+                                type='button'
+                                className='btn btn-default'
+                                onClick={this.handleCreateJob}
+                                disabled={this.props.disabled}
+                            >
+                                {this.props.createJobButtonText}
+                            </button>
+                        </div>
                     }
                     <div className='help-text'>
                         {this.props.createJobHelpText}

@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {IDMappedObjects, UserIDMappedObjects, RelationOneToMany, RelationOneToOne, Dictionary} from './utilities';
+import {IDMappedObjects, UserIDMappedObjects, RelationOneToMany, RelationOneToOne} from './utilities';
 import {Team} from './teams';
 
 export type ChannelType = 'O' | 'P' | 'D' | 'G';

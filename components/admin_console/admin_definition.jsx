@@ -45,7 +45,7 @@ import ChannelSettings from './team_channel_settings/channel';
 import ChannelDetails from './team_channel_settings/channel/details';
 import PasswordSettings from './password_settings.jsx';
 import PushNotificationsSettings from './push_settings.jsx';
-import DataRetentionSettings from './data_retention_settings';
+import DataRetentionSettings from './data_retention_settings/index.ts';
 import GlobalDataRetentionForm from './data_retention_settings/global_policy_form/global_policy_form.tsx';
 import CustomDataRetentionForm from './data_retention_settings/custom_policy_form';
 import MessageExportSettings from './message_export_settings.jsx';
@@ -5088,7 +5088,7 @@ const AdminDefinition = {
                 id: 'CustomDataRetentionForm',
                 component: CustomDataRetentionForm,
             },
-            
+
         },
         custom_policy_form: {
             url: 'compliance/data_retention/custom_policy',
@@ -5097,7 +5097,7 @@ const AdminDefinition = {
                 id: 'CustomDataRetentionForm',
                 component: CustomDataRetentionForm,
             },
-            
+
         },
         data_retention: {
             url: 'compliance/data_retention',

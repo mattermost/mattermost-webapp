@@ -69,7 +69,7 @@ import {
 } from 'mattermost-redux/utils/channel_utils';
 import {createIdsSelector} from 'mattermost-redux/utils/helpers';
 import {Constants} from 'utils/constants';
-import { getDataRetentionCustomPolicy } from 'mattermost-redux/selectors/entities/admin';
+import {getDataRetentionCustomPolicy} from 'mattermost-redux/selectors/entities/admin';
 
 export {getCurrentChannelId, getMyChannelMemberships, getMyCurrentChannelMembership};
 
@@ -1365,11 +1365,11 @@ export function isFavoriteChannel(state: GlobalState, channelId: string): boolea
 
     return category.channel_ids.includes(channel.id);
 }
-export function filterChannelList(channels: Channel[], filters: ChannelSearchOpts): Channel[] {
+export function filterChannelList(channelList: Channel[], filters: ChannelSearchOpts): Channel[] {
     if (!filters) {
-        return channels;
+        return channelList;
     }
-
+    let channels = channelList;
     if (filters.public) {
         channels = channels.filter((channel) => channel.type === Constants.OPEN_CHANNEL);
     } else if (filters.private) {
@@ -1382,10 +1382,9 @@ export function filterChannelList(channels: Channel[], filters: ChannelSearchOpt
 export function searchChannelsInPolicy(state: GlobalState, policyId: string, term: string, filters: ChannelSearchOpts): Channel[] {
     const channelsInPolicy = getChannelsInPolicy();
     const channelArray = channelsInPolicy(state, {policyId});
-    // let channels = filterChannelList(channelArray, filters);
-    console.log(channelArray);
-    console.log(term);
-    let channels = filterChannelsMatchingTerm(channelArray, term);
+
+    let channels = filterChannelList(channelArray, filters);
+    channels = filterChannelsMatchingTerm(channels, term);
 
     return channels;
 }

@@ -60,7 +60,6 @@ storiesOf('Widgets/Inputs', module).
         'dropdown input hybrid',
         () => {
             const WrapperComponent = () => {
-
                 const [dropdownValue, setDropdownValue] = useState({value: 'forever', label: 'Keep Forever'});
                 const [inputValue, setInputValue] = useState('');
                 return (

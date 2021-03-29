@@ -3,10 +3,8 @@
 
 import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
-import {createSelector} from 'reselect';
 
 import {getDataRetentionCustomPolicyChannels, searchDataRetentionCustomPolicyChannels} from 'mattermost-redux/actions/admin';
-import {searchChannels} from 'mattermost-redux/actions/channels';
 import {getChannelsInPolicy, searchChannelsInPolicy} from 'mattermost-redux/selectors/entities/channels';
 import {getDataRetentionCustomPolicy} from 'mattermost-redux/selectors/entities/admin';
 import {filterChannelsMatchingTerm, channelListToMap} from 'mattermost-redux/utils/channel_utils';
@@ -17,10 +15,11 @@ import {Channel, ChannelSearchOpts} from 'mattermost-redux/types/channels';
 
 import {GlobalState} from 'types/store';
 
-import ChannelList from './channel_list';
 import {setChannelListSearch, setChannelListFilters} from 'actions/views/search';
-import { Dictionary } from 'mattermost-redux/types/utilities';
-import { DataRetentionCustomPolicy } from 'mattermost-redux/types/data_retention';
+import {Dictionary} from 'mattermost-redux/types/utilities';
+import {DataRetentionCustomPolicy} from 'mattermost-redux/types/data_retention';
+
+import ChannelList from './channel_list';
 
 type OwnProps = {
     policyId?: string;

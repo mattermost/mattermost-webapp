@@ -210,7 +210,7 @@ export default class ChannelSelectorModal extends React.PureComponent<Props, Sta
             options = options.filter((channel) => this.props.alreadySelected?.indexOf(channel.id) === -1);
         }
         if (this.props.excludePolicyConstrained) {
-            options = options.filter((channel) => channel.policy_id === undefined);
+            options = options.filter((channel) => channel.policy_id === null);
         }
         const values = this.state.values.map((i): ChannelWithTeamDataValue => ({...i, label: i.display_name, value: i.id}));
 

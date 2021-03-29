@@ -3,14 +3,10 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {Link} from 'react-router-dom';
+
 import {Constants} from 'utils/constants';
 import {ChannelSearchOpts, ChannelWithTeamData as Channel} from 'mattermost-redux/types/channels';
 import {Dictionary} from 'mattermost-redux/types/utilities';
-
-import {browserHistory} from 'utils/browser_history';
-
-import * as Utils from 'utils/utils.jsx';
 
 import DataGrid, {Column, Row} from 'components/admin_console/data_grid/data_grid';
 import TeamFilterDropdown from 'components/admin_console/filter/team_filter_dropdown';
@@ -21,9 +17,7 @@ import GlobeIcon from 'components/widgets/icons/globe_icon';
 import LockIcon from 'components/widgets/icons/lock_icon';
 import ArchiveIcon from 'components/widgets/icons/archive_icon';
 import {isArchivedChannel} from 'utils/channel_utils';
-import { ActionResult } from 'mattermost-redux/types/actions';
-
-const ROW_HEIGHT = 80;
+import {ActionResult} from 'mattermost-redux/types/actions';
 
 type Props = {
     channels: Channel[];
@@ -64,31 +58,34 @@ export default class TeamList extends React.PureComponent<Props, State> {
     }
 
     componentDidMount = async () => {
-        if (this.props.policyId) {
-            this.setState({loading: true});
-            await this.props.actions.getDataRetentionCustomPolicyChannels(this.props.policyId, 0, PAGE_SIZE * 2);
-            this.setState({loading: false});
-        }
+        this.loadPage(0, PAGE_SIZE * 2);
     }
 
-    private loadPage = (page: number) => {
-        this.setState({loading: true});
-        this.fetchChannels(page);
-        this.setState({page, loading: false});
+    private setStateLoading = (loading: boolean) => {
+        this.setState({loading});
+    }
+    private setStatePage = (page: number) => {
+        this.setState({page});
     }
 
-    private fetchChannels = async (page: number) => {
+    private loadPage = async (page: number, pageSize = PAGE_SIZE) => {
         if (this.props.policyId) {
-            await this.props.actions.getDataRetentionCustomPolicyChannels(this.props.policyId, page + 1, PAGE_SIZE);
+            this.setStateLoading(true);
+            await this.props.actions.getDataRetentionCustomPolicyChannels(this.props.policyId, page, pageSize);
+            this.setStateLoading(false);
         }
     }
 
     private nextPage = () => {
-        this.loadPage(this.state.page + 1);
+        const page = this.state.page + 1;
+        this.loadPage(page + 1);
+        this.setStatePage(page);
     }
 
     private previousPage = () => {
-        this.loadPage(this.state.page - 1);
+        const page = this.state.page - 1;
+        this.loadPage(page + 1);
+        this.setStatePage(page);
     }
 
     private getVisibleTotalCount = (): number => {
@@ -102,12 +99,12 @@ export default class TeamList extends React.PureComponent<Props, State> {
         // const {channelsToAdd, channelsToRemove, term} = this.props;
         const {page} = this.state;
 
-        let total: number;
         let endCount = 0;
         const startCount = (page * PAGE_SIZE) + 1;
 
         //if (term === '') {
-            total = this.getVisibleTotalCount();
+        const total = this.getVisibleTotalCount();
+
         // } else {
         //     total = this.props.teams.length + Object.keys(channelsToAdd).length;
         //     this.props.teams.forEach((u) => {
@@ -137,7 +134,7 @@ export default class TeamList extends React.PureComponent<Props, State> {
             page--;
         }
 
-        this.setState({page});
+        this.setStatePage(page);
     }
 
     getColumns = (): Column[] => {
@@ -189,7 +186,7 @@ export default class TeamList extends React.PureComponent<Props, State> {
 
             // Directly call action to load more users from parent component to load more users into the state
             if (pageToLoad > this.pageLoaded) {
-                this.fetchChannels(pageToLoad);
+                this.loadPage(pageToLoad + 1);
                 this.pageLoaded = pageToLoad;
             }
         }
@@ -226,7 +223,7 @@ export default class TeamList extends React.PureComponent<Props, State> {
                         <a
                             data-testid={`${channel.display_name}edit`}
                             className='group-actions TeamList_editText'
-                            onClick={(e) => {
+                            onClick={() => {
                                 this.removeTeam(channel);
                             }}
                         >
@@ -245,20 +242,21 @@ export default class TeamList extends React.PureComponent<Props, State> {
         this.props.actions.setChannelListSearch(searchTerm);
     }
     public async componentDidUpdate(prevProps: Props) {
-        const { policyId, searchTerm, filters } = this.props;
+        const {policyId, searchTerm, filters} = this.props;
         const filtersModified = JSON.stringify(prevProps.filters) !== JSON.stringify(this.props.filters);
         const searchTermModified = prevProps.searchTerm !== searchTerm;
         if (searchTermModified || filtersModified) {
-            this.setState({loading: true});
+            this.setStateLoading(true);
             clearTimeout(this.searchTimeoutId);
             if (searchTerm === '') {
                 this.searchTimeoutId = 0;
                 if (filtersModified && policyId) {
                     await prevProps.actions.searchChannels(policyId, searchTerm, filters);
                 } else {
-                    await this.loadPage(0);
+                    await this.loadPage(1);
+                    this.setStatePage(0);
                 }
-                this.setState({loading: false});
+                this.setStateLoading(false);
                 return;
             }
 
@@ -271,7 +269,7 @@ export default class TeamList extends React.PureComponent<Props, State> {
                     if (searchTimeoutId !== this.searchTimeoutId) {
                         return;
                     }
-                    this.setState({loading: false});
+                    this.setStateLoading(false);
                 },
                 Constants.SEARCH_TIMEOUT_MILLISECONDS,
             );
@@ -369,6 +367,7 @@ export default class TeamList extends React.PureComponent<Props, State> {
                     className={'customTable'}
                     onSearch={this.onSearch}
                     term={this.props.searchTerm}
+
                     // placeholderEmpty={placeholderEmpty}
                     // rowsContainerStyles={rowsContainerStyles}
                     filterProps={filterProps}

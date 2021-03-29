@@ -3,12 +3,13 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
 import {connect} from 'react-redux';
-import {createSelector} from 'reselect';
+
+import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
 import {getTeamsInPolicy} from 'mattermost-redux/selectors/entities/teams';
 import {
-    getDataRetentionCustomPolicy as fetchPolicy, 
-    getDataRetentionCustomPolicyTeams as fetchPolicyTeams, 
+    getDataRetentionCustomPolicy as fetchPolicy,
+    getDataRetentionCustomPolicyTeams as fetchPolicyTeams,
     createDataRetentionCustomPolicy,
     updateDataRetentionCustomPolicy,
     addDataRetentionCustomPolicyTeams,
@@ -17,22 +18,23 @@ import {
     removeDataRetentionCustomPolicyChannels,
 } from 'mattermost-redux/actions/admin';
 import {getDataRetentionCustomPolicy} from 'mattermost-redux/selectors/entities/admin';
-import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
 import {
-    DataRetentionCustomPolicy, 
-    CreateDataRetentionCustomPolicy, 
-    PatchDataRetentionCustomPolicy, 
-    PatchDataRetentionCustomPolicyTeams, 
-    PatchDataRetentionCustomPolicyChannels
+    DataRetentionCustomPolicy,
+    CreateDataRetentionCustomPolicy,
+    PatchDataRetentionCustomPolicy,
+    PatchDataRetentionCustomPolicyTeams,
+    PatchDataRetentionCustomPolicyChannels,
 } from 'mattermost-redux/types/data_retention';
 import {Team} from 'mattermost-redux/types/teams';
 
 import {GlobalState} from 'types/store';
 
-import CustomPolicyForm from './custom_policy_form';
-import { ChannelWithTeamData } from 'mattermost-redux/types/channels';
+import {ChannelWithTeamData} from 'mattermost-redux/types/channels';
+
 import {setNavigationBlocked} from 'actions/admin_actions.jsx';
+
+import CustomPolicyForm from './custom_policy_form';
 
 type Actions = {
     fetchPolicy: (id: string) => Promise<{ data: DataRetentionCustomPolicy }>;
@@ -71,8 +73,8 @@ function mapStateToProps() {
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc | GenericAction>, Actions>({
-            fetchPolicy: fetchPolicy,
-            fetchPolicyTeams: fetchPolicyTeams,
+            fetchPolicy,
+            fetchPolicyTeams,
             createDataRetentionCustomPolicy,
             updateDataRetentionCustomPolicy,
             addDataRetentionCustomPolicyTeams,
