@@ -14,7 +14,7 @@ export const selectedThreadIdInTeam = (state: ViewsState['threads']['selectedThr
     case Threads.CHANGED_SELECTED_THREAD:
         return {
             ...state,
-            [action.data.team_id]: action.data.id,
+            [action.data.team_id]: action.data.thread_id,
         };
     }
     return state;

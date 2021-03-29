@@ -7,7 +7,7 @@ export function setSelectedThreadId(teamId: string, threadId: string | undefined
     return {
         type: Threads.CHANGED_SELECTED_THREAD,
         data: {
-            id: threadId,
+            thread_id: threadId,
             team_id: teamId,
         },
     };
