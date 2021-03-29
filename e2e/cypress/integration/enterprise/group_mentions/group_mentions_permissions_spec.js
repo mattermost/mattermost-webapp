@@ -131,7 +131,7 @@ describe('Group Mentions', () => {
             cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').clear().type(`@${groupName}`).wait(TIMEOUTS.TWO_SEC);
 
             // * Verify if autocomplete dropdown is not displayed
-            cy.get('#suggestionList').should('not.be.visible');
+            cy.get('#suggestionList').should('not.exist');
 
             // # Submit a post containing the group mention
             cy.postMessage(`@${groupName} hello {enter}`);
@@ -208,7 +208,7 @@ describe('Group Mentions', () => {
                 cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').clear().type(`@${groupName}`).wait(TIMEOUTS.TWO_SEC);
 
                 // * Verify if autocomplete dropdown is not displayed
-                cy.get('#suggestionList').should('not.be.visible');
+                cy.get('#suggestionList').should('not.exist');
 
                 // # Submit a post containing the group mention
                 cy.postMessage(`@${groupName} hello {enter}`);
@@ -296,7 +296,7 @@ describe('Group Mentions', () => {
                 cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').clear().type(`@${groupName}`).wait(TIMEOUTS.TWO_SEC);
 
                 // * Verify if autocomplete dropdown is not displayed
-                cy.get('#suggestionList').should('not.be.visible');
+                cy.get('#suggestionList').should('not.exist');
 
                 // # Submit a post containing the group mention
                 cy.postMessage(`@${groupName} hello {enter}`);

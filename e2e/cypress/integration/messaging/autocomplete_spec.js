@@ -67,7 +67,7 @@ describe('autocomplete', () => {
         // * Verify that the item is displayed or not as expected.
         cy.get('#suggestionList').within(() => {
             cy.findByText(displayNameTestUser).should('be.visible');
-            cy.findByText(displayNameOtherUser).should('not.be.visible');
+            cy.findByText(displayNameOtherUser).should('not.exist');
         });
 
         // # Post user mention
@@ -89,7 +89,7 @@ describe('autocomplete', () => {
         // * Verify that the item is displayed or not as expected.
         cy.get('#suggestionList').within(() => {
             cy.findByText(displayNameTestUser).should('be.visible');
-            cy.findByText(displayNameOtherUser).should('not.be.visible');
+            cy.findByText(displayNameOtherUser).should('not.exist');
         });
 
         // # Post user mention
@@ -111,7 +111,7 @@ describe('autocomplete', () => {
         // * Verify that the item is displayed or not as expected.
         cy.get('#suggestionList').within(() => {
             cy.findByText(displayNameTestUser).should('be.visible');
-            cy.findByText(displayNameOtherUser).should('not.be.visible');
+            cy.findByText(displayNameOtherUser).should('not.exist');
         });
 
         // # Post user mention
@@ -131,7 +131,7 @@ describe('autocomplete', () => {
         cy.get('#post_textbox').should('be.visible').clear().type(`@${testUser.email}`);
 
         // * Verify that the item is displayed or not as expected.
-        cy.get('#suggestionList').should('not.be.visible');
+        cy.get('#suggestionList').should('not.exist');
     });
 
     it('MM-T2206 @ autocomplete - not in channel (center), have permission to add (public channel)', () => {

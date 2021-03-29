@@ -81,10 +81,12 @@ describe('System Console > User Management > Deactivation', () => {
             cy.uiClose();
 
             // # Open DM Modal
-            cy.uiAddDirectMessage().click();
+            cy.uiAddDirectMessage().click().wait(TIMEOUTS.ONE_SEC);
+            cy.findByRole('dialog', {name: 'Direct Messages'}).should('be.visible').wait(TIMEOUTS.ONE_SEC);
 
-            // # Type the guest user name on Channel switcher input
-            cy.get('.more-direct-channels #selectItems').type(other.username).wait(TIMEOUTS.HALF_SEC);
+            // # Start typing part of a username that matches previously created users
+            cy.findByRole('textbox', {name: 'Search for people'}).click({force: true}).
+                type(other.username).wait(TIMEOUTS.ONE_SEC);
 
             // * Verify user is marked as deactivated
             cy.get('#displayedUserName' + other.username).parent().contains('Deactivated');
@@ -93,7 +95,7 @@ describe('System Console > User Management > Deactivation', () => {
             cy.get('#displayedUserName' + other.username).click();
 
             // * Confirm DM More... Modal is closed
-            cy.get('#moreDmModal').should('not.be.visible');
+            cy.get('#moreDmModal').should('not.exist');
         });
     });
 
@@ -114,7 +116,8 @@ describe('System Console > User Management > Deactivation', () => {
                 cy.uiAddDirectMessage().click().wait(TIMEOUTS.HALF_SEC);
 
                 // # Type the user name of user1 on Channel switcher input
-                cy.get('.more-direct-channels #selectItems').type(user1.username).wait(TIMEOUTS.HALF_SEC);
+                cy.findByRole('textbox', {name: 'Search for people'}).click({force: true}).
+                    type(user1.username).wait(TIMEOUTS.ONE_SEC);
 
                 // # Click on the user
                 cy.get('#displayedUserName' + user1.username).click();
@@ -123,7 +126,7 @@ describe('System Console > User Management > Deactivation', () => {
                 cy.get('.more-direct-channels #selectItems').type(user2.username).wait(TIMEOUTS.HALF_SEC);
 
                 // * Confirm user2 can't be added to the DM
-                cy.get('#displayedUserName' + user2.username).should('not.be.visible');
+                cy.get('#displayedUserName' + user2.username).should('not.exist');
             });
         });
     });
@@ -150,7 +153,7 @@ describe('System Console > User Management > Deactivation', () => {
             cy.get('#rhsContainer .post-create-message').contains('You are viewing an archived channel with a deactivated user. New messages cannot be posted.');
 
             // * Verify status indicator is not shown in channel header
-            cy.get('#channelHeaderDescription .status').should('not.be.visible');
+            cy.get('#channelHeaderDescription .status').should('not.exist');
 
             // * Verify archived icon is shown in LHS
             cy.uiGetLhsSection('DIRECT MESSAGES').

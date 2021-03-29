@@ -3,6 +3,7 @@
 
 Cypress.Commands.add('apiInitSetup', ({
     loginAfter = false,
+    promoteNewUserAsAdmin = false,
     userPrefix = 'user',
     teamPrefix = {name: 'team', displayName: 'Team'},
     channelPrefix = {name: 'channel', displayName: 'Channel'},
@@ -11,6 +12,10 @@ Cypress.Commands.add('apiInitSetup', ({
         // # Add public channel
         return cy.apiCreateChannel(team.id, channelPrefix.name, channelPrefix.displayName).then(({channel}) => {
             return cy.apiCreateUser({prefix: userPrefix}).then(({user}) => {
+                if (promoteNewUserAsAdmin) {
+                    cy.apiPatchUserRoles(user.id, ['system_admin', 'system_user']);
+                }
+
                 return cy.apiAddUserToTeam(team.id, user.id).then(() => {
                     return cy.apiAddUserToChannel(channel.id, user.id).then(() => {
                         if (loginAfter) {

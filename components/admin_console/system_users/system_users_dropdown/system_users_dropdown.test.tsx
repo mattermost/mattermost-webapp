@@ -8,6 +8,8 @@ import {UserProfile} from 'mattermost-redux/types/users';
 
 import {TestHelper} from '../../../../utils/test_helper';
 
+import Menu from 'components/widgets/menu/menu';
+
 import SystemUsersDropdown, {Props} from './system_users_dropdown';
 
 describe('components/admin_console/system_users/system_users_dropdown/system_users_dropdown', () => {
@@ -194,6 +196,32 @@ describe('components/admin_console/system_users/system_users_dropdown/system_use
         const ConfirmModal = () => wrapper.instance().renderDeactivateMemberModal();
         const modal = shallow(<ConfirmModal/>);
         expect(modal.prop('message')).toMatchSnapshot();
+    });
+
+    test('Manage Roles button should be hidden for system manager', async () => {
+        const systemManager = TestHelper.getUserMock({
+            id: 'system_manager_id',
+            roles: 'system_user system_manager',
+            username: 'system-manager',
+        });
+        const overrideProps = {
+            currentUser: systemManager,
+        };
+        const wrapper = shallow<SystemUsersDropdown>(<SystemUsersDropdown {...{...requiredProps, ...overrideProps}}/>);
+        expect(wrapper.find(Menu.ItemAction).find({text: 'Manage Roles'}).props().show).toBe(false);
+    });
+
+    test('Manage Roles button should be visible for system admin', async () => {
+        const systemAdmin = TestHelper.getUserMock({
+            id: 'system_admin_id',
+            roles: 'system_user system_admin',
+            username: 'system-admin',
+        });
+        const overrideProps = {
+            currentUser: systemAdmin,
+        };
+        const wrapper = shallow<SystemUsersDropdown>(<SystemUsersDropdown {...{...requiredProps, ...overrideProps}}/>);
+        expect(wrapper.find(Menu.ItemAction).find({text: 'Manage Roles'}).props().show).toBe(true);
     });
 
     test('should match snapshot with license', async () => {
