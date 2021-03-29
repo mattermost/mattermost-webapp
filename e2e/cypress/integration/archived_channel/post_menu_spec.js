@@ -38,10 +38,10 @@ describe('Archived channels', () => {
             cy.get(`#postMessageText_${postId}`).should('contain', header);
             cy.clickPostDotMenu(postId).then(() => {
                 // * Copy link menu item should not be visible
-                cy.findByText('Copy Link').should('not.be.visible');
+                cy.findByText('Copy Link').should('not.exist');
 
                 // * Reply post menu item should not be visible
-                cy.findByText('Reply').should('not.be.visible');
+                cy.findByText('Reply').should('not.exist');
             });
         });
 

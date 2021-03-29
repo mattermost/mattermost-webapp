@@ -22,6 +22,7 @@ import PostEmoji from 'components/post_emoji';
  * - latex - If specified, latex is replaced with the LatexBlock component. Defaults to true.
  * - imagesMetadata - the dimensions of the image as retrieved from post.metadata.images.
  * - hasPluginTooltips - If specified, the LinkTooltip component is placed inside links. Defaults to false.
+ * - channelId = If specified, to be passed along to ProfilePopover via AtMention
  */
 export function messageHtmlToComponent(html, isRHS, options = {}) {
     if (!html) {
@@ -83,6 +84,7 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
                         hasMention={true}
                         disableHighlight={!mentionHighlight}
                         disableGroupHighlight={disableGroupHighlight}
+                        channelId={options.channelId}
                     >
                         {children}
                     </AtMention>

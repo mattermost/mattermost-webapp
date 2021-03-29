@@ -6,8 +6,9 @@ import classNames from 'classnames';
 import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import Permissions from 'mattermost-redux/constants/permissions';
 import {Dispatch} from 'redux';
+
+import Permissions from 'mattermost-redux/constants/permissions';
 
 import {CustomEmoji, Emoji, SystemEmoji} from 'mattermost-redux/types/emojis';
 

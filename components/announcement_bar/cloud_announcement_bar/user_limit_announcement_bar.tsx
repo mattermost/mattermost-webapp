@@ -3,12 +3,13 @@
 
 import React from 'react';
 
+import {isEmpty} from 'lodash';
+
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {Dictionary} from 'mattermost-redux/types/utilities';
 import {AnalyticsRow} from 'mattermost-redux/types/admin';
 import {Subscription} from 'mattermost-redux/types/cloud';
-import {isEmpty} from 'lodash';
 
 import {trackEvent} from 'actions/telemetry_actions';
 

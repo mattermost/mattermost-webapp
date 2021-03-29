@@ -4,13 +4,15 @@
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 import {connect} from 'react-redux';
 import {createSelector} from 'reselect';
+
+import {withRouter} from 'react-router-dom';
+
 import {getInt} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getMyChannelRoles} from 'mattermost-redux/selectors/entities/roles';
 import {getRoles} from 'mattermost-redux/selectors/entities/roles_helpers';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
-import {withRouter} from 'react-router-dom';
 
 import {getProfiles} from 'mattermost-redux/actions/users';
 

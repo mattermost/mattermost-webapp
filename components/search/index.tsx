@@ -1,9 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {getMorePostsForSearch} from 'mattermost-redux/actions/search';
 import {connect} from 'react-redux';
 import {AnyAction, bindActionCreators, Dispatch} from 'redux';
+
+import {getMorePostsForSearch} from 'mattermost-redux/actions/search';
 
 import {
     updateSearchTerms, showSearchResults, showMentions, showFlaggedPosts, closeRightHandSide, updateRhsState, setRhsExpanded,

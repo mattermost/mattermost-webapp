@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
+
 import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentRelativeTeamUrl, getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 

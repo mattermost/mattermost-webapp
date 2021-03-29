@@ -90,7 +90,7 @@ describe('Authentication', () => {
             cy.get('#sidebarHeaderDropdownButton').click();
 
             // * Verify Account Settings button is visible and exist and then click on it
-            cy.findByText('Account Settings', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('exist').click();
+            cy.findByText('Account Settings', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').click();
 
             // # Click "Edit" to the right of "Email"
             cy.get('#emailEdit').should('be.visible').click();
@@ -130,17 +130,21 @@ describe('Authentication', () => {
             cy.findByText('Create Account').click();
 
             // * Make sure account was not created successfully
-            cy.findByText('The email you provided does not belong to an accepted domain. Please contact your administrator or sign up with a different email.').should('be.visible').and('exist');
+            cy.findByText('The email you provided does not belong to an accepted domain. Please contact your administrator or sign up with a different email.').should('be.visible');
         });
     });
 
     it('MM-T1762 - Invite Salt', () => {
         cy.visit('/admin_console/site_config/public_links');
 
+        // * Check that public link salt is masked
+        cy.findByText('********************************').should('be.visible');
+
+        // # Click "Regenerate"
         cy.findByText('Regenerate', {timeout: TIMEOUTS.ONE_MIN}).click();
 
-        // * Assert that create account button is visible
-        cy.get('#FileSettings.PublicLinkSalt', {timeout: TIMEOUTS.ONE_MIN}).should('not.have.text', '********************************');
+        // * Check that new public link is generated and unmasked
+        cy.findByText('********************************').should('not.exist');
     });
 
     it('MM-T1763 - Security - Signup: Email verification not required, user immediately sees Town Square', () => {
@@ -211,7 +215,7 @@ describe('Authentication', () => {
             cy.findByText('GitLab Single Sign-On', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
             // * Email and Password option does not exist
-            cy.findByText('Email and Password').should('not.exist').and('not.be.visible');
+            cy.findByText('Email and Password').should('not.exist');
         });
     });
 });
