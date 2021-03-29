@@ -12,6 +12,14 @@ import {TestHelper} from 'utils/test_helper';
 
 import RhsThread from './rhs_thread';
 
+jest.mock('utils/utils', () => {
+    const original = jest.requireActual('utils/utils');
+    return {
+        ...original,
+        getRootPost: jest.fn().mockReturnValue(undefined),
+    };
+});
+
 describe('components/RhsThread', () => {
     const post: Post = TestHelper.getPostMock({
         channel_id: 'channel_id',
@@ -132,5 +140,11 @@ describe('components/RhsThread', () => {
         });
 
         expect(scrollToBottom).not.toHaveBeenCalled();
+    });
+
+    test('should not break if root post is missing', () => {
+        shallow(
+            <RhsThread {...baseProps}/>,
+        );
     });
 });
