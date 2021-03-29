@@ -10,6 +10,8 @@
 // Stage: @prod
 // Group: @messaging
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
 describe('Messaging', () => {
     let testTeam;
     let testUser;
@@ -36,10 +38,11 @@ describe('Messaging', () => {
             cy.visit(`/${testTeam.name}/channels/town-square`);
 
             // # Click on '+' sign to open DM modal
-            cy.uiAddDirectMessage().click();
+            cy.uiAddDirectMessage().click().wait(TIMEOUTS.ONE_SEC);
 
             // # Search for the deactivated user
-            cy.get('#selectItems input').should('be.focused').type(deactivatedUser.email, {force: true});
+            cy.findByRole('dialog', {name: 'Direct Messages'}).should('be.visible').wait(TIMEOUTS.ONE_SEC);
+            cy.findByRole('textbox', {name: 'Search for people'}).should('have.focused').type(deactivatedUser.email);
 
             // * Verify that the inactive user is not found
             cy.get('.no-channel-message').should('be.visible').and('contain', 'No results found matching');
