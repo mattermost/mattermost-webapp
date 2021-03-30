@@ -79,25 +79,25 @@ describe('Archive channel header spec', () => {
         cy.uiArchiveChannel();
 
         // * Rename menu option should not be visible;
-        cy.get('#channelRename').should('be.not.visible');
+        cy.get('#channelRename').should('not.exist');
 
         // * Edit header menu option should not be visible;
-        cy.get('#channelEditHeader').should('be.not.visible');
+        cy.get('#channelEditHeader').should('not.exist');
 
         // * Edit purpose menu option should not be visible;
-        cy.get('#channelEditPurpose').should('be.not.visible');
+        cy.get('#channelEditPurpose').should('not.exist');
 
         // * Convert channel to private menu option should not be visible;
-        cy.get('#channelConvertToPrivate').should('be.not.visible');
+        cy.get('#channelConvertToPrivate').should('not.exist');
 
         // * Archive channel menu option should not be visible;
-        cy.get('#channelArchiveChannel').should('be.not.visible');
+        cy.get('#channelArchiveChannel').should('not.exist');
 
         // * Add members menu option should not be visible;
-        cy.get('#channelAddMembers').should('be.not.visible');
+        cy.get('#channelAddMembers').should('not.exist');
 
         // * Notification preferences option should not be visible;
-        cy.get('#channelNotificationPreferences').should('be.not.visible');
+        cy.get('#channelNotificationPreferences').should('not.exist');
 
         // # Close the channel dropdown menu
         cy.get('#channelHeaderTitle').click();

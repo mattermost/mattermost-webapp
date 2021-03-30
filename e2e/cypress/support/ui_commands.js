@@ -232,10 +232,12 @@ Cypress.Commands.add('compareLastPostHTMLContentFromFile', (file, timeout = TIME
  */
 Cypress.Commands.add('sendDirectMessageToUser', (user, message) => {
     // # Open a new direct message with firstDMUser
-    cy.uiAddDirectMessage().click();
+    cy.uiAddDirectMessage().click().wait(TIMEOUTS.ONE_SEC);
+    cy.findByRole('dialog', {name: 'Direct Messages'}).should('be.visible').wait(TIMEOUTS.ONE_SEC);
 
     // # Type username
-    cy.get('#selectItems input').should('be.enabled').type(`@${user.username}`, {force: true});
+    cy.findByRole('textbox', {name: 'Search for people'}).click({force: true}).
+        type(user.username).wait(TIMEOUTS.ONE_SEC);
 
     // * Expect user count in the list to be 1
     cy.get('#multiSelectList').

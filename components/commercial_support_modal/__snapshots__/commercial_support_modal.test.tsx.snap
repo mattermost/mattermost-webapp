@@ -52,12 +52,17 @@ exports[`components/CommercialSupportModal should match snapshot 1`] = `
       className="CommercialSupportModal"
     >
       <injectIntl(FormattedMarkdownMessage)
-        defaultMessage="If you're experiencing issues, [submit a support ticket.](!https://support.mattermost.com/hc/en-us/requests/new)
+        defaultMessage="If you're experiencing issues, [submit a support ticket.](!{supportLink})
  
 **Download Support Packet**
  
 We recommend that you download additional environment details about your Mattermost environment to help with troubleshooting. Once downloaded, attach the packet to your support ticket to share with our Customer Support team."
         id="commercial_support.description"
+        values={
+          Object {
+            "supportLink": "https://support.mattermost.com/hc/en-us/requests/new",
+          }
+        }
       />
       <a
         className="btn btn-primary DownloadSupportPacket"

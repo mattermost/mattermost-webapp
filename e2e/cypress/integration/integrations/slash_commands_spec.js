@@ -236,7 +236,7 @@ describe('Integrations', () => {
                     should('be.visible').and('have.attr', 'data-expanded', 'false');
 
                 // * Preview should not be visible
-                cy.findByLabelText('file thumbnail').should('not.be.visible');
+                cy.findByLabelText('file thumbnail').should('not.exist');
             });
         });
 

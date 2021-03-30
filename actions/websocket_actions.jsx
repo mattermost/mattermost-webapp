@@ -481,6 +481,9 @@ export function handleEvent(msg) {
     case SocketEvents.CLOUD_PAYMENT_STATUS_UPDATED:
         dispatch(handleCloudPaymentStatusUpdated(msg));
         break;
+    case SocketEvents.FIRST_ADMIN_VISIT_MARKETPLACE_STATUS_RECEIVED:
+        handleFirstAdminVisitMarketplaceStatusReceivedEvent(msg);
+        break;
 
     default:
     }
@@ -1358,4 +1361,9 @@ export function handleUserActivationStatusChange() {
 
 function handleCloudPaymentStatusUpdated() {
     return (doDispatch) => doDispatch(getCloudSubscription());
+}
+
+function handleFirstAdminVisitMarketplaceStatusReceivedEvent(msg) {
+    var receivedData = JSON.parse(msg.data.firstAdminVisitMarketplaceStatus);
+    store.dispatch({type: GeneralTypes.FIRST_ADMIN_VISIT_MARKETPLACE_STATUS_RECEIVED, data: receivedData});
 }

@@ -84,15 +84,15 @@ describe('Integrations', () => {
         // * Assert that search for Alpha (lower-case) returns only Alpha webhook
         cy.visit(`/${testTeam}/integrations/outgoing_webhooks`);
         cy.get('#searchInput').type('alpha');
-        cy.get('.backstage-list__item').should('not.contain', triggerB).should('not.contain', triggerC).contains(triggerA);
+        verifyWebhooksList([Alpha], [Bravo, Charlie]);
 
         // * Assert that search for Bravo (upper-case) returns only Bravo webhook
         cy.get('#searchInput').clear().type('BRAVO');
-        cy.get('.backstage-list__item').should('not.contain', triggerA).should('not.contain', triggerC).contains(triggerB);
+        verifyWebhooksList([Bravo], [Alpha, Charlie]);
 
         // * Assert that search for Charlie (mixed-case, partial) returns only Charlie webhook
         cy.get('#searchInput').clear().type('cHaRl');
-        cy.get('.backstage-list__item').should('not.contain', triggerA).should('not.contain', triggerB).contains(triggerC);
+        verifyWebhooksList([Charlie], [Alpha, Bravo]);
 
         // * Assert that search for random text returns no results
         cy.get('#searchInput').clear().type(missing);
@@ -100,10 +100,20 @@ describe('Integrations', () => {
 
         // * Assert that search for special character text returns only Bravo webhook
         cy.get('#searchInput').clear().type('$');
-        cy.get('.backstage-list__item').should('not.contain', triggerA).should('not.contain', triggerC).contains(triggerB);
+        verifyWebhooksList([Bravo], [Alpha, Charlie]);
 
         // * Assert that a common search term surfaces correct webhooks
         cy.get('#searchInput').clear().type('common');
-        cy.get('.backstage-list__item').contains(Alpha).contains(Charlie).should('not.contain', Bravo);
+        verifyWebhooksList([Alpha, Charlie], [Bravo]);
     });
 });
+
+function verifyWebhooksList(contain = [], notContain = []) {
+    contain.forEach((name) => {
+        cy.get('.backstage-list').findByText(name).should('be.visible');
+    });
+
+    notContain.forEach((name) => {
+        cy.get('.backstage-list').findByText(name).should('not.exist');
+    });
+}

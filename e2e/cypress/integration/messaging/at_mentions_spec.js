@@ -171,7 +171,7 @@ describe('at-mention', () => {
         cy.get('#sidebarItem_town-square').
             scrollIntoView().
             find('#unreadMentions').
-            should('be.not.visible');
+            should('not.exist');
 
         // # Go to the channel where you were messaged
         cy.get('#sidebarItem_town-square').click({force: true});
@@ -210,7 +210,7 @@ describe('at-mention', () => {
             // * Verify unread mentions badge does not exist
             cy.get('#sidebarItem_town-square').
                 find('#unreadMentions').
-                should('be.not.visible');
+                should('not.exist');
 
             // # Go to the channel where you were messaged
             cy.get('#sidebarItem_town-square').click({force: true});
