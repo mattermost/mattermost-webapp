@@ -10,6 +10,8 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId, getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {appsEnabled, makeAppBindingsSelector} from 'mattermost-redux/selectors/entities/apps';
 import {AppBindingLocations} from 'mattermost-redux/constants/apps';
+import {isSystemMessage} from 'mattermost-redux/utils/post_utils';
+import {isCombinedUserActivityPost} from 'mattermost-redux/utils/post_list';
 
 import {ActionFunc, ActionResult, GenericAction} from 'mattermost-redux/types/actions';
 
@@ -62,7 +64,8 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
     const currentTeamUrl = `${getSiteURL()}/${currentTeam.name}`;
 
     const apps = appsEnabled(state);
-    const appBindings = getPostMenuBindings(state);
+    const showBindings = apps && !isSystemMessage(post) && !isCombinedUserActivityPost(post.id);
+    const appBindings = showBindings ? getPostMenuBindings(state) : undefined;
 
     return {
         channelIsArchived: isArchivedChannel(channel),
