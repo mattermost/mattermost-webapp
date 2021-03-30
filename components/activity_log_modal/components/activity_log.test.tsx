@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow, ShallowWrapper} from 'enzyme';
+import {shallow} from 'enzyme';
 import {FormattedMessage} from 'react-intl';
 
 import {General} from 'mattermost-redux/constants';
@@ -33,7 +33,7 @@ describe('components/activity_log_modal/ActivityLog', () => {
     });
 
     test('submitRevoke is called correctly', () => {
-        const wrapper: ShallowWrapper<any, any, ActivityLog> = shallow(
+        const wrapper = shallow<ActivityLog>(
             <ActivityLog {...baseProps}/>,
         );
 
@@ -45,7 +45,7 @@ describe('components/activity_log_modal/ActivityLog', () => {
     });
 
     test('handleMoreInfo updates state correctly', () => {
-        const wrapper: ShallowWrapper<any, any, ActivityLog> = shallow(
+        const wrapper = shallow<ActivityLog>(
             <ActivityLog {...baseProps}/>,
         );
 
@@ -54,7 +54,7 @@ describe('components/activity_log_modal/ActivityLog', () => {
     });
 
     test('should match when isMobileSession is called', () => {
-        const wrapper: ShallowWrapper<any, any, ActivityLog> = shallow(
+        const wrapper = shallow<ActivityLog>(
             <ActivityLog {...baseProps}/>,
         );
 
@@ -65,7 +65,7 @@ describe('components/activity_log_modal/ActivityLog', () => {
     });
 
     test('should match when mobileSessionInfo is called', () => {
-        const wrapper: ShallowWrapper<any, any, ActivityLog> = shallow(
+        const wrapper = shallow<ActivityLog>(
             <ActivityLog {...baseProps}/>,
         );
 
