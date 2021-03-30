@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
+
 import {getFilePublicLink} from 'mattermost-redux/actions/files';
 import * as Selectors from 'mattermost-redux/selectors/entities/files';
 

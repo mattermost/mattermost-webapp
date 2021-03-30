@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
+
 import {getStatusForUserId} from 'mattermost-redux/selectors/entities/users';
 
 import UserListRow from './user_list_row.jsx';
