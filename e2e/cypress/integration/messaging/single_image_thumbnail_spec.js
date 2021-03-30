@@ -52,6 +52,6 @@ function verifySingleImageThumbnail({mode = null} = {}) {
         cy.get('img[src*="preview"]').should('be.visible');
         cy.findByLabelText('Toggle Embed Visibility').should('exist').and('have.attr', 'data-expanded', 'true').click();
         cy.findByLabelText('Toggle Embed Visibility').should('exist').and('have.attr', 'data-expanded', 'false');
-        cy.get('img[src*="preview"]').should('not.be.visible');
+        cy.get('img[src*="preview"]').should('not.exist');
     });
 }

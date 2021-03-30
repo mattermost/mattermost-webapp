@@ -50,15 +50,15 @@ describe('Pinned posts part 2', () => {
             cy.get(`#CENTER_commentIcon_${postId}`).click({force: true});
 
             // * Verify that pinned icon is there both in center and RHS
-            cy.get(`#rhsPost_${postId} .post-pre-header`).should('have.text', 'Pinned');
-            cy.get(`#post_${postId} .post-pre-header`).should('have.text', 'Pinned');
+            cy.get(`#rhsPost_${postId}`).find('.post-pre-header').should('be.visible').and('have.text', 'Pinned');
+            cy.get(`#post_${postId}`).find('.post-pre-header').should('be.visible').and('have.text', 'Pinned');
 
             // # Un-pin the post from RHS
             unpinPost(postId);
 
             // * Verify that pinned icon is gone from center and RHS
-            cy.get(`#rhsPost_${postId} .post-pre-header`).should('not.have.text', 'Pinned');
-            cy.get(`#post_${postId} .post-pre-header`).should('not.have.text', 'Pinned');
+            cy.get(`#rhsPost_${postId}`).find('.post-pre-header').should('not.exist');
+            cy.get(`#post_${postId}`).find('.post-pre-header').should('not.exist');
 
             // # Click pin icon
             cy.get('#channelHeaderPinButton').should('be.visible').click();
