@@ -42,7 +42,7 @@
         ul {
             white-space: normal;
         }
-        box-shadow: none;
+
         left: 0;
         position: relative;
         top: 0;
@@ -1786,12 +1786,12 @@
             background: linear-gradient(transparent, var(--pinned-highlight-bg-mixed-rgb));
             position: relative;
         }
-        
+
         .post-collapse__show-more, .post-attachment-collapse__show-more {
             background: var(--pinned-highlight-bg-mixed-rgb);
             pointer-events: auto;
-        }    
-    
+        }
+
     }
 }
 
