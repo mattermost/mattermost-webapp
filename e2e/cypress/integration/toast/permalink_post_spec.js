@@ -28,7 +28,7 @@ describe('Toast', () => {
             const permalink = `${Cypress.config('baseUrl')}/${testTeam.name}/pl/${id}`;
 
             // # Check if ... button is visible in last post right side
-            cy.get(`#CENTER_button_${id}`).should('not.be.visible');
+            cy.get(`#CENTER_button_${id}`).should('not.exist');
 
             // # Click on ... button of last post
             cy.clickPostDotMenu(id);

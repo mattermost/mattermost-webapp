@@ -45,7 +45,7 @@ describe('Delete Parent Message', () => {
 
             cy.getLastPostId().then((replyPostId) => {
                 // * No delete modal should be visible yet
-                cy.get('#deletePostModal').should('not.be.visible');
+                cy.get('#deletePostModal').should('not.exist');
 
                 // #Close RHS view, open delete confirmation modal for the parent message from the center screen
                 cy.get('#sbrSidebarCollapse').click();
@@ -60,9 +60,9 @@ describe('Delete Parent Message', () => {
                 cy.get('#deletePostModalButton').click({force: true});
 
                 // * Post is deleted from both center and RHS is not visible to the user who deleted it
-                cy.get('#rhsContainer').should('not.be.visible');
-                cy.get(`#post_${postId}`).should('not.be.visible');
-                cy.get(`#post_${replyPostId}`).should('not.be.visible');
+                cy.get('#rhsContainer').should('not.exist');
+                cy.get(`#post_${postId}`).should('not.exist');
+                cy.get(`#post_${replyPostId}`).should('not.exist');
             });
         });
     });
