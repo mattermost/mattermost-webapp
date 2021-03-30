@@ -19,6 +19,7 @@ import AdminNavbarDropdown from './admin_navbar_dropdown';
 function mapStateToProps(state: GlobalState) {
     const license = getLicense(state);
     const isLicensed = license.IsLicensed === 'true';
+    const isCloud = license.Cloud === 'true';
 
     return {
         locale: getCurrentLocale(state),
@@ -26,6 +27,7 @@ function mapStateToProps(state: GlobalState) {
         siteName: getConfig(state).SiteName,
         navigationBlocked: getNavigationBlocked(state),
         isLicensed,
+        isCloud,
     };
 }
 

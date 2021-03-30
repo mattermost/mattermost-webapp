@@ -41,7 +41,7 @@ describe('Prompting set status', () => {
 
         // * Your status stays offline in your view
         cy.get('.offline--icon').should('be.visible');
-        cy.get('.online--icon').should('not.be.visible');
+        cy.get('.online--icon').should('not.exist');
 
         // # Log out
         cy.apiLogout();
@@ -53,7 +53,7 @@ describe('Prompting set status', () => {
         // * Your status stays offline in other users' views.
         cy.get('#channelHeaderInfo').within(() => {
             cy.get('.offline--icon').should('be.visible');
-            cy.get('.online--icon').should('not.be.visible');
+            cy.get('.online--icon').should('not.exist');
             cy.findByText('Offline').should('be.visible');
         });
         cy.apiGetUserStatus(`${user1.id}`).then((result) => {
@@ -72,7 +72,7 @@ describe('Prompting set status', () => {
 
         // * Your status stays offline in your view
         cy.get('.offline--icon').should('be.visible');
-        cy.get('.online--icon').should('not.be.visible');
+        cy.get('.online--icon').should('not.exist');
 
         // * Your status stays offline in other users' views.
         cy.apiLogin(user2);
@@ -82,7 +82,7 @@ describe('Prompting set status', () => {
         // * Your status stays offline in other users' views.
         cy.get('#channelHeaderInfo').within(() => {
             cy.get('.offline--icon').should('be.visible');
-            cy.get('.online--icon').should('not.be.visible');
+            cy.get('.online--icon').should('not.exist');
             cy.findByText('Offline').should('be.visible');
         });
         cy.apiGetUserStatus(`${user1.id}`).then((result) => {
