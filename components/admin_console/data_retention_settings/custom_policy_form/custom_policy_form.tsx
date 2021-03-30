@@ -31,16 +31,16 @@ import {browserHistory} from 'utils/browser_history';
 
 type Props = {
     policyId?: string;
-    policy?: DataRetentionCustomPolicy;
+    policy?: DataRetentionCustomPolicy | null;
     actions: {
         fetchPolicy: (id: string) => Promise<{ data: DataRetentionCustomPolicy; error?: Error }>;
         fetchPolicyTeams: (id: string, page: number, perPage: number) => Promise<{ data: Team[]; error?: Error }>;
         createDataRetentionCustomPolicy: (policy: CreateDataRetentionCustomPolicy) => Promise<{ data: DataRetentionCustomPolicy; error?: Error }>;
         updateDataRetentionCustomPolicy: (id: string, policy: PatchDataRetentionCustomPolicy) => Promise<{ data: DataRetentionCustomPolicy; error?: Error }>;
-        addDataRetentionCustomPolicyTeams: (id: string, policy: string[]) => Promise<{ data: Team[]; error?: Error }>;
-        removeDataRetentionCustomPolicyTeams: (id: string, policy: string[]) => Promise<{ data: Team[]; error?: Error }>;
-        addDataRetentionCustomPolicyChannels: (id: string, policy: string[]) => Promise<{ data: ChannelWithTeamData[]; error?: Error }>;
-        removeDataRetentionCustomPolicyChannels: (id: string, policy: string[]) => Promise<{ data: ChannelWithTeamData[]; error?: Error }>;
+        addDataRetentionCustomPolicyTeams: (id: string, policy: string[]) => Promise<{ data?: {status: string}; error?: Error }>;
+        removeDataRetentionCustomPolicyTeams: (id: string, policy: string[]) => Promise<{ data?: {status: string}; error?: Error }>;
+        addDataRetentionCustomPolicyChannels: (id: string, policy: string[]) => Promise<{ data?: {status: string}; error?: Error }>;
+        removeDataRetentionCustomPolicyChannels: (id: string, policy: string[]) => Promise<{ data?: {status: string}; error?: Error }>;
         setNavigationBlocked: (blocked: boolean) => void;
     };
     teams?: Team[];

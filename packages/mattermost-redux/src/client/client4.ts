@@ -101,8 +101,6 @@ import {
     DataRetentionCustomPolicies,
     CreateDataRetentionCustomPolicy,
     PatchDataRetentionCustomPolicy,
-    PatchDataRetentionCustomPolicyTeams,
-    PatchDataRetentionCustomPolicyChannels,
     GetDataRetentionCustomPoliciesRequest,
 } from 'mattermost-redux/types/data_retention';
 
@@ -2725,28 +2723,28 @@ export default class Client4 {
             {method: 'PATCH', body: JSON.stringify(policy)},
         );
     };
-    addDataRetentionPolicyTeams = (id: string, policy: PatchDataRetentionCustomPolicyTeams) => {
+    addDataRetentionPolicyTeams = (id: string, teams: string[]) => {
         return this.doFetch<DataRetentionCustomPolicies>(
             `${this.getDataRetentionRoute()}/policies/${id}/teams`,
-            {method: 'post', body: JSON.stringify(policy)},
+            {method: 'post', body: JSON.stringify(teams)},
         );
     };
-    removeDataRetentionPolicyTeams = (id: string, policy: PatchDataRetentionCustomPolicyTeams) => {
+    removeDataRetentionPolicyTeams = (id: string, teams: string[]) => {
         return this.doFetch<DataRetentionCustomPolicies>(
             `${this.getDataRetentionRoute()}/policies/${id}/teams`,
-            {method: 'delete', body: JSON.stringify(policy)},
+            {method: 'delete', body: JSON.stringify(teams)},
         );
     };
-    addDataRetentionPolicyChannels = (id: string, policy: PatchDataRetentionCustomPolicyChannels) => {
+    addDataRetentionPolicyChannels = (id: string, channels: string[]) => {
         return this.doFetch<DataRetentionCustomPolicies>(
             `${this.getDataRetentionRoute()}/policies/${id}/channels`,
-            {method: 'post', body: JSON.stringify(policy)},
+            {method: 'post', body: JSON.stringify(channels)},
         );
     };
-    removeDataRetentionPolicyChannels = (id: string, policy: PatchDataRetentionCustomPolicyChannels) => {
+    removeDataRetentionPolicyChannels = (id: string, channels: string[]) => {
         return this.doFetch<DataRetentionCustomPolicies>(
             `${this.getDataRetentionRoute()}/policies/${id}/channels`,
-            {method: 'delete', body: JSON.stringify(policy)},
+            {method: 'delete', body: JSON.stringify(channels)},
         );
     };
 

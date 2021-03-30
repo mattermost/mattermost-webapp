@@ -4,14 +4,14 @@
 import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
-import {getDataRetentionCustomPolicyChannels, searchDataRetentionCustomPolicyChannels} from 'mattermost-redux/actions/admin';
+import {getDataRetentionCustomPolicyChannels, searchDataRetentionCustomPolicyChannels as searchChannels} from 'mattermost-redux/actions/admin';
 import {getChannelsInPolicy, searchChannelsInPolicy} from 'mattermost-redux/selectors/entities/channels';
 import {getDataRetentionCustomPolicy} from 'mattermost-redux/selectors/entities/admin';
 import {filterChannelsMatchingTerm, channelListToMap} from 'mattermost-redux/utils/channel_utils';
 
 import {ActionFunc, ActionResult, GenericAction} from 'mattermost-redux/types/actions';
 
-import {Channel, ChannelSearchOpts} from 'mattermost-redux/types/channels';
+import {Channel, ChannelSearchOpts, ChannelWithTeamData} from 'mattermost-redux/types/channels';
 
 import {GlobalState} from 'types/store';
 
@@ -23,12 +23,12 @@ import ChannelList from './channel_list';
 
 type OwnProps = {
     policyId?: string;
-    channelsToAdd: Dictionary<Channel>;
+    channelsToAdd: Dictionary<ChannelWithTeamData>;
 }
 
 type Actions = {
-    searchDataRetentionCustomPolicyChannels: (id: string, term: string, opts: ChannelSearchOpts) => Promise<{ data: Channel[] }>;
-    getDataRetentionCustomPolicyChannels: (id: string, page: number, perPage: number) => Promise<{ data: Channel[] }>;
+    searchChannels: (id: string, term: string, opts: ChannelSearchOpts) => Promise<{ data: ChannelWithTeamData[] }>;
+    getDataRetentionCustomPolicyChannels: (id: string, page: number, perPage: number) => Promise<{ data: ChannelWithTeamData[] }>;
     setChannelListSearch: (term: string) => ActionResult;
     setChannelListFilters: (filters: ChannelSearchOpts) => ActionResult;
 }
@@ -43,7 +43,7 @@ function mapStateToProps() {
     return (state: GlobalState, ownProps: OwnProps) => {
         let {channelsToAdd} = ownProps;
 
-        let channels: Channel[] = [];
+        let channels: ChannelWithTeamData[] = [];
         let totalCount = 0;
         const policyId = ownProps.policyId;
         const policy = policyId ? getDataRetentionCustomPolicy(state, policyId) || {} as DataRetentionCustomPolicy : {} as DataRetentionCustomPolicy;
@@ -51,11 +51,11 @@ function mapStateToProps() {
         const filters = state.views.search.channelListSearch?.filters || {};
 
         if (searchTerm) {
-            channels = policyId ? searchChannelsInPolicy(state, policyId, searchTerm, filters) : [];
-            channelsToAdd = searchChannelsToAdd(channelsToAdd, searchTerm);
+            channels = policyId ? searchChannelsInPolicy(state, policyId, searchTerm, filters) as ChannelWithTeamData[] : [];
+            channelsToAdd = searchChannelsToAdd(channelsToAdd, searchTerm) as Dictionary<ChannelWithTeamData>;
             totalCount = channels.length;
         } else {
-            channels = policyId ? getPolicyChannels(state, {policyId}) : [];
+            channels = policyId ? getPolicyChannels(state, {policyId}) as ChannelWithTeamData[] : [];
             if (policy && policy.channel_count) {
                 totalCount = policy.channel_count;
             }
@@ -74,7 +74,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc | GenericAction>, Actions>({
             getDataRetentionCustomPolicyChannels,
-            searchChannels: searchDataRetentionCustomPolicyChannels,
+            searchChannels,
             setChannelListSearch,
             setChannelListFilters,
         }, dispatch),

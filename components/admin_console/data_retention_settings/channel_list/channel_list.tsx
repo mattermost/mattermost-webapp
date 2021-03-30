@@ -5,7 +5,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {Constants} from 'utils/constants';
-import {ChannelSearchOpts, ChannelWithTeamData as Channel} from 'mattermost-redux/types/channels';
+import {ChannelSearchOpts, ChannelWithTeamData} from 'mattermost-redux/types/channels';
 import {Dictionary} from 'mattermost-redux/types/utilities';
 
 import DataGrid, {Column, Row} from 'components/admin_console/data_grid/data_grid';
@@ -20,21 +20,21 @@ import {isArchivedChannel} from 'utils/channel_utils';
 import {ActionResult} from 'mattermost-redux/types/actions';
 
 type Props = {
-    channels: Channel[];
+    channels: ChannelWithTeamData[];
     totalCount: number;
     searchTerm: string;
     filters: ChannelSearchOpts;
 
     policyId: string | undefined;
 
-    onRemoveCallback: (channel: Channel) => void;
-    onAddCallback: (channels: Channel[]) => void;
-    channelsToRemove: Dictionary<Channel>;
-    channelsToAdd: Dictionary<Channel>;
+    onRemoveCallback: (channel: ChannelWithTeamData) => void;
+    onAddCallback: (channels: ChannelWithTeamData[]) => void;
+    channelsToRemove: Dictionary<ChannelWithTeamData>;
+    channelsToAdd: Dictionary<ChannelWithTeamData>;
 
     actions: {
-        searchChannels: (id: string, term: string, opts: ChannelSearchOpts) => Promise<{ data: Channel[] }>;
-        getDataRetentionCustomPolicyChannels: (id: string, page: number, perPage: number) => Promise<{ data: Channel[] }>;
+        searchChannels: (id: string, term: string, opts: ChannelSearchOpts) => Promise<{ data: ChannelWithTeamData[] }>;
+        getDataRetentionCustomPolicyChannels: (id: string, page: number, perPage: number) => Promise<{ data: ChannelWithTeamData[] }>;
         setChannelListSearch: (term: string) => ActionResult;
         setChannelListFilters: (filters: ChannelSearchOpts) => ActionResult;
     };
@@ -45,7 +45,7 @@ type State = {
     page: number;
 }
 const PAGE_SIZE = 10;
-export default class TeamList extends React.PureComponent<Props, State> {
+export default class ChannelList extends React.PureComponent<Props, State> {
     private searchTimeoutId: number;
     private pageLoaded = 0;
     public constructor(props: Props) {
@@ -120,7 +120,7 @@ export default class TeamList extends React.PureComponent<Props, State> {
         return {startCount, endCount, total};
     }
 
-    private removeTeam = (channel: Channel) => {
+    private removeChannel = (channel: ChannelWithTeamData) => {
         const {channelsToRemove} = this.props;
         if (channelsToRemove[channel.id] === channel) {
             return;
@@ -224,7 +224,7 @@ export default class TeamList extends React.PureComponent<Props, State> {
                             data-testid={`${channel.display_name}edit`}
                             className='group-actions TeamList_editText'
                             onClick={() => {
-                                this.removeTeam(channel);
+                                this.removeChannel(channel);
                             }}
                         >
                             <FormattedMessage

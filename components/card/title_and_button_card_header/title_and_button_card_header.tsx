@@ -7,7 +7,7 @@ type Props = {
     title: React.ReactNode;
     subtitle?: React.ReactNode;
     buttonText?: React.ReactNode;
-    onClick?: () => void;
+    onClick?: (e?: React.SyntheticEvent) => void | Promise<void>;
 };
 
 // This component can be used in the card header

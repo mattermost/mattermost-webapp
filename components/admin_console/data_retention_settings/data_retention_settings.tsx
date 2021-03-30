@@ -17,7 +17,7 @@ import JobsTable from 'components/admin_console/jobs';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 import {browserHistory} from 'utils/browser_history';
-import {Job, JobType} from 'mattermost-redux/types/jobs';
+import {JobTypeBase, JobType} from 'mattermost-redux/types/jobs';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import './data_retention_settings.scss';
 
@@ -27,7 +27,7 @@ type Props = {
     customPoliciesCount: number;
     actions: {
         getDataRetentionCustomPolicies: (page: number) => Promise<{ data: DataRetentionCustomPolicies }>;
-        createJob: (job: Job) => Promise<{ data: any }>;
+        createJob: (job: JobTypeBase) => Promise<{ data: any }>;
         getJobsByType: (job: JobType) => Promise<{ data: any}>;
         deleteDataRetentionCustomPolicy: (id: string) => Promise<ActionResult>;
         updateConfig: (config: Record<string, any>) => Promise<{ data: any}>;
@@ -42,7 +42,7 @@ type State = {
 }
 const PAGE_SIZE = 10;
 export default class DataRetentionSettings extends React.PureComponent<Props, State> {
-    inputRef: RefObject<HTMLSelectElement>;
+    inputRef: RefObject<ReactSelect>;
     constructor(props: Props) {
         super(props);
         this.inputRef = createRef();
@@ -274,14 +274,14 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
         }
     }
 
-    handleCreateJob = async (e: any) => {
-        e.preventDefault();
+    handleCreateJob = async (e?: React.SyntheticEvent) => {
+        e?.preventDefault();
         const job = {
-            type: JobTypes.DATA_RETENTION,
+            type: JobTypes.DATA_RETENTION as JobType,
         };
 
         await this.props.actions.createJob(job);
-        await this.props.actions.getJobsByType(JobTypes.DATA_RETENTION);
+        await this.props.actions.getJobsByType(JobTypes.DATA_RETENTION as JobType);
     };
 
     getJobTimeOptions = () => {

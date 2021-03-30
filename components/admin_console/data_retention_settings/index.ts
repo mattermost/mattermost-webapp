@@ -14,14 +14,14 @@ import {createJob, getJobsByType} from 'mattermost-redux/actions/jobs';
 
 import {GlobalState} from 'types/store';
 
-import {Job, JobType} from 'mattermost-redux/types/jobs';
+import {JobTypeBase, JobType} from 'mattermost-redux/types/jobs';
 
 import DataRetentionSettings from './data_retention_settings';
 
 type Actions = {
     getDataRetentionCustomPolicies: () => Promise<{ data: DataRetentionCustomPolicies}>;
     deleteDataRetentionCustomPolicy: (id: string) => Promise<ActionResult>;
-    createJob: (job: Job) => Promise<{ data: any}>;
+    createJob: (job: JobTypeBase) => Promise<{ data: any}>;
     getJobsByType: (job: JobType) => Promise<{ data: any}>;
     updateConfig: (config: Record<string, any>) => Promise<{ data: any}>;
 };

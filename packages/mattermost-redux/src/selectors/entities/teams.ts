@@ -321,9 +321,6 @@ export function makeGetBadgeCountForTeamId(): (state: GlobalState, id: string) =
     );
 }
 
-export function searchTeamsInPolicy(state: GlobalState, term: string): Team[] {
-    const teamDictionary = getTeamsInPolicy(state);
-    const teams = filterTeamsStartingWithTerm(Object.keys(teamDictionary).map((key) => teamDictionary[key]), term);
-
-    return teams;
+export function searchTeamsInPolicy(teams: Team[], term: string): Team[] {
+    return filterTeamsStartingWithTerm(teams, term);
 }
