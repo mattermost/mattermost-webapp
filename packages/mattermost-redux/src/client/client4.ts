@@ -2316,14 +2316,14 @@ export default class Client4 {
 
     setFirstAdminVisitMarketplaceStatus = async () => {
         return this.doFetch<StatusOK>(
-            `${this.getBaseRoute()}/marketplace/first_admin_visit`,
+            `${this.getPluginsRoute()}/marketplace/first_admin_visit`,
             {method: 'post', body: JSON.stringify({first_admin_visit_marketplace_status: true})},
         );
     }
 
     getFirstAdminVisitMarketplaceStatus = async () => {
         return this.doFetch<SystemSetting>(
-            `${this.getBaseRoute()}/marketplace/first_admin_visit`,
+            `${this.getPluginsRoute()}/marketplace/first_admin_visit`,
             {method: 'get'},
         );
     };
