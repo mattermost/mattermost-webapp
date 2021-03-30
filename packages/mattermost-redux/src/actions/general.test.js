@@ -196,7 +196,7 @@ describe('Actions.General', () => {
             value: 'false',
         };
 
-        nock(Client4.getBaseRoute()).
+        nock(Client4.getPluginsRoute()).
             get('/marketplace/first_admin_visit').
             query(true).
             reply(200, responseData);
@@ -207,7 +207,7 @@ describe('Actions.General', () => {
     });
 
     it('setFirstAdminVisitMarketplaceStatus', async () => {
-        nock(Client4.getBaseRoute()).
+        nock(Client4.getPluginsRoute()).
             post('/marketplace/first_admin_visit').
             reply(200, OK_RESPONSE);
 
