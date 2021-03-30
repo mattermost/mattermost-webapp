@@ -38,8 +38,8 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
         // # Type CTRL/CMD+shift+L
         cy.findByRole('textbox', {name: 'quick switch input'}).cmdOrCtrlShortcut('{shift}L');
 
-        // * Suggestion list should be visible
-        cy.get('#suggestionList').should('not.be.visible');
+        // * Suggestion list should not be visible
+        cy.get('#suggestionList').should('not.exist');
 
         // * focus should be on the input box
         cy.get('#post_textbox').should('be.focused');
@@ -58,8 +58,8 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
         // # Type CTRL/CMD+shift+m
         cy.findByRole('textbox', {name: 'quick switch input'}).cmdOrCtrlShortcut('{shift}M');
 
-        // * Suggestion list should be visible
-        cy.get('#suggestionList').should('not.be.visible');
+        // * Suggestion list should not be visible
+        cy.get('#suggestionList').should('not.exist');
 
         // * searchbox should appear
         cy.get('#searchBox').should('have.attr', 'value', `${testUser.username} @${testUser.username} `);

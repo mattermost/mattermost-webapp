@@ -3914,6 +3914,7 @@
   "signup_user_completed.usernameLength": "Kullanıcı adları bir küçük harf ile başlamalı ve {min} ile {max} karakter arasında bir uzunluğa sahip olmalıdır. Küçük harfleri, rakamları, nokta, tire ve alt çizgi karakterlerini kullanabilirsiniz.",
   "signup_user_completed.validEmail": "Lütfen geçerli bir e-posta adresi yazın",
   "signup_user_completed.whatis": "E-posta adresiniz nedir?",
+  "someting.string": "varsayilanDizge",
   "status_dropdown.custom_status.tooltip_clear": "Temizle",
   "status_dropdown.menuAriaLabel": "durumu ayarla",
   "status_dropdown.set_away": "Uzakta",
