@@ -1,0 +1,205 @@
+
+import React from 'react';
+import {FormattedMessage} from 'react-intl';
+
+import {trackEvent} from 'actions/telemetry_actions';
+
+import AlertBanner from 'components/alert_banner';
+
+import privateCloudImage from 'images/private-cloud-image.svg';
+
+import BlockableLink from 'components/admin_console/blockable_link';
+
+export const contactSalesCard = (contactSalesLink: any, typeSubscription: string, isPaidTier: boolean) => {
+    if (typeSubscription === 'CLOUD_ENTERPRISE') {
+        return;
+    }
+    return (
+        <div className='PrivateCloudCard'>
+            <div className='PrivateCloudCard__text'>
+                <div className='PrivateCloudCard__text-title'>
+                    {!isPaidTier &&
+                        <FormattedMessage
+                            id='admin.billing.subscription.privateCloudCard.title'
+                            defaultMessage='Looking for a high-trust private cloud?'
+                        />
+                    }
+                    {typeSubscription === 'FREE_TRIAL' &&
+                        <FormattedMessage
+                        id='admin.billing.subscription.privateCloudCard.freeTrial.title'
+                        defaultMessage='Questions about your trial?'
+                        />
+                    }
+
+                    {typeSubscription === 'CLOUD_STARTER' &&
+                        <FormattedMessage
+                        id='admin.billing.subscription.privateCloudCard.cloudStarter.title'
+                        defaultMessage='Upgrade to Cloud Enterprise for a more secure option'
+                        />
+                    }
+
+                    {typeSubscription === 'CLOUD_PROFESSIONAL' &&
+                        <FormattedMessage
+                        id='admin.billing.subscription.privateCloudCard.cloudProfessional.title'
+                        defaultMessage='Looking for an annual discount? '
+                        />
+                    }
+                </div>
+                <div className='PrivateCloudCard__text-description'>
+                    {!isPaidTier && <FormattedMessage
+                        id='admin.billing.subscription.privateCloudCard.description'
+                        defaultMessage='If you need software with dedicated, single-tenant architecture, Mattermost Private Cloud (Beta) is the solution for high-trust collaboration.'
+                    />}
+                    {typeSubscription === 'FREE_TRIAL' && <FormattedMessage
+                        id='admin.billing.subscription.privateCloudCard.freeTrial.description'
+                        defaultMessage='We love to work with our customers and their needs. Contact sales for subscription, billing or trial-specific questions.'
+                    />}
+                    {typeSubscription === 'CLOUD_STARTER' && <FormattedMessage
+                        id='admin.billing.subscription.privateCloudCard.cloudStarter.description'
+                        defaultMessage='Optimize your processes with VPC Peering, a dedicated AWS account and premium support.'
+                    />}
+                    {typeSubscription === 'CLOUD_PROFESSIONAL' && <FormattedMessage
+                        id='admin.billing.subscription.privateCloudCard.cloudProfessional.description'
+                        defaultMessage='We love to work with our customers and their needs. If you are looking to purchase annually for a discount, reach out to our sales team.'
+                    />}
+
+                </div>
+                <a
+                    href={contactSalesLink}
+                    rel='noopener noreferrer'
+                    target='_new'
+                    className='PrivateCloudCard__contactSales'
+                    onClick={() => trackEvent('cloud_admin', 'click_contact_sales')}
+                >
+                    <FormattedMessage
+                        id='admin.billing.subscription.privateCloudCard.contactSales'
+                        defaultMessage='Contact Sales'
+                    />
+                </a>
+            </div>
+            <div className='PrivateCloudCard__image'>
+                <img src={privateCloudImage}/>
+            </div>
+        </div>
+    );
+}
+
+export const cancelSubscription = (cancelAccountLink: any, typeSubscription: string, isPaidTier: boolean) => {
+    if (typeSubscription === 'FREE_TRIAL' || !isPaidTier) {
+        return;
+    }
+    return (
+        <div className='cancelSubscriptionSection'>
+            <div className='cancelSubscriptionSection__text'>
+                <div className='cancelSubscriptionSection__text-title'>
+                    <FormattedMessage
+                        id='admin.billing.subscription.cancelSubscriptionSection.title'
+                        defaultMessage='Cancel your subscription'
+                    />
+                </div>
+                <div className='cancelSubscriptionSection__text-description'>
+                    <FormattedMessage
+                        id='admin.billing.subscription.cancelSubscriptionSection.description'
+                        defaultMessage='At this time, deleting a workspace can only be done with the help of a customer support representative.'
+                    />
+                </div>
+                <a
+                    href={cancelAccountLink}
+                    rel='noopener noreferrer'
+                    target='_new'
+                    className='cancelSubscriptionSection__contactUs'
+                    onClick={() => trackEvent('cloud_admin', 'click_contact_us')}
+                >
+                    <FormattedMessage
+                        id='admin.billing.subscription.cancelSubscriptionSection.contactUs'
+                        defaultMessage='Contact Us'
+                    />
+                </a>
+            </div>
+        </div>
+    );
+};
+
+export const infoBanner = (handleHide: () => void) => {
+    return (
+        <AlertBanner
+            mode='info'
+            title={<FormattedMessage
+                id='billing.subscription.info.headsup'
+                defaultMessage='Just a heads up'
+            />}
+            message={<FormattedMessage
+                id='billing.subscription.info.headsup.description'
+                defaultMessage='You’re nearing the user limit with the free tier of Mattermost Cloud. We’ll let you know if you hit that limit.'
+            />}
+            onDismiss={() => handleHide()}
+        />
+    )
+}
+
+export const creditCardExpiredBanner = (setShowCreditCardBanner: (value: boolean) => void) => {
+    return (
+        <AlertBanner
+            mode='danger'
+            title={
+                <FormattedMessage
+                    id='admin.billing.subscription.creditCardHasExpired'
+                    defaultMessage='Your credit card has expired'
+                />
+            }
+            message={
+                <>
+                    <FormattedMessage
+                        id='admin.billing.subscription.creditCardHasExpired.please'
+                        defaultMessage='Please '
+                    />
+                    <BlockableLink
+                        to='/admin_console/billing/payment_info'
+                    >
+                        <FormattedMessage
+                            id='admin.billing.subscription.creditCardHasExpired.description.updatePaymentInformation'
+                            defaultMessage='update your payment information'
+                        />
+                    </BlockableLink>
+                    <FormattedMessage
+                        id='admin.billing.subscription.creditCardHasExpired.description.avoidAnyDisruption'
+                        defaultMessage=' to avoid any disruption.'
+                    />
+                </>
+            }
+            onDismiss={() => setShowCreditCardBanner(false)}
+        />
+    )
+}
+
+export const paymentFailedBanner = () => {
+    return (
+        <AlertBanner
+            mode='danger'
+            title={<FormattedMessage
+                id='billing.subscription.info.mostRecentPaymentFailed'
+                defaultMessage='Your most recent payment failed'
+            />}
+            message={
+                <>
+                    <FormattedMessage
+                        id='billing.subscription.info.mostRecentPaymentFailed.description.mostRecentPaymentFailed'
+                        defaultMessage='It looks your most recent payment failed because the credit card on your account has expired. Please '
+                    />
+                    <BlockableLink
+                        to='/admin_console/billing/payment_info'
+                    >
+                        <FormattedMessage
+                            id='billing.subscription.info.mostRecentPaymentFailed.description.updatePaymentInformation'
+                            defaultMessage='update your payment information'
+                        />
+                    </BlockableLink>
+                    <FormattedMessage
+                        id='billing.subscription.info.mostRecentPaymentFailed.description.avoidAnyDisruption'
+                        defaultMessage=' to avoid any disruption.'
+                    />
+                </>
+            }
+        />
+    )
+}
