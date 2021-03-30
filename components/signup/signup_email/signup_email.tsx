@@ -26,7 +26,19 @@ import SiteNameAndDescription from 'components/common/site_name_and_description'
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
-import {Actions} from 'components/signup/signup_email/index';
+type TeamInviteInfo = {
+    display_name: string;
+    description: string;
+    name: string;
+    id: string;
+};
+
+export type Actions = {
+    createUser: (user: UserProfile, token: string, inviteId: string, redirect: string) => Promise<{data: UserProfile} | {error: ServerError}>;
+    loginById: (id: string, password: string, mfaToken?: string) => Promise<{data: boolean} | {error: ServerError}>;
+    setGlobalItem: (name: string, value: string) => {data: boolean};
+    getTeamInviteInfo: (inviteId: string) => Promise<{data: TeamInviteInfo} | {error: ServerError}>;
+};
 
 export type PasswordConfig = {
     minimumLength: number;
@@ -39,7 +51,7 @@ export type PasswordConfig = {
 export type Props = {
     location?: {search: string};
     enableSignUpWithEmail: boolean;
-    siteName: string | '';
+    siteName?: string;
     termsOfServiceLink?: string;
     privacyPolicyLink?: string;
     customDescriptionText?: string;
@@ -109,7 +121,7 @@ export default class SignupEmail extends React.PureComponent<Props, State> {
     componentDidMount() {
         trackEvent('signup', 'signup_user_01_welcome');
 
-        this.setDocumentTitle(this.props.siteName);
+        this.setDocumentTitle(this.props.siteName!);
 
         const {inviteId} = this.state;
         if (inviteId && inviteId.length > 0) {
@@ -122,7 +134,7 @@ export default class SignupEmail extends React.PureComponent<Props, State> {
     }
 
     componentDidUpdate() {
-        this.setDocumentTitle(this.props.siteName);
+        this.setDocumentTitle(this.props.siteName!);
     }
 
     setDocumentTitle = (siteName: string) => {
