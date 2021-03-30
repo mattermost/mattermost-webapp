@@ -52,7 +52,7 @@ describe('Notifications', () => {
         cy.postMessageReplyInRHS(message);
 
         // * 'Jump to New Messages' is not visible
-        cy.get('.toast__visible').should('not.be.visible');
+        cy.get('.toast__visible').should('not.exist');
 
         // * Message gets posted in Town Square
         cy.uiWaitUntilMessagePostedIncludes(message);

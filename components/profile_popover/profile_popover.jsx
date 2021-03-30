@@ -56,6 +56,8 @@ class ProfilePopover extends React.PureComponent {
          */
         user: PropTypes.object,
 
+        channelId: PropTypes.string,
+
         /**
          * Status for the user, either 'offline', 'away', 'dnd' or 'online'
          */
@@ -156,7 +158,10 @@ class ProfilePopover extends React.PureComponent {
     }
 
     componentDidMount() {
-        this.props.actions.getMembershipForCurrentEntities(this.props.userId);
+        const {currentTeamId, userId, channelId} = this.props;
+        if (currentTeamId && userId) {
+            this.props.actions.getMembershipForCurrentEntities(currentTeamId, userId, channelId);
+        }
     }
 
     handleShowDirectChannel = (e) => {
@@ -312,6 +317,7 @@ class ProfilePopover extends React.PureComponent {
         const popoverProps = Object.assign({}, this.props);
         delete popoverProps.user;
         delete popoverProps.userId;
+        delete popoverProps.channelId;
         delete popoverProps.src;
         delete popoverProps.status;
         delete popoverProps.hideStatus;
@@ -333,8 +339,7 @@ class ProfilePopover extends React.PureComponent {
         const {formatMessage} = this.props.intl;
 
         var dataContent = [];
-        const urlSrc = this.props.overwriteIcon ?
-            this.props.overwriteIcon : this.props.src;
+        const urlSrc = this.props.overwriteIcon ? this.props.overwriteIcon : this.props.src;
 
         dataContent.push(
             <Avatar
