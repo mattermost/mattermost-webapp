@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {createSelector} from 'reselect';
+
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {

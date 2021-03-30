@@ -3,6 +3,7 @@
 
 import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
+
 import {getCustomEmojiIdsSortedByName} from 'mattermost-redux/selectors/entities/emojis';
 import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 import {getCustomEmojis, searchCustomEmojis} from 'mattermost-redux/actions/emojis';

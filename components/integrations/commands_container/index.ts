@@ -3,6 +3,7 @@
 
 import {connect} from 'react-redux';
 import {AnyAction, bindActionCreators, Dispatch} from 'redux';
+
 import {getCommands} from 'mattermost-redux/selectors/entities/integrations';
 import {getUsers} from 'mattermost-redux/selectors/entities/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';

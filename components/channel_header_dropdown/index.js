@@ -3,6 +3,7 @@
 
 import {connect} from 'react-redux';
 import {createSelector} from 'reselect';
+
 import {
     getUser,
     getCurrentUser,

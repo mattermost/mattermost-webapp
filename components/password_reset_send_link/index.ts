@@ -3,6 +3,7 @@
 
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 import {connect} from 'react-redux';
+
 import {sendPasswordResetEmail} from 'mattermost-redux/actions/users';
 import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
 import {ServerError} from 'mattermost-redux/types/errors';
