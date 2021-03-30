@@ -73,7 +73,7 @@ const AppBar = (props: ComponentProps) => {
 
     return (
         <div className='AppBar'>
-            {apps.map(app => <AppIcon notificationTypes={app.notification_types}/>)} 
+            {apps.map(app => <AppIcon name={app.name} notificationTypes={app.notification_types}/>)} 
         </div>
     );
 };
