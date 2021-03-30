@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
-import {getAppBindings} from 'mattermost-redux/selectors/entities/apps';
+import {makeAppBindingsSelector} from 'mattermost-redux/selectors/entities/apps';
 import {AppBindingLocations} from 'mattermost-redux/constants/apps';
 import {ActionFunc, ActionResult, GenericAction} from 'mattermost-redux/types/actions';
 
@@ -18,11 +18,13 @@ import {appsEnabled} from 'utils/apps';
 
 import ChannelHeaderPlug from './channel_header_plug';
 
+const getChannelHeaderBindings = makeAppBindingsSelector(AppBindingLocations.CHANNEL_HEADER_ICON);
+
 function mapStateToProps(state: GlobalState) {
     const apps = appsEnabled(state);
     return {
-        components: state.plugins.components.ChannelHeaderButton || [],
-        appBindings: apps ? getAppBindings(state, AppBindingLocations.CHANNEL_HEADER_ICON) : [],
+        components: state.plugins.components.ChannelHeaderButton,
+        appBindings: apps ? getChannelHeaderBindings(state) : undefined,
         appsEnabled: apps,
         theme: getTheme(state),
     };

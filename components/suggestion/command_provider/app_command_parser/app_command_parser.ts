@@ -22,7 +22,7 @@ import {
     AppCallResponseTypes,
     AppCallTypes,
     AppFieldTypes,
-    getAppsBindings,
+    makeAppBindingsSelector,
     getChannel,
     getCurrentTeamId,
     doAppCall,
@@ -71,6 +71,8 @@ interface FormsCache {
 interface Intl {
     formatMessage(config: {id: string; defaultMessage: string}, values?: {[name: string]: any}): string;
 }
+
+const getCommandBindings = makeAppBindingsSelector(AppBindingLocations.COMMAND);
 
 export class ParsedCommand {
     state: string = ParseState.Start;
@@ -790,7 +792,7 @@ export class AppCommandParser {
     // getCommandBindings returns the commands in the redux store.
     // They are grouped by app id since each app has one base command
     getCommandBindings = (): AppBinding[] => {
-        const bindings = getAppsBindings(this.store.getState(), AppBindingLocations.COMMAND);
+        const bindings = getCommandBindings(this.store.getState());
         return bindings;
     }
 

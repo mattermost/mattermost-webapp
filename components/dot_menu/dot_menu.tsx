@@ -49,7 +49,7 @@ type Props = {
     enableEmojiPicker?: boolean; // TechDebt: Made non-mandatory while converting to typescript
     channelIsArchived?: boolean; // TechDebt: Made non-mandatory while converting to typescript
     currentTeamUrl?: string; // TechDebt: Made non-mandatory while converting to typescript
-    appBindings: AppBinding[];
+    appBindings?: AppBinding[];
     appsEnabled: boolean;
 
     /**
@@ -113,12 +113,13 @@ type State = {
 }
 
 class DotMenu extends React.PureComponent<Props, State> {
-    static defaultProps = {
+    public static defaultProps: Partial<Props> = {
         commentCount: 0,
         isFlagged: false,
         isReadOnly: false,
         location: Locations.CENTER,
         pluginMenuItems: [],
+        appBindings: [],
     }
     private editDisableAction: DelayedAction;
     private buttonRef: React.RefObject<HTMLButtonElement>;
@@ -360,7 +361,7 @@ class DotMenu extends React.PureComponent<Props, State> {
             }) || [];
 
         let appBindings = [] as JSX.Element[];
-        if (this.props.appsEnabled) {
+        if (this.props.appsEnabled && this.props.appBindings) {
             appBindings = this.props.appBindings.map((item) => {
                 let icon: JSX.Element | undefined;
                 if (item.icon) {

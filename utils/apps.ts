@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {createSelector} from 'reselect';
+
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 import {AppBinding, AppCall, AppCallRequest, AppCallValues, AppContext, AppExpand} from 'mattermost-redux/types/apps';
@@ -9,10 +11,13 @@ import {GlobalState} from 'mattermost-redux/types/store';
 
 export const appsPluginID = 'com.mattermost.apps';
 
-export function appsEnabled(state: GlobalState): boolean {
-    const enabled = getConfig(state)?.['FeatureFlagAppsEnabled' as keyof Partial<ClientConfig>];
-    return enabled === 'true';
-}
+export const appsEnabled = createSelector(
+    (state: GlobalState) => getConfig(state),
+    (config?: Partial<ClientConfig>) => {
+        const enabled = config?.['FeatureFlagAppsEnabled' as keyof Partial<ClientConfig>];
+        return enabled === 'true';
+    },
+);
 
 export function fillBindingsInformation(binding?: AppBinding) {
     if (!binding) {
