@@ -6,7 +6,7 @@ import {FormattedMessage} from 'react-intl';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 import {localizeMessage} from 'utils/utils';
-import {CustomStatusExpiryConstants} from 'utils/constants';
+import {Duration} from 'mattermost-redux/types/users';
 
 type ExpiryMenuItem = {
     text: string;
@@ -15,7 +15,7 @@ type ExpiryMenuItem = {
 
 type Props = {
     expiry: string;
-    handleExpiryChange: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, expiryValue: string) => void;
+    handleExpiryChange: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, expiryValue: Duration) => void;
 }
 
 const {
@@ -26,38 +26,38 @@ const {
     TODAY,
     THIS_WEEK,
     DATE_AND_TIME,
-} = CustomStatusExpiryConstants;
+} = Duration;
 
 const ExpiryMenu: React.FC<Props> = (props: Props) => {
     const {expiry, handleExpiryChange} = props;
     const expiryMenuItems: { [key: string]: ExpiryMenuItem } = {
         [DONT_CLEAR]: {
             text: localizeMessage('expiry_dropdown.dont_clear', "Don't clear"),
-            value: "Don't clear",
+            value: localizeMessage('expiry_dropdown.dont_clear', "Don't clear"),
         },
         [THIRTY_MINUTES]: {
             text: localizeMessage('expiry_dropdown.thirty_minutes', '30 minutes'),
-            value: '30 minutes',
+            value: localizeMessage('expiry_dropdown.thirty_minutes', '30 minutes'),
         },
         [ONE_HOUR]: {
             text: localizeMessage('expiry_dropdown.one_hour', '1 hour'),
-            value: '1 hour',
+            value: localizeMessage('expiry_dropdown.one_hour', '1 hour'),
         },
         [FOUR_HOURS]: {
             text: localizeMessage('expiry_dropdown.four_hours', '4 hours'),
-            value: '4 hours',
+            value: localizeMessage('expiry_dropdown.four_hours', '4 hours'),
         },
         [TODAY]: {
             text: localizeMessage('expiry_dropdown.today', 'Today'),
-            value: 'Today',
+            value: localizeMessage('expiry_dropdown.today', 'Today'),
         },
         [THIS_WEEK]: {
             text: localizeMessage('expiry_dropdown.this_week', 'This week'),
-            value: 'This week',
+            value: localizeMessage('expiry_dropdown.this_week', 'This week'),
         },
         [DATE_AND_TIME]: {
             text: localizeMessage('expiry_dropdown.choose_date_and_time', 'Choose date and time'),
-            value: 'Date and Time',
+            value: localizeMessage('expiry_dropdown.date_and_time', 'Date and Time'),
         },
     };
 
@@ -93,7 +93,7 @@ const ExpiryMenu: React.FC<Props> = (props: Props) => {
                                     onClick={(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => handleExpiryChange(event, item)}
                                     ariaLabel={expiryMenuItems[item].text.toLowerCase()}
                                     text={expiryMenuItems[item].text}
-                                    id={`expiry-menu-${item}`}
+                                    id={`expiry_menu_${item}`}
                                 />
                             ))}
                         </Menu.Group>

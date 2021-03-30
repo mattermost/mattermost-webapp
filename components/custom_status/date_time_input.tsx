@@ -11,7 +11,7 @@ import {localizeMessage} from 'utils/utils';
 import {getCurrentLocale} from 'selectors/i18n';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
-import {CustomStatusExpiryConstants} from 'utils/constants';
+import {Constants} from 'utils/constants';
 import Timestamp from 'components/timestamp';
 import {getCurrentDateAndTimeForTimezone} from 'utils/timezone';
 
@@ -66,16 +66,16 @@ const Navbar: React.FC<Partial<NavbarElementProps>> = (navbarProps: Partial<Navb
     );
 };
 
-const {TIME_PICKER_INTERVALS_IN_MINUTES} = CustomStatusExpiryConstants;
+const {CUSTOM_STATUS_TIME_PICKER_INTERVALS_IN_MINUTES} = Constants;
 export function getRoundedTime(value: Date) {
-    const roundedTo = TIME_PICKER_INTERVALS_IN_MINUTES;
+    const roundedTo = CUSTOM_STATUS_TIME_PICKER_INTERVALS_IN_MINUTES;
     const start = moment(value);
     const diff = start.minute() % roundedTo;
     if (diff === 0) {
         return value;
     }
     const remainder = roundedTo - diff;
-    return moment(start).add(remainder, 'm').seconds(0).toDate();
+    return moment(start).add(remainder, 'm').seconds(0).milliseconds(0).toDate();
 }
 
 const getDateInIntervals = (startTime: Date, interval: number): Date[] => {
@@ -84,7 +84,7 @@ const getDateInIntervals = (startTime: Date, interval: number): Date[] => {
     const intervals: Date[] = [];
     while (time < nextDay) {
         intervals.push(time);
-        time = moment(time).add(interval, 'minutes').seconds(0).toDate();
+        time = moment(time).add(interval, 'minutes').seconds(0).milliseconds(0).toDate();
     }
 
     return intervals;
@@ -109,7 +109,7 @@ const DateTimeInputContainer: React.FC<Props> = (props: Props) => {
         } else {
             startTime = moment(time).startOf('day').toDate();
         }
-        setTimeOptions(getDateInIntervals(startTime, TIME_PICKER_INTERVALS_IN_MINUTES));
+        setTimeOptions(getDateInIntervals(startTime, CUSTOM_STATUS_TIME_PICKER_INTERVALS_IN_MINUTES));
     };
 
     useEffect(setTimeAndOptions, [time]);
