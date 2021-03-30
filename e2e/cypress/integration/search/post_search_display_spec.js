@@ -167,7 +167,7 @@ describe('Post search display', () => {
         cy.get('.search-autocomplete__item').first().click({force: true});
 
         // * Assert suggestions are not present after selecting item
-        cy.get('.search-autocomplete__item').should('not.be.visible');
+        cy.get('.search-autocomplete__item').should('not.exist');
 
         // # Clear search box
         cy.get('.input-clear-x').first().click({force: true}).wait(TIMEOUTS.HALF_SEC);
@@ -200,7 +200,7 @@ describe('Post search display', () => {
         cy.get('#searchBox').click().type('{enter}').wait(TIMEOUTS.HALF_SEC);
 
         // * Assert autocomplete list is gone
-        cy.get('.search-autocomplete__item').should('not.be.visible');
+        cy.get('.search-autocomplete__item').should('not.exist');
     });
 
     it('MM-T2286 - Clicking a hashtag from a message opens messages with that hashtag on RHS', () => {

@@ -1,11 +1,7 @@
 stages:
   - test
-  # These need to have separate stages, otherwise artifacts would overwrite each other
-  - te-build
-  - te-s3
-  - ee-build
-  - ee-s3
-  - create-vars
+  - build
+  - s3
   - trigger
 
 variables:
@@ -18,7 +14,7 @@ include:
     file: private.yml
 
 empty:
-  stage: create-vars
+  stage: test
   script:
     - echo "empty"
 
