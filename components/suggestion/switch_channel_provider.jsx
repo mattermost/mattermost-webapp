@@ -126,7 +126,14 @@ class SwitchChannelSuggestion extends Suggestion {
                 deactivated = (' - ' + Utils.localizeMessage('channel_switch_modal.deactivated', 'Deactivated'));
             }
 
-            if (channel.display_name) {
+            if (this.props.dmChannelTeammate.is_bot) {
+                displayName = (
+                    <React.Fragment>
+                        {userItem.username}
+                        {deactivated}
+                    </React.Fragment>
+                );
+            } else if (channel.display_name) {
                 displayName = (
                     <React.Fragment>
                         {channel.display_name}
