@@ -165,7 +165,7 @@ describe('components/admin_console/jobs/table', () => {
         const wrapper = shallowWithIntl(
             <JobTable
                 {...baseProps}
-                hideCreateJobButton={true}
+                hideJobCreateButton={true}
             />,
         );
 
@@ -181,7 +181,7 @@ describe('components/admin_console/jobs/table', () => {
             />,
         );
 
-        const element = wrapper.find('job-table__data-retention');
+        const element = wrapper.find('.job-table__data-retention');
         expect(element).toHaveLength(1);
     });
 });
