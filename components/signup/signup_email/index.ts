@@ -5,8 +5,6 @@ import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
-import {UserProfile} from 'mattermost-redux/types/users';
-import {ServerError} from 'mattermost-redux/types/errors';
 
 import {createUser} from 'mattermost-redux/actions/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
@@ -18,21 +16,7 @@ import {getPasswordConfig} from 'utils/utils.jsx';
 
 import {GlobalState} from '../../../types/store';
 
-import SignupEmail, {Props, State} from './signup_email';
-
-type TeamInviteInfo = {
-    display_name: string;
-    description: string;
-    name: string;
-    id: string;
-};
-
-export type Actions = {
-    createUser: (user: UserProfile, token: string, inviteId: string, redirect: string) => Promise<{data: UserProfile} | {error: ServerError}>;
-    loginById: (id: string, password: string, mfaToken?: string) => Promise<{data: boolean} | {error: ServerError}>;
-    setGlobalItem: (name: string, value: string) => {data: boolean};
-    getTeamInviteInfo: (inviteId: string) => Promise<{data: TeamInviteInfo} | {error: ServerError}>;
-};
+import SignupEmail, {Props, State, Actions} from './signup_email';
 
 function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
