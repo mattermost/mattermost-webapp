@@ -3,6 +3,7 @@
 
 import {bindActionCreators, Dispatch} from 'redux';
 import {connect} from 'react-redux';
+
 import {verifyUserEmail, getMe} from 'mattermost-redux/actions/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';

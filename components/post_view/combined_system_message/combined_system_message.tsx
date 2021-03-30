@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {injectIntl, IntlShape, MessageDescriptor} from 'react-intl';
+
 import {Posts} from 'mattermost-redux/constants';
 
 import {UserProfile} from 'mattermost-redux/types/users';

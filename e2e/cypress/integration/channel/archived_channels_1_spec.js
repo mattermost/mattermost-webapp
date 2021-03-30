@@ -319,7 +319,7 @@ describe('Leave an archived channel', () => {
             cy.get('#showMoreChannels').click();
 
             // # Modal should not contain the created channel
-            cy.get('#channelsMoreDropdown').should('not.be.visible');
+            cy.get('#channelsMoreDropdown').should('not.exist');
             cy.get('#moreChannelsList').should('not.contain', channel.name);
         });
         cy.get('body').type('{esc}', {force: true});

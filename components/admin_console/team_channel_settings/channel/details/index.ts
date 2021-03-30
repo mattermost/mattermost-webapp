@@ -2,6 +2,9 @@
 // See LICENSE.txt for license information.
 
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
+
+import {connect} from 'react-redux';
+
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getChannel, getChannelModerations} from 'mattermost-redux/selectors/entities/channels';
 import {getAllGroups, getGroupsAssociatedToChannel} from 'mattermost-redux/selectors/entities/groups';
@@ -29,7 +32,6 @@ import {
     unlinkGroupSyncable,
 } from 'mattermost-redux/actions/groups';
 
-import {connect} from 'react-redux';
 import {getTeam} from 'mattermost-redux/selectors/entities/teams';
 import {GlobalState} from 'mattermost-redux/types/store';
 

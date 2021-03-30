@@ -4,6 +4,7 @@
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
+
 import {Client4} from 'mattermost-redux/client';
 import {UserAccessToken, UserProfile} from 'mattermost-redux/types/users';
 import {Dictionary} from 'mattermost-redux/types/utilities';

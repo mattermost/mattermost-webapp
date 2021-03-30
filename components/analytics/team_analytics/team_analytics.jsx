@@ -4,6 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedDate, FormattedMessage} from 'react-intl';
+
 import {General} from 'mattermost-redux/constants';
 
 import LoadingScreen from 'components/loading_screen';
