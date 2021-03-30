@@ -79,8 +79,8 @@ export const getExecuteSuggestion = (parsed: ParsedCommand): AutocompleteSuggest
     };
 };
 
-export const displayError = (err: string) => {
-    sendEphemeralPost(err);
+export const displayError = (intl: any, body: string) => { // eslint-disable-line @typescript-eslint/no-unused-vars
+    sendEphemeralPost(body);
 };
 
 // Shim of mobile-version intl
@@ -88,4 +88,13 @@ export const intlShim = {
     formatMessage: (config: {id: string; defaultMessage: string}, values?: {[name: string]: any}) => {
         return localizeAndFormatMessage(config.id, config.defaultMessage, values);
     },
+};
+
+export const errorMessage = (intl: typeof intlShim, error: string, _command: string, _position: number): string => { // eslint-disable-line @typescript-eslint/no-unused-vars
+    return intl.formatMessage({
+        id: 'apps.error.parser',
+        defaultMessage: 'Parsing error: {error}',
+    }, {
+        error,
+    });
 };

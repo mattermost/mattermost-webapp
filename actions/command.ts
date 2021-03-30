@@ -117,9 +117,9 @@ export function executeCommand(message: string, args: CommandArgs): ActionFunc {
             const parser = new AppCommandParser({dispatch, getState: getGlobalState} as any, intlShim, args.channel_id, args.root_id);
             if (parser.isAppCommand(msg)) {
                 try {
-                    const call = await parser.composeCallFromCommand(msg);
+                    const {call, errorMessage} = await parser.composeCallFromCommand(msg);
                     if (!call) {
-                        return createErrorMessage(localizeMessage('apps.error.commands.compose_call', 'Error composing command submission'));
+                        return createErrorMessage(errorMessage!);
                     }
 
                     const res = await dispatch(doAppCall(call, AppCallTypes.SUBMIT, intlShim)) as {data: AppCallResponse};

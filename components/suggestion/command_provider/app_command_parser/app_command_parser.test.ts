@@ -144,13 +144,13 @@ describe('AppCommandParser', () => {
             {
                 title: 'incomplete top command',
                 command: '/jir',
-                autocomplete: {expectError: '`{command}`: no match.'},
-                submit: {expectError: '`{command}`: no match.'},
+                autocomplete: {expectError: '`{command}`: No matching command found in this workspace.'},
+                submit: {expectError: '`{command}`: No matching command found in this workspace.'},
             },
             {
                 title: 'no space after the top command',
                 command: '/jira',
-                autocomplete: {expectError: '`{command}`: no match.'},
+                autocomplete: {expectError: '`{command}`: No matching command found in this workspace.'},
                 submit: {verify: (parsed: ParsedCommand): void => {
                     expect(parsed.state).toBe(ParseState.Command);
                     expect(parsed.binding?.label).toBe('jira');
@@ -443,11 +443,6 @@ describe('AppCommandParser', () => {
     });
 
     describe('getSuggestions', () => {
-        test('just the app command', async () => {
-            const suggestions = await parser.getSuggestions('/jira');
-            expect(suggestions).toEqual([]);
-        });
-
         test('subcommand 1', async () => {
             const suggestions = await parser.getSuggestions('/jira ');
             expect(suggestions).toEqual([
@@ -574,7 +569,7 @@ describe('AppCommandParser', () => {
                     Description: 'The Jira issue key',
                     Hint: '',
                     IconData: '',
-                    Suggestion: '',
+                    Suggestion: 'issue: ""',
                 },
             ]);
         });
@@ -726,7 +721,7 @@ describe('AppCommandParser', () => {
                     Description: 'The Jira issue summary',
                     Hint: '',
                     IconData: 'Create icon',
-                    Suggestion: '',
+                    Suggestion: 'summary: ""',
                 },
             ]);
         });
@@ -739,7 +734,7 @@ describe('AppCommandParser', () => {
                     Description: 'The Jira issue summary',
                     Hint: '',
                     IconData: 'Create icon',
-                    Suggestion: 'Sum',
+                    Suggestion: 'summary: "Sum"',
                 },
             ]);
         });
@@ -752,7 +747,7 @@ describe('AppCommandParser', () => {
                     Description: 'The Jira issue summary',
                     Hint: '',
                     IconData: 'Create icon',
-                    Suggestion: 'Sum',
+                    Suggestion: 'summary: "Sum"',
                 },
             ]);
         });
@@ -765,7 +760,7 @@ describe('AppCommandParser', () => {
                     Description: 'The Jira issue summary',
                     Hint: '',
                     IconData: 'Create icon',
-                    Suggestion: 'Sum',
+                    Suggestion: 'summary: `Sum`',
                 },
             ]);
         });
@@ -778,7 +773,7 @@ describe('AppCommandParser', () => {
                     Description: 'The Jira issue summary',
                     Hint: '',
                     IconData: 'Create icon',
-                    Suggestion: '',
+                    Suggestion: 'summary: ""',
                 },
             ]);
         });
@@ -832,7 +827,6 @@ describe('AppCommandParser', () => {
             ]);
 
             suggestions = await parser.getSuggestions('/jira issue create --project KT --summary "great feature" --epic Nope');
-
             expect(suggestions).toEqual([
                 {
                     Complete: 'jira issue create --project KT --summary "great feature" --epic',
@@ -880,7 +874,7 @@ describe('AppCommandParser', () => {
             const cmd = '/jira issue create';
             const values = {};
 
-            const call = await parser.composeCallFromCommand(cmd);
+            const {call} = await parser.composeCallFromCommand(cmd);
             expect(call).toEqual({
                 ...base,
                 raw_command: cmd,
@@ -903,7 +897,7 @@ describe('AppCommandParser', () => {
                 project: '',
             };
 
-            const call = await parser.composeCallFromCommand(cmd);
+            const {call} = await parser.composeCallFromCommand(cmd);
             expect(call).toEqual({
                 ...base,
                 expand: {},
