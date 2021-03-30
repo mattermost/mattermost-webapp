@@ -113,10 +113,13 @@ Cypress.Commands.add('apiGetUserByEmail', (email, failOnStatusCode = true) => {
         url: '/api/v4/users/email/' + email,
         failOnStatusCode,
     }).then((response) => {
+        const {body, status} = response;
+
         if (failOnStatusCode) {
-            expect(response.status).to.equal(200);
+            expect(status).to.equal(200);
+            return cy.wrap({user: body});
         }
-        return cy.wrap({user: response.body});
+        return cy.wrap({user: status === 200 ? body : null});
     });
 });
 
