@@ -1,24 +1,23 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 
-export default class EmojiPickerCategory extends React.Component {
-    static propTypes = {
-        category: PropTypes.string.isRequired,
-        icon: PropTypes.node.isRequired,
-        onCategoryClick: PropTypes.func.isRequired,
-        selected: PropTypes.bool.isRequired,
-        enable: PropTypes.bool.isRequired,
-    }
+interface EmojiPickerCategoryProps {
+    selected: boolean,
+    enable: boolean,
+    onCategoryClick: (category: string) => void,
+    category: string,
+    icon: React.ReactNode
+}
 
-    shouldComponentUpdate(nextProps) {
+export default class EmojiPickerCategory extends React.Component<EmojiPickerCategoryProps> {
+    shouldComponentUpdate(nextProps: EmojiPickerCategoryProps) {
         return nextProps.selected !== this.props.selected ||
             nextProps.enable !== this.props.enable;
     }
 
-    handleClick = (e) => {
+    handleClick = (e: React.MouseEvent) => {
         e.preventDefault();
         this.props.onCategoryClick(this.props.category);
     }
