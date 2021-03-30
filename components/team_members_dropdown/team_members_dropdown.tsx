@@ -247,6 +247,25 @@ export default class TeamMembersDropdown extends React.PureComponent<Props, Stat
             openUp = true;
         }
 
+        const menuRemove = (
+            <Menu.ItemAction
+                id='removeFromTeam'
+                onClick={this.handleRemoveFromTeam}
+                text={Utils.localizeMessage('team_members_dropdown.leave_team', 'Remove From Team')}
+            />
+        );
+        const menuMakeAdmin = (
+            <Menu.ItemAction
+                onClick={this.handleMakeAdmin}
+                text={Utils.localizeMessage('team_members_dropdown.makeAdmin', 'Make Team Admin')}
+            />
+        );
+        const menuMakeMember = (
+            <Menu.ItemAction
+                onClick={this.handleMakeMember}
+                text={Utils.localizeMessage('team_members_dropdown.makeMember', 'Make Member')}
+            />
+        );
         return (
             <MenuWrapper>
                 <button
@@ -264,22 +283,9 @@ export default class TeamMembersDropdown extends React.PureComponent<Props, Stat
                         openUp={openUp}
                         ariaLabel={Utils.localizeMessage('team_members_dropdown.menuAriaLabel', 'Change the role of a team member')}
                     >
-                        <Menu.ItemAction
-                            id='removeFromTeam'
-                            show={canRemoveFromTeam}
-                            onClick={this.handleRemoveFromTeam}
-                            text={Utils.localizeMessage('team_members_dropdown.leave_team', 'Remove From Team')}
-                        />
-                        <Menu.ItemAction
-                            show={showMakeAdmin}
-                            onClick={this.handleMakeAdmin}
-                            text={Utils.localizeMessage('team_members_dropdown.makeAdmin', 'Make Team Admin')}
-                        />
-                        <Menu.ItemAction
-                            show={showMakeMember}
-                            onClick={this.handleMakeMember}
-                            text={Utils.localizeMessage('team_members_dropdown.makeMember', 'Make Member')}
-                        />
+                        {canRemoveFromTeam ? menuRemove : null}
+                        {showMakeAdmin ? menuMakeAdmin : null}
+                        {showMakeMember ? menuMakeMember : null}
                     </Menu>
                     {makeDemoteModal}
                     {serverError}
