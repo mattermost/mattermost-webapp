@@ -432,8 +432,8 @@ export default class SwitchChannelProvider extends Provider {
         // username is shown seperately
         if ((user.first_name || user.last_name) && user.nickname) {
             displayName += `${Utils.getFullName(user)} (${user.nickname})`;
-        } else if (user.nickname) {
-            displayName += `(${user.nickname})`;
+        } else if (user.nickname && !user.first_name && !user.last_name) {
+            displayName += `${user.nickname}`;
         } else if (user.first_name || user.last_name) {
             displayName += `${Utils.getFullName(user)}`;
         }
