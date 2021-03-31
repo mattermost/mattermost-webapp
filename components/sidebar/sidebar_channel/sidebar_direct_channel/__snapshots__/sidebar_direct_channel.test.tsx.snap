@@ -73,6 +73,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_direct_channel should match 
       newStatusIcon={true}
       size="xs"
       src="/api/v4/users/user_id/image"
+      status=""
       statusClass="DirectChannel__status-icon "
       wrapperClass="DirectChannel__profile-picture"
     />

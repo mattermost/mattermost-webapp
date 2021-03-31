@@ -43,9 +43,17 @@ type Props = {
     stats: any;
     theme: any;
     usersLimit: number;
+    actions: {
+        getTotalUsersStats: () => any;
+    };
 }
 
 export default class ChannelIntroMessage extends React.PureComponent<Props> {
+    componentDidMount() {
+        if (!this.props.stats?.total_users_count) {
+            this.props.actions.getTotalUsersStats();
+        }
+    }
     render() {
         const {
             currentUserId,
@@ -193,10 +201,8 @@ function createDMIntroMessage(channel: Channel, centeredIntro: string, teammate:
 function createOffTopicIntroMessage(channel: Channel, centeredIntro: string, stats: any, usersLimit: number, theme: any) {
     const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
     const children = createSetHeaderButton(channel);
-    let totalUsers = 0;
-    if (stats && (typeof stats.TOTAL_USERS === 'number')) {
-        totalUsers = stats.TOTAL_USERS;
-    }
+    const totalUsers = stats.total_users_count;
+
     let setHeaderButton = null;
     if (children) {
         setHeaderButton = (
@@ -259,11 +265,7 @@ export function createDefaultIntroMessage(
     teamIsGroupConstrained?: boolean,
 ) {
     let teamInviteLink = null;
-    let totalUsers = 0;
-    if (stats && (typeof stats.TOTAL_USERS === 'number')) {
-        totalUsers = stats.TOTAL_USERS;
-    }
-
+    const totalUsers = stats.total_users_count;
     const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
 
     let setHeaderButton = null;
@@ -374,11 +376,7 @@ function createStandardIntroMessage(channel: Channel, centeredIntro: string, the
     const uiName = channel.display_name;
     let memberMessage;
     const channelIsArchived = channel.delete_at !== 0;
-
-    let totalUsers = 0;
-    if (stats && (typeof stats.TOTAL_USERS === 'number')) {
-        totalUsers = stats.TOTAL_USERS;
-    }
+    const totalUsers = stats.total_users_count;
 
     if (channelIsArchived) {
         memberMessage = '';
