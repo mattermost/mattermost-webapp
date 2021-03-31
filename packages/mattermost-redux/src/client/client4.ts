@@ -1,5 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
+import {SystemSetting} from 'mattermost-redux/types/general';
+
 import {General} from '../constants';
 
 import {ClusterInfo, AnalyticsRow} from 'mattermost-redux/types/admin';
@@ -34,7 +37,9 @@ import {
 } from 'mattermost-redux/types/config';
 import {CustomEmoji} from 'mattermost-redux/types/emojis';
 import {ServerError} from 'mattermost-redux/types/errors';
+
 import {FileInfo, FileUploadResponse, FileSearchResults} from 'mattermost-redux/types/files';
+
 import {
     Group,
     GroupPatch,
@@ -2308,6 +2313,20 @@ export default class Client4 {
             {method: 'post', body: JSON.stringify({forceAck: forceAckVal})},
         );
     }
+
+    setFirstAdminVisitMarketplaceStatus = async () => {
+        return this.doFetch<StatusOK>(
+            `${this.getPluginsRoute()}/marketplace/first_admin_visit`,
+            {method: 'post', body: JSON.stringify({first_admin_visit_marketplace_status: true})},
+        );
+    }
+
+    getFirstAdminVisitMarketplaceStatus = async () => {
+        return this.doFetch<SystemSetting>(
+            `${this.getPluginsRoute()}/marketplace/first_admin_visit`,
+            {method: 'get'},
+        );
+    };
 
     getTranslations = (url: string) => {
         return this.doFetch<Record<string, string>>(
