@@ -100,5 +100,5 @@ function closeInteractiveDialog() {
     cy.get('.modal-header').should('be.visible').within(($elForm) => {
         cy.wrap($elForm).find('button.close').should('be.visible').click();
     });
-    cy.get('#interactiveDialogModal').should('not.be.visible');
+    cy.get('#interactiveDialogModal').should('not.exist');
 }

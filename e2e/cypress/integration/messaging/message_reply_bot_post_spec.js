@@ -69,7 +69,7 @@ describe('Messaging', () => {
                 cy.getLastPostId().then((replyId) => {
                     // * Verify that the reply is in the RHS with matching text
                     cy.get(`#rhsPost_${replyId}`).within(() => {
-                        cy.findByTestId('post-link').should('not.be.visible');
+                        cy.findByTestId('post-link').should('not.exist');
                         cy.get(`#rhsPostMessageText_${replyId}`).should('be.visible').and('have.text', 'A reply to an older post bot post');
                     });
 
@@ -93,7 +93,7 @@ describe('Messaging', () => {
             });
 
             // # Verify RHS is closed
-            cy.get('#rhsContainer').should('not.be.visible');
+            cy.get('#rhsContainer').should('not.exist');
         });
     });
 
@@ -135,7 +135,7 @@ describe('Messaging', () => {
                 cy.getLastPostId().then((replyId) => {
                     // * Verify that the reply is in the RHS with matching text
                     cy.get(`#rhsPost_${replyId}`).within(() => {
-                        cy.findByTestId('post-link').should('not.be.visible');
+                        cy.findByTestId('post-link').should('not.exist');
                         cy.get(`#rhsPostMessageText_${replyId}`).should('be.visible').and('have.text', 'A reply to an older post with message attachment');
                     });
 
@@ -159,7 +159,7 @@ describe('Messaging', () => {
             });
 
             // # Verify RHS is closed
-            cy.get('#rhsContainer').should('not.be.visible');
+            cy.get('#rhsContainer').should('not.exist');
         });
     });
 });

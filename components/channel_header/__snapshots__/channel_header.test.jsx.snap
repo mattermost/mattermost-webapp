@@ -163,6 +163,7 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
         }
       }
     />
+<<<<<<< HEAD
     <Connect(Component)
       enableFindShortcut={true}
       hideSearchBar={true}
@@ -193,6 +194,9 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
       tooltipKey="flaggedPosts"
     />
     <Connect(injectIntl(UserGuideDropdown)) />
+=======
+    <Connect(RHSSearchNav) />
+>>>>>>> upstream/master
   </div>
 </div>
 `;
@@ -360,6 +364,7 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
         }
       }
     />
+<<<<<<< HEAD
     <Connect(Component)
       enableFindShortcut={true}
       hideSearchBar={true}
@@ -390,6 +395,9 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
       tooltipKey="flaggedPosts"
     />
     <Connect(injectIntl(UserGuideDropdown)) />
+=======
+    <Connect(RHSSearchNav) />
+>>>>>>> upstream/master
   </div>
 </div>
 `;
@@ -557,6 +565,7 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
         }
       }
     />
+<<<<<<< HEAD
     <Connect(Component)
       enableFindShortcut={true}
       hideSearchBar={true}
@@ -587,6 +596,9 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
       tooltipKey="flaggedPosts"
     />
     <Connect(injectIntl(UserGuideDropdown)) />
+=======
+    <Connect(RHSSearchNav) />
+>>>>>>> upstream/master
   </div>
 </div>
 `;
@@ -697,6 +709,7 @@ exports[`components/ChannelHeader should render archived view 1`] = `
         }
       }
     />
+<<<<<<< HEAD
     <Connect(Component)
       enableFindShortcut={true}
       hideSearchBar={true}
@@ -727,6 +740,9 @@ exports[`components/ChannelHeader should render archived view 1`] = `
       tooltipKey="flaggedPosts"
     />
     <Connect(injectIntl(UserGuideDropdown)) />
+=======
+    <Connect(RHSSearchNav) />
+>>>>>>> upstream/master
   </div>
 </div>
 `;
@@ -928,6 +944,7 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
         }
       }
     />
+<<<<<<< HEAD
     <Connect(Component)
       enableFindShortcut={true}
       hideSearchBar={true}
@@ -958,6 +975,9 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
       tooltipKey="flaggedPosts"
     />
     <Connect(injectIntl(UserGuideDropdown)) />
+=======
+    <Connect(RHSSearchNav) />
+>>>>>>> upstream/master
   </div>
 </div>
 `;
@@ -1174,6 +1194,7 @@ exports[`components/ChannelHeader should render properly when custom status is s
         }
       }
     />
+<<<<<<< HEAD
     <Connect(Component)
       enableFindShortcut={true}
       hideSearchBar={true}
@@ -1204,6 +1225,9 @@ exports[`components/ChannelHeader should render properly when custom status is s
       tooltipKey="flaggedPosts"
     />
     <Connect(injectIntl(UserGuideDropdown)) />
+=======
+    <Connect(RHSSearchNav) />
+>>>>>>> upstream/master
   </div>
 </div>
 `;
@@ -1377,6 +1401,7 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
         }
       }
     />
+<<<<<<< HEAD
     <Connect(Component)
       enableFindShortcut={true}
       hideSearchBar={true}
@@ -1407,6 +1432,9 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
       tooltipKey="flaggedPosts"
     />
     <Connect(injectIntl(UserGuideDropdown)) />
+=======
+    <Connect(RHSSearchNav) />
+>>>>>>> upstream/master
   </div>
 </div>
 `;
@@ -1616,6 +1644,7 @@ exports[`components/ChannelHeader should render properly when populated with cha
         }
       }
     />
+<<<<<<< HEAD
     <Connect(Component)
       enableFindShortcut={true}
       hideSearchBar={true}
@@ -1646,6 +1675,9 @@ exports[`components/ChannelHeader should render properly when populated with cha
       tooltipKey="flaggedPosts"
     />
     <Connect(injectIntl(UserGuideDropdown)) />
+=======
+    <Connect(RHSSearchNav) />
+>>>>>>> upstream/master
   </div>
 </div>
 `;
@@ -1821,6 +1853,7 @@ exports[`components/ChannelHeader should render the pinned icon with the pinned 
         }
       }
     />
+<<<<<<< HEAD
     <Connect(Component)
       enableFindShortcut={true}
       hideSearchBar={true}
@@ -1851,6 +1884,9 @@ exports[`components/ChannelHeader should render the pinned icon with the pinned 
       tooltipKey="flaggedPosts"
     />
     <Connect(injectIntl(UserGuideDropdown)) />
+=======
+    <Connect(RHSSearchNav) />
+>>>>>>> upstream/master
   </div>
 </div>
 `;

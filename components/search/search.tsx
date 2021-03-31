@@ -9,13 +9,14 @@ import Constants, {searchHintOptions, RHSStates} from 'utils/constants';
 import {isServerVersionGreaterThanOrEqualTo} from 'utils/server_version';
 import {isDesktopApp, getDesktopVersion} from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
+
 import HeaderIconWrapper from 'components/channel_header/components/header_icon_wrapper';
 import SearchHint from 'components/search_hint/search_hint';
 import FlagIcon from 'components/widgets/icons/flag_icon';
 import MentionsIcon from 'components/widgets/icons/mentions_icon';
 import SearchIcon from 'components/widgets/icons/search_icon';
 import Popover from 'components/widgets/popover';
-import UserGuideDropdown from 'components/channel_header/components/user_guide_dropdown';
+import UserGuideDropdown from 'components/rhs_search_nav/components/user_guide_dropdown';
 
 import SearchBar from 'components/search_bar/search_bar';
 import SearchResults from 'components/search_results';
@@ -394,7 +395,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
         </>
     );
 
-    // when inserted in the `ChannelHeader` component just return the for with `SearchBar`
+    // when inserted in RHSSearchNav component, just return SearchBar
     if (!props.isSideBarRight) {
         if (hideSearchBar) {
             return (

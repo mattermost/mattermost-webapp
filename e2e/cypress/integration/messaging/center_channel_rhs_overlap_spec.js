@@ -72,7 +72,7 @@ describe('Messaging', () => {
         // * Check if center channel post text box is not focused
         // Although visually post text box is not visible to user,
         // cypress still considers it visible so the assertion
-        // should('not.be.visible') will fail
+        // should('not.exist') will fail
         cy.get('#post_textbox').should('not.be.focused');
 
         // # Post several replies
@@ -495,11 +495,9 @@ describe('Messaging', () => {
 
             // * Close the modal
             cy.get('#editButton', {timeout: TIMEOUTS.FIVE_SEC}).should('be.visible').click();
-        });
 
-        // # Verify that last post does not contain (edited)
-        cy.getLastPostId().then(() => {
-            cy.findByText('@sysadmin').should('not.contain', '(edited)');
+            // # Verify that last post does not contain (edited)
+            cy.get(`#postMessageText_${postId}`).should('contain', message1).and('not.contain', '(edited)');
         });
     });
 
