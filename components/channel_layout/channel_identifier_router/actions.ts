@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {History} from 'history';
+
 import {joinChannel, getChannelByNameAndTeamName, getChannelMember, markGroupChannelOpen, fetchMyChannelsAndMembers} from 'mattermost-redux/actions/channels';
 import {getUser, getUserByUsername, getUserByEmail} from 'mattermost-redux/actions/users';
 import {getTeamByName} from 'mattermost-redux/selectors/entities/teams';
@@ -9,7 +11,6 @@ import {getChannelByName, getOtherChannels, getChannel, getChannelsNameMapInTeam
 import {GetStateFunc, DispatchFunc, ActionFunc} from 'mattermost-redux/types/actions';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {Channel} from 'mattermost-redux/types/channels';
-import {History} from 'history';
 
 import {openDirectChannelToUserId} from 'actions/channel_actions';
 import * as GlobalActions from 'actions/global_actions';

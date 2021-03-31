@@ -148,13 +148,13 @@ export default class AddGroupsToChannelModal extends React.PureComponent<Props, 
 
         this.setState({saving: true});
 
-        groupIDs.forEach(async (groupID) => {
+        await Promise.all(groupIDs.map(async (groupID) => {
             const {error} = await this.props.actions.linkGroupSyncable(groupID, this.props.currentChannelId, Groups.SYNCABLE_TYPE_CHANNEL, {auto_add: true});
             this.handleResponse(error);
             if (!error) {
                 this.handleHide();
             }
-        });
+        }));
     }
 
     addValue = (value: GroupValue) => {

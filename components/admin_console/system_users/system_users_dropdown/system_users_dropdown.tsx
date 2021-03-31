@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+
 import * as UserUtils from 'mattermost-redux/utils/user_utils';
 import {Permissions} from 'mattermost-redux/constants';
 import {AdminConfig} from 'mattermost-redux/types/config';
@@ -491,6 +492,7 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
         let showManageTeams = true;
         let showRevokeSessions = true;
         const showMfaReset = this.props.mfaEnabled && Boolean(user.mfa_active);
+        const showManageRoles = Utils.isSystemAdmin(currentUser.roles);
 
         if (user.delete_at > 0) {
             currentRoles = (
@@ -550,7 +552,7 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
                             disabled={disableActivationToggle}
                         />
                         <Menu.ItemAction
-                            show={!isGuest}
+                            show={showManageRoles}
                             onClick={this.handleManageRoles}
                             text={Utils.localizeMessage('admin.user_item.manageRoles', 'Manage Roles')}
                         />

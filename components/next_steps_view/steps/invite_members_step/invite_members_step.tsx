@@ -6,13 +6,13 @@ import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 import {ActionMeta, InputActionMeta} from 'react-select';
 import classNames from 'classnames';
 
+import {isNull} from 'lodash';
+
 import {ServerError} from 'mattermost-redux/types/errors';
 import {TeamInviteWithError, Team} from 'mattermost-redux/types/teams';
 import {isEmail} from 'mattermost-redux/utils/helpers';
 
 import {SubscriptionStats} from 'mattermost-redux/types/cloud';
-
-import {isNull} from 'lodash';
 
 import {pageVisited, trackEvent} from 'actions/telemetry_actions';
 import {getAnalyticsCategory} from 'components/next_steps_view/step_helpers';
@@ -111,6 +111,19 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
         return 0;
     }
 
+    shouldShowLimitError = (emailLength: number): boolean => {
+        const {subscriptionStats} = this.props;
+        if (subscriptionStats && subscriptionStats.is_paid_tier === 'true') {
+            return false;
+        }
+
+        if (subscriptionStats && (emailLength > subscriptionStats.remaining_seats)) {
+            return true;
+        }
+
+        return false;
+    }
+
     onInputChange = (value: string, change: InputActionMeta) => {
         if (!change) {
             return;
@@ -127,12 +140,14 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
         if (value.indexOf(' ') !== -1 || value.indexOf(',') !== -1) {
             const emails = value.split(/[\s,]+/).filter((email) => email.length).map((email) => ({label: email, value: email, error: !isEmail(email)}));
             const newEmails = [...this.state.emails, ...emails];
-            const {subscriptionStats, cloudUserLimit} = this.props;
+            const {cloudUserLimit} = this.props;
+
+            const showLimitError = this.shouldShowLimitError(newEmails.length);
 
             this.setState({
                 emails: newEmails,
                 emailInput: '',
-                emailError: newEmails.length > subscriptionStats!.remaining_seats ? this.props.intl.formatMessage({
+                emailError: showLimitError ? this.props.intl.formatMessage({
                     id: 'next_steps_view.invite_members_step.tooManyEmails',
                     defaultMessage: 'The free tier is limited to {num} members.'},
                 {num: cloudUserLimit}) : undefined,
@@ -151,9 +166,10 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
             this.setState({emailError: undefined});
         }
 
-        const {subscriptionStats, cloudUserLimit} = this.props;
+        const {cloudUserLimit} = this.props;
+        const showLimitError = this.shouldShowLimitError(value.length);
 
-        if (value.length > subscriptionStats!.remaining_seats) {
+        if (showLimitError) {
             this.setState({emailError: this.props.intl.formatMessage({
                 id: 'next_steps_view.invite_members_step.tooManyEmails',
                 defaultMessage: 'The free tier is limited to {num} members.'},
@@ -167,12 +183,13 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
         if (this.state.emailInput) {
             const emails = this.state.emailInput.split(/[\s,]+/).filter((email) => email.length).map((email) => ({label: email, value: email, error: !isEmail(email)}));
             const newEmails = [...this.state.emails, ...emails];
-            const {subscriptionStats, cloudUserLimit} = this.props;
+            const {cloudUserLimit} = this.props;
+            const showLimitError = this.shouldShowLimitError(newEmails.length);
 
             this.setState({
                 emails: newEmails,
                 emailInput: '',
-                emailError: newEmails.length > subscriptionStats!.remaining_seats ? this.props.intl.formatMessage({
+                emailError: showLimitError ? this.props.intl.formatMessage({
                     id: 'next_steps_view.invite_members_step.tooManyEmails',
                     defaultMessage: 'The free tier is limited to {num} members.'},
                 {num: cloudUserLimit}) : undefined,
@@ -283,10 +300,10 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
                                 <button
                                     data-testid='InviteMembersStep__sendButton'
                                     className={classNames('NextStepsView__button InviteMembersStep__sendButton secondary',
-                                        {disabled: this.getRemainingUsers() < 0 || !this.state.emails.length || Boolean(this.state.emailsSent) || Boolean(this.state.emailError)},
+                                        {disabled: this.shouldShowLimitError(this.state.emails.length) || !this.state.emails.length || Boolean(this.state.emailsSent) || Boolean(this.state.emailError)},
                                     )
                                     }
-                                    disabled={this.getRemainingUsers() < 0 || !this.state.emails.length || Boolean(this.state.emailsSent) || Boolean(this.state.emailError)}
+                                    disabled={this.shouldShowLimitError(this.state.emails.length) || !this.state.emails.length || Boolean(this.state.emailsSent) || Boolean(this.state.emailError)}
                                     onClick={this.sendEmailInvites}
                                 >
                                     <i className='icon icon-send'/>
@@ -312,8 +329,7 @@ class InviteMembersStep extends React.PureComponent<Props, State> {
                                             <span>{this.state.emailError}</span>
                                         </>
                                     }
-                                    {(this.state.emailError && !isNull(this.props.subscriptionStats) &&
-                                        this.state.emails.length >= this.props.subscriptionStats.remaining_seats) && linkBtn
+                                    {(this.state.emailError && !isNull(this.props.subscriptionStats) && this.shouldShowLimitError(this.state.emails.length)) && linkBtn
                                     }
                                 </div>
                             </div>

@@ -276,6 +276,7 @@ export const ModalIdentifiers = {
     SIDEBAR_WHATS_NEW_MODAL: 'sidebar_whats_new_modal',
     WARN_METRIC_ACK: 'warn_metric_acknowledgement',
     UPGRADE_CLOUD_ACCOUNT: 'upgrade_cloud_account',
+    CONFIRM_NOTIFY_ADMIN: 'confirm_notify_admin',
     REMOVE_NEXT_STEPS_MODAL: 'remove_next_steps_modal',
     MORE_CHANNELS: 'more_channels',
     NEW_CHANNEL_FLOW: 'new_channel_flow',
@@ -392,6 +393,7 @@ export const SocketEvents = {
     SIDEBAR_CATEGORY_ORDER_UPDATED: 'sidebar_category_order_updated',
     USER_ACTIVATION_STATUS_CHANGED: 'user_activation_status_change',
     CLOUD_PAYMENT_STATUS_UPDATED: 'cloud_payment_status_updated',
+    FIRST_ADMIN_VISIT_MARKETPLACE_STATUS_RECEIVED: 'first_admin_visit_marketplace_status_received',
 };
 
 export const TutorialSteps = {

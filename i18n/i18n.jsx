@@ -82,7 +82,7 @@ const languages = {
     },
     sv: {
         value: 'sv',
-        name: 'Svenska (Beta)',
+        name: 'Svenska',
         order: 9,
         url: sv,
     },
@@ -94,7 +94,7 @@ const languages = {
     },
     bg: {
         value: 'bg',
-        name: 'Български (Beta)',
+        name: 'Български',
         order: 11,
         url: bg,
     },

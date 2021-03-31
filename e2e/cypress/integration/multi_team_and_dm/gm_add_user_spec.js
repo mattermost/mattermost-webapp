@@ -53,11 +53,12 @@ describe('Multi-user group messages', () => {
         cy.contains('#channelHeaderTitle', 'Town Square');
 
         // # Open the 'Direct messages' dialog
-        cy.uiAddDirectMessage().click();
+        cy.uiAddDirectMessage().click().wait(TIMEOUTS.ONE_SEC);
+        cy.findByRole('dialog', {name: 'Direct Messages'}).should('be.visible').wait(TIMEOUTS.ONE_SEC);
 
         // # Start typing part of a username that matches previously created users
-        cy.get('#selectItems input').
-            type(searchTerm, {force: true});
+        cy.findByRole('textbox', {name: 'Search for people'}).click({force: true}).
+            type(searchTerm).wait(TIMEOUTS.ONE_SEC);
 
         // * Expect user list to only contain usernames matching the query term and to be sorted alphabetically
         expectUserListSortedAlphabetically(searchTerm);
@@ -121,7 +122,7 @@ describe('Multi-user group messages', () => {
 
         // # Type a search term and select an autocomplete option.
         cy.get('#selectItems input').click().type('beatrice');
-        cy.get('.loading-screen').should('not.be.visible');
+        cy.get('.loading-screen').should('not.exist');
         cy.contains('#multiSelectList .clickable', 'beatrice').should('be.visible'); // .click(); runs into dettached dom element
         cy.get('#selectItems input').type('{enter}');
 
@@ -129,11 +130,11 @@ describe('Multi-user group messages', () => {
         cy.get('button#saveItems').click({force: true});
 
         // * Modal closes
-        cy.get('#moreDmModal').should('not.be.visible');
+        cy.get('#moreDmModal').should('not.exist');
         cy.wait(TIMEOUTS.ONE_SEC);
 
         // * Original messages does not exist
-        cy.contains('.post-message__text', 'historical').should('not.be.visible');
+        cy.contains('.post-message__text', 'historical').should('not.exist');
 
         cy.contains('p.channel-intro-text span', 'This is the start of your group message history with');
 

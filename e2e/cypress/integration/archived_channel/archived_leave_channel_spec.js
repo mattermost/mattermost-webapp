@@ -107,7 +107,7 @@ describe('Leave an archived channel', () => {
 
         // # Ensure there are no options to change channel roles or membership
         // * Membership or role cannot be changed
-        cy.findByTestId('userListItemActions').should('not.be.visible');
+        cy.findByTestId('userListItemActions').should('not.exist');
 
         // # Use search box to refine list of members
         // * Search box works as before to refine member list
@@ -126,7 +126,7 @@ describe('Leave an archived channel', () => {
         // # repeat searching and navigating to the archived channel steps 3 times.
         [1, 2, 3].forEach((i) => {
             // * ensure we are not on an archived channel
-            cy.get('#channelInfoModalLabel span.icon__archive').should('not.be.visible');
+            cy.get('#channelInfoModalLabel span.icon__archive').should('not.exist');
 
             // # Search for a post in an archived channel
             cy.get('#searchBox').click().clear().type(`${testArchivedMessage}{enter}`);
@@ -152,7 +152,7 @@ describe('Leave an archived channel', () => {
             }
 
             // * The user is returned to the channel they were previously viewing and the archived channel is removed from the drawer
-            cy.get(`#sidebarItem_${testChannel.name}`).should('not.be.visible');
+            cy.get(`#sidebarItem_${testChannel.name}`).should('not.exist');
             cy.url().should('include', `${testTeam.name}/channels/off-topic`);
         });
     });
@@ -180,7 +180,7 @@ describe('Leave an archived channel', () => {
 
             // # Open the channel from search results
             cy.get('#searchContainer').should('be.visible');
-            cy.get('#loadingSpinner').should('not.be.visible');
+            cy.get('#loadingSpinner').should('not.exist');
 
             cy.get('a.search-item__jump').first().click();
 

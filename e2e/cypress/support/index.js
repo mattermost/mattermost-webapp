@@ -190,6 +190,9 @@ function sysadminSetup(user) {
         }
     });
 
+    // # Disable plugins not included in prepackaged
+    cy.apiDisableNonPrepackagedPlugins();
+
     // # Check if default team is present; create if not found.
     cy.apiGetTeamsForUser().then(({teams}) => {
         // Default team is meant for sysadmin's primary team,
