@@ -11,6 +11,8 @@ import RenewalLink from 'components/announcement_bar/renewal_link/';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import './renew_license_card.scss';
+import PurchaseLink from "../../../announcement_bar/purchase_link/purchase_link";
+import ContactSales from "../../../announcement_bar/contact_sales/contact_sales";
 export interface RenewLicenseCardProps {
     license: any;
     isLicenseExpired: boolean;
@@ -27,11 +29,7 @@ const RenewLicenseCard: React.FC<RenewLicenseCardProps> = ({license, totalUsers,
     let cardTitle = (
         <FormattedMessage
             id='admin.license.renewalCard.licenseExpiring'
-            defaultMessage='License expires in {days} days on {date, date, long}.'
-            values={{
-                date: endOfLicense,
-                days: daysToEndLicense,
-            }}
+            defaultMessage='You’re currently on a free trial of our E20 license.'
         />
     );
     if (isLicenseExpired) {
@@ -51,40 +49,22 @@ const RenewLicenseCard: React.FC<RenewLicenseCardProps> = ({license, totalUsers,
         <div className='RenewLicenseCard'>
             <div className='RenewLicenseCard__text'>
                 <div className={titleClass}>
-                    <i className={iconClass}/>
                     {cardTitle}
-                </div>
-                <div className='RenewLicenseCard__text-description bolder'>
-                    <FormattedMessage
-                        id='admin.license.renewalCard.description'
-                        defaultMessage='Renew your Enterprise license through the Customer Portal to avoid any disruption.'
-                    />
                 </div>
                 <div className='RenewLicenseCard__text-description'>
                     <FormattedMessage
-                        id='admin.license.renewalCard.reviewNumbers'
-                        defaultMessage='Review your numbers below to ensure you renew for the right number of users.'
-                    />
-                </div>
-                <div className='RenewLicenseCard__licensedUsersNum'>
-                    <FormattedMarkdownMessage
-                        id='admin.license.renewalCard.licensedUsersNum'
-                        defaultMessage='**Licensed Users:** {licensedUsersNum}'
+                        id='admin.license.renewalCard.description'
+                        defaultMessage='"Your free trial will expire in {daysCount} {dayDays}. Visit our customer portal to purchase a license now to continue using E10 & E20 features after trial ends."'
                         values={{
-                            licensedUsersNum: license.Users,
+                            daysCount: daysToEndLicense,
+                            b: (chunk: any) => (<b>{chunk}</b>)
                         }}
                     />
                 </div>
-                <div className='RenewLicenseCard__activeUsersNum'>
-                    <FormattedMarkdownMessage
-                        id='admin.license.renewalCard.usersNumbers'
-                        defaultMessage='**Active Users:** {activeUsersNum}'
-                        values={{
-                            activeUsersNum: totalUsers,
-                        }}
-                    />
+                <div className='buttonGroup'>
+                    <PurchaseLink/>
+                    <ContactSales/>
                 </div>
-                <RenewalLink telemetryInfo={renewLinkTelemetry}/>
             </div>
         </div>
     );

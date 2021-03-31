@@ -7,7 +7,7 @@ import React from 'react';
 import {FormattedDate, FormattedTime, FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils.jsx';
-import {isLicenseExpired, isLicenseExpiring} from 'utils/license_utils.jsx';
+import {isLicenseExpired, isLicenseExpiring, isTrialLicense} from 'utils/license_utils.jsx';
 import {format} from 'utils/markdown';
 
 import * as AdminActions from 'actions/admin_actions.jsx';
@@ -611,7 +611,7 @@ export default class LicenseSettings extends React.PureComponent {
     }
 
     renewLicenseCard = () => {
-        if (isLicenseExpired(this.props.license) || isLicenseExpiring(this.props.license)) {
+        if (isLicenseExpired(this.props.license) || isLicenseExpiring(this.props.license) || isTrialLicense(this.props.license)) {
             return (
                 <RenewLinkCard
                     license={this.props.license}
