@@ -78,7 +78,8 @@ export function getRoundedTime(value: Date) {
     return moment(start).add(remainder, 'm').seconds(0).milliseconds(0).toDate();
 }
 
-const getDateInIntervals = (startTime: Date, interval: number): Date[] => {
+const getDateInIntervals = (startTime: Date): Date[] => {
+    const interval = CUSTOM_STATUS_TIME_PICKER_INTERVALS_IN_MINUTES;
     let time = startTime;
     const nextDay = moment(startTime).add(1, 'days').startOf('day').toDate();
     const intervals: Date[] = [];
@@ -103,13 +104,11 @@ const DateTimeInputContainer: React.FC<Props> = (props: Props) => {
 
     const setTimeAndOptions = () => {
         const currentTime = timezone ? getCurrentDateAndTimeForTimezone(timezone) : new Date();
-        let startTime: Date;
+        let startTime = moment(time).startOf('day').toDate();
         if (time.getDate() === currentTime.getDate()) {
             startTime = getRoundedTime(currentTime);
-        } else {
-            startTime = moment(time).startOf('day').toDate();
         }
-        setTimeOptions(getDateInIntervals(startTime, CUSTOM_STATUS_TIME_PICKER_INTERVALS_IN_MINUTES));
+        setTimeOptions(getDateInIntervals(startTime));
     };
 
     useEffect(setTimeAndOptions, [time]);

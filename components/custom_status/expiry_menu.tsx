@@ -87,9 +87,9 @@ const ExpiryMenu: React.FC<Props> = (props: Props) => {
                         id='statusExpiryMenu'
                     >
                         <Menu.Group>
-                            {Object.keys(expiryMenuItems).map((item, index) => (
+                            {Object.keys(expiryMenuItems).map((item) => (
                                 <Menu.ItemAction
-                                    key={index}
+                                    key={item}
                                     onClick={(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => handleExpiryChange(event, item)}
                                     ariaLabel={expiryMenuItems[item].text.toLowerCase()}
                                     text={expiryMenuItems[item].text}

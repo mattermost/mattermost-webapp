@@ -72,18 +72,14 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
     const userTimezone = useSelector((state: GlobalState) => getUserTimezone(state, currentUserId));
     const enableTimezone = useSelector(areTimezonesEnabledAndSupported);
 
-    let currentTime: Date;
+    let currentTime = new Date();
     let timezone: string | undefined;
     if (enableTimezone) {
+        timezone = userTimezone.manualTimezone;
         if (userTimezone.useAutomaticTimezone) {
-            currentTime = getCurrentDateAndTimeForTimezone(userTimezone.automaticTimezone);
             timezone = userTimezone.automaticTimezone;
-        } else {
-            currentTime = getCurrentDateAndTimeForTimezone(userTimezone.manualTimezone);
-            timezone = userTimezone.manualTimezone;
         }
-    } else {
-        currentTime = new Date();
+        currentTime = getCurrentDateAndTimeForTimezone(timezone);
     }
 
     let initialCustomExpiryTime: Date = getRoundedTime(currentTime);
@@ -168,9 +164,9 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
     };
 
     const disableSetStatus = emoji === '' ||
-    (currentCustomStatus.emoji === emoji && currentCustomStatus.text === text &&
-    ((expiry !== Duration.DATE_AND_TIME && currentCustomStatus.duration === expiry) ||
-    (expiry === Duration.DATE_AND_TIME && customExpiryTime.getTime() === new Date(currentCustomStatus.expires_at).getTime())));
+        (currentCustomStatus.emoji === emoji && currentCustomStatus.text === text &&
+            ((expiry !== Duration.DATE_AND_TIME && currentCustomStatus.duration === expiry) ||
+                (expiry === Duration.DATE_AND_TIME && customExpiryTime.getTime() === new Date(currentCustomStatus.expires_at).getTime())));
 
     const handleSuggestionClick = (status: UserCustomStatus) => {
         setEmoji(status.emoji);
