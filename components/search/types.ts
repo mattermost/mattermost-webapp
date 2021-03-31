@@ -10,6 +10,8 @@ export type OwnProps = {
     isSideBarRight?: boolean;
     isSideBarRightOpen?: boolean;
     isFocus: boolean;
+    hideSearchBar?: boolean;
+    enableFindShortcut?: boolean;
     channelDisplayName?: string;
     getFocus?: (searchBarFocus: () => void) => void;
     children?: React.ReactNode;
@@ -39,6 +41,7 @@ export type DispatchProps = {
         autocompleteUsersInTeam: (username: string) => DispatchFunc;
         updateRhsState: (rhsState: string) => void;
         getMorePostsForSearch: () => ActionFunc;
+        openRHSSearch: () => void;
     };
 }
 

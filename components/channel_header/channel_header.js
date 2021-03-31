@@ -22,7 +22,6 @@ import Search from 'components/search/index.tsx';
 import StatusIcon from 'components/status_icon';
 import FlagIcon from 'components/widgets/icons/flag_icon';
 import MentionsIcon from 'components/widgets/icons/mentions_icon';
-import SearchIcon from 'components/widgets/icons/search_icon';
 import ArchiveIcon from 'components/widgets/icons/archive_icon';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 import QuickSwitchModal from 'components/quick_switch_modal';
@@ -79,7 +78,6 @@ class ChannelHeader extends React.PureComponent {
             showFlaggedPosts: PropTypes.func.isRequired,
             showPinnedPosts: PropTypes.func.isRequired,
             showMentions: PropTypes.func.isRequired,
-            openRHSSearch: PropTypes.func.isRequired,
             closeRightHandSide: PropTypes.func.isRequired,
             getCustomEmojisInText: PropTypes.func.isRequired,
             updateChannelNotifyProps: PropTypes.func.isRequired,
@@ -212,12 +210,6 @@ class ChannelHeader extends React.PureComponent {
         } else {
             this.props.actions.showFlaggedPosts();
         }
-    };
-
-    searchButtonClick = (e) => {
-        e.preventDefault();
-
-        this.props.actions.openRHSSearch();
     };
 
     handleShortcut = (e) => {
@@ -824,30 +816,11 @@ class ChannelHeader extends React.PureComponent {
                         channel={channel}
                         channelMember={channelMember}
                     />
-
-                    {this.state.showSearchBar ? (
-                        <div
-                            id='searchbarContainer'
-                            className='flex-child search-bar__container'
-                        >
-                            <Search
-                                isFocus={Utils.isMobile() || (this.props.rhsOpen && Boolean(this.props.rhsState))}
-                            />
-                        </div>
-                    ) : (
-                        <HeaderIconWrapper
-                            iconComponent={
-                                <SearchIcon
-                                    className='icon icon--standard'
-                                    aria-hidden='true'
-                                />
-                            }
-                            ariaLabel={true}
-                            buttonId={'channelHeaderSearchButton'}
-                            onClick={this.searchButtonClick}
-                            tooltipKey={'search'}
-                        />
-                    )}
+                    <Search
+                        isFocus={Utils.isMobile() || (this.props.rhsOpen && Boolean(this.props.rhsState))}
+                        hideSearchBar={!this.state.showSearchBar}
+                        enableFindShortcut={true}
+                    />
                     <HeaderIconWrapper
                         iconComponent={
                             <MentionsIcon

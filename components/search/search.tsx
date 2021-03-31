@@ -1,11 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {ChangeEvent, FormEvent, useEffect, useState, useRef} from 'react';
+import React, {ChangeEvent, FormEvent, useEffect, useState, useRef, useCallback} from 'react';
 import {useIntl} from 'react-intl';
 import classNames from 'classnames';
 
-import {searchHintOptions, RHSStates} from 'utils/constants';
+import Constants, {searchHintOptions, RHSStates} from 'utils/constants';
 import {isServerVersionGreaterThanOrEqualTo} from 'utils/server_version';
 import {isDesktopApp, getDesktopVersion} from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
@@ -13,6 +13,7 @@ import HeaderIconWrapper from 'components/channel_header/components/header_icon_
 import SearchHint from 'components/search_hint/search_hint';
 import FlagIcon from 'components/widgets/icons/flag_icon';
 import MentionsIcon from 'components/widgets/icons/mentions_icon';
+import SearchIcon from 'components/widgets/icons/search_icon';
 import Popover from 'components/widgets/popover';
 import UserGuideDropdown from 'components/channel_header/components/user_guide_dropdown';
 
@@ -61,7 +62,7 @@ const determineVisibleSearchHintOptions = (searchTerms: string): SearchHintOptio
 };
 
 const Search: React.FC<Props> = (props: Props): JSX.Element => {
-    const {actions, searchTerms, currentChannelName, isSideBarRight} = props;
+    const {actions, searchTerms, currentChannelName, hideSearchBar, enableFindShortcut} = props;
 
     const intl = useIntl();
 
@@ -81,15 +82,19 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
     ]);
 
     const isDesktop = isDesktopApp() && isServerVersionGreaterThanOrEqualTo(getDesktopVersion(), '4.7.0');
-    if (!isSideBarRight) {
-        const handleKeyDown = (e: KeyboardEvent) => {
-            if (Utils.cmdOrCtrlPressed(e) && e.key === 'f') {
+    if (enableFindShortcut) {
+        const handleKeyDown = useCallback((e: KeyboardEvent) => {
+            if (Utils.cmdOrCtrlPressed(e) && Utils.isKeyPressed(e, Constants.KeyCodes.F)) {
                 if (isDesktop || (!isDesktop && e.shiftKey)) {
-                    handleAddSearchTerm(`In:${currentChannelName} `);
+                    if (hideSearchBar) {
+                        actions.openRHSSearch();
+                        setKeepInputFocused(true);
+                    }
+                    handleUpdateSearchTerms(`in:${currentChannelName} `);
                     handleFocus();
                 }
             }
-        };
+        }, [currentChannelName, hideSearchBar]);
 
         useEffect(() => {
             document.addEventListener('keydown', handleKeyDown);
@@ -97,7 +102,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
             return () => {
                 document.removeEventListener('keydown', handleKeyDown);
             };
-        }, []);
+        }, [currentChannelName, hideSearchBar]);
     }
 
     useEffect((): void => {
@@ -155,7 +160,11 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
         const pretextArray = searchTerms?.split(' ') || [];
         pretextArray.pop();
         pretextArray.push(term.toLowerCase());
-        actions.updateSearchTerms(pretextArray.join(' '));
+        handleUpdateSearchTerms(pretextArray.join(' '));
+    };
+
+    const handleUpdateSearchTerms = (terms: string): void => {
+        actions.updateSearchTerms(terms);
         updateHighlightedSearchHint();
     };
 
@@ -273,6 +282,12 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
         actions.showFlaggedPosts();
     };
 
+    const searchButtonClick = (e: React.MouseEvent) => {
+        e.preventDefault();
+
+        actions.openRHSSearch();
+    };
+
     const renderMentionButton = (): JSX.Element => (
         <HeaderIconWrapper
             iconComponent={
@@ -381,9 +396,31 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
 
     // when inserted in the `ChannelHeader` component just return the for with `SearchBar`
     if (!props.isSideBarRight) {
+        if (hideSearchBar) {
+            return (
+                <HeaderIconWrapper
+                    iconComponent={
+                        <SearchIcon
+                            className='icon icon--standard'
+                            aria-hidden='true'
+                        />
+                    }
+                    ariaLabel={true}
+                    buttonId={'channelHeaderSearchButton'}
+                    onClick={searchButtonClick}
+                    tooltipKey={'search'}
+                />
+            );
+        }
+
         return (
-            <div className='sidebar-right__table'>
-                {renderSearchBar()}
+            <div
+                id='searchbarContainer'
+                className='flex-child search-bar__container'
+            >
+                <div className='sidebar-right__table'>
+                    {renderSearchBar()}
+                </div>
             </div>
         );
     }

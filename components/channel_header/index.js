@@ -36,7 +36,6 @@ import {
     showFlaggedPosts,
     showPinnedPosts,
     showMentions,
-    openRHSSearch,
     closeRightHandSide,
 } from 'actions/views/rhs';
 import {makeGetCustomStatus, isCustomStatusEnabled} from 'selectors/views/custom_status';
@@ -103,7 +102,6 @@ const mapDispatchToProps = (dispatch) => ({
         showFlaggedPosts,
         showPinnedPosts,
         showMentions,
-        openRHSSearch,
         closeRightHandSide,
         getCustomEmojisInText,
         updateChannelNotifyProps,

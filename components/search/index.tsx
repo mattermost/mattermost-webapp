@@ -8,7 +8,7 @@ import {getMorePostsForSearch} from 'mattermost-redux/actions/search';
 import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 
 import {
-    updateSearchTerms, showSearchResults, showMentions, showFlaggedPosts, closeRightHandSide, updateRhsState, setRhsExpanded,
+    updateSearchTerms, showSearchResults, showMentions, showFlaggedPosts, closeRightHandSide, updateRhsState, setRhsExpanded, openRHSSearch,
 } from 'actions/views/rhs';
 import {autocompleteChannelsForSearch} from 'actions/channel_actions';
 import {autocompleteUsersInTeam} from 'actions/user_actions';
@@ -48,6 +48,7 @@ function mapDispatchToProps(dispatch: Dispatch<AnyAction>) {
             autocompleteUsersInTeam,
             updateRhsState,
             getMorePostsForSearch,
+            openRHSSearch,
         }, dispatch),
     };
 }
