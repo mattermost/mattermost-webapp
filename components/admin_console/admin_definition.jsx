@@ -3623,7 +3623,6 @@ const AdminDefinition = {
                         isDisabled: it.any(
                             it.not(it.userHasWritePermissionOnResource('authentication')),
                             it.stateIsFalse('SamlSettings.Enable'),
-                            it.stateIsFalse('SamlSettings.Verify'),
                         ),
                     },
                     {
