@@ -3,13 +3,13 @@
 
 import React from 'react';
 
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
+import {trackEvent} from 'actions/telemetry_actions.jsx';
+import * as GlobalActions from 'actions/global_actions';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
-import {trackEvent} from 'actions/telemetry_actions.jsx';
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
-import UserGuideDropdown from 'components/channel_header/components/user_guide_dropdown/user_guide_dropdown';
-import * as GlobalActions from 'actions/global_actions';
+import UserGuideDropdown from './user_guide_dropdown';
 
 jest.mock('actions/global_actions', () => ({
     toggleShortcutsModal: jest.fn(),
