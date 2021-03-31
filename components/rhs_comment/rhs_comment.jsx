@@ -309,6 +309,7 @@ class RhsComment extends React.PureComponent {
             userProfile = (
                 <UserProfile
                     userId={post.user_id}
+                    channelId={post.channel_id}
                     isBusy={this.props.isBusy}
                     isRHS={true}
                     hasMention={true}
@@ -320,6 +321,7 @@ class RhsComment extends React.PureComponent {
             userProfile = (
                 <UserProfile
                     userId={post.user_id}
+                    channelId={post.channel_id}
                     isBusy={this.props.isBusy}
                     isRHS={true}
                     hasMention={true}
@@ -333,6 +335,7 @@ class RhsComment extends React.PureComponent {
                     isRHS={true}
                     post={post}
                     userId={post.user_id}
+                    channelId={post.channel_id}
                 />
             );
 
@@ -341,6 +344,7 @@ class RhsComment extends React.PureComponent {
                     userProfile = (
                         <UserProfile
                             userId={post.user_id}
+                            channelId={post.channel_id}
                             hideStatus={true}
                             overwriteName={post.props.override_username}
                             disablePopover={true}
@@ -350,6 +354,7 @@ class RhsComment extends React.PureComponent {
                     userProfile = (
                         <UserProfile
                             userId={post.user_id}
+                            channelId={post.channel_id}
                             hideStatus={true}
                             disablePopover={true}
                         />
@@ -362,6 +367,7 @@ class RhsComment extends React.PureComponent {
                     <span className='auto-responder'>
                         <UserProfile
                             userId={post.user_id}
+                            channelId={post.channel_id}
                             hideStatus={true}
                             isBusy={this.props.isBusy}
                             isRHS={true}
@@ -381,6 +387,7 @@ class RhsComment extends React.PureComponent {
                 userProfile = (
                     <UserProfile
                         userId={post.user_id}
+                        channelId={post.channel_id}
                         hideStatus={true}
                     />
                 );
@@ -404,6 +411,7 @@ class RhsComment extends React.PureComponent {
                         }
                         overwriteImage={Constants.SYSTEM_MESSAGE_PROFILE_IMAGE}
                         disablePopover={true}
+                        channelId={post.channel_id}
                     />
                 );
                 visibleMessage = (

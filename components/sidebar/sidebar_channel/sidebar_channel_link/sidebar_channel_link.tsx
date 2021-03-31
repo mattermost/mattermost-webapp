@@ -224,7 +224,6 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
                     {customStatus}
                 </div>
                 <ChannelMentionBadge
-                    channelId={channel.id}
                     unreadMentions={unreadMentions}
                 />
                 <SidebarChannelMenu

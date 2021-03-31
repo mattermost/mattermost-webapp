@@ -42,7 +42,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
     </span>
   </div>
   <ChannelMentionBadge
-    channelId="channel_id"
     unreadMentions={0}
   />
   <Connect(injectIntl(SidebarChannelMenu))
@@ -117,7 +116,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
     </span>
   </div>
   <ChannelMentionBadge
-    channelId="channel_id"
     unreadMentions={0}
   />
   <Connect(injectIntl(SidebarChannelMenu))
@@ -216,7 +214,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
     </OverlayTrigger>
   </div>
   <ChannelMentionBadge
-    channelId="channel_id"
     unreadMentions={0}
   />
   <Connect(injectIntl(SidebarChannelMenu))
@@ -291,7 +288,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
     </span>
   </div>
   <ChannelMentionBadge
-    channelId="channel_id"
     unreadMentions={2}
   />
   <Connect(injectIntl(SidebarChannelMenu))
