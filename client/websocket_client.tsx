@@ -8,8 +8,15 @@ const MAX_WEBSOCKET_RETRY_TIME = 300000; // 5 mins
 export default class WebSocketClient {
     private conn: WebSocket | null;
     private connectionUrl: string | null;
-    private sequence: number;
-    private eventSequence: number;
+
+    // responseSequence is the number to track a response sent
+    // via the websocket. A response will always have the same sequence number
+    // as the request.
+    private responseSequence: number;
+
+    // serverSequence is the incrementing sequence number from the
+    // server-sent event stream.
+    private serverSequence: number;
     private connectFailCount: number;
     private eventCallback: ((msg: any) => void) | null;
     private responseCallbacks: {[x: number]: ((msg: any) => void)};
@@ -22,8 +29,8 @@ export default class WebSocketClient {
     constructor() {
         this.conn = null;
         this.connectionUrl = null;
-        this.sequence = 1;
-        this.eventSequence = 0;
+        this.responseSequence = 1;
+        this.serverSequence = 0;
         this.connectFailCount = 0;
         this.eventCallback = null;
         this.responseCallbacks = {};
@@ -52,7 +59,7 @@ export default class WebSocketClient {
         this.connectionUrl = connectionUrl;
 
         this.conn.onopen = () => {
-            this.eventSequence = 0;
+            this.serverSequence = 0;
 
             if (token) {
                 this.sendMessage('authentication_challenge', {token});
@@ -72,7 +79,7 @@ export default class WebSocketClient {
 
         this.conn.onclose = () => {
             this.conn = null;
-            this.sequence = 1;
+            this.responseSequence = 1;
 
             if (this.connectFailCount === 0) {
                 console.log('websocket closed'); //eslint-disable-line no-console
@@ -125,11 +132,11 @@ export default class WebSocketClient {
                     Reflect.deleteProperty(this.responseCallbacks, msg.seq_reply);
                 }
             } else if (this.eventCallback) {
-                if (msg.seq !== this.eventSequence && this.missedEventCallback) {
-                    console.log('missed websocket event, act_seq=' + msg.seq + ' exp_seq=' + this.eventSequence); //eslint-disable-line no-console
+                if (msg.seq !== this.serverSequence && this.missedEventCallback) {
+                    console.log('missed websocket event, act_seq=' + msg.seq + ' exp_seq=' + this.serverSequence); //eslint-disable-line no-console
                     this.missedEventCallback();
                 }
-                this.eventSequence = msg.seq + 1;
+                this.serverSequence = msg.seq + 1;
                 this.eventCallback(msg);
             }
         };
@@ -161,7 +168,7 @@ export default class WebSocketClient {
 
     close() {
         this.connectFailCount = 0;
-        this.sequence = 1;
+        this.responseSequence = 1;
         if (this.conn && this.conn.readyState === WebSocket.OPEN) {
             this.conn.onclose = () => {}; //eslint-disable-line no-empty-function
             this.conn.close();
@@ -173,7 +180,7 @@ export default class WebSocketClient {
     sendMessage(action: string, data: any, responseCallback?: () => void) {
         const msg = {
             action,
-            seq: this.sequence++,
+            seq: this.responseSequence++,
             data,
         };
 

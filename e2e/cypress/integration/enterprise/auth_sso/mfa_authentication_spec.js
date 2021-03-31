@@ -80,7 +80,7 @@ describe('Authentication', () => {
         // * Remove MFA option not available for the user
         cy.wait(TIMEOUTS.HALF_SEC);
         cy.findByTestId('userListRow').find('.MenuWrapper a').should('be.visible').click();
-        cy.findByText('Remove MFA').should('not.be.visible');
+        cy.findByText('Remove MFA').should('not.exist');
 
         // # Login as test user
         cy.apiLogin(testUser);
@@ -142,7 +142,7 @@ describe('Authentication', () => {
         cy.visit('/');
 
         // * No MFA page is shown
-        cy.findByText('Multi-factor Authentication Setup', {timeout: TIMEOUTS.ONE_MIN}).should('not.be.visible').and('not.exist');
+        cy.findByText('Multi-factor Authentication Setup', {timeout: TIMEOUTS.ONE_MIN}).should('not.exist').and('not.exist');
     });
 
     // This test relies on the previous test for having MFA enabled (MM-T1781)
@@ -158,7 +158,7 @@ describe('Authentication', () => {
         // * Remove MFA option available for the user and click it
         cy.wait(TIMEOUTS.HALF_SEC);
         cy.findByTestId('userListRow').find('.MenuWrapper a').should('be.visible').click();
-        cy.findByText('Remove MFA').should('not.be.visible');
+        cy.findByText('Remove MFA').should('not.exist');
 
         // # Done with that MFA stuff so we disable it all
         cy.apiUpdateConfig({

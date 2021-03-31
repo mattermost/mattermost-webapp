@@ -131,7 +131,7 @@ describe('Bot accounts - CRUD Testing', () => {
 
                 // * Validate that token is NOT visible on the next page
                 const token = text.substr(text.indexOf('Token: ') + 7, 26);
-                cy.findByText(new RegExp(token)).should('not.be.visible');
+                cy.findByText(new RegExp(token)).should('not.exist');
             });
         });
     });
@@ -161,7 +161,7 @@ describe('Bot accounts - CRUD Testing', () => {
             // # Save and check that no error is visible
             cy.findByTestId('saveSetting').click();
 
-            cy.get('#clientError').should('not.be.visible');
+            cy.get('#clientError').should('not.exist');
 
             cy.findAllByText(testBot.username + 'description!').should('exist');
         });
@@ -200,7 +200,7 @@ describe('Bot accounts - CRUD Testing', () => {
             cy.get('#confirmModalButton').should('be.visible').click();
 
             // * Check that token is not visible
-            cy.wrap(el[0].parentElement.parentElement).findByText(/Token ID:/).should('not.be.visible');
+            cy.wrap(el[0].parentElement.parentElement).findByText(/Token ID:/).should('not.exist');
         });
     });
 });

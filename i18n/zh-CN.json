@@ -3102,7 +3102,7 @@
   "intro_messages.DM": "这是您和{teammate}私信记录的开端。\n此区域外的人不能看到这里共享的私信和文件。",
   "intro_messages.GM": "这是您和{names}团体消息的起端。\n此区域外的人不能看到这里共享的消息和文件。",
   "intro_messages.addGroupsToTeam": "添加其他组到此团队",
-  "intro_messages.anyMember": " 任何成员可以加入和查看这个频道。",
+  "intro_messages.anyMember": " 任何成员可以加入与查看该频道。",
   "intro_messages.beginning": "{name} 的开端",
   "intro_messages.creator": "这是{name}频道的开端，由{creator}于{date}建立。",
   "intro_messages.creatorPrivate": "这是{name}私有频道的开端，由{creator}于{date}建立。",
