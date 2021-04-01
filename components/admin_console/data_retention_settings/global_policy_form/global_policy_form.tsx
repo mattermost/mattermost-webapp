@@ -15,7 +15,7 @@ import {keepForeverOption, yearsOption, daysOption, FOREVER, YEARS, DAYS} from '
 
 import './global_policy_form.scss';
 import SaveButton from 'components/save_button';
-import { ServerError } from 'mattermost-redux/types/errors';
+import {ServerError} from 'mattermost-redux/types/errors';
 
 type ValueType = {
     label: string | JSX.Element;
@@ -91,7 +91,7 @@ export default class GlobalPolicyForm extends React.PureComponent<Props, State> 
         if (messageDays >= 1) {
             newConfig.DataRetentionSettings.MessageRetentionDays = messageDays;
         }
-        
+
         newConfig.DataRetentionSettings.EnableFileDeletion = this.setDeletionEnabled(fileRetentionDropdownValue.value);
 
         const fileDays = this.setRetentionDays(fileRetentionDropdownValue.value, fileRetentionInputValue);
@@ -111,7 +111,7 @@ export default class GlobalPolicyForm extends React.PureComponent<Props, State> 
     setDeletionEnabled = (dropdownValue: string) => {
         if (dropdownValue === FOREVER) {
             return false;
-        } 
+        }
         return true;
     }
 

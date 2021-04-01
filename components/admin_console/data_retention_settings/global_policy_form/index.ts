@@ -13,9 +13,10 @@ import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
 
 import {setNavigationBlocked} from 'actions/admin_actions.jsx';
 
+import {AdminConfig} from 'mattermost-redux/types/config';
+import {ServerError} from 'mattermost-redux/types/errors';
+
 import GlobalPolicyForm from './global_policy_form';
-import { AdminConfig } from 'mattermost-redux/types/config';
-import { ServerError } from 'mattermost-redux/types/errors';
 
 type Actions = {
     updateConfig: (config: Record<string, any>) => Promise<{ data?: AdminConfig; error?: ServerError }>;
