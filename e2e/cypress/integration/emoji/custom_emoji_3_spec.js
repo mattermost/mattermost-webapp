@@ -25,7 +25,6 @@ describe('Custom emojis', () => {
     const largeEmojiFile = 'gif-image-file.gif';
     const largeEmojiFileResized = 'gif-image-file-resized.gif';
 
-
     before(() => {
         cy.apiUpdateConfig({
             ServiceSettings: {

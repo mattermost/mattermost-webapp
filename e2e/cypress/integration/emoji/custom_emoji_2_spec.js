@@ -21,7 +21,7 @@ describe('Custom emojis', () => {
     let townsquareLink;
 
     const largeEmojiFile = 'gif-image-file.gif';
-    
+
     const tooLargeEmojiFile = 'huge-image.jpg';
 
     before(() => {
@@ -122,5 +122,4 @@ describe('Custom emojis', () => {
         cy.findAllByTestId('emojiItem').children().should('have.length', 1);
         cy.findAllByTestId('emojiItem').children('img').first().should('have.class', 'emoji-category--custom');
     });
-
 });
