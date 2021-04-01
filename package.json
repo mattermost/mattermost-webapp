@@ -270,6 +270,7 @@
     "i18n-check-empty-src": "npm run mmjstool -- i18n check-empty-src --webapp-dir .",
     "storybook": "start-storybook -p 6006 -s ./storybook/static",
     "build-storybook": "build-storybook -s ./storybook/static",
-    "check-types": "tsc"
+    "check-types": "tsc",
+    "check-preflight": "npm run check && npm run check-types && npm run test:speed"
   }
 }
