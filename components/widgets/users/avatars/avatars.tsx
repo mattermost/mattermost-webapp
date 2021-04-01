@@ -1,138 +1,115 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, ComponentProps, useEffect} from 'react';
+import React, {memo, ComponentProps} from 'react';
 import {useIntl} from 'react-intl';
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector} from 'react-redux';
 
 import {$ID} from 'mattermost-redux/types/utilities';
 import {UserProfile} from 'mattermost-redux/types/users';
-
-import {getUser, makeGetDisplayName} from 'mattermost-redux/selectors/entities/users';
-import {getProfilesByIds} from 'mattermost-redux/actions/users';
+import {getUser as selectUser, makeDisplayNameGetter} from 'mattermost-redux/selectors/entities/users';
 
 import {GlobalState} from 'types/store';
 
 import {t} from 'utils/i18n';
+import {imageURLForUser} from 'utils/utils';
 
 import SimpleTooltip, {useSynchronizedImmediate} from 'components/widgets/simple_tooltip';
-
 import Avatar from 'components/widgets/users/avatar';
 
 import './avatars.scss';
-import {imageURLForUser} from 'utils/utils';
-import {RequireOnlyOne} from 'utils/conditional_types';
 
-type StylingKeys = 'size';
-
-type UserProps = ComponentProps<typeof Avatar> & {name: string};
-type AvatarProps = Omit<UserProps, StylingKeys>;
-type Participants = Array<{id: $ID<UserProfile>}>;
-
-export type Props =
-    Pick<UserProps, StylingKeys> &
-    RequireOnlyOne<{
-        participants: Participants;
-        users: AvatarProps[];
-    }> & {
-        totalUsers?: number;
-        breakAt?: number;
-    }
+type Props = {
+    userIds: Array<$ID<UserProfile>>;
+    totalUsers?: number;
+    fetchMissing?: boolean;
+    breakAt?: number;
+    size?: ComponentProps<typeof Avatar>['size'];
+};
 
 const OTHERS_DISPLAY_LIMIT = 99;
 
-function selectUsers(
-    state: GlobalState,
-    users: Props['users'],
-    participants: Props['participants'],
-): null | {users: AvatarProps[]; missingProfiles?: string[]} {
-    if (users) {
-        return {users};
-    }
-    if (!participants) {
-        return null;
-    }
+function countMeta<T>(
+    items: T[], total = items.length,
+): [T[], T[], {overflowUnnamedCount: number; nonDisplayCount: number}] {
+    const breakAt = Math.max(items.length, total) > 4 ? 3 : 4;
 
-    const getDisplayName = makeGetDisplayName();
+    const displayItems = items.slice(0, breakAt);
+    const overflowItems = items.slice(breakAt);
 
-    return participants.reduce<NonNullable<ReturnType<typeof selectUsers>>>((result, {id}) => {
-        const user = getUser(state, id);
+    const overflowUnnamedCount = Math.max(total - displayItems.length - overflowItems.length, 0);
+    const nonDisplayCount = overflowItems.length + overflowUnnamedCount;
 
-        if (!user) {
-            result.missingProfiles?.push(id);
-            return result;
-        }
+    return [displayItems, overflowItems, {overflowUnnamedCount, nonDisplayCount}];
+}
 
-        result.users.push({
-            username: user.username,
-            name: getDisplayName(state, id, true),
-            url: imageURLForUser(id, user.last_picture_update),
-        });
+const displayNameGetter = makeDisplayNameGetter();
 
-        return result;
-    }, {users: [], missingProfiles: []});
+function UserAvatar({
+    userId,
+    overlayProps,
+    ...props
+}: {
+    userId: $ID<UserProfile>;
+    overlayProps: Partial<ComponentProps<typeof SimpleTooltip>>;
+} & ComponentProps<typeof Avatar>) {
+    const user = useSelector((state: GlobalState) => selectUser(state, userId));
+    const name = useSelector((state: GlobalState) => displayNameGetter(state, true)(user));
+    const url = imageURLForUser(userId, user.last_picture_update);
+
+    return (
+        <SimpleTooltip
+            id={`name-${user.username}`}
+            content={name}
+            {...overlayProps}
+        >
+            <Avatar
+                url={url}
+                tabIndex={0}
+                {...props}
+            />
+        </SimpleTooltip>
+    );
 }
 
 function Avatars({
     size,
-    participants,
-    users: unparsedUsers,
+    userIds,
+    totalUsers,
 }: Props) {
     const {formatMessage} = useIntl();
-    const dispatch = useDispatch();
     const [overlayProps, setImmediate] = useSynchronizedImmediate();
-    const result = useSelector((state: GlobalState) => selectUsers(state, unparsedUsers, participants));
-
-    useEffect(() => {
-        if (result?.missingProfiles?.length) {
-            dispatch(getProfilesByIds(result.missingProfiles));
-        }
-    }, [result?.missingProfiles?.length]);
-
-    if (!result?.users?.length) {
-        return null;
-    }
-    const {users} = result;
-
-    const totalUsers = users.length;
-    const breakAt = Math.max(users.length, totalUsers) > 4 ? 3 : 4;
-
-    const displayUsers = users.slice(0, breakAt);
-    const overflowUsers = users.slice(breakAt);
-    const overflowUnnamedCount = Math.max(totalUsers - displayUsers.length - overflowUsers.length, 0);
-    const nonDisplayCount = overflowUsers.length + overflowUnnamedCount;
+    const [displayUserIds, overflowUserIds, {overflowUnnamedCount, nonDisplayCount}] = countMeta(userIds, totalUsers);
+    const overflowNames = useSelector((state: GlobalState) => {
+        return userIds.map((userId) => displayNameGetter(state, true)(selectUser(state, userId))).join(', ');
+    });
 
     return (
         <div
             className={`Avatars Avatars___${size}`}
             onMouseLeave={() => setImmediate(false)}
         >
-            {displayUsers.map(({name, ...user}) => (
-                <SimpleTooltip
-                    key={user.url}
-                    id={`name-${user.username}`}
-                    content={name}
-                    {...overlayProps}
-                >
-                    <Avatar
-                        size={size}
-                        tabIndex={0}
-                        {...user}
-                    />
-                </SimpleTooltip>
+            {displayUserIds.map((id) => (
+                <UserAvatar
+                    key={id}
+                    userId={id}
+                    size={size}
+                    tabIndex={0}
+                    overlayProps={overlayProps}
+                />
             ))}
             {Boolean(nonDisplayCount) && (
                 <SimpleTooltip
                     id={'names-overflow'}
                     {...overlayProps}
-                    content={overflowUsers.length ? formatMessage(
+                    content={overflowUserIds.length ? formatMessage(
                         {
                             id: t('avatars.overflowUsers'),
                             defaultMessage: '{overflowUnnamedCount, plural, =0 {{names}} =1 {{names} and one other} other {{names} and # others}}',
                         },
                         {
                             overflowUnnamedCount,
-                            names: overflowUsers.map((user) => user.name).join(', '),
+                            names: overflowNames,
                         },
                     ) : formatMessage(
                         {

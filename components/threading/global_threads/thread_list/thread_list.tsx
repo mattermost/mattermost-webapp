@@ -20,6 +20,8 @@ export enum ThreadFilter {
     unread = 'unread'
 }
 
+export const FILTER_STORAGE_KEY = 'globalThreads_filter';
+
 type Props = {
     currentFilter: ThreadFilter;
     someUnread: boolean;

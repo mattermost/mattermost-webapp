@@ -1,12 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, useCallback, ComponentProps} from 'react';
+import React, {memo, useCallback, ComponentProps, useMemo} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import './thread_footer.scss';
-
-import {Post} from 'mattermost-redux/types/posts';
 
 import Avatars from 'components/widgets/users/avatars';
 
@@ -19,7 +17,7 @@ import SimpleTooltip from 'components/widgets/simple_tooltip';
 import {THREADING_TIME} from '../../common/options';
 
 type Props = {
-    participants: Post['participants'];
+    participants: Array<{id: string}>; // Post['participants']
     totalParticipants?: number;
     totalReplies: number;
     newReplies: number;
@@ -43,6 +41,8 @@ function ThreadFooter({
         openThread,
     },
 }: Props) {
+    const participantIds = useMemo(() => participants?.map(({id}) => id), [participants]);
+
     return (
         <div className='ThreadFooter'>
             {newReplies ? (
@@ -68,7 +68,7 @@ function ThreadFooter({
             )}
 
             <Avatars
-                participants={participants}
+                userIds={participantIds}
                 totalUsers={totalParticipants}
                 size='sm'
             />

@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {Link, useRouteMatch, useLocation, matchPath} from 'react-router-dom';
 import classNames from 'classnames';
 import {useIntl} from 'react-intl';
@@ -37,13 +37,14 @@ const GlobalThreadsLink = () => {
     const someUnreadThreads = counts?.total_unread_threads;
 
     useEffect(() => {
+        // load counts if necessary
         if (isFeatureEnabled) {
             dispatch(getThreads(currentUserId, currentTeamId, {perPage: 5}));
         }
     }, [currentTeamId]);
 
     if (!isFeatureEnabled || (unreadsOnly && !inGlobalThreads && !someUnreadThreads)) {
-        // hide link if filtering unreads and there are no unread threads
+        // hide link if feature disabled or filtering unreads and there are no unread threads
         return null;
     }
 
@@ -81,4 +82,4 @@ const GlobalThreadsLink = () => {
     );
 };
 
-export default memo(GlobalThreadsLink);
+export default GlobalThreadsLink;

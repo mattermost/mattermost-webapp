@@ -37,7 +37,7 @@ import BalloonIllustration from '../common/balloon_illustration';
 
 import ThreadViewer from '../thread_viewer';
 
-import ThreadList, {ThreadFilter} from './thread_list';
+import ThreadList, {ThreadFilter, FILTER_STORAGE_KEY} from './thread_list';
 import ThreadPane from './thread_pane';
 import ThreadItem from './thread_item';
 
@@ -48,7 +48,7 @@ const GlobalThreads = () => {
     const dispatch = useDispatch();
 
     const {url, params: {threadIdentifier}} = useRouteMatch<{threadIdentifier?: string}>();
-    const [filter, setFilter] = useGlobalState(ThreadFilter.none, 'globalThreads_filter');
+    const [filter, setFilter] = useGlobalState(ThreadFilter.none, FILTER_STORAGE_KEY);
     const {currentTeamId, currentUserId, clear} = useThreadRouting();
 
     const counts = useSelector(getThreadCountsInCurrentTeam);

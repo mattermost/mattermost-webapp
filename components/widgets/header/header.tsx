@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, ReactNode, Fragment, HTMLAttributes} from 'react';
+import React, {ReactNode, Fragment, HTMLAttributes} from 'react';
 import classNames from 'classnames';
 
 import './header.scss';
@@ -40,4 +40,4 @@ const Header = ({
     );
 };
 
-export default memo(Header);
+export default Header;

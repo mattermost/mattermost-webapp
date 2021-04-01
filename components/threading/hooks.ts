@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {useCallback} from 'react';
+import {useMemo} from 'react';
 import {useRouteMatch, useHistory} from 'react-router-dom';
 import {useSelector} from 'react-redux';
 
@@ -20,13 +20,13 @@ export function useThreadRouting() {
     const history = useHistory();
     const currentTeamId = useSelector(getCurrentTeamId);
     const currentUserId = useSelector(getCurrentUserId);
-    return {
+    return useMemo(() => ({
         params,
         history,
         currentTeamId,
         currentUserId,
-        clear: useCallback(() => history.replace(`/${params.team}/threads`), [params]),
-        select: useCallback((threadId?: $ID<UserThread>) => history.push(`/${params.team}/threads${threadId ? '/' + threadId : ''}`), [params]),
-        goToInChannel: useCallback((threadId?: $ID<UserThread>, teamName?: $Name<Team>) => history.push(`/${teamName ?? params.team}/pl/${threadId ?? params.threadIdentifier}`), [params]),
-    };
+        clear: () => history.replace(`/${params.team}/threads`),
+        select: (threadId?: $ID<UserThread>) => history.push(`/${params.team}/threads${threadId ? '/' + threadId : ''}`),
+        goToInChannel: (threadId?: $ID<UserThread>, teamName: $Name<Team> = params.team) => history.push(`/${teamName}/pl/${threadId ?? params.threadIdentifier}`),
+    }), [params.team, params.threadIdentifier, currentTeamId, currentUserId]);
 }

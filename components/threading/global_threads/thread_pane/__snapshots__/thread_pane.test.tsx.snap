@@ -4,7 +4,7 @@ exports[`components/threading/global_threads/thread_pane should match snapshot 1
 <div
   className="ThreadPane"
 >
-  <Memo(Header)
+  <Header
     className="ThreadPane___header"
     heading={
       <React.Fragment>
@@ -45,7 +45,7 @@ exports[`components/threading/global_threads/thread_pane should match snapshot 1
           threadId="1y8hpek81byspd4enyk9mp1ncw"
           unreadTimestamp={1611786714912}
         >
-          <Memo(SimpleTooltip)
+          <SimpleTooltip
             content="More Actions"
             id="threadActionMenu"
           >
@@ -56,7 +56,7 @@ exports[`components/threading/global_threads/thread_pane should match snapshot 1
                 className="Icon icon-dots-vertical"
               />
             </Memo(Button)>
-          </Memo(SimpleTooltip)>
+          </SimpleTooltip>
         </Memo(ThreadMenu)>
       </React.Fragment>
     }
