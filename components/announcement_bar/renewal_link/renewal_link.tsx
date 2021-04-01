@@ -69,8 +69,8 @@ const RenewalLink: React.FC<RenewalLinkProps> = (props: RenewalLinkProps) => {
                 onClick={(e) => handleLinkClick(e)}
             >
                 <FormattedMessage
-                    id='announcement_bar.warn.renew_license_now'
-                    defaultMessage='Renew license now'
+                    id='announcement_bar.warn.purchase_license_now'
+                    defaultMessage='Purchase a License Now'
                 />
             </button>
         </>
