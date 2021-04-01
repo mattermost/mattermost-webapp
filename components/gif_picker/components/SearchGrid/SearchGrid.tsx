@@ -7,9 +7,9 @@ import {connect} from 'react-redux';
 
 import {saveSearchScrollPosition} from 'mattermost-redux/actions/gifs';
 
-import {trackEvent} from 'actions/telemetry_actions.jsx';
+import {trackEvent} from 'actions/telemetry_actions';
 
-import NoResultsIndicator from 'components/no_results_indicator/no_results_indicator.tsx';
+import NoResultsIndicator from 'components/no_results_indicator/no_results_indicator';
 import {NoResultsVariant} from 'components/no_results_indicator/types';
 
 import InfiniteScroll from 'components/gif_picker/components/InfiniteScroll';
