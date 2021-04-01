@@ -3,6 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+
 import {injectIntl} from 'react-intl';
 
 import {intlShape} from 'utils/react_intl';
@@ -17,6 +18,7 @@ class ModalToggleButtonRedux extends React.PureComponent {
         intl: intlShape.isRequired,
         onClick: PropTypes.func,
         className: PropTypes.string,
+        showUnread: PropTypes.bool,
         actions: PropTypes.shape({
             openModal: PropTypes.func.isRequired,
         }).isRequired,
@@ -55,12 +57,20 @@ class ModalToggleButtonRedux extends React.PureComponent {
 
         const ariaLabel = formatMessage({id: 'accessibility.button.dialog', defaultMessage: '{dialogName} dialog'}, {dialogName: props.accessibilityLabel});
 
+        let badge = null;
+        if (this.props.showUnread) {
+            badge = (
+                <span className={'unread-badge'}/>
+            );
+        }
+
         // removing these three props since they are not valid props on buttons
         delete props.modalId;
         delete props.dialogType;
         delete props.dialogProps;
         delete props.accessibilityLabel;
         delete props.actions;
+        delete props.showUnread;
 
         // allow callers to provide an onClick which will be called before the modal is shown
         let clickHandler = () => this.show();
@@ -81,6 +91,7 @@ class ModalToggleButtonRedux extends React.PureComponent {
                 onClick={clickHandler}
             >
                 {children}
+                {badge}
             </button>
         );
     }

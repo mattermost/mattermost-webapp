@@ -118,6 +118,7 @@ describe('components/marketplace/', () => {
             installedListing: [],
             pluginStatuses: {},
             siteURL: 'http://example.com',
+            firstAdminVisitMarketplaceStatus: false,
             actions: {
                 closeModal: jest.fn(),
                 fetchListing: jest.fn(() => {
@@ -126,6 +127,7 @@ describe('components/marketplace/', () => {
                 filterListing: jest.fn(() => {
                     return Promise.resolve({});
                 }),
+                setFirstAdminVisitMarketplaceStatus: jest.fn(),
             },
         };
 
@@ -156,18 +158,18 @@ describe('components/marketplace/', () => {
         });
 
         test('should fetch plugins when plugin status is changed', () => {
-            const fetchPlugins = baseProps.actions.fetchListing;
+            const fetchListing = baseProps.actions.fetchListing;
             const wrapper = shallow<MarketplaceModal>(<MarketplaceModal {...baseProps}/>);
 
-            expect(fetchPlugins).toBeCalledTimes(1);
+            expect(fetchListing).toBeCalledTimes(1);
             wrapper.setProps({...baseProps});
-            expect(fetchPlugins).toBeCalledTimes(1);
+            expect(fetchListing).toBeCalledTimes(1);
 
             const status = {
                 id: 'test',
             } as PluginStatusRedux;
             wrapper.setProps({...baseProps, pluginStatuses: {test: status}});
-            expect(fetchPlugins).toBeCalledTimes(2);
+            expect(fetchListing).toBeCalledTimes(2);
         });
 
         test('should render with error banner', () => {

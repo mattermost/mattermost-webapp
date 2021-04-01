@@ -484,6 +484,9 @@ export function handleEvent(msg) {
     case SocketEvents.CLOUD_PAYMENT_STATUS_UPDATED:
         dispatch(handleCloudPaymentStatusUpdated(msg));
         break;
+    case SocketEvents.FIRST_ADMIN_VISIT_MARKETPLACE_STATUS_RECEIVED:
+        handleFirstAdminVisitMarketplaceStatusReceivedEvent(msg);
+        break;
 
     // Apps framework events
     case SocketEvents.APPS_FRAMEWORK_REFRESH_BINDINGS: {
@@ -1376,4 +1379,9 @@ function handleRefreshAppsBindings() {
         }
         return {data: true};
     };
+}
+
+function handleFirstAdminVisitMarketplaceStatusReceivedEvent(msg) {
+    const receivedData = JSON.parse(msg.data.firstAdminVisitMarketplaceStatus);
+    store.dispatch({type: GeneralTypes.FIRST_ADMIN_VISIT_MARKETPLACE_STATUS_RECEIVED, data: receivedData});
 }

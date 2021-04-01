@@ -8,6 +8,9 @@ import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
 
 import {GlobalState} from 'types/store';
 import {getListing, getInstalledListing} from 'selectors/views/marketplace';
+import {setFirstAdminVisitMarketplaceStatus} from 'mattermost-redux/actions/general';
+import {getFirstAdminVisitMarketplaceStatus} from 'mattermost-redux/selectors/entities/general';
+
 import {isModalOpen} from 'selectors/views/modals';
 import {ModalIdentifiers} from 'utils/constants';
 import {getSiteURL} from 'utils/url';
@@ -24,6 +27,7 @@ function mapStateToProps(state: GlobalState) {
         installedListing: getInstalledListing(state),
         siteURL: getSiteURL(),
         pluginStatuses: state.entities.admin.pluginStatuses,
+        firstAdminVisitMarketplaceStatus: getFirstAdminVisitMarketplaceStatus(state),
     };
 }
 
@@ -31,6 +35,7 @@ type Actions = {
     closeModal(): void;
     fetchListing(localOnly?: boolean): Promise<{error?: Error}>;
     filterListing(filter: string): Promise<{error?: Error}>;
+    setFirstAdminVisitMarketplaceStatus(): Promise<void>;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
@@ -39,6 +44,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             closeModal: () => closeModal(ModalIdentifiers.PLUGIN_MARKETPLACE),
             fetchListing,
             filterListing,
+            setFirstAdminVisitMarketplaceStatus,
         }, dispatch),
     };
 }
