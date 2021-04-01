@@ -5,16 +5,24 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {shallow} from 'enzyme';
 
+import {Channel} from 'mattermost-redux/types/channels';
+
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
-import ChannelInfoModal from 'components/channel_info_modal/channel_info_modal.jsx';
+import ChannelInfoModal from 'components/channel_info_modal/channel_info_modal';
+import {TestHelper} from 'utils/test_helper';
 
 describe('components/ChannelInfoModal', () => {
+    const mockChannel = TestHelper.getChannelMock({
+        header: '',
+        purpose: '',
+    });
+    const mockTeam = TestHelper.getTeamMock();
     it('should match snapshot', () => {
         const wrapper = shallow(
             <ChannelInfoModal
-                channel={{name: 'testchannel', displayName: 'testchannel', header: '', purpose: ''}}
-                currentChannel={{name: 'testchannel', displayName: 'testchannel', header: '', purpose: ''}}
-                currentTeam={{id: 'testid', name: 'testteam'}}
+                channel={mockChannel}
+                currentChannel={mockChannel}
+                currentTeam={mockTeam}
                 onHide={jest.fn()}
             />,
         );
@@ -23,9 +31,8 @@ describe('components/ChannelInfoModal', () => {
     });
 
     it('should match snapshot with channel props', () => {
-        const channel = {
-            name: 'testchannel',
-            displayName: 'testchannel',
+        const channel: Channel = {
+            ...mockChannel,
             header: 'See ~test',
             purpose: 'And ~test too',
             props: {
@@ -41,7 +48,7 @@ describe('components/ChannelInfoModal', () => {
             <ChannelInfoModal
                 channel={channel}
                 currentChannel={channel}
-                currentTeam={{id: 'testid', name: 'testteam'}}
+                currentTeam={mockTeam}
                 onHide={jest.fn()}
             />,
         );
@@ -54,22 +61,22 @@ describe('components/ChannelInfoModal', () => {
 
         const wrapper = mountWithIntl(
             <ChannelInfoModal
-                channel={{name: 'testchannel', displayName: 'testchannel', header: '', purpose: ''}}
-                currentChannel={{name: 'testchannel', displayName: 'testchannel', header: '', purpose: ''}}
-                currentTeam={{id: 'testid', name: 'testteam'}}
+                channel={mockChannel}
+                currentChannel={mockChannel}
+                currentTeam={mockTeam}
                 onHide={onHide}
             />,
         );
-        wrapper.find(Modal).first().props().onExited();
+        wrapper.find(Modal).first().props().onExited!(document.createElement('div'));
         expect(onHide).toHaveBeenCalled();
     });
 
     it('should call onHide when current channel changes', () => {
         const wrapper = mountWithIntl(
             <ChannelInfoModal
-                channel={{name: 'testchannel', displayName: 'testchannel', header: '', purpose: ''}}
-                currentChannel={{name: 'testchannel', displayName: 'testchannel', header: '', purpose: ''}}
-                currentTeam={{id: 'testid', name: 'testteam'}}
+                channel={mockChannel}
+                currentChannel={mockChannel}
+                currentTeam={mockTeam}
                 onHide={jest.fn()}
             />,
         );
@@ -82,9 +89,9 @@ describe('components/ChannelInfoModal', () => {
     it('should call hide when RHS opens', () => {
         const wrapper = mountWithIntl(
             <ChannelInfoModal
-                channel={{name: 'testchannel', displayName: 'testchannel', header: '', purpose: ''}}
-                currentChannel={{name: 'testchannel', displayName: 'testchannel', header: '', purpose: ''}}
-                currentTeam={{id: 'testid', name: 'testteam'}}
+                channel={mockChannel}
+                currentChannel={mockChannel}
+                currentTeam={mockTeam}
                 onHide={jest.fn()}
             />,
         );
