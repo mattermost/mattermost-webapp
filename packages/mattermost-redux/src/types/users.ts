@@ -101,7 +101,7 @@ export type UserStatus = {
     active_channel?: string;
 };
 
-export enum Duration {
+export enum CustomStatusDuration {
     DONT_CLEAR = 'dont_clear',
     THIRTY_MINUTES = 'thirty_minutes',
     ONE_HOUR = 'one_hour',
@@ -114,7 +114,7 @@ export enum Duration {
 export type UserCustomStatus = {
     emoji: string;
     text: string;
-    duration: Duration;
+    duration: CustomStatusDuration;
     expires_at: string;
 };
 

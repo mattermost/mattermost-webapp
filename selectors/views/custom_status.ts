@@ -7,7 +7,7 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {Preferences} from 'mattermost-redux/constants';
-import {Duration, UserCustomStatus} from 'mattermost-redux/types/users';
+import {CustomStatusDuration, UserCustomStatus} from 'mattermost-redux/types/users';
 
 import {GlobalState} from 'types/store';
 
@@ -16,7 +16,7 @@ export function getCustomStatus(state: GlobalState, userID?: string): UserCustom
     const userProps = user?.props || {};
     const customStatus = userProps.customStatus ? JSON.parse(userProps.customStatus) : {};
     const expiryTime = new Date(customStatus?.expires_at);
-    if (customStatus.duration === Duration.DONT_CLEAR || new Date() < expiryTime) {
+    if (customStatus.duration === CustomStatusDuration.DONT_CLEAR || new Date() < expiryTime) {
         return customStatus;
     }
 }

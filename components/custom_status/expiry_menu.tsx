@@ -6,7 +6,7 @@ import {FormattedMessage} from 'react-intl';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 import {localizeMessage} from 'utils/utils';
-import {Duration} from 'mattermost-redux/types/users';
+import {CustomStatusDuration} from 'mattermost-redux/types/users';
 
 type ExpiryMenuItem = {
     text: string;
@@ -15,7 +15,7 @@ type ExpiryMenuItem = {
 
 type Props = {
     expiry: string;
-    handleExpiryChange: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, expiryValue: Duration) => void;
+    handleExpiryChange: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, expiryValue: CustomStatusDuration) => void;
 }
 
 const {
@@ -26,7 +26,7 @@ const {
     TODAY,
     THIS_WEEK,
     DATE_AND_TIME,
-} = Duration;
+} = CustomStatusDuration;
 
 const ExpiryMenu: React.FC<Props> = (props: Props) => {
     const {expiry, handleExpiryChange} = props;
