@@ -103,8 +103,8 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
         ) : <EmojiIcon className={'icon icon--emoji'}/>;
 
     const clearHandle = () => {
-        setText('');
         setEmoji('');
+        setText('');
     };
 
     const disableSetStatus = (currentCustomStatus.text === text && currentCustomStatus.emoji === emoji) ||
@@ -189,6 +189,10 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
         </div>
     );
 
+    const showSuggestions = (currentCustomStatus && currentCustomStatus.emoji) ?
+        (!isStatusSet || (currentCustomStatus.emoji === emoji && text && currentCustomStatus.text === text)) :
+        !isStatusSet;
+
     return (
         <GenericModal
             enforceFocus={false}
@@ -260,7 +264,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
                         placeholder={formatMessage({id: 'custom_status.set_status', defaultMessage: 'Set a status'})}
                     />
                 </div>
-                {!isStatusSet && suggestion}
+                {showSuggestions && suggestion}
             </div>
         </GenericModal>
     );
