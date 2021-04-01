@@ -22,7 +22,7 @@ type ValueType = {
     value: string;
 }
 type Props = {
-    config: AdminConfig;
+    config: DeepPartial<AdminConfig>;
     actions: {
         updateConfig: (config: Record<string, any>) => Promise<{ data?: AdminConfig; error?: ServerError }>;
         setNavigationBlocked: (blocked: boolean) => void;
