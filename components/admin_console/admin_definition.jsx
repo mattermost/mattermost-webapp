@@ -5075,7 +5075,7 @@ const AdminDefinition = {
             url: 'compliance/data_retention/global_policy',
             isHidden: it.any(
                 it.not(it.licensedForFeature('DataRetention')),
-                // it.configIsFalse('FeatureFlags', 'CustomDataRetentionEnabled'),
+                it.configIsFalse('FeatureFlags', 'CustomDataRetentionEnabled'),
             ),
             isDisabled: it.not(it.userHasWritePermissionOnResource('compliance')),
             schema: {
