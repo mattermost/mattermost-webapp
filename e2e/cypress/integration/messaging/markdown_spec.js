@@ -50,7 +50,7 @@ describe('Markdown', () => {
         });
     });
 
-    it('MM-T2241: Markdown basics', () => {
+    it('MM-T2241 Markdown basics', () => {
         // # Post markdown message
         cy.postMessage('/test url test-markdown-basics.md').wait(TIMEOUTS.ONE_SEC);
 
@@ -69,7 +69,7 @@ describe('Markdown', () => {
         });
     });
 
-    it('MM-T2242: Markdown lists', () => {
+    it('MM-T2242 Markdown lists', () => {
         // # Post markdown message
         cy.postMessage('/test url test-markdown-lists.md').wait(TIMEOUTS.ONE_SEC);
 
@@ -88,7 +88,7 @@ describe('Markdown', () => {
         });
     });
 
-    it('MM-T1744: Markdown tables', () => {
+    it('MM-T2244 Markdown tables', () => {
         // # Post markdown message
         cy.postMessage('/test url test-tables.md').wait(TIMEOUTS.ONE_SEC);
 
@@ -107,7 +107,7 @@ describe('Markdown', () => {
         });
     });
 
-    it('MM-T2246: Markdown code syntax', () => {
+    it('MM-T2246 Markdown code syntax', () => {
         // # Post markdown message
         cy.postMessage('/test url test-syntax-highlighting').wait(TIMEOUTS.ONE_SEC);
 
