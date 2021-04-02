@@ -350,7 +350,7 @@ export default class NotificationsTab extends React.PureComponent {
                         <span>
                             <FormattedMessage
                                 id='user.settings.push_notification.status_info'
-                                defaultMessage='Notification alerts are only pushed to your mobile device when your online status matches the selection above.'
+                                defaultMessage='Notification alerts are only pushed to your mobile device when your availability matches the selection above.'
                             />
                         </span>
                     );

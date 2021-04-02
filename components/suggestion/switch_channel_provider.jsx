@@ -38,6 +38,7 @@ import BotBadge from 'components/widgets/badges/bot_badge';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 import Avatar from 'components/widgets/users/avatar';
 import StatusIcon from 'components/status_icon';
+import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 
 import {getPostDraft} from 'selectors/rhs';
 import store from 'stores/redux_store.jsx';
@@ -151,6 +152,7 @@ class SwitchChannelSuggestion extends Suggestion {
         }
 
         let tag = null;
+        let customStatus = null;
         if (channel.type === Constants.DM_CHANNEL) {
             const teammate = this.props.dmChannelTeammate;
             tag = (
@@ -164,6 +166,17 @@ class SwitchChannelSuggestion extends Suggestion {
                         className='badge-autocomplete'
                     />
                 </React.Fragment>
+            );
+
+            customStatus = (
+                <CustomStatusEmoji
+                    showTooltip={true}
+                    userID={userItem.id}
+                    emojiStyle={{
+                        marginBottom: 2,
+                        marginLeft: 4,
+                    }}
+                />
             );
         }
 
@@ -185,6 +198,7 @@ class SwitchChannelSuggestion extends Suggestion {
                 <span className='suggestion-list__info_user'>
                     {displayName}
                 </span>
+                {customStatus}
                 {tag}
                 {badge}
             </div>
