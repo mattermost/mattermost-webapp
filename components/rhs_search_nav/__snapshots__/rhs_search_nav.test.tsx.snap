@@ -1,0 +1,79 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/RHSSearchNav should render active flagged posts 1`] = `
+<Fragment>
+  <div
+    className="flex-child search-bar__container"
+    id="searchbarContainer"
+  >
+    <Connect(Component)
+      isFocus={true}
+    />
+  </div>
+  <HeaderIconWrapper
+    ariaLabel={true}
+    buttonClass="channel-header__icon"
+    buttonId="channelHeaderMentionButton"
+    iconComponent={
+      <MentionsIcon
+        aria-hidden="true"
+        className="icon icon--standard"
+      />
+    }
+    onClick={[Function]}
+    tooltipKey="recentMentions"
+  />
+  <HeaderIconWrapper
+    ariaLabel={true}
+    buttonClass="channel-header__icon channel-header__icon--active"
+    buttonId="channelHeaderFlagButton"
+    iconComponent={
+      <FlagIcon
+        className="icon icon__flag"
+      />
+    }
+    onClick={[Function]}
+    tooltipKey="flaggedPosts"
+  />
+  <Connect(injectIntl(UserGuideDropdown)) />
+</Fragment>
+`;
+
+exports[`components/RHSSearchNav should render active mentions posts 1`] = `
+<Fragment>
+  <div
+    className="flex-child search-bar__container"
+    id="searchbarContainer"
+  >
+    <Connect(Component)
+      isFocus={true}
+    />
+  </div>
+  <HeaderIconWrapper
+    ariaLabel={true}
+    buttonClass="channel-header__icon channel-header__icon--active"
+    buttonId="channelHeaderMentionButton"
+    iconComponent={
+      <MentionsIcon
+        aria-hidden="true"
+        className="icon icon--standard"
+      />
+    }
+    onClick={[Function]}
+    tooltipKey="recentMentions"
+  />
+  <HeaderIconWrapper
+    ariaLabel={true}
+    buttonClass="channel-header__icon"
+    buttonId="channelHeaderFlagButton"
+    iconComponent={
+      <FlagIcon
+        className="icon icon__flag"
+      />
+    }
+    onClick={[Function]}
+    tooltipKey="flaggedPosts"
+  />
+  <Connect(injectIntl(UserGuideDropdown)) />
+</Fragment>
+`;

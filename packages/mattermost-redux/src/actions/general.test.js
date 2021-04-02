@@ -13,6 +13,8 @@ import configureStore from 'mattermost-redux/test/test_store';
 
 import {FormattedError} from './helpers.ts';
 
+const OK_RESPONSE = {status: 'OK'};
+
 describe('Actions.General', () => {
     let store;
     beforeAll(() => {
@@ -186,5 +188,32 @@ describe('Actions.General', () => {
             const nonexistingURL = store.getState().entities.posts.expandedURLs['http://nonexisting.url'];
             assert.equal(nonexistingURL, 'http://nonexisting.url');
         });
+    });
+
+    it('getFirstAdminVisitMarketplaceStatus', async () => {
+        const responseData = {
+            name: 'FirstAdminVisitMarketplace',
+            value: 'false',
+        };
+
+        nock(Client4.getPluginsRoute()).
+            get('/marketplace/first_admin_visit').
+            query(true).
+            reply(200, responseData);
+
+        await Actions.getFirstAdminVisitMarketplaceStatus()(store.dispatch, store.getState);
+        const {firstAdminVisitMarketplaceStatus} = store.getState().entities.general;
+        assert.strictEqual(firstAdminVisitMarketplaceStatus, false);
+    });
+
+    it('setFirstAdminVisitMarketplaceStatus', async () => {
+        nock(Client4.getPluginsRoute()).
+            post('/marketplace/first_admin_visit').
+            reply(200, OK_RESPONSE);
+
+        await Actions.setFirstAdminVisitMarketplaceStatus()(store.dispatch, store.getState);
+
+        const {firstAdminVisitMarketplaceStatus} = store.getState().entities.general;
+        assert.strictEqual(firstAdminVisitMarketplaceStatus, true);
     });
 });

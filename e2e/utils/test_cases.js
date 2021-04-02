@@ -55,7 +55,8 @@ function getTM4JTestCases(report) {
             };
         }).
         reduce((acc, item) => {
-            const key = item.title.split(' ')[0].split('_')[0];
+            // Extract the key to exactly match with "MM-T[0-9]+"
+            const key = item.title.match(/(MM-T\d+)/)[0];
 
             if (acc[key]) {
                 acc[key].push(item);
