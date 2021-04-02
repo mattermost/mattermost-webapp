@@ -32,6 +32,7 @@
   "accessibility.sections.channelHeader": "頻道標題區域",
   "accessibility.sections.lhsHeader": "團隊選單區域",
   "accessibility.sections.lhsList": "頻道側邊欄區域",
+  "accessibility.sections.lhsNavigator": "頻道導航器區域",
   "accessibility.sections.rhs": "{regionTitle}補助區域",
   "accessibility.sections.rhsContent": "訊息詳細資訊補助區域",
   "accessibility.sections.rhsFooter": "回應輸入區域",
