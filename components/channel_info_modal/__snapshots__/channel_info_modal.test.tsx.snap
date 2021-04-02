@@ -45,9 +45,10 @@ exports[`components/ChannelInfoModal should match snapshot 1`] = `
         id="channel_info.about"
       />
       <strong>
-        <ArchiveIcon
-          className="icon icon__archive svg-text-color"
+        <GlobeIcon
+          className="icon icon__globe icon--body"
         />
+        name
       </strong>
     </ModalTitle>
   </ModalHeader>
@@ -69,7 +70,7 @@ exports[`components/ChannelInfoModal should match snapshot 1`] = `
       <div
         className="info__value"
       >
-        http://localhost:8065/testteam/channels/testchannel
+        http://localhost:8065/DN/channels/DN
       </div>
     </div>
     <div
@@ -80,6 +81,7 @@ exports[`components/ChannelInfoModal should match snapshot 1`] = `
           defaultMessage="ID: "
           id="channel_info.id"
         />
+        channel_id
       </p>
     </div>
   </ModalBody>
@@ -131,9 +133,10 @@ exports[`components/ChannelInfoModal should match snapshot with channel props 1`
         id="channel_info.about"
       />
       <strong>
-        <ArchiveIcon
-          className="icon icon__archive svg-text-color"
+        <GlobeIcon
+          className="icon icon__globe icon--body"
         />
+        name
       </strong>
     </ModalTitle>
   </ModalHeader>
@@ -203,7 +206,7 @@ exports[`components/ChannelInfoModal should match snapshot with channel props 1`
       <div
         className="info__value"
       >
-        http://localhost:8065/testteam/channels/testchannel
+        http://localhost:8065/DN/channels/DN
       </div>
     </div>
     <div
@@ -214,6 +217,7 @@ exports[`components/ChannelInfoModal should match snapshot with channel props 1`
           defaultMessage="ID: "
           id="channel_info.id"
         />
+        channel_id
       </p>
     </div>
   </ModalBody>
