@@ -24,6 +24,26 @@
         }
     }
 
+    .unread-badge {
+        position: absolute;
+        border-radius: 50%;
+        width: 8px;
+        height: 8px;
+        right: 2px;
+        bottom: 2px;
+        background: #F74343;
+    }
+
+    .unread-badge-addon {
+        position: absolute;
+        top: 8px;
+        right: 4px;
+        height: 12px;
+        width: 12px;
+        border-radius: 32px;
+        background-color: var(--sidebar-header-bg);
+    }
+
     .menu-icon {
         @include opacity(.8);
         fill: $white;

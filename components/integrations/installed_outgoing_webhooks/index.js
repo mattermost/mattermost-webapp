@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+
 import * as Actions from 'mattermost-redux/actions/integrations';
 import {getOutgoingHooks} from 'mattermost-redux/selectors/entities/integrations';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';

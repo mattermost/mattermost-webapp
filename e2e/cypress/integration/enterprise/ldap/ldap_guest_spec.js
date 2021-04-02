@@ -224,7 +224,7 @@ describe('LDAP guest', () => {
                     cy.wait(TIMEOUTS.TWO_SEC);
 
                     // # Option to invite guest should not be visible
-                    cy.findByTestId('inviteGuestLink').should('not.be.visible');
+                    cy.findByTestId('inviteGuestLink').should('not.exist');
                 });
             });
         });

@@ -97,8 +97,8 @@ describe('Channel Settings', () => {
             // # Click to add the first user
             cy.wrap(el).click();
 
-            // # Verify username does not exist in the users list
-            cy.get('#multiSelectList').should('not.contain', username);
+            // # Verify users list is not visible
+            cy.get('#multiSelectList').should('not.exist');
 
             // # Save and exit modal
             cy.get('#saveItems').click();

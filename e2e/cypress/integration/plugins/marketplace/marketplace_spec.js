@@ -252,7 +252,7 @@ describe('Plugin Marketplace', () => {
             });
 
             // * Verify error bar should not be visible
-            cy.get('#error_bar').should('not.be.visible');
+            cy.get('#error_bar').should('not.exist');
 
             // * Verify search should be visible
             cy.findByPlaceholderText('Search Plugins').scrollIntoView().should('be.visible');
@@ -319,7 +319,7 @@ describe('Plugin Marketplace', () => {
             cy.get('#closeIcon').click();
 
             // * Verify marketplace should not be visible
-            cy.get('#modal_marketplace').should('not.be.visible');
+            cy.get('#modal_marketplace').should('not.exist');
         });
 
         it('should filter all on search', () => {
@@ -411,10 +411,10 @@ describe('Plugin Marketplace', () => {
             cy.get('#confirmModal').find('.btn.btn-primary').click();
 
             // * Verify confirmation modal should not be visible
-            cy.get('#confirmModal').should('not.be.visible');
+            cy.get('#confirmModal').should('not.exist');
 
             // * Verify github plugin update prompt should not be visible
-            cy.get('#marketplace-plugin-github').find('.update').should('not.be.visible');
+            cy.get('#marketplace-plugin-github').find('.update').should('not.exist');
 
             // * Verify should show "Configure" after installation
             cy.get('#marketplace-plugin-github').find('.btn.btn-outline', {timeout: TIMEOUTS.ONE_MIN}).scrollIntoView().should('be.visible').and('have.text', 'Configure');

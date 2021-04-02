@@ -1172,6 +1172,7 @@ class CreateComment extends React.PureComponent {
                     onUploadError={this.handleUploadError}
                     onUploadProgress={this.handleUploadProgress}
                     rootId={this.props.rootId}
+                    channelId={this.props.channelId}
                     postType='comment'
                 />
             );

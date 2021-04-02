@@ -3,6 +3,7 @@
 
 import React from 'react';
 import PQueue from 'p-queue';
+
 import {Channel} from 'mattermost-redux/types/channels';
 import {Dictionary} from 'mattermost-redux/types/utilities';
 

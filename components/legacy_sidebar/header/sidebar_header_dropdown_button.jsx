@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Tooltip} from 'react-bootstrap';
 
-import {localizeMessage} from 'utils/utils.jsx';
+import {isAdmin, localizeMessage} from 'utils/utils.jsx';
 import OverlayTrigger from 'components/overlay_trigger';
 import MenuIcon from 'components/widgets/icons/menu_icon';
 import Constants, {ModalIdentifiers} from 'utils/constants';
@@ -22,7 +22,17 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent {
         currentUser: PropTypes.object.isRequired,
         teamDisplayName: PropTypes.string.isRequired,
         openModal: PropTypes.func,
+        getFirstAdminVisitMarketplaceStatus: PropTypes.func,
+        showUnread: PropTypes.bool,
     };
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            showUnread: false,
+        };
+    }
 
     handleCustomStatusEmojiClick = (event) => {
         event.stopPropagation();
@@ -33,8 +43,31 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent {
         this.props.openModal(customStatusInputModalData);
     }
 
+    getFirstAdminVisitMarketplaceStatus = async () => {
+        const {data} = await this.props.getFirstAdminVisitMarketplaceStatus();
+        this.setState({showUnread: !data});
+    }
+
+    componentDidMount() {
+        const isSystemAdmin = isAdmin(this.props.currentUser.roles);
+        if (isSystemAdmin) {
+            this.getFirstAdminVisitMarketplaceStatus();
+        }
+    }
+
+    componentDidUpdate() {
+        const isSystemAdmin = isAdmin(this.props.currentUser.roles);
+        const {showUnread} = this.props;
+        if (isSystemAdmin && showUnread !== this.state.showUnread) {
+            // eslint-disable-next-line react/no-did-update-set-state
+            this.setState({showUnread: this.props.showUnread});
+        }
+    }
+
     render() {
         let tutorialTip = null;
+        let badge = null;
+
         if (this.props.showTutorialTip) {
             tutorialTip = (
                 <MenuTutorialTip onBottom={false}/>
@@ -59,6 +92,15 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent {
                 >
                     {teamNameWithToolTip}
                 </OverlayTrigger>
+            );
+        }
+
+        if (this.state.showUnread) {
+            badge = (
+                <span className={'style--none unread-badge-addon'}>
+                    <span className={'unread-badge'}/>
+                </span>
+
             );
         }
 
@@ -98,6 +140,7 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent {
                         className='style--none sidebar-header-dropdown__icon'
                         aria-label={localizeMessage('navbar_dropdown.menuAriaLabel', 'main menu')}
                     >
+                        {badge}
                         <MenuIcon/>
                     </button>
                 </div>

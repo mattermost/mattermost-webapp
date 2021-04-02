@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {Link} from 'react-router-dom';
+
 import {Team} from 'mattermost-redux/types/teams';
 
 type Props = {

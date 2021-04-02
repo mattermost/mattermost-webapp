@@ -2061,7 +2061,6 @@ const AdminDefinition = {
                         label_default: 'Enable Custom Statuses: ',
                         help_text: t('admin.team.customUserStatusesDescription'),
                         help_text_default: 'When true, users can set a descriptive status message and status emoji visible to all users.',
-                        isHidden: it.not(it.configIsTrue('FeatureFlags', 'CustomUserStatuses')),
                         isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
                     },
                 ],
@@ -2377,6 +2376,20 @@ const AdminDefinition = {
                         help_text: t('admin.customization.enableLinkPreviewsDesc'),
                         help_text_default: 'Display a preview of website content, image links and YouTube links below the message when available. The server must be connected to the internet and have access through the firewall (if applicable) to the websites from which previews are expected. Users can disable these previews from Account Settings > Display > Website Link Previews.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource('site')),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'ServiceSettings.RestrictLinkPreviews',
+                        label: t('admin.customization.restrictLinkPreviewsTitle'),
+                        label_default: 'Disable link previews from these domains:',
+                        help_text: t('admin.customization.restrictLinkPreviewsDesc'),
+                        help_text_default: 'Link previews and image link previews will not be shown for the above list of comma-separated domains.',
+                        placeholder: t('admin.customization.restrictLinkPreviewsExample'),
+                        placeholder_default: 'E.g.: "internal.mycompany.com, images.example.com"',
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource('site')),
+                            it.configIsFalse('ServiceSettings', 'EnableLinkPreviews'),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,

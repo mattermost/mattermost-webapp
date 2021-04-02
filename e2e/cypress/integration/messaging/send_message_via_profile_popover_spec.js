@@ -91,7 +91,7 @@ function verifyDMChannelViaSendMessage(postId, team, channel, profileSelector, u
 
     // * Verify that profile popover is closed
     cy.wait(TIMEOUTS.HALF_SEC);
-    cy.get('#user-profile-popover').should('not.be.visible');
+    cy.get('#user-profile-popover').should('not.exist');
 
     // * Verify that it redirects into the DM channel and matches channel intro
     cy.get('#channelIntro').should('be.visible').within(() => {

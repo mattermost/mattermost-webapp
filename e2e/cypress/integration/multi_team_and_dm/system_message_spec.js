@@ -12,21 +12,6 @@
 
 import {getRandomId} from '../../utils';
 
-function verifySystemMessage(post) {
-    cy.get(post).
-        invoke('attr', 'class').
-        should('contain', 'post--system').
-        and('not.contain', 'same--root').
-        and('not.contain', 'other--root').
-        and('not.contain', 'current--user').
-        and('not.contain', 'post--comment').
-        and('not.contain', 'post--root');
-
-    cy.get(post).
-        find('.status-wrapper .status svg').
-        should('not.be.visible');
-}
-
 describe('System message', () => {
     before(() => {
         // # Login as test user and visit town-square
@@ -44,20 +29,31 @@ describe('System message', () => {
         });
     });
 
-    const displayTypes = ['compact', 'clean'];
+    it('MM-T427_1 No status on system message in standard view', () => {
+        verifySystemMessage('clean');
+    });
 
-    displayTypes.forEach((type) => {
-        it(`Mult15240 - should have no status with ${type} display`, () => {
-            // # Set message display
-            cy.apiSaveMessageDisplayPreference(type);
-
-            // # Get last post
-            cy.getLastPostId().then((postId) => {
-                cy.get(`#post_${postId}`).as('SystemMessage');
-            });
-
-            // * Verify it is a system message and that the status icon is not visible
-            verifySystemMessage('@SystemMessage');
-        });
+    it('MM-T427_2 No status on system message in compact view', () => {
+        verifySystemMessage('clean');
     });
 });
+
+function verifySystemMessage(type, statusExist) {
+    // # Set message display
+    cy.apiSaveMessageDisplayPreference(type);
+
+    // # Get last post
+    cy.getLastPostId().then((postId) => {
+        // * Verify it is a system message and that the status icon is not visible
+        cy.get(`#post_${postId}`).invoke('attr', 'class').
+            should('contain', 'post--system').
+            and('not.contain', 'same--root').
+            and('not.contain', 'other--root').
+            and('not.contain', 'current--user').
+            and('not.contain', 'post--comment').
+            and('not.contain', 'post--root');
+
+        cy.get(`#post_${postId}`).find('.status-wrapper .status svg').
+            should(statusExist ? 'not.be.visible' : 'not.exist');
+    });
+}
