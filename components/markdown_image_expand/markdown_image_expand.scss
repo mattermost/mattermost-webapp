@@ -44,12 +44,18 @@
     }
 }
 
+/**
+*   We have to set display: inline-block for both expand button and alt text.
+*   The purpose of this is to get rid of weird looking text-decoration: underline caused
+*   by potential nesting of this element within Markdown link
+*/
 .markdown-image-expand__expand-button {
     border: none;
+    display: inline-block;
     padding: 0;
 
     font-size: 18px;
-    line-height: 21px;
+    line-height: 18px;
     color: rgba(var(--center-channel-color-rgb), 0.56);
 
     background: transparent;
@@ -62,15 +68,21 @@
     .icon {
         width: 18px;
         height: 18px;
+
+        &:before {
+            margin-left: 0;
+            margin-right: 0;
+        }
     }
 }
 
 .markdown-image-expand__expand-icon {
+    display: inline-block;
     vertical-align: middle;
 }
 
 .markdown-image-expand__alt-text {
-    vertical-align: middle;
+    display: inline-block;
 
     font-size: 12px;
     line-height: 16px;
