@@ -9,32 +9,28 @@ import {App} from 'mattermost-redux/types/notifications';
 
 import './app_bar.scss';
 
-interface ComponentProps {
-    show?: boolean;
-}
-
 const apps: App[]= [
     {
-        name: 'GitHub',
+        name: 'Github',
         icon: 'fa-github',
         notification_types: [
             {
-                name: 'Pull Requests',
+                name: 'PullRequest',
                 icon: 'fa-compress',
                 description: 'Your open pull requests',
             },
             {
-                name: 'Review Requests',
+                name: 'ReviewRequest',
                 icon: 'fa-code-fork',
                 description: 'Pull requests to review',
             },
             {
-                name: 'Assignments',
+                name: 'Assignment',
                 icon: 'fa-list-ol',
                 description: 'Issues/pull requests assigned to you',
             },
             {
-                name: 'Unreads',
+                name: 'Unread',
                 icon: 'fa-envelope',
                 description: 'Unreads on issues/pull requests',
             }
@@ -45,18 +41,18 @@ const apps: App[]= [
         icon: 'fa-gitlab',
         notification_types: [
             {
-                name: 'Merge Requests',
+                name: 'MergeRequest',
                 description: 'MRs to review',
                 icon: '',
             }
         ],
     },
     {
-        name: 'JIRA',
+        name: 'Jira',
         icon: 'fa-rocket',
         notification_types: [
             {
-                name: 'Unread Comments',
+                name: 'UnreadComment',
                 description: 'Unread comments',
                 icon: '',
             }
@@ -64,22 +60,48 @@ const apps: App[]= [
     }
 ];
 
-const AppBar = (props: ComponentProps) => {
-    const {show} = props;
+type Props = {
+    show: boolean;
+    actions: {
+        getMyNotifications: () => void;
+        getMyNotificationCounts: () => void;
+    };
+}
 
-    if (!show) {
-        return null;
+export default class AppBar extends React.Component<Props> {
+    static defaultProps = {
+        show: true,
+    };
+
+    componentDidMount() {
+        const {actions, show} = this.props;
+
+        if (show) {
+            actions.getMyNotifications();
+            actions.getMyNotificationCounts();
+        }
     }
 
-    return (
-        <div className='AppBar'>
-            {apps.map(app => <AppIcon name={app.name} notificationTypes={app.notification_types}/>)} 
-        </div>
-    );
-};
+    componentDidUpdate(prevProps: Props) {
+        const {actions, show} = this.props;
 
-AppBar.defaultProps = {
-    show: true,
-};
+        if (!prevProps.show && show) {
+            actions.getMyNotifications();
+            actions.getMyNotificationCounts();
+        }
+    }
 
-export default AppBar;
+    render() {
+        const {show} = this.props;
+
+        if (!show) {
+            return null;
+        }
+
+        return (
+            <div className='AppBar'>
+                {apps.map(app => <AppIcon icon={app.icon} name={app.name} notificationTypes={app.notification_types}/>)} 
+            </div>
+        );
+    }
+};

@@ -5,7 +5,7 @@ import {combineReducers} from 'redux';
 
 import {NotificationTypes, UserTypes} from 'mattermost-redux/action_types';
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {App, NotificationCount} from 'mattermost-redux/types/notifications';
+import {App, NotificationCount, Notification} from 'mattermost-redux/types/notifications';
 import {Dictionary} from 'mattermost-redux/types/utilities';
 
 function apps(state: Dictionary<App> = {}, action: GenericAction) {
@@ -13,16 +13,16 @@ function apps(state: Dictionary<App> = {}, action: GenericAction) {
     case NotificationTypes.RECEIVED_APPS:
         return action.data;
 
-
     case NotificationTypes.RECEIVED_APP: {
         const nextState = {...state};
         const data = action.data;
 
         if (data) {
             nextState[data.name] = data;
+            return nextState;
         }
 
-        return nextState;
+        return state;
     }
 
     case UserTypes.LOGOUT_SUCCESS:
@@ -32,10 +32,33 @@ function apps(state: Dictionary<App> = {}, action: GenericAction) {
     }
 }
 
-function counts(state: Dictionary<Dictionary<NotificationCount>> = {}, action: GenericAction) {
+function counts(state: NotificationCount[] = [], action: GenericAction) {
     switch (action.type) {
     case NotificationTypes.RECEIVED_COUNTS:
         return action.data;
+
+    case UserTypes.LOGOUT_SUCCESS:
+        return {};
+    default:
+        return state;
+    }
+}
+
+function items(state: Notification[] = [], action: GenericAction) {
+    switch (action.type) {
+    case NotificationTypes.RECEIVED_NOTIFICATIONS:
+        return action.data;
+
+    case NotificationTypes.RECEIVED_NOTIFICATION:
+        const nextState = [...state];
+        const data = action.data;
+
+        if (data) {
+            nextState.push(data);
+            return nextState;
+        }
+
+        return state;
 
     case UserTypes.LOGOUT_SUCCESS:
         return {};
@@ -51,4 +74,6 @@ export default combineReducers({
 
     // object where the key is the provider-type and the value is another object with key as notification type and value as the count
     counts,
+
+    items,
 });

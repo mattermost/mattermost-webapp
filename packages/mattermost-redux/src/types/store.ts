@@ -30,6 +30,7 @@ import {Typing} from './typing';
 import {UsersState} from './users';
 import {Dictionary} from './utilities';
 import {AppsState} from './apps';
+import {App, NotificationCount, Notification} from './notifications';
 
 export type GlobalState = {
     entities: {
@@ -47,6 +48,11 @@ export type GlobalState = {
                 [x: string]: PreferenceType;
             };
         };
+        notifications: {
+            apps: Dictionary<App>;
+            counts: NotificationCount[];
+            items: Notification[];
+        }
         admin: AdminState;
         jobs: JobsState;
         search: SearchState;

@@ -3,8 +3,6 @@
 
 import React from 'react';
 
-import {NotificationType} from 'mattermost-redux/types/notifications';
-
 import './category.scss';
 
 type Props = {
@@ -13,10 +11,7 @@ type Props = {
     hoverText: string;
 }
 
-type State = {
-};
-
-export default class Category extends React.Component<Props, State> {
+export default class Category extends React.Component<Props> {
     render() {
         const {icon, count} = this.props;
 

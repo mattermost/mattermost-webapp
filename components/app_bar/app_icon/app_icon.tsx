@@ -55,7 +55,12 @@ export default class AppIcon extends React.Component<Props, State> {
 
         const {notificationTypes, counts} = this.props;
         let numNotifications = 0;
-        notificationTypes.forEach((category: NotificationType) => numNotifications += counts[category.name].value)
+        notificationTypes.forEach((category: NotificationType) => {
+            const count = counts[category.name];
+            if (count) {
+                numNotifications += count.value
+            }
+        });
 
         if (numNotifications <= 0) {
             return null;
@@ -73,7 +78,8 @@ export default class AppIcon extends React.Component<Props, State> {
 
         if (!collapsed || animating) {
             content = notificationTypes.map((category: NotificationType) => {
-                const notificationCount = counts[category.name];
+                const notificationCount = counts[category.name] || {value: 0};
+
                 return (
                     <Category
                         key={category.name}

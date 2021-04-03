@@ -3,21 +3,18 @@
 
 import {connect} from 'react-redux';
 
-import {getNotificationCountsForApp} from 'mattermost-redux/selectors/entities/notifications';
-
-import {ModalIdentifiers} from 'utils/constants';
-import {isModalOpen} from 'selectors/views/modals';
+import {makeGetNotificationCounts} from 'mattermost-redux/selectors/entities/notifications';
 
 import {GlobalState} from 'types/store';
 
 import AppIcon, {Props} from './app_icon';
 
 function makeMapStateToProps() {
-    const getAppCounts = makeGetAppCounts();
+    const getNotificationCounts = makeGetNotificationCounts();
 
     return (state: GlobalState, props: Props) => {
         return {
-            counts: getAppCounts(state, props.name),
+            counts: getNotificationCounts(state, props.name),
         };
     };
 }

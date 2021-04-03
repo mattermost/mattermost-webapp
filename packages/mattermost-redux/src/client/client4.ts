@@ -105,6 +105,7 @@ import {
     PatchDataRetentionCustomPolicyChannels,
     GetDataRetentionCustomPoliciesRequest,
 } from 'mattermost-redux/types/data_retention';
+import {App, NotificationCount, Notification} from 'mattermost-redux/types/notifications';
 
 import {buildQueryString, isMinimumServerVersion} from 'mattermost-redux/utils/helpers';
 import {cleanUrlForLogging} from 'mattermost-redux/utils/sentry';
@@ -411,6 +412,10 @@ export default class Client4 {
 
     getNoticesRoute() {
         return `${this.getBaseRoute()}/system/notices`;
+    }
+
+    getNotificationsRoute() {
+        return `${this.getBaseRoute()}/action_items`;
     }
 
     getCloudRoute() {
@@ -2225,6 +2230,22 @@ export default class Client4 {
         return this.doFetch<StatusOK>(
             `${this.getPreferencesRoute(userId)}/delete`,
             {method: 'post', body: JSON.stringify(preferences)},
+        );
+    };
+
+    // Notification Routes
+
+    getMyNotifications = () => {
+        return this.doFetch<Notification[]>(
+            `${this.getNotificationsRoute()}/items`,
+            {method: 'get'},
+        );
+    };
+
+    getMyNotificationCounts = () => {
+        return this.doFetch<NotificationCount[]>(
+            `${this.getNotificationsRoute()}/counts`,
+            {method: 'get'},
         );
     };
 
