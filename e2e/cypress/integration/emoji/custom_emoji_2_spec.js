@@ -7,12 +7,12 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
+
 // Group: @emoji
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
-import {getCustomEmoji} from './helpers';
+import {getCustomEmoji, verifyLastPostedEmoji} from './helpers';
 
 describe('Custom emojis', () => {
     let testTeam;
@@ -21,9 +21,7 @@ describe('Custom emojis', () => {
     let townsquareLink;
 
     const largeEmojiFile = 'gif-image-file.gif';
-
-    const tooLargeEmojiFile = 'huge-image.jpg';
-
+    const largeEmojiFileResized = 'gif-image-file-resized.gif';
     before(() => {
         cy.apiUpdateConfig({
             ServiceSettings: {
@@ -47,35 +45,6 @@ describe('Custom emojis', () => {
         }).then(() => {
             cy.apiLogin(testUser);
             cy.visit(townsquareLink);
-        });
-    });
-
-    it('MM-T2183 Custom emoji - try to add too large', () => {
-        const {customEmojiWithColons} = getCustomEmoji();
-
-        // # Open sidebar
-        cy.get('#sidebarHeaderDropdownButton').click();
-
-        // # Click on custom emojis
-        cy.findByText('Custom Emoji').should('be.visible').click();
-
-        // # Click on add new emoji
-        cy.findByText('Add Custom Emoji').should('be.visible').click();
-
-        // # Type emoji name
-        cy.get('#name').type(customEmojiWithColons);
-
-        // # Select emoji image
-        cy.get('input#select-emoji').attachFile(tooLargeEmojiFile);
-
-        // * Is the image loaded?
-        cy.get('.add-emoji__filename').should('have.text', tooLargeEmojiFile);
-        cy.get('.backstage-form__footer').within(($form) => {
-            // # Click on Save
-            cy.findByText('Save').click().wait(TIMEOUTS.FIVE_SEC);
-
-            // * Check for error
-            cy.wrap($form).find('.has-error').should('be.visible').and('have.text', 'Unable to create emoji. Image must be smaller than 1028 by 1028.');
         });
     });
 
@@ -121,5 +90,51 @@ describe('Custom emojis', () => {
         // * Get list of emojis based on search text
         cy.findAllByTestId('emojiItem').children().should('have.length', 1);
         cy.findAllByTestId('emojiItem').children('img').first().should('have.class', 'emoji-category--custom');
+    });
+
+    it('MM-T2185 Custom emoji - renders immediately for other user Custom emoji - renders after logging out and back in', () => {
+        const {customEmojiWithColons} = getCustomEmoji();
+
+        // # Open sidebar
+        cy.get('#sidebarHeaderDropdownButton').click();
+
+        // # Click on custom emojis
+        cy.findByText('Custom Emoji').should('be.visible').click();
+
+        // # Click on add new emoji
+        cy.findByText('Add Custom Emoji').should('be.visible').click();
+
+        // # Type emoji name
+        cy.get('#name').type(customEmojiWithColons);
+
+        // # Select emoji image
+        cy.get('input#select-emoji').attachFile(largeEmojiFile);
+
+        // # Click on Save
+        cy.get('.backstage-form__footer').findByText('Save').click().wait(TIMEOUTS.FIVE_SEC);
+
+        // # Go back to home channel
+        cy.findByText('Back to Mattermost').should('exist').and('be.visible').click().wait(TIMEOUTS.FIVE_SEC);
+
+        // # Post a message with the emoji
+        cy.postMessage(customEmojiWithColons);
+
+        // # User2 logs in
+        cy.apiLogin(otherUser);
+
+        // # Navigate to a channel
+        cy.visit(townsquareLink);
+
+        // * The emoji should be displayed in the post
+        verifyLastPostedEmoji(customEmojiWithColons, largeEmojiFileResized);
+
+        // # User1 logs in
+        cy.apiLogin(testUser);
+
+        // # Navigate to a channel
+        cy.visit(townsquareLink);
+
+        // * The emoji should be displayed in the post
+        verifyLastPostedEmoji(customEmojiWithColons, largeEmojiFileResized);
     });
 });

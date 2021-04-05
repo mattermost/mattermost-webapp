@@ -11,7 +11,7 @@
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
-import {getCustomEmoji, verifyLastPostedEmoji} from './helpers';
+import {getCustomEmoji} from './helpers';
 
 describe('Custom emojis', () => {
     let testTeam;
@@ -23,7 +23,6 @@ describe('Custom emojis', () => {
     const builtinEmojiWithColons = ':taco:';
     const builtinEmojiUppercaseWithColons = ':TAco:';
     const largeEmojiFile = 'gif-image-file.gif';
-    const largeEmojiFileResized = 'gif-image-file-resized.gif';
 
     before(() => {
         cy.apiUpdateConfig({
@@ -226,51 +225,5 @@ describe('Custom emojis', () => {
 
         // * Verify that only the message renders in the post and the emoji has been deleted
         cy.getLastPost().find('p').should('have.html', '<span data-emoticon="' + customEmoji + '">' + customEmojiWithColons + '</span>');
-    });
-
-    it('MM-T2185 Custom emoji - renders immediately for other user Custom emoji - renders after logging out and back in', () => {
-        const {customEmojiWithColons} = getCustomEmoji();
-
-        // # Open sidebar
-        cy.get('#sidebarHeaderDropdownButton').click();
-
-        // # Click on custom emojis
-        cy.findByText('Custom Emoji').should('be.visible').click();
-
-        // # Click on add new emoji
-        cy.findByText('Add Custom Emoji').should('be.visible').click();
-
-        // # Type emoji name
-        cy.get('#name').type(customEmojiWithColons);
-
-        // # Select emoji image
-        cy.get('input#select-emoji').attachFile(largeEmojiFile);
-
-        // # Click on Save
-        cy.get('.backstage-form__footer').findByText('Save').click().wait(TIMEOUTS.FIVE_SEC);
-
-        // # Go back to home channel
-        cy.findByText('Back to Mattermost').should('exist').and('be.visible').click().wait(TIMEOUTS.FIVE_SEC);
-
-        // # Post a message with the emoji
-        cy.postMessage(customEmojiWithColons);
-
-        // # User2 logs in
-        cy.apiLogin(otherUser);
-
-        // # Navigate to a channel
-        cy.visit(townsquareLink);
-
-        // * The emoji should be displayed in the post
-        verifyLastPostedEmoji(customEmojiWithColons, largeEmojiFileResized);
-
-        // # User1 logs in
-        cy.apiLogin(testUser);
-
-        // # Navigate to a channel
-        cy.visit(townsquareLink);
-
-        // * The emoji should be displayed in the post
-        verifyLastPostedEmoji(customEmojiWithColons, largeEmojiFileResized);
     });
 });
