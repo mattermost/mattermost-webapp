@@ -447,7 +447,7 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
             <div
                 key={id}
                 ref={isSelected ? this.selectedItemRef : option.id}
-                className={classNames('more-modal__row direct_channels_modal clickable', {'more-modal__row--selected': isSelected})}
+                className={classNames('more-modal__row clickable', {'more-modal__row--selected': isSelected})}
                 onClick={() => add(option)}
                 onMouseEnter={() => select(option)}
             >
