@@ -2008,21 +2008,10 @@
     }
 }
 
-@keyframes postHighlightShowMore {
-    0% {
-        background: rgba(var(--mention-highlight-bg-mixed-rgb), 1);
-        opacity: 1;
-    }
-    100% {
-        background: rgba(var(--center-channel-bg), 1);
-        opacity: 1;
-    }
-}
-
 .app__body .app__content .post.post--highlight {
-    animation-duration: 1s;
+    animation-duration: 2s;
     animation-name: postHighlight;
-    animation-delay: 4.9s;
+    animation-delay: 5s;
     animation-fill-mode: forwards;
 }
 
