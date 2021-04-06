@@ -42,7 +42,7 @@
         ul {
             white-space: normal;
         }
-        box-shadow: none;
+
         left: 0;
         position: relative;
         top: 0;
@@ -1786,12 +1786,12 @@
             background: linear-gradient(transparent, var(--pinned-highlight-bg-mixed-rgb));
             position: relative;
         }
-        
+
         .post-collapse__show-more, .post-attachment-collapse__show-more {
             background: var(--pinned-highlight-bg-mixed-rgb);
             pointer-events: auto;
-        }    
-    
+        }
+
     }
 }
 
@@ -2052,7 +2052,7 @@
     background: rgba(var(--mention-highlight-bg-mixed-rgb), 1);
 }
 
-.app__body .post-list__table .post.current--user.post--highlight:hover .post-collapse__gradient, 
+.app__body .post-list__table .post.current--user.post--highlight:hover .post-collapse__gradient,
 .app__body .post-list__table .post.current--user.post--highlight.post--hovered .post-collapse__gradient {
     background:linear-gradient(rgba(var(--mention-highlight-bg-mixed-rgb), 0.5), rgba(var(--mention-highlight-bg-mixed-rgb), 1));
 }

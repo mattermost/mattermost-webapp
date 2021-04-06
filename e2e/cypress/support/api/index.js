@@ -5,6 +5,7 @@ import './brand';
 import './bots';
 import './channel';
 import './common';
+import './keycloak';
 import './ldap';
 import './preference';
 import './plugin';

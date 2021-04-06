@@ -117,10 +117,12 @@ describe('components/marketplace/', () => {
             installedPlugins: [],
             pluginStatuses: {},
             siteURL: 'http://example.com',
+            firstAdminVisitMarketplaceStatus: false,
             actions: {
                 closeModal: jest.fn(),
                 fetchPlugins: jest.fn(),
                 filterPlugins: jest.fn(),
+                setFirstAdminVisitMarketplaceStatus: jest.fn(),
             },
         };
 

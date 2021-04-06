@@ -15,6 +15,7 @@ const state: GlobalState = {
             serverVersion: '',
             timezones: [],
             warnMetricsStatus: {},
+            firstAdminVisitMarketplaceStatus: false,
         },
         users: {
             currentUserId: '',
