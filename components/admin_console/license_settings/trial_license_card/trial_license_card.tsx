@@ -76,7 +76,7 @@ const TrialLicenseCard: React.FC<Props> = ({license}: Props) => {
                     onClick={(e) => handlePurchaseLinkClick(e)}
                 >
                     <FormattedMessage
-                        id='announcement_bar.warn.purchase_license'
+                        id='admin.license.trialCard.purchase_license'
                         defaultMessage='Purchase a license'
                     />
                 </button>
