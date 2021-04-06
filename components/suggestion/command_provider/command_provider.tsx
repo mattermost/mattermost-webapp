@@ -22,7 +22,7 @@ import {Constants} from 'utils/constants';
 import Suggestion from '../suggestion';
 import Provider from '../provider';
 
-import {appsEnabled} from 'utils/apps';
+import {appsEnabled} from 'selectors/apps';
 
 import {GlobalState} from 'types/store';
 

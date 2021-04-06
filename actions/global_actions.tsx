@@ -43,7 +43,7 @@ import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 import SubMenuModal from '../components/widgets/menu/menu_modals/submenu_modal/submenu_modal';
 
-import {appsEnabled} from 'utils/apps';
+import {appsEnabled} from 'selectors/apps';
 
 import {openModal} from './views/modals';
 

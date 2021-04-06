@@ -31,7 +31,7 @@ import {intlShim} from 'components/suggestion/command_provider/app_command_parse
 
 import {GlobalState} from 'types/store';
 
-import {appsEnabled} from 'utils/apps';
+import {appsEnabled} from 'selectors/apps';
 
 import {t} from 'utils/i18n';
 

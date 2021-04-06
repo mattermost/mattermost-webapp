@@ -14,7 +14,7 @@ import {AppCallRequest, AppCallType} from 'mattermost-redux/types/apps';
 import {doAppCall} from 'actions/apps';
 import {GlobalState} from 'types/store';
 
-import {appsEnabled} from 'utils/apps';
+import {appsEnabled} from 'selectors/apps';
 
 import ChannelHeaderPlug from './channel_header_plug';
 

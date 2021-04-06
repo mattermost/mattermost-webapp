@@ -17,7 +17,7 @@ import {ActionTypes} from 'utils/constants';
 
 import {isError} from 'types/actions';
 
-import {appsEnabled} from 'utils/apps';
+import {appsEnabled} from 'selectors/apps';
 
 import {executeCommand} from './command';
 

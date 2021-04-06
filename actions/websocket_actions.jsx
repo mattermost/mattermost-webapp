@@ -83,7 +83,7 @@ import {getSiteURL} from 'utils/url';
 import {isGuest} from 'utils/utils';
 import RemovedFromChannelModal from 'components/removed_from_channel_modal';
 import InteractiveDialog from 'components/interactive_dialog';
-import {appsEnabled} from 'utils/apps';
+import {appsEnabled} from 'selectors/apps';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
