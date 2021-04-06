@@ -8,7 +8,7 @@ import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId, getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
-import {getAppBindings} from 'mattermost-redux/selectors/entities/apps';
+import {appsEnabled, makeAppBindingsSelector} from 'mattermost-redux/selectors/entities/apps';
 import {AppBindingLocations} from 'mattermost-redux/constants/apps';
 
 import {ActionFunc, ActionResult, GenericAction} from 'mattermost-redux/types/actions';
@@ -34,8 +34,6 @@ import * as PostUtils from 'utils/post_utils.jsx';
 import {isArchivedChannel} from 'utils/channel_utils';
 import {getSiteURL} from 'utils/url';
 
-import {appsEnabled} from 'selectors/apps';
-
 import DotMenu from './dot_menu';
 
 type Props = {
@@ -51,6 +49,8 @@ type Props = {
     enableEmojiPicker?: boolean;
 };
 
+const getPostMenuBindings = makeAppBindingsSelector(AppBindingLocations.POST_MENU_ITEM);
+
 function mapStateToProps(state: GlobalState, ownProps: Props) {
     const {post} = ownProps;
 
@@ -62,7 +62,7 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
     const currentTeamUrl = `${getSiteURL()}/${currentTeam.name}`;
 
     const apps = appsEnabled(state);
-    const appBindings = apps ? getAppBindings(state, AppBindingLocations.POST_MENU_ITEM) : [];
+    const appBindings = apps ? getPostMenuBindings(state) : undefined;
 
     return {
         channelIsArchived: isArchivedChannel(channel),

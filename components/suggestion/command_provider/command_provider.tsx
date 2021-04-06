@@ -8,6 +8,7 @@ import {Store} from 'redux';
 import {Client4} from 'mattermost-redux/client';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getChannel, getCurrentChannel, getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
+import {appsEnabled} from 'mattermost-redux/selectors/entities/apps';
 import {AutocompleteSuggestion} from 'mattermost-redux/types/integrations';
 import {Post} from 'mattermost-redux/types/posts';
 
@@ -21,8 +22,6 @@ import {Constants} from 'utils/constants';
 
 import Suggestion from '../suggestion';
 import Provider from '../provider';
-
-import {appsEnabled} from 'selectors/apps';
 
 import {GlobalState} from 'types/store';
 

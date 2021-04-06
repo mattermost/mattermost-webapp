@@ -5,13 +5,12 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
+import {appsEnabled} from 'mattermost-redux/selectors/entities/apps';
 
 import {toggleEmbedVisibility} from 'actions/post_actions';
 import {isEmbedVisible} from 'selectors/posts';
 import {GlobalState} from 'types/store';
 import {PostWillRenderEmbedPluginComponent} from 'types/store/plugins';
-
-import {appsEnabled} from 'selectors/apps';
 
 import PostBodyAdditionalContent, {
     Props,

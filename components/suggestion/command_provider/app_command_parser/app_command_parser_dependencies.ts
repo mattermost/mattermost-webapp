@@ -41,8 +41,7 @@ export {
     AppCallResponseTypes,
 } from 'mattermost-redux/constants/apps';
 
-import {getAppBindings as getAppsBindings} from 'mattermost-redux/selectors/entities/apps';
-export {getAppsBindings};
+export {makeAppBindingsSelector} from 'mattermost-redux/selectors/entities/apps';
 
 export {getPost} from 'mattermost-redux/selectors/entities/posts';
 export {getChannel, getCurrentChannel, getChannelByName as selectChannelByName} from 'mattermost-redux/selectors/entities/channels';

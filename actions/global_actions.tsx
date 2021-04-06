@@ -15,6 +15,7 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId, getMyTeams, getTeam, getMyTeamMember, getTeamMemberships} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentChannelStats, getCurrentChannelId, getMyChannelMember, getRedirectChannelNameForTeam, getChannelsNameMapInTeam, getAllDirectChannels} from 'mattermost-redux/selectors/entities/channels';
+import {appsEnabled} from 'mattermost-redux/selectors/entities/apps';
 import {ChannelTypes} from 'mattermost-redux/action_types';
 import {fetchAppBindings} from 'mattermost-redux/actions/apps';
 import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
@@ -42,8 +43,6 @@ import {ActionTypes, Constants, PostTypes, RHSStates, ModalIdentifiers} from 'ut
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 import SubMenuModal from '../components/widgets/menu/menu_modals/submenu_modal/submenu_modal';
-
-import {appsEnabled} from 'selectors/apps';
 
 import {openModal} from './views/modals';
 

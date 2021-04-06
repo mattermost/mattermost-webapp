@@ -98,7 +98,7 @@ class CustomToggle extends React.PureComponent<CustomToggleProps> {
 type ChannelHeaderPlugProps = {
     intl: IntlShape;
     components: PluginComponent[];
-    appBindings: AppBinding[];
+    appBindings?: AppBinding[];
     appsEnabled: boolean;
     channel: Channel;
     channelMember: ChannelMembership;
@@ -113,6 +113,11 @@ type ChannelHeaderPlugState = {
 }
 
 class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, ChannelHeaderPlugState> {
+    public static defaultProps: Partial<ChannelHeaderPlugProps> = {
+        components: [],
+        appBindings: [],
+    }
+
     constructor(props: ChannelHeaderPlugProps) {
         super(props);
         this.state = {

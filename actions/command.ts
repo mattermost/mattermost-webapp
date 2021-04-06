@@ -7,6 +7,7 @@ import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {getCurrentChannel, getRedirectChannelNameForTeam, isFavoriteChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentRelativeTeamUrl, getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {appsEnabled} from 'mattermost-redux/selectors/entities/apps';
 import {IntegrationTypes} from 'mattermost-redux/action_types';
 import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 import type {CommandArgs} from 'mattermost-redux/types/integrations';
@@ -30,8 +31,6 @@ import {AppCommandParser} from 'components/suggestion/command_provider/app_comma
 import {intlShim} from 'components/suggestion/command_provider/app_command_parser/app_command_parser_dependencies';
 
 import {GlobalState} from 'types/store';
-
-import {appsEnabled} from 'selectors/apps';
 
 import {t} from 'utils/i18n';
 
