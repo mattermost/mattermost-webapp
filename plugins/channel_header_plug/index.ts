@@ -22,7 +22,7 @@ function mapStateToProps(state: GlobalState) {
     const apps = appsEnabled(state);
     return {
         components: state.plugins.components.ChannelHeaderButton,
-        appBindings: apps ? getChannelHeaderBindings(state) : undefined,
+        appBindings: getChannelHeaderBindings(state),
         appsEnabled: apps,
         theme: getTheme(state),
     };

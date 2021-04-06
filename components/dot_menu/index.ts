@@ -62,7 +62,7 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
     const currentTeamUrl = `${getSiteURL()}/${currentTeam.name}`;
 
     const apps = appsEnabled(state);
-    const appBindings = apps ? getPostMenuBindings(state) : undefined;
+    const appBindings = getPostMenuBindings(state);
 
     return {
         channelIsArchived: isArchivedChannel(channel),
