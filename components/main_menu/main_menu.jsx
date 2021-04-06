@@ -64,6 +64,7 @@ class MainMenu extends React.PureComponent {
         showNextStepsTips: PropTypes.bool,
         isCloud: PropTypes.bool,
         subscriptionStats: PropTypes.object,
+        firstAdminVisitMarketplaceStatus: PropTypes.bool,
         actions: PropTypes.shape({
             openModal: PropTypes.func.isRequred,
             showMentions: PropTypes.func,
@@ -327,6 +328,7 @@ class MainMenu extends React.PureComponent {
                             show={!this.props.mobile && this.props.enablePluginMarketplace}
                             dialogType={MarketplaceModal}
                             text={formatMessage({id: 'navbar_dropdown.marketplace', defaultMessage: 'Plugin Marketplace'})}
+                            showUnread={!this.props.firstAdminVisitMarketplaceStatus}
                         />
                     </TeamPermissionGate>
                     <Menu.ItemLink
