@@ -16,7 +16,6 @@ export interface Props {
 }
 
 const TrialLicenseCard: React.FC<Props> = ({license}: Props) => {
-    console.log(license);
     const today = moment(Date.now());
     const endOfLicense = moment(new Date(parseInt(license?.ExpiresAt, 10)));
     const daysToEndLicense = endOfLicense.diff(today, 'days');
