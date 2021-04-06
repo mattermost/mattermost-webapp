@@ -48,15 +48,15 @@ export default class GlobalPolicyForm extends React.PureComponent<Props, State> 
             saving: false,
             serverError: null,
             formErrorText: '',
-            messageRetentionDropdownValue: this.getDefaultDropdownValue(DataRetentionSettings.EnableMessageDeletion, DataRetentionSettings.MessageRetentionDays),
-            messageRetentionInputValue: this.getDefaultInputValue(DataRetentionSettings.EnableMessageDeletion, DataRetentionSettings.MessageRetentionDays),
-            fileRetentionDropdownValue: this.getDefaultDropdownValue(DataRetentionSettings.EnableFileDeletion, DataRetentionSettings.FileRetentionDays),
-            fileRetentionInputValue: this.getDefaultInputValue(DataRetentionSettings.EnableFileDeletion, DataRetentionSettings.FileRetentionDays),
+            messageRetentionDropdownValue: this.getDefaultDropdownValue(DataRetentionSettings?.EnableMessageDeletion, DataRetentionSettings?.MessageRetentionDays),
+            messageRetentionInputValue: this.getDefaultInputValue(DataRetentionSettings?.EnableMessageDeletion, DataRetentionSettings?.MessageRetentionDays),
+            fileRetentionDropdownValue: this.getDefaultDropdownValue(DataRetentionSettings?.EnableFileDeletion, DataRetentionSettings?.FileRetentionDays),
+            fileRetentionInputValue: this.getDefaultInputValue(DataRetentionSettings?.EnableFileDeletion, DataRetentionSettings?.FileRetentionDays),
         };
     }
 
-    getDefaultInputValue = (isEnabled: boolean, days: number): string => {
-        if (!isEnabled) {
+    getDefaultInputValue = (isEnabled: boolean | undefined, days: number | undefined): string => {
+        if (!isEnabled || days === undefined) {
             return '';
         }
         if (days % 365 === 0) {
@@ -64,8 +64,8 @@ export default class GlobalPolicyForm extends React.PureComponent<Props, State> 
         }
         return days.toString();
     }
-    getDefaultDropdownValue = (isEnabled: boolean, days: number) => {
-        if (!isEnabled) {
+    getDefaultDropdownValue = (isEnabled: boolean | undefined, days: number | undefined) => {
+        if (!isEnabled || days === undefined) {
             return keepForeverOption();
         }
         if (days % 365 === 0) {
