@@ -177,7 +177,9 @@ export default class ThreadViewer extends React.Component<Props, State> {
     }
 
     public morePostsToFetch() {
-        return this.props.posts.length <= 1 || this.props.posts.length < (Utils.getRootPost(this.props.posts).reply_count + 1);
+        const rootPost = Utils.getRootPost(this.props.posts);
+        const replyCount = rootPost?.reply_count || this.props.userThread?.reply_count || 0;
+        return rootPost && this.props.posts.length < (replyCount + 1);
     }
 
     fetchThread() {
