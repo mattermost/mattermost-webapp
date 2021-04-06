@@ -20,6 +20,8 @@
         "firstTest": false,
         "keycloakAppName": "mattermost",
         "keycloakBaseUrl": "http://localhost:8484",
+        "keycloakUsername": "mmuser",
+        "keycloakPassword": "mostest",
         "ldapServer": "localhost",
         "ldapPort": 389,
         "minioAccessKey": "minioaccesskey",
