@@ -7,9 +7,9 @@ import {FormattedMessage} from 'react-intl';
 import moment from 'moment';
 
 import {trackEvent} from 'actions/telemetry_actions';
-import {getBrowserTimezone} from "utils/timezone";
+import {getBrowserTimezone} from 'utils/timezone';
 
- import './trial_license_card.scss';
+import './trial_license_card.scss';
 
 export interface Props {
     license: any;
@@ -41,7 +41,7 @@ const TrialLicenseCard: React.FC<Props> = ({license}: Props) => {
                     defaultMessage='Your free trial will expire in <b>{daysCount} {daysCount, plural, one {day} other {days}}</b>. Visit our customer portal to purchase a license now to continue using E10 & E20 features after trial ends.'
                     values={{
                         daysCount: daysToEndLicense,
-                        b: (chunk: any) => (<b>{chunk}</b>)
+                        b: (chunk: any) => (<b>{chunk}</b>),
                     }}
                 />
             );
@@ -54,11 +54,11 @@ const TrialLicenseCard: React.FC<Props> = ({license}: Props) => {
                 values={{
                     day: endOfLicense.day() === today.day() ? 'Today' : 'Tomorrow',
                     time: endOfLicense.format('h:mm a') + moment().tz(getBrowserTimezone()).format('z'),
-                    b: (chunk: any) => (<b>{chunk}</b>)
+                    b: (chunk: any) => (<b>{chunk}</b>),
                 }}
             />
         );
-    }
+    };
 
     return (
         <div className='RenewLicenseCard TrialLicense'>
