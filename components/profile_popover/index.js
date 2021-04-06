@@ -13,6 +13,7 @@ import {
 import {
     getChannelMembersInChannels,
     canManageAnyChannelMembersInCurrentTeam,
+    getCurrentChannelId,
 } from 'mattermost-redux/selectors/entities/channels';
 
 import {openDirectChannelToUserId} from 'actions/channel_actions.jsx';
@@ -20,13 +21,18 @@ import {getMembershipForCurrentEntities} from 'actions/views/profile_popover';
 import {closeModal, openModal} from 'actions/views/modals';
 
 import {areTimezonesEnabledAndSupported} from 'selectors/general';
-import {getRhsState} from 'selectors/rhs';
+import {getRhsState, getSelectedPost} from 'selectors/rhs';
 
 import {makeGetCustomStatus, isCustomStatusEnabled} from 'selectors/views/custom_status';
 
 import ProfilePopover from './profile_popover.jsx';
 
-function mapStateToProps(state, {userId, channelId}) {
+function getDefaultChannelId(state) {
+    const selectedPost = getSelectedPost(state);
+    return selectedPost.exists ? selectedPost.channel_id : getCurrentChannelId(state);
+}
+
+function mapStateToProps(state, {userId, channelId = getDefaultChannelId(state)}) {
     const team = getCurrentTeam(state);
     const teamMember = getTeamMember(state, team.id, userId);
     const getCustomStatus = makeGetCustomStatus();
@@ -57,6 +63,7 @@ function mapStateToProps(state, {userId, channelId}) {
         modals: state.views.modals.modalState,
         customStatus: getCustomStatus(state, userId),
         isCustomStatusEnabled: isCustomStatusEnabled(state),
+        channelId,
     };
 }
 
