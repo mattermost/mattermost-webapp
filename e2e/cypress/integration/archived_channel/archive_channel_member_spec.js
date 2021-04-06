@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @channel
 
 describe('Archive channel members spec', () => {
@@ -28,7 +29,7 @@ describe('Archive channel members spec', () => {
         cy.get('#channelHeaderTitle').click();
 
         // * View members menu option should not be visible;
-        cy.get('#channelViewMembers').should('not.be.visible');
+        cy.get('#channelViewMembers').should('not.exist');
 
         // * Manage members menu option should be visible;
         cy.get('#channelManageMembers').should('be.visible');
@@ -43,14 +44,14 @@ describe('Archive channel members spec', () => {
         cy.get('#channelHeaderTitle').click();
 
         // * Manage members menu option should not be visible;
-        cy.get('#channelManageMembers').should('be.not.visible');
+        cy.get('#channelManageMembers').should('not.exist');
 
         // # click on view members menu option;
         cy.get('#channelViewMembers  button').should('be.visible').click();
 
         // * Ensure there are no options to change channel roles or membership
         cy.findAllByTestId('userListItemActions').within(() => {
-            cy.get('.MenuWrapper').should('be.not.visible');
+            cy.get('.MenuWrapper').should('not.exist');
         });
     });
 });

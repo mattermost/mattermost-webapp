@@ -13,7 +13,7 @@
     .wrapper--fixed {
         display: flex;
         flex-direction: column;
-        height: 100vh;
+        height: calc(100vh - #{$backstage-bar-height});
 
         // Fix for Safari on iOS MM-24361
         @supports (-webkit-touch-callout: none) {
@@ -21,11 +21,7 @@
         }
 
         .announcement-bar--fixed & {
-            height: calc(100vh - 32px);
-        }
-
-        .announcement-banner-tall--fixed & {
-            height: calc(100vh - 40px);
+            height: calc(100vh - #{$announcement-bar-height} - #{$backstage-bar-height});
         }
     }
 
@@ -70,6 +66,10 @@
         top: 40px;
         z-index: 5;
     }
+    
+    .color-input {
+        width: 232px;
+    }
 
     .dropdown-menu {
         .divider {
@@ -81,10 +81,6 @@
         height: calc(100vh - 175px);
 
         .announcement-bar--fixed & {
-            height: calc(100vh - 205px);
-        }
-
-        .announcement-banner-tall--fixed & {
             height: calc(100vh - 205px);
         }
     }
@@ -552,10 +548,10 @@
     background: #111;
     display: flex;
     flex-direction: column;
-    height: 100%;
+    height: calc(100% - #{$announcement-bar-height});
     left: 0;
     position: fixed;
-    top: 0;
+    top: $backstage-bar-height;
     width: 220px;
     z-index: 10;
 
@@ -585,10 +581,12 @@
             }
         }
         .input-clear {
-            color: $white;
-            font-weight: bold;
-            position: absolute;
-            right: 16px
+            .input-clear-x {
+                color: $white;
+                font-weight: bold;
+                position: absolute;
+                right: 16px
+            }
         }
     }
 
@@ -604,13 +602,8 @@
     }
 
     body.announcement-bar--fixed & {
-        top: $announcement-bar-height;
+        top: $announcement-bar-height + $backstage-bar-height;
         padding-bottom: $announcement-bar-height;
-    }
-
-    body.announcement-banner-tall--fixed & {
-        top: 40px;
-        padding-bottom: 40px;
     }
 
     .dropdown-menu {
@@ -696,6 +689,21 @@
 
     .sidebar-section-title {
         padding: 6px 35px 6px 12px;
+    }
+
+    .sidebar-section-tag {
+        padding: 0px 4px 0px 4px;
+        color: rgba(61,60,64,1);
+        font-size: 10px;
+        font-weight: 600;
+        height: 16px;
+        margin-left: 8px;
+        position: relative;
+        top: -1px;
+        border-radius: 4px;
+        background-color: rgba(255,255,255,0.64);
+        text-transform: uppercase;
+        ;
     }
 
     .sidebar-subsection-title {

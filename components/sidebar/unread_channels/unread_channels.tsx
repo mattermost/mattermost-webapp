@@ -18,25 +18,36 @@ type Props = {
 export default function UnreadChannels(props: Props) {
     const intl = useIntl();
 
+    if (props.unreadChannels.length === 0) {
+        return null;
+    }
+
     return (
-        <div className='SidebarChannelGroup a11y__section'>
-            <SidebarCategoryHeaderStatic displayName={intl.formatMessage({id: 'sidebar.types.all_unreads', defaultMessage: 'ALL UNREADS'})}/>
-            {props.unreadChannels.map((channel, index) => {
-                return (
-                    <SidebarChannel
-                        key={channel.id}
-                        channelIndex={index}
-                        channelId={channel.id}
-                        setChannelRef={props.setChannelRef}
-                        getChannelRef={props.getChannelRef}
-                        isCategoryCollapsed={false}
-                        isCategoryDragged={false}
-                        isDraggable={false}
-                        isDropDisabled={true}
-                        isDMCategory={false}
-                    />
-                );
-            })}
+        <div className='SidebarChannelGroup dropDisabled a11y__section'>
+            <SidebarCategoryHeaderStatic displayName={intl.formatMessage({id: 'sidebar.types.unreads', defaultMessage: 'UNREADS'})}/>
+            <div className='SidebarChannelGroup_content'>
+                <ul
+                    role='list'
+                    className='NavGroupContent'
+                >
+                    {props.unreadChannels.map((channel, index) => {
+                        return (
+                            <SidebarChannel
+                                key={channel.id}
+                                channelIndex={index}
+                                channelId={channel.id}
+                                setChannelRef={props.setChannelRef}
+                                getChannelRef={props.getChannelRef}
+                                isCategoryCollapsed={false}
+                                isCategoryDragged={false}
+                                isDraggable={false}
+                                isDropDisabled={true}
+                                isAutoSortedCategory={true}
+                            />
+                        );
+                    })}
+                </ul>
+            </div>
         </div>
     );
 }

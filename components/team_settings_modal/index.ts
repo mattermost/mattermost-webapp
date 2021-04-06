@@ -3,6 +3,8 @@
 
 import {connect} from 'react-redux';
 
+import {getLicense} from 'mattermost-redux/selectors/entities/general';
+
 import {ModalIdentifiers} from 'utils/constants';
 import {isModalOpen} from 'selectors/views/modals';
 
@@ -14,6 +16,7 @@ function mapStateToProps(state: GlobalState) {
     const modalId = ModalIdentifiers.TEAM_SETTINGS;
     return {
         show: isModalOpen(state, modalId),
+        isCloud: getLicense(state).Cloud === 'true',
     };
 }
 

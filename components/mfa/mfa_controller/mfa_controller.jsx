@@ -6,7 +6,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Route, Switch} from 'react-router-dom';
 
-import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
+import {emitUserLoggedOutEvent} from 'actions/global_actions';
 import logoImage from 'images/logo.png';
 import BackButton from 'components/common/back_button';
 import LogoutIcon from 'components/widgets/icons/fa_logout_icon';

@@ -45,9 +45,7 @@ export function completePostReceive(post: Post, websocketMessageProps: NewPostMe
             }
         }
 
-        const currentChannelId = getCurrentChannelId(getState());
-
-        if (post.channel_id === currentChannelId) {
+        if (post.channel_id === getCurrentChannelId(getState())) {
             dispatch({
                 type: ActionTypes.INCREASE_POST_VISIBILITY,
                 data: post.channel_id,

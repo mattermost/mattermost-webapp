@@ -13,6 +13,8 @@
         word-break: break-word;
         text-align: center;
         line-height: 18px;
+        box-shadow: 0px 6px 14px rgba(0, 0, 0, 0.12);
+
     }
 
     &.text-nowrap {
@@ -20,6 +22,7 @@
             white-space: nowrap;
         }
     }
+
 
     .tooltip-help {
         color: rgba(255, 255, 255, 0.64);

@@ -8,12 +8,14 @@ import {getUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
 
 import {getCurrentDateForTimezone} from 'utils/timezone';
 import {areTimezonesEnabledAndSupported} from 'selectors/general';
+import {getCurrentLocale} from 'selectors/i18n';
 
 import SearchDateSuggestion from './search_date_suggestion.jsx';
 
 function mapStateToProps(state) {
     const currentUserId = getCurrentUserId(state);
     const userTimezone = getUserTimezone(state, currentUserId);
+    const locale = getCurrentLocale(state);
 
     const enableTimezone = areTimezonesEnabledAndSupported(state);
 
@@ -28,6 +30,7 @@ function mapStateToProps(state) {
 
     return {
         currentDate,
+        locale,
     };
 }
 

@@ -10,10 +10,16 @@ describe('components/StatusDropdown', () => {
     const actions = {
         openModal: jest.fn(),
         setStatus: jest.fn(),
+        unsetCustomStatus: jest.fn(),
+        setStatusDropdown: jest.fn(),
     };
 
     const baseProps = {
         actions,
+        userId: '',
+        isCustomStatusEnabled: false,
+        isStatusDropdownOpen: false,
+        showCustomStatusPulsatingDot: false,
     };
 
     test('should match snapshot in default state', () => {
@@ -27,6 +33,45 @@ describe('components/StatusDropdown', () => {
         const props = {
             ...baseProps,
             profilePicture: 'http://localhost:8065/api/v4/users/jsx5jmdiyjyuzp9rzwfaf5pwjo/image?_=1590519110944',
+        };
+
+        const wrapper = shallow(
+            <StatusDropdown {...props}/>,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot with status dropdown open', () => {
+        const props = {
+            ...baseProps,
+            isStatusDropdownOpen: true,
+        };
+
+        const wrapper = shallow(
+            <StatusDropdown {...props}/>,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot with custom status enabled', () => {
+        const props = {
+            ...baseProps,
+            isStatusDropdownOpen: true,
+            isCustomStatusEnabled: true,
+        };
+
+        const wrapper = shallow(
+            <StatusDropdown {...props}/>,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot with custom status pulsating dot enabled', () => {
+        const props = {
+            ...baseProps,
+            isStatusDropdownOpen: true,
+            isCustomStatusEnabled: true,
+            showCustomStatusPulsatingDot: true,
         };
 
         const wrapper = shallow(

@@ -19,7 +19,10 @@ export default class SidebarChannelIcon extends React.PureComponent<Props> {
             );
         } else if (this.props.hasDraft) {
             return (
-                <i className='icon icon-pencil-outline'/>
+                <i
+                    data-testid='draftIcon'
+                    className='icon icon-pencil-outline'
+                />
             );
         }
 

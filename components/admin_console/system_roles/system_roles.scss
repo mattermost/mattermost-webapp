@@ -1,0 +1,19 @@
+#SystemRoles {
+    margin-top: 0;
+
+    .SystemRoles {
+        .DataGrid {
+            .DataGrid_row {
+                min-height: 40px;
+                cursor: pointer;
+                padding-left: 16px;
+            }
+
+            .DataGrid_cell {
+                .SystemRoles_editRow {
+                    padding-right: 20px;
+                }
+            }
+        }
+    }
+}

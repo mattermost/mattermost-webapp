@@ -19,7 +19,10 @@ If your server is using database other than the default, you may export those as
 
 Cypress.Commands.add('apiRequireServerDBToMatch', () => {
     cy.apiGetConfig().then(({config}) => {
-        if (config.SqlSettings.DriverName !== dbClient) {
+        // On Cloud, SqlSettings is not being returned.
+        // With that, checking of server DB will be ignored and will assume it does match with
+        // the one being expected by Cypress.
+        if (config.SqlSettings && config.SqlSettings.DriverName !== dbClient) {
             expect(config.SqlSettings.DriverName, message).to.equal(dbClient);
         }
     });
@@ -34,10 +37,10 @@ Cypress.Commands.add('apiRequireServerDBToMatch', () => {
  * @returns {[Object]} sessions - an array of active sessions
  */
 Cypress.Commands.add('dbGetActiveUserSessions', ({username, userId, limit}) => {
-    cy.task('dbGetActiveUserSessions', {dbConfig, params: {username, userId, limit}}).then(({user, sessions, errorMessage}) => {
+    return cy.task('dbGetActiveUserSessions', {dbConfig, params: {username, userId, limit}}).then(({user, sessions, errorMessage}) => {
         expect(errorMessage).to.be.undefined;
 
-        cy.wrap({user, sessions});
+        return cy.wrap({user, sessions});
     });
 });
 
@@ -47,10 +50,10 @@ Cypress.Commands.add('dbGetActiveUserSessions', ({username, userId, limit}) => {
  * @returns {Object} user - user object
  */
 Cypress.Commands.add('dbGetUser', ({username}) => {
-    cy.task('dbGetUser', {dbConfig, params: {username}}).then(({user, errorMessage, error}) => {
+    return cy.task('dbGetUser', {dbConfig, params: {username}}).then(({user, errorMessage, error}) => {
         verifyError(error, errorMessage);
 
-        cy.wrap({user});
+        return cy.wrap({user});
     });
 });
 
@@ -60,10 +63,10 @@ Cypress.Commands.add('dbGetUser', ({username}) => {
  * @returns {Object} session
  */
 Cypress.Commands.add('dbGetUserSession', ({sessionId}) => {
-    cy.task('dbGetUserSession', {dbConfig, params: {sessionId}}).then(({session, errorMessage}) => {
+    return cy.task('dbGetUserSession', {dbConfig, params: {sessionId}}).then(({session, errorMessage}) => {
         expect(errorMessage).to.be.undefined;
 
-        cy.wrap({session});
+        return cy.wrap({session});
     });
 });
 
@@ -75,10 +78,10 @@ Cypress.Commands.add('dbGetUserSession', ({sessionId}) => {
  * @returns {Object} session
  */
 Cypress.Commands.add('dbUpdateUserSession', ({sessionId, userId, fieldsToUpdate}) => {
-    cy.task('dbUpdateUserSession', {dbConfig, params: {sessionId, userId, fieldsToUpdate}}).then(({session, errorMessage}) => {
+    return cy.task('dbUpdateUserSession', {dbConfig, params: {sessionId, userId, fieldsToUpdate}}).then(({session, errorMessage}) => {
         expect(errorMessage).to.be.undefined;
 
-        cy.wrap({session});
+        return cy.wrap({session});
     });
 });
 

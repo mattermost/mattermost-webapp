@@ -6,6 +6,7 @@ import {shallow} from 'enzyme';
 import {Modal} from 'react-bootstrap';
 import {Provider} from 'react-redux';
 import configureStore from 'redux-mock-store';
+
 import {Permissions} from 'mattermost-redux/constants';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';

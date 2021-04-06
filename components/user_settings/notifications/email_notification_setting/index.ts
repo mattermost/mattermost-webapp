@@ -18,7 +18,7 @@ import {ActionFunc} from 'mattermost-redux/types/actions';
 import EmailNotificationSetting from './email_notification_setting';
 
 type Actions = {
-    savePreferences: (currentUserId: string, emailIntervalPreference: Array<PreferenceType>) =>
+    savePreferences: (currentUserId: string, emailIntervalPreference: PreferenceType[]) =>
     Promise<{data: boolean}>;
 }
 

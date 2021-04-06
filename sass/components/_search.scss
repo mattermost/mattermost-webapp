@@ -1,4 +1,4 @@
-@charset 'UTF-8';
+@charset "UTF-8";
 
 .search-bar__container {
     .channel-header__links {
@@ -112,10 +112,6 @@
             border: 2px solid v(button-bg);
             padding: 0;
 
-            .search-bar {
-                padding-left: 2.9rem;
-            }
-
             .search__icon {
                 top: 6px;
                 left: 8px;
@@ -226,7 +222,7 @@
         .post-pre-header__icons-container {
             padding-right: 10px; // If the padding of post__img changes, this needs to be adjusted accordingly
             width: 53px; // If the width of post__img changes, this needs to be adjusted accordingly
-            margin-left: 0px; // if left margin of post__content changes, this needs to be adjusted accordingly
+            margin-left: 0; // if left margin of post__content changes, this needs to be adjusted accordingly
         }
     }
 }

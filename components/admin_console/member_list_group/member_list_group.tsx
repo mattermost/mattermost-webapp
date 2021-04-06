@@ -17,14 +17,14 @@ import './member_list_group.scss';
 
 export type Props = {
     searchTerm: string;
-    users: Array<UserProfile>;
+    users: UserProfile[];
     groupID: string;
     total: number;
     actions: {
         getProfilesInGroup: (groupID: string, page: number, perPage: number) => Promise<{data: UserProfile[]}>;
         getGroupStats: (groupID: string) => Promise<{data: GroupStats}>;
         searchProfiles: (term: string, options?: Record<string, unknown>) => Promise<{data: UserProfile[]}>;
-        setModalSearchTerm: (term: string) => Promise<{data: boolean;}>;
+        setModalSearchTerm: (term: string) => Promise<{data: boolean}>;
     };
 }
 
@@ -110,10 +110,6 @@ export default class MemberListGroup extends React.PureComponent<Props, State> {
         this.setState({page: this.state.page - 1});
     }
 
-    search = (term: string) => {
-        this.props.actions.setModalSearchTerm(term);
-    }
-
     private getRows = (): Row[] => {
         const {users} = this.props;
         const {startCount, endCount} = this.getPaginationProps();
@@ -188,7 +184,7 @@ export default class MemberListGroup extends React.PureComponent<Props, State> {
                     startCount={startCount}
                     endCount={endCount}
                     total={total}
-                    search={this.search}
+                    onSearch={this.props.actions.setModalSearchTerm}
                     term={this.props.searchTerm || ''}
                     placeholderEmpty={placeholderEmpty}
                 />

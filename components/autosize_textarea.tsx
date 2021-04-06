@@ -1,6 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable react/no-string-refs */
 
 import React, {ChangeEvent, FormEvent, CSSProperties} from 'react';
 
@@ -17,42 +16,47 @@ type Props = {
 
 export default class AutosizeTextarea extends React.PureComponent<Props> {
     private height: number;
+    private textAreaRef: React.RefObject<HTMLTextAreaElement>;
+    private referenceRef: React.RefObject<HTMLTextAreaElement>;
     constructor(props: Props) {
         super(props);
 
         this.height = 0;
+
+        this.textAreaRef = React.createRef();
+        this.referenceRef = React.createRef();
     }
 
     get value() {
-        return (this.refs.textarea as HTMLTextAreaElement).value;
+        return (this.textAreaRef.current as HTMLTextAreaElement).value;
     }
 
-    set value(value) {
-        (this.refs.textarea as HTMLTextAreaElement).value = value;
+    set value(value: string) {
+        (this.textAreaRef.current as HTMLTextAreaElement).value = value;
     }
 
     get selectionStart() {
-        return (this.refs.textarea as HTMLTextAreaElement).selectionStart;
+        return (this.textAreaRef.current as HTMLTextAreaElement).selectionStart;
     }
 
     set selectionStart(selectionStart) {
-        (this.refs.textarea as HTMLTextAreaElement).selectionStart = selectionStart;
+        (this.textAreaRef.current as HTMLTextAreaElement).selectionStart = selectionStart;
     }
 
     get selectionEnd() {
-        return (this.refs.textarea as HTMLTextAreaElement).selectionEnd;
+        return (this.textAreaRef.current as HTMLTextAreaElement).selectionEnd;
     }
 
     set selectionEnd(selectionEnd) {
-        (this.refs.textarea as HTMLTextAreaElement).selectionEnd = selectionEnd;
+        (this.textAreaRef.current as HTMLTextAreaElement).selectionEnd = selectionEnd;
     }
 
     focus() {
-        (this.refs.textarea as HTMLTextAreaElement).focus();
+        this.textAreaRef.current?.focus();
     }
 
     blur() {
-        (this.refs.textarea as HTMLTextAreaElement).blur();
+        this.textAreaRef.current?.blur();
     }
 
     componentDidMount() {
@@ -64,12 +68,12 @@ export default class AutosizeTextarea extends React.PureComponent<Props> {
     }
 
     recalculateSize = () => {
-        if (!this.refs.reference || !(this.refs.textarea as HTMLTextAreaElement)) {
+        if (!this.referenceRef.current || !(this.textAreaRef.current)) {
             return;
         }
 
-        const height = (this.refs.reference as HTMLTextAreaElement).scrollHeight;
-        const textarea = (this.refs.textarea as HTMLTextAreaElement);
+        const height = (this.referenceRef.current).scrollHeight;
+        const textarea = (this.textAreaRef.current);
 
         if (height > 0 && height !== this.height) {
             const style = getComputedStyle(textarea);
@@ -87,7 +91,7 @@ export default class AutosizeTextarea extends React.PureComponent<Props> {
     }
 
     getDOMNode = () => {
-        return (this.refs.textarea as HTMLTextAreaElement);
+        return (this.textAreaRef.current);
     };
 
     handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -148,13 +152,14 @@ export default class AutosizeTextarea extends React.PureComponent<Props> {
             <div>
                 {textareaPlaceholder}
                 <textarea
-                    ref='textarea'
+                    ref={this.textAreaRef}
                     data-testid={id}
                     id={id}
                     {...heightProps}
                     {...otherProps}
                     role='textbox'
                     aria-label={placeholderAriaLabel}
+                    dir='auto'
                     disabled={disabled}
                     onChange={this.handleChange}
                     onInput={onInput}
@@ -163,9 +168,10 @@ export default class AutosizeTextarea extends React.PureComponent<Props> {
                 />
                 <div style={style.container}>
                     <textarea
-                        ref='reference'
+                        ref={this.referenceRef}
                         id={id + '-reference'}
                         style={style.reference}
+                        dir='auto'
                         disabled={true}
                         rows={1}
                         {...otherProps}
@@ -183,4 +189,3 @@ const style: { [Key: string]: CSSProperties} = {
     reference: {height: 'auto', width: '100%'},
     placeholder: {overflow: 'hidden', textOverflow: 'ellipsis', opacity: 0.5, pointerEvents: 'none', position: 'absolute', whiteSpace: 'nowrap', background: 'none', borderColor: 'transparent'},
 };
-/* eslint-enable react/no-string-refs */

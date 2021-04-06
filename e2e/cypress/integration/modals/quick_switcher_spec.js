@@ -7,7 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @modals
+
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Quick switcher', () => {
@@ -141,6 +143,19 @@ describe('Quick switcher', () => {
 
             // * Should have recently interacted DM on top
             cy.get('.suggestion--selected').should('exist').and('contain.text', thirdUser.username);
+        });
+    });
+
+    it('MM-T3447_5 Should match GM even with space in search term', () => {
+        cy.apiCreateGroupChannel([testUser.id, firstUser.id, thirdUser.id]).then(({channel}) => {
+            // # Visit the newly created group message
+            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+
+            cy.get('#post_textbox').cmdOrCtrlShortcut('K');
+            cy.focused().type(`${testUser.username} az3`);
+
+            // * Should have the GM listed in the results
+            cy.get('.suggestion--selected').should('exist').and('contain.text', 'Gaz');
         });
     });
 });

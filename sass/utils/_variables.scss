@@ -20,7 +20,8 @@ $font-weight--semibold: 600;
 
 // Page Variables
 $border-gray: 1px solid #ddd;
-$announcement-bar-height: 32px;
+$announcement-bar-height: 40px;
+$backstage-bar-height: 43px;
 
 // Random variables
 $border-rad: 2px;
@@ -31,8 +32,8 @@ $transition-quick: 0.12s;
 
 // Elevations
 $elevation-1: 0 2px 3px 0 alpha-color($black, .08);
-$elevation-2: 0 4px 6px 0 alpha-color($black, .012);
-$elevation-3: 0 6px 14px 0 alpha-color($black, .012);
-$elevation-4: 0 8px 24px 0 alpha-color($black, .012);
-$elevation-5: 0 12px 32px 0 alpha-color($black, .012);
-$elevation-6: 0 20px 32px 0 alpha-color($black, .012);
+$elevation-2: 0 4px 6px 0 alpha-color($black, .12);
+$elevation-3: 0 6px 14px 0 alpha-color($black, .12);
+$elevation-4: 0 8px 24px 0 alpha-color($black, .12);
+$elevation-5: 0 12px 32px 0 alpha-color($black, .12);
+$elevation-6: 0 20px 32px 0 alpha-color($black, .12);

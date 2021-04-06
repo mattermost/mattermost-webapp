@@ -14,11 +14,72 @@ function createEmail(name, timestamp) {
     return name + timestamp + '@sample.mattermost.com';
 }
 
+// Helper function to start @mention
+function startAtMention(string) {
+    // # Get the expected input
+    cy.get('@input').clear().type(string);
+
+    // * Suggestion list should appear
+    cy.get('#suggestionList').should('be.visible');
+}
+
+function searchForChannel(name) {
+    // # Open up channel switcher
+    cy.typeCmdOrCtrl().type('k').wait(TIMEOUTS.ONE_SEC);
+
+    // # Clear out and type in the name
+    cy.findByRole('textbox', {name: 'quick switch input'}).
+        should('be.visible').
+        as('input').
+        clear().
+        type(name);
+}
+
+function createChannel(channelType, teamId, userToAdd = null) {
+    // # Create a channel as sysadmin
+    return cy.externalRequest({
+        user: admin,
+        method: 'POST',
+        path: 'channels',
+        data: {
+            team_id: teamId,
+            name: 'test-channel' + Date.now(),
+            display_name: 'Test Channel ' + Date.now(),
+            type: channelType,
+            header: '',
+            purpose: '',
+        },
+    }).then(({data: channel}) => {
+        if (userToAdd) {
+            // # Get user profile by email
+            return cy.apiGetUserByEmail(userToAdd.email).then(({user}) => {
+                // # Add user to team
+                cy.externalRequest({
+                    user: admin,
+                    method: 'post',
+                    path: `channels/${channel.id}/members`,
+                    data: {user_id: user.id},
+                }).then(() => {
+                    // # Explicitly wait to give some time to index before searching
+                    cy.wait(TIMEOUTS.TWO_SEC);
+                    return cy.wrap(channel);
+                });
+            });
+        }
+
+        // # Explicitly wait to give some time to index before searching
+        cy.wait(TIMEOUTS.TWO_SEC);
+        return cy.wrap(channel);
+    });
+}
+
 module.exports = {
     withTimestamp,
     createEmail,
+    startAtMention,
+    searchForChannel,
     enableElasticSearch: () => {
-        // Enable elastic search via the API
+        // # Enable elastic search via the API
         cy.apiUpdateConfig({
             ElasticsearchSettings: {
                 EnableAutocomplete: true,
@@ -28,32 +89,31 @@ module.exports = {
             },
         });
 
-        // Navigate to the elastic search setting page
+        // # Navigate to the elastic search setting page
         cy.visit('/admin_console/environment/elasticsearch');
 
-        // Test the connection and verify that we are successful
+        // * Test the connection and verify that we are successful
         cy.contains('button', 'Test Connection').click();
         cy.get('.alert-success').should('have.text', 'Test successful. Configuration saved.');
 
-        // Index so we are up to date
+        // # Index so we are up to date
         cy.contains('button', 'Index Now').click();
 
-        // Small wait to ensure new row is added
-        cy.wait(TIMEOUTS.HALF_SEC);
+        // # Small wait to ensure new row is added
+        cy.wait(TIMEOUTS.ONE_SEC).get('.job-table__table').find('tbody > tr').eq(0).as('firstRow');
 
-        cy.get('.job-table__table').find('tbody > tr').eq(0).as('firstRow').find('.status-icon-warning', {timeout: TIMEOUTS.TWO_MIN}).should('be.visible');
-
-        // Newest row should eventually result in Success
-        cy.waitUntil(() => {
+        // * Newest row should eventually result in Success
+        const checkFirstRow = () => {
             return cy.get('@firstRow').then((el) => {
                 return el.find('.status-icon-success').length > 0;
             });
-        }
-        , {
-            timeout: TIMEOUTS.FIVE_MIN,
+        };
+        const options = {
+            timeout: TIMEOUTS.TWO_MIN,
             interval: TIMEOUTS.TWO_SEC,
             errorMsg: 'Reindex did not succeed in time',
-        });
+        };
+        cy.waitUntil(checkFirstRow, options);
     },
     getTestUsers: () => {
         // Reverse the timestamp so that on search,
@@ -145,88 +205,31 @@ module.exports = {
                 password: 'passwd',
                 first_name: 'z3First',
                 last_name: 'z3Last',
-                email: createEmail('undercore', reverseTimeStamp),
+                email: createEmail('underscore', reverseTimeStamp),
                 nickname: 'z3Nick',
             },
         };
     },
     createPrivateChannel: (teamId, userToAdd = null) => {
-        const baseUrl = Cypress.config('baseUrl');
-
-        // As the sysadmin, create a private channel
-        return cy.task('externalRequest', {
-            user: admin,
-            method: 'post',
-            baseUrl,
-            path: 'channels',
-            data: {
-                team_id: teamId,
-                name: 'private' + Date.now(),
-                display_name: 'private' + Date.now(),
-                type: 'P',
-                header: '',
-                purpose: '',
-            },
-        }).then((privateResponse) => {
-            expect(privateResponse.status).to.equal(201);
-            const channel = privateResponse.data;
-
-            // If we have a user to add to the team, add them now
-            if (userToAdd) {
-                // First get the user details by email of the user
-                return cy.apiGetUserByEmail(userToAdd.email).then(({user}) => {
-                    // Add user to team
-                    cy.task('externalRequest', {
-                        user: admin,
-                        method: 'post',
-                        baseUrl,
-                        path: `channels/${channel.id}/members`,
-                        data: {
-                            user_id: user.id,
-                        },
-                    }).then((addResponse) => {
-                        expect(addResponse.status).to.equal(201);
-
-                        // explicitly wait to give some to index before searching
-                        cy.wait(TIMEOUTS.TWO_SEC);
-                        return cy.wrap(channel);
-                    });
-                });
-            }
-
-            // explicitly wait to give some to index before searching
-            cy.wait(TIMEOUTS.TWO_SEC);
-            return cy.wrap(channel);
-        });
+        // # Create a private channel as sysadmin
+        return createChannel('P', teamId, userToAdd);
     },
-    searchForChannel: (name) => {
-        // Open up channel switcher
-        cy.typeCmdOrCtrl().type('k');
-
-        // Clear out and type in the name
-        cy.get('#quickSwitchInput').
-            should('be.visible').
-            as('input').
-            clear().
-            type(name);
+    createPublicChannel: (teamId, userToAdd = null) => {
+        // # Create a public channel as sysadmin
+        return createChannel('O', teamId, userToAdd);
     },
-    searchAndVerifyChannel: (channel) => {
-        // # Type cmd-K to open channel switcher
-        cy.typeCmdOrCtrl().type('k');
+    searchAndVerifyChannel: (channel, shouldExist = true) => {
+        const name = channel.display_name;
+        searchForChannel(name);
 
-        // # Search for channel's display name
-        cy.get('#quickSwitchInput').
-            should('be.visible').
-            as('input').
-            clear().
-            type(channel.display_name);
-
-        // * Suggestions should appear
-        cy.get('#suggestionList', {timeout: TIMEOUTS.FIVE_SEC}).should('be.visible');
-
-        // * Channel should appear
-        cy.findByTestId(channel.name).
-            should('be.visible');
+        if (shouldExist) {
+            // * Channel should appear in suggestions list
+            cy.get('#suggestionList').findByRole('button', {name}).should('be.visible');
+        } else {
+            // * Suggestion list and channel item should not appear
+            cy.get('#suggestionList').should('not.exist');
+            cy.findByRole('button', {name}).should('not.exist');
+        }
     },
     searchAndVerifyUser: (user) => {
         // # Start @ mentions autocomplete with username
@@ -239,10 +242,7 @@ module.exports = {
         // * Suggestion list should appear
         cy.get('#suggestionList', {timeout: TIMEOUTS.FIVE_SEC}).should('be.visible');
 
-        // # Verify user appears in results post-change
-        return cy.findByTestId(`mentionSuggestion_${user.username}`, {exact: false}).within((name) => {
-            cy.wrap(name).find('.mention--align').should('have.text', `@${user.username}`);
-            cy.wrap(name).find('.ml-2').should('have.text', `${user.first_name} ${user.last_name} (${user.nickname})`);
-        });
+        // * Verify user appears in results post-change
+        return cy.uiVerifyAtMentionSuggestion(user);
     },
 };

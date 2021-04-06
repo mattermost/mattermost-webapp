@@ -19,6 +19,22 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen a
         className="form-horizontal"
         role="form"
       >
+        <RenewLicenseCard
+          isLicenseExpired={true}
+          license={
+            Object {
+              "Company": "Mattermost Inc.",
+              "ExpiresAt": "654321",
+              "IsLicensed": "true",
+              "IssuedAt": "123456",
+              "Name": "LicenseName",
+              "SkuShortName": "SkuName",
+              "StartsAt": "654321",
+              "Users": "100",
+            }
+          }
+          totalUsers={10}
+        />
         <div
           className="form-group"
         >
@@ -147,6 +163,22 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen w
         className="form-horizontal"
         role="form"
       >
+        <RenewLicenseCard
+          isLicenseExpired={true}
+          license={
+            Object {
+              "Company": "Mattermost Inc.",
+              "ExpiresAt": "654321",
+              "IsLicensed": "true",
+              "IssuedAt": "123456",
+              "Name": "LicenseName",
+              "SkuShortName": "SkuName",
+              "StartsAt": "654321",
+              "Users": "100",
+            }
+          }
+          totalUsers={10}
+        />
         <div
           className="form-group"
         >
@@ -287,6 +319,22 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
         className="form-horizontal"
         role="form"
       >
+        <RenewLicenseCard
+          isLicenseExpired={true}
+          license={
+            Object {
+              "Company": "Mattermost Inc.",
+              "ExpiresAt": "654321",
+              "IsLicensed": "true",
+              "IssuedAt": "123456",
+              "Name": "LicenseName",
+              "SkuShortName": "SkuName",
+              "StartsAt": "654321",
+              "Users": "100",
+            }
+          }
+          totalUsers={10}
+        />
         <div
           className="form-group"
         >
@@ -390,6 +438,7 @@ Your subscription details are as follows:
           >
             <button
               className="btn btn-danger"
+              data-testid="remove-button"
               id="remove-button"
               onClick={[Function]}
               type="button"
@@ -433,6 +482,22 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
         className="form-horizontal"
         role="form"
       >
+        <RenewLicenseCard
+          isLicenseExpired={true}
+          license={
+            Object {
+              "Company": "Mattermost Inc.",
+              "ExpiresAt": "654321",
+              "IsLicensed": "true",
+              "IssuedAt": "123456",
+              "Name": "LicenseName",
+              "SkuShortName": "SkuName",
+              "StartsAt": "654321",
+              "Users": "100",
+            }
+          }
+          totalUsers={10}
+        />
         <div
           className="form-group"
         >
@@ -540,6 +605,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
           >
             <button
               className="btn btn-danger"
+              data-testid="remove-button"
               id="remove-button"
               onClick={[Function]}
               type="button"
@@ -952,6 +1018,22 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
         className="form-horizontal"
         role="form"
       >
+        <RenewLicenseCard
+          isLicenseExpired={true}
+          license={
+            Object {
+              "Company": "Mattermost Inc.",
+              "ExpiresAt": "654321",
+              "IsLicensed": "true",
+              "IssuedAt": "123456",
+              "Name": "LicenseName",
+              "SkuShortName": "SkuName",
+              "StartsAt": "654321",
+              "Users": "100",
+            }
+          }
+          totalUsers={10}
+        />
         <div
           className="form-group"
         >

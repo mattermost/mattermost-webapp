@@ -15,10 +15,6 @@ describe('components/TextBox', () => {
             {id: 'id1'},
             {id: 'id2'},
         ],
-        profilesNotInChannel: [
-            {id: 'id3'},
-            {id: 'id4'},
-        ],
         autocompleteGroups: [
             {id: 'gid1'},
             {id: 'gid2'},

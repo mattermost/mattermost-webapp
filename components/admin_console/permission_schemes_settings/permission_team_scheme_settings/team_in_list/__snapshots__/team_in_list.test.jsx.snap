@@ -9,8 +9,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
     className="team-info-block"
   >
     <TeamIcon
-      name="testTeam"
-      size="md"
+      content="testTeam"
+      size="sm"
       url={null}
     />
     <div

@@ -1,4 +1,3 @@
-
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
@@ -9,6 +8,7 @@
 // ***************************************************************
 
 // Group: @enterprise @onboarding
+// Skip:  @electron @chrome @firefox
 
 import * as TIMEOUTS from '../../../../fixtures/timeouts';
 import {generateRandomUser} from '../../../../support/api/user';

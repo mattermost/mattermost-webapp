@@ -90,7 +90,7 @@ describe('Actions.Posts', () => {
                     },
                 },
                 channels: {
-                    current_channel_id: {team_a: 'team_a'},
+                    current_channel_id: {team_a: 'team_a', id: 'current_channel_id'},
                 },
             },
             preferences: {

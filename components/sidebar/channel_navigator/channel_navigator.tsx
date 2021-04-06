@@ -10,10 +10,20 @@ import {ModalIdentifiers} from 'utils/constants';
 import QuickSwitchModal from 'components/quick_switch_modal';
 import * as Utils from 'utils/utils';
 import {isDesktopApp} from 'utils/user_agent';
+import AddChannelDropdown from '../add_channel_dropdown';
+import ChannelFilter from '../channel_filter';
 
 type Props = {
     canGoForward: boolean;
     canGoBack: boolean;
+    canJoinPublicChannel: boolean;
+    showMoreChannelsModal: () => void;
+    showNewChannelModal: () => void;
+    showCreateCategoryModal: () => void;
+    handleOpenDirectMessagesModal: (e: Event) => void;
+    unreadFilterEnabled: boolean;
+    canCreateChannel: boolean;
+    showUnreadsCategory: boolean;
     actions: {
         openModal: (modalData: any) => Promise<{data: boolean}>;
         goBack: () => void;
@@ -21,11 +31,7 @@ type Props = {
     };
 };
 
-type State = {
-
-};
-
-export default class ChannelNavigator extends React.PureComponent<Props, State> {
+export default class ChannelNavigator extends React.PureComponent<Props> {
     openQuickSwitcher = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
 
@@ -53,10 +59,39 @@ export default class ChannelNavigator extends React.PureComponent<Props, State> 
             channelSwitchTextShortcutDefault = '⌘K';
         }
 
-        let historyArrows;
+        const jumpToButton = (
+            <button
+                className={'SidebarChannelNavigator_jumpToButton'}
+                onClick={this.openQuickSwitcher}
+                aria-label={Utils.localizeMessage('sidebar_left.channel_navigator.channelSwitcherLabel', 'Channel Switcher')}
+            >
+                <i className='icon icon-magnify'/>
+                <FormattedMessage
+                    id='sidebar_left.channel_navigator.jumpTo'
+                    defaultMessage='Find channel'
+                />
+                <div className={'SidebarChannelNavigator_shortcutText'}>
+                    {channelSwitchTextShortcutDefault}
+                </div>
+            </button>
+        );
+
+        const addChannelDropdown = (
+            <AddChannelDropdown
+                showNewChannelModal={this.props.showNewChannelModal}
+                showMoreChannelsModal={this.props.showMoreChannelsModal}
+                showCreateCategoryModal={this.props.showCreateCategoryModal}
+                canCreateChannel={this.props.canCreateChannel}
+                canJoinPublicChannel={this.props.canJoinPublicChannel}
+                handleOpenDirectMessagesModal={this.props.handleOpenDirectMessagesModal}
+                unreadFilterEnabled={this.props.unreadFilterEnabled}
+            />
+        );
+
+        let layout;
         if (isDesktopApp()) {
-            historyArrows = (
-                <React.Fragment>
+            const historyArrows = (
+                <>
                     <button
                         className={classNames('SidebarChannelNavigator_backButton', {disabled: !this.props.canGoBack})}
                         disabled={!this.props.canGoBack}
@@ -73,27 +108,32 @@ export default class ChannelNavigator extends React.PureComponent<Props, State> 
                     >
                         <i className='icon icon-arrow-right'/>
                     </button>
-                </React.Fragment>
+                </>
+            );
+
+            layout = (
+                <div className={'SidebarChannelNavigator desktop'}>
+                    {jumpToButton}
+                    <div className='SidebarContainer_filterAddChannel desktop'>
+                        <div className='SidebarContainer_rightContainer'>
+                            {!this.props.showUnreadsCategory && <ChannelFilter/>}
+                            {!this.props.showUnreadsCategory && <div className='SidebarChannelNavigator_divider'/>}
+                            {historyArrows}
+                        </div>
+                        {addChannelDropdown}
+                    </div>
+                </div>
+            );
+        } else {
+            layout = (
+                <div className={'SidebarChannelNavigator webapp'}>
+                    {!this.props.showUnreadsCategory && <ChannelFilter/>}
+                    {jumpToButton}
+                    {addChannelDropdown}
+                </div>
             );
         }
 
-        return (
-            <div className={'SidebarChannelNavigator'}>
-                <button
-                    className={'SidebarChannelNavigator_jumpToButton'}
-                    onClick={this.openQuickSwitcher}
-                    aria-label={Utils.localizeMessage('sidebar_left.channel_navigator.channelSwitcherLabel', 'Channel Switcher')}
-                >
-                    <FormattedMessage
-                        id='sidebar_left.channel_navigator.jumpTo'
-                        defaultMessage='Jump to...'
-                    />
-                    <div className={'SidebarChannelNavigator_shortcutText'}>
-                        {channelSwitchTextShortcutDefault}
-                    </div>
-                </button>
-                {historyArrows}
-            </div>
-        );
+        return layout;
     }
 }

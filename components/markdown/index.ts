@@ -6,7 +6,7 @@ import {createSelector} from 'reselect';
 
 import {Preferences} from 'mattermost-redux/constants';
 import {getChannelsNameMapInCurrentTeam} from 'mattermost-redux/selectors/entities/channels';
-import {getAutolinkedUrlSchemes, getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getAutolinkedUrlSchemes, getConfig, getManagedResourcePaths} from 'mattermost-redux/selectors/entities/general';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getAllUserMentionKeys} from 'mattermost-redux/selectors/entities/search';
@@ -17,11 +17,14 @@ import {getEmojiMap} from 'selectors/emojis';
 import {getSiteURL} from 'utils/url';
 import {ChannelNamesMap} from 'utils/text_formatting';
 
+import {getPost} from 'mattermost-redux/selectors/entities/posts';
+
 import Markdown from './markdown';
 
 type Props = {
     channelNamesMap?: ChannelNamesMap;
     mentionKeys?: [];
+    postId?: string;
 }
 
 function makeGetChannelNamesMap() {
@@ -44,16 +47,23 @@ function makeMapStateToProps() {
     return function mapStateToProps(state: GlobalState, ownProps: Props) {
         const config = getConfig(state);
 
+        let channelId;
+        if (ownProps.postId) {
+            channelId = getPost(state, ownProps.postId)?.channel_id;
+        }
+
         return {
             autolinkedUrlSchemes: getAutolinkedUrlSchemes(state),
             channelNamesMap: getChannelNamesMap(state, ownProps),
             enableFormatting: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'formatting', true),
+            managedResourcePaths: getManagedResourcePaths(state),
             mentionKeys: ownProps.mentionKeys || getAllUserMentionKeys(state),
             siteURL: getSiteURL(),
             team: getCurrentTeam(state),
             hasImageProxy: config.HasImageProxy === 'true',
             minimumHashtagLength: parseInt(config.MinimumHashtagLength || '', 10),
             emojiMap: getEmojiMap(state),
+            channelId,
         };
     };
 }

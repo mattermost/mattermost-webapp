@@ -25,6 +25,7 @@
  *      - TYPE=[type], e.g. "MASTER", "PR", "RELEASE"
  */
 
+const chai = require('chai');
 const {merge} = require('mochawesome-merge');
 const generator = require('mochawesome-report-generator');
 
@@ -40,7 +41,7 @@ const {
 const {saveArtifacts} = require('./utils/artifacts');
 const {MOCHAWESOME_REPORT_DIR, RESULTS_DIR} = require('./utils/constants');
 const {saveDashboard} = require('./utils/dashboard');
-const {saveTestCases} = require('./utils/test_cases');
+const {createTestCycle, createTestExecutions} = require('./utils/test_cases');
 
 require('dotenv').config();
 
@@ -53,7 +54,9 @@ const saveReport = async () => {
         DIAGNOSTIC_WEBHOOK_URL,
         DIAGNOSTIC_USER_ID,
         DIAGNOSTIC_TEAM_ID,
+        FAILURE_MESSAGE,
         TM4J_ENABLE,
+        TM4J_CYCLE_KEY,
         TYPE,
         WEBHOOK_URL,
     } = process.env;
@@ -83,10 +86,17 @@ const saveReport = async () => {
         console.log('Successfully uploaded artifacts to S3:', result.reportLink);
     }
 
+    // Create or use an existing test cycle
+    let testCycle = {};
+    if (TM4J_ENABLE === 'true') {
+        const {start, end} = jsonReport.stats;
+        testCycle = TM4J_CYCLE_KEY ? {key: TM4J_CYCLE_KEY} : await createTestCycle(start, end);
+    }
+
     // Send test report to "QA: UI Test Automation" channel via webhook
     if (TYPE && TYPE !== 'NONE' && WEBHOOK_URL) {
         const environment = readJsonFromFile(`${RESULTS_DIR}/environment.json`);
-        const data = generateTestReport(summary, result && result.success, result && result.reportLink, environment);
+        const data = generateTestReport(summary, result && result.success, result && result.reportLink, environment, testCycle.key);
         await sendReport('summary report to Community channel', WEBHOOK_URL, data);
     }
 
@@ -104,8 +114,10 @@ const saveReport = async () => {
 
     // Save test cases to Test Management
     if (TM4J_ENABLE === 'true') {
-        await saveTestCases(jsonReport);
+        await createTestExecutions(jsonReport, testCycle);
     }
+
+    chai.expect(Boolean(jsonReport.stats.failures), FAILURE_MESSAGE).to.be.false;
 };
 
 saveReport();

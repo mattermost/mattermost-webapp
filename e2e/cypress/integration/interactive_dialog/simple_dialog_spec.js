@@ -7,8 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
-// Group: @interactive_dialog
+// Group: @not_cloud @interactive_dialog
 
 /**
 * Note: This test requires webhook server running. Initiate `npm run start:webhook` to start.
@@ -23,6 +22,7 @@ let simpleDialog;
 
 describe('Interactive Dialog without element', () => {
     before(() => {
+        cy.shouldNotRunOnCloudEdition();
         cy.requireWebhookServer();
 
         // # Ensure that teammate name display setting is set to default 'username'
@@ -67,7 +67,7 @@ describe('Interactive Dialog without element', () => {
             });
 
             // * Verify that the body is not present
-            cy.get('.modal-body').should('not.be.visible');
+            cy.get('.modal-body').should('not.exist');
 
             // * Verify that the footer contains cancel and submit buttons
             cy.get('.modal-footer').should('be.visible').within(($elForm) => {
@@ -92,7 +92,7 @@ describe('Interactive Dialog without element', () => {
         });
 
         // * Verify that the interactive dialog modal is closed
-        cy.get('#interactiveDialogModal').should('not.be.visible');
+        cy.get('#interactiveDialogModal').should('not.exist');
 
         // * Verify that the last post states that the dialog is cancelled
         cy.getLastPost().should('contain', 'Dialog cancelled');
@@ -109,7 +109,7 @@ describe('Interactive Dialog without element', () => {
         cy.get('#interactiveDialogCancel').click().wait(TIMEOUTS.FIVE_SEC);
 
         // * Verify that the interactive dialog modal is closed
-        cy.get('#interactiveDialogModal').should('not.be.visible');
+        cy.get('#interactiveDialogModal').should('not.exist');
 
         // * Verify that the last post states that the dialog is cancelled
         cy.getLastPost().should('contain', 'Dialog cancelled');
@@ -126,7 +126,7 @@ describe('Interactive Dialog without element', () => {
         cy.get('#interactiveDialogSubmit').click();
 
         // * Verify that the interactive dialog modal is closed
-        cy.get('#interactiveDialogModal').should('not.be.visible');
+        cy.get('#interactiveDialogModal').should('not.exist');
 
         // * Verify that the last post states that the dialog is submitted
         cy.getLastPost().should('contain', 'Dialog submitted');
@@ -137,5 +137,5 @@ function closeInteractiveDialog() {
     cy.get('.modal-header').should('be.visible').within(($elForm) => {
         cy.wrap($elForm).find('button.close').should('be.visible').click();
     });
-    cy.get('#interactiveDialogModal').should('not.be.visible');
+    cy.get('#interactiveDialogModal').should('not.exist');
 }

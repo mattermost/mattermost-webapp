@@ -172,9 +172,9 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
         },
       }
     }
+    onSearch={[Function]}
     removeUser={[Function]}
     scope="channel"
-    search={[Function]}
     term=""
     totalCount={3}
     updateMembership={[Function]}
@@ -430,9 +430,9 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
     loadPage={[Function]}
     loading={true}
     memberships={Object {}}
+    onSearch={[Function]}
     removeUser={[Function]}
     scope="channel"
-    search={[Function]}
     term=""
     totalCount={0}
     updateMembership={[Function]}

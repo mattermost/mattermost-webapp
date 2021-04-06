@@ -63,10 +63,10 @@ describe('Guest Account - Verify Manage Guest Users', () => {
         cy.reload();
 
         // # Search for Guest User by username
-        cy.get('#searchUsers').should('be.visible').type(guestUser.username);
+        cy.get('#searchUsers', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').type(guestUser.username);
     });
 
-    it('MM-18048 Verify the manage options displayed for Guest User', () => {
+    it('MM-T1391 Verify the manage options displayed for Guest User', () => {
         // * Verify Guest user
         verifyGuest();
 
@@ -74,7 +74,7 @@ describe('Guest Account - Verify Manage Guest Users', () => {
         cy.wait(TIMEOUTS.HALF_SEC).findByTestId('userListRow').find('.MenuWrapper a').should('be.visible').click();
 
         // * Verify the manage options which should be displayed for Guest User
-        const includeOptions = ['Deactivate', 'Manage Teams', 'Reset Password', 'Update Email', 'Promote to User', 'Revoke Sessions'];
+        const includeOptions = ['Deactivate', 'Manage Teams', 'Reset Password', 'Update Email', 'Promote to Member', 'Revoke Sessions'];
         includeOptions.forEach((includeOption) => {
             cy.findByText(includeOption).should('be.visible');
         });

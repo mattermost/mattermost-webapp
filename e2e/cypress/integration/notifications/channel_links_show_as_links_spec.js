@@ -1,4 +1,3 @@
-
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
@@ -12,7 +11,11 @@
 // Group: @notifications
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
-import {getEmailUrl, getEmailMessageSeparator, reUrl} from '../../utils';
+import {
+    getEmailUrl,
+    reUrl,
+    splitEmailBodyText,
+} from '../../utils';
 const baseUrl = Cypress.config('baseUrl');
 const mailUrl = getEmailUrl(baseUrl);
 
@@ -45,21 +48,14 @@ describe('Notifications', () => {
     });
 
     it('MM-T506 Channel links show as links in notification emails', () => {
-        // # Open 'Account Settings' modal
-        cy.findByLabelText('main menu').should('be.visible').click();
-        cy.findByText('Account Settings').should('be.visible').click();
+        // # Open 'Notifications' of 'Account Settings' modal
+        cy.uiOpenAccountSettingsModal('Notifications').within(() => {
+            // # Open 'Email Notifications' setting and set to 'Immediately'
+            cy.findByRole('heading', {name: 'Email Notifications'}).should('be.visible').click();
+            cy.findByRole('radio', {name: 'Immediately'}).click().should('be.checked');
 
-        // * Check that the 'Account Settings' modal was opened
-        cy.get('#accountSettingsModal').should('exist').within(() => {
-            cy.get('#notificationsButton').should('be.visible').click();
-
-            // * Verify that 'Email Notifications' is set to 'Immediately'
-            cy.get('#emailDesc').should('be.visible').within(() => {
-                cy.findByText('Immediately').should('be.visible');
-            });
-
-            // # Close the modal
-            cy.get('#accountSettingsHeader').find('button').should('be.visible').click();
+            // # Save then close the modal
+            cy.uiSaveAndClose();
         });
 
         // # Post a message as sysadmin that contains the channel name and otherUser's username
@@ -74,11 +70,10 @@ describe('Notifications', () => {
         cy.apiLogin(otherUser);
 
         cy.task('getRecentEmail', {username: otherUser.username, mailUrl}).then((response) => {
-            const messageSeparator = getEmailMessageSeparator(baseUrl);
-            const bodyText = response.data.body.text.split('\n');
+            const bodyText = splitEmailBodyText(response.data.body.text);
 
             // * Verify that the email was properly received and has the correct output
-            verifyEmailNotification(response, testTeam, testTeam.display_name, otherUser.email, messageSeparator);
+            verifyEmailNotification(response, testTeam.name, testTeam.display_name, otherUser.email);
 
             const permalink = bodyText[9].match(reUrl)[0];
 
@@ -93,7 +88,7 @@ describe('Notifications', () => {
         });
     });
 
-    const verifyEmailNotification = (response, teamName, teamDisplayName, email, messageSeparator) => {
+    const verifyEmailNotification = (response, teamName, teamDisplayName, email) => {
         const isoDate = new Date().toISOString().substring(0, 10);
         const {data, status} = response;
 
@@ -108,15 +103,15 @@ describe('Notifications', () => {
         expect(data.date).to.contain(isoDate);
 
         // * Verify that the email subject is correct
-        expect(data.subject).to.contain(`[Mattermost] Notification in ${testTeam.display_name}`);
+        expect(data.subject).to.contain(`[Mattermost] Notification in ${teamDisplayName}`);
 
         // * Verify that the email body is correct
-        const bodyText = data.body.text.split(messageSeparator);
+        const bodyText = splitEmailBodyText(data.body.text);
         expect(bodyText.length).to.equal(16);
         expect(bodyText[1]).to.equal('You have a new notification.');
         expect(bodyText[4]).to.equal('Channel: Off-Topic');
         expect(bodyText[5]).to.contain('@sysadmin');
-        expect(bodyText[7]).to.equal(`This is a message in ~${channelName} ( ${baseUrl}/landing#/${testTeam.name}/channels/${channelName} ) channel for @${otherUser.username}`);
-        expect(bodyText[9]).to.equal(`Go To Post ( ${baseUrl}/landing#/${testTeam.name}/pl/${lastPostId} )`);
+        expect(bodyText[7]).to.equal(`This is a message in ~${channelName} ( ${baseUrl}/landing#/${teamName}/channels/${channelName} ) channel for @${otherUser.username}`);
+        expect(bodyText[9]).to.equal(`Go To Post ( ${baseUrl}/landing#/${teamName}/pl/${lastPostId} )`);
     };
 });

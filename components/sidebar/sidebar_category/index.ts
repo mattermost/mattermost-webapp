@@ -5,12 +5,11 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
 import {setCategorySorting} from 'mattermost-redux/actions/channel_categories';
-import {makeGetChannelsForCategory} from 'mattermost-redux/selectors/entities/channel_categories';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
 
 import {setCategoryCollapsed} from 'actions/views/channel_sidebar';
-import {isCategoryCollapsed, getDraggingState} from 'selectors/views/channel_sidebar';
+import {isCategoryCollapsed, getDraggingState, makeGetFilteredChannelsForCategory} from 'selectors/views/channel_sidebar';
 import {GlobalState} from 'types/store';
 
 import SidebarCategory from './sidebar_category';
@@ -20,7 +19,7 @@ type OwnProps = {
 }
 
 function makeMapStateToProps() {
-    const getChannelsForCategory = makeGetChannelsForCategory();
+    const getChannelsForCategory = makeGetFilteredChannelsForCategory();
 
     return (state: GlobalState, ownProps: OwnProps) => {
         return {

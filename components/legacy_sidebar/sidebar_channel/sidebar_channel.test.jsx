@@ -34,8 +34,8 @@ jest.mock('utils/utils.jsx', () => {
     };
 });
 
-jest.mock('actions/global_actions.jsx', () => {
-    const original = jest.requireActual('actions/global_actions.jsx');
+jest.mock('actions/global_actions', () => {
+    const original = jest.requireActual('actions/global_actions');
     return {
         ...original,
         showLeavePrivateChannelModal: jest.fn(),
@@ -429,7 +429,7 @@ describe('component/legacy_sidebar/sidebar_channel/SidebarChannel', () => {
 
     test('should leave the private channel', () => {
         const trackEvent = require('actions/telemetry_actions.jsx').trackEvent;
-        const showLeavePrivateChannelModal = require('actions/global_actions.jsx').showLeavePrivateChannelModal;
+        const showLeavePrivateChannelModal = require('actions/global_actions').showLeavePrivateChannelModal;
         const props = {
             ...defaultProps,
             channelId: 'test-channel-id',

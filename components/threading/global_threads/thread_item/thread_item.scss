@@ -1,0 +1,150 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
+@import "sass/utils/_mixins";
+
+.ThreadItem {
+    padding: 18px 18px 18px 28px;
+    text-align: left;
+    cursor: pointer;
+    position: relative;
+
+    .alt-visible {
+        display: none;
+    }
+
+    &:hover,
+    &:focus,
+    &:focus-within {
+        background: rgba(var(--center-channel-color-rgb), .04);
+
+        .alt-visible {
+            display: unset;
+        }
+        .alt-hidden {
+            display: none;
+        }
+    }
+
+    &.is-selected {
+        background: rgba(var(--button-bg-rgb), .04);
+
+        &:hover,
+        &:focus {
+            background: rgba(var(--button-bg-rgb), .08);
+        }
+    }
+
+    &.has-unreads {
+        .activity {
+            color: rgba(var(--sidebar-text-active-border-rgb), 1);
+        }
+    }
+
+    .dot-unreads {
+        display: inline-block;
+        text-align: center;
+        border-radius: 50%;
+        width: 8px;
+        height: 8px;
+        margin: 0 8px;
+        background: rgba(var(--sidebar-text-active-border-rgb), 1);
+    }
+    .dot-mentions {
+        display: inline-block;
+        text-align: center;
+        border-radius: 50%;
+        width: 16px;
+        height: 16px;
+        background: rgba(var(--mention-color-rgb), 1);
+        color: rgba(var(--center-channel-bg-rgb), 1);
+        font-size: 10px;
+        line-height: 16px;
+        font-weight: 700;
+        &.over {
+            font-size: 8px;
+        }
+    }
+
+    .indicator {
+        position: absolute;
+        left: -24px;
+        width: 24px;
+        height: 20px;
+        display: grid;
+        place-content: center;
+    }
+
+    h1 {
+        margin: 0 0 6px;
+        font-size: 14px;
+        line-height: 20px;
+        font-weight: 600;
+        display: flex;
+        position: relative;
+        white-space: nowrap;
+    }
+
+    .Badge {
+        margin-left: 10px;
+    }
+
+    .Badge__box{
+        font-weight: 600;
+        font-size: 10px;
+        line-height: 16px;
+        text-transform: uppercase;
+        padding: 0px 4px;
+        background: rgba(var(--center-channel-color-rgb), .08);
+        color: rgba(var(--center-channel-color-rgb), 1);
+        &:hover,
+        &:focus {
+            cursor: pointer;
+            background: rgba(var(--center-channel-color-rgb), .16);
+        }
+    }
+
+    p {
+        color: rgba(var(--center-channel-color-rgb), 1);
+        @include text-clamp(2, 20);
+    }
+
+    time {
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 20px;
+        margin-left: auto;
+        color: rgba(var(--center-channel-color-rgb), .64)
+    }
+
+    .menu-anchor {
+        position: absolute;
+        right: 8px;
+        top: 8px;
+
+        .Button {
+            width: 28px;
+            height: 28px;
+            padding: 0;
+            font-size: 18px;
+            color: rgba(var(--center-channel-color-rgb), .64)
+        }
+    }
+
+    .MenuWrapper .dropdown-menu {
+        min-width: 250px;
+    }
+
+    .Avatars {
+        margin-right: 10px;
+    }
+
+    .activity {
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 15px;
+        color: rgba(var(--center-channel-color-rgb), .64);
+        display: flex;
+        align-items: center;
+    }
+}

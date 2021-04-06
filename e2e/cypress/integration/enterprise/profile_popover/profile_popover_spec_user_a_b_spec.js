@@ -53,7 +53,7 @@ describe('Profile popover User A & B', () => {
         });
 
         // * Add to a Channel should not be shown.
-        cy.findByText('Add to a Channel').should('not.be.visible');
+        cy.findByText('Add to a Channel').should('not.exist');
     });
 
     it('MM-T8 Add User - UserA & UserB (not on team)', () => {
@@ -76,10 +76,11 @@ describe('Profile popover User A & B', () => {
                     find(`[data-mention=${otherUser.username}]`).
                     should('be.visible').
                     click();
+                cy.get('#user-profile-popover').should('be.visible');
             });
 
             // # Add to a Channel should not be shown.
-            cy.findByText('Add to a Channel').should('not.be.visible');
+            cy.findByText('Add to a Channel').should('not.exist');
         });
     });
 });

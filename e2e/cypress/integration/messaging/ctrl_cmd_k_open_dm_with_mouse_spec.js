@@ -7,7 +7,10 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***********************************************************  ****
 
-// Group: @messaging
+// Stage: @prod
+// Group: @messaging @keyboard_shortcuts
+
+import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Messaging', () => {
     let testTeam;
@@ -33,23 +36,43 @@ describe('Messaging', () => {
         });
     });
 
-    it('MM-T3294 - CTRL/CMD+K - Open DM using mouse', () => {
-        // # Type either cmd+K / ctrl+K depending on OS and type in the first character of the second user's name
+    it('MM-T1224 - CTRL/CMD+K - Open DM using mouse', () => {
+        // # Type CTRL/CMD+K
         cy.get('#post_textbox').cmdOrCtrlShortcut('K');
-        cy.get('#quickSwitchInput').should('be.visible').type(secondUser.username.charAt(0));
 
-        // # Scroll to the second user and click to start a DM
-        cy.get(`#switchChannel_${secondUser.username}`).scrollIntoView().click();
+        // # In the "Switch Channels" modal type the first 6 characters of the username
+        cy.findByRole('textbox', {name: 'quick switch input'}).should('be.focused').type(secondUser.username.substring(0, 6)).wait(TIMEOUTS.HALF_SEC);
 
-        // # Type in a message in the automatically focused message box, logout as the first user and login as the second user
-        cy.focused().type(`Hi there, ${secondUser.username}!`).type('{enter}');
+        // # Verify that the list of users and channels suggestions is present
+        cy.get('#suggestionList').should('be.visible').within(() => {
+            // * Newly created username should be there in the search list; click it
+            cy.findByTestId(secondUser.username).scrollIntoView().should('exist').click().wait(TIMEOUTS.HALF_SEC);
+        });
+
+        // # Verify that we are in a DM channel
+        cy.get('#channelIntro').should('be.visible').within(() => {
+            cy.get('.channel-intro-profile').
+                should('be.visible').
+                and('have.text', secondUser.username);
+            cy.get('.channel-intro-text').
+                should('be.visible').
+                and('contain', `This is the start of your direct message history with ${secondUser.username}.`).
+                and('contain', 'Direct messages and files shared here are not shown to people outside this area.');
+        });
+
+        // # Verify that the focus is on the message box
+        cy.get('#post_textbox').should('be.focused');
+
+        // # Send a DM
+        cy.postMessage(`Hi there, ${secondUser.username}!`);
+
+        // # Logout then login as the second user and visit the team
         cy.apiLogout();
         cy.reload();
         cy.apiLogin(secondUser);
+        cy.visit(`/${testTeam.name}`);
 
-        // * Check that the DM exists
-        cy.get('#directChannelList').should('be.visible').within(() => {
-            cy.findByLabelText(`${firstUser.username} 1 mention`).should('exist');
-        });
+        // * Check that the DM exists and receives the message with mention
+        cy.uiGetLhsSection('DIRECT MESSAGES').findByLabelText(`${firstUser.username} 1 mention`).should('exist');
     });
 });

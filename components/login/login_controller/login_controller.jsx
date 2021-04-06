@@ -8,7 +8,7 @@ import {Link} from 'react-router-dom';
 
 import {Client4} from 'mattermost-redux/client';
 
-import * as GlobalActions from 'actions/global_actions.jsx';
+import * as GlobalActions from 'actions/global_actions';
 import LocalStorageStore from 'stores/local_storage_store';
 
 import {browserHistory} from 'utils/browser_history';
@@ -53,9 +53,12 @@ class LoginController extends React.PureComponent {
         enableSignUpWithGitLab: PropTypes.bool.isRequired,
         enableSignUpWithGoogle: PropTypes.bool.isRequired,
         enableSignUpWithOffice365: PropTypes.bool.isRequired,
+        enableSignUpWithOpenId: PropTypes.bool.isRequired,
         experimentalPrimaryTeam: PropTypes.string,
         ldapLoginFieldName: PropTypes.string,
         samlLoginButtonText: PropTypes.string,
+        openidButtonText: PropTypes.string,
+        openidButtonColor: PropTypes.string,
         siteName: PropTypes.string,
         initializing: PropTypes.bool,
         actions: PropTypes.shape({
@@ -102,7 +105,7 @@ class LoginController extends React.PureComponent {
         const email = search.get('email');
 
         if (extra === Constants.SIGNIN_VERIFIED && email) {
-            this.passwordInput.current.focus();
+            this.passwordInput.current?.focus();
         }
 
         // Determine if the user was unexpectedly logged out.
@@ -424,6 +427,7 @@ class LoginController extends React.PureComponent {
             this.props.enableSignUpWithGitLab ||
             this.props.enableSignUpWithOffice365 ||
             this.props.enableSignUpWithGoogle ||
+            this.props.enableSignUpWithOpenId ||
             this.props.enableLdap ||
             this.props.enableSaml;
     }
@@ -537,6 +541,7 @@ class LoginController extends React.PureComponent {
         const gitlabSigninEnabled = this.props.enableSignUpWithGitLab;
         const googleSigninEnabled = this.props.enableSignUpWithGoogle;
         const office365SigninEnabled = this.props.enableSignUpWithOffice365;
+        const openIdSigninEnabled = this.props.enableSignUpWithOpenId;
         const samlSigninEnabled = this.state.samlEnabled;
         const usernameSigninEnabled = this.state.usernameSigninEnabled;
         const emailSigninEnabled = this.state.emailSigninEnabled;
@@ -650,7 +655,7 @@ class LoginController extends React.PureComponent {
             );
         }
 
-        if ((emailSigninEnabled || usernameSigninEnabled || ldapEnabled) && (gitlabSigninEnabled || googleSigninEnabled || samlSigninEnabled || office365SigninEnabled)) {
+        if ((emailSigninEnabled || usernameSigninEnabled || ldapEnabled) && (gitlabSigninEnabled || googleSigninEnabled || samlSigninEnabled || office365SigninEnabled || openIdSigninEnabled)) {
             loginControls.push(
                 <div
                     key='divider'
@@ -676,6 +681,7 @@ class LoginController extends React.PureComponent {
         if (gitlabSigninEnabled) {
             loginControls.push(
                 <a
+                    id='GitLabButton'
                     className='btn btn-custom-login gitlab'
                     key='gitlab'
                     href={Client4.getOAuthRoute() + '/gitlab/login' + this.props.location.search}
@@ -696,6 +702,7 @@ class LoginController extends React.PureComponent {
         if (googleSigninEnabled) {
             loginControls.push(
                 <a
+                    id='GoogleButton'
                     className='btn btn-custom-login google'
                     key='google'
                     href={Client4.getOAuthRoute() + '/google/login' + this.props.location.search}
@@ -716,6 +723,7 @@ class LoginController extends React.PureComponent {
         if (office365SigninEnabled) {
             loginControls.push(
                 <a
+                    id='Office365Button'
                     className='btn btn-custom-login office365'
                     key='office365'
                     href={Client4.getOAuthRoute() + '/office365/login' + this.props.location.search}
@@ -727,6 +735,37 @@ class LoginController extends React.PureComponent {
                                 id='login.office365'
                                 defaultMessage='Office 365'
                             />
+                        </span>
+                    </span>
+                </a>,
+            );
+        }
+
+        if (openIdSigninEnabled) {
+            const buttonStyle = {};
+            if (this.props.openidButtonColor) {
+                buttonStyle.backgroundColor = this.props.openidButtonColor;
+            }
+            let buttonText = (
+                <FormattedMessage
+                    id='login.openid'
+                    defaultMessage='Open ID'
+                />
+            );
+            if (this.props.openidButtonText) {
+                buttonText = this.props.openidButtonText;
+            }
+            loginControls.push(
+                <a
+                    id='OpenIdButton'
+                    className='btn btn-custom-login openid'
+                    style={buttonStyle}
+                    key='openid'
+                    href={Client4.getOAuthRoute() + '/openid/login' + this.props.location.search}
+                >
+                    <span>
+                        <span>
+                            {buttonText}
                         </span>
                     </span>
                 </a>,

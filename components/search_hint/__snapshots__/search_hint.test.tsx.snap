@@ -19,6 +19,7 @@ exports[`components/SearchHint should match snapshot, with title 1`] = `
       key="From:"
       onMouseDown={[Function]}
       onMouseOver={[Function]}
+      onTouchEnd={[Function]}
     >
       <div
         className="search-hint__suggestion-list__flex-wrap"
@@ -43,6 +44,7 @@ exports[`components/SearchHint should match snapshot, with title 1`] = `
       key="In:"
       onMouseDown={[Function]}
       onMouseOver={[Function]}
+      onTouchEnd={[Function]}
     >
       <div
         className="search-hint__suggestion-list__flex-wrap"
@@ -67,6 +69,7 @@ exports[`components/SearchHint should match snapshot, with title 1`] = `
       key="On:"
       onMouseDown={[Function]}
       onMouseOver={[Function]}
+      onTouchEnd={[Function]}
     >
       <div
         className="search-hint__suggestion-list__flex-wrap"
@@ -91,6 +94,7 @@ exports[`components/SearchHint should match snapshot, with title 1`] = `
       key="Before:"
       onMouseDown={[Function]}
       onMouseOver={[Function]}
+      onTouchEnd={[Function]}
     >
       <div
         className="search-hint__suggestion-list__flex-wrap"
@@ -115,6 +119,7 @@ exports[`components/SearchHint should match snapshot, with title 1`] = `
       key="After:"
       onMouseDown={[Function]}
       onMouseOver={[Function]}
+      onTouchEnd={[Function]}
     >
       <div
         className="search-hint__suggestion-list__flex-wrap"
@@ -139,6 +144,7 @@ exports[`components/SearchHint should match snapshot, with title 1`] = `
       key="-"
       onMouseDown={[Function]}
       onMouseOver={[Function]}
+      onTouchEnd={[Function]}
     >
       <div
         className="search-hint__suggestion-list__flex-wrap"
@@ -163,6 +169,7 @@ exports[`components/SearchHint should match snapshot, with title 1`] = `
       key="\\"\\""
       onMouseDown={[Function]}
       onMouseOver={[Function]}
+      onTouchEnd={[Function]}
     >
       <div
         className="search-hint__suggestion-list__flex-wrap"
@@ -197,6 +204,7 @@ exports[`components/SearchHint should match snapshot, without title 1`] = `
       key="From:"
       onMouseDown={[Function]}
       onMouseOver={[Function]}
+      onTouchEnd={[Function]}
     >
       <div
         className="search-hint__suggestion-list__flex-wrap"
@@ -221,6 +229,7 @@ exports[`components/SearchHint should match snapshot, without title 1`] = `
       key="In:"
       onMouseDown={[Function]}
       onMouseOver={[Function]}
+      onTouchEnd={[Function]}
     >
       <div
         className="search-hint__suggestion-list__flex-wrap"
@@ -245,6 +254,7 @@ exports[`components/SearchHint should match snapshot, without title 1`] = `
       key="On:"
       onMouseDown={[Function]}
       onMouseOver={[Function]}
+      onTouchEnd={[Function]}
     >
       <div
         className="search-hint__suggestion-list__flex-wrap"
@@ -269,6 +279,7 @@ exports[`components/SearchHint should match snapshot, without title 1`] = `
       key="Before:"
       onMouseDown={[Function]}
       onMouseOver={[Function]}
+      onTouchEnd={[Function]}
     >
       <div
         className="search-hint__suggestion-list__flex-wrap"
@@ -293,6 +304,7 @@ exports[`components/SearchHint should match snapshot, without title 1`] = `
       key="After:"
       onMouseDown={[Function]}
       onMouseOver={[Function]}
+      onTouchEnd={[Function]}
     >
       <div
         className="search-hint__suggestion-list__flex-wrap"
@@ -317,6 +329,7 @@ exports[`components/SearchHint should match snapshot, without title 1`] = `
       key="-"
       onMouseDown={[Function]}
       onMouseOver={[Function]}
+      onTouchEnd={[Function]}
     >
       <div
         className="search-hint__suggestion-list__flex-wrap"
@@ -341,6 +354,7 @@ exports[`components/SearchHint should match snapshot, without title 1`] = `
       key="\\"\\""
       onMouseDown={[Function]}
       onMouseOver={[Function]}
+      onTouchEnd={[Function]}
     >
       <div
         className="search-hint__suggestion-list__flex-wrap"

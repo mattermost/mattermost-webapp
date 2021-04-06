@@ -54,7 +54,7 @@ export default class CommentedOn extends PureComponent<Props> {
         const username = this.makeUsername();
         const message = this.makeCommentedOnMessage();
         const parentPostUser = this.props.parentPostUser;
-        const parentPostUserId = parentPostUser && parentPostUser.id;
+        const parentPostUserId = (parentPostUser && parentPostUser.id) || '';
 
         const parentUserProfile = (
             <UserProfile

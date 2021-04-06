@@ -10,6 +10,7 @@ import TextDismissableBar from './text_dismissable_bar.jsx';
 import AnnouncementBar from './default_announcement_bar';
 
 import CloudAnnouncementBar from './cloud_announcement_bar';
+import PaymentAnnouncementBar from './payment_announcement_bar';
 
 export default class AnnouncementBarController extends React.PureComponent {
     static propTypes = {
@@ -53,9 +54,13 @@ export default class AnnouncementBarController extends React.PureComponent {
             );
         }
         let cloudAnnouncementBar = null;
+        let paymentAnnouncementBar = null;
         if (this.props.license.Cloud === 'true') {
             cloudAnnouncementBar = (
                 <CloudAnnouncementBar/>
+            );
+            paymentAnnouncementBar = (
+                <PaymentAnnouncementBar/>
             );
         }
 
@@ -64,6 +69,7 @@ export default class AnnouncementBarController extends React.PureComponent {
                 {adminConfiguredAnnouncementBar}
                 {errorBar}
                 {cloudAnnouncementBar}
+                {paymentAnnouncementBar}
                 <VersionBar/>
                 <ConfigurationAnnouncementBar
                     config={this.props.config}

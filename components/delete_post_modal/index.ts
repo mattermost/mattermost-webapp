@@ -4,6 +4,7 @@
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
+
 import {ActionFunc} from 'mattermost-redux/types/actions';
 import {Post} from 'mattermost-redux/types/posts';
 
@@ -12,7 +13,7 @@ import {deleteAndRemovePost} from 'actions/post_actions.jsx';
 import DeletePostModal from './delete_post_modal';
 
 type Actions = {
-    deleteAndRemovePost: (post: Post) => Promise<{data: boolean}>
+    deleteAndRemovePost: (post: Post) => Promise<{data: boolean}>;
 };
 
 function mapDispatchToProps(dispatch: Dispatch) {

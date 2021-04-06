@@ -31,7 +31,7 @@
             padding: 0;
 
             .close {
-                color: rgba(var(--center-channel-color-rgb), 0.56);
+                color: rgba(var(--sys-center-channel-color-rgb), 0.56);
                 width: 4rem;
                 height: 4rem;
                 font-size: 32px;
@@ -44,15 +44,165 @@
                 border-radius: 4px;
 
                 &:hover {
-                    background-color: rgba(var(--center-channel-color-rgb), 0.08);
-                    color: rgba(var(--center-channel-color-rgb), 0.72);
+                    background-color: rgba(var(--sys-center-channel-color-rgb), 0.08);
+                    color: rgba(var(--sys-center-channel-color-rgb), 0.72);
                 }
 
                 &:active {
-                    background-color: rgba(var(--button-bg-rgb), 0.08);
-                    color: v(button-bg);
+                    background-color: rgba(var(--sys-button-bg-rgb), 0.08);
+                    color: v(sys-button-bg);
+                }
+
+                .app__body & {
+                    color: rgba(var(--center-channel-color-rgb), 0.56);
+
+                    &:hover {
+                        background-color: rgba(var(--center-channel-color-rgb), 0.08);
+                        color: rgba(var(--center-channel-color-rgb), 0.72);
+                    }
+
+                    &:active {
+                        background-color: rgba(var(--button-bg-rgb), 0.08);
+                        color: v(button-bg);
+                    }
                 }
             }
+        }
+    }
+
+    .channel-switcher__content {
+        .multi-select__container {
+            padding: 0 2.4rem;
+        }
+
+        .react-select__multi-value {
+            border-radius: 50px;
+        }
+
+        .multi-select__help {
+            padding: 8px 2.4rem 0;
+        }
+
+        .filtered-user-list {
+            display: block;
+            height: auto;
+        }
+
+        .react-select__multi-value__label {
+            color: inherit;
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 4px;
+        }
+
+        .react-select__value__name {
+            margin: 0 0 0 8px;
+        }
+
+        .react-select__multi-value__remove {
+            margin-right: 4px;
+        }
+
+        .multi-select__wrapper {
+            padding: 12px 0;
+            height: auto;
+            overflow: auto;
+            position: absolute;
+            width: calc(100% - 48px);
+            margin: -28px 0 0 24px;
+            background: rgba(var(--sys-center-channel-bg-rgb), 1);
+            box-shadow: $elevation-4;
+            border-radius: 4px;
+            border: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.16);
+            max-height: 272px;
+            z-index: 5;
+
+            .app__body & {
+                background: rgba(var(--center-channel-bg-rgb), 1);
+                border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
+            }
+        }
+
+        .channel-switcher__footer {
+            padding: 0 24px 24px 0;
+            text-align: right;
+        }
+
+        .btn-primary {
+            font-size: 14px;
+            font-weight: 600;
+            padding: 0 36px;
+            height: 40px;
+            border-radius: 4px;
+        }
+
+        .no-channel-message {
+            padding: 1rem;
+            font-size: 1.4rem;
+
+            .primary-message {
+                font-size: inherit;
+                margin: 0;
+            }
+        }
+
+        .react-select__value-container {
+            padding: 0 16px;
+            font-size: 16px;
+
+            &.react-select__value-container--has-value {
+                padding: 0 8px;
+            }
+        }
+
+        .more-modal__list {
+            height: auto;
+
+            .more-modal__options {
+                min-height: auto;
+                overflow: visible;
+            }
+        }
+
+        .react-select__control.react-select-auto {
+            min-height: 48px;
+            padding: 3px 0;
+        }
+
+        .loading-screen {
+            position: relative !important;
+            padding: 1rem;
+        }
+
+        .more-modal__actions {
+            display: none;
+        }
+
+        .status-wrapper {
+            height: 24px;
+        }
+
+        .Avatar {
+            width: 24px;
+            height: 24px;
+            min-width: auto
+        }
+
+        .more-modal__row {
+            border: none;
+            height: 40px;
+            padding: 0 2.4rem;
+
+
+            .more-modal__name {
+                font-weight: 400;
+            }
+        }
+
+        .more-modal__details {
+            padding-left: 12px;
         }
     }
 
@@ -114,6 +264,10 @@
                 }
             }
         }
+
+        .suggestion-list__icon {
+            height: auto;
+        }
     }
 }
 
@@ -122,7 +276,7 @@
 }
 
 .channel-switcher__header {
-    padding: 2.4rem 2.4rem 1.8rem;
+    padding: 2.4rem 2.4rem 1.6rem;
 
     h1 {
         font-weight: 600;

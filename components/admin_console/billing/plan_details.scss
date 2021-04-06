@@ -63,10 +63,23 @@
 }
 
 .PlanDetails__description {
-    margin-top: 8px;
-    color: #579EFF;
-    font-weight: 600;
+    color: rgba(var(--sys-center-channel-color-rgb), 0.56);
+    display: flex;
+    font-weight: normal;
+    line-height:16px;
     font-size: 12px;
+    margin-top: 8px;
+
+    .PlanDetails__planDetailsName {
+        font-weight: 600;
+        font-size: 12px;
+    }
+
+    a {
+        color: var(--sys-sidebar-text-active-border);
+    }
+
+    a:before { content: "\00a0"; }
 }
 
 .PlanDetails__feature {

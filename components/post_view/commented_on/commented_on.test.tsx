@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {Post} from 'mattermost-redux/src/types/posts';
+import {Post} from 'mattermost-redux/types/posts';
 
 import CommentedOn from 'components/post_view/commented_on/commented_on';
 import CommentedOnFilesMessage from 'components/post_view/commented_on_files_message';

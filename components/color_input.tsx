@@ -9,6 +9,7 @@ type Props = {
     id: string;
     onChange: (color: string) => void;
     value: string;
+    isDisabled?: boolean;
 }
 
 type State = {
@@ -143,20 +144,24 @@ export default class ColorInput extends React.PureComponent<Props, State> {
                     onFocus={this.onFocus}
                     onKeyDown={this.onKeyDown}
                     maxLength={7}
+                    disabled={this.props.isDisabled}
+
                 />
-                <span
-                    id={`${id}-squareColorIcon`}
-                    className='input-group-addon color-pad'
-                    onClick={this.togglePicker}
-                >
-                    <i
-                        id={`${id}-squareColorIconValue`}
-                        className='color-icon'
-                        style={{
-                            backgroundColor: value,
-                        }}
-                    />
-                </span>
+                {!this.props.isDisabled &&
+                    <span
+                        id={`${id}-squareColorIcon`}
+                        className='input-group-addon color-pad'
+                        onClick={this.togglePicker}
+                    >
+                        <i
+                            id={`${id}-squareColorIconValue`}
+                            className='color-icon'
+                            style={{
+                                backgroundColor: value,
+                            }}
+                        />
+                    </span>
+                }
                 {isOpened && (
                     <div
                         ref={this.colorPicker}

@@ -132,6 +132,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
     }
     loading={false}
     nextPage={[Function]}
+    onSearch={[Function]}
     page={0}
     placeholderEmpty={
       <FormattedMessage
@@ -194,7 +195,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
         "minHeight": "40px",
       }
     }
-    search={[Function]}
+    searchPlaceholder=""
     startCount={1}
     term=""
     total={1}
@@ -334,6 +335,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
     }
     loading={false}
     nextPage={[Function]}
+    onSearch={[Function]}
     page={0}
     placeholderEmpty={
       <FormattedMessage
@@ -801,7 +803,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
         "minHeight": "400px",
       }
     }
-    search={[Function]}
+    searchPlaceholder=""
     startCount={1}
     term=""
     total={30}

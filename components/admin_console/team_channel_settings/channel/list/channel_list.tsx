@@ -31,7 +31,6 @@ interface ChannelListProps {
     data: ChannelWithTeamData[];
     total: number;
     removeGroup?: () => void;
-    onPageChangedCallback?: () => void;
     emptyListTextId?: string;
     emptyListTextDefaultMessage?: string;
     isDisabled?: boolean;
@@ -118,7 +117,7 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
         this.setState({page: this.state.page - 1});
     }
 
-    search = async (term = '') => {
+    onSearch = async (term = '') => {
         this.loadPage(0, term, this.state.filters);
     }
 
@@ -397,7 +396,7 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
                     startCount={startCount}
                     endCount={endCount}
                     total={total}
-                    search={this.search}
+                    onSearch={this.onSearch}
                     term={term}
                     placeholderEmpty={placeholderEmpty}
                     rowsContainerStyles={rowsContainerStyles}

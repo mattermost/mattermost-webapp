@@ -10,7 +10,7 @@ import {GlobalState} from 'types/store';
 import SystemPermissionGate from './system_permission_gate';
 
 type Props = {
-    permissions: Array<string>;
+    permissions: string[];
 }
 function mapStateToProps(state: GlobalState, ownProps: Props) {
     for (const permission of ownProps.permissions) {

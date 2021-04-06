@@ -8,6 +8,7 @@
 // ***************************************************************
 
 // Group: @enterprise @onboarding
+// Skip:  @electron @chrome @firefox
 
 const adminSteps = ['complete_profile', 'team_setup', 'invite_members', 'hide'];
 
@@ -16,12 +17,6 @@ describe('Cloud Onboarding - Sysadmin', () => {
     let sysadmin;
 
     before(() => {
-        cy.apiUpdateConfig({
-            ServiceSettings: {
-                ExperimentalChannelSidebarOrganization: 'default_on',
-            },
-        });
-
         // # Check if with license and has matching database
         cy.apiRequireLicenseForFeature('Cloud');
 
@@ -116,7 +111,7 @@ describe('Cloud Onboarding - Sysadmin', () => {
         cy.get('.Card.expanded + .Card button.NextStepsView__cardHeader').should('be.visible').click();
 
         // * Check to make sure next card is expanded and current card is collapsed
-        cy.get('.Card__body:not(.expanded) .CompleteProfileStep').should('exist').should('not.be.visible');
+        cy.get('.Card__body:not(.expanded) .CompleteProfileStep').should('exist').should('not.exist');
         cy.get('.Card__body.expanded .TeamProfileStep').should('exist').should('be.visible');
 
         // * Step counter should not increment
@@ -134,7 +129,7 @@ describe('Cloud Onboarding - Sysadmin', () => {
         cy.get('.NextStepsView__skipGettingStarted button').should('be.visible').click();
 
         // * Main screen should be out of view and the completed screen should be visible
-        cy.get('.NextStepsView__mainView.completed').should('exist');//.should('not.be.visible');
+        cy.get('.NextStepsView__mainView.completed').should('exist');//.should('not.exist');
         cy.get('.NextStepsView__completedView.completed').should('be.visible');
 
         // * Step counter should not increment
@@ -146,7 +141,7 @@ describe('Cloud Onboarding - Sysadmin', () => {
         cy.url().should('include', townSquarePage);
 
         // * Check to make sure first card is expanded
-        cy.get('.Card__body.expanded .CompleteProfileStep').should('be.visible');
+        cy.findByText('Complete your profile').should('be.visible');
 
         // # Click the 'x' in the Sidebar Next Steps section
         cy.get('button.SidebarNextSteps__close').should('be.visible').click();
@@ -162,8 +157,7 @@ describe('Cloud Onboarding - Sysadmin', () => {
         cy.get('.app__content:not(.NextStepsView)').should('be.visible');
 
         // # Click 'Getting Started' in the main menu
-        cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-        cy.get('.dropdown-menu .MenuItem:contains(Getting Started)').scrollIntoView().should('be.visible').click();
+        cy.uiOpenMainMenu('Getting Started');
 
         // * Verify that sidebar element and next steps view are back
         cy.get('.SidebarNextSteps').should('be.visible');

@@ -20,7 +20,7 @@ interface Props {
     btnClass?: string;
     url: string;
     displayName?: string;
-    content?: string;
+    content?: React.ReactNode;
     tip: string | JSX.Element;
     order?: number;
     showOrder?: boolean;
@@ -72,6 +72,10 @@ class TeamButton extends React.PureComponent<Props> {
         if (!teamClass) {
             if (unread) {
                 teamClass = 'unread';
+
+                badge = (
+                    <span className={'unread-badge'}/>
+                );
             } else if (isNotCreateTeamButton) {
                 teamClass = '';
             } else {
@@ -96,7 +100,7 @@ class TeamButton extends React.PureComponent<Props> {
                 });
 
                 badge = (
-                    <span className={'badge pull-right small'}>{mentions}</span>
+                    <span className={'badge badge-max-number pull-right small'}>{mentions > 99 ? '99+' : mentions}</span>
                 );
             }
         }
@@ -105,8 +109,9 @@ class TeamButton extends React.PureComponent<Props> {
 
         const content = (
             <TeamIcon
+                className={teamClass}
                 withHover={true}
-                name={this.props.content || displayName || ''}
+                content={this.props.content || displayName || ''}
                 url={teamIconUrl}
             />
         );
@@ -200,13 +205,18 @@ class TeamButton extends React.PureComponent<Props> {
                 {(provided, snapshot) => {
                     return (
                         <div
+                            className='draggable-team-container'
                             ref={provided.innerRef}
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
-                            className={classNames([`team-container ${teamClass}`, {isDragging: snapshot.isDragging}])}
                         >
-                            {teamButton}
-                            {orderIndicator}
+                            <div
+
+                                className={classNames([`team-container ${teamClass}`, {isDragging: snapshot.isDragging}])}
+                            >
+                                {teamButton}
+                                {orderIndicator}
+                            </div>
                         </div>
                     );
                 }}

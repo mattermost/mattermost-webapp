@@ -104,13 +104,10 @@ const result = [
     {status: 'Failed', priority: 'high', cutOff: 0, color: '#F44336'},
 ];
 
-function generateTestReport(summary, isUploadedToS3, reportLink, environment) {
+function generateTestReport(summary, isUploadedToS3, reportLink, environment, testCycleKey) {
     const {
-        BRANCH,
-        BUILD_TAG,
         FULL_REPORT,
-        PULL_REQUEST,
-        TYPE,
+        TEST_CYCLE_LINK_PREFIX,
     } = process.env;
     const {statsFieldValue, stats} = summary;
     const {
@@ -131,42 +128,28 @@ function generateTestReport(summary, isUploadedToS3, reportLink, environment) {
         }
     }
 
-    let awsS3Fields;
-    if (isUploadedToS3) {
-        awsS3Fields = {
-            short: false,
-            title: 'Test Report',
-            value: `[Link to the report](${reportLink})`,
-        };
-    }
-
-    let dockerImageLink = '';
-    if (BUILD_TAG) {
-        dockerImageLink = `with [mattermost-enterprise-edition:${BUILD_TAG}](https://hub.docker.com/r/mattermost/mattermost-enterprise-edition/tags?name=${BUILD_TAG})`;
-    }
-
-    let title;
-
-    switch (TYPE) {
-    case 'PR':
-        title = `E2E for Pull Request Build: [${BRANCH}](${PULL_REQUEST}) ${dockerImageLink}`;
-        break;
-    case 'RELEASE':
-        title = `E2E for Release Build ${dockerImageLink}`;
-        break;
-    case 'MASTER':
-        title = `E2E for Master Nightly Build (Prod tests) ${dockerImageLink}`;
-        break;
-    case 'MASTER_UNSTABLE':
-        title = `E2E for Master Nightly Build (Unstable tests) ${dockerImageLink}`;
-        break;
-    default:
-        title = `E2E for Build ${dockerImageLink}`;
-    }
-
+    const title = generateTitle();
     const envValue = `cypress@${cypressVersion} | node@${nodeVersion} | ${browserName}@${browserVersion}${headless ? ' (headless)' : ''} | ${osName}@${osVersion}`;
 
     if (FULL_REPORT === 'true') {
+        let reportField;
+        if (isUploadedToS3) {
+            reportField = {
+                short: false,
+                title: 'Test Report',
+                value: `[Link to the report](${reportLink})`,
+            };
+        }
+
+        let testCycleField;
+        if (testCycleKey) {
+            testCycleField = {
+                short: false,
+                title: 'Test Execution',
+                value: `[Recorded test executions](${TEST_CYCLE_LINK_PREFIX}${testCycleKey})`,
+            };
+        }
+
         return {
             username: 'Cypress UI Test',
             icon_url: 'https://www.mattermost.org/wp-content/uploads/2016/04/icon.png',
@@ -182,7 +165,8 @@ function generateTestReport(summary, isUploadedToS3, reportLink, environment) {
                         title: 'Environment',
                         value: envValue,
                     },
-                    awsS3Fields,
+                    reportField,
+                    testCycleField,
                     {
                         short: false,
                         title: `Key metrics (required support: ${testResult.priority})`,
@@ -198,6 +182,11 @@ function generateTestReport(summary, isUploadedToS3, reportLink, environment) {
         quickSummary = `[${quickSummary}](${reportLink})`;
     }
 
+    let testCycleLink = '';
+    if (testCycleKey) {
+        testCycleLink = testCycleKey ? `| [Recorded test executions](${TEST_CYCLE_LINK_PREFIX}${testCycleKey})` : '';
+    }
+
     return {
         username: 'Cypress UI Test',
         icon_url: 'https://www.mattermost.org/wp-content/uploads/2016/04/icon.png',
@@ -207,9 +196,57 @@ function generateTestReport(summary, isUploadedToS3, reportLink, environment) {
             author_icon: 'https://www.mattermost.org/wp-content/uploads/2016/04/icon.png',
             author_link: 'https://www.mattermost.com/',
             title,
-            text: `${quickSummary} | ${(stats.duration / (60 * 1000)).toFixed(2)} mins\n${envValue}`,
+            text: `${quickSummary} | ${(stats.duration / (60 * 1000)).toFixed(2)} mins ${testCycleLink}\n${envValue}`,
         }],
     };
+}
+
+function generateTitle() {
+    const {
+        BRANCH,
+        MM_DOCKER_IMAGE,
+        MM_DOCKER_TAG,
+        PULL_REQUEST,
+        RELEASE_DATE,
+        TYPE,
+    } = process.env;
+
+    let dockerImageLink = '';
+    if (MM_DOCKER_IMAGE && MM_DOCKER_TAG) {
+        dockerImageLink = ` with [${MM_DOCKER_IMAGE}:${MM_DOCKER_TAG}](https://hub.docker.com/r/mattermost/${MM_DOCKER_IMAGE}/tags?name=${MM_DOCKER_TAG})`;
+    }
+
+    let releaseDate = '';
+    if (RELEASE_DATE) {
+        releaseDate = ` for ${RELEASE_DATE}`;
+    }
+
+    let title;
+
+    switch (TYPE) {
+    case 'PR':
+        title = `E2E for Pull Request Build: [${BRANCH}](${PULL_REQUEST})${dockerImageLink}`;
+        break;
+    case 'RELEASE':
+        title = `E2E for Release Build${dockerImageLink}${releaseDate}`;
+        break;
+    case 'MASTER':
+        title = `E2E for Master Nightly Build (Prod tests)${dockerImageLink}`;
+        break;
+    case 'MASTER_UNSTABLE':
+        title = `E2E for Master Nightly Build (Unstable tests)${dockerImageLink}`;
+        break;
+    case 'CLOUD':
+        title = `E2E for Cloud Build (Prod tests)${dockerImageLink}${releaseDate}`;
+        break;
+    case 'CLOUD_UNSTABLE':
+        title = `E2E for Cloud Build (Unstable tests)${dockerImageLink}`;
+        break;
+    default:
+        title = `E2E for Build${dockerImageLink}`;
+    }
+
+    return title;
 }
 
 function generateDiagnosticReport(summary, serverInfo) {

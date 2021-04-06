@@ -10,6 +10,7 @@ const getPreviousChannelNameKey = (userId, teamId) => ['user_team_prev_channel',
 export const getPenultimateChannelNameKey = (userId, teamId) => ['user_team_penultimate_channel', userId, teamId].join(':');
 const getRecentEmojisKey = (userId) => ['recent_emojis', userId].join(':');
 const getWasLoggedInKey = () => 'was_logged_in';
+const teamIdJoinedOnLoadKey = 'teamIdJoinedOnLoad';
 
 const getPathScopedKey = (path, key) => {
     if (path === '' || path === '/') {
@@ -94,6 +95,14 @@ class LocalStorageStoreClass {
         if (recentEmojis.length) {
             this.setItem(getRecentEmojisKey(userId), JSON.stringify(recentEmojis));
         }
+    }
+
+    getTeamIdJoinedOnLoad() {
+        return this.getItem(teamIdJoinedOnLoadKey);
+    }
+
+    setTeamIdJoinedOnLoad(teamId) {
+        this.setItem(teamIdJoinedOnLoadKey, teamId);
     }
 
     setWasLoggedIn(wasLoggedIn) {

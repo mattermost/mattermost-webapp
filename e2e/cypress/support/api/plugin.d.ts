@@ -16,7 +16,7 @@
 // ***************************************************************
 
 declare namespace Cypress {
-    interface Chainable<Subject = any> {
+    interface Chainable {
 
         /**
          * Get plugins.
@@ -39,7 +39,7 @@ declare namespace Cypress {
          * @example
          *   cy.apiUploadPlugin('filename');
          */
-        apiUploadPlugin(filename: string): Chainable<Response>;
+        apiUploadPlugin(filename: string, waitTime: number): Chainable<Response>;
 
         /**
          * Install plugin from url.
@@ -53,7 +53,7 @@ declare namespace Cypress {
          *       // do something with plugin
          *   });
          */
-        apiInstallPluginFromUrl(pluginDownloadUrl: string, force: string): Chainable<PluginManifest>;
+        apiInstallPluginFromUrl(pluginDownloadUrl: string, force: string, waitTime: number): Chainable<PluginManifest>;
 
         /**
          * Enable plugin.
@@ -65,6 +65,25 @@ declare namespace Cypress {
          *   cy.apiEnablePluginById('pluginId');
          */
         apiEnablePluginById(pluginId: string): Chainable<Record<string, any>>;
+
+        /**
+         * Disable plugin.
+         * See https://api.mattermost.com/#tag/plugins/paths/~1plugins~1{plugin_id}~disable/post
+         * @param {string} pluginId - Id of the plugin to disable
+         * @returns {string} `out.status`
+         *
+         * @example
+         *   cy.apiDisablePluginById('pluginId');
+         */
+        apiDisablePluginById(pluginId: string): Chainable<Record<string, any>>;
+
+        /**
+         * Disable all plugins installed that are not prepackaged.
+         *
+         * @example
+         *   cy.apiDisableNonPrepackagedPlugins();
+         */
+        apiDisableNonPrepackagedPlugins(): Chainable<Record<string, any>>;
 
         /**
          * Remove plugin.

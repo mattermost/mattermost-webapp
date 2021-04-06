@@ -18,12 +18,7 @@ describe('Test channel public/private toggle', () => {
         cy.apiRequireLicenseForFeature('LDAPGroups');
 
         // Enable LDAP and LDAP group sync
-        cy.apiUpdateConfig({
-            LdapSettings: {
-                Enable: true,
-                EnableSync: true,
-            },
-        });
+        cy.apiUpdateConfig({LdapSettings: {Enable: true}});
 
         // # Check and run LDAP Sync job
         if (Cypress.env('runLDAPSync')) {

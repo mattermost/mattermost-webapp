@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/widgets/badges/GuestBadge should match the snapshot 1`] = `
+<Memo(Badge)
+  className="GuestBadge test"
+  show={true}
+>
+  <FormattedMessage
+    defaultMessage="GUEST"
+    id="post_info.guest"
+  />
+</Memo(Badge)>
+`;

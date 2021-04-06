@@ -1,0 +1,52 @@
+.ThreadFooter {
+    display: inline-flex;
+    align-items: center;
+
+    padding: 5px 10px;
+
+    font-size: 12px;
+    line-height: 15px;
+    white-space: nowrap;
+    color: rgba(var(--center-channel-color-rgb), .64);
+
+    .indicator {
+        width: 24px; height: 24px;
+        padding: 8px;
+    }
+
+    .dot-unreads {
+        background: rgba(var(--sidebar-text-active-border-rgb), 1);
+        width: 8px; height: 8px;
+        border-radius: 50%;
+    }
+
+    .Avatars {
+        margin-right: 4px;
+        font-weight: 600;
+    }
+
+    .icon {
+        width: 14px; height: 14px;
+        font-size: 14px;
+    }
+
+    .alt-visible {
+        display: none;
+    }
+
+    &:hover,
+    &:focus-within,
+    &.is-active {
+        .alt-visible {
+            display: unset;
+        }
+        .alt-hidden {
+            display: none;
+        }
+    }
+
+    .Timestamp {
+        padding: 0 1rem;
+        font-weight: 400;
+    }
+}

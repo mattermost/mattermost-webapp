@@ -73,9 +73,10 @@ exports[`plugins/PostMessageView should match snapshot with no extended post typ
   <div
     aria-readonly="true"
     className="post-message__text"
+    dir="auto"
     id="postMessageText_post_id"
     onClick={[Function]}
-    tabIndex="0"
+    tabIndex={0}
   >
     <Connect(PostMarkdown)
       imageProps={
@@ -84,6 +85,7 @@ exports[`plugins/PostMessageView should match snapshot with no extended post typ
         }
       }
       isRHS={false}
+      mentionKeys={Array []}
       message="this is some text"
       options={Object {}}
       post={

@@ -59,25 +59,6 @@ exports[`components/user_settings/sidebar/UserSettingsSidebar should match snaps
     />
     <SettingItemMin
       describe={
-        <FormattedMessage
-          defaultMessage="Off"
-          id="user.settings.sidebar.off"
-        />
-      }
-      section="channelSidebarOrganization"
-      title={
-        <FormattedMessage
-          defaultMessage="Experimental Sidebar Features"
-          id="user.settings.sidebar.channelSidebarOrganizationSectionTitle"
-        />
-      }
-      updateSection={[Function]}
-    />
-    <div
-      className="divider-light"
-    />
-    <SettingItemMin
-      describe={
         Array [
           <FormattedMessage
             defaultMessage="Group by channel type"

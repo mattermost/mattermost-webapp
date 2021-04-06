@@ -35,6 +35,7 @@ describe('components/ChannelHeader', () => {
         penultimateViewedChannelName: '',
         teammateNameDisplaySetting: '',
         currentRelativeTeamUrl: '',
+        isCustomStatusEnabled: false,
     };
 
     const populatedProps = {
@@ -121,6 +122,22 @@ describe('components/ChannelHeader', () => {
             <ChannelHeader {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should unmute the channel when mute icon is clicked', () => {
+        const props = {
+            ...populatedProps,
+            isMuted: true,
+        };
+
+        const wrapper = shallowWithIntl(
+            <ChannelHeader {...props}/>,
+        );
+
+        wrapper.find('.channel-header__mute').simulate('click');
+        wrapper.update();
+        expect(props.actions.updateChannelNotifyProps).toHaveBeenCalledTimes(1);
+        expect(props.actions.updateChannelNotifyProps).toHaveBeenCalledWith('user_id', 'channel_id', {mark_unread: 'all'});
     });
 
     test('should render active pinned posts', () => {
@@ -222,5 +239,30 @@ describe('components/ChannelHeader', () => {
         expect(wrapper.containsMatchingElement(
             <GuestBadge show={true}/>,
         )).toEqual(true);
+    });
+
+    test('should render properly when custom status is set', () => {
+        const props = {
+            ...populatedProps,
+            channel: {
+                header: 'not the bot description',
+                type: Constants.DM_CHANNEL,
+                status: 'offline',
+            },
+            dmUser: {
+                id: 'user_id',
+                is_bot: false,
+            },
+            isCustomStatusEnabled: true,
+            customStatus: {
+                emoji: 'calender',
+                text: 'In a meeting',
+            },
+        };
+
+        const wrapper = shallowWithIntl(
+            <ChannelHeader {...props}/>,
+        );
+        expect(wrapper).toMatchSnapshot();
     });
 });

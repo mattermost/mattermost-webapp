@@ -12,7 +12,7 @@ import {UserStatus} from 'mattermost-redux/types/users';
 
 import {startPeriodicStatusUpdates, stopPeriodicStatusUpdates} from 'actions/status_actions.jsx';
 import {startPeriodicSync, stopPeriodicSync, reconnect} from 'actions/websocket_actions.jsx';
-import * as GlobalActions from 'actions/global_actions.jsx';
+import * as GlobalActions from 'actions/global_actions';
 
 import Constants from 'utils/constants';
 import * as UserAgent from 'utils/user_agent';
@@ -22,6 +22,8 @@ import {makeAsyncComponent} from 'components/async_load';
 const LazyBackstageController = React.lazy(() => import('components/backstage'));
 import ChannelController from 'components/channel_layout/channel_controller';
 import Pluggable from 'plugins/pluggable';
+
+import LocalStorageStore from 'stores/local_storage_store';
 
 const BackstageController = makeAsyncComponent(LazyBackstageController);
 
@@ -114,16 +116,17 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
             teamsList: this.props.teamsList,
         };
 
+        LocalStorageStore.setTeamIdJoinedOnLoad(null);
+
         if (!team) {
-            this.joinTeam(this.props);
+            this.joinTeam(this.props, true);
         }
     }
 
     static getDerivedStateFromProps(nextProps: Props, state: State) {
         if (state.prevTeam !== nextProps.match.params.team) {
-            const team = nextProps.teamsList ?
-                nextProps.teamsList.find((teamObj: Team) =>
-                    teamObj.name === nextProps.match.params.team) : null;
+            const team = nextProps.teamsList ? nextProps.teamsList.find((teamObj: Team) =>
+                teamObj.name === nextProps.match.params.team) : null;
             return {
                 prevTeam: nextProps.match.params.team,
                 team: (team || null),
@@ -198,13 +201,16 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
         }
     }
 
-    joinTeam = async (props: Props) => {
+    joinTeam = async (props: Props, firstLoad = false) => {
         const {data: team} = await this.props.actions.getTeamByName(props.match.params.team);
         if (team && team.delete_at === 0) {
             const {error} = await props.actions.addUserToTeam(team.id, props.currentUser && props.currentUser.id);
             if (error) {
                 props.history.push('/error?type=team_not_found');
             } else {
+                if (firstLoad) {
+                    LocalStorageStore.setTeamIdJoinedOnLoad(team.id);
+                }
                 this.setState({team});
                 this.initTeam(team);
             }
@@ -290,7 +296,6 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
         if (this.state.team === null) {
             return <div/>;
         }
-        const teamType = this.state.team ? this.state.team.type : '';
 
         return (
             <Switch>
@@ -318,7 +323,6 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
                     render={(renderProps) => (
                         <ChannelController
                             pathName={renderProps.location.pathname}
-                            teamType={teamType}
                             fetchingChannels={!this.state.finishedFetchingChannels}
                             useLegacyLHS={this.props.useLegacyLHS}
                         />

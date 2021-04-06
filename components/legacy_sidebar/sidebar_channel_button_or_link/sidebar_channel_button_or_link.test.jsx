@@ -134,4 +134,26 @@ describe('component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannel
             });
         }
     });
+
+    test('should enable tooltip when needed', () => {
+        const props = {
+            ...baseProps,
+            channelType: Constants.DM_CHANNEL,
+        };
+
+        const wrapper = shallow(
+            <SidebarChannelButtonOrLink {...props}/>,
+        );
+
+        const instance = wrapper.instance();
+        instance.displayNameRef = {
+            current: {
+                offsetWidth: 50,
+                scrollWidth: 60,
+            },
+        };
+
+        instance.enableToolTipIfNeeded();
+        expect(instance.state.showTooltip).toBe(true);
+    });
 });

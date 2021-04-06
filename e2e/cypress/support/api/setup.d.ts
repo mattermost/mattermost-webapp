@@ -15,7 +15,7 @@
 // ***************************************************************
 
 declare namespace Cypress {
-    interface Chainable<Subject = any> {
+    interface Chainable {
 
         /**
          * Creates a new user and make it a member of the new public team and its channels - one public channel, town-square and off-topic.
@@ -40,6 +40,17 @@ declare namespace Cypress {
          *       testChannel = channel;
          *   });
          */
-        apiInitSetup(options: Record<string, any>): Chainable<Record<string, any>>;
+        apiInitSetup(
+            options: {
+                loginAfter: boolean;
+                userPrefix: string;
+                teamPrefix: string;
+                channelPrefix: string;
+            }
+        ): Chainable<{
+            user: UserProfile;
+            team: Team;
+            channel: Channel;
+        }>;
     }
 }

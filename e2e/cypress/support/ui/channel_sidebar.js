@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {getRandomId} from '../../utils';
+import * as TIMEOUTS from '../../fixtures/timeouts';
 
 Cypress.Commands.add('uiCreateSidebarCategory', (categoryName = `category-${getRandomId()}`) => {
     // # Click the New Category/Channel Dropdown button
@@ -12,10 +13,12 @@ Cypress.Commands.add('uiCreateSidebarCategory', (categoryName = `category-${getR
 
     // # Fill in the category name and click Create
     cy.get('input[placeholder="Name your category"]').type(categoryName);
-    cy.contains('button', 'Create').click();
+    cy.contains('button', 'Create').click().wait(TIMEOUTS.TWO_SEC);
 
     // * Wait for the category to appear in the sidebar
-    return cy.contains('.SidebarChannelGroup', categoryName, {matchCase: false});
+    cy.contains('.SidebarChannelGroup', categoryName, {matchCase: false});
+
+    return cy.wrap({displayName: categoryName});
 });
 
 Cypress.Commands.add('uiMoveChannelToCategory', (channelName, categoryName = `category-${getRandomId()}`, newCategory = false) => {

@@ -36,6 +36,7 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         enableSignUpWithEmail: true,
         enableSignUpWithGitLab: false,
         enableSignUpWithGoogle: true,
+        enableSignUpWithOpenId: false,
         enableLdap: false,
         enableSaml: true,
         enableSignUpWithOffice365: false,
@@ -43,6 +44,34 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         passwordConfig: {},
         militaryTime: false,
     };
+
+    test('should match snapshot, enable google', () => {
+        const props = {...requiredProps, enableSaml: false};
+
+        const wrapper = shallow(<UserSettingsSecurity {...props}/>);
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot, enable gitlab', () => {
+        const props = {...requiredProps, enableSignUpWithGoogle: false, enableSaml: false, enableSignUpWithGitLab: true};
+
+        const wrapper = shallow(<UserSettingsSecurity {...props}/>);
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot, enable office365', () => {
+        const props = {...requiredProps, enableSignUpWithGoogle: false, enableSaml: false, enableSignUpWithOffice365: true};
+
+        const wrapper = shallow(<UserSettingsSecurity {...props}/>);
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot, enable openID', () => {
+        const props = {...requiredProps, enableSignUpWithGoogle: false, enableSaml: false, enableSignUpWithOpenId: true};
+
+        const wrapper = shallow(<UserSettingsSecurity {...props}/>);
+        expect(wrapper).toMatchSnapshot();
+    });
 
     test('componentDidMount() should have called getAuthorizedOAuthApps', () => {
         const props = {...requiredProps, enableOAuthServiceProvider: true};

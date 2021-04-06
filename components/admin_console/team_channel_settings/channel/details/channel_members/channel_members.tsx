@@ -144,7 +144,7 @@ export default class ChannelMembers extends React.PureComponent<Props, State> {
         this.props.onAddCallback(users);
     }
 
-    private search = async (term: string) => {
+    private onSearch = async (term: string) => {
         this.props.actions.setUserGridSearch(term);
     }
 
@@ -285,7 +285,7 @@ export default class ChannelMembers extends React.PureComponent<Props, State> {
                     totalCount={totalCount}
                     memberships={channelMembers}
                     updateMembership={this.updateMembership}
-                    search={this.search}
+                    onSearch={this.onSearch}
                     includeUsers={usersToAdd}
                     excludeUsers={usersToRemove}
                     term={searchTerm}

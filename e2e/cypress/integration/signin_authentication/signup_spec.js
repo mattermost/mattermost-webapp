@@ -10,9 +10,11 @@
 // Stage: @prod
 // Group: @signin_authentication
 
-let config;
+import {FixedCloudConfig} from '../../utils/constants';
 
 describe('Signup Email page', () => {
+    let config;
+
     before(() => {
         // Disable other auth options
         const newSettings = {
@@ -50,6 +52,11 @@ describe('Signup Email page', () => {
     });
 
     it('should match elements, body', () => {
+        const {
+            PRIVACY_POLICY_LINK,
+            TERMS_OF_SERVICE_LINK,
+        } = FixedCloudConfig.SupportSettings;
+
         // * Check elements in the body
         cy.get('#signup_email_section').should('be.visible');
         cy.get('#site_name').should('contain', config.TeamSettings.SiteName);
@@ -76,23 +83,30 @@ describe('Signup Email page', () => {
         cy.get('#createAccountButton').should('contain', 'Create Account');
 
         cy.get('#signup_agreement').should('contain', `By proceeding to create your account and use ${config.TeamSettings.SiteName}, you agree to our Terms of Service and Privacy Policy. If you do not agree, you cannot use ${config.TeamSettings.SiteName}.`);
-        cy.get(`#signup_agreement > span > [href="${config.SupportSettings.TermsOfServiceLink}"]`).should('be.visible');
-        cy.get(`#signup_agreement > span > [href="${config.SupportSettings.PrivacyPolicyLink}"]`).should('be.visible');
+        cy.get(`#signup_agreement > span > [href="${config.SupportSettings.TermsOfServiceLink || TERMS_OF_SERVICE_LINK}"]`).should('be.visible');
+        cy.get(`#signup_agreement > span > [href="${config.SupportSettings.PrivacyPolicyLink || PRIVACY_POLICY_LINK}"]`).should('be.visible');
     });
 
     it('should match elements, footer', () => {
+        const {
+            ABOUT_LINK,
+            HELP_LINK,
+            PRIVACY_POLICY_LINK,
+            TERMS_OF_SERVICE_LINK,
+        } = FixedCloudConfig.SupportSettings;
+
         // * Check elements in the footer
         cy.get('#footer_section').scrollIntoView().should('be.visible');
         cy.get('#company_name').should('contain', 'Mattermost');
         cy.get('#copyright').should('contain', '© 2015-');
         cy.get('#copyright').should('contain', 'Mattermost, Inc.');
         cy.get('#about_link').should('contain', 'About');
-        cy.get('#about_link').should('have.attr', 'href', config.SupportSettings.AboutLink);
+        cy.get('#about_link').should('have.attr', 'href', config.SupportSettings.AboutLink || ABOUT_LINK);
         cy.get('#privacy_link').should('contain', 'Privacy');
-        cy.get('#privacy_link').should('have.attr', 'href', config.SupportSettings.PrivacyPolicyLink);
+        cy.get('#privacy_link').should('have.attr', 'href', config.SupportSettings.PrivacyPolicyLink || PRIVACY_POLICY_LINK);
         cy.get('#terms_link').should('contain', 'Terms');
-        cy.get('#terms_link').should('have.attr', 'href', config.SupportSettings.TermsOfServiceLink);
+        cy.get('#terms_link').should('have.attr', 'href', config.SupportSettings.TermsOfServiceLink || TERMS_OF_SERVICE_LINK);
         cy.get('#help_link').should('contain', 'Help');
-        cy.get('#help_link').should('have.attr', 'href', config.SupportSettings.HelpLink);
+        cy.get('#help_link').should('have.attr', 'href', config.SupportSettings.HelpLink || HELP_LINK);
     });
 });

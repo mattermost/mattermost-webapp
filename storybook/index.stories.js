@@ -11,12 +11,15 @@ import IntlProvider from 'components/intl_provider';
 
 import {browserHistory} from 'utils/browser_history';
 
-import store from 'stores/redux_store.jsx';
+import configureStore from 'store';
+
+import {resetTheme} from 'utils/utils';
+
+import state from './state';
+const store = configureStore(state);
 
 import 'sass/styles.scss';
 import 'storybook/styles.scss';
-
-import {resetTheme} from 'utils/utils';
 
 resetTheme();
 

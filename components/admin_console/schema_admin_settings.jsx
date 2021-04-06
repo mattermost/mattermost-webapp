@@ -49,6 +49,8 @@ export default class SchemaAdminSettings extends React.PureComponent {
         updateConfig: PropTypes.func.isRequired,
         isDisabled: PropTypes.bool,
         consoleAccess: PropTypes.object,
+        cloud: PropTypes.object,
+        isCurrentUserSystemAdmin: PropTypes.bool,
     }
 
     constructor(props) {
@@ -350,7 +352,7 @@ export default class SchemaAdminSettings extends React.PureComponent {
     isDisabled = (setting) => {
         const enterpriseReady = this.props.config.BuildEnterpriseReady === 'true';
         if (typeof setting.isDisabled === 'function') {
-            return setting.isDisabled(this.props.config, this.state, this.props.license, enterpriseReady, this.props.consoleAccess);
+            return setting.isDisabled(this.props.config, this.state, this.props.license, enterpriseReady, this.props.consoleAccess, this.props.cloud, this.props.isCurrentUserSystemAdmin);
         }
         return Boolean(setting.isDisabled);
     }

@@ -22,35 +22,35 @@ import EmojiMap from 'utils/emoji_map';
 export interface AddEmojiProps {
     actions: {
         createCustomEmoji: (term: CustomEmoji, imageData: File) => Promise<ActionResult>;
-    },
-    emojiMap: EmojiMap,
-    user: UserProfile,
-    team: Team
+    };
+    emojiMap: EmojiMap;
+    user: UserProfile;
+    team: Team;
 }
 
 type EmojiCreateArgs = {
-    creator_id: string,
-    name: string
+    creator_id: string;
+    name: string;
 };
 
 type AddEmojiState = {
-    name: string,
-    image: File | null,
-    imageUrl: string | ArrayBuffer | null,
-    saving: boolean,
-    error: React.ReactNode,
+    name: string;
+    image: File | null;
+    imageUrl: string | ArrayBuffer | null;
+    saving: boolean;
+    error: React.ReactNode;
 };
 
 interface AddErrorResponse {
-    error: Error
+    error: Error;
 }
 
 interface AddEmojiResponse {
-    data: CustomEmoji
+    data: CustomEmoji;
 }
 
 export default class AddEmoji extends React.PureComponent<AddEmojiProps, AddEmojiState> {
-    constructor(props : AddEmojiProps) {
+    constructor(props: AddEmojiProps) {
         super(props);
 
         this.state = {

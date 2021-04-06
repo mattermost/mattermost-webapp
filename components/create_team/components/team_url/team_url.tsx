@@ -21,7 +21,7 @@ import OverlayTrigger from 'components/overlay_trigger';
 type State = {
     isLoading: boolean;
     nameError: string | JSX.Element;
-    teamURL: string
+    teamURL: string;
 }
 
 type Props = {

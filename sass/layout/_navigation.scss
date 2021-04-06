@@ -90,6 +90,7 @@
             &.navbar-right__icon {
                 @include border-radius(50px);
                 display: flex;
+                background: rgba(var(--sidebar-header-text-color-rgb), 0.2);
                 align-items: center;
                 justify-content: center;
                 height: 32px;
@@ -104,7 +105,7 @@
             }
 
             .icon-bar {
-                background: $white;
+                background: var(--sidebar-header-text-color);
                 width: 21px;
             }
 
@@ -136,6 +137,10 @@
             overflow: hidden;
             padding: 0;
             display: flex;
+
+            .app__body & {
+                color: var(--sidebar-header-text-color)
+            }
 
             .dropdown, .MenuWrapper {
                 max-width: calc(100% - 40px);
@@ -200,5 +205,3 @@
         background: $red;
     }
 }
-
-

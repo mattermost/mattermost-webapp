@@ -7,62 +7,12 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @notifications
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
-function addNumberOfUsersToChannel(num = 1) {
-    // # Then click it to access the drop-down menu
-    cy.get('#channelHeaderTitle').click();
-
-    // * The dropdown menu of the channel header should be visible;
-    cy.get('#channelLeaveChannel').should('be.visible');
-
-    // # Click 'Add Members'
-    cy.get('#channelAddMembers').click();
-
-    // * Assert that modal appears
-    // # Click the first row for a number of times
-    Cypress._.times(num, () => {
-        cy.get('#multiSelectList').should('be.visible').children().first().click();
-    });
-
-    // # Click the button "Add" to add user to a channel
-    cy.get('#saveItems').click();
-
-    // # Wait for the modal to disappear
-    cy.get('#addUsersToChannelModal').should('not.exist');
-}
-
-function setIgnoreMentions(toSet) {
-    let stringToSet = 'Off';
-    if (toSet) {
-        stringToSet = 'On';
-    }
-
-    // # Click on the header to open dropdown
-    cy.get('#channelHeaderDropdownButton').should('exist').click();
-
-    // # Click on the notification preferences
-    cy.get('#channelNotificationPreferences').should('exist').click();
-
-    // # Click on the edit button for ignore channel mentions
-    cy.get('#ignoreChannelMentionsEdit').should('exist').click();
-
-    // # Click on selected option
-    cy.get(`#ignoreChannelMentions${stringToSet}`).should('exist').click();
-
-    // # Click on save to save the configuration
-    cy.get('#saveSetting').should('exist').click();
-
-    // * Assert that the option selected is reflected
-    cy.get('#ignoreChannelMentionsDesc').should('contain', stringToSet);
-
-    // # Click on the X button to close the modal
-    cy.get('#channelNotificationModalLabel').siblings('.close').click();
-}
-
-describe('CS15445 Join/leave messages', () => {
+describe('Notifications', () => {
     let testTeam;
     let userB;
 
@@ -138,3 +88,50 @@ describe('CS15445 Join/leave messages', () => {
         cy.get(`#sidebarItem_${channelA.name} > #unreadMentions`).should('exist').wait(TIMEOUTS.ONE_SEC).should('contain', '3');
     });
 });
+
+function addNumberOfUsersToChannel(num = 1) {
+    // # Open channel menu and click 'Add Members'
+    cy.uiOpenChannelMenu('Add Members');
+    cy.get('#addUsersToChannelModal').should('be.visible');
+
+    // * Assert that modal appears
+    // # Click the first row for a number of times
+    Cypress._.times(num, () => {
+        cy.get('#selectItems input').type('u');
+        cy.get('#multiSelectList').should('be.visible').children().first().click();
+    });
+
+    // # Click the button "Add" to add user to a channel
+    cy.get('#saveItems').click();
+
+    // # Wait for the modal to disappear
+    cy.get('#addUsersToChannelModal').should('not.exist');
+}
+
+function setIgnoreMentions(toSet) {
+    let stringToSet = 'Off';
+    if (toSet) {
+        stringToSet = 'On';
+    }
+
+    // # Click on the header to open dropdown
+    cy.get('#channelHeaderDropdownButton').should('exist').click();
+
+    // # Click on the notification preferences
+    cy.get('#channelNotificationPreferences').should('exist').click();
+
+    // # Click on the edit button for ignore channel mentions
+    cy.get('#ignoreChannelMentionsEdit').should('exist').click();
+
+    // # Click on selected option
+    cy.get(`#ignoreChannelMentions${stringToSet}`).should('exist').click();
+
+    // # Click on save to save the configuration
+    cy.get('#saveSetting').should('exist').click();
+
+    // * Assert that the option selected is reflected
+    cy.get('#ignoreChannelMentionsDesc').should('contain', stringToSet);
+
+    // # Click on the X button to close the modal
+    cy.get('#channelNotificationModalLabel').siblings('.close').click();
+}

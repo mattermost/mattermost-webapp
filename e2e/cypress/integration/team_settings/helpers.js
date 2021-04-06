@@ -2,8 +2,12 @@
 // See LICENSE.txt for license information.
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
+import {
+    getEmailUrl,
+    reUrl,
+    splitEmailBodyText,
+} from '../../utils';
 
-import {getEmailUrl, getEmailMessageSeparator, reUrl} from '../../utils';
 const baseUrl = Cypress.config('baseUrl');
 const mailUrl = getEmailUrl(baseUrl);
 
@@ -47,10 +51,9 @@ export const inviteUserByEmail = (email) => {
 export const verifyEmailInviteAndVisitLink = (username, email, teamName, teamDisplayName) => {
     // # Invite a new user
     cy.task('getRecentEmail', {username, mailUrl}).then((response) => {
-        const messageSeparator = getEmailMessageSeparator(baseUrl);
-        verifyEmailInvite(response, teamName, teamDisplayName, email, messageSeparator);
+        verifyEmailInvite(response, teamName, teamDisplayName, email);
 
-        const bodyText = response.data.body.text.split('\n');
+        const bodyText = splitEmailBodyText(response.data.body.text);
         const permalink = bodyText[6].match(reUrl)[0];
 
         // # Visit permalink (e.g. click on email link)
@@ -83,7 +86,7 @@ export const signupAndVerifyTutorial = (username, password, teamDisplayName) => 
     cy.get('#tutorialIntroOne').findByText('Mattermost').should('be.visible');
 };
 
-const verifyEmailInvite = (response, teamName, teamDisplayName, email, messageSeparator) => {
+const verifyEmailInvite = (response, teamName, teamDisplayName, email) => {
     const isoDate = new Date().toISOString().substring(0, 10);
     const {data, status} = response;
 
@@ -101,7 +104,7 @@ const verifyEmailInvite = (response, teamName, teamDisplayName, email, messageSe
     expect(data.subject).to.contain(`[Mattermost] sysadmin invited you to join ${teamDisplayName} Team`);
 
     // * Verify that the email body is correct
-    const bodyText = data.body.text.split(messageSeparator);
+    const bodyText = splitEmailBodyText(data.body.text);
     expect(bodyText.length).to.equal(17);
     expect(bodyText[1]).to.equal('You\'ve been invited');
     expect(bodyText[4]).to.equal(`*sysadmin* , has invited you to join *${teamDisplayName}*.`);

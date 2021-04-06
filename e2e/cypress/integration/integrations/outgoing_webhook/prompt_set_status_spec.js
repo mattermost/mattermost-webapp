@@ -41,7 +41,7 @@ describe('Prompting set status', () => {
 
         // * Your status stays offline in your view
         cy.get('.offline--icon').should('be.visible');
-        cy.get('.online--icon').should('not.be.visible');
+        cy.get('.online--icon').should('not.exist');
 
         // # Log out
         cy.apiLogout();
@@ -53,7 +53,7 @@ describe('Prompting set status', () => {
         // * Your status stays offline in other users' views.
         cy.get('#channelHeaderInfo').within(() => {
             cy.get('.offline--icon').should('be.visible');
-            cy.get('.online--icon').should('not.be.visible');
+            cy.get('.online--icon').should('not.exist');
             cy.findByText('Offline').should('be.visible');
         });
         cy.apiGetUserStatus(`${user1.id}`).then((result) => {
@@ -72,7 +72,7 @@ describe('Prompting set status', () => {
 
         // * Your status stays offline in your view
         cy.get('.offline--icon').should('be.visible');
-        cy.get('.online--icon').should('not.be.visible');
+        cy.get('.online--icon').should('not.exist');
 
         // * Your status stays offline in other users' views.
         cy.apiLogin(user2);
@@ -82,7 +82,7 @@ describe('Prompting set status', () => {
         // * Your status stays offline in other users' views.
         cy.get('#channelHeaderInfo').within(() => {
             cy.get('.offline--icon').should('be.visible');
-            cy.get('.online--icon').should('not.be.visible');
+            cy.get('.online--icon').should('not.exist');
             cy.findByText('Offline').should('be.visible');
         });
         cy.apiGetUserStatus(`${user1.id}`).then((result) => {
@@ -92,10 +92,18 @@ describe('Prompting set status', () => {
 });
 
 const openDM = (username) => {
-    cy.get('#addDirectChannel').click();
-    cy.get('#selectItems').type(`${username}`);
-    cy.wait(TIMEOUTS.ONE_SEC);
+    // # Click '+' to open DM and wait for some time to get the DM modal fully loaded
+    cy.uiAddDirectMessage().click().wait(TIMEOUTS.TWO_SEC);
+
+    // # Type username and wait for some time to load users list
+    cy.get('#selectItems').should('be.visible').type(`${username}`).wait(TIMEOUTS.TWO_SEC);
+
+    // # Find the user in the list and click
     cy.get('#multiSelectList').findByText(`@${username}`).click();
+
+    // * Verify that the user is selected
     cy.get('#selectItems').findByText(`${username}`).should('be.visible');
+
+    // # Click go to open DM with the user
     cy.findByText('Go').click();
 };

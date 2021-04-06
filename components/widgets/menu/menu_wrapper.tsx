@@ -22,6 +22,7 @@ type Props = {
     id?: string;
     isDisabled?: boolean;
     stopPropagationOnToggle?: boolean;
+    open?: boolean;
 }
 
 type State = {
@@ -50,6 +51,15 @@ export default class MenuWrapper extends React.PureComponent<Props, State> {
     public componentDidMount() {
         document.addEventListener('click', this.closeOnBlur, true);
         document.addEventListener('keyup', this.keyboardClose, true);
+    }
+
+    static getDerivedStateFromProps(props: Props, state: State) {
+        if (props.open !== undefined && props.open !== state.open) {
+            return {
+                open: props.open,
+            };
+        }
+        return null;
     }
 
     public componentWillUnmount() {

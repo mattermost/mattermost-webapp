@@ -3,6 +3,7 @@
 
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
+
 import {
     removeReaction,
     addMessageIntoHistory,
@@ -46,7 +47,7 @@ jest.mock('actions/command', () => ({
     executeCommand: jest.fn((...args) => ({type: 'MOCK_ACTIONS_COMMAND_EXECUTE', args})),
 }));
 
-jest.mock('actions/global_actions.jsx', () => ({
+jest.mock('actions/global_actions', () => ({
     emitUserCommentedEvent: jest.fn(),
 }));
 
@@ -308,7 +309,7 @@ describe('rhs view actions', () => {
 
             jest.resetModules();
 
-            const {submitCommand: remockedSubmitCommand} = require('actions/views/create_comment');
+            const {submitCommand: remockedSubmitCommand} = require('actions/views/create_comment'); // eslint-disable-like @typescript-eslint/no-var-requires
 
             await store.dispatch(remockedSubmitCommand(channelId, rootId, draft));
 

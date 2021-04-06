@@ -21,6 +21,8 @@ describe('PostAttachmentOpenGraph', () => {
         metadata: {
             images: {
                 [imageUrl]: {
+                    format: 'png',
+                    frameCount: 0,
                     height: 100,
                     width: 100,
                 },
@@ -88,13 +90,23 @@ describe('PostAttachmentOpenGraph', () => {
         test('should be a large image', () => {
             const wrapper = shallow<PostAttachmentOpenGraph>(<PostAttachmentOpenGraph {...baseProps}/>);
 
-            expect(wrapper.instance().isLargeImage({width: 400, height: 180})).toBe(true);
+            expect(wrapper.instance().isLargeImage({
+                format: 'png',
+                frameCount: 0,
+                height: 180,
+                width: 400,
+            })).toBe(true);
         });
 
         test('should not be a large image', () => {
             const wrapper = shallow<PostAttachmentOpenGraph>(<PostAttachmentOpenGraph {...baseProps}/>);
 
-            expect(wrapper.instance().isLargeImage({width: 100, height: 100})).toBe(false);
+            expect(wrapper.instance().isLargeImage({
+                format: 'png',
+                frameCount: 0,
+                height: 100,
+                width: 100,
+            })).toBe(false);
         });
     });
 
@@ -115,6 +127,8 @@ describe('PostAttachmentOpenGraph', () => {
                         ...post.metadata,
                         images: {
                             [imageUrl]: {
+                                format: 'png',
+                                frameCount: 0,
                                 height: 180,
                                 width: 400,
                             },
@@ -232,10 +246,14 @@ describe('getBestImageUrl', () => {
         };
         const imagesMetadata = {
             'http://example.com/image.png': {
+                format: 'png',
+                frameCount: 0,
                 height: 100,
                 width: 100,
             },
             'http://example.com/image2.png': {
+                format: 'png',
+                frameCount: 0,
                 height: 1000,
                 width: 1000,
             },

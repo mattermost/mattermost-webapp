@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/ShouldVerifyEmail should match snapshot 1`] = `
+<div>
+  <BackButton
+    url="/"
+  />
+  <div
+    className="col-sm-12"
+  >
+    <div
+      className="signup-team__container"
+    >
+      <h3
+        data-testid="emailVerifyAlmost"
+      >
+        <FormattedMessage
+          defaultMessage="{siteName}: You are almost done"
+          id="email_verify.almost"
+          values={
+            Object {
+              "siteName": "Mattermost",
+            }
+          }
+        />
+      </h3>
+      <div>
+        <p
+          data-testid="emailVerifyNotVerifiedBody"
+        >
+          <FormattedMessage
+            defaultMessage="Please verify your email address. Check your inbox for an email."
+            id="email_verify.notVerifiedBody"
+          />
+        </p>
+        <button
+          className="btn btn-primary"
+          data-testid="emailVerifyResend"
+          onClick={[Function]}
+        >
+          <FormattedMessage
+            defaultMessage="Resend Email"
+            id="email_verify.resend"
+          />
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;

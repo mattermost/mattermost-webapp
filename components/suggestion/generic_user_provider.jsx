@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+
 import {Client4} from 'mattermost-redux/client';
 
 import * as Utils from 'utils/utils.jsx';
@@ -41,7 +42,7 @@ class UserSuggestion extends Suggestion {
                 {...Suggestion.baseProps}
             >
                 <Avatar
-                    size='xs'
+                    size='xxs'
                     username={username}
                     url={Client4.getUsersRoute() + '/' + item.id + '/image?_=' + (item.last_picture_update || 0)}
                 />

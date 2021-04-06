@@ -22,6 +22,7 @@ type Props = {
     id: string;
     autoCloseOnCancelButton?: boolean;
     autoCloseOnConfirmButton?: boolean;
+    enforceFocus?: boolean;
 };
 
 type State = {
@@ -34,6 +35,7 @@ export default class GenericModal extends React.PureComponent<Props, State> {
         id: 'genericModal',
         autoCloseOnCancelButton: true,
         autoCloseOnConfirmButton: true,
+        enforceFocus: true,
     };
 
     constructor(props: Props) {
@@ -124,7 +126,7 @@ export default class GenericModal extends React.PureComponent<Props, State> {
                 show={this.state.show}
                 onHide={this.onHide}
                 onExited={this.onHide}
-                enforceFocus={true}
+                enforceFocus={this.props.enforceFocus}
                 restoreFocus={true}
                 role='dialog'
                 aria-labelledby='genericModalLabel'

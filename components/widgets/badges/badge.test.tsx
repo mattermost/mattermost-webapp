@@ -11,17 +11,17 @@ describe('components/widgets/badges/Badge', () => {
         const wrapper = shallow(
             <Badge className={'test'}>{'Test text'}</Badge>,
         );
-        expect(wrapper).toMatchInlineSnapshot(`
-<div
-  className="Badge"
->
-  <div
-    className="Badge__box test"
-  >
-    Test text
-  </div>
-</div>
-`);
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should transform into a button if onClick provided', () => {
+        const click = jest.fn();
+        const wrapper = shallow(
+            <Badge onClick={click}>{'Test text'}</Badge>,
+        );
+        wrapper.find('button').simulate('click');
+        expect(click).toBeCalled();
+        expect(wrapper).toMatchSnapshot();
     });
 
     test('should match the snapshot on hide', () => {

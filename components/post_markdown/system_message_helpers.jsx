@@ -189,11 +189,13 @@ function renderHeaderChangeMessage(post) {
             return (
                 <FormattedMessage
                     id='api.channel.post_update_channel_header_message_and_forget.updated_from'
-                    defaultMessage='{username} updated the channel header from: {old} to: {new}'
+                    defaultMessage='{username} updated the channel header <br></br><strong>From:</strong> {old} <br></br><strong>To:</strong> {new}'
                     values={{
                         username,
                         old: oldHeader,
                         new: newHeader,
+                        strong: (chunks) => (<strong>{chunks}</strong>),
+                        br: (x) => (<><br/>{x}</>),
                     }}
                 />
             );
@@ -348,7 +350,10 @@ function renderChannelUnarchivedMessage(post) {
 }
 
 function renderMeMessage(post) {
-    return renderFormattedText((post.props && post.props.message) ? post.props.message : post.message);
+    // Trim off the leading and trailing asterisk added to /me messages
+    const message = post.message.replace(/^\*|\*$/g, '');
+
+    return renderFormattedText(message);
 }
 
 const systemMessageRenderers = {

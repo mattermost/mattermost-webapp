@@ -1,4 +1,3 @@
-
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
@@ -8,7 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @team_settings
+// Group: @te_only @team_settings
 
 import {generateRandomUser} from '../../support/api/user';
 
@@ -21,11 +20,9 @@ describe('Team Settings', () => {
     const emailDomain = 'gmail.com';
 
     before(() => {
-        // # Delete license
-        cy.apiDeleteLicense();
+        cy.shouldRunOnTeamEdition();
 
-        // # Disable LDAP and do email test if setup properly
-        cy.apiUpdateConfig({LdapSettings: {Enable: false}});
+        // # Do email test if setup properly
         cy.apiEmailTest();
 
         cy.apiInitSetup().then(({team}) => {

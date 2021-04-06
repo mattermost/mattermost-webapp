@@ -35,21 +35,6 @@ describe('System Console - Enterprise', () => {
             url: 'admin_console/user_management/permissions',
         },
         {
-            header: 'Elasticsearch',
-            sidebar: 'Elasticsearch',
-            url: 'admin_console/environment/elasticsearch',
-        },
-        {
-            header: 'High Availability',
-            sidebar: 'High Availability',
-            url: 'admin_console/environment/high_availability',
-        },
-        {
-            header: 'Performance Monitoring',
-            sidebar: 'Performance Monitoring',
-            url: 'admin_console/environment/performance_monitoring',
-        },
-        {
             header: 'Announcement Banner',
             sidebar: 'Announcement Banner',
             url: 'admin_console/site_config/announcement_banner',
@@ -65,9 +50,9 @@ describe('System Console - Enterprise', () => {
             url: 'admin_console/authentication/saml',
         },
         {
-            header: 'OAuth 2.0',
-            sidebar: 'OAuth 2.0',
-            url: 'admin_console/authentication/oauth',
+            header: 'OpenID Connect',
+            sidebar: 'OpenID Connect',
+            url: 'admin_console/authentication/openid',
         },
         {
             header: 'Guest Access (Beta)',

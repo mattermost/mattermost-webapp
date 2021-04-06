@@ -1,0 +1,426 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/SingleImageView should match snapshot 1`] = `
+<div
+  className="file-view--single"
+>
+  <div
+    className="file__image"
+  >
+    <div
+      className="image-name"
+      data-testid="image-name"
+    >
+      <div
+        onClick={[Function]}
+      >
+        name
+      </div>
+      <button
+        aria-label="Toggle Embed Visibility"
+        className="style--none post__embed-visibility"
+        data-expanded={true}
+        key="toggle"
+        onClick={[Function]}
+      />
+    </div>
+    <div
+      className="image-container"
+      style={Object {}}
+    >
+      <div
+        className="image-loaded  "
+        style={Object {}}
+      >
+        <SizeAwareImage
+          className=""
+          dimensions={
+            Object {
+              "height": 200,
+              "width": 350,
+            }
+          }
+          fileInfo={
+            Object {
+              "clientId": "client_id",
+              "create_at": 1,
+              "delete_at": 1,
+              "extension": "jpg",
+              "has_preview_image": true,
+              "height": 200,
+              "id": "file_info_id",
+              "mime_type": "mime_type",
+              "name": "name",
+              "size": 1,
+              "update_at": 1,
+              "user_id": "user_id",
+              "width": 350,
+            }
+          }
+          handleSmallImageContainer={true}
+          onClick={[Function]}
+          onImageLoaded={[Function]}
+          showLoader={true}
+          src="/api/v4/files/file_info_id/preview"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/SingleImageView should match snapshot 2`] = `
+<div
+  className="file-view--single"
+>
+  <div
+    className="file__image"
+  >
+    <div
+      className="image-name"
+      data-testid="image-name"
+    >
+      <div
+        onClick={[Function]}
+      >
+        name
+      </div>
+      <button
+        aria-label="Toggle Embed Visibility"
+        className="style--none post__embed-visibility"
+        data-expanded={true}
+        key="toggle"
+        onClick={[Function]}
+      />
+    </div>
+    <div
+      className="image-container"
+      style={Object {}}
+    >
+      <div
+        className="image-loaded image-fade-in "
+        style={Object {}}
+      >
+        <SizeAwareImage
+          className=""
+          dimensions={
+            Object {
+              "height": 200,
+              "width": 350,
+            }
+          }
+          fileInfo={
+            Object {
+              "clientId": "client_id",
+              "create_at": 1,
+              "delete_at": 1,
+              "extension": "jpg",
+              "has_preview_image": true,
+              "height": 200,
+              "id": "file_info_id",
+              "mime_type": "mime_type",
+              "name": "name",
+              "size": 1,
+              "update_at": 1,
+              "user_id": "user_id",
+              "width": 350,
+            }
+          }
+          handleSmallImageContainer={true}
+          onClick={[Function]}
+          onImageLoaded={[Function]}
+          showLoader={true}
+          src="/api/v4/files/file_info_id/preview"
+        />
+      </div>
+    </div>
+    <Connect(ViewImageModal)
+      fileInfos={
+        Array [
+          Object {
+            "clientId": "client_id",
+            "create_at": 1,
+            "delete_at": 1,
+            "extension": "jpg",
+            "has_preview_image": true,
+            "height": 200,
+            "id": "file_info_id",
+            "mime_type": "mime_type",
+            "name": "name",
+            "size": 1,
+            "update_at": 1,
+            "user_id": "user_id",
+            "width": 350,
+          },
+        ]
+      }
+      onModalDismissed={[Function]}
+      postId="original_post_id"
+      show={false}
+    />
+  </div>
+</div>
+`;
+
+exports[`components/SingleImageView should match snapshot, SVG image 1`] = `
+<div
+  className="file-view--single"
+>
+  <div
+    className="file__image"
+  >
+    <div
+      className="image-name"
+      data-testid="image-name"
+    >
+      <div
+        onClick={[Function]}
+      >
+        name_svg
+      </div>
+      <button
+        aria-label="Toggle Embed Visibility"
+        className="style--none post__embed-visibility"
+        data-expanded={true}
+        key="toggle"
+        onClick={[Function]}
+      />
+    </div>
+    <div
+      className="image-container"
+      style={Object {}}
+    >
+      <div
+        className="image-loaded  svg"
+        style={
+          Object {
+            "width": "100%",
+          }
+        }
+      >
+        <SizeAwareImage
+          className=""
+          dimensions={
+            Object {
+              "height": 200,
+              "width": 350,
+            }
+          }
+          fileInfo={
+            Object {
+              "clientId": "client_id",
+              "create_at": 1,
+              "delete_at": 1,
+              "extension": "svg",
+              "has_preview_image": true,
+              "height": 200,
+              "id": "svg_file_info_id",
+              "mime_type": "mime_type",
+              "name": "name_svg",
+              "size": 1,
+              "update_at": 1,
+              "user_id": "user_id",
+              "width": 350,
+            }
+          }
+          handleSmallImageContainer={true}
+          onClick={[Function]}
+          onImageLoaded={[Function]}
+          showLoader={true}
+          src="/api/v4/files/svg_file_info_id/preview"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/SingleImageView should match snapshot, SVG image 2`] = `
+<div
+  className="file-view--single"
+>
+  <div
+    className="file__image"
+  >
+    <div
+      className="image-name"
+      data-testid="image-name"
+    >
+      <div
+        onClick={[Function]}
+      >
+        name_svg
+      </div>
+      <button
+        aria-label="Toggle Embed Visibility"
+        className="style--none post__embed-visibility"
+        data-expanded={true}
+        key="toggle"
+        onClick={[Function]}
+      />
+    </div>
+    <div
+      className="image-container"
+      style={Object {}}
+    >
+      <div
+        className="image-loaded image-fade-in svg"
+        style={
+          Object {
+            "width": "100%",
+          }
+        }
+      >
+        <SizeAwareImage
+          className=""
+          dimensions={
+            Object {
+              "height": 200,
+              "width": 350,
+            }
+          }
+          fileInfo={
+            Object {
+              "clientId": "client_id",
+              "create_at": 1,
+              "delete_at": 1,
+              "extension": "svg",
+              "has_preview_image": true,
+              "height": 200,
+              "id": "svg_file_info_id",
+              "mime_type": "mime_type",
+              "name": "name_svg",
+              "size": 1,
+              "update_at": 1,
+              "user_id": "user_id",
+              "width": 350,
+            }
+          }
+          handleSmallImageContainer={true}
+          onClick={[Function]}
+          onImageLoaded={[Function]}
+          showLoader={true}
+          src="/api/v4/files/svg_file_info_id/preview"
+        />
+      </div>
+    </div>
+    <Connect(ViewImageModal)
+      fileInfos={
+        Array [
+          Object {
+            "clientId": "client_id",
+            "create_at": 1,
+            "delete_at": 1,
+            "extension": "svg",
+            "has_preview_image": true,
+            "height": 200,
+            "id": "svg_file_info_id",
+            "mime_type": "mime_type",
+            "name": "name_svg",
+            "size": 1,
+            "update_at": 1,
+            "user_id": "user_id",
+            "width": 350,
+          },
+        ]
+      }
+      onModalDismissed={[Function]}
+      postId="original_post_id"
+      show={false}
+    />
+  </div>
+</div>
+`;
+
+exports[`components/SingleImageView should set loaded state on callback of onImageLoaded on SizeAwareImage component 1`] = `
+<div
+  className="file-view--single"
+>
+  <div
+    className="file__image"
+  >
+    <div
+      className="image-name"
+      data-testid="image-name"
+    >
+      <div
+        onClick={[Function]}
+      >
+        name
+      </div>
+      <button
+        aria-label="Toggle Embed Visibility"
+        className="style--none post__embed-visibility"
+        data-expanded={true}
+        key="toggle"
+        onClick={[Function]}
+      />
+    </div>
+    <div
+      className="image-container"
+      style={Object {}}
+    >
+      <div
+        className="image-loaded image-fade-in "
+        style={Object {}}
+      >
+        <SizeAwareImage
+          className=""
+          dimensions={
+            Object {
+              "height": 200,
+              "width": 350,
+            }
+          }
+          fileInfo={
+            Object {
+              "clientId": "client_id",
+              "create_at": 1,
+              "delete_at": 1,
+              "extension": "jpg",
+              "has_preview_image": true,
+              "height": 200,
+              "id": "file_info_id",
+              "mime_type": "mime_type",
+              "name": "name",
+              "size": 1,
+              "update_at": 1,
+              "user_id": "user_id",
+              "width": 350,
+            }
+          }
+          handleSmallImageContainer={true}
+          onClick={[Function]}
+          onImageLoaded={[Function]}
+          showLoader={true}
+          src="/api/v4/files/file_info_id/preview"
+        />
+      </div>
+    </div>
+    <Connect(ViewImageModal)
+      fileInfos={
+        Array [
+          Object {
+            "clientId": "client_id",
+            "create_at": 1,
+            "delete_at": 1,
+            "extension": "jpg",
+            "has_preview_image": true,
+            "height": 200,
+            "id": "file_info_id",
+            "mime_type": "mime_type",
+            "name": "name",
+            "size": 1,
+            "update_at": 1,
+            "user_id": "user_id",
+            "width": 350,
+          },
+        ]
+      }
+      onModalDismissed={[Function]}
+      postId="original_post_id"
+      show={false}
+    />
+  </div>
+</div>
+`;

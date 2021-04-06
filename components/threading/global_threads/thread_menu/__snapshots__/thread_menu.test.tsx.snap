@@ -1,0 +1,495 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/threading/common/thread_menu should match snapshot 1`] = `
+<Memo(ThreadMenu)
+  actions={
+    Object {
+      "copyLink": [MockFunction],
+      "follow": [MockFunction],
+      "markRead": [MockFunction],
+      "markUnread": [MockFunction],
+      "openInChannel": [MockFunction],
+      "save": [MockFunction],
+      "unFollow": [MockFunction],
+      "unSave": [MockFunction],
+    }
+  }
+  hasUnreads={false}
+  isFollowing={false}
+  isSaved={false}
+>
+  <MenuWrapper
+    animationComponent={[Function]}
+    className=""
+    stopPropagationOnToggle={true}
+  >
+    <div
+      className="MenuWrapper "
+      onClick={[Function]}
+    >
+      <Memo(SimpleTooltip)
+        content="Actions"
+        id="threadActionMenu"
+      >
+        <OverlayTrigger
+          defaultOverlayShown={false}
+          delayShow={500}
+          overlay={
+            <Tooltip
+              bsClass="tooltip"
+              className="hidden-xs"
+              id="threadActionMenu"
+              placement="top"
+            >
+              Actions
+            </Tooltip>
+          }
+          placement="top"
+          trigger={
+            Array [
+              "hover",
+              "focus",
+            ]
+          }
+        >
+          <OverlayTrigger
+            defaultOverlayShown={false}
+            delayShow={500}
+            overlay={
+              <OverlayWrapper
+                bsClass="tooltip"
+                className="hidden-xs"
+                id="threadActionMenu"
+                intl={
+                  Object {
+                    "defaultFormats": Object {},
+                    "defaultLocale": "en",
+                    "formatDate": [Function],
+                    "formatDateToParts": [Function],
+                    "formatDisplayName": [Function],
+                    "formatList": [Function],
+                    "formatMessage": [Function],
+                    "formatNumber": [Function],
+                    "formatNumberToParts": [Function],
+                    "formatPlural": [Function],
+                    "formatRelativeTime": [Function],
+                    "formatTime": [Function],
+                    "formatTimeToParts": [Function],
+                    "formats": Object {},
+                    "formatters": Object {
+                      "getDateTimeFormat": [Function],
+                      "getDisplayNames": [Function],
+                      "getListFormat": [Function],
+                      "getMessageFormat": [Function],
+                      "getNumberFormat": [Function],
+                      "getPluralRules": [Function],
+                      "getRelativeTimeFormat": [Function],
+                    },
+                    "locale": "en",
+                    "messages": Object {},
+                    "onError": [Function],
+                    "textComponent": "span",
+                    "timeZone": "Etc/UTC",
+                    "wrapRichTextChunksInFragment": undefined,
+                  }
+                }
+                placement="top"
+              >
+                Actions
+              </OverlayWrapper>
+            }
+            placement="top"
+            trigger={
+              Array [
+                "hover",
+                "focus",
+              ]
+            }
+          >
+            <Memo(Button)
+              onBlur={[Function]}
+              onClick={null}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+            >
+              <button
+                className="Button Button___transparent"
+                onBlur={[Function]}
+                onClick={null}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+              >
+                <span
+                  className="Button_label"
+                >
+                  <i
+                    className="icon icon-dots-vertical"
+                  />
+                </span>
+              </button>
+            </Memo(Button)>
+          </OverlayTrigger>
+        </OverlayTrigger>
+      </Memo(SimpleTooltip)>
+      <MenuWrapperAnimation
+        show={false}
+      >
+        <CSSTransition
+          classNames="MenuWrapperAnimation"
+          enter={true}
+          exit={true}
+          in={false}
+          mountOnEnter={true}
+          timeout={80}
+          unmountOnExit={true}
+        >
+          <Transition
+            appear={false}
+            enter={true}
+            exit={true}
+            in={false}
+            mountOnEnter={true}
+            onEnter={[Function]}
+            onEntered={[Function]}
+            onEntering={[Function]}
+            onExit={[Function]}
+            onExited={[Function]}
+            onExiting={[Function]}
+            timeout={80}
+            unmountOnExit={true}
+          />
+        </CSSTransition>
+      </MenuWrapperAnimation>
+    </div>
+  </MenuWrapper>
+</Memo(ThreadMenu)>
+`;
+
+exports[`components/threading/common/thread_menu should match snapshot after opening 1`] = `
+<Memo(ThreadMenu)
+  actions={
+    Object {
+      "copyLink": [MockFunction],
+      "follow": [MockFunction],
+      "markRead": [MockFunction],
+      "markUnread": [MockFunction],
+      "openInChannel": [MockFunction],
+      "save": [MockFunction],
+      "unFollow": [MockFunction],
+      "unSave": [MockFunction],
+    }
+  }
+  hasUnreads={false}
+  isFollowing={false}
+  isSaved={false}
+>
+  <MenuWrapper
+    animationComponent={[Function]}
+    className=""
+    stopPropagationOnToggle={true}
+  >
+    <div
+      className="MenuWrapper "
+      onClick={[Function]}
+    >
+      <Memo(SimpleTooltip)
+        content="Actions"
+        id="threadActionMenu"
+      >
+        <OverlayTrigger
+          defaultOverlayShown={false}
+          delayShow={500}
+          overlay={
+            <Tooltip
+              bsClass="tooltip"
+              className="hidden-xs"
+              id="threadActionMenu"
+              placement="top"
+            >
+              Actions
+            </Tooltip>
+          }
+          placement="top"
+          trigger={
+            Array [
+              "hover",
+              "focus",
+            ]
+          }
+        >
+          <OverlayTrigger
+            defaultOverlayShown={false}
+            delayShow={500}
+            overlay={
+              <OverlayWrapper
+                bsClass="tooltip"
+                className="hidden-xs"
+                id="threadActionMenu"
+                intl={
+                  Object {
+                    "defaultFormats": Object {},
+                    "defaultLocale": "en",
+                    "formatDate": [Function],
+                    "formatDateToParts": [Function],
+                    "formatDisplayName": [Function],
+                    "formatList": [Function],
+                    "formatMessage": [Function],
+                    "formatNumber": [Function],
+                    "formatNumberToParts": [Function],
+                    "formatPlural": [Function],
+                    "formatRelativeTime": [Function],
+                    "formatTime": [Function],
+                    "formatTimeToParts": [Function],
+                    "formats": Object {},
+                    "formatters": Object {
+                      "getDateTimeFormat": [Function],
+                      "getDisplayNames": [Function],
+                      "getListFormat": [Function],
+                      "getMessageFormat": [Function],
+                      "getNumberFormat": [Function],
+                      "getPluralRules": [Function],
+                      "getRelativeTimeFormat": [Function],
+                    },
+                    "locale": "en",
+                    "messages": Object {},
+                    "onError": [Function],
+                    "textComponent": "span",
+                    "timeZone": "Etc/UTC",
+                    "wrapRichTextChunksInFragment": undefined,
+                  }
+                }
+                placement="top"
+              >
+                Actions
+              </OverlayWrapper>
+            }
+            placement="top"
+            trigger={
+              Array [
+                "hover",
+                "focus",
+              ]
+            }
+          >
+            <Memo(Button)
+              onBlur={[Function]}
+              onClick={null}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+            >
+              <button
+                className="Button Button___transparent"
+                onBlur={[Function]}
+                onClick={null}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+              >
+                <span
+                  className="Button_label"
+                >
+                  <i
+                    className="icon icon-dots-vertical"
+                  />
+                </span>
+              </button>
+            </Memo(Button)>
+          </OverlayTrigger>
+        </OverlayTrigger>
+      </Memo(SimpleTooltip)>
+      <MenuWrapperAnimation
+        show={true}
+      >
+        <CSSTransition
+          classNames="MenuWrapperAnimation"
+          enter={true}
+          exit={true}
+          in={true}
+          mountOnEnter={true}
+          timeout={80}
+          unmountOnExit={true}
+        >
+          <Transition
+            appear={false}
+            enter={true}
+            exit={true}
+            in={true}
+            mountOnEnter={true}
+            onEnter={[Function]}
+            onEntered={[Function]}
+            onEntering={[Function]}
+            onExit={[Function]}
+            onExited={[Function]}
+            onExiting={[Function]}
+            timeout={80}
+            unmountOnExit={true}
+          >
+            <Menu
+              ariaLabel=""
+              openLeft={true}
+            >
+              <div
+                aria-label=""
+                className="a11y__popup Menu"
+                role="menu"
+              >
+                <ul
+                  className="Menu__content dropdown-menu"
+                  onClick={[Function]}
+                  style={
+                    Object {
+                      "left": "inherit",
+                      "right": 0,
+                    }
+                  }
+                >
+                  <MenuItemAction
+                    extraText="You will be notified about replies"
+                    onClick={[MockFunction]}
+                    show={true}
+                    text="Follow thread"
+                  >
+                    <li
+                      className="MenuItem"
+                      role="menuitem"
+                    >
+                      <MenuItemActionImpl
+                        extraText="You will be notified about replies"
+                        onClick={[MockFunction]}
+                        text="Follow thread"
+                      >
+                        <button
+                          className="style--none MenuItem__with-help"
+                          onClick={[MockFunction]}
+                        >
+                          <span
+                            className="MenuItem__primary-text"
+                          >
+                            Follow thread
+                          </span>
+                          <span
+                            className="MenuItem__help-text"
+                          >
+                            You will be notified about replies
+                          </span>
+                        </button>
+                      </MenuItemActionImpl>
+                    </li>
+                  </MenuItemAction>
+                  <MenuItemAction
+                    onClick={[MockFunction]}
+                    show={true}
+                    text="Open in channel"
+                  >
+                    <li
+                      className="MenuItem"
+                      role="menuitem"
+                    >
+                      <MenuItemActionImpl
+                        onClick={[MockFunction]}
+                        text="Open in channel"
+                      >
+                        <button
+                          className="style--none"
+                          onClick={[MockFunction]}
+                        >
+                          <span
+                            className="MenuItem__primary-text"
+                          >
+                            Open in channel
+                          </span>
+                        </button>
+                      </MenuItemActionImpl>
+                    </li>
+                  </MenuItemAction>
+                  <MenuItemAction
+                    onClick={[MockFunction]}
+                    show={true}
+                    text="Mark as unread"
+                  >
+                    <li
+                      className="MenuItem"
+                      role="menuitem"
+                    >
+                      <MenuItemActionImpl
+                        onClick={[MockFunction]}
+                        text="Mark as unread"
+                      >
+                        <button
+                          className="style--none"
+                          onClick={[MockFunction]}
+                        >
+                          <span
+                            className="MenuItem__primary-text"
+                          >
+                            Mark as unread
+                          </span>
+                        </button>
+                      </MenuItemActionImpl>
+                    </li>
+                  </MenuItemAction>
+                  <MenuItemAction
+                    onClick={[MockFunction]}
+                    show={true}
+                    text="Save"
+                  >
+                    <li
+                      className="MenuItem"
+                      role="menuitem"
+                    >
+                      <MenuItemActionImpl
+                        onClick={[MockFunction]}
+                        text="Save"
+                      >
+                        <button
+                          className="style--none"
+                          onClick={[MockFunction]}
+                        >
+                          <span
+                            className="MenuItem__primary-text"
+                          >
+                            Save
+                          </span>
+                        </button>
+                      </MenuItemActionImpl>
+                    </li>
+                  </MenuItemAction>
+                  <MenuItemAction
+                    onClick={[MockFunction]}
+                    show={true}
+                    text="Copy link"
+                  >
+                    <li
+                      className="MenuItem"
+                      role="menuitem"
+                    >
+                      <MenuItemActionImpl
+                        onClick={[MockFunction]}
+                        text="Copy link"
+                      >
+                        <button
+                          className="style--none"
+                          onClick={[MockFunction]}
+                        >
+                          <span
+                            className="MenuItem__primary-text"
+                          >
+                            Copy link
+                          </span>
+                        </button>
+                      </MenuItemActionImpl>
+                    </li>
+                  </MenuItemAction>
+                </ul>
+              </div>
+            </Menu>
+          </Transition>
+        </CSSTransition>
+      </MenuWrapperAnimation>
+    </div>
+  </MenuWrapper>
+</Memo(ThreadMenu)>
+`;

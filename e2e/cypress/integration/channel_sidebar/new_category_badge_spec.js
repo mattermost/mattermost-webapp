@@ -14,12 +14,6 @@ import {getRandomId} from '../../utils';
 
 describe('New category badge', () => {
     before(() => {
-        cy.apiUpdateConfig({
-            ServiceSettings: {
-                ExperimentalChannelSidebarOrganization: 'default_on',
-            },
-        });
-
         // # Login as test user and visit town-square
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
             cy.visit(`/${team.name}/channels/town-square`);
@@ -32,26 +26,31 @@ describe('New category badge', () => {
         // # Create a new category
         cy.uiCreateSidebarCategory(categoryName).as('newCategory');
 
-        // * Verify that the new category has been added to the sidebar and that it has the required badge and drop target
-        cy.get('@newCategory').should('be.visible');
-        cy.get('@newCategory').find('.SidebarCategory_newLabel').should('be.visible');
-        cy.get('@newCategory').find('.SidebarCategory_newDropBox').should('be.visible');
+        cy.contains('.SidebarChannelGroup', categoryName, {matchCase: false}).within(() => {
+            // * Verify that the new category has been added to the sidebar and that it has the required badge and drop target
+            cy.get('.SidebarCategory_newLabel').should('be.visible');
+            cy.get('.SidebarCategory_newDropBox').should('be.visible');
+        });
 
         // # Move Town Square into the new category
         cy.uiMoveChannelToCategory('town-square', categoryName);
 
-        // * Verify that the new category badge and drop target have been removed
-        cy.get('@newCategory').find('.SidebarCategory_newLabel').should('not.exist');
-        cy.get('@newCategory').find('.SidebarCategory_newDropBox').should('not.exist');
+        cy.contains('.SidebarChannelGroup', categoryName, {matchCase: false}).within(() => {
+            // * Verify that the new category badge and drop target have been removed
+            cy.get('.SidebarCategory_newLabel').should('not.exist');
+            cy.get('.SidebarCategory_newDropBox').should('not.exist');
+        });
 
         // # Move Town Square out of the new category
         cy.uiMoveChannelToCategory('town-square', 'Channels');
 
-        // * Verify that Town Square has moved out of the new category
-        cy.get('@newCategory').find('#sidebarItem_town-square').should('not.exist');
+        cy.contains('.SidebarChannelGroup', categoryName, {matchCase: false}).within(() => {
+            // * Verify that Town Square has moved out of the new category
+            cy.get('#sidebarItem_town-square').should('not.exist');
 
-        // * Verify that the new category badge and drop target did not reappear
-        cy.get('@newCategory').find('.SidebarCategory_newLabel').should('not.exist');
-        cy.get('@newCategory').find('.SidebarCategory_newDropBox').should('not.exist');
+            // * Verify that the new category badge and drop target did not reappear
+            cy.get('.SidebarCategory_newLabel').should('not.exist');
+            cy.get('.SidebarCategory_newDropBox').should('not.exist');
+        });
     });
 });

@@ -6,6 +6,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @enterprise @system_console @group_mentions
 
 import ldapUsers from '../../../fixtures/ldap_users.json';
@@ -130,10 +131,10 @@ describe('Group Mentions', () => {
             cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').clear().type(`@${groupName}`).wait(TIMEOUTS.TWO_SEC);
 
             // * Verify if autocomplete dropdown is not displayed
-            cy.get('#suggestionList').should('not.be.visible');
+            cy.get('#suggestionList').should('not.exist');
 
             // # Submit a post containing the group mention
-            cy.postMessage(`@${groupName}`);
+            cy.postMessage(`@${groupName} hello {enter}`);
 
             // * Verify if a system message is not displayed
             cy.getLastPostId().then((postId) => {
@@ -167,7 +168,7 @@ describe('Group Mentions', () => {
             });
 
             // # Submit a post containing the group mention
-            cy.postMessage(`@${groupName}`);
+            cy.postMessage(`@${groupName} hello {enter}`);
 
             // * Verify if a system message is displayed
             cy.getLastPostId().then((postId) => {
@@ -207,10 +208,10 @@ describe('Group Mentions', () => {
                 cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').clear().type(`@${groupName}`).wait(TIMEOUTS.TWO_SEC);
 
                 // * Verify if autocomplete dropdown is not displayed
-                cy.get('#suggestionList').should('not.be.visible');
+                cy.get('#suggestionList').should('not.exist');
 
                 // # Submit a post containing the group mention
-                cy.postMessage(`@${groupName}`);
+                cy.postMessage(`@${groupName} hello {enter}`);
 
                 // * Verify if a system message is not displayed
                 cy.getLastPostId().then((postId) => {
@@ -244,7 +245,7 @@ describe('Group Mentions', () => {
                 });
 
                 // # Submit a post containing the group mention
-                cy.postMessage(`@${groupName}`);
+                cy.postMessage(`@${groupName} hello {enter}`);
 
                 // * Verify if a system message is displayed
                 cy.getLastPostId().then((postId) => {
@@ -295,10 +296,10 @@ describe('Group Mentions', () => {
                 cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').clear().type(`@${groupName}`).wait(TIMEOUTS.TWO_SEC);
 
                 // * Verify if autocomplete dropdown is not displayed
-                cy.get('#suggestionList').should('not.be.visible');
+                cy.get('#suggestionList').should('not.exist');
 
                 // # Submit a post containing the group mention
-                cy.postMessage(`@${groupName}`);
+                cy.postMessage(`@${groupName} hello {enter}`);
 
                 // * Verify if a system message is not displayed
                 cy.getLastPostId().then((postId) => {
@@ -332,7 +333,7 @@ describe('Group Mentions', () => {
                 });
 
                 // # Submit a post containing the group mention
-                cy.postMessage(`@${groupName}`);
+                cy.postMessage(`@${groupName} hello {enter}`);
 
                 // * Verify if a system message is displayed
                 cy.getLastPostId().then((postId) => {

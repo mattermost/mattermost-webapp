@@ -7,7 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @outgoing_webhook
+
 /* eslint-disable max-lines */
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
@@ -70,8 +72,7 @@ describe('Outgoing webhook', () => {
         // # Define outgoing webhook
         // * Go to test team/channel, open main menu and click "Integrations"
         cy.visit(`${testTeam.name}/channels/${testChannel.name}`);
-        cy.get('#sidebarHeaderDropdownButton', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').click();
-        cy.get('.Menu__content').should('be.visible').findByText('Integrations').click();
+        cy.uiOpenMainMenu('Integrations');
 
         // * Verify that it redirects to integrations URL. Then, click "Outgoing Webhooks"
         cy.url().should('include', `${testTeam.name}/integrations`);
@@ -148,8 +149,7 @@ describe('Outgoing webhook', () => {
         // # Define outgoing webhook
         // * Go to test team/channel, open main menu and click "Integrations"
         cy.visit(`${testTeam.name}/channels/${testChannel.name}`);
-        cy.get('#sidebarHeaderDropdownButton', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').click();
-        cy.get('.Menu__content').should('be.visible').findByText('Integrations').click();
+        cy.uiOpenMainMenu('Integrations');
 
         // * Verify that it redirects to integrations URL. Then, click "Outgoing Webhooks"
         cy.url().should('include', `${testTeam.name}/integrations`);
@@ -186,8 +186,7 @@ describe('Outgoing webhook', () => {
 
         // # Go to test team/channel, open main menu and click "Integrations"
         cy.visit(`${testTeam.name}/channels/${testChannel.name}`);
-        cy.get('#sidebarHeaderDropdownButton', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').click();
-        cy.get('.Menu__content').should('be.visible').findByText('Integrations').click();
+        cy.uiOpenMainMenu('Integrations');
 
         // * click "Outgoing Webhooks"
         cy.get('.backstage-sidebar').should('be.visible').findByText('Outgoing Webhooks').click();
@@ -202,7 +201,7 @@ describe('Outgoing webhook', () => {
         cy.get('.backstage-form').should('be.visible').within(() => {
             cy.get('#iconURL').scrollIntoView().type(webhookIconUrlOverride);
             cy.get('#channelSelect').select(noChannelSelectionOption);
-            cy.get('#saveWebhook').click();
+            cy.get('#saveWebhook').click().wait(TIMEOUTS.ONE_SEC);
         });
 
         // # Click back to site name and verify that it redirects to test team/channel
@@ -212,7 +211,6 @@ describe('Outgoing webhook', () => {
         // # Post a message in a channel
         cy.apiLogin(testUser);
         cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.wait(TIMEOUTS.HALF_SEC);
         cy.postMessage(triggerWordExpanded);
         cy.uiWaitUntilMessagePostedIncludes(triggerWord);
         cy.uiWaitUntilMessagePostedIncludes('#### Outgoing Webhook Payload');
@@ -238,8 +236,7 @@ describe('Outgoing webhook', () => {
         // # Define outgoing webhook
         // * Go to test team/channel, open main menu and click "Integrations"
         cy.visit(`${testTeam.name}/channels/${testChannel.name}`);
-        cy.get('#sidebarHeaderDropdownButton', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').click();
-        cy.get('.Menu__content').should('be.visible').findByText('Integrations').click();
+        cy.uiOpenMainMenu('Integrations');
 
         // * Verify that it redirects to integrations URL. Then, click "Outgoing Webhooks"
         cy.url().should('include', `${testTeam.name}/integrations`);
@@ -275,8 +272,7 @@ describe('Outgoing webhook', () => {
 
         // # Go to test team/channel, open main menu and click "Integrations"
         cy.visit(`${testTeam.name}/channels/${testChannel.name}`);
-        cy.get('#sidebarHeaderDropdownButton', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').click();
-        cy.get('.Menu__content').should('be.visible').findByText('Integrations').click();
+        cy.uiOpenMainMenu('Integrations');
 
         // * click "Outgoing Webhooks"
         cy.get('.backstage-sidebar').should('be.visible').findByText('Outgoing Webhooks').click();
@@ -301,7 +297,6 @@ describe('Outgoing webhook', () => {
         // # Post a message in a channel
         cy.apiLogin(testUser);
         cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.wait(TIMEOUTS.HALF_SEC);
         cy.postMessage(triggerWordExpanded);
         cy.uiWaitUntilMessagePostedIncludes(triggerWord);
         cy.uiWaitUntilMessagePostedIncludes('#### Outgoing Webhook Payload');
@@ -327,8 +322,7 @@ describe('Outgoing webhook', () => {
         // # Define outgoing webhook
         // * Go to test team/channel, open main menu and click "Integrations"
         cy.visit(`${testTeam.name}/channels/${testChannel.name}`);
-        cy.get('#sidebarHeaderDropdownButton', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').click();
-        cy.get('.Menu__content').should('be.visible').findByText('Integrations').click();
+        cy.uiOpenMainMenu('Integrations');
 
         // * Verify that it redirects to integrations URL. Then, click "Outgoing Webhooks"
         cy.url().should('include', `${testTeam.name}/integrations`);
@@ -364,8 +358,7 @@ describe('Outgoing webhook', () => {
 
         // # Go to test team/channel, open main menu and click "Integrations"
         cy.visit(`${testTeam.name}/channels/${testChannel.name}`);
-        cy.get('#sidebarHeaderDropdownButton', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').click();
-        cy.get('.Menu__content').should('be.visible').findByText('Integrations').click();
+        cy.uiOpenMainMenu('Integrations');
 
         // * click "Outgoing Webhooks"
         cy.get('.backstage-sidebar').should('be.visible').findByText('Outgoing Webhooks').click();
@@ -391,7 +384,6 @@ describe('Outgoing webhook', () => {
         // # Post a message in a channel by user1
         cy.apiLogin(testUser);
         cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.wait(TIMEOUTS.HALF_SEC);
         cy.postMessage(triggerWordExpanded);
         cy.uiWaitUntilMessagePostedIncludes(triggerWord);
         cy.uiWaitUntilMessagePostedIncludes('#### Outgoing Webhook Payload');
@@ -436,8 +428,7 @@ describe('Outgoing webhook', () => {
         // # Define outgoing webhook
         // * Go to test team/channel, open main menu and click "Integrations"
         cy.visit(`${testTeam.name}/channels/${testChannel.name}`);
-        cy.get('#sidebarHeaderDropdownButton', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').click();
-        cy.get('.Menu__content').should('be.visible').findByText('Integrations').click();
+        cy.uiOpenMainMenu('Integrations');
 
         // * Verify that it redirects to integrations URL. Then, click "Outgoing Webhooks"
         cy.url().should('include', `${testTeam.name}/integrations`);
@@ -469,8 +460,7 @@ describe('Outgoing webhook', () => {
 
         // # Go to test team/channel, open main menu and click "Integrations"
         cy.visit(`${testTeam.name}/channels/${testChannel.name}`);
-        cy.get('#sidebarHeaderDropdownButton', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').click();
-        cy.get('.Menu__content').should('be.visible').findByText('Integrations').click();
+        cy.uiOpenMainMenu('Integrations');
 
         // * click "Outgoing Webhooks"
         cy.get('.backstage-sidebar').should('be.visible').findByText('Outgoing Webhooks').click();
@@ -496,7 +486,6 @@ describe('Outgoing webhook', () => {
         // # Post a message in a channel by user1
         cy.apiLogin(testUser);
         cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.wait(TIMEOUTS.HALF_SEC);
         cy.postMessage(triggerWordExpanded);
         cy.uiWaitUntilMessagePostedIncludes(triggerWord);
         cy.uiWaitUntilMessagePostedIncludes('#### Outgoing Webhook Payload');
@@ -510,8 +499,7 @@ describe('Outgoing webhook', () => {
         // # Define outgoing webhook
         // * Go to test team/channel, open main menu and click "Integrations"
         cy.visit(`${testTeam.name}/channels/${testChannel.name}`);
-        cy.get('#sidebarHeaderDropdownButton', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').click();
-        cy.get('.Menu__content').should('be.visible').findByText('Integrations').click();
+        cy.uiOpenMainMenu('Integrations');
 
         // * Verify that it redirects to integrations URL. Then, click "Outgoing Webhooks"
         cy.url().should('include', `${testTeam.name}/integrations`);
@@ -544,7 +532,6 @@ describe('Outgoing webhook', () => {
         // # Post a message in a channel by user1
         cy.apiLogin(testUser);
         cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.wait(TIMEOUTS.HALF_SEC);
         cy.postMessage(triggerWordExpanded);
         cy.uiWaitUntilMessagePostedIncludes(triggerWord);
         cy.uiWaitUntilMessagePostedIncludes('#### Outgoing Webhook Payload');
@@ -567,8 +554,7 @@ describe('Outgoing webhook', () => {
         // # Define outgoing webhook
         // * Go to test team/channel, open main menu and click "Integrations"
         cy.visit(`${testTeam.name}/channels/${testChannel.name}`);
-        cy.get('#sidebarHeaderDropdownButton', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').click();
-        cy.get('.Menu__content').should('be.visible').findByText('Integrations').click();
+        cy.uiOpenMainMenu('Integrations');
 
         // * Verify that it redirects to integrations URL. Then, click "Outgoing Webhooks"
         cy.url().should('include', `${testTeam.name}/integrations`);
@@ -609,7 +595,6 @@ describe('Outgoing webhook', () => {
         // # Post a message in a channel
         cy.apiLogin(testUser);
         cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.wait(TIMEOUTS.HALF_SEC);
         cy.postMessage(triggerWordExpanded);
         cy.uiWaitUntilMessagePostedIncludes(triggerWord);
         cy.uiWaitUntilMessagePostedIncludes('#### Outgoing Webhook Payload');
