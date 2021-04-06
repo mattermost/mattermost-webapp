@@ -210,7 +210,7 @@ export default class ChannelHeaderPlug extends React.PureComponent<ChannelHeader
 
         if (components.length === 0) {
             return null;
-        } else if (components.length <= 5) {
+        } else if (components.length <= 15) {
             return components.map(this.createButton);
         }
 
