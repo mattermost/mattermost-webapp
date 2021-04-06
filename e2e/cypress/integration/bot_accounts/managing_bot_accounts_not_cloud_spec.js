@@ -98,7 +98,7 @@ describe('Managing bot accounts', () => {
                 cy.get('#searchInput', {timeout: TIMEOUTS.ONE_MIN}).type(bot.display_name);
 
                 // * Validate that the plugin is still active, even though its owner is disabled
-                cy.get('.bot-list__disabled').should('not.be.visible');
+                cy.get('.bot-list__disabled').should('not.exist');
                 cy.findByText(bot.fullDisplayName).scrollIntoView().should('be.visible');
 
                 cy.visit(`/${newTeam.name}/messages/@sysadmin`);

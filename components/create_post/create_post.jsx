@@ -1433,6 +1433,7 @@ class CreatePost extends React.PureComponent {
                     onUploadError={this.handleUploadError}
                     onUploadProgress={this.handleUploadProgress}
                     postType='post'
+                    channelId={currentChannel.id}
                 />
             );
         }

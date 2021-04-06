@@ -148,7 +148,7 @@ describe('Group Mentions', () => {
             cy.get('#post_textbox').should('be.visible').clear().type(`@${groupName}`).wait(TIMEOUTS.TWO_SEC);
 
             // * Verify if autocomplete dropdown is not displayed
-            cy.get('#suggestionList').should('not.be.visible');
+            cy.get('#suggestionList').should('not.exist');
 
             // # Submit a post containing the group mention
             cy.postMessage(`@${groupName}`);
@@ -219,7 +219,6 @@ describe('Group Mentions', () => {
         // # Trigger DM with couple of users
         cy.uiAddDirectMessage().click();
         cy.get('.more-modal__row.clickable').first().click();
-        cy.get('.more-modal__row.clickable').eq(1).click();
         cy.get('#saveItems').click();
 
         // # Type the Group Name to check if Autocomplete dropdown is displayed

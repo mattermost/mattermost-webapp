@@ -48,7 +48,7 @@ describe('Channels', () => {
             cy.get('#channelHeaderDropdownIcon').click();
 
             // * Channel convert to private should no longer be visible
-            cy.get('#channelConvertToPrivate').should('not.be.visible');
+            cy.get('#channelConvertToPrivate').should('not.exist');
         });
 
         // # Reset permissions to default
@@ -66,7 +66,7 @@ describe('Channels', () => {
             cy.get('#channelHeaderDropdownIcon').click();
 
             // * Channel convert to private should no longer be visible
-            cy.get('#channelConvertToPrivate').should('not.be.visible');
+            cy.get('#channelConvertToPrivate').should('not.exist');
         });
 
         // # Reset permissions to default
@@ -91,7 +91,7 @@ describe('Channels', () => {
             cy.get('#channelHeaderDropdownIcon').click();
 
             // * Channel convert to private should not be visible
-            cy.get('#channelConvertToPrivate').should('not.be.visible');
+            cy.get('#channelConvertToPrivate').should('not.exist');
         });
 
         // # Reset permissions to default
@@ -116,7 +116,7 @@ describe('Channels', () => {
             cy.get('#channelHeaderDropdownIcon').click();
 
             // * Channel convert to private should no longer be visible
-            cy.get('#channelConvertToPrivate').should('not.be.visible');
+            cy.get('#channelConvertToPrivate').should('not.exist');
         });
     });
 });

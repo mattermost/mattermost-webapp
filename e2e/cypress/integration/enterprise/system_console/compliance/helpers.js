@@ -55,7 +55,7 @@ export function editLastPost(message) {
             cy.get('#edit_textbox').invoke('val', '').type(`${message}`).type('{enter}').wait(TIMEOUTS.HALF_SEC);
 
             // * Edit modal should not be visible
-            cy.get('#editPostModal').should('be.not.visible');
+            cy.get('#editPostModal').should('not.exist');
         });
     });
 }

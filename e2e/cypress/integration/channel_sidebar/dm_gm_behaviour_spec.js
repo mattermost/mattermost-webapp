@@ -62,9 +62,13 @@ describe('DM category', () => {
             cy.get(`.SidebarLink:contains(${bot.username})`).should('be.visible');
 
             // * Verify bot icon appears
-            cy.get(`.SidebarLink:contains(${bot.username})`).within(() => {
-                cy.get('i.icon-robot-happy').should('be.visible');
-            });
+            cy.get(`.SidebarLink:contains(${bot.username})`).find('.Avatar').should('exist').
+                and('have.attr', 'src').
+                then((url) => cy.request({url, encoding: 'binary'})).
+                should(({body}) => {
+                    // * Verify it matches default bot avatar
+                    cy.fixture('bot-default-avatar.png', 'binary').should('deep.equal', body);
+                });
         });
     });
 
@@ -90,7 +94,7 @@ describe('DM category', () => {
                 cy.get('#channelCloseMessage').click();
 
                 // * Verify that the DM channel disappears
-                cy.get(`.SidebarLink:contains(${user.username})`).should('not.be.visible');
+                cy.get(`.SidebarLink:contains(${user.username})`).should('not.exist');
 
                 // # Post a message as the new user again
                 cy.postMessageAs({
@@ -163,7 +167,7 @@ describe('DM category', () => {
                     cy.get('#channelCloseMessage').click();
 
                     // * Verify that the GM channel disappears
-                    cy.get(`.SidebarLink:contains(${user.username})`).should('not.be.visible');
+                    cy.get(`.SidebarLink:contains(${user.username})`).should('not.exist');
 
                     // # Post a message as the new user again
                     cy.postMessageAs({
@@ -239,7 +243,7 @@ describe('DM category', () => {
 
                     // * Verify that the GM is in the original category and that it hasn't duplicated in the DM category
                     cy.get(`.SidebarChannelGroup:contains(Category ${user.username})`).find(`#sidebarItem_${channel.name}`).should('be.visible');
-                    cy.get('.SidebarChannelGroup:contains(DIRECT MESSAGES)').find(`#sidebarItem_${channel.name}`).should('not.be.visible');
+                    cy.get('.SidebarChannelGroup:contains(DIRECT MESSAGES)').find(`#sidebarItem_${channel.name}`).should('not.exist');
 
                     // * Verify that we switched to the GM
                     cy.url().should('include', `/messages/${channel.name}`);
