@@ -2,32 +2,26 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {mount} from 'enzyme';
-
-import EmojiMap from 'utils/emoji_map';
+import {shallow} from 'enzyme';
 
 import AppsFormHeader from './apps_form_header';
 
 describe('components/apps_form/AppsFormHeader', () => {
-    const emojiMap = new EmojiMap(new Map());
-
     test('should render message with supported values', () => {
-        const descriptor = {
+        const props = {
             id: 'testsupported',
             value: '**bold** *italic* [link](https://mattermost.com/) <br/> [link target blank](!https://mattermost.com/)',
-            emojiMap,
         };
-        const wrapper = mount(<AppsFormHeader {...descriptor}/>);
+        const wrapper = shallow(<AppsFormHeader {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should not fail on empty value', () => {
-        const descriptor = {
+        const props = {
             id: 'testblankvalue',
             value: '',
-            emojiMap,
         };
-        const wrapper = mount(<AppsFormHeader {...descriptor}/>);
+        const wrapper = shallow(<AppsFormHeader {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 });

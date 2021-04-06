@@ -199,7 +199,6 @@ class AppsFormContainer extends React.PureComponent<Props, State> {
                 form={form}
                 call={call}
                 onHide={this.onHide}
-                emojiMap={this.props.emojiMap}
                 actions={{
                     submit: this.submitForm,
                     performLookupCall: this.performLookupCall,

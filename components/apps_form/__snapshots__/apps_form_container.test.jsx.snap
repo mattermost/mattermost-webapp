@@ -21,12 +21,6 @@ exports[`components/apps_form/AppsFormContainer should match snapshot 1`] = `
       "path": "/form_url",
     }
   }
-  emojiMap={
-    EmojiMap {
-      "customEmojis": Map {},
-      "customEmojisArray": Array [],
-    }
-  }
   form={
     Object {
       "fields": Array [
