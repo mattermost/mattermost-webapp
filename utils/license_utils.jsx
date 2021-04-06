@@ -30,3 +30,15 @@ export function isLicensePastGracePeriod(license) {
     const timeDiff = Date.now() - parseInt(license.ExpiresAt, 10);
     return timeDiff > LICENSE_GRACE_PERIOD;
 }
+
+export function isTrialLicense(license) {
+    if (license.IsLicensed !== 'true') {
+        return false;
+    }
+    // Currently all trial licenses are issued with a 30 day, 8 hours duration.
+    // We're using this logic to detect a trial license until
+    // we add the right field in the license itself.
+    const timeDiff = parseInt(license.ExpiresAt, 10) - parseInt(license.StartsAt, 10);
+    const trialLicenseDuration = (1000 * 60 * 60 * 24 * 30) + (1000 * 60 * 60 * 8); // 30 days + 8 hours
+    return timeDiff <= trialLicenseDuration;
+}
