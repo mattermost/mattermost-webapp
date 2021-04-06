@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {createSelector} from 'reselect';
+
 import {isPlugin} from 'mattermost-redux/utils/marketplace';
 import type {MarketplaceApp, MarketplacePlugin} from 'mattermost-redux/types/marketplace';
 
@@ -10,25 +12,28 @@ export const getPlugins = (state: GlobalState): MarketplacePlugin[] => state.vie
 
 export const getApps = (state: GlobalState): MarketplaceApp[] => state.views.marketplace.apps;
 
-export const getListing = (state: GlobalState): Array<MarketplacePlugin | MarketplaceApp> => {
-    const plugins = getPlugins(state);
-    const apps = getApps(state);
+export const getListing = createSelector(
+    getPlugins,
+    getApps,
+    (plugins, apps) => {
+        if (plugins) {
+            return (plugins as Array<MarketplacePlugin | MarketplaceApp>).concat(apps);
+        }
 
-    if (plugins) {
-        return (plugins as Array<MarketplacePlugin | MarketplaceApp>).concat(apps);
-    }
+        return apps;
+    },
+);
 
-    return apps;
-};
-
-export const getInstalledListing = (state: GlobalState): Array<MarketplacePlugin | MarketplaceApp> =>
-    Object.values(getListing(state)).filter((i) => {
+export const getInstalledListing = createSelector(
+    getListing,
+    (listing) => listing.filter((i) => {
         if (isPlugin(i)) {
             return i.installed_version !== '';
         }
 
         return i.installed;
-    });
+    }),
+);
 
 export const getPlugin = (state: GlobalState, id: string): MarketplacePlugin | undefined =>
     getPlugins(state).find(((p) => p.manifest && p.manifest.id === id));
