@@ -55,6 +55,7 @@ const GlobalThreadsLink = () => {
                     active: inGlobalThreads,
                     unread: someUnreadThreads,
                 })}
+                tabIndex={-1}
             >
                 <Link
                     to={`${url}/threads`}
@@ -63,7 +64,7 @@ const GlobalThreadsLink = () => {
                         'unread-title': Boolean(someUnreadThreads),
                     })}
                     role='listitem'
-                    tabIndex={-1}
+                    tabIndex={0}
                 >
                     <span className='icon'>
                         <ThreadsIcon/>

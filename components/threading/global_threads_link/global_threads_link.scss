@@ -1,19 +1,27 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-.SidebarGlobalThreads {
+#SidebarContainer .SidebarGlobalThreads {
+    .SidebarChannel {
+        height: 100%;
+    }
     .SidebarLink {
+        width: 100%;
+
         .icon {
             padding: 3px;
-            margin-right: 12px;
+            margin-right: 8px;
             margin-left: 1px;
+
             svg {
                 fill: rgba(var(--sidebar-text-rgb), 0.6);
                 vertical-align: middle;
             }
         }
+
         #SidebarContainer &:hover {
             padding-right: 16px !important;
+
             .badge {
                 visibility: visible !important;
                 position: initial !important;
