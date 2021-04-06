@@ -380,44 +380,7 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
         }
       }
     />
-    <HeaderIconWrapper
-      ariaLabel={true}
-      buttonId="channelHeaderSearchButton"
-      iconComponent={
-        <SearchIcon
-          aria-hidden="true"
-          className="icon icon--standard"
-        />
-      }
-      onClick={[Function]}
-      tooltipKey="search"
-    />
-    <HeaderIconWrapper
-      ariaLabel={true}
-      buttonClass="channel-header__icon"
-      buttonId="channelHeaderMentionButton"
-      iconComponent={
-        <MentionsIcon
-          aria-hidden="true"
-          className="icon icon--standard"
-        />
-      }
-      onClick={[Function]}
-      tooltipKey="recentMentions"
-    />
-    <HeaderIconWrapper
-      ariaLabel={true}
-      buttonClass="channel-header__icon channel-header__icon--active"
-      buttonId="channelHeaderFlagButton"
-      iconComponent={
-        <FlagIcon
-          className="icon icon__flag"
-        />
-      }
-      onClick={[Function]}
-      tooltipKey="flaggedPosts"
-    />
-    <Connect(injectIntl(UserGuideDropdown)) />
+    <Connect(RHSSearchNav) />
   </div>
 </div>
 `;
@@ -585,44 +548,7 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
         }
       }
     />
-    <HeaderIconWrapper
-      ariaLabel={true}
-      buttonId="channelHeaderSearchButton"
-      iconComponent={
-        <SearchIcon
-          aria-hidden="true"
-          className="icon icon--standard"
-        />
-      }
-      onClick={[Function]}
-      tooltipKey="search"
-    />
-    <HeaderIconWrapper
-      ariaLabel={true}
-      buttonClass="channel-header__icon channel-header__icon--active"
-      buttonId="channelHeaderMentionButton"
-      iconComponent={
-        <MentionsIcon
-          aria-hidden="true"
-          className="icon icon--standard"
-        />
-      }
-      onClick={[Function]}
-      tooltipKey="recentMentions"
-    />
-    <HeaderIconWrapper
-      ariaLabel={true}
-      buttonClass="channel-header__icon"
-      buttonId="channelHeaderFlagButton"
-      iconComponent={
-        <FlagIcon
-          className="icon icon__flag"
-        />
-      }
-      onClick={[Function]}
-      tooltipKey="flaggedPosts"
-    />
-    <Connect(injectIntl(UserGuideDropdown)) />
+    <Connect(RHSSearchNav) />
   </div>
 </div>
 `;
@@ -790,44 +716,7 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
         }
       }
     />
-    <HeaderIconWrapper
-      ariaLabel={true}
-      buttonId="channelHeaderSearchButton"
-      iconComponent={
-        <SearchIcon
-          aria-hidden="true"
-          className="icon icon--standard"
-        />
-      }
-      onClick={[Function]}
-      tooltipKey="search"
-    />
-    <HeaderIconWrapper
-      ariaLabel={true}
-      buttonClass="channel-header__icon"
-      buttonId="channelHeaderMentionButton"
-      iconComponent={
-        <MentionsIcon
-          aria-hidden="true"
-          className="icon icon--standard"
-        />
-      }
-      onClick={[Function]}
-      tooltipKey="recentMentions"
-    />
-    <HeaderIconWrapper
-      ariaLabel={true}
-      buttonClass="channel-header__icon"
-      buttonId="channelHeaderFlagButton"
-      iconComponent={
-        <FlagIcon
-          className="icon icon__flag"
-        />
-      }
-      onClick={[Function]}
-      tooltipKey="flaggedPosts"
-    />
-    <Connect(injectIntl(UserGuideDropdown)) />
+    <Connect(RHSSearchNav) />
   </div>
 </div>
 `;
@@ -938,44 +827,7 @@ exports[`components/ChannelHeader should render archived view 1`] = `
         }
       }
     />
-    <HeaderIconWrapper
-      ariaLabel={true}
-      buttonId="channelHeaderSearchButton"
-      iconComponent={
-        <SearchIcon
-          aria-hidden="true"
-          className="icon icon--standard"
-        />
-      }
-      onClick={[Function]}
-      tooltipKey="search"
-    />
-    <HeaderIconWrapper
-      ariaLabel={true}
-      buttonClass="channel-header__icon"
-      buttonId="channelHeaderMentionButton"
-      iconComponent={
-        <MentionsIcon
-          aria-hidden="true"
-          className="icon icon--standard"
-        />
-      }
-      onClick={[Function]}
-      tooltipKey="recentMentions"
-    />
-    <HeaderIconWrapper
-      ariaLabel={true}
-      buttonClass="channel-header__icon"
-      buttonId="channelHeaderFlagButton"
-      iconComponent={
-        <FlagIcon
-          className="icon icon__flag"
-        />
-      }
-      onClick={[Function]}
-      tooltipKey="flaggedPosts"
-    />
-    <Connect(injectIntl(UserGuideDropdown)) />
+    <Connect(RHSSearchNav) />
   </div>
 </div>
 `;
@@ -1177,44 +1029,7 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
         }
       }
     />
-    <HeaderIconWrapper
-      ariaLabel={true}
-      buttonId="channelHeaderSearchButton"
-      iconComponent={
-        <SearchIcon
-          aria-hidden="true"
-          className="icon icon--standard"
-        />
-      }
-      onClick={[Function]}
-      tooltipKey="search"
-    />
-    <HeaderIconWrapper
-      ariaLabel={true}
-      buttonClass="channel-header__icon"
-      buttonId="channelHeaderMentionButton"
-      iconComponent={
-        <MentionsIcon
-          aria-hidden="true"
-          className="icon icon--standard"
-        />
-      }
-      onClick={[Function]}
-      tooltipKey="recentMentions"
-    />
-    <HeaderIconWrapper
-      ariaLabel={true}
-      buttonClass="channel-header__icon"
-      buttonId="channelHeaderFlagButton"
-      iconComponent={
-        <FlagIcon
-          className="icon icon__flag"
-        />
-      }
-      onClick={[Function]}
-      tooltipKey="flaggedPosts"
-    />
-    <Connect(injectIntl(UserGuideDropdown)) />
+    <Connect(RHSSearchNav) />
   </div>
 </div>
 `;
@@ -1648,44 +1463,7 @@ exports[`components/ChannelHeader should render properly when custom status is s
         }
       }
     />
-    <HeaderIconWrapper
-      ariaLabel={true}
-      buttonId="channelHeaderSearchButton"
-      iconComponent={
-        <SearchIcon
-          aria-hidden="true"
-          className="icon icon--standard"
-        />
-      }
-      onClick={[Function]}
-      tooltipKey="search"
-    />
-    <HeaderIconWrapper
-      ariaLabel={true}
-      buttonClass="channel-header__icon"
-      buttonId="channelHeaderMentionButton"
-      iconComponent={
-        <MentionsIcon
-          aria-hidden="true"
-          className="icon icon--standard"
-        />
-      }
-      onClick={[Function]}
-      tooltipKey="recentMentions"
-    />
-    <HeaderIconWrapper
-      ariaLabel={true}
-      buttonClass="channel-header__icon"
-      buttonId="channelHeaderFlagButton"
-      iconComponent={
-        <FlagIcon
-          className="icon icon__flag"
-        />
-      }
-      onClick={[Function]}
-      tooltipKey="flaggedPosts"
-    />
-    <Connect(injectIntl(UserGuideDropdown)) />
+    <Connect(RHSSearchNav) />
   </div>
 </div>
 `;
@@ -1859,44 +1637,7 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
         }
       }
     />
-    <HeaderIconWrapper
-      ariaLabel={true}
-      buttonId="channelHeaderSearchButton"
-      iconComponent={
-        <SearchIcon
-          aria-hidden="true"
-          className="icon icon--standard"
-        />
-      }
-      onClick={[Function]}
-      tooltipKey="search"
-    />
-    <HeaderIconWrapper
-      ariaLabel={true}
-      buttonClass="channel-header__icon"
-      buttonId="channelHeaderMentionButton"
-      iconComponent={
-        <MentionsIcon
-          aria-hidden="true"
-          className="icon icon--standard"
-        />
-      }
-      onClick={[Function]}
-      tooltipKey="recentMentions"
-    />
-    <HeaderIconWrapper
-      ariaLabel={true}
-      buttonClass="channel-header__icon"
-      buttonId="channelHeaderFlagButton"
-      iconComponent={
-        <FlagIcon
-          className="icon icon__flag"
-        />
-      }
-      onClick={[Function]}
-      tooltipKey="flaggedPosts"
-    />
-    <Connect(injectIntl(UserGuideDropdown)) />
+    <Connect(RHSSearchNav) />
   </div>
 </div>
 `;
@@ -2106,44 +1847,7 @@ exports[`components/ChannelHeader should render properly when populated with cha
         }
       }
     />
-    <HeaderIconWrapper
-      ariaLabel={true}
-      buttonId="channelHeaderSearchButton"
-      iconComponent={
-        <SearchIcon
-          aria-hidden="true"
-          className="icon icon--standard"
-        />
-      }
-      onClick={[Function]}
-      tooltipKey="search"
-    />
-    <HeaderIconWrapper
-      ariaLabel={true}
-      buttonClass="channel-header__icon"
-      buttonId="channelHeaderMentionButton"
-      iconComponent={
-        <MentionsIcon
-          aria-hidden="true"
-          className="icon icon--standard"
-        />
-      }
-      onClick={[Function]}
-      tooltipKey="recentMentions"
-    />
-    <HeaderIconWrapper
-      ariaLabel={true}
-      buttonClass="channel-header__icon"
-      buttonId="channelHeaderFlagButton"
-      iconComponent={
-        <FlagIcon
-          className="icon icon__flag"
-        />
-      }
-      onClick={[Function]}
-      tooltipKey="flaggedPosts"
-    />
-    <Connect(injectIntl(UserGuideDropdown)) />
+    <Connect(RHSSearchNav) />
   </div>
 </div>
 `;
@@ -2319,44 +2023,7 @@ exports[`components/ChannelHeader should render the pinned icon with the pinned 
         }
       }
     />
-    <HeaderIconWrapper
-      ariaLabel={true}
-      buttonId="channelHeaderSearchButton"
-      iconComponent={
-        <SearchIcon
-          aria-hidden="true"
-          className="icon icon--standard"
-        />
-      }
-      onClick={[Function]}
-      tooltipKey="search"
-    />
-    <HeaderIconWrapper
-      ariaLabel={true}
-      buttonClass="channel-header__icon"
-      buttonId="channelHeaderMentionButton"
-      iconComponent={
-        <MentionsIcon
-          aria-hidden="true"
-          className="icon icon--standard"
-        />
-      }
-      onClick={[Function]}
-      tooltipKey="recentMentions"
-    />
-    <HeaderIconWrapper
-      ariaLabel={true}
-      buttonClass="channel-header__icon"
-      buttonId="channelHeaderFlagButton"
-      iconComponent={
-        <FlagIcon
-          className="icon icon__flag"
-        />
-      }
-      onClick={[Function]}
-      tooltipKey="flaggedPosts"
-    />
-    <Connect(injectIntl(UserGuideDropdown)) />
+    <Connect(RHSSearchNav) />
   </div>
 </div>
 `;

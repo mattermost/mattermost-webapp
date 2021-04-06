@@ -16,7 +16,7 @@ export function searchAndValidate(query, expectedResults = []) {
     // # Enter in search query, and hit enter
     cy.get('#searchBox').clear().wait(TIMEOUTS.HALF_SEC).type(query).wait(TIMEOUTS.HALF_SEC).type('{enter}').should('be.empty');
 
-    cy.get('#loadingSpinner').should('not.be.visible');
+    cy.get('#loadingSpinner').should('not.exist');
     cy.get('#search-items-container', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
     // * Verify the amount of results matches the amount of our expected results
