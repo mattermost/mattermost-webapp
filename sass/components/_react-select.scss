@@ -124,46 +124,56 @@
             color: var(--center-channel-color);
         }
     }
+}
 
+// moving this outside of the `.react-select` class, since using portal on the react-select component
+// renders it as the last child of the body.
+.react-select__input {
+    color: var(--sys-center-channel-color);
+
+    .app__body & {
+        color: var(--center-channel-color);
+    }
+}
+
+.react-select__menu {
+    background: var(--sys-center-channel-bg);
+
+    .app__body & {
+        background: var(--center-channel-bg);
+    }
+}
+
+.react-select__menu-list {
+    border: 1px solid var(--sys-center-channel-color-20);
+    border-radius: 4px;
+
+    .app__body & {
+        border: 1px solid var(--center-channel-color-20);
+    }
+}
+
+.react-select__option--is-focused {
+    background: rgba(var(--sys-button-bg-rgb), 0.24);
+
+    .app__body & {
+        background: rgba(var(--button-bg-rgb), 0.24);
+    }
+}
+
+.react-select__option--is-selected {
+    background: var(--sys-button-bg);
+    color: var(--sys-button-color);
+
+    .app__body & {
+        background: var(--button-bg);
+        color: var(--button-color);
+    }
+}
+
+.react-select-top {
     .react-select__menu {
-        background: var(--sys-center-channel-bg);
-
-        .app__body & {
-            background: var(--center-channel-bg);
-        }
-    }
-
-    .react-select__menu-list {
-        border: 1px solid var(--sys-center-channel-color-20);
-        border-radius: 4px;
-
-        .app__body & {
-            border: 1px solid var(--center-channel-color-20);
-        }
-    }
-
-    .react-select__option--is-focused {
-        background: rgba(var(--sys-button-bg-rgb), 0.24);
-
-        .app__body & {
-            background: rgba(var(--button-bg-rgb), 0.24);
-        }
-    }
-
-    .react-select__option--is-selected {
-        background: var(--sys-button-bg);
-        color: var(--sys-button-color);
-
-        .app__body & {
-            background: var(--button-bg);
-            color: var(--button-color);
-        }
-    }
-
-    .react-select-top {
-        .react-select__menu {
-            top: auto;
-            bottom: 100%;
-        }
+        top: auto;
+        bottom: 100%;
     }
 }

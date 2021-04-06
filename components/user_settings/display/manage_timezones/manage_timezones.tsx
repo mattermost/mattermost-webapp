@@ -209,6 +209,7 @@ export default class ManageTimezones extends React.PureComponent<Props, State> {
                     className='react-select react-select-top'
                     classNamePrefix='react-select'
                     id='displayTimezone'
+                    menuPortalTarget={document.body}
                     styles={reactStyles}
                     options={timeOptions}
                     clearable={false}
@@ -216,7 +217,6 @@ export default class ManageTimezones extends React.PureComponent<Props, State> {
                     value={useAutomaticTimezone ? {label: this.state.automaticTimezone, value: this.state.automaticTimezone} : this.state.selectedOption}
                     aria-labelledby='changeInterfaceTimezoneLabel'
                     isDisabled={useAutomaticTimezone}
-                    menuPosition={'absolute'}
                 />
                 {serverError}
             </div>
