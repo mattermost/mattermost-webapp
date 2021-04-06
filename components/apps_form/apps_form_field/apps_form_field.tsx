@@ -7,9 +7,9 @@ import {AppField, AppSelectOption} from 'mattermost-redux/types/apps';
 import {Channel} from 'mattermost-redux/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
 
+import {AppFieldTypes} from 'mattermost-redux/constants/apps';
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
 
-import MenuActionProvider from 'components/suggestion/menu_action_provider';
 import GenericUserProvider from 'components/suggestion/generic_user_provider.jsx';
 import GenericChannelProvider from 'components/suggestion/generic_channel_provider.jsx';
 
@@ -42,16 +42,21 @@ export type Props = {
 }
 
 export default class AppsFormField extends React.PureComponent<Props> {
-    private provider?: Provider;
+    private providers: Provider[] = [];
 
     static defaultProps = {
         listComponent: ModalSuggestionList,
     };
 
+    constructor(props: Props) {
+        super(props);
+        this.setProviders();
+    }
+
     handleSelected = (selected: AppSelectOption | UserProfile | Channel) => {
         const {name, field, onChange} = this.props;
 
-        if (field.type === 'user') {
+        if (field.type === AppFieldTypes.USER) {
             const user = selected as UserProfile;
             let selectedLabel = user.username;
             if (this.props.teammateNameDisplay) {
@@ -59,7 +64,7 @@ export default class AppsFormField extends React.PureComponent<Props> {
             }
             const option = {label: selectedLabel, value: user.id};
             onChange(name, option);
-        } else if (field.type === 'channel') {
+        } else if (field.type === AppFieldTypes.CHANNEL) {
             const channel = selected as Channel;
             const option = {label: channel.display_name, value: channel.id};
             onChange(name, option);
@@ -69,22 +74,17 @@ export default class AppsFormField extends React.PureComponent<Props> {
         }
     }
 
-    getProvider = (): Provider | void => {
-        if (this.provider) {
-            return this.provider;
-        }
-
+    setProviders = () => {
         const {actions, field} = this.props;
-        if (field.type === 'user') {
-            this.provider = new GenericUserProvider(actions.autocompleteUsers);
-        } else if (field.type === 'channel') {
-            this.provider = new GenericChannelProvider(actions.autocompleteChannels);
-        } else if (field.options) {
-            const options = field.options.map(({label, value}) => ({text: label, value}));
-            this.provider = new MenuActionProvider(options);
+
+        let providers: Provider[] = [];
+        if (field.type === AppFieldTypes.USER) {
+            providers = [new GenericUserProvider(actions.autocompleteUsers)];
+        } else if (field.type === AppFieldTypes.CHANNEL) {
+            providers = [new GenericChannelProvider(actions.autocompleteChannels)];
         }
 
-        return this.provider;
+        this.providers = providers;
     }
 
     render() {
@@ -156,7 +156,7 @@ export default class AppsFormField extends React.PureComponent<Props> {
                     resizable={false}
                 />
             );
-        } else if (field.type === 'channel' || field.type === 'user') {
+        } else if (field.type === AppFieldTypes.CHANNEL || field.type === AppFieldTypes.USER) {
             let selectedValue: string | undefined;
             if (this.props.value) {
                 selectedValue = (this.props.value as AppSelectOption).label;
@@ -165,7 +165,7 @@ export default class AppsFormField extends React.PureComponent<Props> {
                 <AutocompleteSelector
                     id={name}
                     disabled={field.readonly}
-                    providers={[this.getProvider()]}
+                    providers={this.providers}
                     onSelected={this.handleSelected}
                     label={displayNameContent}
                     helpText={helpTextContent}
@@ -174,7 +174,7 @@ export default class AppsFormField extends React.PureComponent<Props> {
                     listComponent={listComponent}
                 />
             );
-        } else if (field.type === 'static_select' || field.type === 'dynamic_select') {
+        } else if (field.type === AppFieldTypes.STATIC_SELECT || field.type === AppFieldTypes.DYNAMIC_SELECT) {
             return (
                 <AppsFormSelectField
                     {...this.props}
@@ -185,7 +185,7 @@ export default class AppsFormField extends React.PureComponent<Props> {
                     value={this.props.value as AppSelectOption | null}
                 />
             );
-        } else if (field.type === 'bool') {
+        } else if (field.type === AppFieldTypes.BOOL) {
             const boolValue = value as boolean;
             return (
                 <BoolSetting

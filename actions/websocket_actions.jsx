@@ -183,6 +183,7 @@ export function reconnect(includeWebSocket = true) {
         const mostRecentId = getMostRecentPostIdInChannel(state, currentChannelId);
         const mostRecentPost = getPost(state, mostRecentId);
         dispatch(loadChannelsForCurrentUser());
+        dispatch(handleRefreshAppsBindings());
         if (mostRecentPost) {
             dispatch(syncPostsInChannel(currentChannelId, mostRecentPost.create_at));
         } else {
@@ -488,7 +489,6 @@ export function handleEvent(msg) {
         handleFirstAdminVisitMarketplaceStatusReceivedEvent(msg);
         break;
 
-    // Apps framework events
     case SocketEvents.APPS_FRAMEWORK_REFRESH_BINDINGS: {
         dispatch(handleRefreshAppsBindings(msg));
         break;

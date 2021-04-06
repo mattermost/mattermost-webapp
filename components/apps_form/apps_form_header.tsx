@@ -3,32 +3,20 @@
 
 import React from 'react';
 
-import * as Markdown from 'utils/markdown';
-import {getSiteURL} from 'utils/url';
-import EmojiMap from 'utils/emoji_map';
+import Markdown from 'components/markdown';
 
 type Props = {
     id?: string;
     value: string;
-    emojiMap: EmojiMap;
 };
 
-const AppsFormHeader: React.FC<Props> = (props: Props) => {
-    const formattedMessage = Markdown.format(
-        props.value,
-        {
-            breaks: true,
-            sanitize: true,
-            gfm: true,
-            siteURL: getSiteURL(),
-        },
-        props.emojiMap,
-    );
+const markdownOptions = {singleline: false, mentionHighlight: false};
 
+const AppsFormHeader: React.FC<Props> = (props: Props) => {
     return (
-        <span
-            id={props.id}
-            dangerouslySetInnerHTML={{__html: formattedMessage}}
+        <Markdown
+            message={props.value}
+            options={markdownOptions}
         />
     );
 };

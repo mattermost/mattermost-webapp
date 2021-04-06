@@ -15,7 +15,7 @@ import {getSiteURL, shouldOpenInNewTab} from 'utils/url';
 import {browserHistory} from 'utils/browser_history';
 import {makeCallErrorResponse} from 'utils/apps';
 
-export function doAppCall<Res=unknown>(call: AppCallRequest, type: AppCallType, intl: any): ActionFunc { // eslint-disable-line @typescript-eslint/no-unused-vars
+export function doAppCall<Res=unknown>(call: AppCallRequest, type: AppCallType, intl: any): ActionFunc {
     return async (dispatch: DispatchFunc) => {
         try {
             const res = await Client4.executeAppCall(call, type) as AppCallResponse<Res>;

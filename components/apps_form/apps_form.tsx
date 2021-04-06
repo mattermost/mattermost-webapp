@@ -16,7 +16,6 @@ import SpinnerButton from 'components/spinner_button';
 import SuggestionList from 'components/suggestion/suggestion_list';
 import ModalSuggestionList from 'components/suggestion/modal_suggestion_list';
 
-import EmojiMap from 'utils/emoji_map';
 import {localizeMessage} from 'utils/utils.jsx';
 
 import AppsFormField from './apps_form_field';
@@ -36,7 +35,6 @@ export type AppsFormProps = {
         performLookupCall: (field: AppField, values: AppFormValues, userInput: string) => Promise<AppSelectOption[]>;
         refreshOnSelect: (field: AppField, values: AppFormValues) => Promise<{data: AppCallResponse<any>}>;
     };
-    emojiMap: EmojiMap;
 }
 
 type Props = AppsFormProps & WrappedComponentProps<'intl'>;
@@ -353,7 +351,6 @@ export class AppsForm extends React.PureComponent<Props, State> {
                     <AppsFormHeader
                         id='appsModalHeader'
                         value={header}
-                        emojiMap={this.props.emojiMap}
                     />
                 )}
                 {this.renderElements()}

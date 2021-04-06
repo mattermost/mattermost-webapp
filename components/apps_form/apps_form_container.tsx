@@ -8,8 +8,6 @@ import {injectIntl, IntlShape} from 'react-intl';
 import {AppCallResponse, AppField, AppForm, AppFormValues, AppSelectOption, AppCallType, AppCallRequest} from 'mattermost-redux/types/apps';
 import {AppCallTypes, AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 
-import EmojiMap from 'utils/emoji_map';
-
 import {makeCallErrorResponse} from 'utils/apps';
 
 import {sendEphemeralPost} from 'actions/global_actions';
@@ -24,7 +22,6 @@ type Props = {
     actions: {
         doAppCall: (call: AppCallRequest, type: AppCallType, intl: IntlShape) => Promise<{data: AppCallResponse}>;
     };
-    emojiMap: EmojiMap;
 };
 
 type State = {

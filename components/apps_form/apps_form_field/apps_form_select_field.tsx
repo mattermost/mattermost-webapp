@@ -54,7 +54,7 @@ export default class AppsFormSelectField extends React.PureComponent<Props, Stat
     renderDynamicSelect() {
         const {field} = this.props;
         const placeholder = field.hint || '';
-        const value = this.props.value || [];
+        const value = this.props.value;
 
         return (
             <div className='form-group'>
@@ -79,8 +79,8 @@ export default class AppsFormSelectField extends React.PureComponent<Props, Stat
 
         const placeholder = field.hint || '';
 
-        const options = field.options || [];
-        const value = this.props.value || {};
+        const options = field.options;
+        const value = this.props.value;
 
         return (
             <div className='form-group'>
@@ -116,14 +116,12 @@ export default class AppsFormSelectField extends React.PureComponent<Props, Stat
                 <label>
                     {label}
                 </label>
-                {[
-                    <React.Fragment key={this.state.refreshNonce}>
-                        {selectComponent}
-                        <div className='help-text'>
-                            {helpText}
-                        </div>
-                    </React.Fragment>,
-                ]}
+                <React.Fragment key={this.state.refreshNonce}>
+                    {selectComponent}
+                    <div className='help-text'>
+                        {helpText}
+                    </div>
+                </React.Fragment>
             </div>
         );
     }

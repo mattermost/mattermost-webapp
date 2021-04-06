@@ -180,7 +180,7 @@ const PluginItem = ({
     appsEnabled,
     isDisabled,
 }: PluginItemProps) => {
-    let activateButton: JSX.Element | null;
+    let activateButton: React.ReactNode;
     const activating = pluginStatus.state === PluginState.PLUGIN_STATE_STARTING;
     const deactivating = pluginStatus.state === PluginState.PLUGIN_STATE_STOPPING;
 
@@ -257,7 +257,7 @@ const PluginItem = ({
             />
         );
     }
-    let removeButton: JSX.Element | null = (
+    let removeButton: React.ReactNode = (
         <span>
             {' - '}
             <a
