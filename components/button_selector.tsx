@@ -26,11 +26,11 @@ const defaultProps: Partial<Props> = {
 };
 
 const ButtonSelector: React.FC<Props> = (props: Props) => {
-    const onClick = (value: AppSelectOption) => {
+    const onClick = React.useCallback((value: AppSelectOption) => {
         if (props.onChange) {
             props.onChange(value);
         }
-    };
+    }, [props.onChange]);
 
     const {
         footer,
