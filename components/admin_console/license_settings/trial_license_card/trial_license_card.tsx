@@ -25,8 +25,8 @@ const TrialLicenseCard: React.FC<Props> = ({license}: Props) => {
 
     const handleContactLinkClick = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
-        window.open('https://mattermost.com/contact-us/', '_blank');
         trackEvent('admin', 'in_trial_contact_sales');
+        window.open('https://mattermost.com/contact-us/', '_blank');
     };
 
     const message = () => {
