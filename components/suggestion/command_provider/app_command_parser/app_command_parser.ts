@@ -38,7 +38,7 @@ import {
     selectChannelByName,
 } from './app_command_parser_dependencies';
 
-export type Store = {
+export interface Store {
     dispatch: DispatchFunc;
     getState: () => GlobalState;
 }
@@ -547,7 +547,7 @@ export class AppCommandParser {
     forms: {[location: string]: AppForm} = {};
 
     constructor(store: Store|null, intl: Intl, channelID: string, rootPostID = '') {
-        this.store = store || getStore() as Store;
+        this.store = store || getStore();
         this.channelID = channelID;
         this.rootPostID = rootPostID;
         this.intl = intl;
