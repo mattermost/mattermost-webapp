@@ -10,10 +10,8 @@ import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
 import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
 import {Theme} from 'mattermost-redux/types/preferences';
-import {AppBinding, AppCallRequest, AppCallResponse, AppCallType} from 'mattermost-redux/types/apps';
+import {AppBinding, DoAppCallResult, DoAppCall} from 'mattermost-redux/types/apps';
 import {AppCallResponseTypes, AppCallTypes} from 'mattermost-redux/constants/apps';
-
-import {ActionResult} from 'mattermost-redux/types/actions';
 
 import HeaderIconWrapper from 'components/channel_header/components/header_icon_wrapper';
 import PluginChannelHeaderIcon from 'components/widgets/icons/plugin_channel_header_icon';
@@ -104,7 +102,7 @@ type ChannelHeaderPlugProps = {
     channelMember: ChannelMembership;
     theme: Theme;
     actions: {
-        doAppCall: (call: AppCallRequest, type: AppCallType, intl: IntlShape) => Promise<ActionResult>;
+        doAppCall: DoAppCall;
     };
 }
 
@@ -164,29 +162,36 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
             this.props.channel.team_id,
         );
         const call = createCallRequest(binding.call, context);
-        const res = await this.props.actions.doAppCall(call, AppCallTypes.SUBMIT, this.props.intl);
+        const res = await this.props.actions.doAppCall(call, AppCallTypes.SUBMIT, this.props.intl) as DoAppCallResult;
 
-        const callResp = (res as {data: AppCallResponse}).data;
         const ephemeral = (message: string) => sendEphemeralPost(message, this.props.channel.id);
+        if (res.error) {
+            const errorResponse = res.error;
+            const errorMessage = errorResponse.error || this.props.intl.formatMessage({
+                id: 'apps.error.unknown',
+                defaultMessage: 'Unknown error occurred.',
+            });
+            ephemeral(errorMessage);
+            return;
+        }
+
+        const callResp = res.data!;
         switch (callResp.type) {
         case AppCallResponseTypes.OK:
             if (callResp.markdown) {
                 ephemeral(callResp.markdown);
             }
             break;
-        case AppCallResponseTypes.ERROR: {
-            const errorMessage = callResp.error || this.props.intl.formatMessage({id: 'apps.error.unknown', defaultMessage: 'Unknown error happenned'});
-            ephemeral(errorMessage);
-            break;
-        }
         case AppCallResponseTypes.NAVIGATE:
         case AppCallResponseTypes.FORM:
             break;
         default: {
-            const errorMessage = this.props.intl.formatMessage(
-                {id: 'apps.error.responses.unknown_type', defaultMessage: 'App response type not supported. Response type: {type}.'},
-                {type: callResp.type},
-            );
+            const errorMessage = this.props.intl.formatMessage({
+                id: 'apps.error.responses.unknown_type',
+                defaultMessage: 'App response type not supported. Response type: {type}.',
+            }, {
+                type: callResp.type,
+            });
             ephemeral(errorMessage);
         }
         }

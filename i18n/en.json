@@ -2325,7 +2325,7 @@
   "apps.error.responses.unexpected_error": "Received an unexpected error.",
   "apps.error.responses.unexpected_type": "App response type was not expected. Response type: {type}.",
   "apps.error.responses.unknown_type": "App response type not supported. Response type: {type}.",
-  "apps.error.unknown": "Unknown error happenned",
+  "apps.error.unknown": "Unknown error occurred.",
   "apps.suggestion.no_dynamic": "Received no data for dynamic suggestions.",
   "apps.suggestion.no_static": "No matching options.",
   "apps.suggestion.no_suggestions": "Could not find any suggestions.",

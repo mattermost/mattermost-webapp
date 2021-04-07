@@ -14,7 +14,7 @@ import type {CommandArgs} from 'mattermost-redux/types/integrations';
 
 import {AppCallResponseTypes, AppCallTypes} from 'mattermost-redux/constants/apps';
 
-import {AppCallResponse} from 'mattermost-redux/types/apps';
+import {DoAppCallResult} from 'mattermost-redux/types/apps';
 
 import {openModal} from 'actions/views/modals';
 import * as GlobalActions from 'actions/global_actions';
@@ -122,17 +122,23 @@ export function executeCommand(message: string, args: CommandArgs): ActionFunc {
                         return createErrorMessage(localizeMessage('apps.error.commands.compose_call', 'Error composing command submission'));
                     }
 
-                    const res = await dispatch(doAppCall(call, AppCallTypes.SUBMIT, intlShim)) as {data: AppCallResponse};
+                    const res = await dispatch(doAppCall(call, AppCallTypes.SUBMIT, intlShim)) as DoAppCallResult;
 
-                    const callResp = res.data;
+                    if (res.error) {
+                        const errorResponse = res.error;
+                        return createErrorMessage(errorResponse.error || intlShim.formatMessage({
+                            id: 'apps.error.unknown',
+                            defaultMessage: 'Unknown error.',
+                        }));
+                    }
+
+                    const callResp = res.data!;
                     switch (callResp.type) {
                     case AppCallResponseTypes.OK:
                         if (callResp.markdown) {
                             GlobalActions.sendEphemeralPost(callResp.markdown, args.channel_id, args.parent_id);
                         }
                         return {data: true};
-                    case AppCallResponseTypes.ERROR:
-                        return createErrorMessage(callResp.error || localizeMessage('apps.error.unknown', 'Unknown error.'));
                     case AppCallResponseTypes.FORM:
                     case AppCallResponseTypes.NAVIGATE:
                         return {data: true};

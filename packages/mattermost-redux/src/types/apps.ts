@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {IntlShape} from 'react-intl';
+
 // This file's contents belong to the Apps Framework feature.
 // Apps Framework feature is experimental, and the contents of this file are
 // susceptible to breaking changes without pushing the major version of this package.
@@ -205,4 +207,13 @@ export type FormResponseData = {
 
 export type AppLookupResponse = {
     items: AppSelectOption[];
+}
+
+export type DoAppCallResult<Res=unknown> = {
+    data?: AppCallResponse<Res>;
+    error?: AppCallResponse<Res>;
+}
+
+export interface DoAppCall<Res=unknown> {
+    (call: AppCallRequest, type: AppCallType, intl: IntlShape): Promise<DoAppCallResult<Res>>;
 }

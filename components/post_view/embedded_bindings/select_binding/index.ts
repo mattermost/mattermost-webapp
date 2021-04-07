@@ -6,7 +6,7 @@ import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {ActionFunc, ActionResult, GenericAction} from 'mattermost-redux/types/actions';
 
-import {AppCallRequest, AppCallType} from 'mattermost-redux/types/apps';
+import {DoAppCall} from 'mattermost-redux/types/apps';
 
 import {getChannel} from 'mattermost-redux/actions/channels';
 
@@ -16,7 +16,7 @@ import {sendEphemeralPost} from 'actions/global_actions';
 import SelectBinding from './select_binding';
 
 type Actions = {
-    doAppCall: (call: AppCallRequest, type: AppCallType) => Promise<ActionResult>;
+    doAppCall: DoAppCall;
     getChannel: (channelId: string) => Promise<ActionResult>;
 }
 

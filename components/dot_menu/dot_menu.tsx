@@ -8,10 +8,8 @@ import {Tooltip} from 'react-bootstrap';
 
 import Permissions from 'mattermost-redux/constants/permissions';
 import {Post} from 'mattermost-redux/types/posts';
-import {AppBinding, AppCallRequest, AppCallResponse, AppCallType} from 'mattermost-redux/types/apps';
+import {AppBinding, DoAppCall} from 'mattermost-redux/types/apps';
 import {AppCallResponseTypes, AppCallTypes, AppExpandLevels} from 'mattermost-redux/constants/apps';
-
-import {ActionResult} from 'mattermost-redux/types/actions';
 
 import {Locations, ModalIdentifiers, Constants} from 'utils/constants';
 import DeletePostModal from 'components/delete_post_modal';
@@ -99,7 +97,7 @@ type Props = {
         /**
          * Function to perform an app call
          */
-        doAppCall: (call: AppCallRequest, type: AppCallType, intl: IntlShape) => Promise<ActionResult>;
+        doAppCall: DoAppCall;
     }; // TechDebt: Made non-mandatory while converting to typescript
 
     canEdit: boolean;
@@ -297,29 +295,37 @@ class DotMenu extends React.PureComponent<Props, State> {
                 post: AppExpandLevels.ALL,
             },
         );
-        const res = await this.props.actions?.doAppCall(call, AppCallTypes.SUBMIT, this.props.intl);
 
-        const callResp = (res as {data: AppCallResponse}).data;
+        const res = await this.props.actions.doAppCall(call, AppCallTypes.SUBMIT, this.props.intl);
+
         const ephemeral = (message: string) => sendEphemeralPost(message, this.props.post.channel_id, this.props.post.root_id);
+        if (res.error) {
+            const errorResponse = res.error;
+            const errorMessage = errorResponse.error || this.props.intl.formatMessage({
+                id: 'apps.error.unknown',
+                defaultMessage: 'Unknown error occurred.',
+            });
+            ephemeral(errorMessage);
+            return;
+        }
+
+        const callResp = res.data!;
         switch (callResp.type) {
         case AppCallResponseTypes.OK:
             if (callResp.markdown) {
                 ephemeral(callResp.markdown);
             }
             break;
-        case AppCallResponseTypes.ERROR: {
-            const errorMessage = callResp.error || this.props.intl.formatMessage({id: 'apps.error.unknown', defaultMessage: 'Unknown error happenned'});
-            ephemeral(errorMessage);
-            break;
-        }
         case AppCallResponseTypes.NAVIGATE:
         case AppCallResponseTypes.FORM:
             break;
         default: {
-            const errMessage = this.props.intl.formatMessage(
-                {id: 'apps.error.responses.unknown_type', defaultMessage: 'App response type not supported. Response type: {type}.'},
-                {type: callResp.type},
-            );
+            const errMessage = this.props.intl.formatMessage({
+                id: 'apps.error.responses.unknown_type',
+                defaultMessage: 'App response type not supported. Response type: {type}.',
+            }, {
+                type: callResp.type,
+            });
             ephemeral(errMessage);
         }
         }

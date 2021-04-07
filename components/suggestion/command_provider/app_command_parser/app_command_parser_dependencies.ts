@@ -6,8 +6,6 @@ export type {
     AppCallValues,
     AppBinding,
     AppField,
-    AppSelectOption,
-    AppCallResponse,
     AppContext,
     AppForm,
     AutocompleteElement,
@@ -15,6 +13,8 @@ export type {
     AutocompleteStaticSelect,
     AutocompleteUserSelect,
     AutocompleteChannelSelect,
+    DoAppCallResult,
+    AppLookupResponse,
 } from 'mattermost-redux/types/apps';
 
 import type {

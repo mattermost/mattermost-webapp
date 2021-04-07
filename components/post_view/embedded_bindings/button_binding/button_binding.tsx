@@ -5,7 +5,7 @@ import React from 'react';
 
 import {injectIntl, IntlShape} from 'react-intl';
 
-import {AppBinding, AppCallRequest, AppCallResponse, AppCallType} from 'mattermost-redux/types/apps';
+import {AppBinding, DoAppCall} from 'mattermost-redux/types/apps';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {AppBindingLocations, AppCallResponseTypes, AppCallTypes, AppExpandLevels} from 'mattermost-redux/constants/apps';
 import {Channel} from 'mattermost-redux/types/channels';
@@ -20,7 +20,7 @@ type Props = {
     binding: AppBinding;
     post: Post;
     actions: {
-        doAppCall: (call: AppCallRequest, type: AppCallType, intl: IntlShape) => Promise<ActionResult>;
+        doAppCall: DoAppCall;
         getChannel: (channelId: string) => Promise<ActionResult>;
     };
     sendEphemeralPost: (message: string, channelID?: string, rootID?: string) => void;
@@ -68,27 +68,35 @@ export class ButtonBinding extends React.PureComponent<Props, State> {
         const res = await this.props.actions.doAppCall(call, AppCallTypes.SUBMIT, this.props.intl);
 
         this.setState({executing: false});
-        const callResp = (res as {data: AppCallResponse}).data;
+
         const ephemeral = (message: string) => this.props.sendEphemeralPost(message, this.props.post.channel_id, this.props.post.root_id);
+        if (res.error) {
+            const errorResponse = res.error;
+            const errorMessage = errorResponse.error || this.props.intl.formatMessage({
+                id: 'apps.error.unknown',
+                defaultMessage: 'Unknown error occurred.',
+            });
+            ephemeral(errorMessage);
+            return;
+        }
+
+        const callResp = res.data!;
         switch (callResp.type) {
         case AppCallResponseTypes.OK:
             if (callResp.markdown) {
                 ephemeral(callResp.markdown);
             }
             break;
-        case AppCallResponseTypes.ERROR: {
-            const errorMessage = callResp.error || this.props.intl.formatMessage({id: 'apps.error.unknown', defaultMessage: 'Unknown error happenned'});
-            ephemeral(errorMessage);
-            break;
-        }
         case AppCallResponseTypes.NAVIGATE:
         case AppCallResponseTypes.FORM:
             break;
         default: {
-            const errorMessage = this.props.intl.formatMessage(
-                {id: 'apps.error.responses.unknown_type', defaultMessage: 'App response type not supported. Response type: {type}.'},
-                {type: callResp.type},
-            );
+            const errorMessage = this.props.intl.formatMessage({
+                id: 'apps.error.responses.unknown_type',
+                defaultMessage: 'App response type not supported. Response type: {type}.',
+            }, {
+                type: callResp.type,
+            });
             ephemeral(errorMessage);
         }
         }

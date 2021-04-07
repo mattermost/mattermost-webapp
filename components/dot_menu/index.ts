@@ -11,11 +11,11 @@ import {getCurrentTeamId, getCurrentTeam} from 'mattermost-redux/selectors/entit
 import {appsEnabled, makeAppBindingsSelector} from 'mattermost-redux/selectors/entities/apps';
 import {AppBindingLocations} from 'mattermost-redux/constants/apps';
 
-import {ActionFunc, ActionResult, GenericAction} from 'mattermost-redux/types/actions';
+import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 
 import {Post} from 'mattermost-redux/types/posts';
 
-import {AppCallRequest, AppCallType} from 'mattermost-redux/types/apps';
+import {DoAppCall} from 'mattermost-redux/types/apps';
 
 import {GlobalState} from 'types/store';
 
@@ -88,7 +88,7 @@ type Actions = {
     unpinPost: (postId: string) => void;
     openModal: (postId: any) => void;
     markPostAsUnread: (post: Post) => void;
-    doAppCall: (call: AppCallRequest, type: AppCallType) => Promise<ActionResult>;
+    doAppCall: DoAppCall;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {

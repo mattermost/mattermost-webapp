@@ -5,14 +5,14 @@ import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
-import {AppCallRequest, AppCallResponse, AppCallType} from 'mattermost-redux/types/apps';
+import {DoAppCall} from 'mattermost-redux/types/apps';
 
 import {doAppCall} from 'actions/apps';
 
 import AppsFormContainer from './apps_form_container';
 
 type Actions = {
-    doAppCall: (call: AppCallRequest, type: AppCallType) => Promise<{data: AppCallResponse}>;
+    doAppCall: DoAppCall;
 };
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
