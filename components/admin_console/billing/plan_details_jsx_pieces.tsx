@@ -142,7 +142,6 @@ export const planDetailsTopElements = (userCount: number, isPaidTier: boolean, i
     let productName;
 
     switch (typeSubscription) {
-    // case 'CLOUD_PROFESSIONAL':
     case 'FREE_TRIAL':
         productName = (
             <FormattedMessage
@@ -151,6 +150,7 @@ export const planDetailsTopElements = (userCount: number, isPaidTier: boolean, i
             />
         );
         break;
+
     // case 'CLOUD_ENTERPRISE':
     //     productName = (
     //         <FormattedMessage
@@ -329,6 +329,7 @@ export const featureList = (isPaidTierWithFreeTrial: boolean, isPaidTier: boolea
         // case 'CLOUD_PROFESSIONAL':
             features = featuresCloudProfessional;
             break;
+
         // case 'CLOUD_STARTER':
         //     features = featuresCloudStarter;
         //     break;
