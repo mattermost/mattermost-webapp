@@ -67,7 +67,7 @@ const TrialLicenseCard: React.FC<Props> = ({license}: Props) => {
                 <div className='RenewLicenseCard__text-description'>
                     {message()}
                 </div>
-                <PurchaseNowLink 
+                <PurchaseNowLink
                     buttonTextElement={
                         <FormattedMessage
                             id='admin.license.trialCard.purchase_license'

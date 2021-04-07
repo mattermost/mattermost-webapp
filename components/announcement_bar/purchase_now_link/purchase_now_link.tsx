@@ -9,7 +9,7 @@ export interface Props {
     buttonTextElement: JSX.Element;
 }
 
-const PurchaseNowLink: React.FC<Props>  = (props: Props) => {
+const PurchaseNowLink: React.FC<Props> = (props: Props) => {
     const handlePurchaseLinkClick = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
         trackEvent('admin', 'in_trial_purchase_license');
