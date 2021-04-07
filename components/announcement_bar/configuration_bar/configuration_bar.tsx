@@ -35,6 +35,8 @@ type Props = {
     user?: UserProfile;
     canViewSystemErrors: boolean;
     totalUsers?: number;
+    dismissedExpiringTrialLicenseLastDay?: boolean;
+    dismissedExpiringTrialLicense?: boolean;
     dismissedExpiringLicense?: boolean;
     dismissedNumberOfActiveUsersWarnMetricStatus?: boolean;
     dismissedNumberOfActiveUsersWarnMetricStatusAck?: boolean;
@@ -223,7 +225,7 @@ const ConfigurationAnnouncementBar: React.FC<Props> = (props: Props) => {
             );
         }
 
-        if (isTrialLicense(props.license) && (isLicenseExpiringIn(props.license, 14) || isLicenseExpiringIn(props.license, 3) || isLicenseExpiringIn(props.license, 1)) && !props.dismissedExpiringLicense) {
+        if (isTrialLicense(props.license) && (isLicenseExpiringIn(props.license, 14) || isLicenseExpiringIn(props.license, 3) || isLicenseExpiringIn(props.license, 1))) {
             const purchaseALicenseNow = (
                 <PurchaseNowLink
                     buttonTextElement={
@@ -235,7 +237,7 @@ const ConfigurationAnnouncementBar: React.FC<Props> = (props: Props) => {
                 />
             );
 
-            if (isLicenseExpiringIn(props.license, 1)) {
+            if (isLicenseExpiringIn(props.license, 1) && !props.dismissedExpiringTrialLicenseLastDay) {
                 const message = (
                     <>
                         <img
@@ -264,37 +266,39 @@ const ConfigurationAnnouncementBar: React.FC<Props> = (props: Props) => {
                 );
             }
 
-            const today = moment(Date.now());
-            const endOfLicense = moment(new Date(parseInt(props.license.ExpiresAt, 10)));
-            const daysToEndLicense = endOfLicense.diff(today, 'days');
+            if (!props.dismissedExpiringTrialLicense) {
+                const today = moment(Date.now());
+                const endOfLicense = moment(new Date(parseInt(props.license.ExpiresAt, 10)));
+                const daysToEndLicense = endOfLicense.diff(today, 'days');
 
-            const message = (<>
-                <img
-                    className='advisor-icon'
-                    src={alertIcon}
-                />
-                <FormattedMarkdownMessage
-                    id='announcement_bar.error.trial_license_expiring'
-                    defaultMessage='**There are {days} days left on your free trial.**'
-                    values={{
-                        days: daysToEndLicense,
-                    }}
-                />
-            </>);
-            return (
-                <AnnouncementBar
-                    showCloseButton={true}
-                    handleClose={dismissExpiringTrialLicense}
-                    type={AnnouncementBarTypes.ANNOUNCEMENT}
-                    message={
-                        <>
-                            {message}
-                            {purchaseALicenseNow}
-                        </>
-                    }
-                    tooltipMsg={message}
-                />
-            );
+                const message = (<>
+                    <img
+                        className='advisor-icon'
+                        src={alertIcon}
+                    />
+                    <FormattedMarkdownMessage
+                        id='announcement_bar.error.trial_license_expiring'
+                        defaultMessage='**There are {days} days left on your free trial.**'
+                        values={{
+                            days: daysToEndLicense,
+                        }}
+                    />
+                </>);
+                return (
+                    <AnnouncementBar
+                        showCloseButton={true}
+                        handleClose={dismissExpiringTrialLicense}
+                        type={AnnouncementBarTypes.ANNOUNCEMENT}
+                        message={
+                            <>
+                                {message}
+                                {purchaseALicenseNow}
+                            </>
+                        }
+                        tooltipMsg={message}
+                    />
+                );
+            }
         }
 
         if (!isTrialLicense(props.license) && isLicenseExpiring(props.license) && !props.dismissedExpiringLicense) {
