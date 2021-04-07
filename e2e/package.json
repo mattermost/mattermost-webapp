@@ -24,7 +24,6 @@
     "lodash.mapkeys": "4.6.0",
     "lodash.without": "4.4.0",
     "lodash.xor": "4.5.0",
-    "lodash": "4.17.21",
     "mattermost-redux": "5.33.0",
     "mime": "2.5.2",
     "mime-types": "2.1.29",

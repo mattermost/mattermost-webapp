@@ -7,19 +7,35 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
+import {Team} from 'mattermost-redux/types/teams';
+import {Channel} from 'mattermost-redux/types/channels';
 
 import Markdown from 'components/markdown';
 import GlobeIcon from 'components/widgets/icons/globe_icon';
 import LockIcon from 'components/widgets/icons/lock_icon';
 import ArchiveIcon from 'components/widgets/icons/archive_icon';
 
+import {ChannelNamesMap} from 'utils/text_formatting';
 import Constants from 'utils/constants.jsx';
 import {getSiteURL} from 'utils/url';
 import * as Utils from 'utils/utils.jsx';
 
 const headerMarkdownOptions = {singleline: false, mentionHighlight: false};
 
-export default class ChannelInfoModal extends React.PureComponent {
+type Props = {
+    onHide: () => void;
+    channel: Channel;
+    currentChannel: Channel;
+    currentTeam: Team;
+    isRHSOpen?: boolean;
+    currentRelativeTeamUrl?: string;
+};
+
+type State = {
+    show: boolean;
+};
+
+export default class ChannelInfoModal extends React.PureComponent<Props, State> {
     static propTypes = {
 
         /**
@@ -53,17 +69,13 @@ export default class ChannelInfoModal extends React.PureComponent {
         currentRelativeTeamUrl: PropTypes.string,
     };
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
 
         this.state = {show: true};
-
-        this.getHeaderMarkdownOptions = memoizeResult((channelNamesMap) => (
-            {...headerMarkdownOptions, channelNamesMap}
-        ));
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: Props) {
         const RHSChanged = !prevProps.isRHSOpen && this.props.isRHSOpen;
         const channelChanged = prevProps.channel?.id !== this.props.currentChannel?.id;
         if (RHSChanged || channelChanged) {
@@ -75,7 +87,9 @@ export default class ChannelInfoModal extends React.PureComponent {
         this.setState({show: false});
     }
 
-    handleFormattedTextClick = (e) => Utils.handleFormattedTextClick(e, this.props.currentRelativeTeamUrl);
+    handleFormattedTextClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => Utils.handleFormattedTextClick(e, this.props.currentRelativeTeamUrl);
+
+    getHeaderMarkdownOptions = memoizeResult((channelNamesMap: ChannelNamesMap) => ({...headerMarkdownOptions, channelNamesMap}));
 
     render() {
         let channel = this.props.channel;
@@ -91,6 +105,17 @@ export default class ChannelInfoModal extends React.PureComponent {
                 purpose: notFound,
                 header: notFound,
                 id: notFound,
+                team_id: notFound,
+                type: notFound,
+                delete_at: 0,
+                create_at: 0,
+                update_at: 0,
+                last_post_at: 0,
+                total_msg_count: 0,
+                extra_update_at: 0,
+                creator_id: notFound,
+                scheme_id: notFound,
+                group_constrained: false,
             };
         }
 
