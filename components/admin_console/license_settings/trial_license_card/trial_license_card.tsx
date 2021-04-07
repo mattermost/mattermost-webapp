@@ -46,9 +46,8 @@ const TrialLicenseCard: React.FC<Props> = ({license}: Props) => {
         return (
             <FormattedMessage
                 id='admin.license.trialCard.description.expiringToday'
-                defaultMessage='Your free trial expires <b>{day} at {time}</b>. Visit our customer portal to purchase a license now to continue using E10 & E20 features after trial ends'
+                defaultMessage='Your free trial expires <b>Today at {time}</b>. Visit our customer portal to purchase a license now to continue using E10 & E20 features after trial ends'
                 values={{
-                    day: endOfLicense.day() === today.day() ? 'Today' : 'Tomorrow',
                     time: endOfLicense.format('h:mm a') + moment().tz(getBrowserTimezone()).format('z'),
                     b: (chunk: any) => (<b>{chunk}</b>),
                 }}
