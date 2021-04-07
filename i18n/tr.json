@@ -2570,7 +2570,7 @@
   "combined_system_message.removed_from_team.one_you": "**Takımdan çıkarıldınız**.",
   "combined_system_message.removed_from_team.two": "{firstUser} ve {secondUser} **takımdan çıkarıldı**.",
   "combined_system_message.you": "Siz",
-  "commercial_support.description": "Sorun yaşıyorsanız, [bir destek kaydı gönderin.](!https://support.mattermost.com/hc/en-us/requests/new)\n \n**Destek Paketini İndirin**\n \nSorunu gidermeye yardımcı olması için Mattermost ortamınız hakkındaki ek bilgileri indirmenizi öneririz. Paketi indirdikten sonra, Müşteri Destek ekibimizle paylaşmak için destek kaydınıza ekleyin.",
+  "commercial_support.description": "Sorun yaşıyorsanız, [bir destek kaydı gönderin.](!{supportLink})\n \n**Destek Paketini İndirin**\n \nSorunu gidermeye yardımcı olması için Mattermost ortamınız hakkındaki ek bilgileri indirmenizi öneririz. Paketi indirdikten sonra, Müşteri Destek ekibimizle paylaşmak için destek kaydınıza ekleyin.",
   "commercial_support.download_support_packet": "Destek Paketini İndir",
   "commercial_support.title": "Kurumsal Destek",
   "commercial_support.warning.banner": "Destek paketini indirmeden önce, [şuradan](!/admin_console/environment/logging) **Output Logs to File** seçeneğini **true** ve **File Log Level** seçeneğini **DEBUG** olarak ayarlayın .",

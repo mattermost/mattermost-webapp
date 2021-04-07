@@ -397,5 +397,34 @@ describe('Selectors.General', () => {
             expect(Selectors.getFeatureFlagValue(state, 'CoolFeature')).toEqual('true');
         });
     });
+
+    describe('firstAdminVisitMarketplaceStatus', () => {
+        test('should return empty when status does not exist', () => {
+            const state = {
+                entities: {
+                    general: {
+                        firstAdminVisitMarketplaceStatus: {
+                        },
+                    },
+                },
+            };
+
+            expect(Selectors.getFirstAdminVisitMarketplaceStatus(state)).toEqual({});
+        });
+
+        test('should return the value of the status', () => {
+            const state = {
+                entities: {
+                    general: {
+                        firstAdminVisitMarketplaceStatus: true,
+                    },
+                },
+            };
+
+            expect(Selectors.getFirstAdminVisitMarketplaceStatus(state)).toEqual(true);
+            state.entities.general.firstAdminVisitMarketplaceStatus = false;
+            expect(Selectors.getFirstAdminVisitMarketplaceStatus(state)).toEqual(false);
+        });
+    });
 });
 

@@ -22,6 +22,7 @@ declare namespace Cypress {
          * Created user has an option to log in after all are setup.
          * Requires sysadmin session to initiate this command.
          * @param {boolean} options.loginAfter - false (default) or true if wants to login as the new user after setting up. Note that when true, succeeding API request will be limited to access/permission of a regular system user.
+         * @param {boolean} options.promoteNewUserAsAdmin - false (default) or true if wants to promote the newly created user as sysadmin.
          * @param {string} options.userPrefix - 'user' (default) or any prefix to easily identify a user
          * @param {string} options.teamPrefix - {name: 'team', displayName: 'Team'} (default) or any prefix to easily identify a team
          * @param {string} options.channelPrefix - {name: 'team', displayName: 'Team'} (default) or any prefix to easily identify a channel
