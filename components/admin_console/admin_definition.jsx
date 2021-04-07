@@ -5743,7 +5743,7 @@ const AdminDefinition = {
                                 display_name_default: 'Always On',
                             }, */
                         ],
-                        isDisabled: it.not(it.userHasWritePermissionOnResource('experimental')),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                         isHidden: it.configIsFalse('FeatureFlags', 'CollapsedThreads'),
                     },
                     {
