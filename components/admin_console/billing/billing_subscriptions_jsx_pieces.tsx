@@ -12,20 +12,18 @@ import privateCloudImage from 'images/private-cloud-image.svg';
 
 import BlockableLink from 'components/admin_console/blockable_link';
 
-export const contactSalesCard = (contactSalesLink: any, isPaidTierWithFreeTrial: boolean, isPaidTier: boolean) => {
-    const typeSubscription = isPaidTierWithFreeTrial ? 'FREE_TRIAL' : 'MATTERMOST_CLOUD';
-
+export const contactSalesCard = (contactSalesLink: any, isPaidTierWithFreeTrial: boolean) => {
     return (
         <div className='PrivateCloudCard'>
             <div className='PrivateCloudCard__text'>
                 <div className='PrivateCloudCard__text-title'>
-                    {!isPaidTier &&
+                    {!isPaidTierWithFreeTrial &&
                         <FormattedMessage
                             id='admin.billing.subscription.privateCloudCard.title'
                             defaultMessage='Looking for a high-trust private cloud?'
                         />
                     }
-                    {typeSubscription === 'FREE_TRIAL' &&
+                    {isPaidTierWithFreeTrial &&
                         <FormattedMessage
                             id='admin.billing.subscription.privateCloudCard.freeTrial.title'
                             defaultMessage='Questions about your trial?'
@@ -54,13 +52,13 @@ export const contactSalesCard = (contactSalesLink: any, isPaidTierWithFreeTrial:
                     } */}
                 </div>
                 <div className='PrivateCloudCard__text-description'>
-                    {!isPaidTier &&
+                    {!isPaidTierWithFreeTrial &&
                         <FormattedMessage
                             id='admin.billing.subscription.privateCloudCard.description'
                             defaultMessage='If you need software with dedicated, single-tenant architecture, Mattermost Private Cloud (Beta) is the solution for high-trust collaboration.'
                         />
                     }
-                    {typeSubscription === 'FREE_TRIAL' &&
+                    {isPaidTierWithFreeTrial &&
                         <FormattedMessage
                             id='admin.billing.subscription.privateCloudCard.freeTrial.description'
                             defaultMessage='We love to work with our customers and their needs. Contact sales for subscription, billing or trial-specific questions.'

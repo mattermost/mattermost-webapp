@@ -62,7 +62,6 @@ const BillingSubscriptions: React.FC<Props> = () => {
 
     const [showCreditCardBanner, setShowCreditCardBanner] = useState(true);
 
-    // TODO: remove these hardcoded values
     let isPaidTierWithFreeTrial = false;
     let daysLeft = 0;
     if (subscription && subscription.trial_end_at! > 0) {
@@ -70,9 +69,9 @@ const BillingSubscriptions: React.FC<Props> = () => {
         daysLeft = getRemainingDaysFromFutureTimestamp(subscription.trial_end_at);
     }
 
-    // hardcoded values to see it working
-    isPaidTierWithFreeTrial = true;
-    daysLeft = 13;
+    // TODO: remove these 2 hardcoded values
+    // isPaidTierWithFreeTrial = true;
+    // daysLeft = 13;
 
     useEffect(() => {
         getCloudSubscription()(dispatch, store.getState());
@@ -150,7 +149,7 @@ const BillingSubscriptions: React.FC<Props> = () => {
                             daysLeft={daysLeft}
                         />
                     </div>
-                    {contactSalesCard(contactSalesLink, isPaidTierWithFreeTrial, isPaidTier)}
+                    {contactSalesCard(contactSalesLink, isPaidTierWithFreeTrial)}
                     {cancelSubscription(cancelAccountLink, isPaidTierWithFreeTrial)}
                 </div>
             </div>

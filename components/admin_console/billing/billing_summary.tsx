@@ -59,7 +59,10 @@ const BillingSummary: React.FC<BillingSummaryProps> = ({isPaidTier, isPaidTierWi
             body = (
                 lastInvoiceInfo(invoice, product, fullCharges, partialCharges)
             );
-        } else if (isPaidTierWithFreeTrial) {
+        }
+
+        // TODO: this needs to be an elseif, let this way to see if working when changing the hardcoded values in billing_subscription
+        if (isPaidTierWithFreeTrial) {
             body = freeTrial(onUpgradeMattermostCloud, daysLeft);
         }
     } else {
