@@ -63,14 +63,14 @@ const BillingSubscriptions: React.FC<Props> = () => {
 
     // TODO: replace this temporal hardcoded value with the right state value
     enum SubscriptionType {
-        FREE_TRIAL = 'FREE_TRIAL',
+        FREE_TRIAL = 'FREE_TRIAL',// subscrion.status = trialing|active
         CLOUD_STARTER = 'CLOUD_STARTER',
         CLOUD_PROFESSIONAL = 'CLOUD_PROFESSIONAL',
         CLOUD_ENTERPRISE = 'CLOUD_ENTERPRISE'
     }
 
     // TODO: remove these hardcoded values
-    const typeSubscription = SubscriptionType.FREE_TRIAL;
+    const typeSubscription = SubscriptionType.CLOUD_PROFESSIONAL;
     const daysLeft = 13;
 
     useEffect(() => {
@@ -126,7 +126,7 @@ const BillingSubscriptions: React.FC<Props> = () => {
         return null;
     }
 
-    const isPaidTier= Boolean(subscription?.is_paid_tier === 'true');
+    const isPaidTier = Boolean(subscription?.is_paid_tier === 'true');
 
     return (
         <div className='wrapper--fixed BillingSubscriptions'>
@@ -142,12 +142,11 @@ const BillingSubscriptions: React.FC<Props> = () => {
                     <div className='BillingSubscriptions__topWrapper'>
                         <PlanDetails
                             typeSubscription={typeSubscription}
-                            daysLeft={13}
                         />
                         <BillingSummary
                             isPaidTier={isPaidTier}
                             typeSubscription={typeSubscription}
-                            daysLeft={13}
+                            daysLeft={daysLeft}
                         />
                     </div>
                     {contactSalesCard(contactSalesLink, typeSubscription, isPaidTier)}

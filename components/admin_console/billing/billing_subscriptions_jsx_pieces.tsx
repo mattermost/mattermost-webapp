@@ -1,3 +1,5 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
@@ -26,22 +28,22 @@ export const contactSalesCard = (contactSalesLink: any, typeSubscription: string
                     }
                     {typeSubscription === 'FREE_TRIAL' &&
                         <FormattedMessage
-                        id='admin.billing.subscription.privateCloudCard.freeTrial.title'
-                        defaultMessage='Questions about your trial?'
+                            id='admin.billing.subscription.privateCloudCard.freeTrial.title'
+                            defaultMessage='Questions about your trial?'
                         />
                     }
 
                     {typeSubscription === 'CLOUD_STARTER' &&
                         <FormattedMessage
-                        id='admin.billing.subscription.privateCloudCard.cloudStarter.title'
-                        defaultMessage='Upgrade to Cloud Enterprise for a more secure option'
+                            id='admin.billing.subscription.privateCloudCard.cloudStarter.title'
+                            defaultMessage='Upgrade to Cloud Enterprise for a more secure option'
                         />
                     }
 
                     {typeSubscription === 'CLOUD_PROFESSIONAL' &&
                         <FormattedMessage
-                        id='admin.billing.subscription.privateCloudCard.cloudProfessional.title'
-                        defaultMessage='Looking for an annual discount? '
+                            id='admin.billing.subscription.privateCloudCard.cloudProfessional.title'
+                            defaultMessage='Looking for an annual discount? '
                         />
                     }
                 </div>
@@ -82,7 +84,7 @@ export const contactSalesCard = (contactSalesLink: any, typeSubscription: string
             </div>
         </div>
     );
-}
+};
 
 export const cancelSubscription = (cancelAccountLink: any, typeSubscription: string, isPaidTier: boolean) => {
     if (typeSubscription === 'FREE_TRIAL' || !isPaidTier) {
@@ -134,8 +136,8 @@ export const infoBanner = (handleHide: () => void) => {
             />}
             onDismiss={() => handleHide()}
         />
-    )
-}
+    );
+};
 
 export const creditCardExpiredBanner = (setShowCreditCardBanner: (value: boolean) => void) => {
     return (
@@ -169,8 +171,8 @@ export const creditCardExpiredBanner = (setShowCreditCardBanner: (value: boolean
             }
             onDismiss={() => setShowCreditCardBanner(false)}
         />
-    )
-}
+    );
+};
 
 export const paymentFailedBanner = () => {
     return (
@@ -201,5 +203,5 @@ export const paymentFailedBanner = () => {
                 </>
             }
         />
-    )
-}
+    );
+};

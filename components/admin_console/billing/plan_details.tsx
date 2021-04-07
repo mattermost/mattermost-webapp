@@ -10,16 +10,15 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentLocale} from 'selectors/i18n';
 import {GlobalState} from 'types/store';
 
-import {seatsAndSubscriptionDates, getPlanDetailElements, planDetailsTopElements, currentPlanText} from './plan_details_jsx_pieces';
+import {seatsAndSubscriptionDates, getPlanDetailElements, planDetailsTopElements, currentPlanText, featureList} from './plan_details_jsx_pieces';
 
 import './plan_details.scss';
 
 type PlanDetailsProps = {
-    daysLeft: number,
-    typeSubscription: string
+    typeSubscription: string;
 }
-
-const PlanDetails: React.FC<PlanDetailsProps> = ({daysLeft, typeSubscription}) => {
+/* eslint-disable react/prop-types */
+const PlanDetails: React.FC<PlanDetailsProps> = ({typeSubscription}) => {
     const locale = useSelector((state: GlobalState) => getCurrentLocale(state));
     const userCount = useSelector((state: GlobalState) => state.entities.admin.analytics!.TOTAL_USERS) as number;
     const userLimit = parseInt(useSelector((state: GlobalState) => getConfig(state).ExperimentalCloudUserLimit) || '0', 10);
@@ -39,14 +38,15 @@ const PlanDetails: React.FC<PlanDetailsProps> = ({daysLeft, typeSubscription}) =
     const showSeatsAndSubscriptionDates = false;
 
     const {
-        featureList,
         planPricing,
-        planDetailsDescription
+        planDetailsDescription,
     } = getPlanDetailElements(subscription, userLimit, userCount, product, aboveUserLimit);
+
+    const isPaidTier = Boolean(subscription?.is_paid_tier === 'true');
 
     return (
         <div className='PlanDetails'>
-            {planDetailsTopElements(userCount, product, typeSubscription)}
+            {planDetailsTopElements(userCount, isPaidTier, typeSubscription, userLimit)}
             {planPricing}
             {showSeatsAndSubscriptionDates && seatsAndSubscriptionDates(locale, userCount, subscription.seats, new Date(subscription.start_at), new Date(subscription.end_at))}
             {planDetailsDescription}
@@ -56,7 +56,7 @@ const PlanDetails: React.FC<PlanDetailsProps> = ({daysLeft, typeSubscription}) =
                     defaultMessage='Unlimited teams, channels, and search history'
                 />
             </div>
-            {featureList}
+            {featureList(typeSubscription, isPaidTier)}
             {currentPlanText(typeSubscription)}
         </div>
     );

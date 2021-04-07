@@ -21,7 +21,7 @@ import {
     lastInvoiceInfo,
     freeTrial,
     cloudStarter,
-    cloudProfessional
+    cloudProfessional,
 } from './billing_summary_jsx_pieces';
 
 import './billing_summary.scss';
@@ -42,17 +42,6 @@ const BillingSummary: React.FC<BillingSummaryProps> = ({isPaidTier, typeSubscrip
         return undefined;
     });
 
-    let body = noBillingHistory;
-    if (subscription && subscription.last_invoice) {
-        const invoice = subscription.last_invoice;
-        const fullCharges = invoice.line_items.filter((item) => item.type === 'full');
-        const partialCharges = invoice.line_items.filter((item) => item.type === 'partial');
-
-        body = (
-            lastInvoiceInfo(invoice, product, fullCharges, partialCharges)
-        );
-    }
-
     // show the upgrade section when is a free tier customer
     const onUpgradeMattermostCloud = () => {
         trackEvent('cloud_admin', 'click_upgrade_mattermost_cloud');
@@ -61,24 +50,37 @@ const BillingSummary: React.FC<BillingSummaryProps> = ({isPaidTier, typeSubscrip
             dialogType: PurchaseModal,
         }));
     };
-    
+
+    let body = noBillingHistory;
+
     if (isPaidTier) {
-        switch (typeSubscription) {
-            case 'FREE_TRIAL':
-                body = freeTrial(onUpgradeMattermostCloud, daysLeft);
-                break;
-            case 'CLOUD_STARTER':
-                body = cloudStarter(onUpgradeMattermostCloud);
-                break;
-            case 'CLOUD_PROFESSIONAL':
-                body = cloudProfessional(onUpgradeMattermostCloud);
-                break;
-            case 'CLOUD_ENTERPRISE':
-                return null;
-            default:
-                body = cloudStarter(onUpgradeMattermostCloud);
-                break;
+        // switch (typeSubscription) {
+        // case 'FREE_TRIAL':
+        //     body = freeTrial(onUpgradeMattermostCloud, daysLeft);
+        //     break;
+        // case 'CLOUD_STARTER':
+        //     body = cloudStarter(onUpgradeMattermostCloud);
+        //     break;
+        // case 'CLOUD_PROFESSIONAL':
+        //     body = cloudProfessional(onUpgradeMattermostCloud);
+        //     break;
+        // case 'CLOUD_ENTERPRISE':
+        //     return null;
+        // default:
+        //     body = cloudStarter(onUpgradeMattermostCloud);
+        //     break;
+        // }
+        if (subscription && subscription.last_invoice) {
+            const invoice = subscription.last_invoice;
+            const fullCharges = invoice.line_items.filter((item) => item.type === 'full');
+            const partialCharges = invoice.line_items.filter((item) => item.type === 'partial');
+            body = (
+                lastInvoiceInfo(invoice, product, fullCharges, partialCharges)
+            );
+        } else if (typeSubscription === 'FREE_TIER') {
+            body = freeTrial(onUpgradeMattermostCloud, daysLeft);
         }
+        
     } else {
         body = upgradeMattermostCloud(onUpgradeMattermostCloud);
     }

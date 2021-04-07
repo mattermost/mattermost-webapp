@@ -87,28 +87,38 @@ export const freeTrial = (onUpgradeMattermostCloud: () => void, daysLeft: number
             <img src={upgradeMattermostCloudImage}/>
         </div>
         <div className='UpgradeMattermostCloud__title'>
-            {daysLeft !== 1 && <FormattedMessage
-                id='admin.billing.subscription.freeTrial.title'
-                defaultMessage={'You\'re currently on a free trial'}
-            />}
-            {daysLeft === 1 && <FormattedMessage
-                id='admin.billing.subscription.freeTrial.lastDay.title'
-                defaultMessage={'Your free trial ends today'}
-            />}
+            {daysLeft !== 1 &&
+                <FormattedMessage
+                    id='admin.billing.subscription.freeTrial.title'
+                    defaultMessage={'You\'re currently on a free trial'}
+                />
+            }
+            {daysLeft === 1 &&
+                <FormattedMessage
+                    id='admin.billing.subscription.freeTrial.lastDay.title'
+                    defaultMessage={'Your free trial ends today'}
+                />
+            }
         </div>
         <div className='UpgradeMattermostCloud__description'>
-            {daysLeft > 3 && <FormattedMarkdownMessage
-                id='admin.billing.subscription.freeTrial.description'
-                defaultMessage='Your free trial will expire in 14 days. Add your payment information to continue after the trial ends.'
-            />}
-            {(daysLeft === 3 || daysLeft === 2) && <FormattedMarkdownMessage
-                id='admin.billing.subscription.freeTrial.lessThan3Days.description'
-                defaultMessage='Your free trial will end in 3 days. Add payment information to continue enjoying the benefits of Cloud Professional.'
-            />}
-            {(daysLeft === 1) && <FormattedMarkdownMessage
-                id='admin.billing.subscription.freeTrial.lastDay.description'
-                defaultMessage='Your free trial has ended. Add payment information to continue enjoying the benefits of Cloud Professional.'
-            />}
+            {daysLeft > 3 &&
+                <FormattedMarkdownMessage
+                    id='admin.billing.subscription.freeTrial.description'
+                    defaultMessage='Your free trial will expire in 14 days. Add your payment information to continue after the trial ends.'
+                />
+            }
+            {(daysLeft === 3 || daysLeft === 2) &&
+                <FormattedMarkdownMessage
+                    id='admin.billing.subscription.freeTrial.lessThan3Days.description'
+                    defaultMessage='Your free trial will end in 3 days. Add payment information to continue enjoying the benefits of Cloud Professional.'
+                />
+            }
+            {(daysLeft === 1) &&
+                <FormattedMarkdownMessage
+                    id='admin.billing.subscription.freeTrial.lastDay.description'
+                    defaultMessage='Your free trial has ended. Add payment information to continue enjoying the benefits of Cloud Professional.'
+                />
+            }
         </div>
         <button
             type='button'
