@@ -1591,44 +1591,7 @@ exports[`components/ChannelHeader should render shared view 1`] = `
         }
       }
     />
-    <HeaderIconWrapper
-      ariaLabel={true}
-      buttonId="channelHeaderSearchButton"
-      iconComponent={
-        <SearchIcon
-          aria-hidden="true"
-          className="icon icon--standard"
-        />
-      }
-      onClick={[Function]}
-      tooltipKey="search"
-    />
-    <HeaderIconWrapper
-      ariaLabel={true}
-      buttonClass="channel-header__icon"
-      buttonId="channelHeaderMentionButton"
-      iconComponent={
-        <MentionsIcon
-          aria-hidden="true"
-          className="icon icon--standard"
-        />
-      }
-      onClick={[Function]}
-      tooltipKey="recentMentions"
-    />
-    <HeaderIconWrapper
-      ariaLabel={true}
-      buttonClass="channel-header__icon"
-      buttonId="channelHeaderFlagButton"
-      iconComponent={
-        <FlagIcon
-          className="icon icon__flag"
-        />
-      }
-      onClick={[Function]}
-      tooltipKey="flaggedPosts"
-    />
-    <Connect(injectIntl(UserGuideDropdown)) />
+    <Connect(RHSSearchNav) />
   </div>
 </div>
 `;
