@@ -266,7 +266,7 @@ const ConfigurationAnnouncementBar: React.FC<Props> = (props: Props) => {
                 );
             }
 
-            if (!props.dismissedExpiringTrialLicense) {
+            if (!props.dismissedExpiringTrialLicense && !props.dismissedExpiringTrialLicenseLastDay) {
                 const today = moment(Date.now());
                 const endOfLicense = moment(new Date(parseInt(props.license.ExpiresAt, 10)));
                 const daysToEndLicense = endOfLicense.diff(today, 'days');
