@@ -1040,6 +1040,10 @@
 
 .more-modal__list .more-modal__row {
     min-height: 65px;
+
+    #member-list-popover & {
+        min-height: 0;
+    }
 }
 
 .team-selector-modal,
