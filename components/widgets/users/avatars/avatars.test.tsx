@@ -11,44 +11,6 @@ import {mockStore} from 'tests/test_store';
 
 import Avatars from './avatars';
 
-const userActions = require('mattermost-redux/actions/users');
-
-const users = [
-    {
-        url: 'test-url-1',
-        username: 'jesus.espino',
-        name: 'Jesus Espino',
-    },
-    {
-        url: 'test-url-2',
-        username: 'johnny.depp',
-        name: 'Johnny Depp',
-    },
-    {
-        url: 'test-url-3',
-        username: 'bilbo.baggins',
-        name: 'Bilbo Baggins',
-    },
-    {
-        url: 'test-url-4',
-        username: 'michael.hall',
-        name: 'Anthony Michael Hall',
-    },
-    {
-        url: 'test-url-5',
-        username: 'kathy.baker',
-        name: 'Kathy Baker',
-    },
-];
-
-jest.mock('react-intl', () => {
-    const reactIntl = jest.requireActual('react-intl');
-    return {
-        ...reactIntl,
-        useIntl: () => reactIntl.createIntl({locale: 'en', defaultLocale: 'en', timeZone: 'Etc/UTC', textComponent: 'span'}),
-    };
-});
-
 describe('components/widgets/users/Avatars', () => {
     const state = {
         entities: {
@@ -60,10 +22,38 @@ describe('components/widgets/users/Avatars', () => {
                 profiles: {
                     1: {
                         id: '1',
-                        username: 'jesus.espino',
+                        username: 'first.last1',
                         nickname: 'nickname1',
-                        first_name: 'Jesus',
-                        last_name: 'Espino',
+                        first_name: 'First1',
+                        last_name: 'Last1',
+                    },
+                    2: {
+                        id: '2',
+                        username: 'first.last2',
+                        nickname: 'nickname2',
+                        first_name: 'First2',
+                        last_name: 'Last2',
+                    },
+                    3: {
+                        id: '3',
+                        username: 'first.last3',
+                        nickname: 'nickname3',
+                        first_name: 'First3',
+                        last_name: 'Last3',
+                    },
+                    4: {
+                        id: '4',
+                        username: 'first.last4',
+                        nickname: 'nickname4',
+                        first_name: 'First4',
+                        last_name: 'Last4',
+                    },
+                    5: {
+                        id: '5',
+                        username: 'first.last5',
+                        nickname: 'nickname5',
+                        first_name: 'First5',
+                        last_name: 'Last5',
                     },
                 },
             },
@@ -76,38 +66,24 @@ describe('components/widgets/users/Avatars', () => {
         },
     };
 
-    test('should support avatar-users and match snapshot', () => {
+    test('should support userIds', () => {
         const {mountOptions} = mockStore(state);
         const wrapper = mount(
             <Avatars
                 size='xl'
-                users={users}
-            />,
-            mountOptions,
-        );
-
-        expect(wrapper).toMatchSnapshot();
-    });
-
-    test('should support profile-users and fetch missing ones', () => {
-        const {mountOptions} = mockStore(state);
-        const spy = jest.spyOn(userActions, 'getProfilesByIds');
-        const wrapper = mount(
-            <Avatars
-                size='xl'
-                participants={[
-                    {id: '1'},
-                    {id: '2'},
-                    {id: '3'},
-                    {id: '4'},
+                userIds={[
+                    '1',
+                    '2',
+                    '3',
                 ]}
             />,
             mountOptions,
         );
-        expect(spy).toBeCalledWith(['2', '3', '4']);
-        expect(wrapper.find(Avatar).find({url: '/api/v4/users/1/image?_=0'}).exists()).toBe(true);
-        expect(wrapper.find(Avatar).length).toBe(1);
         expect(wrapper).toMatchSnapshot();
+        expect(wrapper.find(Avatar).find({url: '/api/v4/users/1/image?_=0'}).exists()).toBe(true);
+        expect(wrapper.find(Avatar).find({url: '/api/v4/users/2/image?_=0'}).exists()).toBe(true);
+        expect(wrapper.find(Avatar).find({url: '/api/v4/users/3/image?_=0'}).exists()).toBe(true);
+        expect(wrapper.find(Avatar).length).toBe(3);
     });
 
     test('should properly count overflow', () => {
@@ -116,16 +92,22 @@ describe('components/widgets/users/Avatars', () => {
         const wrapper = mount(
             <Avatars
                 size='xl'
-                users={users}
+                userIds={[
+                    '1',
+                    '2',
+                    '3',
+                    '4',
+                    '5',
+                ]}
             />,
             mountOptions,
         );
 
         expect(wrapper).toMatchSnapshot();
-        expect(wrapper.find(Avatar).find({url: 'test-url-1'}).exists()).toBe(true);
-        expect(wrapper.find(Avatar).find({url: 'test-url-2'}).exists()).toBe(true);
-        expect(wrapper.find(Avatar).find({url: 'test-url-3'}).exists()).toBe(true);
-        expect(wrapper.find(Avatar).find({url: 'test-url-4'}).exists()).toBe(false);
-        expect(wrapper.find(Avatar).find({url: 'test-url-5'}).exists()).toBe(false);
+        expect(wrapper.find(Avatar).find({url: '/api/v4/users/1/image?_=0'}).exists()).toBe(true);
+        expect(wrapper.find(Avatar).find({url: '/api/v4/users/2/image?_=0'}).exists()).toBe(true);
+        expect(wrapper.find(Avatar).find({url: '/api/v4/users/3/image?_=0'}).exists()).toBe(true);
+        expect(wrapper.find(Avatar).find({url: '/api/v4/users/4/image?_=0'}).exists()).toBe(false);
+        expect(wrapper.find(Avatar).find({url: '/api/v4/users/5/image?_=0'}).exists()).toBe(false);
     });
 });

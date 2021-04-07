@@ -137,4 +137,15 @@ describe('components/threading/ThreadViewer', () => {
 
         expect(scrollToBottom).not.toHaveBeenCalled();
     });
+
+    test('should not break if root post is missing', () => {
+        const props = {
+            ...baseProps,
+            posts: [{...baseProps.posts[0], root_id: 'something'}],
+        };
+
+        expect(() => {
+            shallow(<ThreadViewer {...props}/>);
+        }).not.toThrowError("Cannot read property 'reply_count' of undefined");
+    });
 });

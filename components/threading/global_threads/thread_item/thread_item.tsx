@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, useCallback, useEffect, MouseEvent} from 'react';
+import React, {memo, useCallback, useEffect, MouseEvent, useMemo} from 'react';
 import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 import {useSelector, useDispatch} from 'react-redux';
@@ -11,7 +11,7 @@ import {$ID} from 'mattermost-redux/types/utilities';
 
 import {makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getChannel as fetchChannel} from 'mattermost-redux/actions/channels';
-import {getUser as fetchUser} from 'mattermost-redux/actions/users';
+import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
 
 import {makeGetDisplayName} from 'mattermost-redux/selectors/entities/users';
 import {getThread} from 'mattermost-redux/selectors/entities/threads';
@@ -32,7 +32,6 @@ import ThreadMenu from '../thread_menu';
 import {THREADING_TIME} from '../../common/options';
 import {GlobalState} from 'types/store';
 import {useThreadRouting} from '../../hooks';
-import {getDirectTeammate} from 'utils/utils.jsx';
 
 type Props = {
     threadId: $ID<UserThread>;
@@ -45,21 +44,25 @@ const markdownPreviewOptions = {
     atMentions: false,
 };
 
+const getChannel = makeGetChannel();
+const getDisplayName = makeGetDisplayName();
+
 function useLogic(threadId: string) {
     const {select, goToInChannel} = useThreadRouting();
     const dispatch = useDispatch();
 
     const thread = useSelector((state: GlobalState) => getThread(state, threadId));
     const post = useSelector((state: GlobalState) => getPost(state, threadId));
-    const channel = useSelector((state: GlobalState) => makeGetChannel()(state, {id: post.channel_id}));
-    const directTeammate = useSelector((state: GlobalState) => getDirectTeammate(state, post.channel_id));
-    const displayName = useSelector((state: GlobalState) => makeGetDisplayName()(state, post.user_id, true));
+    const channel = useSelector((state: GlobalState) => getChannel(state, {id: post.channel_id}));
+    const displayName = useSelector((state: GlobalState) => getDisplayName(state, post.user_id, true));
+
+    const participantIds = useMemo(() => thread?.participants?.map(({id}) => id), [thread?.participants]);
 
     useEffect(() => {
-        if (channel?.teammate_id && !directTeammate) {
-            dispatch(fetchUser(channel.teammate_id));
+        if (channel?.teammate_id) {
+            dispatch(getMissingProfilesByIds([channel.teammate_id]));
         }
-    }, [channel, directTeammate]);
+    }, [channel?.teammate_id]);
 
     useEffect(() => {
         if (!channel && thread?.post.channel_id) {
@@ -67,13 +70,7 @@ function useLogic(threadId: string) {
         }
     }, [channel, thread?.post.channel_id]);
 
-    useEffect(() => {
-        if (channel?.teammate_id && !directTeammate) {
-            dispatch(fetchUser(channel.teammate_id));
-        }
-    }, [channel, directTeammate]);
-
-    const selectHandler = useCallback(() => select(threadId), [threadId]);
+    const selectHandler = useCallback(() => select(threadId), []);
     const goToInChannelHandler = useCallback((e: MouseEvent) => {
         e.stopPropagation();
         goToInChannel(threadId);
@@ -84,6 +81,7 @@ function useLogic(threadId: string) {
         post,
         channel,
         displayName,
+        participantIds,
         selectHandler,
         goToInChannelHandler,
     };
@@ -98,6 +96,7 @@ const ThreadItem = ({
         post,
         channel,
         displayName,
+        participantIds,
         selectHandler,
         goToInChannelHandler,
     } = useLogic(threadId);
@@ -112,7 +111,6 @@ const ThreadItem = ({
         last_reply_at: lastReplyAt,
         reply_count: totalReplies,
         is_following: isFollowing,
-        participants,
     } = thread;
 
     return (
@@ -182,10 +180,12 @@ const ThreadItem = ({
             </div>
             {Boolean(totalReplies) && (
                 <div className='activity'>
-                    <Avatars
-                        participants={participants}
-                        size='xs'
-                    />
+                    {participantIds?.length ? (
+                        <Avatars
+                            userIds={participantIds}
+                            size='xs'
+                        />
+                    ) : null}
                     {newReplies ? (
                         <FormattedMessage
                             id='threading.numNewReplies'

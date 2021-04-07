@@ -4,7 +4,7 @@ exports[`components/threading/global_threads/thread_list should match snapshot 1
 <div
   className="ThreadList"
 >
-  <Memo(Header)
+  <Header
     heading={
       <React.Fragment>
         <Memo(Button)
@@ -34,7 +34,7 @@ exports[`components/threading/global_threads/thread_list should match snapshot 1
       <div
         className="right-anchor"
       >
-        <Memo(SimpleTooltip)
+        <SimpleTooltip
           content="Mark all as read"
           disabled={false}
           id="threadListMarkRead"
@@ -52,7 +52,7 @@ exports[`components/threading/global_threads/thread_list should match snapshot 1
               />
             </span>
           </Memo(Button)>
-        </Memo(SimpleTooltip)>
+        </SimpleTooltip>
       </div>
     }
   />

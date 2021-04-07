@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, HTMLAttributes} from 'react';
+import React, {HTMLAttributes} from 'react';
 
 const ThreadsIcon = (attrs: HTMLAttributes<SVGElement>) => {
     return (
@@ -20,4 +20,4 @@ const ThreadsIcon = (attrs: HTMLAttributes<SVGElement>) => {
     );
 };
 
-export default memo(ThreadsIcon);
+export default ThreadsIcon;

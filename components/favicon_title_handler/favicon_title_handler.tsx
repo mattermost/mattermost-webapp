@@ -49,7 +49,7 @@ type Props = {
     currentChannel?: Channel;
     currentTeam: Team;
     currentTeammate: Channel | null;
-    isGlobalThreadsView: boolean;
+    inGlobalThreads: boolean;
 };
 
 class FaviconTitleHandler extends React.PureComponent<Props> {
@@ -84,13 +84,13 @@ class FaviconTitleHandler extends React.PureComponent<Props> {
             currentTeam,
             currentTeammate,
             unreads,
-            isGlobalThreadsView,
+            inGlobalThreads,
         } = this.props;
         const {formatMessage} = this.props.intl;
 
         const currentSiteName = siteName || '';
 
-        const mentionTitle = unreads.mentionCount > 0 ? '(' + unreads.mentionCount + ') ' : '';
+        const mentionTitle = unreads.mentionCount > 0 ? `(${unreads.mentionCount}) ` : '';
         const unreadTitle = !this.isDynamicFaviconSupported && unreads.messageCount > 0 ? '* ' : '';
 
         if (currentChannel && currentTeam && currentChannel.id) {
@@ -100,13 +100,13 @@ class FaviconTitleHandler extends React.PureComponent<Props> {
                     currentChannelName = currentTeammate.display_name;
                 }
             }
-            document.title = `${mentionTitle + unreadTitle + currentChannelName} - ${currentTeam.display_name} ${currentSiteName}`;
-        } else if (currentTeam && isGlobalThreadsView) {
+            document.title = `${mentionTitle}${unreadTitle}${currentChannelName} - ${currentTeam.display_name} ${currentSiteName}`;
+        } else if (currentTeam && inGlobalThreads) {
             document.title = formatMessage({
                 id: 'globalThreads.title',
-                defaultMessage: '{prefix} Threads - {displayName} {siteName}',
+                defaultMessage: '{prefix}Threads - {displayName} {siteName}',
             }, {
-                prefix: mentionTitle + unreadTitle,
+                prefix: `${mentionTitle}${unreadTitle}`,
                 displayName: currentTeam.display_name,
                 siteName: currentSiteName,
             });

@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {Link, useRouteMatch, useLocation, matchPath} from 'react-router-dom';
 import classNames from 'classnames';
 import {useIntl} from 'react-intl';
@@ -29,7 +29,7 @@ const GlobalThreadsLink = () => {
 
     const {url} = useRouteMatch();
     const {pathname} = useLocation();
-    const threadsMatch = matchPath<{team: string; threadIdentifier?: string}>(pathname, '/:team/threads');
+    const inGlobalThreads = matchPath(pathname, {path: '/:team/threads/:threadIdentifier?'}) != null;
     const {currentTeamId, currentUserId} = useThreadRouting();
 
     const counts = useSelector(getThreadCountsInCurrentTeam);
@@ -37,11 +37,14 @@ const GlobalThreadsLink = () => {
     const someUnreadThreads = counts?.total_unread_threads;
 
     useEffect(() => {
-        dispatch(getThreads(currentUserId, currentTeamId, {perPage: 5}));
+        // load counts if necessary
+        if (isFeatureEnabled) {
+            dispatch(getThreads(currentUserId, currentTeamId, {perPage: 5}));
+        }
     }, [currentTeamId]);
 
-    if (!isFeatureEnabled || (unreadsOnly && !threadsMatch && !someUnreadThreads)) {
-        // hide link if filtering unreads and there are no unread threads
+    if (!isFeatureEnabled || (unreadsOnly && !inGlobalThreads && !someUnreadThreads)) {
+        // hide link if feature disabled or filtering unreads and there are no unread threads
         return null;
     }
 
@@ -49,9 +52,10 @@ const GlobalThreadsLink = () => {
         <ul className='SidebarGlobalThreads NavGroupContent nav nav-pills__container'>
             <li
                 className={classNames('SidebarChannel', {
-                    active: Boolean(threadsMatch),
+                    active: inGlobalThreads,
                     unread: someUnreadThreads,
                 })}
+                tabIndex={-1}
             >
                 <Link
                     to={`${url}/threads`}
@@ -60,7 +64,7 @@ const GlobalThreadsLink = () => {
                         'unread-title': Boolean(someUnreadThreads),
                     })}
                     role='listitem'
-                    tabIndex={-1}
+                    tabIndex={0}
                 >
                     <span className='icon'>
                         <ThreadsIcon/>
@@ -79,4 +83,4 @@ const GlobalThreadsLink = () => {
     );
 };
 
-export default memo(GlobalThreadsLink);
+export default GlobalThreadsLink;

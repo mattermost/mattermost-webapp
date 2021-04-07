@@ -4,7 +4,7 @@
 import {ComponentProps} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
-import {withRouter, RouteChildrenProps} from 'react-router-dom';
+import {withRouter, RouteChildrenProps, matchPath} from 'react-router-dom';
 
 import {getCurrentChannel, getUnreads} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
@@ -16,7 +16,7 @@ import FaviconTitleHandler from './favicon_title_handler';
 
 type Props = RouteChildrenProps;
 
-function mapStateToProps(state: GlobalState, {match, location}: Props): ComponentProps<typeof FaviconTitleHandler> {
+function mapStateToProps(state: GlobalState, {location: {pathname}}: Props): ComponentProps<typeof FaviconTitleHandler> {
     const config = getConfig(state);
     const currentChannel = getCurrentChannel(state);
     const currentTeammate = (currentChannel && currentChannel.teammate_id) ? currentChannel : null;
@@ -28,7 +28,7 @@ function mapStateToProps(state: GlobalState, {match, location}: Props): Componen
         currentTeammate,
         siteName: config.SiteName,
         unreads: getUnreads(state),
-        isGlobalThreadsView: match?.path === '/:team' && location?.pathname.includes(`${match?.url}/threads`),
+        inGlobalThreads: matchPath(pathname, {path: '/:team/threads/:threadIdentifier?'}) != null,
     };
 }
 

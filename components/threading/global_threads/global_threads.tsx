@@ -37,7 +37,7 @@ import BalloonIllustration from '../common/balloon_illustration';
 
 import ThreadViewer from '../thread_viewer';
 
-import ThreadList, {ThreadFilter} from './thread_list';
+import ThreadList, {ThreadFilter, FILTER_STORAGE_KEY} from './thread_list';
 import ThreadPane from './thread_pane';
 import ThreadItem from './thread_item';
 
@@ -48,7 +48,7 @@ const GlobalThreads = () => {
     const dispatch = useDispatch();
 
     const {url, params: {threadIdentifier}} = useRouteMatch<{threadIdentifier?: string}>();
-    const [filter, setFilter] = useGlobalState<ThreadFilter>('', 'globalThreads_filter');
+    const [filter, setFilter] = useGlobalState(ThreadFilter.none, FILTER_STORAGE_KEY);
     const {currentTeamId, currentUserId, clear} = useThreadRouting();
 
     const counts = useSelector(getThreadCountsInCurrentTeam);
@@ -68,11 +68,11 @@ const GlobalThreads = () => {
     }, [currentUserId, currentTeamId, filter]);
 
     useEffect(() => {
-        dispatch(setSelectedThreadId(currentUserId, currentTeamId, selectedThread?.id));
+        dispatch(setSelectedThreadId(currentTeamId, selectedThread?.id));
         if ((!selectedThread || !selectedPost) && !isLoading) {
             clear();
         }
-    }, [currentUserId, currentTeamId, selectedThread, selectedPost, isLoading, counts, filter]);
+    }, [currentTeamId, selectedThread, selectedPost, isLoading, counts, filter]);
 
     return (
         <div
@@ -92,6 +92,7 @@ const GlobalThreads = () => {
                 })}
                 right={<RHSSearchNav/>}
             />
+
             {isEmpty(threadIds) ? (
                 <div className='no-results__holder'>
                     {isLoading ? (

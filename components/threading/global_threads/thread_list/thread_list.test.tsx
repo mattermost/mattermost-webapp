@@ -14,7 +14,7 @@ import Header from 'components/widgets/header';
 
 import Button from '../../common/button';
 
-import ThreadList from './thread_list';
+import ThreadList, {ThreadFilter} from './thread_list';
 
 const mockRouting = {
     currentUserId: 'uid',
@@ -50,7 +50,7 @@ describe('components/threading/global_threads/thread_list', () => {
 
     beforeEach(() => {
         props = {
-            currentFilter: '',
+            currentFilter: ThreadFilter.none,
             someUnread: true,
             setFilter: jest.fn(),
         };

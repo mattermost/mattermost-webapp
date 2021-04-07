@@ -87,18 +87,12 @@ export default class CenterChannel extends React.PureComponent<Props, State> {
                             )}
                         />
                         <Route
-                            path={[
-                                '/:team/:path(channels|messages)/:identifier/:postid',
-                                '/:team/:path(channels|messages)/:identifier',
-                            ]}
+                            path='/:team/:path(channels|messages)/:identifier/:postid?'
                             component={ChannelIdentifierRouter}
                         />
                         {isCollapsedThreadsEnabled ? (
                             <Route
-                                path={[
-                                    '/:team/threads/:threadIdentifier',
-                                    '/:team/threads/',
-                                ]}
+                                path='/:team/threads/:threadIdentifier?'
                                 component={LazyGlobalThreads}
                             />
                         ) : null}
