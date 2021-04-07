@@ -72,7 +72,7 @@ export default class AppsFormSelectField extends React.PureComponent<Props, Stat
         const value = this.props.value;
 
         return (
-            <div>
+            <div className={'react-select'}>
                 <AsyncSelect
                     id={`MultiInput_${field.name}`}
                     loadOptions={this.loadDynamicOptions}
@@ -96,7 +96,7 @@ export default class AppsFormSelectField extends React.PureComponent<Props, Stat
         const value = this.props.value;
 
         return (
-            <div>
+            <div className={'react-select'}>
                 <ReactSelect
                     id={`MultiInput_${field.name}`}
                     options={options}
