@@ -90,7 +90,7 @@ class FaviconTitleHandler extends React.PureComponent<Props> {
 
         const currentSiteName = siteName || '';
 
-        const mentionTitle = unreads.mentionCount > 0 ? '(' + unreads.mentionCount + ') ' : '';
+        const mentionTitle = unreads.mentionCount > 0 ? `(${unreads.mentionCount}) ` : '';
         const unreadTitle = !this.isDynamicFaviconSupported && unreads.messageCount > 0 ? '* ' : '';
 
         if (currentChannel && currentTeam && currentChannel.id) {
@@ -100,13 +100,13 @@ class FaviconTitleHandler extends React.PureComponent<Props> {
                     currentChannelName = currentTeammate.display_name;
                 }
             }
-            document.title = `${mentionTitle + unreadTitle + currentChannelName} - ${currentTeam.display_name} ${currentSiteName}`;
+            document.title = `${mentionTitle}${unreadTitle}${currentChannelName} - ${currentTeam.display_name} ${currentSiteName}`;
         } else if (currentTeam && inGlobalThreads) {
             document.title = formatMessage({
                 id: 'globalThreads.title',
-                defaultMessage: '{prefix} Threads - {displayName} {siteName}',
+                defaultMessage: '{prefix}Threads - {displayName} {siteName}',
             }, {
-                prefix: mentionTitle + unreadTitle,
+                prefix: `${mentionTitle}${unreadTitle}`,
                 displayName: currentTeam.display_name,
                 siteName: currentSiteName,
             });

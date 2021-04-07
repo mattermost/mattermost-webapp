@@ -2968,7 +2968,7 @@
   "globalThreads.subtitle": "Threads you’re participating in will automatically show here",
   "globalThreads.threadList.noUnreadThreads": "No unread threads",
   "globalThreads.threadPane.unselectedTitle": "{numUnread, plural, =0 {Looks like you’re all caught up} other {Catch up on your threads}}",
-  "globalThreads.title": "{prefix} Threads - {displayName} {siteName}",
+  "globalThreads.title": "{prefix}Threads - {displayName} {siteName}",
   "group_list_modal.addGroupButton": "Add Groups",
   "group_list_modal.removeGroupButton": "Remove Group",
   "groups": "{team} Groups",
