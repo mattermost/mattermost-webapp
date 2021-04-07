@@ -104,7 +104,8 @@ export const freeTrial = (onUpgradeMattermostCloud: () => void, daysLeft: number
             {daysLeft > 3 &&
                 <FormattedMarkdownMessage
                     id='admin.billing.subscription.freeTrial.description'
-                    defaultMessage='Your free trial will expire in 14 days. Add your payment information to continue after the trial ends.'
+                    defaultMessage='Your free trial will expire in {daysLeft} days. Add your payment information to continue after the trial ends.'
+                    values={{daysLeft}}
                 />
             }
             {(daysLeft === 3 || daysLeft === 2) &&
@@ -128,67 +129,6 @@ export const freeTrial = (onUpgradeMattermostCloud: () => void, daysLeft: number
             <FormattedMessage
                 id='admin.billing.subscription.freeTrial.subscribeButton'
                 defaultMessage='Subscribe Now'
-            />
-        </button>
-    </div>
-);
-
-export const cloudStarter = (onUpgradeMattermostCloud: () => void) => (
-    <div className='UpgradeMattermostCloud'>
-        <div className='UpgradeMattermostCloud__image'>
-            <img src={upgradeMattermostCloudImage}/>
-        </div>
-        <div className='UpgradeMattermostCloud__title'>
-            <FormattedMessage
-                id='admin.billing.subscription.cloudStarter.title'
-                defaultMessage='Upgrade to Cloud Professional'
-            />
-        </div>
-        <div className='UpgradeMattermostCloud__description'>
-            <FormattedMarkdownMessage
-                id='admin.billing.subscription.cloudStarter.description'
-                defaultMessage='Optimize your processes with Guest Accounts, Office365 suite integrations, Gitlab SSO and advanced permissions.'
-            />
-        </div>
-        <button
-            type='button'
-            onClick={onUpgradeMattermostCloud}
-            className='UpgradeMattermostCloud__upgradeButton'
-        >
-            <FormattedMessage
-                id='admin.billing.subscription.cloudStarter.upgradeButton'
-                defaultMessage='Upgrade Now'
-            />
-        </button>
-    </div>
-);
-
-export const cloudProfessional = (onUpgradeMattermostCloud: () => void) => (
-    <div className='UpgradeMattermostCloud'>
-        <div className='UpgradeMattermostCloud__image'>
-            <img src={upgradeMattermostCloudImage}/>
-        </div>
-        <div className='UpgradeMattermostCloud__title'>
-            <FormattedMessage
-                id='admin.billing.subscription.cloudProfessional.title'
-                defaultMessage='Upgrade to Cloud Enterprise'
-            />
-        </div>
-        <div className='UpgradeMattermostCloud__description'>
-            <FormattedMarkdownMessage
-                id='admin.billing.subscription.cloudProfessional.description'
-                defaultMessage='Optimize your processes with VPC Peering, a dedicated AWS account and premium support. '
-            />
-        </div>
-        {/* TODO: validate if this button actually has to open the contact sales form */}
-        <button
-            type='button'
-            onClick={onUpgradeMattermostCloud}
-            className='UpgradeMattermostCloud__upgradeButton'
-        >
-            <FormattedMessage
-                id='admin.billing.subscription.cloudProfessional.upgradeButton'
-                defaultMessage='Contact Sales'
             />
         </button>
     </div>

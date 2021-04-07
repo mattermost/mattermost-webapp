@@ -12,10 +12,9 @@ import privateCloudImage from 'images/private-cloud-image.svg';
 
 import BlockableLink from 'components/admin_console/blockable_link';
 
-export const contactSalesCard = (contactSalesLink: any, typeSubscription: string, isPaidTier: boolean) => {
-    if (typeSubscription === 'CLOUD_ENTERPRISE') {
-        return;
-    }
+export const contactSalesCard = (contactSalesLink: any, isPaidTierWithFreeTrial: boolean, isPaidTier: boolean) => {
+    const typeSubscription = isPaidTierWithFreeTrial ? 'FREE_TRIAL' : 'MATTERMOST_CLOUD';
+
     return (
         <div className='PrivateCloudCard'>
             <div className='PrivateCloudCard__text'>
@@ -33,38 +32,52 @@ export const contactSalesCard = (contactSalesLink: any, typeSubscription: string
                         />
                     }
 
-                    {typeSubscription === 'CLOUD_STARTER' &&
+                    {/* {typeSubscription === 'CLOUD_STARTER' &&
                         <FormattedMessage
                             id='admin.billing.subscription.privateCloudCard.cloudStarter.title'
-                            defaultMessage='Upgrade to Cloud Enterprise for a more secure option'
+                            defaultMessage='Upgrade to Cloud Professional'
                         />
                     }
 
                     {typeSubscription === 'CLOUD_PROFESSIONAL' &&
                         <FormattedMessage
                             id='admin.billing.subscription.privateCloudCard.cloudProfessional.title'
-                            defaultMessage='Looking for an annual discount? '
+                            defaultMessage='Upgrade to Cloud Enterprise'
                         />
                     }
+
+                    {typeSubscription === 'CLOUD_ENTERPRISE' &&
+                        <FormattedMessage
+                            id='admin.billing.subscription.privateCloudCard.cloudEnterprise.title'
+                            defaultMessage='Looking for an annual discount? '
+                        />
+                    } */}
                 </div>
                 <div className='PrivateCloudCard__text-description'>
-                    {!isPaidTier && <FormattedMessage
-                        id='admin.billing.subscription.privateCloudCard.description'
-                        defaultMessage='If you need software with dedicated, single-tenant architecture, Mattermost Private Cloud (Beta) is the solution for high-trust collaboration.'
-                    />}
-                    {typeSubscription === 'FREE_TRIAL' && <FormattedMessage
-                        id='admin.billing.subscription.privateCloudCard.freeTrial.description'
-                        defaultMessage='We love to work with our customers and their needs. Contact sales for subscription, billing or trial-specific questions.'
-                    />}
-                    {typeSubscription === 'CLOUD_STARTER' && <FormattedMessage
+                    {!isPaidTier &&
+                        <FormattedMessage
+                            id='admin.billing.subscription.privateCloudCard.description'
+                            defaultMessage='If you need software with dedicated, single-tenant architecture, Mattermost Private Cloud (Beta) is the solution for high-trust collaboration.'
+                        />
+                    }
+                    {typeSubscription === 'FREE_TRIAL' &&
+                        <FormattedMessage
+                            id='admin.billing.subscription.privateCloudCard.freeTrial.description'
+                            defaultMessage='We love to work with our customers and their needs. Contact sales for subscription, billing or trial-specific questions.'
+                        />
+                    }
+                    {/* {typeSubscription === 'CLOUD_STARTER' && <FormattedMessage
                         id='admin.billing.subscription.privateCloudCard.cloudStarter.description'
-                        defaultMessage='Optimize your processes with VPC Peering, a dedicated AWS account and premium support.'
+                        defaultMessage='Optimize your processes with Guest Accounts, Office365 suite integrations, Gitlab SSO and advanced permissions.'
                     />}
                     {typeSubscription === 'CLOUD_PROFESSIONAL' && <FormattedMessage
                         id='admin.billing.subscription.privateCloudCard.cloudProfessional.description'
-                        defaultMessage='We love to work with our customers and their needs. If you are looking to purchase annually for a discount, reach out to our sales team.'
+                        defaultMessage='Optimize your processes with VPC Peering, a dedicated AWS account and premium support.'
                     />}
-
+                    {typeSubscription === 'CLOUD_ENTERPRISE' && <FormattedMessage
+                        id='admin.billing.subscription.privateCloudCard.cloudEnterprise.description'
+                        defaultMessage='At Mattermost, we work with you and your team to meet your needs throughout the product. If you are looking for an annual discount, please reach out to our sales team.'
+                    />} */}
                 </div>
                 <a
                     href={contactSalesLink}
@@ -86,9 +99,9 @@ export const contactSalesCard = (contactSalesLink: any, typeSubscription: string
     );
 };
 
-export const cancelSubscription = (cancelAccountLink: any, typeSubscription: string, isPaidTier: boolean) => {
-    if (typeSubscription === 'FREE_TRIAL' || !isPaidTier) {
-        return;
+export const cancelSubscription = (cancelAccountLink: any, isPaidTierWithFreeTrial: boolean) => {
+    if (isPaidTierWithFreeTrial) {
+        return null;
     }
     return (
         <div className='cancelSubscriptionSection'>
@@ -126,14 +139,18 @@ export const infoBanner = (handleHide: () => void) => {
     return (
         <AlertBanner
             mode='info'
-            title={<FormattedMessage
-                id='billing.subscription.info.headsup'
-                defaultMessage='Just a heads up'
-            />}
-            message={<FormattedMessage
-                id='billing.subscription.info.headsup.description'
-                defaultMessage='You’re nearing the user limit with the free tier of Mattermost Cloud. We’ll let you know if you hit that limit.'
-            />}
+            title={
+                <FormattedMessage
+                    id='billing.subscription.info.headsup'
+                    defaultMessage='Just a heads up'
+                />
+            }
+            message={
+                <FormattedMessage
+                    id='billing.subscription.info.headsup.description'
+                    defaultMessage='You’re nearing the user limit with the free tier of Mattermost Cloud. We’ll let you know if you hit that limit.'
+                />
+            }
             onDismiss={() => handleHide()}
         />
     );
@@ -178,10 +195,12 @@ export const paymentFailedBanner = () => {
     return (
         <AlertBanner
             mode='danger'
-            title={<FormattedMessage
-                id='billing.subscription.info.mostRecentPaymentFailed'
-                defaultMessage='Your most recent payment failed'
-            />}
+            title={
+                <FormattedMessage
+                    id='billing.subscription.info.mostRecentPaymentFailed'
+                    defaultMessage='Your most recent payment failed'
+                />
+            }
             message={
                 <>
                     <FormattedMessage

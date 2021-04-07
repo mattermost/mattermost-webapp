@@ -249,6 +249,16 @@ export function getTimestamp() {
     return Date.now();
 }
 
+export function getRemainingDaysFromFutureTimestamp(timestamp) {
+    var oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+    var today = new Date().getTime();
+    if (today >= timestamp) {
+        return -1;
+    }
+
+    return Math.round(Math.abs((timestamp - today) / (oneDay)));
+}
+
 // Replaces all occurrences of a pattern
 export function loopReplacePattern(text, pattern, replacement) {
     let result = text;

@@ -20,19 +20,17 @@ import {
     upgradeMattermostCloud,
     lastInvoiceInfo,
     freeTrial,
-    cloudStarter,
-    cloudProfessional,
 } from './billing_summary_jsx_pieces';
 
 import './billing_summary.scss';
 
 type BillingSummaryProps = {
     isPaidTier: boolean;
-    typeSubscription: string;
+    isPaidTierWithFreeTrial: boolean;
     daysLeft: number;
 }
 
-const BillingSummary: React.FC<BillingSummaryProps> = ({isPaidTier, typeSubscription, daysLeft}: BillingSummaryProps) => {
+const BillingSummary: React.FC<BillingSummaryProps> = ({isPaidTier, isPaidTierWithFreeTrial, daysLeft}: BillingSummaryProps) => {
     const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription);
     const dispatch = useDispatch<DispatchFunc>();
     const product = useSelector((state: GlobalState) => {
@@ -54,22 +52,6 @@ const BillingSummary: React.FC<BillingSummaryProps> = ({isPaidTier, typeSubscrip
     let body = noBillingHistory;
 
     if (isPaidTier) {
-        // switch (typeSubscription) {
-        // case 'FREE_TRIAL':
-        //     body = freeTrial(onUpgradeMattermostCloud, daysLeft);
-        //     break;
-        // case 'CLOUD_STARTER':
-        //     body = cloudStarter(onUpgradeMattermostCloud);
-        //     break;
-        // case 'CLOUD_PROFESSIONAL':
-        //     body = cloudProfessional(onUpgradeMattermostCloud);
-        //     break;
-        // case 'CLOUD_ENTERPRISE':
-        //     return null;
-        // default:
-        //     body = cloudStarter(onUpgradeMattermostCloud);
-        //     break;
-        // }
         if (subscription && subscription.last_invoice) {
             const invoice = subscription.last_invoice;
             const fullCharges = invoice.line_items.filter((item) => item.type === 'full');
@@ -77,10 +59,9 @@ const BillingSummary: React.FC<BillingSummaryProps> = ({isPaidTier, typeSubscrip
             body = (
                 lastInvoiceInfo(invoice, product, fullCharges, partialCharges)
             );
-        } else if (typeSubscription === 'FREE_TIER') {
+        } else if (isPaidTierWithFreeTrial) {
             body = freeTrial(onUpgradeMattermostCloud, daysLeft);
         }
-        
     } else {
         body = upgradeMattermostCloud(onUpgradeMattermostCloud);
     }

@@ -111,7 +111,8 @@ export const seatsAndSubscriptionDates = (locale: string, userCount: number, num
     );
 };
 
-export const planDetailsTopElements = (userCount: number, isPaidTier: boolean, typeSubscription: string, userLimit: number) => {
+export const planDetailsTopElements = (userCount: number, isPaidTier: boolean, isPaidTierWithFreeTrial: boolean, userLimit: number) => {
+    const typeSubscription = isPaidTierWithFreeTrial ? 'FREE_TRIAL' : 'MATTERMOST_CLOUD';
     let userCountDisplay = (
         <div className='PlanDetails__userCount'>
             <FormattedMarkdownMessage
@@ -198,8 +199,8 @@ export const planDetailsTopElements = (userCount: number, isPaidTier: boolean, t
     );
 };
 
-export const currentPlanText = (typeSubscription: string) => {
-    if (typeSubscription === 'FREE_TRIAL') {
+export const currentPlanText = (isPaidTierWithFreeTrial: boolean) => {
+    if (isPaidTierWithFreeTrial) {
         return null;
     }
     return (
@@ -281,7 +282,9 @@ export const getPlanDetailElements = (
     };
 };
 
-export const featureList = (typeSubscription: string, isPaidTier: boolean) => {
+export const featureList = (isPaidTierWithFreeTrial: boolean, isPaidTier: boolean) => {
+    const typeSubscription = isPaidTierWithFreeTrial ? 'FREE_TRIAL' : 'MATTERMOST_CLOUD';
+
     const featuresFreeTier = [
         localizeMessage('admin.billing.subscription.planDetails.features.10GBstoragePerUser', '10 GB storage per user'),
         localizeMessage('admin.billing.subscription.planDetails.features.99uptime', '99.0% uptime'),
