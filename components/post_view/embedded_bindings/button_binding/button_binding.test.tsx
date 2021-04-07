@@ -89,7 +89,7 @@ describe('components/post_view/embedded_bindings/button_binding/', () => {
             ...baseProps,
             actions: {
                 doAppCall: jest.fn().mockResolvedValue({
-                    data: {
+                    error: {
                         type: 'error',
                         error: 'The error',
                     },

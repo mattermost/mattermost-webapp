@@ -159,7 +159,7 @@ class AppsFormContainer extends React.PureComponent<Props, State> {
     };
 
     performLookupCall = async (field: AppField, values: AppFormValues, userInput: string): Promise<DoAppCallResult<AppLookupResponse>> => {
-        const intl = this.context.intl;
+        const intl = this.props.intl;
         const makeErrorMsg = (message: string) => intl.formatMessage(
             {
                 id: 'apps.error.form.refresh',
@@ -169,10 +169,10 @@ class AppsFormContainer extends React.PureComponent<Props, State> {
         );
         const call = this.getCall();
         if (!call) {
-            return makeErrorMsg(intl.formatMessage({
+            return {error: makeCallErrorResponse(makeErrorMsg(intl.formatMessage({
                 id: 'apps.error.form.no_call',
                 defaultMessage: '`call` is not defined.',
-            }));
+            })))};
         }
 
         return this.props.actions.doAppCall({
