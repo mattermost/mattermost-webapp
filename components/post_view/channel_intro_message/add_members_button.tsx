@@ -25,7 +25,7 @@ import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 import MembersSvg from './members_illustration.svg';
 
 export interface AddMembersButtonProps {
-    totalUsers: number;
+    totalUsers?: number;
     usersLimit: number;
     channel: Channel;
     setHeader: React.ReactNode;
@@ -33,12 +33,13 @@ export interface AddMembersButtonProps {
 }
 
 const AddMembersButton: React.FC<AddMembersButtonProps> = ({totalUsers, usersLimit, channel, setHeader, theme}: AddMembersButtonProps) => {
-    const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
-    const inviteUsers = totalUsers < usersLimit;
-
     if (!totalUsers) {
         return (<LoadingSpinner/>);
     }
+
+    const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
+    const inviteUsers = totalUsers < usersLimit;
+
     return (
         inviteUsers && !isPrivate ? lessThanMaxFreeUsers(setHeader, theme) : moreThanMaxFreeUsers(channel, setHeader)
     );
