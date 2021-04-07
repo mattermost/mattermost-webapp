@@ -9,6 +9,8 @@ import moment from 'moment';
 import {trackEvent} from 'actions/telemetry_actions';
 import {getBrowserTimezone} from 'utils/timezone';
 
+import PurchaseNowLink from 'components/announcement_bar/purchase_now_link/purchase_now_link';
+
 import './trial_license_card.scss';
 
 export interface Props {
@@ -25,12 +27,6 @@ const TrialLicenseCard: React.FC<Props> = ({license}: Props) => {
         e.preventDefault();
         window.open('https://mattermost.com/contact-us/', '_blank');
         trackEvent('admin', 'in_trial_contact_sales');
-    };
-
-    const handlePurchaseLinkClick = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        e.preventDefault();
-        window.open('https://customers.mattermost.com/signup', '_blank');
-        trackEvent('admin', 'in_trial_purchase_license');
     };
 
     const message = () => {
@@ -72,14 +68,14 @@ const TrialLicenseCard: React.FC<Props> = ({license}: Props) => {
                 <div className='RenewLicenseCard__text-description'>
                     {message()}
                 </div>
-                <button
-                    onClick={(e) => handlePurchaseLinkClick(e)}
-                >
-                    <FormattedMessage
-                        id='admin.license.trialCard.purchase_license'
-                        defaultMessage='Purchase a license'
-                    />
-                </button>
+                <PurchaseNowLink 
+                    buttonTextElement={
+                        <FormattedMessage
+                            id='admin.license.trialCard.purchase_license'
+                            defaultMessage='Purchase a license'
+                        />
+                    }
+                />
                 <button
                     className='ContactSales'
                     onClick={(e) => handleContactLinkClick(e)}
