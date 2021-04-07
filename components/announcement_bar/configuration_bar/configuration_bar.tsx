@@ -223,10 +223,9 @@ const ConfigurationAnnouncementBar: React.FC<Props> = (props: Props) => {
             );
         }
 
-        
         if (isTrialLicense(props.license) && (isLicenseExpiringIn(props.license, 14) || isLicenseExpiringIn(props.license, 3) || isLicenseExpiringIn(props.license, 1)) && !props.dismissedExpiringLicense) {
             const purchaseALicenseNow = (
-                <PurchaseNowLink 
+                <PurchaseNowLink
                     buttonTextElement={
                         <FormattedMarkdownMessage
                             id='announcement_bar.error.purchase_a_license_now'
@@ -234,7 +233,7 @@ const ConfigurationAnnouncementBar: React.FC<Props> = (props: Props) => {
                         />
                     }
                 />
-            )
+            );
 
             if (isLicenseExpiringIn(props.license, 1)) {
                 const message = (
@@ -245,11 +244,11 @@ const ConfigurationAnnouncementBar: React.FC<Props> = (props: Props) => {
                         />
                         <FormattedMarkdownMessage
                             id='announcement_bar.error.trial_license_expiring_last_day'
-                            defaultMessage={"**This is the last day of your free trial. Purchase a license now to continue using E10 & E10 features.**"}
+                            defaultMessage={'**This is the last day of your free trial. Purchase a license now to continue using E10 & E10 features.**'}
                         />
                     </>
-                )
-                return ( 
+                );
+                return (
                     <AnnouncementBar
                         type={AnnouncementBarTypes.CRITICAL}
                         message={
@@ -262,8 +261,7 @@ const ConfigurationAnnouncementBar: React.FC<Props> = (props: Props) => {
                         handleClose={dismissExpiringTrialLicenseLastDay}
                         tooltipMsg={message}
                     />
-                )
-
+                );
             }
 
             const today = moment(Date.now());
