@@ -10,7 +10,7 @@ import {getCurrentUser, getUsers} from 'mattermost-redux/selectors/entities/user
 
 import {GlobalState} from 'types/store';
 import {RecommendedNextSteps, Preferences} from 'utils/constants';
-import {localizeMessage} from 'utils/utils';
+import {isGuest, localizeMessage} from 'utils/utils';
 
 import CompleteProfileStep from './steps/complete_profile_step';
 import SetupPreferencesStep from './steps/setup_preferences_step/setup_preferences_step';
@@ -116,13 +116,18 @@ export const getSteps = createSelector(
     (state: GlobalState) => isFirstAdmin(state),
     (currentUser, firstAdmin) => {
         let roles = currentUser.roles;
+        const isGuestUser = isGuest(currentUser);
         if (!firstAdmin) {
             // Only the first admin sees the admin flow. Show everyone else the end user flow
             roles = 'system_user';
         }
-        return Steps.filter((step) =>
-            isStepForUser(step, roles) && step.visible,
-        );
+        return Steps.filter((step) => {
+            const hideInviteMembersOptionToGuestUsers = isGuestUser && step.id === RecommendedNextSteps.INVITE_MEMBERS;
+            if (hideInviteMembersOptionToGuestUsers) {
+                return false;
+            }
+            return isStepForUser(step, roles) && step.visible;
+        });
     },
 );
 
