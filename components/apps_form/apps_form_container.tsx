@@ -170,8 +170,8 @@ class AppsFormContainer extends React.PureComponent<Props, State> {
         const call = this.getCall();
         if (!call) {
             return makeErrorMsg(intl.formatMessage({
-                id: 'apps.error.form.no_lookup_call',
-                defaultMessage: 'performLookupCall props.call is not defined',
+                id: 'apps.error.form.no_call',
+                defaultMessage: '`call` is not defined.',
             }));
         }
 
