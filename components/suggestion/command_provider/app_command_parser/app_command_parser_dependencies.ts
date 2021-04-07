@@ -51,9 +51,6 @@ export {getUserByUsername as selectUserByUsername} from 'mattermost-redux/select
 export {getUserByUsername} from 'mattermost-redux/actions/users';
 export {getChannelByNameAndTeamName} from 'mattermost-redux/actions/channels';
 
-import keyMirror from 'mattermost-redux/utils/key_mirror';
-export {keyMirror};
-
 export {doAppCall} from 'actions/apps';
 import {sendEphemeralPost} from 'actions/global_actions';
 

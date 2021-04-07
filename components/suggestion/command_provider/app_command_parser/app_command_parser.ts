@@ -30,7 +30,6 @@ import {
     EXECUTE_CURRENT_COMMAND_ITEM_ID,
     getExecuteSuggestion,
     displayError,
-    keyMirror,
     createCallRequest,
     selectUserByUsername,
     getUserByUsername,
@@ -44,25 +43,25 @@ export type Store = {
     getState: () => GlobalState;
 }
 
-export const ParseState = keyMirror({
-    Start: null,
-    Command: null,
-    EndCommand: null,
-    CommandSeparator: null,
-    StartParameter: null,
-    ParameterSeparator: null,
-    Flag1: null,
-    Flag: null,
-    FlagValueSeparator: null,
-    StartValue: null,
-    NonspaceValue: null,
-    QuotedValue: null,
-    TickValue: null,
-    EndValue: null,
-    EndQuotedValue: null,
-    EndTickedValue: null,
-    Error: null,
-});
+export enum ParseState {
+    Start = 'Start',
+    Command = 'Command',
+    EndCommand = 'EndCommand',
+    CommandSeparator = 'CommandSeparator',
+    StartParameter = 'StartParameter',
+    ParameterSeparator = 'ParameterSeparator',
+    Flag1 = 'Flag1',
+    Flag = 'Flag',
+    FlagValueSeparator = 'FlagValueSeparator',
+    StartValue = 'StartValue',
+    NonspaceValue = 'NonspaceValue',
+    QuotedValue = 'QuotedValue',
+    TickValue = 'TickValue',
+    EndValue = 'EndValue',
+    EndQuotedValue = 'EndQuotedValue',
+    EndTickedValue = 'EndTickedValue',
+    Error = 'Error',
+}
 
 interface FormsCache {
     getForm: (location: string, binding: AppBinding) => Promise<AppForm | undefined>;
@@ -75,7 +74,7 @@ interface Intl {
 const getCommandBindings = makeAppBindingsSelector(AppBindingLocations.COMMAND);
 
 export class ParsedCommand {
-    state: string = ParseState.Start;
+    state = ParseState.Start;
     command: string;
     i = 0;
     incomplete = '';
