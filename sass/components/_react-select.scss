@@ -148,7 +148,17 @@
     }
 
     &__option,
-    .react-select__option {
+    & &__option {
+        // hovering
+        &--is-focused {
+            background: rgba(var(--sys-button-bg-rgb), 0.08);
+
+            .app__body & {
+                background: var(--center-channel-color-08);
+            }
+        }
+
+        // selected option
         &--is-selected {
             background: var(--sys-button-bg);
             color: var(--sys-button-color);
@@ -159,12 +169,12 @@
             }
         }
 
-        // hovering
-        &--is-focused {
-            background: rgba(var(--sys-button-bg-rgb), 0.08);
+        // selected + hovering
+        &--is-selected:hover {
+            background: rgba(var(--sys-button-bg-rgb), 0.88);
 
             .app__body & {
-                background: rgba(var(--button-bg-rgb), 0.08);
+                background: var(--button-bg-88);
             }
         }
 
@@ -172,7 +182,7 @@
             background: rgba(var(--sys-button-bg-rgb), 0.16);
 
             .app__body & {
-                background: rgba(var(--button-bg-rgb), 0.16);
+                background: var(--button-bg-16);
             }
         }
     }
