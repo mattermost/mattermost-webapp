@@ -104,6 +104,8 @@ export default class PostProfilePicture extends React.PureComponent<Props> {
         const isEmoji = typeof overrideIconEmoji == 'string' && overrideIconEmoji !== '';
         const status = this.getStatus(fromAutoResponder, fromWebhook, user);
 
+        console.log(availabilityStatusOnPosts);
+
         return (
             <ProfilePicture
                 hasMention={hasMention}
