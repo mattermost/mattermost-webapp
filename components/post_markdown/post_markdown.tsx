@@ -1,56 +1,56 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
+
+import {Post} from 'mattermost-redux/types/posts';
+import {Channel} from 'mattermost-redux/types/channels';
 
 import Markdown from 'components/markdown';
 
-import {renderSystemMessage} from './system_message_helpers.jsx';
+import {MentionKey, TextFormattingOptions} from 'utils/text_formatting';
 
-export default class PostMarkdown extends React.PureComponent {
-    static propTypes = {
+import {renderSystemMessage} from './system_message_helpers';
 
-        /*
-         * Any extra props that should be passed into the image component
-         */
-        imageProps: PropTypes.object,
+type Props = {
 
-        /*
-         * Whether or not this text is part of the RHS
-         */
-        isRHS: PropTypes.bool,
+    /*
+     * Any extra props that should be passed into the image component
+     */
+    imageProps?: Record<string, any>;
 
-        /*
-         * The post text to be rendered
-         */
-        message: PropTypes.string.isRequired,
+    /*
+     * Whether or not this text is part of the RHS
+     */
+    isRHS?: boolean;
 
-        /*
-         * The optional post for which this message is being rendered
-         */
-        post: PropTypes.object,
+    /*
+     * The post text to be rendered
+     */
+    message: string;
 
-        /*
-         * The id of the channel that this post is being rendered in
-         */
-        channelId: PropTypes.string,
+    /*
+     * The optional post for which this message is being rendered
+     */
+    post?: Post;
 
-        channel: PropTypes.object,
+    /*
+     * The id of the channel that this post is being rendered in
+     */
+    channelId?: string;
+    channel: Channel;
+    options?: TextFormattingOptions;
+    pluginHooks?: Array<Record<string, any>>;
 
-        options: PropTypes.object,
+    /**
+     * Whether or not to place the LinkTooltip component inside links
+     */
+    hasPluginTooltips?: boolean;
+    isUserCanManageMembers?: boolean;
+    mentionKeys: MentionKey[];
+}
 
-        pluginHooks: PropTypes.arrayOf(PropTypes.object),
-
-        /**
-         * Whether or not to place the LinkTooltip component inside links
-         */
-        hasPluginTooltips: PropTypes.bool,
-
-        isUserCanManageMembers: PropTypes.bool,
-        mentionKeys: PropTypes.array.isRequired,
-    };
-
+export default class PostMarkdown extends React.PureComponent<Props> {
     static defaultProps = {
         isRHS: false,
         pluginHooks: [],
@@ -76,7 +76,7 @@ export default class PostMarkdown extends React.PureComponent {
             disableGroupHighlight: post?.props?.disable_group_highlight === true, // eslint-disable-line camelcase
         };
 
-        this.props.pluginHooks.forEach((o) => {
+        this.props.pluginHooks?.forEach((o) => {
             if (o && o.hook && post) {
                 message = o.hook(post, message);
             }

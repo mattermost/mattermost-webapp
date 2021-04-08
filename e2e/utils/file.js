@@ -90,6 +90,42 @@ function getTestFiles() {
     return intersection(stageFiles, finalGroupFiles);
 }
 
+function getLastFiles() {
+    const {sortLast} = argv;
+
+    const lastFiles = [];
+    if (sortLast) {
+        const sl = grepCommand(sortLast.split(',').join('\\|'));
+        lastFiles.push(...grepFiles(sl));
+    }
+
+    return lastFiles;
+}
+
+function getSortedTestFiles() {
+    const lastFiles = getLastFiles();
+
+    return getTestFiles().
+        sort((a, b) => {
+            // If both are included or both are not included, then
+            // sort based on locale comparison.
+            if ((lastFiles.includes(a) && lastFiles.includes(b)) ||
+                (!lastFiles.includes(a) && !lastFiles.includes(b))
+            ) {
+                return a.localeCompare(b);
+            }
+
+            // If the reference string (a) is included in "lastFiles", then
+            // (b) occurs before (a).
+            if (lastFiles.includes(a)) {
+                return 1;
+            }
+
+            // Or else, (a) occurs before (b).
+            return -1;
+        });
+}
+
 function getSkippedFiles(initialTestFiles, platform, browser, headless) {
     const platformFiles = grepFiles(grepCommand(`@${platform}`));
     const browserFiles = grepFiles(grepCommand(`@${browser}`));
@@ -113,6 +149,8 @@ function getSkippedFiles(initialTestFiles, platform, browser, headless) {
 }
 
 module.exports = {
+    getLastFiles,
+    getSortedTestFiles,
     getTestFiles,
     getSkippedFiles,
 };
