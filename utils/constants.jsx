@@ -538,6 +538,7 @@ export const StoragePrefixes = {
     LANDING_PAGE_SEEN: '__landingPageSeen__',
     LANDING_PREFERENCE: '__landing-preference__',
     CHANNEL_CATEGORY_COLLAPSED: 'channelCategoryCollapsed_',
+    INLINE_IMAGE_VISIBLE: 'isInlineImageVisible_',
 };
 
 export const LandingPreferenceTypes = {
@@ -978,6 +979,7 @@ export const Constants = {
     },
     MAX_UPLOAD_FILES: 5,
     MAX_FILENAME_LENGTH: 35,
+    EXPANDABLE_INLINE_IMAGE_MIN_HEIGHT: 100,
     THUMBNAIL_WIDTH: 128,
     THUMBNAIL_HEIGHT: 100,
     PREVIEWER_HEIGHT: 170,

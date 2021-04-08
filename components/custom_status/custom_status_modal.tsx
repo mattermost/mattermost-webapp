@@ -16,7 +16,7 @@ import EmojiIcon from 'components/widgets/icons/emoji_icon';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import {GlobalState} from 'types/store';
 import RenderEmoji from 'components/emoji/render_emoji';
-import QuickInput from 'components/quick_input';
+import QuickInput, {MaxLengthInput} from 'components/quick_input';
 import {makeGetCustomStatus, getRecentCustomStatuses, showStatusDropdownPulsatingDot} from 'selectors/views/custom_status';
 import Constants from 'utils/constants';
 import {t} from 'utils/i18n';
@@ -108,7 +108,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
     };
 
     const disableSetStatus = (currentCustomStatus.text === text && currentCustomStatus.emoji === emoji) ||
-        (text === '' && emoji === '');
+        (text === '' && emoji === '') || (text.length > Constants.CUSTOM_STATUS_TEXT_CHARACTER_LIMIT);
 
     const handleSuggestionClick = (status: UserCustomStatus) => {
         setEmoji(status.emoji);
@@ -248,6 +248,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
                         </button>
                     </div>
                     <QuickInput
+                        inputComponent={MaxLengthInput}
                         value={text}
                         maxLength={Constants.CUSTOM_STATUS_TEXT_CHARACTER_LIMIT}
                         clearable={Boolean(isStatusSet)}
