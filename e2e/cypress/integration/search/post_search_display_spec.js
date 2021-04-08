@@ -15,12 +15,16 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 describe('Post search display', () => {
     let testTeam;
     let testUser;
+    let mmConfig;
 
     before(() => {
         // Initialise a user.
         cy.apiInitSetup({}).then(({team, user}) => {
             testTeam = team;
             testUser = user;
+            cy.apiGetConfig().then(({config}) => {
+                mmConfig = config;
+            });
         });
     });
 
@@ -56,7 +60,11 @@ describe('Post search display', () => {
         });
 
         // * Check the contents in search options
-        assertSearchHintFilesOrMessages();
+        if (mmConfig.FeatureFlags.FilesSearch) {
+            assertSearchHintFilesOrMessages();
+        } else {
+            assertSearchHint();
+        }
     });
 
     it('MM-T350 - Searching displays results in RHS', () => {
@@ -158,7 +166,11 @@ describe('Post search display', () => {
         });
 
         // * Check the contents in search options
-        assertSearchHintFilesOrMessages();
+        if (mmConfig.FeatureFlags.FilesSearch) {
+            assertSearchHintFilesOrMessages();
+        } else {
+            assertSearchHint();
+        }
 
         // # Search for search term in:
         cy.get('#searchBox').click().type('in:');

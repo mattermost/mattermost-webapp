@@ -7,7 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @search
+// Group: @search @filesearch
 
 describe('Search', () => {
     let testTeam;
@@ -106,7 +106,7 @@ describe('Search', () => {
 
             //# Search for the message
             cy.get('#searchbarContainer').should('be.visible').within(() => {
-                cy.get('#searchBox').type(' word-file.doc{enter}');
+                cy.get('#searchBox').type(' word-file{enter}');
             });
 
             // # Click the files tab
