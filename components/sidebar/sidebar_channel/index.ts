@@ -12,6 +12,8 @@ import {getAutoSortedCategoryIds, getDraggingState, isChannelSelected} from 'sel
 import {GlobalState} from 'types/store';
 import {NotificationLevels} from 'utils/constants';
 
+import {getMsgCountInChannel} from 'mattermost-redux/utils/channel_utils';
+
 import SidebarChannel from './sidebar_channel';
 
 type OwnProps = {
@@ -37,7 +39,7 @@ function makeMapStateToProps() {
             unreadMentions = collapsed ? member.mention_count_root : member.mention_count;
 
             if (channel) {
-                unreadMsgs = collapsed ? Math.max(channel.total_msg_count_root - member.msg_count_root, 0) : Math.max(channel.total_msg_count - member.msg_count, 0);
+                unreadMsgs = getMsgCountInChannel(collapsed, channel, member);
             }
 
             if (member.notify_props) {

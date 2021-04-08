@@ -9,7 +9,7 @@ import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/pre
 
 import {Channel} from 'mattermost-redux/types/channels';
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
+import {getMsgCountInChannel, isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 
 import {clearChannelSelection, multiSelectChannelAdd, multiSelectChannelTo} from 'actions/views/channel_sidebar';
 import {isChannelSelected} from 'selectors/views/channel_sidebar';
@@ -34,7 +34,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         unreadMentions = collapsed ? member.mention_count_root : member.mention_count;
 
         if (ownProps.channel) {
-            unreadMsgs = collapsed ? Math.max(ownProps.channel.total_msg_count_root - member.msg_count_root, 0) : Math.max(ownProps.channel.total_msg_count - member.msg_count, 0);
+            unreadMsgs = getMsgCountInChannel(collapsed, ownProps.channel, member);
         }
 
         if (member.notify_props) {
