@@ -3,13 +3,14 @@
 import React from 'react';
 
 import {FormattedMessage} from 'react-intl';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import moment from 'moment';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import {getBrowserTimezone} from 'utils/timezone';
 
-import PurchaseNowLink from 'components/announcement_bar/purchase_now_link/purchase_now_link';
+import PurchaseLink from 'components/announcement_bar/purchase_link/purchase_link';
 
 import './trial_license_card.scss';
 
@@ -32,24 +33,22 @@ const TrialLicenseCard: React.FC<Props> = ({license}: Props) => {
     const message = () => {
         if (hoursToEndLicense > 24) {
             return (
-                <FormattedMessage
+                <FormattedMarkdownMessage
                     id='admin.license.trialCard.description'
-                    defaultMessage='Your free trial will expire in <b>{daysCount} {daysCount, plural, one {day} other {days}}</b>. Visit our customer portal to purchase a license now to continue using E10 & E20 features after trial ends.'
+                    defaultMessage='Your free trial will expire in **{daysCount} {daysCount, plural, one {day} other {days}}**. Visit our customer portal to purchase a license now to continue using E10 & E20 features after trial ends.'
                     values={{
                         daysCount: daysToEndLicense,
-                        b: (chunk: any) => (<b>{chunk}</b>),
                     }}
                 />
             );
         }
 
         return (
-            <FormattedMessage
+            <FormattedMarkdownMessage
                 id='admin.license.trialCard.description.expiringToday'
-                defaultMessage='Your free trial expires <b>Today at {time}</b>. Visit our customer portal to purchase a license now to continue using E10 & E20 features after trial ends'
+                defaultMessage='Your free trial expires **Today at {time}**. Visit our customer portal to purchase a license now to continue using E10 & E20 features after trial ends'
                 values={{
                     time: endOfLicense.format('h:mm a') + moment().tz(getBrowserTimezone()).format('z'),
-                    b: (chunk: any) => (<b>{chunk}</b>),
                 }}
             />
         );
@@ -67,7 +66,7 @@ const TrialLicenseCard: React.FC<Props> = ({license}: Props) => {
                 <div className='RenewLicenseCard__text-description'>
                     {message()}
                 </div>
-                <PurchaseNowLink
+                <PurchaseLink
                     buttonTextElement={
                         <FormattedMessage
                             id='admin.license.trialCard.purchase_license'
