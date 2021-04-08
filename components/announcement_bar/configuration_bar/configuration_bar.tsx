@@ -10,7 +10,7 @@ import {ClientConfig, WarnMetricStatus} from 'mattermost-redux/types/config';
 
 import {Dictionary} from 'mattermost-redux/types/utilities';
 
-import {isLicenseExpired, isLicenseExpiring, isLicenseExpiringIn, isLicensePastGracePeriod, isTrialLicense} from 'utils/license_utils.jsx';
+import {daysToLicenseExpire, isLicenseExpired, isLicenseExpiring, isLicensePastGracePeriod, isTrialLicense} from 'utils/license_utils.jsx';
 import {AnnouncementBarTypes, AnnouncementBarMessages, WarnMetricTypes} from 'utils/constants';
 
 import {t} from 'utils/i18n';
@@ -35,7 +35,6 @@ type Props = {
     user?: UserProfile;
     canViewSystemErrors: boolean;
     totalUsers?: number;
-    dismissedExpiringTrialLicenseLastDay?: boolean;
     dismissedExpiringTrialLicense?: boolean;
     dismissedExpiringLicense?: boolean;
     dismissedNumberOfActiveUsersWarnMetricStatus?: boolean;
@@ -225,7 +224,8 @@ const ConfigurationAnnouncementBar: React.FC<Props> = (props: Props) => {
             );
         }
 
-        if (isTrialLicense(props.license) && (isLicenseExpiringIn(props.license, 14) || isLicenseExpiringIn(props.license, 3) || isLicenseExpiringIn(props.license, 1))) {
+        const daysUntilLicenseExpires = daysToLicenseExpire(props.license);
+        if (isTrialLicense(props.license) && daysUntilLicenseExpires <= 14 && !props.dismissedExpiringTrialLicense) {
             const purchaseLicense = (
                 <PurchaseLink
                     buttonTextElement={
@@ -237,7 +237,7 @@ const ConfigurationAnnouncementBar: React.FC<Props> = (props: Props) => {
                 />
             );
 
-            if (isLicenseExpiringIn(props.license, 1) && !props.dismissedExpiringTrialLicenseLastDay) {
+            if (daysUntilLicenseExpires <= 1) {
                 const message = (
                     <>
                         <img
@@ -264,13 +264,7 @@ const ConfigurationAnnouncementBar: React.FC<Props> = (props: Props) => {
                         tooltipMsg={message}
                     />
                 );
-            }
-
-            if (!props.dismissedExpiringTrialLicense && !props.dismissedExpiringTrialLicenseLastDay) {
-                const today = moment(Date.now());
-                const endOfLicense = moment(new Date(parseInt(props.license.ExpiresAt, 10)));
-                const daysToEndLicense = endOfLicense.diff(today, 'days');
-
+            } else {
                 const message = (<>
                     <img
                         className='advisor-icon'
@@ -280,7 +274,7 @@ const ConfigurationAnnouncementBar: React.FC<Props> = (props: Props) => {
                         id='announcement_bar.error.trial_license_expiring'
                         defaultMessage='**There are {days} days left on your free trial.**'
                         values={{
-                            days: daysToEndLicense,
+                            days: daysUntilLicenseExpires,
                         }}
                     />
                 </>);

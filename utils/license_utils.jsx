@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+import moment from 'moment';
 
 const LICENSE_EXPIRY_NOTIFICATION = 1000 * 60 * 60 * 24 * 60; // 60 days
 const LICENSE_GRACE_PERIOD = 1000 * 60 * 60 * 24 * 10; // 10 days
@@ -13,15 +14,16 @@ export function isLicenseExpiring(license) {
     return timeDiff <= LICENSE_EXPIRY_NOTIFICATION;
 }
 
-export function isLicenseExpiringIn(license, days) {
+export function daysToLicenseExpire(license) {
     if (license.IsLicensed !== 'true') {
         return false;
     }
 
-    const expiryInDays = 1000 * 60 * 60 * 24 * days; // X days expiry
+    const today = moment(Date.now());
+    const endOfLicense = moment(new Date(parseInt(props.license.ExpiresAt, 10)));
+    const daysToEndLicense = endOfLicense.diff(today, 'days');
 
-    const timeDiff = parseInt(license.ExpiresAt, 10) - Date.now();
-    return timeDiff <= expiryInDays;
+    return daysToEndLicense
 }
 
 export function isLicenseExpired(license) {
