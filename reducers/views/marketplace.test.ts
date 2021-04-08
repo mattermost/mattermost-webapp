@@ -1,15 +1,19 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import type {MarketplacePlugin} from 'mattermost-redux/types/marketplace';
+import type {GenericAction} from 'mattermost-redux/types/actions';
+
 import marketplaceReducer from 'reducers/views/marketplace';
 import {ActionTypes, ModalIdentifiers} from 'utils/constants';
 
 describe('marketplace', () => {
     test('initial state', () => {
-        const currentState = {};
-        const action = {};
+        const currentState = {} as never;
+        const action: GenericAction = {} as GenericAction;
         const expectedState = {
             plugins: [],
+            apps: [],
             installing: {},
             errors: {},
             filter: '',
@@ -21,16 +25,18 @@ describe('marketplace', () => {
     test(ActionTypes.RECEIVED_MARKETPLACE_PLUGINS, () => {
         const currentState = {
             plugins: [],
+            apps: [],
             installing: {},
             errors: {},
             filter: '',
         };
-        const action = {
+        const action: GenericAction = {
             type: ActionTypes.RECEIVED_MARKETPLACE_PLUGINS,
             plugins: [{id: 'plugin1'}, {id: 'plugin2'}],
         };
         const expectedState = {
             plugins: [{id: 'plugin1'}, {id: 'plugin2'}],
+            apps: [],
             installing: {},
             errors: {},
             filter: '',
@@ -39,21 +45,23 @@ describe('marketplace', () => {
         expect(marketplaceReducer(currentState, action)).toEqual(expectedState);
     });
 
-    describe(ActionTypes.INSTALLING_MARKETPLACE_PLUGIN, () => {
+    describe(ActionTypes.INSTALLING_MARKETPLACE_ITEM, () => {
         const currentState = {
-            plugins: [{id: 'plugin1'}, {id: 'plugin2'}],
+            plugins: [{manifest: {id: 'plugin1'}}, {manifest: {id: 'plugin2'}}] as MarketplacePlugin[],
+            apps: [],
             installing: {plugin1: true},
             errors: {plugin3: 'An error occurred'},
             filter: 'existing',
         };
 
         it('should set installing for not already installing plugin', () => {
-            const action = {
-                type: ActionTypes.INSTALLING_MARKETPLACE_PLUGIN,
+            const action: GenericAction = {
+                type: ActionTypes.INSTALLING_MARKETPLACE_ITEM,
                 id: 'plugin2',
             };
             const expectedState = {
-                plugins: [{id: 'plugin1'}, {id: 'plugin2'}],
+                plugins: [{manifest: {id: 'plugin1'}}, {manifest: {id: 'plugin2'}}] as MarketplacePlugin[],
+                apps: [],
                 installing: {plugin1: true, plugin2: true},
                 errors: {plugin3: 'An error occurred'},
                 filter: 'existing',
@@ -63,8 +71,8 @@ describe('marketplace', () => {
         });
 
         it('should no-op for already installing plugin', () => {
-            const action = {
-                type: ActionTypes.INSTALLING_MARKETPLACE_PLUGIN,
+            const action: GenericAction = {
+                type: ActionTypes.INSTALLING_MARKETPLACE_ITEM,
                 id: 'plugin1',
             };
             const expectedState = currentState;
@@ -73,12 +81,13 @@ describe('marketplace', () => {
         });
 
         it('should clear error for previously failed plugin', () => {
-            const action = {
-                type: ActionTypes.INSTALLING_MARKETPLACE_PLUGIN,
+            const action: GenericAction = {
+                type: ActionTypes.INSTALLING_MARKETPLACE_ITEM,
                 id: 'plugin3',
             };
             const expectedState = {
-                plugins: [{id: 'plugin1'}, {id: 'plugin2'}],
+                plugins: [{manifest: {id: 'plugin1'}}, {manifest: {id: 'plugin2'}}] as MarketplacePlugin[],
+                apps: [],
                 installing: {plugin1: true, plugin3: true},
                 errors: {},
                 filter: 'existing',
@@ -88,21 +97,23 @@ describe('marketplace', () => {
         });
     });
 
-    describe(ActionTypes.INSTALLING_MARKETPLACE_PLUGIN_SUCCEEDED, () => {
+    describe(ActionTypes.INSTALLING_MARKETPLACE_ITEM_SUCCEEDED, () => {
         const currentState = {
-            plugins: [{id: 'plugin1'}, {id: 'plugin2'}],
+            plugins: [{manifest: {id: 'plugin1'}}, {manifest: {id: 'plugin2'}}] as MarketplacePlugin[],
+            apps: [],
             installing: {plugin1: true, plugin2: true},
             errors: {plugin3: 'An error occurred'},
             filter: 'existing',
         };
 
         it('should clear installing', () => {
-            const action = {
-                type: ActionTypes.INSTALLING_MARKETPLACE_PLUGIN_SUCCEEDED,
+            const action: GenericAction = {
+                type: ActionTypes.INSTALLING_MARKETPLACE_ITEM_SUCCEEDED,
                 id: 'plugin1',
             };
             const expectedState = {
-                plugins: [{id: 'plugin1'}, {id: 'plugin2'}],
+                plugins: [{manifest: {id: 'plugin1'}}, {manifest: {id: 'plugin2'}}] as MarketplacePlugin[],
+                apps: [],
                 installing: {plugin2: true},
                 errors: {plugin3: 'An error occurred'},
                 filter: 'existing',
@@ -112,12 +123,13 @@ describe('marketplace', () => {
         });
 
         it('should clear error', () => {
-            const action = {
-                type: ActionTypes.INSTALLING_MARKETPLACE_PLUGIN_SUCCEEDED,
+            const action: GenericAction = {
+                type: ActionTypes.INSTALLING_MARKETPLACE_ITEM_SUCCEEDED,
                 id: 'plugin3',
             };
             const expectedState = {
-                plugins: [{id: 'plugin1'}, {id: 'plugin2'}],
+                plugins: [{manifest: {id: 'plugin1'}}, {manifest: {id: 'plugin2'}}] as MarketplacePlugin[],
+                apps: [],
                 installing: {plugin1: true, plugin2: true},
                 errors: {},
                 filter: 'existing',
@@ -127,22 +139,24 @@ describe('marketplace', () => {
         });
     });
 
-    describe(ActionTypes.INSTALLING_MARKETPLACE_PLUGIN_FAILED, () => {
+    describe(ActionTypes.INSTALLING_MARKETPLACE_ITEM_FAILED, () => {
         const currentState = {
-            plugins: [{id: 'plugin1'}, {id: 'plugin2'}],
+            plugins: [{manifest: {id: 'plugin1'}}, {manifest: {id: 'plugin2'}}] as MarketplacePlugin[],
+            apps: [],
             installing: {plugin1: true, plugin2: true},
             errors: {plugin3: 'An error occurred'},
             filter: 'existing',
         };
 
         it('should clear installing and set error', () => {
-            const action = {
-                type: ActionTypes.INSTALLING_MARKETPLACE_PLUGIN_FAILED,
+            const action: GenericAction = {
+                type: ActionTypes.INSTALLING_MARKETPLACE_ITEM_FAILED,
                 id: 'plugin1',
                 error: 'Failed to intall',
             };
             const expectedState = {
-                plugins: [{id: 'plugin1'}, {id: 'plugin2'}],
+                plugins: [{manifest: {id: 'plugin1'}}, {manifest: {id: 'plugin2'}}] as MarketplacePlugin[],
+                apps: [],
                 installing: {plugin2: true},
                 errors: {plugin1: 'Failed to intall', plugin3: 'An error occurred'},
                 filter: 'existing',
@@ -152,21 +166,23 @@ describe('marketplace', () => {
         });
     });
 
-    describe(ActionTypes.FILTER_MARKETPLACE_PLUGINS, () => {
+    describe(ActionTypes.FILTER_MARKETPLACE_LISTING, () => {
         const currentState = {
-            plugins: [{id: 'plugin1'}, {id: 'plugin2'}],
+            plugins: [{manifest: {id: 'plugin1'}}, {manifest: {id: 'plugin2'}}] as MarketplacePlugin[],
+            apps: [],
             installing: {plugin1: true, plugin2: true},
             errors: {plugin3: 'An error occurred'},
             filter: 'existing',
         };
 
         it('should set filter', () => {
-            const action = {
-                type: ActionTypes.FILTER_MARKETPLACE_PLUGINS,
+            const action: GenericAction = {
+                type: ActionTypes.FILTER_MARKETPLACE_LISTING,
                 filter: 'new',
             };
             const expectedState = {
-                plugins: [{id: 'plugin1'}, {id: 'plugin2'}],
+                plugins: [{manifest: {id: 'plugin1'}}, {manifest: {id: 'plugin2'}}] as MarketplacePlugin[],
+                apps: [],
                 installing: {plugin1: true, plugin2: true},
                 errors: {plugin3: 'An error occurred'},
                 filter: 'new',
@@ -178,14 +194,15 @@ describe('marketplace', () => {
 
     describe(ActionTypes.MODAL_CLOSE, () => {
         const currentState = {
-            plugins: [{id: 'plugin1'}, {id: 'plugin2'}],
+            plugins: [{manifest: {id: 'plugin1'}}, {manifest: {id: 'plugin2'}}] as MarketplacePlugin[],
+            apps: [],
             installing: {plugin1: true, plugin2: true},
             errors: {plugin3: 'An error occurred'},
             filter: 'existing',
         };
 
         it('should no-op for different modal', () => {
-            const action = {
+            const action: GenericAction = {
                 type: ActionTypes.MODAL_CLOSE,
                 modalId: ModalIdentifiers.DELETE_CHANNEL,
             };
@@ -195,12 +212,13 @@ describe('marketplace', () => {
         });
 
         it('should clear state for marketplace modal', () => {
-            const action = {
+            const action: GenericAction = {
                 type: ActionTypes.MODAL_CLOSE,
                 modalId: ModalIdentifiers.PLUGIN_MARKETPLACE,
             };
             const expectedState = {
                 plugins: [],
+                apps: [],
                 installing: {},
                 errors: {},
                 filter: '',

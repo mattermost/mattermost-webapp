@@ -1,11 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {shallow, ShallowWrapper} from 'enzyme';
-
 import React from 'react';
 
-import {PostType} from 'mattermost-redux/types/posts';
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import {Locations, PostTypes} from 'utils/constants';
 import {TestHelper} from 'utils/test_helper';
@@ -22,7 +20,7 @@ jest.mock('utils/utils', () => {
 
 describe('components/dot_menu/DotMenu', () => {
     const baseProps = {
-        post: TestHelper.getPostMock({id: 'post_id_1', is_pinned: false, type: '' as PostType}),
+        post: TestHelper.getPostMock({id: 'post_id_1', is_pinned: false, type: ''}),
         isLicensed: false,
         postEditTimeLimit: '-1',
         handleCommentClick: jest.fn(),
@@ -39,9 +37,14 @@ describe('components/dot_menu/DotMenu', () => {
             unpinPost: jest.fn(),
             openModal: jest.fn(),
             markPostAsUnread: jest.fn(),
+            doAppCall: jest.fn(),
         },
         canEdit: false,
         canDelete: false,
+        appBindings: [],
+        pluginMenuItems: [],
+        appsEnabled: false,
+        isReadOnly: false,
     };
 
     test('should match snapshot, on Center', () => {
@@ -49,7 +52,7 @@ describe('components/dot_menu/DotMenu', () => {
             ...baseProps,
             canEdit: true,
         };
-        const wrapper: ShallowWrapper<any, any, DotMenu> = shallow(
+        const wrapper = shallowWithIntl(
             <DotMenu {...props}/>,
         );
 
@@ -68,7 +71,7 @@ describe('components/dot_menu/DotMenu', () => {
             canEdit: true,
             canDelete: true,
         };
-        const wrapper: ShallowWrapper<any, any, DotMenu> = shallow(
+        const wrapper = shallowWithIntl(
             <DotMenu {...props}/>,
         );
 
@@ -81,7 +84,7 @@ describe('components/dot_menu/DotMenu', () => {
             canEdit: true,
             canDelete: true,
         };
-        const wrapper: ShallowWrapper<any, any, DotMenu> = shallow(
+        const wrapper = shallowWithIntl(
             <DotMenu {...props}/>,
         );
 
@@ -101,10 +104,10 @@ describe('components/dot_menu/DotMenu', () => {
             ...baseProps,
             post: TestHelper.getPostMock({
                 ...baseProps.post,
-                type: PostTypes.JOIN_CHANNEL as PostType,
+                type: PostTypes.JOIN_CHANNEL,
             }),
         };
-        const wrapper: ShallowWrapper<any, any, DotMenu> = shallow(
+        const wrapper = shallowWithIntl(
             <DotMenu {...props}/>,
         );
 
@@ -112,7 +115,7 @@ describe('components/dot_menu/DotMenu', () => {
     });
 
     test('should have divider when plugin menu item exists', () => {
-        const wrapper: ShallowWrapper<any, any, DotMenu> = shallow(
+        const wrapper = shallowWithIntl(
             <DotMenu {...baseProps}/>,
         );
         expect(wrapper.find('#divider_post_post_id_1_plugins').exists()).toBe(false);
@@ -126,7 +129,7 @@ describe('components/dot_menu/DotMenu', () => {
     });
 
     test('should have divider when pluggable menu item exists', () => {
-        const wrapper: ShallowWrapper<any, any, DotMenu> = shallow(
+        const wrapper = shallowWithIntl(
             <DotMenu {...baseProps}/>,
         );
         expect(wrapper.find('#divider_post_post_id_1_plugins').exists()).toBe(false);
@@ -140,7 +143,7 @@ describe('components/dot_menu/DotMenu', () => {
     });
 
     test('should show mark as unread when channel is not archived', () => {
-        const wrapper: ShallowWrapper<any, any, DotMenu> = shallow(
+        const wrapper = shallowWithIntl(
             <DotMenu {...baseProps}/>,
         );
 
@@ -152,7 +155,7 @@ describe('components/dot_menu/DotMenu', () => {
             ...baseProps,
             channelIsArchived: true,
         };
-        const wrapper: ShallowWrapper<any, any, DotMenu> = shallow(
+        const wrapper = shallowWithIntl(
             <DotMenu {...props}/>,
         );
 
@@ -164,7 +167,7 @@ describe('components/dot_menu/DotMenu', () => {
             ...baseProps,
             location: Locations.SEARCH,
         };
-        const wrapper: ShallowWrapper<any, any, DotMenu> = shallow(
+        const wrapper = shallowWithIntl(
             <DotMenu {...props}/>,
         );
 
