@@ -16,7 +16,7 @@ export function isLicenseExpiring(license) {
 
 export function daysToLicenseExpire(license) {
     if (license.IsLicensed !== 'true') {
-        return false;
+        return undefined;
     }
 
     const today = moment(Date.now());
