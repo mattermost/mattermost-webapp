@@ -27,6 +27,7 @@ import TeamSettingsModal from 'components/team_settings_modal';
 import AboutBuildModal from 'components/about_build_modal';
 import AddGroupsToTeamModal from 'components/add_groups_to_team_modal';
 import MarketplaceModal from 'components/plugin_marketplace';
+import UpgradeLink from 'components/widgets/links/upgrade_link';
 
 import Menu from 'components/widgets/menu/menu';
 import TeamGroupsManageModal from 'components/team_groups_manage_modal';
@@ -62,6 +63,7 @@ class MainMenu extends React.PureComponent {
         showGettingStarted: PropTypes.bool.isRequired,
         intl: intlShape.isRequired,
         showNextStepsTips: PropTypes.bool,
+        isFreeTrial: PropTypes.bool,
         isCloud: PropTypes.bool,
         subscriptionStats: PropTypes.object,
         firstAdminVisitMarketplaceStatus: PropTypes.bool,
@@ -132,7 +134,7 @@ class MainMenu extends React.PureComponent {
     }
 
     render() {
-        const {currentUser, teamIsGroupConstrained, isLicensedForLDAPGroups} = this.props;
+        const {currentUser, teamIsGroupConstrained, isLicensedForLDAPGroups, isFreeTrial} = this.props;
 
         if (!currentUser) {
             return null;
@@ -349,6 +351,15 @@ class MainMenu extends React.PureComponent {
                         />
                     </SystemPermissionGate>
                 </Menu.Group>
+                {isFreeTrial &&
+                    <Menu.Group>
+                        <SystemPermissionGate permissions={Permissions.SYSCONSOLE_READ_PERMISSIONS}>
+                            <Menu.ItemWrapper show={true}>
+                                <UpgradeLink buttonText='Subscribe Now' styleButton={true}/>
+                            </Menu.ItemWrapper>
+                        </SystemPermissionGate>
+                    </Menu.Group>
+                }
                 <Menu.Group>
                     <Menu.ItemExternalLink
                         id='helpLink'

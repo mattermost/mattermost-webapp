@@ -70,6 +70,8 @@ function mapStateToProps(state) {
     const joinableTeams = getJoinableTeamIds(state);
     const moreTeamsToJoin = joinableTeams && joinableTeams.length > 0;
     const rhsState = getRhsState(state);
+    const isCloud = getLicense(state).Cloud === 'true';
+    const isFreeTrial = true; //isCloud && state.entities.cloud.subscription && state.entities.cloud.subscription.trial_ends_at > 0; 
 
     return {
         appDownloadLink,
@@ -97,8 +99,9 @@ function mapStateToProps(state) {
             state.entities.general.license.LDAPGroups === 'true',
         showGettingStarted: showOnboarding(state),
         showNextStepsTips: showNextStepsTips(state),
+        isFreeTrial: isFreeTrial, //TODO: create a selector to get cloud subscription
         showNextSteps: showNextSteps(state),
-        isCloud: getLicense(state).Cloud === 'true',
+        isCloud: isCloud,
         subscriptionStats: selectSubscriptionStats(state), // subscriptionStats are loaded in actions/views/root
         firstAdminVisitMarketplaceStatus: getFirstAdminVisitMarketplaceStatus(state),
     };

@@ -129,6 +129,14 @@
             }
         }
     }
+    .MenuItemWrapper{
+        display: flex;
+        justify-content: space-evenly;
+
+        .upgradeLink {
+            width: 179px;
+        }
+    }
 }
 
 .SubMenu {

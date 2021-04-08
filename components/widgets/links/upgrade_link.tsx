@@ -13,13 +13,17 @@ import {trackEvent} from 'actions/telemetry_actions';
 import {ModalIdentifiers} from 'utils/constants';
 import PurchaseModal from 'components/purchase_modal';
 
+import './link.scss';
+
 export interface UpgradeLinkProps {
     telemetryInfo?: string;
+    buttonText?: string;
+    styleButton?: boolean;
 }
 
 const UpgradeLink: React.FC<UpgradeLinkProps> = (props: UpgradeLinkProps) => {
     const dispatch = useDispatch<DispatchFunc>();
-
+    const styleButton = props.styleButton ? 'style-button' : '';
     const handleLinkClick = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
         if (props.telemetryInfo) {
@@ -36,13 +40,13 @@ const UpgradeLink: React.FC<UpgradeLinkProps> = (props: UpgradeLinkProps) => {
     };
     return (
         <button
-            className='upgradeLink'
+            className={`upgradeLink ${styleButton}`}
             onClick={(e) => handleLinkClick(e)}
         >
-            <FormattedMessage
+            {props.buttonText ? props.buttonText : <FormattedMessage
                 id='upgradeLink.warn.upgrade_now'
                 defaultMessage='Upgrade now'
-            />
+            />}
         </button>
     );
 };
