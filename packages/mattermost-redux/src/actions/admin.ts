@@ -710,14 +710,28 @@ export function getDataRetentionCustomPolicy(id: string): ActionFunc {
 }
 
 export function deleteDataRetentionCustomPolicy(id: string): ActionFunc {
-    return bindClientFunc({
-        clientFunc: Client4.deleteDataRetentionCustomPolicy,
-        onSuccess: AdminTypes.DELETE_DATA_RETENTION_CUSTOM_POLICY_SUCCESS,
-        params: [
-            id,
-        ],
-        onFailure: AdminTypes.DELETE_DATA_RETENTION_CUSTOM_POLICY_SUCCESS,
-    });
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        try {
+            await Client4.deleteDataRetentionCustomPolicy(id);
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            dispatch(
+                {
+                    type: AdminTypes.DELETE_DATA_RETENTION_CUSTOM_POLICY_FAILURE,
+                    error,
+                },
+            );
+            return {error};
+        }
+        const data = {
+            id: id
+        };
+        dispatch(
+            {type: AdminTypes.DELETE_DATA_RETENTION_CUSTOM_POLICY_SUCCESS, data},
+        );
+
+        return {data};
+    };
 }
 
 export function getDataRetentionCustomPolicyTeams(id: string, page = 0, perPage: number = General.TEAMS_CHUNK_SIZE, includeTotalCount = false): ActionFunc {
