@@ -5,10 +5,11 @@ import React from 'react';
 import {getName} from 'country-list';
 import {FormattedMessage} from 'react-intl';
 
-import {PaymentMethod} from 'mattermost-redux/types/cloud';
 import {
     StripeCardElementChangeEvent,
 } from '@stripe/stripe-js';
+
+import {PaymentMethod} from 'mattermost-redux/types/cloud';
 
 import {BillingDetails} from 'types/cloud/sku';
 
