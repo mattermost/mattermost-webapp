@@ -5,18 +5,21 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import {Posts} from 'mattermost-redux/constants';
+import {Post, PostType} from 'mattermost-redux/types/posts';
 
 import PostMarkdown from 'components/post_markdown/post_markdown';
 import Markdown from 'components/markdown';
+import {TestHelper} from 'utils/test_helper';
 
 describe('components/PostMarkdown', () => {
     const baseProps = {
         imageProps: {},
         isRHS: false,
         message: 'message',
-        post: {},
-        mentionKeys: ['a', 'b', 'c'],
+        post: TestHelper.getPostMock(),
+        mentionKeys: [{key: 'a'}, {key: 'b'}, {key: 'c'}],
         channelId: 'channel-id',
+        channel: TestHelper.getChannelMock(),
     };
 
     test('should not error when rendering without a post', () => {
@@ -27,9 +30,7 @@ describe('components/PostMarkdown', () => {
     });
 
     test('should render properly with an empty post', () => {
-        const wrapper = shallow(
-            <PostMarkdown {...baseProps}/>,
-        );
+        const wrapper = shallow(<PostMarkdown {...baseProps}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -37,7 +38,7 @@ describe('components/PostMarkdown', () => {
         const props = {
             ...baseProps,
             message: 'See ~test',
-            post: {
+            post: TestHelper.getPostMock({
                 props: {
                     channel_mentions: {
                         test: {
@@ -45,11 +46,9 @@ describe('components/PostMarkdown', () => {
                         },
                     },
                 },
-            },
+            }),
         };
-        const wrapper = shallow(
-            <PostMarkdown {...props}/>,
-        );
+        const wrapper = shallow(<PostMarkdown {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -60,11 +59,9 @@ describe('components/PostMarkdown', () => {
             options: {
                 mentionHighlight: false,
             },
-            post: {},
+            post: TestHelper.getPostMock(),
         };
-        const wrapper = shallow(
-            <PostMarkdown {...props}/>,
-        );
+        const wrapper = shallow(<PostMarkdown {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -73,28 +70,24 @@ describe('components/PostMarkdown', () => {
             ...baseProps,
             message: 'No @group highlight',
             options: {},
-            post: {
+            post: TestHelper.getPostMock({
                 props: {
                     disable_group_highlight: true,
                 },
-            },
+            }),
         };
-        const wrapper = shallow(
-            <PostMarkdown {...props}/>,
-        );
+        const wrapper = shallow(<PostMarkdown {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should correctly pass postId down', () => {
         const props = {
             ...baseProps,
-            post: {
+            post: TestHelper.getPostMock({
                 id: 'post_id',
-            },
+            }),
         };
-        const wrapper = shallow(
-            <PostMarkdown {...props}/>,
-        );
+        const wrapper = shallow(<PostMarkdown {...props}/>);
         expect(wrapper.find(Markdown).prop('postId')).toEqual(props.post.id);
         expect(wrapper).toMatchSnapshot();
     });
@@ -102,9 +95,9 @@ describe('components/PostMarkdown', () => {
     test('should render header change properly', () => {
         const props = {
             ...baseProps,
-            post: {
+            post: TestHelper.getPostMock({
                 id: 'post_id',
-                type: Posts.POST_TYPES.HEADER_CHANGE,
+                type: Posts.POST_TYPES.HEADER_CHANGE as PostType,
                 props: {
                     username: 'user',
                     old_header: 'see ~test',
@@ -115,11 +108,9 @@ describe('components/PostMarkdown', () => {
                         },
                     },
                 },
-            },
+            }),
         };
-        const wrapper = shallow(
-            <PostMarkdown {...props}/>,
-        );
+        const wrapper = shallow(<PostMarkdown {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -127,7 +118,7 @@ describe('components/PostMarkdown', () => {
         const props = {
             ...baseProps,
             message: 'world',
-            post: {
+            post: TestHelper.getPostMock({
                 message: 'world',
                 props: {
                     channel_mentions: {
@@ -136,23 +127,21 @@ describe('components/PostMarkdown', () => {
                         },
                     },
                 },
-            },
+            }),
             pluginHooks: [
                 {
-                    hook: (post, updatedMessage) => {
+                    hook: (post: Post, updatedMessage: string) => {
                         return 'hello ' + updatedMessage;
                     },
                 },
                 {
-                    hook: (post, updatedMessage) => {
+                    hook: (post: Post, updatedMessage: string) => {
                         return updatedMessage + '!';
                     },
                 },
             ],
         };
-        const wrapper = shallow(
-            <PostMarkdown {...props}/>,
-        );
+        const wrapper = shallow(<PostMarkdown {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -160,7 +149,7 @@ describe('components/PostMarkdown', () => {
         const props = {
             ...baseProps,
             message: 'world',
-            post: {
+            post: TestHelper.getPostMock({
                 message: 'world',
                 props: {
                     channel_mentions: {
@@ -169,23 +158,21 @@ describe('components/PostMarkdown', () => {
                         },
                     },
                 },
-            },
+            }),
             pluginHooks: [
                 {
-                    hook: (post) => {
+                    hook: (post: Post) => {
                         return 'hello ' + post.message;
                     },
                 },
                 {
-                    hook: (post) => {
+                    hook: (post: Post) => {
                         return post.message + '!';
                     },
                 },
             ],
         };
-        const wrapper = shallow(
-            <PostMarkdown {...props}/>,
-        );
+        const wrapper = shallow(<PostMarkdown {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 });
