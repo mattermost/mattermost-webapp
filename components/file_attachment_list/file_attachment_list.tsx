@@ -5,7 +5,7 @@ import React from 'react';
 
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
-import {FileInfo} from 'mattermost-redux/src/types/files';
+import {FileInfo} from 'mattermost-redux/types/files';
 import {Post} from 'mattermost-redux/types/posts';
 
 import {FileTypes} from 'utils/constants';

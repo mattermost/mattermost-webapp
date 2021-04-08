@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+
 import {Client4} from 'mattermost-redux/client';
 
 import * as Utils from 'utils/utils.jsx';

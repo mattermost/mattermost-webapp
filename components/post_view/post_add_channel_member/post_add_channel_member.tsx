@@ -63,7 +63,10 @@ export default class PostAddChannelMember extends React.PureComponent<Props, Sta
     generateAtMentions(usernames = [] as string[]) {
         if (usernames.length === 1) {
             return (
-                <AtMention mentionName={usernames[0]}/>
+                <AtMention
+                    mentionName={usernames[0]}
+                    channelId={this.props.post?.channel_id}
+                />
             );
         } else if (usernames.length > 1) {
             function andSeparator(key: number) {
@@ -89,6 +92,7 @@ export default class PostAddChannelMember extends React.PureComponent<Props, Sta
                                     <AtMention
                                         key={username}
                                         mentionName={username}
+                                        channelId={this.props.post?.channel_id}
                                     />
                                 );
                             }).reduce((acc, el, idx, arr) => {
@@ -112,6 +116,7 @@ export default class PostAddChannelMember extends React.PureComponent<Props, Sta
                     <AtMention
                         key={firstUserName}
                         mentionName={firstUserName}
+                        channelId={this.props.post?.channel_id}
                     />
                     {commaSeparator(1)}
                     <a
@@ -130,6 +135,7 @@ export default class PostAddChannelMember extends React.PureComponent<Props, Sta
                     <AtMention
                         key={lastUserName}
                         mentionName={lastUserName}
+                        channelId={this.props.post?.channel_id}
                     />
                 </span>
             );

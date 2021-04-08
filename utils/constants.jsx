@@ -393,6 +393,7 @@ export const SocketEvents = {
     SIDEBAR_CATEGORY_ORDER_UPDATED: 'sidebar_category_order_updated',
     USER_ACTIVATION_STATUS_CHANGED: 'user_activation_status_change',
     CLOUD_PAYMENT_STATUS_UPDATED: 'cloud_payment_status_updated',
+    FIRST_ADMIN_VISIT_MARKETPLACE_STATUS_RECEIVED: 'first_admin_visit_marketplace_status_received',
 };
 
 export const TutorialSteps = {
@@ -537,6 +538,7 @@ export const StoragePrefixes = {
     LANDING_PAGE_SEEN: '__landingPageSeen__',
     LANDING_PREFERENCE: '__landing-preference__',
     CHANNEL_CATEGORY_COLLAPSED: 'channelCategoryCollapsed_',
+    INLINE_IMAGE_VISIBLE: 'isInlineImageVisible_',
 };
 
 export const LandingPreferenceTypes = {
@@ -977,6 +979,7 @@ export const Constants = {
     },
     MAX_UPLOAD_FILES: 5,
     MAX_FILENAME_LENGTH: 35,
+    EXPANDABLE_INLINE_IMAGE_MIN_HEIGHT: 100,
     THUMBNAIL_WIDTH: 128,
     THUMBNAIL_HEIGHT: 100,
     PREVIEWER_HEIGHT: 170,

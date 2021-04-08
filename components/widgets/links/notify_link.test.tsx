@@ -3,9 +3,10 @@
 
 import React from 'react';
 import {ReactWrapper} from 'enzyme';
-import {Client4} from 'mattermost-redux/client';
 
 import {act} from 'react-dom/test-utils';
+
+import {Client4} from 'mattermost-redux/client';
 
 import {StatusOK} from 'mattermost-redux/types/client4';
 

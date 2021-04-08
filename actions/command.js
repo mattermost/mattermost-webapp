@@ -91,6 +91,7 @@ export function executeCommand(message, args) {
         case '/collapse':
         case '/expand':
             dispatch(PostActions.resetEmbedVisibility());
+            dispatch(PostActions.resetInlineImageVisibility());
         }
 
         let data;
