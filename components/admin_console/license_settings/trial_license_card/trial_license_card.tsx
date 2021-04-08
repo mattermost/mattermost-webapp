@@ -3,9 +3,10 @@
 import React from 'react';
 
 import {FormattedMessage} from 'react-intl';
-import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import moment from 'moment';
+
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import {getBrowserTimezone} from 'utils/timezone';
