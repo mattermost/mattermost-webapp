@@ -194,10 +194,11 @@ export const ActionTypes = keyMirror({
     UPDATE_ACTIVE_SECTION: null,
 
     RECEIVED_MARKETPLACE_PLUGINS: null,
-    INSTALLING_MARKETPLACE_PLUGIN: null,
-    INSTALLING_MARKETPLACE_PLUGIN_SUCCEEDED: null,
-    INSTALLING_MARKETPLACE_PLUGIN_FAILED: null,
-    FILTER_MARKETPLACE_PLUGINS: null,
+    RECEIVED_MARKETPLACE_APPS: null,
+    FILTER_MARKETPLACE_LISTING: null,
+    INSTALLING_MARKETPLACE_ITEM: null,
+    INSTALLING_MARKETPLACE_ITEM_SUCCEEDED: null,
+    INSTALLING_MARKETPLACE_ITEM_FAILED: null,
 
     POST_UNREAD_SUCCESS: null,
 
@@ -262,6 +263,7 @@ export const ModalIdentifiers = {
     REMOVED_FROM_CHANNEL: 'removed_from_channel',
     EMAIL_INVITE: 'email_invite',
     INTERACTIVE_DIALOG: 'interactive_dialog',
+    APPS_MODAL: 'apps_modal',
     ADD_TEAMS_TO_SCHEME: 'add_teams_to_scheme',
     INVITATION: 'invitation',
     ADD_GROUPS_TO_TEAM: 'add_groups_to_team',
@@ -393,6 +395,7 @@ export const SocketEvents = {
     SIDEBAR_CATEGORY_ORDER_UPDATED: 'sidebar_category_order_updated',
     USER_ACTIVATION_STATUS_CHANGED: 'user_activation_status_change',
     CLOUD_PAYMENT_STATUS_UPDATED: 'cloud_payment_status_updated',
+    APPS_FRAMEWORK_REFRESH_BINDINGS: 'custom_com.mattermost.apps_refresh_bindings',
     FIRST_ADMIN_VISIT_MARKETPLACE_STATUS_RECEIVED: 'first_admin_visit_marketplace_status_received',
 };
 
