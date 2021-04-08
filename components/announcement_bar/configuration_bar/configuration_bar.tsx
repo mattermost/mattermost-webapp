@@ -26,7 +26,7 @@ import warningIcon from 'images/icons/warning-icon.svg';
 
 import UserProfile from 'components/user_profile/user_profile';
 import RenewalLink from '../renewal_link/';
-import PurchaseNowLink from 'components/announcement_bar/purchase_now_link/purchase_now_link';
+import PurchaseLink from 'components/announcement_bar/purchase_link/purchase_link';
 
 type Props = {
     config?: Partial<ClientConfig>;
@@ -226,8 +226,8 @@ const ConfigurationAnnouncementBar: React.FC<Props> = (props: Props) => {
         }
 
         if (isTrialLicense(props.license) && (isLicenseExpiringIn(props.license, 14) || isLicenseExpiringIn(props.license, 3) || isLicenseExpiringIn(props.license, 1))) {
-            const purchaseALicenseNow = (
-                <PurchaseNowLink
+            const purchaseLicense = (
+                <PurchaseLink
                     buttonTextElement={
                         <FormattedMarkdownMessage
                             id='announcement_bar.error.purchase_a_license_now'
@@ -256,7 +256,7 @@ const ConfigurationAnnouncementBar: React.FC<Props> = (props: Props) => {
                         message={
                             <>
                                 {message}
-                                {purchaseALicenseNow}
+                                {purchaseLicense}
                             </>
                         }
                         showCloseButton={true}
@@ -292,7 +292,7 @@ const ConfigurationAnnouncementBar: React.FC<Props> = (props: Props) => {
                         message={
                             <>
                                 {message}
-                                {purchaseALicenseNow}
+                                {purchaseLicense}
                             </>
                         }
                         tooltipMsg={message}
