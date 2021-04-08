@@ -14,7 +14,7 @@ describe('Settings', () => {
         cy.shouldRunOnTeamEdition();
     });
 
-    it('MM-T1149: Hide mobile-specific settings', () => {
+    it('MM-T1149 Hide mobile-specific settings', () => {
         cy.visit('/admin_console/site_config/file_sharing_downloads');
 
         // * Check buttons
