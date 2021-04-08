@@ -25,7 +25,7 @@ export function doAppCall<Res=unknown>(call: AppCallRequest, type: AppCallType, 
             case AppCallResponseTypes.OK:
                 return {data: res};
             case AppCallResponseTypes.ERROR:
-                return {data: res};
+                return {error: res};
             case AppCallResponseTypes.FORM:
                 if (!res.form) {
                     const errMsg = intl.formatMessage({
