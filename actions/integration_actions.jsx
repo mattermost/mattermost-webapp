@@ -100,7 +100,7 @@ export function loadProfilesForCommands(commands) {
 export function loadOAuthAppsAndProfiles(page = 0, perPage = DEFAULT_PAGE_SIZE) {
     return async (dispatch, getState) => {
         if (appsEnabled(getState())) {
-            dispatch(IntegrationActions.getAppsOAuthAppsIDs());
+            dispatch(IntegrationActions.getAppsOAuthAppIDs());
         }
         const {data} = await dispatch(IntegrationActions.getOAuthApps(page, perPage));
         if (data) {

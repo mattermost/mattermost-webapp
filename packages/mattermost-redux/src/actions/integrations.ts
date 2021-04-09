@@ -293,9 +293,9 @@ export function getOAuthApps(page = 0, perPage: number = General.PAGE_SIZE_DEFAU
     });
 }
 
-export function getAppsOAuthAppsIDs(): ActionFunc {
+export function getAppsOAuthAppIDs(): ActionFunc {
     return bindClientFunc({
-        clientFunc: Client4.getAppsOAuthAppsIDs,
+        clientFunc: Client4.getAppsOAuthAppIDs,
         onSuccess: [IntegrationTypes.RECEIVED_APPS_OAUTH_APP_IDS],
     });
 }

@@ -2548,7 +2548,7 @@ export default class Client4 {
         );
     };
 
-    getAppsOAuthAppsIDs = () => {
+    getAppsOAuthAppIDs = () => {
         return this.doFetch<string[]>(
             `${this.getAppsProxyRoute()}/api/v1/oauth-app-ids`,
             {method: 'get'},
@@ -2557,7 +2557,7 @@ export default class Client4 {
 
     getAppsBotIDs = () => {
         return this.doFetch<string[]>(
-            `${this.getAppsProxyRoute()}/api/v1/bots-ids`,
+            `${this.getAppsProxyRoute()}/api/v1/bot-ids`,
             {method: 'get'},
         );
     }

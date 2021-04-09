@@ -195,7 +195,7 @@ function oauthApps(state: IDMappedObjects<OAuthApp> = {}, action: GenericAction)
     }
 }
 
-function appsOAuthAppsIDs(state: string[] = [], action: GenericAction) {
+function appsOAuthAppIDs(state: string[] = [], action: GenericAction) {
     switch (action.type) {
     case IntegrationTypes.RECEIVED_APPS_OAUTH_APP_IDS: {
         if (state.length === 0 && action.data.length === 0) {
@@ -288,7 +288,7 @@ export default combineReducers({
     oauthApps,
 
     // object to represent the list of ids for oauth apps associated to apps
-    appsOAuthAppsIDs,
+    appsOAuthAppIDs: appsOAuthAppIDs,
 
     // object to represent the list of ids for bots associated to apps
     appsBotIDs,

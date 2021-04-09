@@ -29,7 +29,7 @@ type Props = {
     /**
      * List of IDs for apps managed by the App Framwork
      */
-    appsOAuthAppsIDs: string[];
+    appsOAuthAppIDs: string[];
 
     /**
     * Set if user can manage oath
@@ -112,7 +112,7 @@ export default class InstalledOAuthApps extends React.PureComponent<Props, State
                     onDelete={this.deleteOAuthApp}
                     team={this.props.team}
                     creatorName=''
-                    fromApp={this.props.appsOAuthAppsIDs.includes(app.id)}
+                    fromApp={this.props.appsOAuthAppIDs.includes(app.id)}
                 />
             );
         });
