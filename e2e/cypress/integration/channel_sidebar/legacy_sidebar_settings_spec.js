@@ -8,21 +8,18 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @channel_sidebar
+// Group: @channel_sidebar @not_cloud
 
 describe('Legacy sidebar settings', () => {
     before(() => {
-        cy.apiUpdateConfig({
-            ServiceSettings: {
-                EnableLegacySidebar: false,
-            },
-        });
+        cy.shouldNotRunOnCloudEdition();
 
         // # Login as test user and visit town-square
         cy.apiInitSetup().then(({team}) => {
             cy.visit(`/${team.name}/channels/town-square`);
         });
     });
+
     it('MM-T2002 Should toggle the legacy sidebar when Enable Legacy Sidebar setting is toggled', () => {
         // * Verify the the new sidebar is currently displayed
         cy.get('#SidebarContainer').should('be.visible');
@@ -45,7 +42,7 @@ describe('Legacy sidebar settings', () => {
         });
 
         // * Verify that the legacy sidebar is gone and the new sidebar displays
-        cy.get('.sidebar--left').should('not.be.visible');
+        cy.get('.sidebar--left').should('not.exist');
         cy.get('#SidebarContainer').should('be.visible');
     });
 });

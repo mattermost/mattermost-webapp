@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @bot_accounts
 
 import {createBotPatch} from '../../support/api/bots';
@@ -58,22 +59,18 @@ describe('Bots in lists', () => {
     });
 
     it('MM-T1834 Bots are not listed on “Users” list in System Console > Users', () => {
-        cy.makeClient().then(async (client) => {
-            // # Go to system console > users
-            cy.visit('/admin_console/user_management/users');
+        // # Go to system console > users
+        cy.visit('/admin_console/user_management/users');
 
-            const {total_users_count: nonBotCount} = await client.getFilteredUsersStats({include_bots: false});
+        bots.forEach(({username}) => {
+            // # Search for bot
+            cy.get('#searchUsers').clear().type(`@${username}`);
 
-            bots.forEach(({username}) => {
-                // # Search for bot
-                cy.get('#searchUsers').clear().type(`@${username}`);
+            // * Verify bot not in list
+            cy.findByTestId('noUsersFound').should('have.text', 'No users found');
 
-                // * Verify bot not in list
-                cy.findByTestId('noUsersFound').should('have.text', 'No users found');
-
-                // * Verify pseudo checksum total of non bot users
-                cy.get('#searchableUserListTotal').should('have.text', `0 users of ${nonBotCount} total`);
-            });
+            // * Verify pseudo checksum total of non bot users
+            cy.get('#searchableUserListTotal').contains('0 users of').should('be.visible');
         });
     });
 });

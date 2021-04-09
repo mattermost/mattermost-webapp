@@ -21,6 +21,16 @@ Cypress.Commands.add('apiUploadFile', (name, filePath, options = {}) => {
         });
 });
 
+Cypress.Commands.add('apiDownloadFileAndVerifyContentType', (fileURL, contentType = 'application/zip') => {
+    cy.request(fileURL).then((response) => {
+        // * Verify the download
+        expect(response.status).to.equal(200);
+
+        // * Confirm its content type
+        expect(response.headers['content-type']).to.equal(contentType);
+    });
+});
+
 /**
  * Process binary file HTTP form request.
  * @param {String} method - HTTP request method

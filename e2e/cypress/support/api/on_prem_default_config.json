@@ -82,7 +82,7 @@
         "EnableBotAccountCreation": true,
         "EnableSVGs": true,
         "EnableLatex": false,
-        "EnableLegacySidebar": true
+        "EnableLegacySidebar": false
     },
     "TeamSettings": {
         "SiteName": "Mattermost",
@@ -92,6 +92,7 @@
         "EnableOpenServer": true,
         "EnableUserDeactivation": false,
         "RestrictCreationToDomains": "",
+        "EnableCustomUserStatuses": true,
         "EnableCustomBrand": false,
         "CustomBrandText": "",
         "CustomDescriptionText": "",

@@ -8,12 +8,13 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @enterprise
+// Group: @enterprise @not_cloud
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 describe('Environment', () => {
     before(() => {
+        cy.shouldNotRunOnCloudEdition();
         cy.apiInitSetup();
     });
 

@@ -71,12 +71,9 @@ export default class AbstractList extends React.PureComponent<Props, State> {
     }
 
     private performSearch = (): void => {
-        const newState = {...this.state};
         const userId = this.props.userId;
-        delete newState.page;
 
-        newState.loading = true;
-        this.setState(newState);
+        this.setState({loading: true});
 
         this.props.actions.getTeamsData(userId).then!(() => {
             if (this.props.onPageChangedCallback) {

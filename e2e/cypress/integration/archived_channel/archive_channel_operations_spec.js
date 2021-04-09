@@ -13,6 +13,8 @@
 import {getAdminAccount} from '../../support/env';
 import {getRandomId} from '../../utils';
 
+import {createArchivedChannel} from './helpers';
+
 describe('Leave an archived channel', () => {
     let testTeam;
     let testChannel;
@@ -85,7 +87,7 @@ describe('Leave an archived channel', () => {
 
         createArchivedChannel({prefix: 'unarchive-'}, [messageText]).then(({name}) => {
             // # View the archived channel, noting that it is read-only
-            cy.get('#post_textbox').should('not.be.visible');
+            cy.get('#post_textbox').should('not.exist');
 
             // # Unarchive the channel:
             cy.uiUnarchiveChannel();
@@ -115,7 +117,7 @@ describe('Leave an archived channel', () => {
 
         createArchivedChannel(channelOptions, [messageText]).then(({name}) => {
             // # View the archived channel, noting that it is read-only
-            cy.get('#post_textbox').should('not.be.visible');
+            cy.get('#post_textbox').should('not.exist');
 
             // # Unarchive the channel:
             cy.uiUnarchiveChannel().then(() => {
@@ -129,26 +131,3 @@ describe('Leave an archived channel', () => {
         });
     });
 });
-
-function createArchivedChannel(channelOptions, messages, memberUsernames) {
-    let channelName;
-    return cy.uiCreateChannel(channelOptions).then((newChannel) => {
-        channelName = newChannel.name;
-        if (memberUsernames) {
-            cy.uiAddUsersToCurrentChannel(memberUsernames);
-        }
-        if (messages) {
-            let messageList = messages;
-            if (!Array.isArray(messages)) {
-                messageList = [messages];
-            }
-            messageList.forEach((message) => {
-                cy.postMessage(message);
-            });
-        }
-        cy.uiArchiveChannel();
-        cy.get('#channelArchivedMessage').should('be.visible');
-
-        return cy.wrap({name: channelName});
-    });
-}

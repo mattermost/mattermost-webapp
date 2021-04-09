@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {defineMessages, FormattedDate, FormattedMessage, FormattedTime, injectIntl, IntlShape} from 'react-intl';
+
 import {UserProfile} from 'mattermost-redux/types/users';
 import {ActionFunc} from 'mattermost-redux/types/actions';
 import {Audit} from 'mattermost-redux/types/audits';

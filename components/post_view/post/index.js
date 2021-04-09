@@ -4,19 +4,17 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {Posts} from 'mattermost-redux/constants';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getPost, makeIsPostCommentMention} from 'mattermost-redux/selectors/entities/posts';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {isSystemMessage} from 'mattermost-redux/utils/post_utils';
 
 import {markPostAsUnread} from 'actions/post_actions';
 import {selectPost, selectPostCard} from 'actions/views/rhs';
 
 import {isArchivedChannel} from 'utils/channel_utils';
 import {Preferences} from 'utils/constants';
-import {makeCreateAriaLabelForPost, makeGetReplyCount} from 'utils/post_utils.jsx';
+import {areConsecutivePostsBySameUser, makeCreateAriaLabelForPost, makeGetReplyCount} from 'utils/post_utils.jsx';
 
 import Post from './post.jsx';
 
@@ -54,11 +52,7 @@ function makeMapStateToProps() {
         let previousPostIsComment = false;
 
         if (previousPost) {
-            consecutivePostByUser = post.user_id === previousPost.user_id && // The post is by the same user
-                post.create_at - previousPost.create_at <= Posts.POST_COLLAPSE_TIMEOUT && // And was within a short time period
-                !(post.props && post.props.from_webhook) && !(previousPost.props && previousPost.props.from_webhook) && // And neither is from a webhook
-                !isSystemMessage(post) && !isSystemMessage(previousPost); // And neither is a system message
-
+            consecutivePostByUser = areConsecutivePostsBySameUser(post, previousPost);
             previousPostIsComment = Boolean(previousPost.root_id);
         }
 

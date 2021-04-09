@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import PDFJS from 'pdfjs-dist';
 import debounce from 'lodash/debounce';
+
 import {getFileDownloadUrl} from 'mattermost-redux/utils/file_utils';
 
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
@@ -79,6 +80,11 @@ export default class PDFPreview extends React.PureComponent {
         }
         if (this.props.scale !== prevProps.scale) {
             this.pdfPagesRendered = {};
+            if (this.state.success) {
+                for (let i = 0; i < this.state.numPages; i++) {
+                    this.renderPDFPage(i);
+                }
+            }
         }
 
         if (!prevState.success && this.state.success) {

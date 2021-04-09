@@ -45,6 +45,7 @@ export default class UsersEmailsInput extends React.PureComponent {
         loadingMessageId: PropTypes.string,
         loadingMessageDefault: PropTypes.string,
         emailInvitationsEnabled: PropTypes.bool,
+        extraErrorText: PropTypes.any,
     }
 
     static defaultProps = {
@@ -323,6 +324,7 @@ export default class UsersEmailsInput extends React.PureComponent {
                                 </components.NoOptionsMessage>
                             )}
                         </FormattedMarkdownMessage>
+                        {this.props.extraErrorText || null}
                     </div>
                 )}
             </>

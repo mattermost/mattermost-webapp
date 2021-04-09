@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @keyboard_shortcuts
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -60,7 +61,7 @@ describe('Keyboard Shortcuts', () => {
             cy.get('#channelIntro').contains('.channel-intro__title', `Beginning of ${testChannel.display_name}`).should('be.visible');
 
             // # Verify that the right channel is displayed in LHS
-            cy.contains('.sidebar-item', testChannel.display_name);
+            cy.uiGetLhsSection('CHANNELS').findByText(testChannel.display_name).should('be.visible');
 
             // # Verify that the current user(sysadmin) created the channel
             cy.get('#channelIntro').contains('.channel-intro__content', `This is the start of the ${testChannel.display_name} channel, created by sysadmin`).should('be.visible');
@@ -79,7 +80,7 @@ describe('Keyboard Shortcuts', () => {
             // # Create two public channels
             for (let index = 0; index < 2; index++) {
                 const otherUserId = otherUser.id;
-                cy.apiCreateChannel(team.id, 'public', 'public').then(({channel}) => {
+                cy.apiCreateChannel(team.id, `a-public-${index}`, `A Public ${index}`).then(({channel}) => {
                     publicChannels.push(channel);
                     cy.apiAddUserToTeam(team.id, otherUserId).then(() => {
                         cy.apiAddUserToChannel(channel.id, otherUserId);
@@ -90,7 +91,7 @@ describe('Keyboard Shortcuts', () => {
             // # Create two private channels
             for (let index = 0; index < 2; index++) {
                 const otherUserId = otherUser.id;
-                cy.apiCreateChannel(team.id, 'private', 'private', 'P').then(({channel}) => {
+                cy.apiCreateChannel(team.id, `b-private-${index}`, `B Private ${index}`, 'P').then(({channel}) => {
                     privateChannels.push(channel);
                     cy.apiAddUserToChannel(channel.id, otherUserId);
                 });
@@ -238,7 +239,7 @@ describe('Keyboard Shortcuts', () => {
             // # Create two public channels
             for (let index = 0; index < 2; index++) {
                 const otherUserId = otherUser.id;
-                cy.apiCreateChannel(team.id, 'public', 'public').then(({channel}) => {
+                cy.apiCreateChannel(team.id, `a-public-${index}`, `A Public ${index}`).then(({channel}) => {
                     publicChannels.push(channel);
                     cy.apiAddUserToTeam(team.id, otherUserId).then(() => {
                         cy.apiAddUserToChannel(channel.id, otherUserId);
@@ -249,7 +250,7 @@ describe('Keyboard Shortcuts', () => {
             // # Create two private channels
             for (let index = 0; index < 2; index++) {
                 const otherUserId = otherUser.id;
-                cy.apiCreateChannel(team.id, 'private', 'private', 'P').then(({channel}) => {
+                cy.apiCreateChannel(team.id, `b-private-${index}`, `B Private ${index}`).then(({channel}) => {
                     privateChannels.push(channel);
                     cy.apiAddUserToChannel(channel.id, otherUserId);
                 });
@@ -395,7 +396,7 @@ describe('Keyboard Shortcuts', () => {
 
         // # Type CTRL/CMD+K to close 'Switch Channels' modal
         cy.get('body').cmdOrCtrlShortcut('K');
-        cy.get('#quickSwitchHint').should('not.be.visible');
+        cy.get('#quickSwitchHint').should('not.exist');
     });
 
     it('MM-T1248 - CTRL/CMD+SHIFT+L - Set focus to center channel message box', () => {
@@ -427,7 +428,7 @@ describe('Keyboard Shortcuts', () => {
 
         // # Type CTRL/CMD+SHIFT+A to close 'Account Settings' modal
         cy.get('body').cmdOrCtrlShortcut('{shift}A');
-        cy.get('#accountSettingsHeader').should('not.be.visible');
+        cy.get('#accountSettingsHeader').should('not.exist');
     });
 
     it('MM-T1278 - CTRL/CMD+SHIFT+K', () => {
@@ -437,7 +438,7 @@ describe('Keyboard Shortcuts', () => {
 
         // # Type CTRL/CMD+SHIFT+K to close 'Direct Messages' modal
         cy.get('body').cmdOrCtrlShortcut('{shift}K');
-        cy.get('#moreDmModal').should('not.be.visible');
+        cy.get('#moreDmModal').should('not.exist');
     });
 
     function markAsFavorite(channelName) {

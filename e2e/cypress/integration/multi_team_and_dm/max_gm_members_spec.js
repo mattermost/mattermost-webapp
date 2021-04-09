@@ -32,7 +32,7 @@ describe('Multi-user group messages', () => {
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Open the 'Direct messages' dialog to create a new direct message
-        cy.get('#addDirectChannel').click();
+        cy.uiAddDirectMessage().click();
 
         // # Add the maximum amount of users to a group message (7)
         addUsersToGMViaModal(7);

@@ -18,7 +18,9 @@ const baseShape = {
 const fieldShape = {
     ...baseShape,
     key: yup.string().required(),
-    help_text: yup.string(),
+
+    // help_text: yup.string(), // Commented out since this doesn't work when help_text is a ReactNode
+
     help_text_default: yup.string(),
     help_text_html: yup.boolean(),
     help_text_values: yup.object(),

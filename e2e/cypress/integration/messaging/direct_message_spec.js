@@ -68,7 +68,7 @@ describe('Direct Message', () => {
             // * Edit post modal should appear, and edit the post
             cy.get('#editPostModal').should('be.visible');
             cy.get('#edit_textbox').should('have.text', originalMessage).type(' World{enter}');
-            cy.get('#editPostModal').should('be.not.visible');
+            cy.get('#editPostModal').should('not.exist');
 
             // * Verify that last post does contain (edited)
             cy.getLastPostId().then((postId) => {
@@ -103,8 +103,8 @@ describe('Direct Message', () => {
         // # Stub notifications API
         spyNotificationAs('withNotification', 'granted');
 
-        // # Click on More... section
-        cy.get('#moreDirectMessage').click().wait(TIMEOUTS.HALF_SEC);
+        // # Open DM modal
+        cy.uiAddDirectMessage().click().wait(TIMEOUTS.HALF_SEC);
 
         // # Search for your username
         cy.get('#selectItems input').
@@ -179,17 +179,17 @@ describe('Direct Message', () => {
         });
 
         // * Assert that channel appears as muted on the LHS
-        cy.get('#directChannelList .muted').first().should('contain', otherUser.username);
+        cy.uiGetLhsSection('DIRECT MESSAGES').find('.muted').first().should('contain', otherUser.username);
 
         // # Clicks on UnMute Channel
         cy.get('#channelHeaderDropdownButton button').click().then(() => {
             cy.get('#channelToggleMuteChannel button').click().then(() => {
                 // * Assert that channel is unmuted
-                cy.get('#toggleMute').should('not.be.visible');
+                cy.get('#toggleMute').should('not.exist');
             });
         });
 
         // * Assert that channel does not appear as muted on the LHS
-        cy.get('#directChannelList .muted').should('not.exist');
+        cy.uiGetLhsSection('DIRECT MESSAGES').find('.muted').should('not.exist');
     });
 });

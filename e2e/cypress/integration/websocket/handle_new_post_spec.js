@@ -22,12 +22,6 @@ describe('Handle new post', () => {
     let user1;
 
     before(() => {
-        cy.apiUpdateConfig({
-            ServiceSettings: {
-                EnableLegacySidebar: false,
-            },
-        });
-
         cy.apiInitSetup().then(({channel, team, user}) => {
             channel1 = channel;
             team1 = team;

@@ -25,7 +25,7 @@ describe('Account Settings > Display > Timezone Mode', () => {
     const timezoneLocal = {type: 'Canonical', actualValue: moment.tz.guess(), expectedValue: moment.tz.guess()};
     const timezoneCanonical = {type: 'Canonical', actualValue: 'Asia/Hong_Kong', expectedValue: 'Asia/Hong_Kong'};
     const timezoneUTC = {type: 'Default', actualValue: 'UTC', expectedValue: 'UTC'};
-    const timezoneInvalid = {type: 'Invalid', actualValue: 'NZ-Chat', expectedValue: 'UTC'};
+    const timezoneInvalid = {type: 'Invalid', actualValue: 'Invalid', expectedValue: 'UTC'};
     const datesInUTC = [
         moment(date1).tz(timezoneUTC.expectedValue),
         moment(date2).tz(timezoneUTC.expectedValue),
@@ -78,6 +78,9 @@ describe('Account Settings > Display > Timezone Mode', () => {
         automaticTestCases.forEach((testCase) => {
             describe('Type: ' + testCase.timezone.type + ', Actual: ' + testCase.timezone.actualValue + ', Expected: ' + testCase.timezone.expectedValue, () => {
                 before(() => {
+                    // # Reset to manual
+                    cy.apiPatchMe({timezone: {automaticTimezone: '', manualTimezone: 'UTC', useAutomaticTimezone: 'false'}});
+
                     // # Set timezone display to automatic
                     setTimezoneDisplayToAutomatic(testCase.timezone);
                 });
@@ -147,6 +150,9 @@ describe('Account Settings > Display > Timezone Mode', () => {
         manualTestCases.forEach((testCase) => {
             describe('Type: ' + testCase.timezone.type + ', Actual: ' + testCase.timezone.actualValue + ', Expected: ' + testCase.timezone.expectedValue, () => {
                 before(() => {
+                    // # Reset to automatic
+                    cy.apiPatchMe({timezone: {automaticTimezone: 'Asia/Hong_Kong', manualTimezone: '', useAutomaticTimezone: 'true'}});
+
                     // # Set timezone display to manual
                     setTimezoneDisplayToManual(testCase.timezone);
                 });
@@ -208,39 +214,36 @@ function setTimezoneDisplayTo(isAutomatic, timezone) {
         // # Uncheck the automatic timezone checkbox and verify unchecked
         cy.get('#automaticTimezoneInput').should('be.visible').uncheck().should('be.not.checked');
 
-        // * Verify Change timezone exists
-        cy.findByText('Change timezone').should('exist');
+        // * Verify Change timezone is enabled
+        cy.get('input[aria-labelledby="changeInterfaceTimezoneLabel"]').as('changeTimezone').should('be.enabled');
         if (isAutomatic) {
             // # Check automatic timezone checkbox and verify checked
             cy.get('#automaticTimezoneInput').check().should('be.checked');
 
             // * Verify timezone text is visible
-            cy.get('.section-describe').should('be.visible').invoke('text').then((timezoneDesc) => {
+            cy.get('@changeTimezone').should('be.visible').invoke('text').then((timezoneDesc) => {
                 expect(expectedTimezoneValue.replace('_', ' ')).to.contain(timezoneDesc);
             });
 
-            // * Verify Change timezone does not exist
-            cy.findByText('Change timezone').should('not.exist');
+            // * Verify Change timezone is disabled
+            cy.get('@changeTimezone').should('be.disabled');
         } else {
             // # Manually type new timezone
-            cy.get('input[type="search"]').should('be.visible').clear().type(actualTimezoneValue);
-
-            // # Click on suggestion if exists
-            if (timezone.type === 'Invalid') {
-                cy.get('#suggestionList').should('not.exist');
-            } else if (actualTimezoneValue) {
-                cy.get('#suggestionList').findByText(expectedTimezoneValue).should('exist').click();
-            }
+            cy.get('@changeTimezone').should('be.visible').clear().type(`${actualTimezoneValue}{enter}`);
         }
     });
 
     // # Click Save button
-    cy.get('#saveSetting').should('be.visible').click();
+    cy.get('#saveSetting').should('be.visible').click({force: true});
 
     // * Verify timezone description is correct
-    cy.get('#timezoneDesc').should('be.visible').invoke('text').then((timezoneDesc) => {
-        expect(expectedTimezoneValue.replace('_', ' ')).to.contain(timezoneDesc);
-    });
+    if (timezone.type === 'Invalid') {
+        cy.get('#timezoneDesc').should('not.be.visible');
+    } else {
+        cy.get('#timezoneDesc').should('be.visible').invoke('text').then((timezoneDesc) => {
+            expect(expectedTimezoneValue.replace('_', ' ')).to.contain(timezoneDesc);
+        });
+    }
 
     // # Close Account Settings modal
     cy.get('#accountSettingsHeader > .close').should('be.visible').click();

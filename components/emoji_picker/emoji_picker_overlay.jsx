@@ -30,9 +30,11 @@ export default class EmojiPickerOverlay extends React.PureComponent {
         onHide: PropTypes.func.isRequired,
         topOffset: PropTypes.number,
         rightOffset: PropTypes.number,
+        leftOffset: PropTypes.number,
         spaceRequiredAbove: PropTypes.number,
         spaceRequiredBelow: PropTypes.number,
         enableGifPicker: PropTypes.bool,
+        defaultHorizontalPosition: PropTypes.oneOf(['left', 'right']),
     };
 
     // Reasonable defaults calculated from from the center channel
@@ -70,7 +72,7 @@ export default class EmojiPickerOverlay extends React.PureComponent {
         const target = props.target();
         if (target) {
             const targetBounds = target.getBoundingClientRect();
-            return popOverOverlayPosition(targetBounds, window.innerHeight, props.spaceRequiredAbove, props.spaceRequiredBelow);
+            return popOverOverlayPosition(targetBounds, window.innerHeight, props.spaceRequiredAbove, props.spaceRequiredBelow, props.defaultHorizontalPosition);
         }
 
         return 'top';
@@ -101,6 +103,7 @@ export default class EmojiPickerOverlay extends React.PureComponent {
                     onGifClick={this.props.onGifClick}
                     rightOffset={this.state.rightOffset}
                     topOffset={this.props.topOffset}
+                    leftOffset={this.props.leftOffset}
                 />
             </Overlay>
         );

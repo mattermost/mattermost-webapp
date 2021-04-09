@@ -16,7 +16,7 @@
 // ***************************************************************
 
 declare namespace Cypress {
-    interface Chainable<Subject = any> {
+    interface Chainable {
 
         /**
          * Upload file directly via API.
@@ -31,5 +31,12 @@ declare namespace Cypress {
          *   cy.apiUploadFile('certificate', filePath, {url: '/api/v4/saml/certificate/public', method: 'POST', successStatus: 200});
          */
         apiUploadFile(name: string, filePath: string, options: Record<string, unknown>): Chainable<Response>;
+
+        /**
+         * Verify export file content-type
+         * @param {String} fileURL - Export file URL
+         * @param {String} contentType - File content-Type
+         */
+        apiDownloadFileAndVerifyContentType(fileURL: string, contentType: string): Chainable;
     }
 }

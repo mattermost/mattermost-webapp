@@ -49,7 +49,7 @@ describe('Authentication', () => {
 
         cy.findByRole('button', {name: 'Save'}).click();
 
-        cy.findByText('Your password must contain between 7 and 64 characters.').should('be.visible').and('exist');
+        cy.findByText('Your password must contain between 7 and 64 characters.').should('be.visible');
 
         cy.apiLogout();
 
@@ -122,28 +122,6 @@ describe('Authentication', () => {
         });
     });
 
-    it('MM-T1775 - Maximum Login Attempts field resets to default after saving invalid value', () => {
-        cy.visit('/admin_console/authentication/password');
-
-        cy.findByPlaceholderText('E.g.: "10"', {timeout: TIMEOUTS.ONE_MIN}).clear().type('ten');
-
-        cy.findByRole('button', {name: 'Save'}).click();
-
-        // * Ensure error appears when saving a password outside of the limits
-        cy.findByPlaceholderText('E.g.: "10"').invoke('val').should('equal', '10');
-    });
-
-    it('MM-T1776 - Maximum Login Attempts field successfully saves valid change', () => {
-        cy.visit('/admin_console/authentication/password');
-
-        cy.findByPlaceholderText('E.g.: "10"', {timeout: TIMEOUTS.ONE_MIN}).clear().type('2');
-
-        cy.findByRole('button', {name: 'Save'}).click();
-
-        // * Ensure error appears when saving a password outside of the limits
-        cy.findByPlaceholderText('E.g.: "10"').invoke('val').should('equal', '2');
-    });
-
     it('MM-T1777 - Multi-factor Authentication option hidden in Account Settings when disabled', () => {
         cy.apiUpdateConfig({
             ServiceSettings: {
@@ -158,7 +136,7 @@ describe('Authentication', () => {
         cy.findByLabelText('security').click();
 
         // * Assert that Multifactor Authentication text does not exist
-        cy.findByText('Multi-factor Authentication').should('not.exist').and('not.be.visible');
+        cy.findByText('Multi-factor Authentication').should('not.exist');
     });
 
     it('MM-T1779 - Multi-factor Authentication option appears in Account Settings when enabled', () => {
@@ -175,7 +153,7 @@ describe('Authentication', () => {
         cy.findByLabelText('security').click();
 
         // * Assert that Multifactor Authentication text does exist
-        cy.findByText('Multi-factor Authentication').should('exist').and('be.visible');
+        cy.findByText('Multi-factor Authentication').should('be.visible');
     });
 
     it('MM-T1780 - Multi-factor Authentication false: User can log in without being prompted for MFA', () => {

@@ -159,7 +159,7 @@ describe('LDAP guest', () => {
         // # Create team if no membership
         cy.skipOrCreateTeam(testSettings, getRandomId()).then(() => {
             // * Verify user is a member
-            cy.get('#createPublicChannel').should('exist');
+            cy.findByRole('button', {name: 'Add Channel Dropdown'}).should('exist');
 
             // # Demote the user
             demoteUserToGuest(user2Data);
@@ -170,10 +170,10 @@ describe('LDAP guest', () => {
                 cy.doLDAPLogin(testSettings);
 
                 // * Check if user is in the team
-                cy.get('#addDirectChannel').should('exist');
+                cy.uiAddDirectMessage().should('exist');
 
                 // * Check the user is a guest
-                cy.get('#createPublicChannel').should('not.exist');
+                cy.findByRole('button', {name: 'Add Channel Dropdown'}).should('not.exist');
             });
         });
     });
@@ -224,7 +224,7 @@ describe('LDAP guest', () => {
                     cy.wait(TIMEOUTS.TWO_SEC);
 
                     // # Option to invite guest should not be visible
-                    cy.findByTestId('inviteGuestLink').should('not.be.visible');
+                    cy.findByTestId('inviteGuestLink').should('not.exist');
                 });
             });
         });

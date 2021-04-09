@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @search_date_filter
 
 import {getAdminAccount} from '../../support/env';
@@ -72,7 +71,7 @@ describe('SF15699 Search Date Filter - edit', () => {
             type(`${targetMessage}{enter}`).
             should('be.empty');
 
-        cy.get('#loadingSpinner').should('not.be.visible');
+        cy.get('#loadingSpinner').should('not.exist');
 
         // * Verify we see our single result
         cy.findAllByTestId('search-item-container').
@@ -105,7 +104,7 @@ describe('SF15699 Search Date Filter - edit', () => {
             type('{enter}').
             should('be.empty');
 
-        cy.get('#loadingSpinner').should('not.be.visible');
+        cy.get('#loadingSpinner').should('not.exist');
 
         // * There should be no results
         cy.findAllByTestId('search-item-container').should('have.length', 0);

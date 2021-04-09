@@ -7,7 +7,8 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @bot_accounts
+// Stage: @prod
+// Group: @bot_accounts @not_cloud
 
 import {createBotPatch} from '../../support/api/bots';
 import {generateRandomUser} from '../../support/api/user';
@@ -20,6 +21,8 @@ describe('Bot accounts', () => {
     let createdUsers;
 
     before(() => {
+        cy.shouldNotRunOnCloudEdition();
+
         cy.apiUpdateConfig({
             ServiceSettings: {
                 EnableBotAccountCreation: true,
@@ -101,7 +104,13 @@ describe('Bot accounts', () => {
             cy.wrap($link).find('.SidebarChannelLinkLabel').should('have.text', bots[0].username);
 
             // * Verify bot icon exists
-            cy.wrap($link).find('.icon.icon-robot-happy');
+            cy.wrap($link).find('.Avatar').should('exist').
+                and('have.attr', 'src').
+                then((url) => cy.request({url, encoding: 'binary'})).
+                should(({body}) => {
+                    // * Verify it matches default bot avatar
+                    cy.fixture('bot-default-avatar.png', 'binary').should('deep.equal', body);
+                });
         });
 
         cy.postMessage('Bump bot chat recency');

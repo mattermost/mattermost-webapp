@@ -127,7 +127,10 @@ context('ldap', () => {
             cy.wait(TIMEOUTS.TWO_SEC); //eslint-disable-line cypress/no-unnecessary-waiting
 
             // # Turn on sync group members
-            cy.findByTestId('syncGroupSwitch').scrollIntoView().click();
+            cy.findByTestId('syncGroupSwitch').
+                scrollIntoView().
+                findByRole('button').
+                click({force: true});
 
             // # Add board group to team
             cy.findByTestId('addGroupsToTeamToggle').scrollIntoView().click();
@@ -227,7 +230,7 @@ context('ldap', () => {
 
             // # Go to team page to look for this channel in public channel directory
             cy.visit(`/${testTeam.name}`);
-            cy.get('#sidebarPublicChannelsMore').click();
+            cy.uiBrowseOrCreateChannel('Browse Channels').click();
 
             // * Search private channel name and make sure it isn't there in public channel directory
             cy.get('#searchChannelsTextbox').type(`${testChannel.display_name}`);
@@ -396,7 +399,7 @@ context('ldap', () => {
                 cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
                 // # Click the sidebar switcher button
-                cy.get('#sidebarSwitcherButton').click();
+                cy.uiGetChannelSwitcher().click();
 
                 // * Channel switcher hint should be visible
                 cy.get('#quickSwitchHint', {timeout: TIMEOUTS.TWO_SEC}).should('be.visible').should('contain', 'Type to find a channel. Use UP/DOWN to browse, ENTER to select, ESC to dismiss.');
@@ -421,7 +424,7 @@ context('ldap', () => {
                 cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
                 // # Click the sidebar switcher button
-                cy.get('#sidebarSwitcherButton').click();
+                cy.uiGetChannelSwitcher().click();
 
                 // * Channel switcher hint should be visible
                 cy.get('#quickSwitchHint', {timeout: TIMEOUTS.TWO_SEC}).should('be.visible').should('contain', 'Type to find a channel. Use UP/DOWN to browse, ENTER to select, ESC to dismiss.');
@@ -447,9 +450,11 @@ context('ldap', () => {
             ).then(({channel: publicChannel}) => {
                 cy.apiLogin(testUser);
 
-                // # Click more under public channels
+                // # Visit off-topic channel
                 cy.visit(`/${testTeam.name}/channels/off-topic`);
-                cy.get('#sidebarPublicChannelsMore').click();
+
+                // # Go to LHS and click 'Browse Channels'
+                cy.uiBrowseOrCreateChannel('Browse Channels').click();
 
                 // * Search public channel and ensure it appears in the list
                 cy.get('#searchChannelsTextbox').type(`${publicChannel.display_name}`);
@@ -462,9 +467,11 @@ context('ldap', () => {
                 // # Login as a normal user
                 cy.apiLogin(testUser);
 
-                // # Click more under public channels
+                // # Visit off-topic channel
                 cy.visit(`/${testTeam.name}/channels/off-topic`);
-                cy.get('#sidebarPublicChannelsMore').click();
+
+                // # Go to LHS and click 'Browse Channels'
+                cy.uiBrowseOrCreateChannel('Browse Channels').click();
 
                 // * Search private channel name and make sure it isn't there in public channel directory
                 cy.get('#searchChannelsTextbox').type(`${publicChannel.display_name}`);

@@ -42,9 +42,7 @@
             position: absolute;
             right: -3px;
             top: -3px;
-            box-shadow:
-                0 0 0 2px rgba(0, 0, 0, 0.2),
-                0 0 0 2px var(--sidebar-header-bg);
+            box-shadow:0 0 0 3px var(--sidebar-teambar-bg);
             z-index: 5;
         }
     }
@@ -53,8 +51,7 @@
         .badge {
             display: inline-block;
             flex-shrink: 0;
-            margin-left: 6px;
-            margin-right: 3px;
+            margin: 0 6px;
         }
     }
 

@@ -4,13 +4,7 @@ exports[`components/invitation_modal/InvitationModalMembersStep should match the
 <InvitationModalMembersStep
   actions={
     Object {
-      "getCloudSubscription": [Function],
-      "getStandardAnalytics": [Function],
-    }
-  }
-  analytics={
-    Object {
-      "TOTAL_USERS": 10,
+      "getSubscriptionStats": [Function],
     }
   }
   currentTeamId="test-team-id"
@@ -53,9 +47,10 @@ exports[`components/invitation_modal/InvitationModalMembersStep should match the
   onEdit={[MockFunction]}
   onSubmit={[MockFunction]}
   searchProfiles={[MockFunction]}
-  subscription={
+  subscriptionStats={
     Object {
       "is_paid_tier": "false",
+      "remaining_seats": 6,
     }
   }
   teamName="Test Team"
@@ -68,13 +63,7 @@ exports[`components/invitation_modal/InvitationModalMembersStep should match the
 <InvitationModalMembersStep
   actions={
     Object {
-      "getCloudSubscription": [Function],
-      "getStandardAnalytics": [Function],
-    }
-  }
-  analytics={
-    Object {
-      "TOTAL_USERS": 10,
+      "getSubscriptionStats": [Function],
     }
   }
   currentTeamId="test-team-id"
@@ -117,9 +106,10 @@ exports[`components/invitation_modal/InvitationModalMembersStep should match the
   onEdit={[MockFunction]}
   onSubmit={[MockFunction]}
   searchProfiles={[MockFunction]}
-  subscription={
+  subscriptionStats={
     Object {
       "is_paid_tier": "false",
+      "remaining_seats": 6,
     }
   }
   teamName="Test Team"

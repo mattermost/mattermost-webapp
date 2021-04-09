@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @channel
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -17,9 +18,6 @@ describe('Leave an archived channel', () => {
 
     before(() => {
         cy.apiUpdateConfig({
-            ServiceSettings: {
-                EnableLegacySidebar: false,
-            },
             TeamSettings: {
                 ExperimentalViewArchivedChannels: true,
             },
@@ -301,9 +299,6 @@ describe('Leave an archived channel', () => {
     it('MM-T1696 - When clicking Browse Channels no options for archived channels are shown when the feature is disabled', () => {
         cy.apiAdminLogin();
         cy.apiUpdateConfig({
-            ServiceSettings: {
-                EnableLegacySidebar: 'default_on',
-            },
             TeamSettings: {
                 ExperimentalViewArchivedChannels: false,
             },
@@ -324,7 +319,7 @@ describe('Leave an archived channel', () => {
             cy.get('#showMoreChannels').click();
 
             // # Modal should not contain the created channel
-            cy.get('#channelsMoreDropdown').should('not.be.visible');
+            cy.get('#channelsMoreDropdown').should('not.exist');
             cy.get('#moreChannelsList').should('not.contain', channel.name);
         });
         cy.get('body').type('{esc}', {force: true});

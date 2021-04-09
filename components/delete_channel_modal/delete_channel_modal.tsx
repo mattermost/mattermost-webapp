@@ -11,7 +11,7 @@ import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
-type Props = {
+export type Props = {
     onHide: () => void;
     channel: Channel;
     currentTeamDetails: {name: string};

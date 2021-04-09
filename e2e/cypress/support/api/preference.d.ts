@@ -16,7 +16,7 @@
 // ***************************************************************
 
 declare namespace Cypress {
-    interface Chainable<Subject = any> {
+    interface Chainable {
 
         // *******************************************************************************
         // Preferences
@@ -69,5 +69,18 @@ declare namespace Cypress {
          *   cy.apiSaveCloudOnboardingPreference('user-id', 'hide', 'true');
          */
         apiSaveCloudOnboardingPreference(userId: string, name: string, value: string): Chainable<Response>;
+
+        /**
+         * Save DM channel show preference.
+         * See https://api.mattermost.com/#tag/preferences/paths/~1users~1{user_id}~1preferences/put
+         * @param {string} userId - User ID
+         * @param {string} otherUserId - Other user in a DM channel
+         * @param {string} value - options are 'true' or 'false'
+         * @returns {Response} response: Cypress-chainable response which should have successful HTTP status of 200 OK to continue or pass.
+         *
+         * @example
+         *   cy.apiSaveDirectChannelShowPreference('user-id', 'other-user-id', 'false');
+         */
+        apiSaveDirectChannelShowPreference(userId: string, otherUserId: string, value: string): Chainable<Response>;
     }
 }

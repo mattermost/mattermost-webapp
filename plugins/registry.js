@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+
 import reducerRegistry from 'mattermost-redux/store/reducer_registry';
 
 import {

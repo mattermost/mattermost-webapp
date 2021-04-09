@@ -4,6 +4,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
+
 import {OAuthApp} from 'mattermost-redux/types/integrations';
 import {Team} from 'mattermost-redux/types/teams';
 

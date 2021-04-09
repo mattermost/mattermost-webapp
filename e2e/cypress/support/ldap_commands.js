@@ -18,6 +18,7 @@ Cypress.Commands.add('doLDAPLogin', (settings = {}, useEmail = false) => {
     // # Go to login page
     cy.apiLogout();
     cy.visit('/login');
+    cy.wait(TIMEOUTS.FIVE_SEC);
     cy.checkLoginPage(settings);
     cy.performLDAPLogin(settings, useEmail);
 });
@@ -129,7 +130,7 @@ Cypress.Commands.add('doSkipTutorial', () => {
 
 Cypress.Commands.add('runLdapSync', (admin) => {
     cy.externalRequest({user: admin, method: 'post', path: 'ldap/sync'}).then(() => {
-        cy.waitForLdapSyncCompletion(Date.now(), TIMEOUTS.HALF_MIN).then(() => {
+        cy.waitForLdapSyncCompletion(Date.now(), TIMEOUTS.THREE_MIN).then(() => {
             return cy.wrap(true);
         });
     });

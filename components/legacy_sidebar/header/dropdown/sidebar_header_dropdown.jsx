@@ -16,6 +16,8 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 
 import MainMenu from 'components/main_menu';
 
+import {isAdmin} from 'utils/utils.jsx';
+
 export default class SidebarHeaderDropdown extends React.PureComponent {
     static propTypes = {
         teamDescription: PropTypes.string.isRequired,
@@ -23,8 +25,10 @@ export default class SidebarHeaderDropdown extends React.PureComponent {
         teamId: PropTypes.string.isRequired,
         currentUser: PropTypes.object,
         showTutorialTip: PropTypes.bool.isRequired,
+        firstAdminVisitMarketplaceStatus: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
-            openModal: PropTypes.func.isRequred,
+            openModal: PropTypes.func.isRequired,
+            getFirstAdminVisitMarketplaceStatus: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -73,6 +77,9 @@ export default class SidebarHeaderDropdown extends React.PureComponent {
                     currentUser={this.props.currentUser}
                     teamDisplayName={this.props.teamDisplayName}
                     teamId={this.props.teamId}
+                    openModal={this.props.actions.openModal}
+                    getFirstAdminVisitMarketplaceStatus={this.props.actions.getFirstAdminVisitMarketplaceStatus}
+                    showUnread={isAdmin(this.props.currentUser.roles) && !this.props.firstAdminVisitMarketplaceStatus}
                 />
                 <MainMenu id='sidebarDropdownMenu'/>
             </MenuWrapper>

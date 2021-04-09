@@ -158,7 +158,7 @@
         }
 
         .DataGrid_row {
-            height: 40px;
+            min-height: 40px;
             display: flex;
             flex-direction: row;
             padding: 0;

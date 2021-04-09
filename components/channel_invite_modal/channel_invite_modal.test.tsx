@@ -2,8 +2,9 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow, ShallowWrapper} from 'enzyme';
+import {shallow} from 'enzyme';
 import {Modal} from 'react-bootstrap';
+
 import {UserProfile} from 'mattermost-redux/types/users';
 import {Channel} from 'mattermost-redux/types/channels';
 
@@ -105,7 +106,7 @@ describe('components/channel_invite_modal', () => {
     });
 
     test('should match state when onHide is called', () => {
-        const wrapper: ShallowWrapper<any, any, ChannelInviteModal<UserProfileValue>> = shallow(
+        const wrapper = shallow<ChannelInviteModal>(
             <ChannelInviteModal {...baseProps}/>,
         );
 
@@ -125,7 +126,7 @@ describe('components/channel_invite_modal', () => {
     });
 
     test('should fail to add users on handleSubmit', (done) => {
-        const wrapper: ShallowWrapper<any, any, ChannelInviteModal<UserProfileValue>> = shallow(
+        const wrapper = shallow<ChannelInviteModal>(
             <ChannelInviteModal
                 {...baseProps}
             />,
@@ -154,7 +155,7 @@ describe('components/channel_invite_modal', () => {
             },
         };
 
-        const wrapper: ShallowWrapper<any, any, ChannelInviteModal<UserProfileValue>> = shallow(
+        const wrapper = shallow<ChannelInviteModal>(
             <ChannelInviteModal
                 {...props}
             />,
@@ -180,7 +181,7 @@ describe('components/channel_invite_modal', () => {
             onAddCallback,
         };
 
-        const wrapper: ShallowWrapper<any, any, ChannelInviteModal<UserProfileValue>> = shallow(
+        const wrapper = shallow<ChannelInviteModal>(
             <ChannelInviteModal
                 {...props}
             />,
@@ -193,7 +194,7 @@ describe('components/channel_invite_modal', () => {
     });
 
     test('should trim the search term', () => {
-        const wrapper: ShallowWrapper<any, any, ChannelInviteModal<UserProfileValue>> = shallow(
+        const wrapper = shallow<ChannelInviteModal>(
             <ChannelInviteModal {...baseProps}/>,
         );
 

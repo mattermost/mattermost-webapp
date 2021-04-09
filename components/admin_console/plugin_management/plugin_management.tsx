@@ -19,6 +19,7 @@ import AdminSettings, {BaseProps, BaseState} from '../admin_settings';
 import BooleanSetting from '../boolean_setting';
 import SettingsGroup from '../settings_group.jsx';
 import TextSetting from '../text_setting';
+import {appsPluginID} from 'utils/apps';
 
 const PluginItemState = ({state}: {state: number}) => {
     switch (state) {
@@ -164,6 +165,7 @@ type PluginItemProps = {
     handleRemove: (e: any) => any;
     showInstances: boolean;
     hasSettings: boolean;
+    appsEnabled: boolean;
     isDisabled?: boolean;
 };
 
@@ -175,9 +177,10 @@ const PluginItem = ({
     handleRemove,
     showInstances,
     hasSettings,
+    appsEnabled,
     isDisabled,
 }: PluginItemProps) => {
-    let activateButton;
+    let activateButton: React.ReactNode;
     const activating = pluginStatus.state === PluginState.PLUGIN_STATE_STARTING;
     const deactivating = pluginStatus.state === PluginState.PLUGIN_STATE_STOPPING;
 
@@ -254,7 +257,7 @@ const PluginItem = ({
             />
         );
     }
-    const removeButton = (
+    let removeButton: React.ReactNode = (
         <span>
             {' - '}
             <a
@@ -360,6 +363,11 @@ const PluginItem = ({
         );
     }
 
+    if (pluginStatus.id === appsPluginID && !appsEnabled) {
+        activateButton = (<>{'Plugin disabled by feature flag'}</>);
+        removeButton = null;
+    }
+
     return (
         <div data-testid={pluginStatus.id}>
             <div>
@@ -387,22 +395,11 @@ const PluginItem = ({
     );
 };
 
-interface PluginSettings {
-    Enable: boolean;
-    EnableUploads: boolean;
-    AllowInsecureDownloadUrl: boolean;
-    EnableMarketplace: boolean;
-    EnableRemoteMarketplace: boolean;
-    AutomaticPrepackagedPlugins: boolean;
-    MarketplaceUrl: string;
-    RequirePluginSignature: boolean;
-    isDisabled: boolean;
-}
-
 type Props = BaseProps & {
     config: DeepPartial<AdminConfig>;
     pluginStatuses: Record<string, PluginStatus>;
     plugins: any;
+    appsEnabled: boolean;
     actions: {
         uploadPlugin: (fileData: File, force: boolean) => any;
         removePlugin: (pluginId: string) => any;
@@ -935,6 +932,7 @@ export default class PluginManagement extends AdminSettings<Props, State> {
                         handleRemove={this.showRemovePluginModal}
                         showInstances={showInstances}
                         hasSettings={hasSettings}
+                        appsEnabled={this.props.appsEnabled}
                         isDisabled={this.props.isDisabled}
                     />
                 );

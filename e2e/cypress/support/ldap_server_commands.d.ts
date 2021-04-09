@@ -15,7 +15,7 @@
 // ***************************************************************
 
 declare namespace Cypress {
-    interface Chainable<Subject = any> {
+    interface Chainable {
 
         /**
         * addLDAPUsers is a cy.exec() wrapped as command to run ldap modify

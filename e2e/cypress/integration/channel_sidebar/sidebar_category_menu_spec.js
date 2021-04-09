@@ -12,12 +12,6 @@
 
 describe('Sidebar category menu', () => {
     before(() => {
-        cy.apiUpdateConfig({
-            ServiceSettings: {
-                EnableLegacySidebar: 'default_on',
-            },
-        });
-
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
             cy.visit(`/${team.name}/channels/town-square`);
         });

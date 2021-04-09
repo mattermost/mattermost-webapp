@@ -343,7 +343,7 @@ export default class SuggestionBox extends React.PureComponent {
 
     handleChange = (e) => {
         const textbox = this.getTextbox();
-        const pretext = textbox.value.substring(0, textbox.selectionEnd).toLowerCase();
+        const pretext = textbox.value.substring(0, textbox.selectionEnd);
 
         if (!this.composing && this.pretext !== pretext) {
             this.handlePretextChanged(pretext);
@@ -656,7 +656,7 @@ export default class SuggestionBox extends React.PureComponent {
             if (handled) {
                 if (this.state.suggestionBoxAlgn.pixelsToMoveX === undefined &&
                     this.state.suggestionBoxAlgn.pixelsToMoveY === undefined &&
-                    provider.triggerCharacter && ['@', ':', '~'].indexOf(provider.triggerCharacter) !== -1) {
+                    ['@', ':', '~', '/'].includes(provider.triggerCharacter)) {
                     const char = provider.triggerCharacter;
                     const pxToSubstract = Utils.getPxToSubstract(char);
 

@@ -30,6 +30,7 @@ describe('components/SignupController', () => {
         noAccounts: false,
         loggedIn: true,
         isLicensed: true,
+        isCloud: false,
         enableOpenServer: true,
         enableSAML: true,
         enableLDAP: true,
@@ -97,6 +98,42 @@ describe('components/SignupController', () => {
 
         await addUserToTeamFromInvite();
         expect(browserHistory.push).toHaveBeenCalledWith(`/defaultTeam/channels/${Constants.DEFAULT_CHANNEL}`);
+    });
+
+    test('should redirect user to the restricted screen when workspace out of free seats', async () => {
+        browserHistory.push = jest.fn();
+
+        const addUserToTeamFromInvite = jest.fn();
+        const getInviteInfo = jest.fn();
+        const props = {
+            ...baseProps,
+            isCloud: true,
+            location: {
+                ...baseProps.location,
+                search: '?id=ppni7a9t87fn3j4d56rwocdctc',
+            },
+            subscriptionStats: {
+                ...baseProps.subscriptionStats,
+                is_paid_tier: 'false',
+                remaining_seats: 0,
+            },
+            actions: {
+                ...baseProps.actions,
+                addUserToTeamFromInvite,
+                getInviteInfo,
+            },
+        };
+
+        const wrapper = shallow(
+            <SignupController {...props}/>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+        expect(addUserToTeamFromInvite).not.toHaveBeenCalled();
+        expect(getInviteInfo).not.toHaveBeenCalled();
+        expect(GlobalActions.redirectUserToDefaultTeam).not.toHaveBeenCalled();
+
+        expect(browserHistory.push).toHaveBeenCalledWith('/error?type=max_free_users_reached');
     });
 
     test('should match snapshot for addUserToTeamFromInvite error', async () => {

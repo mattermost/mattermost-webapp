@@ -68,14 +68,14 @@ describe('Send a DM', () => {
         cy.get(`#${teamB.name}TeamButton`, {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').click();
 
         // * Channel list in the LHS is scrolled to the top.
-        cy.get('#publicChannelList').get('.active').should('contain', 'Town Square');
+        cy.uiGetLhsSection('CHANNELS').get('.active').should('contain', 'Town Square');
 
         // * Verify team display name changes correctly.
         cy.get('#headerTeamName', {timeout: TIMEOUTS.ONE_MIN}).should('contain', teamB.display_name);
 
         // * DM Channel list should be the same on both teams with no missing names.
-        cy.get('#directChannelList').findByText(`${userB.username}`).should('be.visible');
-        cy.get('#directChannelList').findByText(`${userC.username}`).should('be.visible');
+        cy.uiGetLhsSection('DIRECT MESSAGES').findByText(userB.username).should('be.visible');
+        cy.uiGetLhsSection('DIRECT MESSAGES').findByText(userC.username).should('be.visible');
 
         // # Post a message in Town Square in Team B
         cy.postMessage('Hello World');
@@ -92,8 +92,8 @@ describe('Send a DM', () => {
         cy.get('#sidebarItem_town-square').should('not.have.class', 'unread-title');
 
         // * DM Channel list should be the same on both teams with no missing names.
-        cy.get('#directChannelList').findByText(`${userB.username}`).should('be.visible');
-        cy.get('#directChannelList').findByText(`${userC.username}`).should('be.visible');
+        cy.uiGetLhsSection('DIRECT MESSAGES').findByText(userB.username).should('be.visible');
+        cy.uiGetLhsSection('DIRECT MESSAGES').findByText(userC.username).should('be.visible');
 
         // * Channel viewed on a team before switching should be the one that displays after switching back (Town Square does not briefly show).
         cy.url().should('include', `/${teamA.name}/messages/@${userC.username}`);

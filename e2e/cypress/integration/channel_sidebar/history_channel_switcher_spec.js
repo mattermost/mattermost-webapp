@@ -14,12 +14,6 @@ import {getRandomId} from '../../utils';
 
 describe('Channel sidebar', () => {
     before(() => {
-        cy.apiUpdateConfig({
-            ServiceSettings: {
-                EnableLegacySidebar: false,
-            },
-        });
-
         // # Login as test user and visit town-square
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
             cy.visit(`/${team.name}/channels/town-square`);
@@ -56,7 +50,7 @@ describe('Channel sidebar', () => {
         cy.get('.channel-switcher__suggestion-box #quickSwitchInput').type('{enter}');
 
         // * Verify that the channel switcher is closed and the active channel is now Off-Topic
-        cy.get('.channel-switch__modal').should('not.be.visible');
+        cy.get('.channel-switch__modal').should('not.exist');
         cy.url().should('include', `/${teamName}/channels/off-topic`);
         cy.get('#channelHeaderTitle').should('contain', 'Off-Topic');
         cy.get('.SidebarChannel.active:contains(Off-Topic)').should('be.visible');

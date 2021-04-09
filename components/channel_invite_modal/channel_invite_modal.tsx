@@ -4,6 +4,7 @@
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
+
 import {Client4} from 'mattermost-redux/client';
 import {Dictionary} from 'mattermost-redux/types/utilities';
 import {ActionFunc} from 'mattermost-redux/types/actions';
@@ -59,7 +60,7 @@ type State = {
     inviteError?: string;
 }
 
-export default class ChannelInviteModal<T extends Value> extends React.PureComponent<Props, State> {
+export default class ChannelInviteModal extends React.PureComponent<Props, State> {
     private searchTimeoutId = 0;
     private selectedItemRef = React.createRef<HTMLDivElement>();
 

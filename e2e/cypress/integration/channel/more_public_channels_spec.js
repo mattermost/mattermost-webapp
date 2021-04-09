@@ -42,16 +42,15 @@ describe('more public channels', () => {
         });
     });
 
-    it('MM-T1664 Channels dont disappear from More Channels modal', () => {
+    it('MM-T1664 Channels do not disappear from More Channels modal', () => {
         // # Login as other user
         cy.apiLogin(otherUser);
 
         // # Go to town square
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
-        // # Go to LHS and click "More..." under Public Channels group
-        cy.findByRole('list', {name: 'public channels'}).
-            findByText('More...').scrollIntoView().should('be.visible').click();
+        // # Go to LHS and click 'Browse Channels'
+        cy.uiBrowseOrCreateChannel('Browse Channels').click();
 
         // * Assert that the moreChannelsModel is visible
         cy.findByRole('dialog', {name: 'More Channels'}).should('be.visible').within(() => {
@@ -83,9 +82,8 @@ describe('more public channels', () => {
         // # Go to town square
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
-        // # Go to LHS and click "More..." under Public Channels group
-        cy.findByRole('list', {name: 'public channels'}).
-            findByText('More...').scrollIntoView().should('be.visible').click();
+        // # Go to LHS and click 'Browse Channels'
+        cy.uiBrowseOrCreateChannel('Browse Channels').click();
 
         // * Assert the moreChannelsModel is visible
         cy.findByRole('dialog', {name: 'More Channels'}).should('be.visible').within(() => {
