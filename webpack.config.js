@@ -136,9 +136,6 @@ var config = {
         filename: '[name].[contenthash].js',
         chunkFilename: '[name].[contenthash].js',
     },
-    snapshot: {
-        managedPaths: [],
-    },
     module: {
         rules: [
             {

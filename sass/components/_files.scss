@@ -148,6 +148,11 @@
     .file__image {
         @include legacy-pie-clearfix;
 
+        .image-header {
+            display: flex;
+            align-items: baseline;
+        }
+
         .image-name {
             cursor: pointer;
             font-size: 12px;

@@ -90,6 +90,7 @@ exports[`SidebarChannelList should match snapshot 2`] = `
           "channel_id",
           "channel_id_2",
         ],
+        "collapsed": false,
         "display_name": "custom_category_1",
         "id": "category1",
         "muted": false,

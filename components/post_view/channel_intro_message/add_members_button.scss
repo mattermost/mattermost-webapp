@@ -55,12 +55,11 @@
 }
 
 .setHeaderButton {
-    padding: 8px 16px !important;
     font-size: 12px;
     border-radius: 4px;
     line-height: 16px;
     font-weight: 600;
-    color: var(--button-bg) !important;
+    color: var(--button-bg);
 
     i {
         font-size: 14px;
