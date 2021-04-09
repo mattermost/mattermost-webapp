@@ -108,6 +108,8 @@ export type IntegrationsState = {
     incomingHooks: IDMappedObjects<IncomingWebhook>;
     outgoingHooks: IDMappedObjects<OutgoingWebhook>;
     oauthApps: IDMappedObjects<OAuthApp>;
+    appsOAuthAppsIDs: string[];
+    appsBotIDs: string[];
     systemCommands: IDMappedObjects<Command>;
     commands: IDMappedObjects<Command>;
 };

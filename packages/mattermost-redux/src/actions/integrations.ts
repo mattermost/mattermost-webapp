@@ -293,6 +293,20 @@ export function getOAuthApps(page = 0, perPage: number = General.PAGE_SIZE_DEFAU
     });
 }
 
+export function getAppsOAuthAppsIDs(): ActionFunc {
+    return bindClientFunc({
+        clientFunc: Client4.getAppsOAuthAppsIDs,
+        onSuccess: [IntegrationTypes.RECEIVED_APPS_OAUTH_APP_IDS],
+    });
+}
+
+export function getAppsBotIDs(): ActionFunc {
+    return bindClientFunc({
+        clientFunc: Client4.getAppsBotIDs,
+        onSuccess: [IntegrationTypes.RECEIVED_APPS_BOT_IDS],
+    });
+}
+
 export function getOAuthApp(appId: string): ActionFunc {
     return bindClientFunc({
         clientFunc: Client4.getOAuthApp,

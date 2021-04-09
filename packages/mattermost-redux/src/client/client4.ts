@@ -2548,6 +2548,20 @@ export default class Client4 {
         );
     };
 
+    getAppsOAuthAppsIDs = () => {
+        return this.doFetch<string[]>(
+            `${this.getAppsProxyRoute()}/api/v1/oauth-app-ids`,
+            {method: 'get'},
+        );
+    }
+
+    getAppsBotIDs = () => {
+        return this.doFetch<string[]>(
+            `${this.getAppsProxyRoute()}/api/v1/bots-ids`,
+            {method: 'get'},
+        );
+    }
+
     getOAuthApp = (appId: string) => {
         return this.doFetch<OAuthApp>(
             `${this.getOAuthAppRoute(appId)}`,

@@ -25,6 +25,14 @@ export function getOAuthApps(state: GlobalState) {
     return state.entities.integrations.oauthApps;
 }
 
+export function getAppsOAuthAppsIDs(state: GlobalState) {
+    return state.entities.integrations.appsOAuthAppsIDs;
+}
+
+export function getAppsBotIDs(state: GlobalState) {
+    return state.entities.integrations.appsBotIDs;
+}
+
 export function getSystemCommands(state: GlobalState) {
     return state.entities.integrations.systemCommands;
 }
