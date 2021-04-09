@@ -112,6 +112,7 @@ export const ActionTypes = keyMirror({
 
     UPDATE_RHS_STATE: null,
     UPDATE_RHS_SEARCH_TERMS: null,
+    UPDATE_RHS_SEARCH_TYPE: null,
     UPDATE_RHS_SEARCH_RESULTS_TERMS: null,
 
     SET_RHS_EXPANDED: null,
@@ -219,6 +220,7 @@ export const ActionTypes = keyMirror({
     PREFETCH_POSTS_FOR_CHANNEL: null,
 
     SET_SHOW_NEXT_STEPS_VIEW: null,
+    SET_FILES_FILTER_BY_EXT: null,
 });
 
 export const PostRequestTypes = keyMirror({
@@ -658,6 +660,7 @@ export const RHSStates = {
     FLAG: 'flag',
     PIN: 'pin',
     PLUGIN: 'plugin',
+    CHANNEL_FILES: 'channel-files',
 };
 
 export const UploadStatuses = {
@@ -1621,6 +1624,16 @@ export const searchHintOptions = [{searchTerm: 'From:', message: {id: t('search_
     {searchTerm: 'After:', message: {id: t('search_list_option.after'), defaultMessage: 'Messages after a date'}},
     {searchTerm: '-', message: {id: t('search_list_option.exclude'), defaultMessage: 'Exclude search terms'}, additionalDisplay: '—'},
     {searchTerm: '""', message: {id: t('search_list_option.phrases'), defaultMessage: 'Messages with phrases'}},
+];
+
+export const searchFilesHintOptions = [{searchTerm: 'From:', message: {id: t('search_files_list_option.from'), defaultMessage: 'Files from a user'}},
+    {searchTerm: 'In:', message: {id: t('search_files_list_option.in'), defaultMessage: 'Files in a channel'}},
+    {searchTerm: 'On:', message: {id: t('search_files_list_option.on'), defaultMessage: 'Files on a date'}},
+    {searchTerm: 'Before:', message: {id: t('search_files_list_option.before'), defaultMessage: 'Files before a date'}},
+    {searchTerm: 'After:', message: {id: t('search_files_list_option.after'), defaultMessage: 'Files after a date'}},
+    {searchTerm: 'Ext:', message: {id: t('search_files_list_option.ext'), defaultMessage: 'Files with a extension'}},
+    {searchTerm: '-', message: {id: t('search_files_list_option.exclude'), defaultMessage: 'Exclude search terms'}, additionalDisplay: '—'},
+    {searchTerm: '""', message: {id: t('search_files_list_option.phrases'), defaultMessage: 'Files with phrases'}},
 ];
 
 t('suggestion.mention.channels');
