@@ -99,7 +99,7 @@ describe('System Console > User Management > Deactivation', () => {
         });
     });
 
-    it('MM-T949 If an active user is selected in DM More... or channel switcher, deactivated users disappear so they can\'t be added to a GM together', () => {
+    it('MM-T949 If an active user is selected in DM More... or channel switcher, deactivated users should be shown in the DM more or channel switcher', () => {
         // # Create two users
         cy.apiCreateUser({prefix: 'first'}).then(({user: user1}) => {
             cy.apiCreateUser({prefix: 'second_'}).then(({user: user2}) => {
@@ -126,7 +126,7 @@ describe('System Console > User Management > Deactivation', () => {
                 cy.get('.more-direct-channels #selectItems').type(user2.username).wait(TIMEOUTS.HALF_SEC);
 
                 // * Confirm user2 can't be added to the DM
-                cy.get('#displayedUserName' + user2.username).should('not.exist');
+                cy.get('#displayedUserName' + user2.username).should('be.visible');
             });
         });
     });

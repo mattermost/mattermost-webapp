@@ -25,6 +25,7 @@ exports[`components/RhsComment should match snapshot 1`] = `
       className="post__img"
     >
       <Connect(PostProfilePicture)
+        channelId="channel_id"
         compactDisplay={true}
         isBusy={false}
         isRHS={true}
@@ -58,6 +59,7 @@ exports[`components/RhsComment should match snapshot 1`] = `
           className="col col__name"
         >
           <Connect(UserProfile)
+            channelId="channel_id"
             hasMention={true}
             isBusy={false}
             isRHS={true}
@@ -173,6 +175,7 @@ exports[`components/RhsComment should match snapshot hovered 1`] = `
       className="post__img"
     >
       <Connect(PostProfilePicture)
+        channelId="channel_id"
         compactDisplay={true}
         isBusy={false}
         isRHS={true}
@@ -206,6 +209,7 @@ exports[`components/RhsComment should match snapshot hovered 1`] = `
           className="col col__name"
         >
           <Connect(UserProfile)
+            channelId="channel_id"
             hasMention={true}
             isBusy={false}
             isRHS={true}
@@ -238,7 +242,7 @@ exports[`components/RhsComment should match snapshot hovered 1`] = `
         <div
           className="col post-menu"
         >
-          <Connect(DotMenu)
+          <Connect(injectIntl(DotMenu))
             enableEmojiPicker={true}
             handleAddReactionClick={[Function]}
             handleDropdownOpened={[Function]}
@@ -367,6 +371,7 @@ exports[`components/RhsComment should match snapshot hovered on deleted post 1`]
       className="post__img"
     >
       <Connect(PostProfilePicture)
+        channelId="channel_id"
         compactDisplay={true}
         isBusy={false}
         isRHS={true}
@@ -401,6 +406,7 @@ exports[`components/RhsComment should match snapshot hovered on deleted post 1`]
           className="col col__name"
         >
           <Connect(UserProfile)
+            channelId="channel_id"
             hasMention={true}
             isBusy={false}
             isRHS={true}
@@ -529,6 +535,7 @@ exports[`components/RhsComment should match snapshot mobile 1`] = `
       className="post__img"
     >
       <Connect(PostProfilePicture)
+        channelId="channel_id"
         compactDisplay={true}
         isBusy={false}
         isRHS={true}
@@ -562,6 +569,7 @@ exports[`components/RhsComment should match snapshot mobile 1`] = `
           className="col col__name"
         >
           <Connect(UserProfile)
+            channelId="channel_id"
             hasMention={true}
             isBusy={false}
             isRHS={true}
@@ -594,7 +602,7 @@ exports[`components/RhsComment should match snapshot mobile 1`] = `
         <div
           className="col post-menu"
         >
-          <Connect(DotMenu)
+          <Connect(injectIntl(DotMenu))
             enableEmojiPicker={true}
             handleAddReactionClick={[Function]}
             handleDropdownOpened={[Function]}

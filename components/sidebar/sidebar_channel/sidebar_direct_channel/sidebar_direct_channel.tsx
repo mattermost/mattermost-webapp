@@ -99,7 +99,7 @@ class SidebarDirectChannel extends React.PureComponent<Props, State> {
             <ProfilePicture
                 src={Client4.getProfilePictureUrl(teammate.id, teammate.last_picture_update)}
                 size={'xs'}
-                status={channel.status}
+                status={teammate.is_bot ? '' : channel.status}
                 wrapperClass='DirectChannel__profile-picture'
                 newStatusIcon={true}
                 statusClass={`DirectChannel__status-icon ${className}`}
