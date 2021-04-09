@@ -63,7 +63,6 @@ const apps: App[]= [
 type Props = {
     show: boolean;
     actions: {
-        getMyNotifications: () => void;
         getMyNotificationCounts: () => void;
     };
 }
@@ -77,7 +76,6 @@ export default class AppBar extends React.Component<Props> {
         const {actions, show} = this.props;
 
         if (show) {
-            actions.getMyNotifications();
             actions.getMyNotificationCounts();
         }
     }
@@ -86,7 +84,6 @@ export default class AppBar extends React.Component<Props> {
         const {actions, show} = this.props;
 
         if (!prevProps.show && show) {
-            actions.getMyNotifications();
             actions.getMyNotificationCounts();
         }
     }

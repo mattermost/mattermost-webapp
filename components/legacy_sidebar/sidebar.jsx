@@ -27,6 +27,7 @@ import MoreDirectChannels from 'components/more_direct_channels';
 import QuickSwitchModal from 'components/quick_switch_modal';
 import NewChannelFlow from 'components/new_channel_flow';
 import UnreadChannelIndicator from 'components/sidebar/unread_channel_indicator';
+import HomeLink from 'components/home/home_link';
 import Pluggable from 'plugins/pluggable';
 
 import SidebarHeader from './header';
@@ -548,6 +549,7 @@ class LegacySidebar extends React.PureComponent {
                     id='sidebarChannelContainer'
                     className='nav-pills__container'
                 >
+                    <HomeLink/>
                     {orderedChannelIds.map((sec) => {
                         const section = {
                             type: sec.type,

@@ -153,6 +153,12 @@ ol {
         url('../fonts/open-sans-v18-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-600.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
 
+@font-face {
+    font-family: 'Metropolis';
+    src: local('Metropolis'), url(../fonts/Metropolis-Regular.otf) format('truetype');
+    font-display: swap;
+}
+
 .app__body.font--open_sans {
     font-family: 'Open Sans', sans-serif;
 }

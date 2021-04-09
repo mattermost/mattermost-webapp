@@ -12,7 +12,6 @@ import AppBar from './app_bar';
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
-            getMyNotifications,
             getMyNotificationCounts,
         }, dispatch),
     };

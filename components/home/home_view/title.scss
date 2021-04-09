@@ -1,0 +1,24 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
+.HomeTitle {
+    color: var(--center-channel-color);
+
+    h1 {
+        margin: 0;
+        margin-bottom: 4px;
+        font-family: Metropolis;
+        font-size: 28px;
+        font-weight: 700;
+        line-height: 36px;
+    }
+
+    h2 {
+        margin: 0;
+        font-family: "Open Sans";
+        font-style: normal;
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 16px;
+    }
+}

@@ -5,9 +5,19 @@ import React from 'react';
 import {Route, Switch, Redirect} from 'react-router-dom';
 import classNames from 'classnames';
 
+import LoadingScreen from 'components/loading_screen';
 import PermalinkView from 'components/permalink_view';
 import ChannelHeaderMobile from 'components/channel_header_mobile';
 import ChannelIdentifierRouter from 'components/channel_layout/channel_identifier_router';
+import {makeAsyncComponent} from 'components/async_load';
+const LazyHome = makeAsyncComponent(
+    React.lazy(() => import('components/home/home_view')),
+    (
+        <div className='app__content'>
+            <LoadingScreen/>
+        </div>
+    ),
+);
 
 type Props = {
     match: {
@@ -20,6 +30,7 @@ type Props = {
     lhsOpen: boolean;
     rhsOpen: boolean;
     rhsMenuOpen: boolean;
+    isHomeEnabled: boolean;
 };
 
 type State = {
@@ -36,6 +47,10 @@ export default class CenterChannel extends React.PureComponent<Props, State> {
         };
     }
 
+    static defaultProps = {
+        isHomeEnabled: true,
+    }
+
     static getDerivedStateFromProps(nextProps: Props, prevState: State) {
         if (prevState.lastReturnTo !== nextProps.location.pathname && nextProps.location.pathname.includes('/pl/')) {
             return {
@@ -48,7 +63,7 @@ export default class CenterChannel extends React.PureComponent<Props, State> {
     }
 
     render() {
-        const {lastChannelPath} = this.props;
+        const {lastChannelPath, isHomeEnabled} = this.props;
         const url = this.props.match.url;
         return (
             <div
@@ -76,9 +91,15 @@ export default class CenterChannel extends React.PureComponent<Props, State> {
                             )}
                         />
                         <Route
-                            path={['/:team/:path(channels|messages)/:identifier/:postid', '/:team/:path(channels|messages)/:identifier']}
+                            path='/:team/:path(channels|messages)/:identifier/:postid?'
                             component={ChannelIdentifierRouter}
                         />
+                        {isHomeEnabled ? (
+                            <Route
+                                path='/:team/home'
+                                component={LazyHome}
+                            />
+                        ) : null}
                         <Redirect to={lastChannelPath}/>
                     </Switch>
                 </div>

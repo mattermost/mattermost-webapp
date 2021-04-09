@@ -21,6 +21,7 @@ import {Constants, DraggingStates, DraggingStateTypes} from 'utils/constants';
 import * as Utils from 'utils/utils';
 import * as ChannelUtils from 'utils/channel_utils.jsx';
 
+import HomeLink from 'components/home/home_link';
 import SidebarCategory from '../sidebar_category';
 import UnreadChannelIndicator from '../unread_channel_indicator';
 import UnreadChannels from '../unread_channels';
@@ -540,6 +541,7 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
                     onScroll={this.onScroll}
                     style={{position: 'absolute'}}
                 >
+                    <HomeLink/>
                     {channelList}
                 </Scrollbars>
             </div>

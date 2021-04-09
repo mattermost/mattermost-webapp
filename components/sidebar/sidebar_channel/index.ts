@@ -10,17 +10,19 @@ import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getAutoSortedCategoryIds, getDraggingState, isChannelSelected} from 'selectors/views/channel_sidebar';
 import {GlobalState} from 'types/store';
 import {NotificationLevels} from 'utils/constants';
+import {withRouter, matchPath} from 'react-router-dom';
 
 import SidebarChannel from './sidebar_channel';
 
 type OwnProps = {
     channelId: string;
+    location: {pathname: string};
 }
 
 function makeMapStateToProps() {
     const getChannel = makeGetChannel();
 
-    return (state: GlobalState, ownProps: OwnProps) => {
+    return (state: GlobalState, ownProps: OwnProps,) => {
         const channel = getChannel(state, {id: ownProps.channelId});
         const currentTeam = getCurrentTeam(state);
 
@@ -45,7 +47,7 @@ function makeMapStateToProps() {
 
         return {
             channel,
-            isCurrentChannel: channel.id === currentChannelId,
+            isCurrentChannel: channel.id === currentChannelId && !Boolean(matchPath(ownProps.location.pathname, {path: '/:team/home'})),
             currentTeamName: currentTeam.name,
             unreadMentions,
             unreadMsgs,
@@ -58,4 +60,4 @@ function makeMapStateToProps() {
     };
 }
 
-export default connect(makeMapStateToProps)(SidebarChannel);
+export default withRouter(connect(makeMapStateToProps)(SidebarChannel));
