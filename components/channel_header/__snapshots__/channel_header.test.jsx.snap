@@ -159,7 +159,7 @@ exports[`components/ChannelHeader should render active channel files 1`] = `
         </div>
       </div>
     </div>
-    <Connect(ChannelHeaderPlug)
+    <Connect(injectIntl(ChannelHeaderPlug))
       channel={
         Object {
           "delete_at": 0,
@@ -1156,7 +1156,7 @@ exports[`components/ChannelHeader should render not active channel files 1`] = `
         </div>
       </div>
     </div>
-    <Connect(ChannelHeaderPlug)
+    <Connect(injectIntl(ChannelHeaderPlug))
       channel={
         Object {
           "delete_at": 0,
