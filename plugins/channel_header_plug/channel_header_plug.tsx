@@ -10,7 +10,7 @@ import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
 import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
 import {Theme} from 'mattermost-redux/types/preferences';
-import {AppBinding, DoAppCallResult, DoAppCall, AppCallResponse} from 'mattermost-redux/types/apps';
+import {AppBinding, DoAppCall, AppCallResponse} from 'mattermost-redux/types/apps';
 import {AppCallResponseTypes, AppCallTypes} from 'mattermost-redux/constants/apps';
 
 import HeaderIconWrapper from 'components/channel_header/components/header_icon_wrapper';
