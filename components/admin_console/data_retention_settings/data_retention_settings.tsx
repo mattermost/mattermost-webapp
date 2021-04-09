@@ -96,6 +96,7 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                 name: '',
                 field: 'actions',
                 className: 'actionIcon',
+                width: .15,
             },
         ];
     }
@@ -132,6 +133,7 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                 name: '',
                 field: 'actions',
                 className: 'actionIcon',
+                width: .15,
             },
         ];
     }
@@ -531,7 +533,7 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                                                         IndicatorSeparator: () => null,
                                                     }}
                                                     onChange={(e) => {
-                                                        this.changeJobTimeConfig((e as {label: string; value: string}).value);
+                                                        this.changeJobTimeConfig((e as OptionType).value);
                                                     }}
                                                     styles={{
                                                         control: (base) => ({
