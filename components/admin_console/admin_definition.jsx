@@ -984,7 +984,7 @@ const AdminDefinition = {
                         help_text_markdown: true,
                         help_text_default: 'When enabled, supported document types are searchable by their content. Search results for existing documents may be incomplete [until a data migration is executed](!https://www.mattermost.com/file-content-extraction).',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('environment')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.FILE_STORAGE)),
                         ),
                         isHidden: it.not(it.configIsTrue('FeatureFlags', 'FilesSearch')),
                     },
@@ -996,7 +996,7 @@ const AdminDefinition = {
                         help_text: t('admin.image.archiveRecursionDescription'),
                         help_text_default: 'When enabled, content of documents within ZIP files will be returned in search results. This may have an impact on server performance for large files. ',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('environment')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.FILE_STORAGE)),
                             it.configIsFalse('FileSettings', 'ExtractContent'),
                         ),
                         isHidden: it.not(it.configIsTrue('FeatureFlags', 'FilesSearch')),

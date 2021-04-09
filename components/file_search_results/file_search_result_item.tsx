@@ -112,30 +112,29 @@ export default class FileSearchResultItem extends React.PureComponent<Props, Sta
                             </Tooltip>
                         }
                     >
-                        <div onClick={this.stopPropagation}>
-                            <MenuWrapper
-                                onToggle={this.keepOpen}
+                        <MenuWrapper
+                            onToggle={this.keepOpen}
+                            stopPropagationOnToggle={true}
+                        >
+                            <span className='action-icon dots-icon'>
+                                <i className='icon icon-dots-vertical'/>
+                            </span>
+                            <Menu
+                                ariaLabel={'file menu'}
+                                openLeft={true}
                             >
-                                <span className='action-icon dots-icon'>
-                                    <i className='icon icon-dots-vertical'/>
-                                </span>
-                                <Menu
-                                    ariaLabel={'file menu'}
-                                    openLeft={true}
-                                >
-                                    <Menu.ItemAction
-                                        onClick={this.jumpToConv}
-                                        ariaLabel={localizeMessage('file_search_result_item.open_in_channel', 'Open in channel')}
-                                        text={localizeMessage('file_search_result_item.open_in_channel', 'Open in channel')}
-                                    />
-                                    <Menu.ItemAction
-                                        onClick={this.copyLink}
-                                        ariaLabel={localizeMessage('file_search_result_item.copy_link', 'Copy link')}
-                                        text={localizeMessage('file_search_result_item.copy_link', 'Copy link')}
-                                    />
-                                </Menu>
-                            </MenuWrapper>
-                        </div>
+                                <Menu.ItemAction
+                                    onClick={this.jumpToConv}
+                                    ariaLabel={localizeMessage('file_search_result_item.open_in_channel', 'Open in channel')}
+                                    text={localizeMessage('file_search_result_item.open_in_channel', 'Open in channel')}
+                                />
+                                <Menu.ItemAction
+                                    onClick={this.copyLink}
+                                    ariaLabel={localizeMessage('file_search_result_item.copy_link', 'Copy link')}
+                                    text={localizeMessage('file_search_result_item.copy_link', 'Copy link')}
+                                />
+                            </Menu>
+                        </MenuWrapper>
                     </OverlayTrigger>
                     <OverlayTrigger
                         delayShow={1000}
