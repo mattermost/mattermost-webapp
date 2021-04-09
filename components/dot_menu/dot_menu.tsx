@@ -298,7 +298,12 @@ class DotMenu extends React.PureComponent<Props, State> {
 
         const res = await this.props.actions.doAppCall(call, AppCallTypes.SUBMIT, this.props.intl);
 
-        const ephemeral = (response: AppCallResponse, message: string) => sendEphemeralPost(message, this.props.post.channel_id, this.props.post.root_id || this.props.post.id, response.app_metadata?.bot_user_id);
+        const ephemeral = (response: AppCallResponse, message: string) => sendEphemeralPost(
+            message,
+            this.props.post.channel_id,
+            this.props.post.root_id || this.props.post.id,
+            response.app_metadata?.bot_user_id,
+        );
         if (res.error) {
             const errorResponse = res.error;
             const errorMessage = errorResponse.error || this.props.intl.formatMessage({
