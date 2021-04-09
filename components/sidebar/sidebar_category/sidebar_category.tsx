@@ -36,7 +36,6 @@ type Props = {
     setChannelRef: (channelId: string, ref: HTMLLIElement) => void;
     handleOpenMoreDirectChannelsModal: (e: Event) => void;
     getChannelRef: (channelId: string) => HTMLLIElement | undefined;
-    isCollapsed: boolean;
     isNewCategory: boolean;
     draggingState: DraggingState;
     actions: {
@@ -65,7 +64,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
     }
 
     componentDidUpdate(prevProps: Props) {
-        if (this.props.isCollapsed !== prevProps.isCollapsed && this.newDropBoxRef.current) {
+        if (this.props.category.collapsed !== prevProps.category.collapsed && this.newDropBoxRef.current) {
             this.newDropBoxRef.current.classList.add('animating');
         }
     }
@@ -104,7 +103,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
     }
 
     renderChannel = (channel: Channel, index: number) => {
-        const {isCollapsed, setChannelRef, getChannelRef, category, draggingState} = this.props;
+        const {setChannelRef, getChannelRef, category, draggingState} = this.props;
 
         return (
             <SidebarChannel
@@ -113,7 +112,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                 channelId={channel.id}
                 setChannelRef={setChannelRef}
                 getChannelRef={getChannelRef}
-                isCategoryCollapsed={isCollapsed}
+                isCategoryCollapsed={category.collapsed}
                 isCategoryDragged={draggingState.type === DraggingStateTypes.CATEGORY && draggingState.id === category.id}
                 isDropDisabled={this.isDropDisabled()}
                 isAutoSortedCategory={category.sorting === CategorySorting.Alphabetical || category.sorting === CategorySorting.Recency}
@@ -122,15 +121,15 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
     }
 
     handleCollapse = () => {
-        const {category, isCollapsed} = this.props;
+        const {category} = this.props;
 
-        if (isCollapsed) {
+        if (category.collapsed) {
             trackEvent('ui', 'ui_sidebar_expand_category');
         } else {
             trackEvent('ui', 'ui_sidebar_collapse_category');
         }
 
-        this.props.actions.setCategoryCollapsed(category.id, !isCollapsed);
+        this.props.actions.setCategoryCollapsed(category.id, !category.collapsed);
     }
 
     handleSortDirectMessages = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -170,7 +169,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
     }
 
     renderNewDropBox = (isDraggingOver: boolean) => {
-        const {isCollapsed, draggingState, category, isNewCategory, channels} = this.props;
+        const {draggingState, category, isNewCategory, channels} = this.props;
 
         if (!isNewCategory || channels?.length) {
             return null;
@@ -201,7 +200,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                 <div
                     ref={this.newDropBoxRef}
                     className={classNames('SidebarCategory_newDropBox', {
-                        collapsed: isCollapsed || (draggingState.type === DraggingStateTypes.CATEGORY && draggingState.id === category.id),
+                        collapsed: category.collapsed || (draggingState.type === DraggingStateTypes.CATEGORY && draggingState.id === category.id),
                         isDraggingOver,
                     })}
                     onTransitionEnd={this.removeAnimation}
@@ -240,7 +239,6 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
             category,
             categoryIndex,
             channels,
-            isCollapsed,
             isNewCategory,
         } = this.props;
 
@@ -292,7 +290,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                     <SidebarCategorySortingMenu
                         category={category}
                         handleOpenDirectMessagesModal={this.handleOpenDirectMessagesModal}
-                        isCollapsed={this.props.isCollapsed}
+                        isCollapsed={category.collapsed}
                         isMenuOpen={this.state.isMenuOpen}
                         onToggleMenu={this.handleMenuToggle}
                     />
@@ -344,7 +342,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                                 dropDisabled: this.isDropDisabled(),
                                 menuIsOpen: this.state.isMenuOpen,
                                 capture: this.props.draggingState.state === DraggingStates.CAPTURE,
-                                isCollapsed,
+                                isCollapsed: category.collapsed,
                             })}
                             ref={provided.innerRef}
                             {...provided.draggableProps}
@@ -367,7 +365,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                                                 ref={this.categoryTitleRef}
                                                 displayName={displayName}
                                                 dragHandleProps={provided.dragHandleProps}
-                                                isCollapsed={isCollapsed}
+                                                isCollapsed={category.collapsed}
                                                 isCollapsible={isCollapsible}
                                                 isDragging={snapshot.isDragging}
                                                 isDraggingOver={droppableSnapshot.isDraggingOver}

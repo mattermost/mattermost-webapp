@@ -60,7 +60,7 @@ export default class EmoticonProvider extends Provider {
     }
     handlePretextChanged(pretext, resultsCallback) {
         // Look for the potential emoticons at the start of the text, after whitespace, and at the start of emoji reaction commands
-        const captured = (/(^|\s|^\+|^-)(:([^:\s]*))$/g).exec(pretext);
+        const captured = (/(^|\s|^\+|^-)(:([^:\s]*))$/g).exec(pretext.toLowerCase());
         if (!captured) {
             return false;
         }
