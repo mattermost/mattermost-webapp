@@ -94,40 +94,37 @@ exports[`components/file_search_result/FileSearchResultItem should match snapsho
         ]
       }
     >
-      <div
-        onClick={[Function]}
+      <MenuWrapper
+        animationComponent={[Function]}
+        className=""
+        onToggle={[Function]}
+        stopPropagationOnToggle={true}
       >
-        <MenuWrapper
-          animationComponent={[Function]}
-          className=""
-          onToggle={[Function]}
+        <span
+          className="action-icon dots-icon"
         >
-          <span
-            className="action-icon dots-icon"
-          >
-            <i
-              className="icon icon-dots-vertical"
-            />
-          </span>
-          <Menu
-            ariaLabel="file menu"
-            openLeft={true}
-          >
-            <MenuItemAction
-              ariaLabel="Open in channel"
-              onClick={[Function]}
-              show={true}
-              text="Open in channel"
-            />
-            <MenuItemAction
-              ariaLabel="Copy link"
-              onClick={[Function]}
-              show={true}
-              text="Copy link"
-            />
-          </Menu>
-        </MenuWrapper>
-      </div>
+          <i
+            className="icon icon-dots-vertical"
+          />
+        </span>
+        <Menu
+          ariaLabel="file menu"
+          openLeft={true}
+        >
+          <MenuItemAction
+            ariaLabel="Open in channel"
+            onClick={[Function]}
+            show={true}
+            text="Open in channel"
+          />
+          <MenuItemAction
+            ariaLabel="Copy link"
+            onClick={[Function]}
+            show={true}
+            text="Copy link"
+          />
+        </Menu>
+      </MenuWrapper>
     </OverlayTrigger>
     <OverlayTrigger
       defaultOverlayShown={false}
@@ -289,40 +286,37 @@ exports[`components/file_search_result/FileSearchResultItem should match snapsho
         ]
       }
     >
-      <div
-        onClick={[Function]}
+      <MenuWrapper
+        animationComponent={[Function]}
+        className=""
+        onToggle={[Function]}
+        stopPropagationOnToggle={true}
       >
-        <MenuWrapper
-          animationComponent={[Function]}
-          className=""
-          onToggle={[Function]}
+        <span
+          className="action-icon dots-icon"
         >
-          <span
-            className="action-icon dots-icon"
-          >
-            <i
-              className="icon icon-dots-vertical"
-            />
-          </span>
-          <Menu
-            ariaLabel="file menu"
-            openLeft={true}
-          >
-            <MenuItemAction
-              ariaLabel="Open in channel"
-              onClick={[Function]}
-              show={true}
-              text="Open in channel"
-            />
-            <MenuItemAction
-              ariaLabel="Copy link"
-              onClick={[Function]}
-              show={true}
-              text="Copy link"
-            />
-          </Menu>
-        </MenuWrapper>
-      </div>
+          <i
+            className="icon icon-dots-vertical"
+          />
+        </span>
+        <Menu
+          ariaLabel="file menu"
+          openLeft={true}
+        >
+          <MenuItemAction
+            ariaLabel="Open in channel"
+            onClick={[Function]}
+            show={true}
+            text="Open in channel"
+          />
+          <MenuItemAction
+            ariaLabel="Copy link"
+            onClick={[Function]}
+            show={true}
+            text="Copy link"
+          />
+        </Menu>
+      </MenuWrapper>
     </OverlayTrigger>
     <OverlayTrigger
       defaultOverlayShown={false}
@@ -484,40 +478,37 @@ exports[`components/file_search_result/FileSearchResultItem should match snapsho
         ]
       }
     >
-      <div
-        onClick={[Function]}
+      <MenuWrapper
+        animationComponent={[Function]}
+        className=""
+        onToggle={[Function]}
+        stopPropagationOnToggle={true}
       >
-        <MenuWrapper
-          animationComponent={[Function]}
-          className=""
-          onToggle={[Function]}
+        <span
+          className="action-icon dots-icon"
         >
-          <span
-            className="action-icon dots-icon"
-          >
-            <i
-              className="icon icon-dots-vertical"
-            />
-          </span>
-          <Menu
-            ariaLabel="file menu"
-            openLeft={true}
-          >
-            <MenuItemAction
-              ariaLabel="Open in channel"
-              onClick={[Function]}
-              show={true}
-              text="Open in channel"
-            />
-            <MenuItemAction
-              ariaLabel="Copy link"
-              onClick={[Function]}
-              show={true}
-              text="Copy link"
-            />
-          </Menu>
-        </MenuWrapper>
-      </div>
+          <i
+            className="icon icon-dots-vertical"
+          />
+        </span>
+        <Menu
+          ariaLabel="file menu"
+          openLeft={true}
+        >
+          <MenuItemAction
+            ariaLabel="Open in channel"
+            onClick={[Function]}
+            show={true}
+            text="Open in channel"
+          />
+          <MenuItemAction
+            ariaLabel="Copy link"
+            onClick={[Function]}
+            show={true}
+            text="Copy link"
+          />
+        </Menu>
+      </MenuWrapper>
     </OverlayTrigger>
     <OverlayTrigger
       defaultOverlayShown={false}
@@ -676,40 +667,37 @@ exports[`components/file_search_result/FileSearchResultItem should match snapsho
         ]
       }
     >
-      <div
-        onClick={[Function]}
+      <MenuWrapper
+        animationComponent={[Function]}
+        className=""
+        onToggle={[Function]}
+        stopPropagationOnToggle={true}
       >
-        <MenuWrapper
-          animationComponent={[Function]}
-          className=""
-          onToggle={[Function]}
+        <span
+          className="action-icon dots-icon"
         >
-          <span
-            className="action-icon dots-icon"
-          >
-            <i
-              className="icon icon-dots-vertical"
-            />
-          </span>
-          <Menu
-            ariaLabel="file menu"
-            openLeft={true}
-          >
-            <MenuItemAction
-              ariaLabel="Open in channel"
-              onClick={[Function]}
-              show={true}
-              text="Open in channel"
-            />
-            <MenuItemAction
-              ariaLabel="Copy link"
-              onClick={[Function]}
-              show={true}
-              text="Copy link"
-            />
-          </Menu>
-        </MenuWrapper>
-      </div>
+          <i
+            className="icon icon-dots-vertical"
+          />
+        </span>
+        <Menu
+          ariaLabel="file menu"
+          openLeft={true}
+        >
+          <MenuItemAction
+            ariaLabel="Open in channel"
+            onClick={[Function]}
+            show={true}
+            text="Open in channel"
+          />
+          <MenuItemAction
+            ariaLabel="Copy link"
+            onClick={[Function]}
+            show={true}
+            text="Copy link"
+          />
+        </Menu>
+      </MenuWrapper>
     </OverlayTrigger>
     <OverlayTrigger
       defaultOverlayShown={false}
