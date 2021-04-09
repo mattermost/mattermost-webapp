@@ -66,7 +66,7 @@ class AppsFormContainer extends React.PureComponent<Props, State> {
         switch (callResp.type) {
         case AppCallResponseTypes.OK:
             if (callResp.markdown) {
-                sendEphemeralPost(callResp.markdown);
+                sendEphemeralPost(callResp.markdown, call.context.channel_id, call.context.root_id || call.context.post_id, callResp.app_metadata?.bot_user_id);
             }
             break;
         case AppCallResponseTypes.FORM:
