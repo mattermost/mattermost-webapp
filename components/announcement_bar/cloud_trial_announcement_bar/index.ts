@@ -24,8 +24,8 @@ import CloudTrialAnnouncementBar from './cloud_trial_announcement_bar';
 function mapStateToProps(state: GlobalState) {
     const getCategory = makeGetCategory();
     return {
-        isPaidWithFreeTier: true, // use the helper function and the subscription to determine the end trial
-        daysLeft: 2,
+        isFreeTier: true, // use the helper function and the subscription to determine the end trial
+        daysLeftOnTrial: 13,
         analytics: state.entities.admin.analytics,
         userIsAdmin: isCurrentUserSystemAdmin(state),
         currentUser: getCurrentUser(state),
