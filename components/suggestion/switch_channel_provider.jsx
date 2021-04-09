@@ -174,7 +174,7 @@ class SwitchChannelSuggestion extends Suggestion {
                     userID={userItem.id}
                     emojiStyle={{
                         marginBottom: 2,
-                        marginLeft: 4,
+                        marginLeft: 8,
                     }}
                 />
             );

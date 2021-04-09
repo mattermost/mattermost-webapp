@@ -455,13 +455,6 @@
         p {
             margin: 0;
         }
-
-        &:after {
-            content: '\2022';
-            margin: 0 2px 0 5px;
-            position: relative;
-            top: 1px;
-        }
     }
 
     .status {
