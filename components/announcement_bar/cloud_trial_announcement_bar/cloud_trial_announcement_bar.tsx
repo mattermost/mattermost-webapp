@@ -5,6 +5,8 @@ import React from 'react';
 
 import {isEmpty} from 'lodash';
 
+import {FormattedMessage} from 'react-intl';
+
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {Dictionary} from 'mattermost-redux/types/utilities';
@@ -44,6 +46,14 @@ type Props = {
     };
 };
 
+enum TrialPeriodDays {
+    TRIAL_14_DAYS = 14,
+    TRIAL_3_DAYS = 3,
+    TRIAL_2_DAYS = 2,
+    TRIAL_1_DAY = 1,
+    TRIAL_0_DAYS = 0
+}
+
 class CloudTrialAnnouncementBar extends React.PureComponent<Props> {
     async componentDidMount() {
         if (isEmpty(this.props.analytics)) {
@@ -72,10 +82,10 @@ class CloudTrialAnnouncementBar extends React.PureComponent<Props> {
     handleClose = async () => {
         const {daysLeftOnTrial} = this.props;
         let dismissValue = '';
-        if (daysLeftOnTrial > 3) {
-            dismissValue = '14_days_banner_test';
-        } else if (daysLeftOnTrial <= 3 && daysLeftOnTrial > 0) {
-            dismissValue = '3_days_banner_test';
+        if (daysLeftOnTrial > TrialPeriodDays.TRIAL_3_DAYS) {
+            dismissValue = '14_days_banner';
+        } else if (daysLeftOnTrial <= TrialPeriodDays.TRIAL_3_DAYS && daysLeftOnTrial > TrialPeriodDays.TRIAL_0_DAYS) {
+            dismissValue = '3_days_banner';
         }
         trackEvent(
             TELEMETRY_CATEGORIES.CLOUD_ADMIN,
@@ -98,7 +108,7 @@ class CloudTrialAnnouncementBar extends React.PureComponent<Props> {
         const {daysLeftOnTrial} = this.props;
         let dismissable = true;
 
-        if (daysLeftOnTrial < 1) {
+        if (daysLeftOnTrial < TrialPeriodDays.TRIAL_1_DAY) {
             dismissable = false;
         }
         return dismissable;
@@ -134,24 +144,32 @@ class CloudTrialAnnouncementBar extends React.PureComponent<Props> {
             return null;
         }
 
-        if ((preferences.some((pref) => pref.name === CloudBanners.HIDE && pref.value === '14_days_banner_test') && daysLeftOnTrial > 3) ||
-            ((daysLeftOnTrial <= 3 && daysLeftOnTrial > 0) && preferences.some((pref) => pref.name === CloudBanners.HIDE && pref.value === '3_days_banner_test'))) {
+        if ((preferences.some((pref) => pref.name === CloudBanners.TRIAL && pref.value === '14_days_banner') && daysLeftOnTrial > TrialPeriodDays.TRIAL_3_DAYS) ||
+            ((daysLeftOnTrial <= TrialPeriodDays.TRIAL_3_DAYS && daysLeftOnTrial > TrialPeriodDays.TRIAL_0_DAYS) && preferences.some((pref) => pref.name === CloudBanners.TRIAL && pref.value === '3_days_banner'))) {
             return null;
         }
 
-        let bannerMessage = '';
+        const trialMoreThan3DaysMsg = (
+            <FormattedMessage
+                id='admin.billing.subscription.cloudTrial.moreThan3Days'
+                defaultMessage='Your trial has started! There are {daysLeftOnTrial} days left'
+                values={{daysLeftOnTrial}}
+            />
+        );
+
+        let bannerMessage;
         switch (daysLeftOnTrial) {
-        case 3:
+        case TrialPeriodDays.TRIAL_3_DAYS:
             bannerMessage = t('admin.billing.subscription.cloudTrial.3daysLeftOnTrial');
             break;
-        case 2:
+        case TrialPeriodDays.TRIAL_2_DAYS:
             bannerMessage = t('admin.billing.subscription.cloudTrial.2daysLeftOnTrial');
             break;
-        case 1:
+        case TrialPeriodDays.TRIAL_1_DAY:
             bannerMessage = t('admin.billing.subscription.cloudTrial.lastDay');
             break;
         default:
-            bannerMessage = t('admin.billing.subscription.cloudTrial.moreThan3Days');
+            bannerMessage = trialMoreThan3DaysMsg;
             break;
         }
 
