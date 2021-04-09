@@ -25,8 +25,8 @@ import {
 import {isCustomerCardExpired} from 'utils/cloud_utils';
 import {getRemainingDaysFromFutureTimestamp} from 'utils/utils.jsx';
 
-import BillingSummary from './billing_summary';
-import PlanDetails from './plan_details';
+import BillingSummary from '../billing_summary';
+import PlanDetails from '../plan_details';
 
 import {
     contactSalesCard,
@@ -34,7 +34,7 @@ import {
     infoBanner,
     creditCardExpiredBanner,
     paymentFailedBanner,
-} from './billing_subscriptions_jsx_pieces';
+} from './billing_subscriptions';
 
 import './billing_subscriptions.scss';
 
@@ -62,16 +62,12 @@ const BillingSubscriptions: React.FC<Props> = () => {
 
     const [showCreditCardBanner, setShowCreditCardBanner] = useState(true);
 
-    let isPaidTierWithFreeTrial = false;
-    let daysLeft = 0;
-    if (subscription && subscription.trial_end_at! > 0) {
-        isPaidTierWithFreeTrial = true;
-        daysLeft = getRemainingDaysFromFutureTimestamp(subscription.trial_end_at);
+    let isFreeTrial = false;
+    let daysLeftOnTrial = 0;
+    if (subscription && subscription.trial_end_at! > 0 && subscription.status! === 'Trialing') {
+        isFreeTrial = true;
+        daysLeftOnTrial = getRemainingDaysFromFutureTimestamp(subscription.trial_end_at);
     }
-
-    // TODO: remove these 2 hardcoded values
-    // isPaidTierWithFreeTrial = true;
-    // daysLeft = 13;
 
     useEffect(() => {
         getCloudSubscription()(dispatch, store.getState());
@@ -141,16 +137,16 @@ const BillingSubscriptions: React.FC<Props> = () => {
                     {showCreditCardBanner && isCardExpired && creditCardExpiredBanner(setShowCreditCardBanner)}
                     <div className='BillingSubscriptions__topWrapper'>
                         <PlanDetails
-                            isPaidTierWithFreeTrial={isPaidTierWithFreeTrial}
+                            isFreeTrial={isFreeTrial}
                         />
                         <BillingSummary
                             isPaidTier={isPaidTier}
-                            isPaidTierWithFreeTrial={isPaidTierWithFreeTrial}
-                            daysLeft={daysLeft}
+                            isFreeTrial={isFreeTrial}
+                            daysLeftOnTrial={daysLeftOnTrial}
                         />
                     </div>
-                    {contactSalesCard(contactSalesLink, isPaidTierWithFreeTrial)}
-                    {cancelSubscription(cancelAccountLink, isPaidTierWithFreeTrial)}
+                    {contactSalesCard(contactSalesLink, isFreeTrial, isPaidTier)}
+                    {cancelSubscription(cancelAccountLink, isFreeTrial, isPaidTier)}
                 </div>
             </div>
         </div>

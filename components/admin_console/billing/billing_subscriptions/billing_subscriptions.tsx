@@ -6,30 +6,43 @@ import {FormattedMessage} from 'react-intl';
 
 import {trackEvent} from 'actions/telemetry_actions';
 
+import BlockableLink from 'components/admin_console/blockable_link';
 import AlertBanner from 'components/alert_banner';
 
 import privateCloudImage from 'images/private-cloud-image.svg';
 
-import BlockableLink from 'components/admin_console/blockable_link';
+export const contactSalesCard = (contactSalesLink: any, isFreeTrial: boolean, isPaidTier: boolean) => {
+    const title = {id: '', defaultMsg: ''};
+    const description = {id: '', defaultMsg: ''};
 
-export const contactSalesCard = (contactSalesLink: any, isPaidTierWithFreeTrial: boolean) => {
+    if (!isPaidTier) {
+        title.id = 'admin.billing.subscription.privateCloudCard.title';
+        title.defaultMsg = 'Looking for a high-trust private cloud?';
+
+        description.id = 'admin.billing.subscription.privateCloudCard.description';
+        description.defaultMsg = 'If you need software with dedicated, single-tenant architecture, Mattermost Private Cloud (Beta) is the solution for high-trust collaboration.';
+    } else if (isFreeTrial) {
+        title.id = 'admin.billing.subscription.privateCloudCard.freeTrial.title';
+        title.defaultMsg = 'Questions about your trial?';
+
+        description.id = 'admin.billing.subscription.privateCloudCard.freeTrial.description';
+        description.defaultMsg = 'We love to work with our customers and their needs. Contact sales for subscription, billing or trial-specific questions.';
+    } else {
+        title.id = 'admin.billing.subscription.privateCloudCard.cloudProfessional.title';
+        title.defaultMsg = 'Upgrade to Cloud Enterprise';
+
+        description.id = 'admin.billing.subscription.privateCloudCard.cloudProfessional.description';
+        description.defaultMsg = 'Optimize your processes with VPC Peering, a dedicated AWS account and premium support.';
+    }
+
     return (
         <div className='PrivateCloudCard'>
             <div className='PrivateCloudCard__text'>
                 <div className='PrivateCloudCard__text-title'>
-                    {!isPaidTierWithFreeTrial &&
-                        <FormattedMessage
-                            id='admin.billing.subscription.privateCloudCard.title'
-                            defaultMessage='Looking for a high-trust private cloud?'
-                        />
-                    }
-                    {isPaidTierWithFreeTrial &&
-                        <FormattedMessage
-                            id='admin.billing.subscription.privateCloudCard.freeTrial.title'
-                            defaultMessage='Questions about your trial?'
-                        />
-                    }
-
+                    <FormattedMessage
+                        id={title.id}
+                        defaultMessage={title.defaultMsg}
+                    />
                     {/* {typeSubscription === 'CLOUD_STARTER' &&
                         <FormattedMessage
                             id='admin.billing.subscription.privateCloudCard.cloudStarter.title'
@@ -52,18 +65,10 @@ export const contactSalesCard = (contactSalesLink: any, isPaidTierWithFreeTrial:
                     } */}
                 </div>
                 <div className='PrivateCloudCard__text-description'>
-                    {!isPaidTierWithFreeTrial &&
-                        <FormattedMessage
-                            id='admin.billing.subscription.privateCloudCard.description'
-                            defaultMessage='If you need software with dedicated, single-tenant architecture, Mattermost Private Cloud (Beta) is the solution for high-trust collaboration.'
-                        />
-                    }
-                    {isPaidTierWithFreeTrial &&
-                        <FormattedMessage
-                            id='admin.billing.subscription.privateCloudCard.freeTrial.description'
-                            defaultMessage='We love to work with our customers and their needs. Contact sales for subscription, billing or trial-specific questions.'
-                        />
-                    }
+                    <FormattedMessage
+                        id={description.id}
+                        defaultMessage={description.defaultMsg}
+                    />
                     {/* {typeSubscription === 'CLOUD_STARTER' && <FormattedMessage
                         id='admin.billing.subscription.privateCloudCard.cloudStarter.description'
                         defaultMessage='Optimize your processes with Guest Accounts, Office365 suite integrations, Gitlab SSO and advanced permissions.'
@@ -97,8 +102,8 @@ export const contactSalesCard = (contactSalesLink: any, isPaidTierWithFreeTrial:
     );
 };
 
-export const cancelSubscription = (cancelAccountLink: any, isPaidTierWithFreeTrial: boolean) => {
-    if (isPaidTierWithFreeTrial) {
+export const cancelSubscription = (cancelAccountLink: any, isFreeTrial: boolean, isPaidTier: boolean) => {
+    if (isFreeTrial || !isPaidTier) {
         return null;
     }
     return (

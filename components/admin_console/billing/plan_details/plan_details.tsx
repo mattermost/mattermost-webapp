@@ -111,8 +111,7 @@ export const seatsAndSubscriptionDates = (locale: string, userCount: number, num
     );
 };
 
-export const planDetailsTopElements = (userCount: number, isPaidTier: boolean, isPaidTierWithFreeTrial: boolean, userLimit: number) => {
-    const typeSubscription = isPaidTierWithFreeTrial ? 'FREE_TRIAL' : 'MATTERMOST_CLOUD';
+export const planDetailsTopElements = (userCount: number, isPaidTier: boolean, isFreeTrial: boolean, userLimit: number) => {
     let userCountDisplay = (
         <div className='PlanDetails__userCount'>
             <FormattedMarkdownMessage
@@ -139,18 +138,31 @@ export const planDetailsTopElements = (userCount: number, isPaidTier: boolean, i
             </div>
         );
     }
-    let productName;
+    let productName = (
+        <FormattedMessage
+            id='admin.billing.subscription.planDetails.productName.mmCloud'
+            defaultMessage='Mattermost Cloud'
+        />
+    );
 
-    switch (typeSubscription) {
-    case 'FREE_TRIAL':
+    if (isFreeTrial) {
         productName = (
             <FormattedMessage
                 id='admin.billing.subscription.planDetails.productName.cloudProfessional'
                 defaultMessage='Cloud Professional'
             />
         );
-        break;
+    }
 
+    // switch (typeSubscription) {
+    // case 'FREE_TRIAL':
+    //     productName = (
+    //         <FormattedMessage
+    //             id='admin.billing.subscription.planDetails.productName.cloudProfessional'
+    //             defaultMessage='Cloud Professional'
+    //         />
+    //     );
+    //     break;
     // case 'CLOUD_ENTERPRISE':
     //     productName = (
     //         <FormattedMessage
@@ -167,20 +179,20 @@ export const planDetailsTopElements = (userCount: number, isPaidTier: boolean, i
     //         />
     //     );
     //     break;
-    default:
-        productName = (
-            <FormattedMessage
-                id='admin.billing.subscription.planDetails.productName.mmCloud'
-                defaultMessage='Mattermost Cloud'
-            />
-        );
-        break;
-    }
+    // default:
+    //     productName = (
+    //         <FormattedMessage
+    //             id='admin.billing.subscription.planDetails.productName.mmCloud'
+    //             defaultMessage='Mattermost Cloud'
+    //         />
+    //     );
+    //     break;
+    // }
 
     const trialBadge = (
         <Badge
             className='TrialBadge'
-            show={typeSubscription === 'FREE_TRIAL'}
+            show={isFreeTrial}
         >
             <FormattedMessage
                 id='admin.cloud.import.header.TrialBadge'
@@ -199,8 +211,8 @@ export const planDetailsTopElements = (userCount: number, isPaidTier: boolean, i
     );
 };
 
-export const currentPlanText = (isPaidTierWithFreeTrial: boolean) => {
-    if (isPaidTierWithFreeTrial) {
+export const currentPlanText = (isFreeTrial: boolean) => {
+    if (isFreeTrial) {
         return null;
     }
     return (
@@ -215,17 +227,29 @@ export const currentPlanText = (isPaidTierWithFreeTrial: boolean) => {
 };
 
 export const getPlanDetailElements = (
-    subscription: any,
     userLimit: number,
-    userCount: number,
+    isPaidTier: boolean,
     product: any,
     aboveUserLimit: number,
 ) => {
     let planPricing;
     let planDetailsDescription;
 
-    switch (subscription.is_paid_tier) {
-    case 'false':
+    if (isPaidTier) {
+        planPricing = (
+            <div className='PlanDetails__plan'>
+                <div className='PlanDetails_paidTier__planName'>
+                    {`$${product.price_per_seat.toFixed(2)}`}
+                    <FormattedMessage
+                        id='admin.billing.subscription.planDetails.perUserPerMonth'
+                        defaultMessage='/user/month. '
+                    />
+                    {howBillingWorksLink}
+                </div>
+            </div>
+        );
+        planDetailsDescription = null;
+    } else {
         planPricing = (
             <div className='PlanDetails__plan'>
                 <div className='PlanDetails__planName'>
@@ -258,22 +282,6 @@ export const getPlanDetailElements = (
                 {howBillingWorksLink}
             </div>
         );
-        break;
-    case 'true':
-        planPricing = (
-            <div className='PlanDetails__plan'>
-                <div className='PlanDetails_paidTier__planName'>
-                    {`$${product.price_per_seat.toFixed(2)}`}
-                    <FormattedMessage
-                        id='admin.billing.subscription.planDetails.perUserPerMonth'
-                        defaultMessage='/user/month. '
-                    />
-                    {howBillingWorksLink}
-                </div>
-            </div>
-        );
-        planDetailsDescription = null;
-        break;
     }
 
     return {
@@ -282,9 +290,7 @@ export const getPlanDetailElements = (
     };
 };
 
-export const featureList = (isPaidTierWithFreeTrial: boolean, isPaidTier: boolean) => {
-    const typeSubscription = isPaidTierWithFreeTrial ? 'FREE_TRIAL' : 'MATTERMOST_CLOUD';
-
+export const featureList = (isFreeTrial: boolean, isPaidTier: boolean) => {
     const featuresFreeTier = [
         localizeMessage('admin.billing.subscription.planDetails.features.10GBstoragePerUser', '10 GB storage per user'),
         localizeMessage('admin.billing.subscription.planDetails.features.99uptime', '99.0% uptime'),
@@ -323,24 +329,29 @@ export const featureList = (isPaidTierWithFreeTrial: boolean, isPaidTier: boolea
 
     let features = featuresFreeTier;
 
-    if (isPaidTier) {
-        switch (typeSubscription) {
-        case 'FREE_TRIAL':
-        // case 'CLOUD_PROFESSIONAL':
-            features = featuresCloudProfessional;
-            break;
-
-        // case 'CLOUD_STARTER':
-        //     features = featuresCloudStarter;
-        //     break;
-        // case 'CLOUD_ENTERPRISE':
-        //     features = featuresCloudEnterprise;
-        //     break;
-        default:
-            features = featuresFreeTier;
-            break;
-        }
+    // use both for backwards compatibility with the freeTier users
+    if (isFreeTrial || isPaidTier) {
+        features = featuresCloudProfessional;
     }
+
+    // if (isPaidTier) {
+    //     switch (typeSubscription) {
+    //     case 'FREE_TRIAL':
+    //     // case 'CLOUD_PROFESSIONAL':
+    //         features = featuresCloudProfessional;
+    //         break;
+
+    //     // case 'CLOUD_STARTER':
+    //     //     features = featuresCloudStarter;
+    //     //     break;
+    //     // case 'CLOUD_ENTERPRISE':
+    //     //     features = featuresCloudEnterprise;
+    //     //     break;
+    //     default:
+    //         features = featuresFreeTier;
+    //         break;
+    //     }
+    // }
 
     return features.map((feature, i) => (
         <div

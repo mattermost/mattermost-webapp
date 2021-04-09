@@ -17,20 +17,20 @@ import {ModalIdentifiers} from 'utils/constants';
 
 import {
     noBillingHistory,
-    upgradeMattermostCloud,
+    upgradeFreeTierMattermostCloud,
     lastInvoiceInfo,
     freeTrial,
-} from './billing_summary_jsx_pieces';
+} from './billing_summary';
 
 import './billing_summary.scss';
 
 type BillingSummaryProps = {
     isPaidTier: boolean;
-    isPaidTierWithFreeTrial: boolean;
-    daysLeft: number;
+    isFreeTrial: boolean;
+    daysLeftOnTrial: number;
 }
 
-const BillingSummary: React.FC<BillingSummaryProps> = ({isPaidTier, isPaidTierWithFreeTrial, daysLeft}: BillingSummaryProps) => {
+const BillingSummary: React.FC<BillingSummaryProps> = ({isPaidTier, isFreeTrial, daysLeftOnTrial}: BillingSummaryProps) => {
     const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription);
     const dispatch = useDispatch<DispatchFunc>();
     const product = useSelector((state: GlobalState) => {
@@ -51,22 +51,17 @@ const BillingSummary: React.FC<BillingSummaryProps> = ({isPaidTier, isPaidTierWi
 
     let body = noBillingHistory;
 
-    if (isPaidTier) {
-        if (subscription && subscription.last_invoice) {
-            const invoice = subscription.last_invoice;
-            const fullCharges = invoice.line_items.filter((item) => item.type === 'full');
-            const partialCharges = invoice.line_items.filter((item) => item.type === 'partial');
-            body = (
-                lastInvoiceInfo(invoice, product, fullCharges, partialCharges)
-            );
-        }
-
-        // TODO: this needs to be an elseif, let this way to see if working when changing the hardcoded values in billing_subscription
-        if (isPaidTierWithFreeTrial) {
-            body = freeTrial(onUpgradeMattermostCloud, daysLeft);
-        }
-    } else {
-        body = upgradeMattermostCloud(onUpgradeMattermostCloud);
+    if (isFreeTrial) {
+        body = freeTrial(onUpgradeMattermostCloud, daysLeftOnTrial);
+    } else if (!isPaidTier) {
+        body = upgradeFreeTierMattermostCloud(onUpgradeMattermostCloud);
+    } else if (subscription?.last_invoice) {
+        const invoice = subscription!.last_invoice;
+        const fullCharges = invoice.line_items.filter((item) => item.type === 'full');
+        const partialCharges = invoice.line_items.filter((item) => item.type === 'partial');
+        body = (
+            lastInvoiceInfo(invoice, product, fullCharges, partialCharges)
+        );
     }
 
     return (
