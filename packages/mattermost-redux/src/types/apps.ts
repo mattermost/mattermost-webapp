@@ -87,7 +87,13 @@ export type AppCallResponse<Res = unknown> = {
     use_external_browser?: boolean;
     call?: AppCall;
     form?: AppForm;
+    app_metadata?: AppMetadataForClient;
 };
+
+export type AppMetadataForClient = {
+    bot_user_id: string;
+    bot_username: string;
+}
 
 export type AppContext = {
     app_id: string;

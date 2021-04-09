@@ -183,7 +183,10 @@ export class AppsForm extends React.PureComponent<Props, State> {
 
         if (!hasErrors && !updatedForm) {
             this.handleHide(true);
+            return;
         }
+
+        this.setState({submitting: false});
     };
 
     performLookup = async (name: string, userInput: string): Promise<AppSelectOption[]> => {

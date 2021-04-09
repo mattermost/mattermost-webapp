@@ -5,7 +5,7 @@ import React from 'react';
 
 import {injectIntl, IntlShape} from 'react-intl';
 
-import {AppBinding, DoAppCall} from 'mattermost-redux/types/apps';
+import {AppBinding, DoAppCall, AppCallResponse} from 'mattermost-redux/types/apps';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {AppBindingLocations, AppCallResponseTypes, AppCallTypes, AppExpandLevels} from 'mattermost-redux/constants/apps';
 import {Channel} from 'mattermost-redux/types/channels';
@@ -23,7 +23,7 @@ type Props = {
         doAppCall: DoAppCall;
         getChannel: (channelId: string) => Promise<ActionResult>;
     };
-    sendEphemeralPost: (message: string, channelID?: string, rootID?: string) => void;
+    sendEphemeralPost: (message: string, channelID?: string, rootID?: string, userID?: string) => void;
 }
 
 type State = {
@@ -69,14 +69,19 @@ export class ButtonBinding extends React.PureComponent<Props, State> {
 
         this.setState({executing: false});
 
-        const ephemeral = (message: string) => this.props.sendEphemeralPost(message, this.props.post.channel_id, this.props.post.root_id);
+        const ephemeral = (response: AppCallResponse, message: string) => this.props.sendEphemeralPost(
+            message,
+            this.props.post.channel_id,
+            this.props.post.root_id || this.props.post.id,
+            response.app_metadata?.bot_user_id,
+        );
         if (res.error) {
             const errorResponse = res.error;
             const errorMessage = errorResponse.error || this.props.intl.formatMessage({
                 id: 'apps.error.unknown',
                 defaultMessage: 'Unknown error occurred.',
             });
-            ephemeral(errorMessage);
+            ephemeral(res.error, errorMessage);
             return;
         }
 
@@ -84,7 +89,7 @@ export class ButtonBinding extends React.PureComponent<Props, State> {
         switch (callResp.type) {
         case AppCallResponseTypes.OK:
             if (callResp.markdown) {
-                ephemeral(callResp.markdown);
+                ephemeral(callResp, callResp.markdown);
             }
             break;
         case AppCallResponseTypes.NAVIGATE:
@@ -97,7 +102,7 @@ export class ButtonBinding extends React.PureComponent<Props, State> {
             }, {
                 type: callResp.type,
             });
-            ephemeral(errorMessage);
+            ephemeral(callResp, errorMessage);
         }
         }
     }

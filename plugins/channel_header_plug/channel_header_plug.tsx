@@ -10,7 +10,7 @@ import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
 import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
 import {Theme} from 'mattermost-redux/types/preferences';
-import {AppBinding, DoAppCallResult, DoAppCall} from 'mattermost-redux/types/apps';
+import {AppBinding, DoAppCallResult, DoAppCall, AppCallResponse} from 'mattermost-redux/types/apps';
 import {AppCallResponseTypes, AppCallTypes} from 'mattermost-redux/constants/apps';
 
 import HeaderIconWrapper from 'components/channel_header/components/header_icon_wrapper';
@@ -162,16 +162,21 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
             this.props.channel.team_id,
         );
         const call = createCallRequest(binding.call, context);
-        const res = await this.props.actions.doAppCall(call, AppCallTypes.SUBMIT, this.props.intl) as DoAppCallResult;
+        const res = await this.props.actions.doAppCall(call, AppCallTypes.SUBMIT, this.props.intl);
 
-        const ephemeral = (message: string) => sendEphemeralPost(message, this.props.channel.id);
+        const ephemeral = (response: AppCallResponse, message: string) => sendEphemeralPost(
+            message,
+            this.props.channel.id,
+            '',
+            response.app_metadata?.bot_user_id,
+        );
         if (res.error) {
             const errorResponse = res.error;
             const errorMessage = errorResponse.error || this.props.intl.formatMessage({
                 id: 'apps.error.unknown',
                 defaultMessage: 'Unknown error occurred.',
             });
-            ephemeral(errorMessage);
+            ephemeral(res.error, errorMessage);
             return;
         }
 
@@ -179,7 +184,7 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
         switch (callResp.type) {
         case AppCallResponseTypes.OK:
             if (callResp.markdown) {
-                ephemeral(callResp.markdown);
+                ephemeral(callResp, callResp.markdown);
             }
             break;
         case AppCallResponseTypes.NAVIGATE:
@@ -192,7 +197,7 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
             }, {
                 type: callResp.type,
             });
-            ephemeral(errorMessage);
+            ephemeral(callResp, errorMessage);
         }
         }
     }
@@ -312,7 +317,7 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
         const appBindings = this.props.appsEnabled ? this.props.appBindings || [] : [];
         if (components.length === 0 && appBindings.length === 0) {
             return null;
-        } else if ((components.length + appBindings.length) <= 5) {
+        } else if ((components.length + appBindings.length) <= 15) {
             let componentButtons = components.filter((plug) => plug.icon && plug.action).map(this.createComponentButton);
             if (this.props.appsEnabled) {
                 componentButtons = componentButtons.concat(appBindings.map(this.createAppBindingButton));

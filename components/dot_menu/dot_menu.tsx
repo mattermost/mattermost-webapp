@@ -8,7 +8,7 @@ import {Tooltip} from 'react-bootstrap';
 
 import Permissions from 'mattermost-redux/constants/permissions';
 import {Post} from 'mattermost-redux/types/posts';
-import {AppBinding, DoAppCall} from 'mattermost-redux/types/apps';
+import {AppBinding, DoAppCall, AppCallResponse} from 'mattermost-redux/types/apps';
 import {AppCallResponseTypes, AppCallTypes, AppExpandLevels} from 'mattermost-redux/constants/apps';
 
 import {Locations, ModalIdentifiers, Constants} from 'utils/constants';
@@ -298,14 +298,14 @@ class DotMenu extends React.PureComponent<Props, State> {
 
         const res = await this.props.actions.doAppCall(call, AppCallTypes.SUBMIT, this.props.intl);
 
-        const ephemeral = (message: string) => sendEphemeralPost(message, this.props.post.channel_id, this.props.post.root_id);
+        const ephemeral = (response: AppCallResponse, message: string) => sendEphemeralPost(message, this.props.post.channel_id, this.props.post.root_id || this.props.post.id, response.app_metadata?.bot_user_id);
         if (res.error) {
             const errorResponse = res.error;
             const errorMessage = errorResponse.error || this.props.intl.formatMessage({
                 id: 'apps.error.unknown',
                 defaultMessage: 'Unknown error occurred.',
             });
-            ephemeral(errorMessage);
+            ephemeral(res.error, errorMessage);
             return;
         }
 
@@ -313,7 +313,7 @@ class DotMenu extends React.PureComponent<Props, State> {
         switch (callResp.type) {
         case AppCallResponseTypes.OK:
             if (callResp.markdown) {
-                ephemeral(callResp.markdown);
+                ephemeral(callResp, callResp.markdown);
             }
             break;
         case AppCallResponseTypes.NAVIGATE:
@@ -326,7 +326,7 @@ class DotMenu extends React.PureComponent<Props, State> {
             }, {
                 type: callResp.type,
             });
-            ephemeral(errMessage);
+            ephemeral(callResp, errMessage);
         }
         }
     }
