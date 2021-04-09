@@ -13,3 +13,13 @@ export function isSuccess(result: ActionResult): result is SuccessResult {
 export function isError(result: ActionResult): result is ErrorResult {
     return Boolean((result as ErrorResult).error);
 }
+
+export type Previous = {
+    searchVisible?: boolean;
+    isMentionSearch?: boolean;
+    isPinnedPosts?: boolean;
+    isFlaggedPosts?: boolean;
+    selectedPostId?: string;
+    selectedPostCardId?: string;
+    previousRhsState?: string;
+};
