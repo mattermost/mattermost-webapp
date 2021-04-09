@@ -28,7 +28,7 @@ type OptionType = {
 }
 
 type Props = {
-    config: AdminConfig;
+    config: DeepPartial<AdminConfig>;
     customPolicies: DataRetentionCustomPolicies;
     customPoliciesCount: number;
     actions: {
@@ -137,7 +137,7 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
             },
         ];
     }
-    getMessageRetentionSetting = (enabled: boolean,  days: number): JSX.Element => {
+    getMessageRetentionSetting = (enabled: boolean | undefined,  days: number | undefined): JSX.Element => {
         if (!enabled) {
             return (
                 <FormattedMessage
@@ -146,7 +146,7 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                 />
             );
         }
-        if (days % 365 === 0) {
+        if (days && days % 365 === 0) {
             const years = days/365;
             return (
                 <FormattedMessage
@@ -173,8 +173,8 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
         return [{
             cells: {
                 description: Utils.localizeMessage('admin.data_retention.form.text', 'Applies to all teams and channels, but does not apply to custom retention policies.'),
-                channel_messages: this.getMessageRetentionSetting(DataRetentionSettings.EnableMessageDeletion, DataRetentionSettings.MessageRetentionDays),
-                files: this.getMessageRetentionSetting(DataRetentionSettings.EnableFileDeletion, DataRetentionSettings.FileRetentionDays),
+                channel_messages: this.getMessageRetentionSetting(DataRetentionSettings?.EnableMessageDeletion, DataRetentionSettings?.MessageRetentionDays),
+                files: this.getMessageRetentionSetting(DataRetentionSettings?.EnableFileDeletion, DataRetentionSettings?.FileRetentionDays),
                 actions: (
                     <MenuWrapper
                         isDisabled={false}
@@ -354,9 +354,12 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
         this.inputRef.current?.blur();
     }
 
-    getJobStartTime = (): JSX.Element => {
-        const {DeletionJobStartTime} = this.props.config.DataRetentionSettings;
-        const timeArray = DeletionJobStartTime.split(':');
+    getJobStartTime = (): JSX.Element | null => {
+        const {DataRetentionSettings} = this.props.config;
+        const timeArray = DataRetentionSettings?.DeletionJobStartTime?.split(':');
+        if (!timeArray) {
+          return null;  
+        }
         let hour = parseInt(timeArray[0], 10);
         if (hour < 12) {
             if (hour === 0) {
@@ -387,7 +390,7 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
     }
 
     render = () => {
-        const {EnableFileDeletion, EnableMessageDeletion} = this.props.config.DataRetentionSettings;
+        const {DataRetentionSettings} = this.props.config;
         const {startCount, endCount, total} = this.getPaginationProps();
 
         return (
@@ -511,7 +514,7 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                                     jobType={JobTypes.DATA_RETENTION}
                                     hideJobCreateButton={true}
                                     className={'job-table__data-retention'}
-                                    disabled={String(EnableMessageDeletion) !== 'true' && String(EnableFileDeletion) !== 'true'}
+                                    disabled={String(DataRetentionSettings?.EnableMessageDeletion) !== 'true' && String(DataRetentionSettings?.EnableFileDeletion) !== 'true'}
                                     createJobButtonText={
                                         <FormattedMessage
                                             id='admin.data_retention.createJob.title'
@@ -549,7 +552,7 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                                                     onBlur={() => {
                                                         this.showEditJobTime(false);
                                                     }}
-                                                    value={{label: this.getJobStartTime(), value: this.props.config.DataRetentionSettings.DeletionJobStartTime} as OptionType}
+                                                    value={{label: this.getJobStartTime(), value: DataRetentionSettings?.DeletionJobStartTime} as OptionType}
                                                     hideSelectedOptions={true}
                                                     isSearchable={true}
                                                     options={this.getJobTimeOptions()}
