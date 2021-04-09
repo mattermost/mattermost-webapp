@@ -96,7 +96,7 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                 name: '',
                 field: 'actions',
                 className: 'actionIcon',
-                width: .15,
+                width: 0.15,
             },
         ];
     }
@@ -133,11 +133,11 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                 name: '',
                 field: 'actions',
                 className: 'actionIcon',
-                width: .15,
+                width: 0.15,
             },
         ];
     }
-    getMessageRetentionSetting = (enabled: boolean | undefined,  days: number | undefined): JSX.Element => {
+    getMessageRetentionSetting = (enabled: boolean | undefined, days: number | undefined): JSX.Element => {
         if (!enabled) {
             return (
                 <FormattedMessage
@@ -147,7 +147,7 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
             );
         }
         if (days && days % 365 === 0) {
-            const years = days/365;
+            const years = days / 365;
             return (
                 <FormattedMessage
                     id='admin.data_retention.retention_years'
@@ -156,7 +156,7 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                         count: `${years}`,
                     }}
                 />
-            )
+            );
         }
         return (
             <FormattedMessage
@@ -166,7 +166,7 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                     count: `${days}`,
                 }}
             />
-        )
+        );
     }
     getGlobalPolicyRows = (): Row[] => {
         const {DataRetentionSettings} = this.props.config;
@@ -193,7 +193,7 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                             <Menu.ItemAction
                                 show={true}
                                 onClick={() => {
-                                    browserHistory.push('/admin_console/compliance/data_retention/global_policy');
+                                    browserHistory.push('/admin_console/compliance/data_retention_settings/global_policy');
                                 }}
                                 text={Utils.localizeMessage('admin.data_retention.globalPoliciesTable.edit', 'Edit')}
                                 disabled={false}
@@ -203,8 +203,8 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                 ),
             },
             onClick: () => {
-                browserHistory.push(`/admin_console/compliance/data_retention/global_policy`);
-            }
+                browserHistory.push('/admin_console/compliance/data_retention_settings/global_policy');
+            },
         }];
     }
     getChannelAndTeamCounts = (policy: DataRetentionCustomPolicy): JSX.Element => {
@@ -222,7 +222,7 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                 defaultMessage='{team_count} {team_count, plural, one {team} other {teams}}, {channel_count} {channel_count, plural, one {channel} other {channels}}'
                 values={{
                     team_count: policy.team_count,
-                    channel_count: policy.channel_count
+                    channel_count: policy.channel_count,
                 }}
             />
         );
@@ -252,7 +252,7 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                                 <Menu.ItemAction
                                     show={true}
                                     onClick={() => {
-                                        browserHistory.push(`/admin_console/compliance/data_retention/custom_policy/${policy.id}`);
+                                        browserHistory.push(`/admin_console/compliance/data_retention_settings/custom_policy/${policy.id}`);
                                     }}
                                     text={'Edit'}
                                     disabled={false}
@@ -270,8 +270,8 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                     ),
                 },
                 onClick: () => {
-                    browserHistory.push(`/admin_console/compliance/data_retention/custom_policy/${policy.id}`);
-                }
+                    browserHistory.push(`/admin_console/compliance/data_retention_settings/custom_policy/${policy.id}`);
+                },
             };
         });
     };
@@ -336,7 +336,7 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                 hourValue = `0${hourValue}`;
             }
             if (hourLabel > 12) {
-                hourLabel = hourLabel - 12;
+                hourLabel -= 12;
             }
             for (let i = 0; i < minuteIntervals.length; i++) {
                 options.push({label: `${hourLabel}:${minuteIntervals[i]}${timeOfDay}`, value: `${hourValue}:${minuteIntervals[i]}`});
@@ -358,7 +358,7 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
         const {DataRetentionSettings} = this.props.config;
         const timeArray = DataRetentionSettings?.DeletionJobStartTime?.split(':');
         if (!timeArray) {
-          return null;  
+            return null;
         }
         let hour = parseInt(timeArray[0], 10);
         if (hour < 12) {
@@ -370,7 +370,7 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                     id='admin.data_retention.jobTimeAM'
                     defaultMessage='{time} AM (UTC)'
                     values={{
-                        time: `${hour}:${timeArray[1]}`
+                        time: `${hour}:${timeArray[1]}`,
                     }}
                 />
             );
@@ -383,7 +383,7 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                 id='admin.data_retention.jobTimePM'
                 defaultMessage='{time} PM (UTC)'
                 values={{
-                    time: `${hour}:${timeArray[1]}`
+                    time: `${hour}:${timeArray[1]}`,
                 }}
             />
         );
@@ -463,7 +463,7 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                                         />
                                     }
                                     onClick={() => {
-                                        browserHistory.push('/admin_console/compliance/data_retention/custom_policy');
+                                        browserHistory.push('/admin_console/compliance/data_retention_settings/custom_policy');
                                     }}
                                 />
                             </Card.Header>
@@ -561,20 +561,19 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                                                         this.showEditJobTime(true);
                                                     }}
                                                     menuIsOpen={this.state.showEditJobTime}
-                                                />
-                                            :
-                                                <span 
+                                                /> :
+                                                <span
                                                     className='JobSelectedtime'
                                                 >
                                                     <b>{this.getJobStartTime()}</b>
                                                 </span>
                                             }
-                                                <a 
-                                                    className='EditJobTime' 
-                                                    onClick={() => this.showEditJobTime(true)}
-                                                >
-                                                    {Utils.localizeMessage('admin.data_retention.globalPoliciesTable.edit', 'Edit')}
-                                                </a>
+                                            <a
+                                                className='EditJobTime'
+                                                onClick={() => this.showEditJobTime(true)}
+                                            >
+                                                {Utils.localizeMessage('admin.data_retention.globalPoliciesTable.edit', 'Edit')}
+                                            </a>
                                         </div>
                                     }
                                 />

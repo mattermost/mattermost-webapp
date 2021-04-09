@@ -15,7 +15,7 @@ describe('components/admin_console/data_retention_settings/data_retention_settin
                 MessageRetentionDays: 100,
                 FileRetentionDays: 100,
                 DeletionJobStartTime: '00:15',
-            }
+            },
         },
         customPolicies: {},
         customPoliciesCount: 0,
@@ -38,15 +38,15 @@ describe('components/admin_console/data_retention_settings/data_retention_settin
     });
 
     test('should match snapshot with custom policy', () => {
-        let props = baseProps;
+        const props = baseProps;
         props.customPolicies = {
-            '1234567': {
+            1234567: {
                 id: '1234567',
                 display_name: 'Custom policy 1',
                 post_duration: 60,
                 team_count: 1,
                 channel_count: 2,
-            }
+            },
         };
         props.customPoliciesCount = 1;
         const wrapper = shallow(
@@ -58,15 +58,15 @@ describe('components/admin_console/data_retention_settings/data_retention_settin
     });
 
     test('should match snapshot with custom policy keep forever', () => {
-        let props = baseProps;
+        const props = baseProps;
         props.customPolicies = {
-            '1234567': {
+            1234567: {
                 id: '1234567',
                 display_name: 'Custom policy 1',
                 post_duration: -1,
                 team_count: 1,
                 channel_count: 2,
-            }
+            },
         };
         props.customPoliciesCount = 1;
         const wrapper = shallow(
@@ -76,9 +76,9 @@ describe('components/admin_console/data_retention_settings/data_retention_settin
         );
         expect(wrapper).toMatchSnapshot();
     });
-    
+
     test('should match snapshot with Global Policies disabled', () => {
-        let props = baseProps;
+        const props = baseProps;
         props.config.DataRetentionSettings.EnableMessageDeletion = false;
         props.config.DataRetentionSettings.EnableFileDeletion = false;
         const wrapper = shallow(

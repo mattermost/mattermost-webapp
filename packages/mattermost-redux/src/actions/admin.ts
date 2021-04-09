@@ -724,7 +724,7 @@ export function deleteDataRetentionCustomPolicy(id: string): ActionFunc {
             return {error};
         }
         const data = {
-            id: id
+            id,
         };
         dispatch(
             {type: AdminTypes.DELETE_DATA_RETENTION_CUSTOM_POLICY_SUCCESS, data},
