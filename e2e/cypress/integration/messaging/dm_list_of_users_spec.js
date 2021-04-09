@@ -42,7 +42,7 @@ describe('Messaging', () => {
 
             // # Search for the deactivated user
             cy.findByRole('dialog', {name: 'Direct Messages'}).should('be.visible').wait(TIMEOUTS.ONE_SEC);
-            cy.findByRole('textbox', {name: 'Search for people'}).should('have.focused').type(deactivatedUser.email);
+            cy.findByRole('textbox', {name: 'Search for people'}).click({force: true}).type(deactivatedUser.email);
 
             // * Verify that the inactive user is not found
             cy.get('.no-channel-message').should('be.visible').and('contain', 'No results found matching');
