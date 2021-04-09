@@ -307,7 +307,7 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
         const appBindings = this.props.appsEnabled ? this.props.appBindings || [] : [];
         if (components.length === 0 && appBindings.length === 0) {
             return null;
-        } else if ((components.length + appBindings.length) <= 5) {
+        } else if ((components.length + appBindings.length) <= 15) {
             let componentButtons = components.filter((plug) => plug.icon && plug.action).map(this.createComponentButton);
             if (this.props.appsEnabled) {
                 componentButtons = componentButtons.concat(appBindings.map(this.createAppBindingButton));
