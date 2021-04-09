@@ -23,7 +23,7 @@ export type Subscription = {
     is_paid_tier: string;
     last_invoice?: Invoice;
     status?: string;
-    trial_end_at?: number;
+    trial_end_at: number;
 }
 
 export type Product = {
