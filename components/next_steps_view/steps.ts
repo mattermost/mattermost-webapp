@@ -86,7 +86,7 @@ export const Steps: StepType[] = [
             'next_steps_view.titles.inviteMembers',
             'Invite members to the team',
         ),
-        roles: ['system_admin', 'system_user'],
+        roles: ['system_user'],
         component: InviteMembersStep,
         visible: true,
     },
