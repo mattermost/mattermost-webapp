@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import {createSelector} from 'reselect';
 
 import {getRoles} from 'mattermost-redux/selectors/entities/roles';
+import {appsEnabled} from 'mattermost-redux/selectors/entities/apps';
 
 import {Constants} from 'utils/constants';
 import {localizeMessage} from 'utils/utils.jsx';
@@ -13,6 +14,8 @@ import {getAdminConsoleCustomComponents} from 'selectors/admin_console';
 import SchemaAdminSettings from '../schema_admin_settings';
 import {it} from '../admin_definition';
 
+import {appsPluginID} from 'utils/apps';
+
 import CustomPluginSettings from './custom_plugin_settings.jsx';
 import getEnablePluginSetting from './enable_plugin_setting';
 
@@ -20,7 +23,8 @@ function makeGetPluginSchema() {
     return createSelector(
         (state, pluginId) => state.entities.admin.plugins[pluginId],
         (state, pluginId) => getAdminConsoleCustomComponents(state, pluginId),
-        (plugin, customComponents) => {
+        (state) => appsEnabled(state),
+        (plugin, customComponents, areAppsEnabled) => {
             if (!plugin) {
                 return null;
             }
@@ -64,9 +68,11 @@ function makeGetPluginSchema() {
                 });
             }
 
-            const pluginEnableSetting = getEnablePluginSetting(plugin);
-            pluginEnableSetting.isDisabled = it.any(pluginEnableSetting.isDisabled, it.not(it.userHasWritePermissionOnResource('plugins')));
-            settings.unshift(pluginEnableSetting);
+            if (plugin.id !== appsPluginID || areAppsEnabled) {
+                const pluginEnableSetting = getEnablePluginSetting(plugin);
+                pluginEnableSetting.isDisabled = it.any(pluginEnableSetting.isDisabled, it.not(it.userHasWritePermissionOnResource('plugins')));
+                settings.unshift(pluginEnableSetting);
+            }
 
             settings.forEach((s) => {
                 s.isDisabled = it.any(s.isDisabled, it.not(it.userHasWritePermissionOnResource('plugins')));

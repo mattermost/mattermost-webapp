@@ -8,13 +8,17 @@ exports[`components/SingleImageView should match snapshot 1`] = `
     className="file__image"
   >
     <div
-      className="image-name"
-      data-testid="image-name"
+      className="image-header"
     >
       <div
-        onClick={[Function]}
+        className="image-name"
+        data-testid="image-name"
       >
-        name
+        <div
+          onClick={[Function]}
+        >
+          name
+        </div>
       </div>
       <button
         aria-label="Toggle Embed Visibility"
@@ -77,13 +81,17 @@ exports[`components/SingleImageView should match snapshot 2`] = `
     className="file__image"
   >
     <div
-      className="image-name"
-      data-testid="image-name"
+      className="image-header"
     >
       <div
-        onClick={[Function]}
+        className="image-name"
+        data-testid="image-name"
       >
-        name
+        <div
+          onClick={[Function]}
+        >
+          name
+        </div>
       </div>
       <button
         aria-label="Toggle Embed Visibility"
@@ -170,13 +178,17 @@ exports[`components/SingleImageView should match snapshot, SVG image 1`] = `
     className="file__image"
   >
     <div
-      className="image-name"
-      data-testid="image-name"
+      className="image-header"
     >
       <div
-        onClick={[Function]}
+        className="image-name"
+        data-testid="image-name"
       >
-        name_svg
+        <div
+          onClick={[Function]}
+        >
+          name_svg
+        </div>
       </div>
       <button
         aria-label="Toggle Embed Visibility"
@@ -243,13 +255,17 @@ exports[`components/SingleImageView should match snapshot, SVG image 2`] = `
     className="file__image"
   >
     <div
-      className="image-name"
-      data-testid="image-name"
+      className="image-header"
     >
       <div
-        onClick={[Function]}
+        className="image-name"
+        data-testid="image-name"
       >
-        name_svg
+        <div
+          onClick={[Function]}
+        >
+          name_svg
+        </div>
       </div>
       <button
         aria-label="Toggle Embed Visibility"
@@ -340,13 +356,17 @@ exports[`components/SingleImageView should set loaded state on callback of onIma
     className="file__image"
   >
     <div
-      className="image-name"
-      data-testid="image-name"
+      className="image-header"
     >
       <div
-        onClick={[Function]}
+        className="image-name"
+        data-testid="image-name"
       >
-        name
+        <div
+          onClick={[Function]}
+        >
+          name
+        </div>
       </div>
       <button
         aria-label="Toggle Embed Visibility"

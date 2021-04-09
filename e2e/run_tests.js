@@ -52,7 +52,7 @@ const chalk = require('chalk');
 const cypress = require('cypress');
 const argv = require('yargs').argv;
 
-const {getTestFiles, getSkippedFiles} = require('./utils/file');
+const {getSortedTestFiles, getSkippedFiles} = require('./utils/file');
 const {getTestFilesIdentifier} = require('./utils/even_distribution');
 const {writeJsonToFile} = require('./utils/report');
 const {MOCHAWESOME_REPORT_DIR, RESULTS_DIR} = require('./utils/constants');
@@ -73,7 +73,7 @@ async function runTests() {
     const browser = BROWSER || 'chrome';
     const headless = typeof HEADLESS === 'undefined' ? true : HEADLESS === 'true';
     const platform = os.platform();
-    const initialTestFiles = getTestFiles().sort((a, b) => a.localeCompare(b));
+    const initialTestFiles = getSortedTestFiles();
     const {finalTestFiles} = getSkippedFiles(initialTestFiles, platform, browser, headless);
     const numberOfTestFiles = finalTestFiles.length;
 
