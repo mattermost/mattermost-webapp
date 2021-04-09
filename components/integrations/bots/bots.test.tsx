@@ -21,6 +21,7 @@ describe('components/integrations/bots/Bots', () => {
         getUser: jest.fn(),
         disableBot: jest.fn(),
         enableBot: jest.fn(),
+        getAppsBotIDs: jest.fn(),
     };
 
     it('bots', () => {
@@ -46,6 +47,8 @@ describe('components/integrations/bots/Bots', () => {
                 owners={{}}
                 users={users}
                 actions={actions}
+                appsEnabled={false}
+                appsBotIDs={[]}
             />,
         );
         wrapperFull.instance().setState({loading: false});
@@ -60,6 +63,7 @@ describe('components/integrations/bots/Bots', () => {
                 accessTokens={{}}
                 team={team}
                 actions={actions}
+                fromApp={false}
             />,
         )).toEqual(true);
         expect(wrapper.find('EnabledSection').shallow().contains(
@@ -71,6 +75,7 @@ describe('components/integrations/bots/Bots', () => {
                 accessTokens={{}}
                 team={team}
                 actions={actions}
+                fromApp={false}
             />,
         )).toEqual(true);
         expect(wrapper.find('EnabledSection').shallow().contains(
@@ -82,6 +87,7 @@ describe('components/integrations/bots/Bots', () => {
                 accessTokens={{}}
                 team={team}
                 actions={actions}
+                fromApp={false}
             />,
         )).toEqual(true);
     });
@@ -120,6 +126,8 @@ describe('components/integrations/bots/Bots', () => {
                 owners={owners}
                 users={users}
                 actions={actions}
+                appsEnabled={false}
+                appsBotIDs={[]}
             />,
         );
         wrapperFull.instance().setState({loading: false});
@@ -134,6 +142,7 @@ describe('components/integrations/bots/Bots', () => {
                 accessTokens={passedTokens}
                 team={team}
                 actions={actions}
+                fromApp={false}
             />,
         )).toEqual(true);
     });

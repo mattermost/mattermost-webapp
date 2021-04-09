@@ -33,6 +33,7 @@ describe('components/integrations/bots/Bot', () => {
                 accessTokens={{}}
                 team={team}
                 actions={actions}
+                fromApp={false}
             />,
         );
 
@@ -79,6 +80,7 @@ describe('components/integrations/bots/Bot', () => {
                 accessTokens={{}}
                 team={team}
                 actions={actions}
+                fromApp={false}
             />,
         );
         expect(wrapper.contains(bot.display_name + ' (@' + bot.username + ')')).toEqual(true);
@@ -122,6 +124,7 @@ describe('components/integrations/bots/Bot', () => {
                 accessTokens={{}}
                 team={team}
                 actions={actions}
+                fromApp={false}
             />,
         );
         expect(wrapper.contains(owner.username)).toEqual(true);
@@ -167,6 +170,7 @@ describe('components/integrations/bots/Bot', () => {
                 accessTokens={accessTokens}
                 team={team}
                 actions={actions}
+                fromApp={false}
             />,
         );
 
@@ -206,6 +210,7 @@ describe('components/integrations/bots/Bot', () => {
                 accessTokens={accessTokens}
                 team={team}
                 actions={actions}
+                fromApp={false}
             />,
         );
 

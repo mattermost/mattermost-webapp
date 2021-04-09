@@ -36,6 +36,7 @@ describe('components/integrations/InstalledOAuthApp', () => {
         onRegenerateSecret: jest.fn(),
         onDelete: jest.fn(),
         filter: '',
+        fromApp: false,
     };
 
     test('should match snapshot', () => {

@@ -49,6 +49,7 @@ describe('components/integrations/InstalledOAuthApps', () => {
             deleteOAuthApp: jest.fn(),
         },
         enableOAuthServiceProvider: true,
+        appsOAuthAppsIDs: [],
     };
 
     test('should match snapshot', () => {
