@@ -2249,6 +2249,13 @@ export default class Client4 {
         );
     };
 
+    getProviders = () => {
+        return this.doFetch<App[]>(
+            `${this.getNotificationsRoute()}/registry`,
+            {method: 'get'},
+        );
+    };
+
     // General Routes
 
     ping = () => {

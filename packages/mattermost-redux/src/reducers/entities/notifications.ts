@@ -6,14 +6,13 @@ import {combineReducers} from 'redux';
 import {NotificationTypes, UserTypes} from 'mattermost-redux/action_types';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {App, NotificationCount, Notification} from 'mattermost-redux/types/notifications';
-import {Dictionary} from 'mattermost-redux/types/utilities';
 
-function apps(state: Dictionary<App> = {}, action: GenericAction) {
+function providers(state: App[] = [], action: GenericAction) {
     switch (action.type) {
     case NotificationTypes.RECEIVED_APPS:
         return action.data;
 
-    case NotificationTypes.RECEIVED_APP: {
+        /*case NotificationTypes.RECEIVED_APP: {
         const nextState = {...state};
         const data = action.data;
 
@@ -23,10 +22,10 @@ function apps(state: Dictionary<App> = {}, action: GenericAction) {
         }
 
         return state;
-    }
+    }*/
 
     case UserTypes.LOGOUT_SUCCESS:
-        return {};
+        return [];
     default:
         return state;
     }
@@ -70,7 +69,7 @@ function items(state: Notification[] = [], action: GenericAction) {
 export default combineReducers({
 
     // object where the key is the app name and has the corresponding value
-    apps,
+    providers,
 
     // object where the key is the provider-type and the value is another object with key as notification type and value as the count
     counts,

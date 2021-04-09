@@ -23,7 +23,7 @@ import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
-import AppBar from 'components/app_bar';
+import AppBar from 'components/app_bar/app_bar';
 
 import TeamButton from './components/team_button';
 

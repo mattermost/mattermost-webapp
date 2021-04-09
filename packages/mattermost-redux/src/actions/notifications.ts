@@ -4,6 +4,7 @@
 import {NotificationTypes} from 'mattermost-redux/action_types';
 import {Client4} from 'mattermost-redux/client';
 import {ActionFunc} from 'mattermost-redux/types/actions';
+
 import {bindClientFunc} from './helpers';
 
 export function getMyNotifications(): ActionFunc {
@@ -17,5 +18,12 @@ export function getMyNotificationCounts(): ActionFunc {
     return bindClientFunc({
         clientFunc: Client4.getMyNotificationCounts,
         onSuccess: NotificationTypes.RECEIVED_COUNTS,
+    });
+}
+
+export function getProviders(): ActionFunc {
+    return bindClientFunc({
+        clientFunc: Client4.getProviders,
+        onSuccess: NotificationTypes.RECEIVED_APPS,
     });
 }

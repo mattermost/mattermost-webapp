@@ -1,19 +1,23 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {FC, useEffect} from 'react';
 
-import AppIcon from './app_icon';
+import {useDispatch, useSelector} from 'react-redux';
 
+import {getMyNotificationCounts, getMyNotifications, getProviders} from 'mattermost-redux/actions/notifications';
 import {App} from 'mattermost-redux/types/notifications';
 
 import './app_bar.scss';
+import {GlobalState} from 'mattermost-redux/types/store';
 
-const apps: App[]= [
+import AppIcon from './app_icon';
+
+/*const apps: App[] = [
     {
         name: 'Github',
         icon: 'fa-github',
-        notification_types: [
+        types: [
             {
                 name: 'PullRequest',
                 icon: 'fa-compress',
@@ -33,75 +37,62 @@ const apps: App[]= [
                 name: 'Unread',
                 icon: 'fa-envelope',
                 description: 'Unreads on issues/pull requests',
-            }
+            },
         ],
     },
     {
         name: 'GitLab',
         icon: 'fa-gitlab',
-        notification_types: [
+        types: [
             {
                 name: 'MergeRequest',
                 description: 'MRs to review',
                 icon: '',
-            }
+            },
         ],
     },
     {
         name: 'Jira',
         icon: 'fa-rocket',
-        notification_types: [
+        types: [
             {
                 name: 'UnreadComment',
                 description: 'Unread comments',
                 icon: '',
-            }
+            },
         ],
-    }
-];
+    },
+    ];*/
 
 type Props = {
-    show: boolean;
-    actions: {
-        getMyNotifications: () => void;
-        getMyNotificationCounts: () => void;
-    };
+    hide?: boolean;
 }
 
-export default class AppBar extends React.Component<Props> {
-    static defaultProps = {
-        show: true,
-    };
+const AppBar: FC<Props> = (props: Props) => {
+    const dispatch = useDispatch();
+    const apps = useSelector<App[]>((state: GlobalState) => state.entities.notifications.providers);
 
-    componentDidMount() {
-        const {actions, show} = this.props;
-
-        if (show) {
-            actions.getMyNotifications();
-            actions.getMyNotificationCounts();
+    useEffect(() => {
+        if (!props.hide) {
+            dispatch(getMyNotifications());
+            dispatch(getMyNotificationCounts());
+            dispatch(getProviders());
         }
+    }, [props.hide]);
+
+    if (props.hide || !apps) {
+        return null;
     }
 
-    componentDidUpdate(prevProps: Props) {
-        const {actions, show} = this.props;
-
-        if (!prevProps.show && show) {
-            actions.getMyNotifications();
-            actions.getMyNotificationCounts();
-        }
-    }
-
-    render() {
-        const {show} = this.props;
-
-        if (!show) {
-            return null;
-        }
-
-        return (
-            <div className='AppBar'>
-                {apps.map(app => <AppIcon icon={app.icon} name={app.name} notificationTypes={app.notification_types}/>)} 
-            </div>
-        );
-    }
+    return (
+        <div className='AppBar'>
+            {apps.map((app) => (<AppIcon
+                icon={app.icon}
+                name={app.name}
+                notificationTypes={app.types}
+                                />))}
+        </div>
+    );
 };
+
+export default AppBar;

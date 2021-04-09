@@ -4,7 +4,7 @@
 export interface App {
     name: string;
     icon: string;
-    notification_types: NotificationType[];
+    types: NotificationType[];
 }
 
 export interface NotificationType {
