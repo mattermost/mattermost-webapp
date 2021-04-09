@@ -1816,7 +1816,7 @@
     width: 100%;
 
     .post-collapse__gradient, .post-attachment-collapse__gradient {
-        background: linear-gradient(rgba(255,255,255,0), v(center-channel-bg));
+        background: linear-gradient(rgba(var(--center-channel-bg-rgb), 0), v(center-channel-bg));
         position: relative;
     }
 
@@ -2005,7 +2005,7 @@
 }
 
 .app__body .post-list__table .post.current--user.post--highlight:not(.post--compact) .post-collapse__gradient {
-    background:linear-gradient(rgba(255,255,255,0), rgba(var(--mention-highlight-bg-mixed-rgb), 1));
+    background:linear-gradient(rgba(var(--center-channel-bg-rgb), 0), rgba(var(--mention-highlight-bg-mixed-rgb), 1));
 }
 
 .app__body .post-list__table .post.current--user.post--highlight:not(.post--compact) .post-collapse__show-more {
