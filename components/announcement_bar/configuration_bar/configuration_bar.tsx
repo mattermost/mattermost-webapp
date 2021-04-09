@@ -220,7 +220,7 @@ const ConfigurationAnnouncementBar: React.FC<Props> = (props: Props) => {
         }
 
         const daysUntilLicenseExpires = daysToLicenseExpire(props.license);
-        if (isTrialLicense(props.license) && daysUntilLicenseExpires <= 14 && !props.dismissedExpiringTrialLicense) {
+        if (isTrialLicense(props.license) && daysUntilLicenseExpires && daysUntilLicenseExpires <= 14 && !props.dismissedExpiringTrialLicense) {
             const purchaseLicense = (
                 <PurchaseLink
                     buttonTextElement={
