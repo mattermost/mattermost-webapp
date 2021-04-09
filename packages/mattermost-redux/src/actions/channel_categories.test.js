@@ -11,7 +11,7 @@ import {General} from '../constants';
 import {CategoryTypes} from '../constants/channel_categories';
 import {MarkUnread} from '../constants/channels';
 
-import {getAllCategoriesByIds} from 'mattermost-redux/selectors/entities/channel_categories';
+import {getAllCategoriesByIds, getCategory} from 'mattermost-redux/selectors/entities/channel_categories';
 import {isFavoriteChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
 
@@ -27,6 +27,123 @@ const OK_RESPONSE = {status: 'OK'};
 
 beforeAll(() => {
     Client4.setUrl(DEFAULT_SERVER);
+});
+
+describe('patchCategory', () => {
+    const currentUserId = TestHelper.generateId();
+    const teamId = TestHelper.generateId();
+
+    const category1 = {
+        id: 'category1',
+        team_id: teamId,
+        type: CategoryTypes.CUSTOM,
+        display_name: 'Category One',
+        sorting: CategorySorting.Recency,
+    };
+
+    const initialState = {
+        entities: {
+            channelCategories: {
+                byId: {
+                    category1,
+                },
+            },
+            users: {
+                currentUserId,
+            },
+        },
+    };
+
+    test('should only modify the provided fields', async () => {
+        const store = configureStore(initialState);
+
+        nock(Client4.getBaseRoute()).
+            put(`/users/${currentUserId}/teams/${teamId}/channels/categories/${category1.id}`).
+            reply(200, {...category1, display_name: 'Category A'});
+
+        await store.dispatch(Actions.patchCategory(category1.id, {
+            display_name: 'Category A',
+        }));
+
+        expect(getCategory(store.getState(), category1.id)).toMatchObject({
+            team_id: teamId,
+            type: CategoryTypes.CUSTOM,
+            display_name: 'Category A',
+            sorting: CategorySorting.Recency,
+        });
+
+        nock(Client4.getBaseRoute()).
+            put(`/users/${currentUserId}/teams/${teamId}/channels/categories/${category1.id}`).
+            reply(200, {...category1, sorting: CategorySorting.Alphabetical});
+
+        await store.dispatch(Actions.patchCategory(category1.id, {
+            sorting: CategorySorting.Alphabetical,
+        }));
+
+        expect(getCategory(store.getState(), category1.id)).toMatchObject({
+            team_id: teamId,
+            type: CategoryTypes.CUSTOM,
+            display_name: 'Category A',
+            sorting: CategorySorting.Alphabetical,
+        });
+
+        await store.dispatch(Actions.patchCategory(category1.id, {}));
+
+        expect(getCategory(store.getState(), category1.id)).toMatchObject({
+            team_id: teamId,
+            type: CategoryTypes.CUSTOM,
+            display_name: 'Category A',
+            sorting: CategorySorting.Alphabetical,
+        });
+    });
+
+    test('should patch the category optimistically even when the response is delayed', async () => {
+        const store = configureStore(initialState);
+
+        const mock = nock(Client4.getBaseRoute()).
+            put(`/users/${currentUserId}/teams/${teamId}/channels/categories/${category1.id}`).
+            delay(50).
+            reply(200, {...category1, display_name: 'Category A'});
+
+        store.dispatch(Actions.patchCategory(category1.id, {
+            sorting: CategorySorting.Alphabetical,
+        }));
+
+        expect(getCategory(store.getState(), category1.id)).toMatchObject({
+            sorting: CategorySorting.Alphabetical,
+        });
+
+        await TestHelper.wait(100);
+
+        expect(mock.isDone()).toBe(true);
+        expect(getCategory(store.getState(), category1.id)).toMatchObject({
+            sorting: CategorySorting.Alphabetical,
+        });
+    });
+
+    test('should roll back changes with a delayed error response', async () => {
+        const store = configureStore(initialState);
+
+        const mock = nock(Client4.getBaseRoute()).
+            put(`/users/${currentUserId}/teams/${teamId}/channels/categories/${category1.id}`).
+            delay(50).
+            reply(500, {message: 'test error'});
+
+        store.dispatch(Actions.patchCategory(category1.id, {
+            sorting: CategorySorting.Alphabetical,
+        }));
+
+        expect(getCategory(store.getState(), category1.id)).toMatchObject({
+            sorting: CategorySorting.Alphabetical,
+        });
+
+        await TestHelper.wait(100);
+
+        expect(mock.isDone()).toBe(true);
+        expect(getCategory(store.getState(), category1.id)).toMatchObject({
+            sorting: CategorySorting.Recency,
+        });
+    });
 });
 
 describe('setCategorySorting', () => {
