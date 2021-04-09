@@ -335,6 +335,7 @@
   "admin.billing.subscription.planDetails.seatCountOverages": "Excesso de contagem de assentos",
   "admin.billing.subscription.planDetails.startDate": "Data Inicial: ",
   "admin.billing.subscription.planDetails.tiers.free": "Grátis",
+  "admin.billing.subscription.planDetails.upToXUsers": "",
   "admin.billing.subscription.planDetails.userCount": "{userCount} usuários",
   "admin.billing.subscription.planDetails.userCountWithLimit": "{userCount} / {userLimit} usuários",
   "admin.billing.subscription.price.contactSales": "",
