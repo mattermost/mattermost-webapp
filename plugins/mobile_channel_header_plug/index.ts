@@ -4,34 +4,33 @@
 import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
-import {IntlShape} from 'react-intl';
-
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
+import {getMyCurrentChannelMembership} from 'mattermost-redux/selectors/entities/channels';
+
 import {appsEnabled, makeAppBindingsSelector} from 'mattermost-redux/selectors/entities/apps';
 import {AppBindingLocations} from 'mattermost-redux/constants/apps';
-import {ActionFunc, ActionResult, GenericAction} from 'mattermost-redux/types/actions';
-
-import {AppCallRequest, AppCallType} from 'mattermost-redux/types/apps';
-
-import {doAppCall} from 'actions/apps';
 import {GlobalState} from 'types/store';
+import {AppCallRequest, AppCallType} from 'mattermost-redux/types/apps';
+import {ActionFunc, ActionResult, GenericAction} from 'mattermost-redux/types/actions';
+import {doAppCall} from 'actions/apps';
 
-import ChannelHeaderPlug from './channel_header_plug';
+import MobileChannelHeaderPlug from './mobile_channel_header_plug';
 
 const getChannelHeaderBindings = makeAppBindingsSelector(AppBindingLocations.CHANNEL_HEADER_ICON);
 
 function mapStateToProps(state: GlobalState) {
     const apps = appsEnabled(state);
     return {
-        components: state.plugins.components.ChannelHeaderButton,
         appBindings: getChannelHeaderBindings(state),
         appsEnabled: apps,
+        channelMember: getMyCurrentChannelMembership(state),
+        components: state.plugins.components.MobileChannelHeaderButton,
         theme: getTheme(state),
     };
 }
 
 type Actions = {
-    doAppCall: (call: AppCallRequest, type: AppCallType, intl: IntlShape) => Promise<ActionResult>;
+    doAppCall: (call: AppCallRequest, type: AppCallType) => Promise<ActionResult>;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
@@ -42,4 +41,4 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ChannelHeaderPlug);
+export default connect(mapStateToProps, mapDispatchToProps)(MobileChannelHeaderPlug);

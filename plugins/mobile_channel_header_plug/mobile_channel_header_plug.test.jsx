@@ -2,9 +2,9 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {mount} from 'enzyme';
 
 import MobileChannelHeaderPlug from 'plugins/mobile_channel_header_plug/mobile_channel_header_plug';
+import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
 describe('plugins/MobileChannelHeaderPlug', () => {
     const testPlug = {
@@ -16,13 +16,15 @@ describe('plugins/MobileChannelHeaderPlug', () => {
     };
 
     test('should match snapshot with no extended component', () => {
-        const wrapper = mount(
+        const wrapper = mountWithIntl(
             <MobileChannelHeaderPlug
                 components={[]}
                 channel={{}}
                 channelMember={{}}
                 theme={{}}
                 isDropdown={false}
+                appsEnabled={false}
+                actions={{doAppCall: jest.fn()}}
             />,
         );
         expect(wrapper).toMatchSnapshot();
@@ -32,13 +34,15 @@ describe('plugins/MobileChannelHeaderPlug', () => {
     });
 
     test('should match snapshot with one extended component', () => {
-        const wrapper = mount(
+        const wrapper = mountWithIntl(
             <MobileChannelHeaderPlug
                 components={[testPlug]}
                 channel={{}}
                 channelMember={{}}
                 theme={{}}
                 isDropdown={false}
+                appsEnabled={false}
+                actions={{doAppCall: jest.fn()}}
             />,
         );
         expect(wrapper).toMatchSnapshot();
@@ -54,13 +58,15 @@ describe('plugins/MobileChannelHeaderPlug', () => {
     });
 
     test('should match snapshot with two extended components', () => {
-        const wrapper = mount(
+        const wrapper = mountWithIntl(
             <MobileChannelHeaderPlug
                 components={[testPlug, {...testPlug, id: 'someid2'}]}
                 channel={{}}
                 channelMember={{}}
                 theme={{}}
                 isDropdown={false}
+                appsEnabled={false}
+                actions={{doAppCall: jest.fn()}}
             />,
         );
         expect(wrapper).toMatchSnapshot();
@@ -70,13 +76,15 @@ describe('plugins/MobileChannelHeaderPlug', () => {
     });
 
     test('should match snapshot with no extended component, in dropdown', () => {
-        const wrapper = mount(
+        const wrapper = mountWithIntl(
             <MobileChannelHeaderPlug
                 components={[]}
                 channel={{}}
                 channelMember={{}}
                 theme={{}}
                 isDropdown={true}
+                appsEnabled={false}
+                actions={{doAppCall: jest.fn()}}
             />,
         );
         expect(wrapper).toMatchSnapshot();
@@ -86,13 +94,15 @@ describe('plugins/MobileChannelHeaderPlug', () => {
     });
 
     test('should match snapshot with one extended component, in dropdown', () => {
-        const wrapper = mount(
+        const wrapper = mountWithIntl(
             <MobileChannelHeaderPlug
                 components={[testPlug]}
                 channel={{}}
                 channelMember={{}}
                 theme={{}}
                 isDropdown={true}
+                appsEnabled={false}
+                actions={{doAppCall: jest.fn()}}
             />,
         );
         expect(wrapper).toMatchSnapshot();
@@ -103,13 +113,15 @@ describe('plugins/MobileChannelHeaderPlug', () => {
     });
 
     test('should match snapshot with two extended components, in dropdown', () => {
-        const wrapper = mount(
+        const wrapper = mountWithIntl(
             <MobileChannelHeaderPlug
                 components={[testPlug, {...testPlug, id: 'someid2'}]}
                 channel={{}}
                 channelMember={{}}
                 theme={{}}
                 isDropdown={true}
+                appsEnabled={false}
+                actions={{doAppCall: jest.fn()}}
             />,
         );
         expect(wrapper).toMatchSnapshot();
@@ -137,13 +149,15 @@ describe('plugins/MobileChannelHeaderPlug', () => {
             dropdownText: 'some dropdown text',
         };
 
-        const wrapper = mount(
+        const wrapper = mountWithIntl(
             <MobileChannelHeaderPlug
                 components={[newTestPlug]}
                 channel={channel}
                 channelMember={channelMember}
                 theme={{}}
                 isDropdown={true}
+                appsEnabled={false}
+                actions={{doAppCall: jest.fn()}}
             />,
         );
 

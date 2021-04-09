@@ -2,9 +2,47 @@
 
 exports[`plugins/MobileChannelHeaderPlug should match snapshot with no extended component 1`] = `
 <MobileChannelHeaderPlug
+  actions={
+    Object {
+      "doAppCall": [MockFunction],
+    }
+  }
+  appsEnabled={false}
   channel={Object {}}
   channelMember={Object {}}
   components={Array []}
+  intl={
+    Object {
+      "defaultFormats": Object {},
+      "defaultLocale": "en",
+      "formatDate": [Function],
+      "formatDateToParts": [Function],
+      "formatDisplayName": [Function],
+      "formatList": [Function],
+      "formatMessage": [Function],
+      "formatNumber": [Function],
+      "formatNumberToParts": [Function],
+      "formatPlural": [Function],
+      "formatRelativeTime": [Function],
+      "formatTime": [Function],
+      "formatTimeToParts": [Function],
+      "formats": Object {},
+      "formatters": Object {
+        "getDateTimeFormat": [Function],
+        "getDisplayNames": [Function],
+        "getListFormat": [Function],
+        "getMessageFormat": [Function],
+        "getNumberFormat": [Function],
+        "getPluralRules": [Function],
+        "getRelativeTimeFormat": [Function],
+      },
+      "locale": "en",
+      "messages": Object {},
+      "onError": [Function],
+      "textComponent": "span",
+      "timeZone": "Etc/UTC",
+    }
+  }
   isDropdown={false}
   theme={Object {}}
 />
@@ -12,9 +50,47 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with no extended 
 
 exports[`plugins/MobileChannelHeaderPlug should match snapshot with no extended component, in dropdown 1`] = `
 <MobileChannelHeaderPlug
+  actions={
+    Object {
+      "doAppCall": [MockFunction],
+    }
+  }
+  appsEnabled={false}
   channel={Object {}}
   channelMember={Object {}}
   components={Array []}
+  intl={
+    Object {
+      "defaultFormats": Object {},
+      "defaultLocale": "en",
+      "formatDate": [Function],
+      "formatDateToParts": [Function],
+      "formatDisplayName": [Function],
+      "formatList": [Function],
+      "formatMessage": [Function],
+      "formatNumber": [Function],
+      "formatNumberToParts": [Function],
+      "formatPlural": [Function],
+      "formatRelativeTime": [Function],
+      "formatTime": [Function],
+      "formatTimeToParts": [Function],
+      "formats": Object {},
+      "formatters": Object {
+        "getDateTimeFormat": [Function],
+        "getDisplayNames": [Function],
+        "getListFormat": [Function],
+        "getMessageFormat": [Function],
+        "getNumberFormat": [Function],
+        "getPluralRules": [Function],
+        "getRelativeTimeFormat": [Function],
+      },
+      "locale": "en",
+      "messages": Object {},
+      "onError": [Function],
+      "textComponent": "span",
+      "timeZone": "Etc/UTC",
+    }
+  }
   isDropdown={true}
   theme={Object {}}
 />
@@ -22,6 +98,12 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with no extended 
 
 exports[`plugins/MobileChannelHeaderPlug should match snapshot with one extended component 1`] = `
 <MobileChannelHeaderPlug
+  actions={
+    Object {
+      "doAppCall": [MockFunction],
+    }
+  }
+  appsEnabled={false}
   channel={Object {}}
   channelMember={Object {}}
   components={
@@ -36,6 +118,38 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with one extended
         "pluginId": "pluginid",
       },
     ]
+  }
+  intl={
+    Object {
+      "defaultFormats": Object {},
+      "defaultLocale": "en",
+      "formatDate": [Function],
+      "formatDateToParts": [Function],
+      "formatDisplayName": [Function],
+      "formatList": [Function],
+      "formatMessage": [Function],
+      "formatNumber": [Function],
+      "formatNumberToParts": [Function],
+      "formatPlural": [Function],
+      "formatRelativeTime": [Function],
+      "formatTime": [Function],
+      "formatTimeToParts": [Function],
+      "formats": Object {},
+      "formatters": Object {
+        "getDateTimeFormat": [Function],
+        "getDisplayNames": [Function],
+        "getListFormat": [Function],
+        "getMessageFormat": [Function],
+        "getNumberFormat": [Function],
+        "getPluralRules": [Function],
+        "getRelativeTimeFormat": [Function],
+      },
+      "locale": "en",
+      "messages": Object {},
+      "onError": [Function],
+      "textComponent": "span",
+      "timeZone": "Etc/UTC",
+    }
   }
   isDropdown={false}
   theme={Object {}}
@@ -61,6 +175,12 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with one extended
 
 exports[`plugins/MobileChannelHeaderPlug should match snapshot with one extended component, in dropdown 1`] = `
 <MobileChannelHeaderPlug
+  actions={
+    Object {
+      "doAppCall": [MockFunction],
+    }
+  }
+  appsEnabled={false}
   channel={Object {}}
   channelMember={Object {}}
   components={
@@ -75,6 +195,38 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with one extended
         "pluginId": "pluginid",
       },
     ]
+  }
+  intl={
+    Object {
+      "defaultFormats": Object {},
+      "defaultLocale": "en",
+      "formatDate": [Function],
+      "formatDateToParts": [Function],
+      "formatDisplayName": [Function],
+      "formatList": [Function],
+      "formatMessage": [Function],
+      "formatNumber": [Function],
+      "formatNumberToParts": [Function],
+      "formatPlural": [Function],
+      "formatRelativeTime": [Function],
+      "formatTime": [Function],
+      "formatTimeToParts": [Function],
+      "formats": Object {},
+      "formatters": Object {
+        "getDateTimeFormat": [Function],
+        "getDisplayNames": [Function],
+        "getListFormat": [Function],
+        "getMessageFormat": [Function],
+        "getNumberFormat": [Function],
+        "getPluralRules": [Function],
+        "getRelativeTimeFormat": [Function],
+      },
+      "locale": "en",
+      "messages": Object {},
+      "onError": [Function],
+      "textComponent": "span",
+      "timeZone": "Etc/UTC",
+    }
   }
   isDropdown={true}
   theme={Object {}}
@@ -97,6 +249,12 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with one extended
 
 exports[`plugins/MobileChannelHeaderPlug should match snapshot with two extended components 1`] = `
 <MobileChannelHeaderPlug
+  actions={
+    Object {
+      "doAppCall": [MockFunction],
+    }
+  }
+  appsEnabled={false}
   channel={Object {}}
   channelMember={Object {}}
   components={
@@ -121,6 +279,38 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with two extended
       },
     ]
   }
+  intl={
+    Object {
+      "defaultFormats": Object {},
+      "defaultLocale": "en",
+      "formatDate": [Function],
+      "formatDateToParts": [Function],
+      "formatDisplayName": [Function],
+      "formatList": [Function],
+      "formatMessage": [Function],
+      "formatNumber": [Function],
+      "formatNumberToParts": [Function],
+      "formatPlural": [Function],
+      "formatRelativeTime": [Function],
+      "formatTime": [Function],
+      "formatTimeToParts": [Function],
+      "formats": Object {},
+      "formatters": Object {
+        "getDateTimeFormat": [Function],
+        "getDisplayNames": [Function],
+        "getListFormat": [Function],
+        "getMessageFormat": [Function],
+        "getNumberFormat": [Function],
+        "getPluralRules": [Function],
+        "getRelativeTimeFormat": [Function],
+      },
+      "locale": "en",
+      "messages": Object {},
+      "onError": [Function],
+      "textComponent": "span",
+      "timeZone": "Etc/UTC",
+    }
+  }
   isDropdown={false}
   theme={Object {}}
 />
@@ -128,6 +318,12 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with two extended
 
 exports[`plugins/MobileChannelHeaderPlug should match snapshot with two extended components, in dropdown 1`] = `
 <MobileChannelHeaderPlug
+  actions={
+    Object {
+      "doAppCall": [MockFunction],
+    }
+  }
+  appsEnabled={false}
   channel={Object {}}
   channelMember={Object {}}
   components={
@@ -151,6 +347,38 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with two extended
         "pluginId": "pluginid",
       },
     ]
+  }
+  intl={
+    Object {
+      "defaultFormats": Object {},
+      "defaultLocale": "en",
+      "formatDate": [Function],
+      "formatDateToParts": [Function],
+      "formatDisplayName": [Function],
+      "formatList": [Function],
+      "formatMessage": [Function],
+      "formatNumber": [Function],
+      "formatNumberToParts": [Function],
+      "formatPlural": [Function],
+      "formatRelativeTime": [Function],
+      "formatTime": [Function],
+      "formatTimeToParts": [Function],
+      "formats": Object {},
+      "formatters": Object {
+        "getDateTimeFormat": [Function],
+        "getDisplayNames": [Function],
+        "getListFormat": [Function],
+        "getMessageFormat": [Function],
+        "getNumberFormat": [Function],
+        "getPluralRules": [Function],
+        "getRelativeTimeFormat": [Function],
+      },
+      "locale": "en",
+      "messages": Object {},
+      "onError": [Function],
+      "textComponent": "span",
+      "timeZone": "Etc/UTC",
+    }
   }
   isDropdown={true}
   theme={Object {}}
