@@ -4,7 +4,7 @@
 /* eslint-disable no-await-in-loop, no-console */
 
 /*
- * This command, which normally use in CI, runs Cypress test in full or partial
+ * This command, which is normally used in CI, runs Cypress test in full or partial
  * depending on test metadata and environment capabilities.
  *
  * Usage: [ENVIRONMENT] node run_tests.js [options]
