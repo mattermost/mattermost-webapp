@@ -3809,6 +3809,7 @@
   "search_files_list_option.ext": "Bestanden met een extensie",
   "search_files_list_option.from": "Bestanden van een gebruiker",
   "search_files_list_option.in": "Bestanden in een kanaal",
+  "search_files_list_option.on": "Bestanden op een datum",
   "search_files_list_option.phrases": "Bestanden met zinnen",
   "search_header.loading": "Bezig met zoeken...",
   "search_header.title5": "Extra informatie",
