@@ -120,10 +120,14 @@ function myMembers(state: RelationOneToOne<Team, TeamMembership> = {}, action: G
         for (const u of unreads) {
             const msgCount = u.msg_count < 0 ? 0 : u.msg_count;
             const mentionCount = u.mention_count < 0 ? 0 : u.mention_count;
+            const msgCountRoot = u.msg_count_root < 0 ? 0 : u.msg_count_root;
+            const mentionCountRoot = u.mention_count_root < 0 ? 0 : u.mention_count_root;
             const m = {
                 ...state[u.team_id],
                 mention_count: mentionCount,
                 msg_count: msgCount,
+                mention_count_root: mentionCountRoot,
+                msg_count_root: msgCountRoot,
             };
             nextState[u.team_id] = m;
         }
@@ -131,7 +135,7 @@ function myMembers(state: RelationOneToOne<Team, TeamMembership> = {}, action: G
         return nextState;
     }
     case ChannelTypes.INCREMENT_UNREAD_MSG_COUNT: {
-        const {teamId, amount, onlyMentions} = action.data;
+        const {teamId, amount, amountRoot, onlyMentions} = action.data;
         const member = state[teamId];
 
         if (!member) {
@@ -149,6 +153,7 @@ function myMembers(state: RelationOneToOne<Team, TeamMembership> = {}, action: G
             [teamId]: {
                 ...member,
                 msg_count: member.msg_count + amount,
+                msg_count_root: member.msg_count_root + amountRoot,
             },
         };
     }
@@ -170,7 +175,7 @@ function myMembers(state: RelationOneToOne<Team, TeamMembership> = {}, action: G
         };
     }
     case ChannelTypes.INCREMENT_UNREAD_MENTION_COUNT: {
-        const {teamId, amount} = action.data;
+        const {teamId, amount, amountRoot} = action.data;
         const member = state[teamId];
 
         if (!member) {
@@ -183,11 +188,12 @@ function myMembers(state: RelationOneToOne<Team, TeamMembership> = {}, action: G
             [teamId]: {
                 ...member,
                 mention_count: member.mention_count + amount,
+                mention_count_root: member.mention_count_root + amountRoot,
             },
         };
     }
     case ChannelTypes.DECREMENT_UNREAD_MENTION_COUNT: {
-        const {teamId, amount} = action.data;
+        const {teamId, amount, amountRoot} = action.data;
         const member = state[teamId];
 
         if (!member) {
@@ -200,6 +206,7 @@ function myMembers(state: RelationOneToOne<Team, TeamMembership> = {}, action: G
             [teamId]: {
                 ...member,
                 mention_count: Math.max(member.mention_count - amount, 0),
+                mention_count_root: Math.max(member.mention_count_root - amountRoot, 0),
             },
         };
     }

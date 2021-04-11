@@ -3,7 +3,7 @@
 
 import {uniq} from 'lodash';
 
-import {ThreadTypes, PostTypes, UserTypes} from 'mattermost-redux/action_types';
+import {ThreadTypes, PostTypes, UserTypes, ChannelTypes} from 'mattermost-redux/action_types';
 import {Client4} from 'mattermost-redux/client';
 
 import ThreadConstants from 'mattermost-redux/constants/threads';
@@ -179,6 +179,15 @@ export function handleReadChanged(
             newUnreadMentions,
             prevUnreadReplies,
             newUnreadReplies,
+        },
+    });
+    dispatch({
+        type: ChannelTypes.DECREMENT_UNREAD_MENTION_COUNT,
+        data: {
+            teamId,
+            channelId,
+            amount: 0,
+            amountRoot: prevUnreadMentions - newUnreadMentions,
         },
     });
 }

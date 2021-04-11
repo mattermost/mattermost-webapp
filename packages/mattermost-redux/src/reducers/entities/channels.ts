@@ -158,8 +158,9 @@ function channels(state: IDMappedObjects<Channel> = {}, action: GenericAction) {
         }
         return state;
     }
+
     case ChannelTypes.INCREMENT_TOTAL_MSG_COUNT: {
-        const {channelId, amount} = action.data;
+        const {channelId, amount, amountRoot} = action.data;
         const channel = state[channelId];
 
         if (!channel) {
@@ -171,6 +172,7 @@ function channels(state: IDMappedObjects<Channel> = {}, action: GenericAction) {
             [channelId]: {
                 ...channel,
                 total_msg_count: channel.total_msg_count + amount,
+                total_msg_count_root: channel.total_msg_count_root + amountRoot,
             },
         };
     }
