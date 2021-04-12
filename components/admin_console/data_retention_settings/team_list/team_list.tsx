@@ -91,23 +91,10 @@ export default class TeamList extends React.PureComponent<Props, State> {
     }
 
     public getPaginationProps = (): {startCount: number; endCount: number; total: number} => {
-        // const {teamsToAdd, teamsToRemove, term} = this.props;
         const {page} = this.state;
-
-        let endCount = 0;
         const startCount = (page * PAGE_SIZE) + 1;
-
-        //if (term === '') {
         const total = this.getVisibleTotalCount();
-
-        // } else {
-        //     total = this.props.teams.length + Object.keys(teamsToAdd).length;
-        //     this.props.teams.forEach((u) => {
-        //         if (teamsToRemove[u.id]) {
-        //             total -= 1;
-        //         }
-        //     });
-        // }
+        let endCount = 0;
 
         endCount = (page + 1) * PAGE_SIZE;
         endCount = endCount > total ? total : endCount;
@@ -157,7 +144,7 @@ export default class TeamList extends React.PureComponent<Props, State> {
 
     getRows = () => {
         const {page} = this.state;
-        const {teams, teamsToRemove, teamsToAdd, totalCount} = this.props; // term was here
+        const {teams, teamsToRemove, teamsToAdd, totalCount} = this.props;
         const {startCount, endCount} = this.getPaginationProps();
         let teamsToDisplay = teams;
         const includeTeamsList = Object.values(teamsToAdd);
@@ -167,13 +154,11 @@ export default class TeamList extends React.PureComponent<Props, State> {
         teamsToDisplay = [...includeTeamsList, ...teamsToDisplay];
         teamsToDisplay = teamsToDisplay.slice(startCount - 1, endCount);
 
-        // Dont load more elements if searching
-        if (teamsToDisplay.length < PAGE_SIZE && teams.length < totalCount) { //term === '' &&  was included
+        if (teamsToDisplay.length < PAGE_SIZE && teams.length < totalCount) {
             const numberOfTeamsRemoved = Object.keys(teamsToRemove).length;
             const pagesOfTeamsRemoved = Math.floor(numberOfTeamsRemoved / PAGE_SIZE);
             const pageToLoad = page + pagesOfTeamsRemoved + 1;
 
-            // Directly call action to load more users from parent component to load more users into the state
             if (pageToLoad > this.pageLoaded) {
                 this.loadPage(pageToLoad + 1);
                 this.pageLoaded = pageToLoad;
@@ -271,10 +256,6 @@ export default class TeamList extends React.PureComponent<Props, State> {
                     className={'customTable'}
                     onSearch={this.onSearch}
                     term={this.props.searchTerm}
-
-                    //placeholderEmpty={placeholderEmpty}
-                    // rowsContainerStyles={rowsContainerStyles}
-                    // filterProps={filterProps}
                 />
             </div>
         );

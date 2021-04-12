@@ -96,24 +96,12 @@ export default class ChannelList extends React.PureComponent<Props, State> {
     }
 
     public getPaginationProps = (): {startCount: number; endCount: number; total: number} => {
-        // const {channelsToAdd, channelsToRemove, term} = this.props;
         const {page} = this.state;
-
-        let endCount = 0;
         const startCount = (page * PAGE_SIZE) + 1;
-
-        //if (term === '') {
         const total = this.getVisibleTotalCount();
 
-        // } else {
-        //     total = this.props.teams.length + Object.keys(channelsToAdd).length;
-        //     this.props.teams.forEach((u) => {
-        //         if (channelsToRemove[u.id]) {
-        //             total -= 1;
-        //         }
-        //     });
-        // }
-
+        let endCount = 0;
+        
         endCount = (page + 1) * PAGE_SIZE;
         endCount = endCount > total ? total : endCount;
 
@@ -367,9 +355,6 @@ export default class ChannelList extends React.PureComponent<Props, State> {
                     className={'customTable'}
                     onSearch={this.onSearch}
                     term={this.props.searchTerm}
-
-                    // placeholderEmpty={placeholderEmpty}
-                    // rowsContainerStyles={rowsContainerStyles}
                     filterProps={filterProps}
                 />
             </div>
