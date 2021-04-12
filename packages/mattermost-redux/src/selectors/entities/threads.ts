@@ -25,7 +25,7 @@ export const getThreadsInCurrentTeam: (state: GlobalState) => Array<$ID<UserThre
 );
 
 export function getThreadCounts(state: GlobalState): ThreadsState['counts'] {
-    return state.entities.threads.counts;
+    return state.entities.threads?.counts;
 }
 
 export function getTeamThreadCounts(state: GlobalState, teamId: $ID<Team>): ThreadsState['counts'][$ID<Team>] {

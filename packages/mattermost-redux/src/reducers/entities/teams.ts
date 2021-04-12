@@ -158,7 +158,7 @@ function myMembers(state: RelationOneToOne<Team, TeamMembership> = {}, action: G
         };
     }
     case ChannelTypes.DECREMENT_UNREAD_MSG_COUNT: {
-        const {teamId, amount} = action.data;
+        const {teamId, amount, amountRoot} = action.data;
         const member = state[teamId];
 
         if (!member) {
@@ -171,6 +171,7 @@ function myMembers(state: RelationOneToOne<Team, TeamMembership> = {}, action: G
             [teamId]: {
                 ...member,
                 msg_count: Math.max(member.msg_count - Math.abs(amount), 0),
+                msg_count_root: Math.max(member.msg_count_root - Math.abs(amountRoot), 0),
             },
         };
     }

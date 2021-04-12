@@ -228,6 +228,7 @@ export function createPost(post: Post, files: any[] = []) {
                         data: {
                             channelId: newPost.channel_id,
                             amount: 1,
+                            amountRoot: created.root_id === '' ? 1 : 0,
                         },
                     },
                     {
@@ -235,6 +236,7 @@ export function createPost(post: Post, files: any[] = []) {
                         data: {
                             channelId: newPost.channel_id,
                             amount: 1,
+                            amountRoot: created.root_id === '' ? 1 : 0,
                         },
                     },
                 ];
@@ -342,6 +344,7 @@ export function createPostImmediately(post: Post, files: any[] = []) {
                 data: {
                     channelId: newPost.channel_id,
                     amount: 1,
+                    amountRoot: newPost.root_id === '' ? 1 : 0,
                 },
             },
             {
@@ -349,6 +352,7 @@ export function createPostImmediately(post: Post, files: any[] = []) {
                 data: {
                     channelId: newPost.channel_id,
                     amount: 1,
+                    amountRoot: newPost.root_id === '' ? 1 : 0,
                 },
             },
         ];

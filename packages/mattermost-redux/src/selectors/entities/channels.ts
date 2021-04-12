@@ -22,6 +22,7 @@ import {
     getTeammateNameDisplaySetting,
     getVisibleTeammate,
     getVisibleGroupIds,
+    isCollapsedThreadsEnabled,
 } from 'mattermost-redux/selectors/entities/preferences';
 import {haveICurrentChannelPermission, haveIChannelPermission, haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
 import {
@@ -67,6 +68,10 @@ import {
     isDirectChannel,
 } from 'mattermost-redux/utils/channel_utils';
 import {createIdsSelector} from 'mattermost-redux/utils/helpers';
+
+import {ThreadsState} from 'mattermost-redux/types/threads';
+
+import {getThreadCounts} from './threads';
 
 export {getCurrentChannelId, getMyChannelMemberships, getMyCurrentChannelMembership};
 
@@ -481,7 +486,9 @@ export const getUnreads: (state: GlobalState) => {
     getCurrentTeamId,
     getMyTeams,
     getTeamMemberships,
-    (channels: IDMappedObjects<Channel>, myMembers: RelationOneToOne<Channel, ChannelMembership>, users: IDMappedObjects<UserProfile>, currentUserId: string, currentTeamId: string, myTeams: Team[], myTeamMemberships: RelationOneToOne<Team, TeamMembership>): {
+    isCollapsedThreadsEnabled,
+    getThreadCounts,
+    (channels: IDMappedObjects<Channel>, myMembers: RelationOneToOne<Channel, ChannelMembership>, users: IDMappedObjects<UserProfile>, currentUserId: string, currentTeamId: string, myTeams: Team[], myTeamMemberships: RelationOneToOne<Team, TeamMembership>, collapsed: boolean, threadCounts: ThreadsState['counts']): {
         messageCount: number;
         mentionCount: number;
     } => {
@@ -544,10 +551,18 @@ export const getUnreads: (state: GlobalState) => {
         });
 
         // messageCount is the number of unread channels, mention count is the total number of mentions
-        return {
+        const result = {
             messageCount: messageCountForCurrentTeam + otherTeamsUnreadCountForChannels.messageCount,
             mentionCount: mentionCountForCurrentTeam + otherTeamsUnreadCountForChannels.mentionCount,
         };
+
+        // when collapsed threads are enabled, we substract the counts that are visible on global threads view from the total count
+        if (collapsed) {
+            Object.values(threadCounts).forEach((tc) => {
+                result.mentionCount -= tc.total_unread_mentions;
+            });
+        }
+        return result;
     },
 );
 
