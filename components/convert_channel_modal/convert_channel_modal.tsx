@@ -7,15 +7,14 @@ import {FormattedMessage} from 'react-intl';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import Constants from 'utils/constants';
-
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 export type Props = {
-    onHide?: () => void;
-    channelId?: string;
-    channelDisplayName?: string;
-    actions?: {
-        convertChannelToPrivate: (channelId?: string) => void;
+    onHide: () => void;
+    channelId: string;
+    channelDisplayName: string;
+    actions: {
+        convertChannelToPrivate: (channelId: string) => void;
     };
 }
 
