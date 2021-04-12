@@ -178,7 +178,7 @@ export const it = {
     stateIsFalse: (key) => (config, state) => !state[key],
     configIsTrue: (group, setting) => (config) => Boolean(config[group][setting]),
     configIsFalse: (group, setting) => (config) => !config[group][setting],
-    configContains: (group, setting, word) => (config) => Boolean(config[group][setting].includes(word)),
+    configContains: (group, setting, word) => (config) => Boolean(config[group][setting]?.includes(word)),
     enterpriseReady: (config, state, license, enterpriseReady) => enterpriseReady,
     licensed: (config, state, license) => license.IsLicensed === 'true',
     licensedForFeature: (feature) => (config, state, license) => license.IsLicensed && license[feature] === 'true',
@@ -195,7 +195,7 @@ export const it = {
 };
 
 const usesLegacyOauth = (config, state, license, enterpriseReady, consoleAccess, cloud) => {
-    if (!config.GITLAB_SERVICE || !config.GOOGLE_SERVICE || !config.OFFICE365_SERVICE) {
+    if (!config.GitLabSettings || !config.GoogleSettings || !config.Office365Settings) {
         return false;
     }
 
