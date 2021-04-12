@@ -189,10 +189,8 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
         </div>
     );
 
-    const showSuggestions = (currentCustomStatus && currentCustomStatus.emoji) ?
-        (!isStatusSet || (currentCustomStatus.emoji === emoji && text && currentCustomStatus.text === text)) :
-        !isStatusSet;
-
+    const showSuggestions = !isStatusSet || (currentCustomStatus?.emoji === emoji && text && currentCustomStatus?.text === text);
+        
     return (
         <GenericModal
             enforceFocus={false}
