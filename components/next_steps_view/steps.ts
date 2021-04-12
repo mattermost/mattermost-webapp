@@ -86,17 +86,6 @@ export const Steps: StepType[] = [
             'next_steps_view.titles.inviteMembers',
             'Invite members to the team',
         ),
-        roles: ['system_admin', 'system_user'],
-        component: InviteMembersStep,
-        visible: true,
-    },
-    // duplicated so it is shown only to users and admin but NOT for guest
-    {
-        id: RecommendedNextSteps.INVITE_MEMBERS,
-        title: localizeMessage(
-            'next_steps_view.titles.inviteMembers',
-            'Invite members to the team',
-        ),
         roles: ['system_user'],
         component: InviteMembersStep,
         visible: true,
@@ -127,8 +116,8 @@ export const getSteps = createSelector(
     (state: GlobalState) => isFirstAdmin(state),
     (currentUser, firstAdmin) => {
         let roles = currentUser.roles;
-        if (!firstAdmin) {
-            // Only the first admin sees the admin flow. Show everyone else the end user flow
+        if (!firstAdmin && currentUser.roles.includes('system_admin')) {
+            // Only the admin that is first admin sees the admin flow. Show everyone else the end user flow
             roles = 'system_user';
         }
         return Steps.filter((step) =>
