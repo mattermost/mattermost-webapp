@@ -1,17 +1,18 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-
+import React from 'react';
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-
+import {bindActionCreators, Dispatch} from 'redux';
 import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {GlobalState} from 'mattermost-redux/types/store';
+import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {focusPost} from './actions';
-import PermalinkView from './permalink_view.jsx';
+import PermalinkView from './permalink_view';
 
-function mapStateToProps(state) {
+function mapStateToProps(state: GlobalState) {
     const team = getCurrentTeam(state);
     const channel = getCurrentChannel(state);
     const currentUserId = getCurrentUserId(state);
@@ -25,7 +26,7 @@ function mapStateToProps(state) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
             focusPost,
@@ -33,4 +34,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PermalinkView);
+export default connect(mapStateToProps, mapDispatchToProps)(PermalinkView as React.ComponentClass);
