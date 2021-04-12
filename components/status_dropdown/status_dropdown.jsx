@@ -27,7 +27,7 @@ import OverlayTrigger from 'components/overlay_trigger';
 import CustomStatusText from 'components/custom_status/custom_status_text';
 
 import './status_dropdown.scss';
-import { toUTCUnix } from 'utils/datetime';
+import {toUTCUnix} from 'utils/datetime';
 
 export default class StatusDropdown extends React.PureComponent {
     static propTypes = {
@@ -292,7 +292,7 @@ export default class StatusDropdown extends React.PureComponent {
             return {
                 id: `dndTime-${index}-${time.split(' ')[0]}`,
                 direction: 'right',
-                text: localizeMessage('status_dropdown.dnd_sub_menu_item.time',time),
+                text: localizeMessage('status_dropdown.dnd_sub_menu_item.time', time),
                 action: index === 5 ? () => setCustomTimedDnd() : () => setDnd(event, index),
             };
         });

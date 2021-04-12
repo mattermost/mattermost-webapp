@@ -8,8 +8,6 @@ import {setStatus, unsetCustomStatus} from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
 import {Preferences} from 'mattermost-redux/constants';
 
-import {setStatus} from 'mattermost-redux/actions/users';
-
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {getUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
 import {getCurrentUser, getStatusForUserId} from 'mattermost-redux/selectors/entities/users';

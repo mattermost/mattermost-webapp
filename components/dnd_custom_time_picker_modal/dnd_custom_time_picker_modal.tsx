@@ -6,9 +6,7 @@ import {FormattedMessage} from 'react-intl';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 
 import {ActionFunc} from 'mattermost-redux/types/actions';
-import {UserStatus} from 'mattermost-redux/types/users';
-
-import {UserTimezone} from 'mattermost-redux/src/types/users';
+import {UserStatus, UserTimezone} from 'mattermost-redux/types/users';
 
 import GenericModal from 'components/generic_modal';
 
@@ -17,7 +15,7 @@ import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 
 import './dnd_custom_time_picker_modal.scss';
-import { toUTCUnix } from 'utils/datetime';
+import {toUTCUnix} from 'utils/datetime';
 
 type Props = {
     onHide: () => void;
