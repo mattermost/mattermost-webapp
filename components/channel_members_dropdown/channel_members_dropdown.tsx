@@ -3,14 +3,11 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-
 import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
-
 import {UserProfile} from 'mattermost-redux/src/types/users';
 
 import {Constants} from 'utils/constants';
 import * as Utils from 'utils/utils';
-
 import DropdownIcon from 'components/widgets/icons/fa_dropdown_icon';
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
@@ -28,10 +25,10 @@ export type Props = {
     index: number;
     totalUsers: number;
     actions: {
-        getChannelStats: (channelId: string) => void;
-        updateChannelMemberSchemeRoles: (channelId: string, userId: string, isSchemeUser: boolean, isSchemeAdmin: boolean) => void;
-        removeChannelMember: (channelId: string, userId: string) => string;
-        getChannelMember: (channelId: string, userId: string) => void;
+        getChannelStats: (channel_id: string) => void;
+        updateChannelMemberSchemeRoles: (channel_id: string, user_id: string, isSchemeUser: boolean, isSchemeAdmin: boolean) => void;
+        removeChannelMember: (channel_id: string, user_id: string) => string;
+        getChannelMember: (channel_id: string, user_id: string) => void;
     };
 }
 export type State = {
@@ -39,24 +36,6 @@ export type State = {
     serverError: null;
 }
 export default class ChannelMembersDropdown extends React.PureComponent<Props, State> {
-    // static propTypes = {
-    //     channel: PropTypes.object.isRequired,
-    //     user: PropTypes.object.isRequired,
-    //     currentUserId: PropTypes.string.isRequired,
-    //     channelMember: PropTypes.object.isRequired,
-    //     isLicensed: PropTypes.bool.isRequired,
-    //     canChangeMemberRoles: PropTypes.bool.isRequired,
-    //     canRemoveMember: PropTypes.bool.isRequired,
-    //     index: PropTypes.number.isRequired,
-    //     totalUsers: PropTypes.number.isRequired,
-    //     actions: PropTypes.shape({
-    //         getChannelStats: PropTypes.func.isRequired,
-    //         updateChannelMemberSchemeRoles: PropTypes.func.isRequired,
-    //         removeChannelMember: PropTypes.func.isRequired,
-    //         getChannelMember: PropTypes.func.isRequired,
-    //     }).isRequired,
-    // };
-
     constructor(props: Props) {
         super(props);
 
@@ -74,7 +53,7 @@ export default class ChannelMembersDropdown extends React.PureComponent<Props, S
         const {actions, channel, user} = this.props;
         this.setState({removing: true});
 
-        actions.removeChannelMember(channel.id, user.id).then((result) => {
+        actions.removeChannelMember(channel.id, user.id).then((result: any) => {
             if (result.error) {
                 this.setState({
                     serverError: result.error.message,
