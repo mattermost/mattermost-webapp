@@ -13,7 +13,7 @@ export function getAnalyticsCategory(isAdmin: boolean) {
 export function isStepForUser(step: StepType, roles: string): boolean {
     const userRoles = roles.split(' ');
     return (
-        isEqual(userRoles.sort(), step.roles.sort()) ||
+        userRoles.some(role => step.roles.includes(role)) ||
           step.roles.length === 0
     );
 }

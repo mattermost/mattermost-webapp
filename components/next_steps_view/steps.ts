@@ -56,7 +56,7 @@ export const Steps: StepType[] = [
             'next_steps_view.titles.teamSetup',
             'Name your team',
         ),
-        roles: ['system_admin', 'system_user'],
+        roles: ['first_admin'],
         component: TeamProfileStep,
         visible: true,
     },
@@ -86,7 +86,7 @@ export const Steps: StepType[] = [
             'next_steps_view.titles.inviteMembers',
             'Invite members to the team',
         ),
-        roles: ['system_user'],
+        roles: ['system_admin', 'system_user'],
         component: InviteMembersStep,
         visible: true,
     },
@@ -115,11 +115,7 @@ export const getSteps = createSelector(
     (state: GlobalState) => getCurrentUser(state),
     (state: GlobalState) => isFirstAdmin(state),
     (currentUser, firstAdmin) => {
-        let roles = currentUser.roles;
-        if (!firstAdmin && currentUser.roles.includes('system_admin')) {
-            // Only the admin that is first admin sees the admin flow. Show everyone else the end user flow
-            roles = 'system_user';
-        }
+        const roles = firstAdmin ? 'first_admin' : currentUser.roles;
         return Steps.filter((step) =>
             isStepForUser(step, roles) && step.visible,
         );
