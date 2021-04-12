@@ -31,7 +31,6 @@ const TrialLicenseCard: React.FC<Props> = ({license}: Props) => {
     };
 
     const message = () => {
-
         if (currentDate.toDateString() === endDate.toDateString()) {
             return (
                 <FormattedMarkdownMessage
