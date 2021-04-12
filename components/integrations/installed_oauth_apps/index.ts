@@ -18,8 +18,6 @@ import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {loadOAuthAppsAndProfiles} from 'actions/integration_actions';
 
-import {appsEnabled} from 'mattermost-redux/selectors/entities/apps';
-
 import InstalledOAuthApps from './installed_oauth_apps';
 
 function mapStateToProps(state: GlobalState) {
@@ -29,7 +27,7 @@ function mapStateToProps(state: GlobalState) {
     return {
         canManageOauth: haveISystemPermission(state, {permission: Permissions.MANAGE_OAUTH}),
         oauthApps: getOAuthApps(state),
-        appsOAuthAppIDs: appsEnabled(state) ? getAppsOAuthAppIDs(state) : [],
+        appsOAuthAppIDs: getAppsOAuthAppIDs(state),
         enableOAuthServiceProvider,
         team: getCurrentTeam(state),
     };

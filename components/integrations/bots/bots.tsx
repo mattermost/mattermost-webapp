@@ -93,7 +93,7 @@ type Props = {
         /**
          * Load bot IDs managed by the apps
          */
-        getAppsBotIDs: () => Promise<ActionResult>;
+        fetchAppsBotIDs: () => Promise<ActionResult>;
     };
 
     /**
@@ -140,7 +140,7 @@ export default class Bots extends React.PureComponent<Props, State> {
             },
         );
         if (this.props.appsEnabled) {
-            this.props.actions.getAppsBotIDs();
+            this.props.actions.fetchAppsBotIDs();
         }
     }
 

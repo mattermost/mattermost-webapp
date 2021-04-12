@@ -48,7 +48,7 @@ function mapStateToProps(state: GlobalState) {
 }
 
 type Actions = {
-    getAppsBotIDs: () => Promise<{data: string[]}>;
+    fetchAppsBotIDs: () => Promise<{data: string[]}>;
     loadBots: (page?: number, perPage?: number) => Promise<{data: BotType[]; error?: Error}>;
     getUserAccessTokensForUser: (userId: string, page?: number, perPage?: number) => void;
     createUserAccessToken: (userId: string, description: string) => Promise<{
@@ -66,7 +66,7 @@ type Actions = {
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
-            getAppsBotIDs: fetchAppsBotIDs,
+            fetchAppsBotIDs,
             loadBots,
             getUserAccessTokensForUser,
             createUserAccessToken,

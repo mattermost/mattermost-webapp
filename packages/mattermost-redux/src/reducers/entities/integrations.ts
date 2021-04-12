@@ -207,7 +207,7 @@ function appsOAuthAppIDs(state: string[] = [], action: GenericAction) {
         }
 
         const orderedState = state.concat().sort();
-        const orderedData = state.concat().sort();
+        const orderedData = action.data.concat().sort();
         for (let i = 0; i < state.length; i++) {
             if (orderedState[i] !== orderedData[i]) {
                 return orderedData;
@@ -239,7 +239,7 @@ function appsBotIDs(state: string[] = [], action: GenericAction) {
         }
 
         const orderedState = state.concat().sort();
-        const orderedData = state.concat().sort();
+        const orderedData = action.data.concat().sort();
         for (let i = 0; i < state.length; i++) {
             if (orderedState[i] !== orderedData[i]) {
                 return orderedData;
@@ -288,7 +288,7 @@ export default combineReducers({
     oauthApps,
 
     // object to represent the list of ids for oauth apps associated to apps
-    appsOAuthAppIDs: appsOAuthAppIDs,
+    appsOAuthAppIDs,
 
     // object to represent the list of ids for bots associated to apps
     appsBotIDs,
