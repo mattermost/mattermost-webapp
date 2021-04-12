@@ -912,7 +912,7 @@ export class AppCommandParser {
         if (err.message) {
             errStr = err.message;
         }
-        displayError(errStr);
+        displayError(errStr, this.channelID, this.rootPostID);
     }
 
     // getSuggestionsForSubCommands returns suggestions for a subcommand's name

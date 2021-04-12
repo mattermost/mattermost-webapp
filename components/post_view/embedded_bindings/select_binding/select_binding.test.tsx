@@ -80,6 +80,9 @@ describe('components/post_view/embedded_bindings/select_binding', () => {
                         data: {
                             type: 'ok',
                             markdown: 'Nice job!',
+                            app_metadata: {
+                                bot_user_id: 'botuserid',
+                            },
                         },
                     }),
                     getChannel: jest.fn().mockResolvedValue({
@@ -120,7 +123,7 @@ describe('components/post_view/embedded_bindings/select_binding', () => {
                 values: undefined,
             }, 'submit', {});
 
-            expect(props.sendEphemeralPost).toHaveBeenCalledWith('Nice job!', 'some_channel_id', 'some_root_id');
+            expect(props.sendEphemeralPost).toHaveBeenCalledWith('Nice job!', 'some_channel_id', 'some_root_id', 'botuserid');
         });
     });
 
@@ -132,6 +135,9 @@ describe('components/post_view/embedded_bindings/select_binding', () => {
                     data: {
                         type: 'error',
                         error: 'The error',
+                        app_metadata: {
+                            bot_user_id: 'botuserid',
+                        },
                     },
                 }),
                 getChannel: jest.fn().mockResolvedValue({
@@ -152,6 +158,6 @@ describe('components/post_view/embedded_bindings/select_binding', () => {
             value: 'option1',
         });
 
-        expect(props.sendEphemeralPost).toHaveBeenCalledWith('The error', 'some_channel_id', 'some_root_id');
+        expect(props.sendEphemeralPost).toHaveBeenCalledWith('The error', 'some_channel_id', 'some_root_id', 'botuserid');
     });
 });
