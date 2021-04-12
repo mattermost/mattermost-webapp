@@ -239,7 +239,6 @@ exports[`components/Toast should match snapshot to not have actions 1`] = `
 >
   <div
     className="toast__message"
-    onClick={null}
   >
     <span>
       child
