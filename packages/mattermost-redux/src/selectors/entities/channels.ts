@@ -513,11 +513,11 @@ export const getUnreads: (state: GlobalState) => {
                 otherUserId = getUserIdFromChannelName(currentUserId, channel.name);
 
                 if (users[otherUserId] && users[otherUserId].delete_at === 0) {
-                    mentionCountForCurrentTeam += m.mention_count;
+                    mentionCountForCurrentTeam += (collapsed ? (m.mention_count - m.mention_count_root) : m.mention_count);
                 }
             } else if (channel.delete_at === 0) {
                 if (m.mention_count > 0) {
-                    mentionCountForCurrentTeam += m.mention_count;
+                    mentionCountForCurrentTeam += (collapsed ? (m.mention_count - m.mention_count_root) : m.mention_count);
                 }
             }
 
@@ -541,7 +541,7 @@ export const getUnreads: (state: GlobalState) => {
             if (currentTeamId !== team.id) {
                 const member = myTeamMemberships[team.id];
                 acc.messageCount += member.msg_count;
-                acc.mentionCount += member.mention_count;
+                acc.mentionCount += (collapsed ? (member.mention_count - member.mention_count_root) : member.mention_count);
             }
 
             return acc;
@@ -558,8 +558,8 @@ export const getUnreads: (state: GlobalState) => {
 
         // when collapsed threads are enabled, we substract the counts that are visible on global threads view from the total count
         if (collapsed) {
-            Object.values(threadCounts).forEach((tc) => {
-                result.mentionCount -= tc.total_unread_mentions;
+            Object.values(threadCounts).forEach((c) => {
+                result.mentionCount += c.total_unread_mentions;
             });
         }
         return result;
