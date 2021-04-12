@@ -2755,7 +2755,7 @@
   "discard_changes_modal.leave": "Yes, Discard",
   "discard_changes_modal.message": "You have unsaved changes, are you sure you want to discard them?",
   "discard_changes_modal.title": "Discard Changes?",
-  "dnd_custom_time_picker_modal.defautlMsg": "Disable notifications till",
+  "dnd_custom_time_picker_modal.defaultMsg": "Disable notifications till",
   "dnd_custom_time_picker_modal.date": "Date",
   "edit_category_modal.helpText": "Drag channels into this category to organize your sidebar.",
   "edit_category_modal.placeholder": "Name your category",
