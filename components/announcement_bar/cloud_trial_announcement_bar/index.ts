@@ -19,20 +19,30 @@ import {GlobalState} from 'types/store';
 
 import {Preferences} from 'utils/constants';
 
-// import {getRemainingDaysFromFutureTimestamp} from 'utils/utils.jsx';
+import {getRemainingDaysFromFutureTimestamp} from 'utils/utils.jsx';
 
 import CloudTrialAnnouncementBar from './cloud_trial_announcement_bar';
 
 function mapStateToProps(state: GlobalState) {
     const getCategory = makeGetCategory();
+
+    const subscription = state.entities.cloud.subscription;
+    let isFreeTrial = false;
+    let daysLeftOnTrial = 0;
+
+    if (subscription!.end_at > 0 && subscription!.status === 'trialing') {
+        isFreeTrial = true;
+        daysLeftOnTrial = getRemainingDaysFromFutureTimestamp(subscription!.end_at);
+    }
+
     return {
-        isFreeTier: true, // subscription && subscription.trial_end_at! > 0 && subscription.status! === 'trialing';
-        daysLeftOnTrial: 8, // getRemainingDaysFromFutureTimestamp(subscription.trial_end_at);
+        isFreeTier: isFreeTrial,
+        daysLeftOnTrial,
         analytics: state.entities.admin.analytics,
         userIsAdmin: isCurrentUserSystemAdmin(state),
         currentUser: getCurrentUser(state),
         isCloud: getLicense(state).Cloud === 'true',
-        subscription: state.entities.cloud.subscription,
+        subscription,
         preferences: getCategory(state, Preferences.CLOUD_TRIAL_BANNER),
     };
 }
