@@ -14,7 +14,7 @@ import JobsTable from './jobs';
 import SettingsGroup from './settings_group.jsx';
 import TextSetting from './text_setting';
 
-export default class DataRetentionSettings extends AdminSettings {
+export default class DataRetentionSettingsOld extends AdminSettings {
     getConfigFromState = (config) => {
         config.DataRetentionSettings.EnableMessageDeletion = this.state.enableMessageDeletion === 'true';
         config.DataRetentionSettings.EnableFileDeletion = this.state.enableFileDeletion === 'true';
