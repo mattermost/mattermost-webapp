@@ -50,5 +50,13 @@ declare namespace Cypress {
          *    cy.reactToMessageAs({sender:user2, postId:"ABC123", reaction: 'smile'});
          */
         reactToMessageAs({sender, postId, reaction}: {sender: Record<string, unknown>; postId: string; reaction: string}): Chainable<Response>;
+
+        /**
+         * Verify that the webhook server is accessible, and then sets up base URLs and credential.
+         *
+         * @example
+         *    cy.requireWebhookServer();
+         */
+        requireWebhookServer(): Chainable;
     }
 }
