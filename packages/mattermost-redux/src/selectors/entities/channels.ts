@@ -1370,7 +1370,7 @@ export function filterChannelList(channelList: Channel[], filters: ChannelSearch
         return channelList;
     }
     let result: Channel[] = [];
-    let channels = channelList;
+    const channels = channelList;
     if (filters.public) {
         result = result.concat(channels.filter((channel) => channel.type === Constants.OPEN_CHANNEL));
     }
@@ -1381,8 +1381,8 @@ export function filterChannelList(channelList: Channel[], filters: ChannelSearch
         result = result.concat(channels.filter((channel) => channel.type === Constants.ARCHIVED_CHANNEL));
     }
     if (filters.team_ids) {
-        filters.team_ids.forEach(id => {
-            result = result.concat(channels.filter((channel) => channel.team_id === id))
+        filters.team_ids.forEach((id) => {
+            result = result.concat(channels.filter((channel) => channel.team_id === id));
         });
     }
     return result;

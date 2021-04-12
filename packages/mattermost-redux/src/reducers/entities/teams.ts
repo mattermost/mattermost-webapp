@@ -66,7 +66,7 @@ function teams(state: IDMappedObjects<Team> = {}, action: GenericAction) {
 
     case AdminTypes.REMOVE_DATA_RETENTION_CUSTOM_POLICY_TEAMS_SUCCESS: {
         const {teams} = action.data;
-        let nextState = {...state};
+        const nextState = {...state};
         teams.forEach((teamId: string) => {
             if (nextState[teamId]) {
                 nextState[teamId] = {

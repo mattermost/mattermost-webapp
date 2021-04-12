@@ -852,7 +852,7 @@ export function removeDataRetentionCustomPolicyTeams(id: string, teams: string[]
             return {error};
         }
         const data = {
-            teams: teams
+            teams,
         };
         dispatch(
             {type: AdminTypes.REMOVE_DATA_RETENTION_CUSTOM_POLICY_TEAMS_SUCCESS, data},
@@ -888,7 +888,7 @@ export function removeDataRetentionCustomPolicyChannels(id: string, channels: st
             return {error};
         }
         const data = {
-            channels: channels
+            channels,
         };
         dispatch(
             {type: AdminTypes.REMOVE_DATA_RETENTION_CUSTOM_POLICY_CHANNELS_SUCCESS, data},

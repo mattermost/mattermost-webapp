@@ -225,7 +225,7 @@ function channels(state: IDMappedObjects<Channel> = {}, action: GenericAction) {
 
     case AdminTypes.REMOVE_DATA_RETENTION_CUSTOM_POLICY_CHANNELS_SUCCESS: {
         const {channels} = action.data;
-        let nextState = {...state};
+        const nextState = {...state};
         channels.forEach((channelId: string) => {
             if (nextState[channelId]) {
                 nextState[channelId] = {

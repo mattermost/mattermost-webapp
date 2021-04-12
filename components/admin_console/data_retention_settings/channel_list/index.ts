@@ -40,6 +40,7 @@ function searchChannelsToAdd(channels: Dictionary<Channel>, term: string, filter
 }
 
 function mapStateToProps() {
+    const getPolicyChannels = getChannelsInPolicy();
     return (state: GlobalState, ownProps: OwnProps) => {
         let {channelsToAdd} = ownProps;
 
