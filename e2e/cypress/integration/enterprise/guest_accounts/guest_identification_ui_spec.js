@@ -14,8 +14,10 @@
  * Note: This test requires Enterprise license to be uploaded
  */
 import * as TIMEOUTS from '../../../fixtures/timeouts';
+import {getAdminAccount} from '../../../support/env';
 
 describe('MM-18045 Verify Guest User Identification in different screens', () => {
+    const admin = getAdminAccount();
     let regularUser;
     let guest;
     let testTeam;
@@ -181,8 +183,11 @@ describe('MM-18045 Verify Guest User Identification in different screens', () =>
 
     it('Verify Guest Badge in DM header and GM header', () => {
         // # Open a DM with Guest User
-        cy.uiAddDirectMessage().click().wait(TIMEOUTS.HALF_SEC);
-        cy.focused().type(guest.username, {force: true}).type('{enter}', {force: true}).wait(TIMEOUTS.HALF_SEC);
+        cy.uiAddDirectMessage().click();
+        cy.findByRole('dialog', {name: 'Direct Messages'}).should('be.visible').wait(TIMEOUTS.ONE_SEC);
+        cy.findByRole('textbox', {name: 'Search for people'}).should('have.focused').
+            type(guest.username).wait(TIMEOUTS.ONE_SEC).
+            type('{enter}');
         cy.get('#saveItems').click().wait(TIMEOUTS.HALF_SEC);
 
         // * Verify Guest Badge in DM header
@@ -192,8 +197,14 @@ describe('MM-18045 Verify Guest User Identification in different screens', () =>
         });
 
         // # Open a GM with Guest User and Sysadmin
-        cy.uiAddDirectMessage().click().wait(TIMEOUTS.HALF_SEC);
-        cy.focused().type(guest.username, {force: true}).type('{enter}', {force: true}).wait(TIMEOUTS.HALF_SEC);
+        cy.uiAddDirectMessage().click();
+        cy.findByRole('dialog', {name: 'Direct Messages'}).should('be.visible').wait(TIMEOUTS.ONE_SEC);
+        cy.findByRole('textbox', {name: 'Search for people'}).should('have.focused').
+            type(guest.username).wait(TIMEOUTS.ONE_SEC).
+            type('{enter}');
+        cy.findByRole('textbox', {name: 'Search for people'}).should('have.focused').
+            type(admin.username).wait(TIMEOUTS.ONE_SEC).
+            type('{enter}');
         cy.get('#saveItems').click().wait(TIMEOUTS.HALF_SEC);
 
         // * Verify Guest Badge in GM header

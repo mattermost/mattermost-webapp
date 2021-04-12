@@ -7,6 +7,7 @@ import {bindActionCreators} from 'redux';
 import {
     getConfig,
     getLicense,
+    getFirstAdminVisitMarketplaceStatus,
     getSubscriptionStats as selectSubscriptionStats,
 } from 'mattermost-redux/selectors/entities/general';
 import {
@@ -16,6 +17,7 @@ import {
 } from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {haveITeamPermission, haveICurrentTeamPermission, haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
+import {getSubscriptionStats} from 'mattermost-redux/actions/cloud';
 import {Permissions} from 'mattermost-redux/constants';
 
 import {RHSStates} from 'utils/constants';
@@ -98,6 +100,7 @@ function mapStateToProps(state) {
         showNextSteps: showNextSteps(state),
         isCloud: getLicense(state).Cloud === 'true',
         subscriptionStats: selectSubscriptionStats(state), // subscriptionStats are loaded in actions/views/root
+        firstAdminVisitMarketplaceStatus: getFirstAdminVisitMarketplaceStatus(state),
     };
 }
 
@@ -110,6 +113,7 @@ function mapDispatchToProps(dispatch) {
             closeRightHandSide,
             closeRhsMenu,
             unhideNextSteps,
+            getSubscriptionStats,
         }, dispatch),
     };
 }

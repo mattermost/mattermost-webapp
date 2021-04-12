@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @signin_authentication
 
 import {
@@ -40,7 +39,7 @@ describe('Signin/Authentication', () => {
         });
     });
 
-    it('SA15008 - Sign In Forgot password - Email address has account on server', () => {
+    it('MM-T407 - Sign In Forgot password - Email address has account on server', () => {
         resetPasswordAndLogin(testUser, testTeam, testConfig);
     });
 });

@@ -1,6 +1,15 @@
 @charset 'UTF-8';
 
 button {
+    .unread-badge {
+        display: inline-block;
+        border-radius: 50%;
+        width: 8px;
+        height: 8px;
+        margin: 0 0 0 40px;
+        background: #F74343;
+    }
+
     &.style--none {
         background: transparent;
         border: none;

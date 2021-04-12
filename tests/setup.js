@@ -9,11 +9,9 @@ import '@testing-library/jest-dom';
 global.$ = $;
 global.jQuery = $;
 global.performance = {};
-global.fetch = jest.fn().mockResolvedValue({status: 200});
+require('isomorphic-fetch');
 
 configure({adapter: new Adapter()});
-
-jest.useFakeTimers();
 
 global.window = Object.create(window);
 Object.defineProperty(window, 'location', {
@@ -38,16 +36,9 @@ Object.defineProperty(document, 'execCommand', {
 
 document.documentElement.style.fontSize = '12px';
 
-let logs;
 let warns;
 let errors;
 beforeAll(() => {
-    console.originalLog = console.log;
-    console.log = jest.fn((...params) => {
-        console.originalLog(...params);
-        logs.push(params);
-    });
-
     console.originalWarn = console.warn;
     console.warn = jest.fn((...params) => {
         console.originalWarn(...params);
@@ -62,14 +53,13 @@ beforeAll(() => {
 });
 
 beforeEach(() => {
-    logs = [];
     warns = [];
     errors = [];
 });
 
 afterEach(() => {
-    if (logs.length > 0 || warns.length > 0 || errors.length > 0) {
-        const message = 'Unexpected console logs' + logs + warns + errors;
+    if (warns.length > 0 || errors.length > 0) {
+        const message = 'Unexpected console logs' + warns + errors;
         if (message.includes('componentWillReceiveProps')) {
             return;
         }

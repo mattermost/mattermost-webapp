@@ -4,6 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {injectIntl} from 'react-intl';
+
 import {Permissions} from 'mattermost-redux/constants';
 
 import * as GlobalActions from 'actions/global_actions';
@@ -13,7 +14,6 @@ import {cmdOrCtrlPressed, isKeyPressed} from 'utils/utils';
 import {useSafeUrl} from 'utils/url';
 import * as UserAgent from 'utils/user_agent';
 import InvitationModal from 'components/invitation_modal';
-import UserLimitModal from 'components/user_limit_modal';
 
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
@@ -64,6 +64,7 @@ class MainMenu extends React.PureComponent {
         showNextStepsTips: PropTypes.bool,
         isCloud: PropTypes.bool,
         subscriptionStats: PropTypes.object,
+        firstAdminVisitMarketplaceStatus: PropTypes.bool,
         actions: PropTypes.shape({
             openModal: PropTypes.func.isRequred,
             showMentions: PropTypes.func,
@@ -71,6 +72,7 @@ class MainMenu extends React.PureComponent {
             closeRightHandSide: PropTypes.func.isRequired,
             closeRhsMenu: PropTypes.func.isRequired,
             unhideNextSteps: PropTypes.func.isRequired,
+            getSubscriptionStats: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -126,7 +128,7 @@ class MainMenu extends React.PureComponent {
         if (subscriptionStats?.is_paid_tier === 'true') { // eslint-disable-line camelcase
             return false;
         }
-        return isCloud && subscriptionStats.remaining_seats <= 0;
+        return isCloud && subscriptionStats?.remaining_seats <= 0;
     }
 
     render() {
@@ -162,23 +164,6 @@ class MainMenu extends React.PureComponent {
                 id='invitePeople'
                 modalId={ModalIdentifiers.INVITATION}
                 dialogType={InvitationModal}
-                text={formatMessage({
-                    id: 'navbar_dropdown.invitePeople',
-                    defaultMessage: 'Invite People',
-                })}
-                extraText={formatMessage({
-                    id: 'navbar_dropdown.invitePeopleExtraText',
-                    defaultMessage: 'Add or invite people to the team',
-                })}
-                icon={this.props.mobile && <i className='fa fa-user-plus'/>}
-            />
-        );
-
-        const upgradeCloudModal = (
-            <Menu.ItemToggleModalRedux
-                id='invitePeople'
-                modalId={ModalIdentifiers.UPGRADE_CLOUD_ACCOUNT}
-                dialogType={UserLimitModal}
                 text={formatMessage({
                     id: 'navbar_dropdown.invitePeople',
                     defaultMessage: 'Invite People',
@@ -240,7 +225,7 @@ class MainMenu extends React.PureComponent {
                         teamId={this.props.teamId}
                         permissions={[Permissions.ADD_USER_TO_TEAM, Permissions.INVITE_GUEST]}
                     >
-                        {this.shouldShowUpgradeModal() ? upgradeCloudModal : invitePeopleModal}
+                        {invitePeopleModal}
                     </TeamPermissionGate>
                 </Menu.Group>
                 <Menu.Group>
@@ -342,7 +327,8 @@ class MainMenu extends React.PureComponent {
                             modalId={ModalIdentifiers.PLUGIN_MARKETPLACE}
                             show={!this.props.mobile && this.props.enablePluginMarketplace}
                             dialogType={MarketplaceModal}
-                            text={formatMessage({id: 'navbar_dropdown.marketplace', defaultMessage: 'Plugin Marketplace'})}
+                            text={formatMessage({id: 'navbar_dropdown.marketplace', defaultMessage: 'Marketplace'})}
+                            showUnread={!this.props.firstAdminVisitMarketplaceStatus}
                         />
                     </TeamPermissionGate>
                     <Menu.ItemLink

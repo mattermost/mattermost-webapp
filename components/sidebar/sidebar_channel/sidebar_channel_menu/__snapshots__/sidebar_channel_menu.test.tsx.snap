@@ -5,7 +5,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   ariaLabel="Channel Menu"
   buttonAriaLabel="Channel Menu"
   id="SidebarChannelMenu-channel_id"
-  isMenuOpen={false}
+  isMenuOpen={true}
   onToggleMenu={[Function]}
   refCallback={[Function]}
   tabIndex={0}
@@ -67,7 +67,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
       }
       subMenuClass="pl-4"
       text="Move to"
-      xOffset={0}
     />
   </MenuGroup>
   <MenuGroup>
@@ -167,7 +166,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
         ]
       }
       text="Move to"
-      xOffset={0}
     />
   </MenuGroup>
   <MenuGroup>
@@ -267,7 +265,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
         ]
       }
       text="Move to"
-      xOffset={0}
     />
   </MenuGroup>
   <MenuGroup>
@@ -367,7 +364,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
         ]
       }
       text="Move to"
-      xOffset={0}
     />
   </MenuGroup>
   <MenuGroup>
@@ -415,7 +411,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   ariaLabel="Channel Menu"
   buttonAriaLabel="Channel Menu"
   id="SidebarChannelMenu-channel_id"
-  isMenuOpen={false}
+  isMenuOpen={true}
   onToggleMenu={[Function]}
   refCallback={[Function]}
   tabIndex={0}
@@ -477,7 +473,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
       }
       subMenuClass="pl-4"
       text="Move to"
-      xOffset={0}
     />
   </MenuGroup>
   <MenuGroup />
@@ -502,7 +497,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   ariaLabel="Channel Menu"
   buttonAriaLabel="Channel Menu"
   id="SidebarChannelMenu-channel_id"
-  isMenuOpen={false}
+  isMenuOpen={true}
   onToggleMenu={[Function]}
   refCallback={[Function]}
   tabIndex={0}
@@ -564,7 +559,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
       }
       subMenuClass="pl-4"
       text="Move to"
-      xOffset={0}
     />
   </MenuGroup>
   <MenuGroup>
@@ -599,7 +593,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   ariaLabel="Channel Menu"
   buttonAriaLabel="Channel Menu"
   id="SidebarChannelMenu-channel_id"
-  isMenuOpen={false}
+  isMenuOpen={true}
   onToggleMenu={[Function]}
   refCallback={[Function]}
   tabIndex={0}
@@ -661,7 +655,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
       }
       subMenuClass="pl-4"
       text="Move to"
-      xOffset={0}
     />
   </MenuGroup>
   <MenuGroup>
@@ -709,7 +702,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   ariaLabel="Channel Menu"
   buttonAriaLabel="Channel Menu"
   id="SidebarChannelMenu-channel_id"
-  isMenuOpen={false}
+  isMenuOpen={true}
   onToggleMenu={[Function]}
   refCallback={[Function]}
   tabIndex={0}
@@ -771,7 +764,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
       }
       subMenuClass="pl-4"
       text="Move to"
-      xOffset={0}
     />
   </MenuGroup>
   <MenuGroup>
@@ -819,7 +811,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   ariaLabel="Channel Menu"
   buttonAriaLabel="Channel Menu"
   id="SidebarChannelMenu-channel_id"
-  isMenuOpen={false}
+  isMenuOpen={true}
   onToggleMenu={[Function]}
   refCallback={[Function]}
   tabIndex={0}
@@ -881,7 +873,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
       }
       subMenuClass="pl-4"
       text="Move to"
-      xOffset={0}
     />
   </MenuGroup>
   <MenuGroup>
@@ -929,7 +920,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   ariaLabel="Channel Menu"
   buttonAriaLabel="Channel Menu"
   id="SidebarChannelMenu-channel_id"
-  isMenuOpen={false}
+  isMenuOpen={true}
   onToggleMenu={[Function]}
   refCallback={[Function]}
   tabIndex={0}
@@ -1002,7 +993,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
       }
       subMenuClass="pl-4"
       text="Move to"
-      xOffset={0}
     />
   </MenuGroup>
   <MenuGroup>

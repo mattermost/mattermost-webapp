@@ -41,7 +41,6 @@ export type Props = {
     icon?: React.ReactNode;
     action?: (id?: string) => void;
     filter?: (id?: string) => boolean;
-    xOffset?: number;
     ariaLabel?: string;
     root?: boolean;
     show?: boolean;
@@ -146,7 +145,7 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
     }
 
     public render() {
-        const {id, postId, text, selectedValueText, subMenu, root, icon, filter, xOffset, ariaLabel, direction, styleSelectableItem} = this.props;
+        const {id, postId, text, selectedValueText, subMenu, icon, filter, ariaLabel, direction, styleSelectableItem} = this.props;
         const isMobile = Utils.isMobile();
 
         if (filter && !filter(id)) {
@@ -164,15 +163,12 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
         }
 
         const hasSubmenu = subMenu && subMenu.length;
-        const parentWidth = this.node && this.node.current ? this.node.current.getBoundingClientRect().width : 0;
-        const childOffset = (React.isValidElement(text)) ? 20 : 0;
-        const offset = (root ? 2 : childOffset);
         const subMenuStyle: CSSProperties = {
             visibility: (this.state.show && hasSubmenu && !isMobile ? 'visible' : 'hidden') as 'visible' | 'hidden',
             top: this.node && this.node.current ? String(this.node.current.offsetTop) + 'px' : 'unset',
         };
 
-        const menuOffset = (parseInt(String(xOffset), 10) - offset) + 'px';
+        const menuOffset = '100%';
         if (direction === 'left') {
             subMenuStyle.right = menuOffset;
         } else {
@@ -190,7 +186,7 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
                     {hasSubmenu ? subMenu!.map((s) => {
                         const hasDivider = s.id === 'SidebarChannelMenu-moveToDivider';
                         return (
-                            <div
+                            <span
                                 className={classNames(['SubMenuItemContainer', {hasDivider}])}
                                 key={s.id}
                             >
@@ -203,7 +199,6 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
                                     subMenu={s.subMenu}
                                     action={s.action}
                                     filter={s.filter}
-                                    xOffset={parentWidth}
                                     ariaLabel={ariaLabel}
                                     root={false}
                                     direction={s.direction}
@@ -211,7 +206,7 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
                                 {s.text === selectedValueText && <span className='sorting-menu-checkbox'>
                                     <i className='icon-check'/>
                                 </span>}
-                            </div>
+                            </span>
                         );
                     }) : ''}
                 </ul>

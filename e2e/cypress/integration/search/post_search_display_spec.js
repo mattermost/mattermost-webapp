@@ -15,12 +15,16 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 describe('Post search display', () => {
     let testTeam;
     let testUser;
+    let mmConfig;
 
     before(() => {
         // Initialise a user.
         cy.apiInitSetup({}).then(({team, user}) => {
             testTeam = team;
             testUser = user;
+            cy.apiGetConfig().then(({config}) => {
+                mmConfig = config;
+            });
         });
     });
 
@@ -56,7 +60,11 @@ describe('Post search display', () => {
         });
 
         // * Check the contents in search options
-        assertSearchHint();
+        if (mmConfig.FeatureFlags.FilesSearch) {
+            assertSearchHintFilesOrMessages();
+        } else {
+            assertSearchHint();
+        }
     });
 
     it('MM-T350 - Searching displays results in RHS', () => {
@@ -158,7 +166,11 @@ describe('Post search display', () => {
         });
 
         // * Check the contents in search options
-        assertSearchHint();
+        if (mmConfig.FeatureFlags.FilesSearch) {
+            assertSearchHintFilesOrMessages();
+        } else {
+            assertSearchHint();
+        }
 
         // # Search for search term in:
         cy.get('#searchBox').click().type('in:');
@@ -167,7 +179,7 @@ describe('Post search display', () => {
         cy.get('.search-autocomplete__item').first().click({force: true});
 
         // * Assert suggestions are not present after selecting item
-        cy.get('.search-autocomplete__item').should('not.be.visible');
+        cy.get('.search-autocomplete__item').should('not.exist');
 
         // # Clear search box
         cy.get('.input-clear-x').first().click({force: true}).wait(TIMEOUTS.HALF_SEC);
@@ -200,7 +212,7 @@ describe('Post search display', () => {
         cy.get('#searchBox').click().type('{enter}').wait(TIMEOUTS.HALF_SEC);
 
         // * Assert autocomplete list is gone
-        cy.get('.search-autocomplete__item').should('not.be.visible');
+        cy.get('.search-autocomplete__item').should('not.exist');
     });
 
     it('MM-T2286 - Clicking a hashtag from a message opens messages with that hashtag on RHS', () => {
@@ -260,9 +272,17 @@ const enableTestCommands = (team) => {
     });
 };
 
+const assertSearchHintFilesOrMessages = () => {
+    cy.get('#searchbar-help-popup').should('be.visible').within(() => {
+        cy.get('div span').first().should('have.text', 'What are you searching for?');
+        cy.get('div button:first-child span').first().should('have.text', 'Messages');
+        cy.get('div button:last-child span').first().should('have.text', 'Files');
+    });
+};
+
 const assertSearchHint = () => {
     cy.get('#searchbar-help-popup').should('be.visible').within(() => {
-        cy.get('h4 span').first().should('have.text', 'Search Options');
+        cy.get('div span').first().should('have.text', 'Search options');
         cy.get('div ul li').first().should('have.text', 'From:Messages from a user');
         cy.get('div ul li').eq(1).should('have.text', 'In:Messages in a channel');
         cy.get('div ul li').eq(2).should('have.text', 'On:Messages on a date');

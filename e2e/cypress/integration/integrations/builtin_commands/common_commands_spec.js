@@ -155,7 +155,7 @@ describe('Integrations', () => {
         cy.postMessage('/leave');
 
         // * Verity Off-Topic is not shown in LHS
-        cy.get('#lhsList').should('be.visible').should('not.contain', 'Off-Topic');
+        cy.get('#sidebar-left').should('be.visible').should('not.contain', 'Off-Topic');
 
         // * Verify user is redirected to Town Square
         cy.uiGetLhsSection('CHANNELS').find('.active').should('contain', 'Town Square');

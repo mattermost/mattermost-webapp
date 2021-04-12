@@ -49,7 +49,7 @@ describe('Authentication', () => {
 
         cy.findByRole('button', {name: 'Save'}).click();
 
-        cy.findByText('Your password must contain between 7 and 64 characters.').should('be.visible').and('exist');
+        cy.findByText('Your password must contain between 7 and 64 characters.').should('be.visible');
 
         cy.apiLogout();
 
@@ -136,7 +136,7 @@ describe('Authentication', () => {
         cy.findByLabelText('security').click();
 
         // * Assert that Multifactor Authentication text does not exist
-        cy.findByText('Multi-factor Authentication').should('not.exist').and('not.be.visible');
+        cy.findByText('Multi-factor Authentication').should('not.exist');
     });
 
     it('MM-T1779 - Multi-factor Authentication option appears in Account Settings when enabled', () => {
@@ -153,7 +153,7 @@ describe('Authentication', () => {
         cy.findByLabelText('security').click();
 
         // * Assert that Multifactor Authentication text does exist
-        cy.findByText('Multi-factor Authentication').should('exist').and('be.visible');
+        cy.findByText('Multi-factor Authentication').should('be.visible');
     });
 
     it('MM-T1780 - Multi-factor Authentication false: User can log in without being prompted for MFA', () => {

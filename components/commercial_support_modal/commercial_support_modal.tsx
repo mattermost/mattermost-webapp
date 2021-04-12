@@ -4,7 +4,9 @@
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
+
 import {Client4} from 'mattermost-redux/client';
+import {UserProfile} from 'mattermost-redux/types/users';
 
 import AlertBanner from 'components/alert_banner';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
@@ -21,6 +23,10 @@ type Props = {
     show?: boolean;
 
     showBannerWarning: boolean;
+
+    isCloud: boolean;
+
+    currentUser: UserProfile;
 };
 
 type State = {
@@ -66,6 +72,10 @@ export default class CommercialSupportModal extends React.PureComponent<Props, S
 
     render() {
         const {showBannerWarning} = this.state;
+        const {isCloud, currentUser} = this.props;
+
+        const supportLink = isCloud ? `https://customers.mattermost.com/cloud/contact-us?name=${currentUser.first_name} ${currentUser.last_name}&email=${currentUser.email}&inquiry=technical` :
+            'https://support.mattermost.com/hc/en-us/requests/new';
         return (
             <Modal
                 id='commercialSupportModal'
@@ -86,7 +96,10 @@ export default class CommercialSupportModal extends React.PureComponent<Props, S
                     <div className='CommercialSupportModal'>
                         <FormattedMarkdownMessage
                             id='commercial_support.description'
-                            defaultMessage={'If you\'re experiencing issues, [submit a support ticket.](!https://support.mattermost.com/hc/en-us/requests/new)\n \n**Download Support Packet**\n \nWe recommend that you download additional environment details about your Mattermost environment to help with troubleshooting. Once downloaded, attach the packet to your support ticket to share with our Customer Support team.'}
+                            defaultMessage={'If you\'re experiencing issues, [submit a support ticket.](!{supportLink})\n \n**Download Support Packet**\n \nWe recommend that you download additional environment details about your Mattermost environment to help with troubleshooting. Once downloaded, attach the packet to your support ticket to share with our Customer Support team.'}
+                            values={{
+                                supportLink,
+                            }}
                         />
                         <a
                             className='btn btn-primary DownloadSupportPacket'

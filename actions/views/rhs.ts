@@ -9,6 +9,7 @@ import {
     getFlaggedPosts,
     getPinnedPosts,
     searchPostsWithParams,
+    searchFilesWithParams,
 } from 'mattermost-redux/actions/search';
 import * as PostActions from 'mattermost-redux/actions/posts';
 import {getCurrentUserId, getCurrentUserMentionKeys} from 'mattermost-redux/selectors/entities/users';
@@ -22,7 +23,7 @@ import {DispatchFunc, GenericAction, GetStateFunc} from 'mattermost-redux/types/
 import {Post} from 'mattermost-redux/types/posts';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
-import {getSearchTerms, getRhsState, getPluggableId} from 'selectors/rhs';
+import {getSearchTerms, getRhsState, getPluggableId, getFilesSearchExtFilter} from 'selectors/rhs';
 import {ActionTypes, RHSStates} from 'utils/constants';
 import * as Utils from 'utils/utils';
 import {getBrowserUtcOffset, getUtcOffsetForTimeZone} from 'utils/timezone';
@@ -69,7 +70,7 @@ export function updateRhsState(rhsState: string, channelId?: string) {
             state: rhsState,
         } as GenericAction;
 
-        if (rhsState === RHSStates.PIN) {
+        if (rhsState === RHSStates.PIN || rhsState === RHSStates.CHANNEL_FILES) {
             action.channelId = channelId || getCurrentChannelId(getState());
         }
 
@@ -101,6 +102,13 @@ export function updateSearchTerms(terms: string) {
     };
 }
 
+export function updateSearchType(searchType: string) {
+    return {
+        type: ActionTypes.UPDATE_RHS_SEARCH_TYPE,
+        searchType,
+    };
+}
+
 function updateSearchResultsTerms(terms: string) {
     return {
         type: ActionTypes.UPDATE_RHS_SEARCH_RESULTS_TERMS,
@@ -113,13 +121,31 @@ export function performSearch(terms: string, isMentionSearch?: boolean) {
         const teamId = getCurrentTeamId(getState());
         const config = getConfig(getState());
         const viewArchivedChannels = config.ExperimentalViewArchivedChannels === 'true';
+        const extensionsFilters = getFilesSearchExtFilter(getState() as GlobalState);
+
+        const extensions = extensionsFilters?.map((ext) => `ext:${ext}`).join(' ');
+        let termsWithExtensionsFilters = terms;
+        if (extensions?.trim().length > 0) {
+            termsWithExtensionsFilters += ` ${extensions}`;
+        }
 
         // timezone offset in seconds
         const userId = getCurrentUserId(getState());
         const userTimezone = getUserTimezone(getState(), userId);
         const userCurrentTimezone = getUserCurrentTimezone(userTimezone);
         const timezoneOffset = ((userCurrentTimezone && (userCurrentTimezone.length > 0)) ? getUtcOffsetForTimeZone(userCurrentTimezone) : getBrowserUtcOffset()) * 60;
-        return dispatch(searchPostsWithParams(teamId, {terms, is_or_search: Boolean(isMentionSearch), include_deleted_channels: viewArchivedChannels, time_zone_offset: timezoneOffset, page: 0, per_page: 20}));
+        const messagesPromise = dispatch(searchPostsWithParams(teamId, {terms, is_or_search: Boolean(isMentionSearch), include_deleted_channels: viewArchivedChannels, time_zone_offset: timezoneOffset, page: 0, per_page: 20}));
+        const filesPromise = dispatch(searchFilesWithParams(teamId, {terms: termsWithExtensionsFilters, is_or_search: Boolean(isMentionSearch), include_deleted_channels: viewArchivedChannels, time_zone_offset: timezoneOffset, page: 0, per_page: 20}));
+        return Promise.all([filesPromise, messagesPromise]);
+    };
+}
+
+export function filterFilesSearchByExt(extensions: string[]) {
+    return (dispatch: DispatchFunc) => {
+        dispatch({
+            type: ActionTypes.SET_FILES_FILTER_BY_EXT,
+            data: extensions,
+        });
     };
 }
 
@@ -217,19 +243,54 @@ export function showPinnedPosts(channelId?: string) {
         const currentChannelId = getCurrentChannelId(state);
         const teamId = getCurrentTeamId(state);
 
-        dispatch(batchActions([
-            {
-                type: ActionTypes.UPDATE_RHS_STATE,
-                channelId: channelId || currentChannelId,
-                state: RHSStates.PIN,
-            },
-        ]));
+        dispatch({
+            type: ActionTypes.UPDATE_RHS_STATE,
+            channelId: channelId || currentChannelId,
+            state: RHSStates.PIN,
+        });
 
         const results = await dispatch(getPinnedPosts(channelId || currentChannelId));
 
         let data: any;
         if ('data' in results) {
             data = results.data;
+        }
+
+        dispatch(batchActions([
+            {
+                type: SearchTypes.RECEIVED_SEARCH_POSTS,
+                data,
+            },
+            {
+                type: SearchTypes.RECEIVED_SEARCH_TERM,
+                data: {
+                    teamId,
+                    terms: null,
+                    isOrSearch: false,
+                },
+            },
+        ]));
+
+        return {data: true};
+    };
+}
+
+export function showChannelFiles(channelId: string) {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const state = getState();
+        const teamId = getCurrentTeamId(state);
+
+        dispatch({
+            type: ActionTypes.UPDATE_RHS_STATE,
+            channelId,
+            state: RHSStates.CHANNEL_FILES,
+        });
+
+        const results: any = await dispatch(performSearch('channel:' + channelId));
+
+        let data: any;
+        if (results && results.length === 2 && 'data' in results[1]) {
+            data = results[1].data;
         }
 
         dispatch(batchActions([

@@ -45,7 +45,7 @@ describe('Notifications', () => {
             // # Remove mention notification (for initial channel).
             cy.apiLogin(user1);
             cy.visit(testTeam1TownSquareUrl);
-            cy.get('#lhsList').get('.unread-title').click();
+            cy.get('#sidebar-left').get('.unread-title').click();
             cy.apiLogout();
         });
     });
@@ -58,12 +58,12 @@ describe('Notifications', () => {
         cy.title().should('include', `Town Square - ${team1.display_name} ${siteName}`);
 
         // * Browser tab shows channel name with no unread indicator
-        cy.get(`#${team1.name}TeamButton`).parent('.unread').should('not.be.visible');
-        cy.get('.badge').should('not.be.visible');
+        cy.get(`#${team1.name}TeamButton`).parent('.unread').should('not.exist');
+        cy.get('.badge').should('not.exist');
 
         // * No unread/mention indicator in team sidebar
-        cy.get(`#${team2.name}TeamButton`).parent('.unread').should('not.be.visible');
-        cy.get('.badge').should('not.be.visible');
+        cy.get(`#${team2.name}TeamButton`).parent('.unread').should('not.exist');
+        cy.get('.badge').should('not.exist');
     });
 
     it('MM-T560_1 Browser tab and team sidebar unreads and mentions - Mention in different team', () => {

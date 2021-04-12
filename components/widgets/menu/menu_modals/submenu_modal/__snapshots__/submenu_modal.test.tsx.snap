@@ -52,7 +52,6 @@ exports[`components/submenu_modal should match snapshot 1`] = `
           show={true}
           subMenuClass="pl-4"
           text="Text A"
-          xOffset={0}
         />
         <SubMenuItem
           action={[MockFunction]}
@@ -73,7 +72,6 @@ exports[`components/submenu_modal should match snapshot 1`] = `
           }
           subMenuClass="pl-4"
           text="Text B"
-          xOffset={0}
         />
       </Menu>
       <div />

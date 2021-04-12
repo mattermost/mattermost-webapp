@@ -24,6 +24,7 @@ exports[`components/RhsRootPost should match snapshot 1`] = `
       className="post__img"
     >
       <Connect(PostProfilePicture)
+        channelId="channel_id"
         compactDisplay={true}
         isBusy={false}
         isRHS={true}
@@ -72,6 +73,7 @@ exports[`components/RhsRootPost should match snapshot 1`] = `
               }
             }
             showTooltip={true}
+            spanStyle={Object {}}
             tooltipDirection="top"
             userID="user_id"
           />
@@ -89,7 +91,7 @@ exports[`components/RhsRootPost should match snapshot 1`] = `
         <div
           className="col post-menu"
         >
-          <Connect(DotMenu)
+          <Connect(injectIntl(DotMenu))
             commentCount={0}
             enableEmojiPicker={true}
             handleAddReactionClick={[Function]}
@@ -218,6 +220,7 @@ exports[`components/RhsRootPost should match snapshot on deleted post 1`] = `
       className="post__img"
     >
       <Connect(PostProfilePicture)
+        channelId="channel_id"
         compactDisplay={true}
         isBusy={false}
         isRHS={true}
@@ -267,6 +270,7 @@ exports[`components/RhsRootPost should match snapshot on deleted post 1`] = `
               }
             }
             showTooltip={true}
+            spanStyle={Object {}}
             tooltipDirection="top"
             userID="user_id"
           />
@@ -368,6 +372,7 @@ exports[`components/RhsRootPost should match snapshot on flagged, deleted post 1
       className="post__img"
     >
       <Connect(PostProfilePicture)
+        channelId="channel_id"
         compactDisplay={true}
         isBusy={false}
         isRHS={true}
@@ -418,6 +423,7 @@ exports[`components/RhsRootPost should match snapshot on flagged, deleted post 1
               }
             }
             showTooltip={true}
+            spanStyle={Object {}}
             tooltipDirection="top"
             userID="user_id"
           />
@@ -521,6 +527,7 @@ exports[`components/RhsRootPost should match snapshot when flagged 1`] = `
       className="post__img"
     >
       <Connect(PostProfilePicture)
+        channelId="channel_id"
         compactDisplay={true}
         isBusy={false}
         isRHS={true}
@@ -569,6 +576,7 @@ exports[`components/RhsRootPost should match snapshot when flagged 1`] = `
               }
             }
             showTooltip={true}
+            spanStyle={Object {}}
             tooltipDirection="top"
             userID="user_id"
           />
@@ -586,7 +594,7 @@ exports[`components/RhsRootPost should match snapshot when flagged 1`] = `
         <div
           className="col post-menu"
         >
-          <Connect(DotMenu)
+          <Connect(injectIntl(DotMenu))
             commentCount={0}
             enableEmojiPicker={true}
             handleAddReactionClick={[Function]}

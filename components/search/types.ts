@@ -3,7 +3,12 @@
 
 import React from 'react';
 import {Action} from 'redux';
+
 import {ActionFunc, DispatchFunc} from 'mattermost-redux/types/actions';
+
+import {SearchType} from 'types/store/rhs';
+
+export type SearchFilterType = 'all' | 'documents' | 'spreadsheets' | 'presentations' | 'code' | 'images' | 'audio' | 'video';
 
 export type OwnProps = {
     isSideBarRight?: boolean;
@@ -19,16 +24,22 @@ export type StateProps = {
     isRhsOpen: boolean;
     isSearchingTerm: boolean;
     searchTerms: string;
+    searchType: SearchType;
     searchVisible: boolean;
     isMentionSearch: boolean;
     isFlaggedPosts: boolean;
     isPinnedPosts: boolean;
+    isChannelFiles: boolean;
+    filesSearchEnabled: boolean;
+    currentChannelId: string;
 }
 
 export type DispatchProps = {
     actions: {
         updateSearchTerms: (term: string) => Action;
+        updateSearchType: (searchType: string) => Action;
         showSearchResults: (isMentionSearch: boolean) => Record<string, any>;
+        showChannelFiles: (channelId: string) => void;
         showMentions: () => void;
         showFlaggedPosts: () => void;
         setRhsExpanded: (expanded: boolean) => Action;
@@ -37,6 +48,8 @@ export type DispatchProps = {
         autocompleteUsersInTeam: (username: string) => DispatchFunc;
         updateRhsState: (rhsState: string) => void;
         getMorePostsForSearch: () => ActionFunc;
+        getMoreFilesForSearch: () => ActionFunc;
+        filterFilesSearchByExt: (extensions: string[]) => void;
     };
 }
 

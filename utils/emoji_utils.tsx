@@ -108,7 +108,7 @@ export function wrapEmojis(text: string): React.ReactNode {
         lastIndex = index + emoji.length;
     }
 
-    if (lastIndex < text.length - 1) {
+    if (lastIndex < text.length) {
         nodes.push(text.substring(lastIndex));
     }
 

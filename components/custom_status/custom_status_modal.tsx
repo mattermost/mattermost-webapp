@@ -16,7 +16,7 @@ import EmojiIcon from 'components/widgets/icons/emoji_icon';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import {GlobalState} from 'types/store';
 import RenderEmoji from 'components/emoji/render_emoji';
-import QuickInput from 'components/quick_input';
+import QuickInput, {MaxLengthInput} from 'components/quick_input';
 import {makeGetCustomStatus, getRecentCustomStatuses, showStatusDropdownPulsatingDot} from 'selectors/views/custom_status';
 import Constants from 'utils/constants';
 import {t} from 'utils/i18n';
@@ -54,7 +54,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
     const customStatusControlRef = useRef<HTMLDivElement>(null);
     const {formatMessage} = useIntl();
     const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
-    const [text, setText] = useState<string>(currentCustomStatus.text);
+    const [text, setText] = useState<string>(currentCustomStatus.text || '');
     const [emoji, setEmoji] = useState<string>(currentCustomStatus.emoji);
     const isStatusSet = emoji || text;
     const isCurrentCustomStatusSet = currentCustomStatus.text || currentCustomStatus.emoji;
@@ -108,7 +108,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
     };
 
     const disableSetStatus = (currentCustomStatus.text === text && currentCustomStatus.emoji === emoji) ||
-        (text === '' && emoji === '');
+        (text === '' && emoji === '') || (text.length > Constants.CUSTOM_STATUS_TEXT_CHARACTER_LIMIT);
 
     const handleSuggestionClick = (status: UserCustomStatus) => {
         setEmoji(status.emoji);
@@ -129,7 +129,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
     };
 
     const recentStatuses = (
-        <div>
+        <div id='statusSuggestion__recents'>
             <div className='statusSuggestion__title'>
                 {formatMessage({id: 'custom_status.suggestions.recent_title', defaultMessage: 'RECENT'})}
             </div>
@@ -182,7 +182,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
         <div className='statusSuggestion'>
             <div className='statusSuggestion__content'>
                 {recentCustomStatuses.length > 0 && recentStatuses}
-                <div>
+                <div id='statusSuggestion__suggestions'>
                     {renderCustomStatusSuggestions()}
                 </div>
             </div>
@@ -216,6 +216,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
             className={'StatusModal'}
             handleConfirm={handleSetStatus}
             handleCancel={handleClearStatus}
+            confirmButtonClassName='btn btn-primary'
         >
             <div className='StatusModal__body'>
                 <div className='StatusModal__input'>
@@ -247,6 +248,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
                         </button>
                     </div>
                     <QuickInput
+                        inputComponent={MaxLengthInput}
                         value={text}
                         maxLength={Constants.CUSTOM_STATUS_TEXT_CHARACTER_LIMIT}
                         clearable={Boolean(isStatusSet)}

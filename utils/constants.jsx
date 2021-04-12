@@ -112,6 +112,7 @@ export const ActionTypes = keyMirror({
 
     UPDATE_RHS_STATE: null,
     UPDATE_RHS_SEARCH_TERMS: null,
+    UPDATE_RHS_SEARCH_TYPE: null,
     UPDATE_RHS_SEARCH_RESULTS_TERMS: null,
 
     SET_RHS_EXPANDED: null,
@@ -194,10 +195,11 @@ export const ActionTypes = keyMirror({
     UPDATE_ACTIVE_SECTION: null,
 
     RECEIVED_MARKETPLACE_PLUGINS: null,
-    INSTALLING_MARKETPLACE_PLUGIN: null,
-    INSTALLING_MARKETPLACE_PLUGIN_SUCCEEDED: null,
-    INSTALLING_MARKETPLACE_PLUGIN_FAILED: null,
-    FILTER_MARKETPLACE_PLUGINS: null,
+    RECEIVED_MARKETPLACE_APPS: null,
+    FILTER_MARKETPLACE_LISTING: null,
+    INSTALLING_MARKETPLACE_ITEM: null,
+    INSTALLING_MARKETPLACE_ITEM_SUCCEEDED: null,
+    INSTALLING_MARKETPLACE_ITEM_FAILED: null,
 
     POST_UNREAD_SUCCESS: null,
 
@@ -218,6 +220,7 @@ export const ActionTypes = keyMirror({
     PREFETCH_POSTS_FOR_CHANNEL: null,
 
     SET_SHOW_NEXT_STEPS_VIEW: null,
+    SET_FILES_FILTER_BY_EXT: null,
 });
 
 export const PostRequestTypes = keyMirror({
@@ -262,6 +265,7 @@ export const ModalIdentifiers = {
     REMOVED_FROM_CHANNEL: 'removed_from_channel',
     EMAIL_INVITE: 'email_invite',
     INTERACTIVE_DIALOG: 'interactive_dialog',
+    APPS_MODAL: 'apps_modal',
     ADD_TEAMS_TO_SCHEME: 'add_teams_to_scheme',
     INVITATION: 'invitation',
     ADD_GROUPS_TO_TEAM: 'add_groups_to_team',
@@ -276,6 +280,7 @@ export const ModalIdentifiers = {
     SIDEBAR_WHATS_NEW_MODAL: 'sidebar_whats_new_modal',
     WARN_METRIC_ACK: 'warn_metric_acknowledgement',
     UPGRADE_CLOUD_ACCOUNT: 'upgrade_cloud_account',
+    CONFIRM_NOTIFY_ADMIN: 'confirm_notify_admin',
     REMOVE_NEXT_STEPS_MODAL: 'remove_next_steps_modal',
     MORE_CHANNELS: 'more_channels',
     NEW_CHANNEL_FLOW: 'new_channel_flow',
@@ -393,6 +398,8 @@ export const SocketEvents = {
     SIDEBAR_CATEGORY_ORDER_UPDATED: 'sidebar_category_order_updated',
     USER_ACTIVATION_STATUS_CHANGED: 'user_activation_status_change',
     CLOUD_PAYMENT_STATUS_UPDATED: 'cloud_payment_status_updated',
+    APPS_FRAMEWORK_REFRESH_BINDINGS: 'custom_com.mattermost.apps_refresh_bindings',
+    FIRST_ADMIN_VISIT_MARKETPLACE_STATUS_RECEIVED: 'first_admin_visit_marketplace_status_received',
 };
 
 export const TutorialSteps = {
@@ -537,6 +544,7 @@ export const StoragePrefixes = {
     LANDING_PAGE_SEEN: '__landingPageSeen__',
     LANDING_PREFERENCE: '__landing-preference__',
     CHANNEL_CATEGORY_COLLAPSED: 'channelCategoryCollapsed_',
+    INLINE_IMAGE_VISIBLE: 'isInlineImageVisible_',
 };
 
 export const LandingPreferenceTypes = {
@@ -653,6 +661,7 @@ export const RHSStates = {
     FLAG: 'flag',
     PIN: 'pin',
     PLUGIN: 'plugin',
+    CHANNEL_FILES: 'channel-files',
 };
 
 export const UploadStatuses = {
@@ -977,6 +986,7 @@ export const Constants = {
     },
     MAX_UPLOAD_FILES: 5,
     MAX_FILENAME_LENGTH: 35,
+    EXPANDABLE_INLINE_IMAGE_MIN_HEIGHT: 100,
     THUMBNAIL_WIDTH: 128,
     THUMBNAIL_HEIGHT: 100,
     PREVIEWER_HEIGHT: 170,
@@ -1524,7 +1534,7 @@ export const Constants = {
     },
     OVERLAY_TIME_DELAY_SMALL: 100,
     OVERLAY_TIME_DELAY: 400,
-    PERMALINK_FADEOUT: 6000,
+    PERMALINK_FADEOUT: 5000,
     DEFAULT_MAX_USERS_PER_TEAM: 50,
     DEFAULT_MAX_CHANNELS_PER_TEAM: 2000,
     DEFAULT_MAX_NOTIFICATIONS_PER_CHANNEL: 1000,
@@ -1615,6 +1625,16 @@ export const searchHintOptions = [{searchTerm: 'From:', message: {id: t('search_
     {searchTerm: 'After:', message: {id: t('search_list_option.after'), defaultMessage: 'Messages after a date'}},
     {searchTerm: '-', message: {id: t('search_list_option.exclude'), defaultMessage: 'Exclude search terms'}, additionalDisplay: '—'},
     {searchTerm: '""', message: {id: t('search_list_option.phrases'), defaultMessage: 'Messages with phrases'}},
+];
+
+export const searchFilesHintOptions = [{searchTerm: 'From:', message: {id: t('search_files_list_option.from'), defaultMessage: 'Files from a user'}},
+    {searchTerm: 'In:', message: {id: t('search_files_list_option.in'), defaultMessage: 'Files in a channel'}},
+    {searchTerm: 'On:', message: {id: t('search_files_list_option.on'), defaultMessage: 'Files on a date'}},
+    {searchTerm: 'Before:', message: {id: t('search_files_list_option.before'), defaultMessage: 'Files before a date'}},
+    {searchTerm: 'After:', message: {id: t('search_files_list_option.after'), defaultMessage: 'Files after a date'}},
+    {searchTerm: 'Ext:', message: {id: t('search_files_list_option.ext'), defaultMessage: 'Files with a extension'}},
+    {searchTerm: '-', message: {id: t('search_files_list_option.exclude'), defaultMessage: 'Exclude search terms'}, additionalDisplay: '—'},
+    {searchTerm: '""', message: {id: t('search_files_list_option.phrases'), defaultMessage: 'Files with phrases'}},
 ];
 
 t('suggestion.mention.channels');

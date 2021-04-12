@@ -8,12 +8,12 @@ import {DragDropContext, Droppable, DropResult, DragStart, BeforeCapture} from '
 import {Spring, SpringSystem} from 'rebound';
 import classNames from 'classnames';
 
+import debounce from 'lodash/debounce';
+
 import {General} from 'mattermost-redux/constants';
 import {Channel} from 'mattermost-redux/types/channels';
 import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
 import {Team} from 'mattermost-redux/types/teams';
-
-import debounce from 'lodash/debounce';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import {DraggingState} from 'types/store';
@@ -80,7 +80,6 @@ type Props = {
         close: () => void;
         setDraggingState: (data: DraggingState) => void;
         stopDragging: () => void;
-        expandCategory: (categoryId: string) => void;
         clearChannelSelection: () => void;
         multiSelectChannelAdd: (channelId: string) => void;
     };
@@ -504,7 +503,7 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
 
             // NOTE: id attribute added to temporarily support the desktop app's at-mention DOM scraping of the old sidebar
             <div
-                id='lhsList'
+                id='sidebar-left'
                 role='application'
                 aria-label={ariaLabel}
                 className={classNames('SidebarNavContainer a11y__region', {

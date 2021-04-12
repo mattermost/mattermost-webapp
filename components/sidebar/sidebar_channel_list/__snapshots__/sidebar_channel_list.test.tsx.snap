@@ -6,7 +6,7 @@ exports[`SidebarChannelList should match snapshot 1`] = `
   className="SidebarNavContainer a11y__region"
   data-a11y-disable-nav={false}
   data-a11y-sort-order="7"
-  id="lhsList"
+  id="sidebar-left"
   onTransitionEnd={[Function]}
   role="application"
 >
@@ -90,6 +90,7 @@ exports[`SidebarChannelList should match snapshot 2`] = `
           "channel_id",
           "channel_id_2",
         ],
+        "collapsed": false,
         "display_name": "custom_category_1",
         "id": "category1",
         "muted": false,
