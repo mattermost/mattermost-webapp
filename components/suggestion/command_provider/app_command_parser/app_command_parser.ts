@@ -951,8 +951,7 @@ export class AppCommandParser {
         if (err.message) {
             errStr = err.message;
         }
-
-        displayError(this.intl, errStr);
+        displayError(errStr, this.channelID, this.rootPostID);
     }
 
     // getSuggestionsForSubCommands returns suggestions for a subcommand's name

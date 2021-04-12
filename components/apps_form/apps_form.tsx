@@ -142,8 +142,6 @@ export class AppsForm extends React.PureComponent<Props, State> {
         const res = await this.props.actions.submit(submission);
         const callResp = res.data as AppCallResponse<FormResponseData>;
 
-        this.setState({submitting: false});
-
         let hasErrors = false;
         let updatedForm = false;
         switch (callResp.type) {
@@ -182,7 +180,10 @@ export class AppsForm extends React.PureComponent<Props, State> {
 
         if (!hasErrors && !updatedForm) {
             this.handleHide(true);
+            return;
         }
+
+        this.setState({submitting: false});
     };
 
     performLookup = async (name: string, userInput: string): Promise<AppSelectOption[]> => {

@@ -128,7 +128,7 @@ export function executeCommand(message: string, args: CommandArgs): ActionFunc {
                     switch (callResp.type) {
                     case AppCallResponseTypes.OK:
                         if (callResp.markdown) {
-                            GlobalActions.sendEphemeralPost(callResp.markdown, args.channel_id, args.parent_id);
+                            GlobalActions.sendEphemeralPost(callResp.markdown, args.channel_id, args.parent_id, callResp.app_metadata?.bot_user_id);
                         }
                         return {data: true};
                     case AppCallResponseTypes.ERROR:

@@ -300,7 +300,7 @@ class DotMenu extends React.PureComponent<Props, State> {
         const res = await this.props.actions?.doAppCall(call, AppCallTypes.SUBMIT, this.props.intl);
 
         const callResp = (res as {data: AppCallResponse}).data;
-        const ephemeral = (message: string) => sendEphemeralPost(message, this.props.post.channel_id, this.props.post.root_id);
+        const ephemeral = (message: string) => sendEphemeralPost(message, this.props.post.channel_id, this.props.post.root_id, callResp.app_metadata?.bot_user_id);
         switch (callResp.type) {
         case AppCallResponseTypes.OK:
             if (callResp.markdown) {

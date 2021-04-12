@@ -81,8 +81,8 @@ export const getExecuteSuggestion = (parsed: ParsedCommand): AutocompleteSuggest
     };
 };
 
-export const displayError = (intl: any, body: string) => { // eslint-disable-line @typescript-eslint/no-unused-vars
-    sendEphemeralPost(body);
+export const displayError = (err: string, channelID: string, rootID?: string) => {
+    sendEphemeralPost(err, channelID, rootID);
 };
 
 // Shim of mobile-version intl
