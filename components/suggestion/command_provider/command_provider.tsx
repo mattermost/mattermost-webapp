@@ -29,6 +29,7 @@ import {AppCommandParser} from './app_command_parser/app_command_parser';
 import {intlShim} from './app_command_parser/app_command_parser_dependencies';
 
 const EXECUTE_CURRENT_COMMAND_ITEM_ID = Constants.Integrations.EXECUTE_CURRENT_COMMAND_ITEM_ID;
+const COMMAND_SUGGESTION_ERROR = Constants.Integrations.COMMAND_SUGGESTION_ERROR;
 
 export class CommandSuggestion extends Suggestion {
     render() {
@@ -43,8 +44,11 @@ export class CommandSuggestion extends Suggestion {
         if (item.IconData === EXECUTE_CURRENT_COMMAND_ITEM_ID) {
             symbolSpan = <span className='block mt-1'>{'↵'}</span>;
         }
+        if (item.IconData === COMMAND_SUGGESTION_ERROR) {
+            symbolSpan = <span>{'!'}</span>;
+        }
         let icon = <div className='slash-command__icon'>{symbolSpan}</div>;
-        if (item.IconData && item.IconData !== EXECUTE_CURRENT_COMMAND_ITEM_ID) {
+        if (item.IconData && item.IconData !== EXECUTE_CURRENT_COMMAND_ITEM_ID && item.IconData !== COMMAND_SUGGESTION_ERROR) {
             icon = (
                 <div
                     className='slash-command__icon'
