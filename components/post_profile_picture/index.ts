@@ -6,10 +6,16 @@ import {connect} from 'react-redux';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getUser, getStatusForUserId} from 'mattermost-redux/selectors/entities/users';
 import {Client4} from 'mattermost-redux/client';
-
+import {Post} from 'mattermost-redux/types/posts';
 import PostProfilePicture from './post_profile_picture';
+import {GlobalState} from '../../types/store';
 
-function mapStateToProps(state, ownProps) {
+type Props = {
+    userId: string,
+    post: Post
+}
+
+function mapStateToProps(state: GlobalState, ownProps: Props) {
     const config = getConfig(state);
     const user = getUser(state, ownProps.userId);
     const enablePostIconOverride = config.EnablePostIconOverride === 'true';
