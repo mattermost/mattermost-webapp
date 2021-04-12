@@ -28,6 +28,7 @@ export default class SidebarRight extends React.PureComponent {
         isMentionSearch: PropTypes.bool,
         isFlaggedPosts: PropTypes.bool,
         isPinnedPosts: PropTypes.bool,
+        isChannelFiles: PropTypes.bool,
         isPluginView: PropTypes.bool,
         previousRhsState: PropTypes.string,
         rhsChannel: PropTypes.object,
@@ -40,6 +41,7 @@ export default class SidebarRight extends React.PureComponent {
             closeRightHandSide: PropTypes.func.isRequired,
             openAtPrevious: PropTypes.func.isRequired,
             updateSearchTerms: PropTypes.func.isRequired,
+            showChannelFiles: PropTypes.func.isRequired,
         }),
     };
 
@@ -61,6 +63,7 @@ export default class SidebarRight extends React.PureComponent {
             searchVisible: this.props.searchVisible,
             isMentionSearch: this.props.isMentionSearch,
             isPinnedPosts: this.props.isPinnedPosts,
+            isChannelFiles: this.props.isChannelFiles,
             isFlaggedPosts: this.props.isFlaggedPosts,
             selectedPostId: this.props.selectedPostId,
             selectedPostCardId: this.props.selectedPostCardId,
@@ -102,9 +105,13 @@ export default class SidebarRight extends React.PureComponent {
             trackEvent('ui', 'ui_rhs_opened');
         }
 
-        const {actions, isPinnedPosts, rhsChannel, channel} = this.props;
+        const {actions, isChannelFiles, isPinnedPosts, rhsChannel, channel} = this.props;
         if (isPinnedPosts && prevProps.isPinnedPosts === isPinnedPosts && rhsChannel.id !== prevProps.rhsChannel.id) {
             actions.showPinnedPosts(rhsChannel.id);
+        }
+
+        if (isChannelFiles && prevProps.isChannelFiles === isChannelFiles && rhsChannel.id !== prevProps.rhsChannel.id) {
+            actions.showChannelFiles(rhsChannel.id);
         }
 
         if (channel && prevProps.channel && (channel.id !== prevProps.channel.id)) {
@@ -154,6 +161,7 @@ export default class SidebarRight extends React.PureComponent {
             currentUserId,
             isFlaggedPosts,
             isPinnedPosts,
+            isChannelFiles,
             postRightVisible,
             postCardVisible,
             previousRhsState,
@@ -201,7 +209,7 @@ export default class SidebarRight extends React.PureComponent {
                 />
                 <div className='sidebar-right-container'>
                     <Search
-                        isFocus={searchVisible && !isFlaggedPosts && !isPinnedPosts}
+                        isFocus={searchVisible && !isFlaggedPosts && !isPinnedPosts && !isChannelFiles}
                         isSideBarRight={true}
                         isSideBarRightOpen={this.state.isOpened}
                         getFocus={this.getSearchBarFocus}

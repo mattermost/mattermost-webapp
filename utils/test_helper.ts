@@ -117,6 +117,7 @@ export class TestHelper {
             sorting: CategorySorting.Alphabetical,
             channel_ids: ['channel_id'],
             muted: false,
+            collapsed: false,
         };
         return Object.assign({}, defaultCategory, override);
     }

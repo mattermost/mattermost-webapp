@@ -12,7 +12,6 @@ import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {switchToChannelById} from 'actions/views/channel';
 import {
-    expandCategory,
     moveChannelsInSidebar,
     setDraggingState,
     stopDragging,
@@ -56,7 +55,6 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             moveCategory,
             setDraggingState,
             stopDragging,
-            expandCategory,
             clearChannelSelection,
             multiSelectChannelAdd,
         }, dispatch),
