@@ -81,6 +81,7 @@ exports[`plugins/PostMessageView should match snapshot with no extended post typ
     <Connect(PostMarkdown)
       imageProps={
         Object {
+          "onImageHeightChanged": [Function],
           "onImageLoaded": [Function],
         }
       }

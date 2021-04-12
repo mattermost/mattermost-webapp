@@ -6,16 +6,21 @@ import {shallow} from 'enzyme';
 
 import {Client4} from 'mattermost-redux/client';
 
+import {AutocompleteSuggestion} from 'mattermost-redux/types/integrations';
+
 import CommandProvider, {CommandSuggestion, Results} from './command_provider';
 
 describe('CommandSuggestion', () => {
+    const suggestion: AutocompleteSuggestion = {
+        Suggestion: '/invite',
+        Complete: '/invite',
+        Hint: '@[username] ~[channel]',
+        Description: 'Invite a user to a channel',
+        IconData: '',
+    };
+
     const baseProps = {
-        item: {
-            suggestion: '/invite',
-            hint: '@[username] ~[channel]',
-            description: 'Invite a user to a channel',
-            iconData: '',
-        },
+        item: suggestion,
         isSelection: true,
         term: '/',
         matchedPretext: '',
@@ -34,7 +39,7 @@ describe('CommandSuggestion', () => {
 
 describe('CommandProvider', () => {
     describe('handlePretextChanged', () => {
-        test('should fetch results from the server', async () => {
+        test('should fetch command autocomplete results from the server', async () => {
             const f = Client4.getCommandAutocompleteSuggestionsList;
 
             const mockFunc = jest.fn().mockResolvedValue([{
@@ -56,11 +61,46 @@ describe('CommandProvider', () => {
                 matchedPretext: '/jira issue',
                 terms: ['/jira issue'],
                 items: [{
-                    complete: '/jira issue',
-                    suggestion: '/issue',
-                    hint: 'hint',
-                    iconData: 'icon_data',
-                    description: 'description',
+                    Complete: '/jira issue',
+                    Suggestion: '/issue',
+                    Hint: 'hint',
+                    IconData: 'icon_data',
+                    Description: 'description',
+                }],
+                component: CommandSuggestion,
+            };
+            expect(callback).toHaveBeenCalledWith(expected);
+
+            Client4.getCommandAutocompleteSuggestionsList = f;
+        });
+
+        test('should use the app command parser', async () => {
+            const f = Client4.getCommandAutocompleteSuggestionsList;
+
+            const mockFunc = jest.fn().mockResolvedValue([{
+                Suggestion: 'issue',
+                Complete: 'jira issue',
+                Hint: 'hint',
+                IconData: 'icon_data',
+                Description: 'description',
+            }]);
+            Client4.getCommandAutocompleteSuggestionsList = mockFunc;
+
+            const provider = new CommandProvider({isInRHS: false});
+
+            const callback = jest.fn();
+            provider.handlePretextChanged('/jira issue', callback);
+            await mockFunc();
+
+            const expected: Results = {
+                matchedPretext: '/jira issue',
+                terms: ['/jira issue'],
+                items: [{
+                    Complete: '/jira issue',
+                    Suggestion: '/issue',
+                    Hint: 'hint',
+                    IconData: 'icon_data',
+                    Description: 'description',
                 }],
                 component: CommandSuggestion,
             };
