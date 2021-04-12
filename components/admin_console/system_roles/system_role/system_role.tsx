@@ -200,31 +200,19 @@ export default class SystemRole extends React.PureComponent<Props, State> {
             ...updatedPermissions,
         };
 
-        let updatedRolePermissions: string[] = [];
-
-        // Determine required ancillary permissions...
-        role.permissions.forEach((permission) => {
-            if (permission.startsWith('sysconsole_')) {
-                const permissionShortName = permission.replace(/sysconsole_(read|write)_/, '');
-                if (!(permissionShortName in permissionsToUpdate)) {
-                    const ancillary = Permissions.SYSCONSOLE_ANCILLARY_PERMISSIONS[permission] || [];
-                    updatedRolePermissions.push(...ancillary, permission);
-                }
-            }
-        });
+        let updatedRolePermissions: string[] = role.permissions.
+            filter((permission) => permission.startsWith('sysconsole_') && !(permission.replace(/sysconsole_(read|write)_/, '') in permissionsToUpdate));
 
         Object.keys(permissionsToUpdate).forEach((permissionShortName) => {
             const value = permissionsToUpdate[permissionShortName];
             if (value) {
                 const readPermission = `sysconsole_read_${permissionShortName}`;
                 const writePermission = `sysconsole_write_${permissionShortName}`;
-                const readAncillary = Permissions.SYSCONSOLE_ANCILLARY_PERMISSIONS[readPermission] || [];
-                const writeAncillary = Permissions.SYSCONSOLE_ANCILLARY_PERMISSIONS[writePermission] || [];
 
                 if (value === writeAccess) {
-                    updatedRolePermissions.push(...readAncillary, ...writeAncillary, readPermission, writePermission);
+                    updatedRolePermissions.push(readPermission, writePermission);
                 } else {
-                    updatedRolePermissions.push(...readAncillary, readPermission);
+                    updatedRolePermissions.push(readPermission);
                 }
             }
         });
