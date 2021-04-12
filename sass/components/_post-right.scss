@@ -171,6 +171,7 @@
             height: 20px;
             line-height: 20px;
             margin-top: 3px;
+            margin-bottom: 0;
             max-width: 230px;
             min-width: 1px;
         }
@@ -193,10 +194,6 @@
 
         .post-create {
             padding: .5em 15px 0;
-        }
-
-        .msg-typing {
-            margin: 0;
         }
 
         .post-create-footer {
