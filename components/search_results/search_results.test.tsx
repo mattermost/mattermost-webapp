@@ -9,11 +9,15 @@ describe('components/SearchResults', () => {
     describe('shouldRenderFromProps', () => {
         const result1 = {test: 'test'};
         const result2 = {test: 'test'};
+        const fileResult1 = {test: 'test'};
+        const fileResult2 = {test: 'test'};
         const results = [result1, result2];
+        const fileResults = [fileResult1, fileResult2];
         const props = {
             prop1: 'someprop',
             somearray: [1, 2, 3],
             results,
+            fileResults,
         };
 
         // Using a lot of anys here since the function is only used by SearchResults so the parameters are bound to its props
@@ -21,12 +25,16 @@ describe('components/SearchResults', () => {
 
         test('should not render', () => {
             assert.ok(arePropsEqual(props as any, {...props} as any));
+            assert.ok(arePropsEqual(props as any, {...props, results: [result1, result2]} as any));
+            assert.ok(arePropsEqual(props as any, {...props, fileResults: [fileResult1, fileResult2]} as any));
         });
 
         test('should render', () => {
             assert.ok(!arePropsEqual(props as any, {...props, prop1: 'newprop'} as any));
             assert.ok(!arePropsEqual(props as any, {...props, results: [result2, result1]} as any));
             assert.ok(!arePropsEqual(props as any, {...props, results: [result1, result2, {test: 'test'}]} as any));
+            assert.ok(!arePropsEqual(props as any, {...props, fileResults: [fileResult2, fileResult1]} as any));
+            assert.ok(!arePropsEqual(props as any, {...props, fileResults: [fileResult1, fileResult2, {test: 'test'}]} as any));
             assert.ok(!arePropsEqual(props as any, {...props, somearray: [1, 2, 3]} as any));
         });
     });

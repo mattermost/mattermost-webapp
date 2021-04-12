@@ -9,27 +9,9 @@ import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels'
 import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 import {insertMultipleWithoutDuplicates} from 'mattermost-redux/utils/array_utils';
 
-import {setItem} from 'actions/storage';
 import {getCategoriesForCurrentTeam, getChannelsInCategoryOrder, getDisplayedChannels} from 'selectors/views/channel_sidebar';
 import {DraggingState, GlobalState} from 'types/store';
-import {ActionTypes, StoragePrefixes} from 'utils/constants';
-
-export function collapseCategory(categoryId: string) {
-    return setItem(StoragePrefixes.CHANNEL_CATEGORY_COLLAPSED + categoryId, true);
-}
-
-export function expandCategory(categoryId: string) {
-    // You should be able to use removeItem here, but removeItem was not working at all
-    return setItem(StoragePrefixes.CHANNEL_CATEGORY_COLLAPSED + categoryId, false);
-}
-
-export function setCategoryCollapsed(categoryId: string, collapsed: boolean) {
-    if (collapsed) {
-        return collapseCategory(categoryId);
-    }
-
-    return expandCategory(categoryId);
-}
+import {ActionTypes} from 'utils/constants';
 
 export function setUnreadFilterEnabled(enabled: boolean) {
     return {

@@ -40,12 +40,17 @@ describe('components/dot_menu/DotMenu returning empty ("")', () => {
                 unpinPost: jest.fn(),
                 openModal: jest.fn(),
                 markPostAsUnread: jest.fn(),
+                doAppCall: jest.fn(),
             },
             canEdit: false,
             canDelete: false,
+            appBindings: [],
+            pluginMenuItems: [],
+            appsEnabled: false,
+            isReadOnly: false,
         };
 
-        const wrapper = shallow<DotMenu>(
+        const wrapper = shallow(
             <DotMenu {...baseProps}/>,
         );
 

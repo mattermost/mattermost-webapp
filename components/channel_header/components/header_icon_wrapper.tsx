@@ -66,6 +66,12 @@ const HeaderIconWrapper: React.FC<Props> = (props: Props) => {
             messageID: t('channel_header.search'),
             message: 'Search',
         },
+        channelFiles: {
+            class: 'channel-files',
+            id: 'channelFilesTooltip',
+            messageID: t('channel_header.channelFiles'),
+            message: 'Channel files',
+        },
     };
 
     function getTooltip(key: string) {
