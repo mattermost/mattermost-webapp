@@ -1143,7 +1143,6 @@
   "admin.license.trial-request.submit": "Start trial",
   "admin.license.trialCard.description": "Your free trial will expire in **{daysCount} {daysCount, plural, one {day} other {days}}**. Visit our customer portal to purchase a license now to continue using E10 & E20 features after trial ends.",
   "admin.license.trialCard.description.expiringToday": "Your free trial expires **Today at {time}**. Visit our customer portal to purchase a license now to continue using E10 & E20 features after trial ends",
-  "admin.license.trialCard.description.expiringTomorrow": "Your free trial expires **Tomorrow at {time}**. Visit our customer portal to purchase a license now to continue using E10 & E20 features after trial ends",
   "admin.license.trialCard.licenseExpiring": "You’re currently on a free trial of our E20 license.",
   "admin.license.trialCard.purchase_license": "Purchase a license",
   "admin.license.type": "License: ",
