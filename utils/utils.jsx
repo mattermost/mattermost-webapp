@@ -249,6 +249,16 @@ export function getTimestamp() {
     return Date.now();
 }
 
+export function getRemainingDaysFromFutureTimestamp(timestamp) {
+    const MS_PER_DAY = 24 * 60 * 60 * 1000;
+    const futureDate = new Date(timestamp);
+    const utcFuture = Date.UTC(futureDate.getFullYear(), futureDate.getMonth(), futureDate.getDate());
+    const today = new Date();
+    const utcToday = Date.UTC(today.getFullYear(), today.getMonth(), today.getDate());
+
+    return Math.floor((utcFuture - utcToday) / MS_PER_DAY);
+}
+
 // Replaces all occurrences of a pattern
 export function loopReplacePattern(text, pattern, replacement) {
     let result = text;
