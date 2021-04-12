@@ -64,6 +64,21 @@ function teams(state: IDMappedObjects<Team> = {}, action: GenericAction) {
         return {...state, [teamId]: {...team, scheme_id: schemeId}};
     }
 
+    case AdminTypes.REMOVE_DATA_RETENTION_CUSTOM_POLICY_TEAMS_SUCCESS: {
+        const {teams} = action.data;
+        let nextState = {...state};
+        teams.forEach((teamId: string) => {
+            if (nextState[teamId]) {
+                nextState[teamId] = {
+                    ...nextState[teamId],
+                    policy_id: null,
+                };
+            }
+        });
+
+        return nextState;
+    }
+
     case UserTypes.LOGOUT_SUCCESS:
         return {};
 

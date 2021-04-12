@@ -223,6 +223,21 @@ function channels(state: IDMappedObjects<Channel> = {}, action: GenericAction) {
         return hasNewValues ? nextState : state;
     }
 
+    case AdminTypes.REMOVE_DATA_RETENTION_CUSTOM_POLICY_CHANNELS_SUCCESS: {
+        const {channels} = action.data;
+        let nextState = {...state};
+        channels.forEach((channelId: string) => {
+            if (nextState[channelId]) {
+                nextState[channelId] = {
+                    ...nextState[channelId],
+                    policy_id: null,
+                };
+            }
+        });
+
+        return nextState;
+    }
+
     case UserTypes.LOGOUT_SUCCESS:
         return {};
     default:

@@ -1366,23 +1366,30 @@ export function isFavoriteChannel(state: GlobalState, channelId: string): boolea
     return category.channel_ids.includes(channel.id);
 }
 export function filterChannelList(channelList: Channel[], filters: ChannelSearchOpts): Channel[] {
-    if (!filters) {
+    if (!filters || (!filters.private && !filters.public && !filters.deleted && !filters.team_ids)) {
         return channelList;
     }
+    let result: Channel[] = [];
     let channels = channelList;
     if (filters.public) {
-        channels = channels.filter((channel) => channel.type === Constants.OPEN_CHANNEL);
-    } else if (filters.private) {
-        channels = channels.filter((channel) => channel.type === Constants.PRIVATE_CHANNEL);
-    } else if (filters.deleted) {
-        channels = channels.filter((channel) => channel.type === Constants.ARCHIVED_CHANNEL);
+        result = result.concat(channels.filter((channel) => channel.type === Constants.OPEN_CHANNEL));
     }
-    return channels;
+    if (filters.private) {
+        result = result.concat(channels.filter((channel) => channel.type === Constants.PRIVATE_CHANNEL));
+    }
+    if (filters.deleted) {
+        result = result.concat(channels.filter((channel) => channel.type === Constants.ARCHIVED_CHANNEL));
+    }
+    if (filters.team_ids) {
+        filters.team_ids.forEach(id => {
+            result = result.concat(channels.filter((channel) => channel.team_id === id))
+        });
+    }
+    return result;
 }
 export function searchChannelsInPolicy(state: GlobalState, policyId: string, term: string, filters: ChannelSearchOpts): Channel[] {
     const channelsInPolicy = getChannelsInPolicy();
     const channelArray = channelsInPolicy(state, {policyId});
-
     let channels = filterChannelList(channelArray, filters);
     channels = filterChannelsMatchingTerm(channels, term);
 

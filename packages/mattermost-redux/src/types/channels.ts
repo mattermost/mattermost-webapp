@@ -43,7 +43,7 @@ export type Channel = {
     fake?: boolean;
     group_constrained: boolean;
     props?: Record<string, any>;
-    policy_id?: string;
+    policy_id?: string  | null;
 };
 
 export type ChannelWithTeamData = Channel & {

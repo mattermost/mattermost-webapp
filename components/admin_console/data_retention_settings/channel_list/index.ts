@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {getDataRetentionCustomPolicyChannels, searchDataRetentionCustomPolicyChannels as searchChannels} from 'mattermost-redux/actions/admin';
-import {getChannelsInPolicy, searchChannelsInPolicy} from 'mattermost-redux/selectors/entities/channels';
+import {filterChannelList, getChannelsInPolicy, searchChannelsInPolicy} from 'mattermost-redux/selectors/entities/channels';
 import {getDataRetentionCustomPolicy} from 'mattermost-redux/selectors/entities/admin';
 import {filterChannelsMatchingTerm, channelListToMap} from 'mattermost-redux/utils/channel_utils';
 
@@ -33,8 +33,9 @@ type Actions = {
     setChannelListFilters: (filters: ChannelSearchOpts) => ActionResult;
 }
 
-function searchChannelsToAdd(channels: Dictionary<Channel>, term: string): Dictionary<Channel> {
-    const filteredTeams = filterChannelsMatchingTerm(Object.keys(channels).map((key) => channels[key]), term);
+function searchChannelsToAdd(channels: Dictionary<Channel>, term: string, filters: ChannelSearchOpts): Dictionary<Channel> {
+    let filteredTeams = filterChannelsMatchingTerm(Object.keys(channels).map((key) => channels[key]), term);
+    filteredTeams = filterChannelList(filteredTeams, filters);
     return channelListToMap(filteredTeams);
 }
 
@@ -50,9 +51,9 @@ function mapStateToProps() {
         const searchTerm = state.views.search.channelListSearch.term || '';
         const filters = state.views.search.channelListSearch?.filters || {};
 
-        if (searchTerm) {
+        if (searchTerm || filters) {
             channels = policyId ? searchChannelsInPolicy(state, policyId, searchTerm, filters) as ChannelWithTeamData[] : [];
-            channelsToAdd = searchChannelsToAdd(channelsToAdd, searchTerm) as Dictionary<ChannelWithTeamData>;
+            channelsToAdd = searchChannelsToAdd(channelsToAdd, searchTerm, filters) as Dictionary<ChannelWithTeamData>;
             totalCount = channels.length;
         } else {
             channels = policyId ? getPolicyChannels(state, {policyId}) as ChannelWithTeamData[] : [];
