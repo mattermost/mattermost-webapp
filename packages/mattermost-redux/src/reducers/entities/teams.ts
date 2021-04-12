@@ -93,7 +93,7 @@ function myMembers(state: RelationOneToOne<Team, TeamMembership> = {}, action: G
         const members = action.data;
         for (const m of members) {
             if (m.delete_at == null || m.delete_at === 0) {
-                const prevMember = state[m.team_id] || {mention_count: 0, msg_count: 0};
+                const prevMember = state[m.team_id] || {mention_count: 0, msg_count: 0, mention_count_root: 0, msg_count_root: 0};
                 nextState[m.team_id] = {
                     ...prevMember,
                     ...m,
@@ -147,7 +147,6 @@ function myMembers(state: RelationOneToOne<Team, TeamMembership> = {}, action: G
             // Incrementing the msg_count marks the team as unread, so don't do that if these posts shouldn't be unread
             return state;
         }
-
         return {
             ...state,
             [teamId]: {
@@ -250,6 +249,8 @@ function myMembers(state: RelationOneToOne<Team, TeamMembership> = {}, action: G
                 if (unread) {
                     m.mention_count = unread.mention_count;
                     m.msg_count = unread.msg_count;
+                    m.mention_count_root = unread.mention_count_root;
+                    m.msg_count_root = unread.msg_count_root;
                 }
                 nextState[m.team_id] = m;
             }
