@@ -106,6 +106,7 @@ export function executeCommand(message: string, args: CommandArgs): ActionFunc {
         case '/collapse':
         case '/expand':
             dispatch(PostActions.resetEmbedVisibility());
+            dispatch(PostActions.resetInlineImageVisibility());
         }
 
         if (appsEnabled(state)) {
