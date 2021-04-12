@@ -48,6 +48,7 @@ import ChannelDetails from './team_channel_settings/channel/details';
 import PasswordSettings from './password_settings.jsx';
 import PushNotificationsSettings from './push_settings.jsx';
 import DataRetentionSettings from './data_retention_settings.jsx';
+import CustomDataRetentionForm from './data_retention_settings/custom_policy_form';
 import MessageExportSettings from './message_export_settings.jsx';
 import DatabaseSettings from './database_settings.jsx';
 import ElasticSearchSettings from './elasticsearch_settings.jsx';
@@ -178,7 +179,7 @@ export const it = {
     stateIsFalse: (key) => (config, state) => !state[key],
     configIsTrue: (group, setting) => (config) => Boolean(config[group][setting]),
     configIsFalse: (group, setting) => (config) => !config[group][setting],
-    configContains: (group, setting, word) => (config) => Boolean(config[group][setting]?.includes(word)),
+    configContains: (group, setting, word) => (config) => Boolean(config[group][setting].includes(word)),
     enterpriseReady: (config, state, license, enterpriseReady) => enterpriseReady,
     licensed: (config, state, license) => license.IsLicensed === 'true',
     licensedForFeature: (feature) => (config, state, license) => license.IsLicensed && license[feature] === 'true',
@@ -974,32 +975,6 @@ const AdminDefinition = {
                         onConfigLoad: (configVal) => configVal / MEBIBYTE,
                         onConfigSave: (displayVal) => displayVal * MEBIBYTE,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.FILE_STORAGE)),
-                    },
-                    {
-                        type: Constants.SettingsTypes.TYPE_BOOL,
-                        key: 'FileSettings.ExtractContent',
-                        label: t('admin.image.extractContentTitle'),
-                        label_default: 'Enable document search by content:',
-                        help_text: t('admin.image.extractContentDescription'),
-                        help_text_markdown: true,
-                        help_text_default: 'When enabled, supported document types are searchable by their content. Search results for existing documents may be incomplete [until a data migration is executed](!https://www.mattermost.com/file-content-extraction).',
-                        isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.FILE_STORAGE)),
-                        ),
-                        isHidden: it.not(it.configIsTrue('FeatureFlags', 'FilesSearch')),
-                    },
-                    {
-                        type: Constants.SettingsTypes.TYPE_BOOL,
-                        key: 'FileSettings.ArchiveRecursion',
-                        label: t('admin.image.archiveRecursionTitle'),
-                        label_default: 'Enable searching content of documents within ZIP files:',
-                        help_text: t('admin.image.archiveRecursionDescription'),
-                        help_text_default: 'When enabled, content of documents within ZIP files will be returned in search results. This may have an impact on server performance for large files. ',
-                        isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.FILE_STORAGE)),
-                            it.configIsFalse('FileSettings', 'ExtractContent'),
-                        ),
-                        isHidden: it.not(it.configIsTrue('FeatureFlags', 'FilesSearch')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -5200,6 +5175,32 @@ const AdminDefinition = {
         icon: 'fa-list',
         sectionTitle: t('admin.sidebar.compliance'),
         sectionTitleDefault: 'Compliance',
+        custom_policy_form_edit: {
+            url: 'compliance/data_retention/custom_policy/:policy_id',
+            isHidden: it.any(
+                it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.COMPLIANCE)),
+                it.configIsFalse('FeatureFlags', 'CustomDataRetentionEnabled'),
+            ),
+            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.COMPLIANCE)),
+            schema: {
+                id: 'CustomDataRetentionForm',
+                component: CustomDataRetentionForm,
+            },
+
+        },
+        custom_policy_form: {
+            url: 'compliance/data_retention/custom_policy',
+            isHidden: it.any(
+                it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.COMPLIANCE)),
+                it.configIsFalse('FeatureFlags', 'CustomDataRetentionEnabled'),
+            ),
+            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.COMPLIANCE)),
+            schema: {
+                id: 'CustomDataRetentionForm',
+                component: CustomDataRetentionForm,
+            },
+
+        },
         isHidden: it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.COMPLIANCE)),
         data_retention: {
             url: 'compliance/data_retention',

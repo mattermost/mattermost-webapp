@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {IDMappedObjects, UserIDMappedObjects, RelationOneToMany, RelationOneToOne, Dictionary} from './utilities';
+import {IDMappedObjects, UserIDMappedObjects, RelationOneToMany, RelationOneToOne} from './utilities';
 import {Team} from './teams';
 
 export type ChannelType = 'O' | 'P' | 'D' | 'G';
@@ -43,6 +43,7 @@ export type Channel = {
     fake?: boolean;
     group_constrained: boolean;
     props?: Record<string, any>;
+    policy_id?: string | null;
 };
 
 export type ChannelWithTeamData = Channel & {
@@ -92,7 +93,6 @@ export type ChannelsState = {
     manuallyUnread: RelationOneToOne<Channel, boolean>;
     channelModerations: RelationOneToOne<Channel, ChannelModeration[]>;
     channelMemberCountsByGroup: RelationOneToOne<Channel, ChannelMemberCountsByGroup>;
-    channelsInPolicy: Dictionary<Channel>;
 };
 
 export type ChannelModeration = {

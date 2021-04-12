@@ -40,6 +40,7 @@ export type Team = {
     allow_open_invite: boolean;
     scheme_id: string;
     group_constrained: boolean;
+    policy_id?: string | null;
 };
 
 export type TeamsState = {
@@ -50,7 +51,6 @@ export type TeamsState = {
     stats: RelationOneToOne<Team, TeamStats>;
     groupsAssociatedToTeam: any;
     totalCount: number;
-    teamsInPolicy: Dictionary<Team>;
 };
 
 export type TeamUnread = {
