@@ -2,11 +2,9 @@
 // See LICENSE.txt for license information.
 
 import {Channel} from 'mattermost-redux/types/channels';
-import {MarketplacePlugin} from 'mattermost-redux/types/plugins';
+import {MarketplaceApp, MarketplacePlugin} from 'mattermost-redux/types/marketplace';
 import {Dictionary, RelationOneToOne, $ID} from 'mattermost-redux/types/utilities';
-
 import {Team} from 'mattermost-redux/types/teams';
-
 import {UserThread} from 'mattermost-redux/types/threads';
 
 import {I18nState} from './i18n';
@@ -125,8 +123,9 @@ export type ViewsState = {
 
     marketplace: {
         plugins: MarketplacePlugin[];
-        installing: {[pluginId: string]: boolean};
-        errors: {[pluginId: string]: string};
+        apps: MarketplaceApp[];
+        installing: {[id: string]: boolean};
+        errors: {[id: string]: string};
         filter: string;
     };
 

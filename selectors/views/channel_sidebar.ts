@@ -11,7 +11,11 @@ import {
     getMyChannelMemberships,
     getUnreadChannelIds,
 } from 'mattermost-redux/selectors/entities/channels';
-import {makeGetChannelsByCategory, makeGetCategoriesForTeam, makeGetChannelsForCategory} from 'mattermost-redux/selectors/entities/channel_categories';
+import {
+    makeGetCategoriesForTeam,
+    makeGetChannelsByCategory,
+    makeGetChannelsForCategory,
+} from 'mattermost-redux/selectors/entities/channel_categories';
 import {getLastPostPerChannel} from 'mattermost-redux/selectors/entities/posts';
 import {shouldShowUnreadsCategory} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
@@ -19,20 +23,9 @@ import {Channel} from 'mattermost-redux/types/channels';
 import {CategorySorting, ChannelCategory} from 'mattermost-redux/types/channel_categories';
 import {RelationOneToOne} from 'mattermost-redux/types/utilities';
 import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
-import {createIdsSelector, memoizeResult} from 'mattermost-redux/utils/helpers';
+import {memoizeResult} from 'mattermost-redux/utils/helpers';
 
-import {getItemFromStorage} from 'selectors/storage';
 import {GlobalState} from 'types/store';
-import {StoragePrefixes} from 'utils/constants';
-import {getPrefix} from 'utils/storage_utils';
-
-function isCategoryCollapsedFromStorage(prefix: string, storage: {[key: string]: any}, categoryId: string) {
-    return getItemFromStorage(storage, prefix + StoragePrefixes.CHANNEL_CATEGORY_COLLAPSED + categoryId, false);
-}
-
-export function isCategoryCollapsed(state: GlobalState, categoryId: string) {
-    return isCategoryCollapsedFromStorage(getPrefix(state), state.storage.storage, categoryId);
-}
 
 export function isUnreadFilterEnabled(state: GlobalState) {
     return state.views.channelSidebar.unreadFilterEnabled;
@@ -75,29 +68,15 @@ const getUnreadChannelIdsSet = createSelector(
 // getChannelsInCategoryOrder returns an array of channels on the current team that are currently visible in the sidebar.
 // Channels are returned in the same order as in the sidebar. Channels in the Unreads category are not included.
 export const getChannelsInCategoryOrder = (() => {
-    const getCollapsedStateForAllCategories = createIdsSelector(
-        getPrefix,
-        getCategoriesForCurrentTeam,
-        (state: GlobalState) => state.storage.storage,
-        (prefix, categories, storage) => {
-            return categories.reduce((map: Record<string, boolean>, category: ChannelCategory) => {
-                map[category.id] = isCategoryCollapsedFromStorage(prefix, storage, category.id);
-                return map;
-            }, {});
-        },
-    );
-
     return createSelector(
-        getCollapsedStateForAllCategories,
         getCategoriesForCurrentTeam,
         getChannelsByCategoryForCurrentTeam,
         getCurrentChannelId,
         getUnreadChannelIdsSet,
         shouldShowUnreadsCategory,
-        (collapsedState, categories, channelsByCategory, currentChannelId, unreadChannelIds, showUnreadsCategory) => {
+        (categories, channelsByCategory, currentChannelId, unreadChannelIds, showUnreadsCategory) => {
             return categories.map((category) => {
                 const channels = channelsByCategory[category.id];
-                const isCollapsed = collapsedState[category.id];
 
                 return channels.filter((channel: Channel) => {
                     const isUnread = unreadChannelIds.has(channel.id);
@@ -109,7 +88,7 @@ export const getChannelsInCategoryOrder = (() => {
                         }
                     }
 
-                    if (isCollapsed) {
+                    if (category.collapsed) {
                         // Filter out channels that would be hidden by a collapsed category
                         if (!isUnread && currentChannelId !== channel.id) {
                             return false;
