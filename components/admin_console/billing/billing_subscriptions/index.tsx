@@ -64,9 +64,9 @@ const BillingSubscriptions: React.FC<Props> = () => {
 
     let isFreeTrial = false;
     let daysLeftOnTrial = 0;
-    if (subscription && subscription.end_at! > 0 && subscription.status! === 'trialing') {
+    if (subscription!.end_at > 0 && subscription!.status === 'trialing') {
         isFreeTrial = true;
-        daysLeftOnTrial = getRemainingDaysFromFutureTimestamp(subscription.end_at);
+        daysLeftOnTrial = getRemainingDaysFromFutureTimestamp(subscription!.end_at);
     }
 
     useEffect(() => {
@@ -145,7 +145,7 @@ const BillingSubscriptions: React.FC<Props> = () => {
                             daysLeftOnTrial={daysLeftOnTrial}
                         />
                     </div>
-                    {contactSalesCard(contactSalesLink, isFreeTrial, isPaidTier)}
+                    {contactSalesCard(contactSalesLink, isFreeTrial)}
                     {cancelSubscription(cancelAccountLink, isFreeTrial, isPaidTier)}
                 </div>
             </div>

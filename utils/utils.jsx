@@ -250,13 +250,13 @@ export function getTimestamp() {
 }
 
 export function getRemainingDaysFromFutureTimestamp(timestamp) {
-    var oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
-    var today = new Date().getTime();
-    if (today >= timestamp) {
-        return -1;
-    }
+    const MS_PER_DAY = 24 * 60 * 60 * 1000;
+    const futureDate = new Date(timestamp);
+    const utcFuture = Date.UTC(futureDate.getFullYear(), futureDate.getMonth(), futureDate.getDate());
+    const today = new Date();
+    const utcToday = Date.UTC(today.getFullYear(), today.getMonth(), today.getDate());
 
-    return Math.round(Math.abs((timestamp - today) / (oneDay)));
+    return Math.floor((utcFuture - utcToday) / MS_PER_DAY);
 }
 
 // Replaces all occurrences of a pattern

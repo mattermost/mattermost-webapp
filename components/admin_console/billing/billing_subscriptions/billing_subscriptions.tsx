@@ -11,38 +11,43 @@ import AlertBanner from 'components/alert_banner';
 
 import privateCloudImage from 'images/private-cloud-image.svg';
 
-export const contactSalesCard = (contactSalesLink: any, isFreeTrial: boolean, isPaidTier: boolean) => {
-    const title = {id: '', defaultMsg: ''};
-    const description = {id: '', defaultMsg: ''};
+export const contactSalesCard = (contactSalesLink: any, isFreeTrial: boolean) => {
+    let title;
+    let description;
 
-    if (!isPaidTier) {
-        title.id = 'admin.billing.subscription.privateCloudCard.title';
-        title.defaultMsg = 'Looking for a high-trust private cloud?';
-
-        description.id = 'admin.billing.subscription.privateCloudCard.description';
-        description.defaultMsg = 'If you need software with dedicated, single-tenant architecture, Mattermost Private Cloud (Beta) is the solution for high-trust collaboration.';
-    } else if (isFreeTrial) {
-        title.id = 'admin.billing.subscription.privateCloudCard.freeTrial.title';
-        title.defaultMsg = 'Questions about your trial?';
-
-        description.id = 'admin.billing.subscription.privateCloudCard.freeTrial.description';
-        description.defaultMsg = 'We love to work with our customers and their needs. Contact sales for subscription, billing or trial-specific questions.';
+    if (isFreeTrial) {
+        title = (
+            <FormattedMessage
+                id='admin.billing.subscription.privateCloudCard.freeTrial.title'
+                defaultMessage='Questions about your trial?'
+            />
+        );
+        description = (
+            <FormattedMessage
+                id='admin.billing.subscription.privateCloudCard.freeTrial.description'
+                defaultMessage='We love to work with our customers and their needs. Contact sales for subscription, billing or trial-specific questions.'
+            />
+        );
     } else {
-        title.id = 'admin.billing.subscription.privateCloudCard.cloudProfessional.title';
-        title.defaultMsg = 'Upgrade to Cloud Enterprise';
-
-        description.id = 'admin.billing.subscription.privateCloudCard.cloudProfessional.description';
-        description.defaultMsg = 'Optimize your processes with VPC Peering, a dedicated AWS account and premium support.';
+        title = (
+            <FormattedMessage
+                id='admin.billing.subscription.privateCloudCard.cloudProfessional.title'
+                defaultMessage='Upgrade to Cloud Enterprise'
+            />
+        );
+        description = (
+            <FormattedMessage
+                id='admin.billing.subscription.privateCloudCard.cloudProfessional.description'
+                defaultMessage='Optimize your processes with VPC Peering, a dedicated AWS account and premium support.'
+            />
+        );
     }
 
     return (
         <div className='PrivateCloudCard'>
             <div className='PrivateCloudCard__text'>
                 <div className='PrivateCloudCard__text-title'>
-                    <FormattedMessage
-                        id={title.id}
-                        defaultMessage={title.defaultMsg}
-                    />
+                    {title}
                     {/* {typeSubscription === 'CLOUD_STARTER' &&
                         <FormattedMessage
                             id='admin.billing.subscription.privateCloudCard.cloudStarter.title'
@@ -65,10 +70,7 @@ export const contactSalesCard = (contactSalesLink: any, isFreeTrial: boolean, is
                     } */}
                 </div>
                 <div className='PrivateCloudCard__text-description'>
-                    <FormattedMessage
-                        id={description.id}
-                        defaultMessage={description.defaultMsg}
-                    />
+                    {description}
                     {/* {typeSubscription === 'CLOUD_STARTER' && <FormattedMessage
                         id='admin.billing.subscription.privateCloudCard.cloudStarter.description'
                         defaultMessage='Optimize your processes with Guest Accounts, Office365 suite integrations, Gitlab SSO and advanced permissions.'

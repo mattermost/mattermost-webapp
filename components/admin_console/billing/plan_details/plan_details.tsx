@@ -138,21 +138,12 @@ export const planDetailsTopElements = (userCount: number, isPaidTier: boolean, i
             </div>
         );
     }
-    let productName = (
+    const productName = (
         <FormattedMessage
-            id='admin.billing.subscription.planDetails.productName.mmCloud'
-            defaultMessage='Mattermost Cloud'
+            id='admin.billing.subscription.planDetails.productName.cloudProfessional'
+            defaultMessage='Cloud Professional'
         />
     );
-
-    if (isFreeTrial) {
-        productName = (
-            <FormattedMessage
-                id='admin.billing.subscription.planDetails.productName.cloudProfessional'
-                defaultMessage='Cloud Professional'
-            />
-        );
-    }
 
     // switch (typeSubscription) {
     // case 'FREE_TRIAL':

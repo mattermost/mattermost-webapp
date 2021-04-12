@@ -18,6 +18,14 @@ import {trackEvent} from 'actions/telemetry_actions';
 
 import {Client4} from 'mattermost-redux/client';
 
+enum TrialPeriodDays {
+    TRIAL_14_DAYS = 14,
+    TRIAL_3_DAYS = 3,
+    TRIAL_2_DAYS = 2,
+    TRIAL_1_DAY = 1,
+    TRIAL_0_DAYS = 0
+}
+
 export const noBillingHistory = (
     <div className='BillingSummary__noBillingHistory'>
         <img
@@ -87,13 +95,13 @@ export const freeTrial = (onUpgradeMattermostCloud: () => void, daysLeftOnTrial:
             <img src={upgradeMattermostCloudImage}/>
         </div>
         <div className='UpgradeMattermostCloud__title'>
-            {daysLeftOnTrial !== 1 &&
+            {daysLeftOnTrial !== TrialPeriodDays.TRIAL_1_DAY &&
                 <FormattedMessage
                     id='admin.billing.subscription.freeTrial.title'
                     defaultMessage={'You\'re currently on a free trial'}
                 />
             }
-            {daysLeftOnTrial === 1 &&
+            {daysLeftOnTrial === TrialPeriodDays.TRIAL_1_DAY &&
                 <FormattedMessage
                     id='admin.billing.subscription.freeTrial.lastDay.title'
                     defaultMessage={'Your free trial ends today'}
@@ -101,21 +109,21 @@ export const freeTrial = (onUpgradeMattermostCloud: () => void, daysLeftOnTrial:
             }
         </div>
         <div className='UpgradeMattermostCloud__description'>
-            {daysLeftOnTrial > 3 &&
+            {daysLeftOnTrial > TrialPeriodDays.TRIAL_3_DAYS &&
                 <FormattedMarkdownMessage
                     id='admin.billing.subscription.freeTrial.description'
                     defaultMessage='Your free trial will expire in {daysLeftOnTrial} days. Add your payment information to continue after the trial ends.'
                     values={{daysLeftOnTrial}}
                 />
             }
-            {(daysLeftOnTrial > 0 && daysLeftOnTrial <= 3) &&
+            {(daysLeftOnTrial > TrialPeriodDays.TRIAL_0_DAYS && daysLeftOnTrial <= TrialPeriodDays.TRIAL_3_DAYS) &&
                 <FormattedMarkdownMessage
                     id='admin.billing.subscription.freeTrial.lessThan3Days.description'
                     defaultMessage='Your free trial will end in {daysLeftOnTrial, number} {daysLeftOnTrial, plural, one {day} other {days}}. Add payment information to continue enjoying the benefits of Cloud Professional.'
                     values={{daysLeftOnTrial}}
                 />
             }
-            {(daysLeftOnTrial === 0) &&
+            {(daysLeftOnTrial === TrialPeriodDays.TRIAL_0_DAYS) &&
                 <FormattedMarkdownMessage
                     id='admin.billing.subscription.freeTrial.lastDay.description'
                     defaultMessage='Your free trial has ended. Add payment information to continue enjoying the benefits of Cloud Professional.'
