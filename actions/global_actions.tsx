@@ -15,7 +15,9 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId, getMyTeams, getTeam, getMyTeamMember, getTeamMemberships} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentChannelStats, getCurrentChannelId, getMyChannelMember, getRedirectChannelNameForTeam, getChannelsNameMapInTeam, getAllDirectChannels} from 'mattermost-redux/selectors/entities/channels';
+import {appsEnabled} from 'mattermost-redux/selectors/entities/apps';
 import {ChannelTypes} from 'mattermost-redux/action_types';
+import {fetchAppBindings} from 'mattermost-redux/actions/apps';
 import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
@@ -65,6 +67,7 @@ export function emitChannelClickEvent(channel: Channel) {
         const teamId = chan.team_id || getCurrentTeamId(state);
         const isRHSOpened = getIsRhsOpen(state);
         const isPinnedPostsShowing = getRhsState(state) === RHSStates.PIN;
+        const isChannelFilesShowing = getRhsState(state) === RHSStates.CHANNEL_FILES;
         const member = getMyChannelMember(state, chan.id);
         const currentChannelId = getCurrentChannelId(state);
         dispatch(getChannelStats(chan.id));
@@ -81,6 +84,10 @@ export function emitChannelClickEvent(channel: Channel) {
             dispatch(updateRhsState(RHSStates.PIN, chan.id));
         }
 
+        if (isRHSOpened && isChannelFilesShowing) {
+            dispatch(updateRhsState(RHSStates.CHANNEL_FILES, chan.id));
+        }
+
         if (currentChannelId) {
             loadProfilesForSidebar();
         }
@@ -94,6 +101,10 @@ export function emitChannelClickEvent(channel: Channel) {
             channel: chan,
             member: member || {},
         }]));
+
+        if (appsEnabled(state)) {
+            dispatch(fetchAppBindings(userId, chan.id));
+        }
     }
 
     if (channel.fake) {
@@ -180,11 +191,11 @@ export function showMobileSubMenuModal(elements: any[]) { // TODO Use more speci
     dispatch(openModal(submenuModalData));
 }
 
-export function sendEphemeralPost(message: string, channelId: string, parentId: string) {
+export function sendEphemeralPost(message: string, channelId?: string, parentId?: string, userId?: string): void {
     const timestamp = Utils.getTimestamp();
     const post = {
         id: Utils.generateId(),
-        user_id: '0',
+        user_id: userId || '0',
         channel_id: channelId || getCurrentChannelId(getState()),
         message,
         type: PostTypes.EPHEMERAL,

@@ -74,13 +74,13 @@ describe('Guest Account - Verify Manage Guest Users', () => {
         cy.wait(TIMEOUTS.HALF_SEC).findByTestId('userListRow').find('.MenuWrapper a').should('be.visible').click();
 
         // * Verify the manage options which should be displayed for Guest User
-        const includeOptions = ['Deactivate', 'Manage Teams', 'Reset Password', 'Update Email', 'Promote to Member', 'Revoke Sessions'];
+        const includeOptions = ['Deactivate', 'Manage Roles', 'Manage Teams', 'Reset Password', 'Update Email', 'Promote to Member', 'Revoke Sessions'];
         includeOptions.forEach((includeOption) => {
             cy.findByText(includeOption).should('be.visible');
         });
 
         // * Verify the manage options which should not be displayed for Guest user
-        const missingOptions = ['Manage Roles', 'Demote to Guest'];
+        const missingOptions = ['Demote to Guest'];
         missingOptions.forEach((missingOption) => {
             cy.findByText(missingOption).should('not.exist');
         });
