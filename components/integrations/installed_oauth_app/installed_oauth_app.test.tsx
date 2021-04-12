@@ -47,6 +47,14 @@ describe('components/integrations/InstalledOAuthApp', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should match snapshot from app', () => {
+        const props = {...baseProps, team, fromApp: true};
+        const wrapper = shallow(
+            <InstalledOAuthApp {...props}/>,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('should match snapshot, when oauthApp is without name and not trusted', () => {
         const props = {...baseProps, team};
         props.oauthApp.name = '';

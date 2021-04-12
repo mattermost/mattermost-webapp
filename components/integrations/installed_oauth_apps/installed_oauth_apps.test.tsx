@@ -77,6 +77,25 @@ describe('components/integrations/InstalledOAuthApps', () => {
         expect(wrapper.find(BackstageList).props().addText).toBeFalsy();
     });
 
+    test('should match snapshot for Apps', () => {
+        const newGetOAuthApps = jest.fn().mockImplementation(
+            () => {
+                return new Promise((resolve) => {
+                    process.nextTick(() => resolve({}));
+                });
+            },
+        );
+
+        const props = {
+            ...baseProps,
+            appsOAuthAppIDs: ['fzcxd9wpzpbpfp8pad78xj75pr'],
+        };
+
+        props.actions.loadOAuthAppsAndProfiles = newGetOAuthApps;
+        const wrapper = shallow<InstalledOAuthApps>(<InstalledOAuthApps {...props}/>);
+        expect(shallow(<div>{wrapper.instance().oauthApps('second')}</div>)).toMatchSnapshot(); // successful filter
+    });
+
     test('should props.deleteOAuthApp on deleteOAuthApp', () => {
         const newDeleteOAuthApp = jest.fn();
         const props = {...baseProps};
