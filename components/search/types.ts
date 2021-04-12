@@ -5,6 +5,7 @@ import React from 'react';
 import {Action} from 'redux';
 
 import {ActionFunc, DispatchFunc} from 'mattermost-redux/types/actions';
+import {Channel} from 'mattermost-redux/types/channels';
 
 import {SearchType} from 'types/store/rhs';
 
@@ -33,7 +34,7 @@ export type StateProps = {
     isPinnedPosts: boolean;
     isChannelFiles: boolean;
     filesSearchEnabled: boolean;
-    currentChannelId: string;
+    currentChannel: Channel;
 }
 
 export type DispatchProps = {
