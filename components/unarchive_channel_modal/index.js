@@ -3,6 +3,7 @@
 
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
+
 import {unarchiveChannel} from 'mattermost-redux/actions/channels';
 
 import UnarchiveChannelModal from './unarchive_channel_modal.jsx';

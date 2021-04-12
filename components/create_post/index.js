@@ -3,6 +3,7 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 

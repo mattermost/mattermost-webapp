@@ -59,7 +59,7 @@ describe('components/FileUpload', () => {
         }));
 
         baseProps = {
-            currentChannelId: 'channel_id',
+            channelId: 'channel_id',
             fileCount: 1,
             getTarget: emptyFunction,
             locale: General.DEFAULT_LOCALE,
@@ -262,7 +262,7 @@ describe('components/FileUpload', () => {
         expect(baseProps.onUploadStart).toHaveBeenCalledTimes(1);
         expect(baseProps.onUploadStart).toHaveBeenCalledWith(
             Array(2).fill(expect.stringMatching(generatedIdRegex)),
-            baseProps.currentChannelId,
+            baseProps.channelId,
         );
 
         expect(baseProps.onUploadError).toHaveBeenCalledTimes(1);
@@ -282,7 +282,7 @@ describe('components/FileUpload', () => {
 
         expect(uploadFile).not.toBeCalled();
 
-        expect(baseProps.onUploadStart).toBeCalledWith([], props.currentChannelId);
+        expect(baseProps.onUploadStart).toBeCalledWith([], props.channelId);
 
         expect(baseProps.onUploadError).toHaveBeenCalledTimes(2);
         expect(baseProps.onUploadError.mock.calls[0][0]).toEqual(null);
@@ -301,7 +301,7 @@ describe('components/FileUpload', () => {
 
         expect(uploadFile).not.toBeCalled();
 
-        expect(baseProps.onUploadStart).toBeCalledWith([], props.currentChannelId);
+        expect(baseProps.onUploadStart).toBeCalledWith([], props.channelId);
 
         expect(baseProps.onUploadError).toHaveBeenCalledTimes(2);
         expect(baseProps.onUploadError.mock.calls[0][0]).toEqual(null);
@@ -318,7 +318,7 @@ describe('components/FileUpload', () => {
 
         expect(uploadFile).not.toBeCalled();
 
-        expect(baseProps.onUploadStart).toBeCalledWith([], baseProps.currentChannelId);
+        expect(baseProps.onUploadStart).toBeCalledWith([], baseProps.channelId);
 
         expect(baseProps.onUploadError).toHaveBeenCalledTimes(2);
         expect(baseProps.onUploadError.mock.calls[0][0]).toEqual(null);
@@ -401,7 +401,7 @@ describe('components/FileUpload', () => {
         expect(uploadFile).toHaveBeenCalledTimes(1);
 
         expect(baseProps.onUploadStart).toHaveBeenCalledTimes(1);
-        expect(baseProps.onUploadStart).toHaveBeenCalledWith([expect.stringMatching(generatedIdRegex)], props.currentChannelId);
+        expect(baseProps.onUploadStart).toHaveBeenCalledWith([expect.stringMatching(generatedIdRegex)], props.channelId);
 
         expect(baseProps.onUploadError).toHaveBeenCalledTimes(1);
         expect(baseProps.onUploadError).toHaveBeenCalledWith(null);

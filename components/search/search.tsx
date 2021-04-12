@@ -5,14 +5,15 @@ import React, {ChangeEvent, FormEvent, useEffect, useState, useRef} from 'react'
 import {useIntl} from 'react-intl';
 import classNames from 'classnames';
 
+import HeaderIconWrapper from 'components/channel_header/components/header_icon_wrapper';
+
 import {searchHintOptions, RHSStates} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
-import HeaderIconWrapper from 'components/channel_header/components/header_icon_wrapper';
 import SearchHint from 'components/search_hint/search_hint';
 import FlagIcon from 'components/widgets/icons/flag_icon';
 import MentionsIcon from 'components/widgets/icons/mentions_icon';
 import Popover from 'components/widgets/popover';
-import UserGuideDropdown from 'components/channel_header/components/user_guide_dropdown';
+import UserGuideDropdown from 'components/rhs_search_nav/components/user_guide_dropdown';
 
 import SearchBar from 'components/search_bar/search_bar';
 import SearchResults from 'components/search_results';
@@ -357,7 +358,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
         </>
     );
 
-    // when inserted in the `ChannelHeader` component just return the for with `SearchBar`
+    // when inserted in RHSSearchNav component, just return SearchBar
     if (!props.isSideBarRight) {
         return (
             <div className='sidebar-right__table'>

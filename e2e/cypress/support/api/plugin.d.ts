@@ -67,6 +67,25 @@ declare namespace Cypress {
         apiEnablePluginById(pluginId: string): Chainable<Record<string, any>>;
 
         /**
+         * Disable plugin.
+         * See https://api.mattermost.com/#tag/plugins/paths/~1plugins~1{plugin_id}~disable/post
+         * @param {string} pluginId - Id of the plugin to disable
+         * @returns {string} `out.status`
+         *
+         * @example
+         *   cy.apiDisablePluginById('pluginId');
+         */
+        apiDisablePluginById(pluginId: string): Chainable<Record<string, any>>;
+
+        /**
+         * Disable all plugins installed that are not prepackaged.
+         *
+         * @example
+         *   cy.apiDisableNonPrepackagedPlugins();
+         */
+        apiDisableNonPrepackagedPlugins(): Chainable<Record<string, any>>;
+
+        /**
          * Remove plugin.
          * See https://api.mattermost.com/#tag/plugins/paths/~1plugins~1{plugin_id}/delete
          * @param {string} pluginId - Id of the plugin to uninstall

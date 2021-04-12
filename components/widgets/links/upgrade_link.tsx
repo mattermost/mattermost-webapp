@@ -4,9 +4,9 @@
 import React from 'react';
 import {useDispatch} from 'react-redux';
 
-import {DispatchFunc} from 'mattermost-redux/types/actions';
-
 import {FormattedMessage} from 'react-intl';
+
+import {DispatchFunc} from 'mattermost-redux/types/actions';
 
 import {openModal} from 'actions/views/modals';
 import {trackEvent} from 'actions/telemetry_actions';

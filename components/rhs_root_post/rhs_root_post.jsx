@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage, injectIntl} from 'react-intl';
 import {Tooltip} from 'react-bootstrap';
+
 import {Posts} from 'mattermost-redux/constants';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 
@@ -426,6 +427,7 @@ class RhsRootPost extends React.PureComponent {
                             isRHS={true}
                             post={post}
                             userId={post.user_id}
+                            channelId={post.channel_id}
                         />
                     </div>
                     <div>

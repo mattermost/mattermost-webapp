@@ -202,13 +202,13 @@ describe('MM-27688 - System console-OpenId Connect', () => {
         cy.findByRole('button', {name: CONVERT_NAME}).click();
 
         // OAuth should no longer be visible
-        cy.findByRole('link', {name: OAUTH2_NAME}).should('be.not.visible');
+        cy.findByRole('link', {name: OAUTH2_NAME}).should('not.exist');
 
         // OAuth should no longer be visible
         cy.findByRole('link', {name: OPENID_LINK_NAME}).click().wait(TIMEOUTS.ONE_SEC);
 
         cy.get('#openidType').select('office365').wait(TIMEOUTS.ONE_SEC);
-        cy.findByRole('button', {name: CONVERT_NAME}).should('be.not.visible');
+        cy.findByRole('button', {name: CONVERT_NAME}).should('not.exist');
 
         // * Get config from API
         cy.apiGetConfig().then(({config}) => {

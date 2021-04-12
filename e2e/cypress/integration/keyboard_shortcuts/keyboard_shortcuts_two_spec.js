@@ -62,7 +62,7 @@ describe('Keyboard Shortcuts', () => {
 
         // # Type CTRL/CMD+/ to close the 'Keyboard Shortcuts' modal
         cy.get('body').cmdOrCtrlShortcut('/');
-        cy.get('#shortcutsModalLabel').should('not.be.visible');
+        cy.get('#shortcutsModalLabel').should('not.exist');
 
         // # Type /shortcuts
         cy.get('#post_textbox').clear().type('/shortcuts{enter}');
@@ -70,14 +70,14 @@ describe('Keyboard Shortcuts', () => {
 
         // # Close the 'Keyboard Shortcuts' modal using the x button
         cy.get('.modal-header button.close').should('have.attr', 'aria-label', 'Close').click();
-        cy.get('#shortcutsModalLabel').should('not.be.visible');
+        cy.get('#shortcutsModalLabel').should('not.exist');
 
         // # Type /shortcuts
         cy.get('#post_textbox').clear().type('/shortcuts{enter}');
 
         // # Close the 'Keyboard Shortcuts' modal by pressing ESC key
         cy.get('body').type('{esc}');
-        cy.get('#shortcutsModalLabel').should('not.be.visible');
+        cy.get('#shortcutsModalLabel').should('not.exist');
     });
 
     it('MM-T1254 - CTRL/CMD+UP; CTRL/CMD+DOWN', () => {

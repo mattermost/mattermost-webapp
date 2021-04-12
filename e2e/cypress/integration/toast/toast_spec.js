@@ -71,10 +71,10 @@ describe('toasts', () => {
         scrollDown();
 
         // * Verify toast jump is not visible
-        cy.get('div.toast__jump').should('not.be.visible');
+        cy.get('div.toast__jump').should('not.exist');
 
         // * Verify toast is not visible
-        cy.get('div.toast').should('not.be.visible');
+        cy.get('div.toast').should('not.exist');
     });
 
     it('Should show new message indicator when posts arrive and user is not at bottom', () => {
@@ -96,10 +96,10 @@ describe('toasts', () => {
         scrollDown();
 
         // * Verify toast jump is not visible
-        cy.get('div.toast__jump').should('not.be.visible');
+        cy.get('div.toast__jump').should('not.exist');
 
         // * Verify toast is not visible
-        cy.get('div.toast').should('not.be.visible');
+        cy.get('div.toast').should('not.exist');
     });
 
     it('New message toast should take to new messages line when clicked', () => {
@@ -114,7 +114,7 @@ describe('toasts', () => {
         }
 
         // * Verify the new messages line is not visible
-        cy.get('.NotificationSeparator').should('not.be.visible');
+        cy.get('.NotificationSeparator').should('not.exist');
 
         // # Click on toast pointer
         cy.get('div.toast__visible div.toast__pointer').should('be.visible').click();
@@ -157,7 +157,7 @@ describe('toasts', () => {
         cy.findByTestId('dismissToast').should('be.visible').click();
 
         // * Verify the toast is not visible
-        cy.get('div.toast').should('not.be.visible');
+        cy.get('div.toast').should('not.exist');
     });
 
     it('Recurring visit to a channel with unreads should have unread toast', () => {
@@ -187,7 +187,7 @@ describe('toasts', () => {
         cy.findByTestId('dismissToast').should('be.visible').click();
 
         // * Verify the toast is not visible
-        cy.get('div.toast').should('not.be.visible');
+        cy.get('div.toast').should('not.exist');
     });
 
     it('New message count should increase with incoming messages', () => {
@@ -212,7 +212,7 @@ describe('toasts', () => {
         cy.findByTestId('dismissToast').should('be.visible').click();
 
         // * Verify the toast is not visible
-        cy.get('div.toast').should('not.be.visible');
+        cy.get('div.toast').should('not.exist');
 
         // # Post a new message
         cy.postMessageAs({sender: otherUser, message: 'This is another new message', channelId: townsquareChannelId}).then(() => {
@@ -275,7 +275,7 @@ describe('toasts', () => {
             cy.findAllByTestId('postView').should('be.visible');
 
             // * Verify toast is not visible
-            cy.get('div.toast').should('not.be.visible');
+            cy.get('div.toast').should('not.exist');
         });
     });
 
@@ -328,7 +328,7 @@ describe('toasts', () => {
         visitTownSquareAndWaitForPageToLoad();
 
         // * Assert toast should not be present as the messages are visible without scrolling down
-        cy.get('div.toast').should('not.be.visible');
+        cy.get('div.toast').should('not.exist');
 
         // # Move to the top of the channel
         Cypress._.times(3, () => {
@@ -339,7 +339,7 @@ describe('toasts', () => {
         cy.get('#channelIntro').should('be.visible').contains('Beginning of Town Square');
 
         // * Assert toast should not be present as the messages are already read
-        cy.get('div.toast').should('not.be.visible');
+        cy.get('div.toast').should('not.exist');
     });
 
     it('MM-T1785 Toast - When marking post as unread', () => {
@@ -368,7 +368,7 @@ describe('toasts', () => {
         });
 
         // * Verify toast is not visible
-        cy.get('div.toast').should('not.be.visible');
+        cy.get('div.toast').should('not.exist');
 
         // # Reload to remove new messages line
         cy.reload();
