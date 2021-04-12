@@ -120,7 +120,9 @@ class SwitchChannelSuggestion extends Suggestion {
                     />
                 </div>
             );
+        }
 
+        if (channel.type === Constants.DM_CHANNEL) {
             let deactivated;
             if (userItem.delete_at) {
                 deactivated = (' - ' + Utils.localizeMessage('channel_switch_modal.deactivated', 'Deactivated'));
