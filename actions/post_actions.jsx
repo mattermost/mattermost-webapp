@@ -13,7 +13,7 @@ import {addRecentEmoji} from 'actions/emoji_actions';
 import * as StorageActions from 'actions/storage';
 import {loadNewDMIfNeeded, loadNewGMIfNeeded} from 'actions/user_actions.jsx';
 import * as RhsActions from 'actions/views/rhs';
-import {isEmbedVisible} from 'selectors/posts';
+import {isEmbedVisible, isInlineImageVisible} from 'selectors/posts';
 import {getSelectedPostId, getSelectedPostCardId, getRhsState} from 'selectors/rhs';
 import {
     ActionTypes,
@@ -185,6 +185,7 @@ export function pinPost(postId) {
         if (rhsState === RHSStates.PIN) {
             addPostToSearchResults(postId, state, dispatch);
         }
+        return {data: true};
     };
 }
 
@@ -197,6 +198,7 @@ export function unpinPost(postId) {
         if (rhsState === RHSStates.PIN) {
             removePostFromSearchResults(postId, state, dispatch);
         }
+        return {data: true};
     };
 }
 
@@ -235,6 +237,7 @@ export function markPostAsUnread(post) {
         const state = getState();
         const userId = getCurrentUserId(state);
         await dispatch(PostActions.setUnreadPost(userId, post.id));
+        return {data: true};
     };
 }
 
@@ -286,6 +289,20 @@ export function toggleEmbedVisibility(postId) {
 
 export function resetEmbedVisibility() {
     return StorageActions.actionOnGlobalItemsWithPrefix(StoragePrefixes.EMBED_VISIBLE, () => null);
+}
+
+export function toggleInlineImageVisibility(postId, imageKey) {
+    return (dispatch, getState) => {
+        const state = getState();
+        const currentUserId = getCurrentUserId(state);
+        const visible = isInlineImageVisible(state, postId, imageKey);
+
+        dispatch(StorageActions.setGlobalItem(StoragePrefixes.INLINE_IMAGE_VISIBLE + currentUserId + '_' + postId + '_' + imageKey, !visible));
+    };
+}
+
+export function resetInlineImageVisibility() {
+    return StorageActions.actionOnGlobalItemsWithPrefix(StoragePrefixes.INLINE_IMAGE_VISIBLE, () => null);
 }
 
 /**
