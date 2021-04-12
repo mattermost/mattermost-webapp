@@ -86,6 +86,17 @@ export const Steps: StepType[] = [
             'next_steps_view.titles.inviteMembers',
             'Invite members to the team',
         ),
+        roles: ['system_admin', 'system_user'],
+        component: InviteMembersStep,
+        visible: true,
+    },
+    // duplicated so it is shown only to users and admin but NOT for guest
+    {
+        id: RecommendedNextSteps.INVITE_MEMBERS,
+        title: localizeMessage(
+            'next_steps_view.titles.inviteMembers',
+            'Invite members to the team',
+        ),
         roles: ['system_user'],
         component: InviteMembersStep,
         visible: true,
