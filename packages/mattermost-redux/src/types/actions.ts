@@ -28,9 +28,8 @@ type BatchAction = {
 export type Action = GenericAction | Thunk | BatchAction | ActionFunc;
 
 export type ActionResult = {
-    data: any;
-} | {
-    error: any;
+    data?: any;
+    error?: any;
 };
 
 export type DispatchFunc = (action: Action, getState?: GetStateFunc | null) => Promise<ActionResult>;

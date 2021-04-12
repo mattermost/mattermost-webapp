@@ -1904,6 +1904,25 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               }
             />
             <AdminSidebarSection
+              definitionKey="authentication.oauth"
+              key="authentication.oauth"
+              name="authentication/oauth"
+              parentLink=""
+              subsection={false}
+              tag={
+                <FormattedMessage
+                  defaultMessage="deprecated"
+                  id="admin.sidebar.oauth.tag"
+                />
+              }
+              title={
+                <FormattedMessage
+                  defaultMessage="OAuth 2.0"
+                  id="admin.sidebar.oauth"
+                />
+              }
+            />
+            <AdminSidebarSection
               definitionKey="authentication.openid"
               key="authentication.openid"
               name="authentication/openid"

@@ -90,6 +90,7 @@ export default class SuggestionBox extends React.PureComponent {
         onComposition: PropTypes.func,
 
         onSelect: PropTypes.func,
+        onSearchTypeSelected: PropTypes.func,
 
         /**
          * Function called when an item is selected
@@ -343,7 +344,7 @@ export default class SuggestionBox extends React.PureComponent {
 
     handleChange = (e) => {
         const textbox = this.getTextbox();
-        const pretext = textbox.value.substring(0, textbox.selectionEnd).toLowerCase();
+        const pretext = textbox.value.substring(0, textbox.selectionEnd);
 
         if (!this.composing && this.pretext !== pretext) {
             this.handlePretextChanged(pretext);
