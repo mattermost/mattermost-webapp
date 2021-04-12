@@ -17,6 +17,7 @@ import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 
 import './dnd_custom_time_picker_modal.scss';
+import { toUTCUnix } from 'utils/datetime';
 
 type Props = {
     onHide: () => void;
@@ -144,7 +145,7 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
             this.props.actions.setStatus({
                 user_id: this.props.userId,
                 status: UserStatuses.DND,
-                dnd_end_time: endTime.toISOString(),
+                dnd_end_time: toUTCUnix(endTime),
             });
         };
 

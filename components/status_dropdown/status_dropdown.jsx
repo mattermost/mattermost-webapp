@@ -27,6 +27,7 @@ import OverlayTrigger from 'components/overlay_trigger';
 import CustomStatusText from 'components/custom_status/custom_status_text';
 
 import './status_dropdown.scss';
+import { toUTCUnix } from 'utils/datetime';
 
 export default class StatusDropdown extends React.PureComponent {
     static propTypes = {
@@ -134,7 +135,7 @@ export default class StatusDropdown extends React.PureComponent {
             break;
         }
 
-        var dndEndTime = endTime.toISOString();
+        var dndEndTime = toUTCUnix(endTime);
         this.setStatus(UserStatuses.DND, dndEndTime);
     }
 
