@@ -5,12 +5,11 @@ import React from 'react';
 
 import {injectIntl, IntlShape} from 'react-intl';
 
-import {AppField, AppForm, AppFormValues, AppCallRequest, DoAppCallResult, DoAppCall, FormResponseData, AppLookupResponse} from 'mattermost-redux/types/apps';
+import {AppField, AppForm, AppFormValues, AppCallRequest, FormResponseData, AppLookupResponse} from 'mattermost-redux/types/apps';
 import {AppCallTypes, AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 
+import {DoAppCall, DoAppCallResult, PostEphemeralCallResponseForContext} from 'types/apps';
 import {makeCallErrorResponse} from 'utils/apps';
-
-import {sendEphemeralPost} from 'actions/global_actions';
 
 import AppsForm from './apps_form';
 
@@ -21,6 +20,7 @@ type Props = {
     onHide: () => void;
     actions: {
         doAppCall: DoAppCall<any>;
+        postEphemeralCallResponseForContext: PostEphemeralCallResponseForContext;
     };
 };
 
@@ -70,11 +70,10 @@ class AppsFormContainer extends React.PureComponent<Props, State> {
         switch (callResp.type) {
         case AppCallResponseTypes.OK:
             if (callResp.markdown) {
-                sendEphemeralPost(
+                this.props.actions.postEphemeralCallResponseForContext(
+                    callResp,
                     callResp.markdown,
-                    call.context.channel_id,
-                    call.context.root_id || call.context.post_id,
-                    callResp.app_metadata?.bot_user_id,
+                    call.context,
                 );
             }
             break;

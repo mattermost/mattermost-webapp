@@ -10,8 +10,10 @@ import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
 import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
 import {Theme} from 'mattermost-redux/types/preferences';
-import {AppBinding, DoAppCall, PostEphemeralCallResponseForChannel} from 'mattermost-redux/types/apps';
+import {AppBinding} from 'mattermost-redux/types/apps';
 import {AppCallResponseTypes, AppCallTypes} from 'mattermost-redux/constants/apps';
+
+import {DoAppCall, PostEphemeralCallResponseForChannel} from 'types/apps';
 
 import HeaderIconWrapper from 'components/channel_header/components/header_icon_wrapper';
 import PluginChannelHeaderIcon from 'components/widgets/icons/plugin_channel_header_icon';

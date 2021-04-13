@@ -6,9 +6,9 @@ import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {ActionFunc, ActionResult, GenericAction} from 'mattermost-redux/types/actions';
 
-import {DoAppCall, PostEphemeralCallResponseForPost} from 'mattermost-redux/types/apps';
-
 import {getChannel} from 'mattermost-redux/actions/channels';
+
+import {DoAppCall, PostEphemeralCallResponseForPost} from 'types/apps';
 
 import {doAppCall, postEphemeralCallResponseForPost} from 'actions/apps';
 

@@ -14,7 +14,7 @@ import type {CommandArgs} from 'mattermost-redux/types/integrations';
 
 import {AppCallResponseTypes, AppCallTypes} from 'mattermost-redux/constants/apps';
 
-import {DoAppCallResult} from 'mattermost-redux/types/apps';
+import {DoAppCallResult} from 'types/apps';
 
 import {openModal} from 'actions/views/modals';
 import * as GlobalActions from 'actions/global_actions';
@@ -34,7 +34,7 @@ import {GlobalState} from 'types/store';
 
 import {t} from 'utils/i18n';
 
-import {doAppCall} from './apps';
+import {doAppCall, postEphemeralCallResponseForCommandArgs} from './apps';
 
 export function executeCommand(message: string, args: CommandArgs): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
@@ -136,7 +136,7 @@ export function executeCommand(message: string, args: CommandArgs): ActionFunc {
                     switch (callResp.type) {
                     case AppCallResponseTypes.OK:
                         if (callResp.markdown) {
-                            GlobalActions.sendEphemeralPost(callResp.markdown, args.channel_id, args.parent_id, callResp.app_metadata?.bot_user_id);
+                            dispatch(postEphemeralCallResponseForCommandArgs(callResp, callResp.markdown, args));
                         }
                         return {data: true};
                     case AppCallResponseTypes.FORM:

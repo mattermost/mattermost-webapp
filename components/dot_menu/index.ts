@@ -17,8 +17,7 @@ import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 
 import {Post} from 'mattermost-redux/types/posts';
 
-import {DoAppCall, PostEphemeralCallResponseForPost} from 'mattermost-redux/types/apps';
-
+import {DoAppCall, PostEphemeralCallResponseForPost} from 'types/apps';
 import {GlobalState} from 'types/store';
 
 import {openModal} from 'actions/views/modals';

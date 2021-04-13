@@ -13,9 +13,12 @@ export type {
     AutocompleteStaticSelect,
     AutocompleteUserSelect,
     AutocompleteChannelSelect,
-    DoAppCallResult,
     AppLookupResponse,
 } from 'mattermost-redux/types/apps';
+
+export type {
+    DoAppCallResult,
+} from 'types/apps';
 
 import type {
     AutocompleteSuggestion,

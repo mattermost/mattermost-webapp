@@ -9,11 +9,12 @@ import {ActionResult} from 'mattermost-redux/types/actions';
 
 import {Post} from 'mattermost-redux/types/posts';
 
-import {AppBinding, DoAppCall, PostEphemeralCallResponseForPost} from 'mattermost-redux/types/apps';
+import {AppBinding} from 'mattermost-redux/types/apps';
+import {Channel} from 'mattermost-redux/types/channels';
 
 import {AppBindingLocations, AppCallResponseTypes, AppCallTypes, AppExpandLevels} from 'mattermost-redux/constants/apps';
 
-import {Channel} from 'mattermost-redux/types/channels';
+import {DoAppCall, PostEphemeralCallResponseForPost} from 'types/apps';
 
 import MenuActionProvider from 'components/suggestion/menu_action_provider';
 import AutocompleteSelector from 'components/autocomplete_selector';

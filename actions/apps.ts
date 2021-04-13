@@ -3,9 +3,10 @@
 
 import {Client4} from 'mattermost-redux/client';
 import {Action, ActionFunc, DispatchFunc} from 'mattermost-redux/types/actions';
-import {AppCallResponse, AppForm, AppCallType, AppCallRequest} from 'mattermost-redux/types/apps';
+import {AppCallResponse, AppForm, AppCallType, AppCallRequest, AppContext} from 'mattermost-redux/types/apps';
 import {AppCallTypes, AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 import {Post} from 'mattermost-redux/types/posts';
+import {CommandArgs} from 'mattermost-redux/types/integrations';
 
 import {openModal} from 'actions/views/modals';
 
@@ -115,6 +116,32 @@ export function postEphemeralCallResponseForChannel(response: AppCallResponse, m
             message,
             channelID,
             '',
+            response.app_metadata?.bot_user_id,
+        );
+
+        return {data: true};
+    };
+}
+
+export function postEphemeralCallResponseForContext(response: AppCallResponse, message: string, context: AppContext): ActionFunc {
+    return () => {
+        sendEphemeralPost(
+            message,
+            context.channel_id,
+            context.root_id || context.post_id,
+            response.app_metadata?.bot_user_id,
+        );
+
+        return {data: true};
+    };
+}
+
+export function postEphemeralCallResponseForCommandArgs(response: AppCallResponse, message: string, args: CommandArgs): ActionFunc {
+    return () => {
+        sendEphemeralPost(
+            message,
+            args.channel_id,
+            args.root_id,
             response.app_metadata?.bot_user_id,
         );
 

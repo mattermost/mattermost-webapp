@@ -8,9 +8,11 @@ import {FormattedMessage, injectIntl, WrappedComponentProps} from 'react-intl';
 import {
     checkDialogElementForError, checkIfErrorsMatchElements,
 } from 'mattermost-redux/utils/integration_utils';
-import {AppCallResponse, AppField, AppForm, AppFormValues, AppSelectOption, DoAppCallResult, FormResponseData, AppLookupResponse} from 'mattermost-redux/types/apps';
+import {AppCallResponse, AppField, AppForm, AppFormValues, AppSelectOption, FormResponseData, AppLookupResponse} from 'mattermost-redux/types/apps';
 import {DialogElement} from 'mattermost-redux/types/integrations';
 import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
+
+import {DoAppCallResult} from 'types/apps';
 
 import SpinnerButton from 'components/spinner_button';
 import SuggestionList from 'components/suggestion/suggestion_list';

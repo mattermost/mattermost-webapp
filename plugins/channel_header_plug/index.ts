@@ -9,7 +9,7 @@ import {appsEnabled, makeAppBindingsSelector} from 'mattermost-redux/selectors/e
 import {AppBindingLocations} from 'mattermost-redux/constants/apps';
 import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 
-import {DoAppCall, PostEphemeralCallResponseForChannel} from 'mattermost-redux/types/apps';
+import {DoAppCall, PostEphemeralCallResponseForChannel} from 'types/apps';
 
 import {doAppCall, postEphemeralCallResponseForChannel} from 'actions/apps';
 import {GlobalState} from 'types/store';
