@@ -135,6 +135,7 @@ function makeMapStateToProps() {
             membersCount,
             shouldHideChannel,
             channelIsArchived: channel.delete_at !== 0,
+            channelIsShared: Boolean(channel.shared),
             redirectChannel: getRedirectChannelNameForTeam(state, getCurrentTeamId(state)),
         };
     };
