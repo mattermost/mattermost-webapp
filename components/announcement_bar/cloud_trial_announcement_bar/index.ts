@@ -27,12 +27,13 @@ function mapStateToProps(state: GlobalState) {
     const getCategory = makeGetCategory();
 
     const subscription = state.entities.cloud.subscription;
+    const isCloud = getLicense(state).Cloud === 'true';
     let isFreeTrial = false;
     let daysLeftOnTrial = 0;
 
-    if (subscription!.end_at > 0 && subscription!.status === 'trialing') {
+    if (isCloud && subscription && subscription.trial_end_at > 0 && subscription?.status === 'trialing') {
         isFreeTrial = true;
-        daysLeftOnTrial = getRemainingDaysFromFutureTimestamp(subscription!.end_at);
+        daysLeftOnTrial = getRemainingDaysFromFutureTimestamp(subscription.end_at);
     }
 
     return {
@@ -41,7 +42,7 @@ function mapStateToProps(state: GlobalState) {
         analytics: state.entities.admin.analytics,
         userIsAdmin: isCurrentUserSystemAdmin(state),
         currentUser: getCurrentUser(state),
-        isCloud: getLicense(state).Cloud === 'true',
+        isCloud: isCloud,
         subscription,
         preferences: getCategory(state, Preferences.CLOUD_TRIAL_BANNER),
     };
