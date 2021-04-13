@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+import moment from 'moment';
 
 const LICENSE_EXPIRY_NOTIFICATION = 1000 * 60 * 60 * 24 * 60; // 60 days
 const LICENSE_GRACE_PERIOD = 1000 * 60 * 60 * 24 * 10; // 10 days
@@ -44,4 +45,13 @@ export function isTrialLicense(license) {
     const trialLicenseDuration = (1000 * 60 * 60 * 24 * 30) + (1000 * 60 * 60 * 8);
 
     return timeDiff <= trialLicenseDuration;
+}
+
+export function daysToLicenseExpire(license) {
+    if (license.IsLicensed !== 'true') {
+        return undefined;
+    }
+
+    const endDate = new Date(parseInt(license?.ExpiresAt, 10));
+    return moment(endDate).startOf('day').diff(moment().startOf('day'), 'days');
 }

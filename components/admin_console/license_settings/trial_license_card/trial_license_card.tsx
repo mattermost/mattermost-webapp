@@ -9,6 +9,7 @@ import moment from 'moment';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import {trackEvent} from 'actions/telemetry_actions';
+import {daysToLicenseExpire} from 'utils/license_utils.jsx';
 import {getBrowserTimezone} from 'utils/timezone';
 
 import PurchaseLink from 'components/announcement_bar/purchase_link/purchase_link';
@@ -22,7 +23,7 @@ export interface Props {
 const TrialLicenseCard: React.FC<Props> = ({license}: Props) => {
     const currentDate = new Date();
     const endDate = new Date(parseInt(license?.ExpiresAt, 10));
-    const daysToEndLicense = moment(endDate).startOf('day').diff(moment().startOf('day'), 'days');
+    const daysToEndLicense = daysToLicenseExpire(license);
 
     const handleContactLinkClick = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
