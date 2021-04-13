@@ -159,7 +159,7 @@ class Timestamp extends PureComponent<Props, State> {
         // fixed
         year: 'numeric',
         month: 'long',
-        day: '2-day',
+        day: '2-digit',
         weekday: 'long',
         hour: 'numeric',
         minute: 'numeric',

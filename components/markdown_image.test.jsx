@@ -5,6 +5,8 @@ import React from 'react';
 
 import {shallow} from 'enzyme';
 
+import Constants from 'utils/constants';
+
 import MarkdownImage from './markdown_image';
 import SizeAwareImage from './size_aware_image';
 import ViewImageModal from './view_image';
@@ -13,7 +15,7 @@ describe('components/MarkdownImage', () => {
     const baseProps = {
         imageMetadata: {
             format: 'png',
-            height: 165,
+            height: 90,
             width: 1041,
             frame_count: 0,
         },
@@ -137,7 +139,7 @@ describe('components/MarkdownImage', () => {
 
     it('should match snapshot for SizeAwareImage dimensions', () => {
         const props = {...baseProps,
-            imageMetadata: {format: 'jpg', frame_count: 0, width: 100, height: 100},
+            imageMetadata: {format: 'jpg', frame_count: 0, width: 100, height: 90},
             src: 'path/image',
         };
         const wrapper = shallow(
@@ -252,5 +254,53 @@ describe('components/MarkdownImage', () => {
         expect(childrenWrapper.find(SizeAwareImage).prop('width')).toEqual(50);
         expect(childrenWrapper.find(SizeAwareImage).prop('height')).toEqual(76);
         expect(childrenWrapper.find(SizeAwareImage).prop('title')).toEqual('test title');
+    });
+
+    test(`should render image with MarkdownImageExpand if it is taller than ${Constants.EXPANDABLE_INLINE_IMAGE_MIN_HEIGHT}px`, () => {
+        const props = {
+            alt: 'test image',
+            title: 'test title',
+            className: 'markdown-inline-img',
+            postId: 'post_id',
+            src: 'https://example.com/image.png',
+            imageIsLink: false,
+            height: 250,
+            width: 50,
+        };
+
+        const wrapper = shallow(
+            <MarkdownImage {...props}/>,
+        );
+        wrapper.instance().setState({loaded: true});
+        const childrenNode = wrapper.props().children(props.src);
+
+        // using a div as a workaround because shallow doesn't support react fragments
+        const childrenWrapper = shallow(<div>{childrenNode}</div>);
+
+        expect(childrenWrapper).toMatchSnapshot();
+    });
+
+    test('should provide image src as an alt text for MarkdownImageExpand if image has no own alt text', () => {
+        const props = {
+            alt: null,
+            title: 'test title',
+            className: 'markdown-inline-img',
+            postId: 'post_id',
+            src: 'https://example.com/image.png',
+            imageIsLink: false,
+            height: 250,
+            width: 50,
+        };
+
+        const wrapper = shallow(
+            <MarkdownImage {...props}/>,
+        );
+        wrapper.instance().setState({loaded: true});
+        const childrenNode = wrapper.props().children(props.src);
+
+        // using a div as a workaround because shallow doesn't support react fragments
+        const childrenWrapper = shallow(<div>{childrenNode}</div>);
+
+        expect(childrenWrapper).toMatchSnapshot();
     });
 });

@@ -21,6 +21,7 @@ describe('components/sidebar/sidebar_category', () => {
             channel_ids: ['channel_id'],
             sorting: CategorySorting.Alphabetical,
             muted: false,
+            collapsed: false,
         },
         channels: [
             {
@@ -49,12 +50,10 @@ describe('components/sidebar/sidebar_category', () => {
         getChannelRef: jest.fn(),
         handleOpenMoreDirectChannelsModal: jest.fn(),
         isNewCategory: false,
-        isCollapsed: false,
         isDisabled: false,
         limitVisibleDMsGMs: 10000,
         actions: {
             setCategoryCollapsed: jest.fn(),
-            setCategoryMuted: jest.fn(),
             setCategorySorting: jest.fn(),
         },
     };
@@ -114,7 +113,10 @@ describe('components/sidebar/sidebar_category', () => {
     test('should match snapshot when collapsed', () => {
         const props = {
             ...baseProps,
-            isCollapsed: true,
+            category: {
+                ...baseProps.category,
+                collapsed: true,
+            },
         };
 
         const wrapper = shallow(
@@ -220,7 +222,10 @@ describe('components/sidebar/sidebar_category', () => {
     test('should un-collapse the channel on toggle when it is collapsed', () => {
         const props = {
             ...baseProps,
-            isCollapsed: true,
+            category: {
+                ...baseProps.category,
+                collapsed: true,
+            },
         };
 
         const wrapper = shallow<SidebarCategory>(
