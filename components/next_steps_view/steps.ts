@@ -115,7 +115,7 @@ export const getSteps = createSelector(
     (state: GlobalState) => getCurrentUser(state),
     (state: GlobalState) => isFirstAdmin(state),
     (currentUser, firstAdmin) => {
-        const roles = firstAdmin ? 'first_admin' : currentUser.roles;
+        const roles = firstAdmin ? `first_admin ${currentUser.roles}` : currentUser.roles;
         return Steps.filter((step) =>
             isStepForUser(step, roles) && step.visible,
         );
