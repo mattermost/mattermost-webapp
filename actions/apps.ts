@@ -98,53 +98,45 @@ export function openAppsModal(form: AppForm, call: AppCallRequest): Action {
 }
 
 export function postEphemeralCallResponseForPost(response: AppCallResponse, message: string, post: Post): ActionFunc {
-    return () => {
-        sendEphemeralPost(
+    return (dispatch: DispatchFunc) => {
+        return dispatch(sendEphemeralPost(
             message,
             post.channel_id,
             post.root_id || post.id,
             response.app_metadata?.bot_user_id,
-        );
-
-        return {data: true};
+        ));
     };
 }
 
 export function postEphemeralCallResponseForChannel(response: AppCallResponse, message: string, channelID: string): ActionFunc {
-    return () => {
-        sendEphemeralPost(
+    return (dispatch: DispatchFunc) => {
+        return dispatch(sendEphemeralPost(
             message,
             channelID,
             '',
             response.app_metadata?.bot_user_id,
-        );
-
-        return {data: true};
+        ));
     };
 }
 
 export function postEphemeralCallResponseForContext(response: AppCallResponse, message: string, context: AppContext): ActionFunc {
-    return () => {
-        sendEphemeralPost(
+    return (dispatch: DispatchFunc) => {
+        return dispatch(sendEphemeralPost(
             message,
             context.channel_id,
             context.root_id || context.post_id,
             response.app_metadata?.bot_user_id,
-        );
-
-        return {data: true};
+        ));
     };
 }
 
 export function postEphemeralCallResponseForCommandArgs(response: AppCallResponse, message: string, args: CommandArgs): ActionFunc {
-    return () => {
-        sendEphemeralPost(
+    return (dispatch: DispatchFunc) => {
+        return dispatch(sendEphemeralPost(
             message,
             args.channel_id,
             args.root_id,
             response.app_metadata?.bot_user_id,
-        );
-
-        return {data: true};
+        ));
     };
 }
