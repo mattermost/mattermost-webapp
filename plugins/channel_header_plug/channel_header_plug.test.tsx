@@ -64,6 +64,15 @@ describe('plugins/ChannelHeaderPlug', () => {
                     {...testPlug, id: 'someid4'},
                     {...testPlug, id: 'someid5'},
                     {...testPlug, id: 'someid6'},
+                    {...testPlug, id: 'someid7'},
+                    {...testPlug, id: 'someid8'},
+                    {...testPlug, id: 'someid9'},
+                    {...testPlug, id: 'someid10'},
+                    {...testPlug, id: 'someid11'},
+                    {...testPlug, id: 'someid12'},
+                    {...testPlug, id: 'someid13'},
+                    {...testPlug, id: 'someid14'},
+                    {...testPlug, id: 'someid15'},
                 ]}
                 channel={{} as Channel}
                 channelMember={{} as ChannelMembership}

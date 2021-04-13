@@ -23,6 +23,21 @@ export type State = {
     field: AppField;
 }
 
+const reactStyles = {
+    menuPortal: (provided: React.CSSProperties) => ({
+        ...provided,
+        zIndex: 9999,
+    }),
+};
+
+const commonProps = {
+    isClearable: true,
+    openMenuOnFocus: false,
+    classNamePrefix: 'react-select-auto react-select',
+    menuPortalTarget: document.body,
+    styles: reactStyles,
+};
+
 export default class AppsFormSelectField extends React.PureComponent<Props, State> {
     constructor(props: Props) {
         super(props);
@@ -57,18 +72,16 @@ export default class AppsFormSelectField extends React.PureComponent<Props, Stat
         const value = this.props.value;
 
         return (
-            <div className='form-group'>
+            <div className={'react-select'}>
                 <AsyncSelect
                     id={`MultiInput_${field.name}`}
                     loadOptions={this.loadDynamicOptions}
                     defaultOptions={true}
                     isMulti={field.multiselect || false}
-                    isClearable={true}
-                    openMenuOnFocus={false}
                     placeholder={placeholder}
                     value={value}
                     onChange={this.onChange as any} // types are not working correctly for multiselect
-                    classNamePrefix='react-select-auto react-select'
+                    {...commonProps}
                 />
             </div>
         );
@@ -83,17 +96,15 @@ export default class AppsFormSelectField extends React.PureComponent<Props, Stat
         const value = this.props.value;
 
         return (
-            <div className='form-group'>
+            <div className={'react-select'}>
                 <ReactSelect
                     id={`MultiInput_${field.name}`}
                     options={options}
                     isMulti={field.multiselect || false}
-                    isClearable={true}
-                    openMenuOnFocus={false}
                     placeholder={placeholder}
                     value={value}
                     onChange={this.onChange as any} // types are not working correctly for multiselect
-                    classNamePrefix='react-select-auto react-select'
+                    {...commonProps}
                 />
             </div>
         );
@@ -112,7 +123,7 @@ export default class AppsFormSelectField extends React.PureComponent<Props, Stat
         }
 
         return (
-            <div>
+            <div className='form-group'>
                 <label>
                     {label}
                 </label>

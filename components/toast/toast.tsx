@@ -1,8 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, {ReactNode, MouseEventHandler} from 'react';
 
 import {FormattedMessage} from 'react-intl';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
@@ -13,17 +12,19 @@ import Constants from 'utils/constants';
 
 import './toast.scss';
 
-export default class Toast extends React.PureComponent {
-    static propTypes = {
-        onClick: PropTypes.func,
-        onClickMessage: PropTypes.string,
-        onDismiss: PropTypes.func,
-        children: PropTypes.element,
-        show: PropTypes.bool.isRequired,
-        showActions: PropTypes.bool, //used for showing jump actions
-        width: PropTypes.number,
-        extraClasses: PropTypes.string,
-    }
+export type Props = {
+    onClick?: MouseEventHandler<HTMLDivElement>;
+    onClickMessage?: string;
+    onDismiss?: () => void;
+    children?: ReactNode;
+    show: boolean;
+    showActions?: boolean; //used for showing jump actions
+    width: number;
+    extraClasses?: string;
+}
+
+export default class Toast extends React.PureComponent<Props> {
+    private mounted!: boolean;
 
     componentDidMount() {
         this.mounted = true;
@@ -88,7 +89,7 @@ export default class Toast extends React.PureComponent {
             <div className={toastClass}>
                 <div
                     className={toastActionClass}
-                    onClick={showActions ? this.props.onClick : null}
+                    onClick={showActions ? this.props.onClick : undefined}
                 >
                     {showActions && jumpSection()}
                     {this.props.children}
