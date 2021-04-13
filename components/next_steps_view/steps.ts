@@ -36,6 +36,7 @@ export type StepType = {
     // An array of all roles a user must have in order to see the step e.g. admins are both system_admin and system_user
     // so you would require ['system_admin','system_user'] to match.
     // to show step for all roles, leave the roles array blank.
+    // for a step that must be shown only to the first admin, add the first_admin role to that step
     roles: string[];
 };
 
