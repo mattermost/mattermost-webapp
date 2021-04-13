@@ -87,8 +87,7 @@ describe('Settings', () => {
         // # Get the team name
         cy.get('#channels .DataGrid .DataGrid_rows > :nth-child(1)').
             within(() => {
-                cy.get('.DataGrid_cell').
-                    contains('Team').
+                cy.get('.DataGrid_cell:nth-of-type(2)').
                     invoke('text').
                     then((name) => {
                         teamName = name;

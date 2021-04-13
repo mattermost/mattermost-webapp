@@ -1,0 +1,26 @@
+.SearchResults {
+    .messages-or-files {
+        .active {
+            background-color: rgba(var(--buton-bg-rgb), 0.08)
+        }
+        a {
+            text-decoration: none;
+            padding: 4px 12px;
+            margin-left: 10px;
+        }
+    }
+
+    .channel-files__header {
+        display: flex;
+        padding: 7px 14px;
+        align-items: center;
+        justify-content: space-between;
+        .channel-files__title {
+            font-weight: 600;
+            font-size: 14px;
+        }
+    }
+    .channel-files-container {
+        padding-top: 0px;
+    }
+}
