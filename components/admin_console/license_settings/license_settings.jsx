@@ -611,12 +611,14 @@ export default class LicenseSettings extends React.PureComponent {
     }
 
     renewLicenseCard = () => {
+        const {isDisabled} = this.props;
         if (isLicenseExpired(this.props.license) || isLicenseExpiring(this.props.license)) {
             return (
                 <RenewLinkCard
                     license={this.props.license}
                     isLicenseExpired={isLicenseExpired(this.props.license)}
                     totalUsers={this.props.stats.TOTAL_USERS}
+                    isDisabled={isDisabled}
                 />
             );
         }
