@@ -25,17 +25,13 @@ import PurchaseModal from './purchase_modal';
 
 function mapStateToProps(state: GlobalState) {
     const subscription = state.entities.cloud.subscription;
-    let isFreeTrial = false;
 
-    if (subscription && subscription.is_free_trial === 'true') {
-        isFreeTrial = true;
-    }
     return {
         show: isModalOpen(state, ModalIdentifiers.CLOUD_PURCHASE),
         products: state.entities.cloud!.products,
         isDevMode: getConfig(state).EnableDeveloper === 'true',
         contactSupportLink: getCloudContactUsLink(state, InquiryType.Technical),
-        isFreeTrial,
+        isFreeTrial: subscription?.is_free_trial === 'true',
         contactSalesLink: getCloudContactUsLink(state, InquiryType.Sales),
     };
 }
