@@ -31,7 +31,7 @@ import withGetCloudSubscription from '../../common/hocs/cloud/with_get_cloud_sub
 
 type Props = {
     userIsAdmin: boolean;
-    isFreeTier: boolean;
+    isFreeTrial: boolean;
     currentUser: UserProfile;
     preferences: PreferenceType[];
     daysLeftOnTrial: number;
@@ -61,22 +61,19 @@ class CloudTrialAnnouncementBar extends React.PureComponent<Props> {
         }
 
         if (!isEmpty(this.props.subscription) && !isEmpty(this.props.analytics) && this.shouldShowBanner()) {
+            const {daysLeftOnTrial} = this.props;
             if (this.isDismissable()) {
                 trackEvent(
                     TELEMETRY_CATEGORIES.CLOUD_ADMIN,
-                    'bannerview_trial_reached',
+                    `bannerview_trial_${daysLeftOnTrial}_days`,
                 );
             } else {
                 trackEvent(
                     TELEMETRY_CATEGORIES.CLOUD_ADMIN,
-                    'bannerview_trial_limit_exceeded',
+                    'bannerview_trial_limit_ended',
                 );
             }
         }
-    }
-
-    handleButtonClick = () => {
-        // Do nothing for now
     }
 
     handleClose = async () => {
@@ -89,7 +86,7 @@ class CloudTrialAnnouncementBar extends React.PureComponent<Props> {
         }
         trackEvent(
             TELEMETRY_CATEGORIES.CLOUD_ADMIN,
-            'click_close_banner_trial_period',
+            `dismissed_banner_trial_${daysLeftOnTrial}_days`,
         );
         await this.props.actions.savePreferences(this.props.currentUser.id, [{
             category: Preferences.CLOUD_TRIAL_BANNER,
@@ -100,8 +97,8 @@ class CloudTrialAnnouncementBar extends React.PureComponent<Props> {
     }
 
     shouldShowBanner = () => {
-        const {isFreeTier} = this.props;
-        return isFreeTier;
+        const {isFreeTrial, userIsAdmin, isCloud} = this.props;
+        return isFreeTrial && userIsAdmin && isCloud;
     }
 
     isDismissable = () => {
@@ -115,15 +112,16 @@ class CloudTrialAnnouncementBar extends React.PureComponent<Props> {
     }
 
     showModal = () => {
+        const {daysLeftOnTrial} = this.props;
         if (this.isDismissable()) {
             trackEvent(
                 TELEMETRY_CATEGORIES.CLOUD_ADMIN,
-                'click_upgrade_banner_trial_limit_not_reached',
+                `click_subscribe_from_trial_banner_${daysLeftOnTrial}_days`,
             );
         } else {
             trackEvent(
                 TELEMETRY_CATEGORIES.CLOUD_ADMIN,
-                'click_upgrade_banner_trial_limit_exceeded',
+                'click_subscribe_from_banner_trial_ended',
             );
         }
         this.props.actions.openModal({
@@ -144,8 +142,14 @@ class CloudTrialAnnouncementBar extends React.PureComponent<Props> {
             return null;
         }
 
-        if ((preferences.some((pref) => pref.name === CloudBanners.TRIAL && pref.value === '14_days_banner') && daysLeftOnTrial > TrialPeriodDays.TRIAL_3_DAYS) ||
-            ((daysLeftOnTrial <= TrialPeriodDays.TRIAL_3_DAYS && daysLeftOnTrial > TrialPeriodDays.TRIAL_0_DAYS) && preferences.some((pref) => pref.name === CloudBanners.TRIAL && pref.value === '3_days_banner'))) {
+        // if ((preferences.some((pref) => pref.name === CloudBanners.TRIAL && pref.value === '14_days_banner') && daysLeftOnTrial > TrialPeriodDays.TRIAL_3_DAYS) ||
+        //     ((daysLeftOnTrial <= TrialPeriodDays.TRIAL_3_DAYS && daysLeftOnTrial > TrialPeriodDays.TRIAL_0_DAYS)
+        //     && preferences.some((pref) => pref.name === CloudBanners.TRIAL && pref.value === '3_days_banner'))) {
+        //     return null;
+        // }
+
+        if ((preferences.some((pref) => pref.name === CloudBanners.TRIAL && pref.value === '14_days_banner')) ||
+            preferences.some((pref) => pref.name === CloudBanners.TRIAL && pref.value === '3_days_banner')) {
             return null;
         }
 

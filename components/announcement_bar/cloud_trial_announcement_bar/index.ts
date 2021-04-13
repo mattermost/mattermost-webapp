@@ -36,7 +36,7 @@ function mapStateToProps(state: GlobalState) {
     }
 
     return {
-        isFreeTier: isFreeTrial,
+        isFreeTrial,
         daysLeftOnTrial,
         analytics: state.entities.admin.analytics,
         userIsAdmin: isCurrentUserSystemAdmin(state),
