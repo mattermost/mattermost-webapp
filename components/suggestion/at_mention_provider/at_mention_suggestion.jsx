@@ -4,20 +4,37 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import {
+    getUser,
+    getCurrentUserId,
+    getStatusForUserId,
+} from 'mattermost-redux/selectors/entities/users';
+
 import {Constants} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
 import BotBadge from 'components/widgets/badges/bot_badge';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 import Avatar from 'components/widgets/users/avatar';
+import StatusIcon from 'components/status_icon';
 
+import store from 'stores/redux_store.jsx';
 import Suggestion from '../suggestion.jsx';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 
 export default class AtMentionSuggestion extends Suggestion {
     render() {
+        const getState = store.getState;
         const isSelection = this.props.isSelection;
         const item = this.props.item;
+        const state = getState();
+        const currentUserId = getCurrentUserId(state);
+        const status = getStatusForUserId(state, currentUserId);
+        const user = getUser(state, currentUserId);
+        const username = user.username;
+        const firstName = user.first_name;
+        const lastName = user.last_name;
+        const nameComplete = `${firstName} ${lastName}`;
 
         let itemname;
         let description;
@@ -155,6 +172,31 @@ export default class AtMentionSuggestion extends Suggestion {
             className += ' suggestion--selected';
         }
 
+        let displayStatusUser = (
+            <span className='mention--align'>
+                {nameComplete}
+                <StatusIcon
+                    className={`${status}--icon`}
+                    status={status}
+                    button={false}
+                />
+                {username}
+            </span>
+        );
+
+        if (!firstName) {
+            displayStatusUser = (
+                <span className='mention--align'>
+                    {username}
+                    <StatusIcon
+                        className={`${status}--icon`}
+                        status={status}
+                        button={false}
+                    />
+                </span>
+            );
+        }
+
         return (
             <div
                 className={className}
@@ -165,9 +207,7 @@ export default class AtMentionSuggestion extends Suggestion {
             >
                 {icon}
                 <span>
-                    <span className='mention--align'>
-                        {'@' + itemname}
-                    </span>
+                    {displayStatusUser}
                     <BotBadge
                         show={Boolean(item.is_bot)}
                         className='badge-autocomplete'
