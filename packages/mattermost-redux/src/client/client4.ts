@@ -3425,9 +3425,16 @@ export default class Client4 {
     // This function belongs to the Apps Framework feature.
     // Apps Framework feature is experimental, and this function is susceptible
     // to breaking changes without pushing the major version of this package.
-    getAppsBindings = async (userID: string, channelID: string) => {
-        return this.doFetch<AppBinding[]>(
-            this.getAppsProxyRoute() + `/api/v1/bindings?user_id=${userID}&channel_id=${channelID}&user_agent_type=webapp`,
+    getAppsBindings = async (userID: string, channelID: string, teamID: String) => {
+        const params = {
+            user_id: userID,
+            channel_id: channelID,
+            team_id: teamID,
+            user_agent: 'webapp',
+        };
+
+        return this.doFetch(
+            `${this.getAppsProxyRoute()}/api/v1/bindings${buildQueryString(params)}`,
             {method: 'get'},
         );
     }
