@@ -5,7 +5,7 @@ import React from 'react';
 
 import {injectIntl, IntlShape} from 'react-intl';
 
-import {AppBinding, DoAppCall, AppCallResponse} from 'mattermost-redux/types/apps';
+import {AppBinding, DoAppCall, PostEphemeralCallResponseForPost} from 'mattermost-redux/types/apps';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {AppBindingLocations, AppCallResponseTypes, AppCallTypes, AppExpandLevels} from 'mattermost-redux/constants/apps';
 import {Channel} from 'mattermost-redux/types/channels';
@@ -22,8 +22,8 @@ type Props = {
     actions: {
         doAppCall: DoAppCall;
         getChannel: (channelId: string) => Promise<ActionResult>;
+        postEphemeralCallResponseForPost: PostEphemeralCallResponseForPost;
     };
-    sendEphemeralPost: (message: string, channelID?: string, rootID?: string, userID?: string) => void;
 }
 
 type State = {
@@ -39,7 +39,7 @@ export class ButtonBinding extends React.PureComponent<Props, State> {
     }
 
     handleClick = async () => {
-        const {binding, post} = this.props;
+        const {binding, post, intl} = this.props;
         if (!binding.call) {
             return;
         }
@@ -65,23 +65,17 @@ export class ButtonBinding extends React.PureComponent<Props, State> {
             {post: AppExpandLevels.EXPAND_ALL},
         );
         this.setState({executing: true});
-        const res = await this.props.actions.doAppCall(call, AppCallTypes.SUBMIT, this.props.intl);
+        const res = await this.props.actions.doAppCall(call, AppCallTypes.SUBMIT, intl);
 
         this.setState({executing: false});
 
-        const ephemeral = (response: AppCallResponse, message: string) => this.props.sendEphemeralPost(
-            message,
-            this.props.post.channel_id,
-            this.props.post.root_id || this.props.post.id,
-            response.app_metadata?.bot_user_id,
-        );
         if (res.error) {
             const errorResponse = res.error;
-            const errorMessage = errorResponse.error || this.props.intl.formatMessage({
+            const errorMessage = errorResponse.error || intl.formatMessage({
                 id: 'apps.error.unknown',
                 defaultMessage: 'Unknown error occurred.',
             });
-            ephemeral(res.error, errorMessage);
+            this.props.actions.postEphemeralCallResponseForPost(errorResponse, errorMessage, post);
             return;
         }
 
@@ -89,20 +83,20 @@ export class ButtonBinding extends React.PureComponent<Props, State> {
         switch (callResp.type) {
         case AppCallResponseTypes.OK:
             if (callResp.markdown) {
-                ephemeral(callResp, callResp.markdown);
+                this.props.actions.postEphemeralCallResponseForPost(callResp, callResp.markdown, post);
             }
             break;
         case AppCallResponseTypes.NAVIGATE:
         case AppCallResponseTypes.FORM:
             break;
         default: {
-            const errorMessage = this.props.intl.formatMessage({
+            const errorMessage = intl.formatMessage({
                 id: 'apps.error.responses.unknown_type',
                 defaultMessage: 'App response type not supported. Response type: {type}.',
             }, {
                 type: callResp.type,
             });
-            ephemeral(callResp, errorMessage);
+            this.props.actions.postEphemeralCallResponseForPost(callResp, errorMessage, post);
         }
         }
     }

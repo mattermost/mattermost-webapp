@@ -10,7 +10,7 @@ import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
 import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
 import {Theme} from 'mattermost-redux/types/preferences';
-import {AppBinding, DoAppCall, AppCallResponse} from 'mattermost-redux/types/apps';
+import {AppBinding, DoAppCall, PostEphemeralCallResponseForChannel} from 'mattermost-redux/types/apps';
 import {AppCallResponseTypes, AppCallTypes} from 'mattermost-redux/constants/apps';
 
 import HeaderIconWrapper from 'components/channel_header/components/header_icon_wrapper';
@@ -18,7 +18,6 @@ import PluginChannelHeaderIcon from 'components/widgets/icons/plugin_channel_hea
 import {Constants} from 'utils/constants';
 import OverlayTrigger from 'components/overlay_trigger';
 import {PluginComponent} from 'types/store/plugins';
-import {sendEphemeralPost} from 'actions/global_actions';
 import {createCallContext, createCallRequest} from 'utils/apps';
 
 type CustomMenuProps = {
@@ -103,6 +102,7 @@ type ChannelHeaderPlugProps = {
     theme: Theme;
     actions: {
         doAppCall: DoAppCall;
+        postEphemeralCallResponseForChannel: PostEphemeralCallResponseForChannel;
     };
 }
 
@@ -150,7 +150,9 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
         );
     }
 
-    onClick = async (binding: AppBinding) => {
+    onBindingClick = async (binding: AppBinding) => {
+        const {channel, intl} = this.props;
+
         if (!binding.call) {
             return;
         }
@@ -162,21 +164,15 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
             this.props.channel.team_id,
         );
         const call = createCallRequest(binding.call, context);
-        const res = await this.props.actions.doAppCall(call, AppCallTypes.SUBMIT, this.props.intl);
+        const res = await this.props.actions.doAppCall(call, AppCallTypes.SUBMIT, intl);
 
-        const ephemeral = (response: AppCallResponse, message: string) => sendEphemeralPost(
-            message,
-            this.props.channel.id,
-            '',
-            response.app_metadata?.bot_user_id,
-        );
         if (res.error) {
             const errorResponse = res.error;
-            const errorMessage = errorResponse.error || this.props.intl.formatMessage({
+            const errorMessage = errorResponse.error || intl.formatMessage({
                 id: 'apps.error.unknown',
                 defaultMessage: 'Unknown error occurred.',
             });
-            ephemeral(res.error, errorMessage);
+            this.props.actions.postEphemeralCallResponseForChannel(errorResponse, errorMessage, channel.id);
             return;
         }
 
@@ -184,7 +180,7 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
         switch (callResp.type) {
         case AppCallResponseTypes.OK:
             if (callResp.markdown) {
-                ephemeral(callResp, callResp.markdown);
+                this.props.actions.postEphemeralCallResponseForChannel(callResp, callResp.markdown, channel.id);
             }
             break;
         case AppCallResponseTypes.NAVIGATE:
@@ -197,7 +193,7 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
             }, {
                 type: callResp.type,
             });
-            ephemeral(callResp, errorMessage);
+            this.props.actions.postEphemeralCallResponseForChannel(callResp, errorMessage, channel.id);
         }
         }
     }
@@ -214,7 +210,7 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
                         height='24'
                     />
                 )}
-                onClick={() => this.onClick(binding)}
+                onClick={() => this.onBindingClick(binding)}
                 buttonId={binding.location || ''}
                 tooltipKey={'plugin'}
                 tooltipText={binding.label}
@@ -250,7 +246,7 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
                         <a
                             href='#'
                             className='d-flex align-items-center'
-                            onClick={() => this.fireActionAndClose(() => this.onClick(binding))}
+                            onClick={() => this.fireActionAndClose(() => this.onBindingClick(binding))}
                         >
                             <span className='d-flex align-items-center overflow--ellipsis icon'>{(<img src={binding.icon}/>)}</span>
                             <span>{binding.label}</span>

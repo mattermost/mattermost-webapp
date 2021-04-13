@@ -5,6 +5,7 @@ import {Client4} from 'mattermost-redux/client';
 import {Action, ActionFunc, DispatchFunc} from 'mattermost-redux/types/actions';
 import {AppCallResponse, AppForm, AppCallType, AppCallRequest} from 'mattermost-redux/types/apps';
 import {AppCallTypes, AppCallResponseTypes} from 'mattermost-redux/constants/apps';
+import {Post} from 'mattermost-redux/types/posts';
 
 import {openModal} from 'actions/views/modals';
 
@@ -14,6 +15,8 @@ import {ModalIdentifiers} from 'utils/constants';
 import {getSiteURL, shouldOpenInNewTab} from 'utils/url';
 import {browserHistory} from 'utils/browser_history';
 import {makeCallErrorResponse} from 'utils/apps';
+
+import {sendEphemeralPost} from './global_actions';
 
 export function doAppCall<Res=unknown>(call: AppCallRequest, type: AppCallType, intl: any): ActionFunc {
     return async (dispatch: DispatchFunc) => {
@@ -91,4 +94,30 @@ export function openAppsModal(form: AppForm, call: AppCallRequest): Action {
             call,
         },
     });
+}
+
+export function postEphemeralCallResponseForPost(response: AppCallResponse, message: string, post: Post): ActionFunc {
+    return () => {
+        sendEphemeralPost(
+            message,
+            post.channel_id,
+            post.root_id || post.id,
+            response.app_metadata?.bot_user_id,
+        );
+
+        return {data: true};
+    };
+}
+
+export function postEphemeralCallResponseForChannel(response: AppCallResponse, message: string, channelID: string): ActionFunc {
+    return () => {
+        sendEphemeralPost(
+            message,
+            channelID,
+            '',
+            response.app_metadata?.bot_user_id,
+        );
+
+        return {data: true};
+    };
 }

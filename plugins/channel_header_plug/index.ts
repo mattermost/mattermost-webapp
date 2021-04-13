@@ -9,9 +9,9 @@ import {appsEnabled, makeAppBindingsSelector} from 'mattermost-redux/selectors/e
 import {AppBindingLocations} from 'mattermost-redux/constants/apps';
 import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 
-import {DoAppCall} from 'mattermost-redux/types/apps';
+import {DoAppCall, PostEphemeralCallResponseForChannel} from 'mattermost-redux/types/apps';
 
-import {doAppCall} from 'actions/apps';
+import {doAppCall, postEphemeralCallResponseForChannel} from 'actions/apps';
 import {GlobalState} from 'types/store';
 
 import ChannelHeaderPlug from './channel_header_plug';
@@ -30,12 +30,14 @@ function mapStateToProps(state: GlobalState) {
 
 type Actions = {
     doAppCall: DoAppCall;
+    postEphemeralCallResponseForChannel: PostEphemeralCallResponseForChannel;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
             doAppCall,
+            postEphemeralCallResponseForChannel,
         }, dispatch),
     };
 }

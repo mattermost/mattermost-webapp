@@ -8,7 +8,7 @@ import {Tooltip} from 'react-bootstrap';
 
 import Permissions from 'mattermost-redux/constants/permissions';
 import {Post} from 'mattermost-redux/types/posts';
-import {AppBinding, DoAppCall, AppCallResponse} from 'mattermost-redux/types/apps';
+import {AppBinding, DoAppCall, PostEphemeralCallResponseForPost} from 'mattermost-redux/types/apps';
 import {AppCallResponseTypes, AppCallTypes, AppExpandLevels} from 'mattermost-redux/constants/apps';
 
 import {Locations, ModalIdentifiers, Constants} from 'utils/constants';
@@ -23,7 +23,6 @@ import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import DotsHorizontalIcon from 'components/widgets/icons/dots_horizontal';
 import {PluginComponent} from 'types/store/plugins';
-import {sendEphemeralPost} from 'actions/global_actions';
 import {createCallContext, createCallRequest} from 'utils/apps';
 
 const MENU_BOTTOM_MARGIN = 80;
@@ -98,6 +97,12 @@ type Props = {
          * Function to perform an app call
          */
         doAppCall: DoAppCall;
+
+        /**
+         * Function to post the ephemeral message for a call response
+         */
+        postEphemeralCallResponseForPost: PostEphemeralCallResponseForPost;
+
     }; // TechDebt: Made non-mandatory while converting to typescript
 
     canEdit: boolean;
@@ -277,6 +282,8 @@ class DotMenu extends React.PureComponent<Props, State> {
     }
 
     onClickAppBinding = async (binding: AppBinding) => {
+        const {post, intl} = this.props;
+
         if (!binding.call) {
             return;
         }
@@ -296,21 +303,15 @@ class DotMenu extends React.PureComponent<Props, State> {
             },
         );
 
-        const res = await this.props.actions.doAppCall(call, AppCallTypes.SUBMIT, this.props.intl);
+        const res = await this.props.actions.doAppCall(call, AppCallTypes.SUBMIT, intl);
 
-        const ephemeral = (response: AppCallResponse, message: string) => sendEphemeralPost(
-            message,
-            this.props.post.channel_id,
-            this.props.post.root_id || this.props.post.id,
-            response.app_metadata?.bot_user_id,
-        );
         if (res.error) {
             const errorResponse = res.error;
-            const errorMessage = errorResponse.error || this.props.intl.formatMessage({
+            const errorMessage = errorResponse.error || intl.formatMessage({
                 id: 'apps.error.unknown',
                 defaultMessage: 'Unknown error occurred.',
             });
-            ephemeral(res.error, errorMessage);
+            this.props.actions.postEphemeralCallResponseForPost(errorResponse, errorMessage, post);
             return;
         }
 
@@ -318,20 +319,20 @@ class DotMenu extends React.PureComponent<Props, State> {
         switch (callResp.type) {
         case AppCallResponseTypes.OK:
             if (callResp.markdown) {
-                ephemeral(callResp, callResp.markdown);
+                this.props.actions.postEphemeralCallResponseForPost(callResp, callResp.markdown, post);
             }
             break;
         case AppCallResponseTypes.NAVIGATE:
         case AppCallResponseTypes.FORM:
             break;
         default: {
-            const errMessage = this.props.intl.formatMessage({
+            const errorMessage = intl.formatMessage({
                 id: 'apps.error.responses.unknown_type',
                 defaultMessage: 'App response type not supported. Response type: {type}.',
             }, {
                 type: callResp.type,
             });
-            ephemeral(callResp, errMessage);
+            this.props.actions.postEphemeralCallResponseForPost(callResp, errorMessage, post);
         }
         }
     }

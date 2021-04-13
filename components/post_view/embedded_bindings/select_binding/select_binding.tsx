@@ -9,7 +9,7 @@ import {ActionResult} from 'mattermost-redux/types/actions';
 
 import {Post} from 'mattermost-redux/types/posts';
 
-import {AppBinding, DoAppCall, AppCallResponse} from 'mattermost-redux/types/apps';
+import {AppBinding, DoAppCall, PostEphemeralCallResponseForPost} from 'mattermost-redux/types/apps';
 
 import {AppBindingLocations, AppCallResponseTypes, AppCallTypes, AppExpandLevels} from 'mattermost-redux/constants/apps';
 
@@ -32,8 +32,8 @@ type Props = {
     actions: {
         doAppCall: DoAppCall;
         getChannel: (channelId: string) => Promise<ActionResult>;
+        postEphemeralCallResponseForPost: PostEphemeralCallResponseForPost;
     };
-    sendEphemeralPost: (message: string, channelID?: string, rootID?: string, userID?: string) => void;
 };
 
 type State = {
@@ -74,7 +74,7 @@ export class SelectBinding extends React.PureComponent<Props, State> {
             return;
         }
 
-        const {post} = this.props;
+        const {post, intl} = this.props;
 
         let teamID = '';
         const {data} = await this.props.actions.getChannel(post.channel_id) as {data?: any; error?: any};
@@ -97,21 +97,15 @@ export class SelectBinding extends React.PureComponent<Props, State> {
             {post: AppExpandLevels.EXPAND_ALL},
         );
 
-        const res = await this.props.actions.doAppCall(call, AppCallTypes.SUBMIT, this.props.intl);
+        const res = await this.props.actions.doAppCall(call, AppCallTypes.SUBMIT, intl);
 
-        const ephemeral = (response: AppCallResponse, message: string) => this.props.sendEphemeralPost(
-            message,
-            this.props.post.channel_id,
-            this.props.post.root_id || this.props.post.id,
-            response.app_metadata?.bot_user_id,
-        );
         if (res.error) {
             const errorResponse = res.error;
-            const errorMessage = errorResponse.error || this.props.intl.formatMessage({
+            const errorMessage = errorResponse.error || intl.formatMessage({
                 id: 'apps.error.unknown',
                 defaultMessage: 'Unknown error occurred.',
             });
-            ephemeral(res.error, errorMessage);
+            this.props.actions.postEphemeralCallResponseForPost(errorResponse, errorMessage, post);
             return;
         }
 
@@ -119,7 +113,7 @@ export class SelectBinding extends React.PureComponent<Props, State> {
         switch (callResp.type) {
         case AppCallResponseTypes.OK:
             if (callResp.markdown) {
-                ephemeral(callResp, callResp.markdown);
+                this.props.actions.postEphemeralCallResponseForPost(callResp, callResp.markdown, post);
             }
             break;
         case AppCallResponseTypes.NAVIGATE:
@@ -132,7 +126,7 @@ export class SelectBinding extends React.PureComponent<Props, State> {
             }, {
                 type: callResp.type,
             });
-            ephemeral(callResp, errorMessage);
+            this.props.actions.postEphemeralCallResponseForPost(callResp, errorMessage, post);
         }
         }
     }

@@ -17,12 +17,13 @@ import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 
 import {Post} from 'mattermost-redux/types/posts';
 
-import {DoAppCall} from 'mattermost-redux/types/apps';
+import {DoAppCall, PostEphemeralCallResponseForPost} from 'mattermost-redux/types/apps';
 
 import {GlobalState} from 'types/store';
 
 import {openModal} from 'actions/views/modals';
-import {doAppCall} from 'actions/apps';
+import {doAppCall, postEphemeralCallResponseForPost} from 'actions/apps';
+
 import {
     flagPost,
     unflagPost,
@@ -92,6 +93,7 @@ type Actions = {
     openModal: (postId: any) => void;
     markPostAsUnread: (post: Post) => void;
     doAppCall: DoAppCall;
+    postEphemeralCallResponseForPost: PostEphemeralCallResponseForPost;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
@@ -105,6 +107,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             openModal,
             markPostAsUnread,
             doAppCall,
+            postEphemeralCallResponseForPost,
         }, dispatch),
     };
 }

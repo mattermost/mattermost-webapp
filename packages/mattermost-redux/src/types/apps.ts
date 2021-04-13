@@ -3,6 +3,8 @@
 
 import {IntlShape} from 'react-intl';
 
+import {Post} from './posts';
+
 // This file's contents belong to the Apps Framework feature.
 // Apps Framework feature is experimental, and the contents of this file are
 // susceptible to breaking changes without pushing the major version of this package.
@@ -222,4 +224,12 @@ export type DoAppCallResult<Res=unknown> = {
 
 export interface DoAppCall<Res=unknown> {
     (call: AppCallRequest, type: AppCallType, intl: IntlShape): Promise<DoAppCallResult<Res>>;
+}
+
+export interface PostEphemeralCallResponseForPost {
+    (response: AppCallResponse, message: string, post: Post): void;
+}
+
+export interface PostEphemeralCallResponseForChannel {
+    (response: AppCallResponse, message: string, channelID: string): void;
 }
