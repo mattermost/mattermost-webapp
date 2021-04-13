@@ -29,6 +29,8 @@ import NewChannelFlow from 'components/new_channel_flow';
 import UnreadChannelIndicator from 'components/sidebar/unread_channel_indicator';
 import Pluggable from 'plugins/pluggable';
 
+import GlobalThreadsLink from 'components/threading/global_threads_link';
+
 import SidebarHeader from './header';
 import SidebarChannel from './sidebar_channel';
 import ChannelCreate from './channel_create';
@@ -548,6 +550,7 @@ class LegacySidebar extends React.PureComponent {
                     id='sidebarChannelContainer'
                     className='nav-pills__container'
                 >
+                    <GlobalThreadsLink/>
                     {orderedChannelIds.map((sec) => {
                         const section = {
                             type: sec.type,
@@ -720,7 +723,6 @@ class LegacySidebar extends React.PureComponent {
                 <div className='sidebar--left__icons'>
                     <Pluggable pluggableName='LeftSidebarHeader'/>
                 </div>
-
                 <div
                     id='lhsList'
                     role='application'
