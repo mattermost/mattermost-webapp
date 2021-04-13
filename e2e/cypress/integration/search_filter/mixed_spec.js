@@ -40,11 +40,11 @@ describe('SF15699 Search Date Filter - mixed', () => {
         });
     });
 
-    it('"before:" and "after:" can be used together', () => {
+    it('MM-T589 "before:" and "after:" can be used together', () => {
         searchAndValidate(`before:${Cypress.moment().format('YYYY-MM-DD')} after:${firstDateEarly.query} ${commonText}`, [secondOffTopicMessage, secondMessage]);
     });
 
-    it('"before:", "after:", "from:", and "in:" can be used in one search', () => {
+    it('MM-T593 "before:", "after:", "from:", and "in:" can be used in one search', () => {
         searchAndValidate(`before:${Cypress.moment().format('YYYY-MM-DD')} after:${firstDateEarly.query} from:${anotherAdmin.username} in:off-topic ${commonText}`, [secondOffTopicMessage]);
     });
 });
