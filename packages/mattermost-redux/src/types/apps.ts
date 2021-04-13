@@ -16,7 +16,7 @@ export enum Permission {
     ActAsBot = 'act_as_bot',
     ActAsUser = 'act_as_user',
     PermissionActAsAdmin = 'act_as_admin',
-    emoteOAuth2 = 'remote_oauth2',
+    RemoteOAuth2 = 'remote_oauth2',
     RemoteWebhooks = 'remote_webhooks',
 }
 
