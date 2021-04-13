@@ -1,0 +1,494 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/admin_console/data_retention_settings/team_list should match snapshot 1`] = `
+<div
+  className="PolicyTeamsList"
+>
+  <DataGrid
+    className="customTable"
+    columns={
+      Array [
+        Object {
+          "field": "name",
+          "fixed": true,
+          "name": <FormattedMessage
+            defaultMessage="Name"
+            id="admin.team_settings.team_list.nameHeader"
+          />,
+        },
+        Object {
+          "className": "TeamList__actionColumn",
+          "field": "remove",
+          "fixed": true,
+          "name": "",
+          "textAlign": "right",
+        },
+      ]
+    }
+    endCount={1}
+    loading={false}
+    nextPage={[Function]}
+    onSearch={[Function]}
+    page={0}
+    previousPage={[Function]}
+    rows={
+      Array [
+        Object {
+          "cells": Object {
+            "id": "team-1",
+            "name": <div
+              className="TeamList__nameColumn"
+            >
+              <div
+                className="TeamList__lowerOpacity"
+              >
+                <TeamIcon
+                  content="name"
+                  size="sm"
+                  url={null}
+                />
+              </div>
+              <div
+                className="TeamList__nameText"
+              >
+                <b
+                  data-testid="team-display-name"
+                >
+                  name
+                </b>
+              </div>
+            </div>,
+            "remove": <a
+              className="group-actions TeamList_editText"
+              data-testid="nameedit"
+              onClick={[Function]}
+            >
+              <FormattedMessage
+                defaultMessage="Remove"
+                id="admin.data_retention.custom_policy.teams.remove"
+              />
+            </a>,
+          },
+        },
+      ]
+    }
+    searchPlaceholder=""
+    startCount={1}
+    term=""
+    total={1}
+  />
+</div>
+`;
+
+exports[`components/admin_console/data_retention_settings/team_list should match snapshot with paging 1`] = `
+<div
+  className="PolicyTeamsList"
+>
+  <DataGrid
+    className="customTable"
+    columns={
+      Array [
+        Object {
+          "field": "name",
+          "fixed": true,
+          "name": <FormattedMessage
+            defaultMessage="Name"
+            id="admin.team_settings.team_list.nameHeader"
+          />,
+        },
+        Object {
+          "className": "TeamList__actionColumn",
+          "field": "remove",
+          "fixed": true,
+          "name": "",
+          "textAlign": "right",
+        },
+      ]
+    }
+    endCount={10}
+    loading={false}
+    nextPage={[Function]}
+    onSearch={[Function]}
+    page={0}
+    previousPage={[Function]}
+    rows={
+      Array [
+        Object {
+          "cells": Object {
+            "id": "id0",
+            "name": <div
+              className="TeamList__nameColumn"
+            >
+              <div
+                className="TeamList__lowerOpacity"
+              >
+                <TeamIcon
+                  content="DN0"
+                  size="sm"
+                  url={null}
+                />
+              </div>
+              <div
+                className="TeamList__nameText"
+              >
+                <b
+                  data-testid="team-display-name"
+                >
+                  DN0
+                </b>
+              </div>
+            </div>,
+            "remove": <a
+              className="group-actions TeamList_editText"
+              data-testid="DN0edit"
+              onClick={[Function]}
+            >
+              <FormattedMessage
+                defaultMessage="Remove"
+                id="admin.data_retention.custom_policy.teams.remove"
+              />
+            </a>,
+          },
+        },
+        Object {
+          "cells": Object {
+            "id": "id1",
+            "name": <div
+              className="TeamList__nameColumn"
+            >
+              <div
+                className="TeamList__lowerOpacity"
+              >
+                <TeamIcon
+                  content="DN1"
+                  size="sm"
+                  url={null}
+                />
+              </div>
+              <div
+                className="TeamList__nameText"
+              >
+                <b
+                  data-testid="team-display-name"
+                >
+                  DN1
+                </b>
+              </div>
+            </div>,
+            "remove": <a
+              className="group-actions TeamList_editText"
+              data-testid="DN1edit"
+              onClick={[Function]}
+            >
+              <FormattedMessage
+                defaultMessage="Remove"
+                id="admin.data_retention.custom_policy.teams.remove"
+              />
+            </a>,
+          },
+        },
+        Object {
+          "cells": Object {
+            "id": "id2",
+            "name": <div
+              className="TeamList__nameColumn"
+            >
+              <div
+                className="TeamList__lowerOpacity"
+              >
+                <TeamIcon
+                  content="DN2"
+                  size="sm"
+                  url={null}
+                />
+              </div>
+              <div
+                className="TeamList__nameText"
+              >
+                <b
+                  data-testid="team-display-name"
+                >
+                  DN2
+                </b>
+              </div>
+            </div>,
+            "remove": <a
+              className="group-actions TeamList_editText"
+              data-testid="DN2edit"
+              onClick={[Function]}
+            >
+              <FormattedMessage
+                defaultMessage="Remove"
+                id="admin.data_retention.custom_policy.teams.remove"
+              />
+            </a>,
+          },
+        },
+        Object {
+          "cells": Object {
+            "id": "id3",
+            "name": <div
+              className="TeamList__nameColumn"
+            >
+              <div
+                className="TeamList__lowerOpacity"
+              >
+                <TeamIcon
+                  content="DN3"
+                  size="sm"
+                  url={null}
+                />
+              </div>
+              <div
+                className="TeamList__nameText"
+              >
+                <b
+                  data-testid="team-display-name"
+                >
+                  DN3
+                </b>
+              </div>
+            </div>,
+            "remove": <a
+              className="group-actions TeamList_editText"
+              data-testid="DN3edit"
+              onClick={[Function]}
+            >
+              <FormattedMessage
+                defaultMessage="Remove"
+                id="admin.data_retention.custom_policy.teams.remove"
+              />
+            </a>,
+          },
+        },
+        Object {
+          "cells": Object {
+            "id": "id4",
+            "name": <div
+              className="TeamList__nameColumn"
+            >
+              <div
+                className="TeamList__lowerOpacity"
+              >
+                <TeamIcon
+                  content="DN4"
+                  size="sm"
+                  url={null}
+                />
+              </div>
+              <div
+                className="TeamList__nameText"
+              >
+                <b
+                  data-testid="team-display-name"
+                >
+                  DN4
+                </b>
+              </div>
+            </div>,
+            "remove": <a
+              className="group-actions TeamList_editText"
+              data-testid="DN4edit"
+              onClick={[Function]}
+            >
+              <FormattedMessage
+                defaultMessage="Remove"
+                id="admin.data_retention.custom_policy.teams.remove"
+              />
+            </a>,
+          },
+        },
+        Object {
+          "cells": Object {
+            "id": "id5",
+            "name": <div
+              className="TeamList__nameColumn"
+            >
+              <div
+                className="TeamList__lowerOpacity"
+              >
+                <TeamIcon
+                  content="DN5"
+                  size="sm"
+                  url={null}
+                />
+              </div>
+              <div
+                className="TeamList__nameText"
+              >
+                <b
+                  data-testid="team-display-name"
+                >
+                  DN5
+                </b>
+              </div>
+            </div>,
+            "remove": <a
+              className="group-actions TeamList_editText"
+              data-testid="DN5edit"
+              onClick={[Function]}
+            >
+              <FormattedMessage
+                defaultMessage="Remove"
+                id="admin.data_retention.custom_policy.teams.remove"
+              />
+            </a>,
+          },
+        },
+        Object {
+          "cells": Object {
+            "id": "id6",
+            "name": <div
+              className="TeamList__nameColumn"
+            >
+              <div
+                className="TeamList__lowerOpacity"
+              >
+                <TeamIcon
+                  content="DN6"
+                  size="sm"
+                  url={null}
+                />
+              </div>
+              <div
+                className="TeamList__nameText"
+              >
+                <b
+                  data-testid="team-display-name"
+                >
+                  DN6
+                </b>
+              </div>
+            </div>,
+            "remove": <a
+              className="group-actions TeamList_editText"
+              data-testid="DN6edit"
+              onClick={[Function]}
+            >
+              <FormattedMessage
+                defaultMessage="Remove"
+                id="admin.data_retention.custom_policy.teams.remove"
+              />
+            </a>,
+          },
+        },
+        Object {
+          "cells": Object {
+            "id": "id7",
+            "name": <div
+              className="TeamList__nameColumn"
+            >
+              <div
+                className="TeamList__lowerOpacity"
+              >
+                <TeamIcon
+                  content="DN7"
+                  size="sm"
+                  url={null}
+                />
+              </div>
+              <div
+                className="TeamList__nameText"
+              >
+                <b
+                  data-testid="team-display-name"
+                >
+                  DN7
+                </b>
+              </div>
+            </div>,
+            "remove": <a
+              className="group-actions TeamList_editText"
+              data-testid="DN7edit"
+              onClick={[Function]}
+            >
+              <FormattedMessage
+                defaultMessage="Remove"
+                id="admin.data_retention.custom_policy.teams.remove"
+              />
+            </a>,
+          },
+        },
+        Object {
+          "cells": Object {
+            "id": "id8",
+            "name": <div
+              className="TeamList__nameColumn"
+            >
+              <div
+                className="TeamList__lowerOpacity"
+              >
+                <TeamIcon
+                  content="DN8"
+                  size="sm"
+                  url={null}
+                />
+              </div>
+              <div
+                className="TeamList__nameText"
+              >
+                <b
+                  data-testid="team-display-name"
+                >
+                  DN8
+                </b>
+              </div>
+            </div>,
+            "remove": <a
+              className="group-actions TeamList_editText"
+              data-testid="DN8edit"
+              onClick={[Function]}
+            >
+              <FormattedMessage
+                defaultMessage="Remove"
+                id="admin.data_retention.custom_policy.teams.remove"
+              />
+            </a>,
+          },
+        },
+        Object {
+          "cells": Object {
+            "id": "id9",
+            "name": <div
+              className="TeamList__nameColumn"
+            >
+              <div
+                className="TeamList__lowerOpacity"
+              >
+                <TeamIcon
+                  content="DN9"
+                  size="sm"
+                  url={null}
+                />
+              </div>
+              <div
+                className="TeamList__nameText"
+              >
+                <b
+                  data-testid="team-display-name"
+                >
+                  DN9
+                </b>
+              </div>
+            </div>,
+            "remove": <a
+              className="group-actions TeamList_editText"
+              data-testid="DN9edit"
+              onClick={[Function]}
+            >
+              <FormattedMessage
+                defaultMessage="Remove"
+                id="admin.data_retention.custom_policy.teams.remove"
+              />
+            </a>,
+          },
+        },
+      ]
+    }
+    searchPlaceholder=""
+    startCount={1}
+    term=""
+    total={30}
+  />
+</div>
+`;
