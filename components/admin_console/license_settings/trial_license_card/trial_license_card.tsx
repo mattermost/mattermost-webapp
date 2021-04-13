@@ -80,7 +80,7 @@ const TrialLicenseCard: React.FC<Props> = ({license}: Props) => {
                     onClick={(e) => handleContactLinkClick(e)}
                 >
                     <FormattedMessage
-                        id='admin.billing.subscription.privateCloudCard.contactSales'
+                        id='admin.license.trialCard.contactSales'
                         defaultMessage='Contact sales'
                     />
                 </button>

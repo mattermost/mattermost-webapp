@@ -308,7 +308,11 @@ export default class LicenseSettings extends React.PureComponent {
             eelicense = this.renderEELicenseText();
         } else if (license.IsLicensed === 'true' && !uploading) {
             // Note: DO NOT LOCALISE THESE STRINGS. Legally we can not since the license is in English.
-            const sku = license.SkuShortName ? <React.Fragment>{`Edition: Mattermost Enterprise Edition ${license.SkuShortName}`}<br/></React.Fragment> : null;
+            let skuShortName = license.SkuShortName;
+            if (isTrialLicense(license)) {
+                skuShortName = `${license.SkuShortName} Trial`;
+            }
+            const sku = license.SkuShortName ? <React.Fragment>{`Edition: Mattermost Enterprise Edition ${skuShortName}`}<br/></React.Fragment> : null;
             edition = 'Mattermost Enterprise Edition. Enterprise features on this server have been unlocked with a license key and a valid subscription.';
             if (upgradedFromTE) {
                 eelicense = this.renderEELicenseText();
