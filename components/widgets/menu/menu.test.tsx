@@ -24,20 +24,20 @@ describe('components/Menu', () => {
         const wrapper = shallow(<Menu ariaLabel='test-label'>{'text'}</Menu>);
 
         expect(wrapper).toMatchInlineSnapshot(`
-<div
-  aria-label="test-label"
-  className="a11y__popup Menu"
-  role="menu"
->
-  <ul
-    className="Menu__content dropdown-menu"
-    onClick={[Function]}
-    style={Object {}}
-  >
-    text
-  </ul>
-</div>
-`);
+      <div
+        aria-label="test-label"
+        className="a11y__popup Menu"
+        role="menu"
+      >
+        <ul
+          className="Menu__content dropdown-menu"
+          onClick={[Function]}
+          style={Object {}}
+        >
+          text
+        </ul>
+      </div>
+    `);
     });
 
     test('should match snapshot with id', () => {
@@ -51,21 +51,21 @@ describe('components/Menu', () => {
         );
 
         expect(wrapper).toMatchInlineSnapshot(`
-<div
-  aria-label="test-label"
-  className="a11y__popup Menu"
-  id="test-id"
-  role="menu"
->
-  <ul
-    className="Menu__content dropdown-menu"
-    onClick={[Function]}
-    style={Object {}}
-  >
-    text
-  </ul>
-</div>
-`);
+      <div
+        aria-label="test-label"
+        className="a11y__popup Menu"
+        id="test-id"
+        role="menu"
+      >
+        <ul
+          className="Menu__content dropdown-menu"
+          onClick={[Function]}
+          style={Object {}}
+        >
+          text
+        </ul>
+      </div>
+    `);
     });
 
     test('should match snapshot with openLeft and openUp when is mobile', () => {
@@ -83,20 +83,25 @@ describe('components/Menu', () => {
         );
 
         expect(wrapper).toMatchInlineSnapshot(`
-<div
-  aria-label="test-label"
-  className="a11y__popup Menu"
-  role="menu"
->
-  <ul
-    className="Menu__content dropdown-menu"
-    onClick={[Function]}
-    style={Object {}}
-  >
-    text
-  </ul>
-</div>
-`);
+      <div
+        aria-label="test-label"
+        className="a11y__popup Menu"
+        role="menu"
+      >
+        <ul
+          className="Menu__content dropdown-menu"
+          onClick={[Function]}
+          style={
+            Object {
+              "left": "inherit",
+              "right": 0,
+            }
+          }
+        >
+          text
+        </ul>
+      </div>
+    `);
     });
 
     test('should match snapshot with openLeft and openUp', () => {
@@ -114,27 +119,27 @@ describe('components/Menu', () => {
         );
 
         expect(wrapper).toMatchInlineSnapshot(`
-<div
-  aria-label="test-label"
-  className="a11y__popup Menu"
-  role="menu"
->
-  <ul
-    className="Menu__content dropdown-menu"
-    onClick={[Function]}
-    style={
-      Object {
-        "bottom": "100%",
-        "left": "inherit",
-        "right": 0,
-        "top": "auto",
-      }
-    }
-  >
-    text
-  </ul>
-</div>
-`);
+      <div
+        aria-label="test-label"
+        className="a11y__popup Menu"
+        role="menu"
+      >
+        <ul
+          className="Menu__content dropdown-menu"
+          onClick={[Function]}
+          style={
+            Object {
+              "bottom": "100%",
+              "left": "inherit",
+              "right": 0,
+              "top": "auto",
+            }
+          }
+        >
+          text
+        </ul>
+      </div>
+    `);
     });
 
     test('should hide the correct dividers', () => {
@@ -142,13 +147,25 @@ describe('components/Menu', () => {
         utils.isMobile.mockReturnValue(false);
         const pseudoMenu = document.createElement('div');
         const listOfItems = [
-            'menu-divider', 'menu-divider', 'menu-divider', 'menu-divider',
-            'other', 'other',
-            'menu-divider', 'menu-divider',
+            'menu-divider',
+            'menu-divider',
+            'menu-divider',
+            'menu-divider',
             'other',
-            'menu-divider', 'menu-divider', 'menu-divider',
-            'other', 'other', 'other',
-            'menu-divider', 'menu-divider', 'menu-divider', 'menu-divider',
+            'other',
+            'menu-divider',
+            'menu-divider',
+            'other',
+            'menu-divider',
+            'menu-divider',
+            'menu-divider',
+            'other',
+            'other',
+            'other',
+            'menu-divider',
+            'menu-divider',
+            'menu-divider',
+            'menu-divider',
         ];
         for (const className of listOfItems) {
             const element = document.createElement('div');
@@ -242,13 +259,25 @@ describe('components/Menu', () => {
         utils.isMobile.mockReturnValue(false);
         const pseudoMenu = document.createElement('div');
         const listOfItems = [
-            'mobile-menu-divider', 'mobile-menu-divider', 'mobile-menu-divider', 'mobile-menu-divider',
-            'other', 'other',
-            'mobile-menu-divider', 'mobile-menu-divider',
+            'mobile-menu-divider',
+            'mobile-menu-divider',
+            'mobile-menu-divider',
+            'mobile-menu-divider',
             'other',
-            'mobile-menu-divider', 'mobile-menu-divider', 'mobile-menu-divider',
-            'other', 'other', 'other',
-            'mobile-menu-divider', 'mobile-menu-divider', 'mobile-menu-divider', 'mobile-menu-divider',
+            'other',
+            'mobile-menu-divider',
+            'mobile-menu-divider',
+            'other',
+            'mobile-menu-divider',
+            'mobile-menu-divider',
+            'mobile-menu-divider',
+            'other',
+            'other',
+            'other',
+            'mobile-menu-divider',
+            'mobile-menu-divider',
+            'mobile-menu-divider',
+            'mobile-menu-divider',
         ];
         for (const className of listOfItems) {
             const element = document.createElement('div');

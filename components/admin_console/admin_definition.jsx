@@ -178,7 +178,7 @@ export const it = {
     stateIsFalse: (key) => (config, state) => !state[key],
     configIsTrue: (group, setting) => (config) => Boolean(config[group][setting]),
     configIsFalse: (group, setting) => (config) => !config[group][setting],
-    configContains: (group, setting, word) => (config) => Boolean(config[group][setting].includes(word)),
+    configContains: (group, setting, word) => (config) => Boolean(config[group][setting]?.includes(word)),
     enterpriseReady: (config, state, license, enterpriseReady) => enterpriseReady,
     licensed: (config, state, license) => license.IsLicensed === 'true',
     licensedForFeature: (feature) => (config, state, license) => license.IsLicensed && license[feature] === 'true',
@@ -195,7 +195,7 @@ export const it = {
 };
 
 const usesLegacyOauth = (config, state, license, enterpriseReady, consoleAccess, cloud) => {
-    if (!config.GITLAB_SERVICE || !config.GOOGLE_SERVICE || !config.OFFICE365_SERVICE) {
+    if (!config.GitLabSettings || !config.GoogleSettings || !config.Office365Settings) {
         return false;
     }
 
@@ -974,6 +974,32 @@ const AdminDefinition = {
                         onConfigLoad: (configVal) => configVal / MEBIBYTE,
                         onConfigSave: (displayVal) => displayVal * MEBIBYTE,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.FILE_STORAGE)),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'FileSettings.ExtractContent',
+                        label: t('admin.image.extractContentTitle'),
+                        label_default: 'Enable document search by content:',
+                        help_text: t('admin.image.extractContentDescription'),
+                        help_text_markdown: true,
+                        help_text_default: 'When enabled, supported document types are searchable by their content. Search results for existing documents may be incomplete [until a data migration is executed](!https://www.mattermost.com/file-content-extraction).',
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.FILE_STORAGE)),
+                        ),
+                        isHidden: it.not(it.configIsTrue('FeatureFlags', 'FilesSearch')),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'FileSettings.ArchiveRecursion',
+                        label: t('admin.image.archiveRecursionTitle'),
+                        label_default: 'Enable searching content of documents within ZIP files:',
+                        help_text: t('admin.image.archiveRecursionDescription'),
+                        help_text_default: 'When enabled, content of documents within ZIP files will be returned in search results. This may have an impact on server performance for large files. ',
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.FILE_STORAGE)),
+                            it.configIsFalse('FileSettings', 'ExtractContent'),
+                        ),
+                        isHidden: it.not(it.configIsTrue('FeatureFlags', 'FilesSearch')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -5117,7 +5143,7 @@ const AdminDefinition = {
             url: 'integrations/cors',
             title: t('admin.sidebar.cors'),
             title_default: 'CORS',
-            isHidden: it.all(
+            isHidden: it.any(
                 it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
                 it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.CORS)),
             ),
@@ -5711,6 +5737,40 @@ const AdminDefinition = {
                         help_text_markdown: true,
                         isHidden: it.licensedForFeature('Cloud'),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_DROPDOWN,
+                        key: 'ServiceSettings.CollapsedThreads',
+                        label: t('admin.experimental.collapsedThreads.title'),
+                        label_default: 'Collapsed Reply Threads',
+                        help_text: t('admin.experimental.collapsedThreads.desc'),
+                        help_text_default: 'When enabled (default on), this setting enables collapsed reply threads for all users on this server. Users can disable the feature in Account Settings > Display > Collapsed Reply Threads (Beta). When enabled (default off), users must enable collapsed reply threads in Account Settings. When disabled, users cannot access collapsed reply threads. [Learn more about collapsed reply threads](!https://about.mattermost.com/default-threads).',
+                        help_text_markdown: true,
+                        options: [
+                            {
+                                value: 'disabled',
+                                display_name: t('admin.experimental.collapsedThreads.off'),
+                                display_name_default: 'Disabled',
+                            },
+                            {
+                                value: 'default_on',
+                                display_name: t('admin.experimental.collapsedThreads.default_on'),
+                                display_name_default: 'Enabled (Default On)',
+                            },
+                            {
+                                value: 'default_off',
+                                display_name: t('admin.experimental.collapsedThreads.default_off'),
+                                display_name_default: 'Enabled (Default Off)',
+                            },
+
+                            /* {
+                                value: 'always_on',
+                                display_name: t('admin.experimental.collapsedThreads.alwaysOn'),
+                                display_name_default: 'Always On',
+                            }, */
+                        ],
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
+                        isHidden: it.configIsFalse('FeatureFlags', 'CollapsedThreads'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
