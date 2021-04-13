@@ -42,7 +42,7 @@ function mapStateToProps(state: GlobalState) {
         analytics: state.entities.admin.analytics,
         userIsAdmin: isCurrentUserSystemAdmin(state),
         currentUser: getCurrentUser(state),
-        isCloud: isCloud,
+        isCloud,
         subscription,
         preferences: getCategory(state, Preferences.CLOUD_TRIAL_BANNER),
     };

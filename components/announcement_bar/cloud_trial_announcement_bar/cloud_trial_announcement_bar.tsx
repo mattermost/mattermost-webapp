@@ -143,8 +143,8 @@ class CloudTrialAnnouncementBar extends React.PureComponent<Props> {
         }
 
         if ((preferences.some((pref) => pref.name === CloudBanners.TRIAL && pref.value === '14_days_banner1') && daysLeftOnTrial > TrialPeriodDays.TRIAL_3_DAYS) ||
-            ((daysLeftOnTrial <= TrialPeriodDays.TRIAL_3_DAYS && daysLeftOnTrial > TrialPeriodDays.TRIAL_0_DAYS)
-            && preferences.some((pref) => pref.name === CloudBanners.TRIAL && pref.value === '3_days_banner1'))) {
+            ((daysLeftOnTrial <= TrialPeriodDays.TRIAL_3_DAYS && daysLeftOnTrial > TrialPeriodDays.TRIAL_0_DAYS) &&
+            preferences.some((pref) => pref.name === CloudBanners.TRIAL && pref.value === '3_days_banner1'))) {
             return null;
         }
 
