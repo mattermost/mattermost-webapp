@@ -154,12 +154,12 @@ class SwitchChannelSuggestion extends Suggestion {
                 displayName = (
                     <React.Fragment>
                         {userItem.username}
+                        {deactivated}
                         <StatusIcon
                             className={`${status}--icon`}
                             status={status}
                             button={false}
                         />
-                        {deactivated}
                     </React.Fragment>
                 );
             }
