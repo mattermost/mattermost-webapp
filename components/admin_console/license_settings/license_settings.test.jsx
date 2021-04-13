@@ -44,7 +44,12 @@ describe('components/admin_console/license_settings/LicenseSettings', () => {
     });
 
     test('should match snapshot enterprise build with license and isDisabled set to true', () => {
-        const wrapper = shallow(<LicenseSettings {...defaultProps} isDisabled={true}/>);
+        const wrapper = shallow(
+            <LicenseSettings
+                {...defaultProps}
+                isDisabled={true}
+            />,
+        );
         expect(wrapper).toMatchSnapshot();
     });
 
