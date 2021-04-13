@@ -43,12 +43,45 @@ describe('components/sidebar/sidebar_channel/sidebar_base_channel', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should match snapshot when shared channel', () => {
+        const props = {
+            ...baseProps,
+            channel: {
+                ...baseProps.channel,
+                shared: true,
+            },
+        };
+
+        const wrapper = shallow(
+            <SidebarBaseChannel {...props}/>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('should match snapshot when private channel', () => {
         const props = {
             ...baseProps,
             channel: {
                 ...baseProps.channel,
                 type: 'P' as ChannelType,
+            },
+        };
+
+        const wrapper = shallow(
+            <SidebarBaseChannel {...props}/>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot when shared private channel', () => {
+        const props = {
+            ...baseProps,
+            channel: {
+                ...baseProps.channel,
+                type: 'P' as ChannelType,
+                shared: true,
             },
         };
 
