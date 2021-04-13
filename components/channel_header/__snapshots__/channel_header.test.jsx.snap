@@ -1933,7 +1933,7 @@ exports[`components/ChannelHeader should render shared view 1`] = `
         </div>
       </div>
     </div>
-    <Connect(ChannelHeaderPlug)
+    <Connect(injectIntl(ChannelHeaderPlug))
       channel={
         Object {
           "delete_at": 0,
