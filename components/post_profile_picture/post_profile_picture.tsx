@@ -6,13 +6,12 @@ import React from 'react';
 import ProfilePicture from 'components/profile_picture';
 import MattermostLogo from 'components/widgets/icons/mattermost_logo';
 
-import Constants, { UserStatuses } from 'utils/constants';
+import Constants, {UserStatuses} from 'utils/constants';
 import * as PostUtils from 'utils/post_utils';
 import * as Utils from 'utils/utils';
 
 import {Post} from 'mattermost-redux/types/posts';
 import {UserProfile} from 'mattermost-redux/types/users';
-
 
 type Props = {
     compactDisplay: boolean;
@@ -29,16 +28,11 @@ type Props = {
 }
 
 export default class PostProfilePicture extends React.PureComponent<Props> {
-
     static defaultProps = {
         status: UserStatuses.OFFLINE,
     };
 
-    constructor(props: Props) {
-        super(props);
-    }
-
-    getProfilePictureURL = () => {
+    getProfilePictureURL = (): string => {
         const {post, user} = this.props;
 
         if (user && user.id === post.user_id) {
@@ -50,7 +44,7 @@ export default class PostProfilePicture extends React.PureComponent<Props> {
         return '';
     };
 
-    getStatus = (fromAutoResponder: boolean, fromWebhook: boolean, user: UserProfile) => {
+    getStatus = (fromAutoResponder: boolean, fromWebhook: boolean, user: UserProfile): string | undefined => {
         if (fromAutoResponder || fromWebhook || (user && user.is_bot)) {
             return '';
         }
@@ -58,7 +52,7 @@ export default class PostProfilePicture extends React.PureComponent<Props> {
         return this.props.status;
     };
 
-    getPostIconURL = (defaultURL: string, fromAutoResponder: boolean, fromWebhook: boolean) => {
+    getPostIconURL = (defaultURL: string, fromAutoResponder: boolean, fromWebhook: boolean): string => {
         const {enablePostIconOverride, hasImageProxy, post} = this.props;
         const postProps = post.props;
         let postIconOverrideURL = '';
@@ -111,21 +105,21 @@ export default class PostProfilePicture extends React.PureComponent<Props> {
         const status = this.getStatus(fromAutoResponder, fromWebhook, user);
 
         return (
-                <ProfilePicture
-                    hasMention={hasMention}
-                    isBusy={isBusy}
-                    isRHS={isRHS}
-                    size='md'
-                    src={src}
-                    profileSrc={profileSrc}
-                    isEmoji={isEmoji}
-                    status={status}
-                    userId={user ? user.id : undefined}
-                    channelId={post.channel_id}
-                    username={user ? user.username : undefined}
-                    overwriteIcon={this.props.overwriteIcon}
-                    overwriteName={overwriteName}
-                />
+            <ProfilePicture
+                hasMention={hasMention}
+                isBusy={isBusy}
+                isRHS={isRHS}
+                size='md'
+                src={src}
+                profileSrc={profileSrc}
+                isEmoji={isEmoji}
+                status={status}
+                userId={user ? user.id : undefined}
+                channelId={post.channel_id}
+                username={user ? user.username : undefined}
+                overwriteIcon={this.props.overwriteIcon}
+                overwriteName={overwriteName}
+            />
         );
     }
 }

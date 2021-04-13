@@ -7,12 +7,14 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getUser, getStatusForUserId} from 'mattermost-redux/selectors/entities/users';
 import {Client4} from 'mattermost-redux/client';
 import {Post} from 'mattermost-redux/types/posts';
-import PostProfilePicture from './post_profile_picture';
+
 import {GlobalState} from '../../types/store';
 
+import PostProfilePicture from './post_profile_picture';
+
 type Props = {
-    userId: string,
-    post: Post
+    userId: string;
+    post: Post;
 }
 
 function mapStateToProps(state: GlobalState, ownProps: Props) {

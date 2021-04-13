@@ -4,18 +4,18 @@
 import React, {ComponentProps} from 'react';
 import {shallow} from 'enzyme';
 
-import PostProfilePicture from './post_profile_picture';
 import {TestHelper} from 'utils/test_helper';
+
+import PostProfilePicture from './post_profile_picture';
 
 type Props = ComponentProps<typeof PostProfilePicture>;
 
 describe('components/PostProfilePicture', () => {
-
     const user = TestHelper.getUserMock({
         id: 'defaultuser',
     });
     const post = TestHelper.getPostMock({
-        user_id: 'defaultuser'
+        user_id: 'defaultuser',
     });
 
     const baseProps: Props = {
@@ -25,9 +25,8 @@ describe('components/PostProfilePicture', () => {
         isBusy: true,
         post,
         user,
-        isBot: Boolean(user.is_bot)
+        isBot: Boolean(user.is_bot),
     };
-
 
     test('should match snapshot, no status and post icon override specified, default props', () => {
         const props: Props = baseProps;
@@ -42,7 +41,7 @@ describe('components/PostProfilePicture', () => {
         const props: Props = {
             ...baseProps,
             status: 'away',
-            postIconOverrideURL: 'http://example.com/image.png'
+            postIconOverrideURL: 'http://example.com/image.png',
         };
         const wrapper = shallow(
             <PostProfilePicture {...props}/>,
@@ -50,5 +49,4 @@ describe('components/PostProfilePicture', () => {
 
         expect(wrapper).toMatchSnapshot();
     });
-
 });
