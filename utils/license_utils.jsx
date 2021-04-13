@@ -19,10 +19,8 @@ export function daysToLicenseExpire(license) {
         return undefined;
     }
 
-    const today = moment(Date.now());
-    const endOfLicense = moment(new Date(parseInt(license.ExpiresAt, 10)));
-
-    return endOfLicense.diff(today, 'days');
+    const endDate = new Date(parseInt(license?.ExpiresAt, 10));
+    return moment(endDate).startOf('day').diff(moment().startOf('day'), 'days');
 }
 
 export function isLicenseExpired(license) {
