@@ -17,7 +17,7 @@ exports[`components/widgets/badges/Badge should transform into a button if onCli
   className="Badge"
 >
   <button
-    className="Badge__box undefined"
+    className="Badge__box"
     onClick={
       [MockFunction] {
         "calls": Array [

@@ -3,7 +3,7 @@
 
 const axios = require('axios');
 
-module.exports = async ({baseUrl, headers = [], method = 'get', path, data = {}}) => {
+module.exports = async ({baseUrl, headers = [], method = 'get', path = '', data = {}}) => {
     let response;
     try {
         response = await axios({

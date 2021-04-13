@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, ComponentProps} from 'react';
+import React, {memo, useCallback, ComponentProps, useMemo} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import './thread_footer.scss';
@@ -17,15 +17,14 @@ import SimpleTooltip from 'components/widgets/simple_tooltip';
 import {THREADING_TIME} from '../../common/options';
 
 type Props = {
-    participants: ComponentProps<typeof Avatars>['users'];
+    participants: Array<{id: string}>; // Post['participants']
     totalParticipants?: number;
     totalReplies: number;
     newReplies: number;
     lastReplyAt: ComponentProps<typeof Timestamp>['value'];
     isFollowing: boolean;
     actions: {
-        follow: () => void;
-        unFollow: () => void;
+        setFollowing: (isFollowing: boolean) => void;
         openThread: () => void;
     };
 };
@@ -38,11 +37,12 @@ function ThreadFooter({
     lastReplyAt,
     isFollowing,
     actions: {
-        follow,
-        unFollow,
+        setFollowing,
         openThread,
     },
 }: Props) {
+    const participantIds = useMemo(() => participants?.map(({id}) => id), [participants]);
+
     return (
         <div className='ThreadFooter'>
             {newReplies ? (
@@ -68,13 +68,14 @@ function ThreadFooter({
             )}
 
             <Avatars
-                users={participants}
+                userIds={participantIds}
                 totalUsers={totalParticipants}
                 size='sm'
             />
 
             <Button
                 onClick={openThread}
+                className='separated'
                 prepend={
                     <span className='icon'>
                         <i className='icon-reply-outline'/>
@@ -90,18 +91,19 @@ function ThreadFooter({
 
             <FollowButton
                 isFollowing={isFollowing}
-                follow={follow}
-                unFollow={unFollow}
+                className='separated'
+                onClick={useCallback(() => {
+                    setFollowing(!isFollowing);
+                }, [setFollowing, isFollowing])}
             />
 
             {Boolean(lastReplyAt) && (
                 <Timestamp
                     value={lastReplyAt}
-                    useTime={false}
-                    units={THREADING_TIME}
+                    {...THREADING_TIME}
                 >
                     {({formatted}) => (
-                        <span className='Timestamp Separated alt-visible'>
+                        <span className='Timestamp separated alt-visible'>
                             <FormattedMessage
                                 id='threading.footer.lastReplyAt'
                                 defaultMessage='Last reply {formatted}'
