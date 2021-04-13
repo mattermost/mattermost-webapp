@@ -10,6 +10,8 @@ import {Client4} from 'mattermost-redux/client';
 import * as Channels from 'mattermost-redux/selectors/entities/channels';
 import * as Teams from 'mattermost-redux/selectors/entities/teams';
 
+import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
+
 import {ActionTypes, Constants} from 'utils/constants';
 import * as UserAgent from 'utils/user_agent';
 import * as GlobalActions from 'actions/global_actions';
@@ -24,14 +26,29 @@ const currentTeamId = '321';
 const currentUserId = 'user123';
 const initialState = {
     entities: {
+        admin: {
+            pluginStatuses: {
+                'com.mattermost.apps': {
+                    state: 2,
+                },
+            },
+        },
         general: {
             config: {
                 ExperimentalViewArchivedChannels: 'false',
                 EnableLegacySidebar: 'true',
             },
         },
+        posts: {
+            posts: {
+                root_id: {id: 'root_id', channel_id: '123'},
+            },
+        },
         channels: {
             currentChannelId,
+            channels: {
+                123: {id: '123', team_id: '456'},
+            },
         },
         preferences: {
             myPreferences: {},
@@ -50,6 +67,46 @@ const initialState = {
                     },
                 },
             },
+        },
+        apps: {
+            bindings: [{
+                location: '/command',
+                bindings: [{
+                    app_id: 'appid',
+                    label: 'appid',
+                    bindings: [
+                        {
+                            app_id: 'appid',
+                            label: 'custom',
+                            description: 'Run the command.',
+                            call: {
+                                path: 'https://someserver.com/command',
+                            },
+                            form: {
+                                fields: [
+                                    {
+                                        name: 'key1',
+                                        label: 'key1',
+                                        type: 'text',
+                                        position: 1,
+                                    },
+                                    {
+                                        name: 'key2',
+                                        label: 'key2',
+                                        type: 'static_select',
+                                        options: [
+                                            {
+                                                label: 'Value 2',
+                                                value: 'value2',
+                                            },
+                                        ],
+                                    },
+                                ],
+                            },
+                        },
+                    ],
+                }],
+            }],
         },
     },
     views: {
@@ -78,6 +135,7 @@ describe('executeCommand', () => {
                 {type: 'UPDATE_RHS_STATE', state: 'search'},
                 {type: 'UPDATE_RHS_SEARCH_RESULTS_TERMS', terms: ''},
                 {type: 'SEARCH_POSTS_REQUEST', isGettingMore: false},
+                {type: 'SEARCH_FILES_REQUEST', isGettingMore: false},
             ]);
         });
     });
@@ -174,6 +232,54 @@ describe('executeCommand', () => {
             const result = await store.dispatch(executeCommand('/leave', {}));
             expect(store.getActions()[0].data).toEqual([{category: 'group_channel_show', name: 'channelId', user_id: 'user123', value: 'false'}]);
 
+            expect(result).toEqual({data: true});
+        });
+    });
+
+    describe('app command', () => {
+        test('should call executeAppCall', async () => {
+            const state = {
+                ...initialState,
+                entities: {
+                    ...initialState.entities,
+                    general: {
+                        ...initialState.entities.general,
+                        config: {
+                            ...initialState.entities.general.config,
+                            FeatureFlagAppsEnabled: 'true',
+                        },
+                    },
+                },
+            };
+            store = await mockStore(state);
+            const f = Client4.executeAppCall;
+            const mocked = jest.fn().mockResolvedValue(Promise.resolve({
+                type: AppCallResponseTypes.OK,
+                markdown: 'Success',
+            }));
+            Client4.executeAppCall = mocked;
+
+            const result = await store.dispatch(executeCommand('/appid custom value1 --key2 value2', {channel_id: '123', root_id: 'root_id'}));
+            Client4.executeAppCall = f;
+
+            expect(mocked).toHaveBeenCalledWith({
+                context: {
+                    app_id: 'appid',
+                    channel_id: '123',
+                    location: '/command',
+                    root_id: 'root_id',
+                    team_id: '456',
+                },
+                raw_command: '/appid custom value1 --key2 value2',
+                path: 'https://someserver.com/command',
+                values: {
+                    key1: 'value1',
+                    key2: {label: 'Value 2', value: 'value2'},
+                },
+                expand: {},
+                query: undefined,
+                selected_field: undefined,
+            }, 'submit');
             expect(result).toEqual({data: true});
         });
     });
