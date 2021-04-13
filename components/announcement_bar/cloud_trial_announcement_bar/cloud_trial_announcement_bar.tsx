@@ -105,7 +105,7 @@ class CloudTrialAnnouncementBar extends React.PureComponent<Props> {
         const {daysLeftOnTrial} = this.props;
         let dismissable = true;
 
-        if (daysLeftOnTrial < TrialPeriodDays.TRIAL_1_DAY) {
+        if (daysLeftOnTrial <= TrialPeriodDays.TRIAL_1_DAY) {
             dismissable = false;
         }
         return dismissable;
@@ -165,6 +165,7 @@ class CloudTrialAnnouncementBar extends React.PureComponent<Props> {
         );
 
         let bannerMessage;
+        let icon;
         switch (daysLeftOnTrial) {
         case TrialPeriodDays.TRIAL_3_DAYS:
         case TrialPeriodDays.TRIAL_2_DAYS:
@@ -175,6 +176,7 @@ class CloudTrialAnnouncementBar extends React.PureComponent<Props> {
             break;
         default:
             bannerMessage = trialMoreThan3DaysMsg;
+            icon = <i className='icon-check-outline-circle'/>;
             break;
         }
 
@@ -190,6 +192,7 @@ class CloudTrialAnnouncementBar extends React.PureComponent<Props> {
                 modalButtonDefaultText={'Subscribe Now'}
                 message={bannerMessage}
                 showLinkAsButton={true}
+                icon={icon}
             />
         );
     }
