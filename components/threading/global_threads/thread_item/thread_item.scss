@@ -4,13 +4,14 @@
 @import "sass/utils/_mixins";
 
 .ThreadItem {
+    --border: 1px solid rgba(var(--center-channel-color-rgb), .08);
     padding: 18px 18px 18px 28px;
     text-align: left;
     cursor: pointer;
     position: relative;
 
     .alt-visible {
-        display: none;
+        visibility: hidden;
     }
 
     &:hover,
@@ -19,10 +20,10 @@
         background: rgba(var(--center-channel-color-rgb), .04);
 
         .alt-visible {
-            display: unset;
+            visibility: unset;
         }
         .alt-hidden {
-            display: none;
+            visibility: hidden;
         }
     }
 
@@ -80,13 +81,16 @@
         font-size: 14px;
         line-height: 20px;
         font-weight: 600;
-        display: flex;
         position: relative;
         white-space: nowrap;
+        display: grid;
+        grid-template-columns: min-content 1fr min-content;
     }
 
     .Badge {
-        margin-left: 10px;
+        margin: 0 10px;
+        min-width: 0;
+        max-width: 30rem;
     }
 
     .Badge__box{
@@ -97,6 +101,9 @@
         padding: 0px 4px;
         background: rgba(var(--center-channel-color-rgb), .08);
         color: rgba(var(--center-channel-color-rgb), 1);
+        overflow: hidden;
+        text-overflow: ellipsis;
+
         &:hover,
         &:focus {
             cursor: pointer;
@@ -104,30 +111,29 @@
         }
     }
 
-    p {
+    div.preview {
         color: rgba(var(--center-channel-color-rgb), 1);
         @include text-clamp(2, 20);
+        margin: 0 0 10px;
     }
 
     time {
         font-weight: normal;
         font-size: 12px;
         line-height: 20px;
-        margin-left: auto;
         color: rgba(var(--center-channel-color-rgb), .64)
     }
 
     .menu-anchor {
         position: absolute;
-        right: 8px;
-        top: 8px;
+        right: 14px;
+        top: 12px;
 
         .Button {
             width: 28px;
             height: 28px;
             padding: 0;
             font-size: 18px;
-            color: rgba(var(--center-channel-color-rgb), .64)
         }
     }
 
