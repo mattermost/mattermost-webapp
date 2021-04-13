@@ -66,11 +66,13 @@ class ChannelHeader extends React.PureComponent {
         intl: intlShape.isRequired,
         pinnedPostsCount: PropTypes.number,
         hasMoreThanOneTeam: PropTypes.bool,
+        showChannelFilesButton: PropTypes.bool,
         actions: PropTypes.shape({
             favoriteChannel: PropTypes.func.isRequired,
             unfavoriteChannel: PropTypes.func.isRequired,
             showFlaggedPosts: PropTypes.func.isRequired,
             showPinnedPosts: PropTypes.func.isRequired,
+            showChannelFiles: PropTypes.func.isRequired,
             showMentions: PropTypes.func.isRequired,
             openRHSSearch: PropTypes.func.isRequired,
             closeRightHandSide: PropTypes.func.isRequired,
@@ -167,6 +169,14 @@ class ChannelHeader extends React.PureComponent {
         }
     };
 
+    showChannelFiles = () => {
+        if (this.props.rhsState === RHSStates.CHANNEL_FILES) {
+            this.props.actions.closeRightHandSide();
+        } else {
+            this.props.actions.showChannelFiles(this.props.channel.id);
+        }
+    };
+
     removeTooltipLink = () => {
         // Bootstrap adds the attr dynamically, removing it to prevent a11y readout
         this.toggleFavoriteRef.current.removeAttribute('aria-describedby');
@@ -249,6 +259,7 @@ class ChannelHeader extends React.PureComponent {
             hasGuests,
             teammateNameDisplaySetting,
             isLegacySidebar,
+            showChannelFilesButton,
         } = this.props;
         const {formatMessage} = this.props.intl;
         const ariaLabelChannelHeader = Utils.localizeMessage('accessibility.sections.channelHeader', 'channel header region');
@@ -386,6 +397,12 @@ class ChannelHeader extends React.PureComponent {
             );
         }
 
+        let channelFilesIconClass = 'channel-header__icon channel-header__icon--wide channel-header__icon--left';
+        if (rhsState === RHSStates.CHANNEL_FILES) {
+            channelFilesIconClass += ' channel-header__icon--active';
+        }
+        const channelFilesIcon = <i className='icon icon-file-document-outline'/>;
+
         let pinnedIconClass = 'channel-header__icon channel-header__icon--wide channel-header__icon--left';
         if (rhsState === RHSStates.PIN) {
             pinnedIconClass += ' channel-header__icon--active';
@@ -452,6 +469,15 @@ class ChannelHeader extends React.PureComponent {
                         onClick={this.showPinnedPosts}
                         tooltipKey={'pinnedPosts'}
                     />
+                    {showChannelFilesButton &&
+                        <HeaderIconWrapper
+                            iconComponent={channelFilesIcon}
+                            ariaLabel={true}
+                            buttonClass={channelFilesIconClass}
+                            buttonId={'channelHeaderFilesButton'}
+                            onClick={this.showChannelFiles}
+                            tooltipKey={'channelFiles'}
+                        />}
                     {hasGuestsText}
                     <div
                         className='header-popover-text-measurer'
@@ -561,6 +587,15 @@ class ChannelHeader extends React.PureComponent {
                         onClick={this.showPinnedPosts}
                         tooltipKey={'pinnedPosts'}
                     />
+                    {showChannelFilesButton &&
+                        <HeaderIconWrapper
+                            iconComponent={channelFilesIcon}
+                            ariaLabel={true}
+                            buttonClass={channelFilesIconClass}
+                            buttonId={'channelHeaderFilesButton'}
+                            onClick={this.showChannelFiles}
+                            tooltipKey={'channelFiles'}
+                        />}
                     {hasGuestsText}
                     {editMessage}
                 </div>
