@@ -138,6 +138,7 @@ export default class TeamList extends React.PureComponent<Props, State> {
                 field: 'remove',
                 textAlign: 'right',
                 fixed: true,
+                className: 'TeamList__actionColumn'
             },
         ];
     }
@@ -242,7 +243,7 @@ export default class TeamList extends React.PureComponent<Props, State> {
         const columns: Column[] = this.getColumns();
         const {startCount, endCount, total} = this.getPaginationProps();
         return (
-            <div className='TeamsList'>
+            <div className='PolicyTeamsList'>
                 <DataGrid
                     columns={columns}
                     rows={rows}

@@ -128,8 +128,15 @@ export default class ChannelList extends React.PureComponent<Props, State> {
     getColumns = (): Column[] => {
         const name = (
             <FormattedMessage
-                id='admin.team_settings.team_list.nameHeader'
+                id='admin.channel_settings.channel_list.nameHeader'
                 defaultMessage='Name'
+            />
+        );
+
+        const team = (
+            <FormattedMessage
+                id='admin.channel_settings.channel_list.teamHeader'
+                defaultMessage='Team'
             />
         );
 
@@ -140,7 +147,7 @@ export default class ChannelList extends React.PureComponent<Props, State> {
                 fixed: true,
             },
             {
-                name: 'Team',
+                name: team,
                 field: 'team',
                 fixed: true,
             },

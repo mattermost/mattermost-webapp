@@ -24,10 +24,11 @@ import DropdownInputHybrid from 'components/widgets/inputs/dropdown_input_hybrid
 import SaveButton from 'components/save_button';
 import TeamList from 'components/admin_console/data_retention_settings/team_list';
 import ChannelList from 'components/admin_console/data_retention_settings/channel_list';
-
-import './custom_policy_form.scss';
+import {keepForeverOption, yearsOption, daysOption, FOREVER, YEARS} from 'components/admin_console/data_retention_settings/dropdown_options/dropdown_options';
 import {ChannelWithTeamData} from 'mattermost-redux/types/channels';
 import {browserHistory} from 'utils/browser_history';
+
+import './custom_policy_form.scss';
 
 type Props = {
     policyId?: string;
@@ -43,7 +44,6 @@ type Props = {
         removeDataRetentionCustomPolicyChannels: (id: string, policy: string[]) => Promise<{ data?: {status: string}; error?: Error }>;
         setNavigationBlocked: (blocked: boolean) => void;
     };
-    teams?: Team[];
 };
 
 type State = {
@@ -51,7 +51,7 @@ type State = {
     addTeamOpen: boolean;
     addChannelOpen: boolean;
     messageRetentionInputValue: string;
-    messageRetentionDropdownValue: any;
+    messageRetentionDropdownValue: {label: string | JSX.Element; value: string};
     removedTeamsCount: number;
     removedTeams: IDMappedObjects<Team>;
     newTeams: IDMappedObjects<Team>;
@@ -114,12 +114,12 @@ export default class CustomPolicyForm extends React.PureComponent<Props, State> 
     }
     getMessageRetentionDefaultDropdownValue = () => {
         if (!this.props.policyId || (this.props.policy && this.props.policy.post_duration === -1)) {
-            return {value: 'forever', label: <div><i className='icon icon-infinity option-icon'/><span>{'Keep Forever'}</span></div>};
+            return keepForeverOption();
         }
         if (this.props.policy && this.props.policy.post_duration % 365 === 0) {
-            return {value: 'years', label: 'Years'};
+            return yearsOption();
         }
-        return {value: 'days', label: 'Days'};
+        return daysOption();
     }
 
     componentDidMount = async () => {
@@ -209,10 +209,10 @@ export default class CustomPolicyForm extends React.PureComponent<Props, State> 
         const channelsToAdd = Object.keys(newChannels);
         const channelsToRemove = Object.keys(removedChannels);
         let postDuration = parseInt(messageRetentionInputValue, 10);
-
-        if (messageRetentionDropdownValue.value === 'forever') {
+        console.log(messageRetentionDropdownValue);
+        if (messageRetentionDropdownValue.value === FOREVER) {
             postDuration = -1;
-        } else if (this.state.messageRetentionDropdownValue.value === 'years') {
+        } else if (this.state.messageRetentionDropdownValue.value === YEARS) {
             postDuration = parseInt(messageRetentionInputValue, 10) * 365;
         }
 
@@ -340,9 +340,9 @@ export default class CustomPolicyForm extends React.PureComponent<Props, State> 
                                         value={this.state.messageRetentionDropdownValue}
                                         inputValue={this.state.messageRetentionInputValue}
                                         width={95}
-                                        exceptionToInput={['forever']}
-                                        defaultValue={{value: 'forever', label: <div><i className='icon icon-infinity option-icon'/><span>{'Keep Forever'}</span></div>}}
-                                        options={[{value: 'days', label: 'Days'}, {value: 'years', label: 'Years'}, {value: 'forever', label: <div><i className='icon icon-infinity option-icon'/><span>{'Keep Forever'}</span></div>}]}
+                                        exceptionToInput={[FOREVER]}
+                                        defaultValue={keepForeverOption()}
+                                        options={[daysOption(), yearsOption(), keepForeverOption()]}
                                         legend={Utils.localizeMessage('admin.data_retention.form.channelAndDirectMessageRetention', 'Channel & direct message retention')}
                                         placeholder={Utils.localizeMessage('admin.data_retention.form.channelAndDirectMessageRetention', 'Channel & direct message retention')}
                                         name={'channel_message_retention'}

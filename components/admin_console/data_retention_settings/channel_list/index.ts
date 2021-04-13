@@ -47,7 +47,7 @@ function mapStateToProps() {
         let channels: ChannelWithTeamData[] = [];
         let totalCount = 0;
         const policyId = ownProps.policyId;
-        const policy = policyId ? getDataRetentionCustomPolicy(state, policyId) || {} as DataRetentionCustomPolicy : {} as DataRetentionCustomPolicy;
+        const policy = policyId ? getDataRetentionCustomPolicy(state, policyId) : {} as DataRetentionCustomPolicy;
         const searchTerm = state.views.search.channelListSearch.term || '';
         const filters = state.views.search.channelListSearch?.filters || {};
 

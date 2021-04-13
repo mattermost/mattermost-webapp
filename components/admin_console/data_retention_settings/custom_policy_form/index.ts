@@ -53,15 +53,12 @@ type OwnProps = {
 }
 
 function mapStateToProps() {
-    const getPolicyTeams = getTeamsInPolicy();
     return (state: GlobalState, ownProps: OwnProps) => {
         const policyId = ownProps.match.params.policy_id;
         const policy = getDataRetentionCustomPolicy(state, policyId);
-        const teams = getPolicyTeams(state, {policyId});
         return {
             policyId,
             policy,
-            teams,
         };
     };
 }
