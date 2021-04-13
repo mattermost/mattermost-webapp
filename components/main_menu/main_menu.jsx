@@ -134,7 +134,7 @@ class MainMenu extends React.PureComponent {
     }
 
     render() {
-        const {currentUser, teamIsGroupConstrained, isLicensedForLDAPGroups, isFreeTrial} = this.props;
+        const {currentUser, teamIsGroupConstrained, isLicensedForLDAPGroups, isFreeTrial, isCloud} = this.props;
 
         if (!currentUser) {
             return null;
@@ -351,11 +351,14 @@ class MainMenu extends React.PureComponent {
                         />
                     </SystemPermissionGate>
                 </Menu.Group>
-                {isFreeTrial &&
+                {isFreeTrial && isCloud &&
                     <Menu.Group>
                         <SystemPermissionGate permissions={Permissions.SYSCONSOLE_READ_PERMISSIONS}>
                             <Menu.ItemWrapper show={true}>
-                                <UpgradeLink buttonText='Subscribe Now' styleButton={true}/>
+                                <UpgradeLink
+                                    buttonText='Subscribe Now'
+                                    styleButton={true}
+                                />
                             </Menu.ItemWrapper>
                         </SystemPermissionGate>
                     </Menu.Group>

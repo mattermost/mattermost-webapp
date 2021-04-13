@@ -10,7 +10,7 @@ type MenuItemWrapperProps = {
     id?: string;
     children?: React.ReactNode;
 }
-const MenuItemWrapperProps: React.FC<MenuItemWrapperProps>= ({id, show, children}) => {
+const MenuItemWrapperProps: React.FC<MenuItemWrapperProps> = ({id, show, children}: MenuItemWrapperProps) => {
     if (!show) {
         return null;
     }
@@ -21,8 +21,8 @@ const MenuItemWrapperProps: React.FC<MenuItemWrapperProps>= ({id, show, children
             role='menuitem'
             id={id}
         >
-        {children}
+            {children}
         </li>
     );
-}
+};
 export default MenuItemWrapperProps;

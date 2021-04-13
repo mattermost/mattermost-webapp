@@ -38,15 +38,18 @@ const UpgradeLink: React.FC<UpgradeLinkProps> = (props: UpgradeLinkProps) => {
             // do nothing
         }
     };
+    const buttonText = (
+        <FormattedMessage
+            id='upgradeLink.warn.upgrade_now'
+            defaultMessage='Upgrade now'
+        />
+    );
     return (
         <button
             className={`upgradeLink ${styleButton}`}
             onClick={(e) => handleLinkClick(e)}
         >
-            {props.buttonText ? props.buttonText : <FormattedMessage
-                id='upgradeLink.warn.upgrade_now'
-                defaultMessage='Upgrade now'
-            />}
+            {props.buttonText ? props.buttonText : buttonText}
         </button>
     );
 };
