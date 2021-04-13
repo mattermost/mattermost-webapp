@@ -25,7 +25,7 @@ type Props = {
     searchTerm: string;
     filters: ChannelSearchOpts;
 
-    policyId: string | undefined;
+    policyId?: string;
 
     onRemoveCallback: (channel: ChannelWithTeamData) => void;
     onAddCallback: (channels: ChannelWithTeamData[]) => void;
