@@ -17,7 +17,7 @@ type Props = {
     buttonId: string;
     iconComponent: React.ReactNode;
     onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
-    tooltipKey?: string;
+    tooltipKey: string;
     tooltipText?: React.ReactNode;
     isRhsOpen?: boolean;
 }
