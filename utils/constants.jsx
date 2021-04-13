@@ -80,6 +80,10 @@ export const Preferences = {
     MESSAGE_DISPLAY_CLEAN: 'clean',
     MESSAGE_DISPLAY_COMPACT: 'compact',
     MESSAGE_DISPLAY_DEFAULT: 'clean',
+    COLLAPSED_REPLY_THREADS: 'collapsed_reply_threads',
+    COLLAPSED_REPLY_THREADS_OFF: 'off',
+    COLLAPSED_REPLY_THREADS_ON: 'on',
+    COLLAPSED_REPLY_THREADS_FALLBACK_DEFAULT: 'off',
     LINK_PREVIEW_DISPLAY: 'link_previews',
     LINK_PREVIEW_DISPLAY_DEFAULT: 'true',
     COLLAPSE_DISPLAY: 'collapse_previews',
@@ -399,6 +403,9 @@ export const SocketEvents = {
     CLOUD_PAYMENT_STATUS_UPDATED: 'cloud_payment_status_updated',
     APPS_FRAMEWORK_REFRESH_BINDINGS: 'custom_com.mattermost.apps_refresh_bindings',
     FIRST_ADMIN_VISIT_MARKETPLACE_STATUS_RECEIVED: 'first_admin_visit_marketplace_status_received',
+    THREAD_UPDATED: 'thread_updated',
+    THREAD_FOLLOW_CHANGED: 'thread_follow_changed',
+    THREAD_READ_CHANGED: 'thread_read_changed',
 };
 
 export const TutorialSteps = {
@@ -417,6 +424,10 @@ export const RecommendedNextSteps = {
     NOTIFICATION_SETUP: 'notification_setup',
     HIDE: 'hide',
     SKIP: 'skip',
+};
+
+export const Threads = {
+    CHANGED_SELECTED_THREAD: 'changed_selected_thread',
 };
 
 export const CloudBanners = {

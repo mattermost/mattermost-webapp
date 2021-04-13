@@ -128,7 +128,7 @@ class ProfilePopover extends React.PureComponent {
          * @internal
          */
         actions: PropTypes.shape({
-            getMembershipForCurrentEntities: PropTypes.func.isRequired,
+            getMembershipForEntities: PropTypes.func.isRequired,
             openDirectChannelToUserId: PropTypes.func.isRequired,
             openModal: PropTypes.func.isRequired,
             closeModal: PropTypes.func.isRequired,
@@ -159,7 +159,7 @@ class ProfilePopover extends React.PureComponent {
     componentDidMount() {
         const {currentTeamId, userId, channelId} = this.props;
         if (currentTeamId && userId) {
-            this.props.actions.getMembershipForCurrentEntities(currentTeamId, userId, channelId);
+            this.props.actions.getMembershipForEntities(currentTeamId, userId, channelId);
         }
     }
 
