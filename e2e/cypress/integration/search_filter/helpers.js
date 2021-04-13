@@ -95,9 +95,6 @@ export function setupTestData(data, {team, admin, anotherAdmin}) {
     const baseUrl = Cypress.config('baseUrl');
     cy.externalRequest({user: admin, method: 'put', baseUrl, path: `users/${anotherAdmin.id}/roles`, data: {roles: 'system_user system_admin'}});
 
-    // # Visit town-square
-    cy.visit(`/${team.name}/channels/town-square`);
-
     // # Create a post from today
     cy.get('#postListContent', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible');
     cy.postMessage(todayMessage).wait(TIMEOUTS.ONE_SEC);

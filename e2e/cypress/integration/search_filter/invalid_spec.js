@@ -28,6 +28,9 @@ describe('SF15699 Search Date Filter - invalid', () => {
         cy.apiInitSetup({userPrefix: 'other-admin'}).then(({team, user}) => {
             anotherAdmin = user;
 
+            // # Visit town-square
+            cy.visit(`/${team.name}/channels/town-square`);
+
             setupTestData(testData, {team, admin, anotherAdmin});
         });
     });

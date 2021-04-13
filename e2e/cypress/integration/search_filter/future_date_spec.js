@@ -13,18 +13,16 @@
 import {getAdminAccount} from '../../support/env';
 
 import {
-    getTestMessages,
     searchAndValidate,
+    getTestMessages,
     setupTestData,
 } from './helpers';
 
-describe('SF15699 Search Date Filter - mixed', () => {
+describe('Search Date Filter', () => {
     const testData = getTestMessages();
     const {
         commonText,
-        firstDateEarly,
-        secondMessage,
-        secondOffTopicMessage,
+        allMessagesInOrder,
     } = testData;
     const admin = getAdminAccount();
     let anotherAdmin;
@@ -40,11 +38,15 @@ describe('SF15699 Search Date Filter - mixed', () => {
         });
     });
 
-    it('"before:" and "after:" can be used together', () => {
-        searchAndValidate(`before:${Cypress.moment().format('YYYY-MM-DD')} after:${firstDateEarly.query} ${commonText}`, [secondOffTopicMessage, secondMessage]);
+    it('MM-T605_1 before: using a date from the future shows results', () => {
+        searchAndValidate(`before:2099-7-15 ${commonText}`, allMessagesInOrder);
     });
 
-    it('"before:", "after:", "from:", and "in:" can be used in one search', () => {
-        searchAndValidate(`before:${Cypress.moment().format('YYYY-MM-DD')} after:${firstDateEarly.query} from:${anotherAdmin.username} in:off-topic ${commonText}`, [secondOffTopicMessage]);
+    it('MM-T605_2 on: using a date from the future shows no results', () => {
+        searchAndValidate(`on:2099-7-15 ${commonText}`);
+    });
+
+    it('MM-T605_3 after: using a date from the future shows no results', () => {
+        searchAndValidate(`after:2099-7-15 ${commonText}`);
     });
 });
