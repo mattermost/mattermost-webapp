@@ -241,6 +241,19 @@
             border-top: none;
             @include box-shadow(rgba(var(--center-channel-color-rgb), 0.08) 0px 17px 50px 0px, rgba(var(--center-channel-color-rgb), 0.08) 0px 12px 15px 0px);
             background: v(center-channel-bg);
+
+            .shared-user-icon {
+                color: rgba(61, 60, 64, 0.72);
+                font-size: 16px;
+                height: 16px;
+                width: 16px;
+                line-height: 20px;
+                margin-left: 8px;
+
+                &:before {
+                    margin: 0;
+                }
+            }
         }
     }
 }
@@ -554,6 +567,12 @@
                     width: 100%;
                 }
             }
+
+            .shared-user-icon {
+                font-size: 16px;
+                margin-top: 5px;
+                color: rgba(61, 60, 64, 0.56);
+            }
         }
 
         .more-modal__name {
@@ -571,6 +590,20 @@
         .more-modal__details {
             line-height: 39px;
             padding-left: 16px;
+
+            .shared-user-icon {
+                width: 16px;
+                height: 16px;
+                line-height: 16px;
+                font-size: 16px;
+                margin-top: 16px;
+                margin-left: 8px;
+                color: rgba(61, 60, 64, 0.72);
+
+                &:before {
+                    margin: 0;
+                }
+            }
         }
 
         .more-modal__actions {
