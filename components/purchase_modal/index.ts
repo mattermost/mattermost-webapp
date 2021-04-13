@@ -27,7 +27,7 @@ function mapStateToProps(state: GlobalState) {
     const subscription = state.entities.cloud.subscription;
     let isFreeTrial = false;
 
-    if (subscription!.end_at > 0 && subscription!.status === 'trialing') {
+    if (subscription && subscription.is_free_trial === 'true') {
         isFreeTrial = true;
     }
     return {
