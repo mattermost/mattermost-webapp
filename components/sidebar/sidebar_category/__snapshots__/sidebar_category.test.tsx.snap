@@ -39,6 +39,7 @@ exports[`components/sidebar/sidebar_category should match snapshot 2`] = `
           "channel_ids": Array [
             "channel_id",
           ],
+          "collapsed": false,
           "display_name": "custom_category_1",
           "id": "category1",
           "muted": false,
@@ -114,6 +115,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when collapse
           "channel_ids": Array [
             "channel_id",
           ],
+          "collapsed": true,
           "display_name": "custom_category_1",
           "id": "category1",
           "muted": false,
@@ -195,6 +197,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when isNewCat
       category={
         Object {
           "channel_ids": Array [],
+          "collapsed": false,
           "display_name": "custom_category_1",
           "id": "category1",
           "muted": false,
@@ -282,6 +285,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when sorting 
           "channel_ids": Array [
             "channel_id",
           ],
+          "collapsed": false,
           "display_name": "custom_category_1",
           "id": "category1",
           "muted": false,
@@ -390,6 +394,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when the cate
           "channel_ids": Array [
             "channel_id",
           ],
+          "collapsed": false,
           "display_name": "custom_category_1",
           "id": "category1",
           "muted": false,

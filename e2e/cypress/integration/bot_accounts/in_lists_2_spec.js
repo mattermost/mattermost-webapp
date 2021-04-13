@@ -9,8 +9,6 @@
 
 // Group: @bot_accounts
 
-import {zip, sortBy} from 'lodash';
-
 import {createBotPatch} from '../../support/api/bots';
 import {generateRandomUser} from '../../support/api/user';
 
@@ -18,8 +16,6 @@ describe('Bots in lists', () => {
     let team;
     let channel;
     let testUser;
-    let bots;
-    let createdUsers;
 
     const STATUS_PRIORITY = {
         online: 0,
@@ -43,14 +39,14 @@ describe('Bots in lists', () => {
 
         cy.makeClient().then(async (client) => {
             // # Create bots
-            bots = await Promise.all([
+            const bots = await Promise.all([
                 client.createBot(createBotPatch()),
                 client.createBot(createBotPatch()),
                 client.createBot(createBotPatch()),
             ]);
 
             // # Create users
-            createdUsers = await Promise.all([
+            const createdUsers = await Promise.all([
                 client.createUser(generateRandomUser()),
                 client.createUser(generateRandomUser()),
             ]);
@@ -80,15 +76,15 @@ describe('Bots in lists', () => {
 
             cy.get('#member-list-popover .more-modal__row .more-modal__name').then(async ($query) => {
                 // # Extract usernames from jQuery collection
-                const usernames = $query.toArray().map(({innerText}) => innerText);
+                const usernames = $query.toArray().map(({innerText}) => innerText.split('\n')[0]);
 
                 // # Get users
                 const profiles = await client.getProfilesByUsernames(usernames);
                 const statuses = await client.getStatusesByIds(profiles.map((user) => user.id));
-                const users = zip(profiles, statuses).map(([profile, status]) => ({...profile, ...status}));
+                const users = Cypress._.zip(profiles, statuses).map(([profile, status]) => ({...profile, ...status}));
 
                 // # Sort 'em
-                const sortedUsers = sortBy(users, [
+                const sortedUsers = Cypress._.sortBy(users, [
                     ({is_bot: isBot}) => (isBot ? 1 : 0), // users first
                     ({status}) => STATUS_PRIORITY[status],
                     ({username}) => username,

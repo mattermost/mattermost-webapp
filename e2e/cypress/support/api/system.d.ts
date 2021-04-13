@@ -35,13 +35,14 @@ declare namespace Cypress {
         /**
          * Verify if server has license for a certain feature and fail test if not found.
          * Upload a license if it does not exist.
-         * @param {string} feature - feature to check, e.g. 'LDAP'
+         * @param {string[]} ...features - accepts multiple arguments of features to check, e.g. 'LDAP'
          * @returns {ClientLicense} `out.license` as `ClientLicense`
          *
          * @example
          *   cy.apiRequireLicenseForFeature('LDAP');
+        *    cy.apiRequireLicenseForFeature('LDAP', 'SAML');
          */
-        apiRequireLicenseForFeature(feature: string): Chainable<ClientLicense>;
+        apiRequireLicenseForFeature(...features: string[]): Chainable<ClientLicense>;
 
         /**
          * Verify if server has license and fail test if not found.
