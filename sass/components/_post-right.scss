@@ -1,9 +1,8 @@
 @charset 'UTF-8';
 
-.post-right__container {
+.post-right__container, .ThreadViewer {
     @include display-flex;
     @include flex-direction(column);
-    height: 100%;
 
     .post-right-root-message {
         padding: 1em 1em 0;
@@ -48,11 +47,8 @@
         }
     }
 
-
-
-    .help_format_text {
-        bottom: -63px;
-        right: auto;
+    .help__format-text {
+        display: none;
     }
 
     .post {
@@ -74,6 +70,21 @@
             .post-menu {
                 text-align: right;
             }
+            .col__name {
+                &.Badge {
+                    flex: none;
+                }
+            }
+        }
+
+        &.post--comment {
+            .post__body {
+                border-left: none;
+            }
+        }
+
+        .post__content {
+            padding: 0 10px 0 0;
         }
 
         .post__body {
@@ -113,11 +124,21 @@
             .post__img {
                 width: 16px;
             }
+
+            .card-icon__container {
+                margin: 0px 0 0 6px;
+            }
         }
 
         .post__img {
             width: 60px; // if this changes, the width of post-pre-header__icons-container needs to be adjusted accordingly
             padding: 2px 12px 0 0; // if the right padding changes, the padding of post-pre-header__icons-container needs to be adjusted accordingly
+        }
+
+        .post-body {
+            img {
+                max-height: 200px;
+            }
         }
     }
 
@@ -150,6 +171,7 @@
             height: 20px;
             line-height: 20px;
             margin-top: 3px;
+            margin-bottom: 0;
             max-width: 230px;
             min-width: 1px;
         }
@@ -165,6 +187,32 @@
             top: -361px;
             right: 0px;
         }
+
+        form {
+            padding: 0;
+        }
+
+        .post-create {
+            padding: .5em 15px 0;
+        }
+
+        .post-create-footer {
+            .post-error {
+                @include opacity(.55);
+                display: inline-block;
+                font-size: .85em;
+                font-weight: normal;
+                margin-bottom: 0;
+                position: relative;
+                top: 0;
+            }
+        }
+    }
+}
+.post-right__container {
+    height: 100%;
+    .ThreadViewer {
+        height: 100%;
     }
 }
 
