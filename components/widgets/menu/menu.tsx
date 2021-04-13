@@ -112,7 +112,7 @@ export default class Menu extends React.PureComponent<Props> {
         if (customStyles) {
             styles = customStyles;
         } else {
-            if (openLeft && !isMobile()) {
+            if (openLeft) {
                 styles.left = 'inherit';
                 styles.right = 0;
             }

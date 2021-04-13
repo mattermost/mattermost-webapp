@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {CollapsedThreads} from '../constants/config';
+
 import {Dictionary} from './utilities';
 
 export type ClientConfig = {
@@ -23,7 +25,7 @@ export type ClientConfig = {
     BuildHashEnterprise: string;
     BuildNumber: string;
     CloseUnusedDirectMessages: string;
-    CollapsedThreads: 'disabled' | 'default_off' | 'default_on';
+    CollapsedThreads: CollapsedThreads;
     CustomBrandText: string;
     CustomDescriptionText: string;
     CustomTermsOfServiceId: string;

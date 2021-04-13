@@ -1,0 +1,34 @@
+.ThreadList {
+    display: grid;
+    overflow: hidden;
+    grid-template-areas:
+        'header'
+        'list';
+    grid-template-rows: 56px 1fr;
+
+    .Header {
+        grid-area: header;
+        padding-left: 14px;
+        padding-right: 12px;
+        border-bottom: var(--border);
+        color: rgba(var(--center-channel-color-rgb), .56);
+
+        .Button + .Button {
+            margin-left: 4px;
+        }
+    }
+
+    .threads {
+        grid-area: list;
+        overflow: auto;
+
+        .no-results__wrapper {
+            position: relative;
+            top: -28px;
+        }
+    }
+
+    .ThreadItem {
+        border-bottom: var(--border);
+    }
+}
