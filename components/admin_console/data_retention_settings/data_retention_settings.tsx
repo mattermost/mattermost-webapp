@@ -47,6 +47,7 @@ type State = {
     showEditJobTime: boolean;
 }
 const PAGE_SIZE = 10;
+
 export default class DataRetentionSettings extends React.PureComponent<Props, State> {
     inputRef: RefObject<ReactSelect<OptionType>>;
     constructor(props: Props) {
@@ -96,7 +97,6 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                 name: '',
                 field: 'actions',
                 className: 'actionIcon',
-                width: 0.15,
             },
         ];
     }
@@ -133,7 +133,6 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                 name: '',
                 field: 'actions',
                 className: 'actionIcon',
-                width: 0.15,
             },
         ];
     }
@@ -254,7 +253,7 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                                     onClick={() => {
                                         browserHistory.push(`/admin_console/compliance/data_retention_settings/custom_policy/${policy.id}`);
                                     }}
-                                    text={'Edit'}
+                                    text={Utils.localizeMessage('admin.data_retention.globalPoliciesTable.edit', 'Edit')}
                                     disabled={false}
                                 />
                                 <Menu.ItemAction
@@ -262,7 +261,7 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                                     onClick={() => {
                                         this.deleteCustomPolicy(policy.id);
                                     }}
-                                    text={'Delete'}
+                                    text={Utils.localizeMessage('admin.data_retention.globalPoliciesTable.delete', 'Delete')}
                                     disabled={false}
                                 />
                             </Menu>
@@ -322,29 +321,7 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
         await this.props.actions.getJobsByType(JobTypes.DATA_RETENTION as JobType);
     };
 
-    getJobTimeOptions = (): OptionType[] => {
-        const minuteIntervals = ['00', '15', '30', '45'];
-        const options = [];
-        for (let i = 0; i < minuteIntervals.length; i++) {
-            options.push({label: `12:${minuteIntervals[i]}am`, value: `00:${minuteIntervals[i]}`});
-        }
-        for (let h = 1; h < 24; h++) {
-            let hourLabel = h;
-            let hourValue = `${h}`;
-            const timeOfDay = h >= 12 ? 'pm' : 'am';
-            if (hourLabel < 10) {
-                hourValue = `0${hourValue}`;
-            }
-            if (hourLabel > 12) {
-                hourLabel -= 12;
-            }
-            for (let i = 0; i < minuteIntervals.length; i++) {
-                options.push({label: `${hourLabel}:${minuteIntervals[i]}${timeOfDay}`, value: `${hourValue}:${minuteIntervals[i]}`});
-            }
-        }
-
-        return options;
-    }
+    
 
     changeJobTimeConfig = async (value: string) => {
         const newConfig = JSON.parse(JSON.stringify(this.props.config));
@@ -388,6 +365,35 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
             />
         );
     }
+    getJobTimeOptions = () => {
+        let options: OptionType[] = [];
+        return () => {
+            if (options.length > 0) {
+                return options;
+            }
+            const minuteIntervals = ['00', '15', '30', '45'];
+            for (let h = 0; h < 24; h++) {
+                let hourLabel = h;
+                let hourValue = `${h}`;
+                const timeOfDay = h >= 12 ? 'pm' : 'am';
+                if (hourLabel < 10) {
+                    hourValue = `0${hourValue}`;
+                }
+                if (hourLabel > 12) {
+                    hourLabel -= 12;
+                }
+                if (hourLabel === 0) {
+                    hourLabel = 12;
+                }
+                for (let i = 0; i < minuteIntervals.length; i++) {
+                    options.push({label: `${hourLabel}:${minuteIntervals[i]}${timeOfDay}`, value: `${hourValue}:${minuteIntervals[i]}`});
+                }
+            }
+    
+            return options;
+        }
+    }
+    getJobTimes = this.getJobTimeOptions();
 
     render = () => {
         const {DataRetentionSettings} = this.props.config;
@@ -555,7 +561,7 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                                                     value={{label: this.getJobStartTime(), value: DataRetentionSettings?.DeletionJobStartTime} as OptionType}
                                                     hideSelectedOptions={true}
                                                     isSearchable={true}
-                                                    options={this.getJobTimeOptions()}
+                                                    options={this.getJobTimes()}
                                                     ref={this.inputRef}
                                                     onFocus={() => {
                                                         this.showEditJobTime(true);

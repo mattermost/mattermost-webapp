@@ -614,6 +614,7 @@
   "admin.data_retention.form.keepForever": "Keep forever",
   "admin.data_retention.form.text": "Applies to all teams and channels, but does not apply to custom retention policies.",
   "admin.data_retention.globalPoliciesTable.channelMessages": "Channel messages",
+  "admin.data_retention.globalPoliciesTable.delete": "Delete",
   "admin.data_retention.globalPoliciesTable.description": "Description",
   "admin.data_retention.globalPoliciesTable.edit": "Edit",
   "admin.data_retention.globalPoliciesTable.files": "Files",
