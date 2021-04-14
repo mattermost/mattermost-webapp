@@ -13,8 +13,8 @@
 import {getAdminAccount} from '../../support/env';
 
 import {
-    getTestMessages,
     searchAndValidate,
+    getTestMessages,
     setupTestData,
 } from './helpers';
 
@@ -22,9 +22,7 @@ describe('Search Date Filter', () => {
     const testData = getTestMessages();
     const {
         commonText,
-        secondDateEarly,
-        firstMessage,
-        firstOffTopicMessage,
+        allMessagesInOrder,
     } = testData;
     const admin = getAdminAccount();
     let anotherAdmin;
@@ -40,19 +38,15 @@ describe('Search Date Filter', () => {
         });
     });
 
-    it('MM-T586 before: omits results on and after target date', () => {
-        searchAndValidate(`before:${secondDateEarly.query} ${commonText}`, [firstOffTopicMessage, firstMessage]);
+    it('MM-T605_1 before: using a date from the future shows results', () => {
+        searchAndValidate(`before:2099-7-15 ${commonText}`, allMessagesInOrder);
     });
 
-    it('MM-T591_1 before: can be used in conjunction with "in:"', () => {
-        searchAndValidate(`before:${secondDateEarly.query} in:off-topic ${commonText}`, [firstOffTopicMessage]);
+    it('MM-T605_2 on: using a date from the future shows no results', () => {
+        searchAndValidate(`on:2099-7-15 ${commonText}`);
     });
 
-    it('MM-T591_2 before: can be used in conjunction with "from:"', () => {
-        searchAndValidate(`before:${secondDateEarly.query} from:${anotherAdmin.username} ${commonText}`, [firstMessage]);
-    });
-
-    it('MM-T591_3 before: re-add "in:" in conjunction with "from:"', () => {
-        searchAndValidate(`before:${secondDateEarly.query} in:off-topic from:${anotherAdmin.username} ${commonText}`);
+    it('MM-T605_3 after: using a date from the future shows no results', () => {
+        searchAndValidate(`after:2099-7-15 ${commonText}`);
     });
 });
