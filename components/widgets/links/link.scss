@@ -24,3 +24,18 @@
         color: var(--button-color);
     }
 }
+
+.style-link {
+    border: none;
+    background: none;
+    color: var(--sidebar-bg);
+    min-width: fit-content;
+    display: inline-block;
+
+    &:hover:not(.disabled) {
+        text-decoration: underline;
+        color: var(--sidebar-bg);
+        border: none;
+        background: none;
+    }
+}

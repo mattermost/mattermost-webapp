@@ -18,12 +18,15 @@ import './link.scss';
 export interface UpgradeLinkProps {
     telemetryInfo?: string;
     buttonText?: string;
-    styleButton?: boolean;
+    styleButton?: boolean; // show as a blue primary button
+    styleLink?: boolean; // show as a anchor link
 }
 
 const UpgradeLink: React.FC<UpgradeLinkProps> = (props: UpgradeLinkProps) => {
     const dispatch = useDispatch<DispatchFunc>();
     const styleButton = props.styleButton ? 'style-button' : '';
+    const styleLink = props.styleLink ? 'style-link' : '';
+
     const handleLinkClick = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
         if (props.telemetryInfo) {
@@ -46,7 +49,7 @@ const UpgradeLink: React.FC<UpgradeLinkProps> = (props: UpgradeLinkProps) => {
     );
     return (
         <button
-            className={`upgradeLink ${styleButton}`}
+            className={`upgradeLink ${styleButton} ${styleLink}`}
             onClick={(e) => handleLinkClick(e)}
         >
             {props.buttonText ? props.buttonText : buttonText}

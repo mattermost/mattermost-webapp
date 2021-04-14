@@ -129,12 +129,30 @@
             }
         }
     }
-    .MenuItemWrapper{
+    .MenuItemWrapper {
         display: flex;
         justify-content: space-evenly;
 
-        .upgradeLink {
+        > button {
             width: 179px;
+        }
+    }
+
+    .MenuTopNotification {
+        padding: 10px;
+        margin: 5px;
+        background-color: rgba(var(--button-bg-rgb), 0.04);
+
+        .upgradeLink {
+            color: --button-bg;
+            font-style: normal;
+            font-weight: 600;
+
+            &:hover {
+                color: --button-bg;
+                font-style: normal;
+                font-weight: 600;
+            }
         }
     }
 }

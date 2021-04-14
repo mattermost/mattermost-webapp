@@ -5,19 +5,19 @@ import React from 'react';
 
 import './menu_item.scss';
 
-type MenuItemWrapperProps = {
+type MenuTopNotificationProps = {
     show: boolean;
     id?: string;
     children?: React.ReactNode;
 }
-const MenuItemWrapper: React.FC<MenuItemWrapperProps> = ({id, show, children}: MenuItemWrapperProps) => {
+const MenuTopNotification: React.FC<MenuTopNotificationProps> = ({id, show, children}: MenuTopNotificationProps) => {
     if (!show) {
         return null;
     }
 
     return (
         <li
-            className={'MenuItemWrapper'}
+            className={'MenuTopNotification'}
             role='menuitem'
             id={id}
         >
@@ -25,4 +25,4 @@ const MenuItemWrapper: React.FC<MenuItemWrapperProps> = ({id, show, children}: M
         </li>
     );
 };
-export default MenuItemWrapper;
+export default MenuTopNotification;

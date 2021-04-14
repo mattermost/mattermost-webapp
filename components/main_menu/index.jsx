@@ -72,7 +72,8 @@ function mapStateToProps(state) {
     const rhsState = getRhsState(state);
     const isCloud = getLicense(state).Cloud === 'true';
     const subscription = state.entities.cloud.subscription;
-    const isFreeTrial = isCloud && subscription && subscription.trial_ends_at > 0 && subscription.status === 'trialing';
+    const isFreeTrial = subscription.is_free_trial === 'true';
+    const daysLeftOnTrial = 13;
 
     return {
         appDownloadLink,
@@ -100,7 +101,8 @@ function mapStateToProps(state) {
             state.entities.general.license.LDAPGroups === 'true',
         showGettingStarted: showOnboarding(state),
         showNextStepsTips: showNextStepsTips(state),
-        isFreeTrial, //TODO: create a selector to get cloud subscription
+        isFreeTrial,
+        daysLeftOnTrial,
         showNextSteps: showNextSteps(state),
         isCloud,
         subscriptionStats: selectSubscriptionStats(state), // subscriptionStats are loaded in actions/views/root
