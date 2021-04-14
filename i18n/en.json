@@ -3631,7 +3631,7 @@
   "next_steps_view.welcomeToMattermost": "Welcome to Mattermost",
   "no_results.channel_files_filtered.subtitle": "This channel doesn't contains any file with the selected file format.",
   "no_results.channel_files_filtered.title": "No files found",
-  "no_results.channel_files.subtitle": "Files attachments in this channel are shown here.",
+  "no_results.channel_files.subtitle": "Files posted in this channel will show here.",
   "no_results.channel_files.title": "No files yet",
   "no_results.channel_search.subtitle": "Check the spelling or try another search.",
   "no_results.channel_search.title": "No results for {channelName}",
