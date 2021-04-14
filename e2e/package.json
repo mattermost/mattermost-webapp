@@ -39,7 +39,6 @@
     "path": "0.12.7",
     "pg": "8.5.1",
     "recursive-readdir": "2.2.2",
-    "reportportal-client": "5.5.0",
     "shelljs": "0.8.4",
     "start-server-and-test": "1.12.1",
     "uuid": "8.3.2",

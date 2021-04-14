@@ -27,7 +27,13 @@ const axiosRetry = require('axios-retry');
 const chalk = require('chalk');
 const cypress = require('cypress');
 
-const {MOCHAWESOME_REPORT_DIR} = require('./utils/constants');
+const {
+    getSpecToTest,
+    recordSpecResult,
+    updateCycle,
+} = require('./utils/dashboard');
+const {writeJsonToFile} = require('./utils/report');
+const {MOCHAWESOME_REPORT_DIR, RESULTS_DIR} = require('./utils/constants');
 
 require('dotenv').config();
 axiosRetry(axios, {
@@ -36,66 +42,13 @@ axiosRetry(axios, {
 });
 
 const {
-    AUTOMATION_DASHBOARD_URL,
-    AUTOMATION_DASHBOARD_TOKEN,
     BRANCH,
     BUILD_ID,
     CI_BASE_URL,
     REPO,
 } = process.env;
 
-const connectionErrors = ['ECONNABORTED', 'ECONNREFUSED'];
-
-async function getSpecToTest({repo, branch, build, server}) {
-    try {
-        const response = await axios({
-            url: `${AUTOMATION_DASHBOARD_URL}/executions/specs/start?repo=${repo}&branch=${branch}&build=${build}`,
-            headers: {
-                Authorization: `Bearer ${AUTOMATION_DASHBOARD_TOKEN}`,
-            },
-            method: 'post',
-            timeout: 10000,
-            data: {server},
-        });
-
-        return response.data;
-    } catch (err) {
-        console.log(chalk.red('Failed to get spec to test'));
-        if (connectionErrors.includes(err.code) || !err.response) {
-            console.log(chalk.red(`Error code: ${err.code}`));
-            return {code: err.code};
-        }
-
-        return err.response && err.response.data;
-    }
-}
-
-async function recordSpecResult(specId, spec, tests) {
-    try {
-        const response = await axios({
-            url: `${AUTOMATION_DASHBOARD_URL}/executions/specs/end?id=${specId}`,
-            headers: {
-                Authorization: `Bearer ${AUTOMATION_DASHBOARD_TOKEN}`,
-            },
-            method: 'post',
-            timeout: 10000,
-            data: {spec, tests},
-        });
-
-        console.log(chalk.green('Successfully recorded!'));
-        return response.data;
-    } catch (err) {
-        console.log(chalk.red('Failed to record spec result'));
-        if (connectionErrors.includes(err.code) || !err.response) {
-            console.log(chalk.red(`Error code: ${err.code}`));
-            return {code: err.code};
-        }
-
-        return err.response && err.response.data;
-    }
-}
-
-async function runTest(specExecution) {
+async function runTest(specExecution, currentTestCount) {
     const browser = 'chrome';
     const headless = true;
 
@@ -122,7 +75,6 @@ async function runTest(specExecution) {
                 html: false,
                 json: true,
                 testMeta: {
-                    platform: 'darwin',
                     browser,
                     headless,
                     branch: BRANCH,
@@ -131,6 +83,22 @@ async function runTest(specExecution) {
             },
         },
     });
+
+    // Write and update test environment details once
+    if (currentTestCount === 1) {
+        const environment = {
+            cypress_version: result.cypressVersion,
+            browser_name: result.browserName,
+            browser_version: result.browserVersion,
+            headless,
+            os_name: result.osName,
+            os_version: result.osVersion,
+            node_version: process.version,
+        };
+
+        writeJsonToFile(environment, 'environment.json', RESULTS_DIR);
+        await updateCycle(specExecution.cycle_id, environment);
+    }
 
     const {stats, tests, spec} = result.runs[0];
 
@@ -184,6 +152,10 @@ async function testLoop() {
         return testLoop(); // eslint-disable-line consistent-return
     }
 
+    if (spec.summary) {
+        printSummary(spec.summary);
+    }
+
     if (!spec.execution || !spec.execution.file) {
         console.log(chalk.magenta(spec.message));
         return;
@@ -193,10 +165,9 @@ async function testLoop() {
         return total + parseInt(item.count, 10);
     }, 0);
 
-    printSummary(spec.summary);
     console.log(chalk.magenta(`(Testing ${currentTestCount} of ${spec.cycle.specs_registered})  - `, spec.execution.file));
 
-    await runTest(spec.execution);
+    await runTest(spec.execution, currentTestCount);
 
     // Reset retry count on at least one successful run
     retries = 0;
