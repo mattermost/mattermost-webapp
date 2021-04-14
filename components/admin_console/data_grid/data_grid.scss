@@ -87,7 +87,7 @@
             color: rgba(0, 0, 0, 0.3);
             text-align: center;
         }
-
+       
         .DataGrid_row {
             border-left: 2px solid transparent;
 
@@ -105,6 +105,22 @@
                 text-overflow: ellipsis;
                 overflow: hidden;
                 white-space: nowrap;
+
+                .more-modal__shared-actions {
+                    color: rgba(61, 60, 64, 0.72);
+
+                    .shared-user-icon {
+                        width: 16px;
+                        height: 16px;
+                        line-height: 16px;
+                        font-size: 16px;
+                        margin-left: 8px;
+
+                        &:before {
+                            margin: 0;
+                        }
+                    }
+                }
             }
         }
     }
@@ -138,6 +154,91 @@
         .DataGrid_cell {
             width: 100%;
             text-align: right;
+        }
+    }
+
+    &.customTable {
+        background: #ffffff;
+        padding: 0;
+
+        .DataGrid_header {
+            font-weight: 600;
+            font-size: 14px;
+            line-height: 16px;
+            border-bottom: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.16);
+            padding: 8px 0px;
+            color: var(--sys-center-channel-color);
+            &:last-child {
+                border-bottom: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.08);
+            }
+            .DataGrid_cell {
+                padding: 0 16px;
+            }
+        }
+
+        .DataGrid_row {
+            min-height: 40px;
+            display: flex;
+            flex-direction: row;
+            padding: 0;
+            border-left: none;
+
+            &:nth-child(odd) {
+                background: #ffffff;
+            }
+
+            &:nth-child(even) {
+                background: rgba(var(--sys-button-bg-rgb), 0.04);
+            }
+            &:hover {
+                background-color: rgba(var(--sys-button-bg-rgb), 0.08);
+                cursor: pointer;
+                color: var(--sys-center-channel-color);
+                border-left: none;
+            }
+            .actionIcon {
+                width: 32px;
+
+                .MenuWrapper {
+                    width: 32px;
+                    margin-left: auto;
+                }
+            }
+            .actionIcon a i {
+                display: none;
+            }
+            .actionIcon a {
+                text-decoration: none;
+                padding: 8px;
+                border-radius: 4px;
+                background: transparent;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                width: 32px;
+                height: 32px;
+                color: rgba(var(--sys-center-channel-color-rgb), 0.72);
+                margin-left: auto;
+            }
+            &:hover .actionIcon a i {
+                display: flex;
+            }
+            .actionIcon a:hover {
+                background: rgba(var(--sys-center-channel-color-rgb), 0.08);
+            }
+            .DataGrid_cell {
+                white-space: normal;
+                margin: 0;
+                padding: 10px 16px;
+                &.actionIcon {
+                    overflow: visible;
+                    padding: 4px 16px;
+                }
+            }
+        }
+
+        .DataGrid_footer {
+            border-bottom: none;
         }
     }
 }

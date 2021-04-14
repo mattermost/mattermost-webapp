@@ -1233,7 +1233,6 @@ class CreateComment extends React.PureComponent {
             <form onSubmit={this.handleSubmit}>
                 <div
                     role='form'
-                    id='rhsFooter'
                     aria-label={ariaLabelReplyInput}
                     tabIndex='-1'
                     className={`post-create a11y__region${scrollbarClass}`}

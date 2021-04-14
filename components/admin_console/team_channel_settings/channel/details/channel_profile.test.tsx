@@ -22,4 +22,21 @@ describe('admin_console/team_channel_settings/channel/ChannelProfile', () => {
         );
         expect(wrapper).toMatchSnapshot();
     });
+
+    test('should match snapshot for a shared channel', () => {
+        const testTeam: Partial<Team> = {display_name: 'test'};
+        const testChannel: Partial<Channel> = {
+            display_name: 'test',
+            type: 'O',
+            shared: true,
+        };
+        const wrapper = shallow(
+            <ChannelProfile
+                isArchived={false}
+                team={testTeam}
+                channel={testChannel}
+            />,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
 });

@@ -20,9 +20,9 @@ export default class SidebarRight extends React.PureComponent {
     static propTypes = {
         isExpanded: PropTypes.bool.isRequired,
         isOpen: PropTypes.bool.isRequired,
-        currentUserId: PropTypes.string.isRequired,
         channel: PropTypes.object,
         postRightVisible: PropTypes.bool,
+        postRightSameAsSelectedThread: PropTypes.bool,
         postCardVisible: PropTypes.bool,
         searchVisible: PropTypes.bool,
         isMentionSearch: PropTypes.bool,
@@ -158,7 +158,6 @@ export default class SidebarRight extends React.PureComponent {
     render() {
         const {
             rhsChannel,
-            currentUserId,
             isFlaggedPosts,
             isPinnedPosts,
             isChannelFiles,
@@ -181,7 +180,6 @@ export default class SidebarRight extends React.PureComponent {
                     <FileUploadOverlay overlayType='right'/>
                     <RhsThread
                         previousRhsState={previousRhsState}
-                        currentUserId={currentUserId}
                         toggleSize={this.toggleSize}
                         shrink={this.onShrink}
                     />
