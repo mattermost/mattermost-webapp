@@ -27,6 +27,8 @@ import {switchTeam, updateTeamsOrderForUser} from 'actions/team_actions.jsx';
 import {Preferences} from 'utils/constants.jsx';
 import {GlobalState} from 'types/store';
 
+import {getThreadCounts} from 'mattermost-redux/selectors/entities/threads';
+
 import LegacyTeamSidebar from './legacy_team_sidebar_controller';
 
 function mapStateToProps(state: GlobalState) {
@@ -46,6 +48,7 @@ function mapStateToProps(state: GlobalState) {
         locale: getCurrentLocale(state),
         moreTeamsToJoin,
         userTeamsOrderPreference: get(state, Preferences.TEAMS_ORDER, '', ''),
+        threadCounts: getThreadCounts(state),
     };
 }
 

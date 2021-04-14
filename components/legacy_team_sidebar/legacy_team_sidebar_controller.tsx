@@ -25,6 +25,8 @@ import * as Utils from 'utils/utils.jsx';
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 import Pluggable from 'plugins/pluggable';
 
+import {ThreadsState} from 'mattermost-redux/types/threads';
+
 import TeamButton from './components/team_button';
 
 type Actions = {
@@ -50,6 +52,7 @@ interface Props {
     locale: string;
     actions: Actions;
     userTeamsOrderPreference: string;
+    threadCounts: ThreadsState['counts'];
 }
 
 export function renderView(props: Props) {
@@ -231,7 +234,7 @@ export default class LegacyTeamSidebar extends React.PureComponent<Props, State>
                     unread={this.props.collapsedThreads ? member.msg_count_root > 0 : member.msg_count > 0}
                     order={index + 1}
                     showOrder={this.state.showOrder}
-                    mentions={this.props.collapsedThreads ? member.mention_count_root : member.mention_count}
+                    mentions={this.props.collapsedThreads ? (member.mention_count_root + this.props.threadCounts?.[team.id]?.total_unread_mentions) : member.mention_count}
                     teamIconUrl={Utils.imageURLForTeam(team)}
                     switchTeam={this.props.actions.switchTeam}
                     isDraggable={true}
