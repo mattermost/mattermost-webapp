@@ -3,12 +3,14 @@
 
 import React from 'react';
 
+import {PostType} from 'mattermost-redux/types/posts';
+
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import {Locations, PostTypes} from 'utils/constants';
 import {TestHelper} from 'utils/test_helper';
 
-import DotMenu, {PLUGGABLE_COMPONENT} from './dot_menu';
+import DotMenu, {PLUGGABLE_COMPONENT, DotMenuClass} from './dot_menu';
 
 jest.mock('utils/utils', () => {
     const original = jest.requireActual('utils/utils');
@@ -20,7 +22,7 @@ jest.mock('utils/utils', () => {
 
 describe('components/dot_menu/DotMenu', () => {
     const baseProps = {
-        post: TestHelper.getPostMock({id: 'post_id_1', is_pinned: false, type: ''}),
+        post: TestHelper.getPostMock({id: 'post_id_1', is_pinned: false, type: '' as PostType}),
         isLicensed: false,
         postEditTimeLimit: '-1',
         handleCommentClick: jest.fn(),
@@ -61,7 +63,7 @@ describe('components/dot_menu/DotMenu', () => {
         const instance = wrapper.instance();
         const setStateMock = jest.fn();
         instance.setState = setStateMock;
-        wrapper.instance().handleEditDisable();
+        (wrapper.instance() as DotMenuClass).handleEditDisable();
         expect(setStateMock).toBeCalledWith({canEdit: false});
     });
 
@@ -104,7 +106,7 @@ describe('components/dot_menu/DotMenu', () => {
             ...baseProps,
             post: TestHelper.getPostMock({
                 ...baseProps.post,
-                type: PostTypes.JOIN_CHANNEL,
+                type: PostTypes.JOIN_CHANNEL as PostType,
             }),
         };
         const wrapper = shallowWithIntl(

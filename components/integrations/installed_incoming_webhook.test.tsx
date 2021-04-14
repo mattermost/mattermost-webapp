@@ -3,7 +3,7 @@
 
 import React from 'react';
 import {Link} from 'react-router-dom';
-import {shallow, ShallowWrapper} from 'enzyme';
+import {shallow} from 'enzyme';
 
 import {IncomingWebhook} from 'mattermost-redux/types/integrations';
 
@@ -31,7 +31,7 @@ describe('components/integrations/InstalledIncomingWebhook', () => {
     test('should match snapshot', () => {
         function emptyFunction() {} //eslint-disable-line no-empty-function
 
-        const wrapper: ShallowWrapper<any, any, InstalledIncomingWebhook> = shallow(
+        const wrapper = shallow<InstalledIncomingWebhook>(
             <InstalledIncomingWebhook
                 key={1}
                 incomingWebhook={incomingWebhook}
@@ -54,7 +54,7 @@ describe('components/integrations/InstalledIncomingWebhook', () => {
     test('should not have edit and delete actions if user does not have permissions to change', () => {
         function emptyFunction() {} //eslint-disable-line no-empty-function
 
-        const wrapper: ShallowWrapper<any, any, InstalledIncomingWebhook> = shallow(
+        const wrapper = shallow<InstalledIncomingWebhook>(
             <InstalledIncomingWebhook
                 key={1}
                 incomingWebhook={incomingWebhook}
@@ -77,7 +77,7 @@ describe('components/integrations/InstalledIncomingWebhook', () => {
     test('should have edit and delete actions if user can change webhook', () => {
         function emptyFunction() {} //eslint-disable-line no-empty-function
 
-        const wrapper: ShallowWrapper<any, any, InstalledIncomingWebhook> = shallow(
+        const wrapper = shallow<InstalledIncomingWebhook>(
             <InstalledIncomingWebhook
                 key={1}
                 incomingWebhook={incomingWebhook}
@@ -101,7 +101,7 @@ describe('components/integrations/InstalledIncomingWebhook', () => {
     test('Should have the same name and description on view as it has in incomingWebhook', () => {
         function emptyFunction() {} //eslint-disable-line no-empty-function
 
-        const wrapper: ShallowWrapper<any, any, InstalledIncomingWebhook> = shallow(
+        const wrapper = shallow<InstalledIncomingWebhook>(
             <InstalledIncomingWebhook
                 key={1}
                 incomingWebhook={incomingWebhook}
@@ -126,7 +126,7 @@ describe('components/integrations/InstalledIncomingWebhook', () => {
     test('Should not display description as it is null', () => {
         function emptyFunction() {} //eslint-disable-line no-empty-function
         const newIncomingWebhook: IncomingWebhook = {...incomingWebhook, description: ''};
-        const wrapper: ShallowWrapper<any, any, InstalledIncomingWebhook> = shallow(
+        const wrapper = shallow<InstalledIncomingWebhook>(
             <InstalledIncomingWebhook
                 key={1}
                 incomingWebhook={newIncomingWebhook}
@@ -148,7 +148,7 @@ describe('components/integrations/InstalledIncomingWebhook', () => {
 
     test('Should not render any nodes as there are no filtered results', () => {
         function emptyFunction() {} //eslint-disable-line no-empty-function
-        const wrapper: ShallowWrapper<any, any, InstalledIncomingWebhook> = shallow(
+        const wrapper = shallow<InstalledIncomingWebhook>(
             <InstalledIncomingWebhook
                 key={1}
                 incomingWebhook={incomingWebhook}
@@ -171,7 +171,7 @@ describe('components/integrations/InstalledIncomingWebhook', () => {
 
     test('Should render a webhook item as filtered result is true', () => {
         function emptyFunction() {} //eslint-disable-line no-empty-function
-        const wrapper: ShallowWrapper<any, any, InstalledIncomingWebhook> = shallow(
+        const wrapper = shallow<InstalledIncomingWebhook>(
             <InstalledIncomingWebhook
                 key={1}
                 incomingWebhook={incomingWebhook}

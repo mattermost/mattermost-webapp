@@ -8,18 +8,19 @@ import {FormattedMessage} from 'react-intl';
 import {General} from 'mattermost-redux/constants';
 
 import {localizeMessage} from 'utils/utils.jsx';
-import ActivityLog from 'components/activity_log_modal/components/activity_log.jsx';
+import ActivityLog from 'components/activity_log_modal/components/activity_log';
+import {TestHelper} from 'utils/test_helper';
 
 describe('components/activity_log_modal/ActivityLog', () => {
     const baseProps = {
         index: 0,
         locale: General.DEFAULT_LOCALE,
-        currentSession: {
+        currentSession: TestHelper.getSessionMock({
             props: {os: 'Linux', platform: 'Linux', browser: 'Desktop App'},
             id: 'sessionId',
             create_at: 1534917291042,
             last_activity_at: 1534917643890,
-        },
+        }),
         submitRevoke: jest.fn(),
     };
 
@@ -32,18 +33,19 @@ describe('components/activity_log_modal/ActivityLog', () => {
     });
 
     test('submitRevoke is called correctly', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<ActivityLog>(
             <ActivityLog {...baseProps}/>,
         );
 
-        wrapper.instance().submitRevoke('e');
+        const event = {preventDefault: jest.fn()};
+        wrapper.instance().submitRevoke(event as unknown as React.MouseEvent);
         expect(baseProps.submitRevoke).toBeCalled();
         expect(baseProps.submitRevoke).toHaveBeenCalledTimes(1);
-        expect(baseProps.submitRevoke).toBeCalledWith('sessionId', 'e');
+        expect(baseProps.submitRevoke).toBeCalledWith('sessionId', event);
     });
 
     test('handleMoreInfo updates state correctly', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<ActivityLog>(
             <ActivityLog {...baseProps}/>,
         );
 
@@ -52,18 +54,18 @@ describe('components/activity_log_modal/ActivityLog', () => {
     });
 
     test('should match when isMobileSession is called', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<ActivityLog>(
             <ActivityLog {...baseProps}/>,
         );
 
         const isMobileSession = wrapper.instance().isMobileSession;
-        expect(isMobileSession({device_id: 'apple'})).toEqual(true);
-        expect(isMobileSession({device_id: 'android'})).toEqual(true);
-        expect(isMobileSession({device_id: 'none'})).toEqual(false);
+        expect(isMobileSession(TestHelper.getSessionMock({device_id: 'apple'}))).toEqual(true);
+        expect(isMobileSession(TestHelper.getSessionMock({device_id: 'android'}))).toEqual(true);
+        expect(isMobileSession(TestHelper.getSessionMock({device_id: 'none'}))).toEqual(false);
     });
 
     test('should match when mobileSessionInfo is called', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<ActivityLog>(
             <ActivityLog {...baseProps}/>,
         );
 
@@ -76,7 +78,7 @@ describe('components/activity_log_modal/ActivityLog', () => {
             />
         );
         const apple = {devicePicture: 'fa fa-apple', deviceTitle: localizeMessage('device_icons.apple', 'Apple Icon'), devicePlatform: appleText};
-        expect(mobileSessionInfo({device_id: 'apple'})).toEqual(apple);
+        expect(mobileSessionInfo(TestHelper.getSessionMock({device_id: 'apple'}))).toEqual(apple);
 
         const androidText = (
             <FormattedMessage
@@ -85,7 +87,7 @@ describe('components/activity_log_modal/ActivityLog', () => {
             />
         );
         const android = {devicePicture: 'fa fa-android', deviceTitle: localizeMessage('device_icons.android', 'Android Icon'), devicePlatform: androidText};
-        expect(mobileSessionInfo({device_id: 'android'})).toEqual(android);
+        expect(mobileSessionInfo(TestHelper.getSessionMock({device_id: 'android'}))).toEqual(android);
 
         const appleRNText = (
             <FormattedMessage
@@ -94,7 +96,7 @@ describe('components/activity_log_modal/ActivityLog', () => {
             />
         );
         const appleRN = {devicePicture: 'fa fa-apple', deviceTitle: localizeMessage('device_icons.apple', 'Apple Icon'), devicePlatform: appleRNText};
-        expect(mobileSessionInfo({device_id: 'apple_rn'})).toEqual(appleRN);
+        expect(mobileSessionInfo(TestHelper.getSessionMock({device_id: 'apple_rn'}))).toEqual(appleRN);
 
         const androidRNText = (
             <FormattedMessage
@@ -103,6 +105,6 @@ describe('components/activity_log_modal/ActivityLog', () => {
             />
         );
         const androidRN = {devicePicture: 'fa fa-android', deviceTitle: localizeMessage('device_icons.android', 'Android Icon'), devicePlatform: androidRNText};
-        expect(mobileSessionInfo({device_id: 'android_rn'})).toEqual(androidRN);
+        expect(mobileSessionInfo(TestHelper.getSessionMock({device_id: 'android_rn'}))).toEqual(androidRN);
     });
 });

@@ -52,7 +52,7 @@ type Props = {
     inGlobalThreads: boolean;
 };
 
-class FaviconTitleHandler extends React.PureComponent<Props> {
+export class FaviconTitleHandlerClass extends React.PureComponent<Props> {
     componentDidUpdate(prevProps: Props) {
         this.updateTitle();
         const oldBadgeStatus = this.getBadgeStatus(prevProps.unreads);
@@ -165,4 +165,4 @@ class FaviconTitleHandler extends React.PureComponent<Props> {
     }
 }
 
-export default injectIntl(FaviconTitleHandler);
+export default injectIntl(FaviconTitleHandlerClass);
