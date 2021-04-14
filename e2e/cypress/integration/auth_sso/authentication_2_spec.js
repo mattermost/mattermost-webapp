@@ -8,7 +8,7 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @system_console @authentication
+// Group: @system_console @authentication @mfa
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
@@ -71,7 +71,7 @@ describe('Authentication', () => {
 
         cy.findByText('Create Account').click();
 
-        // * Assert that we are not shown a MFA scren and instead a Teams You Can join page
+        // * Assert that we are not shown an MFA screen and instead a Teams You Can join page
         cy.findByText('Teams you can join:', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
     });
 
