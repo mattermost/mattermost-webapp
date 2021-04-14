@@ -207,34 +207,6 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               title="Autolink"
             />
           </AdminSidebarCategory>
-          <AdminSidebarCategory
-            definitionKey="integrations"
-            icon="fa-sitemap"
-            key="integrations"
-            parentLink="/admin_console"
-            sectionClass=""
-            title={
-              <FormattedMessage
-                defaultMessage="Integrations"
-                id="admin.sidebar.integrations"
-              />
-            }
-          >
-            <AdminSidebarSection
-              definitionKey="integrations.cors"
-              key="integrations.cors"
-              name="integrations/cors"
-              parentLink=""
-              subsection={false}
-              tag=""
-              title={
-                <FormattedMessage
-                  defaultMessage="CORS"
-                  id="admin.sidebar.cors"
-                />
-              }
-            />
-          </AdminSidebarCategory>
         </ul>
       </Highlight>
     </div>
@@ -1015,36 +987,7 @@ exports[`components/AdminSidebar should match snapshot, no access 1`] = `
       >
         <ul
           className="nav nav-pills nav-stacked"
-        >
-          <AdminSidebarCategory
-            definitionKey="integrations"
-            icon="fa-sitemap"
-            key="integrations"
-            parentLink="/admin_console"
-            sectionClass=""
-            title={
-              <FormattedMessage
-                defaultMessage="Integrations"
-                id="admin.sidebar.integrations"
-              />
-            }
-          >
-            <AdminSidebarSection
-              definitionKey="integrations.cors"
-              key="integrations.cors"
-              name="integrations/cors"
-              parentLink=""
-              subsection={false}
-              tag=""
-              title={
-                <FormattedMessage
-                  defaultMessage="CORS"
-                  id="admin.sidebar.cors"
-                />
-              }
-            />
-          </AdminSidebarCategory>
-        </ul>
+        />
       </Highlight>
     </div>
   </Scrollbars>
@@ -1101,36 +1044,7 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
       >
         <ul
           className="nav nav-pills nav-stacked"
-        >
-          <AdminSidebarCategory
-            definitionKey="integrations"
-            icon="fa-sitemap"
-            key="integrations"
-            parentLink="/admin_console"
-            sectionClass=""
-            title={
-              <FormattedMessage
-                defaultMessage="Integrations"
-                id="admin.sidebar.integrations"
-              />
-            }
-          >
-            <AdminSidebarSection
-              definitionKey="integrations.cors"
-              key="integrations.cors"
-              name="integrations/cors"
-              parentLink=""
-              subsection={false}
-              tag=""
-              title={
-                <FormattedMessage
-                  defaultMessage="CORS"
-                  id="admin.sidebar.cors"
-                />
-              }
-            />
-          </AdminSidebarCategory>
-        </ul>
+        />
       </Highlight>
     </div>
   </Scrollbars>
@@ -1187,36 +1101,7 @@ exports[`components/AdminSidebar should match snapshot, render plugins without a
       >
         <ul
           className="nav nav-pills nav-stacked"
-        >
-          <AdminSidebarCategory
-            definitionKey="integrations"
-            icon="fa-sitemap"
-            key="integrations"
-            parentLink="/admin_console"
-            sectionClass=""
-            title={
-              <FormattedMessage
-                defaultMessage="Integrations"
-                id="admin.sidebar.integrations"
-              />
-            }
-          >
-            <AdminSidebarSection
-              definitionKey="integrations.cors"
-              key="integrations.cors"
-              name="integrations/cors"
-              parentLink=""
-              subsection={false}
-              tag=""
-              title={
-                <FormattedMessage
-                  defaultMessage="CORS"
-                  id="admin.sidebar.cors"
-                />
-              }
-            />
-          </AdminSidebarCategory>
-        </ul>
+        />
       </Highlight>
     </div>
   </Scrollbars>
@@ -1904,6 +1789,25 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               }
             />
             <AdminSidebarSection
+              definitionKey="authentication.oauth"
+              key="authentication.oauth"
+              name="authentication/oauth"
+              parentLink=""
+              subsection={false}
+              tag={
+                <FormattedMessage
+                  defaultMessage="deprecated"
+                  id="admin.sidebar.oauth.tag"
+                />
+              }
+              title={
+                <FormattedMessage
+                  defaultMessage="OAuth 2.0"
+                  id="admin.sidebar.oauth"
+                />
+              }
+            />
+            <AdminSidebarSection
               definitionKey="authentication.openid"
               key="authentication.openid"
               name="authentication/openid"
@@ -2259,34 +2163,6 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
                 <FormattedMessage
                   defaultMessage="SAML 2.0"
                   id="admin.sidebar.saml"
-                />
-              }
-            />
-          </AdminSidebarCategory>
-          <AdminSidebarCategory
-            definitionKey="integrations"
-            icon="fa-sitemap"
-            key="integrations"
-            parentLink="/admin_console"
-            sectionClass=""
-            title={
-              <FormattedMessage
-                defaultMessage="Integrations"
-                id="admin.sidebar.integrations"
-              />
-            }
-          >
-            <AdminSidebarSection
-              definitionKey="integrations.cors"
-              key="integrations.cors"
-              name="integrations/cors"
-              parentLink=""
-              subsection={false}
-              tag=""
-              title={
-                <FormattedMessage
-                  defaultMessage="CORS"
-                  id="admin.sidebar.cors"
                 />
               }
             />

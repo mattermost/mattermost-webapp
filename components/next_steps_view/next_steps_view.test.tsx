@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow, ShallowWrapper} from 'enzyme';
+import {shallow} from 'enzyme';
 
 import {Team} from 'mattermost-redux/types/teams';
 
@@ -67,7 +67,7 @@ describe('components/next_steps_view', () => {
             }],
         };
 
-        const wrapper: ShallowWrapper<any, any, NextStepsView> = shallow(
+        const wrapper = shallow<NextStepsView>(
             <NextStepsView {...props}/>,
         );
 
@@ -76,7 +76,7 @@ describe('components/next_steps_view', () => {
     });
 
     test('should expand next step when previous step is marked complete', () => {
-        const wrapper: ShallowWrapper<any, any, NextStepsView> = shallow(
+        const wrapper = shallow<NextStepsView>(
             <NextStepsView {...baseProps}/>,
         );
 
@@ -86,7 +86,7 @@ describe('components/next_steps_view', () => {
     });
 
     test('should go to first incomplete step when last step is marked complete', () => {
-        const wrapper: ShallowWrapper<any, any, NextStepsView> = shallow(
+        const wrapper = shallow<NextStepsView>(
             <NextStepsView {...baseProps}/>,
         );
 
@@ -121,7 +121,7 @@ describe('components/next_steps_view', () => {
         };
         jest.useFakeTimers();
 
-        const wrapper: ShallowWrapper<any, any, NextStepsView> = shallow(
+        const wrapper = shallow<NextStepsView>(
             <NextStepsView {...props}/>,
         );
 

@@ -173,7 +173,6 @@ class DataGrid extends React.PureComponent<Props, State> {
                 );
             });
         }
-
         return (
             <div
                 className='DataGrid_rows'

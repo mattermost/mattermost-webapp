@@ -14,6 +14,7 @@ import Markdown from 'components/markdown';
 import GlobeIcon from 'components/widgets/icons/globe_icon';
 import LockIcon from 'components/widgets/icons/lock_icon';
 import ArchiveIcon from 'components/widgets/icons/archive_icon';
+import SharedChannelIndicator from 'components/shared_channel_indicator';
 
 import {ChannelNamesMap} from 'utils/text_formatting';
 import Constants from 'utils/constants.jsx';
@@ -124,6 +125,14 @@ export default class ChannelInfoModal extends React.PureComponent<Props, State> 
         if (channelIsArchived) {
             channelIcon = (
                 <ArchiveIcon className='icon icon__archive svg-text-color'/>
+            );
+        } else if (channel.shared) {
+            channelIcon = (
+                <SharedChannelIndicator
+                    className='shared-channel-icon'
+                    channelType={channel.type}
+                    withTooltip={true}
+                />
             );
         } else if (channel.type === 'O') {
             channelIcon = (

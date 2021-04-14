@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {mount} from 'enzyme';
 
 import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
 import {Theme} from 'mattermost-redux/types/preferences';
@@ -19,27 +18,37 @@ describe('plugins/ChannelHeaderPlug', () => {
         action: jest.fn,
         dropdownText: 'some dropdown text',
         tooltipText: 'some tooltip text',
-    };
+    } as PluginComponent;
 
     test('should match snapshot with no extended component', () => {
-        const wrapper = mount(
+        const wrapper = mountWithIntl(
             <ChannelHeaderPlug
                 components={[]}
                 channel={{} as Channel}
                 channelMember={{} as ChannelMembership}
                 theme={{} as Theme}
+                actions={{
+                    doAppCall: jest.fn(),
+                }}
+                appBindings={[]}
+                appsEnabled={false}
             />,
         );
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot with one extended component', () => {
-        const wrapper = mount(
+        const wrapper = mountWithIntl(
             <ChannelHeaderPlug
                 components={[testPlug]}
                 channel={{} as Channel}
                 channelMember={{} as ChannelMembership}
                 theme={{} as Theme}
+                actions={{
+                    doAppCall: jest.fn(),
+                }}
+                appBindings={[]}
+                appsEnabled={false}
             />,
         );
         expect(wrapper).toMatchSnapshot();
@@ -55,10 +64,24 @@ describe('plugins/ChannelHeaderPlug', () => {
                     {...testPlug, id: 'someid4'},
                     {...testPlug, id: 'someid5'},
                     {...testPlug, id: 'someid6'},
+                    {...testPlug, id: 'someid7'},
+                    {...testPlug, id: 'someid8'},
+                    {...testPlug, id: 'someid9'},
+                    {...testPlug, id: 'someid10'},
+                    {...testPlug, id: 'someid11'},
+                    {...testPlug, id: 'someid12'},
+                    {...testPlug, id: 'someid13'},
+                    {...testPlug, id: 'someid14'},
+                    {...testPlug, id: 'someid15'},
                 ]}
                 channel={{} as Channel}
                 channelMember={{} as ChannelMembership}
                 theme={{} as Theme}
+                actions={{
+                    doAppCall: jest.fn(),
+                }}
+                appBindings={[]}
+                appsEnabled={false}
             />,
         );
         expect(wrapper).toMatchSnapshot();

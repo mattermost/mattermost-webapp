@@ -243,9 +243,9 @@ class Post extends React.PureComponent {
             className += ' post--bot';
         }
 
-        let currentUserCss = '';
-        if (this.props.currentUserId === post.user_id && !fromWebhook && !isSystemMessage) {
-            currentUserCss = 'current--user';
+        let userCss = '';
+        if (!fromWebhook && !isSystemMessage) {
+            userCss = 'current--user';
         }
 
         let sameUserClass = '';
@@ -265,7 +265,7 @@ class Post extends React.PureComponent {
         if (isSystemMessage || isMeMessage) {
             className += ' post--system';
             if (isSystemMessage) {
-                currentUserCss = '';
+                userCss = '';
                 postType = '';
                 rootUser = '';
             }
@@ -291,7 +291,7 @@ class Post extends React.PureComponent {
             className += ' cursor--pointer';
         }
 
-        return className + ' ' + sameUserClass + ' ' + rootUser + ' ' + postType + ' ' + currentUserCss;
+        return className + ' ' + sameUserClass + ' ' + rootUser + ' ' + postType + ' ' + userCss;
     }
 
     setHover = () => {

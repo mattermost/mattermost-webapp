@@ -185,6 +185,7 @@ export function pinPost(postId) {
         if (rhsState === RHSStates.PIN) {
             addPostToSearchResults(postId, state, dispatch);
         }
+        return {data: true};
     };
 }
 
@@ -197,6 +198,7 @@ export function unpinPost(postId) {
         if (rhsState === RHSStates.PIN) {
             removePostFromSearchResults(postId, state, dispatch);
         }
+        return {data: true};
     };
 }
 
@@ -235,6 +237,7 @@ export function markPostAsUnread(post) {
         const state = getState();
         const userId = getCurrentUserId(state);
         await dispatch(PostActions.setUnreadPost(userId, post.id));
+        return {data: true};
     };
 }
 
