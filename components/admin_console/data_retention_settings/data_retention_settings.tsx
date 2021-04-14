@@ -321,8 +321,6 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
         await this.props.actions.getJobsByType(JobTypes.DATA_RETENTION as JobType);
     };
 
-    
-
     changeJobTimeConfig = async (value: string) => {
         const newConfig = JSON.parse(JSON.stringify(this.props.config));
         newConfig.DataRetentionSettings.DeletionJobStartTime = value;
@@ -366,7 +364,7 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
         );
     }
     getJobTimeOptions = () => {
-        let options: OptionType[] = [];
+        const options: OptionType[] = [];
         return () => {
             if (options.length > 0) {
                 return options;
@@ -389,9 +387,9 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                     options.push({label: `${hourLabel}:${minuteIntervals[i]}${timeOfDay}`, value: `${hourValue}:${minuteIntervals[i]}`});
                 }
             }
-    
+
             return options;
-        }
+        };
     }
     getJobTimes = this.getJobTimeOptions();
 
