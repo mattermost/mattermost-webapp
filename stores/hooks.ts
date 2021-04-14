@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import {useSelector, useDispatch} from 'react-redux';
-
 import {createSelector} from 'reselect';
 
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
