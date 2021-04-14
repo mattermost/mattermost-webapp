@@ -73,8 +73,8 @@ function mapStateToProps(state) {
     const rhsState = getRhsState(state);
     const isCloud = getLicense(state).Cloud === 'true';
     const subscription = state.entities.cloud.subscription;
-    const isFreeTrial = subscription.is_free_trial === 'true';
-    const daysLeftOnTrial = getRemainingDaysFromFutureTimestamp(subscription.trial_end_at);
+    const isFreeTrial = subscription?.is_free_trial === 'true';
+    const daysLeftOnTrial = getRemainingDaysFromFutureTimestamp(subscription?.trial_end_at);
 
     return {
         appDownloadLink,
