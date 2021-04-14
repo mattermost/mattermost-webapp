@@ -302,7 +302,6 @@
   "admin.billing.subscription.planDetails.userCountWithLimit": "{userCount} / {userLimit} användare",
   "admin.billing.subscription.privateCloudCard.contactSales": "Kontakta säljare",
   "admin.billing.subscription.privateCloudCard.contactSupport": "Kontakta support",
-  "admin.billing.subscription.privateCloudCard.title": "Letar du efter tillförlitliga verktyg i privat moln?",
   "admin.billing.subscription.questions": "Frågor?",
   "admin.billing.subscription.stateprovince": "Stat/provins",
   "admin.billing.subscription.title": "Prenumerationer",

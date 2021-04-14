@@ -302,7 +302,6 @@
   "admin.billing.subscription.planDetails.userCountWithLimit": "{userCount} / {userLimit} потребители",
   "admin.billing.subscription.privateCloudCard.contactSales": "Връзка продажби",
   "admin.billing.subscription.privateCloudCard.contactSupport": "Свържете се с поддръжката",
-  "admin.billing.subscription.privateCloudCard.title": "Търсите частен високо доверен облак?",
   "admin.billing.subscription.questions": "Въпроси?",
   "admin.billing.subscription.stateprovince": "Щат/Област",
   "admin.billing.subscription.title": "Абонаменти",

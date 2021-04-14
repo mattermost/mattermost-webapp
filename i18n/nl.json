@@ -302,7 +302,6 @@
   "admin.billing.subscription.planDetails.userCountWithLimit": "{userCount} / {userLimit} gebruikers",
   "admin.billing.subscription.privateCloudCard.contactSales": "Contacteer de verkoopsafdeling",
   "admin.billing.subscription.privateCloudCard.contactSupport": "Neem contact met de helpdesk",
-  "admin.billing.subscription.privateCloudCard.title": "Op zoek naar een betrouwbare private cloud?",
   "admin.billing.subscription.questions": "Vragen?",
   "admin.billing.subscription.stateprovince": "Staat/Provincie",
   "admin.billing.subscription.title": "Abonnementen",

@@ -302,7 +302,6 @@
   "admin.billing.subscription.planDetails.userCountWithLimit": "{userCount} / {userLimit} ユーザー",
   "admin.billing.subscription.privateCloudCard.contactSales": "問い合わせ",
   "admin.billing.subscription.privateCloudCard.contactSupport": "サポートに連絡する",
-  "admin.billing.subscription.privateCloudCard.title": "高信頼なプライベートクラウドをお探しですか？",
   "admin.billing.subscription.questions": "ご不明な点がございますか?",
   "admin.billing.subscription.stateprovince": "都道府県",
   "admin.billing.subscription.title": "サブスクリプション",

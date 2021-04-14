@@ -300,7 +300,6 @@
   "admin.billing.subscription.planDetails.userCountWithLimit": "{userCount} / {userLimit} utilisateurs",
   "admin.billing.subscription.privateCloudCard.contactSales": "Contacter le service ventes",
   "admin.billing.subscription.privateCloudCard.contactSupport": "Contacter le service d'aide",
-  "admin.billing.subscription.privateCloudCard.title": "Vous cherchez un cloud privé de haute confiance ?",
   "admin.billing.subscription.questions": "Des questions ?",
   "admin.billing.subscription.stateprovince": "État/Province",
   "admin.billing.subscription.title": "Abonnements",

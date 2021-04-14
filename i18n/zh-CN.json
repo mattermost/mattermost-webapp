@@ -302,7 +302,6 @@
   "admin.billing.subscription.planDetails.userCountWithLimit": "{userCount} / {userLimit} 位用户",
   "admin.billing.subscription.privateCloudCard.contactSales": "联系销售",
   "admin.billing.subscription.privateCloudCard.contactSupport": "联系客服",
-  "admin.billing.subscription.privateCloudCard.title": "寻找高信任度的私有云？",
   "admin.billing.subscription.questions": "有什么问题吗？",
   "admin.billing.subscription.stateprovince": "州/省",
   "admin.billing.subscription.title": "订阅",

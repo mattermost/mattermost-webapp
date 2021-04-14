@@ -302,7 +302,6 @@
   "admin.billing.subscription.planDetails.userCountWithLimit": "{userCount} / {userLimit} kullanıcı",
   "admin.billing.subscription.privateCloudCard.contactSales": "Satış ile Görüşün",
   "admin.billing.subscription.privateCloudCard.contactSupport": "Destek Ekibi ile Görüşün",
-  "admin.billing.subscription.privateCloudCard.title": "Yüksek güvenilirlikli bir özel bulut çözümü mü arıyorsunuz?",
   "admin.billing.subscription.questions": "Sorularınız mı var?",
   "admin.billing.subscription.stateprovince": "İl/Bölge",
   "admin.billing.subscription.title": "Abonelikler",
