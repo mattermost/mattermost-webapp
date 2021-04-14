@@ -168,7 +168,7 @@ describe('components/admin_console/jobs/table', () => {
                 hideJobCreateButton={true}
             />,
         );
-
+        expect(wrapper).toMatchSnapshot();
         const button = wrapper.find('button.btn-default');
         expect(button).toHaveLength(0);
     });
@@ -180,7 +180,7 @@ describe('components/admin_console/jobs/table', () => {
                 className={'job-table__data-retention'}
             />,
         );
-
+        expect(wrapper).toMatchSnapshot();
         const element = wrapper.find('.job-table__data-retention');
         expect(element).toHaveLength(1);
     });
