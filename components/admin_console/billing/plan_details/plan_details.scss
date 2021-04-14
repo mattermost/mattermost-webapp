@@ -48,6 +48,18 @@
     line-height: 32px;
 }
 
+.PlanDetails_paidTier__planName {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 16px;
+    color: rgba(var(--sys-center-channel-color-rgb), 0.56);
+
+    a {
+        margin-left: 5px;
+    }
+}
+
 .PlanDetails__planCaveat {
     font-size: 14px;
     line-height: 20px;
@@ -103,7 +115,7 @@
 
 .PlanDetails__currentPlan {
     margin-top: 24px;
-    color: var(--sys-sidebar-text-active-border);
+    color: var(--sys-online-indicator);
     display: flex;
     align-items: center;
 
@@ -161,4 +173,20 @@
 
 #BillingSubscriptions__seatOverageTooltip {
     margin-left: -5px;
+}
+
+.TrialBadge {
+    background: var(--sys-online-indicator);
+    color: #FFF;
+    text-transform: uppercase;
+    padding: 0 4px;
+    border-radius: 3px;
+    margin-left: 5px;
+
+    span {
+        font-weight: 600;
+        font-size: 10px;
+        letter-spacing: 0.02em;
+        line-height: 16px;
+    }
 }
