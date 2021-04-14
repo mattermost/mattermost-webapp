@@ -21,6 +21,7 @@ import {getSubscriptionStats} from 'mattermost-redux/actions/cloud';
 import {Permissions} from 'mattermost-redux/constants';
 
 import {RHSStates} from 'utils/constants';
+import {getRemainingDaysFromFutureTimestamp} from 'utils/utils.jsx';
 
 import {unhideNextSteps} from 'actions/views/next_steps';
 import {showMentions, showFlaggedPosts, closeRightHandSide, closeMenu as closeRhsMenu} from 'actions/views/rhs';
@@ -73,7 +74,7 @@ function mapStateToProps(state) {
     const isCloud = getLicense(state).Cloud === 'true';
     const subscription = state.entities.cloud.subscription;
     const isFreeTrial = subscription.is_free_trial === 'true';
-    const daysLeftOnTrial = 13;
+    const daysLeftOnTrial = getRemainingDaysFromFutureTimestamp(subscription.trial_end_at);
 
     return {
         appDownloadLink,
