@@ -73,6 +73,21 @@ describe('components/channel_members_dropdown', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should match snapshot for dropdown with shared user', () => {
+        const props = {
+            ...baseProps,
+            user: {
+                ...baseProps.user,
+                roles: 'system_user',
+                remote_id: 'fakeid',
+            },
+        };
+        const wrapper = shallow(
+            <ChannelMembersDropdown {...props}/>,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('should match snapshot for not dropdown with guest user', () => {
         const props = {
             ...baseProps,
