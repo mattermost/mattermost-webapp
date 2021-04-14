@@ -1746,7 +1746,7 @@ export default class Client4 {
     };
 
     viewMyChannel = (channelId: string, prevChannelId?: string) => {
-        const data = {channel_id: channelId, prev_channel_id: prevChannelId};
+        const data = {channel_id: channelId, prev_channel_id: prevChannelId, collapsed_threads_supported: true};
         return this.doFetch<ChannelViewResponse>(
             `${this.getChannelsRoute()}/members/me/view`,
             {method: 'post', body: JSON.stringify(data)},

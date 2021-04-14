@@ -4,10 +4,13 @@
 import {SearchTypes} from 'mattermost-redux/action_types';
 import {getMyChannelMember} from 'mattermost-redux/actions/channels';
 import {getChannel, getMyChannelMember as getMyChannelMemberSelector} from 'mattermost-redux/selectors/entities/channels';
+import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import * as PostActions from 'mattermost-redux/actions/posts';
+import * as ThreadActions from 'mattermost-redux/actions/threads';
 import * as PostSelectors from 'mattermost-redux/selectors/entities/posts';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {canEditPost, comparePosts} from 'mattermost-redux/utils/post_utils';
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
 import {addRecentEmoji} from 'actions/emoji_actions';
 import * as StorageActions from 'actions/storage';
@@ -236,7 +239,14 @@ export function markPostAsUnread(post) {
     return async (dispatch, getState) => {
         const state = getState();
         const userId = getCurrentUserId(state);
+        const currentTeamId = getCurrentTeamId(state);
+
         await dispatch(PostActions.setUnreadPost(userId, post.id));
+
+        // if this is a root post and collapsed threads are enabled, mark the thread as unread as well
+        if (post.root_id === '' && isCollapsedThreadsEnabled(state)) {
+            await dispatch(ThreadActions.updateThreadRead(userId, currentTeamId, post.id));
+        }
         return {data: true};
     };
 }
