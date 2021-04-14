@@ -12,7 +12,9 @@ describe('components/SearchHint', () => {
     const baseProps = {
         withTitle: false,
         onOptionSelected: jest.fn(),
+        onSearchTypeSelected: jest.fn(),
         options: searchHintOptions,
+        filesSearchEnabled: false,
     };
 
     test('should match snapshot, with title', () => {
@@ -29,6 +31,31 @@ describe('components/SearchHint', () => {
     test('should match snapshot, without title', () => {
         const wrapper = shallow(
             <SearchHint {...baseProps}/>,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot, without searchType and filesSearchEnabled', () => {
+        const props = {
+            ...baseProps,
+            withTitle: true,
+            filesSearchEnabled: true,
+            searchType: '' as 'files' | 'messages' | '',
+        };
+        const wrapper = shallow(
+            <SearchHint {...props}/>,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot, with searchType and filesSearchEnabled', () => {
+        const props = {
+            ...baseProps,
+            filesSearchEnabled: true,
+            searchType: 'files' as 'files' | 'messages' | '',
+        };
+        const wrapper = shallow(
+            <SearchHint {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });

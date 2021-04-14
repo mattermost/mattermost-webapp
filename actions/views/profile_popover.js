@@ -4,14 +4,11 @@
 import {getTeamMember} from 'mattermost-redux/actions/teams';
 import {getChannelMember} from 'mattermost-redux/actions/channels';
 
-export function getMembershipForCurrentEntities(currentTeamId, userId, channelId) {
+export function getMembershipForEntities(teamId, userId, channelId) {
     return async (dispatch) => {
-        if (!channelId) {
-            return dispatch(getTeamMember(currentTeamId, userId));
-        }
         return Promise.all([
-            dispatch(getTeamMember(currentTeamId, userId)),
-            dispatch(getChannelMember(channelId, userId)),
+            dispatch(getTeamMember(teamId, userId)),
+            channelId && dispatch(getChannelMember(channelId, userId)),
         ]);
     };
 }

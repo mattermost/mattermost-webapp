@@ -133,7 +133,10 @@ Cypress.Commands.add('urlHealthCheck', ({name, url, helperMessage, method, httpS
 });
 
 Cypress.Commands.add('requireWebhookServer', () => {
-    const webhookBaseUrl = Cypress.env().webhookBaseUrl;
+    const baseUrl = Cypress.config('baseUrl');
+    const webhookBaseUrl = Cypress.env('webhookBaseUrl');
+    const adminUsername = Cypress.env('adminUsername');
+    const adminPassword = Cypress.env('adminPassword');
     const helperMessage = `
 __Tips:__
     1. In local development, you may run "__npm run start:webhook__" at "/e2e" folder.
@@ -147,6 +150,16 @@ __Tips:__
         method: 'get',
         httpStatus: 200,
     });
+
+    cy.task('postIncomingWebhook', {
+        url: `${webhookBaseUrl}/setup`,
+        data: {
+            baseUrl,
+            webhookBaseUrl,
+            adminUsername,
+            adminPassword,
+        }}).
+        its('status').should('be.equal', 201);
 });
 
 Cypress.Commands.add('requireStorybookServer', () => {

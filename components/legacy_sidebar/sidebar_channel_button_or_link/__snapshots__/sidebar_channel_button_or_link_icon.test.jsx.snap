@@ -41,6 +41,20 @@ exports[`component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannelB
 />
 `;
 
+exports[`component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOrLinkIcon should match snapshot, on shared private channel 1`] = `
+<SharedChannelIndicator
+  channelType="P"
+  className="icon icon__shared"
+/>
+`;
+
+exports[`component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOrLinkIcon should match snapshot, on shared public channel 1`] = `
+<SharedChannelIndicator
+  channelType="O"
+  className="icon icon__shared"
+/>
+`;
+
 exports[`component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOrLinkIcon should match snapshot, with draft in public channel 1`] = `
 <DraftIcon
   className="icon icon__draft"

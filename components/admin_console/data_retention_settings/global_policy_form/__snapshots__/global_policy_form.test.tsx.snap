@@ -10,7 +10,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
     <div>
       <Connect(BlockableLink)
         className="fa fa-angle-left back"
-        to="/admin_console/compliance/data_retention"
+        to="/admin_console/compliance/data_retention_settings"
       />
       <FormattedMessage
         defaultMessage="Global Retention Policy"
@@ -178,7 +178,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
     />
     <Connect(BlockableLink)
       className="cancel-button"
-      to="/admin_console/compliance/data_retention"
+      to="/admin_console/compliance/data_retention_settings"
     >
       <FormattedMessage
         defaultMessage="Cancel"

@@ -104,7 +104,7 @@ export default class GlobalPolicyForm extends React.PureComponent<Props, State> 
         if (error) {
             this.setState({serverError: error.message, saving: false});
         } else {
-            browserHistory.push('/admin_console/compliance/data_retention');
+            browserHistory.push('/admin_console/compliance/data_retention_settings');
         }
     };
 
@@ -133,7 +133,7 @@ export default class GlobalPolicyForm extends React.PureComponent<Props, State> 
                 <div className='admin-console__header with-back'>
                     <div>
                         <BlockableLink
-                            to='/admin_console/compliance/data_retention'
+                            to='/admin_console/compliance/data_retention_settings'
                             className='fa fa-angle-left back'
                         />
                         <FormattedMessage
@@ -214,7 +214,7 @@ export default class GlobalPolicyForm extends React.PureComponent<Props, State> 
                     />
                     <BlockableLink
                         className='cancel-button'
-                        to='/admin_console/compliance/data_retention'
+                        to='/admin_console/compliance/data_retention_settings'
                     >
                         <FormattedMessage
                             id='admin.data_retention.custom_policy.cancel'

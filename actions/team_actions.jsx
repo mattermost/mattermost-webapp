@@ -9,6 +9,11 @@ import {getUser} from 'mattermost-redux/actions/users';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
+import {getThreadMentionCountsByChannel} from 'mattermost-redux/actions/threads';
+
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+
 import {browserHistory} from 'utils/browser_history';
 import {Preferences} from 'utils/constants';
 
@@ -103,5 +108,14 @@ export function updateTeamsOrderForUser(teamIds) {
             value: teamIds.join(','),
         }];
         dispatch(savePreferences(currentUserId, teamOrderPreferences));
+    };
+}
+
+export function fetchThreadMentionCountsByChannel() {
+    return async (dispatch, getState) => {
+        const state = getState();
+        if (isCollapsedThreadsEnabled(state)) {
+            dispatch(getThreadMentionCountsByChannel(getCurrentTeamId(state)));
+        }
     };
 }

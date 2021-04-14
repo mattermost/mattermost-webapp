@@ -90,29 +90,84 @@ function getTestFiles() {
     return intersection(stageFiles, finalGroupFiles);
 }
 
-function getSkippedFiles(initialTestFiles, platform, browser, headless) {
+function getLastFiles() {
+    const {sortLast} = argv;
+
+    const lastFiles = [];
+    if (sortLast) {
+        sortLast.split(',').forEach((word, i) => {
+            const sl = grepCommand(word);
+            const files = grepFiles(sl).map((file) => {
+                return {file, sortWeight: i + 1};
+            });
+            lastFiles.push(...files);
+        });
+    }
+
+    return lastFiles.reduce((acc, lf) => {
+        acc[lf.file] = lf;
+        return acc;
+    }, {});
+}
+
+function getSortedTestFiles(platform, browser, headless) {
+    const lastFilesObject = getLastFiles();
+
+    const testFilesObject = getTestFiles().reduce((acc, file) => {
+        acc[file] = {file, sortWeight: 0};
+        return acc;
+    }, {});
+
+    Object.entries(lastFilesObject).forEach(([k, v]) => {
+        testFilesObject[k] = v;
+    });
+
+    const initialSkippedFiles = getSkippedFiles(platform, browser, headless);
+    const testFiles = Object.keys(testFilesObject).map((file) => file);
+    const skippedFiles = intersection(testFiles, initialSkippedFiles);
+
+    if (skippedFiles.length) {
+        printSkippedFiles(skippedFiles, platform, browser, headless);
+
+        skippedFiles.forEach((file) => {
+            if (testFilesObject.hasOwnProperty(file)) {
+                delete testFilesObject[file];
+            }
+        });
+    }
+
+    const sortedFiles = Object.values(testFilesObject).
+        sort((a, b) => {
+            if (a.sortWeight > b.sortWeight) {
+                return 1;
+            } else if (a.sortWeight < b.sortWeight) {
+                return -1;
+            }
+
+            return a.file.localeCompare(b.file);
+        }).
+        map((sortedObj) => sortedObj.file);
+
+    return {sortedFiles, skippedFiles, weightedTestFiles: Object.values(testFilesObject)};
+}
+
+function getSkippedFiles(platform, browser, headless) {
     const platformFiles = grepFiles(grepCommand(`@${platform}`));
     const browserFiles = grepFiles(grepCommand(`@${browser}`));
     const headlessFiles = grepFiles(grepCommand(`@${headless ? 'headless' : 'headed'}`));
 
-    const initialSkippedFiles = platformFiles.concat(browserFiles, headlessFiles);
-    const skippedFiles = intersection(initialTestFiles, initialSkippedFiles);
-    const finalTestFiles = without(initialTestFiles, ...skippedFiles);
+    return platformFiles.concat(browserFiles, headlessFiles);
+}
 
-    // Log which files were skipped
-    if (skippedFiles.length) {
-        console.log(chalk.cyan(`\nSkipped test files due to ${platform}/${browser} (${headless ? 'headless' : 'headed'}):`));
+function printSkippedFiles(skippedFiles = [], platform, browser, headless) {
+    console.log(chalk.cyan(`\nSkipped test files due to ${platform}/${browser} (${headless ? 'headless' : 'headed'}):`));
 
-        skippedFiles.forEach((file, index) => {
-            console.log(chalk.cyan(`- [${index + 1}] ${file}`));
-        });
-        console.log('');
-    }
-
-    return {skippedFiles, finalTestFiles};
+    skippedFiles.forEach((file, index) => {
+        console.log(chalk.cyan(`- [${index + 1}] ${file}`));
+    });
+    console.log('');
 }
 
 module.exports = {
-    getTestFiles,
-    getSkippedFiles,
+    getSortedTestFiles,
 };

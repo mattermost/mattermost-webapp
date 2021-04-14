@@ -25,6 +25,8 @@ import SidebarCategory from '../sidebar_category';
 import UnreadChannelIndicator from '../unread_channel_indicator';
 import UnreadChannels from '../unread_channels';
 
+import GlobalThreadsLink from 'components/threading/global_threads_link';
+
 export function renderView(props: any) {
     return (
         <div
@@ -80,7 +82,6 @@ type Props = {
         close: () => void;
         setDraggingState: (data: DraggingState) => void;
         stopDragging: () => void;
-        expandCategory: (categoryId: string) => void;
         clearChannelSelection: () => void;
         multiSelectChannelAdd: (channelId: string) => void;
     };
@@ -540,6 +541,7 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
                     onScroll={this.onScroll}
                     style={{position: 'absolute'}}
                 >
+                    <GlobalThreadsLink/>
                     {channelList}
                 </Scrollbars>
             </div>

@@ -10,15 +10,13 @@ import Button from '../button';
 import FollowButton from './follow_button';
 
 describe('components/threading/common/follow_button', () => {
-    test('should say follow and fire start action', () => {
-        const follow = jest.fn();
-        const unFollow = jest.fn();
+    test('should say follow', () => {
+        const clickHandler = jest.fn();
 
         const wrapper = mountWithIntl(
             <FollowButton
                 isFollowing={false}
-                follow={follow}
-                unFollow={stop}
+                onClick={clickHandler}
             />,
         );
 
@@ -27,28 +25,32 @@ describe('components/threading/common/follow_button', () => {
         expect(wrapper.find(Button).text()).toBe('Follow');
 
         wrapper.find(Button).simulate('click');
-        expect(follow).toHaveBeenCalled();
-        expect(unFollow).not.toHaveBeenCalled();
+        expect(clickHandler).toHaveBeenCalled();
     });
 
-    test('should say following and fire stop action', () => {
-        const follow = jest.fn();
-        const unFollow = jest.fn();
-
+    test('should say following', () => {
         const wrapper = mountWithIntl(
             <FollowButton
                 isFollowing={true}
-                follow={follow}
-                unFollow={unFollow}
             />,
         );
 
         expect(wrapper).toMatchSnapshot();
 
         expect(wrapper.find(Button).text()).toBe('Following');
+    });
+
+    test('should fire click handler', () => {
+        const clickHandler = jest.fn();
+
+        const wrapper = mountWithIntl(
+            <FollowButton
+                isFollowing={false}
+                onClick={clickHandler}
+            />,
+        );
 
         wrapper.find(Button).simulate('click');
-        expect(follow).not.toHaveBeenCalled();
-        expect(unFollow).toHaveBeenCalled();
+        expect(clickHandler).toHaveBeenCalled();
     });
 });
