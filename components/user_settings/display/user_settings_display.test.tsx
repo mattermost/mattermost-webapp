@@ -54,7 +54,8 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         enableTimezone: true,
         shouldAutoUpdateTimezone: true,
         lockTeammateNameDisplay: false,
-
+        collapsedReplyThreads: '',
+        collapsedReplyThreadsAllowUserPreference: true,
         allowCustomThemes: true,
         militaryTime: '',
         teammateNameDisplay: '',
@@ -284,5 +285,17 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
 
         (wrapper.instance() as UserSettingsDisplay).handleOnChange({display: 'collapseDisplay'});
         expect(wrapper.state('display')).toBe('collapseDisplay');
+    });
+
+    test('should update collapsed reply threads state', () => {
+        const wrapper = mountWithIntl(
+            <UserSettingsDisplay {...requiredProps}/>,
+        );
+
+        (wrapper.instance() as UserSettingsDisplay).handleCollapseReplyThreadsRadio('off');
+        expect(wrapper.state('collapsedReplyThreads')).toBe('off');
+
+        (wrapper.instance() as UserSettingsDisplay).handleCollapseReplyThreadsRadio('on');
+        expect(wrapper.state('collapsedReplyThreads')).toBe('on');
     });
 });

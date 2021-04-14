@@ -542,7 +542,7 @@ describe('Selectors.Users', () => {
         });
     });
 
-    describe('makeGetDisplayName', () => {
+    describe('makeGetDisplayName and makeDisplayNameGetter', () => {
         const testUser1 = {
             ...user1,
             id: 'test_user_id',
@@ -577,6 +577,7 @@ describe('Selectors.Users', () => {
                 },
             };
             assert.deepEqual(Selectors.makeGetDisplayName()(newTestState, testUser1.id), 'First Last');
+            assert.deepEqual(Selectors.makeDisplayNameGetter()(newTestState)(testUser1), 'First Last');
         });
         it('Should show show username since LockTeammateNameDisplay is true', () => {
             const newTestState = {
@@ -601,6 +602,7 @@ describe('Selectors.Users', () => {
                 },
             };
             assert.deepEqual(Selectors.makeGetDisplayName()(newTestState, testUser1.id), 'username');
+            assert.deepEqual(Selectors.makeDisplayNameGetter()(newTestState)(testUser1), 'username');
         });
         it('Should show full name since license is false', () => {
             const newTestState = {
@@ -625,6 +627,7 @@ describe('Selectors.Users', () => {
                 },
             };
             assert.deepEqual(Selectors.makeGetDisplayName()(newTestState, testUser1.id), 'First Last');
+            assert.deepEqual(Selectors.makeDisplayNameGetter()(newTestState)(testUser1), 'First Last');
         });
         it('Should show full name since license is not available', () => {
             const newTestState = {
@@ -646,6 +649,7 @@ describe('Selectors.Users', () => {
                 },
             };
             assert.deepEqual(Selectors.makeGetDisplayName()(newTestState, testUser1.id), 'First Last');
+            assert.deepEqual(Selectors.makeDisplayNameGetter()(newTestState)(testUser1), 'First Last');
         });
         it('Should show Full name since license is not available and lock teammate name display is false', () => {
             const newTestState = {
@@ -667,6 +671,7 @@ describe('Selectors.Users', () => {
                 },
             };
             assert.deepEqual(Selectors.makeGetDisplayName()(newTestState, testUser1.id), 'First Last');
+            assert.deepEqual(Selectors.makeDisplayNameGetter()(newTestState)(testUser1), 'First Last');
         });
         it('Should show username since no settings are available (falls back to default)', () => {
             const newTestState = {
@@ -685,6 +690,7 @@ describe('Selectors.Users', () => {
                 },
             };
             assert.deepEqual(Selectors.makeGetDisplayName()(newTestState, testUser1.id), 'username');
+            assert.deepEqual(Selectors.makeDisplayNameGetter()(newTestState)(testUser1), 'username');
         });
     });
 
