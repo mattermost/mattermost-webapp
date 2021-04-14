@@ -101,7 +101,7 @@ export default class ChannelList extends React.PureComponent<Props, State> {
         const total = this.getVisibleTotalCount();
 
         let endCount = 0;
-        
+
         endCount = (page + 1) * PAGE_SIZE;
         endCount = endCount > total ? total : endCount;
 

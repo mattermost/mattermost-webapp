@@ -209,7 +209,7 @@ export default class CustomPolicyForm extends React.PureComponent<Props, State> 
         const channelsToAdd = Object.keys(newChannels);
         const channelsToRemove = Object.keys(removedChannels);
         let postDuration = parseInt(messageRetentionInputValue, 10);
-        console.log(messageRetentionDropdownValue);
+
         if (messageRetentionDropdownValue.value === FOREVER) {
             postDuration = -1;
         } else if (this.state.messageRetentionDropdownValue.value === YEARS) {

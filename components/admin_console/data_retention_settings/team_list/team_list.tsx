@@ -138,7 +138,7 @@ export default class TeamList extends React.PureComponent<Props, State> {
                 field: 'remove',
                 textAlign: 'right',
                 fixed: true,
-                className: 'TeamList__actionColumn'
+                className: 'TeamList__actionColumn',
             },
         ];
     }

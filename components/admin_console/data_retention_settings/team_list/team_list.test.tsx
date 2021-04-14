@@ -8,7 +8,6 @@ import TeamList from 'components/admin_console/data_retention_settings/team_list
 import {TestHelper} from 'utils/test_helper';
 import {Team} from 'mattermost-redux/types/teams';
 
-
 describe('components/admin_console/data_retention_settings/team_list', () => {
     const team: Team = Object.assign(TestHelper.getTeamMock({id: 'team-1'}));
 
@@ -45,7 +44,7 @@ describe('components/admin_console/data_retention_settings/team_list', () => {
                 display_name: 'DN' + i,
             });
         }
-        
+
         const actions = {
             getDataRetentionCustomPolicyTeams: jest.fn().mockResolvedValue(testTeams),
             searchTeams: jest.fn(),

@@ -8,7 +8,6 @@ import ChannelList from 'components/admin_console/data_retention_settings/channe
 import {Channel} from 'mattermost-redux/types/channels';
 import {TestHelper} from 'utils/test_helper';
 
-
 describe('components/admin_console/data_retention_settings/channel_list', () => {
     const channel: Channel = Object.assign(TestHelper.getChannelMock({id: 'channel-1'}));
 

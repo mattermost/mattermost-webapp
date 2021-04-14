@@ -29,9 +29,9 @@ describe('components/admin_console/data_retention_settings/custom_policy_form', 
 
     test('should match snapshot with editing existing policy', () => {
         const props = {...defaultProps};
-        
+
         const wrapper = shallow(
-            <CustomPolicyForm 
+            <CustomPolicyForm
                 {...props}
                 policyId='fsdgdsgdsgh'
                 policy={{
@@ -41,7 +41,7 @@ describe('components/admin_console/data_retention_settings/custom_policy_form', 
                     team_count: 1,
                     channel_count: 2,
                 }}
-            />
+            />,
         );
         expect(wrapper).toMatchSnapshot();
     });

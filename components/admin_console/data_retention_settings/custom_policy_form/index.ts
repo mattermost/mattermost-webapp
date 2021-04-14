@@ -6,7 +6,6 @@ import {connect} from 'react-redux';
 
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
-import {getTeamsInPolicy} from 'mattermost-redux/selectors/entities/teams';
 import {
     getDataRetentionCustomPolicy as fetchPolicy,
     getDataRetentionCustomPolicyTeams as fetchPolicyTeams,
