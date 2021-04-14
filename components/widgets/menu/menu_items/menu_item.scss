@@ -131,8 +131,9 @@
     }
 
     .MenuTopNotification {
-        padding: 10px;
-        margin: 5px;
+        padding: 8px;
+        margin: 8px;
+        border-radius: 4px;
         background-color: rgba(var(--button-bg-rgb), 0.04);
 
         .upgradeLink {
@@ -144,6 +145,7 @@
                 color: --button-bg;
                 font-style: normal;
                 font-weight: 600;
+                text-decoration: none;
             }
         }
     }

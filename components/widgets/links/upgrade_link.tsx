@@ -24,8 +24,8 @@ export interface UpgradeLinkProps {
 
 const UpgradeLink: React.FC<UpgradeLinkProps> = (props: UpgradeLinkProps) => {
     const dispatch = useDispatch<DispatchFunc>();
-    const styleButton = props.styleButton ? 'style-button' : '';
-    const styleLink = props.styleLink ? 'style-link' : '';
+    const styleButton = props.styleButton ? ' style-button' : '';
+    const styleLink = props.styleLink ? ' style-link' : '';
 
     const handleLinkClick = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
@@ -49,7 +49,7 @@ const UpgradeLink: React.FC<UpgradeLinkProps> = (props: UpgradeLinkProps) => {
     );
     return (
         <button
-            className={`upgradeLink ${styleButton} ${styleLink}`}
+            className={`upgradeLink${styleButton}${styleLink}`}
             onClick={(e) => handleLinkClick(e)}
         >
             {props.buttonText ? props.buttonText : buttonText}
