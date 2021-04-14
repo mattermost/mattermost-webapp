@@ -7,7 +7,7 @@ import React from 'react';
 import {FormattedDate, FormattedTime, FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils.jsx';
-import {isLicenseExpired, isLicenseExpiring} from 'utils/license_utils.jsx';
+import {isLicenseExpired, isLicenseExpiring, isTrialLicense} from 'utils/license_utils.jsx';
 import {format} from 'utils/markdown';
 
 import * as AdminActions from 'actions/admin_actions.jsx';
@@ -18,6 +18,7 @@ import FormattedAdminHeader from 'components/widgets/admin_console/formatted_adm
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 
 import RenewLinkCard from './renew_license_card/renew_license_card';
+import TrialLicenseCard from './trial_license_card/trial_license_card';
 
 export default class LicenseSettings extends React.PureComponent {
     static propTypes = {
@@ -307,7 +308,11 @@ export default class LicenseSettings extends React.PureComponent {
             eelicense = this.renderEELicenseText();
         } else if (license.IsLicensed === 'true' && !uploading) {
             // Note: DO NOT LOCALISE THESE STRINGS. Legally we can not since the license is in English.
-            const sku = license.SkuShortName ? <React.Fragment>{`Edition: Mattermost Enterprise Edition ${license.SkuShortName}`}<br/></React.Fragment> : null;
+            let skuShortName = license.SkuShortName;
+            if (isTrialLicense(license)) {
+                skuShortName = `${license.SkuShortName} Trial`;
+            }
+            const sku = license.SkuShortName ? <React.Fragment>{`Edition: Mattermost Enterprise Edition ${skuShortName}`}<br/></React.Fragment> : null;
             edition = 'Mattermost Enterprise Edition. Enterprise features on this server have been unlocked with a license key and a valid subscription.';
             if (upgradedFromTE) {
                 eelicense = this.renderEELicenseText();
@@ -611,6 +616,13 @@ export default class LicenseSettings extends React.PureComponent {
     }
 
     renewLicenseCard = () => {
+        if (isTrialLicense(this.props.license)) {
+            return (
+                <TrialLicenseCard
+                    license={this.props.license}
+                />
+            );
+        }
         if (isLicenseExpired(this.props.license) || isLicenseExpiring(this.props.license)) {
             return (
                 <RenewLinkCard
