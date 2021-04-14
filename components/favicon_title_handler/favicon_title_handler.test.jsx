@@ -40,6 +40,7 @@ describe('components/FaviconTitleHandler', () => {
             type: 'team-type',
         },
         currentTeammate: null,
+        inGlobalThreads: false,
     };
 
     test('set correctly the title when needed', () => {

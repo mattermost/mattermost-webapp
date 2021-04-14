@@ -3,7 +3,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {Stripe} from '@stripe/stripe-js';
+import {Stripe, StripeCardElementChangeEvent} from '@stripe/stripe-js';
 import {loadStripe} from '@stripe/stripe-js/pure'; // https://github.com/stripe/stripe-js#importing-loadstripe-without-side-effects
 import {Elements} from '@stripe/react-stripe-js';
 
@@ -52,6 +52,7 @@ type State = {
     paymentInfoIsValid: boolean;
     productPrice: number;
     billingDetails: BillingDetails | null;
+    cardInputComplete: boolean;
     processing: boolean;
 }
 export default class PurchaseModal extends React.PureComponent<Props, State> {
@@ -64,6 +65,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
             paymentInfoIsValid: false,
             productPrice: 0,
             billingDetails: null,
+            cardInputComplete: false,
             processing: false,
         };
     }
@@ -90,8 +92,19 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
     }
 
     onPaymentInput = (billing: BillingDetails) => {
-        this.setState({paymentInfoIsValid: areBillingDetailsValid(billing)});
+        this.setState({
+            paymentInfoIsValid:
+            areBillingDetailsValid(billing) && this.state.cardInputComplete,
+        });
         this.setState({billingDetails: billing});
+    }
+
+    handleCardInputChange = (event: StripeCardElementChangeEvent) => {
+        this.setState({
+            paymentInfoIsValid:
+            areBillingDetailsValid(this.state.billingDetails) && event.complete,
+        });
+        this.setState({cardInputComplete: event.complete});
     }
 
     handleSubmitClick = async () => {
@@ -143,6 +156,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                     <PaymentForm
                         className='normal-text'
                         onInputChange={this.onPaymentInput}
+                        onCardInputChange={this.handleCardInputChange}
                     />
                 </div>
                 <div className='RHS'>

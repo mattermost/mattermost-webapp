@@ -74,6 +74,7 @@ describe('component/legacy_sidebar/sidebar_channel/SidebarChannel', () => {
             leaveDirectChannel: jest.fn(),
         },
         channelIsArchived: false,
+        channelIsShared: false,
     };
 
     test('should match snapshot, on channel show', () => {

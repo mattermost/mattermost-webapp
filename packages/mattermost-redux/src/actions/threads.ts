@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {uniq} from 'lodash';
+
 import {ThreadTypes, PostTypes, UserTypes} from 'mattermost-redux/action_types';
 import {Client4} from 'mattermost-redux/client';
 
@@ -10,16 +12,17 @@ import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 
 import type {UserThread, UserThreadList} from 'mattermost-redux/types/threads';
 
+import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
+
 import {logError} from './errors';
 import {forceLogoutIfNecessary} from './helpers';
 
 export function getThreads(userId: string, teamId: string, {before = '', after = '', perPage = ThreadConstants.THREADS_CHUNK_SIZE, unread = false} = {}) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        const {entities} = getState();
         let userThreadList: undefined | UserThreadList;
 
         try {
-            userThreadList = await Client4.getUserThreads(userId, teamId, {before, after, pageSize: perPage, extended: true, unread});
+            userThreadList = await Client4.getUserThreads(userId, teamId, {before, after, pageSize: perPage, extended: false, unread});
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
             dispatch(logError(error));
@@ -27,10 +30,7 @@ export function getThreads(userId: string, teamId: string, {before = '', after =
         }
 
         if (userThreadList?.threads?.length) {
-            dispatch({
-                type: UserTypes.RECEIVED_PROFILES_LIST,
-                data: userThreadList.threads.map(({participants}) => participants.filter((user) => user.id !== entities.users.currentUserId)).flat(),
-            });
+            await dispatch(getMissingProfilesByIds(uniq(userThreadList.threads.map(({participants}) => participants.map(({id}) => id)).flat())));
 
             dispatch({
                 type: PostTypes.RECEIVED_POSTS,

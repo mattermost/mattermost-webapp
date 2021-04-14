@@ -244,7 +244,7 @@ describe('components/SwitchChannelProvider', () => {
         };
 
         let res = switchProvider.userWrappedChannel(user, channel);
-        expect(res.channel.display_name).toEqual('@username - fn ln');
+        expect(res.channel.display_name).toEqual('fn ln');
 
         getState.mockClear();
 
@@ -289,7 +289,7 @@ describe('components/SwitchChannelProvider', () => {
         getState.mockImplementation(store.getState);
 
         res = switchProvider.userWrappedChannel(user, channel);
-        expect(res.channel.display_name).toEqual('fn ln - @username');
+        expect(res.channel.display_name).toEqual('fn ln');
     });
 
     it('should sort results in aplhabetical order', () => {
