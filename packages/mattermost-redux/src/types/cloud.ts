@@ -22,8 +22,8 @@ export type Subscription = {
     seats: number;
     is_paid_tier: string;
     last_invoice?: Invoice;
-    status: string;
     trial_end_at: number;
+    is_free_trial: string;
 }
 
 export type Product = {

@@ -2,13 +2,18 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {ShallowWrapper} from 'enzyme';
+
+import {ChannelType} from 'mattermost-redux/types/channels';
+import {TeamType} from 'mattermost-redux/types/teams';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import {Constants} from 'utils/constants';
+import {TestHelper} from 'utils/test_helper';
 import {isChrome, isFirefox} from 'utils/user_agent';
 
-import FaviconTitleHandler from 'components/favicon_title_handler/favicon_title_handler';
+import FaviconTitleHandler, {FaviconTitleHandlerClass} from 'components/favicon_title_handler/favicon_title_handler';
 
 jest.mock('utils/user_agent', () => {
     const original = jest.requireActual('utils/user_agent');
@@ -26,27 +31,27 @@ describe('components/FaviconTitleHandler', () => {
             mentionCount: 0,
         },
         siteName: 'Test site',
-        currentChannel: {
+        currentChannel: TestHelper.getChannelMock({
             id: 'c1',
             display_name: 'Public test 1',
             name: 'public-test-1',
-            type: Constants.OPEN_CHANNEL,
-        },
-        currentTeam: {
+            type: Constants.OPEN_CHANNEL as ChannelType,
+        }),
+        currentTeam: TestHelper.getTeamMock({
             id: 'team_id',
             name: 'test-team',
             display_name: 'Test team display name',
             description: 'Test team description',
-            type: 'team-type',
-        },
+            type: 'team-type' as TeamType,
+        }),
         currentTeammate: null,
         inGlobalThreads: false,
     };
 
     test('set correctly the title when needed', () => {
-        const wrapper = shallowWithIntl(
+        const wrapper: ShallowWrapper<any, any, FaviconTitleHandlerClass> = shallowWithIntl(
             <FaviconTitleHandler {...defaultProps}/>,
-        );
+        ) as unknown as ShallowWrapper<any, any, FaviconTitleHandlerClass>;
         const instance = wrapper.instance();
         instance.updateTitle();
         instance.componentDidUpdate = jest.fn();
@@ -69,11 +74,11 @@ describe('components/FaviconTitleHandler', () => {
     test('should set correct title on mentions on safari', () => {
         // in safari browser, modification of favicon is not
         // supported, hence we need to show * in title on mentions
-        isFirefox.mockImplementation(() => false);
-        isChrome.mockImplementation(() => false);
-        const wrapper = shallowWithIntl(
+        (isFirefox as jest.Mock).mockImplementation(() => false);
+        (isChrome as jest.Mock).mockImplementation(() => false);
+        const wrapper: ShallowWrapper<any, any, FaviconTitleHandlerClass> = shallowWithIntl(
             <FaviconTitleHandler {...defaultProps}/>,
-        );
+        ) as unknown as ShallowWrapper<any, any, FaviconTitleHandlerClass>;
         const instance = wrapper.instance();
         wrapper.setProps({siteName: null});
         wrapper.setProps({currentChannel: {id: 1, type: Constants.DM_CHANNEL}, currentTeammate: {display_name: 'teammate'}});
@@ -85,12 +90,11 @@ describe('components/FaviconTitleHandler', () => {
     test('should display correct favicon', () => {
         const link = document.createElement('link');
         link.rel = 'icon';
-        link.sizes = '16x16';
         document.head.appendChild(link);
 
-        const wrapper = shallowWithIntl(
+        const wrapper: ShallowWrapper<any, any, FaviconTitleHandlerClass> = shallowWithIntl(
             <FaviconTitleHandler {...defaultProps}/>,
-        );
+        ) as unknown as ShallowWrapper<any, any, FaviconTitleHandlerClass>;
         const instance = wrapper.instance();
         instance.updateFavicon = jest.fn();
 

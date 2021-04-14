@@ -4,41 +4,42 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {Constants} from 'utils/constants';
+import {TeamType} from 'mattermost-redux/types/teams';
+import {ChannelType} from 'mattermost-redux/types/channels';
 
 import Menu from 'components/widgets/menu/menu';
+import {Constants} from 'utils/constants';
+import {TestHelper} from 'utils/test_helper';
 
 import CloseMessage from './close_message';
 
 describe('components/ChannelHeaderDropdown/MenuItem.CloseMessage', () => {
     const baseProps = {
-        currentUser: {
-            id: 'user_id',
-        },
+        currentUser: TestHelper.getUserMock(),
         redirectChannel: 'test-default-channel',
-        currentTeam: {
+        currentTeam: TestHelper.getTeamMock({
             id: 'team_id',
             name: 'test-team',
             display_name: 'Test team display name',
             description: 'Test team description',
-            type: 'team-type',
-        },
+            type: 'team-type' as TeamType,
+        }),
         actions: {
             savePreferences: jest.fn(() => Promise.resolve()),
             leaveDirectChannel: jest.fn(() => Promise.resolve()),
         },
     };
 
-    const groupChannel = {
+    const groupChannel = TestHelper.getChannelMock({
         id: 'channel_id',
-        type: Constants.GM_CHANNEL,
-    };
+        type: Constants.GM_CHANNEL as ChannelType,
+    });
 
-    const directChannel = {
+    const directChannel = TestHelper.getChannelMock({
         id: 'channel_id',
-        type: Constants.DM_CHANNEL,
+        type: Constants.DM_CHANNEL as ChannelType,
         teammate_id: 'teammate-id',
-    };
+    });
 
     it('should match snapshot for DM Channel', () => {
         const props = {...baseProps, channel: directChannel};

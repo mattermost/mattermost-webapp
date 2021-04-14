@@ -1,42 +1,52 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedDate, FormattedMessage, FormattedTime} from 'react-intl';
 
 import {General} from 'mattermost-redux/constants';
+import {Session} from 'mattermost-redux/types/sessions';
 
 import {localizeMessage} from 'utils/utils.jsx';
 import {getMonthLong, t} from 'utils/i18n';
 
 import MoreInfo from './more_info';
 
-export default class ActivityLog extends React.PureComponent {
-    static propTypes = {
+type Props = {
 
-        /**
-         * The index of this instance within the list
-         */
-        index: PropTypes.number.isRequired,
+    /**
+     * The index of this instance within the list
+     */
+    index: number;
 
-        /**
-         * The current locale of the user
-         */
-        locale: PropTypes.string.isRequired,
+    /**
+     * The current locale of the user
+     */
+    locale: string;
 
-        /**
-         * The session that's to be displayed
-         */
-        currentSession: PropTypes.object.isRequired,
+    /**
+     * The session that's to be displayed
+     */
+    currentSession: Session;
 
-        /**
-         * Function to revoke session
-         */
-        submitRevoke: PropTypes.func.isRequired,
-    }
+    /**
+     * Function to revoke session
+     */
+    submitRevoke: (sessionId: string, event: React.MouseEvent) => void;
+};
 
-    constructor(props) {
+type State = {
+    moreInfo: boolean;
+};
+
+type MobileSessionInfo = {
+    devicePicture?: string;
+    deviceTitle?: string;
+    devicePlatform: JSX.Element;
+};
+
+export default class ActivityLog extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -44,19 +54,19 @@ export default class ActivityLog extends React.PureComponent {
         };
     }
 
-    handleMoreInfo = () => {
+    handleMoreInfo = (): void => {
         this.setState({moreInfo: true});
     }
 
-    submitRevoke = (e) => {
+    submitRevoke = (e: React.MouseEvent): void => {
         this.props.submitRevoke(this.props.currentSession.id, e);
     }
 
-    isMobileSession = (session) => {
-        return session.device_id && (session.device_id.includes('apple') || session.device_id.includes('android'));
+    isMobileSession = (session: Session): boolean => {
+        return Boolean(session.device_id && (session.device_id.includes('apple') || session.device_id.includes('android')));
     };
 
-    mobileSessionInfo = (session) => {
+    mobileSessionInfo = (session: Session): MobileSessionInfo => {
         let deviceTypeId;
         let deviceTypeMessage;
         let devicePicture;
@@ -96,7 +106,7 @@ export default class ActivityLog extends React.PureComponent {
         };
     };
 
-    render() {
+    render(): React.ReactNode {
         const {
             index,
             locale,
@@ -105,7 +115,7 @@ export default class ActivityLog extends React.PureComponent {
 
         const lastAccessTime = new Date(currentSession.last_activity_at);
         let devicePlatform = currentSession.props.platform;
-        let devicePicture = '';
+        let devicePicture: string | undefined = '';
         let deviceTitle = '';
 
         if (currentSession.props.platform === 'Windows') {

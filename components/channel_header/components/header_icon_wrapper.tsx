@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Tooltip} from 'react-bootstrap';
@@ -12,17 +11,37 @@ import {localizeMessage} from 'utils/utils.jsx';
 import {Constants} from 'utils/constants';
 import {t} from 'utils/i18n';
 
-export default function HeaderIconWrapper({
-    iconComponent,
-    ariaLabel,
-    buttonClass,
-    buttonId,
-    onClick,
-    tooltipKey,
-    tooltipText,
-    isRhsOpen,
-}) {
-    const toolTips = {
+type Props = {
+    ariaLabel?: boolean;
+    buttonClass?: string;
+    buttonId: string;
+    iconComponent: React.ReactNode;
+    onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
+    tooltipKey: string;
+    tooltipText?: React.ReactNode;
+    isRhsOpen?: boolean;
+}
+
+type TooltipInfo = {
+    class: string;
+    id: string;
+    messageID: string;
+    message: string;
+}
+
+const HeaderIconWrapper: React.FC<Props> = (props: Props) => {
+    const {
+        ariaLabel,
+        buttonClass,
+        buttonId,
+        iconComponent,
+        onClick,
+        tooltipKey,
+        tooltipText,
+        isRhsOpen,
+    } = props;
+
+    const toolTips: Record<string, TooltipInfo> = {
         flaggedPosts: {
             class: 'text-nowrap',
             id: 'flaggedTooltip',
@@ -55,7 +74,7 @@ export default function HeaderIconWrapper({
         },
     };
 
-    function getTooltip(key) {
+    function getTooltip(key: string) {
         if (toolTips[key] == null) {
             return null;
         }
@@ -125,15 +144,6 @@ export default function HeaderIconWrapper({
             </button>
         </div>
     );
-}
-
-HeaderIconWrapper.propTypes = {
-    ariaLabel: PropTypes.bool,
-    buttonClass: PropTypes.string,
-    buttonId: PropTypes.string.isRequired,
-    iconComponent: PropTypes.element.isRequired,
-    onClick: PropTypes.func.isRequired,
-    tooltipKey: PropTypes.string,
-    tooltipText: PropTypes.node,
-    isRhsOpen: PropTypes.bool,
 };
+
+export default HeaderIconWrapper;
