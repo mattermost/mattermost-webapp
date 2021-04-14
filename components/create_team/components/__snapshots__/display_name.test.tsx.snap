@@ -27,7 +27,7 @@ exports[`/components/create_team/components/display_name should match snapshot 1
             autoFocus={true}
             className="form-control"
             id="teamNameInput"
-            maxLength="128"
+            maxLength={128}
             onChange={[Function]}
             onFocus={[Function]}
             placeholder=""

@@ -1,8 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, {CSSProperties} from 'react';
 import debounce from 'lodash/debounce';
 
 import LoadingScreen from 'components/loading_screen';
@@ -10,54 +9,61 @@ import LoadingScreen from 'components/loading_screen';
 const SCROLL_BUFFER = 100;
 const DEBOUNCE_WAIT_TIME = 200;
 
-export default class InfiniteScroll extends React.PureComponent {
-    static propTypes = {
-        children: PropTypes.node.isRequired,
+type Props = {
+    children: React.ReactNode;
 
-        /**
-         * Function that is called to load more items
-         */
-        callBack: PropTypes.func.isRequired,
+    /**
+     * Function that is called to load more items
+     */
+    callBack: () => void;
 
-        /**
-         * Message to display when all the data has been scrolled through
-         */
-        endOfDataMessage: PropTypes.string,
+    /**
+     * Message to display when all the data has been scrolled through
+     */
+    endOfDataMessage?: string;
 
-        /**
-         * A wrapper class to define styling of the infinite scroll
-         */
-        styleClass: PropTypes.string,
+    /**
+     * A wrapper class to define styling of the infinite scroll
+     */
+    styleClass?: string;
 
-        /**
-         * A number that determines how far the scroll is near the bottom before
-         * loading more items. The bigger this value the more items will be loaded
-         * much earlier as you scroll to the bottom.
-         */
-        bufferValue: PropTypes.number,
+    /**
+     * A number that determines how far the scroll is near the bottom before
+     * loading more items. The bigger this value the more items will be loaded
+     * much earlier as you scroll to the bottom.
+     */
+    bufferValue: number;
 
-        /**
-         * The total number of items to be scrolled through
-         */
-        totalItems: PropTypes.number.isRequired,
+    /**
+     * The total number of items to be scrolled through
+     */
+    totalItems: number;
 
-        /**
-         * The number of items to load in a single fetch
-         */
-        itemsPerPage: PropTypes.number.isRequired,
+    /**
+     * The number of items to load in a single fetch
+     */
+    itemsPerPage: number;
 
-        /**
-         * The current page that has been scrolled to
-         */
-        pageNumber: PropTypes.number.isRequired,
+    /**
+     * The current page that has been scrolled to
+     */
+    pageNumber: number;
 
-        /**
-         * Optional style object that's passed on to the underlying loader
-         * component
-         */
+    /**
+     * Optional style object that's passed on to the underlying loader
+     * component
+     */
 
-        loaderStyle: PropTypes.object,
-    };
+    loaderStyle?: CSSProperties;
+};
+
+type State = {
+    isFetching: boolean;
+    isEndofData: boolean;
+};
+
+export default class InfiniteScroll extends React.PureComponent<Props, State> {
+    node: React.RefObject<HTMLDivElement>;
 
     static defaultProps = {
         bufferValue: SCROLL_BUFFER,
@@ -66,7 +72,7 @@ export default class InfiniteScroll extends React.PureComponent {
         loaderStyle: {},
     };
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
         this.state = {
             isFetching: false,
@@ -75,34 +81,34 @@ export default class InfiniteScroll extends React.PureComponent {
         this.node = React.createRef();
     }
 
-    componentDidMount() {
-        this.node.current.addEventListener('scroll', this.debounceHandleScroll);
+    componentDidMount(): void {
+        this.node.current?.addEventListener('scroll', this.debounceHandleScroll);
     }
 
-    componentWillUnmount() {
-        this.node.current.removeEventListener('scroll', this.debounceHandleScroll);
+    componentWillUnmount(): void {
+        this.node.current?.removeEventListener('scroll', this.debounceHandleScroll);
     }
 
-    validateBuffer = (buffer) => {
+    validateBuffer = (buffer: number): number => {
         if (buffer < SCROLL_BUFFER) {
             return SCROLL_BUFFER;
         }
         return Math.abs(buffer);
     }
 
-    getAmountOfPages = (total, freq) => {
+    getAmountOfPages = (total: number, freq: number): number => {
         return Math.ceil(total / freq);
     }
 
-    handleScroll = () => {
+    handleScroll = (): void => {
         const {isFetching, isEndofData} = this.state;
         const {callBack, bufferValue, totalItems, itemsPerPage, pageNumber} = this.props;
 
         const node = this.node.current;
         const validBuffer = this.validateBuffer(bufferValue);
 
-        const toScroll = node.scrollHeight - node.clientHeight - validBuffer;
-        const nearBottom = node.scrollTop > toScroll;
+        const toScroll = node!.scrollHeight - node!.clientHeight - validBuffer;
+        const nearBottom = node!.scrollTop > toScroll;
 
         if (nearBottom && !isEndofData && !isFetching) {
             this.setState({isFetching: true},
@@ -133,7 +139,7 @@ export default class InfiniteScroll extends React.PureComponent {
 
     debounceHandleScroll = debounce(this.handleScroll, DEBOUNCE_WAIT_TIME);
 
-    render() {
+    render(): React.ReactNode {
         const {children, endOfDataMessage, styleClass, loaderStyle} = this.props;
         const {isEndofData, isFetching} = this.state;
         const showLoader = !isEndofData && isFetching; // show loader if fetching and end of data is not reached.

@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow, ShallowWrapper} from 'enzyme';
+import {shallow} from 'enzyme';
 
 import {NotificationLevels} from 'utils/constants';
 
@@ -22,7 +22,7 @@ describe('components/ChannelHeaderMobile/UnmuteChannelButton', () => {
     };
 
     it('should match snapshot', () => {
-        const wrapper: ShallowWrapper<any, any, UnmuteChannelButton> = shallow(<UnmuteChannelButton {...baseProps}/>);
+        const wrapper = shallow<UnmuteChannelButton>(<UnmuteChannelButton {...baseProps}/>);
 
         expect(wrapper).toMatchSnapshot();
     });
@@ -31,7 +31,7 @@ describe('components/ChannelHeaderMobile/UnmuteChannelButton', () => {
         const props = baseProps;
         props.actions.updateChannelNotifyProps = jest.fn();
 
-        const wrapper: ShallowWrapper<any, any, UnmuteChannelButton> = shallow(<UnmuteChannelButton {...props}/>);
+        const wrapper = shallow<UnmuteChannelButton>(<UnmuteChannelButton {...props}/>);
         wrapper.simulate('click');
 
         expect(props.actions.updateChannelNotifyProps).toBeCalledWith(

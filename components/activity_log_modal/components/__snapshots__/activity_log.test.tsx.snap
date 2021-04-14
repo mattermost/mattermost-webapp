@@ -48,13 +48,21 @@ exports[`components/activity_log_modal/ActivityLog should match snapshot 1`] = `
         currentSession={
           Object {
             "create_at": 1534917291042,
+            "device_id": "device_id",
+            "expires_at": 0,
             "id": "sessionId",
+            "is_oauth": false,
             "last_activity_at": 1534917643890,
+            "local": false,
             "props": Object {
               "browser": "Desktop App",
               "os": "Linux",
               "platform": "Linux",
             },
+            "roles": "",
+            "team_members": Array [],
+            "token": "session_token",
+            "user_id": "user_id",
           }
         }
         handleMoreInfo={[Function]}

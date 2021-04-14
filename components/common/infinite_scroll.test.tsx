@@ -1,8 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 import React from 'react';
+import {ReactWrapper} from 'enzyme';
 
-import InfiniteScroll from 'components/common/infinite_scroll.jsx';
+import InfiniteScroll from 'components/common/infinite_scroll';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
@@ -17,10 +18,10 @@ describe('/components/common/InfiniteScroll', () => {
         pageNumber: 1,
     };
 
-    let wrapper;
+    let wrapper: ReactWrapper<any, any, InfiniteScroll>;
 
     beforeEach(() => {
-        wrapper = mountWithIntl(<InfiniteScroll {...baseProps}><div/></InfiniteScroll>);
+        wrapper = mountWithIntl(<InfiniteScroll {...baseProps}><div/></InfiniteScroll>) as unknown as ReactWrapper<any, any, InfiniteScroll>;
     });
 
     test('should match snapshot', () => {
@@ -38,16 +39,16 @@ describe('/components/common/InfiniteScroll', () => {
     test('should attach and remove event listeners', () => {
         const instance = wrapper.instance();
         const node = instance.node;
-        node.current.addEventListener = jest.fn();
-        node.current.removeEventListener = jest.fn();
+        node.current!.addEventListener = jest.fn();
+        node.current!.removeEventListener = jest.fn();
 
         instance.componentDidMount();
-        expect(node.current.addEventListener).toHaveBeenCalledTimes(1);
-        expect(node.current.removeEventListener).not.toBeCalled();
+        expect(node.current!.addEventListener).toHaveBeenCalledTimes(1);
+        expect(node.current!.removeEventListener).not.toBeCalled();
 
         instance.componentWillUnmount();
 
-        expect(node.current.removeEventListener).toHaveBeenCalledTimes(1);
+        expect(node.current!.removeEventListener).toHaveBeenCalledTimes(1);
     });
 
     test('should execute call back function when scroll reaches the bottom and there \'s more data and no current fetch is taking place', () => {
@@ -61,7 +62,6 @@ describe('/components/common/InfiniteScroll', () => {
     });
 
     test('should not execute call back even if scroll is a the bottom when there \'s no more data', () => {
-        wrapper = mountWithIntl(<InfiniteScroll {...baseProps}><div/></InfiniteScroll>);
         wrapper.setState({isEndofData: true});
         const instance = wrapper.instance();
 
