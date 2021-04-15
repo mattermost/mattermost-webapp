@@ -353,7 +353,7 @@
             font-size: 14px;
             margin-right: 6px;
         }
-        &:hover {
+        &:hover, &.highlighted {
             background: rgba(v(button-bg-rgb), 0.04);
         }
     }
