@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {ChangeEvent, MouseEvent, FormEvent, useEffect, useState, useRef, useCallback} from 'react';
+import React, {ChangeEvent, MouseEvent, FormEvent, useEffect, useState, useRef} from 'react';
 import {useIntl} from 'react-intl';
 import classNames from 'classnames';
 
@@ -114,15 +114,6 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
             document.removeEventListener('keydown', handleKeyDown);
         };
     }, [currentChannel, hideSearchBar]);
-
-        useEffect(() => {
-            document.addEventListener('keydown', handleKeyDown);
-
-            return () => {
-                document.removeEventListener('keydown', handleKeyDown);
-            };
-        }, [currentChannel, hideSearchBar]);
-    }
 
     useEffect((): void => {
         if (!Utils.isMobile()) {
