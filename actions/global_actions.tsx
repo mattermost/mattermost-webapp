@@ -192,12 +192,12 @@ export function showMobileSubMenuModal(elements: any[]) { // TODO Use more speci
 }
 
 export function sendEphemeralPost(message: string, channelId?: string, parentId?: string, userId?: string): ActionFunc {
-    return (doDispatch: DispatchFunc) => {
+    return (doDispatch: DispatchFunc, doGetState: GetStateFunc) => {
         const timestamp = Utils.getTimestamp();
         const post = {
             id: Utils.generateId(),
             user_id: userId || '0',
-            channel_id: channelId || getCurrentChannelId(getState()),
+            channel_id: channelId || getCurrentChannelId(doGetState()),
             message,
             type: PostTypes.EPHEMERAL,
             create_at: timestamp,
