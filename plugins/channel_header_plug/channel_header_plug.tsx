@@ -167,7 +167,7 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
         const res = await this.props.actions.doAppCall(call, AppCallTypes.SUBMIT, this.props.intl);
 
         const callResp = (res as {data: AppCallResponse}).data;
-        const ephemeral = (message: string) => sendEphemeralPost(message, this.props.channel.id);
+        const ephemeral = (message: string) => sendEphemeralPost(message, this.props.channel.id, '', callResp.app_metadata?.bot_user_id);
         switch (callResp.type) {
         case AppCallResponseTypes.OK:
             if (callResp.markdown) {
@@ -307,7 +307,7 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
         const appBindings = this.props.appsEnabled ? this.props.appBindings || [] : [];
         if (components.length === 0 && appBindings.length === 0) {
             return null;
-        } else if ((components.length + appBindings.length) <= 5) {
+        } else if ((components.length + appBindings.length) <= 15) {
             let componentButtons = components.filter((plug) => plug.icon && plug.action).map(this.createComponentButton);
             if (this.props.appsEnabled) {
                 componentButtons = componentButtons.concat(appBindings.map(this.createAppBindingButton));

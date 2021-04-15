@@ -151,6 +151,8 @@ class SidebarChannel extends React.PureComponent {
 
         channelIsArchived: PropTypes.bool.isRequired,
 
+        channelIsShared: PropTypes.bool.isRequired,
+
         redirectChannel: PropTypes.string.isRequired,
 
         actions: PropTypes.shape({
@@ -316,6 +318,7 @@ class SidebarChannel extends React.PureComponent {
                     teammateDeletedAt={this.props.channelTeammateDeletedAt}
                     teammateIsBot={this.props.channelTeammateIsBot}
                     channelIsArchived={this.props.channelIsArchived}
+                    channelIsShared={this.props.channelIsShared}
                 />
                 {tutorialTip}
             </li>

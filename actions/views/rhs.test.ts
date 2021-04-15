@@ -30,6 +30,7 @@ import {
     openMenu,
     closeMenu,
     openAtPrevious,
+    updateSearchType,
 } from 'actions/views/rhs';
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 import {ActionTypes, RHSStates} from 'utils/constants';
@@ -63,6 +64,7 @@ jest.mock('mattermost-redux/actions/posts', () => ({
 
 jest.mock('mattermost-redux/actions/search', () => ({
     searchPostsWithParams: (...args: any) => ({type: 'MOCK_SEARCH_POSTS', args}),
+    searchFilesWithParams: (...args: any) => ({type: 'MOCK_SEARCH_FILES', args}),
     clearSearch: (...args: any) => ({type: 'MOCK_CLEAR_SEARCH', args}),
     getFlaggedPosts: jest.fn(),
     getPinnedPosts: jest.fn(),
@@ -108,6 +110,7 @@ describe('rhs view actions', () => {
         views: {
             rhs: {
                 rhsState: null,
+                filesSearchExtFilter: [] as string[],
             },
         },
     } as GlobalState;
@@ -155,6 +158,7 @@ describe('rhs view actions', () => {
                     views: {
                         rhs: {
                             rhsState: RHSStates.FLAG,
+                            filesSearchExtFilter: [] as string[],
                         },
                     } as ViewsState,
                 });
@@ -200,11 +204,13 @@ describe('rhs view actions', () => {
 
             const compareStore = mockStore(initialState);
             compareStore.dispatch(SearchActions.searchPostsWithParams(currentTeamId, {include_deleted_channels: false, terms, is_or_search: false, time_zone_offset: timeZoneOffset, page: 0, per_page: 20}));
+            compareStore.dispatch(SearchActions.searchFilesWithParams(currentTeamId, {include_deleted_channels: false, terms, is_or_search: false, time_zone_offset: timeZoneOffset, page: 0, per_page: 20}));
 
             expect(store.getActions()).toEqual(compareStore.getActions());
 
             store.dispatch(performSearch(terms, true));
             compareStore.dispatch(SearchActions.searchPostsWithParams(currentTeamId, {include_deleted_channels: false, terms, is_or_search: true, time_zone_offset: timeZoneOffset, page: 0, per_page: 20}));
+            compareStore.dispatch(SearchActions.searchFilesWithParams(currentTeamId, {include_deleted_channels: false, terms, is_or_search: true, time_zone_offset: timeZoneOffset, page: 0, per_page: 20}));
 
             expect(store.getActions()).toEqual(compareStore.getActions());
         });
@@ -218,6 +224,7 @@ describe('rhs view actions', () => {
             views: {
                 rhs: {
                     searchTerms: terms,
+                    filesSearchExtFilter: [] as string[],
                 },
             },
         } as GlobalState;
@@ -297,17 +304,9 @@ describe('rhs view actions', () => {
 
             expect(store.getActions()).toEqual([
                 {
-                    type: 'BATCHING_REDUCER.BATCH',
-                    meta: {
-                        batch: true,
-                    },
-                    payload: [
-                        {
-                            type: ActionTypes.UPDATE_RHS_STATE,
-                            channelId: currentChannelId,
-                            state: RHSStates.PIN,
-                        },
-                    ],
+                    type: ActionTypes.UPDATE_RHS_STATE,
+                    channelId: currentChannelId,
+                    state: RHSStates.PIN,
                 },
                 {
                     type: 'MOCK_GET_PINNED_POSTS',
@@ -350,17 +349,9 @@ describe('rhs view actions', () => {
 
             expect(store.getActions()).toEqual([
                 {
-                    type: 'BATCHING_REDUCER.BATCH',
-                    meta: {
-                        batch: true,
-                    },
-                    payload: [
-                        {
-                            type: ActionTypes.UPDATE_RHS_STATE,
-                            channelId,
-                            state: RHSStates.PIN,
-                        },
-                    ],
+                    type: ActionTypes.UPDATE_RHS_STATE,
+                    channelId,
+                    state: RHSStates.PIN,
                 },
                 {
                     type: 'MOCK_GET_PINNED_POSTS',
@@ -484,6 +475,7 @@ describe('rhs view actions', () => {
                 rhs: {
                     rhsState: RHSStates.PLUGIN,
                     pluggableId,
+                    filesSearchExtFilter: [] as string[],
                 },
             },
         } as GlobalState;
@@ -493,6 +485,7 @@ describe('rhs view actions', () => {
             views: {
                 rhs: {
                     rhsState: RHSStates.PIN,
+                    filesSearchExtFilter: [] as string[],
                 },
             },
         } as GlobalState;
@@ -643,17 +636,9 @@ describe('rhs view actions', () => {
 
             expect(store.getActions()).toEqual([
                 {
-                    type: 'BATCHING_REDUCER.BATCH',
-                    meta: {
-                        batch: true,
-                    },
-                    payload: [
-                        {
-                            type: ActionTypes.UPDATE_RHS_STATE,
-                            channelId: currentChannelId,
-                            state: RHSStates.PIN,
-                        },
-                    ],
+                    type: ActionTypes.UPDATE_RHS_STATE,
+                    channelId: currentChannelId,
+                    state: RHSStates.PIN,
                 },
                 {
                     type: 'MOCK_GET_PINNED_POSTS',
@@ -737,6 +722,7 @@ describe('rhs view actions', () => {
                 views: {
                     rhs: {
                         searchTerms: terms,
+                        filesSearchExtFilter: [] as string[],
                     },
                 },
             } as GlobalState;
@@ -759,6 +745,17 @@ describe('rhs view actions', () => {
             store.dispatch(openAtPrevious({}));
 
             expect(store.getActions()).toEqual(actionsForEmptySearch());
+        });
+    });
+
+    describe('searchType', () => {
+        test('updateSearchType', () => {
+            const store = mockStore(initialState);
+            store.dispatch(updateSearchType('files'));
+            expect(store.getActions()).toEqual([{
+                type: ActionTypes.UPDATE_RHS_SEARCH_TYPE,
+                searchType: 'files',
+            }]);
         });
     });
 });

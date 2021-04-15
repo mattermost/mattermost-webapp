@@ -36,6 +36,9 @@ describe('components/post_view/embedded_bindings/button_binding/', () => {
                 data: {
                     type: 'ok',
                     markdown: 'Nice job!',
+                    app_metadata: {
+                        bot_user_id: 'botuserid',
+                    },
                 },
             }),
             getChannel: jest.fn().mockResolvedValue({
@@ -81,7 +84,7 @@ describe('components/post_view/embedded_bindings/button_binding/', () => {
             values: undefined,
         }, 'submit', {});
 
-        expect(baseProps.sendEphemeralPost).toHaveBeenCalledWith('Nice job!', 'some_channel_id', 'some_root_id');
+        expect(baseProps.sendEphemeralPost).toHaveBeenCalledWith('Nice job!', 'some_channel_id', 'some_root_id', 'botuserid');
     });
 
     test('should handle error call response', async () => {
@@ -92,6 +95,9 @@ describe('components/post_view/embedded_bindings/button_binding/', () => {
                     data: {
                         type: 'error',
                         error: 'The error',
+                        app_metadata: {
+                            bot_user_id: 'botuserid',
+                        },
                     },
                 }),
                 getChannel: jest.fn().mockResolvedValue({
@@ -108,6 +114,6 @@ describe('components/post_view/embedded_bindings/button_binding/', () => {
         const wrapper = shallow<ButtonBindingUnwrapped>(<ButtonBindingUnwrapped {...props}/>);
         await wrapper.instance().handleClick();
 
-        expect(props.sendEphemeralPost).toHaveBeenCalledWith('The error', 'some_channel_id', 'some_root_id');
+        expect(props.sendEphemeralPost).toHaveBeenCalledWith('The error', 'some_channel_id', 'some_root_id', 'botuserid');
     });
 });

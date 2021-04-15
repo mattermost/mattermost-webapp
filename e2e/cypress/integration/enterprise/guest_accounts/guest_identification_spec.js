@@ -7,7 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @not_cloud @enterprise @guest_account
+// Group: @not_cloud @enterprise @guest_account @mfa
 
 /**
  * Note: This test requires Enterprise license to be uploaded
