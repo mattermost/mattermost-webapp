@@ -47,7 +47,7 @@ describe('Search Date Filter', () => {
     });
 
     it('MM-T590_1 on: takes precedence over "before:"', () => {
-        searchAndValidate(`before:${Cypress.moment().format('YYYY-MM-DD')} on:${secondDateEarly.query} ${commonText}`, [secondOffTopicMessage, secondMessage]);
+        searchAndValidate(`before:${Cypress.dayjs().format('YYYY-MM-DD')} on:${secondDateEarly.query} ${commonText}`, [secondOffTopicMessage, secondMessage]);
     });
 
     it('MM-T590_2 on: takes precedence over "after:"', () => {
