@@ -93,7 +93,9 @@ export default class Textbox extends React.PureComponent<Props> {
 
         if (props.supportsCommands) {
             this.suggestionProviders.push(new CommandProvider({
-                isInRHS: Boolean(this.props.rootId),
+                teamId: this.props.currentTeamId,
+                channelId: this.props.channelId,
+                rootId: this.props.rootId,
             }));
         }
 
@@ -126,6 +128,14 @@ export default class Textbox extends React.PureComponent<Props> {
                         priorityProfiles: this.props.priorityProfiles,
                     });
                 }
+                if (providers[i] instanceof CommandProvider) {
+                    (providers[i] as CommandProvider).setProps({
+                        teamId: this.props.currentTeamId,
+                        channelId: this.props.channelId,
+                        rootId: this.props.rootId,
+                    })
+                }
+
             }
         }
         if (prevProps.value !== this.props.value) {
