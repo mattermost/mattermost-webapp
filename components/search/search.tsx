@@ -89,19 +89,31 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
     ]);
 
     const isDesktop = isDesktopApp() && isServerVersionGreaterThanOrEqualTo(getDesktopVersion(), '4.7.0');
-    if (enableFindShortcut) {
-        const handleKeyDown = useCallback((e: KeyboardEvent) => {
+    useEffect(() => {
+        if (!enableFindShortcut) {
+            return undefined;
+        }
+
+        const handleKeyDown = (e: KeyboardEvent) => {
             if (Utils.cmdOrCtrlPressed(e) && Utils.isKeyPressed(e, Constants.KeyCodes.F)) {
                 if (isDesktop || (!isDesktop && e.shiftKey)) {
                     if (hideSearchBar) {
                         actions.openRHSSearch();
                         setKeepInputFocused(true);
                     }
-                    handleUpdateSearchTerms(`in:${currentChannel.name} `);
+                    if (currentChannel) {
+                        handleUpdateSearchTerms(`in:${currentChannel.name} `);
+                    }
                     handleFocus();
                 }
             }
-        }, [currentChannel, hideSearchBar]);
+        };
+
+        document.addEventListener('keydown', handleKeyDown);
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [currentChannel, hideSearchBar]);
 
         useEffect(() => {
             document.addEventListener('keydown', handleKeyDown);
