@@ -7,7 +7,12 @@ import {FormattedMessage} from 'react-intl';
 import {SearchFilterType} from '../search/types';
 import {SearchType} from 'types/store/rhs';
 
+import * as Utils from 'utils/utils.jsx';
+import Constants from 'utils/constants';
+
 import FilesFilterMenu from './files_filter_menu';
+
+const {KeyCodes} = Constants;
 
 import './messages_or_files_selector.scss';
 
@@ -26,7 +31,9 @@ export default function MessagesOrFilesSelector(props: Props): JSX.Element {
             <div className='buttons-container'>
                 <span
                     onClick={() => props.onChange('messages')}
+                    onKeyDown={(e: React.KeyboardEvent<HTMLSpanElement>) => Utils.isKeyPressed(e, KeyCodes.ENTER) && props.onChange('messages')}
                     className={props.selected === 'messages' ? 'active tab messages-tab' : 'tab messages-tab'}
+                    tabIndex={0}
                 >
                     <FormattedMessage
                         id='search_bar.messages_tab'
@@ -36,7 +43,9 @@ export default function MessagesOrFilesSelector(props: Props): JSX.Element {
                 </span>
                 <span
                     onClick={() => props.onChange('files')}
+                    onKeyDown={(e: React.KeyboardEvent<HTMLSpanElement>) => Utils.isKeyPressed(e, KeyCodes.ENTER) && props.onChange('files')}
                     className={props.selected === 'files' ? 'active tab files-tab' : 'tab files-tab'}
+                    tabIndex={0}
                 >
                     <FormattedMessage
                         id='search_bar.files_tab'
