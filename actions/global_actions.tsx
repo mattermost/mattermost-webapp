@@ -208,7 +208,7 @@ export function sendEphemeralPost(message: string, channelId?: string, parentId?
         };
 
         return doDispatch(handleNewPost(post));
-    }
+    };
 }
 
 export function sendAddToChannelEphemeralPost(user: UserProfile, addedUsername: string, addedUserId: string, channelId: string, postRootId = '', timestamp: number) {
