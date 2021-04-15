@@ -63,10 +63,12 @@ describe('Account Settings', () => {
     });
 
     it('MM-T103_1 Compact view: Line breaks remain intact after editing', () => {
+        // * Verify line breaks do not change and blank line is still there in compact view.
         verifyLineBreaksRemainIntact('COMPACT');
     });
 
     it('MM-T103_2 Standard view: Line breaks remain intact after editing', () => {
+        // * Verify line breaks do not change and blank line is still there in standard view.
         verifyLineBreaksRemainIntact('STANDARD');
     });
 });
