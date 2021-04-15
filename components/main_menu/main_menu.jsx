@@ -135,7 +135,7 @@ class MainMenu extends React.PureComponent {
     }
 
     render() {
-        const {currentUser, teamIsGroupConstrained, isLicensedForLDAPGroups, isFreeTrial, daysLeftOnTrial} = this.props;
+        const {currentUser, teamIsGroupConstrained, isLicensedForLDAPGroups, isFreeTrial, daysLeftOnTrial, isCloud} = this.props;
 
         if (!currentUser) {
             return null;
@@ -185,10 +185,10 @@ class MainMenu extends React.PureComponent {
                 id={this.props.id}
                 ariaLabel={formatMessage({id: 'navbar_dropdown.menuAriaLabel', defaultMessage: 'main menu'})}
             >
-                {isFreeTrial &&
+                {isCloud && isFreeTrial &&
                     <Menu.Group>
-                        <SystemPermissionGate permissions={Permissions.SYSCONSOLE_READ_PERMISSIONS}>
-                            <Menu.TopNotification show={true}>
+                        <SystemPermissionGate permissions={Permissions.SYSCONSOLE_WRITE_BILLING}>
+                            <Menu.TopNotification show={true} id='topNotification'>
                                 <FormattedMessage
                                     id='admin.billing.subscription.cloudTrial.trialTopMenuNotification'
                                     defaultMessage='There are {daysLeftOnTrial} days left on your Cloud trial.'
