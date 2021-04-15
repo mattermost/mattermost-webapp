@@ -75,7 +75,7 @@ export function handleThreadArrived(dispatch: DispatchFunc, getState: GetStateFu
         type: ThreadTypes.RECEIVED_THREAD,
         data: {
             thread,
-            team_id: teamId ?? currentTeamId,
+            team_id: teamId || currentTeamId,
         },
     });
 
@@ -83,7 +83,7 @@ export function handleThreadArrived(dispatch: DispatchFunc, getState: GetStateFu
     handleReadChanged(
         dispatch,
         thread.id,
-        teamId ?? currentTeamId,
+        teamId || currentTeamId,
         thread.post.channel_id,
         {
             lastViewedAt: thread.last_viewed_at,
