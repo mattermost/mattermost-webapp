@@ -2,7 +2,9 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
+
+import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
 
 import {createUser} from 'mattermost-redux/actions/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
@@ -12,13 +14,15 @@ import {setGlobalItem} from 'actions/storage';
 import {loginById} from 'actions/views/login';
 import {getPasswordConfig} from 'utils/utils.jsx';
 
-import SignupEmail from './signup_email.jsx';
+import {GlobalState} from '../../../types/store';
 
-function mapStateToProps(state) {
+import SignupEmail, {Props, State, Actions} from './signup_email';
+
+function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
 
     const enableSignUpWithEmail = config.EnableSignUpWithEmail === 'true';
-    const siteName = config.SiteName;
+    const siteName = config.SiteName || '';
     const termsOfServiceLink = config.TermsOfServiceLink;
     const privacyPolicyLink = config.PrivacyPolicyLink;
     const customDescriptionText = config.CustomDescriptionText;
@@ -35,9 +39,9 @@ function mapStateToProps(state) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
-        actions: bindActionCreators({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc | GenericAction>, Actions>({
             createUser,
             loginById,
             setGlobalItem,
@@ -46,4 +50,5 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignupEmail);
+/* This is a workaround to handle the issue of Typescript not being able to correctly infer the types of the component's Props */
+export default connect(mapStateToProps, mapDispatchToProps)(SignupEmail as React.ComponentClass<Props, State>);
