@@ -7,6 +7,7 @@ import {Modal} from 'react-bootstrap';
 
 import {UserProfile} from 'mattermost-redux/types/users';
 import {Channel} from 'mattermost-redux/types/channels';
+import {RelationOneToOne} from 'mattermost-redux/types/utilities';
 
 import {Value} from 'components/multiselect/multiselect';
 
@@ -26,6 +27,11 @@ describe('components/channel_invite_modal', () => {
         value: 'user-2',
         delete_at: 0,
     } as UserProfileValue];
+
+    const userStatuses = {
+        'user-1': 'online',
+        'user-2': 'offline',
+    } as RelationOneToOne<UserProfile, string>;
 
     const channel = {
         create_at: 1508265709607,
@@ -48,6 +54,7 @@ describe('components/channel_invite_modal', () => {
         channel,
         profilesNotInCurrentChannel: [],
         profilesNotInCurrentTeam: [],
+        userStatuses: {},
         actions: {
             addUsersToChannel: jest.fn().mockImplementation(() => {
                 const error = {
@@ -58,6 +65,8 @@ describe('components/channel_invite_modal', () => {
             }),
             getProfilesNotInChannel: jest.fn().mockImplementation(() => Promise.resolve()),
             getTeamStats: jest.fn(),
+            getUserStatuses: jest.fn().mockImplementation(() => Promise.resolve()),
+            loadStatusesForProfilesList: jest.fn(),
             searchProfiles: jest.fn(),
         },
         onHide: jest.fn(),
@@ -103,6 +112,18 @@ describe('components/channel_invite_modal', () => {
             />,
         );
         expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot for channel_invite_modal with userStatuses', () => {
+        const wrapper = shallow(
+            <ChannelInviteModal
+                {...baseProps}
+                profilesNotInCurrentChannel={users}
+                userStatuses={userStatuses}
+            />,
+        );
+        const instance = wrapper.instance() as ChannelInviteModal;
+        expect(instance.renderOption(users[0], true, jest.fn(), jest.fn())).toMatchSnapshot();
     });
 
     test('should match state when onHide is called', () => {
