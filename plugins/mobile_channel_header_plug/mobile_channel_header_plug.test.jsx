@@ -24,9 +24,9 @@ describe('plugins/MobileChannelHeaderPlug', () => {
         label: 'Label',
         hint: 'Hint',
         call: {
-            path: '/call/path'
+            path: '/call/path',
         },
-    }
+    };
 
     test('should match snapshot with no extended component', () => {
         const wrapper = mountWithIntl(
@@ -357,15 +357,10 @@ describe('plugins/MobileChannelHeaderPlug', () => {
     test('should call doAppCall on fireAppAction', () => {
         const channel = {id: 'channel_id'};
         const channelMember = {id: 'channel_member_id'};
-        const newTestPlug = {
-            id: 'someid',
-            pluginId: 'pluginid',
-            icon: <i className='fa fa-anchor'/>,
-            action: jest.fn(),
-            dropdownText: 'some dropdown text',
-        };
 
-        const doAppCall = jest.fn(async () => {return {data: {type: AppCallResponseTypes.OK}}})
+        const doAppCall = jest.fn(async () => {
+            return {data: {type: AppCallResponseTypes.OK}};
+        });
 
         const wrapper = mountWithIntl(
             <MobileChannelHeaderPlug
