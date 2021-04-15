@@ -9,7 +9,7 @@ import {Client4} from 'mattermost-redux/client';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getChannel, getCurrentChannel, getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
 import {appsEnabled} from 'mattermost-redux/selectors/entities/apps';
-import {AutocompleteSuggestion} from 'mattermost-redux/types/integrations';
+import {AutocompleteSuggestion, CommandArgs} from 'mattermost-redux/types/integrations';
 import {Post} from 'mattermost-redux/types/posts';
 
 import globalStore from 'stores/redux_store';
@@ -122,6 +122,8 @@ export default class CommandProvider extends Provider {
             return false;
         }
 
+        const args = this.getCommandArgs();
+        this.appCommandParser.setChannelContext(args.channel_id, args.root_id);
         if (appsEnabled(this.store.getState()) && this.appCommandParser.isAppCommand(pretext)) {
             this.appCommandParser.getSuggestions(pretext).then((suggestions) => {
                 const matches = suggestions.map((suggestion) => ({
@@ -159,6 +161,9 @@ export default class CommandProvider extends Provider {
             (data) => {
                 let matches: AutocompleteSuggestion[] = [];
                 if (appsEnabled(this.store.getState())) {
+                    const args = this.getCommandArgs();
+                    this.appCommandParser.setChannelContext(args.channel_id, args.root_id);
+
                     const appCommandSuggestions = this.appCommandParser.getSuggestionsBase(pretext);
                     matches = matches.concat(appCommandSuggestions);
                 }
@@ -205,20 +210,10 @@ export default class CommandProvider extends Provider {
 
     handleWebapp(pretext: string, resultCallback: ResultsCallback) {
         const command = pretext.toLowerCase();
-        const teamId = getCurrentTeamId(this.store.getState());
-        const selectedPost = getSelectedPost(this.store.getState()) as Post | undefined;
-        let rootId;
-        if (this.isInRHS && selectedPost) {
-            rootId = selectedPost.root_id ? selectedPost.root_id : selectedPost.id;
-        }
-        const channel = this.isInRHS && selectedPost?.channel_id ? getChannel(this.store.getState(), selectedPost.channel_id) : getCurrentChannel(this.store.getState());
 
-        const args = {
-            channel_id: channel?.id,
-            ...(rootId && {root_id: rootId, parent_id: rootId}),
-        };
+        const args = this.getCommandArgs();
 
-        Client4.getCommandAutocompleteSuggestionsList(command, teamId, args).then(
+        Client4.getCommandAutocompleteSuggestionsList(command, args.team_id, args).then(
             ((data: AutocompleteSuggestion[]) => {
                 let matches: AutocompleteSuggestion[] = [];
 
@@ -228,6 +223,7 @@ export default class CommandProvider extends Provider {
                 }
 
                 if (appsEnabled(this.store.getState()) && this.appCommandParser) {
+                    this.appCommandParser.setChannelContext(args.channel_id, args.root_id);
                     const appCommandSuggestions = this.appCommandParser.getSuggestionsBase(pretext).map((suggestion) => ({
                         ...suggestion,
                         Complete: '/' + suggestion.Complete,
@@ -281,6 +277,22 @@ export default class CommandProvider extends Provider {
                 });
             }),
         );
+    }
+
+    getCommandArgs(): CommandArgs & {team_id: string} {
+        const teamID = getCurrentTeamId(this.store.getState());
+        const selectedPost = getSelectedPost(this.store.getState()) as Post | undefined;
+        let rootID;
+        if (this.isInRHS && selectedPost) {
+            rootID = selectedPost.root_id ? selectedPost.root_id : selectedPost.id;
+        }
+        const channel = this.isInRHS && selectedPost?.channel_id ? getChannel(this.store.getState(), selectedPost.channel_id) : getCurrentChannel(this.store.getState());
+
+        return {
+            channel_id: channel?.id,
+            team_id: teamID,
+            ...(rootID && {root_id: rootID, parent_id: rootID}),
+        };
     }
 
     shouldAddExecuteItem(data: AutocompleteSuggestion[], pretext: string) {
