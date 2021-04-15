@@ -231,7 +231,7 @@ export default class LegacyTeamSidebar extends React.PureComponent<Props, State>
                     tip={team.display_name}
                     active={team.id === this.props.currentTeamId}
                     displayName={team.display_name}
-                    unread={this.props.collapsedThreads ? member.msg_count_root > 0 : member.msg_count > 0}
+                    unread={this.props.collapsedThreads ? (member.msg_count_root + this.props.threadCounts?.[team.id]?.total_unread_threads) > 0 : member.msg_count > 0}
                     order={index + 1}
                     showOrder={this.state.showOrder}
                     mentions={this.props.collapsedThreads ? (member.mention_count_root + this.props.threadCounts?.[team.id]?.total_unread_mentions) : member.mention_count}
