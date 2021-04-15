@@ -82,7 +82,7 @@
     "superagent": "6.1.0",
     "tinycolor2": "1.4.2",
     "typescript": "4.2.4",
-    "xregexp": "4.4.1",
+    "xregexp": "5.0.2",
     "zen-observable": "0.8.15"
   },
   "devDependencies": {
