@@ -1302,6 +1302,19 @@
                 padding: 0 8px;
             }
         }
+
+        .shared-user-icon {
+            color: rgba(61, 60, 64, 0.72);
+            margin: 0 0 0 4px;
+            font-size: 16px;
+            line-height: 20px;
+            width: 16px;
+            height: 20px;
+
+            &:before {
+                margin: 0;
+            }
+        }
     }
 
     .post__img {
@@ -1779,16 +1792,16 @@
 }
 
 .Badge {
-    &.badge-autocomplete {
+    .badge-autocomplete {
         margin: 0px 4px;
         padding: 0px 5px;
         display: inline;
     }
-    &.badge-popoverlist {
+    .badge-popoverlist {
         margin: 0px 4px;
         display: inline;
     }
-    &.badge-admin {
+    .badge-admin {
         margin: 0px 4px;
         background: rgba(61, 60, 64, 0.15);
         display: inline;

@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 
 import {getTeamByName} from 'mattermost-redux/selectors/entities/teams';
 import {getRedirectChannelNameForTeam} from 'mattermost-redux/selectors/entities/channels';
+import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import {getIsRhsOpen, getIsRhsMenuOpen} from 'selectors/rhs';
 import {getIsLhsOpen} from 'selectors/lhs';
@@ -35,6 +36,7 @@ const mapStateToProps = (state: GlobalState, ownProps: Props) => {
         lhsOpen: getIsLhsOpen(state),
         rhsOpen: getIsRhsOpen(state),
         rhsMenuOpen: getIsRhsMenuOpen(state),
+        isCollapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
     };
 };
 

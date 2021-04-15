@@ -45,7 +45,7 @@ type Props = {
 };
 
 type State = {
-    team: {[key: string]: any};
+    team?: Partial<Team>;
     wizard: string;
 };
 

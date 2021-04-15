@@ -226,7 +226,7 @@
         }
     }
 
-    .post__header {
+    .post__header, .GlobalThreads {
         .dropdown-menu {
             >li {
                 >div {
@@ -240,7 +240,7 @@
                 >div,
                 >button {
                     @include border-radius(0);
-                    border-top: 1px solid;
+                    border-top: 1px solid rgba(var(--center-channel-color-rgb), 0.12);
                     padding: 15px 20px;
                     height: auto;
                 }
@@ -257,7 +257,7 @@
     }
 
     .app__body {
-        .post, .SidebarMenu, .AddChannelDropdown {
+        .post, .SidebarMenu, .AddChannelDropdown, .GlobalThreads {
             .Menu {
                 @include border-radius(0);
                 border: 0;
@@ -311,7 +311,8 @@
         margin: 0 0 30px;
     }
 
-    .channel-header {
+    .channel-header,
+    .GlobalThreads .Header  {
         .channel-header__icon {
             display: none;
         }
@@ -1242,6 +1243,10 @@
                 }
             }
 
+            .spacer {
+                flex: 1;
+            }
+
             .Menu {
                 @include single-transition(all, .35s, ease);
                 background: alpha-color($black, .9);
@@ -1573,6 +1578,14 @@
         .SidebarContainer_filterAddChannel {
             width: 100%;
         }
+
+        .SidebarGlobalThreads {
+            &,
+            .SidebarLink {
+                height: 45px;
+            }
+        }
+
 
         .SidebarChannelGroup {
             div {

@@ -74,8 +74,12 @@ class RHSSearchNav extends React.PureComponent<Props, State> {
         this.setState({showSearchBar: RHSSearchNav.getShowSearchBar(this.props)});
     };
 
-    searchMentions = (e: KeyboardEvent) => {
+    mentionButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
+        this.searchMentions();
+    }
+
+    searchMentions = () => {
         const {rhsState, actions: {closeRightHandSide, showMentions}} = this.props;
 
         if (rhsState === RHSStates.MENTION) {
@@ -85,7 +89,7 @@ class RHSSearchNav extends React.PureComponent<Props, State> {
         }
     };
 
-    getFlagged = (e: MouseEvent) => {
+    getFlagged = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         if (this.props.rhsState === RHSStates.FLAG) {
             this.props.actions.closeRightHandSide();
@@ -94,7 +98,7 @@ class RHSSearchNav extends React.PureComponent<Props, State> {
         }
     };
 
-    searchButtonClick = (e: MouseEvent) => {
+    searchButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
 
         this.props.actions.openRHSSearch();
@@ -107,7 +111,7 @@ class RHSSearchNav extends React.PureComponent<Props, State> {
             if (Utils.isKeyPressed(e, Constants.KeyCodes.M)) {
                 e.preventDefault();
                 closeModal(ModalIdentifiers.QUICK_SWITCH);
-                this.searchMentions(e);
+                this.searchMentions();
             }
             if (Utils.isKeyPressed(e, Constants.KeyCodes.L)) {
                 // just close the modal if it's open, but let someone else handle the shortcut
@@ -161,7 +165,7 @@ class RHSSearchNav extends React.PureComponent<Props, State> {
                     ariaLabel={true}
                     buttonClass={classNames(HEADER_ICON, {[HEADER_ICON_ACTIVE]: rhsState === RHSStates.MENTION})}
                     buttonId={'channelHeaderMentionButton'}
-                    onClick={this.searchMentions}
+                    onClick={this.mentionButtonClick}
                     tooltipKey={'recentMentions'}
                 />
                 <HeaderIconWrapper
