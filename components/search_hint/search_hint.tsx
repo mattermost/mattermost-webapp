@@ -47,7 +47,7 @@ const SearchHint = (props: Props): JSX.Element => {
                     </div>
                     <div className='button-container'>
                         <button
-                            className={props.highlightedIndex === 0 ? 'highlighted' : ''}
+                            className={classNames({highlighted: props.highlightedIndex === 0})}
                             onClick={() => props.onSearchTypeSelected && props.onSearchTypeSelected('messages')}
                         >
                             <i className='icon icon-message-text-outline'/>
@@ -57,7 +57,7 @@ const SearchHint = (props: Props): JSX.Element => {
                             />
                         </button>
                         <button
-                            className={props.highlightedIndex === 1 ? 'highlighted' : ''}
+                            className={classNames({highlighted: props.highlightedIndex === 1})}
                             onClick={() => props.onSearchTypeSelected && props.onSearchTypeSelected('files')}
                         >
                             <i className='icon icon-file-document-outline'/>
