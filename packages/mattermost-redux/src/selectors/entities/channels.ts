@@ -556,7 +556,7 @@ export const getUnreads: (state: GlobalState) => {
             mentionCount: mentionCountForCurrentTeam + otherTeamsUnreadCountForChannels.mentionCount,
         };
 
-        // when collapsed threads are enabled, we substract the counts that are visible on global threads view from the total count
+        // when collapsed threads are enabled, we start with root-post counts from channels, then add the same thread-reply counts from the global threads view
         if (collapsed) {
             Object.values(threadCounts).forEach((c) => {
                 result.mentionCount += c.total_unread_mentions;
