@@ -1,13 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
+
+import store from 'stores/redux_store.jsx';
 import {SocketEvents} from 'utils/constants';
 
 const MAX_WEBSOCKET_FAILS = 7;
 const MIN_WEBSOCKET_RETRY_TIME = 3000; // 3 sec
 const MAX_WEBSOCKET_RETRY_TIME = 300000; // 5 mins
-
-const reliableWebSockets = true;
 
 export default class WebSocketClient {
     private conn: WebSocket | null;
@@ -67,8 +68,11 @@ export default class WebSocketClient {
         // Add connection id, and last_sequence_number to the query param.
         // We cannot use a cookie because it will bleed across tabs.
         // We cannot also send it as part of the auth_challenge, because the session cookie is already sent with the request.
-        this.conn = new WebSocket(connectionUrl + '?connection_id=' + this.connectionId + '&' + 'sequence_number=' + this.serverSequence);
+        this.conn = new WebSocket(`${connectionUrl}?connection_id=${this.connectionId}&sequence_number=${this.serverSequence}`);
         this.connectionUrl = connectionUrl;
+
+        const config = getConfig(store.getState());
+        const reliableWebSockets = config.EnableReliableWebSockets === 'true';
 
         this.conn.onopen = () => {
             // No need to reset sequence number here.
@@ -175,14 +179,12 @@ export default class WebSocketClient {
                         // We are not calling this.close() because we need to auto-restart.
                         this.connectFailCount = 0;
                         this.responseSequence = 1;
-                        this.conn.close(); // Will auto-reconnect after MIN_WEBSOCKET_RETRY_TIME.
+                        this.conn?.close(); // Will auto-reconnect after MIN_WEBSOCKET_RETRY_TIME.
                         return;
                     }
-                } else {
-                    if (msg.seq !== this.serverSequence && this.missedEventCallback) {
-                        console.log('missed websocket event, act_seq=' + msg.seq + ' exp_seq=' + this.serverSequence); //eslint-disable-line no-console
-                        this.missedEventCallback();
-                    }
+                } else if (msg.seq !== this.serverSequence && this.missedEventCallback) {
+                    console.log('missed websocket event, act_seq=' + msg.seq + ' exp_seq=' + this.serverSequence); //eslint-disable-line no-console
+                    this.missedEventCallback();
                 }
                 this.serverSequence = msg.seq + 1;
                 this.eventCallback(msg);
