@@ -6,7 +6,6 @@ import React from 'react';
 import {Store} from 'redux';
 
 import {Client4} from 'mattermost-redux/client';
-import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {appsEnabled} from 'mattermost-redux/selectors/entities/apps';
 import {AutocompleteSuggestion, CommandArgs} from 'mattermost-redux/types/integrations';
 

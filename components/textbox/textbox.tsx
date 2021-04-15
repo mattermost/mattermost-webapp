@@ -133,9 +133,8 @@ export default class Textbox extends React.PureComponent<Props> {
                         teamId: this.props.currentTeamId,
                         channelId: this.props.channelId,
                         rootId: this.props.rootId,
-                    })
+                    });
                 }
-
             }
         }
         if (prevProps.value !== this.props.value) {

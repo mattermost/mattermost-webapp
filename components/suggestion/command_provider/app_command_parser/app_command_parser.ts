@@ -843,6 +843,9 @@ export class AppCommandParser {
     }
 
     public setChannelContext = (channelID: string, rootPostID?: string) => {
+        if (this.channelID !== channelID || this.rootPostID !== rootPostID) {
+            this.forms = {};
+        }
         this.channelID = channelID;
         this.rootPostID = rootPostID;
     }
