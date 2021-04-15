@@ -14,6 +14,10 @@ import type {UserThread, UserThreadList} from 'mattermost-redux/types/threads';
 
 import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
 
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+
 import {logError} from './errors';
 import {forceLogoutIfNecessary} from './helpers';
 
@@ -52,12 +56,14 @@ export function getThreads(userId: string, teamId: string, {before = '', after =
 }
 
 export function handleThreadArrived(dispatch: DispatchFunc, getState: GetStateFunc, threadData: UserThread, teamId: string) {
-    const {entities} = getState();
+    const state = getState();
+    const currentUserId = getCurrentUserId(state);
+    const currentTeamId = getCurrentTeamId(state);
     const thread = {...threadData, is_following: true};
 
     dispatch({
         type: UserTypes.RECEIVED_PROFILES_LIST,
-        data: thread.participants.filter((user) => user.id !== entities.users.currentUserId),
+        data: thread.participants.filter((user) => user.id !== currentUserId),
     });
 
     dispatch({
@@ -69,15 +75,15 @@ export function handleThreadArrived(dispatch: DispatchFunc, getState: GetStateFu
         type: ThreadTypes.RECEIVED_THREAD,
         data: {
             thread,
-            team_id: teamId,
+            team_id: teamId ?? currentTeamId,
         },
     });
 
-    const oldThreadData = entities.threads.threads[threadData.id];
+    const oldThreadData = state.entities.threads.threads[threadData.id];
     handleReadChanged(
         dispatch,
         thread.id,
-        teamId,
+        teamId ?? currentTeamId,
         thread.post.channel_id,
         {
             lastViewedAt: thread.last_viewed_at,
