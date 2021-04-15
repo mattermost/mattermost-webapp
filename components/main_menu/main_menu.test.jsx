@@ -177,6 +177,13 @@ describe('components/Menu', () => {
         expect(wrapper.find('UpgradeLink')).toHaveLength(0);
     });
 
+    test('should hide the subscribe now button when is NOT cloud', () => {
+        const props = {...defaultProps, isCloud: false, isFreeTrial: false};
+        const wrapper = getMainMenuWrapper(props);
+
+        expect(wrapper.find('UpgradeLink')).toHaveLength(0);
+    });
+
     describe('should show integrations', () => {
         it('when incoming webhooks enabled', () => {
             const props = {...defaultProps, enableIncomingWebhooks: true};
