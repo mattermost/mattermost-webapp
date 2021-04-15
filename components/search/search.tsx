@@ -306,7 +306,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
             props.actions.filterFilesSearchByExt([]);
         }
         setSearchFilterType(filterType);
-        if (props.isChannelFiles) {
+        if (props.isChannelFiles && currentChannel) {
             props.actions.showChannelFiles(currentChannel.id);
         } else {
             props.actions.showSearchResults(false);
