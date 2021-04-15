@@ -181,15 +181,6 @@ export function handleReadChanged(
             newUnreadReplies,
         },
     });
-    dispatch({
-        type: ChannelTypes.DECREMENT_UNREAD_MENTION_COUNT,
-        data: {
-            teamId,
-            channelId,
-            amount: 0,
-            amountRoot: prevUnreadMentions - newUnreadMentions,
-        },
-    });
 }
 
 export function handleFollowChanged(dispatch: DispatchFunc, threadId: string, teamId: string, following: boolean) {
