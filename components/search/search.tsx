@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {ChangeEvent, FormEvent, useEffect, useState, useRef} from 'react';
+import React, {ChangeEvent, MouseEvent, FormEvent, useEffect, useState, useRef} from 'react';
 import {useIntl} from 'react-intl';
 import classNames from 'classnames';
 
@@ -275,7 +275,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
         setIndexChangedViaKeyPress(false);
     };
 
-    const searchMentions = (e: ChangeEvent<HTMLButtonElement>): void => {
+    const searchMentions = (e: MouseEvent<HTMLButtonElement>): void => {
         e.preventDefault();
         if (props.isMentionSearch) {
             actions.closeRightHandSide();
@@ -284,7 +284,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
         actions.showMentions();
     };
 
-    const getFlagged = (e: ChangeEvent<HTMLButtonElement>): void => {
+    const getFlagged = (e: MouseEvent<HTMLButtonElement>): void => {
         e.preventDefault();
         if (props.isFlaggedPosts) {
             actions.closeRightHandSide();

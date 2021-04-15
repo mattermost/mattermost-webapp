@@ -236,6 +236,18 @@
     .disabled {
         color: #999999;
     }
+
+    .shared-channel-icon {
+        font-size: 16px;
+        line-height: 16px;
+        width: 16px;
+        height: 16px;
+        margin: 0 4px;
+
+        &:before {
+            margin: 0;
+        }
+    }
 }
 
 .row {

@@ -135,13 +135,13 @@ async function runTests() {
         // Write test environment details once only
         if (i === 0) {
             const environment = {
-                cypressVersion: result.cypressVersion,
-                browserName: result.browserName,
-                browserVersion: result.browserVersion,
+                cypress_version: result.cypressVersion,
+                browser_name: result.browserName,
+                browser_version: result.browserVersion,
                 headless,
-                osName: result.osName,
-                osVersion: result.osVersion,
-                nodeVersion: process.version,
+                os_name: result.osName,
+                os_version: result.osVersion,
+                node_version: process.version,
             };
 
             writeJsonToFile(environment, 'environment.json', RESULTS_DIR);

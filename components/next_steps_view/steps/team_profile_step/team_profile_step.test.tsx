@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow, ShallowWrapper} from 'enzyme';
+import {shallow} from 'enzyme';
 
 import {TestHelper} from 'utils/test_helper';
 
@@ -35,7 +35,7 @@ describe('components/next_steps_view/steps/team_profile_step', () => {
     });
 
     test('should only accept files that are of the expected types and within the max size', () => {
-        const wrapper: ShallowWrapper<any, any, TeamProfileStep> = shallow(
+        const wrapper = shallow<TeamProfileStep>(
             <TeamProfileStep {...baseProps}/>,
         );
 

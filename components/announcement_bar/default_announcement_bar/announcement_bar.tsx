@@ -34,6 +34,7 @@ type Props = {
     modalButtonText?: string;
     modalButtonDefaultText?: string;
     showLinkAsButton: boolean;
+    icon?: React.ReactNode;
     warnMetricStatus?: Dictionary<WarnMetricStatus>;
     actions: {
         incrementAnnouncementBarCount: () => void;
@@ -120,6 +121,11 @@ export default class AnnouncementBar extends React.PureComponent<Props> {
             </Tooltip>
         );
 
+        const announcementIcon = () => {
+            return this.props.showLinkAsButton &&
+            (this.props.showCloseButton ? <div className='content__icon'>{'\uF5D6'}</div> : <div className='content__icon'>{'\uF02A'}</div>);
+        };
+
         return (
             <div
                 className={barClass}
@@ -131,9 +137,7 @@ export default class AnnouncementBar extends React.PureComponent<Props> {
                     overlay={announcementTooltip}
                 >
                     <span>
-                        {this.props.showLinkAsButton &&
-                            (this.props.showCloseButton ? <div className={'content__icon'}>{'\uF5D6'}</div> : <div className={'content__icon'}>{'\uF02A'}</div>)
-                        }
+                        {this.props.icon ? this.props.icon : announcementIcon()}
                         {message}
                         {
                             !this.props.showLinkAsButton &&
