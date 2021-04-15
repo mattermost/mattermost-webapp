@@ -18,22 +18,22 @@ import {createCallContext, createCallRequest} from 'utils/apps';
 type Props = {
 
     /*
-         * Components or actions to add as channel header buttons
-         */
+     * Components or actions to add as channel header buttons
+     */
     components?: PluginComponent[];
 
     /*
-         * Set to true if the plug is in the dropdown
-         */
+     * Set to true if the plug is in the dropdown
+     */
     isDropdown: boolean;
     channel: Channel;
-    channelMember?: ChannelMembership | null;
+    channelMember?: ChannelMembership;
 
     /*
-         * Logged in user's theme
-         */
+     * Logged in user's theme
+     */
     theme: Theme;
-    appBindings?: AppBinding[];
+    appBindings: AppBinding[];
     appsEnabled: boolean;
     intl: IntlShape;
     actions: {
@@ -142,7 +142,7 @@ class MobileChannelHeaderPlug extends React.PureComponent<Props> {
         const res = await this.props.actions.doAppCall(call, AppCallTypes.SUBMIT, this.props.intl);
 
         const callResp = (res as {data: AppCallResponse}).data;
-        const ephemeral = (message: string) => sendEphemeralPost(message, this.props.channel.id);
+        const ephemeral = (message: string) => sendEphemeralPost(message, this.props.channel.id, '', callResp.app_metadata?.bot_user_id);
         switch (callResp.type) {
         case AppCallResponseTypes.OK:
             if (callResp.markdown) {
@@ -150,7 +150,7 @@ class MobileChannelHeaderPlug extends React.PureComponent<Props> {
             }
             break;
         case AppCallResponseTypes.ERROR: {
-            const errorMessage = callResp.error || this.props.intl.formatMessage({id: 'apps.error.unknown', defaultMessage: 'Unknown error happenned'});
+            const errorMessage = callResp.error || this.props.intl.formatMessage({id: 'apps.error.unknown', defaultMessage: 'Unknown error happened'});
             ephemeral(errorMessage);
             break;
         }
