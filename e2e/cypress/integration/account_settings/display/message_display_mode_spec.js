@@ -12,6 +12,25 @@
 
 import {getRandomId} from '../../../utils';
 
+describe('Account Settings', () => {
+    before(() => {
+        // # Login as new user and visit town-square
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
+            cy.visit(`/${team.name}/channels/town-square`);
+        });
+    });
+
+    it('MM-T103_1 Compact view: Line breaks remain intact after editing', () => {
+        // * Verify line breaks do not change and blank line is still there in compact view.
+        verifyLineBreaksRemainIntact('COMPACT');
+    });
+
+    it('MM-T103_2 Standard view: Line breaks remain intact after editing', () => {
+        // * Verify line breaks do not change and blank line is still there in standard view.
+        verifyLineBreaksRemainIntact('STANDARD');
+    });
+});
+
 function verifyLineBreaksRemainIntact(display) {
     cy.uiChangeMessageDisplaySetting(display);
 
@@ -53,22 +72,3 @@ function verifyLineBreaksRemainIntact(display) {
             should('contain', '(edited)');
     });
 }
-
-describe('Account Settings', () => {
-    before(() => {
-        // # Login as new user and visit town-square
-        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
-            cy.visit(`/${team.name}/channels/town-square`);
-        });
-    });
-
-    it('MM-T103_1 Compact view: Line breaks remain intact after editing', () => {
-        // * Verify line breaks do not change and blank line is still there in compact view.
-        verifyLineBreaksRemainIntact('COMPACT');
-    });
-
-    it('MM-T103_2 Standard view: Line breaks remain intact after editing', () => {
-        // * Verify line breaks do not change and blank line is still there in standard view.
-        verifyLineBreaksRemainIntact('STANDARD');
-    });
-});
