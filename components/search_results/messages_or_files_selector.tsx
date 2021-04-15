@@ -29,30 +29,28 @@ export default function MessagesOrFilesSelector(props: Props): JSX.Element {
     return (
         <div className='MessagesOrFilesSelector'>
             <div className='buttons-container'>
-                <span
+                <button
                     onClick={() => props.onChange('messages')}
                     onKeyDown={(e: React.KeyboardEvent<HTMLSpanElement>) => Utils.isKeyPressed(e, KeyCodes.ENTER) && props.onChange('messages')}
                     className={props.selected === 'messages' ? 'active tab messages-tab' : 'tab messages-tab'}
-                    tabIndex={0}
                 >
                     <FormattedMessage
                         id='search_bar.messages_tab'
                         defaultMessage='Messages'
                     />
                     <span className='counter'>{props.messagesCounter}</span>
-                </span>
-                <span
+                </button>
+                <button
                     onClick={() => props.onChange('files')}
                     onKeyDown={(e: React.KeyboardEvent<HTMLSpanElement>) => Utils.isKeyPressed(e, KeyCodes.ENTER) && props.onChange('files')}
                     className={props.selected === 'files' ? 'active tab files-tab' : 'tab files-tab'}
-                    tabIndex={0}
                 >
                     <FormattedMessage
                         id='search_bar.files_tab'
                         defaultMessage='Files'
                     />
                     <span className='counter'>{props.filesCounter}</span>
-                </span>
+                </button>
             </div>
             {props.selected === 'files' &&
                 <FilesFilterMenu
