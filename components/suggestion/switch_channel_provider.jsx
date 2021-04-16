@@ -81,8 +81,15 @@ class SwitchChannelSuggestion extends Suggestion {
             className += ' suggestion--selected';
         }
 
-        let displayName = (channel.display_name);
-        let icon = null;
+        let displayName = (
+            <React.Fragment>
+                {channel.display_name}
+                <div className='mentions__fullname'>
+                    {`~${channel.name}`}
+                </div>
+            </React.Fragment>
+        );
+        let icon;
         if (channelIsArchived) {
             icon = (
                 <div className='suggestion-list__icon suggestion-list__icon--large'>
@@ -125,7 +132,22 @@ class SwitchChannelSuggestion extends Suggestion {
             );
         }
 
+        let tag = null;
         if (channel.type === Constants.DM_CHANNEL) {
+            const teammate = this.props.dmChannelTeammate;
+            tag = (
+                <React.Fragment>
+                    <BotBadge
+                        show={Boolean(teammate && teammate.is_bot)}
+                        className='badge-autocomplete'
+                    />
+                    <GuestBadge
+                        show={Boolean(teammate && Utils.isGuest(teammate))}
+                        className='badge-autocomplete'
+                    />
+                </React.Fragment>
+            );
+
             let deactivated;
             if (userItem.delete_at) {
                 deactivated = (' - ' + Utils.localizeMessage('channel_switch_modal.deactivated', 'Deactivated'));
@@ -142,13 +164,8 @@ class SwitchChannelSuggestion extends Suggestion {
                 displayName = (
                     <React.Fragment>
                         {channel.display_name}
-                        <StatusIcon
-                            className={`${status}--icon`}
-                            status={status}
-                            button={false}
-                        />
                         <div className='mentions__fullname'>
-                            {userItem.username}
+                            {`@${userItem.username}`}
                             {deactivated}
                         </div>
                     </React.Fragment>
@@ -161,23 +178,6 @@ class SwitchChannelSuggestion extends Suggestion {
                     </React.Fragment>
                 );
             }
-        }
-
-        let tag = null;
-        if (channel.type === Constants.DM_CHANNEL) {
-            const teammate = this.props.dmChannelTeammate;
-            tag = (
-                <React.Fragment>
-                    <BotBadge
-                        show={Boolean(teammate && teammate.is_bot)}
-                        className='badge-autocomplete'
-                    />
-                    <GuestBadge
-                        show={Boolean(teammate && Utils.isGuest(teammate))}
-                        className='badge-autocomplete'
-                    />
-                </React.Fragment>
-            );
         }
 
         let sharedIcon = null;
