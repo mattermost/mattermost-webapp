@@ -47,9 +47,11 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
         };
     }
 
-    formatDateString = (day: Date): string => {
-        const str = day.getDate().toString() + '-' + day.getMonth().toString() + '-' + day.getFullYear().toString();
-        return str;
+    formatDateString = (date: Date): string => {
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const day = date.getDate().toString().padStart(2, '0');
+        const year = date.getFullYear().toString();
+        return [year, month, day].join('-');
     }
 
     getText = () => {
@@ -73,7 +75,7 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
     }
 
     handleDaySelection = (day: Date) => {
-        const dString = day.toDateString();
+        const dString = this.formatDateString(day);
         this.setState({
             dateString: dString,
         }, this.setTimeMenuList);
@@ -84,7 +86,7 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
         let h = 0;
         let m = 0;
         const curr = this.props.getCurrentDateTime(this.props.userTimezone, this.props.isTimezoneEnabled);
-        if (curr.toDateString() === this.state.dateString) {
+        if (this.formatDateString(curr) === this.state.dateString) {
             h = curr.getHours();
             m = curr.getMinutes();
             if (m > 20) {
@@ -104,6 +106,7 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
         }
         this.setState({
             timeMenuList: timeMenuItems,
+            timeString: timeMenuItems[0],
         });
     }
 
@@ -117,7 +120,7 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
             confirmButtonText,
         } = this.getText();
 
-        const {timeMenuList} = this.state;
+        const {timeMenuList, timeString} = this.state;
         const timeMenuItems = timeMenuList.map((time) => {
             return (
                 <Menu.ItemAction
@@ -171,6 +174,7 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
                                 placeholder={this.state.dateString}
                                 onDayChange={this.handleDaySelection}
                                 dayPickerProps={{
+                                    selectedDays: now,
                                     month: now,
                                     disabledDays: {
                                         before: now,
@@ -189,7 +193,7 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
                         >
                             <div className='DndModal__input__label'>{'Time'}</div>
                             <i className='icon icon--no-spacing icon-clock-outline icon--xs icon-14'/>
-                            <span>{timeMenuList[0]}</span>
+                            <span>{timeString}</span>
                         </button>
                         <Menu
                             openLeft={false}
