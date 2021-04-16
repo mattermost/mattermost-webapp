@@ -468,9 +468,6 @@ function teamsInPolicy(state: IDMappedObjects<Team> = {}, action: GenericAction)
     case AdminTypes.RECEIVED_DATA_RETENTION_CUSTOM_POLICY_TEAMS: {
         return Object.assign({}, state, teamListToMap(action.data.teams));
     }
-    case AdminTypes.CLEAR_DATA_RETENTION_CUSTOM_POLICY_TEAMS: {
-        return {};
-    }
     default:
         return state;
     }
