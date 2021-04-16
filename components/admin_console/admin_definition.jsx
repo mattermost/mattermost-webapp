@@ -50,6 +50,7 @@ import PushNotificationsSettings from './push_settings.jsx';
 import GlobalDataRetentionForm from './data_retention_settings/global_policy_form';
 import DataRetentionSettingsOld from './data_retention_settings.jsx';
 import DataRetentionSettings from './data_retention_settings/index.ts';
+import CustomDataRetentionForm from './data_retention_settings/custom_policy_form';
 import MessageExportSettings from './message_export_settings.jsx';
 import DatabaseSettings from './database_settings.jsx';
 import ElasticSearchSettings from './elasticsearch_settings.jsx';
@@ -5202,6 +5203,32 @@ const AdminDefinition = {
         icon: 'fa-list',
         sectionTitle: t('admin.sidebar.compliance'),
         sectionTitleDefault: 'Compliance',
+        custom_policy_form_edit: {
+            url: 'compliance/data_retention/custom_policy/:policy_id',
+            isHidden: it.any(
+                it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.COMPLIANCE)),
+                it.configIsFalse('FeatureFlags', 'CustomDataRetentionEnabled'),
+            ),
+            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.COMPLIANCE)),
+            schema: {
+                id: 'CustomDataRetentionForm',
+                component: CustomDataRetentionForm,
+            },
+
+        },
+        custom_policy_form: {
+            url: 'compliance/data_retention/custom_policy',
+            isHidden: it.any(
+                it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.COMPLIANCE)),
+                it.configIsFalse('FeatureFlags', 'CustomDataRetentionEnabled'),
+            ),
+            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.COMPLIANCE)),
+            schema: {
+                id: 'CustomDataRetentionForm',
+                component: CustomDataRetentionForm,
+            },
+
+        },
         isHidden: it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.COMPLIANCE)),
         global_policy_form: {
             url: 'compliance/data_retention_settings/global_policy',

@@ -32,7 +32,7 @@ import {
 } from 'mattermost-redux/selectors/entities/teams';
 import {isCurrentUserSystemAdmin, getCurrentUserId, getUserIdsInChannels, getStatusForUserId} from 'mattermost-redux/selectors/entities/users';
 
-import {Channel, ChannelStats, ChannelMembership, ChannelModeration, ChannelMemberCountsByGroup} from 'mattermost-redux/types/channels';
+import {Channel, ChannelStats, ChannelMembership, ChannelModeration, ChannelMemberCountsByGroup, ChannelSearchOpts} from 'mattermost-redux/types/channels';
 import {ClientConfig} from 'mattermost-redux/types/config';
 import {Post} from 'mattermost-redux/types/posts';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
@@ -65,8 +65,11 @@ import {
     isDefault,
     sortChannelsByRecency,
     isDirectChannel,
+    filterChannelsMatchingTerm,
 } from 'mattermost-redux/utils/channel_utils';
 import {createIdsSelector} from 'mattermost-redux/utils/helpers';
+import {Constants} from 'utils/constants';
+import {getDataRetentionCustomPolicy} from 'mattermost-redux/selectors/entities/admin';
 
 export {getCurrentChannelId, getMyChannelMemberships, getMyCurrentChannelMembership};
 
@@ -84,8 +87,28 @@ export function getChannelsInTeam(state: GlobalState): RelationOneToMany<Team, C
     return state.entities.channels.channelsInTeam;
 }
 
-export function getChannelsInPolicy(state: GlobalState): IDMappedObjects<Channel> {
-    return state.entities.channels.channelsInPolicy;
+export function getChannelsInPolicy() {
+    return (createSelector(
+        getAllChannels,
+        (state: GlobalState, props: {policyId: string}) => getDataRetentionCustomPolicy(state, props.policyId),
+        (getAllChannels, policy) => {
+            if (!policy) {
+                return [];
+            }
+
+            const policyChannels: Channel[] = [];
+
+            Object.entries(getAllChannels).forEach((item: [string, Channel]) => {
+                const [, channel] = item;
+                if (channel.policy_id === policy.id) {
+                    policyChannels.push(channel);
+                }
+            });
+
+            return policyChannels;
+        }) as (b: GlobalState, a: {
+        policyId: string;
+    }) => Channel[]);
 }
 
 export const getDirectChannelsSet: (state: GlobalState) => Set<string> = createSelector(
@@ -1341,4 +1364,34 @@ export function isFavoriteChannel(state: GlobalState, channelId: string): boolea
     }
 
     return category.channel_ids.includes(channel.id);
+}
+export function filterChannelList(channelList: Channel[], filters: ChannelSearchOpts): Channel[] {
+    if (!filters || (!filters.private && !filters.public && !filters.deleted && !filters.team_ids)) {
+        return channelList;
+    }
+    let result: Channel[] = [];
+    const channels = channelList;
+    if (filters.public) {
+        result = result.concat(channels.filter((channel) => channel.type === Constants.OPEN_CHANNEL));
+    }
+    if (filters.private) {
+        result = result.concat(channels.filter((channel) => channel.type === Constants.PRIVATE_CHANNEL));
+    }
+    if (filters.deleted) {
+        result = result.concat(channels.filter((channel) => channel.type === Constants.ARCHIVED_CHANNEL));
+    }
+    if (filters.team_ids) {
+        filters.team_ids.forEach((id) => {
+            result = result.concat(channels.filter((channel) => channel.team_id === id));
+        });
+    }
+    return result;
+}
+export function searchChannelsInPolicy(state: GlobalState, policyId: string, term: string, filters: ChannelSearchOpts): Channel[] {
+    const channelsInPolicy = getChannelsInPolicy();
+    const channelArray = channelsInPolicy(state, {policyId});
+    let channels = filterChannelList(channelArray, filters);
+    channels = filterChannelsMatchingTerm(channels, term);
+
+    return channels;
 }
