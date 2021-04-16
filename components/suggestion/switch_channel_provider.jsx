@@ -17,6 +17,8 @@ import {
     getChannelByName,
 } from 'mattermost-redux/selectors/entities/channels';
 
+import ProfilePicture from '../profile_picture';
+
 import {getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
@@ -36,7 +38,6 @@ import {sortChannelsByTypeAndDisplayName, isGroupChannelVisible, isUnreadChannel
 import SharedChannelIndicator from 'components/shared_channel_indicator';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import GuestBadge from 'components/widgets/badges/guest_badge';
-import Avatar from 'components/widgets/users/avatar';
 import StatusIcon from 'components/status_icon';
 
 import {getPostDraft} from 'selectors/rhs';
@@ -115,9 +116,10 @@ class SwitchChannelSuggestion extends Suggestion {
         } else {
             icon = (
                 <div className='pull-left'>
-                    <Avatar
+                    <ProfilePicture
+                        src={userImageUrl}
+                        status={status}
                         size='sm'
-                        url={userImageUrl}
                     />
                 </div>
             );
@@ -156,11 +158,6 @@ class SwitchChannelSuggestion extends Suggestion {
                     <React.Fragment>
                         {userItem.username}
                         {deactivated}
-                        <StatusIcon
-                            className={`${status}--icon`}
-                            status={status}
-                            button={false}
-                        />
                     </React.Fragment>
                 );
             }
