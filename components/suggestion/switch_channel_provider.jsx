@@ -38,7 +38,6 @@ import {sortChannelsByTypeAndDisplayName, isGroupChannelVisible, isUnreadChannel
 import SharedChannelIndicator from 'components/shared_channel_indicator';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import GuestBadge from 'components/widgets/badges/guest_badge';
-import StatusIcon from 'components/status_icon';
 
 import {getPostDraft} from 'selectors/rhs';
 import store from 'stores/redux_store.jsx';
