@@ -3128,6 +3128,13 @@ export default class Client4 {
         );
     };
 
+    getPrevTrialLicense = () => {
+        return this.doFetch<StatusOK>(
+            `${this.getBaseRoute()}/trial-license/prev`,
+            {method: 'get'},
+        );
+    }
+
     getAnalytics = (name = 'standard', teamId = '') => {
         return this.doFetch<AnalyticsRow[]>(
             `${this.getBaseRoute()}/analytics/old${buildQueryString({name, team_id: teamId})}`,

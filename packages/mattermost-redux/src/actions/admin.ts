@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import {AdminTypes} from 'mattermost-redux/action_types';
+import {AdminTypes, GeneralTypes} from 'mattermost-redux/action_types';
 import {General} from '../constants';
 import {Client4} from 'mattermost-redux/client';
 
@@ -443,6 +443,52 @@ export function removeLicense(): ActionFunc {
         onSuccess: AdminTypes.REMOVE_LICENSE_SUCCESS,
         onFailure: AdminTypes.REMOVE_LICENSE_FAILURE,
     });
+}
+
+// export function getClientConfig(): ActionFunc {
+//     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+//         let data;
+//         try {
+//             data = await Client4.getClientConfigOld();
+//         } catch (error) {
+//             forceLogoutIfNecessary(error, dispatch, getState);
+//             return {error};
+//         }
+//
+//         Client4.setEnableLogging(data.EnableDeveloper === 'true');
+//         Client4.setDiagnosticId(data.DiagnosticId);
+//
+//         dispatch(batchActions([
+//             {type: GeneralTypes.CLIENT_CONFIG_RECEIVED, data},
+//         ]));
+//
+//         return {data};
+//     };
+// }
+
+export function getPrevTrialLicense(): ActionFunc {
+    // return bindClientFunc({
+    //     clientFunc: Client4.getPrevTrialLicense,
+    //     onRequest: AdminTypes.PREV_TRIAL_LICENSE_REQUEST,
+    //     onSuccess: AdminTypes.PREV_TRIAL_LICENSE_SUCCESS,
+    //     onFailure: AdminTypes.PREV_TRIAL_LICENSE_FAILURE,
+    // });
+
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        let data;
+        try {
+            data = await Client4.getPrevTrialLicense();
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            return {error};
+        }
+
+        dispatch(batchActions([
+            {type: AdminTypes.PREV_TRIAL_LICENSE_SUCCESS, data}
+        ]));
+
+        return {data}
+    }
 }
 
 export function getAnalytics(name: string, teamId = ''): ActionFunc {

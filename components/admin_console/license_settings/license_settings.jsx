@@ -36,6 +36,7 @@ export default class LicenseSettings extends React.PureComponent {
             getLicenseConfig: PropTypes.func.isRequired,
             uploadLicense: PropTypes.func.isRequired,
             removeLicense: PropTypes.func.isRequired,
+            getPrevTrialLicense: PropTypes.func.isRequired,
             upgradeToE0: PropTypes.func.isRequired,
             restartServer: PropTypes.func.isRequired,
             ping: PropTypes.func.isRequired,
@@ -60,16 +61,18 @@ export default class LicenseSettings extends React.PureComponent {
             upgradeError: null,
             restarting: false,
             restartError: null,
+            prevTrialLicense: null,
         };
 
         this.fileInputRef = React.createRef();
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         if (!this.props.enterpriseReady) {
             this.reloadPercentage();
         }
         this.props.actions.getLicenseConfig();
+        this.props.actions.getPrevTrialLicense();
         AdminActions.getStandardAnalytics();
     }
 
@@ -415,6 +418,9 @@ export default class LicenseSettings extends React.PureComponent {
             licenseContent = this.renderE10E20Content();
         } else {
             const canStartTrial = true;
+            console.log("canStartTrial:");
+            console.log(canStartTrial);
+            console.log(canStartTrial ? "AAA" : "BBB");
             // Note: DO NOT LOCALISE THESE STRINGS. Legally we can not since the license is in English.
             edition = (
                 <div>
