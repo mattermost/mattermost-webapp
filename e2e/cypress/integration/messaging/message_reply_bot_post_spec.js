@@ -34,7 +34,7 @@ describe('Messaging', () => {
 
     it('MM-T93 Replying to an older bot post that has no post content and no attachment pretext', () => {
         // # Get yesterdays date in UTC
-        const yesterdaysDate = Cypress.moment().subtract(1, 'days').valueOf();
+        const yesterdaysDate = Cypress.dayjs().subtract(1, 'days').valueOf();
 
         // # Create a bot and get userID
         cy.apiCreateBot().then(({bot}) => {
@@ -99,7 +99,7 @@ describe('Messaging', () => {
 
     it('MM-T91 Replying to an older post by a user that has no content (only file attachments)', () => {
         // # Get yesterdays date in UTC
-        const yesterdaysDate = Cypress.moment().subtract(1, 'days').valueOf();
+        const yesterdaysDate = Cypress.dayjs().subtract(1, 'days').valueOf();
 
         // # Create a bot and get userID
         cy.apiCreateBot().then(({bot}) => {

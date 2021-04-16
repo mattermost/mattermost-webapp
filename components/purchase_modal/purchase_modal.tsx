@@ -39,6 +39,7 @@ type Props = {
     products?: Dictionary<Product>;
     contactSupportLink: string;
     contactSalesLink: string;
+    isFreeTrial: boolean;
     actions: {
         closeModal: () => void;
         getCloudProducts: () => void;
@@ -112,14 +113,27 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
     }
 
     purchaseScreen = () => {
+        let title;
+        if (this.props.isFreeTrial) {
+            title = (
+                <FormattedMessage
+                    defaultMessage={'Provide Your Payment Details'}
+                    id={'admin.billing.subscription.providePaymentDetails'}
+                />
+            );
+        } else {
+            title = (
+                <FormattedMessage
+                    defaultMessage={'Upgrade your Mattermost Cloud Susbcription'}
+                    id={'admin.billing.subscription.upgradeCloudSubscription'}
+                />
+            );
+        }
         return (
             <div className={this.state.processing ? 'processing' : ''}>
                 <div className='LHS'>
                     <div className='title'>
-                        <FormattedMessage
-                            defaultMessage={'Upgrade your Mattermost Cloud Susbcription'}
-                            id={'admin.billing.subscription.upgradeCloudSubscription'}
-                        />
+                        {title}
                     </div>
                     <img
                         className='image'

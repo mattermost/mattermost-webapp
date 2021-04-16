@@ -16,6 +16,7 @@ import {
     shouldHideDefaultChannel,
 } from 'mattermost-redux/selectors/entities/channels';
 import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
+import {getThreadCountsInCurrentTeam} from 'mattermost-redux/selectors/entities/threads';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getUserIdsInChannels, getUser} from 'mattermost-redux/selectors/entities/users';
 import {getInt, getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
@@ -62,7 +63,11 @@ function makeMapStateToProps() {
         let unreadMsgs = 0;
         let showUnreadForMsgs = true;
         if (member) {
-            unreadMentions = member.mention_count;
+            const threadCounts = getThreadCountsInCurrentTeam(
+                state,
+            );
+            const threadMentionCountInChannel = (threadCounts && threadCounts.unread_mentions_per_channel && threadCounts.unread_mentions_per_channel[channel.id]) || 0;
+            unreadMentions = member.mention_count - threadMentionCountInChannel;
 
             if (channel) {
                 unreadMsgs = Math.max(channel.total_msg_count - member.msg_count, 0);
@@ -135,6 +140,7 @@ function makeMapStateToProps() {
             membersCount,
             shouldHideChannel,
             channelIsArchived: channel.delete_at !== 0,
+            channelIsShared: Boolean(channel.shared),
             redirectChannel: getRedirectChannelNameForTeam(state, getCurrentTeamId(state)),
         };
     };

@@ -11,6 +11,7 @@ import {Post} from 'mattermost-redux/types/posts';
 import {CategorySorting, ChannelCategory} from 'mattermost-redux/types/channel_categories';
 import {Command} from 'mattermost-redux/types/integrations';
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
+import {Session} from 'mattermost-redux/types/sessions';
 
 export class TestHelper {
     public static getUserMock(override: Partial<UserProfile> = {}): UserProfile {
@@ -287,5 +288,23 @@ export class TestHelper {
             url: '',
         };
         return Object.assign({}, defaultCommand, override);
+    }
+
+    public static getSessionMock(override: Partial<Session>): Session {
+        const defaultSession: Session = {
+            id: 'session_id',
+            token: 'session_token',
+            create_at: 0,
+            expires_at: 0,
+            last_activity_at: 0,
+            user_id: 'user_id',
+            device_id: 'device_id',
+            roles: '',
+            is_oauth: false,
+            props: {},
+            team_members: [],
+            local: false,
+        };
+        return Object.assign({}, defaultSession, override);
     }
 }
