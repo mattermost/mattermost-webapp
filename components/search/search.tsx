@@ -5,13 +5,16 @@ import React, {ChangeEvent, MouseEvent, FormEvent, useEffect, useState, useRef} 
 import {useIntl} from 'react-intl';
 import classNames from 'classnames';
 
-import HeaderIconWrapper from 'components/channel_header/components/header_icon_wrapper';
-
-import {searchHintOptions, RHSStates, searchFilesHintOptions} from 'utils/constants';
+import {isServerVersionGreaterThanOrEqualTo} from 'utils/server_version';
+import {isDesktopApp, getDesktopVersion} from 'utils/user_agent';
+import Constants, {searchHintOptions, RHSStates, searchFilesHintOptions} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
+
+import HeaderIconWrapper from 'components/channel_header/components/header_icon_wrapper';
 import SearchHint from 'components/search_hint/search_hint';
 import FlagIcon from 'components/widgets/icons/flag_icon';
 import MentionsIcon from 'components/widgets/icons/mentions_icon';
+import SearchIcon from 'components/widgets/icons/search_icon';
 import Popover from 'components/widgets/popover';
 import UserGuideDropdown from 'components/rhs_search_nav/components/user_guide_dropdown';
 
@@ -65,7 +68,7 @@ const determineVisibleSearchHintOptions = (searchTerms: string, searchType: Sear
 };
 
 const Search: React.FC<Props> = (props: Props): JSX.Element => {
-    const {actions, searchTerms, searchType, filesSearchEnabled, currentChannelId} = props;
+    const {actions, searchTerms, searchType, filesSearchEnabled, currentChannel, hideSearchBar, enableFindShortcut} = props;
 
     const intl = useIntl();
 
@@ -84,6 +87,34 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
         new SearchChannelProvider(actions.autocompleteChannelsForSearch),
         new SearchUserProvider(actions.autocompleteUsersInTeam),
     ]);
+
+    const isDesktop = isDesktopApp() && isServerVersionGreaterThanOrEqualTo(getDesktopVersion(), '4.7.0');
+    useEffect(() => {
+        if (!enableFindShortcut) {
+            return undefined;
+        }
+
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (Utils.cmdOrCtrlPressed(e) && Utils.isKeyPressed(e, Constants.KeyCodes.F)) {
+                if (isDesktop || (!isDesktop && e.shiftKey)) {
+                    e.preventDefault();
+                    if (hideSearchBar) {
+                        actions.openRHSSearch();
+                        setKeepInputFocused(true);
+                    }
+                    if (currentChannel) {
+                        handleUpdateSearchTerms(`in:${currentChannel.name} `);
+                    }
+                    handleFocus();
+                }
+            }
+        };
+
+        document.addEventListener('keydown', handleKeyDown);
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [currentChannel, hideSearchBar]);
 
     useEffect((): void => {
         if (!Utils.isMobile()) {
@@ -140,7 +171,11 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
         const pretextArray = searchTerms?.split(' ') || [];
         pretextArray.pop();
         pretextArray.push(term.toLowerCase());
-        actions.updateSearchTerms(pretextArray.join(' '));
+        handleUpdateSearchTerms(pretextArray.join(' '));
+    };
+
+    const handleUpdateSearchTerms = (terms: string): void => {
+        actions.updateSearchTerms(terms);
         updateHighlightedSearchHint();
     };
 
@@ -263,8 +298,8 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
             props.actions.filterFilesSearchByExt([]);
         }
         setSearchFilterType(filterType);
-        if (props.isChannelFiles) {
-            props.actions.showChannelFiles(currentChannelId);
+        if (props.isChannelFiles && currentChannel) {
+            props.actions.showChannelFiles(currentChannel.id);
         } else {
             props.actions.showSearchResults(false);
         }
@@ -291,6 +326,12 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
             return;
         }
         actions.showFlaggedPosts();
+    };
+
+    const searchButtonClick = (e: React.MouseEvent) => {
+        e.preventDefault();
+
+        actions.openRHSSearch();
     };
 
     const renderMentionButton = (): JSX.Element => (
@@ -412,9 +453,31 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
 
     // when inserted in RHSSearchNav component, just return SearchBar
     if (!props.isSideBarRight) {
+        if (hideSearchBar) {
+            return (
+                <HeaderIconWrapper
+                    iconComponent={
+                        <SearchIcon
+                            className='icon icon--standard'
+                            aria-hidden='true'
+                        />
+                    }
+                    ariaLabel={true}
+                    buttonId={'channelHeaderSearchButton'}
+                    onClick={searchButtonClick}
+                    tooltipKey={'search'}
+                />
+            );
+        }
+
         return (
-            <div className='sidebar-right__table'>
-                {renderSearchBar()}
+            <div
+                id='searchbarContainer'
+                className='flex-child search-bar__container'
+            >
+                <div className='sidebar-right__table'>
+                    {renderSearchBar()}
+                </div>
             </div>
         );
     }
