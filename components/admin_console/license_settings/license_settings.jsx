@@ -19,6 +19,10 @@ import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 
 import RenewLinkCard from './renew_license_card/renew_license_card';
 import TrialLicenseCard from './trial_license_card/trial_license_card';
+import PurchaseLink from '../../announcement_bar/purchase_link/purchase_link';
+import ContactSales from '../../announcement_bar/contact_sales/contact_sales';
+
+import './license_settings.scss';
 
 export default class LicenseSettings extends React.PureComponent {
     static propTypes = {
@@ -184,6 +188,63 @@ export default class LicenseSettings extends React.PureComponent {
             this.setState({restarting: false, restartError: err});
         }
         setTimeout(this.checkRestarted, 1000);
+    }
+
+    renderStartTrial = (isDisabled, gettingTrialError) => {
+        return (
+            <React.Fragment>
+                <p className='trial'>
+                    <button
+                        type='button'
+                        className='btn btn-primary'
+                        onClick={this.requestLicense}
+                        disabled={isDisabled}
+                    >
+                        <LoadingWrapper
+                            loading={this.state.gettingTrial}
+                            text={Utils.localizeMessage('admin.license.trial-request.loading', 'Getting trial')}
+                        >
+                            <FormattedMessage
+                                id='admin.license.trial-request.submit'
+                                defaultMessage='Start trial'
+                            />
+                        </LoadingWrapper>
+                    </button>
+                </p>
+                {gettingTrialError}
+                <p className='trial-legal-terms'>
+                    <FormattedMarkdownMessage
+                        id='admin.license.trial-request.accept-terms'
+                        defaultMessage='By clicking **Start trial**, I agree to the [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/), [Privacy Policy](!https://mattermost.com/privacy-policy/), and receiving product emails.'
+                    />
+                </p>
+            </React.Fragment>
+        )
+    }
+
+    renderPurchaseLicense = () => {
+        return (
+            <div className='purchase-card'>
+                <PurchaseLink
+                    eventID='post_trial_purchase_license'
+                    buttonTextElement={
+                        <FormattedMessage
+                            id='admin.license.trialCard.purchase_license'
+                            defaultMessage='Purchase a license'
+                        />
+                    }
+                />
+                <ContactSales
+                    eventID='post_trial_contact_sales'
+                    buttonTextElement={
+                        <FormattedMessage
+                            id='admin.license.trialCard.contactSales'
+                            defaultMessage='Contact sales'
+                        />
+                    }
+                />
+            </div>
+        );
     }
 
     render() {
@@ -353,35 +414,12 @@ export default class LicenseSettings extends React.PureComponent {
             );
             licenseContent = this.renderE10E20Content();
         } else {
+            const canStartTrial = true;
             // Note: DO NOT LOCALISE THESE STRINGS. Legally we can not since the license is in English.
             edition = (
                 <div>
                     {'Mattermost Enterprise Edition. A license is required to unlock enterprise features.'}
-                    <p className='trial'>
-                        <button
-                            type='button'
-                            className='btn btn-primary'
-                            onClick={this.requestLicense}
-                            disabled={isDisabled}
-                        >
-                            <LoadingWrapper
-                                loading={this.state.gettingTrial}
-                                text={Utils.localizeMessage('admin.license.trial-request.loading', 'Getting trial')}
-                            >
-                                <FormattedMessage
-                                    id='admin.license.trial-request.submit'
-                                    defaultMessage='Start trial'
-                                />
-                            </LoadingWrapper>
-                        </button>
-                    </p>
-                    {gettingTrialError}
-                    <p className='trial-legal-terms'>
-                        <FormattedMarkdownMessage
-                            id='admin.license.trial-request.accept-terms'
-                            defaultMessage='By clicking **Start trial**, I agree to the [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/), [Privacy Policy](!https://mattermost.com/privacy-policy/), and receiving product emails.'
-                        />
-                    </p>
+                    {canStartTrial ? this.renderStartTrial() : this.renderPurchaseLicense() }
                 </div>
             );
 
