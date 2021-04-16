@@ -358,9 +358,7 @@ describe('plugins/MobileChannelHeaderPlug', () => {
         const channel = {id: 'channel_id'};
         const channelMember = {id: 'channel_member_id'};
 
-        const doAppCall = jest.fn(async () => {
-            return {data: {type: AppCallResponseTypes.OK}};
-        });
+        const doAppCall = jest.fn().mockResolvedValue({data: {type: AppCallResponseTypes.OK}});
 
         const wrapper = mountWithIntl(
             <MobileChannelHeaderPlug
