@@ -21,6 +21,7 @@ import {getSubscriptionStats} from 'mattermost-redux/actions/cloud';
 import {Permissions} from 'mattermost-redux/constants';
 
 import {RHSStates} from 'utils/constants';
+import {getRemainingDaysFromFutureTimestamp} from 'utils/utils.jsx';
 
 import {unhideNextSteps} from 'actions/views/next_steps';
 import {showMentions, showFlaggedPosts, closeRightHandSide, closeMenu as closeRhsMenu} from 'actions/views/rhs';
@@ -70,6 +71,10 @@ function mapStateToProps(state) {
     const joinableTeams = getJoinableTeamIds(state);
     const moreTeamsToJoin = joinableTeams && joinableTeams.length > 0;
     const rhsState = getRhsState(state);
+    const isCloud = getLicense(state).Cloud === 'true';
+    const subscription = state.entities.cloud.subscription;
+    const isFreeTrial = subscription?.is_free_trial === 'true';
+    const daysLeftOnTrial = getRemainingDaysFromFutureTimestamp(subscription?.trial_end_at);
 
     return {
         appDownloadLink,
@@ -97,8 +102,10 @@ function mapStateToProps(state) {
             state.entities.general.license.LDAPGroups === 'true',
         showGettingStarted: showOnboarding(state),
         showNextStepsTips: showNextStepsTips(state),
+        isFreeTrial,
+        daysLeftOnTrial,
         showNextSteps: showNextSteps(state),
-        isCloud: getLicense(state).Cloud === 'true',
+        isCloud,
         subscriptionStats: selectSubscriptionStats(state), // subscriptionStats are loaded in actions/views/root
         firstAdminVisitMarketplaceStatus: getFirstAdminVisitMarketplaceStatus(state),
     };
