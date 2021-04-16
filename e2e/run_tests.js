@@ -65,9 +65,6 @@ async function runTests() {
         BROWSER,
         BUILD_ID,
         HEADLESS,
-        ENABLE_VISUAL_TEST,
-        APPLITOOLS_API_KEY,
-        APPLITOOLS_BATCH_NAME,
     } = process.env;
 
     const browser = BROWSER || 'chrome';
@@ -102,9 +99,6 @@ async function runTests() {
                 trashAssetsBeforeRuns: false,
             },
             env: {
-                enableVisualTest: ENABLE_VISUAL_TEST,
-                enableApplitools: Boolean(APPLITOOLS_API_KEY),
-                batchName: APPLITOOLS_BATCH_NAME,
                 firstTest: j === 0,
             },
             reporter: 'cypress-multi-reporters',
@@ -135,13 +129,13 @@ async function runTests() {
         // Write test environment details once only
         if (i === 0) {
             const environment = {
-                cypressVersion: result.cypressVersion,
-                browserName: result.browserName,
-                browserVersion: result.browserVersion,
+                cypress_version: result.cypressVersion,
+                browser_name: result.browserName,
+                browser_version: result.browserVersion,
                 headless,
-                osName: result.osName,
-                osVersion: result.osVersion,
-                nodeVersion: process.version,
+                os_name: result.osName,
+                os_version: result.osVersion,
+                node_version: process.version,
             };
 
             writeJsonToFile(environment, 'environment.json', RESULTS_DIR);
