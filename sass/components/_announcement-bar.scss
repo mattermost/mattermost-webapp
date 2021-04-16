@@ -19,6 +19,13 @@
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+
+        > span {
+            font-style: normal;
+            font-weight: 600;
+            font-size: 14px;
+            line-height: 20px;
+        }
     }
 
     a {
@@ -57,7 +64,7 @@
         content: "\00a0 ";
     }
 
-    .content__icon {
+    .content__icon, i {
         top: 1px;
         position: relative;
         align-items: center;

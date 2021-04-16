@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-/* eslint-disable no-console */
+/* eslint-disable no-console, camelcase */
 
 const axios = require('axios');
 const fse = require('fs-extra');
@@ -111,13 +111,13 @@ function generateTestReport(summary, isUploadedToS3, reportLink, environment, te
     } = process.env;
     const {statsFieldValue, stats} = summary;
     const {
-        cypressVersion,
-        browserName,
-        browserVersion,
+        cypress_version,
+        browser_name,
+        browser_version,
         headless,
-        osName,
-        osVersion,
-        nodeVersion,
+        os_name,
+        os_version,
+        node_version,
     } = environment;
 
     let testResult;
@@ -129,7 +129,7 @@ function generateTestReport(summary, isUploadedToS3, reportLink, environment, te
     }
 
     const title = generateTitle();
-    const envValue = `cypress@${cypressVersion} | node@${nodeVersion} | ${browserName}@${browserVersion}${headless ? ' (headless)' : ''} | ${osName}@${osVersion}`;
+    const envValue = `cypress@${cypress_version} | node@${node_version} | ${browser_name}@${browser_version}${headless ? ' (headless)' : ''} | ${os_name}@${os_version}`;
 
     if (FULL_REPORT === 'true') {
         let reportField;

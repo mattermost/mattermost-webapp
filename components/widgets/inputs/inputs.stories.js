@@ -8,6 +8,7 @@ import {withKnobs, text} from '@storybook/addon-knobs';
 
 import ChannelsInput from './channels_input';
 import UsersEmailsInput from './users_emails_input';
+import DropdownInputHybrid from './dropdown_input_hybrid';
 
 storiesOf('Widgets/Inputs', module).
     addDecorator(withKnobs).
@@ -47,6 +48,37 @@ storiesOf('Widgets/Inputs', module).
                         loadingMessageId='not-existing-id'
                         noOptionsMessageDefault={noOptionsMessageDefault}
                         noOptionsMessageId='not-existing-id'
+                    />
+                );
+            };
+            return (
+                <WrapperComponent/>
+            );
+        },
+    ).
+    add(
+        'dropdown input hybrid',
+        () => {
+            const WrapperComponent = () => {
+                const [dropdownValue, setDropdownValue] = useState({value: 'forever', label: 'Keep Forever'});
+                const [inputValue, setInputValue] = useState('');
+                return (
+                    <DropdownInputHybrid
+                        onDropdownChange={(value) => {
+                            setDropdownValue(value);
+                        }}
+                        onInputChange={(e) => {
+                            setInputValue(e.target.value);
+                        }}
+                        value={dropdownValue}
+                        inputValue={inputValue}
+                        width={90}
+                        exceptionToInput={['forever']}
+                        defaultValue={{value: 'forever', label: 'Keep Forever'}}
+                        options={[{value: 'days', label: 'Days'}, {value: 'months', label: 'Months'}, {value: 'years', label: 'Years'}, {value: 'forever', label: 'Keep Forever'}]}
+                        legend={'Channel Message Retention'}
+                        placeholder={'Channel Message Retention'}
+                        name={'channel_message_retention'}
                     />
                 );
             };

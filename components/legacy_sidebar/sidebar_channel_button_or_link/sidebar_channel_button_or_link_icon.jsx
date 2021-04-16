@@ -9,6 +9,7 @@ import Svg from 'react-inlinesvg';
 import {Constants} from 'utils/constants';
 
 import ArchiveIcon from 'components/widgets/icons/archive_icon';
+import SharedChannelIndicator from 'components/shared_channel_indicator';
 import DraftIcon from 'components/widgets/icons/draft_icon';
 import GlobeIcon from 'components/widgets/icons/globe_icon';
 import LockIcon from 'components/widgets/icons/lock_icon';
@@ -19,6 +20,7 @@ export default class SidebarChannelButtonOrLinkIcon extends React.PureComponent 
     static propTypes = {
         botIconUrl: PropTypes.string,
         channelIsArchived: PropTypes.bool.isRequired,
+        channelIsShared: PropTypes.bool.isRequired,
         channelType: PropTypes.string.isRequired,
         channelStatus: PropTypes.string,
         hasDraft: PropTypes.bool.isRequired,
@@ -56,6 +58,13 @@ export default class SidebarChannelButtonOrLinkIcon extends React.PureComponent 
         } else if (this.props.hasDraft) {
             icon = (
                 <DraftIcon className='icon icon__draft'/>
+            );
+        } else if (this.props.channelIsShared) {
+            icon = (
+                <SharedChannelIndicator
+                    className='icon icon__shared'
+                    channelType={this.props.channelType}
+                />
             );
         } else if (this.props.channelType === Constants.OPEN_CHANNEL) {
             icon = (

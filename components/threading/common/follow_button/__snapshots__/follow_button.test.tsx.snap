@@ -1,61 +1,48 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/threading/common/follow_button should say follow and fire start action 1`] = `
+exports[`components/threading/common/follow_button should say follow 1`] = `
 <Memo(FollowButton)
-  follow={[MockFunction]}
   isFollowing={false}
-  unFollow={[Function]}
+  onClick={[MockFunction]}
 >
   <Memo(Button)
+    className="FollowButton"
+    disabled={false}
     isActive={false}
     onClick={[MockFunction]}
   >
     <button
-      className="Button Button___transparent"
+      className="Button Button___transparent FollowButton"
+      disabled={false}
       onClick={[MockFunction]}
     >
       <span
         className="Button_label"
       >
-        <FormattedMessage
-          defaultMessage="Follow"
-          id="threading.notFollowing"
-        >
-          <span>
-            Follow
-          </span>
-        </FormattedMessage>
+        Follow
       </span>
     </button>
   </Memo(Button)>
 </Memo(FollowButton)>
 `;
 
-exports[`components/threading/common/follow_button should say following and fire stop action 1`] = `
+exports[`components/threading/common/follow_button should say following 1`] = `
 <Memo(FollowButton)
-  follow={[MockFunction]}
   isFollowing={true}
-  unFollow={[MockFunction]}
 >
   <Memo(Button)
+    className="FollowButton"
+    disabled={false}
     isActive={true}
-    onClick={[MockFunction]}
   >
     <button
-      className="Button Button___transparent is-active"
-      onClick={[MockFunction]}
+      className="Button Button___transparent is-active FollowButton"
+      disabled={false}
     >
       <span
         className="Button_label"
       >
-        <FormattedMessage
-          defaultMessage="Following"
-          id="threading.following"
-        >
-          <span>
-            Following
-          </span>
-        </FormattedMessage>
+        Following
       </span>
     </button>
   </Memo(Button)>
