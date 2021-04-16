@@ -18,11 +18,10 @@ import {
     setupTestData,
 } from './helpers';
 
-describe('SF15699 Search Date Filter - before', () => {
+describe('Search Date Filter', () => {
     const testData = getTestMessages();
     const {
         commonText,
-        allMessagesInOrder,
         secondDateEarly,
         firstMessage,
         firstOffTopicMessage,
@@ -34,23 +33,26 @@ describe('SF15699 Search Date Filter - before', () => {
         cy.apiInitSetup({userPrefix: 'other-admin'}).then(({team, user}) => {
             anotherAdmin = user;
 
+            // # Visit town-square
+            cy.visit(`/${team.name}/channels/town-square`);
+
             setupTestData(testData, {team, admin, anotherAdmin});
         });
     });
 
-    it('omits results on and after target date', () => {
+    it('MM-T586 before: omits results on and after target date', () => {
         searchAndValidate(`before:${secondDateEarly.query} ${commonText}`, [firstOffTopicMessage, firstMessage]);
     });
 
-    it('can be used in conjunction with "in:"', () => {
-        searchAndValidate(`before:${secondDateEarly.query} in:town-square ${commonText}`, [firstMessage]);
+    it('MM-T591_1 before: can be used in conjunction with "in:"', () => {
+        searchAndValidate(`before:${secondDateEarly.query} in:off-topic ${commonText}`, [firstOffTopicMessage]);
     });
 
-    it('can be used in conjunction with "from:"', () => {
+    it('MM-T591_2 before: can be used in conjunction with "from:"', () => {
         searchAndValidate(`before:${secondDateEarly.query} from:${anotherAdmin.username} ${commonText}`, [firstMessage]);
     });
 
-    it('using a date from the future shows results', () => {
-        searchAndValidate(`before:2099-7-15 ${commonText}`, allMessagesInOrder);
+    it('MM-T591_3 before: re-add "in:" in conjunction with "from:"', () => {
+        searchAndValidate(`before:${secondDateEarly.query} in:off-topic from:${anotherAdmin.username} ${commonText}`);
     });
 });

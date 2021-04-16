@@ -253,7 +253,7 @@
                 }
             }
 
-            .channel__wrap & {
+            .channel__wrap #post-list & {
                 .post__permalink {
                     position: absolute;
                     left: -76px;

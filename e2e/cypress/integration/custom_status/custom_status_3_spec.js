@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @custom_status
 
 import {openCustomStatusModal} from './helper';
@@ -48,7 +49,7 @@ describe('Custom Status - Setting Your Own Custom Status', () => {
         cy.get('#emojiPicker').should('exist');
     });
 
-    it('MM_T3846_3 should select the emoji from the emoji picker', () => {
+    it('MM-T3846_3 should select the emoji from the emoji picker', () => {
         // * Check that the emoji picker is open
         cy.get('#emojiPicker').should('exist');
 

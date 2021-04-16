@@ -96,7 +96,7 @@
         @include file-icon('../images/icons/ppt.svg');
     }
 
-    &.generic {
+    &.generic, &.other {
         @include file-icon('../images/icons/generic.svg');
     }
 
@@ -147,6 +147,11 @@
 
     .file__image {
         @include legacy-pie-clearfix;
+
+        .image-header {
+            display: flex;
+            align-items: baseline;
+        }
 
         .image-name {
             cursor: pointer;

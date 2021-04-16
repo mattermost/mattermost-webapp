@@ -5,9 +5,20 @@ import React from 'react';
 import {Route, Switch, Redirect} from 'react-router-dom';
 import classNames from 'classnames';
 
+import LoadingScreen from 'components/loading_screen';
+
 import PermalinkView from 'components/permalink_view';
 import ChannelHeaderMobile from 'components/channel_header_mobile';
 import ChannelIdentifierRouter from 'components/channel_layout/channel_identifier_router';
+import {makeAsyncComponent} from 'components/async_load';
+const LazyGlobalThreads = makeAsyncComponent(
+    React.lazy(() => import('components/threading/global_threads')),
+    (
+        <div className='app__content'>
+            <LoadingScreen/>
+        </div>
+    ),
+);
 
 type Props = {
     match: {
@@ -20,6 +31,7 @@ type Props = {
     lhsOpen: boolean;
     rhsOpen: boolean;
     rhsMenuOpen: boolean;
+    isCollapsedThreadsEnabled: boolean;
 };
 
 type State = {
@@ -43,12 +55,11 @@ export default class CenterChannel extends React.PureComponent<Props, State> {
                 returnTo: prevState.lastReturnTo,
             };
         }
-        return {lastReturnTo: nextProps.location.pathname,
-        };
+        return {lastReturnTo: nextProps.location.pathname};
     }
 
     render() {
-        const {lastChannelPath} = this.props;
+        const {lastChannelPath, isCollapsedThreadsEnabled} = this.props;
         const url = this.props.match.url;
         return (
             <div
@@ -76,9 +87,15 @@ export default class CenterChannel extends React.PureComponent<Props, State> {
                             )}
                         />
                         <Route
-                            path={['/:team/:path(channels|messages)/:identifier/:postid', '/:team/:path(channels|messages)/:identifier']}
+                            path='/:team/:path(channels|messages)/:identifier/:postid?'
                             component={ChannelIdentifierRouter}
                         />
+                        {isCollapsedThreadsEnabled ? (
+                            <Route
+                                path='/:team/threads/:threadIdentifier?'
+                                component={LazyGlobalThreads}
+                            />
+                        ) : null}
                         <Redirect to={lastChannelPath}/>
                     </Switch>
                 </div>

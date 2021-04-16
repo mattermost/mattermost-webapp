@@ -139,6 +139,7 @@ class SearchResultsItem extends React.PureComponent {
 
         this.state = {
             dropdownOpened: false,
+            showPreview: false,
         };
     }
 

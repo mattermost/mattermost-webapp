@@ -3358,6 +3358,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                 className="alert alert-transparent"
               >
                 <PluginItem
+                  appsEnabled={false}
                   handleDisable={[Function]}
                   handleEnable={[Function]}
                   handleRemove={[Function]}
@@ -3384,6 +3385,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                   showInstances={true}
                 />
                 <PluginItem
+                  appsEnabled={false}
                   handleDisable={[Function]}
                   handleEnable={[Function]}
                   handleRemove={[Function]}
@@ -3751,6 +3753,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                 className="alert alert-transparent"
               >
                 <PluginItem
+                  appsEnabled={false}
                   handleDisable={[Function]}
                   handleEnable={[Function]}
                   handleRemove={[Function]}
@@ -4113,6 +4116,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                 className="alert alert-transparent"
               >
                 <PluginItem
+                  appsEnabled={false}
                   handleDisable={[Function]}
                   handleEnable={[Function]}
                   handleRemove={[Function]}
@@ -4475,6 +4479,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                 className="alert alert-transparent"
               >
                 <PluginItem
+                  appsEnabled={false}
                   handleDisable={[Function]}
                   handleEnable={[Function]}
                   handleRemove={[Function]}
@@ -4837,6 +4842,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                 className="alert alert-transparent"
               >
                 <PluginItem
+                  appsEnabled={false}
                   handleDisable={[Function]}
                   handleEnable={[Function]}
                   handleRemove={[Function]}
@@ -4863,6 +4869,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                   showInstances={true}
                 />
                 <PluginItem
+                  appsEnabled={false}
                   handleDisable={[Function]}
                   handleEnable={[Function]}
                   handleRemove={[Function]}
