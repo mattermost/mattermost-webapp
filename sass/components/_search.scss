@@ -212,6 +212,8 @@
 }
 
 .search-item__container {
+    display: flex;
+    flex-direction: column;
     .post {
         margin: 0;
         padding: 0 1em 16px;
