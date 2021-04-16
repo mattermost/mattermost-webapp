@@ -97,6 +97,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
         const handleKeyDown = (e: KeyboardEvent) => {
             if (Utils.cmdOrCtrlPressed(e) && Utils.isKeyPressed(e, Constants.KeyCodes.F)) {
                 if (isDesktop || (!isDesktop && e.shiftKey)) {
+                    e.preventDefault();
                     if (hideSearchBar) {
                         actions.openRHSSearch();
                         setKeepInputFocused(true);
