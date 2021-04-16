@@ -24,11 +24,14 @@ import {completeStripeAddPaymentMethod} from 'actions/cloud';
 import PurchaseModal from './purchase_modal';
 
 function mapStateToProps(state: GlobalState) {
+    const subscription = state.entities.cloud.subscription;
+
     return {
         show: isModalOpen(state, ModalIdentifiers.CLOUD_PURCHASE),
         products: state.entities.cloud!.products,
         isDevMode: getConfig(state).EnableDeveloper === 'true',
         contactSupportLink: getCloudContactUsLink(state, InquiryType.Technical),
+        isFreeTrial: subscription?.is_free_trial === 'true',
         contactSalesLink: getCloudContactUsLink(state, InquiryType.Sales),
     };
 }

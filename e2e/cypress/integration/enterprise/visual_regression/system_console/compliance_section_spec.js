@@ -12,8 +12,6 @@
 
 import * as TIMEOUTS from '../../../../fixtures/timeouts';
 
-import {getBatchName} from '../helpers';
-
 describe('System Console - Compliance', () => {
     const testCases = [
         {
@@ -54,19 +52,8 @@ describe('System Console - Compliance', () => {
         });
     });
 
-    afterEach(() => {
-        cy.visualEyesClose();
-    });
-
     testCases.forEach((testCase) => {
         it(`${testCase.section} - ${testCase.header}`, () => {
-            const browser = [{width: 1024, height: 2100, name: 'chrome'}];
-
-            cy.visualEyesOpen({
-                batchName: getBatchName('System Console - Compliance'),
-                browser,
-            });
-
             // # Click the link on the sidebar
             cy.get('.admin-sidebar').should('be.visible').within(() => {
                 cy.findByText(testCase.sidebar).scrollIntoView().should('be.visible').click();
@@ -76,13 +63,6 @@ describe('System Console - Compliance', () => {
             cy.url().should('include', testCase.url);
             cy.get('.admin-console').should('be.visible').within(() => {
                 cy.get('.admin-console__header').should('be.visible').and(testCase.headerContains ? 'contain' : 'have.text', testCase.header);
-                const otherSaveOptions = testCase.saveOptions ? testCase.saveOptions : {};
-                cy.visualSaveSnapshot({
-                    tag: testCase.sidebar,
-                    target: 'window',
-                    fully: true,
-                    ...otherSaveOptions,
-                });
             });
         });
     });

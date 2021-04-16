@@ -104,6 +104,7 @@ export const Preferences = {
     TEAMS_ORDER: 'teams_order',
     RECOMMENDED_NEXT_STEPS: 'recommended_next_steps',
     CLOUD_UPGRADE_BANNER: 'cloud_upgrade_banner',
+    CLOUD_TRIAL_BANNER: 'cloud_trial_banner',
     ADMIN_CLOUD_UPGRADE_PANEL: 'admin_cloud_upgrade_panel',
 };
 
@@ -432,6 +433,7 @@ export const Threads = {
 
 export const CloudBanners = {
     HIDE: 'hide',
+    TRIAL: 'trial',
 };
 
 export const TELEMETRY_CATEGORIES = {
