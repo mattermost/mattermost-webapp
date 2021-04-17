@@ -47,6 +47,12 @@ describe('Signin/Authentication', () => {
 function verifyForgotPasswordEmail(response, toUser, config) {
     const isoDate = new Date().toISOString().substring(0, 10);
     const {data, status} = response;
+    const {
+        EmailSettings: {FeedbackEmail},
+        ServiceSettings: {SiteURL},
+        SupportSettings: {SupportEmail},
+        TeamSettings: {SiteName},
+    } = config;
 
     // * Should return success status
     expect(status).to.equal(200);
@@ -56,25 +62,24 @@ function verifyForgotPasswordEmail(response, toUser, config) {
     expect(data.to[0]).to.contain(toUser.email);
 
     // * Verify that email is from default feedback email
-    expect(data.from).to.contain(config.EmailSettings.FeedbackEmail || Constants.FixedCloudConfig.EmailSettings.FEEDBACK_EMAIL);
+    expect(data.from).to.contain(FeedbackEmail || Constants.FixedCloudConfig.EmailSettings.FEEDBACK_EMAIL);
 
     // * Verify that date is current
     expect(data.date).to.contain(isoDate);
 
     // * Verify that the email subject is correct
-    expect(data.subject).to.equal(`[${config.TeamSettings.SiteName}] Reset your password`);
+    expect(data.subject).to.equal(`[${SiteName}] Reset your password`);
 
     // * Verify that the email body is correct
     const bodyText = splitEmailBodyText(data.body.text);
-    expect(bodyText.length).to.equal(14);
-    expect(bodyText[1]).to.equal('You requested a password reset');
-    expect(bodyText[4]).to.equal('To change your password, click "Reset Password" below.');
-    expect(bodyText[5]).to.contain('If you did not mean to reset your password, please ignore this email and your password will remain the same. The password reset link expires in 24 hours.');
-    expect(bodyText[7]).to.contain('Reset Password');
-    expect(bodyText[9]).to.contain(`Any questions at all, mail us any time: ${config.SupportSettings.SupportEmail}`);
-    expect(bodyText[10]).to.equal('Best wishes,');
-    expect(bodyText[11]).to.equal(`The ${config.TeamSettings.SiteName} Team`);
-    expect(bodyText[13]).to.equal('To change your notification preferences, log in to your team site and go to Account Settings > Notifications.');
+    expect(bodyText.length).to.equal(11);
+    expect(bodyText[0]).to.equal('Reset Your Password');
+    expect(bodyText[1]).to.equal('Click the button below to reset your password. If you didn’t request this, you can safely ignore this email.');
+    expect(bodyText[3]).to.contain(`Reset Password ( ${SiteURL}/reset_password_complete?token=`);
+    expect(bodyText[5]).to.contain('The password reset link expires in 24 hours.');
+    expect(bodyText[7]).to.contain('Questions?');
+    expect(bodyText[8]).to.equal(`Email us any time at ${SupportEmail} ( ${SupportEmail} )`);
+    expect(bodyText[10]).to.equal('© 2021 Mattermost, Inc. 530 Lytton Avenue, Second floor, Palo Alto, CA, 94301');
 }
 
 function resetPasswordAndLogin(user, team, config) {
@@ -115,7 +120,7 @@ function resetPasswordAndLogin(user, team, config) {
         verifyForgotPasswordEmail(response, user, config);
 
         const bodyText = splitEmailBodyText(response.data.body.text);
-        const passwordResetLink = bodyText[7].match(reUrl)[0];
+        const passwordResetLink = bodyText[3].match(reUrl)[0];
         const token = passwordResetLink.split('token=')[1];
 
         // * Verify length of a token
