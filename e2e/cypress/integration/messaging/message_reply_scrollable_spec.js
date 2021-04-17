@@ -13,6 +13,9 @@
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Messaging', () => {
+    const maxReplyCount = 15;
+    const replyTextBoxId = 'reply_textbox';
+
     before(() => {
         // # Login as test user and visit town-square channel
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
@@ -21,17 +24,6 @@ describe('Messaging', () => {
             // # Post a new message to ensure there will be a post to click on
             cy.postMessage('Hello ' + Date.now());
         });
-    });
-
-    it('MM-T209 Input box on reply thread can expand', () => {
-        const maxReplyCount = 15;
-        const halfViewportHeight = Cypress.config('viewportHeight') / 2;
-        const padding = 10;
-        const postCreateContainerDefaultHeight = 190;
-        const replyTextBoxDefaultHeight = 100;
-        const postCreateContainerClassName = 'post-create__container';
-        const replyTextBoxId = 'reply_textbox';
-        let newLinesCount;
 
         // # Click "Reply"
         cy.getLastPostId().then((postId) => {
@@ -39,11 +31,21 @@ describe('Messaging', () => {
         });
 
         // # Post several replies and verify last reply
-        cy.get(`#${replyTextBoxId}`).clear().should('be.visible').as('replyTextBox');
         for (let i = 1; i <= maxReplyCount; i++) {
             cy.postMessageReplyInRHS(`post ${i}`);
         }
-        verifyLastReply(maxReplyCount);
+    });
+
+    it('MM-T209 Input box on reply thread can expand', () => {
+        const halfViewportHeight = Cypress.config('viewportHeight') / 2;
+        const padding = 10;
+        const postCreateContainerDefaultHeight = 190;
+        const replyTextBoxDefaultHeight = 100;
+        const postCreateContainerClassName = 'post-create__container';
+        let newLinesCount;
+
+        cy.get(`#${replyTextBoxId}`).clear().should('be.visible').as('replyTextBox');
+        verifyLastReply();
 
         // # Get post create container and reply text box
         cy.document().then((doc) => {
@@ -59,11 +61,11 @@ describe('Messaging', () => {
 
         // # Enter new lines into RHS so that box should reach max height, verify last reply, and verify heights
         newLinesCount = 25;
-        enterNewLinesAndVerifyLastReplyAndHeights(newLinesCount, maxReplyCount, postCreateContainerClassName, replyTextBoxId, padding, halfViewportHeight, postCreateContainerDefaultHeight);
+        enterNewLinesAndVerifyLastReplyAndHeights(newLinesCount, postCreateContainerClassName, padding, halfViewportHeight, postCreateContainerDefaultHeight);
 
         // # Enter more new lines into RHS, verify last reply, and verify heights
         newLinesCount *= 2;
-        enterNewLinesAndVerifyLastReplyAndHeights(newLinesCount, maxReplyCount, postCreateContainerClassName, replyTextBoxId, padding, halfViewportHeight, postCreateContainerDefaultHeight);
+        enterNewLinesAndVerifyLastReplyAndHeights(newLinesCount, postCreateContainerClassName, padding, halfViewportHeight, postCreateContainerDefaultHeight);
 
         // # Get first reply and scroll into view
         cy.getNthPostId(-maxReplyCount).then((replyId) => {
@@ -73,24 +75,40 @@ describe('Messaging', () => {
 
         // # Type new message to reply text box and verify last reply
         cy.get('@replyTextBox').type('new message');
-        verifyLastReply(maxReplyCount);
+        verifyLastReply();
+        cy.get('@replyTextBox').clear();
     });
 
-    function enterNewLinesAndVerifyLastReplyAndHeights(newLinesCount, maxReplyCount, postCreateContainerClassName, replyTextBoxId, padding, halfViewportHeight, postCreateContainerDefaultHeight) {
+    it('correctly scrolls to the bottom when a thread is opened', () => {
+        cy.get('.post-right__scroll').scrollIntoView();
+        cy.closeRHS();
+        cy.getLastPostId().then((postId) => {
+            cy.clickPostCommentIcon(postId);
+        });
+        cy.get('#addCommentButton').should('be.visible');
+    });
+
+    it('correctly scrolls to the bottom when the user types in the comment box', () => {
+        cy.get('.post-right__scroll').scrollIntoView();
+        cy.get(`#${replyTextBoxId}`).type('foo', {scrollBehavior: false}); // without scrollBehavior=false cypress automatically scrolls to replyTextBox. We need to check if application does that.
+        cy.get('#addCommentButton').should('be.visible');
+    });
+
+    function enterNewLinesAndVerifyLastReplyAndHeights(newLinesCount, postCreateContainerClassName, padding, halfViewportHeight, postCreateContainerDefaultHeight) {
         const newLines = '{shift}{enter}'.repeat(newLinesCount);
         cy.get('@replyTextBox').type(newLines);
-        verifyLastReply(maxReplyCount);
-        verifyHeights(postCreateContainerClassName, replyTextBoxId, padding, halfViewportHeight, postCreateContainerDefaultHeight);
+        verifyLastReply();
+        verifyHeights(postCreateContainerClassName, padding, halfViewportHeight, postCreateContainerDefaultHeight);
     }
 
-    function verifyLastReply(maxReplyCount) {
+    function verifyLastReply() {
         // * Check last reply is visible
         cy.getLastPostId().then((replyId) => {
             cy.get(`#postMessageText_${replyId}`).should('be.visible').and('have.text', `post ${maxReplyCount}`);
         });
     }
 
-    function verifyHeights(postCreateContainerClassName, replyTextBoxId, padding, halfViewportHeight, postCreateContainerDefaultHeight) {
+    function verifyHeights(postCreateContainerClassName, padding, halfViewportHeight, postCreateContainerDefaultHeight) {
         // # Get post create container and reply text box
         cy.document().then((doc) => {
             const postCreateContainer = doc.getElementsByClassName(postCreateContainerClassName)[0];
