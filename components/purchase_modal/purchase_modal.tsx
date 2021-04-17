@@ -304,6 +304,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                                         onBack={() => {
                                             this.setState({processing: false});
                                         }}
+                                        contactSupportLink={this.props.contactSupportLink}
                                     />
                                 </div>
                             ) : null}
