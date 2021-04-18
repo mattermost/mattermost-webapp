@@ -4,7 +4,6 @@
         "baseUrl": "../node_modules",
         "types": [
             "cypress",
-            "@applitools/eyes-cypress",
         ]
     },
     "include": ["**/*.*"]

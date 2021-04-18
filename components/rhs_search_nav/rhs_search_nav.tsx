@@ -7,7 +7,6 @@ import classNames from 'classnames';
 import Search from 'components/search';
 import FlagIcon from 'components/widgets/icons/flag_icon';
 import MentionsIcon from 'components/widgets/icons/mentions_icon';
-import SearchIcon from 'components/widgets/icons/search_icon';
 import QuickSwitchModal from 'components/quick_switch_modal';
 import {
     Constants,
@@ -75,8 +74,12 @@ class RHSSearchNav extends React.PureComponent<Props, State> {
         this.setState({showSearchBar: RHSSearchNav.getShowSearchBar(this.props)});
     };
 
-    searchMentions = (e: KeyboardEvent) => {
+    mentionButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
+        this.searchMentions();
+    }
+
+    searchMentions = () => {
         const {rhsState, actions: {closeRightHandSide, showMentions}} = this.props;
 
         if (rhsState === RHSStates.MENTION) {
@@ -86,7 +89,7 @@ class RHSSearchNav extends React.PureComponent<Props, State> {
         }
     };
 
-    getFlagged = (e: MouseEvent) => {
+    getFlagged = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         if (this.props.rhsState === RHSStates.FLAG) {
             this.props.actions.closeRightHandSide();
@@ -95,7 +98,7 @@ class RHSSearchNav extends React.PureComponent<Props, State> {
         }
     };
 
-    searchButtonClick = (e: MouseEvent) => {
+    searchButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
 
         this.props.actions.openRHSSearch();
@@ -108,7 +111,7 @@ class RHSSearchNav extends React.PureComponent<Props, State> {
             if (Utils.isKeyPressed(e, Constants.KeyCodes.M)) {
                 e.preventDefault();
                 closeModal(ModalIdentifiers.QUICK_SWITCH);
-                this.searchMentions(e);
+                this.searchMentions();
             }
             if (Utils.isKeyPressed(e, Constants.KeyCodes.L)) {
                 // just close the modal if it's open, but let someone else handle the shortcut
@@ -147,29 +150,11 @@ class RHSSearchNav extends React.PureComponent<Props, State> {
 
         return (
             <>
-                {this.state.showSearchBar ? (
-                    <div
-                        id='searchbarContainer'
-                        className='flex-child search-bar__container'
-                    >
-                        <Search
-                            isFocus={Utils.isMobile() || (rhsOpen && Boolean(rhsState))}
-                        />
-                    </div>
-                ) : (
-                    <HeaderIconWrapper
-                        iconComponent={
-                            <SearchIcon
-                                className='icon icon--standard'
-                                aria-hidden='true'
-                            />
-                        }
-                        ariaLabel={true}
-                        buttonId={'channelHeaderSearchButton'}
-                        onClick={this.searchButtonClick}
-                        tooltipKey={'search'}
-                    />
-                )}
+                <Search
+                    isFocus={Utils.isMobile() || (rhsOpen && Boolean(rhsState))}
+                    hideSearchBar={!this.state.showSearchBar}
+                    enableFindShortcut={true}
+                />
                 <HeaderIconWrapper
                     iconComponent={
                         <MentionsIcon
@@ -180,7 +165,7 @@ class RHSSearchNav extends React.PureComponent<Props, State> {
                     ariaLabel={true}
                     buttonClass={classNames(HEADER_ICON, {[HEADER_ICON_ACTIVE]: rhsState === RHSStates.MENTION})}
                     buttonId={'channelHeaderMentionButton'}
-                    onClick={this.searchMentions}
+                    onClick={this.mentionButtonClick}
                     tooltipKey={'recentMentions'}
                 />
                 <HeaderIconWrapper
