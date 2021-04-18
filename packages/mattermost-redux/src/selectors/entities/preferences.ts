@@ -17,7 +17,7 @@ import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 import {setThemeDefaults} from 'mattermost-redux/utils/theme_utils';
 
 export function getMyPreferences(state: GlobalState): { [x: string]: PreferenceType } {
-    return state.entities.preferences?.myPreferences ?? {};
+    return state.entities.preferences.myPreferences;
 }
 
 export function get(state: GlobalState, category: string, name: string, defaultValue: any = '') {

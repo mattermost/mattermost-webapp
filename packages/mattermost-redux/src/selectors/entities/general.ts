@@ -11,7 +11,7 @@ import {ClientConfig, FeatureFlags} from 'mattermost-redux/types/config';
 import {isMinimumServerVersion} from 'mattermost-redux/utils/helpers';
 
 export function getConfig(state: GlobalState): Partial<ClientConfig> {
-    return state.entities.general?.config;
+    return state.entities.general.config;
 }
 
 /**
