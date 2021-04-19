@@ -168,7 +168,9 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
               Object {
                 "delete_at": 0,
                 "mention_count": 0,
+                "mention_count_root": 0,
                 "msg_count": 0,
+                "msg_count_root": 0,
                 "roles": "team_user",
                 "scheme_admin": false,
                 "scheme_user": true,
@@ -338,7 +340,9 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
               Object {
                 "delete_at": 0,
                 "mention_count": 0,
+                "mention_count_root": 0,
                 "msg_count": 0,
+                "msg_count_root": 0,
                 "roles": "team_user",
                 "scheme_admin": false,
                 "scheme_user": true,
@@ -742,7 +746,9 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
               Object {
                 "delete_at": 0,
                 "mention_count": 0,
+                "mention_count_root": 0,
                 "msg_count": 0,
+                "msg_count_root": 0,
                 "roles": "team_user",
                 "scheme_admin": false,
                 "scheme_user": true,
@@ -912,7 +918,9 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
               Object {
                 "delete_at": 0,
                 "mention_count": 0,
+                "mention_count_root": 0,
                 "msg_count": 0,
+                "msg_count_root": 0,
                 "roles": "team_user",
                 "scheme_admin": false,
                 "scheme_user": true,
@@ -1151,7 +1159,9 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
               Object {
                 "delete_at": 0,
                 "mention_count": 0,
+                "mention_count_root": 0,
                 "msg_count": 0,
+                "msg_count_root": 0,
                 "roles": "team_user",
                 "scheme_admin": false,
                 "scheme_user": true,
