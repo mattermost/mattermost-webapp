@@ -39,7 +39,6 @@ type Props = {
     products?: Dictionary<Product>;
     contactSupportLink: string;
     contactSalesLink: string;
-    contactSupportBillingIssueLink: string;
     isFreeTrial: boolean;
     actions: {
         closeModal: () => void;
@@ -305,7 +304,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                                         onBack={() => {
                                             this.setState({processing: false});
                                         }}
-                                        contactSupportLink={this.props.contactSupportBillingIssueLink}
+                                        contactSupportLink={this.props.contactSalesLink}
                                     />
                                 </div>
                             ) : null}

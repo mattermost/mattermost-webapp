@@ -30,7 +30,6 @@ function mapStateToProps(state: GlobalState) {
         products: state.entities.cloud!.products,
         isDevMode: getConfig(state).EnableDeveloper === 'true',
         contactSupportLink: getCloudContactUsLink(state, InquiryType.Technical),
-        contactSupportBillingIssueLink: getCloudContactUsLink(state, InquiryType.Billing),
         isFreeTrial: subscription?.is_free_trial === 'true',
         contactSalesLink: getCloudContactUsLink(state, InquiryType.Sales),
     };
