@@ -13,11 +13,11 @@ import {requestTrialLicense, upgradeToE0Status, upgradeToE0, restartServer, ping
 import LicenseSettings from './license_settings.jsx';
 
 function mapStateToProps(state) {
-    console.log(JSON.stringify(state));
     const config = getConfig(state);
     return {
         stats: state.entities.admin.analytics,
         upgradedFromTE: config.UpgradedFromTE === 'true',
+        prevTrialLicense: state.entities.admin.prevTrialLicense,
     };
 }
 

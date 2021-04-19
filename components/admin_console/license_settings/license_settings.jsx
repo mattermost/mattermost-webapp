@@ -61,7 +61,6 @@ export default class LicenseSettings extends React.PureComponent {
             upgradeError: null,
             restarting: false,
             restartError: null,
-            prevTrialLicense: null,
         };
 
         this.fileInputRef = React.createRef();
@@ -142,6 +141,7 @@ export default class LicenseSettings extends React.PureComponent {
 
         await this.props.actions.getLicenseConfig();
         this.setState({fileSelected: false, fileName: null, serverError: null, removing: false});
+        this.props.actions.getPrevTrialLicense();
     }
 
     handleUpgrade = async (e) => {
@@ -417,15 +417,11 @@ export default class LicenseSettings extends React.PureComponent {
             );
             licenseContent = this.renderE10E20Content();
         } else {
-            const canStartTrial = true;
-            console.log("canStartTrial:");
-            console.log(canStartTrial);
-            console.log(canStartTrial ? "AAA" : "BBB");
             // Note: DO NOT LOCALISE THESE STRINGS. Legally we can not since the license is in English.
             edition = (
                 <div>
                     {'Mattermost Enterprise Edition. A license is required to unlock enterprise features.'}
-                    {canStartTrial ? this.renderStartTrial() : this.renderPurchaseLicense() }
+                    {this.props.prevTrialLicense && this.props.prevTrialLicense.IsLicensed === 'true' ? this.renderPurchaseLicense() : this.renderStartTrial()}
                 </div>
             );
 
