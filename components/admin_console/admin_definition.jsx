@@ -183,10 +183,7 @@ export const it = {
     licensed: (config, state, license) => license.IsLicensed === 'true',
     licensedForFeature: (feature) => (config, state, license) => license.IsLicensed && license[feature] === 'true',
     hidePaymentInfo: (config, state, license, enterpriseReady, consoleAccess, cloud) => {
-        if (!cloud?.subscription) {
-            return false;
-        }
-        return cloud.subscription.is_paid_tier !== 'true' || cloud.subscription.is_free_trial === 'true';
+        return cloud?.subscription?.is_paid_tier !== 'true' || cloud?.subscription?.is_free_trial === 'true';
     },
     userHasReadPermissionOnResource: (key) => (config, state, license, enterpriseReady, consoleAccess) => consoleAccess?.read?.[key],
     userHasReadPermissionOnSomeResources: (key) => Object.values(key).some((resource) => it.userHasReadPermissionOnResource(resource)),
