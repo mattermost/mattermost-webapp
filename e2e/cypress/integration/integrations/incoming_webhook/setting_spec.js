@@ -72,7 +72,7 @@ describe('Incoming webhook', () => {
 
 function switchToChannel(teamName, channelName) {
     cy.visit(`/${teamName}/channels/town-square`);
-    cy.get(`#sidebarItem_${channelName}`, {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').click();
+    cy.get(`#sidebarItem_${channelName}`, {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').click({force: true});
 }
 
 function editIncomingWebhook(incomingWebhookId, teamName, lockToChannel) {

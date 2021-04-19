@@ -7,7 +7,8 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @enterprise @incoming_webhook @not_cloud
+// Stage: @prod
+// Group: @enterprise @elasticsearch @incoming_webhook @not_cloud
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 import {

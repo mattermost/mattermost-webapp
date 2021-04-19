@@ -171,3 +171,18 @@ Cypress.Commands.add('apiRemoveUserFromChannel', (channelId, userId) => {
         return cy.wrap({member: response.body});
     });
 });
+
+Cypress.Commands.add('apiCreateArchivedChannel', (name, displayName, type = 'O', teamId, messages = [], user) => {
+    return cy.apiCreateChannel(teamId, name, displayName, type).then(({channel}) => {
+        Cypress._.forEach(messages, (message) => {
+            cy.postMessageAs({
+                sender: user,
+                message,
+                channelId: channel.id,
+            });
+        });
+
+        cy.apiDeleteChannel(channel.id);
+        return cy.wrap(channel);
+    });
+});

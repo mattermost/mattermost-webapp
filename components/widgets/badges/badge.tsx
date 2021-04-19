@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, {memo, ReactNode, HTMLAttributes} from 'react';
+import classNames from 'classnames';
 
 import './badge.scss';
 
@@ -15,7 +16,6 @@ type Attrs = HTMLAttributes<HTMLElement>
 const Badge = ({
     show = true,
     children,
-    className,
     ...attrs
 }: Props & Attrs) => {
     if (!show) {
@@ -26,7 +26,7 @@ const Badge = ({
         <div className='Badge'>
             <ButtonOrDiv
                 {...attrs}
-                className={'Badge__box ' + className}
+                className={classNames('Badge__box', attrs.className)}
             >
                 {children}
             </ButtonOrDiv>

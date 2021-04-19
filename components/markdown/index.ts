@@ -15,7 +15,7 @@ import {GlobalState} from 'mattermost-redux/types/store';
 
 import {getEmojiMap} from 'selectors/emojis';
 import {getSiteURL} from 'utils/url';
-import {ChannelNamesMap} from 'utils/text_formatting';
+import {ChannelNamesMap, MentionKey} from 'utils/text_formatting';
 
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 
@@ -23,7 +23,7 @@ import Markdown from './markdown';
 
 type Props = {
     channelNamesMap?: ChannelNamesMap;
-    mentionKeys?: [];
+    mentionKeys?: MentionKey[];
     postId?: string;
 }
 

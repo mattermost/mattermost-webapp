@@ -169,7 +169,7 @@ Cypress.Commands.add('uiWaitUntilMessagePostedIncludes', (message) => {
 Cypress.Commands.add('getLastPostIdRHS', () => {
     waitUntilPermanentPost();
 
-    cy.get('#rhsPostList > div').last().should('have.attr', 'id').and('not.include', ':').
+    cy.get('#rhsContainer .post-right-comments-container > div').last().should('have.attr', 'id').and('not.include', ':').
         invoke('replace', 'rhsPost_', '');
 });
 
@@ -513,15 +513,6 @@ Cypress.Commands.add('updateChannelHeader', (text) => {
         type(text).
         type('{enter}').
         wait(TIMEOUTS.HALF_SEC);
-});
-
-/**
- * Archive the current channel.
- */
-Cypress.Commands.add('uiArchiveChannel', () => {
-    cy.get('#channelHeaderDropdownIcon').click();
-    cy.get('#channelArchiveChannel').click();
-    cy.get('#deleteChannelModalDeleteButton').click();
 });
 
 /**

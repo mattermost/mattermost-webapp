@@ -12,9 +12,9 @@ describe('components/admin_console/license_settings/LicenseSettings', () => {
     const defaultProps = {
         license: {
             IsLicensed: 'true',
-            IssuedAt: '123456',
-            StartsAt: '654321',
-            ExpiresAt: '654321',
+            IssuedAt: '1517714643650',
+            StartsAt: '1517714643650',
+            ExpiresAt: '1620335443650',
             SkuShortName: 'SkuName',
             Name: 'LicenseName',
             Company: 'Mattermost Inc.',
@@ -116,6 +116,12 @@ describe('components/admin_console/license_settings/LicenseSettings', () => {
         const props = {...defaultProps, enterpriseReady: false, actions};
         const wrapper = shallow(<LicenseSettings {...props}/>);
         await flushPromises();
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot enterprise build with trial license', () => {
+        const props = {...defaultProps, license: {IsLicensed: 'true', StartsAt: '1617714643650', IssuedAt: '1617714643650', ExpiresAt: '1620335443650'}};
+        const wrapper = shallow(<LicenseSettings {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 });

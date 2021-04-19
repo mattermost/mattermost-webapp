@@ -406,9 +406,6 @@
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                &:hover {
-                    background: rgba(0, 0, 0, 0.08);
-                }
             }
 
             .selected {
@@ -835,7 +832,8 @@
         padding-bottom: 14px;
     }
 
-    .SidebarChannelGroup_content ul {
+    .SidebarChannelGroup_content ul,
+    .NavGroupContent {
         margin: 0;
         padding: 0;
     }
@@ -1065,7 +1063,7 @@
 
     .SidebarChannel.active .SidebarLink::before {
         content: '';
-        height: 32px;
+        height: 100%;
         position: absolute;
         left: -2px;
         top: 0;
@@ -1081,7 +1079,7 @@
     }
     .SidebarChannel .SidebarLink > i {
         font-size: 18px;
-        margin: 0 10px 0 -2px;
+        margin: 0 6px 0 -2px;
         display: flex;
     }
 
@@ -1109,7 +1107,7 @@
 
     .DirectChannel__profile-picture {
         height: 20px;
-        margin-right: 13px;
+        margin-right: 9px;
 
         .DirectChannel__status-icon {
             position: absolute;
@@ -1117,8 +1115,8 @@
             left: 10px;
             border-radius: 100%;
             background: var(--sidebar-bg);
-            height: 12px;
-            width: 12px;
+            height: 13px;
+            width: 13px;
             font-size: 12px;
             align-items: center;
             justify-content: center;
@@ -1147,7 +1145,7 @@
 
     .status.status--group {
         background: rgba(var(--sidebar-text-rgb), 0.16);
-        margin: 0px 13px 0 1px;
+        margin: 0px 9px 0 1px;
         width: 18px;
         height: 18px;
         flex-shrink: 0;
