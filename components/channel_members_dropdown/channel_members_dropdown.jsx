@@ -4,6 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+import {Tooltip} from 'react-bootstrap';
 
 import {Constants} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
@@ -11,6 +12,7 @@ import * as Utils from 'utils/utils.jsx';
 import DropdownIcon from 'components/widgets/icons/fa_dropdown_icon';
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
+import OverlayTrigger from 'components/overlay_trigger';
 
 const ROWS_FROM_BOTTOM_TO_OPEN_UP = 3;
 
@@ -121,6 +123,36 @@ export default class ChannelMembersDropdown extends React.PureComponent {
         if (user.id === currentUserId) {
             return null;
         }
+
+        if (user.remote_id) {
+            const sharedTooltip = (
+                <Tooltip id='sharedTooltip'>
+                    <FormattedMessage
+                        id='shared_user_indicator.tooltip'
+                        defaultMessage='From trusted organizations'
+                    />
+                </Tooltip>
+            );
+
+            return (
+                <div className='more-modal__shared-actions'>
+                    <OverlayTrigger
+                        delayShow={Constants.OVERLAY_TIME_DELAY}
+                        placement='bottom'
+                        overlay={sharedTooltip}
+                    >
+                        <span>
+                            <FormattedMessage
+                                id='channel_members_dropdown.shared_member'
+                                defaultMessage='Shared Member'
+                            />
+                            <i className='shared-user-icon icon-circle-multiple-outline'/>
+                        </span>
+                    </OverlayTrigger>
+                </div>
+            );
+        }
+
         const canMakeUserChannelMember = canChangeMemberRoles && isChannelAdmin;
         const canMakeUserChannelAdmin = canChangeMemberRoles && isLicensed && isMember;
         const canRemoveUserFromChannel = canRemoveMember && (!channel.group_constrained || user.is_bot) && (!isDefaultChannel || isGuest);

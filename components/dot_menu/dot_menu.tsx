@@ -112,7 +112,7 @@ type State = {
     canDelete: boolean;
 }
 
-class DotMenu extends React.PureComponent<Props, State> {
+export class DotMenuClass extends React.PureComponent<Props, State> {
     public static defaultProps: Partial<Props> = {
         commentCount: 0,
         isFlagged: false,
@@ -489,4 +489,4 @@ class DotMenu extends React.PureComponent<Props, State> {
     }
 }
 
-export default injectIntl(DotMenu);
+export default injectIntl(DotMenuClass);
