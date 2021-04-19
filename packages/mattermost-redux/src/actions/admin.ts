@@ -445,35 +445,7 @@ export function removeLicense(): ActionFunc {
     });
 }
 
-// export function getClientConfig(): ActionFunc {
-//     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-//         let data;
-//         try {
-//             data = await Client4.getClientConfigOld();
-//         } catch (error) {
-//             forceLogoutIfNecessary(error, dispatch, getState);
-//             return {error};
-//         }
-//
-//         Client4.setEnableLogging(data.EnableDeveloper === 'true');
-//         Client4.setDiagnosticId(data.DiagnosticId);
-//
-//         dispatch(batchActions([
-//             {type: GeneralTypes.CLIENT_CONFIG_RECEIVED, data},
-//         ]));
-//
-//         return {data};
-//     };
-// }
-
 export function getPrevTrialLicense(): ActionFunc {
-    // return bindClientFunc({
-    //     clientFunc: Client4.getPrevTrialLicense,
-    //     onRequest: AdminTypes.PREV_TRIAL_LICENSE_REQUEST,
-    //     onSuccess: AdminTypes.PREV_TRIAL_LICENSE_SUCCESS,
-    //     onFailure: AdminTypes.PREV_TRIAL_LICENSE_FAILURE,
-    // });
-
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         let data;
         try {

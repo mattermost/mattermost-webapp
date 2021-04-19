@@ -13,9 +13,9 @@ import {daysToLicenseExpire} from 'utils/license_utils.jsx';
 import {getBrowserTimezone} from 'utils/timezone';
 
 import PurchaseLink from 'components/announcement_bar/purchase_link/purchase_link';
+import ContactSales from "components/announcement_bar/contact_sales/contact_sales";
 
 import './trial_license_card.scss';
-import ContactSales from "../../../announcement_bar/contact_sales/contact_sales";
 
 export interface Props {
     license: any;
@@ -76,15 +76,6 @@ const TrialLicenseCard: React.FC<Props> = ({license}: Props) => {
                         />
                     }
                 />
-                {/*<button*/}
-                {/*    className='ContactSales'*/}
-                {/*    onClick={(e) => handleContactLinkClick(e)}*/}
-                {/*>*/}
-                {/*    <FormattedMessage*/}
-                {/*        id='admin.license.trialCard.contactSales'*/}
-                {/*        defaultMessage='Contact sales'*/}
-                {/*    />*/}
-                {/*</button>*/}
                 <ContactSales
                     buttonTextElement={
                         <FormattedMessage

@@ -687,5 +687,6 @@ export default combineReducers({
     // total custom retention policies
     dataRetentionCustomPoliciesCount,
 
+    // the last trial license the server used.
     prevTrialLicense,
 });
