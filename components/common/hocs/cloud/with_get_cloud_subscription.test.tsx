@@ -4,7 +4,7 @@
 import React, {ComponentType} from 'react';
 import {mount} from 'enzyme';
 
-import withGetCloudSubscription from './with_get_cloud_subcription';
+import withGetCloudSubscription from './with_get_cloud_subscription';
 
 describe('/components/common/hocs/with_get_cloud_subcription', () => {
     let TestComponent: ComponentType;
