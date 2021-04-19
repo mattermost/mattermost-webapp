@@ -7,12 +7,11 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @auto_response @messaging
 
 describe('Auto Response In DMs', () => {
     const AUTO_RESPONSE_MESSAGE = 'Out of Office';
-    const MESSAGE = 'Message';
+    const MESSAGES = ['Message1', 'Message2', 'Message3'];
     let userA;
     let userB;
     let testTeam;
@@ -37,7 +36,7 @@ describe('Auto Response In DMs', () => {
         });
     });
 
-    it('MM-T4004_1 Login as userB and set auto response message', () => {
+    it('MM-T4004 Out-of-office automatic reply sends only one in a direct message within one calendar day', () => {
         // # Login as userB
         cy.apiLogin(userB);
 
@@ -64,9 +63,7 @@ describe('Auto Response In DMs', () => {
 
         // # Logout userB
         cy.apiLogout();
-    });
 
-    it('MM-T4004_1 Login as userA and send direct messages and verify only one auto response message is sent from userB', () => {
         // # Login as userA
         cy.apiLogin(userA);
 
@@ -80,30 +77,27 @@ describe('Auto Response In DMs', () => {
         cy.findByText('Loading').should('not.exist');
         cy.get('#multiSelectList').findByText(`@${userB.username}`).click();
         cy.findByText('Go').click();
-        cy.postMessage(MESSAGE);
+        cy.postMessage(MESSAGE[0]);
 
-        // * Verify if auto response message is last post displayed
+        // * Verify if auto response message in last post is displayed
         cy.getLastPostId().then((replyId) => {
             cy.get(`#postMessageText_${replyId}`).should('be.visible').and('have.text', AUTO_RESPONSE_MESSAGE);
         });
 
         // # Send another direct message to userB
-        cy.postMessage(MESSAGE);
+        cy.postMessage(MESSAGES[1]);
 
-        // * Verify if auto response message is last post displayed
+        // * Verify if recent direct message and not the auto response in last post is displayed
         cy.getLastPostId().then((replyId) => {
-            cy.get(`#postMessageText_${replyId}`).should('be.visible').and('have.text', MESSAGE);
+            cy.get(`#postMessageText_${replyId}`).should('be.visible').and('have.text', MESSAGE[1]);
         });
 
         // # Send another direct message to userB
-        cy.postMessage(MESSAGE);
+        cy.postMessage(MESSAGES[2]);
 
-        // * Verify if auto response message is last post displayed
+        // * Verify if recent direct message and not the auto response in last post is displayed
         cy.getLastPostId().then((replyId) => {
-            cy.get(`#postMessageText_${replyId}`).should('be.visible').and('have.text', MESSAGE);
+            cy.get(`#postMessageText_${replyId}`).should('be.visible').and('have.text', MESSAGE[2]);
         });
-
-        // # Logout userA
-        cy.apiLogout();
     });
 });
