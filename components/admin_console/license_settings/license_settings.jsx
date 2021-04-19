@@ -16,11 +16,11 @@ import {trackEvent} from 'actions/telemetry_actions';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
+import PurchaseLink from 'components/announcement_bar/purchase_link/purchase_link';
+import ContactSales from 'components/announcement_bar/contact_sales/contact_sales';
 
 import RenewLinkCard from './renew_license_card/renew_license_card';
 import TrialLicenseCard from './trial_license_card/trial_license_card';
-import PurchaseLink from '../../announcement_bar/purchase_link/purchase_link';
-import ContactSales from '../../announcement_bar/contact_sales/contact_sales';
 
 import './license_settings.scss';
 
@@ -32,6 +32,7 @@ export default class LicenseSettings extends React.PureComponent {
         stats: PropTypes.object,
         config: PropTypes.object,
         isDisabled: PropTypes.bool,
+        prevTrialLicense: PropTypes.object,
         actions: PropTypes.shape({
             getLicenseConfig: PropTypes.func.isRequired,
             uploadLicense: PropTypes.func.isRequired,
@@ -222,7 +223,7 @@ export default class LicenseSettings extends React.PureComponent {
                     />
                 </p>
             </React.Fragment>
-        )
+        );
     }
 
     renderPurchaseLicense = () => {

@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import {AdminTypes, GeneralTypes} from 'mattermost-redux/action_types';
+import {AdminTypes} from 'mattermost-redux/action_types';
 import {General} from '../constants';
 import {Client4} from 'mattermost-redux/client';
 
@@ -456,11 +456,11 @@ export function getPrevTrialLicense(): ActionFunc {
         }
 
         dispatch(batchActions([
-            {type: AdminTypes.PREV_TRIAL_LICENSE_SUCCESS, data}
+            {type: AdminTypes.PREV_TRIAL_LICENSE_SUCCESS, data},
         ]));
 
-        return {data}
-    }
+        return {data};
+    };
 }
 
 export function getAnalytics(name: string, teamId = ''): ActionFunc {

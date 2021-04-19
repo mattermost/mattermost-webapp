@@ -8,7 +8,7 @@ import './purchase_link.scss';
 
 export interface Props {
     buttonTextElement: JSX.Element;
-    eventID?: String;
+    eventID?: string;
 }
 
 const PurchaseLink: React.FC<Props> = (props: Props) => {

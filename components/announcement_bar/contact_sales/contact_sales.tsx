@@ -1,11 +1,15 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
 import React from 'react';
+
 import {trackEvent} from 'actions/telemetry_actions';
 
 import './contact_sales.scss';
 
 export interface Props {
-    buttonTextElement: JSX.Element,
-    eventID?: string
+    buttonTextElement: JSX.Element;
+    eventID?: string;
 }
 
 const ContactSales: React.FC<Props> = (props: Props) => {
@@ -13,7 +17,7 @@ const ContactSales: React.FC<Props> = (props: Props) => {
         e.preventDefault();
         trackEvent('admin', props.eventID || 'in_trial_contact_sales');
         window.open('https://mattermost.com/contact-us/', '_blank');
-    }
+    };
 
     return (
         <button
@@ -22,7 +26,7 @@ const ContactSales: React.FC<Props> = (props: Props) => {
         >
             {props.buttonTextElement}
         </button>
-    )
+    );
 };
 
 export default ContactSales;

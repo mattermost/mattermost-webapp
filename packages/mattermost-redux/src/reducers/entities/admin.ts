@@ -79,11 +79,11 @@ function config(state: Partial<AdminConfig> = {}, action: GenericAction) {
 
 function prevTrialLicense(state: Partial<AdminConfig> = {}, action: GenericAction) {
     switch (action.type) {
-        case AdminTypes.PREV_TRIAL_LICENSE_SUCCESS: {
-            return action.data
-        }
-        default:
-            return state;
+    case AdminTypes.PREV_TRIAL_LICENSE_SUCCESS: {
+        return action.data;
+    }
+    default:
+        return state;
     }
 }
 
