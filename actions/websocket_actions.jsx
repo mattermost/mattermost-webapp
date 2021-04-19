@@ -183,8 +183,10 @@ export function reconnect(includeWebSocket = true) {
         const currentChannelId = getCurrentChannelId(state);
         const mostRecentId = getMostRecentPostIdInChannel(state, currentChannelId);
         const mostRecentPost = getPost(state, mostRecentId);
+
         dispatch(loadChannelsForCurrentUser());
         dispatch(handleRefreshAppsBindings());
+
         if (mostRecentPost) {
             dispatch(syncPostsInChannel(currentChannelId, mostRecentPost.create_at));
         } else {
