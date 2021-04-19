@@ -39,7 +39,7 @@ exports[`components/SignupEmail should match snapshot 1`] = `
         <Link
           id="signin_account_link"
           onClick={[Function]}
-          to="/loginundefined"
+          to="/login?token=9f392f193973g11ggh398h39hg0ghH&email=test@example.com"
         >
           <FormattedMessage
             defaultMessage="Click here to sign in."
@@ -72,7 +72,7 @@ exports[`components/SignupEmail should match snapshot 1`] = `
                 autoFocus={true}
                 className="form-control"
                 id="email"
-                maxLength="128"
+                maxLength={128}
                 placeholder=""
                 spellCheck="false"
                 type="email"
@@ -143,7 +143,7 @@ exports[`components/SignupEmail should match snapshot 1`] = `
               <input
                 className="form-control"
                 id="password"
-                maxLength="128"
+                maxLength={128}
                 placeholder=""
                 spellCheck="false"
                 type="password"

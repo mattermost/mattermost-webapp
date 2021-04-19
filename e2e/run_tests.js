@@ -65,9 +65,6 @@ async function runTests() {
         BROWSER,
         BUILD_ID,
         HEADLESS,
-        ENABLE_VISUAL_TEST,
-        APPLITOOLS_API_KEY,
-        APPLITOOLS_BATCH_NAME,
     } = process.env;
 
     const browser = BROWSER || 'chrome';
@@ -102,9 +99,6 @@ async function runTests() {
                 trashAssetsBeforeRuns: false,
             },
             env: {
-                enableVisualTest: ENABLE_VISUAL_TEST,
-                enableApplitools: Boolean(APPLITOOLS_API_KEY),
-                batchName: APPLITOOLS_BATCH_NAME,
                 firstTest: j === 0,
             },
             reporter: 'cypress-multi-reporters',
