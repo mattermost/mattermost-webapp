@@ -67,6 +67,7 @@ class SwitchChannelSuggestion extends Suggestion {
         const channelIsArchived = channel.delete_at && channel.delete_at !== 0;
 
         const member = this.props.channelMember;
+        const teammate = this.props.dmChannelTeammate;
         let badge = null;
 
         if (member) {
@@ -88,6 +89,7 @@ class SwitchChannelSuggestion extends Suggestion {
                 </div>
             </React.Fragment>
         );
+
         let icon;
         if (channelIsArchived) {
             icon = (
@@ -124,7 +126,7 @@ class SwitchChannelSuggestion extends Suggestion {
                 <div className='pull-left'>
                     <ProfilePicture
                         src={userImageUrl}
-                        status={status}
+                        status={teammate && teammate.is_bot ? null : status}
                         size='sm'
                     />
                 </div>
@@ -133,7 +135,6 @@ class SwitchChannelSuggestion extends Suggestion {
 
         let tag = null;
         if (channel.type === Constants.DM_CHANNEL) {
-            const teammate = this.props.dmChannelTeammate;
             tag = (
                 <React.Fragment>
                     <BotBadge
@@ -152,7 +153,7 @@ class SwitchChannelSuggestion extends Suggestion {
                 deactivated = (' - ' + Utils.localizeMessage('channel_switch_modal.deactivated', 'Deactivated'));
             }
 
-            if (this.props.dmChannelTeammate.is_bot) {
+            if (teammate && teammate.is_bot) {
                 displayName = (
                     <React.Fragment>
                         {userItem.username}
