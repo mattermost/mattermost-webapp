@@ -13,7 +13,7 @@ import {TestHelper} from 'utils/test_helper';
 
 import ResetEmailModal from './reset_email_modal';
 
-describe('components/admin_console/reset_password_modal/reset_password_modal.tsx', () => {
+describe('components/admin_console/reset_email_modal/reset_email_modal.tsx', () => {
     const emptyFunction = jest.fn();
 
     const user: UserProfile = TestHelper.getUserMock({
@@ -24,7 +24,7 @@ describe('components/admin_console/reset_password_modal/reset_password_modal.tsx
         // eslint-disable-next-line @typescript-eslint/ban-types
         actions: {patchUser: jest.fn<ActionResult, Array<{}>>(() => ({data: ''}))},
         user,
-        show: false,
+        show: true,
         onModalSubmit: emptyFunction,
         onModalDismissed: emptyFunction,
     };
@@ -47,47 +47,49 @@ describe('components/admin_console/reset_password_modal/reset_password_modal.tsx
     test('should not update email since the email is empty', () => {
         // eslint-disable-next-line @typescript-eslint/ban-types
         const patchUser = jest.fn<ActionResult, Array<{}>>(() => ({data: ''}));
-        const props = {...baseProps, email: '', actions: {patchUser}};
+        const props = {...baseProps, actions: {patchUser}};
         const wrapper = mountWithIntl(<ResetEmailModal {...props}/>);
 
+        (wrapper.find('input[type=\'email\']').first().instance() as unknown as HTMLInputElement).value = '';
         wrapper.find('button[type=\'submit\']').first().simulate('click', {preventDefault: jest.fn()});
 
         expect(patchUser.mock.calls.length).toBe(0);
-        expect(wrapper.state('serverErrorCurrentPass')).toStrictEqual(
+        expect(wrapper.state('error')).toStrictEqual(
             <FormattedMessage
                 id='user.settings.general.validEmail'
                 defaultMessage='Please enter a valid email address.'
             />);
-        expect(wrapper.state('serverErrorNewPass')).toBeNull();
     });
 
     test('should not update email since the email is invalid', () => {
         // eslint-disable-next-line @typescript-eslint/ban-types
         const patchUser = jest.fn<ActionResult, Array<{}>>(() => ({data: ''}));
-        const props = {...baseProps, email: 'arvinnow', actions: {patchUser}};
+        const email = 'arvinnow';
+        const props = {...baseProps, actions: {patchUser}};
         const wrapper = mountWithIntl(<ResetEmailModal {...props}/>);
 
+        (wrapper.find('input[type=\'email\']').first().instance() as unknown as HTMLInputElement).value = email;
         wrapper.find('button[type=\'submit\']').first().simulate('click', {preventDefault: jest.fn()});
 
         expect(patchUser.mock.calls.length).toBe(0);
-        expect(wrapper.state('serverErrorCurrentPass')).toStrictEqual(
+        expect(wrapper.state('error')).toStrictEqual(
             <FormattedMessage
                 id='user.settings.general.validEmail'
                 defaultMessage='Please enter a valid email address.'
             />);
-        expect(wrapper.state('serverErrorNewPass')).toBeNull();
     });
 
     test('should update email since the email is valid', () => {
         // eslint-disable-next-line @typescript-eslint/ban-types
         const patchUser = jest.fn<ActionResult, Array<{}>>(() => ({data: ''}));
-        const props = {...baseProps, email: 'arvin.darmawan@gmail.com', actions: {patchUser}};
+        const email = 'arvin.darmawan@gmail.com';
+        const props = {...baseProps, actions: {patchUser}};
         const wrapper = mountWithIntl(<ResetEmailModal {...props}/>);
 
+        (wrapper.find('input[type=\'email\']').first().instance() as unknown as HTMLInputElement).value = email;
         wrapper.find('button[type=\'submit\']').first().simulate('click', {preventDefault: jest.fn()});
 
         expect(patchUser.mock.calls.length).toBe(1);
-        expect(wrapper.state('serverErrorCurrentPass')).toBeNull();
-        expect(wrapper.state('serverErrorNewPass')).toBeNull();
+        expect(wrapper.state('error')).toBeNull();
     });
 });
