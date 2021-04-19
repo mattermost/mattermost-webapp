@@ -76,6 +76,10 @@
                     font-size: 14px;
                     margin-bottom: 24px;
                 }
+
+                button {
+                    width: 100%;
+                }
             }
 
             .price-text {
@@ -128,7 +132,7 @@
 
         button {
             background: #0058CC;
-            width: 100%;
+            width: fit-content;
             height: 40px;
             font-weight: 600;
             font-size: 14px;
