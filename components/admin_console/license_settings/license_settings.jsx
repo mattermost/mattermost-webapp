@@ -422,7 +422,7 @@ export default class LicenseSettings extends React.PureComponent {
             edition = (
                 <div>
                     {'Mattermost Enterprise Edition. A license is required to unlock enterprise features.'}
-                    {this.props.prevTrialLicense && this.props.prevTrialLicense.IsLicensed === 'true' ? this.renderPurchaseLicense() : this.renderStartTrial()}
+                    {this.props.prevTrialLicense && this.props.prevTrialLicense.IsLicensed === 'true' ? this.renderPurchaseLicense() : this.renderStartTrial(isDisabled, gettingTrialError)}
                 </div>
             );
 
