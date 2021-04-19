@@ -2984,7 +2984,7 @@ const AdminDefinition = {
                         type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'LdapSettings.BaseDN',
                         label: t('admin.ldap.baseTitle'),
-                        label_default: 'BaseDN:',
+                        label_default: 'Base DN:',
                         help_text: t('admin.ldap.baseDesc'),
                         help_text_default: 'The Base DN is the Distinguished Name of the location where Mattermost should start its search for user and group objects in the AD/LDAP tree.',
                         placeholder: t('admin.ldap.baseEx'),
@@ -3003,7 +3003,7 @@ const AdminDefinition = {
                         label: t('admin.ldap.bindUserTitle'),
                         label_default: 'Bind Username:',
                         help_text: t('admin.ldap.bindUserDesc'),
-                        help_text_default: 'The username used to perform the AD/LDAP search. This should typically be an account created specifically for use with Mattermost. It should have access limited to read the portion of the AD/LDAP tree specified in the BaseDN field.',
+                        help_text_default: 'The username used to perform the AD/LDAP search. This should typically be an account created specifically for use with Mattermost. It should have access limited to read the portion of the AD/LDAP tree specified in the Base DN field.',
                         isDisabled: it.any(
                             it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
                             it.all(
