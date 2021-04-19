@@ -3128,6 +3128,13 @@ describe('Selectors.Channels.getUnreads', () => {
 
     const testState = deepFreezeAndThrowOnMutation({
         entities: {
+            threads: {
+                counts: {},
+            },
+            preferences: {
+                myPreferences: {},
+            },
+            general: {config: {}},
             teams: {
                 currentTeamId: team1.id,
                 teams,
@@ -3229,6 +3236,13 @@ describe('Selectors.Channels.getUnreads', () => {
 
         const state = {
             entities: {
+                threads: {
+                    counts: {},
+                },
+                preferences: {
+                    myPreferences: {},
+                },
+                general: {config: {}},
                 channels: {
                     channels: {
                         channelA,
@@ -3265,6 +3279,13 @@ describe('Selectors.Channels.getUnreads', () => {
 
         const state = {
             entities: {
+                threads: {
+                    counts: {},
+                },
+                preferences: {
+                    myPreferences: {},
+                },
+                general: {config: {}},
                 channels: {
                     channels: {
                         channelA,
@@ -3300,6 +3321,13 @@ describe('Selectors.Channels.getUnreads', () => {
 
         const state = {
             entities: {
+                threads: {
+                    counts: {},
+                },
+                preferences: {
+                    myPreferences: {},
+                },
+                general: {config: {}},
                 channels: {
                     channels: {
                         dmChannel,
@@ -3335,6 +3363,13 @@ describe('Selectors.Channels.getUnreads', () => {
 
         const state = {
             entities: {
+                threads: {
+                    counts: {},
+                },
+                preferences: {
+                    myPreferences: {},
+                },
+                general: {config: {}},
                 channels: {
                     channels: {
                         dmChannel,
@@ -3370,6 +3405,13 @@ describe('Selectors.Channels.getUnreads', () => {
 
         const state = {
             entities: {
+                threads: {
+                    counts: {},
+                },
+                general: {config: {}},
+                preferences: {
+                    myPreferences: {},
+                },
                 channels: {
                     channels: {
                         gmChannel,
@@ -3407,6 +3449,13 @@ describe('Selectors.Channels.getUnreads', () => {
 
         const state = {
             entities: {
+                general: {config: {}},
+                preferences: {
+                    myPreferences: {},
+                },
+                threads: {
+                    counts: {},
+                },
                 channels: {
                     channels: {
                         channelA,

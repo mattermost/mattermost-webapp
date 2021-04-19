@@ -75,7 +75,6 @@ class ChannelHeader extends React.PureComponent {
             showPinnedPosts: PropTypes.func.isRequired,
             showChannelFiles: PropTypes.func.isRequired,
             showMentions: PropTypes.func.isRequired,
-            openRHSSearch: PropTypes.func.isRequired,
             closeRightHandSide: PropTypes.func.isRequired,
             getCustomEmojisInText: PropTypes.func.isRequired,
             updateChannelNotifyProps: PropTypes.func.isRequired,

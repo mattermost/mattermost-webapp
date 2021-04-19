@@ -34,19 +34,19 @@ describe('Negative search filters will omit results', () => {
     });
 
     it('MM-T608 Negative before: filter', () => {
-        const tomorrow = Cypress.moment().add(1, 'days').format('YYYY-MM-DD');
+        const tomorrow = Cypress.dayjs().add(1, 'days').format('YYYY-MM-DD');
         const query = `before:${tomorrow} ${message}`;
         searchAndVerify(query, message);
     });
 
     it('MM-T609 Negative after: filter', () => {
-        const yesterday = Cypress.moment().subtract(1, 'days').format('YYYY-MM-DD');
+        const yesterday = Cypress.dayjs().subtract(1, 'days').format('YYYY-MM-DD');
         const query = `after:${yesterday} ${message}`;
         searchAndVerify(query, message);
     });
 
     it('MM-T611 Negative on: filter', () => {
-        const today = Cypress.moment().format('YYYY-MM-DD');
+        const today = Cypress.dayjs().format('YYYY-MM-DD');
         const query = `on:${today} ${message}`;
         searchAndVerify(query, message);
     });
