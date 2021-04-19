@@ -51,6 +51,10 @@
         .popover-content {
             padding: 2px 3px;
 
+            .markdown__list {
+                margin: 0;
+            };
+
             p {
                 white-space: normal;
                 word-break: normal;
