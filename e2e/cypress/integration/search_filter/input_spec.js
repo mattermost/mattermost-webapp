@@ -50,7 +50,7 @@ describe('Search Date Filter', () => {
     });
 
     it('MM-T596 Use calendar picker to set date', () => {
-        const today = Cypress.moment().format('YYYY-MM-DD');
+        const today = Cypress.dayjs().format('YYYY-MM-DD');
 
         // # Type before: in search field
         cy.get('#searchBox').clear().type('before:');
@@ -77,7 +77,7 @@ describe('Search Date Filter', () => {
     });
 
     it('MM-T3997 Backspace after last character of filter makes calendar reappear', () => {
-        const today = Cypress.moment().format('YYYY-MM-DD');
+        const today = Cypress.dayjs().format('YYYY-MM-DD');
 
         // # Type before: in search field
         cy.get('#searchBox').clear().type('before:');
@@ -119,7 +119,7 @@ describe('Search Date Filter', () => {
     });
 
     it('MM-T601 Remove date filter with keyboard', () => {
-        const queryString = `on:${Cypress.moment().format('YYYY-MM-DD')} ${commonText}`;
+        const queryString = `on:${Cypress.dayjs().format('YYYY-MM-DD')} ${commonText}`;
 
         // * Filter can be removed with keyboard
         cy.get('#searchBox').
