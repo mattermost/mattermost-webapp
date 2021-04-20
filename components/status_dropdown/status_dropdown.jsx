@@ -67,7 +67,7 @@ export default class StatusDropdown extends React.PureComponent {
     }
 
     getCurrentDateTime = (tz, enable) => {
-        let currentDate;
+        let currentDate = new Date();
         if (enable) {
             if (tz.useAutomaticTimezone) {
                 currentDate = getCurrentDateTimeForTimezone(tz.automaticTimezone);
@@ -145,9 +145,7 @@ export default class StatusDropdown extends React.PureComponent {
             dialogType: DndCustomTimePicker,
             dialogProps: {
                 userId: this.props.userId,
-                userTimezone: this.props.userTimezone,
-                isTimezoneEnabled: this.props.isTimezoneEnabled,
-                getCurrentDateTime: this.getCurrentDateTime,
+                currentDate: this.getCurrentDateTime(this.props.userTimezone, this.props.isTimezoneEnabled),
             },
         };
 
