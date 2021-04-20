@@ -125,7 +125,7 @@ export default class SystemRole extends React.PureComponent<Props, State> {
 
         // Do not update permissions if sysadmin or if roles have not been updated (to prevent overrwiting roles with no permissions)
         if (role.name !== Constants.PERMISSIONS_SYSTEM_ADMIN && Object.keys(permissionsToUpdate).length > 0) {
-            const rolePermissionsWithAncillaryPermssions = await Client4.getAncillaryPermissions(updatedRolePermissions)
+            const rolePermissionsWithAncillaryPermssions = await Client4.getAncillaryPermissions(updatedRolePermissions);
 
             const newRole: Role = {
                 ...role,
