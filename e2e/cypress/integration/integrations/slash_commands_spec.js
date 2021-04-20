@@ -155,12 +155,13 @@ describe('Integrations', () => {
 
         // # Post message
         cy.uiPostMessageQuickly(`/msg @${user2.username} Test message `);
+        cy.uiWaitUntilMessagePostedIncludes('Test message');
 
         // * The user stays in the same team
         cy.get(`#${team1.name}TeamButton`).parent().should('have.class', 'active');
 
         // * The user is in the DM channel with user2
-        cy.get(`#sidebarItem_${Cypress._.sortBy([user1.id, user2.id]).join('__')}`).parent().should('have.class', 'active');
+        cy.get(`#sidebarItem_${Cypress._.sortBy([user1.id, user2.id]).join('__')}`).parent().should('be.visible').and('have.class', 'active');
 
         // * The last message is written by user1 and contains the correct text.
         cy.getLastPost().should('contain', 'Test message').and('contain', user1.username);
@@ -169,12 +170,13 @@ describe('Integrations', () => {
 
         // # Post message
         cy.uiPostMessageQuickly(`/msg @${user2.username} Second test `);
+        cy.uiWaitUntilMessagePostedIncludes('Second test');
 
         // * The user stays in the same team
         cy.get(`#${team2.name}TeamButton`).parent().should('have.class', 'active');
 
         // * The user is in the DM channel with user2
-        cy.get(`#sidebarItem_${Cypress._.sortBy([user1.id, user2.id]).join('__')}`).parent().should('have.class', 'active');
+        cy.get(`#sidebarItem_${Cypress._.sortBy([user1.id, user2.id]).join('__')}`).parent().should('be.visible').and('have.class', 'active');
 
         // * The last message is written by user1 and contains the correct text.
         cy.getLastPost().should('contain', 'Second test').and('contain', user1.username);
