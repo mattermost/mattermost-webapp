@@ -73,7 +73,7 @@ class InvitationModalGuestsStep extends React.PureComponent<Props, State> {
 
     onChannelsChange = (channels: Channel[]) => {
         this.setState({channels});
-        this.props.onEdit(this.state.usersAndEmails.length > 0 || channels.length > 0 || this.state.customMessage !== '' || this.state.usersInputValue.length !== 0);
+        this.props.onEdit(this.state.usersAndEmails.length > 0 || channels.length > 0 || this.state.customMessage !== '' || this.state.usersInputValue.length !== 0 || this.state.channelsInputValue.length !== 0);
     }
 
     onMessageChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
