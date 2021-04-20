@@ -23,6 +23,7 @@ type Props = {
     billingDetails: BillingDetails | null;
     stripe: Promise<Stripe | null>;
     isDevMode: boolean;
+    contactSupportLink: string;
     addPaymentMethod: (stripe: Stripe, billingDetails: BillingDetails, isDevMode: boolean) => Promise<boolean | null>;
     onBack: () => void;
     onClose: () => void;
@@ -170,7 +171,7 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
                     buttonText={t('admin.billing.subscription.goBackTryAgain')}
                     buttonHandler={this.handleGoBack}
                     linkText={t('admin.billing.subscription.privateCloudCard.contactSupport')}
-                    linkURL='https://support.mattermost.com/hc/en-us/requests/new?ticket_form_id=360000640492'
+                    linkURL={this.props.contactSupportLink}
                 />
             );
         default:

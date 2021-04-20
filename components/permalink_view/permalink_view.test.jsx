@@ -178,6 +178,8 @@ describe('components/PermalinkView', () => {
             });
 
             test('should redirect to DM link with postId for permalink', async () => {
+                const dateNowOrig = Date.now;
+                Date.now = () => new Date(0).getMilliseconds();
                 const modifiedState = {
                     entities: {
                         ...initialState.entities,
@@ -203,6 +205,7 @@ describe('components/PermalinkView', () => {
                     {type: 'MOCK_GET_CHANNEL_STATS', args: ['dmchannelid']},
                 ]);
                 expect(browserHistory.replace).toHaveBeenCalledWith('/currentteam/messages/@otherUser/dmpostid1');
+                Date.now = dateNowOrig;
             });
 
             test('should redirect to GM link with postId for permalink', async () => {
