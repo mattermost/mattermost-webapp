@@ -111,7 +111,7 @@ describe('MM-18045 Verify Guest User Identification in different screens', () =>
         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
         // # Get yesterdays date in UTC
-        const yesterdaysDate = Cypress.moment().subtract(1, 'days').valueOf();
+        const yesterdaysDate = Cypress.dayjs().subtract(1, 'days').valueOf();
 
         // # Post a day old message
         cy.postMessageAs({sender: guest, message: 'Hello from yesterday', channelId: testChannel.id, createAt: yesterdaysDate}).
