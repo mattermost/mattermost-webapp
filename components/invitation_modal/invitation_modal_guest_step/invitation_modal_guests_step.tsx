@@ -47,7 +47,7 @@ type State = {
     channels: Channel[];
     usersInputValue: string;
     channelsInputValue: string;
-    termWithoutResults?: string | null;
+    termWithoutResults: string;
 }
 
 class InvitationModalGuestsStep extends React.PureComponent<Props, State> {
@@ -62,12 +62,13 @@ class InvitationModalGuestsStep extends React.PureComponent<Props, State> {
             channels: props.defaultChannels || [],
             usersInputValue: '',
             channelsInputValue: '',
+            termWithoutResults: '',
         };
     }
 
     onUsersEmailsChange = (usersAndEmails: string[]) => {
         this.setState({usersAndEmails});
-        this.props.onEdit(usersAndEmails.length > 0 || this.state.channels.length > 0 || this.state.customMessage !== '' || this.state.usersInputValue.length !== 0);
+        this.props.onEdit(usersAndEmails.length > 0 || this.state.channels.length > 0 || this.state.customMessage !== '' || this.state.usersInputValue.length !== 0 || this.state.channelsInputValue.length !== 0);
     }
 
     onChannelsChange = (channels: Channel[]) => {
@@ -96,7 +97,7 @@ class InvitationModalGuestsStep extends React.PureComponent<Props, State> {
             if (data.length === 0) {
                 this.setState({termWithoutResults: term});
             } else {
-                this.setState({termWithoutResults: null});
+                this.setState({termWithoutResults: ''});
             }
         }).catch(() => {
             callback([]);
@@ -104,7 +105,7 @@ class InvitationModalGuestsStep extends React.PureComponent<Props, State> {
     }, 150);
 
     usersLoader = (term: string, callback: (options?: Array<Record<'username | email', string>>) => void) => {
-        if (this.state.termWithoutResults && term.startsWith(this.state.termWithoutResults)) {
+        if (this.state.termWithoutResults && this.state.termWithoutResults.length !== 0 && term.startsWith(this.state.termWithoutResults)) {
             callback([]);
             return;
         }
