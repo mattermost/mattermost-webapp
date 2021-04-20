@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+ // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/search_bar/SearchBar should match snapshot with search 1`] = `
 <div>
@@ -241,72 +241,15 @@ exports[`components/search_bar/SearchBar should match snapshot without search, w
       role="application"
       style="overflow: visible;"
     >
-      <SearchIcon
-        aria-hidden="true"
-        className="search__icon"
-      />
-      <SuggestionBox
-        aria-describedby="searchbar-help-popup"
-        aria-label="Search"
-        autoFocus={false}
-        className="search-bar a11y__region"
-        clearable={true}
-        completeOnTab={true}
-        containerClass=""
-        data-a11y-sort-order="9"
-        dateComponent={[Function]}
-        delayInputUpdate={true}
-        id="searchBox"
-        isRHS={false}
-        listComponent={[Function]}
-        listStyle="top"
-        listenForMentionKeyClick={false}
-        onBlur={[Function]}
-        onChange={[Function]}
-        onClear={[Function]}
-        onFocus={[Function]}
-        onKeyDown={[Function]}
-        openOnFocus={false}
-        openWhenEmpty={false}
-        placeholder="Search"
-        providers={
-          Array [
-            SearchDateProvider {
-              "disableDispatches": false,
-              "latestComplete": true,
-              "latestPrefix": "",
-              "requestStarted": false,
-            },
-            SearchChannelProvider {
-              "autocompleteChannelsForSearch": [MockFunction],
-              "disableDispatches": false,
-              "latestComplete": true,
-              "latestPrefix": "",
-              "requestStarted": false,
-            },
-            SearchUserProvider {
-              "autocompleteUsersInTeam": [MockFunction],
-              "disableDispatches": false,
-              "latestComplete": true,
-              "latestPrefix": "",
-              "requestStarted": false,
-            },
-          ]
-        }
-        renderDividers={true}
-        renderNoResults={false}
-        replaceAllInputOnSelect={false}
-        requiredCharacters={1}
-        tabIndex="0"
-        type="search"
-        value=""
-      />
-      <Popover
-        className="search-help-popover visible a11y__popup"
-        id="searchbar-help-popup"
-        placement="bottom"
-        popoverSize="sm"
-        popoverStyle="info"
+      <div
+        class="search__font-icon"
+      >
+        <i
+          class="icon icon-magnify icon-16"
+        />
+      </div>
+      <div
+        class="searchTypeBadge"
       >
         FILES
         <i
