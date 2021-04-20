@@ -15,9 +15,10 @@ export interface RenewLicenseCardProps {
     license: any;
     isLicenseExpired: boolean;
     totalUsers: number;
+    isDisabled: boolean;
 }
 
-const RenewLicenseCard: React.FC<RenewLicenseCardProps> = ({license, totalUsers, isLicenseExpired}: RenewLicenseCardProps) => {
+const RenewLicenseCard: React.FC<RenewLicenseCardProps> = ({license, totalUsers, isLicenseExpired, isDisabled}: RenewLicenseCardProps) => {
     let titleClass = 'RenewLicenseCard__text-title';
     let iconClass = 'icon-alert-circle-outline';
     const today = moment(Date.now());
@@ -84,7 +85,10 @@ const RenewLicenseCard: React.FC<RenewLicenseCardProps> = ({license, totalUsers,
                         }}
                     />
                 </div>
-                <RenewalLink telemetryInfo={renewLinkTelemetry}/>
+                <RenewalLink
+                    isDisabled={isDisabled}
+                    telemetryInfo={renewLinkTelemetry}
+                />
             </div>
         </div>
     );

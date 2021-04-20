@@ -6,7 +6,6 @@ import {getPostThread} from 'mattermost-redux/actions/posts';
 import {getCurrentTeam, getTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser, getUser} from 'mattermost-redux/selectors/entities/users';
 
-import {fetchThreadMentionCountsByChannel} from 'actions/team_actions.jsx';
 import {loadChannelsForCurrentUser} from 'actions/channel_actions.jsx';
 import {loadNewDMIfNeeded, loadNewGMIfNeeded} from 'actions/user_actions.jsx';
 import {browserHistory} from 'utils/browser_history';
@@ -106,7 +105,6 @@ export function focusPost(postId, returnTo = '', currentUserId) {
         }
 
         dispatch(loadChannelsForCurrentUser());
-        dispatch(fetchThreadMentionCountsByChannel());
         dispatch(getChannelStats(channelId));
     };
 }

@@ -5,7 +5,7 @@ exports[`components/file_search_result/FileSearchResultItem should match snapsho
   className="search-item__container"
   data-testid="search-item-container"
 >
-  <div
+  <button
     className="FileSearchResultItem"
     onClick={[Function]}
   >
@@ -100,13 +100,14 @@ exports[`components/file_search_result/FileSearchResultItem should match snapsho
         onToggle={[Function]}
         stopPropagationOnToggle={true}
       >
-        <span
+        <a
           className="action-icon dots-icon"
+          href="#"
         >
           <i
             className="icon icon-dots-vertical"
           />
-        </span>
+        </a>
         <Menu
           ariaLabel="file menu"
           openLeft={true}
@@ -156,7 +157,7 @@ exports[`components/file_search_result/FileSearchResultItem should match snapsho
         />
       </a>
     </OverlayTrigger>
-  </div>
+  </button>
   <Connect(ViewImageModal)
     fileInfos={
       Array [
@@ -189,7 +190,7 @@ exports[`components/file_search_result/FileSearchResultItem should match snapsho
   className="search-item__container"
   data-testid="search-item-container"
 >
-  <div
+  <button
     className="FileSearchResultItem"
     onClick={[Function]}
   >
@@ -292,13 +293,14 @@ exports[`components/file_search_result/FileSearchResultItem should match snapsho
         onToggle={[Function]}
         stopPropagationOnToggle={true}
       >
-        <span
+        <a
           className="action-icon dots-icon"
+          href="#"
         >
           <i
             className="icon icon-dots-vertical"
           />
-        </span>
+        </a>
         <Menu
           ariaLabel="file menu"
           openLeft={true}
@@ -348,7 +350,7 @@ exports[`components/file_search_result/FileSearchResultItem should match snapsho
         />
       </a>
     </OverlayTrigger>
-  </div>
+  </button>
   <Connect(ViewImageModal)
     fileInfos={
       Array [
@@ -381,7 +383,7 @@ exports[`components/file_search_result/FileSearchResultItem should match snapsho
   className="search-item__container"
   data-testid="search-item-container"
 >
-  <div
+  <button
     className="FileSearchResultItem"
     onClick={[Function]}
   >
@@ -484,13 +486,14 @@ exports[`components/file_search_result/FileSearchResultItem should match snapsho
         onToggle={[Function]}
         stopPropagationOnToggle={true}
       >
-        <span
+        <a
           className="action-icon dots-icon"
+          href="#"
         >
           <i
             className="icon icon-dots-vertical"
           />
-        </span>
+        </a>
         <Menu
           ariaLabel="file menu"
           openLeft={true}
@@ -540,7 +543,7 @@ exports[`components/file_search_result/FileSearchResultItem should match snapsho
         />
       </a>
     </OverlayTrigger>
-  </div>
+  </button>
   <Connect(ViewImageModal)
     fileInfos={
       Array [
@@ -573,7 +576,7 @@ exports[`components/file_search_result/FileSearchResultItem should match snapsho
   className="search-item__container"
   data-testid="search-item-container"
 >
-  <div
+  <button
     className="FileSearchResultItem"
     onClick={[Function]}
   >
@@ -673,13 +676,14 @@ exports[`components/file_search_result/FileSearchResultItem should match snapsho
         onToggle={[Function]}
         stopPropagationOnToggle={true}
       >
-        <span
+        <a
           className="action-icon dots-icon"
+          href="#"
         >
           <i
             className="icon icon-dots-vertical"
           />
-        </span>
+        </a>
         <Menu
           ariaLabel="file menu"
           openLeft={true}
@@ -729,7 +733,7 @@ exports[`components/file_search_result/FileSearchResultItem should match snapsho
         />
       </a>
     </OverlayTrigger>
-  </div>
+  </button>
   <Connect(ViewImageModal)
     fileInfos={
       Array [
