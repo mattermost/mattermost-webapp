@@ -104,6 +104,7 @@ export const Preferences = {
     TEAMS_ORDER: 'teams_order',
     RECOMMENDED_NEXT_STEPS: 'recommended_next_steps',
     CLOUD_UPGRADE_BANNER: 'cloud_upgrade_banner',
+    CLOUD_TRIAL_BANNER: 'cloud_trial_banner',
     ADMIN_CLOUD_UPGRADE_PANEL: 'admin_cloud_upgrade_panel',
 };
 
@@ -432,6 +433,7 @@ export const Threads = {
 
 export const CloudBanners = {
     HIDE: 'hide',
+    TRIAL: 'trial',
 };
 
 export const TELEMETRY_CATEGORIES = {
@@ -618,6 +620,7 @@ export const AnnouncementBarMessages = {
     WARN_METRIC_STATUS_NUMBER_OF_USERS_ACK: t('announcement_bar.warn_metric_status.number_of_users_ack.text'),
     WARN_METRIC_STATUS_NUMBER_OF_POSTS: t('announcement_bar.warn_metric_status.number_of_posts.text'),
     WARN_METRIC_STATUS_NUMBER_OF_POSTS_ACK: t('announcement_bar.warn_metric_status.number_of_posts_ack.text'),
+    TRIAL_LICENSE_EXPIRING: t('announcement_bar.error.trial_license_expiring'),
 };
 
 export const VerifyEmailErrors = {

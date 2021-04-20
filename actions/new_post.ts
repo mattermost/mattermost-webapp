@@ -113,7 +113,7 @@ export function setChannelReadAndViewed(post: Post, websocketMessageProps: NewPo
             dispatch(markChannelAsRead(post.channel_id, undefined, markAsReadOnServer));
             dispatch(markChannelAsViewed(post.channel_id));
         } else {
-            dispatch(markChannelAsUnread(websocketMessageProps.team_id, post.channel_id, websocketMessageProps.mentions, fetchedChannelMember));
+            dispatch(markChannelAsUnread(websocketMessageProps.team_id, post.channel_id, websocketMessageProps.mentions, fetchedChannelMember, post.root_id === ''));
         }
 
         return {data: true};

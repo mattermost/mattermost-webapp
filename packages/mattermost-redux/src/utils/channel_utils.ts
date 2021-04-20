@@ -672,3 +672,7 @@ export function channelListToMap(channelList: Channel[]): IDMappedObjects<Channe
     }
     return channels;
 }
+
+export function getMsgCountInChannel(collapsed: boolean, channel: Channel, member: ChannelMembership): number {
+    return collapsed ? Math.max(channel.total_msg_count_root - member.msg_count_root, 0) : Math.max(channel.total_msg_count - member.msg_count, 0);
+}

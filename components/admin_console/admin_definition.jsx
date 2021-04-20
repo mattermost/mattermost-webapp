@@ -59,7 +59,7 @@ import CustomTermsOfServiceSettings from './custom_terms_of_service_settings';
 import SessionLengthSettings from './session_length_settings';
 import LDAPFeatureDiscovery from './feature_discovery/ldap.tsx';
 import SAMLFeatureDiscovery from './feature_discovery/saml.tsx';
-import BillingSubscriptions from './billing/billing_subscriptions.tsx';
+import BillingSubscriptions from './billing/billing_subscriptions/index.tsx';
 import BillingHistory from './billing/billing_history';
 import CompanyInfo from './billing/company_info';
 import PaymentInfo from './billing/payment_info';
@@ -183,11 +183,8 @@ export const it = {
     enterpriseReady: (config, state, license, enterpriseReady) => enterpriseReady,
     licensed: (config, state, license) => license.IsLicensed === 'true',
     licensedForFeature: (feature) => (config, state, license) => license.IsLicensed && license[feature] === 'true',
-    isPaidTier: (config, state, license, enterpriseReady, consoleAccess, cloud) => {
-        if (!cloud?.subscription) {
-            return false;
-        }
-        return cloud.subscription.is_paid_tier === 'true';
+    hidePaymentInfo: (config, state, license, enterpriseReady, consoleAccess, cloud) => {
+        return cloud?.subscription?.is_paid_tier !== 'true' || cloud?.subscription?.is_free_trial === 'true';
     },
     userHasReadPermissionOnResource: (key) => (config, state, license, enterpriseReady, consoleAccess) => consoleAccess?.read?.[key],
     userHasReadPermissionOnSomeResources: (key) => Object.values(key).some((resource) => it.userHasReadPermissionOnResource(resource)),
@@ -316,7 +313,7 @@ const AdminDefinition = {
             url: 'billing/payment_info',
             title: t('admin.sidebar.payment_info'),
             title_default: 'Payment Information',
-            isHidden: it.not(it.isPaidTier),
+            isHidden: it.hidePaymentInfo,
             searchableStrings: [
                 'admin.billing.payment_info.title',
             ],
@@ -2985,7 +2982,7 @@ const AdminDefinition = {
                         type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'LdapSettings.BaseDN',
                         label: t('admin.ldap.baseTitle'),
-                        label_default: 'BaseDN:',
+                        label_default: 'Base DN:',
                         help_text: t('admin.ldap.baseDesc'),
                         help_text_default: 'The Base DN is the Distinguished Name of the location where Mattermost should start its search for user and group objects in the AD/LDAP tree.',
                         placeholder: t('admin.ldap.baseEx'),
@@ -3004,7 +3001,7 @@ const AdminDefinition = {
                         label: t('admin.ldap.bindUserTitle'),
                         label_default: 'Bind Username:',
                         help_text: t('admin.ldap.bindUserDesc'),
-                        help_text_default: 'The username used to perform the AD/LDAP search. This should typically be an account created specifically for use with Mattermost. It should have access limited to read the portion of the AD/LDAP tree specified in the BaseDN field.',
+                        help_text_default: 'The username used to perform the AD/LDAP search. This should typically be an account created specifically for use with Mattermost. It should have access limited to read the portion of the AD/LDAP tree specified in the Base DN field.',
                         isDisabled: it.any(
                             it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
                             it.all(
@@ -5897,6 +5894,17 @@ const AdminDefinition = {
                         help_text_markdown: false,
                         placeholder: t('admin.experimental.userStatusAwayTimeout.example'),
                         placeholder_default: 'E.g.: "300"',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'ExperimentalSettings.EnableSharedChannels',
+                        label: t('admin.experimental.enableSharedChannels.title'),
+                        label_default: 'Enable Shared Channels:',
+                        help_text: t('admin.experimental.enableSharedChannels.desc'),
+                        help_text_default: 'Toggles Shared Channels',
+                        help_text_markdown: false,
+                        isHidden: it.not(it.licensedForFeature('SharedChannels')),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                 ],

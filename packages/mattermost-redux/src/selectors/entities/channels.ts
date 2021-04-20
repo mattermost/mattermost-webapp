@@ -22,6 +22,7 @@ import {
     getTeammateNameDisplaySetting,
     getVisibleTeammate,
     getVisibleGroupIds,
+    isCollapsedThreadsEnabled,
 } from 'mattermost-redux/selectors/entities/preferences';
 import {haveICurrentChannelPermission, haveIChannelPermission, haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
 import {
@@ -70,6 +71,10 @@ import {
 import {createIdsSelector} from 'mattermost-redux/utils/helpers';
 import {Constants} from 'utils/constants';
 import {getDataRetentionCustomPolicy} from 'mattermost-redux/selectors/entities/admin';
+
+import {ThreadsState} from 'mattermost-redux/types/threads';
+
+import {getThreadCounts} from './threads';
 
 export {getCurrentChannelId, getMyChannelMemberships, getMyCurrentChannelMembership};
 
@@ -504,7 +509,9 @@ export const getUnreads: (state: GlobalState) => {
     getCurrentTeamId,
     getMyTeams,
     getTeamMemberships,
-    (channels: IDMappedObjects<Channel>, myMembers: RelationOneToOne<Channel, ChannelMembership>, users: IDMappedObjects<UserProfile>, currentUserId: string, currentTeamId: string, myTeams: Team[], myTeamMemberships: RelationOneToOne<Team, TeamMembership>): {
+    isCollapsedThreadsEnabled,
+    getThreadCounts,
+    (channels: IDMappedObjects<Channel>, myMembers: RelationOneToOne<Channel, ChannelMembership>, users: IDMappedObjects<UserProfile>, currentUserId: string, currentTeamId: string, myTeams: Team[], myTeamMemberships: RelationOneToOne<Team, TeamMembership>, collapsed: boolean, threadCounts: ThreadsState['counts']): {
         messageCount: number;
         mentionCount: number;
     } => {
@@ -529,20 +536,24 @@ export const getUnreads: (state: GlobalState) => {
                 otherUserId = getUserIdFromChannelName(currentUserId, channel.name);
 
                 if (users[otherUserId] && users[otherUserId].delete_at === 0) {
-                    mentionCountForCurrentTeam += m.mention_count;
+                    mentionCountForCurrentTeam += (collapsed ? m.mention_count_root : m.mention_count);
                 }
-            } else if (m.mention_count > 0 && channel.delete_at === 0) {
-                mentionCountForCurrentTeam += m.mention_count;
+            } else if (channel.delete_at === 0) {
+                if (m.mention_count > 0) {
+                    mentionCountForCurrentTeam += (collapsed ? m.mention_count_root : m.mention_count);
+                }
             }
 
-            if (m.notify_props && m.notify_props.mark_unread !== 'mention' && channel.total_msg_count - m.msg_count > 0) {
-                if (channel.type === General.DM_CHANNEL) {
-                    // otherUserId is guaranteed to have been set above
-                    if (users[otherUserId] && users[otherUserId].delete_at === 0) {
+            if (m.notify_props && m.notify_props.mark_unread !== 'mention') {
+                if (channel.total_msg_count - m.msg_count > 0) {
+                    if (channel.type === General.DM_CHANNEL) {
+                        // otherUserId is guaranteed to have been set above
+                        if (users[otherUserId] && users[otherUserId].delete_at === 0) {
+                            messageCountForCurrentTeam += 1;
+                        }
+                    } else if (channel.delete_at === 0) {
                         messageCountForCurrentTeam += 1;
                     }
-                } else if (channel.delete_at === 0) {
-                    messageCountForCurrentTeam += 1;
                 }
             }
         });
@@ -553,7 +564,7 @@ export const getUnreads: (state: GlobalState) => {
             if (currentTeamId !== team.id) {
                 const member = myTeamMemberships[team.id];
                 acc.messageCount += member.msg_count;
-                acc.mentionCount += member.mention_count;
+                acc.mentionCount += (collapsed ? member.mention_count_root : member.mention_count);
             }
 
             return acc;
@@ -563,10 +574,18 @@ export const getUnreads: (state: GlobalState) => {
         });
 
         // messageCount is the number of unread channels, mention count is the total number of mentions
-        return {
+        const result = {
             messageCount: messageCountForCurrentTeam + otherTeamsUnreadCountForChannels.messageCount,
             mentionCount: mentionCountForCurrentTeam + otherTeamsUnreadCountForChannels.mentionCount,
         };
+
+        // when collapsed threads are enabled, we start with root-post counts from channels, then add the same thread-reply counts from the global threads view
+        if (collapsed) {
+            Object.values(threadCounts).forEach((c) => {
+                result.mentionCount += c.total_unread_mentions;
+            });
+        }
+        return result;
     },
 );
 

@@ -9,7 +9,7 @@ import {ClientConfig, WarnMetricStatus} from 'mattermost-redux/types/config';
 
 import {Dictionary} from 'mattermost-redux/types/utilities';
 
-import {isLicenseExpired, isLicenseExpiring, isLicensePastGracePeriod} from 'utils/license_utils.jsx';
+import {daysToLicenseExpire, isLicenseExpired, isLicenseExpiring, isLicensePastGracePeriod, isTrialLicense} from 'utils/license_utils.jsx';
 import {AnnouncementBarTypes, AnnouncementBarMessages, WarnMetricTypes} from 'utils/constants';
 
 import {t} from 'utils/i18n';
@@ -25,6 +25,7 @@ import warningIcon from 'images/icons/warning-icon.svg';
 
 import UserProfile from 'components/user_profile/user_profile';
 import RenewalLink from '../renewal_link/';
+import PurchaseLink from 'components/announcement_bar/purchase_link/purchase_link';
 
 type Props = {
     config?: Partial<ClientConfig>;
@@ -33,6 +34,7 @@ type Props = {
     user?: UserProfile;
     canViewSystemErrors: boolean;
     totalUsers?: number;
+    dismissedExpiringTrialLicense?: boolean;
     dismissedExpiringLicense?: boolean;
     dismissedNumberOfActiveUsersWarnMetricStatus?: boolean;
     dismissedNumberOfActiveUsersWarnMetricStatusAck?: boolean;
@@ -50,6 +52,10 @@ type Props = {
 const ConfigurationAnnouncementBar: React.FC<Props> = (props: Props) => {
     const dismissExpiringLicense = () => {
         props.actions.dismissNotice(AnnouncementBarMessages.LICENSE_EXPIRING);
+    };
+
+    const dismissExpiringTrialLicense = () => {
+        props.actions.dismissNotice(AnnouncementBarMessages.TRIAL_LICENSE_EXPIRING);
     };
 
     const dismissNumberOfActiveUsersWarnMetric = () => {
@@ -213,7 +219,70 @@ const ConfigurationAnnouncementBar: React.FC<Props> = (props: Props) => {
             );
         }
 
-        if (isLicenseExpiring(props.license) && !props.dismissedExpiringLicense) {
+        const daysUntilLicenseExpires = daysToLicenseExpire(props.license);
+        if (isTrialLicense(props.license) && daysUntilLicenseExpires && daysUntilLicenseExpires <= 14 && !props.dismissedExpiringTrialLicense) {
+            const purchaseLicense = (
+                <PurchaseLink
+                    buttonTextElement={
+                        <FormattedMarkdownMessage
+                            id='announcement_bar.error.purchase_a_license_now'
+                            defaultMessage='Purchase a License Now'
+                        />
+                    }
+                />
+            );
+
+            let message = (
+                <>
+                    <img
+                        className='advisor-icon'
+                        src={alertIcon}
+                    />
+                    <FormattedMarkdownMessage
+                        id='announcement_bar.error.trial_license_expiring'
+                        defaultMessage='**There are {days} days left on your free trial.**'
+                        values={{
+                            days: daysUntilLicenseExpires,
+                        }}
+                    />
+                </>
+            );
+
+            let announcementBarType = AnnouncementBarTypes.ANNOUNCEMENT;
+
+            if (daysUntilLicenseExpires <= 1) {
+                message = (
+                    <>
+                        <img
+                            className='advisor-icon'
+                            src={warningIcon}
+                        />
+                        <FormattedMarkdownMessage
+                            id='announcement_bar.error.trial_license_expiring_last_day'
+                            defaultMessage={'**This is the last day of your free trial. Purchase a license now to continue using E10 & E20 features.**'}
+                        />
+                    </>
+                );
+                announcementBarType = AnnouncementBarTypes.CRITICAL;
+            }
+
+            return (
+                <AnnouncementBar
+                    showCloseButton={true}
+                    handleClose={dismissExpiringTrialLicense}
+                    type={announcementBarType}
+                    message={
+                        <>
+                            {message}
+                            {purchaseLicense}
+                        </>
+                    }
+                    tooltipMsg={message}
+                />
+            );
+        }
+
+        if (!isTrialLicense(props.license) && isLicenseExpiring(props.license) && !props.dismissedExpiringLicense) {
             const message = (<>
                 <img
                     className='advisor-icon'
@@ -242,6 +311,7 @@ const ConfigurationAnnouncementBar: React.FC<Props> = (props: Props) => {
                 />
             );
         }
+
         if (props.license?.IsLicensed === 'false' &&
                 props.warnMetricsStatus) {
             for (const status of Object.values(props.warnMetricsStatus)) {
