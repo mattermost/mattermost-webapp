@@ -422,6 +422,10 @@ export default class Client4 {
         return `${this.getBaseRoute()}/cloud`;
     }
 
+    getPermissionsRoute() {
+        return `${this.getBaseRoute()}/permissions`;
+    }
+
     getUserThreadsRoute(userID: string, teamID: string): string {
         return `${this.getUserRoute(userID)}/teams/${teamID}/threads`;
     }
@@ -3699,6 +3703,13 @@ export default class Client4 {
         return this.doFetch<StatusOK>(
             `${this.getCloudRoute()}/subscription/limitreached/join`,
             {method: 'post'},
+        );
+    }
+
+    getAncillaryPermisisons = (subsectionPermissions: string[]) => {
+        return this.doFetch<string[]>(
+            `${this.getPermissionsRoute()}/ancillary_permissions?subsection_permissions=${subsectionPermissions.join(',')}`,
+            {method: 'get'},
         );
     }
 
