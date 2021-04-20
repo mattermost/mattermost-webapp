@@ -657,6 +657,7 @@ export default class LicenseSettings extends React.PureComponent {
     }
 
     renewLicenseCard = () => {
+        const {isDisabled} = this.props;
         if (isTrialLicense(this.props.license)) {
             return (
                 <TrialLicenseCard
@@ -670,6 +671,7 @@ export default class LicenseSettings extends React.PureComponent {
                     license={this.props.license}
                     isLicenseExpired={isLicenseExpired(this.props.license)}
                     totalUsers={this.props.stats.TOTAL_USERS}
+                    isDisabled={isDisabled}
                 />
             );
         }

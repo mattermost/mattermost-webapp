@@ -26,6 +26,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
         "scheme_id": "",
         "team_id": "",
         "total_msg_count": 0,
+        "total_msg_count_root": 0,
         "type": "O",
         "update_at": 0,
       }
@@ -61,6 +62,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
         "scheme_id": "",
         "team_id": "",
         "total_msg_count": 0,
+        "total_msg_count_root": 0,
         "type": "O",
         "update_at": 0,
       }
@@ -100,6 +102,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
         "scheme_id": "",
         "team_id": "",
         "total_msg_count": 0,
+        "total_msg_count_root": 0,
         "type": "O",
         "update_at": 0,
       }
@@ -135,6 +138,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
         "scheme_id": "",
         "team_id": "",
         "total_msg_count": 0,
+        "total_msg_count_root": 0,
         "type": "O",
         "update_at": 0,
       }
@@ -174,6 +178,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
         "scheme_id": "",
         "team_id": "",
         "total_msg_count": 0,
+        "total_msg_count_root": 0,
         "type": "O",
         "update_at": 0,
       }
@@ -233,6 +238,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
         "scheme_id": "",
         "team_id": "",
         "total_msg_count": 0,
+        "total_msg_count_root": 0,
         "type": "O",
         "update_at": 0,
       }
@@ -272,6 +278,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
         "scheme_id": "",
         "team_id": "",
         "total_msg_count": 0,
+        "total_msg_count_root": 0,
         "type": "O",
         "update_at": 0,
       }
@@ -307,6 +314,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
         "scheme_id": "",
         "team_id": "",
         "total_msg_count": 0,
+        "total_msg_count_root": 0,
         "type": "O",
         "update_at": 0,
       }
