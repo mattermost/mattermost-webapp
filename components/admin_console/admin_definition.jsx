@@ -5204,7 +5204,7 @@ const AdminDefinition = {
         sectionTitle: t('admin.sidebar.compliance'),
         sectionTitleDefault: 'Compliance',
         custom_policy_form_edit: {
-            url: 'compliance/data_retention/custom_policy/:policy_id',
+            url: 'compliance/data_retention_settings/custom_policy/:policy_id',
             isHidden: it.any(
                 it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.COMPLIANCE)),
                 it.configIsFalse('FeatureFlags', 'CustomDataRetentionEnabled'),
