@@ -154,8 +154,9 @@ describe('Integrations', () => {
         cy.visit(testChannelUrl1);
 
         // # Post message
-        cy.uiPostMessageQuickly(`/msg @${user2.username} Test message `);
-        cy.uiWaitUntilMessagePostedIncludes('Test message');
+        const firstMessage = 'First message';
+        cy.uiPostMessageQuickly(`/msg @${user2.username} ${firstMessage} `);
+        cy.uiWaitUntilMessagePostedIncludes(firstMessage);
 
         // * The user stays in the same team
         cy.get(`#${team1.name}TeamButton`).parent().should('have.class', 'active');
@@ -164,13 +165,14 @@ describe('Integrations', () => {
         cy.get(`#sidebarItem_${Cypress._.sortBy([user1.id, user2.id]).join('__')}`).parent().should('be.visible').and('have.class', 'active');
 
         // * The last message is written by user1 and contains the correct text.
-        cy.getLastPost().should('contain', 'Test message').and('contain', user1.username);
+        cy.getLastPost().should('contain', firstMessage).and('contain', user1.username);
 
         cy.visit(testChannelUrl2);
 
         // # Post message
-        cy.uiPostMessageQuickly(`/msg @${user2.username} Second test `);
-        cy.uiWaitUntilMessagePostedIncludes('Second test');
+        const secondMessage = 'Second message';
+        cy.uiPostMessageQuickly(`/msg @${user2.username} ${secondMessage} `);
+        cy.uiWaitUntilMessagePostedIncludes(secondMessage);
 
         // * The user stays in the same team
         cy.get(`#${team2.name}TeamButton`).parent().should('have.class', 'active');
@@ -179,7 +181,7 @@ describe('Integrations', () => {
         cy.get(`#sidebarItem_${Cypress._.sortBy([user1.id, user2.id]).join('__')}`).parent().should('be.visible').and('have.class', 'active');
 
         // * The last message is written by user1 and contains the correct text.
-        cy.getLastPost().should('contain', 'Second test').and('contain', user1.username);
+        cy.getLastPost().should('contain', secondMessage).and('contain', user1.username);
     });
 
     it('MM-T688 /expand', () => {
