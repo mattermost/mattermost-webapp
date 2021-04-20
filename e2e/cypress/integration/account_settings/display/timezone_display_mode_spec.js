@@ -16,7 +16,7 @@ import {getAdminAccount} from '../../../support/env';
 import * as DATE_TIME_FORMAT from '../../../fixtures/date_time_format';
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
-describe('Account Settings > Display > Timezone Mode', () => {
+describe('Account Settings - Timezone Mode', () => {
     const sysadmin = getAdminAccount();
     const date1 = Date.UTC(2020, 0, 5, 4, 30); // Jan 5, 2020 04:30
     const date2 = Date.UTC(2020, 0, 5, 12, 30); // Jan 5, 2020 12:30
@@ -26,12 +26,6 @@ describe('Account Settings > Display > Timezone Mode', () => {
     const timezoneCanonical = {type: 'Canonical', actualValue: 'Asia/Hong_Kong', expectedValue: 'Asia/Hong_Kong'};
     const timezoneUTC = {type: 'Default', actualValue: 'UTC', expectedValue: 'UTC'};
     const timezoneInvalid = {type: 'Invalid', actualValue: 'Invalid', expectedValue: 'UTC'};
-    const datesInUTC = [
-        moment(date1).tz(timezoneUTC.expectedValue),
-        moment(date2).tz(timezoneUTC.expectedValue),
-        moment(date3).tz(timezoneUTC.expectedValue),
-        moment(date4).tz(timezoneUTC.expectedValue),
-    ];
 
     before(() => {
         // # Enable Timezone
@@ -62,7 +56,7 @@ describe('Account Settings > Display > Timezone Mode', () => {
         cy.reload();
     });
 
-    describe('MM-T301_1 Change timezone automatically', () => {
+    it('MM-T301_1 Change timezone automatically', () => {
         const automaticTestCases = [
             {
                 timezone: timezoneLocal,
@@ -76,47 +70,31 @@ describe('Account Settings > Display > Timezone Mode', () => {
         ];
 
         automaticTestCases.forEach((testCase) => {
-            describe('Type: ' + testCase.timezone.type + ', Actual: ' + testCase.timezone.actualValue + ', Expected: ' + testCase.timezone.expectedValue, () => {
-                before(() => {
-                    // # Reset to manual
-                    cy.apiPatchMe({timezone: {automaticTimezone: '', manualTimezone: 'UTC', useAutomaticTimezone: 'false'}});
+            // # Reset to manual
+            cy.apiPatchMe({timezone: {automaticTimezone: '', manualTimezone: 'UTC', useAutomaticTimezone: 'false'}});
 
-                    // # Set timezone display to automatic
-                    setTimezoneDisplayToAutomatic(testCase.timezone);
-                });
+            // # Set timezone display to automatic
+            setTimezoneDisplayToAutomatic(testCase.timezone);
 
-                describe('Clock Mode: 12-hour', () => {
-                    before(() => {
-                        // # Save Clock Display Mode to 12-hour
-                        cy.apiSaveClockDisplayModeTo24HourPreference(false);
-                    });
+            // # Save Clock Display Mode to 12-hour
+            cy.apiSaveClockDisplayModeTo24HourPreference(false);
 
-                    testCase.localTimes.forEach((localTime) => {
-                        it('Post: ' + localTime.postIndex + ', UTC: ' + datesInUTC[localTime.postIndex].format(DATE_TIME_FORMAT.TIME_12_HOUR) + ', New: ' + localTime.dateInTimezone.format(DATE_TIME_FORMAT.TIME_12_HOUR), () => {
-                            // * Verify local time is timezone formatted 12-hour
-                            verifyLocalTimeIsTimezoneFormatted12Hour(localTime);
-                        });
-                    });
-                });
+            // * Verify local time is timezone formatted 12-hour
+            testCase.localTimes.forEach((localTime) => {
+                verifyLocalTimeIsTimezoneFormatted12Hour(localTime);
+            });
 
-                describe('Clock Mode: 24-hour', () => {
-                    before(() => {
-                        // # Save Clock Display Mode to 24-hour
-                        cy.apiSaveClockDisplayModeTo24HourPreference(true);
-                    });
+            // # Save Clock Display Mode to 24-hour
+            cy.apiSaveClockDisplayModeTo24HourPreference(true);
 
-                    testCase.localTimes.forEach((localTime) => {
-                        it('Post: ' + localTime.postIndex + ', UTC: ' + datesInUTC[localTime.postIndex].format(DATE_TIME_FORMAT.TIME_24_HOUR) + ', New: ' + localTime.dateInTimezone.format(DATE_TIME_FORMAT.TIME_24_HOUR), () => {
-                            // * Verify local time is timezone formatted 24-hour
-                            verifyLocalTimeIsTimezoneFormatted24Hour(localTime);
-                        });
-                    });
-                });
+            // * Verify local time is timezone formatted 24-hour
+            testCase.localTimes.forEach((localTime) => {
+                verifyLocalTimeIsTimezoneFormatted24Hour(localTime);
             });
         });
     });
 
-    describe('MM-T301_2 Change timezone manually', () => {
+    it('MM-T301_2 Change timezone manually', () => {
         const manualTestCases = [
             {
                 timezone: timezoneCanonical,
@@ -148,42 +126,26 @@ describe('Account Settings > Display > Timezone Mode', () => {
         ];
 
         manualTestCases.forEach((testCase) => {
-            describe('Type: ' + testCase.timezone.type + ', Actual: ' + testCase.timezone.actualValue + ', Expected: ' + testCase.timezone.expectedValue, () => {
-                before(() => {
-                    // # Reset to automatic
-                    cy.apiPatchMe({timezone: {automaticTimezone: 'Asia/Hong_Kong', manualTimezone: '', useAutomaticTimezone: 'true'}});
+            // # Reset to automatic
+            cy.apiPatchMe({timezone: {automaticTimezone: 'Asia/Hong_Kong', manualTimezone: '', useAutomaticTimezone: 'true'}});
 
-                    // # Set timezone display to manual
-                    setTimezoneDisplayToManual(testCase.timezone);
-                });
+            // # Set timezone display to manual
+            setTimezoneDisplayToManual(testCase.timezone);
 
-                describe('Clock Mode: 12-hour', () => {
-                    before(() => {
-                        // # Save Clock Display Mode to 12-hour
-                        cy.apiSaveClockDisplayModeTo24HourPreference(false);
-                    });
+            // # Save Clock Display Mode to 12-hour
+            cy.apiSaveClockDisplayModeTo24HourPreference(false);
 
-                    testCase.localTimes.forEach((localTime) => {
-                        it('Post: ' + localTime.postIndex + ', UTC: ' + datesInUTC[localTime.postIndex].format(DATE_TIME_FORMAT.TIME_12_HOUR) + ', New: ' + localTime.dateInTimezone.format(DATE_TIME_FORMAT.TIME_12_HOUR), () => {
-                            // * Verify local time is timezone formatted 12-hour
-                            verifyLocalTimeIsTimezoneFormatted12Hour(localTime);
-                        });
-                    });
-                });
+            // * Verify local time is timezone formatted 12-hour
+            testCase.localTimes.forEach((localTime) => {
+                verifyLocalTimeIsTimezoneFormatted12Hour(localTime);
+            });
 
-                describe('Clock Mode: 24-hour', () => {
-                    before(() => {
-                        // # Save Clock Display Mode to 24-hour
-                        cy.apiSaveClockDisplayModeTo24HourPreference(true);
-                    });
+            // # Save Clock Display Mode to 24-hour
+            cy.apiSaveClockDisplayModeTo24HourPreference(true);
 
-                    testCase.localTimes.forEach((localTime) => {
-                        it('Post: ' + localTime.postIndex + ', UTC: ' + datesInUTC[localTime.postIndex].format(DATE_TIME_FORMAT.TIME_24_HOUR) + ', New: ' + localTime.dateInTimezone.format(DATE_TIME_FORMAT.TIME_24_HOUR), () => {
-                            // * Verify local time is timezone formatted 24-hour
-                            verifyLocalTimeIsTimezoneFormatted24Hour(localTime);
-                        });
-                    });
-                });
+            // * Verify local time is timezone formatted 24-hour
+            testCase.localTimes.forEach((localTime) => {
+                verifyLocalTimeIsTimezoneFormatted24Hour(localTime);
             });
         });
     });

@@ -328,7 +328,7 @@ function verifyPostLabel(elementId, username, labelSuffix) {
     cy.get('@lastPost').then((el) => {
         // # Get the post time
         cy.wrap(el).find('time.post__time').invoke('text').then((time) => {
-            const expectedLabel = `At ${time} ${Cypress.moment().format('dddd, MMMM D')}, ${username} ${labelSuffix}`;
+            const expectedLabel = `At ${time} ${Cypress.dayjs().format('dddd, MMMM D')}, ${username} ${labelSuffix}`;
             cy.wrap(el).should('have.attr', 'aria-label', expectedLabel);
         });
     });
