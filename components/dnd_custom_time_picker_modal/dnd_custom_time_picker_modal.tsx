@@ -74,6 +74,20 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
         };
     }
 
+    handleConfirm = () => {
+        const hours = parseInt(this.state.selectedTime.split(':')[0], 10);
+        const minutes = parseInt(this.state.selectedTime.split(':')[1], 10);
+        const endTime = new Date(this.state.selectedDate);
+        endTime.setHours(hours, minutes);
+        this.props.actions.setStatus({
+            user_id: this.props.userId,
+            status: UserStatuses.DND,
+            dnd_end_time: toUTCUnix(endTime),
+            manual: true,
+            last_activity_at: toUTCUnix(this.state.currentDate),
+        });
+    }
+
     handleDaySelection = (day: Date) => {
         const dString = this.formatDate(day);
         this.setState({
