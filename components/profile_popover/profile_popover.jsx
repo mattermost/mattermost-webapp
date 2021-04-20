@@ -275,6 +275,7 @@ class ProfilePopover extends React.PureComponent {
                         showTooltip={false}
                         emojiStyle={{
                             marginRight: 4,
+                            marginTop: 1,
                         }}
                     />
                 </span>
