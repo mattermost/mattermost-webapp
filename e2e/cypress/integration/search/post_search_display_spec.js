@@ -12,7 +12,7 @@
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
-describe('Post search display', () => {
+describe('Search', () => {
     let testTeam;
     let testUser;
     let mmConfig;
@@ -35,7 +35,7 @@ describe('Post search display', () => {
         cy.visit(`/${testTeam.name}/channels/town-square`);
     });
 
-    it('S14252 After clearing search query, search options display', () => {
+    it('MM-T353 After clearing search query, search options display', () => {
         const searchWord = 'Hello';
 
         // # Post a message
