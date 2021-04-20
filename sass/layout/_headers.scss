@@ -377,14 +377,14 @@
             overflow: hidden;
             display: flex;
             margin-left: 4px;
-            margin-top: 3px;
+            margin-top: 4px;
             align-self: start;
             flex-direction: column;
             line-height: 19px;
 
             ul {
                 &:first-child {
-                    margin: 3px 0 0;
+                    margin: 0;
                 }
             }
 
@@ -583,7 +583,7 @@
 
         &:hover {
             &:before {
-                @include alpha-property(background, $black, .1);
+                background: var(--sidebar-text-08);
             }
 
             .user__name {
