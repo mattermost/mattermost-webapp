@@ -77,7 +77,7 @@ describe('Auto Response In DMs', () => {
         cy.findByText('Loading').should('not.exist');
         cy.get('#multiSelectList').findByText(`@${userB.username}`).click();
         cy.findByText('Go').click();
-        cy.postMessage(MESSAGE[0]);
+        cy.postMessage(MESSAGES[0]);
 
         // * Verify if auto response message in last post is displayed
         cy.getLastPostId().then((replyId) => {
@@ -89,7 +89,7 @@ describe('Auto Response In DMs', () => {
 
         // * Verify if recent direct message and not the auto response in last post is displayed
         cy.getLastPostId().then((replyId) => {
-            cy.get(`#postMessageText_${replyId}`).should('be.visible').and('have.text', MESSAGE[1]);
+            cy.get(`#postMessageText_${replyId}`).should('be.visible').and('have.text', MESSAGES[1]);
         });
 
         // # Send another direct message to userB
@@ -97,7 +97,7 @@ describe('Auto Response In DMs', () => {
 
         // * Verify if recent direct message and not the auto response in last post is displayed
         cy.getLastPostId().then((replyId) => {
-            cy.get(`#postMessageText_${replyId}`).should('be.visible').and('have.text', MESSAGE[2]);
+            cy.get(`#postMessageText_${replyId}`).should('be.visible').and('have.text', MESSAGES[2]);
         });
     });
 });
