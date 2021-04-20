@@ -16,7 +16,7 @@ import ArchiveIcon from 'components/widgets/icons/archive_icon';
 interface Props {
     channel: ChannelWithTeamData;
     onRowClick: (id: string) => void;
-    isDisabled? : boolean;
+    isDisabled?: boolean;
 }
 
 export default class ChannelRow extends React.PureComponent<Props> {
