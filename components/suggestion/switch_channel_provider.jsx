@@ -17,6 +17,8 @@ import {
     getChannelByName,
 } from 'mattermost-redux/selectors/entities/channels';
 
+import ProfilePicture from '../profile_picture';
+
 import {getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
@@ -36,8 +38,6 @@ import {sortChannelsByTypeAndDisplayName, isGroupChannelVisible, isUnreadChannel
 import SharedChannelIndicator from 'components/shared_channel_indicator';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import GuestBadge from 'components/widgets/badges/guest_badge';
-import Avatar from 'components/widgets/users/avatar';
-import StatusIcon from 'components/status_icon';
 
 import {getPostDraft} from 'selectors/rhs';
 import store from 'stores/redux_store.jsx';
@@ -67,6 +67,7 @@ class SwitchChannelSuggestion extends Suggestion {
         const channelIsArchived = channel.delete_at && channel.delete_at !== 0;
 
         const member = this.props.channelMember;
+        const teammate = this.props.dmChannelTeammate;
         let badge = null;
 
         if (member) {
@@ -80,8 +81,16 @@ class SwitchChannelSuggestion extends Suggestion {
             className += ' suggestion--selected';
         }
 
-        let displayName = (channel.display_name);
-        let icon = null;
+        let displayName = (
+            <React.Fragment>
+                {channel.display_name}
+                <div className='mentions__fullname'>
+                    {`~${channel.name}`}
+                </div>
+            </React.Fragment>
+        );
+
+        let icon;
         if (channelIsArchived) {
             icon = (
                 <div className='suggestion-list__icon suggestion-list__icon--large'>
@@ -115,60 +124,17 @@ class SwitchChannelSuggestion extends Suggestion {
         } else {
             icon = (
                 <div className='pull-left'>
-                    <Avatar
+                    <ProfilePicture
+                        src={userImageUrl}
+                        status={teammate && teammate.is_bot ? null : status}
                         size='sm'
-                        url={userImageUrl}
                     />
                 </div>
             );
         }
 
-        if (channel.type === Constants.DM_CHANNEL) {
-            let deactivated;
-            if (userItem.delete_at) {
-                deactivated = (' - ' + Utils.localizeMessage('channel_switch_modal.deactivated', 'Deactivated'));
-            }
-
-            if (this.props.dmChannelTeammate.is_bot) {
-                displayName = (
-                    <React.Fragment>
-                        {userItem.username}
-                        {deactivated}
-                    </React.Fragment>
-                );
-            } else if (channel.display_name) {
-                displayName = (
-                    <React.Fragment>
-                        {channel.display_name}
-                        <StatusIcon
-                            className={`${status}--icon`}
-                            status={status}
-                            button={false}
-                        />
-                        <div className='mentions__fullname'>
-                            {userItem.username}
-                            {deactivated}
-                        </div>
-                    </React.Fragment>
-                );
-            } else {
-                displayName = (
-                    <React.Fragment>
-                        {userItem.username}
-                        {deactivated}
-                        <StatusIcon
-                            className={`${status}--icon`}
-                            status={status}
-                            button={false}
-                        />
-                    </React.Fragment>
-                );
-            }
-        }
-
         let tag = null;
         if (channel.type === Constants.DM_CHANNEL) {
-            const teammate = this.props.dmChannelTeammate;
             tag = (
                 <React.Fragment>
                     <BotBadge
@@ -181,6 +147,37 @@ class SwitchChannelSuggestion extends Suggestion {
                     />
                 </React.Fragment>
             );
+
+            let deactivated;
+            if (userItem.delete_at) {
+                deactivated = (' - ' + Utils.localizeMessage('channel_switch_modal.deactivated', 'Deactivated'));
+            }
+
+            if (teammate && teammate.is_bot) {
+                displayName = (
+                    <React.Fragment>
+                        {userItem.username}
+                        {deactivated}
+                    </React.Fragment>
+                );
+            } else if (channel.display_name) {
+                displayName = (
+                    <React.Fragment>
+                        {channel.display_name}
+                        <div className='mentions__fullname'>
+                            {`@${userItem.username}`}
+                            {deactivated}
+                        </div>
+                    </React.Fragment>
+                );
+            } else {
+                displayName = (
+                    <React.Fragment>
+                        {userItem.username}
+                        {deactivated}
+                    </React.Fragment>
+                );
+            }
         }
 
         let sharedIcon = null;
