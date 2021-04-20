@@ -88,10 +88,12 @@ Cypress.Commands.add('cmdOrCtrlShortcut', {prevSubject: true}, (subject, text) =
 // ***********************************************************
 
 Cypress.Commands.add('postMessage', (message) => {
+    cy.get('#postListContent').should('be.visible');
     postMessageAndWait('#post_textbox', message);
 });
 
 Cypress.Commands.add('postMessageReplyInRHS', (message) => {
+    cy.get('#sidebar-right').should('be.visible');
     postMessageAndWait('#reply_textbox', message);
 });
 
@@ -110,10 +112,10 @@ function postMessageAndWait(textboxSelector, message) {
     // some operation which caused to prolong complete page loading.
     cy.wait(TIMEOUTS.HALF_SEC);
 
-    cy.get(textboxSelector, {timeout: TIMEOUTS.HALF_MIN}).as('textboxSelector');
-    cy.get('@textboxSelector').should('be.visible').clear().type(`${message}{enter}`).wait(TIMEOUTS.HALF_SEC);
+    cy.get(textboxSelector, {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').as('textboxSelector');
+    cy.get('@textboxSelector').clear().type(`${message}{enter}`).wait(TIMEOUTS.HALF_SEC);
     cy.get('@textboxSelector').invoke('val').then((value) => {
-        if (value.length > 0) {
+        if (value.length > 0 && value === message) {
             cy.get('@textboxSelector').type('{enter}').wait(TIMEOUTS.HALF_SEC);
         }
     });

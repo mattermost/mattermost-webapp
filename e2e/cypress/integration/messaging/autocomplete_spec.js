@@ -65,13 +65,13 @@ describe('autocomplete', () => {
         cy.get('#post_textbox').should('be.visible').clear().type(`@${testUser.username}`);
 
         // * Verify that the item is displayed or not as expected.
-        cy.get('#suggestionList').within(() => {
+        cy.get('#suggestionList').should('be.visible').within(() => {
             cy.findByText(displayNameTestUser).should('be.visible');
             cy.findByText(displayNameOtherUser).should('not.exist');
         });
 
         // # Post user mention
-        cy.get('#post_textbox').type('{enter}{enter}');
+        cy.uiPostMessageQuickly(`@${testUser.username} `);
         cy.uiWaitUntilMessagePostedIncludes(`${testUser.username}`);
 
         // # Check that the user name has been posted
