@@ -49,7 +49,6 @@ type Props = {
     useLegacyLHS: boolean;
     actions: {
         fetchMyChannelsAndMembers: (teamId: string) => Promise<{ data: { channels: Channel[]; members: ChannelMembership[] } }>;
-        fetchThreadMentionCountsByChannel: () => Promise<{data: any; error?: any}>;
         getMyTeamUnreads: () => Promise<{data: any; error?: any}>;
         viewChannel: (channelId: string, prevChannelId?: string | undefined) => Promise<{data: boolean}>;
         markChannelAsReadOnFocus: (channelId: string) => Promise<{data: any; error?: any}>;
@@ -198,7 +197,6 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
         }
         if (Date.now() - this.blurTime > UNREAD_CHECK_TIME_MILLISECONDS && this.props.currentTeamId) {
             this.props.actions.fetchMyChannelsAndMembers(this.props.currentTeamId);
-            this.props.actions.fetchThreadMentionCountsByChannel();
             this.props.actions.loadProfilesForDirect();
         }
     }
@@ -242,7 +240,6 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
                 });
             },
         );
-        this.props.actions.fetchThreadMentionCountsByChannel();
         this.props.actions.loadStatusesForChannelAndSidebar();
         this.props.actions.loadProfilesForDirect();
 
