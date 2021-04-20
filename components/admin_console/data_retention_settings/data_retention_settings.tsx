@@ -172,8 +172,16 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
         return [{
             cells: {
                 description: Utils.localizeMessage('admin.data_retention.form.text', 'Applies to all teams and channels, but does not apply to custom retention policies.'),
-                channel_messages: this.getMessageRetentionSetting(DataRetentionSettings?.EnableMessageDeletion, DataRetentionSettings?.MessageRetentionDays),
-                files: this.getMessageRetentionSetting(DataRetentionSettings?.EnableFileDeletion, DataRetentionSettings?.FileRetentionDays),
+                channel_messages: (
+                    <div data-testid='global_message_retention_cell'>
+                        {this.getMessageRetentionSetting(DataRetentionSettings?.EnableMessageDeletion, DataRetentionSettings?.MessageRetentionDays)}
+                    </div>
+                ),
+                files: (
+                    <div data-testid='global_file_retention_cell'>
+                        {this.getMessageRetentionSetting(DataRetentionSettings?.EnableFileDeletion, DataRetentionSettings?.FileRetentionDays)}
+                    </div>
+                ),
                 actions: (
                     <MenuWrapper
                         isDisabled={false}
@@ -196,6 +204,7 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                                 }}
                                 text={Utils.localizeMessage('admin.data_retention.globalPoliciesTable.edit', 'Edit')}
                                 disabled={false}
+                                buttonClass={'edit_global_policy'}
                             />
                         </Menu>
                     </MenuWrapper>
@@ -428,18 +437,20 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                                 />
                             </Card.Header>
                             <Card.Body>
-                                <DataGrid
-                                    columns={this.getGlobalPolicyColumns()}
-                                    rows={this.getGlobalPolicyRows()}
-                                    loading={false}
-                                    page={0}
-                                    nextPage={() => {}}
-                                    previousPage={() => {}}
-                                    startCount={1}
-                                    endCount={4}
-                                    total={0}
-                                    className={'customTable'}
-                                />
+                                <div id='global_policy_table'>
+                                    <DataGrid
+                                        columns={this.getGlobalPolicyColumns()}
+                                        rows={this.getGlobalPolicyRows()}
+                                        loading={false}
+                                        page={0}
+                                        nextPage={() => {}}
+                                        previousPage={() => {}}
+                                        startCount={1}
+                                        endCount={4}
+                                        total={0}
+                                        className={'customTable'}
+                                    />
+                                </div>
                             </Card.Body>
                         </Card>
                         <Card
@@ -471,7 +482,9 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                                     }}
                                 />
                             </Card.Header>
-                            <Card.Body>
+                            <Card.Body
+                                expanded={true}
+                            >
                                 <DataGrid
                                     columns={this.getCustomPolicyColumns()}
                                     rows={this.getCustomPolicyRows()}
@@ -513,7 +526,9 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                                     onClick={this.handleCreateJob}
                                 />
                             </Card.Header>
-                            <Card.Body>
+                            <Card.Body
+                                expanded={true}
+                            >
                                 <JobsTable
                                     jobType={JobTypes.DATA_RETENTION}
                                     hideJobCreateButton={true}
