@@ -3,9 +3,9 @@
 
 import React from 'react';
 import {shallow} from 'enzyme';
+import expect from 'expect';
 
 import LicenseSettings from './license_settings.jsx';
-import expect from 'expect';
 
 const flushPromises = () => new Promise(setImmediate);
 
@@ -145,7 +145,7 @@ describe('components/admin_console/license_settings/LicenseSettings', () => {
         const props = {...defaultProps, license: {IsLicensed: 'false'}, prevTrialLicense: {IsLicensed: 'true'}};
         const wrapper = shallow(<LicenseSettings {...props}/>);
         expect(wrapper).toMatchSnapshot();
-    })
+    });
 
     test('should match snapshot after starting trial and removing license', async () => {
         const actions = {
@@ -173,5 +173,5 @@ describe('components/admin_console/license_settings/LicenseSettings', () => {
         expect(wrapper.state('removing')).toBe(false);
 
         expect(wrapper).toMatchSnapshot();
-    })
+    });
 });
