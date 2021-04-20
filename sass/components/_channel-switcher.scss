@@ -180,16 +180,6 @@
             display: none;
         }
 
-        .status-wrapper {
-            height: 24px;
-        }
-
-        .Avatar {
-            width: 24px;
-            height: 24px;
-            min-width: auto
-        }
-
         .more-modal__row {
             border: none;
             height: 40px;
@@ -253,6 +243,33 @@
             border: none;
             overflow: auto;
             padding: 0;
+        }
+
+        .status-wrapper {
+            height: 24px;
+            overflow: visible;
+            margin-top: 4px;
+            margin-right: 12px;
+
+            .status {
+                bottom: -4px;
+                right: -2px;
+
+                svg {
+                    max-width: 11px;
+                    left: 2px;
+                }
+            }
+        }
+
+        .Avatar {
+            width: 24px;
+            height: 24px;
+            min-width: auto;
+
+            &-sm {
+                margin: 0;
+            }
         }
 
         .suggestion-list__divider {
