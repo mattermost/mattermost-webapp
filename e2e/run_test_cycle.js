@@ -27,7 +27,13 @@ const axiosRetry = require('axios-retry');
 const chalk = require('chalk');
 const cypress = require('cypress');
 
-const {MOCHAWESOME_REPORT_DIR} = require('./utils/constants');
+const {
+    getSpecToTest,
+    recordSpecResult,
+    updateCycle,
+} = require('./utils/dashboard');
+const {writeJsonToFile} = require('./utils/report');
+const {MOCHAWESOME_REPORT_DIR, RESULTS_DIR} = require('./utils/constants');
 
 require('dotenv').config();
 axiosRetry(axios, {
@@ -36,66 +42,13 @@ axiosRetry(axios, {
 });
 
 const {
-    AUTOMATION_DASHBOARD_URL,
-    AUTOMATION_DASHBOARD_TOKEN,
     BRANCH,
     BUILD_ID,
     CI_BASE_URL,
     REPO,
 } = process.env;
 
-const connectionErrors = ['ECONNABORTED', 'ECONNREFUSED'];
-
-async function getSpecToTest({repo, branch, build, server}) {
-    try {
-        const response = await axios({
-            url: `${AUTOMATION_DASHBOARD_URL}/executions/specs/start?repo=${repo}&branch=${branch}&build=${build}`,
-            headers: {
-                Authorization: `Bearer ${AUTOMATION_DASHBOARD_TOKEN}`,
-            },
-            method: 'post',
-            timeout: 10000,
-            data: {server},
-        });
-
-        return response.data;
-    } catch (err) {
-        console.log(chalk.red('Failed to get spec to test'));
-        if (connectionErrors.includes(err.code) || !err.response) {
-            console.log(chalk.red(`Error code: ${err.code}`));
-            return {code: err.code};
-        }
-
-        return err.response && err.response.data;
-    }
-}
-
-async function recordSpecResult(specId, spec, tests) {
-    try {
-        const response = await axios({
-            url: `${AUTOMATION_DASHBOARD_URL}/executions/specs/end?id=${specId}`,
-            headers: {
-                Authorization: `Bearer ${AUTOMATION_DASHBOARD_TOKEN}`,
-            },
-            method: 'post',
-            timeout: 10000,
-            data: {spec, tests},
-        });
-
-        console.log(chalk.green('Successfully recorded!'));
-        return response.data;
-    } catch (err) {
-        console.log(chalk.red('Failed to record spec result'));
-        if (connectionErrors.includes(err.code) || !err.response) {
-            console.log(chalk.red(`Error code: ${err.code}`));
-            return {code: err.code};
-        }
-
-        return err.response && err.response.data;
-    }
-}
-
-async function runTest(specExecution) {
+async function runCypressTest(specExecution, testIndex) {
     const browser = 'chrome';
     const headless = true;
 
@@ -122,7 +75,6 @@ async function runTest(specExecution) {
                 html: false,
                 json: true,
                 testMeta: {
-                    platform: 'darwin',
                     browser,
                     headless,
                     branch: BRANCH,
@@ -131,6 +83,22 @@ async function runTest(specExecution) {
             },
         },
     });
+
+    // Write and update test environment details once
+    if (testIndex === 0) {
+        const environment = {
+            cypress_version: result.cypressVersion,
+            browser_name: result.browserName,
+            browser_version: result.browserVersion,
+            headless,
+            os_name: result.osName,
+            os_version: result.osVersion,
+            node_version: process.version,
+        };
+
+        writeJsonToFile(environment, 'environment.json', RESULTS_DIR);
+        await updateCycle(specExecution.cycle_id, environment);
+    }
 
     const {stats, tests, spec} = result.runs[0];
 
@@ -161,49 +129,6 @@ async function runTest(specExecution) {
     await recordSpecResult(specExecution.id, specPatch, testCases);
 }
 
-const maxRetryCount = 5;
-let retries = 0;
-
-async function testLoop() {
-    const spec = await getSpecToTest({
-        repo: REPO,
-        branch: BRANCH,
-        build: BUILD_ID,
-        server: CI_BASE_URL,
-    });
-
-    // Retry on connection/timeout errors
-    if (!spec || spec.code) {
-        if (retries >= maxRetryCount) {
-            console.log(chalk.red(`Test ended due to multiple (${retries}) connection/timeout errors with the dashboard server.`));
-            return;
-        }
-
-        retries++;
-        console.log(chalk.red(`Retry count: ${retries}`));
-        return testLoop(); // eslint-disable-line consistent-return
-    }
-
-    if (!spec.execution || !spec.execution.file) {
-        console.log(chalk.magenta(spec.message));
-        return;
-    }
-
-    const currentTestCount = spec.summary.reduce((total, item) => {
-        return total + parseInt(item.count, 10);
-    }, 0);
-
-    printSummary(spec.summary);
-    console.log(chalk.magenta(`(Testing ${currentTestCount} of ${spec.cycle.specs_registered})  - `, spec.execution.file));
-
-    await runTest(spec.execution);
-
-    // Reset retry count on at least one successful run
-    retries = 0;
-
-    return testLoop(); // eslint-disable-line consistent-return
-}
-
 function printSummary(summary) {
     const obj = summary.reduce((acc, item) => {
         const {server, state, count} = item;
@@ -228,4 +153,82 @@ function printSummary(summary) {
     });
 }
 
-testLoop();
+const maxRetryCount = 5;
+async function runSpecFragment(count, retry) {
+    console.log(chalk.magenta(`Preparing for: ${count + 1}`));
+
+    const spec = await getSpecToTest({
+        repo: REPO,
+        branch: BRANCH,
+        build: BUILD_ID,
+        server: CI_BASE_URL,
+    });
+
+    // Retry on connection/timeout errors
+    if (!spec || spec.code) {
+        if (retry >= maxRetryCount) {
+            return {
+                tryNext: false,
+                count,
+                message: `Test ended due to multiple (${retry}) connection/timeout errors with the dashboard server.`,
+            };
+        }
+
+        console.log(chalk.red(`Retry count: ${retry}`));
+        return runSpecFragment(count, retry + 1);
+    }
+
+    if (!spec.execution || !spec.execution.file) {
+        return {
+            tryNext: false,
+            count,
+            message: spec.message,
+        };
+    }
+
+    const currentTestCount = spec.summary.reduce((total, item) => {
+        return total + parseInt(item.count, 10);
+    }, 0);
+
+    printSummary(spec.summary);
+    console.log(chalk.magenta(`\n(Testing ${currentTestCount} of ${spec.cycle.specs_registered}) - ${spec.execution.file}`));
+    console.log(chalk.magenta(`At "${process.env.CI_BASE_URL}" server`));
+
+    await runCypressTest(spec.execution, count);
+
+    const newCount = count + 1;
+
+    if (spec.cycle.specs_registered === currentTestCount) {
+        return {
+            tryNext: false,
+            count: newCount,
+            message: `Completed testing of all registered ${currentTestCount} spec/s.`,
+        };
+    }
+
+    return {
+        tryNext: true,
+        count: newCount,
+        retry: 0,
+        message: 'Continue testing',
+    };
+}
+
+async function runSpec(count = 0, retry = 0) {
+    const fragment = await runSpecFragment(count, retry);
+    if (fragment.tryNext) {
+        return runSpec(fragment.count, fragment.retry);
+    }
+
+    return {
+        count: fragment.count,
+        message: fragment.message,
+    };
+}
+
+runSpec().then(({count, message}) => {
+    console.log(chalk.magenta(message));
+    if (count > 0) {
+        console.log(chalk.magenta(`This test runner has completed ${count} spec file/s.`));
+    }
+});

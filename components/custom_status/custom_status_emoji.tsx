@@ -58,12 +58,14 @@ const CustomStatusEmoji = (props: ComponentProps) => {
                                 marginTop: 2,
                             }}
                         />
-                        <span
-                            className='custom-status-text'
-                            style={{marginLeft: 5}}
-                        >
-                            {customStatus.text}
-                        </span>
+                        {customStatus.text &&
+                            <span
+                                className='custom-status-text'
+                                style={{marginLeft: 5}}
+                            >
+                                {customStatus.text}
+                            </span>
+                        }
                     </div>
                 </Tooltip>
             }

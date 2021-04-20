@@ -19,6 +19,7 @@ import OverlayTrigger from 'components/overlay_trigger';
 import PopoverListMembers from 'components/popover_list_members';
 import StatusIcon from 'components/status_icon';
 import ArchiveIcon from 'components/widgets/icons/archive_icon';
+import SharedChannelIndicator from 'components/shared_channel_indicator';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 import {ChannelHeaderDropdown} from 'components/channel_header_dropdown';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
@@ -74,7 +75,6 @@ class ChannelHeader extends React.PureComponent {
             showPinnedPosts: PropTypes.func.isRequired,
             showChannelFiles: PropTypes.func.isRequired,
             showMentions: PropTypes.func.isRequired,
-            openRHSSearch: PropTypes.func.isRequired,
             closeRightHandSide: PropTypes.func.isRequired,
             getCustomEmojisInText: PropTypes.func.isRequired,
             updateChannelNotifyProps: PropTypes.func.isRequired,
@@ -231,7 +231,6 @@ class ChannelHeader extends React.PureComponent {
             <>
                 <CustomStatusEmoji
                     userID={this.props.dmUser.id}
-                    emojiSize={15}
                     emojiStyle={{
                         verticalAlign: 'top',
                         margin: '0 4px 1px',
@@ -294,6 +293,16 @@ class ChannelHeader extends React.PureComponent {
         let archivedIcon = null;
         if (channelIsArchived) {
             archivedIcon = (<ArchiveIcon className='icon icon__archive icon channel-header-archived-icon svg-text-color'/>);
+        }
+        let sharedIcon = null;
+        if (channel.shared) {
+            sharedIcon = (
+                <SharedChannelIndicator
+                    className='shared-channel-icon'
+                    channelType={channel.type}
+                    withTooltip={true}
+                />
+            );
         }
         const isDirect = (channel.type === Constants.DM_CHANNEL);
         const isGroup = (channel.type === Constants.GM_CHANNEL);
@@ -407,8 +416,8 @@ class ChannelHeader extends React.PureComponent {
         if (rhsState === RHSStates.PIN) {
             pinnedIconClass += ' channel-header__icon--active';
         }
-        const pinnedIcon = (this.props.pinnedPostsCount ?
-            (<React.Fragment>
+        const pinnedIcon = this.props.pinnedPostsCount ? (
+            <>
                 <i
                     aria-hidden='true'
                     className='icon icon-pin-outline channel-header__pin'
@@ -419,11 +428,13 @@ class ChannelHeader extends React.PureComponent {
                 >
                     {this.props.pinnedPostsCount}
                 </span>
-            </React.Fragment>) : (
-                <i
-                    aria-hidden='true'
-                    className='icon icon-pin-outline channel-header__pin'
-                />));
+            </>
+        ) : (
+            <i
+                aria-hidden='true'
+                className='icon icon-pin-outline channel-header__pin'
+            />
+        );
 
         let headerTextContainer;
         const headerText = (isDirect && dmUser.is_bot) ? dmUser.bot_description : channel.header;
@@ -694,6 +705,7 @@ class ChannelHeader extends React.PureComponent {
                                 <span>
                                     {archivedIcon}
                                     {channelTitle}
+                                    {sharedIcon}
                                 </span>
                             </strong>
                             <span

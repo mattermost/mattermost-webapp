@@ -17,7 +17,7 @@ import {
 } from 'mattermost-redux/selectors/entities/channels';
 
 import {openDirectChannelToUserId} from 'actions/channel_actions.jsx';
-import {getMembershipForCurrentEntities} from 'actions/views/profile_popover';
+import {getMembershipForEntities} from 'actions/views/profile_popover';
 import {closeModal, openModal} from 'actions/views/modals';
 
 import {areTimezonesEnabledAndSupported} from 'selectors/general';
@@ -73,7 +73,7 @@ function mapDispatchToProps(dispatch) {
             closeModal,
             openDirectChannelToUserId,
             openModal,
-            getMembershipForCurrentEntities,
+            getMembershipForEntities,
         }, dispatch),
     };
 }
