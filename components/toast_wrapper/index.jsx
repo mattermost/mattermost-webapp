@@ -40,9 +40,9 @@ export function makeCountUnreadsBelow() {
     return createSelector(
         getAllPosts,
         getCurrentUserId,
-        isCollapsedThreadsEnabled,
         (state, postIds) => postIds,
         (state, postIds, lastViewedBottom) => lastViewedBottom,
+        isCollapsedThreadsEnabled,
         (allPosts, currentUserId, postIds, lastViewedBottom, isCollapsed) => {
             if (!postIds) {
                 return 0;
