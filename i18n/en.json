@@ -4500,7 +4500,7 @@
   "user.settings.push_notification.onlyMentionsOffline": "For mentions and direct messages when offline",
   "user.settings.push_notification.onlyMentionsOnline": "For mentions and direct messages when online, away or offline",
   "user.settings.push_notification.send": "Send mobile push notifications",
-  "user.settings.push_notification.status_info": "Notification alerts are only pushed to your mobile device when your online status matches the selection above.",
+  "user.settings.push_notification.status_info": "Notification alerts are only pushed to your mobile device when your availability matches the selection above.",
   "user.settings.security.active": "Active",
   "user.settings.security.close": "Close",
   "user.settings.security.currentPassword": "Current Password",
