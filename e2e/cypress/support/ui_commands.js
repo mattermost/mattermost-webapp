@@ -516,15 +516,6 @@ Cypress.Commands.add('updateChannelHeader', (text) => {
 });
 
 /**
- * Archive the current channel.
- */
-Cypress.Commands.add('uiArchiveChannel', () => {
-    cy.get('#channelHeaderDropdownIcon').click();
-    cy.get('#channelArchiveChannel').click();
-    cy.get('#deleteChannelModalDeleteButton').click();
-});
-
-/**
  * Navigate to system console-PluginManagement from account settings
  */
 Cypress.Commands.add('checkRunLDAPSync', () => {

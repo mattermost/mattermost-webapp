@@ -42,11 +42,11 @@ describe('Messaging', () => {
         cy.postMessageAs({sender: admin, message: 'Hello from Jan 5, 2019 12:30pm', channelId: newChannel.id, createAt: oldDate});
 
         // # Post message from 4 days ago
-        const ago4 = Cypress.moment().subtract(4, 'days').valueOf();
+        const ago4 = Cypress.dayjs().subtract(4, 'days').valueOf();
         cy.postMessageAs({sender: admin, message: 'Hello from 4 days ago', channelId: newChannel.id, createAt: ago4});
 
         // # Post message from yesterday
-        const yesterdaysDate = Cypress.moment().subtract(1, 'days').valueOf();
+        const yesterdaysDate = Cypress.dayjs().subtract(1, 'days').valueOf();
         cy.postMessageAs({sender: admin, message: 'Hello from yesterday', channelId: newChannel.id, createAt: yesterdaysDate});
 
         // # Post a message for today
