@@ -158,6 +158,29 @@ export default class ChannelMembersDropdown extends React.PureComponent {
         const canRemoveUserFromChannel = canRemoveMember && (!channel.group_constrained || user.is_bot) && (!isDefaultChannel || isGuest);
 
         if (canMakeUserChannelMember || canMakeUserChannelAdmin || canRemoveUserFromChannel) {
+            const removeMenu = (
+                <Menu.ItemAction
+                    show={canRemoveUserFromChannel}
+                    onClick={this.handleRemoveFromChannel}
+                    text={Utils.localizeMessage('channel_members_dropdown.remove_from_channel', 'Remove from Channel')}
+                />
+            );
+            const makeAdminMenu = (
+                <Menu.ItemAction
+                    id={`${user.username}-make-channel-admin`}
+                    show={canMakeUserChannelAdmin}
+                    onClick={this.handleMakeChannelAdmin}
+                    text={Utils.localizeMessage('channel_members_dropdown.make_channel_admin', 'Make Channel Admin')}
+                />
+            );
+            const makeMemberMenu = (
+                <Menu.ItemAction
+                    id={`${user.username}-make-channel-member`}
+                    show={canMakeUserChannelMember}
+                    onClick={this.handleMakeChannelMember}
+                    text={Utils.localizeMessage('channel_members_dropdown.make_channel_member', 'Make Channel Member')}
+                />
+            );
             return (
                 <MenuWrapper>
                     <button
@@ -173,23 +196,9 @@ export default class ChannelMembersDropdown extends React.PureComponent {
                         openUp={totalUsers > ROWS_FROM_BOTTOM_TO_OPEN_UP && totalUsers - index <= ROWS_FROM_BOTTOM_TO_OPEN_UP}
                         ariaLabel={Utils.localizeMessage('channel_members_dropdown.menuAriaLabel', 'Change the role of channel member')}
                     >
-                        <Menu.ItemAction
-                            id={`${user.username}-make-channel-member`}
-                            show={canMakeUserChannelMember}
-                            onClick={this.handleMakeChannelMember}
-                            text={Utils.localizeMessage('channel_members_dropdown.make_channel_member', 'Make Channel Member')}
-                        />
-                        <Menu.ItemAction
-                            id={`${user.username}-make-channel-admin`}
-                            show={canMakeUserChannelAdmin}
-                            onClick={this.handleMakeChannelAdmin}
-                            text={Utils.localizeMessage('channel_members_dropdown.make_channel_admin', 'Make Channel Admin')}
-                        />
-                        <Menu.ItemAction
-                            show={canRemoveUserFromChannel}
-                            onClick={this.handleRemoveFromChannel}
-                            text={Utils.localizeMessage('channel_members_dropdown.remove_from_channel', 'Remove from Channel')}
-                        />
+                        {canMakeUserChannelMember ? makeMemberMenu : null}
+                        {canMakeUserChannelAdmin ? makeAdminMenu : null}
+                        {canRemoveUserFromChannel ? removeMenu : null}
                         {serverError && (
                             <div className='has-error'>
                                 <label className='has-error control-label'>{serverError}</label>
