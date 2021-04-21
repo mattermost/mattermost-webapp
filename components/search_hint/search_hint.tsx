@@ -46,14 +46,20 @@ const SearchHint = (props: Props): JSX.Element => {
                         />
                     </div>
                     <div className='button-container'>
-                        <button onClick={() => props.onSearchTypeSelected && props.onSearchTypeSelected('messages')}>
+                        <button
+                            className={classNames({highlighted: props.highlightedIndex === 0})}
+                            onClick={() => props.onSearchTypeSelected && props.onSearchTypeSelected('messages')}
+                        >
                             <i className='icon icon-message-text-outline'/>
                             <FormattedMessage
                                 id='search_bar.usage.search_type_messages'
                                 defaultMessage='Messages'
                             />
                         </button>
-                        <button onClick={() => props.onSearchTypeSelected && props.onSearchTypeSelected('files')}>
+                        <button
+                            className={classNames({highlighted: props.highlightedIndex === 1})}
+                            onClick={() => props.onSearchTypeSelected && props.onSearchTypeSelected('files')}
+                        >
                             <i className='icon icon-file-document-outline'/>
                             <FormattedMessage
                                 id='search_bar.usage.search_type_files'
