@@ -836,50 +836,110 @@ export default class SchemaAdminSettings extends React.PureComponent {
     }
 
     renderSettings = () => {
+        console.log("a");
         const schema = this.props.schema;
 
-        const settingsList = [];
         if (schema.settings) {
-            schema.settings.forEach((setting) => {
-                if (this.buildSettingFunctions[setting.type] && !this.isHidden(setting)) {
-                    settingsList.push(this.buildSettingFunctions[setting.type](setting));
+            const settingsList = [];
+            if (schema.settings) {
+                schema.settings.forEach((setting) => {
+                    if (this.buildSettingFunctions[setting.type] && !this.isHidden(setting)) {
+                        settingsList.push(this.buildSettingFunctions[setting.type](setting));
+                    }
+                });
+            }
+
+            let header;
+            if (schema.header) {
+                header = (
+                    <div className='banner'>
+                        <SchemaText
+                            text={schema.header}
+                            isMarkdown={true}
+                            isTranslated={this.props.schema.translate}
+                        />
+                    </div>
+                );
+            }
+
+            let footer;
+            if (schema.footer) {
+                footer = (
+                    <div className='banner'>
+                        <SchemaText
+                            text={schema.footer}
+                            isMarkdown={true}
+                            isTranslated={this.props.schema.translate}
+                        />
+                    </div>
+                );
+            }
+
+            return (
+                <SettingsGroup container={false}>
+                    {header}
+                    {settingsList}
+                    {footer}
+                </SettingsGroup>
+            );
+        } else if (schema.sections) {
+            const sections = [];
+
+            schema.sections.forEach(schema => {
+                const settingsList = [];
+                if (schema.settings) {
+                    schema.settings.forEach((setting) => {
+                        if (this.buildSettingFunctions[setting.type] && !this.isHidden(setting)) {
+                            settingsList.push(this.buildSettingFunctions[setting.type](setting));
+                        }
+                    });
                 }
+
+                let header;
+                if (schema.header) {
+                    header = (
+                        <div className='banner'>
+                            <SchemaText
+                                text={schema.header}
+                                isMarkdown={true}
+                                isTranslated={this.props.schema.translate}
+                            />
+                        </div>
+                    );
+                }
+
+                let footer;
+                if (schema.footer) {
+                    footer = (
+                        <div className='banner'>
+                            <SchemaText
+                                text={schema.footer}
+                                isMarkdown={true}
+                                isTranslated={this.props.schema.translate}
+                            />
+                        </div>
+                    );
+                }
+
+                sections.push(
+                    <SettingsGroup className='foo' container={false} title={setting.title} subtitle={setting.subtitle}>
+                        {header}
+                        {settingsList}
+                        {footer}
+                    </SettingsGroup>
+                );
+
+
             });
-        }
 
-        let header;
-        if (schema.header) {
-            header = (
-                <div className='banner'>
-                    <SchemaText
-                        text={schema.header}
-                        isMarkdown={true}
-                        isTranslated={this.props.schema.translate}
-                    />
+            return (
+                <div>
+                    {sections}
                 </div>
             );
         }
 
-        let footer;
-        if (schema.footer) {
-            footer = (
-                <div className='banner'>
-                    <SchemaText
-                        text={schema.footer}
-                        isMarkdown={true}
-                        isTranslated={this.props.schema.translate}
-                    />
-                </div>
-            );
-        }
 
-        return (
-            <SettingsGroup container={false}>
-                {header}
-                {settingsList}
-                {footer}
-            </SettingsGroup>
-        );
     }
 
     closeTooltip = () => {
