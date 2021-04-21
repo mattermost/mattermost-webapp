@@ -139,8 +139,10 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
         const timeMenuItems = timeMenuList.map((time) => {
             return (
                 <Menu.ItemAction
+                    id={`dndTime_dropdown_${time}`}
                     key={time}
                     text={time}
+                    ariaLabel={`${time} hours`}
                     onClick={() => {
                         this.setState({
                             selectedTime: time,
