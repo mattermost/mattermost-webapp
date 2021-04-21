@@ -242,7 +242,7 @@ export function markPostAsUnread(post) {
         const currentTeamId = getCurrentTeamId(state);
 
         // if this is a root post and collapsed threads are enabled, mark the thread as unread
-        if (post.root_id === '' && isCollapsedThreadsEnabled(state)) {
+        if (post.root_id === '' && isCollapsedThreadsEnabled(state) && post.reply_count > 0) {
             await dispatch(ThreadActions.updateThreadRead(userId, currentTeamId, post.id, post.create_at));
         } else {
             await dispatch(PostActions.setUnreadPost(userId, post.id));
