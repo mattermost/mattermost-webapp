@@ -87,7 +87,7 @@ describe('Onboarding', () => {
             verifyEmailInvite(response, email);
 
             const bodyText = splitEmailBodyText(response.data.body.text);
-            const permalink = bodyText[6].match(reUrl)[0];
+            const permalink = bodyText[4].match(reUrl)[0];
 
             // * Check that URL in address bar does not have an `undefined` team name appended
             cy.url().should('not.include', 'undefined');
@@ -103,7 +103,7 @@ describe('Onboarding', () => {
             cy.findByText('Enter a valid email or username and/or password.').should('not.exist');
         });
 
-        // * Check that the display name of the team the user sucessfully joined is correct
+        // * Check that the display name of the team the user successfully joined is correct
         cy.get('#headerTeamName').should('contain.text', testTeam.display_name);
 
         // * Check that 'Town Square' is currently being selected
@@ -130,13 +130,13 @@ describe('Onboarding', () => {
         expect(data.date).to.contain(isoDate);
 
         // * Verify that the email subject is correct
-        expect(data.subject).to.contain('[Mattermost] You joined localhost:8065');
+        expect(data.subject).to.contain(`[Mattermost] You joined ${baseUrl.split('/')[2]}`);
 
         // * Verify that the email body is correct
         const bodyText = splitEmailBodyText(data.body.text);
-        expect(bodyText.length).to.equal(23);
-        expect(bodyText[1]).to.equal('You\'ve joined localhost:8065');
-        expect(bodyText[4]).to.equal('Please verify your email address by clicking below.');
+        expect(bodyText.length).to.equal(15);
+        expect(bodyText[1]).to.equal(`Thanks for joining ${baseUrl.split('/')[2]}. ( ${baseUrl} )`);
+        expect(bodyText[2]).to.equal('Click below to verify your email address.');
     }
 });
 
