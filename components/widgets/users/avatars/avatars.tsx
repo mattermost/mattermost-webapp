@@ -81,7 +81,7 @@ function Avatars({
     const [overlayProps, setImmediate] = useSynchronizedImmediate();
     const [displayUserIds, overflowUserIds, {overflowUnnamedCount, nonDisplayCount}] = countMeta(userIds, totalUsers);
     const overflowNames = useSelector((state: GlobalState) => {
-        return userIds.map((userId) => displayNameGetter(state, true)(selectUser(state, userId))).join(', ');
+        return overflowUserIds.map((userId) => displayNameGetter(state, true)(selectUser(state, userId))).join(', ');
     });
 
     return (
