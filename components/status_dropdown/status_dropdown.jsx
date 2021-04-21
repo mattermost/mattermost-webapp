@@ -110,8 +110,10 @@ export default class StatusDropdown extends React.PureComponent {
     setDnd = (event, index) => {
         event.preventDefault();
 
-        var currentTime = this.getCurrentDateTime(this.props.userTimezone, this.props.isTimezoneEnabled).getTime();
-        var endTime = new Date().getTime();
+        const currentDate = this.getCurrentDateTime(this.props.userTimezone, this.props.isTimezoneEnabled);
+        const currentTime = currentDate.getTime();
+        let endTime;
+
         switch (index) {
         case 0:
             endTime = new Date(currentTime + (30 * 60 * 1000));
@@ -125,13 +127,14 @@ export default class StatusDropdown extends React.PureComponent {
             break;
         case 3:
             // set hours of date to point to last moment of the day
+            endTime = currentDate;
             endTime.setHours(23, 59, 59, 999);
             break;
         case 4:
             // set hours of date to point to last moment of the day
             // and add 24 hours to it to point to last moment of tomorrow
-            currentTime.setHours(23, 59, 59, 999);
             endTime = new Date(currentTime + (24 * 60 * 60 * 1000));
+            endTime.setHours(23, 59, 59, 999);
             break;
         }
 
