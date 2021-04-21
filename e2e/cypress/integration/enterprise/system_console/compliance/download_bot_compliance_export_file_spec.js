@@ -7,12 +7,15 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @enterprise @system_console
+// Group: @enterprise @system_console @compliance_export
 
-import {downloadAndUnzipExportFile, getXMLFile, deleteExportFolder} from './helpers';
+import path from 'path';
 
-const ExportFormatActiance = 'Actiance XML';
-const path = require('path');
+import {
+    downloadAndUnzipExportFile,
+    getXMLFile,
+    deleteExportFolder,
+} from './helpers';
 
 describe('Compliance Export', () => {
     let targetDownload;
@@ -40,15 +43,18 @@ describe('Compliance Export', () => {
             },
         });
 
-        cy.apiInitSetup().then(({team, channel}) => {
-            newTeam = team;
-            newChannel = channel;
-        });
+        cy.apiCreateCustomAdmin().then(({sysadmin}) => {
+            cy.apiLogin(sysadmin);
+            cy.apiInitSetup().then(({team, channel}) => {
+                newTeam = team;
+                newChannel = channel;
+            });
 
-        //# Create a test bot
-        cy.apiCreateBot().then(({bot}) => {
-            ({user_id: botId, display_name: botName} = bot);
-            cy.apiPatchUserRoles(bot.user_id, ['system_admin', 'system_user']);
+            //# Create a test bot
+            cy.apiCreateBot().then(({bot}) => {
+                ({user_id: botId, display_name: botName} = bot);
+                cy.apiPatchUserRoles(bot.user_id, ['system_admin', 'system_user']);
+            });
         });
     });
 
@@ -78,7 +84,7 @@ describe('Compliance Export', () => {
 
         // # Go to Compliance and enable Run export
         cy.uiGoToCompliancePage();
-        cy.uiEnableComplianceExport(ExportFormatActiance);
+        cy.uiEnableComplianceExport('Actiance XML');
         cy.uiExportCompliance();
 
         // # Download and Unzip exported File
