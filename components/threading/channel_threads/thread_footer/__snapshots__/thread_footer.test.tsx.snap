@@ -428,7 +428,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
         </UserAvatar>
         <SimpleTooltip
           animation={true}
-          content="first.last1, first.last2, first.last3, first.last4, first.last5"
+          content="first.last4, first.last5"
           id="names-overflow"
           onEntered={[Function]}
         >
@@ -444,7 +444,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                 id="names-overflow"
                 placement="top"
               >
-                first.last1, first.last2, first.last3, first.last4, first.last5
+                first.last4, first.last5
               </Tooltip>
             }
             placement="top"
@@ -500,7 +500,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                   }
                   placement="top"
                 >
-                  first.last1, first.last2, first.last3, first.last4, first.last5
+                  first.last4, first.last5
                 </OverlayWrapper>
               }
               placement="top"
@@ -1289,7 +1289,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
         </UserAvatar>
         <SimpleTooltip
           animation={true}
-          content="first.last1, first.last2, first.last3, first.last4, first.last5"
+          content="first.last4, first.last5"
           id="names-overflow"
           onEntered={[Function]}
         >
@@ -1305,7 +1305,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                 id="names-overflow"
                 placement="top"
               >
-                first.last1, first.last2, first.last3, first.last4, first.last5
+                first.last4, first.last5
               </Tooltip>
             }
             placement="top"
@@ -1361,7 +1361,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                   }
                   placement="top"
                 >
-                  first.last1, first.last2, first.last3, first.last4, first.last5
+                  first.last4, first.last5
                 </OverlayWrapper>
               }
               placement="top"
