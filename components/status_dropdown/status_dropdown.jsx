@@ -291,7 +291,7 @@ export default class StatusDropdown extends React.PureComponent {
 
         const dndSubMenuItems = this.dndTimes.map((time, index) => {
             return {
-                id: `dndTime-${index}-${time.split(' ')[0]}`,
+                id: `dndTime-${time.split(' ').join('')}`,
                 direction: 'right',
                 text: localizeMessage('status_dropdown.dnd_sub_menu_item.time', time),
                 action: index === 5 ? () => setCustomTimedDnd() : () => setDnd(event, index),
