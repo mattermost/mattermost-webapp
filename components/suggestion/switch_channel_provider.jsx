@@ -38,6 +38,7 @@ import {sortChannelsByTypeAndDisplayName, isGroupChannelVisible, isUnreadChannel
 import SharedChannelIndicator from 'components/shared_channel_indicator';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import GuestBadge from 'components/widgets/badges/guest_badge';
+import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 
 import {getPostDraft} from 'selectors/rhs';
 import store from 'stores/redux_store.jsx';
@@ -134,6 +135,7 @@ class SwitchChannelSuggestion extends Suggestion {
         }
 
         let tag = null;
+        let customStatus = null;
         if (channel.type === Constants.DM_CHANNEL) {
             tag = (
                 <React.Fragment>
@@ -146,6 +148,17 @@ class SwitchChannelSuggestion extends Suggestion {
                         className='badge-autocomplete'
                     />
                 </React.Fragment>
+            );
+
+            customStatus = (
+                <CustomStatusEmoji
+                    showTooltip={true}
+                    userID={userItem.id}
+                    emojiStyle={{
+                        marginBottom: 2,
+                        marginLeft: 8,
+                    }}
+                />
             );
 
             let deactivated;
@@ -208,6 +221,7 @@ class SwitchChannelSuggestion extends Suggestion {
                 <span className='suggestion-list__info_user'>
                     {displayName}
                 </span>
+                {customStatus}
                 {sharedIcon}
                 {tag}
                 {badge}

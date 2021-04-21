@@ -217,7 +217,12 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
         // only prevent default-behaviour, when one of the conditions is true
         // when both are false just submit the form (default behaviour) with
         // `handleSubmit` function called from the `form`
-        if (indexChangedViaKeyPress) {
+        if (indexChangedViaKeyPress && !searchType && !searchTerms && filesSearchEnabled) {
+            e.preventDefault();
+            setKeepInputFocused(true);
+            actions.updateSearchType(highlightedSearchHintIndex === 0 ? 'messages' : 'files');
+            setHighlightedSearchHintIndex(-1);
+        } else if (indexChangedViaKeyPress) {
             e.preventDefault();
             setKeepInputFocused(true);
             handleAddSearchTerm(visibleSearchHintOptions[highlightedSearchHintIndex].searchTerm);
