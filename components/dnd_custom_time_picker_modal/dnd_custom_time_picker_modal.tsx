@@ -63,8 +63,8 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
         );
         const confirmButtonText = (
             <FormattedMessage
-                id='rename_category_modal.rename'
-                defaultMessage='Rename'
+                id='dnd_custom_time_picker_modal.submitButton'
+                defaultMessage='Disable Notifications'
             />
         );
 
@@ -208,7 +208,7 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
                         className='btn btn-primary'
                         onClick={this.handleConfirm}
                     >
-                        {'Disable Notifications'}
+                        {confirmButtonText}
                     </button>
                 </div>
             </GenericModal>
