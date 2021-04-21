@@ -429,6 +429,7 @@ const AdminDefinition = {
         system_user_detail: {
             url: 'user_management/user/:user_id',
             isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.USERS)),
+            isHidden: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.USERS)),
             schema: {
                 id: 'SystemUserDetail',
                 component: SystemUserDetail,
@@ -437,6 +438,7 @@ const AdminDefinition = {
         group_detail: {
             url: 'user_management/groups/:group_id',
             isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.GROUPS)),
+            isHidden: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.GROUPS)),
             schema: {
                 id: 'GroupDetail',
                 component: GroupDetails,
@@ -459,6 +461,7 @@ const AdminDefinition = {
         team_detail: {
             url: 'user_management/teams/:team_id',
             isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.TEAMS)),
+            isHidden: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.TEAMS)),
             schema: {
                 id: 'TeamDetail',
                 component: TeamDetails,
@@ -480,6 +483,7 @@ const AdminDefinition = {
         channel_detail: {
             url: 'user_management/channels/:channel_id',
             isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.CHANNELS)),
+            isHidden: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.CHANNELS)),
             schema: {
                 id: 'ChannelDetail',
                 component: ChannelDetails,
