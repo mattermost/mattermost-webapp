@@ -658,7 +658,6 @@ export type ClusterSettings = {
     BindAddress: string;
     AdvertiseAddress: string;
     UseIpAddress: boolean;
-    UseExperimentalGossip: boolean;
     EnableExperimentalGossipEncryption: boolean;
     ReadOnlyConfig: boolean;
     GossipPort: number;
