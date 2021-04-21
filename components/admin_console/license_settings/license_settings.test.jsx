@@ -10,6 +10,7 @@ const flushPromises = () => new Promise(setImmediate);
 
 describe('components/admin_console/license_settings/LicenseSettings', () => {
     const defaultProps = {
+        isDisabled: false,
         license: {
             IsLicensed: 'true',
             IssuedAt: '1517714643650',
@@ -39,6 +40,16 @@ describe('components/admin_console/license_settings/LicenseSettings', () => {
 
     test('should match snapshot enterprise build with license', () => {
         const wrapper = shallow(<LicenseSettings {...defaultProps}/>);
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot enterprise build with license and isDisabled set to true', () => {
+        const wrapper = shallow(
+            <LicenseSettings
+                {...defaultProps}
+                isDisabled={true}
+            />,
+        );
         expect(wrapper).toMatchSnapshot();
     });
 

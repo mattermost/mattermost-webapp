@@ -40,7 +40,7 @@ describe('Team Settings', () => {
     });
 
     it('MM-T387 - Try to join a closed team from a NON-mattermost email address via "Get Team Invite Link" while "Allow only users with a specific email domain to join this team" set to "sample.mattermost.com"', () => {
-        // Open 'Team Settings' modal
+        // # Open 'Team Settings' modal
         cy.get('.sidebar-header-dropdown__icon').click();
         cy.findByText('Team Settings').should('be.visible').click();
 
@@ -67,32 +67,32 @@ describe('Team Settings', () => {
             // # Logout from admin account and visit the invite url
             cy.apiLogout();
             cy.visit(inviteLink);
+
+            const email = `user${randomId}@sample.gmail.com`;
+            const username = `user${randomId}`;
+            const password = 'passwd';
+            const errorMessage = `The following email addresses do not belong to an accepted domain: ${emailDomain}. Please contact your System Administrator for details.`;
+
+            // # Type email, username and password
+            cy.wait(TIMEOUTS.HALF_SEC);
+            cy.get('#email').type(email);
+
+            cy.wait(TIMEOUTS.HALF_SEC);
+            cy.get('#name').type(username);
+
+            cy.wait(TIMEOUTS.HALF_SEC);
+            cy.get('#password').type(password);
+
+            // # Attempt to create an account by clicking on the 'Create Account' button
+            cy.get('#createAccountButton').click();
+
+            // * Assert that the expected error message from creating an account with an email not from the allowed email domain exists and is visible
+            cy.findByText(errorMessage).should('be.visible');
         });
-
-        const email = `user${randomId}@sample.gmail.com`;
-        const username = `user${randomId}`;
-        const password = 'passwd';
-        const errorMessage = `The following email addresses do not belong to an accepted domain: ${emailDomain}. Please contact your System Administrator for details.`;
-
-        // # Type email, username and password
-        cy.wait(TIMEOUTS.HALF_SEC);
-        cy.get('#email').type(email);
-
-        cy.wait(TIMEOUTS.HALF_SEC);
-        cy.get('#name').type(username);
-
-        cy.wait(TIMEOUTS.HALF_SEC);
-        cy.get('#password').type(password);
-
-        // # Attempt to create an account by clicking on the 'Create Account' buton
-        cy.get('#createAccountButton').click();
-
-        // * Assert that the expected error message from creating an account with an email not from the allowed email domain exists and is visible
-        cy.findByText(errorMessage).should('be.visible');
     });
 
     it('MM-T2341 Cannot add a user to a team if the user\'s email is not from the correct domain', () => {
-        // Open 'Team Settings' modal
+        // # Open 'Team Settings' modal
         cy.get('.sidebar-header-dropdown__icon').click();
         cy.findByText('Team Settings').should('be.visible').click();
 
@@ -102,16 +102,22 @@ describe('Team Settings', () => {
             cy.get('#open_inviteEdit').should('be.visible').click();
 
             // # Enable any user with an account on the server to join the team
-            cy.get('#teamOpenInvite').should('be.visible').click();
-            cy.findByText('Save').should('be.visible').click();
+            cy.get('#teamOpenInvite').should('be.visible').check();
+
+            // # Save and verify it took effect
+            cy.uiSaveButton().click();
+            cy.get('#open_inviteDesc').should('be.visible').and('have.text', 'Yes');
 
             // # Click on the 'Allow only users with a specific email domain to join this team' edit button
             cy.get('#allowed_domainsEdit').should('be.visible').click();
 
             // # Set 'sample.mattermost.com' as the only allowed email domain and save
             cy.wait(TIMEOUTS.HALF_SEC);
-            cy.focused().type(emailDomain);
-            cy.findByText('Save').should('be.visible').click();
+            cy.findByRole('textbox', {name: 'Allowed Domains'}).should('be.visible').and('be.focused').type(emailDomain);
+
+            // # Save and verify it took effect
+            cy.uiSaveButton().click();
+            cy.get('#allowed_domainsDesc').should('be.visible').and('have.text', emailDomain);
 
             // # Close the modal
             cy.get('#teamSettingsModalLabel').find('button').should('be.visible').click();
