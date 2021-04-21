@@ -22,12 +22,13 @@ export function makeGetRootPosts() {
         getCurrentUserId,
         getCurrentChannel,
         (allPosts, currentUserId, channel) => {
-            // Count the number of new posts made by other users that haven't been deleted and are root posts
+            // Count the number of new posts that haven't been deleted and are root posts
             return Object.values(allPosts).filter((post) => {
-                return post.root_id === '' &&
+                return (
+                    post.root_id === '' &&
                     post.channel_id === channel.id &&
-                    post.user_id !== currentUserId &&
-                    post.state !== Posts.POST_DELETED;
+                    post.state !== Posts.POST_DELETED
+                );
             }).reduce((map, obj) => {
                 map[obj.id] = true;
                 return map;
