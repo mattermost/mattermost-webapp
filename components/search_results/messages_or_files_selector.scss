@@ -14,6 +14,8 @@
         color: rgba(var(--center-channel-color-rgb), 0.56);
         font-weight: 600;
         cursor: pointer;
+        border: 0px;
+        border-radius: 4px;
         &.active {
             background-color: rgba(var(--button-bg-rgb), 0.08);
             border-radius: 4px;

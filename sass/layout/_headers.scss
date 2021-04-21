@@ -236,6 +236,18 @@
     .disabled {
         color: #999999;
     }
+
+    .shared-channel-icon {
+        font-size: 16px;
+        line-height: 16px;
+        width: 16px;
+        height: 16px;
+        margin: 0 4px;
+
+        &:before {
+            margin: 0;
+        }
+    }
 }
 
 .row {
@@ -365,14 +377,14 @@
             overflow: hidden;
             display: flex;
             margin-left: 4px;
-            margin-top: 3px;
+            margin-top: 4px;
             align-self: start;
             flex-direction: column;
             line-height: 19px;
 
             ul {
                 &:first-child {
-                    margin: 3px 0 0;
+                    margin: 0;
                 }
             }
 
@@ -449,18 +461,11 @@
         display: flex;
         margin-right: 7px;
         line-height: 16px;
-        max-width: calc(100% - 225px);
+        overflow: hidden;
         align-items: center;
 
         p {
             margin: 0;
-        }
-
-        &:after {
-            content: '\2022';
-            margin: 0 2px 0 5px;
-            position: relative;
-            top: 1px;
         }
     }
 
@@ -571,7 +576,7 @@
 
         &:hover {
             &:before {
-                @include alpha-property(background, $black, .1);
+                background: var(--sidebar-text-08);
             }
 
             .user__name {

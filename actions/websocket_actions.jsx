@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-/* eslint-disable max-lines */
 import {batchActions} from 'redux-batched-actions';
 
 import {
@@ -30,6 +29,8 @@ import {
 } from 'mattermost-redux/actions/channels';
 import {getCloudSubscription, getSubscriptionStats} from 'mattermost-redux/actions/cloud';
 import {loadRolesIfNeeded} from 'mattermost-redux/actions/roles';
+import {handleAllMarkedRead, handleReadChanged, handleFollowChanged, handleThreadArrived} from 'mattermost-redux/actions/threads';
+
 import {setServerVersion} from 'mattermost-redux/actions/general';
 import {
     getCustomEmojiForReaction,
@@ -182,8 +183,10 @@ export function reconnect(includeWebSocket = true) {
         const currentChannelId = getCurrentChannelId(state);
         const mostRecentId = getMostRecentPostIdInChannel(state, currentChannelId);
         const mostRecentPost = getPost(state, mostRecentId);
+
         dispatch(loadChannelsForCurrentUser());
         dispatch(handleRefreshAppsBindings());
+
         if (mostRecentPost) {
             dispatch(syncPostsInChannel(currentChannelId, mostRecentPost.create_at));
         } else {
@@ -487,6 +490,15 @@ export function handleEvent(msg) {
         break;
     case SocketEvents.FIRST_ADMIN_VISIT_MARKETPLACE_STATUS_RECEIVED:
         handleFirstAdminVisitMarketplaceStatusReceivedEvent(msg);
+        break;
+    case SocketEvents.THREAD_FOLLOW_CHANGED:
+        dispatch(handleThreadFollowChanged(msg));
+        break;
+    case SocketEvents.THREAD_READ_CHANGED:
+        dispatch(handleThreadReadChanged(msg));
+        break;
+    case SocketEvents.THREAD_UPDATED:
+        dispatch(handleThreadUpdated(msg));
         break;
 
     case SocketEvents.APPS_FRAMEWORK_REFRESH_BINDINGS: {
@@ -1384,4 +1396,46 @@ function handleRefreshAppsBindings() {
 function handleFirstAdminVisitMarketplaceStatusReceivedEvent(msg) {
     const receivedData = JSON.parse(msg.data.firstAdminVisitMarketplaceStatus);
     store.dispatch({type: GeneralTypes.FIRST_ADMIN_VISIT_MARKETPLACE_STATUS_RECEIVED, data: receivedData});
+}
+
+function handleThreadReadChanged(msg) {
+    return (doDispatch, doGetState) => {
+        if (msg.data.thread_id) {
+            const thread = doGetState().entities.threads.threads?.[msg.data.thread_id];
+            if (thread) {
+                handleReadChanged(
+                    doDispatch,
+                    msg.data.thread_id,
+                    msg.broadcast.team_id,
+                    msg.data.channel_id,
+                    {
+                        lastViewedAt: msg.data.timestamp,
+                        prevUnreadMentions: thread.unread_mentions,
+                        newUnreadMentions: msg.data.unread_mentions,
+                        prevUnreadReplies: thread.unread_replies,
+                        newUnreadReplies: msg.data.unread_replies,
+                    },
+                );
+            }
+        } else {
+            handleAllMarkedRead(doDispatch, msg.broadcast.team_id);
+        }
+    };
+}
+
+function handleThreadUpdated(msg) {
+    return (doDispatch, doGetState) => {
+        try {
+            const threadData = JSON.parse(msg.data.thread);
+            handleThreadArrived(doDispatch, doGetState, threadData, msg.broadcast.team_id);
+        } catch {
+            // invalid JSON
+        }
+    };
+}
+
+function handleThreadFollowChanged(msg) {
+    return (doDispatch) => {
+        handleFollowChanged(doDispatch, msg.data.thread_id, msg.broadcast.team_id, msg.data.state);
+    };
 }

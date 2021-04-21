@@ -136,7 +136,7 @@ describe('Messaging', () => {
         cy.get('#reply_textbox').should('be.focused');
 
         //# Focus away from RHS textbox
-        cy.get('#rhsContent').click();
+        cy.get('#rhsContainer .post-right__content').click();
 
         //# Click reply arrow on post in same thread
         cy.clickPostCommentIcon();
