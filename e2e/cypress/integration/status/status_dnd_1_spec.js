@@ -10,8 +10,6 @@
 // Stage: @prod
 // Group: @status
 
-import {openCustomStatusModal} from './helper';
-
 describe('DND Status - Setting Your Own DND Status', () => {
     before(() => {
         // # Login as test user and visit channel
