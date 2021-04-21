@@ -241,11 +241,11 @@ export function markPostAsUnread(post) {
         const userId = getCurrentUserId(state);
         const currentTeamId = getCurrentTeamId(state);
 
-        await dispatch(PostActions.setUnreadPost(userId, post.id));
-
-        // if this is a root post and collapsed threads are enabled, mark the thread as unread as well
+        // if this is a root post and collapsed threads are enabled, mark the thread as unread
         if (post.root_id === '' && isCollapsedThreadsEnabled(state)) {
-            await dispatch(ThreadActions.updateThreadRead(userId, currentTeamId, post.id));
+            await dispatch(ThreadActions.updateThreadRead(userId, currentTeamId, post.id, post.create_at));
+        } else {
+            await dispatch(PostActions.setUnreadPost(userId, post.id));
         }
         return {data: true};
     };
