@@ -12,7 +12,7 @@
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
-describe('MM-13697 Edit Post with attachment', () => {
+describe('Messaging', () => {
     let townsquareLink;
 
     before(() => {
@@ -23,7 +23,7 @@ describe('MM-13697 Edit Post with attachment', () => {
         });
     });
 
-    it('Pasted text should be pasted where the cursor is', () => {
+    it('MM-T99 Edit Post with attachment, paste text in middle', () => {
         // # Got to a test channel on the side bar
         cy.get('#sidebarItem_town-square').click({force: true});
 

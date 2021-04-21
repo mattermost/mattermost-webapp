@@ -34,11 +34,6 @@ exports[`components/team_members_dropdown should match snapshot for a bot with g
       />
       <MenuItemAction
         onClick={[Function]}
-        show={false}
-        text="Make Team Admin"
-      />
-      <MenuItemAction
-        onClick={[Function]}
         show={true}
         text="Make Member"
       />
@@ -78,11 +73,6 @@ exports[`components/team_members_dropdown should match snapshot for team_members
         onClick={[Function]}
         show={true}
         text="Remove From Team"
-      />
-      <MenuItemAction
-        onClick={[Function]}
-        show={false}
-        text="Make Team Admin"
       />
       <MenuItemAction
         onClick={[Function]}
@@ -128,11 +118,6 @@ exports[`components/team_members_dropdown should match snapshot opening dropdown
       />
       <MenuItemAction
         onClick={[Function]}
-        show={false}
-        text="Make Team Admin"
-      />
-      <MenuItemAction
-        onClick={[Function]}
         show={true}
         text="Make Member"
       />
@@ -167,17 +152,6 @@ exports[`components/team_members_dropdown should match snapshot with group-const
       openLeft={true}
       openUp={false}
     >
-      <MenuItemAction
-        id="removeFromTeam"
-        onClick={[Function]}
-        show={false}
-        text="Remove From Team"
-      />
-      <MenuItemAction
-        onClick={[Function]}
-        show={false}
-        text="Make Team Admin"
-      />
       <MenuItemAction
         onClick={[Function]}
         show={true}
