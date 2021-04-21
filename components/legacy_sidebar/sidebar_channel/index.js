@@ -16,10 +16,9 @@ import {
     shouldHideDefaultChannel,
 } from 'mattermost-redux/selectors/entities/channels';
 import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
-import {getThreadCountsInCurrentTeam} from 'mattermost-redux/selectors/entities/threads';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getUserIdsInChannels, getUser} from 'mattermost-redux/selectors/entities/users';
-import {getInt, getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
+import {getInt, getTeammateNameDisplaySetting, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 
@@ -38,6 +37,7 @@ function makeMapStateToProps() {
 
     return (state, ownProps) => {
         const channelId = ownProps.channelId;
+        const collapsedThreadsEnabled = isCollapsedThreadsEnabled(state);
 
         const config = getConfig(state);
         const currentChannelId = getCurrentChannelId(state);
@@ -63,14 +63,10 @@ function makeMapStateToProps() {
         let unreadMsgs = 0;
         let showUnreadForMsgs = true;
         if (member) {
-            const threadCounts = getThreadCountsInCurrentTeam(
-                state,
-            );
-            const threadMentionCountInChannel = (threadCounts && threadCounts.unread_mentions_per_channel && threadCounts.unread_mentions_per_channel[channel.id]) || 0;
-            unreadMentions = member.mention_count - threadMentionCountInChannel;
+            unreadMentions = collapsedThreadsEnabled ? member.mention_count_root : member.mention_count;
 
             if (channel) {
-                unreadMsgs = Math.max(channel.total_msg_count - member.msg_count, 0);
+                unreadMsgs = collapsedThreadsEnabled ? Math.max(channel.total_msg_count_root - member.msg_count_root, 0) : Math.max(channel.total_msg_count - member.msg_count, 0);
             }
 
             if (member.notify_props) {

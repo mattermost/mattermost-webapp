@@ -13,18 +13,22 @@
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Search', () => {
+    const term = 'London';
+
     before(() => {
         // # Login as test user and visit town-square
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
             cy.visit(`/${team.name}/channels/town-square`);
+            cy.postMessage(term);
+            cy.uiWaitUntilMessagePostedIncludes(term);
         });
     });
 
     it('MM-T352 - Cleared search term should not reappear as RHS is opened and closed', () => {
         // # Place the focus on the search box and search for something
-        cy.get('#searchFormContainer').click();
+        cy.get('#searchFormContainer').should('be.visible').click();
         cy.get('#searchBox').should('be.visible').
-            type('London{enter}').
+            type(`${term}{enter}`).
             wait(TIMEOUTS.ONE_SEC).
             clear();
         cy.get('#searchbar-help-popup').should('be.visible');
