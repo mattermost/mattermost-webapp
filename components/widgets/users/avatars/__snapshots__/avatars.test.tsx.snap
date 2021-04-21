@@ -391,7 +391,7 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
     </UserAvatar>
     <SimpleTooltip
       animation={true}
-      content="first.last1, first.last2, first.last3, first.last4, first.last5"
+      content="first.last4, first.last5"
       id="names-overflow"
       onEntered={[Function]}
     >
@@ -407,7 +407,7 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
             id="names-overflow"
             placement="top"
           >
-            first.last1, first.last2, first.last3, first.last4, first.last5
+            first.last4, first.last5
           </Tooltip>
         }
         placement="top"
@@ -463,7 +463,7 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
               }
               placement="top"
             >
-              first.last1, first.last2, first.last3, first.last4, first.last5
+              first.last4, first.last5
             </OverlayWrapper>
           }
           placement="top"

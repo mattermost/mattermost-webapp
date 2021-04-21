@@ -1268,7 +1268,7 @@ exports[`components/ChannelHeader should render properly when custom status is s
               id="status_dropdown.set_offline"
             />
             <CustomStatusEmoji
-              emojiSize={15}
+              emojiSize={16}
               emojiStyle={
                 Object {
                   "margin": "0 4px 1px",

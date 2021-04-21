@@ -29,7 +29,7 @@ exports[`component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannelB
     emojiSize={16}
     emojiStyle={
       Object {
-        "marginLeft": 4,
+        "opacity": 0.8,
       }
     }
     showTooltip={true}
@@ -76,7 +76,7 @@ exports[`component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannelB
     emojiSize={16}
     emojiStyle={
       Object {
-        "marginLeft": 4,
+        "opacity": 0.8,
       }
     }
     showTooltip={true}
@@ -129,7 +129,7 @@ exports[`component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannelB
     emojiSize={16}
     emojiStyle={
       Object {
-        "marginLeft": 4,
+        "opacity": 0.8,
       }
     }
     showTooltip={true}
@@ -175,7 +175,7 @@ exports[`component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannelB
     emojiSize={16}
     emojiStyle={
       Object {
-        "marginLeft": 4,
+        "opacity": 0.8,
       }
     }
     showTooltip={true}
@@ -228,7 +228,7 @@ exports[`component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannelB
     emojiSize={16}
     emojiStyle={
       Object {
-        "marginLeft": 4,
+        "opacity": 0.8,
       }
     }
     showTooltip={true}
