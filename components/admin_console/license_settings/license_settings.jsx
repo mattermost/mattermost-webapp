@@ -16,8 +16,6 @@ import {trackEvent} from 'actions/telemetry_actions';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
-import PurchaseLink from 'components/announcement_bar/purchase_link/purchase_link';
-import ContactSales from 'components/announcement_bar/contact_sales/contact_sales';
 
 import RenewLinkCard from './renew_license_card/renew_license_card';
 import TrialLicenseCard from './trial_license_card/trial_license_card';
@@ -226,31 +224,6 @@ export default class LicenseSettings extends React.PureComponent {
         );
     }
 
-    renderPurchaseLicense = () => {
-        return (
-            <div className='purchase-card'>
-                <PurchaseLink
-                    eventID='post_trial_purchase_license'
-                    buttonTextElement={
-                        <FormattedMessage
-                            id='admin.license.trialCard.purchase_license'
-                            defaultMessage='Purchase a license'
-                        />
-                    }
-                />
-                <ContactSales
-                    eventID='post_trial_contact_sales'
-                    buttonTextElement={
-                        <FormattedMessage
-                            id='admin.license.trialCard.contactSales'
-                            defaultMessage='Contact sales'
-                        />
-                    }
-                />
-            </div>
-        );
-    }
-
     render() {
         let gettingTrialError = '';
         if (this.state.gettingTrialError) {
@@ -422,7 +395,7 @@ export default class LicenseSettings extends React.PureComponent {
             edition = (
                 <div>
                     {'Mattermost Enterprise Edition. A license is required to unlock enterprise features.'}
-                    {this.props.prevTrialLicense && this.props.prevTrialLicense.IsLicensed === 'true' ? this.renderPurchaseLicense() : this.renderStartTrial(isDisabled, gettingTrialError)}
+                    {this.props.prevTrialLicense && this.props.prevTrialLicense.IsLicensed === 'true' ? Utils.renderPurchaseLicense() : this.renderStartTrial(isDisabled, gettingTrialError)}
                 </div>
             );
 
