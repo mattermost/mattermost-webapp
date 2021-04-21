@@ -37,7 +37,7 @@ exports[`components/StatusDropdown should match snapshot in default state 1`] = 
   >
     <MenuHeader>
       <FormattedMessage
-        defaultMessage="Set your status"
+        defaultMessage="Status"
         id="status_dropdown.set_your_status"
       />
     </MenuHeader>
@@ -92,19 +92,19 @@ exports[`components/StatusDropdown should match snapshot in default state 1`] = 
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-30 mins",
+              "id": "dndTime-30mins",
               "text": "30 mins",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-1 hour",
+              "id": "dndTime-1hour",
               "text": "1 hour",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-2 hours",
+              "id": "dndTime-2hours",
               "text": "2 hours",
             },
             Object {
@@ -236,8 +236,9 @@ exports[`components/StatusDropdown should match snapshot with custom status enab
         show={true}
         text="Away"
       />
-      <MenuItemAction
+      <SubMenuItem
         ariaLabel="do not disturb. disables desktop, email and push notifications"
+        direction="right"
         extraText="Disables all notifications"
         icon={
           <StatusDndIcon
@@ -245,9 +246,51 @@ exports[`components/StatusDropdown should match snapshot with custom status enab
           />
         }
         id="status-menu-dnd"
-        onClick={[Function]}
+        openUp={false}
         show={true}
+        subMenu={
+          Array [
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-30mins",
+              "text": "30 mins",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-1hour",
+              "text": "1 hour",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-2hours",
+              "text": "2 hours",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-Today",
+              "text": "Today",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-Tomorrow",
+              "text": "Tomorrow",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-Custom",
+              "text": "Custom",
+            },
+          ]
+        }
+        subMenuClass="px-6"
         text="Do not disturb"
+        xOffset={0}
       />
       <MenuItemAction
         ariaLabel="offline"
@@ -357,8 +400,9 @@ exports[`components/StatusDropdown should match snapshot with custom status puls
         show={true}
         text="Away"
       />
-      <MenuItemAction
+      <SubMenuItem
         ariaLabel="do not disturb. disables desktop, email and push notifications"
+        direction="right"
         extraText="Disables all notifications"
         icon={
           <StatusDndIcon
@@ -366,9 +410,51 @@ exports[`components/StatusDropdown should match snapshot with custom status puls
           />
         }
         id="status-menu-dnd"
-        onClick={[Function]}
+        openUp={false}
         show={true}
+        subMenu={
+          Array [
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-30mins",
+              "text": "30 mins",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-1hour",
+              "text": "1 hour",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-2hours",
+              "text": "2 hours",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-Today",
+              "text": "Today",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-Tomorrow",
+              "text": "Tomorrow",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-Custom",
+              "text": "Custom",
+            },
+          ]
+        }
+        subMenuClass="px-6"
         text="Do not disturb"
+        xOffset={0}
       />
       <MenuItemAction
         ariaLabel="offline"
@@ -424,7 +510,7 @@ exports[`components/StatusDropdown should match snapshot with profile picture UR
   >
     <MenuHeader>
       <FormattedMessage
-        defaultMessage="Set your status"
+        defaultMessage="Status"
         id="status_dropdown.set_your_status"
       />
     </MenuHeader>
@@ -479,19 +565,19 @@ exports[`components/StatusDropdown should match snapshot with profile picture UR
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-30 mins",
+              "id": "dndTime-30mins",
               "text": "30 mins",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-1 hour",
+              "id": "dndTime-1hour",
               "text": "1 hour",
             },
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-2 hours",
+              "id": "dndTime-2hours",
               "text": "2 hours",
             },
             Object {
@@ -606,8 +692,9 @@ exports[`components/StatusDropdown should match snapshot with status dropdown op
         show={true}
         text="Away"
       />
-      <MenuItemAction
+      <SubMenuItem
         ariaLabel="do not disturb. disables desktop, email and push notifications"
+        direction="right"
         extraText="Disables all notifications"
         icon={
           <StatusDndIcon
@@ -615,9 +702,51 @@ exports[`components/StatusDropdown should match snapshot with status dropdown op
           />
         }
         id="status-menu-dnd"
-        onClick={[Function]}
+        openUp={false}
         show={true}
+        subMenu={
+          Array [
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-30mins",
+              "text": "30 mins",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-1hour",
+              "text": "1 hour",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-2hours",
+              "text": "2 hours",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-Today",
+              "text": "Today",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-Tomorrow",
+              "text": "Tomorrow",
+            },
+            Object {
+              "action": [Function],
+              "direction": "right",
+              "id": "dndTime-Custom",
+              "text": "Custom",
+            },
+          ]
+        }
+        subMenuClass="px-6"
         text="Do not disturb"
+        xOffset={0}
       />
       <MenuItemAction
         ariaLabel="offline"
