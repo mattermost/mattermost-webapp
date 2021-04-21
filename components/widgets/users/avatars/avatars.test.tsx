@@ -5,9 +5,11 @@ import React from 'react';
 
 import {mount} from 'enzyme';
 
-import Avatar from '../avatar';
-
 import {mockStore} from 'tests/test_store';
+
+import SimpleTooltip from 'components/widgets/simple_tooltip';
+
+import Avatar from '../avatar';
 
 import Avatars from './avatars';
 
@@ -109,5 +111,27 @@ describe('components/widgets/users/Avatars', () => {
         expect(wrapper.find(Avatar).find({url: '/api/v4/users/3/image?_=0'}).exists()).toBe(true);
         expect(wrapper.find(Avatar).find({url: '/api/v4/users/4/image?_=0'}).exists()).toBe(false);
         expect(wrapper.find(Avatar).find({url: '/api/v4/users/5/image?_=0'}).exists()).toBe(false);
+
+        expect(wrapper.find(Avatar).find({text: '+2'}).exists()).toBe(true);
+    });
+
+    test('should not duplicate displayed users in overflow tooltip', () => {
+        const {mountOptions} = mockStore(state);
+
+        const wrapper = mount(
+            <Avatars
+                size='xl'
+                userIds={[
+                    '1',
+                    '2',
+                    '3',
+                    '4',
+                    '5',
+                ]}
+            />,
+            mountOptions,
+        );
+
+        expect(wrapper.find(SimpleTooltip).find({id: 'names-overflow'}).prop('content')).toBe('first.last4, first.last5');
     });
 });
