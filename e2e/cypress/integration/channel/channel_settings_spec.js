@@ -84,7 +84,7 @@ describe('Channel Settings', () => {
         cy.get('#sidebarItem_off-topic').should(beUnmuted);
 
         // # Verify mute bell icon is not visible
-        cy.get('#toggleMute').should('not.be.visible');
+        cy.get('#toggleMute').should('not.exist');
 
         // # Verify that off topic is not last in the list of channels
         cy.uiGetLhsSection('CHANNELS').find('.SidebarChannel').

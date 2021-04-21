@@ -3,6 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import classNames from 'classnames';
 
 import {FormattedDate, FormattedMessage, FormattedTime, injectIntl} from 'react-intl';
 
@@ -11,6 +12,7 @@ import {Client4} from 'mattermost-redux/client';
 import {JobStatuses, exportFormats, JobTypes} from 'utils/constants';
 import {intlShape} from 'utils/react_intl';
 import * as Utils from 'utils/utils.jsx';
+import './table.scss';
 
 class JobTable extends React.PureComponent {
     static propTypes = {
@@ -62,6 +64,16 @@ class JobTable extends React.PureComponent {
             cancelJob: PropTypes.func.isRequired,
             createJob: PropTypes.func.isRequired,
         }).isRequired,
+
+        /**
+         * Allows for custom styles on the job table component
+         */
+        className: PropTypes.string,
+
+        /**
+         * Hide the job creation button. This is useful if you want to place the button elsewhere on your page or hide it.
+         */
+        hideJobCreateButton: PropTypes.bool,
     };
 
     constructor(props) {
@@ -366,18 +378,21 @@ class JobTable extends React.PureComponent {
         });
 
         return (
-            <div className='job-table__panel'>
+            <div className={classNames('job-table__panel', this.props.className)}>
                 <div className='job-table__create-button'>
-                    <div>
-                        <button
-                            type='button'
-                            className='btn btn-default'
-                            onClick={this.handleCreateJob}
-                            disabled={this.props.disabled}
-                        >
-                            {this.props.createJobButtonText}
-                        </button>
-                    </div>
+                    {
+                        !this.props.hideJobCreateButton &&
+                        <div>
+                            <button
+                                type='button'
+                                className='btn btn-default'
+                                onClick={this.handleCreateJob}
+                                disabled={this.props.disabled}
+                            >
+                                {this.props.createJobButtonText}
+                            </button>
+                        </div>
+                    }
                     <div className='help-text'>
                         {this.props.createJobHelpText}
                     </div>

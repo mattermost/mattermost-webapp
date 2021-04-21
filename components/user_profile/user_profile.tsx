@@ -11,11 +11,13 @@ import OverlayTrigger, {BaseOverlayTrigger} from 'components/overlay_trigger';
 import ProfilePopover from 'components/profile_popover';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import GuestBadge from 'components/widgets/badges/guest_badge';
+import SharedUserIndicator from 'components/shared_user_indicator';
 
 export type UserProfileProps = {
     userId: string;
     displayName?: string;
     isBusy?: boolean;
+    isShared?: boolean;
     overwriteName?: React.ReactNode;
     overwriteIcon?: React.ReactNode;
     user?: UserProfileType;
@@ -25,6 +27,7 @@ export type UserProfileProps = {
     hideStatus?: boolean;
     isRHS?: boolean;
     overwriteImage?: React.ReactNode;
+    channelId?: string;
 }
 
 export default class UserProfile extends PureComponent<UserProfileProps> {
@@ -57,12 +60,14 @@ export default class UserProfile extends PureComponent<UserProfileProps> {
             displayUsername,
             isBusy,
             isRHS,
+            isShared,
             hasMention,
             hideStatus,
             overwriteName,
             overwriteIcon,
             user,
             userId,
+            channelId,
         } = this.props;
 
         let name: React.ReactNode;
@@ -88,6 +93,16 @@ export default class UserProfile extends PureComponent<UserProfileProps> {
             profileImg = imageURLForUser(user.id, user.last_picture_update);
         }
 
+        let sharedIcon;
+        if (isShared) {
+            sharedIcon = (
+                <SharedUserIndicator
+                    className='shared-user-icon'
+                    withTooltip={true}
+                />
+            );
+        }
+
         return (
             <React.Fragment>
                 <OverlayTrigger
@@ -99,6 +114,7 @@ export default class UserProfile extends PureComponent<UserProfileProps> {
                         <ProfilePopover
                             className='user-profile-popover'
                             userId={userId}
+                            channelId={channelId}
                             src={profileImg}
                             isBusy={isBusy}
                             hide={this.hideProfilePopover}
@@ -117,6 +133,7 @@ export default class UserProfile extends PureComponent<UserProfileProps> {
                         {name}
                     </button>
                 </OverlayTrigger>
+                {sharedIcon}
                 <BotBadge
                     show={Boolean(user && user.is_bot)}
                     className='badge-popoverlist'

@@ -15,7 +15,7 @@ import UpgradeLink from 'components/widgets/links/upgrade_link';
 
 import ChannelsInput from 'components/widgets/inputs/channels_input.jsx';
 import UsersEmailsInput from 'components/widgets/inputs/users_emails_input.jsx';
-import withGetCloudSubscription from '../../common/hocs/cloud/with_get_cloud_subcription';
+import withGetCloudSubscription from '../../common/hocs/cloud/with_get_cloud_subscription';
 
 import './invitation_modal_guests_step.scss';
 

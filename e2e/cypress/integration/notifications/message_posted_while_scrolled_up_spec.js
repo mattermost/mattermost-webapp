@@ -58,6 +58,6 @@ describe('Notifications', () => {
         cy.findByText('Last Message').should('be.visible');
 
         // * Verify that 'Jump to New Messages' is not visible
-        cy.get('.toast__visible').should('not.be.visible');
+        cy.get('.toast__visible').should('not.exist');
     });
 });

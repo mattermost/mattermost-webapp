@@ -16,7 +16,7 @@ export function searchAndValidate(query, expectedResults = []) {
     // # Enter in search query, and hit enter
     cy.get('#searchBox').clear().wait(TIMEOUTS.HALF_SEC).type(query).wait(TIMEOUTS.HALF_SEC).type('{enter}').should('be.empty');
 
-    cy.get('#loadingSpinner').should('not.be.visible');
+    cy.get('#loadingSpinner').should('not.exist');
     cy.get('#search-items-container', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
     // * Verify the amount of results matches the amount of our expected results
@@ -94,9 +94,6 @@ export function setupTestData(data, {team, admin, anotherAdmin}) {
     // # Create another admin user so we can create override create_at of posts
     const baseUrl = Cypress.config('baseUrl');
     cy.externalRequest({user: admin, method: 'put', baseUrl, path: `users/${anotherAdmin.id}/roles`, data: {roles: 'system_user system_admin'}});
-
-    // # Visit town-square
-    cy.visit(`/${team.name}/channels/town-square`);
 
     // # Create a post from today
     cy.get('#postListContent', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible');

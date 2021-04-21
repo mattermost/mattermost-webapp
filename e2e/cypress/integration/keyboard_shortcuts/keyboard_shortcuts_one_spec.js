@@ -396,7 +396,7 @@ describe('Keyboard Shortcuts', () => {
 
         // # Type CTRL/CMD+K to close 'Switch Channels' modal
         cy.get('body').cmdOrCtrlShortcut('K');
-        cy.get('#quickSwitchHint').should('not.be.visible');
+        cy.get('#quickSwitchHint').should('not.exist');
     });
 
     it('MM-T1248 - CTRL/CMD+SHIFT+L - Set focus to center channel message box', () => {
@@ -428,7 +428,7 @@ describe('Keyboard Shortcuts', () => {
 
         // # Type CTRL/CMD+SHIFT+A to close 'Account Settings' modal
         cy.get('body').cmdOrCtrlShortcut('{shift}A');
-        cy.get('#accountSettingsHeader').should('not.be.visible');
+        cy.get('#accountSettingsHeader').should('not.exist');
     });
 
     it('MM-T1278 - CTRL/CMD+SHIFT+K', () => {
@@ -438,7 +438,7 @@ describe('Keyboard Shortcuts', () => {
 
         // # Type CTRL/CMD+SHIFT+K to close 'Direct Messages' modal
         cy.get('body').cmdOrCtrlShortcut('{shift}K');
-        cy.get('#moreDmModal').should('not.be.visible');
+        cy.get('#moreDmModal').should('not.exist');
     });
 
     function markAsFavorite(channelName) {

@@ -34,28 +34,55 @@ import {$ID} from 'mattermost-redux/types/utilities';
 import {insertMultipleWithoutDuplicates, insertWithoutDuplicates, removeItem} from 'mattermost-redux/utils/array_utils';
 
 export function expandCategory(categoryId: string) {
-    return {
-        type: ChannelCategoryTypes.CATEGORY_EXPANDED,
-        data: categoryId,
-    };
+    return setCategoryCollapsed(categoryId, false);
 }
 
 export function collapseCategory(categoryId: string) {
-    return {
-        type: ChannelCategoryTypes.CATEGORY_COLLAPSED,
-        data: categoryId,
-    };
+    return setCategoryCollapsed(categoryId, true);
+}
+
+export function setCategoryCollapsed(categoryId: string, collapsed: boolean) {
+    return patchCategory(categoryId, {
+        collapsed,
+    });
 }
 
 export function setCategorySorting(categoryId: string, sorting: CategorySorting) {
-    return (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        const state = getState();
-        const category = getCategory(state, categoryId);
+    return patchCategory(categoryId, {
+        sorting,
+    });
+}
 
-        return dispatch(updateCategory({
+export function patchCategory(categoryId: string, patch: Partial<ChannelCategory>): ActionFunc {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const state = getState();
+        const currentUserId = getCurrentUserId(state);
+
+        const category = getCategory(state, categoryId);
+        const patchedCategory = {
             ...category,
-            sorting,
-        }));
+            ...patch,
+        };
+
+        dispatch({
+            type: ChannelCategoryTypes.RECEIVED_CATEGORY,
+            data: patchedCategory,
+        });
+
+        try {
+            await Client4.updateChannelCategory(currentUserId, category.team_id, patchedCategory);
+        } catch (error) {
+            dispatch({
+                type: ChannelCategoryTypes.RECEIVED_CATEGORY,
+                data: category,
+            });
+
+            forceLogoutIfNecessary(error, dispatch, getState);
+            dispatch(logError(error));
+            return {error};
+        }
+
+        return {data: patchedCategory};
     };
 }
 
@@ -91,7 +118,7 @@ export function setCategoryMuted(categoryId: string, muted: boolean) {
     };
 }
 
-export function updateCategory(category: ChannelCategory): ActionFunc {
+function updateCategory(category: ChannelCategory) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
         const currentUserId = getCurrentUserId(state);
@@ -437,15 +464,9 @@ export function createCategory(teamId: string, displayName: string, channelIds: 
 }
 
 export function renameCategory(categoryId: string, displayName: string): ActionFunc {
-    return (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        const state = getState();
-        const category = getCategory(state, categoryId);
-
-        return dispatch(updateCategory({
-            ...category,
-            display_name: displayName,
-        }));
-    };
+    return patchCategory(categoryId, {
+        display_name: displayName,
+    });
 }
 
 export function deleteCategory(categoryId: string): ActionFunc {

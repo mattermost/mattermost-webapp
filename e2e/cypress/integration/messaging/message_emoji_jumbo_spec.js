@@ -25,7 +25,7 @@ function verifyLastPostStyle(expectedSize) {
         const postMessageTextId = `#rhsPostMessageText_${postId}`;
 
         // # Get Each Emoji from Reply Window RHS for the postId
-        cy.get(`#rhsContent ${postMessageTextId} span.emoticon`).each(($el) => {
+        cy.get(`#rhsContainer .post-right__content ${postMessageTextId} span.emoticon`).each(($el) => {
             cy.wrap($el).as('message');
 
             // * Verify the size of the emoji

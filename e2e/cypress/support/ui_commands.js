@@ -88,10 +88,12 @@ Cypress.Commands.add('cmdOrCtrlShortcut', {prevSubject: true}, (subject, text) =
 // ***********************************************************
 
 Cypress.Commands.add('postMessage', (message) => {
+    cy.get('#postListContent').should('be.visible');
     postMessageAndWait('#post_textbox', message);
 });
 
 Cypress.Commands.add('postMessageReplyInRHS', (message) => {
+    cy.get('#sidebar-right').should('be.visible');
     postMessageAndWait('#reply_textbox', message);
 });
 
@@ -110,10 +112,10 @@ function postMessageAndWait(textboxSelector, message) {
     // some operation which caused to prolong complete page loading.
     cy.wait(TIMEOUTS.HALF_SEC);
 
-    cy.get(textboxSelector, {timeout: TIMEOUTS.HALF_MIN}).as('textboxSelector');
-    cy.get('@textboxSelector').should('be.visible').clear().type(`${message}{enter}`).wait(TIMEOUTS.HALF_SEC);
+    cy.get(textboxSelector, {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').as('textboxSelector');
+    cy.get('@textboxSelector').clear().type(`${message}{enter}`).wait(TIMEOUTS.HALF_SEC);
     cy.get('@textboxSelector').invoke('val').then((value) => {
-        if (value.length > 0) {
+        if (value.length > 0 && value === message) {
             cy.get('@textboxSelector').type('{enter}').wait(TIMEOUTS.HALF_SEC);
         }
     });
@@ -169,7 +171,7 @@ Cypress.Commands.add('uiWaitUntilMessagePostedIncludes', (message) => {
 Cypress.Commands.add('getLastPostIdRHS', () => {
     waitUntilPermanentPost();
 
-    cy.get('#rhsPostList > div').last().should('have.attr', 'id').and('not.include', ':').
+    cy.get('#rhsContainer .post-right-comments-container > div').last().should('have.attr', 'id').and('not.include', ':').
         invoke('replace', 'rhsPost_', '');
 });
 
@@ -232,10 +234,12 @@ Cypress.Commands.add('compareLastPostHTMLContentFromFile', (file, timeout = TIME
  */
 Cypress.Commands.add('sendDirectMessageToUser', (user, message) => {
     // # Open a new direct message with firstDMUser
-    cy.uiAddDirectMessage().click();
+    cy.uiAddDirectMessage().click().wait(TIMEOUTS.ONE_SEC);
+    cy.findByRole('dialog', {name: 'Direct Messages'}).should('be.visible').wait(TIMEOUTS.ONE_SEC);
 
     // # Type username
-    cy.get('#selectItems input').should('be.enabled').type(`@${user.username}`, {force: true});
+    cy.findByRole('textbox', {name: 'Search for people'}).click({force: true}).
+        type(user.username).wait(TIMEOUTS.ONE_SEC);
 
     // * Expect user count in the list to be 1
     cy.get('#multiSelectList').
@@ -511,15 +515,6 @@ Cypress.Commands.add('updateChannelHeader', (text) => {
         type(text).
         type('{enter}').
         wait(TIMEOUTS.HALF_SEC);
-});
-
-/**
- * Archive the current channel.
- */
-Cypress.Commands.add('uiArchiveChannel', () => {
-    cy.get('#channelHeaderDropdownIcon').click();
-    cy.get('#channelArchiveChannel').click();
-    cy.get('#deleteChannelModalDeleteButton').click();
 });
 
 /**

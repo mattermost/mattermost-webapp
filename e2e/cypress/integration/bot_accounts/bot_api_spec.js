@@ -8,7 +8,7 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @bot_accounts
+// Group: @bot_accounts @mfa
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
@@ -73,7 +73,7 @@ describe('Bot accounts ownership and API', () => {
             cy.get('.dropdown-menu').should('be.visible');
 
             // * Confirm integrations are not visible
-            cy.get('#integrations').should('not.be.visible');
+            cy.get('#integrations').should('not.exist');
         });
     });
 

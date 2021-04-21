@@ -6,7 +6,9 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemoveRole 
     Object {
       "delete_at": 0,
       "mention_count": 0,
+      "mention_count_root": 0,
       "msg_count": 0,
+      "msg_count_root": 0,
       "roles": "team_user",
       "scheme_admin": false,
       "scheme_user": false,
@@ -94,7 +96,9 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemoveRole 
       "last_update_at": 0,
       "last_viewed_at": 0,
       "mention_count": 0,
+      "mention_count_root": 0,
       "msg_count": 0,
+      "msg_count_root": 0,
       "notify_props": Object {
         "desktop": "default",
         "email": "default",
@@ -188,7 +192,9 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemoveRole 
       "last_update_at": 0,
       "last_viewed_at": 0,
       "mention_count": 0,
+      "mention_count_root": 0,
       "msg_count": 0,
+      "msg_count_root": 0,
       "notify_props": Object {
         "desktop": "default",
         "email": "default",
@@ -282,7 +288,9 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemoveRole 
       "last_update_at": 0,
       "last_viewed_at": 0,
       "mention_count": 0,
+      "mention_count_root": 0,
       "msg_count": 0,
+      "msg_count_root": 0,
       "notify_props": Object {
         "desktop": "default",
         "email": "default",
@@ -374,7 +382,9 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemoveRole 
     Object {
       "delete_at": 0,
       "mention_count": 0,
+      "mention_count_root": 0,
       "msg_count": 0,
+      "msg_count_root": 0,
       "roles": "team_user",
       "scheme_admin": true,
       "scheme_user": true,
@@ -460,7 +470,9 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemoveRole 
     Object {
       "delete_at": 0,
       "mention_count": 0,
+      "mention_count_root": 0,
       "msg_count": 0,
+      "msg_count_root": 0,
       "roles": "team_user",
       "scheme_admin": false,
       "scheme_user": true,

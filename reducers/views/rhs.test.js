@@ -8,6 +8,7 @@ import {ActionTypes, RHSStates} from 'utils/constants';
 
 describe('Reducers.RHS', () => {
     const initialState = {
+        filesSearchExtFilter: [],
         selectedPostId: '',
         selectedPostFocussedAt: 0,
         selectedPostCardId: '',
@@ -15,6 +16,7 @@ describe('Reducers.RHS', () => {
         previousRhsState: null,
         rhsState: null,
         searchTerms: '',
+        searchType: '',
         searchResultsTerms: '',
         pluggableId: '',
         isSearchingFlaggedPost: false,
@@ -47,6 +49,24 @@ describe('Reducers.RHS', () => {
             ...initialState,
             selectedChannelId: '123',
             rhsState: RHSStates.PIN,
+            isSidebarOpen: true,
+        });
+    });
+
+    test('should match RHS state to channel files', () => {
+        const nextState = rhsReducer(
+            {},
+            {
+                type: ActionTypes.UPDATE_RHS_STATE,
+                state: RHSStates.CHANNEL_FILES,
+                channelId: '123',
+            },
+        );
+
+        expect(nextState).toEqual({
+            ...initialState,
+            selectedChannelId: '123',
+            rhsState: RHSStates.CHANNEL_FILES,
             isSidebarOpen: true,
         });
     });
@@ -454,6 +474,36 @@ describe('Reducers.RHS', () => {
                     isMenuOpen: false,
                 });
             });
+        });
+    });
+
+    test('should set the extension filters for a search', () => {
+        const nextState = rhsReducer(
+            {},
+            {
+                type: ActionTypes.SET_FILES_FILTER_BY_EXT,
+                data: ['pdf', 'png'],
+            },
+        );
+
+        expect(nextState).toEqual({
+            ...initialState,
+            filesSearchExtFilter: ['pdf', 'png'],
+        });
+    });
+
+    test('should set the type for a search', () => {
+        const nextState = rhsReducer(
+            {},
+            {
+                type: ActionTypes.UPDATE_RHS_SEARCH_TYPE,
+                searchType: 'files',
+            },
+        );
+
+        expect(nextState).toEqual({
+            ...initialState,
+            searchType: 'files',
         });
     });
 });

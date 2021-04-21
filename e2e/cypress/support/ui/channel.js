@@ -10,8 +10,7 @@ Cypress.Commands.add('uiCreateChannel', ({
     purpose = '',
     header = '',
 }) => {
-    cy.get('#SidebarContainer .AddChannelDropdown_dropdownButton').click();
-    cy.get('#showNewChannel button').click();
+    cy.uiBrowseOrCreateChannel('Create New Channel').click();
 
     cy.get('#newChannelModalLabel').should('be.visible');
     if (isPrivate) {
@@ -28,7 +27,7 @@ Cypress.Commands.add('uiCreateChannel', ({
         cy.get('#newChannelHeader').clear().type(header);
     }
     cy.get('#submitNewChannel').click();
-    cy.get('#newChannelModalLabel').should('not.be.visible');
+    cy.get('#newChannelModalLabel').should('not.exist');
     cy.get('#channelIntro').should('be.visible');
     return cy.wrap({name: channelName});
 });
@@ -42,7 +41,7 @@ Cypress.Commands.add('uiAddUsersToCurrentChannel', (usernameList) => {
             cy.get('#react-select-2-input').type(`@${username}{enter}`);
         });
         cy.get('#saveItems').click();
-        cy.get('#addUsersToChannelModal').should('not.be.visible');
+        cy.get('#addUsersToChannelModal').should('not.exist');
     }
 });
 
@@ -74,11 +73,11 @@ Cypress.Commands.add('goToDm', (username) => {
 
     // # Start typing part of a username that matches previously created users
     cy.get('#selectItems input').type(username, {force: true});
+    cy.findByRole('dialog', {name: 'Direct Messages'}).should('be.visible').wait(TIMEOUTS.ONE_SEC);
+    cy.findByRole('textbox', {name: 'Search for people'}).click({force: true}).
+        type(username).wait(TIMEOUTS.ONE_SEC).
+        type('{enter}');
 
-    cy.get('#multiSelectList');
-    cy.get('body').type('{downarrow}').type('{enter}');
-
-    // # With the arrow and enter keys, select the first user that matches our search query
-
+    // # Save the selected item
     return cy.get('#saveItems').click().wait(TIMEOUTS.HALF_SEC);
 });
