@@ -73,7 +73,7 @@ describe('Settings', () => {
             });
     });
 
-    it('MM-T953: Verify correct authentication method', () => {
+    it('MM-T953 Verify correct authentication method', () => {
         cy.visit('/admin_console/user_management/users');
 
         const adminUsername = getAdminAccount().username;

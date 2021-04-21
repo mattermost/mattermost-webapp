@@ -5,6 +5,10 @@ import React from 'react';
 import {getName} from 'country-list';
 import {FormattedMessage} from 'react-intl';
 
+import {
+    StripeCardElementChangeEvent,
+} from '@stripe/stripe-js';
+
 import {PaymentMethod} from 'mattermost-redux/types/cloud';
 
 import {BillingDetails} from 'types/cloud/sku';
@@ -25,10 +29,11 @@ type Props = {
     className: string;
     initialBillingDetails?: BillingDetails;
     paymentMethod?: PaymentMethod;
+    onCardInputChange?: (change: StripeCardElementChangeEvent) => void;
     onInputChange?: (billing: BillingDetails) => void;
     onInputBlur?: (billing: BillingDetails) => void;
     buttonFooter?: JSX.Element;
-}
+};
 
 type State = {
     address: string;
@@ -106,6 +111,12 @@ export default class PaymentForm extends React.PureComponent<Props, State> {
         }
     }
 
+    private handleCardInputChange = (event: StripeCardElementChangeEvent) => {
+        if (this.props.onCardInputChange) {
+            this.props.onCardInputChange(event);
+        }
+    }
+
     private handleStateChange = (stateValue: string) => {
         const newStateValue = {
             state: stateValue,
@@ -153,6 +164,7 @@ export default class PaymentForm extends React.PureComponent<Props, State> {
                             forwardedRef={this.cardRef}
                             required={true}
                             onBlur={this.onBlur}
+                            onCardInputChange={this.handleCardInputChange}
                         />
                     </div>
                     <div className='form-row'>
@@ -162,7 +174,10 @@ export default class PaymentForm extends React.PureComponent<Props, State> {
                             value={this.state.name}
                             onChange={this.handleInputChange}
                             onBlur={this.onBlur}
-                            placeholder={Utils.localizeMessage('payment_form.name_on_card', 'Name on Card')}
+                            placeholder={Utils.localizeMessage(
+                                'payment_form.name_on_card',
+                                'Name on Card',
+                            )}
                             required={true}
                         />
                     </div>
@@ -174,10 +189,21 @@ export default class PaymentForm extends React.PureComponent<Props, State> {
                     </div>
                     <DropdownInput
                         onChange={this.handleCountryChange}
-                        value={this.state.country ? {value: this.state.country, label: this.state.country} : undefined}
-                        options={COUNTRIES.map((country) => ({value: country.name, label: country.name}))}
-                        legend={Utils.localizeMessage('payment_form.country', 'Country')}
-                        placeholder={Utils.localizeMessage('payment_form.country', 'Country')}
+                        value={
+                            this.state.country ? {value: this.state.country, label: this.state.country} : undefined
+                        }
+                        options={COUNTRIES.map((country) => ({
+                            value: country.name,
+                            label: country.name,
+                        }))}
+                        legend={Utils.localizeMessage(
+                            'payment_form.country',
+                            'Country',
+                        )}
+                        placeholder={Utils.localizeMessage(
+                            'payment_form.country',
+                            'Country',
+                        )}
                         name={'billing_dropdown'}
                     />
                     <div className='form-row'>
@@ -187,7 +213,10 @@ export default class PaymentForm extends React.PureComponent<Props, State> {
                             value={this.state.address}
                             onChange={this.handleInputChange}
                             onBlur={this.onBlur}
-                            placeholder={Utils.localizeMessage('payment_form.address', 'Address')}
+                            placeholder={Utils.localizeMessage(
+                                'payment_form.address',
+                                'Address',
+                            )}
                             required={true}
                         />
                     </div>
@@ -198,7 +227,10 @@ export default class PaymentForm extends React.PureComponent<Props, State> {
                             value={this.state.address2}
                             onChange={this.handleInputChange}
                             onBlur={this.onBlur}
-                            placeholder={Utils.localizeMessage('payment_form.address_2', 'Address 2')}
+                            placeholder={Utils.localizeMessage(
+                                'payment_form.address_2',
+                                'Address 2',
+                            )}
                         />
                     </div>
                     <div className='form-row'>
@@ -208,7 +240,10 @@ export default class PaymentForm extends React.PureComponent<Props, State> {
                             value={this.state.city}
                             onChange={this.handleInputChange}
                             onBlur={this.onBlur}
-                            placeholder={Utils.localizeMessage('payment_form.city', 'City')}
+                            placeholder={Utils.localizeMessage(
+                                'payment_form.city',
+                                'City',
+                            )}
                             required={true}
                         />
                     </div>
@@ -228,7 +263,10 @@ export default class PaymentForm extends React.PureComponent<Props, State> {
                                 value={this.state.postalCode}
                                 onChange={this.handleInputChange}
                                 onBlur={this.onBlur}
-                                placeholder={Utils.localizeMessage('payment_form.zipcode', 'Zip/Postal Code')}
+                                placeholder={Utils.localizeMessage(
+                                    'payment_form.zipcode',
+                                    'Zip/Postal Code',
+                                )}
                                 required={true}
                             />
                         </div>

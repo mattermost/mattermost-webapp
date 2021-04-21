@@ -184,7 +184,7 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
                     {hasSubmenu ? subMenu!.map((s) => {
                         const hasDivider = s.id === 'SidebarChannelMenu-moveToDivider';
                         return (
-                            <div
+                            <span
                                 className={classNames(['SubMenuItemContainer', {hasDivider}])}
                                 key={s.id}
                             >
@@ -204,7 +204,7 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
                                 {s.text === selectedValueText && <span className='sorting-menu-checkbox'>
                                     <i className='icon-check'/>
                                 </span>}
-                            </div>
+                            </span>
                         );
                     }) : ''}
                 </ul>

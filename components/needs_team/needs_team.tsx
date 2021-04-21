@@ -48,7 +48,7 @@ type Props = {
     currentTeamId?: string;
     useLegacyLHS: boolean;
     actions: {
-        fetchMyChannelsAndMembers: (teamId: string) => Promise<{data: {channels: Channel[]; members: ChannelMembership[]}}>;
+        fetchMyChannelsAndMembers: (teamId: string) => Promise<{ data: { channels: Channel[]; members: ChannelMembership[] } }>;
         getMyTeamUnreads: () => Promise<{data: any; error?: any}>;
         viewChannel: (channelId: string, prevChannelId?: string | undefined) => Promise<{data: boolean}>;
         markChannelAsReadOnFocus: (channelId: string) => Promise<{data: any; error?: any}>;
@@ -240,7 +240,6 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
                 });
             },
         );
-
         this.props.actions.loadStatusesForChannelAndSidebar();
         this.props.actions.loadProfilesForDirect();
 

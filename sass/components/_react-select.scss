@@ -117,6 +117,10 @@
         color: inherit;
     }
 
+    // additionally adding `&__***` definitions,
+    // since using portal on the react-select component
+    // renders it as the last child of the body.
+    &__input ,
     .react-select__input {
         color: var(--sys-center-channel-color);
 
@@ -125,38 +129,61 @@
         }
     }
 
+    &__menu,
     .react-select__menu {
         background: var(--sys-center-channel-bg);
 
         .app__body & {
             background: var(--center-channel-bg);
         }
-    }
 
-    .react-select__menu-list {
-        border: 1px solid var(--sys-center-channel-color-20);
-        border-radius: 4px;
+        &-list {
+            border: 1px solid var(--sys-center-channel-color-20);
+            border-radius: 4px;
 
-        .app__body & {
-            border: 1px solid var(--center-channel-color-20);
+            .app__body & {
+                border: 1px solid var(--center-channel-color-20);
+            }
         }
     }
 
-    .react-select__option--is-focused {
-        background: rgba(var(--sys-button-bg-rgb), 0.24);
+    &__option,
+    & &__option {
+        // hovering
+        &--is-focused {
+            background: rgba(var(--sys-button-bg-rgb), 0.08);
 
-        .app__body & {
-            background: rgba(var(--button-bg-rgb), 0.24);
+            .app__body & {
+                background: var(--center-channel-color-08);
+            }
         }
-    }
 
-    .react-select__option--is-selected {
-        background: var(--sys-button-bg);
-        color: var(--sys-button-color);
+        // selected option
+        &--is-selected {
+            background: var(--sys-button-bg);
+            color: var(--sys-button-color);
 
-        .app__body & {
-            background: var(--button-bg);
-            color: var(--button-color);
+            .app__body & {
+                background: var(--button-bg);
+                color: var(--button-color);
+            }
+        }
+
+        // selected + hovering
+        &--is-selected:hover {
+            background: rgba(var(--sys-button-bg-rgb), 0.88);
+
+            .app__body & {
+                background: var(--button-bg-88);
+            }
+        }
+
+        &:active {
+            background: rgba(var(--sys-button-bg-rgb), 0.16);
+
+            .app__body & {
+                background: var(--button-bg-16);
+            }
         }
     }
 

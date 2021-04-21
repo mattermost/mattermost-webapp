@@ -1,12 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-.StoryBox {
+
+.StoryGrid .StoryBox {
     display: grid;
-    flex-direction: column;
-    justify-content: center;
+    place-items: center;
+}
+
+.StoryBox {
     position: relative;
-    align-items: center;
     border: 1px solid #eee;
     border-radius: 5px;
     margin: 30px 10px 10px;
