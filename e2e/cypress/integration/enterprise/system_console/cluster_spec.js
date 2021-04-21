@@ -73,7 +73,6 @@ describe('Cluster', () => {
         cy.apiUpdateConfig({
             ClusterSettings: {
                 Enable: true,
-                UseExperimentalGossip: true,
                 EnableGossipCompression: false,
             },
         });
