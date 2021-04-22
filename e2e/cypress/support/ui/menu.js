@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 const MAIN_MENU = 'main menu';
+const SYSTEM_CONSOLE_MAIN_MENU = 'Menu Icon';
 const CHANNEL_MENU = 'channel menu';
 const SET_STATUS_MENU = 'set status';
 
@@ -33,6 +34,18 @@ Cypress.Commands.add('uiCloseMainMenu', () => {
 
 Cypress.Commands.add('uiGetMainMenu', () => {
     return getMenu(MAIN_MENU);
+});
+
+Cypress.Commands.add('uiOpenSystemConsoleMainMenu', (item = '') => {
+    return openMenu(SYSTEM_CONSOLE_MAIN_MENU, item);
+});
+
+Cypress.Commands.add('uiCloseSystemConsoleMainMenu', () => {
+    return cy.uiGetSystemConsoleMainMenu().click();
+});
+
+Cypress.Commands.add('uiGetSystemConsoleMainMenu', () => {
+    return getMenu(SYSTEM_CONSOLE_MAIN_MENU);
 });
 
 Cypress.Commands.add('uiOpenChannelMenu', (item = '') => {

@@ -212,6 +212,8 @@
 }
 
 .search-item__container {
+    display: flex;
+    flex-direction: column;
     .post {
         margin: 0;
         padding: 0 1em 16px;
@@ -353,7 +355,7 @@
             font-size: 14px;
             margin-right: 6px;
         }
-        &:hover {
+        &:hover, &.highlighted {
             background: rgba(v(button-bg-rgb), 0.04);
         }
     }
