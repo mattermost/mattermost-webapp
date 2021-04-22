@@ -20,9 +20,11 @@ describe('components/feature_discovery', () => {
                     imgPath='foo/bar.png'
                     // eslint-disable-next-line @typescript-eslint/naming-convention
                     stats={{TOTAL_USERS: 20}}
+                    prevTrialLicense={{IsLicensed: 'false'}}
                     actions={{
                         requestTrialLicense: jest.fn(),
                         getLicenseConfig: jest.fn(),
+                        getPrevTrialLicense: jest.fn(),
                     }}
                 />,
             );

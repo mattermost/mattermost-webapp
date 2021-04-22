@@ -1828,13 +1828,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
                   }
                   eventID="post_trial_purchase_license"
                 />
-                <ContactSales
-                  buttonTextElement={
-                    <FormattedMessage
-                      defaultMessage="Contact sales"
-                      id="admin.license.trialCard.contactSales"
-                    />
-                  }
+                <ContactUs
                   eventID="post_trial_contact_sales"
                 />
               </div>

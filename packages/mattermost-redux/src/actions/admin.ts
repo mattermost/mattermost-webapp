@@ -455,10 +455,7 @@ export function getPrevTrialLicense(): ActionFunc {
             return {error};
         }
 
-        dispatch(batchActions([
-            {type: AdminTypes.PREV_TRIAL_LICENSE_SUCCESS, data},
-        ]));
-
+        dispatch({type: AdminTypes.PREV_TRIAL_LICENSE_SUCCESS, data});
         return {data};
     };
 }

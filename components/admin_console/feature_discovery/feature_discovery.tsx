@@ -34,7 +34,7 @@ type Props = {
     actions: {
         requestTrialLicense: (users: number, termsAccepted: boolean, receiveEmailsAccepted: boolean, featureName: string) => Promise<{error?: string; data?: null}>;
         getLicenseConfig: () => void;
-        getPrevTrialLicense: any;
+        getPrevTrialLicense: () => void;
     };
 }
 
@@ -158,7 +158,7 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
                             defaultMessage={copyDefault}
                         />
                     </div>
-                    {this.props.prevTrialLicense && this.props.prevTrialLicense.IsLicensed === 'true' ? Utils.renderPurchaseLicense() : this.renderStartTrial(learnMoreURL, gettingTrialError)}
+                    {this.props.prevTrialLicense?.IsLicensed === 'true' ? Utils.renderPurchaseLicense() : this.renderStartTrial(learnMoreURL, gettingTrialError)}
                 </div>
 
                 <div className='FeatureDiscovery_imageWrapper'>

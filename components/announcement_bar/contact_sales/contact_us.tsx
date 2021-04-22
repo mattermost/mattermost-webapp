@@ -3,16 +3,17 @@
 
 import React from 'react';
 
-import {trackEvent} from 'actions/telemetry_actions';
+import {FormattedMessage} from 'react-intl';
 
-import './contact_sales.scss';
+import {trackEvent} from 'actions/telemetry_actions';
+import './contact_us.scss';
 
 export interface Props {
-    buttonTextElement: JSX.Element;
+    titleID?: string;
     eventID?: string;
 }
 
-const ContactSales: React.FC<Props> = (props: Props) => {
+const ContactUs: React.FC<Props> = (props: Props) => {
     const handleContactSalesLinkClick = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
         trackEvent('admin', props.eventID || 'in_trial_contact_sales');
@@ -24,9 +25,12 @@ const ContactSales: React.FC<Props> = (props: Props) => {
             className='contact-sales'
             onClick={(e) => handleContactSalesLinkClick(e)}
         >
-            {props.buttonTextElement}
+            <FormattedMessage
+                id={props.titleID || 'admin.license.trialCard.contactSales'}
+                defaultMessage={'Contact sales'}
+            />
         </button>
     );
 };
 
-export default ContactSales;
+export default ContactUs;

@@ -3125,7 +3125,7 @@ export default class Client4 {
     };
 
     getPrevTrialLicense = () => {
-        return this.doFetch<StatusOK>(
+        return this.doFetch<ClientLicense>(
             `${this.getBaseRoute()}/trial-license/prev`,
             {method: 'get'},
         );
