@@ -639,6 +639,10 @@
             margin: 4px 0 0 6px;
             min-width: 240px;
             overflow: auto;
+
+            .Submenu {
+                margin: -4px 0 0 -4px;
+            }
         }
 
         .status-dropdown-menu {
