@@ -24,11 +24,12 @@ describe('Onboarding', () => {
 
     const baseUrl = Cypress.config('baseUrl');
     const mailUrl = getEmailUrl(baseUrl);
+    let isCloudLicensed;
     let isLicensed;
 
     before(() => {
         cy.apiGetClientLicense().then((data) => {
-            ({isLicensed} = data);
+            ({isLicensed, isCloudLicensed} = data);
         });
 
         // # Do email test if setup properly
@@ -65,8 +66,13 @@ describe('Onboarding', () => {
             cy.visit(inviteLink);
         });
 
-        // # Click Email and Password link
-        cy.get('.signup__content', {timeout: TIMEOUTS.ONE_MIN}).findByText('Email and Password').click();
+        if (isLicensed) {
+            // # Click Email and Password link
+            cy.get('.signup__content', {timeout: TIMEOUTS.ONE_MIN}).findByText('Email and Password').click();
+        }
+
+        // * Verify it's on email signup page
+        cy.get('#signup_email_section').should('be.visible');
 
         // # Type email, username and password
         cy.get('#email', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').type(email);
@@ -98,7 +104,7 @@ describe('Onboarding', () => {
             // # Check that 'Email Verified' text should be visible, email is pre-filled, and password field is focused, then login
             cy.findByText('Email Verified', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible');
             cy.get('#loginId').should('have.value', email);
-            cy.get('#loginPassword').should('be.focused').type(password);
+            cy.get('#loginPassword').should('be.visible').type(password);
             cy.get('#loginButton').click();
             cy.findByText('Enter a valid email or username and/or password.').should('not.exist');
         });
@@ -112,7 +118,15 @@ describe('Onboarding', () => {
         });
 
         // * Check that the 'Welcome to Mattermost' message is visible
-        cy.get('.NextStepsView__header-headerText').findByText('Welcome to Mattermost').should('be.visible');
+        if (isCloudLicensed) {
+            cy.get('.NextStepsView__header-headerText').findByText('Welcome to Mattermost').should('be.visible');
+        } else {
+            cy.get('#tutorialIntroOne').should('be.visible').
+                and('contain', 'Welcome to:').
+                and('contain', 'Mattermost').
+                and('contain', 'Your team communication all in one place, instantly searchable and available anywhere.').
+                and('contain', 'Keep your team connected to help them achieve what matters most.');
+        }
     });
 
     function verifyEmailInvite(response, userEmail) {
