@@ -25,10 +25,19 @@ const ContactUs: React.FC<Props> = (props: Props) => {
             className='contact-sales'
             onClick={(e) => handleContactSalesLinkClick(e)}
         >
-            <FormattedMessage
-                id={props.titleID || 'admin.license.trialCard.contactSales'}
-                defaultMessage={'Contact sales'}
-            />
+            {/* we need to add condition this way to prevent mmjstools from treating the message id as unused */}
+            {props.titleID ? (
+                <FormattedMessage
+                    id={props.titleID}
+                    defaultMessage={'Contact sales'}
+                />
+            ) : (
+                <FormattedMessage
+                    id='admin.license.trialCard.contactSales'
+                    defaultMessage={'Contact sales'}
+                />
+            )}
+
         </button>
     );
 };
