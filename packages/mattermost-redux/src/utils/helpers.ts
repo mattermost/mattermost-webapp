@@ -34,6 +34,7 @@ export const createIdsSelector = reselect.createSelectorCreator(memoizeResult);
 // Use this selector when you want a shallow comparison of the arguments and you don't need to memoize the result
 export const createShallowSelector = reselect.createSelectorCreator(reselect.defaultMemoize, shallowEqual as any);
 
+// TODO remove
 // isMinimumServerVersion will return true if currentVersion is equal to higher or than the
 // the provided minimum version. A non-equal major version will ignore minor and dot
 // versions, and a non-equal minor version will ignore dot version.
@@ -107,6 +108,7 @@ export function isEmail(email: string): boolean {
     return (/^[^ ,@]+@[^ ,@]+$/).test(email);
 }
 
+// TODO remove
 export function buildQueryString(parameters: Dictionary<any>): string {
     const keys = Object.keys(parameters);
     if (keys.length === 0) {

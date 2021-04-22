@@ -11,6 +11,7 @@ export type CloudState = {
     subscriptionStats?: SubscriptionStats;
 }
 
+// TODO remove
 export type Subscription = {
     id: string;
     customer_id: string;
@@ -26,6 +27,7 @@ export type Subscription = {
     is_free_trial: string;
 }
 
+// TODO remove
 export type Product = {
     id: string;
     name: string;
@@ -34,6 +36,7 @@ export type Product = {
     add_ons: AddOn[];
 };
 
+// TODO remove
 export type AddOn = {
     id: string;
     name: string;
@@ -41,6 +44,7 @@ export type AddOn = {
     price_per_seat: number;
 };
 
+// TODO remove
 // Customer model represents a customer on the system.
 export type CloudCustomer = {
     id: string;
@@ -56,6 +60,7 @@ export type CloudCustomer = {
     payment_method: PaymentMethod;
 }
 
+// TODO remove
 // CustomerPatch model represents a customer patch on the system.
 export type CloudCustomerPatch = {
     email?: string;
@@ -65,6 +70,7 @@ export type CloudCustomerPatch = {
     contact_last_name?: string;
 }
 
+// TODO remove
 // Address model represents a customer's address.
 export type Address = {
     city: string;
@@ -75,6 +81,7 @@ export type Address = {
     state: string;
 }
 
+// TODO remove
 // PaymentMethod represents methods of payment for a customer.
 export type PaymentMethod = {
     type: string;
@@ -85,6 +92,7 @@ export type PaymentMethod = {
     name: string;
 }
 
+// TODO remove
 // Invoice model represents a invoice on the system.
 export type Invoice = {
     id: string;
@@ -100,6 +108,7 @@ export type Invoice = {
     line_items: InvoiceLineItem[];
 }
 
+// TODO remove
 // InvoiceLineItem model represents a invoice lineitem tied to an invoice.
 export type InvoiceLineItem = {
     price_id: string;
@@ -111,6 +120,7 @@ export type InvoiceLineItem = {
     metadata: Dictionary<string>;
 }
 
+// TODO remove
 export type SubscriptionStats = {
     remaining_seats: number;
     is_paid_tier: string;

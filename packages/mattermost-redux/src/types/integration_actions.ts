@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+// TODO remove all
+
 export type PostAction = {
     id?: string;
     type?: string;
@@ -24,6 +26,7 @@ export type PostActionIntegration = {
     context?: Record<string, any>;
 }
 
+// TODO remove
 export type PostActionResponse = {
     status: string;
     trigger_id: string;

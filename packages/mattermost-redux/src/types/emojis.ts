@@ -13,6 +13,8 @@ export type EmojiCategory = (
     | 'flags'
     | 'custom'
 );
+
+// TODO remove me
 export type CustomEmoji = {
     id: string;
     create_at: number;
@@ -22,13 +24,16 @@ export type CustomEmoji = {
     name: string;
     category: 'custom';
 };
+
 export type SystemEmoji = {
     filename: string;
     aliases: string[];
     category: EmojiCategory;
     batch: number;
 };
+
 export type Emoji = SystemEmoji | CustomEmoji;
+
 export type EmojisState = {
     customEmoji: {
         [x: string]: CustomEmoji;

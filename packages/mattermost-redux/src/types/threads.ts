@@ -1,11 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import type {Post} from './posts';
 import type {Team} from './teams';
 import type {Channel} from './channels';
 import type {UserProfile} from './users';
 import type {$ID, IDMappedObjects, RelationOneToMany, RelationOneToOne} from './utilities';
 
+// TODO remove
 export type UserThread = {
     id: string;
     reply_count: number;
@@ -27,8 +29,10 @@ export type UserThread = {
     };
 }
 
+// TODO remove
 export type UserThreadWithPost = UserThread & {post: Post};
 
+// TODO remove
 export type UserThreadList = {
     total: number;
     total_unread_threads: number;

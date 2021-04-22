@@ -4,6 +4,7 @@
 import {MessageAttachment} from './message_attachments';
 import {IDMappedObjects} from './utilities';
 
+// TODO remove
 export type IncomingWebhook = {
     id: string;
     create_at: number;
@@ -19,6 +20,7 @@ export type IncomingWebhook = {
     channel_locked: boolean;
 };
 
+// TODO remove
 export type OutgoingWebhook = {
     id: string;
     token: string;
@@ -38,6 +40,7 @@ export type OutgoingWebhook = {
     icon_url: string;
 };
 
+// TODO remove
 export type Command = {
     'id': string;
     'token': string;
@@ -58,6 +61,7 @@ export type Command = {
     'url': string;
 };
 
+// TODO remove
 export type CommandArgs = {
     channel_id: string;
     team_id?: string;
@@ -65,6 +69,7 @@ export type CommandArgs = {
     parent_id?: string;
 }
 
+// TODO remove
 export type CommandResponse = {
     response_type: string;
     text: string;
@@ -90,6 +95,7 @@ export type AutocompleteSuggestion = {
 
 export type CommandAutocompleteSuggestion = AutocompleteSuggestion; // TODO remove this alias after the mattermost-redux migration
 
+// TODO remove
 export type OAuthApp = {
     'id': string;
     'creator_id': string;
@@ -130,6 +136,7 @@ export type InteractiveDialogConfig = {
     };
 };
 
+// TODO remove
 export type DialogSubmission = {
     url: string;
     callback_id: string;
@@ -161,6 +168,7 @@ export type DialogElement = {
     }>;
 };
 
+// TODO remove
 export type SubmitDialogResponse = {
     error?: string;
     errors?: Record<string, string>;

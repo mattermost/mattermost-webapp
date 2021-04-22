@@ -9,6 +9,7 @@ import {Session} from './sessions';
 import {Team} from './teams';
 import {$ID, Dictionary, IDMappedObjects, RelationOneToMany, RelationOneToOne} from './utilities';
 
+// TODO
 export type UserNotifyProps = {
     desktop: 'default' | 'all' | 'mention' | 'none';
     desktop_sound: 'true' | 'false';
@@ -22,6 +23,7 @@ export type UserNotifyProps = {
     mention_keys: string;
 };
 
+// TODO
 export type UserProfile = {
     id: string;
     create_at: number;
@@ -79,6 +81,7 @@ export type UsersState = {
     myUserAccessTokens: Dictionary<UserAccessToken>;
 };
 
+// TODO remove
 export type UserTimezone = {
     useAutomaticTimezone: boolean | string;
     automaticTimezone: string;
@@ -94,6 +97,7 @@ export type UserActivity = {
     };
 };
 
+// TODO remove
 export type UserStatus = {
     user_id: string;
     status: string;
@@ -102,11 +106,13 @@ export type UserStatus = {
     active_channel?: string;
 };
 
+// TODO remove
 export type UserCustomStatus = {
     emoji: string;
     text: string;
 };
 
+// TODO remove
 export type UserAccessToken = {
     id: string;
     token?: string;
@@ -115,10 +121,12 @@ export type UserAccessToken = {
     is_active: boolean;
 };
 
+// TODO
 export type UsersStats = {
     total_users_count: number;
 };
 
+// TODO
 export type GetFilteredUsersStatsOpts = {
     in_team?: string;
     in_channel?: string;
@@ -129,6 +137,7 @@ export type GetFilteredUsersStatsOpts = {
     team_roles?: string[];
 };
 
+// TODO remove
 export type AuthChangeResponse = {
     follow_link: string;
 };

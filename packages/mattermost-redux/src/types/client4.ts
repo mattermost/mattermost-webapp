@@ -4,6 +4,7 @@
 // I assume these are the log levels
 export type LogLevel = 'ERROR' | 'WARNING' | 'INFO';
 
+// TODO remove
 export type ClientResponse<T> = {
     response: Response;
     headers: Map<string, string>;
@@ -28,6 +29,7 @@ export type ErrorApi = {
 };
 export type Client4Error = ErrorOffline | ErrorInvalidResponse | ErrorApi;
 
+// TODO remove
 export type Options = {
     headers?: { [x: string]: string };
     method?: string;
@@ -36,6 +38,7 @@ export type Options = {
     body?: any;
 };
 
+// TODO remove
 export type StatusOK = {
     status: 'OK';
 };

@@ -3,6 +3,7 @@
 
 import {Dictionary, $ID} from './utilities';
 
+// TODO remove
 export type FileInfo = {
     id: string;
     user_id: string;
@@ -19,6 +20,7 @@ export type FileInfo = {
     clientId: string;
     post_id?: string;
 };
+
 export type FilesState = {
     files: Dictionary<FileInfo>;
     filesFromSearch: Dictionary<FileSearchResultItem>;
@@ -26,15 +28,18 @@ export type FilesState = {
     filePublicLink?: string;
 };
 
+// TODO remove
 export type FileUploadResponse = {
     file_infos: FileInfo[];
     client_ids: string[];
 }
 
+// TODO remove
 export type FileSearchResultItem = FileInfo & {
     channel_id: string;
 }
 
+// TODO remove
 export type FileSearchResults = {
     order: Array<$ID<FileSearchResultItem>>;
     file_infos: Map<string, FileSearchResultItem>;

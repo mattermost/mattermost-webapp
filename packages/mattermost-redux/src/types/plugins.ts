@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+// TODO remove
 type Plugin = {
     id: string;
     name: string;
@@ -18,10 +19,12 @@ type Plugin = {
     props?: Record<string, any>;
 };
 
+// TODO remove
 export type PluginManifest = Plugin;
 
 export type PluginRedux = PluginManifest & {active: boolean};
 
+// TODO remove
 export type PluginManifestServer = {
     executables?: {
         'linux-amd64'?: string;
@@ -31,16 +34,19 @@ export type PluginManifestServer = {
     executable: string;
 };
 
+// TODO remove
 export type PluginManifestWebapp = {
     bundle_path: string;
 };
 
+// TODO remove
 export type PluginSettingsSchema = {
     header: string;
     footer: string;
     settings: PluginSetting[];
 };
 
+// TODO remove
 export type PluginSetting = {
     key: string;
     display_name: string;
@@ -52,16 +58,19 @@ export type PluginSetting = {
     options?: PluginSettingOption[];
 };
 
+// TODO remove
 export type PluginSettingOption = {
     display_name: string;
     value: string;
 };
 
+// TODO remove
 export type PluginsResponse = {
     active: PluginManifest[];
     inactive: PluginManifest[];
 };
 
+// TODO remove
 export type PluginStatus = {
     plugin_id: string;
     cluster_id: string;
@@ -88,6 +97,7 @@ export type PluginStatusRedux = {
     instances: PluginInstance[];
 }
 
+// TODO remove
 export type ClientPluginManifest = {
     id: string;
     min_server_version?: string;

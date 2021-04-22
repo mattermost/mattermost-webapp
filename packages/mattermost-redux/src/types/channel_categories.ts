@@ -6,8 +6,10 @@ import {Team} from './teams';
 import {UserProfile} from './users';
 import {$ID, IDMappedObjects, RelationOneToOne} from './utilities';
 
+// TODO remove
 export type ChannelCategoryType = 'favorites' | 'channels' | 'direct_messages' | 'custom';
 
+// TODO remove
 export enum CategorySorting {
     Alphabetical = 'alpha',
     Default = '', // behaves the same as manual
@@ -15,6 +17,7 @@ export enum CategorySorting {
     Manual = 'manual',
 }
 
+// TODO remove
 export type ChannelCategory = {
     id: string;
     user_id: $ID<UserProfile>;
@@ -27,6 +30,7 @@ export type ChannelCategory = {
     collapsed: boolean;
 };
 
+// TODO remove
 export type OrderedChannelCategories = {
     categories: ChannelCategory[];
     order: string[];

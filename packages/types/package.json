@@ -1,0 +1,24 @@
+{
+  "name": "@mattermost/types",
+  "version": "5.36.0-dev",
+  "description": "TypeScript type definitions for objects returned by the server",
+  "homepage": "https://github.com/mattermost/mattermost-webapp/tree/master/packages/types",
+  "license": "Apache-2.0",
+  "files": [
+    "index.ts",
+    "src/*"
+  ],
+  "main": "index.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mattermost/mattermost-webapp.git",
+    "directory": "packages/types"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+  },
+  "peerDependencies": {
+    "typescript": "^4.2.4"
+  }
+}

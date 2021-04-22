@@ -1,6 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
+// TODO remove
 export type SchemeScope = 'team' | 'channel';
+
+// TODO remove
 export type Scheme = {
     id: string;
     name: string;
@@ -15,11 +19,13 @@ export type Scheme = {
     default_channel_admin_role: string;
     default_channel_user_role: string;
 };
+
 export type SchemesState = {
     schemes: {
         [x: string]: Scheme;
     };
 };
+
 export type SchemePatch = {
     name?: string;
     description?: string;

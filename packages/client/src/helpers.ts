@@ -1,5 +1,25 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
+export function buildQueryString(parameters: Record<string, any>): string {
+    const keys = Object.keys(parameters);
+    if (keys.length === 0) {
+        return '';
+    }
+
+    let query = '?';
+    for (let i = 0; i < keys.length; i++) {
+        const key = keys[i];
+        query += key + '=' + encodeURIComponent(parameters[key]);
+
+        if (i < keys.length - 1) {
+            query += '&';
+        }
+    }
+
+    return query;
+}
+
 // Given a URL from an API request, return a URL that has any parts removed that are either sensitive or that would
 // prevent properly grouping the messages in Sentry.
 export function cleanUrlForLogging(baseUrl: string, apiUrl: string): string {

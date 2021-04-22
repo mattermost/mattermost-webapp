@@ -12,6 +12,7 @@ import {
     Dictionary,
 } from './utilities';
 
+// TODO remove
 export type PostType = 'system_add_remove' |
 'system_add_to_channel' |
 'system_add_to_team' |
@@ -27,14 +28,17 @@ export type PostType = 'system_add_remove' |
 'system_purpose_change' |
 'system_remove_from_channel';
 
+// TODO remove
 export type PostEmbedType = 'image' | 'link' | 'message_attachment' | 'opengraph';
 
+// TODO
 export type PostEmbed = {
     type: PostEmbedType;
     url: string;
     data: Record<string, OpenGraphMetadata>;
 };
 
+// TODO
 export type PostImage = {
     format: string;
     frameCount: number;
@@ -42,6 +46,7 @@ export type PostImage = {
     width: number;
 };
 
+// TODO
 export type PostMetadata = {
     embeds: PostEmbed[];
     emojis: CustomEmoji[];
@@ -50,6 +55,7 @@ export type PostMetadata = {
     reactions: Reaction[];
 };
 
+// TODO
 export type Post = {
     id: string;
     create_at: number;
@@ -79,6 +85,7 @@ export type Post = {
     message_source?: string;
 };
 
+// TODO remove
 export type PostList = {
     order: Array<$ID<Post>>;
     posts: Map<string, Post>;
@@ -86,6 +93,7 @@ export type PostList = {
     prev_post_id: string;
 };
 
+// TODO remove
 export type PostSearchResults = PostList & {
     matches: RelationOneToOne<Post, string[]>;
 };
@@ -129,6 +137,7 @@ export type PostsState = {
     expandedURLs: Dictionary<string>;
 };
 
+// TODO remove
 export declare type OpenGraphMetadataImage = {
     secure_url?: string;
     url: string;
@@ -136,6 +145,7 @@ export declare type OpenGraphMetadataImage = {
     width?: number;
 }
 
+// TODO remove
 export declare type OpenGraphMetadata = {
     type?: string;
     title?: string;

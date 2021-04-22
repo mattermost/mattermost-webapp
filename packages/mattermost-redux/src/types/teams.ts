@@ -5,6 +5,7 @@ import {ServerError} from './errors';
 import {UserProfile} from './users';
 import {Dictionary, RelationOneToOne} from './utilities';
 
+// TODO remove
 export type TeamMembership = {
     mention_count: number;
     msg_count: number;
@@ -18,14 +19,17 @@ export type TeamMembership = {
     scheme_admin: boolean;
 };
 
+// TODO remove
 export type TeamMemberWithError = {
     member: TeamMembership;
     user_id: string;
     error: ServerError;
 }
 
+// TODO remove
 export type TeamType = 'O' | 'I';
 
+// TODO remove
 export type Team = {
     id: string;
     create_at: number;
@@ -55,6 +59,7 @@ export type TeamsState = {
     totalCount: number;
 };
 
+// TODO
 export type TeamUnread = {
     team_id: string;
     mention_count: number;
@@ -63,22 +68,26 @@ export type TeamUnread = {
     msg_count_root: number;
 };
 
+// TODO
 export type GetTeamMembersOpts = {
     sort?: 'Username';
     exclude_deleted_users?: boolean;
 };
 
+// TODO
 export type TeamsWithCount = {
     teams: Team[];
     total_count: number;
 };
 
+// TODO
 export type TeamStats = {
     team_id: string;
     total_member_count: number;
     active_member_count: number;
 };
 
+// TODO remove
 export type TeamSearchOpts = {
     page?: number;
     per_page?: number;
@@ -86,6 +95,7 @@ export type TeamSearchOpts = {
     group_constrained?: boolean;
 }
 
+// TODO remove
 export type TeamInviteWithError = {
     email: string;
     error: ServerError;

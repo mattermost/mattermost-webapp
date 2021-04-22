@@ -5,6 +5,7 @@ import {CollapsedThreads} from '../constants/config';
 
 import {Dictionary} from './utilities';
 
+// TODO remove
 export type ClientConfig = {
     AboutLink: string;
     AllowBannerDismissal: string;
@@ -185,6 +186,7 @@ export type ClientConfig = {
     WebsocketURL: string;
 };
 
+// TODO remove
 export type License = {
     id: string;
     issued_at: number;
@@ -196,6 +198,7 @@ export type License = {
     short_sku_name: string;
 };
 
+// TODO remove
 export type LicenseCustomer = {
     id: string;
     name: string;
@@ -203,6 +206,7 @@ export type LicenseCustomer = {
     company: string;
 };
 
+// TODO remove
 export type LicenseFeatures = {
     users?: number;
     ldap?: boolean;
@@ -231,8 +235,10 @@ export type LicenseFeatures = {
     future_features?: boolean;
 };
 
+// TODO remove
 export type ClientLicense = Record<string, string>;
 
+// TODO remove
 export type DataRetentionPolicy = {
     message_deletion_enabled: boolean;
     file_deletion_enabled: boolean;
@@ -240,6 +246,7 @@ export type DataRetentionPolicy = {
     file_retention_cutoff: number;
 };
 
+// TODO remove
 export type ServiceSettings = {
     SiteURL: string;
     WebsocketURL: string;
@@ -335,6 +342,7 @@ export type ServiceSettings = {
     CollapsedThreads: 'disabled' | 'default_on' | 'default_off';
 };
 
+// TODO remove
 export type TeamSettings = {
     SiteName: string;
     MaxUsersPerTeam: number;
@@ -371,6 +379,7 @@ export type TeamSettings = {
     ExperimentalDefaultChannels: string[];
 };
 
+// TODO remove
 export type ClientRequirements = {
     AndroidLatestVersion: string;
     AndroidMinVersion: string;
@@ -380,6 +389,7 @@ export type ClientRequirements = {
     IosMinVersion: string;
 };
 
+// TODO remove
 export type SqlSettings = {
     DriverName: string;
     DataSource: string;
@@ -394,6 +404,7 @@ export type SqlSettings = {
     DisableDatabaseSearch: boolean;
 };
 
+// TODO remove
 export type LogSettings = {
     EnableConsole: boolean;
     ConsoleLevel: string;
@@ -407,6 +418,7 @@ export type LogSettings = {
     EnableSentry: boolean;
 };
 
+// TODO remove
 export type ExperimentalAuditSettings = {
     SysLogEnabled: boolean;
     SysLogIP: string;
@@ -424,6 +436,7 @@ export type ExperimentalAuditSettings = {
     FileMaxQueueSize: number;
 };
 
+// TODO remove
 export type NotificationLogSettings = {
     EnableConsole: boolean;
     ConsoleLevel: string;
@@ -434,6 +447,7 @@ export type NotificationLogSettings = {
     FileLocation: string;
 };
 
+// TODO remove
 export type PasswordSettings = {
     MinimumLength: number;
     Lowercase: boolean;
@@ -442,6 +456,7 @@ export type PasswordSettings = {
     Symbol: boolean;
 };
 
+// TODO remove
 export type FileSettings = {
     EnableFileAttachments: boolean;
     EnableMobileUpload: boolean;
@@ -463,6 +478,7 @@ export type FileSettings = {
     AmazonS3Trace: boolean;
 };
 
+// TODO remove
 export type EmailSettings = {
     EnableSignUpWithEmail: boolean;
     EnableSignInWithEmail: boolean;
@@ -495,6 +511,7 @@ export type EmailSettings = {
     LoginButtonTextColor: string;
 };
 
+// TODO remove
 export type RateLimitSettings = {
     Enable: boolean;
     PerSec: number;
@@ -505,11 +522,13 @@ export type RateLimitSettings = {
     VaryByHeader: string;
 };
 
+// TODO remove
 export type PrivacySettings = {
     ShowEmailAddress: boolean;
     ShowFullName: boolean;
 };
 
+// TODO remove
 export type SupportSettings = {
     TermsOfServiceLink: string;
     PrivacyPolicyLink: string;
@@ -521,6 +540,7 @@ export type SupportSettings = {
     CustomTermsOfServiceReAcceptancePeriod: number;
 };
 
+// TODO remove
 export type AnnouncementSettings = {
     EnableBanner: boolean;
     BannerText: string;
@@ -529,6 +549,7 @@ export type AnnouncementSettings = {
     AllowBannerDismissal: boolean;
 };
 
+// TODO remove
 export type ThemeSettings = {
     EnableThemeSelection: boolean;
     DefaultTheme: string;
@@ -536,6 +557,7 @@ export type ThemeSettings = {
     AllowedThemes: string[];
 };
 
+// TODO remove
 export type SSOSettings = {
     Enable: boolean;
     Secret: string;
@@ -549,6 +571,7 @@ export type SSOSettings = {
     ButtonColor: string;
 };
 
+// TODO remove
 export type Office365Settings = {
     Enable: boolean;
     Secret: string;
@@ -561,6 +584,7 @@ export type Office365Settings = {
     DirectoryId: string;
 };
 
+// TODO remove
 export type LdapSettings = {
     Enable: boolean;
     EnableSync: boolean;
@@ -597,18 +621,21 @@ export type LdapSettings = {
     Trace: boolean;
 };
 
+// TODO remove
 export type ComplianceSettings = {
     Enable: boolean;
     Directory: string;
     EnableDaily: boolean;
 };
 
+// TODO remove
 export type LocalizationSettings = {
     DefaultServerLocale: string;
     DefaultClientLocale: string;
     AvailableLocales: string;
 };
 
+// TODO remove
 export type SamlSettings = {
     Enable: boolean;
     EnableSyncWithLdap: boolean;
@@ -645,12 +672,14 @@ export type SamlSettings = {
     LoginButtonTextColor: string;
 };
 
+// TODO remove
 export type NativeAppSettings = {
     AppDownloadLink: string;
     AndroidAppDownloadLink: string;
     IosAppDownloadLink: string;
 };
 
+// TODO remove
 export type ClusterSettings = {
     Enable: boolean;
     ClusterName: string;
@@ -668,12 +697,14 @@ export type ClusterSettings = {
     IdleConnTimeoutMilliseconds: number;
 };
 
+// TODO remove
 export type MetricsSettings = {
     Enable: boolean;
     BlockProfileRate: number;
     ListenAddress: string;
 };
 
+// TODO remove
 export type ExperimentalSettings = {
     ClientSideCertEnable: boolean;
     ClientSideCertCheck: string;
@@ -684,10 +715,12 @@ export type ExperimentalSettings = {
     CloudBilling: boolean;
 };
 
+// TODO remove
 export type AnalyticsSettings = {
     MaxUsersForStatistics: number;
 };
 
+// TODO remove
 export type ElasticsearchSettings = {
     ConnectionUrl: string;
     Username: string;
@@ -712,6 +745,7 @@ export type ElasticsearchSettings = {
     Trace: string;
 };
 
+// TODO remove
 export type BleveSettings = {
     IndexDir: string;
     EnableIndexing: boolean;
@@ -720,6 +754,7 @@ export type BleveSettings = {
     BulkIndexingTimeWindowSeconds: number;
 };
 
+// TODO remove
 export type DataRetentionSettings = {
     EnableMessageDeletion: boolean;
     EnableFileDeletion: boolean;
@@ -728,6 +763,7 @@ export type DataRetentionSettings = {
     DeletionJobStartTime: string;
 };
 
+// TODO remove
 export type MessageExportSettings = {
     EnableExport: boolean;
     DownloadExportResults: boolean;
@@ -743,11 +779,13 @@ export type MessageExportSettings = {
     };
 };
 
+// TODO remove
 export type JobSettings = {
     RunJobs: boolean;
     RunScheduler: boolean;
 };
 
+// TODO remove
 export type PluginSettings = {
     Enable: boolean;
     EnableUploads: boolean;
@@ -765,11 +803,13 @@ export type PluginSettings = {
     SignaturePublicKeyFiles: string[];
 };
 
+// TODO remove
 export type DisplaySettings = {
     CustomUrlSchemes: string[];
     ExperimentalTimezone: boolean;
 };
 
+// TODO remove
 export type GuestAccountsSettings = {
     Enable: boolean;
     AllowEmailAccounts: boolean;
@@ -777,6 +817,7 @@ export type GuestAccountsSettings = {
     RestrictCreationToDomains: string;
 };
 
+// TODO remove
 export type ImageProxySettings = {
     Enable: boolean;
     ImageProxyType: string;
@@ -784,8 +825,10 @@ export type ImageProxySettings = {
     RemoteImageProxyOptions: string;
 };
 
+// TODO remove
 export type FeatureFlags = Record<string, string>;
 
+// TODO remove
 export type AdminConfig = {
     ServiceSettings: ServiceSettings;
     TeamSettings: TeamSettings;
@@ -827,10 +870,12 @@ export type AdminConfig = {
     FeatureFlags: FeatureFlags;
 };
 
+// TODO remove
 export type EnvironmentConfigSettings<T> = {
     [P in keyof T]: boolean;
 }
 
+// TODO remove
 export type EnvironmentConfig = {
     [P in keyof AdminConfig]: EnvironmentConfigSettings<AdminConfig[P]>;
 }

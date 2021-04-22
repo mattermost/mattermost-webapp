@@ -4,8 +4,10 @@
 import {IDMappedObjects, UserIDMappedObjects, RelationOneToMany, RelationOneToOne} from './utilities';
 import {Team} from './teams';
 
+// TODO remove
 export type ChannelType = 'O' | 'P' | 'D' | 'G';
 
+// TODO remove
 export type ChannelStats = {
     channel_id: string;
     member_count: number;
@@ -13,6 +15,7 @@ export type ChannelStats = {
     pinnedpost_count: number;
 };
 
+// TODO remove
 export type ChannelNotifyProps = {
     desktop: 'default' | 'all' | 'mention' | 'none';
     email: 'default' | 'all' | 'mention' | 'none';
@@ -21,6 +24,7 @@ export type ChannelNotifyProps = {
     ignore_channel_mentions: 'default' | 'off' | 'on';
 };
 
+// TODO remove
 export type Channel = {
     id: string;
     create_at: number;
@@ -48,17 +52,20 @@ export type Channel = {
     policy_id?: string | null;
 };
 
+// TODO remove
 export type ChannelWithTeamData = Channel & {
     team_display_name: string;
     team_name: string;
     team_update_at: number;
 };
 
+// TODO remove
 export type ChannelsWithTotalCount = {
     channels: ChannelWithTeamData[];
     total_count: number;
 };
 
+// TODO remove
 export type ChannelMembership = {
     channel_id: string;
     user_id: string;
@@ -75,6 +82,7 @@ export type ChannelMembership = {
     post_root_id?: string;
 };
 
+// TODO remove
 export type ChannelUnread = {
     channel_id: string;
     user_id: string;
@@ -101,6 +109,7 @@ export type ChannelsState = {
     channelMemberCountsByGroup: RelationOneToOne<Channel, ChannelMemberCountsByGroup>;
 };
 
+// TODO remove
 export type ChannelModeration = {
     name: string;
     roles: {
@@ -119,6 +128,7 @@ export type ChannelModeration = {
     };
 };
 
+// TODO remove
 export type ChannelModerationPatch = {
     name: string;
     roles: {
@@ -127,19 +137,23 @@ export type ChannelModerationPatch = {
     };
 };
 
+// TODO remove
 export type ChannelMemberCountByGroup = {
     group_id: string;
     channel_member_count: number;
     channel_member_timezones_count: number;
 };
 
+// TODO remove
 export type ChannelMemberCountsByGroup = Record<string, ChannelMemberCountByGroup>;
 
+// TODO remove
 export type ChannelViewResponse = {
     status: string;
     last_viewed_at_times: RelationOneToOne<Channel, number>;
 };
 
+// TODO remove
 export type ChannelSearchOpts = {
     exclude_default_channels?: boolean;
     not_associated_to_group?: string;

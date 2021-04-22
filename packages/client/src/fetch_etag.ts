@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Options} from 'mattermost-redux/types/client4';
+import {Options} from './types';
 
 const data: {[x: string]: any} = {};
 const etags: {[x: string]: string} = {};

@@ -18,6 +18,7 @@ export type GeneralState = {
     warnMetricsStatus: Dictionary<WarnMetricStatus>;
 };
 
+// TODO remove
 export type SystemSetting = {
     name: string;
     value: string;

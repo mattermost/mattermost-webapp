@@ -7,6 +7,9 @@
 import {PluginManifest} from './plugins';
 import {AppManifest} from './apps';
 
+// TODO remove all
+
+// TODO remove
 export type MarketplaceLabel = {
     name: string;
     description?: string;
@@ -14,23 +17,27 @@ export type MarketplaceLabel = {
     color?: string;
 }
 
+// TODO remove
 export enum HostingType {
     OnPrem = 'on-prem',
     Cloud = 'cloud',
 }
 
+// TODO remove
 export enum AuthorType {
     Mattermost = 'mattermost',
     Partner = 'partner',
     Community = 'community',
 }
 
+// TODO remove
 export enum ReleaseStage {
     Production = 'production',
     Beta = 'beta',
     Experimental = 'experimental',
 }
 
+// TODO remove
 interface MarketplaceBaseItem {
     labels?: MarketplaceLabel[];
     hosting?: HostingType;
@@ -48,6 +55,7 @@ export interface MarketplacePlugin extends MarketplaceBaseItem {
     installed_version?: string;
 }
 
+// TODO remove
 export interface MarketplaceApp extends MarketplaceBaseItem {
     manifest: AppManifest;
     installed: boolean;

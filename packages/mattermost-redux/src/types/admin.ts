@@ -38,6 +38,7 @@ export type AdminState = {
     dataRetentionCustomPoliciesCount: number;
 };
 
+// TODO replace
 export type ClusterInfo = {
     id: string;
     version: string;
@@ -46,6 +47,7 @@ export type ClusterInfo = {
     hostname: string;
 };
 
+// TODO replace
 export type AnalyticsRow = {
     name: string;
     value: number;

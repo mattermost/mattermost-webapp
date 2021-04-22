@@ -4,6 +4,7 @@
 // This file's contents belong to the Apps Framework feature.
 // Apps Framework feature is experimental, and the contents of this file are
 // susceptible to breaking changes without pushing the major version of this package.
+// TODO remove
 export type AppManifest = {
     app_id: string;
     display_name: string;
@@ -21,6 +22,7 @@ export type AppsState = {
     bindings: AppBinding[];
 };
 
+// TODO remove
 export type AppBinding = {
     app_id: string;
     location?: string;
@@ -54,18 +56,22 @@ export type AppBinding = {
     form?: AppForm;
 };
 
+// TODO remove
 export type AppCallValues = {
     [name: string]: any;
 };
 
+// TODO remove
 export type AppCallType = string;
 
+// TODO remove
 export type AppCall = {
     path: string;
     expand?: AppExpand;
     state?: any;
 };
 
+// TODO remove
 export type AppCallRequest = AppCall & {
     context: AppContext;
     values?: AppCallValues;
@@ -74,8 +80,10 @@ export type AppCallRequest = AppCall & {
     query?: string;
 };
 
+// TODO
 export type AppCallResponseType = string;
 
+// TODO
 export type AppCallResponse<Res = unknown> = {
     type: AppCallResponseType;
     markdown?: string;
@@ -88,11 +96,13 @@ export type AppCallResponse<Res = unknown> = {
     app_metadata?: AppMetadataForClient;
 };
 
+// TODO
 export type AppMetadataForClient = {
     bot_user_id: string;
     bot_username: string;
 }
 
+// TODO remove
 export type AppContext = {
     app_id: string;
     location?: string;
@@ -106,12 +116,15 @@ export type AppContext = {
     user_agent?: string;
 };
 
+// TODO remove
 export type AppContextProps = {
     [name: string]: string;
 };
 
+// TODO remove
 export type AppExpandLevel = string;
 
+// TODO remove
 export type AppExpand = {
     app?: AppExpandLevel;
     acting_user?: AppExpandLevel;
@@ -125,6 +138,7 @@ export type AppExpand = {
     user?: AppExpandLevel;
 };
 
+// TODO remove
 export type AppForm = {
     title?: string;
     header?: string;
@@ -138,18 +152,22 @@ export type AppForm = {
     depends_on?: string[];
 };
 
+// TODO remove
 export type AppFormValue = string | AppSelectOption | boolean | null;
+
 export type AppFormValues = {[name: string]: AppFormValue};
 
+// TODO remove
 export type AppSelectOption = {
     label: string;
     value: string;
     icon_data?: string;
 };
 
+// TODO remove
 export type AppFieldType = string;
 
-// This should go in mattermost-redux
+// TODO remove
 export type AppField = {
 
     // Name is the name of the JSON field to use.

@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+// TODO remove all
+
 import {PostAction} from './integration_actions';
 
 export type MessageAttachment = {

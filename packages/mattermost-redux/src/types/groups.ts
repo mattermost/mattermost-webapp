@@ -7,16 +7,19 @@ import {Dictionary, RelationOneToOne} from './utilities';
 
 export type SyncableType = 'team' | 'channel';
 
+// TODO remove
 export type SyncablePatch = {
     scheme_admin: boolean;
     auto_add: boolean;
 };
 
+// TODO remove
 export type GroupPatch = {
     allow_reference: boolean;
     name: string;
 };
 
+// TODO remove
 export type Group = {
     id: string;
     name: string;
@@ -60,6 +63,7 @@ export type GroupChannel = {
     update_at: number;
 };
 
+// TODO remove
 export type GroupSyncable = {
     group_id: string;
 
@@ -94,6 +98,7 @@ export type GroupSearchOpts = {
     is_configured?: boolean;
 };
 
+// TODO remove
 export type MixedUnlinkedGroup = {
     mattermost_group_id?: string;
     name: string;
@@ -105,6 +110,7 @@ export type MixedUnlinkedGroupRedux = MixedUnlinkedGroup & {
     failed?: boolean;
 };
 
+// TODO remove
 export type UserWithGroup = UserProfile & {
     groups: Group[];
     scheme_guest: boolean;
@@ -112,6 +118,7 @@ export type UserWithGroup = UserProfile & {
     scheme_admin: boolean;
 };
 
+// TODO remove
 export type GroupsWithCount = {
     groups: Group[];
     total_group_count: number;
@@ -121,6 +128,7 @@ export type GroupsWithCount = {
     teamID?: string;
 }
 
+// TODO
 export type UsersWithGroupsAndCount = {
     users: UserWithGroup[];
     total_count: number;
