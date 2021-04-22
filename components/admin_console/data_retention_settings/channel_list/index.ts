@@ -57,7 +57,7 @@ function mapStateToProps() {
             totalCount = channels.length;
         } else {
             channels = policyId ? getPolicyChannels(state, {policyId}) as ChannelWithTeamData[] : [];
-            if (policy && policy.channel_count) {
+            if (policy?.channel_count) {
                 totalCount = policy.channel_count;
             }
         }
