@@ -8,9 +8,9 @@ import configureStore from 'redux-mock-store';
 import {mountWithIntl, shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import {Constants} from 'utils/constants';
+
 import {Permissions} from 'mattermost-redux/constants';
 
-import Menu from 'components/widgets/menu/menu';
 import MainMenu from './main_menu.jsx';
 
 describe('components/Menu', () => {
