@@ -100,6 +100,7 @@ const state: GlobalState = {
             analytics: {},
             dataRetentionCustomPolicies: {},
             dataRetentionCustomPoliciesCount: 0,
+            prevTrialLicense: {}
         },
         jobs: {
             jobs: {},
