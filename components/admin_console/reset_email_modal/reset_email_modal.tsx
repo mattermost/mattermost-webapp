@@ -40,12 +40,6 @@ export default class ResetEmailModal extends React.PureComponent<Props, State> {
         this.emailRef = React.createRef();
     }
 
-    public componentWillUnmount(): void {
-        this.setState({
-            error: null,
-        });
-    }
-
     private doSubmit = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
         if (!this.props.user) {
