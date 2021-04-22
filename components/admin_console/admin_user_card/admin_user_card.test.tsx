@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import AdminUserCard from 'components/admin_console/admin_user_card/admin_user_card.jsx';
+import AdminUserCard from 'components/admin_console/admin_user_card/admin_user_card';
 
 describe('components/admin_console/admin_user_card/admin_user_card', () => {
     const defaultProps = {
