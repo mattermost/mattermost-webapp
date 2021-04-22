@@ -86,7 +86,7 @@ export default class ResetEmailModal extends React.PureComponent<Props, State> {
 
     public render(): JSX.Element {
         const user = this.props.user;
-        if (user == null) {
+        if (!user) {
             return <div/>;
         }
 
@@ -112,6 +112,7 @@ export default class ResetEmailModal extends React.PureComponent<Props, State> {
                 onHide={this.doCancel}
                 role='dialog'
                 aria-labelledby='resetEmailModalLabel'
+                data-testid='resetEmailModal'
             >
                 <Modal.Header closeButton={true}>
                     <Modal.Title
@@ -169,6 +170,7 @@ export default class ResetEmailModal extends React.PureComponent<Props, State> {
                             onClick={this.doSubmit}
                             type='submit'
                             className='btn btn-primary'
+                            data-testid='resetEmailButton'
                         >
                             <FormattedMessage
                                 id='admin.reset_email.reset'
