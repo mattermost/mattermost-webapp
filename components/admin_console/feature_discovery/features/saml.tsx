@@ -6,7 +6,7 @@ import React from 'react';
 import {t} from 'utils/i18n';
 import saml from 'images/feature-discovery/saml.png';
 
-import FeatureDiscovery from './index';
+import FeatureDiscovery from '../index';
 
 const SAMLFeatureDiscovery: React.FC = () => {
     return (

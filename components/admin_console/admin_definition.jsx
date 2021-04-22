@@ -56,14 +56,25 @@ import FeatureFlags from './feature_flags.tsx';
 import ClusterSettings from './cluster_settings.jsx';
 import CustomTermsOfServiceSettings from './custom_terms_of_service_settings';
 import SessionLengthSettings from './session_length_settings';
-import LDAPFeatureDiscovery from './feature_discovery/ldap.tsx';
-import SAMLFeatureDiscovery from './feature_discovery/saml.tsx';
 import BillingSubscriptions from './billing/billing_subscriptions/index.tsx';
 import BillingHistory from './billing/billing_history';
 import CompanyInfo from './billing/company_info';
 import PaymentInfo from './billing/payment_info';
 import CompanyInfoEdit from './billing/company_info_edit';
 import PaymentInfoEdit from './billing/payment_info_edit';
+import {
+    LDAPFeatureDiscovery,
+    SAMLFeatureDiscovery,
+    OpenIDFeatureDiscovery,
+    AnnoucementBannerFeatureDiscovery,
+    ChannelsFeatureDiscovery,
+    ComplianceExportFeatureDiscovery,
+    CustomTermsOfServiceFeatureDiscovery,
+    DataRetentionFeatureDiscovery,
+    GuestAccessFeatureDiscovery,
+    SystemRolesFeatureDiscovery,
+    GroupsFeatureDiscovery
+} from './feature_discovery/features';
 
 import * as DefinitionConstants from './admin_definition_constants';
 
@@ -456,6 +467,29 @@ const AdminDefinition = {
             schema: {
                 id: 'Groups',
                 component: GroupSettings,
+            },
+        },
+        groups_feature_discovery: {
+            url: 'user_management/groups',
+            isDiscovery: true,
+            title: t('admin.sidebar.groups'),
+            title_default: 'Groups',
+            isHidden: it.any(
+                it.licensedForFeature('LDAPGroups'),
+                it.not(it.enterpriseReady),
+            ),
+            schema: {
+                id: 'Groups',
+                name: t('admin.group_settings.groupsPageTitle'),
+                name_default: 'Groups',
+                settings: [
+                    {
+                        type: Constants.SettingsTypes.TYPE_CUSTOM,
+                        component: GroupsFeatureDiscovery,
+                        key: 'GroupsFeatureDiscovery',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ABOUT.EDITION_AND_LICENSE)),
+                    },
+                ],
             },
         },
         team_detail: {
@@ -4839,6 +4873,29 @@ const AdminDefinition = {
                 ],
             },
         },
+        openid_feature_discovery: {
+            url: 'authentication/openid',
+            isDiscovery: true,
+            title: t('admin.sidebar.openid'),
+            title_default: 'OpenID Connect',
+            isHidden: it.any(
+                it.licensedForFeature('OpenId'),
+                it.not(it.enterpriseReady),
+            ),
+            schema: {
+                id: 'OpenIdSettings',
+                name: t('admin.authentication.openid'),
+                name_default: 'OpenID Connect',
+                settings: [
+                    {
+                        type: Constants.SettingsTypes.TYPE_CUSTOM,
+                        component: OpenIDFeatureDiscovery,
+                        key: 'OpenIDFeatureDiscovery',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ABOUT.EDITION_AND_LICENSE)),
+                    },
+                ],
+            },
+        },
         guest_access: {
             url: 'authentication/guest_access',
             title: t('admin.sidebar.guest_access'),
@@ -5228,6 +5285,29 @@ const AdminDefinition = {
                 component: DataRetentionSettings,
             },
         },
+        data_retention_feature_discovery: {
+            url: 'compliance/data_retention',
+            isDiscovery: true,
+            title: t('admin.sidebar.dataRetentionPolicy'),
+            title_default: 'Data Retention Policy',
+            isHidden: it.any(
+                it.licensedForFeature('DataRetention'),
+                it.not(it.enterpriseReady),
+            ),
+            schema: {
+                id: 'DataRetentionSettings',
+                name: t('admin.data_retention.title'),
+                name_default: 'Data Retention Policy',
+                settings: [
+                    {
+                        type: Constants.SettingsTypes.TYPE_CUSTOM,
+                        component: DataRetentionFeatureDiscovery,
+                        key: 'DataRetentionFeatureDiscovery',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ABOUT.EDITION_AND_LICENSE)),
+                    },
+                ],
+            },
+        },
         message_export: {
             url: 'compliance/export',
             title: t('admin.sidebar.complianceExport'),
@@ -5258,6 +5338,29 @@ const AdminDefinition = {
             schema: {
                 id: 'MessageExportSettings',
                 component: MessageExportSettings,
+            },
+        },
+        compliance_export_feature_discovery: {
+            isDiscovery: true,
+            url: 'compliance/export',
+            title: t('admin.sidebar.complianceExport'),
+            title_default: 'Compliance Export (Beta)', 
+            isHidden: it.any(
+                it.licensedForFeature('MessageExport'),
+                it.not(it.enterpriseReady),
+            ),
+            schema: {
+                id: 'MessageExportSettings',
+                name: t('admin.complianceExport.title'),
+                name_default: 'Compliance Export (Beta)',
+                settings: [
+                    {
+                        type: Constants.SettingsTypes.TYPE_CUSTOM,
+                        component: ComplianceExportFeatureDiscovery,
+                        key: 'ComplianceExportFeatureDiscovery',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ABOUT.EDITION_AND_LICENSE)),
+                    },
+                ],
             },
         },
         audits: {

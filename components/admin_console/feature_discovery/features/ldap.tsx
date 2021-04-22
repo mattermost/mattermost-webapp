@@ -6,7 +6,7 @@ import React from 'react';
 import {t} from 'utils/i18n';
 import ldap from 'images/feature-discovery/ldap.png';
 
-import FeatureDiscovery from './index';
+import FeatureDiscovery from '../index';
 
 const LDAPFeatureDiscovery: React.FC = () => {
     return (
