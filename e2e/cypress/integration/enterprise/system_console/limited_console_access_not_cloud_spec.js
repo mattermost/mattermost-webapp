@@ -36,4 +36,14 @@ describe('Limited console access', () => {
         // * Login as the new user and verify the role permissions (ensure they really are a system manager)
         forEachConsoleSection(testUsers, role);
     });
+
+    it('MM-T3388 - Verify the Admin Role - System Read Only Admin', () => {
+        const role = 'system_read_only_admin';
+
+        // # Make the user a System Ready Only Manager
+        makeUserASystemRole(testUsers, role);
+
+        // * Login as the new user and verify the role permissions (ensure they really are a system read only manager)
+        forEachConsoleSection(testUsers, role);
+    });
 });

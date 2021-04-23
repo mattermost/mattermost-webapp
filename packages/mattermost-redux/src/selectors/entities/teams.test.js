@@ -52,6 +52,9 @@ describe('Selectors.Teams', () => {
 
     const testState = deepFreezeAndThrowOnMutation({
         entities: {
+            preferences: {
+                myPreferences: {},
+            },
             users: {
                 currentUserId: user.id,
                 profiles,

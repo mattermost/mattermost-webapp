@@ -136,7 +136,7 @@ export const freeTrial = (onUpgradeMattermostCloud: () => void, daysLeftOnTrial:
             className='UpgradeMattermostCloud__upgradeButton'
         >
             <FormattedMessage
-                id='admin.billing.subscription.freeTrial.subscribeButton'
+                id='admin.billing.subscription.cloudTrial.subscribeButton'
                 defaultMessage='Subscribe Now'
             />
         </button>

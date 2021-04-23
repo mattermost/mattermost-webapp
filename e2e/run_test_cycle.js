@@ -31,6 +31,7 @@ const {
     getSpecToTest,
     recordSpecResult,
     updateCycle,
+    uploadScreenshot,
 } = require('./utils/dashboard');
 const {writeJsonToFile} = require('./utils/report');
 const {MOCHAWESOME_REPORT_DIR, RESULTS_DIR} = require('./utils/constants');
@@ -43,14 +44,16 @@ axiosRetry(axios, {
 
 const {
     BRANCH,
+    BROWSER,
     BUILD_ID,
     CI_BASE_URL,
+    HEADLESS,
     REPO,
 } = process.env;
 
-async function runCypressTest(specExecution, testIndex) {
-    const browser = 'chrome';
-    const headless = true;
+async function runCypressTest(specExecution) {
+    const browser = BROWSER || 'chrome';
+    const headless = isHeadless();
 
     const result = await cypress.run({
         browser,
@@ -84,13 +87,17 @@ async function runCypressTest(specExecution, testIndex) {
         },
     });
 
+    return result;
+}
+
+async function saveResult(specExecution, result, testIndex) {
     // Write and update test environment details once
     if (testIndex === 0) {
         const environment = {
             cypress_version: result.cypressVersion,
             browser_name: result.browserName,
             browser_version: result.browserVersion,
-            headless,
+            headless: isHeadless(),
             os_name: result.osName,
             os_version: result.osVersion,
             node_version: process.version,
@@ -114,19 +121,65 @@ async function runCypressTest(specExecution, testIndex) {
         test_end_at: stats.endedAt,
     };
 
-    const testCases = [];
+    const uploadedScreenshots = [];
     tests.forEach((t) => {
+        const attempts = t.attempts[0];
+        if (attempts.screenshots && attempts.screenshots.length > 0) {
+            const path = t.attempts[0].screenshots[0].path;
+            uploadedScreenshots.push(uploadScreenshot(path, REPO, BRANCH, BUILD_ID));
+        }
+    });
+    const screenshotUrls = await Promise.all(uploadedScreenshots);
+
+    const testCases = [];
+    tests.forEach((t, i) => {
+        const attempts = t.attempts[0];
+
         const test = {
             title: t.title,
             full_title: t.title.join(' '),
-            state: t.attempts[0].state,
-            duration: t.attempts[0].duration || 0,
-            test_start_at: t.attempts[0].startedAt,
+            state: attempts.state,
+            duration: attempts.duration || 0,
+            code: trimToMaxLength(t.body),
         };
+
+        if (attempts.startedAt) {
+            test.test_start_at = attempts.startedAt;
+        }
+
+        if (t.displayError) {
+            test.error_display = trimToMaxLength(t.displayError);
+        }
+
+        const errorFrame = attempts.error && attempts.error.codeFrame && attempts.error.codeFrame.frame;
+        if (errorFrame) {
+            test.error_frame = trimToMaxLength(errorFrame);
+        }
+
+        const screenshot = {};
+        if (attempts.screenshots && attempts.screenshots.length > 0) {
+            const {takenAt, height, width} = attempts.screenshots[0];
+            screenshot.url = screenshotUrls[i];
+            screenshot.taken_at = takenAt;
+            screenshot.height = height;
+            screenshot.width = width;
+
+            test.screenshot = screenshot;
+        }
+
         testCases.push(test);
     });
 
     await recordSpecResult(specExecution.id, specPatch, testCases);
+}
+
+function isHeadless() {
+    return typeof HEADLESS === 'undefined' ? true : HEADLESS === 'true';
+}
+
+function trimToMaxLength(text) {
+    const maxLength = 5000;
+    return text && text.length > maxLength ? text.substring(0, maxLength) : text;
 }
 
 function printSummary(summary) {
@@ -194,7 +247,8 @@ async function runSpecFragment(count, retry) {
     console.log(chalk.magenta(`\n(Testing ${currentTestCount} of ${spec.cycle.specs_registered}) - ${spec.execution.file}`));
     console.log(chalk.magenta(`At "${process.env.CI_BASE_URL}" server`));
 
-    await runCypressTest(spec.execution, count);
+    const result = await runCypressTest(spec.execution);
+    await saveResult(spec.execution, result, count);
 
     const newCount = count + 1;
 

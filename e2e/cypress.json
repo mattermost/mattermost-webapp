@@ -24,7 +24,7 @@
         "ldapPort": 389,
         "minioAccessKey": "minioaccesskey",
         "minioSecretKey": "miniosecretkey",
-        "minioS3Bucket": "mattermost-media",
+        "minioS3Bucket": "mattermost-test",
         "minioS3Endpoint": "localhost:9000",
         "minioS3SSL": false,
         "numberOfTrialUsers": 100,
