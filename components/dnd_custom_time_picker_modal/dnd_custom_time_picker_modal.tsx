@@ -27,8 +27,6 @@ type Props = {
 };
 
 type State = {
-    userId: string;
-    currentDate: Date;
     selectedDate: string;
     selectedTime: string;
     timeMenuList: string[];
@@ -39,8 +37,6 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
         super(props);
 
         this.state = {
-            userId: props.userId || '',
-            currentDate: this.props.currentDate,
             selectedDate: this.formatDate(this.props.currentDate) || '',
             selectedTime: '',
             timeMenuList: [],
@@ -84,7 +80,7 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
             status: UserStatuses.DND,
             dnd_end_time: toUTCUnix(endTime),
             manual: true,
-            last_activity_at: toUTCUnix(this.state.currentDate),
+            last_activity_at: toUTCUnix(this.props.currentDate),
         });
         this.props.onHide();
     }
