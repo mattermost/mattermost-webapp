@@ -85,7 +85,7 @@ describe('Account Settings -> General -> Email', () => {
         cy.get('#saveSetting').click().wait(TIMEOUTS.HALF_SEC);
 
         // * Check that the correct error message is shown.
-        cy.get('#serverError').should('be.visible').should('have.text', 'This email is already taken. Please choose another.');
+        cy.get('#serverError').should('be.visible').should('have.text', 'An account with that email already exists.');
     });
 
     it('MM-T2068 email address and confirmation don\'t match', () => {
