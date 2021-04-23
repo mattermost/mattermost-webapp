@@ -164,7 +164,7 @@ exports[`components/post_view/PostInfo should match snapshot, hover 1`] = `
     className="col post-menu"
     data-testid="post-menu-e584uzbwwpny9kengqayx5ayzw"
   >
-    <Connect(DotMenu)
+    <Connect(injectIntl(DotMenuClass))
       commentCount={0}
       enableEmojiPicker={false}
       handleAddReactionClick={[Function]}
@@ -277,7 +277,7 @@ exports[`components/post_view/PostInfo toggleEmojiPicker, should have called pro
     className="col post-menu"
     data-testid="post-menu-e584uzbwwpny9kengqayx5ayzw"
   >
-    <Connect(DotMenu)
+    <Connect(injectIntl(DotMenuClass))
       commentCount={0}
       enableEmojiPicker={true}
       handleAddReactionClick={[Function]}

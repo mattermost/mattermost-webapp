@@ -76,6 +76,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
         className="nav-pills__container"
         id="sidebarChannelContainer"
       >
+        <GlobalThreadsLink />
         <ul
           aria-label="public channels"
           className="nav nav-pills nav-stacked a11y__section"
@@ -336,6 +337,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
         className="nav-pills__container"
         id="sidebarChannelContainer"
       >
+        <GlobalThreadsLink />
         <ul
           aria-label="public channels"
           className="nav nav-pills nav-stacked a11y__section"
@@ -596,6 +598,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
         className="nav-pills__container"
         id="sidebarChannelContainer"
       >
+        <GlobalThreadsLink />
         <ul
           aria-label="public channels"
           className="nav nav-pills nav-stacked a11y__section"
@@ -856,6 +859,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match sn
         className="nav-pills__container"
         id="sidebarChannelContainer"
       >
+        <GlobalThreadsLink />
         <ul
           aria-label="public channels"
           className="nav nav-pills nav-stacked a11y__section"
@@ -1124,6 +1128,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should show/hid
         className="nav-pills__container"
         id="sidebarChannelContainer"
       >
+        <GlobalThreadsLink />
         <ul
           aria-label="public channels"
           className="nav nav-pills nav-stacked a11y__section"
@@ -1384,6 +1389,7 @@ exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should show/hid
         className="nav-pills__container"
         id="sidebarChannelContainer"
       >
+        <GlobalThreadsLink />
         <ul
           aria-label="public channels"
           className="nav nav-pills nav-stacked a11y__section"

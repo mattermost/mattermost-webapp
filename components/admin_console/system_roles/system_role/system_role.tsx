@@ -6,6 +6,7 @@ import {FormattedMessage} from 'react-intl';
 import {uniq, difference} from 'lodash';
 
 import {Role} from 'mattermost-redux/types/roles';
+import {Client4} from 'mattermost-redux/client';
 
 import {UserProfile} from 'mattermost-redux/types/users';
 import {Dictionary} from 'mattermost-redux/types/utilities';
@@ -124,9 +125,11 @@ export default class SystemRole extends React.PureComponent<Props, State> {
 
         // Do not update permissions if sysadmin or if roles have not been updated (to prevent overrwiting roles with no permissions)
         if (role.name !== Constants.PERMISSIONS_SYSTEM_ADMIN && Object.keys(permissionsToUpdate).length > 0) {
+            const rolePermissionsWithAncillaryPermssions = await Client4.getAncillaryPermissions(updatedRolePermissions);
+
             const newRole: Role = {
                 ...role,
-                permissions: updatedRolePermissions,
+                permissions: rolePermissionsWithAncillaryPermssions,
             };
             const result = await editRole(newRole);
             if (isError(result)) {
@@ -200,31 +203,19 @@ export default class SystemRole extends React.PureComponent<Props, State> {
             ...updatedPermissions,
         };
 
-        let updatedRolePermissions: string[] = [];
-
-        // Determine required ancillary permissions...
-        role.permissions.forEach((permission) => {
-            if (permission.startsWith('sysconsole_')) {
-                const permissionShortName = permission.replace(/sysconsole_(read|write)_/, '');
-                if (!(permissionShortName in permissionsToUpdate)) {
-                    const ancillary = Permissions.SYSCONSOLE_ANCILLARY_PERMISSIONS[permission] || [];
-                    updatedRolePermissions.push(...ancillary, permission);
-                }
-            }
-        });
+        let updatedRolePermissions: string[] = role.permissions.
+            filter((permission) => permission.startsWith('sysconsole_') && !(permission.replace(/sysconsole_(read|write)_/, '') in permissionsToUpdate));
 
         Object.keys(permissionsToUpdate).forEach((permissionShortName) => {
             const value = permissionsToUpdate[permissionShortName];
             if (value) {
                 const readPermission = `sysconsole_read_${permissionShortName}`;
                 const writePermission = `sysconsole_write_${permissionShortName}`;
-                const readAncillary = Permissions.SYSCONSOLE_ANCILLARY_PERMISSIONS[readPermission] || [];
-                const writeAncillary = Permissions.SYSCONSOLE_ANCILLARY_PERMISSIONS[writePermission] || [];
 
                 if (value === writeAccess) {
-                    updatedRolePermissions.push(...readAncillary, ...writeAncillary, readPermission, writePermission);
+                    updatedRolePermissions.push(readPermission, writePermission);
                 } else {
-                    updatedRolePermissions.push(...readAncillary, readPermission);
+                    updatedRolePermissions.push(readPermission);
                 }
             }
         });

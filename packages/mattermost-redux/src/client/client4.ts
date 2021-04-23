@@ -422,6 +422,10 @@ export default class Client4 {
         return `${this.getBaseRoute()}/cloud`;
     }
 
+    getPermissionsRoute() {
+        return `${this.getBaseRoute()}/permissions`;
+    }
+
     getUserThreadsRoute(userID: string, teamID: string): string {
         return `${this.getUserRoute(userID)}/teams/${teamID}/threads`;
     }
@@ -1985,14 +1989,6 @@ export default class Client4 {
         const url = `${this.getUserThreadRoute(userId, teamId, threadId)}`;
         return this.doFetch<UserThreadWithPost>(
             `${url}${buildQueryString({extended})}`,
-            {method: 'get'},
-        );
-    };
-
-    getThreadMentionCountsByChannel = (userId: string, teamId: string) => {
-        const url = `${this.getUserThreadsRoute(userId, teamId)}/mention_counts`;
-        return this.doFetch<Record<string, number>>(
-            url,
             {method: 'get'},
         );
     };
@@ -3707,6 +3703,13 @@ export default class Client4 {
         return this.doFetch<StatusOK>(
             `${this.getCloudRoute()}/subscription/limitreached/join`,
             {method: 'post'},
+        );
+    }
+
+    getAncillaryPermissions = (subsectionPermissions: string[]) => {
+        return this.doFetch<string[]>(
+            `${this.getPermissionsRoute()}/ancillary?subsection_permissions=${subsectionPermissions.join(',')}`,
+            {method: 'get'},
         );
     }
 
