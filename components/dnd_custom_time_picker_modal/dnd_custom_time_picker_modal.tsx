@@ -129,7 +129,8 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
             confirmButtonText,
         } = this.getText();
 
-        const {timeMenuList, selectedTime, currentDate} = this.state;
+        const {timeMenuList, selectedTime} = this.state;
+        const {currentDate} = this.props;
         const timeMenuItems = timeMenuList.map((time) => {
             return (
                 <Menu.ItemAction
