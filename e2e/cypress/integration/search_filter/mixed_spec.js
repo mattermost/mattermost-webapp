@@ -18,7 +18,7 @@ import {
     setupTestData,
 } from './helpers';
 
-describe('SF15699 Search Date Filter - mixed', () => {
+describe('Search Date Filter', () => {
     const testData = getTestMessages();
     const {
         commonText,

@@ -13,35 +13,17 @@
 import * as TIMEOUTS from '../../../../fixtures/timeouts';
 import {hexToRgbArray, rgbArrayToString} from '../../../../utils';
 
-const FAKE_SETTING = '********************************';
-const SERVICE_PROVIDER_LABEL = 'Select service provider:';
-const DISCOVERY_ENDPOINT_LABEL = 'Discovery Endpoint:';
-const CLIENT_ID_LABEL = 'Client ID:';
-const CLIENT_SECRET_LABEL = 'Client Secret:';
-const OPENID_LINK_NAME = 'OpenID Connect';
-const SAVE_BUTTON_NAME = 'Save';
-const CONVERT_NAME = 'Convert to OpenID Connect';
-const OAUTH2_NAME = 'OAuth 2.0deprecated';
+describe('System Console OpenId Connect', () => {
+    const FAKE_SETTING = '********************************';
+    const SERVICE_PROVIDER_LABEL = 'Select service provider:';
+    const DISCOVERY_ENDPOINT_LABEL = 'Discovery Endpoint:';
+    const CLIENT_ID_LABEL = 'Client ID:';
+    const CLIENT_SECRET_LABEL = 'Client Secret:';
+    const OPENID_LINK_NAME = 'OpenID Connect';
+    const SAVE_BUTTON_NAME = 'Save';
+    const CONVERT_NAME = 'Convert to OpenID Connect';
+    const OAUTH2_NAME = 'OAuth 2.0deprecated';
 
-// # Goes to the System Scheme page as System Admin
-const goToAdminConsole = () => {
-    cy.apiAdminLogin();
-    cy.visit('/admin_console');
-};
-
-const verifyOAuthLogin = (id, text, color, href) => {
-    cy.apiLogout();
-
-    cy.findByRole('link', {name: `${text}`}).then((btn) => {
-        expect(btn[0].href).equal(href);
-        if (color) {
-            const rbgArr = hexToRgbArray(color);
-            expect(btn[0].style.backgroundColor).equal(rgbArrayToString(rbgArr));
-        }
-    });
-};
-
-describe('MM-27688 - System console-OpenId Connect', () => {
     before(() => {
         // * Check if server has license
         cy.apiRequireLicense();
@@ -75,7 +57,7 @@ describe('MM-27688 - System console-OpenId Connect', () => {
             expect(config.OpenIdSettings.DiscoveryEndpoint).to.equal('http://test.com/.well-known/openid-configuration');
         });
 
-        verifyOAuthLogin('OpenIdButton', 'TestButtonTest', '#c02222', Cypress.config('baseUrl') + '/oauth/openid/login?extra=expired');
+        verifyOAuthLogin('TestButtonTest', '#c02222', Cypress.config('baseUrl') + '/oauth/openid/login');
     });
 
     it('MM-T3620 - Set to Google OpenId', () => {
@@ -101,7 +83,7 @@ describe('MM-27688 - System console-OpenId Connect', () => {
             expect(config.GoogleSettings.DiscoveryEndpoint).to.equal('https://accounts.google.com/.well-known/openid-configuration');
         });
 
-        verifyOAuthLogin('GoogleButton', 'Google Apps', '', Cypress.config('baseUrl') + '/oauth/google/login?extra=expired');
+        verifyOAuthLogin('Google Apps', '', Cypress.config('baseUrl') + '/oauth/google/login');
     });
 
     it('MM-T3621 - Set to Gitlab OpenId', () => {
@@ -127,7 +109,7 @@ describe('MM-27688 - System console-OpenId Connect', () => {
             expect(config.GitLabSettings.DiscoveryEndpoint).to.equal('https://gitlab.com/.well-known/openid-configuration');
         });
 
-        verifyOAuthLogin('GitLabButton', 'GitLab', '', Cypress.config('baseUrl') + '/oauth/gitlab/login?extra=expired');
+        verifyOAuthLogin('GitLab', '', Cypress.config('baseUrl') + '/oauth/gitlab/login');
     });
 
     it('MM-T3622 - Set to Exchange OpenId', () => {
@@ -152,7 +134,7 @@ describe('MM-27688 - System console-OpenId Connect', () => {
             expect(config.Office365Settings.Id).to.equal('Office365Id');
             expect(config.Office365Settings.DiscoveryEndpoint).to.equal('https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration');
         });
-        verifyOAuthLogin('Office365Button', 'Office 365', '', Cypress.config('baseUrl') + '/oauth/office365/login?extra=expired');
+        verifyOAuthLogin('Office 365', '', Cypress.config('baseUrl') + '/oauth/office365/login');
     });
 
     it('MM-T3501 - Test Migrate from OAuth', () => {
@@ -235,3 +217,28 @@ describe('MM-27688 - System console-OpenId Connect', () => {
         });
     });
 });
+
+// # Goes to the System Scheme page as System Admin
+const goToAdminConsole = () => {
+    cy.apiAdminLogin();
+    cy.visit('/admin_console');
+};
+
+const verifyOAuthLogin = (text, color, href) => {
+    cy.uiOpenSystemConsoleMainMenu('Log Out');
+
+    cy.waitUntil(() => cy.url().then((url) => {
+        return url.includes('/login');
+    }));
+
+    cy.url().then((url) => {
+        const withExtra = url.includes('?extra=expired') ? '?extra=expired' : '';
+        cy.findByRole('link', {name: `${text}`}).then((btn) => {
+            expect(btn[0].href).equal(`${href}${withExtra}`);
+            if (color) {
+                const rbgArr = hexToRgbArray(color);
+                expect(btn[0].style.backgroundColor).equal(rgbArrayToString(rbgArr));
+            }
+        });
+    });
+};
