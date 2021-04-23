@@ -38,8 +38,7 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
 
         this.state = {
             selectedDate: this.formatDate(this.props.currentDate) || '',
-            selectedTime: '',
-            timeMenuList: [],
+            ...this.makeTimeMenuList(),
         };
     }
 
@@ -89,15 +88,18 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
         const dString = this.formatDate(day);
         this.setState({
             selectedDate: dString,
-        }, this.setTimeMenuList);
+            ...this.makeTimeMenuList(),
+        });
     };
 
-    setTimeMenuList = () => {
+    makeTimeMenuList = (): {timeMenuList: string[]; selectedTime: string} => {
         const timeMenuItems = [];
         let h = 0;
         let m = 0;
         const curr = this.props.currentDate;
-        if (this.formatDate(curr) === this.state.selectedDate) {
+
+        // state will be undefined when called via constructor so selectedDate will be currentDate
+        if (!this.state || (this.formatDate(curr) === this.state.selectedDate)) {
             h = curr.getHours();
             m = curr.getMinutes();
             if (m > 20) {
@@ -115,14 +117,10 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
                 );
             }
         }
-        this.setState({
+        return {
             timeMenuList: timeMenuItems,
             selectedTime: timeMenuItems[0],
-        });
-    }
-
-    componentDidMount() {
-        this.setTimeMenuList();
+        };
     }
 
     render() {
