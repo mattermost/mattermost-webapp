@@ -7,28 +7,17 @@ import {Client4} from 'mattermost-redux/client';
 
 import ProfilePicture from 'components/profile_picture';
 import * as Utils from 'utils/utils.jsx';
-
+import {UserProfile} from 'mattermost-redux/types/users';
 import './admin_user_card.scss';
 
 type BulletProps = {
-    user: {
-        first_name: string | null;
-        last_name: string | null;
-        nickname: string | null;
-        last_picture_update?: number | undefined;
-    };
+    user: UserProfile;
 }
 
-type Props = {
-    user: {
-        first_name: string | null;
-        last_name: string | null;
-        nickname: string | null;
-        last_picture_update?: number | undefined;
-        id: string;
-    };
-    body?: JSX.Element | undefined;
-    footer?: JSX.Element | undefined;
+export type Props = {
+    user: UserProfile;
+    body?: React.ReactNode;
+    footer?: React.ReactNode;
 }
 
 const Bullet: React.FC<BulletProps> = (props: BulletProps) => {

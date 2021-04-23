@@ -870,7 +870,7 @@ export default class Client4 {
         );
     };
 
-    getProfilePictureUrl = (userId: string, lastPictureUpdate?: number) => {
+    getProfilePictureUrl = (userId: string, lastPictureUpdate: number) => {
         const params: any = {};
 
         if (lastPictureUpdate) {

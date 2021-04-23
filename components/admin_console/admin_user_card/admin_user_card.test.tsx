@@ -4,17 +4,21 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
+import {TestHelper} from 'utils/test_helper';
+
 import AdminUserCard from 'components/admin_console/admin_user_card/admin_user_card';
 
 describe('components/admin_console/admin_user_card/admin_user_card', () => {
+    const user = TestHelper.getUserMock({
+        first_name: 'Jim',
+        last_name: 'Halpert',
+        nickname: 'Big Tuna',
+        id: '1234',
+    });
+
     const defaultProps = {
-        user: {
-            first_name: 'Jim',
-            last_name: 'Halpert',
-            nickname: 'Big Tuna',
-            id: '1234',
-        },
-    };
+        user,
+    } as any;
 
     test('should match default snapshot', () => {
         const props = defaultProps;
@@ -52,8 +56,9 @@ describe('components/admin_console/admin_user_card/admin_user_card', () => {
             ...defaultProps,
             user: {
                 ...defaultProps.user,
-                first_name: null,
-                last_name: null,
+
+                // first_name: null,
+                // last_name: null,
                 nickname: null,
             },
         };
