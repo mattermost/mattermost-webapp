@@ -38,8 +38,14 @@ describe('Main menu', () => {
     });
 
     it('MM-T910 Can open Administrators Guide', () => {
-        // * Verify administrator's guide link
-        verifyLink("Administrator's Guide", 'https://about.mattermost.com/administrators-guide/');
+        cy.apiGetClientLicense().then(({isCloudLicensed}) => {
+            const guideLink = isCloudLicensed ?
+                'https://docs.mattermost.com/guides/cloud-admin-guide.html' :
+                'https://about.mattermost.com/administrators-guide/';
+
+            // * Verify administrator's guide link
+            verifyLink("Administrator's Guide", guideLink);
+        });
     });
 
     it('MM-T911 Can open Troubleshooting Forum', () => {

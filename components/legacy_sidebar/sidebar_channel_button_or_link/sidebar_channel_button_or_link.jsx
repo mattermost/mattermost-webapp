@@ -105,6 +105,7 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
                 <CustomStatusEmoji
                     userID={this.props.teammateId}
                     showTooltip={true}
+                    emojiStyle={{opacity: 0.8}}
                 />
             ) : null;
 

@@ -10,7 +10,7 @@
 // Stage: @prod
 // Group: @enterprise @ldap_group
 
-describe('Test channel public/private toggle', () => {
+describe('LDAP Group Sync - Test channel public/private toggle', () => {
     let testTeam;
 
     before(() => {
@@ -20,10 +20,10 @@ describe('Test channel public/private toggle', () => {
         // Enable LDAP and LDAP group sync
         cy.apiUpdateConfig({LdapSettings: {Enable: true}});
 
-        // # Check and run LDAP Sync job
-        if (Cypress.env('runLDAPSync')) {
-            cy.checkRunLDAPSync();
-        }
+        // # Test LDAP configuration and server connection
+        // # Synchronize user attributes
+        cy.apiLDAPTest();
+        cy.apiLDAPSync();
 
         // # Init test setup
         cy.apiInitSetup().then(({team}) => {
@@ -31,7 +31,7 @@ describe('Test channel public/private toggle', () => {
         });
     });
 
-    it('Verify that System Admin can change channel privacy using toggle', () => {
+    it('MM-T4003_1 Verify that System Admin can change channel privacy using toggle', () => {
         cy.apiCreateChannel(testTeam.id, 'test-channel', 'Test Channel').then(({channel}) => {
             assert(channel.type === 'O');
             cy.visit(`/admin_console/user_management/channels/${channel.id}`);
@@ -53,7 +53,7 @@ describe('Test channel public/private toggle', () => {
         });
     });
 
-    it('Verify that resetting sync toggle doesn\'t alter channel privacy toggle', () => {
+    it('MM-T4003_2 Verify that resetting sync toggle doesn\'t alter channel privacy toggle', () => {
         cy.apiCreateChannel(testTeam.id, 'test-channel', 'Test Channel').then(({channel}) => {
             assert(channel.type === 'O');
             cy.visit(`/admin_console/user_management/channels/${channel.id}`);
@@ -68,7 +68,7 @@ describe('Test channel public/private toggle', () => {
         });
     });
 
-    it('Verify that toggles are disabled for default channel', () => {
+    it('MM-T4003_3 Verify that toggles are disabled for default channel', () => {
         cy.visit(`/${testTeam.name}/channels/town-square`);
         cy.getCurrentChannelId().then((id) => {
             cy.visit(`/admin_console/user_management/channels/${id}`);

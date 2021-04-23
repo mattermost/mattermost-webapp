@@ -31,6 +31,7 @@ const {
     getSpecToTest,
     recordSpecResult,
     updateCycle,
+    uploadScreenshot,
 } = require('./utils/dashboard');
 const {writeJsonToFile} = require('./utils/report');
 const {MOCHAWESOME_REPORT_DIR, RESULTS_DIR} = require('./utils/constants');
@@ -43,14 +44,16 @@ axiosRetry(axios, {
 
 const {
     BRANCH,
+    BROWSER,
     BUILD_ID,
     CI_BASE_URL,
+    HEADLESS,
     REPO,
 } = process.env;
 
-async function runTest(specExecution, currentTestCount) {
-    const browser = 'chrome';
-    const headless = true;
+async function runCypressTest(specExecution) {
+    const browser = BROWSER || 'chrome';
+    const headless = isHeadless();
 
     const result = await cypress.run({
         browser,
@@ -84,13 +87,17 @@ async function runTest(specExecution, currentTestCount) {
         },
     });
 
+    return result;
+}
+
+async function saveResult(specExecution, result, testIndex) {
     // Write and update test environment details once
-    if (currentTestCount === 1) {
+    if (testIndex === 0) {
         const environment = {
             cypress_version: result.cypressVersion,
             browser_name: result.browserName,
             browser_version: result.browserVersion,
-            headless,
+            headless: isHeadless(),
             os_name: result.osName,
             os_version: result.osVersion,
             node_version: process.version,
@@ -114,65 +121,65 @@ async function runTest(specExecution, currentTestCount) {
         test_end_at: stats.endedAt,
     };
 
-    const testCases = [];
+    const uploadedScreenshots = [];
     tests.forEach((t) => {
+        const attempts = t.attempts[0];
+        if (attempts.screenshots && attempts.screenshots.length > 0) {
+            const path = t.attempts[0].screenshots[0].path;
+            uploadedScreenshots.push(uploadScreenshot(path, REPO, BRANCH, BUILD_ID));
+        }
+    });
+    const screenshotUrls = await Promise.all(uploadedScreenshots);
+
+    const testCases = [];
+    tests.forEach((t, i) => {
+        const attempts = t.attempts[0];
+
         const test = {
             title: t.title,
             full_title: t.title.join(' '),
-            state: t.attempts[0].state,
-            duration: t.attempts[0].duration || 0,
-            test_start_at: t.attempts[0].startedAt,
+            state: attempts.state,
+            duration: attempts.duration || 0,
+            code: trimToMaxLength(t.body),
         };
+
+        if (attempts.startedAt) {
+            test.test_start_at = attempts.startedAt;
+        }
+
+        if (t.displayError) {
+            test.error_display = trimToMaxLength(t.displayError);
+        }
+
+        const errorFrame = attempts.error && attempts.error.codeFrame && attempts.error.codeFrame.frame;
+        if (errorFrame) {
+            test.error_frame = trimToMaxLength(errorFrame);
+        }
+
+        const screenshot = {};
+        if (attempts.screenshots && attempts.screenshots.length > 0) {
+            const {takenAt, height, width} = attempts.screenshots[0];
+            screenshot.url = screenshotUrls[i];
+            screenshot.taken_at = takenAt;
+            screenshot.height = height;
+            screenshot.width = width;
+
+            test.screenshot = screenshot;
+        }
+
         testCases.push(test);
     });
 
     await recordSpecResult(specExecution.id, specPatch, testCases);
 }
 
-const maxRetryCount = 5;
-let retries = 0;
+function isHeadless() {
+    return typeof HEADLESS === 'undefined' ? true : HEADLESS === 'true';
+}
 
-async function testLoop() {
-    const spec = await getSpecToTest({
-        repo: REPO,
-        branch: BRANCH,
-        build: BUILD_ID,
-        server: CI_BASE_URL,
-    });
-
-    // Retry on connection/timeout errors
-    if (!spec || spec.code) {
-        if (retries >= maxRetryCount) {
-            console.log(chalk.red(`Test ended due to multiple (${retries}) connection/timeout errors with the dashboard server.`));
-            return;
-        }
-
-        retries++;
-        console.log(chalk.red(`Retry count: ${retries}`));
-        return testLoop(); // eslint-disable-line consistent-return
-    }
-
-    if (spec.summary) {
-        printSummary(spec.summary);
-    }
-
-    if (!spec.execution || !spec.execution.file) {
-        console.log(chalk.magenta(spec.message));
-        return;
-    }
-
-    const currentTestCount = spec.summary.reduce((total, item) => {
-        return total + parseInt(item.count, 10);
-    }, 0);
-
-    console.log(chalk.magenta(`(Testing ${currentTestCount} of ${spec.cycle.specs_registered})  - `, spec.execution.file));
-
-    await runTest(spec.execution, currentTestCount);
-
-    // Reset retry count on at least one successful run
-    retries = 0;
-
-    return testLoop(); // eslint-disable-line consistent-return
+function trimToMaxLength(text) {
+    const maxLength = 5000;
+    return text && text.length > maxLength ? text.substring(0, maxLength) : text;
 }
 
 function printSummary(summary) {
@@ -199,4 +206,83 @@ function printSummary(summary) {
     });
 }
 
-testLoop();
+const maxRetryCount = 5;
+async function runSpecFragment(count, retry) {
+    console.log(chalk.magenta(`Preparing for: ${count + 1}`));
+
+    const spec = await getSpecToTest({
+        repo: REPO,
+        branch: BRANCH,
+        build: BUILD_ID,
+        server: CI_BASE_URL,
+    });
+
+    // Retry on connection/timeout errors
+    if (!spec || spec.code) {
+        if (retry >= maxRetryCount) {
+            return {
+                tryNext: false,
+                count,
+                message: `Test ended due to multiple (${retry}) connection/timeout errors with the dashboard server.`,
+            };
+        }
+
+        console.log(chalk.red(`Retry count: ${retry}`));
+        return runSpecFragment(count, retry + 1);
+    }
+
+    if (!spec.execution || !spec.execution.file) {
+        return {
+            tryNext: false,
+            count,
+            message: spec.message,
+        };
+    }
+
+    const currentTestCount = spec.summary.reduce((total, item) => {
+        return total + parseInt(item.count, 10);
+    }, 0);
+
+    printSummary(spec.summary);
+    console.log(chalk.magenta(`\n(Testing ${currentTestCount} of ${spec.cycle.specs_registered}) - ${spec.execution.file}`));
+    console.log(chalk.magenta(`At "${process.env.CI_BASE_URL}" server`));
+
+    const result = await runCypressTest(spec.execution);
+    await saveResult(spec.execution, result, count);
+
+    const newCount = count + 1;
+
+    if (spec.cycle.specs_registered === currentTestCount) {
+        return {
+            tryNext: false,
+            count: newCount,
+            message: `Completed testing of all registered ${currentTestCount} spec/s.`,
+        };
+    }
+
+    return {
+        tryNext: true,
+        count: newCount,
+        retry: 0,
+        message: 'Continue testing',
+    };
+}
+
+async function runSpec(count = 0, retry = 0) {
+    const fragment = await runSpecFragment(count, retry);
+    if (fragment.tryNext) {
+        return runSpec(fragment.count, fragment.retry);
+    }
+
+    return {
+        count: fragment.count,
+        message: fragment.message,
+    };
+}
+
+runSpec().then(({count, message}) => {
+    console.log(chalk.magenta(message));
+    if (count > 0) {
+        console.log(chalk.magenta(`This test runner has completed ${count} spec file/s.`));
+    }
+});

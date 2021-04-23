@@ -134,19 +134,6 @@ describe('Authentication', () => {
         });
     });
 
-    it('MM-T1762 - Invite Salt', () => {
-        cy.visit('/admin_console/site_config/public_links');
-
-        // * Check that public link salt is masked
-        cy.findByText('********************************').should('be.visible');
-
-        // # Click "Regenerate"
-        cy.findByText('Regenerate', {timeout: TIMEOUTS.ONE_MIN}).click();
-
-        // * Check that new public link is generated and unmasked
-        cy.findByText('********************************').should('not.exist');
-    });
-
     it('MM-T1763 - Security - Signup: Email verification not required, user immediately sees Town Square', () => {
         // # Enable open server and turn on user account creation and set restricted domain
         cy.apiUpdateConfig({

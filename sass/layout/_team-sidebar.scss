@@ -23,7 +23,7 @@
     }
 
     .team-sidebar-bottom-plugin {
-        background-color: rgba(0, 0, 0, 0.2);
+        background-color: var(--sidebar-teambar-bg);
         width: 100%;
         flex: 0 0 auto;
         padding: 16px 0 6px;
@@ -59,7 +59,7 @@
                     width: 8px;
                     height: 8px;
                     box-shadow: 0 0 0 3px var(--sidebar-teambar-bg);
-                    background: white;
+                    background: var(--mention-bg);
                     z-index: 1;
                 }
             }

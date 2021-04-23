@@ -5,6 +5,7 @@ import React from 'react';
 import {Action} from 'redux';
 
 import {ActionFunc, DispatchFunc} from 'mattermost-redux/types/actions';
+import {Channel} from 'mattermost-redux/types/channels';
 
 import {SearchType} from 'types/store/rhs';
 
@@ -14,6 +15,8 @@ export type OwnProps = {
     isSideBarRight?: boolean;
     isSideBarRightOpen?: boolean;
     isFocus: boolean;
+    hideSearchBar?: boolean;
+    enableFindShortcut?: boolean;
     channelDisplayName?: string;
     getFocus?: (searchBarFocus: () => void) => void;
     children?: React.ReactNode;
@@ -31,7 +34,7 @@ export type StateProps = {
     isPinnedPosts: boolean;
     isChannelFiles: boolean;
     filesSearchEnabled: boolean;
-    currentChannelId: string;
+    currentChannel?: Channel;
 }
 
 export type DispatchProps = {
@@ -48,6 +51,7 @@ export type DispatchProps = {
         autocompleteUsersInTeam: (username: string) => DispatchFunc;
         updateRhsState: (rhsState: string) => void;
         getMorePostsForSearch: () => ActionFunc;
+        openRHSSearch: () => void;
         getMoreFilesForSearch: () => ActionFunc;
         filterFilesSearchByExt: (extensions: string[]) => void;
     };
