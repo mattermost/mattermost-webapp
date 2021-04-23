@@ -44,7 +44,7 @@ import store from 'stores/redux_store.jsx';
 import {getCurrentLocale, getTranslations} from 'selectors/i18n';
 
 import PurchaseLink from 'components/announcement_bar/purchase_link/purchase_link';
-import ContactUs from 'components/announcement_bar/contact_sales/contact_us';
+import ContactUsButton from 'components/announcement_bar/contact_sales/contact_us';
 
 import {joinPrivateChannelPrompt} from './channel_utils';
 
@@ -2271,7 +2271,7 @@ export function renderPurchaseLicense() {
                     />
                 }
             />
-            <ContactUs
+            <ContactUsButton
                 eventID='post_trial_contact_sales'
             />
         </div>
