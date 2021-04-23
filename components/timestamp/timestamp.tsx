@@ -239,7 +239,7 @@ class Timestamp extends PureComponent<Props, State> {
     formatDateTime(value: Date, format: DateTimeOptions): string {
         const {timeZone, intl: {locale}} = this.props;
 
-        return (new Intl.DateTimeFormat(locale, {timeZone, ...format})).format(value);
+        return (new Intl.DateTimeFormat(locale, {timeZone, ...format} as any)).format(value); // TODO remove any when React-Intl is next updated
     }
 
     static momentTime(value: Moment, {hour, minute, hourCycle, hour12}: DateTimeOptions): string | undefined {

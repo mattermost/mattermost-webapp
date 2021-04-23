@@ -7,9 +7,10 @@ exports[`components/search_results/MessagesOrFilesSelector should match snapshot
   <div
     className="buttons-container"
   >
-    <span
+    <button
       className="tab messages-tab"
       onClick={[Function]}
+      onKeyDown={[Function]}
     >
       <FormattedMessage
         defaultMessage="Messages"
@@ -20,10 +21,11 @@ exports[`components/search_results/MessagesOrFilesSelector should match snapshot
       >
         5
       </span>
-    </span>
-    <span
+    </button>
+    <button
       className="active tab files-tab"
       onClick={[Function]}
+      onKeyDown={[Function]}
     >
       <FormattedMessage
         defaultMessage="Files"
@@ -34,7 +36,7 @@ exports[`components/search_results/MessagesOrFilesSelector should match snapshot
       >
         10
       </span>
-    </span>
+    </button>
   </div>
   <FilesFilterMenu
     onFilter={[MockFunction]}
@@ -50,9 +52,10 @@ exports[`components/search_results/MessagesOrFilesSelector should match snapshot
   <div
     className="buttons-container"
   >
-    <span
+    <button
       className="active tab messages-tab"
       onClick={[Function]}
+      onKeyDown={[Function]}
     >
       <FormattedMessage
         defaultMessage="Messages"
@@ -63,10 +66,11 @@ exports[`components/search_results/MessagesOrFilesSelector should match snapshot
       >
         5
       </span>
-    </span>
-    <span
+    </button>
+    <button
       className="tab files-tab"
       onClick={[Function]}
+      onKeyDown={[Function]}
     >
       <FormattedMessage
         defaultMessage="Files"
@@ -77,7 +81,7 @@ exports[`components/search_results/MessagesOrFilesSelector should match snapshot
       >
         10
       </span>
-    </span>
+    </button>
   </div>
 </div>
 `;
