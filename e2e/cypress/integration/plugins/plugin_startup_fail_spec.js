@@ -7,44 +7,36 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
-// Group: @system_console @plugin
-
 /**
- * Note : This test requires the gitlab plugin tar file under fixtures folder.
- * Download from :
- * https://github.com/mattermost/mattermost-plugin-gitlab/releases/download/v1.3.0/com.github.manland.mattermost-plugin-gitlab-1.3.0.tar.gz
- * Copy to : ./e2e/cypress/fixtures/com.github.manland.mattermost-plugin-gitlab-1.3.0.tar.gz
+ * Note: This spec requires "gitlabPlugin" file at fixtures folder.
+ * See details at "e2e/cypress/utils/plugins.js", download the file
+ * from the given "@url" and save as indicated in the "@filename"
+ * under fixtures folder.
  */
 
+// Stage: @prod
+// Group: @system_console @plugin @not_cloud
+
 import * as TIMEOUTS from '../../fixtures/timeouts';
+import {gitlabPlugin} from '../../utils/plugins';
 
 describe('If plugins fail to start, they can be disabled', () => {
-    const pluginID = 'com.github.manland.mattermost-plugin-gitlab';
-    const pluginFile = 'com.github.manland.mattermost-plugin-gitlab-1.3.0.tar.gz';
-
     before(() => {
-        // # Initialize setup and visit town-square
-        cy.apiInitSetup().then(({team}) => {
-            cy.visit(`/${team.name}/channels/town-square`);
+        cy.shouldNotRunOnCloudEdition();
+        cy.shouldHavePluginUploadEnabled();
+        cy.apiUninstallAllPlugins();
 
-            // If GitLab plugin is already installed, uninstall it
-            cy.apiRemovePluginById(pluginID);
-            cy.visit('/admin_console/plugins/plugin_management');
-            cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'Plugin Management');
-        });
-    });
-
-    after(() => {
-        cy.apiRemovePluginById(pluginID);
+        // # Visit plugin management in the system console
+        cy.visit('/admin_console/plugins/plugin_management');
+        cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'Plugin Management');
     });
 
     it('MM-T2391 If plugins fail to start, they can be disabled', () => {
         const mimeType = 'application/gzip';
-        cy.fixture(pluginFile, 'binary').
+        cy.fixture(gitlabPlugin.filename, 'binary').
             then(Cypress.Blob.binaryStringToBlob).
             then((fileContent) => {
-                cy.get('input[type=file]').attachFile({fileContent, fileName: pluginFile, mimeType});
+                cy.get('input[type=file]').attachFile({fileContent, fileName: gitlabPlugin.filename, mimeType});
             });
 
         cy.get('#uploadPlugin').scrollIntoView().should('be.visible').click().wait(TIMEOUTS.HALF_SEC);
@@ -57,7 +49,7 @@ describe('If plugins fail to start, they can be disabled', () => {
         cy.get('#uploadPlugin').and('be.disabled');
 
         // # Enable GitLab plugin
-        cy.findByTestId(pluginID).scrollIntoView().should('be.visible').within(() => {
+        cy.findByTestId(gitlabPlugin.id).scrollIntoView().should('be.visible').within(() => {
             // * Verify GitLab Plugin title is shown
             cy.waitUntil(() => cy.get('strong').scrollIntoView().should('be.visible').then((title) => {
                 return title[0].innerText === 'GitLab';
