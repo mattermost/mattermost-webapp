@@ -206,9 +206,7 @@ exports[`components/admin_console/admin_user_card/admin_user_card should match s
       className="AdminUserCard__user-info"
     >
       <span>
-        Jim
          
-        Halpert
       </span>
       <Bullet
         user={
@@ -223,11 +221,11 @@ exports[`components/admin_console/admin_user_card/admin_user_card should match s
             "email": "",
             "email_verified": true,
             "failed_attempts": 0,
-            "first_name": "Jim",
+            "first_name": null,
             "id": "1234",
             "is_bot": false,
             "last_activity_at": 0,
-            "last_name": "Halpert",
+            "last_name": null,
             "last_password_update": 0,
             "last_picture_update": 0,
             "locale": "",

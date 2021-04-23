@@ -56,9 +56,8 @@ describe('components/admin_console/admin_user_card/admin_user_card', () => {
             ...defaultProps,
             user: {
                 ...defaultProps.user,
-
-                // first_name: null,
-                // last_name: null,
+                first_name: null,
+                last_name: null,
                 nickname: null,
             },
         };
