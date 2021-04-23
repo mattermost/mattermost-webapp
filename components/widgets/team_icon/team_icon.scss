@@ -34,7 +34,7 @@
     width: 34px;
     text-align: center;
     text-transform: uppercase;
-    background-color: rgba(255, 255, 255, 0.16);
+    background-color: var(--sidebar-text-16);
     border: 3px solid rgba(255, 255, 255, 0);
     border-radius: 8px;
     box-sizing: content-box;
@@ -50,12 +50,12 @@
 
     &:active {
         border-color: var(--sidebar-teambar-bg);
-        box-shadow: 0 0 0 3px rgba(var(--sidebar-text-active-border-rgb), 0.72);
+        box-shadow: 0 0 0 3px rgba(var(--sidebar-text-active-border-rgb), 1);
     }
 
     &.active {
         border-color: var(--sidebar-teambar-bg);
-        box-shadow: 0 0 0 3px rgba(var(--sidebar-text-active-border-rgb), 0.72);
+        box-shadow: 0 0 0 3px rgba(var(--sidebar-text-active-border-rgb), 1);
         background-color: rgba(255, 255, 255, 0.32);
     }
 
