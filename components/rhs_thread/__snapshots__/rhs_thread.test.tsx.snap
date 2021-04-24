@@ -26,6 +26,7 @@ exports[`components/RhsThread should match snapshot 1`] = `
         "team_id": "team_id",
         "teammate_id": "",
         "total_msg_count": 0,
+        "total_msg_count_root": 0,
         "type": "O",
         "update_at": 0,
       }

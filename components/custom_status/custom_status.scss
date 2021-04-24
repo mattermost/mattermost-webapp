@@ -151,7 +151,8 @@
 }
 
 .statusSuggestion {
-    height: 232px;
+    min-height: 232px;
+    max-height: 264px;
     overflow: auto;
     margin-top: 8px;
 
@@ -221,4 +222,8 @@
     p {
         margin: 0;
     }
+}
+
+span.emoticon[style]:hover {
+    opacity: 1 !important;
 }
