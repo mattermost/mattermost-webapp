@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import InvitationModalGuestsStep from './invitation_modal_guests_step';
+import InvitationModalGuestsStep from './invitation_modal_guests_step.jsx';
 
 describe('components/invitation_modal/InvitationModalGuestsStep', () => {
     const props = {
