@@ -6,6 +6,7 @@ import {FormattedMessage} from 'react-intl';
 import {uniq, difference} from 'lodash';
 
 import {Role} from 'mattermost-redux/types/roles';
+import {Client4} from 'mattermost-redux/client';
 
 import {UserProfile} from 'mattermost-redux/types/users';
 import {Dictionary} from 'mattermost-redux/types/utilities';
@@ -124,9 +125,11 @@ export default class SystemRole extends React.PureComponent<Props, State> {
 
         // Do not update permissions if sysadmin or if roles have not been updated (to prevent overrwiting roles with no permissions)
         if (role.name !== Constants.PERMISSIONS_SYSTEM_ADMIN && Object.keys(permissionsToUpdate).length > 0) {
+            const rolePermissionsWithAncillaryPermssions = await Client4.getAncillaryPermissions(updatedRolePermissions);
+
             const newRole: Role = {
                 ...role,
-                permissions: updatedRolePermissions,
+                permissions: rolePermissionsWithAncillaryPermssions,
             };
             const result = await editRole(newRole);
             if (isError(result)) {

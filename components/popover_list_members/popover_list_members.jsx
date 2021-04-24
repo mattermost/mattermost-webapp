@@ -207,8 +207,8 @@ export default class PopoverListMembers extends React.PureComponent {
                     placement='bottom'
                 >
                     <Popover
-                        className='member-list__popover'
                         id='member-list-popover'
+                        className='a11y__popup member-list__popover'
                     >
                         <div
                             className='more-modal__header'

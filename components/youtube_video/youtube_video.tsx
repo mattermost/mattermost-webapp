@@ -1,22 +1,25 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import {getVideoId, ytRegex, handleYoutubeTime} from 'utils/youtube';
 
 import ExternalImage from 'components/external_image';
+import {OpenGraphMetadata} from 'mattermost-redux/types/posts';
 
-export default class YoutubeVideo extends React.PureComponent {
-    static propTypes = {
-        postId: PropTypes.string.isRequired,
-        link: PropTypes.string.isRequired,
-        show: PropTypes.bool.isRequired,
-        metadata: PropTypes.object,
-    }
+type Props = {
+    postId: string;
+    link: string;
+    show: boolean;
+    metadata?: OpenGraphMetadata;
+}
 
-    constructor(props) {
+type State = {
+    playing: boolean;
+}
+
+export default class YoutubeVideo extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -24,7 +27,7 @@ export default class YoutubeVideo extends React.PureComponent {
         };
     }
 
-    static getDerivedStateFromProps(props, state) {
+    static getDerivedStateFromProps(props: Props, state: State): State | null {
         if (!props.show && state.playing) {
             return {playing: false};
         }
@@ -54,7 +57,7 @@ export default class YoutubeVideo extends React.PureComponent {
                         target='blank'
                         rel='noopener noreferrer'
                     >
-                        {metadata.title}
+                        {metadata?.title || 'unknown'}
                     </a>
                 </span>
             </h4>
@@ -68,18 +71,17 @@ export default class YoutubeVideo extends React.PureComponent {
                     src={'https://www.youtube.com/embed/' + videoId + '?autoplay=1&autohide=1&border=0&wmode=opaque&fs=1&enablejsapi=1' + time}
                     width='480px'
                     height='360px'
-                    type='text/html'
                     frameBorder='0'
-                    allowFullScreen='allowfullscreen'
+                    allowFullScreen={true}
                 />
             );
         } else {
-            const image = metadata.images[0];
+            const image = metadata?.images[0];
 
             content = (
                 <div className='embed-responsive video-div__placeholder'>
                     <div className='video-thumbnail__container'>
-                        <ExternalImage src={image.secure_url || image.url}>
+                        <ExternalImage src={image?.secure_url || image?.url || ''}>
                             {(safeUrl) => (
                                 <img
                                     src={safeUrl}
@@ -113,7 +115,7 @@ export default class YoutubeVideo extends React.PureComponent {
         );
     }
 
-    static isYoutubeLink(link) {
-        return link.trim().match(ytRegex);
+    public static isYoutubeLink(link: string): boolean {
+        return Boolean(link.trim().match(ytRegex));
     }
 }

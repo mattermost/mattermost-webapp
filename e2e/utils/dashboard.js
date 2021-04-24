@@ -9,13 +9,21 @@
  *   AUTOMATION_DASHBOARD_TOKEN=[token]
  */
 
+const fs = require('fs');
+
 const axios = require('axios');
 const axiosRetry = require('axios-retry');
 const chalk = require('chalk');
+const mime = require('mime-types');
 
 require('dotenv').config();
+const readFile = require('util').promisify(fs.readFile);
+
+const maxRetry = 5;
+const timeout = 10 * 1000;
+
 axiosRetry(axios, {
-    retries: 5,
+    retries: maxRetry,
     retryDelay: axiosRetry.exponentialDelay,
 });
 
@@ -33,7 +41,7 @@ async function createAndStartCycle(data) {
             Authorization: `Bearer ${AUTOMATION_DASHBOARD_TOKEN}`,
         },
         method: 'post',
-        timeout: 10000,
+        timeout,
         data,
     });
 
@@ -48,7 +56,7 @@ async function getSpecToTest({repo, branch, build, server}) {
                 Authorization: `Bearer ${AUTOMATION_DASHBOARD_TOKEN}`,
             },
             method: 'post',
-            timeout: 10000,
+            timeout,
             data: {server},
         });
 
@@ -72,7 +80,7 @@ async function recordSpecResult(specId, spec, tests) {
                 Authorization: `Bearer ${AUTOMATION_DASHBOARD_TOKEN}`,
             },
             method: 'post',
-            timeout: 10000,
+            timeout,
             data: {spec, tests},
         });
 
@@ -97,7 +105,7 @@ async function updateCycle(id, cyclePatch) {
                 Authorization: `Bearer ${AUTOMATION_DASHBOARD_TOKEN}`,
             },
             method: 'put',
-            timeout: 10000,
+            timeout,
             data: cyclePatch,
         });
 
@@ -114,9 +122,45 @@ async function updateCycle(id, cyclePatch) {
     }
 }
 
+async function uploadScreenshot(filePath, repo, branch, build) {
+    try {
+        const contentType = mime.lookup(filePath);
+        const extension = mime.extension(contentType);
+
+        const {data} = await axios({
+            url: `${AUTOMATION_DASHBOARD_URL}/upload-request`,
+            headers: {
+                Authorization: `Bearer ${AUTOMATION_DASHBOARD_TOKEN}`,
+            },
+            method: 'get',
+            timeout,
+            data: {repo, branch, build, extension},
+        });
+
+        const file = await readFile(filePath);
+
+        await axios({
+            url: data.upload_url,
+            method: 'put',
+            headers: {'Content-Type': contentType},
+            data: file,
+        });
+
+        return data.object_url;
+    } catch (err) {
+        if (connectionErrors.includes(err.code) || !err.response) {
+            console.log(chalk.red(`Error code: ${err.code}`));
+            return {code: err.code};
+        }
+
+        return err.response && err.response.data;
+    }
+}
+
 module.exports = {
     createAndStartCycle,
     getSpecToTest,
     recordSpecResult,
     updateCycle,
+    uploadScreenshot,
 };
