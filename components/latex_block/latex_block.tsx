@@ -10,18 +10,7 @@ type Props = {
     enableLatex: boolean;
 };
 
-type State = {
-    latex: string;
-};
-
-export default class LatexBlock extends React.PureComponent<Props, State> {
-    constructor(props: Props) {
-        super(props);
-        this.state = {
-            latex: '',
-        };
-    }
-
+export default class LatexBlock extends React.PureComponent<Props> {
     render() {
         if (!this.props.enableLatex) {
             return (
@@ -42,14 +31,12 @@ export default class LatexBlock extends React.PureComponent<Props, State> {
                 fleqn: true,
             };
 
-            this.setState({
-                latex: renderToString(this.props.content, katexOptions),
-            });
+            const html = renderToString(this.props.content, katexOptions);
 
             return (
                 <div
                     className='post-body--code tex'
-                    dangerouslySetInnerHTML={{__html: this.state.latex}}
+                    dangerouslySetInnerHTML={{__html: html}}
                 />
             );
         } catch (e) {
