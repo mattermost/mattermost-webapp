@@ -160,7 +160,10 @@ describe('Actions.Posts', () => {
             posts: {
                 editingPost: {},
             },
-            rhs: {searchTerms: ''},
+            rhs: {
+                searchTerms: '',
+                filesSearchExtFilter: [],
+            },
         },
     };
 
@@ -258,6 +261,7 @@ describe('Actions.Posts', () => {
             {state: 'search', type: 'UPDATE_RHS_STATE'},
             {terms: '', type: 'UPDATE_RHS_SEARCH_RESULTS_TERMS'},
             {isGettingMore: false, type: 'SEARCH_POSTS_REQUEST'},
+            {isGettingMore: false, type: 'SEARCH_FILES_REQUEST'},
         ]);
     });
 

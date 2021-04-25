@@ -7,6 +7,8 @@
 
 /* eslint-disable no-loop-func */
 
+import dayjs from 'dayjs';
+
 import '@testing-library/cypress/add-commands';
 import 'cypress-file-upload';
 import 'cypress-wait-until';
@@ -30,9 +32,10 @@ import './storybook_commands';
 import './task_commands';
 import './ui';
 import './ui_commands'; // soon to deprecate
-import './visual_commands';
 
 import {getDefaultConfig} from './api/system';
+
+Cypress.dayjs = dayjs;
 
 Cypress.on('test:after:run', (test, runnable) => {
     // Only if the test is failed do we want to add
@@ -189,6 +192,9 @@ function sysadminSetup(user) {
             cy.apiPatchUserRoles(user.id, ['system_admin', 'system_manager', 'system_user']);
         }
     });
+
+    // # Disable plugins not included in prepackaged
+    cy.apiDisableNonPrepackagedPlugins();
 
     // # Check if default team is present; create if not found.
     cy.apiGetTeamsForUser().then(({teams}) => {

@@ -43,7 +43,7 @@ describe('Notifications', () => {
             cy.apiLogin(user1);
             cy.visit(testTeam1TownSquareUrl);
             cy.findByText('CHANNELS').get('.unread-title').click();
-            cy.findByText('CHANNELS').get('.unread-title').should('not.be.visible');
+            cy.findByText('CHANNELS').get('.unread-title').should('not.exist');
             cy.apiLogout();
         });
     });
@@ -63,9 +63,9 @@ describe('Notifications', () => {
         cy.title().should('include', `(1) Town Square - ${team1.display_name} ${siteName}`);
 
         // * Team sidebar shows: No unread / mention indicator in team sidebar on either team
-        cy.get(`#${team2.name}TeamButton`).parent('.unread').should('not.be.visible');
+        cy.get(`#${team2.name}TeamButton`).parent('.unread').should('not.exist');
         cy.get(`#${team2.name}TeamButton`).parent().within(() => {
-            cy.get('.badge').should('not.be.visible');
+            cy.get('.badge').should('not.exist');
         });
     });
 });

@@ -204,7 +204,7 @@ describe('Profile popover', () => {
         });
 
         // * Now verify that popup is gone
-        cy.get('div[aria-labelledby="addChannelModalLabel"]').should('not.be.visible');
+        cy.get('div[aria-labelledby="addChannelModalLabel"]').should('not.exist');
 
         // # Visit that channel
         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
@@ -277,7 +277,7 @@ describe('Profile popover', () => {
         });
 
         // * Now verify that popup is gone
-        cy.get('div[aria-labelledby="addChannelModalLabel"]').should('not.be.visible');
+        cy.get('div[aria-labelledby="addChannelModalLabel"]').should('not.exist');
 
         // # Visit that channel
         cy.visit(`/${testTeam.name}/channels/${privateChannel.name}`);
@@ -336,7 +336,7 @@ describe('Profile popover', () => {
         });
 
         // * Now verify that popup is gone
-        cy.get('div[aria-labelledby="addChannelModalLabel"]').should('not.be.visible');
+        cy.get('div[aria-labelledby="addChannelModalLabel"]').should('not.exist');
 
         // # Visit that channel
         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
@@ -449,7 +449,7 @@ const verifyAddToChannel = (user, visible = true) => {
         cy.findByText('Add to a Channel').should('be.visible');
     } else {
         // * Add to a Channel should not be visible
-        cy.findByText('Add to a Channel').should('not.be.visible');
+        cy.findByText('Add to a Channel').should('not.exist');
     }
 };
 
