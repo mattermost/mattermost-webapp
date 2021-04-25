@@ -11,7 +11,7 @@ type Props = {
 };
 
 export default class LatexBlock extends React.PureComponent<Props> {
-    render() {
+    render(): React.ReactNode {
         if (!this.props.enableLatex) {
             return (
                 <div
