@@ -110,7 +110,7 @@ describe('Leave an archived channel', () => {
         // # Create or locate post in an archived channel where the test user had permissions to edit channel details
         // generate a sufficiently large set of messages to make the toast appear
         const messageList = Array.from({length: 40}, (_, i) => `${i}. any - ${getRandomId()}`);
-        createArchivedChannel({prefix: 'archived-search-for'}, messageList).then(({channelName}) => {
+        createArchivedChannel({prefix: 'archived-search-for'}, messageList).then(({name}) => {
             // # Locate the post in a search
             cy.get('#searchBox').click().clear().type(`${messageList[1]}{enter}`);
 
@@ -126,8 +126,8 @@ describe('Leave an archived channel', () => {
 
             // * Channel is listed In drawer
             // * Channel name visible in header
-            cy.get(`#sidebarItem_${channelName}`).should('be.visible');
-            cy.get(`#sidebarItem_${channelName} .icon-archive-outline`).should('be.visible');
+            cy.get(`#sidebarItem_${name}`).should('be.visible');
+            cy.get(`#sidebarItem_${name} .icon-archive-outline`).should('be.visible');
 
             // * Archived icon is visible in header
             cy.get('#channelHeaderInfo .icon-archive-outline').should('be.visible');

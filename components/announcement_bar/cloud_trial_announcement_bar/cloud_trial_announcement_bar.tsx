@@ -27,7 +27,7 @@ import {
 } from 'utils/constants';
 
 import AnnouncementBar from '../default_announcement_bar';
-import withGetCloudSubscription from '../../common/hocs/cloud/with_get_cloud_subcription';
+import withGetCloudSubscription from '../../common/hocs/cloud/with_get_cloud_subscription';
 
 type Props = {
     userIsAdmin: boolean;
@@ -188,7 +188,7 @@ class CloudTrialAnnouncementBar extends React.PureComponent<Props> {
                 showCloseButton={dismissable}
                 handleClose={this.handleClose}
                 onButtonClick={this.showModal}
-                modalButtonText={t('admin.billing.subscription.cloudTrial.subscribeNow')}
+                modalButtonText={t('admin.billing.subscription.cloudTrial.subscribeButton')}
                 modalButtonDefaultText={'Subscribe Now'}
                 message={bannerMessage}
                 showLinkAsButton={true}

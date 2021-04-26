@@ -6,7 +6,7 @@ import {AnyAction, bindActionCreators, Dispatch} from 'redux';
 
 import {getMorePostsForSearch, getMoreFilesForSearch} from 'mattermost-redux/actions/search';
 import {getFeatureFlagValue} from 'mattermost-redux/selectors/entities/general';
-import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 
 import {
     updateSearchTerms,
@@ -17,6 +17,7 @@ import {
     closeRightHandSide,
     updateRhsState,
     setRhsExpanded,
+    openRHSSearch,
     filterFilesSearchByExt,
     updateSearchType,
 } from 'actions/views/rhs';
@@ -32,10 +33,10 @@ import type {StateProps, DispatchProps, OwnProps} from './types';
 function mapStateToProps(state: GlobalState) {
     const rhsState = getRhsState(state);
     const filesSearchEnabled = getFeatureFlagValue(state, 'FilesSearch') === 'true';
-    const currentChannelId = getCurrentChannelId(state);
+    const currentChannel = getCurrentChannel(state);
 
     return {
-        currentChannelId,
+        currentChannel,
         isRhsExpanded: getIsRhsExpanded(state),
         isRhsOpen: getIsRhsOpen(state),
         isSearchingTerm: getIsSearchingTerm(state),
@@ -65,6 +66,7 @@ function mapDispatchToProps(dispatch: Dispatch<AnyAction>) {
             autocompleteUsersInTeam,
             updateRhsState,
             getMorePostsForSearch,
+            openRHSSearch,
             getMoreFilesForSearch,
             filterFilesSearchByExt,
         }, dispatch),

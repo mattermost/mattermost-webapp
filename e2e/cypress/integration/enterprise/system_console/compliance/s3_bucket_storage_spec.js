@@ -7,13 +7,19 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @enterprise @system_console @not_cloud
+// Group: @enterprise @system_console @compliance_export @not_cloud
+
+// Requires "mattermost-minio" docker instance to be accessible at http://localhost:9000
+// and a bucket named "mattermost-test". Bucket can be created manually in the UI or by:
+// ``docker exec mattermost-minio sh -c 'mkdir -p /data/mattermost-test'``
 
 import * as TIMEOUTS from '../../../../fixtures/timeouts';
 
 import {gotoTeamAndPostImage} from './helpers';
 
 describe('Compliance Export', () => {
+    let teamName;
+
     before(() => {
         cy.shouldNotRunOnCloudEdition();
         cy.apiRequireLicenseForFeature('Compliance');
@@ -23,6 +29,18 @@ describe('Compliance Export', () => {
                 ExportFormat: 'csv',
                 DownloadExportResults: true,
             },
+        });
+
+        cy.apiCreateCustomAdmin().then(({sysadmin}) => {
+            cy.apiLogin(sysadmin);
+            cy.apiInitSetup().then(({team}) => {
+                teamName = team.name;
+            });
+
+            // # Go to compliance page, enable export and do export
+            cy.uiGoToCompliancePage();
+            cy.uiEnableComplianceExport();
+            cy.uiExportCompliance();
         });
     });
 
@@ -54,12 +72,8 @@ describe('Compliance Export', () => {
         cy.findByRole('button', {name: 'Test Connection'}).click();
         cy.findByText('Connection was successful').should('be.visible');
 
-        // # Go to compliance page and enable export
-        cy.uiGoToCompliancePage();
-        cy.uiEnableComplianceExport();
-        cy.uiExportCompliance();
-
         // # Navigate to a team and post an attachment
+        cy.visit(`/${teamName}/channels/town-square`);
         gotoTeamAndPostImage();
 
         // # Go to compliance page and start export

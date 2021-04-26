@@ -7,7 +7,6 @@ import classNames from 'classnames';
 import Search from 'components/search';
 import FlagIcon from 'components/widgets/icons/flag_icon';
 import MentionsIcon from 'components/widgets/icons/mentions_icon';
-import SearchIcon from 'components/widgets/icons/search_icon';
 import QuickSwitchModal from 'components/quick_switch_modal';
 import {
     Constants,
@@ -151,29 +150,11 @@ class RHSSearchNav extends React.PureComponent<Props, State> {
 
         return (
             <>
-                {this.state.showSearchBar ? (
-                    <div
-                        id='searchbarContainer'
-                        className='flex-child search-bar__container'
-                    >
-                        <Search
-                            isFocus={Utils.isMobile() || (rhsOpen && Boolean(rhsState))}
-                        />
-                    </div>
-                ) : (
-                    <HeaderIconWrapper
-                        iconComponent={
-                            <SearchIcon
-                                className='icon icon--standard'
-                                aria-hidden='true'
-                            />
-                        }
-                        ariaLabel={true}
-                        buttonId={'channelHeaderSearchButton'}
-                        onClick={this.searchButtonClick}
-                        tooltipKey={'search'}
-                    />
-                )}
+                <Search
+                    isFocus={Utils.isMobile() || (rhsOpen && Boolean(rhsState))}
+                    hideSearchBar={!this.state.showSearchBar}
+                    enableFindShortcut={true}
+                />
                 <HeaderIconWrapper
                     iconComponent={
                         <MentionsIcon
