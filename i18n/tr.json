@@ -460,8 +460,6 @@
   "admin.cluster.StreamingPort": "Akış Kapı Numarası:",
   "admin.cluster.StreamingPortDesc": "Sunucular arasında akış için kullanılacak kapı numarası.",
   "admin.cluster.StreamingPortEx": "Örnek: \"8075\"",
-  "admin.cluster.UseExperimentalGossip": "Gossip Kullanılsın:",
-  "admin.cluster.UseExperimentalGossipDesc": "Bu seçenek etkinleştirildiğinde, sunucu Gossip iletişim kapısını kullanarak Gossip kapısı üzerinden iletişim kurmayı dener.  Devre dışı bırakıldığında sunucu akış kapısı üzerinden iletişim kurmayı dener. Bu seçenek devre dışı olsa da küme sağlığını belirlemek için Gossip kapısı ve iletişim kuralı kullanılmaya devam eder.",
   "admin.cluster.UseIpAddress": "IP Adresi Kullanılsın:",
   "admin.cluster.UseIpAddressDesc": "Bu seçenek etkinleştirildiğinde, küme sunucu adı yerine IP adresi üzerinden iletişim kurmayı dener.",
   "admin.cluster.enableDescription": "Bu seçenek etkinleştirildiğinde, Mattermost Yüksek Erişilebilirlik kipinde çalışır. Mattermost Yüksek Erişilebilirlik yapılandırması hakkında ayrıntılı bilgi almak için [belgeler](!http://docs.mattermost.com/deployment/cluster.html) bölümüne bakabilirsiniz.",

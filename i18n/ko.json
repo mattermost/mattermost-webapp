@@ -431,8 +431,6 @@
   "admin.cluster.StreamingPort": "스트리밍 포트:",
   "admin.cluster.StreamingPortDesc": "서버 간 데이터를 전달할 때 사용되는 포트.",
   "admin.cluster.StreamingPortEx": "예시: \"8075\"",
-  "admin.cluster.UseExperimentalGossip": "실험용 가십 사용:",
-  "admin.cluster.UseExperimentalGossipDesc": "참일 경우, 서버는 가십 포트를 통한 가십 프로토콜을 통해 통신을 시도한다. 거짓일 경우 서버는 스트리밍 포트를 통해 통신을 시도한다. 거짓일 경우 가십 포트와 프로토콜은 여전히 클러스터 상태를 결정하는 데 사용된다.",
   "admin.cluster.UseIpAddress": "사용 IP 주소:",
   "admin.cluster.UseIpAddressDesc": "활성화 시, 클러스터는 IP 주소와 호스트 이름을 사용하여 통신을 시도합니다.",
   "admin.cluster.enableDescription": "활성화 시, Mattermost가 고가용성 모드로 동작합니다. 고가용성 모드 설정에 대한 자세한 내용은 [문서](!http://docs.mattermost.com/deployment/cluster.html) 를 참고하세요.",

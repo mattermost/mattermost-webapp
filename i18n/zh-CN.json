@@ -434,8 +434,6 @@
   "admin.cluster.StreamingPort": "流端口：",
   "admin.cluster.StreamingPortDesc": "用在服务器之间数据流通讯的端口。",
   "admin.cluster.StreamingPortEx": "例如：\"8075\"",
-  "admin.cluster.UseExperimentalGossip": "使用 Gossip：",
-  "admin.cluster.UseExperimentalGossipDesc": "当设为是时，服务器将在 gossip 端口使用 gossip 协议通讯。当设为否时，服务器将尝试使用流端口通讯，gossip 端口和协议仍会被用来判断机群健康状态。",
   "admin.cluster.UseIpAddress": "使用 IP 地址：",
   "admin.cluster.UseIpAddressDesc": "当设为是时，机群将尝试用 IP 地址通讯而不是主机名。",
   "admin.cluster.enableDescription": "当设为是时，Mattermost 将以高可用性模式运行。请参考[文档](!http://docs.mattermost.com/deployment/cluster.html)了解 Mattermost 的高可用性。",

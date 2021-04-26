@@ -460,8 +460,6 @@
   "admin.cluster.StreamingPort": "Portul de streaming:",
   "admin.cluster.StreamingPortDesc": "Portul folosit pentru streaming de date între servere.",
   "admin.cluster.StreamingPortEx": "De exemplu: \"8075\"",
-  "admin.cluster.UseExperimentalGossip": "Utilizați bârfe:",
-  "admin.cluster.UseExperimentalGossipDesc": "Când este adevărat, serverul va încerca să comunice prin intermediul protocolului de bârfă peste portul de bârfe. Când este fals, serverul va încerca să comunice prin portul de streaming. Când sunt false, portul de bârfe și protocolul sunt încă folosite pentru a determina sănătatea clusterului.",
   "admin.cluster.UseIpAddress": "Utilizați adresa IP:",
   "admin.cluster.UseIpAddressDesc": "Când este adevărat, grupul va încerca să comunice prin adresa IP vs folosind numele de gazdă.",
   "admin.cluster.enableDescription": "Când adevărat, Mattermost va rula în Disponibilitate Ridicata modul. Vă rugăm să consultați [documentația](!http://docs.mattermost.com/deployment/cluster.html) pentru a afla mai multe despre configurarea Disponibilitate Ridicată pentru Mattermost.",

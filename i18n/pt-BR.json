@@ -434,8 +434,6 @@
   "admin.cluster.StreamingPort": "Porta Streaming:",
   "admin.cluster.StreamingPortDesc": "A porta usada para o fluxo de dados entre os servidores.",
   "admin.cluster.StreamingPortEx": "Ex.: \"8075\"",
-  "admin.cluster.UseExperimentalGossip": "Usar Gossip:",
-  "admin.cluster.UseExperimentalGossipDesc": "Quando verdadeiro, o servidor tentará se comunicar por meio do protocolo gossip sobre a porta gossip.  Quando falso, o servidor tentará se comunicar pela porta de streaming. Quando falso, a porta e o protocolo gossip ainda são usados para determinar a integridade do cluster.",
   "admin.cluster.UseIpAddress": "Usar Endereço IP:",
   "admin.cluster.UseIpAddressDesc": "Quando verdadeiro, o cluster tentará se comunicar via Endereço IP vs usando o nome do host.",
   "admin.cluster.enableDescription": "Quando verdadeiro, Mattermost irá executar no modo de Alta Disponibilidade. Por favor leia [documentação](http://docs.mattermost.com/deployment/cluster.html) para aprender mais sobre configurar Alta Disponibilidade para o Mattermost.",

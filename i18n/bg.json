@@ -434,8 +434,6 @@
   "admin.cluster.StreamingPort": "Порт за поточно предаване:",
   "admin.cluster.StreamingPortDesc": "Портът, използван за поточно предаване на данни между сървъри.",
   "admin.cluster.StreamingPortEx": "Например: \"8075\"",
-  "admin.cluster.UseExperimentalGossip": "Използване Gossip:",
-  "admin.cluster.UseExperimentalGossipDesc": "Когато е true, сървърът ще се опита да комуникира чрез протокола gossip през порта gossip. При грешка сървърът ще се опита да комуникира през поточния порт. Когато e false gossip портът и протоколът все още се използват за определяне на работоспособността на клъстера.",
   "admin.cluster.UseIpAddress": "Използвайте IP адрес:",
   "admin.cluster.UseIpAddressDesc": "Когато е true, клъстерът ще се опита да комуникира чрез IP адрес вместо да използва на името на хоста.",
   "admin.cluster.enableDescription": "Когато е true, Mattermost ще работи в режим на висока достъпност. Моля, вижте [документация](!http://docs.mattermost.com/deployment/cluster.html), за да научите повече за конфигурирането на висока достъпност за Mattermost.",

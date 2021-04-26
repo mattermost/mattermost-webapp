@@ -436,8 +436,6 @@
   "admin.cluster.StreamingPort": "Streaming Poort:",
   "admin.cluster.StreamingPortDesc": "De poort gebruikt om data te streamen tussen servers.",
   "admin.cluster.StreamingPortEx": "Bijv.: \":8075\"",
-  "admin.cluster.UseExperimentalGossip": "Gebruik Gossip:",
-  "admin.cluster.UseExperimentalGossipDesc": "Als dit ingeschakeld is, zal de server proberen te communiceren via het Gossipprotocol over de Gossippoort.   Als dit uitgesteld is, probeert de server te communiceren via de streamingpoort. Als dit uitgeschakeld is, zal de Gossippoort en het protocol nog steeds gebruikt worden om de gezondheid van de cluster te bepalen.",
   "admin.cluster.UseIpAddress": "Gebruik IP adres:",
   "admin.cluster.UseIpAddressDesc": "Wanneer waar, zal de cluster proberen te communiceren via IP Address vs met behulp van de hostnaam.",
   "admin.cluster.enableDescription": "Is dit waar, dan zal Mattermost functioneren in High Availability mode. Mattermost SAML logins toestaan. Lees de [documentatie](!http://docs.mattermost.com/deployment/cluster.html) om meer te leren over het configureren van High Availability voor Mattermost.",

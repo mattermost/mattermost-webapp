@@ -307,8 +307,6 @@
   "admin.cluster.StreamingPort": "Porta Streaming:",
   "admin.cluster.StreamingPortDesc": "Questa porta è utilizzata per trasferire dati tra i server.",
   "admin.cluster.StreamingPortEx": "E.s.: \"8075\"",
-  "admin.cluster.UseExperimentalGossip": "Utilizza Gossip Sperimentale:",
-  "admin.cluster.UseExperimentalGossipDesc": "Se vero, il server tenterà di comunicare attraverso il protocollo gossip sulla porta gossip.  Se falso il server tenterà di comunicare attraverso la porta streaming. Se falso la porta e il protocollo gossip saranno comunque usati per determinare la salute del cluster.",
   "admin.cluster.UseIpAddress": "Utilizza indirizzo IP:",
   "admin.cluster.UseIpAddressDesc": "Se vero, il cluster tenterà di comunicare utilizzando l'indirizzo IP invece che l'hostname.",
   "admin.cluster.enableDescription": "Quando abilitato, Mattermost funzionerà in modalità Alta disponibilità. Vedi la [documentazione](!http://docs.mattermost.com/deployment/cluster.html) per altri particolari sulla configurazione dell'alta disponibilità di Mattermost.",

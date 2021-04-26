@@ -460,8 +460,6 @@
   "admin.cluster.StreamingPort": "Strömmande port:",
   "admin.cluster.StreamingPortDesc": "Porten som används för att skicka data mellan servrar.",
   "admin.cluster.StreamingPortEx": "T.ex.: \"8075\"",
-  "admin.cluster.UseExperimentalGossip": "Använd Gossip:",
-  "admin.cluster.UseExperimentalGossipDesc": "När satt till sant, kommer servern försöka kommunicera via skvallerprotokollet genom skvallerporten. När satt till falskt, kommer servern försöka kommunicera via strömningsporten. När satt till falskt används fortfarande skvallerporten och protokollet för att avgöra klustrets hälsa.",
   "admin.cluster.UseIpAddress": "Använd IP adress:",
   "admin.cluster.UseIpAddressDesc": "När satt till sant, kommer klustret försöka ansluta via IP-adressen istället för värdnamnet.",
   "admin.cluster.enableDescription": "När markerad kommer Mattermost vara i High Availability-läge. Läs [dokumentationen](!http://docs.mattermost.com/deployment/cluster.html) för att läsa mer om hur High Availability konfigureras i Mattermost.",

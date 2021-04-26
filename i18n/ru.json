@@ -454,8 +454,6 @@
   "admin.cluster.StreamingPort": "Потоковый порт:",
   "admin.cluster.StreamingPortDesc": "Порт, используемый для потоковой передачи данных между серверами.",
   "admin.cluster.StreamingPortEx": "Например: \"8075\"",
-  "admin.cluster.UseExperimentalGossip": "Использовать протокол Gossip:",
-  "admin.cluster.UseExperimentalGossipDesc": "При значении \"да\" сервер попытается связаться по протоколу gossip через порт gossip. При значении \"нет\" сервер будет пытаться установить связь через потоковый порт. При значении \"нет\" порт и протокол gossip все еще используются для определения работоспособности кластера.",
   "admin.cluster.UseIpAddress": "Использовать IP-адрес:",
   "admin.cluster.UseIpAddressDesc": "При значении \"да\" кластер будет пытаться установить связь через IP-адрес вместо использования имени хоста.",
   "admin.cluster.enableDescription": "При значении \"да\" Mattermost запустится в режиме высокой доступности. Пожалуйста, обратитесь к [документации](!http://docs.mattermost.com/deployment/cluster.html) для получения сведений по настройкам режима High Availability (Высокой доступности).",
