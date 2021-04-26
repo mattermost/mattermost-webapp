@@ -28,7 +28,9 @@ import {getIsRhsExpanded} from 'selectors/rhs';
 
 import RhsHeaderPost from './rhs_header_post';
 
-function mapStateToProps(state: GlobalState, {rootPostId}: ComponentProps<typeof RhsHeaderPost>) {
+type OwnProps = Pick<ComponentProps<typeof RhsHeaderPost>, 'rootPostId'>
+
+function mapStateToProps(state: GlobalState, {rootPostId}: OwnProps) {
     return {
         isExpanded: getIsRhsExpanded(state),
         relativeTeamUrl: getCurrentRelativeTeamUrl(state),
