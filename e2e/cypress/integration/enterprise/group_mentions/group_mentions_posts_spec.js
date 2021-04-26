@@ -151,7 +151,7 @@ describe('Group Mentions', () => {
             cy.get('#suggestionList').should('not.exist');
 
             // # Submit a post containing the group mention
-            cy.postMessage(`@${groupName}`);
+            cy.postMessage(`@${groupName} `);
 
             // * Verify if a system message is not displayed
             cy.getLastPostId().then((postId) => {
@@ -190,7 +190,7 @@ describe('Group Mentions', () => {
         });
 
         // # Submit a post containing the group mention
-        cy.postMessage(`@${groupName}`);
+        cy.postMessage(`@${groupName} `);
 
         // * Verify if a system message is not displayed
         cy.getLastPostId().then((postId) => {
@@ -231,7 +231,7 @@ describe('Group Mentions', () => {
         });
 
         // # Submit a post containing the group mention
-        cy.postMessage(`@${groupName}`);
+        cy.postMessage(`@${groupName} `);
 
         // * Verify if a system message is not displayed
         cy.getLastPostId().then((postId) => {
@@ -281,7 +281,7 @@ describe('Group Mentions', () => {
                     cy.visit(`/${testTeam.name}/channels/${channel.name}`);
                     cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
-                    cy.postMessage(`@${groupName2}`);
+                    cy.postMessage(`@${groupName2} `);
 
                     // * Verify if a system message is not displayed
                     cy.getLastPostId().then((postId) => {

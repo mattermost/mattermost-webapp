@@ -111,12 +111,15 @@ function postMessageAndWait(textboxSelector, message) {
     // Add explicit wait to let the page load freely since `cy.get` seemed to block
     // some operation which caused to prolong complete page loading.
     cy.wait(TIMEOUTS.HALF_SEC);
+    cy.get(textboxSelector, {timeout: TIMEOUTS.HALF_MIN}).should('be.visible');
 
-    cy.get(textboxSelector, {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').as('textboxSelector');
-    cy.get('@textboxSelector').clear().type(`${message}{enter}`).wait(TIMEOUTS.HALF_SEC);
-    cy.get('@textboxSelector').invoke('val').then((value) => {
+    // # Type then wait for a while for the draft to be saved (async) into the local storage
+    cy.get(textboxSelector).clear().type(message).wait(TIMEOUTS.ONE_SEC);
+    cy.get(textboxSelector).should('have.value', message).type('{enter}').wait(TIMEOUTS.HALF_SEC);
+
+    cy.get(textboxSelector).invoke('val').then((value) => {
         if (value.length > 0 && value === message) {
-            cy.get('@textboxSelector').type('{enter}').wait(TIMEOUTS.HALF_SEC);
+            cy.get(textboxSelector).type('{enter}').wait(TIMEOUTS.HALF_SEC);
         }
     });
     cy.waitUntil(() => {
