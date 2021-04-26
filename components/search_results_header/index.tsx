@@ -12,7 +12,7 @@ import {
 } from 'actions/views/rhs';
 import {getIsRhsExpanded} from 'selectors/rhs';
 
-import SearchResultsHeader from './search_results_header.jsx';
+import SearchResultsHeader from './search_results_header';
 
 function mapStateToProps(state: GlobalState) {
     return {
