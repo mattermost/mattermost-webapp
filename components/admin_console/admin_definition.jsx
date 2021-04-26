@@ -75,7 +75,7 @@ import {
     GuestAccessFeatureDiscovery,
     SystemRolesFeatureDiscovery,
     GroupsFeatureDiscovery,
-    PermissionsFeatureDiscovery
+    PermissionsFeatureDiscovery,
 } from './feature_discovery/features';
 
 import * as DefinitionConstants from './admin_definition_constants';
@@ -623,8 +623,8 @@ const AdminDefinition = {
             ),
             schema: {
                 id: 'PermissionSchemes',
-                name: t('admin.permissions.teamOverrideSchemesTitle'),
-                name_default: 'Team Override Schemes',
+                name: t('admin.permissions.permissionSchemes'),
+                name_default: 'Permission Schemes',
                 settings: [
                     {
                         type: Constants.SettingsTypes.TYPE_CUSTOM,
@@ -5473,7 +5473,7 @@ const AdminDefinition = {
             isDiscovery: true,
             url: 'compliance/export',
             title: t('admin.sidebar.complianceExport'),
-            title_default: 'Compliance Export (Beta)', 
+            title_default: 'Compliance Export (Beta)',
             isHidden: it.any(
                 it.licensedForFeature('MessageExport'),
                 it.not(it.enterpriseReady),
