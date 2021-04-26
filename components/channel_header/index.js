@@ -39,7 +39,7 @@ import {
     openRHSSearch,
     closeRightHandSide,
 } from 'actions/views/rhs';
-import {makeGetCustomStatus, isCustomStatusEnabled} from 'selectors/views/custom_status';
+import {getCustomStatus, isCustomStatusEnabled} from 'selectors/views/custom_status';
 import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
 import {isModalOpen} from 'selectors/views/modals';
 import {getAnnouncementBarCount} from 'selectors/views/announcement_bar';
@@ -49,7 +49,6 @@ import ChannelHeader from './channel_header';
 
 function makeMapStateToProps() {
     const doGetProfilesInChannel = makeGetProfilesInChannel();
-    const getCustomStatus = makeGetCustomStatus();
 
     return function mapStateToProps(state) {
         const config = getConfig(state);

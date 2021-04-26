@@ -6,55 +6,58 @@ import {FormattedMessage} from 'react-intl';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 import {localizeMessage} from 'utils/utils';
+import {CustomStatusDuration} from 'mattermost-redux/types/users';
 
 type ExpiryMenuItem = {
     text: string;
     value: string;
-    localizationId: string;
 }
 
 type Props = {
     expiry: string;
-    handleExpiryChange: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, expiryValue: string) => void;
+    handleExpiryChange: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, expiryValue: CustomStatusDuration) => void;
 }
+
+const {
+    DONT_CLEAR,
+    THIRTY_MINUTES,
+    ONE_HOUR,
+    FOUR_HOURS,
+    TODAY,
+    THIS_WEEK,
+    DATE_AND_TIME,
+} = CustomStatusDuration;
 
 const ExpiryMenu: React.FC<Props> = (props: Props) => {
     const {expiry, handleExpiryChange} = props;
     const expiryMenuItems: { [key: string]: ExpiryMenuItem } = {
-        'dont-clear': {
-            text: "Don't clear",
-            value: "Don't clear",
-            localizationId: 'dont_clear',
+        [DONT_CLEAR]: {
+            text: localizeMessage('expiry_dropdown.dont_clear', "Don't clear"),
+            value: localizeMessage('expiry_dropdown.dont_clear', "Don't clear"),
         },
-        'thirty-minutes': {
-            text: '30 minutes',
-            value: '30 minutes',
-            localizationId: 'thirty_minutes',
+        [THIRTY_MINUTES]: {
+            text: localizeMessage('expiry_dropdown.thirty_minutes', '30 minutes'),
+            value: localizeMessage('expiry_dropdown.thirty_minutes', '30 minutes'),
         },
-        'one-hour': {
-            text: '1 hour',
-            value: '1 hour',
-            localizationId: 'one_hour',
+        [ONE_HOUR]: {
+            text: localizeMessage('expiry_dropdown.one_hour', '1 hour'),
+            value: localizeMessage('expiry_dropdown.one_hour', '1 hour'),
         },
-        'four-hours': {
-            text: '4 hours',
-            value: '4 hours',
-            localizationId: 'four_hours',
+        [FOUR_HOURS]: {
+            text: localizeMessage('expiry_dropdown.four_hours', '4 hours'),
+            value: localizeMessage('expiry_dropdown.four_hours', '4 hours'),
         },
-        today: {
-            text: 'Today',
-            value: 'Today',
-            localizationId: 'today',
+        [TODAY]: {
+            text: localizeMessage('expiry_dropdown.today', 'Today'),
+            value: localizeMessage('expiry_dropdown.today', 'Today'),
         },
-        'this-week': {
-            text: 'This week',
-            value: 'This week',
-            localizationId: 'this_week',
+        [THIS_WEEK]: {
+            text: localizeMessage('expiry_dropdown.this_week', 'This week'),
+            value: localizeMessage('expiry_dropdown.this_week', 'This week'),
         },
-        'date-and-time': {
-            text: 'Choose date and time',
-            value: 'Date and Time',
-            localizationId: 'choose_date_and_time',
+        [DATE_AND_TIME]: {
+            text: localizeMessage('expiry_dropdown.choose_date_and_time', 'Choose date and time'),
+            value: localizeMessage('expiry_dropdown.date_and_time', 'Date and Time'),
         },
     };
 
@@ -67,8 +70,8 @@ const ExpiryMenu: React.FC<Props> = (props: Props) => {
                     <span className='expiry-wrapper expiry-selector'>
                         <FormattedMessage
                             id='expiry_dropdown.clear_after'
-                            defaultMessage='Clear after: '
-                        />
+                            defaultMessage='Clear after'
+                        />{': '}
                         <span className='expiry-value'>
                             {expiryMenuItems[expiry].value}
                         </span>
@@ -80,17 +83,17 @@ const ExpiryMenu: React.FC<Props> = (props: Props) => {
                         </span>
                     </span>
                     <Menu
-                        ariaLabel={localizeMessage('expiry_dropdown.menuAriaLabel', 'Clear after')}
+                        ariaLabel={localizeMessage('expiry_dropdown.clear_after', 'Clear after')}
                         id='statusExpiryMenu'
                     >
                         <Menu.Group>
-                            {Object.keys(expiryMenuItems).map((item, index) => (
+                            {Object.keys(expiryMenuItems).map((item) => (
                                 <Menu.ItemAction
-                                    key={index}
+                                    key={item}
                                     onClick={(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => handleExpiryChange(event, item)}
-                                    ariaLabel={localizeMessage(`expiry_dropdown.${expiryMenuItems[item].localizationId}`, expiryMenuItems[item].text).toLowerCase()}
-                                    text={localizeMessage(`expiry_dropdown.${expiryMenuItems[item].localizationId}`, expiryMenuItems[item].text)}
-                                    id={`expiry-menu-${item}`}
+                                    ariaLabel={expiryMenuItems[item].text.toLowerCase()}
+                                    text={expiryMenuItems[item].text}
+                                    id={`expiry_menu_${item}`}
                                 />
                             ))}
                         </Menu.Group>

@@ -7,22 +7,18 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {Preferences} from 'mattermost-redux/constants';
-import {UserCustomStatus} from 'mattermost-redux/types/users';
+import {CustomStatusDuration, UserCustomStatus} from 'mattermost-redux/types/users';
 
 import {GlobalState} from 'types/store';
 
-// const timer = 1616155500110;
-export function makeGetCustomStatus(): (state: GlobalState, userID?: string) => UserCustomStatus {
-    return (state: GlobalState, userID?: string) => {
-        const user = userID ? getUser(state, userID) : getCurrentUser(state);
-        const userProps = user?.props || {};
-        const rv = userProps.customStatus ? JSON.parse(userProps.customStatus) : undefined;
-
-        // if (Date.now() < timer) {
-        return rv;
-
-        // }
-    };
+export function getCustomStatus(state: GlobalState, userID?: string): UserCustomStatus {
+    const user = userID ? getUser(state, userID) : getCurrentUser(state);
+    const userProps = user?.props || {};
+    const customStatus = userProps.customStatus ? JSON.parse(userProps.customStatus) : {};
+    const expiryTime = new Date(customStatus?.expires_at);
+    if (customStatus.duration === CustomStatusDuration.DONT_CLEAR || new Date() < expiryTime) {
+        return customStatus;
+    }
 }
 
 export const getRecentCustomStatuses = createSelector(
