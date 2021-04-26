@@ -15,10 +15,29 @@
 
 declare namespace Cypress {
     interface Chainable {
-
         /**
          * Go to Data Retention Page
          */
         uiGoToDataRetentionPage(): Chainable;
+
+        /**
+         * Click create policy button
+         */
+        uiClickCreatePolicy(): Chainable;
+
+        /**
+         * Fill out custom policy form fields
+         */
+        uiFillOutCustomPolicyFields(name: string, durationDropdown: string, durationText: string): Chainable;
+
+        /**
+         * Add teams to custom policy
+         */
+        uiAddTeamsToCustomPolicy(teamNames: string[]): Chainable;
+
+        /**
+         * Add channels to custom policy
+         */
+        uiAddChannelsToCustomPolicy(channelNames: string[]): Chainable;
     }
 }

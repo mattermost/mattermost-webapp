@@ -188,16 +188,13 @@ export default class TeamList extends React.PureComponent<Props, State> {
                     ),
                     remove: (
                         <a
-                            data-testid={`${team.display_name}edit`}
+                            id={`remove-team-${team.id}`}
                             className='group-actions TeamList_editText'
                             onClick={() => {
                                 this.removeTeam(team);
                             }}
                         >
-                            <FormattedMessage
-                                id='admin.data_retention.custom_policy.teams.remove'
-                                defaultMessage='Remove'
-                            />
+                            {Utils.localizeMessage('admin.data_retention.custom_policy.teams.remove', 'Remove')}
                         </a>
                     ),
                 },

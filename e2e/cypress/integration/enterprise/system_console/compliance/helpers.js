@@ -106,7 +106,7 @@ export function gotoTeamAndPostImage() {
 
 export function gotoGlobalPolicy() {
     cy.get('#global_policy_table .DataGrid .MenuWrapper').trigger('mouseover').click();
-    cy.get('#global_policy_table .DataGrid .MenuWrapper .Menu button.edit_global_policy').should('be.visible').click();
+    cy.findByRole('button', {name: /edit/i}).should('be.visible').click();
     cy.get('.DataRetentionSettings .admin-console__header', {timeout: TIMEOUTS.TWO_MIN}).should('be.visible').invoke('text').should('include', 'Global Retention Policy');
 }
 
@@ -116,8 +116,7 @@ export function editGlobalPolicyMessageRetention(input, result) {
     cy.get('.channel_message_retention_dropdown__menu .channel_message_retention_dropdown__option span.option_days').should('be.visible').click();
 
     cy.get('.DataRetentionSettings #global_direct_message_dropdown input#channel_message_retention_input').clear().type(input);
-
-    cy.get('.DataRetentionSettings button.save-button').should('be.visible').click();
+    cy.findByRole('button', {name: /save/i}).should('be.visible').click();
 
     cy.get('#global_policy_table .DataGrid').should('be.visible');
 
@@ -133,7 +132,7 @@ export function editGlobalPolicyFileRetention(input, result) {
 
     cy.get('.DataRetentionSettings #global_file_dropdown input#file_retention_input').clear().type(input);
 
-    cy.get('.DataRetentionSettings button.save-button').should('be.visible').click();
+    cy.findByRole('button', {name: /save/i}).should('be.visible').click();
 
     cy.get('#global_policy_table .DataGrid').should('be.visible');
 
