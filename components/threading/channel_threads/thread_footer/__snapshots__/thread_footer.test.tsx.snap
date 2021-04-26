@@ -2,12 +2,7 @@
 
 exports[`components/threading/channel_threads/thread_footer should report total number of replies 1`] = `
 <Memo(ThreadFooter)
-  actions={
-    Object {
-      "openThread": [MockFunction],
-      "setFollowing": [MockFunction],
-    }
-  }
+  channelId="cid"
   isFollowing={true}
   lastReplyAt={2020-09-29T02:30:15.701Z}
   newReplies={0}
@@ -30,6 +25,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
       },
     ]
   }
+  threadId="tid"
   totalReplies={9}
 >
   <div
@@ -40,6 +36,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
     />
     <Memo(Avatars)
       size="sm"
+      totalUsers={0}
       userIds={
         Array [
           "1",
@@ -544,7 +541,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
     </Memo(Avatars)>
     <Memo(Button)
       className="separated"
-      onClick={[MockFunction]}
+      onClick={[Function]}
       prepend={
         <span
           className="icon"
@@ -557,7 +554,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
     >
       <button
         className="Button Button___transparent separated"
-        onClick={[MockFunction]}
+        onClick={[Function]}
       >
         <span
           className="Button_prepended"
@@ -745,12 +742,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
 
 exports[`components/threading/channel_threads/thread_footer should show unread indicator 1`] = `
 <Memo(ThreadFooter)
-  actions={
-    Object {
-      "openThread": [MockFunction],
-      "setFollowing": [MockFunction],
-    }
-  }
+  channelId="cid"
   isFollowing={true}
   lastReplyAt={2020-09-29T02:30:15.701Z}
   newReplies={2}
@@ -773,6 +765,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
       },
     ]
   }
+  threadId="tid"
   totalReplies={9}
 >
   <div
@@ -901,6 +894,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
     </SimpleTooltip>
     <Memo(Avatars)
       size="sm"
+      totalUsers={0}
       userIds={
         Array [
           "1",
@@ -1405,7 +1399,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
     </Memo(Avatars)>
     <Memo(Button)
       className="separated"
-      onClick={[MockFunction]}
+      onClick={[Function]}
       prepend={
         <span
           className="icon"
@@ -1418,7 +1412,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
     >
       <button
         className="Button Button___transparent separated"
-        onClick={[MockFunction]}
+        onClick={[Function]}
       >
         <span
           className="Button_prepended"

@@ -3,7 +3,7 @@
 
 import React, {memo, useCallback, ComponentProps, useMemo} from 'react';
 import {FormattedMessage} from 'react-intl';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import './thread_footer.scss';
 
@@ -25,7 +25,8 @@ import Button from 'components/threading/common/button';
 import FollowButton from 'components/threading/common/follow_button';
 
 import {THREADING_TIME} from 'components/threading/common/options';
-import {useThreadRouting} from 'components/threading/hooks';
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 type Props = {
     threadId: $ID<UserThread>;
@@ -50,7 +51,8 @@ function ThreadFooter({
 }: Props) {
     const participantIds = useMemo(() => participants?.map(({id}) => id), [participants]);
     const dispatch = useDispatch();
-    const {currentUserId, currentTeamId} = useThreadRouting();
+    const currentTeamId = useSelector(getCurrentTeamId);
+    const currentUserId = useSelector(getCurrentUserId);
 
     return (
         <div className='ThreadFooter'>
