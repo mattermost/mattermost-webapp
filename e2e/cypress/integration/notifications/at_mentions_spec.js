@@ -8,65 +8,12 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @messaging
+// Group: @notification
 
 import {getAdminAccount} from '../../support/env';
 import {spyNotificationAs} from '../../support/notification';
 
-function setNotificationSettings(desiredSettings = {first: true, username: true, shouts: true, custom: true, customText: '@'}, channel) {
-    // Navigate to settings modal
-    cy.toAccountSettingsModal();
-
-    // Select "Notifications"
-    cy.get('#notificationsButton').click();
-
-    // Notifications header should be visible
-    cy.get('#notificationSettingsTitle').
-        scrollIntoView().
-        should('be.visible').
-        and('contain', 'Notifications');
-
-    // Open up 'Words that trigger mentions' sub-section
-    cy.get('#keysTitle').
-        scrollIntoView().
-        click();
-
-    const settings = [
-        {key: 'first', selector: '#notificationTriggerFirst'},
-        {key: 'username', selector: '#notificationTriggerUsername'},
-        {key: 'shouts', selector: '#notificationTriggerShouts'},
-        {key: 'custom', selector: '#notificationTriggerCustom'},
-    ];
-
-    // Set check boxes to desired state
-    settings.forEach((setting) => {
-        const checkbox = desiredSettings[setting.key] ? {state: 'check', verify: 'be.checked'} : {state: 'uncheck', verify: 'not.be.checked'};
-        cy.get(setting.selector)[checkbox.state]().should(checkbox.verify);
-    });
-
-    // Set Custom field
-    if (desiredSettings.custom && desiredSettings.customText) {
-        cy.get('#notificationTriggerCustomText').
-            clear().
-            type(desiredSettings.customText);
-    }
-
-    // Click “Save” and close modal
-    cy.get('#saveSetting').
-        scrollIntoView().
-        click();
-    cy.get('#accountSettingsHeader > .close').
-        click().
-        should('not.exist');
-
-    // Setup notification spy
-    spyNotificationAs('notifySpy', 'granted');
-
-    // # Navigate to a channel we are NOT going to post to
-    cy.get(`#sidebarItem_${channel.name}`).scrollIntoView().click({force: true});
-}
-
-describe('at-mention', () => {
+describe('Notifications', () => {
     const admin = getAdminAccount();
     let testTeam;
     let otherChannel;
@@ -300,3 +247,56 @@ describe('at-mention', () => {
             and('have.text', '番茄');
     });
 });
+
+function setNotificationSettings(desiredSettings = {first: true, username: true, shouts: true, custom: true, customText: '@'}, channel) {
+    // Navigate to settings modal
+    cy.toAccountSettingsModal();
+
+    // Select "Notifications"
+    cy.get('#notificationsButton').click();
+
+    // Notifications header should be visible
+    cy.get('#notificationSettingsTitle').
+        scrollIntoView().
+        should('be.visible').
+        and('contain', 'Notifications');
+
+    // Open up 'Words that trigger mentions' sub-section
+    cy.get('#keysTitle').
+        scrollIntoView().
+        click();
+
+    const settings = [
+        {key: 'first', selector: '#notificationTriggerFirst'},
+        {key: 'username', selector: '#notificationTriggerUsername'},
+        {key: 'shouts', selector: '#notificationTriggerShouts'},
+        {key: 'custom', selector: '#notificationTriggerCustom'},
+    ];
+
+    // Set check boxes to desired state
+    settings.forEach((setting) => {
+        const checkbox = desiredSettings[setting.key] ? {state: 'check', verify: 'be.checked'} : {state: 'uncheck', verify: 'not.be.checked'};
+        cy.get(setting.selector)[checkbox.state]().should(checkbox.verify);
+    });
+
+    // Set Custom field
+    if (desiredSettings.custom && desiredSettings.customText) {
+        cy.get('#notificationTriggerCustomText').
+            clear().
+            type(desiredSettings.customText);
+    }
+
+    // Click “Save” and close modal
+    cy.get('#saveSetting').
+        scrollIntoView().
+        click();
+    cy.get('#accountSettingsHeader > .close').
+        click().
+        should('not.exist');
+
+    // Setup notification spy
+    spyNotificationAs('notifySpy', 'granted');
+
+    // # Navigate to a channel we are NOT going to post to
+    cy.get(`#sidebarItem_${channel.name}`).scrollIntoView().click({force: true});
+}
