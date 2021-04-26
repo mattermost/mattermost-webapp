@@ -10,7 +10,7 @@ import Constants from 'utils/constants';
 
 type Props = {
     isExpanded: boolean;
-    children?: string;
+    children?: React.ReactNode;
     actions: {
         closeRightHandSide: () => void;
         toggleRhsExpanded: () => void;
