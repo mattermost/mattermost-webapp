@@ -55,7 +55,7 @@ function makeMapStateToProps() {
         if (collapsedThreads && !post.root_id && replyCount) {
             thread = getThreadOrSynthetic(state, post);
 
-            if (!thread.is_following) {
+            if (thread.is_following) {
                 fetchThread(currentUserId, currentTeamId, post.id);
             }
         }
