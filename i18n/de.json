@@ -373,8 +373,6 @@
   "admin.cluster.StreamingPort": "Streaming-Port:",
   "admin.cluster.StreamingPortDesc": "Der für das Streaming von Daten zwischen Servern verwendete Port.",
   "admin.cluster.StreamingPortEx": "Z.B.: \"8075\"",
-  "admin.cluster.UseExperimentalGossip": "Experimentelles Gossip verwenden:",
-  "admin.cluster.UseExperimentalGossipDesc": "Falls wahr, wird der Server versuchen mit dem Gossip-Protokoll über den Gossip-Port zu kommunizieren.  Wenn falsch, wird der Server versuchen über den Streaming-Port zu kommunizieren. Wenn falsch, werden Gossip-Port und -Protokoll trotzdem zur Bestimmung der Cluster-Gesundheit verwendet.",
   "admin.cluster.UseIpAddress": "IP-Adresse verwenden:",
   "admin.cluster.UseIpAddressDesc": "Wenn wahr, wird der Cluster versuchen über die IP-Adresse zu kommunizieren anstatt des Hostnamens.",
   "admin.cluster.enableDescription": "Wenn wahr, wird Mattermost im High-Availability-Modus laufen. Erfahren Sie mehr über die High-Availability-Konfiguration für Mattermost in der [Dokumentation](!http://docs.mattermost.com/deployment/cluster.html).",
