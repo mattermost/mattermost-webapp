@@ -338,11 +338,12 @@ export function shouldHideDefaultChannel(state: GlobalState, channel: Channel): 
 export const countCurrentChannelUnreadMessages: (state: GlobalState) => number = createSelector(
     getCurrentChannel,
     getMyCurrentChannelMembership,
-    (channel: Channel, membership?: ChannelMembership | null): number => {
+    isCollapsedThreadsEnabled,
+    (channel: Channel, membership?: ChannelMembership | null, isCollapsed?: boolean): number => {
         if (!membership) {
             return 0;
         }
-        return channel.total_msg_count - membership.msg_count;
+        return isCollapsed ? channel.total_msg_count_root - membership.msg_count_root : channel.total_msg_count - membership.msg_count;
     },
 );
 
@@ -1389,7 +1390,7 @@ export function filterChannelList(channelList: Channel[], filters: ChannelSearch
         return channelList;
     }
     let result: Channel[] = [];
-    let channelType: string[] = [];
+    const channelType: string[] = [];
     const channels = channelList;
     if (filters.public) {
         channelType.push(Constants.OPEN_CHANNEL);
@@ -1400,7 +1401,7 @@ export function filterChannelList(channelList: Channel[], filters: ChannelSearch
     if (filters.deleted) {
         channelType.push(Constants.ARCHIVED_CHANNEL);
     }
-    channelType.forEach(type => {
+    channelType.forEach((type) => {
         result = result.concat(channels.filter((channel) => channel.type === type));
     });
 

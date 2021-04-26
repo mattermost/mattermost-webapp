@@ -47,6 +47,7 @@ import ChannelSettings from './team_channel_settings/channel';
 import ChannelDetails from './team_channel_settings/channel/details';
 import PasswordSettings from './password_settings.jsx';
 import PushNotificationsSettings from './push_settings.jsx';
+import GlobalDataRetentionForm from './data_retention_settings/global_policy_form';
 import DataRetentionSettings from './data_retention_settings.jsx';
 import CustomDataRetentionForm from './data_retention_settings/custom_policy_form';
 import MessageExportSettings from './message_export_settings.jsx';
@@ -430,6 +431,7 @@ const AdminDefinition = {
         system_user_detail: {
             url: 'user_management/user/:user_id',
             isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.USERS)),
+            isHidden: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.USERS)),
             schema: {
                 id: 'SystemUserDetail',
                 component: SystemUserDetail,
@@ -438,6 +440,7 @@ const AdminDefinition = {
         group_detail: {
             url: 'user_management/groups/:group_id',
             isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.GROUPS)),
+            isHidden: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.GROUPS)),
             schema: {
                 id: 'GroupDetail',
                 component: GroupDetails,
@@ -460,6 +463,7 @@ const AdminDefinition = {
         team_detail: {
             url: 'user_management/teams/:team_id',
             isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.TEAMS)),
+            isHidden: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.TEAMS)),
             schema: {
                 id: 'TeamDetail',
                 component: TeamDetails,
@@ -481,6 +485,7 @@ const AdminDefinition = {
         channel_detail: {
             url: 'user_management/channels/:channel_id',
             isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.CHANNELS)),
+            isHidden: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.CHANNELS)),
             schema: {
                 id: 'ChannelDetail',
                 component: ChannelDetails,
@@ -1388,8 +1393,6 @@ const AdminDefinition = {
                 'admin.cluster.OverrideHostnameDesc',
                 'admin.cluster.UseIpAddress',
                 'admin.cluster.UseIpAddressDesc',
-                'admin.cluster.UseExperimentalGossip',
-                'admin.cluster.UseExperimentalGossipDesc',
                 'admin.cluster.EnableExperimentalGossipEncryption',
                 'admin.cluster.EnableExperimentalGossipEncryptionDesc',
                 'admin.cluster.EnableGossipCompression',
@@ -3723,7 +3726,6 @@ const AdminDefinition = {
                         isDisabled: it.any(
                             it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SAML)),
                             it.stateIsFalse('SamlSettings.Enable'),
-                            it.stateIsFalse('SamlSettings.Verify'),
                         ),
                     },
                     {
@@ -5200,7 +5202,7 @@ const AdminDefinition = {
         sectionTitleDefault: 'Compliance',
         isHidden: it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.COMPLIANCE)),
         custom_policy_form_edit: {
-            url: 'compliance/data_retention/custom_policy/:policy_id',
+            url: 'compliance/data_retention_settings/custom_policy/:policy_id',
             isHidden: it.any(
                 it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.COMPLIANCE.DATA_RETENTION_POLICY)),
                 it.configIsFalse('FeatureFlags', 'CustomDataRetentionEnabled'),
@@ -5213,7 +5215,7 @@ const AdminDefinition = {
 
         },
         custom_policy_form: {
-            url: 'compliance/data_retention/custom_policy',
+            url: 'compliance/data_retention_settings/custom_policy',
             isHidden: it.any(
                 it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.COMPLIANCE.DATA_RETENTION_POLICY)),
                 it.configIsFalse('FeatureFlags', 'CustomDataRetentionEnabled'),
@@ -5224,6 +5226,19 @@ const AdminDefinition = {
                 component: CustomDataRetentionForm,
             },
 
+        },
+        global_policy_form: {
+            url: 'compliance/data_retention_settings/global_policy',
+            isHidden: it.any(
+                it.not(it.licensedForFeature('DataRetention')),
+                it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.COMPLIANCE.DATA_RETENTION_POLICY)),
+                it.configIsFalse('FeatureFlags', 'CustomDataRetentionEnabled'),
+            ),
+            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.COMPLIANCE.DATA_RETENTION_POLICY)),
+            schema: {
+                id: 'GlobalDataRetentionForm',
+                component: GlobalDataRetentionForm,
+            },
         },
         data_retention: {
             url: 'compliance/data_retention',
