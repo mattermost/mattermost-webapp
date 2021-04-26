@@ -3,45 +3,54 @@
 
 import React, {memo, useCallback, ComponentProps, useMemo} from 'react';
 import {FormattedMessage} from 'react-intl';
+import {useDispatch} from 'react-redux';
 
 import './thread_footer.scss';
 
+import {$ID} from 'mattermost-redux/types/utilities';
+import {Post} from 'mattermost-redux/types/posts';
+import {UserThread} from 'mattermost-redux/types/threads';
+import {Channel} from 'mattermost-redux/types/channels';
+import {UserProfile} from 'mattermost-redux/types/users';
+
+import {setThreadFollow} from 'mattermost-redux/actions/threads';
+
+import {selectPost} from 'actions/views/rhs';
+
 import Avatars from 'components/widgets/users/avatars';
+import Timestamp from 'components/timestamp';
+import SimpleTooltip from 'components/widgets/simple_tooltip';
 
 import Button from 'components/threading/common/button';
 import FollowButton from 'components/threading/common/follow_button';
 
-import Timestamp from 'components/timestamp';
-import SimpleTooltip from 'components/widgets/simple_tooltip';
-
-import {THREADING_TIME} from '../../common/options';
+import {THREADING_TIME} from 'components/threading/common/options';
+import {useThreadRouting} from 'components/threading/hooks';
 
 type Props = {
-    participants: Array<{id: string}>; // Post['participants']
+    threadId: $ID<UserThread>;
+    channelId: $ID<Channel>;
+    participants: Array<{id: $ID<UserProfile>}>; // Post['participants']
     totalParticipants?: number;
     totalReplies: number;
     newReplies: number;
     lastReplyAt: ComponentProps<typeof Timestamp>['value'];
     isFollowing: boolean;
-    actions: {
-        setFollowing: (isFollowing: boolean) => void;
-        openThread: () => void;
-    };
 };
 
 function ThreadFooter({
+    threadId,
+    channelId,
     participants,
-    totalParticipants,
+    totalParticipants = 0,
     totalReplies = 0,
     newReplies = 0,
     lastReplyAt,
     isFollowing,
-    actions: {
-        setFollowing,
-        openThread,
-    },
 }: Props) {
     const participantIds = useMemo(() => participants?.map(({id}) => id), [participants]);
+    const dispatch = useDispatch();
+    const {currentUserId, currentTeamId} = useThreadRouting();
 
     return (
         <div className='ThreadFooter'>
@@ -67,14 +76,19 @@ function ThreadFooter({
                 <div className='indicator'/>
             )}
 
-            <Avatars
-                userIds={participantIds}
-                totalUsers={totalParticipants}
-                size='sm'
-            />
+            {participantIds ? (
+                <Avatars
+                    userIds={participantIds}
+                    totalUsers={totalParticipants}
+                    size='sm'
+                />
+            ) : null}
 
             <Button
-                onClick={openThread}
+
+                onClick={useCallback(() => {
+                    dispatch(selectPost({id: threadId, channel_id: channelId} as Post));
+                }, [threadId, channelId])}
                 className='separated'
                 prepend={
                     <span className='icon'>
@@ -92,9 +106,10 @@ function ThreadFooter({
             <FollowButton
                 isFollowing={isFollowing}
                 className='separated'
+
                 onClick={useCallback(() => {
-                    setFollowing(!isFollowing);
-                }, [setFollowing, isFollowing])}
+                    dispatch(setThreadFollow(currentUserId, currentTeamId, threadId, !isFollowing));
+                }, [isFollowing])}
             />
 
             {Boolean(lastReplyAt) && (

@@ -73,6 +73,8 @@ describe('components/threading/channel_threads/thread_footer', () => {
 
     beforeEach(() => {
         props = {
+            threadId: 'tid',
+            channelId: 'cid',
             participants: [
                 {id: '1'},
                 {id: '2'},
@@ -84,10 +86,6 @@ describe('components/threading/channel_threads/thread_footer', () => {
             newReplies: 0,
             lastReplyAt: new Date('2020-09-29T02:30:15.701Z'),
             isFollowing: true,
-            actions: {
-                setFollowing: jest.fn(),
-                openThread: jest.fn(),
-            },
         };
     });
 
@@ -149,7 +147,6 @@ describe('components/threading/channel_threads/thread_footer', () => {
             mountOptions,
         );
         wrapper.find('button.separated').first().simulate('click');
-        expect(props.actions.openThread).toHaveBeenCalled();
     });
 
     test('should have a follow button', () => {
@@ -167,7 +164,6 @@ describe('components/threading/channel_threads/thread_footer', () => {
         expect(wrapper.find(FollowButton).props()).toHaveProperty('isFollowing', props.isFollowing);
 
         wrapper.find('button.separated').last().simulate('click');
-        expect(props.actions.setFollowing).toHaveBeenCalledWith(true);
     });
 
     test('should have an unfollow button', () => {
@@ -185,6 +181,5 @@ describe('components/threading/channel_threads/thread_footer', () => {
         expect(wrapper.find(FollowButton).props()).toHaveProperty('isFollowing', props.isFollowing);
 
         wrapper.find('button.separated').last().simulate('click');
-        expect(props.actions.setFollowing).toHaveBeenCalledWith(false);
     });
 });
