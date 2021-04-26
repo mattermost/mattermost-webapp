@@ -64,7 +64,7 @@ export default class SearchResultsHeader extends React.PureComponent<Props> {
                                 id='rhs_header.expandSidebarTooltip.icon'
                                 defaultMessage='Expand Sidebar Icon'
                             >
-                                {(ariaLabel) => (
+                                {(ariaLabel: string | undefined) => (
                                     <i
                                         className='icon icon-arrow-expand'
                                         aria-label={ariaLabel}
@@ -75,7 +75,7 @@ export default class SearchResultsHeader extends React.PureComponent<Props> {
                                 id='rhs_header.collapseSidebarTooltip.icon'
                                 defaultMessage='Collapse Sidebar Icon'
                             >
-                                {(ariaLabel) => (
+                                {(ariaLabel: string | undefined) => (
                                     <i
                                         className='icon icon-arrow-collapse'
                                         aria-label={ariaLabel}
@@ -100,7 +100,7 @@ export default class SearchResultsHeader extends React.PureComponent<Props> {
                                 id='rhs_header.closeTooltip.icon'
                                 defaultMessage='Close Sidebar Icon'
                             >
-                                {(ariaLabel) => (
+                                {(ariaLabel: string | undefined) => (
                                     <i
                                         className='icon icon-close'
                                         aria-label={ariaLabel}
