@@ -21,6 +21,7 @@ describe('YoutubeVideo', () => {
             title: 'Youtube title',
             images: [{
                 secure_url: 'linkForThumbnail',
+                url: 'linkForThumbnail',
             }],
         },
     };
