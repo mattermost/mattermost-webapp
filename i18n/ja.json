@@ -434,8 +434,6 @@
   "admin.cluster.StreamingPort": "ストリーミングポート:",
   "admin.cluster.StreamingPortDesc": "サーバー間のデータストリーミングに使用されるポートです。",
   "admin.cluster.StreamingPortEx": "例: \":8075\"",
-  "admin.cluster.UseExperimentalGossip": "Gossipを使用する:",
-  "admin.cluster.UseExperimentalGossipDesc": "有効な場合、サーバーはゴシップポート上のゴシッププロトコルを通じて通信を行おうとします。  無効な場合、サーバーはストリーミングポート上で通信を行おうとします。無効な場合、ゴシップポートやゴシッププロトコルはクラスターの状態を決定するために使用されます。",
   "admin.cluster.UseIpAddress": "IPアドレスを使用する:",
   "admin.cluster.UseIpAddressDesc": "有効な場合、クラスターはホスト名ではなくIPアドレスを通じて通信を行おうとします。",
   "admin.cluster.enableDescription": "有効な場合、Mattermostは高可用モードで動作するようになります。高可用モードの設定について詳しくは、[説明文書](!http://docs.mattermost.com/deployment/cluster.html)を参照してください。",
