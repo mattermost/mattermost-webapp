@@ -69,6 +69,7 @@ class RhsRootPost extends React.PureComponent {
             emitShortcutReactToLastPostFrom: PropTypes.func,
         }),
         emojiMap: PropTypes.object.isRequired,
+        timestampProps: PropTypes.object,
     };
 
     static defaultProps = {
@@ -158,6 +159,7 @@ class RhsRootPost extends React.PureComponent {
                 eventTime={post.create_at}
                 postId={post.id}
                 location={Locations.RHS_ROOT}
+                timestampProps={this.props.timestampProps}
             />
         );
     };
@@ -427,6 +429,7 @@ class RhsRootPost extends React.PureComponent {
                             isRHS={true}
                             post={post}
                             userId={post.user_id}
+                            channelId={post.channel_id}
                         />
                     </div>
                     <div>
@@ -469,4 +472,3 @@ class RhsRootPost extends React.PureComponent {
 }
 
 export default injectIntl(RhsRootPost);
-

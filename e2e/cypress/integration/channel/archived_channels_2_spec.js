@@ -61,57 +61,51 @@ describe('Leave an archived channel', () => {
                 await client.deleteChannel(channel.id);
 
                 // * Verify that the channel is no longer in the sidebar and that the app hasn't crashed
-                cy.get(`#sidebarItem_${channel.name}`).should('not.be.visible');
+                cy.get(`#sidebarItem_${channel.name}`).should('not.exist');
             });
         });
     });
 
     it('MM-T1688 archived channels only appear in search results as long as the user does not leave them', () => {
         // # Create a new channel
-        cy.uiCreateChannel({isNewSidebar: true}).as('channel');
+        cy.uiCreateChannel({isNewSidebar: true}).then(({name: channelName}) => {
+            // # Make a post
+            const archivedPostText = `archived${getRandomId()}`;
+            cy.postMessage(archivedPostText);
+            cy.getLastPostId().then((archivedPostId) => {
+                // # Archive the newly created channel
+                cy.uiArchiveChannel();
 
-        // # Make a post
-        const archivedPostText = `archived${getRandomId()}`;
-        cy.postMessage(archivedPostText);
-        cy.getLastPostId().as('archivedPostId');
+                // # Switch away from the archived channel
+                cy.get('#sidebarItem_town-square').click();
 
-        // # Archive the newly created channel
-        cy.uiArchiveChannel();
+                // * Verify that the channel is no longer in the sidebar
+                cy.get(`#sidebarItem_${channelName}`).should('not.exist');
 
-        // # Switch away from the archived channel
-        cy.get('#sidebarItem_town-square').click();
+                // # Search for the post
+                cy.uiSearchPosts(archivedPostText);
 
-        // * Verify that the channel is no longer in the sidebar
-        cy.get('@channel').then((channel) => {
-            cy.get(`#sidebarItem_${channel.name}`).should('not.be.visible');
-        });
+                // * Verify that the post is shown in the search results
+                cy.get(`#searchResult_${archivedPostId}`).should('be.visible');
 
-        // # Search for the post
-        cy.uiSearchPosts(archivedPostText);
+                // # Switch back to the archived channel through the permalink
+                cy.uiJumpToSearchResult(archivedPostId);
 
-        cy.get('@archivedPostId').then((archivedPostId) => {
-            // * Verify that the post is shown in the search results
-            cy.get(`#searchResult_${archivedPostId}`).should('be.visible');
+                // * Wait for the permalink URL to disappear
+                cy.url().should('include', `/${testTeam.name}/channels/${channelName}`);
 
-            // # Switch back to the archived channel through the permalink
-            cy.uiJumpToSearchResult(archivedPostId);
-        });
+                // # Leave the channel
+                cy.uiLeaveChannel();
+                cy.url().should('include', `/${testTeam.name}/channels/town-square`);
+                cy.postMessage('hello');
 
-        // * Wait for the permalink URL to disappear
-        cy.get('@channel').then((channel) => {
-            cy.url().should('include', `/${testTeam.name}/channels/${channel.name}`);
-        });
+                // # Search for the post again
+                cy.uiSearchPosts(archivedPostText);
 
-        // # Leave the channel
-        cy.uiLeaveChannel();
-
-        // # Search for the post again
-        cy.uiSearchPosts(archivedPostText);
-
-        cy.get('@archivedPostId').then((archivedPostId) => {
-            // * Verify that the post is no longer shown in the search results
-            cy.get(`#searchResult_${archivedPostId}`).should('not.exist');
-            cy.get('#search-items-container .no-results__wrapper').should('be.visible');
+                // * Verify that the post is no longer shown in the search results
+                cy.get(`#searchResult_${archivedPostId}`).should('not.exist');
+                cy.get('#search-items-container .no-results__wrapper').should('be.visible');
+            });
         });
     });
 });

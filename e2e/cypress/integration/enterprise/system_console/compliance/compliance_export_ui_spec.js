@@ -8,13 +8,15 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @enterprise @system_console
+// Group: @enterprise @system_console @compliance_export
 
 import * as TIMEOUTS from '../../../../fixtures/timeouts';
 
 import {verifyExportedMessagesCount, gotoTeamAndPostImage} from './helpers';
 
 describe('Compliance Export', () => {
+    let teamName;
+
     before(() => {
         cy.apiRequireLicenseForFeature('Compliance');
 
@@ -24,15 +26,23 @@ describe('Compliance Export', () => {
                 DownloadExportResults: true,
             },
         });
+
+        cy.apiCreateCustomAdmin().then(({sysadmin}) => {
+            cy.apiLogin(sysadmin);
+            cy.apiInitSetup().then(({team}) => {
+                teamName = team.name;
+            });
+
+            // # Go to compliance page, enable export and do initial export
+            cy.uiGoToCompliancePage();
+            cy.uiEnableComplianceExport();
+            cy.uiExportCompliance();
+        });
     });
 
     it('MM-T3435 - Download Compliance Export Files - CSV Format', () => {
-        // # Go to compliance page and enable export
-        cy.uiGoToCompliancePage();
-        cy.uiEnableComplianceExport();
-        cy.uiExportCompliance();
-
         // # Navigate to a team and post an attachment
+        cy.visit(`/${teamName}/channels/town-square`);
         gotoTeamAndPostImage();
 
         // # Go to compliance page and start export
@@ -52,12 +62,8 @@ describe('Compliance Export', () => {
     });
 
     it('MM-T3438 - Download Compliance Export Files when 0 messages exported', () => {
-        // # Go to compliance page and enable export
-        cy.uiGoToCompliancePage();
-        cy.uiEnableComplianceExport();
-        cy.uiExportCompliance();
-
         // # Navigate to a team and post an attachment
+        cy.visit(`/${teamName}/channels/town-square`);
         gotoTeamAndPostImage();
 
         // # Go to compliance page and start export
@@ -85,12 +91,8 @@ describe('Compliance Export', () => {
     });
 
     it('MM-T1168 - Compliance Export - Run Now, entry appears in job table', () => {
-        // # Go to compliance page and enable export
-        cy.uiGoToCompliancePage();
-        cy.uiEnableComplianceExport();
-        cy.uiExportCompliance();
-
         // # Navigate to a team and post an attachment
+        cy.visit(`/${teamName}/channels/town-square`);
         gotoTeamAndPostImage();
 
         // # Go to compliance page and start export
@@ -119,12 +121,8 @@ describe('Compliance Export', () => {
     });
 
     it('MM-T1169 - Compliance Export - CSV and Global Relay', () => {
-        // # Go to compliance page and enable export
-        cy.uiGoToCompliancePage();
-        cy.uiEnableComplianceExport();
-        cy.uiExportCompliance();
-
         // # Navigate to a team and post an attachment
+        cy.visit(`/${teamName}/channels/town-square`);
         gotoTeamAndPostImage();
 
         // # Post 9 text messages

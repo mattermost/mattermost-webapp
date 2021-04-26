@@ -19,11 +19,11 @@ import EmojiIcon from 'components/widgets/icons/emoji_icon';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import {GlobalState} from 'types/store';
 import RenderEmoji from 'components/emoji/render_emoji';
-import QuickInput from 'components/quick_input';
 import {getCustomStatus, getRecentCustomStatuses, showStatusDropdownPulsatingDot} from 'selectors/views/custom_status';
 import {areTimezonesEnabledAndSupported} from 'selectors/general';
 import {Constants} from 'utils/constants';
 import {getCurrentDateAndTimeForTimezone} from 'utils/timezone';
+import QuickInput, {MaxLengthInput} from 'components/quick_input';
 import {t} from 'utils/i18n';
 
 import CustomStatusSuggestion from 'components/custom_status/custom_status_suggestion';
@@ -159,14 +159,16 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
         ) : <EmojiIcon className={'icon icon--emoji'}/>;
 
     const clearHandle = () => {
-        setText('');
         setEmoji('');
+        setText('');
     };
 
-    const disableSetStatus = emoji === '' ||
-        (currentCustomStatus.emoji === emoji && currentCustomStatus.text === text &&
-            ((expiry !== CustomStatusDuration.DATE_AND_TIME && currentCustomStatus.duration === expiry) ||
-                (expiry === CustomStatusDuration.DATE_AND_TIME && customExpiryTime.getTime() === new Date(currentCustomStatus.expires_at).getTime())));
+    let disableSetStatus = (currentCustomStatus.text === text && currentCustomStatus.emoji === emoji) ||
+        (text === '' && emoji === '') || (text.length > Constants.CUSTOM_STATUS_TEXT_CHARACTER_LIMIT);
+
+    disableSetStatus = disableSetStatus &&
+        ((expiry !== CustomStatusDuration.DATE_AND_TIME && currentCustomStatus.duration === expiry) ||
+            (expiry === CustomStatusDuration.DATE_AND_TIME && customExpiryTime.getTime() === new Date(currentCustomStatus.expires_at).getTime()));
 
     const handleSuggestionClick = (status: UserCustomStatus) => {
         setEmoji(status.emoji);
@@ -247,6 +249,8 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
         </div>
     );
 
+    const showSuggestions = !isStatusSet || (currentCustomStatus?.emoji === emoji && text && currentCustomStatus?.text === text);
+
     return (
         <GenericModal
             enforceFocus={false}
@@ -306,6 +310,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
                         </button>
                     </div>
                     <QuickInput
+                        inputComponent={MaxLengthInput}
                         value={text}
                         maxLength={Constants.CUSTOM_STATUS_TEXT_CHARACTER_LIMIT}
                         clearable={Boolean(isStatusSet)}
@@ -317,7 +322,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
                         placeholder={formatMessage({id: 'custom_status.set_status', defaultMessage: 'Set a status'})}
                     />
                 </div>
-                {!isStatusSet && suggestion}
+                {showSuggestions && suggestion}
                 {showDateAndTimeField && (
                     <DateTimeInput
                         time={customExpiryTime}
@@ -332,7 +337,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
                     />
                 )}
             </div>
-        </GenericModal>
+        </GenericModal >
     );
 };
 

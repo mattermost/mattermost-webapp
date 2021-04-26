@@ -11,7 +11,7 @@ exports[`Post should handle highlighting properly when jumping to pinned or flag
   <div
     aria-atomic={true}
     aria-label=""
-    className="a11y__section post post--highlight post--pinned-or-flagged-highlight post--pinned-or-flagged  other--root  "
+    className="a11y__section post post--highlight post--pinned-or-flagged-highlight post--pinned-or-flagged  other--root  current--user"
     data-testid="postView"
     id="post_post1"
     onClick={[Function]}
@@ -91,7 +91,7 @@ exports[`Post should handle highlighting properly when jumping to pinned or flag
   <div
     aria-atomic={true}
     aria-label=""
-    className="a11y__section post post--pinned-or-flagged  other--root  "
+    className="a11y__section post post--pinned-or-flagged  other--root  current--user"
     data-testid="postView"
     id="post_post1"
     onClick={[Function]}
@@ -171,7 +171,7 @@ exports[`Post should not remove post--highlight class after timeout so the class
   <div
     aria-atomic={true}
     aria-label=""
-    className="a11y__section post post--highlight  other--root  "
+    className="a11y__section post post--highlight  other--root  current--user"
     data-testid="postView"
     id="post_post1"
     onClick={[Function]}
@@ -251,7 +251,7 @@ exports[`Post should not remove post--highlight class after timeout so the class
   <div
     aria-atomic={true}
     aria-label=""
-    className="a11y__section post  other--root  "
+    className="a11y__section post  other--root  current--user"
     data-testid="postView"
     id="post_post1"
     onClick={[Function]}

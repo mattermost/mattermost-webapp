@@ -54,6 +54,7 @@ export type UserProfile = {
     bot_last_icon_update: number;
     terms_of_service_id: string;
     terms_of_service_create_at: number;
+    remote_id?: string;
 };
 
 export type UserProfileWithLastViewAt = UserProfile & {

@@ -1,5 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
+import {SystemSetting} from 'mattermost-redux/types/general';
+
 import {General} from '../constants';
 
 import {ClusterInfo, AnalyticsRow} from 'mattermost-redux/types/admin';
@@ -34,7 +37,9 @@ import {
 } from 'mattermost-redux/types/config';
 import {CustomEmoji} from 'mattermost-redux/types/emojis';
 import {ServerError} from 'mattermost-redux/types/errors';
+
 import {FileInfo, FileUploadResponse, FileSearchResults} from 'mattermost-redux/types/files';
+
 import {
     Group,
     GroupPatch,
@@ -415,6 +420,10 @@ export default class Client4 {
 
     getCloudRoute() {
         return `${this.getBaseRoute()}/cloud`;
+    }
+
+    getPermissionsRoute() {
+        return `${this.getBaseRoute()}/permissions`;
     }
 
     getUserThreadsRoute(userID: string, teamID: string): string {
@@ -1984,14 +1993,6 @@ export default class Client4 {
         );
     };
 
-    getThreadMentionCountsByChannel = (userId: string, teamId: string) => {
-        const url = `${this.getUserThreadsRoute(userId, teamId)}/mention_counts`;
-        return this.doFetch<Record<string, number>>(
-            url,
-            {method: 'get'},
-        );
-    };
-
     updateThreadsReadForUser = (userId: string, teamId: string) => {
         const url = `${this.getUserThreadsRoute(userId, teamId)}/read`;
         return this.doFetch<StatusOK>(
@@ -2308,6 +2309,20 @@ export default class Client4 {
             {method: 'post', body: JSON.stringify({forceAck: forceAckVal})},
         );
     }
+
+    setFirstAdminVisitMarketplaceStatus = async () => {
+        return this.doFetch<StatusOK>(
+            `${this.getPluginsRoute()}/marketplace/first_admin_visit`,
+            {method: 'post', body: JSON.stringify({first_admin_visit_marketplace_status: true})},
+        );
+    }
+
+    getFirstAdminVisitMarketplaceStatus = async () => {
+        return this.doFetch<SystemSetting>(
+            `${this.getPluginsRoute()}/marketplace/first_admin_visit`,
+            {method: 'get'},
+        );
+    };
 
     getTranslations = (url: string) => {
         return this.doFetch<Record<string, string>>(
@@ -3688,6 +3703,13 @@ export default class Client4 {
         return this.doFetch<StatusOK>(
             `${this.getCloudRoute()}/subscription/limitreached/join`,
             {method: 'post'},
+        );
+    }
+
+    getAncillaryPermissions = (subsectionPermissions: string[]) => {
+        return this.doFetch<string[]>(
+            `${this.getPermissionsRoute()}/ancillary?subsection_permissions=${subsectionPermissions.join(',')}`,
+            {method: 'get'},
         );
     }
 

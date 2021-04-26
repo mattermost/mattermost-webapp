@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
+import {render} from '@testing-library/react';
 import {IntlProvider} from 'react-intl';
 
 import SearchDateProvider from 'components/suggestion/search_date_provider';
@@ -40,10 +40,14 @@ describe('components/search_bar/SearchBar', () => {
         suggestionProviders,
         searchTerms: '',
         keepFocused: false,
+        setKeepFocused: jest.fn(),
         isFocused: false,
         isSideBarRight: false,
         isSearchingTerm: false,
         isFocus: false,
+        searchType: '',
+        clearSearchType: jest.fn(),
+        filesSearchEnabled: false,
         children: null,
         updateHighlightedSearchHint: jest.fn(),
         handleChange: jest.fn(),
@@ -55,41 +59,78 @@ describe('components/search_bar/SearchBar', () => {
     };
 
     it('should match snapshot without search', () => {
-        const wrapper = shallow(
+        const {container} = render(
             wrapIntl(<SearchBar {...baseProps}/>),
         );
-        expect(wrapper).toMatchSnapshot();
+        expect(container).toMatchSnapshot();
+    });
+
+    it('should match snapshot without search, without searchType and with filesSearchEnabled', () => {
+        const {container} = render(
+            wrapIntl((
+                <SearchBar
+                    {...baseProps}
+                    filesSearchEnabled={true}
+                />
+            )),
+        );
+        expect(container).toMatchSnapshot();
+    });
+
+    it('should match snapshot without search, with searchType and with filesSearchEnabled', () => {
+        const {container} = render(
+            wrapIntl((
+                <SearchBar
+                    {...baseProps}
+                    searchType='files'
+                    filesSearchEnabled={true}
+                />
+            )),
+        );
+        expect(container).toMatchSnapshot();
+    });
+
+    it('should match snapshot with search, with searchType and with filesSearchEnabled', () => {
+        const {container} = render(
+            wrapIntl((
+                <SearchBar
+                    {...baseProps}
+                    searchTerms={'test'}
+                    searchType='files'
+                    filesSearchEnabled={true}
+                />
+            )),
+        );
+        expect(container).toMatchSnapshot();
+    });
+
+    it('should match snapshot without search, with searchType and without filesSearchEnabled', () => {
+        const {container} = render(
+            wrapIntl((
+                <SearchBar
+                    {...baseProps}
+                    searchType='files'
+                    filesSearchEnabled={false}
+                />
+            )),
+        );
+        expect(container).toMatchSnapshot();
     });
 
     it('should match snapshot without search on focus', () => {
-        const wrapper = shallow(
+        const {container} = render(
             wrapIntl((
                 <SearchBar
                     {...baseProps}
-                    isFocussed={true}
+                    isFocused={true}
                 />
             )),
         );
-        expect(wrapper).toMatchSnapshot();
-    });
-
-    it('should match snapshot without search on focus in mobile', () => {
-        const utils = require('utils/utils'); //eslint-disable-line global-require
-        utils.isMobile.mockReturnValue(true);
-
-        const wrapper = shallow(
-            wrapIntl((
-                <SearchBar
-                    {...baseProps}
-                    isFocussed={true}
-                />
-            )),
-        );
-        expect(wrapper).toMatchSnapshot();
+        expect(container).toMatchSnapshot();
     });
 
     it('should match snapshot with search', () => {
-        const wrapper = shallow(
+        const {container} = render(
             wrapIntl((
                 <SearchBar
                     {...baseProps}
@@ -97,6 +138,6 @@ describe('components/search_bar/SearchBar', () => {
                 />
             )),
         );
-        expect(wrapper).toMatchSnapshot();
+        expect(container).toMatchSnapshot();
     });
 });

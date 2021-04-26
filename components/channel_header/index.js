@@ -35,8 +35,8 @@ import {openModal, closeModal} from 'actions/views/modals';
 import {
     showFlaggedPosts,
     showPinnedPosts,
+    showChannelFiles,
     showMentions,
-    openRHSSearch,
     closeRightHandSide,
 } from 'actions/views/rhs';
 import {getCustomStatus, isCustomStatusEnabled} from 'selectors/views/custom_status';
@@ -69,6 +69,8 @@ function makeMapStateToProps() {
         }
         const stats = getCurrentChannelStats(state) || {member_count: 0, guest_count: 0, pinnedpost_count: 0};
 
+        const showChannelFilesButton = config.FeatureFlagFilesSearch === 'true';
+
         return {
             teamId: getCurrentTeamId(state),
             channel,
@@ -91,6 +93,7 @@ function makeMapStateToProps() {
             announcementBarCount: getAnnouncementBarCount(state),
             customStatus,
             isCustomStatusEnabled: isCustomStatusEnabled(state),
+            showChannelFilesButton,
         };
     };
 }
@@ -101,8 +104,8 @@ const mapDispatchToProps = (dispatch) => ({
         unfavoriteChannel,
         showFlaggedPosts,
         showPinnedPosts,
+        showChannelFiles,
         showMentions,
-        openRHSSearch,
         closeRightHandSide,
         getCustomEmojisInText,
         updateChannelNotifyProps,

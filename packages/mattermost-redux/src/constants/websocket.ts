@@ -51,5 +51,6 @@ const WebsocketEvents = {
     THREAD_UPDATED: 'thread_updated',
     THREAD_FOLLOW_CHANGED: 'thread_follow_changed',
     THREAD_READ_CHANGED: 'thread_read_changed',
+    FIRST_ADMIN_VISIT_MARKETPLACE_STATUS_RECEIVED: 'first_admin_visit_marketplace_status_received',
 };
 export default WebsocketEvents;
