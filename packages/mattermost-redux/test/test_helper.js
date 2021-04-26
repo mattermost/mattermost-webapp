@@ -4,7 +4,7 @@
 import assert from 'assert';
 import nock from 'nock';
 
-import Client4 from 'mattermost-redux/client/client4';
+import {Client4} from '@mattermost/client';
 
 import {DEFAULT_LOCALE} from 'mattermost-redux/constants/general';
 import {generateId} from 'mattermost-redux/utils/helpers';

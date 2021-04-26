@@ -3,20 +3,23 @@
 
 import Client4, {
     AUTOCOMPLETE_LIMIT_DEFAULT,
+    ClientError,
     DEFAULT_LIMIT_AFTER,
     DEFAULT_LIMIT_BEFORE,
     HEADER_X_VERSION_ID,
 } from './src/client4';
-import {buildQueryString, isMinimumServerVersion} from './src/helpers';
+import {buildQueryString} from './src/helpers';
 import WebSocketClient from './src/websocket_client';
 
 export {
-    AUTOCOMPLETE_LIMIT_DEFAULT,
-    buildQueryString,
     Client4,
+    ClientError,
+    WebSocketClient,
+
+    buildQueryString,
+
+    AUTOCOMPLETE_LIMIT_DEFAULT,
     DEFAULT_LIMIT_AFTER,
     DEFAULT_LIMIT_BEFORE,
     HEADER_X_VERSION_ID,
-    isMinimumServerVersion,
-    WebSocketClient,
 };

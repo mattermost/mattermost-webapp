@@ -236,8 +236,6 @@ var config = {
         alias: {
             'mattermost-redux/test': 'packages/mattermost-redux/test',
             'mattermost-redux': 'packages/mattermost-redux/src',
-            '@mattermost/types': 'packages/types',
-            '@mattermost/client': 'packages/client',
             jquery: 'jquery/src/jquery',
             superagent: 'node_modules/superagent/lib/client',
         },

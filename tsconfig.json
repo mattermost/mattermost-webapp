@@ -21,9 +21,7 @@
     "jsx": "react",
     "baseUrl": ".",
     "paths": {
-        "mattermost-redux/*": ["packages/mattermost-redux/src/*"],
-        "@mattermost/types": ["packages/types"],
-        "@mattermost/client": ["packages/client"],
+        "mattermost-redux/*": ["packages/mattermost-redux/src/*"]
     }
   },
   "include": [
