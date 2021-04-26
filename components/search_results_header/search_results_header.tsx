@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
@@ -9,17 +8,17 @@ import {FormattedMessage} from 'react-intl';
 import OverlayTrigger from 'components/overlay_trigger';
 import Constants from 'utils/constants';
 
-export default class SearchResultsHeader extends React.PureComponent {
-    static propTypes = {
-        isExpanded: PropTypes.bool.isRequired,
-        children: PropTypes.node,
-        actions: PropTypes.shape({
-            closeRightHandSide: PropTypes.func.isRequired,
-            toggleRhsExpanded: PropTypes.func.isRequired,
-        }),
+type Props = {
+    isExpanded: boolean;
+    children?: string;
+    actions: {
+        closeRightHandSide: () => void;
+        toggleRhsExpanded: () => void;
     };
+};
 
-    render() {
+export default class SearchResultsHeader extends React.PureComponent<Props> {
+    render(): React.ReactNode {
         const closeSidebarTooltip = (
             <Tooltip id='closeSidebarTooltip'>
                 <FormattedMessage
