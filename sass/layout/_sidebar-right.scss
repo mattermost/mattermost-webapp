@@ -198,6 +198,13 @@
         }
     }
 
+    .sidebar--right__follow__thread {
+        margin-right: 4px;
+        height: 2.4rem;
+        font-size: 12px;
+        line-height: 16px;
+    }
+
     .sidebar--right__header {
         @include flex(0 0 56px);
         display: flex;
@@ -212,6 +219,12 @@
 
         .btn-icon {
             font-size: 20px;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
         }
     }
 
