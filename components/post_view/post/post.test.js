@@ -6,12 +6,13 @@ import React from 'react';
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import PostPreHeader from 'components/post_view/post_pre_header';
+import ThreadFooter from 'components/threading/channel_threads/thread_footer';
 
 import Post from './post';
 
 describe('Post', () => {
     const baseProps = {
-        post: {id: 'post1', is_pinned: false},
+        post: {id: 'post1', is_pinned: false, channel_id: 'channel1'},
         createAriaLabel: jest.fn(),
         currentUserId: 'user1',
         center: false,
@@ -182,5 +183,59 @@ describe('Post', () => {
                 expect(wrapper.find('div.a11y__section').hasClass('post--pinned-or-flagged')).toBe(true);
             });
         }
+    });
+
+    test('should show the thread footer for root posts', () => {
+        const thread = {
+            id: 'tid',
+            reply_count: 5,
+            unread_replies: 5,
+            unread_mentions: 1,
+            last_viewed_at: 0,
+            participants: ['uid2', 'uid3', 'uid4'],
+            last_reply_at: 1585788971000,
+            is_following: true,
+            post: {
+                user_id: 'uid',
+                channel_id: 'channel1',
+            },
+        };
+
+        const props = {
+            ...baseProps,
+            isFirstReply: false,
+            isCollapsedThreadsEnabled: true,
+            thread,
+        };
+
+        const wrapper = shallowWithIntl(
+            <Post {...props}/>,
+        );
+
+        expect(wrapper.find(ThreadFooter).exists()).toBe(true);
+        expect(wrapper.find(ThreadFooter).props()).toEqual({
+            threadId: thread.id,
+            channelId: thread.post.channel_id,
+            participants: thread.participants,
+            totalReplies: thread.reply_count,
+            newReplies: thread.unread_replies,
+            isFollowing: thread.is_following,
+            lastReplyAt: thread.last_reply_at,
+        });
+    });
+
+    test('should not show the thread footer if feature off', () => {
+        const props = {
+            ...baseProps,
+            isFirstReply: false,
+            isCollapsedThreadsEnabled: false,
+            thread: {},
+        };
+
+        const wrapper = shallowWithIntl(
+            <Post {...props}/>,
+        );
+
+        expect(wrapper.find(ThreadFooter).exists()).toBe(false);
     });
 });

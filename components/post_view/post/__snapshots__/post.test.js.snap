@@ -23,6 +23,7 @@ exports[`Post should handle highlighting properly when jumping to pinned or flag
     tabIndex="0"
   >
     <Connect(injectIntl(PostPreHeader))
+      channelId="channel1"
       isFlagged={true}
       isPinned={false}
     />
@@ -39,6 +40,7 @@ exports[`Post should handle highlighting properly when jumping to pinned or flag
           compactDisplay={false}
           post={
             Object {
+              "channel_id": "channel1",
               "id": "post1",
               "is_pinned": false,
             }
@@ -55,6 +57,7 @@ exports[`Post should handle highlighting properly when jumping to pinned or flag
           isFirstReply={true}
           post={
             Object {
+              "channel_id": "channel1",
               "id": "post1",
               "is_pinned": false,
             }
@@ -69,6 +72,7 @@ exports[`Post should handle highlighting properly when jumping to pinned or flag
           isFirstReply={true}
           post={
             Object {
+              "channel_id": "channel1",
               "id": "post1",
               "is_pinned": false,
             }
@@ -103,6 +107,7 @@ exports[`Post should handle highlighting properly when jumping to pinned or flag
     tabIndex="0"
   >
     <Connect(injectIntl(PostPreHeader))
+      channelId="channel1"
       isFlagged={true}
       isPinned={false}
     />
@@ -119,6 +124,7 @@ exports[`Post should handle highlighting properly when jumping to pinned or flag
           compactDisplay={false}
           post={
             Object {
+              "channel_id": "channel1",
               "id": "post1",
               "is_pinned": false,
             }
@@ -135,6 +141,7 @@ exports[`Post should handle highlighting properly when jumping to pinned or flag
           isFirstReply={true}
           post={
             Object {
+              "channel_id": "channel1",
               "id": "post1",
               "is_pinned": false,
             }
@@ -149,6 +156,7 @@ exports[`Post should handle highlighting properly when jumping to pinned or flag
           isFirstReply={true}
           post={
             Object {
+              "channel_id": "channel1",
               "id": "post1",
               "is_pinned": false,
             }
@@ -183,6 +191,7 @@ exports[`Post should not remove post--highlight class after timeout so the class
     tabIndex="0"
   >
     <Connect(injectIntl(PostPreHeader))
+      channelId="channel1"
       isFlagged={false}
       isPinned={false}
     />
@@ -199,6 +208,7 @@ exports[`Post should not remove post--highlight class after timeout so the class
           compactDisplay={false}
           post={
             Object {
+              "channel_id": "channel1",
               "id": "post1",
               "is_pinned": false,
             }
@@ -215,6 +225,7 @@ exports[`Post should not remove post--highlight class after timeout so the class
           isFirstReply={true}
           post={
             Object {
+              "channel_id": "channel1",
               "id": "post1",
               "is_pinned": false,
             }
@@ -229,6 +240,7 @@ exports[`Post should not remove post--highlight class after timeout so the class
           isFirstReply={true}
           post={
             Object {
+              "channel_id": "channel1",
               "id": "post1",
               "is_pinned": false,
             }
@@ -263,6 +275,7 @@ exports[`Post should not remove post--highlight class after timeout so the class
     tabIndex="0"
   >
     <Connect(injectIntl(PostPreHeader))
+      channelId="channel1"
       isFlagged={false}
       isPinned={false}
     />
@@ -279,6 +292,7 @@ exports[`Post should not remove post--highlight class after timeout so the class
           compactDisplay={false}
           post={
             Object {
+              "channel_id": "channel1",
               "id": "post1",
               "is_pinned": false,
             }
@@ -295,6 +309,7 @@ exports[`Post should not remove post--highlight class after timeout so the class
           isFirstReply={true}
           post={
             Object {
+              "channel_id": "channel1",
               "id": "post1",
               "is_pinned": false,
             }
@@ -309,6 +324,7 @@ exports[`Post should not remove post--highlight class after timeout so the class
           isFirstReply={true}
           post={
             Object {
+              "channel_id": "channel1",
               "id": "post1",
               "is_pinned": false,
             }
