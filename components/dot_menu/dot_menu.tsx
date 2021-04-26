@@ -3,11 +3,15 @@
 
 import React from 'react';
 import classNames from 'classnames';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 import {Tooltip} from 'react-bootstrap';
 
 import Permissions from 'mattermost-redux/constants/permissions';
 import {Post} from 'mattermost-redux/types/posts';
+import {AppBinding, AppCallRequest, AppCallResponse, AppCallType} from 'mattermost-redux/types/apps';
+import {AppCallResponseTypes, AppCallTypes, AppExpandLevels} from 'mattermost-redux/constants/apps';
+
+import {ActionResult} from 'mattermost-redux/types/actions';
 
 import {Locations, ModalIdentifiers, Constants} from 'utils/constants';
 import DeletePostModal from 'components/delete_post_modal';
@@ -20,11 +24,15 @@ import Pluggable from 'plugins/pluggable';
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import DotsHorizontalIcon from 'components/widgets/icons/dots_horizontal';
+import {PluginComponent} from 'types/store/plugins';
+import {sendEphemeralPost} from 'actions/global_actions';
+import {createCallContext, createCallRequest} from 'utils/apps';
 
 const MENU_BOTTOM_MARGIN = 80;
 
 export const PLUGGABLE_COMPONENT = 'PostDropdownMenuItem';
 type Props = {
+    intl: IntlShape;
     post: Post;
     teamId?: string;
     location?: 'CENTER' | 'RHS_ROOT' | 'RHS_COMMENT' | 'SEARCH' | string;
@@ -35,19 +43,23 @@ type Props = {
     handleAddReactionClick?: () => void;
     isMenuOpen?: boolean;
     isReadOnly: boolean | null;
-    pluginMenuItems?: any[];
+    pluginMenuItems?: PluginComponent[];
     isLicensed?: boolean; // TechDebt: Made non-mandatory while converting to typescript
     postEditTimeLimit?: string; // TechDebt: Made non-mandatory while converting to typescript
     enableEmojiPicker?: boolean; // TechDebt: Made non-mandatory while converting to typescript
     channelIsArchived?: boolean; // TechDebt: Made non-mandatory while converting to typescript
     currentTeamUrl?: string; // TechDebt: Made non-mandatory while converting to typescript
+    appBindings?: AppBinding[];
+    appsEnabled: boolean;
 
     /**
      * Components for overriding provided by plugins
      */
-    components?: any; // TechDebt: Made non-mandatory while converting to typescript
+    components: {
+        [componentName: string]: PluginComponent[];
+    };
 
-    actions?: {
+    actions: {
 
         /**
          * Function flag the post
@@ -83,6 +95,11 @@ type Props = {
          * Function to set the unread mark at given post
          */
         markPostAsUnread: (post: Post) => void;
+
+        /**
+         * Function to perform an app call
+         */
+        doAppCall: (call: AppCallRequest, type: AppCallType, intl: IntlShape) => Promise<ActionResult>;
     }; // TechDebt: Made non-mandatory while converting to typescript
 
     canEdit: boolean;
@@ -91,18 +108,18 @@ type Props = {
 
 type State = {
     openUp: boolean;
-    width?: number;
     canEdit: boolean;
     canDelete: boolean;
 }
 
-export default class DotMenu extends React.PureComponent<Props, State> {
-    static defaultProps = {
+export class DotMenuClass extends React.PureComponent<Props, State> {
+    public static defaultProps: Partial<Props> = {
         commentCount: 0,
         isFlagged: false,
         isReadOnly: false,
         location: Locations.CENTER,
         pluginMenuItems: [],
+        appBindings: [],
     }
     private editDisableAction: DelayedAction;
     private buttonRef: React.RefObject<HTMLButtonElement>;
@@ -114,7 +131,6 @@ export default class DotMenu extends React.PureComponent<Props, State> {
 
         this.state = {
             openUp: false,
-            width: 0,
             canEdit: props.canEdit && !props.isReadOnly,
             canDelete: props.canDelete && !props.isReadOnly,
         };
@@ -123,8 +139,10 @@ export default class DotMenu extends React.PureComponent<Props, State> {
     }
 
     disableCanEditPostByTime() {
-        const {post, isLicensed, postEditTimeLimit} = this.props;
+        const {post, isLicensed} = this.props;
         const {canEdit} = this.state;
+
+        const postEditTimeLimit = this.props.postEditTimeLimit || Constants.UNSET_POST_EDIT_TIME_LIMIT;
 
         if (canEdit && isLicensed) {
             if (postEditTimeLimit !== String(Constants.UNSET_POST_EDIT_TIME_LIMIT)) {
@@ -158,9 +176,9 @@ export default class DotMenu extends React.PureComponent<Props, State> {
 
     handleFlagMenuItemActivated = () => {
         if (this.props.isFlagged) {
-            this.props.actions?.unflagPost(this.props.post.id);
+            this.props.actions.unflagPost(this.props.post.id);
         } else {
-            this.props.actions?.flagPost(this.props.post.id);
+            this.props.actions.flagPost(this.props.post.id);
         }
     }
 
@@ -180,15 +198,15 @@ export default class DotMenu extends React.PureComponent<Props, State> {
 
     handlePinMenuItemActivated = () => {
         if (this.props.post.is_pinned) {
-            this.props.actions?.unpinPost(this.props.post.id);
+            this.props.actions.unpinPost(this.props.post.id);
         } else {
-            this.props.actions?.pinPost(this.props.post.id);
+            this.props.actions.pinPost(this.props.post.id);
         }
     }
 
     handleUnreadMenuItemActivated = (e: React.MouseEvent) => {
         e.preventDefault();
-        this.props.actions?.markPostAsUnread(this.props.post);
+        this.props.actions.markPostAsUnread(this.props.post);
     }
 
     handleDeleteMenuItemActivated = (e: React.MouseEvent) => {
@@ -204,11 +222,11 @@ export default class DotMenu extends React.PureComponent<Props, State> {
             },
         };
 
-        this.props.actions?.openModal(deletePostModalData);
+        this.props.actions.openModal(deletePostModalData);
     }
 
     handleEditMenuItemActivated = () => {
-        this.props.actions?.setEditingPost(
+        this.props.actions.setEditingPost(
             this.props.post.id,
             this.props.commentCount,
             this.props.location === Locations.CENTER ? 'post_textbox' : 'reply_textbox',
@@ -246,7 +264,6 @@ export default class DotMenu extends React.PureComponent<Props, State> {
 
             this.setState({
                 openUp: (spaceOnTop > spaceOnBottom),
-                width: menuRef.rect()?.width,
             });
         }
     }
@@ -259,6 +276,53 @@ export default class DotMenu extends React.PureComponent<Props, State> {
                 role='menuitem'
             />
         );
+    }
+
+    onClickAppBinding = async (binding: AppBinding) => {
+        if (!binding.call) {
+            return;
+        }
+        const context = createCallContext(
+            binding.app_id,
+            binding.location,
+            this.props.post.channel_id,
+            this.props.teamId,
+            this.props.post.id,
+            this.props.post.root_id,
+        );
+        const call = createCallRequest(
+            binding.call,
+            context,
+            {
+                post: AppExpandLevels.ALL,
+            },
+        );
+        const res = await this.props.actions?.doAppCall(call, AppCallTypes.SUBMIT, this.props.intl);
+
+        const callResp = (res as {data: AppCallResponse}).data;
+        const ephemeral = (message: string) => sendEphemeralPost(message, this.props.post.channel_id, this.props.post.root_id, callResp.app_metadata?.bot_user_id);
+        switch (callResp.type) {
+        case AppCallResponseTypes.OK:
+            if (callResp.markdown) {
+                ephemeral(callResp.markdown);
+            }
+            break;
+        case AppCallResponseTypes.ERROR: {
+            const errorMessage = callResp.error || this.props.intl.formatMessage({id: 'apps.error.unknown', defaultMessage: 'Unknown error happenned'});
+            ephemeral(errorMessage);
+            break;
+        }
+        case AppCallResponseTypes.NAVIGATE:
+        case AppCallResponseTypes.FORM:
+            break;
+        default: {
+            const errMessage = this.props.intl.formatMessage(
+                {id: 'apps.error.responses.unknown_type', defaultMessage: 'App response type not supported. Response type: {type}.'},
+                {type: callResp.type},
+            );
+            ephemeral(errMessage);
+        }
+        }
     }
 
     render() {
@@ -279,7 +343,6 @@ export default class DotMenu extends React.PureComponent<Props, State> {
                             text={item.text}
                             subMenu={item.subMenu}
                             action={item.action}
-                            xOffset={this.state.width}
                             root={true}
                         />
                     );
@@ -295,7 +358,26 @@ export default class DotMenu extends React.PureComponent<Props, State> {
                         }}
                     />
                 );
+            }) || [];
+
+        let appBindings = [] as JSX.Element[];
+        if (this.props.appsEnabled && this.props.appBindings) {
+            appBindings = this.props.appBindings.map((item) => {
+                let icon: JSX.Element | undefined;
+                if (item.icon) {
+                    icon = (<img src={item.icon}/>);
+                }
+
+                return (
+                    <Menu.ItemAction
+                        text={item.label}
+                        key={item.app_id + item.location}
+                        onClick={() => this.onClickAppBinding(item)}
+                        icon={icon}
+                    />
+                );
             });
+        }
 
         if (!this.state.canDelete && !this.state.canEdit && typeof pluginItems !== 'undefined' && pluginItems.length === 0 && isSystemMessage) {
             return null;
@@ -394,8 +476,9 @@ export default class DotMenu extends React.PureComponent<Props, State> {
                         onClick={this.handleDeleteMenuItemActivated}
                         isDangerous={true}
                     />
-                    {((typeof pluginItems !== 'undefined' && pluginItems.length > 0) || (this.props.components[PLUGGABLE_COMPONENT] && this.props.components[PLUGGABLE_COMPONENT].length > 0)) && this.renderDivider('plugins')}
+                    {((typeof pluginItems !== 'undefined' && pluginItems.length > 0) || appBindings.length > 0 || (this.props.components[PLUGGABLE_COMPONENT] && this.props.components[PLUGGABLE_COMPONENT].length > 0)) && this.renderDivider('plugins')}
                     {pluginItems}
+                    {appBindings}
                     <Pluggable
                         postId={this.props.post.id}
                         pluggableName={PLUGGABLE_COMPONENT}
@@ -405,3 +488,5 @@ export default class DotMenu extends React.PureComponent<Props, State> {
         );
     }
 }
+
+export default injectIntl(DotMenuClass);

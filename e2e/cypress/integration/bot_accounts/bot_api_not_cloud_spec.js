@@ -17,9 +17,11 @@ describe('Bot accounts ownership and API', () => {
 
     before(() => {
         cy.shouldNotRunOnCloudEdition();
-        cy.apiAdminLogin();
 
-        cy.apiInitSetup().then(({team}) => {
+        cy.apiInitSetup({
+            promoteNewUserAsAdmin: true,
+            loginAfter: true,
+        }).then(({team}) => {
             newTeam = team;
         });
 

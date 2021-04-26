@@ -49,7 +49,7 @@ describe('components/Menu', () => {
             closeRightHandSide: jest.fn(),
             closeRhsMenu: jest.fn(),
             unhideNextSteps: jest.fn(),
-            getCloudSubscription: jest.fn(),
+            getSubscriptionStats: jest.fn(),
         },
         teamIsGroupConstrained: false,
         isCloud: false,
@@ -161,6 +161,27 @@ describe('components/Menu', () => {
         wrapper.setProps({experimentalPrimaryTeam: 'other_name'});
         expect(wrapper.find('#leaveTeam')).toHaveLength(1);
         expect(wrapper.find('#leaveTeam').props().show).toEqual(true);
+    });
+
+    test('should show subscribe now button when in trial period', () => {
+        const props = {...defaultProps, isCloud: true, isFreeTrial: true};
+        const wrapper = getMainMenuWrapper(props);
+
+        expect(wrapper.find('UpgradeLink')).toHaveLength(1);
+    });
+
+    test('should hide the subscribe now button when NOT in trial period', () => {
+        const props = {...defaultProps, isCloud: true, isFreeTrial: false};
+        const wrapper = getMainMenuWrapper(props);
+
+        expect(wrapper.find('UpgradeLink')).toHaveLength(0);
+    });
+
+    test('should hide the subscribe now button when is NOT cloud', () => {
+        const props = {...defaultProps, isCloud: false, isFreeTrial: false};
+        const wrapper = getMainMenuWrapper(props);
+
+        expect(wrapper.find('UpgradeLink')).toHaveLength(0);
     });
 
     describe('should show integrations', () => {

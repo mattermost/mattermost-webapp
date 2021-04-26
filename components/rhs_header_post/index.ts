@@ -3,6 +3,7 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
+
 import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 
 import {GlobalState} from 'types/store';
@@ -13,6 +14,7 @@ import {
     showSearchResults,
     showFlaggedPosts,
     showPinnedPosts,
+    showChannelFiles,
     closeRightHandSide,
     toggleRhsExpanded,
 } from 'actions/views/rhs';
@@ -35,6 +37,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
             showMentions,
             showFlaggedPosts,
             showPinnedPosts,
+            showChannelFiles,
             closeRightHandSide,
             toggleRhsExpanded,
         }, dispatch),

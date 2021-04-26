@@ -7,7 +7,10 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @enterprise @elasticsearch @autocomplete
+// Stage: @prod
+// Group: @enterprise @elasticsearch @autocomplete @not_cloud
+
+import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 import {enableElasticSearch, getTestUsers} from './helpers';
 
@@ -17,6 +20,8 @@ describe('Autocomplete with Elasticsearch - Users', () => {
     let testTeam;
 
     before(() => {
+        cy.shouldNotRunOnCloudEdition();
+
         // * Check if server has license for Elasticsearch
         cy.apiRequireLicenseForFeature('Elasticsearch');
 
@@ -74,7 +79,8 @@ describe('Autocomplete with Elasticsearch - Users', () => {
         cy.get('.more-direct-channels').
             find('input').
             should('exist').
-            type(thor.username, {force: true});
+            type(thor.username, {force: true}).
+            wait(TIMEOUTS.HALF_SEC);
 
         // * There should only be one result
         cy.get('.more-modal__row').

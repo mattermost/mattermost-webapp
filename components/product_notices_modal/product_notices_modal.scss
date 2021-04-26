@@ -8,11 +8,11 @@
     }
 
     .GenericModal__header {
-        padding: 0px;
+        padding: 0;
     }
 
     .GenericModal__body {
-        padding: 0px;
+        padding: 0;
     }
 
     .productNotices__helpText {
@@ -23,11 +23,11 @@
         border: 1px solid var(--center-channel-color-16);
         border-radius: 4px;
         max-height: 347px;
-        margin: 20px auto 0px;
+        margin: 20px auto 0;
         display: block;
     }
     .productNotices__imageDiv {
-        margin: 0px auto;
+        margin: 0 auto;
     }
 
     .modal-footer {
@@ -60,26 +60,85 @@
 
     &.GenericModal .modal-footer {
         position: relative;
-        padding: 0px;
+        padding: 0;
     }
     .GenericModal__button {
-        padding: 10px 16px;
-        span {
-            font-size: 12px;
-            line-height: 9px;
-        }
-        &.actionButton {
-            border-width: 2px;
-            border-color: rgb(35, 137, 215);
-            border: 1px solid var(--sys-button-bg);
-            border-radius: 4px;
-            display: inline-block;
-        }
-    }
-
-    .fa {
-        width: 14px;
+        display: inline-flex;
+        align-items: center;
+        border: none;
+        padding: 13px 20px;
         font-size: 14px;
-        margin-left: 5px;
+        line-height: 14px;
+
+        &.confirm {
+            background: var(--button-bg);
+            color: var(--button-color);
+
+            &:hover:not(.disabled) {
+                background: linear-gradient(
+                        0deg,
+                        rgba(var(--center-channel-color-rgb), 0.16),
+                        rgba(var(--center-channel-color-rgb), 0.16)
+                    ),
+                    var(--button-bg);
+            }
+
+            &:active {
+                background: linear-gradient(
+                        0deg,
+                        rgba(var(--center-channel-color-rgb), 0.32),
+                        rgba(var(--center-channel-color-rgb), 0.32)
+                    ),
+                    var(--button-bg);
+            }
+
+            &:focus {
+                box-shadow: inset 0 0 0 2px var(--sidebar-text-active-border);
+            }
+        }
+
+        &.cancel,
+        &.actionButton {
+            border-radius: 4px;
+            display: inline-flex;
+            align-items: center;
+            color: var(--button-bg);
+            background: var(--center-channel-bg);
+            text-decoration: none;
+
+            &:hover {
+                background: rgba(var(--button-bg-rgb), 0.04);
+            }
+
+            &:active {
+                background: rgba(var(--button-bg-rgb), 0.08);
+            }
+
+            &:focus {
+                box-shadow: inset 0 0 0 2px var(--sidebar-text-active-border);
+            }
+        }
+
+        &.actionButton {
+            box-shadow: inset 0 0 0 1px var(--button-bg);
+        }
+
+        &.cancel {
+            margin-right: 12px;
+        }
+
+        .fa {
+            font-size: 14px;
+
+            // only target `.fa` that is the first child (left aligned icon)
+            &:first-child {
+                margin-right: 7px;
+            }
+        }
+
+        // only target `.fa` that follows a `span` (right aligned icon)
+        span ~ .fa {
+            margin-left: 7px;
+        }
     }
 }

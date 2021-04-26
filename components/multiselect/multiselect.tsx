@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {ReactNode} from 'react';
 import {FormattedMessage} from 'react-intl';
 import ReactSelect, {components} from 'react-select';
 
@@ -27,8 +27,8 @@ export type Value = {
 
 export type Props<T extends Value> = {
     ariaLabelRenderer: getOptionValue<T>;
-    buttonSubmitLoadingText?: JSX.Element | string;
-    buttonSubmitText?: JSX.Element | string;
+    buttonSubmitLoadingText?: ReactNode;
+    buttonSubmitText?: ReactNode;
     handleAdd: (value: T) => void;
     handleDelete: (values: T[]) => void;
     handleInput: (input: string, multiselect: MultiSelect<T>) => void;
@@ -37,13 +37,13 @@ export type Props<T extends Value> = {
     loading?: boolean;
     saveButtonPosition?: string;
     maxValues?: number;
-    noteText?: JSX.Element;
-    numRemainingText?: JSX.Element;
+    noteText?: ReactNode;
+    numRemainingText?: ReactNode;
     optionRenderer: (
         option: T,
         isSelected: boolean,
-        onAdd: (value: T) => void,
-        onMouseMove: (value: T) => void
+        add: (value: T) => void,
+        select: (value: T) => void
     ) => void;
     selectedItemRef?: React.RefObject<HTMLDivElement>;
     options: T[];
@@ -293,7 +293,7 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
             );
         }
 
-        let buttonSubmitText;
+        let buttonSubmitText: ReactNode;
         if (this.props.buttonSubmitText) {
             buttonSubmitText = this.props.buttonSubmitText;
         } else if (this.props.maxValues != null) {

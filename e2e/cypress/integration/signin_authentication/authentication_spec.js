@@ -1,19 +1,19 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {getEmailUrl} from '../../utils';
-import {getAdminAccount} from '../../support/env';
-import timeouts from '../../fixtures/timeouts';
-
-const authenticator = require('authenticator');
-
 // ***************************************************************
 // - [#] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @signin_authentication
+// Group: @signin_authentication @mfa
+
+import {getEmailUrl} from '../../utils';
+import {getAdminAccount} from '../../support/env';
+import timeouts from '../../fixtures/timeouts';
+
+const authenticator = require('authenticator');
 
 describe('Authentication', () => {
     let testTeam;

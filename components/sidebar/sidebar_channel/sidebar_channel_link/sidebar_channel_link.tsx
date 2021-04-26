@@ -206,6 +206,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
                     marginTop: -4,
                     marginLeft: 6,
                     marginBottom: 0,
+                    opacity: 0.8,
                 }}
             />
         ) : null;
@@ -224,7 +225,6 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
                     {customStatus}
                 </div>
                 <ChannelMentionBadge
-                    channelId={channel.id}
                     unreadMentions={unreadMentions}
                 />
                 <SidebarChannelMenu

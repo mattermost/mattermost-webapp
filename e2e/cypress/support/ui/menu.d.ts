@@ -44,6 +44,32 @@ declare namespace Cypress {
         uiGetMainMenu(): Chainable;
 
         /**
+         * Open main menu at system console
+         * @param {string} item - such as `'Switch to [Team Name]'`, `'Administrator's Guide'`, `'Troubleshooting Forum'`, `'Commercial Support'`, `'About Mattermost'` and `'Log Out'`.
+         * @return the main menu
+         *
+         * @example
+         *   cy.uiOpenSystemConsoleMainMenu();
+         */
+        uiOpenSystemConsoleMainMenu(): Chainable;
+
+        /**
+         * Close main menu at system console
+         *
+         * @example
+         *   cy.uiCloseSystemConsoleMainMenu();
+         */
+        uiCloseSystemConsoleMainMenu(): Chainable;
+
+        /**
+         * Get main menu at system console
+         *
+         * @example
+         *   cy.uiGetSystemConsoleMainMenu();
+         */
+        uiGetSystemConsoleMainMenu(): Chainable;
+
+        /**
          * Open the main menu
          * @param {string} item - such as `'View Info'`, `'Notification Preferences'`, `'Team Settings'` and other items in the main menu.
          * @return the main menu
@@ -68,5 +94,14 @@ declare namespace Cypress {
          *   cy.uiGetChannelMenu();
          */
         uiGetChannelMenu(): Chainable;
+
+        /**
+         * Set Status
+         * @param {string} item - such as `'Online'`,`'Set a Custom Status'`, `'Away'`, `'Do Not Disturb'` and `'Offline'`
+         *
+         * @example
+         *   uiOpenSetStatusMenu(item);
+         */
+        uiOpenSetStatusMenu(item): Chainable;
     }
 }

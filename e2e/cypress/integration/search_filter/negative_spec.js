@@ -14,33 +14,6 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Negative search filters will omit results', () => {
     const message = 'negative' + Date.now();
-
-    function search(query) {
-        cy.reload();
-        cy.get('#searchBox').clear().wait(TIMEOUTS.HALF_SEC).type(query).wait(TIMEOUTS.HALF_SEC).type('{enter}');
-
-        cy.get('#loadingSpinner').should('not.be.visible');
-        cy.get('#search-items-container', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
-    }
-
-    function searchAndVerify(query) {
-        search(query);
-
-        // * Verify the amount of results matches the amount of our expected results
-        cy.findAllByTestId('search-item-container').should('have.length', 1).then((results) => {
-            // * Verify text of each result
-            cy.wrap(results).first().find('.post-message').should('have.text', message);
-        });
-
-        search(`-${query}`);
-
-        // * If we expect no results, verify results message
-        cy.get('.no-results__title').should('be.visible').and('have.text', `No results for "-${query}"`);
-
-        cy.get('#searchResultsCloseButton').click();
-        cy.get('.search-item__container').should('not.exist');
-    }
-
     let testUser;
 
     before(() => {
@@ -56,35 +29,61 @@ describe('Negative search filters will omit results', () => {
         });
     });
 
-    it('just search query', () => {
-        searchAndVerify(message);
+    it('MM-T607 Negative search term', () => {
+        searchAndVerify(message, message);
     });
 
-    it('-before:', () => {
-        const tomorrow = Cypress.moment().add(1, 'days').format('YYYY-MM-DD');
+    it('MM-T608 Negative before: filter', () => {
+        const tomorrow = Cypress.dayjs().add(1, 'days').format('YYYY-MM-DD');
         const query = `before:${tomorrow} ${message}`;
-        searchAndVerify(query);
+        searchAndVerify(query, message);
     });
 
-    it('-after:', () => {
-        const yesterday = Cypress.moment().subtract(1, 'days').format('YYYY-MM-DD');
+    it('MM-T609 Negative after: filter', () => {
+        const yesterday = Cypress.dayjs().subtract(1, 'days').format('YYYY-MM-DD');
         const query = `after:${yesterday} ${message}`;
-        searchAndVerify(query);
+        searchAndVerify(query, message);
     });
 
-    it('-on:', () => {
-        const today = Cypress.moment().format('YYYY-MM-DD');
+    it('MM-T611 Negative on: filter', () => {
+        const today = Cypress.dayjs().format('YYYY-MM-DD');
         const query = `on:${today} ${message}`;
-        searchAndVerify(query);
+        searchAndVerify(query, message);
     });
 
-    it('-in:', () => {
+    it('MM-T3996 Negative in: filter', () => {
         const query = `in:town-square ${message}`;
-        searchAndVerify(query);
+        searchAndVerify(query, message);
     });
 
-    it('-from:', () => {
+    it('MM-T610 Negative from: filter', () => {
         const query = `from:${testUser.username} ${message}`;
-        searchAndVerify(query);
+        searchAndVerify(query, message);
     });
 });
+
+function search(query) {
+    cy.reload();
+    cy.get('#searchBox').clear().wait(TIMEOUTS.HALF_SEC).type(query).wait(TIMEOUTS.HALF_SEC).type('{enter}');
+
+    cy.get('#loadingSpinner').should('not.exist');
+    cy.get('#search-items-container', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+}
+
+function searchAndVerify(query, expectedMessage) {
+    search(query);
+
+    // * Verify the amount of results matches the amount of our expected results
+    cy.findAllByTestId('search-item-container').should('have.length', 1).then((results) => {
+        // * Verify text of each result
+        cy.wrap(results).first().find('.post-message').should('have.text', expectedMessage);
+    });
+
+    search(`-${query}`);
+
+    // * If we expect no results, verify results message
+    cy.get('.no-results__title').should('be.visible').and('have.text', `No results for "-${query}"`);
+
+    cy.get('#searchResultsCloseButton').click();
+    cy.get('.search-item__container').should('not.exist');
+}

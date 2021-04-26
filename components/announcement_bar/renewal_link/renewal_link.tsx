@@ -3,8 +3,9 @@
 
 import React, {useEffect, useState} from 'react';
 
-import {Client4} from 'mattermost-redux/client';
 import {FormattedMessage} from 'react-intl';
+
+import {Client4} from 'mattermost-redux/client';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import {
@@ -18,6 +19,7 @@ export interface RenewalLinkProps {
     actions: {
         openModal: (modalData: { modalId: string; dialogType: any; dialogProps?: any }) => void;
     };
+    isDisabled?: boolean;
 }
 
 const RenewalLink: React.FC<RenewalLinkProps> = (props: RenewalLinkProps) => {
@@ -64,7 +66,8 @@ const RenewalLink: React.FC<RenewalLinkProps> = (props: RenewalLinkProps) => {
     return (
         <>
             <button
-                className='annnouncementBar__renewLicense'
+                className='btn btn-primary annnouncementBar__renewLicense'
+                disabled={props.isDisabled}
                 onClick={(e) => handleLinkClick(e)}
             >
                 <FormattedMessage

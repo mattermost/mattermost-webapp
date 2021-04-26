@@ -1,11 +1,7 @@
 stages:
   - test
-  # These need to have separate stages, otherwise artifacts would overwrite each other
-  - te-build
-  - te-s3
-  - ee-build
-  - ee-s3
-  - create-vars
+  - build
+  - s3
   - trigger
 
 variables:
@@ -18,7 +14,7 @@ include:
     file: private.yml
 
 empty:
-  stage: create-vars
+  stage: test
   script:
     - echo "empty"
 
@@ -33,7 +29,7 @@ test: #todo check on how to create junit.xml, there currently is none
     paths:
       - .npm/
   script:
-    - npm ci --cache .npm --prefer-offline && cd node_modules/mattermost-redux && npm i && npm run build && cd -
+    - npm ci --cache .npm --prefer-offline
 
     # i18n
     - cp i18n/en.json /tmp/en.json

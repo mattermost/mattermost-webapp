@@ -42,7 +42,7 @@
         ul {
             white-space: normal;
         }
-        box-shadow: none;
+
         left: 0;
         position: relative;
         top: 0;
@@ -1302,6 +1302,19 @@
                 padding: 0 8px;
             }
         }
+
+        .shared-user-icon {
+            color: rgba(61, 60, 64, 0.72);
+            margin: 0 0 0 4px;
+            font-size: 16px;
+            line-height: 20px;
+            width: 16px;
+            height: 20px;
+
+            &:before {
+                margin: 0;
+            }
+        }
     }
 
     .post__img {
@@ -1778,21 +1791,17 @@
     }
 }
 
-.post--pinned-or-flagged {
-    background-color: rgba(var(--mention-highlight-bg-rgb), 0.12);
-}
-
 .Badge {
-    &.badge-autocomplete {
+    .badge-autocomplete {
         margin: 0px 4px;
         padding: 0px 5px;
         display: inline;
     }
-    &.badge-popoverlist {
+    .badge-popoverlist {
         margin: 0px 4px;
         display: inline;
     }
-    &.badge-admin {
+    .badge-admin {
         margin: 0px 4px;
         background: rgba(61, 60, 64, 0.15);
         display: inline;
@@ -1820,7 +1829,7 @@
     width: 100%;
 
     .post-collapse__gradient, .post-attachment-collapse__gradient {
-        background: linear-gradient(transparent, v(center-channel-bg));
+        background: linear-gradient(rgba(var(--center-channel-bg-rgb), 0), v(center-channel-bg));
         position: relative;
     }
 
@@ -1996,19 +2005,27 @@
 }
 
 .app__body .app__content .post.post--highlight {
-    animation-duration: 1s;
+    animation-duration: 2s;
     animation-name: postHighlight;
     animation-delay: 5s;
     animation-fill-mode: forwards;
 }
 
-@keyframes postPinnedOrFlaggedHighlight {
-    100% {
-      background: initial;
-      background-color: rgba(var(--mention-highlight-bg-rgb), 0.12);
-    }
+// Handle fade out effect for permalink highlightning
+.app__body .post-list__table .post:not(.current--user).post--highlight .post-collapse__gradient,
+.app__body .post-list__table .post.post--compact.post--highlight .post-collapse__gradient {
+    background:linear-gradient(rgba(var(--mention-highlight-bg-mixed-rgb), 0.5), rgba(var(--mention-highlight-bg-mixed-rgb), 0.5));
 }
 
-.app__body .app__content .post.post--pinned-or-flagged-highlight {
-    animation-name: postPinnedOrFlaggedHighlight;
+.app__body .post-list__table .post.current--user.post--highlight:not(.post--compact) .post-collapse__gradient {
+    background:linear-gradient(rgba(var(--center-channel-bg-rgb), 0), rgba(var(--mention-highlight-bg-mixed-rgb), 1));
+}
+
+.app__body .post-list__table .post.current--user.post--highlight:not(.post--compact) .post-collapse__show-more {
+    background: rgba(var(--mention-highlight-bg-mixed-rgb), 1);
+}
+
+.app__body .post-list__table .post.current--user.post--highlight:hover .post-collapse__gradient,
+.app__body .post-list__table .post.current--user.post--highlight.post--hovered .post-collapse__gradient {
+    background:linear-gradient(rgba(var(--mention-highlight-bg-mixed-rgb), 0.5), rgba(var(--mention-highlight-bg-mixed-rgb), 1));
 }

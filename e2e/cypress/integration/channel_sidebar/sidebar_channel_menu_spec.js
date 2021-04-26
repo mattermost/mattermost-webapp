@@ -10,6 +10,8 @@
 // Stage: @prod
 // Group: @channel_sidebar
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
 import {
     beMuted,
     beRead,
@@ -84,7 +86,7 @@ describe('Sidebar channel menu', () => {
         cy.get('.SidebarMenu').contains('.MenuItem', 'Unfavorite').click();
 
         // * Verify that the channel has moved back to the CHANNELS category
-        cy.get('@channelsCategory').find('#sidebarItem_town-square');
+        cy.get('@channelsCategory').find('#sidebarItem_town-square').wait(TIMEOUTS.THREE_SEC);
     });
 
     it('MM-T3349_3 should be able to mute/unmute a channel', () => {
@@ -92,15 +94,15 @@ describe('Sidebar channel menu', () => {
         cy.get('#sidebarItem_town-square').should(beUnmuted);
 
         // # Open the channel menu and select the Mute Channel option
-        cy.get('#sidebarItem_town-square .SidebarMenu_menuButton').click({force: true});
+        cy.get('#sidebarItem_town-square').find('.SidebarMenu_menuButton').click({force: true});
         cy.get('.SidebarMenu').contains('.MenuItem', 'Mute Channel').click();
 
         // * Verify that the channel is now muted
         cy.get('#sidebarItem_town-square').should(beMuted);
 
         // # Open the channel menu and select the Unmute Channel option
-        cy.get('#sidebarItem_town-square .SidebarMenu').click({force: true});
-        cy.get('#sidebarItem_town-square .SidebarMenu').should('be.visible').contains('.MenuItem', 'Unmute Channel').click();
+        cy.get('#sidebarItem_town-square').should('be.visible').find('.SidebarMenu').click({force: true});
+        cy.get('#sidebarItem_town-square').should('be.visible').find('.SidebarMenu').should('be.visible').contains('.MenuItem', 'Unmute Channel').click();
 
         // // * Verify that the channel is no longer muted
         cy.get('#sidebarItem_town-square').should(beUnmuted);

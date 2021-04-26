@@ -3,7 +3,8 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {injectIntl} from 'react-intl';
+import {injectIntl, FormattedMessage} from 'react-intl';
+
 import {Permissions} from 'mattermost-redux/constants';
 
 import * as GlobalActions from 'actions/global_actions';
@@ -13,7 +14,6 @@ import {cmdOrCtrlPressed, isKeyPressed} from 'utils/utils';
 import {useSafeUrl} from 'utils/url';
 import * as UserAgent from 'utils/user_agent';
 import InvitationModal from 'components/invitation_modal';
-import UserLimitModal from 'components/user_limit_modal';
 
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
@@ -27,11 +27,12 @@ import TeamSettingsModal from 'components/team_settings_modal';
 import AboutBuildModal from 'components/about_build_modal';
 import AddGroupsToTeamModal from 'components/add_groups_to_team_modal';
 import MarketplaceModal from 'components/plugin_marketplace';
+import UpgradeLink from 'components/widgets/links/upgrade_link';
 
 import Menu from 'components/widgets/menu/menu';
 import TeamGroupsManageModal from 'components/team_groups_manage_modal';
 
-import withGetCloudSubscription from '../common/hocs/cloud/with_get_cloud_subcription';
+import withGetCloudSubscription from '../common/hocs/cloud/with_get_cloud_subscription';
 
 class MainMenu extends React.PureComponent {
     static propTypes = {
@@ -62,8 +63,11 @@ class MainMenu extends React.PureComponent {
         showGettingStarted: PropTypes.bool.isRequired,
         intl: intlShape.isRequired,
         showNextStepsTips: PropTypes.bool,
+        isFreeTrial: PropTypes.bool,
+        daysLeftOnTrial: PropTypes.number,
         isCloud: PropTypes.bool,
         subscriptionStats: PropTypes.object,
+        firstAdminVisitMarketplaceStatus: PropTypes.bool,
         actions: PropTypes.shape({
             openModal: PropTypes.func.isRequred,
             showMentions: PropTypes.func,
@@ -71,6 +75,7 @@ class MainMenu extends React.PureComponent {
             closeRightHandSide: PropTypes.func.isRequired,
             closeRhsMenu: PropTypes.func.isRequired,
             unhideNextSteps: PropTypes.func.isRequired,
+            getSubscriptionStats: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -126,11 +131,11 @@ class MainMenu extends React.PureComponent {
         if (subscriptionStats?.is_paid_tier === 'true') { // eslint-disable-line camelcase
             return false;
         }
-        return isCloud && subscriptionStats.remaining_seats <= 0;
+        return isCloud && subscriptionStats?.remaining_seats <= 0;
     }
 
     render() {
-        const {currentUser, teamIsGroupConstrained, isLicensedForLDAPGroups} = this.props;
+        const {currentUser, teamIsGroupConstrained, isLicensedForLDAPGroups, isFreeTrial, daysLeftOnTrial, isCloud} = this.props;
 
         if (!currentUser) {
             return null;
@@ -174,29 +179,32 @@ class MainMenu extends React.PureComponent {
             />
         );
 
-        const upgradeCloudModal = (
-            <Menu.ItemToggleModalRedux
-                id='invitePeople'
-                modalId={ModalIdentifiers.UPGRADE_CLOUD_ACCOUNT}
-                dialogType={UserLimitModal}
-                text={formatMessage({
-                    id: 'navbar_dropdown.invitePeople',
-                    defaultMessage: 'Invite People',
-                })}
-                extraText={formatMessage({
-                    id: 'navbar_dropdown.invitePeopleExtraText',
-                    defaultMessage: 'Add or invite people to the team',
-                })}
-                icon={this.props.mobile && <i className='fa fa-user-plus'/>}
-            />
-        );
-
         return (
             <Menu
                 mobile={this.props.mobile}
                 id={this.props.id}
                 ariaLabel={formatMessage({id: 'navbar_dropdown.menuAriaLabel', defaultMessage: 'main menu'})}
             >
+                {isCloud && isFreeTrial &&
+                    <Menu.Group>
+                        <SystemPermissionGate permissions={Permissions.SYSCONSOLE_WRITE_BILLING}>
+                            <Menu.TopNotification
+                                show={true}
+                                id='topNotification'
+                            >
+                                <FormattedMessage
+                                    id='admin.billing.subscription.cloudTrial.trialTopMenuNotification'
+                                    defaultMessage='There are {daysLeftOnTrial} days left on your Cloud trial.'
+                                    values={{daysLeftOnTrial}}
+                                />
+                                <UpgradeLink
+                                    buttonText='Subscribe Now'
+                                    styleLink={true}
+                                />
+                            </Menu.TopNotification>
+                        </SystemPermissionGate>
+                    </Menu.Group>
+                }
                 <Menu.Group>
                     <Menu.ItemAction
                         id='recentMentions'
@@ -240,7 +248,7 @@ class MainMenu extends React.PureComponent {
                         teamId={this.props.teamId}
                         permissions={[Permissions.ADD_USER_TO_TEAM, Permissions.INVITE_GUEST]}
                     >
-                        {this.shouldShowUpgradeModal() ? upgradeCloudModal : invitePeopleModal}
+                        {invitePeopleModal}
                     </TeamPermissionGate>
                 </Menu.Group>
                 <Menu.Group>
@@ -342,7 +350,8 @@ class MainMenu extends React.PureComponent {
                             modalId={ModalIdentifiers.PLUGIN_MARKETPLACE}
                             show={!this.props.mobile && this.props.enablePluginMarketplace}
                             dialogType={MarketplaceModal}
-                            text={formatMessage({id: 'navbar_dropdown.marketplace', defaultMessage: 'Plugin Marketplace'})}
+                            text={formatMessage({id: 'navbar_dropdown.marketplace', defaultMessage: 'Marketplace'})}
+                            showUnread={!this.props.firstAdminVisitMarketplaceStatus}
                         />
                     </TeamPermissionGate>
                     <Menu.ItemLink

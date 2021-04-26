@@ -2,9 +2,11 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {ChannelWithTeamData} from 'mattermost-redux/types/channels';
+
 import {Link} from 'react-router-dom';
 import {FormattedMessage} from 'react-intl';
+
+import {ChannelWithTeamData} from 'mattermost-redux/types/channels';
 
 import {Constants} from 'utils/constants';
 import GlobeIcon from 'components/widgets/icons/globe_icon';
@@ -14,7 +16,7 @@ import ArchiveIcon from 'components/widgets/icons/archive_icon';
 interface Props {
     channel: ChannelWithTeamData;
     onRowClick: (id: string) => void;
-    isDisabled? : boolean;
+    isDisabled?: boolean;
 }
 
 export default class ChannelRow extends React.PureComponent<Props> {

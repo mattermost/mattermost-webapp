@@ -2,20 +2,28 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators, Dispatch} from 'redux';
+import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId, getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
+import {appsEnabled, makeAppBindingsSelector} from 'mattermost-redux/selectors/entities/apps';
+import {AppBindingLocations} from 'mattermost-redux/constants/apps';
+import {isSystemMessage} from 'mattermost-redux/utils/post_utils';
+import {isCombinedUserActivityPost} from 'mattermost-redux/utils/post_list';
 
-import {GenericAction} from 'mattermost-redux/types/actions';
+import {ActionFunc, ActionResult, GenericAction} from 'mattermost-redux/types/actions';
 
 import {Post} from 'mattermost-redux/types/posts';
+
+import {setThreadFollow} from 'mattermost-redux/actions/threads';
+import {AppCallRequest, AppCallType} from 'mattermost-redux/types/apps';
 
 import {GlobalState} from 'types/store';
 
 import {openModal} from 'actions/views/modals';
+import {doAppCall} from 'actions/apps';
 import {
     flagPost,
     unflagPost,
@@ -44,6 +52,8 @@ type Props = {
     enableEmojiPicker?: boolean;
 };
 
+const getPostMenuBindings = makeAppBindingsSelector(AppBindingLocations.POST_MENU_ITEM);
+
 function mapStateToProps(state: GlobalState, ownProps: Props) {
     const {post} = ownProps;
 
@@ -53,6 +63,10 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
     const channel = getChannel(state, post.channel_id);
     const currentTeam = getCurrentTeam(state) || {};
     const currentTeamUrl = `${getSiteURL()}/${currentTeam.name}`;
+
+    const apps = appsEnabled(state);
+    const showBindings = apps && !isSystemMessage(post) && !isCombinedUserActivityPost(post.id);
+    const appBindings = showBindings ? getPostMenuBindings(state) : undefined;
 
     return {
         channelIsArchived: isArchivedChannel(channel),
@@ -64,12 +78,26 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
         canEdit: PostUtils.canEditPost(state, post, license, config, channel, userId),
         canDelete: PostUtils.canDeletePost(state, post, channel),
         currentTeamUrl,
+        appBindings,
+        appsEnabled: apps,
+        ...ownProps,
     };
+}
+
+type Actions = {
+    flagPost: (postId: string) => void;
+    unflagPost: (postId: string) => void;
+    setEditingPost: (postId?: string, commentCount?: number, refocusId?: string, title?: string, isRHS?: boolean) => void;
+    pinPost: (postId: string) => void;
+    unpinPost: (postId: string) => void;
+    openModal: (postId: any) => void;
+    markPostAsUnread: (post: Post) => void;
+    doAppCall: (call: AppCallRequest, type: AppCallType) => Promise<ActionResult>;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
-        actions: bindActionCreators({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
             flagPost,
             unflagPost,
             setEditingPost,
@@ -77,6 +105,8 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             unpinPost,
             openModal,
             markPostAsUnread,
+            doAppCall,
+            setThreadFollow,
         }, dispatch),
     };
 }

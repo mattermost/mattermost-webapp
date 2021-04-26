@@ -24,11 +24,12 @@ describe('Onboarding', () => {
 
     const baseUrl = Cypress.config('baseUrl');
     const mailUrl = getEmailUrl(baseUrl);
+    let isCloudLicensed;
     let isLicensed;
 
     before(() => {
         cy.apiGetClientLicense().then((data) => {
-            ({isLicensed} = data);
+            ({isLicensed, isCloudLicensed} = data);
         });
 
         // # Do email test if setup properly
@@ -65,8 +66,13 @@ describe('Onboarding', () => {
             cy.visit(inviteLink);
         });
 
-        // # Click Email and Password link
-        cy.get('.signup__content', {timeout: TIMEOUTS.ONE_MIN}).findByText('Email and Password').click();
+        if (isLicensed) {
+            // # Click Email and Password link
+            cy.get('.signup__content', {timeout: TIMEOUTS.ONE_MIN}).findByText('Email and Password').click();
+        }
+
+        // * Verify it's on email signup page
+        cy.get('#signup_email_section').should('be.visible');
 
         // # Type email, username and password
         cy.get('#email', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').type(email);
@@ -87,7 +93,7 @@ describe('Onboarding', () => {
             verifyEmailInvite(response, email);
 
             const bodyText = splitEmailBodyText(response.data.body.text);
-            const permalink = bodyText[6].match(reUrl)[0];
+            const permalink = bodyText[4].match(reUrl)[0];
 
             // * Check that URL in address bar does not have an `undefined` team name appended
             cy.url().should('not.include', 'undefined');
@@ -98,12 +104,12 @@ describe('Onboarding', () => {
             // # Check that 'Email Verified' text should be visible, email is pre-filled, and password field is focused, then login
             cy.findByText('Email Verified', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible');
             cy.get('#loginId').should('have.value', email);
-            cy.get('#loginPassword').should('be.focused').type(password);
+            cy.get('#loginPassword').should('be.visible').type(password);
             cy.get('#loginButton').click();
             cy.findByText('Enter a valid email or username and/or password.').should('not.exist');
         });
 
-        // * Check that the display name of the team the user sucessfully joined is correct
+        // * Check that the display name of the team the user successfully joined is correct
         cy.get('#headerTeamName').should('contain.text', testTeam.display_name);
 
         // * Check that 'Town Square' is currently being selected
@@ -112,7 +118,15 @@ describe('Onboarding', () => {
         });
 
         // * Check that the 'Welcome to Mattermost' message is visible
-        cy.get('.NextStepsView__header-headerText').findByText('Welcome to Mattermost').should('be.visible');
+        if (isCloudLicensed) {
+            cy.get('.NextStepsView__header-headerText').findByText('Welcome to Mattermost').should('be.visible');
+        } else {
+            cy.get('#tutorialIntroOne').should('be.visible').
+                and('contain', 'Welcome to:').
+                and('contain', 'Mattermost').
+                and('contain', 'Your team communication all in one place, instantly searchable and available anywhere.').
+                and('contain', 'Keep your team connected to help them achieve what matters most.');
+        }
     });
 
     function verifyEmailInvite(response, userEmail) {
@@ -130,13 +144,13 @@ describe('Onboarding', () => {
         expect(data.date).to.contain(isoDate);
 
         // * Verify that the email subject is correct
-        expect(data.subject).to.contain('[Mattermost] You joined localhost:8065');
+        expect(data.subject).to.contain(`[Mattermost] You joined ${baseUrl.split('/')[2]}`);
 
         // * Verify that the email body is correct
         const bodyText = splitEmailBodyText(data.body.text);
-        expect(bodyText.length).to.equal(23);
-        expect(bodyText[1]).to.equal('You\'ve joined localhost:8065');
-        expect(bodyText[4]).to.equal('Please verify your email address by clicking below.');
+        expect(bodyText.length).to.equal(15);
+        expect(bodyText[1]).to.equal(`Thanks for joining ${baseUrl.split('/')[2]}. ( ${baseUrl} )`);
+        expect(bodyText[2]).to.equal('Click below to verify your email address.');
     }
 });
 

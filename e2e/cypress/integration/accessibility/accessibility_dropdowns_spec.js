@@ -89,7 +89,7 @@ describe('Verify Accessibility Support in Dropdown Menus', () => {
         // * Verify the accessibility support in the Main Menu Dropdown items
         cy.apiGetConfig().then(({config}) => {
             const siteName = config.TeamSettings.SiteName;
-            const labels = ['Account Settings dialog', 'Invite People dialog', 'Team Settings dialog', 'Manage Members dialog', '', 'Leave Team dialog', '', 'Plugin Marketplace dialog', '', '', '', '', '', `About ${siteName} dialog`, ''];
+            const labels = ['Account Settings dialog', 'Invite People dialog', 'Team Settings dialog', 'Manage Members dialog', '', 'Leave Team dialog', '', 'Marketplace dialog', '', '', '', '', '', `About ${siteName} dialog`, ''];
             verifyMenuItems('#sidebarDropdownMenu', labels);
         });
 
@@ -119,7 +119,7 @@ describe('Verify Accessibility Support in Dropdown Menus', () => {
         cy.focused().tab();
 
         // * Verify the accessibility support in the Status Dropdown menu items
-        const labels = ['online', 'away', 'do not disturb. disables all notifications', 'offline'];
+        const labels = ['Custom Status dialog', 'online', 'away', 'do not disturb. disables all notifications', 'offline'];
         verifyMenuItems('#statusDropdownMenu', labels);
 
         // * Verify if menu is closed when we press Escape
