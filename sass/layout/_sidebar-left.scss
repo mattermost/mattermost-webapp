@@ -605,10 +605,6 @@
             display: none;
         }
 
-        &.SidebarChannelGroupHeader--sticky {
-            position: sticky;
-        }
-
         &.muted {
             .icon-chevron-down, .SidebarChannelGroupHeader_text {
                 opacity: 0.4;
