@@ -16,6 +16,7 @@ import {trackEvent} from 'actions/telemetry_actions';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
+import Markdown from 'components/markdown/markdown';
 
 import RenewLinkCard from './renew_license_card/renew_license_card';
 import TrialLicenseCard from './trial_license_card/trial_license_card';
@@ -519,7 +520,12 @@ export default class LicenseSettings extends React.PureComponent {
     renderE0Content = () => {
         let serverError = '';
         if (this.state.serverError) {
-            serverError = <div className='col-sm-12'><div className='form-group has-error'><label className='control-label'>{this.state.serverError}</label></div></div>;
+            serverError = (<div className='col-sm-12'><div className='form-group has-error'><label className='control-label'>
+                <Markdown
+                    enableFormatting={true}
+                    message={this.state.serverError}
+                />
+            </label></div></div>);
         }
 
         var btnClass = 'btn';
