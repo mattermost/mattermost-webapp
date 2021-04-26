@@ -188,7 +188,7 @@ class CloudTrialAnnouncementBar extends React.PureComponent<Props> {
                 showCloseButton={dismissable}
                 handleClose={this.handleClose}
                 onButtonClick={this.showModal}
-                modalButtonText={t('admin.billing.subscription.cloudTrial.subscribeNow')}
+                modalButtonText={t('admin.billing.subscription.cloudTrial.subscribeButton')}
                 modalButtonDefaultText={'Subscribe Now'}
                 message={bannerMessage}
                 showLinkAsButton={true}
