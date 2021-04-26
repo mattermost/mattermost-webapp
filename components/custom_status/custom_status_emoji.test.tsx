@@ -18,10 +18,7 @@ describe('components/custom_status/custom_status_emoji', () => {
     const mockStore = configureStore();
     const store = mockStore({});
 
-    const getCustomStatus = () => {
-        return null;
-    };
-    (CustomStatusSelectors.makeGetCustomStatus as jest.Mock).mockReturnValue(getCustomStatus);
+    (CustomStatusSelectors.getCustomStatus as jest.Mock).mockReturnValue(null);
     (EmojiSelectors.isCustomEmojiEnabled as jest.Mock).mockReturnValue(false);
     it('should match snapshot', () => {
         const wrapper = mount(<CustomStatusEmoji/>, {wrappingComponent: Provider, wrappingComponentProps: {store}});

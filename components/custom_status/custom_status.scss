@@ -115,18 +115,20 @@
         }
     }
 }
+
 .status-dropdown-menu,
 .StatusModal__input {
     .input-clear-x {
         color: rgba(var(--center-channel-color-rgb), 0.56);
-    
+
         .icon {
             font-size: 20px;
         }
     }
 }
 
-.ic-clear-search, .ic-search {
+.ic-clear-search,
+.ic-search {
     background-repeat: no-repeat;
     background-position: center;
     cursor: pointer;
@@ -211,5 +213,76 @@
 #custom-status-tooltip {
     p {
         margin: 0;
+    }
+}
+
+.statusExpiry {
+    position: relative;
+    top: 48px;
+    font-size: 14px;
+    display: inline-block;
+
+    &__menu {
+        cursor: pointer;
+
+        .expiry-value {
+            color: var(--center-channel-color);
+            margin-right: 4px;
+        }
+    }
+}
+
+.dateTime {
+    display: flex;
+    margin-top: 20px;
+    width: calc(100% - 24px);
+
+    & &__date {
+        position: relative;
+        margin-right: 20px;
+
+        &-icon {
+            position: absolute;
+            top: 11.3px;
+            left: 15px;
+        }
+    }
+
+    & &__time {
+        position: relative;
+
+        #expiryTimeMenu .dropdown-menu {
+            min-width: 266px;
+            max-height: 268px;
+            overflow: auto;
+        }
+
+        &-icon {
+            position: absolute;
+            top: 11.3px;
+            left: 15px;
+        }
+    }
+    
+    & &__input {
+        border: 2px solid var(--button-bg);
+        cursor: pointer;
+        padding: 10px 40px;
+        border-radius: 4px;
+        height: 40px;
+        width: 266px;
+        background: var(--center-channel-bg);
+        color: var(--center-channel-color);
+        font-size: 14px;
+
+        &-title {
+            position: absolute;
+            bottom: 32px;
+            left: 12px;
+            padding: 0 4px;
+            font-size: 16px;
+            background: var(--center-channel-bg);
+            color: var(--center-channel-color);
+        }
     }
 }
