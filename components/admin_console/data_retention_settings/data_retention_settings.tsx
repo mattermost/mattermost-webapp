@@ -401,8 +401,8 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
             <div className='wrapper--fixed DataRetentionSettings'>
                 <div className='admin-console__header'>
                     <FormattedMessage
-                        id='admin.data_retention.title'
-                        defaultMessage='Data Retention Policy'
+                        id='admin.data_retention.settings.title'
+                        defaultMessage='Data Retention Policies'
                     />
                 </div>
                 <div className='admin-console__wrapper'>

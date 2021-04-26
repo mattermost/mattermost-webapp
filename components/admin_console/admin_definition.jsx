@@ -5204,8 +5204,8 @@ const AdminDefinition = {
         isHidden: it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.COMPLIANCE)),
         data_retention: {
             url: 'compliance/data_retention_settings',
-            title: t('admin.sidebar.dataRetentionPolicy'),
-            title_default: 'Data Retention Policy',
+            title: t('admin.sidebar.dataRetentionSettingsPolicies'),
+            title_default: 'Data Retention Policies',
             searchableStrings: [
                 'admin.data_retention.title',
                 'admin.data_retention.messageRetentionDays.description',

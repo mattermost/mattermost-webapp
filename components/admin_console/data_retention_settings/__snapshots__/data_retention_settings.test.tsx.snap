@@ -8,8 +8,8 @@ exports[`components/admin_console/data_retention_settings/data_retention_setting
     className="admin-console__header"
   >
     <FormattedMessage
-      defaultMessage="Data Retention Policy"
-      id="admin.data_retention.title"
+      defaultMessage="Data Retention Policies"
+      id="admin.data_retention.settings.title"
     />
   </div>
   <div
@@ -343,8 +343,8 @@ exports[`components/admin_console/data_retention_settings/data_retention_setting
     className="admin-console__header"
   >
     <FormattedMessage
-      defaultMessage="Data Retention Policy"
-      id="admin.data_retention.title"
+      defaultMessage="Data Retention Policies"
+      id="admin.data_retention.settings.title"
     />
   </div>
   <div
@@ -693,8 +693,8 @@ exports[`components/admin_console/data_retention_settings/data_retention_setting
     className="admin-console__header"
   >
     <FormattedMessage
-      defaultMessage="Data Retention Policy"
-      id="admin.data_retention.title"
+      defaultMessage="Data Retention Policies"
+      id="admin.data_retention.settings.title"
     />
   </div>
   <div
@@ -1038,8 +1038,8 @@ exports[`components/admin_console/data_retention_settings/data_retention_setting
     className="admin-console__header"
   >
     <FormattedMessage
-      defaultMessage="Data Retention Policy"
-      id="admin.data_retention.title"
+      defaultMessage="Data Retention Policies"
+      id="admin.data_retention.settings.title"
     />
   </div>
   <div
