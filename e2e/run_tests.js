@@ -52,7 +52,7 @@ const chalk = require('chalk');
 const cypress = require('cypress');
 const argv = require('yargs').argv;
 
-const {getTestFiles, getSkippedFiles} = require('./utils/file');
+const {getSortedTestFiles} = require('./utils/file');
 const {getTestFilesIdentifier} = require('./utils/even_distribution');
 const {writeJsonToFile} = require('./utils/report');
 const {MOCHAWESOME_REPORT_DIR, RESULTS_DIR} = require('./utils/constants');
@@ -65,17 +65,14 @@ async function runTests() {
         BROWSER,
         BUILD_ID,
         HEADLESS,
-        ENABLE_VISUAL_TEST,
-        APPLITOOLS_API_KEY,
-        APPLITOOLS_BATCH_NAME,
     } = process.env;
 
     const browser = BROWSER || 'chrome';
     const headless = typeof HEADLESS === 'undefined' ? true : HEADLESS === 'true';
     const platform = os.platform();
-    const initialTestFiles = getTestFiles().sort((a, b) => a.localeCompare(b));
-    const {finalTestFiles} = getSkippedFiles(initialTestFiles, platform, browser, headless);
-    const numberOfTestFiles = finalTestFiles.length;
+
+    const {sortedFiles} = getSortedTestFiles(platform, browser, headless);
+    const numberOfTestFiles = sortedFiles.length;
 
     if (!numberOfTestFiles) {
         console.log(chalk.red('Nothing to test!'));
@@ -89,9 +86,9 @@ async function runTests() {
     } = getTestFilesIdentifier(numberOfTestFiles, argv.part, argv.of);
 
     for (let i = start, j = 0; i < end && j < count; i++, j++) {
-        printMessage(finalTestFiles, i, j + 1, count);
+        printMessage(sortedFiles, i, j + 1, count);
 
-        const testFile = finalTestFiles[i];
+        const testFile = sortedFiles[i];
 
         const result = await cypress.run({
             browser,
@@ -102,9 +99,6 @@ async function runTests() {
                 trashAssetsBeforeRuns: false,
             },
             env: {
-                enableVisualTest: ENABLE_VISUAL_TEST,
-                enableApplitools: Boolean(APPLITOOLS_API_KEY),
-                batchName: APPLITOOLS_BATCH_NAME,
                 firstTest: j === 0,
             },
             reporter: 'cypress-multi-reporters',
@@ -135,13 +129,13 @@ async function runTests() {
         // Write test environment details once only
         if (i === 0) {
             const environment = {
-                cypressVersion: result.cypressVersion,
-                browserName: result.browserName,
-                browserVersion: result.browserVersion,
+                cypress_version: result.cypressVersion,
+                browser_name: result.browserName,
+                browser_version: result.browserVersion,
                 headless,
-                osName: result.osName,
-                osVersion: result.osVersion,
-                nodeVersion: process.version,
+                os_name: result.osName,
+                os_version: result.osVersion,
+                node_version: process.version,
             };
 
             writeJsonToFile(environment, 'environment.json', RESULTS_DIR);

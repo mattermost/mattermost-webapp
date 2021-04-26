@@ -7,7 +7,6 @@ import {connect} from 'react-redux';
 
 import {UserTypes} from 'mattermost-redux/action_types';
 import {Client4} from 'mattermost-redux/client';
-import {Preferences} from 'mattermost-redux/constants';
 import {
     getChannelsInCurrentTeam,
     getDirectAndGroupChannels,
@@ -18,7 +17,9 @@ import {
     getChannelByName,
 } from 'mattermost-redux/selectors/entities/channels';
 
-import {getTeammateNameDisplaySetting, getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
+import ProfilePicture from '../profile_picture';
+
+import {getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {
@@ -34,10 +35,10 @@ import {logError} from 'mattermost-redux/actions/errors';
 import {getLastPostPerChannel} from 'mattermost-redux/selectors/entities/posts';
 import {sortChannelsByTypeAndDisplayName, isGroupChannelVisible, isUnreadChannel} from 'mattermost-redux/utils/channel_utils';
 
+import SharedChannelIndicator from 'components/shared_channel_indicator';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import GuestBadge from 'components/widgets/badges/guest_badge';
-import Avatar from 'components/widgets/users/avatar';
-import StatusIcon from 'components/status_icon';
+import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 
 import {getPostDraft} from 'selectors/rhs';
 import store from 'stores/redux_store.jsx';
@@ -67,6 +68,7 @@ class SwitchChannelSuggestion extends Suggestion {
         const channelIsArchived = channel.delete_at && channel.delete_at !== 0;
 
         const member = this.props.channelMember;
+        const teammate = this.props.dmChannelTeammate;
         let badge = null;
 
         if (member) {
@@ -80,8 +82,16 @@ class SwitchChannelSuggestion extends Suggestion {
             className += ' suggestion--selected';
         }
 
-        let displayName = (channel.display_name);
-        let icon = null;
+        let displayName = (
+            <React.Fragment>
+                {channel.display_name}
+                <div className='mentions__fullname'>
+                    {`~${channel.name}`}
+                </div>
+            </React.Fragment>
+        );
+
+        let icon;
         if (channelIsArchived) {
             icon = (
                 <div className='suggestion-list__icon suggestion-list__icon--large'>
@@ -115,44 +125,18 @@ class SwitchChannelSuggestion extends Suggestion {
         } else {
             icon = (
                 <div className='pull-left'>
-                    <Avatar
+                    <ProfilePicture
+                        src={userImageUrl}
+                        status={teammate && teammate.is_bot ? null : status}
                         size='sm'
-                        url={userImageUrl}
                     />
                 </div>
             );
-
-            if (userItem.firstName || userItem.last_name) {
-                displayName = (
-                    <React.Fragment>
-                        {`${userItem.first_name} ${userItem.last_name}`}
-                        <StatusIcon
-                            className={`${status}--icon`}
-                            status={status}
-                            button={false}
-                        />
-                        <div className='mentions__fullname'>
-                            {userItem.username}
-                        </div>
-                    </React.Fragment>
-                );
-            } else {
-                displayName = (
-                    <React.Fragment>
-                        {userItem.username}
-                        <StatusIcon
-                            className={`${status}--icon`}
-                            status={status}
-                            button={false}
-                        />
-                    </React.Fragment>
-                );
-            }
         }
 
         let tag = null;
+        let customStatus = null;
         if (channel.type === Constants.DM_CHANNEL) {
-            const teammate = this.props.dmChannelTeammate;
             tag = (
                 <React.Fragment>
                     <BotBadge
@@ -164,6 +148,58 @@ class SwitchChannelSuggestion extends Suggestion {
                         className='badge-autocomplete'
                     />
                 </React.Fragment>
+            );
+
+            customStatus = (
+                <CustomStatusEmoji
+                    showTooltip={true}
+                    userID={userItem.id}
+                    emojiStyle={{
+                        marginBottom: 2,
+                        marginLeft: 8,
+                    }}
+                />
+            );
+
+            let deactivated;
+            if (userItem.delete_at) {
+                deactivated = (' - ' + Utils.localizeMessage('channel_switch_modal.deactivated', 'Deactivated'));
+            }
+
+            if (teammate && teammate.is_bot) {
+                displayName = (
+                    <React.Fragment>
+                        {userItem.username}
+                        {deactivated}
+                    </React.Fragment>
+                );
+            } else if (channel.display_name) {
+                displayName = (
+                    <React.Fragment>
+                        {channel.display_name}
+                        <div className='mentions__fullname'>
+                            {`@${userItem.username}`}
+                            {deactivated}
+                        </div>
+                    </React.Fragment>
+                );
+            } else {
+                displayName = (
+                    <React.Fragment>
+                        {userItem.username}
+                        {deactivated}
+                    </React.Fragment>
+                );
+            }
+        }
+
+        let sharedIcon = null;
+        if (channel.shared) {
+            sharedIcon = (
+                <SharedChannelIndicator
+                    className='shared-channel-icon'
+                    channelType={channel.type}
+                />
             );
         }
 
@@ -185,6 +221,8 @@ class SwitchChannelSuggestion extends Suggestion {
                 <span className='suggestion-list__info_user'>
                     {displayName}
                 </span>
+                {customStatus}
+                {sharedIcon}
                 {tag}
                 {badge}
             </div>
@@ -413,34 +451,16 @@ export default class SwitchChannelProvider extends Provider {
     }
 
     userWrappedChannel(user, channel) {
-        const teammateNameDisplay = getTeammateNameDisplaySetting(getState());
-        let displayName;
+        let displayName = '';
 
-        // The naming format is fullname - @username (nickname) if DISPLAY_PREFER_FULL_NAME is set.
-        // Otherwise, it's @username - fullname (nickname)
-        if (teammateNameDisplay === Preferences.DISPLAY_PREFER_FULL_NAME) {
-            if ((user.first_name || user.last_name) && user.nickname) {
-                displayName = `${Utils.getFullName(user)} - @${user.username} (${user.nickname})`;
-            } else if (user.nickname) {
-                displayName = `@${user.username} - (${user.nickname})`;
-            } else if (user.first_name || user.last_name) {
-                displayName = `${Utils.getFullName(user)} - @${user.username}`;
-            } else {
-                displayName = `@${user.username}`;
-            }
-        } else {
-            displayName = `@${user.username}`;
-            if ((user.first_name || user.last_name) && user.nickname) {
-                displayName += ` - ${Utils.getFullName(user)} (${user.nickname})`;
-            } else if (user.nickname) {
-                displayName += ` - (${user.nickname})`;
-            } else if (user.first_name || user.last_name) {
-                displayName += ` - ${Utils.getFullName(user)}`;
-            }
-        }
-
-        if (user.delete_at) {
-            displayName += ' - ' + Utils.localizeMessage('channel_switch_modal.deactivated', 'Deactivated');
+        // The naming format is fullname (nickname)
+        // username is shown seperately
+        if ((user.first_name || user.last_name) && user.nickname) {
+            displayName += `${Utils.getFullName(user)} (${user.nickname})`;
+        } else if (user.nickname && !user.first_name && !user.last_name) {
+            displayName += `${user.nickname}`;
+        } else if (user.first_name || user.last_name) {
+            displayName += `${Utils.getFullName(user)}`;
         }
 
         return {

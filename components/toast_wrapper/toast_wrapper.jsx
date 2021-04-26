@@ -24,6 +24,8 @@ class ToastWrapper extends React.PureComponent {
         unreadCountInChannel: PropTypes.number,
         newRecentMessagesCount: PropTypes.number,
         channelMarkedAsUnread: PropTypes.bool,
+        isCollapsedThreadsEnabled: PropTypes.bool,
+        rootPosts: PropTypes.object,
         atLatestPost: PropTypes.bool,
         postListIds: PropTypes.array,
         latestPostTimeStamp: PropTypes.number,
@@ -67,21 +69,23 @@ class ToastWrapper extends React.PureComponent {
         };
     }
 
-    static countNewMessages = (postListIds) => {
+    static countNewMessages = (postListIds, rootPosts, isCollapsedThreadsEnabled) => {
         const mark = getNewMessageIndex(postListIds);
         if (mark <= 0) {
             return 0;
         }
-        const newMessages = postListIds.slice(0, mark);
-        return newMessages.filter((id) => !isIdNotPost(id)).length;
+        let newMessages = postListIds.slice(0, mark).filter((id) => !isIdNotPost(id));
+        if (isCollapsedThreadsEnabled) { // in collapsed mode we only count root posts
+            newMessages = newMessages.filter((id) => rootPosts[id]);
+        }
+        return newMessages.length;
     }
 
     static getDerivedStateFromProps(props, prevState) {
         let {showUnreadToast, showNewMessagesToast, showMessageHistoryToast} = prevState;
         let unreadCount;
-
         if (props.atLatestPost) {
-            unreadCount = ToastWrapper.countNewMessages(props.postListIds);
+            unreadCount = ToastWrapper.countNewMessages(props.postListIds, props.rootPosts, props.isCollapsedThreadsEnabled);
         } else if (props.channelMarkedAsUnread) {
             unreadCount = prevState.unreadCountInChannel;
         } else {

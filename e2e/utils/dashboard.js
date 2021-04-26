@@ -5,118 +5,162 @@
 
 /*
  * Environment:
- *   DASHBOARD_ENDPOINT=[url]
- *   DASHBOARD_TOKEN=[token]
+ *   AUTOMATION_DASHBOARD_URL=[url]
+ *   AUTOMATION_DASHBOARD_TOKEN=[token]
  */
 
-const RPClient = require('reportportal-client');
+const fs = require('fs');
 
-const {getAllTests} = require('./report');
+const axios = require('axios');
+const axiosRetry = require('axios-retry');
+const chalk = require('chalk');
+const mime = require('mime-types');
 
-// See reference: https://github.com/reportportal/client-javascript#starttestitem
-const testItemTypes = {
-    SUITE: 'SUITE',
-    TEST: 'TEST',
-};
+require('dotenv').config();
+const readFile = require('util').promisify(fs.readFile);
 
-// See reference: https://github.com/reportportal/client-javascript#finishtestitem
-const testItemStatus = {
-    PASSED: 'PASSED',
-    FAILED: 'FAILED',
-    SKIPPED: 'SKIPPED',
-};
+const maxRetry = 5;
+const timeout = 10 * 1000;
 
-function saveDashboard(report, branch) {
-    const {
-        DASHBOARD_ENDPOINT,
-        DASHBOARD_TOKEN,
-    } = process.env;
+axiosRetry(axios, {
+    retries: maxRetry,
+    retryDelay: axiosRetry.exponentialDelay,
+});
 
-    const reporterOptions = {
-        endpoint: DASHBOARD_ENDPOINT,
-        token: DASHBOARD_TOKEN,
-        project: 'Webapp',
-        description: 'Mattermost UI Automation with Cypress',
-    };
+const {
+    AUTOMATION_DASHBOARD_URL,
+    AUTOMATION_DASHBOARD_TOKEN,
+} = process.env;
 
-    const rpClient = new RPClient(reporterOptions);
+const connectionErrors = ['ECONNABORTED', 'ECONNREFUSED'];
 
-    rpClient.checkConnect().then(() => {
-        console.log('You have successfully connected to the automation dashboard server.');
-    }, (error) => {
-        console.log('Error connecting to automation dashboard server');
-        console.dir(error);
+async function createAndStartCycle(data) {
+    const response = await axios({
+        url: `${AUTOMATION_DASHBOARD_URL}/cycles/start`,
+        headers: {
+            Authorization: `Bearer ${AUTOMATION_DASHBOARD_TOKEN}`,
+        },
+        method: 'post',
+        timeout,
+        data,
     });
 
-    // Start Launch
-    const launchObj = rpClient.startLaunch({
-        name: `Cypress Test ${branch} branch`,
-        startTime: report.stats.start,
-        description: `Cypress test report with ${branch} branch`,
-    });
-
-    const startDate = new Date(report.stats.start);
-    let startTime = 0;
-
-    // Save each Suite and Test
-    report.results.forEach((suite, index) => {
-        if (index === 0) {
-            startTime = startDate.getTime();
-        }
-
-        const suiteData = {
-            description: suite.fullFile,
-            name: suite.suites[0].title,
-            startTime,
-            type: testItemTypes.SUITE,
-        };
-
-        const suiteObj = rpClient.startTestItem(suiteData, launchObj.tempId);
-        const tests = getAllTests(suite.suites);
-        tests.forEach((test) => {
-            let status;
-            if (test.pass) {
-                status = testItemStatus.PASSED;
-            } else if (test.fail) {
-                status = testItemStatus.FAILED;
-            } else {
-                status = testItemStatus.SKIPPED;
-            }
-
-            const testData = {
-                description: test.title + (test.fail ? test.err.estack : ''),
-                name: test.fullTitle,
-                startTime,
-                type: testItemTypes.TEST,
-            };
-
-            const itemObj = rpClient.startTestItem(testData, launchObj.tempId, suiteObj.tempId);
-            startTime += test.duration;
-            rpClient.finishTestItem(itemObj.tempId, {
-                status,
-                endTime: startTime,
-            });
-
-            if (test.fail) {
-                rpClient.sendLog(itemObj.tempId, {
-                    level: 'INFO',
-                    message: test.err.message,
-                    time: startTime,
-                });
-            }
-        });
-
-        rpClient.finishTestItem(suiteObj.tempId, {endTime: startTime});
-    });
-
-    const finished = rpClient.finishLaunch(launchObj.tempId, {endTime: startTime});
-    return finished.promise.then(() => {
-        console.log('Successfully sent automation dashboard data.');
-        return {success: true};
-    }, (error) => {
-        console.log('Encountered error while sending automation dashboard data.', error);
-        return {error};
-    });
+    return response.data;
 }
 
-module.exports = {saveDashboard};
+async function getSpecToTest({repo, branch, build, server}) {
+    try {
+        const response = await axios({
+            url: `${AUTOMATION_DASHBOARD_URL}/executions/specs/start?repo=${repo}&branch=${branch}&build=${build}`,
+            headers: {
+                Authorization: `Bearer ${AUTOMATION_DASHBOARD_TOKEN}`,
+            },
+            method: 'post',
+            timeout,
+            data: {server},
+        });
+
+        return response.data;
+    } catch (err) {
+        console.log(chalk.red('Failed to get spec to test'));
+        if (connectionErrors.includes(err.code) || !err.response) {
+            console.log(chalk.red(`Error code: ${err.code}`));
+            return {code: err.code};
+        }
+
+        return err.response && err.response.data;
+    }
+}
+
+async function recordSpecResult(specId, spec, tests) {
+    try {
+        const response = await axios({
+            url: `${AUTOMATION_DASHBOARD_URL}/executions/specs/end?id=${specId}`,
+            headers: {
+                Authorization: `Bearer ${AUTOMATION_DASHBOARD_TOKEN}`,
+            },
+            method: 'post',
+            timeout,
+            data: {spec, tests},
+        });
+
+        console.log(chalk.green('Successfully recorded!'));
+        return response.data;
+    } catch (err) {
+        console.log(chalk.red('Failed to record spec result'));
+        if (connectionErrors.includes(err.code) || !err.response) {
+            console.log(chalk.red(`Error code: ${err.code}`));
+            return {code: err.code};
+        }
+
+        return err.response && err.response.data;
+    }
+}
+
+async function updateCycle(id, cyclePatch) {
+    try {
+        const response = await axios({
+            url: `${AUTOMATION_DASHBOARD_URL}/cycles/${id}`,
+            headers: {
+                Authorization: `Bearer ${AUTOMATION_DASHBOARD_TOKEN}`,
+            },
+            method: 'put',
+            timeout,
+            data: cyclePatch,
+        });
+
+        console.log(chalk.green('Successfully updated the cycle with test environment data!'));
+        return response.data;
+    } catch (err) {
+        console.log(chalk.red('Failed to update cycle'));
+        if (connectionErrors.includes(err.code) || !err.response) {
+            console.log(chalk.red(`Error code: ${err.code}`));
+            return {code: err.code};
+        }
+
+        return err.response && err.response.data;
+    }
+}
+
+async function uploadScreenshot(filePath, repo, branch, build) {
+    try {
+        const contentType = mime.lookup(filePath);
+        const extension = mime.extension(contentType);
+
+        const {data} = await axios({
+            url: `${AUTOMATION_DASHBOARD_URL}/upload-request`,
+            headers: {
+                Authorization: `Bearer ${AUTOMATION_DASHBOARD_TOKEN}`,
+            },
+            method: 'get',
+            timeout,
+            data: {repo, branch, build, extension},
+        });
+
+        const file = await readFile(filePath);
+
+        await axios({
+            url: data.upload_url,
+            method: 'put',
+            headers: {'Content-Type': contentType},
+            data: file,
+        });
+
+        return data.object_url;
+    } catch (err) {
+        if (connectionErrors.includes(err.code) || !err.response) {
+            console.log(chalk.red(`Error code: ${err.code}`));
+            return {code: err.code};
+        }
+
+        return err.response && err.response.data;
+    }
+}
+
+module.exports = {
+    createAndStartCycle,
+    getSpecToTest,
+    recordSpecResult,
+    updateCycle,
+    uploadScreenshot,
+};

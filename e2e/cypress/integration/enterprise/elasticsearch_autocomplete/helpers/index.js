@@ -224,11 +224,11 @@ module.exports = {
 
         if (shouldExist) {
             // * Channel should appear in suggestions list
-            cy.get('#suggestionList').findByRole('button', {name}).should('be.visible');
+            cy.get('#suggestionList').findByTestId(channel.name).should('be.visible');
         } else {
             // * Suggestion list and channel item should not appear
             cy.get('#suggestionList').should('not.exist');
-            cy.findByRole('button', {name}).should('not.exist');
+            cy.findByTestId(channel.name).should('not.exist');
         }
     },
     searchAndVerifyUser: (user) => {

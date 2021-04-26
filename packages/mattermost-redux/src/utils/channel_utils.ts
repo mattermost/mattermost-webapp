@@ -664,3 +664,7 @@ export function filterChannelsMatchingTerm(channels: Channel[], term: string): C
             displayName.startsWith(lowercasedTerm);
     });
 }
+
+export function getMsgCountInChannel(collapsed: boolean, channel: Channel, member: ChannelMembership): number {
+    return collapsed ? Math.max(channel.total_msg_count_root - member.msg_count_root, 0) : Math.max(channel.total_msg_count - member.msg_count, 0);
+}

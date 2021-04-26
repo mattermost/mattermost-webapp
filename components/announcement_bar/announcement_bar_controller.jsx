@@ -11,6 +11,7 @@ import AnnouncementBar from './default_announcement_bar';
 
 import CloudAnnouncementBar from './cloud_announcement_bar';
 import PaymentAnnouncementBar from './payment_announcement_bar';
+import CloudTrialAnnouncementBar from './cloud_trial_announcement_bar';
 
 export default class AnnouncementBarController extends React.PureComponent {
     static propTypes = {
@@ -55,6 +56,7 @@ export default class AnnouncementBarController extends React.PureComponent {
         }
         let cloudAnnouncementBar = null;
         let paymentAnnouncementBar = null;
+        let cloudTrialAnnouncementBar = null;
         if (this.props.license.Cloud === 'true') {
             cloudAnnouncementBar = (
                 <CloudAnnouncementBar/>
@@ -62,14 +64,18 @@ export default class AnnouncementBarController extends React.PureComponent {
             paymentAnnouncementBar = (
                 <PaymentAnnouncementBar/>
             );
+            cloudTrialAnnouncementBar = (
+                <CloudTrialAnnouncementBar/>
+            );
         }
 
         return (
-            <React.Fragment>
+            <>
                 {adminConfiguredAnnouncementBar}
                 {errorBar}
                 {cloudAnnouncementBar}
                 {paymentAnnouncementBar}
+                {cloudTrialAnnouncementBar}
                 <VersionBar/>
                 <ConfigurationAnnouncementBar
                     config={this.props.config}
@@ -79,7 +85,7 @@ export default class AnnouncementBarController extends React.PureComponent {
                     user={this.props.user}
                     warnMetricsStatus={this.props.warnMetricsStatus}
                 />
-            </React.Fragment>
+            </>
         );
     }
 }
