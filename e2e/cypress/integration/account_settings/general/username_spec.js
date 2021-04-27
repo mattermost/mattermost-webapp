@@ -40,7 +40,7 @@ describe('Account Settings > Sidebar > General > Edit', () => {
 
     beforeEach(() => {
         // # Go to Account Settings
-        cy.toAccountSettingsModal();
+        cy.uiOpenAccountSettingsModal();
     });
 
     it('MM-T2050 Username cannot be blank', () => {
@@ -85,11 +85,11 @@ describe('Account Settings > Sidebar > General > Edit', () => {
         cy.get('#usernameEdit').click();
 
         // # Add the username to textfield contents
-        cy.get('#username').clear().type(`${otherUser.username}`);
+        cy.get('#username').clear().type(otherUser.username);
         cy.get('#saveSetting').click();
 
         // * Check if element is present and contains expected text values
-        cy.get('#serverError').should('be.visible').should('contain', 'Unable to find the existing account to update.');
+        cy.get('#serverError').should('be.visible').should('contain', 'An account with that username already exists.');
 
         // # Click "x" button to close Account Settings modal
         cy.get('#accountSettingsHeader > .close').click();
@@ -109,7 +109,7 @@ describe('Account Settings > Sidebar > General > Edit', () => {
             // # Login the temporary user
             cy.apiLogin(tempUser);
             cy.visit(`/${testTeam.name}/channels/town-square`);
-            cy.toAccountSettingsModal();
+            cy.uiOpenAccountSettingsModal();
 
             // # Step 1
             // # Click the General tab
@@ -238,7 +238,7 @@ describe('Account Settings > Sidebar > General > Edit', () => {
                                 cy.visit(`/${testTeam.name}/channels/town-square`);
 
                                 // # Open account settings modal
-                                cy.toAccountSettingsModal();
+                                cy.uiOpenAccountSettingsModal();
 
                                 // # Open Full Name section
                                 cy.get('#usernameDesc').click();
