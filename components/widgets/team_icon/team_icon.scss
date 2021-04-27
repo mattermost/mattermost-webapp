@@ -34,7 +34,7 @@
     width: 34px;
     text-align: center;
     text-transform: uppercase;
-    background-color: var(--sidebar-text-16);
+    background-color: rgba(var(--sidebar-text-rgb), 0.16);
     border: 3px solid rgba(255, 255, 255, 0);
     border-radius: 8px;
     box-sizing: content-box;
