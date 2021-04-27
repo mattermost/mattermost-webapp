@@ -25,7 +25,7 @@
             &:hover {
                 border-color: transparent;
                 box-shadow: none;
-                background-color: var(--sidebar-text-08)
+                background-color: rgba(var(--sidebar-text-rgb), 0.08)
             }
 
             &:active {
