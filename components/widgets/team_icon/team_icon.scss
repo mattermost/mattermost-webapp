@@ -56,7 +56,7 @@
     &.active {
         border-color: var(--sidebar-teambar-bg);
         box-shadow: 0 0 0 3px rgba(var(--sidebar-text-active-border-rgb), 1);
-        background-color: var(--sidebar-text-30);
+        background-color: rgba(var(--sidebar-text-rgb), 0.30);
     }
 
     &.TeamIcon__lg {
