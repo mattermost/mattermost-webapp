@@ -7,9 +7,16 @@ import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels'
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getOpenGraphMetadataForUrl} from 'mattermost-redux/selectors/entities/posts';
 
+import {GlobalState} from 'types/store';
+
 import YoutubeVideo from './youtube_video';
 
-function mapStateToProps(state, ownProps) {
+type OwnProps = {
+    postId: string;
+    link: string;
+}
+
+function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const config = getConfig(state);
 
     return {
