@@ -13,10 +13,10 @@
 import * as TIMEOUTS from '../../fixtures/timeouts';
 import {getAdminAccount} from '../../support/env';
 
-describe('MM-T940 Users - Revoke all sessions', () => {
+describe('System Console > User Management > Users', () => {
     const admin = getAdminAccount();
 
-    it('Verify for System Admin', () => {
+    it('MM-T940 Users - Revoke all sessions', () => {
         // # Login as System Admin
         cy.apiAdminLogin();
 
