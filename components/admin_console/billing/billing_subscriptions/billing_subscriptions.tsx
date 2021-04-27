@@ -11,7 +11,7 @@ import AlertBanner from 'components/alert_banner';
 
 import privateCloudImage from 'images/private-cloud-image.svg';
 
-export const contactSalesCard = (contactSalesLink: any, isFreeTrial: boolean) => {
+export const contactSalesCard = (contactSalesLink: any, isFreeTrial: boolean, trialQuestionsLink: any) => {
     let title;
     let description;
 
@@ -85,7 +85,7 @@ export const contactSalesCard = (contactSalesLink: any, isFreeTrial: boolean) =>
                     />} */}
                 </div>
                 <a
-                    href={contactSalesLink}
+                    href={isFreeTrial ? trialQuestionsLink : contactSalesLink}
                     rel='noopener noreferrer'
                     target='_new'
                     className='PrivateCloudCard__contactSales'

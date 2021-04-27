@@ -143,6 +143,9 @@ class PostList extends React.PureComponent {
             },
             initScrollCompleted: false,
             initScrollOffsetFromBottom: 0,
+
+            showSearchHint: false,
+            isSearchHintDismissed: false,
         };
 
         this.listRef = React.createRef();
@@ -165,6 +168,8 @@ class PostList extends React.PureComponent {
             Math.max(postIndex - 30, 0),
             Math.max(postIndex + 30, Math.min(props.postListIds.length - 1, maxPostsForSlicing)),
         ];
+
+        this.showSearchHintThreshold = this.getShowSearchHintThreshold();
     }
 
     componentDidMount() {
@@ -270,6 +275,8 @@ class PostList extends React.PureComponent {
             });
             this.scrollStopAction = new DelayedAction(this.handleScrollStop);
         }
+
+        this.showSearchHintThreshold = this.getShowSearchHintThreshold();
     }
 
     togglePostMenu = (opened) => {
@@ -342,11 +349,12 @@ class PostList extends React.PureComponent {
         const didUserScrollBackwards = scrollDirection === 'backward' && !scrollUpdateWasRequested;
         const didUserScrollForwards = scrollDirection === 'forward' && !scrollUpdateWasRequested;
         const isOffsetWithInRange = scrollOffset < HEIGHT_TRIGGER_FOR_MORE_POSTS;
-        const offsetFromBottom = (scrollHeight - clientHeight) - scrollOffset < HEIGHT_TRIGGER_FOR_MORE_POSTS;
+        const offsetFromBottom = (scrollHeight - clientHeight) - scrollOffset;
+        const shouldLoadNewPosts = offsetFromBottom < HEIGHT_TRIGGER_FOR_MORE_POSTS;
 
         if (didUserScrollBackwards && isOffsetWithInRange && !this.props.atOldestPost) {
             this.props.actions.loadOlderPosts();
-        } else if (didUserScrollForwards && offsetFromBottom && !this.props.atLatestPost) {
+        } else if (didUserScrollForwards && shouldLoadNewPosts && !this.props.atLatestPost) {
             this.props.actions.loadNewerPosts();
         }
 
@@ -374,12 +382,27 @@ class PostList extends React.PureComponent {
             }
 
             if (!this.state.atBottom && scrollHeight) {
-                const initScrollOffsetFromBottom = scrollHeight - clientHeight - scrollOffset;
                 this.setState({
-                    initScrollOffsetFromBottom,
+                    initScrollOffsetFromBottom: offsetFromBottom,
                 });
             }
         }
+
+        if (this.state.isMobile && this.state.showSearchHint) {
+            this.setState({
+                showSearchHint: false,
+            });
+        }
+
+        if (!this.state.isMobile && !this.state.isSearchHintDismissed) {
+            this.setState({
+                showSearchHint: offsetFromBottom > this.showSearchHintThreshold,
+            });
+        }
+    }
+
+    getShowSearchHintThreshold = () => {
+        return window.screen.height * 3;
     }
 
     checkBottom = (scrollOffset, scrollHeight, clientHeight) => {
@@ -421,6 +444,13 @@ class PostList extends React.PureComponent {
                 isScrolling: false,
             });
         }
+    }
+
+    handleSearchHintDismiss = () => {
+        this.setState({
+            showSearchHint: false,
+            isSearchHintDismissed: true,
+        });
     }
 
     updateFloatingTimestamp = (visibleTopItem) => {
@@ -513,6 +543,8 @@ class PostList extends React.PureComponent {
                 channelId={this.props.channelId}
                 focusedPostId={this.props.focusedPostId}
                 initScrollOffsetFromBottom={this.state.initScrollOffsetFromBottom}
+                onSearchHintDismiss={this.handleSearchHintDismiss}
+                showSearchHintToast={this.state.showSearchHint}
             />
         );
     }
@@ -572,6 +604,7 @@ class PostList extends React.PureComponent {
                                 {({height, width}) => (
                                     <React.Fragment>
                                         <div>{this.renderToasts(width)}</div>
+
                                         <DynamicSizeList
                                             ref={this.listRef}
                                             height={height}

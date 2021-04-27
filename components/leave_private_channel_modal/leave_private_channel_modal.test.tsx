@@ -26,6 +26,7 @@ describe('components/LeavePrivateChannelModal', () => {
             delete_at: 0,
             last_post_at: 0,
             total_msg_count: 0,
+            total_msg_count_root: 0,
             extra_update_at: 0,
         },
         'channel-2': {
@@ -44,6 +45,7 @@ describe('components/LeavePrivateChannelModal', () => {
             delete_at: 0,
             last_post_at: 0,
             total_msg_count: 0,
+            total_msg_count_root: 0,
             extra_update_at: 0,
         },
         'town-square': {
@@ -62,6 +64,7 @@ describe('components/LeavePrivateChannelModal', () => {
             delete_at: 0,
             last_post_at: 0,
             total_msg_count: 0,
+            total_msg_count_root: 0,
             extra_update_at: 0,
         },
     };

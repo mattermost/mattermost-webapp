@@ -6,11 +6,10 @@ import {bindActionCreators, Dispatch} from 'redux';
 
 import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
 import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
-import {getThreadCountsInCurrentTeam} from 'mattermost-redux/selectors/entities/threads';
 
 import {Channel} from 'mattermost-redux/types/channels';
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
+import {getMsgCountInChannel, isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 
 import {clearChannelSelection, multiSelectChannelAdd, multiSelectChannelTo} from 'actions/views/channel_sidebar';
 import {isChannelSelected} from 'selectors/views/channel_sidebar';
@@ -30,16 +29,12 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     let unreadMentions = 0;
     let unreadMsgs = 0;
     let showUnreadForMsgs = true;
+    const collapsed = isCollapsedThreadsEnabled(state);
     if (member) {
-        unreadMentions = member.mention_count;
-
-        if (isCollapsedThreadsEnabled(state)) {
-            const threadMentionCountInChannel = getThreadCountsInCurrentTeam(state)?.unread_mentions_per_channel?.[ownProps.channel.id] || 0;
-            unreadMentions -= threadMentionCountInChannel;
-        }
+        unreadMentions = collapsed ? member.mention_count_root : member.mention_count;
 
         if (ownProps.channel) {
-            unreadMsgs = Math.max(ownProps.channel.total_msg_count - member.msg_count, 0);
+            unreadMsgs = getMsgCountInChannel(collapsed, ownProps.channel, member);
         }
 
         if (member.notify_props) {

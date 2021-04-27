@@ -5,8 +5,6 @@ import React from 'react';
 import {Provider} from 'react-redux';
 import {Router} from 'react-router-dom';
 
-import {addDecorator} from '@storybook/react';
-
 import IntlProvider from 'components/intl_provider';
 
 import {browserHistory} from 'utils/browser_history';
@@ -23,14 +21,16 @@ import 'storybook/styles.scss';
 
 resetTheme();
 
-addDecorator((storyFn) => (
-    <Provider store={store}>
-        <IntlProvider>
-            <Router history={browserHistory}>
-                <div style={{background: 'white'}}>
-                    {storyFn()}
-                </div>
-            </Router>
-        </IntlProvider>
-    </Provider>
-));
+export default function decorator(storyFn) {
+    return (
+        <Provider store={store}>
+            <IntlProvider>
+                <Router history={browserHistory}>
+                    <div style={{background: 'white'}}>
+                        {storyFn()}
+                    </div>
+                </Router>
+            </IntlProvider>
+        </Provider>
+    );
+}
