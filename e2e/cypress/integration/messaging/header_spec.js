@@ -36,7 +36,7 @@ describe('Header', () => {
         updateAndVerifyChannelHeader('>', 'newheader'.repeat(20));
     });
 
-    it('CS14730 - Channel Header: Markdown quote', () => {
+    it('MM-T881_1 - Header: Markdown quote', () => {
         // # Update channel header text
         const header = 'This is a quote in the header';
         updateAndVerifyChannelHeader('>', header);

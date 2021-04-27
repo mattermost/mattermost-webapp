@@ -315,11 +315,12 @@ export function shouldHideDefaultChannel(state: GlobalState, channel: Channel): 
 export const countCurrentChannelUnreadMessages: (state: GlobalState) => number = createSelector(
     getCurrentChannel,
     getMyCurrentChannelMembership,
-    (channel: Channel, membership?: ChannelMembership | null): number => {
+    isCollapsedThreadsEnabled,
+    (channel: Channel, membership?: ChannelMembership | null, isCollapsed?: boolean): number => {
         if (!membership) {
             return 0;
         }
-        return channel.total_msg_count - membership.msg_count;
+        return isCollapsed ? channel.total_msg_count_root - membership.msg_count_root : channel.total_msg_count - membership.msg_count;
     },
 );
 
