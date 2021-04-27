@@ -30,7 +30,7 @@
     left: 0;
     height: 100%;
     z-index: 16;
-    border-right: 1px solid rgba(var(--center-channel-color-rgb), 0.2);
+    border-right: 1px solid rgba(var(--center-channel-color-rgb), 0.12);
 
     &.dragging {
         z-index: 14;
