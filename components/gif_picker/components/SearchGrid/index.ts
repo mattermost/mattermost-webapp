@@ -3,11 +3,13 @@
 
 import {connect} from 'react-redux';
 
+import {GlobalState} from 'mattermost-redux/types/store';
+
 import {saveSearchScrollPosition} from 'mattermost-redux/actions/gifs';
 
 import SearchGrid from './SearchGrid';
 
-function mapStateToProps(state) {
+function mapStateToProps(state: GlobalState) {
     return {
         ...state.entities.gifs.cache,
         ...state.entities.gifs.search,
@@ -20,5 +22,9 @@ function mapDispatchToProps() {
         saveSearchScrollPosition,
     };
 }
+
+// const mapDispatchToProps = ({
+//     saveSearchScrollPosition,
+// });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchGrid);

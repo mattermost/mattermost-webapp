@@ -2,8 +2,12 @@
 // See LICENSE.txt for license information.
 
 import React, {PureComponent} from 'react';
-import PropTypes from 'prop-types';
+
+// import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
+
+import {DispatchFunc} from 'mattermost-redux/types/actions'; // added
+import {GlobalState} from 'types/store'; // added
 
 import {saveSearchScrollPosition} from 'mattermost-redux/actions/gifs';
 
@@ -22,7 +26,39 @@ const NUMBER_OF_COLUMNS_PORTRAIT = 2;
 const NUMBER_OF_COLUMNS_LANDSCAPE = 2;
 const WEBKIT_SCROLLBAR_WIDTH = 8;
 
-function mapStateToProps(state) {
+// static propTypes = {
+//     appProps: PropTypes.object,
+//     gifs: PropTypes.object,
+//     resultsByTerm: PropTypes.object,
+//     containerClassName: PropTypes.string,
+//     keyword: PropTypes.string, // searchText, tagName
+//     handleItemClick: PropTypes.func,
+//     loadMore: PropTypes.func,
+//     numberOfColumns: PropTypes.number,
+//     scrollPosition: PropTypes.number,
+//     saveSearchScrollPosition: PropTypes.func,
+// }
+
+type Props = {
+    appProps: Record<string, any>;
+    gifs: Record<string, Record<string, any>>;
+    resultsByTerm: Record<string, Record<string, any>>;
+    containerClassName?: string;
+    keyword: string;
+    handleItemClick: (gif: any) => void;
+
+    // handleItemClick: (gif: Record<string, any>) => void;
+    loadMore: () => void;
+    numberOfColumns?: number;
+    scrollPosition: number;
+    saveSearchScrollPosition: (scrollPosition: number) => (dispatch: DispatchFunc) => void;
+}
+
+type State = {
+    containerWidth: null | number;
+}
+
+function mapStateToProps(state: GlobalState) {
     return {
         ...state.entities.gifs.cache,
         ...state.entities.gifs.search,
@@ -34,21 +70,10 @@ const mapDispatchToProps = ({
     saveSearchScrollPosition,
 });
 
-export class SearchGrid extends PureComponent {
-    static propTypes = {
-        appProps: PropTypes.object,
-        gifs: PropTypes.object,
-        resultsByTerm: PropTypes.object,
-        containerClassName: PropTypes.string,
-        keyword: PropTypes.string, // searchText, tagName
-        handleItemClick: PropTypes.func,
-        loadMore: PropTypes.func,
-        numberOfColumns: PropTypes.number,
-        scrollPosition: PropTypes.number,
-        saveSearchScrollPosition: PropTypes.func,
-    }
-
-    constructor(props) {
+// export class SearchGrid extends PureComponent<Props, GlobalState> {
+export class SearchGrid extends PureComponent<Props, State> {
+    // scrollPosition: number;
+    constructor(props: Props) {
         super(props);
         this.state = {
             containerWidth: null,
