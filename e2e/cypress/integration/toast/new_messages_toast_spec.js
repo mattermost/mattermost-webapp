@@ -79,7 +79,7 @@ describe('Toast', () => {
         cy.get('div.toast__jump').should('not.be.visible');
 
         // * As time elapsed the toast should be hidden
-        cy.get('div.toast').should('be.not.visible');
+        cy.get('div.toast').should('not.be.visible');
     });
 
     it('MM-T1784_2 should see a toast with number of unread messages in the toast if the bottom is not in view', () => {
@@ -113,7 +113,7 @@ describe('Toast', () => {
         cy.viewport('iphone-6');
         cy.get('.toast__visible').should('be.visible').within(() => {
             cy.get('.toast__jump').findAllByLabelText('Down Arrow Icon').should('be.visible');
-            cy.findByText('Jump to new messages').should('not.be.visible');
+            cy.findByText('Jump to new messages').should('not.exist');
             cy.get('.toast__message>span').should('be.visible').first().contains(`${numberOfPost} new messages`).find('time').should('not.exist');
             cy.get('#dismissToast').should('be.visible');
         });

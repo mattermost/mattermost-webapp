@@ -5,39 +5,9 @@ import {Preferences} from 'mattermost-redux/constants';
 
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 
-import {setCategoryCollapsed} from 'actions/views/channel_sidebar';
-
-import configureStore from 'store';
-
 import {TestHelper} from 'utils/test_helper';
 
 import * as Selectors from './channel_sidebar';
-
-describe('isCategoryCollapsed', () => {
-    const category1 = 'category1';
-    const category2 = 'category2';
-
-    test('should return false by default', async () => {
-        const store = await configureStore();
-
-        expect(Selectors.isCategoryCollapsed(store.getState(), category1)).toBe(false);
-        expect(Selectors.isCategoryCollapsed(store.getState(), category2)).toBe(false);
-    });
-
-    test('should return true when category is explicitly collapsed', async () => {
-        const store = await configureStore();
-
-        await store.dispatch(setCategoryCollapsed(category1, true));
-
-        expect(Selectors.isCategoryCollapsed(store.getState(), category1)).toBe(true);
-        expect(Selectors.isCategoryCollapsed(store.getState(), category2)).toBe(false);
-
-        await store.dispatch(setCategoryCollapsed(category1, false));
-
-        expect(Selectors.isCategoryCollapsed(store.getState(), category1)).toBe(false);
-        expect(Selectors.isCategoryCollapsed(store.getState(), category2)).toBe(false);
-    });
-});
 
 describe('getUnreadChannels', () => {
     const currentChannel = TestHelper.getChannelMock({id: 'currentChannel', delete_at: 0, total_msg_count: 0, last_post_at: 0});

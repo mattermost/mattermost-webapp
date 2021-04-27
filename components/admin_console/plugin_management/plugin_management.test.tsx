@@ -90,6 +90,7 @@ describe('components/PluginManagement', () => {
                 webapp: {},
             },
         },
+        appsEnabled: false,
         actions: {
             uploadPlugin: jest.fn(),
             installPluginFromUrl: jest.fn(),
@@ -232,6 +233,7 @@ describe('components/PluginManagement', () => {
             },
             pluginStatuses: {},
             plugins: {},
+            appsEnabled: false,
             actions: {
                 uploadPlugin: jest.fn(),
                 installPluginFromUrl: jest.fn(),
@@ -321,6 +323,7 @@ describe('components/PluginManagement', () => {
                     webapp: {},
                 },
             },
+            appsEnabled: false,
             actions: {
                 uploadPlugin: jest.fn(),
                 installPluginFromUrl: jest.fn(),
@@ -377,6 +380,7 @@ describe('components/PluginManagement', () => {
                     webapp: {},
                 },
             },
+            appsEnabled: false,
             actions: {
                 uploadPlugin: jest.fn(),
                 installPluginFromUrl: jest.fn(),
@@ -433,6 +437,7 @@ describe('components/PluginManagement', () => {
                     webapp: {},
                 },
             },
+            appsEnabled: false,
             actions: {
                 uploadPlugin: jest.fn(),
                 installPluginFromUrl: jest.fn(),
@@ -491,6 +496,7 @@ describe('components/PluginManagement', () => {
                     webapp: {},
                 },
             },
+            appsEnabled: false,
             actions: {
                 uploadPlugin: jest.fn(),
                 installPluginFromUrl: jest.fn(),

@@ -82,6 +82,7 @@ class RhsComment extends React.PureComponent {
             emitShortcutReactToLastPostFrom: PropTypes.func,
         }),
         emojiMap: PropTypes.object.isRequired,
+        timestampProps: PropTypes.object,
     };
 
     constructor(props) {
@@ -198,6 +199,7 @@ class RhsComment extends React.PureComponent {
                 eventTime={post.create_at}
                 postId={post.id}
                 location={Locations.RHS_COMMENT}
+                timestampProps={{...this.props.timestampProps, style: this.props.isConsecutivePost && !this.props.compactDisplay ? 'narrow' : undefined}}
             />
         );
     };
@@ -309,6 +311,7 @@ class RhsComment extends React.PureComponent {
             userProfile = (
                 <UserProfile
                     userId={post.user_id}
+                    channelId={post.channel_id}
                     isBusy={this.props.isBusy}
                     isRHS={true}
                     hasMention={true}
@@ -320,6 +323,7 @@ class RhsComment extends React.PureComponent {
             userProfile = (
                 <UserProfile
                     userId={post.user_id}
+                    channelId={post.channel_id}
                     isBusy={this.props.isBusy}
                     isRHS={true}
                     hasMention={true}
@@ -333,6 +337,7 @@ class RhsComment extends React.PureComponent {
                     isRHS={true}
                     post={post}
                     userId={post.user_id}
+                    channelId={post.channel_id}
                 />
             );
 
@@ -341,6 +346,7 @@ class RhsComment extends React.PureComponent {
                     userProfile = (
                         <UserProfile
                             userId={post.user_id}
+                            channelId={post.channel_id}
                             hideStatus={true}
                             overwriteName={post.props.override_username}
                             disablePopover={true}
@@ -350,6 +356,7 @@ class RhsComment extends React.PureComponent {
                     userProfile = (
                         <UserProfile
                             userId={post.user_id}
+                            channelId={post.channel_id}
                             hideStatus={true}
                             disablePopover={true}
                         />
@@ -362,6 +369,7 @@ class RhsComment extends React.PureComponent {
                     <span className='auto-responder'>
                         <UserProfile
                             userId={post.user_id}
+                            channelId={post.channel_id}
                             hideStatus={true}
                             isBusy={this.props.isBusy}
                             isRHS={true}
@@ -381,6 +389,7 @@ class RhsComment extends React.PureComponent {
                 userProfile = (
                     <UserProfile
                         userId={post.user_id}
+                        channelId={post.channel_id}
                         hideStatus={true}
                     />
                 );
@@ -404,6 +413,7 @@ class RhsComment extends React.PureComponent {
                         }
                         overwriteImage={Constants.SYSTEM_MESSAGE_PROFILE_IMAGE}
                         disablePopover={true}
+                        channelId={post.channel_id}
                     />
                 );
                 visibleMessage = (

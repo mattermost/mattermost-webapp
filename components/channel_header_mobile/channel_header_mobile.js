@@ -1,9 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable react/no-string-refs */
 
 import React from 'react';
 import PropTypes from 'prop-types';
+
+import {FormattedMessage} from 'react-intl';
+
+import classNames from 'classnames';
 
 import {MobileChannelHeaderDropdown} from 'components/channel_header_dropdown';
 import MobileChannelHeaderPlug from 'plugins/mobile_channel_header_plug';
@@ -49,6 +52,8 @@ export default class ChannelHeaderMobile extends React.PureComponent {
          */
         currentRelativeTeamUrl: PropTypes.string,
 
+        inGlobalThreads: PropTypes.bool,
+
         /**
          * Object with action creators
          */
@@ -57,6 +62,7 @@ export default class ChannelHeaderMobile extends React.PureComponent {
             closeRhs: PropTypes.func.isRequired,
             closeRhsMenu: PropTypes.func.isRequired,
         }).isRequired,
+
     };
 
     componentDidMount() {
@@ -79,7 +85,29 @@ export default class ChannelHeaderMobile extends React.PureComponent {
     }
 
     render() {
-        const {user, channel, isMuted, isReadOnly, isRHSOpen, currentRelativeTeamUrl} = this.props;
+        const {user, channel, isMuted, isReadOnly, isRHSOpen, currentRelativeTeamUrl, inGlobalThreads} = this.props;
+
+        let heading;
+        if (inGlobalThreads) {
+            heading = (
+                <FormattedMessage
+                    id='globalThreads.heading'
+                    defaultMessage='Followed threads'
+                />
+            );
+        } else if (channel) {
+            heading = (
+                <>
+                    <MobileChannelHeaderDropdown/>
+                    {isMuted && (
+                        <UnmuteChannelButton
+                            user={user}
+                            channel={channel}
+                        />
+                    )}
+                </>
+            );
+        }
 
         return (
             <nav
@@ -90,29 +118,24 @@ export default class ChannelHeaderMobile extends React.PureComponent {
                 <div className='container-fluid theme'>
                     <div className='navbar-header'>
                         <CollapseLhsButton/>
+                        <div className={classNames('navbar-brand', {GlobalThreads___title: inGlobalThreads})}>
+                            {heading}
+                        </div>
+                        <div className='spacer'/>
                         {channel && (
-                            <React.Fragment>
-                                <div className='navbar-brand'>
-                                    <MobileChannelHeaderDropdown/>
-                                    {isMuted && (
-                                        <UnmuteChannelButton
-                                            user={user}
-                                            channel={channel}
-                                        />
-                                    )}
-                                </div>
-                                <ChannelInfoButton
-                                    channel={channel}
-                                    isReadOnly={isReadOnly}
-                                    isRHSOpen={isRHSOpen}
-                                    currentRelativeTeamUrl={currentRelativeTeamUrl}
-                                />
-                                <ShowSearchButton/>
-                                <MobileChannelHeaderPlug
-                                    channel={channel}
-                                    isDropdown={false}
-                                />
-                            </React.Fragment>
+                            <ChannelInfoButton
+                                channel={channel}
+                                isReadOnly={isReadOnly}
+                                isRHSOpen={isRHSOpen}
+                                currentRelativeTeamUrl={currentRelativeTeamUrl}
+                            />
+                        )}
+                        <ShowSearchButton/>
+                        {channel && (
+                            <MobileChannelHeaderPlug
+                                channel={channel}
+                                isDropdown={false}
+                            />
                         )}
                         <CollapseRhsButton/>
                     </div>
@@ -121,4 +144,3 @@ export default class ChannelHeaderMobile extends React.PureComponent {
         );
     }
 }
-/* eslint-enable react/no-string-refs */
