@@ -24,7 +24,7 @@ describe('components/ProfilePopover', () => {
         canManageAnyChannelMembersInCurrentTeam: true,
         isCustomStatusEnabled: true,
         actions: {
-            getMembershipForCurrentEntities: jest.fn(),
+            getMembershipForEntities: jest.fn(),
             openDirectChannelToUserId: jest.fn(),
             openModal: jest.fn(),
             closeModal: jest.fn(),

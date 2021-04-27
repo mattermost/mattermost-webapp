@@ -8,7 +8,7 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @enterprise @incoming_webhook @not_cloud
+// Group: @enterprise @elasticsearch @incoming_webhook @not_cloud
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 import {

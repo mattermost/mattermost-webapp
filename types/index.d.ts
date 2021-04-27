@@ -2,3 +2,9 @@
 // See LICENSE.txt for license information.
 
 import './utils.d';
+
+import {$ID} from 'mattermost-redux/types/utilities';
+
+declare namespace global {
+    export = $ID;
+}

@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow, ShallowWrapper} from 'enzyme';
+import {shallow} from 'enzyme';
 
 import GetPublicLinkModal from 'components/get_public_link_modal/get_public_link_modal';
 
@@ -10,7 +10,7 @@ import GetLinkModal from 'components/get_link_modal';
 
 describe('components/GetPublicLinkModal', () => {
     test('should match snapshot when link is empty', () => {
-        const wrapper: ShallowWrapper<any, any, GetPublicLinkModal> = shallow(
+        const wrapper = shallow<GetPublicLinkModal>(
             <GetPublicLinkModal
                 link={''}
                 actions={{getFilePublicLink: jest.fn()}}
@@ -21,7 +21,7 @@ describe('components/GetPublicLinkModal', () => {
     });
 
     test('should match snapshot when link is undefined', () => {
-        const wrapper: ShallowWrapper<any, any, GetPublicLinkModal> = shallow(
+        const wrapper = shallow<GetPublicLinkModal>(
             <GetPublicLinkModal
                 actions={{getFilePublicLink: jest.fn()}}
             />,
@@ -31,7 +31,7 @@ describe('components/GetPublicLinkModal', () => {
     });
 
     test('should match snapshot when link is not empty', () => {
-        const wrapper: ShallowWrapper<any, any, GetPublicLinkModal> = shallow(
+        const wrapper = shallow<GetPublicLinkModal>(
             <GetPublicLinkModal
                 link={'http://mattermost.com/files/n5bnoaz3e7g93nyipzo1bixdwr/public?h=atw9qQHI1nUPnxo1e48tPspo1Qvwd3kHtJZjysmI5zs'}
                 actions={{getFilePublicLink: jest.fn()}}
@@ -45,7 +45,7 @@ describe('components/GetPublicLinkModal', () => {
         const getFilePublicLink = jest.fn();
         const fileId = 'n5bnoaz3e7g93nyipzo1bixdwr';
 
-        const wrapper: ShallowWrapper<any, any, GetPublicLinkModal> = shallow(
+        const wrapper = shallow<GetPublicLinkModal>(
             <GetPublicLinkModal
                 link={'http://mattermost.com/files/n5bnoaz3e7g93nyipzo1bixdwr/public?h=atw9qQHI1nUPnxo1e48tPspo1Qvwd3kHtJZjysmI5zs'}
                 actions={{getFilePublicLink}}
@@ -61,7 +61,7 @@ describe('components/GetPublicLinkModal', () => {
         const getFilePublicLink = jest.fn();
         const fileId = 'n5bnoaz3e7g93nyipzo1bixdwr';
 
-        const wrapper: ShallowWrapper<any, any, GetPublicLinkModal> = shallow(
+        const wrapper = shallow<GetPublicLinkModal>(
             <GetPublicLinkModal
                 link={'http://mattermost.com/files/n5bnoaz3e7g93nyipzo1bixdwr/public?h=atw9qQHI1nUPnxo1e48tPspo1Qvwd3kHtJZjysmI5zs'}
                 actions={{getFilePublicLink}}
@@ -75,7 +75,7 @@ describe('components/GetPublicLinkModal', () => {
     });
 
     test('should call handleToggle on GetLinkModal\'s onHide', () => {
-        const wrapper: ShallowWrapper<any, any, GetPublicLinkModal> = shallow(
+        const wrapper = shallow<GetPublicLinkModal>(
             <GetPublicLinkModal
                 link={'http://mattermost.com/files/n5bnoaz3e7g93nyipzo1bixdwr/public?h=atw9qQHI1nUPnxo1e48tPspo1Qvwd3kHtJZjysmI5zs'}
                 actions={{getFilePublicLink: jest.fn()}}

@@ -17,6 +17,7 @@ import {ActionFunc, ActionResult, GenericAction} from 'mattermost-redux/types/ac
 
 import {Post} from 'mattermost-redux/types/posts';
 
+import {setThreadFollow} from 'mattermost-redux/actions/threads';
 import {AppCallRequest, AppCallType} from 'mattermost-redux/types/apps';
 
 import {GlobalState} from 'types/store';
@@ -105,6 +106,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             openModal,
             markPostAsUnread,
             doAppCall,
+            setThreadFollow,
         }, dispatch),
     };
 }

@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow, ShallowWrapper} from 'enzyme';
+import {shallow} from 'enzyme';
 
 import {OutgoingWebhook} from 'mattermost-redux/types/integrations';
 
@@ -75,7 +75,7 @@ describe('components/integrations/EditOutgoingWebhook', () => {
 
     test('should have match state when handleConfirmModal is called', () => {
         const props = {...baseProps, hook};
-        const wrapper: ShallowWrapper<any, any, EditOutgoingWebhook> = shallow(
+        const wrapper = shallow<EditOutgoingWebhook>(
             <EditOutgoingWebhook {...props}/>,
         );
 
@@ -86,7 +86,7 @@ describe('components/integrations/EditOutgoingWebhook', () => {
 
     test('should have match state when confirmModalDismissed is called', () => {
         const props = {...baseProps, hook};
-        const wrapper: ShallowWrapper<any, any, EditOutgoingWebhook> = shallow(
+        const wrapper = shallow<EditOutgoingWebhook>(
             <EditOutgoingWebhook {...props}/>,
         );
 
@@ -97,7 +97,7 @@ describe('components/integrations/EditOutgoingWebhook', () => {
 
     test('should have match renderExtra', () => {
         const props = {...baseProps, hook};
-        const wrapper: ShallowWrapper<any, any, EditOutgoingWebhook> = shallow(
+        const wrapper = shallow<EditOutgoingWebhook>(
             <EditOutgoingWebhook {...props}/>,
         );
 
@@ -106,7 +106,7 @@ describe('components/integrations/EditOutgoingWebhook', () => {
 
     test('should have match when editOutgoingHook is called', () => {
         const props = {...baseProps, hook};
-        const wrapper: ShallowWrapper<any, any, EditOutgoingWebhook> = shallow(
+        const wrapper = shallow<EditOutgoingWebhook>(
             <EditOutgoingWebhook {...props}/>,
         );
 
@@ -126,7 +126,7 @@ describe('components/integrations/EditOutgoingWebhook', () => {
         };
         browserHistory.push = jest.fn();
         const props = {...baseProps, hook, actions: newActions};
-        const wrapper: ShallowWrapper<any, any, EditOutgoingWebhook> = shallow(
+        const wrapper = shallow<EditOutgoingWebhook>(
             <EditOutgoingWebhook {...props}/>,
         );
 
@@ -145,7 +145,7 @@ describe('components/integrations/EditOutgoingWebhook', () => {
             updateOutgoingHook: jest.fn().mockReturnValue({data: ''}),
         };
         const props = {...baseProps, hook, actions: newActions};
-        const wrapper: ShallowWrapper<any, any, EditOutgoingWebhook> = shallow(
+        const wrapper = shallow<EditOutgoingWebhook>(
             <EditOutgoingWebhook {...props}/>,
         );
 

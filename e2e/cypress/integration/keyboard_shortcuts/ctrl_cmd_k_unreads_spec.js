@@ -86,24 +86,21 @@ describe('Keyboard Shortcuts', () => {
         // # Verify that the mentions in the channels of this team are displayed
         cy.get('#suggestionList').should('exist').children().should('have.length', count);
 
-        cy.get('#suggestionList').find('.mentions__name').eq(0).should('be.visible').and('have.class', 'suggestion--selected').and('have.attr', 'aria-label', team1Channels[0].display_name);
-        cy.get('#suggestionList').find('.mentions__name').eq(0).within(() => {
-            cy.get('.badge').should('be.visible').and('have.text', baseCount);
-        });
-        cy.findByRole('textbox', {name: 'quick switch input'}).type('{downarrow}');
+        cy.get('#suggestionList').
+            findByTestId(team1Channels[0].name).should('be.visible').and('have.class', 'suggestion--selected').
+            find('.badge').should('be.visible').and('have.text', baseCount);
 
-        cy.get('#suggestionList').find('.mentions__name').eq(1).should('be.visible').and('have.class', 'suggestion--selected').and('have.attr', 'aria-label', team1Channels[1].display_name);
-        cy.get('#suggestionList').find('.mentions__name').eq(1).within(() => {
-            cy.get('.badge').should('be.visible').and('have.text', baseCount + withMention);
-        });
         cy.findByRole('textbox', {name: 'quick switch input'}).type('{downarrow}');
+        cy.get('#suggestionList').
+            findByTestId(team1Channels[1].name).should('be.visible').and('have.class', 'suggestion--selected').
+            find('.badge').should('be.visible').and('have.text', baseCount + withMention);
 
-        cy.get('#suggestionList').find('.mentions__name').eq(2).should('be.visible').and('have.class', 'suggestion--selected').and('have.attr', 'aria-label', team1Channels[2].display_name);
-        cy.get('#suggestionList').find('.mentions__name').eq(2).within(() => {
-            cy.get('.badge').should('be.visible').and('have.text', baseCount + withMention);
-        });
         cy.findByRole('textbox', {name: 'quick switch input'}).type('{downarrow}');
+        cy.get('#suggestionList').
+            findByTestId(team1Channels[2].name).should('be.visible').and('have.class', 'suggestion--selected').
+            find('.badge').should('be.visible').and('have.text', baseCount + withMention);
 
+        cy.findByRole('textbox', {name: 'quick switch input'}).type('{downarrow}');
         cy.findByRole('textbox', {name: 'quick switch input'}).type(team1Channels[1].display_name).wait(TIMEOUTS.HALF_SEC);
 
         // # Verify that the channels of this team are displayed

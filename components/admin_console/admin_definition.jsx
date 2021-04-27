@@ -429,6 +429,7 @@ const AdminDefinition = {
         system_user_detail: {
             url: 'user_management/user/:user_id',
             isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.USERS)),
+            isHidden: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.USERS)),
             schema: {
                 id: 'SystemUserDetail',
                 component: SystemUserDetail,
@@ -437,6 +438,7 @@ const AdminDefinition = {
         group_detail: {
             url: 'user_management/groups/:group_id',
             isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.GROUPS)),
+            isHidden: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.GROUPS)),
             schema: {
                 id: 'GroupDetail',
                 component: GroupDetails,
@@ -459,6 +461,7 @@ const AdminDefinition = {
         team_detail: {
             url: 'user_management/teams/:team_id',
             isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.TEAMS)),
+            isHidden: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.TEAMS)),
             schema: {
                 id: 'TeamDetail',
                 component: TeamDetails,
@@ -480,6 +483,7 @@ const AdminDefinition = {
         channel_detail: {
             url: 'user_management/channels/:channel_id',
             isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.CHANNELS)),
+            isHidden: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.CHANNELS)),
             schema: {
                 id: 'ChannelDetail',
                 component: ChannelDetails,
@@ -1387,8 +1391,6 @@ const AdminDefinition = {
                 'admin.cluster.OverrideHostnameDesc',
                 'admin.cluster.UseIpAddress',
                 'admin.cluster.UseIpAddressDesc',
-                'admin.cluster.UseExperimentalGossip',
-                'admin.cluster.UseExperimentalGossipDesc',
                 'admin.cluster.EnableExperimentalGossipEncryption',
                 'admin.cluster.EnableExperimentalGossipEncryptionDesc',
                 'admin.cluster.EnableGossipCompression',
@@ -3722,7 +3724,6 @@ const AdminDefinition = {
                         isDisabled: it.any(
                             it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SAML)),
                             it.stateIsFalse('SamlSettings.Enable'),
-                            it.stateIsFalse('SamlSettings.Verify'),
                         ),
                     },
                     {
@@ -5734,6 +5735,40 @@ const AdminDefinition = {
                         help_text_markdown: true,
                         isHidden: it.licensedForFeature('Cloud'),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_DROPDOWN,
+                        key: 'ServiceSettings.CollapsedThreads',
+                        label: t('admin.experimental.collapsedThreads.title'),
+                        label_default: 'Collapsed Reply Threads',
+                        help_text: t('admin.experimental.collapsedThreads.desc'),
+                        help_text_default: 'When enabled (default on), this setting enables collapsed reply threads for all users on this server. Users can disable the feature in Account Settings > Display > Collapsed Reply Threads (Beta). When enabled (default off), users must enable collapsed reply threads in Account Settings. When disabled, users cannot access collapsed reply threads. [Learn more about collapsed reply threads](!https://about.mattermost.com/default-threads).',
+                        help_text_markdown: true,
+                        options: [
+                            {
+                                value: 'disabled',
+                                display_name: t('admin.experimental.collapsedThreads.off'),
+                                display_name_default: 'Disabled',
+                            },
+                            {
+                                value: 'default_on',
+                                display_name: t('admin.experimental.collapsedThreads.default_on'),
+                                display_name_default: 'Enabled (Default On)',
+                            },
+                            {
+                                value: 'default_off',
+                                display_name: t('admin.experimental.collapsedThreads.default_off'),
+                                display_name_default: 'Enabled (Default Off)',
+                            },
+
+                            /* {
+                                value: 'always_on',
+                                display_name: t('admin.experimental.collapsedThreads.alwaysOn'),
+                                display_name_default: 'Always On',
+                            }, */
+                        ],
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
+                        isHidden: it.configIsFalse('FeatureFlags', 'CollapsedThreads'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,

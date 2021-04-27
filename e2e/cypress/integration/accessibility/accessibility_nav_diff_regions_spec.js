@@ -83,13 +83,13 @@ describe('Verify Quick Navigation support across different regions in the app', 
             cy.get('#fileUploadButton').focus().tab({shift: true}).tab({shift: true}).type('{uparrow}');
 
             // * Verify post region on RHS reads out correctly
-            verifyNavSupport('#rhsContent', 'message details complimentary region', '3');
+            verifyNavSupport('.post-right__content', 'message details complimentary region', '3');
 
             // # Shift the focus to the RHS input
             cy.get('#fileUploadButton').focus().tab({shift: true});
 
             // * Verify post input on RHS reads out correctly
-            verifyNavSupport('#rhsFooter', 'reply input region', '4');
+            verifyNavSupport('.post-create', 'reply input region', '4');
         });
     });
 

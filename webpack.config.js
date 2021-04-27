@@ -221,15 +221,7 @@ var config = {
                     {
                         loader: 'html-loader',
                         options: {
-                            attributes: {
-                                list: [
-                                    {
-                                        tag: 'link',
-                                        attribute: 'href',
-                                        type: 'src',
-                                    },
-                                ],
-                            },
+                            sources: false,
                         },
                     },
                 ],
