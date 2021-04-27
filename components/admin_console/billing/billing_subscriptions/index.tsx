@@ -59,6 +59,7 @@ const BillingSubscriptions: React.FC<Props> = () => {
 
     const contactSalesLink = useSelector((state: GlobalState) => getCloudContactUsLink(state, InquiryType.Sales));
     const cancelAccountLink = useSelector((state: GlobalState) => getCloudContactUsLink(state, InquiryType.Sales, InquiryIssue.CancelAccount));
+    const trialQuestionsLink = useSelector((state: GlobalState) => getCloudContactUsLink(state, InquiryType.Sales, InquiryIssue.TrialQuestions));
 
     const [showCreditCardBanner, setShowCreditCardBanner] = useState(true);
 
@@ -145,7 +146,7 @@ const BillingSubscriptions: React.FC<Props> = () => {
                             daysLeftOnTrial={daysLeftOnTrial}
                         />
                     </div>
-                    {contactSalesCard(contactSalesLink, isFreeTrial)}
+                    {contactSalesCard(contactSalesLink, isFreeTrial, trialQuestionsLink)}
                     {cancelSubscription(cancelAccountLink, isFreeTrial, isPaidTier)}
                 </div>
             </div>
