@@ -30,7 +30,7 @@
 
             &:active {
                 transform: scale(0.9);
-                background-color: var(--sidebar-text-16);
+                background-color: rgba(var(--sidebar-text-rgb), 0.16);
 
                 .TeamIcon__initials {
                     transform: scale(1.1);
