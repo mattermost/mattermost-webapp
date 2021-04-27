@@ -19,6 +19,7 @@
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+        align-items: center;
 
         > span {
             font-style: normal;
@@ -65,10 +66,6 @@
     }
 
     .content__icon, i {
-        top: 1px;
-        position: relative;
-        align-items: center;
-        display: inline-block;
         font-family: 'compass-icons';
         font-size: 18px;
         line-height: 21px;
