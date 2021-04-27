@@ -58,7 +58,8 @@ const ThreadPane = ({
     const selectHandler = useCallback(() => select(), []);
     let unreadTimestamp = post.edit_at || post.create_at;
 
-    // if we have the whole thread, get the posts in it, sorted. First post - root post, second post - oldest reply. Use that timestamp
+    // if we have the whole thread, get the posts in it, sorted from newest to oldest.
+    // Last post - root post, second to last post - oldest reply. Use that timestamp
     if (postsInThread.length > 1) {
         const p = postsInThread[postsInThread.length - 2];
         unreadTimestamp = p.edit_at || p.create_at;
