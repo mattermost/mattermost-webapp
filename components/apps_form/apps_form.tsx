@@ -28,9 +28,7 @@ export type AppsFormProps = {
     onHide: () => void;
     actions: {
         submit: (submission: {
-            values: {
-                [name: string]: string;
-            };
+            values: AppFormValues;
         }) => Promise<{data: AppCallResponse<FormResponseData>}>;
         performLookupCall: (field: AppField, values: AppFormValues, userInput: string) => Promise<AppSelectOption[]>;
         refreshOnSelect: (field: AppField, values: AppFormValues) => Promise<{data: AppCallResponse<any>}>;
@@ -47,15 +45,15 @@ type FormResponseData = {
 
 type State = {
     show: boolean;
-    values: {[name: string]: string};
+    values: AppFormValues;
     error: string | null;
     errors: {[name: string]: React.ReactNode};
-    submitting: boolean;
+    submitting: string | null;
     form: AppForm;
 }
 
-const initFormValues = (form: AppForm): {[name: string]: string} => {
-    const values: {[name: string]: any} = {};
+const initFormValues = (form: AppForm): AppFormValues => {
+    const values: AppFormValues = {};
     if (form && form.fields) {
         form.fields.forEach((f) => {
             values[f.name] = f.value || null;
@@ -77,7 +75,7 @@ export class AppsForm extends React.PureComponent<Props, State> {
             values,
             error: null,
             errors: {},
-            submitting: false,
+            submitting: null,
             form,
         };
     }
@@ -137,7 +135,11 @@ export class AppsForm extends React.PureComponent<Props, State> {
             values,
         };
 
-        this.setState({submitting: true});
+        let submitting = 'submit';
+        if (submitName && value) {
+            submitting = value;
+        }
+        this.setState({submitting});
 
         const res = await this.props.actions.submit(submission);
         const callResp = res.data as AppCallResponse<FormResponseData>;
@@ -183,7 +185,7 @@ export class AppsForm extends React.PureComponent<Props, State> {
             return;
         }
 
-        this.setState({submitting: false});
+        this.setState({submitting: null});
     };
 
     performLookup = async (name: string, userInput: string): Promise<AppSelectOption[]> => {
@@ -376,7 +378,7 @@ export class AppsForm extends React.PureComponent<Props, State> {
                 type='submit'
                 autoFocus={!fields || fields.length === 0}
                 className='btn btn-primary save-button'
-                spinning={this.state.submitting}
+                spinning={Boolean(this.state.submitting)}
                 spinningText={localizeMessage(
                     'interactive_dialog.submitting',
                     'Submitting...',
@@ -395,10 +397,8 @@ export class AppsForm extends React.PureComponent<Props, State> {
                         key={o.value}
                         type='submit'
                         className='btn btn-primary save-button'
-                        spinningText={localizeMessage(
-                            'interactive_dialog.submitting',
-                            'Submitting...',
-                        )}
+                        spinning={this.state.submitting === o.value}
+                        spinningText={o.label}
                         onClick={(e: React.MouseEvent) => this.handleSubmit(e, field.name, o.value)}
                     >
                         {o.label}
@@ -412,21 +412,23 @@ export class AppsForm extends React.PureComponent<Props, State> {
 
         return (
             <React.Fragment>
-                {this.state.error && (
+                <div>
+                    <button
+                        id='appsModalCancel'
+                        type='button'
+                        className='btn btn-link cancel-button'
+                        onClick={this.onHide}
+                    >
+                        <FormattedMessage
+                            id='interactive_dialog.cancel'
+                            defaultMessage='Cancel'
+                        />
+                    </button>
+                    {submitButtons}
+                </div>
+                <div>
                     <div className='error-text'>{this.state.error}</div>
-                )}
-                <button
-                    id='appsModalCancel'
-                    type='button'
-                    className='btn btn-link cancel-button'
-                    onClick={this.onHide}
-                >
-                    <FormattedMessage
-                        id='interactive_dialog.cancel'
-                        defaultMessage='Cancel'
-                    />
-                </button>
-                {submitButtons}
+                </div>
             </React.Fragment>
         );
     }
