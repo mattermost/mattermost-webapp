@@ -7,10 +7,12 @@ import {Modal} from 'react-bootstrap';
 
 import {browserHistory} from 'utils/browser_history';
 
+import {TestHelper} from 'utils/test_helper';
+
 import UnarchiveChannelModal from './unarchive_channel_modal';
 
 describe('components/unarchive_channel_modal', () => {
-    const channel = {
+    const channel = TestHelper.getChannelMock({
         create_at: 1508265709607,
         creator_id: 'zaktnt8bpbgu8mb6ez9k64r7sa',
         delete_at: 0,
@@ -25,7 +27,7 @@ describe('components/unarchive_channel_modal', () => {
         total_msg_count: 0,
         type: 'O',
         update_at: 1508265709607,
-    };
+    });
 
     const currentTeamDetails = {
         name: 'mattermostDev',
@@ -49,7 +51,7 @@ describe('components/unarchive_channel_modal', () => {
     });
 
     test('should match state when onHide is called', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<UnarchiveChannelModal>(
             <UnarchiveChannelModal {...baseProps}/>,
         );
 
@@ -62,7 +64,7 @@ describe('components/unarchive_channel_modal', () => {
         browserHistory.push = jest.fn();
         const actions = {unarchiveChannel: jest.fn()};
         const props = {...baseProps, actions};
-        const wrapper = shallow(
+        const wrapper = shallow<UnarchiveChannelModal>(
             <UnarchiveChannelModal {...props}/>,
         );
 
@@ -80,7 +82,7 @@ describe('components/unarchive_channel_modal', () => {
             <UnarchiveChannelModal {...props}/>,
         );
 
-        wrapper.find(Modal).props().onExited();
+        wrapper.find(Modal).props().onExited!(document.createElement('div'));
         expect(onHide).toHaveBeenCalledTimes(1);
     });
 });
