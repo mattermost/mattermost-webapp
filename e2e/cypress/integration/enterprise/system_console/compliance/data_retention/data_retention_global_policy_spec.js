@@ -11,12 +11,11 @@
 // Group: @enterprise @system_console
 
 import * as TIMEOUTS from '../../../../../fixtures/timeouts';
-import {gotoGlobalPolicy, editGlobalPolicyMessageRetention, editGlobalPolicyFileRetention, clickCreatePolicy} from '../helpers';
+import {gotoGlobalPolicy, editGlobalPolicyMessageRetention, editGlobalPolicyFileRetention} from '../helpers';
 
 describe('Data Retention', () => {
     let testTeam;
     let testChannel;
-    let customPolicyId;
 
     before(() => {
         cy.apiRequireLicenseForFeature('DataRetention');
@@ -34,220 +33,428 @@ describe('Data Retention', () => {
         });
     });
 
-    // it('MM-T4019 - Global Data Retention policy', () => {
-    //     cy.uiGoToDataRetentionPage();
-
-    //     gotoGlobalPolicy();
-        
-    //     editGlobalPolicyMessageRetention('365', '1 year');
-
-    //     gotoGlobalPolicy();
-        
-    //     editGlobalPolicyMessageRetention('700', '700 days');
-
-    //     gotoGlobalPolicy();
-
-    //     editGlobalPolicyFileRetention('365', '1 year');
-
-    //     gotoGlobalPolicy();
-
-    //     editGlobalPolicyFileRetention('600', '600 days');
-    // });
-
-    it('MM-T4005 - Create custom policy', () => {
+    beforeEach(() => {
+        cy.apiGetCustomRetentionPolicies().then((result) => {
+            result.body.policies.forEach(policy => {
+                cy.apiDeleteCustomRetentionPolicy(policy.id);
+            });
+        });
         cy.intercept({
             method: 'POST',
             url: '/api/v4/data_retention/policies'
         }).as('createCustomPolicy');
-
         cy.uiGoToDataRetentionPage();
-
-        cy.uiClickCreatePolicy();
-
-        cy.uiFillOutCustomPolicyFields('Policy 1', 'days', '60');
-
-        cy.uiAddTeamsToCustomPolicy([testTeam.display_name]);
-
-        cy.uiAddChannelsToCustomPolicy([testChannel.display_name]);
-
-        cy.uiGetButton('Save').click();
-
-        cy.get('#custom_policy_table .DataGrid').should('be.visible');
-
-        cy.wait('@createCustomPolicy').then((interception) => {
-            assert.isNotNull(interception.response.body);
-            assert.isNotNull(interception.response.body.id);
-            customPolicyId = interception.response.body.id;
-
-            cy.get('#custom_policy_table .DataGrid').within(() => {
-                cy.get(`#customDescription-${customPolicyId}`).should('include.text', 'Policy 1');
-                cy.get(`#customDuration-${customPolicyId}`).should('include.text', '60 days');
-                cy.get(`#customAppliedTo-${customPolicyId}`).should('include.text', '1 team, 1 channel');
-            });
-        });
     });
 
-    it('MM-T4005 - Edit custom policy', () => {
-        cy.intercept({
-            method: 'POST',
-            url: '/api/v4/data_retention/policies'
-        }).as('createCustomPolicy');
+    describe('Custom policy creation', () => {
+        it('MM-T4005 - Create custom policy', () => {
+            cy.uiClickCreatePolicy();
+    
+            cy.uiFillOutCustomPolicyFields('Policy 1', 'days', '60');
+    
+            cy.uiAddTeamsToCustomPolicy([testTeam.display_name]);
+    
+            cy.uiAddChannelsToCustomPolicy([testChannel.display_name]);
+    
+            cy.uiGetButton('Save').click();
+    
+            cy.get('#custom_policy_table .DataGrid').should('be.visible');
+    
+            cy.wait('@createCustomPolicy').then((interception) => {
+                cy.uiVerifyPolicyResponse(interception.response.body, 1, 1, 60, 'Policy 1');
 
-        cy.uiGoToDataRetentionPage();
-
-        cy.uiClickCreatePolicy();
-
-        cy.uiFillOutCustomPolicyFields('Policy 2', 'years', '2');
-
-        cy.uiGetButton('Add teams').click();
-        cy.get('.team-info-block').first().then((el) => {
-            el.click();
+                let policyId = interception.response.body.id;
+    
+                cy.get('#custom_policy_table .DataGrid').within(() => {
+                    cy.uiVerifyCustomPolicyRow(policyId, 'Policy 1', '60 days', '1 team, 1 channel');
+                });
+            });
         });
-        cy.uiGetButton('Add').click();
 
-        cy.uiGetButton('Save').click();
-
-        cy.get('#custom_policy_table .DataGrid').should('be.visible');
-
-        cy.wait('@createCustomPolicy').then((interception) => {
-            assert.isNotNull(interception.response.body);
-            assert.isNotNull(interception.response.body.id);
-            let policyId = interception.response.body.id;
-
-            cy.get('#custom_policy_table .DataGrid').within(() => {
-                cy.get(`#customDescription-${policyId}`).should('include.text', 'Policy 2');
-                cy.get(`#customDuration-${policyId}`).should('include.text', '2 years');
-                cy.get(`#customAppliedTo-${policyId}`).should('include.text', '1 team, 0 channels');
-
-                cy.get(`#customWrapper-${policyId}`).trigger('mouseover').click();
-                cy.findByRole('button', {name: /edit/i}).should('be.visible').click();
-            });
-            cy.get('.DataRetentionSettings .admin-console__header', {timeout: TIMEOUTS.TWO_MIN}).should('be.visible').invoke('text').should('include', 'Custom Retention Policy');
-
-            // cy.get('.PolicyTeamsList .DataGrid').within(() => {
-                
-            // });
-            cy.findByRole('link', {name: 'Remove'}).should('exist').click();
-
-            cy.uiGetButton('Add channels').click();
-            cy.get('.channel-info-block').first().then((el) => {
-                el.click();
-            });
-            cy.uiGetButton('Add').click();
+        it('MM-T4006 - Policies count', () => {
+            cy.uiClickCreatePolicy();
+    
+            cy.uiFillOutCustomPolicyFields('Policy 1', 'days', '60');
+    
+            cy.uiAddRandomChannelToCustomPolicy();
+    
             cy.uiGetButton('Save').click();
 
-            cy.get('#custom_policy_table .DataGrid').should('be.visible');
+            cy.uiClickCreatePolicy();
+    
+            cy.uiFillOutCustomPolicyFields('Policy 2', 'days', '160');
+    
+            cy.uiAddRandomChannelToCustomPolicy();
+    
+            cy.uiGetButton('Save').click();
+    
+            cy.uiClickCreatePolicy();
+    
+            cy.uiFillOutCustomPolicyFields('Policy 3', 'days', '100');
+    
+            cy.uiAddRandomChannelToCustomPolicy();
+    
+            cy.uiGetButton('Save').click();
 
-            cy.get('#custom_policy_table .DataGrid').within(() => {
-                cy.get(`#customDescription-${policyId}`).should('include.text', 'Policy 2');
-                cy.get(`#customDuration-${policyId}`).should('include.text', '2 years');
-                cy.get(`#customAppliedTo-${policyId}`).should('include.text', '0 teams, 1 channel');
+            cy.get('#custom_policy_table .DataGrid .DataGrid_footer .DataGrid_cell').should('be.visible').invoke('text').should('include', '1 - 3 of 3');
+
+            cy.apiGetCustomRetentionPolicies().then((result) => {
+                expect(result.body.total_count).to.equal(3);
+            });
+        });
+    
+        it('MM-T4008 - Update custom policy', () => {
+            cy.uiClickCreatePolicy();
+    
+            cy.uiFillOutCustomPolicyFields('Policy 2', 'years', '2');
+    
+            cy.uiAddRandomTeamToCustomPolicy();
+    
+            cy.uiGetButton('Save').click();
+    
+            cy.get('#custom_policy_table .DataGrid').should('be.visible');
+    
+            cy.wait('@createCustomPolicy').then((interception) => {
+                cy.uiVerifyPolicyResponse(interception.response.body, 1, 0, 730, 'Policy 2');
+                let policyId = interception.response.body.id;
+    
+                cy.get('#custom_policy_table .DataGrid').within(() => {
+                    cy.uiVerifyCustomPolicyRow(policyId, 'Policy 2', '2 years', '1 team, 0 channels');
+    
+                    cy.uiClickEditCustomPolicyRow(policyId);
+                });
+                cy.get('.DataRetentionSettings .admin-console__header', {timeout: TIMEOUTS.TWO_MIN}).should('be.visible').invoke('text').should('include', 'Custom Retention Policy');
+    
+                cy.get('.PolicyTeamsList .DataGrid').within(() => {
+                    cy.findByRole('link', {name: 'Remove'}).should('be.visible').click();
+                });
+                
+                cy.uiAddRandomChannelToCustomPolicy();
+
+                cy.uiGetButton('Save').click();
+    
+                cy.get('#custom_policy_table .DataGrid').should('be.visible');
+    
+                cy.get('#custom_policy_table .DataGrid').within(() => {
+                    cy.uiVerifyCustomPolicyRow(policyId, 'Policy 2', '2 years', '0 teams, 1 channel');
+                });
+
+                cy.apiGetCustomRetentionPolicy(policyId).then((result) => {
+                    expect(result.body.team_count).to.equal(0);
+                    expect(result.body.channel_count).to.equal(1);
+                    expect(result.body.post_duration).to.equal(730);
+                    expect(result.body.display_name).to.equal('Policy 2');
+                });
+            });
+        });
+    
+        it('MM-T4009 - Delete a custom policy', () => {
+            cy.uiGoToDataRetentionPage();
+    
+            cy.uiClickCreatePolicy();
+    
+            cy.uiGetTextbox('Policy name').clear().type('Policy 3');
+    
+            cy.uiAddRandomChannelToCustomPolicy();
+
+            cy.uiGetButton('Save').click();
+    
+            cy.get('#custom_policy_table .DataGrid').should('be.visible');
+    
+            cy.wait('@createCustomPolicy').then((interception) => {
+                cy.uiVerifyPolicyResponse(interception.response.body, 0, 1, -1, 'Policy 3');
+                let policyId = interception.response.body.id;
+    
+                cy.get('#custom_policy_table .DataGrid').within(() => {
+                    cy.uiVerifyCustomPolicyRow(policyId, 'Policy 3', 'Keep forever', '0 teams, 1 channel');
+                    // Click Delete
+                    cy.get(`#customWrapper-${policyId}`).trigger('mouseover').click();
+                    cy.findByRole('button', {name: 'Delete'}).should('be.visible').click();
+                    // Wait for deletion
+                    cy.wait(1000);
+    
+                    cy.get(`#customDescription-${policyId}`).should('not.exist');
+                });
             });
         });
     });
 
-    // it('MM-T1177_2 - Compliance export should include updated posts after editing multiple times, exporting multiple times', () => {
-    //     // # Go to compliance page and enable export
-    //     cy.uiGoToCompliancePage();
-    //     cy.uiEnableComplianceExport();
-    //     cy.uiExportCompliance();
+    describe('Teams in a custom Policy', () => {
+        it('MM-T4010 - Show policy teams information', () => {
+            cy.uiGoToDataRetentionPage();
+    
+            cy.uiClickCreatePolicy();
+    
+            cy.uiFillOutCustomPolicyFields('Policy 1', 'years', '2');
+    
+            cy.uiAddTeamsToCustomPolicy([testTeam.display_name]);
+    
+            cy.uiGetButton('Save').click();
 
-    //     // # Navigate to a team and post a Message
-    //     gotoTeamAndPostMessage();
+            cy.wait('@createCustomPolicy').then((interception) => {
+                cy.uiVerifyPolicyResponse(interception.response.body, 1, 0, 730, 'Policy 1');
 
-    //     // # Edit last post
-    //     editLastPost('This is Edit One');
+                let policyId = interception.response.body.id;
 
-    //     // # Post a Message
-    //     cy.postMessage('This is Edit Two');
+                cy.uiVerifyCustomPolicyRow(policyId, 'Policy 1', '2 years', '1 team, 0 channels');
 
-    //     // # Go to compliance page and export
-    //     cy.uiGoToCompliancePage();
-    //     cy.uiExportCompliance();
+                cy.get('#custom_policy_table .DataGrid').within(() => {
+                    cy.uiClickEditCustomPolicyRow(policyId);
+                });
+                cy.get('.DataRetentionSettings .admin-console__header', {timeout: TIMEOUTS.TWO_MIN}).should('be.visible').invoke('text').should('include', 'Custom Retention Policy');
 
-    //     // * 3 messages should be exported
-    //     verifyExportedMessagesCount('3');
-    // });
+                cy.get('.PolicyTeamsList .DataGrid').within(() => {
+                    cy.get(`#team-name-${testTeam.id}`).should('be.visible');
+                });
 
-    // it('MM-T1177_3 - Compliance export should include updated posts after editing multiple times, exporting multiple times', () => {
-    //     // # Go to compliance page and enable export
-    //     cy.uiGoToCompliancePage();
-    //     cy.uiEnableComplianceExport();
-    //     cy.uiExportCompliance();
+                cy.apiGetCustomRetentionPolicyTeams(policyId).then((result) => {
+                    expect(result.body.teams[0].id).to.equal(testTeam.id);
+                });
 
-    //     // # Navigate to a team and post a message
-    //     gotoTeamAndPostMessage();
+            });
+        });
 
-    //     // # Go to compliance page and export
-    //     cy.uiGoToCompliancePage();
-    //     cy.uiExportCompliance();
+        it('MM-T4012 - Search teams in policy', () => {
+            cy.uiGoToDataRetentionPage();
+    
+            cy.uiClickCreatePolicy();
+    
+            cy.uiFillOutCustomPolicyFields('Policy 1', 'years', '2');
+    
+            cy.uiAddTeamsToCustomPolicy([testTeam.display_name]);
 
-    //     // # Editing previously exported post
-    //     goToUserTeam();
-    //     editLastPost('This is Edit Three');
+            cy.uiAddRandomTeamToCustomPolicy();
+    
+            cy.uiGetButton('Save').click();
 
-    //     // # Go to compliance page and export
-    //     cy.uiGoToCompliancePage();
-    //     cy.uiExportCompliance();
+            cy.wait('@createCustomPolicy').then((interception) => {
+                cy.uiVerifyPolicyResponse(interception.response.body, 2, 0, 730, 'Policy 1');
 
-    //     // * 2 messages should be exported
-    //     verifyExportedMessagesCount('2');
-    // });
+                let policyId = interception.response.body.id;
 
-    // it('MM-T1177_4 - Compliance export should include updated posts after editing multiple times, exporting multiple times', () => {
-    //     // # Go to compliance page and enable export
-    //     cy.uiGoToCompliancePage();
-    //     cy.uiEnableComplianceExport();
-    //     cy.uiExportCompliance();
+                cy.uiVerifyCustomPolicyRow(policyId, 'Policy 1', '2 years', '2 teams, 0 channels');
 
-    //     // # Navigate to a team and post a Message
-    //     gotoTeamAndPostMessage();
+                cy.get('#custom_policy_table .DataGrid').within(() => {
+                    cy.uiClickEditCustomPolicyRow(policyId);
+                });
+                cy.get('.DataRetentionSettings .admin-console__header', {timeout: TIMEOUTS.TWO_MIN}).should('be.visible').invoke('text').should('include', 'Custom Retention Policy');
 
-    //     // # Go to compliance page and export
-    //     cy.uiGoToCompliancePage();
-    //     cy.uiExportCompliance();
+                cy.get('.PolicyTeamsList .DataGrid').within(() => {
+                    // This will not type the space for display name?
+                    cy.findByRole('textbox').should('be.visible').clear().type(testTeam.name);
+                    cy.wait(1000);
+                    cy.get(`#team-name-${testTeam.id}`).should('be.visible').invoke('text').should('include', testTeam.display_name);
+                });
 
-    //     // # Editing previously exported post
-    //     goToUserTeam();
-    //     editLastPost('This is Edit Three');
+                cy.apiSearchCustomRetentionPolicyTeams(policyId, testTeam.display_name).then((result) => {
+                    expect(result.body[0].id).to.equal(testTeam.id);
+                });
 
-    //     // # Post new message
-    //     cy.postMessage('This is the post');
+            });
+        });
 
-    //     // # Go to compliance page and export
-    //     cy.uiGoToCompliancePage();
-    //     cy.uiExportCompliance();
+        it('MM-T4018 - Number of teams in policy', () => {
+            cy.uiGoToDataRetentionPage();
+    
+            cy.uiClickCreatePolicy();
+    
+            cy.uiFillOutCustomPolicyFields('Policy 1', 'years', '2');
+    
+            cy.uiAddTeamsToCustomPolicy([testTeam.display_name]);
 
-    //     // * 3 messages should be exported
-    //     verifyExportedMessagesCount('3');
-    // });
+            cy.uiAddRandomTeamToCustomPolicy();
 
-    // it('MM-T1177_5 - Compliance export should include updated posts after editing multiple times, exporting multiple times', () => {
-    //     // # Go to compliance page and enable export
-    //     cy.uiGoToCompliancePage();
-    //     cy.uiEnableComplianceExport();
-    //     cy.uiExportCompliance();
+            cy.uiAddRandomTeamToCustomPolicy();
+    
+            cy.uiGetButton('Save').click();
 
-    //     // # Navigate to a team and post a message
-    //     gotoTeamAndPostMessage();
+            cy.wait('@createCustomPolicy').then((interception) => {
+                cy.uiVerifyPolicyResponse(interception.response.body, 3, 0, 730, 'Policy 1');
 
-    //     // # Editing previously exported post
-    //     editLastPost('This is Edit Four');
-    //     editLastPost('This is Edit Five');
+                let policyId = interception.response.body.id;
 
-    //     // # Go to compliance page and export
-    //     cy.uiGoToCompliancePage();
-    //     cy.uiExportCompliance();
+                cy.uiVerifyCustomPolicyRow(policyId, 'Policy 1', '2 years', '3 teams, 0 channels');
 
-    //     // * 3 messages should be exported
-    //     verifyExportedMessagesCount('3');
-    // });
-});
+                cy.get('#custom_policy_table .DataGrid').within(() => {
+                    cy.uiClickEditCustomPolicyRow(policyId);
+                });
+                cy.get('.DataRetentionSettings .admin-console__header', {timeout: TIMEOUTS.TWO_MIN}).should('be.visible').invoke('text').should('include', 'Custom Retention Policy');
 
-function goToUserTeam() {
-    cy.apiGetTeamsForUser().then(({teams}) => {
-        const team = teams[0];
-        cy.visit(`/${team.name}/channels/town-square`);
-        cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+                cy.get('.PolicyTeamsList .DataGrid').within(() => {
+                    cy.get('.DataGrid_footer .DataGrid_cell').should('exist').invoke('text').should('include', '1 - 3 of 3');
+                });
+
+                cy.apiGetCustomRetentionPolicyTeams(policyId).then((result) => {
+                    expect(result.body.teams.length).to.equal(3);
+                });
+
+            });
+        });
     });
-}
+
+    describe('Channels in a custom Policy', () => {
+        it('MM-T4017 - Total channels in policy', () => {
+            cy.uiGoToDataRetentionPage();
+    
+            cy.uiClickCreatePolicy();
+    
+            cy.uiFillOutCustomPolicyFields('Policy 1', 'years', '2');
+    
+            cy.uiAddChannelsToCustomPolicy([testChannel.display_name]);
+
+            cy.uiAddRandomChannelToCustomPolicy();
+
+            cy.uiAddRandomChannelToCustomPolicy();
+    
+            cy.uiGetButton('Save').click();
+
+            cy.wait('@createCustomPolicy').then((interception) => {
+                cy.uiVerifyPolicyResponse(interception.response.body, 0, 3, 730, 'Policy 1');
+
+                let policyId = interception.response.body.id;
+
+                cy.uiVerifyCustomPolicyRow(policyId, 'Policy 1', '2 years', '0 teams, 3 channels');
+
+                cy.get('#custom_policy_table .DataGrid').within(() => {
+                    cy.uiClickEditCustomPolicyRow(policyId);
+                });
+                cy.get('.DataRetentionSettings .admin-console__header', {timeout: TIMEOUTS.TWO_MIN}).should('be.visible').invoke('text').should('include', 'Custom Retention Policy');
+
+                cy.get('.PolicyChannelsList .DataGrid').within(() => {
+                    cy.get('.DataGrid_footer .DataGrid_cell').should('exist').invoke('text').should('include', '1 - 3 of 3');
+                });
+
+                cy.apiGetCustomRetentionPolicyChannels(policyId).then((result) => {
+                    expect(result.body.channels.length).to.equal(3);
+                });
+
+            });
+        });
+
+        it('MM-T4014 - Add channel in policy', () => {
+            cy.uiGoToDataRetentionPage();
+    
+            cy.uiClickCreatePolicy();
+    
+            cy.uiFillOutCustomPolicyFields('Policy 1', 'years', '2');
+
+            cy.uiAddChannelsToCustomPolicy([testChannel.display_name]);
+    
+            cy.uiGetButton('Save').click();
+
+            cy.wait('@createCustomPolicy').then((interception) => {
+                cy.uiVerifyPolicyResponse(interception.response.body, 0, 1, 730, 'Policy 1');
+
+                let policyId = interception.response.body.id;
+
+                cy.uiVerifyCustomPolicyRow(policyId, 'Policy 1', '2 years', '0 teams, 1 channel');
+
+                cy.apiGetCustomRetentionPolicyChannels(policyId).then((result) => {
+                    expect(result.body.channels[0].id).to.equal(testChannel.id);
+                });
+
+            });
+        });
+
+        it('MM-T4015 - Delete channel in policy', () => {
+            cy.uiGoToDataRetentionPage();
+    
+            cy.uiClickCreatePolicy();
+    
+            cy.uiFillOutCustomPolicyFields('Policy 1', 'years', '1');
+    
+            cy.uiAddChannelsToCustomPolicy([testChannel.display_name]);
+
+            cy.uiAddRandomChannelToCustomPolicy();
+
+            cy.uiAddRandomChannelToCustomPolicy();
+    
+            cy.uiGetButton('Save').click();
+
+            cy.wait('@createCustomPolicy').then((interception) => {
+                cy.uiVerifyPolicyResponse(interception.response.body, 0, 3, 365, 'Policy 1');
+
+                let policyId = interception.response.body.id;
+
+                cy.uiVerifyCustomPolicyRow(policyId, 'Policy 1', '1 year', '0 teams, 3 channels');
+
+                cy.get('#custom_policy_table .DataGrid').within(() => {
+                    cy.uiClickEditCustomPolicyRow(policyId);
+                });
+                cy.get('.DataRetentionSettings .admin-console__header', {timeout: TIMEOUTS.TWO_MIN}).should('be.visible').invoke('text').should('include', 'Custom Retention Policy');
+
+                cy.get('.PolicyChannelsList .DataGrid').within(() => {
+                    cy.findAllByRole('link', {name: 'Remove'}).first().should('exist').click();
+                });
+
+                cy.uiGetButton('Save').click();
+
+                cy.uiVerifyCustomPolicyRow(policyId, 'Policy 1', '1 year', '0 teams, 2 channels');
+
+                cy.apiGetCustomRetentionPolicyChannels(policyId).then((result) => {
+                    expect(result.body.channels.length).to.equal(2);
+                });
+            });
+        });
+
+        it('MM-T4016 - Search channels in policy', () => {
+            cy.uiGoToDataRetentionPage();
+    
+            cy.uiClickCreatePolicy();
+    
+            cy.uiFillOutCustomPolicyFields('Policy 1', 'years', '2');
+    
+            cy.uiAddChannelsToCustomPolicy([testChannel.display_name]);
+
+            cy.uiAddRandomChannelToCustomPolicy();
+    
+            cy.uiGetButton('Save').click();
+
+            cy.wait('@createCustomPolicy').then((interception) => {
+                cy.uiVerifyPolicyResponse(interception.response.body, 0, 2, 730, 'Policy 1');
+
+                let policyId = interception.response.body.id;
+
+                cy.uiVerifyCustomPolicyRow(policyId, 'Policy 1', '2 years', '0 teams, 2 channels');
+
+                cy.get('#custom_policy_table .DataGrid').within(() => {
+                    cy.uiClickEditCustomPolicyRow(policyId);
+                });
+                cy.get('.DataRetentionSettings .admin-console__header', {timeout: TIMEOUTS.TWO_MIN}).should('be.visible').invoke('text').should('include', 'Custom Retention Policy');
+                cy.get('.DataRetentionSettings .admin-console__wrapper').scrollTo('bottom');
+                cy.get('.PolicyChannelsList .DataGrid').within(() => {
+                    // This will not type the space for display name?
+                    cy.findByRole('textbox').should('be.visible').clear().type(testChannel.name);
+                    cy.wait(1000);
+                    cy.get(`#channel-name-${testChannel.id}`).should('be.visible').invoke('text').should('include', testChannel.display_name);
+                });
+
+                cy.apiSearchCustomRetentionPolicyChannels(policyId, testChannel.display_name).then((result) => {
+                    expect(result.body[0].id).to.equal(testChannel.id);
+                });
+            });
+        });
+    });
+
+    describe('Global Policy', () => {
+        it('MM-T4019 - Global Data Retention policy', () => {
+            cy.uiGoToDataRetentionPage();
+
+            gotoGlobalPolicy();
+            
+            editGlobalPolicyMessageRetention('365', '1 year');
+
+            gotoGlobalPolicy();
+            
+            editGlobalPolicyMessageRetention('700', '700 days');
+
+            gotoGlobalPolicy();
+
+            editGlobalPolicyFileRetention('365', '1 year');
+
+            gotoGlobalPolicy();
+
+            editGlobalPolicyFileRetention('600', '600 days');
+        });
+    });
+});

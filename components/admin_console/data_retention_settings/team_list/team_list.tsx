@@ -171,7 +171,10 @@ export default class TeamList extends React.PureComponent<Props, State> {
                 cells: {
                     id: team.id,
                     name: (
-                        <div className='TeamList__nameColumn'>
+                        <div 
+                            className='TeamList__nameColumn' 
+                            id={`team-name-${team.id}`}
+                        >
                             <div className='TeamList__lowerOpacity'>
                                 <TeamIcon
                                     size='sm'
@@ -190,9 +193,11 @@ export default class TeamList extends React.PureComponent<Props, State> {
                         <a
                             id={`remove-team-${team.id}`}
                             className='group-actions TeamList_editText'
-                            onClick={() => {
+                            onClick={(e) => {
+                                e.preventDefault();
                                 this.removeTeam(team);
                             }}
+                            href='#'
                         >
                             {Utils.localizeMessage('admin.data_retention.custom_policy.teams.remove', 'Remove')}
                         </a>

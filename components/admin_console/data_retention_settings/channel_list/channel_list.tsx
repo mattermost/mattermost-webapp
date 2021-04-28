@@ -204,7 +204,10 @@ export default class ChannelList extends React.PureComponent<Props, State> {
                 cells: {
                     id: channel.id,
                     name: (
-                        <div className='ChannelList__nameColumn'>
+                        <div 
+                            className='ChannelList__nameColumn'
+                            id={`channel-name-${channel.id}`}
+                        >
                             {iconToDisplay}
                             <div className='ChannelList__nameText'>
                                 <b id={`display-name-channel-${channel.id}`}>
@@ -218,9 +221,11 @@ export default class ChannelList extends React.PureComponent<Props, State> {
                         <a
                             id={`remove-channel-${channel.id}`}
                             className='group-actions TeamList_editText'
-                            onClick={() => {
+                            onClick={(e) => {
+                                e.preventDefault();
                                 this.removeChannel(channel);
                             }}
+                            href='#'
                         >
                             <FormattedMessage
                                 id='admin.data_retention.custom_policy.teams.remove'

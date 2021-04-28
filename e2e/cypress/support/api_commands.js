@@ -387,6 +387,121 @@ Cypress.Commands.add('apiLinkGroupChannel', (groupID, channelID) => {
     return linkUnlinkGroupSyncable(groupID, channelID, 'channel', 'POST');
 });
 
+/**
+ * Get all Custom Retention Policies
+ * @param {Integer} page - The page to select
+ * @param {Integer} perPage - The number of groups per page
+ */
+Cypress.Commands.add('apiGetCustomRetentionPolicies', (page = 0, perPage = 100) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: `/api/v4/data_retention/policies?page=${page}&per_page=${perPage}`,
+        method: 'GET',
+        timeout: 60000,
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response);
+    });
+});
+
+/**
+ * Get a Custom Retention Policy
+ * @param {string} id - The id of the policy
+ */
+Cypress.Commands.add('apiGetCustomRetentionPolicy', (id) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: `/api/v4/data_retention/policies/${id}`,
+        method: 'GET',
+        timeout: 60000,
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response);
+    });
+});
+
+/**
+ * Delete Custom Retention Policy
+ * @param {string} id - The id of the policy
+ */
+Cypress.Commands.add('apiDeleteCustomRetentionPolicy', (id) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: `/api/v4/data_retention/policies/${id}`,
+        method: 'DELETE',
+        timeout: 60000,
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response);
+    });
+});
+
+/**
+ * Get Custom Retention Policy teams
+ * @param {string} id - The id of the policy
+ */
+Cypress.Commands.add('apiGetCustomRetentionPolicyTeams', (id, page = 0, perPage = 100) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: `/api/v4/data_retention/policies/${id}/teams?page=${page}&per_page=${perPage}`,
+        method: 'GET',
+        timeout: 60000,
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response);
+    });
+});
+
+/**
+ * Get Custom Retention Policy channels
+ * @param {string} id - The id of the policy
+ */
+Cypress.Commands.add('apiGetCustomRetentionPolicyChannels', (id, page = 0, perPage = 100) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: `/api/v4/data_retention/policies/${id}/channels?page=${page}&per_page=${perPage}`,
+        method: 'GET',
+        timeout: 60000,
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response);
+    });
+});
+
+/**
+ * Search Custom Retention Policy teams
+ * @param {string} id - The id of the policy
+ */
+Cypress.Commands.add('apiSearchCustomRetentionPolicyTeams', (id, term) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: `/api/v4/data_retention/policies/${id}/teams/search`,
+        method: 'POST',
+        timeout: 60000,
+        body: {term},
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response);
+    });
+});
+
+/**
+ * Search Custom Retention Policy teams
+ * @param {string} id - The id of the policy
+ */
+Cypress.Commands.add('apiSearchCustomRetentionPolicyChannels', (id, term) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: `/api/v4/data_retention/policies/${id}/channels/search`,
+        method: 'POST',
+        timeout: 60000,
+        body: {term},
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response);
+    });
+});
+
 function linkUnlinkGroupSyncable(groupID, syncableID, syncableType, httpMethod) {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
