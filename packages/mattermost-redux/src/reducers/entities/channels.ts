@@ -809,9 +809,6 @@ export function channelsInPolicy(state: IDMappedObjects<Channel> = {}, action: G
         }
         return nextState;
     }
-    case AdminTypes.CLEAR_DATA_RETENTION_CUSTOM_POLICY_CHANNELS: {
-        return {};
-    }
     default:
         return state;
     }
