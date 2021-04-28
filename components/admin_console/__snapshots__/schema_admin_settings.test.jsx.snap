@@ -310,6 +310,11 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                   "value": "it",
                 },
                 Object {
+                  "order": 5,
+                  "text": "Magyar",
+                  "value": "hu",
+                },
+                Object {
                   "order": 6,
                   "text": "Nederlands",
                   "value": "nl",
@@ -424,6 +429,11 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                   "order": 4,
                   "text": "Italiano",
                   "value": "it",
+                },
+                Object {
+                  "order": 5,
+                  "text": "Magyar",
+                  "value": "hu",
                 },
                 Object {
                   "order": 6,
