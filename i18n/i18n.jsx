@@ -57,7 +57,7 @@ const languages = {
         order: 4,
         url: it,
     },
-    nl: {
+    hu: {
         value: 'hu',
         name: 'Magyar',
         order: 5,
