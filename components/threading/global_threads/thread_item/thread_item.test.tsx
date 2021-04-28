@@ -103,6 +103,7 @@ describe('components/threading/global_threads/thread_item', () => {
                 edit_at: 1611786714912,
             },
         });
+        set(mockState, 'entities.posts.postsInThread', {'1y8hpek81byspd4enyk9mp1ncw': []});
         set(mockState, 'entities.channels.channels', {
             pnzsh7kwt7rmzgj8yb479sc9yw: {
                 id: 'pnzsh7kwt7rmzgj8yb479sc9yw',
