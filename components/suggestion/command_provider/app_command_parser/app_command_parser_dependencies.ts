@@ -85,7 +85,7 @@ export const getExecuteSuggestion = (parsed: ParsedCommand): AutocompleteSuggest
 };
 
 export const displayError = (err: string, channelID: string, rootID?: string) => {
-    sendEphemeralPost(err, channelID, rootID);
+    Store.dispatch(sendEphemeralPost(err, channelID, rootID));
 };
 
 // Shim of mobile-version intl
