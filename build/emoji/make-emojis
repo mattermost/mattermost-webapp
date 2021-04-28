@@ -188,7 +188,9 @@ puts "images written to images/emoji"
 css_rules = [
     '@charset "UTF-8";',
     '.emojisprite-preview {',
-    '    @include transform(scale(.55));',
+    # Using zoom for now as it results in less blurry emojis on Chrome - MM-34178
+    '    zoom: 0.55;',
+    '    -moz-transform: scale(0.55);',
     '    background-repeat: no-repeat;',
     '    cursor: pointer;',
     '    height: 64px;',
@@ -198,7 +200,8 @@ css_rules = [
     '    padding: 0 10px 0 0;',
     '}',
     '.emojisprite {',
-    '    @include transform(scale(.35));',
+    '    zoom: 0.35;',
+    '    -moz-transform: scale(0.35);',
     '    background-repeat: no-repeat;',
     '    border-radius: 18px;',
     '    cursor: pointer;',
@@ -209,7 +212,8 @@ css_rules = [
     '}',
     '.emojisprite-loading {',
     '    background-image: none !important;',
-    '    @include transform(scale(.35));',
+    '    zoom: 0.35;',
+    '    -moz-transform: scale(0.35);',
     '    background-repeat: no-repeat;',
     '    border-radius: 18px;',
     '    cursor: pointer;',
@@ -273,9 +277,9 @@ categories.each do |category|
 
         end
     end
-    
+
     FileUtils.remove_dir tmp_directory
-    
+
 end
 
 File.write(File.join(project_root, 'sass', 'components', '_emojisprite.scss'), css_rules.join("\n"))

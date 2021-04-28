@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @enterprise @system_console @compliance_export @not_cloud
 
 // Requires "mattermost-minio" docker instance to be accessible at http://localhost:9000
