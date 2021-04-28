@@ -59,7 +59,7 @@ export function getThread(state: GlobalState, threadId: $ID<UserThread> | undefi
 export function getThreadOrSynthetic(state: GlobalState, post: Post): UserThread {
     const thread = getThreads(state)[post.id];
 
-    if (thread) {
+    if (thread?.id) {
         return thread;
     }
 
@@ -71,7 +71,7 @@ export function getThreadOrSynthetic(state: GlobalState, post: Post): UserThread
         last_viewed_at: 0,
         participants: post.participants,
         last_reply_at: post.last_reply_at ?? 0,
-        is_following: post.is_following,
+        is_following: thread?.is_following ?? post.is_following,
         post: {
             user_id: post.user_id,
             channel_id: post.channel_id,
