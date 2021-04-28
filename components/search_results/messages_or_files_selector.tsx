@@ -7,7 +7,12 @@ import {FormattedMessage} from 'react-intl';
 import {SearchFilterType} from '../search/types';
 import {SearchType} from 'types/store/rhs';
 
+import * as Utils from 'utils/utils.jsx';
+import Constants from 'utils/constants';
+
 import FilesFilterMenu from './files_filter_menu';
+
+const {KeyCodes} = Constants;
 
 import './messages_or_files_selector.scss';
 
@@ -24,8 +29,9 @@ export default function MessagesOrFilesSelector(props: Props): JSX.Element {
     return (
         <div className='MessagesOrFilesSelector'>
             <div className='buttons-container'>
-                <span
+                <button
                     onClick={() => props.onChange('messages')}
+                    onKeyDown={(e: React.KeyboardEvent<HTMLSpanElement>) => Utils.isKeyPressed(e, KeyCodes.ENTER) && props.onChange('messages')}
                     className={props.selected === 'messages' ? 'active tab messages-tab' : 'tab messages-tab'}
                 >
                     <FormattedMessage
@@ -33,9 +39,10 @@ export default function MessagesOrFilesSelector(props: Props): JSX.Element {
                         defaultMessage='Messages'
                     />
                     <span className='counter'>{props.messagesCounter}</span>
-                </span>
-                <span
+                </button>
+                <button
                     onClick={() => props.onChange('files')}
+                    onKeyDown={(e: React.KeyboardEvent<HTMLSpanElement>) => Utils.isKeyPressed(e, KeyCodes.ENTER) && props.onChange('files')}
                     className={props.selected === 'files' ? 'active tab files-tab' : 'tab files-tab'}
                 >
                     <FormattedMessage
@@ -43,7 +50,7 @@ export default function MessagesOrFilesSelector(props: Props): JSX.Element {
                         defaultMessage='Files'
                     />
                     <span className='counter'>{props.filesCounter}</span>
-                </span>
+                </button>
             </div>
             {props.selected === 'files' &&
                 <FilesFilterMenu

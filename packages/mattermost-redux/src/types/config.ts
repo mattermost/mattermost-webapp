@@ -85,6 +85,7 @@ export type ClientConfig = {
     EnablePreviewFeatures: string;
     EnablePreviewModeBanner: string;
     EnablePublicLink: string;
+    EnableReliableWebSockets: string;
     EnableSaml: string;
     EnableSignInWithEmail: string;
     EnableSignInWithUsername: string;
@@ -658,7 +659,6 @@ export type ClusterSettings = {
     BindAddress: string;
     AdvertiseAddress: string;
     UseIpAddress: boolean;
-    UseExperimentalGossip: boolean;
     EnableExperimentalGossipEncryption: boolean;
     ReadOnlyConfig: boolean;
     GossipPort: number;

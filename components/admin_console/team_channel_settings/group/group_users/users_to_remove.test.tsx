@@ -24,6 +24,8 @@ describe('components/admin_console/team_channel_settings/group/UsersToRemove', (
         return {
             mention_count: 0,
             msg_count: 0,
+            mention_count_root: 0,
+            msg_count_root: 0,
             team_id: 'team',
             user_id: userId,
             roles: admin ? 'team_user team_admin' : 'team_user',
