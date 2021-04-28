@@ -669,8 +669,8 @@ const AdminDefinition = {
             ),
             schema: {
                 id: 'SystemRoles',
-                name: t('admin.permissions.systemRolesBannerTitle'),
-                name_default: 'Admin Roles',
+                name: t('admin.permissions.systemRoles'),
+                name_default: 'System Roles (Beta)',
                 settings: [
                     {
                         type: Constants.SettingsTypes.TYPE_CUSTOM,
