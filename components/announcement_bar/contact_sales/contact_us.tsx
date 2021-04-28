@@ -9,7 +9,7 @@ import {trackEvent} from 'actions/telemetry_actions';
 import './contact_us.scss';
 
 export interface Props {
-    titleID?: string;
+    buttonTextElement?: JSX.Element;
     eventID?: string;
 }
 
@@ -25,7 +25,7 @@ const ContactUsButton: React.FC<Props> = (props: Props) => {
             className='contact-us'
             onClick={(e) => handleContactUsLinkClick(e)}
         >
-            {props.titleID || (
+            {props.buttonTextElement || (
                 <FormattedMessage
                     id={'admin.license.trialCard.contactSales'}
                     defaultMessage={'Contact sales'}

@@ -139,9 +139,9 @@ export default class LicenseSettings extends React.PureComponent {
             return;
         }
 
+        this.props.actions.getPrevTrialLicense();
         await this.props.actions.getLicenseConfig();
         this.setState({fileSelected: false, fileName: null, serverError: null, removing: false});
-        this.props.actions.getPrevTrialLicense();
     }
 
     handleUpgrade = async (e) => {
