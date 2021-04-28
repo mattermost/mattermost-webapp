@@ -3,15 +3,13 @@
 import React from 'react';
 
 import {getUserIdFromChannelName} from 'mattermost-redux/utils/channel_utils';
-
 import {imageURLForUser} from 'utils/utils.jsx';
 import Constants from 'utils/constants';
 import Avatar from 'components/widgets/users/avatar';
 import BotBadge from 'components/widgets/badges/bot_badge';
+import Suggestion from '../suggestion';
 
-import Suggestion from '../suggestion.jsx';
-
-function itemToName(item, currentUser) {
+function itemToName(item: any, currentUser: string) {
     let itemMarkup = (item);
 
     if (item.type === Constants.DM_CHANNEL) {
@@ -70,7 +68,9 @@ function itemToName(item, currentUser) {
 }
 
 export default class SearchChannelSuggestion extends Suggestion {
-    render() {
+    private node = React.createRef<HTMLDivElement>();
+
+    render(): JSX.Element {
         const {item, isSelection, teammate, currentUser} = this.props;
 
         let className = 'search-autocomplete__item';
@@ -95,9 +95,7 @@ export default class SearchChannelSuggestion extends Suggestion {
                 onClick={this.handleClick}
                 onMouseMove={this.handleMouseMove}
                 className={className}
-                ref={(node) => {
-                    this.node = node;
-                }}
+                ref={this.node}
                 {...Suggestion.baseProps}
             >
                 <span

@@ -5,10 +5,17 @@ import {connect} from 'react-redux';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {getDirectTeammate} from 'utils/utils';
+import {GlobalState} from 'types/store';
 
 import SearchChannelSuggestion from './search_channel_suggestion';
 
-const mapStateToProps = (state, ownProps) => {
+type OwnProps = {
+    item: {
+        id: string;
+    };
+}
+
+const mapStateToProps = (state: GlobalState, ownProps: OwnProps) => {
     return {
         teammate: getDirectTeammate(state, ownProps.item.id),
         currentUser: getCurrentUserId(state),
