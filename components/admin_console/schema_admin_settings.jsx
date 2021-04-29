@@ -166,7 +166,14 @@ export default class SchemaAdminSettings extends React.PureComponent {
         const schema = this.props.schema;
 
         if (schema) {
-            const settings = schema.settings || [];
+            let settings = [];
+
+            if (schema.settings) {
+                settings = schema.settings;
+            } else if (schema.sections) {
+                schema.sections.map(section => section.settings).forEach(sectionSettings => settings.push(...sectionSettings));
+            }
+
             settings.forEach((setting) => {
                 if (!setting.key) {
                     return;
@@ -199,7 +206,14 @@ export default class SchemaAdminSettings extends React.PureComponent {
         let state = {};
 
         if (schema) {
-            const settings = schema.settings || [];
+            let settings = [];
+
+            if (schema.settings) {
+                settings = schema.settings;
+            } else if (schema.sections) {
+                schema.sections.map(section => section.settings).forEach(sectionSettings => settings.push(...sectionSettings));
+            }
+
             settings.forEach((setting) => {
                 if (!setting.key) {
                     return;

@@ -3529,7 +3529,7 @@ const AdminDefinition = {
                                 },
                             },
                         ]
-                    }
+                    },
                 ],
             },
         },

@@ -63,14 +63,21 @@ export default class SettingsGroup extends React.PureComponent {
             )
         }
 
+        let sectionHeader = null;
+        if (title || subtitle) {
+            sectionHeader = (
+                <div className={'section-header'}>
+                    {title}
+                    {subtitle}
+                </div>
+            );
+        }
+
         return (
             <div className={wrapperClass}>
                 <div className={contentClass}>
                     {header}
-                    <div className={'section-header'}>
-                        {title}
-                        {subtitle}
-                    </div>
+                    {sectionHeader}
                     {this.props.children}
                 </div>
             </div>
