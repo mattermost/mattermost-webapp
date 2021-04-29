@@ -1404,19 +1404,17 @@ export function filterChannelList(channelList: Channel[], filters: ChannelSearch
     channelType.forEach((type) => {
         result = result.concat(channels.filter((channel) => channel.type === type));
     });
-
-    if (filters.team_ids) {
+    if (filters.team_ids && filters.team_ids.length > 0) {
         let teamResult: Channel[] = [];
         filters.team_ids.forEach((id) => {
             if (channelType.length > 0) {
-                teamResult = teamResult.concat(result.filter((channel) => channel.team_id === id));
+                const filterResult = result.filter((channel) => channel.team_id === id);
+                teamResult = teamResult.concat(filterResult);
             } else {
-                result = result.concat(channels.filter((channel) => channel.team_id === id));
+                teamResult = teamResult.concat(channels.filter((channel) => channel.team_id === id));
             }
         });
-        if (teamResult.length > 0) {
-            result = teamResult;
-        }
+        result = teamResult;
     }
     return result;
 }
@@ -1424,6 +1422,8 @@ export function searchChannelsInPolicy(state: GlobalState, policyId: string, ter
     const channelsInPolicy = getChannelsInPolicy();
     const channelArray = channelsInPolicy(state, {policyId});
     let channels = filterChannelList(channelArray, filters);
+    console.log('hi');
+    console.log(channels);
     channels = filterChannelsMatchingTerm(channels, term);
 
     return channels;

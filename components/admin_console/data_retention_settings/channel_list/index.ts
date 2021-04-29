@@ -51,7 +51,7 @@ function mapStateToProps() {
         const searchTerm = state.views.search.channelListSearch.term || '';
         const filters = state.views.search.channelListSearch?.filters || {};
 
-        if (searchTerm || filters) {
+        if (searchTerm || (filters && Object.keys(filters).length !== 0)) {
             channels = policyId ? searchChannelsInPolicy(state, policyId, searchTerm, filters) as ChannelWithTeamData[] : [];
             channelsToAdd = searchChannelsToAdd(channelsToAdd, searchTerm, filters) as Dictionary<ChannelWithTeamData>;
             totalCount = channels.length;
