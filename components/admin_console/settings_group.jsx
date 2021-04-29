@@ -48,18 +48,18 @@ export default class SettingsGroup extends React.PureComponent {
         let title = null;
         if (!this.props.header && this.props.title) {
             title = (
-                <h3>
+                <div className={'section-title'}>
                     {this.props.title}
-                </h3>
+                </div>
             )
         }
 
         let subtitle = null;
         if (!this.props.header && this.props.subtitle) {
-            title = (
-                <h3>
+            subtitle = (
+                <div className={'section-subtitle'}>
                     {this.props.subtitle}
-                </h3>
+                </div>
             )
         }
 
@@ -67,8 +67,10 @@ export default class SettingsGroup extends React.PureComponent {
             <div className={wrapperClass}>
                 <div className={contentClass}>
                     {header}
-                    {title}
-                    {subtitle}
+                    <div className={'section-header'}>
+                        {title}
+                        {subtitle}
+                    </div>
                     {this.props.children}
                 </div>
             </div>

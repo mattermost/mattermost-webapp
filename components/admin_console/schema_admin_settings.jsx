@@ -37,6 +37,8 @@ import FormattedAdminHeader from 'components/widgets/admin_console/formatted_adm
 
 import Setting from './setting';
 
+import './schema_admin_settings.scss';
+
 export default class SchemaAdminSettings extends React.PureComponent {
     static propTypes = {
         config: PropTypes.object,
@@ -885,10 +887,10 @@ export default class SchemaAdminSettings extends React.PureComponent {
         } else if (schema.sections) {
             const sections = [];
 
-            schema.sections.forEach(schema => {
+            schema.sections.forEach(section => {
                 const settingsList = [];
-                if (schema.settings) {
-                    schema.settings.forEach((setting) => {
+                if (section.settings) {
+                    section.settings.forEach((setting) => {
                         if (this.buildSettingFunctions[setting.type] && !this.isHidden(setting)) {
                             settingsList.push(this.buildSettingFunctions[setting.type](setting));
                         }
@@ -896,11 +898,11 @@ export default class SchemaAdminSettings extends React.PureComponent {
                 }
 
                 let header;
-                if (schema.header) {
+                if (section.header) {
                     header = (
                         <div className='banner'>
                             <SchemaText
-                                text={schema.header}
+                                text={section.header}
                                 isMarkdown={true}
                                 isTranslated={this.props.schema.translate}
                             />
@@ -909,11 +911,11 @@ export default class SchemaAdminSettings extends React.PureComponent {
                 }
 
                 let footer;
-                if (schema.footer) {
+                if (section.footer) {
                     footer = (
                         <div className='banner'>
                             <SchemaText
-                                text={schema.footer}
+                                text={section.footer}
                                 isMarkdown={true}
                                 isTranslated={this.props.schema.translate}
                             />
@@ -922,11 +924,15 @@ export default class SchemaAdminSettings extends React.PureComponent {
                 }
 
                 sections.push(
-                    <SettingsGroup className='foo' container={false} title={setting.title} subtitle={setting.subtitle}>
-                        {header}
-                        {settingsList}
-                        {footer}
-                    </SettingsGroup>
+                    <div className={'config-section'}>
+                        <SettingsGroup show={true} title={section.title} subtitle={section.subtitle}>
+                            <div className={'section-body'}>
+                                {header}
+                                {settingsList}
+                                {footer}
+                            </div>
+                        </SettingsGroup>
+                    </div>
                 );
 
 
