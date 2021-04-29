@@ -8,9 +8,10 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @not_cloud @messaging
+// Group: @messaging @plugin @not_cloud
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
+import {matterpollPlugin} from '../../utils/plugins';
 
 describe('Header', () => {
     before(() => {
@@ -54,13 +55,8 @@ describe('Header', () => {
     });
 
     it('MM-T1837_2 - DM channel with bot from plugin displays a normal header', () => {
-        // # Try to remove the plugin, just in case
-        cy.apiRemovePluginById('com.github.matterpoll.matterpoll');
-
         // # Upload and enable "matterpoll" plugin
-        cy.apiUploadPlugin('com.github.matterpoll.matterpoll.tar.gz').then(() => {
-            cy.apiEnablePluginById('com.github.matterpoll.matterpoll');
-        });
+        cy.apiUploadAndEnablePlugin(matterpollPlugin);
 
         // # Open a DM with the bot
         cy.uiAddDirectMessage().click().wait(TIMEOUTS.ONE_SEC);
@@ -76,8 +72,5 @@ describe('Header', () => {
 
         // * Verify header content
         cy.get('#channelHeaderDescription > .header-description__text').find('p').should('have.text', 'Poll Bot');
-
-        // # Clean up, uninstall "matterpoll" plugin
-        cy.apiRemovePluginById('com.github.matterpoll.matterpoll');
     });
 });

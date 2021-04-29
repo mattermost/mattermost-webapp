@@ -702,10 +702,10 @@ export function flagPost(postId: string) {
 export function getPostThread(rootId: string, fetchThreads = true) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         dispatch({type: PostTypes.GET_POST_THREAD_REQUEST});
-
+        const collapsedThreadsEnabled = isCollapsedThreadsEnabled(getState());
         let posts;
         try {
-            posts = await Client4.getPostThread(rootId, fetchThreads);
+            posts = await Client4.getPostThread(rootId, fetchThreads, collapsedThreadsEnabled);
             getProfilesAndStatusesForPosts(posts.posts, dispatch, getState);
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
