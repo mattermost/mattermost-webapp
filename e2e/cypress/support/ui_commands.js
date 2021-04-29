@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import localforage from 'localforage';
+
 import * as TIMEOUTS from '../fixtures/timeouts';
 import {isMac} from '../utils';
 
@@ -94,7 +96,7 @@ Cypress.Commands.add('postMessage', (message) => {
 
 Cypress.Commands.add('postMessageReplyInRHS', (message) => {
     cy.get('#sidebar-right').should('be.visible');
-    postMessageAndWait('#reply_textbox', message);
+    postMessageAndWait('#reply_textbox', message, true);
 });
 
 Cypress.Commands.add('uiPostMessageQuickly', (message) => {
@@ -107,7 +109,7 @@ Cypress.Commands.add('uiPostMessageQuickly', (message) => {
     });
 });
 
-function postMessageAndWait(textboxSelector, message) {
+function postMessageAndWait(textboxSelector, message, isComment = false) {
     // Add explicit wait to let the page load freely since `cy.get` seemed to block
     // some operation which caused to prolong complete page loading.
     cy.wait(TIMEOUTS.HALF_SEC);
@@ -115,6 +117,12 @@ function postMessageAndWait(textboxSelector, message) {
 
     // # Type then wait for a while for the draft to be saved (async) into the local storage
     cy.get(textboxSelector).clear().type(message).wait(TIMEOUTS.ONE_SEC);
+
+    // If posting a comment, wait for comment draft from localforage before hitting enter
+    if (isComment) {
+        waitForCommentDraft(message);
+    }
+
     cy.get(textboxSelector).should('have.value', message).type('{enter}').wait(TIMEOUTS.HALF_SEC);
 
     cy.get(textboxSelector).invoke('val').then((value) => {
@@ -126,6 +134,35 @@ function postMessageAndWait(textboxSelector, message) {
         return cy.get(textboxSelector).then((el) => {
             return el[0].textContent === '';
         });
+    });
+}
+
+// Wait until comment message is saved as draft from the localforage
+function waitForCommentDraft(message) {
+    const draftPrefix = 'comment_draft_';
+
+    cy.waitUntil(async () => {
+        // Get all keys from localforage
+        const keys = await localforage.keys();
+
+        // Get all draft comments matching the predefined prefix
+        const draftPromises = keys.
+            filter((key) => key.includes(draftPrefix)).
+            map((key) => localforage.getItem(key));
+        const draftItems = await Promise.all(draftPromises);
+
+        // Get the exact draft comment
+        const commentDraft = draftItems.filter((item) => {
+            const draft = JSON.parse(item);
+
+            if (draft && draft.value && draft.value.message) {
+                return draft.value.message === message;
+            }
+
+            return false;
+        });
+
+        return Boolean(commentDraft);
     });
 }
 
