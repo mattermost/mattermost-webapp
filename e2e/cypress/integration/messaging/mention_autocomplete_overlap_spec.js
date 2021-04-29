@@ -57,7 +57,11 @@ describe('Messaging', () => {
 
         // # Make a series of post so we are way past the first message in terms of scroll
         Cypress._.times(2, () => {
-            cy.postMessageReplyInRHS(MESSAGES.HUGE);
+            cy.get('#reply_textbox').
+                clear().
+                invoke('val', MESSAGES.HUGE).
+                wait(TIMEOUTS.ONE_SEC).
+                type(' {backspace}{enter}');
         });
 
         // # Enter @ to allow opening of autocomplete box

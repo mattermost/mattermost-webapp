@@ -92,7 +92,7 @@ describe('Slash commands', () => {
         cy.visit(`/${team1.name}/channels/town-square`);
 
         // # Run slash command
-        cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').clear().type(`/${trigger} `);
+        cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').clear().type(`/${trigger} {enter}`);
         cy.wait(TIMEOUTS.TWO_SEC);
 
         // * Verify error
