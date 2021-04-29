@@ -3,9 +3,8 @@
 import {IDMappedObjects} from './utilities';
 export type JobType = 'data_retention' | 'elasticsearch_post_indexing' | 'ldap_sync' | 'message_export';
 export type JobStatus = 'pending' | 'in_progress' | 'success' | 'error' | 'cancel_requested' | 'canceled';
-export type Job = {
+export type Job = JobTypeBase & {
     id: string;
-    type: JobType;
     priority: number;
     create_at: number;
     start_at: number;
@@ -21,3 +20,6 @@ export type JobsState = {
     jobs: IDMappedObjects<Job>;
     jobsByTypeList: JobsByType;
 };
+export type JobTypeBase = {
+    type: JobType;
+}

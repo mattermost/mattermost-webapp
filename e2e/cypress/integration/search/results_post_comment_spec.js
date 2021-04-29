@@ -25,7 +25,7 @@ describe('Search', () => {
         });
     });
 
-    it('S14548 Search results Right-Hand-Side: Post a comment', () => {
+    it('MM-T373 Search results Right-Hand-Side: Post a comment', () => {
         const message = `asparagus${getRandomId()}`;
         const comment = 'Replying to asparagus';
 

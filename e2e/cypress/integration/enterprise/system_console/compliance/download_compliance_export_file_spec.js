@@ -7,15 +7,21 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @enterprise @system_console
+// Group: @enterprise @system_console @compliance_export
 
-import {downloadAndUnzipExportFile, deleteExportFolder, getXMLFile, gotoTeamAndPostImage, gotoTeamAndPostMessage, editLastPost} from './helpers';
+import path from 'path';
 
-const path = require('path');
-
-const ExportFormatActiance = 'Actiance XML';
+import {
+    deleteExportFolder,
+    downloadAndUnzipExportFile,
+    editLastPost,
+    getXMLFile,
+    gotoTeamAndPostImage,
+} from './helpers';
 
 describe('Compliance Export', () => {
+    const ExportFormatActiance = 'Actiance XML';
+
     let targetDownload;
     let pwd;
     let newTeam;
@@ -38,17 +44,19 @@ describe('Compliance Export', () => {
             },
         });
 
-        cy.apiInitSetup().then(({team, user, channel}) => {
-            newTeam = team;
-            newUser = user;
-            newChannel = channel;
+        cy.apiCreateCustomAdmin().then(({sysadmin}) => {
+            adminUser = sysadmin;
+            cy.apiLogin(adminUser);
+            cy.apiInitSetup().then(({team, user, channel}) => {
+                newTeam = team;
+                newUser = user;
+                newChannel = channel;
+            });
         });
     });
 
     beforeEach(() => {
-        cy.apiAdminLogin().then(({user}) => {
-            adminUser = user;
-        });
+        cy.apiLogin(adminUser);
     });
 
     afterEach(() => {
@@ -61,6 +69,7 @@ describe('Compliance Export', () => {
         cy.uiEnableComplianceExport();
 
         // # Navigate to a team and post an attachment
+        cy.visit(`/${newTeam.name}/channels/town-square`);
         gotoTeamAndPostImage();
 
         // # Go to compliance page and start export
@@ -87,6 +96,7 @@ describe('Compliance Export', () => {
         cy.uiEnableComplianceExport(ExportFormatActiance);
 
         // # Navigate to a team and post an attachment
+        cy.visit(`/${newTeam.name}/channels/town-square`);
         gotoTeamAndPostImage();
 
         // # Go to compliance page and start export
@@ -119,14 +129,16 @@ describe('Compliance Export', () => {
         cy.uiGoToCompliancePage();
         cy.uiEnableComplianceExport(ExportFormatActiance);
 
-        // # Navigate to a team and post a Message
-        gotoTeamAndPostMessage();
+        // # Navigate to a team and post a message
+        cy.visit(`/${newTeam.name}/channels/town-square`);
+        cy.postMessage('Testing');
 
         // # Go to compliance page and start export
         cy.uiGoToCompliancePage();
         cy.uiExportCompliance();
 
-        // # Edit last post
+        // # Visit town-square channel and edit the last post
+        cy.visit(`/${newTeam.name}/channels/town-square`);
         editLastPost('Hello');
 
         // # Go to compliance page and start export

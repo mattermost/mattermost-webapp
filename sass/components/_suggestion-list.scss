@@ -58,6 +58,19 @@
         position: relative;
         top: 4px;
     }
+
+    .shared-channel-icon {
+        width: 16px;
+        height: 16px;
+        line-height: 16px;
+        font-size: 16px;
+        margin-left: 8px;
+        color: rgba(61, 60, 64, 0.56);
+
+        &:before {
+            margin: 0;
+        }
+    }
 }
 
 .suggestion-list--top {
@@ -104,6 +117,19 @@
         display: flex;
         align-items: center;
         padding: 0 2.4rem;
+
+        .shared-user-icon {
+            color: rgba(61, 60, 64, 0.56);
+            font-size: 16px;
+            height: 16px;
+            width: 16px;
+            line-height: 16px;
+            margin-left: 8px;
+
+            &:before {
+                margin: 0;
+            }
+        }
     }
 
     .modal & {
@@ -113,6 +139,7 @@
 
     .suggestion-list__info_user {
         display: flex;
+        max-width: 89%;
     }
 }
 

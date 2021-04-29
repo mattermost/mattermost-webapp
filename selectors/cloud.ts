@@ -14,6 +14,7 @@ export enum InquiryType {
 
 export enum InquiryIssue{
     CancelAccount = 'cancel_account',
+    TrialQuestions = 'trial_questions'
 }
 
 export function getCloudContactUsLink(state: GlobalState, inquiry: InquiryType, inquiryIssue?: InquiryIssue): string {

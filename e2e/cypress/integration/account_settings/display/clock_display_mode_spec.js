@@ -14,7 +14,7 @@ import moment from 'moment-timezone';
 
 import * as DATE_TIME_FORMAT from '../../../fixtures/date_time_format';
 
-describe('Account Settings > Display > Clock Display Mode', () => {
+describe('Account Settings - Clock Display Mode', () => {
     const mainMessage = 'Test for clock display mode';
     const replyMessage1 = 'Reply 1 for clock display mode';
     const replyMessage2 = 'Reply 2 for clock display mode';
@@ -85,7 +85,7 @@ describe('Account Settings > Display > Clock Display Mode', () => {
         });
     });
 
-    it('MM-T2096_2 Clock Display - Can switch from 12-hr to 24-hr', () => {
+    it('MM-T2096_2 Clock Display - 24-hr - post message after 1pm', () => {
         cy.apiAdminLogin().then(({user}) => {
             cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 

@@ -47,7 +47,9 @@ import ChannelSettings from './team_channel_settings/channel';
 import ChannelDetails from './team_channel_settings/channel/details';
 import PasswordSettings from './password_settings.jsx';
 import PushNotificationsSettings from './push_settings.jsx';
-import DataRetentionSettings from './data_retention_settings.jsx';
+import DataRetentionSettingsOld from './data_retention_settings.jsx';
+import DataRetentionSettings from './data_retention_settings/index.ts';
+import GlobalDataRetentionForm from './data_retention_settings/global_policy_form';
 import MessageExportSettings from './message_export_settings.jsx';
 import DatabaseSettings from './database_settings.jsx';
 import ElasticSearchSettings from './elasticsearch_settings.jsx';
@@ -58,7 +60,7 @@ import CustomTermsOfServiceSettings from './custom_terms_of_service_settings';
 import SessionLengthSettings from './session_length_settings';
 import LDAPFeatureDiscovery from './feature_discovery/ldap.tsx';
 import SAMLFeatureDiscovery from './feature_discovery/saml.tsx';
-import BillingSubscriptions from './billing/billing_subscriptions.tsx';
+import BillingSubscriptions from './billing/billing_subscriptions/index.tsx';
 import BillingHistory from './billing/billing_history';
 import CompanyInfo from './billing/company_info';
 import PaymentInfo from './billing/payment_info';
@@ -182,11 +184,8 @@ export const it = {
     enterpriseReady: (config, state, license, enterpriseReady) => enterpriseReady,
     licensed: (config, state, license) => license.IsLicensed === 'true',
     licensedForFeature: (feature) => (config, state, license) => license.IsLicensed && license[feature] === 'true',
-    isPaidTier: (config, state, license, enterpriseReady, consoleAccess, cloud) => {
-        if (!cloud?.subscription) {
-            return false;
-        }
-        return cloud.subscription.is_paid_tier === 'true';
+    hidePaymentInfo: (config, state, license, enterpriseReady, consoleAccess, cloud) => {
+        return cloud?.subscription?.is_paid_tier !== 'true' || cloud?.subscription?.is_free_trial === 'true';
     },
     userHasReadPermissionOnResource: (key) => (config, state, license, enterpriseReady, consoleAccess) => consoleAccess?.read?.[key],
     userHasReadPermissionOnSomeResources: (key) => Object.values(key).some((resource) => it.userHasReadPermissionOnResource(resource)),
@@ -315,7 +314,7 @@ const AdminDefinition = {
             url: 'billing/payment_info',
             title: t('admin.sidebar.payment_info'),
             title_default: 'Payment Information',
-            isHidden: it.not(it.isPaidTier),
+            isHidden: it.hidePaymentInfo,
             searchableStrings: [
                 'admin.billing.payment_info.title',
             ],
@@ -432,6 +431,7 @@ const AdminDefinition = {
         system_user_detail: {
             url: 'user_management/user/:user_id',
             isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.USERS)),
+            isHidden: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.USERS)),
             schema: {
                 id: 'SystemUserDetail',
                 component: SystemUserDetail,
@@ -440,6 +440,7 @@ const AdminDefinition = {
         group_detail: {
             url: 'user_management/groups/:group_id',
             isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.GROUPS)),
+            isHidden: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.GROUPS)),
             schema: {
                 id: 'GroupDetail',
                 component: GroupDetails,
@@ -462,6 +463,7 @@ const AdminDefinition = {
         team_detail: {
             url: 'user_management/teams/:team_id',
             isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.TEAMS)),
+            isHidden: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.TEAMS)),
             schema: {
                 id: 'TeamDetail',
                 component: TeamDetails,
@@ -483,6 +485,7 @@ const AdminDefinition = {
         channel_detail: {
             url: 'user_management/channels/:channel_id',
             isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.CHANNELS)),
+            isHidden: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.CHANNELS)),
             schema: {
                 id: 'ChannelDetail',
                 component: ChannelDetails,
@@ -1390,8 +1393,6 @@ const AdminDefinition = {
                 'admin.cluster.OverrideHostnameDesc',
                 'admin.cluster.UseIpAddress',
                 'admin.cluster.UseIpAddressDesc',
-                'admin.cluster.UseExperimentalGossip',
-                'admin.cluster.UseExperimentalGossipDesc',
                 'admin.cluster.EnableExperimentalGossipEncryption',
                 'admin.cluster.EnableExperimentalGossipEncryptionDesc',
                 'admin.cluster.EnableGossipCompression',
@@ -2984,7 +2985,7 @@ const AdminDefinition = {
                         type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'LdapSettings.BaseDN',
                         label: t('admin.ldap.baseTitle'),
-                        label_default: 'BaseDN:',
+                        label_default: 'Base DN:',
                         help_text: t('admin.ldap.baseDesc'),
                         help_text_default: 'The Base DN is the Distinguished Name of the location where Mattermost should start its search for user and group objects in the AD/LDAP tree.',
                         placeholder: t('admin.ldap.baseEx'),
@@ -3003,7 +3004,7 @@ const AdminDefinition = {
                         label: t('admin.ldap.bindUserTitle'),
                         label_default: 'Bind Username:',
                         help_text: t('admin.ldap.bindUserDesc'),
-                        help_text_default: 'The username used to perform the AD/LDAP search. This should typically be an account created specifically for use with Mattermost. It should have access limited to read the portion of the AD/LDAP tree specified in the BaseDN field.',
+                        help_text_default: 'The username used to perform the AD/LDAP search. This should typically be an account created specifically for use with Mattermost. It should have access limited to read the portion of the AD/LDAP tree specified in the Base DN field.',
                         isDisabled: it.any(
                             it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
                             it.all(
@@ -3725,7 +3726,6 @@ const AdminDefinition = {
                         isDisabled: it.any(
                             it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SAML)),
                             it.stateIsFalse('SamlSettings.Enable'),
-                            it.stateIsFalse('SamlSettings.Verify'),
                         ),
                     },
                     {
@@ -5143,7 +5143,7 @@ const AdminDefinition = {
             url: 'integrations/cors',
             title: t('admin.sidebar.cors'),
             title_default: 'CORS',
-            isHidden: it.all(
+            isHidden: it.any(
                 it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
                 it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.CORS)),
             ),
@@ -5201,7 +5201,49 @@ const AdminDefinition = {
         sectionTitle: t('admin.sidebar.compliance'),
         sectionTitleDefault: 'Compliance',
         isHidden: it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.COMPLIANCE)),
+        global_policy_form: {
+            url: 'compliance/data_retention_settings/global_policy',
+            isHidden: it.any(
+                it.not(it.licensedForFeature('DataRetention')),
+                it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.COMPLIANCE.DATA_RETENTION_POLICY)),
+                it.configIsFalse('FeatureFlags', 'CustomDataRetentionEnabled'),
+            ),
+            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.COMPLIANCE.DATA_RETENTION_POLICY)),
+            schema: {
+                id: 'GlobalDataRetentionForm',
+                component: GlobalDataRetentionForm,
+            },
+        },
         data_retention: {
+            url: 'compliance/data_retention_settings',
+            title: t('admin.sidebar.dataRetentionSettingsPolicies'),
+            title_default: 'Data Retention Policies',
+            searchableStrings: [
+                'admin.data_retention.title',
+                'admin.data_retention.messageRetentionDays.description',
+                'admin.data_retention.fileRetentionDays.description',
+                ['admin.data_retention.note.description', {documentationLink: ''}],
+                'admin.data_retention.enableMessageDeletion.title',
+                'admin.data_retention.enableMessageDeletion.description',
+                'admin.data_retention.enableFileDeletion.title',
+                'admin.data_retention.enableFileDeletion.description',
+                'admin.data_retention.deletionJobStartTime.title',
+                'admin.data_retention.deletionJobStartTime.description',
+                'admin.data_retention.createJob.title',
+                'admin.data_retention.createJob.help',
+            ],
+            isHidden: it.any(
+                it.not(it.licensedForFeature('DataRetention')),
+                it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.COMPLIANCE.DATA_RETENTION_POLICY)),
+                it.configIsFalse('FeatureFlags', 'CustomDataRetentionEnabled'),
+            ),
+            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.COMPLIANCE.DATA_RETENTION_POLICY)),
+            schema: {
+                id: 'DataRetentionSettings',
+                component: DataRetentionSettings,
+            },
+        },
+        data_retention_old: {
             url: 'compliance/data_retention',
             title: t('admin.sidebar.dataRetentionPolicy'),
             title_default: 'Data Retention Policy',
@@ -5222,11 +5264,12 @@ const AdminDefinition = {
             isHidden: it.any(
                 it.not(it.licensedForFeature('DataRetention')),
                 it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.COMPLIANCE.DATA_RETENTION_POLICY)),
+                it.configIsTrue('FeatureFlags', 'CustomDataRetentionEnabled'),
             ),
             isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.COMPLIANCE.DATA_RETENTION_POLICY)),
             schema: {
                 id: 'DataRetentionSettings',
-                component: DataRetentionSettings,
+                component: DataRetentionSettingsOld,
             },
         },
         message_export: {
@@ -5739,6 +5782,40 @@ const AdminDefinition = {
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {
+                        type: Constants.SettingsTypes.TYPE_DROPDOWN,
+                        key: 'ServiceSettings.CollapsedThreads',
+                        label: t('admin.experimental.collapsedThreads.title'),
+                        label_default: 'Collapsed Reply Threads',
+                        help_text: t('admin.experimental.collapsedThreads.desc'),
+                        help_text_default: 'When enabled (default on), this setting enables collapsed reply threads for all users on this server. Users can disable the feature in Account Settings > Display > Collapsed Reply Threads (Beta). When enabled (default off), users must enable collapsed reply threads in Account Settings. When disabled, users cannot access collapsed reply threads. [Learn more about collapsed reply threads](!https://about.mattermost.com/default-threads).',
+                        help_text_markdown: true,
+                        options: [
+                            {
+                                value: 'disabled',
+                                display_name: t('admin.experimental.collapsedThreads.off'),
+                                display_name_default: 'Disabled',
+                            },
+                            {
+                                value: 'default_on',
+                                display_name: t('admin.experimental.collapsedThreads.default_on'),
+                                display_name_default: 'Enabled (Default On)',
+                            },
+                            {
+                                value: 'default_off',
+                                display_name: t('admin.experimental.collapsedThreads.default_off'),
+                                display_name_default: 'Enabled (Default Off)',
+                            },
+
+                            /* {
+                                value: 'always_on',
+                                display_name: t('admin.experimental.collapsedThreads.alwaysOn'),
+                                display_name_default: 'Always On',
+                            }, */
+                        ],
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
+                        isHidden: it.configIsFalse('FeatureFlags', 'CollapsedThreads'),
+                    },
+                    {
                         type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'ServiceSettings.ExperimentalChannelOrganization',
                         label: t('admin.experimental.experimentalChannelOrganization.title'),
@@ -5836,6 +5913,17 @@ const AdminDefinition = {
                         help_text_markdown: false,
                         placeholder: t('admin.experimental.userStatusAwayTimeout.example'),
                         placeholder_default: 'E.g.: "300"',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'ExperimentalSettings.EnableSharedChannels',
+                        label: t('admin.experimental.enableSharedChannels.title'),
+                        label_default: 'Enable Shared Channels:',
+                        help_text: t('admin.experimental.enableSharedChannels.desc'),
+                        help_text_default: 'Toggles Shared Channels',
+                        help_text_markdown: false,
+                        isHidden: it.not(it.licensedForFeature('SharedChannels')),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                 ],

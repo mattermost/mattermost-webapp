@@ -90,42 +90,60 @@ function getTestFiles() {
     return intersection(stageFiles, finalGroupFiles);
 }
 
-function getLastFiles() {
-    const {sortLast} = argv;
-
-    const lastFiles = [];
-    if (sortLast) {
-        sortLast.split(',').forEach((word, i) => {
+function getWeightedFiles(metadata, sortFirst = true) {
+    let weightedFiles = [];
+    if (metadata) {
+        metadata.split(',').forEach((word, i, arr) => {
             const sl = grepCommand(word);
             const files = grepFiles(sl).map((file) => {
-                return {file, sortWeight: i + 1};
+                return {
+                    file,
+                    sortWeight: sortFirst ? (i - arr.length) : (i + 1),
+                };
             });
-            lastFiles.push(...files);
+            weightedFiles.push(...files);
         });
     }
 
-    return lastFiles.reduce((acc, lf) => {
-        acc[lf.file] = lf;
+    if (sortFirst) {
+        weightedFiles = weightedFiles.reverse();
+    }
+
+    return weightedFiles.reduce((acc, f) => {
+        acc[f.file] = f;
         return acc;
     }, {});
 }
 
 function getSortedTestFiles(platform, browser, headless) {
-    const lastFilesObject = getLastFiles();
-
+    // Get all test files
     const testFilesObject = getTestFiles().reduce((acc, file) => {
         acc[file] = {file, sortWeight: 0};
         return acc;
     }, {});
 
-    Object.entries(lastFilesObject).forEach(([k, v]) => {
-        testFilesObject[k] = v;
+    // Get files to be sorted first
+    const firstFilesObject = getWeightedFiles(argv.sortFirst, true);
+    const validFirstFiles = intersection(Object.keys(testFilesObject), Object.keys(firstFilesObject));
+    Object.entries(firstFilesObject).forEach(([k, v]) => {
+        if (validFirstFiles.includes(k)) {
+            testFilesObject[k] = v;
+        }
     });
 
+    // Get files to be sorted last
+    const lastFilesObject = getWeightedFiles(argv.sortLast, false);
+    const validLastFiles = intersection(Object.keys(testFilesObject), Object.keys(lastFilesObject));
+    Object.entries(lastFilesObject).forEach(([k, v]) => {
+        if (validLastFiles.includes(k)) {
+            testFilesObject[k] = v;
+        }
+    });
+
+    // Remove skipped files
     const initialSkippedFiles = getSkippedFiles(platform, browser, headless);
     const testFiles = Object.keys(testFilesObject).map((file) => file);
     const skippedFiles = intersection(testFiles, initialSkippedFiles);
-
     if (skippedFiles.length) {
         printSkippedFiles(skippedFiles, platform, browser, headless);
 

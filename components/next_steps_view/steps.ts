@@ -36,6 +36,7 @@ export type StepType = {
     // An array of all roles a user must have in order to see the step e.g. admins are both system_admin and system_user
     // so you would require ['system_admin','system_user'] to match.
     // to show step for all roles, leave the roles array blank.
+    // for a step that must be shown only to the first admin, add the first_admin role to that step
     roles: string[];
 };
 
@@ -56,7 +57,7 @@ export const Steps: StepType[] = [
             'next_steps_view.titles.teamSetup',
             'Name your team',
         ),
-        roles: ['system_admin', 'system_user'],
+        roles: ['first_admin'],
         component: TeamProfileStep,
         visible: true,
     },
@@ -86,7 +87,7 @@ export const Steps: StepType[] = [
             'next_steps_view.titles.inviteMembers',
             'Invite members to the team',
         ),
-        roles: [],
+        roles: ['system_admin', 'system_user'],
         component: InviteMembersStep,
         visible: true,
     },
@@ -115,11 +116,7 @@ export const getSteps = createSelector(
     (state: GlobalState) => getCurrentUser(state),
     (state: GlobalState) => isFirstAdmin(state),
     (currentUser, firstAdmin) => {
-        let roles = currentUser.roles;
-        if (!firstAdmin) {
-            // Only the first admin sees the admin flow. Show everyone else the end user flow
-            roles = 'system_user';
-        }
+        const roles = firstAdmin ? `first_admin ${currentUser.roles}` : currentUser.roles;
         return Steps.filter((step) =>
             isStepForUser(step, roles) && step.visible,
         );
@@ -185,10 +182,7 @@ export const nextStepsNotFinished = createSelector(
     (state: GlobalState) => getCurrentUser(state),
     (state: GlobalState) => isFirstAdmin(state),
     (stepPreferences, currentUser, firstAdmin) => {
-        let roles = currentUser.roles;
-        if (!firstAdmin) {
-            roles = 'system_user';
-        }
+        const roles = firstAdmin ? `first_admin ${currentUser.roles}` : currentUser.roles;
         const checkPref = (step: StepType) => stepPreferences.some((pref) => (pref.name === step.id && pref.value === 'true') || !isStepForUser(step, roles));
         return !Steps.every(checkPref);
     },

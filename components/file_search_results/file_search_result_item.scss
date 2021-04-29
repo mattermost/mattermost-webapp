@@ -9,6 +9,8 @@
     flex-direction: row;
     padding: 11px;
     color: var(--center-channel-color);
+    background: transparent;
+    flex-grow: 1;
     border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
     align-items: center;
     margin: 0 14px 8px 14px;
@@ -28,7 +30,7 @@
             color: rgba(var(--center-channel-color-rgb), 0.72);
         }
     }
-    &:hover, &.keep-open {
+    &:hover, &:focus-within, &.keep-open {
         @include box-shadow(0 2px 3px 0 rgba($black, 0.1), 0 2px 3px 0 rgba($black, 0.1));
         overflow: visible;
         .action-icon {
@@ -62,6 +64,7 @@
             overflow: hidden;
             text-overflow: ellipsis;
             margin-bottom: 3px;
+            text-align: left;
         }
         .fileMetadata {
             font-weight: 400;
