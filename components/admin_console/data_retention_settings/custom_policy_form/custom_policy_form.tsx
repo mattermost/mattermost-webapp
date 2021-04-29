@@ -208,15 +208,19 @@ export default class CustomPolicyForm extends React.PureComponent<Props, State> 
         const teamsToRemove = Object.keys(removedTeams);
         const channelsToAdd = Object.keys(newChannels);
         const channelsToRemove = Object.keys(removedChannels);
-        let postDuration = parseInt(messageRetentionInputValue, 10);
 
+        let error = false;
+        let postDuration = parseInt(messageRetentionInputValue, 10);
+        console.log(postDuration);
+        if (postDuration <= 0) {
+            this.setState({formErrorText: Utils.localizeMessage('admin.data_retention.custom_policy.form.durationInput.error', 'Error parsing message retention.'), saving: false});
+            return;
+        }
         if (messageRetentionDropdownValue.value === FOREVER) {
             postDuration = -1;
         } else if (this.state.messageRetentionDropdownValue.value === YEARS) {
             postDuration = parseInt(messageRetentionInputValue, 10) * 365;
         }
-
-        let error = false;
 
         if (!policyName?.trim()) {
             this.setState({inputErrorText: Utils.localizeMessage('admin.data_retention.custom_policy.form.input.error', 'Policy name can\'t be blank.'), saving: false});

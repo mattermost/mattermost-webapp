@@ -44,7 +44,9 @@ exports[`components/admin_console/data_retention_settings/custom_policy_form sho
             }
           />
         </CardHeader>
-        <CardBody>
+        <CardBody
+          expanded={true}
+        >
           <div
             className="CustomPolicy__fields"
           >
@@ -150,7 +152,9 @@ exports[`components/admin_console/data_retention_settings/custom_policy_form sho
             }
           />
         </CardHeader>
-        <CardBody>
+        <CardBody
+          expanded={true}
+        >
           <Connect(TeamList)
             onAddCallback={[Function]}
             onRemoveCallback={[Function]}
@@ -186,7 +190,9 @@ exports[`components/admin_console/data_retention_settings/custom_policy_form sho
             }
           />
         </CardHeader>
-        <CardBody>
+        <CardBody
+          expanded={true}
+        >
           <Connect(ChannelList)
             channelsToAdd={Object {}}
             channelsToRemove={Object {}}
@@ -276,7 +282,9 @@ exports[`components/admin_console/data_retention_settings/custom_policy_form sho
             }
           />
         </CardHeader>
-        <CardBody>
+        <CardBody
+          expanded={true}
+        >
           <div
             className="CustomPolicy__fields"
           >
@@ -375,7 +383,9 @@ exports[`components/admin_console/data_retention_settings/custom_policy_form sho
             }
           />
         </CardHeader>
-        <CardBody>
+        <CardBody
+          expanded={true}
+        >
           <Connect(TeamList)
             onAddCallback={[Function]}
             onRemoveCallback={[Function]}
@@ -412,7 +422,9 @@ exports[`components/admin_console/data_retention_settings/custom_policy_form sho
             }
           />
         </CardHeader>
-        <CardBody>
+        <CardBody
+          expanded={true}
+        >
           <Connect(ChannelList)
             channelsToAdd={Object {}}
             channelsToRemove={Object {}}

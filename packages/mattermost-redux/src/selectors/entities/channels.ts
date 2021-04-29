@@ -1422,8 +1422,6 @@ export function searchChannelsInPolicy(state: GlobalState, policyId: string, ter
     const channelsInPolicy = getChannelsInPolicy();
     const channelArray = channelsInPolicy(state, {policyId});
     let channels = filterChannelList(channelArray, filters);
-    console.log('hi');
-    console.log(channels);
     channels = filterChannelsMatchingTerm(channels, term);
 
     return channels;

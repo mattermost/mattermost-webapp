@@ -599,6 +599,7 @@
   "admin.data_retention.custom_policy.channel_selector.addChannels": "Add channels",
   "admin.data_retention.custom_policy.channel_selector.subTitle": "Add channels that will follow this retention policy.",
   "admin.data_retention.custom_policy.channel_selector.title": "Assigned channels",
+  "admin.data_retention.custom_policy.form.durationInput.error": "Error parsing message retention.",
   "admin.data_retention.custom_policy.form.input": "Policy name",
   "admin.data_retention.custom_policy.form.input.error": "Policy name can't be blank.",
   "admin.data_retention.custom_policy.form.subTitle": "Give your policy a name and configure retention settings.",
