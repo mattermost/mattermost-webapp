@@ -431,8 +431,6 @@
   "admin.cluster.StreamingPort": "Port de streaming :",
   "admin.cluster.StreamingPortDesc": "Le port utilisé pour streamer des données entre les serveurs.",
   "admin.cluster.StreamingPortEx": "Ex. : « 8075 »",
-  "admin.cluster.UseExperimentalGossip": "Utiliser le protocole de bavardage :",
-  "admin.cluster.UseExperimentalGossipDesc": "Lorsqu'activé, le serveur va essayer de communiquer en utilisant le protocole et le port de bavardage.  Lorsque désactivé, le serveur va essayer de communiquer à l'aide du port de streaming. Lorsque désactivés, les protocole et port de bavardage sont toujours utilisés pour déterminer la santé du cluster.",
   "admin.cluster.UseIpAddress": "Utiliser l'adresse IP :",
   "admin.cluster.UseIpAddressDesc": "Lorsqu'activé, le cluster va essayer de communiquer à l'aide de l'adresse IP au lieu d'utiliser le nom d'hôte.",
   "admin.cluster.enableDescription": "Lorsqu'activé, Mattermost est lancé en mode haute disponibilité. Consultez notre [documentation](!http://docs.mattermost.com/deployment/cluster.html) pour en savoir plus sur la configuration de la haute disponibilité pour Mattermost.",

@@ -1,6 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
+
+import store from 'stores/redux_store.jsx';
+import {SocketEvents} from 'utils/constants';
+
 const MAX_WEBSOCKET_FAILS = 7;
 const MIN_WEBSOCKET_RETRY_TIME = 3000; // 3 sec
 const MAX_WEBSOCKET_RETRY_TIME = 300000; // 5 mins
@@ -25,6 +30,7 @@ export default class WebSocketClient {
     private missedEventCallback: (() => void) | null;
     private errorCallback: ((event: Event) => void) | null;
     private closeCallback: ((connectFailCount: number) => void) | null;
+    private connectionId: string | null;
 
     constructor() {
         this.conn = null;
@@ -39,8 +45,12 @@ export default class WebSocketClient {
         this.missedEventCallback = null;
         this.errorCallback = null;
         this.closeCallback = null;
+        this.connectionId = '';
     }
 
+    // on connect, only send auth cookie and blank state.
+    // on hello, get the connectionID and store it.
+    // on reconnect, send cookie, connectionID, sequence number.
     initialize(connectionUrl = this.connectionUrl, token?: string) {
         if (this.conn) {
             return;
@@ -55,11 +65,20 @@ export default class WebSocketClient {
             console.log('websocket connecting to ' + connectionUrl); //eslint-disable-line no-console
         }
 
-        this.conn = new WebSocket(connectionUrl);
+        // Add connection id, and last_sequence_number to the query param.
+        // We cannot use a cookie because it will bleed across tabs.
+        // We cannot also send it as part of the auth_challenge, because the session cookie is already sent with the request.
+        this.conn = new WebSocket(`${connectionUrl}?connection_id=${this.connectionId}&sequence_number=${this.serverSequence}`);
         this.connectionUrl = connectionUrl;
 
+        const config = getConfig(store.getState());
+        const reliableWebSockets = config.EnableReliableWebSockets === 'true';
+
         this.conn.onopen = () => {
-            this.serverSequence = 0;
+            // No need to reset sequence number here.
+            if (!reliableWebSockets) {
+                this.serverSequence = 0;
+            }
 
             if (token) {
                 this.sendMessage('authentication_challenge', {token});
@@ -67,7 +86,7 @@ export default class WebSocketClient {
 
             if (this.connectFailCount > 0) {
                 console.log('websocket re-established connection'); //eslint-disable-line no-console
-                if (this.reconnectCallback) {
+                if (!reliableWebSockets && this.reconnectCallback) {
                     this.reconnectCallback();
                 }
             } else if (this.firstConnectCallback) {
@@ -123,6 +142,9 @@ export default class WebSocketClient {
         this.conn.onmessage = (evt) => {
             const msg = JSON.parse(evt.data);
             if (msg.seq_reply) {
+                // This indicates a reply to a websocket request.
+                // We ignore sequence number validation of message responses
+                // and only focus on the purely server side event stream.
                 if (msg.error) {
                     console.log(msg); //eslint-disable-line no-console
                 }
@@ -132,7 +154,35 @@ export default class WebSocketClient {
                     Reflect.deleteProperty(this.responseCallbacks, msg.seq_reply);
                 }
             } else if (this.eventCallback) {
-                if (msg.seq !== this.serverSequence && this.missedEventCallback) {
+                if (reliableWebSockets) {
+                    // We check the hello packet, which is always the first packet in a stream.
+                    if (msg.event === SocketEvents.HELLO && this.missedEventCallback) {
+                        console.log('got connection id ', msg.data.connection_id); //eslint-disable-line no-console
+                        // If we already have a connectionId present, and server sends a different one,
+                        // that means it's either a long timeout, or server restart, or sequence number is not found.
+                        // Then we do the sync calls, and reset sequence number to 0.
+                        if (this.connectionId !== '' && this.connectionId !== msg.data.connection_id) {
+                            console.log('long timeout, or server restart, or sequence number is not found.'); //eslint-disable-line no-console
+                            this.missedEventCallback();
+                            this.serverSequence = 0;
+                        }
+
+                        // If it's a fresh connection, we have to set the connectionId regardless.
+                        // And if it's an existing connection, setting it again is harmless, and keeps the code simple.
+                        this.connectionId = msg.data.connection_id;
+                    }
+
+                    // Now we check for sequence number, and if it does not match,
+                    // we just disconnect and reconnect.
+                    if (msg.seq !== this.serverSequence) {
+                        console.log('missed websocket event, act_seq=' + msg.seq + ' exp_seq=' + this.serverSequence); //eslint-disable-line no-console
+                        // We are not calling this.close() because we need to auto-restart.
+                        this.connectFailCount = 0;
+                        this.responseSequence = 1;
+                        this.conn?.close(); // Will auto-reconnect after MIN_WEBSOCKET_RETRY_TIME.
+                        return;
+                    }
+                } else if (msg.seq !== this.serverSequence && this.missedEventCallback) {
                     console.log('missed websocket event, act_seq=' + msg.seq + ' exp_seq=' + this.serverSequence); //eslint-disable-line no-console
                     this.missedEventCallback();
                 }

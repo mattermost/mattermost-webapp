@@ -434,8 +434,6 @@
   "admin.cluster.StreamingPort": "Puerto de Transmisión:",
   "admin.cluster.StreamingPortDesc": "El puerto utilizado para transmitir data entre servidores.",
   "admin.cluster.StreamingPortEx": "Ej.: \"8075\"",
-  "admin.cluster.UseExperimentalGossip": "Utilizar Murmuración:",
-  "admin.cluster.UseExperimentalGossipDesc": "Cuando es verdadero, el servidor intentará comunicarse a través del protocolo de murmuración utilizando el puerto de murmuración.  Cuando es falso el servidor intentará comunicarse a través del puerto de transmisión. Cuando es falso el puerto y protocolo de murmuración se siguen utilizando para determinar la salud del cluster.",
   "admin.cluster.UseIpAddress": "Usar Dirección IP:",
   "admin.cluster.UseIpAddressDesc": "Cuando es verdadero, el cluster intentará comunicarse a través de direcciones IP en vez de utilizar nombres de host.",
   "admin.cluster.enableDescription": "Cuando es verdadero, Mattermost se ejecutará en modo de Alta Disponibilidad. Por favor, consulta la [documentación](!http://docs.mattermost.com/deployment/cluster.html) para obtener más información acerca de la configuración de Alta Disponibilidad para Mattermost.",

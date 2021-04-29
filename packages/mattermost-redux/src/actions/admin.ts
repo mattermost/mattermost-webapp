@@ -9,8 +9,6 @@ import {Compliance} from 'mattermost-redux/types/compliance';
 import {GroupSearchOpts} from 'mattermost-redux/types/groups';
 import {
     CreateDataRetentionCustomPolicy,
-    PatchDataRetentionCustomPolicyTeams,
-    PatchDataRetentionCustomPolicyChannels,
 } from 'mattermost-redux/types/data_retention';
 import {
     TeamSearchOpts,
@@ -711,6 +709,31 @@ export function getDataRetentionCustomPolicy(id: string): ActionFunc {
     };
 }
 
+export function deleteDataRetentionCustomPolicy(id: string): ActionFunc {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        try {
+            await Client4.deleteDataRetentionCustomPolicy(id);
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            dispatch(
+                {
+                    type: AdminTypes.DELETE_DATA_RETENTION_CUSTOM_POLICY_FAILURE,
+                    error,
+                },
+            );
+            return {error};
+        }
+        const data = {
+            id,
+        };
+        dispatch(
+            {type: AdminTypes.DELETE_DATA_RETENTION_CUSTOM_POLICY_SUCCESS, data},
+        );
+
+        return {data};
+    };
+}
+
 export function getDataRetentionCustomPolicyTeams(id: string, page = 0, perPage: number = General.TEAMS_CHUNK_SIZE, includeTotalCount = false): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         let data;
@@ -828,64 +851,46 @@ export function updateDataRetentionCustomPolicy(id: string, policy: CreateDataRe
     });
 }
 
-export function addDataRetentionCustomPolicyTeams(id: string, policy: PatchDataRetentionCustomPolicyTeams): ActionFunc {
+export function addDataRetentionCustomPolicyTeams(id: string, teams: string[]): ActionFunc {
     return bindClientFunc({
         clientFunc: Client4.addDataRetentionPolicyTeams,
         onSuccess: AdminTypes.ADD_DATA_RETENTION_CUSTOM_POLICY_TEAMS_SUCCESS,
         params: [
             id,
-            policy,
+            teams,
         ],
     });
 }
 
-export function removeDataRetentionCustomPolicyTeams(id: string, policy: PatchDataRetentionCustomPolicyTeams): ActionFunc {
+export function removeDataRetentionCustomPolicyTeams(id: string, teams: string[]): ActionFunc {
     return bindClientFunc({
         clientFunc: Client4.removeDataRetentionPolicyTeams,
         onSuccess: AdminTypes.REMOVE_DATA_RETENTION_CUSTOM_POLICY_TEAMS_SUCCESS,
         params: [
             id,
-            policy,
+            teams,
         ],
     });
 }
 
-export function addDataRetentionCustomPolicyChannels(id: string, policy: PatchDataRetentionCustomPolicyChannels): ActionFunc {
+export function addDataRetentionCustomPolicyChannels(id: string, channels: string[]): ActionFunc {
     return bindClientFunc({
         clientFunc: Client4.addDataRetentionPolicyChannels,
         onSuccess: AdminTypes.ADD_DATA_RETENTION_CUSTOM_POLICY_CHANNELS_SUCCESS,
         params: [
             id,
-            policy,
+            channels,
         ],
     });
 }
 
-export function removeDataRetentionCustomPolicyChannels(id: string, policy: PatchDataRetentionCustomPolicyChannels): ActionFunc {
+export function removeDataRetentionCustomPolicyChannels(id: string, channels: string[]): ActionFunc {
     return bindClientFunc({
         clientFunc: Client4.removeDataRetentionPolicyChannels,
         onSuccess: AdminTypes.REMOVE_DATA_RETENTION_CUSTOM_POLICY_CHANNELS_SUCCESS,
         params: [
             id,
-            policy,
+            channels,
         ],
     });
-}
-
-export function clearDataRetentionCustomPolicyTeams(): ActionFunc {
-    return (dispatch: DispatchFunc) => {
-        dispatch(
-            {type: AdminTypes.CLEAR_DATA_RETENTION_CUSTOM_POLICY_TEAMS, data: {}},
-        );
-        return {data: {}};
-    };
-}
-
-export function clearDataRetentionCustomPolicyChannels(): ActionFunc {
-    return (dispatch: DispatchFunc) => {
-        dispatch(
-            {type: AdminTypes.CLEAR_DATA_RETENTION_CUSTOM_POLICY_CHANNELS, data: {}},
-        );
-        return {data: {}};
-    };
 }
