@@ -23,6 +23,7 @@ import LocalizedIcon from 'components/localized_icon';
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 import Avatar from 'components/widgets/users/avatar';
 import Popover from 'components/widgets/popover';
+import SharedUserIndicator from 'components/shared_user_indicator.tsx';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import CustomStatusModal from 'components/custom_status/custom_status_modal';
 import CustomStatusText from 'components/custom_status/custom_status_text';
@@ -128,7 +129,7 @@ class ProfilePopover extends React.PureComponent {
          * @internal
          */
         actions: PropTypes.shape({
-            getMembershipForCurrentEntities: PropTypes.func.isRequired,
+            getMembershipForEntities: PropTypes.func.isRequired,
             openDirectChannelToUserId: PropTypes.func.isRequired,
             openModal: PropTypes.func.isRequired,
             closeModal: PropTypes.func.isRequired,
@@ -159,7 +160,7 @@ class ProfilePopover extends React.PureComponent {
     componentDidMount() {
         const {currentTeamId, userId, channelId} = this.props;
         if (currentTeamId && userId) {
-            this.props.actions.getMembershipForCurrentEntities(currentTeamId, userId, channelId);
+            this.props.actions.getMembershipForEntities(currentTeamId, userId, channelId);
         }
     }
 
@@ -274,6 +275,7 @@ class ProfilePopover extends React.PureComponent {
                         showTooltip={false}
                         emojiStyle={{
                             marginRight: 4,
+                            marginTop: 1,
                         }}
                     />
                 </span>
@@ -361,20 +363,31 @@ class ProfilePopover extends React.PureComponent {
         }
 
         if (fullname && !haveOverrideProp) {
+            let sharedIcon;
+            if (this.props.user.remote_id) {
+                sharedIcon = (
+                    <SharedUserIndicator
+                        className='shared-user-icon'
+                        withTooltip={true}
+                    />
+                );
+            }
+
             dataContent.push(
-                <OverlayTrigger
-                    delayShow={Constants.OVERLAY_TIME_DELAY}
-                    placement='top'
-                    overlay={<Tooltip id='fullNameTooltip'>{fullname}</Tooltip>}
+                <div
+                    data-testId={`popover-fullname-${this.props.user.username}`}
+                    className='overflow--ellipsis text-nowrap'
                     key='user-popover-fullname'
                 >
-                    <div
-                        data-testid={`popover-fullname-${this.props.user.username}`}
-                        className='overflow--ellipsis text-nowrap'
+                    <OverlayTrigger
+                        delayShow={Constants.OVERLAY_TIME_DELAY}
+                        placement='top'
+                        overlay={<Tooltip id='fullNameTooltip'>{fullname}</Tooltip>}
                     >
                         <span className='user-profile-popover__heading'>{fullname}</span>
-                    </div>
-                </OverlayTrigger>,
+                    </OverlayTrigger>
+                    {sharedIcon}
+                </div>,
             );
         }
 

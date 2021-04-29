@@ -105,7 +105,7 @@ const PaymentInfoEdit: React.FC = () => {
                                 <>
                                     <FormattedMarkdownMessage
                                         id='admin.billing.payment_info_edit.creditCardWarningDescription'
-                                        defaultMessage='Credit cards are kept on file for future payments. You’ll only be charged if you move in to the paid tier of Mattermost Cloud and exceed the free tier limits. '
+                                        defaultMessage='Your credit card will be charged based on the number of users you have at the end of the monthly billing cycle. '
                                     />
                                     <a
                                         target='_new'

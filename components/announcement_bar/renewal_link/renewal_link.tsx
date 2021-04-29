@@ -19,6 +19,7 @@ export interface RenewalLinkProps {
     actions: {
         openModal: (modalData: { modalId: string; dialogType: any; dialogProps?: any }) => void;
     };
+    isDisabled?: boolean;
 }
 
 const RenewalLink: React.FC<RenewalLinkProps> = (props: RenewalLinkProps) => {
@@ -65,7 +66,8 @@ const RenewalLink: React.FC<RenewalLinkProps> = (props: RenewalLinkProps) => {
     return (
         <>
             <button
-                className='annnouncementBar__renewLicense'
+                className='btn btn-primary annnouncementBar__renewLicense'
+                disabled={props.isDisabled}
                 onClick={(e) => handleLinkClick(e)}
             >
                 <FormattedMessage

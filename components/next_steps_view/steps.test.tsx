@@ -86,6 +86,10 @@ describe('components/next_steps_view/steps', () => {
                             name: 'team_setup',
                             value: 'true',
                         },
+                        'recommended_next_steps--notification_setup': {
+                            name: 'notification_setup',
+                            value: 'true',
+                        },
                         'recommended_next_steps--invite_members': {
                             name: 'invite_members',
                             value: 'true',
@@ -95,7 +99,7 @@ describe('components/next_steps_view/steps', () => {
                 users: {
                     currentUserId: 'current_user_id',
                     profiles: {
-                        current_user_id: {roles: 'system_role'},
+                        current_user_id: {roles: 'system_user'},
                     },
                 },
             },
@@ -120,7 +124,26 @@ describe('components/next_steps_view/steps', () => {
                 },
             },
         };
-        expect(getSteps(state as any)).toHaveLength(3);
+        expect(getSteps(state as any)).toHaveLength(4);
+    });
+
+    test('should only show the complete_profile_step to guest users', () => {
+        const state = {
+            entities: {
+                general: {
+                    license: {
+                        Cloud: 'true',
+                    },
+                },
+                users: {
+                    currentUserId: 'current_user_id',
+                    profiles: {
+                        current_user_id: {roles: 'system_guest'},
+                    },
+                },
+            },
+        };
+        expect(getSteps(state as any)).toHaveLength(1);
     });
 
     test('should only show non-admin steps for non-admin users', () => {

@@ -86,7 +86,7 @@ export default class FileSearchResultItem extends React.PureComponent<Props, Sta
                 data-testid='search-item-container'
                 className='search-item__container'
             >
-                <div
+                <button
                     className={'FileSearchResultItem' + (this.state.keepOpen ? ' keep-open' : '')}
                     onClick={() => this.setState({showPreview: true})}
                 >
@@ -116,9 +116,12 @@ export default class FileSearchResultItem extends React.PureComponent<Props, Sta
                             onToggle={this.keepOpen}
                             stopPropagationOnToggle={true}
                         >
-                            <span className='action-icon dots-icon'>
+                            <a
+                                href='#'
+                                className='action-icon dots-icon'
+                            >
                                 <i className='icon icon-dots-vertical'/>
-                            </span>
+                            </a>
                             <Menu
                                 ariaLabel={'file menu'}
                                 openLeft={true}
@@ -153,7 +156,7 @@ export default class FileSearchResultItem extends React.PureComponent<Props, Sta
                             <i className='icon icon-download-outline'/>
                         </a>
                     </OverlayTrigger>
-                </div>
+                </button>
                 <ViewImageModal
                     show={this.state.showPreview}
                     onModalDismissed={() => this.setState({showPreview: false})}

@@ -62,7 +62,7 @@ describe('Custom Status - Verifying Where Custom Status Appears', () => {
         cy.get('.post.current--user .post__header').should('be.visible').first().get('.post-menu button[aria-label="reply"]').should('exist').click({force: true});
 
         // * Custom status emoji should be visible in the RHS post header
-        cy.get('#rhsContent .post.current--user.thread__root .post__header span.emoticon').should('exist').invoke('attr', 'data-emoticon').should('contain', customStatus.emoji);
+        cy.get('#rhsContainer .post-right__content .post.current--user.thread__root .post__header span.emoticon').should('exist').invoke('attr', 'data-emoticon').should('contain', customStatus.emoji);
 
         // # Close the RHS sidebar
         cy.get('#rhsCloseButton').click();

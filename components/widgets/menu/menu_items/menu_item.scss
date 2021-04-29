@@ -129,6 +129,27 @@
             }
         }
     }
+
+    .MenuTopNotification {
+        padding: 8px;
+        margin: 8px;
+        margin-top: 0;
+        border-radius: 4px;
+        background-color: rgba(var(--button-bg-rgb), 0.04);
+
+        .upgradeLink {
+            color: --button-bg;
+            font-style: normal;
+            font-weight: 600;
+
+            &:hover {
+                color: --button-bg;
+                font-style: normal;
+                font-weight: 600;
+                text-decoration: none;
+            }
+        }
+    }
 }
 
 .SubMenu {
