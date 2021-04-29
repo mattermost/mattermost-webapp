@@ -64,7 +64,7 @@ describe('Integrations', () => {
 
         // # Login as user1 and post "/shrug test"
         loginAndVisitChannel(user1, testChannelUrl);
-        cy.postMessage(`/shrug ${message}{enter}`);
+        cy.postMessage(`/shrug ${message} `);
 
         // * Verify that it posted message as expected from user1
         cy.getLastPostId().then((postId) => {
@@ -254,7 +254,7 @@ describe('Integrations', () => {
         const invalidChannel = `invalid-channel-${getRandomId()}`;
 
         // # Type /mute with random characters
-        cy.postMessage(`/mute ${invalidChannel}{enter}`);
+        cy.postMessage(`/mute ${invalidChannel} `);
         cy.uiWaitUntilMessagePostedIncludes('Please use the channel handle to identify channels');
 
         cy.getLastPostId().then((postId) => {
