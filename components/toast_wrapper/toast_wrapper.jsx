@@ -12,6 +12,8 @@ import * as Utils from 'utils/utils.jsx';
 import {isToday} from 'utils/datetime';
 import Constants from 'utils/constants';
 import {browserHistory} from 'utils/browser_history';
+import {SearchShortcut} from 'components/search_shortcut/search_shortcut';
+import {HintToast} from 'components/hint-toast/hint_toast';
 
 const TOAST_TEXT_COLLAPSE_WIDTH = 500;
 
@@ -39,6 +41,8 @@ class ToastWrapper extends React.PureComponent {
         scrollToNewMessage: PropTypes.func,
         scrollToLatestMessages: PropTypes.func,
         updateLastViewedBottomAt: PropTypes.func,
+        showSearchHintToast: PropTypes.bool,
+        onSearchHintDismiss: PropTypes.func,
 
         /*
          * Object from react-router
@@ -220,6 +224,12 @@ class ToastWrapper extends React.PureComponent {
         }
     }
 
+    hideSearchHintToast = () => {
+        if (this.props.onSearchHintDismiss) {
+            this.props.onSearchHintDismiss();
+        }
+    }
+
     newMessagesToastText = (count, since) => {
         if (this.props.width > TOAST_TEXT_COLLAPSE_WIDTH && typeof since !== 'undefined') {
             return (
@@ -254,6 +264,18 @@ class ToastWrapper extends React.PureComponent {
             <FormattedMessage
                 id='postlist.toast.history'
                 defaultMessage='Viewing message history'
+            />
+        );
+    }
+
+    getSearchHintToastText = () => {
+        return (
+            <FormattedMessage
+                id='postlist.toast.searchHint'
+                defaultMessage='Tip: Try {searchShortcut} to search this channel'
+                values={{
+                    searchShortcut: <SearchShortcut/>,
+                }}
             />
         );
     }
@@ -297,53 +319,81 @@ class ToastWrapper extends React.PureComponent {
         this.hideUnreadToast();
     }
 
-    render() {
-        const {atLatestPost, atBottom, width, lastViewedAt} = this.props;
+    getToastToRender() {
+        const {atLatestPost, atBottom, width, lastViewedAt, showSearchHintToast} = this.props;
         const {showUnreadToast, showNewMessagesToast, showMessageHistoryToast, unreadCount} = this.state;
 
-        let unreadToastProps = {
-            show: false,
+        const unreadToastProps = {
+            show: true,
             width,
-        };
-
-        const archiveToastProps = {
-            show: Boolean(showMessageHistoryToast),
-            width,
-            onDismiss: this.hideArchiveToast,
+            onDismiss: this.hideUnreadToast,
             onClick: this.scrollToLatestMessages,
             onClickMessage: Utils.localizeMessage('postlist.toast.scrollToBottom', 'Jump to recents'),
-            showActions: true,
-            extraClasses: 'toast__history',
+            showActions: !atLatestPost || (atLatestPost && !atBottom),
         };
 
         if (showUnreadToast && unreadCount > 0) {
-            unreadToastProps = {
-                ...unreadToastProps,
-                onDismiss: this.hideUnreadToast,
-                onClick: this.scrollToLatestMessages,
-                onClickMessage: Utils.localizeMessage('postlist.toast.scrollToBottom', 'Jump to recents'),
-                show: true,
-                showActions: !atLatestPost || (atLatestPost && !atBottom),
-            };
-        } else if (showNewMessagesToast) {
-            unreadToastProps = {
-                ...unreadToastProps,
-                onDismiss: this.hideNewMessagesToast,
-                onClick: this.scrollToNewMessage,
-                onClickMessage: Utils.localizeMessage('postlist.toast.scrollToLatest', 'Jump to new messages'),
-                show: true,
-                showActions: !atLatestPost || (atLatestPost && !atBottom),
-            };
-        }
-
-        return (
-            <React.Fragment>
+            return (
                 <Toast {...unreadToastProps}>
                     {this.newMessagesToastText(unreadCount, lastViewedAt)}
                 </Toast>
+            );
+        }
+
+        if (showNewMessagesToast) {
+            const showNewMessagesToastOverrides = {
+                onDismiss: this.hideNewMessagesToast,
+                onClick: this.scrollToNewMessage,
+                onClickMessage: Utils.localizeMessage('postlist.toast.scrollToLatest', 'Jump to new messages'),
+            };
+
+            return (
+                <Toast
+                    {...unreadToastProps}
+                    {...showNewMessagesToastOverrides}
+                >
+                    {this.newMessagesToastText(unreadCount, lastViewedAt)}
+                </Toast>
+            );
+        }
+
+        if (showMessageHistoryToast) {
+            const archiveToastProps = {
+                show: true,
+                width,
+                onDismiss: this.hideArchiveToast,
+                onClick: this.scrollToLatestMessages,
+                onClickMessage: Utils.localizeMessage('postlist.toast.scrollToBottom', 'Jump to recents'),
+                showActions: true,
+                extraClasses: 'toast__history',
+            };
+
+            return (
                 <Toast {...archiveToastProps}>
                     {this.archiveToastText()}
                 </Toast>
+            );
+        }
+
+        if (showSearchHintToast) {
+            return (
+                <HintToast
+                    onDismiss={this.hideSearchHintToast}
+                >
+                    {this.getSearchHintToastText()}
+                </HintToast>
+            );
+        }
+
+        return null;
+    }
+
+    render() {
+        const toastToRender = this.getToastToRender();
+
+        return (
+            <React.Fragment>
+                {toastToRender}
             </React.Fragment>
         );
     }

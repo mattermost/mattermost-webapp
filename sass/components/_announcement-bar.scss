@@ -10,15 +10,18 @@
     width: 100%;
     z-index: 999;
     overflow: hidden;
-    padding: 10px 30px;
+    display: flex;
+    justify-content: center;
     max-height: $announcement-bar-height;
+    align-items: center;
 
     > span {
         max-width: 100%;
-        display: block;
+        display: flex;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+        align-items: center;
 
         > span {
             font-style: normal;
@@ -65,26 +68,17 @@
     }
 
     .content__icon, i {
-        top: 1px;
-        position: relative;
-        align-items: center;
-        display: inline-block;
         font-family: 'compass-icons';
-        font-size: 18px;
-        line-height: 21px;
+        font-size: 16px;
         color: #FFFFFF;
-        height: 18px;
-        margin-right: 8px;
+        margin-right: 4px;
     }
 
     button {
         &:hover {
             background-color: rgba(255, 255, 255, 0.08)
         }
-        display: inline-block;
-        margin-bottom: 8px;
         margin-left: 8px;
-        background-color:var(--sidebar-text-active-border);
         font-family: Open Sans;
         font-style: normal;
         font-weight: 600;
@@ -95,7 +89,7 @@
         height: 24px;
         box-sizing: border-box;
         border-radius: 4px;
-        background-color: inherit
+        background-color: inherit !important;
     }
 }
 
@@ -105,7 +99,6 @@
 
 .announcement-bar-success {
     background-color: #06D6A0;
-    ;
 }
 
 .announcement-bar-advisor {
