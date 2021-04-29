@@ -3926,7 +3926,20 @@ const AdminDefinition = {
                             it.stateIsFalse('SamlSettings.Enable'),
                         ),
                     },
-
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'SamlSettings.UsernameAttribute',
+                        label: t('admin.saml.usernameAttrTitle'),
+                        label_default: 'Username Attribute:',
+                        placeholder: t('admin.saml.usernameAttrEx'),
+                        placeholder_default: 'E.g.: "Username"',
+                        help_text: t('admin.saml.usernameAttrDesc'),
+                        help_text_default: 'The attribute in the SAML Assertion that will be used to populate the username field in Mattermost.',
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SAML)),
+                            it.stateIsFalse('SamlSettings.Enable'),
+                        ),
+                    },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'SamlSettings.IdAttribute',
@@ -3983,7 +3996,48 @@ const AdminDefinition = {
                             it.stateIsFalse('SamlSettings.Enable'),
                         ),
                     },
-
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'SamlSettings.FirstNameAttribute',
+                        label: t('admin.saml.firstnameAttrTitle'),
+                        label_default: 'First Name Attribute:',
+                        placeholder: t('admin.saml.firstnameAttrEx'),
+                        placeholder_default: 'E.g.: "FirstName"',
+                        help_text: t('admin.saml.firstnameAttrDesc'),
+                        help_text_default: '(Optional) The attribute in the SAML Assertion that will be used to populate the first name of users in Mattermost.',
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SAML)),
+                            it.stateIsFalse('SamlSettings.Enable'),
+                        ),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'SamlSettings.LastNameAttribute',
+                        label: t('admin.saml.lastnameAttrTitle'),
+                        label_default: 'Last Name Attribute:',
+                        placeholder: t('admin.saml.lastnameAttrEx'),
+                        placeholder_default: 'E.g.: "LastName"',
+                        help_text: t('admin.saml.lastnameAttrDesc'),
+                        help_text_default: '(Optional) The attribute in the SAML Assertion that will be used to populate the last name of users in Mattermost.',
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SAML)),
+                            it.stateIsFalse('SamlSettings.Enable'),
+                        ),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'SamlSettings.NicknameAttribute',
+                        label: t('admin.saml.nicknameAttrTitle'),
+                        label_default: 'Nickname Attribute:',
+                        placeholder: t('admin.saml.nicknameAttrEx'),
+                        placeholder_default: 'E.g.: "Nickname"',
+                        help_text: t('admin.saml.nicknameAttrDesc'),
+                        help_text_default: '(Optional) The attribute in the SAML Assertion that will be used to populate the nickname of users in Mattermost.',
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SAML)),
+                            it.stateIsFalse('SamlSettings.Enable'),
+                        ),
+                    },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'SamlSettings.PositionAttribute',
