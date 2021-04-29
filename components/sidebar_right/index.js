@@ -4,7 +4,6 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 
 import {setRhsExpanded, showPinnedPosts, showChannelFiles, openRHSSearch, closeRightHandSide, openAtPrevious, updateSearchTerms} from 'actions/views/rhs';
@@ -32,7 +31,6 @@ function mapStateToProps(state) {
         isExpanded: getIsRhsExpanded(state),
         isOpen: getIsRhsOpen(state),
         channel,
-        currentUserId: getCurrentUserId(state),
         postRightVisible: Boolean(selectedPostId),
         postCardVisible: Boolean(selectedPostCardId),
         searchVisible: Boolean(rhsState) && rhsState !== RHSStates.PLUGIN,

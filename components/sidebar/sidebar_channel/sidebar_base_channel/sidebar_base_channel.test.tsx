@@ -23,6 +23,7 @@ describe('components/sidebar/sidebar_channel/sidebar_base_channel', () => {
             purpose: '',
             last_post_at: 0,
             total_msg_count: 0,
+            total_msg_count_root: 0,
             extra_update_at: 0,
             creator_id: '',
             scheme_id: '',
@@ -43,12 +44,45 @@ describe('components/sidebar/sidebar_channel/sidebar_base_channel', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should match snapshot when shared channel', () => {
+        const props = {
+            ...baseProps,
+            channel: {
+                ...baseProps.channel,
+                shared: true,
+            },
+        };
+
+        const wrapper = shallow(
+            <SidebarBaseChannel {...props}/>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('should match snapshot when private channel', () => {
         const props = {
             ...baseProps,
             channel: {
                 ...baseProps.channel,
                 type: 'P' as ChannelType,
+            },
+        };
+
+        const wrapper = shallow(
+            <SidebarBaseChannel {...props}/>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot when shared private channel', () => {
+        const props = {
+            ...baseProps,
+            channel: {
+                ...baseProps.channel,
+                type: 'P' as ChannelType,
+                shared: true,
             },
         };
 

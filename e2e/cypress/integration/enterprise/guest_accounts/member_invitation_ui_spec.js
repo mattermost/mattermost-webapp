@@ -17,75 +17,6 @@ import {getRandomId} from '../../../utils';
 import {getAdminAccount} from '../../../support/env';
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
-function invitePeople(typeText, resultsCount, verifyText, clickInvite = true) {
-    // # Open Invite People
-    cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-    cy.get('#invitePeople').should('be.visible').click();
-
-    // # Search and add a member
-    cy.findByTestId('inputPlaceholder').should('be.visible').within(() => {
-        cy.get('input').type(typeText, {force: true});
-        cy.get('.users-emails-input__menu').
-            children().should('have.length', resultsCount).eq(0).should('contain', verifyText).click();
-        cy.get('input').tab();
-    });
-
-    // # Click Invite Members
-    if (clickInvite) {
-        cy.get('#inviteMembersButton').scrollIntoView().click();
-    }
-}
-
-function verifyInvitationError(user, team, errorText) {
-    // * Verify the content and error message in the Invitation Modal
-    cy.findByTestId('invitationModal').within(() => {
-        cy.get('h1').should('have.text', `Members Invited to ${team.display_name}`);
-        cy.get('h2.subtitle > span').should('have.text', '1 invitation was not sent');
-        cy.get('div.invitation-modal-confirm-sent').should('not.exist');
-        cy.get('div.invitation-modal-confirm-not-sent').should('be.visible').within(() => {
-            cy.get('h2 > span').should('have.text', 'Invitations Not Sent');
-            cy.get('.people-header').should('have.text', 'People');
-            cy.get('.details-header').should('have.text', 'Details');
-            cy.get('.username-or-icon').should('contain', user);
-            cy.get('.reason').should('have.text', errorText);
-        });
-        cy.get('.confirm-done').should('be.visible').and('not.be.disabled').click();
-    });
-
-    // * Verify if Invitation Modal was closed
-    cy.get('.InvitationModal').should('not.exist');
-}
-
-function verifyInvitationSuccess(user, team, successText) {
-    // * Verify the content and success message in the Invitation Modal
-    cy.findByTestId('invitationModal').within(() => {
-        cy.get('h1').should('have.text', `Members Invited to ${team.display_name}`);
-        cy.get('h2.subtitle > span').should('have.text', '1 person has been invited');
-        cy.get('div.invitation-modal-confirm-not-sent').should('not.exist');
-        cy.get('div.invitation-modal-confirm-sent').should('be.visible').within(() => {
-            cy.get('h2 > span').should('have.text', 'Successful Invites');
-            cy.get('.people-header').should('have.text', 'People');
-            cy.get('.details-header').should('have.text', 'Details');
-            cy.get('.username-or-icon').should('contain', user);
-            cy.get('.reason').should('have.text', successText);
-        });
-        cy.get('.confirm-done').should('be.visible').and('not.be.disabled').click();
-    });
-
-    // * Verify if Invitation Modal was closed
-    cy.get('.InvitationModal').should('not.exist');
-}
-
-function loginAsNewUser(team) {
-    // # Login as new user and get the user id
-    cy.apiCreateUser().then(({user}) => {
-        cy.apiAddUserToTeam(team.id, user.id);
-
-        cy.apiLogin(user);
-        cy.visit(`/${team.name}`);
-    });
-}
-
 describe('Guest Account - Member Invitation Flow', () => {
     const sysadmin = getAdminAccount();
     let testTeam;
@@ -117,7 +48,7 @@ describe('Guest Account - Member Invitation Flow', () => {
         });
     });
 
-    it('MM-18039 Verify UI Elements of Members Invitation Flow', () => {
+    it('MM-T1323 Verify UI Elements of Members Invitation Flow - Accessing Invite People', () => {
         const email = `temp-${getRandomId()}@mattermost.com`;
 
         // # Open Invite People
@@ -187,58 +118,6 @@ describe('Guest Account - Member Invitation Flow', () => {
         cy.get('.InvitationModal').should('not.exist');
     });
 
-    it('MM-18040 Verify Invite New/Existing Users', () => {
-        cy.apiCreateTeam('team', 'Team').then(({team}) => {
-            // # Login as new user
-            loginAsNewUser(team);
-
-            // # Search and add an existing member by username who is part of the team
-            invitePeople(sysadmin.username, 1, sysadmin.username);
-
-            // * Verify the content and message in next screen
-            verifyInvitationError(sysadmin.username, team, 'This person is already a team member.');
-        });
-    });
-
-    it('MM-T1328 Invite Members - Existing Member not on the team', () => {
-        cy.apiCreateTeam('team', 'Team').then(({team}) => {
-            // # Login as new user
-            loginAsNewUser(team);
-
-            // # Search and add an existing member by email who is not part of the team
-            invitePeople(testUser.email, 1, testUser.username);
-
-            // * Verify the content and message in next screen
-            verifyInvitationSuccess(testUser.username, team, 'This member has been added to the team.');
-        });
-    });
-
-    it('Invite Members - Invite People - Existing Guest not on the team', () => {
-        cy.apiCreateTeam('team', 'Team').then(({team}) => {
-            // # Login as new user
-            loginAsNewUser(team);
-
-            // # Search and add a new member by email who is not part of the team
-            const email = `temp-${getRandomId()}@mattermost.com`;
-            invitePeople(email, 1, email);
-
-            // * Verify the content and message in next screen
-            verifyInvitationSuccess(email, team, 'An invitation email has been sent.');
-        });
-    });
-
-    it('MM-22037 Invite Member via Email containing upper case letters', () => {
-        // # Login as new user
-        loginAsNewUser(testTeam);
-
-        // # Invite a email containing uppercase letters
-        const email = `tEMp-${getRandomId()}@mattermost.com`;
-        invitePeople(email, 1, email);
-
-        // * Verify the content and message in next screen
-        verifyInvitationSuccess(email, testTeam, 'An invitation email has been sent.');
-    });
-
     it('MM-T1324 Invite Members - Team Link - New User', () => {
         // # Wait for page to load and then logout. Else invite members link will be redirected to login page
         cy.get('#post_textbox').should('be.visible').wait(TIMEOUTS.TWO_SEC);
@@ -306,6 +185,58 @@ describe('Guest Account - Member Invitation Flow', () => {
         });
     });
 
+    it('MM-T1326 Verify Invite Members - Existing Team Member', () => {
+        cy.apiCreateTeam('team', 'Team').then(({team}) => {
+            // # Login as new user
+            loginAsNewUser(team);
+
+            // # Search and add an existing member by username who is part of the team
+            invitePeople(sysadmin.username, 1, sysadmin.username);
+
+            // * Verify the content and message in next screen
+            verifyInvitationError(sysadmin.username, team, 'This person is already a team member.');
+        });
+    });
+
+    it('MM-T1328 Invite Members - Existing Member not on the team', () => {
+        cy.apiCreateTeam('team', 'Team').then(({team}) => {
+            // # Login as new user
+            loginAsNewUser(team);
+
+            // # Search and add an existing member by email who is not part of the team
+            invitePeople(testUser.email, 1, testUser.username);
+
+            // * Verify the content and message in next screen
+            verifyInvitationSuccess(testUser.username, team, 'This member has been added to the team.');
+        });
+    });
+
+    it('MM-T1329 Invite Members - Invite People - Existing Guest not on the team', () => {
+        cy.apiCreateTeam('team', 'Team').then(({team}) => {
+            // # Login as new user
+            loginAsNewUser(team);
+
+            // # Search and add a new member by email who is not part of the team
+            const email = `temp-${getRandomId()}@mattermost.com`;
+            invitePeople(email, 1, email);
+
+            // * Verify the content and message in next screen
+            verifyInvitationSuccess(email, team, 'An invitation email has been sent.');
+        });
+    });
+
+    it('MM-22037 Invite Member via Email containing upper case letters', () => {
+        // # Login as new user
+        loginAsNewUser(testTeam);
+
+        // # Invite a email containing uppercase letters
+        const email = `tEMp-${getRandomId()}@mattermost.com`;
+        invitePeople(email, 1, email);
+
+        // * Verify the content and message in next screen
+        verifyInvitationSuccess(email, testTeam, 'An invitation email has been sent.');
+    });
+
     it('MM-T1330 Invite Members - New User not in the system', () => {
         // # Login as sysadmin and create a new team
         cy.apiAdminLogin();
@@ -349,3 +280,72 @@ describe('Guest Account - Member Invitation Flow', () => {
         });
     });
 });
+
+function invitePeople(typeText, resultsCount, verifyText, clickInvite = true) {
+    // # Open Invite People
+    cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
+    cy.get('#invitePeople').should('be.visible').click();
+
+    // # Search and add a member
+    cy.findByTestId('inputPlaceholder').should('be.visible').within(() => {
+        cy.get('input').type(typeText, {force: true});
+        cy.get('.users-emails-input__menu').
+            children().should('have.length', resultsCount).eq(0).should('contain', verifyText).click();
+        cy.get('input').tab();
+    });
+
+    // # Click Invite Members
+    if (clickInvite) {
+        cy.get('#inviteMembersButton').scrollIntoView().click();
+    }
+}
+
+function verifyInvitationError(user, team, errorText) {
+    // * Verify the content and error message in the Invitation Modal
+    cy.findByTestId('invitationModal').within(() => {
+        cy.get('h1').should('have.text', `Members Invited to ${team.display_name}`);
+        cy.get('h2.subtitle > span').should('have.text', '1 invitation was not sent');
+        cy.get('div.invitation-modal-confirm-sent').should('not.exist');
+        cy.get('div.invitation-modal-confirm-not-sent').should('be.visible').within(() => {
+            cy.get('h2 > span').should('have.text', 'Invitations Not Sent');
+            cy.get('.people-header').should('have.text', 'People');
+            cy.get('.details-header').should('have.text', 'Details');
+            cy.get('.username-or-icon').should('contain', user);
+            cy.get('.reason').should('have.text', errorText);
+        });
+        cy.get('.confirm-done').should('be.visible').and('not.be.disabled').click();
+    });
+
+    // * Verify if Invitation Modal was closed
+    cy.get('.InvitationModal').should('not.exist');
+}
+
+function verifyInvitationSuccess(user, team, successText) {
+    // * Verify the content and success message in the Invitation Modal
+    cy.findByTestId('invitationModal').within(() => {
+        cy.get('h1').should('have.text', `Members Invited to ${team.display_name}`);
+        cy.get('h2.subtitle > span').should('have.text', '1 person has been invited');
+        cy.get('div.invitation-modal-confirm-not-sent').should('not.exist');
+        cy.get('div.invitation-modal-confirm-sent').should('be.visible').within(() => {
+            cy.get('h2 > span').should('have.text', 'Successful Invites');
+            cy.get('.people-header').should('have.text', 'People');
+            cy.get('.details-header').should('have.text', 'Details');
+            cy.get('.username-or-icon').should('contain', user);
+            cy.get('.reason').should('have.text', successText);
+        });
+        cy.get('.confirm-done').should('be.visible').and('not.be.disabled').click();
+    });
+
+    // * Verify if Invitation Modal was closed
+    cy.get('.InvitationModal').should('not.exist');
+}
+
+function loginAsNewUser(team) {
+    // # Login as new user and get the user id
+    cy.apiCreateUser().then(({user}) => {
+        cy.apiAddUserToTeam(team.id, user.id);
+
+        cy.apiLogin(user);
+        cy.visit(`/${team.name}`);
+    });
+}

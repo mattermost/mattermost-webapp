@@ -39,6 +39,7 @@ type Props = {
     products?: Dictionary<Product>;
     contactSupportLink: string;
     contactSalesLink: string;
+    isFreeTrial: boolean;
     actions: {
         closeModal: () => void;
         getCloudProducts: () => void;
@@ -112,14 +113,40 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
     }
 
     purchaseScreen = () => {
+        let title;
+        let buttonTitle;
+        if (this.props.isFreeTrial) {
+            title = (
+                <FormattedMessage
+                    defaultMessage={'Provide Your Payment Details'}
+                    id={'admin.billing.subscription.providePaymentDetails'}
+                />
+            );
+            buttonTitle = (
+                <FormattedMessage
+                    defaultMessage={'Subscribe'}
+                    id={'admin.billing.subscription.cloudTrial.subscribe'}
+                />
+            );
+        } else {
+            title = (
+                <FormattedMessage
+                    defaultMessage={'Upgrade your Mattermost Cloud Susbcription'}
+                    id={'admin.billing.subscription.upgradeCloudSubscription'}
+                />
+            );
+            buttonTitle = (
+                <FormattedMessage
+                    defaultMessage={'Upgrade'}
+                    id={'admin.billing.subscription.upgrade'}
+                />
+            );
+        }
         return (
             <div className={this.state.processing ? 'processing' : ''}>
                 <div className='LHS'>
                     <div className='title'>
-                        <FormattedMessage
-                            defaultMessage={'Upgrade your Mattermost Cloud Susbcription'}
-                            id={'admin.billing.subscription.upgradeCloudSubscription'}
-                        />
+                        {title}
                     </div>
                     <img
                         className='image'
@@ -189,10 +216,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                             disabled={!this.state.paymentInfoIsValid}
                             onClick={this.handleSubmitClick}
                         >
-                            <FormattedMessage
-                                defaultMessage={'Upgrade'}
-                                id={'admin.billing.subscription.upgrade'}
-                            />
+                            {buttonTitle}
                         </button>
                         <div className='fineprint-text'>
                             <span>
@@ -290,6 +314,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                                         onBack={() => {
                                             this.setState({processing: false});
                                         }}
+                                        contactSupportLink={this.props.contactSalesLink}
                                     />
                                 </div>
                             ) : null}
