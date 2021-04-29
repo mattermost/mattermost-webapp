@@ -9,14 +9,17 @@ import Avatar from 'components/widgets/users/avatar';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import Suggestion from '../suggestion';
 
-function itemToName(item: any, currentUser: string) {
-    let itemMarkup = (item);
+import {UserProfile} from 'mattermost-redux/types/users';
+import {Channel} from 'mattermost-redux/types/channels';
+
+function itemToName(item: Channel, currentUser: UserProfile) {
+    let itemMarkup;
 
     if (item.type === Constants.DM_CHANNEL) {
         const profilePicture = (
             <Avatar
-                username={item.username}
-                url={imageURLForUser(getUserIdFromChannelName(currentUser, item.name), item.last_picture_update)}
+                username={currentUser.username}
+                url={imageURLForUser(getUserIdFromChannelName(currentUser.id, item.name), currentUser.last_picture_update)}
                 size='sm'
             />
         );
@@ -68,8 +71,6 @@ function itemToName(item: any, currentUser: string) {
 }
 
 export default class SearchChannelSuggestion extends Suggestion {
-    private node = React.createRef<HTMLDivElement>();
-
     render(): JSX.Element {
         const {item, isSelection, teammate, currentUser} = this.props;
 
@@ -95,7 +96,6 @@ export default class SearchChannelSuggestion extends Suggestion {
                 onClick={this.handleClick}
                 onMouseMove={this.handleMouseMove}
                 className={className}
-                ref={this.node}
                 {...Suggestion.baseProps}
             >
                 <span
