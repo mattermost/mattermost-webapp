@@ -653,7 +653,26 @@ const AdminDefinition = {
                             it.not(it.stateMatches('ServiceSettings.ListenAddress', /:443$/)),
                         ),
                     },
-
+                    {
+                        type: Constants.SettingsTypes.TYPE_DROPDOWN,
+                        key: 'ServiceSettings.ConnectionSecurity',
+                        label: t('admin.connectionSecurityTitle'),
+                        label_default: 'Connection Security:',
+                        help_text: DefinitionConstants.CONNECTION_SECURITY_HELP_TEXT_WEBSERVER,
+                        options: [
+                            {
+                                value: '',
+                                display_name: t('admin.connectionSecurityNone'),
+                                display_name_default: 'None',
+                            },
+                            {
+                                value: 'TLS',
+                                display_name: t('admin.connectionSecurityTls'),
+                                display_name_default: 'TLS (Recommended)',
+                            },
+                        ],
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.WEB_SERVER)),
+                    },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'ServiceSettings.TLSCertFile',
