@@ -93,19 +93,19 @@ describe('components/integrations/bots/Bot', () => {
                 id='bot.manage.create_token'
                 defaultMessage='Create New Token'
             />,
-        )).toEqual(false);
+        )).toEqual(true);
         expect(wrapper.contains(
             <FormattedMessage
                 id='bots.manage.edit'
                 defaultMessage='Edit'
             />,
-        )).toEqual(false);
+        )).toEqual(true);
         expect(wrapper.contains(
             <FormattedMessage
                 id='bot.manage.disable'
                 defaultMessage='Disable'
             />,
-        )).toEqual(false);
+        )).toEqual(true);
         expect(wrapper.contains(
             <FormattedMessage
                 id='bot.manage.enable'

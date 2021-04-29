@@ -209,106 +209,104 @@ export default class Bot extends React.PureComponent<Props, State> {
         }
 
         const tokenList = [];
-        if (!this.props.fromApp) {
-            Object.values(this.props.accessTokens).forEach((token) => {
-                let activeLink;
-                let disableClass = '';
-                let disabledText;
+        Object.values(this.props.accessTokens).forEach((token) => {
+            let activeLink;
+            let disableClass = '';
+            let disabledText;
 
-                if (token.is_active) {
-                    activeLink = (
-                        <a
-                            id={token.id + '_deactivate'}
-                            href='#'
-                            onClick={(e) => {
-                                e.preventDefault();
-                                this.disableUserAccessToken(token.id);
-                            }}
-                        >
-                            <FormattedMessage
-                                id='user.settings.tokens.deactivate'
-                                defaultMessage='Disable'
-                            />
-                        </a>);
-                } else {
-                    disableClass = 'light';
-                    disabledText = (
-                        <span className='mr-2 light'>
-                            <FormattedMessage
-                                id='user.settings.tokens.deactivatedWarning'
-                                defaultMessage='(Disabled)'
-                            />
-                        </span>
-                    );
-                    activeLink = (
-                        <a
-                            id={token.id + '_activate'}
-                            href='#'
-                            onClick={(e) => {
-                                e.preventDefault();
-                                this.enableUserAccessToken(token.id);
-                            }}
-                        >
-                            <FormattedMessage
-                                id='user.settings.tokens.activate'
-                                defaultMessage='Enable'
-                            />
-                        </a>
-                    );
-                }
-
-                tokenList.push(
-                    <div
-                        key={token.id}
-                        className='bot-list__item'
+            if (token.is_active) {
+                activeLink = (
+                    <a
+                        id={token.id + '_deactivate'}
+                        href='#'
+                        onClick={(e) => {
+                            e.preventDefault();
+                            this.disableUserAccessToken(token.id);
+                        }}
                     >
-                        <div className='item-details__row d-flex justify-content-between'>
-                            <div className={disableClass}>
-                                <div className='whitespace--nowrap overflow--ellipsis'>
-                                    <b>
-                                        <FormattedMessage
-                                            id='user.settings.tokens.tokenDesc'
-                                            defaultMessage='Token Description: '
-                                        />
-                                    </b>
-                                    {token.description}
-                                </div>
-                                <div className='setting-box__token-id whitespace--nowrap overflow--ellipsis'>
-                                    <b>
-                                        <FormattedMessage
-                                            id='user.settings.tokens.tokenId'
-                                            defaultMessage='Token ID: '
-                                        />
-                                    </b>
-                                    {token.id}
-                                </div>
-                            </div>
-                            <div>
-                                {disabledText}
-                                {activeLink}
-                                {' - '}
-                                <a
-                                    id={token.id + '_delete'}
-                                    href='#'
-                                    onClick={(e) => {
-                                        e.preventDefault();
-                                        this.confirmRevokeToken(token.id);
-                                    }}
-                                >
+                        <FormattedMessage
+                            id='user.settings.tokens.deactivate'
+                            defaultMessage='Disable'
+                        />
+                    </a>);
+            } else {
+                disableClass = 'light';
+                disabledText = (
+                    <span className='mr-2 light'>
+                        <FormattedMessage
+                            id='user.settings.tokens.deactivatedWarning'
+                            defaultMessage='(Disabled)'
+                        />
+                    </span>
+                );
+                activeLink = (
+                    <a
+                        id={token.id + '_activate'}
+                        href='#'
+                        onClick={(e) => {
+                            e.preventDefault();
+                            this.enableUserAccessToken(token.id);
+                        }}
+                    >
+                        <FormattedMessage
+                            id='user.settings.tokens.activate'
+                            defaultMessage='Enable'
+                        />
+                    </a>
+                );
+            }
+
+            tokenList.push(
+                <div
+                    key={token.id}
+                    className='bot-list__item'
+                >
+                    <div className='item-details__row d-flex justify-content-between'>
+                        <div className={disableClass}>
+                            <div className='whitespace--nowrap overflow--ellipsis'>
+                                <b>
                                     <FormattedMessage
-                                        id='user.settings.tokens.delete'
-                                        defaultMessage='Delete'
+                                        id='user.settings.tokens.tokenDesc'
+                                        defaultMessage='Token Description: '
                                     />
-                                </a>
+                                </b>
+                                {token.description}
+                            </div>
+                            <div className='setting-box__token-id whitespace--nowrap overflow--ellipsis'>
+                                <b>
+                                    <FormattedMessage
+                                        id='user.settings.tokens.tokenId'
+                                        defaultMessage='Token ID: '
+                                    />
+                                </b>
+                                {token.id}
                             </div>
                         </div>
-                    </div>,
-                );
-            });
-        }
+                        <div>
+                            {disabledText}
+                            {activeLink}
+                            {' - '}
+                            <a
+                                id={token.id + '_delete'}
+                                href='#'
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    this.confirmRevokeToken(token.id);
+                                }}
+                            >
+                                <FormattedMessage
+                                    id='user.settings.tokens.delete'
+                                    defaultMessage='Delete'
+                                />
+                            </a>
+                        </div>
+                    </div>
+                </div>,
+            );
+        });
 
         let options;
-        if (ownerUsername !== 'plugin' && !this.props.fromApp) {
+        if (ownerUsername !== 'plugin') {
             options = (
                 <div className='item-actions'>
                     <button
