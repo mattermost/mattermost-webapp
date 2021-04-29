@@ -56,7 +56,7 @@ describe('Plugin Marketplace', () => {
         });
     });
 
-    it('MM-T1966 render an error bar', () => {
+    it('render an error bar', () => {
         // * Verify should be an error connecting to the marketplace server
         cy.get('#error_bar').contains('Error connecting to the marketplace server');
     });
@@ -85,7 +85,7 @@ describe('Plugin Marketplace', () => {
         // # Scroll to GitHub plugin
         cy.get('#marketplace-plugin-github').scrollIntoView().should('be.visible');
 
-        // * Verify one local plugin should be installed
+        // * Verify the installed plugin shows up in "Installed" tab
         cy.get('#marketplaceTabs-tab-installed').scrollIntoView().should('be.visible').click();
         cy.get('#marketplaceTabs-pane-installed').find('.more-modal__row').should('have.length', 1);
 
