@@ -6,10 +6,13 @@ import {connect} from 'react-redux';
 import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
 import {getCurrentChannelId, makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
+import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import {getAutoSortedCategoryIds, getDraggingState, isChannelSelected} from 'selectors/views/channel_sidebar';
 import {GlobalState} from 'types/store';
 import {NotificationLevels} from 'utils/constants';
+
+import {getMsgCountInChannel} from 'mattermost-redux/utils/channel_utils';
 
 import SidebarChannel from './sidebar_channel';
 
@@ -26,16 +29,17 @@ function makeMapStateToProps() {
 
         const member = getMyChannelMemberships(state)[ownProps.channelId];
         const currentChannelId = getCurrentChannelId(state);
+        const collapsed = isCollapsedThreadsEnabled(state);
 
         // Unread counts
         let unreadMentions = 0;
         let unreadMsgs = 0;
         let showUnreadForMsgs = true;
         if (member) {
-            unreadMentions = member.mention_count;
+            unreadMentions = collapsed ? member.mention_count_root : member.mention_count;
 
             if (channel) {
-                unreadMsgs = Math.max(channel.total_msg_count - member.msg_count, 0);
+                unreadMsgs = getMsgCountInChannel(collapsed, channel, member);
             }
 
             if (member.notify_props) {

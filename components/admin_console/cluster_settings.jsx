@@ -23,7 +23,6 @@ export default class ClusterSettings extends AdminSettings {
         config.ClusterSettings.ClusterName = this.state.ClusterName;
         config.ClusterSettings.OverrideHostname = this.state.OverrideHostname;
         config.ClusterSettings.UseIpAddress = this.state.UseIpAddress;
-        config.ClusterSettings.UseExperimentalGossip = this.state.UseExperimentalGossip;
         config.ClusterSettings.EnableExperimentalGossipEncryption = this.state.EnableExperimentalGossipEncryption;
         config.ClusterSettings.EnableGossipCompression = this.state.EnableGossipCompression;
         config.ClusterSettings.GossipPort = this.parseIntNonZero(this.state.GossipPort, 8074);
@@ -39,7 +38,6 @@ export default class ClusterSettings extends AdminSettings {
             ClusterName: settings.ClusterName,
             OverrideHostname: settings.OverrideHostname,
             UseIpAddress: settings.UseIpAddress,
-            UseExperimentalGossip: settings.UseExperimentalGossip,
             EnableExperimentalGossipEncryption: settings.EnableExperimentalGossipEncryption,
             EnableGossipCompression: settings.EnableGossipCompression,
             GossipPort: settings.GossipPort,
@@ -200,25 +198,6 @@ export default class ClusterSettings extends AdminSettings {
                     value={this.state.UseIpAddress}
                     onChange={this.overrideHandleChange}
                     setByEnv={this.isSetByEnv('ClusterSettings.UseIpAddress')}
-                    disabled={this.props.isDisabled}
-                />
-                <BooleanSetting
-                    id='UseExperimentalGossip'
-                    label={
-                        <FormattedMessage
-                            id='admin.cluster.UseExperimentalGossip'
-                            defaultMessage='Use Gossip:'
-                        />
-                    }
-                    helpText={
-                        <FormattedMessage
-                            id='admin.cluster.UseExperimentalGossipDesc'
-                            defaultMessage='When true, the server will attempt to communicate via the gossip protocol over the gossip port.  When false the server will attempt to communicate over the streaming port. When false the gossip port and protocol are still used to determine cluster health.'
-                        />
-                    }
-                    value={this.state.UseExperimentalGossip}
-                    onChange={this.overrideHandleChange}
-                    setByEnv={this.isSetByEnv('ClusterSettings.UseExperimentalGossip')}
                     disabled={this.props.isDisabled}
                 />
                 <BooleanSetting

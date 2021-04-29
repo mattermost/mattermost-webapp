@@ -7,7 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @enterprise @onboarding
+// Group: @enterprise @onboarding @cloud_only
 
 import * as TIMEOUTS from '../../../../fixtures/timeouts';
 import {generateRandomUser} from '../../../../support/api/user';
@@ -107,7 +107,7 @@ describe('Onboarding', () => {
             verifyEmailVerification(response, email);
 
             const bodyText = splitEmailBodyText(response.data.body.text);
-            const permalink = bodyText[6].match(reUrl)[0];
+            const permalink = bodyText[4].match(reUrl)[0];
 
             // # Visit permalink (e.g. click on email link)
             cy.visit(permalink);
@@ -133,8 +133,8 @@ describe('Onboarding', () => {
 
         // * Verify that the email body is correct
         const bodyText = splitEmailBodyText(data.body.text);
-        expect(bodyText.length).to.equal(23);
-        expect(bodyText[1]).to.equal('You\'ve joined localhost:8065');
-        expect(bodyText[4]).to.equal('Please verify your email address by clicking below.');
+        expect(bodyText.length).to.equal(15);
+        expect(bodyText[1]).to.equal(`Thanks for joining ${baseUrl.split('/')[2]}. ( ${baseUrl} )`);
+        expect(bodyText[2]).to.equal('Click below to verify your email address.');
     }
 });
