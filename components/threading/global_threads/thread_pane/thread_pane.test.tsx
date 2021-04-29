@@ -73,6 +73,7 @@ describe('components/threading/global_threads/thread_pane', () => {
                     myPreferences: {},
                 },
                 posts: {
+                    postsInThread: {'1y8hpek81byspd4enyk9mp1ncw': []},
                     posts: {
                         '1y8hpek81byspd4enyk9mp1ncw': {
                             id: '1y8hpek81byspd4enyk9mp1ncw',

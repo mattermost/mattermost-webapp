@@ -110,7 +110,7 @@ function ThreadMenu({
                     })}
                     onClick={useCallback(() => {
                         dispatch(updateThreadRead(currentUserId, currentTeamId, threadId, hasUnreads ? Date.now() : unreadTimestamp));
-                    }, [currentUserId, currentTeamId, threadId, hasUnreads, updateThreadRead])}
+                    }, [currentUserId, currentTeamId, threadId, hasUnreads, updateThreadRead, unreadTimestamp])}
                 />
 
                 <Menu.ItemAction
