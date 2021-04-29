@@ -51,7 +51,7 @@ export default class SettingsGroup extends React.PureComponent {
                 <div className={'section-title'}>
                     {this.props.title}
                 </div>
-            )
+            );
         }
 
         let subtitle = null;
@@ -60,7 +60,7 @@ export default class SettingsGroup extends React.PureComponent {
                 <div className={'section-subtitle'}>
                     {this.props.subtitle}
                 </div>
-            )
+            );
         }
 
         let sectionHeader = null;

@@ -3139,7 +3139,7 @@ const AdminDefinition = {
                                     ),
                                 ),
                             },
-                        ]
+                        ],
                     },
                     {
                         title: 'Account Synchronization',
@@ -3300,7 +3300,7 @@ const AdminDefinition = {
                                     ),
                                 ),
                             },
-                        ]
+                        ],
                     },
                     {
                         title: 'Group Synchronization',
@@ -3337,7 +3337,7 @@ const AdminDefinition = {
                                     it.stateIsFalse('LdapSettings.EnableSync'),
                                 ),
                             },
-                        ]
+                        ],
                     },
                     {
                         title: 'Synchronization Performance',
@@ -3413,7 +3413,7 @@ const AdminDefinition = {
                                     ),
                                 ),
                             },
-                        ]
+                        ],
                     },
                     {
                         title: 'Synchronization History',
@@ -3480,76 +3480,76 @@ const AdminDefinition = {
 
                                     return (
                                         <span>
-                                    <FormattedMessage
-                                        id={linkedLdapGroupsCount ? 'admin.ldap.jobExtraInfo' : 'admin.ldap.jobExtraInfoTotal'}
-                                        defaultMessage={linkedLdapGroupsCount ? 'Scanned {ldapUsers, number} LDAP users and {ldapGroups, number} linked groups.' : 'Scanned {ldapUsers, number} LDAP users and {ldapGroups, number} groups.'}
-                                        values={{
-                                            ldapUsers,
-                                            ldapGroups: linkedLdapGroupsCount || totalLdapGroupsCount, // Show the old count for jobs records containing the old JSON key.
-                                        }}
-                                    />
-                                    <ul>
-                                        {updateCount > 0 &&
-                                        <li>
                                             <FormattedMessage
-                                                id='admin.ldap.jobExtraInfo.updatedUsers'
-                                                defaultMessage='Updated {updateCount, number} users.'
+                                                id={linkedLdapGroupsCount ? 'admin.ldap.jobExtraInfo' : 'admin.ldap.jobExtraInfoTotal'}
+                                                defaultMessage={linkedLdapGroupsCount ? 'Scanned {ldapUsers, number} LDAP users and {ldapGroups, number} linked groups.' : 'Scanned {ldapUsers, number} LDAP users and {ldapGroups, number} groups.'}
                                                 values={{
-                                                    updateCount,
+                                                    ldapUsers,
+                                                    ldapGroups: linkedLdapGroupsCount || totalLdapGroupsCount, // Show the old count for jobs records containing the old JSON key.
                                                 }}
                                             />
-                                        </li>
-                                        }
-                                        {deleteCount > 0 &&
-                                        <li>
-                                            <FormattedMessage
-                                                id='admin.ldap.jobExtraInfo.deactivatedUsers'
-                                                defaultMessage='Deactivated {deleteCount, number} users.'
-                                                values={{
-                                                    deleteCount,
-                                                }}
-                                            />
-                                        </li>
-                                        }
-                                        {groupDeleteCount > 0 &&
-                                        <li>
-                                            <FormattedMessage
-                                                id='admin.ldap.jobExtraInfo.deletedGroups'
-                                                defaultMessage='Deleted {groupDeleteCount, number} groups.'
-                                                values={{
-                                                    groupDeleteCount,
-                                                }}
-                                            />
-                                        </li>
-                                        }
-                                        {groupMemberDeleteCount > 0 &&
-                                        <li>
-                                            <FormattedMessage
-                                                id='admin.ldap.jobExtraInfo.deletedGroupMembers'
-                                                defaultMessage='Deleted {groupMemberDeleteCount, number} group members.'
-                                                values={{
-                                                    groupMemberDeleteCount,
-                                                }}
-                                            />
-                                        </li>
-                                        }
-                                        {groupMemberAddCount > 0 &&
-                                        <li>
-                                            <FormattedMessage
-                                                id='admin.ldap.jobExtraInfo.addedGroupMembers'
-                                                defaultMessage='Added {groupMemberAddCount, number} group members.'
-                                                values={{
-                                                    groupMemberAddCount,
-                                                }}
-                                            />
-                                        </li>
-                                        }
-                                    </ul>
-                                </span>
+                                            <ul>
+                                                {updateCount > 0 &&
+                                                <li>
+                                                    <FormattedMessage
+                                                        id='admin.ldap.jobExtraInfo.updatedUsers'
+                                                        defaultMessage='Updated {updateCount, number} users.'
+                                                        values={{
+                                                            updateCount,
+                                                        }}
+                                                    />
+                                                </li>
+                                                }
+                                                {deleteCount > 0 &&
+                                                <li>
+                                                    <FormattedMessage
+                                                        id='admin.ldap.jobExtraInfo.deactivatedUsers'
+                                                        defaultMessage='Deactivated {deleteCount, number} users.'
+                                                        values={{
+                                                            deleteCount,
+                                                        }}
+                                                    />
+                                                </li>
+                                                }
+                                                {groupDeleteCount > 0 &&
+                                                <li>
+                                                    <FormattedMessage
+                                                        id='admin.ldap.jobExtraInfo.deletedGroups'
+                                                        defaultMessage='Deleted {groupDeleteCount, number} groups.'
+                                                        values={{
+                                                            groupDeleteCount,
+                                                        }}
+                                                    />
+                                                </li>
+                                                }
+                                                {groupMemberDeleteCount > 0 &&
+                                                <li>
+                                                    <FormattedMessage
+                                                        id='admin.ldap.jobExtraInfo.deletedGroupMembers'
+                                                        defaultMessage='Deleted {groupMemberDeleteCount, number} group members.'
+                                                        values={{
+                                                            groupMemberDeleteCount,
+                                                        }}
+                                                    />
+                                                </li>
+                                                }
+                                                {groupMemberAddCount > 0 &&
+                                                <li>
+                                                    <FormattedMessage
+                                                        id='admin.ldap.jobExtraInfo.addedGroupMembers'
+                                                        defaultMessage='Added {groupMemberAddCount, number} group members.'
+                                                        values={{
+                                                            groupMemberAddCount,
+                                                        }}
+                                                    />
+                                                </li>
+                                                }
+                                            </ul>
+                                        </span>
                                     );
                                 },
                             },
-                        ]
+                        ],
                     },
                 ],
             },

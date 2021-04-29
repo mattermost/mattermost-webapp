@@ -171,7 +171,7 @@ export default class SchemaAdminSettings extends React.PureComponent {
             if (schema.settings) {
                 settings = schema.settings;
             } else if (schema.sections) {
-                schema.sections.map(section => section.settings).forEach(sectionSettings => settings.push(...sectionSettings));
+                schema.sections.map((section) => section.settings).forEach((sectionSettings) => settings.push(...sectionSettings));
             }
 
             settings.forEach((setting) => {
@@ -211,7 +211,7 @@ export default class SchemaAdminSettings extends React.PureComponent {
             if (schema.settings) {
                 settings = schema.settings;
             } else if (schema.sections) {
-                schema.sections.map(section => section.settings).forEach(sectionSettings => settings.push(...sectionSettings));
+                schema.sections.map((section) => section.settings).forEach((sectionSettings) => settings.push(...sectionSettings));
             }
 
             settings.forEach((setting) => {
@@ -852,7 +852,6 @@ export default class SchemaAdminSettings extends React.PureComponent {
     }
 
     renderSettings = () => {
-        console.log("a");
         const schema = this.props.schema;
 
         if (schema.settings) {
@@ -901,7 +900,7 @@ export default class SchemaAdminSettings extends React.PureComponent {
         } else if (schema.sections) {
             const sections = [];
 
-            schema.sections.forEach(section => {
+            schema.sections.forEach((section) => {
                 const settingsList = [];
                 if (section.settings) {
                     section.settings.forEach((setting) => {
@@ -939,17 +938,19 @@ export default class SchemaAdminSettings extends React.PureComponent {
 
                 sections.push(
                     <div className={'config-section'}>
-                        <SettingsGroup show={true} title={section.title} subtitle={section.subtitle}>
+                        <SettingsGroup
+                            show={true}
+                            title={section.title}
+                            subtitle={section.subtitle}
+                        >
                             <div className={'section-body'}>
                                 {header}
                                 {settingsList}
                                 {footer}
                             </div>
                         </SettingsGroup>
-                    </div>
+                    </div>,
                 );
-
-
             });
 
             return (
@@ -959,7 +960,7 @@ export default class SchemaAdminSettings extends React.PureComponent {
             );
         }
 
-
+        return null;
     }
 
     closeTooltip = () => {
