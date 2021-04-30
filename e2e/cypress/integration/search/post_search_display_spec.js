@@ -15,16 +15,12 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 describe('Search', () => {
     let testTeam;
     let testUser;
-    let mmConfig;
 
     before(() => {
         // Initialise a user.
         cy.apiInitSetup({}).then(({team, user}) => {
             testTeam = team;
             testUser = user;
-            cy.apiGetConfig().then(({config}) => {
-                mmConfig = config;
-            });
         });
     });
 
