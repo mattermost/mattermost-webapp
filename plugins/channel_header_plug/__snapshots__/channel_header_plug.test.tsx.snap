@@ -5,6 +5,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with no extended compon
   actions={
     Object {
       "doAppCall": [MockFunction],
+      "postEphemeralCallResponseForChannel": [MockFunction],
     }
   }
   appBindings={Array []}
@@ -53,6 +54,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with one extended compo
   actions={
     Object {
       "doAppCall": [MockFunction],
+      "postEphemeralCallResponseForChannel": [MockFunction],
     }
   }
   appBindings={Array []}
@@ -221,6 +223,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
   actions={
     Object {
       "doAppCall": [MockFunction],
+      "postEphemeralCallResponseForChannel": [MockFunction],
     }
   }
   appBindings={Array []}
