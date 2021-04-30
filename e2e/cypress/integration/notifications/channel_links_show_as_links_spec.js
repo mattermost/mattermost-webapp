@@ -59,7 +59,7 @@ describe('Notifications', () => {
         });
 
         // # Post a message as sysadmin that contains the channel name and otherUser's username
-        cy.postMessage(`This is a message in ~${channelName} channel for @${otherUser.username}`);
+        cy.postMessage(`This is a message in ~${channelName} channel for @${otherUser.username} `);
 
         cy.getLastPostId().then((postId) => {
             lastPostId = postId;

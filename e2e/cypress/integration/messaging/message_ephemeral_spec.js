@@ -32,7 +32,7 @@ describe('Hide ephemeral message on refresh', () => {
         cy.apiUpdateUserStatus('online');
 
         // # Cause an ephemeral message to appear
-        cy.postMessage('/offline');
+        cy.postMessage('/offline ');
 
         // # Get last post ID
         cy.getLastPostId().then((postID) => {
