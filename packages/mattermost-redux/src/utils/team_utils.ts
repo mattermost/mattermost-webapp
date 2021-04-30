@@ -30,8 +30,8 @@ export function filterTeamsStartingWithTerm(teams: Team[], term: string): Team[]
             return false;
         }
 
-        const name = (team.name || '').toLowerCase();
-        const displayName = (team.display_name || '').toLowerCase();
+        const name = team.name?.toLowerCase();
+        const displayName = team.display_name?.toLowerCase();
 
         return name.startsWith(lowercasedTerm) ||
             displayName.startsWith(lowercasedTerm);

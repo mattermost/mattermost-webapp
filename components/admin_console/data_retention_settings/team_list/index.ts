@@ -52,7 +52,7 @@ function mapStateToProps() {
             teams = searchTeamsInPolicy(teams, searchTerm) || [];
             teamsToAdd = searchTeamsToAdd(teamsToAdd, searchTerm);
             totalCount = teams.length;
-        } else if (policy && policy.team_count) {
+        } else if (policy?.team_count) {
             totalCount = policy.team_count;
         }
 

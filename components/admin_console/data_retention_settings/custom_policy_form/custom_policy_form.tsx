@@ -193,7 +193,7 @@ export default class CustomPolicyForm extends React.PureComponent<Props, State> 
     }
     handleSubmit = async () => {
         const {policyName, messageRetentionInputValue, messageRetentionDropdownValue, newTeams, removedTeams, newChannels, removedChannels} = this.state;
-        const {policyId} = this.props;
+        const {policyId, policy} = this.props;
         const {
             updateDataRetentionCustomPolicy,
             addDataRetentionCustomPolicyTeams,
@@ -208,26 +208,36 @@ export default class CustomPolicyForm extends React.PureComponent<Props, State> 
         const teamsToRemove = Object.keys(removedTeams);
         const channelsToAdd = Object.keys(newChannels);
         const channelsToRemove = Object.keys(removedChannels);
+
+        let error = false;
         let postDuration = parseInt(messageRetentionInputValue, 10);
 
+        if (postDuration <= 0) {
+            this.setState({formErrorText: Utils.localizeMessage('admin.data_retention.custom_policy.form.durationInput.error', 'Error parsing message retention.'), saving: false});
+            return;
+        }
         if (messageRetentionDropdownValue.value === FOREVER) {
             postDuration = -1;
         } else if (this.state.messageRetentionDropdownValue.value === YEARS) {
             postDuration = parseInt(messageRetentionInputValue, 10) * 365;
         }
 
-        let error = false;
-
-        if (!policyName) {
+        if (!policyName?.trim()) {
             this.setState({inputErrorText: Utils.localizeMessage('admin.data_retention.custom_policy.form.input.error', 'Policy name can\'t be blank.'), saving: false});
             return;
         }
 
-        if (policyId) {
+        if (policyId && policy) {
             const policyInfo = {
                 display_name: policyName,
                 post_duration: postDuration,
             };
+
+            if (((policy?.team_count + teamsToAdd.length) - teamsToRemove.length) === 0 && ((policy?.channel_count + channelsToAdd.length) - channelsToRemove.length) === 0) {
+                this.setState({formErrorText: Utils.localizeMessage('admin.data_retention.custom_policy.form.teamsError', 'You must add a team or a channel to the policy.'), saving: false});
+                return;
+            }
+
             const actions: Array<Promise<{data?: any; error?: Error}>> = [updateDataRetentionCustomPolicy(policyId, policyInfo)];
             if (teamsToAdd.length > 0) {
                 actions.push(addDataRetentionCustomPolicyTeams(policyId, teamsToAdd));
@@ -269,6 +279,7 @@ export default class CustomPolicyForm extends React.PureComponent<Props, State> 
         if (error) {
             this.setState({serverError: true, saving: false});
         } else {
+            this.props.actions.setNavigationBlocked(false);
             browserHistory.push('/admin_console/compliance/data_retention_settings');
         }
     }
@@ -311,7 +322,9 @@ export default class CustomPolicyForm extends React.PureComponent<Props, State> 
                                     }
                                 />
                             </Card.Header>
-                            <Card.Body>
+                            <Card.Body
+                                expanded={true}
+                            >
                                 <div
                                     className='CustomPolicy__fields'
                                 >
@@ -393,7 +406,9 @@ export default class CustomPolicyForm extends React.PureComponent<Props, State> 
                                     onClick={this.openAddTeam}
                                 />
                             </Card.Header>
-                            <Card.Body>
+                            <Card.Body
+                                expanded={true}
+                            >
                                 <TeamList
                                     onRemoveCallback={this.addToRemovedTeams}
                                     onAddCallback={this.addToNewTeams}
@@ -441,7 +456,9 @@ export default class CustomPolicyForm extends React.PureComponent<Props, State> 
                                     onClick={this.openAddChannel}
                                 />
                             </Card.Header>
-                            <Card.Body>
+                            <Card.Body
+                                expanded={true}
+                            >
                                 <ChannelList
                                     onRemoveCallback={this.addToRemovedChannels}
                                     onAddCallback={this.addToNewChannels}

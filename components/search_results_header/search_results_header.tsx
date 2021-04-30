@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
@@ -9,17 +8,17 @@ import {FormattedMessage} from 'react-intl';
 import OverlayTrigger from 'components/overlay_trigger';
 import Constants from 'utils/constants';
 
-export default class SearchResultsHeader extends React.PureComponent {
-    static propTypes = {
-        isExpanded: PropTypes.bool.isRequired,
-        children: PropTypes.node,
-        actions: PropTypes.shape({
-            closeRightHandSide: PropTypes.func.isRequired,
-            toggleRhsExpanded: PropTypes.func.isRequired,
-        }),
+type Props = {
+    isExpanded: boolean;
+    children?: React.ReactNode;
+    actions: {
+        closeRightHandSide: () => void;
+        toggleRhsExpanded: () => void;
     };
+};
 
-    render() {
+export default class SearchResultsHeader extends React.PureComponent<Props> {
+    render(): React.ReactNode {
         const closeSidebarTooltip = (
             <Tooltip id='closeSidebarTooltip'>
                 <FormattedMessage
@@ -65,7 +64,7 @@ export default class SearchResultsHeader extends React.PureComponent {
                                 id='rhs_header.expandSidebarTooltip.icon'
                                 defaultMessage='Expand Sidebar Icon'
                             >
-                                {(ariaLabel) => (
+                                {(ariaLabel?: string) => (
                                     <i
                                         className='icon icon-arrow-expand'
                                         aria-label={ariaLabel}
@@ -76,7 +75,7 @@ export default class SearchResultsHeader extends React.PureComponent {
                                 id='rhs_header.collapseSidebarTooltip.icon'
                                 defaultMessage='Collapse Sidebar Icon'
                             >
-                                {(ariaLabel) => (
+                                {(ariaLabel?: string) => (
                                     <i
                                         className='icon icon-arrow-collapse'
                                         aria-label={ariaLabel}
@@ -101,7 +100,7 @@ export default class SearchResultsHeader extends React.PureComponent {
                                 id='rhs_header.closeTooltip.icon'
                                 defaultMessage='Close Sidebar Icon'
                             >
-                                {(ariaLabel) => (
+                                {(ariaLabel?: string) => (
                                     <i
                                         className='icon icon-close'
                                         aria-label={ariaLabel}

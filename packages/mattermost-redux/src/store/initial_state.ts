@@ -109,6 +109,8 @@ const state: GlobalState = {
             oauthApps: {},
             systemCommands: {},
             commands: {},
+            appsBotIDs: [],
+            appsOAuthAppIDs: [],
         },
         files: {
             files: {},

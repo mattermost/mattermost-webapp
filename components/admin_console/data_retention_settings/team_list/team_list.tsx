@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+import {debounce} from 'lodash';
 
 import Constants from 'utils/constants';
 import {ActionResult} from 'mattermost-redux/types/actions';
@@ -41,18 +42,16 @@ type State = {
 }
 const PAGE_SIZE = 10;
 export default class TeamList extends React.PureComponent<Props, State> {
-    private searchTimeoutId: number;
     private pageLoaded = 0;
     public constructor(props: Props) {
         super(props);
-        this.searchTimeoutId = 0;
         this.state = {
             loading: false,
             page: 0,
         };
     }
 
-    componentDidMount = async () => {
+    componentDidMount = () => {
         this.loadPage(0, PAGE_SIZE * 2);
     }
 
@@ -211,35 +210,31 @@ export default class TeamList extends React.PureComponent<Props, State> {
         this.props.actions.setTeamListSearch(searchTerm);
     }
     public async componentDidUpdate(prevProps: Props) {
-        const {policyId, searchTerm} = this.props;
+        const {searchTerm} = this.props;
         const searchTermModified = prevProps.searchTerm !== this.props.searchTerm;
         if (searchTermModified) {
             this.setStateLoading(true);
-            clearTimeout(this.searchTimeoutId);
             if (searchTerm === '') {
-                this.searchTimeoutId = 0;
                 await this.loadPage(1);
                 this.setStateLoading(false);
                 return;
             }
-
-            const searchTimeoutId = window.setTimeout(
-                async () => {
-                    if (policyId) {
-                        await prevProps.actions.searchTeams(policyId, searchTerm, {});
-                    }
-
-                    if (searchTimeoutId !== this.searchTimeoutId) {
-                        return;
-                    }
-                    this.setStateLoading(false);
-                },
-                Constants.SEARCH_TIMEOUT_MILLISECONDS,
-            );
-
-            this.searchTimeoutId = searchTimeoutId;
+            this.searchDebounced();
         }
     }
+
+    searchDebounced = debounce(
+        async () => {
+            const {policyId, searchTerm, actions} = this.props;
+
+            if (policyId) {
+                await actions.searchTeams(policyId, searchTerm, {});
+            }
+
+            this.setStateLoading(false);
+        },
+        Constants.SEARCH_TIMEOUT_MILLISECONDS,
+    );
     render() {
         const rows: Row[] = this.getRows();
         const columns: Column[] = this.getColumns();

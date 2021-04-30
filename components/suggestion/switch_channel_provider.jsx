@@ -191,6 +191,9 @@ class SwitchChannelSuggestion extends Suggestion {
                     </React.Fragment>
                 );
             }
+        } else if (channel.type === Constants.GM_CHANNEL) {
+            // remove the slug from the option
+            displayName = channel.display_name;
         }
 
         let sharedIcon = null;

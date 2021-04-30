@@ -10,7 +10,7 @@ exports[`components/admin_console/data_retention_settings/custom_policy_form sho
     <div>
       <Connect(BlockableLink)
         className="fa fa-angle-left back"
-        to="/admin_console/compliance/data_retention"
+        to="/admin_console/compliance/data_retention_settings"
       />
       <FormattedMessage
         defaultMessage="Custom Retention Policy"
@@ -44,7 +44,9 @@ exports[`components/admin_console/data_retention_settings/custom_policy_form sho
             }
           />
         </CardHeader>
-        <CardBody>
+        <CardBody
+          expanded={true}
+        >
           <div
             className="CustomPolicy__fields"
           >
@@ -150,7 +152,9 @@ exports[`components/admin_console/data_retention_settings/custom_policy_form sho
             }
           />
         </CardHeader>
-        <CardBody>
+        <CardBody
+          expanded={true}
+        >
           <Connect(TeamList)
             onAddCallback={[Function]}
             onRemoveCallback={[Function]}
@@ -186,7 +190,9 @@ exports[`components/admin_console/data_retention_settings/custom_policy_form sho
             }
           />
         </CardHeader>
-        <CardBody>
+        <CardBody
+          expanded={true}
+        >
           <Connect(ChannelList)
             channelsToAdd={Object {}}
             channelsToRemove={Object {}}
@@ -221,7 +227,7 @@ exports[`components/admin_console/data_retention_settings/custom_policy_form sho
     />
     <Connect(BlockableLink)
       className="cancel-button"
-      to="/admin_console/compliance/data_retention"
+      to="/admin_console/compliance/data_retention_settings"
     >
       <FormattedMessage
         defaultMessage="Cancel"
@@ -242,7 +248,7 @@ exports[`components/admin_console/data_retention_settings/custom_policy_form sho
     <div>
       <Connect(BlockableLink)
         className="fa fa-angle-left back"
-        to="/admin_console/compliance/data_retention"
+        to="/admin_console/compliance/data_retention_settings"
       />
       <FormattedMessage
         defaultMessage="Custom Retention Policy"
@@ -276,7 +282,9 @@ exports[`components/admin_console/data_retention_settings/custom_policy_form sho
             }
           />
         </CardHeader>
-        <CardBody>
+        <CardBody
+          expanded={true}
+        >
           <div
             className="CustomPolicy__fields"
           >
@@ -375,7 +383,9 @@ exports[`components/admin_console/data_retention_settings/custom_policy_form sho
             }
           />
         </CardHeader>
-        <CardBody>
+        <CardBody
+          expanded={true}
+        >
           <Connect(TeamList)
             onAddCallback={[Function]}
             onRemoveCallback={[Function]}
@@ -412,7 +422,9 @@ exports[`components/admin_console/data_retention_settings/custom_policy_form sho
             }
           />
         </CardHeader>
-        <CardBody>
+        <CardBody
+          expanded={true}
+        >
           <Connect(ChannelList)
             channelsToAdd={Object {}}
             channelsToRemove={Object {}}
@@ -448,7 +460,7 @@ exports[`components/admin_console/data_retention_settings/custom_policy_form sho
     />
     <Connect(BlockableLink)
       className="cancel-button"
-      to="/admin_console/compliance/data_retention"
+      to="/admin_console/compliance/data_retention_settings"
     >
       <FormattedMessage
         defaultMessage="Cancel"

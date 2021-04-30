@@ -103,8 +103,8 @@ export function getChannelsInPolicy() {
 
             const policyChannels: Channel[] = [];
 
-            Object.entries(getAllChannels).forEach((item: [string, Channel]) => {
-                const [, channel] = item;
+            Object.entries(getAllChannels).forEach((channelEntry: [string, Channel]) => {
+                const [, channel] = channelEntry;
                 if (channel.policy_id === policy.id) {
                     policyChannels.push(channel);
                 }
@@ -1390,20 +1390,31 @@ export function filterChannelList(channelList: Channel[], filters: ChannelSearch
         return channelList;
     }
     let result: Channel[] = [];
+    const channelType: string[] = [];
     const channels = channelList;
     if (filters.public) {
-        result = result.concat(channels.filter((channel) => channel.type === Constants.OPEN_CHANNEL));
+        channelType.push(Constants.OPEN_CHANNEL);
     }
     if (filters.private) {
-        result = result.concat(channels.filter((channel) => channel.type === Constants.PRIVATE_CHANNEL));
+        channelType.push(Constants.PRIVATE_CHANNEL);
     }
     if (filters.deleted) {
-        result = result.concat(channels.filter((channel) => channel.type === Constants.ARCHIVED_CHANNEL));
+        channelType.push(Constants.ARCHIVED_CHANNEL);
     }
-    if (filters.team_ids) {
+    channelType.forEach((type) => {
+        result = result.concat(channels.filter((channel) => channel.type === type));
+    });
+    if (filters.team_ids && filters.team_ids.length > 0) {
+        let teamResult: Channel[] = [];
         filters.team_ids.forEach((id) => {
-            result = result.concat(channels.filter((channel) => channel.team_id === id));
+            if (channelType.length > 0) {
+                const filterResult = result.filter((channel) => channel.team_id === id);
+                teamResult = teamResult.concat(filterResult);
+            } else {
+                teamResult = teamResult.concat(channels.filter((channel) => channel.team_id === id));
+            }
         });
+        result = teamResult;
     }
     return result;
 }

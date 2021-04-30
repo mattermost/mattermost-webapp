@@ -456,7 +456,9 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                                     }
                                 />
                             </Card.Header>
-                            <Card.Body>
+                            <Card.Body
+                                expanded={true}
+                            >
                                 <div id='global_policy_table'>
                                     <DataGrid
                                         columns={this.getGlobalPolicyColumns()}

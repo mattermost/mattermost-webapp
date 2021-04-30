@@ -104,6 +104,7 @@ export default class GlobalPolicyForm extends React.PureComponent<Props, State> 
         if (error) {
             this.setState({serverError: error.message, saving: false});
         } else {
+            this.props.actions.setNavigationBlocked(false);
             browserHistory.push('/admin_console/compliance/data_retention_settings');
         }
     };

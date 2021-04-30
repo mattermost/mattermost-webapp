@@ -38,7 +38,9 @@ exports[`components/admin_console/data_retention_settings/data_retention_setting
             }
           />
         </CardHeader>
-        <CardBody>
+        <CardBody
+          expanded={true}
+        >
           <DataGrid
             className="customTable"
             columns={
@@ -156,7 +158,9 @@ exports[`components/admin_console/data_retention_settings/data_retention_setting
             }
           />
         </CardHeader>
-        <CardBody>
+        <CardBody
+          expanded={true}
+        >
           <DataGrid
             className="customTable"
             columns={
@@ -286,7 +290,9 @@ exports[`components/admin_console/data_retention_settings/data_retention_setting
             }
           />
         </CardHeader>
-        <CardBody>
+        <CardBody
+          expanded={true}
+        >
           <Connect(injectIntl(JobTable))
             className="job-table__data-retention"
             createJobButtonText={
@@ -373,7 +379,9 @@ exports[`components/admin_console/data_retention_settings/data_retention_setting
             }
           />
         </CardHeader>
-        <CardBody>
+        <CardBody
+          expanded={true}
+        >
           <DataGrid
             className="customTable"
             columns={
@@ -501,7 +509,9 @@ exports[`components/admin_console/data_retention_settings/data_retention_setting
             }
           />
         </CardHeader>
-        <CardBody>
+        <CardBody
+          expanded={true}
+        >
           <DataGrid
             className="customTable"
             columns={
@@ -636,7 +646,9 @@ exports[`components/admin_console/data_retention_settings/data_retention_setting
             }
           />
         </CardHeader>
-        <CardBody>
+        <CardBody
+          expanded={true}
+        >
           <Connect(injectIntl(JobTable))
             className="job-table__data-retention"
             createJobButtonText={
@@ -723,7 +735,9 @@ exports[`components/admin_console/data_retention_settings/data_retention_setting
             }
           />
         </CardHeader>
-        <CardBody>
+        <CardBody
+          expanded={true}
+        >
           <DataGrid
             className="customTable"
             columns={
@@ -851,7 +865,9 @@ exports[`components/admin_console/data_retention_settings/data_retention_setting
             }
           />
         </CardHeader>
-        <CardBody>
+        <CardBody
+          expanded={true}
+        >
           <DataGrid
             className="customTable"
             columns={
@@ -981,7 +997,9 @@ exports[`components/admin_console/data_retention_settings/data_retention_setting
             }
           />
         </CardHeader>
-        <CardBody>
+        <CardBody
+          expanded={true}
+        >
           <Connect(injectIntl(JobTable))
             className="job-table__data-retention"
             createJobButtonText={
@@ -1068,7 +1086,9 @@ exports[`components/admin_console/data_retention_settings/data_retention_setting
             }
           />
         </CardHeader>
-        <CardBody>
+        <CardBody
+          expanded={true}
+        >
           <DataGrid
             className="customTable"
             columns={
@@ -1196,7 +1216,9 @@ exports[`components/admin_console/data_retention_settings/data_retention_setting
             }
           />
         </CardHeader>
-        <CardBody>
+        <CardBody
+          expanded={true}
+        >
           <DataGrid
             className="customTable"
             columns={
@@ -1269,7 +1291,9 @@ exports[`components/admin_console/data_retention_settings/data_retention_setting
             }
           />
         </CardHeader>
-        <CardBody>
+        <CardBody
+          expanded={true}
+        >
           <Connect(injectIntl(JobTable))
             className="job-table__data-retention"
             createJobButtonText={

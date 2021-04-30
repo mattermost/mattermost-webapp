@@ -139,7 +139,7 @@ describe('Account Settings > Sidebar > General > Edit', () => {
             const text = `${newTempUserName} test message!`;
 
             // # Post the user name mention declared earlier
-            cy.postMessage(`${text}{enter}{enter}`);
+            cy.postMessage(text);
 
             // # Click on the @ button
             cy.get('#channelHeaderMentionButton', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').click();

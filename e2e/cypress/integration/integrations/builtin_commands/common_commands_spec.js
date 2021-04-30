@@ -64,7 +64,7 @@ describe('Integrations', () => {
 
         // # Login as user1 and post "/shrug test"
         loginAndVisitChannel(user1, testChannelUrl);
-        cy.postMessage(`/shrug ${message}{enter}`);
+        cy.postMessage(`/shrug ${message} `);
 
         // * Verify that it posted message as expected from user1
         cy.getLastPostId().then((postId) => {
@@ -86,7 +86,7 @@ describe('Integrations', () => {
         const message = '1. Not a list item, **not bolded**, http://notalink.com, ~off-topic is not a link to the channel.';
 
         // # Use "/code"
-        cy.postMessage(`/code ${message}`);
+        cy.postMessage(`/code ${message} `);
 
         // * Verify that that markdown isn't rendered
         cy.getLastPostId().then((postId) => {
@@ -95,7 +95,7 @@ describe('Integrations', () => {
         });
 
         // # Type "/code" with no text
-        cy.postMessage('/code');
+        cy.postMessage('/code ');
 
         // * Verify that an error message is shown
         verifyEphemeralMessage('A message must be provided with the /code command.');
@@ -131,7 +131,7 @@ describe('Integrations', () => {
         });
 
         // # Type "/help"
-        cy.postMessage('/help');
+        cy.postMessage('/help ');
 
         // * Verify that a new tag opens
         cy.window().its('open').should('have.been.calledWithMatch', 'https://about.mattermost.com/default-help/');
@@ -152,7 +152,7 @@ describe('Integrations', () => {
         loginAndVisitChannel(user1, `${testTeam.name}/channels/off-topic`);
 
         // # Type "/leave"
-        cy.postMessage('/leave');
+        cy.postMessage('/leave ');
 
         // * Verity Off-Topic is not shown in LHS
         cy.get('#sidebar-left').should('be.visible').should('not.contain', 'Off-Topic');
@@ -170,7 +170,7 @@ describe('Integrations', () => {
             loginAndVisitChannel(user1, testChannelUrl);
 
             // # Type "/join ~new-channel"
-            cy.postMessage(`/join ~${channel.name}`);
+            cy.postMessage(`/join ~${channel.name} `);
 
             // * Verify user is redirected to New Channel
             cy.get('#channelHeaderTitle').should('be.visible').should('contain', channel.display_name);
@@ -230,8 +230,7 @@ describe('Integrations', () => {
         const message = getRandomId();
 
         // # type /me message
-        cy.get('#reply_textbox').type(`/me ${message}`);
-        cy.get('#addCommentButton').click();
+        cy.postMessageReplyInRHS(`/me ${message} `);
         cy.uiWaitUntilMessagePostedIncludes(message);
 
         cy.getLastPostId().then((postId) => {
@@ -255,7 +254,7 @@ describe('Integrations', () => {
         const invalidChannel = `invalid-channel-${getRandomId()}`;
 
         // # Type /mute with random characters
-        cy.postMessage(`/mute ${invalidChannel}{enter}`);
+        cy.postMessage(`/mute ${invalidChannel} `);
         cy.uiWaitUntilMessagePostedIncludes('Please use the channel handle to identify channels');
 
         cy.getLastPostId().then((postId) => {

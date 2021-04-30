@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+import {debounce, isEqual} from 'lodash';
 
 import {Constants} from 'utils/constants';
 import {ChannelSearchOpts, ChannelWithTeamData} from 'mattermost-redux/types/channels';
@@ -46,18 +47,16 @@ type State = {
 }
 const PAGE_SIZE = 10;
 export default class ChannelList extends React.PureComponent<Props, State> {
-    private searchTimeoutId: number;
     private pageLoaded = 0;
     public constructor(props: Props) {
         super(props);
-        this.searchTimeoutId = 0;
         this.state = {
             loading: false,
             page: 0,
         };
     }
 
-    componentDidMount = async () => {
+    componentDidMount = () => {
         this.loadPage(0, PAGE_SIZE * 2);
     }
 
@@ -243,13 +242,11 @@ export default class ChannelList extends React.PureComponent<Props, State> {
     }
     public async componentDidUpdate(prevProps: Props) {
         const {policyId, searchTerm, filters} = this.props;
-        const filtersModified = JSON.stringify(prevProps.filters) !== JSON.stringify(this.props.filters);
+        const filtersModified = !isEqual(prevProps.filters, this.props.filters);
         const searchTermModified = prevProps.searchTerm !== searchTerm;
         if (searchTermModified || filtersModified) {
             this.setStateLoading(true);
-            clearTimeout(this.searchTimeoutId);
             if (searchTerm === '') {
-                this.searchTimeoutId = 0;
                 if (filtersModified && policyId) {
                     await prevProps.actions.searchChannels(policyId, searchTerm, filters);
                 } else {
@@ -260,23 +257,21 @@ export default class ChannelList extends React.PureComponent<Props, State> {
                 return;
             }
 
-            const searchTimeoutId = window.setTimeout(
-                async () => {
-                    if (policyId) {
-                        await prevProps.actions.searchChannels(policyId, searchTerm, filters);
-                    }
-
-                    if (searchTimeoutId !== this.searchTimeoutId) {
-                        return;
-                    }
-                    this.setStateLoading(false);
-                },
-                Constants.SEARCH_TIMEOUT_MILLISECONDS,
-            );
-
-            this.searchTimeoutId = searchTimeoutId;
+            this.searchDebounced();
         }
     }
+
+    searchDebounced = debounce(
+        async () => {
+            const {policyId, searchTerm, filters, actions} = this.props;
+            if (policyId) {
+                await actions.searchChannels(policyId, searchTerm, filters);
+            }
+
+            this.setStateLoading(false);
+        },
+        Constants.SEARCH_TIMEOUT_MILLISECONDS,
+    );
 
     onFilter = async (filterOptions: FilterOptions) => {
         const filters: ChannelSearchOpts = {};

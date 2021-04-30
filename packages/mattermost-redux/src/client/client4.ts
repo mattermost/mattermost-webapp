@@ -6,7 +6,7 @@ import {SystemSetting} from 'mattermost-redux/types/general';
 import {General} from '../constants';
 
 import {ClusterInfo, AnalyticsRow} from 'mattermost-redux/types/admin';
-import type {AppBinding, AppCallRequest, AppCallResponse, AppCallType} from 'mattermost-redux/types/apps';
+import type {AppCallRequest, AppCallResponse, AppCallType} from 'mattermost-redux/types/apps';
 import {Audit} from 'mattermost-redux/types/audits';
 import {UserAutocomplete, AutocompleteSuggestion} from 'mattermost-redux/types/autocomplete';
 import {Bot, BotPatch} from 'mattermost-redux/types/bots';
@@ -2543,6 +2543,20 @@ export default class Client4 {
         );
     };
 
+    getAppsOAuthAppIDs = () => {
+        return this.doFetch<string[]>(
+            `${this.getAppsProxyRoute()}/api/v1/oauth-app-ids`,
+            {method: 'get'},
+        );
+    }
+
+    getAppsBotIDs = () => {
+        return this.doFetch<string[]>(
+            `${this.getAppsProxyRoute()}/api/v1/bot-ids`,
+            {method: 'get'},
+        );
+    }
+
     getOAuthApp = (appId: string) => {
         return this.doFetch<OAuthApp>(
             `${this.getOAuthAppRoute(appId)}`,
@@ -3427,9 +3441,16 @@ export default class Client4 {
     // This function belongs to the Apps Framework feature.
     // Apps Framework feature is experimental, and this function is susceptible
     // to breaking changes without pushing the major version of this package.
-    getAppsBindings = async (userID: string, channelID: string) => {
-        return this.doFetch<AppBinding[]>(
-            this.getAppsProxyRoute() + `/api/v1/bindings?user_id=${userID}&channel_id=${channelID}&user_agent_type=webapp`,
+    getAppsBindings = async (userID: string, channelID: string, teamID: string) => {
+        const params = {
+            user_id: userID,
+            channel_id: channelID,
+            team_id: teamID,
+            user_agent: 'webapp',
+        };
+
+        return this.doFetch(
+            `${this.getAppsProxyRoute()}/api/v1/bindings${buildQueryString(params)}`,
             {method: 'get'},
         );
     }

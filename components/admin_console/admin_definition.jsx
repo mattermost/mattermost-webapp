@@ -5205,6 +5205,7 @@ const AdminDefinition = {
         custom_policy_form_edit: {
             url: 'compliance/data_retention_settings/custom_policy/:policy_id',
             isHidden: it.any(
+                it.not(it.licensedForFeature('DataRetention')),
                 it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.COMPLIANCE.DATA_RETENTION_POLICY)),
                 it.configIsFalse('FeatureFlags', 'CustomDataRetentionEnabled'),
             ),
@@ -5218,6 +5219,7 @@ const AdminDefinition = {
         custom_policy_form: {
             url: 'compliance/data_retention_settings/custom_policy',
             isHidden: it.any(
+                it.not(it.licensedForFeature('DataRetention')),
                 it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.COMPLIANCE.DATA_RETENTION_POLICY)),
                 it.configIsFalse('FeatureFlags', 'CustomDataRetentionEnabled'),
             ),
