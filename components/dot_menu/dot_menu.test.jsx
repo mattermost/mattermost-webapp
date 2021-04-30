@@ -38,6 +38,7 @@ describe('components/dot_menu/DotMenu', () => {
             openModal: jest.fn(),
             markPostAsUnread: jest.fn(),
             doAppCall: jest.fn(),
+            postEphemeralCallResponseForPost: jest.fn(),
         },
         canEdit: false,
         canDelete: false,
