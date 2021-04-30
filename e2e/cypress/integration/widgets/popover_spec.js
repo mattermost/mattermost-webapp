@@ -19,7 +19,7 @@ describe('Widgets - Popover', () => {
         cy.requireStorybookServer();
 
         // # Go to widget story and verify that it renders regular popup
-        cy.toWidgetStory('/story/popover--basic-popover');
+        cy.toWidgetStory('/story/widgets-popover--basic-popover');
         cy.get('.sidebar-container').should('be.visible').within(() => {
             cy.findByText('basic popover').should('exist');
         });

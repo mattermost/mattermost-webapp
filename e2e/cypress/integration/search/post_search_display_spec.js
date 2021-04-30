@@ -48,7 +48,7 @@ describe('Search', () => {
         cy.get('#searchbarContainer').should('be.visible').within(() => {
             cy.get('#searchFormContainer').find('.input-clear-x').click({force: true});
             cy.get('#searchbar-help-popup').should('be.visible');
-            cy.get('#searchFormContainer').type('{esc}');
+            cy.get('#searchBox').type('{esc}');
         });
 
         // # RHS should be visible with search results
