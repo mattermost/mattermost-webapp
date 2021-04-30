@@ -59,12 +59,7 @@ describe('Search', () => {
             cy.get('#searchBox').click();
         });
 
-        // * Check the contents in search options
-        if (mmConfig.FeatureFlags.FilesSearch) {
-            assertSearchHintFilesOrMessages();
-        } else {
-            assertSearchHint();
-        }
+        assertSearchHintFilesOrMessages();
     });
 
     it('MM-T350 - Searching displays results in RHS', () => {
@@ -166,11 +161,7 @@ describe('Search', () => {
         });
 
         // * Check the contents in search options
-        if (mmConfig.FeatureFlags.FilesSearch) {
-            assertSearchHintFilesOrMessages();
-        } else {
-            assertSearchHint();
-        }
+        assertSearchHintFilesOrMessages();
 
         // # Search for search term in:
         cy.get('#searchBox').click().type('in:');
