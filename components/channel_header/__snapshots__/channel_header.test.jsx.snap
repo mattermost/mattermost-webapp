@@ -299,6 +299,18 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
             onClick={[Function]}
             tooltipKey="pinnedPosts"
           />
+          <HeaderIconWrapper
+            ariaLabel={true}
+            buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
+            buttonId="channelHeaderFilesButton"
+            iconComponent={
+              <i
+                className="icon icon-file-document-outline"
+              />
+            }
+            onClick={[Function]}
+            tooltipKey="channelFiles"
+          />
           <Connect(ChannelPermissionGate)
             channelId="channel_id"
             permissions={
@@ -466,6 +478,18 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
             }
             onClick={[Function]}
             tooltipKey="pinnedPosts"
+          />
+          <HeaderIconWrapper
+            ariaLabel={true}
+            buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
+            buttonId="channelHeaderFilesButton"
+            iconComponent={
+              <i
+                className="icon icon-file-document-outline"
+              />
+            }
+            onClick={[Function]}
+            tooltipKey="channelFiles"
           />
           <Connect(ChannelPermissionGate)
             channelId="channel_id"
@@ -635,6 +659,18 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
             onClick={[Function]}
             tooltipKey="pinnedPosts"
           />
+          <HeaderIconWrapper
+            ariaLabel={true}
+            buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
+            buttonId="channelHeaderFilesButton"
+            iconComponent={
+              <i
+                className="icon icon-file-document-outline"
+              />
+            }
+            onClick={[Function]}
+            tooltipKey="channelFiles"
+          />
           <Connect(ChannelPermissionGate)
             channelId="channel_id"
             permissions={
@@ -770,6 +806,18 @@ exports[`components/ChannelHeader should render archived view 1`] = `
             }
             onClick={[Function]}
             tooltipKey="pinnedPosts"
+          />
+          <HeaderIconWrapper
+            ariaLabel={true}
+            buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
+            buttonId="channelHeaderFilesButton"
+            iconComponent={
+              <i
+                className="icon icon-file-document-outline"
+              />
+            }
+            onClick={[Function]}
+            tooltipKey="channelFiles"
           />
         </div>
       </div>
@@ -947,6 +995,18 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
             }
             onClick={[Function]}
             tooltipKey="pinnedPosts"
+          />
+          <HeaderIconWrapper
+            ariaLabel={true}
+            buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
+            buttonId="channelHeaderFilesButton"
+            iconComponent={
+              <i
+                className="icon icon-file-document-outline"
+              />
+            }
+            onClick={[Function]}
+            tooltipKey="channelFiles"
           />
           <Connect(ChannelPermissionGate)
             channelId="channel_id"
@@ -1299,6 +1359,18 @@ exports[`components/ChannelHeader should render properly when custom status is s
             onClick={[Function]}
             tooltipKey="pinnedPosts"
           />
+          <HeaderIconWrapper
+            ariaLabel={true}
+            buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
+            buttonId="channelHeaderFilesButton"
+            iconComponent={
+              <i
+                className="icon icon-file-document-outline"
+              />
+            }
+            onClick={[Function]}
+            tooltipKey="channelFiles"
+          />
           <div
             className="header-popover-text-measurer"
           >
@@ -1519,6 +1591,18 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
             onClick={[Function]}
             tooltipKey="pinnedPosts"
           />
+          <HeaderIconWrapper
+            ariaLabel={true}
+            buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
+            buttonId="channelHeaderFilesButton"
+            iconComponent={
+              <i
+                className="icon icon-file-document-outline"
+              />
+            }
+            onClick={[Function]}
+            tooltipKey="channelFiles"
+          />
           <Connect(ChannelPermissionGate)
             channelId="channel_id"
             permissions={
@@ -1662,6 +1746,18 @@ exports[`components/ChannelHeader should render properly when populated with cha
             }
             onClick={[Function]}
             tooltipKey="pinnedPosts"
+          />
+          <HeaderIconWrapper
+            ariaLabel={true}
+            buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
+            buttonId="channelHeaderFilesButton"
+            iconComponent={
+              <i
+                className="icon icon-file-document-outline"
+              />
+            }
+            onClick={[Function]}
+            tooltipKey="channelFiles"
           />
           <div
             className="header-popover-text-measurer"
@@ -1905,6 +2001,18 @@ exports[`components/ChannelHeader should render shared view 1`] = `
             onClick={[Function]}
             tooltipKey="pinnedPosts"
           />
+          <HeaderIconWrapper
+            ariaLabel={true}
+            buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
+            buttonId="channelHeaderFilesButton"
+            iconComponent={
+              <i
+                className="icon icon-file-document-outline"
+              />
+            }
+            onClick={[Function]}
+            tooltipKey="channelFiles"
+          />
           <Connect(ChannelPermissionGate)
             channelId="channel_id"
             permissions={
@@ -2082,6 +2190,18 @@ exports[`components/ChannelHeader should render the pinned icon with the pinned 
             }
             onClick={[Function]}
             tooltipKey="pinnedPosts"
+          />
+          <HeaderIconWrapper
+            ariaLabel={true}
+            buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
+            buttonId="channelHeaderFilesButton"
+            iconComponent={
+              <i
+                className="icon icon-file-document-outline"
+              />
+            }
+            onClick={[Function]}
+            tooltipKey="channelFiles"
           />
           <Connect(ChannelPermissionGate)
             channelId="channel_id"
