@@ -211,7 +211,7 @@ export default class CustomPolicyForm extends React.PureComponent<Props, State> 
 
         let error = false;
         let postDuration = parseInt(messageRetentionInputValue, 10);
-        console.log(postDuration);
+
         if (postDuration <= 0) {
             this.setState({formErrorText: Utils.localizeMessage('admin.data_retention.custom_policy.form.durationInput.error', 'Error parsing message retention.'), saving: false});
             return;
