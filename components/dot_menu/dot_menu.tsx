@@ -94,7 +94,7 @@ type Props = {
         /**
          * Function to set the unread mark at given post
          */
-        markPostAsUnread: (post: Post) => void;
+        markPostAsUnread: (post: Post, location?: 'CENTER' | 'RHS_ROOT' | 'RHS_COMMENT' | string) => void;
 
         /**
          * Function to perform an app call
@@ -206,7 +206,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
 
     handleUnreadMenuItemActivated = (e: React.MouseEvent) => {
         e.preventDefault();
-        this.props.actions.markPostAsUnread(this.props.post);
+        this.props.actions.markPostAsUnread(this.props.post, this.props.location);
     }
 
     handleDeleteMenuItemActivated = (e: React.MouseEvent) => {
