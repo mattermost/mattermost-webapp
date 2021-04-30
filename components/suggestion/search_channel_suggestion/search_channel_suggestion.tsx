@@ -9,17 +9,15 @@ import Avatar from 'components/widgets/users/avatar';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import Suggestion from '../suggestion';
 
-import {UserProfile} from 'mattermost-redux/types/users';
 import {Channel} from 'mattermost-redux/types/channels';
 
-function itemToName(item: Channel, currentUser: UserProfile) {
+function itemToName(item: Channel, currentUser: string) {
     let itemMarkup;
 
     if (item.type === Constants.DM_CHANNEL) {
         const profilePicture = (
             <Avatar
-                username={currentUser.username}
-                url={imageURLForUser(getUserIdFromChannelName(currentUser.id, item.name), currentUser.last_picture_update)}
+                url={imageURLForUser(getUserIdFromChannelName(currentUser, item.name))}
                 size='sm'
             />
         );

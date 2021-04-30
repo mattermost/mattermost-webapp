@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 import {connect} from 'react-redux';
 
-import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {Channel} from 'mattermost-redux/types/channels';
 import {getDirectTeammate} from 'utils/utils';
 import {GlobalState} from 'types/store';
@@ -16,7 +16,7 @@ type OwnProps = {
 const mapStateToProps = (state: GlobalState, ownProps: OwnProps) => {
     return {
         teammate: getDirectTeammate(state, ownProps.item.id),
-        currentUser: getCurrentUser(state),
+        currentUser: getCurrentUserId(state),
     };
 };
 
