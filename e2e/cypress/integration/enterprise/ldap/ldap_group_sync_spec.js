@@ -318,7 +318,7 @@ context('ldap', () => {
                 cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
                 // # Post /leave command in testChannel to leave it
-                cy.postMessage('/leave');
+                cy.postMessage('/leave ');
                 cy.get('#channelHeaderTitle', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('contain', 'Town Square');
 
                 // Visit the permalink link
@@ -328,7 +328,7 @@ context('ldap', () => {
                 cy.get('#channelHeaderTitle', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('contain', testChannel.display_name);
 
                 // # Leave the channel again
-                cy.postMessage('/leave');
+                cy.postMessage('/leave ');
                 cy.get('#channelHeaderTitle', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('contain', 'Town Square');
 
                 // # Login as sysadmin and convert testChannel to private channel
