@@ -4,6 +4,8 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
+import {Client4} from 'mattermost-redux/client';
+
 import {uploadBrandImage, deleteBrandImage} from 'actions/admin_actions.jsx';
 
 import BrandImageSetting from './brand_image_setting.jsx';
@@ -13,6 +15,8 @@ jest.mock('actions/admin_actions.jsx', () => ({
     uploadBrandImage: jest.fn(),
     deleteBrandImage: jest.fn(),
 }));
+
+Client4.setUrl('http://localhost:8065');
 
 describe('components/admin_console/brand_image_setting', () => {
     const baseProps = {
