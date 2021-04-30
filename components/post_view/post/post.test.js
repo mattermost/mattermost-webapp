@@ -186,26 +186,10 @@ describe('Post', () => {
     });
 
     test('should show the thread footer for root posts', () => {
-        const thread = {
-            id: 'tid',
-            reply_count: 5,
-            unread_replies: 5,
-            unread_mentions: 1,
-            last_viewed_at: 0,
-            participants: ['uid2', 'uid3', 'uid4'],
-            last_reply_at: 1585788971000,
-            is_following: true,
-            post: {
-                user_id: 'uid',
-                channel_id: 'channel1',
-            },
-        };
-
         const props = {
             ...baseProps,
-            isFirstReply: false,
             isCollapsedThreadsEnabled: true,
-            thread,
+            replyCount: 22,
         };
 
         const wrapper = shallowWithIntl(
@@ -213,23 +197,17 @@ describe('Post', () => {
         );
 
         expect(wrapper.find(ThreadFooter).exists()).toBe(true);
-        expect(wrapper.find(ThreadFooter).props()).toEqual({
-            threadId: thread.id,
-            channelId: thread.post.channel_id,
-            participants: thread.participants,
-            totalReplies: thread.reply_count,
-            newReplies: thread.unread_replies,
-            isFollowing: thread.is_following,
-            lastReplyAt: thread.last_reply_at,
-        });
+        expect(wrapper.find(ThreadFooter).prop('threadId')).toBe(props.post.id);
     });
 
-    test('should not show the thread footer if feature off', () => {
+    test.each([
+        {isCollapsedThreadsEnabled: false},
+        {isCollapsedThreadsEnabled: true, post: {...baseProps.post, root_id: 'parentpostid'}},
+        {isCollapsedThreadsEnabled: true, replyCount: 0},
+    ])('should not show thread footer', (testCaseProps) => {
         const props = {
             ...baseProps,
-            isFirstReply: false,
-            isCollapsedThreadsEnabled: false,
-            thread: {},
+            ...testCaseProps,
         };
 
         const wrapper = shallowWithIntl(

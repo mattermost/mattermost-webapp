@@ -97,7 +97,7 @@ export function handleThreadArrived(dispatch: DispatchFunc, getState: GetStateFu
     return thread;
 }
 
-export function getThread(userId: string, teamId: string, threadId: string, extended = false) {
+export function getThread(userId: string, teamId: string, threadId: string, extended = true) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         let thread;
         try {

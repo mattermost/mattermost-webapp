@@ -4,14 +4,10 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {get, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getPost, makeIsPostCommentMention} from 'mattermost-redux/selectors/entities/posts';
-import {getThreadOrSynthetic} from 'mattermost-redux/selectors/entities/threads';
-
-import {getThread as fetchThread} from 'mattermost-redux/actions/threads';
+import {get, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {markPostAsUnread} from 'actions/post_actions';
 import {selectPost, selectPostCard} from 'actions/views/rhs';
@@ -44,21 +40,8 @@ function makeMapStateToProps() {
     const createAriaLabelForPost = makeCreateAriaLabelForPost();
 
     return (state, ownProps) => {
-        const currentUserId = getCurrentUserId(state);
-        const currentTeamId = getCurrentTeamId(state);
         const post = ownProps.post || getPost(state, ownProps.postId);
         const channel = getChannel(state, post.channel_id);
-        const replyCount = getReplyCount(state, post) || post.reply_count || 0;
-        const collapsedThreads = isCollapsedThreadsEnabled(state);
-
-        let thread;
-        if (collapsedThreads && !post.root_id && replyCount) {
-            thread = getThreadOrSynthetic(state, post);
-
-            if (thread.is_following) {
-                fetchThread(currentUserId, currentTeamId, post.id);
-            }
-        }
 
         let previousPost = null;
         if (ownProps.previousPostId) {
@@ -75,19 +58,18 @@ function makeMapStateToProps() {
 
         return {
             post,
-            thread,
             createAriaLabel: createAriaLabelForPost(state, post),
-            currentUserId,
+            currentUserId: getCurrentUserId(state),
             isFirstReply: isFirstReply(post, previousPost),
             consecutivePostByUser,
             previousPostIsComment,
-            replyCount,
+            replyCount: getReplyCount(state, post),
             isCommentMention: isPostCommentMention(state, post.id),
             center: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.CHANNEL_DISPLAY_MODE, Preferences.CHANNEL_DISPLAY_MODE_DEFAULT) === Preferences.CHANNEL_DISPLAY_MODE_CENTERED,
             compactDisplay: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT,
             channelIsArchived: isArchivedChannel(channel),
             isFlagged: get(state, Preferences.CATEGORY_FLAGGED_POST, post.id, null) != null,
-            isCollapsedThreadsEnabled: collapsedThreads,
+            isCollapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
         };
     };
 }

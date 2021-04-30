@@ -12,10 +12,12 @@ import FollowButton from '../../common/follow_button';
 
 import {mockStore} from 'tests/test_store';
 
+import {UserThread} from 'mattermost-redux/types/threads';
+
 import ThreadFooter from './thread_footer';
 
 describe('components/threading/channel_threads/thread_footer', () => {
-    const state = {
+    const baseState = {
         entities: {
             general: {
                 config: {},
@@ -60,33 +62,61 @@ describe('components/threading/channel_threads/thread_footer', () => {
                     },
                 },
             },
+
             teams: {
                 currentTeamId: 'tid',
             },
             preferences: {
                 myPreferences: {},
             },
+            posts: {
+                posts: {
+                    postthreadid: {
+                        id: 'postthreadid',
+                        reply_count: 9,
+                        last_reply_at: 1554161504000,
+                        is_following: true,
+                        channel_id: 'cid',
+                        user_id: '1',
+                    },
+                },
+            },
+
+            threads: {
+                threads: {
+                    postthreadid: {
+                        id: 'postthreadid',
+                        participants: [
+                            {id: '1'},
+                            {id: '2'},
+                            {id: '3'},
+                            {id: '4'},
+                            {id: '5'},
+                        ],
+                        reply_count: 9,
+                        unread_replies: 0,
+                        unread_mentions: 0,
+                        last_reply_at: 1554161504000,
+                        last_viewed_at: 1554161505000,
+                        is_following: true,
+                        post: {
+                            channel_id: 'cid',
+                            user_id: '1',
+                        },
+                    },
+                },
+            },
         },
     };
 
+    let state: any;
+    let thread: UserThread;
     let props: ComponentProps<typeof ThreadFooter>;
 
     beforeEach(() => {
-        props = {
-            threadId: 'tid',
-            channelId: 'cid',
-            participants: [
-                {id: '1'},
-                {id: '2'},
-                {id: '3'},
-                {id: '4'},
-                {id: '5'},
-            ],
-            totalReplies: 9,
-            newReplies: 0,
-            lastReplyAt: new Date('2020-09-29T02:30:15.701Z'),
-            isFollowing: true,
-        };
+        state = {...baseState};
+        thread = state.entities.threads.threads.postthreadid;
+        props = {threadId: thread.id};
     });
 
     test('should report total number of replies', () => {
@@ -104,14 +134,16 @@ describe('components/threading/channel_threads/thread_footer', () => {
     });
 
     test('should show unread indicator', () => {
+        thread.unread_replies = 2;
+
         const {mountOptions} = mockStore(state);
         const wrapper = mount(
             <ThreadFooter
                 {...props}
-                newReplies={2}
             />,
             mountOptions,
         );
+
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find(SimpleTooltip).find('.dot-unreads').exists()).toBe(true);
     });
@@ -124,7 +156,7 @@ describe('components/threading/channel_threads/thread_footer', () => {
             />,
             mountOptions,
         );
-        expect(wrapper.find(Avatars).props()).toHaveProperty('userIds', props.participants.map(({id}) => id));
+        expect(wrapper.find(Avatars).props()).toHaveProperty('userIds', ['2', '3', '4', '5']);
     });
 
     test('should have a timestamp', () => {
@@ -135,7 +167,7 @@ describe('components/threading/channel_threads/thread_footer', () => {
             />,
             mountOptions,
         );
-        expect(wrapper.find(Timestamp).props()).toHaveProperty('value', props.lastReplyAt);
+        expect(wrapper.find(Timestamp).props()).toHaveProperty('value', thread.last_reply_at);
     });
 
     test('should have a reply button', () => {
@@ -150,25 +182,24 @@ describe('components/threading/channel_threads/thread_footer', () => {
     });
 
     test('should have a follow button', () => {
-        const {mountOptions} = mockStore(state);
-        props.isFollowing = false;
+        thread.is_following = false;
 
+        const {mountOptions} = mockStore(state);
         const wrapper = mount(
             <ThreadFooter
                 {...props}
             />,
             mountOptions,
         );
+
         expect(wrapper.exists(FollowButton)).toBe(true);
-
-        expect(wrapper.find(FollowButton).props()).toHaveProperty('isFollowing', props.isFollowing);
-
+        expect(wrapper.find(FollowButton).props()).toHaveProperty('isFollowing', thread.is_following);
         wrapper.find('button.separated').last().simulate('click');
     });
 
     test('should have an unfollow button', () => {
+        thread.is_following = true;
         const {mountOptions} = mockStore(state);
-        props.isFollowing = true;
 
         const wrapper = mount(
             <ThreadFooter
@@ -178,7 +209,7 @@ describe('components/threading/channel_threads/thread_footer', () => {
         );
         expect(wrapper.exists(FollowButton)).toBe(true);
 
-        expect(wrapper.find(FollowButton).props()).toHaveProperty('isFollowing', props.isFollowing);
+        expect(wrapper.find(FollowButton).props()).toHaveProperty('isFollowing', thread.is_following);
 
         wrapper.find('button.separated').last().simulate('click');
     });

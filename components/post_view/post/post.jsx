@@ -341,7 +341,6 @@ class Post extends React.PureComponent {
     render() {
         const {
             post,
-            thread,
             replyCount,
             isCollapsedThreadsEnabled,
         } = this.props;
@@ -432,16 +431,8 @@ class Post extends React.PureComponent {
                                 isCommentMention={this.props.isCommentMention}
                                 isFirstReply={this.props.isFirstReply}
                             />
-                            {isCollapsedThreadsEnabled && thread ? (
-                                <ThreadFooter
-                                    threadId={thread.id}
-                                    channelId={post.channel_id}
-                                    participants={thread.participants}
-                                    totalReplies={thread.reply_count ?? replyCount}
-                                    newReplies={thread.unread_replies}
-                                    isFollowing={thread.is_following ?? false}
-                                    lastReplyAt={thread.last_reply_at}
-                                />
+                            {isCollapsedThreadsEnabled && !post.root_id && replyCount ? (
+                                <ThreadFooter threadId={post.id}/>
                             ) : null}
 
                         </div>
