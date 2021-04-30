@@ -43,6 +43,12 @@
         align-items: center;
         padding-left: 40px;
     }
+
+    .DayPicker-Day.DayPicker-Day--outside {
+        &.DayPicker-Day--today {
+          background-color: rgba(var(--center-channel-bg-rgb), 1);
+        }
+    }
 }
 
 .DndModal__content {
