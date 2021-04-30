@@ -466,7 +466,7 @@
 
             .control-label {
                 padding: 5px 0 0 0;
-                @include text-clamp(2, 20);
+                @include text-clamp(2, 25);
             }
 
             div:nth-child(2) > .control-label {
