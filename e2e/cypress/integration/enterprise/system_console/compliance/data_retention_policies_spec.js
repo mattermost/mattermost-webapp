@@ -10,8 +10,8 @@
 // Stage: @prod
 // Group: @enterprise @system_console
 
-import * as TIMEOUTS from '../../../../../fixtures/timeouts';
-import {gotoGlobalPolicy, editGlobalPolicyMessageRetention, editGlobalPolicyFileRetention} from '../helpers';
+import * as TIMEOUTS from '../../../../fixtures/timeouts';
+import {gotoGlobalPolicy, editGlobalPolicyMessageRetention, editGlobalPolicyFileRetention} from './helpers';
 
 describe('Data Retention', () => {
     let testTeam;
