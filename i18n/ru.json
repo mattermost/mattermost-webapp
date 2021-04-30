@@ -1402,8 +1402,6 @@
   "admin.permissions.permission.manage_private_channel_properties.name": "Управление настройками канала",
   "admin.permissions.permission.manage_public_channel_properties.description": "Изменить названия публичных каналов, заголовки и цели.",
   "admin.permissions.permission.manage_public_channel_properties.name": "Управление настройками канала",
-  "admin.permissions.permission.manage_remote_clusters.description": "Добавление, удаление и просмотр удаленных кластеров для общих каналов",
-  "admin.permissions.permission.manage_remote_clusters.name": "Управление удаленными кластерами",
   "admin.permissions.permission.manage_roles.description": "Управление ролями",
   "admin.permissions.permission.manage_roles.name": "Управление ролями",
   "admin.permissions.permission.manage_shared_channels.description": "Поделиться, отменить, пригласить другой экземпляр для синхронизации с общим каналом",

@@ -1382,8 +1382,6 @@
   "admin.permissions.permission.manage_private_channel_properties.name": "Управление на настройките на канала",
   "admin.permissions.permission.manage_public_channel_properties.description": "Актуализиране имена на обществени канали, заглавки и цели.",
   "admin.permissions.permission.manage_public_channel_properties.name": "Управление на настройките на канала",
-  "admin.permissions.permission.manage_remote_clusters.description": "Добавяне, премахване и преглеждане на отдалечени клъстери за споделени канали",
-  "admin.permissions.permission.manage_remote_clusters.name": "Управление на отдалечени клъстери",
   "admin.permissions.permission.manage_roles.description": "Управляване на роли",
   "admin.permissions.permission.manage_roles.name": "Управляване на роли",
   "admin.permissions.permission.manage_shared_channels.description": "Споделете, премахнете споделянето и поканете друга инстанция за синхронизиране със споделен канал",

@@ -1407,8 +1407,6 @@
   "admin.permissions.permission.manage_private_channel_properties.name": "Gestionați setările canalului",
   "admin.permissions.permission.manage_public_channel_properties.description": "Actualizați numele canalelor publice, anteturile și scopurile.",
   "admin.permissions.permission.manage_public_channel_properties.name": "Gestionați setările canalului",
-  "admin.permissions.permission.manage_remote_clusters.description": "Adăugați, eliminați și vizualizați clustere la distanță pentru canalele partajate",
-  "admin.permissions.permission.manage_remote_clusters.name": "Gestionați clusterele de la distanță",
   "admin.permissions.permission.manage_roles.description": "Gestionați rolurile",
   "admin.permissions.permission.manage_roles.name": "Gestionați rolurile",
   "admin.permissions.permission.manage_shared_channels.description": "Distribuiți, anulați accesul și invitați o altă instanță să se sincronizeze cu un canal partajat",
