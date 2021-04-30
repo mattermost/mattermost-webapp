@@ -62,11 +62,8 @@ describe('Data Retention', () => {
     
             cy.wait('@createCustomPolicy').then((interception) => {
                 cy.uiVerifyPolicyResponse(interception.response.body, 1, 1, 60, 'Policy 1');
-
-                let policyId = interception.response.body.id;
-    
                 cy.get('#custom_policy_table .DataGrid').within(() => {
-                    cy.uiVerifyCustomPolicyRow(policyId, 'Policy 1', '60 days', '1 team, 1 channel');
+                    cy.uiVerifyCustomPolicyRow(interception.response.body.id, 'Policy 1', '60 days', '1 team, 1 channel');
                 });
             });
         });
@@ -262,9 +259,7 @@ describe('Data Retention', () => {
     
             cy.uiAddTeamsToCustomPolicy([testTeam.display_name]);
 
-            cy.uiAddRandomTeamToCustomPolicy();
-
-            cy.uiAddRandomTeamToCustomPolicy();
+            cy.uiAddRandomTeamToCustomPolicy(2);
     
             cy.uiGetButton('Save').click();
 
@@ -302,9 +297,7 @@ describe('Data Retention', () => {
     
             cy.uiAddChannelsToCustomPolicy([testChannel.display_name]);
 
-            cy.uiAddRandomChannelToCustomPolicy();
-
-            cy.uiAddRandomChannelToCustomPolicy();
+            cy.uiAddRandomChannelToCustomPolicy(2);
     
             cy.uiGetButton('Save').click();
 
@@ -365,9 +358,7 @@ describe('Data Retention', () => {
     
             cy.uiAddChannelsToCustomPolicy([testChannel.display_name]);
 
-            cy.uiAddRandomChannelToCustomPolicy();
-
-            cy.uiAddRandomChannelToCustomPolicy();
+            cy.uiAddRandomChannelToCustomPolicy(2);
     
             cy.uiGetButton('Save').click();
 

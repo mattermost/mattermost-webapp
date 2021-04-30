@@ -46,19 +46,23 @@ Cypress.Commands.add('uiAddChannelsToCustomPolicy', (channelNames) => {
     cy.uiGetButton('Add').click();
 });
 
-Cypress.Commands.add('uiAddRandomTeamToCustomPolicy', () => {
+Cypress.Commands.add('uiAddRandomTeamToCustomPolicy', (numberOfTeams = 1) => {
     cy.uiGetButton('Add teams').click();
-    cy.get('.team-info-block').first().then((el) => {
-        el.click();
-    });
+    for (let i = 0; i < numberOfTeams; i++) {
+        cy.get('.team-info-block').first().then((el) => {
+            el.click();
+        });
+    }
     cy.uiGetButton('Add').click();
 });
 
-Cypress.Commands.add('uiAddRandomChannelToCustomPolicy', () => {
+Cypress.Commands.add('uiAddRandomChannelToCustomPolicy', (numberOfChannels = 1) => {
     cy.uiGetButton('Add channels').click();
-    cy.get('.channel-info-block').first().then((el) => {
-        el.click();
-    });
+    for (let i = 0; i < numberOfChannels; i++) {
+        cy.get('.channel-info-block').first().then((el) => {
+            el.click();
+        });
+    }
     cy.uiGetButton('Add').click();
 });
 
