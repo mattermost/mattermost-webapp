@@ -12,7 +12,7 @@ import Post from './post';
 
 describe('Post', () => {
     const baseProps = {
-        post: {id: 'post1', is_pinned: false, channel_id: 'channel1'},
+        post: {id: 'post1', is_pinned: false},
         createAriaLabel: jest.fn(),
         currentUserId: 'user1',
         center: false,
