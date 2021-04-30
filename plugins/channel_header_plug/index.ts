@@ -7,11 +7,11 @@ import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 import {appsEnabled, makeAppBindingsSelector} from 'mattermost-redux/selectors/entities/apps';
 import {AppBindingLocations} from 'mattermost-redux/constants/apps';
-import {ActionFunc, ActionResult, GenericAction} from 'mattermost-redux/types/actions';
+import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 
-import {AppCallRequest, AppCallType} from 'mattermost-redux/types/apps';
+import {DoAppCall, PostEphemeralCallResponseForChannel} from 'types/apps';
 
-import {doAppCall} from 'actions/apps';
+import {doAppCall, postEphemeralCallResponseForChannel} from 'actions/apps';
 import {GlobalState} from 'types/store';
 
 import ChannelHeaderPlug from './channel_header_plug';
@@ -29,13 +29,15 @@ function mapStateToProps(state: GlobalState) {
 }
 
 type Actions = {
-    doAppCall: (call: AppCallRequest, type: AppCallType) => Promise<ActionResult>;
+    doAppCall: DoAppCall;
+    postEphemeralCallResponseForChannel: PostEphemeralCallResponseForChannel;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
             doAppCall,
+            postEphemeralCallResponseForChannel,
         }, dispatch),
     };
 }
