@@ -9,6 +9,8 @@ import {OutgoingWebhook, Command} from 'mattermost-redux/types/integrations';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {IDMappedObjects} from 'mattermost-redux/types/utilities';
 
+import {appsEnabled} from './apps';
+
 export function getIncomingHooks(state: GlobalState) {
     return state.entities.integrations.incomingHooks;
 }
@@ -24,6 +26,22 @@ export function getCommands(state: GlobalState) {
 export function getOAuthApps(state: GlobalState) {
     return state.entities.integrations.oauthApps;
 }
+
+export const getAppsOAuthAppIDs: (state: GlobalState) => string[] = createSelector(
+    appsEnabled,
+    (state: GlobalState) => state.entities.integrations.appsOAuthAppIDs,
+    (apps, ids) => {
+        return apps ? ids : [];
+    },
+);
+
+export const getAppsBotIDs: (state: GlobalState) => string[] = createSelector(
+    appsEnabled,
+    (state: GlobalState) => state.entities.integrations.appsBotIDs,
+    (apps, ids) => {
+        return apps ? ids : [];
+    },
+);
 
 export function getSystemCommands(state: GlobalState) {
     return state.entities.integrations.systemCommands;
