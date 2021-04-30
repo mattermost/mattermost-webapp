@@ -50,6 +50,7 @@ import PushNotificationsSettings from './push_settings.jsx';
 import DataRetentionSettingsOld from './data_retention_settings.jsx';
 import DataRetentionSettings from './data_retention_settings/index.ts';
 import GlobalDataRetentionForm from './data_retention_settings/global_policy_form';
+import CustomDataRetentionForm from './data_retention_settings/custom_policy_form';
 import MessageExportSettings from './message_export_settings.jsx';
 import DatabaseSettings from './database_settings.jsx';
 import ElasticSearchSettings from './elasticsearch_settings.jsx';
@@ -5201,6 +5202,34 @@ const AdminDefinition = {
         sectionTitle: t('admin.sidebar.compliance'),
         sectionTitleDefault: 'Compliance',
         isHidden: it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.COMPLIANCE)),
+        custom_policy_form_edit: {
+            url: 'compliance/data_retention_settings/custom_policy/:policy_id',
+            isHidden: it.any(
+                it.not(it.licensedForFeature('DataRetention')),
+                it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.COMPLIANCE.DATA_RETENTION_POLICY)),
+                it.configIsFalse('FeatureFlags', 'CustomDataRetentionEnabled'),
+            ),
+            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.COMPLIANCE.DATA_RETENTION_POLICY)),
+            schema: {
+                id: 'CustomDataRetentionForm',
+                component: CustomDataRetentionForm,
+            },
+
+        },
+        custom_policy_form: {
+            url: 'compliance/data_retention_settings/custom_policy',
+            isHidden: it.any(
+                it.not(it.licensedForFeature('DataRetention')),
+                it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.COMPLIANCE.DATA_RETENTION_POLICY)),
+                it.configIsFalse('FeatureFlags', 'CustomDataRetentionEnabled'),
+            ),
+            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.COMPLIANCE.DATA_RETENTION_POLICY)),
+            schema: {
+                id: 'CustomDataRetentionForm',
+                component: CustomDataRetentionForm,
+            },
+
+        },
         global_policy_form: {
             url: 'compliance/data_retention_settings/global_policy',
             isHidden: it.any(

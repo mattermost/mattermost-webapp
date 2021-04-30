@@ -106,8 +106,6 @@ import {
     DataRetentionCustomPolicies,
     CreateDataRetentionCustomPolicy,
     PatchDataRetentionCustomPolicy,
-    PatchDataRetentionCustomPolicyTeams,
-    PatchDataRetentionCustomPolicyChannels,
     GetDataRetentionCustomPoliciesRequest,
 } from 'mattermost-redux/types/data_retention';
 
@@ -1183,9 +1181,9 @@ export default class Client4 {
         );
     };
 
-    getTeams = (page = 0, perPage = PER_PAGE_DEFAULT, includeTotalCount = false) => {
+    getTeams = (page = 0, perPage = PER_PAGE_DEFAULT, includeTotalCount = false, excludePolicyConstrained = false) => {
         return this.doFetch<Team[] | TeamsWithCount>(
-            `${this.getTeamsRoute()}${buildQueryString({page, per_page: perPage, include_total_count: includeTotalCount})}`,
+            `${this.getTeamsRoute()}${buildQueryString({page, per_page: perPage, include_total_count: includeTotalCount, exclude_policy_constrained: excludePolicyConstrained})}`,
             {method: 'get'},
         );
     };
@@ -1491,7 +1489,7 @@ export default class Client4 {
 
     // Channel Routes
 
-    getAllChannels = (page = 0, perPage = PER_PAGE_DEFAULT, notAssociatedToGroup = '', excludeDefaultChannels = false, includeTotalCount = false, includeDeleted = false) => {
+    getAllChannels = (page = 0, perPage = PER_PAGE_DEFAULT, notAssociatedToGroup = '', excludeDefaultChannels = false, includeTotalCount = false, includeDeleted = false, excludePolicyConstrained = false) => {
         const queryData = {
             page,
             per_page: perPage,
@@ -1499,6 +1497,7 @@ export default class Client4 {
             exclude_default_channels: excludeDefaultChannels,
             include_total_count: includeTotalCount,
             include_deleted: includeDeleted,
+            exclude_policy_constrained: excludePolicyConstrained,
         };
         return this.doFetch<ChannelWithTeamData[] | ChannelsWithTotalCount>(
             `${this.getChannelsRoute()}${buildQueryString(queryData)}`,
@@ -2753,28 +2752,28 @@ export default class Client4 {
             {method: 'PATCH', body: JSON.stringify(policy)},
         );
     };
-    addDataRetentionPolicyTeams = (id: string, policy: PatchDataRetentionCustomPolicyTeams) => {
+    addDataRetentionPolicyTeams = (id: string, teams: string[]) => {
         return this.doFetch<DataRetentionCustomPolicies>(
             `${this.getDataRetentionRoute()}/policies/${id}/teams`,
-            {method: 'post', body: JSON.stringify(policy)},
+            {method: 'post', body: JSON.stringify(teams)},
         );
     };
-    removeDataRetentionPolicyTeams = (id: string, policy: PatchDataRetentionCustomPolicyTeams) => {
+    removeDataRetentionPolicyTeams = (id: string, teams: string[]) => {
         return this.doFetch<DataRetentionCustomPolicies>(
             `${this.getDataRetentionRoute()}/policies/${id}/teams`,
-            {method: 'delete', body: JSON.stringify(policy)},
+            {method: 'delete', body: JSON.stringify(teams)},
         );
     };
-    addDataRetentionPolicyChannels = (id: string, policy: PatchDataRetentionCustomPolicyChannels) => {
+    addDataRetentionPolicyChannels = (id: string, channels: string[]) => {
         return this.doFetch<DataRetentionCustomPolicies>(
             `${this.getDataRetentionRoute()}/policies/${id}/channels`,
-            {method: 'post', body: JSON.stringify(policy)},
+            {method: 'post', body: JSON.stringify(channels)},
         );
     };
-    removeDataRetentionPolicyChannels = (id: string, policy: PatchDataRetentionCustomPolicyChannels) => {
+    removeDataRetentionPolicyChannels = (id: string, channels: string[]) => {
         return this.doFetch<DataRetentionCustomPolicies>(
             `${this.getDataRetentionRoute()}/policies/${id}/channels`,
-            {method: 'delete', body: JSON.stringify(policy)},
+            {method: 'delete', body: JSON.stringify(channels)},
         );
     };
 
