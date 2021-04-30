@@ -5,7 +5,7 @@ import {Client4, DEFAULT_LIMIT_AFTER, DEFAULT_LIMIT_BEFORE} from 'mattermost-red
 import {General, Preferences, Posts} from '../constants';
 import {PostTypes, ChannelTypes, FileTypes, IntegrationTypes} from 'mattermost-redux/action_types';
 
-import {getMyChannelMember as getMyChannelMemberSelector} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannelId, getMyChannelMember as getMyChannelMemberSelector} from 'mattermost-redux/selectors/entities/channels';
 import {getCustomEmojisByName as selectCustomEmojisByName} from 'mattermost-redux/selectors/entities/emojis';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import * as Selectors from 'mattermost-redux/selectors/entities/posts';
@@ -32,6 +32,7 @@ import {
 import {bindClientFunc, forceLogoutIfNecessary} from './helpers';
 import {logError} from './errors';
 import {systemEmojis, getCustomEmojiByName, getCustomEmojisByName} from './emojis';
+import {selectChannel} from './channels';
 
 // receivedPost should be dispatched after a single post from the server. This typically happens when an existing post
 // is updated.
@@ -45,9 +46,13 @@ export function receivedPost(post: Post) {
 // receivedNewPost should be dispatched when receiving a newly created post or when sending a request to the server
 // to make a new post.
 export function receivedNewPost(post: Post) {
-    return {
-        type: PostTypes.RECEIVED_NEW_POST,
-        data: post,
+    return (_: DispatchFunc, getState: GetStateFunc) => {
+        const crtEnabled = isCollapsedThreadsEnabled(getState());
+        return {
+            type: PostTypes.RECEIVED_NEW_POST,
+            data: post,
+            features: {crtEnabled},
+        };
     };
 }
 
@@ -204,12 +209,14 @@ export function createPost(post: Post, files: any[] = []) {
             });
         }
 
+        const crtEnabled = isCollapsedThreadsEnabled(getState());
         actions.push({
             type: PostTypes.RECEIVED_NEW_POST,
             data: {
                 ...newPost,
                 id: pendingPostId,
             },
+            features: {crtEnabled},
         });
 
         dispatch(batchActions(actions, 'BATCH_CREATE_POST_INIT'));
@@ -1239,6 +1246,24 @@ export function moveHistoryIndexForward(index: number) {
             data: index,
         });
 
+        return {data: true};
+    };
+}
+
+/**
+ * Ensures thread-replies in channels correctly follow CRT:ON/OFF
+ */
+export function resetReloadPostsInChannel() {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        dispatch({
+            type: PostTypes.RESET_POSTS_IN_CHANNEL,
+        });
+
+        const currentChannelId = getCurrentChannelId(getState());
+        if (currentChannelId) {
+            await dispatch(selectChannel('')); // this await is needed, do not remove
+            dispatch(selectChannel(currentChannelId));
+        }
         return {data: true};
     };
 }
