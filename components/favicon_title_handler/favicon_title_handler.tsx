@@ -49,9 +49,10 @@ type Props = {
     currentChannel?: Channel;
     currentTeam: Team;
     currentTeammate: Channel | null;
+    inGlobalThreads: boolean;
 };
 
-class FaviconTitleHandler extends React.PureComponent<Props> {
+export class FaviconTitleHandlerClass extends React.PureComponent<Props> {
     componentDidUpdate(prevProps: Props) {
         this.updateTitle();
         const oldBadgeStatus = this.getBadgeStatus(prevProps.unreads);
@@ -83,10 +84,14 @@ class FaviconTitleHandler extends React.PureComponent<Props> {
             currentTeam,
             currentTeammate,
             unreads,
+            inGlobalThreads,
         } = this.props;
         const {formatMessage} = this.props.intl;
 
         const currentSiteName = siteName || '';
+
+        const mentionTitle = unreads.mentionCount > 0 ? `(${unreads.mentionCount}) ` : '';
+        const unreadTitle = !this.isDynamicFaviconSupported && unreads.messageCount > 0 ? '* ' : '';
 
         if (currentChannel && currentTeam && currentChannel.id) {
             let currentChannelName = currentChannel.display_name;
@@ -95,9 +100,16 @@ class FaviconTitleHandler extends React.PureComponent<Props> {
                     currentChannelName = currentTeammate.display_name;
                 }
             }
-            const mentionTitle = unreads.mentionCount > 0 ? '(' + unreads.mentionCount + ') ' : '';
-            const unreadTitle = !this.isDynamicFaviconSupported && unreads.messageCount > 0 ? '* ' : '';
-            document.title = mentionTitle + unreadTitle + currentChannelName + ' - ' + currentTeam.display_name + ' ' + currentSiteName;
+            document.title = `${mentionTitle}${unreadTitle}${currentChannelName} - ${currentTeam.display_name} ${currentSiteName}`;
+        } else if (currentTeam && inGlobalThreads) {
+            document.title = formatMessage({
+                id: 'globalThreads.title',
+                defaultMessage: '{prefix}Threads - {displayName} {siteName}',
+            }, {
+                prefix: `${mentionTitle}${unreadTitle}`,
+                displayName: currentTeam.display_name,
+                siteName: currentSiteName,
+            });
         } else {
             document.title = formatMessage({id: 'sidebar.team_select', defaultMessage: '{siteName} - Join a team'}, {siteName: currentSiteName || 'Mattermost'});
         }
@@ -153,4 +165,4 @@ class FaviconTitleHandler extends React.PureComponent<Props> {
     }
 }
 
-export default injectIntl(FaviconTitleHandler);
+export default injectIntl(FaviconTitleHandlerClass);

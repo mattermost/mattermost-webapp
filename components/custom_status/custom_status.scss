@@ -42,7 +42,6 @@
         border-radius: 4px;
 
         &:focus {
-            box-shadow: inset 0 0 0 1px var(--button-bg);
             border-color: var(--button-bg);
         }
     }
@@ -124,6 +123,16 @@
             font-size: 20px;
         }
     }
+    
+    .MaxLengthInput__validation {
+        right: 44px !important;
+        top: 17px !important;
+    }
+    
+    .MaxLengthInput.form-control.has-error {
+        padding-right: 76px !important;
+    }
+
 }
 
 .ic-clear-search, .ic-search {
@@ -142,7 +151,8 @@
 }
 
 .statusSuggestion {
-    height: 232px;
+    min-height: 232px;
+    max-height: 264px;
     overflow: auto;
     margin-top: 8px;
 
@@ -212,4 +222,8 @@
     p {
         margin: 0;
     }
+}
+
+span.emoticon[style]:hover {
+    opacity: 1 !important;
 }

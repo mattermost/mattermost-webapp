@@ -59,7 +59,7 @@ exports[`components/PopoverListMembers should match snapshot 1`] = `
     target={[Function]}
   >
     <Popover
-      className="member-list__popover"
+      className="a11y__popup member-list__popover"
       id="member-list-popover"
       placement="right"
       popoverSize="sm"
@@ -169,7 +169,7 @@ exports[`components/PopoverListMembers should match snapshot with archived chann
     target={[Function]}
   >
     <Popover
-      className="member-list__popover"
+      className="a11y__popup member-list__popover"
       id="member-list-popover"
       placement="right"
       popoverSize="sm"
@@ -279,7 +279,7 @@ exports[`components/PopoverListMembers should match snapshot with group-constrai
     target={[Function]}
   >
     <Popover
-      className="member-list__popover"
+      className="a11y__popup member-list__popover"
       id="member-list-popover"
       placement="right"
       popoverSize="sm"

@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow, ShallowWrapper} from 'enzyme';
+import {shallow} from 'enzyme';
 import assert from 'assert';
 
 import {ChannelType, Channel} from 'mattermost-redux/types/channels';
@@ -37,14 +37,14 @@ describe('components/NewChannelFlow', () => {
     };
 
     test('should match snapshot, with base props', () => {
-        const wrapper: ShallowWrapper<any, any, NewChannelFlow> = shallow(
+        const wrapper = shallow<NewChannelFlow>(
             <NewChannelFlow {...baseProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match state when channelDataChanged is called', () => {
-        const wrapper: ShallowWrapper<any, any, NewChannelFlow> = shallow(
+        const wrapper = shallow<NewChannelFlow>(
             <NewChannelFlow {...baseProps}/>,
         );
         const data = {displayName: 'name', purpose: 'purpose', header: 'header'};
@@ -56,7 +56,7 @@ describe('components/NewChannelFlow', () => {
     });
 
     test('should match state when urlChangeDismissed is called', () => {
-        const wrapper: ShallowWrapper<any, any, NewChannelFlow> = shallow(
+        const wrapper = shallow<NewChannelFlow>(
             <NewChannelFlow {...baseProps}/>,
         );
         wrapper.instance().urlChangeDismissed();
@@ -65,7 +65,7 @@ describe('components/NewChannelFlow', () => {
     });
 
     test('should match state when urlChangeSubmitted is called', () => {
-        const wrapper: ShallowWrapper<any, any, NewChannelFlow> = shallow(
+        const wrapper = shallow<NewChannelFlow>(
             <NewChannelFlow {...baseProps}/>,
         );
         const newUrl = 'example.com';
@@ -78,7 +78,7 @@ describe('components/NewChannelFlow', () => {
     });
 
     test('should match state when urlChangeRequested is called', () => {
-        const wrapper: ShallowWrapper<any, any, NewChannelFlow> = shallow(
+        const wrapper = shallow<NewChannelFlow>(
             <NewChannelFlow {...baseProps}/>,
         );
 
@@ -87,33 +87,33 @@ describe('components/NewChannelFlow', () => {
     });
 
     test('should match state when typeSwitched is called, with state switched from OPEN_CHANNEL', () => {
-        const wrapper: ShallowWrapper<any, any, NewChannelFlow> = shallow(
+        const wrapper = shallow<NewChannelFlow>(
             <NewChannelFlow {...baseProps}/>,
         );
 
-        wrapper.setState({channelType: Constants.OPEN_CHANNEL, serverError: 'server error'});
+        wrapper.setState({channelType: Constants.OPEN_CHANNEL as ChannelType, serverError: 'server error'});
         wrapper.instance().typeSwitched(Constants.PRIVATE_CHANNEL as ChannelType);
         expect(wrapper.state('channelType')).toEqual(Constants.PRIVATE_CHANNEL);
         expect(wrapper.state('serverError')).toEqual('');
 
-        wrapper.setState({channelType: Constants.PRIVATE_CHANNEL, serverError: 'server error'});
+        wrapper.setState({channelType: Constants.PRIVATE_CHANNEL as ChannelType, serverError: 'server error'});
         wrapper.instance().typeSwitched(Constants.OPEN_CHANNEL as ChannelType);
         expect(wrapper.state('channelType')).toEqual(Constants.OPEN_CHANNEL);
         expect(wrapper.state('serverError')).toEqual('');
     });
 
     test('should match state when typeSwitched is called, with state switched from PRIVATE_CHANNEL', () => {
-        const wrapper: ShallowWrapper<any, any, NewChannelFlow> = shallow(
+        const wrapper = shallow<NewChannelFlow>(
             <NewChannelFlow {...baseProps}/>,
         );
 
-        wrapper.setState({channelType: Constants.PRIVATE_CHANNEL});
+        wrapper.setState({channelType: Constants.PRIVATE_CHANNEL as ChannelType});
         wrapper.instance().typeSwitched(Constants.OPEN_CHANNEL as ChannelType);
         expect(wrapper.state('channelType')).toEqual(Constants.OPEN_CHANNEL);
     });
 
     test('should match state when onModalExited is called', () => {
-        const wrapper: ShallowWrapper<any, any, NewChannelFlow> = shallow(
+        const wrapper = shallow<NewChannelFlow>(
             <NewChannelFlow {...baseProps}/>,
         );
 
@@ -122,7 +122,7 @@ describe('components/NewChannelFlow', () => {
     });
 
     test('should match state when onSubmit is called with invalid channelDisplayName', () => {
-        const wrapper: ShallowWrapper<any, any, NewChannelFlow> = shallow(
+        const wrapper = shallow<NewChannelFlow>(
             <NewChannelFlow {...baseProps}/>,
         );
 
@@ -131,7 +131,7 @@ describe('components/NewChannelFlow', () => {
     });
 
     test('should call createChannel when onSubmit is called with valid channelDisplayName and valid channelName', () => {
-        const wrapper: ShallowWrapper<any, any, NewChannelFlow> = shallow(
+        const wrapper = shallow<NewChannelFlow>(
             <NewChannelFlow {...baseProps}/>,
         );
 
@@ -144,7 +144,7 @@ describe('components/NewChannelFlow', () => {
     });
 
     test('call closeModal after successfully creating channel', (done) => {
-        const wrapper: ShallowWrapper<any, any, NewChannelFlow> = shallow(
+        const wrapper = shallow<NewChannelFlow>(
             <NewChannelFlow {...baseProps}/>,
         );
 
@@ -163,7 +163,7 @@ describe('components/NewChannelFlow', () => {
     });
 
     test('don\'t call closeModal after failing to create channel', () => {
-        const wrapper: ShallowWrapper<any, any, NewChannelFlow> = shallow(
+        const wrapper = shallow<NewChannelFlow>(
             <NewChannelFlow {...baseProps}/>,
         );
 
@@ -192,7 +192,7 @@ describe('components/NewChannelFlow', () => {
     });
 
     test('show URL modal when trying to submit non-Latin display name', () => {
-        const wrapper: ShallowWrapper<any, any, NewChannelFlow> = shallow(
+        const wrapper = shallow<NewChannelFlow>(
             <NewChannelFlow {...baseProps}/>,
         );
 
@@ -210,7 +210,7 @@ describe('components/NewChannelFlow', () => {
     });
 
     test('call closeModal after successfully creating channel from URL modal', (done) => {
-        const wrapper: ShallowWrapper<any, any, NewChannelFlow> = shallow(
+        const wrapper = shallow<NewChannelFlow>(
             <NewChannelFlow {...baseProps}/>,
         );
 

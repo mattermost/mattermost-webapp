@@ -100,6 +100,8 @@ type Props = {
      */
     postId?: string;
 
+    channelId?: string;
+
     /**
      * Post id prop passed down to markdown image
      */
@@ -139,6 +141,7 @@ export default class Markdown extends React.PureComponent<Props> {
             imagesMetadata: this.props.imagesMetadata,
             hasPluginTooltips: this.props.hasPluginTooltips,
             postId: this.props.postId,
+            channelId: this.props.channelId,
             postType: this.props.postType,
             mentionHighlight: this.props.options.mentionHighlight,
             disableGroupHighlight: this.props.options.disableGroupHighlight,

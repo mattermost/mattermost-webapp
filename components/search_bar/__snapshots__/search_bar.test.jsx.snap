@@ -1,319 +1,384 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/search_bar/SearchBar should match snapshot with search 1`] = `
-<ContextProvider
-  value={
-    Object {
-      "defaultFormats": Object {},
-      "defaultLocale": "en",
-      "formatDate": [Function],
-      "formatDateToParts": [Function],
-      "formatDisplayName": [Function],
-      "formatList": [Function],
-      "formatMessage": [Function],
-      "formatNumber": [Function],
-      "formatNumberToParts": [Function],
-      "formatPlural": [Function],
-      "formatRelativeTime": [Function],
-      "formatTime": [Function],
-      "formatTimeToParts": [Function],
-      "formats": Object {},
-      "formatters": Object {
-        "getDateTimeFormat": [Function],
-        "getDisplayNames": [Function],
-        "getListFormat": [Function],
-        "getMessageFormat": [Function],
-        "getNumberFormat": [Function],
-        "getPluralRules": [Function],
-        "getRelativeTimeFormat": [Function],
-      },
-      "locale": "en",
-      "messages": Object {},
-      "onError": [Function],
-      "textComponent": Symbol(react.fragment),
-      "timeZone": undefined,
-      "wrapRichTextChunksInFragment": undefined,
-    }
-  }
->
-  <SearchBar
-    getFocus={[Function]}
-    handleBlur={[MockFunction]}
-    handleChange={[MockFunction]}
-    handleClear={[MockFunction]}
-    handleEnterKey={[MockFunction]}
-    handleFocus={[MockFunction]}
-    handleSubmit={[MockFunction]}
-    isFocus={false}
-    isFocused={false}
-    isSearchingTerm={false}
-    isSideBarRight={false}
-    keepFocused={false}
-    searchTerms="test"
-    suggestionProviders={
-      Array [
-        SearchDateProvider {
-          "disableDispatches": false,
-          "latestComplete": true,
-          "latestPrefix": "",
-          "requestStarted": false,
-        },
-        SearchChannelProvider {
-          "autocompleteChannelsForSearch": [MockFunction],
-          "disableDispatches": false,
-          "latestComplete": true,
-          "latestPrefix": "",
-          "requestStarted": false,
-        },
-        SearchUserProvider {
-          "autocompleteUsersInTeam": [MockFunction],
-          "disableDispatches": false,
-          "latestComplete": true,
-          "latestPrefix": "",
-          "requestStarted": false,
-        },
-      ]
-    }
-    updateHighlightedSearchHint={[MockFunction]}
-  />
-</ContextProvider>
+<div>
+  <div
+    class="search-form__container"
+    id="searchFormContainer"
+  >
+    <form
+      aria-labelledby="searchBox"
+      autocomplete="off"
+      class="search__form"
+      role="application"
+      style="overflow: visible;"
+    >
+      <div
+        class="search__font-icon"
+      >
+        <i
+          class="icon icon-magnify icon-16"
+        />
+      </div>
+      <div
+        class="w-full"
+      >
+        <div
+          aria-live="polite"
+          class="sr-only"
+          role="alert"
+        />
+        <div>
+          <input
+            aria-describedby="searchbar-help-popup"
+            aria-label="Search"
+            autocomplete="off"
+            class="search-bar form-control a11y__region"
+            data-a11y-sort-order="9"
+            id="searchBox"
+            placeholder="Search"
+            tabindex="0"
+            type="search"
+            value="test"
+          />
+          <div
+            class="input-clear visible"
+          >
+            <span
+              aria-hidden="true"
+              class="input-clear-x"
+            >
+              <i
+                class="icon icon-close-circle"
+              />
+            </span>
+          </div>
+        </div>
+        <div />
+      </div>
+    </form>
+  </div>
+</div>
+`;
+
+exports[`components/search_bar/SearchBar should match snapshot with search, with searchType and with filesSearchEnabled 1`] = `
+<div>
+  <div
+    class="search-form__container"
+    id="searchFormContainer"
+  >
+    <form
+      aria-labelledby="searchBox"
+      autocomplete="off"
+      class="search__form"
+      role="application"
+      style="overflow: visible;"
+    >
+      <div
+        class="search__font-icon"
+      >
+        <i
+          class="icon icon-magnify icon-16"
+        />
+      </div>
+      <div
+        class="searchTypeBadge"
+      >
+        FILES
+        <i
+          class="icon icon-close icon-12"
+        />
+      </div>
+      <div
+        class="w-full"
+      >
+        <div
+          aria-live="polite"
+          class="sr-only"
+          role="alert"
+        />
+        <div>
+          <input
+            aria-describedby="searchbar-help-popup"
+            aria-label="Search"
+            autocomplete="off"
+            class="search-bar form-control a11y__region"
+            data-a11y-sort-order="9"
+            id="searchBox"
+            placeholder="Search"
+            tabindex="0"
+            type="search"
+            value="test"
+          />
+          <div
+            class="input-clear visible"
+          >
+            <span
+              aria-hidden="true"
+              class="input-clear-x"
+            >
+              <i
+                class="icon icon-close-circle"
+              />
+            </span>
+          </div>
+        </div>
+        <div />
+      </div>
+    </form>
+  </div>
+</div>
 `;
 
 exports[`components/search_bar/SearchBar should match snapshot without search 1`] = `
-<ContextProvider
-  value={
-    Object {
-      "defaultFormats": Object {},
-      "defaultLocale": "en",
-      "formatDate": [Function],
-      "formatDateToParts": [Function],
-      "formatDisplayName": [Function],
-      "formatList": [Function],
-      "formatMessage": [Function],
-      "formatNumber": [Function],
-      "formatNumberToParts": [Function],
-      "formatPlural": [Function],
-      "formatRelativeTime": [Function],
-      "formatTime": [Function],
-      "formatTimeToParts": [Function],
-      "formats": Object {},
-      "formatters": Object {
-        "getDateTimeFormat": [Function],
-        "getDisplayNames": [Function],
-        "getListFormat": [Function],
-        "getMessageFormat": [Function],
-        "getNumberFormat": [Function],
-        "getPluralRules": [Function],
-        "getRelativeTimeFormat": [Function],
-      },
-      "locale": "en",
-      "messages": Object {},
-      "onError": [Function],
-      "textComponent": Symbol(react.fragment),
-      "timeZone": undefined,
-      "wrapRichTextChunksInFragment": undefined,
-    }
-  }
->
-  <SearchBar
-    getFocus={[Function]}
-    handleBlur={[MockFunction]}
-    handleChange={[MockFunction]}
-    handleClear={[MockFunction]}
-    handleEnterKey={[MockFunction]}
-    handleFocus={[MockFunction]}
-    handleSubmit={[MockFunction]}
-    isFocus={false}
-    isFocused={false}
-    isSearchingTerm={false}
-    isSideBarRight={false}
-    keepFocused={false}
-    searchTerms=""
-    suggestionProviders={
-      Array [
-        SearchDateProvider {
-          "disableDispatches": false,
-          "latestComplete": true,
-          "latestPrefix": "",
-          "requestStarted": false,
-        },
-        SearchChannelProvider {
-          "autocompleteChannelsForSearch": [MockFunction],
-          "disableDispatches": false,
-          "latestComplete": true,
-          "latestPrefix": "",
-          "requestStarted": false,
-        },
-        SearchUserProvider {
-          "autocompleteUsersInTeam": [MockFunction],
-          "disableDispatches": false,
-          "latestComplete": true,
-          "latestPrefix": "",
-          "requestStarted": false,
-        },
-      ]
-    }
-    updateHighlightedSearchHint={[MockFunction]}
-  />
-</ContextProvider>
+<div>
+  <div
+    class="search-form__container"
+    id="searchFormContainer"
+  >
+    <form
+      aria-labelledby="searchBox"
+      autocomplete="off"
+      class="search__form"
+      role="application"
+      style="overflow: visible;"
+    >
+      <div
+        class="search__font-icon"
+      >
+        <i
+          class="icon icon-magnify icon-16"
+        />
+      </div>
+      <div
+        class="w-full"
+      >
+        <div
+          aria-live="polite"
+          class="sr-only"
+          role="alert"
+        />
+        <div>
+          <input
+            aria-describedby="searchbar-help-popup"
+            aria-label="Search"
+            autocomplete="off"
+            class="search-bar form-control a11y__region"
+            data-a11y-sort-order="9"
+            id="searchBox"
+            placeholder="Search"
+            tabindex="0"
+            type="search"
+            value=""
+          />
+          
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
 `;
 
 exports[`components/search_bar/SearchBar should match snapshot without search on focus 1`] = `
-<ContextProvider
-  value={
-    Object {
-      "defaultFormats": Object {},
-      "defaultLocale": "en",
-      "formatDate": [Function],
-      "formatDateToParts": [Function],
-      "formatDisplayName": [Function],
-      "formatList": [Function],
-      "formatMessage": [Function],
-      "formatNumber": [Function],
-      "formatNumberToParts": [Function],
-      "formatPlural": [Function],
-      "formatRelativeTime": [Function],
-      "formatTime": [Function],
-      "formatTimeToParts": [Function],
-      "formats": Object {},
-      "formatters": Object {
-        "getDateTimeFormat": [Function],
-        "getDisplayNames": [Function],
-        "getListFormat": [Function],
-        "getMessageFormat": [Function],
-        "getNumberFormat": [Function],
-        "getPluralRules": [Function],
-        "getRelativeTimeFormat": [Function],
-      },
-      "locale": "en",
-      "messages": Object {},
-      "onError": [Function],
-      "textComponent": Symbol(react.fragment),
-      "timeZone": undefined,
-      "wrapRichTextChunksInFragment": undefined,
-    }
-  }
->
-  <SearchBar
-    getFocus={[Function]}
-    handleBlur={[MockFunction]}
-    handleChange={[MockFunction]}
-    handleClear={[MockFunction]}
-    handleEnterKey={[MockFunction]}
-    handleFocus={[MockFunction]}
-    handleSubmit={[MockFunction]}
-    isFocus={false}
-    isFocused={false}
-    isFocussed={true}
-    isSearchingTerm={false}
-    isSideBarRight={false}
-    keepFocused={false}
-    searchTerms=""
-    suggestionProviders={
-      Array [
-        SearchDateProvider {
-          "disableDispatches": false,
-          "latestComplete": true,
-          "latestPrefix": "",
-          "requestStarted": false,
-        },
-        SearchChannelProvider {
-          "autocompleteChannelsForSearch": [MockFunction],
-          "disableDispatches": false,
-          "latestComplete": true,
-          "latestPrefix": "",
-          "requestStarted": false,
-        },
-        SearchUserProvider {
-          "autocompleteUsersInTeam": [MockFunction],
-          "disableDispatches": false,
-          "latestComplete": true,
-          "latestPrefix": "",
-          "requestStarted": false,
-        },
-      ]
-    }
-    updateHighlightedSearchHint={[MockFunction]}
-  />
-</ContextProvider>
+<div>
+  <div
+    class="search-form__container"
+    id="searchFormContainer"
+  >
+    <form
+      aria-labelledby="searchBox"
+      autocomplete="off"
+      class="search__form search__form--focused"
+      role="application"
+      style="overflow: visible;"
+    >
+      <div
+        class="search__font-icon"
+      >
+        <i
+          class="icon icon-magnify icon-16"
+        />
+      </div>
+      <div
+        class="w-full"
+      >
+        <div
+          aria-live="polite"
+          class="sr-only"
+          role="alert"
+        />
+        <div>
+          <input
+            aria-describedby="searchbar-help-popup"
+            aria-label="Search"
+            autocomplete="off"
+            class="search-bar form-control a11y__region"
+            data-a11y-sort-order="9"
+            id="searchBox"
+            placeholder="Search"
+            tabindex="0"
+            type="search"
+            value=""
+          />
+          
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
 `;
 
-exports[`components/search_bar/SearchBar should match snapshot without search on focus in mobile 1`] = `
-<ContextProvider
-  value={
-    Object {
-      "defaultFormats": Object {},
-      "defaultLocale": "en",
-      "formatDate": [Function],
-      "formatDateToParts": [Function],
-      "formatDisplayName": [Function],
-      "formatList": [Function],
-      "formatMessage": [Function],
-      "formatNumber": [Function],
-      "formatNumberToParts": [Function],
-      "formatPlural": [Function],
-      "formatRelativeTime": [Function],
-      "formatTime": [Function],
-      "formatTimeToParts": [Function],
-      "formats": Object {},
-      "formatters": Object {
-        "getDateTimeFormat": [Function],
-        "getDisplayNames": [Function],
-        "getListFormat": [Function],
-        "getMessageFormat": [Function],
-        "getNumberFormat": [Function],
-        "getPluralRules": [Function],
-        "getRelativeTimeFormat": [Function],
-      },
-      "locale": "en",
-      "messages": Object {},
-      "onError": [Function],
-      "textComponent": Symbol(react.fragment),
-      "timeZone": undefined,
-      "wrapRichTextChunksInFragment": undefined,
-    }
-  }
->
-  <SearchBar
-    getFocus={[Function]}
-    handleBlur={[MockFunction]}
-    handleChange={[MockFunction]}
-    handleClear={[MockFunction]}
-    handleEnterKey={[MockFunction]}
-    handleFocus={[MockFunction]}
-    handleSubmit={[MockFunction]}
-    isFocus={false}
-    isFocused={false}
-    isFocussed={true}
-    isSearchingTerm={false}
-    isSideBarRight={false}
-    keepFocused={false}
-    searchTerms=""
-    suggestionProviders={
-      Array [
-        SearchDateProvider {
-          "disableDispatches": false,
-          "latestComplete": true,
-          "latestPrefix": "",
-          "requestStarted": false,
-        },
-        SearchChannelProvider {
-          "autocompleteChannelsForSearch": [MockFunction],
-          "disableDispatches": false,
-          "latestComplete": true,
-          "latestPrefix": "",
-          "requestStarted": false,
-        },
-        SearchUserProvider {
-          "autocompleteUsersInTeam": [MockFunction],
-          "disableDispatches": false,
-          "latestComplete": true,
-          "latestPrefix": "",
-          "requestStarted": false,
-        },
-      ]
-    }
-    updateHighlightedSearchHint={[MockFunction]}
-  />
-</ContextProvider>
+exports[`components/search_bar/SearchBar should match snapshot without search, with searchType and with filesSearchEnabled 1`] = `
+<div>
+  <div
+    class="search-form__container"
+    id="searchFormContainer"
+  >
+    <form
+      aria-labelledby="searchBox"
+      autocomplete="off"
+      class="search__form"
+      role="application"
+      style="overflow: visible;"
+    >
+      <div
+        class="search__font-icon"
+      >
+        <i
+          class="icon icon-magnify icon-16"
+        />
+      </div>
+      <div
+        class="searchTypeBadge"
+      >
+        FILES
+        <i
+          class="icon icon-close icon-12"
+        />
+      </div>
+      <div
+        class="w-full"
+      >
+        <div
+          aria-live="polite"
+          class="sr-only"
+          role="alert"
+        />
+        <div>
+          <input
+            aria-describedby="searchbar-help-popup"
+            aria-label="Search"
+            autocomplete="off"
+            class="search-bar form-control a11y__region"
+            data-a11y-sort-order="9"
+            id="searchBox"
+            placeholder="Search"
+            tabindex="0"
+            type="search"
+            value=""
+          />
+          
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+`;
+
+exports[`components/search_bar/SearchBar should match snapshot without search, with searchType and without filesSearchEnabled 1`] = `
+<div>
+  <div
+    class="search-form__container"
+    id="searchFormContainer"
+  >
+    <form
+      aria-labelledby="searchBox"
+      autocomplete="off"
+      class="search__form"
+      role="application"
+      style="overflow: visible;"
+    >
+      <div
+        class="search__font-icon"
+      >
+        <i
+          class="icon icon-magnify icon-16"
+        />
+      </div>
+      <div
+        class="w-full"
+      >
+        <div
+          aria-live="polite"
+          class="sr-only"
+          role="alert"
+        />
+        <div>
+          <input
+            aria-describedby="searchbar-help-popup"
+            aria-label="Search"
+            autocomplete="off"
+            class="search-bar form-control a11y__region"
+            data-a11y-sort-order="9"
+            id="searchBox"
+            placeholder="Search"
+            tabindex="0"
+            type="search"
+            value=""
+          />
+          
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+`;
+
+exports[`components/search_bar/SearchBar should match snapshot without search, without searchType and with filesSearchEnabled 1`] = `
+<div>
+  <div
+    class="search-form__container"
+    id="searchFormContainer"
+  >
+    <form
+      aria-labelledby="searchBox"
+      autocomplete="off"
+      class="search__form"
+      role="application"
+      style="overflow: visible;"
+    >
+      <div
+        class="search__font-icon"
+      >
+        <i
+          class="icon icon-magnify icon-16"
+        />
+      </div>
+      <div
+        class="w-full"
+      >
+        <div
+          aria-live="polite"
+          class="sr-only"
+          role="alert"
+        />
+        <div>
+          <input
+            aria-describedby="searchbar-help-popup"
+            aria-label="Search"
+            autocomplete="off"
+            class="search-bar form-control a11y__region"
+            data-a11y-sort-order="9"
+            id="searchBox"
+            placeholder="Search"
+            tabindex="0"
+            type="search"
+            value=""
+          />
+          
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
 `;

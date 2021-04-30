@@ -57,8 +57,8 @@ describe('Profile popover', () => {
         cy.apiLogin(testUser);
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
-        // # Send multiple messages so that the profile popover appears completely.
-        cy.postMessage('Hi there\nsending\na\nmessage');
+        // # Send message
+        cy.postMessage('Hi there');
         cy.apiLogout();
 
         // # Login as the second user now

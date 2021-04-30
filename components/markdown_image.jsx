@@ -6,6 +6,7 @@ import React from 'react';
 
 import Constants from 'utils/constants.jsx';
 
+import MarkdownImageExpand from 'components/markdown_image_expand';
 import ExternalImage from 'components/external_image';
 import SizeAwareImage from 'components/size_aware_image';
 import ViewImageModal from 'components/view_image';
@@ -28,6 +29,7 @@ export default class MarkdownImage extends React.PureComponent {
         postId: PropTypes.string.isRequired,
         imageIsLink: PropTypes.bool.isRequired,
         onImageLoaded: PropTypes.func,
+        onImageHeightChanged: PropTypes.func,
         postType: PropTypes.string,
     }
 
@@ -140,8 +142,9 @@ export default class MarkdownImage extends React.PureComponent {
                         className = `${this.props.className} ${loadingClass}`;
                     }
 
-                    const {height, width, title} = this.props;
-                    return (
+                    const {height, width, title, postId, onImageHeightChanged} = this.props;
+
+                    const imageElement = (
                         <>
                             <SizeAwareImage
                                 alt={alt}
@@ -172,6 +175,22 @@ export default class MarkdownImage extends React.PureComponent {
                             }
                         </>
                     );
+
+                    const availableHeight = height ?? imageMetadata.height;
+                    if (availableHeight >= Constants.EXPANDABLE_INLINE_IMAGE_MIN_HEIGHT) {
+                        return (
+                            <MarkdownImageExpand
+                                alt={alt || safeSrc}
+                                postId={postId}
+                                imageKey={safeSrc}
+                                onToggle={onImageHeightChanged}
+                            >
+                                {imageElement}
+                            </MarkdownImageExpand>
+                        );
+                    }
+
+                    return imageElement;
                 }}
             </ExternalImage>
         );

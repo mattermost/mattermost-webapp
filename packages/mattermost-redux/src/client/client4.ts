@@ -1,9 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
+import {SystemSetting} from 'mattermost-redux/types/general';
+
 import {General} from '../constants';
 
 import {ClusterInfo, AnalyticsRow} from 'mattermost-redux/types/admin';
-import type {AppBinding, AppCallRequest, AppCallResponse, AppCallType} from 'mattermost-redux/types/apps';
+import type {AppCallRequest, AppCallResponse, AppCallType} from 'mattermost-redux/types/apps';
 import {Audit} from 'mattermost-redux/types/audits';
 import {UserAutocomplete, AutocompleteSuggestion} from 'mattermost-redux/types/autocomplete';
 import {Bot, BotPatch} from 'mattermost-redux/types/bots';
@@ -34,7 +37,9 @@ import {
 } from 'mattermost-redux/types/config';
 import {CustomEmoji} from 'mattermost-redux/types/emojis';
 import {ServerError} from 'mattermost-redux/types/errors';
+
 import {FileInfo, FileUploadResponse, FileSearchResults} from 'mattermost-redux/types/files';
+
 import {
     Group,
     GroupPatch,
@@ -101,8 +106,6 @@ import {
     DataRetentionCustomPolicies,
     CreateDataRetentionCustomPolicy,
     PatchDataRetentionCustomPolicy,
-    PatchDataRetentionCustomPolicyTeams,
-    PatchDataRetentionCustomPolicyChannels,
     GetDataRetentionCustomPoliciesRequest,
 } from 'mattermost-redux/types/data_retention';
 import {App, NotificationCount, Notification} from 'mattermost-redux/types/notifications';
@@ -420,6 +423,10 @@ export default class Client4 {
 
     getCloudRoute() {
         return `${this.getBaseRoute()}/cloud`;
+    }
+
+    getPermissionsRoute() {
+        return `${this.getBaseRoute()}/permissions`;
     }
 
     getUserThreadsRoute(userID: string, teamID: string): string {
@@ -1179,9 +1186,9 @@ export default class Client4 {
         );
     };
 
-    getTeams = (page = 0, perPage = PER_PAGE_DEFAULT, includeTotalCount = false) => {
+    getTeams = (page = 0, perPage = PER_PAGE_DEFAULT, includeTotalCount = false, excludePolicyConstrained = false) => {
         return this.doFetch<Team[] | TeamsWithCount>(
-            `${this.getTeamsRoute()}${buildQueryString({page, per_page: perPage, include_total_count: includeTotalCount})}`,
+            `${this.getTeamsRoute()}${buildQueryString({page, per_page: perPage, include_total_count: includeTotalCount, exclude_policy_constrained: excludePolicyConstrained})}`,
             {method: 'get'},
         );
     };
@@ -1487,7 +1494,7 @@ export default class Client4 {
 
     // Channel Routes
 
-    getAllChannels = (page = 0, perPage = PER_PAGE_DEFAULT, notAssociatedToGroup = '', excludeDefaultChannels = false, includeTotalCount = false, includeDeleted = false) => {
+    getAllChannels = (page = 0, perPage = PER_PAGE_DEFAULT, notAssociatedToGroup = '', excludeDefaultChannels = false, includeTotalCount = false, includeDeleted = false, excludePolicyConstrained = false) => {
         const queryData = {
             page,
             per_page: perPage,
@@ -1495,6 +1502,7 @@ export default class Client4 {
             exclude_default_channels: excludeDefaultChannels,
             include_total_count: includeTotalCount,
             include_deleted: includeDeleted,
+            exclude_policy_constrained: excludePolicyConstrained,
         };
         return this.doFetch<ChannelWithTeamData[] | ChannelsWithTotalCount>(
             `${this.getChannelsRoute()}${buildQueryString(queryData)}`,
@@ -1989,14 +1997,6 @@ export default class Client4 {
         );
     };
 
-    getThreadMentionCountsByChannel = (userId: string, teamId: string) => {
-        const url = `${this.getUserThreadsRoute(userId, teamId)}/mention_counts`;
-        return this.doFetch<Record<string, number>>(
-            url,
-            {method: 'get'},
-        );
-    };
-
     updateThreadsReadForUser = (userId: string, teamId: string) => {
         const url = `${this.getUserThreadsRoute(userId, teamId)}/read`;
         return this.doFetch<StatusOK>(
@@ -2337,6 +2337,20 @@ export default class Client4 {
         );
     }
 
+    setFirstAdminVisitMarketplaceStatus = async () => {
+        return this.doFetch<StatusOK>(
+            `${this.getPluginsRoute()}/marketplace/first_admin_visit`,
+            {method: 'post', body: JSON.stringify({first_admin_visit_marketplace_status: true})},
+        );
+    }
+
+    getFirstAdminVisitMarketplaceStatus = async () => {
+        return this.doFetch<SystemSetting>(
+            `${this.getPluginsRoute()}/marketplace/first_admin_visit`,
+            {method: 'get'},
+        );
+    };
+
     getTranslations = (url: string) => {
         return this.doFetch<Record<string, string>>(
             url,
@@ -2557,6 +2571,20 @@ export default class Client4 {
         );
     };
 
+    getAppsOAuthAppIDs = () => {
+        return this.doFetch<string[]>(
+            `${this.getAppsProxyRoute()}/api/v1/oauth-app-ids`,
+            {method: 'get'},
+        );
+    }
+
+    getAppsBotIDs = () => {
+        return this.doFetch<string[]>(
+            `${this.getAppsProxyRoute()}/api/v1/bot-ids`,
+            {method: 'get'},
+        );
+    }
+
     getOAuthApp = (appId: string) => {
         return this.doFetch<OAuthApp>(
             `${this.getOAuthAppRoute(appId)}`,
@@ -2704,6 +2732,13 @@ export default class Client4 {
         );
     };
 
+    deleteDataRetentionCustomPolicy = (id: string) => {
+        return this.doFetch<DataRetentionCustomPolicies>(
+            `${this.getDataRetentionRoute()}/policies/${id}`,
+            {method: 'delete'},
+        );
+    };
+
     searchDataRetentionCustomPolicyChannels = (policyId: string, term: string, opts: ChannelSearchOpts) => {
         return this.doFetch<DataRetentionCustomPolicies>(
             `${this.getDataRetentionRoute()}/policies/${policyId}/channels/search`,
@@ -2745,28 +2780,28 @@ export default class Client4 {
             {method: 'PATCH', body: JSON.stringify(policy)},
         );
     };
-    addDataRetentionPolicyTeams = (id: string, policy: PatchDataRetentionCustomPolicyTeams) => {
+    addDataRetentionPolicyTeams = (id: string, teams: string[]) => {
         return this.doFetch<DataRetentionCustomPolicies>(
             `${this.getDataRetentionRoute()}/policies/${id}/teams`,
-            {method: 'post', body: JSON.stringify(policy)},
+            {method: 'post', body: JSON.stringify(teams)},
         );
     };
-    removeDataRetentionPolicyTeams = (id: string, policy: PatchDataRetentionCustomPolicyTeams) => {
+    removeDataRetentionPolicyTeams = (id: string, teams: string[]) => {
         return this.doFetch<DataRetentionCustomPolicies>(
             `${this.getDataRetentionRoute()}/policies/${id}/teams`,
-            {method: 'delete', body: JSON.stringify(policy)},
+            {method: 'delete', body: JSON.stringify(teams)},
         );
     };
-    addDataRetentionPolicyChannels = (id: string, policy: PatchDataRetentionCustomPolicyChannels) => {
+    addDataRetentionPolicyChannels = (id: string, channels: string[]) => {
         return this.doFetch<DataRetentionCustomPolicies>(
             `${this.getDataRetentionRoute()}/policies/${id}/channels`,
-            {method: 'post', body: JSON.stringify(policy)},
+            {method: 'post', body: JSON.stringify(channels)},
         );
     };
-    removeDataRetentionPolicyChannels = (id: string, policy: PatchDataRetentionCustomPolicyChannels) => {
+    removeDataRetentionPolicyChannels = (id: string, channels: string[]) => {
         return this.doFetch<DataRetentionCustomPolicies>(
             `${this.getDataRetentionRoute()}/policies/${id}/channels`,
-            {method: 'delete', body: JSON.stringify(policy)},
+            {method: 'delete', body: JSON.stringify(channels)},
         );
     };
 
@@ -3434,9 +3469,16 @@ export default class Client4 {
     // This function belongs to the Apps Framework feature.
     // Apps Framework feature is experimental, and this function is susceptible
     // to breaking changes without pushing the major version of this package.
-    getAppsBindings = async (userID: string, channelID: string) => {
-        return this.doFetch<AppBinding[]>(
-            this.getAppsProxyRoute() + `/api/v1/bindings?user_id=${userID}&channel_id=${channelID}&user_agent_type=webapp`,
+    getAppsBindings = async (userID: string, channelID: string, teamID: string) => {
+        const params = {
+            user_id: userID,
+            channel_id: channelID,
+            team_id: teamID,
+            user_agent: 'webapp',
+        };
+
+        return this.doFetch(
+            `${this.getAppsProxyRoute()}/api/v1/bindings${buildQueryString(params)}`,
             {method: 'get'},
         );
     }
@@ -3716,6 +3758,13 @@ export default class Client4 {
         return this.doFetch<StatusOK>(
             `${this.getCloudRoute()}/subscription/limitreached/join`,
             {method: 'post'},
+        );
+    }
+
+    getAncillaryPermissions = (subsectionPermissions: string[]) => {
+        return this.doFetch<string[]>(
+            `${this.getPermissionsRoute()}/ancillary?subsection_permissions=${subsectionPermissions.join(',')}`,
+            {method: 'get'},
         );
     }
 
