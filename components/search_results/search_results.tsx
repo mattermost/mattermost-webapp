@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 /* eslint-disable react/no-string-refs */
 
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {MessageDescriptor, useIntl, FormattedMessage} from 'react-intl';
 import Scrollbars from 'react-custom-scrollbars';
 
@@ -72,6 +72,7 @@ const defaultProps: Partial<Props> = {
 
 const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
     const scrollbars = useRef<Scrollbars|null>(null);
+    const [searchType, setSearchType] = useState<string>(props.searchType);
 
     const intl = useIntl();
 
@@ -79,6 +80,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
         if (props.searchFilterType !== 'all') {
             props.setSearchFilterType('all');
         }
+        setSearchType(props.searchType);
         scrollbars.current?.scrollToTop();
     }, [props.searchTerms]);
 
@@ -147,8 +149,6 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
         handleSearchHintSelection,
         searchFilterType,
         setSearchFilterType,
-        searchType,
-        setSearchType,
         filesSearchEnabled,
     } = props;
 
