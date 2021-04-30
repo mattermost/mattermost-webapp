@@ -15,7 +15,7 @@ import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
 
 import {makeGetDisplayName} from 'mattermost-redux/selectors/entities/users';
 import {getThread} from 'mattermost-redux/selectors/entities/threads';
-import {getPost} from 'mattermost-redux/selectors/entities/posts';
+import {getPost, makeGetPostsForThread} from 'mattermost-redux/selectors/entities/posts';
 
 import './thread_item.scss';
 
@@ -46,6 +46,7 @@ const markdownPreviewOptions = {
 
 const getChannel = makeGetChannel();
 const getDisplayName = makeGetDisplayName();
+const getPostsForThread = makeGetPostsForThread();
 
 function useLogic(threadId: string) {
     const {select, goToInChannel} = useThreadRouting();
@@ -113,6 +114,16 @@ const ThreadItem = ({
         is_following: isFollowing,
     } = thread;
 
+    const postsInThread = useSelector((state: GlobalState) => getPostsForThread(state, {rootId: post.id}));
+    let unreadTimestamp = post.edit_at || post.create_at;
+
+    // if we have the whole thread, get the posts in it, sorted from newest to oldest.
+    // Last post - root post, second to last post - oldest reply. Use that timestamp
+    if (postsInThread.length > 1) {
+        const p = postsInThread[postsInThread.length - 2];
+        unreadTimestamp = p.edit_at || p.create_at;
+    }
+
     return (
         <article
             className={classNames('ThreadItem', {
@@ -155,7 +166,7 @@ const ThreadItem = ({
                     threadId={threadId}
                     isFollowing={isFollowing ?? false}
                     hasUnreads={Boolean(newReplies)}
-                    unreadTimestamp={post.edit_at || post.create_at}
+                    unreadTimestamp={unreadTimestamp}
                 >
                     <SimpleTooltip
                         id='threadActionMenu'

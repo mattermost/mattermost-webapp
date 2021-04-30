@@ -7,8 +7,8 @@ import {
     AppCallRequest,
     AppBinding,
     AppField,
-    AppSelectOption,
-    AppCallResponse,
+    DoAppCallResult,
+    AppLookupResponse,
     AppContext,
     AppForm,
     AppCallValues,
@@ -899,16 +899,16 @@ export class AppCommandParser {
             this.getAppContext(binding.app_id),
         );
 
-        const res = await this.store.dispatch(doAppCall(payload, AppCallTypes.FORM, this.intl));
+        const res = await this.store.dispatch(doAppCall(payload, AppCallTypes.FORM, this.intl)) as DoAppCallResult;
         if (res.error) {
-            const errorResponse = res.error as AppCallResponse;
+            const errorResponse = res.error;
             return {error: errorResponse.error || this.intl.formatMessage({
                 id: 'apps.error.unknown',
                 defaultMessage: 'Unknown error.',
             })};
         }
 
-        const callResponse = res.data as AppCallResponse;
+        const callResponse = res.data!;
         switch (callResponse.type) {
         case AppCallResponseTypes.FORM:
             break;
@@ -1146,17 +1146,17 @@ export class AppCommandParser {
         call.selected_field = f.name;
         call.query = parsed.incomplete;
 
-        type ResponseType = {items: AppSelectOption[]};
-        const res = await this.store.dispatch(doAppCall<ResponseType>(call, AppCallTypes.LOOKUP, this.intl));
+        const res = await this.store.dispatch(doAppCall(call, AppCallTypes.LOOKUP, this.intl)) as DoAppCallResult<AppLookupResponse>;
+
         if (res.error) {
-            const errorResponse = res.error as AppCallResponse;
+            const errorResponse = res.error;
             return this.makeDynamicSelectSuggestionError(errorResponse.error || this.intl.formatMessage({
                 id: 'apps.error.unknown',
                 defaultMessage: 'Unknown error.',
             }));
         }
 
-        const callResponse = res.data as AppCallResponse<ResponseType>;
+        const callResponse = res.data!;
         switch (callResponse.type) {
         case AppCallResponseTypes.OK:
             break;
