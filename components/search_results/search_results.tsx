@@ -322,8 +322,8 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
                 <MessageOrFileSelector
                     selected={searchType}
                     selectedFilter={searchFilterType}
-                    messagesCounter={isSearchAtEnd ? `${results.length}` : `${results.length}+`}
-                    filesCounter={isSearchFilesAtEnd ? `${fileResults.length}` : `${fileResults.length}+`}
+                    messagesCounter={isSearchAtEnd || props.searchPage === 0 ? `${results.length}` : `${results.length}+`}
+                    filesCounter={isSearchFilesAtEnd || props.searchPage === 0 ? `${fileResults.length}` : `${fileResults.length}+`}
                     onChange={setSearchType}
                     onFilter={setSearchFilterType}
                 />}
