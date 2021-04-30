@@ -34,7 +34,7 @@
     width: 34px;
     text-align: center;
     text-transform: uppercase;
-    background-color: rgba(255, 255, 255, 0.16);
+    background-color: rgba(var(--sidebar-text-rgb), 0.16);
     border: 3px solid rgba(255, 255, 255, 0);
     border-radius: 8px;
     box-sizing: content-box;
@@ -43,20 +43,20 @@
     position: relative;
 
     &:not(.no-hover):hover {
-        box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.32);
+        box-shadow: 0 0 0 3px rgba(var(--sidebar-text-rgb), 0.30);
         border-color: var(--sidebar-teambar-bg);
-        background-color: rgba(255, 255, 255, 0.32);
+        background-color:  rgba(var(--sidebar-text-rgb), 0.30);
     }
 
     &:active {
         border-color: var(--sidebar-teambar-bg);
-        box-shadow: 0 0 0 3px rgba(var(--sidebar-text-active-border-rgb), 0.72);
+        box-shadow: 0 0 0 3px var(--sidebar-text-active-border);
     }
 
     &.active {
         border-color: var(--sidebar-teambar-bg);
-        box-shadow: 0 0 0 3px rgba(var(--sidebar-text-active-border-rgb), 0.72);
-        background-color: rgba(255, 255, 255, 0.32);
+        box-shadow: 0 0 0 3px var(--sidebar-text-active-border);
+        background-color: rgba(var(--sidebar-text-rgb), 0.30);
     }
 
     &.TeamIcon__lg {

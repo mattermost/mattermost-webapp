@@ -48,7 +48,7 @@ export function getDataRetentionCustomPoliciesCount(state: GlobalState): number 
     return state.entities.admin.dataRetentionCustomPoliciesCount;
 }
 
-export function getDataRetentionCustomPolicy(state: GlobalState, id: string): DataRetentionCustomPolicy {
+export function getDataRetentionCustomPolicy(state: GlobalState, id: string): DataRetentionCustomPolicy | undefined | null {
     const policy = getDataRetentionCustomPolicies(state);
     return policy[id];
 }

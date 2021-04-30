@@ -1,0 +1,24 @@
+.global_policy {
+    width: 100%;
+    @media screen and (min-width: 960px) {
+        width: 50%;
+    }
+    .Input.form-control {
+        padding: 6px 12px;
+    }
+    i.icon.icon-infinity.option-icon {
+        vertical-align: middle;
+    }
+}
+.CustomPolicy__error {
+    display: flex;
+    color: var(--sys-error-text);
+    font-size: 12px;
+    align-items: center;
+    line-height: 16px;
+
+    i {
+        font-size: 14.4px;
+        margin-right: 4px;
+    }
+} 

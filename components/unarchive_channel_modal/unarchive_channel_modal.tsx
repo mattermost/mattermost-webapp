@@ -1,44 +1,38 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
+import {ActionResult} from 'mattermost-redux/types/actions';
+import {Channel} from 'mattermost-redux/types/channels';
+
 import Constants from 'utils/constants';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
-export default class UnarchiveChannelModal extends React.PureComponent {
-    static propTypes = {
+type Props = {
+    onHide: () => void;
+    channel: Channel;
+    actions: ChannelDetailsActions;
+}
 
-        /**
-        * Function called when modal is dismissed
-        */
-        onHide: PropTypes.func.isRequired,
+type State = {
+    show: boolean;
+}
 
-        /**
-         * channel data
-         */
-        channel: PropTypes.object.isRequired,
+export type ChannelDetailsActions = {
+    unarchiveChannel: (channelId: string) => Promise<ActionResult>;
+};
 
-        actions: PropTypes.shape({
-
-            /**
-            * Function called for deleting channel,
-            */
-
-            unarchiveChannel: PropTypes.func.isRequired,
-        }),
-    }
-
-    constructor(props) {
+export default class UnarchiveChannelModal extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
         super(props);
 
         this.state = {show: true};
     }
 
-    handleUnarchive = () => {
+    handleUnarchive = (): void => {
         if (this.props.channel.id.length !== Constants.CHANNEL_ID_LENGTH) {
             return;
         }
@@ -46,11 +40,11 @@ export default class UnarchiveChannelModal extends React.PureComponent {
         this.onHide();
     }
 
-    onHide = () => {
+    onHide = (): void => {
         this.setState({show: false});
     }
 
-    render() {
+    render(): JSX.Element {
         return (
             <Modal
                 dialogClassName='a11y__modal'
