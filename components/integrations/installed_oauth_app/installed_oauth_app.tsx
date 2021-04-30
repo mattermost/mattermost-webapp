@@ -38,6 +38,11 @@ export type InstalledOAuthAppProps = {
      */
     oauthApp: OAuthApp;
 
+    /**
+     * Whether the oauth app is created by an App
+     */
+    fromApp: boolean;
+
     creatorName: string;
 
     /**
@@ -242,34 +247,42 @@ export default class InstalledOAuthApp extends React.PureComponent<InstalledOAut
             );
         }
 
-        return (
-            <div className='backstage-list__item'>
-                {icon}
-                <div className='item-details'>
-                    <div className='item-details__row d-flex flex-column flex-md-row justify-content-between'>
-                        <strong className='item-details__name'>
-                            {name}
-                        </strong>
-                        <div className='item-actions'>
-                            {showHide}
-                            {' - '}
-                            {regen}
-                            {' - '}
-                            <Link to={`/${this.props.team.name}/integrations/oauth2-apps/edit?id=${oauthApp.id}`}>
-                                <FormattedMessage
-                                    id='installed_integrations.edit'
-                                    defaultMessage='Edit'
-                                />
-                            </Link>
-                            {' - '}
-                            <DeleteIntegration
-                                messageId={t('installed_oauth_apps.delete.confirm')}
-                                onDelete={this.handleDelete}
-                            />
-                        </div>
-                    </div>
-                    {error}
-                    {description}
+        let actions;
+        if (!this.props.fromApp) {
+            actions = (
+                <div className='item-actions'>
+                    {showHide}
+                    {' - '}
+                    {regen}
+                    {' - '}
+                    <Link to={`/${this.props.team.name}/integrations/oauth2-apps/edit?id=${oauthApp.id}`}>
+                        <FormattedMessage
+                            id='installed_integrations.edit'
+                            defaultMessage='Edit'
+                        />
+                    </Link>
+                    {' - '}
+                    <DeleteIntegration
+                        messageId={t('installed_oauth_apps.delete.confirm')}
+                        onDelete={this.handleDelete}
+                    />
+                </div>
+            );
+        }
+
+        let appInfo = (
+            <div className='item-details__row'>
+                <span className='item-details__creation'>
+                    <FormattedMessage
+                        id='installed_integrations.fromApp'
+                        defaultMessage='Managed by Apps Framework'
+                    />
+                </span>
+            </div>
+        );
+        if (!this.props.fromApp) {
+            appInfo = (
+                <>
                     <div className='item-details__row'>
                         <span className='item-details__url word-break--all'>
                             <FormattedMarkdownMessage
@@ -313,6 +326,23 @@ export default class InstalledOAuthApp extends React.PureComponent<InstalledOAut
                             />
                         </span>
                     </div>
+                </>
+            );
+        }
+
+        return (
+            <div className='backstage-list__item'>
+                {icon}
+                <div className='item-details'>
+                    <div className='item-details__row d-flex flex-column flex-md-row justify-content-between'>
+                        <strong className='item-details__name'>
+                            {name}
+                        </strong>
+                        {actions}
+                    </div>
+                    {error}
+                    {description}
+                    {appInfo}
                 </div>
             </div>
         );
