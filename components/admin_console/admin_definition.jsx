@@ -983,7 +983,6 @@ const AdminDefinition = {
                         isDisabled: it.any(
                             it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.FILE_STORAGE)),
                         ),
-                        isHidden: it.not(it.configIsTrue('FeatureFlags', 'FilesSearch')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -996,7 +995,6 @@ const AdminDefinition = {
                             it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.FILE_STORAGE)),
                             it.configIsFalse('FileSettings', 'ExtractContent'),
                         ),
-                        isHidden: it.not(it.configIsTrue('FeatureFlags', 'FilesSearch')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,

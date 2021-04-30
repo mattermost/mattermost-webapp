@@ -47,7 +47,6 @@ describe('components/search_bar/SearchBar', () => {
         isFocus: false,
         searchType: '',
         clearSearchType: jest.fn(),
-        filesSearchEnabled: false,
         children: null,
         updateHighlightedSearchHint: jest.fn(),
         handleChange: jest.fn(),
@@ -65,52 +64,34 @@ describe('components/search_bar/SearchBar', () => {
         expect(container).toMatchSnapshot();
     });
 
-    it('should match snapshot without search, without searchType and with filesSearchEnabled', () => {
+    it('should match snapshot without search, without searchType', () => {
         const {container} = render(
             wrapIntl((
-                <SearchBar
-                    {...baseProps}
-                    filesSearchEnabled={true}
-                />
+                <SearchBar {...baseProps}/>
             )),
         );
         expect(container).toMatchSnapshot();
     });
 
-    it('should match snapshot without search, with searchType and with filesSearchEnabled', () => {
+    it('should match snapshot without search, with searchType', () => {
         const {container} = render(
             wrapIntl((
                 <SearchBar
                     {...baseProps}
                     searchType='files'
-                    filesSearchEnabled={true}
                 />
             )),
         );
         expect(container).toMatchSnapshot();
     });
 
-    it('should match snapshot with search, with searchType and with filesSearchEnabled', () => {
+    it('should match snapshot with search, with searchType', () => {
         const {container} = render(
             wrapIntl((
                 <SearchBar
                     {...baseProps}
                     searchTerms={'test'}
                     searchType='files'
-                    filesSearchEnabled={true}
-                />
-            )),
-        );
-        expect(container).toMatchSnapshot();
-    });
-
-    it('should match snapshot without search, with searchType and without filesSearchEnabled', () => {
-        const {container} = render(
-            wrapIntl((
-                <SearchBar
-                    {...baseProps}
-                    searchType='files'
-                    filesSearchEnabled={false}
                 />
             )),
         );

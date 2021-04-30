@@ -65,7 +65,7 @@ const determineVisibleSearchHintOptions = (searchTerms: string, searchType: Sear
 };
 
 const Search: React.FC<Props> = (props: Props): JSX.Element => {
-    const {actions, searchTerms, searchType, filesSearchEnabled, currentChannelId} = props;
+    const {actions, searchTerms, searchType, currentChannelId} = props;
 
     const intl = useIntl();
 
@@ -182,7 +182,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
         // only prevent default-behaviour, when one of the conditions is true
         // when both are false just submit the form (default behaviour) with
         // `handleSubmit` function called from the `form`
-        if (indexChangedViaKeyPress && !searchType && !searchTerms && filesSearchEnabled) {
+        if (indexChangedViaKeyPress && !searchType && !searchTerms) {
             e.preventDefault();
             setKeepInputFocused(true);
             actions.updateSearchType(highlightedSearchHintIndex === 0 ? 'messages' : 'files');
@@ -369,7 +369,6 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
                     onOptionHover={setHoverHintIndex}
                     onSearchTypeSelected={(searchType || searchTerms) ? undefined : (value: SearchType) => actions.updateSearchType(value)}
                     searchType={searchType}
-                    filesSearchEnabled={filesSearchEnabled}
                 />
             </Popover>
         );
@@ -408,7 +407,6 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
                 searchTerms={searchTerms}
                 searchType={searchType}
                 clearSearchType={() => actions.updateSearchType('')}
-                filesSearchEnabled={filesSearchEnabled}
             >
                 {!Utils.isMobile() && renderHintPopover()}
             </SearchBar>
@@ -452,7 +450,6 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
                     searchFilterType={searchFilterType}
                     setSearchType={(value: SearchType) => actions.updateSearchType(value)}
                     searchType={searchType || 'messages'}
-                    filesSearchEnabled={filesSearchEnabled}
                 />
             ) : props.children}
         </div>

@@ -67,7 +67,6 @@ class ChannelHeader extends React.PureComponent {
         intl: intlShape.isRequired,
         pinnedPostsCount: PropTypes.number,
         hasMoreThanOneTeam: PropTypes.bool,
-        showChannelFilesButton: PropTypes.bool,
         actions: PropTypes.shape({
             favoriteChannel: PropTypes.func.isRequired,
             unfavoriteChannel: PropTypes.func.isRequired,
@@ -259,7 +258,6 @@ class ChannelHeader extends React.PureComponent {
             hasGuests,
             teammateNameDisplaySetting,
             isLegacySidebar,
-            showChannelFilesButton,
         } = this.props;
         const {formatMessage} = this.props.intl;
         const ariaLabelChannelHeader = Utils.localizeMessage('accessibility.sections.channelHeader', 'channel header region');
@@ -479,15 +477,14 @@ class ChannelHeader extends React.PureComponent {
                         onClick={this.showPinnedPosts}
                         tooltipKey={'pinnedPosts'}
                     />
-                    {showChannelFilesButton &&
-                        <HeaderIconWrapper
-                            iconComponent={channelFilesIcon}
-                            ariaLabel={true}
-                            buttonClass={channelFilesIconClass}
-                            buttonId={'channelHeaderFilesButton'}
-                            onClick={this.showChannelFiles}
-                            tooltipKey={'channelFiles'}
-                        />}
+                    <HeaderIconWrapper
+                        iconComponent={channelFilesIcon}
+                        ariaLabel={true}
+                        buttonClass={channelFilesIconClass}
+                        buttonId={'channelHeaderFilesButton'}
+                        onClick={this.showChannelFiles}
+                        tooltipKey={'channelFiles'}
+                    />
                     {hasGuestsText}
                     <div
                         className='header-popover-text-measurer'
@@ -597,15 +594,14 @@ class ChannelHeader extends React.PureComponent {
                         onClick={this.showPinnedPosts}
                         tooltipKey={'pinnedPosts'}
                     />
-                    {showChannelFilesButton &&
-                        <HeaderIconWrapper
-                            iconComponent={channelFilesIcon}
-                            ariaLabel={true}
-                            buttonClass={channelFilesIconClass}
-                            buttonId={'channelHeaderFilesButton'}
-                            onClick={this.showChannelFiles}
-                            tooltipKey={'channelFiles'}
-                        />}
+                    <HeaderIconWrapper
+                        iconComponent={channelFilesIcon}
+                        ariaLabel={true}
+                        buttonClass={channelFilesIconClass}
+                        buttonId={'channelHeaderFilesButton'}
+                        onClick={this.showChannelFiles}
+                        tooltipKey={'channelFiles'}
+                    />
                     {hasGuestsText}
                     {editMessage}
                 </div>
