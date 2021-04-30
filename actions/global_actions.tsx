@@ -20,7 +20,7 @@ import {ChannelTypes} from 'mattermost-redux/action_types';
 import {fetchAppBindings} from 'mattermost-redux/actions/apps';
 import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
-import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
+import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 import {Team} from 'mattermost-redux/types/teams';
 
 import {browserHistory} from 'utils/browser_history';
@@ -191,22 +191,24 @@ export function showMobileSubMenuModal(elements: any[]) { // TODO Use more speci
     dispatch(openModal(submenuModalData));
 }
 
-export function sendEphemeralPost(message: string, channelId?: string, parentId?: string, userId?: string): void {
-    const timestamp = Utils.getTimestamp();
-    const post = {
-        id: Utils.generateId(),
-        user_id: userId || '0',
-        channel_id: channelId || getCurrentChannelId(getState()),
-        message,
-        type: PostTypes.EPHEMERAL,
-        create_at: timestamp,
-        update_at: timestamp,
-        root_id: parentId,
-        parent_id: parentId,
-        props: {},
-    };
+export function sendEphemeralPost(message: string, channelId?: string, parentId?: string, userId?: string): ActionFunc {
+    return (doDispatch: DispatchFunc, doGetState: GetStateFunc) => {
+        const timestamp = Utils.getTimestamp();
+        const post = {
+            id: Utils.generateId(),
+            user_id: userId || '0',
+            channel_id: channelId || getCurrentChannelId(doGetState()),
+            message,
+            type: PostTypes.EPHEMERAL,
+            create_at: timestamp,
+            update_at: timestamp,
+            root_id: parentId,
+            parent_id: parentId,
+            props: {},
+        };
 
-    dispatch(handleNewPost(post));
+        return doDispatch(handleNewPost(post));
+    };
 }
 
 export function sendAddToChannelEphemeralPost(user: UserProfile, addedUsername: string, addedUserId: string, channelId: string, postRootId = '', timestamp: number) {
