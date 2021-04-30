@@ -28,7 +28,8 @@ export function isLicenseExpired(license) {
         return false;
     }
 
-    const timeDiff = parseInt(license.ExpiresAt, 10) - Date.now();
+    const endDate = new Date(parseInt(license?.ExpiresAt, 10));
+    const timeDiff = moment(endDate).startOf('day').diff(moment().startOf('day'), 'days');
     return timeDiff < 0;
 }
 

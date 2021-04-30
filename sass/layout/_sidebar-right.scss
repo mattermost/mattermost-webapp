@@ -107,7 +107,7 @@
         @include flex(1 1 auto);
         @include flex-direction(column);
         background: v(center-channel-bg);
-        border-left: 1px solid v(center-channel-color-16);
+        border-left: 1px solid rgba(var(--center-channel-color-rgb), 0.12);
         height: calc(100% - 56px);
 
         .loading-screen {
