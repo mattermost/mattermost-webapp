@@ -32,6 +32,7 @@ export type AppManifest = {
     app_type: AppType;
     version?: string;
     homepage_url?: string;
+    icon_path?: string;
     display_name: string;
     description?: string;
     requested_permissions?: Permission[];

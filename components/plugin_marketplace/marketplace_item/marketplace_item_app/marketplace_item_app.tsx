@@ -11,12 +11,14 @@ import MarketplaceItem from '../marketplace_item';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 
 import {localizeMessage} from 'utils/utils';
+import {getStaticPath} from 'utils/apps';
 
 export type MarketplaceItemAppProps = {
     id: string;
     name: string;
     description?: string;
     homepageUrl?: string;
+    iconPath?: string;
 
     installed: boolean;
     labels?: MarketplaceLabel[];
@@ -95,12 +97,18 @@ export default class MarketplaceItemApp extends React.PureComponent <Marketplace
     }
 
     render(): JSX.Element {
+        let iconSource: string | undefined;
+        if (this.props.iconPath) {
+            iconSource = getStaticPath(this.props.id, this.props.iconPath);
+        }
+
         return (
             <>
                 <MarketplaceItem
                     button={this.getItemButton()}
                     updateDetails={null}
                     versionLabel={null}
+                    iconSource={iconSource}
                     {...this.props}
                 />
             </>
