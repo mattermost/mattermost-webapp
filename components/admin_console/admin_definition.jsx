@@ -3143,7 +3143,6 @@ const AdminDefinition = {
                     },
                     {
                         title: 'Account Synchronization',
-                        subtitle: 'Connection and security level to your AD/LDAP server.',
                         settings: [
                             {
                                 type: Constants.SettingsTypes.TYPE_TEXT,
@@ -3304,7 +3303,6 @@ const AdminDefinition = {
                     },
                     {
                         title: 'Group Synchronization',
-                        subtitle: 'Connection and security level to your AD/LDAP server.',
                         settings: [
                             {
                                 type: Constants.SettingsTypes.TYPE_TEXT,
@@ -3341,7 +3339,6 @@ const AdminDefinition = {
                     },
                     {
                         title: 'Synchronization Performance',
-                        subtitle: 'Connection and security level to your AD/LDAP server.',
                         settings: [
                             {
                                 type: Constants.SettingsTypes.TYPE_NUMBER,
