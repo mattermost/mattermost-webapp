@@ -195,6 +195,66 @@ function oauthApps(state: IDMappedObjects<OAuthApp> = {}, action: GenericAction)
     }
 }
 
+function appsOAuthAppIDs(state: string[] = [], action: GenericAction) {
+    switch (action.type) {
+    case IntegrationTypes.RECEIVED_APPS_OAUTH_APP_IDS: {
+        if (state.length === 0 && action.data.length === 0) {
+            return state;
+        }
+
+        if (state.length !== action.data.length) {
+            return action.data;
+        }
+
+        const orderedState = state.concat().sort();
+        const orderedData = action.data.concat().sort();
+        for (let i = 0; i < state.length; i++) {
+            if (orderedState[i] !== orderedData[i]) {
+                return orderedData;
+            }
+        }
+
+        return state;
+    }
+    case UserTypes.LOGOUT_SUCCESS:
+        return [];
+    default:
+        return state;
+    }
+}
+
+function appsBotIDs(state: string[] = [], action: GenericAction) {
+    switch (action.type) {
+    case IntegrationTypes.RECEIVED_APPS_BOT_IDS: {
+        if (!action.data) {
+            return state;
+        }
+
+        if (state.length === 0 && action.data.length === 0) {
+            return state;
+        }
+
+        if (state.length !== action.data.length) {
+            return action.data;
+        }
+
+        const orderedState = state.concat().sort();
+        const orderedData = action.data.concat().sort();
+        for (let i = 0; i < state.length; i++) {
+            if (orderedState[i] !== orderedData[i]) {
+                return orderedData;
+            }
+        }
+
+        return state;
+    }
+    case UserTypes.LOGOUT_SUCCESS:
+        return [];
+    default:
+        return state;
+    }
+}
+
 function dialogTriggerId(state = '', action: GenericAction) {
     switch (action.type) {
     case IntegrationTypes.RECEIVED_DIALOG_TRIGGER_ID:
@@ -226,6 +286,12 @@ export default combineReducers({
 
     // object to represent registered oauth apps with app id as the key
     oauthApps,
+
+    // object to represent the list of ids for oauth apps associated to apps
+    appsOAuthAppIDs,
+
+    // object to represent the list of ids for bots associated to apps
+    appsBotIDs,
 
     // object to represent built-in slash commands
     systemCommands,
