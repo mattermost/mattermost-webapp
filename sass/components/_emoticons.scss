@@ -46,23 +46,23 @@
 .emoticon-suggestion {
     @include clearfix;
     cursor: pointer;
-    font-size: 13px;
-    height: 30px;
-    line-height: 30px;
+    font-size: 14px;
+    height: 36px;
+    line-height: 20px;
     width: 100%;
+    padding: 6px 20px;
 
     > div {
         &:first-child {
             text-align: center;
-            width: 30px;
+            margin-right: 12px;
         }
     }
 }
 
 .emoticon-suggestion__image {
-    margin-top: -2px;
-    max-height: 20px;
-    max-width: 20px;
+    max-height: 24px;
+    max-width: 24px;
     padding: 0;
     text-align: center;
     vertical-align: middle;
