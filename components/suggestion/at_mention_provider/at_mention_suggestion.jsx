@@ -112,20 +112,20 @@ export default class AtMentionSuggestion extends Suggestion {
         } else {
             itemname = item.username;
 
-            const fullName =
-                item.first_name || item.last_name ? `${Utils.getFullName(item)}` : '';
-            const nickName = item.nickname ? `(${item.nickname})` : '';
-
             if (item.isCurrentUser) {
-                if (fullName) {
+                if (item.first_name || item.last_name) {
                     description = (
-                        <span className='light ml-2'>{fullName}</span>
+                        <span className='light ml-2'>
+                            {Utils.getFullName(item)}
+                        </span>
                     );
                 }
-            } else if (fullName || nickName) {
+            } else if (item.first_name || item.last_name || item.nickname) {
                 description = (
                     <span className='light ml-2'>
-                        {`${fullName} ${nickName}`.trim()}
+                        {`${Utils.getFullName(item)} ${
+                            item.nickname ? `(${item.nickname})` : ''
+                        }`.trim()}
                     </span>
                 );
             }
