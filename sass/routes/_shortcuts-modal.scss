@@ -55,6 +55,8 @@
                     }
                 }
 
+                // TODO: It probably makes sense to switch to <ShortcutKey> component
+                // in order to have universal shortcut key appearance
                 .shortcut-key {
                     border-radius: 3px;
                     font-size: 12px;
@@ -91,6 +93,8 @@
         }
     }
 
+    // TODO: It probably makes sense to switch to <ShortcutKey> component
+    // in order to have universal shortcut key appearance
     .shortcut-key {
         border-radius: 3px;
         font-size: .9em;

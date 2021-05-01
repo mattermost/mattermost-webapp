@@ -75,7 +75,7 @@ export const postChannelMentionsAndVerifySystemMessageExist = (channelName) => {
     }
 
     // # Type @all and post it to the channel
-    cy.postMessage('@all');
+    cy.postMessage('@all ');
 
     // # Get last post message text
     cy.getLastPostId().then((postId) => {
@@ -84,7 +84,7 @@ export const postChannelMentionsAndVerifySystemMessageExist = (channelName) => {
     });
 
     // # Type @here and post it to the channel
-    cy.postMessage('@here');
+    cy.postMessage('@here ');
 
     // # Get last post message text
     cy.getLastPostId().then((postId) => {
@@ -92,7 +92,7 @@ export const postChannelMentionsAndVerifySystemMessageExist = (channelName) => {
         cy.get(`#postMessageText_${postId}`).should('include.text', getSystemMessage('@here'));
     });
 
-    cy.postMessage('@channel');
+    cy.postMessage('@channel ');
 
     // # Type last post message text
     cy.getLastPostId().then((postId) => {
@@ -120,7 +120,7 @@ export const postChannelMentionsAndVerifySystemMessageNotExist = (channel) => {
         return `Channel notifications are disabled in ${channel.name}. The ${text} did not trigger any notifications.`;
     }
 
-    cy.postMessage('@all');
+    cy.postMessage('@all ');
 
     // # Get last post message text
     cy.getLastPostId().then((postId) => {
@@ -128,7 +128,7 @@ export const postChannelMentionsAndVerifySystemMessageNotExist = (channel) => {
         cy.get(`#postMessageText_${postId}`).should('not.have.text', getSystemMessage('@all'));
     });
 
-    cy.postMessage('@here');
+    cy.postMessage('@here ');
 
     // # Get last post message text
     cy.getLastPostId().then((postId) => {
@@ -136,7 +136,7 @@ export const postChannelMentionsAndVerifySystemMessageNotExist = (channel) => {
         cy.get(`#postMessageText_${postId}`).should('not.have.text', getSystemMessage('@here'));
     });
 
-    cy.postMessage('@channel');
+    cy.postMessage('@channel ');
 
     // # Get last post message text
     cy.getLastPostId().then((postId) => {
