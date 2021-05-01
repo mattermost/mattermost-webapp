@@ -1,0 +1,18 @@
+.app__body {
+  .shortcut-key {
+    display: inline-block;
+    padding: 2px 8px;
+  
+    font-size: 14px;
+    font-weight: 500;
+  
+    border-radius: 3px;
+  
+    &.shortcut-key--contrast {
+      color: var(--center-channel-color);
+    
+      background-color: var(--center-channel-color-08);
+    }
+  }
+}
+

@@ -1957,14 +1957,14 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
             <AdminSidebarSection
               definitionKey="compliance.data_retention"
               key="compliance.data_retention"
-              name="compliance/data_retention"
+              name="compliance/data_retention_settings"
               parentLink=""
               subsection={false}
               tag=""
               title={
                 <FormattedMessage
-                  defaultMessage="Data Retention Policy"
-                  id="admin.sidebar.dataRetentionPolicy"
+                  defaultMessage="Data Retention Policies"
+                  id="admin.sidebar.dataRetentionSettingsPolicies"
                 />
               }
             />

@@ -25,11 +25,11 @@ describe('Mention self', () => {
 
     it('should be always highlighted', () => {
         [
-            `@${testUser.username}`,
-            `@${testUser.username}.`,
-            `@${testUser.username}_`,
-            `@${testUser.username}-`,
-            `@${testUser.username},`,
+            `@${testUser.username} `,
+            `@${testUser.username}. `,
+            `@${testUser.username}_ `,
+            `@${testUser.username}- `,
+            `@${testUser.username}, `,
         ].forEach((message) => {
             cy.postMessage(message);
 

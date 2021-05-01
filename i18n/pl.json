@@ -248,8 +248,6 @@
   "admin.cluster.StreamingPort": "Port strumieniowania:",
   "admin.cluster.StreamingPortDesc": "Port używany do strumieniowania danych między serwerami",
   "admin.cluster.StreamingPortEx": "Np. \"8075\"",
-  "admin.cluster.UseExperimentalGossip": "Użyj eksperymentalnie Gossip:",
-  "admin.cluster.UseExperimentalGossipDesc": "Jeśli włączone, to ten serwer będzie próbował skomunikować się przez protokół gossip po przez port gossip.   Jeśli wyłączone ten serwer będzie próbował skomunikować się przez port nadawania. Jeśli wyłączone to port gossip i protokół nadal będzie wykorzystywany do określenia stanu klastra.",
   "admin.cluster.UseIpAddress": "Użyj adresu IP:",
   "admin.cluster.UseIpAddressDesc": "Jeśli włączone, ten klaster będzie próbował się komunikować przez adres IP zamiast używając nazwy hosta.",
   "admin.cluster.enableDescription": "W przypadku wartości true, Mattermost będzie działał w trybie Wysokiej Dostępności (HA). Proszę zobaczyć [dokumentację](!http://docs.mattermost.com/deployment/cluster.html) aby dowiedzieć się więcej na temat konfigurowania Wysokiej Dostępności w Mattermost.",

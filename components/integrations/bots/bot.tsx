@@ -62,6 +62,11 @@ type Props = {
     */
     filter?: string;
 
+    /**
+     * Determine whether this bot is managed by the app framework
+     */
+    fromApp: boolean;
+
     actions: {
 
         /**
@@ -193,7 +198,9 @@ export default class Bot extends React.PureComponent<Props, State> {
         const displayName = this.props.bot.display_name || '';
 
         let ownerUsername = 'plugin';
-        if (this.props.owner && this.props.owner.username) {
+        if (this.props.fromApp) {
+            ownerUsername = 'Apps Framework';
+        } else if (this.props.owner && this.props.owner.username) {
             ownerUsername = this.props.owner.username;
         }
         const filter = this.props.filter ? this.props.filter.toLowerCase() : '';
