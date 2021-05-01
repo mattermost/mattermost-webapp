@@ -270,10 +270,11 @@ export default class StatusDropdown extends React.PureComponent {
         );
     }
 
-    refCallback = (menuRef) => {
-        if (menuRef) {
+    refCallback = (ref) => {
+        if (ref) {
             this.setState({
-                width: menuRef.rect()?.width - 12,
+                width: ref.state.width,
+                open: ref.state.open,
             });
         }
     }
@@ -305,6 +306,7 @@ export default class StatusDropdown extends React.PureComponent {
                 style={this.props.style}
                 open={this.props.isStatusDropdownOpen}
                 className={'status-dropdown-menu'}
+                ref={this.refCallback}
             >
                 <div className='status-wrapper status-selector'>
                     {profilePicture}
@@ -324,7 +326,6 @@ export default class StatusDropdown extends React.PureComponent {
                 <Menu
                     ariaLabel={localizeMessage('status_dropdown.menuAriaLabel', 'Set a status')}
                     id='statusDropdownMenu'
-                    ref={this.refCallback}
                 >
                     {!this.props.isCustomStatusEnabled && (
                         <Menu.Header>
@@ -361,14 +362,12 @@ export default class StatusDropdown extends React.PureComponent {
                         />
                         <Menu.ItemSubMenu
                             subMenu={dndSubMenuItems}
-                            subMenuClass={'px-6'}
                             ariaLabel={`${localizeMessage('status_dropdown.set_dnd', 'Do not disturb').toLowerCase()}. ${localizeMessage('status_dropdown.set_dnd.extra', 'Disables desktop, email and push notifications').toLowerCase()}`}
                             text={localizeMessage('status_dropdown.set_dnd', 'Do not disturb')}
                             extraText={localizeMessage('status_dropdown.set_dnd.extra', 'Disables all notifications')}
                             icon={<StatusDndIcon className={'dnd--icon'}/>}
                             direction={'right'}
                             openUp={this.state.openUp}
-                            xOffset={this.state.width}
                             id={'status-menu-dnd'}
                         />
                         <Menu.ItemAction
