@@ -21,6 +21,10 @@
     #status-menu-dnd {
         padding: 4px 16px;
 
+        .dropdown-menu {
+            margin: auto;
+        }
+
         .icon {
             top: 2px;
         }
