@@ -1,13 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {isEmail} from 'mattermost-redux/utils/helpers';
 import {debounce} from 'mattermost-redux/actions/helpers';
-import {Channel} from 'mattermost-redux/types/channels';
-import {UserProfile} from 'mattermost-redux/types/users';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import InviteIcon from 'components/widgets/icons/invite_icon';
@@ -23,38 +22,30 @@ import './invitation_modal_guests_step.scss';
 import {t} from 'utils/i18n.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
 
-import {PropsFromRedux} from './index';
+class InvitationModalGuestsStep extends React.PureComponent {
+    static propTypes = {
+        teamName: PropTypes.string.isRequired,
+        myInvitableChannels: PropTypes.array.isRequired,
+        currentTeamId: PropTypes.string.isRequired,
+        searchProfiles: PropTypes.func.isRequired,
+        searchChannels: PropTypes.func.isRequired,
+        defaultChannels: PropTypes.array,
+        defaultMessage: PropTypes.string,
+        onEdit: PropTypes.func.isRequired,
+        onSubmit: PropTypes.func.isRequired,
+        emailInvitationsEnabled: PropTypes.bool.isRequired,
+        userLimit: PropTypes.string.isRequired,
+        userIsAdmin: PropTypes.bool.isRequired,
+        isCloud: PropTypes.bool.isRequired,
+        subscriptionStats: PropTypes.object,
+        actions: PropTypes.shape({
+            getSubscriptionStats: PropTypes.func.isRequired,
+        }).isRequired,
+    }
 
-type OwnProps = {
-    teamName: string;
-    myInvitableChannels: Channel[];
-    currentTeamId: string;
-    searchProfiles: (term: string, options?: Record<string, any>) => Promise<{ data: UserProfile[] }>;
-    searchChannels: (teamId: string, term: string) => Promise<Channel[]>;
-    defaultChannels?: Channel[];
-    defaultMessage?: string;
-    onEdit: (hasChanges: boolean) => void;
-    onSubmit: (users: string[], emails: string[], channels: Channel[], message: string, extraUserText: string, extraChannelText: string) => Promise<void>;
-    emailInvitationsEnabled: boolean;
-}
-
-type Props = OwnProps & PropsFromRedux
-
-type State = {
-    customMessageOpen: boolean;
-    customMessage: string;
-    usersAndEmails: string[];
-    channels: Channel[];
-    usersInputValue: string;
-    channelsInputValue: string;
-    termWithoutResults?: string | null;
-}
-
-class InvitationModalGuestsStep extends React.PureComponent<Props, State> {
-    private textareaRef = React.createRef<HTMLTextAreaElement>();
-
-    constructor(props: Props) {
+    constructor(props) {
         super(props);
+        this.textareaRef = React.createRef();
         this.state = {
             customMessageOpen: Boolean(props.defaultMessage),
             customMessage: props.defaultMessage || '',
@@ -65,33 +56,33 @@ class InvitationModalGuestsStep extends React.PureComponent<Props, State> {
         };
     }
 
-    onUsersEmailsChange = (usersAndEmails: string[]) => {
+    onUsersEmailsChange = (usersAndEmails) => {
         this.setState({usersAndEmails});
-        this.props.onEdit(usersAndEmails.length > 0 || this.state.channels.length > 0 || this.state.customMessage !== '' || this.state.usersInputValue.length !== 0);
+        this.props.onEdit(usersAndEmails.length > 0 || this.state.channels.length > 0 || this.state.customMessage !== '' || this.state.usersInputValue || this.state.channelsInputValue);
     }
 
-    onChannelsChange = (channels: Channel[]) => {
+    onChannelsChange = (channels) => {
         this.setState({channels});
-        this.props.onEdit(this.state.usersAndEmails.length > 0 || channels.length > 0 || this.state.customMessage !== '' || this.state.usersInputValue.length !== 0);
+        this.props.onEdit(this.state.usersAndEmails.length > 0 || channels.length > 0 || this.state.customMessage !== '' || this.state.usersInputValue || this.state.channelsInputValue);
     }
 
-    onMessageChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        this.setState({customMessage: e?.target?.value});
-        this.props.onEdit(this.state.usersAndEmails.length > 0 || this.state.channels.length > 0 || e.target.value !== '' || this.state.usersInputValue.length !== 0);
+    onMessageChange = (e) => {
+        this.setState({customMessage: e.target.value});
+        this.props.onEdit(this.state.usersAndEmails.length > 0 || this.state.channels.length > 0 || e.target.value !== '' || this.state.usersInputValue || this.state.channelsInputValue);
     }
 
-    onUsersInputChange = (usersInputValue: string) => {
+    onUsersInputChange = (usersInputValue) => {
         this.setState({usersInputValue});
-        this.props.onEdit(this.state.usersAndEmails.length > 0 || this.state.channels.length > 0 || this.state.customMessage !== '' || usersInputValue.length !== 0 || this.state.channelsInputValue.length !== 0);
+        this.props.onEdit(this.state.usersAndEmails.length > 0 || this.state.channels.length > 0 || this.state.customMessage !== '' || usersInputValue || this.state.channelsInputValue);
     }
 
-    onChannelsInputChange = (channelsInputValue: string) => {
+    onChannelsInputChange = (channelsInputValue) => {
         this.setState({channelsInputValue});
-        this.props.onEdit(this.state.usersAndEmails.length > 0 || this.state.channels.length > 0 || this.state.customMessage !== '' || this.state.usersInputValue.length !== 0 || channelsInputValue.length !== 0);
+        this.props.onEdit(this.state.usersAndEmails.length > 0 || this.state.channels.length > 0 || this.state.customMessage !== '' || this.state.usersInputValue || channelsInputValue);
     }
 
     debouncedSearchProfiles = debounce((term, callback) => {
-        this.props.searchProfiles(term).then(({data}: {data: UserProfile[]}) => {
+        this.props.searchProfiles(term).then(({data}) => {
             callback(data);
             if (data.length === 0) {
                 this.setState({termWithoutResults: term});
@@ -103,7 +94,7 @@ class InvitationModalGuestsStep extends React.PureComponent<Props, State> {
         });
     }, 150);
 
-    usersLoader = (term: string, callback: (options?: Array<Record<'username | email', string>>) => void) => {
+    usersLoader = (term, callback) => {
         if (this.state.termWithoutResults && term.startsWith(this.state.termWithoutResults)) {
             callback([]);
             return;
@@ -117,13 +108,13 @@ class InvitationModalGuestsStep extends React.PureComponent<Props, State> {
 
     debouncedSearchChannels = debounce((term) => this.props.searchChannels(this.props.currentTeamId, term), 150);
 
-    channelsLoader = async (value: string) => {
+    channelsLoader = async (value) => {
         if (!value) {
             return this.props.myInvitableChannels;
         }
 
         this.debouncedSearchChannels(value);
-        return this.props.myInvitableChannels.filter((channel: Channel) => {
+        return this.props.myInvitableChannels.filter((channel) => {
             return channel.display_name.toLowerCase().startsWith(value.toLowerCase()) || channel.name.toLowerCase().startsWith(value.toLowerCase());
         });
     }
@@ -239,7 +230,7 @@ class InvitationModalGuestsStep extends React.PureComponent<Props, State> {
                             errorMessageValues={{
                                 num: remainingUsers < 0 ? '0' : remainingUsers,
                             }}
-                            extraErrorText={(<UpgradeLink/>)}
+                            extraErrorText={(<UpgradeLink handleClick={(e) => this.handleLinkClick(e)}/>)}
                             onChange={this.onUsersEmailsChange}
                             value={this.state.usersAndEmails}
                             onInputChange={this.onUsersInputChange}
