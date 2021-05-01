@@ -57,9 +57,9 @@ describe('Keyboard Shortcuts', () => {
         cy.get('#post_textbox').clear().type(messagePrefix + message3).type('{enter}{enter}');
 
         // # Type "words that trigger mentions"
-        cy.postMessage('mention @here');
-        cy.postMessage('mention @all');
-        cy.postMessage('mention @channel');
+        cy.postMessage('mention @here ');
+        cy.postMessage('mention @all ');
+        cy.postMessage('mention @channel ');
 
         // # Type CTRL/CMD+SHIFT+M to open search
         cy.get('body').cmdOrCtrlShortcut('{shift}M');

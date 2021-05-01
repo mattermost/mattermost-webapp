@@ -51,6 +51,8 @@ export function handleNewPost(post, msg) {
                 dispatch(loadNewGMIfNeeded(post.channel_id));
             }
         }
+
+        return {data: true};
     };
 }
 

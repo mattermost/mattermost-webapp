@@ -39,7 +39,8 @@ describe('Messaging', () => {
         const emojis = [':book:', ':key:', ':gem:'];
 
         // # Post a message beginning with a new line and followed by emojis
-        cy.postMessage('\n' + emojis.join(' '));
+        cy.postMessage('hello');
+        cy.get('#post_textbox').type('\n' + emojis.join(' ')).type('{enter}');
 
         // # Get last post message text
         cy.getLastPostId().then((postId) => {

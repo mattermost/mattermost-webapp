@@ -29,7 +29,7 @@ describe('Message Reply too long', () => {
 
         // # Enter valid text into RHS
         const replyValid = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. ';
-        cy.get('#reply_textbox').clear().should('be.visible').type(replyValid).type('{enter}');
+        cy.postMessageReplyInRHS(replyValid);
 
         // * Check no warning
         cy.get('.post-error').should('not.exist');

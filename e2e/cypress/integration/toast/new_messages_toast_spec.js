@@ -76,10 +76,10 @@ describe('Toast', () => {
         scrollDown();
 
         // * Should hide the scroll to new message button as it is at the bottom
-        cy.get('div.toast__jump').should('not.be.visible');
+        cy.get('div.toast__jump').should('not.exist');
 
         // * As time elapsed the toast should be hidden
-        cy.get('div.toast').should('not.be.visible');
+        cy.get('div.toast').should('not.exist');
     });
 
     it('MM-T1784_2 should see a toast with number of unread messages in the toast if the bottom is not in view', () => {
@@ -121,7 +121,7 @@ describe('Toast', () => {
 
     it('MM-T1784_4 marking a channel as unread should reappear new message toast', () => {
         visitTownSquareAndWaitForPageToLoad();
-        cy.get('div.toast').should('not.be.visible');
+        cy.get('div.toast').should('not.exist');
 
         // # Scroll up so bottom is not visible
         scrollUp();
@@ -170,7 +170,7 @@ describe('Toast', () => {
         cy.get('div.toast').findByText('Jump to recents').should('be.visible').click();
 
         // * Verify toast is not visible
-        cy.get('div.toast__jump').should('not.be.visible');
+        cy.get('div.toast__jump').should('not.exist');
 
         // # Scroll up on the channel
         scrollUp();
@@ -188,6 +188,6 @@ describe('Toast', () => {
         scrollDown();
 
         // * Verify toast is not visible
-        cy.get('div.toast').should('not.be.visible');
+        cy.get('div.toast').should('not.exist');
     });
 });

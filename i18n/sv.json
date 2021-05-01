@@ -1409,8 +1409,6 @@
   "admin.permissions.permission.manage_private_channel_properties.name": "Hantera kanalinställningar",
   "admin.permissions.permission.manage_public_channel_properties.description": "Uppdatera namn, kanalens sidhuvud och syfte på publika kanaler.",
   "admin.permissions.permission.manage_public_channel_properties.name": "Hantera kanalinställningar",
-  "admin.permissions.permission.manage_remote_clusters.description": "Lägg till, ta bort och visa fjärrcluster för delade kanaler",
-  "admin.permissions.permission.manage_remote_clusters.name": "Hantera fjärrkluster",
   "admin.permissions.permission.manage_roles.description": "Hantera roller",
   "admin.permissions.permission.manage_roles.name": "Hantera roller",
   "admin.permissions.permission.manage_shared_channels.description": "Börja och sluta dela och bjud in en annan instans att synkronisera en delad kanal",
