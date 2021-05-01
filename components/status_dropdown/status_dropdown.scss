@@ -23,6 +23,12 @@
 
         .dropdown-menu {
             margin: auto;
+
+            #dndSubMenu-header {
+                font-weight: bold;
+                pointer-events: none;
+            }
+
         }
 
         .icon {

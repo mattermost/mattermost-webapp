@@ -290,14 +290,19 @@ export default class StatusDropdown extends React.PureComponent {
         const setOffline = needsConfirm ? () => this.showStatusChangeConfirmation('offline') : this.setOffline;
         const setCustomTimedDnd = needsConfirm ? () => this.showStatusChangeConfirmation('dnd') : this.setCustomTimedDnd;
 
-        const dndSubMenuItems = this.dndTimes.map((time, index) => {
-            return {
-                id: `dndTime-${time.split(' ').join('')}`,
-                direction: 'right',
-                text: localizeMessage('status_dropdown.dnd_sub_menu_item.time', time),
-                action: index === 5 ? () => setCustomTimedDnd() : () => setDnd(event, index),
-            };
-        });
+        const dndSubMenuItems = [{
+            id: 'dndSubMenu-header',
+            direction: 'right',
+            text: localizeMessage('status_dropdown.dnd_sub_menu_header', 'Disable notifications until:'),
+        }].concat(
+            this.dndTimes.map((time, index) => {
+                return {
+                    id: `dndTime-${time.split(' ').join('')}`,
+                    direction: 'right',
+                    text: localizeMessage('status_dropdown.dnd_sub_menu_item.time', time),
+                    action: index === 5 ? () => setCustomTimedDnd() : () => setDnd(event, index),
+                };
+            }));
 
         const customStatusComponent = this.renderCustomStatus();
         return (
