@@ -5,7 +5,7 @@
     z-index: 15;
     background: v(center-channel-bg);
     max-height: 63px;
-    border-bottom: 1px solid;
+    border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.12);
     font-size: 14px;
     position: relative;
     width: 100%;
@@ -496,8 +496,8 @@
 
     .intro-links {
         display: inline-block;
-        margin: 0 1em 10px 0;
-        padding: 8px 5px 8px 0;
+        margin-bottom: 10px;
+        padding: 8px 16px;
 
         .fa, i {
             margin-right: 5px;

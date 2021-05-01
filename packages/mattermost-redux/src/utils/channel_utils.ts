@@ -12,7 +12,7 @@ import {UsersState, UserProfile, UserNotifyProps} from 'mattermost-redux/types/u
 import {GlobalState} from 'mattermost-redux/types/store';
 import {TeamMembership} from 'mattermost-redux/types/teams';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
-import {IDMappedObjects, RelationOneToMany, RelationOneToOne} from 'mattermost-redux/types/utilities';
+import {Dictionary, IDMappedObjects, RelationOneToMany, RelationOneToOne} from 'mattermost-redux/types/utilities';
 
 import {getPreferenceKey} from './preference_utils';
 import {displayUsername} from './user_utils';
@@ -663,6 +663,14 @@ export function filterChannelsMatchingTerm(channels: Channel[], term: string): C
         return name.startsWith(lowercasedTerm) ||
             displayName.startsWith(lowercasedTerm);
     });
+}
+
+export function channelListToMap(channelList: Channel[]): IDMappedObjects<Channel> {
+    const channels: Dictionary<Channel> = {};
+    for (let i = 0; i < channelList.length; i++) {
+        channels[channelList[i].id] = channelList[i];
+    }
+    return channels;
 }
 
 export function getMsgCountInChannel(collapsed: boolean, channel: Channel, member: ChannelMembership): number {

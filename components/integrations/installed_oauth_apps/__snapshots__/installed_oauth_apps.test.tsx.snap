@@ -64,6 +64,7 @@ exports[`components/integrations/InstalledOAuthApps should match snapshot 2`] = 
 <div>
   <Connect(InstalledOAuthApp)
     creatorName=""
+    fromApp={false}
     key="facxd9wpzpbpfp8pad78xj75pr"
     oauthApp={
       Object {
@@ -94,3 +95,38 @@ exports[`components/integrations/InstalledOAuthApps should match snapshot 2`] = 
 `;
 
 exports[`components/integrations/InstalledOAuthApps should match snapshot 3`] = `<div />`;
+
+exports[`components/integrations/InstalledOAuthApps should match snapshot for Apps 1`] = `
+<div>
+  <Connect(InstalledOAuthApp)
+    creatorName=""
+    fromApp={true}
+    key="fzcxd9wpzpbpfp8pad78xj75pr"
+    oauthApp={
+      Object {
+        "callback_urls": Array [
+          "https://test2.com/callback",
+          "https://test2.com/callback2",
+        ],
+        "client_secret": "decxd9wpzpbpfp8pad78xj75pr",
+        "create_at": 1501365459984,
+        "creator_id": "88oybd2dwfdoxpkpw1h5kpbyco",
+        "description": "testing2",
+        "homepage": "https://test2.com",
+        "icon_url": "https://test2.com/icon",
+        "id": "fzcxd9wpzpbpfp8pad78xj75pr",
+        "is_trusted": true,
+        "name": "secondApp",
+        "update_at": 1501365479988,
+      }
+    }
+    onDelete={[Function]}
+    onRegenerateSecret={[MockFunction]}
+    team={
+      Object {
+        "name": "test",
+      }
+    }
+  />
+</div>
+`;

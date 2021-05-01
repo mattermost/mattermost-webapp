@@ -104,8 +104,8 @@ describe('Send a DM', () => {
         cy.apiLogin(userB);
 
         cy.visit(`/${teamB.name}/channels/town-square`);
-        cy.postMessage(`@${userA.username}`);
-        cy.postMessage(`@${userA.username}`);
+        cy.postMessage(`@${userA.username} `);
+        cy.postMessage(`@${userA.username} `);
         cy.apiLogout();
 
         cy.apiLogin(userA);

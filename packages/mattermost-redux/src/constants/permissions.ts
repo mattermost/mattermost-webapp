@@ -229,7 +229,7 @@ const values = {
     SYSCONSOLE_READ_PERMISSIONS: [] as string[],
     SYSCONSOLE_WRITE_PERMISSIONS: [] as string[],
     MANAGE_SHARED_CHANNELS: 'manage_shared_channels',
-    MANAGE_REMOTE_CLUSTERS: 'manage_remote_clusters',
+    MANAGE_SECURE_CONNECTIONS: 'manage_secure_connections',
 };
 
 values.SYSCONSOLE_READ_PERMISSIONS = [
