@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-export default class DotsHorizontalIcon extends React.PureComponent {
+export default class DotsHorizontalIcon extends React.PureComponent<React.HTMLAttributes<HTMLSpanElement>> {
     render() {
         return (
             <span {...this.props}>
