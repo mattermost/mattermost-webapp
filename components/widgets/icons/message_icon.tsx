@@ -4,14 +4,14 @@
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-export default function MessageIcon(props) {
+export default function MessageIcon(props: React.HTMLAttributes<HTMLSpanElement>) {
     const {formatMessage} = useIntl();
     return (
         <button
             {...props}
             aria-label={formatMessage({id: 'members_popover.button.message', defaultMessage: 'message'})}
             className='style--none icon icon__message'
-            tabIndex='-1'
+            tabIndex={-1}
         >
             <svg
                 width='18px'
