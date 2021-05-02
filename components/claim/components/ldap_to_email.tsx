@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
@@ -10,46 +9,58 @@ import {t} from 'utils/i18n.jsx';
 import LoginMfa from 'components/login/login_mfa.jsx';
 import LocalizedInput from 'components/localized_input/localized_input';
 
-export default class LDAPToEmail extends React.PureComponent {
-    static propTypes = {
-        email: PropTypes.string,
-        passwordConfig: PropTypes.object,
-        switchLdapToEmail: PropTypes.func.isRequired,
-    };
+type Props = {
+    email?: any,
+    passwordConfig?: object,
+    switchLdapToEmail?: any,
+};
 
-    constructor(props) {
+export type State = {
+    passwordError?: React.ReactNode;
+    serverError?: React.ReactNode;
+    confirmError?: string,
+    ldapPasswordError: string,
+    showMfa?: any,
+    password?: string,
+};
+
+export default class LDAPToEmail extends React.PureComponent <Props, State>{
+    private ldapPasswordInput: React.RefObject<HTMLInputElement>;
+    private passwordInput: React.RefObject<HTMLInputElement>;
+    private passwordConfirmInput: React.RefObject<HTMLInputElement>;
+
+    constructor(props: Props) {
         super(props);
-
-        this.state = {
-            passwordError: '',
-            confirmError: '',
-            ldapPasswordError: '',
-            serverError: '',
-        };
 
         this.ldapPasswordInput = React.createRef();
         this.passwordInput = React.createRef();
         this.passwordConfirmInput = React.createRef();
     }
 
-    preSubmit = (e) => {
-        e.preventDefault();
-
-        var state = {
+    getDefaultState() {
+        return {
             passwordError: '',
-            confirmError: '',
+            ldapError: '',
             ldapPasswordError: '',
             serverError: '',
+            confirmError: '',
+            showMfa: '',
         };
+    }
 
-        const ldapPassword = this.ldapPasswordInput.current.value;
+    preSubmit = (e: React.SyntheticEvent) => {
+        e.preventDefault();
+
+        const state=this.getDefaultState();
+
+        const ldapPassword = this.ldapPasswordInput.current && this.ldapPasswordInput.current.value;
         if (!ldapPassword) {
             state.ldapPasswordError = Utils.localizeMessage('claim.ldap_to_email.ldapPasswordError', 'Please enter your AD/LDAP password.');
             this.setState(state);
             return;
         }
 
-        const password = this.passwordInput.current.value;
+        const password = this.passwordInput.current && this.passwordInput.current.value;
         if (!password) {
             state.passwordError = Utils.localizeMessage('claim.ldap_to_email.pwdError', 'Please enter your password.');
             this.setState(state);
@@ -64,25 +75,32 @@ export default class LDAPToEmail extends React.PureComponent {
             return;
         }
 
-        const confirmPassword = this.passwordConfirmInput.current.value;
+        const confirmPassword = this.passwordConfirmInput.current && this.passwordConfirmInput.current.value;
         if (!confirmPassword || password !== confirmPassword) {
             state.confirmError = Utils.localizeMessage('claim.ldap_to_email.pwdNotMatch', 'Passwords do not match.');
             this.setState(state);
             return;
         }
 
-        state.password = password;
-        state.ldapPassword = ldapPassword;
+        // state.password = password;
+        // state.ldapPassword = ldapPassword;
         this.setState(state);
 
         this.submit(this.props.email, password, '', ldapPassword);
     }
 
-    submit = (loginId, password, token, ldapPassword) => {
-        this.props.switchLdapToEmail(ldapPassword || this.state.ldapPassword, this.props.email, password, token).then(({data, error: err}) => {
-            if (data && data.follow_link) {
-                window.location.href = data.follow_link;
-            } else if (err) {
+    submit = async (loginId: string, password: string, token: string, ldapPassword: string) => {
+        
+        const res = await this.props.switchLdapToEmail(ldapPassword, this.props.email, password, token);
+
+        // this.props.switchLdapToEmail(ldapPassword || ldapPassword, this.props.email, password, token).then(({data, error: err}) => {
+            if ('data' in res ) {
+                const {data} = res
+                if (data.follow_link) {
+                    window.location.href = data.follow_link;
+                }
+            } else if ('err' in res) {
+                const {error: err} = res
                 if (err.server_error_id.startsWith('model.user.is_valid.pwd')) {
                     this.setState({passwordError: err.message, showMfa: false});
                 } else if (err.server_error_id === 'ent.ldap.do_login.invalid_password.app_error') {
@@ -93,7 +111,7 @@ export default class LDAPToEmail extends React.PureComponent {
                     this.setState({serverError: err.message, showMfa: false});
                 }
             }
-        });
+        // });
     }
 
     render() {

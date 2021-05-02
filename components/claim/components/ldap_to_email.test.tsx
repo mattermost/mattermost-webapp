@@ -4,9 +4,9 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import LDAPToEmail from './ldap_to_email.jsx';
+import LDAPToEmail from './ldap_to_email';
 
-describe('components/claim/components/ldap_to_email.jsx', () => {
+describe('components/claim/components/ldap_to_email', () => {
     const requiredProps = {
         email: '',
         passwordConfig: {},
@@ -19,7 +19,7 @@ describe('components/claim/components/ldap_to_email.jsx', () => {
         const token = 'abcd1234';
         const ldapPassword = 'ldapPsw';
 
-        const wrapper = shallow(<LDAPToEmail {...requiredProps}/>);
+        const wrapper = shallow<LDAPToEmail>(<LDAPToEmail { ...requiredProps}/>);
 
         await wrapper.instance().submit(loginId, password, token, ldapPassword);
 

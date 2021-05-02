@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
@@ -11,15 +10,18 @@ import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n.jsx';
 import LocalizedInput from 'components/localized_input/localized_input';
 
-export default class OAuthToEmail extends React.PureComponent {
-    static propTypes = {
-        currentType: PropTypes.string,
-        email: PropTypes.string,
-        siteName: PropTypes.string,
-        passwordConfig: PropTypes.object,
-    };
+type Props = {
+    currentType?: any,
+    email?: any,
+    siteName?: string,
+    passwordConfig?: object,
+};
 
-    constructor(props) {
+export default class OAuthToEmail extends React.PureComponent<Props> {
+    private passwordInput: React.RefObject<HTMLInputElement>;
+    private passwordConfirmInput: React.RefObject<HTMLInputElement>;
+
+    constructor(props: Props) {
         super(props);
 
         this.state = {};
@@ -28,11 +30,17 @@ export default class OAuthToEmail extends React.PureComponent {
         this.passwordConfirmInput = React.createRef();
     }
 
-    submit = (e) => {
-        e.preventDefault();
-        const state = {};
+    getDefaultState() {
+        return {
+            error: null,
+        };
+    }
 
-        const password = this.passwordInput.current.value;
+    submit = (e: React.SyntheticEvent) => {
+        e.preventDefault();
+        const state = this.getDefaultState();
+
+        const password = this.passwordInput.current && this.passwordInput.current.value;
         if (!password) {
             state.error = Utils.localizeMessage('claim.oauth_to_email.enterPwd', 'Please enter a password.');
             this.setState(state);
@@ -45,7 +53,7 @@ export default class OAuthToEmail extends React.PureComponent {
             return;
         }
 
-        const confirmPassword = this.passwordConfirmInput.current.value;
+        const confirmPassword = this.passwordConfirmInput.current && this.passwordConfirmInput.current.value;
         if (!confirmPassword || password !== confirmPassword) {
             state.error = Utils.localizeMessage('claim.oauth_to_email.pwdNotMatch', 'Passwords do not match.');
             this.setState(state);
@@ -59,20 +67,21 @@ export default class OAuthToEmail extends React.PureComponent {
             this.props.currentType,
             this.props.email,
             password,
-            (data) => {
+            (data: { follow_link: string; }) => {
                 if (data.follow_link) {
                     window.location.href = data.follow_link;
                 }
             },
-            (err) => {
+            (err: { message: any; }) => {
                 this.setState({error: err.message});
             },
         );
     }
     render() {
         var error = null;
-        if (this.state.error) {
-            error = <div className='form-group has-error'><label className='control-label'>{this.state.error}</label></div>;
+        const state = this.getDefaultState()
+        if (state.error) {
+            error = <div className='form-group has-error'><label className='control-label'>{state.error}</label></div>;
         }
 
         var formClass = 'form-group';
