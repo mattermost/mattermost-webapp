@@ -3,8 +3,8 @@
 
 import React from 'react';
 
-export default class AccordionToggleIcon extends React.PureComponent {
-    render() {
+export default class AccordionToggleIcon extends React.PureComponent<React.HTMLAttributes<HTMLSpanElement>> {
+    render(): JSX.Element {
         return (
             <span {...this.props}>
                 <svg
