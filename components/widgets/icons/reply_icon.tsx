@@ -4,7 +4,7 @@
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-export default function ReplyIcon(props) {
+export default function ReplyIcon(props: React.HTMLAttributes<HTMLSpanElement>) {
     const {formatMessage} = useIntl();
     return (
         <span {...props}>
@@ -12,7 +12,7 @@ export default function ReplyIcon(props) {
                 width='16px'
                 height='14px'
                 viewBox='0 0 16 14'
-                style={style}
+                enableBackground='new -158 242 18 18'
                 role='img'
                 aria-label={formatMessage({id: 'generic_icons.reply', defaultMessage: 'Reply Icon'})}
             >
@@ -21,7 +21,3 @@ export default function ReplyIcon(props) {
         </span>
     );
 }
-
-const style = {
-    enableBackground: 'new -158 242 18 18',
-};
