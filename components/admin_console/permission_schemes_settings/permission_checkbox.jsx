@@ -4,7 +4,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import CheckboxCheckedIcon from 'components/widgets/icons/checkbox_checked_icon.jsx';
+import CheckboxCheckedIcon from 'components/widgets/icons/checkbox_checked_icon';
 import CheckboxPartialIcon from 'components/widgets/icons/checkbox_partial_icon.jsx';
 
 export default class PermissionCheckbox extends React.PureComponent {
