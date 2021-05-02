@@ -335,7 +335,10 @@ export class AppsForm extends React.PureComponent<Props, State> {
                 role='dialog'
                 aria-labelledby='appsModalLabel'
             >
-                <form onSubmit={(e: React.FormEvent) => this.handleSubmit(e)}>
+                <form
+                    onSubmit={this.handleSubmit}
+                    autoComplete={'off'}
+                >
                     <Modal.Header
                         closeButton={true}
                         style={{borderBottom: fields && fields.length ? '' : '0px'}}
