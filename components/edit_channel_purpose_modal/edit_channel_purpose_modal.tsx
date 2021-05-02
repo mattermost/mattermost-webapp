@@ -4,6 +4,7 @@
 import React, {ChangeEvent, KeyboardEvent} from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
+
 import {Channel} from 'mattermost-redux/types/channels';
 import {ActionResult} from 'mattermost-redux/types/actions';
 
