@@ -4,7 +4,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-export default class UserGuideIcon extends React.PureComponent {
+export default class UserGuideIcon extends React.PureComponent<React.HTMLAttributes<HTMLSpanElement>> {
     render() {
         return (
             <span {...this.props}>
@@ -12,7 +12,7 @@ export default class UserGuideIcon extends React.PureComponent {
                     id='generic_icons.userGuide'
                     defaultMessage='Help'
                 >
-                    {(ariaLabel) => (
+                    {(ariaLabel: string) => (
                         <svg
                             width='18px'
                             height='18px'
