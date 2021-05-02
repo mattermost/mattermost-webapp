@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-export default class GifTrendingIcon extends React.PureComponent {
+export default class GifTrendingIcon extends React.PureComponent<React.HTMLAttributes<HTMLSpanElement>> {
     render() {
         return (
             <span {...this.props}>
