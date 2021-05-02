@@ -4,7 +4,7 @@
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-export default function MenuIcon(props) {
+export default function MenuIcon(props: React.HTMLAttributes<HTMLSpanElement>) {
     const {formatMessage} = useIntl();
     return (
         <span {...props}>
@@ -14,7 +14,7 @@ export default function MenuIcon(props) {
                 viewBox='0 0 16 10'
                 version='1.1'
                 role='img'
-                title={formatMessage({id: 'generic_icons.menu', defaultMessage: 'Menu Icon'})}
+                aria-label={formatMessage({id: 'generic_icons.menu', defaultMessage: 'Menu Icon'})}
             >
                 <g
                     stroke='none'
