@@ -130,7 +130,7 @@ Cypress.Commands.add('doSkipTutorial', () => {
 
 Cypress.Commands.add('runLdapSync', (admin) => {
     cy.externalRequest({user: admin, method: 'post', path: 'ldap/sync'}).then(() => {
-        cy.waitForLdapSyncCompletion(Date.now(), TIMEOUTS.HALF_MIN).then(() => {
+        cy.waitForLdapSyncCompletion(Date.now(), TIMEOUTS.THREE_MIN).then(() => {
             return cy.wrap(true);
         });
     });

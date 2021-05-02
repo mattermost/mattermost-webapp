@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/apps_form/AppsFormContainer should match snapshot 1`] = `
+<injectIntl(AppsForm)
+  actions={
+    Object {
+      "performLookupCall": [Function],
+      "refreshOnSelect": [Function],
+      "submit": [Function],
+    }
+  }
+  form={
+    Object {
+      "fields": Array [
+        Object {
+          "name": "field1",
+          "type": "text",
+          "value": "initial_value_1",
+        },
+        Object {
+          "name": "field2",
+          "refresh": true,
+          "type": "static_select",
+          "value": "initial_value_2",
+        },
+      ],
+      "header": "Form Header",
+      "title": "Form Title",
+    }
+  }
+  onHide={[Function]}
+/>
+`;

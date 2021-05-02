@@ -8,15 +8,10 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @not_cloud
-
-/**
- * Note: This test requires "matterpoll" plugin tar file under fixtures folder.
- * Download from: https://github.com/matterpoll/matterpoll
- * Copy to: ./e2e/cypress/fixtures/com.github.matterpoll.matterpoll.tar.gz
- */
+// Group: @plugin @not_cloud
 
 import * as MESSAGES from '../../fixtures/messages';
+import {matterpollPlugin} from '../../utils/plugins';
 
 describe('/poll', () => {
     let user1;
@@ -44,25 +39,14 @@ describe('/poll', () => {
             },
         });
 
-        // # Try to remove the plugin, just in case
-        cy.apiRemovePluginById('com.github.matterpoll.matterpoll');
-
         // # Upload and enable "matterpoll" plugin
-        cy.apiUploadPlugin('com.github.matterpoll.matterpoll.tar.gz').then(() => {
-            cy.apiEnablePluginById('com.github.matterpoll.matterpoll');
-        });
+        cy.apiUploadAndEnablePlugin(matterpollPlugin);
     });
 
     beforeEach(() => {
         cy.apiLogout();
         cy.apiLogin(user1);
         cy.visit(testChannelUrl);
-    });
-
-    after(() => {
-        // # Uninstall "matterpoll" plugin
-        cy.apiAdminLogin();
-        cy.apiRemovePluginById('com.github.matterpoll.matterpoll');
     });
 
     it('MM-T576_1 /poll', () => {
@@ -210,13 +194,13 @@ describe('/poll', () => {
             cy.get(`#post_${postId}`).within(() => {
                 // * Poll displays showing a slice of pizza emoji in place of the word "pizza"
                 cy.get('h1 > span[data-emoticon="pizza"]').should('be.visible');
-                cy.findByText('pizza').should('not.be.visible');
+                cy.findByText('pizza').should('not.exist');
 
                 // * Emoji for "thumbsup" and "thumbsdown" are shown in place of the words "yes" and "no"
                 cy.get('button > span[data-emoticon="thumbsup"]').should('be.visible');
                 cy.get('button > span[data-emoticon="thumbsdown"]').should('be.visible');
-                cy.findByText('thumbsup').should('not.be.visible');
-                cy.findByText('thumbsdown').should('not.be.visible');
+                cy.findByText('thumbsup').should('not.exist');
+                cy.findByText('thumbsdown').should('not.exist');
             });
         });
     });

@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {combineReducers} from 'redux';
+
 import {
     PostTypes,
     TeamTypes,
@@ -39,6 +40,16 @@ function selectedPostFocussedAt(state = 0, action) {
     }
 }
 
+// filesSearchExtFilter keeps track of the extension filters used for file search.
+function filesSearchExtFilter(state = [], action) {
+    switch (action.type) {
+    case ActionTypes.SET_FILES_FILTER_BY_EXT:
+        return action.data;
+    default:
+        return state;
+    }
+}
+
 function selectedPostCardId(state = '', action) {
     switch (action.type) {
     case ActionTypes.SELECT_POST_CARD:
@@ -64,7 +75,7 @@ function selectedChannelId(state = '', action) {
     case ActionTypes.SELECT_POST_CARD:
         return action.channelId;
     case ActionTypes.UPDATE_RHS_STATE:
-        if (action.state === RHSStates.PIN) {
+        if (action.state === RHSStates.PIN || action.state === RHSStates.CHANNEL_FILES) {
             return action.channelId;
         }
         return '';
@@ -107,6 +118,15 @@ function searchTerms(state = '', action) {
     switch (action.type) {
     case ActionTypes.UPDATE_RHS_SEARCH_TERMS:
         return action.terms;
+    default:
+        return state;
+    }
+}
+
+function searchType(state = '', action) {
+    switch (action.type) {
+    case ActionTypes.UPDATE_RHS_SEARCH_TYPE:
+        return action.searchType;
     default:
         return state;
     }
@@ -233,8 +253,10 @@ export default combineReducers({
     selectedPostCardId,
     selectedChannelId,
     previousRhsState,
+    filesSearchExtFilter,
     rhsState,
     searchTerms,
+    searchType,
     searchResultsTerms,
     pluggableId,
     isSearchingFlaggedPost,

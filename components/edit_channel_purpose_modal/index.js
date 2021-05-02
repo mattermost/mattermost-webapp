@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
+
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {patchChannel} from 'mattermost-redux/actions/channels';
 

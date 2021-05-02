@@ -4,13 +4,18 @@
 import React from 'react';
 import Scrollbars from 'react-custom-scrollbars';
 import {FormattedMessage} from 'react-intl';
-import Permissions from 'mattermost-redux/constants/permissions';
+
 import classNames from 'classnames';
+
 import {DragDropContext, Droppable, DroppableProvided, DropResult} from 'react-beautiful-dnd';
-import {Team} from 'mattermost-redux/types/teams';
-import {Dictionary} from 'mattermost-redux/src/types/utilities';
-import {TeamMembership} from 'mattermost-redux/src/types/teams';
+
 import {Dispatch} from 'redux';
+
+import Permissions from 'mattermost-redux/constants/permissions';
+
+import {Team, TeamMembership} from 'mattermost-redux/types/teams';
+import {Dictionary} from 'mattermost-redux/types/utilities';
+
 import {GenericAction, GetStateFunc} from 'mattermost-redux/types/actions';
 
 import {Constants} from 'utils/constants.jsx';
@@ -19,6 +24,8 @@ import * as Utils from 'utils/utils.jsx';
 
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 import Pluggable from 'plugins/pluggable';
+
+import {ThreadsState} from 'mattermost-redux/types/threads';
 
 import TeamButton from './components/team_button';
 
@@ -35,6 +42,7 @@ type State = {
 
 interface Props {
     myTeams: Team[];
+    collapsedThreads: boolean;
     currentTeamId: string;
     match: { url: string };
     moreTeamsToJoin: boolean;
@@ -44,6 +52,7 @@ interface Props {
     locale: string;
     actions: Actions;
     userTeamsOrderPreference: string;
+    threadCounts: ThreadsState['counts'];
 }
 
 export function renderView(props: Props) {
@@ -222,10 +231,10 @@ export default class LegacyTeamSidebar extends React.PureComponent<Props, State>
                     tip={team.display_name}
                     active={team.id === this.props.currentTeamId}
                     displayName={team.display_name}
-                    unread={member.msg_count > 0}
+                    unread={this.props.collapsedThreads ? (member.msg_count_root + this.props.threadCounts?.[team.id]?.total_unread_threads) > 0 : member.msg_count > 0}
                     order={index + 1}
                     showOrder={this.state.showOrder}
-                    mentions={member.mention_count}
+                    mentions={this.props.collapsedThreads ? (member.mention_count_root + this.props.threadCounts?.[team.id]?.total_unread_mentions) : member.mention_count}
                     teamIconUrl={Utils.imageURLForTeam(team)}
                     switchTeam={this.props.actions.switchTeam}
                     isDraggable={true}

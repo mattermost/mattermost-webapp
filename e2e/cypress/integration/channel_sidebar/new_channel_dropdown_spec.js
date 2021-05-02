@@ -43,7 +43,7 @@ describe('Channel sidebar', () => {
         cy.get('.new-channel__modal #submitNewChannel').should('be.visible').click();
 
         // Verify that new channel is in the sidebar and is active
-        cy.get('.new-channel__modal').should('not.be.visible');
+        cy.get('.new-channel__modal').should('not.exist');
         cy.url().should('include', `/${teamName}/channels/test-channel`);
         cy.get('#channelHeaderTitle').should('contain', 'Test Channel');
         cy.get('.SidebarChannel.active:contains(Test Channel)').should('be.visible');
@@ -84,7 +84,7 @@ describe('Channel sidebar', () => {
         cy.get('.more-modal button:contains(Off-Topic)').should('be.visible').click();
 
         // Verify that new channel is in the sidebar and is active
-        cy.get('.more-modal').should('not.be.visible');
+        cy.get('.more-modal').should('not.exist');
         cy.url().should('include', `/${teamName}/channels/off-topic`);
         cy.get('#channelHeaderTitle').should('contain', 'Off-Topic');
         cy.get('.SidebarChannel.active:contains(Off-Topic)').should('be.visible');

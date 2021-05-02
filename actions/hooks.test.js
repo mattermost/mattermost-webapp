@@ -248,11 +248,36 @@ describe('runSlashCommandWillBePostedHooks', () => {
         const result = await store.dispatch(runSlashCommandWillBePostedHooks(message, args));
 
         expect(result.data).toEqual({message: '/testabc', args});
-        expect(hook1).toHaveBeenCalledWith(message, args);
-        expect(hook2).toHaveBeenCalled();
-        expect(hook2).not.toHaveBeenCalledWith(message, args);
-        expect(hook3).toHaveBeenCalled();
-        expect(hook3).not.toHaveBeenCalledWith(message, args);
+        expect(hook1).toHaveBeenCalledWith('/test', args);
+        expect(hook2).toHaveBeenCalledWith('/testa', args);
+        expect(hook3).toHaveBeenCalledWith('/testab', args);
+    });
+
+    test('should pass the result of each hook to the next, until one consumes the command by returning an empty object', async () => {
+        const hook1 = jest.fn((message, args) => ({message: message + 'a', args}));
+        const hook2 = jest.fn(() => ({}));
+        const hook3 = jest.fn((message, args) => ({message: message + 'c', args}));
+
+        const store = mockStore({
+            plugins: {
+                components: {
+                    SlashCommandWillBePosted: [
+                        {hook: hook1},
+                        {hook: hook2},
+                        {hook: hook3},
+                    ],
+                },
+            },
+        });
+        const message = '/test';
+        const args = {channelId: 'abcdefg'};
+
+        const result = await store.dispatch(runSlashCommandWillBePostedHooks(message, args));
+
+        expect(result.data).toEqual({});
+        expect(hook1).toHaveBeenCalledWith('/test', args);
+        expect(hook2).toHaveBeenCalledWith('/testa', args);
+        expect(hook3).not.toHaveBeenCalled();
     });
 
     test('should wait for async hooks', async () => {

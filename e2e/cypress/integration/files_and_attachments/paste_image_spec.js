@@ -62,7 +62,7 @@ describe('Paste Image', () => {
         });
 
         // # Post message
-        cy.postMessage('');
+        cy.postMessage('hello');
 
         cy.getLastPost().within(() => {
             cy.get('.file-view--single').within(() => {

@@ -1,0 +1,77 @@
+
+.ThreadPane {
+    display: grid;
+    overflow: hidden;
+    grid-template-areas:
+        'header'
+        'pane';
+    grid-template-rows: 56px 1fr;
+
+    .Header {
+        grid-area: header;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 56px;
+        padding: 12px 16px;
+        border-bottom: var(--border);
+        --button-separator-height: 24px;
+
+        .left {
+            display: flex;
+        }
+
+        .back {
+            display: none;
+            flex-shrink: 0;
+        }
+
+        .FollowButton,
+        h3 .Button {
+            padding: 4px 8px;
+            font-size: 12px;
+            line-height: 16px;
+            height: 24px;
+        }
+
+        h3 {
+            display: inline-grid;
+            grid-template-columns: min-content 1fr;
+            align-items: center;
+            color: rgba(var(--center-channel-color-rgb), 1);
+            margin: 0 10px 0 0;
+
+            > span {
+                font-size: 16px;
+                line-height: 32px;
+                font-weight: 600;
+                vertical-align: top;
+                padding-left: 4px;
+                padding-right: 8px;
+            }
+
+            .Button {
+                font-weight: 400;
+                color: rgba(var(--center-channel-color-rgb), .56);
+            }
+        }
+
+        .MenuWrapper {
+            margin-left: 4px;
+
+            .dropdown-menu {
+                min-width: 250px;
+            }
+        }
+    }
+
+    .ThreadViewer {
+        grid-area: pane;
+        overflow: hidden;
+        .post-right__scroll {
+            padding-top: 0; // remove excess padding in relative time (no zero-height date separators)
+        }
+    }
+}
+
+

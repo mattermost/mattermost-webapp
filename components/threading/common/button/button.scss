@@ -1,42 +1,110 @@
+
+
+@mixin leveled-bg($hover, $active) {
+    &:hover,
+    &:focus {
+        &:not(:disabled) {
+            background: rgba($hover, .08);
+        }
+    }
+    &:active,
+    &.is-active {
+        &:not(:disabled) {
+            background: rgba($active, .08);
+        }
+    }
+    &.is-active {
+        &:active,
+        &:hover,
+        &:focus {
+            &:not(:disabled) {
+                background: rgba($active, .16);
+            }
+        }
+
+        &:hover,
+        &:focus {
+            &:active:not(:disabled) {
+                background: rgba($active, .24);
+            }
+        }
+
+    }
+};
+
+@mixin leveled-color($hover, $active) {
+    &:hover,
+    &:focus {
+        &:not(:disabled) {
+            color: rgba($hover, .72);
+        }
+    }
+
+    &:active,
+    &.is-active {
+        &:not(:disabled) {
+            color: rgba($active, 1);
+        }
+    }
+};
+
 .Button {
-    padding: 4.5px 10px;
+    padding: 4px 10px;
     border-radius: 4px;
     position: relative;
-
-
     font-family: Open Sans;
     font-style: normal;
     font-weight: 600;
 
-    &:hover,
-    &:focus {
-        text-decoration: none;
-        color: rgba(var(--center-channel-color-rgb), .72);
+    color: rgba(var(--center-channel-color-rgb), .56);
+
+    &.allowTextOverflow {
+        min-width: 4rem;
+        .Button_label {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
     }
 
-    &.is-active {
-        color: rgba(var(--button-bg-rgb), 1);
+    &:hover {
+        text-decoration: none;
+    }
+
+    &:disabled {
+        opacity: 32%;
     }
 
     &.Button___transparent {
         background: transparent;
         border: none;
 
-        &:hover,
-        &:focus {
-            background: rgba(var(--center-channel-color-rgb), .08);
+        @include leveled-bg(
+            $hover: var(--center-channel-color-rgb),
+            $active: var(--button-bg-rgb),
+        );
+
+        @include leveled-color(
+            $hover: var(--center-channel-color-rgb),
+            $active: var(--button-bg-rgb),
+        );
+
+    }
+
+    &.Button___large {
+        font-size: 14px;
+
+        &.Button___icon {
+            width: 32px; height: 32px;
+            padding: 7px 0;
+            font-size: 18px;
+            line-height: 18px;
         }
-        &.is-active {
-            background: rgba(var(--button-bg-rgb), .08);
-            &:focus {
-                position: relative;
-                &:after {
-                    @extend %synthetic-block;
-                    border-radius: 4px;
-                    border: 2px solid rgba(var(--button-bg-rgb), 1);
-                }
-            }
-        }
+    }
+
+    .Button_label {
+        display: inline-block;
+        max-width: 100%;
     }
 
     .Button_prepended {
@@ -48,34 +116,25 @@
     .dot {
         position: absolute;
         width: 4px; height: 4px;
-        right: 4px; top: 3px;
+        right: 6px; top: 6px;
         border-radius: 50%;
 
         background: rgba(var(--sidebar-text-active-border-rgb), 1);
     }
 }
 
-.Separated,
-.Button:not(:hover):not(:focus):not(.is-active) {
-    & + .Separated,
-    & + .Button:not(:hover):not(:focus):not(.is-active) {
+.separated:not(.Button),
+.separated:not(:hover):not(:focus):not(.is-active) {
+    + .separated:not(.Button),
+    + .separated:not(:hover):not(:focus):not(.is-active) {
         position: relative;
         &::before {
-            width: 1px;
-            height: 15px;
+            display: inline-block;
             position: absolute;
-            left: -.5px;
+            width: 1px; height: var(--button-separator-height, 100%);
+            left: -.5px; top: 50%; transform: translateY(-50%);
             background: rgba(var(--center-channel-color-rgb), .16);
             content: '';
-            display: inline-block;
         }
     }
-}
-
-%synthetic-block {
-    position: absolute;
-    display: block;
-    width: 100%; height: 100%;
-    left: 0; top: 0;
-    content: '';
 }

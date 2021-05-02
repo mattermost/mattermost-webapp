@@ -56,16 +56,13 @@ describe('Messaging', () => {
         cy.get('#rhsContainer').should('be.visible');
 
         // # Make a series of post so we are way past the first message in terms of scroll
-        cy.get('#reply_textbox').
-            clear().
-            invoke('val', MESSAGES.HUGE).
-            wait(TIMEOUTS.ONE_SEC).
-            type(' {backspace}{enter}');
-        cy.get('#reply_textbox').
-            clear().
-            invoke('val', MESSAGES.HUGE).
-            wait(TIMEOUTS.ONE_SEC).
-            type(' {backspace}{enter}');
+        Cypress._.times(2, () => {
+            cy.get('#reply_textbox').
+                clear().
+                invoke('val', MESSAGES.HUGE).
+                wait(TIMEOUTS.ONE_SEC).
+                type(' {backspace}{enter}');
+        });
 
         // # Enter @ to allow opening of autocomplete box
         cy.get('#reply_textbox', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').clear().type('@');

@@ -3,12 +3,13 @@
 
 import React from 'react';
 
+import {isEmpty} from 'lodash';
+
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {Dictionary} from 'mattermost-redux/types/utilities';
 import {AnalyticsRow} from 'mattermost-redux/types/admin';
 import {Subscription} from 'mattermost-redux/types/cloud';
-import {isEmpty} from 'lodash';
 
 import {trackEvent} from 'actions/telemetry_actions';
 
@@ -24,7 +25,7 @@ import {
 } from 'utils/constants';
 
 import AnnouncementBar from '../default_announcement_bar';
-import withGetCloudSubscription from '../../common/hocs/cloud/with_get_cloud_subcription';
+import withGetCloudSubscription from '../../common/hocs/cloud/with_get_cloud_subscription';
 
 type Props = {
     userLimit: number;

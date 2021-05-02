@@ -4,6 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 import {Modal} from 'react-bootstrap';
+
 import {Channel, ChannelType} from 'mattermost-redux/types/channels';
 
 import {browserHistory} from 'utils/browser_history';
@@ -24,6 +25,7 @@ describe('components/delete_channel_modal', () => {
         purpose: 'test',
         last_post_at: 1508265709635,
         total_msg_count: 0,
+        total_msg_count_root: 0,
         extra_update_at: 1508265709628,
         creator_id: 'zaktnt8bpbgu8mb6ez9k64r7sa',
         scheme_id: '',
