@@ -4,7 +4,7 @@
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-export default function CameraIcon(props) {
+export default function CameraIcon(props: React.HTMLAttributes<HTMLSpanElement>) {
     const intl = useIntl();
     return (
         <span {...props}>
