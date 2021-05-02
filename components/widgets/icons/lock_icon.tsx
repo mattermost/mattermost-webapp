@@ -4,7 +4,7 @@
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-export default function LockIcon(props) {
+export default function LockIcon(props: React.HTMLAttributes<HTMLSpanElement>) {
     const {formatMessage} = useIntl();
     return (
         <span {...props}>
@@ -13,7 +13,7 @@ export default function LockIcon(props) {
                 height='13px'
                 viewBox='0 0 13 15'
                 role='presentation'
-                title={formatMessage({id: 'generic_icons.channel.private', defaultMessage: 'Private Channel Icon'})}
+                aria-label={formatMessage({id: 'generic_icons.channel.private', defaultMessage: 'Private Channel Icon'})}
             >
                 <g
                     stroke='none'
