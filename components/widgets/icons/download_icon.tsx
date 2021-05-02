@@ -6,7 +6,7 @@ import {useIntl} from 'react-intl';
 
 import {t} from 'utils/i18n';
 
-export default function DownloadIcon(props) {
+export default function DownloadIcon(props: React.HTMLAttributes<HTMLSpanElement>) {
     const {formatMessage} = useIntl();
     return (
         <span {...props}>
