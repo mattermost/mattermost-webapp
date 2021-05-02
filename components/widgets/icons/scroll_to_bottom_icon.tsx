@@ -4,7 +4,7 @@
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-export default function ScrollToBottomIcon(props) {
+export default function ScrollToBottomIcon(props: React.HTMLAttributes<HTMLSpanElement>) {
     const {formatMessage} = useIntl();
     return (
         <span {...props}>
@@ -12,7 +12,7 @@ export default function ScrollToBottomIcon(props) {
                 x='0px'
                 y='0px'
                 viewBox='-239 239 21 23'
-                style={style}
+                enableBackground='new -239 239 21 23'
                 role='img'
                 aria-label={formatMessage({id: 'generic_icons.arrow.down', defaultMessage: 'Down Arrow Icon'})}
             >
@@ -21,7 +21,3 @@ export default function ScrollToBottomIcon(props) {
         </span>
     );
 }
-
-const style = {
-    enableBackground: 'new -239 239 21 23',
-};
