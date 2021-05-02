@@ -4,7 +4,7 @@
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-export default function CloseCircleIcon(props) {
+export default function CloseCircleIcon(props: React.HTMLAttributes<HTMLSpanElement>) {
     const {formatMessage} = useIntl();
     return (
         <span {...props}>
