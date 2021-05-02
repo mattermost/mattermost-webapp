@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-export default function AtIcon(props) {
+export default function AtIcon(props: React.HTMLAttributes<HTMLSpanElement>) {
     return (
         <span {...props}>
             <svg
