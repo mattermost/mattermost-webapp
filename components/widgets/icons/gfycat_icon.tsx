@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-export default class GfycatIcon extends React.PureComponent {
+export default class GfycatIcon extends React.PureComponent<React.HTMLAttributes<HTMLSpanElement>> {
     render() {
         return (
             <span {...this.props}>
