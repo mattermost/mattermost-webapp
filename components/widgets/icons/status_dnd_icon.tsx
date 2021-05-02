@@ -1,10 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, { CSSProperties } from 'react';
 import {useIntl} from 'react-intl';
 
-export default function StatusDndIcon(props) {
+export default function StatusDndIcon(props: React.HTMLAttributes<HTMLSpanElement>) {
     const {formatMessage} = useIntl();
     return (
         <span {...props}>
@@ -25,7 +25,7 @@ export default function StatusDndIcon(props) {
     );
 }
 
-const style = {
+const style: CSSProperties = {
     fillRule: 'evenodd',
     clipRule: 'evenodd',
     strokeLinejoin: 'round',
