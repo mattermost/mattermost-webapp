@@ -1,8 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, {ReactNode} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {Tooltip} from 'react-bootstrap';
@@ -24,27 +23,30 @@ import StatusOfflineIcon from 'components/widgets/icons/status_offline_icon';
 import OverlayTrigger from 'components/overlay_trigger';
 import CustomStatusText from 'components/custom_status/custom_status_text';
 
+import {ActionFunc} from 'mattermost-redux/types/actions';
+
+import {UserCustomStatus, UserStatus} from 'mattermost-redux/types/users';
+
 import './status_dropdown.scss';
 
-export default class StatusDropdown extends React.PureComponent {
-    static propTypes = {
-        style: PropTypes.object,
-        status: PropTypes.string,
-        userId: PropTypes.string.isRequired,
-        profilePicture: PropTypes.string,
-        autoResetPref: PropTypes.string,
-        actions: PropTypes.shape({
-            openModal: PropTypes.func.isRequired,
-            setStatus: PropTypes.func.isRequired,
-            unsetCustomStatus: PropTypes.func.isRequired,
-            setStatusDropdown: PropTypes.func.isRequired,
-        }).isRequired,
-        customStatus: PropTypes.object,
-        isCustomStatusEnabled: PropTypes.bool.isRequired,
-        isStatusDropdownOpen: PropTypes.bool.isRequired,
-        showCustomStatusPulsatingDot: PropTypes.bool.isRequired,
-    }
+type Props = {
+    status?: string;
+    userId: string;
+    profilePicture: string;
+    autoResetPref?: string;
+    actions: {
+        openModal: (modalData: {modalId: string; dialogType: any; dialogProps?: any}) => void;
+        setStatus: (status: UserStatus) => ActionFunc;
+        unsetCustomStatus: () => ActionFunc;
+        setStatusDropdown: (open: boolean) => void;
+    };
+    customStatus: UserCustomStatus | Record<string, any>;
+    isCustomStatusEnabled: boolean;
+    isStatusDropdownOpen: boolean;
+    showCustomStatusPulsatingDot: boolean;
+}
 
+export default class StatusDropdown extends React.PureComponent <Props> {
     static defaultProps = {
         userId: '',
         profilePicture: '',
@@ -52,40 +54,42 @@ export default class StatusDropdown extends React.PureComponent {
         customStatus: {},
     }
 
-    isUserOutOfOffice = () => {
+    isUserOutOfOffice = (): boolean => {
         return this.props.status === UserStatuses.OUT_OF_OFFICE;
     }
 
-    setStatus = (status) => {
+    setStatus = (status: string): void => {
         this.props.actions.setStatus({
             user_id: this.props.userId,
             status,
+            manual: false,
+            last_activity_at: new Date().getTime(),
         });
     }
 
-    setOnline = (event) => {
+    setOnline = (event: Event): void => {
         event.preventDefault();
         this.setStatus(UserStatuses.ONLINE);
     }
 
-    setOffline = (event) => {
+    setOffline = (event: Event): void => {
         event.preventDefault();
         this.setStatus(UserStatuses.OFFLINE);
     }
 
-    setAway = (event) => {
+    setAway = (event: Event): void => {
         event.preventDefault();
         this.setStatus(UserStatuses.AWAY);
     }
 
-    setDnd = (event) => {
+    setDnd = (event: Event): void => {
         event.preventDefault();
         this.setStatus(UserStatuses.DND);
     }
 
-    showStatusChangeConfirmation = (status) => {
+    showStatusChangeConfirmation = (status: string): void => {
         const resetStatusModalData = {
-            ModalId: ModalIdentifiers.RESET_STATUS,
+            modalId: ModalIdentifiers.RESET_STATUS,
             dialogType: ResetStatusModal,
             dialogProps: {newStatus: status},
         };
@@ -93,7 +97,7 @@ export default class StatusDropdown extends React.PureComponent {
         this.props.actions.openModal(resetStatusModalData);
     };
 
-    renderProfilePicture = () => {
+    renderProfilePicture = (): ReactNode => {
         if (!this.props.profilePicture) {
             return null;
         }
@@ -105,13 +109,13 @@ export default class StatusDropdown extends React.PureComponent {
         );
     }
 
-    renderDropdownIcon = () => {
+    renderDropdownIcon = (): ReactNode => {
         return (
             <FormattedMessage
                 id='generic_icons.dropdown'
                 defaultMessage='Dropdown Icon'
             >
-                { (title) => (
+                { (title: any) => (
                     <i
                         className={'fa fa-caret-down'}
                         aria-label={title}
@@ -120,32 +124,33 @@ export default class StatusDropdown extends React.PureComponent {
             </FormattedMessage>
         );
     }
-    handleClearStatus = (e) => {
+    handleClearStatus = (e: React.MouseEvent<HTMLButtonElement>): void => {
         e.stopPropagation();
         e.preventDefault();
         this.props.actions.unsetCustomStatus();
     };
 
-    onToggle = (open) => this.props.actions.setStatusDropdown(open);
+    onToggle = (open: boolean): void => {
+        this.props.actions.setStatusDropdown(open);
+    }
 
-    renderCustomStatus = () => {
+    renderCustomStatus = (): ReactNode => {
         if (!this.props.isCustomStatusEnabled) {
             return null;
         }
         const customStatus = this.props.customStatus;
         const isStatusSet = customStatus && (customStatus.text || customStatus.emoji);
         const customStatusText = isStatusSet ? customStatus.text : localizeMessage('status_dropdown.set_custom', 'Set a Custom Status');
-        const customStatusEmoji = isStatusSet ?
-            (
-                <span className='d-flex'>
-                    <CustomStatusEmoji
-                        showTooltip={false}
-                        emojiStyle={{marginLeft: 0}}
-                    />
-                </span>
-            ) : (
-                <EmojiIcon className={'custom-status-emoji'}/>
-            );
+        const customStatusEmoji = isStatusSet ? (
+            <span className='d-flex'>
+                <CustomStatusEmoji
+                    showTooltip={false}
+                    emojiStyle={{marginLeft: 0}}
+                />
+            </span>
+        ) : (
+            <EmojiIcon className={'custom-status-emoji'}/>
+        );
 
         const clearButton = isStatusSet &&
             (
@@ -198,7 +203,7 @@ export default class StatusDropdown extends React.PureComponent {
         );
     }
 
-    render() {
+    render = (): JSX.Element => {
         const needsConfirm = this.isUserOutOfOffice() && this.props.autoResetPref === '';
         const profilePicture = this.renderProfilePicture();
         const dropdownIcon = this.renderDropdownIcon();
@@ -212,7 +217,6 @@ export default class StatusDropdown extends React.PureComponent {
         return (
             <MenuWrapper
                 onToggle={this.onToggle}
-                style={this.props.style}
                 open={this.props.isStatusDropdownOpen}
                 className={'status-dropdown-menu'}
             >
