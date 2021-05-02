@@ -4,7 +4,7 @@
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-export default function StatusDndAvatarIcon(props) {
+export default function StatusDndAvatarIcon(props: React.HTMLAttributes<HTMLSpanElement>) {
     const {formatMessage} = useIntl();
     return (
         <span {...props}>
@@ -14,7 +14,7 @@ export default function StatusDndAvatarIcon(props) {
                 width='13px'
                 height='13px'
                 viewBox='-299 391 12 12'
-                style={style}
+                enableBackground='new -299 391 12 12'
                 role='img'
                 aria-label={formatMessage({id: 'mobile.set_status.offline.icon', defaultMessage: 'Offline Icon'})}
             >
@@ -43,7 +43,3 @@ export default function StatusDndAvatarIcon(props) {
         </span>
     );
 }
-
-const style = {
-    enableBackground: 'new -299 391 12 12',
-};
