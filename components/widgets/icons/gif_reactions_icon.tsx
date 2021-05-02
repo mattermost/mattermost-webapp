@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-export default class GifReactionsIcon extends React.PureComponent {
+export default class GifReactionsIcon extends React.PureComponent<React.HTMLAttributes<HTMLSpanElement>> {
     render() {
         return (
             <span {...this.props}>
