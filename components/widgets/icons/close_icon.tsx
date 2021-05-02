@@ -6,7 +6,7 @@ import {useIntl} from 'react-intl';
 
 import {t} from 'utils/i18n';
 
-export default function CloseIcon(props) {
+export default function CloseIcon(props: React.HTMLAttributes<HTMLSpanElement>) {
     const {formatMessage} = useIntl();
     return (
         <span {...props}>
