@@ -4,7 +4,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-export default class AdminEyeIcon extends React.PureComponent {
+export default class AdminEyeIcon extends React.PureComponent<React.HTMLAttributes<HTMLSpanElement>> {
     render() {
         return (
             <span {...this.props}>
@@ -12,7 +12,7 @@ export default class AdminEyeIcon extends React.PureComponent {
                     id='generic_icons.adminOnlyIcon'
                     defaultMessage='Admin View Only Icon'
                 >
-                    {(ariaLabel) => (
+                    {(ariaLabel: string) => (
                         <svg
                             width='14'
                             height='10'
