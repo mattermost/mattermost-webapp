@@ -13,10 +13,14 @@ import 'react-day-picker/lib/style.css';
 
 import 'moment';
 
-const loadedLocales = {};
+const loadedLocales: any = {};
+
+type Props = {
+    locale: string;
+}
 
 export default class SearchDateSuggestion extends Suggestion {
-    handleDayClick = (day) => {
+    handleDayClick = (day: Date) => {
         const dayString = day.toISOString().split('T')[0];
         this.props.onClick(dayString, this.props.matchedPretext);
     }
@@ -33,7 +37,7 @@ export default class SearchDateSuggestion extends Suggestion {
         }
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: Props) {
         const locale = this.props.locale.toLowerCase();
 
         if (locale && locale !== 'en' && locale !== prevProps.locale && !loadedLocales[locale]) {
