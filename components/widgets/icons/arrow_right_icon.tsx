@@ -4,7 +4,7 @@
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-export default function ArrowRightIcon(props) {
+export default function ArrowRightIcon(props: React.HTMLAttributes<HTMLSpanElement>) {
     const {formatMessage} = useIntl();
     return (
         <span {...props}>
@@ -13,7 +13,7 @@ export default function ArrowRightIcon(props) {
                 height='24px'
                 viewBox='0 0 24 24'
                 role='img'
-                title={formatMessage({id: 'generic_icons.channel.arrow-right', defaultMessage: 'Arrow right'})}
+                aria-label={formatMessage({id: 'generic_icons.channel.arrow-right', defaultMessage: 'Arrow right'})}
             >
                 <path d='M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z'/>
             </svg>
