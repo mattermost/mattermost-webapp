@@ -64,9 +64,6 @@ export default class SearchDateSuggestion extends Suggestion {
                 modifiers={modifiers}
                 localeUtils={MomentLocaleUtils}
                 locale={locale}
-                ref={(node) => {
-                    this.node = node;
-                }}
             />
         );
     }
