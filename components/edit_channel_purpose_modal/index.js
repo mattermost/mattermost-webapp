@@ -7,7 +7,7 @@ import {patchChannel} from 'mattermost-redux/actions/channels';
 
 import Constants from 'utils/constants';
 
-import EditChannelPurposeModal from './edit_channel_purpose_modal.jsx';
+import EditChannelPurposeModal from './edit_channel_purpose_modal';
 
 function mapStateToProps(state) {
     return {
