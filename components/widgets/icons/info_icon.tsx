@@ -4,7 +4,7 @@
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-export default function InfoIcon(props) {
+export default function InfoIcon(props: React.HTMLAttributes<HTMLSpanElement>) {
     const {formatMessage} = useIntl();
     return (
         <span {...props}>
