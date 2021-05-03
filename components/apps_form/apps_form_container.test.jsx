@@ -161,10 +161,7 @@ describe('components/apps_form/AppsFormContainer', () => {
                 },
             }, 'lookup', expect.any(Object));
 
-            expect(result).toEqual([{
-                label: 'Fetched Label',
-                value: 'fetched_value',
-            }]);
+            expect(result).toEqual(response);
         });
     });
 });

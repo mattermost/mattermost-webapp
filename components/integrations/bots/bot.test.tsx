@@ -33,6 +33,7 @@ describe('components/integrations/bots/Bot', () => {
                 accessTokens={{}}
                 team={team}
                 actions={actions}
+                fromApp={false}
             />,
         );
 
@@ -67,6 +68,52 @@ describe('components/integrations/bots/Bot', () => {
         )).toEqual(false);
     });
 
+    it('app bot', () => {
+        const bot = UtilsTestHelper.getBotMock({user_id: '1'});
+        const user = UtilsTestHelper.getUserMock({id: bot.user_id});
+        const wrapper = shallow(
+            <Bot
+                bot={bot}
+                user={user}
+                owner={undefined}
+                accessTokens={{}}
+                team={team}
+                actions={actions}
+                fromApp={true}
+            />,
+        );
+
+        expect(wrapper.contains(bot.display_name + ' (@' + bot.username + ')')).toEqual(true);
+        expect(wrapper.contains(<Markdown message={bot.description}/>)).toEqual(true);
+        expect(wrapper.contains('Apps Framework')).toEqual(true);
+
+        // if bot managed by plugin, remove ability to edit from UI
+        expect(wrapper.contains(
+            <FormattedMessage
+                id='bot.manage.create_token'
+                defaultMessage='Create New Token'
+            />,
+        )).toEqual(true);
+        expect(wrapper.contains(
+            <FormattedMessage
+                id='bots.manage.edit'
+                defaultMessage='Edit'
+            />,
+        )).toEqual(true);
+        expect(wrapper.contains(
+            <FormattedMessage
+                id='bot.manage.disable'
+                defaultMessage='Disable'
+            />,
+        )).toEqual(true);
+        expect(wrapper.contains(
+            <FormattedMessage
+                id='bot.manage.enable'
+                defaultMessage='Enable'
+            />,
+        )).toEqual(false);
+    });
+
     it('disabled bot', () => {
         const bot = UtilsTestHelper.getBotMock({user_id: '1'});
         bot.delete_at = 100; // disabled
@@ -79,6 +126,7 @@ describe('components/integrations/bots/Bot', () => {
                 accessTokens={{}}
                 team={team}
                 actions={actions}
+                fromApp={false}
             />,
         );
         expect(wrapper.contains(bot.display_name + ' (@' + bot.username + ')')).toEqual(true);
@@ -122,6 +170,7 @@ describe('components/integrations/bots/Bot', () => {
                 accessTokens={{}}
                 team={team}
                 actions={actions}
+                fromApp={false}
             />,
         );
         expect(wrapper.contains(owner.username)).toEqual(true);
@@ -167,6 +216,7 @@ describe('components/integrations/bots/Bot', () => {
                 accessTokens={accessTokens}
                 team={team}
                 actions={actions}
+                fromApp={false}
             />,
         );
 
@@ -206,6 +256,7 @@ describe('components/integrations/bots/Bot', () => {
                 accessTokens={accessTokens}
                 team={team}
                 actions={actions}
+                fromApp={false}
             />,
         );
 

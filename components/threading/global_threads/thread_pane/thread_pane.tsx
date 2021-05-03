@@ -9,7 +9,7 @@ import {UserThread} from 'mattermost-redux/types/threads';
 import {setThreadFollow} from 'mattermost-redux/actions/threads';
 
 import {makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
-import {getPost} from 'mattermost-redux/selectors/entities/posts';
+import {getPost, makeGetPostsForThread} from 'mattermost-redux/selectors/entities/posts';
 
 import {t} from 'utils/i18n';
 
@@ -24,6 +24,7 @@ import {useThreadRouting} from '../../hooks';
 import './thread_pane.scss';
 
 const getChannel = makeGetChannel();
+const getPostsForThread = makeGetPostsForThread();
 
 type Props = {
     thread: UserThread;
@@ -53,9 +54,16 @@ const ThreadPane = ({
 
     const channel = useSelector((state: GlobalState) => getChannel(state, {id: channelId}));
     const post = useSelector((state: GlobalState) => getPost(state, thread.id));
-
+    const postsInThread = useSelector((state: GlobalState) => getPostsForThread(state, {rootId: post.id}));
     const selectHandler = useCallback(() => select(), []);
+    let unreadTimestamp = post.edit_at || post.create_at;
 
+    // if we have the whole thread, get the posts in it, sorted from newest to oldest.
+    // Last post - root post, second to last post - oldest reply. Use that timestamp
+    if (postsInThread.length > 1) {
+        const p = postsInThread[postsInThread.length - 2];
+        unreadTimestamp = p.edit_at || p.create_at;
+    }
     const goToInChannelHandler = useCallback(() => {
         goToInChannel(threadId);
     }, [goToInChannel, threadId]);
@@ -104,7 +112,7 @@ const ThreadPane = ({
                             threadId={threadId}
                             isFollowing={isFollowing}
                             hasUnreads={Boolean(thread.unread_replies || thread.unread_mentions)}
-                            unreadTimestamp={post.edit_at || post.create_at}
+                            unreadTimestamp={unreadTimestamp}
                         >
                             <SimpleTooltip
                                 id='threadActionMenu'

@@ -46,7 +46,7 @@ describe('Search', () => {
             cy.clickPostCommentIcon(postId, 'SEARCH');
 
             // # Reply with a comment
-            cy.get('#reply_textbox').type(`${comment}{enter}`);
+            cy.postMessageReplyInRHS(comment);
 
             // * Verify sidebar is still open
             cy.get('#rhsContainer').should('be.visible');

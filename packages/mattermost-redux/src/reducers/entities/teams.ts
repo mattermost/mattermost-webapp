@@ -25,7 +25,9 @@ function teams(state: IDMappedObjects<Team> = {}, action: GenericAction) {
     switch (action.type) {
     case TeamTypes.RECEIVED_TEAMS_LIST:
     case SchemeTypes.RECEIVED_SCHEME_TEAMS:
+    case AdminTypes.RECEIVED_DATA_RETENTION_CUSTOM_POLICY_TEAMS_SEARCH:
         return Object.assign({}, state, teamListToMap(action.data));
+    case AdminTypes.RECEIVED_DATA_RETENTION_CUSTOM_POLICY_TEAMS:
     case UserTypes.LOGIN: // Used by the mobile app
         return Object.assign({}, state, teamListToMap(action.data.teams));
     case TeamTypes.RECEIVED_TEAMS:
@@ -60,6 +62,21 @@ function teams(state: IDMappedObjects<Team> = {}, action: GenericAction) {
         }
 
         return {...state, [teamId]: {...team, scheme_id: schemeId}};
+    }
+
+    case AdminTypes.REMOVE_DATA_RETENTION_CUSTOM_POLICY_TEAMS_SUCCESS: {
+        const {teams} = action.data;
+        const nextState = {...state};
+        teams.forEach((teamId: string) => {
+            if (nextState[teamId]) {
+                nextState[teamId] = {
+                    ...nextState[teamId],
+                    policy_id: null,
+                };
+            }
+        });
+
+        return nextState;
     }
 
     case UserTypes.LOGOUT_SUCCESS:
@@ -469,22 +486,6 @@ function totalCount(state = 0, action: GenericAction) {
     }
 }
 
-function teamsInPolicy(state: IDMappedObjects<Team> = {}, action: GenericAction) {
-    switch (action.type) {
-    case AdminTypes.RECEIVED_DATA_RETENTION_CUSTOM_POLICY_TEAMS_SEARCH: {
-        return Object.assign({}, state, teamListToMap(action.data));
-    }
-    case AdminTypes.RECEIVED_DATA_RETENTION_CUSTOM_POLICY_TEAMS: {
-        return Object.assign({}, state, teamListToMap(action.data.teams));
-    }
-    case AdminTypes.CLEAR_DATA_RETENTION_CUSTOM_POLICY_TEAMS: {
-        return {};
-    }
-    default:
-        return state;
-    }
-}
-
 export default combineReducers({
 
     // the current selected team
@@ -505,6 +506,4 @@ export default combineReducers({
     groupsAssociatedToTeam,
 
     totalCount,
-
-    teamsInPolicy,
 });

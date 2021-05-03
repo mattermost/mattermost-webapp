@@ -111,7 +111,7 @@ describe('Group Mentions', () => {
             cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
             // # Submit a post containing the group mention
-            cy.postMessage(`@${groupName}`);
+            cy.postMessage(`@${groupName} `);
 
             // * Verify if a system message is displayed indicating that list of members were not notified
             cy.getLastPostId().then((postId) => {
@@ -147,7 +147,7 @@ describe('Group Mentions', () => {
                     cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
                     // # Submit a post containing the group mention
-                    cy.postMessage(`@${groupName}`);
+                    cy.postMessage(`@${groupName} `);
 
                     // * Verify if a system message is displayed indicating that there are no members in this team
                     cy.getLastPostId().then((postId) => {
@@ -194,7 +194,7 @@ describe('Group Mentions', () => {
                 cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
                 // # Submit a post containing the group mention
-                cy.postMessage(`@${groupName}`);
+                cy.postMessage(`@${groupName} `);
 
                 // * Verify if a system message is displayed indicating that list of members were not notified
                 cy.getLastPostId().then((postId) => {
@@ -233,7 +233,7 @@ describe('Group Mentions', () => {
             cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
             // # Submit a post containing the group mention
-            cy.postMessage(`@${groupName}`);
+            cy.postMessage(`@${groupName} `);
 
             // * Verify if a system message is displayed indicating that list of members were not notified
             cy.getLastPostId().then((postId) => {
