@@ -6,8 +6,6 @@ export type {
     AppCallValues,
     AppBinding,
     AppField,
-    AppSelectOption,
-    AppCallResponse,
     AppContext,
     AppForm,
     AutocompleteElement,
@@ -15,7 +13,12 @@ export type {
     AutocompleteStaticSelect,
     AutocompleteUserSelect,
     AutocompleteChannelSelect,
+    AppLookupResponse,
 } from 'mattermost-redux/types/apps';
+
+export type {
+    DoAppCallResult,
+} from 'types/apps';
 
 import type {
     AutocompleteSuggestion,
@@ -82,7 +85,7 @@ export const getExecuteSuggestion = (parsed: ParsedCommand): AutocompleteSuggest
 };
 
 export const displayError = (err: string, channelID: string, rootID?: string) => {
-    sendEphemeralPost(err, channelID, rootID);
+    Store.dispatch(sendEphemeralPost(err, channelID, rootID));
 };
 
 // Shim of mobile-version intl

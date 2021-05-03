@@ -14,7 +14,7 @@ import type {CommandArgs} from 'mattermost-redux/types/integrations';
 
 import {AppCallResponseTypes, AppCallTypes} from 'mattermost-redux/constants/apps';
 
-import {AppCallResponse} from 'mattermost-redux/types/apps';
+import {DoAppCallResult} from 'types/apps';
 
 import {openModal} from 'actions/views/modals';
 import * as GlobalActions from 'actions/global_actions';
@@ -34,7 +34,7 @@ import {GlobalState} from 'types/store';
 
 import {t} from 'utils/i18n';
 
-import {doAppCall} from './apps';
+import {doAppCall, postEphemeralCallResponseForCommandArgs} from './apps';
 
 export function executeCommand(message: string, args: CommandArgs): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
@@ -64,7 +64,7 @@ export function executeCommand(message: string, args: CommandArgs): ActionFunc {
         case '/leave': {
             // /leave command not supported in reply threads.
             if (args.channel_id && (args.root_id || args.parent_id)) {
-                GlobalActions.sendEphemeralPost('/leave is not supported in reply threads. Use it in the center channel instead.', args.channel_id, args.parent_id);
+                dispatch(GlobalActions.sendEphemeralPost('/leave is not supported in reply threads. Use it in the center channel instead.', args.channel_id, args.parent_id));
                 return {data: true};
             }
             const channel = getCurrentChannel(state) || {};
@@ -122,17 +122,23 @@ export function executeCommand(message: string, args: CommandArgs): ActionFunc {
                         return createErrorMessage(errorMessage!);
                     }
 
-                    const res = await dispatch(doAppCall(call, AppCallTypes.SUBMIT, intlShim)) as {data: AppCallResponse};
+                    const res = await dispatch(doAppCall(call, AppCallTypes.SUBMIT, intlShim)) as DoAppCallResult;
 
-                    const callResp = res.data;
+                    if (res.error) {
+                        const errorResponse = res.error;
+                        return createErrorMessage(errorResponse.error || intlShim.formatMessage({
+                            id: 'apps.error.unknown',
+                            defaultMessage: 'Unknown error.',
+                        }));
+                    }
+
+                    const callResp = res.data!;
                     switch (callResp.type) {
                     case AppCallResponseTypes.OK:
                         if (callResp.markdown) {
-                            GlobalActions.sendEphemeralPost(callResp.markdown, args.channel_id, args.parent_id, callResp.app_metadata?.bot_user_id);
+                            dispatch(postEphemeralCallResponseForCommandArgs(callResp, callResp.markdown, args));
                         }
                         return {data: true};
-                    case AppCallResponseTypes.ERROR:
-                        return createErrorMessage(callResp.error || localizeMessage('apps.error.unknown', 'Unknown error.'));
                     case AppCallResponseTypes.FORM:
                     case AppCallResponseTypes.NAVIGATE:
                         return {data: true};

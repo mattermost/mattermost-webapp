@@ -67,7 +67,6 @@ class ChannelHeader extends React.PureComponent {
         intl: intlShape.isRequired,
         pinnedPostsCount: PropTypes.number,
         hasMoreThanOneTeam: PropTypes.bool,
-        showChannelFilesButton: PropTypes.bool,
         actions: PropTypes.shape({
             favoriteChannel: PropTypes.func.isRequired,
             unfavoriteChannel: PropTypes.func.isRequired,
@@ -75,7 +74,6 @@ class ChannelHeader extends React.PureComponent {
             showPinnedPosts: PropTypes.func.isRequired,
             showChannelFiles: PropTypes.func.isRequired,
             showMentions: PropTypes.func.isRequired,
-            openRHSSearch: PropTypes.func.isRequired,
             closeRightHandSide: PropTypes.func.isRequired,
             getCustomEmojisInText: PropTypes.func.isRequired,
             updateChannelNotifyProps: PropTypes.func.isRequired,
@@ -232,7 +230,6 @@ class ChannelHeader extends React.PureComponent {
             <>
                 <CustomStatusEmoji
                     userID={this.props.dmUser.id}
-                    emojiSize={15}
                     emojiStyle={{
                         verticalAlign: 'top',
                         margin: '0 4px 1px',
@@ -260,7 +257,6 @@ class ChannelHeader extends React.PureComponent {
             hasGuests,
             teammateNameDisplaySetting,
             isLegacySidebar,
-            showChannelFilesButton,
         } = this.props;
         const {formatMessage} = this.props.intl;
         const ariaLabelChannelHeader = Utils.localizeMessage('accessibility.sections.channelHeader', 'channel header region');
@@ -482,15 +478,14 @@ class ChannelHeader extends React.PureComponent {
                         onClick={this.showPinnedPosts}
                         tooltipKey={'pinnedPosts'}
                     />
-                    {showChannelFilesButton &&
-                        <HeaderIconWrapper
-                            iconComponent={channelFilesIcon}
-                            ariaLabel={true}
-                            buttonClass={channelFilesIconClass}
-                            buttonId={'channelHeaderFilesButton'}
-                            onClick={this.showChannelFiles}
-                            tooltipKey={'channelFiles'}
-                        />}
+                    <HeaderIconWrapper
+                        iconComponent={channelFilesIcon}
+                        ariaLabel={true}
+                        buttonClass={channelFilesIconClass}
+                        buttonId={'channelHeaderFilesButton'}
+                        onClick={this.showChannelFiles}
+                        tooltipKey={'channelFiles'}
+                    />
                     {hasGuestsText}
                     <div
                         className='header-popover-text-measurer'
@@ -600,15 +595,14 @@ class ChannelHeader extends React.PureComponent {
                         onClick={this.showPinnedPosts}
                         tooltipKey={'pinnedPosts'}
                     />
-                    {showChannelFilesButton &&
-                        <HeaderIconWrapper
-                            iconComponent={channelFilesIcon}
-                            ariaLabel={true}
-                            buttonClass={channelFilesIconClass}
-                            buttonId={'channelHeaderFilesButton'}
-                            onClick={this.showChannelFiles}
-                            tooltipKey={'channelFiles'}
-                        />}
+                    <HeaderIconWrapper
+                        iconComponent={channelFilesIcon}
+                        ariaLabel={true}
+                        buttonClass={channelFilesIconClass}
+                        buttonId={'channelHeaderFilesButton'}
+                        onClick={this.showChannelFiles}
+                        tooltipKey={'channelFiles'}
+                    />
                     {hasGuestsText}
                     {editMessage}
                 </div>

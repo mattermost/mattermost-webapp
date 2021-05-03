@@ -5,12 +5,11 @@ import React from 'react';
 
 import {injectIntl, IntlShape} from 'react-intl';
 
-import {AppCallResponse, AppField, AppForm, AppFormValues, AppSelectOption, AppCallType, AppCallRequest} from 'mattermost-redux/types/apps';
+import {AppField, AppForm, AppFormValues, AppCallRequest, FormResponseData, AppLookupResponse} from 'mattermost-redux/types/apps';
 import {AppCallTypes, AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 
+import {DoAppCall, DoAppCallResult, PostEphemeralCallResponseForContext} from 'types/apps';
 import {makeCallErrorResponse} from 'utils/apps';
-
-import {sendEphemeralPost} from 'actions/global_actions';
 
 import AppsForm from './apps_form';
 
@@ -20,7 +19,8 @@ type Props = {
     call?: AppCallRequest;
     onHide: () => void;
     actions: {
-        doAppCall: (call: AppCallRequest, type: AppCallType, intl: IntlShape) => Promise<{data: AppCallResponse}>;
+        doAppCall: DoAppCall<any>;
+        postEphemeralCallResponseForContext: PostEphemeralCallResponseForContext;
     };
 };
 
@@ -34,7 +34,7 @@ class AppsFormContainer extends React.PureComponent<Props, State> {
         this.state = {form: props.form};
     }
 
-    submitForm = async (submission: {values: AppFormValues}): Promise<{data: AppCallResponse<any>}> => {
+    submitForm = async (submission: {values: AppFormValues}): Promise<DoAppCallResult<FormResponseData>> => {
         //TODO use FormResponseData instead of Any
         const makeErrorMsg = (msg: string) => {
             return this.props.intl.formatMessage(
@@ -48,43 +48,53 @@ class AppsFormContainer extends React.PureComponent<Props, State> {
         const {form} = this.state;
         if (!form) {
             const errMsg = this.props.intl.formatMessage({id: 'apps.error.form.no_form', defaultMessage: '`form` is not defined'});
-            return {data: makeCallErrorResponse(makeErrorMsg(errMsg))};
+            return {error: makeCallErrorResponse(makeErrorMsg(errMsg))};
         }
 
         const call = this.getCall();
         if (!call) {
             const errMsg = this.props.intl.formatMessage({id: 'apps.error.form.no_call', defaultMessage: '`call` is not defined'});
-            return {data: makeCallErrorResponse(makeErrorMsg(errMsg))};
+            return {error: makeCallErrorResponse(makeErrorMsg(errMsg))};
         }
 
         const res = await this.props.actions.doAppCall({
             ...call,
             values: submission.values,
-        }, AppCallTypes.SUBMIT, this.props.intl);
+        }, AppCallTypes.SUBMIT, this.props.intl) as DoAppCallResult<FormResponseData>;
 
-        const callResp = res.data;
+        if (res.error) {
+            return res;
+        }
+
+        const callResp = res.data!;
         switch (callResp.type) {
         case AppCallResponseTypes.OK:
             if (callResp.markdown) {
-                sendEphemeralPost(callResp.markdown, call.context.channel_id, call.context.root_id || call.context.post_id, callResp.app_metadata?.bot_user_id);
+                this.props.actions.postEphemeralCallResponseForContext(
+                    callResp,
+                    callResp.markdown,
+                    call.context,
+                );
             }
             break;
         case AppCallResponseTypes.FORM:
             this.setState({form: callResp.form});
             break;
         case AppCallResponseTypes.NAVIGATE:
-        case AppCallResponseTypes.ERROR:
-            break;
         default:
-            return {data: makeCallErrorResponse(makeErrorMsg(this.props.intl.formatMessage(
-                {id: 'apps.error.responses.unknown_type', defaultMessage: 'App response type not supported. Response type: {type}.'},
-                {type: callResp.type},
+            return {error: makeCallErrorResponse(makeErrorMsg(this.props.intl.formatMessage(
+                {
+                    id: 'apps.error.responses.unknown_type',
+                    defaultMessage: 'App response type not supported. Response type: {type}.',
+                }, {
+                    type: callResp.type,
+                },
             )))};
         }
         return res;
     };
 
-    refreshOnSelect = async (field: AppField, values: AppFormValues): Promise<{data: AppCallResponse<any>}> => {
+    refreshOnSelect = async (field: AppField, values: AppFormValues): Promise<DoAppCallResult<FormResponseData>> => {
         const makeErrMsg = (message: string) => this.props.intl.formatMessage(
             {
                 id: 'apps.error.form.refresh',
@@ -94,17 +104,26 @@ class AppsFormContainer extends React.PureComponent<Props, State> {
         );
         const {form} = this.state;
         if (!form) {
-            return {data: makeCallErrorResponse(makeErrMsg(this.props.intl.formatMessage({id: 'apps.error.form.no_form', defaultMessage: '`form` is not defined.'})))};
+            return {error: makeCallErrorResponse(makeErrMsg(this.props.intl.formatMessage({
+                id: 'apps.error.form.no_form',
+                defaultMessage: '`form` is not defined.',
+            })))};
         }
 
         const call = this.getCall();
         if (!call) {
-            return {data: makeCallErrorResponse(makeErrMsg(this.props.intl.formatMessage({id: 'apps.error.form.no_call', defaultMessage: '`call` is not defined.'})))};
+            return {error: makeCallErrorResponse(makeErrMsg(this.props.intl.formatMessage({
+                id: 'apps.error.form.no_call',
+                defaultMessage: '`call` is not defined.',
+            })))};
         }
 
         if (!field.refresh) {
             // Should never happen
-            return {data: makeCallErrorResponse(makeErrMsg(this.props.intl.formatMessage({id: 'apps.error.form.refresh_no_refresh', defaultMessage: 'Called refresh on no refresh field.'})))};
+            return {error: makeCallErrorResponse(makeErrMsg(this.props.intl.formatMessage({
+                id: 'apps.error.form.refresh_no_refresh',
+                defaultMessage: 'Called refresh on no refresh field.',
+            })))};
         }
 
         const res = await this.props.actions.doAppCall({
@@ -113,52 +132,59 @@ class AppsFormContainer extends React.PureComponent<Props, State> {
             values,
         }, AppCallTypes.FORM, this.props.intl);
 
-        const callResp = res.data;
+        if (res.error) {
+            return res;
+        }
+
+        const callResp = res.data!;
         switch (callResp.type) {
         case AppCallResponseTypes.FORM:
             this.setState({form: callResp.form});
             break;
         case AppCallResponseTypes.OK:
         case AppCallResponseTypes.NAVIGATE:
-            return {data: makeCallErrorResponse(makeErrMsg(this.props.intl.formatMessage(
-                {id: 'apps.error.responses.unexpected_type', defaultMessage: 'App response type was not expected. Response type: {type}.'},
-                {type: callResp.type},
+            return {error: makeCallErrorResponse(makeErrMsg(this.props.intl.formatMessage({
+                id: 'apps.error.responses.unexpected_type',
+                defaultMessage: 'App response type was not expected. Response type: {type}.',
+            }, {
+                type: callResp.type,
+            },
             )))};
-        case AppCallResponseTypes.ERROR:
-            break;
         default:
-            return {data: makeCallErrorResponse(makeErrMsg(this.props.intl.formatMessage(
-                {id: 'apps.error.responses.unknown_type', defaultMessage: 'App response type not supported. Response type: {type}.'},
-                {type: callResp.type},
+            return {error: makeCallErrorResponse(makeErrMsg(this.props.intl.formatMessage({
+                id: 'apps.error.responses.unknown_type',
+                defaultMessage: 'App response type not supported. Response type: {type}.',
+            }, {
+                type: callResp.type,
+            },
             )))};
         }
         return res;
     };
 
-    performLookupCall = async (field: AppField, formValues: AppFormValues, userInput: string): Promise<AppSelectOption[]> => {
+    performLookupCall = async (field: AppField, values: AppFormValues, userInput: string): Promise<DoAppCallResult<AppLookupResponse>> => {
+        const intl = this.props.intl;
+        const makeErrorMsg = (message: string) => intl.formatMessage(
+            {
+                id: 'apps.error.form.refresh',
+                defaultMessage: 'There has been an error fetching the select fields. Contact the app developer. Details: {details}',
+            },
+            {details: message},
+        );
         const call = this.getCall();
         if (!call) {
-            return [];
+            return {error: makeCallErrorResponse(makeErrorMsg(intl.formatMessage({
+                id: 'apps.error.form.no_call',
+                defaultMessage: '`call` is not defined.',
+            })))};
         }
 
-        const res = await this.props.actions.doAppCall({
+        return this.props.actions.doAppCall({
             ...call,
-            values: formValues,
-            query: userInput,
+            values,
             selected_field: field.name,
-        }, AppCallTypes.LOOKUP, this.props.intl);
-
-        // TODO Surface errors?
-        if (res.data.type !== AppCallResponseTypes.OK) {
-            return [];
-        }
-
-        const data = res.data.data as {items: AppSelectOption[]};
-        if (data.items && data.items.length) {
-            return data.items;
-        }
-
-        return [];
+            query: userInput,
+        }, AppCallTypes.LOOKUP, intl);
     }
 
     getCall = (): AppCallRequest | null => {
@@ -197,7 +223,6 @@ class AppsFormContainer extends React.PureComponent<Props, State> {
         return (
             <AppsForm
                 form={form}
-                call={call}
                 onHide={this.onHide}
                 actions={{
                     submit: this.submitForm,

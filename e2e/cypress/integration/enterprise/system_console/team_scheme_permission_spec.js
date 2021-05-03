@@ -128,7 +128,7 @@ const deleteExistingTeamOverrideSchemes = () => {
 // # If enabled is true assumes the user has the permission enabled and checks for no system message
 const channelMentionsPermissionCheck = (enabled) => {
     // # Type @here and post it to the channel
-    cy.postMessage('@here');
+    cy.postMessage('@here ');
 
     // # Get last post message text
     cy.getLastPostId().then((postId) => {
