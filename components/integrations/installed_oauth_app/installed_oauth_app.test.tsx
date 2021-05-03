@@ -36,10 +36,19 @@ describe('components/integrations/InstalledOAuthApp', () => {
         onRegenerateSecret: jest.fn(),
         onDelete: jest.fn(),
         filter: '',
+        fromApp: false,
     };
 
     test('should match snapshot', () => {
         const props = {...baseProps, team};
+        const wrapper = shallow(
+            <InstalledOAuthApp {...props}/>,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot from app', () => {
+        const props = {...baseProps, team, fromApp: true};
         const wrapper = shallow(
             <InstalledOAuthApp {...props}/>,
         );

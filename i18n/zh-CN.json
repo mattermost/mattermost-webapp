@@ -1378,8 +1378,6 @@
   "admin.permissions.permission.manage_private_channel_properties.name": "管理频道设定",
   "admin.permissions.permission.manage_public_channel_properties.description": "更新公共频道名，标题和用途。",
   "admin.permissions.permission.manage_public_channel_properties.name": "管理频道设定",
-  "admin.permissions.permission.manage_remote_clusters.description": "添加，移除和查看共享通道的远程集群",
-  "admin.permissions.permission.manage_remote_clusters.name": "管理远程集群",
   "admin.permissions.permission.manage_roles.description": "管理角色",
   "admin.permissions.permission.manage_roles.name": "管理角色",
   "admin.permissions.permission.manage_shared_channels.description": "共享，取消共享并邀请另一个实例与共享频道同步",

@@ -61,7 +61,7 @@ describe('Keyboard Shortcuts', () => {
 
             Cypress._.forEach(teamAndChannel.channels, (channel, j) => {
                 cy.get('#sidebarItem_' + channel.name).scrollIntoView().click();
-                const message = i === j ? 'without mention' : `mention ${otherUserMention}`;
+                const message = i === j ? 'without mention' : `mention ${otherUserMention} `;
                 cy.postMessage(message);
                 cy.uiWaitUntilMessagePostedIncludes(message);
             });

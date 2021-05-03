@@ -51,7 +51,7 @@ describe('Email notification', () => {
 
     it('post a message that mentions a user', () => {
         // # Post a message mentioning the new user
-        const text = `Hello @${mentionedUser.username}`;
+        const text = `Hello @${mentionedUser.username} `;
         cy.postMessage(text);
 
         // Wait for a while to ensure that email notification is sent.
@@ -61,7 +61,7 @@ describe('Email notification', () => {
         const mailUrl = getEmailUrl(baseUrl);
 
         cy.task('getRecentEmail', {username: mentionedUser.username, mailUrl}).then((response) => {
-            verifyEmailNotification(response, config.TeamSettings.SiteName, testTeam.display_name, 'Town Square', mentionedUser, testUser, text, config.EmailSettings.FeedbackEmail, config.SupportSettings.SupportEmail);
+            verifyEmailNotification(response, config.TeamSettings.SiteName, testTeam.display_name, 'Town Square', mentionedUser, testUser, text.trim(), config.EmailSettings.FeedbackEmail, config.SupportSettings.SupportEmail);
 
             const bodyText = splitEmailBodyText(response.data.body.text);
 

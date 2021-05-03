@@ -80,7 +80,7 @@ describe('Image Link Preview', () => {
         });
 
         // # In center message box, post slash command /collapse
-        cy.postMessage('/collapse');
+        cy.postMessage('/collapse ');
 
         // # Observe all image previews collapse
         cy.findByLabelText('file thumbnail').should('not.exist');
