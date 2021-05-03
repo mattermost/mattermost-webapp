@@ -38,6 +38,7 @@ exports[`components/admin_console/data_retention_settings/team_list should match
             "id": "team-1",
             "name": <div
               className="TeamList__nameColumn"
+              id="team-name-team-1"
             >
               <div
                 className="TeamList__lowerOpacity"
@@ -60,13 +61,11 @@ exports[`components/admin_console/data_retention_settings/team_list should match
             </div>,
             "remove": <a
               className="group-actions TeamList_editText"
-              data-testid="nameedit"
+              href="#"
+              id="remove-team-team-1"
               onClick={[Function]}
             >
-              <FormattedMessage
-                defaultMessage="Remove"
-                id="admin.data_retention.custom_policy.teams.remove"
-              />
+              Remove
             </a>,
           },
         },
@@ -118,6 +117,7 @@ exports[`components/admin_console/data_retention_settings/team_list should match
             "id": "id0",
             "name": <div
               className="TeamList__nameColumn"
+              id="team-name-id0"
             >
               <div
                 className="TeamList__lowerOpacity"
@@ -140,13 +140,11 @@ exports[`components/admin_console/data_retention_settings/team_list should match
             </div>,
             "remove": <a
               className="group-actions TeamList_editText"
-              data-testid="DN0edit"
+              href="#"
+              id="remove-team-id0"
               onClick={[Function]}
             >
-              <FormattedMessage
-                defaultMessage="Remove"
-                id="admin.data_retention.custom_policy.teams.remove"
-              />
+              Remove
             </a>,
           },
         },
@@ -155,6 +153,7 @@ exports[`components/admin_console/data_retention_settings/team_list should match
             "id": "id1",
             "name": <div
               className="TeamList__nameColumn"
+              id="team-name-id1"
             >
               <div
                 className="TeamList__lowerOpacity"
@@ -177,13 +176,11 @@ exports[`components/admin_console/data_retention_settings/team_list should match
             </div>,
             "remove": <a
               className="group-actions TeamList_editText"
-              data-testid="DN1edit"
+              href="#"
+              id="remove-team-id1"
               onClick={[Function]}
             >
-              <FormattedMessage
-                defaultMessage="Remove"
-                id="admin.data_retention.custom_policy.teams.remove"
-              />
+              Remove
             </a>,
           },
         },
@@ -192,6 +189,7 @@ exports[`components/admin_console/data_retention_settings/team_list should match
             "id": "id2",
             "name": <div
               className="TeamList__nameColumn"
+              id="team-name-id2"
             >
               <div
                 className="TeamList__lowerOpacity"
@@ -214,13 +212,11 @@ exports[`components/admin_console/data_retention_settings/team_list should match
             </div>,
             "remove": <a
               className="group-actions TeamList_editText"
-              data-testid="DN2edit"
+              href="#"
+              id="remove-team-id2"
               onClick={[Function]}
             >
-              <FormattedMessage
-                defaultMessage="Remove"
-                id="admin.data_retention.custom_policy.teams.remove"
-              />
+              Remove
             </a>,
           },
         },
@@ -229,6 +225,7 @@ exports[`components/admin_console/data_retention_settings/team_list should match
             "id": "id3",
             "name": <div
               className="TeamList__nameColumn"
+              id="team-name-id3"
             >
               <div
                 className="TeamList__lowerOpacity"
@@ -251,13 +248,11 @@ exports[`components/admin_console/data_retention_settings/team_list should match
             </div>,
             "remove": <a
               className="group-actions TeamList_editText"
-              data-testid="DN3edit"
+              href="#"
+              id="remove-team-id3"
               onClick={[Function]}
             >
-              <FormattedMessage
-                defaultMessage="Remove"
-                id="admin.data_retention.custom_policy.teams.remove"
-              />
+              Remove
             </a>,
           },
         },
@@ -266,6 +261,7 @@ exports[`components/admin_console/data_retention_settings/team_list should match
             "id": "id4",
             "name": <div
               className="TeamList__nameColumn"
+              id="team-name-id4"
             >
               <div
                 className="TeamList__lowerOpacity"
@@ -288,13 +284,11 @@ exports[`components/admin_console/data_retention_settings/team_list should match
             </div>,
             "remove": <a
               className="group-actions TeamList_editText"
-              data-testid="DN4edit"
+              href="#"
+              id="remove-team-id4"
               onClick={[Function]}
             >
-              <FormattedMessage
-                defaultMessage="Remove"
-                id="admin.data_retention.custom_policy.teams.remove"
-              />
+              Remove
             </a>,
           },
         },
@@ -303,6 +297,7 @@ exports[`components/admin_console/data_retention_settings/team_list should match
             "id": "id5",
             "name": <div
               className="TeamList__nameColumn"
+              id="team-name-id5"
             >
               <div
                 className="TeamList__lowerOpacity"
@@ -325,13 +320,11 @@ exports[`components/admin_console/data_retention_settings/team_list should match
             </div>,
             "remove": <a
               className="group-actions TeamList_editText"
-              data-testid="DN5edit"
+              href="#"
+              id="remove-team-id5"
               onClick={[Function]}
             >
-              <FormattedMessage
-                defaultMessage="Remove"
-                id="admin.data_retention.custom_policy.teams.remove"
-              />
+              Remove
             </a>,
           },
         },
@@ -340,6 +333,7 @@ exports[`components/admin_console/data_retention_settings/team_list should match
             "id": "id6",
             "name": <div
               className="TeamList__nameColumn"
+              id="team-name-id6"
             >
               <div
                 className="TeamList__lowerOpacity"
@@ -362,13 +356,11 @@ exports[`components/admin_console/data_retention_settings/team_list should match
             </div>,
             "remove": <a
               className="group-actions TeamList_editText"
-              data-testid="DN6edit"
+              href="#"
+              id="remove-team-id6"
               onClick={[Function]}
             >
-              <FormattedMessage
-                defaultMessage="Remove"
-                id="admin.data_retention.custom_policy.teams.remove"
-              />
+              Remove
             </a>,
           },
         },
@@ -377,6 +369,7 @@ exports[`components/admin_console/data_retention_settings/team_list should match
             "id": "id7",
             "name": <div
               className="TeamList__nameColumn"
+              id="team-name-id7"
             >
               <div
                 className="TeamList__lowerOpacity"
@@ -399,13 +392,11 @@ exports[`components/admin_console/data_retention_settings/team_list should match
             </div>,
             "remove": <a
               className="group-actions TeamList_editText"
-              data-testid="DN7edit"
+              href="#"
+              id="remove-team-id7"
               onClick={[Function]}
             >
-              <FormattedMessage
-                defaultMessage="Remove"
-                id="admin.data_retention.custom_policy.teams.remove"
-              />
+              Remove
             </a>,
           },
         },
@@ -414,6 +405,7 @@ exports[`components/admin_console/data_retention_settings/team_list should match
             "id": "id8",
             "name": <div
               className="TeamList__nameColumn"
+              id="team-name-id8"
             >
               <div
                 className="TeamList__lowerOpacity"
@@ -436,13 +428,11 @@ exports[`components/admin_console/data_retention_settings/team_list should match
             </div>,
             "remove": <a
               className="group-actions TeamList_editText"
-              data-testid="DN8edit"
+              href="#"
+              id="remove-team-id8"
               onClick={[Function]}
             >
-              <FormattedMessage
-                defaultMessage="Remove"
-                id="admin.data_retention.custom_policy.teams.remove"
-              />
+              Remove
             </a>,
           },
         },
@@ -451,6 +441,7 @@ exports[`components/admin_console/data_retention_settings/team_list should match
             "id": "id9",
             "name": <div
               className="TeamList__nameColumn"
+              id="team-name-id9"
             >
               <div
                 className="TeamList__lowerOpacity"
@@ -473,13 +464,11 @@ exports[`components/admin_console/data_retention_settings/team_list should match
             </div>,
             "remove": <a
               className="group-actions TeamList_editText"
-              data-testid="DN9edit"
+              href="#"
+              id="remove-team-id9"
               onClick={[Function]}
             >
-              <FormattedMessage
-                defaultMessage="Remove"
-                id="admin.data_retention.custom_policy.teams.remove"
-              />
+              Remove
             </a>,
           },
         },
