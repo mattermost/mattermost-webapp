@@ -170,8 +170,8 @@ export default class TeamList extends React.PureComponent<Props, State> {
                 cells: {
                     id: team.id,
                     name: (
-                        <div 
-                            className='TeamList__nameColumn' 
+                        <div
+                            className='TeamList__nameColumn'
                             id={`team-name-${team.id}`}
                         >
                             <div className='TeamList__lowerOpacity'>

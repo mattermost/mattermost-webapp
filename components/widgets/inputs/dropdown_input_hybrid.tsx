@@ -205,7 +205,7 @@ const DropdownInputHybrid = <T extends OptionType = OptionType>(props: Props<T>)
                         required={false}
                         className={classNames('Input form-control')}
                         ref={inputRef}
-                        id={props.inputId}
+                        id={inputId}
                     />
                 </div>
                 <div
@@ -225,7 +225,7 @@ const DropdownInputHybrid = <T extends OptionType = OptionType>(props: Props<T>)
                             Control,
                         }}
                         className={classNames('Input', className, {Input__focus: showLegend})}
-                        classNamePrefix={props.dropdownClassNamePrefix}
+                        classNamePrefix={dropdownClassNamePrefix}
                         onChange={onValueChange as any}
                         styles={{...baseStyles, ...getMenuStyles()}}
                         value={value}

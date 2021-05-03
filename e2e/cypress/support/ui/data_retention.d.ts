@@ -15,6 +15,7 @@
 
 declare namespace Cypress {
     interface Chainable {
+
         /**
          * Go to Data Retention Page
          */

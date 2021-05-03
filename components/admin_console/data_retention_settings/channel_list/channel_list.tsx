@@ -203,7 +203,7 @@ export default class ChannelList extends React.PureComponent<Props, State> {
                 cells: {
                     id: channel.id,
                     name: (
-                        <div 
+                        <div
                             className='ChannelList__nameColumn'
                             id={`channel-name-${channel.id}`}
                         >
