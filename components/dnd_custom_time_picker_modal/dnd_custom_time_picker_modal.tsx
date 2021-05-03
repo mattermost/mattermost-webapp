@@ -180,11 +180,10 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
                             </div>
                             <i className='icon icon--no-spacing icon-calendar-outline icon--xs icon-14'/>
                             <DayPickerInput
-                                placeholder={this.state.selectedDate}
+                                value={selectedDate}
                                 onDayChange={this.handleDaySelection}
                                 dayPickerProps={{
                                     selectedDays: new Date(selectedDate),
-                                    month: currentDate,
                                     disabledDays: {
                                         before: currentDate,
                                     },
