@@ -40,7 +40,7 @@ type Props = {
         unsetCustomStatus: () => ActionFunc;
         setStatusDropdown: (open: boolean) => void;
     };
-    customStatus: UserCustomStatus | Record<string, any>;
+    customStatus: UserCustomStatus;
     isCustomStatusEnabled: boolean;
     isStatusDropdownOpen: boolean;
     showCustomStatusPulsatingDot: boolean;
@@ -51,7 +51,10 @@ export default class StatusDropdown extends React.PureComponent <Props> {
         userId: '',
         profilePicture: '',
         status: UserStatuses.OFFLINE,
-        customStatus: {},
+        customStatus: {
+            emoji: '',
+            text: '',
+        },
     }
 
     isUserOutOfOffice = (): boolean => {
@@ -137,7 +140,7 @@ export default class StatusDropdown extends React.PureComponent <Props> {
             return null;
         }
         const customStatus = this.props.customStatus;
-        const isStatusSet = customStatus && (customStatus.text || customStatus.emoji);
+        const isStatusSet = customStatus && (customStatus.text.trim().length !== 0 || customStatus.emoji.trim().length !== 0);
         const customStatusText = isStatusSet ? customStatus.text : localizeMessage('status_dropdown.set_custom', 'Set a Custom Status');
         const customStatusEmoji = isStatusSet ? (
             <span className='d-flex'>
