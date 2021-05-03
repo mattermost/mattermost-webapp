@@ -8,9 +8,10 @@ import {FormattedMessage} from 'react-intl';
 import OverlayTrigger from 'components/overlay_trigger';
 
 import Constants, {RHSStates} from 'utils/constants';
+import {RhsState} from 'types/store/rhs';
 
 type Props = {
-    previousRhsState: string;
+    previousRhsState: RhsState;
     isExpanded: boolean;
     actions: {
         showMentions: () => void;
