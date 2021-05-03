@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {AnyAction, bindActionCreators, Dispatch} from 'redux';
 
-import {GlobalState} from 'types/store/index.js';
+import {GlobalState} from 'types/store';
 
 import {
     showMentions,
