@@ -24,7 +24,7 @@ type Props = {
 };
 
 export default class RhsCardHeader extends React.PureComponent<Props> {
-    handleBack = (e: { preventDefault: () => void }): void => {
+    handleBack = (e: React.MouseEvent<HTMLAnchorElement>): void => {
         e.preventDefault();
 
         switch (this.props.previousRhsState) {
