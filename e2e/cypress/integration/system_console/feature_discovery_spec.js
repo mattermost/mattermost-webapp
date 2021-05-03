@@ -24,7 +24,7 @@ describe('Feature discovery', () => {
         });
     };
 
-    it('MM-34812 - Make Sure All Feature Discoveries Exist', () => {
+    it('MM-T4035 - Make Sure All Feature Discoveries Exist', () => {
         [
             {sidebarName: 'AD/LDAP', featureDiscoveryTitle: 'LDAP'},
             {sidebarName: 'SAML 2.0', featureDiscoveryTitle: 'SAML'},
