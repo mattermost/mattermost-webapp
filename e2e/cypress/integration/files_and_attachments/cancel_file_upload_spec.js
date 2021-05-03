@@ -52,7 +52,7 @@ describe('Upload Files', () => {
         // # Post a different file in center channel
         const filename = 'long_text_post.txt';
         cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(filename);
-        cy.postMessage('{enter}');
+        cy.get('#post_textbox').should('be.visible').clear().type('{enter}');
 
         // * Verify the file is successfully posted as last post
         cy.getLastPostId().then((postId) => {

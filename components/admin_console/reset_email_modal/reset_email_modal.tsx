@@ -1,29 +1,36 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
+import {UserProfile} from 'mattermost-redux/types/users';
+import {ActionResult} from 'mattermost-redux/types/actions';
+
 import {isEmail} from 'mattermost-redux/utils/helpers';
 
-import {adminResetEmail} from 'actions/admin_actions.jsx';
+type State = {
+    error: JSX.Element|string|null;
+}
 
-export default class ResetEmailModal extends React.PureComponent {
-    static propTypes = {
-        user: PropTypes.object,
-        show: PropTypes.bool.isRequired,
-        onModalSubmit: PropTypes.func,
-        onModalDismissed: PropTypes.func,
-        passwordConfig: PropTypes.object,
+type Props = {
+    user?: UserProfile;
+    show: boolean;
+    onModalSubmit: (user?: UserProfile) => void;
+    onModalDismissed: () => void;
+    actions: {
+        patchUser: (user: UserProfile) => ActionResult;
     };
+}
 
-    static defaultProps = {
+export default class ResetEmailModal extends React.PureComponent<Props, State> {
+    private emailRef: React.RefObject<HTMLInputElement>;
+    public static defaultProps: Partial<Props> = {
         show: false,
     };
 
-    constructor(props) {
+    public constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -33,11 +40,17 @@ export default class ResetEmailModal extends React.PureComponent {
         this.emailRef = React.createRef();
     }
 
-    doSubmit = (e) => {
+    private doSubmit = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
+        if (!this.props.user) {
+            return;
+        }
 
+        let email = '';
         if (this.emailRef.current) {
-            const email = this.emailRef.current.value;
+            email = this.emailRef.current.value;
+
+            // function isEmail aready handle empty / null value
             if (!isEmail(email)) {
                 const errMsg = (
                     <FormattedMessage
@@ -48,38 +61,38 @@ export default class ResetEmailModal extends React.PureComponent {
                 this.setState({error: errMsg});
                 return;
             }
+            email = email.trim().toLowerCase();
         }
 
-        const user = Object.assign({}, this.props.user);
-        const email = this.emailRef.current.value.trim().toLowerCase();
-        user.email = email;
+        const user = {
+            ...this.props.user,
+            email,
+        };
 
-        this.setState({error: null});
-
-        adminResetEmail(
-            user,
-            () => {
-                this.props.onModalSubmit(this.props.user);
-            },
-            (err) => {
-                const serverError = err.message ? err.message : err;
-                this.setState({error: serverError});
-            },
-        );
+        const result = await this.props.actions.patchUser(user);
+        if ('error' in result) {
+            this.setState({error: result.error.message});
+            return;
+        }
+        this.props.onModalSubmit(this.props.user);
     }
 
-    doCancel = () => {
-        this.setState({error: null});
+    private doCancel = (): void => {
+        this.setState({
+            error: null,
+        });
         this.props.onModalDismissed();
     }
 
-    render() {
-        if (!this.props.user) {
+    public render(): JSX.Element {
+        const user = this.props.user;
+        if (!user) {
             return <div/>;
         }
 
         let urlClass = 'input-group input-group--limit';
         let errorMsg = null;
+
         if (this.state.error) {
             urlClass += ' has-error';
             errorMsg = <div className='has-error'><p className='input__help error'>{this.state.error}</p></div>;
@@ -134,7 +147,7 @@ export default class ResetEmailModal extends React.PureComponent {
                                         type='email'
                                         ref={this.emailRef}
                                         className='form-control'
-                                        maxLength='128'
+                                        maxLength={128}
                                         autoFocus={true}
                                     />
                                 </div>

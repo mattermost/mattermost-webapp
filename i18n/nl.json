@@ -1409,8 +1409,6 @@
   "admin.permissions.permission.manage_private_channel_properties.name": "Beheer kanaalinstellingen",
   "admin.permissions.permission.manage_public_channel_properties.description": "De namen, hoofdingen doelen van openbaar kanalen bijwerken.",
   "admin.permissions.permission.manage_public_channel_properties.name": "Beheer kanaalinstellingen",
-  "admin.permissions.permission.manage_remote_clusters.description": "Toevoegen, verwijderen en bekijken van clusters op afstand voor gedeelde kanalen",
-  "admin.permissions.permission.manage_remote_clusters.name": "Beheer remote clusters",
   "admin.permissions.permission.manage_roles.description": "Beheer rollen",
   "admin.permissions.permission.manage_roles.name": "Beheer rollen",
   "admin.permissions.permission.manage_shared_channels.description": "Delen en een andere instantie uitnodigen om te synchroniseren met een gedeeld kanaal",

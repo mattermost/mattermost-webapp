@@ -53,13 +53,13 @@ describe('Integrations', () => {
             loginAndVisitChannel(testUser, `/${testTeam.name}/channels/${testChannel.name}`);
 
             // # Post `/invite @username` where username is a user who is not in the current channel
-            cy.postMessage(`/invite @${userToInvite.username}{enter}`);
+            cy.postMessage(`/invite @${userToInvite.username} `);
 
             // * User who added them sees system message "username added to the channel by you"
             cy.uiWaitUntilMessagePostedIncludes(`@${userToInvite.username} added to the channel by you`);
 
             // * Cannot invite deactivated users to a channel
-            cy.postMessage(`/invite @${deactivatedUser.username}{enter}`);
+            cy.postMessage(`/invite @${deactivatedUser.username} `);
             cy.uiWaitUntilMessagePostedIncludes('We couldn\'t find the user. They may have been deactivated by the System Administrator.');
 
             cy.apiLogout();
@@ -83,8 +83,8 @@ describe('Integrations', () => {
         loginAndVisitChannel(testUser, `${testTeam.name}/channels/${testChannel.name}`);
 
         // # In a GM use the /invite command to invite a user to a channel you have permission to add them to but place extra white space before the username
-        cy.postMessage(`/groupmsg @${member1.username} @${member2.username}{enter}`);
-        cy.postMessage(`/invite        @${userToInviteGM.username} ~${testChannel.name}{enter}`);
+        cy.postMessage(`/groupmsg @${member1.username} @${member2.username} `);
+        cy.postMessage(`/invite        @${userToInviteGM.username} ~${testChannel.name} `);
 
         // * User added to channel as expected
         cy.uiWaitUntilMessagePostedIncludes(`${userToInviteGM.username} added to ${testChannel.name} channel.`);
@@ -96,7 +96,7 @@ describe('Integrations', () => {
         cy.get('#channelHeaderDropdownButton').contains(`${userToInviteDM.username}`).should('be.visible');
 
         // # In a DM use the /invite command to invite a user to a channel you have permission to add them to but place extra white space before the username
-        cy.postMessage(`/invite        @${userToInviteDM.username} ~${testChannel.name}{enter}`);
+        cy.postMessage(`/invite        @${userToInviteDM.username} ~${testChannel.name} `);
 
         // * User added to channel as expected
         cy.uiWaitUntilMessagePostedIncludes(`${userToInviteDM.username} added to ${testChannel.name} channel.`);
@@ -108,7 +108,7 @@ describe('Integrations', () => {
         loginAndVisitChannel(testUser, townSquareUrl);
 
         // # Post `/invite @username ~channel` where channel name is a channel you have permission to add members to but not the current channel, and username is a user not in that other channel
-        cy.postMessage(`/invite @${userToInvite.username} ~${testChannel.name}{enter}`);
+        cy.postMessage(`/invite @${userToInvite.username} ~${testChannel.name} `);
 
         // * User who added them sees system message "username added to channel."
         cy.uiWaitUntilMessagePostedIncludes(`${userToInvite.username} added to ${testChannel.name} channel.`);
@@ -132,8 +132,8 @@ describe('Integrations', () => {
         loginAndVisitChannel(testUser, `${testTeam.name}/channels/${testChannel.name}`);
 
         // # In a GM Use the /invite command to invite a channel to another channel (e.g., /invite @[channel name])
-        cy.postMessage(`/groupmsg @${member1.username} @${member2.username}{enter}`);
-        cy.postMessage(`/invite @${testChannel.name}{enter}`);
+        cy.postMessage(`/groupmsg @${member1.username} @${member2.username} `);
+        cy.postMessage(`/invite @${testChannel.name} `);
 
         // * Error appears: "We couldn't find the user. They may have been deactivated by the System Administrator."
         cy.uiWaitUntilMessagePostedIncludes('We couldn\'t find the user. They may have been deactivated by the System Administrator.');
@@ -145,7 +145,7 @@ describe('Integrations', () => {
         cy.get('#channelHeaderDropdownButton').contains(`${userDM.username}`).should('be.visible');
 
         // # In a GM Use the /invite command to invite a channel to another channel (e.g., /invite @[channel name])
-        cy.postMessage(`/invite @${testChannel.name}{enter}`);
+        cy.postMessage(`/invite @${testChannel.name} `);
 
         // * Error appears: "We couldn't find the user. They may have been deactivated by the System Administrator."
         cy.uiWaitUntilMessagePostedIncludes('We couldn\'t find the user. They may have been deactivated by the System Administrator.');
@@ -158,8 +158,8 @@ describe('Integrations', () => {
         loginAndVisitChannel(testUser, `${testTeam.name}/channels/${testChannel.name}`);
 
         // # In a GM use the /invite command to invite someone to a channel they're already a member of
-        cy.postMessage(`/groupmsg @${member1.username} @${member2.username}{enter}`);
-        cy.postMessage(`/invite @${userToInvite.username} ~${testChannel.name}{enter}`);
+        cy.postMessage(`/groupmsg @${member1.username} @${member2.username} `);
+        cy.postMessage(`/invite @${userToInvite.username} ~${testChannel.name} `);
 
         // * Error appears: "[username] is already in the channel"
         cy.uiWaitUntilMessagePostedIncludes(`${userToInvite.username} is already in the channel.`);
@@ -171,7 +171,7 @@ describe('Integrations', () => {
         cy.get('#channelHeaderDropdownButton').contains(`${userDM.username}`).should('be.visible');
 
         // # In a DM use the /invite command to invite someone to a channel they're already a member of
-        cy.postMessage(`/invite @${userToInvite.username} ~${testChannel.name}{enter}`);
+        cy.postMessage(`/invite @${userToInvite.username} ~${testChannel.name} `);
 
         // * Error appears: "[username] is already in the channel"
         cy.uiWaitUntilMessagePostedIncludes(`${userToInvite.username} is already in the channel.`);
@@ -197,14 +197,14 @@ describe('Integrations', () => {
         cy.get('#channelHeaderDropdownButton').contains(`${userDM.username}`).should('be.visible');
 
         // # As UserB use the /invite command in a DM to invite UserC to the public channel that UserB is not a member of
-        cy.postMessage(`/invite @${userC.username} ~${userA.username}-channel{enter}`);
+        cy.postMessage(`/invite @${userC.username} ~${userA.username}-channel `);
 
         // * Error appears: "You don't have enough permissions to add [username] in [public channel name]."
         cy.uiWaitUntilMessagePostedIncludes(`You don't have enough permissions to add ${userC.username} in ${userA.username}-channel.`);
 
         // # As UserB use the /invite command in a GM to invite UserC to the public channel that UserB is not a member of
-        cy.postMessage(`/groupmsg @${member1.username} @${member2.username}{enter}`);
-        cy.postMessage(`/invite @${userC.username} ~${userA.username}-channel{enter}`);
+        cy.postMessage(`/groupmsg @${member1.username} @${member2.username} `);
+        cy.postMessage(`/invite @${userC.username} ~${userA.username}-channel `);
 
         // * Error appears: "You don't have enough permissions to add [username] in [public channel name]."
         cy.uiWaitUntilMessagePostedIncludes(`You don't have enough permissions to add ${userC.username} in ${userA.username}-channel.`);
@@ -216,7 +216,7 @@ describe('Integrations', () => {
         loginAndVisitChannel(testUser, townSquareUrl);
 
         // # Use the /invite command to invite a user to a channel by typing the channel name out without the tilde (~).
-        cy.postMessage(`/invite @${userToInvite.username} ${testChannel.display_name}{enter}`);
+        cy.postMessage(`/invite @${userToInvite.username} ${testChannel.display_name} `);
 
         // * Error appears: "Could not find the channel [channel name]. Please use the channel handle to identify channels."
         cy.uiWaitUntilMessagePostedIncludes(`Could not find the channel ${testChannel.display_name}. Please use the channel handle to identify channels.`);
