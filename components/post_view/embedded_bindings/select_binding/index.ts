@@ -6,18 +6,18 @@ import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {ActionFunc, ActionResult, GenericAction} from 'mattermost-redux/types/actions';
 
-import {AppCallRequest, AppCallType} from 'mattermost-redux/types/apps';
-
 import {getChannel} from 'mattermost-redux/actions/channels';
 
-import {doAppCall} from 'actions/apps';
-import {sendEphemeralPost} from 'actions/global_actions';
+import {DoAppCall, PostEphemeralCallResponseForPost} from 'types/apps';
+
+import {doAppCall, postEphemeralCallResponseForPost} from 'actions/apps';
 
 import SelectBinding from './select_binding';
 
 type Actions = {
-    doAppCall: (call: AppCallRequest, type: AppCallType) => Promise<ActionResult>;
+    doAppCall: DoAppCall;
     getChannel: (channelId: string) => Promise<ActionResult>;
+    postEphemeralCallResponseForPost: PostEphemeralCallResponseForPost;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
@@ -25,8 +25,8 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
             doAppCall,
             getChannel,
+            postEphemeralCallResponseForPost,
         }, dispatch),
-        sendEphemeralPost,
     };
 }
 

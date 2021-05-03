@@ -89,7 +89,7 @@
         "ShowFullName": true
     },
     "SupportSettings": {
-        "SupportEmail": "feedback@mattermost.com",
+        "SupportEmail": "",
         "CustomTermsOfServiceEnabled": false,
         "CustomTermsOfServiceReAcceptancePeriod": 365,
         "EnableAskCommunityLink": true
