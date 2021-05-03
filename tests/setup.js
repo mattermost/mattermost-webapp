@@ -7,6 +7,8 @@ import $ from 'jquery';
 
 import '@testing-library/jest-dom';
 
+import './redux-persist_mock';
+
 global.$ = $;
 global.jQuery = $;
 global.performance = {};
