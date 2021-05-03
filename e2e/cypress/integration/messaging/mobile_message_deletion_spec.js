@@ -10,8 +10,6 @@
 // Stage: @prod
 // Group: @messaging
 
-import * as TIMEOUTS from '../../fixtures/timeouts';
-
 describe('Delete Parent Message', () => {
     before(() => {
         // # Set view port to mobile
@@ -37,10 +35,7 @@ describe('Delete Parent Message', () => {
             // * Add 2 replies
             const replyCount = 2;
             for (var i = 0; i < replyCount; i++) {
-                cy.get('#reply_textbox').type('Reply').type('{enter}');
-
-                // add wait time to ensure that a post gets posted and not on pending state
-                cy.wait(TIMEOUTS.HALF_SEC);
+                cy.postMessageReplyInRHS('Reply');
             }
 
             cy.getLastPostId().then((replyPostId) => {
