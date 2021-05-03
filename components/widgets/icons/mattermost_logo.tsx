@@ -1,11 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, { CSSProperties } from 'react';
-import { useIntl } from 'react-intl';
+import React, {CSSProperties} from 'react';
+import {useIntl} from 'react-intl';
 
 export default function MattermostLogo(props: React.HTMLAttributes<HTMLSpanElement>) {
-    const { formatMessage } = useIntl();
+    const {formatMessage} = useIntl();
     return (
         <span {...props}>
             <svg
@@ -15,7 +15,7 @@ export default function MattermostLogo(props: React.HTMLAttributes<HTMLSpanEleme
                 viewBox='0 0 500 500'
                 enableBackground='new 0 0 500 500'
                 role='img'
-                aria-label={formatMessage({ id: 'generic_icons.mattermost', defaultMessage: 'Mattermost Logo' })}
+                aria-label={formatMessage({id: 'generic_icons.mattermost', defaultMessage: 'Mattermost Logo'})}
             >
                 <g>
                     <g>

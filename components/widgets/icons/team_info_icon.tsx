@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, { CSSProperties } from 'react';
+import React, {CSSProperties} from 'react';
 import {useIntl} from 'react-intl';
 
 export default function TeamInfoIcon(props: React.HTMLAttributes<HTMLSpanElement>) {
