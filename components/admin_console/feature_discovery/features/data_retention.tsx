@@ -4,7 +4,7 @@
 import React from 'react';
 
 import {t} from 'utils/i18n';
-import saml from 'images/feature-discovery/saml.png';
+import image from 'images/feature-discovery/dataretention.svg';
 
 import FeatureDiscovery from '../index';
 
@@ -17,7 +17,7 @@ const DataRetentionFeatureDiscovery: React.FC = () => {
             copyID='admin.data_retention_feature_discovery.copy'
             copyDefault={'Hold on to your data only as long as you need to. Create data retention jobs for select channels and teams to automatically delete disposable data.'}
             learnMoreURL='https://docs.mattermost.com/administration/data-retention.html'
-            imgPath={saml}
+            imgPath={image}
         />
     );
 };

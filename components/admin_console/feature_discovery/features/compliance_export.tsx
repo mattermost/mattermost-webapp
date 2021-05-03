@@ -4,7 +4,7 @@
 import React from 'react';
 
 import {t} from 'utils/i18n';
-import saml from 'images/feature-discovery/saml.png';
+import image from 'images/feature-discovery/export.svg';
 
 import FeatureDiscovery from '../index';
 
@@ -17,7 +17,7 @@ const ComplianceExportFeatureDiscovery: React.FC = () => {
             copyID='admin.compliance_export_feature_discovery.copy'
             copyDefault={'Run daily compliance reports and export them to a variety of formats consumable by third-party integration tools such as Smarsh (Actiance).'}
             learnMoreURL='https://docs.mattermost.com/administration/compliance-export.html'
-            imgPath={saml}
+            imgPath={image}
         />
     );
 };

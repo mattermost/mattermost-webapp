@@ -4,7 +4,7 @@
 import React from 'react';
 
 import {t} from 'utils/i18n';
-import saml from 'images/feature-discovery/saml.png';
+import image from 'images/feature-discovery/groups.svg';
 
 import FeatureDiscovery from '../index';
 
@@ -17,7 +17,7 @@ const GroupsFeatureDiscovery: React.FC = () => {
             copyID='admin.groups_feature_discovery.copy'
             copyDefault={'Use AD/LDAP groups to organize and apply actions to multiple users at once. Manage team and channel memberships, permissions, and more.'}
             learnMoreURL='https://docs.mattermost.com/deployment/ldap-group-sync.html'
-            imgPath={saml}
+            imgPath={image}
         />
     );
 };
