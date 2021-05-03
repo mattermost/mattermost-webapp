@@ -7,8 +7,8 @@ import {FormattedMessage} from 'react-intl';
 import {UserCustomStatus} from 'mattermost-redux/types/users';
 
 import OverlayTrigger from 'components/overlay_trigger';
-import Constants, {durationValues} from 'utils/constants';
 import RenderEmoji from 'components/emoji/render_emoji';
+import Constants, {durationValues} from 'utils/constants';
 
 import CustomStatusText from './custom_status_text';
 

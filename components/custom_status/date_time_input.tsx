@@ -7,13 +7,13 @@ import {DayModifiers, NavbarElementProps} from 'react-day-picker';
 
 import moment from 'moment-timezone';
 
-import {localizeMessage} from 'utils/utils';
-import {getCurrentLocale} from 'selectors/i18n';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
-import {Constants} from 'utils/constants';
 import Timestamp from 'components/timestamp';
+import {getCurrentLocale} from 'selectors/i18n';
+import {Constants} from 'utils/constants';
 import {getCurrentDateAndTimeForTimezone} from 'utils/timezone';
+import {localizeMessage} from 'utils/utils';
 
 const Navbar: React.FC<Partial<NavbarElementProps>> = (navbarProps: Partial<NavbarElementProps>) => {
     const {

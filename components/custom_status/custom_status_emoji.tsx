@@ -6,12 +6,12 @@ import {useSelector} from 'react-redux';
 
 import OverlayTrigger from 'components/overlay_trigger';
 import RenderEmoji from 'components/emoji/render_emoji';
+import {CustomStatusDuration} from 'mattermost-redux/types/users';
+import {getCurrentUserTimezone} from 'selectors/general';
 import {getCustomStatus, isCustomStatusEnabled} from 'selectors/views/custom_status';
 import {GlobalState} from 'types/store';
 import Constants from 'utils/constants';
 import {displayExpiryTime} from 'utils/custom_status';
-import {CustomStatusDuration} from 'mattermost-redux/types/users';
-import {getCurrentUserTimezone} from 'selectors/general';
 
 interface ComponentProps {
     emojiSize?: number;
