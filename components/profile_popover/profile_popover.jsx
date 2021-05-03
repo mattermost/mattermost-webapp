@@ -27,10 +27,11 @@ import SharedUserIndicator from 'components/shared_user_indicator.tsx';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import CustomStatusModal from 'components/custom_status/custom_status_modal';
 import CustomStatusText from 'components/custom_status/custom_status_text';
+import {CustomStatusDuration} from 'mattermost-redux/types/users';
+import {memoizeResult} from 'mattermost-redux/utils/helpers';
+import {displayExpiryTime} from 'utils/custom_status';
 
 import './profile_popover.scss';
-import {displayExpiryTime} from 'utils/custom_status';
-import {CustomStatusDuration} from 'mattermost-redux/types/users';
 
 /**
  * The profile popover, or hovercard, that appears with user information when clicking
@@ -155,6 +156,7 @@ class ProfilePopover extends React.PureComponent {
 
     constructor(props) {
         super(props);
+        this.displayExpiryTime = memoizeResult(displayExpiryTime);
         this.state = {
             loadingDMChannel: -1,
         };
@@ -299,7 +301,7 @@ class ProfilePopover extends React.PureComponent {
             expiryContent = customStatusSet && customStatus.expires_at && customStatus.duration !== CustomStatusDuration.DONT_CLEAR && (
                 <span>
                     {' (Until '}
-                    {displayExpiryTime(customStatus.expires_at, this.props.timezone)}
+                    {this.displayExpiryTime(customStatus.expires_at, this.props.timezone)}
                     {')'}
                 </span>
             );

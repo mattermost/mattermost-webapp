@@ -31,12 +31,10 @@ const CustomStatusEmoji = (props: ComponentProps) => {
     });
     const timezone = useSelector(getCurrentUserTimezone);
     const expiryText = useCallback(() => {
-        if (customStatus.expires_at && customStatus.duration !== CustomStatusDuration.DONT_CLEAR) {
-            displayExpiryTime(customStatus.expires_at, timezone);
-        }
-    }, [customStatus.expires_at, timezone]);
+        return customStatus?.expires_at && customStatus.duration !== CustomStatusDuration.DONT_CLEAR && displayExpiryTime(customStatus.expires_at, timezone);
+    }, [customStatus?.expires_at, timezone]);
 
-    if (!(customStatusEnabled && customStatus && customStatus.emoji)) {
+    if (!(customStatusEnabled && customStatus?.emoji)) {
         return null;
     }
 
@@ -79,7 +77,8 @@ const CustomStatusEmoji = (props: ComponentProps) => {
                     {customStatus.expires_at && customStatus.duration !== CustomStatusDuration.DONT_CLEAR &&
                         <div>
                             <span>
-                                {`Until ${expiryText}`}
+                                {'Until '}
+                                {expiryText()}
                             </span>
                         </div>
                     }
