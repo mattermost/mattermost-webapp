@@ -13,7 +13,7 @@ import 'react-day-picker/lib/style.css';
 
 import 'moment';
 
-const loadedLocales: any = {};
+const loadedLocales: Record<string, moment.Locale> = {};
 
 type Props = {
     locale: string;
