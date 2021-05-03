@@ -62,8 +62,6 @@ export default class StatusDropdown extends React.PureComponent <Props> {
         this.props.actions.setStatus({
             user_id: this.props.userId,
             status,
-            manual: false,
-            last_activity_at: new Date().getTime(),
         });
     }
 
