@@ -24,6 +24,7 @@ import {
 } from 'mattermost-redux/types/utilities';
 
 import {Team} from 'mattermost-redux/types/teams';
+import {channelListToMap} from 'mattermost-redux/utils/channel_utils';
 
 function removeMemberFromChannels(state: RelationOneToOne<Channel, UserIDMappedObjects<ChannelMembership>>, action: GenericAction) {
     const nextState = {...state};
@@ -77,6 +78,10 @@ function channels(state: IDMappedObjects<Channel> = {}, action: GenericAction) {
             ...state,
             [action.data.id]: action.data,
         };
+    case AdminTypes.RECEIVED_DATA_RETENTION_CUSTOM_POLICY_CHANNELS: {
+        return Object.assign({}, state, channelListToMap(action.data.channels));
+    }
+    case AdminTypes.RECEIVED_DATA_RETENTION_CUSTOM_POLICY_CHANNELS_SEARCH:
     case ChannelTypes.RECEIVED_CHANNELS:
     case ChannelTypes.RECEIVED_ALL_CHANNELS:
     case SchemeTypes.RECEIVED_SCHEME_CHANNELS: {
@@ -218,6 +223,21 @@ function channels(state: IDMappedObjects<Channel> = {}, action: GenericAction) {
         }
 
         return hasNewValues ? nextState : state;
+    }
+
+    case AdminTypes.REMOVE_DATA_RETENTION_CUSTOM_POLICY_CHANNELS_SUCCESS: {
+        const {channels} = action.data;
+        const nextState = {...state};
+        channels.forEach((channelId: string) => {
+            if (nextState[channelId]) {
+                nextState[channelId] = {
+                    ...nextState[channelId],
+                    policy_id: null,
+                };
+            }
+        });
+
+        return nextState;
     }
 
     case UserTypes.LOGOUT_SUCCESS:
@@ -795,28 +815,6 @@ export function channelMemberCountsByGroup(state: any = {}, action: GenericActio
     }
 }
 
-export function channelsInPolicy(state: IDMappedObjects<Channel> = {}, action: GenericAction) {
-    switch (action.type) {
-    case AdminTypes.RECEIVED_DATA_RETENTION_CUSTOM_POLICY_CHANNELS_SEARCH:
-    case AdminTypes.RECEIVED_DATA_RETENTION_CUSTOM_POLICY_CHANNELS: {
-        const nextState: IDMappedObjects<Channel> = {...state};
-
-        for (let channel of action.data.channels) {
-            if (state[channel.id] && channel.type === General.DM_CHANNEL && !channel.display_name) {
-                channel = {...channel, display_name: state[channel.id].display_name};
-            }
-            nextState[channel.id] = channel;
-        }
-        return nextState;
-    }
-    case AdminTypes.CLEAR_DATA_RETENTION_CUSTOM_POLICY_CHANNELS: {
-        return {};
-    }
-    default:
-        return state;
-    }
-}
-
 export default combineReducers({
 
     // the current selected channel
@@ -849,7 +847,4 @@ export default combineReducers({
 
     // object where every key is the channel id containing map of <group_id: ChannelMemberCountByGroup>
     channelMemberCountsByGroup,
-
-    // object where every key is the channel id and has and object with the channel detail
-    channelsInPolicy,
 });

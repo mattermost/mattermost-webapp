@@ -5,11 +5,13 @@ import React from 'react';
 
 import {injectIntl, IntlShape} from 'react-intl';
 
-import {AppBinding, AppCallRequest, AppCallResponse, AppCallType} from 'mattermost-redux/types/apps';
+import {AppBinding} from 'mattermost-redux/types/apps';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {AppBindingLocations, AppCallResponseTypes, AppCallTypes, AppExpandLevels} from 'mattermost-redux/constants/apps';
 import {Channel} from 'mattermost-redux/types/channels';
 import {Post} from 'mattermost-redux/types/posts';
+
+import {DoAppCall, PostEphemeralCallResponseForPost} from 'types/apps';
 
 import Markdown from 'components/markdown';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
@@ -20,10 +22,10 @@ type Props = {
     binding: AppBinding;
     post: Post;
     actions: {
-        doAppCall: (call: AppCallRequest, type: AppCallType, intl: IntlShape) => Promise<ActionResult>;
+        doAppCall: DoAppCall;
         getChannel: (channelId: string) => Promise<ActionResult>;
+        postEphemeralCallResponseForPost: PostEphemeralCallResponseForPost;
     };
-    sendEphemeralPost: (message: string, channelID?: string, rootID?: string, userID?: string) => void;
 }
 
 type State = {
@@ -39,7 +41,7 @@ export class ButtonBinding extends React.PureComponent<Props, State> {
     }
 
     handleClick = async () => {
-        const {binding, post} = this.props;
+        const {binding, post, intl} = this.props;
         if (!binding.call) {
             return;
         }
@@ -65,31 +67,38 @@ export class ButtonBinding extends React.PureComponent<Props, State> {
             {post: AppExpandLevels.EXPAND_ALL},
         );
         this.setState({executing: true});
-        const res = await this.props.actions.doAppCall(call, AppCallTypes.SUBMIT, this.props.intl);
+        const res = await this.props.actions.doAppCall(call, AppCallTypes.SUBMIT, intl);
 
         this.setState({executing: false});
-        const callResp = (res as {data: AppCallResponse}).data;
-        const ephemeral = (message: string) => this.props.sendEphemeralPost(message, this.props.post.channel_id, this.props.post.root_id, callResp.app_metadata?.bot_user_id);
+
+        if (res.error) {
+            const errorResponse = res.error;
+            const errorMessage = errorResponse.error || intl.formatMessage({
+                id: 'apps.error.unknown',
+                defaultMessage: 'Unknown error occurred.',
+            });
+            this.props.actions.postEphemeralCallResponseForPost(errorResponse, errorMessage, post);
+            return;
+        }
+
+        const callResp = res.data!;
         switch (callResp.type) {
         case AppCallResponseTypes.OK:
             if (callResp.markdown) {
-                ephemeral(callResp.markdown);
+                this.props.actions.postEphemeralCallResponseForPost(callResp, callResp.markdown, post);
             }
             break;
-        case AppCallResponseTypes.ERROR: {
-            const errorMessage = callResp.error || this.props.intl.formatMessage({id: 'apps.error.unknown', defaultMessage: 'Unknown error happenned'});
-            ephemeral(errorMessage);
-            break;
-        }
         case AppCallResponseTypes.NAVIGATE:
         case AppCallResponseTypes.FORM:
             break;
         default: {
-            const errorMessage = this.props.intl.formatMessage(
-                {id: 'apps.error.responses.unknown_type', defaultMessage: 'App response type not supported. Response type: {type}.'},
-                {type: callResp.type},
-            );
-            ephemeral(errorMessage);
+            const errorMessage = intl.formatMessage({
+                id: 'apps.error.responses.unknown_type',
+                defaultMessage: 'App response type not supported. Response type: {type}.',
+            }, {
+                type: callResp.type,
+            });
+            this.props.actions.postEphemeralCallResponseForPost(callResp, errorMessage, post);
         }
         }
     }

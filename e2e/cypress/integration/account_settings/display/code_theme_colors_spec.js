@@ -17,7 +17,7 @@ describe('Account Settings', () => {
         // # Login as new user, visit town-square and post a message
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
             cy.visit(`/${team.name}/channels/town-square`);
-            cy.postMessage('```\ncode\n```{enter}');
+            cy.postMessage('```\ncode\n```');
         });
     });
 

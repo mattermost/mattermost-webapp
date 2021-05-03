@@ -19,7 +19,7 @@ describe('Widgets - Badges', () => {
         cy.requireStorybookServer();
 
         // # Go to widget story and verify that it renders regular badge
-        cy.toWidgetStory('/story/badges--regular-badge');
+        cy.toWidgetStory('/story/widgets-badges--regular-badge');
         cy.get('.sidebar-container').should('be.visible').within(() => {
             cy.findByText('regular badge').should('exist');
         });
@@ -75,7 +75,7 @@ describe('Widgets - Badges', () => {
             cy.get('.Badge').should('be.visible');
         });
 
-        cy.openStoryPanel('Knobs').then(() => {
+        cy.openStoryPanel('Knobs (2)').then(() => {
             // # Uncheck "Show" and verify that the badge is hidden
             cy.get('#Show').uncheck().should('be.not.checked');
             cy.get('@iframeRoot').should('be.visible').within(() => {
