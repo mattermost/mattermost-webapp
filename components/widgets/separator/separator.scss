@@ -48,7 +48,7 @@
     }
 
     .separator__hr {
-        border-top: 1px solid v(center-channel-color-20);
+        border-top: 1px solid rgba(var(--center-channel-color-rgb), 0.12);
         margin: 0;
         position: relative;
         top: 1em;

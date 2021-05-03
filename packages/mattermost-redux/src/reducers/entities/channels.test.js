@@ -30,7 +30,6 @@ describe('channels', () => {
                 },
                 channelModerations: {},
                 channelMemberCountsByGroup: {},
-                channelsInPolicy: {},
             });
 
             const nextState = channelsReducer(state, {
@@ -69,7 +68,6 @@ describe('channels', () => {
                 },
                 channelModerations: {},
                 channelMemberCountsByGroup: {},
-                channelsInPolicy: {},
             });
 
             const nextState = channelsReducer(state, {
@@ -106,7 +104,6 @@ describe('channels', () => {
                 },
                 channelModerations: {},
                 channelMemberCountsByGroup: {},
-                channelsInPolicy: {},
             });
 
             const nextState = channelsReducer(state, {
@@ -144,7 +141,6 @@ describe('channels', () => {
                 },
                 channelModerations: {},
                 channelMemberCountsByGroup: {},
-                channelsInPolicy: {},
             });
 
             const nextState = channelsReducer(state, {
@@ -180,7 +176,6 @@ describe('channels', () => {
                 },
                 channelModerations: {},
                 channelMemberCountsByGroup: {},
-                channelsInPolicy: {},
             });
 
             const nextState = channelsReducer(state, {
@@ -220,7 +215,6 @@ describe('channels', () => {
                 },
                 channelModerations: {},
                 channelMemberCountsByGroup: {},
-                channelsInPolicy: {},
             });
 
             const nextState = channelsReducer(state, {
@@ -257,7 +251,6 @@ describe('channels', () => {
                 },
                 channelModerations: {},
                 channelMemberCountsByGroup: {},
-                channelsInPolicy: {},
             });
 
             const nextState = channelsReducer(state, {
@@ -297,7 +290,6 @@ describe('channels', () => {
                 },
                 channelModerations: {},
                 channelMemberCountsByGroup: {},
-                channelsInPolicy: {},
             });
 
             const nextState = channelsReducer(state, {
@@ -333,7 +325,6 @@ describe('channels', () => {
                 },
                 channelModerations: {},
                 channelMemberCountsByGroup: {},
-                channelsInPolicy: {},
             });
 
             const nextState = channelsReducer(state, {
@@ -368,7 +359,6 @@ describe('channels', () => {
                 },
                 channelModerations: {},
                 channelMemberCountsByGroup: {},
-                channelsInPolicy: {},
             });
 
             const nextState = channelsReducer(state, {
@@ -402,7 +392,6 @@ describe('channels', () => {
                 },
                 channelModerations: {},
                 channelMemberCountsByGroup: {},
-                channelsInPolicy: {},
             });
 
             const nextState = channelsReducer(state, {
@@ -439,7 +428,6 @@ describe('channels', () => {
                 },
                 channelModerations: {},
                 channelMemberCountsByGroup: {},
-                channelsInPolicy: {},
             });
 
             const nextState = channelsReducer(state, {
@@ -478,7 +466,6 @@ describe('channels', () => {
                 },
                 channelModerations: {},
                 channelMemberCountsByGroup: {},
-                channelsInPolicy: {},
             });
 
             const nextState = channelsReducer(state, {
@@ -512,7 +499,6 @@ describe('channels', () => {
                 },
                 channelModerations: {},
                 channelMemberCountsByGroup: {},
-                channelsInPolicy: {},
             });
 
             const nextState = channelsReducer(state, {
