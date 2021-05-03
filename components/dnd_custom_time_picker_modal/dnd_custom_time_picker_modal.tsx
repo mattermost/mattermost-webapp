@@ -36,9 +36,10 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
     constructor(props: Props) {
         super(props);
 
+        const currDate = this.formatDate(this.props.currentDate);
         this.state = {
-            selectedDate: this.formatDate(this.props.currentDate) || '',
-            ...this.makeTimeMenuList(),
+            selectedDate: currDate || '',
+            ...this.makeTimeMenuList(currDate),
         };
     }
 
@@ -92,18 +93,17 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
         const dString = this.formatDate(day);
         this.setState({
             selectedDate: dString,
-            ...this.makeTimeMenuList(),
+            ...this.makeTimeMenuList(dString),
         });
     };
 
-    makeTimeMenuList = (): {timeMenuList: string[]; selectedTime: string} => {
+    makeTimeMenuList = (selectedDate: string): {timeMenuList: string[]; selectedTime: string} => {
         const timeMenuItems = [];
         let h = 0;
         let m = 0;
         const curr = this.props.currentDate;
 
-        // state will be undefined when called via constructor so selectedDate will be currentDate
-        if (!this.state || (this.formatDate(curr) === this.state.selectedDate)) {
+        if (this.formatDate(curr) === selectedDate) {
             h = curr.getHours();
             m = curr.getMinutes();
             if (m > 20) {
@@ -114,15 +114,8 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
             }
         }
 
-        let selectedTime: string;
-        if (this.state && this.state.selectedTime) {
-            selectedTime = this.state.selectedTime;
-        } else {
-            selectedTime = h.toString().padStart(2, '0') + ':' + ((m / 30) * 30).toString().padStart(2, '0');
-        }
-
-        for (let i = 0; i < 24; i++) {
-            for (let j = 0; j < 2; j++) {
+        for (let i = h; i < 24; i++) {
+            for (let j = m; j < 2; j++) {
                 const t = i.toString().padStart(2, '0') + ':' + (j * 30).toString().padStart(2, '0');
                 timeMenuItems.push(
                     t,
@@ -131,7 +124,7 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
         }
         return {
             timeMenuList: timeMenuItems,
-            selectedTime,
+            selectedTime: timeMenuItems[0],
         };
     }
 
