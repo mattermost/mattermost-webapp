@@ -115,7 +115,7 @@ export default class StatusDropdown extends React.PureComponent <Props> {
                 id='generic_icons.dropdown'
                 defaultMessage='Dropdown Icon'
             >
-                { (title: any) => (
+                { (title: string) => (
                     <i
                         className={'fa fa-caret-down'}
                         aria-label={title}
