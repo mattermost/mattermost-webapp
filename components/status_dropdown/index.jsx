@@ -16,6 +16,7 @@ import {setStatusDropdown} from 'actions/views/status_dropdown';
 import StatusDropdown from 'components/status_dropdown/status_dropdown.jsx';
 import {getCustomStatus, isCustomStatusEnabled, showStatusDropdownPulsatingDot} from 'selectors/views/custom_status';
 import {isStatusDropdownOpen} from 'selectors/views/status_dropdown';
+import {getCurrentUserTimezone} from 'selectors/general';
 
 function mapStateToProps(state) {
     const currentUser = getCurrentUser(state);
@@ -34,6 +35,7 @@ function mapStateToProps(state) {
         isCustomStatusEnabled: isCustomStatusEnabled(state),
         isStatusDropdownOpen: isStatusDropdownOpen(state),
         showCustomStatusPulsatingDot: showStatusDropdownPulsatingDot(state),
+        timezone: getCurrentUserTimezone(state),
     };
 }
 

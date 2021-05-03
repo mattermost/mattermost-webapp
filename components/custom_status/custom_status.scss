@@ -124,12 +124,12 @@
             font-size: 20px;
         }
     }
-    
+
     .MaxLengthInput__validation {
         right: 44px !important;
         top: 17px !important;
     }
-    
+
     .MaxLengthInput.form-control.has-error {
         padding-right: 76px !important;
     }
@@ -156,7 +156,6 @@
     min-height: 232px;
     max-height: 264px;
     overflow: auto;
-    margin-top: 8px;
 
     &__content {
         display: flex;
@@ -207,6 +206,14 @@
         height: 20px;
         text-overflow: ellipsis;
         white-space: nowrap;
+        max-width: 73%;
+    }
+
+    &__duration {
+        margin-left: 8px;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 14px;
     }
 }
 
@@ -231,8 +238,8 @@ span.emoticon[style]:hover {
 }
 
 .statusExpiry {
-    position: relative;
-    top: 48px;
+    position: absolute;
+    top: 56px;
     font-size: 14px;
     display: inline-block;
 
@@ -277,7 +284,7 @@ span.emoticon[style]:hover {
             left: 15px;
         }
     }
-    
+
     & &__input {
         border: 2px solid var(--button-bg);
         cursor: pointer;

@@ -20,7 +20,7 @@ import {openDirectChannelToUserId} from 'actions/channel_actions.jsx';
 import {getMembershipForEntities} from 'actions/views/profile_popover';
 import {closeModal, openModal} from 'actions/views/modals';
 
-import {areTimezonesEnabledAndSupported} from 'selectors/general';
+import {areTimezonesEnabledAndSupported, getCurrentUserTimezone} from 'selectors/general';
 import {getRhsState, getSelectedPost} from 'selectors/rhs';
 
 import {getCustomStatus, isCustomStatusEnabled} from 'selectors/views/custom_status';
@@ -63,6 +63,7 @@ function mapStateToProps(state, {userId, channelId = getDefaultChannelId(state)}
         customStatus: getCustomStatus(state, userId),
         isCustomStatusEnabled: isCustomStatusEnabled(state),
         channelId,
+        currentUserTimezone: getCurrentUserTimezone(state),
     };
 }
 

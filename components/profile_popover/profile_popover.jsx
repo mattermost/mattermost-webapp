@@ -29,6 +29,8 @@ import CustomStatusModal from 'components/custom_status/custom_status_modal';
 import CustomStatusText from 'components/custom_status/custom_status_text';
 
 import './profile_popover.scss';
+import {displayExpiryTime} from 'utils/custom_status';
+import {CustomStatusDuration} from 'mattermost-redux/types/users';
 
 /**
  * The profile popover, or hovercard, that appears with user information when clicking
@@ -89,6 +91,7 @@ class ProfilePopover extends React.PureComponent {
         currentUserId: PropTypes.string.isRequired,
         customStatus: PropTypes.object,
         isCustomStatusEnabled: PropTypes.bool.isRequired,
+        currentUserTimezone: PropTypes.string,
 
         /**
          * @internal
@@ -263,10 +266,11 @@ class ProfilePopover extends React.PureComponent {
         const shouldShowCustomStatus = isCustomStatusEnabled && customStatus && (customStatusSet || canSetCustomStatus);
 
         if (!shouldShowCustomStatus) {
-            return null;
+            return {};
         }
 
         let customStatusContent;
+        let expiryContent;
         if (customStatusSet) {
             const customStatusEmoji = (
                 <span className='d-flex'>
@@ -291,6 +295,14 @@ class ProfilePopover extends React.PureComponent {
                     />
                 </div>
             );
+
+            expiryContent = customStatusSet && customStatus.expires_at && customStatus.duration !== CustomStatusDuration.DONT_CLEAR && (
+                <span>
+                    {' (Until '}
+                    {displayExpiryTime(customStatus.expires_at, this.props.timezone)}
+                    {')'}
+                </span>
+            );
         } else if (canSetCustomStatus) {
             customStatusContent = (
                 <div>
@@ -307,7 +319,7 @@ class ProfilePopover extends React.PureComponent {
             );
         }
 
-        return customStatusContent;
+        return {customStatusContent, expiryContent};
     }
 
     render() {
@@ -479,7 +491,7 @@ class ProfilePopover extends React.PureComponent {
             );
         }
 
-        const customStatusContent = !haveOverrideProp && this.renderCustomStatus();
+        const {customStatusContent, expiryContent} = !haveOverrideProp && this.renderCustomStatus();
         if (customStatusContent) {
             dataContent.push(
                 <div
@@ -492,6 +504,7 @@ class ProfilePopover extends React.PureComponent {
                             id='user_profile.custom_status'
                             defaultMessage='Status'
                         />
+                        {expiryContent}
                     </span>
                     {customStatusContent}
                 </div>,

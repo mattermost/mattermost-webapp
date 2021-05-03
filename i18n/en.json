@@ -2766,6 +2766,7 @@
   "custom_status.suggestions.title": "SUGGESTIONS",
   "custom_status.suggestions.working_from_home": "Working from home",
   "date_separator.today": "Today",
+  "date_separator.tomorrow": "Tomorrow",
   "date_separator.yesterday": "Yesterday",
   "deactivate_member_modal.deactivate": "Deactivate",
   "deactivate_member_modal.desc": "This action deactivates {username}. They will be logged out and not have access to any teams or channels on this system.\n",

@@ -26,6 +26,7 @@ import mattermostDarkThemeImage from 'images/themes/mattermost_dark.png';
 import defaultThemeImage from 'images/themes/organization.png';
 import windows10ThemeImage from 'images/themes/windows_dark.png';
 import logoWebhook from 'images/webhook_icon.jpg';
+import {CustomStatusDuration} from 'mattermost-redux/types/users';
 
 import {t} from 'utils/i18n';
 
@@ -1661,5 +1662,46 @@ t('suggestion.mention.nonmembers');
 t('suggestion.mention.special');
 t('suggestion.archive');
 t('suggestion.mention.groups');
+
+const {
+    DONT_CLEAR,
+    THIRTY_MINUTES,
+    ONE_HOUR,
+    FOUR_HOURS,
+    TODAY,
+    THIS_WEEK,
+    DATE_AND_TIME,
+} = CustomStatusDuration;
+
+export const durationValues = {
+    [DONT_CLEAR]: {
+        id: t('expiry_dropdown.dont_clear'),
+        defaultMessage: "Don't clear",
+    },
+    [THIRTY_MINUTES]: {
+        id: t('expiry_dropdown.thirty_minutes'),
+        defaultMessage: '30 minutes',
+    },
+    [ONE_HOUR]: {
+        id: t('expiry_dropdown.one_hour'),
+        defaultMessage: '1 hour',
+    },
+    [FOUR_HOURS]: {
+        id: t('expiry_dropdown.four_hours'),
+        defaultMessage: '4 hours',
+    },
+    [TODAY]: {
+        id: t('expiry_dropdown.today'),
+        defaultMessage: 'Today',
+    },
+    [THIS_WEEK]: {
+        id: t('expiry_dropdown.this_week'),
+        defaultMessage: 'This week',
+    },
+    [DATE_AND_TIME]: {
+        id: t('expiry_dropdown.date_and_time'),
+        defaultMessage: 'Date and Time',
+    },
+};
 
 export default Constants;

@@ -11,16 +11,13 @@ import {setCustomStatusInitialisationState} from 'mattermost-redux/actions/prefe
 import {Preferences} from 'mattermost-redux/constants';
 import {UserCustomStatus, CustomStatusDuration} from 'mattermost-redux/types/users';
 import {Emoji} from 'mattermost-redux/types/emojis';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
-import {getUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
 
 import GenericModal from 'components/generic_modal';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
-import {GlobalState} from 'types/store';
 import RenderEmoji from 'components/emoji/render_emoji';
 import {getCustomStatus, getRecentCustomStatuses, showStatusDropdownPulsatingDot} from 'selectors/views/custom_status';
-import {areTimezonesEnabledAndSupported} from 'selectors/general';
+import {getCurrentUserTimezone} from 'selectors/general';
 import {Constants} from 'utils/constants';
 import {getCurrentDateAndTimeForTimezone} from 'utils/timezone';
 import QuickInput, {MaxLengthInput} from 'components/quick_input';
@@ -43,47 +40,62 @@ type DefaultUserCustomStatus = {
     emoji: string;
     message: string;
     messageDefault: string;
+    duration: CustomStatusDuration;
 };
 
 const defaultCustomStatusSuggestions: DefaultUserCustomStatus[] = [
-    {emoji: 'calendar', message: t('custom_status.suggestions.in_a_meeting'), messageDefault: 'In a meeting'},
-    {emoji: 'hamburger', message: t('custom_status.suggestions.out_for_lunch'), messageDefault: 'Out for lunch'},
-    {emoji: 'sneezing_face', message: t('custom_status.suggestions.out_sick'), messageDefault: 'Out sick'},
-    {emoji: 'house', message: t('custom_status.suggestions.working_from_home'), messageDefault: 'Working from home'},
-    {emoji: 'palm_tree', message: t('custom_status.suggestions.on_a_vacation'), messageDefault: 'On a vacation'},
+    {
+        emoji: 'calendar',
+        message: t('custom_status.suggestions.in_a_meeting'),
+        messageDefault: 'In a meeting',
+        duration: CustomStatusDuration.ONE_HOUR,
+    },
+    {
+        emoji: 'hamburger',
+        message: t('custom_status.suggestions.out_for_lunch'),
+        messageDefault: 'Out for lunch',
+        duration: CustomStatusDuration.THIRTY_MINUTES,
+    },
+    {
+        emoji: 'sneezing_face',
+        message: t('custom_status.suggestions.out_sick'),
+        messageDefault: 'Out sick',
+        duration: CustomStatusDuration.TODAY,
+    },
+    {
+        emoji: 'house',
+        message: t('custom_status.suggestions.working_from_home'),
+        messageDefault: 'Working from home',
+        duration: CustomStatusDuration.TODAY,
+    },
+    {
+        emoji: 'palm_tree',
+        message: t('custom_status.suggestions.on_a_vacation'),
+        messageDefault: 'On a vacation',
+        duration: CustomStatusDuration.THIS_WEEK,
+    },
 ];
+
+const defaultDuration = CustomStatusDuration.FOUR_HOURS;
 
 const CustomStatusModal: React.FC<Props> = (props: Props) => {
     const dispatch = useDispatch();
-    const currentCustomStatus = useSelector((state: GlobalState) => getCustomStatus(state)) || {};
-    const recentCustomStatuses = useSelector((state: GlobalState) => getRecentCustomStatuses(state));
+    const currentCustomStatus = useSelector(getCustomStatus) || {};
+    const recentCustomStatuses = useSelector(getRecentCustomStatuses);
     const customStatusControlRef = useRef<HTMLDivElement>(null);
     const {formatMessage} = useIntl();
     const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
     const [text, setText] = useState<string>(currentCustomStatus.text || '');
     const [emoji, setEmoji] = useState<string>(currentCustomStatus.emoji || '');
-    const [expiry, setExpiry] = useState<CustomStatusDuration>(currentCustomStatus.duration || CustomStatusDuration.FOUR_HOURS);
+    const [expiry, setExpiry] = useState<CustomStatusDuration>(currentCustomStatus.duration || defaultDuration);
     const isStatusSet = emoji || text;
     const isCurrentCustomStatusSet = currentCustomStatus.text || currentCustomStatus.emoji;
-    const firstTimeModalOpened = useSelector((state: GlobalState) => showStatusDropdownPulsatingDot(state));
-    const showDateAndTimeField = isStatusSet && expiry === CustomStatusDuration.DATE_AND_TIME;
+    const firstTimeModalOpened = useSelector(showStatusDropdownPulsatingDot);
+    const timezone = useSelector(getCurrentUserTimezone);
 
-    const currentUserId = useSelector(getCurrentUserId);
-    const userTimezone = useSelector((state: GlobalState) => getUserTimezone(state, currentUserId));
-    const enableTimezone = useSelector(areTimezonesEnabledAndSupported);
-
-    let currentTime = new Date();
-    let timezone: string | undefined;
-    if (enableTimezone) {
-        timezone = userTimezone.manualTimezone;
-        if (userTimezone.useAutomaticTimezone) {
-            timezone = userTimezone.automaticTimezone;
-        }
-        currentTime = getCurrentDateAndTimeForTimezone(timezone);
-    }
-
+    const currentTime = timezone ? getCurrentDateAndTimeForTimezone(timezone) : new Date();
     let initialCustomExpiryTime: Date = getRoundedTime(currentTime);
-    if (currentCustomStatus.duration === CustomStatusDuration.DATE_AND_TIME) {
+    if (currentCustomStatus.duration === CustomStatusDuration.DATE_AND_TIME && currentCustomStatus.expires_at) {
         initialCustomExpiryTime = new Date(currentCustomStatus.expires_at);
     }
     const [customExpiryTime, setCustomExpiryTime] = useState<Date>(initialCustomExpiryTime);
@@ -107,19 +119,20 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
     };
 
     const calculateExpiryTime = (): string => {
+        const currentTime = timezone ? getCurrentDateAndTimeForTimezone(timezone) : new Date();
         switch (expiry) {
         case CustomStatusDuration.DONT_CLEAR:
             return '';
         case CustomStatusDuration.THIRTY_MINUTES:
-            return moment().add(30, 'minutes').seconds(0).milliseconds(0).toISOString();
+            return moment(currentTime).add(30, 'minutes').seconds(0).milliseconds(0).toISOString();
         case CustomStatusDuration.ONE_HOUR:
-            return moment().add(1, 'hour').seconds(0).milliseconds(0).toISOString();
+            return moment(currentTime).add(1, 'hour').seconds(0).milliseconds(0).toISOString();
         case CustomStatusDuration.FOUR_HOURS:
-            return moment().add(4, 'hours').seconds(0).milliseconds(0).toISOString();
+            return moment(currentTime).add(4, 'hours').seconds(0).milliseconds(0).toISOString();
         case CustomStatusDuration.TODAY:
-            return moment().endOf('day').toISOString();
+            return moment(currentTime).endOf('day').toISOString();
         case CustomStatusDuration.THIS_WEEK:
-            return moment().endOf('week').toISOString();
+            return moment(currentTime).endOf('week').toISOString();
         case CustomStatusDuration.DATE_AND_TIME:
             return customExpiryTime.toISOString();
         default:
@@ -161,18 +174,20 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
     const clearHandle = () => {
         setEmoji('');
         setText('');
+        setExpiry(defaultDuration);
     };
 
     let disableSetStatus = (currentCustomStatus.text === text && currentCustomStatus.emoji === emoji) ||
         (text === '' && emoji === '') || (text.length > Constants.CUSTOM_STATUS_TEXT_CHARACTER_LIMIT);
 
-    disableSetStatus = disableSetStatus &&
+    disableSetStatus = Boolean(disableSetStatus &&
         ((expiry !== CustomStatusDuration.DATE_AND_TIME && currentCustomStatus.duration === expiry) ||
-            (expiry === CustomStatusDuration.DATE_AND_TIME && customExpiryTime.getTime() === new Date(currentCustomStatus.expires_at).getTime()));
+            (expiry === CustomStatusDuration.DATE_AND_TIME && currentCustomStatus.expires_at && customExpiryTime.getTime() === new Date(currentCustomStatus.expires_at).getTime())));
 
     const handleSuggestionClick = (status: UserCustomStatus) => {
         setEmoji(status.emoji);
         setText(status.text);
+        setExpiry(status.duration);
     };
 
     const calculateRightOffSet = () => {
@@ -199,8 +214,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
                         key={status.text}
                         handleSuggestionClick={handleSuggestionClick}
                         handleClear={handleRecentCustomStatusClear}
-                        emoji={status.emoji}
-                        text={status.text}
+                        status={status}
                     />
                 ))
             }
@@ -213,14 +227,14 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
             map((status) => ({
                 emoji: status.emoji,
                 text: formatMessage({id: status.message, defaultMessage: status.messageDefault}),
+                duration: status.duration,
             })).
             filter((status: UserCustomStatus) => !recentCustomStatusTexts.includes(status.text)).
             map((status: UserCustomStatus, index: number) => (
                 <CustomStatusSuggestion
                     key={index}
                     handleSuggestionClick={handleSuggestionClick}
-                    emoji={status.emoji}
-                    text={status.text}
+                    status={status}
                 />
             ));
 
@@ -238,8 +252,16 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
         );
     };
 
+    const areSelectedAndSetStatusSame = currentCustomStatus?.emoji === emoji && currentCustomStatus?.text === text && expiry === currentCustomStatus?.duration;
+    const showSuggestions = !isStatusSet || areSelectedAndSetStatusSame;
+    const showExpiryDropdown = !showSuggestions || areSelectedAndSetStatusSame;
+    const showDateAndTimeField = !showSuggestions && expiry === CustomStatusDuration.DATE_AND_TIME;
+
     const suggestion = (
-        <div className='statusSuggestion'>
+        <div
+            className='statusSuggestion'
+            style={{marginTop: showExpiryDropdown ? 44 : 8}}
+        >
             <div className='statusSuggestion__content'>
                 {recentCustomStatuses.length > 0 && recentStatuses}
                 <div id='statusSuggestion__suggestions'>
@@ -248,8 +270,6 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
             </div>
         </div>
     );
-
-    const showSuggestions = !isStatusSet || (currentCustomStatus?.emoji === emoji && text && currentCustomStatus?.text === text);
 
     return (
         <GenericModal
@@ -330,7 +350,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
                         timezone={timezone}
                     />
                 )}
-                {isStatusSet && (
+                {showExpiryDropdown && (
                     <ExpiryMenu
                         expiry={expiry}
                         handleExpiryChange={handleExpiryChange}

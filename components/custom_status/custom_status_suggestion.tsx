@@ -2,11 +2,12 @@
 // See LICENSE.txt for license information.
 import React, {useState} from 'react';
 import {Tooltip} from 'react-bootstrap';
+import {FormattedMessage} from 'react-intl';
 
 import {UserCustomStatus} from 'mattermost-redux/types/users';
 
 import OverlayTrigger from 'components/overlay_trigger';
-import Constants from 'utils/constants';
+import Constants, {durationValues} from 'utils/constants';
 import RenderEmoji from 'components/emoji/render_emoji';
 
 import CustomStatusText from './custom_status_text';
@@ -15,13 +16,13 @@ import './custom_status.scss';
 
 type Props = {
     handleSuggestionClick: (status: UserCustomStatus) => void;
-    emoji: string;
-    text: string;
     handleClear?: (status: UserCustomStatus) => void;
+    status: UserCustomStatus;
 };
 
 const CustomStatusSuggestion: React.FC<Props> = (props: Props) => {
-    const {handleSuggestionClick, emoji, text, handleClear} = props;
+    const {handleSuggestionClick, handleClear, status} = props;
+    const {emoji, text, duration} = status;
     const [show, setShow] = useState(false);
 
     const showClearButton = () => setShow(true);
@@ -32,10 +33,7 @@ const CustomStatusSuggestion: React.FC<Props> = (props: Props) => {
         event.stopPropagation();
         event.preventDefault();
         if (handleClear) {
-            handleClear({
-                emoji,
-                text,
-            });
+            handleClear(status);
         }
     };
 
@@ -68,7 +66,7 @@ const CustomStatusSuggestion: React.FC<Props> = (props: Props) => {
             className='statusSuggestion__row cursor--pointer'
             onMouseEnter={showClearButton}
             onMouseLeave={hideClearButton}
-            onClick={() => handleSuggestionClick({emoji, text})}
+            onClick={() => handleSuggestionClick(status)}
         >
             <div className='statusSuggestion__icon'>
                 <RenderEmoji
@@ -81,6 +79,14 @@ const CustomStatusSuggestion: React.FC<Props> = (props: Props) => {
                 tooltipDirection='top'
                 className='statusSuggestion__text'
             />
+            {duration &&
+                <span className='statusSuggestion__duration'>
+                    <FormattedMessage
+                        id={durationValues[duration].id}
+                        defaultMessage={durationValues[duration].defaultMessage}
+                    />
+                </span>
+            }
             {show && clearButton}
         </div>
     );

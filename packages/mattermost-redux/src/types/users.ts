@@ -116,7 +116,7 @@ export type UserCustomStatus = {
     emoji: string;
     text: string;
     duration: CustomStatusDuration;
-    expires_at: string;
+    expires_at?: string;
 };
 
 export type UserAccessToken = {

@@ -23,6 +23,8 @@ import StatusDndIcon from 'components/widgets/icons/status_dnd_icon';
 import StatusOfflineIcon from 'components/widgets/icons/status_offline_icon';
 import OverlayTrigger from 'components/overlay_trigger';
 import CustomStatusText from 'components/custom_status/custom_status_text';
+import {CustomStatusDuration} from 'mattermost-redux/types/users';
+import {displayExpiryTime} from 'utils/custom_status';
 
 import './status_dropdown.scss';
 
@@ -43,6 +45,7 @@ export default class StatusDropdown extends React.PureComponent {
         isCustomStatusEnabled: PropTypes.bool.isRequired,
         isStatusDropdownOpen: PropTypes.bool.isRequired,
         showCustomStatusPulsatingDot: PropTypes.bool.isRequired,
+        timezone: PropTypes.string,
     }
 
     static defaultProps = {
@@ -175,6 +178,15 @@ export default class StatusDropdown extends React.PureComponent {
             <span className='pulsating_dot'/>
         );
 
+        const expiryTime = isStatusSet && customStatus.expires_at && customStatus.duration !== CustomStatusDuration.DONT_CLEAR &&
+            (
+                <span className='custom_status__expiry MenuItem__help-text'>
+                    {'(Until '}
+                    {displayExpiryTime(customStatus.expires_at, this.props.timezone)}
+                    {')'}
+                </span>
+            );
+
         return (
             <Menu.Group>
                 <Menu.ItemToggleModalRedux
@@ -185,14 +197,17 @@ export default class StatusDropdown extends React.PureComponent {
                     id={'status-menu-custom-status'}
                     sibling={clearButton}
                 >
-                    <span className='custom_status__icon'>
-                        {customStatusEmoji}
+                    <span className='custom_status__container'>
+                        <span className='custom_status__icon'>
+                            {customStatusEmoji}
+                        </span>
+                        <CustomStatusText
+                            text={customStatusText}
+                            className='custom_status__text'
+                        />
+                        {pulsatingDot}
                     </span>
-                    <CustomStatusText
-                        text={customStatusText}
-                        className='custom_status__text'
-                    />
-                    {pulsatingDot}
+                    {expiryTime}
                 </Menu.ItemToggleModalRedux>
             </Menu.Group>
         );
