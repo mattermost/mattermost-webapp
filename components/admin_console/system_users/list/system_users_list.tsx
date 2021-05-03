@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {ReactNode} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {UserProfile} from 'mattermost-redux/types/users';
@@ -16,7 +16,7 @@ import ManageTeamsModal from 'components/admin_console/manage_teams_modal';
 import ManageTokensModal from 'components/admin_console/manage_tokens_modal';
 import ResetPasswordModal from 'components/admin_console/reset_password_modal';
 import ResetEmailModal from 'components/admin_console/reset_email_modal';
-import SearchableUserList from 'components/searchable_user_list/searchable_user_list.jsx';
+import SearchableUserList from 'components/searchable_user_list/searchable_user_list';
 import UserListRowWithError from 'components/user_list_row_with_error';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
@@ -278,7 +278,7 @@ export default class SystemUsersList extends React.PureComponent<Props, State> {
         return info;
     }
 
-    renderCount(count: number, total: number, startCount: number, endCount: number, isSearch: boolean) {
+    renderCount(count: number, total: number, startCount: number, endCount: number, isSearch: boolean): ReactNode {
         if (total) {
             if (isSearch) {
                 return (

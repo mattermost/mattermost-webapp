@@ -2,10 +2,8 @@
 // See LICENSE.txt for license information.
 /* eslint-disable react/no-string-refs */
 
-import $ from 'jquery';
-import PropTypes from 'prop-types';
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React, {createRef, ReactNode} from 'react';
+
 import {FormattedMessage, injectIntl} from 'react-intl';
 
 import QuickInput from 'components/quick_input';
@@ -13,35 +11,38 @@ import UserList from 'components/user_list.jsx';
 import LocalizedInput from 'components/localized_input/localized_input';
 
 import {t} from 'utils/i18n';
+import {IntlProps} from 'components/search_results/types';
 
 const NEXT_BUTTON_TIMEOUT = 500;
 
-class SearchableUserList extends React.PureComponent {
-    static propTypes = {
-        users: PropTypes.arrayOf(PropTypes.object),
-        usersPerPage: PropTypes.number,
-        total: PropTypes.number,
-        extraInfo: PropTypes.object,
-        nextPage: PropTypes.func.isRequired,
-        previousPage: PropTypes.func.isRequired,
-        search: PropTypes.func.isRequired,
-        actions: PropTypes.arrayOf(PropTypes.func),
-        actionProps: PropTypes.object,
-        actionUserProps: PropTypes.object,
-        focusOnMount: PropTypes.bool,
-        renderCount: PropTypes.func,
-        filter: PropTypes.string,
-        renderFilterRow: PropTypes.func,
-        page: PropTypes.number.isRequired,
-        term: PropTypes.string.isRequired,
-        onTermChange: PropTypes.func.isRequired,
-        intl: PropTypes.any,
-        isDisabled: PropTypes.bool,
+ type Props = {
+     users: Array<Record<string, unknown>>;
+     usersPerPage: number;
+     total: number;
+     extraInfo?: Record<string, unknown>;
+     nextPage: (page?: number) => Promise<void> | void;
+     previousPage: (page?: number) => Promise<void> | void;
+     search: (term: string) => void;
+     actions?: ReactNode[];
+     actionProps?: Record<string, unknown>;
+     actionUserProps?: Record<string, unknown>;
+     focusOnMount?: boolean;
+     renderCount?: (count: number, total: number, startCount: number, endCount: number, isSearch: boolean) => ReactNode;
+     filter?: string;
+     renderFilterRow?: (func: {(e: React.FormEvent<HTMLInputElement>): void}) => void;
+     page: number;
+     term: string | number;
+     onTermChange: (term: string) => void;
+     intl: (msg: Record<string, string>) => string;
+     isDisabled?: boolean;
 
-        // the type of user list row to render
-        rowComponentType: PropTypes.func,
-    };
+     // the type of user list row to render
+     rowComponentType?: ReactNode;
+ }
 
+ type State = { nextDisabled: boolean }
+
+class SearchableUserList extends React.PureComponent<Props & IntlProps, State> {
     static defaultProps = {
         users: [],
         usersPerPage: 50,
@@ -53,23 +54,27 @@ class SearchableUserList extends React.PureComponent {
         focusOnMount: false,
     };
 
-    constructor(props) {
-        super(props);
+    private userList: React.RefObject<UserList>;
+    private nextTimeoutId: number;
 
-        this.nextTimeoutId = 0;
+    constructor(props: Props & IntlProps) {
+        super(props);
 
         this.state = {
             nextDisabled: false,
         };
+
+        this.nextTimeoutId = 0;
+        this.userList = createRef();
     }
 
     componentDidMount() {
         this.focusSearchBar();
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: Props) {
         if (this.props.page !== prevProps.page || this.props.term !== prevProps.term) {
-            this.refs.userList.scrollToTop();
+            this.userList.current?.scrollToTop();
         }
     }
 
@@ -77,35 +82,31 @@ class SearchableUserList extends React.PureComponent {
         clearTimeout(this.nextTimeoutId);
     }
 
-    nextPage = (e) => {
-        e.preventDefault();
-
+    nextPage = () => {
         this.setState({nextDisabled: true});
-        this.nextTimeoutId = setTimeout(() => this.setState({nextDisabled: false}), NEXT_BUTTON_TIMEOUT);
+        setTimeout(() => this.setState({nextDisabled: false}), NEXT_BUTTON_TIMEOUT);
 
         this.props.nextPage();
-        $(ReactDOM.findDOMNode(this.refs.channelListScroll)).scrollTop(0);
+        this.userList.current?.scrollToTop();
     }
 
-    previousPage = (e) => {
-        e.preventDefault();
-
+    previousPage = () => {
         this.props.previousPage();
-        $(ReactDOM.findDOMNode(this.refs.channelListScroll)).scrollTop(0);
+        this.userList.current?.scrollToTop();
     }
 
     focusSearchBar = () => {
         if (this.props.focusOnMount) {
-            this.refs.filter.focus();
+            document.getElementById('searchUsersInput')?.focus();
         }
     }
 
-    handleInput = (e) => {
-        this.props.onTermChange(e.target.value);
-        this.props.search(e.target.value);
+    handleInput = (e: React.FormEvent<HTMLInputElement>) => {
+        this.props.onTermChange(e.currentTarget.value);
+        this.props.search(e.currentTarget.value);
     }
 
-    renderCount = (users) => {
+    renderCount = (users: Array<Record<string, unknown>>) => {
         if (!users) {
             return null;
         }
@@ -169,8 +170,8 @@ class SearchableUserList extends React.PureComponent {
     render() {
         let nextButton;
         let previousButton;
-        let usersToDisplay;
-        const {formatMessage} = this.props.intl;
+        let usersToDisplay = this.props.users;
+        const formatMessage = this.props.intl;
 
         if (this.props.term || !this.props.users) {
             usersToDisplay = this.props.users;

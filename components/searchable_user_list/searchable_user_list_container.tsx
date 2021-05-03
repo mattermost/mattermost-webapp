@@ -1,26 +1,30 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, {ReactElement, ReactNode} from 'react';
 
-import SearchableUserList from './searchable_user_list.jsx';
+import SearchableUserList from './searchable_user_list';
 
-export default class SearchableUserListContainer extends React.PureComponent {
-    static propTypes = {
-        users: PropTypes.arrayOf(PropTypes.object),
-        usersPerPage: PropTypes.number,
-        total: PropTypes.number,
-        extraInfo: PropTypes.object,
-        nextPage: PropTypes.func.isRequired,
-        search: PropTypes.func.isRequired,
-        actions: PropTypes.arrayOf(PropTypes.func),
-        actionProps: PropTypes.object,
-        actionUserProps: PropTypes.object,
-        focusOnMount: PropTypes.bool,
-    };
+type Props = {
+    users: Array<Record<string, unknown>>;
+    usersPerPage: number;
+    total: number;
+    extraInfo?: Record<string, unknown>;
+    nextPage: (page: number) => void;
+    search: (value: string) => void;
+    actions?: ReactNode[];
+    actionProps?: Record<string, unknown>;
+    actionUserProps?: Record<string, unknown>;
+    focusOnMount?: boolean;
+}
 
-    constructor(props) {
+type State = {
+    term: string;
+    page: number;
+}
+
+export default class SearchableUserListContainer extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -29,21 +33,21 @@ export default class SearchableUserListContainer extends React.PureComponent {
         };
     }
 
-    handleTermChange = (term) => {
+    handleTermChange = (term: string): void => {
         this.setState({term});
     }
 
-    nextPage = () => {
+    nextPage = (): void => {
         this.setState({page: this.state.page + 1});
 
         this.props.nextPage(this.state.page + 1);
     }
 
-    previousPage = () => {
+    previousPage = (): void => {
         this.setState({page: this.state.page - 1});
     }
 
-    search = (term) => {
+    search = (term: string): void => {
         this.props.search(term);
 
         if (term !== '') {
@@ -51,7 +55,7 @@ export default class SearchableUserListContainer extends React.PureComponent {
         }
     }
 
-    render() {
+    render(): ReactElement {
         return (
             <SearchableUserList
                 {...this.props}
