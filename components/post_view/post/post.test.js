@@ -45,7 +45,7 @@ describe('Post', () => {
 
         wrapper.find(`#post_${baseProps.post.id}`).simulate('click', {altKey: true});
 
-        expect(baseProps.actions.markPostAsUnread).toHaveBeenCalledWith(baseProps.post);
+        expect(baseProps.actions.markPostAsUnread).toHaveBeenCalledWith(baseProps.post, 'CENTER');
     });
 
     test('should not mark post as unread on click when channel is archived', () => {
