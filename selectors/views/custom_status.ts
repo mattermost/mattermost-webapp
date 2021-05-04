@@ -10,15 +10,17 @@ import {Preferences} from 'mattermost-redux/constants';
 import {CustomStatusDuration, UserCustomStatus} from 'mattermost-redux/types/users';
 
 import {GlobalState} from 'types/store';
+import {getCurrentUserTimezone} from 'selectors/general';
+import {getCurrentDateAndTimeForTimezone} from 'utils/timezone';
 
-export function getCustomStatus(state: GlobalState, userID?: string): UserCustomStatus {
+export function getCustomStatus(state: GlobalState, userID?: string): UserCustomStatus | undefined {
     const user = userID ? getUser(state, userID) : getCurrentUser(state);
     const userProps = user?.props || {};
-    const customStatus = userProps.customStatus ? JSON.parse(userProps.customStatus) : {};
+    const customStatus = userProps.customStatus ? JSON.parse(userProps.customStatus) : undefined;
     const expiryTime = new Date(customStatus?.expires_at);
-    if (customStatus.duration === CustomStatusDuration.DONT_CLEAR || new Date() < expiryTime) {
-        return customStatus;
-    }
+    const timezone = getCurrentUserTimezone(state);
+    const currentTime = timezone ? getCurrentDateAndTimeForTimezone(timezone) : new Date();
+    return (customStatus?.duration === CustomStatusDuration.DONT_CLEAR || currentTime < expiryTime) ? customStatus : undefined;
 }
 
 export const getRecentCustomStatuses = createSelector(

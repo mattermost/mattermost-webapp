@@ -20,5 +20,13 @@ exports[`components/custom_status/custom_status_emoji should match snapshot 1`] 
     text=""
     tooltipDirection="top"
   />
+  <span
+    className="statusSuggestion__duration"
+  >
+    <FormattedMessage
+      defaultMessage="Don't clear"
+      id="expiry_dropdown.dont_clear"
+    />
+  </span>
 </div>
 `;

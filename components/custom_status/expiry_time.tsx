@@ -6,14 +6,19 @@ import moment from 'moment-timezone';
 
 import Timestamp, {RelativeRanges} from 'components/timestamp';
 
-import {getCurrentDateAndTimeForTimezone} from './timezone';
+import {getCurrentDateAndTimeForTimezone} from 'utils/timezone';
 
 const CUSTOM_STATUS_EXPIRY_RANGES = [
     RelativeRanges.TODAY_TITLE_CASE,
     RelativeRanges.TOMORROW_TITLE_CASE,
 ];
 
-export function displayExpiryTime(time: string, timezone?: string) {
+interface Props {
+    time: string;
+    timezone?: string;
+}
+
+const ExpiryTime = ({time, timezone}: Props) => {
     const currentTime = timezone ? getCurrentDateAndTimeForTimezone(timezone) : new Date();
     const timestampProps: { [key: string]: any } = {
         value: time,
@@ -33,4 +38,6 @@ export function displayExpiryTime(time: string, timezone?: string) {
             {...timestampProps}
         />
     );
-}
+};
+
+export default React.memo(ExpiryTime);
