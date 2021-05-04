@@ -153,6 +153,7 @@ exports[`components/StatusDropdown should match snapshot with custom status enab
         id="status-menu-custom-status"
         modalId="custom_status"
         show={true}
+        sibling={false}
       >
         <span
           className="custom_status__icon"
@@ -271,6 +272,7 @@ exports[`components/StatusDropdown should match snapshot with custom status puls
         id="status-menu-custom-status"
         modalId="custom_status"
         show={true}
+        sibling={false}
       >
         <span
           className="custom_status__icon"

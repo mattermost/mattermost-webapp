@@ -140,7 +140,7 @@ export default class StatusDropdown extends React.PureComponent <Props> {
             return null;
         }
         const customStatus = this.props.customStatus;
-        const isStatusSet = customStatus && (customStatus.text.trim().length !== 0 || customStatus.emoji.trim().length !== 0);
+        const isStatusSet = customStatus && (customStatus.text.length > 0 || customStatus.emoji.length > 0);
         const customStatusText = isStatusSet ? customStatus.text : localizeMessage('status_dropdown.set_custom', 'Set a Custom Status');
         const customStatusEmoji = isStatusSet ? (
             <span className='d-flex'>
