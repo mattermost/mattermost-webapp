@@ -14,6 +14,8 @@ import {mockStore} from 'tests/test_store';
 
 import {UserThread} from 'mattermost-redux/types/threads';
 
+import {fakeDate} from 'tests/helpers/date';
+
 import ThreadFooter from './thread_footer';
 
 describe('components/threading/channel_threads/thread_footer', () => {
@@ -109,14 +111,20 @@ describe('components/threading/channel_threads/thread_footer', () => {
         },
     };
 
+    let resetFakeDate: () => void;
     let state: any;
     let thread: UserThread;
     let props: ComponentProps<typeof ThreadFooter>;
 
     beforeEach(() => {
+        resetFakeDate = fakeDate(new Date('2020-05-03T13:20:00Z'));
         state = {...baseState};
         thread = state.entities.threads.threads.postthreadid;
         props = {threadId: thread.id};
+    });
+
+    afterEach(() => {
+        resetFakeDate();
     });
 
     test('should report total number of replies', () => {
@@ -171,7 +179,7 @@ describe('components/threading/channel_threads/thread_footer', () => {
     });
 
     test('should have a reply button', () => {
-        const {mountOptions} = mockStore(state);
+        const {store, mountOptions} = mockStore(state);
         const wrapper = mount(
             <ThreadFooter
                 {...props}
@@ -179,12 +187,20 @@ describe('components/threading/channel_threads/thread_footer', () => {
             mountOptions,
         );
         wrapper.find('button.separated').first().simulate('click');
+        expect(store.getActions()).toEqual([
+            {
+                type: 'SELECT_POST',
+                channelId: 'cid',
+                postId: 'postthreadid',
+                timestamp: 1588512000000,
+            },
+        ]);
     });
 
     test('should have a follow button', () => {
         thread.is_following = false;
 
-        const {mountOptions} = mockStore(state);
+        const {store, mountOptions} = mockStore(state);
         const wrapper = mount(
             <ThreadFooter
                 {...props}
@@ -194,12 +210,23 @@ describe('components/threading/channel_threads/thread_footer', () => {
 
         expect(wrapper.exists(FollowButton)).toBe(true);
         expect(wrapper.find(FollowButton).props()).toHaveProperty('isFollowing', thread.is_following);
+
         wrapper.find('button.separated').last().simulate('click');
+        expect(store.getActions()).toEqual([
+            {
+                type: 'FOLLOW_CHANGED_THREAD',
+                data: {
+                    following: true,
+                    id: 'postthreadid',
+                    team_id: 'tid',
+                },
+            },
+        ]);
     });
 
     test('should have an unfollow button', () => {
         thread.is_following = true;
-        const {mountOptions} = mockStore(state);
+        const {store, mountOptions} = mockStore(state);
 
         const wrapper = mount(
             <ThreadFooter
@@ -208,9 +235,18 @@ describe('components/threading/channel_threads/thread_footer', () => {
             mountOptions,
         );
         expect(wrapper.exists(FollowButton)).toBe(true);
-
         expect(wrapper.find(FollowButton).props()).toHaveProperty('isFollowing', thread.is_following);
 
         wrapper.find('button.separated').last().simulate('click');
+        expect(store.getActions()).toEqual([
+            {
+                type: 'FOLLOW_CHANGED_THREAD',
+                data: {
+                    following: false,
+                    id: 'postthreadid',
+                    team_id: 'tid',
+                },
+            },
+        ]);
     });
 });
