@@ -177,7 +177,11 @@ describe('components/SuggestionBox', () => {
     });
 
     test('Test for suggestionBoxAlgn when slash command at beginning and when slash command in middle of text', () => {
-        const provider = new CommandProvider({isInRHS: true});
+        const provider = new CommandProvider({
+            teamId: 'current_team',
+            channelId: 'current_channel',
+            rootId: 'current_root',
+        });
         const props = {
             ...baseProps,
             providers: [provider],
