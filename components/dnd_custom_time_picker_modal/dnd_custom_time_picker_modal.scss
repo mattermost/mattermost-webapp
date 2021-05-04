@@ -70,7 +70,7 @@
     height: 40px;
     border-radius: 4px;
     border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
-    background: white;
+    background: rgba(var(--center-channel-bg-rgb), 1);
     display: flex;
     align-items: center;
 
@@ -112,7 +112,7 @@
     font-size: 10px;
     color: rgba(var(--center-channel-color-rgb), 0.64);
     top: -11px;
-    background: white;
+    background: rgba(var(--center-channel-bg-rgb), 1);
     left: 0;
     z-index: 1;
 }
