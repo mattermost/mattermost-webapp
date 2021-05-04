@@ -2042,7 +2042,7 @@ export default class Client4 {
 
         return this.doFetch<ChannelUnread>(
             `${this.getUserRoute(userId)}/posts/${postId}/set_unread`,
-            {method: 'post'},
+            {method: 'post', body: JSON.stringify({collapsed_threads_supported: true})},
         );
     }
 
