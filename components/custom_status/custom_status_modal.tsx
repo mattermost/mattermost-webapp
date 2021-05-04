@@ -177,13 +177,6 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
         setExpiry(defaultDuration);
     };
 
-    let disableSetStatus = (currentCustomStatus?.text === text && currentCustomStatus.emoji === emoji) ||
-        (text === '' && emoji === '') || (text.length > Constants.CUSTOM_STATUS_TEXT_CHARACTER_LIMIT);
-
-    disableSetStatus = Boolean(disableSetStatus &&
-        ((expiry !== CustomStatusDuration.DATE_AND_TIME && currentCustomStatus?.duration === expiry) ||
-            (expiry === CustomStatusDuration.DATE_AND_TIME && currentCustomStatus?.expires_at && customExpiryTime.getTime() === new Date(currentCustomStatus.expires_at).getTime())));
-
     const handleSuggestionClick = (status: UserCustomStatus) => {
         setEmoji(status.emoji);
         setText(status.text);
@@ -253,14 +246,18 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
     };
 
     const areSelectedAndSetStatusSame = currentCustomStatus?.emoji === emoji && currentCustomStatus?.text === text && expiry === currentCustomStatus?.duration;
+
+    const isExpirySame = Boolean(currentCustomStatus?.expires_at && customExpiryTime.getTime() === new Date(currentCustomStatus.expires_at).getTime());
+
+    const disableSetStatus = emoji === '' || text.length > Constants.CUSTOM_STATUS_TEXT_CHARACTER_LIMIT || (areSelectedAndSetStatusSame && (expiry !== CustomStatusDuration.DATE_AND_TIME || isExpirySame));
+
     const showSuggestions = !isStatusSet || areSelectedAndSetStatusSame;
-    const showExpiryDropdown = !showSuggestions || areSelectedAndSetStatusSame;
     const showDateAndTimeField = !showSuggestions && expiry === CustomStatusDuration.DATE_AND_TIME;
 
     const suggestion = (
         <div
             className='statusSuggestion'
-            style={{marginTop: showExpiryDropdown ? 44 : 8}}
+            style={{marginTop: isStatusSet ? 44 : 8}}
         >
             <div className='statusSuggestion__content'>
                 {recentCustomStatuses.length > 0 && recentStatuses}
@@ -350,7 +347,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
                         timezone={timezone}
                     />
                 )}
-                {showExpiryDropdown && (
+                {isStatusSet && (
                     <ExpiryMenu
                         expiry={expiry}
                         handleExpiryChange={handleExpiryChange}

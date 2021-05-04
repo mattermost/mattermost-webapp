@@ -23,9 +23,8 @@ import StatusDndIcon from 'components/widgets/icons/status_dnd_icon';
 import StatusOfflineIcon from 'components/widgets/icons/status_offline_icon';
 import OverlayTrigger from 'components/overlay_trigger';
 import CustomStatusText from 'components/custom_status/custom_status_text';
+import ExpiryTime from 'components/custom_status/expiry_time';
 import {CustomStatusDuration} from 'mattermost-redux/types/users';
-import {memoizeResult} from 'mattermost-redux/utils/helpers';
-import {displayExpiryTime} from 'utils/custom_status';
 
 import './status_dropdown.scss';
 
@@ -54,11 +53,6 @@ export default class StatusDropdown extends React.PureComponent {
         profilePicture: '',
         status: UserStatuses.OFFLINE,
         customStatus: {},
-    }
-
-    constructor(props) {
-        super(props);
-        this.displayExpiryTime = memoizeResult(displayExpiryTime);
     }
 
     isUserOutOfOffice = () => {
@@ -188,7 +182,10 @@ export default class StatusDropdown extends React.PureComponent {
             (
                 <span className='custom_status__expiry MenuItem__help-text'>
                     {'(Until '}
-                    {this.displayExpiryTime(customStatus.expires_at, this.props.timezone)}
+                    <ExpiryTime
+                        time={customStatus.expires_at}
+                        timezone={this.props.timezone}
+                    />
                     {')'}
                 </span>
             );

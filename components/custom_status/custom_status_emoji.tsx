@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {useCallback} from 'react';
+import React from 'react';
 import {Tooltip} from 'react-bootstrap';
 import {useSelector} from 'react-redux';
 
@@ -11,7 +11,8 @@ import {getCurrentUserTimezone} from 'selectors/general';
 import {getCustomStatus, isCustomStatusEnabled} from 'selectors/views/custom_status';
 import {GlobalState} from 'types/store';
 import Constants from 'utils/constants';
-import {displayExpiryTime} from 'utils/custom_status';
+
+import ExpiryTime from './expiry_time';
 
 interface ComponentProps {
     emojiSize?: number;
@@ -30,9 +31,6 @@ const CustomStatusEmoji = (props: ComponentProps) => {
         return getCustomStatus(state, userID);
     });
     const timezone = useSelector(getCurrentUserTimezone);
-    const expiryText = useCallback(() => {
-        return customStatus?.expires_at && customStatus.duration !== CustomStatusDuration.DONT_CLEAR && displayExpiryTime(customStatus.expires_at, timezone);
-    }, [customStatus?.expires_at, timezone]);
 
     if (!(customStatusEnabled && customStatus?.emoji)) {
         return null;
@@ -78,7 +76,10 @@ const CustomStatusEmoji = (props: ComponentProps) => {
                         <div>
                             <span>
                                 {'Until '}
-                                {expiryText()}
+                                <ExpiryTime
+                                    time={customStatus.expires_at}
+                                    timezone={timezone}
+                                />
                             </span>
                         </div>
                     }
