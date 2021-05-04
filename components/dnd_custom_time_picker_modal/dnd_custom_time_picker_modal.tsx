@@ -54,7 +54,7 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
         const modalHeaderText = (
             <FormattedMessage
                 id='dnd_custom_time_picker_modal.defaultMsg'
-                defaultMessage='Disable notifications till'
+                defaultMessage='Disable notifications until'
             />
         );
         const confirmButtonText = (
