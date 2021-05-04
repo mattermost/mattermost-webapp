@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
@@ -9,22 +8,23 @@ import {FormattedMessage} from 'react-intl';
 import OverlayTrigger from 'components/overlay_trigger';
 
 import Constants, {RHSStates} from 'utils/constants';
+import {RhsState} from 'types/store/rhs';
 
-export default class RhsCardHeader extends React.PureComponent {
-    static propTypes = {
-        previousRhsState: PropTypes.oneOf(Object.values(RHSStates)),
-        isExpanded: PropTypes.bool.isRequired,
-        actions: PropTypes.shape({
-            showMentions: PropTypes.func,
-            showSearchResults: PropTypes.func,
-            showFlaggedPosts: PropTypes.func,
-            showPinnedPosts: PropTypes.func,
-            closeRightHandSide: PropTypes.func,
-            toggleRhsExpanded: PropTypes.func.isRequired,
-        }),
+type Props = {
+    previousRhsState: RhsState;
+    isExpanded: boolean;
+    actions: {
+        showMentions: () => void;
+        showSearchResults: () => void;
+        showFlaggedPosts: () => void;
+        showPinnedPosts: () => void;
+        closeRightHandSide: () => void;
+        toggleRhsExpanded: () => void;
     };
+};
 
-    handleBack = (e) => {
+export default class RhsCardHeader extends React.PureComponent<Props> {
+    handleBack = (e: React.MouseEvent<HTMLAnchorElement>): void => {
         e.preventDefault();
 
         switch (this.props.previousRhsState) {
@@ -48,7 +48,7 @@ export default class RhsCardHeader extends React.PureComponent {
         }
     }
 
-    render() {
+    render(): React.ReactNode {
         let back;
         let backToResultsTooltip;
 
@@ -129,7 +129,7 @@ export default class RhsCardHeader extends React.PureComponent {
                             id='generic_icons.back'
                             defaultMessage='Back Icon'
                         >
-                            {(ariaLabel) => (
+                            {(ariaLabel?: string) => (
                                 <i
                                     className='icon icon-arrow-back-ios'
                                     aria-label={ariaLabel}
@@ -166,7 +166,7 @@ export default class RhsCardHeader extends React.PureComponent {
                                 id='rhs_header.expandSidebarTooltip.icon'
                                 defaultMessage='Expand Sidebar Icon'
                             >
-                                {(ariaLabel) => (
+                                {(ariaLabel?: string) => (
                                     <i
                                         className='icon icon-arrow-expand'
                                         aria-label={ariaLabel}
@@ -177,7 +177,7 @@ export default class RhsCardHeader extends React.PureComponent {
                                 id='rhs_header.collapseSidebarTooltip.icon'
                                 defaultMessage='Collapse Sidebar Icon'
                             >
-                                {(ariaLabel) => (
+                                {(ariaLabel?: string) => (
                                     <i
                                         className='icon icon-arrow-collapse'
                                         aria-label={ariaLabel}
@@ -201,7 +201,7 @@ export default class RhsCardHeader extends React.PureComponent {
                                 id='rhs_header.closeTooltip.icon'
                                 defaultMessage='Close Sidebar Icon'
                             >
-                                {(ariaLabel) => (
+                                {(ariaLabel?: string) => (
                                     <i
                                         className='icon icon-close'
                                         aria-label={ariaLabel}
