@@ -42,9 +42,7 @@ const recentEmojiCategory = {
     recent: createCategory('recent', 'fa fa-clock-o', 'Recently Used', t('emoji_picker.recent')),
 };
 
-const searchResultsCategory = {
-    searchResults: createCategory(CATEGORY_SEARCH_RESULTS, '', 'Search Results', t('emoji_picker.searchResults')),
-};
+const searchResultsCategory = createCategory(CATEGORY_SEARCH_RESULTS, 'fa', 'Search Results', t('emoji_picker.searchResults'));
 
 const smileysEmojiCategory = {
     'smileys & emotion': createCategory('smileys & emotion', 'fa fa-smile-o', 'Smileys & Emotion', t('emoji_picker.smileys-emotion')),
