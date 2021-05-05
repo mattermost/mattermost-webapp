@@ -91,6 +91,7 @@ function syncables(state: Dictionary<GroupSyncablesState> = {}, action: GenericA
                 nextTeams.splice(index, 1);
             }
         }
+
         // When we remove a team we also need to remove all channels in that team
         if (state[action.data.group_id].channels?.length > 0) {
             nextChannels = state[action.data.group_id].channels.slice();
