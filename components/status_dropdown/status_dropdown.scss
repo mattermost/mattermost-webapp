@@ -16,7 +16,7 @@
 
 .custom_status {
     &__container {
-        padding: 7px 0 3px;
+        padding: 7px 0;
         display: flex;
         line-height: 20px;
     }
@@ -28,6 +28,7 @@
     &__text {
         overflow: hidden;
         height: 16px;
+        line-height: 16px;
         max-width: 73%;
         text-overflow: ellipsis;
         white-space: nowrap;
