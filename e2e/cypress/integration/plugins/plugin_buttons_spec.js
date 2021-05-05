@@ -10,7 +10,7 @@
 // Group: @plugin @not_cloud
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
-import { demoPlugin, testPlugin } from '../../utils/plugins';
+import {demoPlugin, testPlugin} from '../../utils/plugins';
 
 describe('collapse on 15 plugin buttons', () => {
     let testTeam;
@@ -28,14 +28,14 @@ describe('collapse on 15 plugin buttons', () => {
         cy.apiUpdateConfig(newSettings);
 
         // # Login as Admin
-        cy.apiInitSetup().then(({ team }) => {
+        cy.apiInitSetup().then(({team}) => {
             testTeam = team;
         });
         cy.apiAdminLogin();
 
         // # Uninstall all plugins
-        cy.apiGetAllPlugins().then(({ plugins }) => {
-            const { active, inactive } = plugins;
+        cy.apiGetAllPlugins().then(({plugins}) => {
+            const {active, inactive} = plugins;
             inactive.forEach((plugin) => cy.apiRemovePluginById(plugin.id));
             active.forEach((plugin) => cy.apiRemovePluginById(plugin.id));
         });
