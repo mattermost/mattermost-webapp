@@ -1,13 +1,18 @@
 require 'emoji'
 require 'fileutils'
+require_relative './constants.rb'
 
 # Code in this class largely taken from https://github.com/github/gemoji
 module Mattermost
-  class AppleEmojiExtractor
-    attr_reader :size
 
-    def initialize(size)
+  class AppleEmojiExtractor
+    include EmojiConstants
+    attr_reader :size
+    attr_reader :emoji_path
+
+    def initialize(size, emoji_path)
       @size = size
+      @emoji_path = emoji_path
     end
 
     def png(emoji)
@@ -20,15 +25,24 @@ module Mattermost
           next unless glyph_name =~ /\.[1-5]($|\.)/
         end
         matches = glyph_name_to_emoji(glyph_name)
-        next unless matches && (matches.include?(emoji) || matches.include?(emoji + "\u{fe0f 200d 2640}"))
+        next unless matches && (matches.name.include?(emoji) || matches.name.include?(emoji + "\u{fe0f 200d 2640}"))
         return binread.call
       end
       nil
     end
 
-    private
+    def extract!
+      each do |glyph_name, type, binread|
+        if emoji = glyph_name_to_emoji(glyph_name)
+          print "#{glyph_name}, "
+          image_filename = "#{emoji_path}/#{emoji.image_filename}"
+          FileUtils.mkdir_p(File.dirname(image_filename))
+          File.open(image_filename, 'wb') { |f| f.write binread.call }
+        end
+      end
+    end
 
-    EMOJI_TTF = '/System/Library/Fonts/Apple Color Emoji.ttc'.freeze
+    private
 
     def each(&block)
       return to_enum(__method__) unless block_given?
@@ -45,60 +59,34 @@ module Mattermost
     end
 
     def glyph_name_to_emoji(glyph_name)
-      zwj = Emoji::ZERO_WIDTH_JOINER
-      v16 = Emoji::VARIATION_SELECTOR_16
 
       if glyph_name =~ /^u(#{FAMILY}|#{COUPLE}|#{KISS})\.([#{FAMILY_MAP.keys.join('')}]+)$/
         if $1 == FAMILY ? $2 == "MWB" : $2 == "WM"
           raw = [$1.hex].pack('U')
         else
           if $1 == COUPLE
-            middle = "#{zwj}\u{2764}#{v16}#{zwj}" # heavy black heart
+            middle = "#{ZWJ}\u{2764}#{VS16}#{ZWJ}" # heavy black heart
           elsif $1 == KISS
-            middle = "#{zwj}\u{2764}#{v16}#{zwj}\u{1F48B}#{zwj}" # heart + kiss mark
+            middle = "#{ZWJ}\u{2764}#{VS16}#{ZWJ}\u{1F48B}#{ZWJ}" # heart + kiss mark
           else
-            middle = zwj
+            middle = ZWJ
           end
           raw = $2.split('').map { |c| FAMILY_MAP.fetch(c) }.join(middle)
         end
         candidates = [raw]
       else
-        raw = glyph_name.gsub(/(^|_)u([0-9A-F]+)/) { ($1.empty?? $1 : zwj) + [$2.hex].pack('U') }
+        raw = glyph_name.gsub(/(^|_)u([0-9A-F]+)/) { ($1.empty?? $1 : ZWJ) + [$2.hex].pack('U') }
         raw.sub!(/\.0\b/, '')
-        raw.sub!(/\.(#{SKIN_TONE_MAP.keys.join('|')})/) { SKIN_TONE_MAP.fetch($1) }
-        raw.sub!(/\.(#{GENDER_MAP.keys.join('|')})$/) { v16 + zwj + GENDER_MAP.fetch($1) }
+        raw.sub!(/\.(#{SKIN_TONE_MAP_INDEX.keys.join('|')})/) { SKIN_TONE_MAP_INDEX.fetch($1) }
+        raw.sub!(/\.(#{GENDER_MAP.keys.join('|')})$/) { VS16 + ZWJ + GENDER_MAP.fetch($1) }
         candidates = [raw]
-        candidates << raw.sub(v16, '') if raw.include?(v16)
-        candidates << raw.gsub(zwj, '') if raw.include?(zwj)
-        candidates.dup.each { |c| candidates << (c + v16) }
+        candidates << raw.sub(VS16, '') if raw.include?(VS16)
+        candidates << raw.gsub(ZWJ, '') if raw.include?(ZWJ)
+        candidates.dup.each { |c| candidates << (c + VS16) }
       end
 
-      candidates
+      candidates.map { |c| Emoji.find_by_unicode(c) }.compact.first
     end
-
-    GENDER_MAP = {
-      "M" => "\u{2642}",
-      "W" => "\u{2640}",
-    }
-
-    SKIN_TONE_MAP = {
-      "1" => "\u{1F3FB}",
-      "2" => "\u{1F3FC}",
-      "3" => "\u{1F3FD}",
-      "4" => "\u{1F3FE}",
-      "5" => "\u{1F3FF}",
-    }.freeze
-
-    FAMILY_MAP = {
-      "B" => "\u{1f466}",
-      "G" => "\u{1f467}",
-      "M" => "\u{1f468}",
-      "W" => "\u{1f469}",
-    }.freeze
-
-    FAMILY = "1F46A"
-    COUPLE = "1F491"
-    KISS = "1F48F"
 
     # https://www.microsoft.com/typography/otspec/otff.htm
     def parse_ttc(io)
@@ -153,7 +141,7 @@ module Mattermost
         length = io.read(1).unpack('C')[0]
         glyph_names << io.read(length)
       end
-
+      # print "##############\nAdding #{num_glyphs} : #{glyph_names}\n############## End \n"
       GlyphIndex.new(num_glyphs, glyph_name_index, glyph_names)
     end
 
@@ -200,5 +188,6 @@ module Mattermost
       minor = num & 0xFFFF
       "#{major}.#{minor}"
     end
+
   end
 end

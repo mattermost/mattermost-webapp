@@ -1,17 +1,8 @@
+require_relative './constants.rb'
+
 module Mattermost
   class UnicodeEmojiHelper
-    GENDER_MALE = "\u{2642}"
-    GENDER_FEMALE = "\u{2640}"
-    ZERO_WIDTH_JOINER = "\u{200D}"
-    VARIATION_SELECTOR_16 = "\u{FE0F}"
-    
-    SKIN_TONE_MAP = {
-      "\u{1F3FB}" => 'light skin tone',
-      "\u{1F3FC}" => 'medium-light skin tone',
-      "\u{1F3FD}" => 'medium skin tone',
-      "\u{1F3FE}" => 'medium-dark skin tone',
-      "\u{1F3FF}" => 'dark skin tone'
-    }.freeze
+    include EmojiConstants
 
     def initialize
       path = File.join(File.dirname(__FILE__), './emoji-sequences.txt')
@@ -37,9 +28,9 @@ module Mattermost
         sequences = SKIN_TONE_MAP.each_key.map do |skin_tone_modifier|
           [emoji_modifier_chars[0],
            skin_tone_modifier,
-           ZERO_WIDTH_JOINER,
+           ZWJ,
            GENDER_MALE,
-           VARIATION_SELECTOR_16].join('')
+           VS16].join('')
         end
       else
         sequences = SKIN_TONE_MAP.each_key.map do |skin_tone_modifier|
@@ -51,9 +42,9 @@ module Mattermost
         sequences << SKIN_TONE_MAP.each_key.map do |skin_tone_modifier|
           [emoji_modifier_chars[0],
            skin_tone_modifier,
-           ZERO_WIDTH_JOINER,
+           ZWJ,
            GENDER_FEMALE,
-           VARIATION_SELECTOR_16].join('')
+           VS16].join('')
         end
 
         sequences.flatten!

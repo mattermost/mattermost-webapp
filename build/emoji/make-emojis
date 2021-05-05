@@ -5,7 +5,6 @@ require 'fileutils'
 require 'json'
 require 'open-uri'
 require 'sprite_factory'
-require 'emoji/extractor'
 require_relative './apple_emoji_extractor.rb'
 require_relative './unicode_emoji_helper.rb'
 
@@ -35,7 +34,7 @@ end
 
 ### Extract and create all of the emoji skin tones ###
 unicode_emoji_helper = Mattermost::UnicodeEmojiHelper.new
-apple_extractor = Mattermost::AppleEmojiExtractor.new(64)
+apple_extractor = Mattermost::AppleEmojiExtractor.new(64, emoji_path)
 emoji_added = []
 
 Emoji.all.clone.each do |emoji|
@@ -172,14 +171,8 @@ if ENV.key?('SERVER_DIR')
   FileUtils.mv(File.join(project_root, 'emoji_data.go'), server_dir)
 end
 
-Emoji::Extractor.new(64, emoji_path).extract!
+apple_extractor.extract!
 
-Dir["#{Emoji.images_path}/*.png"].each do |png|
-    if blocklist.include? File.basename(png, '.png')
-        next
-    end
-    FileUtils.cp(png, File.join(emoji_path, File.basename(png)))
-end
 
 puts "images written to images/emoji"
 
@@ -243,13 +236,18 @@ categories.each do |category|
             next
         end
         if category == (emoji.category ? emoji.category.downcase : 'custom')
-            FileUtils.cp(File.join(emoji_path, emoji.image_filename), File.join(tmp_directory, emoji.image_filename))
             count += 1
+            begin
+                FileUtils.cp(File.join(emoji_path, emoji.image_filename), File.join(tmp_directory, emoji.image_filename))
+            rescue Errno::ENOENT => exception
+                puts "[WARN] Skipping #{emoji.image_filename} as it couldn't be found in #{emoji_path}\n"
+                next
+            end
         end
         if count == 45 || Emoji.all.length == i
             batch += 1
-
-            css_rules << ".emoji-category-#{category}-#{batch} { background-image: url('../images/emoji-sheets/#{category}-#{batch}.png'); }"
+            safe_category = category.sub(' & ', '-')
+            css_rules << ".emoji-category-#{safe_category}-#{batch} { background-image: url('../images/emoji-sheets/#{category}-#{batch}.png'); }"
 
             SpriteFactory.run!(
                 tmp_directory,
