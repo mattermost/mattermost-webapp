@@ -177,7 +177,7 @@ describe('Actions.Posts', () => {
             INCREASED_POST_VISIBILITY,
             {
                 meta: {batch: true},
-                payload: [PostActions.receivedNewPost(newPost), STOP_TYPING],
+                payload: [PostActions.receivedNewPost(newPost, false), STOP_TYPING],
                 type: 'BATCHING_REDUCER.BATCH',
             },
         ]);
@@ -193,7 +193,7 @@ describe('Actions.Posts', () => {
             {
                 meta: {batch: true},
                 payload: [
-                    PostActions.receivedNewPost(newPost),
+                    PostActions.receivedNewPost(newPost, false),
                     {
                         type: 'stop_typing',
                         data: {

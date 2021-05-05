@@ -45,14 +45,11 @@ export function receivedPost(post: Post) {
 
 // receivedNewPost should be dispatched when receiving a newly created post or when sending a request to the server
 // to make a new post.
-export function receivedNewPost(post: Post) {
-    return (_: DispatchFunc, getState: GetStateFunc) => {
-        const crtEnabled = isCollapsedThreadsEnabled(getState());
-        return {
-            type: PostTypes.RECEIVED_NEW_POST,
-            data: post,
-            features: {crtEnabled},
-        };
+export function receivedNewPost(post: Post, crtEnabled: boolean) {
+    return {
+        type: PostTypes.RECEIVED_NEW_POST,
+        data: post,
+        features: {crtEnabled},
     };
 }
 
@@ -322,7 +319,7 @@ export function createPostImmediately(post: Post, files: any[] = []) {
         dispatch(receivedNewPost({
             ...newPost,
             id: pendingPostId,
-        }));
+        }, isCollapsedThreadsEnabled(state)));
 
         try {
             const created = await Client4.createPost({...newPost, create_at: 0});
