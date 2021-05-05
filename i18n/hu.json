@@ -1419,8 +1419,6 @@
   "admin.permissions.permission.manage_private_channel_properties.name": "Csatorna beállítások kezelése",
   "admin.permissions.permission.manage_public_channel_properties.description": "Frissítse a nyilvános csatornák nevét, fejlécét és célját.",
   "admin.permissions.permission.manage_public_channel_properties.name": "Csatorna beállítások kezelése",
-  "admin.permissions.permission.manage_remote_clusters.description": "Hozzáadhat, eltávolíthat és megtekinthet megosztott csatornák távoli fürtjeit",
-  "admin.permissions.permission.manage_remote_clusters.name": "Távoli fürtök kezelése",
   "admin.permissions.permission.manage_roles.description": "Szerepek kezelése",
   "admin.permissions.permission.manage_roles.name": "Szerepek kezelése",
   "admin.permissions.permission.manage_shared_channels.description": "Megosztani, megosztás visszavonni és meghívni egy másik példányt szinkronizálásra egy megosztott csatornával",
