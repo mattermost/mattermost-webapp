@@ -36,7 +36,7 @@ import LocalizedIcon from 'components/localized_icon';
 import MsgTyping from 'components/msg_typing';
 import PostDeletedModal from 'components/post_deleted_modal';
 import ResetStatusModal from 'components/reset_status_modal';
-import EmojiIcon from 'components/widgets/icons/emoji_icon';
+import EmojiIcon from 'components/widgets/icons/emoji_icon.tsx';
 import Textbox from 'components/textbox';
 import TextboxLinks from 'components/textbox/textbox_links';
 import TutorialTip from 'components/tutorial/tutorial_tip';
