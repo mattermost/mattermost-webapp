@@ -81,9 +81,8 @@ class EmojiPickerItem extends React.Component {
             itemClassName += ' selected';
         }
 
-        let spriteClassName = 'emojisprite';
-        spriteClassName += ' emoji-category-' + emoji.category + '-' + emoji.batch;
-        spriteClassName += ' emoji-' + emoji.filename;
+        const cssCategory = `emoji-category-${emoji.category.replace(' & ', '-').toLowerCase()}-${emoji.batch}`;
+        const spriteClassName = `emojisprite ${cssCategory} emoji-${emoji.filename}`;
 
         let image;
         if (emoji.category && emoji.batch) {
