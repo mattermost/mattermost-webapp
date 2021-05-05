@@ -200,7 +200,12 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
                             className='DndModal__input'
                             type='button'
                         >
-                            <div className='DndModal__input__label'>{'Time'}</div>
+                            <div className='DndModal__input__label'>
+                                <FormattedMessage
+                                    id='dnd_custom_time_picker_modal.time'
+                                    defaultMessage='Time'
+                                />
+                            </div>
                             <i className='icon icon--no-spacing icon-clock-outline icon--xs icon-14'/>
                             <span>{selectedTime}</span>
                         </button>
