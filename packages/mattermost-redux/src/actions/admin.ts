@@ -863,14 +863,28 @@ export function addDataRetentionCustomPolicyTeams(id: string, teams: string[]): 
 }
 
 export function removeDataRetentionCustomPolicyTeams(id: string, teams: string[]): ActionFunc {
-    return bindClientFunc({
-        clientFunc: Client4.removeDataRetentionPolicyTeams,
-        onSuccess: AdminTypes.REMOVE_DATA_RETENTION_CUSTOM_POLICY_TEAMS_SUCCESS,
-        params: [
-            id,
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        try {
+            await Client4.removeDataRetentionPolicyTeams(id, teams);
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            dispatch(
+                {
+                    type: AdminTypes.REMOVE_DATA_RETENTION_CUSTOM_POLICY_TEAMS_FAILURE,
+                    error,
+                },
+            );
+            return {error};
+        }
+        const data = {
             teams,
-        ],
-    });
+        };
+        dispatch(
+            {type: AdminTypes.REMOVE_DATA_RETENTION_CUSTOM_POLICY_TEAMS_SUCCESS, data},
+        );
+
+        return {data};
+    };
 }
 
 export function addDataRetentionCustomPolicyChannels(id: string, channels: string[]): ActionFunc {
@@ -885,12 +899,26 @@ export function addDataRetentionCustomPolicyChannels(id: string, channels: strin
 }
 
 export function removeDataRetentionCustomPolicyChannels(id: string, channels: string[]): ActionFunc {
-    return bindClientFunc({
-        clientFunc: Client4.removeDataRetentionPolicyChannels,
-        onSuccess: AdminTypes.REMOVE_DATA_RETENTION_CUSTOM_POLICY_CHANNELS_SUCCESS,
-        params: [
-            id,
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        try {
+            await Client4.removeDataRetentionPolicyChannels(id, channels);
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            dispatch(
+                {
+                    type: AdminTypes.REMOVE_DATA_RETENTION_CUSTOM_POLICY_CHANNELS_FAILURE,
+                    error,
+                },
+            );
+            return {error};
+        }
+        const data = {
             channels,
-        ],
-    });
+        };
+        dispatch(
+            {type: AdminTypes.REMOVE_DATA_RETENTION_CUSTOM_POLICY_CHANNELS_SUCCESS, data},
+        );
+
+        return {data};
+    };
 }

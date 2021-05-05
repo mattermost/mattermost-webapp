@@ -1368,8 +1368,6 @@
   "admin.permissions.permission.manage_private_channel_properties.name": "Gerenciar Configurações de Canal",
   "admin.permissions.permission.manage_public_channel_properties.description": "Atualizar nomes de canais públicos, títulos e propósito.",
   "admin.permissions.permission.manage_public_channel_properties.name": "Gerenciar Configurações de Canal",
-  "admin.permissions.permission.manage_remote_clusters.description": "Adicionar, remover e visualizar clusters remotos para canais compartilhados",
-  "admin.permissions.permission.manage_remote_clusters.name": "Gerenciar Clusters Remotos",
   "admin.permissions.permission.manage_roles.description": "Gerenciar funções",
   "admin.permissions.permission.manage_roles.name": "Gerenciar funções",
   "admin.permissions.permission.manage_shared_channels.description": "Compartilhe, cancele o compartilhamento e convide outra instância para sincronizar com um canal compartilhado",

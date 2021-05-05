@@ -219,7 +219,15 @@ exports[`components/EditChannelHeaderModal error with intl message 1`] = `
         <label
           className="control-label"
         >
-          This channel header is too long, please enter a shorter one
+          <FormattedMessage
+            defaultMessage="The text entered exceeds the character limit. The channel header is limited to {maxLength} characters."
+            id="edit_channel_header_modal.error"
+            values={
+              Object {
+                "maxLength": 1024,
+              }
+            }
+          />
         </label>
       </div>
     </div>

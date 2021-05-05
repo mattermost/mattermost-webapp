@@ -427,7 +427,9 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                                     }
                                 />
                             </Card.Header>
-                            <Card.Body>
+                            <Card.Body
+                                expanded={true}
+                            >
                                 <DataGrid
                                     columns={this.getGlobalPolicyColumns()}
                                     rows={this.getGlobalPolicyRows()}
@@ -471,7 +473,9 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                                     }}
                                 />
                             </Card.Header>
-                            <Card.Body>
+                            <Card.Body
+                                expanded={true}
+                            >
                                 <DataGrid
                                     columns={this.getCustomPolicyColumns()}
                                     rows={this.getCustomPolicyRows()}
@@ -513,7 +517,9 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                                     onClick={this.handleCreateJob}
                                 />
                             </Card.Header>
-                            <Card.Body>
+                            <Card.Body
+                                expanded={true}
+                            >
                                 <JobsTable
                                     jobType={JobTypes.DATA_RETENTION}
                                     hideJobCreateButton={true}

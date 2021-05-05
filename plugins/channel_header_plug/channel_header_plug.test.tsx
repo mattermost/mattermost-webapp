@@ -29,6 +29,7 @@ describe('plugins/ChannelHeaderPlug', () => {
                 theme={{} as Theme}
                 actions={{
                     doAppCall: jest.fn(),
+                    postEphemeralCallResponseForChannel: jest.fn(),
                 }}
                 appBindings={[]}
                 appsEnabled={false}
@@ -46,6 +47,7 @@ describe('plugins/ChannelHeaderPlug', () => {
                 theme={{} as Theme}
                 actions={{
                     doAppCall: jest.fn(),
+                    postEphemeralCallResponseForChannel: jest.fn(),
                 }}
                 appBindings={[]}
                 appsEnabled={false}
@@ -79,6 +81,7 @@ describe('plugins/ChannelHeaderPlug', () => {
                 theme={{} as Theme}
                 actions={{
                     doAppCall: jest.fn(),
+                    postEphemeralCallResponseForChannel: jest.fn(),
                 }}
                 appBindings={[]}
                 appsEnabled={false}
