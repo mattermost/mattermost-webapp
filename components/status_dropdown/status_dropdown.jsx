@@ -78,7 +78,7 @@ export default class StatusDropdown extends React.PureComponent {
         return currentDate;
     }
 
-    dndTimes = ['30 mins', '1 hour', '2 hours', 'Today', 'Tomorrow', 'Custom']
+    dndTimes = ['30 mins', '1 hour', '2 hours', 'Tomorrow', 'Custom']
 
     isUserOutOfOffice = () => {
         return this.props.status === UserStatuses.OUT_OF_OFFICE;
@@ -116,9 +116,11 @@ export default class StatusDropdown extends React.PureComponent {
 
         switch (index) {
         case 0:
+            // add 30 minutes in current time
             endTime = new Date(currentTime + (30 * 60 * 1000));
             break;
         case 1:
+            // add 1 hour in current time
             endTime = new Date(currentTime + (1 * 60 * 60 * 1000));
             break;
         case 2:
@@ -126,18 +128,13 @@ export default class StatusDropdown extends React.PureComponent {
             endTime = new Date(currentTime + (2 * 60 * 60 * 1000));
             break;
         case 3:
-            // set hours of date to point to last moment of the day
-            endTime = currentDate;
-            endTime.setHours(23, 59, 59, 999);
-            break;
-        case 4:
-            // set hours of date to point to last moment of the day
-            // and add 24 hours to it to point to last moment of tomorrow
-            endTime = new Date(currentTime + (24 * 60 * 60 * 1000));
+            // add one day in current date and set hours to last minute of the day
+            endTime = new Date(currentDate.getDate() + 1);
             endTime.setHours(23, 59, 59, 999);
             break;
         }
 
+        console.log({endTime});
         var dndEndTime = toUTCUnix(endTime);
         this.setStatus(UserStatuses.DND, dndEndTime);
     }
@@ -300,7 +297,7 @@ export default class StatusDropdown extends React.PureComponent {
                     id: `dndTime-${time.split(' ').join('')}`,
                     direction: 'right',
                     text: localizeMessage('status_dropdown.dnd_sub_menu_item.time', time),
-                    action: index === 5 ? () => setCustomTimedDnd() : () => setDnd(event, index),
+                    action: index === 4 ? () => setCustomTimedDnd() : () => setDnd(event, index),
                 };
             }));
 
