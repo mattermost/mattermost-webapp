@@ -28,7 +28,7 @@ export default class EmojiPickerPreview extends React.PureComponent {
                 aliases = emoji.aliases;
 
                 const cssCategory = `emoji-category-${emoji.category.replace(' & ', '-').toLowerCase()}-${emoji.batch}`;
-                const spriteClassName = `mojisprite-preview ${cssCategory} emoji-${emoji.filename}`;
+                const spriteClassName = `emojisprite-preview ${cssCategory} emoji-${emoji.filename}`;
 
                 previewImage = (
                     <span className='sprite-preview'>

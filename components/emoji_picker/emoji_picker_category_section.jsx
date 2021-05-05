@@ -10,6 +10,7 @@ export default class EmojiPickerCategorySection extends React.PureComponent {
         categoryName: PropTypes.string.isRequired,
         children: PropTypes.any,
         updateCategoryOffset: PropTypes.func.isRequired,
+        categoryTranslation: PropTypes.string.isRequired,
     };
 
     componentDidMount() {
@@ -38,7 +39,7 @@ export default class EmojiPickerCategorySection extends React.PureComponent {
                         className='emoji-picker__category-header'
                         id={`emojipickercat-${this.props.categoryName}`}
                     >
-                        <FormattedMessage id={'emoji_picker.' + this.props.categoryName}/>
+                        <FormattedMessage id={this.props.categoryTranslation}/>
                     </div>
                 </div>
                 <div className='emoji-picker-items__container'>

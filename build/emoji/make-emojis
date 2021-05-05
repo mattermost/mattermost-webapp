@@ -200,7 +200,6 @@ css_rules = [
     '    cursor: pointer;',
     '    height: 64px;',
     '    max-width: none;',
-    '    transform-origin: 0 0;',
     '    width: 64px;',
     '}',
     '.emojisprite-loading {',

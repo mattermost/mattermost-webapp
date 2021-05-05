@@ -23,7 +23,6 @@ import EmojiPickerCategorySection from './emoji_picker_category_section';
 import EmojiPickerPreview from './components/emoji_picker_preview';
 
 const CATEGORY_SEARCH_RESULTS = 'searchResults';
-t('emoji_picker.searchResults');
 
 const EMOJI_HEIGHT = 27;
 
@@ -40,14 +39,11 @@ const SYSTEM_EMOJIS_COUNT = 1476;
 const EMOJI_LAZY_LOAD_SCROLL_THROTTLE = 100;
 
 const recentEmojiCategory = {
-    recent: {
-        name: 'recent',
-        safeName: 'recent',
-        className: 'fa fa-clock-o',
-        id: t('emoji_picker.recent'),
-        message: 'Recently Used',
-        offset: 0,
-    },
+    recent: createCategory('recent', 'fa fa-clock-o', 'Recently Used', t('emoji_picker.recent')),
+};
+
+const searchResultsCategory = {
+    searchResults: createCategory(CATEGORY_SEARCH_RESULTS, '', 'Search Results', t('emoji_picker.searchResults')),
 };
 
 const smileysEmojiCategory = {
@@ -494,10 +490,7 @@ export default class EmojiPicker extends React.PureComponent {
     }
 
     getCategoriesByKey(key) {
-        return this.props.filter ? {
-            id: CATEGORY_SEARCH_RESULTS,
-            name: CATEGORY_SEARCH_RESULTS,
-        } : this.state.categories[key];
+        return this.props.filter ? searchResultsCategory : this.state.categories[key];
     }
 
     sortEmojis(emojis) {
@@ -654,8 +647,9 @@ export default class EmojiPicker extends React.PureComponent {
             numEmojisLoaded += items.length;
             categoryComponents = [...categoryComponents, (
                 <EmojiPickerCategorySection
-                    key={category.id}
+                    key={category.safeName}
                     categoryName={category.name}
+                    categoryTranslation={category.id}
                     updateCategoryOffset={this.updateCategoryOffset}
                     role='application'
                 >
