@@ -1,20 +1,19 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import LocalizedIcon from 'components/localized_icon';
 
 import {t} from 'utils/i18n';
 
-export default class BackstageHeader extends React.PureComponent {
-    static propTypes = {
-        children: PropTypes.node,
-    };
+type Props = {
+    children?: React.ReactNode;
+};
 
-    render() {
-        const children = [];
+export default class BackstageHeader extends React.PureComponent<Props> {
+    render(): React.ReactNode {
+        const children: React.ReactNode[] = [];
 
         React.Children.forEach(this.props.children, (child, index) => {
             if (index !== 0) {
