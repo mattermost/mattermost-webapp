@@ -1250,13 +1250,11 @@ export function moveHistoryIndexForward(index: number) {
 /**
  * Ensures thread-replies in channels correctly follow CRT:ON/OFF
  */
-export function reloadPostsInChannel(reset = false) {
+export function resetReloadPostsInChannel() {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        if (reset) {
-            dispatch({
-                type: PostTypes.RESET_POSTS_IN_CHANNEL,
-            });
-        }
+        dispatch({
+            type: PostTypes.RESET_POSTS_IN_CHANNEL,
+        });
 
         const currentChannelId = getCurrentChannelId(getState());
         if (currentChannelId) {

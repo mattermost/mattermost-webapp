@@ -6,7 +6,7 @@ import {useSelector, useDispatch} from 'react-redux';
 
 import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
-import {reloadPostsInChannel} from 'mattermost-redux/actions/posts';
+import {resetReloadPostsInChannel} from 'mattermost-redux/actions/posts';
 
 const PostsChannelResetWatcher = () => {
     const dispatch = useDispatch();
@@ -14,7 +14,7 @@ const PostsChannelResetWatcher = () => {
     const loaded = useRef(false);
     useEffect(() => {
         if (loaded.current) {
-            dispatch(reloadPostsInChannel(isCRTEnabled));
+            dispatch(resetReloadPostsInChannel());
         } else {
             loaded.current = true;
         }
