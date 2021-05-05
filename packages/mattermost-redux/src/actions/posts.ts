@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {resetToChannel} from 'app/actions/navigation';
+
 import {Client4, DEFAULT_LIMIT_AFTER, DEFAULT_LIMIT_BEFORE} from 'mattermost-redux/client';
 import {General, Preferences, Posts} from '../constants';
 import {PostTypes, ChannelTypes, FileTypes, IntegrationTypes} from 'mattermost-redux/action_types';
@@ -1250,11 +1252,13 @@ export function moveHistoryIndexForward(index: number) {
 /**
  * Ensures thread-replies in channels correctly follow CRT:ON/OFF
  */
-export function resetReloadPostsInChannel() {
+export function reloadPostsInChannel(reset = false) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        dispatch({
-            type: PostTypes.RESET_POSTS_IN_CHANNEL,
-        });
+        if (reset) {
+            dispatch({
+                type: PostTypes.RESET_POSTS_IN_CHANNEL,
+            });
+        }
 
         const currentChannelId = getCurrentChannelId(getState());
         if (currentChannelId) {
