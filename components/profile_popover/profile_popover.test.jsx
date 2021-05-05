@@ -106,4 +106,29 @@ describe('components/ProfilePopover', () => {
         expect(wrapper.find(Pluggable).first().props()).toEqual({...pluggableProps, pluggableName: 'PopoverUserAttributes'});
         expect(wrapper.find(Pluggable).last().props()).toEqual({...pluggableProps, pluggableName: 'PopoverUserActions'});
     });
+
+    test('should match snapshot with custom status', () => {
+        const props = {...baseProps};
+        props.customStatus = {
+            emoji: 'calendar',
+            text: 'In a meeting',
+            duration: 'Today',
+            expires_at: '2021-05-03T23:59:59.000Z',
+        };
+
+        const wrapper = shallowWithIntl(
+            <ProfilePopover {...props}/>,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot with custom status not set but can set', () => {
+        const props = {...baseProps};
+        props.user.id = '';
+
+        const wrapper = shallowWithIntl(
+            <ProfilePopover {...props}/>,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
 });

@@ -1335,9 +1335,9 @@ exports[`components/ChannelHeader should render properly when custom status is s
                   "verticalAlign": "top",
                 }
               }
-              showTooltip={false}
+              showTooltip={true}
               spanStyle={Object {}}
-              tooltipDirection="top"
+              tooltipDirection="bottom"
               userID="user_id"
             />
             <CustomStatusText

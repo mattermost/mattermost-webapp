@@ -79,4 +79,24 @@ describe('components/StatusDropdown', () => {
         );
         expect(wrapper).toMatchSnapshot();
     });
+
+    test('should match snapshot with custom status and expiry', () => {
+        const customStatus = {
+            emoji: 'calendar',
+            text: 'In a meeting',
+            duration: 'Today',
+            expires_at: '2021-05-03T23:59:59.000Z',
+        };
+        const props = {
+            ...baseProps,
+            isStatusDropdownOpen: true,
+            isCustomStatusEnabled: true,
+            customStatus,
+        };
+
+        const wrapper = shallow(
+            <StatusDropdown {...props}/>,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
 });

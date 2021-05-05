@@ -22,7 +22,7 @@ describe('components/custom_status/custom_status_emoji', () => {
 
     (CustomStatusSelectors.getCustomStatus as jest.Mock).mockReturnValue(null);
     (EmojiSelectors.isCustomEmojiEnabled as jest.Mock).mockReturnValue(false);
-    (GeneralSelectors.getCurrentUserTimezone as jest.Mock).mockReturnValue('Australia/Sydney');
+    (GeneralSelectors.getCurrentUserTimezone as unknown as jest.Mock).mockReturnValue('Australia/Sydney');
     it('should match snapshot', () => {
         const wrapper = mount(<CustomStatusEmoji/>, {wrappingComponent: Provider, wrappingComponentProps: {store}});
         expect(wrapper).toMatchSnapshot();
