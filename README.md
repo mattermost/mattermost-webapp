@@ -25,7 +25,7 @@ Install on your own machine:
 
 - [One-line Docker Preview](http://docs.mattermost.com/install/docker-local-machine.html#one-line-docker-install) 
 - [Developer Machine Setup](https://docs.mattermost.com/developer/dev-setup.html)
-- [Production Install Guides using Linux Binary](https://docs.mattermost.com/guides/administrator.html#installing-mattermost)
+- [Production Install Guides using Linux Binary](https://www.mattermost.com/download/)
 - [Production Docker Install](https://docs.mattermost.com/install/prod-docker.html) 
 
 Get Involved:
