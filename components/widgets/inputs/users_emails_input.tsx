@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import AsyncSelect from 'react-select/lib/AsyncCreatable';
+import AsyncSelect from 'react-select/async';
 import {components} from 'react-select';
 import classNames from 'classnames';
 
@@ -25,7 +25,32 @@ import {isGuest} from 'utils/utils';
 
 import './users_emails_input.scss';
 
+type onChangeInput = {id:string;
+  value:string}
+type Props = {
+  placeholder: string;
+  ariaLabel: string;
+  usersLoader: (input:string, customCallback:(options:object) => void) => void;
+  onChange: () => string;
+  showError: boolean;
+  errorMessageId: string;
+  errorMessageDefault: string;
+  errorMessageValues: object;
+  value: object[]|string[];
+  onInputChange: (input:string) => void;
+  inputValue: string;
+  noMatchMessageId: string;
+  noMatchMessageDefault: string;
+  validAddressMessageId: string;
+  validAddressMessageDefault: string;
+  loadingMessageId: string;
+  loadingMessageDefault: string;
+  emailInvitationsEnabled: boolean;
+  extraErrorText: any;
+}
+
 export default class UsersEmailsInput extends React.PureComponent {
+    selectRef:React.RefObject<HTMLSelectElement>
     static propTypes = {
         placeholder: PropTypes.string,
         ariaLabel: PropTypes.string.isRequired,
