@@ -1,14 +1,14 @@
 # Mattermost
 
-Mattermost is an open source, self-hosted Slack-alternative from [https://mattermost.org](https://mattermost.org).
+Mattermost is an open source, self-hosted Slack-alternative from [https://mattermost.com](https://mattermost.com).
 
-It's written in Golang and React and runs as a single Linux binary with MySQL or Postgres. Every month on the 16th [a new compiled version is released under an MIT license](https://www.mattermost.org/download/).
+It's written in Golang and React and runs as a single Linux binary with MySQL or Postgres. Every month on the 16th [a new compiled version is released under an MIT license](https://www.mattermost.com/download/).
 
 This project hosts the webapp client code. Please file issues at [/mattermost-server](https://github.com/mattermost/mattermost-server), which hosts the server code.
 
 - [Review product documentation](http://docs.mattermost.com/).
 - [Review developer documentation](https://developers.mattermost.com/).
-- [Download compiled version](https://mattermost.org/download).
+- [Download compiled version](https://mattermost.com/download).
 
 Try out Mattermost: 
 
@@ -25,7 +25,7 @@ Install on your own machine:
 
 - [One-line Docker Preview](http://docs.mattermost.com/install/docker-local-machine.html#one-line-docker-install) 
 - [Developer Machine Setup](https://docs.mattermost.com/developer/dev-setup.html)
-- [Production Install Guides using Linux Binary](http://www.mattermost.org/installation/)
+- [Production Install Guides using Linux Binary](https://docs.mattermost.com/guides/administrator.html#installing-mattermost)
 - [Production Docker Install](https://docs.mattermost.com/install/prod-docker.html) 
 
 Get Involved:
