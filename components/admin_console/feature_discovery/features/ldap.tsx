@@ -4,9 +4,10 @@
 import React from 'react';
 
 import {t} from 'utils/i18n';
-import LdapSVG from './images/ldap_svg';
 
 import FeatureDiscovery from '../index';
+
+import LdapSVG from './images/ldap_svg';
 
 const LDAPFeatureDiscovery: React.FC = () => {
     return (

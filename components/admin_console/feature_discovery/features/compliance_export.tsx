@@ -4,9 +4,10 @@
 import React from 'react';
 
 import {t} from 'utils/i18n';
-import ComplianceExportSVG from './images/compliance_export_svg';
 
 import FeatureDiscovery from '../index';
+
+import ComplianceExportSVG from './images/compliance_export_svg';
 
 const ComplianceExportFeatureDiscovery: React.FC = () => {
     return (

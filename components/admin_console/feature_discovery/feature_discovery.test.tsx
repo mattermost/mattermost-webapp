@@ -5,6 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import FeatureDiscovery from 'components/admin_console/feature_discovery/feature_discovery';
+import SamlSVG from './features/images/saml_svg'
 
 describe('components/feature_discovery', () => {
     describe('FeatureDiscovery', () => {
@@ -17,7 +18,7 @@ describe('components/feature_discovery', () => {
                     copyID='translation.test.copy'
                     copyDefault={'Bar'}
                     learnMoreURL='https://test.mattermost.com/secondary/'
-                    imgPath='foo/bar.png'
+                    featureDiscoveryImage={<SamlSVG/>}
                     // eslint-disable-next-line @typescript-eslint/naming-convention
                     stats={{TOTAL_USERS: 20}}
                     actions={{

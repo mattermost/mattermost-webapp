@@ -4,9 +4,10 @@
 import React from 'react';
 
 import {t} from 'utils/i18n';
-import AnnouncementBannerSVG from './images/announcement_banner_svg';
 
 import FeatureDiscovery from '../index';
+
+import AnnouncementBannerSVG from './images/announcement_banner_svg';
 
 const AnnouncementBannerFeatureDiscovery: React.FC = () => {
     return (

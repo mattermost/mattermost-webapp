@@ -4,9 +4,10 @@
 import React from 'react';
 
 import {t} from 'utils/i18n';
-import GroupsSVG from './images/groups_svg';
 
 import FeatureDiscovery from '../index';
+
+import GroupsSVG from './images/groups_svg';
 
 const GroupsFeatureDiscovery: React.FC = () => {
     return (

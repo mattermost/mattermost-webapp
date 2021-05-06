@@ -4,9 +4,10 @@
 import React from 'react';
 
 import {t} from 'utils/i18n';
-import PermissionsSVG from './images/permissions_svg';
 
 import FeatureDiscovery from '../index';
+
+import PermissionsSVG from './images/permissions_svg';
 
 const PermissionsFeatureDiscovery: React.FC = () => {
     return (

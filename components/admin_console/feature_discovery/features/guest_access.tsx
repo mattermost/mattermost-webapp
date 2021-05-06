@@ -4,9 +4,10 @@
 import React from 'react';
 
 import {t} from 'utils/i18n';
-import GuestAccessSVG from './images/guest_access_svg';
 
 import FeatureDiscovery from '../index';
+
+import GuestAccessSVG from './images/guest_access_svg';
 
 const GuestAccessFeatureDiscovery: React.FC = () => {
     return (

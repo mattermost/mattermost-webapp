@@ -4,9 +4,10 @@
 import React from 'react';
 
 import {t} from 'utils/i18n';
-import ChannelsSVG from './images/channels_svg';
 
 import FeatureDiscovery from '../index';
+
+import ChannelsSVG from './images/channels_svg';
 
 const ChannelsFeatureDiscovery: React.FC = () => {
     return (

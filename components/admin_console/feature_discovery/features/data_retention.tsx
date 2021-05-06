@@ -4,9 +4,10 @@
 import React from 'react';
 
 import {t} from 'utils/i18n';
-import DataRetentionSVG from './images/data_retention_svg';
 
 import FeatureDiscovery from '../index';
+
+import DataRetentionSVG from './images/data_retention_svg';
 
 const DataRetentionFeatureDiscovery: React.FC = () => {
     return (

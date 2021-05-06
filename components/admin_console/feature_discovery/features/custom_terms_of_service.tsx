@@ -4,9 +4,10 @@
 import React from 'react';
 
 import {t} from 'utils/i18n';
-import CustomTermsOfServiceSVG from './images/custom_terms_of_service_svg';
 
 import FeatureDiscovery from '../index';
+
+import CustomTermsOfServiceSVG from './images/custom_terms_of_service_svg';
 
 const CustomTermsOfServiceFeatureDiscovery: React.FC = () => {
     return (

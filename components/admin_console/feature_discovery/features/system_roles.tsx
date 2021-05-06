@@ -4,9 +4,10 @@
 import React from 'react';
 
 import {t} from 'utils/i18n';
-import SystemRolesSVG from './images/system_roles_svg';
 
 import FeatureDiscovery from '../index';
+
+import SystemRolesSVG from './images/system_roles_svg';
 
 const SystemRolesFeatureDiscovery: React.FC = () => {
     return (

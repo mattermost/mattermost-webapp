@@ -4,9 +4,10 @@
 import React from 'react';
 
 import {t} from 'utils/i18n';
-import SamlSVG from './images/saml_svg';
 
 import FeatureDiscovery from '../index';
+
+import SamlSVG from './images/saml_svg';
 
 const SAMLFeatureDiscovery: React.FC = () => {
     return (
