@@ -5,7 +5,8 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import FeatureDiscovery from 'components/admin_console/feature_discovery/feature_discovery';
-import SamlSVG from './features/images/saml_svg'
+
+import SamlSVG from './features/images/saml_svg';
 
 describe('components/feature_discovery', () => {
     describe('FeatureDiscovery', () => {
