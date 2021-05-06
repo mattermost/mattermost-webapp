@@ -1,13 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, ComponentProps} from 'react';
+import React, {memo, ComponentProps, CSSProperties, useMemo} from 'react';
 import {useIntl} from 'react-intl';
 import {useSelector} from 'react-redux';
+import tinycolor from 'tinycolor2';
 
 import {$ID} from 'mattermost-redux/types/utilities';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {getUser as selectUser, makeDisplayNameGetter} from 'mattermost-redux/selectors/entities/users';
+import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 
 import {GlobalState} from 'types/store';
 
@@ -83,6 +85,10 @@ function Avatars({
     const overflowNames = useSelector((state: GlobalState) => {
         return overflowUserIds.map((userId) => displayNameGetter(state, true)(selectUser(state, userId))).join(', ');
     });
+    const {centerChannelBg, centerChannelColor} = useSelector(getTheme);
+    const avatarStyle: CSSProperties = useMemo(() => ({
+        background: tinycolor.mix(centerChannelBg, centerChannelColor, 8).toRgbString(),
+    }), [centerChannelBg, centerChannelColor]);
 
     return (
         <div
@@ -91,6 +97,7 @@ function Avatars({
         >
             {displayUserIds.map((id) => (
                 <UserAvatar
+                    style={avatarStyle}
                     key={id}
                     userId={id}
                     size={size}
@@ -120,6 +127,7 @@ function Avatars({
                     )}
                 >
                     <Avatar
+                        style={avatarStyle}
                         size={size}
                         tabIndex={0}
                         text={nonDisplayCount > OTHERS_DISPLAY_LIMIT ? `${OTHERS_DISPLAY_LIMIT}+` : `+${nonDisplayCount}`}

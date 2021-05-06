@@ -35,6 +35,11 @@ exports[`components/threading/channel_threads/thread_footer should report total 
             }
           }
           size="sm"
+          style={
+            Object {
+              "background": "rgb(239, 239, 240)",
+            }
+          }
           tabIndex={0}
           userId="2"
         >
@@ -130,6 +135,11 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                   onMouseOut={[Function]}
                   onMouseOver={[Function]}
                   size="sm"
+                  style={
+                    Object {
+                      "background": "rgb(239, 239, 240)",
+                    }
+                  }
                   tabIndex={0}
                   url="/api/v4/users/2/image?_=0"
                 >
@@ -142,6 +152,11 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                     onMouseOut={[Function]}
                     onMouseOver={[Function]}
                     src="/api/v4/users/2/image?_=0"
+                    style={
+                      Object {
+                        "background": "rgb(239, 239, 240)",
+                      }
+                    }
                     tabIndex={0}
                   />
                 </Memo(Avatar)>
@@ -159,6 +174,11 @@ exports[`components/threading/channel_threads/thread_footer should report total 
             }
           }
           size="sm"
+          style={
+            Object {
+              "background": "rgb(239, 239, 240)",
+            }
+          }
           tabIndex={0}
           userId="3"
         >
@@ -254,6 +274,11 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                   onMouseOut={[Function]}
                   onMouseOver={[Function]}
                   size="sm"
+                  style={
+                    Object {
+                      "background": "rgb(239, 239, 240)",
+                    }
+                  }
                   tabIndex={0}
                   url="/api/v4/users/3/image?_=0"
                 >
@@ -266,6 +291,11 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                     onMouseOut={[Function]}
                     onMouseOver={[Function]}
                     src="/api/v4/users/3/image?_=0"
+                    style={
+                      Object {
+                        "background": "rgb(239, 239, 240)",
+                      }
+                    }
                     tabIndex={0}
                   />
                 </Memo(Avatar)>
@@ -283,6 +313,11 @@ exports[`components/threading/channel_threads/thread_footer should report total 
             }
           }
           size="sm"
+          style={
+            Object {
+              "background": "rgb(239, 239, 240)",
+            }
+          }
           tabIndex={0}
           userId="4"
         >
@@ -378,6 +413,11 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                   onMouseOut={[Function]}
                   onMouseOver={[Function]}
                   size="sm"
+                  style={
+                    Object {
+                      "background": "rgb(239, 239, 240)",
+                    }
+                  }
                   tabIndex={0}
                   url="/api/v4/users/4/image?_=0"
                 >
@@ -390,6 +430,11 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                     onMouseOut={[Function]}
                     onMouseOver={[Function]}
                     src="/api/v4/users/4/image?_=0"
+                    style={
+                      Object {
+                        "background": "rgb(239, 239, 240)",
+                      }
+                    }
                     tabIndex={0}
                   />
                 </Memo(Avatar)>
@@ -407,6 +452,11 @@ exports[`components/threading/channel_threads/thread_footer should report total 
             }
           }
           size="sm"
+          style={
+            Object {
+              "background": "rgb(239, 239, 240)",
+            }
+          }
           tabIndex={0}
           userId="5"
         >
@@ -502,6 +552,11 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                   onMouseOut={[Function]}
                   onMouseOver={[Function]}
                   size="sm"
+                  style={
+                    Object {
+                      "background": "rgb(239, 239, 240)",
+                    }
+                  }
                   tabIndex={0}
                   url="/api/v4/users/5/image?_=0"
                 >
@@ -514,6 +569,11 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                     onMouseOut={[Function]}
                     onMouseOver={[Function]}
                     src="/api/v4/users/5/image?_=0"
+                    style={
+                      Object {
+                        "background": "rgb(239, 239, 240)",
+                      }
+                    }
                     tabIndex={0}
                   />
                 </Memo(Avatar)>
@@ -877,6 +937,11 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
             }
           }
           size="sm"
+          style={
+            Object {
+              "background": "rgb(239, 239, 240)",
+            }
+          }
           tabIndex={0}
           userId="2"
         >
@@ -972,6 +1037,11 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                   onMouseOut={[Function]}
                   onMouseOver={[Function]}
                   size="sm"
+                  style={
+                    Object {
+                      "background": "rgb(239, 239, 240)",
+                    }
+                  }
                   tabIndex={0}
                   url="/api/v4/users/2/image?_=0"
                 >
@@ -984,6 +1054,11 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                     onMouseOut={[Function]}
                     onMouseOver={[Function]}
                     src="/api/v4/users/2/image?_=0"
+                    style={
+                      Object {
+                        "background": "rgb(239, 239, 240)",
+                      }
+                    }
                     tabIndex={0}
                   />
                 </Memo(Avatar)>
@@ -1001,6 +1076,11 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
             }
           }
           size="sm"
+          style={
+            Object {
+              "background": "rgb(239, 239, 240)",
+            }
+          }
           tabIndex={0}
           userId="3"
         >
@@ -1096,6 +1176,11 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                   onMouseOut={[Function]}
                   onMouseOver={[Function]}
                   size="sm"
+                  style={
+                    Object {
+                      "background": "rgb(239, 239, 240)",
+                    }
+                  }
                   tabIndex={0}
                   url="/api/v4/users/3/image?_=0"
                 >
@@ -1108,6 +1193,11 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                     onMouseOut={[Function]}
                     onMouseOver={[Function]}
                     src="/api/v4/users/3/image?_=0"
+                    style={
+                      Object {
+                        "background": "rgb(239, 239, 240)",
+                      }
+                    }
                     tabIndex={0}
                   />
                 </Memo(Avatar)>
@@ -1125,6 +1215,11 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
             }
           }
           size="sm"
+          style={
+            Object {
+              "background": "rgb(239, 239, 240)",
+            }
+          }
           tabIndex={0}
           userId="4"
         >
@@ -1220,6 +1315,11 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                   onMouseOut={[Function]}
                   onMouseOver={[Function]}
                   size="sm"
+                  style={
+                    Object {
+                      "background": "rgb(239, 239, 240)",
+                    }
+                  }
                   tabIndex={0}
                   url="/api/v4/users/4/image?_=0"
                 >
@@ -1232,6 +1332,11 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                     onMouseOut={[Function]}
                     onMouseOver={[Function]}
                     src="/api/v4/users/4/image?_=0"
+                    style={
+                      Object {
+                        "background": "rgb(239, 239, 240)",
+                      }
+                    }
                     tabIndex={0}
                   />
                 </Memo(Avatar)>
@@ -1249,6 +1354,11 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
             }
           }
           size="sm"
+          style={
+            Object {
+              "background": "rgb(239, 239, 240)",
+            }
+          }
           tabIndex={0}
           userId="5"
         >
@@ -1344,6 +1454,11 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                   onMouseOut={[Function]}
                   onMouseOver={[Function]}
                   size="sm"
+                  style={
+                    Object {
+                      "background": "rgb(239, 239, 240)",
+                    }
+                  }
                   tabIndex={0}
                   url="/api/v4/users/5/image?_=0"
                 >
@@ -1356,6 +1471,11 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                     onMouseOut={[Function]}
                     onMouseOver={[Function]}
                     src="/api/v4/users/5/image?_=0"
+                    style={
+                      Object {
+                        "background": "rgb(239, 239, 240)",
+                      }
+                    }
                     tabIndex={0}
                   />
                 </Memo(Avatar)>

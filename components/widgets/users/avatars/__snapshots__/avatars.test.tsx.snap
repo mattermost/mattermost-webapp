@@ -27,6 +27,11 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
         }
       }
       size="xl"
+      style={
+        Object {
+          "background": "rgb(239, 239, 240)",
+        }
+      }
       tabIndex={0}
       userId="1"
     >
@@ -122,6 +127,11 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
               onMouseOut={[Function]}
               onMouseOver={[Function]}
               size="xl"
+              style={
+                Object {
+                  "background": "rgb(239, 239, 240)",
+                }
+              }
               tabIndex={0}
               url="/api/v4/users/1/image?_=0"
             >
@@ -134,6 +144,11 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
                 onMouseOut={[Function]}
                 onMouseOver={[Function]}
                 src="/api/v4/users/1/image?_=0"
+                style={
+                  Object {
+                    "background": "rgb(239, 239, 240)",
+                  }
+                }
                 tabIndex={0}
               />
             </Memo(Avatar)>
@@ -151,6 +166,11 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
         }
       }
       size="xl"
+      style={
+        Object {
+          "background": "rgb(239, 239, 240)",
+        }
+      }
       tabIndex={0}
       userId="2"
     >
@@ -246,6 +266,11 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
               onMouseOut={[Function]}
               onMouseOver={[Function]}
               size="xl"
+              style={
+                Object {
+                  "background": "rgb(239, 239, 240)",
+                }
+              }
               tabIndex={0}
               url="/api/v4/users/2/image?_=0"
             >
@@ -258,6 +283,11 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
                 onMouseOut={[Function]}
                 onMouseOver={[Function]}
                 src="/api/v4/users/2/image?_=0"
+                style={
+                  Object {
+                    "background": "rgb(239, 239, 240)",
+                  }
+                }
                 tabIndex={0}
               />
             </Memo(Avatar)>
@@ -275,6 +305,11 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
         }
       }
       size="xl"
+      style={
+        Object {
+          "background": "rgb(239, 239, 240)",
+        }
+      }
       tabIndex={0}
       userId="3"
     >
@@ -370,6 +405,11 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
               onMouseOut={[Function]}
               onMouseOver={[Function]}
               size="xl"
+              style={
+                Object {
+                  "background": "rgb(239, 239, 240)",
+                }
+              }
               tabIndex={0}
               url="/api/v4/users/3/image?_=0"
             >
@@ -382,6 +422,11 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
                 onMouseOut={[Function]}
                 onMouseOver={[Function]}
                 src="/api/v4/users/3/image?_=0"
+                style={
+                  Object {
+                    "background": "rgb(239, 239, 240)",
+                  }
+                }
                 tabIndex={0}
               />
             </Memo(Avatar)>
@@ -481,6 +526,11 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
             onMouseOut={[Function]}
             onMouseOver={[Function]}
             size="xl"
+            style={
+              Object {
+                "background": "rgb(239, 239, 240)",
+              }
+            }
             tabIndex={0}
             text="+2"
           >
@@ -532,6 +582,11 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
         }
       }
       size="xl"
+      style={
+        Object {
+          "background": "rgb(239, 239, 240)",
+        }
+      }
       tabIndex={0}
       userId="1"
     >
@@ -627,6 +682,11 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
               onMouseOut={[Function]}
               onMouseOver={[Function]}
               size="xl"
+              style={
+                Object {
+                  "background": "rgb(239, 239, 240)",
+                }
+              }
               tabIndex={0}
               url="/api/v4/users/1/image?_=0"
             >
@@ -639,6 +699,11 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
                 onMouseOut={[Function]}
                 onMouseOver={[Function]}
                 src="/api/v4/users/1/image?_=0"
+                style={
+                  Object {
+                    "background": "rgb(239, 239, 240)",
+                  }
+                }
                 tabIndex={0}
               />
             </Memo(Avatar)>
@@ -656,6 +721,11 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
         }
       }
       size="xl"
+      style={
+        Object {
+          "background": "rgb(239, 239, 240)",
+        }
+      }
       tabIndex={0}
       userId="2"
     >
@@ -751,6 +821,11 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
               onMouseOut={[Function]}
               onMouseOver={[Function]}
               size="xl"
+              style={
+                Object {
+                  "background": "rgb(239, 239, 240)",
+                }
+              }
               tabIndex={0}
               url="/api/v4/users/2/image?_=0"
             >
@@ -763,6 +838,11 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
                 onMouseOut={[Function]}
                 onMouseOver={[Function]}
                 src="/api/v4/users/2/image?_=0"
+                style={
+                  Object {
+                    "background": "rgb(239, 239, 240)",
+                  }
+                }
                 tabIndex={0}
               />
             </Memo(Avatar)>
@@ -780,6 +860,11 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
         }
       }
       size="xl"
+      style={
+        Object {
+          "background": "rgb(239, 239, 240)",
+        }
+      }
       tabIndex={0}
       userId="3"
     >
@@ -875,6 +960,11 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
               onMouseOut={[Function]}
               onMouseOver={[Function]}
               size="xl"
+              style={
+                Object {
+                  "background": "rgb(239, 239, 240)",
+                }
+              }
               tabIndex={0}
               url="/api/v4/users/3/image?_=0"
             >
@@ -887,6 +977,11 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
                 onMouseOut={[Function]}
                 onMouseOver={[Function]}
                 src="/api/v4/users/3/image?_=0"
+                style={
+                  Object {
+                    "background": "rgb(239, 239, 240)",
+                  }
+                }
                 tabIndex={0}
               />
             </Memo(Avatar)>
