@@ -57,7 +57,7 @@ const ExpiryMenu: React.FC<Props> = (props: Props) => {
             value: formatMessage(durationValues[THIS_WEEK]),
         },
         [DATE_AND_TIME]: {
-            text: formatMessage({id: 'expiry_dropdown.choose_date_and_time', defaultMessage: 'Choose date and time'}),
+            text: formatMessage({id: 'custom_status.expiry_dropdown.choose_date_and_time', defaultMessage: 'Choose date and time'}),
             value: formatMessage(durationValues[DATE_AND_TIME]),
         },
     };
@@ -70,7 +70,7 @@ const ExpiryMenu: React.FC<Props> = (props: Props) => {
                 >
                     <span className='expiry-wrapper expiry-selector'>
                         <FormattedMessage
-                            id='expiry_dropdown.clear_after'
+                            id='custom_status.expiry_dropdown.clear_after'
                             defaultMessage='Clear after'
                         />{': '}
                         <span className='expiry-value'>
@@ -84,7 +84,7 @@ const ExpiryMenu: React.FC<Props> = (props: Props) => {
                         </span>
                     </span>
                     <Menu
-                        ariaLabel={formatMessage({id: 'expiry_dropdown.clear_after', defaultMessage: 'Clear after'})}
+                        ariaLabel={formatMessage({id: 'custom_status.expiry_dropdown.clear_after', defaultMessage: 'Clear after'})}
                         id='statusExpiryMenu'
                     >
                         <Menu.Group>

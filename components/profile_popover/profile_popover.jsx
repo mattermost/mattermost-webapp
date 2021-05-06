@@ -297,14 +297,12 @@ class ProfilePopover extends React.PureComponent {
             );
 
             expiryContent = customStatusSet && customStatus.expires_at && customStatus.duration !== CustomStatusDuration.DONT_CLEAR && (
-                <span>
-                    {' (Until '}
-                    <ExpiryTime
-                        time={customStatus.expires_at}
-                        timezone={this.props.timezone}
-                    />
-                    {')'}
-                </span>
+                <ExpiryTime
+                    time={customStatus.expires_at}
+                    timezone={this.props.timezone}
+                    className='ml-1'
+                    withinBrackets={true}
+                />
             );
         } else if (canSetCustomStatus) {
             customStatusContent = (

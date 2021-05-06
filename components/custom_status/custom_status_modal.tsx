@@ -249,7 +249,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
 
     const isExpirySame = Boolean(currentCustomStatus?.expires_at && customExpiryTime.getTime() === new Date(currentCustomStatus.expires_at).getTime());
 
-    const disableSetStatus = emoji === '' || text.length > Constants.CUSTOM_STATUS_TEXT_CHARACTER_LIMIT || (areSelectedAndSetStatusSame && (expiry !== CustomStatusDuration.DATE_AND_TIME || isExpirySame));
+    const disableSetStatus = (emoji === '' && text === '') || text.length > Constants.CUSTOM_STATUS_TEXT_CHARACTER_LIMIT || (areSelectedAndSetStatusSame && (expiry !== CustomStatusDuration.DATE_AND_TIME || isExpirySame));
 
     const showSuggestions = !isStatusSet || areSelectedAndSetStatusSame;
     const showDateAndTimeField = !showSuggestions && expiry === CustomStatusDuration.DATE_AND_TIME;

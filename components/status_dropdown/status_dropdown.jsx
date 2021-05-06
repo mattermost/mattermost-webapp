@@ -180,14 +180,12 @@ export default class StatusDropdown extends React.PureComponent {
 
         const expiryTime = isStatusSet && customStatus.expires_at && customStatus.duration !== CustomStatusDuration.DONT_CLEAR &&
             (
-                <span className='custom_status__expiry MenuItem__help-text'>
-                    {'(Until '}
-                    <ExpiryTime
-                        time={customStatus.expires_at}
-                        timezone={this.props.timezone}
-                    />
-                    {')'}
-                </span>
+                <ExpiryTime
+                    time={customStatus.expires_at}
+                    timezone={this.props.timezone}
+                    className={'custom_status__expiry MenuItem__help-text'}
+                    withinBrackets={true}
+                />
             );
 
         return (

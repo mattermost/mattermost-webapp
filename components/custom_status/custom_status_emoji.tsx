@@ -74,13 +74,11 @@ const CustomStatusEmoji = (props: ComponentProps) => {
                     </div>
                     {customStatus.expires_at && customStatus.duration !== CustomStatusDuration.DONT_CLEAR &&
                         <div>
-                            <span>
-                                {'Until '}
-                                <ExpiryTime
-                                    time={customStatus.expires_at}
-                                    timezone={timezone}
-                                />
-                            </span>
+                            <ExpiryTime
+                                time={customStatus.expires_at}
+                                timezone={timezone}
+                                className='custom-status-expiry'
+                            />
                         </div>
                     }
                 </Tooltip>

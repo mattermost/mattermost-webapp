@@ -4,6 +4,8 @@ import React from 'react';
 
 import moment from 'moment-timezone';
 
+import {FormattedMessage} from 'react-intl';
+
 import Timestamp, {RelativeRanges} from 'components/timestamp';
 
 import {getCurrentDateAndTimeForTimezone} from 'utils/timezone';
@@ -16,9 +18,11 @@ const CUSTOM_STATUS_EXPIRY_RANGES = [
 interface Props {
     time: string;
     timezone?: string;
+    className?: string;
+    withinBrackets?: boolean;
 }
 
-const ExpiryTime = ({time, timezone}: Props) => {
+const ExpiryTime = ({time, timezone, className, withinBrackets}: Props) => {
     const currentTime = timezone ? getCurrentDateAndTimeForTimezone(timezone) : new Date();
     const timestampProps: { [key: string]: any } = {
         value: time,
@@ -34,9 +38,17 @@ const ExpiryTime = ({time, timezone}: Props) => {
     }
 
     return (
-        <Timestamp
-            {...timestampProps}
-        />
+        <span className={className}>
+            {withinBrackets && '('}
+            <FormattedMessage
+                id='custom_status.expiry.until'
+                defaultMessage='Until'
+            />{' '}
+            <Timestamp
+                {...timestampProps}
+            />
+            {withinBrackets && ')'}
+        </span>
     );
 };
 
