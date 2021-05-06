@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
@@ -10,25 +9,27 @@ import {Permissions} from 'mattermost-redux/constants';
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 
-import BackstageCategory from './backstage_category.jsx';
-import BackstageSection from './backstage_section.jsx';
+import {UserProfile} from 'mattermost-redux/types/users';
 
-export default class BackstageSidebar extends React.PureComponent {
-    static get propTypes() {
-        return {
-            team: PropTypes.object.isRequired,
-            user: PropTypes.object.isRequired,
-            enableCustomEmoji: PropTypes.bool.isRequired,
-            enableIncomingWebhooks: PropTypes.bool.isRequired,
-            enableOutgoingWebhooks: PropTypes.bool.isRequired,
-            enableCommands: PropTypes.bool.isRequired,
-            enableOAuthServiceProvider: PropTypes.bool.isRequired,
-            canCreateOrDeleteCustomEmoji: PropTypes.bool.isRequired,
-            canManageIntegrations: PropTypes.bool.isRequired,
-        };
-    }
+import {Team} from 'mattermost-redux/types/teams';
 
-    renderCustomEmoji() {
+import BackstageCategory from './backstage_category';
+import BackstageSection from './backstage_section';
+
+type Props = {
+    team: Team;
+    user: UserProfile;
+    enableCustomEmoji: boolean;
+    enableIncomingWebhooks: boolean;
+    enableOutgoingWebhooks: boolean;
+    enableCommands: boolean;
+    enableOAuthServiceProvider: boolean;
+    canCreateOrDeleteCustomEmoji: boolean;
+    canManageIntegrations: boolean;
+};
+
+export default class BackstageSidebar extends React.PureComponent<Props> {
+    renderCustomEmoji(): React.ReactNode {
         if (!this.props.enableCustomEmoji || !this.props.canCreateOrDeleteCustomEmoji) {
             return null;
         }
@@ -48,7 +49,7 @@ export default class BackstageSidebar extends React.PureComponent {
         );
     }
 
-    renderIntegrations() {
+    renderIntegrations(): React.ReactNode {
         if (!this.props.canManageIntegrations) {
             return null;
         }
@@ -177,7 +178,7 @@ export default class BackstageSidebar extends React.PureComponent {
         );
     }
 
-    render() {
+    render(): React.ReactNode {
         return (
             <div className='backstage-sidebar'>
                 <ul>
