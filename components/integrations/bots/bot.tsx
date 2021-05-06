@@ -3,11 +3,13 @@
 
 import React, {ChangeEvent, SyntheticEvent, ReactNode} from 'react';
 import {Link} from 'react-router-dom';
+
+import {FormattedMessage} from 'react-intl';
+
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {Bot as BotType} from 'mattermost-redux/types/bots';
 import {UserProfile, UserAccessToken} from 'mattermost-redux/types/users';
 import {Team} from 'mattermost-redux/types/teams';
-import {FormattedMessage} from 'react-intl';
 
 import ConfirmModal from 'components/confirm_modal';
 import Markdown from 'components/markdown';
@@ -59,6 +61,11 @@ type Props = {
     * String used for filtering bot items
     */
     filter?: string;
+
+    /**
+     * Determine whether this bot is managed by the app framework
+     */
+    fromApp: boolean;
 
     actions: {
 
@@ -191,7 +198,9 @@ export default class Bot extends React.PureComponent<Props, State> {
         const displayName = this.props.bot.display_name || '';
 
         let ownerUsername = 'plugin';
-        if (this.props.owner && this.props.owner.username) {
+        if (this.props.fromApp) {
+            ownerUsername = 'Apps Framework';
+        } else if (this.props.owner && this.props.owner.username) {
             ownerUsername = this.props.owner.username;
         }
         const filter = this.props.filter ? this.props.filter.toLowerCase() : '';

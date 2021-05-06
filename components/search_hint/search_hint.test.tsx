@@ -32,4 +32,29 @@ describe('components/SearchHint', () => {
         );
         expect(wrapper).toMatchSnapshot();
     });
+
+    test('should match snapshot, without searchType', () => {
+        const props = {
+            ...baseProps,
+            withTitle: true,
+            onSearchTypeSelected: jest.fn(),
+            searchType: '' as 'files' | 'messages' | '',
+        };
+        const wrapper = shallow(
+            <SearchHint {...props}/>,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot, with searchType', () => {
+        const props = {
+            ...baseProps,
+            onSearchTypeSelected: jest.fn(),
+            searchType: 'files' as 'files' | 'messages' | '',
+        };
+        const wrapper = shallow(
+            <SearchHint {...props}/>,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
 });

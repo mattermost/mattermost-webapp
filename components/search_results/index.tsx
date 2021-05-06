@@ -6,9 +6,13 @@ import {connect} from 'react-redux';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getSearchMatches, getSearchResults} from 'mattermost-redux/selectors/entities/posts';
+import {getSearchFilesResults} from 'mattermost-redux/selectors/entities/files';
 import * as PreferenceSelectors from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentSearchForCurrentTeam} from 'mattermost-redux/selectors/entities/search';
 import {Post} from 'mattermost-redux/types/posts';
+import {Channel} from 'mattermost-redux/types/channels';
+import {FileSearchResultItem} from 'mattermost-redux/types/files';
+import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import {
     getSearchResultsTerms,
@@ -25,6 +29,8 @@ import {StateProps, OwnProps} from './types';
 
 function makeMapStateToProps() {
     let results: Post[];
+    let fileResults: FileSearchResultItem[];
+    let files: FileSearchResultItem[] = [];
     let posts: Post[];
 
     return function mapStateToProps(state: GlobalState) {
@@ -33,6 +39,8 @@ function makeMapStateToProps() {
         const viewArchivedChannels = config.ExperimentalViewArchivedChannels === 'true';
 
         const newResults = getSearchResults(state);
+
+        const channels: {[key: string]: Channel} = {};
 
         // Cache posts and channels
         if (newResults && newResults !== results) {
@@ -48,10 +56,48 @@ function makeMapStateToProps() {
                 if (channel && channel.delete_at !== 0 && !viewArchivedChannels) {
                     return;
                 }
+                channels[post.channel_id] = channel;
 
                 posts.push(post);
             });
         }
+
+        const newFilesResults = getSearchFilesResults(state);
+
+        // Cache files and channels
+        if (newFilesResults && newFilesResults !== fileResults) {
+            fileResults = newFilesResults;
+
+            files = [];
+            fileResults.forEach((file) => {
+                if (!file) {
+                    return;
+                }
+
+                const channel = getChannel(state, file.channel_id);
+                if (channel && channel.delete_at !== 0 && !viewArchivedChannels) {
+                    return;
+                }
+
+                files.push(file);
+            });
+        }
+
+        fileResults.forEach((file) => {
+            if (!file) {
+                return;
+            }
+            const channel = getChannel(state, file.channel_id);
+            channels[file.channel_id] = channel;
+        });
+
+        results.forEach((post) => {
+            if (!post) {
+                return;
+            }
+            const channel = getChannel(state, post.channel_id);
+            channels[post.channel_id] = channel;
+        });
 
         // this is basically a hack to make ts compiler happy
         // add correct type when it is known what exactly is returned from the function
@@ -59,6 +105,8 @@ function makeMapStateToProps() {
 
         return {
             results: posts,
+            fileResults: files,
+            channels,
             matches: getSearchMatches(state),
             searchTerms: getSearchResultsTerms(state),
             isSearchingTerm: getIsSearchingTerm(state),
@@ -66,8 +114,10 @@ function makeMapStateToProps() {
             isSearchingPinnedPost: getIsSearchingPinnedPost(state),
             isSearchGettingMore: getIsSearchGettingMore(state),
             isSearchAtEnd: currentSearch.isEnd,
+            isSearchFilesAtEnd: currentSearch.isFilesEnd,
             searchPage: currentSearch.params?.page,
             compactDisplay: PreferenceSelectors.get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT,
+            currentTeamName: getCurrentTeam(state).name,
         };
     };
 }

@@ -7,7 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @enterprise @ldap @saml
+// Group: @enterprise @ldap @saml @keycloak
 
 import {getAdminAccount} from '../../support/env';
 import {getRandomId} from '../../utils';
@@ -20,6 +20,7 @@ import testusers from '../../fixtures/saml_ldap_users.json';
 // assumes the CYPRESS_* variables are set (CYPRESS_keycloakBaseUrl / CYPRESS_keycloakAppName)
 // requires {"chromeWebSecurity": false}
 // copy ./mattermost-server/build/docker/keycloak/keycloak.crt -> ./mattermost-webapp/e2e/cypress/fixtures/keycloak.crt
+
 describe('AD / LDAP', () => {
     const admin = getAdminAccount();
     const loginButtonText = 'SAML';
@@ -36,25 +37,16 @@ describe('AD / LDAP', () => {
     const newConfig = {
         SamlSettings: {
             Enable: true,
-            EnableSyncWithLdap: false,
-            EnableSyncWithLdapIncludeAuth: false,
-            Verify: true,
             Encrypt: false,
-            SignRequest: false,
             IdpUrl: idpUrl,
             IdpDescriptorUrl: idpDescriptorUrl,
-            IdpMetadataUrl: '',
             ServiceProviderIdentifier: `${baseUrl}/login/sso/saml`,
             AssertionConsumerServiceURL: `${baseUrl}/login/sso/saml`,
             SignatureAlgorithm: 'RSAwithSHA256',
             CanonicalAlgorithm: 'Canonical1.0',
             IdpCertificateFile: 'saml-idp.crt',
             PublicCertificateFile: '',
-            PrivateKeyFile: '',
             IdAttribute: 'username',
-            GuestAttribute: '',
-            EnableAdminAttribute: false,
-            AdminAttribute: '',
             FirstNameAttribute: 'firstName',
             LastNameAttribute: 'lastName',
             EmailAttribute: 'email',
@@ -70,54 +62,54 @@ describe('AD / LDAP', () => {
     let testSettings;
 
     before(() => {
-        // * Check if server has license for SAML
-        cy.apiRequireLicenseForFeature('SAML');
+        // * Check if server has license for LDAP and SAML
+        cy.apiRequireLicenseForFeature('LDAP', 'SAML');
 
-        // * Check if server has license for LDAP
-        cy.apiRequireLicenseForFeature('LDAP');
+        // # Require Keycloak with realm setup
+        cy.apiRequireKeycloak();
 
         // # Upload certificate, overwrite existing
         cy.apiUploadSAMLIDPCert('keycloak.crt');
 
         // # Update Configs
         cy.apiUpdateConfig(newConfig).then(({config}) => {
-            cy.setTestSettings(loginButtonText, config).then((_response) => {
-                testSettings = _response;
-                cy.keycloakResetUsers(users);
-            });
-        });
+            return cy.setTestSettings(loginButtonText, config);
+        }).then((response) => {
+            testSettings = response;
+            cy.keycloakResetUsers(users);
 
-        // # Add/refresh LDAP Test users
-        cy.resetLDAPUsers();
+            // # Add/refresh LDAP Test users
+            cy.resetLDAPUsers();
+        });
     });
 
     it('MM-T3013_1 - SAML LDAP Sync Off, user attributes pulled from SAML', () => {
         testSettings.user = users[0];
 
         // # MM Login via SAML
-        cy.doSamlLogin(testSettings).then(() => {
-            // # Login to Keycloak
-            cy.doKeycloakLogin(testSettings.user).then(() => {
-                // # Create team if no membership
-                cy.skipOrCreateTeam(testSettings, getRandomId()).then(() => {
-                    // * check the user settings
-                    cy.verifyAccountNameSettings(testSettings.user.firstname, testSettings.user.lastname);
+        cy.doSamlLogin(testSettings);
 
-                    // # run LDAP Sync
-                    // * check that it ran successfully
-                    cy.runLdapSync(admin).then(() => {
-                        // refresh make sure user not logged out.
-                        cy.reload();
+        // # Login to Keycloak
+        cy.doKeycloakLogin(testSettings.user);
 
-                        // * check the user settings
-                        cy.verifyAccountNameSettings(testSettings.user.firstname, testSettings.user.lastname);
+        // # Create team if no membership
+        cy.skipOrCreateTeam(testSettings, getRandomId());
 
-                        // # logout user
-                        cy.doSamlLogout(testSettings);
-                    });
-                });
-            });
-        });
+        // * Check the user settings
+        cy.verifyAccountNameSettings(testSettings.user.firstname, testSettings.user.lastname);
+
+        // # Run LDAP Sync
+        // * Check that it ran successfully
+        cy.runLdapSync(admin);
+
+        // Refresh make sure user not logged out.
+        cy.reload();
+
+        // * Check the user settings
+        cy.verifyAccountNameSettings(testSettings.user.firstname, testSettings.user.lastname);
+
+        // # Logout user
+        cy.doSamlLogout(testSettings);
     });
 
     it('MM-T3013_2 - SAML LDAP Sync On, user attributes pulled from LDAP', () => {
@@ -128,35 +120,34 @@ describe('AD / LDAP', () => {
                 EnableSyncWithLdap: true,
             },
         };
-        cy.apiAdminLogin().then(() => {
-            cy.apiUpdateConfig(testConfig);
-        });
+        cy.apiAdminLogin();
+        cy.apiUpdateConfig(testConfig);
 
         testSettings.user = users[0];
 
         // # MM Login via SAML
-        cy.doSamlLogin(testSettings).then(() => {
-            // # Login to Keycloak
-            cy.doKeycloakLogin(testSettings.user).then(() => {
-                // # Create team if no membership
-                cy.skipOrCreateTeam(testSettings, getRandomId()).then(() => {
-                    // * check the user settings
-                    cy.verifyAccountNameSettings(testSettings.user.firstname, testSettings.user.lastname);
+        cy.doSamlLogin(testSettings);
 
-                    // # run LDAP Sync
-                    // * check that it ran successfully
-                    cy.runLdapSync(admin).then(() => {
-                        // refresh make sure user not logged out.
-                        cy.reload();
+        // # Login to Keycloak
+        cy.doKeycloakLogin(testSettings.user);
 
-                        // * check the user settings
-                        cy.verifyAccountNameSettings(testSettings.user.ldapfirstname, testSettings.user.ldaplastname);
+        // # Create team if no membership
+        cy.skipOrCreateTeam(testSettings, getRandomId());
 
-                        // # logout user
-                        cy.doSamlLogout(testSettings);
-                    });
-                });
-            });
-        });
+        // * Check the user settings
+        cy.verifyAccountNameSettings(testSettings.user.firstname, testSettings.user.lastname);
+
+        // # Run LDAP Sync
+        // * Check that it ran successfully
+        cy.runLdapSync(admin);
+
+        // # Refresh make sure user not logged out.
+        cy.reload();
+
+        // * Check the user settings
+        cy.verifyAccountNameSettings(testSettings.user.ldapfirstname, testSettings.user.ldaplastname);
+
+        // # Logout user
+        cy.doSamlLogout(testSettings);
     });
 });

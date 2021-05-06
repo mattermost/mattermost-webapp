@@ -103,7 +103,8 @@ export default class AddGroupsToTeamModal extends React.PureComponent<Props, Sta
         }
     }
 
-    private handleHide = () => {
+    // public for tests
+    public handleHide = () => {
         this.props.actions.setModalSearchTerm('');
         this.setState({show: false});
     }
@@ -128,7 +129,8 @@ export default class AddGroupsToTeamModal extends React.PureComponent<Props, Sta
         });
     }
 
-    private handleSubmit = async () => {
+    // public for tests
+    public handleSubmit = async () => {
         const groupIDs = this.state.values.map((v) => v.id);
         if (groupIDs.length === 0) {
             return;
@@ -143,13 +145,13 @@ export default class AddGroupsToTeamModal extends React.PureComponent<Props, Sta
 
         this.setState({saving: true});
 
-        groupIDs.forEach(async (groupID) => {
+        await Promise.all(groupIDs.map(async (groupID) => {
             const {error} = await this.props.actions.linkGroupSyncable(groupID, this.props.currentTeamId, Groups.SYNCABLE_TYPE_TEAM, {auto_add: true, scheme_admin: false});
             this.handleResponse(error);
             if (!error) {
                 this.handleHide();
             }
-        });
+        }));
     }
 
     // public for tests

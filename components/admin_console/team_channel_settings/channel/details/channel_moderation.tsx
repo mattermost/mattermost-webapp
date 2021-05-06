@@ -6,6 +6,7 @@ import {FormattedMessage, defineMessages} from 'react-intl';
 
 import {isNil} from 'lodash';
 import classNames from 'classnames';
+
 import {ChannelModeration as ChannelPermissions} from 'mattermost-redux/types/channels';
 import {Permissions, Roles} from 'mattermost-redux/constants';
 import {ChannelModerationRoles} from 'mattermost-redux/types/roles';
@@ -15,7 +16,7 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import {t} from 'utils/i18n';
 
 import AdminPanel from 'components/widgets/admin_console/admin_panel';
-import CheckboxCheckedIcon from 'components/widgets/icons/checkbox_checked_icon.jsx';
+import CheckboxCheckedIcon from 'components/widgets/icons/checkbox_checked_icon';
 
 const PERIOD_TO_SLASH_REGEX = /\./g;
 

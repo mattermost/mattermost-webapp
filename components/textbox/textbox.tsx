@@ -23,7 +23,7 @@ import * as Utils from 'utils/utils.jsx';
 
 type Props = {
     id: string;
-    channelId?: string;
+    channelId: string;
     rootId?: string;
     value: string;
     onChange: (e: ChangeEvent) => void;
@@ -93,7 +93,9 @@ export default class Textbox extends React.PureComponent<Props> {
 
         if (props.supportsCommands) {
             this.suggestionProviders.push(new CommandProvider({
-                isInRHS: Boolean(this.props.rootId),
+                teamId: this.props.currentTeamId,
+                channelId: this.props.channelId,
+                rootId: this.props.rootId,
             }));
         }
 
@@ -124,6 +126,13 @@ export default class Textbox extends React.PureComponent<Props> {
                         autocompleteGroups: this.props.autocompleteGroups,
                         searchAssociatedGroupsForReference: (prefix: string) => this.props.actions.searchAssociatedGroupsForReference(prefix, this.props.currentTeamId, this.props.channelId),
                         priorityProfiles: this.props.priorityProfiles,
+                    });
+                }
+                if (providers[i] instanceof CommandProvider) {
+                    (providers[i] as CommandProvider).setProps({
+                        teamId: this.props.currentTeamId,
+                        channelId: this.props.channelId,
+                        rootId: this.props.rootId,
                     });
                 }
             }

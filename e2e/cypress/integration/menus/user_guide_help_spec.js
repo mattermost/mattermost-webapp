@@ -73,7 +73,7 @@ describe('Main menu', () => {
                 cy.get('#channelHeaderUserGuideButton').click();
                 cy.get('.dropdown-menu').should('be.visible').within(() => {
                     // * Check that Ask the community button is not visible
-                    cy.get('#askTheCommunityLink').should('be.not.visible');
+                    cy.get('#askTheCommunityLink').should('not.exist');
                     cy.get('#helpResourcesLink').should('be.visible');
                 });
             });

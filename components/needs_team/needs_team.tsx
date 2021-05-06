@@ -48,7 +48,7 @@ type Props = {
     currentTeamId?: string;
     useLegacyLHS: boolean;
     actions: {
-        fetchMyChannelsAndMembers: (teamId: string) => Promise<{data: {channels: Channel[]; members: ChannelMembership[]}}>;
+        fetchMyChannelsAndMembers: (teamId: string) => Promise<{ data: { channels: Channel[]; members: ChannelMembership[] } }>;
         getMyTeamUnreads: () => Promise<{data: any; error?: any}>;
         viewChannel: (channelId: string, prevChannelId?: string | undefined) => Promise<{data: boolean}>;
         markChannelAsReadOnFocus: (channelId: string) => Promise<{data: any; error?: any}>;
@@ -125,9 +125,8 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
 
     static getDerivedStateFromProps(nextProps: Props, state: State) {
         if (state.prevTeam !== nextProps.match.params.team) {
-            const team = nextProps.teamsList ?
-                nextProps.teamsList.find((teamObj: Team) =>
-                    teamObj.name === nextProps.match.params.team) : null;
+            const team = nextProps.teamsList ? nextProps.teamsList.find((teamObj: Team) =>
+                teamObj.name === nextProps.match.params.team) : null;
             return {
                 prevTeam: nextProps.match.params.team,
                 team: (team || null),
@@ -241,7 +240,6 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
                 });
             },
         );
-
         this.props.actions.loadStatusesForChannelAndSidebar();
         this.props.actions.loadProfilesForDirect();
 
@@ -297,7 +295,6 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
         if (this.state.team === null) {
             return <div/>;
         }
-        const teamType = this.state.team ? this.state.team.type : '';
 
         return (
             <Switch>
@@ -325,7 +322,6 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
                     render={(renderProps) => (
                         <ChannelController
                             pathName={renderProps.location.pathname}
-                            teamType={teamType}
                             fetchingChannels={!this.state.finishedFetchingChannels}
                             useLegacyLHS={this.props.useLegacyLHS}
                         />

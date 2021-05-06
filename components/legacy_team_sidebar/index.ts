@@ -3,8 +3,10 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
-import {getTeams} from 'mattermost-redux/actions/teams';
+
 import {withRouter} from 'react-router-dom';
+
+import {getTeams} from 'mattermost-redux/actions/teams';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {
@@ -13,7 +15,7 @@ import {
     getMyTeams,
     getTeamMemberships,
 } from 'mattermost-redux/selectors/entities/teams';
-import {get} from 'mattermost-redux/selectors/entities/preferences';
+import {get, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import {ClientConfig} from 'mattermost-redux/types/config';
 
@@ -24,6 +26,8 @@ import {getIsLhsOpen} from 'selectors/lhs';
 import {switchTeam, updateTeamsOrderForUser} from 'actions/team_actions.jsx';
 import {Preferences} from 'utils/constants.jsx';
 import {GlobalState} from 'types/store';
+
+import {getThreadCounts} from 'mattermost-redux/selectors/entities/threads';
 
 import LegacyTeamSidebar from './legacy_team_sidebar_controller';
 
@@ -39,10 +43,12 @@ function mapStateToProps(state: GlobalState) {
         myTeams: getMyTeams(state),
         myTeamMembers: getTeamMemberships(state),
         isOpen: getIsLhsOpen(state),
+        collapsedThreads: isCollapsedThreadsEnabled(state),
         experimentalPrimaryTeam,
         locale: getCurrentLocale(state),
         moreTeamsToJoin,
         userTeamsOrderPreference: get(state, Preferences.TEAMS_ORDER, '', ''),
+        threadCounts: getThreadCounts(state),
     };
 }
 

@@ -61,6 +61,11 @@ describe('System Console - Non-Enterprise', () => {
             url: 'admin_console/environment/logging',
         },
         {
+            header: 'Performance Monitoring',
+            sidebar: 'Performance Monitoring',
+            url: 'admin_console/environment/performance_monitoring',
+        },
+        {
             header: 'Session Lengths',
             sidebar: 'Session Lengths',
             url: 'admin_console/environment/session_lengths',

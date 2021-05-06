@@ -2,8 +2,15 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {Post} from 'mattermost-redux/types/posts';
 import {IntlShape} from 'react-intl';
+
+import {Post} from 'mattermost-redux/types/posts';
+import {Channel} from 'mattermost-redux/types/channels';
+import {FileInfo} from 'mattermost-redux/types/files';
+
+import {SearchFilterType} from '../search/types';
+
+import {SearchType} from 'types/store/rhs';
 
 export type OwnProps = {
     [key: string]: any;
@@ -13,15 +20,22 @@ export type OwnProps = {
     isPinnedPosts: boolean;
     updateSearchTerms: (terms: string) => void;
     getMorePostsForSearch: () => void;
+    getMoreFilesForSearch: () => void;
     shrink: () => void;
     isCard?: boolean;
     isOpened?: boolean;
     channelDisplayName?: string;
     children?: React.ReactNode;
+    searchType: SearchType;
+    setSearchType: (searchType: SearchType) => void;
+    searchFilterType: SearchFilterType;
+    setSearchFilterType: (filterType: SearchFilterType) => void;
 }
 
 export type StateProps = {
     results: Post[];
+    fileResults: FileInfo[];
+    channels: Record<string, Channel>;
     matches: Record<string, string[]>;
     searchTerms: string;
     isSearchingTerm: boolean;
@@ -29,6 +43,7 @@ export type StateProps = {
     isSearchingPinnedPost: boolean;
     isSearchGettingMore: boolean;
     isSearchAtEnd: boolean;
+    isSearchFilesAtEnd: boolean;
     compactDisplay: boolean;
 }
 

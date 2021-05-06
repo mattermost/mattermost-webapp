@@ -88,7 +88,7 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
         cy.get('#accountSettingsHeader > .close').should('be.visible').click();
 
         // * Channel Switcher button should disappear from the bottom of the left-hand-side bar
-        cy.get('#sidebarSwitcherButton').should('be.not.visible');
+        cy.get('#sidebarSwitcherButton').should('not.exist');
     });
 
     it('MM-T265_2 Show Channel Switcher button in LHS', () => {

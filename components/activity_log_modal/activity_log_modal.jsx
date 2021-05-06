@@ -7,7 +7,7 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import ActivityLog from 'components/activity_log_modal/components/activity_log.jsx';
+import ActivityLog from 'components/activity_log_modal/components/activity_log';
 import LoadingScreen from 'components/loading_screen';
 
 export default class ActivityLogModal extends React.PureComponent {

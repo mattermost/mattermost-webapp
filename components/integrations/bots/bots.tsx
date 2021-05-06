@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+
 import {Bot as BotType} from 'mattermost-redux/types/bots';
 import {RelationOneToOne} from 'mattermost-redux/types/utilities';
 import {UserProfile, UserAccessToken} from 'mattermost-redux/types/users';
@@ -23,6 +24,16 @@ type Props = {
     *  Map from botUserId to bot.
     */
     bots: Record<string, BotType>;
+
+    /**
+     * List of bot IDs managed by the app framework
+     */
+    appsBotIDs: string[];
+
+    /**
+     * Whether apps framework is enabled
+     */
+    appsEnabled: boolean;
 
     /**
     *  Map from botUserId to accessTokens.
@@ -78,6 +89,11 @@ type Props = {
         * Enable a bot
         */
         enableBot: (userId: string) => Promise<ActionResult>;
+
+        /**
+         * Load bot IDs managed by the apps
+         */
+        fetchAppsBotIDs: () => Promise<ActionResult>;
     };
 
     /**
@@ -123,6 +139,9 @@ export default class Bots extends React.PureComponent<Props, State> {
                 }
             },
         );
+        if (this.props.appsEnabled) {
+            this.props.actions.fetchAppsBotIDs();
+        }
     }
 
     DisabledSection(props: {hasDisabled: boolean; disabledBots: JSX.Element[]; filter?: string}): JSX.Element | null {
@@ -168,6 +187,7 @@ export default class Bots extends React.PureComponent<Props, State> {
                 accessTokens={(this.props.accessTokens && this.props.accessTokens[bot.user_id]) || {}}
                 actions={this.props.actions}
                 team={this.props.team}
+                fromApp={this.props.appsBotIDs.includes(bot.user_id)}
             />
         );
     };

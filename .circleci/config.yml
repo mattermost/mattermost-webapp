@@ -29,7 +29,6 @@ jobs:
       - checkout
       - run: |
           npm ci
-          cd node_modules/mattermost-redux && npm i && npm run build
       - *save_cache
 
   check-deps:
@@ -216,7 +215,7 @@ jobs:
           at: ~/mattermost/
       - run:
           command: |
-            curl -f -o server.tar.gz https://pr-builds.mattermost.com/mattermost-server/$(echo "${CIRCLE_BRANCH}" | sed 's/pull\//PR-/g')/mattermost-enterprise-linux-amd64.tar.gz || curl -f -o server.tar.gz https://releases.mattermost.com/mattermost-platform/master/mattermost-enterprise-linux-amd64.tar.gz
+            curl -f -o server.tar.gz https://pr-builds.mattermost.com/mattermost-server/$(echo "${CIRCLE_BRANCH}" | sed 's/pull\//PR-/g')/mattermost-enterprise-linux-amd64.tar.gz || curl -f -o server.tar.gz https://s3.amazonaws.com/releases.mattermost.com/gitlab/bundle/master/mattermost-enterprise-linux-amd64.tar.gz
 
             tar xf server.tar.gz
             rm -rf mattermost/client
@@ -255,10 +254,12 @@ workflows:
   untagged-build:
     jobs:
       - install
-      - check-deps:
-          context: sast-webhook
-          requires:
-            - install
+      # Disabling check-deps since the new version is not on bintray and all builds will fail
+      #       # we've are on top of this, and it's going to be temporary.
+      # - check-deps:
+      #     context: sast-webhook
+      #     requires:
+      #       - install
       - lint:
           requires:
             - install

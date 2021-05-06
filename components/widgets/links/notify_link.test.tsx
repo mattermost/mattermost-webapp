@@ -3,9 +3,10 @@
 
 import React from 'react';
 import {ReactWrapper} from 'enzyme';
-import {Client4} from 'mattermost-redux/client';
 
 import {act} from 'react-dom/test-utils';
+
+import {Client4} from 'mattermost-redux/client';
 
 import {StatusOK} from 'mattermost-redux/types/client4';
 
@@ -33,8 +34,9 @@ describe('components/widgets/links/NotifyLink', () => {
     });
 
     test('should attempt to send and fail', async () => {
+        const extraFuncMock = jest.fn();
         const wrapper = mountWithIntl(
-            <NotifyLink/>,
+            <NotifyLink extraFunc={extraFuncMock}/>,
         );
 
         const btn = wrapper.find('button');
@@ -44,6 +46,8 @@ describe('components/widgets/links/NotifyLink', () => {
 
         // wait for the promise called in the try anc catch block to resolve before updating the button text
         await actImmediate(wrapper);
+
+        expect(extraFuncMock).toHaveBeenCalledTimes(1);
 
         // ultimately fails because the request errors
         expect(btn.text()).toEqual(DafaultBtnText.Failed);
@@ -58,8 +62,10 @@ describe('components/widgets/links/NotifyLink', () => {
         const upgradeRequestMock = jest.spyOn(Client4, 'sendAdminUpgradeRequestEmail');
         upgradeRequestMock.mockImplementation(() => promise);
 
+        const extraFuncMock = jest.fn();
+
         const wrapper = mountWithIntl(
-            <NotifyLink/>,
+            <NotifyLink extraFunc={extraFuncMock}/>,
         );
 
         const btn = wrapper.find('button');
@@ -71,6 +77,7 @@ describe('components/widgets/links/NotifyLink', () => {
         await actImmediate(wrapper);
 
         expect(btn.text()).toEqual(DafaultBtnText.Sent);
+        expect(extraFuncMock).toHaveBeenCalledTimes(1);
         upgradeRequestMock.mockRestore();
     });
 });

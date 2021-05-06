@@ -8,12 +8,12 @@ import {DragDropContext, Droppable, DropResult, DragStart, BeforeCapture} from '
 import {Spring, SpringSystem} from 'rebound';
 import classNames from 'classnames';
 
+import debounce from 'lodash/debounce';
+
 import {General} from 'mattermost-redux/constants';
 import {Channel} from 'mattermost-redux/types/channels';
 import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
 import {Team} from 'mattermost-redux/types/teams';
-
-import debounce from 'lodash/debounce';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import {DraggingState} from 'types/store';
@@ -24,6 +24,8 @@ import * as ChannelUtils from 'utils/channel_utils.jsx';
 import SidebarCategory from '../sidebar_category';
 import UnreadChannelIndicator from '../unread_channel_indicator';
 import UnreadChannels from '../unread_channels';
+
+import GlobalThreadsLink from 'components/threading/global_threads_link';
 
 export function renderView(props: any) {
     return (
@@ -80,7 +82,6 @@ type Props = {
         close: () => void;
         setDraggingState: (data: DraggingState) => void;
         stopDragging: () => void;
-        expandCategory: (categoryId: string) => void;
         clearChannelSelection: () => void;
         multiSelectChannelAdd: (channelId: string) => void;
     };
@@ -540,6 +541,7 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
                     onScroll={this.onScroll}
                     style={{position: 'absolute'}}
                 >
+                    <GlobalThreadsLink/>
                     {channelList}
                 </Scrollbars>
             </div>
