@@ -90,6 +90,11 @@ exports[`components/StatusDropdown should match snapshot in default state 1`] = 
         subMenu={
           Array [
             Object {
+              "direction": "right",
+              "id": "dndSubMenu-header",
+              "text": "Disable notifications until:",
+            },
+            Object {
               "action": [Function],
               "direction": "right",
               "id": "dndTime-30mins",
@@ -110,12 +115,6 @@ exports[`components/StatusDropdown should match snapshot in default state 1`] = 
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-Today",
-              "text": "Today",
-            },
-            Object {
-              "action": [Function],
-              "direction": "right",
               "id": "dndTime-Tomorrow",
               "text": "Tomorrow",
             },
@@ -127,9 +126,8 @@ exports[`components/StatusDropdown should match snapshot in default state 1`] = 
             },
           ]
         }
-        subMenuClass="px-6"
+        subMenuClass="pl-4"
         text="Do not disturb"
-        xOffset={0}
       />
       <MenuItemAction
         ariaLabel="offline"
@@ -251,6 +249,11 @@ exports[`components/StatusDropdown should match snapshot with custom status enab
         subMenu={
           Array [
             Object {
+              "direction": "right",
+              "id": "dndSubMenu-header",
+              "text": "Disable notifications until:",
+            },
+            Object {
               "action": [Function],
               "direction": "right",
               "id": "dndTime-30mins",
@@ -271,12 +274,6 @@ exports[`components/StatusDropdown should match snapshot with custom status enab
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-Today",
-              "text": "Today",
-            },
-            Object {
-              "action": [Function],
-              "direction": "right",
               "id": "dndTime-Tomorrow",
               "text": "Tomorrow",
             },
@@ -288,9 +285,8 @@ exports[`components/StatusDropdown should match snapshot with custom status enab
             },
           ]
         }
-        subMenuClass="px-6"
+        subMenuClass="pl-4"
         text="Do not disturb"
-        xOffset={0}
       />
       <MenuItemAction
         ariaLabel="offline"
@@ -415,6 +411,11 @@ exports[`components/StatusDropdown should match snapshot with custom status puls
         subMenu={
           Array [
             Object {
+              "direction": "right",
+              "id": "dndSubMenu-header",
+              "text": "Disable notifications until:",
+            },
+            Object {
               "action": [Function],
               "direction": "right",
               "id": "dndTime-30mins",
@@ -435,12 +436,6 @@ exports[`components/StatusDropdown should match snapshot with custom status puls
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-Today",
-              "text": "Today",
-            },
-            Object {
-              "action": [Function],
-              "direction": "right",
               "id": "dndTime-Tomorrow",
               "text": "Tomorrow",
             },
@@ -452,9 +447,8 @@ exports[`components/StatusDropdown should match snapshot with custom status puls
             },
           ]
         }
-        subMenuClass="px-6"
+        subMenuClass="pl-4"
         text="Do not disturb"
-        xOffset={0}
       />
       <MenuItemAction
         ariaLabel="offline"
@@ -563,6 +557,11 @@ exports[`components/StatusDropdown should match snapshot with profile picture UR
         subMenu={
           Array [
             Object {
+              "direction": "right",
+              "id": "dndSubMenu-header",
+              "text": "Disable notifications until:",
+            },
+            Object {
               "action": [Function],
               "direction": "right",
               "id": "dndTime-30mins",
@@ -583,12 +582,6 @@ exports[`components/StatusDropdown should match snapshot with profile picture UR
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-Today",
-              "text": "Today",
-            },
-            Object {
-              "action": [Function],
-              "direction": "right",
               "id": "dndTime-Tomorrow",
               "text": "Tomorrow",
             },
@@ -600,9 +593,8 @@ exports[`components/StatusDropdown should match snapshot with profile picture UR
             },
           ]
         }
-        subMenuClass="px-6"
+        subMenuClass="pl-4"
         text="Do not disturb"
-        xOffset={0}
       />
       <MenuItemAction
         ariaLabel="offline"
@@ -707,6 +699,11 @@ exports[`components/StatusDropdown should match snapshot with status dropdown op
         subMenu={
           Array [
             Object {
+              "direction": "right",
+              "id": "dndSubMenu-header",
+              "text": "Disable notifications until:",
+            },
+            Object {
               "action": [Function],
               "direction": "right",
               "id": "dndTime-30mins",
@@ -727,12 +724,6 @@ exports[`components/StatusDropdown should match snapshot with status dropdown op
             Object {
               "action": [Function],
               "direction": "right",
-              "id": "dndTime-Today",
-              "text": "Today",
-            },
-            Object {
-              "action": [Function],
-              "direction": "right",
               "id": "dndTime-Tomorrow",
               "text": "Tomorrow",
             },
@@ -744,9 +735,8 @@ exports[`components/StatusDropdown should match snapshot with status dropdown op
             },
           ]
         }
-        subMenuClass="px-6"
+        subMenuClass="pl-4"
         text="Do not disturb"
-        xOffset={0}
       />
       <MenuItemAction
         ariaLabel="offline"
