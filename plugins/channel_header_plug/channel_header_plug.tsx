@@ -10,17 +10,16 @@ import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
 import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
 import {Theme} from 'mattermost-redux/types/preferences';
-import {AppBinding, AppCallRequest, AppCallResponse, AppCallType} from 'mattermost-redux/types/apps';
+import {AppBinding} from 'mattermost-redux/types/apps';
 import {AppCallResponseTypes, AppCallTypes} from 'mattermost-redux/constants/apps';
 
-import {ActionResult} from 'mattermost-redux/types/actions';
+import {DoAppCall, PostEphemeralCallResponseForChannel} from 'types/apps';
 
 import HeaderIconWrapper from 'components/channel_header/components/header_icon_wrapper';
 import PluginChannelHeaderIcon from 'components/widgets/icons/plugin_channel_header_icon';
 import {Constants} from 'utils/constants';
 import OverlayTrigger from 'components/overlay_trigger';
 import {PluginComponent} from 'types/store/plugins';
-import {sendEphemeralPost} from 'actions/global_actions';
 import {createCallContext, createCallRequest} from 'utils/apps';
 
 type CustomMenuProps = {
@@ -104,7 +103,8 @@ type ChannelHeaderPlugProps = {
     channelMember: ChannelMembership;
     theme: Theme;
     actions: {
-        doAppCall: (call: AppCallRequest, type: AppCallType, intl: IntlShape) => Promise<ActionResult>;
+        doAppCall: DoAppCall;
+        postEphemeralCallResponseForChannel: PostEphemeralCallResponseForChannel;
     };
 }
 
@@ -152,7 +152,9 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
         );
     }
 
-    onClick = async (binding: AppBinding) => {
+    onBindingClick = async (binding: AppBinding) => {
+        const {channel, intl} = this.props;
+
         if (!binding.call) {
             return;
         }
@@ -164,30 +166,36 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
             this.props.channel.team_id,
         );
         const call = createCallRequest(binding.call, context);
-        const res = await this.props.actions.doAppCall(call, AppCallTypes.SUBMIT, this.props.intl);
+        const res = await this.props.actions.doAppCall(call, AppCallTypes.SUBMIT, intl);
 
-        const callResp = (res as {data: AppCallResponse}).data;
-        const ephemeral = (message: string) => sendEphemeralPost(message, this.props.channel.id, '', callResp.app_metadata?.bot_user_id);
+        if (res.error) {
+            const errorResponse = res.error;
+            const errorMessage = errorResponse.error || intl.formatMessage({
+                id: 'apps.error.unknown',
+                defaultMessage: 'Unknown error occurred.',
+            });
+            this.props.actions.postEphemeralCallResponseForChannel(errorResponse, errorMessage, channel.id);
+            return;
+        }
+
+        const callResp = res.data!;
         switch (callResp.type) {
         case AppCallResponseTypes.OK:
             if (callResp.markdown) {
-                ephemeral(callResp.markdown);
+                this.props.actions.postEphemeralCallResponseForChannel(callResp, callResp.markdown, channel.id);
             }
             break;
-        case AppCallResponseTypes.ERROR: {
-            const errorMessage = callResp.error || this.props.intl.formatMessage({id: 'apps.error.unknown', defaultMessage: 'Unknown error happenned'});
-            ephemeral(errorMessage);
-            break;
-        }
         case AppCallResponseTypes.NAVIGATE:
         case AppCallResponseTypes.FORM:
             break;
         default: {
-            const errorMessage = this.props.intl.formatMessage(
-                {id: 'apps.error.responses.unknown_type', defaultMessage: 'App response type not supported. Response type: {type}.'},
-                {type: callResp.type},
-            );
-            ephemeral(errorMessage);
+            const errorMessage = this.props.intl.formatMessage({
+                id: 'apps.error.responses.unknown_type',
+                defaultMessage: 'App response type not supported. Response type: {type}.',
+            }, {
+                type: callResp.type,
+            });
+            this.props.actions.postEphemeralCallResponseForChannel(callResp, errorMessage, channel.id);
         }
         }
     }
@@ -204,7 +212,7 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
                         height='24'
                     />
                 )}
-                onClick={() => this.onClick(binding)}
+                onClick={() => this.onBindingClick(binding)}
                 buttonId={binding.location || ''}
                 tooltipKey={'plugin'}
                 tooltipText={binding.label}
@@ -240,7 +248,7 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
                         <a
                             href='#'
                             className='d-flex align-items-center'
-                            onClick={() => this.fireActionAndClose(() => this.onClick(binding))}
+                            onClick={() => this.fireActionAndClose(() => this.onBindingClick(binding))}
                         >
                             <span className='d-flex align-items-center overflow--ellipsis icon'>{(<img src={binding.icon}/>)}</span>
                             <span>{binding.label}</span>

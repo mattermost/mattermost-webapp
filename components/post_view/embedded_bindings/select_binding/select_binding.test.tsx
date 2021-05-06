@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {AppBinding} from 'mattermost-redux/types/apps';
+import {AppBinding, AppCallResponse} from 'mattermost-redux/types/apps';
 import {Post} from 'mattermost-redux/types/posts';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
@@ -44,16 +44,21 @@ describe('components/post_view/embedded_bindings/select_binding', () => {
         ] as AppBinding[],
     } as AppBinding;
 
+    const callResponse = {
+        type: 'ok',
+        markdown: 'Nice job!',
+        app_metadata: {
+            bot_user_id: 'botuserid',
+        },
+    } as AppCallResponse;
+
     const baseProps = {
         post,
         userId: 'user_id',
         binding,
         actions: {
             doAppCall: jest.fn().mockResolvedValue({
-                data: {
-                    type: 'ok',
-                    markdown: 'Nice job!',
-                },
+                data: callResponse,
             }),
             getChannel: jest.fn().mockResolvedValue({
                 data: {
@@ -61,8 +66,8 @@ describe('components/post_view/embedded_bindings/select_binding', () => {
                     team_id: 'some_team_id',
                 },
             }),
+            postEphemeralCallResponseForPost: jest.fn(),
         },
-        sendEphemeralPost: jest.fn(),
     };
 
     test('should start with nothing selected', () => {
@@ -91,8 +96,8 @@ describe('components/post_view/embedded_bindings/select_binding', () => {
                             team_id: 'some_team_id',
                         },
                     }),
+                    postEphemeralCallResponseForPost: jest.fn(),
                 },
-                sendEphemeralPost: jest.fn(),
                 intl: {} as any,
             };
 
@@ -123,22 +128,24 @@ describe('components/post_view/embedded_bindings/select_binding', () => {
                 values: undefined,
             }, 'submit', {});
 
-            expect(props.sendEphemeralPost).toHaveBeenCalledWith('Nice job!', 'some_channel_id', 'some_root_id', 'botuserid');
+            expect(props.actions.postEphemeralCallResponseForPost).toHaveBeenCalledWith(callResponse, 'Nice job!', post);
         });
     });
 
     test('should handle error call response', async () => {
+        const errorResponse = {
+            type: 'error',
+            error: 'The error',
+            app_metadata: {
+                bot_user_id: 'botuserid',
+            },
+        };
+
         const props = {
             ...baseProps,
             actions: {
                 doAppCall: jest.fn().mockResolvedValue({
-                    data: {
-                        type: 'error',
-                        error: 'The error',
-                        app_metadata: {
-                            bot_user_id: 'botuserid',
-                        },
-                    },
+                    error: errorResponse,
                 }),
                 getChannel: jest.fn().mockResolvedValue({
                     data: {
@@ -146,8 +153,8 @@ describe('components/post_view/embedded_bindings/select_binding', () => {
                         team_id: 'some_team_id',
                     },
                 }),
+                postEphemeralCallResponseForPost: jest.fn(),
             },
-            sendEphemeralPost: jest.fn(),
             intl: {} as any,
         };
 
@@ -158,6 +165,6 @@ describe('components/post_view/embedded_bindings/select_binding', () => {
             value: 'option1',
         });
 
-        expect(props.sendEphemeralPost).toHaveBeenCalledWith('The error', 'some_channel_id', 'some_root_id', 'botuserid');
+        expect(props.actions.postEphemeralCallResponseForPost).toHaveBeenCalledWith(errorResponse, 'The error', post);
     });
 });

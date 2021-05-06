@@ -924,13 +924,13 @@ export function getArchivedChannels(teamId: string, page = 0, perPage: number = 
     };
 }
 
-export function getAllChannelsWithCount(page = 0, perPage: number = General.CHANNELS_CHUNK_SIZE, notAssociatedToGroup = '', excludeDefaultChannels = false, includeDeleted = false): ActionFunc {
+export function getAllChannelsWithCount(page = 0, perPage: number = General.CHANNELS_CHUNK_SIZE, notAssociatedToGroup = '', excludeDefaultChannels = false, includeDeleted = false, excludePolicyConstrained = false): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         dispatch({type: ChannelTypes.GET_ALL_CHANNELS_REQUEST, data: null});
 
         let payload;
         try {
-            payload = await Client4.getAllChannels(page, perPage, notAssociatedToGroup, excludeDefaultChannels, true, includeDeleted) as ChannelsWithTotalCount;
+            payload = await Client4.getAllChannels(page, perPage, notAssociatedToGroup, excludeDefaultChannels, true, includeDeleted, excludePolicyConstrained) as ChannelsWithTotalCount;
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
             dispatch(batchActions([
@@ -958,13 +958,13 @@ export function getAllChannelsWithCount(page = 0, perPage: number = General.CHAN
     };
 }
 
-export function getAllChannels(page = 0, perPage: number = General.CHANNELS_CHUNK_SIZE, notAssociatedToGroup = '', excludeDefaultChannels = false): ActionFunc {
+export function getAllChannels(page = 0, perPage: number = General.CHANNELS_CHUNK_SIZE, notAssociatedToGroup = '', excludeDefaultChannels = false, excludePolicyConstrained = false): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         dispatch({type: ChannelTypes.GET_ALL_CHANNELS_REQUEST, data: null});
 
         let channels;
         try {
-            channels = await Client4.getAllChannels(page, perPage, notAssociatedToGroup, excludeDefaultChannels);
+            channels = await Client4.getAllChannels(page, perPage, notAssociatedToGroup, excludeDefaultChannels, false, false, excludePolicyConstrained);
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
             dispatch(batchActions([
@@ -1290,6 +1290,7 @@ export function markChannelAsRead(channelId: string, prevChannelId?: string, upd
                     teamId: channel.team_id,
                     channelId,
                     amount: channel.total_msg_count - channelMember.msg_count,
+                    amountRoot: channel.total_msg_count_root - channelMember.msg_count_root,
                 },
             });
 
@@ -1299,6 +1300,7 @@ export function markChannelAsRead(channelId: string, prevChannelId?: string, upd
                     teamId: channel.team_id,
                     channelId,
                     amount: channelMember.mention_count,
+                    amountRoot: channelMember.mention_count_root,
                 },
             });
         }
@@ -1317,6 +1319,7 @@ export function markChannelAsRead(channelId: string, prevChannelId?: string, upd
                     teamId: prevChannel.team_id,
                     channelId: prevChannelId,
                     amount: prevChannel.total_msg_count - prevChannelMember.msg_count,
+                    amountRoot: prevChannel.total_msg_count_root - prevChannelMember.msg_count_root,
                 },
             });
 
@@ -1326,6 +1329,7 @@ export function markChannelAsRead(channelId: string, prevChannelId?: string, upd
                     teamId: prevChannel.team_id,
                     channelId: prevChannelId,
                     amount: prevChannelMember.mention_count,
+                    amountRoot: prevChannelMember.mention_count_root,
                 },
             });
         }
@@ -1340,7 +1344,7 @@ export function markChannelAsRead(channelId: string, prevChannelId?: string, upd
 
 // Increments the number of posts in the channel by 1 and marks it as unread if necessary
 
-export function markChannelAsUnread(teamId: string, channelId: string, mentions: string[], fetchedChannelMember = false): ActionFunc {
+export function markChannelAsUnread(teamId: string, channelId: string, mentions: string[], fetchedChannelMember = false, isRoot = false): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
         const {myMembers} = state.entities.channels;
@@ -1352,6 +1356,7 @@ export function markChannelAsUnread(teamId: string, channelId: string, mentions:
                 teamId,
                 channelId,
                 amount: 1,
+                amountRoot: isRoot ? 1 : 0,
                 onlyMentions: myMembers[channelId] && myMembers[channelId].notify_props &&
                     myMembers[channelId].notify_props.mark_unread === MarkUnread.MENTION,
                 fetchedChannelMember,
@@ -1363,6 +1368,7 @@ export function markChannelAsUnread(teamId: string, channelId: string, mentions:
                 type: ChannelTypes.INCREMENT_TOTAL_MSG_COUNT,
                 data: {
                     channelId,
+                    amountRoot: isRoot ? 1 : 0,
                     amount: 1,
                 },
             });
@@ -1374,6 +1380,7 @@ export function markChannelAsUnread(teamId: string, channelId: string, mentions:
                 data: {
                     teamId,
                     channelId,
+                    amountRoot: isRoot ? 1 : 0,
                     amount: 1,
                     fetchedChannelMember,
                 },

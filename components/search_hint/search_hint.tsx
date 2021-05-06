@@ -20,19 +20,16 @@ type Props = {
     onOptionHover?: (index: number) => void;
     onSearchTypeSelected?: (searchType: 'files' | 'messages') => void;
     searchType?: 'files' | 'messages' | '';
-    filesSearchEnabled: boolean;
 }
 
 const SearchHint = (props: Props): JSX.Element => {
-    const {filesSearchEnabled} = props;
-
     const handleOnOptionHover = (optionIndex: number) => {
         if (props.onOptionHover) {
             props.onOptionHover(optionIndex);
         }
     };
 
-    if (props.onSearchTypeSelected && filesSearchEnabled) {
+    if (props.onSearchTypeSelected) {
         if (!props.searchType) {
             return (
                 <div
@@ -46,14 +43,20 @@ const SearchHint = (props: Props): JSX.Element => {
                         />
                     </div>
                     <div className='button-container'>
-                        <button onClick={() => props.onSearchTypeSelected && props.onSearchTypeSelected('messages')}>
+                        <button
+                            className={classNames({highlighted: props.highlightedIndex === 0})}
+                            onClick={() => props.onSearchTypeSelected && props.onSearchTypeSelected('messages')}
+                        >
                             <i className='icon icon-message-text-outline'/>
                             <FormattedMessage
                                 id='search_bar.usage.search_type_messages'
                                 defaultMessage='Messages'
                             />
                         </button>
-                        <button onClick={() => props.onSearchTypeSelected && props.onSearchTypeSelected('files')}>
+                        <button
+                            className={classNames({highlighted: props.highlightedIndex === 1})}
+                            onClick={() => props.onSearchTypeSelected && props.onSearchTypeSelected('files')}
+                        >
                             <i className='icon icon-file-document-outline'/>
                             <FormattedMessage
                                 id='search_bar.usage.search_type_files'
@@ -68,7 +71,7 @@ const SearchHint = (props: Props): JSX.Element => {
 
     return (
         <React.Fragment>
-            {props.withTitle && (!props.searchType || !filesSearchEnabled) &&
+            {props.withTitle && (!props.searchType) &&
                 <h4 className='search-hint__title'>
                     <FormattedMessage
                         id='search_bar.usage.title'
@@ -76,7 +79,7 @@ const SearchHint = (props: Props): JSX.Element => {
                     />
                 </h4>
             }
-            {props.withTitle && props.searchType === 'files' && filesSearchEnabled &&
+            {props.withTitle && props.searchType === 'files' &&
                 <h4 className='search-hint__title'>
                     <FormattedMessage
                         id='search_bar.usage.title_files'
@@ -84,7 +87,7 @@ const SearchHint = (props: Props): JSX.Element => {
                     />
                 </h4>
             }
-            {props.withTitle && props.searchType === 'messages' && filesSearchEnabled &&
+            {props.withTitle && props.searchType === 'messages' &&
                 <h4 className='search-hint__title'>
                     <FormattedMessage
                         id='search_bar.usage.title_messages'

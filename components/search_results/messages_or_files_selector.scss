@@ -12,8 +12,11 @@
         padding: 4px 12px;
         margin-right: 4px;
         color: rgba(var(--center-channel-color-rgb), 0.56);
+        background-color: rgba(var(--center-channel-bg-rgb), 1);
         font-weight: 600;
         cursor: pointer;
+        border: 0px;
+        border-radius: 4px;
         &.active {
             background-color: rgba(var(--button-bg-rgb), 0.08);
             border-radius: 4px;
