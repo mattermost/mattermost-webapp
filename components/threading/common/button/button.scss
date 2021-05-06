@@ -123,6 +123,11 @@
     }
 }
 
+
+.separated + .separated {
+    // --button-separator-gap should always be even
+    margin-left: var(--button-separator-gap, 0px);
+}
 .separated:not(.Button),
 .separated:not(:hover):not(:focus):not(.is-active) {
     + .separated:not(.Button),
@@ -132,7 +137,7 @@
             display: inline-block;
             position: absolute;
             width: 1px; height: var(--button-separator-height, 100%);
-            left: -.5px; top: 50%; transform: translateY(-50%);
+            left: calc(-.5px - var(--button-separator-gap, 0px) / 2); top: 50%; transform: translateY(-50%);
             background: rgba(var(--center-channel-color-rgb), .16);
             content: '';
         }

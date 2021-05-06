@@ -1,5 +1,6 @@
 .ThreadFooter {
     --button-separator-height: 15px;
+    --button-separator-gap: 4px;
 
     display: inline-flex;
     align-items: center;
@@ -43,7 +44,8 @@
     &:hover,
     &:focus-within,
     &.is-active,
-    .post:hover & {
+    .post:hover &,
+    .post:focus-within & {
         .alt-visible {
             display: unset;
         }

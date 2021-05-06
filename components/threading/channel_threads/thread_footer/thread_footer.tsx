@@ -95,11 +95,10 @@ function ThreadFooter({
             ) : null}
 
             <Button
-
                 onClick={useCallback(() => {
                     dispatch(selectPost({id: threadId, channel_id: channelId} as Post));
                 }, [threadId, channelId])}
-                className='separated'
+                className='ReplyButton separated'
                 prepend={
                     <span className='icon'>
                         <i className='icon-reply-outline'/>
