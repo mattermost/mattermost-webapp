@@ -90,7 +90,7 @@ import type {
     PatchDataRetentionCustomPolicy,
     GetDataRetentionCustomPoliciesRequest,
     UserThreadList, UserThread, UserThreadWithPost,
-} from '@mattermost/types';
+} from '@hmhealey/types';
 
 import fetch from './fetch_etag';
 import {buildQueryString, cleanUrlForLogging} from './helpers';
@@ -1476,7 +1476,8 @@ export default class Client4 {
             not_associated_to_group: notAssociatedToGroup,
             exclude_default_channels: excludeDefaultChannels,
             include_total_count: includeTotalCount,
-            include_deleted: includeDeleted,            exclude_policy_constrained: excludePolicyConstrained,
+            include_deleted: includeDeleted,
+            exclude_policy_constrained: excludePolicyConstrained,
         };
         return this.doFetch<ChannelWithTeamData[] | ChannelsWithTotalCount>(
             `${this.getChannelsRoute()}${buildQueryString(queryData)}`,

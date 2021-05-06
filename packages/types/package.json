@@ -1,5 +1,5 @@
 {
-  "name": "@mattermost/types",
+  "name": "@hmhealey/types",
   "version": "5.36.0-dev",
   "description": "TypeScript type definitions for objects returned by the server",
   "homepage": "https://github.com/mattermost/mattermost-webapp/tree/master/packages/types",
@@ -11,14 +11,18 @@
   "main": "index.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mattermost/mattermost-webapp.git",
+    "url": "git+https://github.com/mattermost/mattermost-webapp.git",
     "directory": "packages/types"
   },
-  "dependencies": {
-  },
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "peerDependencies": {
     "typescript": "^4.2.4"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/mattermost/mattermost-webapp/issues"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": ""
 }

@@ -6,7 +6,7 @@ import {
     DEFAULT_LIMIT_AFTER,
     DEFAULT_LIMIT_BEFORE,
     HEADER_X_VERSION_ID,
-} from '@mattermost/client';
+} from '@hmhealey/client';
 
 const clientInstance = new Client4();
 

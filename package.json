@@ -1,5 +1,5 @@
 {
-  "name": "@mattermost/webapp",
+  "name": "@hmhealey/webapp",
   "browser": {
     "./client/web_client.jsx": "./client/browser_web_client.jsx"
   },
@@ -8,8 +8,8 @@
   "dependencies": {
     "@formatjs/intl-pluralrules": "4.0.6",
     "@formatjs/intl-relativetimeformat": "6.2.3",
-    "@mattermost/client": "5.36.0-dev",
-    "@mattermost/types": "5.36.0-dev",
+    "@hmhealey/client": "5.36.0-dev",
+    "@hmhealey/types": "5.36.0-dev",
     "@stripe/react-stripe-js": "1.1.2",
     "@stripe/stripe-js": "1.9.0",
     "@types/country-list": "2.1.0",
