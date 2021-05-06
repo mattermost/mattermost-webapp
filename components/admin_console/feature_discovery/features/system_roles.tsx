@@ -4,7 +4,7 @@
 import React from 'react';
 
 import {t} from 'utils/i18n';
-import image from 'images/feature-discovery/admin.svg';
+import SystemRolesSVG from './images/system_roles_svg';
 
 import FeatureDiscovery from '../index';
 
@@ -17,7 +17,7 @@ const SystemRolesFeatureDiscovery: React.FC = () => {
             copyID='admin.system_roles_feature_discovery.copy'
             copyDefault={'Use System Roles to give designated users read and/or write access to select sections of System Console.'}
             learnMoreURL='https://docs.mattermost.com/deployment/admin-roles.html'
-            imgPath={image}
+            featureDiscoveryImage={<SystemRolesSVG/>}
         />
     );
 };

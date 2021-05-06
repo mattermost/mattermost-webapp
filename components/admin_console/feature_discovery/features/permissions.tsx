@@ -4,7 +4,7 @@
 import React from 'react';
 
 import {t} from 'utils/i18n';
-import image from 'images/feature-discovery/permissions.svg';
+import PermissionsSVG from './images/permissions_svg';
 
 import FeatureDiscovery from '../index';
 
@@ -17,7 +17,7 @@ const PermissionsFeatureDiscovery: React.FC = () => {
             copyID='admin.permissions_feature_discovery.copy'
             copyDefault={'Decide who can perform an array of actions such as creating channels, inviting people, managing and archiving channels, managing webhooks, and more in Permission Schemes.'}
             learnMoreURL='https://docs.mattermost.com/deployment/advanced-permissions.html'
-            imgPath={image}
+            featureDiscoveryImage={<PermissionsSVG/>}
         />
     );
 };

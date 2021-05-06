@@ -4,7 +4,7 @@
 import React from 'react';
 
 import {t} from 'utils/i18n';
-import saml from 'images/feature-discovery/saml.png';
+import SamlSVG from './images/saml_svg';
 
 import FeatureDiscovery from '../index';
 
@@ -17,7 +17,7 @@ const OpenIDFeatureDiscovery: React.FC = () => {
             copyID='admin.openid_feature_discovery.copy'
             copyDefault={'Use OpenID Connect for authentication and single sign-on (SSO) with any service that supports the OIDC specification such as Google, Office 365, Apple, Okta, OneLogin, and more.'}
             learnMoreURL='https://docs.mattermost.com/cloud/cloud-administration/sso-openid-connect.html'
-            imgPath={saml}
+            featureDiscoveryImage={<SamlSVG/>}
         />
     );
 };

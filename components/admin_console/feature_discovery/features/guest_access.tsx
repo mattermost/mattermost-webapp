@@ -4,7 +4,7 @@
 import React from 'react';
 
 import {t} from 'utils/i18n';
-import image from 'images/feature-discovery/welcomeguest.svg';
+import GuestAccessSVG from './images/guest_access_svg';
 
 import FeatureDiscovery from '../index';
 
@@ -17,7 +17,7 @@ const GuestAccessFeatureDiscovery: React.FC = () => {
             copyID='admin.guest_access_feature_discovery.copy'
             copyDefault={'Collaborate with users outside of your organization while tightly controlling their access channels and team members.'}
             learnMoreURL='https://docs.mattermost.com/deployment/guest-accounts.html'
-            imgPath={image}
+            featureDiscoveryImage={<GuestAccessSVG/>}
         />
     );
 };

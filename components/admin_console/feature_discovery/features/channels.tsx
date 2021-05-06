@@ -4,7 +4,7 @@
 import React from 'react';
 
 import {t} from 'utils/i18n';
-import image from 'images/feature-discovery/managechannels.svg';
+import ChannelsSVG from './images/channels_svg';
 
 import FeatureDiscovery from '../index';
 
@@ -17,7 +17,7 @@ const ChannelsFeatureDiscovery: React.FC = () => {
             copyID='admin.channels_feature_discovery.copy'
             copyDefault={'Decide which channels should be public, private, read-only, or react-only.'}
             learnMoreURL='https://docs.mattermost.com/deployment/team-channel-management.html'
-            imgPath={image}
+            featureDiscoveryImage={<ChannelsSVG/>}
         />
     );
 };
