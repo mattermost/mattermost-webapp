@@ -239,7 +239,7 @@ categories.each do |category|
             begin
                 FileUtils.cp(File.join(emoji_path, emoji.image_filename), File.join(tmp_directory, emoji.image_filename))
             rescue Errno::ENOENT => exception
-                puts "[WARN] Skipping #{emoji.image_filename} as it couldn't be found in #{emoji_path}\n"
+                puts "[WARN] Skipping #{category}/#{emoji.image_filename} as it couldn't be found in #{emoji_path}\n"
             end
         end
         if count == 45 || Emoji.all.length == i

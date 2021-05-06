@@ -70,7 +70,7 @@ function createCategory(name, className, message, translation) {
     return {
         name,
         safeName,
-        id: translation,
+        id: translation, // translation is needed so extract-i18n can pick it up automatically, so we can't autogenerate it
         className,
         message,
         offset: 0,
