@@ -11,7 +11,7 @@ import {ActionResult} from 'mattermost-redux/types/actions';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {IDMappedObjects} from 'mattermost-redux/types/utilities';
 
-import BackstageList from 'components/backstage/components/backstage_list.jsx';
+import BackstageList from 'components/backstage/components/backstage_list';
 import InstalledIncomingWebhook, {matchesFilter} from 'components/integrations/installed_incoming_webhook.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
