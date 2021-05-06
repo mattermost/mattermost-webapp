@@ -134,7 +134,7 @@ File.open(File.join(project_root, 'utils', 'emoji.jsx'), 'w') do |f|
     f.write("export const EmojiIndicesByUnicode = new Map(#{JSON.generate emoji_indices_by_unicode});\n\n")
     f.write("export const CategoryNames = #{JSON.generate categories};\n\n")
     f.write("export const EmojiIndicesByCategory = new Map(#{JSON.generate emoji_indices_by_category});\n\n")
-    f.write("/* eslint-enable */")
+    f.write("/* eslint-enable */\n")
 
     puts "\nwrote #{emojis.length} emojis to utils/emoji.jsx"
 end
@@ -240,7 +240,6 @@ categories.each do |category|
                 FileUtils.cp(File.join(emoji_path, emoji.image_filename), File.join(tmp_directory, emoji.image_filename))
             rescue Errno::ENOENT => exception
                 puts "[WARN] Skipping #{emoji.image_filename} as it couldn't be found in #{emoji_path}\n"
-                next
             end
         end
         if count == 45 || Emoji.all.length == i
