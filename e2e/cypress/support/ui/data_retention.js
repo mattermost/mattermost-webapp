@@ -16,6 +16,7 @@ Cypress.Commands.add('uiClickCreatePolicy', () => {
 Cypress.Commands.add('uiFillOutCustomPolicyFields', (name, durationDropdown, durationText = '') => {
     // # Type policy name
     cy.uiGetTextbox('Policy name').clear().type(name);
+
     // # Add message retention values
     cy.get('.CustomPolicy__fields #DropdownInput_message_retention').should('be.visible').click();
     cy.get(`.message_retention__menu .message_retention__option span.option_${durationDropdown}`).should('be.visible').click();
@@ -70,8 +71,10 @@ Cypress.Commands.add('uiAddRandomChannelToCustomPolicy', (numberOfChannels = 1) 
 Cypress.Commands.add('uiVerifyCustomPolicyRow', (policyId, description, duration, appliedTo) => {
     // * Assert row has correct description
     cy.get(`#customDescription-${policyId}`).should('include.text', description);
+
     // * Assert row has correct duration
     cy.get(`#customDuration-${policyId}`).should('include.text', duration);
+
     // * Assert row has correct team/channel counts
     cy.get(`#customAppliedTo-${policyId}`).should('include.text', appliedTo);
 });

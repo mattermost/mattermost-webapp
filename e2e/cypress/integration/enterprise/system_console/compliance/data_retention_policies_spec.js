@@ -65,7 +65,7 @@ describe('Data Retention', () => {
 
             // # Save policy
             cy.uiGetButton('Save').click();
-            
+
             // * Check custom policy table is visible
             cy.get('#custom_policy_table .DataGrid').should('be.visible');
 
@@ -153,6 +153,7 @@ describe('Data Retention', () => {
                     // # Go to edit custom data retention page
                     cy.uiClickEditCustomPolicyRow(policyId);
                 });
+
                 // * Verify custom policy page header
                 cy.get('.DataRetentionSettings .admin-console__header', {timeout: TIMEOUTS.TWO_MIN}).should('be.visible').invoke('text').should('include', 'Custom Retention Policy');
 
@@ -179,10 +180,13 @@ describe('Data Retention', () => {
                 cy.apiGetCustomRetentionPolicy(policyId).then((result) => {
                     // * Assert response body team_count is 0
                     expect(result.body.team_count).to.equal(0);
+
                     // * Assert response body channel_count is 1
                     expect(result.body.channel_count).to.equal(1);
+
                     // * Assert response body post_duration is 730
                     expect(result.body.post_duration).to.equal(730);
+
                     // * Assert response body display_name is correct
                     expect(result.body.display_name).to.equal('Policy 2');
                 });
@@ -214,8 +218,8 @@ describe('Data Retention', () => {
                     // * Verify custom policy data table
                     cy.uiVerifyCustomPolicyRow(policyId, 'Policy 3', 'Keep forever', '0 teams, 1 channel');
 
-                    
                     cy.get(`#customWrapper-${policyId}`).trigger('mouseover').click();
+
                     // # Delete a policy
                     cy.findByRole('button', {name: 'Delete'}).should('be.visible').click();
 
@@ -305,6 +309,7 @@ describe('Data Retention', () => {
                     // # Find the team table search box and type in team name
                     cy.findByRole('textbox').should('be.visible').clear().type(testTeam.name);
                     cy.wait(TIMEOUTS.ONE_SEC);
+
                     // * Verify the team is visible after search
                     cy.get(`#team-name-${testTeam.id}`).should('be.visible').invoke('text').should('include', testTeam.display_name);
                 });
@@ -346,11 +351,12 @@ describe('Data Retention', () => {
                     cy.uiClickEditCustomPolicyRow(policyId);
                 });
                 cy.get('.DataRetentionSettings .admin-console__header', {timeout: TIMEOUTS.TWO_MIN}).should('be.visible').invoke('text').should('include', 'Custom Retention Policy');
-                
+
                 // * Verify team table pagination
                 cy.get('.PolicyTeamsList .DataGrid').within(() => {
                     cy.get('.DataGrid_footer .DataGrid_cell').should('exist').invoke('text').should('include', '1 - 3 of 3');
                 });
+
                 // * GET the teams for the policy and verify the count is correct
                 cy.apiGetCustomRetentionPolicyTeams(policyId).then((result) => {
                     expect(result.body.teams.length).to.equal(3);
