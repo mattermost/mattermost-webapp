@@ -1,22 +1,20 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import BackIcon from 'components/widgets/icons/fa_back_icon';
+import {Team} from 'mattermost-redux/types/teams';
 
-export default class BackstageNavbar extends React.PureComponent {
-    static get propTypes() {
-        return {
-            team: PropTypes.object.isRequired,
-            siteName: PropTypes.string,
-        };
-    }
+type Props = {
+    team: Team;
+    siteName?: string;
+};
 
-    render() {
+export default class BackstageNavbar extends React.PureComponent<Props> {
+    render(): React.ReactNode {
         if (!this.props.team) {
             return null;
         }
