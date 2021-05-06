@@ -134,7 +134,6 @@ export default class StatusDropdown extends React.PureComponent {
             break;
         }
 
-        console.log({endTime});
         var dndEndTime = toUTCUnix(endTime);
         this.setStatus(UserStatuses.DND, dndEndTime);
     }
