@@ -422,7 +422,7 @@ if (targetIsDevServer) {
         devServer: {
             hot: true,
             injectHot: true,
-            liveReload: false,
+            liveReload: true,
             overlay: true,
             proxy: [{
                 context: () => true,
