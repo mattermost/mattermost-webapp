@@ -413,7 +413,9 @@ if (targetIsDevServer) {
         devtool: 'eval-cheap-module-source-map',
         devServer: {
             hot: true,
-            liveReload: false,
+            injectHot: true,
+            liveReload: true,
+            overlay: true,
             proxy: [{
                 context: () => true,
                 bypass(req) {
