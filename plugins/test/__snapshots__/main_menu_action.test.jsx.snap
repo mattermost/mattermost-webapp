@@ -263,7 +263,7 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
     <Connect(TeamPermissionGate)
       permissions={
         Array [
-          "manage_system",
+          "sysconsole_write_plugins",
         ]
       }
       teamId="someteamid"

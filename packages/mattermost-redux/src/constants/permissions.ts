@@ -210,7 +210,7 @@ const values = {
     SYSCONSOLE_READ_COMPLIANCE_COMPLIANCE_MONITORING: 'sysconsole_read_compliance_compliance_monitoring',
     SYSCONSOLE_WRITE_COMPLIANCE_COMPLIANCE_MONITORING: 'sysconsole_write_compliance_compliance_monitoring',
     SYSCONSOLE_READ_COMPLIANCE_CUSTOM_TERMS_OF_SERVICE: 'sysconsole_read_compliance_custom_terms_of_service',
-    SYSCONSOLE_WRITE_COMPLIANCE_CUSTOM_TERMS_OF_SERVICE: 'sysconsole_read_compliance_custom_terms_of_service',
+    SYSCONSOLE_WRITE_COMPLIANCE_CUSTOM_TERMS_OF_SERVICE: 'sysconsole_write_compliance_custom_terms_of_service',
     SYSCONSOLE_READ_EXPERIMENTAL_FEATURES: 'sysconsole_read_experimental_features',
     SYSCONSOLE_WRITE_EXPERIMENTAL_FEATURES: 'sysconsole_write_experimental_features',
     SYSCONSOLE_READ_EXPERIMENTAL_FEATURE_FLAGS: 'sysconsole_read_experimental_feature_flags',

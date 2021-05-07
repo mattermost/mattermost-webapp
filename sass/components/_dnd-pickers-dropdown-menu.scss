@@ -1,0 +1,23 @@
+.dnd-pickers-dropdown-menu {
+   position: absolute;
+}
+
+.modal-overflow {
+    overflow: visible;
+}
+
+.DNDTimePickerModal__footer {
+    text-align: right;
+    padding: 2rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .btn {
+        font-size: 14px;
+        font-weight: 600;
+        padding: 0 2rem;
+        height: 4rem;
+        border-radius: $border-rad*2;
+    }
+}
