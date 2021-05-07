@@ -29,6 +29,7 @@ export type RhsViewState = {
     selectedPostFocussedAt: number;
     selectedPostCardId: $ID<Post>;
     selectedChannelId: $ID<Channel>;
+    highlightedPostId: $ID<Post>;
     previousRhsState: RhsState;
     filesSearchExtFilter: string[];
     rhsState: RhsState;

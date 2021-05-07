@@ -87,6 +87,7 @@ type Props = Attrs & {
     };
     directTeammate: UserProfile;
     useRelativeTimestamp?: boolean;
+    highlightedPostId?: string;
 };
 
 type State = {
@@ -155,7 +156,9 @@ export default class ThreadViewer extends React.Component<Props, State> {
     }
 
     public componentDidMount() {
-        this.scrollToBottom();
+        if (!this.props.highlightedPostId) {
+            this.scrollToBottom();
+        }
         this.resizeRhsPostList();
         window.addEventListener('resize', this.handleResize);
 
@@ -210,6 +213,7 @@ export default class ThreadViewer extends React.Component<Props, State> {
     }
 
     public componentDidUpdate(prevProps: Props) {
+        const {highlightedPostId} = this.props;
         const prevPostsArray = prevProps.posts || [];
         const curPostsArray = this.props.posts || [];
 
@@ -240,7 +244,10 @@ export default class ThreadViewer extends React.Component<Props, State> {
 
         const curLastPost = curPostsArray[0];
 
-        if (curLastPost.user_id === this.props.currentUserId || this.state.userScrolledToBottom) {
+        if (
+            !highlightedPostId &&
+            (curLastPost.user_id === this.props.currentUserId || this.state.userScrolledToBottom)
+        ) {
             this.scrollToBottom();
         }
     }
@@ -274,16 +281,21 @@ export default class ThreadViewer extends React.Component<Props, State> {
             return true;
         }
 
+        if (nextProps.highlightedPostId !== this.props.highlightedPostId) {
+            return true;
+        }
+
         return false;
     }
 
     private handleResize = (): void => {
+        const {highlightedPostId} = this.props;
         this.setState({
             windowWidth: Utils.windowWidth(),
             windowHeight: Utils.windowHeight(),
         });
 
-        if (UserAgent.isMobile() && document!.activeElement!.id === 'reply_textbox') {
+        if (!highlightedPostId && UserAgent.isMobile() && document!.activeElement!.id === 'reply_textbox') {
             this.scrollToBottom();
         }
         this.resizeRhsPostList();
@@ -386,7 +398,9 @@ export default class ThreadViewer extends React.Component<Props, State> {
 
     private handlePostCommentResize = (): void => {
         this.resizeRhsPostList();
-        this.scrollToBottom();
+        if (!this.props.highlightedPostId) {
+            this.scrollToBottom();
+        }
     }
 
     public render(): JSX.Element {
@@ -434,6 +448,7 @@ export default class ThreadViewer extends React.Component<Props, State> {
                 }
             }
 
+            const isFocused = comPost.id && comPost.id === this.props.highlightedPostId;
             const keyPrefix = comPost.id ? comPost.id : comPost.pending_post_id;
 
             items.push(
@@ -444,6 +459,7 @@ export default class ThreadViewer extends React.Component<Props, State> {
                     teamId={this.props.channel!.team_id}
                     currentUserId={currentUserId}
                     isBusy={this.state.isBusy}
+                    isFocused={isFocused}
                     removePost={this.props.actions.removePost}
                     previewCollapsed={this.props.previewCollapsed}
                     previewEnabled={this.props.previewEnabled}

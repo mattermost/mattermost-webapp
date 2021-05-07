@@ -125,6 +125,10 @@ describe('components/PermalinkView', () => {
     describe('actions', () => {
         const initialState = {
             entities: {
+                general: {},
+                preferences: {
+                    myPreferences: {},
+                },
                 users: {
                     currentUserId: 'current_user_id',
                     profiles: {
