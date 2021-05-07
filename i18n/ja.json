@@ -1368,8 +1368,6 @@
   "admin.permissions.permission.manage_private_channel_properties.name": "チャンネル設定の管理",
   "admin.permissions.permission.manage_public_channel_properties.description": "公開チャンネル名、ヘッダー、目的の更新。",
   "admin.permissions.permission.manage_public_channel_properties.name": "チャンネル設定の管理",
-  "admin.permissions.permission.manage_remote_clusters.description": "共有チャンネルに対するリモートクラスターを追加、削除、確認する",
-  "admin.permissions.permission.manage_remote_clusters.name": "リモートクラスターを管理する",
   "admin.permissions.permission.manage_roles.description": "役割の管理",
   "admin.permissions.permission.manage_roles.name": "役割の管理",
   "admin.permissions.permission.manage_shared_channels.description": "共有チャンネルと同期する別のインスタンスを招待、共有、共有を解除する",

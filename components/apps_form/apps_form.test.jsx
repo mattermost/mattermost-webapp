@@ -45,7 +45,7 @@ describe('components/apps_form/AppsForm', () => {
                 actions: {
                     ...baseProps.actions,
                     submit: jest.fn().mockResolvedValue({
-                        data: {error: 'This is an error.', type: AppCallResponseTypes.ERROR},
+                        error: {error: 'This is an error.', type: AppCallResponseTypes.ERROR},
                     }),
                 },
             };

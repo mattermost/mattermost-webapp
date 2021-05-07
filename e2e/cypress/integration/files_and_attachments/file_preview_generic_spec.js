@@ -93,7 +93,7 @@ function testGenericFile(properties) {
 
     // # Wait until file upload is complete then submit
     waitUntilUploadComplete(`div.${type}`);
-    cy.postMessage('{enter}');
+    cy.get('#post_textbox').should('be.visible').clear().type('{enter}');
     cy.wait(TIMEOUTS.ONE_SEC);
 
     cy.getLastPost().within(() => {
