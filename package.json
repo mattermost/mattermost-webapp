@@ -8,8 +8,9 @@
   "dependencies": {
     "@formatjs/intl-pluralrules": "4.0.6",
     "@formatjs/intl-relativetimeformat": "6.2.3",
-    "@hmhealey/client": "5.36.0-dev",
-    "@hmhealey/types": "5.36.0-dev",
+    "@hmhealey/client": "*",
+    "@hmhealey/compass-components": "*",
+    "@hmhealey/types": "*",
     "@stripe/react-stripe-js": "1.1.2",
     "@stripe/stripe-js": "1.9.0",
     "@types/country-list": "2.1.0",
@@ -279,6 +280,8 @@
   },
   "workspaces": [
     "packages/client",
+    "packages/compass-components",
+    "packages/compass-icons",
     "packages/types"
   ]
 }

@@ -1,0 +1,258 @@
+import { ArgsTable, Meta, Story, Canvas, Title, Subtitle } from '@storybook/addon-docs/blocks';
+
+import Text from '../../components/text';
+import Grid, { Spacing } from '../layout';
+import { Utils } from '../../shared';
+
+import Shape from './index';
+import {
+    DEFAULT_SHAPE_BORDER_RADIUS,
+    DEFAULT_SHAPE_ELEMENT,
+    DEFAULT_SHAPE_ELEVATION_LEVEL,
+    SHAPE_BORDER_RADII,
+    SHAPE_ELEMENTS,
+    SHAPE_ELEVATION_LEVELS,
+} from './Shape.constants';
+
+import ThemeProvider from '../theme-provider/theme-provider';
+import { DEFAULT_ARGUMENT_STABLE_EXCLUSION } from '../../shared/constants';
+
+<Meta component={Shape} title="Foundations/Shape" />
+
+export const Template = (args) => <Shape {...args} />;
+
+export const defaultArgs = {
+    borderRadius: DEFAULT_SHAPE_BORDER_RADIUS,
+    elevation: DEFAULT_SHAPE_ELEVATION_LEVEL,
+    elevationOnHover: DEFAULT_SHAPE_ELEVATION_LEVEL,
+    component: DEFAULT_SHAPE_ELEMENT,
+    width: 200,
+    height: 50,
+};
+
+export const argTypes = Utils.hideStyledComponentProperties({
+    component: {
+        control: {
+            type: 'select',
+            options: SHAPE_ELEMENTS,
+        },
+    },
+    borderRadius: {
+        control: {
+            type: 'select',
+            options: SHAPE_BORDER_RADII,
+        },
+    },
+    elevation: {
+        control: {
+            type: 'select',
+            options: SHAPE_ELEVATION_LEVELS,
+        },
+    },
+    elevationOnHover: {
+        control: {
+            type: 'select',
+            options: SHAPE_ELEVATION_LEVELS,
+        },
+    },
+});
+
+<Title>Shape</Title>
+
+<Subtitle>
+    Shape is another important aspect of the visual style. When shapes are applied consistently, a
+    sense of familiarity, trust, and reliability is reinforced.
+</Subtitle>
+
+### Core Shapes
+
+There are 4 core shapes used throughout the Mattermost interface:
+
+<ThemeProvider>
+    <Grid padding={Spacing.symmetric({ vertical: 150 })} justify={'stretch'}>
+        <Grid
+            row
+            padding={Spacing.symmetric({ vertical: 150, horizontal: 25 })}
+            alignment={'center'}
+            justify={'space-around'}
+        >
+            <Grid justify={'center'}>
+                <Shape {...defaultArgs} borderRadius={0} />
+            </Grid>
+            <Grid justify={'center'}>
+                <Shape {...defaultArgs} borderRadius={12} />
+            </Grid>
+            <Grid justify={'center'}>
+                <Shape {...defaultArgs} borderRadius={'pill'} />
+            </Grid>
+            <Grid justify={'center'}>
+                <Shape {...defaultArgs} borderRadius={'circle'} />
+            </Grid>
+        </Grid>
+    </Grid>
+</ThemeProvider>
+
+## Rectangle
+
+This is often used for larger, more global containers that extend to the edges of the app window.
+
+## Rounded Rectangle
+
+The rounded rectangle is the most widely used shape for elements like Buttons, Modals, or Popover Menus.
+
+### Default Corner Radius
+
+The default corner radius for a container is 4px.
+This is used by Buttons, Icon Buttons, Popover Menus, and many other interface elements throughout the product.
+
+export const radiusExampleArgs = {
+    ...defaultArgs,
+    elevation: 2,
+    elevationOnHover: 5,
+    width: 120,
+    height: 120,
+};
+
+<ThemeProvider>
+    <Grid padding={Spacing.symmetric({ vertical: 150 })} justify={'stretch'}>
+        <Grid row alignment={'center'}>
+            <Grid justify={'center'} flex={0}>
+                <Grid padding={Spacing.all(150)}>
+                    <Shape {...radiusExampleArgs} width={156} height={156} borderRadius={4} />
+                </Grid>
+                <br />
+                <Text element={'p'} size={200} margin={'none'}>
+                    <strong>4px</strong>
+                </Text>
+            </Grid>
+        </Grid>
+    </Grid>
+</ThemeProvider>
+
+###### Other Corner Radiuses
+
+---
+
+<ThemeProvider>
+    <Grid padding={Spacing.symmetric({ vertical: 150 })} justify={'stretch'}>
+        <Grid row justify={'space-between'}>
+            <Grid justify={'center'} flex={0}>
+                <Grid padding={Spacing.all(150)}>
+                    <Shape {...radiusExampleArgs} borderRadius={8} />
+                </Grid>
+                <br />
+                <Text element={'p'} size={200} margin={'none'}>
+                    <strong>8px</strong>
+                </Text>
+            </Grid>
+            <Grid justify={'center'} flex={0}>
+                <Grid padding={Spacing.all(150)}>
+                    <Shape {...radiusExampleArgs} borderRadius={12} />
+                </Grid>
+                <br />
+                <Text element={'p'} size={200} margin={'none'}>
+                    <strong>12px</strong>
+                </Text>
+            </Grid>
+            <Grid justify={'center'} flex={0}>
+                <Grid padding={Spacing.all(150)}>
+                    <Shape {...radiusExampleArgs} borderRadius={16} />
+                </Grid>
+                <br />
+                <Text element={'p'} size={200} margin={'none'}>
+                    <strong>16px</strong>
+                </Text>
+            </Grid>
+            <Grid justify={'center'} flex={0}>
+                <Grid padding={Spacing.all(150)}>
+                    <Shape {...radiusExampleArgs} borderRadius={20} />
+                </Grid>
+                <br />
+                <Text element={'p'} size={200} margin={'none'}>
+                    <strong>20px</strong>
+                </Text>
+            </Grid>
+            <Grid justify={'center'} flex={0}>
+                <Grid padding={Spacing.all(150)}>
+                    <Shape {...radiusExampleArgs} borderRadius={24} />
+                </Grid>
+                <br />
+                <Text element={'p'} size={200} margin={'none'}>
+                    <strong>24px</strong>
+                </Text>
+            </Grid>
+        </Grid>
+    </Grid>
+</ThemeProvider>
+
+## Pill Shape
+
+The pill shape is essentially a Rounded Rectangle with the radius set to half the height of the container.
+This shape is used in a few select places—namely the Mention Badge.
+
+## Circle
+
+The circle shape is mostly reserved for the Avatar component.
+This helps distinguish users from other UI elements throughout the product.
+There are a few other elements that use the circle shape, like the Unread Badge or the Status Badge.
+
+<ArgsTable of={Shape} exclude={[...DEFAULT_ARGUMENT_STABLE_EXCLUSION]} />
+
+export const canvasExampleArgs = {
+    ...defaultArgs,
+    width: 400,
+    height: 150,
+};
+
+## Dependencies
+
+<DependenciesTable titleDependencies="Dependencies" titleDependents="Dependents" of={Shape} />
+
+<Canvas hidden>
+    <Story
+        name="Rectangle"
+        argTypes={argTypes}
+        args={{
+            ...canvasExampleArgs,
+            borderRadius: 0,
+            elevation: 0,
+        }}
+    >
+        {Template.bind({})}
+    </Story>
+    <Story
+        name="Rounded Rectangle"
+        argTypes={argTypes}
+        args={{
+            ...canvasExampleArgs,
+            borderRadius: 16,
+        }}
+    >
+        {Template.bind({})}
+    </Story>
+    <Story
+        name="Pill"
+        argTypes={argTypes}
+        args={{
+            ...canvasExampleArgs,
+            borderRadius: 'pill',
+            elevation: 2,
+        }}
+    >
+        {Template.bind({})}
+    </Story>
+    <Story
+        name="Circle"
+        argTypes={argTypes}
+        args={{
+            ...canvasExampleArgs,
+            borderRadius: 'circle',
+            elevation: 3,
+            component: 'section',
+            width: 400,
+            height: 100,
+        }}
+    >
+        {Template.bind({})}
+    </Story>
+</Canvas>

@@ -1,0 +1,27 @@
+name: Compass Icons CI
+
+on:
+    workflow_dispatch:
+    push:
+        branches:
+            - master
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v2
+            - name: npm install and package
+              run: |
+                  npm install
+                  npm run package
+            - name: Rename downloaded fontello package
+              run: |
+                  mv fontello* fontello
+                  cp ./build/IconGlyphs* ./fontello
+            - name: Archive artifacts
+              uses: actions/upload-artifact@v2
+              with:
+                  name: CompassIconFont
+                  path: fontello

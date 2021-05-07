@@ -1,0 +1,106 @@
+import { storiesOf } from '@storybook/react';
+import { Meta, Story, Canvas, Title, Subtitle } from '@storybook/addon-docs/blocks';
+
+import Badge from './index';
+
+export const MentionTemplate = (args) => <Badge {...args} />;
+export const UnreadTemplate = (args) => <Badge {...args} />;
+
+export const mentionBadgeDefaultArgs = {
+    location: 'sidebar',
+    mentionCount: 1,
+    width: 'auto',
+};
+
+export const unreadBadgeDefaultArgs = {
+    width: 8,
+    mentionCount: 0,
+};
+
+export const mentionBadgeArgTypes = {
+    location: {
+        control: {
+            type: 'select',
+            options: ['sidebar', 'menu'],
+        },
+    },
+    mentionCount: {
+        control: {
+            type: 'range',
+            min: 1,
+            max: 100,
+            step: 1,
+        },
+    },
+};
+
+export const unreadBadgeArgTypes = {
+    width: {
+        control: {
+            type: 'range',
+            min: 1,
+            max: 100,
+            step: 1,
+        },
+    },
+};
+
+<Meta component={Badge} title="Components/Badges" parameters={{ status: 'stable' }} />
+
+<Title>Badges</Title>
+
+<Subtitle>
+    Badges are small components typically used to indicate a numerical value or the status of an
+    item to the user.
+</Subtitle>
+
+## Mention Badges
+
+Mention Badges are used to show a numerical count of mentions that a user has received. It can be found in
+the Channel Sidebar as well as the App Header Bar.
+
+In cases where there is a number larger than 99 displayed in the badge, we limit the badge display to 99+
+
+## Unread Badges
+
+Unread Badges are smaller badges used to inform the user that there are unread messages in a particular
+Channel or Team. Unread Badges do not display a count.
+
+## Status Badges
+
+Status Badges are used to indicate the status of a particular user and are usually paired with an avatar
+or username
+
+export const canvasExampleArgs = {
+    ...mentionBadgeDefaultArgs,
+};
+
+<Canvas hidden>
+    <Story
+        name="Mention Badges"
+        argTypes={mentionBadgeArgTypes}
+        args={{
+            ...mentionBadgeDefaultArgs,
+        }}
+    >
+        {MentionTemplate.bind({})}
+    </Story>
+    <Story
+        name="Unread Badges"
+        argTypes={unreadBadgeArgTypes}
+        args={{
+            ...unreadBadgeDefaultArgs,
+        }}
+    >
+        {UnreadTemplate.bind({})}
+    </Story>
+    <Story
+        name="Status Badges"
+        argTypes={mentionBadgeArgTypes}
+        args={{
+            ...canvasExampleArgs,
+        }}
+    >
+        {MentionTemplate.bind({})}
+    </Story>
+</Canvas>

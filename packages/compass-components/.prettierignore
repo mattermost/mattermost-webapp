@@ -1,0 +1,8 @@
+blueprint-templates
+docker
+k8s
+node_modules
+public
+server
+*.test.*
+*.d.ts

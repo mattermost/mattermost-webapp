@@ -1,0 +1,130 @@
+import { Meta, Story, Canvas, ArgsTable, Title, Subtitle } from '@storybook/addon-docs/blocks';
+
+import Heading from './Heading';
+import {
+    HEADING_SIZE_TOKENS,
+    HEADING_MARGINS,
+    HEADING_ELEMENTS,
+    HEADING_WEIGHTS,
+    HEADING_COLORS,
+    DEFAULT_HEADING_SIZE,
+    DEFAULT_HEADING_WEIGHT,
+    DEFAULT_HEADING_MARGIN,
+} from './Heading.constants';
+import Grid from '../../foundations/layout';
+import Text from '../text';
+
+<Meta component={Heading} title="Components/Heading" />
+
+<Title>Heading</Title>
+
+### Font Weights
+
+Headings are generally used in the semibold font-weight, but can also be used in regular or light weights in special
+cases where the typographic contrast is needed.
+
+### Heading Sizes
+
+The chart below shows all the heading sizes from Heading 100 to Heading 1000, where 100 is the base font size as
+described above.
+
+export const smallSizes = [
+    { size: 25, fontSize: 10, lineHeight: 16 },
+    { size: 50, fontSize: 11, lineHeight: 16 },
+    { size: 75, fontSize: 12, lineHeight: 16 },
+    { size: 100, fontSize: 14, lineHeight: 20 },
+    { size: 200, fontSize: 16, lineHeight: 24 },
+];
+export const headingSizes = [
+    ...smallSizes,
+    { size: 300, fontSize: 18, lineHeight: 24 },
+    { size: 400, fontSize: 20, lineHeight: 28 },
+    { size: 500, fontSize: 22, lineHeight: 28 },
+    { size: 600, fontSize: 25, lineHeight: 30 },
+    { size: 700, fontSize: 28, lineHeight: 36 },
+    { size: 800, fontSize: 32, lineHeight: 40 },
+    { size: 900, fontSize: 36, lineHeight: 40 },
+    { size: 1000, fontSize: 40, lineHeight: 48 },
+];
+
+export const bodySizes = [...smallSizes, { size: 300, fontSize: 18, lineHeight: 28 }];
+
+<>
+    {headingSizes.map((heading) => (
+        <div key={`heading_${heading.size}`}>
+            <hr />
+            <Grid justify={'stretch'}>
+                <Grid row>
+                    <Heading element={'h3'} size={300}>
+                        {`Heading ${heading.size}${heading.size === 100 ? ' (Base size)' : ''}`}
+                    </Heading>
+                </Grid>
+                <Grid row>
+                    <Grid flex={3}>
+                        <Text element={'p'} color={'secondary'} size={50} margin={'none'}>
+                            Family
+                        </Text>
+                        <Text element={'p'} size={200} margin={'bottom'}>
+                            {heading.size > 300 ? 'Metropolis (600)' : 'OpenSans (600)'}
+                        </Text>
+                    </Grid>
+                    <Grid flex={2}>
+                        <Text element={'p'} color={'secondary'} size={50} margin={'none'}>
+                            Size
+                        </Text>
+                        <Text element={'p'} size={200} margin={'bottom'}>
+                            {`${heading.fontSize}px`}
+                        </Text>
+                    </Grid>
+                    <Grid flex={2}>
+                        <Text element={'p'} color={'secondary'} size={50} margin={'none'}>
+                            Line Height
+                        </Text>
+                        <Text element={'p'} size={200} margin={'bottom'}>
+                            {`${heading.lineHeight}px`}
+                        </Text>
+                    </Grid>
+                    <Grid flex={6}>
+                        <Text element={'p'} color={'secondary'} size={50} margin={'none'}>
+                            Example
+                        </Text>
+                        <Heading element={'h1'} size={heading.size} margin={'bottom'}>
+                            The quick brown fox jumps over the lazy dog
+                        </Heading>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </div>
+    ))}
+</>
+
+## Component API
+
+<ArgsTable of={Heading} exclude={['as', 'ref', 'forwardedAs', 'theme', 'className']} />
+
+export const Template = (args) => {
+    const { text } = args;
+    return <Heading {...args}>{text}</Heading>;
+};
+
+<Canvas hidden>
+    <Story
+        name="Default"
+        args={{
+            text: 'Lorem Ipsum Dolor',
+            size: DEFAULT_HEADING_SIZE,
+            weight: DEFAULT_HEADING_WEIGHT,
+            margin: DEFAULT_HEADING_MARGIN,
+        }}
+        argTypes={{
+            size: { control: { type: 'select', options: HEADING_SIZE_TOKENS } },
+            element: { control: { type: 'select', options: HEADING_ELEMENTS } },
+            weight: { control: { type: 'radio', options: HEADING_WEIGHTS } },
+            margin: { control: { type: 'radio', options: HEADING_MARGINS } },
+            color: { control: { type: 'radio', options: HEADING_COLORS } },
+            className: { table: { disable: true } },
+        }}
+    >
+        {Template.bind({})}
+    </Story>
+</Canvas>

@@ -1,0 +1,118 @@
+import { Meta, Story, Canvas, ArgsTable, Title } from '@storybook/addon-docs/blocks';
+
+import Text from './Text';
+import {
+    DEFAULT_TEXT_MARGIN,
+    DEFAULT_TEXT_SIZE,
+    DEFAULT_TEXT_ELEMENT,
+    DEFAULT_TEXT_WEIGHT,
+    TEXT_COLORS,
+    TEXT_MARGINS,
+    TEXT_SIZES,
+    TEXT_ELEMENTS,
+    TEXT_WEIGHTS,
+} from './Text.constants';
+import Grid from '../../foundations/layout';
+import Heading from '../heading';
+
+<Meta component={Text} title="Components/Text" />
+
+<Title>Text</Title>
+
+### Font Weights
+
+Body always uses the regular font-weight, but where emphasis is needed, the semi-bold weight can be used.
+
+### Body Sizes
+
+The chart below shows all the body copy sizes where Body 100 is the base font size.
+
+export const bodySizes = [
+    { size: 25, fontSize: 10, lineHeight: 16 },
+    { size: 50, fontSize: 11, lineHeight: 16 },
+    { size: 75, fontSize: 12, lineHeight: 16 },
+    { size: 100, fontSize: 14, lineHeight: 20 },
+    { size: 200, fontSize: 16, lineHeight: 24 },
+    { size: 300, fontSize: 18, lineHeight: 28 },
+];
+
+<>
+    {bodySizes.map((body) => (
+        <div key={`body_${body.size}`}>
+            <hr />
+            <Grid justify={'stretch'}>
+                <Grid row>
+                    <Heading element={'h3'} size={300}>
+                        {`Body ${body.size}${body.size === 100 ? ' (Base size)' : ''}`}
+                    </Heading>
+                </Grid>
+                <Grid row>
+                    <Grid flex={3}>
+                        <Text element={'p'} color={'secondary'} size={50} margin={'none'}>
+                            Family
+                        </Text>
+                        <Text element={'p'} size={200} margin={'bottom'}>
+                            OpenSans (400)
+                        </Text>
+                    </Grid>
+                    <Grid flex={2}>
+                        <Text element={'p'} color={'secondary'} size={50} margin={'none'}>
+                            Size
+                        </Text>
+                        <Text element={'p'} size={200} margin={'bottom'}>
+                            {`${body.fontSize}px`}
+                        </Text>
+                    </Grid>
+                    <Grid flex={2}>
+                        <Text element={'p'} color={'secondary'} size={50} margin={'none'}>
+                            Line Height
+                        </Text>
+                        <Text element={'p'} size={200} margin={'bottom'}>
+                            {`${body.lineHeight}px`}
+                        </Text>
+                    </Grid>
+                    <Grid flex={6}>
+                        <Text element={'p'} color={'secondary'} size={50} margin={'none'}>
+                            Example
+                        </Text>
+                        <Text element={'p'} size={body.size} margin={'bottom'}>
+                            The quick brown fox jumps over the lazy dog
+                        </Text>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </div>
+    ))}
+</>
+
+## Component API
+
+<ArgsTable of={Text} exclude={['as', 'ref', 'forwardedAs', 'theme']} />
+
+export const Template = (args) => {
+    const { text } = args;
+    return <Text {...args}>{text}</Text>;
+};
+
+<Canvas hidden>
+    <Story
+        name="Default"
+        args={{
+            text: 'Lorem Ipsum Dolor',
+            element: DEFAULT_TEXT_ELEMENT,
+            size: DEFAULT_TEXT_SIZE,
+            weight: DEFAULT_TEXT_WEIGHT,
+            margin: DEFAULT_TEXT_MARGIN,
+        }}
+        argTypes={{
+            size: { control: { type: 'select', options: TEXT_SIZES } },
+            element: { control: { type: 'select', options: TEXT_ELEMENTS } },
+            weight: { control: { type: 'radio', options: TEXT_WEIGHTS } },
+            margin: { control: { type: 'radio', options: TEXT_MARGINS } },
+            color: { control: { type: 'radio', options: TEXT_COLORS } },
+            className: { table: { disable: true } },
+        }}
+    >
+        {Template.bind({})}
+    </Story>
+</Canvas>

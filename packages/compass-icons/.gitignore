@@ -1,0 +1,9 @@
+node_modules
+build
+dist
+config.json
+fontello*
+.DS_Store
+.git
+iconGlyphs.ts
+.fontello-session

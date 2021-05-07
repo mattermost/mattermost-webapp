@@ -1,0 +1,10 @@
+.storybook
+blueprint-templates
+docker
+k8s
+node_modules
+public
+server
+*.test.*
+*.stories.*
+*.d.ts

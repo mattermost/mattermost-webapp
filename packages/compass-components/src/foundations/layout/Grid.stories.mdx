@@ -1,0 +1,110 @@
+import { ArgsTable, Meta, Title, Subtitle } from '@storybook/addon-docs/blocks';
+
+import Shape from '../shape';
+import Text from '../../components/text';
+
+import measurementImg from '../../assets/images/layout_measurement-units.png';
+import paddingImg from '../../assets/images/layout_padding.png';
+import grid8pxImg from '../../assets/images/layout_8px-grid.png';
+import grid4pxImg from '../../assets/images/layout_4px-grid.png';
+import baselineImg from '../../assets/images/layout_baseline.png';
+import anatomyImg from '../../assets/images/layout_grid-anatomy.png';
+
+import Grid, { Spacing } from './index';
+
+<Meta component={Grid} title="Foundations/Grid" />
+
+<Title>Grid</Title>
+
+<Subtitle>
+    The following layout guidelines help maintain consistency across platforms and screen sizes by
+    using uniform spacing and grids.
+</Subtitle>
+
+### Measurement Units
+
+Balance is maintained in layouts by leveraging standardized units of measurement. 8px is the standard unit of
+measurement for all layout elements. Smaller elements like icons and text can use 4px as the standard unit.
+
+<img src={measurementImg} alt={'measurement units'} />
+
+### Spacing
+
+Spacing follows the same standard measurements established above. There are 11 standard spacers that follow
+this convention.
+
+export const spacings = {
+    4: 25,
+    8: 50,
+    12: 75,
+    16: 100,
+    20: 125,
+    24: 150,
+    28: 175,
+    32: 200,
+    40: 250,
+    48: 300,
+    56: 350,
+    64: 400,
+    72: 450,
+    80: 500,
+};
+
+<Grid row alignment={'flex-end'}>
+    {Object.keys(spacings).map((s) => (
+        <Grid alignment={'center'} padding={Spacing.all(75)}>
+            <Shape borderWidth={1} borderRadius={0} elevation={0}>
+                <Grid
+                    padding={Spacing.trbl({
+                        top: spacings[s],
+                        right: 0,
+                        bottom: 0,
+                        left: spacings[s],
+                    })}
+                />
+            </Shape>
+            <Text element={'p'} size={75}>
+                {s}
+            </Text>
+        </Grid>
+    ))}
+</Grid>
+
+### Padding
+
+Padding refers to the spacing within a container and gives breathing room to the content within. Padding should follow
+the same measurement and spacing standards by utilizing the 8px unit of measurement.
+
+<img src={paddingImg} alt={'padding examples'} />
+
+## Grids
+
+### 8px grid
+
+As much as possible, all elements should align to an 8px grid.
+
+<img src={grid8pxImg} alt={'example of 8px grid'} />
+
+### 4px grid
+
+Icons, type, and other small elements can align to a 4px grid.
+
+<img src={grid4pxImg} alt={'example of 4px grid'} />
+
+### vertical/baseline grid
+
+A baseline grid of 4px is set to establish a vertical rhythm. 8px is the resulting x-height of our base body copy font
+size (14px). We’ve chosen to cut that in half to 4px in order to provide enough flexibility for various layout elements.
+8px should be the target grid in cases, but when smaller increments are needed, the 4px baseline can be used. With this
+in mind, line heights for body copy should be a multiple of 4px.
+
+<img src={baselineImg} alt={'example of the baseline measurement'} />
+
+### horizontal grid
+
+A horizontal grid is defined to help align UI elements and create a clean, organized layout that feels grounded and
+trustworthy. This kind of organization also helps users scan content and find what they’re looking for.
+
+<img src={anatomyImg} alt={'example of the horizontal grid anatomy'} />
+
+<ArgsTable of={Grid} />

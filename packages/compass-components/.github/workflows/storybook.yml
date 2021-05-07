@@ -1,0 +1,34 @@
+name: Storybook Build and Deploy
+on:
+    workflow_dispatch:
+    push:
+        branches:
+          - master
+        paths: ['src/**/*']
+jobs:
+    storybook-build-and-deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v2.3.1
+              with:
+                  persist-credentials: false
+            - name: Install
+              run: |
+                  yarn install
+            - name: Build Icons
+              working-directory: ./node_modules/@hmhealey/compass-icons
+              run: |
+                  npm install
+                  npm run build
+            - name: Build Storybook
+              run: |
+                  yarn run build-storybook
+            - name: Deploy
+              uses: JamesIves/github-pages-deploy-action@3.6.2
+              with:
+                  GITHUB_TOKEN: ${{ secrets.STORYBOOK_ACTION_GITHUB_TOKEN }}
+                  BRANCH: master
+                  FOLDER: storybook-static
+                  CLEAN: true
+                  TARGET_FOLDER: docs

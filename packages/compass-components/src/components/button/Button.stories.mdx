@@ -1,0 +1,71 @@
+import { ArgsTable, Canvas, Meta, Story } from '@storybook/addon-docs/blocks';
+
+import { DEFAULT_ICON_GLYPH, ICON_GLYPHS } from '../icon';
+import { DEFAULT_ARGUMENT_STABLE_EXCLUSION } from '../../shared/constants';
+
+import Button from './Button.tsx';
+import {
+    BUTTON_ICON_POSITIONS,
+    BUTTON_SIZES,
+    BUTTON_VARIANTS,
+    BUTTON_WIDTHS,
+    DEFAULT_BUTTON_ICON_POSITION,
+    DEFAULT_BUTTON_SIZE,
+    DEFAULT_BUTTON_VARIANT,
+    DEFAULT_BUTTON_WIDTH,
+} from './Button.constants';
+
+<Meta title={'Components/Button'} />
+
+<ArgsTable of={Button} exclude={[...DEFAULT_ARGUMENT_STABLE_EXCLUSION]} />
+
+<Canvas hidden>
+    <Story
+        name="Default"
+        args={{
+            label: 'normal button',
+            disabled: false,
+            destructive: false,
+            size: DEFAULT_BUTTON_SIZE,
+            variant: DEFAULT_BUTTON_VARIANT,
+            width: DEFAULT_BUTTON_WIDTH,
+            icon: null,
+            iconPosition: null,
+        }}
+        argTypes={{
+            size: { control: { type: 'select', options: BUTTON_SIZES } },
+            variant: { control: { type: 'select', options: BUTTON_VARIANTS } },
+            width: { control: { type: 'select', options: [...BUTTON_WIDTHS, 100, 200, 300, 400] } },
+            icon: { table: { disable: true } },
+            iconPosition: { table: { disable: true } },
+            className: { table: { disable: true } },
+            onClick: { action: 'clicked' },
+        }}
+    >
+        {(args) => <Button {...args} />}
+    </Story>
+    <Story
+        name="Button with icon"
+        args={{
+            label: 'button with icon',
+            disabled: false,
+            destructive: false,
+            size: DEFAULT_BUTTON_SIZE,
+            variant: DEFAULT_BUTTON_VARIANT,
+            width: DEFAULT_BUTTON_WIDTH,
+            icon: DEFAULT_ICON_GLYPH,
+            iconPosition: DEFAULT_BUTTON_ICON_POSITION,
+        }}
+        argTypes={{
+            size: { control: { type: 'select', options: BUTTON_SIZES } },
+            variant: { control: { type: 'select', options: BUTTON_VARIANTS } },
+            width: { control: { type: 'select', options: [...BUTTON_WIDTHS, 100, 200, 300, 400] } },
+            icon: { control: { type: 'select', options: ICON_GLYPHS } },
+            iconPosition: { control: { type: 'select', options: BUTTON_ICON_POSITIONS } },
+            className: { table: { disable: true } },
+            onClick: { action: 'clicked' },
+        }}
+    >
+        {(args) => <Button {...args} />}
+    </Story>
+</Canvas>
