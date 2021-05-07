@@ -130,6 +130,7 @@
     + .separated:not(:hover):not(.is-active) {
         position: relative;
         &::before {
+            pointer-events: none;
             display: inline-block;
             position: absolute;
             width: 1px; height: var(--button-separator-height, 100%);
