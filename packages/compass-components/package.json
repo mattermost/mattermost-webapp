@@ -1,8 +1,11 @@
 {
     "name": "@hmhealey/compass-components",
-    "version": "5.36.0-0",
+    "version": "5.36.0-1",
     "description": "components aligning to the compass design system",
     "main": "index.js",
+    "files": [
+        "lib"
+    ],
     "scripts": {
         "prepack": "npm run build",
         "build-storybook": "build-storybook",
@@ -29,7 +32,7 @@
     "homepage": "https://github.com/mattermost/compass-components#readme",
     "dependencies": {
         "@etchteam/storybook-addon-status": "^2.1.0",
-        "@hmhealey/compass-icons": "github:mattermost/compass-icons#5fc43ecf90ba697613e02a6201811894b7b74f60",
+        "@hmhealey/compass-icons": "5.36.0-1",
         "@types/node": "^12.0.0",
         "@types/react": "^17.0.0",
         "@types/react-dom": "^17.0.0",

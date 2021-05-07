@@ -1,9 +1,11 @@
 {
     "name": "@hmhealey/compass-icons",
-    "version": "5.36.0-0",
-    "private": true,
+    "version": "5.36.0-1",
     "description": "",
     "main": "build/css/compass-icons.css",
+    "files": [
+        "build"
+    ],
     "scripts": {
         "prepack": "npm run build",
         "start": "npm run build",
