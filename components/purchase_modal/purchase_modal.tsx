@@ -51,10 +51,10 @@ type Props = {
 
 type State = {
     paymentInfoIsValid: boolean;
-    productPrice: number;
     billingDetails: BillingDetails | null;
     cardInputComplete: boolean;
     processing: boolean;
+    selectedProduct: Product | null;
 }
 export default class PurchaseModal extends React.PureComponent<Props, State> {
     modal = React.createRef();
@@ -64,24 +64,24 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
 
         this.state = {
             paymentInfoIsValid: false,
-            productPrice: 0,
             billingDetails: null,
             cardInputComplete: false,
             processing: false,
+            selectedProduct: null,
         };
     }
 
     static getDerivedStateFromProps(props: Props, state: State) {
-        let productPrice = 0;
+        let selectedProduct = null;
         if (props.products) {
             const keys = Object.keys(props.products);
             if (keys.length > 0) {
                 // Assuming the first and only one for now.
-                productPrice = props.products[keys[0]].price_per_seat;
+                selectedProduct = props.products[keys[1]];
             }
         }
 
-        return {...state, productPrice};
+        return {...state, selectedProduct};
     }
 
     componentDidMount() {
@@ -110,6 +110,35 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
 
     handleSubmitClick = async () => {
         this.setState({processing: true, paymentInfoIsValid: false});
+    }
+
+    comparePlan = (
+        <a
+            className='ml-1'
+            href='https://mattermost.com/pricing-cloud/'
+            target='_blank'
+            rel='noreferrer'
+            onMouseDown={(e) => {
+                e.preventDefault();
+
+                // MouseDown to track regular + middle clicks
+                trackEvent(
+                    TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
+                    'click_compare_plans',
+                );
+            }}
+        >
+            <FormattedMessage
+                id='cloud_subscribe.contact_support'
+                defaultMessage='Compare plans'
+            />
+        </a>
+    );
+
+    getPlanName = () => {
+        return (
+            <span>{this.state.selectedProduct?.name}</span>
+        );
     }
 
     purchaseScreen = () => {
@@ -188,14 +217,20 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                 </div>
                 <div className='RHS'>
                     <div className='price-container'>
+                        <div className='select-plan'>
+                            <div className='title'>
+                                <FormattedMessage
+                                    id='cloud_subscribe.select_plan'
+                                    defaultMessage='Select a plan'
+                                />
+                                {this.comparePlan}
+                            </div>
+                        </div>
                         <div className='bold-text'>
-                            <FormattedMessage
-                                defaultMessage={'Mattermost Cloud'}
-                                id={'admin.billing.subscription.mattermostCloud'}
-                            />
+                            {this.getPlanName()}
                         </div>
                         <div className='price-text'>
-                            {`$${this.state.productPrice || 0}`}
+                            {`$${this.state.selectedProduct?.price_per_seat || 0}`}
                             <span className='monthly-text'>
                                 <FormattedMessage
                                     defaultMessage={' /user/month'}

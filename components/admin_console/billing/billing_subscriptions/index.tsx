@@ -70,6 +70,9 @@ const BillingSubscriptions: React.FC<Props> = () => {
         daysLeftOnTrial = getRemainingDaysFromFutureTimestamp(subscription.trial_end_at);
     }
 
+    isFreeTrial = true;
+    daysLeftOnTrial = 12;
+
     useEffect(() => {
         getCloudSubscription()(dispatch, store.getState());
         getCloudProducts()(dispatch, store.getState());
