@@ -1,6 +1,6 @@
 {
     "name": "@hmhealey/compass-icons",
-    "version": "0.1.0",
+    "version": "5.36.0-0",
     "private": true,
     "description": "",
     "main": "build/css/compass-icons.css",

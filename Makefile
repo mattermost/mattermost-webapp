@@ -103,6 +103,10 @@ clean: ## Clears cached; deletes node_modules and dist directories
 	rm -rf dist
 	rm -rf node_modules
 
+	rm -rf packages/*/node_modules
+	rm -rf packages/compass-icons/build packages/compass-icons/.fontello-session packages/compass-icons/config.json
+	rm -rf packages/compass-components/lib
+
 e2e-test: node_modules
 	@echo E2E: Running mattermost-mysql-e2e
 	@if [ $(shell docker ps -a | grep -ci mattermost-mysql-e2e) -eq 0 ]; then \

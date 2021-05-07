@@ -24,7 +24,7 @@ cd packages/compass-icons
 rm -rf yarn.lock
 
 perl -pi -e 's/"name": "\@mattermost\/compass-icons"/"name": "\@hmhealey\/compass-icons"/' package.json
-perl -pi -e 's/"version": "1.0.0"/"version": "5.36.0-0"/' package.json
+perl -pi -e 's/"version": "0.1.0"/"version": "5.36.0-0"/' package.json
 perl -pi -e 's/yarn/npm/g' package.json
 perl -pi -e 's/"scripts": {/"scripts": {\n        "prepack": "npm run build",/' package.json
 find . -type f -exec perl -pi -e "s/\@mattermost/\@hmhealey/g" {} +
