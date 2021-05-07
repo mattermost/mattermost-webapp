@@ -25,7 +25,7 @@ exports[`components/custom_status/custom_status_emoji should match snapshot 1`] 
   >
     <FormattedMessage
       defaultMessage="Don't clear"
-      id="expiry_dropdown.dont_clear"
+      id="custom_status.expiry_dropdown.dont_clear"
     />
   </span>
 </div>

@@ -24,7 +24,7 @@ exports[`components/custom_status/expiry_menu should match snapshot 1`] = `
           >
             <FormattedMessage
               defaultMessage="Clear after"
-              id="expiry_dropdown.clear_after"
+              id="custom_status.expiry_dropdown.clear_after"
             >
               <span>
                 Clear after
@@ -103,7 +103,7 @@ exports[`components/custom_status/expiry_menu should match snapshot with differe
           >
             <FormattedMessage
               defaultMessage="Clear after"
-              id="expiry_dropdown.clear_after"
+              id="custom_status.expiry_dropdown.clear_after"
             >
               <span>
                 Clear after

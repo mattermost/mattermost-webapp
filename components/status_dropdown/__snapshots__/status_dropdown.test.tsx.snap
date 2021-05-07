@@ -218,15 +218,11 @@ exports[`components/StatusDropdown should match snapshot with custom status and 
             tooltipDirection="bottom"
           />
         </span>
-        <span
+        <Memo(ExpiryTime)
           className="custom_status__expiry MenuItem__help-text"
-        >
-          (Until 
-          <Memo(ExpiryTime)
-            time="2021-05-03T23:59:59.000Z"
-          />
-          )
-        </span>
+          time="2021-05-03T23:59:59.000Z"
+          withinBrackets={true}
+        />
       </MenuItemToggleModalRedux>
     </MenuGroup>
     <MenuGroup>

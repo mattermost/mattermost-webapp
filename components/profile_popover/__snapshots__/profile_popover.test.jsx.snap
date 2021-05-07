@@ -433,13 +433,11 @@ exports[`components/ProfilePopover should match snapshot with custom status 1`] 
         defaultMessage="Status"
         id="user_profile.custom_status"
       />
-      <span>
-         (Until 
-        <Memo(ExpiryTime)
-          time="2021-05-03T23:59:59.000Z"
-        />
-        )
-      </span>
+      <Memo(ExpiryTime)
+        className="ml-1"
+        time="2021-05-03T23:59:59.000Z"
+        withinBrackets={true}
+      />
     </span>
     <div
       className="d-flex"
