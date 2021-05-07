@@ -12,7 +12,6 @@ import {GlobalState} from 'types/store';
 import {$ID} from 'mattermost-redux/types/utilities';
 import {Post} from 'mattermost-redux/types/posts';
 import {threadIsSynthetic, UserThread} from 'mattermost-redux/types/threads';
-import {UserProfile} from 'mattermost-redux/types/users';
 
 import {setThreadFollow, getThread as fetchThread} from 'mattermost-redux/actions/threads';
 import {selectPost} from 'actions/views/rhs';
@@ -53,15 +52,9 @@ function ThreadFooter({
         is_following: isFollowing = false,
         post: {
             channel_id: channelId,
-            user_id: userId,
         },
     } = thread;
-    const participantIds = useMemo(() => participants?.reduce<Array<$ID<UserProfile>>>((ids, {id}) => {
-        if (id !== userId) {
-            ids.push(id);
-        }
-        return ids;
-    }, []), [participants]);
+    const participantIds = useMemo(() => participants?.map(({id}) => id), [participants]);
 
     return (
         <div className='ThreadFooter'>

@@ -164,7 +164,7 @@ describe('components/threading/channel_threads/thread_footer', () => {
             />,
             mountOptions,
         );
-        expect(wrapper.find(Avatars).props()).toHaveProperty('userIds', ['2', '3', '4', '5']);
+        expect(wrapper.find(Avatars).props()).toHaveProperty('userIds', ['1', '2', '3', '4', '5']);
     });
 
     test('should have a timestamp', () => {
