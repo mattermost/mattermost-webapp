@@ -12,7 +12,7 @@ import Menu from 'components/widgets/menu/menu';
 import Timestamp from 'components/timestamp';
 import {getCurrentLocale} from 'selectors/i18n';
 import {Constants} from 'utils/constants';
-import {getCurrentDateAndTimeForTimezone} from 'utils/timezone';
+import {getCurrentDateTimeForTimezone} from 'utils/timezone';
 import {localizeMessage} from 'utils/utils';
 
 const Navbar: React.FC<Partial<NavbarElementProps>> = (navbarProps: Partial<NavbarElementProps>) => {
@@ -103,7 +103,7 @@ const DateTimeInputContainer: React.FC<Props> = (props: Props) => {
     const [timeOptions, setTimeOptions] = useState<Date[]>([]);
 
     const setTimeAndOptions = () => {
-        const currentTime = timezone ? getCurrentDateAndTimeForTimezone(timezone) : new Date();
+        const currentTime = timezone ? getCurrentDateTimeForTimezone(timezone) : new Date();
         let startTime = moment(time).startOf('day').toDate();
         if (time.getDate() === currentTime.getDate()) {
             startTime = getRoundedTime(currentTime);
@@ -115,7 +115,7 @@ const DateTimeInputContainer: React.FC<Props> = (props: Props) => {
 
     const handleDayChange = (day: Date, modifiers: DayModifiers) => {
         if (modifiers.today) {
-            const currentTime = timezone ? getCurrentDateAndTimeForTimezone(timezone) : new Date();
+            const currentTime = timezone ? getCurrentDateTimeForTimezone(timezone) : new Date();
             const roundedTime = getRoundedTime(currentTime);
             handleChange(roundedTime);
         } else {
@@ -129,7 +129,7 @@ const DateTimeInputContainer: React.FC<Props> = (props: Props) => {
         handleChange(time);
     };
 
-    const currentTime = timezone ? getCurrentDateAndTimeForTimezone(timezone) : new Date();
+    const currentTime = timezone ? getCurrentDateTimeForTimezone(timezone) : new Date();
     const modifiers = {
         today: currentTime,
     };

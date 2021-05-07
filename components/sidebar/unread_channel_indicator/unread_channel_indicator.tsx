@@ -4,14 +4,9 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import * as UserAgent from 'utils/user_agent';
 import UnreadBelowIcon from 'components/widgets/icons/unread_below_icon';
 
 import './unread_channel_indicator.scss';
-
-function supportsStickyHeaders() {
-    return !UserAgent.isFirefox() && !UserAgent.isSafari();
-}
 
 type Props = {
 
@@ -47,7 +42,6 @@ function UnreadChannelIndicator(props: Props) {
             id={'unreadIndicator' + props.name}
             className={classNames('nav-pills__unread-indicator', {
                 'nav-pills__unread-indicator--visible': props.show,
-                withStickyHeaders: supportsStickyHeaders(),
             }, props.extraClass)}
             onClick={props.onClick}
         >

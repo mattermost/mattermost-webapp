@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 
 import Timestamp, {RelativeRanges} from 'components/timestamp';
 
-import {getCurrentDateAndTimeForTimezone} from 'utils/timezone';
+import {getCurrentDateTimeForTimezone} from 'utils/timezone';
 
 const CUSTOM_STATUS_EXPIRY_RANGES = [
     RelativeRanges.TODAY_TITLE_CASE,
@@ -23,7 +23,7 @@ interface Props {
 }
 
 const ExpiryTime = ({time, timezone, className, withinBrackets}: Props) => {
-    const currentTime = timezone ? getCurrentDateAndTimeForTimezone(timezone) : new Date();
+    const currentTime = timezone ? getCurrentDateTimeForTimezone(timezone) : new Date();
     const timestampProps: { [key: string]: any } = {
         value: time,
         ranges: CUSTOM_STATUS_EXPIRY_RANGES,

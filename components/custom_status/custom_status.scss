@@ -223,18 +223,20 @@
     margin-top: 3px;
 }
 
-.custom-status {
-    display: flex;
-}
 
 #custom-status-tooltip {
     p {
         margin: 0;
     }
 
-    .custom-status-expiry {
-        font-weight: 400;
-        opacity: 0.7;
+    .custom-status {
+        display: flex;
+        justify-content: center;
+
+        &-expiry {
+            font-weight: 400;
+            opacity: 0.7;
+        }
     }
 }
 

@@ -28,7 +28,7 @@ export function getCurrentDateForTimezone(timezone) {
     return new Date(tztime.year(), tztime.month(), tztime.date());
 }
 
-export function getCurrentDateAndTimeForTimezone(timezone) {
+export function getCurrentDateTimeForTimezone(timezone) {
     const tztime = moment().tz(timezone);
-    return new Date(tztime.year(), tztime.month(), tztime.date(), tztime.hours(), tztime.minutes(), tztime.seconds());
+    return new Date(tztime.year(), tztime.month(), tztime.date(), tztime.hour(), tztime.minute(), tztime.second());
 }

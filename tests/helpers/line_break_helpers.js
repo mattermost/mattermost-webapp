@@ -6,8 +6,10 @@
  * consolidate testing of similar behavior across components
  */
 
-import Constants from 'utils/constants';
+import {shallow} from 'enzyme';
+
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
+import Constants from 'utils/constants';
 
 export const INPUT = 'Hello world!';
 export const OUTPUT_APPEND = 'Hello world!\n';
@@ -67,12 +69,15 @@ export const getShiftKeyEvent = (e = {}) => ({...BASE_EVENT, ...e, shiftKey: tru
  * helper to test line break on key down behavior common to many textarea inputs
  * @param  {function} generateInstance - single paramater "value" of the initial value
  * @param  {function} getValue - single parameter for the React Component instance
+ * @param  {boolean} intlInhected -
  * NOTE: runs Jest tests
  */
-export function testComponentForLineBreak(generateInstance, getValue) {
+export function testComponentForLineBreak(generateInstance, getValue, intlInjected = true) {
+    const shallowRender = intlInjected ? shallowWithIntl : shallow;
+
     test('component appends line break to input on shift + enter', () => {
         const event = getAppendEvent(getShiftKeyEvent());
-        const instance = shallowWithIntl(generateInstance(INPUT));
+        const instance = shallowRender(generateInstance(INPUT));
         instance.simulate('keyDown', event);
         setTimeout(() => {
             expect(getValue(instance)).toBe(OUTPUT_APPEND);
@@ -82,7 +87,7 @@ export function testComponentForLineBreak(generateInstance, getValue) {
 
     test('component appends line break to input on alt + enter', () => {
         const event = getAppendEvent(getAltKeyEvent());
-        const instance = shallowWithIntl(generateInstance(INPUT));
+        const instance = shallowRender(generateInstance(INPUT));
         instance.simulate('keyDown', event);
         setTimeout(() => {
             expect(getValue(instance)).toBe(OUTPUT_APPEND);
@@ -92,7 +97,7 @@ export function testComponentForLineBreak(generateInstance, getValue) {
 
     test('component inserts line break and replaces selection on shift + enter', () => {
         const event = getReplaceEvent(getShiftKeyEvent());
-        const instance = shallowWithIntl(generateInstance(INPUT));
+        const instance = shallowRender(generateInstance(INPUT));
         instance.simulate('keyDown', event);
         setTimeout(() => {
             expect(getValue(instance)).toBe(OUTPUT_REPLACE);
@@ -102,7 +107,7 @@ export function testComponentForLineBreak(generateInstance, getValue) {
 
     test('component inserts line break and replaces selection on alt + enter', () => {
         const event = getReplaceEvent(getAltKeyEvent());
-        const instance = shallowWithIntl(generateInstance(INPUT));
+        const instance = shallowRender(generateInstance(INPUT));
         instance.simulate('keyDown', event);
         setTimeout(() => {
             expect(getValue(instance)).toBe(OUTPUT_REPLACE);

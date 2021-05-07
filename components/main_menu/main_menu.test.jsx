@@ -2,10 +2,14 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {Provider} from 'react-redux';
+import configureStore from 'redux-mock-store';
 
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
+import {mountWithIntl, shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import {Constants} from 'utils/constants';
+
+import {Permissions} from 'mattermost-redux/constants';
 
 import MainMenu from './main_menu.jsx';
 
@@ -16,6 +20,8 @@ describe('components/Menu', () => {
         const wrapper = shallowWithIntl(<MainMenu {...props}/>);
         return wrapper.find('MainMenu').shallow();
     };
+
+    const mockStore = configureStore();
 
     const defaultProps = {
         mobile: false,
@@ -142,6 +148,58 @@ describe('components/Menu', () => {
         };
         const wrapper = shallowWithIntl(<MainMenu {...props}/>);
         expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should show Marketplace modal', () => {
+        const state = {
+            entities: {
+                channels: {
+                    myMembers: [],
+                },
+                teams: {
+                    currentTeamId: 'team-id',
+                    myMembers: {
+                        'team-id': {
+                            team_id: 'team-id',
+                            user_id: 'test-user-id',
+                            roles: 'team_user',
+                            scheme_user: 'true',
+                        },
+                    },
+                },
+                users: {
+                    currentUserId: 'test-user-id',
+                    profiles: {
+                        'test-user-id': {
+                            id: 'test-user-id',
+                            roles: 'system_user system_manager',
+                        },
+                    },
+                },
+                roles: {
+                    roles: {
+                        system_manager: {
+                            permissions: [
+                                Permissions.SYSCONSOLE_WRITE_PLUGINS,
+                            ],
+                        },
+                    },
+                },
+            },
+        };
+        const store = mockStore(state);
+
+        const props = {
+            ...defaultProps,
+            enablePluginMarketplace: true,
+        };
+        const wrapper = mountWithIntl(
+            <Provider store={store}>
+                <MainMenu {...props}/>
+            </Provider>,
+        );
+
+        expect(wrapper.find('#marketplaceModal').at(0).props().show).toEqual(true);
     });
 
     test('should show leave team option when primary team is set', () => {

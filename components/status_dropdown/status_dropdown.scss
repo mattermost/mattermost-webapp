@@ -1,7 +1,48 @@
+#statusDropdownMenu {
+    .icon {
+        width: 24px;
+        height: 24px;
+        justify-content: center;
+        display: inline-flex;
+        padding: 0;
+        margin: 0 8px 0 0;
+        position: relative;
+
+        span {
+            display: flex;
+        }
+
+        svg {
+            width: 16px;
+            height: 16px;
+        }
+    }
+
+    #status-menu-dnd {
+        padding: 4px 16px;
+
+        .dropdown-menu {
+            margin: auto;
+
+            #dndSubMenu-header {
+                font-weight: bold;
+                pointer-events: none;
+            }
+
+        }
+
+        .icon {
+            top: 2px;
+        }
+
+        .SubMenu__icon-right {
+            padding-top: 5px;
+        }
+    }
+}
 .custom_status__row {
     font-size: inherit;
     height: auto;
-    max-width: 238px;
     &:hover {
         background-color: rgba(var(--center-channel-color-rgb), 0.08);
         .custom-status-emoji {
@@ -44,7 +85,7 @@
     position: absolute;
     width: auto;
     top: 10px;
-    right: 21px;
+    right: 0px;
     padding: 0;
     &:hover{
         background: transparent;

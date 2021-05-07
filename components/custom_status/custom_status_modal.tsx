@@ -19,7 +19,7 @@ import RenderEmoji from 'components/emoji/render_emoji';
 import {getCustomStatus, getRecentCustomStatuses, showStatusDropdownPulsatingDot} from 'selectors/views/custom_status';
 import {getCurrentUserTimezone} from 'selectors/general';
 import {Constants} from 'utils/constants';
-import {getCurrentDateAndTimeForTimezone} from 'utils/timezone';
+import {getCurrentDateTimeForTimezone} from 'utils/timezone';
 import QuickInput, {MaxLengthInput} from 'components/quick_input';
 import {t} from 'utils/i18n';
 
@@ -93,7 +93,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
     const firstTimeModalOpened = useSelector(showStatusDropdownPulsatingDot);
     const timezone = useSelector(getCurrentUserTimezone);
 
-    const currentTime = timezone ? getCurrentDateAndTimeForTimezone(timezone) : new Date();
+    const currentTime = timezone ? getCurrentDateTimeForTimezone(timezone) : new Date();
     let initialCustomExpiryTime: Date = getRoundedTime(currentTime);
     if (currentCustomStatus?.duration === CustomStatusDuration.DATE_AND_TIME && currentCustomStatus?.expires_at) {
         initialCustomExpiryTime = new Date(currentCustomStatus.expires_at);
@@ -119,7 +119,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
     };
 
     const calculateExpiryTime = (): string => {
-        const currentTime = timezone ? getCurrentDateAndTimeForTimezone(timezone) : new Date();
+        const currentTime = timezone ? getCurrentDateTimeForTimezone(timezone) : new Date();
         switch (expiry) {
         case CustomStatusDuration.DONT_CLEAR:
             return '';
