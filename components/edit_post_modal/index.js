@@ -27,14 +27,14 @@ function mapStateToProps(state) {
     const config = getConfig(state);
     const editingPost = getEditingPost(state);
     const currentUserId = getCurrentUserId(state);
-    const channelId = getCurrentChannelId(state);
+    const channelId = getCurrentChannelId(state) || editingPost?.post?.channel_id;
     const teamId = getCurrentTeamId(state);
     let canDeletePost = false;
     let canEditPost = false;
 
     if (editingPost && editingPost.post && editingPost.post.user_id === currentUserId) {
-        canDeletePost = haveIChannelPermission(state, {channel: editingPost.post.channel_id, team: teamId, permission: Permissions.DELETE_POST});
-        canEditPost = haveIChannelPermission(state, {channel: editingPost.post.channel_id, team: teamId, permission: Permissions.EDIT_POST});
+        canDeletePost = haveIChannelPermission(state, {channel: channelId, team: teamId, permission: Permissions.DELETE_POST});
+        canEditPost = haveIChannelPermission(state, {channel: channelId, team: teamId, permission: Permissions.EDIT_POST});
     } else {
         canDeletePost = haveIChannelPermission(state, {channel: channelId, team: teamId, permission: Permissions.DELETE_OTHERS_POSTS});
         canEditPost = haveIChannelPermission(state, {channel: channelId, team: teamId, permission: Permissions.EDIT_OTHERS_POSTS});
