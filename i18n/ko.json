@@ -341,7 +341,7 @@
   "admin.billing.subscriptions.billing_summary.noBillingHistory.link": "청구 방식보기",
   "admin.billing.subscriptions.billing_summary.noBillingHistory.title": "아직 결제 내역이 없습니다",
   "admin.bleve.bulkIndexingTitle": "벌크 색인:",
-  "admin.bleve.createJob.help": "데이터베이스에 있는 모든 사용자, 채널, 게시글이 오래된 것부터 최근 것 순서로 색인됩니다. Elasticsearch가 색인 중이라도 사용할 수는 있지만, 색인 작업이 완료되기 전까지는 검색 결과가 불완전 할 수 있습니다.",
+  "admin.bleve.createJob.help": "데이터베이스에 있는 모든 사용자, 채널, 게시글이 오래된 것부터 최근 것 순서로 색인됩니다. Bleve가 색인 중이라도 사용할 수는 있지만, 색인 작업이 완료되기 전까지는 검색 결과가 불완전 할 수 있습니다.",
   "admin.bleve.createJob.title": "지금 색인하기",
   "admin.bleve.enableAutocompleteDescription": "활성화 시, 사용자 및 채널의 모든 자동 완성 질의에 최근 Bleve 색인이 사용됩니다. 자동 완성 결과는 기존 사용자와 채널 데이터베이스의 벌크 색인이 완료되기 전까지는 불완전 할 수 있습니다. 비활성화 시, 데이터베이스를 통해 자동 완성이 수행됩니다.",
   "admin.bleve.enableAutocompleteTitle": "자동 완성 질의에 Bleve 사용:",
