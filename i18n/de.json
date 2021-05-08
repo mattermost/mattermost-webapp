@@ -2383,7 +2383,6 @@
   "edit_channel_private_purpose_modal.body": "Dieser Text erscheint im \"Info Anzeigen\"-Fenster des privaten Kanals.",
   "edit_channel_purpose_modal.body": "Beschreiben Sie, wie dieser Kanal genutzt werden soll. Dieser Text erscheint in der Kanalliste im \"Mehr...\"-Menü und hilft anderen sich zu entscheiden, ob sie beitreten sollen.",
   "edit_channel_purpose_modal.cancel": "Abbrechen",
-  "edit_channel_purpose_modal.error": "Der Kanalzweck ist zu lang, bitte geben Sie einen kürzeren ein",
   "edit_channel_purpose_modal.save": "Speichern",
   "edit_channel_purpose_modal.title1": "Zweck bearbeiten",
   "edit_channel_purpose_modal.title2": "Zweck bearbeiten für ",

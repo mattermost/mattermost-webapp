@@ -2855,7 +2855,6 @@
   "edit_channel_private_purpose_modal.body": "Özel kanalın \"Bilgileri Görüntüle\" üste açılan penceresinde görüntülenecek metin.",
   "edit_channel_purpose_modal.body": "Bu kanalın nasıl kullanılacağını açıklayın. Bu metin, \"Diğer ...\" menüsündeki kanal listesinde görünür ve başkalarının katılmaya karar vermesine yardımcı olur.",
   "edit_channel_purpose_modal.cancel": "İptal",
-  "edit_channel_purpose_modal.error": "Bu kanal amacı çok uzun lütfen daha kısa bir amaç yazın",
   "edit_channel_purpose_modal.save": "Kaydet",
   "edit_channel_purpose_modal.title1": "Amacı Düzenle",
   "edit_channel_purpose_modal.title2": "Şunun amacını düzenle ",

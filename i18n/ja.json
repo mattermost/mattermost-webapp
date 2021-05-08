@@ -2759,7 +2759,6 @@
   "edit_channel_private_purpose_modal.body": "このテキストは非公開チャンネルの\"情報を表示する\"画面に表示されます。",
   "edit_channel_purpose_modal.body": "このチャンネルをどのように使うべきか説明してください。このテキストは「追加...」メニュー内のチャンネル一覧に表示され、他の人が参加するかどうか判断するのに使われます。",
   "edit_channel_purpose_modal.cancel": "キャンセル",
-  "edit_channel_purpose_modal.error": "このチャンネルの目的は長過ぎます。短くしてください",
   "edit_channel_purpose_modal.save": "保存する",
   "edit_channel_purpose_modal.title1": "目的を編集する",
   "edit_channel_purpose_modal.title2": "目的を編集する。対象: ",

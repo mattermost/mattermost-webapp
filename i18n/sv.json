@@ -2855,7 +2855,6 @@
   "edit_channel_private_purpose_modal.body": "Denna text visas i \"Visa information\"-fönstret i privata kanaler.",
   "edit_channel_purpose_modal.body": "Beskriv hur kanalen ska användas. Texten visas i kanallistan i \"Mer...\"-menyn och hjälper andra att välja om de ska gå med.",
   "edit_channel_purpose_modal.cancel": "Avbryt",
-  "edit_channel_purpose_modal.error": "Texten i kanalens syfte är för lång, ange en kortare",
   "edit_channel_purpose_modal.save": "Spara",
   "edit_channel_purpose_modal.title1": "Redigera beskrivning",
   "edit_channel_purpose_modal.title2": "Redigera beskrivning för ",

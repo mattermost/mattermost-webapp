@@ -2808,7 +2808,6 @@
   "edit_channel_private_purpose_modal.body": "Acest text apare în modalitatea \"Vezi Informații\" a canalului privat.",
   "edit_channel_purpose_modal.body": "Descrieți cum trebuie folosit acest canal. Acest text apare în lista de canale din meniul \"Detalii...\" și îi ajută pe alții să decidă dacă se vor alătura.",
   "edit_channel_purpose_modal.cancel": "Anulează",
-  "edit_channel_purpose_modal.error": "Acest scop al canalului este prea lung, introduceți unul mai scurt",
   "edit_channel_purpose_modal.save": "Salvează",
   "edit_channel_purpose_modal.title1": "Editați scopul",
   "edit_channel_purpose_modal.title2": "Editați scopul pentru ",

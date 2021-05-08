@@ -2304,7 +2304,6 @@
   "edit_channel_header_modal.title_dm": "헤더 편집",
   "edit_channel_purpose_modal.body": "이 채널을 어떻게 사용해야 하는지 설명하십시오. 설명은 채널 목록의 \"더보기...\"에서 가입을 위한 도움말로 표시됩니다.",
   "edit_channel_purpose_modal.cancel": "취소",
-  "edit_channel_purpose_modal.error": "채널 설명이 너무 깁니다. 더 짧은 채널 설명을 사용하세요",
   "edit_channel_purpose_modal.save": "저장",
   "edit_channel_purpose_modal.title1": "설명 편집",
   "edit_channel_purpose_modal.title2": "설명 편집: ",

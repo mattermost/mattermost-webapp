@@ -2809,7 +2809,6 @@
   "edit_channel_private_purpose_modal.body": "Ez a szöveg a privát csatorna \"Információ megtekintése\" módáljában jelenik meg.",
   "edit_channel_purpose_modal.body": "Írja le, hogyan kell használni ezt a csatornát. Ez a szöveg megjelenik a \"Bővebben...\" menü csatornalistájában, és segít másoknak eldönteni, csatlakoznak-e.",
   "edit_channel_purpose_modal.cancel": "Mégsem",
-  "edit_channel_purpose_modal.error": "Ennek a csatornának a célja túl hosszú, kérjük, írjon egy rövidebbet",
   "edit_channel_purpose_modal.save": "Mentés",
   "edit_channel_purpose_modal.title1": "Cél szerkesztése",
   "edit_channel_purpose_modal.title2": "Következő céljának szerkesztése: ",

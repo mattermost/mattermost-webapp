@@ -2782,7 +2782,6 @@
   "edit_channel_private_purpose_modal.body": "Този текст се появява в прозореца \"Преглед на информацията\" на частния канал.",
   "edit_channel_purpose_modal.body": "Опишете как трябва да се използва този канал. Този текст се появява в списъка с канали в менюто \"Още ...\" и помага на другите да решат дали да се присъединят.",
   "edit_channel_purpose_modal.cancel": "Откажи",
-  "edit_channel_purpose_modal.error": "Целта на този канал е твърде дълга, моля въведете по-къса",
   "edit_channel_purpose_modal.save": "Запиши",
   "edit_channel_purpose_modal.title1": "Редакция на цел",
   "edit_channel_purpose_modal.title2": "Редактиране целта на ",

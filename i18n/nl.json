@@ -2879,7 +2879,6 @@
   "edit_channel_private_purpose_modal.body": "Deze tekst verschijnt in de \"Bekijk info\" modal van het privé-kanaal.",
   "edit_channel_purpose_modal.body": "Omschrijf hoe dit kanaal zal worden gebruikt. Deze tekst word zichtbaar in de kanalenlijst in het \"Meer...\" menu en zal anderen helpen te beslissen of zij willen lid worden.",
   "edit_channel_purpose_modal.cancel": "Annuleren",
-  "edit_channel_purpose_modal.error": "Het kanaaldoel is te lang, gelieve een kortere tekst in te geven",
   "edit_channel_purpose_modal.save": "Opslaan",
   "edit_channel_purpose_modal.title1": "Bewerk doel",
   "edit_channel_purpose_modal.title2": "Doeleinden bewerken voor ",

@@ -2677,7 +2677,6 @@
   "edit_channel_private_purpose_modal.body": "此文字将显示在私有频道中的 \"查看信息\" 对话框。",
   "edit_channel_purpose_modal.body": "描述此频道的用途。此文本出现在频道列表的“更多...”菜单中，帮助他人决定是否加入。",
   "edit_channel_purpose_modal.cancel": "取消",
-  "edit_channel_purpose_modal.error": "频道用途过长,请长话短说",
   "edit_channel_purpose_modal.save": "保存",
   "edit_channel_purpose_modal.title1": "编辑用途",
   "edit_channel_purpose_modal.title2": "编辑用途",
