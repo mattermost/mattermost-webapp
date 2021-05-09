@@ -9,7 +9,7 @@ type Props = {
     title: React.ReactNode;
     icon: string;
     parentLink?: string;
-    children?: React.ReactElement[];
+    children?: React.ReactNode[];
 };
 
 export default class BackstageCategory extends React.PureComponent<Props> {
@@ -47,7 +47,7 @@ export default class BackstageCategory extends React.PureComponent<Props> {
                                             return child;
                                         }
 
-                                        return React.cloneElement(child, {
+                                        return React.cloneElement(child as React.ReactElement, {
                                             parentLink: link,
                                         });
                                     })
