@@ -10,22 +10,10 @@
 // Stage: @prod @smoke
 // Group: @signin_authentication
 
-import {FixedCloudConfig} from '../../utils/constants';
-
 describe('SignIn Authentification', () => {
-    let config;
     let testUser;
 
     before(() => {
-        // Disable other auth options
-        const newSettings = {
-            Office365Settings: {Enable: false},
-            LdapSettings: {Enable: false},
-        };
-        cy.apiUpdateConfig(newSettings).then((data) => {
-            ({config} = data);
-        });
-
         // # Create new team and users
         cy.apiInitSetup().then(({user}) => {
             testUser = user;
