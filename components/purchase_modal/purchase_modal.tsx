@@ -21,7 +21,10 @@ import {TELEMETRY_CATEGORIES, CloudLinks} from 'utils/constants';
 import {STRIPE_CSS_SRC, STRIPE_PUBLIC_KEY} from 'components/payment_form/stripe';
 import RootPortal from 'components/root_portal';
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
+import RadioButtonGroup from 'components/common/radio_group';
+
 import {areBillingDetailsValid, BillingDetails} from 'types/cloud/sku';
+
 import {getNextBillingDate} from 'utils/utils';
 
 import PaymentForm from '../payment_form/payment_form';
@@ -71,25 +74,22 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
         };
     }
 
-    static getDerivedStateFromProps(props: Props, state: State) {
-        let selectedProduct = null;
-        if (props.products) {
-            const keys = Object.keys(props.products);
-            if (keys.length > 0) {
-                // Assuming the first and only one for now.
-                selectedProduct = props.products[keys[1]];
-            }
-        }
-
-        return {...state, selectedProduct};
-    }
-
     componentDidMount() {
         pageVisited(TELEMETRY_CATEGORIES.CLOUD_PURCHASING, 'pageview_purchase');
         this.props.actions.getCloudProducts();
 
         // this.fetchProductPrice();
         this.props.actions.getClientConfig();
+
+        let selectedProduct = null;
+        if (this.props.products) {
+            const keys = Object.keys(this.props.products);
+            if (keys.length > 0) {
+                // Assuming the first and only one for now.
+                selectedProduct = this.props.products[keys[0]];
+            }
+        }
+        this.setState({selectedProduct});
     }
 
     onPaymentInput = (billing: BillingDetails) => {
@@ -135,15 +135,38 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
         </a>
     );
 
-    getPlanName = () => {
+    onPlanSelected = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const selectedPlan = Object.keys(this.props.products!).find((key: string) => {
+            return this.props.products![key].id === e.target.value;
+        });
+        this.setState({selectedProduct: this.props.products![selectedPlan!]});
+    }
+
+    listPlans = () => {
+        const options = Object.keys(this.props.products!).map((key: string) => {
+            return {key: this.props.products![key].name, value: this.props.products![key].id};
+        });
+
+        const isDisabled = (value: string) => {
+            console.log('is disabled: ', value);
+        };
         return (
-            <span>{this.state.selectedProduct?.name}</span>
+            <div className='plans-list'>
+                <RadioButtonGroup
+                    id='list-plans-radio-buttons'
+                    values={options}
+                    value={this.state.selectedProduct?.id!}
+                    isDisabled={isDisabled}
+                    onChange={(e: any) => this.onPlanSelected(e)}
+                />
+            </div>
         );
     }
 
     purchaseScreen = () => {
         let title;
         let buttonTitle;
+        let bottomInformationMsg;
         if (this.props.isFreeTrial) {
             title = (
                 <FormattedMessage
@@ -157,6 +180,14 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                     id={'admin.billing.subscription.cloudTrial.subscribe'}
                 />
             );
+            bottomInformationMsg = (
+                <FormattedMessage
+                    defaultMessage={
+                        'Your bill is calculated at the end of the billing cycle based on the number of enabled users. '
+                    }
+                    id={'admin.billing.subscription.freeTrialDisclaimer'}
+                />
+            );
         } else {
             title = (
                 <FormattedMessage
@@ -168,6 +199,14 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                 <FormattedMessage
                     defaultMessage={'Upgrade'}
                     id={'admin.billing.subscription.upgrade'}
+                />
+            );
+            bottomInformationMsg = (
+                <FormattedMessage
+                    defaultMessage={
+                        'Your total is calculated at the end of the billing cycle based on the number of enabled users. You’ll only be charged if you exceed the free tier limits. '
+                    }
+                    id={'admin.billing.subscription.disclaimer'}
                 />
             );
         }
@@ -225,9 +264,10 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                                 />
                                 {this.comparePlan}
                             </div>
+                            {this.listPlans()}
                         </div>
                         <div className='bold-text'>
-                            {this.getPlanName()}
+                            {this.state.selectedProduct?.name || ''}
                         </div>
                         <div className='price-text'>
                             {`$${this.state.selectedProduct?.price_per_seat || 0}`}
@@ -255,12 +295,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                         </button>
                         <div className='fineprint-text'>
                             <span>
-                                <FormattedMessage
-                                    defaultMessage={
-                                        'Your total is calculated at the end of the billing cycle based on the number of enabled users. You’ll only be charged if you exceed the free tier limits. '
-                                    }
-                                    id={'admin.billing.subscription.disclaimer'}
-                                />
+                                {bottomInformationMsg}
                             </span>
                             {'\u00A0'}
                             <a
