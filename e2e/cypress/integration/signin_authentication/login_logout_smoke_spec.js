@@ -20,22 +20,10 @@ describe('SignIn Authentication', () => {
 // Stage: @prod @smoke
 // Group: @signin_authentication
 
-import {FixedCloudConfig} from '../../utils/constants';
-
 describe('SignIn Authentification', () => {
-    let config;
     let testUser;
 
     before(() => {
-        // Disable other auth options
-        const newSettings = {
-            Office365Settings: {Enable: false},
-            LdapSettings: {Enable: false},
-        };
-        cy.apiUpdateConfig(newSettings).then((data) => {
-            ({config} = data);
-        });
-
         // # Create new team and users
 >>>>>>> Add Cypress test for MM-T3080
         cy.apiInitSetup().then(({user}) => {
