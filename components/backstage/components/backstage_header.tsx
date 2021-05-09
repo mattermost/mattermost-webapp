@@ -8,7 +8,7 @@ import LocalizedIcon from 'components/localized_icon';
 import {t} from 'utils/i18n';
 
 type Props = {
-    children?: React.ReactNode;
+    children?: React.ReactNode[];
 };
 
 export default class BackstageHeader extends React.PureComponent<Props> {
@@ -19,6 +19,7 @@ export default class BackstageHeader extends React.PureComponent<Props> {
             if (index !== 0) {
                 children.push(
                     <span
+                        // eslint-disable-next-line react/no-array-index-key
                         key={'divider' + index}
                         className='backstage-header__divider'
                     >
