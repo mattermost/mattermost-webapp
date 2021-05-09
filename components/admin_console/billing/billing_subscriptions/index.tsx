@@ -63,11 +63,36 @@ const BillingSubscriptions: React.FC<Props> = () => {
 
     const [showCreditCardBanner, setShowCreditCardBanner] = useState(true);
 
+    const product = useSelector((state: GlobalState) => {
+        if (state.entities.cloud.products && subscription) {
+            return state.entities.cloud.products[subscription?.product_id];
+        }
+        return undefined;
+    });
+
+    let subscriptionPlan: string | null = 'CLOUD_PROFESSIONAL';
+
+    switch (product?.name) {
+        case 'Cloud Starter':
+                subscriptionPlan = 'CLOUD_STARTER';
+                break;
+            case 'Cloud Starter':
+                subscriptionPlan = 'CLOUD_PROFESSIONAL';
+                break;
+            case 'Cloud Starter':
+                subscriptionPlan = 'CLOUD_ENTERPRISE';
+                break;
+        default:
+            subscriptionPlan = 'CLOUD_PROFESSIONAL';
+            break;
+    }
+
     let isFreeTrial = false;
     let daysLeftOnTrial = 0;
     if (subscription?.is_free_trial === 'true') {
         isFreeTrial = true;
         daysLeftOnTrial = getRemainingDaysFromFutureTimestamp(subscription.trial_end_at);
+        subscriptionPlan = null;
     }
 
     useEffect(() => {
@@ -139,6 +164,7 @@ const BillingSubscriptions: React.FC<Props> = () => {
                     <div className='BillingSubscriptions__topWrapper'>
                         <PlanDetails
                             isFreeTrial={isFreeTrial}
+                            subscriptionPlan={subscriptionPlan}
                         />
                         <BillingSummary
                             isPaidTier={isPaidTier}
@@ -146,7 +172,7 @@ const BillingSubscriptions: React.FC<Props> = () => {
                             daysLeftOnTrial={daysLeftOnTrial}
                         />
                     </div>
-                    {contactSalesCard(contactSalesLink, isFreeTrial, trialQuestionsLink)}
+                    {contactSalesCard(contactSalesLink, isFreeTrial, trialQuestionsLink, subscriptionPlan)}
                     {cancelSubscription(cancelAccountLink, isFreeTrial, isPaidTier)}
                 </div>
             </div>

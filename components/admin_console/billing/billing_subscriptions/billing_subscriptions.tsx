@@ -11,7 +11,12 @@ import AlertBanner from 'components/alert_banner';
 
 import privateCloudImage from 'images/private-cloud-image.svg';
 
-export const contactSalesCard = (contactSalesLink: any, isFreeTrial: boolean, trialQuestionsLink: any) => {
+export const contactSalesCard = (
+    contactSalesLink: any,
+    isFreeTrial: boolean,
+    trialQuestionsLink: any,
+    subscriptionPlan: string | null,
+) => {
     let title;
     let description;
 
@@ -28,61 +33,48 @@ export const contactSalesCard = (contactSalesLink: any, isFreeTrial: boolean, tr
                 defaultMessage='We love to work with our customers and their needs. Contact sales for subscription, billing or trial-specific questions.'
             />
         );
-    } else {
-        title = (
-            <FormattedMessage
-                id='admin.billing.subscription.privateCloudCard.cloudProfessional.title'
-                defaultMessage='Upgrade to Cloud Enterprise'
-            />
-        );
-        description = (
-            <FormattedMessage
-                id='admin.billing.subscription.privateCloudCard.cloudProfessional.description'
-                defaultMessage='Optimize your processes with VPC Peering, a dedicated AWS account and premium support.'
-            />
-        );
     }
 
     return (
         <div className='PrivateCloudCard'>
             <div className='PrivateCloudCard__text'>
                 <div className='PrivateCloudCard__text-title'>
-                    {title}
-                    {/* {typeSubscription === 'CLOUD_STARTER' &&
+                    {isFreeTrial && title}
+                    {subscriptionPlan === 'CLOUD_STARTER' &&
                         <FormattedMessage
                             id='admin.billing.subscription.privateCloudCard.cloudStarter.title'
                             defaultMessage='Upgrade to Cloud Professional'
                         />
                     }
 
-                    {typeSubscription === 'CLOUD_PROFESSIONAL' &&
+                    {subscriptionPlan === 'CLOUD_PROFESSIONAL' &&
                         <FormattedMessage
                             id='admin.billing.subscription.privateCloudCard.cloudProfessional.title'
                             defaultMessage='Upgrade to Cloud Enterprise'
                         />
                     }
 
-                    {typeSubscription === 'CLOUD_ENTERPRISE' &&
+                    {subscriptionPlan === 'CLOUD_ENTERPRISE' &&
                         <FormattedMessage
                             id='admin.billing.subscription.privateCloudCard.cloudEnterprise.title'
                             defaultMessage='Looking for an annual discount? '
                         />
-                    } */}
+                    }
                 </div>
                 <div className='PrivateCloudCard__text-description'>
-                    {description}
-                    {/* {typeSubscription === 'CLOUD_STARTER' && <FormattedMessage
+                    {isFreeTrial && description}
+                    {subscriptionPlan === 'CLOUD_STARTER' && <FormattedMessage
                         id='admin.billing.subscription.privateCloudCard.cloudStarter.description'
                         defaultMessage='Optimize your processes with Guest Accounts, Office365 suite integrations, Gitlab SSO and advanced permissions.'
                     />}
-                    {typeSubscription === 'CLOUD_PROFESSIONAL' && <FormattedMessage
+                    {subscriptionPlan === 'CLOUD_PROFESSIONAL' && <FormattedMessage
                         id='admin.billing.subscription.privateCloudCard.cloudProfessional.description'
                         defaultMessage='Optimize your processes with VPC Peering, a dedicated AWS account and premium support.'
                     />}
-                    {typeSubscription === 'CLOUD_ENTERPRISE' && <FormattedMessage
+                    {subscriptionPlan === 'CLOUD_ENTERPRISE' && <FormattedMessage
                         id='admin.billing.subscription.privateCloudCard.cloudEnterprise.description'
                         defaultMessage='At Mattermost, we work with you and your team to meet your needs throughout the product. If you are looking for an annual discount, please reach out to our sales team.'
-                    />} */}
+                    />}
                 </div>
                 <a
                     href={isFreeTrial ? trialQuestionsLink : contactSalesLink}
@@ -91,10 +83,14 @@ export const contactSalesCard = (contactSalesLink: any, isFreeTrial: boolean, tr
                     className='PrivateCloudCard__contactSales'
                     onClick={() => trackEvent('cloud_admin', 'click_contact_sales')}
                 >
-                    <FormattedMessage
+                    {subscriptionPlan !== 'CLOUD_STARTER' && <FormattedMessage
                         id='admin.billing.subscription.privateCloudCard.contactSales'
                         defaultMessage='Contact Sales'
-                    />
+                    />}
+                    {subscriptionPlan === 'CLOUD_STARTER' && <FormattedMessage
+                        id='admin.billing.subscription.privateCloudCard.upgradeNow'
+                        defaultMessage='Upgrade Now'
+                    />}
                 </a>
             </div>
             <div className='PrivateCloudCard__image'>
