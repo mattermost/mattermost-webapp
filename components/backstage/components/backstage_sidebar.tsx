@@ -54,7 +54,7 @@ export default class BackstageSidebar extends React.PureComponent<Props> {
             return null;
         }
 
-        let incomingWebhooks = null;
+        let incomingWebhooks: React.ReactNode = null;
         if (this.props.enableIncomingWebhooks) {
             incomingWebhooks = (
                 <TeamPermissionGate
@@ -76,7 +76,7 @@ export default class BackstageSidebar extends React.PureComponent<Props> {
             );
         }
 
-        let outgoingWebhooks = null;
+        let outgoingWebhooks: React.ReactNode = null;
         if (this.props.enableOutgoingWebhooks) {
             outgoingWebhooks = (
                 <TeamPermissionGate
@@ -98,7 +98,7 @@ export default class BackstageSidebar extends React.PureComponent<Props> {
             );
         }
 
-        let commands = null;
+        let commands: React.ReactNode = null;
         if (this.props.enableCommands) {
             commands = (
                 <TeamPermissionGate
@@ -120,7 +120,7 @@ export default class BackstageSidebar extends React.PureComponent<Props> {
             );
         }
 
-        let oauthApps = null;
+        let oauthApps: React.ReactNode = null;
         if (this.props.enableOAuthServiceProvider) {
             oauthApps = (
                 <SystemPermissionGate permissions={[Permissions.MANAGE_OAUTH]}>
@@ -141,7 +141,7 @@ export default class BackstageSidebar extends React.PureComponent<Props> {
 
         // Note that we allow managing bot accounts even if bot account creation is disabled: only
         // a permissions check is required.
-        const botAccounts = (
+        const botAccounts: React.ReactNode = (
             <SystemPermissionGate permissions={['manage_bots', 'manage_others_bots']}>
                 <BackstageSection
                     name='bots'
