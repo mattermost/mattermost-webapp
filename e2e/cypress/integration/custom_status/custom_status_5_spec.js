@@ -36,7 +36,7 @@ describe('Custom Status - Verifying Where Custom Status Appears', () => {
 
         // # Select an emoji from the emoji picker and set the status
         cy.get('#custom_status_modal .StatusModal__emoji-button').click();
-        cy.get(`#emojiPicker .emoji-picker-items__container .emoji-picker__item img[data-testid="${customStatus.emoji}"]`).click();
+        cy.get(`#emojiPicker .emoji-picker-items__container .emoji-picker__item img[data-testid="${customStatus.emoji}"]`).click({force: true});
         cy.get('#custom_status_modal .GenericModal__button.confirm').click();
 
         // * Custom status modal should be closed

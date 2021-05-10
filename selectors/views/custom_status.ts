@@ -17,10 +17,14 @@ export function getCustomStatus(state: GlobalState, userID?: string): UserCustom
     const user = userID ? getUser(state, userID) : getCurrentUser(state);
     const userProps = user?.props || {};
     const customStatus = userProps.customStatus ? JSON.parse(userProps.customStatus) : undefined;
+    if (!customStatus || customStatus.duration === CustomStatusDuration.DONT_CLEAR) {
+        return customStatus;
+    }
+
     const expiryTime = new Date(customStatus?.expires_at);
     const timezone = getCurrentUserTimezone(state);
     const currentTime = timezone ? getCurrentDateTimeForTimezone(timezone) : new Date();
-    return (customStatus?.duration === CustomStatusDuration.DONT_CLEAR || currentTime < expiryTime) ? customStatus : undefined;
+    return currentTime < expiryTime ? customStatus : undefined;
 }
 
 export const getRecentCustomStatuses = createSelector(
