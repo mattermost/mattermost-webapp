@@ -49,35 +49,19 @@
 
 const os = require('os');
 const chalk = require('chalk');
-const axios = require('axios');
 
+const {createAndStartCycle} = require('./utils/dashboard');
 const {getSortedTestFiles} = require('./utils/file');
 
 require('dotenv').config();
 
 const {
-    AUTOMATION_DASHBOARD_URL,
-    AUTOMATION_DASHBOARD_TOKEN,
     BRANCH,
     BROWSER,
     BUILD_ID,
     HEADLESS,
     REPO,
 } = process.env;
-
-async function createAndStartCycle(data) {
-    const response = await axios({
-        url: `${AUTOMATION_DASHBOARD_URL}/cycles/start`,
-        headers: {
-            Authorization: `Bearer ${AUTOMATION_DASHBOARD_TOKEN}`,
-        },
-        method: 'post',
-        timeout: 10000,
-        data,
-    });
-
-    return response.data;
-}
 
 async function main() {
     const browser = BROWSER || 'chrome';

@@ -28,7 +28,7 @@ import LogoutIcon from 'components/widgets/icons/fa_logout_icon';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
-import InfiniteScroll from '../common/infinite_scroll.jsx';
+import InfiniteScroll from '../common/infinite_scroll';
 
 import SelectTeamItem from './components/select_team_item';
 

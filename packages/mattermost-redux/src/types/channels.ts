@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {IDMappedObjects, UserIDMappedObjects, RelationOneToMany, RelationOneToOne, Dictionary} from './utilities';
+import {IDMappedObjects, UserIDMappedObjects, RelationOneToMany, RelationOneToOne} from './utilities';
 import {Team} from './teams';
 
 export type ChannelType = 'O' | 'P' | 'D' | 'G';
@@ -34,6 +34,7 @@ export type Channel = {
     purpose: string;
     last_post_at: number;
     total_msg_count: number;
+    total_msg_count_root: number;
     extra_update_at: number;
     creator_id: string;
     scheme_id: string;
@@ -42,7 +43,9 @@ export type Channel = {
     status?: string;
     fake?: boolean;
     group_constrained: boolean;
+    shared?: boolean;
     props?: Record<string, any>;
+    policy_id?: string | null;
 };
 
 export type ChannelWithTeamData = Channel & {
@@ -63,6 +66,8 @@ export type ChannelMembership = {
     last_viewed_at: number;
     msg_count: number;
     mention_count: number;
+    msg_count_root: number;
+    mention_count_root: number;
     notify_props: Partial<ChannelNotifyProps>;
     last_update_at: number;
     scheme_user: boolean;
@@ -76,6 +81,8 @@ export type ChannelUnread = {
     team_id: string;
     msg_count: number;
     mention_count: number;
+    msg_count_root: number;
+    mention_count_root: number;
     last_viewed_at: number;
     deltaMsgs: number;
 };
@@ -92,7 +99,6 @@ export type ChannelsState = {
     manuallyUnread: RelationOneToOne<Channel, boolean>;
     channelModerations: RelationOneToOne<Channel, ChannelModeration[]>;
     channelMemberCountsByGroup: RelationOneToOne<Channel, ChannelMemberCountsByGroup>;
-    channelsInPolicy: Dictionary<Channel>;
 };
 
 export type ChannelModeration = {

@@ -2,14 +2,11 @@
 
 exports[`components/RHSSearchNav should render active flagged posts 1`] = `
 <Fragment>
-  <div
-    className="flex-child search-bar__container"
-    id="searchbarContainer"
-  >
-    <Connect(Component)
-      isFocus={true}
-    />
-  </div>
+  <Connect(Component)
+    enableFindShortcut={true}
+    hideSearchBar={false}
+    isFocus={true}
+  />
   <HeaderIconWrapper
     ariaLabel={true}
     buttonClass="channel-header__icon"
@@ -41,14 +38,11 @@ exports[`components/RHSSearchNav should render active flagged posts 1`] = `
 
 exports[`components/RHSSearchNav should render active mentions posts 1`] = `
 <Fragment>
-  <div
-    className="flex-child search-bar__container"
-    id="searchbarContainer"
-  >
-    <Connect(Component)
-      isFocus={true}
-    />
-  </div>
+  <Connect(Component)
+    enableFindShortcut={true}
+    hideSearchBar={false}
+    isFocus={true}
+  />
   <HeaderIconWrapper
     ariaLabel={true}
     buttonClass="channel-header__icon channel-header__icon--active"

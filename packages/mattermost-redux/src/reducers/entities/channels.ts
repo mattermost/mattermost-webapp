@@ -24,6 +24,7 @@ import {
 } from 'mattermost-redux/types/utilities';
 
 import {Team} from 'mattermost-redux/types/teams';
+import {channelListToMap} from 'mattermost-redux/utils/channel_utils';
 
 function removeMemberFromChannels(state: RelationOneToOne<Channel, UserIDMappedObjects<ChannelMembership>>, action: GenericAction) {
     const nextState = {...state};
@@ -77,6 +78,10 @@ function channels(state: IDMappedObjects<Channel> = {}, action: GenericAction) {
             ...state,
             [action.data.id]: action.data,
         };
+    case AdminTypes.RECEIVED_DATA_RETENTION_CUSTOM_POLICY_CHANNELS: {
+        return Object.assign({}, state, channelListToMap(action.data.channels));
+    }
+    case AdminTypes.RECEIVED_DATA_RETENTION_CUSTOM_POLICY_CHANNELS_SEARCH:
     case ChannelTypes.RECEIVED_CHANNELS:
     case ChannelTypes.RECEIVED_ALL_CHANNELS:
     case SchemeTypes.RECEIVED_SCHEME_CHANNELS: {
@@ -158,8 +163,9 @@ function channels(state: IDMappedObjects<Channel> = {}, action: GenericAction) {
         }
         return state;
     }
+
     case ChannelTypes.INCREMENT_TOTAL_MSG_COUNT: {
-        const {channelId, amount} = action.data;
+        const {channelId, amount, amountRoot} = action.data;
         const channel = state[channelId];
 
         if (!channel) {
@@ -171,6 +177,7 @@ function channels(state: IDMappedObjects<Channel> = {}, action: GenericAction) {
             [channelId]: {
                 ...channel,
                 total_msg_count: channel.total_msg_count + amount,
+                total_msg_count_root: channel.total_msg_count_root + amountRoot,
             },
         };
     }
@@ -216,6 +223,21 @@ function channels(state: IDMappedObjects<Channel> = {}, action: GenericAction) {
         }
 
         return hasNewValues ? nextState : state;
+    }
+
+    case AdminTypes.REMOVE_DATA_RETENTION_CUSTOM_POLICY_CHANNELS_SUCCESS: {
+        const {channels} = action.data;
+        const nextState = {...state};
+        channels.forEach((channelId: string) => {
+            if (nextState[channelId]) {
+                nextState[channelId] = {
+                    ...nextState[channelId],
+                    policy_id: null,
+                };
+            }
+        });
+
+        return nextState;
     }
 
     case UserTypes.LOGOUT_SUCCESS:
@@ -315,6 +337,7 @@ function myMembers(state: RelationOneToOne<Channel, ChannelMembership> = {}, act
         const {
             channelId,
             amount,
+            amountRoot,
             onlyMentions,
             fetchedChannelMember,
         } = action.data;
@@ -340,11 +363,12 @@ function myMembers(state: RelationOneToOne<Channel, ChannelMembership> = {}, act
             [channelId]: {
                 ...member,
                 msg_count: member.msg_count + amount,
+                msg_count_root: member.msg_count_root + amountRoot,
             },
         };
     }
     case ChannelTypes.DECREMENT_UNREAD_MSG_COUNT: {
-        const {channelId, amount} = action.data;
+        const {channelId, amount, amountRoot} = action.data;
 
         const member = state[channelId];
 
@@ -358,6 +382,7 @@ function myMembers(state: RelationOneToOne<Channel, ChannelMembership> = {}, act
             [channelId]: {
                 ...member,
                 msg_count: member.msg_count + amount,
+                msg_count_root: member.msg_count_root + amountRoot,
             },
         };
     }
@@ -365,6 +390,7 @@ function myMembers(state: RelationOneToOne<Channel, ChannelMembership> = {}, act
         const {
             channelId,
             amount,
+            amountRoot,
             fetchedChannelMember,
         } = action.data;
         const member = state[channelId];
@@ -384,11 +410,12 @@ function myMembers(state: RelationOneToOne<Channel, ChannelMembership> = {}, act
             [channelId]: {
                 ...member,
                 mention_count: member.mention_count + amount,
+                mention_count_root: member.mention_count_root + amountRoot,
             },
         };
     }
     case ChannelTypes.DECREMENT_UNREAD_MENTION_COUNT: {
-        const {channelId, amount} = action.data;
+        const {channelId, amount, amountRoot} = action.data;
         const member = state[channelId];
 
         if (!member) {
@@ -401,6 +428,7 @@ function myMembers(state: RelationOneToOne<Channel, ChannelMembership> = {}, act
             [channelId]: {
                 ...member,
                 mention_count: Math.max(member.mention_count - amount, 0),
+                mention_count_root: Math.max(member.mention_count_root - amountRoot, 0),
             },
         };
     }
@@ -437,7 +465,7 @@ function myMembers(state: RelationOneToOne<Channel, ChannelMembership> = {}, act
         if (!channelState) {
             return state;
         }
-        return {...state, [data.channelId]: {...channelState, msg_count: data.msgCount, mention_count: data.mentionCount, last_viewed_at: data.lastViewedAt}};
+        return {...state, [data.channelId]: {...channelState, msg_count: data.msgCount, mention_count: data.mentionCount, msg_count_root: data.msgCountRoot, mention_count_root: data.mentionCountRoot, last_viewed_at: data.lastViewedAt}};
     }
 
     case ChannelTypes.RECEIVED_MY_CHANNELS_WITH_MEMBERS: { // Used by the mobile app
@@ -787,28 +815,6 @@ export function channelMemberCountsByGroup(state: any = {}, action: GenericActio
     }
 }
 
-export function channelsInPolicy(state: IDMappedObjects<Channel> = {}, action: GenericAction) {
-    switch (action.type) {
-    case AdminTypes.RECEIVED_DATA_RETENTION_CUSTOM_POLICY_CHANNELS_SEARCH:
-    case AdminTypes.RECEIVED_DATA_RETENTION_CUSTOM_POLICY_CHANNELS: {
-        const nextState: IDMappedObjects<Channel> = {...state};
-
-        for (let channel of action.data.channels) {
-            if (state[channel.id] && channel.type === General.DM_CHANNEL && !channel.display_name) {
-                channel = {...channel, display_name: state[channel.id].display_name};
-            }
-            nextState[channel.id] = channel;
-        }
-        return nextState;
-    }
-    case AdminTypes.CLEAR_DATA_RETENTION_CUSTOM_POLICY_CHANNELS: {
-        return {};
-    }
-    default:
-        return state;
-    }
-}
-
 export default combineReducers({
 
     // the current selected channel
@@ -841,7 +847,4 @@ export default combineReducers({
 
     // object where every key is the channel id containing map of <group_id: ChannelMemberCountByGroup>
     channelMemberCountsByGroup,
-
-    // object where every key is the channel id and has and object with the channel detail
-    channelsInPolicy,
 });

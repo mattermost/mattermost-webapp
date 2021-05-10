@@ -11,6 +11,7 @@
 // Group: @messaging
 
 import {getRandomId} from '../../utils';
+import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Reply in existing GM', () => {
     let testUser;
@@ -69,6 +70,7 @@ describe('Reply in existing GM', () => {
                 cy.postMessageReplyInRHS(replyMessage);
                 cy.getLastPostId().then((replyId) => {
                     // * Verify that the reply is in the RHS with matching text
+                    cy.wait(TIMEOUTS.TWO_SEC);
                     cy.get(`#rhsPostMessageText_${replyId}`).should('be.visible').and('have.text', replyMessage);
 
                     // * Verify that the reply is in the center channel with matching text

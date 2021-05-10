@@ -8,6 +8,8 @@ import {Dictionary, RelationOneToOne} from './utilities';
 export type TeamMembership = {
     mention_count: number;
     msg_count: number;
+    mention_count_root: number;
+    msg_count_root: number;
     team_id: string;
     user_id: string;
     roles: string;
@@ -40,6 +42,7 @@ export type Team = {
     allow_open_invite: boolean;
     scheme_id: string;
     group_constrained: boolean;
+    policy_id?: string | null;
 };
 
 export type TeamsState = {
@@ -50,13 +53,14 @@ export type TeamsState = {
     stats: RelationOneToOne<Team, TeamStats>;
     groupsAssociatedToTeam: any;
     totalCount: number;
-    teamsInPolicy: Dictionary<Team>;
 };
 
 export type TeamUnread = {
     team_id: string;
     mention_count: number;
     msg_count: number;
+    mention_count_root: number;
+    msg_count_root: number;
 };
 
 export type GetTeamMembersOpts = {

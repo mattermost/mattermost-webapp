@@ -18,7 +18,7 @@ import {
     setupTestData,
 } from './helpers';
 
-describe('SF15699 Search Date Filter - after', () => {
+describe('Search Date Filter', () => {
     const testData = getTestMessages();
     const {
         commonText,
@@ -34,23 +34,26 @@ describe('SF15699 Search Date Filter - after', () => {
         cy.apiInitSetup({userPrefix: 'other-admin'}).then(({team, user}) => {
             anotherAdmin = user;
 
+            // # Visit town-square
+            cy.visit(`/${team.name}/channels/town-square`);
+
             setupTestData(testData, {team, admin, anotherAdmin});
         });
     });
 
-    it('omits results before and on target date', () => {
+    it('MM-T587 after: omits results before and on target date', () => {
         searchAndValidate(`after:${firstDateEarly.query} ${commonText}`, [todayMessage, secondOffTopicMessage, secondMessage]);
     });
 
-    it('can be used in conjunction with "in:"', () => {
+    it('MM-T592_1 after: can be used in conjunction with in:', () => {
         searchAndValidate(`after:${firstDateEarly.query} in:town-square ${commonText}`, [todayMessage, secondMessage]);
     });
 
-    it('can be used in conjunction with "from:"', () => {
+    it('MM-T592_2 after: can be used in conjunction with from:', () => {
         searchAndValidate(`after:${firstDateEarly.query} from:${anotherAdmin.username} ${commonText}`, [secondOffTopicMessage]);
     });
 
-    it('using a date from the future shows no results', () => {
-        searchAndValidate(`after:2099-7-15 ${commonText}`);
+    it('MM-T592_3 after: re-add "in:" in conjunction with "from:"', () => {
+        searchAndValidate(`after:${firstDateEarly.query} in:town-square ${commonText} from:${anotherAdmin.username} ${commonText}`);
     });
 });

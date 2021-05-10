@@ -21,3 +21,19 @@ export function sortTeamsWithLocale(locale: string): (a: Team, b: Team) => numbe
         return a.name.toLowerCase().localeCompare(b.name.toLowerCase(), locale || General.DEFAULT_LOCALE, {numeric: true});
     };
 }
+
+export function filterTeamsStartingWithTerm(teams: Team[], term: string): Team[] {
+    const lowercasedTerm = term.toLowerCase();
+
+    return teams.filter((team: Team) => {
+        if (!team) {
+            return false;
+        }
+
+        const name = team.name?.toLowerCase();
+        const displayName = team.display_name?.toLowerCase();
+
+        return name.startsWith(lowercasedTerm) ||
+            displayName.startsWith(lowercasedTerm);
+    });
+}

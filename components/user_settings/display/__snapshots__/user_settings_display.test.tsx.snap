@@ -136,6 +136,21 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
+      <SettingItemMin
+        section="collapsed_reply_threads"
+        title={
+          <FormattedMessage
+            defaultMessage="Collapsed Reply Threads (Beta)"
+            id="user.settings.display.collapsedReplyThreadsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
       <SettingItemMax
         containerStyle=""
         extraInfo={null}
@@ -431,6 +446,21 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
+        section="collapsed_reply_threads"
+        title={
+          <FormattedMessage
+            defaultMessage="Collapsed Reply Threads (Beta)"
+            id="user.settings.display.collapsedReplyThreadsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
         section="channel_display_mode"
         title={
           <FormattedMessage
@@ -663,6 +693,21 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
+        section="collapsed_reply_threads"
+        title={
+          <FormattedMessage
+            defaultMessage="Collapsed Reply Threads (Beta)"
+            id="user.settings.display.collapsedReplyThreadsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
         section="channel_display_mode"
         title={
           <FormattedMessage
@@ -833,6 +878,21 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
+        section="collapsed_reply_threads"
+        title={
+          <FormattedMessage
+            defaultMessage="Collapsed Reply Threads (Beta)"
+            id="user.settings.display.collapsedReplyThreadsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
         section="channel_display_mode"
         title={
           <FormattedMessage
@@ -983,6 +1043,21 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Message Display"
             id="user.settings.display.messageDisplayTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        section="collapsed_reply_threads"
+        title={
+          <FormattedMessage
+            defaultMessage="Collapsed Reply Threads (Beta)"
+            id="user.settings.display.collapsedReplyThreadsTitle"
           />
         }
         updateSection={[Function]}
@@ -1215,6 +1290,21 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Message Display"
             id="user.settings.display.messageDisplayTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        section="collapsed_reply_threads"
+        title={
+          <FormattedMessage
+            defaultMessage="Collapsed Reply Threads (Beta)"
+            id="user.settings.display.collapsedReplyThreadsTitle"
           />
         }
         updateSection={[Function]}
@@ -1475,6 +1565,21 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
+        section="collapsed_reply_threads"
+        title={
+          <FormattedMessage
+            defaultMessage="Collapsed Reply Threads (Beta)"
+            id="user.settings.display.collapsedReplyThreadsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
         section="channel_display_mode"
         title={
           <FormattedMessage
@@ -1635,6 +1740,21 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Message Display"
             id="user.settings.display.messageDisplayTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        section="collapsed_reply_threads"
+        title={
+          <FormattedMessage
+            defaultMessage="Collapsed Reply Threads (Beta)"
+            id="user.settings.display.collapsedReplyThreadsTitle"
           />
         }
         updateSection={[Function]}
@@ -1815,6 +1935,21 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
+        section="collapsed_reply_threads"
+        title={
+          <FormattedMessage
+            defaultMessage="Collapsed Reply Threads (Beta)"
+            id="user.settings.display.collapsedReplyThreadsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
         section="channel_display_mode"
         title={
           <FormattedMessage
@@ -1975,6 +2110,21 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Message Display"
             id="user.settings.display.messageDisplayTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        section="collapsed_reply_threads"
+        title={
+          <FormattedMessage
+            defaultMessage="Collapsed Reply Threads (Beta)"
+            id="user.settings.display.collapsedReplyThreadsTitle"
           />
         }
         updateSection={[Function]}
@@ -2167,6 +2317,21 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
+        section="collapsed_reply_threads"
+        title={
+          <FormattedMessage
+            defaultMessage="Collapsed Reply Threads (Beta)"
+            id="user.settings.display.collapsedReplyThreadsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
         section="channel_display_mode"
         title={
           <FormattedMessage
@@ -2327,6 +2492,21 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Message Display"
             id="user.settings.display.messageDisplayTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        section="collapsed_reply_threads"
+        title={
+          <FormattedMessage
+            defaultMessage="Collapsed Reply Threads (Beta)"
+            id="user.settings.display.collapsedReplyThreadsTitle"
           />
         }
         updateSection={[Function]}

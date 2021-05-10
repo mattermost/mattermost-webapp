@@ -103,8 +103,8 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
         ) : <EmojiIcon className={'icon icon--emoji'}/>;
 
     const clearHandle = () => {
-        setText('');
         setEmoji('');
+        setText('');
     };
 
     const disableSetStatus = (currentCustomStatus.text === text && currentCustomStatus.emoji === emoji) ||
@@ -189,6 +189,8 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
         </div>
     );
 
+    const showSuggestions = !isStatusSet || (currentCustomStatus?.emoji === emoji && text && currentCustomStatus?.text === text);
+
     return (
         <GenericModal
             enforceFocus={false}
@@ -251,7 +253,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
                         inputComponent={MaxLengthInput}
                         value={text}
                         maxLength={Constants.CUSTOM_STATUS_TEXT_CHARACTER_LIMIT}
-                        clearable={Boolean(isStatusSet)}
+                        clearableWithoutValue={Boolean(isStatusSet)}
                         onClear={clearHandle}
                         className='form-control'
                         clearClassName='StatusModal__clear-container'
@@ -260,7 +262,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
                         placeholder={formatMessage({id: 'custom_status.set_status', defaultMessage: 'Set a status'})}
                     />
                 </div>
-                {!isStatusSet && suggestion}
+                {showSuggestions && suggestion}
             </div>
         </GenericModal>
     );

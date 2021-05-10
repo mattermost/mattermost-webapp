@@ -1633,6 +1633,7 @@ describe('Actions.Channels', () => {
             exclude_default_channels: false,
             include_total_count: true,
             include_deleted: false,
+            exclude_policy_constrained: false,
         };
         nock(Client4.getBaseRoute()).
             get('/channels').

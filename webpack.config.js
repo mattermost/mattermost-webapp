@@ -221,15 +221,7 @@ var config = {
                     {
                         loader: 'html-loader',
                         options: {
-                            attributes: {
-                                list: [
-                                    {
-                                        tag: 'link',
-                                        attribute: 'href',
-                                        type: 'src',
-                                    },
-                                ],
-                            },
+                            sources: false,
                         },
                     },
                 ],
@@ -296,9 +288,15 @@ var config = {
                 {from: 'images/cloud', to: 'images'},
                 {from: 'images/welcome_illustration.png', to: 'images'},
                 {from: 'images/logo_email_blue.png', to: 'images'},
+                {from: 'images/logo_email_gray.png', to: 'images'},
                 {from: 'images/forgot_password_illustration.png', to: 'images'},
                 {from: 'images/invite_illustration.png', to: 'images'},
                 {from: 'images/channel_icon.png', to: 'images'},
+                {from: 'images/add_payment_method.png', to: 'images'},
+                {from: 'images/add_subscription.png', to: 'images'},
+                {from: 'images/c_avatar.png', to: 'images'},
+                {from: 'images/c_download.png', to: 'images'},
+                {from: 'images/c_socket.png', to: 'images'},
             ],
         }),
 

@@ -11,6 +11,7 @@ import {Post} from 'mattermost-redux/types/posts';
 import {CategorySorting, ChannelCategory} from 'mattermost-redux/types/channel_categories';
 import {Command} from 'mattermost-redux/types/integrations';
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
+import {Session} from 'mattermost-redux/types/sessions';
 
 export class TestHelper {
     public static getUserMock(override: Partial<UserProfile> = {}): UserProfile {
@@ -99,6 +100,7 @@ export class TestHelper {
             purpose: 'purpose',
             last_post_at: 0,
             total_msg_count: 0,
+            total_msg_count_root: 0,
             extra_update_at: 0,
             creator_id: 'id',
             scheme_id: 'id',
@@ -139,6 +141,8 @@ export class TestHelper {
             last_viewed_at: 0,
             msg_count: 0,
             mention_count: 0,
+            mention_count_root: 0,
+            msg_count_root: 0,
             notify_props: notifyProps,
             last_update_at: 0,
             scheme_user: true,
@@ -172,6 +176,8 @@ export class TestHelper {
         const defaultMembership: TeamMembership = {
             mention_count: 0,
             msg_count: 0,
+            mention_count_root: 0,
+            msg_count_root: 0,
             team_id: 'team_id',
             user_id: 'user_id',
             roles: 'team_user',
@@ -287,5 +293,23 @@ export class TestHelper {
             url: '',
         };
         return Object.assign({}, defaultCommand, override);
+    }
+
+    public static getSessionMock(override: Partial<Session>): Session {
+        const defaultSession: Session = {
+            id: 'session_id',
+            token: 'session_token',
+            create_at: 0,
+            expires_at: 0,
+            last_activity_at: 0,
+            user_id: 'user_id',
+            device_id: 'device_id',
+            roles: '',
+            is_oauth: false,
+            props: {},
+            team_members: [],
+            local: false,
+        };
+        return Object.assign({}, defaultSession, override);
     }
 }
