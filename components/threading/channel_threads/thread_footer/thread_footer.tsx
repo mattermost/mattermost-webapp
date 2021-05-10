@@ -56,6 +56,14 @@ function ThreadFooter({
     } = thread;
     const participantIds = useMemo(() => participants?.map(({id}) => id), [participants]);
 
+    const handleReply = useCallback(() => {
+        dispatch(selectPost({id: threadId, channel_id: channelId} as Post));
+    }, [threadId, channelId]);
+
+    const handleFollowing = useCallback(() => {
+        dispatch(setThreadFollow(currentUserId, currentTeamId, threadId, !isFollowing));
+    }, [isFollowing]);
+
     return (
         <div className='ThreadFooter'>
             {threadIsSynthetic(thread) || !thread.unread_replies ? (
@@ -88,9 +96,7 @@ function ThreadFooter({
             ) : null}
 
             <Button
-                onClick={useCallback(() => {
-                    dispatch(selectPost({id: threadId, channel_id: channelId} as Post));
-                }, [threadId, channelId])}
+                onClick={handleReply}
                 className='ReplyButton separated'
                 prepend={
                     <span className='icon'>
@@ -108,9 +114,7 @@ function ThreadFooter({
             <FollowButton
                 isFollowing={isFollowing}
                 className='separated'
-                onClick={useCallback(() => {
-                    dispatch(setThreadFollow(currentUserId, currentTeamId, threadId, !isFollowing));
-                }, [isFollowing])}
+                onClick={handleFollowing}
             />
 
             {Boolean(lastReplyAt) && (
