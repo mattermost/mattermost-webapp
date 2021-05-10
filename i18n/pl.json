@@ -2194,7 +2194,6 @@
   "edit_channel_private_purpose_modal.body": "Ten tekst pojawia się w okienku \"Wyświetl informacje\" prywatnego kanału.",
   "edit_channel_purpose_modal.body": "Opisz w jak ten kanał powinien być wykorzystywany. Ten tekst pojawi się na liście kanałów w menu \"Wiecej...\" i pomaga innym zdecydować czy dołączyć do kanału.",
   "edit_channel_purpose_modal.cancel": "Anuluj",
-  "edit_channel_purpose_modal.error": "Cel kanału jest za długi, wpisz krótszą wersję",
   "edit_channel_purpose_modal.save": "Zapisz",
   "edit_channel_purpose_modal.title1": "Zmień cel",
   "edit_channel_purpose_modal.title2": "Zmień cel dla ",
