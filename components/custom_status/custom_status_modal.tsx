@@ -76,7 +76,7 @@ const defaultCustomStatusSuggestions: DefaultUserCustomStatus[] = [
     },
 ];
 
-const defaultDuration = CustomStatusDuration.FOUR_HOURS;
+const defaultDuration = CustomStatusDuration.TODAY;
 
 const CustomStatusModal: React.FC<Props> = (props: Props) => {
     const dispatch = useDispatch();
