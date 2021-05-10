@@ -149,7 +149,6 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
         handleSearchHintSelection,
         searchFilterType,
         setSearchFilterType,
-        filesSearchEnabled,
     } = props;
 
     const noResults = (!results || !Array.isArray(results) || results.length === 0);
