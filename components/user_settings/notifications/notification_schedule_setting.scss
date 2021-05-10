@@ -69,17 +69,34 @@
   }
 }
 
+
 .form-select {
   border: none;
   color: inherit;
   font-size: inherit;
   font-weight: 600;
-  margin: 0 0 0.8rem;
+  margin: 0.8rem 0 0.8rem;
+  .form-time {
+    margin: 12px 0 8px 0;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    .custom-time{
+      .week-name {
+        width: 100px;
+      }
+      margin: 4px 0 4px 0;
+      width: 100%;
+      .time-picker {
+        width: 150px;
+      }
+    }
+  }
   div {
     .period {
       display: inline-block;
       width: 35%;
-      margin-right: 16px;
+      margin-right: 10px;
       .react-select__control {
         width: 100%;
         .react-select__value-container {
@@ -90,16 +107,21 @@
         }
       }
     }
+    .n-custom-time {
+      width: 100%;
+      .time-picker {
+        width: 150px;
+      }
+    }
     .time-wrapper {
       display: inline-flex;
       align-items: center;
-      width: 50%;
+      width: 60%;
       p {
         margin: 0;
       }
       .time-picker {
-        margin: 0 6px;
-        width: 100%;
+        margin: 0 10px;
         display: flex;
         align-items: center;
         img {
@@ -124,5 +146,36 @@
         }
       }
     }
+  }
+}
+
+
+.weekDays-selector {
+  display: inline-block;
+
+  input {
+    display: none !important;
+  }
+
+  input[type=checkbox] + label {
+    display: inline-block;
+    border-radius: 20px;
+    background: #dddddd;
+    height: 35px;
+    width: 35px;
+    margin-right: 8px;
+    line-height: 35px;
+    text-align: center;
+    cursor: pointer;
+  }
+
+  input[type=checkbox]:checked + label {
+    background: #1b70ff;
+    color: #ffffff;
+  }
+
+  input[type=checkbox]:disabled + label {
+    cursor: default;
+    background: #dddddd;
   }
 }
