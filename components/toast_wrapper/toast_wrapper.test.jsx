@@ -466,7 +466,7 @@ describe('components/ToastWrapper', () => {
         });
     });
 
-    describe('Histroy toast', () => {
+    describe('History toast', () => {
         test('Replace browser history when not at latest posts and in permalink view with call to scrollToLatestMessages', () => {
             const props = {
                 ...baseProps,
@@ -497,6 +497,61 @@ describe('components/ToastWrapper', () => {
             browserHistory.replace = jest.fn();
             instance.scrollToNewMessage();
             expect(browserHistory.replace).toHaveBeenCalledWith('/team');
+        });
+    });
+
+    describe('Search hint toast', () => {
+        test('should should not be shown when unread toast should be shown', () => {
+            const props = {
+                ...baseProps,
+                unreadCountInChannel: 10,
+                newRecentMessagesCount: 5,
+                showSearchHintToast: true,
+            };
+
+            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+
+            expect(wrapper.find('.toast__hint')).toEqual({});
+        });
+
+        test('should not be shown when history toast should be shown', () => {
+            const props = {
+                ...baseProps,
+                focusedPostId: 'asdasd',
+                atLatestPost: false,
+                atBottom: false,
+            };
+
+            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+
+            expect(wrapper.find('.toast__hint')).toEqual({});
+        });
+
+        test('should be shown when no other toasts are shown', () => {
+            const props = {
+                ...baseProps,
+                showSearchHintToast: true,
+            };
+
+            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+
+            expect(wrapper.find('.toast__hint')).toBeDefined();
+        });
+
+        test('should call the dismiss callback', () => {
+            const dismissHandler = jest.fn();
+            const props = {
+                ...baseProps,
+                showSearchHintToast: true,
+                onSearchHintDismiss: dismissHandler,
+            };
+
+            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            const instance = wrapper.instance();
+
+            instance.hideSearchHintToast();
+
+            expect(dismissHandler).toHaveBeenCalled();
         });
     });
 });

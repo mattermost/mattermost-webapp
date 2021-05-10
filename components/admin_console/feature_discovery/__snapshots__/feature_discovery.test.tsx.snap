@@ -64,11 +64,7 @@ exports[`components/feature_discovery FeatureDiscovery should match snapshot 1`]
   <div
     className="FeatureDiscovery_imageWrapper"
   >
-    <img
-      alt="Feature Discovery Image"
-      className="FeatureDiscovery_image"
-      src="foo/bar.png"
-    />
+    <SamlSVG />
   </div>
 </div>
 `;

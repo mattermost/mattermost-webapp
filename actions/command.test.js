@@ -189,7 +189,7 @@ describe('executeCommand', () => {
 
     describe('leave', () => {
         test('should send message when command typed in reply threads', async () => {
-            GlobalActions.sendEphemeralPost = jest.fn();
+            GlobalActions.sendEphemeralPost = jest.fn().mockReturnValue({type: 'someaction'});
 
             const result = await store.dispatch(executeCommand('/leave', {channel_id: 'channel_id', parent_id: 'parent_id'}));
 

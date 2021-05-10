@@ -14,6 +14,7 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Archived channels', () => {
     let testTeam;
+    let testUser;
     let otherUser;
 
     before(() => {
@@ -24,13 +25,18 @@ describe('Archived channels', () => {
         });
 
         // # Login as test user and visit create channel
-        cy.apiInitSetup().then(({team, channel}) => {
+        cy.apiInitSetup().then(({team, user}) => {
+            testUser = user;
             testTeam = team;
-            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
 
             cy.apiCreateUser({prefix: 'second'}).then(({user: second}) => {
                 cy.apiAddUserToTeam(testTeam.id, second.id);
                 otherUser = second;
+
+                cy.apiLogin(testUser);
+                cy.apiCreateChannel(testTeam.id, 'channel', 'channel').then(({channel}) => {
+                    cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+                });
             });
         });
     });
@@ -80,7 +86,7 @@ describe('Archived channels', () => {
 
                 // # Post the message in another channel
                 cy.get('#sidebarItem_off-topic').click();
-                cy.postMessage(`${permalink}`).wait(TIMEOUTS.ONE_SEC);
+                cy.postMessage(permalink).wait(TIMEOUTS.ONE_SEC);
             });
 
             // # Archive the channel

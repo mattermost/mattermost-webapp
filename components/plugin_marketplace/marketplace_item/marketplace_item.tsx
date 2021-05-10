@@ -8,7 +8,7 @@ import {Tooltip} from 'react-bootstrap';
 import type {MarketplaceLabel} from 'mattermost-redux/types/marketplace';
 
 import OverlayTrigger from 'components/overlay_trigger';
-import PluginIcon from 'components/widgets/icons/plugin_icon.jsx';
+import PluginIcon from 'components/widgets/icons/plugin_icon';
 
 import {Constants} from 'utils/constants';
 

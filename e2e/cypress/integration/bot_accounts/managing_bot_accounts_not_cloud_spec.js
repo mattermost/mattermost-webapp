@@ -8,9 +8,10 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @not_cloud @bot_accounts
+// Group: @bot_accounts @plugin @not_cloud
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
+import {matterpollPlugin} from '../../utils/plugins';
 
 describe('Managing bot accounts', () => {
     let newTeam;
@@ -44,6 +45,9 @@ describe('Managing bot accounts', () => {
     });
 
     it('MM-T1853 Bots managed plugins can be created when Enable Bot Account Creation is set to false', () => {
+        // # Upload and enable "matterpoll" plugin
+        cy.apiUploadAndEnablePlugin(matterpollPlugin);
+
         // # Visit bot config
         cy.visit('/admin_console/integrations/bot_accounts');
 
@@ -52,14 +56,6 @@ describe('Managing bot accounts', () => {
 
         // # Save
         cy.findByTestId('saveSetting').should('be.enabled').click();
-
-        // # Try to remove the plugin, just in case
-        cy.apiRemovePluginById('com.github.matterpoll.matterpoll');
-
-        // # Upload and enable "matterpoll" plugin
-        cy.apiUploadPlugin('com.github.matterpoll.matterpoll.tar.gz').then(() => {
-            cy.apiEnablePluginById('com.github.matterpoll.matterpoll');
-        });
 
         // # Visit the integrations
         cy.visit(`/${newTeam.name}/integrations/bots`);

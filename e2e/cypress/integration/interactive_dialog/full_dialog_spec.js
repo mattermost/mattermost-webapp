@@ -79,7 +79,7 @@ describe('Interactive Dialog', () => {
     it('MM-T2491 - UI check', () => {
         // # Post a slash command
         cy.get('#postListContent').should('be.visible');
-        cy.postMessage(`/${createdCommand.trigger}`);
+        cy.postMessage(`/${createdCommand.trigger} `);
 
         // * Verify that the interactive dialog modal open up
         cy.get('#interactiveDialogModal').should('be.visible').within(() => {
@@ -156,7 +156,7 @@ describe('Interactive Dialog', () => {
 
     it('MM-T2492 - Cancel button works', () => {
         // # Post a slash command
-        cy.postMessage(`/${createdCommand.trigger}`);
+        cy.postMessage(`/${createdCommand.trigger} `);
 
         // * Verify that the interactive dialog modal open up
         cy.get('#interactiveDialogModal').should('be.visible');
@@ -170,7 +170,7 @@ describe('Interactive Dialog', () => {
 
     it('MM-T2493 - "X" closes the dialog', () => {
         // # Post a slash command
-        cy.postMessage(`/${createdCommand.trigger}`);
+        cy.postMessage(`/${createdCommand.trigger} `);
 
         // * Verify that the interactive dialog modal open up
         cy.get('#interactiveDialogModal').should('be.visible');
@@ -186,7 +186,7 @@ describe('Interactive Dialog', () => {
 
     it('MM-T2494 - Correct error messages displayed if empty form is submitted', () => {
         // # Post a slash command
-        cy.postMessage(`/${createdCommand.trigger}`);
+        cy.postMessage(`/${createdCommand.trigger} `);
 
         // * Verify that the interactive dialog modal open up
         cy.get('#interactiveDialogModal').should('be.visible');
@@ -213,7 +213,7 @@ describe('Interactive Dialog', () => {
 
     it('MM-T2495_1 - Email validation for invalid input', () => {
         // # Post a slash command
-        cy.postMessage(`/${createdCommand.trigger}`);
+        cy.postMessage(`/${createdCommand.trigger} `);
 
         // * Verify that the interactive dialog modal open up
         cy.get('#interactiveDialogModal').should('be.visible');
@@ -235,7 +235,7 @@ describe('Interactive Dialog', () => {
 
     it('MM-T2495_2 - Email validation for valid input', () => {
         // # Post a slash command
-        cy.postMessage(`/${createdCommand.trigger}`);
+        cy.postMessage(`/${createdCommand.trigger} `);
 
         // * Verify that the interactive dialog modal open up
         cy.get('#interactiveDialogModal').should('be.visible');
@@ -253,7 +253,7 @@ describe('Interactive Dialog', () => {
     });
 
     it('MM-T2496_1 - Number validation for invalid input', () => {
-        cy.postMessage(`/${createdCommand.trigger}`);
+        cy.postMessage(`/${createdCommand.trigger} `);
 
         cy.get('#interactiveDialogModal').should('be.visible');
 
@@ -272,7 +272,7 @@ describe('Interactive Dialog', () => {
     });
 
     it('MM-T2496_2 - Number validation for valid input', () => {
-        cy.postMessage(`/${createdCommand.trigger}`);
+        cy.postMessage(`/${createdCommand.trigger} `);
 
         cy.get('#interactiveDialogModal').should('be.visible');
 
@@ -292,7 +292,7 @@ describe('Interactive Dialog', () => {
 
     it('MM-T2501 - Password element check', () => {
         // # Post a slash command
-        cy.postMessage(`/${createdCommand.trigger}`);
+        cy.postMessage(`/${createdCommand.trigger} `);
 
         // * Verify that the interactive dialog modal open up
         cy.get('#interactiveDialogModal').should('be.visible');

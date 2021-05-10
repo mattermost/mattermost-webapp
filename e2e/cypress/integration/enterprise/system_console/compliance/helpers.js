@@ -1,9 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import * as TIMEOUTS from '../../../../fixtures/timeouts';
+import path from 'path';
 
-const path = require('path');
+import * as TIMEOUTS from '../../../../fixtures/timeouts';
 
 export function downloadAndUnzipExportFile(targetDownload) {
     // # Get the download link
@@ -41,42 +41,22 @@ export function verifyExportedMessagesCount(expectedNumber) {
 }
 
 export function editLastPost(message) {
-    cy.apiGetTeamsForUser().then(({teams}) => {
-        const team = teams[0];
-        cy.visit(`/${team.name}/channels/town-square`);
+    cy.getLastPostId().then(() => {
+        cy.get('#post_textbox').clear().type('{uparrow}');
 
-        cy.getLastPostId().then(() => {
-            cy.get('#post_textbox').clear().type('{uparrow}');
+        // # Edit post modal should appear
+        cy.get('#editPostModal').should('be.visible');
 
-            // # Edit post modal should appear
-            cy.get('#editPostModal').should('be.visible');
+        // # Update the post message and type ENTER
+        cy.get('#edit_textbox').invoke('val', '').type(`${message}`).type('{enter}').wait(TIMEOUTS.HALF_SEC);
 
-            // # Update the post message and type ENTER
-            cy.get('#edit_textbox').invoke('val', '').type(`${message}`).type('{enter}').wait(TIMEOUTS.HALF_SEC);
-
-            // * Edit modal should not be visible
-            cy.get('#editPostModal').should('not.exist');
-        });
-    });
-}
-
-export function gotoTeamAndPostMessage() {
-    // # Get user team
-    cy.apiGetTeamsForUser().then(({teams}) => {
-        const team = teams[0];
-        cy.visit(`/${team.name}/channels/town-square`);
-        cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
-        cy.postMessage('Hello This is Testing');
+        // * Edit modal should not be visible
+        cy.get('#editPostModal').should('not.exist');
     });
 }
 
 export function gotoTeamAndPostImage() {
-    // # Get user teams
-    cy.apiGetTeamsForUser().then(({teams}) => {
-        const team = teams[0];
-        cy.visit(`/${team.name}/channels/town-square`);
-        cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
-    });
+    cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
     // # Remove images from post message footer if exist
     cy.waitUntil(() => cy.get('#postCreateFooter').then((el) => {
