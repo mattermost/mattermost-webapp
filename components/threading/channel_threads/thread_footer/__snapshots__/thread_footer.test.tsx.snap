@@ -47,7 +47,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
           <SimpleTooltip
             animation={true}
             content="first.last1"
-            id="name-first.last1"
+            id="name-1"
             onEntered={[Function]}
           >
             <OverlayTrigger
@@ -59,7 +59,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                 <Tooltip
                   bsClass="tooltip"
                   className="hidden-xs"
-                  id="name-first.last1"
+                  id="name-1"
                   placement="top"
                 >
                   first.last1
@@ -82,7 +82,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                   <OverlayWrapper
                     bsClass="tooltip"
                     className="hidden-xs"
-                    id="name-first.last1"
+                    id="name-1"
                     intl={
                       Object {
                         "defaultFormats": Object {},
@@ -186,7 +186,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
           <SimpleTooltip
             animation={true}
             content="first.last2"
-            id="name-first.last2"
+            id="name-2"
             onEntered={[Function]}
           >
             <OverlayTrigger
@@ -198,7 +198,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                 <Tooltip
                   bsClass="tooltip"
                   className="hidden-xs"
-                  id="name-first.last2"
+                  id="name-2"
                   placement="top"
                 >
                   first.last2
@@ -221,7 +221,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                   <OverlayWrapper
                     bsClass="tooltip"
                     className="hidden-xs"
-                    id="name-first.last2"
+                    id="name-2"
                     intl={
                       Object {
                         "defaultFormats": Object {},
@@ -325,7 +325,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
           <SimpleTooltip
             animation={true}
             content="first.last3"
-            id="name-first.last3"
+            id="name-3"
             onEntered={[Function]}
           >
             <OverlayTrigger
@@ -337,7 +337,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                 <Tooltip
                   bsClass="tooltip"
                   className="hidden-xs"
-                  id="name-first.last3"
+                  id="name-3"
                   placement="top"
                 >
                   first.last3
@@ -360,7 +360,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                   <OverlayWrapper
                     bsClass="tooltip"
                     className="hidden-xs"
-                    id="name-first.last3"
+                    id="name-3"
                     intl={
                       Object {
                         "defaultFormats": Object {},
@@ -930,7 +930,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
           <SimpleTooltip
             animation={true}
             content="first.last1"
-            id="name-first.last1"
+            id="name-1"
             onEntered={[Function]}
           >
             <OverlayTrigger
@@ -942,7 +942,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                 <Tooltip
                   bsClass="tooltip"
                   className="hidden-xs"
-                  id="name-first.last1"
+                  id="name-1"
                   placement="top"
                 >
                   first.last1
@@ -965,7 +965,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                   <OverlayWrapper
                     bsClass="tooltip"
                     className="hidden-xs"
-                    id="name-first.last1"
+                    id="name-1"
                     intl={
                       Object {
                         "defaultFormats": Object {},
@@ -1069,7 +1069,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
           <SimpleTooltip
             animation={true}
             content="first.last2"
-            id="name-first.last2"
+            id="name-2"
             onEntered={[Function]}
           >
             <OverlayTrigger
@@ -1081,7 +1081,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                 <Tooltip
                   bsClass="tooltip"
                   className="hidden-xs"
-                  id="name-first.last2"
+                  id="name-2"
                   placement="top"
                 >
                   first.last2
@@ -1104,7 +1104,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                   <OverlayWrapper
                     bsClass="tooltip"
                     className="hidden-xs"
-                    id="name-first.last2"
+                    id="name-2"
                     intl={
                       Object {
                         "defaultFormats": Object {},
@@ -1208,7 +1208,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
           <SimpleTooltip
             animation={true}
             content="first.last3"
-            id="name-first.last3"
+            id="name-3"
             onEntered={[Function]}
           >
             <OverlayTrigger
@@ -1220,7 +1220,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                 <Tooltip
                   bsClass="tooltip"
                   className="hidden-xs"
-                  id="name-first.last3"
+                  id="name-3"
                   placement="top"
                 >
                   first.last3
@@ -1243,7 +1243,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                   <OverlayWrapper
                     bsClass="tooltip"
                     className="hidden-xs"
-                    id="name-first.last3"
+                    id="name-3"
                     intl={
                       Object {
                         "defaultFormats": Object {},
