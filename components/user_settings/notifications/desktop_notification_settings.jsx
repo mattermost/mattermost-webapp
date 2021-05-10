@@ -33,7 +33,6 @@ export default class DesktopNotificationSettings extends React.PureComponent {
     }
 
     handleMaxUpdateSection = (section) => {
-        console.log(section)
         this.props.updateSection(section);
     }
 
