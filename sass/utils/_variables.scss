@@ -19,7 +19,7 @@ $highlight-color: #fcea8d;
 $font-weight--semibold: 600;
 
 // Page Variables
-$border-gray: 1px solid #ddd;
+$border-gray: 1px solid rgba(var(--center-channel-color-rgb), 0.12);
 $announcement-bar-height: 40px;
 $backstage-bar-height: 43px;
 

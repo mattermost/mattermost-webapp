@@ -57,7 +57,7 @@ describe('Interactive Dialog', () => {
 
     it('MM-T2498 - Individual "User" and "Channel" screens are scrollable', () => {
         // # Post a slash command
-        cy.postMessage(`/${createdCommand.trigger}`);
+        cy.postMessage(`/${createdCommand.trigger} `);
 
         // * Verify that the interactive dialog modal open up
         cy.get('#interactiveDialogModal').should('be.visible').within(() => {

@@ -33,7 +33,6 @@ export type StateProps = {
     isFlaggedPosts: boolean;
     isPinnedPosts: boolean;
     isChannelFiles: boolean;
-    filesSearchEnabled: boolean;
     currentChannel?: Channel;
 }
 

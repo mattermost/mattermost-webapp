@@ -14,9 +14,9 @@ const normalSize = '21px';
 const jumboSize = '32px';
 
 const testCases = [
-    {message: 'This is a normal reply with emoji :smile: {enter}', emojiSize: normalSize},
-    {message: ':smile: {enter}', emojiSize: jumboSize},
-    {message: ':smile: :yum: {enter}', emojiSize: jumboSize},
+    {message: 'This is a normal reply with emoji :smile:', emojiSize: normalSize},
+    {message: ':smile:', emojiSize: jumboSize},
+    {message: ':smile: :yum:', emojiSize: jumboSize},
 ];
 
 function verifyLastPostStyle(expectedSize) {

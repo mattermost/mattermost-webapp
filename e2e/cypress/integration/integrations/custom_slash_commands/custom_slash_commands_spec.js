@@ -92,7 +92,7 @@ describe('Slash commands', () => {
         cy.visit(`/${team1.name}/channels/town-square`);
 
         // # Run slash command
-        cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').clear().type(`/${trigger}{enter}`);
+        cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').clear().type(`/${trigger} {enter}`);
         cy.wait(TIMEOUTS.TWO_SEC);
 
         // * Verify error
@@ -125,7 +125,7 @@ describe('Slash commands', () => {
         cy.visit(`/${team1.name}/channels/town-square`);
 
         // # Run slash command
-        cy.postMessage(`/${trigger}`);
+        cy.postMessage(`/${trigger} `);
         cy.wait(TIMEOUTS.TWO_SEC);
 
         // * Verify that last post is by newname
@@ -164,7 +164,7 @@ describe('Slash commands', () => {
         cy.visit(`/${team1.name}/channels/town-square`);
 
         // # Run slash command
-        cy.postMessage(`/${trigger}`);
+        cy.postMessage(`/${trigger} `);
         cy.wait(TIMEOUTS.TWO_SEC);
 
         // * Verify that last post has correct icon

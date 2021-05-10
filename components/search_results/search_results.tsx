@@ -233,7 +233,6 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
                 <SearchHint
                     onOptionSelected={handleOptionSelection}
                     options={searchHintOptions}
-                    filesSearchEnabled={filesSearchEnabled}
                 />
             </div>
         );
@@ -317,7 +316,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
                 {formattedTitle}
                 {props.channelDisplayName && <div className='sidebar--right__title__channel'>{props.channelDisplayName}</div>}
             </SearchResultsHeader>
-            {isMessagesSearch && filesSearchEnabled &&
+            {isMessagesSearch &&
                 <MessageOrFileSelector
                     selected={searchType}
                     selectedFilter={searchFilterType}
@@ -326,7 +325,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
                     onChange={setSearchType}
                     onFilter={setSearchFilterType}
                 />}
-            {isChannelFiles && filesSearchEnabled &&
+            {isChannelFiles &&
                 <div className='channel-files__header'>
                     <div className='channel-files__title'>
                         <FormattedMessage

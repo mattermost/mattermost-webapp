@@ -1,0 +1,581 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/admin_console/data_retention_settings/channel_list should match snapshot 1`] = `
+<div
+  className="PolicyChannelsList"
+>
+  <DataGrid
+    className="customTable"
+    columns={
+      Array [
+        Object {
+          "field": "name",
+          "fixed": true,
+          "name": <FormattedMessage
+            defaultMessage="Name"
+            id="admin.channel_settings.channel_list.nameHeader"
+          />,
+        },
+        Object {
+          "field": "team",
+          "fixed": true,
+          "name": <FormattedMessage
+            defaultMessage="Team"
+            id="admin.channel_settings.channel_list.teamHeader"
+          />,
+        },
+        Object {
+          "field": "remove",
+          "fixed": true,
+          "name": "",
+          "textAlign": "right",
+        },
+      ]
+    }
+    endCount={1}
+    filterProps={
+      Object {
+        "keys": Array [
+          "teams",
+          "channels",
+        ],
+        "onFilter": [Function],
+        "options": Object {
+          "channels": Object {
+            "keys": Array [
+              "public",
+              "private",
+              "deleted",
+            ],
+            "name": "Channels",
+            "values": Object {
+              "deleted": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Archived"
+                  id="admin.channel_list.archived"
+                />,
+                "value": false,
+              },
+              "private": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Private"
+                  id="admin.channel_list.private"
+                />,
+                "value": false,
+              },
+              "public": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Public"
+                  id="admin.channel_list.public"
+                />,
+                "value": false,
+              },
+            },
+          },
+          "teams": Object {
+            "keys": Array [
+              "team_ids",
+            ],
+            "name": "Teams",
+            "type": Object {
+              "$$typeof": Symbol(react.memo),
+              "WrappedComponent": [Function],
+              "compare": null,
+              "displayName": "Connect(TeamFilterDropdown)",
+              "type": [Function],
+            },
+            "values": Object {
+              "team_ids": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Teams"
+                  id="admin.team_settings.title"
+                />,
+                "value": Array [],
+              },
+            },
+          },
+        },
+      }
+    }
+    loading={false}
+    nextPage={[Function]}
+    onSearch={[Function]}
+    page={0}
+    previousPage={[Function]}
+    rows={
+      Array [
+        Object {
+          "cells": Object {
+            "id": "123",
+            "name": <div
+              className="ChannelList__nameColumn"
+            >
+              <GlobeIcon
+                className="channel-icon"
+              />
+              <div
+                className="ChannelList__nameText"
+              >
+                <b
+                  data-testid="team-display-name"
+                >
+                  DN
+                </b>
+              </div>
+            </div>,
+            "remove": <a
+              className="group-actions TeamList_editText"
+              data-testid="DNedit"
+              onClick={[Function]}
+            >
+              <FormattedMessage
+                defaultMessage="Remove"
+                id="admin.data_retention.custom_policy.teams.remove"
+              />
+            </a>,
+            "team": "teamDisplayName",
+          },
+        },
+      ]
+    }
+    searchPlaceholder=""
+    startCount={1}
+    term=""
+    total={1}
+  />
+</div>
+`;
+
+exports[`components/admin_console/data_retention_settings/channel_list should match snapshot with paging 1`] = `
+<div
+  className="PolicyChannelsList"
+>
+  <DataGrid
+    className="customTable"
+    columns={
+      Array [
+        Object {
+          "field": "name",
+          "fixed": true,
+          "name": <FormattedMessage
+            defaultMessage="Name"
+            id="admin.channel_settings.channel_list.nameHeader"
+          />,
+        },
+        Object {
+          "field": "team",
+          "fixed": true,
+          "name": <FormattedMessage
+            defaultMessage="Team"
+            id="admin.channel_settings.channel_list.teamHeader"
+          />,
+        },
+        Object {
+          "field": "remove",
+          "fixed": true,
+          "name": "",
+          "textAlign": "right",
+        },
+      ]
+    }
+    endCount={10}
+    filterProps={
+      Object {
+        "keys": Array [
+          "teams",
+          "channels",
+        ],
+        "onFilter": [Function],
+        "options": Object {
+          "channels": Object {
+            "keys": Array [
+              "public",
+              "private",
+              "deleted",
+            ],
+            "name": "Channels",
+            "values": Object {
+              "deleted": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Archived"
+                  id="admin.channel_list.archived"
+                />,
+                "value": false,
+              },
+              "private": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Private"
+                  id="admin.channel_list.private"
+                />,
+                "value": false,
+              },
+              "public": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Public"
+                  id="admin.channel_list.public"
+                />,
+                "value": false,
+              },
+            },
+          },
+          "teams": Object {
+            "keys": Array [
+              "team_ids",
+            ],
+            "name": "Teams",
+            "type": Object {
+              "$$typeof": Symbol(react.memo),
+              "WrappedComponent": [Function],
+              "compare": null,
+              "displayName": "Connect(TeamFilterDropdown)",
+              "type": [Function],
+            },
+            "values": Object {
+              "team_ids": Object {
+                "name": <FormattedMessage
+                  defaultMessage="Teams"
+                  id="admin.team_settings.title"
+                />,
+                "value": Array [],
+              },
+            },
+          },
+        },
+      }
+    }
+    loading={false}
+    nextPage={[Function]}
+    onSearch={[Function]}
+    page={0}
+    previousPage={[Function]}
+    rows={
+      Array [
+        Object {
+          "cells": Object {
+            "id": "id0",
+            "name": <div
+              className="ChannelList__nameColumn"
+            >
+              <GlobeIcon
+                className="channel-icon"
+              />
+              <div
+                className="ChannelList__nameText"
+              >
+                <b
+                  data-testid="team-display-name"
+                >
+                  DN0
+                </b>
+              </div>
+            </div>,
+            "remove": <a
+              className="group-actions TeamList_editText"
+              data-testid="DN0edit"
+              onClick={[Function]}
+            >
+              <FormattedMessage
+                defaultMessage="Remove"
+                id="admin.data_retention.custom_policy.teams.remove"
+              />
+            </a>,
+            "team": "teamDisplayName",
+          },
+        },
+        Object {
+          "cells": Object {
+            "id": "id1",
+            "name": <div
+              className="ChannelList__nameColumn"
+            >
+              <GlobeIcon
+                className="channel-icon"
+              />
+              <div
+                className="ChannelList__nameText"
+              >
+                <b
+                  data-testid="team-display-name"
+                >
+                  DN1
+                </b>
+              </div>
+            </div>,
+            "remove": <a
+              className="group-actions TeamList_editText"
+              data-testid="DN1edit"
+              onClick={[Function]}
+            >
+              <FormattedMessage
+                defaultMessage="Remove"
+                id="admin.data_retention.custom_policy.teams.remove"
+              />
+            </a>,
+            "team": "teamDisplayName",
+          },
+        },
+        Object {
+          "cells": Object {
+            "id": "id2",
+            "name": <div
+              className="ChannelList__nameColumn"
+            >
+              <GlobeIcon
+                className="channel-icon"
+              />
+              <div
+                className="ChannelList__nameText"
+              >
+                <b
+                  data-testid="team-display-name"
+                >
+                  DN2
+                </b>
+              </div>
+            </div>,
+            "remove": <a
+              className="group-actions TeamList_editText"
+              data-testid="DN2edit"
+              onClick={[Function]}
+            >
+              <FormattedMessage
+                defaultMessage="Remove"
+                id="admin.data_retention.custom_policy.teams.remove"
+              />
+            </a>,
+            "team": "teamDisplayName",
+          },
+        },
+        Object {
+          "cells": Object {
+            "id": "id3",
+            "name": <div
+              className="ChannelList__nameColumn"
+            >
+              <GlobeIcon
+                className="channel-icon"
+              />
+              <div
+                className="ChannelList__nameText"
+              >
+                <b
+                  data-testid="team-display-name"
+                >
+                  DN3
+                </b>
+              </div>
+            </div>,
+            "remove": <a
+              className="group-actions TeamList_editText"
+              data-testid="DN3edit"
+              onClick={[Function]}
+            >
+              <FormattedMessage
+                defaultMessage="Remove"
+                id="admin.data_retention.custom_policy.teams.remove"
+              />
+            </a>,
+            "team": "teamDisplayName",
+          },
+        },
+        Object {
+          "cells": Object {
+            "id": "id4",
+            "name": <div
+              className="ChannelList__nameColumn"
+            >
+              <GlobeIcon
+                className="channel-icon"
+              />
+              <div
+                className="ChannelList__nameText"
+              >
+                <b
+                  data-testid="team-display-name"
+                >
+                  DN4
+                </b>
+              </div>
+            </div>,
+            "remove": <a
+              className="group-actions TeamList_editText"
+              data-testid="DN4edit"
+              onClick={[Function]}
+            >
+              <FormattedMessage
+                defaultMessage="Remove"
+                id="admin.data_retention.custom_policy.teams.remove"
+              />
+            </a>,
+            "team": "teamDisplayName",
+          },
+        },
+        Object {
+          "cells": Object {
+            "id": "id5",
+            "name": <div
+              className="ChannelList__nameColumn"
+            >
+              <GlobeIcon
+                className="channel-icon"
+              />
+              <div
+                className="ChannelList__nameText"
+              >
+                <b
+                  data-testid="team-display-name"
+                >
+                  DN5
+                </b>
+              </div>
+            </div>,
+            "remove": <a
+              className="group-actions TeamList_editText"
+              data-testid="DN5edit"
+              onClick={[Function]}
+            >
+              <FormattedMessage
+                defaultMessage="Remove"
+                id="admin.data_retention.custom_policy.teams.remove"
+              />
+            </a>,
+            "team": "teamDisplayName",
+          },
+        },
+        Object {
+          "cells": Object {
+            "id": "id6",
+            "name": <div
+              className="ChannelList__nameColumn"
+            >
+              <GlobeIcon
+                className="channel-icon"
+              />
+              <div
+                className="ChannelList__nameText"
+              >
+                <b
+                  data-testid="team-display-name"
+                >
+                  DN6
+                </b>
+              </div>
+            </div>,
+            "remove": <a
+              className="group-actions TeamList_editText"
+              data-testid="DN6edit"
+              onClick={[Function]}
+            >
+              <FormattedMessage
+                defaultMessage="Remove"
+                id="admin.data_retention.custom_policy.teams.remove"
+              />
+            </a>,
+            "team": "teamDisplayName",
+          },
+        },
+        Object {
+          "cells": Object {
+            "id": "id7",
+            "name": <div
+              className="ChannelList__nameColumn"
+            >
+              <GlobeIcon
+                className="channel-icon"
+              />
+              <div
+                className="ChannelList__nameText"
+              >
+                <b
+                  data-testid="team-display-name"
+                >
+                  DN7
+                </b>
+              </div>
+            </div>,
+            "remove": <a
+              className="group-actions TeamList_editText"
+              data-testid="DN7edit"
+              onClick={[Function]}
+            >
+              <FormattedMessage
+                defaultMessage="Remove"
+                id="admin.data_retention.custom_policy.teams.remove"
+              />
+            </a>,
+            "team": "teamDisplayName",
+          },
+        },
+        Object {
+          "cells": Object {
+            "id": "id8",
+            "name": <div
+              className="ChannelList__nameColumn"
+            >
+              <GlobeIcon
+                className="channel-icon"
+              />
+              <div
+                className="ChannelList__nameText"
+              >
+                <b
+                  data-testid="team-display-name"
+                >
+                  DN8
+                </b>
+              </div>
+            </div>,
+            "remove": <a
+              className="group-actions TeamList_editText"
+              data-testid="DN8edit"
+              onClick={[Function]}
+            >
+              <FormattedMessage
+                defaultMessage="Remove"
+                id="admin.data_retention.custom_policy.teams.remove"
+              />
+            </a>,
+            "team": "teamDisplayName",
+          },
+        },
+        Object {
+          "cells": Object {
+            "id": "id9",
+            "name": <div
+              className="ChannelList__nameColumn"
+            >
+              <GlobeIcon
+                className="channel-icon"
+              />
+              <div
+                className="ChannelList__nameText"
+              >
+                <b
+                  data-testid="team-display-name"
+                >
+                  DN9
+                </b>
+              </div>
+            </div>,
+            "remove": <a
+              className="group-actions TeamList_editText"
+              data-testid="DN9edit"
+              onClick={[Function]}
+            >
+              <FormattedMessage
+                defaultMessage="Remove"
+                id="admin.data_retention.custom_policy.teams.remove"
+              />
+            </a>,
+            "team": "teamDisplayName",
+          },
+        },
+      ]
+    }
+    searchPlaceholder=""
+    startCount={1}
+    term=""
+    total={30}
+  />
+</div>
+`;

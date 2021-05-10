@@ -8,7 +8,7 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @file_and_attachments
+// Group: @files_and_attachments
 
 import * as MESSAGES from '../../fixtures/messages';
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -50,7 +50,7 @@ describe('Upload Files', () => {
         // # Post an image in center channel
         cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(filename);
         cy.get('.post-image').should('be.visible');
-        cy.postMessage('{enter}');
+        cy.get('#post_textbox').should('be.visible').clear().type('{enter}');
 
         // # Click reply arrow to open the reply thread in RHS
         cy.clickPostCommentIcon();
@@ -198,7 +198,7 @@ describe('Upload Files', () => {
         // # Post an image in center channel
         cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile(filename);
         cy.get('.post-image').should('be.visible');
-        cy.postMessage('{enter}');
+        cy.get('#post_textbox').should('be.visible').clear().type('{enter}');
 
         // # Login as otherUser
         cy.apiLogin(otherUser);
@@ -281,7 +281,7 @@ describe('Upload Files', () => {
         });
 
         // # Now post with the message attachment
-        cy.postMessage('{enter}');
+        cy.get('#post_textbox').should('be.visible').clear().type('{enter}');
 
         // # Get the post id of the last message
         cy.getLastPostId().then((lastPostId) => {
@@ -324,7 +324,7 @@ describe('Upload Files', () => {
         });
 
         // # Post message
-        cy.postMessage('');
+        cy.postMessage('hello');
 
         cy.getLastPost().within(() => {
             // * Click to open preview

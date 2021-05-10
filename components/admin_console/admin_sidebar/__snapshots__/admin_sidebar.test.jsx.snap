@@ -131,6 +131,104 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
           className="nav nav-pills nav-stacked"
         >
           <AdminSidebarCategory
+            definitionKey="user_management"
+            icon="fa-users"
+            key="user_management"
+            parentLink="/admin_console"
+            sectionClass=""
+            title={
+              <FormattedMessage
+                defaultMessage="User Management"
+                id="admin.sidebar.userManagement"
+              />
+            }
+          >
+            <AdminSidebarSection
+              definitionKey="user_management.groups_feature_discovery"
+              key="user_management.groups_feature_discovery"
+              name="user_management/groups"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="Groups"
+                  id="admin.sidebar.groups"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="user_management.channels_feature_discovery"
+              key="user_management.channels_feature_discovery"
+              name="user_management/channels"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="Channels"
+                  id="admin.sidebar.channels"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="user_management.permissions_feature_discovery"
+              key="user_management.permissions_feature_discovery"
+              name="user_management/permissions/"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="Permissions"
+                  id="admin.sidebar.permissions"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="user_management.system_roles_feature_discovery"
+              key="user_management.system_roles_feature_discovery"
+              name="user_management/system_roles"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="System Roles (Beta)"
+                  id="admin.sidebar.systemRoles"
+                />
+              }
+            />
+          </AdminSidebarCategory>
+          <AdminSidebarCategory
+            definitionKey="site"
+            icon="fa-cogs"
+            key="site"
+            parentLink="/admin_console"
+            sectionClass=""
+            title={
+              <FormattedMessage
+                defaultMessage="Site Configuration"
+                id="admin.sidebar.site"
+              />
+            }
+          >
+            <AdminSidebarSection
+              definitionKey="site.announcement_banner_feature_discovery"
+              key="site.announcement_banner_feature_discovery"
+              name="site_config/announcement_banner"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="Announcement Banner"
+                  id="admin.sidebar.announcement"
+                />
+              }
+            />
+          </AdminSidebarCategory>
+          <AdminSidebarCategory
             definitionKey="authentication"
             icon="fa-shield"
             key="authentication"
@@ -171,6 +269,34 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
                 />
               }
             />
+            <AdminSidebarSection
+              definitionKey="authentication.openid_feature_discovery"
+              key="authentication.openid_feature_discovery"
+              name="authentication/openid"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="OpenID Connect"
+                  id="admin.sidebar.openid"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="authentication.guest_access_feature_discovery"
+              key="authentication.guest_access_feature_discovery"
+              name="authentication/guest_access"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="Guest Access (Beta)"
+                  id="admin.sidebar.guest_access"
+                />
+              }
+            />
           </AdminSidebarCategory>
           <AdminSidebarCategory
             definitionKey="plugins"
@@ -205,6 +331,62 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               parentLink=""
               subsection={false}
               title="Autolink"
+            />
+          </AdminSidebarCategory>
+          <AdminSidebarCategory
+            definitionKey="compliance"
+            icon="fa-list"
+            key="compliance"
+            parentLink="/admin_console"
+            sectionClass=""
+            title={
+              <FormattedMessage
+                defaultMessage="Compliance"
+                id="admin.sidebar.compliance"
+              />
+            }
+          >
+            <AdminSidebarSection
+              definitionKey="compliance.data_retention_feature_discovery"
+              key="compliance.data_retention_feature_discovery"
+              name="compliance/data_retention"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="Data Retention Policy"
+                  id="admin.sidebar.dataRetentionPolicy"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="compliance.compliance_export_feature_discovery"
+              key="compliance.compliance_export_feature_discovery"
+              name="compliance/export"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="Compliance Export (Beta)"
+                  id="admin.sidebar.complianceExport"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="compliance.custom_terms_of_service_feature_discovery"
+              key="compliance.custom_terms_of_service_feature_discovery"
+              name="compliance/custom_terms_of_service"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="Custom Terms of Service (Beta)"
+                  id="admin.sidebar.customTermsOfService"
+                />
+              }
             />
           </AdminSidebarCategory>
         </ul>
@@ -1957,14 +2139,14 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
             <AdminSidebarSection
               definitionKey="compliance.data_retention"
               key="compliance.data_retention"
-              name="compliance/data_retention"
+              name="compliance/data_retention_settings"
               parentLink=""
               subsection={false}
               tag=""
               title={
                 <FormattedMessage
-                  defaultMessage="Data Retention Policy"
-                  id="admin.sidebar.dataRetentionPolicy"
+                  defaultMessage="Data Retention Policies"
+                  id="admin.sidebar.dataRetentionSettingsPolicies"
                 />
               }
             />
@@ -2126,6 +2308,62 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
           className="nav nav-pills nav-stacked"
         >
           <AdminSidebarCategory
+            definitionKey="user_management"
+            icon="fa-users"
+            key="user_management"
+            parentLink="/admin_console"
+            sectionClass=""
+            title={
+              <FormattedMessage
+                defaultMessage="User Management"
+                id="admin.sidebar.userManagement"
+              />
+            }
+          >
+            <AdminSidebarSection
+              definitionKey="user_management.groups_feature_discovery"
+              key="user_management.groups_feature_discovery"
+              name="user_management/groups"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="Groups"
+                  id="admin.sidebar.groups"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="user_management.channels_feature_discovery"
+              key="user_management.channels_feature_discovery"
+              name="user_management/channels"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="Channels"
+                  id="admin.sidebar.channels"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="user_management.system_roles_feature_discovery"
+              key="user_management.system_roles_feature_discovery"
+              name="user_management/system_roles"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="System Roles (Beta)"
+                  id="admin.sidebar.systemRoles"
+                />
+              }
+            />
+          </AdminSidebarCategory>
+          <AdminSidebarCategory
             definitionKey="authentication"
             icon="fa-shield"
             key="authentication"
@@ -2163,6 +2401,76 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
                 <FormattedMessage
                   defaultMessage="SAML 2.0"
                   id="admin.sidebar.saml"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="authentication.openid_feature_discovery"
+              key="authentication.openid_feature_discovery"
+              name="authentication/openid"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="OpenID Connect"
+                  id="admin.sidebar.openid"
+                />
+              }
+            />
+          </AdminSidebarCategory>
+          <AdminSidebarCategory
+            definitionKey="compliance"
+            icon="fa-list"
+            key="compliance"
+            parentLink="/admin_console"
+            sectionClass=""
+            title={
+              <FormattedMessage
+                defaultMessage="Compliance"
+                id="admin.sidebar.compliance"
+              />
+            }
+          >
+            <AdminSidebarSection
+              definitionKey="compliance.data_retention_feature_discovery"
+              key="compliance.data_retention_feature_discovery"
+              name="compliance/data_retention"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="Data Retention Policy"
+                  id="admin.sidebar.dataRetentionPolicy"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="compliance.compliance_export_feature_discovery"
+              key="compliance.compliance_export_feature_discovery"
+              name="compliance/export"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="Compliance Export (Beta)"
+                  id="admin.sidebar.complianceExport"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="compliance.custom_terms_of_service_feature_discovery"
+              key="compliance.custom_terms_of_service_feature_discovery"
+              name="compliance/custom_terms_of_service"
+              parentLink=""
+              subsection={false}
+              tag=""
+              title={
+                <FormattedMessage
+                  defaultMessage="Custom Terms of Service (Beta)"
+                  id="admin.sidebar.customTermsOfService"
                 />
               }
             />
