@@ -2,12 +2,15 @@
 // See LICENSE.txt for license information.
 
 import * as EmojiActions from 'mattermost-redux/actions/emojis';
+import {getCustomEmojisByName} from 'mattermost-redux/selectors/entities/emojis';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {setRecentEmojis} from 'actions/local_storage';
-import {getEmojiMap, getRecentEmojis} from 'selectors/emojis';
+import {getEmojiMap, getRecentEmojis, isCustomEmojiEnabled} from 'selectors/emojis';
+import {isCustomStatusEnabled, makeGetCustomStatus} from 'selectors/views/custom_status';
 
 import {ActionTypes} from 'utils/constants';
+import {EmojiIndicesByAlias} from 'utils/emoji';
 
 export function loadRecentlyUsedCustomEmojis() {
     return async (dispatch, getState) => {
@@ -72,3 +75,93 @@ export function addRecentEmoji(alias) {
         dispatch(setRecentEmojis(recentEmojis));
     };
 }
+
+export function loadCustomEmojisForCustomStatusesByUserIds(userIds) {
+    return (dispatch, getState) => {
+        const state = getState();
+        const customEmojiEnabled = isCustomEmojiEnabled(state);
+        const customStatusEnabled = isCustomStatusEnabled(state);
+        if (!customEmojiEnabled || !customStatusEnabled) {
+            return {data: false};
+        }
+
+        const getCustomStatus = makeGetCustomStatus();
+        const emojisToLoad = new Set();
+
+        userIds.forEach((userId) => {
+            const customStatus = getCustomStatus(state, userId);
+            if (!customStatus || !customStatus.emoji) {
+                return;
+            }
+
+            emojisToLoad.add(customStatus.emoji);
+        });
+
+        dispatch(loadCustomEmojisIfNeeded(Array.from(emojisToLoad)));
+        return {data: true};
+    };
+}
+
+export function loadCustomEmojisIfNeeded(emojis) {
+    return (dispatch, getState) => {
+        if (!emojis || emojis.length === 0) {
+            return {data: false};
+        }
+
+        const state = getState();
+        const customEmojiEnabled = isCustomEmojiEnabled(state);
+        if (!customEmojiEnabled) {
+            return {data: false};
+        }
+
+        const systemEmojis = EmojiIndicesByAlias;
+        const customEmojisByName = getCustomEmojisByName(state);
+        const nonExistentCustomEmoji = state.entities.emojis.nonExistentEmoji;
+        const emojisToLoad = [];
+
+        emojis.forEach((emoji) => {
+            if (!emoji) {
+                return;
+            }
+
+            if (systemEmojis.has(emoji)) {
+                // It's a system emoji, no need to fetch
+                return;
+            }
+
+            if (nonExistentCustomEmoji.has(emoji)) {
+                // We've previously confirmed this is not a custom emoji
+                return;
+            }
+
+            if (customEmojisByName.has(emoji)) {
+                // We have the emoji, no need to fetch
+                return;
+            }
+
+            emojisToLoad.push(emoji);
+        });
+
+        dispatch(EmojiActions.getCustomEmojisByName(emojisToLoad));
+        return {data: true};
+    };
+}
+
+export function loadCustomStatusEmojisForPostList(posts) {
+    return (dispatch) => {
+        if (!posts || posts.length === 0) {
+            return {data: false};
+        }
+
+        const userIds = new Set();
+        Object.keys(posts).forEach((postId) => {
+            const post = posts[postId];
+            if (post.user_id) {
+                userIds.add(post.user_id);
+            }
+        });
+        dispatch(loadCustomEmojisForCustomStatusesByUserIds(userIds));
+        return {data: true};
+    };
+}
+

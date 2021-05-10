@@ -10,7 +10,6 @@ import {intersectionBy} from 'lodash';
 import {
     getProfiles,
     getProfilesInTeam,
-    getStatusesByIds,
     getTotalUsersStats,
     searchProfiles,
 } from 'mattermost-redux/actions/users';
@@ -38,7 +37,7 @@ import {memoizeResult} from 'mattermost-redux/utils/helpers';
 
 import {Constants} from 'utils/constants';
 import {openDirectChannelToUserId, openGroupChannelToUserIds} from 'actions/channel_actions';
-import {loadStatusesForProfilesList} from 'actions/status_actions.jsx';
+import {loadStatusesForProfilesList, loadStatusesByIds} from 'actions/status_actions.jsx';
 import {loadProfilesForGroupChannels} from 'actions/user_actions.jsx';
 import {setModalSearchTerm} from 'actions/views/search';
 
@@ -137,7 +136,7 @@ const filterDirectChannels = memoizeResult((channels: Record<string, Channel>, u
 type Actions = {
     getProfiles: (page?: number | undefined, perPage?: number | undefined, options?: any) => Promise<any>;
     getProfilesInTeam: (teamId: string, page: number, perPage?: number | undefined, sort?: string | undefined, options?: any) => Promise<any>;
-    getStatusesByIds: (userIds: string[]) => ActionFunc;
+    loadStatusesByIds: (userIds: string[]) => ActionFunc;
     getTotalUsersStats: () => ActionFunc;
     loadStatusesForProfilesList: (users: any) => {
         data: boolean;
@@ -155,7 +154,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc | GenericAction>, Actions>({
             getProfiles,
             getProfilesInTeam,
-            getStatusesByIds,
+            loadStatusesByIds,
             getTotalUsersStats,
             loadStatusesForProfilesList,
             loadProfilesForGroupChannels,
