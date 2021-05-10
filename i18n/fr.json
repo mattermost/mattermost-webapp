@@ -2538,7 +2538,6 @@
   "edit_channel_private_purpose_modal.body": "Ce texte apparaît dans la vue « Informations » des canaux privés.",
   "edit_channel_purpose_modal.body": "Décrit de quelle manière ce canal devrait être utilisé. Ce texte apparaît dans la liste des canaux dans le menu « Plus... » et donne une indication aux utilisateurs pour savoir s'ils doivent rejoindre le canal ou non.",
   "edit_channel_purpose_modal.cancel": "Annuler",
-  "edit_channel_purpose_modal.error": "La description de ce canal est trop longue, veuillez en indiquer une plus courte.",
   "edit_channel_purpose_modal.save": "Enregistrer",
   "edit_channel_purpose_modal.title1": "Modifier la description",
   "edit_channel_purpose_modal.title2": "Modifier la description de ",
