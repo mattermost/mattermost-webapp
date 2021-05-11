@@ -110,8 +110,13 @@ describe('SignIn Authentication', () => {
             // * Check that it logout successfully and it redirects into the login page
             cy.url().should('include', '/login');
 
+<<<<<<< HEAD
             // # Enter actual users username in the email field
             cy.findByPlaceholderText('Email or Username').clear().type(testUser.username);
+=======
+        // # Enter actual users username in the email field
+        cy.findByPlaceholderText(loginPlaceholder).clear().type(testUser.username);
+>>>>>>> Update e2e/cypress/integration/signin_authentication/login_logout_smoke_spec.js
 
             // # Enter any password in the password field
             cy.findByPlaceholderText('Password').clear().type(testUser.password);
