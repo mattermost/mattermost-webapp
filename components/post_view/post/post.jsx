@@ -190,7 +190,7 @@ class Post extends React.PureComponent {
         }
 
         if (e.altKey) {
-            this.props.actions.markPostAsUnread(post);
+            this.props.actions.markPostAsUnread(post, 'CENTER');
         }
     }
 

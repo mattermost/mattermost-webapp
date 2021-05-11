@@ -9,6 +9,8 @@ import {FormattedMessage, injectIntl} from 'react-intl';
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
+const purposeMaxLength = 250;
+
 class EditChannelPurposeModal extends React.PureComponent {
     static propTypes = {
 
@@ -46,28 +48,11 @@ class EditChannelPurposeModal extends React.PureComponent {
 
         this.state = {
             purpose: props.channel.purpose || '',
-            serverError: '',
+            serverError: null,
             show: true,
             submitted: false,
             requestStarted: false,
         };
-    }
-
-    setError = (err) => {
-        if (err.id === 'api.context.invalid_param.app_error') {
-            this.setState({
-                serverError: Utils.localizeMessage(
-                    'edit_channel_purpose_modal.error',
-                    'This channel purpose is too long, please enter a shorter one',
-                ),
-            });
-        } else {
-            this.setState({serverError: err.message});
-        }
-    }
-
-    unsetError = () => {
-        this.setState({serverError: ''});
     }
 
     handleEntering = () => {
@@ -102,14 +87,16 @@ class EditChannelPurposeModal extends React.PureComponent {
         }
 
         this.setState({requestStarted: true});
+
         const {data, error} = await patchChannel(channel.id, {purpose});
-        this.setState({requestStarted: false});
+
+        this.setState({
+            serverError: error,
+            requestStarted: false,
+        });
 
         if (data) {
-            this.unsetError();
             this.onHide();
-        } else if (error) {
-            this.setError(error);
         }
     }
 
@@ -130,7 +117,7 @@ class EditChannelPurposeModal extends React.PureComponent {
             serverError = (
                 <div className='form-group has-error'>
                     <br/>
-                    <label className='control-label'>{this.state.serverError}</label>
+                    <label className='control-label'>{this.state.serverError.message}</label>
                 </div>
             );
         }
@@ -197,7 +184,7 @@ class EditChannelPurposeModal extends React.PureComponent {
                         ref={this.getPurpose}
                         className='form-control no-resize'
                         rows='6'
-                        maxLength='250'
+                        maxLength={purposeMaxLength}
                         value={this.state.purpose}
                         onKeyDown={this.handleKeyDown}
                         onChange={this.handleChange}
