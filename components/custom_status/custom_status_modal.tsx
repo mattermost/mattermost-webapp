@@ -163,13 +163,12 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
         setExpiry(expiryValue);
     };
 
-    const customStatusEmoji = emoji || text ?
-        (
-            <RenderEmoji
-                emojiName={emoji || 'speech_balloon'}
-                size={20}
-            />
-        ) : <EmojiIcon className={'icon icon--emoji'}/>;
+    const customStatusEmoji = emoji || text ? (
+        <RenderEmoji
+            emojiName={emoji || 'speech_balloon'}
+            size={20}
+        />
+    ) : <EmojiIcon className={'icon icon--emoji'}/>;
 
     const clearHandle = () => {
         setEmoji('');
@@ -180,7 +179,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
     const handleSuggestionClick = (status: UserCustomStatus) => {
         setEmoji(status.emoji);
         setText(status.text);
-        setExpiry(status.duration);
+        setExpiry(status.duration || CustomStatusDuration.DONT_CLEAR);
     };
 
     const calculateRightOffSet = () => {
