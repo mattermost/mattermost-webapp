@@ -17,15 +17,22 @@ module Mattermost
 
     def png(emoji)
       emoji_has_skintone = emoji.split('').map(&:strip).select do |char|
-        SKIN_TONE_MAP.values.include?(char)
+        # print "checking for #{char}? #{SKIN_TONE_MAP.keys.include?(char)} - "
+        SKIN_TONE_MAP.keys.include?(char)
       end.any?
 
       each do |glyph_name, _, binread|
         if emoji_has_skintone
+          # print "emoji has skintone #{emoji_has_skintone} - glyph has skintone #{glyph_name =~ /\.[1-5]($|\.)/} : #{glyph_name}\n"
           next unless glyph_name =~ /\.[1-5]($|\.)/
         end
-        matches = glyph_name_to_emoji(glyph_name)
-        next unless matches && (matches.name.include?(emoji) || matches.name.include?(emoji + "\u{fe0f 200d 2640}"))
+        matches = glyph_name_to_emoji(glyph_name, false)
+        if matches && matches.include?(emoji + "\u{fe0f 200d 2640}")
+           print "skin? #{matches.include?(emoji)} - women? true"
+        # else
+        #   print "no matches for #{glyph_name}\n"
+        end
+        next unless matches && (matches.include?(emoji) || matches.include?(emoji + "\u{fe0f 200d 2640}"))
         return binread.call
       end
       nil
@@ -33,7 +40,7 @@ module Mattermost
 
     def extract!
       each do |glyph_name, type, binread|
-        if emoji = glyph_name_to_emoji(glyph_name)
+        if emoji = glyph_name_to_emoji(glyph_name, true)
           print "#{glyph_name}, "
           image_filename = "#{emoji_path}/#{emoji.image_filename}"
           FileUtils.mkdir_p(File.dirname(image_filename))
@@ -58,7 +65,7 @@ module Mattermost
       end
     end
 
-    def glyph_name_to_emoji(glyph_name)
+    def glyph_name_to_emoji(glyph_name, compact)
 
       if glyph_name =~ /^u(#{FAMILY}|#{COUPLE}|#{KISS})\.([#{FAMILY_MAP.keys.join('')}]+)$/
         if $1 == FAMILY ? $2 == "MWB" : $2 == "WM"
@@ -84,8 +91,11 @@ module Mattermost
         candidates << raw.gsub(ZWJ, '') if raw.include?(ZWJ)
         candidates.dup.each { |c| candidates << (c + VS16) }
       end
-
-      candidates.map { |c| Emoji.find_by_unicode(c) }.compact.first
+      if compact
+        candidates.map { |c| Emoji.find_by_unicode(c) }.compact.first
+      else
+        candidates
+      end
     end
 
     # https://www.microsoft.com/typography/otspec/otff.htm

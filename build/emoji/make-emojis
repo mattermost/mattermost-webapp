@@ -42,9 +42,10 @@ Emoji.all.clone.each do |emoji|
 
   sequences = unicode_emoji_helper.emoji_modifier_sequences(emoji.raw.split(''))
   next unless sequences
+
   sequences.each do |sequence|
     pngbytes = emoji_extractor.png(sequence)
-    print 'x' if pngbytes.nil?
+    print "\nmissing sequence #{sequence}" if pngbytes.nil?
     next unless pngbytes
 
     modifier = sequence.split('')[1]
