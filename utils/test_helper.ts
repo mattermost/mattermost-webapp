@@ -109,7 +109,7 @@ export class TestHelper {
         return Object.assign({}, defaultChannel, override);
     }
 
-    public static getChannelWithTeamDataMock(override?: Partial<ChannelWithTeamData>): Channel {
+    public static getChannelWithTeamDataMock(override?: Partial<ChannelWithTeamData>): ChannelWithTeamData {
         const defaultChannel: ChannelWithTeamData = {
             id: 'channel_id',
             create_at: 0,
