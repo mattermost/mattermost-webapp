@@ -23,7 +23,7 @@ describe('SignIn Authentication', () => {
 >>>>>>> Update e2e/cypress/integration/signin_authentication/login_logout_smoke_spec.js
 // Group: @signin_authentication
 
-describe('SignIn Authentification', () => {
+describe('SignIn Authentication', () => {
     let testUser;
 
     before(() => {
