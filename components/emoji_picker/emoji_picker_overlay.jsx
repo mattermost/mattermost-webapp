@@ -45,11 +45,7 @@ export default class EmojiPickerOverlay extends React.PureComponent {
         enableGifPicker: false,
     };
 
-    emojiPickerPosition = memoize((emojiTrigger, rightOffset) => {
-        if (typeof rightOffset !== 'undefined') {
-            return rightOffset;
-        }
-
+    emojiPickerPosition = memoize((emojiTrigger) => {
         let calculatedRightOffset = Constants.DEFAULT_EMOJI_PICKER_RIGHT_OFFSET;
         if (emojiTrigger) {
             calculatedRightOffset = window.innerWidth - emojiTrigger.getBoundingClientRect().left - Constants.DEFAULT_EMOJI_PICKER_LEFT_OFFSET;
@@ -74,7 +70,7 @@ export default class EmojiPickerOverlay extends React.PureComponent {
     render() {
         const {target, rightOffset, spaceRequiredAbove, spaceRequiredBelow, defaultHorizontalPosition} = this.props;
 
-        const calculatedRightOffset = typeof rightOffset !== 'undefined' ? rightOffset : emojiPickerPosition(target())
+        const calculatedRightOffset = typeof rightOffset === 'undefined' ? this.emojiPickerPosition(target()) : rightOffset;
         const placement = this.getPlacement(target(), spaceRequiredAbove, spaceRequiredBelow, defaultHorizontalPosition);
 
         return (
