@@ -20,10 +20,11 @@ export interface Props {
 }
 
 const TrialLicenseCard: React.FC<Props> = ({license}: Props) => {
-    const today = moment(Date.now());
-    const endOfLicense = moment(new Date(parseInt(license?.ExpiresAt, 10)));
-    const daysToEndLicense = endOfLicense.diff(today, 'days');
-    const hoursToEndLicense = endOfLicense.diff(today, 'hours');
+    const currentDate = new Date();
+    const endDate = new Date(parseInt(license?.ExpiresAt, 10));
+    const daysToEndLicense = moment(endDate).startOf('day').diff(moment().startOf('day'), 'days');
+    const hoursToEndLicense = Math.abs(currentDate.getTime() - endDate.getTime()) / 1000 / 3600;
+    const endTime = moment(new Date(parseInt(license?.ExpiresAt, 10))).format('h:mm a ');
 
     const handleContactLinkClick = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
@@ -32,13 +33,25 @@ const TrialLicenseCard: React.FC<Props> = ({license}: Props) => {
     };
 
     const message = () => {
-        if (hoursToEndLicense > 24) {
+
+        if (hoursToEndLicense < 24 && currentDate.toDateString() !== endDate.toDateString()) {
             return (
                 <FormattedMarkdownMessage
-                    id='admin.license.trialCard.description'
-                    defaultMessage='Your free trial will expire in **{daysCount} {daysCount, plural, one {day} other {days}}**. Visit our customer portal to purchase a license now to continue using E10 & E20 features after trial ends.'
+                    id='admin.license.trialCard.description.expiringTomorrow'
+                    defaultMessage='Your free trial expires **Tomorrow at {time}**. Visit our customer portal to purchase a license now to continue using E10 & E20 features after trial ends'
                     values={{
-                        daysCount: daysToEndLicense,
+                        time: endTime + moment().tz(getBrowserTimezone()).format('z'),
+                    }}
+                />
+            );
+        }
+        if (currentDate.toDateString() === endDate.toDateString()) {
+            return (
+                <FormattedMarkdownMessage
+                    id='admin.license.trialCard.description.expiringToday'
+                    defaultMessage='Your free trial expires **Today at {time}**. Visit our customer portal to purchase a license now to continue using E10 & E20 features after trial ends'
+                    values={{
+                        time: endTime + moment().tz(getBrowserTimezone()).format('z'),
                     }}
                 />
             );
@@ -46,10 +59,10 @@ const TrialLicenseCard: React.FC<Props> = ({license}: Props) => {
 
         return (
             <FormattedMarkdownMessage
-                id='admin.license.trialCard.description.expiringToday'
-                defaultMessage='Your free trial expires **Today at {time}**. Visit our customer portal to purchase a license now to continue using E10 & E20 features after trial ends'
+                id='admin.license.trialCard.description'
+                defaultMessage='Your free trial will expire in **{daysCount} {daysCount, plural, one {day} other {days}}**. Visit our customer portal to purchase a license now to continue using E10 & E20 features after trial ends.'
                 values={{
-                    time: endOfLicense.format('h:mm a') + moment().tz(getBrowserTimezone()).format('z'),
+                    daysCount: daysToEndLicense,
                 }}
             />
         );
