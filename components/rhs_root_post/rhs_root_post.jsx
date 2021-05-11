@@ -215,7 +215,7 @@ class RhsRootPost extends React.PureComponent {
         }
 
         if (e.altKey) {
-            this.props.actions.markPostAsUnread(this.props.post);
+            this.props.actions.markPostAsUnread(this.props.post, 'RHS_ROOT');
         }
     }
 
