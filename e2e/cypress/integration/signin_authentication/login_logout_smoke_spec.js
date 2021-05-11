@@ -8,6 +8,7 @@
 // ***************************************************************
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 // Stage: @prod
 // Group: @signin_authentication
 
@@ -18,6 +19,8 @@ describe('SignIn Authentication', () => {
         // # Create new user
 =======
 // Stage: @prod @smoke
+=======
+>>>>>>> Update e2e/cypress/integration/signin_authentication/login_logout_smoke_spec.js
 // Group: @signin_authentication
 
 describe('SignIn Authentification', () => {
