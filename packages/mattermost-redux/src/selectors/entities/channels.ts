@@ -272,7 +272,7 @@ export function isCurrentChannelFavorite(state: GlobalState): boolean {
 
 export const isCurrentChannelMuted: (state: GlobalState) => boolean = createSelector(
     getMyCurrentChannelMembership,
-    (membership?: ChannelMembership | null): boolean => {
+    (membership?: ChannelMembership): boolean => {
         if (!membership) {
             return false;
         }
@@ -310,7 +310,7 @@ export function shouldHideDefaultChannel(state: GlobalState, channel: Channel): 
 export const countCurrentChannelUnreadMessages: (state: GlobalState) => number = createSelector(
     getCurrentChannel,
     getMyCurrentChannelMembership,
-    (channel: Channel, membership?: ChannelMembership | null): number => {
+    (channel: Channel, membership?: ChannelMembership): number => {
         if (!membership) {
             return 0;
         }
@@ -607,7 +607,7 @@ export const canManageChannelMembers: (state: GlobalState) => boolean = createSe
         channel: Channel,
         user: UserProfile,
         teamMembership: TeamMembership,
-        channelMembership: ChannelMembership | undefined | null,
+        channelMembership: ChannelMembership | undefined,
         config: Partial<ClientConfig>,
         license: any,
         newPermissions: boolean,
