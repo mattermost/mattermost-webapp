@@ -5,7 +5,7 @@ require 'fileutils'
 require 'json'
 require 'open-uri'
 require 'sprite_factory'
-require_relative './apple_emoji_extractor.rb'
+require_relative './emoji_extractor.rb'
 require_relative './unicode_emoji_helper.rb'
 
 project_root = "#{File.dirname(__FILE__)}/../../"
@@ -34,7 +34,7 @@ end
 
 ### Extract and create all of the emoji skin tones ###
 unicode_emoji_helper = Mattermost::UnicodeEmojiHelper.new
-apple_extractor = Mattermost::AppleEmojiExtractor.new(64, emoji_path)
+emoji_extractor = Mattermost::EmojiExtractor.new(64, emoji_path)
 emoji_added = []
 
 Emoji.all.clone.each do |emoji|
@@ -43,7 +43,7 @@ Emoji.all.clone.each do |emoji|
   sequences = unicode_emoji_helper.emoji_modifier_sequences(emoji.raw.split(''))
   next unless sequences
   sequences.each do |sequence|
-    pngbytes = apple_extractor.png(sequence)
+    pngbytes = emoji_extractor.png(sequence)
     print 'x' if pngbytes.nil?
     next unless pngbytes
 
@@ -171,7 +171,7 @@ if ENV.key?('SERVER_DIR')
   FileUtils.mv(File.join(project_root, 'emoji_data.go'), server_dir)
 end
 
-apple_extractor.extract!
+emoji_extractor.extract!
 
 
 puts "images written to images/emoji"

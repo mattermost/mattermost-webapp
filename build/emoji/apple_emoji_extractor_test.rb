@@ -1,11 +1,11 @@
 require 'minitest/autorun'
-require_relative './apple_emoji_extractor.rb'
+require_relative './emoji_extractor.rb'
 require 'fastimage'
 
 module Mattermost
-  class AppleEmojiExtractorTest < Minitest::Test
+  class EmojiExtractorTest < Minitest::Test
     def setup
-      @extractor = AppleEmojiExtractor.new(64)
+      @extractor = EmojiExtractor.new(64)
       @file_cleanup_paths = []
     end
 

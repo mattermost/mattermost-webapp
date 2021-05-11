@@ -5,7 +5,7 @@ require_relative './constants.rb'
 # Code in this class largely taken from https://github.com/github/gemoji
 module Mattermost
 
-  class AppleEmojiExtractor
+  class EmojiExtractor
     include EmojiConstants
     attr_reader :size
     attr_reader :emoji_path
