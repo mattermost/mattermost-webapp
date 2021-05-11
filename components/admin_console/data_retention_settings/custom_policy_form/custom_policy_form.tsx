@@ -197,9 +197,9 @@ export default class CustomPolicyForm extends React.PureComponent<Props, State> 
         const {teams} = this.props;
         const {newTeams, removedTeams} = this.state;
 
-        let teamsToDisplay = teams?.map(function(team) {
-            return team['id'];
-          });;
+        let teamsToDisplay = teams?.map((team) => {
+            return team.id;
+        });
         const includeTeamsList = Object.keys(newTeams);
 
         // Remove teams to remove and add teams to add

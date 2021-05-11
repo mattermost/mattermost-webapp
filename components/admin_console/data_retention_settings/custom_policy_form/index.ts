@@ -29,8 +29,9 @@ import {GlobalState} from 'types/store';
 
 import {setNavigationBlocked} from 'actions/admin_actions.jsx';
 
-import CustomPolicyForm from './custom_policy_form';
 import {getTeamsInPolicy} from 'mattermost-redux/selectors/entities/teams';
+
+import CustomPolicyForm from './custom_policy_form';
 
 type Actions = {
     fetchPolicy: (id: string) => Promise<{ data: DataRetentionCustomPolicy }>;

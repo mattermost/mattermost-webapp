@@ -5,8 +5,8 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import ChannelSelectorModal from 'components/channel_selector_modal/channel_selector_modal';
-import { ChannelWithTeamData } from 'mattermost-redux/types/channels';
-import { TestHelper } from 'utils/test_helper';
+import {ChannelWithTeamData} from 'mattermost-redux/types/channels';
+import {TestHelper} from 'utils/test_helper';
 
 describe('components/ChannelSelectorModal', () => {
     const channel1: ChannelWithTeamData = Object.assign(TestHelper.getChannelWithTeamDataMock({id: 'channel-1', team_id: 'teamid1'}));
@@ -45,10 +45,10 @@ describe('components/ChannelSelectorModal', () => {
 
     test('exclude already selected', () => {
         const wrapper = shallow(
-            <ChannelSelectorModal 
+            <ChannelSelectorModal
                 {...defaultProps}
                 excludeTeamIds={['teamid2']}
-            />
+            />,
         );
         wrapper.setState({channels: [
             channel1,
