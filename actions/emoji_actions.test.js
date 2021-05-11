@@ -20,7 +20,7 @@ describe('Actions.Emojis', () => {
 
     test('First alias is stored in recent emojis even if second alias used', async () => {
         store.dispatch(Actions.addRecentEmoji('cop'));
-        assert.ok(getRecentEmojis(store.getState()).includes('policeman'));
+        assert.ok(getRecentEmojis(store.getState()).includes('police_officer'));
     });
 
     test('Invalid emoji are not stored in recents', async () => {
