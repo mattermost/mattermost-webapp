@@ -667,7 +667,9 @@ export function handlePostUnreadEvent(msg) {
                 lastViewedAt: msg.data.last_viewed_at,
                 channelId: msg.broadcast.channel_id,
                 msgCount: msg.data.msg_count,
+                msgCountRoot: msg.data.msg_count_root,
                 mentionCount: msg.data.mention_count,
+                mentionCountRoot: msg.data.mention_count_root,
             },
         },
     );
