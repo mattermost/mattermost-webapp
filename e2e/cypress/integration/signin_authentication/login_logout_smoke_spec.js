@@ -45,7 +45,7 @@ describe('SignIn Authentication', () => {
         cy.url().should('include', '/login');
 
         // # Enter actual users username in the email field
-        cy.findByPlaceholderText('Email or Username').clear().type(testUser.username);
+        cy.findByPlaceholderText(loginPlaceholder).clear().type(testUser.username);
 
         // # Enter any password in the password field
         cy.findByPlaceholderText('Password').clear().type(testUser.password);
