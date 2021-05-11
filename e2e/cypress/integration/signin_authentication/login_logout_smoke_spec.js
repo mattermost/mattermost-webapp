@@ -93,11 +93,19 @@ describe('SignIn Authentication', () => {
             // * Check that it login successfully and it redirects into the main channel page
             cy.url().should('include', '/channels/town-square');
 
+<<<<<<< HEAD
             // # Click hamburger main menu button
             cy.findByLabelText('main menu').should('exist').and('be.visible').click();
 
             // # Click on the logout menu
             cy.findByText('Log Out').scrollIntoView().should('exist').and('be.visible').click();
+=======
+        // # Click hamburger main menu button
+        cy.findByLabelText('main menu').should('be.visible').click();
+
+        // # Click on the logout menu
+        cy.findByText('Log Out').scrollIntoView().should('be.visible').click();
+>>>>>>> Update e2e/cypress/integration/signin_authentication/login_logout_smoke_spec.js
 
             // * Check that it logout successfully and it redirects into the login page
             cy.url().should('include', '/login');
