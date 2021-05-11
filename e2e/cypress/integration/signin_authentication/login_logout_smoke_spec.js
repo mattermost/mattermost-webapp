@@ -7,10 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod @smoke
 // Group: @signin_authentication
 
-describe('SignIn Authentification', () => {
+describe('SignIn Authentication', () => {
     let testUser;
 
     before(() => {
@@ -39,16 +38,16 @@ describe('SignIn Authentification', () => {
             cy.url().should('include', '/channels/town-square');
 
             // # Click hamburger main menu button
-            cy.findByLabelText('main menu').should('exist').and('be.visible').click();
+            cy.findByLabelText('main menu').should('be.visible').click();
 
             // # Click on the logout menu
-            cy.findByText('Log Out').scrollIntoView().should('exist').and('be.visible').click();
+            cy.findByText('Log Out').scrollIntoView().should('be.visible').click();
 
             // * Check that it logout successfully and it redirects into the login page
             cy.url().should('include', '/login');
 
             // # Enter actual users username in the email field
-            cy.findByPlaceholderText('Email or Username').clear().type(testUser.username);
+            cy.findByPlaceholderText(loginPlaceholder).clear().type(testUser.username);
 
             // # Enter any password in the password field
             cy.findByPlaceholderText('Password').clear().type(testUser.password);
