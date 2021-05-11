@@ -9,7 +9,7 @@
 
 // Group: @signin_authentication
 
-describe('SignIn Authentification', () => {
+describe('SignIn Authentication', () => {
     let testUser;
 
     before(() => {
