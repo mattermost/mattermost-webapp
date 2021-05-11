@@ -74,7 +74,7 @@ export default class EmojiPickerOverlay extends React.PureComponent {
     render() {
         const {target, rightOffset, spaceRequiredAbove, spaceRequiredBelow, defaultHorizontalPosition} = this.props;
 
-        const calculatedRightOffset = this.emojiPickerPosition(target(), rightOffset);
+        const calculatedRightOffset = typeof rightOffset !== 'undefined' ? rightOffset : emojiPickerPosition(target())
         const placement = this.getPlacement(target(), spaceRequiredAbove, spaceRequiredBelow, defaultHorizontalPosition);
 
         return (
