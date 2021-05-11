@@ -63,18 +63,24 @@ export const contactSalesCard = (
                 </div>
                 <div className='PrivateCloudCard__text-description'>
                     {isFreeTrial && description}
-                    {subscriptionPlan === 'CLOUD_STARTER' && <FormattedMessage
-                        id='admin.billing.subscription.privateCloudCard.cloudStarter.description'
-                        defaultMessage='Optimize your processes with Guest Accounts, Office365 suite integrations, Gitlab SSO and advanced permissions.'
-                    />}
-                    {subscriptionPlan === 'CLOUD_PROFESSIONAL' && <FormattedMessage
-                        id='admin.billing.subscription.privateCloudCard.cloudProfessional.description'
-                        defaultMessage='Optimize your processes with VPC Peering, a dedicated AWS account and premium support.'
-                    />}
-                    {subscriptionPlan === 'CLOUD_ENTERPRISE' && <FormattedMessage
-                        id='admin.billing.subscription.privateCloudCard.cloudEnterprise.description'
-                        defaultMessage='At Mattermost, we work with you and your team to meet your needs throughout the product. If you are looking for an annual discount, please reach out to our sales team.'
-                    />}
+                    {subscriptionPlan === 'CLOUD_STARTER' &&
+                        <FormattedMessage
+                            id='admin.billing.subscription.privateCloudCard.cloudStarter.description'
+                            defaultMessage='Optimize your processes with Guest Accounts, Office365 suite integrations, Gitlab SSO and advanced permissions.'
+                        />
+                    }
+                    {subscriptionPlan === 'CLOUD_PROFESSIONAL' &&
+                        <FormattedMessage
+                            id='admin.billing.subscription.privateCloudCard.cloudProfessional.description'
+                            defaultMessage='Optimize your processes with VPC Peering, a dedicated AWS account and premium support.'
+                        />
+                    }
+                    {subscriptionPlan === 'CLOUD_ENTERPRISE' &&
+                        <FormattedMessage
+                            id='admin.billing.subscription.privateCloudCard.cloudEnterprise.description'
+                            defaultMessage='At Mattermost, we work with you and your team to meet your needs throughout the product. If you are looking for an annual discount, please reach out to our sales team.'
+                        />
+                    }
                 </div>
                 <a
                     href={isFreeTrial ? trialQuestionsLink : contactSalesLink}
@@ -83,14 +89,18 @@ export const contactSalesCard = (
                     className='PrivateCloudCard__contactSales'
                     onClick={() => trackEvent('cloud_admin', 'click_contact_sales')}
                 >
-                    {subscriptionPlan !== 'CLOUD_STARTER' && <FormattedMessage
-                        id='admin.billing.subscription.privateCloudCard.contactSales'
-                        defaultMessage='Contact Sales'
-                    />}
-                    {subscriptionPlan === 'CLOUD_STARTER' && <FormattedMessage
-                        id='admin.billing.subscription.privateCloudCard.upgradeNow'
-                        defaultMessage='Upgrade Now'
-                    />}
+                    {subscriptionPlan !== 'CLOUD_STARTER' &&
+                        <FormattedMessage
+                            id='admin.billing.subscription.privateCloudCard.contactSales'
+                            defaultMessage='Contact Sales'
+                        />
+                    }
+                    {subscriptionPlan === 'CLOUD_STARTER' &&
+                        <FormattedMessage
+                            id='admin.billing.subscription.privateCloudCard.upgradeNow'
+                            defaultMessage='Upgrade Now'
+                        />
+                    }
                 </a>
             </div>
             <div className='PrivateCloudCard__image'>

@@ -116,7 +116,7 @@ export const planDetailsTopElements = (
     isPaidTier: boolean,
     isFreeTrial: boolean,
     userLimit: number,
-    subscriptionPlan: string | null
+    subscriptionPlan: string | null,
 ) => {
     let userCountDisplay = (
         <div className='PlanDetails__userCount'>
@@ -154,41 +154,40 @@ export const planDetailsTopElements = (
         );
     }
 
-
     switch (subscriptionPlan) {
-        case 'CLOUD_PROFESSIONAL':
-        case 'FREE_TRIAL':
-            productName = (
-                <FormattedMessage
-                    id='admin.billing.subscription.planDetails.productName.cloudProfessional'
-                    defaultMessage='Cloud Professional'
-                />
-            );
-            break;
-        case 'CLOUD_ENTERPRISE':
-            productName = (
-                <FormattedMessage
-                    id='admin.billing.subscription.planDetails.productName.cloudEnterprise'
-                    defaultMessage='Cloud Enterprise'
-                />
-            );
-            break;
-        case 'CLOUD_STARTER':
-            productName = (
-                <FormattedMessage
-                    id='admin.billing.subscription.planDetails.productName.cloudStarter'
-                    defaultMessage='Cloud Starter'
-                />
-            );
-            break;
-        default:
-            productName = (
-                <FormattedMessage
-                    id='admin.billing.subscription.planDetails.productName.cloudProfessional'
-                    defaultMessage='Cloud Professional'
-                />
-            );
-            break;
+    case 'CLOUD_PROFESSIONAL':
+    case 'FREE_TRIAL':
+        productName = (
+            <FormattedMessage
+                id='admin.billing.subscription.planDetails.productName.cloudProfessional'
+                defaultMessage='Cloud Professional'
+            />
+        );
+        break;
+    case 'CLOUD_ENTERPRISE':
+        productName = (
+            <FormattedMessage
+                id='admin.billing.subscription.planDetails.productName.cloudEnterprise'
+                defaultMessage='Cloud Enterprise'
+            />
+        );
+        break;
+    case 'CLOUD_STARTER':
+        productName = (
+            <FormattedMessage
+                id='admin.billing.subscription.planDetails.productName.cloudStarter'
+                defaultMessage='Cloud Starter'
+            />
+        );
+        break;
+    default:
+        productName = (
+            <FormattedMessage
+                id='admin.billing.subscription.planDetails.productName.cloudProfessional'
+                defaultMessage='Cloud Professional'
+            />
+        );
+        break;
     }
 
     const trialBadge = (
