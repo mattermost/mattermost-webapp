@@ -70,7 +70,7 @@ const BillingSubscriptions: React.FC<Props> = () => {
         return undefined;
     });
 
-    let subscriptionPlan: string = 'CLOUD_PROFESSIONAL';
+    let subscriptionPlan = 'CLOUD_PROFESSIONAL';
 
     switch (product?.name) {
     case 'Cloud Starter':
