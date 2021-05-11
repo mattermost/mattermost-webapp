@@ -70,7 +70,7 @@ const BillingSubscriptions: React.FC<Props> = () => {
         return undefined;
     });
 
-    let subscriptionPlan: string | null = 'CLOUD_PROFESSIONAL';
+    let subscriptionPlan: string = 'CLOUD_PROFESSIONAL';
 
     switch (product?.name) {
     case 'Cloud Starter':
@@ -92,7 +92,7 @@ const BillingSubscriptions: React.FC<Props> = () => {
     if (subscription?.is_free_trial === 'true') {
         isFreeTrial = true;
         daysLeftOnTrial = getRemainingDaysFromFutureTimestamp(subscription.trial_end_at);
-        subscriptionPlan = null;
+        subscriptionPlan = 'FREE_TRIAL';
     }
 
     useEffect(() => {

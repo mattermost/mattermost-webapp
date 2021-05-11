@@ -39,21 +39,19 @@ export const contactSalesCard = (
         <div className='PrivateCloudCard'>
             <div className='PrivateCloudCard__text'>
                 <div className='PrivateCloudCard__text-title'>
-                    {isFreeTrial && title}
+                    {subscriptionPlan === 'FREE_TRIAL' && title}
                     {subscriptionPlan === 'CLOUD_STARTER' &&
                         <FormattedMessage
                             id='admin.billing.subscription.privateCloudCard.cloudStarter.title'
                             defaultMessage='Upgrade to Cloud Professional'
                         />
                     }
-
                     {subscriptionPlan === 'CLOUD_PROFESSIONAL' &&
                         <FormattedMessage
                             id='admin.billing.subscription.privateCloudCard.cloudProfessional.title'
                             defaultMessage='Upgrade to Cloud Enterprise'
                         />
                     }
-
                     {subscriptionPlan === 'CLOUD_ENTERPRISE' &&
                         <FormattedMessage
                             id='admin.billing.subscription.privateCloudCard.cloudEnterprise.title'
@@ -62,7 +60,7 @@ export const contactSalesCard = (
                     }
                 </div>
                 <div className='PrivateCloudCard__text-description'>
-                    {isFreeTrial && description}
+                    {subscriptionPlan === 'FREE_TRIAL' && description}
                     {subscriptionPlan === 'CLOUD_STARTER' &&
                         <FormattedMessage
                             id='admin.billing.subscription.privateCloudCard.cloudStarter.description'
