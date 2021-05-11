@@ -21,11 +21,9 @@ describe('Data Retention', () => {
     before(() => {
         cy.apiRequireLicenseForFeature('DataRetention');
 
-        // Enable the feature flag for the granular retention policies
-        cy.apiUpdateConfig({
-            FeatureFlags: {
-                CustomDataRetentionEnabled: true,
-            },
+        cy.apiGetConfig().then(({config}) => {
+            // * Assert the feature flag, CustomDataRetentionEnabled, is enabled
+            expect(config.FeatureFlags.CustomDataRetentionEnabled).to.equal(true);
         });
 
         cy.apiInitSetup().then(({team, channel}) => {
