@@ -15,7 +15,7 @@ describe('SignIn Authentification', () => {
 
     before(() => {
         // # Create new team and users
-        cy.apiInitSetup().then(({user}) => {
+        cy.apiInitSetup().then(({ user }) => {
             testUser = user;
 
             cy.apiLogout();
@@ -25,36 +25,39 @@ describe('SignIn Authentification', () => {
 
     it('MM-T3080 Sign in email/pwd account', () => {
         // # Enter actual users email in the email field
-        cy.findByPlaceholderText('Email or Username').clear().type(testUser.email);
+        cy.apiGetClientLicense().then(({ isLicensed }) => {
+            const loginPlaceholder = isLicensed ? 'Email, Username or AD/LDAP Username' : 'Email or Username';
+            cy.findByPlaceholderText(loginPlaceholder).clear().type(testUser.email);
 
-        // # Enter any password in the password field
-        cy.findByPlaceholderText('Password').clear().type(testUser.password);
+            // # Enter any password in the password field
+            cy.findByPlaceholderText('Password').clear().type(testUser.password);
 
-        // # Click Sign In to login
-        cy.findByText('Sign in').click();
+            // # Click Sign In to login
+            cy.findByText('Sign in').click();
 
-        // * Check that it login successfully and it redirects into the main channel page
-        cy.url().should('include', '/channels/town-square');
+            // * Check that it login successfully and it redirects into the main channel page
+            cy.url().should('include', '/channels/town-square');
 
-        // # Click hamburger main menu button
-        cy.findByLabelText('main menu').should('exist').and('be.visible').click();
+            // # Click hamburger main menu button
+            cy.findByLabelText('main menu').should('exist').and('be.visible').click();
 
-        // # Click on the logout menu
-        cy.findByText('Log Out').scrollIntoView().should('exist').and('be.visible').click();
+            // # Click on the logout menu
+            cy.findByText('Log Out').scrollIntoView().should('exist').and('be.visible').click();
 
-        // * Check that it logout successfully and it redirects into the login page
-        cy.url().should('include', '/login');
+            // * Check that it logout successfully and it redirects into the login page
+            cy.url().should('include', '/login');
 
-        // # Enter actual users username in the email field
-        cy.findByPlaceholderText('Email or Username').clear().type(testUser.username);
+            // # Enter actual users username in the email field
+            cy.findByPlaceholderText('Email or Username').clear().type(testUser.username);
 
-        // # Enter any password in the password field
-        cy.findByPlaceholderText('Password').clear().type(testUser.password);
+            // # Enter any password in the password field
+            cy.findByPlaceholderText('Password').clear().type(testUser.password);
 
-        // # Click Sign In to login
-        cy.findByText('Sign in').click();
+            // # Click Sign In to login
+            cy.findByText('Sign in').click();
 
-        // * Check that it login successfully and it redirects into the main channel page
-        cy.url().should('include', '/channels/town-square');
+            // * Check that it login successfully and it redirects into the main channel page
+            cy.url().should('include', '/channels/town-square');
+        });
     });
 });
