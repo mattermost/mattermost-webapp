@@ -29,11 +29,15 @@ describe('SignIn Authentication', () => {
     before(() => {
         // # Create new team and users
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> Add Cypress test for MM-T3080
         cy.apiInitSetup().then(({user}) => {
 =======
         cy.apiInitSetup().then(({ user }) => {
 >>>>>>> Login smoke test codereview fixes
+=======
+        cy.apiInitSetup().then(({user}) => {
+>>>>>>> Remove extra spaces
             testUser = user;
 
             cy.apiLogout();
@@ -80,7 +84,7 @@ describe('SignIn Authentication', () => {
         });
 =======
         // # Enter actual users email in the email field
-        cy.apiGetClientLicense().then(({ isLicensed }) => {
+        cy.apiGetClientLicense().then(({isLicensed}) => {
             const loginPlaceholder = isLicensed ? 'Email, Username or AD/LDAP Username' : 'Email or Username';
             cy.findByPlaceholderText(loginPlaceholder).clear().type(testUser.email);
 
