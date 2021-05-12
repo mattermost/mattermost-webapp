@@ -5,6 +5,18 @@ import React from 'react';
 
 import {mount} from 'enzyme';
 
+jest.mock('mattermost-redux/actions/users', () => {
+    return {
+        ...jest.requireActual('mattermost-redux/actions/users'),
+        getMissingProfilesByIds: jest.fn((ids) => {
+            return {
+                type: 'MOCK_GET_MISSING_PROFILES_BY_IDS',
+                data: ids,
+            };
+        }),
+    };
+});
+
 import {mockStore} from 'tests/test_store';
 
 import SimpleTooltip from 'components/widgets/simple_tooltip';
@@ -28,6 +40,8 @@ describe('components/widgets/users/Avatars', () => {
                         nickname: 'nickname1',
                         first_name: 'First1',
                         last_name: 'Last1',
+                        last_picture_update: '1620680333191',
+
                     },
                     2: {
                         id: '2',
@@ -35,6 +49,7 @@ describe('components/widgets/users/Avatars', () => {
                         nickname: 'nickname2',
                         first_name: 'First2',
                         last_name: 'Last2',
+                        last_picture_update: '1620680333191',
                     },
                     3: {
                         id: '3',
@@ -42,6 +57,7 @@ describe('components/widgets/users/Avatars', () => {
                         nickname: 'nickname3',
                         first_name: 'First3',
                         last_name: 'Last3',
+                        last_picture_update: '1620680333191',
                     },
                     4: {
                         id: '4',
@@ -49,6 +65,7 @@ describe('components/widgets/users/Avatars', () => {
                         nickname: 'nickname4',
                         first_name: 'First4',
                         last_name: 'Last4',
+                        last_picture_update: '1620680333191',
                     },
                     5: {
                         id: '5',
@@ -56,6 +73,7 @@ describe('components/widgets/users/Avatars', () => {
                         nickname: 'nickname5',
                         first_name: 'First5',
                         last_name: 'Last5',
+                        last_picture_update: '1620680333191',
                     },
                 },
             },
@@ -82,9 +100,9 @@ describe('components/widgets/users/Avatars', () => {
             mountOptions,
         );
         expect(wrapper).toMatchSnapshot();
-        expect(wrapper.find(Avatar).find({url: '/api/v4/users/1/image?_=0'}).exists()).toBe(true);
-        expect(wrapper.find(Avatar).find({url: '/api/v4/users/2/image?_=0'}).exists()).toBe(true);
-        expect(wrapper.find(Avatar).find({url: '/api/v4/users/3/image?_=0'}).exists()).toBe(true);
+        expect(wrapper.find(Avatar).find({url: '/api/v4/users/1/image?_=1620680333191'}).exists()).toBe(true);
+        expect(wrapper.find(Avatar).find({url: '/api/v4/users/2/image?_=1620680333191'}).exists()).toBe(true);
+        expect(wrapper.find(Avatar).find({url: '/api/v4/users/3/image?_=1620680333191'}).exists()).toBe(true);
         expect(wrapper.find(Avatar).length).toBe(3);
     });
 
@@ -106,11 +124,11 @@ describe('components/widgets/users/Avatars', () => {
         );
 
         expect(wrapper).toMatchSnapshot();
-        expect(wrapper.find(Avatar).find({url: '/api/v4/users/1/image?_=0'}).exists()).toBe(true);
-        expect(wrapper.find(Avatar).find({url: '/api/v4/users/2/image?_=0'}).exists()).toBe(true);
-        expect(wrapper.find(Avatar).find({url: '/api/v4/users/3/image?_=0'}).exists()).toBe(true);
-        expect(wrapper.find(Avatar).find({url: '/api/v4/users/4/image?_=0'}).exists()).toBe(false);
-        expect(wrapper.find(Avatar).find({url: '/api/v4/users/5/image?_=0'}).exists()).toBe(false);
+        expect(wrapper.find(Avatar).find({url: '/api/v4/users/1/image?_=1620680333191'}).exists()).toBe(true);
+        expect(wrapper.find(Avatar).find({url: '/api/v4/users/2/image?_=1620680333191'}).exists()).toBe(true);
+        expect(wrapper.find(Avatar).find({url: '/api/v4/users/3/image?_=1620680333191'}).exists()).toBe(true);
+        expect(wrapper.find(Avatar).find({url: '/api/v4/users/4/image?_=1620680333191'}).exists()).toBe(false);
+        expect(wrapper.find(Avatar).find({url: '/api/v4/users/5/image?_=1620680333191'}).exists()).toBe(false);
 
         expect(wrapper.find(Avatar).find({text: '+2'}).exists()).toBe(true);
     });
@@ -133,5 +151,34 @@ describe('components/widgets/users/Avatars', () => {
         );
 
         expect(wrapper.find(SimpleTooltip).find({id: 'names-overflow'}).prop('content')).toBe('first.last4, first.last5');
+    });
+
+    test('should fetch missing users', () => {
+        const {store, mountOptions} = mockStore(state);
+
+        const wrapper = mount(
+            <Avatars
+                size='xl'
+                userIds={[
+                    '1',
+                    '6',
+                    '7',
+                    '2',
+                    '8',
+                    '9',
+                ]}
+            />,
+            mountOptions,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+        expect(store.getActions()).toEqual([
+            {type: 'MOCK_GET_MISSING_PROFILES_BY_IDS', data: ['1', '6', '7', '2', '8', '9']},
+        ]);
+
+        expect(wrapper.find(Avatar).find({url: '/api/v4/users/1/image?_=1620680333191'}).exists()).toBe(true);
+        expect(wrapper.find(Avatar).find({url: '/api/v4/users/6/image?_=0'}).exists()).toBe(true);
+        expect(wrapper.find(Avatar).find({url: '/api/v4/users/7/image?_=0'}).exists()).toBe(true);
+        expect(wrapper.find(SimpleTooltip).find({id: 'names-overflow'}).prop('content')).toBe('first.last2, Someone, Someone');
     });
 });

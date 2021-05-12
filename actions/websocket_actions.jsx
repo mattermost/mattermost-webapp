@@ -29,7 +29,15 @@ import {
 } from 'mattermost-redux/actions/channels';
 import {getCloudSubscription, getSubscriptionStats} from 'mattermost-redux/actions/cloud';
 import {loadRolesIfNeeded} from 'mattermost-redux/actions/roles';
-import {handleAllMarkedRead, handleReadChanged, handleFollowChanged, handleThreadArrived} from 'mattermost-redux/actions/threads';
+
+import {getThread} from 'mattermost-redux/selectors/entities/threads';
+import {
+    getThread as fetchThread,
+    handleAllMarkedRead,
+    handleReadChanged,
+    handleFollowChanged,
+    handleThreadArrived,
+} from 'mattermost-redux/actions/threads';
 
 import {setServerVersion} from 'mattermost-redux/actions/general';
 import {
@@ -1435,7 +1443,12 @@ function handleThreadUpdated(msg) {
 }
 
 function handleThreadFollowChanged(msg) {
-    return (doDispatch) => {
+    return async (doDispatch, doGetState) => {
+        const state = doGetState();
+        const thread = getThread(state, msg.data.thread_id);
+        if (!thread && msg.data.state) {
+            await doDispatch(fetchThread(getCurrentUserId(state), getCurrentTeamId(state), msg.data.thread_id, true));
+        }
         handleFollowChanged(doDispatch, msg.data.thread_id, msg.broadcast.team_id, msg.data.state);
     };
 }
