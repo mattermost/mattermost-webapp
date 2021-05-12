@@ -12,7 +12,7 @@ import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
 type Actions = {
-    patchChannel: (channelId: string, patch: Channel) => Promise<ActionResult>;
+    patchChannel: (channelId: string, patch: Partial<Channel>) => Promise<ActionResult>;
 }
 
 type Props = {
@@ -32,8 +32,11 @@ type State = {
 }
 
 export class EditChannelPurposeModal extends React.PureComponent<Props, State> {
+    private purpose: React.RefObject<HTMLTextAreaElement>;
+
     constructor(props: Props) {
         super(props);
+        this.purpose = React.createRef();
 
         this.state = {
             purpose: props.channel?.purpose || '',
@@ -62,7 +65,7 @@ export class EditChannelPurposeModal extends React.PureComponent<Props, State> {
     }
 
     handleEntering = () => {
-        Utils.placeCaretAtEnd(this.state.purpose);
+        Utils.placeCaretAtEnd(this.purpose);
     }
 
     onHide = () => {
@@ -93,7 +96,7 @@ export class EditChannelPurposeModal extends React.PureComponent<Props, State> {
         }
 
         this.setState({requestStarted: true});
-        const result = await patchChannel(channel.id, {...channel, purpose});
+        const result = await patchChannel(channel.id, {purpose});
         this.setState({requestStarted: false});
         if ('error' in result) {
             this.setError(result.error);
@@ -108,9 +111,6 @@ export class EditChannelPurposeModal extends React.PureComponent<Props, State> {
         this.setState({purpose: e.target.value});
     }
 
-    getPurpose = (node: HTMLTextAreaElement) => {
-        this.setState({...this.state, purpose: node.value});
-    };
 
     render() {
         let serverError = null;
@@ -184,7 +184,7 @@ export class EditChannelPurposeModal extends React.PureComponent<Props, State> {
                         {channelPurposeModal}
                     </p>
                     <textarea
-                        ref={this.getPurpose}
+                        ref={this.purpose}
                         className='form-control no-resize'
                         rows={6}
                         maxLength={250}
