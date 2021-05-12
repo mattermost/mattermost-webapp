@@ -49,7 +49,7 @@ describe('SignIn Authentication', () => {
             // # Enter actual user's username in the email field
             cy.findByPlaceholderText(loginPlaceholder).clear().type(testUser.username);
 
-            // # Enter any password in the password field
+            // # Enter user's password in the password field
             cy.findByPlaceholderText('Password').clear().type(testUser.password);
 
             // # Click Sign In to login
