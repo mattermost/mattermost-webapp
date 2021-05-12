@@ -51,6 +51,9 @@ describe('SignIn Authentication', () => {
 
     it('MM-T3080 Sign in email/pwd account', () => {
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> Update e2e/cypress/integration/signin_authentication/login_logout_smoke_spec.js
         // # Enter actual user's email in the email field
         cy.apiGetClientLicense().then(({isLicensed}) => {
             const loginPlaceholder = isLicensed ? 'Email, Username or AD/LDAP Username' : 'Email or Username';
