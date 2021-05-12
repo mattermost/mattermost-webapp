@@ -1258,7 +1258,9 @@ export function resetReloadPostsInChannel() {
 
         const currentChannelId = getCurrentChannelId(getState());
         if (currentChannelId) {
-            await dispatch(selectChannel('')); // this await is needed, do not remove
+            // wait for channel to be fully deselected; prevent stuck loading screen
+            // full state-change/reconciliation will cause prefetchChannelPosts to reload posts
+            await dispatch(selectChannel('')); // do not remove await
             dispatch(selectChannel(currentChannelId));
         }
         return {data: true};
