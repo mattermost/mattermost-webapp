@@ -243,6 +243,7 @@
     "setupFilesAfterEnv": [
       "<rootDir>/tests/setup.js"
     ],
+    "testTimeout": 60000,
     "testURL": "http://localhost:8065",
     "watchPlugins": [
       "jest-watch-typeahead/filename",
@@ -261,6 +262,7 @@
     "dev-server": "webpack serve --mode development",
     "test": "cross-env NODE_ICU_DATA=node_modules/full-icu TZ=Etc/UTC jest --maxWorkers=50%",
     "test-ci": "cross-env NODE_ICU_DATA=node_modules/full-icu TZ=Etc/UTC jest --ci --maxWorkers=8",
+    "test-ci-gitlab": "cross-env NODE_ICU_DATA=node_modules/full-icu TZ=Etc/UTC jest --ci --maxWorkers=4",
     "stats": "cross-env NODE_ENV=production webpack --profile --json > webpack_stats.json",
     "updatesnapshot": "cross-env NODE_ICU_DATA=node_modules/full-icu TZ=Etc/UTC jest --updateSnapshot",
     "test:debug": "cross-env NODE_ICU_DATA=node_modules/full-icu TZ=Etc/UTC jest --forceExit --detectOpenHandles",
