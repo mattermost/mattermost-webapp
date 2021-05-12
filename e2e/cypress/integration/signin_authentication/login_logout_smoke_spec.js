@@ -27,10 +27,14 @@ describe('SignIn Authentication', () => {
     let testUser;
 
     before(() => {
+<<<<<<< HEAD
         // # Create new team and users
 <<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> Add Cypress test for MM-T3080
+=======
+        // # Create new user
+>>>>>>> Update e2e/cypress/integration/signin_authentication/login_logout_smoke_spec.js
         cy.apiInitSetup().then(({user}) => {
 =======
         cy.apiInitSetup().then(({ user }) => {
