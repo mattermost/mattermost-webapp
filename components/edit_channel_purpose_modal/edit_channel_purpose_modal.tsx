@@ -14,6 +14,10 @@ import * as Utils from 'utils/utils.jsx';
 type Actions = {
     patchChannel: (channelId: string, patch: Partial<Channel>) => Promise<ActionResult>;
 }
+type ServerError = {
+    message: string;
+}
+const purposeMaxLength = 250;
 
 type Props = {
     onHide: () => void;
@@ -25,7 +29,7 @@ type Props = {
 
 type State = {
     purpose: string;
-    serverError: string;
+    serverError: ServerError | null;
     show: boolean;
     submitted: boolean;
     requestStarted: boolean;
@@ -40,28 +44,11 @@ export class EditChannelPurposeModal extends React.PureComponent<Props, State> {
 
         this.state = {
             purpose: props.channel?.purpose || '',
-            serverError: '',
+            serverError: null,
             show: true,
             submitted: false,
             requestStarted: false,
         };
-    }
-
-    setError = (err: any) => {
-        if (err.id === 'api.context.invalid_param.app_error') {
-            this.setState({
-                serverError: Utils.localizeMessage(
-                    'edit_channel_purpose_modal.error',
-                    'This channel purpose is too long, please enter a shorter one',
-                ),
-            });
-        } else {
-            this.setState({serverError: err.message});
-        }
-    }
-
-    unsetError = () => {
-        this.setState({serverError: ''});
     }
 
     handleEntering = () => {
@@ -96,21 +83,23 @@ export class EditChannelPurposeModal extends React.PureComponent<Props, State> {
         }
 
         this.setState({requestStarted: true});
-        const result = await patchChannel(channel.id, {purpose});
-        this.setState({requestStarted: false});
-        if ('error' in result) {
-            this.setError(result.error);
-            return;
+
+        const {data, error} = await patchChannel(channel.id, {purpose});
+
+        this.setState({
+            serverError: error,
+            requestStarted: false,
+        });
+
+        if (data) {
+            this.onHide();
         }
-        this.unsetError();
-        this.onHide();
     }
 
     handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
         e.preventDefault();
         this.setState({purpose: e.target.value});
     }
-
 
     render() {
         let serverError = null;
@@ -120,7 +109,7 @@ export class EditChannelPurposeModal extends React.PureComponent<Props, State> {
             serverError = (
                 <div className='form-group has-error'>
                     <br/>
-                    <label className='control-label'>{this.state.serverError}</label>
+                    <label className='control-label'>{this.state.serverError.message}</label>
                 </div>
             );
         }
@@ -187,7 +176,7 @@ export class EditChannelPurposeModal extends React.PureComponent<Props, State> {
                         ref={this.purpose}
                         className='form-control no-resize'
                         rows={6}
-                        maxLength={250}
+                        maxLength={purposeMaxLength}
                         value={this.state.purpose}
                         onKeyDown={this.handleKeyDown}
                         onChange={this.handleChange}

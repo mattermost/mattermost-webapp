@@ -1826,7 +1826,6 @@
   "edit_channel_private_purpose_modal.body": "Цей текст з'являється у \"Перегляд інформації\" приватного каналу.",
   "edit_channel_purpose_modal.body": "Опишіть, як повинен використовуватися цей канал. Текст буде видно після натискання кнопки \"Ще ...\" в списку каналів і допоможе іншим користувачам з вибором.",
   "edit_channel_purpose_modal.cancel": "Відміна",
-  "edit_channel_purpose_modal.error": "Призначення каналу задовге",
   "edit_channel_purpose_modal.save": "Зберегти",
   "edit_channel_purpose_modal.title1": "Редагувати призначення",
   "edit_channel_purpose_modal.title2": "Редагувати призначення для",

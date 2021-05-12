@@ -140,9 +140,8 @@ describe('comoponents/EditChannelPurposeModal', () => {
             id: 'fake-error-id',
             message: 'error',
         };
-        const instance = wrapper.instance() as EditChannelPurposeModalClass;
-        instance.setError(serverError);
-        await instance.handleSave();
+        const instance = wrapper.instance();
+        instance.setState({serverError});
 
         expect(wrapper).toMatchSnapshot();
     });

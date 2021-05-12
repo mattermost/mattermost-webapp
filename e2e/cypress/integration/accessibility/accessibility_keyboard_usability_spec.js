@@ -57,7 +57,7 @@ describe('Verify Accessibility keyboard usability across different regions in th
         // # Change the focus to search results
         cy.get('#searchContainer').within(() => {
             cy.get('button.sidebar--right__expand').focus().tab({shift: true}).tab();
-            cy.focused().tab().tab();
+            cy.focused().tab().tab().tab().tab();
         });
         cy.get('body').type('{downarrow}{uparrow}');
 

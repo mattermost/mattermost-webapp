@@ -29,7 +29,7 @@ exports[`comoponents/EditChannelPurposeModal clear error on next 1`] = `
   renderBackdrop={[Function]}
   restoreFocus={true}
   role="dialog"
-  show={false}
+  show={true}
 >
   <ModalHeader
     bsClass="modal-header"
@@ -73,6 +73,16 @@ exports[`comoponents/EditChannelPurposeModal clear error on next 1`] = `
       rows={6}
       value="testPurpose"
     />
+    <div
+      className="form-group has-error"
+    >
+      <br />
+      <label
+        className="control-label"
+      >
+        error
+      </label>
+    </div>
   </ModalBody>
   <ModalFooter
     bsClass="modal-footer"
@@ -183,7 +193,7 @@ exports[`comoponents/EditChannelPurposeModal match with modal error 1`] = `
       <label
         className="control-label"
       >
-        This channel purpose is too long, please enter a shorter one
+        error
       </label>
     </div>
   </ModalBody>

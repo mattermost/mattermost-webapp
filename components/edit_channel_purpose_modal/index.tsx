@@ -27,7 +27,7 @@ type Actions = {
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
-            patchChannel
+            patchChannel,
         }, dispatch),
     };
 }

@@ -21,16 +21,21 @@ import StatusAwayIcon from 'components/widgets/icons/status_away_icon';
 import StatusOnlineIcon from 'components/widgets/icons/status_online_icon';
 import StatusDndIcon from 'components/widgets/icons/status_dnd_icon';
 import StatusOfflineIcon from 'components/widgets/icons/status_offline_icon';
+import DndCustomTimePicker from 'components/dnd_custom_time_picker_modal';
+import {getCurrentDateTimeForTimezone} from 'utils/timezone';
 import OverlayTrigger from 'components/overlay_trigger';
 import CustomStatusText from 'components/custom_status/custom_status_text';
 
 import './status_dropdown.scss';
+import {toUTCUnix} from 'utils/datetime';
 
 export default class StatusDropdown extends React.PureComponent {
     static propTypes = {
         style: PropTypes.object,
         status: PropTypes.string,
         userId: PropTypes.string.isRequired,
+        userTimezone: PropTypes.object,
+        isTimezoneEnabled: PropTypes.bool,
         profilePicture: PropTypes.string,
         autoResetPref: PropTypes.string,
         actions: PropTypes.shape({
@@ -52,35 +57,98 @@ export default class StatusDropdown extends React.PureComponent {
         customStatus: {},
     }
 
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            openUp: false,
+            width: 0,
+        };
+    }
+
+    getCurrentDateTime = (tz, enable) => {
+        let currentDate = new Date();
+        if (enable) {
+            if (tz.useAutomaticTimezone) {
+                currentDate = getCurrentDateTimeForTimezone(tz.automaticTimezone);
+            } else {
+                currentDate = getCurrentDateTimeForTimezone(tz.manualTimezone);
+            }
+        }
+        return currentDate;
+    }
+
+    dndTimes = ['30 mins', '1 hour', '2 hours', 'Tomorrow', 'Custom']
+
     isUserOutOfOffice = () => {
         return this.props.status === UserStatuses.OUT_OF_OFFICE;
     }
 
-    setStatus = (status) => {
+    setStatus = (status, dndEndTime) => {
         this.props.actions.setStatus({
             user_id: this.props.userId,
             status,
+            dnd_end_time: dndEndTime,
         });
     }
 
     setOnline = (event) => {
         event.preventDefault();
-        this.setStatus(UserStatuses.ONLINE);
+        this.setStatus(UserStatuses.ONLINE, '');
     }
 
     setOffline = (event) => {
         event.preventDefault();
-        this.setStatus(UserStatuses.OFFLINE);
+        this.setStatus(UserStatuses.OFFLINE, '');
     }
 
     setAway = (event) => {
         event.preventDefault();
-        this.setStatus(UserStatuses.AWAY);
+        this.setStatus(UserStatuses.AWAY, '');
     }
 
-    setDnd = (event) => {
+    setDnd = (event, index) => {
         event.preventDefault();
-        this.setStatus(UserStatuses.DND);
+
+        const currentDate = this.getCurrentDateTime(this.props.userTimezone, this.props.isTimezoneEnabled);
+        const currentTime = currentDate.getTime();
+        let endTime;
+
+        switch (index) {
+        case 0:
+            // add 30 minutes in current time
+            endTime = new Date(currentTime + (30 * 60 * 1000));
+            break;
+        case 1:
+            // add 1 hour in current time
+            endTime = new Date(currentTime + (1 * 60 * 60 * 1000));
+            break;
+        case 2:
+            // add 2 hours in current time
+            endTime = new Date(currentTime + (2 * 60 * 60 * 1000));
+            break;
+        case 3:
+            // add one day in current date and set hours to last minute of the day
+            endTime = new Date(currentDate.getDate() + 1);
+            endTime.setHours(23, 59, 59, 999);
+            break;
+        }
+
+        var dndEndTime = toUTCUnix(endTime);
+        this.setStatus(UserStatuses.DND, dndEndTime);
+    }
+
+    setCustomTimedDnd = () => {
+        const dndCustomTimePicker = {
+            ModalId: ModalIdentifiers.DND_CUSTOM_TIME_PICKER,
+            dialogType: DndCustomTimePicker,
+            dialogProps: {
+                userId: this.props.userId,
+                currentDate: this.getCurrentDateTime(this.props.userTimezone, this.props.isTimezoneEnabled),
+            },
+        };
+
+        this.props.actions.openModal(dndCustomTimePicker);
     }
 
     showStatusChangeConfirmation = (status) => {
@@ -198,6 +266,15 @@ export default class StatusDropdown extends React.PureComponent {
         );
     }
 
+    refCallback = (ref) => {
+        if (ref) {
+            this.setState({
+                width: ref.state.width,
+                open: ref.state.open,
+            });
+        }
+    }
+
     render() {
         const needsConfirm = this.isUserOutOfOffice() && this.props.autoResetPref === '';
         const profilePicture = this.renderProfilePicture();
@@ -207,6 +284,21 @@ export default class StatusDropdown extends React.PureComponent {
         const setDnd = needsConfirm ? () => this.showStatusChangeConfirmation('dnd') : this.setDnd;
         const setAway = needsConfirm ? () => this.showStatusChangeConfirmation('away') : this.setAway;
         const setOffline = needsConfirm ? () => this.showStatusChangeConfirmation('offline') : this.setOffline;
+        const setCustomTimedDnd = needsConfirm ? () => this.showStatusChangeConfirmation('dnd') : this.setCustomTimedDnd;
+
+        const dndSubMenuItems = [{
+            id: 'dndSubMenu-header',
+            direction: 'right',
+            text: localizeMessage('status_dropdown.dnd_sub_menu_header', 'Disable notifications until:'),
+        }].concat(
+            this.dndTimes.map((time, index) => {
+                return {
+                    id: `dndTime-${time.split(' ').join('')}`,
+                    direction: 'right',
+                    text: localizeMessage('status_dropdown.dnd_sub_menu_item.time', time),
+                    action: index === 4 ? () => setCustomTimedDnd() : () => setDnd(event, index),
+                };
+            }));
 
         const customStatusComponent = this.renderCustomStatus();
         return (
@@ -215,6 +307,7 @@ export default class StatusDropdown extends React.PureComponent {
                 style={this.props.style}
                 open={this.props.isStatusDropdownOpen}
                 className={'status-dropdown-menu'}
+                ref={this.refCallback}
             >
                 <div className='status-wrapper status-selector'>
                     {profilePicture}
@@ -268,12 +361,14 @@ export default class StatusDropdown extends React.PureComponent {
                             icon={<StatusAwayIcon className={'away--icon'}/>}
                             id={'status-menu-away'}
                         />
-                        <Menu.ItemAction
-                            onClick={setDnd}
+                        <Menu.ItemSubMenu
+                            subMenu={dndSubMenuItems}
                             ariaLabel={`${localizeMessage('status_dropdown.set_dnd', 'Do not disturb').toLowerCase()}. ${localizeMessage('status_dropdown.set_dnd.extra', 'Disables desktop, email and push notifications').toLowerCase()}`}
                             text={localizeMessage('status_dropdown.set_dnd', 'Do not disturb')}
                             extraText={localizeMessage('status_dropdown.set_dnd.extra', 'Disables all notifications')}
                             icon={<StatusDndIcon className={'dnd--icon'}/>}
+                            direction={'right'}
+                            openUp={this.state.openUp}
                             id={'status-menu-dnd'}
                         />
                         <Menu.ItemAction
