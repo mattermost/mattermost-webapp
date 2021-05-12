@@ -14,6 +14,7 @@ import * as Utils from 'utils/utils.jsx';
 type Actions = {
     patchChannel: (channelId: string, patch: Channel) => Promise<ActionResult>;
 }
+
 type Props = {
     onHide: () => void;
     channel?: Channel;
@@ -21,6 +22,7 @@ type Props = {
     actions: Actions;
     intl: IntlShape;
 }
+
 type State = {
     purpose: string;
     serverError: string;
@@ -34,7 +36,7 @@ export class EditChannelPurposeModal extends React.PureComponent<Props, State> {
         super(props);
 
         this.state = {
-            purpose: props.channel ? props.channel.purpose : '',
+            purpose: props.channel?.purpose || '',
             serverError: '',
             show: true,
             submitted: false,
@@ -131,7 +133,7 @@ export class EditChannelPurposeModal extends React.PureComponent<Props, State> {
                 />
             </span>
         );
-        if (this.props.channel && this.props.channel.display_name) {
+        if (this.props.channel?.display_name) {
             title = (
                 <span>
                     <FormattedMessage
@@ -149,7 +151,7 @@ export class EditChannelPurposeModal extends React.PureComponent<Props, State> {
                 defaultMessage='Describe how this channel should be used. This text appears in the channel list in the "More..." menu and helps others decide whether to join.'
             />
         );
-        if (this.props.channel && this.props.channel.type === 'P') {
+        if (this.props.channel?.type === 'P') {
             channelPurposeModal = (
                 <FormattedMessage
                     id='edit_channel_private_purpose_modal.body'
