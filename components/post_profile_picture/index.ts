@@ -5,10 +5,13 @@ import {connect} from 'react-redux';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getUser, getStatusForUserId} from 'mattermost-redux/selectors/entities/users';
+import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {Client4} from 'mattermost-redux/client';
 import {Post} from 'mattermost-redux/types/posts';
 
 import {GlobalState} from '../../types/store';
+
+import {Preferences} from 'utils/constants';
 
 import PostProfilePicture from './post_profile_picture';
 
@@ -21,6 +24,7 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
     const config = getConfig(state);
     const user = getUser(state, ownProps.userId);
     const enablePostIconOverride = config.EnablePostIconOverride === 'true';
+    const availabilityStatusOnPosts = getBool(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.AVAILABILITY_STATUS_ON_POSTS, false);
 
     const overrideIconUrl = enablePostIconOverride && ownProps.post && ownProps.post.props && ownProps.post.props.override_icon_url;
     let overwriteIcon;
@@ -29,6 +33,7 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
     }
 
     return {
+        availabilityStatusOnPosts,
         enablePostIconOverride: config.EnablePostIconOverride === 'true',
         overwriteIcon,
         hasImageProxy: config.HasImageProxy === 'true',
