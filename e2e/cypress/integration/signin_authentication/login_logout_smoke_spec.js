@@ -23,7 +23,7 @@ describe('SignIn Authentication', () => {
     });
 
     it('MM-T3080 Sign in email/pwd account', () => {
-        // # Enter actual users email in the email field
+        // # Enter actual user's email in the email field
         cy.apiGetClientLicense().then(({isLicensed}) => {
             const loginPlaceholder = isLicensed ? 'Email, Username or AD/LDAP Username' : 'Email or Username';
             cy.findByPlaceholderText(loginPlaceholder).clear().type(testUser.email);
