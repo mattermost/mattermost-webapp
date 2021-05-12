@@ -135,7 +135,7 @@ describe('Mark as Unread', () => {
         verifyTopSpaceForNewMessage('post2');
 
         // Bottom separator space should appear below the post
-        verifyBottomSpaceForNewMessage('post1')
+        verifyBottomSpaceForNewMessage('post1');
 
         markAsUnreadFromPost(post1);
 
@@ -146,7 +146,7 @@ describe('Mark as Unread', () => {
         verifyTopSpaceForNewMessage('post1');
 
         // Bottom separator space should appear below the post by user
-        verifyBottomSpaceForNewMessage('System')
+        verifyBottomSpaceForNewMessage('System');
 
         markAsUnreadFromPost(post3);
 
@@ -157,7 +157,7 @@ describe('Mark as Unread', () => {
         verifyTopSpaceForNewMessage('post3');
 
         // Bottom separator space should appear below the post
-        verifyBottomSpaceForNewMessage('post2')
+        verifyBottomSpaceForNewMessage('post2');
     });
 
     it('Should be able to mark channel as unread from post menu', () => {
