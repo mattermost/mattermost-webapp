@@ -2225,6 +2225,12 @@ export default class Client4 {
         );
     };
 
+    // saveNotificationSchedule = (userId: string schedule: PreferenceType[]) => {
+    //     return this.doFetch<StatusOK>(
+    //         `url`,
+    //         {method: 'post', body: JSON.stringify(schedule)}
+    //     )
+    // }
     // General Routes
 
     ping = () => {
