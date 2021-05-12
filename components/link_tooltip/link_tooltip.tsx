@@ -68,13 +68,11 @@ export default class LinkTooltip extends React.PureComponent<Props, State> {
 
                 const addChildEventListeners = (node: Node) => {
                     node.addEventListener('mouseover', () => clearTimeout(this.hideTimeout));
-                    if (node instanceof HTMLElement) {
-                        node.addEventListener('mouseleave', (event) => {
-                            if (event.relatedTarget !== null) {
-                                this.hideTooltip();
-                            }
-                        });
-                    }
+                    (node as HTMLElement).addEventListener('mouseleave', (event) => {
+                        if (event.relatedTarget !== null) {
+                            this.hideTooltip();
+                        }
+                    });
                 };
                 tooltipContainer.childNodes.forEach(addChildEventListeners);
 

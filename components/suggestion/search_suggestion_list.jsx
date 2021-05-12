@@ -48,7 +48,7 @@ export default class SearchSuggestionList extends SuggestionList {
     }
 
     getContent = () => {
-        return this.itemsContainerRef.current.parentNode;
+        return this.itemsContainerRef.current?.parentNode;
     }
 
     renderChannelDivider(type) {

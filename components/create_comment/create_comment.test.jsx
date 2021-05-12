@@ -463,13 +463,12 @@ describe('components/CreateComment', () => {
             uploadsInProgress: [1, 2, 3],
             fileInfos: [{}, {}, {}],
         };
-        const props = {...baseProps, draft};
-
         const scrollToBottom = jest.fn();
+        const props = {...baseProps, draft, scrollToBottom};
+
         const wrapper = shallowWithIntl(
             <CreateComment
                 {...props}
-                scrollToBottom={scrollToBottom}
             />,
         );
 
@@ -531,13 +530,12 @@ describe('components/CreateComment', () => {
             uploadsInProgress: [1, 2, 3],
             fileInfos: [{}, {}, {}],
         };
-        const props = {...baseProps, draft};
-
         const scrollToBottom = jest.fn();
+        const props = {...baseProps, draft, scrollToBottom};
+
         const wrapper = shallowWithIntl(
             <CreateComment
                 {...props}
-                scrollToBottom={scrollToBottom}
             />,
         );
 
