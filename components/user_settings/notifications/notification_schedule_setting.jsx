@@ -49,6 +49,20 @@ class set_notification_schedule extends React.PureComponent {
       friEnable: false,
       satEnable: false,
       sunEnable: false,
+      sunStart: '',
+      monStart: '',
+      tueStart: '',
+      wedStart: '',
+      thuStart: '',
+      friStart: '',
+      satStart: '',
+      sunEnd: '',
+      monEnd: '',
+      tueEnd: '',
+      wedEnd: '',
+      thuEnd: '',
+      friEnd: '',
+      satEnd: '',
     };
   }
 
@@ -71,14 +85,60 @@ class set_notification_schedule extends React.PureComponent {
     });
   }
 
-  onPeriodChange = (option) => {
+  handlePeriodChange = (option) => {
     this.setState({
       selectedOption: option
     })
+    console.log(option)
   }
 
-  handleTimeChange = (e) => {
-    console.log(e.format('hh:mm'))
+  handleTimeChange = (value, id) => {
+    if (this.state.selectedOption.value === 'Every Day') {
+      if (id === 'Start') {
+        this.setState({
+          sunStart: value.format('kk:mm'),
+          monStart: value.format('kk:mm'),
+          tueStart: value.format('kk:mm'),
+          wedStart: value.format('kk:mm'),
+          thuStart: value.format('kk:mm'),
+          friStart: value.format('kk:mm'),
+          satStart: value.format('kk:mm'),
+        })
+      } else {
+        this.setState({
+          sunEnd: value.format('kk:mm'),
+          monEnd: value.format('kk:mm'),
+          tueEnd: value.format('kk:mm'),
+          wedEnd: value.format('kk:mm'),
+          thuEnd: value.format('kk:mm'),
+          friEnd: value.format('kk:mm'),
+          satEnd: value.format('kk:mm'),
+        })
+      }
+    } else if (this.state.selectedOption.value === 'Weekdays') {
+      if (id === 'start') {
+        this.setState({
+          monStart: value.format('kk:mm'),
+          tueStart: value.format('kk:mm'),
+          wedStart: value.format('kk:mm'),
+          thuStart: value.format('kk:mm'),
+          friStart: value.format('kk:mm'),      
+        })
+      } else {
+        this.setState({
+          monEnd: value.format('kk:mm'),
+          tueEnd: value.format('kk:mm'),
+          wedEnd: value.format('kk:mm'),
+          thuEnd: value.format('kk:mm'),
+          friEnd: value.format('kk:mm'),
+        })
+      }
+    } else {
+      this.setState({
+        [id]: value.format('kk:mm'),
+      })
+    }
+    console.log(this.state.sunStart)
   }
 
   handleWeekChange = (e) => {
@@ -86,6 +146,7 @@ class set_notification_schedule extends React.PureComponent {
       [e.target.id]: e.target.checked
     })
   }
+
 
   renderMaxSettingView = () => {
     const options = [
@@ -137,7 +198,7 @@ class set_notification_schedule extends React.PureComponent {
                       clearable={false}
                       value={this.state.selectedOption}
                       isSearchable={false}
-                      onChange={this.onPeriodChange}
+                      onChange={this.handlePeriodChange}
                       // ref={this.notificationScheduleRef}
                     />
                     <div className="weekDays-selector">
@@ -171,7 +232,8 @@ class set_notification_schedule extends React.PureComponent {
                             placeholder='start'
                             defaultValue={moment()}
                             minuteStep={15}
-                            inputIcon={(<img src={clockIcon} layout="fill"/>)}
+                            inputIcon={(<img src={clockIcon} layout="fill" />)}
+                            onChange={(value, id='sunStart') => this.handleTimeChange(value, id)}
                           />
                           <p>to</p>
                           <TimePicker
@@ -185,7 +247,8 @@ class set_notification_schedule extends React.PureComponent {
                             placeholder='end'
                             defaultValue={moment()}
                             minuteStep={15}
-                            inputIcon={(<img src={clockIcon} layout="fill"/>)}
+                            inputIcon={(<img src={clockIcon} layout="fill" />)}
+                            onChange={(value, id='sunEnd') => this.handleTimeChange(value, id)}
                           />
                         </div>
                         ) : (
@@ -206,7 +269,8 @@ class set_notification_schedule extends React.PureComponent {
                             placeholder='start'
                             defaultValue={moment()}
                             minuteStep={15}
-                            inputIcon={(<img src={clockIcon} layout="fill"/>)}
+                            inputIcon={(<img src={clockIcon} layout="fill" />)}
+                            onChange={(value, id='monStart') => this.handleTimeChange(value, id)}
                           />
                           <p>to</p>
                           <TimePicker
@@ -220,7 +284,8 @@ class set_notification_schedule extends React.PureComponent {
                             placeholder='end'
                             defaultValue={moment()}
                             minuteStep={15}
-                            inputIcon={(<img src={clockIcon} layout="fill"/>)}
+                            inputIcon={(<img src={clockIcon} layout="fill" />)}
+                            onChange={(value, id='monEnd') => this.handleTimeChange(value, id)}
                           />
                         </div>
                         ) : (
@@ -241,7 +306,8 @@ class set_notification_schedule extends React.PureComponent {
                             placeholder='start'
                             defaultValue={moment()}
                             minuteStep={15}
-                            inputIcon={(<img src={clockIcon} layout="fill"/>)}
+                            inputIcon={(<img src={clockIcon} layout="fill" />)}
+                            onChange={(value, id='tueStart') => this.handleTimeChange(value, id)}
                           />
                           <p>to</p>
                           <TimePicker
@@ -255,7 +321,8 @@ class set_notification_schedule extends React.PureComponent {
                             placeholder='end'
                             defaultValue={moment()}
                             minuteStep={15}
-                            inputIcon={(<img src={clockIcon} layout="fill"/>)}
+                            inputIcon={(<img src={clockIcon} layout="fill" />)}
+                            onChange={(value, id='tueEnd') => this.handleTimeChange(value, id)}
                           />
                         </div>
                         ) : (
@@ -276,7 +343,8 @@ class set_notification_schedule extends React.PureComponent {
                             placeholder='start'
                             defaultValue={moment()}
                             minuteStep={15}
-                            inputIcon={(<img src={clockIcon} layout="fill"/>)}
+                            inputIcon={(<img src={clockIcon} layout="fill" />)}
+                            onChange={(value, id='wedStart') => this.handleTimeChange(value, id)}
                           />
                           <p>to</p>
                           <TimePicker
@@ -291,6 +359,7 @@ class set_notification_schedule extends React.PureComponent {
                             defaultValue={moment()}
                             minuteStep={15}
                             inputIcon={(<img src={clockIcon} layout="fill"/>)}
+                            onChange={(value, id='wedEnd') => this.handleTimeChange(value, id)}
                           />
                         </div>
                         ) : (
@@ -311,7 +380,8 @@ class set_notification_schedule extends React.PureComponent {
                             placeholder='start'
                             defaultValue={moment()}
                             minuteStep={15}
-                            inputIcon={(<img src={clockIcon} layout="fill"/>)}
+                            inputIcon={(<img src={clockIcon} layout="fill" />)}
+                            onChange={(value, id='thuStart') => this.handleTimeChange(value, id)}
                           />
                           <p>to</p>
                           <TimePicker
@@ -325,7 +395,8 @@ class set_notification_schedule extends React.PureComponent {
                             placeholder='end'
                             defaultValue={moment()}
                             minuteStep={15}
-                            inputIcon={(<img src={clockIcon} layout="fill"/>)}
+                            inputIcon={(<img src={clockIcon} layout="fill" />)}
+                            onChange={(value, id='thuEnd') => this.handleTimeChange(value, id)}
                           />
                         </div>
                         ) : (
@@ -346,7 +417,8 @@ class set_notification_schedule extends React.PureComponent {
                             placeholder='start'
                             defaultValue={moment()}
                             minuteStep={15}
-                            inputIcon={(<img src={clockIcon} layout="fill"/>)}
+                            inputIcon={(<img src={clockIcon} layout="fill" />)}
+                            onChange={(value, id='friStart') => this.handleTimeChange(value, id)}
                           />
                           <p>to</p>
                           <TimePicker
@@ -360,7 +432,8 @@ class set_notification_schedule extends React.PureComponent {
                             placeholder='end'
                             defaultValue={moment()}
                             minuteStep={15}
-                            inputIcon={(<img src={clockIcon} layout="fill"/>)}
+                            inputIcon={(<img src={clockIcon} layout="fill" />)}
+                            onChange={(value, id='friEnd') => this.handleTimeChange(value, id)}
                           />
                         </div>
                         ) : (
@@ -381,7 +454,8 @@ class set_notification_schedule extends React.PureComponent {
                             placeholder='start'
                             defaultValue={moment()}
                             minuteStep={15}
-                            inputIcon={(<img src={clockIcon} layout="fill"/>)}
+                            inputIcon={(<img src={clockIcon} layout="fill" />)}
+                            onChange={(value, id='satStart') => this.handleTimeChange(value, id)}
                           />
                           <p>to</p>
                           <TimePicker
@@ -395,7 +469,8 @@ class set_notification_schedule extends React.PureComponent {
                             placeholder='end'
                             defaultValue={moment()}
                             minuteStep={15}
-                            inputIcon={(<img src={clockIcon} layout="fill"/>)}
+                            inputIcon={(<img src={clockIcon} layout="fill" />)}
+                            onChange={(value, id='satEnd') => this.handleTimeChange(value, id)}
                           />
                         </div>
                         ) : (
@@ -415,106 +490,108 @@ class set_notification_schedule extends React.PureComponent {
           ]}
           submit={this.handleSubmit}
           saving={this.props.saving}
+          // server_error={this.props.serverError}
+          width='full'
+          updateSection={this.handleUpdateSection}
+        />
+      )
+    } else {
+      return (
+        <SettingItemMax
+          title={localizeMessage('user.settings.notifications.schedule.title', 'Set Notifications Schedule')}
+          inputs={[
+            <div key='NotificationSchedule'>
+              <div className='mt-3'>
+                <FormattedMessage
+                    id='user.settings.notifications.scheduleInfo'
+                    defaultMessage='You can schedule when you want to receive notifications. Outside of those times, your status will be set to Do Not Disturb and notifications will be disabled.'
+                />
+              </div>
+              <div className='form-switch mt-3'>
+                <label className="switch">
+                  <input
+                    type="checkbox"
+                    checked={this.state.enableCusotmDND}
+                    onChange={this.handelEnableChange}
+                  />
+                  <span className="slider round"></span>
+                </label>
+                <FormattedMessage
+                  id='user.settings.notifications.schedule.enable'
+                  defaultMessage='Enable notifications schedule'
+                />
+              </div>
+              {this.state.enableCusotmDND ? (
+                <div className="form-select">
+                  <FormattedMessage
+                    id='user.settings.notifications.schedule.allow'
+                    defaultMessage='Allow notifications'
+                  />
+                  <div className="mt-2">
+                    <ReactSelect
+                      isDisabled={!this.state.enableCusotmDND}
+                      className='react-select period'
+                      classNamePrefix='react-select'
+                      id='notificationSchedule'
+                      options={options}
+                      autosize={false}
+                      clearable={false}
+                      value={this.state.selectedOption}
+                      isSearchable={false}
+                      placeholder='Period'
+                      onChange={this.handlePeriodChange}
+                      // ref={this.notificationScheduleRef}
+                    />
+                    <div className='time-wrapper n-custom-time'>
+                      <TimePicker
+                        disabled={!this.state.enableCusotmDND}
+                        className='time-picker'
+                        showSecond={false}
+                        format={timeFormat}
+                        use12Hours
+                        inputReadOnly
+                        clearIcon={false}
+                        onChange={(value, id='start') => this.handleTimeChange(value, id)}
+                        placeholder='Start'
+                        defaultValue={moment()}
+                        minuteStep={15}
+                        inputIcon={(<img src={clockIcon} layout="fill" />)}
+                      />
+                      <p>to</p>
+                      <TimePicker
+                        disabled={!this.state.enableCusotmDND}
+                        className='time-picker'
+                        showSecond={false}
+                        format={timeFormat}
+                        use12Hours
+                        inputReadOnly
+                        clearIcon={false}
+                        onChange={(value, id='end') => this.handleTimeChange(value, id)}
+                        placeholder='End'
+                        defaultValue={moment()}
+                        minuteStep={15}
+                        inputIcon={(<img src={clockIcon} layout="fill" />)}
+                      />
+                    </div>
+                  </div>
+                </div>
+              ): (
+                <div></div>    
+              )
+            }
+              
+            </div>,
+          ]}
+          submit={this.handleSubmit}
+          saving={this.props.saving}
           server_error={this.props.serverError}
           width='full'
           updateSection={this.handleUpdateSection}
         />
       )
+
     }
 
-    return (
-      
-      <SettingItemMax
-        title={localizeMessage('user.settings.notifications.schedule.title', 'Set Notifications Schedule')}
-        inputs={[
-          <div key='NotificationSchedule'>
-            <div className='mt-3'>
-              <FormattedMessage
-                  id='user.settings.notifications.scheduleInfo'
-                  defaultMessage='You can schedule when you want to receive notifications. Outside of those times, your status will be set to Do Not Disturb and notifications will be disabled.'
-              />
-            </div>
-            <div className='form-switch mt-3'>
-              <label className="switch">
-                <input
-                  type="checkbox"
-                  checked={this.state.enableCusotmDND}
-                  onChange={this.handelEnableChange}
-                />
-                <span className="slider round"></span>
-              </label>
-              <FormattedMessage
-                id='user.settings.notifications.schedule.enable'
-                defaultMessage='Enable notifications schedule'
-              />
-            </div>
-            {this.state.enableCusotmDND ? (
-              <div className="form-select">
-                <FormattedMessage
-                  id='user.settings.notifications.schedule.allow'
-                  defaultMessage='Allow notifications'
-                />
-                <div className="mt-2">
-                  <ReactSelect
-                    isDisabled={!this.state.enableCusotmDND}
-                    className='react-select period'
-                    classNamePrefix='react-select'
-                    id='notificationSchedule'
-                    options={options}
-                    autosize={false}
-                    clearable={false}
-                    value={this.state.selectedOption}
-                    isSearchable={false}
-                    placeholder='Period'
-                    onChange={this.onPeriodChange}
-                    // ref={this.notificationScheduleRef}
-                  />
-                  <div className='time-wrapper n-custom-time'>
-                    <TimePicker
-                      disabled={!this.state.enableCusotmDND}
-                      className='time-picker'
-                      showSecond={false}
-                      format={timeFormat}
-                      use12Hours
-                      inputReadOnly
-                      clearIcon={false}
-                      onChange={this.handleTimeChange}
-                      placeholder='start'
-                      defaultValue={moment()}
-                      minuteStep={15}
-                      inputIcon={(<img src={clockIcon} layout="fill"/>)}
-                    />
-                    <p>to</p>
-                    <TimePicker
-                      disabled={!this.state.enableCusotmDND}
-                      className='time-picker'
-                      showSecond={false}
-                      format={timeFormat}
-                      use12Hours
-                      inputReadOnly
-                      clearIcon={false}
-                      placeholder='end'
-                      defaultValue={moment()}
-                      minuteStep={15}
-                      inputIcon={(<img src={clockIcon} layout="fill"/>)}
-                    />
-                  </div>
-                </div>
-              </div>
-            ): (
-              <div></div>    
-            )
-          }
-            
-          </div>,
-        ]}
-        submit={this.handleSubmit}
-        saving={this.props.saving}
-        server_error={this.props.serverError}
-        width='full'
-        updateSection={this.handleUpdateSection}
-      />
-    )
   }
   
   renderMinSettingView = () => {
