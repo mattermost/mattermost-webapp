@@ -139,10 +139,7 @@ const DateTimeInputContainer: React.FC<Props> = (props: Props) => {
             <div className='dateTime__date'>
                 <span className='dateTime__input-title'>{'Date'}</span>
                 <span className='dateTime__date-icon'>
-                    <i
-                        className='fa fa-calendar'
-                        aria-hidden='true'
-                    />
+                    <i className='icon-calendar-outline'/>
                 </span>
                 <DayPickerInput
                     value={time}
@@ -169,10 +166,7 @@ const DateTimeInputContainer: React.FC<Props> = (props: Props) => {
                     <div>
                         <span className='dateTime__input-title'>{'Time'}</span>
                         <span className='dateTime__time-icon'>
-                            <i
-                                className='fa fa-clock-o'
-                                aria-hidden='true'
-                            />
+                            <i className='icon-clock-outline'/>
                         </span>
                         <div
                             className='dateTime__input'

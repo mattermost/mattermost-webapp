@@ -4,23 +4,24 @@
 .StatusModal {
     width: 600px;
 
-    .modal {
-        &-dialog {
-            margin: auto;
-        }
+    &.modal-dialog {
+        margin: auto;
+    }
 
-        &-content {
-            width: 100%;
-            padding: 28px 0 24px 24px;
-        }
-
+    .modal &.GenericModal .modal {
         &-body {
             overflow: visible;
         }
 
+        &-content {
+            width: 100%;
+            padding: 28px 8px 24px 24px;
+        }
+
         &-footer {
-            margin-top: 20px;
-            padding: 0 24px;
+            margin-top: 22px;
+            padding: 0px;
+            padding-right: 16px;
         }
     }
 
@@ -48,7 +49,7 @@
 
     & &__input {
         position: relative;
-        width: calc(100% - 24px);
+        width: calc(100% - 16px);
     }
 
     &__emoji-container {
@@ -58,10 +59,9 @@
         left: 10px;
     }
 
-    &.GenericModal &__clear-container {
-        position: absolute;
-        top: 17px;
-        right: 20px;
+    .modal &.GenericModal &__clear-container.input-clear {
+        top: 16px;
+        right: 16px;
         color: rgba(var(--center-channel-color-rgb), 0.72);
         opacity: 1;
     }
@@ -173,7 +173,8 @@
         min-height: 40px;
         width: 97%;
         align-items: center;
-        padding: 0 18px;
+        padding-left: 18px;
+        padding-right: 10px;
         color: var(--center-channel-color);
 
         &:hover {
@@ -214,6 +215,7 @@
         font-weight: 400;
         font-size: 14px;
         line-height: 14px;
+        color: rgba(var(--center-channel-color-rgb), 0.56);
     }
 }
 
@@ -254,7 +256,7 @@ span.emoticon[style]:hover {
         cursor: pointer;
 
         .expiry-value {
-            color: var(--center-channel-color);
+            font-weight: 600;
             margin-right: 4px;
         }
     }
@@ -308,9 +310,11 @@ span.emoticon[style]:hover {
             bottom: 32px;
             left: 12px;
             padding: 0 4px;
-            font-size: 16px;
+            font-size: 10px;
+            line-height: 16px;
+            letter-spacing: 0.03em;
             background: var(--center-channel-bg);
-            color: var(--center-channel-color);
+            color: rgba(var(--center-channel-color-rgb), 0.64);
         }
     }
 }
