@@ -3,6 +3,7 @@
 
 import {getChannel, getChannelMember, selectChannel, joinChannel, getChannelStats} from 'mattermost-redux/actions/channels';
 import {getPostThread} from 'mattermost-redux/actions/posts';
+import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
 import {getCurrentTeam, getTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser, getUser} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
@@ -23,7 +24,6 @@ let privateChannelJoinPromptVisible = false;
 function focusRootPost(post, team, channel) {
     return async (dispatch, getState) => {
         const postId = post.id;
-        const state = getState();
 
         dispatch(selectChannel(channel.id));
         dispatch({
@@ -34,7 +34,8 @@ function focusRootPost(post, team, channel) {
 
         if (channel.type === Constants.DM_CHANNEL) {
             const userId = getUserIdFromChannelId(channel.name);
-            const user = getUser(state, userId);
+            await dispatch(getMissingProfilesByIds([userId]));
+            const user = getUser(getState(), userId);
             browserHistory.replace(`/${team.name}/messages/@${user.username}/${postId}`);
         } else if (channel.type === Constants.GM_CHANNEL) {
             browserHistory.replace(`/${team.name}/messages/${channel.name}/${postId}`);
@@ -61,7 +62,8 @@ function focustReplyPost(post, team, channel, returnTo) {
             browserHistory.replace(returnTo);
         } else if (channel.type === Constants.DM_CHANNEL) {
             const userId = getUserIdFromChannelId(channel.name);
-            const user = getUser(state, userId);
+            await dispatch(getMissingProfilesByIds([userId]));
+            const user = getUser(getState(), userId);
             browserHistory.replace(`/${team.name}/messages/@${user.username}`);
         } else if (channel.type === Constants.GM_CHANNEL) {
             browserHistory.replace(`/${team.name}/messages/${channel.name}`);
