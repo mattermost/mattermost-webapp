@@ -13,7 +13,7 @@ describe('SignIn Authentication', () => {
     let testUser;
 
     before(() => {
-        // # Create new team and users
+        // # Create new user
         cy.apiInitSetup().then(({user}) => {
             testUser = user;
 
