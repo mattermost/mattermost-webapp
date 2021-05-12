@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 /* eslint-disable react/no-string-refs */
 
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {MessageDescriptor, useIntl, FormattedMessage} from 'react-intl';
 import Scrollbars from 'react-custom-scrollbars';
 
@@ -72,6 +72,7 @@ const defaultProps: Partial<Props> = {
 
 const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
     const scrollbars = useRef<Scrollbars|null>(null);
+    const [searchType, setSearchType] = useState<string>(props.searchType);
 
     const intl = useIntl();
 
@@ -79,6 +80,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
         if (props.searchFilterType !== 'all') {
             props.setSearchFilterType('all');
         }
+        setSearchType(props.searchType);
         scrollbars.current?.scrollToTop();
     }, [props.searchTerms]);
 
@@ -147,9 +149,6 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
         handleSearchHintSelection,
         searchFilterType,
         setSearchFilterType,
-        searchType,
-        setSearchType,
-        filesSearchEnabled,
     } = props;
 
     const noResults = (!results || !Array.isArray(results) || results.length === 0);
@@ -234,7 +233,6 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
                 <SearchHint
                     onOptionSelected={handleOptionSelection}
                     options={searchHintOptions}
-                    filesSearchEnabled={filesSearchEnabled}
                 />
             </div>
         );
@@ -318,16 +316,16 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
                 {formattedTitle}
                 {props.channelDisplayName && <div className='sidebar--right__title__channel'>{props.channelDisplayName}</div>}
             </SearchResultsHeader>
-            {isMessagesSearch && filesSearchEnabled &&
+            {isMessagesSearch &&
                 <MessageOrFileSelector
                     selected={searchType}
                     selectedFilter={searchFilterType}
-                    messagesCounter={isSearchAtEnd ? `${results.length}` : `${results.length}+`}
-                    filesCounter={isSearchFilesAtEnd ? `${fileResults.length}` : `${fileResults.length}+`}
+                    messagesCounter={isSearchAtEnd || props.searchPage === 0 ? `${results.length}` : `${results.length}+`}
+                    filesCounter={isSearchFilesAtEnd || props.searchPage === 0 ? `${fileResults.length}` : `${fileResults.length}+`}
                     onChange={setSearchType}
                     onFilter={setSearchFilterType}
                 />}
-            {isChannelFiles && filesSearchEnabled &&
+            {isChannelFiles &&
                 <div className='channel-files__header'>
                     <div className='channel-files__title'>
                         <FormattedMessage

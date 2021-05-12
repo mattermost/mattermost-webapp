@@ -187,7 +187,7 @@ export default class PermissionsTree extends React.PureComponent {
 
         if (config.ExperimentalSharedChannels === 'true') {
             sharedChannelsGroup.permissions.push(Permissions.MANAGE_SHARED_CHANNELS);
-            sharedChannelsGroup.permissions.push(Permissions.MANAGE_REMOTE_CLUSTERS);
+            sharedChannelsGroup.permissions.push(Permissions.MANAGE_SECURE_CONNECTIONS);
         }
     }
 
