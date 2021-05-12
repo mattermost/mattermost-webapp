@@ -95,7 +95,7 @@ describe('SignIn Authentication', () => {
             const loginPlaceholder = isLicensed ? 'Email, Username or AD/LDAP Username' : 'Email or Username';
             cy.findByPlaceholderText(loginPlaceholder).clear().type(testUser.email);
 
-            // # Enter any password in the password field
+            // # Enter user's password in the password field
             cy.findByPlaceholderText('Password').clear().type(testUser.password);
 
             // # Click Sign In to login
