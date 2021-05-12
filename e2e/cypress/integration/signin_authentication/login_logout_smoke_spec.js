@@ -81,6 +81,7 @@ describe('SignIn Authentication', () => {
             cy.findByPlaceholderText(loginPlaceholder).clear().type(testUser.username);
 
             // # Enter user's password in the password field
+<<<<<<< HEAD
             cy.findByPlaceholderText('Password').clear().type(testUser.password);
 
             // # Click Sign In to login
@@ -130,6 +131,8 @@ describe('SignIn Authentication', () => {
 >>>>>>> Update e2e/cypress/integration/signin_authentication/login_logout_smoke_spec.js
 
             // # Enter any password in the password field
+=======
+>>>>>>> Update e2e/cypress/integration/signin_authentication/login_logout_smoke_spec.js
             cy.findByPlaceholderText('Password').clear().type(testUser.password);
 
             // # Click Sign In to login
