@@ -56,7 +56,7 @@ describe('Authentication', () => {
 
         cy.findByPlaceholderText('E.g.: "10"', {timeout: TIMEOUTS.ONE_MIN}).clear().type('2');
 
-        cy.findByRole('button', {name: 'Save'}).click();
+        cy.uiSaveConfig();
 
         // * Ensure error appears when saving a password outside of the limits
         cy.findByPlaceholderText('E.g.: "10"').invoke('val').should('equal', '2');
