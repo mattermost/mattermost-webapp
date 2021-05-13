@@ -68,7 +68,6 @@ exports[`components/admin_console/data_retention_settings/data_retention_setting
                   "className": "actionIcon",
                   "field": "actions",
                   "name": "",
-                  "width": 0.15,
                 },
               ]
             }
@@ -187,7 +186,6 @@ exports[`components/admin_console/data_retention_settings/data_retention_setting
                   "className": "actionIcon",
                   "field": "actions",
                   "name": "",
-                  "width": 0.15,
                 },
               ]
             }
@@ -405,7 +403,6 @@ exports[`components/admin_console/data_retention_settings/data_retention_setting
                   "className": "actionIcon",
                   "field": "actions",
                   "name": "",
-                  "width": 0.15,
                 },
               ]
             }
@@ -534,7 +531,6 @@ exports[`components/admin_console/data_retention_settings/data_retention_setting
                   "className": "actionIcon",
                   "field": "actions",
                   "name": "",
-                  "width": 0.15,
                 },
               ]
             }
@@ -757,7 +753,6 @@ exports[`components/admin_console/data_retention_settings/data_retention_setting
                   "className": "actionIcon",
                   "field": "actions",
                   "name": "",
-                  "width": 0.15,
                 },
               ]
             }
@@ -886,7 +881,6 @@ exports[`components/admin_console/data_retention_settings/data_retention_setting
                   "className": "actionIcon",
                   "field": "actions",
                   "name": "",
-                  "width": 0.15,
                 },
               ]
             }
@@ -1104,7 +1098,6 @@ exports[`components/admin_console/data_retention_settings/data_retention_setting
                   "className": "actionIcon",
                   "field": "actions",
                   "name": "",
-                  "width": 0.15,
                 },
               ]
             }
@@ -1233,7 +1226,6 @@ exports[`components/admin_console/data_retention_settings/data_retention_setting
                   "className": "actionIcon",
                   "field": "actions",
                   "name": "",
-                  "width": 0.15,
                 },
               ]
             }
