@@ -27,7 +27,7 @@ function mapStateToProps(state) {
     const config = getConfig(state);
     const editingPost = getEditingPost(state);
     const currentUserId = getCurrentUserId(state);
-    const channelId = getCurrentChannelId(state) || editingPost?.post?.channel_id;
+    const channelId = editingPost?.post?.channel_id || getCurrentChannelId(state);
     const teamId = getCurrentTeamId(state);
     let canDeletePost = false;
     let canEditPost = false;
