@@ -73,13 +73,13 @@ const BillingSubscriptions: React.FC<Props> = () => {
     let subscriptionPlan = 'CLOUD_PROFESSIONAL';
 
     switch (product?.name) {
-    case 'Cloud Starter':
+    case 'Mattermost Cloud Starter':
         subscriptionPlan = 'CLOUD_STARTER';
         break;
-    case 'Cloud Professional':
+    case 'Mattermost Cloud Professional':
         subscriptionPlan = 'CLOUD_PROFESSIONAL';
         break;
-    case 'Cloud Enterprise':
+    case 'Mattermost Cloud Enterprise':
         subscriptionPlan = 'CLOUD_ENTERPRISE';
         break;
     default:
@@ -92,8 +92,10 @@ const BillingSubscriptions: React.FC<Props> = () => {
     if (subscription?.is_free_trial === 'true') {
         isFreeTrial = true;
         daysLeftOnTrial = getRemainingDaysFromFutureTimestamp(subscription.trial_end_at);
-        subscriptionPlan = 'FREE_TRIAL';
     }
+
+    isFreeTrial = true;
+    daysLeftOnTrial = 10;
 
     useEffect(() => {
         getCloudSubscription()(dispatch, store.getState());

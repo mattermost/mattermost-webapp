@@ -305,7 +305,6 @@ export const featureList = (subscriptionPlan: string | null, isPaidTier: boolean
         localizeMessage('admin.billing.subscription.planDetails.features.groupAndOneToOneMessaging', 'Group and one-to-one messaging, file sharing, and search'),
         localizeMessage('admin.billing.subscription.planDetails.features.incidentCollaboration', 'Incident collaboration'),
         localizeMessage('admin.billing.subscription.planDetails.features.unlimittedUsersAndMessagingHistory', 'Unlimited users & message history'),
-        localizeMessage('admin.billing.subscription.planDetails.features.unlimitedIntegrations', 'Unlimited Integrations'),
         localizeMessage('admin.billing.subscription.planDetails.features.mfa', 'Multi-Factor Authentication (MFA)'),
         localizeMessage('admin.billing.subscription.planDetails.features.multilanguage', 'Multi-language translations'),
     ];
