@@ -467,6 +467,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                     </ChannelPermissionGate>
                     <Menu.ItemAction
                         id={`follow_post_thread_${this.props.post.id}`}
+                        onClick={this.handleSetThreadFollow}
                         show={(
                             this.props.isCollapsedThreadsEnabled &&
                                 (
@@ -481,7 +482,6 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                             text: this.props.threadReplyCount ? Utils.localizeMessage('threading.threadMenu.follow', 'Follow thread') : Utils.localizeMessage('threading.threadMenu.followMessage', 'Follow message'),
                             extraText: Utils.localizeMessage('threading.threadMenu.followExtra', 'You will be notified about replies'),
                         }}
-                        onClick={this.handleSetThreadFollow}
                     />
                     <Menu.ItemAction
                         id={`unread_post_${this.props.post.id}`}
