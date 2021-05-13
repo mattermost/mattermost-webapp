@@ -27,12 +27,12 @@ module Mattermost
           next unless glyph_name =~ /\.[1-5]($|\.)/
         end
         matches = glyph_name_to_emoji(glyph_name, false)
-        if matches && matches.include?(emoji + "\u{fe0f 200d 2640}")
+        if matches && matches.include?(emoji + "\u{200d 2640 fe0f}")
            print "skin? #{matches.include?(emoji)} - women? true"
         # else
         #   print "no matches for #{glyph_name}\n"
         end
-        next unless matches && (matches.include?(emoji) || matches.include?(emoji + "\u{fe0f 200d 2640}"))
+        next unless matches && (matches.include?(emoji) || matches.include?(emoji + "\u{200d 2640 fe0f}") || matches.include?(emoji + "#{ZWJ}#{GENDER_MALE}#{VS16}"))
         return binread.call
       end
       nil
