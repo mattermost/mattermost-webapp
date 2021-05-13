@@ -469,7 +469,6 @@ export function makeSortChannels() {
     };
 }
 
-
 export function makeGetChannelIdsForCategory() {
     const getChannels = makeGetChannelsForIds();
     const filterAndSortChannelsForCategory = makeFilterAndSortChannelsForCategory();

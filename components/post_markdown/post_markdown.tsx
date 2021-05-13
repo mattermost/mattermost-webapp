@@ -65,8 +65,7 @@ export default class PostMarkdown extends React.PureComponent<Props> {
                 disableGroupHighlight,
                 mentionHighlight,
             };
-        }
-    )
+        })
 
     render() {
         let {message} = this.props;

@@ -6,7 +6,6 @@ import deepEqual from 'fast-deep-equal';
 
 import {General, Permissions} from 'mattermost-redux/constants';
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
-import {Dictionary} from 'mattermost-redux/types/utilities';
 
 import {getCategoryInTeamByType} from 'mattermost-redux/selectors/entities/channel_categories';
 import {
@@ -44,6 +43,7 @@ import {TeamMembership, Team} from 'mattermost-redux/types/teams';
 import {UsersState, UserProfile} from 'mattermost-redux/types/users';
 import {
     $ID,
+    Dictionary,
     IDMappedObjects,
     NameMappedObjects,
     RelationOneToMany,

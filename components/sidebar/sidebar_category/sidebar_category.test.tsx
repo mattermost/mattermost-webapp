@@ -6,7 +6,6 @@ import {shallow} from 'enzyme';
 
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 import {CategorySorting} from 'mattermost-redux/types/channel_categories';
-import {ChannelType} from 'mattermost-redux/types/channels';
 
 import SidebarCategory from 'components/sidebar/sidebar_category/sidebar_category';
 
@@ -23,27 +22,7 @@ describe('components/sidebar/sidebar_category', () => {
             muted: false,
             collapsed: false,
         },
-        channels: [
-            {
-                id: 'channel_id',
-                display_name: 'channel_display_name',
-                create_at: 0,
-                update_at: 0,
-                delete_at: 0,
-                team_id: '',
-                type: 'O' as ChannelType,
-                name: '',
-                header: '',
-                purpose: '',
-                last_post_at: 0,
-                total_msg_count: 0,
-                total_msg_count_root: 0,
-                extra_update_at: 0,
-                creator_id: '',
-                scheme_id: '',
-                group_constrained: false,
-            },
-        ],
+        channelIds: ['channel_id'],
         categoryIndex: 0,
         draggingState: {},
         setChannelRef: jest.fn(),
@@ -86,7 +65,7 @@ describe('components/sidebar/sidebar_category', () => {
                 ...baseProps.category,
                 channel_ids: [],
             },
-            channels: [],
+            channelIds: [],
         };
 
         const wrapper = shallow(
@@ -146,7 +125,7 @@ describe('components/sidebar/sidebar_category', () => {
                 type: CategoryTypes.DIRECT_MESSAGES,
                 sorting: CategorySorting.Recency,
             },
-            channels: [],
+            channelIds: [],
         };
 
         const wrapper = shallow(
@@ -171,7 +150,7 @@ describe('components/sidebar/sidebar_category', () => {
     test('should match snapshot when there are no channels to display', () => {
         const props = {
             ...baseProps,
-            channels: [],
+            channelIds: [],
         };
 
         const wrapper = shallow(
