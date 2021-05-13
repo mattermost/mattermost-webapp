@@ -160,7 +160,6 @@ export default class Sidebar extends React.PureComponent<Props, State> {
     }
 
     render() {
-        console.log('render sidebar');
         if (!this.props.teamId) {
             return (<div/>);
         }
