@@ -146,7 +146,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
             message: 'error',
         };
         const instance = wrapper.instance();
-        instance.setError(serverError);
+        instance.setState({serverError});
         await instance.handleSave();
 
         expect(wrapper).toMatchSnapshot();

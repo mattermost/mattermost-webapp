@@ -44,7 +44,7 @@ describe('components/MenuWrapper', () => {
         wrapper.setState({open: true});
         expect(wrapper).toMatchInlineSnapshot(`
 <div
-  className="MenuWrapper "
+  className="MenuWrapper  MenuWrapper--open"
   onClick={[Function]}
 >
   <p>

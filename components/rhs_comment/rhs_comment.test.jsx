@@ -156,7 +156,7 @@ describe('components/RhsComment', () => {
 
         wrapper.simulate('click', {altKey: true});
 
-        expect(baseProps.actions.markPostAsUnread).toHaveBeenCalledWith(baseProps.post);
+        expect(baseProps.actions.markPostAsUnread).toHaveBeenCalledWith(baseProps.post, 'RHS_COMMENT');
     });
 
     test('should not call markPostAsUnread when post is alt+clicked on when channel is archived', () => {

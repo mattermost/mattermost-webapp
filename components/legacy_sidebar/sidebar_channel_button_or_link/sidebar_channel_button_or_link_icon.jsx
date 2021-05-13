@@ -14,7 +14,7 @@ import DraftIcon from 'components/widgets/icons/draft_icon';
 import GlobeIcon from 'components/widgets/icons/globe_icon';
 import LockIcon from 'components/widgets/icons/lock_icon';
 import StatusIcon from 'components/status_icon';
-import BotIcon from 'components/widgets/icons/bot_icon.jsx';
+import BotIcon from 'components/widgets/icons/bot_icon';
 
 export default class SidebarChannelButtonOrLinkIcon extends React.PureComponent {
     static propTypes = {

@@ -253,7 +253,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
                         inputComponent={MaxLengthInput}
                         value={text}
                         maxLength={Constants.CUSTOM_STATUS_TEXT_CHARACTER_LIMIT}
-                        clearable={Boolean(isStatusSet)}
+                        clearableWithoutValue={Boolean(isStatusSet)}
                         onClear={clearHandle}
                         className='form-control'
                         clearClassName='StatusModal__clear-container'
