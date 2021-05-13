@@ -143,7 +143,6 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
             multiSelectedChannelIds,
             autoSortedCategoryIds,
         } = this.props;
-        console.log('render sidebar channel ' + channel.id);
 
         let ChannelComponent: React.ComponentType<{channel: Channel; currentTeamName: string; isCollapsed: boolean}> = SidebarBaseChannel;
         if (channel.type === Constants.DM_CHANNEL) {

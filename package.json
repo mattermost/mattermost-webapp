@@ -42,6 +42,7 @@
     "lodash": "4.17.21",
     "mark.js": "8.11.1",
     "marked": "github:mattermost/marked#be741d411d4642c4cd3e009645f4cb6baa7e92bb",
+    "memoize-one": "5.2.1",
     "moment-timezone": "0.5.33",
     "p-queue": "6.6.1",
     "pdfjs-dist": "2.1.266",
