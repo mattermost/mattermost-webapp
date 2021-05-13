@@ -6,6 +6,10 @@ import type {Channel} from './channels';
 import type {UserProfile} from './users';
 import type {$ID, IDMappedObjects, RelationOneToMany, RelationOneToOne} from './utilities';
 
+export enum UserThreadType {
+    Synthetic = 'S' // derived from post
+}
+
 export type UserThread = {
     id: string;
     reply_count: number;
@@ -14,7 +18,8 @@ export type UserThread = {
     participants: Array<{id: $ID<UserProfile>} | UserProfile>;
     unread_replies: number;
     unread_mentions: number;
-    is_following?: boolean;
+    is_following: boolean;
+    type?: UserThreadType;
 
     // TODO consider flattening, removing post from UserThreads in-store
     /**
@@ -25,6 +30,15 @@ export type UserThread = {
         channel_id: $ID<Channel>;
         user_id: $ID<UserProfile>;
     };
+};
+
+type SyntheticMissingKeys = 'unread_replies' | 'unread_mentions' | 'last_viewed_at';
+export type UserThreadSynthetic = Omit<UserThread, SyntheticMissingKeys> & {
+    type: UserThreadType.Synthetic;
+}
+
+export function threadIsSynthetic(thread: UserThread | UserThreadSynthetic): thread is UserThreadSynthetic {
+    return thread.type === UserThreadType.Synthetic;
 }
 
 export type UserThreadWithPost = UserThread & {post: Post};

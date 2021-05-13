@@ -4,11 +4,23 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
+import {fakeDate} from 'tests/helpers/date';
+
 import LicenseSettings from './license_settings.jsx';
 
 const flushPromises = () => new Promise(setImmediate);
 
 describe('components/admin_console/license_settings/LicenseSettings', () => {
+    let resetFakeDate;
+
+    beforeAll(() => {
+        resetFakeDate = fakeDate(new Date('2021-04-14T12:00:00Z'));
+    });
+
+    afterAll(() => {
+        resetFakeDate();
+    });
+
     const defaultProps = {
         isDisabled: false,
         license: {

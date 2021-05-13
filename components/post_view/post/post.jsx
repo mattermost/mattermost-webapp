@@ -16,6 +16,7 @@ import PostBody from 'components/post_view/post_body';
 import PostHeader from 'components/post_view/post_header';
 import PostContext from 'components/post_view/post_context';
 import PostPreHeader from 'components/post_view/post_pre_header';
+import ThreadFooter from 'components/threading/channel_threads/thread_footer';
 
 class Post extends React.PureComponent {
     static propTypes = {
@@ -24,6 +25,11 @@ class Post extends React.PureComponent {
          * The post to render
          */
         post: PropTypes.object.isRequired,
+
+        /**
+         * The corresponding UserThread
+         */
+        thread: PropTypes.object,
 
         /**
          * The function to create an aria-label
@@ -101,6 +107,8 @@ class Post extends React.PureComponent {
          * Set to mark the post as flagged
          */
         isFlagged: PropTypes.bool.isRequired,
+
+        isCollapsedThreadsEnabled: PropTypes.bool,
     }
 
     static defaultProps = {
@@ -190,7 +198,7 @@ class Post extends React.PureComponent {
         }
 
         if (e.altKey) {
-            this.props.actions.markPostAsUnread(post);
+            this.props.actions.markPostAsUnread(post, 'CENTER');
         }
     }
 
@@ -331,7 +339,11 @@ class Post extends React.PureComponent {
     }
 
     render() {
-        const {post} = this.props;
+        const {
+            post,
+            replyCount,
+            isCollapsedThreadsEnabled,
+        } = this.props;
         if (!post.id) {
             return null;
         }
@@ -419,6 +431,10 @@ class Post extends React.PureComponent {
                                 isCommentMention={this.props.isCommentMention}
                                 isFirstReply={this.props.isFirstReply}
                             />
+                            {isCollapsedThreadsEnabled && !post.root_id && replyCount ? (
+                                <ThreadFooter threadId={post.id}/>
+                            ) : null}
+
                         </div>
                     </div>
                 </div>

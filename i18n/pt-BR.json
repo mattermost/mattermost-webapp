@@ -2724,7 +2724,6 @@
   "edit_channel_private_purpose_modal.body": "Este texto aparece no menu \"Ver Informações\" do canal privado.",
   "edit_channel_purpose_modal.body": "Descreva como este canal deve ser utilizado. Este texto aparece na lista de canais no menu \"Mais...\" e ajuda os outros a decidir se deseja participar.",
   "edit_channel_purpose_modal.cancel": "Cancelar",
-  "edit_channel_purpose_modal.error": "Este propósito do canal é muito longo, por favor insira um menor",
   "edit_channel_purpose_modal.save": "Salvar",
   "edit_channel_purpose_modal.title1": "Editar Propósito",
   "edit_channel_purpose_modal.title2": "Editar Propósito para ",
