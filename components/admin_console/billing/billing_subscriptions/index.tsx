@@ -65,9 +65,10 @@ const BillingSubscriptions: React.FC<Props> = () => {
 
     const product = useSelector((state: GlobalState) => {
         if (state.entities.cloud.products && subscription) {
-            return state.entities.cloud.products[subscription?.product_id];
+            const product = state.entities.cloud.products[subscription?.product_id];
+            return product.product_family === 'cloud' ? product : null;
         }
-        return undefined;
+        return null;
     });
 
     let subscriptionPlan = 'CLOUD_PROFESSIONAL';
