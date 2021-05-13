@@ -151,11 +151,12 @@ export default class LoggedIn extends React.PureComponent {
 
         switch (type) {
         case 'register-desktop': {
-            const {version} = message;
+            const {version, url} = message;
             if (!window.desktop) {
                 window.desktop = {};
             }
             window.desktop.version = semver.valid(semver.coerce(version));
+            window.desktop.url = url;
             break;
         }
         case 'user-activity-update': {

@@ -104,7 +104,8 @@ export function initialize() {
     if (config.WebsocketURL) {
         connUrl = config.WebsocketURL;
     } else {
-        connUrl = new URL(getSiteURL());
+        const serverUrl = window.desktop && window.desktop.url ? window.desktop.url : getSiteURL();
+        connUrl = new URL(serverUrl);
 
         // replace the protocol with a websocket one
         if (connUrl.protocol === 'https:') {

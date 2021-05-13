@@ -45,6 +45,7 @@ function preRenderSetup(callwhendone) {
 }
 
 function renderRootComponent() {
+    console.log('this is from S3');
     ReactDOM.render((
         <App/>
     ),
