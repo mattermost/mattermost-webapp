@@ -9,6 +9,9 @@ import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId, getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {appsEnabled, makeAppBindingsSelector} from 'mattermost-redux/selectors/entities/apps';
+import {getThreadOrSynthetic} from 'mattermost-redux/selectors/entities/threads';
+import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+
 import {AppBindingLocations} from 'mattermost-redux/constants/apps';
 import {isSystemMessage} from 'mattermost-redux/utils/post_utils';
 import {isCombinedUserActivityPost} from 'mattermost-redux/utils/post_list';
@@ -65,8 +68,21 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
     const currentTeam = getCurrentTeam(state) || {};
     const currentTeamUrl = `${getSiteURL()}/${currentTeam.name}`;
 
+    const rootId = post.root_id || post.id;
+    const systemMessage = isSystemMessage(post);
+    let threadReplyCount = 0;
+    let isFollowingThread = false;
+    let threadId = rootId;
+
+    if (rootId && !systemMessage) {
+        const thread = getThreadOrSynthetic(state, rootId);
+        threadReplyCount = thread.reply_count;
+        isFollowingThread = thread.is_following;
+        threadId = thread.id;
+    }
+
     const apps = appsEnabled(state);
-    const showBindings = apps && !isSystemMessage(post) && !isCombinedUserActivityPost(post.id);
+    const showBindings = apps && !systemMessage && !isCombinedUserActivityPost(post.id);
     const appBindings = showBindings ? getPostMenuBindings(state) : undefined;
 
     return {
@@ -79,6 +95,12 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
         canEdit: PostUtils.canEditPost(state, post, license, config, channel, userId),
         canDelete: PostUtils.canDeletePost(state, post, channel),
         currentTeamUrl,
+        currentTeamId: currentTeam.id,
+        userId,
+        threadId,
+        isFollowingThread,
+        isCollapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
+        threadReplyCount,
         appBindings,
         appsEnabled: apps,
         ...ownProps,
@@ -95,6 +117,7 @@ type Actions = {
     markPostAsUnread: (post: Post) => void;
     doAppCall: DoAppCall;
     postEphemeralCallResponseForPost: PostEphemeralCallResponseForPost;
+    setThreadFollow: (userId: string, teamId: string, threadId: string, newState: boolean) => void;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
