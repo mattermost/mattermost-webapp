@@ -19,7 +19,7 @@ import {getCloudContactUsLink, InquiryType} from 'selectors/cloud';
 import {ModalIdentifiers} from 'utils/constants';
 
 import {closeModal} from 'actions/views/modals';
-import {completeStripeAddPaymentMethod} from 'actions/cloud';
+import {completeStripeAddPaymentMethod, updateCloudSelectedProduct} from 'actions/cloud';
 
 import PurchaseModal from './purchase_modal';
 
@@ -30,21 +30,21 @@ function mapStateToProps(state: GlobalState) {
             add_ons: null,
             description: '',
             id: 'prod_Hm2oYaBiRSISL1',
-            name: 'Cloud Starter',
+            name: 'Mattermost Cloud Starter',
             price_per_seat: 8,
         },
         {
             add_ons: null,
             description: '',
             id: 'prod_Hm2oYaBiRSISL2',
-            name: 'Cloud Professional',
+            name: 'Mattermost Cloud Professional',
             price_per_seat: 10,
         },
         {
             add_ons: null,
             description: '',
             id: 'prod_Hm2oYaBiRSISL3',
-            name: 'Cloud Enterprise',
+            name: 'Mattermost Cloud Enterprise',
             price_per_seat: 12,
         },
     ];
@@ -61,6 +61,7 @@ type Actions = {
     closeModal: () => void;
     getCloudProducts: () => void;
     completeStripeAddPaymentMethod: (stripe: Stripe, billingDetails: BillingDetails, isDevMode: boolean) => Promise<boolean | null>;
+    updateCloudSelectedProduct: (selectedProductId: string, subscriptionId: string, installationId: string) => Promise<boolean | null>;
     getClientConfig: () => void;
     getCloudSubscription: () => void;
 }
@@ -72,6 +73,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
                 closeModal: () => closeModal(ModalIdentifiers.CLOUD_PURCHASE),
                 getCloudProducts,
                 completeStripeAddPaymentMethod,
+                updateCloudSelectedProduct,
                 getClientConfig,
                 getCloudSubscription,
             },

@@ -9,6 +9,7 @@ import {Client4} from 'mattermost-redux/client';
 import {getConfirmCardSetup} from 'components/payment_form/stripe';
 
 import {StripeSetupIntent, BillingDetails} from 'types/cloud/sku';
+import {Product} from 'mattermost-redux/types/cloud';
 
 // Returns true for success, and false for any error
 export function completeStripeAddPaymentMethod(stripe: Stripe, billingDetails: BillingDetails, isDevMode: boolean) {
@@ -63,6 +64,19 @@ export function completeStripeAddPaymentMethod(stripe: Stripe, billingDetails: B
         try {
             await Client4.confirmPaymentMethod(setupIntent.id);
         } catch (error) {
+            return false;
+        }
+
+        return true;
+    };
+}
+
+export function updateCloudSelectedProduct(selectedProductId: string, subscriptionId: string, installationId: string) {
+    return async () => {
+        try {
+            await Client4.updateCloudSelectedProduct(selectedProductId, installationId, subscriptionId);
+        } catch (error) {
+            console.error('There was a payment updating the selected product');
             return false;
         }
 

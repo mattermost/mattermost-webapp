@@ -7,28 +7,34 @@ type RadioGroupProps = {
     id: string;
     values: Array<{ key: string; value: string}>;
     value: string;
-    isDisabled: Function;
+    isDisabled: (id: string) => boolean;
     onChange(e: React.ChangeEvent<HTMLInputElement>): void;
 }
-const RadioButtonGroup: React.FC<RadioGroupProps> = (props) => {
+const RadioButtonGroup: React.FC<RadioGroupProps> = ({
+    id,
+    onChange,
+    isDisabled,
+    values,
+    value,
+}) => {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        props.onChange(e);
+        onChange(e);
     };
 
     const options = [];
-    for (const {value, key} of props.values) {
-        const disabled = props.isDisabled ? props.isDisabled(value) : false;
+    for (const {value: val, key} of values) {
+        const disabled = isDisabled ? isDisabled(val) : false;
         options.push(
             <div
                 className='radio'
-                key={value}
+                key={val}
             >
-                <label className={value === props.value ? 'selected' : ''}>
+                <label className={val === value ? 'selected' : ''}>
                     <input
                         type='radio'
-                        value={value}
-                        name={props.id}
-                        checked={value === props.value}
+                        value={val}
+                        name={id}
+                        checked={val === value}
                         onChange={handleChange}
                         disabled={disabled}
                     />

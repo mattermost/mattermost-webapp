@@ -39,7 +39,7 @@ let stripePromise: Promise<Stripe | null>;
 type Props = {
     show: boolean;
     isDevMode: boolean;
-    products?: Dictionary<Product>;
+    products?: Product[];
     contactSupportLink: string;
     contactSalesLink: string;
     isFreeTrial: boolean;
@@ -47,6 +47,7 @@ type Props = {
         closeModal: () => void;
         getCloudProducts: () => void;
         completeStripeAddPaymentMethod: (stripe: Stripe, billingDetails: BillingDetails, isDevMode: boolean) => Promise<boolean | null>;
+        updateCloudSelectedProduct: (selectedProductId: string, subscriptionId: string, installationId: string) => Promise<boolean | null>;
         getClientConfig: () => void;
         getCloudSubscription: () => void;
     };
@@ -57,7 +58,7 @@ type State = {
     billingDetails: BillingDetails | null;
     cardInputComplete: boolean;
     processing: boolean;
-    selectedProduct: Product | null;
+    selectedProduct: Product | null | undefined;
 }
 export default class PurchaseModal extends React.PureComponent<Props, State> {
     modal = React.createRef();
@@ -83,10 +84,16 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
 
         let selectedProduct = null;
         if (this.props.products) {
-            const keys = Object.keys(this.props.products);
-            if (keys.length > 0) {
+            const productsLength = this.props.products.length;
+            if (productsLength > 0) {
                 // Assuming the first and only one for now.
-                selectedProduct = this.props.products[keys[0]];
+                if (productsLength === 1) {
+                    selectedProduct = this.props.products[0];
+                } else {
+                    selectedProduct = this.props.products.find((product: Product) => {
+                        return product.name === 'Mattermost Cloud Professional';
+                    });
+                }
             }
         }
         this.setState({selectedProduct});
@@ -136,25 +143,26 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
     );
 
     onPlanSelected = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const selectedPlan = Object.keys(this.props.products!).find((key: string) => {
-            return this.props.products![key].id === e.target.value;
+        const selectedPlan = this.props.products!.find((product: Product) => {
+            return product.id === e.target.value;
         });
-        this.setState({selectedProduct: this.props.products![selectedPlan!]});
+        this.setState({selectedProduct: selectedPlan});
     }
 
     listPlans = () => {
-        const options = Object.keys(this.props.products!).map((key: string) => {
-            return {key: this.props.products![key].name, value: this.props.products![key].id};
+        const options = this.props.products?.map((product: Product) => {
+            return {key: product.name, value: product.id};
         });
 
         const isDisabled = (value: string) => {
-            console.log('is disabled: ', value);
+            return false;
         };
+
         return (
             <div className='plans-list'>
                 <RadioButtonGroup
                     id='list-plans-radio-buttons'
-                    values={options}
+                    values={options!}
                     value={this.state.selectedProduct?.id!}
                     isDisabled={isDisabled}
                     onChange={(e: any) => this.onPlanSelected(e)}
@@ -210,6 +218,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                 />
             );
         }
+
         return (
             <div className={this.state.processing ? 'processing' : ''}>
                 <div className='LHS'>
@@ -256,16 +265,18 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                 </div>
                 <div className='RHS'>
                     <div className='price-container'>
-                        <div className='select-plan'>
-                            <div className='title'>
-                                <FormattedMessage
-                                    id='cloud_subscribe.select_plan'
-                                    defaultMessage='Select a plan'
-                                />
-                                {this.comparePlan}
+                        {this.props.isFreeTrial && this.props.products?.length > 1 &&
+                            <div className='select-plan'>
+                                <div className='title'>
+                                    <FormattedMessage
+                                        id='cloud_subscribe.select_plan'
+                                        defaultMessage='Select a plan'
+                                    />
+                                    {this.comparePlan}
+                                </div>
+                                {this.listPlans()}
                             </div>
-                            {this.listPlans()}
-                        </div>
+                        }
                         <div className='bold-text'>
                             {this.state.selectedProduct?.name || ''}
                         </div>
@@ -376,6 +387,9 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                                         addPaymentMethod={
                                             this.props.actions.completeStripeAddPaymentMethod
                                         }
+                                        updateCloudSelectedProduct={
+                                            this.props.isFreeTrial ? this.props.actions.updateCloudSelectedProduct : null
+                                        }
                                         isDevMode={this.props.isDevMode}
                                         onClose={() => {
                                             this.props.actions.getCloudSubscription();
@@ -385,6 +399,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                                             this.setState({processing: false});
                                         }}
                                         contactSupportLink={this.props.contactSalesLink}
+                                        selectedProduct={this.state.selectedProduct}
                                     />
                                 </div>
                             ) : null}

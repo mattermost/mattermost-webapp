@@ -3633,6 +3633,13 @@ export default class Client4 {
         );
     }
 
+    subscribeCloudProduct = (productId: string) => {
+        return this.doFetch<CloudCustomer>(
+            `${this.getCloudRoute()}/subscribe`,
+            {method: 'put', body: JSON.stringify({product_id: productId})},
+        );
+    }
+
     getSubscription = () => {
         return this.doFetch<Subscription>(
             `${this.getCloudRoute()}/subscription`,
