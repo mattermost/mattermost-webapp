@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`AppsForm should set match snapshot 1`] = `
+exports[`AppsFormComponent should set match snapshot 1`] = `
 <Modal
   animation={true}
   aria-labelledby="appsModalLabel"

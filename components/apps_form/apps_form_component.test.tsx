@@ -2,11 +2,19 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow, ShallowWrapper} from 'enzyme';
+import {Provider} from 'react-redux';
+import {shallow} from 'enzyme';
+import configureStore from 'redux-mock-store';
 
-import {AppsForm, Props, State} from './apps_form';
+import {Modal} from 'react-bootstrap';
 
-describe('AppsForm', () => {
+import {mountWithIntl} from 'tests/helpers/intl-test-helper';
+
+import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
+
+import {AppsForm, Props} from './apps_form_component';
+
+describe('AppsFormComponent', () => {
     const baseProps: Props = {
         intl: {} as any,
         onHide: jest.fn(),
@@ -14,7 +22,11 @@ describe('AppsForm', () => {
         actions: {
             performLookupCall: jest.fn(),
             refreshOnSelect: jest.fn(),
-            submit: jest.fn(),
+            submit: jest.fn().mockResolvedValue({
+                data: {
+                    type: 'ok',
+                },
+            }),
         },
         form: {
             title: 'Title',
@@ -49,30 +61,30 @@ describe('AppsForm', () => {
                     type: 'static_select',
                     options: [
                         {label: 'Label1', value: 'Value1'},
-                        {label: 'Label2', value: 'Value2'}
+                        {label: 'Label2', value: 'Value2'},
                     ],
                     value: {label: 'Label1', value: 'Value1'},
                 },
             ],
         },
-    }
+    };
 
     test('should set match snapshot', () => {
-        const wrapper: ShallowWrapper<Props, State, AppsForm> = shallow(
+        const wrapper = shallow<AppsForm>(
             <AppsForm
                 {...baseProps}
-            />
-        ) as unknown as ShallowWrapper<Props, State, AppsForm>;
+            />,
+        );
 
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should set initial form values', () => {
-        const wrapper: ShallowWrapper<Props, State, AppsForm> = shallow(
+        const wrapper = shallow<AppsForm>(
             <AppsForm
                 {...baseProps}
-            />
-        ) as unknown as ShallowWrapper<Props, State, AppsForm>;
+            />,
+        );
 
         expect(wrapper.state().values).toEqual({
             bool1: false,
@@ -92,13 +104,13 @@ describe('AppsForm', () => {
                 ...baseProps.actions,
                 submit,
             },
-        }
+        };
 
-        const wrapper: ShallowWrapper<Props, State, AppsForm> = shallow(
+        const wrapper = shallow<AppsForm>(
             <AppsForm
                 {...props}
-            />
-        ) as unknown as ShallowWrapper<Props, State, AppsForm>;
+            />,
+        );
 
         const hide = jest.fn();
         wrapper.instance().handleHide = hide;
@@ -115,5 +127,88 @@ describe('AppsForm', () => {
             },
         });
         expect(hide).toHaveBeenCalled();
+    });
+
+    describe('generic error message', () => {
+        test('should appear when submit returns an error', async () => {
+            const props = {
+                ...baseProps,
+                actions: {
+                    ...baseProps.actions,
+                    submit: jest.fn().mockResolvedValue({
+                        error: {error: 'This is an error.', type: AppCallResponseTypes.ERROR},
+                    }),
+                },
+            };
+            const wrapper = shallow<AppsForm>(<AppsForm {...props}/>);
+
+            await wrapper.instance().handleSubmit({preventDefault: jest.fn()} as any);
+
+            const expected = (
+                <div className='error-text'>
+                    {'This is an error.'}
+                </div>
+            );
+            expect(wrapper.find(Modal.Footer).containsMatchingElement(expected)).toBe(true);
+        });
+
+        test('should not appear when submit does not return an error', async () => {
+            const wrapper = shallow<AppsForm>(<AppsForm {...baseProps}/>);
+            await wrapper.instance().handleSubmit({preventDefault: jest.fn()} as any);
+
+            expect(wrapper.find(Modal.Footer).exists('.error-text')).toBe(false);
+        });
+    });
+
+    describe('default select element', () => {
+        const mockStore = configureStore();
+
+        test('should be enabled by default', () => {
+            const selectField = {
+                type: 'static_select',
+                value: {label: 'Option3', value: 'opt3'},
+                modal_label: 'Option Selector',
+                name: 'someoptionselector',
+                is_required: true,
+                options: [
+                    {label: 'Option1', value: 'opt1'},
+                    {label: 'Option2', value: 'opt2'},
+                    {label: 'Option3', value: 'opt3'},
+                ],
+                min_length: 2,
+                max_length: 1024,
+                hint: '',
+                subtype: '',
+                description: '',
+            };
+
+            const fields = [selectField];
+            const props = {
+                ...baseProps,
+                call: {},
+                form: {
+                    fields,
+                },
+            };
+
+            const state = {
+                entities: {
+                    general: {
+                        config: {},
+                    },
+                    preferences: {
+                        myPreferences: {},
+                    },
+                },
+            };
+
+            const store = mockStore(state);
+            const wrapper = mountWithIntl(
+                <Provider store={store}>
+                    <AppsForm {...props}/>
+                </Provider>,
+            );
+            expect(wrapper.find(Modal.Body).find('.react-select__single-value').text()).toEqual('Option3');
+        });
     });
 });

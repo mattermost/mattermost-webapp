@@ -11,7 +11,7 @@ import {AppCallTypes, AppCallResponseTypes} from 'mattermost-redux/constants/app
 import {DoAppCall, DoAppCallResult, PostEphemeralCallResponseForContext} from 'types/apps';
 import {makeCallErrorResponse} from 'utils/apps';
 
-import AppsForm from './apps_form';
+import AppsForm from './apps_form_component';
 
 type Props = {
     intl: IntlShape;
