@@ -560,6 +560,36 @@ describe('postsInChannel', () => {
             expect(nextState).toEqual({});
         });
 
+        it('should do nothing when a reply-post comes and CRT is ON', () => {
+            const state = deepFreeze({
+                channel1: [],
+            });
+
+            const nextState = reducers.postsInChannel(state, {
+                type: PostTypes.RECEIVED_NEW_POST,
+                data: {id: 'post1', channel_id: 'channel1', root_id: 'parent1'},
+                features: {crtEnabled: true},
+            }, {}, {});
+
+            expect(nextState).toBe(state);
+            expect(nextState).toEqual({
+                channel1: [],
+            });
+        });
+
+        it('should reset when called for (e.g. when CRT is TOGGLED)', () => {
+            const state = deepFreeze({
+                channel1: [],
+            });
+
+            const nextState = reducers.postsInChannel(state, {
+                type: PostTypes.RESET_POSTS_IN_CHANNEL,
+            }, {}, {});
+
+            expect(nextState).not.toBe(state);
+            expect(nextState).toEqual({});
+        });
+
         it('should store the new post when the channel is empty', () => {
             const state = deepFreeze({
                 channel1: [],
