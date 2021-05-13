@@ -100,6 +100,16 @@ export type ViewsState = {
                 team_roles?: string[];
             };
         };
+        teamListSearch: string;
+        channelListSearch: {
+            term: string;
+            filters: {
+                public?: boolean;
+                private?: boolean;
+                deleted?: boolean;
+                team_ids?: string[];
+            };
+        };
     };
 
     notice: {

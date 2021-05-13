@@ -101,14 +101,14 @@ export function getTeamByName(teamName: string): ActionFunc {
     });
 }
 
-export function getTeams(page = 0, perPage: number = General.TEAMS_CHUNK_SIZE, includeTotalCount = false): ActionFunc {
+export function getTeams(page = 0, perPage: number = General.TEAMS_CHUNK_SIZE, includeTotalCount = false, excludePolicyConstrained = false): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         let data;
 
         dispatch({type: TeamTypes.GET_TEAMS_REQUEST, data});
 
         try {
-            data = await Client4.getTeams(page, perPage, includeTotalCount) as TeamsWithCount;
+            data = await Client4.getTeams(page, perPage, includeTotalCount, excludePolicyConstrained) as TeamsWithCount;
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
             dispatch({type: TeamTypes.GET_TEAMS_FAILURE, data});

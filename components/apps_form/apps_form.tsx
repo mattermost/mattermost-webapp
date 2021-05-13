@@ -8,9 +8,11 @@ import {FormattedMessage, injectIntl, WrappedComponentProps} from 'react-intl';
 import {
     checkDialogElementForError, checkIfErrorsMatchElements,
 } from 'mattermost-redux/utils/integration_utils';
-import {AppCallResponse, AppField, AppForm, AppFormValues, AppSelectOption, AppCall} from 'mattermost-redux/types/apps';
+import {AppCallResponse, AppField, AppForm, AppFormValues, AppSelectOption, FormResponseData, AppLookupResponse} from 'mattermost-redux/types/apps';
 import {DialogElement} from 'mattermost-redux/types/integrations';
 import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
+
+import {DoAppCallResult} from 'types/apps';
 
 import SpinnerButton from 'components/spinner_button';
 import SuggestionList from 'components/suggestion/suggestion_list';
@@ -22,34 +24,25 @@ import AppsFormField from './apps_form_field';
 import AppsFormHeader from './apps_form_header';
 
 export type AppsFormProps = {
-    call: AppCall;
     form: AppForm;
     isEmbedded?: boolean;
     onHide: () => void;
     actions: {
         submit: (submission: {
-            values: {
-                [name: string]: string;
-            };
-        }) => Promise<{data: AppCallResponse<FormResponseData>}>;
-        performLookupCall: (field: AppField, values: AppFormValues, userInput: string) => Promise<AppSelectOption[]>;
-        refreshOnSelect: (field: AppField, values: AppFormValues) => Promise<{data: AppCallResponse<any>}>;
+            values: AppFormValues;
+        }) => Promise<DoAppCallResult<FormResponseData>>;
+        performLookupCall: (field: AppField, values: AppFormValues, userInput: string) => Promise<DoAppCallResult<AppLookupResponse>>;
+        refreshOnSelect: (field: AppField, values: AppFormValues) => Promise<DoAppCallResult<FormResponseData>>;
     };
 }
 
 type Props = AppsFormProps & WrappedComponentProps<'intl'>;
 
-type FormResponseData = {
-    errors: {
-        [field: string]: string;
-    };
-}
-
 type State = {
     show: boolean;
     values: {[name: string]: string};
-    error: string | null;
-    errors: {[name: string]: React.ReactNode};
+    formError: string | null;
+    fieldErrors: {[name: string]: React.ReactNode};
     submitting: boolean;
     form: AppForm;
 }
@@ -75,8 +68,8 @@ export class AppsForm extends React.PureComponent<Props, State> {
         this.state = {
             show: true,
             values,
-            error: null,
-            errors: {},
+            formError: null,
+            fieldErrors: {},
             submitting: false,
             form,
         };
@@ -93,6 +86,30 @@ export class AppsForm extends React.PureComponent<Props, State> {
         return null;
     }
 
+    updateErrors = (elements: DialogElement[], fieldErrors?: {[x: string]: string}, formError?: string): boolean => {
+        let hasErrors = false;
+        const state = {} as State;
+
+        if (formError) {
+            hasErrors = true;
+            state.formError = formError;
+        }
+
+        if (fieldErrors &&
+            Object.keys(fieldErrors).length >= 0 &&
+            checkIfErrorsMatchElements(fieldErrors as any, elements)
+        ) {
+            hasErrors = true;
+            state.fieldErrors = fieldErrors;
+        }
+
+        if (hasErrors) {
+            this.setState(state);
+        }
+
+        return hasErrors;
+    }
+
     handleSubmit = async (e: React.FormEvent, submitName?: string, value?: string) => {
         e.preventDefault();
 
@@ -102,34 +119,27 @@ export class AppsForm extends React.PureComponent<Props, State> {
             values[submitName] = value;
         }
 
-        const errors: {[name: string]: React.ReactNode} = {};
-        if (fields) {
-            fields.forEach((field) => {
-                const element = {
-                    name: field.name,
-                    type: field.type,
-                    subtype: field.subtype,
-                    optional: !field.is_required,
-                } as DialogElement;
-                const error = checkDialogElementForError( // TODO: make sure all required values are present in `element`
-                    element,
-                    values[field.name],
+        const fieldErrors: {[name: string]: React.ReactNode} = {};
+
+        const elements = fieldsAsElements(fields);
+        elements?.forEach((element) => {
+            const error = checkDialogElementForError( // TODO: make sure all required values are present in `element`
+                element,
+                values[element.name],
+            );
+            if (error) {
+                fieldErrors[element.name] = (
+                    <FormattedMessage
+                        id={error.id}
+                        defaultMessage={error.defaultMessage}
+                        values={error.values}
+                    />
                 );
-                if (error) {
-                    errors[field.name] = (
-                        <FormattedMessage
-                            id={error.id}
-                            defaultMessage={error.defaultMessage}
-                            values={error.values}
-                        />
-                    );
-                }
-            });
-        }
+            }
+        });
 
-        this.setState({errors});
-
-        if (Object.keys(errors).length !== 0) {
+        this.setState({fieldErrors});
+        if (Object.keys(fieldErrors).length !== 0) {
             return;
         }
 
@@ -140,30 +150,23 @@ export class AppsForm extends React.PureComponent<Props, State> {
         this.setState({submitting: true});
 
         const res = await this.props.actions.submit(submission);
-        const callResp = res.data as AppCallResponse<FormResponseData>;
+
+        if (res.error) {
+            const errorResponse = res.error;
+            const errorMessage = errorResponse.error;
+            const hasErrors = this.updateErrors(elements, errorResponse.data?.errors, errorMessage);
+            if (!hasErrors) {
+                this.handleHide(false);
+            }
+            return;
+        }
+
+        const callResponse = res.data as AppCallResponse<FormResponseData>;
+        this.setState({submitting: false});
 
         let hasErrors = false;
         let updatedForm = false;
-        switch (callResp.type) {
-        case AppCallResponseTypes.ERROR: {
-            if (callResp.error) {
-                hasErrors = true;
-                this.setState({error: callResp.error});
-            }
-
-            const newErrors = callResp.data?.errors;
-
-            const elements = fields.map((field) => ({name: field.name})) as DialogElement[];
-            if (
-                newErrors &&
-                Object.keys(newErrors).length >= 0 &&
-                checkIfErrorsMatchElements(newErrors as any, elements) // TODO fix types on redux
-            ) {
-                hasErrors = true;
-                this.setState({errors: newErrors});
-            }
-            break;
-        }
+        switch (callResponse.type) {
         case AppCallResponseTypes.FORM:
             updatedForm = true;
             break;
@@ -172,10 +175,12 @@ export class AppsForm extends React.PureComponent<Props, State> {
             break;
         default:
             hasErrors = true;
-            this.setState({error: this.props.intl.formatMessage(
-                {id: 'apps.error.responses.unknown_type', defaultMessage: 'App response type not supported. Response type: {type}.'},
-                {type: callResp.type},
-            )});
+            this.updateErrors([], undefined, this.context.intl.formatMessage({
+                id: 'apps.error.responses.unknown_type',
+                defaultMessage: 'App response type not supported. Response type: {type}.',
+            }, {
+                type: callResponse.type,
+            }));
         }
 
         if (!hasErrors && !updatedForm) {
@@ -187,12 +192,66 @@ export class AppsForm extends React.PureComponent<Props, State> {
     };
 
     performLookup = async (name: string, userInput: string): Promise<AppSelectOption[]> => {
+        const intl = this.context.intl;
         const field = this.props.form.fields.find((f) => f.name === name);
         if (!field) {
             return [];
         }
 
-        return this.props.actions.performLookupCall(field, this.state.values, userInput);
+        const res = await this.props.actions.performLookupCall(field, this.state.values, userInput);
+        if (res.error) {
+            const errorResponse = res.error;
+            const errMsg = errorResponse.error || intl.formatMessage({
+                id: 'apps.error.unknown',
+                defaultMessage: 'Unknown error.',
+            });
+            this.setState({
+                fieldErrors: {
+                    ...this.state.fieldErrors,
+                    [field.name]: errMsg,
+                },
+            });
+            return [];
+        }
+
+        const callResp = res.data!;
+        switch (callResp.type) {
+        case AppCallResponseTypes.OK:
+            return callResp.data?.items || [];
+        case AppCallResponseTypes.FORM:
+        case AppCallResponseTypes.NAVIGATE: {
+            const errMsg = intl.formatMessage({
+                id: 'apps.error.responses.unexpected_type',
+                defaultMessage: 'App response type was not expected. Response type: {type}.',
+            }, {
+                type: callResp.type,
+            },
+            );
+            this.setState({
+                fieldErrors: {
+                    ...this.state.fieldErrors,
+                    [field.name]: errMsg,
+                },
+            });
+            return [];
+        }
+        default: {
+            const errMsg = intl.formatMessage({
+                id: 'apps.error.responses.unknown_type',
+                defaultMessage: 'App response type not supported. Response type: {type}.',
+            }, {
+                type: callResp.type,
+            },
+            );
+            this.setState({
+                fieldErrors: {
+                    ...this.state.fieldErrors,
+                    [field.name]: errMsg,
+                },
+            });
+            return [];
+        }
+        }
     }
 
     onHide = () => {
@@ -225,7 +284,38 @@ export class AppsForm extends React.PureComponent<Props, State> {
         const values = {...this.state.values, [name]: value};
 
         if (field.refresh) {
-            this.props.actions.refreshOnSelect(field, values);
+            this.props.actions.refreshOnSelect(field, values).then((res) => {
+                if (res.error) {
+                    const errorResponse = res.error;
+                    const errorMsg = errorResponse.error;
+                    const errors = errorResponse.data?.errors;
+                    const elements = fieldsAsElements(this.props.form.fields);
+                    this.updateErrors(elements, errors, errorMsg);
+                    return;
+                }
+
+                const callResponse = res.data!;
+                switch (callResponse.type) {
+                case AppCallResponseTypes.FORM:
+                    return;
+                case AppCallResponseTypes.OK:
+                case AppCallResponseTypes.NAVIGATE:
+                    this.updateErrors([], undefined, this.context.intl.formatMessage({
+                        id: 'apps.error.responses.unexpected_type',
+                        defaultMessage: 'App response type was not expected. Response type: {type}.',
+                    }, {
+                        type: callResponse.type,
+                    }));
+                    return;
+                default:
+                    this.updateErrors([], undefined, this.context.intl.formatMessage({
+                        id: 'apps.error.responses.unknown_type',
+                        defaultMessage: 'App response type not supported. Response type: {type}.',
+                    }, {
+                        type: callResponse.type,
+                    }));
+                }
+            });
         }
 
         this.setState({values});
@@ -245,7 +335,10 @@ export class AppsForm extends React.PureComponent<Props, State> {
                 role='dialog'
                 aria-labelledby='appsModalLabel'
             >
-                <form onSubmit={(e: React.FormEvent) => this.handleSubmit(e)}>
+                <form
+                    onSubmit={this.handleSubmit}
+                    autoComplete={'off'}
+                >
                     <Modal.Header
                         closeButton={true}
                         style={{borderBottom: fields && fields.length ? '' : '0px'}}
@@ -333,7 +426,7 @@ export class AppsForm extends React.PureComponent<Props, State> {
                     key={field.name}
                     autoFocus={index === 0}
                     name={field.name}
-                    errorText={this.state.errors[field.name]}
+                    errorText={this.state.fieldErrors[field.name]}
                     value={this.state.values[field.name]}
                     performLookup={this.performLookup}
                     onChange={this.onChange}
@@ -412,8 +505,8 @@ export class AppsForm extends React.PureComponent<Props, State> {
 
         return (
             <React.Fragment>
-                {this.state.error && (
-                    <div className='error-text'>{this.state.error}</div>
+                {this.state.formError && (
+                    <div className='error-text'>{this.state.formError}</div>
                 )}
                 <button
                     id='appsModalCancel'
@@ -434,6 +527,15 @@ export class AppsForm extends React.PureComponent<Props, State> {
     render() {
         return this.props.isEmbedded ? this.renderEmbedded() : this.renderModal();
     }
+}
+
+function fieldsAsElements(fields?: AppField[]): DialogElement[] {
+    return fields?.map((f) => ({
+        name: f.name,
+        type: f.type,
+        subtype: f.subtype,
+        optional: !f.is_required,
+    })) as DialogElement[];
 }
 
 export default injectIntl(AppsForm);

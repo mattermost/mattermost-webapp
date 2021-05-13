@@ -294,18 +294,18 @@ function performActionsToLastPost() {
     cy.getLastPostId().then((postId) => {
         // # Add grinning reaction
         cy.clickPostReactionIcon(postId);
-        cy.findByTestId('grinning').trigger('mouseover');
-        cy.get('#emojiPickerSpritePreview').should('be.visible');
+        cy.findByTestId('grinning').trigger('mouseover', {force: true});
+        cy.get('.sprite-preview').should('be.visible');
         cy.get('#emojiPickerAliasesPreview').should('be.visible').and('have.text', ':grinning:');
-        cy.findByTestId('grinning').click();
+        cy.findByTestId('grinning').click({force: true});
         cy.get(`#postReaction-${postId}-grinning`).should('be.visible');
 
         // # Add smile reaction
         cy.clickPostReactionIcon(postId);
-        cy.findByTestId('smile').trigger('mouseover');
-        cy.get('#emojiPickerSpritePreview').should('be.visible');
+        cy.findByTestId('smile').trigger('mouseover', {force: true});
+        cy.get('.sprite-preview').should('be.visible');
         cy.get('#emojiPickerAliasesPreview').should('be.visible').and('have.text', ':smile:');
-        cy.findByTestId('smile').click();
+        cy.findByTestId('smile').click({force: true});
         cy.get(`#postReaction-${postId}-smile`).should('be.visible');
 
         // # Save the post

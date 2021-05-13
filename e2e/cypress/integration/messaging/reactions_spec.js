@@ -29,7 +29,7 @@ describe('Messaging', () => {
             cy.clickPostCommentIcon(postId);
 
             // # Type "+:+1:" in comment box to react to the post with a thumbs-up and post
-            cy.postMessageReplyInRHS('+:+1:{enter}');
+            cy.postMessageReplyInRHS('+:+1:');
 
             // * Thumbs-up reaction displays as reaction on post
             cy.get(`#${postId}_message`).within(() => {
@@ -149,7 +149,7 @@ describe('Messaging', () => {
 
     it('MM-T2196 Emoji reaction - not available on ephemeral message Save - not available on ephemeral message Pin - not available on ephemeral message Timestamp - not a link on ephemeral message Can close ephemeral message', () => {
         // # Post `/away` to create an ephemeral message
-        cy.postMessage('/away');
+        cy.postMessage('/away ');
 
         cy.getLastPostId().then((postId) => {
             // * (Only visible to you) displays next to timestamp (standard view) or after message text (compact view)

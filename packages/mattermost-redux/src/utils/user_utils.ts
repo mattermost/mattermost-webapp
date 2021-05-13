@@ -19,7 +19,7 @@ export function getFullName(user: UserProfile): string {
 }
 
 export function displayUsername(
-    user: UserProfile,
+    user: UserProfile | null | undefined,
     teammateNameDisplay: string,
     useFallbackUsername = true,
 ): string {

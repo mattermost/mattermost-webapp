@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/SearchHint should match snapshot, with searchType and filesSearchEnabled 1`] = `
+exports[`components/SearchHint should match snapshot, with searchType 1`] = `
 <Fragment>
   <ul
     className="search-hint__suggestions-list"
@@ -378,7 +378,7 @@ exports[`components/SearchHint should match snapshot, with title 1`] = `
 </Fragment>
 `;
 
-exports[`components/SearchHint should match snapshot, without searchType and filesSearchEnabled 1`] = `
+exports[`components/SearchHint should match snapshot, without searchType 1`] = `
 <div
   className="search-hint__search-type-selector"
 >

@@ -6,15 +6,10 @@ import React from 'react';
 import {Store} from 'redux';
 
 import {Client4} from 'mattermost-redux/client';
-import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {getChannel, getCurrentChannel, getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
 import {appsEnabled} from 'mattermost-redux/selectors/entities/apps';
-import {AutocompleteSuggestion} from 'mattermost-redux/types/integrations';
-import {Post} from 'mattermost-redux/types/posts';
+import {AutocompleteSuggestion, CommandArgs} from 'mattermost-redux/types/integrations';
 
 import globalStore from 'stores/redux_store';
-
-import {getSelectedPost} from 'selectors/rhs';
 
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils';
@@ -80,7 +75,9 @@ export class CommandSuggestion extends Suggestion {
 }
 
 type Props = {
-    isInRHS: boolean;
+    teamId: string;
+    channelId: string;
+    rootId?: string;
 };
 
 export type Results = {
@@ -93,7 +90,7 @@ export type Results = {
 type ResultsCallback = (results: Results) => void;
 
 export default class CommandProvider extends Provider {
-    private isInRHS: boolean;
+    private props: Props;
     private store: Store<GlobalState>;
     private triggerCharacter: string;
     private appCommandParser: AppCommandParser;
@@ -102,19 +99,14 @@ export default class CommandProvider extends Provider {
         super();
 
         this.store = globalStore;
-        this.isInRHS = props.isInRHS;
-        let rootId;
-        let channelId = getCurrentChannelId(this.store.getState());
-        if (this.isInRHS) {
-            const selectedPost = getSelectedPost(this.store.getState()) as Post;
-            if (selectedPost) {
-                channelId = selectedPost?.channel_id;
-                rootId = selectedPost?.root_id ? selectedPost.root_id : selectedPost.id;
-            }
-        }
-
-        this.appCommandParser = new AppCommandParser(this.store as any, intlShim, channelId, rootId);
+        this.props = props;
+        this.appCommandParser = new AppCommandParser(this.store as any, intlShim, props.channelId, props.rootId);
         this.triggerCharacter = '/';
+    }
+
+    setProps(props: Props) {
+        this.props = props;
+        this.appCommandParser.setChannelContext(props.channelId, props.rootId);
     }
 
     handlePretextChanged(pretext: string, resultCallback: ResultsCallback) {
@@ -154,8 +146,10 @@ export default class CommandProvider extends Provider {
     }
 
     handleMobile(pretext: string, resultCallback: ResultsCallback) {
+        const {teamId} = this.props;
+
         const command = pretext.toLowerCase();
-        Client4.getCommandsList(getCurrentTeamId(this.store.getState())).then(
+        Client4.getCommandsList(teamId).then(
             (data) => {
                 let matches: AutocompleteSuggestion[] = [];
                 if (appsEnabled(this.store.getState())) {
@@ -168,21 +162,23 @@ export default class CommandProvider extends Provider {
                         return;
                     }
 
-                    if (cmd.trigger !== 'shortcuts') {
-                        if ((this.triggerCharacter + cmd.trigger).indexOf(command) === 0) {
-                            const s = this.triggerCharacter + cmd.trigger;
-                            let hint = '';
-                            if (cmd.auto_complete_hint && cmd.auto_complete_hint.length !== 0) {
-                                hint = cmd.auto_complete_hint;
-                            }
-                            matches.push({
-                                Suggestion: s,
-                                Complete: '',
-                                Hint: hint,
-                                Description: cmd.auto_complete_desc,
-                                IconData: '',
-                            });
+                    if (cmd.trigger === 'shortcuts') {
+                        return;
+                    }
+
+                    if ((this.triggerCharacter + cmd.trigger).indexOf(command) === 0) {
+                        const s = this.triggerCharacter + cmd.trigger;
+                        let hint = '';
+                        if (cmd.auto_complete_hint && cmd.auto_complete_hint.length !== 0) {
+                            hint = cmd.auto_complete_hint;
                         }
+                        matches.push({
+                            Suggestion: s,
+                            Complete: '',
+                            Hint: hint,
+                            Description: cmd.auto_complete_desc,
+                            IconData: '',
+                        });
                     }
                 });
 
@@ -198,24 +194,17 @@ export default class CommandProvider extends Provider {
                     component: CommandSuggestion,
                 });
             },
-        ).catch(
-            () => {}, //eslint-disable-line no-empty-function
         );
     }
 
     handleWebapp(pretext: string, resultCallback: ResultsCallback) {
         const command = pretext.toLowerCase();
-        const teamId = getCurrentTeamId(this.store.getState());
-        const selectedPost = getSelectedPost(this.store.getState()) as Post | undefined;
-        let rootId;
-        if (this.isInRHS && selectedPost) {
-            rootId = selectedPost.root_id ? selectedPost.root_id : selectedPost.id;
-        }
-        const channel = this.isInRHS && selectedPost?.channel_id ? getChannel(this.store.getState(), selectedPost.channel_id) : getCurrentChannel(this.store.getState());
 
-        const args = {
-            channel_id: channel?.id,
-            ...(rootId && {root_id: rootId, parent_id: rootId}),
+        const {teamId, channelId, rootId} = this.props;
+        const args: CommandArgs = {
+            team_id: teamId,
+            channel_id: channelId,
+            root_id: rootId,
         };
 
         Client4.getCommandAutocompleteSuggestionsList(command, teamId, args).then(

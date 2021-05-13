@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
 import {regenOAuthAppSecret, deleteOAuthApp} from 'mattermost-redux/actions/integrations';
-import {getOAuthApps} from 'mattermost-redux/selectors/entities/integrations';
+import {getAppsOAuthAppIDs, getOAuthApps} from 'mattermost-redux/selectors/entities/integrations';
 import {haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
 import {Permissions} from 'mattermost-redux/constants';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
@@ -27,6 +27,7 @@ function mapStateToProps(state: GlobalState) {
     return {
         canManageOauth: haveISystemPermission(state, {permission: Permissions.MANAGE_OAUTH}),
         oauthApps: getOAuthApps(state),
+        appsOAuthAppIDs: getAppsOAuthAppIDs(state),
         enableOAuthServiceProvider,
         team: getCurrentTeam(state),
     };

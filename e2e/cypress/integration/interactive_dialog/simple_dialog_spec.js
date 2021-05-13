@@ -56,7 +56,7 @@ describe('Interactive Dialog without element', () => {
 
     it('MM-T2500_1 UI check', () => {
         // # Post a slash command
-        cy.postMessage(`/${createdCommand.trigger}`);
+        cy.postMessage(`/${createdCommand.trigger} `);
 
         // * Verify that the interactive dialog modal open up
         cy.get('#interactiveDialogModal').should('be.visible').within(() => {
@@ -82,7 +82,7 @@ describe('Interactive Dialog without element', () => {
 
     it('MM-T2500_2 "X" closes the dialog', () => {
         // # Post a slash command
-        cy.postMessage(`/${createdCommand.trigger}`);
+        cy.postMessage(`/${createdCommand.trigger} `);
 
         // * Verify that the interactive dialog modal open up
         cy.get('#interactiveDialogModal').should('be.visible');
@@ -101,7 +101,7 @@ describe('Interactive Dialog without element', () => {
 
     it('MM-T2500_3 Cancel button works', () => {
         // # Post a slash command
-        cy.postMessage(`/${createdCommand.trigger}`);
+        cy.postMessage(`/${createdCommand.trigger} `);
 
         // * Verify that the interactive dialog modal open up
         cy.get('#interactiveDialogModal').should('be.visible');
@@ -118,7 +118,7 @@ describe('Interactive Dialog without element', () => {
 
     it('MM-T2500_4 Submit button works', () => {
         // # Post a slash command
-        cy.postMessage(`/${createdCommand.trigger}`);
+        cy.postMessage(`/${createdCommand.trigger} `);
 
         // * Verify that the interactive dialog modal open up
         cy.get('#interactiveDialogModal').should('be.visible');
