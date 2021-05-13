@@ -29,7 +29,7 @@ import {
 } from 'mattermost-redux/actions/channels';
 import {getCloudSubscription, getSubscriptionStats} from 'mattermost-redux/actions/cloud';
 import {loadRolesIfNeeded} from 'mattermost-redux/actions/roles';
-import {handleAllMarkedRead, handleReadChanged, handleFollowChanged, handleThreadArrived} from 'mattermost-redux/actions/threads';
+import {handleAllMarkedRead, handleReadChanged, handleFollowChanged, handleThreadArrived, handleAllThreadsInChannelMarkedRead} from 'mattermost-redux/actions/threads';
 
 import {setServerVersion} from 'mattermost-redux/actions/general';
 import {
@@ -1419,6 +1419,8 @@ function handleThreadReadChanged(msg) {
                     },
                 );
             }
+        } else if (msg.broadcast.channel_id) {
+            handleAllThreadsInChannelMarkedRead(doDispatch, doGetState, msg.broadcast.channel_id, msg.data.timestamp);
         } else {
             handleAllMarkedRead(doDispatch, msg.broadcast.team_id);
         }

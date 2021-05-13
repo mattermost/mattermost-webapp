@@ -81,3 +81,61 @@ describe('Selectors.Threads.getThreadsInCurrentTeam', () => {
         assert.deepEqual(Selectors.getThreadsInCurrentTeam(testState), ['a', 'b']);
     });
 });
+
+describe('Selectors.Threads.getThreadsInChannel', () => {
+    const team1 = TestHelper.fakeTeamWithId();
+    const team2 = TestHelper.fakeTeamWithId();
+    const channel1 = TestHelper.fakeChannelWithId();
+    const channel2 = TestHelper.fakeChannelWithId();
+    const channel3 = TestHelper.fakeChannelWithId();
+
+    it('should return threads in channel', () => {
+        const user = TestHelper.fakeUserWithId();
+
+        const profiles = {
+            [user.id]: user,
+        };
+
+        const testState = deepFreezeAndThrowOnMutation({
+            entities: {
+                users: {
+                    currentUserId: user.id,
+                    profiles,
+                },
+                teams: {
+                    currentTeamId: team1.id,
+                },
+                threads: {
+                    threads: {
+                        a: {
+                            post: {
+                                channel_id: channel1.id,
+                            },
+                        },
+                        b: {
+                            post: {
+                                channel_id: channel1.id,
+                            },
+                        },
+                        c: {
+                            post: {
+                                channel_id: channel2.id,
+                            },
+                        },
+                        d: {
+                            post: {
+                                channel_id: channel3.id,
+                            },
+                        },
+                    },
+                    threadsInTeam: {
+                        [team1.id]: ['a', 'b', 'c'],
+                        [team2.id]: ['d'],
+                    },
+                },
+            },
+        });
+
+        assert.deepEqual(Selectors.getThreadsInChannel(testState, channel1.id), ['a', 'b']);
+    });
+});
