@@ -18,6 +18,7 @@ const config = {
         }],
         ['@babel/preset-react', {
             useBuiltIns: true,
+            development: process.env.NODE_ENV === 'development',
         }],
         ['@babel/typescript', {
             allExtensions: true,
