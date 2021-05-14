@@ -39,7 +39,7 @@ let stripePromise: Promise<Stripe | null>;
 type Props = {
     show: boolean;
     isDevMode: boolean;
-    products?: Product[];
+    products?: Dictionary<Product>;
     contactSupportLink: string;
     contactSalesLink: string;
     isFreeTrial: boolean;
@@ -60,6 +60,24 @@ type State = {
     processing: boolean;
     selectedProduct: Product | null | undefined;
 }
+
+function findProductInDictionary(products: Dictionary<Product>, productId?: string): Product | null {
+    const keys = Object.keys(products);
+    let selectedProduct = null;
+    if (keys.length > 1) {
+        // here find the product by the provided id, otherwise return the one with Professional in the name
+        keys.forEach(key => {
+            if (productId && products[key].id === productId) {
+                selectedProduct = products[key];
+            } else if (!productId && products[key].name.includes('Professional')) {
+                selectedProduct = products[key];
+            }
+        });
+    } else if (keys.length === 1) {
+        selectedProduct = products[keys[0]];
+    }
+    return selectedProduct;
+}
 export default class PurchaseModal extends React.PureComponent<Props, State> {
     modal = React.createRef();
 
@@ -71,9 +89,21 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
             billingDetails: null,
             cardInputComplete: false,
             processing: false,
-            selectedProduct: null,
+            selectedProduct: findProductInDictionary(props.products!),
         };
     }
+
+    // static getDerivedStateFromProps(props: Props, state: State) {
+    //     if (this.state.selectedProduct) {
+    //         return null;
+    //     }
+    //     let selectedProduct = null;
+    //     if (props.products) {
+    //         selectedProduct = 
+    //     }
+
+    //     return {...state, selectedProduct};
+    // }
 
     componentDidMount() {
         pageVisited(TELEMETRY_CATEGORIES.CLOUD_PURCHASING, 'pageview_purchase');
@@ -81,22 +111,6 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
 
         // this.fetchProductPrice();
         this.props.actions.getClientConfig();
-
-        let selectedProduct = null;
-        if (this.props.products) {
-            const productsLength = this.props.products.length;
-            if (productsLength > 0) {
-                // Assuming the first and only one for now.
-                if (productsLength === 1) {
-                    selectedProduct = this.props.products[0];
-                } else {
-                    selectedProduct = this.props.products.find((product: Product) => {
-                        return product.name === 'Mattermost Cloud Professional';
-                    });
-                }
-            }
-        }
-        this.setState({selectedProduct});
     }
 
     onPaymentInput = (billing: BillingDetails) => {
@@ -143,15 +157,15 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
     );
 
     onPlanSelected = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const selectedPlan = this.props.products!.find((product: Product) => {
-            return product.id === e.target.value;
-        });
+        const selectedPlan = findProductInDictionary(this.props.products!, e.target.value);
+
         this.setState({selectedProduct: selectedPlan});
     }
 
     listPlans = () => {
-        const options = this.props.products?.map((product: Product) => {
-            return {key: product.name, value: product.id};
+        const products = this.props.products!;
+        const options = Object.keys(products).map((key: string) => {
+            return {key: products[key].name, value: products[key].id};
         });
 
         const isDisabled = (value: string) => {
@@ -265,7 +279,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                 </div>
                 <div className='RHS'>
                     <div className='price-container'>
-                        {this.props.isFreeTrial && this.props.products?.length > 1 &&
+                        {this.props.isFreeTrial && Object.keys(this.props.products!).length > 1 &&
                             <div className='select-plan'>
                                 <div className='title'>
                                     <FormattedMessage
