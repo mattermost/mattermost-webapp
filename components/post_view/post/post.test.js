@@ -23,7 +23,7 @@ describe('Post', () => {
         previousPostIsComment: false,
         togglePostMenu: jest.fn(),
         isCommentMention: false,
-        replyCount: 0,
+        hasReplies: false,
         channelIsArchived: false,
         actions: {
             selectPost: jest.fn(),
@@ -189,7 +189,7 @@ describe('Post', () => {
         const props = {
             ...baseProps,
             isCollapsedThreadsEnabled: true,
-            replyCount: 22,
+            hasReplies: true,
         };
 
         const wrapper = shallowWithIntl(
@@ -203,7 +203,7 @@ describe('Post', () => {
     test.each([
         {isCollapsedThreadsEnabled: false},
         {isCollapsedThreadsEnabled: true, post: {...baseProps.post, root_id: 'parentpostid'}},
-        {isCollapsedThreadsEnabled: true, replyCount: 0},
+        {isCollapsedThreadsEnabled: true, hasReplies: false},
     ])('should not show thread footer', (testCaseProps) => {
         const props = {
             ...baseProps,
