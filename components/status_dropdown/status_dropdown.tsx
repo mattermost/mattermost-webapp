@@ -135,7 +135,8 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
             break;
         case 3:
             // add one day in current date and set hours to last minute of the day
-            endTime = new Date(currentDate.getDate() + 1);
+            endTime = new Date(currentDate);
+            endTime.setDate(currentDate.getDate() + 1);
             endTime.setHours(23, 59, 59, 999);
             break;
         }
