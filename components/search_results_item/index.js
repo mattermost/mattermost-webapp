@@ -45,7 +45,6 @@ function mapStateToProps() {
             channelName: channel.display_name,
             channelType: channel.type,
             channelIsArchived: channel.delete_at !== 0,
-            commentCountForPost: getCommentCountForPost(state, {post}),
             enablePostUsernameOverride,
             isFlagged: isPostFlagged(post.id, preferences),
             isBot: user ? user.is_bot : false,
