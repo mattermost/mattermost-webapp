@@ -485,9 +485,7 @@ export function makeGetChannelIdsForCategory() {
         // getChannels will almost never return a memoized result.
         // Assumption here is that the added comparison computation is more beneficial
         // than the cost of returning a non memoized result.
-        if (channels.length === prevChannels.length &&
-            channels[0].id === prevChannels[0].id &&
-            deepEqual(channels, prevChannels)) {
+        if (deepEqual(channels, prevChannels)) {
             return prevFilteredChannelIds;
         }
 

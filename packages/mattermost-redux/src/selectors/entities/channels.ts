@@ -423,8 +423,7 @@ export const getChannelsNameMapInCurrentTeam: (state: GlobalState) => NameMapped
         // getAllChannels will almost never return a memoized result.
         // Assumption here is that the added comparison computation is more beneficial
         // than the cost of returning a non memoized result.
-        if (Object.keys(channelDisplayNameMap).length === Object.keys(prevChannelDisplayNameMap).length &&
-            deepEqual(channelDisplayNameMap, prevChannelDisplayNameMap)) {
+        if (deepEqual(channelDisplayNameMap, prevChannelDisplayNameMap)) {
             return prevChannelMap;
         }
 
