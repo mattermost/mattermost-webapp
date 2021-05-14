@@ -6,6 +6,7 @@ import {Client4} from 'mattermost-redux/client';
 
 import {Action, ActionFunc, batchActions, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 import {GroupPatch, SyncableType, SyncablePatch} from 'mattermost-redux/types/groups';
+import {getTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import {logError} from './errors';
 import {bindClientFunc, forceLogoutIfNecessary} from './helpers';
@@ -151,7 +152,22 @@ export function getGroup(id: string): ActionFunc {
     });
 }
 
-export function getGroups(filterAllowReference: false, page = 0, perPage: number = General.PAGE_SIZE_DEFAULT): ActionFunc {
+export function getGroupsForTeam(teamID: string): ActionFunc {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const state = getState();
+        const team = getTeam(state, teamID);
+
+        if (team.group_constrained) {
+            dispatch(getAllGroupsAssociatedToTeam(teamID, true, false));
+        } else {
+            dispatch(getGroups(true, 0, 0));
+        }
+
+        return {data: true};
+    };
+}
+
+export function getGroups(filterAllowReference: boolean, page = 0, perPage: number = General.PAGE_SIZE_DEFAULT): ActionFunc {
     return bindClientFunc({
         clientFunc: async (param1, param2, param3) => {
             const result = await Client4.getGroups(param1, param2, param3);
@@ -193,7 +209,7 @@ export function getGroupsNotAssociatedToChannel(channelID: string, q = '', page 
     });
 }
 
-export function getAllGroupsAssociatedToTeam(teamID: string, filterAllowReference: false, includeMemberCount: false): ActionFunc {
+export function getAllGroupsAssociatedToTeam(teamID: string, filterAllowReference: boolean, includeMemberCount: boolean): ActionFunc {
     return bindClientFunc({
         clientFunc: async (param1, param2, param3) => {
             const result = await Client4.getAllGroupsAssociatedToTeam(param1, param2, param3);

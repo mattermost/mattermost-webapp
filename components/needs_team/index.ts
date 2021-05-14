@@ -4,17 +4,20 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 import {withRouter} from 'react-router-dom';
+import {createSelector} from 'reselect';
+import deepEqual from 'fast-deep-equal';
 
 import {loadProfilesForDirect} from 'mattermost-redux/actions/users';
 import {fetchMyChannelsAndMembers, viewChannel} from 'mattermost-redux/actions/channels';
 import {getMyTeamUnreads, getTeamByName, selectTeam} from 'mattermost-redux/actions/teams';
-import {getGroups, getAllGroupsAssociatedToChannelsInTeam, getAllGroupsAssociatedToTeam, getGroupsByUserId} from 'mattermost-redux/actions/groups';
+import {getGroupsForTeam, getAllGroupsAssociatedToChannelsInTeam, getGroupsByUserId} from 'mattermost-redux/actions/groups';
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId, getMyTeams} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
 import {Action} from 'mattermost-redux/types/actions';
+import {Dictionary} from 'mattermost-redux/types/utilities';
 
 import {GlobalState} from 'types/store';
 
@@ -33,6 +36,21 @@ type OwnProps = {
     };
 }
 
+let prevTeamNamesIdMap: Dictionary<string> = {};
+
+const getTeamNamesIdMap = createSelector(
+    getMyTeams,
+    (teams) => {
+        const teamNamesIdMap: Dictionary<string> = {};
+        teams.forEach((team) => teamNamesIdMap[team.name] = team.id);
+        if (deepEqual(teamNamesIdMap, prevTeamNamesIdMap)) {
+            return prevTeamNamesIdMap;
+        }
+        prevTeamNamesIdMap = teamNamesIdMap;
+        return teamNamesIdMap;
+    }
+);
+
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const license = getLicense(state);
     const config = getConfig(state);
@@ -46,7 +64,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         currentUser,
         currentTeamId: getCurrentTeamId(state),
         previousTeamId: getPreviousTeamId(state) as string,
-        teamsList: getMyTeams(state),
+        teamNamesIdMap: getTeamNamesIdMap(state),
         currentChannelId: getCurrentChannelId(state),
         useLegacyLHS: config.EnableLegacySidebar === 'true',
         plugins,
@@ -67,9 +85,8 @@ function mapDispatchToProps(dispatch: Dispatch) {
             loadStatusesForChannelAndSidebar,
             loadProfilesForDirect,
             getAllGroupsAssociatedToChannelsInTeam,
-            getAllGroupsAssociatedToTeam,
             getGroupsByUserId,
-            getGroups,
+            getGroupsForTeam,
         }, dispatch),
     };
 }

@@ -9,6 +9,7 @@ import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
 import {Team, TeamMembership} from 'mattermost-redux/types/teams';
 import {Group} from 'mattermost-redux/types/groups';
 import {UserStatus} from 'mattermost-redux/types/users';
+import {Dictionary} from 'mattermost-redux/types/utilities';
 
 import {startPeriodicStatusUpdates, stopPeriodicStatusUpdates} from 'actions/status_actions.jsx';
 import {startPeriodicSync, stopPeriodicSync, reconnect} from 'actions/websocket_actions.jsx';
@@ -54,14 +55,13 @@ type Props = {
         markChannelAsReadOnFocus: (channelId: string) => Promise<{data: any; error?: any}>;
         getTeamByName: (teamName: string) => Promise<{data: Team}>;
         addUserToTeam: (teamId: string, userId?: string) => Promise<{data: TeamMembership; error?: any}>;
-        selectTeam: (team: Team) => Promise<{data: boolean}>;
+        selectTeam: (team: Team | string) => Promise<{data: boolean}>;
         setPreviousTeamId: (teamId: string) => Promise<{data: boolean}>;
         loadStatusesForChannelAndSidebar: () => Promise<{data: UserStatus[]}>;
         loadProfilesForDirect: () => Promise<{data: boolean}>;
         getAllGroupsAssociatedToChannelsInTeam: (teamId: string, filterAllowReference: boolean) => Promise<{data: Group[]}>;
-        getAllGroupsAssociatedToTeam: (teamId: string, filterAllowReference: boolean) => Promise<{data: Group[]}>;
+        getGroupsForTeam: (teamId: string) => Promise<{data: Group[]}>;
         getGroupsByUserId: (userID: string) => Promise<{data: Group[]}>;
-        getGroups: (filterAllowReference: boolean, page: number, perPage: number) => Promise<{data: Group[]}>;
     };
     mfaRequired: boolean;
     match: {
@@ -73,16 +73,16 @@ type Props = {
     history: {
         push(path: string): void;
     };
-    teamsList: Team[];
+    teamNamesIdMap: Dictionary<string>;
     theme: any;
     plugins?: any;
 }
 
 type State = {
-    team: Team | null;
+    teamId: string | null;
     finishedFetchingChannels: boolean;
     prevTeam: string;
-    teamsList: Team[];
+    teamNamesIdMap: Dictionary<string>;
 }
 
 export default class NeedsTeam extends React.PureComponent<Props, State> {
@@ -107,29 +107,29 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
             lastTime = currentTime;
         }, WAKEUP_CHECK_INTERVAL);
 
-        const team = this.updateCurrentTeam(this.props);
+        const teamId = this.updateCurrentTeam(this.props);
 
         this.state = {
-            team,
+            teamId,
             finishedFetchingChannels: false,
             prevTeam: this.props.match.params.team,
-            teamsList: this.props.teamsList,
+            teamNamesIdMap: this.props.teamNamesIdMap,
         };
 
         LocalStorageStore.setTeamIdJoinedOnLoad(null);
 
-        if (!team) {
+        if (!teamId) {
             this.joinTeam(this.props, true);
         }
     }
 
     static getDerivedStateFromProps(nextProps: Props, state: State) {
         if (state.prevTeam !== nextProps.match.params.team) {
-            const team = nextProps.teamsList ? nextProps.teamsList.find((teamObj: Team) =>
-                teamObj.name === nextProps.match.params.team) : null;
+            const teamName = nextProps.teamNamesIdMap ? Object.keys(nextProps.teamNamesIdMap).find((name: string) =>
+                name === nextProps.match.params.team) : null;
             return {
                 prevTeam: nextProps.match.params.team,
-                team: (team || null),
+                teamId: teamName ? nextProps.teamNamesIdMap[teamName] : null,
             };
         }
         return {prevTeam: nextProps.match.params.team};
@@ -159,10 +159,10 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
             Utils.applyTheme(theme);
         }
         if (this.props.match.params.team !== prevProps.match.params.team) {
-            if (this.state.team) {
-                this.initTeam(this.state.team);
+            if (this.state.teamId) {
+                this.initTeam(this.state.teamId);
             }
-            if (!this.state.team) {
+            if (!this.state.teamId) {
                 this.joinTeam(this.props);
             }
         }
@@ -211,29 +211,29 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
                 if (firstLoad) {
                     LocalStorageStore.setTeamIdJoinedOnLoad(team.id);
                 }
-                this.setState({team});
-                this.initTeam(team);
+                this.setState({teamId: team.id});
+                this.initTeam(team.id);
             }
         } else {
             props.history.push('/error?type=team_not_found');
         }
     }
 
-    initTeam = (team: Team) => {
-        if (team.id !== this.props.previousTeamId) {
+    initTeam = (teamId: string) => {
+        if (teamId !== this.props.previousTeamId) {
             GlobalActions.emitCloseRightHandSide();
         }
 
         // If current team is set, then this is not first load
         // The first load action pulls team unreads
         this.props.actions.getMyTeamUnreads();
-        this.props.actions.selectTeam(team);
-        this.props.actions.setPreviousTeamId(team.id);
+        this.props.actions.selectTeam(teamId);
+        this.props.actions.setPreviousTeamId(teamId);
 
         if (Utils.isGuest(this.props.currentUser)) {
             this.setState({finishedFetchingChannels: false});
         }
-        this.props.actions.fetchMyChannelsAndMembers(team.id).then(
+        this.props.actions.fetchMyChannelsAndMembers(teamId).then(
             () => {
                 this.setState({
                     finishedFetchingChannels: true,
@@ -250,24 +250,21 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
                 this.props.actions.getGroupsByUserId(this.props.currentUser.id);
             }
 
-            this.props.actions.getAllGroupsAssociatedToChannelsInTeam(team.id, true);
-            if (team.group_constrained) {
-                this.props.actions.getAllGroupsAssociatedToTeam(team.id, true);
-            } else {
-                this.props.actions.getGroups(true, 0, 0);
-            }
+            this.props.actions.getAllGroupsAssociatedToChannelsInTeam(teamId, true);
+            this.props.actions.getGroupsForTeam(teamId);
         }
 
-        return team;
+        return teamId;
     }
 
     updateCurrentTeam = (props: Props) => {
         // First check to make sure you're in the current team
         // for the current url.
-        const team = props.teamsList ? props.teamsList.find((teamObj) => teamObj.name === props.match.params.team) : null;
-        if (team) {
-            this.initTeam(team);
-            return team;
+        const teamName = props.teamNamesIdMap ? Object.keys(props.teamNamesIdMap).find((name) => name === props.match.params.team) : null;
+        const teamId = teamName ? props.teamNamesIdMap[teamName] : null;
+        if (teamId) {
+            this.initTeam(teamId);
+            return teamId;
         }
         return null;
     }
@@ -292,7 +289,7 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
     }
 
     render() {
-        if (this.state.team === null) {
+        if (this.state.teamId === null) {
             return <div/>;
         }
 
