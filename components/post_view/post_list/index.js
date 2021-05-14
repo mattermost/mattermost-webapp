@@ -4,6 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {withRouter} from 'react-router-dom';
+import deepEqual from 'fast-deep-equal';
 
 import {getRecentPostsChunkInChannel, makeGetPostsChunkAroundPost, getUnreadPostsChunk, getPost} from 'mattermost-redux/selectors/entities/posts';
 import {isManuallyUnread} from 'mattermost-redux/selectors/entities/channels';
@@ -36,6 +37,7 @@ function makeMapStateToProps() {
     const getPostsChunkAroundPost = makeGetPostsChunkAroundPost();
     const preparePostIdsForPostList = makePreparePostIdsForPostList();
     const createAriaLabelForPost = makeCreateAriaLabelForPost();
+    let prevFormattedPostIds = [];
 
     return function mapStateToProps(state, ownProps) {
         let latestPostTimeStamp = 0;
@@ -72,6 +74,12 @@ function makeMapStateToProps() {
                 const latestPost = getPost(state, latestPostId);
                 latestPostTimeStamp = latestPost.create_at;
                 latestAriaLabelFunc = createAriaLabelForPost(state, latestPost);
+            }
+
+            if (deepEqual(formattedPostIds, prevFormattedPostIds)) {
+                formattedPostIds = prevFormattedPostIds;
+            } else {
+                prevFormattedPostIds = formattedPostIds;
             }
         }
 

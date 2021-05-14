@@ -115,6 +115,8 @@ class Post extends React.PureComponent {
         post: {},
     };
 
+    prevProps = {};
+
     constructor(props) {
         super(props);
 
@@ -348,6 +350,8 @@ class Post extends React.PureComponent {
             return null;
         }
 
+        console.log('post render');
+
         const isSystemMessage = PostUtils.isSystemMessage(post);
         const isMeMessage = checkIsMeMessage(post);
         const fromAutoResponder = PostUtils.fromAutoResponder(post);
@@ -378,6 +382,22 @@ class Post extends React.PureComponent {
         if (this.props.center) {
             centerClass = 'center';
         }
+
+        /*const changedProps = {};
+        Object.keys(this.props).forEach((key) => {
+            const prop = this.props[key];
+            const prevProp = this.prevProps[key];
+            if (prop !== prevProp) {
+                changedProps[key] = {
+                    newProp: prop,
+                    oldProp: prevProp
+                };
+            }
+        });
+        if (Object.keys(changedProps).length) {
+            console.log(JSON.parse(JSON.stringify(changedProps)));
+        }
+        this.prevProps = this.props;*/
 
         return (
             <PostContext.Provider value={{handlePopupOpened: this.handleDropdownOpened}}>

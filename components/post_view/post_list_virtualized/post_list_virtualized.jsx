@@ -225,7 +225,14 @@ class PostList extends React.PureComponent {
         EventEmitter.removeListener(EventTypes.POST_LIST_SCROLL_TO_BOTTOM, this.scrollToLatestMessages);
     }
 
-    static getDerivedStateFromProps(props) {
+    static getDerivedStateFromProps(props, state) {
+        if (props.postListIds === state.prevPostListIds &&
+            props.atOldestPost === state.prevAtOldestPost &&
+            props.atLatestPost === state.prevAtLatestPost &&
+            props.autoRetryEnable === state.prevAutoRetryEnable) {
+                return null;
+        }
+
         const postListIds = props.postListIds;
         let newPostListIds;
 
@@ -247,6 +254,10 @@ class PostList extends React.PureComponent {
 
         return {
             postListIds: newPostListIds,
+            prevPostListIds: props.postListIds,
+            prevAtOldestPost: props.atOldestPost,
+            prevAtLatestPost: props.atLatestPost,
+            prevAutoRetryEnable: props.autoRetryEnable,
         };
     }
 
