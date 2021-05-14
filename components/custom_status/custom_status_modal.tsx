@@ -4,7 +4,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import classNames from 'classnames';
 import {FormattedMessage, useIntl} from 'react-intl';
-import moment from 'moment-timezone';
+import moment, {Moment} from 'moment-timezone';
 
 import {setCustomStatus, unsetCustomStatus, removeRecentCustomStatus} from 'mattermost-redux/actions/users';
 import {setCustomStatusInitialisationState} from 'mattermost-redux/actions/preferences';
@@ -19,7 +19,7 @@ import RenderEmoji from 'components/emoji/render_emoji';
 import {getCustomStatus, getRecentCustomStatuses, showStatusDropdownPulsatingDot} from 'selectors/views/custom_status';
 import {getCurrentUserTimezone} from 'selectors/general';
 import {Constants} from 'utils/constants';
-import {getCurrentDateTimeForTimezone} from 'utils/timezone';
+import {getCurrentMomentForTimezone} from 'utils/timezone';
 import QuickInput, {MaxLengthInput} from 'components/quick_input';
 import {t} from 'utils/i18n';
 
@@ -93,12 +93,12 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
     const firstTimeModalOpened = useSelector(showStatusDropdownPulsatingDot);
     const timezone = useSelector(getCurrentUserTimezone);
 
-    const currentTime = timezone ? getCurrentDateTimeForTimezone(timezone) : new Date();
-    let initialCustomExpiryTime: Date = getRoundedTime(currentTime);
+    const currentTime = getCurrentMomentForTimezone(timezone);
+    let initialCustomExpiryTime: Moment = getRoundedTime(currentTime);
     if (currentCustomStatus?.duration === CustomStatusDuration.DATE_AND_TIME && currentCustomStatus?.expires_at) {
-        initialCustomExpiryTime = new Date(currentCustomStatus.expires_at);
+        initialCustomExpiryTime = moment(currentCustomStatus.expires_at);
     }
-    const [customExpiryTime, setCustomExpiryTime] = useState<Date>(initialCustomExpiryTime);
+    const [customExpiryTime, setCustomExpiryTime] = useState<Moment>(initialCustomExpiryTime);
 
     const handleCustomStatusInitializationState = () => {
         if (firstTimeModalOpened) {
@@ -119,20 +119,19 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
     };
 
     const calculateExpiryTime = (): string => {
-        const currentTime = timezone ? getCurrentDateTimeForTimezone(timezone) : new Date();
         switch (expiry) {
         case CustomStatusDuration.DONT_CLEAR:
             return '';
         case CustomStatusDuration.THIRTY_MINUTES:
-            return moment(currentTime).add(30, 'minutes').seconds(0).milliseconds(0).toISOString();
+            return moment().add(30, 'minutes').seconds(0).milliseconds(0).toISOString();
         case CustomStatusDuration.ONE_HOUR:
-            return moment(currentTime).add(1, 'hour').seconds(0).milliseconds(0).toISOString();
+            return moment().add(1, 'hour').seconds(0).milliseconds(0).toISOString();
         case CustomStatusDuration.FOUR_HOURS:
-            return moment(currentTime).add(4, 'hours').seconds(0).milliseconds(0).toISOString();
+            return moment().add(4, 'hours').seconds(0).milliseconds(0).toISOString();
         case CustomStatusDuration.TODAY:
-            return moment(currentTime).endOf('day').toISOString();
+            return moment().endOf('day').toISOString();
         case CustomStatusDuration.THIS_WEEK:
-            return moment(currentTime).endOf('week').toISOString();
+            return moment().endOf('week').toISOString();
         case CustomStatusDuration.DATE_AND_TIME:
             return customExpiryTime.toISOString();
         default:
@@ -246,7 +245,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
 
     const areSelectedAndSetStatusSame = currentCustomStatus?.emoji === emoji && currentCustomStatus?.text === text && expiry === currentCustomStatus?.duration;
 
-    const isExpirySame = Boolean(currentCustomStatus?.expires_at && customExpiryTime.getTime() === new Date(currentCustomStatus.expires_at).getTime());
+    const isExpirySame = Boolean(currentCustomStatus?.expires_at && customExpiryTime.isSame(moment(currentCustomStatus.expires_at)));
 
     const disableSetStatus = (emoji === '' && text === '') || text.length > Constants.CUSTOM_STATUS_TEXT_CHARACTER_LIMIT || (areSelectedAndSetStatusSame && (expiry !== CustomStatusDuration.DATE_AND_TIME || isExpirySame));
 

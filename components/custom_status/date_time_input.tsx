@@ -5,14 +5,14 @@ import {useSelector} from 'react-redux';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import {DayModifiers, NavbarElementProps} from 'react-day-picker';
 
-import moment from 'moment-timezone';
+import moment, {Moment} from 'moment-timezone';
 
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 import Timestamp from 'components/timestamp';
 import {getCurrentLocale} from 'selectors/i18n';
 import {Constants} from 'utils/constants';
-import {getCurrentDateTimeForTimezone} from 'utils/timezone';
+import {getCurrentMomentForTimezone} from 'utils/timezone';
 import {localizeMessage} from 'utils/utils';
 
 const Navbar: React.FC<Partial<NavbarElementProps>> = (navbarProps: Partial<NavbarElementProps>) => {
@@ -67,7 +67,7 @@ const Navbar: React.FC<Partial<NavbarElementProps>> = (navbarProps: Partial<Navb
 };
 
 const {CUSTOM_STATUS_TIME_PICKER_INTERVALS_IN_MINUTES} = Constants;
-export function getRoundedTime(value: Date) {
+export function getRoundedTime(value: Moment) {
     const roundedTo = CUSTOM_STATUS_TIME_PICKER_INTERVALS_IN_MINUTES;
     const start = moment(value);
     const diff = start.minute() % roundedTo;
@@ -75,25 +75,25 @@ export function getRoundedTime(value: Date) {
         return value;
     }
     const remainder = roundedTo - diff;
-    return moment(start).add(remainder, 'm').seconds(0).milliseconds(0).toDate();
+    return start.add(remainder, 'm').seconds(0).milliseconds(0);
 }
 
-const getDateInIntervals = (startTime: Date): Date[] => {
+const getTimeInIntervals = (startTime: Moment): Date[] => {
     const interval = CUSTOM_STATUS_TIME_PICKER_INTERVALS_IN_MINUTES;
-    let time = startTime;
-    const nextDay = moment(startTime).add(1, 'days').startOf('day').toDate();
+    let time = moment(startTime);
+    const nextDay = moment(startTime).add(1, 'days').startOf('day');
     const intervals: Date[] = [];
-    while (time < nextDay) {
-        intervals.push(time);
-        time = moment(time).add(interval, 'minutes').seconds(0).milliseconds(0).toDate();
+    while (time.isBefore(nextDay)) {
+        intervals.push(time.toDate());
+        time = time.add(interval, 'minutes').seconds(0).milliseconds(0);
     }
 
     return intervals;
 };
 
 type Props = {
-    time: Date;
-    handleChange: (date: Date) => void;
+    time: Moment;
+    handleChange: (date: Moment) => void;
     timezone?: string;
 }
 
@@ -103,33 +103,33 @@ const DateTimeInputContainer: React.FC<Props> = (props: Props) => {
     const [timeOptions, setTimeOptions] = useState<Date[]>([]);
 
     const setTimeAndOptions = () => {
-        const currentTime = timezone ? getCurrentDateTimeForTimezone(timezone) : new Date();
-        let startTime = moment(time).startOf('day').toDate();
-        if (time.getDate() === currentTime.getDate()) {
+        const currentTime = getCurrentMomentForTimezone(timezone);
+        let startTime = moment(time).startOf('day');
+        if (time.date() === currentTime.date()) {
             startTime = getRoundedTime(currentTime);
         }
-        setTimeOptions(getDateInIntervals(startTime));
+        setTimeOptions(getTimeInIntervals(startTime));
     };
 
     useEffect(setTimeAndOptions, [time]);
 
     const handleDayChange = (day: Date, modifiers: DayModifiers) => {
         if (modifiers.today) {
-            const currentTime = timezone ? getCurrentDateTimeForTimezone(timezone) : new Date();
+            const currentTime = getCurrentMomentForTimezone(timezone);
             const roundedTime = getRoundedTime(currentTime);
             handleChange(roundedTime);
         } else {
-            const dateWithProperTime = moment(day).startOf('day').toDate();
-            handleChange(dateWithProperTime);
+            const dayWithTimezone = timezone ? moment.tz(day, timezone) : moment();
+            handleChange(dayWithTimezone.startOf('day'));
         }
     };
 
     const handleTimeChange = (e: React.MouseEvent, time: Date) => {
         e.preventDefault();
-        handleChange(time);
+        handleChange(moment(time));
     };
 
-    const currentTime = timezone ? getCurrentDateTimeForTimezone(timezone) : new Date();
+    const currentTime = new Date();
     const modifiers = {
         today: currentTime,
     };
@@ -142,7 +142,7 @@ const DateTimeInputContainer: React.FC<Props> = (props: Props) => {
                     <i className='icon-calendar-outline'/>
                 </span>
                 <DayPickerInput
-                    value={time}
+                    value={time.toDate()}
                     onDayChange={handleDayChange}
                     inputProps={{
                         readOnly: true,
@@ -174,7 +174,7 @@ const DateTimeInputContainer: React.FC<Props> = (props: Props) => {
                             <Timestamp
                                 useRelative={false}
                                 useDate={false}
-                                value={time}
+                                value={time.toString()}
                             />
                         </div>
                     </div>
