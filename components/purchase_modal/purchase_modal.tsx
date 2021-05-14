@@ -47,7 +47,7 @@ type Props = {
         closeModal: () => void;
         getCloudProducts: () => void;
         completeStripeAddPaymentMethod: (stripe: Stripe, billingDetails: BillingDetails, isDevMode: boolean) => Promise<boolean | null>;
-        updateCloudSelectedProduct: (selectedProductId: string, subscriptionId: string, installationId: string) => Promise<boolean | null>;
+        updateCloudSubscription: (selectedProductId: string, subscriptionId: string, installationId: string) => Promise<boolean | null>;
         getClientConfig: () => void;
         getCloudSubscription: () => void;
     };
@@ -401,8 +401,8 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                                         addPaymentMethod={
                                             this.props.actions.completeStripeAddPaymentMethod
                                         }
-                                        updateCloudSelectedProduct={
-                                            this.props.isFreeTrial ? this.props.actions.updateCloudSelectedProduct : null
+                                        updateCloudSubscription={
+                                            this.props.isFreeTrial ? this.props.actions.updateCloudSubscription : null
                                         }
                                         isDevMode={this.props.isDevMode}
                                         onClose={() => {

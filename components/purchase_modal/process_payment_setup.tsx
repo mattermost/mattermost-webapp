@@ -27,7 +27,7 @@ type Props = {
     isDevMode: boolean;
     contactSupportLink: string;
     addPaymentMethod: (stripe: Stripe, billingDetails: BillingDetails, isDevMode: boolean) => Promise<boolean | null>;
-    updateCloudSelectedProduct: ((selectedProductId: string, subscriptionId: string, installationId: string) => Promise<boolean | null>) | null;
+    updateCloudSubscription: ((selectedProductId: string, subscriptionId: string, installationId: string) => Promise<boolean | null>) | null;
     onBack: () => void;
     onClose: () => void;
     selectedProduct?: Product | null | undefined;
@@ -92,7 +92,7 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
             addPaymentMethod,
             billingDetails,
             isDevMode,
-            updateCloudSelectedProduct,
+            updateCloudSubscription,
         } = this.props;
         const success = await addPaymentMethod((await stripe)!, billingDetails!, isDevMode);
 
@@ -103,8 +103,8 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
             return;
         }
 
-        if (updateCloudSelectedProduct) {
-            const productUpdated = await updateCloudSelectedProduct('productId', 'installationId', 'subscriptionId');
+        if (updateCloudSubscription) {
+            const productUpdated = await updateCloudSubscription('productId', 'installationId', 'subscriptionId');
 
             if (!productUpdated) {
                 this.setState({

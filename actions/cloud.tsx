@@ -71,10 +71,10 @@ export function completeStripeAddPaymentMethod(stripe: Stripe, billingDetails: B
     };
 }
 
-export function updateCloudSelectedProduct(selectedProductId: string, subscriptionId: string, installationId: string) {
+export function updateCloudSubscription(selectedProductId: string, subscriptionId: string, installationId: string) {
     return async () => {
         try {
-            await Client4.updateCloudSelectedProduct(selectedProductId, installationId, subscriptionId);
+            await Client4.updateCloudSubscription(selectedProductId, installationId, subscriptionId);
         } catch (error) {
             console.error('There was a payment updating the selected product');
             return false;
