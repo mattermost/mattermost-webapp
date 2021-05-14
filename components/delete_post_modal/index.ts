@@ -7,10 +7,10 @@ import {withRouter} from 'react-router-dom';
 
 import {ActionFunc} from 'mattermost-redux/types/actions';
 import {Post} from 'mattermost-redux/types/posts';
+import {makeGetCommentCountForPost} from 'mattermost-redux/selectors/entities/posts';
 
 import {GlobalState} from 'types/store';
 import {deleteAndRemovePost} from 'actions/post_actions.jsx';
-import {makeGetReplyCount} from 'utils/post_utils.jsx';
 
 import DeletePostModal from './delete_post_modal';
 
@@ -34,7 +34,7 @@ type Props = {
 }
 
 function makeMapStateToProps() {
-    const getReplyCount = makeGetReplyCount();
+    const getReplyCount = makeGetCommentCountForPost();
 
     return (state: GlobalState, ownProps: Props) => {
         const post = ownProps.post;
