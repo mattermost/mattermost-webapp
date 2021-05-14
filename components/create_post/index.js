@@ -17,7 +17,6 @@ import {
     getLatestReplyablePostId,
     getMostRecentPostIdInChannel,
     getPost,
-    makeGetCommentCountForPost,
     makeGetMessageInHistoryItem,
 } from 'mattermost-redux/selectors/entities/posts';
 import {getAssociatedGroupsForReferenceByMention} from 'mattermost-redux/selectors/entities/groups';
@@ -49,7 +48,6 @@ import {canUploadFiles} from 'utils/file_utils';
 import CreatePost from './create_post.jsx';
 
 function makeMapStateToProps() {
-    const getCommentCountForPost = makeGetCommentCountForPost();
     const getMessageInHistoryItem = makeGetMessageInHistoryItem(Posts.MESSAGE_TYPES.POST);
 
     return (state, ownProps) => {
@@ -105,7 +103,6 @@ function makeMapStateToProps() {
             showTutorialTip: enableTutorial && tutorialStep === TutorialSteps.POST_POPOVER,
             messageInHistoryItem: getMessageInHistoryItem(state),
             draft,
-            commentCountForPost: getCommentCountForPost(state, {post}),
             latestReplyablePostId,
             locale: getCurrentLocale(state),
             currentUsersLatestPost: getCurrentUsersLatestPost(state),

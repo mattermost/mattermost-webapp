@@ -229,7 +229,6 @@ export default class PostInfo extends React.PureComponent<Props, State> {
             dotMenu = (
                 <DotMenu
                     post={post}
-                    commentCount={this.props.replyCount}
                     isFlagged={this.props.isFlagged}
                     handleCommentClick={this.props.handleCommentClick}
                     handleDropdownOpened={this.handleDotMenuOpened}

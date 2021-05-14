@@ -208,7 +208,7 @@ export function unpinPost(postId) {
     };
 }
 
-export function setEditingPost(postId = '', commentCount = 0, refocusId = '', title = '', isRHS = false) {
+export function setEditingPost(postId = '', refocusId = '', title = '', isRHS = false) {
     return async (dispatch, getState) => {
         const state = getState();
         const post = PostSelectors.getPost(state, postId);
@@ -230,7 +230,7 @@ export function setEditingPost(postId = '', commentCount = 0, refocusId = '', ti
         if (canEditNow) {
             dispatch({
                 type: ActionTypes.SHOW_EDIT_POST_MODAL,
-                data: {postId, commentCount, refocusId, title, isRHS},
+                data: {postId, refocusId, title, isRHS},
             });
         }
 
