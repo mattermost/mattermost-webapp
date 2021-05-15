@@ -2413,7 +2413,6 @@
   "edit_channel_private_purpose_modal.body": "Questo testo compare nella finestra \"Mostra informazioni\" del canale privato.",
   "edit_channel_purpose_modal.body": "Descrivi come questo canale va usato. Questo testo compare nel menu \"Ancora...\" e aiuta gli utenti a decidere dove entrare.",
   "edit_channel_purpose_modal.cancel": "Annulla",
-  "edit_channel_purpose_modal.error": "Lo scopo di questo canale è troppo lungo, inseriscine uno più corto",
   "edit_channel_purpose_modal.save": "Salva",
   "edit_channel_purpose_modal.title1": "Modifica Scopo",
   "edit_channel_purpose_modal.title2": "Modifica Scopo per ",

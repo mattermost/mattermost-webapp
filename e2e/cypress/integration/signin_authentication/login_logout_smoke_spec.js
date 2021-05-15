@@ -13,7 +13,7 @@ describe('SignIn Authentication', () => {
     let testUser;
 
     before(() => {
-        // # Create new team and users
+        // # Create new user
         cy.apiInitSetup().then(({user}) => {
             testUser = user;
 
@@ -23,12 +23,12 @@ describe('SignIn Authentication', () => {
     });
 
     it('MM-T3080 Sign in email/pwd account', () => {
-        // # Enter actual users email in the email field
+        // # Enter actual user's email in the email field
         cy.apiGetClientLicense().then(({isLicensed}) => {
             const loginPlaceholder = isLicensed ? 'Email, Username or AD/LDAP Username' : 'Email or Username';
             cy.findByPlaceholderText(loginPlaceholder).clear().type(testUser.email);
 
-            // # Enter any password in the password field
+            // # Enter user's password in the password field
             cy.findByPlaceholderText('Password').clear().type(testUser.password);
 
             // # Click Sign In to login
@@ -46,10 +46,10 @@ describe('SignIn Authentication', () => {
             // * Check that it logout successfully and it redirects into the login page
             cy.url().should('include', '/login');
 
-            // # Enter actual users username in the email field
+            // # Enter actual user's username in the email field
             cy.findByPlaceholderText(loginPlaceholder).clear().type(testUser.username);
 
-            // # Enter any password in the password field
+            // # Enter user's password in the password field
             cy.findByPlaceholderText('Password').clear().type(testUser.password);
 
             // # Click Sign In to login
