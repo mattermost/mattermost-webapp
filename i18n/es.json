@@ -2673,7 +2673,6 @@
   "edit_channel_private_purpose_modal.body": "El texto que aparece en el cuadro de dialog \"Ver Info\" del canal privado.",
   "edit_channel_purpose_modal.body": "Describe como este canal debería ser usado. Este texto aparece en la lista de canales dentro del menú de \"Más...\" y ayuda a otros en decidir si deben unirse.",
   "edit_channel_purpose_modal.cancel": "Cancelar",
-  "edit_channel_purpose_modal.error": "El propósito de este canal es muy largo, por favor ingresa uno más corto",
   "edit_channel_purpose_modal.save": "Guardar",
   "edit_channel_purpose_modal.title1": "Editar Propósito",
   "edit_channel_purpose_modal.title2": "Editar el Propósito de ",

@@ -51,7 +51,7 @@ test: #todo check on how to create junit.xml, there currently is none
     - npm run check
 
     # unit tests
-    - npm run test-ci
+    - npm run test-ci-gitlab
   timeout: 3 hours
   rules:
     - if: '$CI_COMMIT_REF_NAME == "master" && $TEST == "yes"'

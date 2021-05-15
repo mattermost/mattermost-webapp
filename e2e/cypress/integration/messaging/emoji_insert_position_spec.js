@@ -27,7 +27,10 @@ describe('Messaging', () => {
 
         // # Select the grinning emoji from the emoji picker.
         cy.get('#emojiPickerButton').click();
-        cy.get('img[data-testid="grinning"]').should('be.visible').click({force: true});
+        cy.findAllByTestId('emojiItem').
+            findByRole('button', {name: 'grinning emoji'}).
+            should('exist').
+            click({force: true});
 
         // * The emoji should be inserted where the cursor is at the time of selection.
         cy.get('#post_textbox').should('have.value', 'Hello :grinning: World!');

@@ -21,7 +21,7 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen a
       >
         <RenewLicenseCard
           isDisabled={false}
-          isLicenseExpired={true}
+          isLicenseExpired={false}
           license={
             Object {
               "Company": "Mattermost Inc.",
@@ -166,7 +166,7 @@ exports[`components/admin_console/license_settings/LicenseSettings load screen w
       >
         <RenewLicenseCard
           isDisabled={false}
-          isLicenseExpired={true}
+          isLicenseExpired={false}
           license={
             Object {
               "Company": "Mattermost Inc.",
@@ -323,7 +323,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
       >
         <RenewLicenseCard
           isDisabled={false}
-          isLicenseExpired={true}
+          isLicenseExpired={false}
           license={
             Object {
               "Company": "Mattermost Inc.",
@@ -488,7 +488,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
       >
         <RenewLicenseCard
           isDisabled={true}
-          isLicenseExpired={true}
+          isLicenseExpired={false}
           license={
             Object {
               "Company": "Mattermost Inc.",
@@ -653,7 +653,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
       >
         <RenewLicenseCard
           isDisabled={false}
-          isLicenseExpired={true}
+          isLicenseExpired={false}
           license={
             Object {
               "Company": "Mattermost Inc.",
@@ -1351,7 +1351,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
       >
         <RenewLicenseCard
           isDisabled={false}
-          isLicenseExpired={true}
+          isLicenseExpired={false}
           license={
             Object {
               "Company": "Mattermost Inc.",

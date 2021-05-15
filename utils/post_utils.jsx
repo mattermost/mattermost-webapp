@@ -485,13 +485,14 @@ export function makeGetReplyCount() {
     return createSelector(
         (state) => state.entities.posts.posts,
         (state, post) => state.entities.posts.postsInThread[post.root_id || post.id],
-        (allPosts, postIds) => {
+        (state, post) => post,
+        (allPosts, postIds, post) => {
             if (!postIds) {
-                return 0;
+                return post.root_id ? 0 : post.reply_count ?? 0;
             }
 
             // Count the number of non-ephemeral posts in the thread
-            return postIds.map((id) => allPosts[id]).filter((post) => post && !isPostEphemeral(post)).length;
+            return postIds.map((id) => allPosts[id]).filter((p) => p && !isPostEphemeral(p)).length;
         },
     );
 }
