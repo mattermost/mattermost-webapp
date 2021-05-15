@@ -2,47 +2,47 @@
 // See LICENSE.txt for license information.
 /* eslint-disable react/no-string-refs */
 
-import React, {createRef, ReactNode} from 'react';
+import React, {createRef, ElementType, ReactElement, ReactNode} from 'react';
 
-import {FormattedMessage, injectIntl} from 'react-intl';
+import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
 import QuickInput from 'components/quick_input';
 import UserList from 'components/user_list.jsx';
 import LocalizedInput from 'components/localized_input/localized_input';
 
 import {t} from 'utils/i18n';
-import {IntlProps} from 'components/search_results/types';
+import {UserProfile} from 'mattermost-redux/types/users';
 
 const NEXT_BUTTON_TIMEOUT = 500;
 
  type Props = {
-     users: Array<Record<string, unknown>>;
+     users: UserProfile[];
      usersPerPage: number;
      total: number;
-     extraInfo?: Record<string, unknown>;
-     nextPage: (page?: number) => Promise<void> | void;
-     previousPage: (page?: number) => Promise<void> | void;
+     extraInfo?: Record<string, ReactNode>;
+     nextPage: (page?: number) => Promise<void>;
+     previousPage: (page?: number) => Promise<void>;
      search: (term: string) => void;
-     actions?: ReactNode[];
+     actions?: ReactElement[];
      actionProps?: Record<string, unknown>;
      actionUserProps?: Record<string, unknown>;
      focusOnMount?: boolean;
      renderCount?: (count: number, total: number, startCount: number, endCount: number, isSearch: boolean) => ReactNode;
      filter?: string;
-     renderFilterRow?: (func: {(e: React.FormEvent<HTMLInputElement>): void}) => void;
+     renderFilterRow?: (func: {(e: React.FormEvent<HTMLInputElement>): void}) => ReactNode;
      page: number;
-     term: string | number;
+     term: string;
      onTermChange: (term: string) => void;
-     intl: (msg: Record<string, string>) => string;
+     intl: IntlShape;
      isDisabled?: boolean;
 
      // the type of user list row to render
-     rowComponentType?: ReactNode;
+     rowComponentType?: ElementType;
  }
 
  type State = { nextDisabled: boolean }
 
-class SearchableUserList extends React.PureComponent<Props & IntlProps, State> {
+class SearchableUserList extends React.PureComponent<Props, State> {
     static defaultProps = {
         users: [],
         usersPerPage: 50,
@@ -57,7 +57,7 @@ class SearchableUserList extends React.PureComponent<Props & IntlProps, State> {
     private userList: React.RefObject<UserList>;
     private nextTimeoutId: number;
 
-    constructor(props: Props & IntlProps) {
+    constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -106,7 +106,7 @@ class SearchableUserList extends React.PureComponent<Props & IntlProps, State> {
         this.props.search(e.currentTarget.value);
     }
 
-    renderCount = (users: Array<Record<string, unknown>>) => {
+    renderCount = (users: UserProfile[]) => {
         if (!users) {
             return null;
         }
@@ -170,7 +170,7 @@ class SearchableUserList extends React.PureComponent<Props & IntlProps, State> {
     render() {
         let nextButton;
         let previousButton;
-        let usersToDisplay = this.props.users;
+        let usersToDisplay: UserProfile[];
         const formatMessage = this.props.intl;
 
         if (this.props.term || !this.props.users) {

@@ -3,14 +3,16 @@
 
 import React, {ReactElement, ReactNode} from 'react';
 
+import {UserProfile} from 'mattermost-redux/types/users';
+
 import SearchableUserList from './searchable_user_list';
 
 type Props = {
-    users: Array<Record<string, unknown>>;
+    users: UserProfile[];
     usersPerPage: number;
     total: number;
-    extraInfo?: Record<string, unknown>;
-    nextPage: (page: number) => void;
+    extraInfo?: Record<string, ReactNode>;
+    nextPage: (page: number) => ReactNode;
     search: (value: string) => void;
     actions?: ReactNode[];
     actionProps?: Record<string, unknown>;
