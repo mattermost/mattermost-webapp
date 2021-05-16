@@ -9,7 +9,7 @@ import {Client4} from 'mattermost-redux/client';
 import {Preferences} from 'mattermost-redux/constants';
 
 import {get} from 'mattermost-redux/selectors/entities/preferences';
-import {getUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
+import {makeGetUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
 import {getCurrentUser, getStatusForUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {openModal} from 'actions/views/modals';
@@ -21,28 +21,32 @@ import StatusDropdown from 'components/status_dropdown/status_dropdown.jsx';
 import {makeGetCustomStatus, isCustomStatusEnabled, showStatusDropdownPulsatingDot} from 'selectors/views/custom_status';
 import {isStatusDropdownOpen} from 'selectors/views/status_dropdown';
 
-function mapStateToProps(state) {
-    const currentUser = getCurrentUser(state);
+function makeMapStateToProps() {
+    const getUserTimezone = makeGetUserTimezone();
     const getCustomStatus = makeGetCustomStatus();
 
-    if (!currentUser) {
-        return {};
+    return (state) => {
+        const currentUser = getCurrentUser(state);
+
+        if (!currentUser) {
+            return {};
+        }
+
+        const userId = currentUser.id;
+
+        return {
+            userId,
+            profilePicture: Client4.getProfilePictureUrl(userId, currentUser.last_picture_update),
+            autoResetPref: get(state, Preferences.CATEGORY_AUTO_RESET_MANUAL_STATUS, userId, ''),
+            status: getStatusForUserId(state, userId),
+            userTimezone: getUserTimezone(state, userId),
+            isTimezoneEnabled: areTimezonesEnabledAndSupported(state),
+            customStatus: getCustomStatus(state, userId),
+            isCustomStatusEnabled: isCustomStatusEnabled(state),
+            isStatusDropdownOpen: isStatusDropdownOpen(state),
+            showCustomStatusPulsatingDot: showStatusDropdownPulsatingDot(state),
+        };
     }
-
-    const userId = currentUser.id;
-
-    return {
-        userId,
-        profilePicture: Client4.getProfilePictureUrl(userId, currentUser.last_picture_update),
-        autoResetPref: get(state, Preferences.CATEGORY_AUTO_RESET_MANUAL_STATUS, userId, ''),
-        status: getStatusForUserId(state, userId),
-        userTimezone: getUserTimezone(state, userId),
-        isTimezoneEnabled: areTimezonesEnabledAndSupported(state),
-        customStatus: getCustomStatus(state, userId),
-        isCustomStatusEnabled: isCustomStatusEnabled(state),
-        isStatusDropdownOpen: isStatusDropdownOpen(state),
-        showCustomStatusPulsatingDot: showStatusDropdownPulsatingDot(state),
-    };
 }
 
 function mapDispatchToProps(dispatch) {
@@ -56,4 +60,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(StatusDropdown);
+export default connect(makeMapStateToProps, mapDispatchToProps)(StatusDropdown);
