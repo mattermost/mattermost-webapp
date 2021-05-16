@@ -1,10 +1,16 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {GlobalState} from 'mattermost-redux/types/store';
+import {createSelector} from 'reselect';
 
-export function getUserTimezone(state: GlobalState, id: string) {
-    const profile = state.entities.users.profiles[id];
+import {getUsers} from 'mattermost-redux/selectors/entities/users';
+
+import {GlobalState} from 'mattermost-redux/types/store';
+import {IDMappedObjects} from 'mattermost-redux/types/utilities';
+import {UserProfile} from 'mattermost-redux/types/users';
+
+export function getUserTimezone(users: IDMappedObjects<UserProfile>, id: string): { useAutomaticTimezone: boolean; automaticTimezone: string; manualTimezone: string } {
+    const profile = users[id];
 
     if (profile && profile.timezone) {
         return {
@@ -18,6 +24,16 @@ export function getUserTimezone(state: GlobalState, id: string) {
         automaticTimezone: '',
         manualTimezone: '',
     };
+}
+
+export function makeGetUserTimezone() {
+    return createSelector(
+        getUsers,
+        (state: GlobalState, id: string) => id,
+        (users, id) => {
+            return getUserTimezone(users, id);
+        },
+    );
 }
 
 export function isTimezoneEnabled(state: GlobalState) {

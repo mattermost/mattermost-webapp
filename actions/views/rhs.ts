@@ -132,7 +132,7 @@ export function performSearch(terms: string, isMentionSearch?: boolean) {
 
         // timezone offset in seconds
         const userId = getCurrentUserId(getState());
-        const userTimezone = getUserTimezone(getState(), userId);
+        const userTimezone = getUserTimezone(getState().entities.users.profiles, userId);
         const userCurrentTimezone = getUserCurrentTimezone(userTimezone);
         const timezoneOffset = ((userCurrentTimezone && (userCurrentTimezone.length > 0)) ? getUtcOffsetForTimeZone(userCurrentTimezone) : getBrowserUtcOffset()) * 60;
         const messagesPromise = dispatch(searchPostsWithParams(teamId, {terms, is_or_search: Boolean(isMentionSearch), include_deleted_channels: viewArchivedChannels, time_zone_offset: timezoneOffset, page: 0, per_page: 20}));
