@@ -49,7 +49,7 @@ function makeMapStateToProps() {
             shouldShowDotMenu: shouldShowDotMenu(state, ownProps.post, channel),
             shortcutReactToLastPostEmittedFrom,
             collapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
-            replyCount: getReplyCount(state, ownProps.post),
+            hasReplies: getReplyCount(state, ownProps.post) > 0,
         };
     };
 }
