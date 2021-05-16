@@ -47,7 +47,7 @@ function makeMapStateToProps() {
             isReadOnly: isCurrentChannelReadOnly(state) || channelIsArchived,
             shouldShowDotMenu: PostUtils.shouldShowDotMenu(state, ownProps.post, channel),
             shortcutReactToLastPostEmittedFrom,
-            replyCount: getReplyCount(state, ownProps.post),
+            hasReplies: getReplyCount(state, ownProps.post) > 0,
         };
     }
 }
