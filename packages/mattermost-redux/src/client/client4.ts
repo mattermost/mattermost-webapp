@@ -117,6 +117,7 @@ import {UserThreadList, UserThread, UserThreadWithPost} from 'mattermost-redux/t
 
 import fetch from './fetch_etag';
 import {TelemetryHandler} from './telemetry';
+import { ScheduleType } from 'mattermost-redux/types/notifications_schdule';
 
 const FormData = require('form-data');
 const HEADER_AUTH = 'Authorization';
@@ -2227,6 +2228,22 @@ export default class Client4 {
             {method: 'post', body: JSON.stringify(preferences)},
         );
     };
+
+    // Notification schedule Routes
+
+    saveNotificationSchedules = (schedule: ScheduleType[]) => {
+        return this.doFetch<StatusOK>(
+            `${this.getUsersRoute()}/status/ids`,
+            {method: 'put', body: JSON.stringify(schedule)}
+        )
+    }
+
+    // getMyNotificationSchedule = (schedule: ScheduleType[]) => {
+    //     return this.doFetch<StatusOK>(
+    //         `${this.getUsersRoute()}/status/ids`,
+    //         {method: 'post', body: JSON.stringify(schedule)}
+    //     )
+    // }
 
     // General Routes
 

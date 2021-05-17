@@ -960,10 +960,10 @@ export default class NotificationsTab extends React.PureComponent {
                     {autoResponderSection}
                     <div className='divider-light'/>
                     <NotificationScheduleSetting
-                        // saving={this.state.isSaving}
+                        saving={this.state.isSaving}
                         // onSubmit={this.handleSubmit}
                         onCancel={this.handleCancel}
-                        // serverError={this.state.serverError}
+                        serverError={this.state.serverError}
                         activeSection={this.props.activeSection}
                         updateSection={this.handleUpdateSection}
                     />
