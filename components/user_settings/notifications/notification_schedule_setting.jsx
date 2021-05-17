@@ -80,7 +80,7 @@ class set_notification_schedule extends React.PureComponent {
       friday_end: this.state.friEnd,
       saturday_end: this.state.satEnd,
     }
-    dispatch(saveNotificationsSchedules(currentUserId, [notificationIntervalSchedule]));
+    dispatch(saveNotificationsSchedules(currentUserId, notificationIntervalSchedule));
   }
 
   handleUpdateSection = (section) => {
