@@ -24,13 +24,13 @@ _Note: Heroku preview does not include email or persistent storage_
 Install on your own machine: 
 
 - [One-line Docker Preview](http://docs.mattermost.com/install/docker-local-machine.html#one-line-docker-install) 
-- [Developer Machine Setup](https://docs.mattermost.com/developer/dev-setup.html)
+- [Developer Machine Setup](https://developers.mattermost.com/contribute/server/developer-setup/)
 - [Production Install Guides using Linux Binary](https://www.mattermost.com/download/)
 - [Production Docker Install](https://docs.mattermost.com/install/prod-docker.html) 
 
 Get Involved:
 
-- [Contribute Code](http://docs.mattermost.com/developer/contribution-guide.html)
+- [Contribute Code](https://developers.mattermost.com/contribute/getting-started/)
 - [Find "Help Wanted" projects](https://mattermost.com/pl/help-wanted)
 - [Join Developer Discussion on a Mattermost Server for contributors](https://community.mattermost.com/core/channels/tickets)
 - [File Bugs](http://www.mattermost.org/filing-issues/)
@@ -39,8 +39,8 @@ Get Involved:
 
 Learn More:
 
-- [API Options - webhooks, slash commands, drivers and web service](http://docs.mattermost.com/developer/api.html)
-- [Localization Guide](http://docs.mattermost.com/developer/localization.html#translation-process)
+- [API Options - webhooks, slash commands, drivers and web service](https://api.mattermost.com/)
+- [Localization Guide](https://handbook.mattermost.com/contributors/contributors/localization)
 
 Get the Latest News:
 
