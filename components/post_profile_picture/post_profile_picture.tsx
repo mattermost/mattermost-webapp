@@ -14,7 +14,7 @@ import {Post} from 'mattermost-redux/types/posts';
 import {UserProfile} from 'mattermost-redux/types/users';
 
 type Props = {
-    availabilityStatusOnPosts: boolean;
+    availabilityStatusOnPosts: string;
     compactDisplay: boolean;
     enablePostIconOverride: boolean;
     hasImageProxy: boolean;
@@ -115,7 +115,7 @@ export default class PostProfilePicture extends React.PureComponent<Props> {
                 src={src}
                 profileSrc={profileSrc}
                 isEmoji={isEmoji}
-                status={availabilityStatusOnPosts ? status : ''}
+                status={availabilityStatusOnPosts === 'true' ? status : ''}
                 userId={user?.id}
                 channelId={post.channel_id}
                 username={user?.username}

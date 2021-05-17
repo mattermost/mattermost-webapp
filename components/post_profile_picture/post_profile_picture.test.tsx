@@ -19,7 +19,7 @@ describe('components/PostProfilePicture', () => {
     });
 
     const baseProps: Props = {
-        availabilityStatusOnPosts: true,
+        availabilityStatusOnPosts: 'true',
         enablePostIconOverride: true,
         compactDisplay: true,
         hasImageProxy: true,
