@@ -26,7 +26,7 @@ type Props = {
 
     learnMoreURL: string;
 
-    imgPath: string;
+    featureDiscoveryImage: JSX.Element;
 
     prevTrialLicense: ClientLicense;
 
@@ -125,7 +125,7 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
             copyID,
             copyDefault,
             learnMoreURL,
-            imgPath,
+            featureDiscoveryImage,
         } = this.props;
 
         let gettingTrialError: React.ReactNode = '';
@@ -162,11 +162,7 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
                 </div>
 
                 <div className='FeatureDiscovery_imageWrapper'>
-                    <img
-                        className='FeatureDiscovery_image'
-                        src={imgPath}
-                        alt='Feature Discovery Image'
-                    />
+                    {featureDiscoveryImage}
                 </div>
 
             </div>

@@ -574,12 +574,14 @@
     }
 
     .SidebarChannelGroup .SidebarChannelGroupHeader {
+        align-items: center;
         height: 32px;
         font-family: 'Open Sans', sans-serif;
         text-transform: uppercase;
         text-overflow: ellipsis;
         text-align: left;
         border: none;
+        background-color: var(--sidebar-bg);
         color: rgba(var(--sidebar-text-rgb), 0.6);
         top: 0;
         box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.33);
@@ -603,10 +605,6 @@
 
         .SidebarMenu:not(.menuOpen) {
             display: none;
-        }
-
-        &.SidebarChannelGroupHeader--sticky {
-            position: sticky;
         }
 
         &.muted {
