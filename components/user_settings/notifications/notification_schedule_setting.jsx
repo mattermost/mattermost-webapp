@@ -32,8 +32,8 @@ class set_notification_schedule extends React.PureComponent {
 
     this.state = {
       activeSection,
-      enableCusotmDND: false, // 나중에 props로 상태값 받아와야함
-      selectedOption: { value: 1, label: 'Every Day'}, // 나중에 props로 상태값 받아와야함
+      enableCusotmDND: false,
+      selectedOption: { value: 1, label: 'Every Day'},
       monEnable: false,
       tueEnable: false,
       wedEnable: false,
@@ -609,7 +609,7 @@ class set_notification_schedule extends React.PureComponent {
     let description = (
       <FormattedMessage
         id='user.settings.schedule.time'
-        defaultMessage='시간시간'
+        defaultMessage='Every Day'
       />
     );
     return (

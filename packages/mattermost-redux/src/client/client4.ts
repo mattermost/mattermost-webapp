@@ -2238,13 +2238,6 @@ export default class Client4 {
         );
     };
 
-    // getMyNotificationSchedule = (schedule: ScheduleType[]) => {
-    //     return this.doFetch<StatusOK>(
-    //         `${this.getUsersRoute()}/status/ids`,
-    //         {method: 'post', body: JSON.stringify(schedule)}
-    //     )
-    // }
-
     // General Routes
 
     ping = () => {
