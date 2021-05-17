@@ -5,13 +5,18 @@ import {Stripe} from '@stripe/stripe-js';
 import {getCode} from 'country-list';
 
 import {Client4} from 'mattermost-redux/client';
+import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import {getConfirmCardSetup} from 'components/payment_form/stripe';
 
 import {StripeSetupIntent, BillingDetails} from 'types/cloud/sku';
 
 // Returns true for success, and false for any error
-export function completeStripeAddPaymentMethod(stripe: Stripe, billingDetails: BillingDetails, isDevMode: boolean) {
+export function completeStripeAddPaymentMethod(
+    stripe: Stripe,
+    billingDetails: BillingDetails,
+    isDevMode: boolean,
+): ActionFunc {
     return async () => {
         let paymentSetupIntent: StripeSetupIntent;
         try {
@@ -70,7 +75,7 @@ export function completeStripeAddPaymentMethod(stripe: Stripe, billingDetails: B
     };
 }
 
-export function updateCloudSubscription(productId: string) {
+export function updateCloudSubscription(productId: string): ActionFunc {
     return async () => {
         try {
             await Client4.subscribeCloudProduct(productId);
