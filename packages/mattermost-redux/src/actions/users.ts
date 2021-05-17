@@ -1065,7 +1065,7 @@ export function startPeriodicStatusUpdates(): ActionFunc {
                 if (!statuses) {
                     return;
                 }
-
+                console.log(asasasa)
                 const userIds = Object.keys(statuses);
                 if (!userIds.length) {
                     return;
