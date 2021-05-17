@@ -97,8 +97,7 @@ export function loadCustomEmojisForCustomStatusesByUserIds(userIds) {
             emojisToLoad.add(customStatus.emoji);
         });
 
-        dispatch(loadCustomEmojisIfNeeded(Array.from(emojisToLoad)));
-        return {data: true};
+        return dispatch(loadCustomEmojisIfNeeded(Array.from(emojisToLoad)));
     };
 }
 
@@ -142,8 +141,7 @@ export function loadCustomEmojisIfNeeded(emojis) {
             emojisToLoad.push(emoji);
         });
 
-        dispatch(EmojiActions.getCustomEmojisByName(emojisToLoad));
-        return {data: true};
+        return dispatch(EmojiActions.getCustomEmojisByName(emojisToLoad));
     };
 }
 
@@ -160,8 +158,7 @@ export function loadCustomStatusEmojisForPostList(posts) {
                 userIds.add(post.user_id);
             }
         });
-        dispatch(loadCustomEmojisForCustomStatusesByUserIds(userIds));
-        return {data: true};
+        return dispatch(loadCustomEmojisForCustomStatusesByUserIds(userIds));
     };
 }
 
