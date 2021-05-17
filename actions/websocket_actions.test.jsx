@@ -539,8 +539,17 @@ describe('handleNewPostEvent', () => {
 });
 
 describe('handleNewPostEvents', () => {
+    const initialState = {
+        entities: {
+            general: {},
+            preferences: {
+                myPreferences: {},
+            },
+        },
+    };
+
     test('should receive multiple posts correctly', () => {
-        const testStore = configureStore();
+        const testStore = configureStore(initialState);
 
         const posts = [
             {id: 'post1', channel_id: 'channel1'},
@@ -561,7 +570,7 @@ describe('handleNewPostEvents', () => {
         expect(testStore.getActions()).toEqual([
             {
                 meta: {batch: true},
-                payload: posts.map(receivedNewPost),
+                payload: posts.map((post) => receivedNewPost(post, false)),
                 type: 'BATCHING_REDUCER.BATCH',
             },
             {
