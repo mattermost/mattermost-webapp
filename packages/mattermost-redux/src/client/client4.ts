@@ -119,6 +119,7 @@ import {isSystemAdmin} from 'mattermost-redux/utils/user_utils';
 import {UserThreadList, UserThread, UserThreadWithPost} from 'mattermost-redux/types/threads';
 
 import {TelemetryHandler} from './telemetry';
+import { ScheduleType } from 'mattermost-redux/types/notifications_schdule';
 
 const FormData = require('form-data');
 const HEADER_AUTH = 'Authorization';
@@ -2230,12 +2231,22 @@ export default class Client4 {
         );
     };
 
-    // saveNotificationSchedule = (userId: string schedule: PreferenceType[]) => {
+    // Notification schedule Routes
+
+    saveNotificationSchedules = (schedule: ScheduleType[]) => {
+        return this.doFetch<StatusOK>(
+            `${this.getUsersRoute()}/status/ids`,
+            {method: 'put', body: JSON.stringify(schedule)}
+        )
+    }
+
+    // getMyNotificationSchedule = (schedule: ScheduleType[]) => {
     //     return this.doFetch<StatusOK>(
-    //         `url`,
+    //         `${this.getUsersRoute()}/status/ids`,
     //         {method: 'post', body: JSON.stringify(schedule)}
     //     )
     // }
+
     // General Routes
 
     ping = () => {
