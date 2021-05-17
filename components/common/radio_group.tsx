@@ -45,9 +45,9 @@ const RadioButtonGroup: React.FC<RadioGroupProps> = ({
     }
 
     return (
-        <>
+        <div className='radio-list'>
             {options}
-        </>
+        </div>
     );
 };
 
