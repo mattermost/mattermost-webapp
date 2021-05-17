@@ -99,7 +99,7 @@ describe('actions/new_post', () => {
             INCREASED_POST_VISIBILITY,
             {
                 meta: {batch: true},
-                payload: [receivedNewPost(newPost), STOP_TYPING],
+                payload: [receivedNewPost(newPost, false), STOP_TYPING],
                 type: 'BATCHING_REDUCER.BATCH',
             },
         ]);
