@@ -41,7 +41,7 @@ class set_notification_schedule extends React.PureComponent {
     this.state = {
       activeSection,
       enableCusotmDND: false, // 나중에 props로 상태값 받아와야함
-      selectedOption: { value: 'Every Day', label: 'Every Day'}, // 나중에 props로 상태값 받아와야함
+      selectedOption: { value: 1, label: 'Every Day'}, // 나중에 props로 상태값 받아와야함
       monEnable: false,
       tueEnable: false,
       wedEnable: false,
@@ -68,6 +68,27 @@ class set_notification_schedule extends React.PureComponent {
 
   handleSubmit = async () => {
     this.props.updateSection('');
+    const { actions } = this.props;
+    const { notificationIntervalSchedule } = {
+      enableCusotmDND: this.state.selectedOption.value,
+      sunday_start: this.state.sunStart,
+      monday_start: this.state.monStart,
+      tuesday_start: this.state.tueStart,
+      wednesday_start: this.state.wedStart,
+      thursday_start: this.state.thuStart,
+      friday_start: this.state.friStart,
+      saturday_start: this.state.satStart,
+      sunday_end: this.state.sunEnd,
+      monday_end: this.state.monEnd,
+      tuesday_end: this.state.tueEnd,
+      wednesday_end: this.state.wedEnd,
+      thursday_end: this.state.thuEnd,
+      friday_end: this.state.friEnd,
+      saturday_end: this.state.satEnd,
+    }
+
+    await actions.saveNotificationsSchdules([notificationIntervalSchedule]);
+
   }
 
   handleUpdateSection = (section) => {
@@ -93,8 +114,9 @@ class set_notification_schedule extends React.PureComponent {
   }
 
   handleTimeChange = (value, id) => {
-    if (this.state.selectedOption.value === 'Every Day') {
-      if (id === 'Start') {
+    if (this.state.selectedOption.label === 'Every Day') {
+      if (id === 'start') {
+        console.log('1')
         this.setState({
           sunStart: value.format('kk:mm'),
           monStart: value.format('kk:mm'),
@@ -115,7 +137,7 @@ class set_notification_schedule extends React.PureComponent {
           satEnd: value.format('kk:mm'),
         })
       }
-    } else if (this.state.selectedOption.value === 'Weekdays') {
+    } else if (this.state.selectedOption.label === 'Weekdays') {
       if (id === 'start') {
         this.setState({
           monStart: value.format('kk:mm'),
@@ -138,7 +160,7 @@ class set_notification_schedule extends React.PureComponent {
         [id]: value.format('kk:mm'),
       })
     }
-    console.log(this.state.sunStart)
+    console.log(this.state.friStart)
   }
 
   handleWeekChange = (e) => {
@@ -150,9 +172,9 @@ class set_notification_schedule extends React.PureComponent {
 
   renderMaxSettingView = () => {
     const options = [
-      { value: 'Every Day', label: 'Every Day'},
-      { value: 'Weekdays', label: 'Weekdays'},
-      { value: 'Custom Schedule', label: 'Custom Schedule'},
+      { value: 1, label: 'Every Day'},
+      { value: 2, label: 'Weekdays'},
+      { value: 3, label: 'Custom Schedule'},
     ]
 
     if (this.state.selectedOption.value === 'Custom Schedule') {

@@ -173,25 +173,3 @@ export function deleteTeamSpecificThemes(): ActionFunc {
         return {data: true};
     };
 }
-
-// export function saveNotificationSchedule(userId: string, schedule: PreferenceType[]) {
-//     return async (dispatch: DispatchFunc) => {
-//         (async function savePreferencesWrapper() {
-//             try {
-//                 dispatch({
-//                     type: PreferenceTypes.RECEIVED_PREFERENCES,
-//                     data: schedule,
-//                 });
-
-//                 await Client4.saveNotificationSchedule(userId, schedule);
-//             } catch {
-//                 dispatch({
-//                     type: PreferenceTypes.DELETED_PREFERENCES,
-//                     data: schedule,
-//                 });
-//             }
-//         }());
-
-//         return {data: true};
-//     };
-// }
