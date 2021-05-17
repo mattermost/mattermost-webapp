@@ -290,6 +290,7 @@ export const ModalIdentifiers = {
     MORE_CHANNELS: 'more_channels',
     NEW_CHANNEL_FLOW: 'new_channel_flow',
     CLOUD_PURCHASE: 'cloud_purchase',
+    DND_CUSTOM_TIME_PICKER: 'dnd_custom_time_picker',
     CUSTOM_STATUS: 'custom_status',
     COMMERCIAL_SUPPORT: 'commercial_support',
     NO_INTERNET_CONNECTION: 'no_internet_connection',
@@ -533,6 +534,9 @@ export const SearchTypes = keyMirror({
     SET_SYSTEM_USERS_SEARCH: null,
     SET_USER_GRID_SEARCH: null,
     SET_USER_GRID_FILTERS: null,
+    SET_TEAM_LIST_SEARCH: null,
+    SET_CHANNEL_LIST_SEARCH: null,
+    SET_CHANNEL_LIST_FILTERS: null,
 });
 
 export const StorageTypes = keyMirror({
@@ -785,7 +789,7 @@ export const PermissionsScope = {
     [Permissions.CONVERT_PUBLIC_CHANNEL_TO_PRIVATE]: 'channel_scope',
     [Permissions.CONVERT_PRIVATE_CHANNEL_TO_PUBLIC]: 'channel_scope',
     [Permissions.MANAGE_SHARED_CHANNELS]: 'system_scope',
-    [Permissions.MANAGE_REMOTE_CLUSTERS]: 'system_scope',
+    [Permissions.MANAGE_SECURE_CONNECTIONS]: 'system_scope',
 };
 
 export const DefaultRolePermissions = {

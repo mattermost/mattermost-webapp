@@ -121,7 +121,7 @@ export default class MenuWrapper extends React.PureComponent<Props, State> {
         return (
             <div
                 id={this.props.id}
-                className={'MenuWrapper ' + this.props.className}
+                className={'MenuWrapper ' + this.props.className + (this.state.open ? ' MenuWrapper--open' : '')}
                 onClick={this.toggle}
                 ref={this.node}
                 disabled={this.props.isDisabled}

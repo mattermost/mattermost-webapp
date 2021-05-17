@@ -6,6 +6,7 @@ import React from 'react';
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import PostPreHeader from 'components/post_view/post_pre_header';
+import ThreadFooter from 'components/threading/channel_threads/thread_footer';
 
 import Post from './post';
 
@@ -45,7 +46,7 @@ describe('Post', () => {
 
         wrapper.find(`#post_${baseProps.post.id}`).simulate('click', {altKey: true});
 
-        expect(baseProps.actions.markPostAsUnread).toHaveBeenCalledWith(baseProps.post);
+        expect(baseProps.actions.markPostAsUnread).toHaveBeenCalledWith(baseProps.post, 'CENTER');
     });
 
     test('should not mark post as unread on click when channel is archived', () => {
@@ -182,5 +183,37 @@ describe('Post', () => {
                 expect(wrapper.find('div.a11y__section').hasClass('post--pinned-or-flagged')).toBe(true);
             });
         }
+    });
+
+    test('should show the thread footer for root posts', () => {
+        const props = {
+            ...baseProps,
+            isCollapsedThreadsEnabled: true,
+            replyCount: 22,
+        };
+
+        const wrapper = shallowWithIntl(
+            <Post {...props}/>,
+        );
+
+        expect(wrapper.find(ThreadFooter).exists()).toBe(true);
+        expect(wrapper.find(ThreadFooter).prop('threadId')).toBe(props.post.id);
+    });
+
+    test.each([
+        {isCollapsedThreadsEnabled: false},
+        {isCollapsedThreadsEnabled: true, post: {...baseProps.post, root_id: 'parentpostid'}},
+        {isCollapsedThreadsEnabled: true, replyCount: 0},
+    ])('should not show thread footer', (testCaseProps) => {
+        const props = {
+            ...baseProps,
+            ...testCaseProps,
+        };
+
+        const wrapper = shallowWithIntl(
+            <Post {...props}/>,
+        );
+
+        expect(wrapper.find(ThreadFooter).exists()).toBe(false);
     });
 });
