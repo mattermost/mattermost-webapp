@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import {Channel, ChannelMembership, ChannelNotifyProps} from 'mattermost-redux/types/channels';
+import {Channel, ChannelMembership, ChannelNotifyProps, ChannelWithTeamData} from 'mattermost-redux/types/channels';
 import {Bot} from 'mattermost-redux/types/bots';
 import {Role} from 'mattermost-redux/types/roles';
 import {UserProfile, UserAccessToken} from 'mattermost-redux/types/users';
@@ -105,6 +105,32 @@ export class TestHelper {
             creator_id: 'id',
             scheme_id: 'id',
             group_constrained: false,
+        };
+        return Object.assign({}, defaultChannel, override);
+    }
+
+    public static getChannelWithTeamDataMock(override?: Partial<ChannelWithTeamData>): ChannelWithTeamData {
+        const defaultChannel: ChannelWithTeamData = {
+            id: 'channel_id',
+            create_at: 0,
+            update_at: 0,
+            delete_at: 0,
+            team_id: 'team_id',
+            type: 'O',
+            display_name: 'name',
+            name: 'DN',
+            header: 'header',
+            purpose: 'purpose',
+            last_post_at: 0,
+            total_msg_count: 0,
+            total_msg_count_root: 0,
+            extra_update_at: 0,
+            creator_id: 'id',
+            scheme_id: 'id',
+            group_constrained: false,
+            team_display_name: 'teamDisplayName',
+            team_name: 'teamName',
+            team_update_at: 0,
         };
         return Object.assign({}, defaultChannel, override);
     }
