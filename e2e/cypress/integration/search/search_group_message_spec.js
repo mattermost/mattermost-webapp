@@ -87,7 +87,7 @@ describe('Search', () => {
             // # Post file to group
             cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile('word-file.doc');
             cy.get('.post-image__thumbnail').should('be.visible');
-            cy.postMessage('{enter}');
+            cy.get('#post_textbox').should('be.visible').clear().type('{enter}');
 
             //# Type "in:" text in search input
             cy.get('#searchBox').type('in:');

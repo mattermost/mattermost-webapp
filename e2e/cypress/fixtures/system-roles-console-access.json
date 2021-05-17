@@ -276,7 +276,7 @@
     "system_read_only_admin": "read"
   },
   {
-    "section": "compliance.data_retention",
+    "section": "compliance.data_retention_old",
     "system_manager": "none",
     "system_user_manager": "none",
     "system_read_only_admin": "read"
