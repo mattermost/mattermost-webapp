@@ -183,7 +183,7 @@ describe('Data Retention Teams', () => {
         const nextState = teamsReducer(state, {
             type: AdminTypes.REMOVE_DATA_RETENTION_CUSTOM_POLICY_TEAMS_SUCCESS,
             data: {
-                teams: ['team1', 'team2']
+                teams: ['team1', 'team2'],
             },
         });
 

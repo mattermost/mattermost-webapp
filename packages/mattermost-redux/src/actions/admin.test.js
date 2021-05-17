@@ -1300,17 +1300,17 @@ describe('Actions.Admin', () => {
         const policesState = state.entities.admin.dataRetentionCustomPolicies;
         assert.ok(policesState);
 
-        assert.ok(policesState['id1'].id === 'id1');
-        assert.ok(policesState['id1'].display_name === 'Test Policy');
-        assert.ok(policesState['id1'].post_duration === 100);
-        assert.ok(policesState['id1'].team_count === 2);
-        assert.ok(policesState['id1'].channel_count === 1);
+        assert.ok(policesState.id1.id === 'id1');
+        assert.ok(policesState.id1.display_name === 'Test Policy');
+        assert.ok(policesState.id1.post_duration === 100);
+        assert.ok(policesState.id1.team_count === 2);
+        assert.ok(policesState.id1.channel_count === 1);
 
-        assert.ok(policesState['id2'].id === 'id2');
-        assert.ok(policesState['id2'].display_name === 'Test Policy 2');
-        assert.ok(policesState['id2'].post_duration === 365);
-        assert.ok(policesState['id2'].team_count === 0);
-        assert.ok(policesState['id2'].channel_count === 9);
+        assert.ok(policesState.id2.id === 'id2');
+        assert.ok(policesState.id2.display_name === 'Test Policy 2');
+        assert.ok(policesState.id2.post_duration === 365);
+        assert.ok(policesState.id2.team_count === 0);
+        assert.ok(policesState.id2.channel_count === 9);
     });
 
     it('getDataRetentionCustomPolicy', async () => {
@@ -1331,11 +1331,11 @@ describe('Actions.Admin', () => {
         const policesState = state.entities.admin.dataRetentionCustomPolicies;
         assert.ok(policesState);
 
-        assert.ok(policesState['id1'].id === 'id1');
-        assert.ok(policesState['id1'].display_name === 'Test Policy');
-        assert.ok(policesState['id1'].post_duration === 100);
-        assert.ok(policesState['id1'].team_count === 2);
-        assert.ok(policesState['id1'].channel_count === 1);
+        assert.ok(policesState.id1.id === 'id1');
+        assert.ok(policesState.id1.display_name === 'Test Policy');
+        assert.ok(policesState.id1.post_duration === 100);
+        assert.ok(policesState.id1.team_count === 2);
+        assert.ok(policesState.id1.channel_count === 1);
     });
 
     it('getDataRetentionCustomPolicyTeams', async () => {
@@ -1349,7 +1349,7 @@ describe('Actions.Admin', () => {
         nock(Client4.getBaseRoute()).
             get('/data_retention/policies/id1/teams?page=0&per_page=50').
             reply(200, {
-                teams: teams,
+                teams,
                 total_count: 1,
             });
 
@@ -1359,7 +1359,7 @@ describe('Actions.Admin', () => {
         const teamsState = state.entities.teams.teams;
 
         assert.ok(teamsState);
-        assert.ok(teamsState['teamId1'].policy_id === 'id1');
+        assert.ok(teamsState.teamId1.policy_id === 'id1');
     });
 
     it('getDataRetentionCustomPolicyChannels', async () => {
@@ -1373,7 +1373,7 @@ describe('Actions.Admin', () => {
         nock(Client4.getBaseRoute()).
             get('/data_retention/policies/id1/channels?page=0&per_page=50').
             reply(200, {
-                channels: channels,
+                channels,
                 total_count: 1,
             });
 
@@ -1383,9 +1383,9 @@ describe('Actions.Admin', () => {
         const teamsState = state.entities.channels.channels;
 
         assert.ok(teamsState);
-        assert.ok(teamsState['channelId1'].policy_id === 'id1');
+        assert.ok(teamsState.channelId1.policy_id === 'id1');
     });
-    
+
     it('searchDataRetentionCustomPolicyTeams', async () => {
         nock(Client4.getBaseRoute()).
             post('/data_retention/policies/id1/teams/search').
@@ -1428,11 +1428,11 @@ describe('Actions.Admin', () => {
         const policesState = state.entities.admin.dataRetentionCustomPolicies;
         assert.ok(policesState);
 
-        assert.ok(policesState['id1'].id === 'id1');
-        assert.ok(policesState['id1'].display_name === 'Test');
-        assert.ok(policesState['id1'].post_duration === 100);
-        assert.ok(policesState['id1'].team_count === 2);
-        assert.ok(policesState['id1'].channel_count === 1);
+        assert.ok(policesState.id1.id === 'id1');
+        assert.ok(policesState.id1.display_name === 'Test');
+        assert.ok(policesState.id1.post_duration === 100);
+        assert.ok(policesState.id1.team_count === 2);
+        assert.ok(policesState.id1.channel_count === 1);
     });
 
     it('updateDataRetentionCustomPolicy', async () => {
@@ -1451,13 +1451,13 @@ describe('Actions.Admin', () => {
         const policyState = updateState.entities.admin.dataRetentionCustomPolicies;
         assert.ok(policyState);
 
-        assert.ok(policyState['id1'].id === 'id1');
-        assert.ok(policyState['id1'].display_name === 'Test123');
-        assert.ok(policyState['id1'].post_duration === 365);
-        assert.ok(policyState['id1'].team_count === 2);
-        assert.ok(policyState['id1'].channel_count === 1);
+        assert.ok(policyState.id1.id === 'id1');
+        assert.ok(policyState.id1.display_name === 'Test123');
+        assert.ok(policyState.id1.post_duration === 365);
+        assert.ok(policyState.id1.team_count === 2);
+        assert.ok(policyState.id1.channel_count === 1);
     });
-    
+
     it('createDataRetentionCustomPolicy', async () => {
         const policy = {
             display_name: 'Test',
@@ -1474,17 +1474,17 @@ describe('Actions.Admin', () => {
                 team_count: 2,
                 channel_count: 1,
             });
-            await Actions.createDataRetentionCustomPolicy(policy)(store.dispatch, store.getState);
+        await Actions.createDataRetentionCustomPolicy(policy)(store.dispatch, store.getState);
 
-            const state = store.getState();
-            const policesState = state.entities.admin.dataRetentionCustomPolicies;
-            assert.ok(policesState);
+        const state = store.getState();
+        const policesState = state.entities.admin.dataRetentionCustomPolicies;
+        assert.ok(policesState);
 
-            assert.ok(policesState['id1'].id === 'id1');
-            assert.ok(policesState['id1'].display_name === 'Test');
-            assert.ok(policesState['id1'].post_duration === 100);
-            assert.ok(policesState['id1'].team_count === 2);
-            assert.ok(policesState['id1'].channel_count === 1);
+        assert.ok(policesState.id1.id === 'id1');
+        assert.ok(policesState.id1.display_name === 'Test');
+        assert.ok(policesState.id1.post_duration === 100);
+        assert.ok(policesState.id1.team_count === 2);
+        assert.ok(policesState.id1.channel_count === 1);
     });
 
     it('removeDataRetentionCustomPolicyTeams', async () => {
@@ -1503,7 +1503,7 @@ describe('Actions.Admin', () => {
         nock(Client4.getBaseRoute()).
             get('/data_retention/policies/id1/teams?page=0&per_page=50').
             reply(200, {
-                teams: teams,
+                teams,
                 total_count: 2,
             });
 
@@ -1519,7 +1519,7 @@ describe('Actions.Admin', () => {
         const teamsState = state.entities.teams.teams;
 
         assert.ok(teamsState);
-        assert.ok(teamsState['teamId2'].policy_id === null);
+        assert.ok(teamsState.teamId2.policy_id === null);
     });
 
     it('removeDataRetentionCustomPolicyChannels', async () => {
@@ -1538,7 +1538,7 @@ describe('Actions.Admin', () => {
         nock(Client4.getBaseRoute()).
             get('/data_retention/policies/id1/channels?page=0&per_page=50').
             reply(200, {
-                channels: channels,
+                channels,
                 total_count: 1,
             });
 
@@ -1554,6 +1554,6 @@ describe('Actions.Admin', () => {
         const channelsState = state.entities.channels.channels;
 
         assert.ok(channelsState);
-        assert.ok(channelsState['channelId2'].policy_id === null);
+        assert.ok(channelsState.channelId2.policy_id === null);
     });
 });

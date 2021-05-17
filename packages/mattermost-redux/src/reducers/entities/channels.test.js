@@ -1037,7 +1037,7 @@ describe('channels', () => {
             const nextState = channelsReducer(state, {
                 type: AdminTypes.REMOVE_DATA_RETENTION_CUSTOM_POLICY_CHANNELS_SUCCESS,
                 data: {
-                    channels: ['channel1', 'channel2']
+                    channels: ['channel1', 'channel2'],
                 },
             });
 

@@ -588,7 +588,7 @@ function samlMetadataResponse(state: Partial<SamlMetadataResponse> = {}, action:
 function dataRetentionCustomPolicies(state: IDMappedObjects<DataRetentionCustomPolicy> = {}, action: GenericAction): IDMappedObjects<DataRetentionCustomPolicy> {
     switch (action.type) {
     case AdminTypes.CREATE_DATA_RETENTION_CUSTOM_POLICY_SUCCESS:
-    case AdminTypes.RECEIVED_DATA_RETENTION_CUSTOM_POLICY: 
+    case AdminTypes.RECEIVED_DATA_RETENTION_CUSTOM_POLICY:
     case AdminTypes.UPDATE_DATA_RETENTION_CUSTOM_POLICY_SUCCESS: {
         return {
             ...state,
