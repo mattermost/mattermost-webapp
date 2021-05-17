@@ -6,7 +6,7 @@ import { DispatchFunc } from 'mattermost-redux/types/actions';
 
 import { ScheduleType } from 'mattermost-redux/types/notifications_schdule';
 
-export function saveNotificationsSchedules(schedules: ScheduleType[]) {
+export function saveNotificationsSchedules(currentUserId : string, schedules: ScheduleType[]) {
   return async (dispatch: DispatchFunc) => {
       (async function savePreferencesWrapper() {
           try {
@@ -15,7 +15,7 @@ export function saveNotificationsSchedules(schedules: ScheduleType[]) {
                   data: schedules,
               });
 
-              await Client4.saveNotificationSchedules(schedules);
+              await Client4.saveNotificationSchedules(currentUserId, schedules);
           } catch {
               dispatch({
                   type: ScheduleTypes.DELETED_SCHEDULES,

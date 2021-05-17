@@ -2231,12 +2231,12 @@ export default class Client4 {
 
     // Notification schedule Routes
 
-    saveNotificationSchedules = (schedule: ScheduleType[]) => {
+    saveNotificationSchedules = (userId: string, schedule: ScheduleType[]) => {
         return this.doFetch<StatusOK>(
-            `${this.getUsersRoute()}/status/ids`,
-            {method: 'put', body: JSON.stringify(schedule)}
-        )
-    }
+            `${this.getUserRoute(userId)}/status/schedule/periods`,
+            {method: 'put', body: JSON.stringify(schedule)},
+        );
+    };
 
     // getMyNotificationSchedule = (schedule: ScheduleType[]) => {
     //     return this.doFetch<StatusOK>(

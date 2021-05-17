@@ -3,9 +3,12 @@ import ReactSelect from 'react-select';
 import TimePicker from 'rc-time-picker';
 import 'rc-time-picker/assets/index.css';
 import moment from 'moment';
+import store from 'stores/redux_store.jsx';
 
 import { localizeMessage } from 'utils/utils.jsx';
 import { FormattedMessage } from 'react-intl';
+import { saveNotificationsSchedules } from 'mattermost-redux/actions/notifications_schedule';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import './notification_schedule_setting.scss'
 
@@ -13,21 +16,10 @@ import SettingItemMin from 'components/setting_item_min';
 import SettingItemMax from 'components/setting_item_max.jsx';
 
 import clockIcon from 'images/icons/clock-time-five.png';
-// type Props = {
-//   activeSection: string;
-//   updateSection: (section: string) => void;
-//   onSubmit: () => void;
-//   onCancel: () => void;
-//   onChange: (enableEmail: string) => void;
-//   serverError?: string;
-//   saving?: boolean;
-// };
-
-// type State = {
-//   activeSection: string;
-// };
 
 const timeFormat = 'h:mm A'
+const dispatch = store.dispatch;
+const getState = store.getState;
 
 class set_notification_schedule extends React.PureComponent {
   constructor(props) {
@@ -67,10 +59,12 @@ class set_notification_schedule extends React.PureComponent {
   }
 
   handleSubmit = async () => {
+    const state = getState();
+    const currentUserId = getCurrentUserId(state);
     this.props.updateSection('');
-    const { actions } = this.props;
-    const { notificationIntervalSchedule } = {
-      enableCusotmDND: this.state.selectedOption.value,
+    const notificationIntervalSchedule = {
+      user_id : currentUserId,
+      mode: this.state.selectedOption.value,
       sunday_start: this.state.sunStart,
       monday_start: this.state.monStart,
       tuesday_start: this.state.tueStart,
@@ -86,9 +80,7 @@ class set_notification_schedule extends React.PureComponent {
       friday_end: this.state.friEnd,
       saturday_end: this.state.satEnd,
     }
-
-    await actions.saveNotificationsSchdules([notificationIntervalSchedule]);
-
+    dispatch(saveNotificationsSchedules(currentUserId, [notificationIntervalSchedule]));
   }
 
   handleUpdateSection = (section) => {
@@ -110,13 +102,11 @@ class set_notification_schedule extends React.PureComponent {
     this.setState({
       selectedOption: option
     })
-    console.log(option)
   }
 
   handleTimeChange = (value, id) => {
     if (this.state.selectedOption.label === 'Every Day') {
       if (id === 'start') {
-        console.log('1')
         this.setState({
           sunStart: value.format('kk:mm'),
           monStart: value.format('kk:mm'),
@@ -160,7 +150,6 @@ class set_notification_schedule extends React.PureComponent {
         [id]: value.format('kk:mm'),
       })
     }
-    console.log(this.state.friStart)
   }
 
   handleWeekChange = (e) => {

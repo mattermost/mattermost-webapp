@@ -1,5 +1,6 @@
 export type ScheduleType = {
-  enableAutoDND: Number,
+  user_id: string,
+  mode: Number,
   sunday_start: string,
   monday_start: string,
   tuesday_start: string,
