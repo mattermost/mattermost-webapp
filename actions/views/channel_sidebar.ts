@@ -4,7 +4,7 @@
 import {createCategory as createCategoryRedux, moveChannelsToCategory} from 'mattermost-redux/actions/channel_categories';
 import {General} from 'mattermost-redux/constants';
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
-import {getCategory, makeGetChannelsForCategory} from 'mattermost-redux/selectors/entities/channel_categories';
+import {getCategory, makeGetChannelIdsForCategory} from 'mattermost-redux/selectors/entities/channel_categories';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
 import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 import {insertMultipleWithoutDuplicates} from 'mattermost-redux/utils/array_utils';
@@ -103,15 +103,14 @@ export function adjustTargetIndexForMove(state: GlobalState, categoryId: string,
     }
 
     const category = getCategory(state, categoryId);
-    const filteredChannels = makeGetChannelsForCategory()(state, category);
-    const filteredChannelIds = filteredChannels.map((channel) => channel.id);
+    const filteredChannelIds = makeGetChannelIdsForCategory()(state, category);
 
     // When dragging multiple channels, we don't actually remove all of them from the list as react-beautiful-dnd doesn't support that
     // Account for channels removed above the insert point, except the one currently being dragged which is already accounted for by react-beautiful-dnd
     const removedChannelsAboveInsert = filteredChannelIds.filter((channel, index) => channel !== draggableChannelId && channelIds.indexOf(channel) !== -1 && index <= targetIndex);
     const shiftedIndex = targetIndex - removedChannelsAboveInsert.length;
 
-    if (category.channel_ids.length === filteredChannels.length) {
+    if (category.channel_ids.length === filteredChannelIds.length) {
         // There are no archived channels in the category, so the shiftedIndex will be correct
         return shiftedIndex;
     }

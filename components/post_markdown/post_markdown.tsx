@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import memoize from 'memoize-one';
 
 import {Post} from 'mattermost-redux/types/posts';
 import {Channel} from 'mattermost-redux/types/channels';
@@ -57,6 +58,15 @@ export default class PostMarkdown extends React.PureComponent<Props> {
         options: {},
     };
 
+    getOptions = memoize(
+        (options: TextFormattingOptions | undefined, disableGroupHighlight: boolean, mentionHighlight: boolean | undefined) => {
+            return {
+                ...options,
+                disableGroupHighlight,
+                mentionHighlight,
+            };
+        })
+
     render() {
         let {message} = this.props;
         const {post, mentionKeys} = this.props;
@@ -71,10 +81,6 @@ export default class PostMarkdown extends React.PureComponent<Props> {
         // Proxy images if we have an image proxy and the server hasn't already rewritten the post's image URLs.
         const proxyImages = !post || !post.message_source || post.message === post.message_source;
         const channelNamesMap = post && post.props && post.props.channel_mentions;
-        const options = {
-            ...this.props.options,
-            disableGroupHighlight: post?.props?.disable_group_highlight === true, // eslint-disable-line camelcase
-        };
 
         this.props.pluginHooks?.forEach((o) => {
             if (o && o.hook && post) {
@@ -82,9 +88,16 @@ export default class PostMarkdown extends React.PureComponent<Props> {
             }
         });
 
+        let mentionHighlight = this.props.options?.mentionHighlight;
         if (post && post.props) {
-            options.mentionHighlight = !post.props.mentionHighlightDisabled;
+            mentionHighlight = !post.props.mentionHighlightDisabled;
         }
+
+        const options = this.getOptions(
+            this.props.options,
+            post?.props?.disable_group_highlight === true, // eslint-disable-line camelcase
+            mentionHighlight,
+        );
 
         return (
             <Markdown
