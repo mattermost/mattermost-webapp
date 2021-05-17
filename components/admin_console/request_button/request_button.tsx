@@ -1,7 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
@@ -16,122 +14,130 @@ import WarningIcon from 'components/widgets/icons/fa_warning_icon';
  * its outcome as either success, or failure accompanied by the
  * `message` property of the `err` object.
  */
-export default class RequestButton extends React.PureComponent {
-    static propTypes = {
+type Props = {
+
+    /**
+     * ID to assign to the form
+     */
+    id?: string;
+
+    /**
+     * The action to be called to carry out the request.
+     */
+    requestAction: (
+        success: (data?: any) => void,
+        error: (error: any) => void
+    ) => void;
+
+    /**
+     * A component that displays help text for the request button.
+     *
+     * Typically, this will be a <FormattedMessage/>.
+     */
+    helpText?: React.ReactNode;
+
+    /**
+     * A component to be displayed on the button.
+     *
+     * Typically, this will be a <FormattedMessage/>
+     */
+    loadingText?: React.ReactNode;
+
+    /**
+     * A component to be displayed on the button.
+     *
+     * Typically, this will be a <FormattedMessage/>
+     */
+    buttonText: React.ReactNode;
+
+    /**
+     * The element to display as the field label.
+     *
+     * Typically, this will be a <FormattedMessage/>
+     */
+    label?: React.ReactNode;
+
+    /**
+     * True if the button form control should be disabled, otherwise false.
+     */
+    disabled?: boolean;
+
+    /**
+     * True if the config needs to be saved before running the request, otherwise false.
+     *
+     * If set to true, the action provided in the `saveConfigAction` property will be
+     * called before the action provided in the `requestAction` property, with the later
+     * only being called if the former is successful.
+     */
+    saveNeeded?: boolean;
+
+    /**
+     * Action to be called to save the config, if saveNeeded is set to true.
+     */
+    saveConfigAction?: (callback: () => void) => void;
+
+    /**
+     * True if the success message should be show when the request completes successfully,
+     * otherwise false.
+     */
+    showSuccessMessage?: boolean;
+
+    /**
+     * The message to show when the request completes successfully.
+     */
+    successMessage: {
 
         /**
-         * TD to assign to the form
+         * The i18n string ID for the success message.
          */
-        id: PropTypes.string,
+        id: string;
 
         /**
-         * The action to be called to carry out the request.
+         * The i18n default value for the success message.
          */
-        requestAction: PropTypes.func.isRequired,
+        defaultMessage: string;
+    };
+
+    /**
+     * The message to show when the request returns an error.
+     */
+    errorMessage: {
 
         /**
-         * A component that displays help text for the request button.
+         * The i18n string ID for the error message.
+         */
+        id: string;
+
+        /**
+         * The i18n default value for the error message.
          *
-         * Typically, this will be a <FormattedMessage/>.
+         * The placeholder {error} may be used to include the error message returned
+         * by the server in response to the failed request.
          */
-        helpText: PropTypes.element,
+        defaultMessage: string;
+    };
 
-        /**
-         * A component to be displayed on the button.
-         *
-         * Typically, this will be a <FormattedMessage/>
-         */
-        loadingText: PropTypes.string,
+    /**
+     * True if the {error} placeholder for the `errorMessage` property should include both
+     * the `message` and `detailed_error` properties of the error returned from the server,
+     * otherwise false to include only the `message` property.
+     */
+    includeDetailedError?: boolean;
 
-        /**
-         * A component to be displayed on the button.
-         *
-         * Typically, this will be a <FormattedMessage/>
-         */
-        buttonText: PropTypes.element.isRequired,
+    /**
+     * An element to display adjacent to the request button.
+     */
+    alternativeActionElement?: React.ReactNode;
+};
 
-        /**
-         * The element to display as the field label.
-         *
-         * Typically, this will be a <FormattedMessage/>
-         */
-        label: PropTypes.element,
+type State = {
+    busy: boolean;
+    fail: string | null;
+    success: boolean;
+}
 
-        /**
-         * True if the button form control should be disabled, otherwise false.
-         */
-        disabled: PropTypes.bool,
-
-        /**
-         * True if the config needs to be saved before running the request, otherwise false.
-         *
-         * If set to true, the action provided in the `saveConfigAction` property will be
-         * called before the action provided in the `requestAction` property, with the later
-         * only being called if the former is successful.
-         */
-        saveNeeded: PropTypes.bool,
-
-        /**
-         * Action to be called to save the config, if saveNeeded is set to true.
-         */
-        saveConfigAction: PropTypes.func,
-
-        /**
-         * True if the success message should be show when the request completes successfully,
-         * otherwise false.
-         */
-        showSuccessMessage: PropTypes.bool,
-
-        /**
-         * The message to show when the request completes successfully.
-         */
-        successMessage: PropTypes.shape({
-
-            /**
-             * The i18n string ID for the success message.
-             */
-            id: PropTypes.string.isRequired,
-
-            /**
-             * The i18n default value for the success message.
-             */
-            defaultMessage: PropTypes.string.isRequired,
-        }),
-
-        /**
-         * The message to show when the request returns an error.
-         */
-        errorMessage: PropTypes.shape({
-
-            /**
-             * The i18n string ID for the error message.
-             */
-            id: PropTypes.string.isRequired,
-
-            /**
-             * The i18n default value for the error message.
-             *
-             * The placeholder {error} may be used to include the error message returned
-             * by the server in response to the failed request.
-             */
-            defaultMessage: PropTypes.string.isRequired,
-        }),
-
-        /**
-         * True if the {error} placeholder for the `errorMessage` property should include both
-         * the `message` and `detailed_error` properties of the error returned from the server,
-         * otherwise false to include only the `message` property.
-         */
-        includeDetailedError: PropTypes.bool,
-
-        /**
-         * An element to display adjacent to the request button.
-         */
-        alternativeActionElement: PropTypes.element,
-    }
-
-    static defaultProps = {
-        id: null,
+export default class RequestButton extends React.PureComponent<Props, State> {
+    static defaultProps: Partial<Props> = {
         disabled: false,
         saveNeeded: false,
         showSuccessMessage: true,
@@ -144,9 +150,9 @@ export default class RequestButton extends React.PureComponent {
             id: t('admin.requestButton.requestFailure'),
             defaultMessage: 'Test Failure: {error}',
         },
-    }
+    };
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -156,7 +162,7 @@ export default class RequestButton extends React.PureComponent {
         };
     }
 
-    handleRequest = (e) => {
+    handleRequest = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
 
         this.setState({
@@ -165,7 +171,8 @@ export default class RequestButton extends React.PureComponent {
             success: false,
         });
 
-        const doRequest = () => { //eslint-disable-line func-style
+        const doRequest = () => {
+            //eslint-disable-line func-style
             this.props.requestAction(
                 () => {
                     this.setState({
@@ -187,12 +194,12 @@ export default class RequestButton extends React.PureComponent {
             );
         };
 
-        if (this.props.saveNeeded) {
+        if (this.props.saveNeeded && this.props.saveConfigAction) {
             this.props.saveConfigAction(doRequest);
         } else {
             doRequest();
         }
-    }
+    };
 
     render() {
         let message = null;
@@ -203,7 +210,9 @@ export default class RequestButton extends React.PureComponent {
                         <WarningIcon/>
                         <FormattedMessage
                             id={this.props.errorMessage.id}
-                            defaultMessage={this.props.errorMessage.defaultMessage}
+                            defaultMessage={
+                                this.props.errorMessage.defaultMessage
+                            }
                             values={{
                                 error: this.state.fail,
                             }}
@@ -218,7 +227,9 @@ export default class RequestButton extends React.PureComponent {
                         <SuccessIcon/>
                         <FormattedMessage
                             id={this.props.successMessage.id}
-                            defaultMessage={this.props.successMessage.defaultMessage}
+                            defaultMessage={
+                                this.props.successMessage.defaultMessage
+                            }
                         />
                     </div>
                 </div>
@@ -229,9 +240,7 @@ export default class RequestButton extends React.PureComponent {
         let label = null;
         if (this.props.label) {
             label = (
-                <label
-                    className='control-label col-sm-4'
-                >
+                <label className='control-label col-sm-4'>
                     {this.props.label}
                 </label>
             );
@@ -255,7 +264,13 @@ export default class RequestButton extends React.PureComponent {
                         >
                             <LoadingWrapper
                                 loading={this.state.busy}
-                                text={this.props.loadingText || Utils.localizeMessage('admin.requestButton.loading', ' Loading...')}
+                                text={
+                                    this.props.loadingText ||
+                                    Utils.localizeMessage(
+                                        'admin.requestButton.loading',
+                                        ' Loading...',
+                                    )
+                                }
                             >
                                 {this.props.buttonText}
                             </LoadingWrapper>
@@ -263,9 +278,7 @@ export default class RequestButton extends React.PureComponent {
                         {this.props.alternativeActionElement}
                         {message}
                     </div>
-                    <div className='help-text'>
-                        {this.props.helpText}
-                    </div>
+                    <div className='help-text'>{this.props.helpText}</div>
                 </div>
             </div>
         );
