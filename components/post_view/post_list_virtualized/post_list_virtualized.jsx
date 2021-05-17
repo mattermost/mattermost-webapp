@@ -230,7 +230,7 @@ class PostList extends React.PureComponent {
             props.atOldestPost === state.prevAtOldestPost &&
             props.atLatestPost === state.prevAtLatestPost &&
             props.autoRetryEnable === state.prevAutoRetryEnable) {
-                return null;
+            return null;
         }
 
         const postListIds = props.postListIds;

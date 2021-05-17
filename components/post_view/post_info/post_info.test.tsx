@@ -31,7 +31,7 @@ describe('components/post_view/PostInfo', () => {
         handleCardClick: jest.fn(),
         handleDropdownOpened: jest.fn(),
         compactDisplay: false,
-        replyCount: 0,
+        hasReplies: false,
         useMilitaryTime: false,
         isFlagged: false,
         hover: false,

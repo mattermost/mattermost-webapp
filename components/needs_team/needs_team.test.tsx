@@ -38,23 +38,10 @@ describe('components/needs_team', () => {
         push: jest.fn(),
     };
     const teamType: TeamType = 'I';
-    const teamsList = [TestHelper.getTeamMock({
-        id: 'kemjcpu9bi877yegqjs18ndp4r',
-        invite_id: 'ojsnudhqzbfzpk6e4n6ip1hwae',
-        name: 'test',
-        create_at: 123,
-        update_at: 123,
-        delete_at: 0,
-        display_name: 'test',
-        description: 'test',
-        email: 'test',
-        type: teamType,
-        company_name: 'test',
-        allowed_domains: 'test',
-        allow_open_invite: false,
-        scheme_id: 'test',
-        group_constrained: false,
-    })];
+
+    const teamNamesIdMap = {
+        'test': 'kemjcpu9bi877yegqjs18ndp4r',
+    };
 
     const match = {
         params: {
@@ -93,9 +80,8 @@ describe('components/needs_team', () => {
         loadStatusesForChannelAndSidebar: jest.fn().mockResolvedValue({data: true}),
         loadProfilesForDirect: jest.fn().mockResolvedValue({data: true}),
         getAllGroupsAssociatedToChannelsInTeam: jest.fn().mockResolvedValue({data: true}),
-        getAllGroupsAssociatedToTeam: jest.fn().mockResolvedValue({data: true}),
-        getGroups: jest.fn().mockResolvedValue({data: true}),
         getGroupsByUserId: jest.fn().mockResolvedValue({data: true}),
+        getGroupsForTeam: jest.fn().mockResolvedValue({data: true}),
     };
     const baseProps = {
         license: {},
@@ -106,7 +92,7 @@ describe('components/needs_team', () => {
         theme: {},
         mfaRequired: false,
         match,
-        teamsList,
+        teamNamesIdMap,
         history,
         useLegacyLHS: true,
         previousTeamId: '',
@@ -141,7 +127,7 @@ describe('components/needs_team', () => {
         const wrapper = shallow<NeedsTeam>(
             <NeedsTeam {...props}/>,
         );
-        expect(wrapper.state().team).toEqual(null);
+        expect(wrapper.state().teamId).toEqual(null);
         await wrapper.instance().joinTeam(props);
         expect(addUserToTeam).toHaveBeenCalledTimes(2); // called twice, first on initial mount and then on instance().joinTeam()
     });
@@ -155,7 +141,7 @@ describe('components/needs_team', () => {
             <NeedsTeam {...props}/>,
         );
 
-        expect(wrapper.state().team).toEqual(null);
+        expect(wrapper.state().teamId).toEqual(null);
         await wrapper.instance().joinTeam(props);
         expect(history.push).toBeCalledWith('/error?type=team_not_found');
     });
@@ -170,7 +156,7 @@ describe('components/needs_team', () => {
             <NeedsTeam {...props}/>,
         );
 
-        expect(wrapper.state().team).toEqual(null);
+        expect(wrapper.state().teamId).toEqual(null);
         await wrapper.instance().joinTeam(props);
         expect(history.push).toBeCalledWith('/error?type=team_not_found');
     });
@@ -189,13 +175,12 @@ describe('components/needs_team', () => {
             <NeedsTeam {...props}/>,
         );
 
-        expect(wrapper.state().team).toEqual(null);
+        expect(wrapper.state().teamId).toEqual(null);
         await wrapper.instance().joinTeam(props);
 
-        expect(wrapper.state().team!.name).toEqual('new');
-        expect(selectTeam).toBeCalledWith(wrapper.state().team);
+        expect(selectTeam).toBeCalledWith(wrapper.state().teamId);
         expect(getMyTeamUnreads).toHaveBeenCalledTimes(2); // called twice, first on initial mount and then on instance().joinTeam()
-        expect(setPreviousTeamId).toBeCalledWith(wrapper.state().team!.id);
+        expect(setPreviousTeamId).toBeCalledWith(wrapper.state().teamId);
 
         const existingTeamMatch = {
             params: {
@@ -215,6 +200,6 @@ describe('components/needs_team', () => {
 
         wrapper.setProps({match: newTeamMatch});
         wrapper.update();
-        expect(wrapper.state().team).toEqual(null);
+        expect(wrapper.state().teamId).toEqual(null);
     });
 });

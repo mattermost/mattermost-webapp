@@ -49,7 +49,7 @@ function makeMapStateToProps() {
             shortcutReactToLastPostEmittedFrom,
             hasReplies: getReplyCount(state, ownProps.post) > 0,
         };
-    }
+    };
 }
 
 function mapDispatchToProps(dispatch: Dispatch<AnyAction>) {

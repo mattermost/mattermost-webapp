@@ -18,7 +18,7 @@ const config = {
         }],
         ['@babel/preset-react', {
             useBuiltIns: true,
-            development: process.env.NODE_ENV === 'development',
+            development: process.env.NODE_ENV === 'development', // eslint-disable-line no-process-env
         }],
         ['@babel/typescript', {
             allExtensions: true,

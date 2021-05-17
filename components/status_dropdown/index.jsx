@@ -46,7 +46,7 @@ function makeMapStateToProps() {
             isStatusDropdownOpen: isStatusDropdownOpen(state),
             showCustomStatusPulsatingDot: showStatusDropdownPulsatingDot(state),
         };
-    }
+    };
 }
 
 function mapDispatchToProps(dispatch) {

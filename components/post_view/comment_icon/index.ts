@@ -24,7 +24,7 @@ function makeMapStateToProps() {
         return {
             commentCount: getReplyCount(state, post),
         };
-    }
+    };
 }
 
 export default connect(makeMapStateToProps)(CommentIcon);

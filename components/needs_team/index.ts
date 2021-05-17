@@ -42,13 +42,15 @@ const getTeamNamesIdMap = createSelector(
     getMyTeams,
     (teams) => {
         const teamNamesIdMap: Dictionary<string> = {};
-        teams.forEach((team) => teamNamesIdMap[team.name] = team.id);
+        teams.forEach((team) => {
+            teamNamesIdMap[team.name] = team.id;
+        });
         if (deepEqual(teamNamesIdMap, prevTeamNamesIdMap)) {
             return prevTeamNamesIdMap;
         }
         prevTeamNamesIdMap = teamNamesIdMap;
         return teamNamesIdMap;
-    }
+    },
 );
 
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
