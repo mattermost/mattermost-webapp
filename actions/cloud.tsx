@@ -16,7 +16,7 @@ export function completeStripeAddPaymentMethod(
     stripe: Stripe,
     billingDetails: BillingDetails,
     isDevMode: boolean,
-): ActionFunc {
+) {
     return async () => {
         let paymentSetupIntent: StripeSetupIntent;
         try {
@@ -75,7 +75,7 @@ export function completeStripeAddPaymentMethod(
     };
 }
 
-export function updateCloudSubscription(productId: string): ActionFunc {
+export function updateCloudSubscription(productId: string) {
     return async () => {
         try {
             await Client4.subscribeCloudProduct(productId);
