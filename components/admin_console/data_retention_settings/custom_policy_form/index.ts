@@ -29,6 +29,8 @@ import {GlobalState} from 'types/store';
 
 import {setNavigationBlocked} from 'actions/admin_actions.jsx';
 
+import {getTeamsInPolicy} from 'mattermost-redux/selectors/entities/teams';
+
 import CustomPolicyForm from './custom_policy_form';
 
 type Actions = {
@@ -52,12 +54,15 @@ type OwnProps = {
 }
 
 function mapStateToProps() {
+    const getPolicyTeams = getTeamsInPolicy();
     return (state: GlobalState, ownProps: OwnProps) => {
         const policyId = ownProps.match.params.policy_id;
         const policy = getDataRetentionCustomPolicy(state, policyId);
+        const teams = policyId ? getPolicyTeams(state, {policyId}) : [];
         return {
             policyId,
             policy,
+            teams,
         };
     };
 }

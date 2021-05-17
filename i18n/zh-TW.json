@@ -2406,7 +2406,6 @@
   "edit_channel_private_purpose_modal.body": "此文字將出現在私人頻道的檢視資訊對話框當中。",
   "edit_channel_purpose_modal.body": "描述頻道的用途。這敘述會顯示在頻道列表的\"更多...\"選單當中，其他人可以以此決定要不要加入。",
   "edit_channel_purpose_modal.cancel": "取消",
-  "edit_channel_purpose_modal.error": "頻道用途太長,請長話短說",
   "edit_channel_purpose_modal.save": "儲存",
   "edit_channel_purpose_modal.title1": "編輯用途",
   "edit_channel_purpose_modal.title2": "編輯用途。目標：",
