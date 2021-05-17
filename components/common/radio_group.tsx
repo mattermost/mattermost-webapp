@@ -7,7 +7,7 @@ type RadioGroupProps = {
     id: string;
     values: Array<{ key: string; value: string}>;
     value: string;
-    isDisabled: (id: string) => boolean;
+    isDisabled?: (id: string) => boolean | boolean;
     onChange(e: React.ChangeEvent<HTMLInputElement>): void;
 }
 const RadioButtonGroup: React.FC<RadioGroupProps> = ({
@@ -16,7 +16,7 @@ const RadioButtonGroup: React.FC<RadioGroupProps> = ({
     isDisabled,
     values,
     value,
-}) => {
+}: RadioGroupProps) => {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         onChange(e);
     };

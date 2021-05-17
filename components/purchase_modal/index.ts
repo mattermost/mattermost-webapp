@@ -37,9 +37,9 @@ function mapStateToProps(state: GlobalState) {
 }
 type Actions = {
     closeModal: () => void;
+    updateCloudSubscription: (productId: string) => Promise<boolean | null>;
     getCloudProducts: () => void;
     completeStripeAddPaymentMethod: (stripe: Stripe, billingDetails: BillingDetails, isDevMode: boolean) => Promise<boolean | null>;
-    updateCloudSubscription: (selectedProductId: string, subscriptionId: string, installationId: string) => Promise<boolean | null>;
     getClientConfig: () => void;
     getCloudSubscription: () => void;
 }

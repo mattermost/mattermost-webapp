@@ -47,7 +47,7 @@ type Props = {
         closeModal: () => void;
         getCloudProducts: () => void;
         completeStripeAddPaymentMethod: (stripe: Stripe, billingDetails: BillingDetails, isDevMode: boolean) => Promise<boolean | null>;
-        updateCloudSubscription: (selectedProductId: string, subscriptionId: string, installationId: string) => Promise<boolean | null>;
+        updateCloudSubscription: (productId: string) => Promise<boolean | null>;
         getClientConfig: () => void;
         getCloudSubscription: () => void;
     };
@@ -66,7 +66,7 @@ function findProductInDictionary(products: Dictionary<Product>, productId?: stri
     let selectedProduct = null;
     if (keys.length > 1) {
         // here find the product by the provided id, otherwise return the one with Professional in the name
-        keys.forEach(key => {
+        keys.forEach((key) => {
             if (productId && products[key].id === productId) {
                 selectedProduct = products[key];
             } else if (!productId && products[key].name.includes('Professional')) {
@@ -92,18 +92,6 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
             selectedProduct: findProductInDictionary(props.products!),
         };
     }
-
-    // static getDerivedStateFromProps(props: Props, state: State) {
-    //     if (this.state.selectedProduct) {
-    //         return null;
-    //     }
-    //     let selectedProduct = null;
-    //     if (props.products) {
-    //         selectedProduct = 
-    //     }
-
-    //     return {...state, selectedProduct};
-    // }
 
     componentDidMount() {
         pageVisited(TELEMETRY_CATEGORIES.CLOUD_PURCHASING, 'pageview_purchase');
@@ -168,17 +156,12 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
             return {key: products[key].name, value: products[key].id};
         });
 
-        const isDisabled = (value: string) => {
-            return false;
-        };
-
         return (
             <div className='plans-list'>
                 <RadioButtonGroup
                     id='list-plans-radio-buttons'
                     values={options!}
-                    value={this.state.selectedProduct?.id!}
-                    isDisabled={isDisabled}
+                    value={this.state.selectedProduct?.id as string}
                     onChange={(e: any) => this.onPlanSelected(e)}
                 />
             </div>
