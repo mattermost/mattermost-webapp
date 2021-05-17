@@ -123,7 +123,7 @@ describe('Mark as Unread', () => {
         cy.get('.NotificationSeparator').should('not.exist');
     });
 
-    it('Should be able to mark channel as unread by alt-clicking', () => {
+    it('MM-T260 Mark as Unread New Messages line extra space moves with it', () => {
         switchToChannel(channelA);
 
         markAsUnreadFromPost(post2);
