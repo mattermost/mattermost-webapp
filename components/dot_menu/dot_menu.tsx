@@ -469,13 +469,15 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         id={`follow_post_thread_${this.props.post.id}`}
                         onClick={this.handleSetThreadFollow}
                         show={(
+                            !isSystemMessage &&
                             this.props.isCollapsedThreadsEnabled &&
                                 (
+                                    this.props.location === Locations.CENTER ||
                                     this.props.location === Locations.RHS_ROOT ||
                                     this.props.location === Locations.RHS_COMMENT
                                 )
                         )}
-                        {...(this.props.isFollowingThread) ? {
+                        {...this.props.isFollowingThread ? {
                             text: this.props.threadReplyCount ? Utils.localizeMessage('threading.threadMenu.unfollow', 'Unfollow thread') : Utils.localizeMessage('threading.threadMenu.unfollowMessage', 'Unfollow message'),
                             extraText: Utils.localizeMessage('threading.threadMenu.unfollowExtra', 'You won’t be notified about replies'),
                         } : {

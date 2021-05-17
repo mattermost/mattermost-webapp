@@ -7,9 +7,8 @@ import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {Team} from 'mattermost-redux/types/teams';
 import {UserThread, ThreadsState, UserThreadType, UserThreadSynthetic} from 'mattermost-redux/types/threads';
+import {Post} from 'mattermost-redux/types/posts';
 import {$ID, IDMappedObjects, RelationOneToMany} from 'mattermost-redux/types/utilities';
-
-import {getPost} from './posts';
 
 export function getThreadsInTeam(state: GlobalState): RelationOneToMany<Team, UserThread> {
     return state.entities.threads.threadsInTeam;
@@ -57,14 +56,12 @@ export function getThread(state: GlobalState, threadId: $ID<UserThread> | undefi
     return getThreads(state)[threadId];
 }
 
-export function getThreadOrSynthetic(state: GlobalState, threadId: $ID<UserThread>): UserThread | UserThreadSynthetic {
-    const thread = getThreads(state)[threadId];
+export function getThreadOrSynthetic(state: GlobalState, post: Post): UserThread | UserThreadSynthetic {
+    const thread = getThreads(state)[post.root_id || post.id];
 
     if (thread?.id) {
         return thread;
     }
-
-    const post = getPost(state, threadId);
 
     return {
         id: post.id,

@@ -188,13 +188,14 @@ describe('components/dot_menu/DotMenu', () => {
         test.each([
             [true, {location: Locations.RHS_ROOT, isCollapsedThreadsEnabled: true}],
             [true, {location: Locations.RHS_COMMENT, isCollapsedThreadsEnabled: true}],
+            [true, {location: Locations.CENTER, isCollapsedThreadsEnabled: true}],
 
             [false, {location: Locations.RHS_ROOT, isCollapsedThreadsEnabled: false}],
             [false, {location: Locations.RHS_COMMENT, isCollapsedThreadsEnabled: false}],
-            [false, {location: Locations.CENTER, isCollapsedThreadsEnabled: true}],
+            [false, {location: Locations.CENTER, isCollapsedThreadsEnabled: false}],
             [false, {location: Locations.SEARCH, isCollapsedThreadsEnabled: true}],
             [false, {location: Locations.NO_WHERE, isCollapsedThreadsEnabled: true}],
-        ])('follow message/thread menu item should be shown only in RHS and when CRT is enabled', (showing, caseProps) => {
+        ])('follow message/thread menu item should be shown only in RHS and center channel when CRT is enabled', (showing, caseProps) => {
             const props = {
                 ...baseProps,
                 ...caseProps,
