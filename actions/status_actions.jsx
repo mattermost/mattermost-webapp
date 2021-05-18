@@ -90,7 +90,6 @@ let intervalId = '';
 
 export function startPeriodicStatusUpdates() {
     clearInterval(intervalId);
-    console.log(dddd)
     intervalId = setInterval(
         () => {
             store.dispatch(loadStatusesForChannelAndSidebar());
