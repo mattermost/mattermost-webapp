@@ -13,6 +13,8 @@ import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 
+import {Product} from 'mattermost-redux/types/cloud';
+
 import {pageVisited, trackEvent} from 'actions/telemetry_actions';
 import {openModal} from 'actions/views/modals';
 
@@ -45,10 +47,7 @@ import './billing_subscriptions.scss';
 
 const WARNING_THRESHOLD = 3;
 
-type Props = {
-};
-
-const BillingSubscriptions: React.FC<Props> = () => {
+const BillingSubscriptions: React.FC = () => {
     const dispatch = useDispatch<DispatchFunc>();
     const store = useStore();
     const userLimit = useSelector((state: GlobalState) => parseInt(getConfig(state).ExperimentalCloudUserLimit!, 10));
@@ -69,28 +68,33 @@ const BillingSubscriptions: React.FC<Props> = () => {
     const [showCreditCardBanner, setShowCreditCardBanner] = useState(true);
 
     const product = useSelector((state: GlobalState) => {
-        if (state.entities.cloud.products && subscription) {
-            const product = state.entities.cloud.products[subscription?.product_id];
-            return product.product_family === 'cloud' ? product : null;
+        const products = state.entities.cloud.products!;
+        const keys = Object.keys(products);
+        let product: Product;
+        if (products && subscription) {
+            product = products[subscription?.product_id];
+            if (!product) {
+                keys.forEach((key) => {
+                    if (products[key].name.toLowerCase().includes('professional')) {
+                        product = products[key];
+                    }
+                });
+            }
+            if (product) {
+                return product;
+            }
         }
-        return null;
+        return products[keys[0]];
     });
 
     let subscriptionPlan = 'CLOUD_PROFESSIONAL';
 
-    switch (product?.name) {
-    case 'Mattermost Cloud Starter':
+    if (product.name.toLowerCase().includes('starter')) {
         subscriptionPlan = 'CLOUD_STARTER';
-        break;
-    case 'Mattermost Cloud Professional':
+    } else if (product.name.toLowerCase().includes('professional')) {
         subscriptionPlan = 'CLOUD_PROFESSIONAL';
-        break;
-    case 'Mattermost Cloud Enterprise':
+    } else if (product.name.toLowerCase().includes('enterprise')) {
         subscriptionPlan = 'CLOUD_ENTERPRISE';
-        break;
-    default:
-        subscriptionPlan = 'CLOUD_PROFESSIONAL';
-        break;
     }
 
     let isFreeTrial = false;
