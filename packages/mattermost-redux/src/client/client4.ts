@@ -115,10 +115,10 @@ import {isSystemAdmin} from 'mattermost-redux/utils/user_utils';
 
 import {UserThreadList, UserThread, UserThreadWithPost} from 'mattermost-redux/types/threads';
 
-import { ScheduleType } from 'mattermost-redux/types/notifications_schdule';
+import {ScheduleType} from 'mattermost-redux/types/notifications_schdule';
 
 import fetch from './fetch_etag';
-import { TelemetryHandler } from './telemetry';
+import {TelemetryHandler} from './telemetry';
 
 const FormData = require('form-data');
 const HEADER_AUTH = 'Authorization';
@@ -142,9 +142,9 @@ export default class Client4 {
     csrf = '';
     url = '';
     urlVersion = '/api/v4';
-    userAgent: string|null = null;
+    userAgent: string | null = null;
     enableLogging = false;
-    defaultHeaders: {[x: string]: string} = {};
+    defaultHeaders: { [x: string]: string } = {};
     userId = '';
     diagnosticId = '';
     includeCookies = true;
@@ -450,7 +450,7 @@ export default class Client4 {
     getOptions(options: Options) {
         const newOptions: Options = {...options};
 
-        const headers: {[x: string]: string} = {
+        const headers: { [x: string]: string } = {
             [HEADER_REQUESTED_WITH]: 'XMLHttpRequest',
             ...this.defaultHeaders,
         };
@@ -514,7 +514,7 @@ export default class Client4 {
         );
     }
 
-    patchUser = (userPatch: Partial<UserProfile> & {id: string}) => {
+    patchUser = (userPatch: Partial<UserProfile> & { id: string }) => {
         this.trackEvent('api', 'api_users_patch');
 
         return this.doFetch<UserProfile>(
@@ -800,7 +800,7 @@ export default class Client4 {
         );
     };
 
-    getProfilesInChannel = (channelId: string, page = 0, perPage = PER_PAGE_DEFAULT, sort = '', options: {active?: boolean} = {}) => {
+    getProfilesInChannel = (channelId: string, page = 0, perPage = PER_PAGE_DEFAULT, sort = '', options: { active?: boolean } = {}) => {
         this.trackEvent('api', 'api_profiles_get_in_channel', {channel_id: channelId});
 
         const serverVersion = this.getServerVersion();
@@ -937,7 +937,7 @@ export default class Client4 {
     };
 
     checkUserMfa = (loginId: string) => {
-        return this.doFetch<{mfa_required: boolean}>(
+        return this.doFetch<{ mfa_required: boolean }>(
             `${this.getUsersRoute()}/mfa`,
             {method: 'post', body: JSON.stringify({login_id: loginId})},
         );
@@ -1147,7 +1147,7 @@ export default class Client4 {
         );
     };
 
-    patchTeam = (team: Partial<Team> & {id: string}) => {
+    patchTeam = (team: Partial<Team> & { id: string }) => {
         this.trackEvent('api', 'api_teams_patch_name', {team_id: team.id});
 
         return this.doFetch<Team>(
@@ -1177,7 +1177,7 @@ export default class Client4 {
     };
 
     checkIfTeamExists = (teamName: string) => {
-        return this.doFetch<{exists: boolean}>(
+        return this.doFetch<{ exists: boolean }>(
             `${this.getTeamNameRoute(teamName)}/exists`,
             {method: 'get'},
         );
@@ -1903,7 +1903,7 @@ export default class Client4 {
         );
     };
 
-    patchPost = (postPatch: Partial<Post> & {id: string}) => {
+    patchPost = (postPatch: Partial<Post> & { id: string }) => {
         this.trackEvent('api', 'api_posts_patch', {channel_id: postPatch.channel_id, post_id: postPatch.id});
 
         return this.doFetch<Post>(
@@ -2744,7 +2744,7 @@ export default class Client4 {
     };
 
     getDataRetentionCustomPolicyChannels = (id: string, page = 0, perPage = PER_PAGE_DEFAULT) => {
-        return this.doFetch<{channels: Channel[]; total_count: number}>(
+        return this.doFetch<{ channels: Channel[]; total_count: number }>(
             `${this.getDataRetentionRoute()}/policies/${id}/channels${buildQueryString({page, per_page: perPage})}`,
             {method: 'get'},
         );
@@ -3659,7 +3659,7 @@ export default class Client4 {
     }
 
     getRenewalLink = () => {
-        return this.doFetch<{renewal_link: string}>(
+        return this.doFetch<{ renewal_link: string }>(
             `${this.getBaseRoute()}/license/renewal`,
             {method: 'get'},
         );
