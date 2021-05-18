@@ -59,14 +59,26 @@ import FeatureFlags from './feature_flags.tsx';
 import ClusterSettings from './cluster_settings.jsx';
 import CustomTermsOfServiceSettings from './custom_terms_of_service_settings';
 import SessionLengthSettings from './session_length_settings';
-import LDAPFeatureDiscovery from './feature_discovery/ldap.tsx';
-import SAMLFeatureDiscovery from './feature_discovery/saml.tsx';
 import BillingSubscriptions from './billing/billing_subscriptions/index.tsx';
 import BillingHistory from './billing/billing_history';
 import CompanyInfo from './billing/company_info';
 import PaymentInfo from './billing/payment_info';
 import CompanyInfoEdit from './billing/company_info_edit';
 import PaymentInfoEdit from './billing/payment_info_edit';
+import {
+    LDAPFeatureDiscovery,
+    SAMLFeatureDiscovery,
+    OpenIDFeatureDiscovery,
+    AnnouncementBannerFeatureDiscovery,
+    ChannelsFeatureDiscovery,
+    ComplianceExportFeatureDiscovery,
+    CustomTermsOfServiceFeatureDiscovery,
+    DataRetentionFeatureDiscovery,
+    GuestAccessFeatureDiscovery,
+    SystemRolesFeatureDiscovery,
+    GroupsFeatureDiscovery,
+    PermissionsFeatureDiscovery,
+} from './feature_discovery/features';
 
 import * as DefinitionConstants from './admin_definition_constants';
 
@@ -461,6 +473,29 @@ const AdminDefinition = {
                 component: GroupSettings,
             },
         },
+        groups_feature_discovery: {
+            url: 'user_management/groups',
+            isDiscovery: true,
+            title: t('admin.sidebar.groups'),
+            title_default: 'Groups',
+            isHidden: it.any(
+                it.licensedForFeature('LDAPGroups'),
+                it.not(it.enterpriseReady),
+            ),
+            schema: {
+                id: 'Groups',
+                name: t('admin.group_settings.groupsPageTitle'),
+                name_default: 'Groups',
+                settings: [
+                    {
+                        type: Constants.SettingsTypes.TYPE_CUSTOM,
+                        component: GroupsFeatureDiscovery,
+                        key: 'GroupsFeatureDiscovery',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ABOUT.EDITION_AND_LICENSE)),
+                    },
+                ],
+            },
+        },
         team_detail: {
             url: 'user_management/teams/:team_id',
             isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.TEAMS)),
@@ -504,6 +539,29 @@ const AdminDefinition = {
             schema: {
                 id: 'Channels',
                 component: ChannelSettings,
+            },
+        },
+        channels_feature_discovery: {
+            url: 'user_management/channels',
+            isDiscovery: true,
+            title: t('admin.sidebar.channels'),
+            title_default: 'Channels',
+            isHidden: it.any(
+                it.licensedForFeature('LDAPGroups'),
+                it.not(it.enterpriseReady),
+            ),
+            schema: {
+                id: 'Channels',
+                name: t('admin.channel_settings.title'),
+                name_default: 'Channels',
+                settings: [
+                    {
+                        type: Constants.SettingsTypes.TYPE_CUSTOM,
+                        component: ChannelsFeatureDiscovery,
+                        key: 'ChannelsFeatureDiscovery',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ABOUT.EDITION_AND_LICENSE)),
+                    },
+                ],
             },
         },
         systemScheme: {
@@ -556,6 +614,29 @@ const AdminDefinition = {
                 component: PermissionSchemesSettings,
             },
         },
+        permissions_feature_discovery: {
+            url: 'user_management/permissions/',
+            isDiscovery: true,
+            title: t('admin.sidebar.permissions'),
+            title_default: 'Permissions',
+            isHidden: it.any(
+                it.licensed,
+                it.not(it.enterpriseReady),
+            ),
+            schema: {
+                id: 'PermissionSchemes',
+                name: t('admin.permissions.permissionSchemes'),
+                name_default: 'Permission Schemes',
+                settings: [
+                    {
+                        type: Constants.SettingsTypes.TYPE_CUSTOM,
+                        component: PermissionsFeatureDiscovery,
+                        key: 'PermissionsFeatureDiscovery',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ABOUT.EDITION_AND_LICENSE)),
+                    },
+                ],
+            },
+        },
         system_role: {
             url: 'user_management/system_roles/:role_id',
             isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.SYSTEM_ROLES)),
@@ -577,6 +658,29 @@ const AdminDefinition = {
             schema: {
                 id: 'SystemRoles',
                 component: SystemRoles,
+            },
+        },
+        system_roles_feature_discovery: {
+            url: 'user_management/system_roles',
+            isDiscovery: true,
+            title: t('admin.sidebar.systemRoles'),
+            title_default: 'System Roles (Beta)',
+            isHidden: it.any(
+                it.licensedForFeature('LDAPGroups'),
+                it.not(it.enterpriseReady),
+            ),
+            schema: {
+                id: 'SystemRoles',
+                name: t('admin.permissions.systemRoles'),
+                name_default: 'System Roles (Beta)',
+                settings: [
+                    {
+                        type: Constants.SettingsTypes.TYPE_CUSTOM,
+                        component: SystemRolesFeatureDiscovery,
+                        key: 'SystemRolesFeatureDiscovery',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ABOUT.EDITION_AND_LICENSE)),
+                    },
+                ],
             },
         },
     },
@@ -2402,6 +2506,29 @@ const AdminDefinition = {
                             it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.ANNOUNCEMENT_BANNER)),
                             it.stateIsFalse('AnnouncementSettings.EnableBanner'),
                         ),
+                    },
+                ],
+            },
+        },
+        announcement_banner_feature_discovery: {
+            url: 'site_config/announcement_banner',
+            isDiscovery: true,
+            title: t('admin.sidebar.announcement'),
+            title_default: 'Announcement Banner',
+            isHidden: it.any(
+                it.licensed,
+                it.not(it.enterpriseReady),
+            ),
+            schema: {
+                id: 'AnnouncementSettings',
+                name: t('admin.site.announcementBanner'),
+                name_default: 'Announcement Banner',
+                settings: [
+                    {
+                        type: Constants.SettingsTypes.TYPE_CUSTOM,
+                        component: AnnouncementBannerFeatureDiscovery,
+                        key: 'AnnouncementBannerFeatureDiscovery',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ABOUT.EDITION_AND_LICENSE)),
                     },
                 ],
             },
@@ -4839,6 +4966,29 @@ const AdminDefinition = {
                 ],
             },
         },
+        openid_feature_discovery: {
+            url: 'authentication/openid',
+            isDiscovery: true,
+            title: t('admin.sidebar.openid'),
+            title_default: 'OpenID Connect',
+            isHidden: it.any(
+                it.licensedForFeature('OpenId'),
+                it.not(it.enterpriseReady),
+            ),
+            schema: {
+                id: 'OpenIdSettings',
+                name: t('admin.authentication.openid'),
+                name_default: 'OpenID Connect',
+                settings: [
+                    {
+                        type: Constants.SettingsTypes.TYPE_CUSTOM,
+                        component: OpenIDFeatureDiscovery,
+                        key: 'OpenIDFeatureDiscovery',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ABOUT.EDITION_AND_LICENSE)),
+                    },
+                ],
+            },
+        },
         guest_access: {
             url: 'authentication/guest_access',
             title: t('admin.sidebar.guest_access'),
@@ -4908,6 +5058,29 @@ const AdminDefinition = {
                             it.configIsFalse('ServiceSettings', 'EnforceMultifactorAuthentication'),
                         ),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.GUEST_ACCESS)),
+                    },
+                ],
+            },
+        },
+        guest_access_feature_discovery: {
+            isDiscovery: true,
+            url: 'authentication/guest_access',
+            title: t('admin.sidebar.guest_access'),
+            title_default: 'Guest Access (Beta)',
+            isHidden: it.any(
+                it.licensed,
+                it.not(it.enterpriseReady),
+            ),
+            schema: {
+                id: 'GuestAccountsSettings',
+                name: t('admin.authentication.guest_access'),
+                name_default: 'Guest Access (Beta)',
+                settings: [
+                    {
+                        type: Constants.SettingsTypes.TYPE_CUSTOM,
+                        component: GuestAccessFeatureDiscovery,
+                        key: 'GuestAccessFeatureDiscovery',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ABOUT.EDITION_AND_LICENSE)),
                     },
                 ],
             },
@@ -5299,6 +5472,29 @@ const AdminDefinition = {
                 component: DataRetentionSettingsOld,
             },
         },
+        data_retention_feature_discovery: {
+            url: 'compliance/data_retention',
+            isDiscovery: true,
+            title: t('admin.sidebar.dataRetentionPolicy'),
+            title_default: 'Data Retention Policy',
+            isHidden: it.any(
+                it.licensedForFeature('DataRetention'),
+                it.not(it.enterpriseReady),
+            ),
+            schema: {
+                id: 'DataRetentionSettings',
+                name: t('admin.data_retention.title'),
+                name_default: 'Data Retention Policy',
+                settings: [
+                    {
+                        type: Constants.SettingsTypes.TYPE_CUSTOM,
+                        component: DataRetentionFeatureDiscovery,
+                        key: 'DataRetentionFeatureDiscovery',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ABOUT.EDITION_AND_LICENSE)),
+                    },
+                ],
+            },
+        },
         message_export: {
             url: 'compliance/export',
             title: t('admin.sidebar.complianceExport'),
@@ -5329,6 +5525,29 @@ const AdminDefinition = {
             schema: {
                 id: 'MessageExportSettings',
                 component: MessageExportSettings,
+            },
+        },
+        compliance_export_feature_discovery: {
+            isDiscovery: true,
+            url: 'compliance/export',
+            title: t('admin.sidebar.complianceExport'),
+            title_default: 'Compliance Export (Beta)',
+            isHidden: it.any(
+                it.licensedForFeature('MessageExport'),
+                it.not(it.enterpriseReady),
+            ),
+            schema: {
+                id: 'MessageExportSettings',
+                name: t('admin.complianceExport.title'),
+                name_default: 'Compliance Export (Beta)',
+                settings: [
+                    {
+                        type: Constants.SettingsTypes.TYPE_CUSTOM,
+                        component: ComplianceExportFeatureDiscovery,
+                        key: 'ComplianceExportFeatureDiscovery',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ABOUT.EDITION_AND_LICENSE)),
+                    },
+                ],
             },
         },
         audits: {
@@ -5423,6 +5642,29 @@ const AdminDefinition = {
             schema: {
                 id: 'TermsOfServiceSettings',
                 component: CustomTermsOfServiceSettings,
+            },
+        },
+        custom_terms_of_service_feature_discovery: {
+            url: 'compliance/custom_terms_of_service',
+            isDiscovery: true,
+            title: t('admin.sidebar.customTermsOfService'),
+            title_default: 'Custom Terms of Service (Beta)',
+            isHidden: it.any(
+                it.licensedForFeature('CustomTermsOfService'),
+                it.not(it.enterpriseReady),
+            ),
+            schema: {
+                id: 'TermsOfServiceSettings',
+                name: t('admin.support.termsOfServiceTitle'),
+                name_default: 'Custom Terms of Service (Beta)',
+                settings: [
+                    {
+                        type: Constants.SettingsTypes.TYPE_CUSTOM,
+                        component: CustomTermsOfServiceFeatureDiscovery,
+                        key: 'CustomTermsOfServiceFeatureDiscovery',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ABOUT.EDITION_AND_LICENSE)),
+                    },
+                ],
             },
         },
     },

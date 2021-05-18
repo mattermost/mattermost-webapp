@@ -38,7 +38,7 @@ export function getThreads(userId: string, teamId: string, {before = '', after =
 
             dispatch({
                 type: PostTypes.RECEIVED_POSTS,
-                data: {posts: userThreadList.threads.map(({post}) => post)},
+                data: {posts: userThreadList.threads.map(({post}) => ({...post, update_at: 0}))},
             });
         }
 
@@ -67,8 +67,8 @@ export function handleThreadArrived(dispatch: DispatchFunc, getState: GetStateFu
     });
 
     dispatch({
-        type: PostTypes.RECEIVED_POSTS,
-        data: {posts: [thread.post]},
+        type: PostTypes.RECEIVED_POST,
+        data: {...thread.post, update_at: 0},
     });
 
     dispatch({
@@ -97,7 +97,7 @@ export function handleThreadArrived(dispatch: DispatchFunc, getState: GetStateFu
     return thread;
 }
 
-export function getThread(userId: string, teamId: string, threadId: string, extended = false) {
+export function getThread(userId: string, teamId: string, threadId: string, extended = true) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         let thread;
         try {
