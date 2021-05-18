@@ -2,35 +2,7 @@
 
 exports[`components/threading/channel_threads/thread_footer should report total number of replies 1`] = `
 <Memo(ThreadFooter)
-  actions={
-    Object {
-      "openThread": [MockFunction],
-      "setFollowing": [MockFunction],
-    }
-  }
-  isFollowing={true}
-  lastReplyAt={2020-09-29T02:30:15.701Z}
-  newReplies={0}
-  participants={
-    Array [
-      Object {
-        "id": "1",
-      },
-      Object {
-        "id": "2",
-      },
-      Object {
-        "id": "3",
-      },
-      Object {
-        "id": "4",
-      },
-      Object {
-        "id": "5",
-      },
-    ]
-  }
-  totalReplies={9}
+  threadId="postthreadid"
 >
   <div
     className="ThreadFooter"
@@ -64,13 +36,18 @@ exports[`components/threading/channel_threads/thread_footer should report total 
             }
           }
           size="sm"
+          style={
+            Object {
+              "background": "rgb(239, 239, 240)",
+            }
+          }
           tabIndex={0}
           userId="1"
         >
           <SimpleTooltip
             animation={true}
             content="first.last1"
-            id="name-first.last1"
+            id="name-1"
             onEntered={[Function]}
           >
             <OverlayTrigger
@@ -82,7 +59,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                 <Tooltip
                   bsClass="tooltip"
                   className="hidden-xs"
-                  id="name-first.last1"
+                  id="name-1"
                   placement="top"
                 >
                   first.last1
@@ -105,7 +82,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                   <OverlayWrapper
                     bsClass="tooltip"
                     className="hidden-xs"
-                    id="name-first.last1"
+                    id="name-1"
                     intl={
                       Object {
                         "defaultFormats": Object {},
@@ -159,6 +136,11 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                   onMouseOut={[Function]}
                   onMouseOver={[Function]}
                   size="sm"
+                  style={
+                    Object {
+                      "background": "rgb(239, 239, 240)",
+                    }
+                  }
                   tabIndex={0}
                   url="/api/v4/users/1/image?_=0"
                 >
@@ -171,6 +153,11 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                     onMouseOut={[Function]}
                     onMouseOver={[Function]}
                     src="/api/v4/users/1/image?_=0"
+                    style={
+                      Object {
+                        "background": "rgb(239, 239, 240)",
+                      }
+                    }
                     tabIndex={0}
                   />
                 </Memo(Avatar)>
@@ -188,13 +175,18 @@ exports[`components/threading/channel_threads/thread_footer should report total 
             }
           }
           size="sm"
+          style={
+            Object {
+              "background": "rgb(239, 239, 240)",
+            }
+          }
           tabIndex={0}
           userId="2"
         >
           <SimpleTooltip
             animation={true}
             content="first.last2"
-            id="name-first.last2"
+            id="name-2"
             onEntered={[Function]}
           >
             <OverlayTrigger
@@ -206,7 +198,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                 <Tooltip
                   bsClass="tooltip"
                   className="hidden-xs"
-                  id="name-first.last2"
+                  id="name-2"
                   placement="top"
                 >
                   first.last2
@@ -229,7 +221,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                   <OverlayWrapper
                     bsClass="tooltip"
                     className="hidden-xs"
-                    id="name-first.last2"
+                    id="name-2"
                     intl={
                       Object {
                         "defaultFormats": Object {},
@@ -283,6 +275,11 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                   onMouseOut={[Function]}
                   onMouseOver={[Function]}
                   size="sm"
+                  style={
+                    Object {
+                      "background": "rgb(239, 239, 240)",
+                    }
+                  }
                   tabIndex={0}
                   url="/api/v4/users/2/image?_=0"
                 >
@@ -295,6 +292,11 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                     onMouseOut={[Function]}
                     onMouseOver={[Function]}
                     src="/api/v4/users/2/image?_=0"
+                    style={
+                      Object {
+                        "background": "rgb(239, 239, 240)",
+                      }
+                    }
                     tabIndex={0}
                   />
                 </Memo(Avatar)>
@@ -312,13 +314,18 @@ exports[`components/threading/channel_threads/thread_footer should report total 
             }
           }
           size="sm"
+          style={
+            Object {
+              "background": "rgb(239, 239, 240)",
+            }
+          }
           tabIndex={0}
           userId="3"
         >
           <SimpleTooltip
             animation={true}
             content="first.last3"
-            id="name-first.last3"
+            id="name-3"
             onEntered={[Function]}
           >
             <OverlayTrigger
@@ -330,7 +337,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                 <Tooltip
                   bsClass="tooltip"
                   className="hidden-xs"
-                  id="name-first.last3"
+                  id="name-3"
                   placement="top"
                 >
                   first.last3
@@ -353,7 +360,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                   <OverlayWrapper
                     bsClass="tooltip"
                     className="hidden-xs"
-                    id="name-first.last3"
+                    id="name-3"
                     intl={
                       Object {
                         "defaultFormats": Object {},
@@ -407,6 +414,11 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                   onMouseOut={[Function]}
                   onMouseOver={[Function]}
                   size="sm"
+                  style={
+                    Object {
+                      "background": "rgb(239, 239, 240)",
+                    }
+                  }
                   tabIndex={0}
                   url="/api/v4/users/3/image?_=0"
                 >
@@ -419,6 +431,11 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                     onMouseOut={[Function]}
                     onMouseOver={[Function]}
                     src="/api/v4/users/3/image?_=0"
+                    style={
+                      Object {
+                        "background": "rgb(239, 239, 240)",
+                      }
+                    }
                     tabIndex={0}
                   />
                 </Memo(Avatar)>
@@ -518,6 +535,11 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                 onMouseOut={[Function]}
                 onMouseOver={[Function]}
                 size="sm"
+                style={
+                  Object {
+                    "background": "rgb(239, 239, 240)",
+                  }
+                }
                 tabIndex={0}
                 text="+2"
               >
@@ -543,8 +565,8 @@ exports[`components/threading/channel_threads/thread_footer should report total 
       </div>
     </Memo(Avatars)>
     <Memo(Button)
-      className="separated"
-      onClick={[MockFunction]}
+      className="ReplyButton separated"
+      onClick={[Function]}
       prepend={
         <span
           className="icon"
@@ -556,8 +578,8 @@ exports[`components/threading/channel_threads/thread_footer should report total 
       }
     >
       <button
-        className="Button Button___transparent separated"
-        onClick={[MockFunction]}
+        className="Button Button___transparent ReplyButton separated"
+        onClick={[Function]}
       >
         <span
           className="Button_prepended"
@@ -625,7 +647,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
         ]
       }
       useTime={false}
-      value={2020-09-29T02:30:15.701Z}
+      value={1554161504000}
     >
       <injectIntl(Timestamp)
         day="numeric"
@@ -641,7 +663,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
           ]
         }
         useTime={false}
-        value={2020-09-29T02:30:15.701Z}
+        value={1554161504000}
       >
         <Timestamp
           day="numeric"
@@ -699,7 +721,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
             ]
           }
           useTime={false}
-          value={2020-09-29T02:30:15.701Z}
+          value={1554161504000}
           weekday="long"
           year="numeric"
         >
@@ -712,10 +734,10 @@ exports[`components/threading/channel_threads/thread_footer should report total 
               values={
                 Object {
                   "formatted": <Memo(SemanticTime)
-                    aria-label="Tue Sep 29 2020 02:30:15 GMT+0000"
-                    value={2020-09-29T02:30:15.701Z}
+                    aria-label="Mon Apr 01 2019 23:31:44 GMT+0000"
+                    value={2019-04-01T23:31:44.000Z}
                   >
-                    September 29, 2020
+                    April 1, 2019
                   </Memo(SemanticTime)>,
                 }
               }
@@ -723,14 +745,14 @@ exports[`components/threading/channel_threads/thread_footer should report total 
               <span>
                 Last reply 
                 <Memo(SemanticTime)
-                  aria-label="Tue Sep 29 2020 02:30:15 GMT+0000"
-                  value={2020-09-29T02:30:15.701Z}
+                  aria-label="Mon Apr 01 2019 23:31:44 GMT+0000"
+                  value={2019-04-01T23:31:44.000Z}
                 >
                   <time
-                    aria-label="Tue Sep 29 2020 02:30:15 GMT+0000"
-                    dateTime="2020-09-29T02:30:15.701Z"
+                    aria-label="Mon Apr 01 2019 23:31:44 GMT+0000"
+                    dateTime="2019-04-01T23:31:44.000Z"
                   >
-                    September 29, 2020
+                    April 1, 2019
                   </time>
                 </Memo(SemanticTime)>
               </span>
@@ -745,35 +767,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
 
 exports[`components/threading/channel_threads/thread_footer should show unread indicator 1`] = `
 <Memo(ThreadFooter)
-  actions={
-    Object {
-      "openThread": [MockFunction],
-      "setFollowing": [MockFunction],
-    }
-  }
-  isFollowing={true}
-  lastReplyAt={2020-09-29T02:30:15.701Z}
-  newReplies={2}
-  participants={
-    Array [
-      Object {
-        "id": "1",
-      },
-      Object {
-        "id": "2",
-      },
-      Object {
-        "id": "3",
-      },
-      Object {
-        "id": "4",
-      },
-      Object {
-        "id": "5",
-      },
-    ]
-  }
-  totalReplies={9}
+  threadId="postthreadid"
 >
   <div
     className="ThreadFooter"
@@ -925,13 +919,18 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
             }
           }
           size="sm"
+          style={
+            Object {
+              "background": "rgb(239, 239, 240)",
+            }
+          }
           tabIndex={0}
           userId="1"
         >
           <SimpleTooltip
             animation={true}
             content="first.last1"
-            id="name-first.last1"
+            id="name-1"
             onEntered={[Function]}
           >
             <OverlayTrigger
@@ -943,7 +942,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                 <Tooltip
                   bsClass="tooltip"
                   className="hidden-xs"
-                  id="name-first.last1"
+                  id="name-1"
                   placement="top"
                 >
                   first.last1
@@ -966,7 +965,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                   <OverlayWrapper
                     bsClass="tooltip"
                     className="hidden-xs"
-                    id="name-first.last1"
+                    id="name-1"
                     intl={
                       Object {
                         "defaultFormats": Object {},
@@ -1020,6 +1019,11 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                   onMouseOut={[Function]}
                   onMouseOver={[Function]}
                   size="sm"
+                  style={
+                    Object {
+                      "background": "rgb(239, 239, 240)",
+                    }
+                  }
                   tabIndex={0}
                   url="/api/v4/users/1/image?_=0"
                 >
@@ -1032,6 +1036,11 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                     onMouseOut={[Function]}
                     onMouseOver={[Function]}
                     src="/api/v4/users/1/image?_=0"
+                    style={
+                      Object {
+                        "background": "rgb(239, 239, 240)",
+                      }
+                    }
                     tabIndex={0}
                   />
                 </Memo(Avatar)>
@@ -1049,13 +1058,18 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
             }
           }
           size="sm"
+          style={
+            Object {
+              "background": "rgb(239, 239, 240)",
+            }
+          }
           tabIndex={0}
           userId="2"
         >
           <SimpleTooltip
             animation={true}
             content="first.last2"
-            id="name-first.last2"
+            id="name-2"
             onEntered={[Function]}
           >
             <OverlayTrigger
@@ -1067,7 +1081,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                 <Tooltip
                   bsClass="tooltip"
                   className="hidden-xs"
-                  id="name-first.last2"
+                  id="name-2"
                   placement="top"
                 >
                   first.last2
@@ -1090,7 +1104,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                   <OverlayWrapper
                     bsClass="tooltip"
                     className="hidden-xs"
-                    id="name-first.last2"
+                    id="name-2"
                     intl={
                       Object {
                         "defaultFormats": Object {},
@@ -1144,6 +1158,11 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                   onMouseOut={[Function]}
                   onMouseOver={[Function]}
                   size="sm"
+                  style={
+                    Object {
+                      "background": "rgb(239, 239, 240)",
+                    }
+                  }
                   tabIndex={0}
                   url="/api/v4/users/2/image?_=0"
                 >
@@ -1156,6 +1175,11 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                     onMouseOut={[Function]}
                     onMouseOver={[Function]}
                     src="/api/v4/users/2/image?_=0"
+                    style={
+                      Object {
+                        "background": "rgb(239, 239, 240)",
+                      }
+                    }
                     tabIndex={0}
                   />
                 </Memo(Avatar)>
@@ -1173,13 +1197,18 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
             }
           }
           size="sm"
+          style={
+            Object {
+              "background": "rgb(239, 239, 240)",
+            }
+          }
           tabIndex={0}
           userId="3"
         >
           <SimpleTooltip
             animation={true}
             content="first.last3"
-            id="name-first.last3"
+            id="name-3"
             onEntered={[Function]}
           >
             <OverlayTrigger
@@ -1191,7 +1220,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                 <Tooltip
                   bsClass="tooltip"
                   className="hidden-xs"
-                  id="name-first.last3"
+                  id="name-3"
                   placement="top"
                 >
                   first.last3
@@ -1214,7 +1243,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                   <OverlayWrapper
                     bsClass="tooltip"
                     className="hidden-xs"
-                    id="name-first.last3"
+                    id="name-3"
                     intl={
                       Object {
                         "defaultFormats": Object {},
@@ -1268,6 +1297,11 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                   onMouseOut={[Function]}
                   onMouseOver={[Function]}
                   size="sm"
+                  style={
+                    Object {
+                      "background": "rgb(239, 239, 240)",
+                    }
+                  }
                   tabIndex={0}
                   url="/api/v4/users/3/image?_=0"
                 >
@@ -1280,6 +1314,11 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                     onMouseOut={[Function]}
                     onMouseOver={[Function]}
                     src="/api/v4/users/3/image?_=0"
+                    style={
+                      Object {
+                        "background": "rgb(239, 239, 240)",
+                      }
+                    }
                     tabIndex={0}
                   />
                 </Memo(Avatar)>
@@ -1379,6 +1418,11 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                 onMouseOut={[Function]}
                 onMouseOver={[Function]}
                 size="sm"
+                style={
+                  Object {
+                    "background": "rgb(239, 239, 240)",
+                  }
+                }
                 tabIndex={0}
                 text="+2"
               >
@@ -1404,8 +1448,8 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
       </div>
     </Memo(Avatars)>
     <Memo(Button)
-      className="separated"
-      onClick={[MockFunction]}
+      className="ReplyButton separated"
+      onClick={[Function]}
       prepend={
         <span
           className="icon"
@@ -1417,8 +1461,8 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
       }
     >
       <button
-        className="Button Button___transparent separated"
-        onClick={[MockFunction]}
+        className="Button Button___transparent ReplyButton separated"
+        onClick={[Function]}
       >
         <span
           className="Button_prepended"
@@ -1486,7 +1530,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
         ]
       }
       useTime={false}
-      value={2020-09-29T02:30:15.701Z}
+      value={1554161504000}
     >
       <injectIntl(Timestamp)
         day="numeric"
@@ -1502,7 +1546,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
           ]
         }
         useTime={false}
-        value={2020-09-29T02:30:15.701Z}
+        value={1554161504000}
       >
         <Timestamp
           day="numeric"
@@ -1560,7 +1604,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
             ]
           }
           useTime={false}
-          value={2020-09-29T02:30:15.701Z}
+          value={1554161504000}
           weekday="long"
           year="numeric"
         >
@@ -1573,10 +1617,10 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
               values={
                 Object {
                   "formatted": <Memo(SemanticTime)
-                    aria-label="Tue Sep 29 2020 02:30:15 GMT+0000"
-                    value={2020-09-29T02:30:15.701Z}
+                    aria-label="Mon Apr 01 2019 23:31:44 GMT+0000"
+                    value={2019-04-01T23:31:44.000Z}
                   >
-                    September 29, 2020
+                    April 1, 2019
                   </Memo(SemanticTime)>,
                 }
               }
@@ -1584,14 +1628,14 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
               <span>
                 Last reply 
                 <Memo(SemanticTime)
-                  aria-label="Tue Sep 29 2020 02:30:15 GMT+0000"
-                  value={2020-09-29T02:30:15.701Z}
+                  aria-label="Mon Apr 01 2019 23:31:44 GMT+0000"
+                  value={2019-04-01T23:31:44.000Z}
                 >
                   <time
-                    aria-label="Tue Sep 29 2020 02:30:15 GMT+0000"
-                    dateTime="2020-09-29T02:30:15.701Z"
+                    aria-label="Mon Apr 01 2019 23:31:44 GMT+0000"
+                    dateTime="2019-04-01T23:31:44.000Z"
                   >
-                    September 29, 2020
+                    April 1, 2019
                   </time>
                 </Memo(SemanticTime)>
               </span>
