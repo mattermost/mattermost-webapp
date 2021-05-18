@@ -276,15 +276,6 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
         );
     }
 
-    refCallback = (ref: MenuWrapper): void => {
-        if (ref) {
-            this.setState({
-                width: 0,
-                openUp: ref.state.open,
-            });
-        }
-    }
-
     render = (): JSX.Element => {
         const needsConfirm = this.isUserOutOfOffice() && this.props.autoResetPref === '';
         const profilePicture = this.renderProfilePicture();
@@ -316,7 +307,6 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
                 onToggle={this.onToggle}
                 open={this.props.isStatusDropdownOpen}
                 className={'status-dropdown-menu'}
-                ref={this.refCallback}
             >
                 <div className='status-wrapper status-selector'>
                     {profilePicture}
