@@ -1,6 +1,9 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
 export type ScheduleType = {
     user_id: string;
-    mode: Number;
+    mode: number;
     sunday_start: string;
     monday_start: string;
     tuesday_start: string;
