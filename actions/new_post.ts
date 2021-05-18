@@ -3,6 +3,8 @@
 
 import {batchActions} from 'redux-batched-actions';
 
+import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+
 import {
     markChannelAsRead,
     markChannelAsUnread,
@@ -36,7 +38,8 @@ type NewPostMessageProps = {
 
 export function completePostReceive(post: Post, websocketMessageProps: NewPostMessageProps, fetchedChannelMember: boolean): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        const rootPost = PostSelectors.getPost(getState(), post.root_id);
+        const state = getState();
+        const rootPost = PostSelectors.getPost(state, post.root_id);
         if (post.root_id && !rootPost) {
             const result = await dispatch(PostActions.getPostThread(post.root_id));
 
@@ -56,7 +59,7 @@ export function completePostReceive(post: Post, websocketMessageProps: NewPostMe
         // Need manual dispatch to remove pending post
 
         const actions = [
-            PostActions.receivedNewPost(post),
+            PostActions.receivedNewPost(post, isCollapsedThreadsEnabled(state)),
             {
                 type: WebsocketEvents.STOP_TYPING,
                 data: {

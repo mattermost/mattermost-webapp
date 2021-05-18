@@ -343,7 +343,7 @@ class MainMenu extends React.PureComponent {
                     />
                     <TeamPermissionGate
                         teamId={this.props.teamId}
-                        permissions={[Permissions.MANAGE_SYSTEM]}
+                        permissions={[Permissions.SYSCONSOLE_WRITE_PLUGINS]}
                     >
                         <Menu.ItemToggleModalRedux
                             id='marketplaceModal'

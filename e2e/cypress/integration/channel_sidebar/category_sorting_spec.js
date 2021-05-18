@@ -14,16 +14,14 @@ import {getRandomId} from '../../utils';
 
 let testTeam;
 let testUser;
-let testChannel;
 
 describe('Category sorting', () => {
     beforeEach(() => {
         // # Login as test user and visit town-square
         cy.apiAdminLogin();
-        cy.apiInitSetup({loginAfter: true}).then(({team, user, channel}) => {
+        cy.apiInitSetup({loginAfter: true}).then(({team, user}) => {
             testTeam = team;
             testUser = user;
-            testChannel = channel;
             cy.visit(`/${team.name}/channels/town-square`);
         });
     });
@@ -165,48 +163,49 @@ describe('Category sorting', () => {
         cy.findByLabelText('abcdefghijklmnopqrstuv').should('be.visible');
     });
 
-    it('MM-T3864 Sticky category headers', () => {
-        const categoryName = createCategoryFromSidebarMenu();
+    // // Commented out since we've had to disable sticky headings because of issues with the menu components
+    // it('MM-T3864 Sticky category headers', () => {
+    //     const categoryName = createCategoryFromSidebarMenu();
 
-        // # Move test channel to Favourites
-        cy.get(`#sidebarItem_${testChannel.name}`).parent().then((element) => {
-            // # Get id of the channel
-            const id = element[0].getAttribute('data-rbd-draggable-id');
-            cy.get(`#sidebarItem_${testChannel.name}`).parent('li').within(() => {
-                // # Open dropdown next to channel name
-                cy.get('.SidebarMenu').invoke('show').get('.SidebarMenu_menuButton').should('be.visible').click({force: true});
+    //     // # Move test channel to Favourites
+    //     cy.get(`#sidebarItem_${testChannel.name}`).parent().then((element) => {
+    //         // # Get id of the channel
+    //         const id = element[0].getAttribute('data-rbd-draggable-id');
+    //         cy.get(`#sidebarItem_${testChannel.name}`).parent('li').within(() => {
+    //             // # Open dropdown next to channel name
+    //             cy.get('.SidebarMenu').invoke('show').get('.SidebarMenu_menuButton').should('be.visible').click({force: true});
 
-                // # Favourite the channel
-                cy.get(`#favorite-${id} button`).should('be.visible').click({force: true});
-            });
-        });
+    //             // # Favourite the channel
+    //             cy.get(`#favorite-${id} button`).should('be.visible').click({force: true});
+    //         });
+    //     });
 
-        // # Create 15 channels and add them to a custom category
-        for (let i = 0; i < 15; i++) {
-            createChannelAndAddToCategory(categoryName);
-            cy.get('#SidebarContainer .scrollbar--view').scrollTo('bottom', {ensureScrollable: false});
-        }
+    //     // # Create 15 channels and add them to a custom category
+    //     for (let i = 0; i < 15; i++) {
+    //         createChannelAndAddToCategory(categoryName);
+    //         cy.get('#SidebarContainer .scrollbar--view').scrollTo('bottom', {ensureScrollable: false});
+    //     }
 
-        // # Create 10 channels and add them to Favourites
-        for (let i = 0; i < 10; i++) {
-            createChannelAndAddToFavourites();
-            cy.get('#SidebarContainer .scrollbar--view').scrollTo('bottom', {ensureScrollable: false});
-        }
+    //     // # Create 10 channels and add them to Favourites
+    //     for (let i = 0; i < 10; i++) {
+    //         createChannelAndAddToFavourites();
+    //         cy.get('#SidebarContainer .scrollbar--view').scrollTo('bottom', {ensureScrollable: false});
+    //     }
 
-        // # Scroll to the center of the channel list
-        cy.get('#SidebarContainer .scrollbar--view').scrollTo('center', {ensureScrollable: false});
+    //     // # Scroll to the center of the channel list
+    //     cy.get('#SidebarContainer .scrollbar--view').scrollTo('center', {ensureScrollable: false});
 
-        // * Verify that both the 'More Unreads' label and the category header are visible
-        cy.get('#unreadIndicatorTop').should('be.visible');
-        cy.get('#SidebarContainer .SidebarChannelGroupHeader:contains(FAVORITES)').should('be.visible');
+    //     // * Verify that both the 'More Unreads' label and the category header are visible
+    //     cy.get('#unreadIndicatorTop').should('be.visible');
+    //     cy.get('#SidebarContainer .SidebarChannelGroupHeader:contains(FAVORITES)').should('be.visible');
 
-        // # Scroll to the bottom of the list
-        cy.get('#SidebarContainer .scrollbar--view').scrollTo('bottom', {ensureScrollable: false});
+    //     // # Scroll to the bottom of the list
+    //     cy.get('#SidebarContainer .scrollbar--view').scrollTo('bottom', {ensureScrollable: false});
 
-        // * Verify that the 'More Unreads' label is still visible but the category is not
-        cy.get('#unreadIndicatorTop').should('be.visible');
-        cy.get('#SidebarContainer .SidebarChannelGroupHeader:contains(FAVORITES)').should('not.be.visible');
-    });
+    //     // * Verify that the 'More Unreads' label is still visible but the category is not
+    //     cy.get('#unreadIndicatorTop').should('be.visible');
+    //     cy.get('#SidebarContainer .SidebarChannelGroupHeader:contains(FAVORITES)').should('not.be.visible');
+    // });
 });
 
 function createChannelAndAddToCategory(categoryName) {
@@ -239,26 +238,27 @@ function createChannelAndAddToCategory(categoryName) {
     return channelName;
 }
 
-function createChannelAndAddToFavourites() {
-    const userId = testUser.id;
-    cy.apiCreateChannel(testTeam.id, `channel-${getRandomId()}`, 'New Test Channel').then(({channel}) => {
-        // # Add the user to the channel
-        cy.apiAddUserToChannel(channel.id, userId).then(() => {
-            // # Move to a new category
-            cy.get(`#sidebarItem_${channel.name}`).parent().then((element) => {
-                // # Get id of the channel
-                const id = element[0].getAttribute('data-rbd-draggable-id');
-                cy.get(`#sidebarItem_${channel.name}`).parent('li').within(() => {
-                    // # Open dropdown next to channel name
-                    cy.get('.SidebarMenu').invoke('show').get('.SidebarMenu_menuButton').should('be.visible').click({force: true});
+// // Commented out since we've had to disable sticky headings because of issues with the menu components
+// function createChannelAndAddToFavourites() {
+//     const userId = testUser.id;
+//     cy.apiCreateChannel(testTeam.id, `channel-${getRandomId()}`, 'New Test Channel').then(({channel}) => {
+//         // # Add the user to the channel
+//         cy.apiAddUserToChannel(channel.id, userId).then(() => {
+//             // # Move to a new category
+//             cy.get(`#sidebarItem_${channel.name}`).parent().then((element) => {
+//                 // # Get id of the channel
+//                 const id = element[0].getAttribute('data-rbd-draggable-id');
+//                 cy.get(`#sidebarItem_${channel.name}`).parent('li').within(() => {
+//                     // # Open dropdown next to channel name
+//                     cy.get('.SidebarMenu').invoke('show').get('.SidebarMenu_menuButton').should('be.visible').click({force: true});
 
-                    // # Favourite the channel
-                    cy.get(`#favorite-${id} button`).should('be.visible').click({force: true});
-                });
-            });
-        });
-    });
-}
+//                     // # Favourite the channel
+//                     cy.get(`#favorite-${id} button`).should('be.visible').click({force: true});
+//                 });
+//             });
+//         });
+//     });
+// }
 
 function verifyAlphabeticalSortingOrder(categoryName, length) {
     // # Go through each channel to get its name

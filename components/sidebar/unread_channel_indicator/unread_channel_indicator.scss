@@ -46,10 +46,6 @@
     &-top {
         top: 16px;
 
-        &.withStickyHeaders {
-            top: 32px;
-        }
-
         .icon {
             svg {
                 transform: rotate(180deg);

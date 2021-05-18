@@ -5,7 +5,7 @@ import {Client4, DEFAULT_LIMIT_AFTER, DEFAULT_LIMIT_BEFORE} from 'mattermost-red
 import {General, Preferences, Posts} from '../constants';
 import {PostTypes, ChannelTypes, FileTypes, IntegrationTypes} from 'mattermost-redux/action_types';
 
-import {getMyChannelMember as getMyChannelMemberSelector} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannelId, getMyChannelMember as getMyChannelMemberSelector} from 'mattermost-redux/selectors/entities/channels';
 import {getCustomEmojisByName as selectCustomEmojisByName} from 'mattermost-redux/selectors/entities/emojis';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import * as Selectors from 'mattermost-redux/selectors/entities/posts';
@@ -32,6 +32,7 @@ import {
 import {bindClientFunc, forceLogoutIfNecessary} from './helpers';
 import {logError} from './errors';
 import {systemEmojis, getCustomEmojiByName, getCustomEmojisByName} from './emojis';
+import {selectChannel} from './channels';
 
 // receivedPost should be dispatched after a single post from the server. This typically happens when an existing post
 // is updated.
@@ -44,10 +45,11 @@ export function receivedPost(post: Post) {
 
 // receivedNewPost should be dispatched when receiving a newly created post or when sending a request to the server
 // to make a new post.
-export function receivedNewPost(post: Post) {
+export function receivedNewPost(post: Post, crtEnabled: boolean) {
     return {
         type: PostTypes.RECEIVED_NEW_POST,
         data: post,
+        features: {crtEnabled},
     };
 }
 
@@ -204,12 +206,14 @@ export function createPost(post: Post, files: any[] = []) {
             });
         }
 
+        const crtEnabled = isCollapsedThreadsEnabled(getState());
         actions.push({
             type: PostTypes.RECEIVED_NEW_POST,
             data: {
                 ...newPost,
                 id: pendingPostId,
             },
+            features: {crtEnabled},
         });
 
         dispatch(batchActions(actions, 'BATCH_CREATE_POST_INIT'));
@@ -315,7 +319,7 @@ export function createPostImmediately(post: Post, files: any[] = []) {
         dispatch(receivedNewPost({
             ...newPost,
             id: pendingPostId,
-        }));
+        }, isCollapsedThreadsEnabled(state)));
 
         try {
             const created = await Client4.createPost({...newPost, create_at: 0});
@@ -1239,6 +1243,26 @@ export function moveHistoryIndexForward(index: number) {
             data: index,
         });
 
+        return {data: true};
+    };
+}
+
+/**
+ * Ensures thread-replies in channels correctly follow CRT:ON/OFF
+ */
+export function resetReloadPostsInChannel() {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        dispatch({
+            type: PostTypes.RESET_POSTS_IN_CHANNEL,
+        });
+
+        const currentChannelId = getCurrentChannelId(getState());
+        if (currentChannelId) {
+            // wait for channel to be fully deselected; prevent stuck loading screen
+            // full state-change/reconciliation will cause prefetchChannelPosts to reload posts
+            await dispatch(selectChannel('')); // do not remove await
+            dispatch(selectChannel(currentChannelId));
+        }
         return {data: true};
     };
 }

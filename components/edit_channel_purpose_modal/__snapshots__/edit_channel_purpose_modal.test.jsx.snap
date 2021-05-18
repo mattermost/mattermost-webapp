@@ -62,7 +62,7 @@ exports[`comoponents/EditChannelPurposeModal clear error on next 1`] = `
     <textarea
       aria-label="edit purpose"
       className="form-control no-resize"
-      maxLength="250"
+      maxLength={250}
       onChange={[Function]}
       onKeyDown={[Function]}
       rows="6"
@@ -160,7 +160,7 @@ exports[`comoponents/EditChannelPurposeModal match with modal error 1`] = `
     <textarea
       aria-label="edit purpose"
       className="form-control no-resize"
-      maxLength="250"
+      maxLength={250}
       onChange={[Function]}
       onKeyDown={[Function]}
       rows="6"
@@ -173,7 +173,7 @@ exports[`comoponents/EditChannelPurposeModal match with modal error 1`] = `
       <label
         className="control-label"
       >
-        This channel purpose is too long, please enter a shorter one
+        error
       </label>
     </div>
   </ModalBody>
@@ -268,7 +268,7 @@ exports[`comoponents/EditChannelPurposeModal match with modal error with fake id
     <textarea
       aria-label="edit purpose"
       className="form-control no-resize"
-      maxLength="250"
+      maxLength={250}
       onChange={[Function]}
       onKeyDown={[Function]}
       rows="6"
@@ -376,7 +376,7 @@ exports[`comoponents/EditChannelPurposeModal should match for private channel 1`
     <textarea
       aria-label="edit purpose"
       className="form-control no-resize"
-      maxLength="250"
+      maxLength={250}
       onChange={[Function]}
       onKeyDown={[Function]}
       rows="6"
@@ -474,7 +474,7 @@ exports[`comoponents/EditChannelPurposeModal should match on init 1`] = `
     <textarea
       aria-label="edit purpose"
       className="form-control no-resize"
-      maxLength="250"
+      maxLength={250}
       onChange={[Function]}
       onKeyDown={[Function]}
       rows="6"
@@ -580,7 +580,7 @@ exports[`comoponents/EditChannelPurposeModal should match submitted 1`] = `
       <textarea
         aria-label="edit purpose"
         className="form-control no-resize"
-        maxLength="250"
+        maxLength={250}
         onChange={[Function]}
         onKeyDown={[Function]}
         rows="6"
@@ -684,7 +684,7 @@ exports[`comoponents/EditChannelPurposeModal should match with display name 1`] 
     <textarea
       aria-label="edit purpose"
       className="form-control no-resize"
-      maxLength="250"
+      maxLength={250}
       onChange={[Function]}
       onKeyDown={[Function]}
       rows="6"
