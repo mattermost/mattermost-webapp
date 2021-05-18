@@ -212,4 +212,23 @@ describe('components/post_view/MessageAttachment', () => {
 
         expect(wrapper).toMatchSnapshot();
     });
+
+    test('should match snapshot and render a field with a number value', () => {
+        const props = {
+            ...baseProps,
+            attachment: {
+                ...attachment,
+                fields: [
+                    {
+                        title: 'this is the title',
+                        value: 1234,
+                    },
+                ],
+            } as MessageAttachmentType,
+        };
+
+        const wrapper = shallow(<MessageAttachment {...props}/>);
+
+        expect(wrapper.find('.attachment-field')).toMatchSnapshot();
+    });
 });
