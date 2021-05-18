@@ -115,9 +115,10 @@ import {isSystemAdmin} from 'mattermost-redux/utils/user_utils';
 
 import {UserThreadList, UserThread, UserThreadWithPost} from 'mattermost-redux/types/threads';
 
-import fetch from './fetch_etag';
-import {TelemetryHandler} from './telemetry';
 import { ScheduleType } from 'mattermost-redux/types/notifications_schdule';
+
+import fetch from './fetch_etag';
+import { TelemetryHandler } from './telemetry';
 
 const FormData = require('form-data');
 const HEADER_AUTH = 'Authorization';
