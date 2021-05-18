@@ -179,144 +179,144 @@ class setNotificationSchedule extends React.PureComponent {
     <div className='mt-3'>
     <FormattedMessage
 	                                id='user.settings.notifications.scheduleInfo'
-            defaultMessage='You can schedule when you want to receive notifications. Outside of those times, your status will be set to Do Not Disturb and notifications will be disabled.'
-        />
+    defaultMessage='You can schedule when you want to receive notifications. Outside of those times, your status will be set to Do Not Disturb and notifications will be disabled.'
+	                            />
 	                        </div>
-	                        <div className='form-switch mt-3'>
+    <div className='form-switch mt-3'>
                     <label className='switch'>
-            <input
-                            type='checkbox'
-                            checked={this.state.enableCusotmDND}
-	                                    onChange={this.handelEnableChange}
-                        />
+	                                <input
+	                                    type='checkbox'
+        checked={this.state.enableCusotmDND}
+        onChange={this.handelEnableChange}
+    />
             <span className='slider round'/>
-        </label>
+	                            </label>
                     <FormattedMessage
             id='user.settings.notifications.schedule.enable'
-	                                defaultMessage='Enable notifications schedule'
+            defaultMessage='Enable notifications schedule'
         />
-	                        </div>
-    {this.state.enableCusotmDND ? (
-	                            <div className='form-select'>
+                </div>
+	                        {this.state.enableCusotmDND ? (
+                    <div className='form-select'>
 	                                <FormattedMessage
-        id='user.settings.notifications.schedule.allow'
-        defaultMessage='Allow notifications'
-    />
-            <div className='mt-2'>
-    <ReactSelect
-	                                        isDisabled={!this.state.enableCusotmDND}
-    className='react-select period'
-    classNamePrefix='react-select'
-    id='notificationSchedule'
-	                                        options={options}
-	                                        autosize={false}
-    clearable={false}
-    value={this.state.selectedOption}
-    isSearchable={false}
+                            id='user.settings.notifications.schedule.allow'
+                            defaultMessage='Allow notifications'
+                        />
+	                                <div className='mt-2'>
+                            <ReactSelect
+        isDisabled={!this.state.enableCusotmDND}
+        className='react-select period'
+        classNamePrefix='react-select'
+        id='notificationSchedule'
+        options={options}
+        autosize={false}
+        clearable={false}
+	                                        value={this.state.selectedOption}
+	                                        isSearchable={false}
 	                                        onChange={this.handlePeriodChange}
-	                                    />
-    <div className='weekDays-selector'>
-    <input
-	                                            disabled={!this.state.enableCusotmDND}
-	                                            type='checkbox'
-    id='sunEnable'
+    />
+	                                    <div className='weekDays-selector'>
+        <input
+    disabled={!this.state.enableCusotmDND}
+    type='checkbox'
+	                                            id='sunEnable'
     checked={this.state.sunEnable}
-    onChange={this.handleWeekChange}
+	                                            onChange={this.handleWeekChange}
+    className='weekday'
+	                                        />
+        <label htmlFor='sunEnable'>S</label>
+	                                        <input
+	                                            disabled={!this.state.enableCusotmDND}
+        type='checkbox'
+        id='monEnable'
+        checked={this.state.monEnable}
+	                                            onChange={this.handleWeekChange}
+	                                            className='weekday'
+    />
+	                                        <label htmlFor='monEnable'>M</label>
+        <input
+    disabled={!this.state.enableCusotmDND}
+	                                            type='checkbox'
+    id='tueEnable'
+	                                            checked={this.state.tueEnable}
+	                                            onChange={this.handleWeekChange}
 	                                            className='weekday'
 	                                        />
-	                                        <label htmlFor='sunEnable'>S</label>
-	                                        <input
-	                                            disabled={!this.state.enableCusotmDND}
-            type='checkbox'
-            id='monEnable'
-            checked={this.state.monEnable}
-	                                            onChange={this.handleWeekChange}
-            className='weekday'
-        />
-    <label htmlFor='monEnable'>M</label>
-    <input
-            disabled={!this.state.enableCusotmDND}
-            type='checkbox'
-            id='tueEnable'
-            checked={this.state.tueEnable}
-	                                            onChange={this.handleWeekChange}
-            className='weekday'
-        />
 	                                        <label htmlFor='tueEnable'>T</label>
-	                                        <input
-	                                            disabled={!this.state.enableCusotmDND}
-            type='checkbox'
-            id='wedEnable'
-            checked={this.state.wedEnable}
-            onChange={this.handleWeekChange}
-            className='weekday'
-        />
-    <label htmlFor='wedEnable'>W</label>
-    <input
+        <input
 	                                            disabled={!this.state.enableCusotmDND}
     type='checkbox'
-    id='thuEnable'
-	                                            checked={this.state.thuEnable}
+    id='wedEnable'
+    checked={this.state.wedEnable}
     onChange={this.handleWeekChange}
     className='weekday'
 	                                        />
-	                                        <label htmlFor='thuEnable'>T</label>
-	                                        <input
+        <label htmlFor='wedEnable'>W</label>
+        <input
 	                                            disabled={!this.state.enableCusotmDND}
 	                                            type='checkbox'
-	                                            id='friEnable'
-	                                            checked={this.state.friEnable}
-            onChange={this.handleWeekChange}
-	                                            className='weekday'
-        />
-	                                        <label htmlFor='friEnable'>F</label>
-    <input
+	                                            id='thuEnable'
+    checked={this.state.thuEnable}
+	                                            onChange={this.handleWeekChange}
+    className='weekday'
+	                                        />
+	                                        <label htmlFor='thuEnable'>T</label>
+        <input
     disabled={!this.state.enableCusotmDND}
-	                                            type='checkbox'
-    id='satEnable'
+    type='checkbox'
+    id='friEnable'
+    checked={this.state.friEnable}
+	                                            onChange={this.handleWeekChange}
+	                                            className='weekday'
+	                                        />
+        <label htmlFor='friEnable'>F</label>
+        <input
+    disabled={!this.state.enableCusotmDND}
+    type='checkbox'
+	                                            id='satEnable'
 	                                            checked={this.state.satEnable}
     onChange={this.handleWeekChange}
     className='weekday'
 	                                        />
-    <label htmlFor='satEnable'>S</label>
-	                                    </div>
-	                                    <div className='form-time'>
-                {this.state.sunEnable ? (
+        <label htmlFor='satEnable'>S</label>
+    </div>
+                            <div className='form-time'>
+        {this.state.sunEnable ? (
 	                                            <div className='time-wrapper custom-time'>
-                        <div className='week-name'>Sunday</div>
-                        <TimePicker
-	                                                    disabled={!this.state.enableCusotmDND}
+	                                                <div className='week-name'>Sunday</div>
+	                                                <TimePicker
+        disabled={!this.state.enableCusotmDND}
+	                                                    className='time-picker'
+        showSecond={false}
+	                                                    format={timeFormat}
+        use12Hours={true}
+        inputReadOnly={true}
+	                                                    clearIcon={false}
+        placeholder='start'
+	                                                    defaultValue={moment()}
+        minuteStep={15}
+	                                                    inputIcon={(<img
+        src={clockIcon}
+        layout='fill'
+                />)}
+        onChange={(value, id = 'sunStart') => this.handleTimeChange(value, id)}
+    />
+        <p>to</p>
+	                                                <TimePicker
+        disabled={!this.state.enableCusotmDND}
         className='time-picker'
-	                                                    showSecond={false}
+        showSecond={false}
 	                                                    format={timeFormat}
         use12Hours={true}
         inputReadOnly={true}
         clearIcon={false}
-        placeholder='start'
-        defaultValue={moment()}
+        placeholder='end'
+	                                                    defaultValue={moment()}
         minuteStep={15}
         inputIcon={(<img
-    src={clockIcon}
-    layout='fill'
-	                                                                />)}
-        onChange={(value, id = 'sunStart') => this.handleTimeChange(value, id)}
-    />
-                        <p>to</p>
-	                                                <TimePicker
-	                                                    disabled={!this.state.enableCusotmDND}
-        className='time-picker'
-        showSecond={false}
-        format={timeFormat}
-        use12Hours={true}
-        inputReadOnly={true}
-	                                                    clearIcon={false}
-        placeholder='end'
-        defaultValue={moment()}
-        minuteStep={15}
-	                                                    inputIcon={(<img
 	                                                        src={clockIcon}
-        layout='fill'
-                />)}
+	                                                        layout='fill'
+	                                                                />)}
         onChange={(value, id = 'sunEnd') => this.handleTimeChange(value, id)}
     />
 	                                            </div>
@@ -324,93 +324,93 @@ class setNotificationSchedule extends React.PureComponent {
     <div/>
 	                                        )
 	                                        }
-	                                        {this.state.monEnable ? (
-	                                            <div className='time-wrapper custom-time'>
-        <div className='week-name'>Monday</div>
-	                                                <TimePicker
-	                                                    disabled={!this.state.enableCusotmDND}
-                    className='time-picker'
-                    showSecond={false}
-                    format={timeFormat}
-                    use12Hours={true}
-                    inputReadOnly={true}
-	                                                    clearIcon={false}
-                    placeholder='start'
-                    defaultValue={moment()}
-                    minuteStep={15}
-                    inputIcon={(<img
-	                                                        src={clockIcon}
+        {this.state.monEnable ? (
+    <div className='time-wrapper custom-time'>
+	                                                <div className='week-name'>Monday</div>
+    <TimePicker
+            disabled={!this.state.enableCusotmDND}
+            className='time-picker'
+            showSecond={false}
+            format={timeFormat}
+	                                                    use12Hours={true}
+	                                                    inputReadOnly={true}
+            clearIcon={false}
+	                                                    placeholder='start'
+	                                                    defaultValue={moment()}
+            minuteStep={15}
+            inputIcon={(<img
+    src={clockIcon}
     layout='fill'
 	                                                                />)}
-	                                                    onChange={(value, id = 'monStart') => this.handleTimeChange(value, id)}
-                />
-        <p>to</p>
-        <TimePicker
-                    disabled={!this.state.enableCusotmDND}
-	                                                    className='time-picker'
-	                                                    showSecond={false}
-                    format={timeFormat}
-                    use12Hours={true}
+            onChange={(value, id = 'monStart') => this.handleTimeChange(value, id)}
+        />
+    <p>to</p>
+    <TimePicker
+    disabled={!this.state.enableCusotmDND}
+    className='time-picker'
+    showSecond={false}
+    format={timeFormat}
+    use12Hours={true}
 	                                                    inputReadOnly={true}
-                    clearIcon={false}
-                    placeholder='end'
-                    defaultValue={moment()}
-                    minuteStep={15}
-                    inputIcon={(<img
-	                                                        src={clockIcon}
-	                                                        layout='fill'
-	                                                                />)}
-                    onChange={(value, id = 'monEnd') => this.handleTimeChange(value, id)}
-                />
+	                                                    clearIcon={false}
+    placeholder='end'
+	                                                    defaultValue={moment()}
+	                                                    minuteStep={15}
+    inputIcon={(<img
+                        src={clockIcon}
+                        layout='fill'
+                                />)}
+	                                                    onChange={(value, id = 'monEnd') => this.handleTimeChange(value, id)}
+	                                                />
 	                                            </div>
 	                                        ) : (
     <div/>
 	                                        )
 	                                        }
 	                                        {this.state.tueEnable ? (
-        <div className='time-wrapper custom-time'>
-    <div className='week-name'>Tuesday</div>
+	                                            <div className='time-wrapper custom-time'>
+	                                                <div className='week-name'>Tuesday</div>
 	                                                <TimePicker
-                    disabled={!this.state.enableCusotmDND}
-                    className='time-picker'
-                    showSecond={false}
+            disabled={!this.state.enableCusotmDND}
+	                                                    className='time-picker'
+            showSecond={false}
 	                                                    format={timeFormat}
 	                                                    use12Hours={true}
 	                                                    inputReadOnly={true}
 	                                                    clearIcon={false}
-                    placeholder='start'
-                    defaultValue={moment()}
-                    minuteStep={15}
-	                                                    inputIcon={(<img
+	                                                    placeholder='start'
+            defaultValue={moment()}
+            minuteStep={15}
+            inputIcon={(<img
 	                                                        src={clockIcon}
 	                                                        layout='fill'
-                    />)}
-                    onChange={(value, id = 'tueStart') => this.handleTimeChange(value, id)}
-                />
+	                                                                />)}
+            onChange={(value, id = 'tueStart') => this.handleTimeChange(value, id)}
+        />
 	                                                <p>to</p>
-    <TimePicker
-    disabled={!this.state.enableCusotmDND}
+	                                                <TimePicker
+	                                                    disabled={!this.state.enableCusotmDND}
 	                                                    className='time-picker'
-    showSecond={false}
-    format={timeFormat}
+            showSecond={false}
+	                                                    format={timeFormat}
 	                                                    use12Hours={true}
-    inputReadOnly={true}
-    clearIcon={false}
-    placeholder='end'
-	                                                    defaultValue={moment()}
+	                                                    inputReadOnly={true}
+            clearIcon={false}
+            placeholder='end'
+            defaultValue={moment()}
 	                                                    minuteStep={15}
 	                                                    inputIcon={(<img
-	                                                        src={clockIcon}
+                        src={clockIcon}
 	                                                        layout='fill'
-                    />)}
-    onChange={(value, id = 'tueEnd') => this.handleTimeChange(value, id)}
-	                                                />
-</div>
+                                />)}
+	                                                    onChange={(value, id = 'tueEnd') => this.handleTimeChange(value, id)}
+        />
+	                                            </div>
 	                                        ) : (
 	                                            <div/>
 	                                        )
 	                                        }
-                {this.state.wedEnable ? (
+        {this.state.wedEnable ? (
     <div className='time-wrapper custom-time'>
     <div className='week-name'>Wednesday</div>
     <TimePicker
@@ -419,129 +419,18 @@ class setNotificationSchedule extends React.PureComponent {
     showSecond={false}
 	                                                    format={timeFormat}
 	                                                    use12Hours={true}
-    inputReadOnly={true}
+	                                                    inputReadOnly={true}
 	                                                    clearIcon={false}
 	                                                    placeholder='start'
-    defaultValue={moment()}
-    minuteStep={15}
+	                                                    defaultValue={moment()}
+	                                                    minuteStep={15}
     inputIcon={(<img
-    src={clockIcon}
-    layout='fill'
-	                                                                />)}
+	                                                        src={clockIcon}
+            layout='fill'
+                    />)}
     onChange={(value, id = 'wedStart') => this.handleTimeChange(value, id)}
 	                                                />
     <p>to</p>
-    <TimePicker
-    disabled={!this.state.enableCusotmDND}
-    className='time-picker'
-	                                                    showSecond={false}
-    format={timeFormat}
-    use12Hours={true}
-	                                                    inputReadOnly={true}
-	                                                    clearIcon={false}
-	                                                    placeholder='end'
-    defaultValue={moment()}
-	                                                    minuteStep={15}
-	                                                    inputIcon={(<img
-            src={clockIcon}
-            layout='fill'
-                    />)}
-	                                                    onChange={(value, id = 'wedEnd') => this.handleTimeChange(value, id)}
-	                                                />
-</div>
-	                                        ) : (
-	                                            <div/>
-	                                        )
-	                                        }
-                {this.state.thuEnable ? (
-    <div className='time-wrapper custom-time'>
-                        <div className='week-name'>Thursday</div>
-                        <TimePicker
-                    disabled={!this.state.enableCusotmDND}
-	                                                    className='time-picker'
-                    showSecond={false}
-                    format={timeFormat}
-                    use12Hours={true}
-                    inputReadOnly={true}
-	                                                    clearIcon={false}
-                    placeholder='start'
-                    defaultValue={moment()}
-                    minuteStep={15}
-                    inputIcon={(<img
-    src={clockIcon}
-	                                                        layout='fill'
-	                                                                />)}
-	                                                    onChange={(value, id = 'thuStart') => this.handleTimeChange(value, id)}
-                />
-	                                                <p>to</p>
-                        <TimePicker
-    disabled={!this.state.enableCusotmDND}
-    className='time-picker'
-    showSecond={false}
-    format={timeFormat}
-	                                                    use12Hours={true}
-	                                                    inputReadOnly={true}
-    clearIcon={false}
-    placeholder='end'
-	                                                    defaultValue={moment()}
-    minuteStep={15}
-    inputIcon={(<img
-    src={clockIcon}
-    layout='fill'
-	                                                                />)}
-    onChange={(value, id = 'thuEnd') => this.handleTimeChange(value, id)}
-	                                                />
-                    </div>
-	                                        ) : (
-    <div/>
-	                                        )
-	                                        }
-                {this.state.friEnable ? (
-    <div className='time-wrapper custom-time'>
-                        <div className='week-name'>Friday</div>
-	                                                <TimePicker
-	                                                    disabled={!this.state.enableCusotmDND}
-	                                                    className='time-picker'
-            showSecond={false}
-            format={timeFormat}
-            use12Hours={true}
-	                                                    inputReadOnly={true}
-            clearIcon={false}
-	                                                    placeholder='start'
-	                                                    defaultValue={moment()}
-	                                                    minuteStep={15}
-            inputIcon={(<img
-    src={clockIcon}
-    layout='fill'
-	                                                                />)}
-	                                                    onChange={(value, id = 'friStart') => this.handleTimeChange(value, id)}
-        />
-                        <p>to</p>
-	                                                <TimePicker
-            disabled={!this.state.enableCusotmDND}
-            className='time-picker'
-            showSecond={false}
-            format={timeFormat}
-            use12Hours={true}
-            inputReadOnly={true}
-	                                                    clearIcon={false}
-	                                                    placeholder='end'
-            defaultValue={moment()}
-	                                                    minuteStep={15}
-	                                                    inputIcon={(<img
-	                                                        src={clockIcon}
-        layout='fill'
-                />)}
-	                                                    onChange={(value, id = 'friEnd') => this.handleTimeChange(value, id)}
-        />
-                    </div>
-	                                        ) : (
-	                                            <div/>
-	                                        )
-	                                        }
-                {this.state.satEnable ? (
-    <div className='time-wrapper custom-time'>
-    <div className='week-name'>Saturday</div>
     <TimePicker
     disabled={!this.state.enableCusotmDND}
     className='time-picker'
@@ -549,152 +438,263 @@ class setNotificationSchedule extends React.PureComponent {
 	                                                    format={timeFormat}
 	                                                    use12Hours={true}
 	                                                    inputReadOnly={true}
-    clearIcon={false}
-    placeholder='start'
+	                                                    clearIcon={false}
+	                                                    placeholder='end'
     defaultValue={moment()}
     minuteStep={15}
+    inputIcon={(<img
+    src={clockIcon}
+	                                                        layout='fill'
+	                                                                />)}
+    onChange={(value, id = 'wedEnd') => this.handleTimeChange(value, id)}
+	                                                />
+</div>
+	                                        ) : (
+	                                            <div/>
+	                                        )
+	                                        }
+	                                        {this.state.thuEnable ? (
+	                                            <div className='time-wrapper custom-time'>
+        <div className='week-name'>Thursday</div>
+	                                                <TimePicker
+	                                                    disabled={!this.state.enableCusotmDND}
+        className='time-picker'
+        showSecond={false}
+	                                                    format={timeFormat}
+        use12Hours={true}
+        inputReadOnly={true}
+	                                                    clearIcon={false}
+	                                                    placeholder='start'
+        defaultValue={moment()}
+        minuteStep={15}
+	                                                    inputIcon={(<img
+                src={clockIcon}
+                layout='fill'
+                        />)}
+        onChange={(value, id = 'thuStart') => this.handleTimeChange(value, id)}
+    />
+        <p>to</p>
+        <TimePicker
+    disabled={!this.state.enableCusotmDND}
+	                                                    className='time-picker'
+    showSecond={false}
+    format={timeFormat}
+    use12Hours={true}
+    inputReadOnly={true}
+	                                                    clearIcon={false}
+	                                                    placeholder='end'
+	                                                    defaultValue={moment()}
+    minuteStep={15}
+    inputIcon={(<img
+    src={clockIcon}
+    layout='fill'
+	                                                                />)}
+	                                                    onChange={(value, id = 'thuEnd') => this.handleTimeChange(value, id)}
+	                                                />
+    </div>
+	                                        ) : (
+    <div/>
+	                                        )
+	                                        }
+	                                        {this.state.friEnable ? (
+	                                            <div className='time-wrapper custom-time'>
+	                                                <div className='week-name'>Friday</div>
+	                                                <TimePicker
+        disabled={!this.state.enableCusotmDND}
+        className='time-picker'
+        showSecond={false}
+        format={timeFormat}
+        use12Hours={true}
+	                                                    inputReadOnly={true}
+        clearIcon={false}
+        placeholder='start'
+        defaultValue={moment()}
+        minuteStep={15}
+        inputIcon={(<img
+    src={clockIcon}
+    layout='fill'
+	                                                                />)}
+        onChange={(value, id = 'friStart') => this.handleTimeChange(value, id)}
+    />
+	                                                <p>to</p>
+	                                                <TimePicker
+        disabled={!this.state.enableCusotmDND}
+        className='time-picker'
+	                                                    showSecond={false}
+        format={timeFormat}
+	                                                    use12Hours={true}
+        inputReadOnly={true}
+        clearIcon={false}
+        placeholder='end'
+	                                                    defaultValue={moment()}
+        minuteStep={15}
+        inputIcon={(<img
+        src={clockIcon}
+	                                                        layout='fill'
+                />)}
+        onChange={(value, id = 'friEnd') => this.handleTimeChange(value, id)}
+    />
+    </div>
+	                                        ) : (
+	                                            <div/>
+	                                        )
+	                                        }
+        {this.state.satEnable ? (
+    <div className='time-wrapper custom-time'>
+	                                                <div className='week-name'>Saturday</div>
+    <TimePicker
+            disabled={!this.state.enableCusotmDND}
+            className='time-picker'
+            showSecond={false}
+	                                                    format={timeFormat}
+            use12Hours={true}
+	                                                    inputReadOnly={true}
+	                                                    clearIcon={false}
+	                                                    placeholder='start'
+            defaultValue={moment()}
+            minuteStep={15}
 	                                                    inputIcon={(<img
 	                                                        src={clockIcon}
-	                                                        layout='fill'
-                            />)}
-	                                                    onChange={(value, id = 'satStart') => this.handleTimeChange(value, id)}
-	                                                />
-    <p>to</p>
-    <TimePicker
-                    disabled={!this.state.enableCusotmDND}
-                    className='time-picker'
-                    showSecond={false}
-                    format={timeFormat}
-                    use12Hours={true}
-                    inputReadOnly={true}
-                    clearIcon={false}
-	                                                    placeholder='end'
-                    defaultValue={moment()}
-                    minuteStep={15}
-                    inputIcon={(<img
-        src={clockIcon}
         layout='fill'
                 />)}
-                    onChange={(value, id = 'satEnd') => this.handleTimeChange(value, id)}
-                />
-	                                            </div>
+	                                                    onChange={(value, id = 'satStart') => this.handleTimeChange(value, id)}
+        />
+	                                                <p>to</p>
+    <TimePicker
+	                                                    disabled={!this.state.enableCusotmDND}
+    className='time-picker'
+    showSecond={false}
+	                                                    format={timeFormat}
+    use12Hours={true}
+	                                                    inputReadOnly={true}
+	                                                    clearIcon={false}
+    placeholder='end'
+	                                                    defaultValue={moment()}
+	                                                    minuteStep={15}
+    inputIcon={(<img
+            src={clockIcon}
+            layout='fill'
+                    />)}
+    onChange={(value, id = 'satEnd') => this.handleTimeChange(value, id)}
+	                                                />
+</div>
 	                                        ) : (
     <div/>
 	                                        )
 	                                        }
 
-            </div>
-	                                </div>
-        </div>
+	                                    </div>
+                        </div>
+    </div>
 	                        ) : (
     <div/>
 	                        )
 	                        }
 
-</div>,
+	                    </div>,
 	                ]}
 	                submit={this.handleSubmit}
-	                saving={this.props.saving}
-	                width='full'
-    updateSection={this.handleUpdateSection}
+    saving={this.props.saving}
+    width='full'
+	                updateSection={this.handleUpdateSection}
 	            />
 	        );
 	    }
 	    return (
 	        <SettingItemMax
         title={localizeMessage('user.settings.notifications.schedule.title', 'Set Notifications Schedule')}
-        inputs={[
-    <div key='NotificationSchedule'>
-    <div className='mt-3'>
-    <FormattedMessage
-            id='user.settings.notifications.scheduleInfo'
-            defaultMessage='You can schedule when you want to receive notifications. Outside of those times, your status will be set to Do Not Disturb and notifications will be disabled.'
-        />
-</div>
-	                    <div className='form-switch mt-3'>
+	            inputs={[
+	                <div key='NotificationSchedule'>
+        <div className='mt-3'>
+	                        <FormattedMessage
+                id='user.settings.notifications.scheduleInfo'
+                defaultMessage='You can schedule when you want to receive notifications. Outside of those times, your status will be set to Do Not Disturb and notifications will be disabled.'
+            />
+	                    </div>
+        <div className='form-switch mt-3'>
 	                        <label className='switch'>
-            <input
-	                                type='checkbox'
-    checked={this.state.enableCusotmDND}
+	                            <input
+        type='checkbox'
+	                                checked={this.state.enableCusotmDND}
 	                                onChange={this.handelEnableChange}
-	                            />
-            <span className='slider round'/>
-	                        </label>
-            <FormattedMessage
+    />
+                <span className='slider round'/>
+            </label>
+    <FormattedMessage
     id='user.settings.notifications.schedule.enable'
     defaultMessage='Enable notifications schedule'
 	                        />
 	                    </div>
 	                    {this.state.enableCusotmDND ? (
-            <div className='form-select'>
-        <FormattedMessage
+        <div className='form-select'>
+    <FormattedMessage
 	                                id='user.settings.notifications.schedule.allow'
 	                                defaultMessage='Allow notifications'
-    />
+	                            />
 	                            <div className='mt-2'>
 	                                <ReactSelect
-        isDisabled={!this.state.enableCusotmDND}
-	                                    className='react-select period'
+	                                    isDisabled={!this.state.enableCusotmDND}
+        className='react-select period'
         classNamePrefix='react-select'
-        id='notificationSchedule'
+	                                    id='notificationSchedule'
         options={options}
         autosize={false}
         clearable={false}
         value={this.state.selectedOption}
-        isSearchable={false}
+	                                    isSearchable={false}
         placeholder='Period'
 	                                    onChange={this.handlePeriodChange}
     />
-	                                <div className='time-wrapper n-custom-time'>
-        <TimePicker
-        disabled={!this.state.enableCusotmDND}
-        className='time-picker'
+                <div className='time-wrapper n-custom-time'>
+    <TimePicker
+    disabled={!this.state.enableCusotmDND}
+	                                        className='time-picker'
 	                                        showSecond={false}
-        format={timeFormat}
-        use12Hours={true}
-        inputReadOnly={true}
-        clearIcon={false}
-        onChange={(value, id = 'start') => this.handleTimeChange(value, id)}
+    format={timeFormat}
+	                                        use12Hours={true}
+    inputReadOnly={true}
+    clearIcon={false}
+    onChange={(value, id = 'start') => this.handleTimeChange(value, id)}
 	                                        placeholder='Start'
-        defaultValue={moment()}
-        minuteStep={15}
-        inputIcon={(<img
-    src={clockIcon}
-    layout='fill'
-	                                                    />)}
-    />
-        <p>to</p>
+    defaultValue={moment()}
+	                                        minuteStep={15}
+    inputIcon={(<img
+            src={clockIcon}
+            layout='fill'
+                    />)}
+	                                    />
+	                                    <p>to</p>
 	                                    <TimePicker
 	                                        disabled={!this.state.enableCusotmDND}
 	                                        className='time-picker'
-        showSecond={false}
+                                showSecond={false}
 	                                        format={timeFormat}
-        use12Hours={true}
-        inputReadOnly={true}
-        clearIcon={false}
-        onChange={(value, id = 'end') => this.handleTimeChange(value, id)}
+                                use12Hours={true}
+                                inputReadOnly={true}
+                                clearIcon={false}
+	                                        onChange={(value, id = 'end') => this.handleTimeChange(value, id)}
 	                                        placeholder='End'
-	                                        defaultValue={moment()}
-        minuteStep={15}
-	                                        inputIcon={(<img
-        src={clockIcon}
-        layout='fill'
-                />)}
-    />
-    </div>
-    </div>
-    </div>
+                                defaultValue={moment()}
+                                minuteStep={15}
+                                inputIcon={(<img
+    src={clockIcon}
+    layout='fill'
+	                                                    />)}
+                            />
+	                                </div>
+            </div>
+	                        </div>
 	                    ) : (
 	                        <div/>
 	                    )
 	                    }
 
-	                </div>,
+    </div>,
 	            ]}
         submit={this.handleSubmit}
-	            saving={this.props.saving}
+        saving={this.props.saving}
         server_error={this.props.serverError}
-        width='full'
+	            width='full'
 	            updateSection={this.handleUpdateSection}
     />
 	    );
