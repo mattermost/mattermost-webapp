@@ -8,14 +8,17 @@ import {trackEvent} from 'actions/telemetry_actions';
 
 import BlockableLink from 'components/admin_console/blockable_link';
 import AlertBanner from 'components/alert_banner';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 import privateCloudImage from 'images/private-cloud-image.svg';
+import freeTrialPrivateCloudImage from 'images/free-trial-private-cloud-image.svg';
 
 export const contactSalesCard = (
     contactSalesLink: any,
     isFreeTrial: boolean,
     trialQuestionsLink: any,
     subscriptionPlan: string | null,
+    onUpgradeMattermostCloud: () => void,
 ) => {
     let title;
     let description;
@@ -57,9 +60,9 @@ export const contactSalesCard = (
                 />
             );
             description = (
-                <FormattedMessage
+                <FormattedMarkdownMessage
                     id='admin.billing.subscription.privateCloudCard.cloudProfessional.description'
-                    defaultMessage='Optimize your processes with VPC Peering, a dedicated AWS account and premium support.'
+                    defaultMessage='Advanced security and compliance features with premium support. See [https://mattermost.com/pricing-cloud/](https://mattermost.com/pricing-cloud/) for more details.'
                 />
             );
             break;
@@ -85,9 +88,9 @@ export const contactSalesCard = (
                 />
             );
             description = (
-                <FormattedMessage
+                <FormattedMarkdownMessage
                     id='admin.billing.subscription.privateCloudCard.cloudProfessional.description'
-                    defaultMessage='Optimize your processes with VPC Peering, a dedicated AWS account and premium support.'
+                    defaultMessage='Advanced security and compliance features with premium support. See [https://mattermost.com/pricing-cloud/](https://mattermost.com/pricing-cloud/) for more details.'
                 />
             );
             break;
@@ -103,29 +106,36 @@ export const contactSalesCard = (
                 <div className='PrivateCloudCard__text-description'>
                     {description}
                 </div>
-                <a
-                    href={isFreeTrial ? trialQuestionsLink : contactSalesLink}
-                    rel='noopener noreferrer'
-                    target='_new'
-                    className='PrivateCloudCard__contactSales'
-                    onClick={() => trackEvent('cloud_admin', 'click_contact_sales')}
-                >
-                    {subscriptionPlan !== 'CLOUD_STARTER' &&
+                {(isFreeTrial || subscriptionPlan === 'CLOUD_ENTERPRISE') &&
+                    <a
+                        href={isFreeTrial ? trialQuestionsLink : contactSalesLink}
+                        rel='noopener noreferrer'
+                        target='_new'
+                        className='PrivateCloudCard__actionButton'
+                        onClick={() => trackEvent('cloud_admin', 'click_contact_sales')}
+                    >
                         <FormattedMessage
                             id='admin.billing.subscription.privateCloudCard.contactSales'
                             defaultMessage='Contact Sales'
                         />
-                    }
-                    {subscriptionPlan === 'CLOUD_STARTER' &&
+
+                    </a>
+                }
+                {(!isFreeTrial && subscriptionPlan !== 'CLOUD_ENTERPRISE') &&
+                    <button
+                        type='button'
+                        onClick={onUpgradeMattermostCloud}
+                        className='PrivateCloudCard__actionButton'
+                    >
                         <FormattedMessage
                             id='admin.billing.subscription.privateCloudCard.upgradeNow'
                             defaultMessage='Upgrade Now'
                         />
-                    }
-                </a>
+                    </button>
+                }
             </div>
             <div className='PrivateCloudCard__image'>
-                <img src={privateCloudImage}/>
+                <img src={isFreeTrial ? freeTrialPrivateCloudImage : privateCloudImage}/>
             </div>
         </div>
     );

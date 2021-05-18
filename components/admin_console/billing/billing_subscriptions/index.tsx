@@ -14,13 +14,18 @@ import {DispatchFunc} from 'mattermost-redux/types/actions';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 
 import {pageVisited, trackEvent} from 'actions/telemetry_actions';
+import {openModal} from 'actions/views/modals';
+
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
+import PurchaseModal from 'components/purchase_modal';
+
 import {getCloudContactUsLink, InquiryType, InquiryIssue} from 'selectors/cloud';
 import {GlobalState} from 'types/store';
 import {
     Preferences,
     CloudBanners,
     TELEMETRY_CATEGORIES,
+    ModalIdentifiers,
 } from 'utils/constants';
 import {isCustomerCardExpired} from 'utils/cloud_utils';
 import {getRemainingDaysFromFutureTimestamp} from 'utils/utils.jsx';
@@ -144,6 +149,15 @@ const BillingSubscriptions: React.FC<Props> = () => {
         ]));
     };
 
+    // show the upgrade section when is a free tier customer
+    const onUpgradeMattermostCloud = () => {
+        trackEvent('cloud_admin', 'click_upgrade_mattermost_cloud');
+        dispatch(openModal({
+            modalId: ModalIdentifiers.CLOUD_PURCHASE,
+            dialogType: PurchaseModal,
+        }));
+    };
+
     if (!subscription || !products) {
         return null;
     }
@@ -170,9 +184,10 @@ const BillingSubscriptions: React.FC<Props> = () => {
                             isPaidTier={isPaidTier}
                             isFreeTrial={isFreeTrial}
                             daysLeftOnTrial={daysLeftOnTrial}
+                            onUpgradeMattermostCloud={onUpgradeMattermostCloud}
                         />
                     </div>
-                    {contactSalesCard(contactSalesLink, isFreeTrial, trialQuestionsLink, subscriptionPlan)}
+                    {contactSalesCard(contactSalesLink, isFreeTrial, trialQuestionsLink, subscriptionPlan, onUpgradeMattermostCloud)}
                     {cancelSubscription(cancelAccountLink, isFreeTrial, isPaidTier)}
                 </div>
             </div>

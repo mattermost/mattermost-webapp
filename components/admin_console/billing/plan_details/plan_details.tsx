@@ -156,7 +156,6 @@ export const planDetailsTopElements = (
 
     switch (subscriptionPlan) {
     case 'CLOUD_PROFESSIONAL':
-    case 'FREE_TRIAL':
         productName = (
             <FormattedMessage
                 id='admin.billing.subscription.planDetails.productName.cloudProfessional'
@@ -331,7 +330,6 @@ export const featureList = (subscriptionPlan: string | null, isPaidTier: boolean
 
     if (isPaidTier) {
         switch (subscriptionPlan) {
-        case 'FREE_TRIAL':
         case 'CLOUD_PROFESSIONAL':
             features = featuresCloudProfessional;
             break;
