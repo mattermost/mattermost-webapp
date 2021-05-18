@@ -12,6 +12,8 @@ export default class AutocompleteSelector extends React.PureComponent {
         providers: PropTypes.array.isRequired,
         value: PropTypes.string.isRequired,
         onSelected: PropTypes.func,
+        clearable: PropTypes.bool,
+        onClear: PropTypes.func,
         label: PropTypes.node,
         labelClassName: PropTypes.string,
         inputClassName: PropTypes.string,
@@ -96,6 +98,8 @@ export default class AutocompleteSelector extends React.PureComponent {
             disabled,
             listComponent,
             listStyle,
+            clearable,
+            onClear,
         } = this.props;
 
         const {focused} = this.state;
@@ -143,6 +147,8 @@ export default class AutocompleteSelector extends React.PureComponent {
                         onItemSelected={this.handleSelected}
                         onFocus={this.onFocus}
                         onBlur={this.onBlur}
+                        clearable={clearable}
+                        onClear={onClear}
                         providers={providers}
                         completeOnTab={true}
                         renderDividers={false}
