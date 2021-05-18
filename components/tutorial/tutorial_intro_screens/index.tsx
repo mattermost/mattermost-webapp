@@ -1,17 +1,20 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {bindActionCreators, Dispatch} from 'redux';
 
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getInt} from 'mattermost-redux/selectors/entities/preferences';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
+import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {Preferences} from 'utils/constants';
 
-import TutorialIntroScreens from './tutorial_intro_screens.jsx';
+import {GlobalState} from 'types/store';
 
-function mapStateToProps(state) {
+import TutorialIntroScreens from './tutorial_intro_screens';
+
+function mapStateToProps(state: GlobalState) {
     const currentUserId = getCurrentUserId(state);
     return {
         currentUserId,
@@ -19,7 +22,7 @@ function mapStateToProps(state) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {actions: bindActionCreators({
         savePreferences,
     }, dispatch)};

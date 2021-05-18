@@ -4,7 +4,8 @@
 import {shallow} from 'enzyme';
 import React from 'react';
 
-import TutorialIntroScreens from 'components/tutorial/tutorial_intro_screens/tutorial_intro_screens.jsx';
+import TutorialIntroScreens from 'components/tutorial/tutorial_intro_screens/tutorial_intro_screens';
+
 import {Constants, Preferences} from 'utils/constants';
 
 describe('components/tutorial/tutorial_intro_screens/TutorialIntroScreens', () => {
@@ -27,7 +28,7 @@ describe('components/tutorial/tutorial_intro_screens/TutorialIntroScreens', () =
     };
 
     test('should match snapshot', () => {
-        const wrapper = shallow(<TutorialIntroScreens {...requiredProps}/>);
+        const wrapper = shallow<TutorialIntroScreens>(<TutorialIntroScreens {...requiredProps}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -35,7 +36,7 @@ describe('components/tutorial/tutorial_intro_screens/TutorialIntroScreens', () =
         const savePreferences = jest.fn();
 
         const props = {...requiredProps, actions: {savePreferences}};
-        const wrapper = shallow(<TutorialIntroScreens {...props}/>);
+        const wrapper = shallow<TutorialIntroScreens>(<TutorialIntroScreens {...props}/>);
 
         wrapper.instance().handleNext();
         expect(savePreferences).toHaveBeenCalledTimes(0);
@@ -48,7 +49,7 @@ describe('components/tutorial/tutorial_intro_screens/TutorialIntroScreens', () =
         const savePreferences = jest.fn();
 
         const props = {...requiredProps, actions: {savePreferences}};
-        const wrapper = shallow(<TutorialIntroScreens {...props}/>);
+        const wrapper = shallow<TutorialIntroScreens>(<TutorialIntroScreens {...props}/>);
 
         wrapper.instance().handleNext();
         wrapper.instance().handleNext();
@@ -66,10 +67,10 @@ describe('components/tutorial/tutorial_intro_screens/TutorialIntroScreens', () =
     });
 
     test('should have called mockEvent.preventDefault when skipTutorial', () => {
-        const mockEvent = {preventDefault: jest.fn()};
+        const mockEvent = {preventDefault: jest.fn()} as unknown as React.MouseEvent<HTMLAnchorElement, MouseEvent>;
 
         const props = {...requiredProps};
-        const wrapper = shallow(<TutorialIntroScreens {...props}/>);
+        const wrapper = shallow<TutorialIntroScreens>(<TutorialIntroScreens {...props}/>);
 
         wrapper.instance().skipTutorial(mockEvent);
         expect(mockEvent.preventDefault).toHaveBeenCalledTimes(1);
@@ -77,10 +78,10 @@ describe('components/tutorial/tutorial_intro_screens/TutorialIntroScreens', () =
 
     test('should have called savePreferences when skipTutorial', () => {
         const savePreferences = jest.fn();
-        const mockEvent = {preventDefault: jest.fn()};
+        const mockEvent = {preventDefault: jest.fn()} as unknown as React.MouseEvent<HTMLAnchorElement, MouseEvent>;
 
         const props = {...requiredProps, actions: {savePreferences}};
-        const wrapper = shallow(<TutorialIntroScreens {...props}/>);
+        const wrapper = shallow<TutorialIntroScreens>(<TutorialIntroScreens {...props}/>);
 
         wrapper.instance().skipTutorial(mockEvent);
 
