@@ -13,9 +13,19 @@
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Verify Accessibility Support in Dropdown Menus', () => {
+    let siteName;
+    let isCloudLicensed;
     let testTeam;
 
     before(() => {
+        cy.apiGetConfig().then(({config}) => {
+            siteName = config.TeamSettings.SiteName;
+        });
+
+        cy.apiGetClientLicense().then((data) => {
+            isCloudLicensed = data.isCloudLicensed;
+        });
+
         cy.apiCreateCustomAdmin().then(({sysadmin}) => {
             cy.apiLogin(sysadmin);
 
@@ -100,30 +110,28 @@ describe('Verify Accessibility Support in Dropdown Menus', () => {
         cy.focused().tab();
 
         // * Verify the accessibility support in the Main Menu Dropdown items
-        cy.apiGetConfig().then(({config}) => {
-            const siteName = config.TeamSettings.SiteName;
+        const menuItems = [
+            {id: 'accountSettings', label: 'Account Settings dialog'},
+            {id: 'invitePeople', label: 'Invite People dialog'},
+            {id: 'teamSettings', label: 'Team Settings dialog'},
+            {id: 'manageMembers', label: 'Manage Members dialog'},
+            {id: 'createTeam', text: 'Create a Team'},
+            {id: 'joinTeam', text: 'Join Another Team'},
+            {id: 'leaveTeam', label: 'Leave Team dialog'},
+            {id: 'integrations', text: 'Integrations'},
+            {id: 'marketplaceModal', label: 'Marketplace dialog'},
+            {id: 'systemConsole', text: 'System Console'},
+            {id: 'helpLink', text: 'Help', directLink: true},
+            {id: 'gettingStarted', text: 'Getting Started', shouldSkip: !isCloudLicensed},
+            {id: 'keyboardShortcuts', text: 'Keyboard Shortcuts'},
+            {id: 'reportLink', text: 'Report a Problem', directLink: true},
+            {id: 'nativeAppLink', text: 'Download Apps', directLink: true},
+            {id: 'about', label: `About ${siteName} dialog`},
+            {id: 'logout', text: 'Log Out'},
+        ];
 
-            const menuItems = [
-                {id: 'accountSettings', label: 'Account Settings dialog'},
-                {id: 'invitePeople', label: 'Invite People dialog'},
-                {id: 'teamSettings', label: 'Team Settings dialog'},
-                {id: 'manageMembers', label: 'Manage Members dialog'},
-                {id: 'createTeam', text: 'Create a Team'},
-                {id: 'joinTeam', text: 'Join Another Team'},
-                {id: 'leaveTeam', label: 'Leave Team dialog'},
-                {id: 'integrations', text: 'Integrations'},
-                {id: 'marketplaceModal', label: 'Marketplace dialog'},
-                {id: 'systemConsole', text: 'System Console'},
-                {id: 'helpLink', text: 'Help', directLink: true},
-                {id: 'gettingStarted', text: 'Getting Started'},
-                {id: 'keyboardShortcuts', text: 'Keyboard Shortcuts'},
-                {id: 'reportLink', text: 'Report a Problem', directLink: true},
-                {id: 'nativeAppLink', text: 'Download Apps', directLink: true},
-                {id: 'about', label: `About ${siteName} dialog`},
-                {id: 'logout', text: 'Log Out'},
-            ];
-
-            menuItems.forEach((item) => {
+        menuItems.forEach((item) => {
+            if (!item.shouldSkip) {
                 // * Verify that the menu item is focused
                 cy.get('#sidebarDropdownMenu').find(`#${item.id}`).should('be.visible').within(() => {
                     if (item.label) {
@@ -137,7 +145,7 @@ describe('Verify Accessibility Support in Dropdown Menus', () => {
 
                 // # Press tab for next item
                 cy.focused().tab();
-            });
+            }
         });
 
         cy.get('#sidebarDropdownMenu .MenuItem').each((el) => {
