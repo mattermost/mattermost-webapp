@@ -30,6 +30,7 @@ import {
 import {getCloudSubscription, getSubscriptionStats} from 'mattermost-redux/actions/cloud';
 import {loadRolesIfNeeded} from 'mattermost-redux/actions/roles';
 
+import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getThread} from 'mattermost-redux/selectors/entities/threads';
 import {
     getThread as fetchThread,
@@ -631,7 +632,8 @@ export function handleNewPostEvents(queue) {
         const posts = queue.map((msg) => JSON.parse(msg.data.post));
 
         // Receive the posts as one continuous block since they were received within a short period
-        const actions = posts.map(receivedNewPost);
+        const crtEnabled = isCollapsedThreadsEnabled(myGetState());
+        const actions = posts.map((post) => receivedNewPost(post, crtEnabled));
         myDispatch(batchActions(actions));
 
         // Load the posts' threads

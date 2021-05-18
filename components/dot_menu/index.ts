@@ -13,17 +13,18 @@ import {AppBindingLocations} from 'mattermost-redux/constants/apps';
 import {isSystemMessage} from 'mattermost-redux/utils/post_utils';
 import {isCombinedUserActivityPost} from 'mattermost-redux/utils/post_list';
 
-import {ActionFunc, ActionResult, GenericAction} from 'mattermost-redux/types/actions';
+import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 
 import {Post} from 'mattermost-redux/types/posts';
 
+import {DoAppCall, PostEphemeralCallResponseForPost} from 'types/apps';
 import {setThreadFollow} from 'mattermost-redux/actions/threads';
-import {AppCallRequest, AppCallType} from 'mattermost-redux/types/apps';
 
 import {GlobalState} from 'types/store';
 
 import {openModal} from 'actions/views/modals';
-import {doAppCall} from 'actions/apps';
+import {doAppCall, postEphemeralCallResponseForPost} from 'actions/apps';
+
 import {
     flagPost,
     unflagPost,
@@ -92,7 +93,8 @@ type Actions = {
     unpinPost: (postId: string) => void;
     openModal: (postId: any) => void;
     markPostAsUnread: (post: Post) => void;
-    doAppCall: (call: AppCallRequest, type: AppCallType) => Promise<ActionResult>;
+    doAppCall: DoAppCall;
+    postEphemeralCallResponseForPost: PostEphemeralCallResponseForPost;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
@@ -106,6 +108,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             openModal,
             markPostAsUnread,
             doAppCall,
+            postEphemeralCallResponseForPost,
             setThreadFollow,
         }, dispatch),
     };

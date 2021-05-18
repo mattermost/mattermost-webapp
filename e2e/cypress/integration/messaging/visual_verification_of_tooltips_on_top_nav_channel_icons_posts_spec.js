@@ -7,14 +7,18 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @messaging @not_cloud
+// Stage: @prod
+// Group: @messaging @plugin @not_cloud
+
+import {demoPlugin} from '../../utils/plugins';
 
 describe('Messaging', () => {
     let testTeam;
-    let testChannelName;
+    let testChannel;
 
     before(() => {
         cy.shouldNotRunOnCloudEdition();
+        cy.shouldHavePluginUploadEnabled();
 
         // # Update config
         cy.apiUpdateConfig({
@@ -28,24 +32,17 @@ describe('Messaging', () => {
             testTeam = team;
 
             // # Set up Demo plugin
-            cy.apiInstallPluginFromUrl('https://github.com/mattermost/mattermost-plugin-demo/releases/download/v0.8.0/com.mattermost.demo-plugin-0.8.0.tar.gz', true);
-            cy.apiEnablePluginById('com.mattermost.demo-plugin');
+            cy.apiUploadAndEnablePlugin(demoPlugin);
 
             // # Login as regular user
             cy.apiLogin(user);
 
             // # Set up test channel with a long name
             cy.apiCreateChannel(testTeam.id, 'channel-test', 'Public channel with a long name').then(({channel}) => {
-                testChannelName = channel.display_name;
+                testChannel = channel;
             });
             cy.visit(`/${testTeam.name}/channels/town-square`);
         });
-    });
-
-    after(() => {
-        // # Clean up - remove demo plugin
-        cy.apiAdminLogin();
-        cy.apiRemovePluginById('com.mattermost.demo-plugin');
     });
 
     it('MM-T134 Visual verification of tooltips on top nav, channel icons, posts', () => {
@@ -80,9 +77,9 @@ describe('Messaging', () => {
         downloadLink().trigger('mouseout');
 
         // * Long channel name (shown truncated on the LHS)
-        cy.uiGetLhsSection('CHANNELS').findByText(testChannelName).should('be.visible').as('longChannelAtSidebar');
+        cy.get(`#sidebarItem_${testChannel.name}`).should('be.visible').as('longChannelAtSidebar');
         cy.get('@longChannelAtSidebar').trigger('mouseover');
-        verifyTooltip(testChannelName);
+        verifyTooltip(testChannel.display_name);
         cy.get('@longChannelAtSidebar').trigger('mouseout');
 
         // * Check that the Demo plugin tooltip is present

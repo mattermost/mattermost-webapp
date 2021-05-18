@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @integrations
 
 describe('Integrations', () => {
@@ -45,23 +46,28 @@ describe('Integrations', () => {
             // * Post message and assert token is present in test message
             cy.postMessage('testing');
             cy.uiWaitUntilMessagePostedIncludes(generatedToken);
-        });
 
-        // # Regenerate the token
-        cy.visit(`/${testTeam}/integrations/outgoing_webhooks`);
-        cy.findAllByText('Regenerate Token').click();
+            // # Regenerate the token
+            cy.visit(`/${testTeam}/integrations/outgoing_webhooks`);
+            cy.findAllByText('Regenerate Token').click();
 
-        // # Grab the regenerated token
-        let regeneratedToken;
-        cy.get('.item-details__token').then((number2) => {
-            regeneratedToken = number2.text().split(' ').pop();
+            // # Wait until the old token is replaced by a new one
+            cy.waitUntil(() => cy.get('.item-details__token').then((el) => {
+                return !el[0].innerText.includes(generatedToken);
+            }));
 
-            // * Post a message and confirm regenerated token appears only
-            cy.visit(`/${testTeam}/channels/${testChannel}`);
-            cy.postMessage('testing');
-            cy.uiWaitUntilMessagePostedIncludes(regeneratedToken).then(() => {
-                cy.getLastPostId().then((lastPostId) => {
-                    cy.get(`#${lastPostId}_message`).should('not.contain', generatedToken);
+            // # Grab the regenerated token
+            let regeneratedToken;
+            cy.get('.item-details__token').then((number2) => {
+                regeneratedToken = number2.text().split(' ').pop();
+
+                // * Post a message and confirm regenerated token appears only
+                cy.visit(`/${testTeam}/channels/${testChannel}`);
+                cy.postMessage('testing');
+                cy.uiWaitUntilMessagePostedIncludes(regeneratedToken).then(() => {
+                    cy.getLastPostId().then((lastPostId) => {
+                        cy.get(`#${lastPostId}_message`).should('not.contain', generatedToken);
+                    });
                 });
             });
         });

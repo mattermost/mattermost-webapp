@@ -12,11 +12,6 @@ exports[`components/widgets/users/Avatar should match the snapshot only plain te
 <div
   className="Avatar Avatar-md Avatar-plain"
   data-content="SA"
-  style={
-    Object {
-      "background": "rgb(239, 239, 240)",
-    }
-  }
 />
 `;
 

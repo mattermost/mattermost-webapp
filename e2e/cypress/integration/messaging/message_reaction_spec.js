@@ -44,9 +44,9 @@ describe('Emoji reactions to posts/messages', () => {
             cy.clickPostReactionIcon(postId);
 
             // # Choose "slightly_frowning_face" emoji
-            // delaying 500ms in case of lag
-            // eslint-disable-next-line cypress/no-unnecessary-waiting
-            cy.get('.emoji-picker__items #emoji-1f641').wait(500).click();
+            cy.findByTestId('slightly_frowning_face').
+                should('exist').
+                click({force: true});
 
             // * The number shown on the reaction is incremented by 1
             cy.get(`#postReaction-${postId}-slightly_frowning_face .Reaction__number--display`).
@@ -117,9 +117,9 @@ describe('Emoji reactions to posts/messages', () => {
             cy.get('#emojiPicker').should('be.visible');
 
             // # Select the "sweat_smile" emoji
-            // delaying 500ms in case of lag
-            // eslint-disable-next-line cypress/no-unnecessary-waiting
-            cy.get('.emoji-picker__items #emoji-1f605').wait(500).click();
+            cy.findByTestId('sweat_smile').
+                should('exist').
+                click({force: true});
 
             // * The emoji picker is no longer open
             cy.get('#emojiPicker').should('not.exist');
