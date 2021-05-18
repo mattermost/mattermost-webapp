@@ -20,11 +20,11 @@
         }
 
         &:hover {
-            padding-right: 16px !important;
+            padding-right: 16px;
 
             .badge {
-                visibility: visible !important;
-                position: initial !important;
+                visibility: visible;
+                position: initial;
             }
         }
     }
