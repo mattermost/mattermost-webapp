@@ -62,6 +62,18 @@ describe('collapse on 15 plugin buttons', () => {
 
                     // * Validate that plugin count is 16 (15 from test plugin and 1 from demo plugin)
                     cy.get('#pluginCount').should('have.text', maxPluginHeaderCount + 1);
+
+                    // # click plugin channel header
+                    cy.get('#pluginChannelHeaderButtonDropdown').click();
+
+                    // * Verify dropdown menu exists
+                    cy.get('ul.dropdown-menu.channel-header_plugin-dropdown').should('exist');
+
+                    // * Verify the plugin icons expand out to show individually rather than being collapsed behind one icon
+                    cy.apiDisablePluginById(demoPlugin.id).then(() => {
+                        cy.wait(TIMEOUTS.TWO_SEC);
+                        cy.get('.channel-header__icon').should('have.length', icons);
+                    });
                 });
             });
         });
