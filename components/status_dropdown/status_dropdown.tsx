@@ -116,13 +116,10 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
         this.setStatus(UserStatuses.AWAY, '');
     }
 
-    setDnd = (event: MouseEvent, index: number): void => {
-        event.preventDefault();
-
+    setDnd = (index: number): void => {
         const currentDate = this.getCurrentDateTime(this.props.userTimezone, this.props.isTimezoneEnabled);
         const currentTime = currentDate.getTime();
         let endTime = new Date(currentTime);
-
         switch (index) {
         case 0:
             // add 30 minutes in current time
@@ -297,7 +294,7 @@ export default class StatusDropdown extends React.PureComponent <Props, State> {
                     id: `dndTime-${time.split(' ').join('')}`,
                     direction: 'right',
                     text: localizeMessage('status_dropdown.dnd_sub_menu_item.time', time),
-                    action: index === 4 ? () => setCustomTimedDnd() : () => setDnd(event, index),
+                    action: index === 4 ? () => setCustomTimedDnd() : () => setDnd(index),
                 } as any;
             }));
 
