@@ -75,7 +75,7 @@ export function completeStripeAddPaymentMethod(
     };
 }
 
-export function updateCloudSubscription(productId: string) {
+export function subscribeCloudSubscription(productId: string) {
     return async () => {
         try {
             await Client4.subscribeCloudProduct(productId);

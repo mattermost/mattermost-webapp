@@ -19,7 +19,7 @@ import {getCloudContactUsLink, InquiryType} from 'selectors/cloud';
 import {ModalIdentifiers} from 'utils/constants';
 
 import {closeModal} from 'actions/views/modals';
-import {completeStripeAddPaymentMethod, updateCloudSubscription} from 'actions/cloud';
+import {completeStripeAddPaymentMethod, subscribeCloudSubscription} from 'actions/cloud';
 
 import PurchaseModal from './purchase_modal';
 
@@ -37,7 +37,7 @@ function mapStateToProps(state: GlobalState) {
 }
 type Actions = {
     closeModal: () => void;
-    updateCloudSubscription: (productId: string) => Promise<boolean | null>;
+    subscribeCloudSubscription: (productId: string) => Promise<boolean | null>;
     getCloudProducts: () => void;
     completeStripeAddPaymentMethod: (stripe: Stripe, billingDetails: BillingDetails, isDevMode: boolean) => Promise<boolean | null>;
     getClientConfig: () => void;
@@ -51,7 +51,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
                 closeModal: () => closeModal(ModalIdentifiers.CLOUD_PURCHASE),
                 getCloudProducts,
                 completeStripeAddPaymentMethod,
-                updateCloudSubscription,
+                subscribeCloudSubscription,
                 getClientConfig,
                 getCloudSubscription,
             },

@@ -73,7 +73,7 @@
                 min-width: 270px;
 
                 .select-plan {
-                    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+                    border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
                     box-sizing: border-box;
                     margin-bottom: 20px;
 

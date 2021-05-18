@@ -39,7 +39,7 @@ let stripePromise: Promise<Stripe | null>;
 type Props = {
     show: boolean;
     isDevMode: boolean;
-    products?: Dictionary<Product>;
+    products: Dictionary<Product>;
     contactSupportLink: string;
     contactSalesLink: string;
     isFreeTrial: boolean;
@@ -47,7 +47,7 @@ type Props = {
         closeModal: () => void;
         getCloudProducts: () => void;
         completeStripeAddPaymentMethod: (stripe: Stripe, billingDetails: BillingDetails, isDevMode: boolean) => Promise<boolean | null>;
-        updateCloudSubscription: (productId: string) => Promise<boolean | null>;
+        subscribeCloudSubscription: (productId: string) => Promise<boolean | null>;
         getClientConfig: () => void;
         getCloudSubscription: () => void;
     };
@@ -69,11 +69,13 @@ function findProductInDictionary(products: Dictionary<Product>, productId?: stri
         keys.forEach((key) => {
             if (productId && products[key].id === productId) {
                 selectedProduct = products[key];
-            } else if (!productId && products[key].name.includes('Professional')) {
-                selectedProduct = products[key];
+            } else if (!productId) {
+                selectedProduct = products[keys[0]];
             }
         });
-    } else if (keys.length === 1) {
+    }
+
+    if (!selectedProduct) {
         selectedProduct = products[keys[0]];
     }
     return selectedProduct;
@@ -89,7 +91,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
             billingDetails: null,
             cardInputComplete: false,
             processing: false,
-            selectedProduct: findProductInDictionary(props.products!),
+            selectedProduct: findProductInDictionary(props.products),
         };
     }
 
@@ -124,7 +126,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
     comparePlan = (
         <a
             className='ml-1'
-            href='https://mattermost.com/pricing-cloud/'
+            href='https://mattermost.com/pricing-cloud/#pricing-grid-block_5fa2028808529'
             target='_blank'
             rel='noreferrer'
             onMouseDown={(e) => {
@@ -145,7 +147,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
     );
 
     onPlanSelected = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const selectedPlan = findProductInDictionary(this.props.products!, e.target.value);
+        const selectedPlan = findProductInDictionary(this.props.products, e.target.value);
 
         this.setState({selectedProduct: selectedPlan});
     }
@@ -384,8 +386,8 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                                         addPaymentMethod={
                                             this.props.actions.completeStripeAddPaymentMethod
                                         }
-                                        updateCloudSubscription={
-                                            this.props.isFreeTrial ? this.props.actions.updateCloudSubscription : null
+                                        subscribeCloudSubscription={
+                                            this.props.isFreeTrial ? this.props.actions.subscribeCloudSubscription : null
                                         }
                                         isDevMode={this.props.isDevMode}
                                         onClose={() => {
