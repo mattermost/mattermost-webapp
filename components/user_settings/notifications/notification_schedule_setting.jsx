@@ -672,6 +672,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                         placeholder="start"
                                                         defaultValue={moment()}
                                                         minuteStep={30}
+                                                        minuteStep={15}
                                                         inputIcon={
                                                             <img
                                                                 src={clockIcon}
