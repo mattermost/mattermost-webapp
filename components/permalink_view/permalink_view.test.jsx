@@ -215,14 +215,15 @@ describe('components/PermalinkView', () => {
                     },
                 };
 
-                const testStore = await mockStore(modifiedState);
-                await testStore.dispatch(focusPost('dmpostid1'));
+                const testStore = mockStore(modifiedState);
+                testStore.dispatch(focusPost('dmpostid1'));
 
                 await nextTick();
                 expect.assertions(3);
                 expect(getPostThread).toHaveBeenCalledWith('dmpostid1');
                 expect(testStore.getActions()).toEqual([
                     {type: 'MOCK_GET_POST_THREAD', data: {posts: {dmpostid1: {id: 'dmpostid1', message: 'some message', channel_id: 'dmchannelid'}}, order: ['dmpostid1']}},
+                    {type: 'MOCK_GET_MISSING_PROFILES', userIds: ['dmchannel']},
                     {
                         type: 'RECEIVED_PREFERENCES',
                         data: [
@@ -232,7 +233,6 @@ describe('components/PermalinkView', () => {
                     },
                     {type: 'MOCK_SELECT_CHANNEL', args: ['dmchannelid']},
                     {type: 'RECEIVED_FOCUSED_POST', channelId: 'dmchannelid', data: 'dmpostid1'},
-                    {type: 'MOCK_GET_MISSING_PROFILES', userIds: ['dmchannel']},
                     {type: 'MOCK_LOAD_CHANNELS_FOR_CURRENT_USER'},
                     {type: 'MOCK_GET_CHANNEL_STATS', args: ['dmchannelid']},
                 ]);

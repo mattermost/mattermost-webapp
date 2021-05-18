@@ -5,9 +5,10 @@ import {getChannel, getChannelMember, selectChannel, joinChannel, getChannelStat
 import {getPostThread} from 'mattermost-redux/actions/posts';
 import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
 import {getCurrentTeam, getTeam} from 'mattermost-redux/selectors/entities/teams';
-import {getCurrentUser, getUser} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {getUserIdFromChannelName} from 'mattermost-redux/utils/channel_utils';
 
 import {loadChannelsForCurrentUser} from 'actions/channel_actions.jsx';
 import {loadNewDMIfNeeded, loadNewGMIfNeeded} from 'actions/user_actions.jsx';
@@ -16,41 +17,32 @@ import {selectPostAndHighlight} from 'actions/views/rhs';
 import {browserHistory} from 'utils/browser_history';
 import {joinPrivateChannelPrompt} from 'utils/channel_utils';
 import {ActionTypes, Constants, ErrorPageTypes} from 'utils/constants';
-import {getUserIdFromChannelId, isSystemAdmin} from 'utils/utils';
-import {isComment} from 'utils/post_utils';
+import {isSystemAdmin} from 'utils/utils';
+import {isComment, getPostURL} from 'utils/post_utils';
 
 let privateChannelJoinPromptVisible = false;
 
-function focusRootPost(post, team, channel) {
+function focusRootPost(post, channel) {
     return async (dispatch, getState) => {
-        const postId = post.id;
+        const postURL = getPostURL(getState(), post);
 
         dispatch(selectChannel(channel.id));
         dispatch({
             type: ActionTypes.RECEIVED_FOCUSED_POST,
-            data: postId,
+            data: post.id,
             channelId: channel.id,
         });
 
-        if (channel.type === Constants.DM_CHANNEL) {
-            const userId = getUserIdFromChannelId(channel.name);
-            await dispatch(getMissingProfilesByIds([userId]));
-            const user = getUser(getState(), userId);
-            browserHistory.replace(`/${team.name}/messages/@${user.username}/${postId}`);
-        } else if (channel.type === Constants.GM_CHANNEL) {
-            browserHistory.replace(`/${team.name}/messages/${channel.name}/${postId}`);
-        } else {
-            browserHistory.replace(`/${team.name}/channels/${channel.name}/${postId}`);
-        }
+        browserHistory.replace(postURL);
     };
 }
 
-function focustReplyPost(post, team, channel, returnTo) {
+function focusReplyPost(post, channel, teamId, returnTo) {
     return async (dispatch, getState) => {
         await dispatch(getPostThread(post.parent_id));
-
         const state = getState();
 
+        const team = getTeam(state, channel.team_id || teamId);
         const currentChannel = getCurrentChannel(state);
         const sameTeam = currentChannel && currentChannel.team_id === team.id;
 
@@ -60,15 +52,9 @@ function focustReplyPost(post, team, channel, returnTo) {
 
         if (sameTeam && returnTo) {
             browserHistory.replace(returnTo);
-        } else if (channel.type === Constants.DM_CHANNEL) {
-            const userId = getUserIdFromChannelId(channel.name);
-            await dispatch(getMissingProfilesByIds([userId]));
-            const user = getUser(getState(), userId);
-            browserHistory.replace(`/${team.name}/messages/@${user.username}`);
-        } else if (channel.type === Constants.GM_CHANNEL) {
-            browserHistory.replace(`/${team.name}/messages/${channel.name}`);
         } else {
-            browserHistory.replace(`/${team.name}/channels/${channel.name}`);
+            const postURL = getPostURL(state, post);
+            browserHistory.replace(postURL);
         }
 
         dispatch(selectPostAndHighlight(post));
@@ -142,18 +128,19 @@ export function focusPost(postId, returnTo = '', currentUserId) {
         }
 
         if (channel && channel.type === Constants.DM_CHANNEL) {
+            const userId = getUserIdFromChannelName(currentUserId, channel.name);
+            await dispatch(getMissingProfilesByIds([userId]));
             dispatch(loadNewDMIfNeeded(channel.id));
         } else if (channel && channel.type === Constants.GM_CHANNEL) {
             dispatch(loadNewGMIfNeeded(channel.id));
         }
 
-        const team = getTeam(state, channel.team_id || teamId);
         const post = data.posts[postId];
 
         if (isCollapsed && isComment(post)) {
-            dispatch(focustReplyPost(post, team, channel, returnTo));
+            dispatch(focusReplyPost(post, channel, teamId, returnTo));
         } else {
-            dispatch(focusRootPost(post, team, channel));
+            dispatch(focusRootPost(post, channel));
         }
 
         dispatch(loadChannelsForCurrentUser());
