@@ -1,13 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, ComponentProps} from 'react';
+import React, {memo, ComponentProps, CSSProperties, useMemo, useEffect} from 'react';
 import {useIntl} from 'react-intl';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
+import tinycolor from 'tinycolor2';
 
 import {$ID} from 'mattermost-redux/types/utilities';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {getUser as selectUser, makeDisplayNameGetter} from 'mattermost-redux/selectors/entities/users';
+import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 
 import {GlobalState} from 'types/store';
 
@@ -18,19 +20,21 @@ import SimpleTooltip, {useSynchronizedImmediate} from 'components/widgets/simple
 import Avatar from 'components/widgets/users/avatar';
 
 import './avatars.scss';
+import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
 
 type Props = {
     userIds: Array<$ID<UserProfile>>;
     totalUsers?: number;
-    fetchMissing?: boolean;
     breakAt?: number;
     size?: ComponentProps<typeof Avatar>['size'];
+    fetchMissingUsers?: boolean;
 };
 
 const OTHERS_DISPLAY_LIMIT = 99;
 
 function countMeta<T>(
-    items: T[], total = items.length,
+    items: T[],
+    total = items.length,
 ): [T[], T[], {overflowUnnamedCount: number; nonDisplayCount: number}] {
     const breakAt = Math.max(items.length, total) > 4 ? 3 : 4;
 
@@ -53,18 +57,17 @@ function UserAvatar({
     userId: $ID<UserProfile>;
     overlayProps: Partial<ComponentProps<typeof SimpleTooltip>>;
 } & ComponentProps<typeof Avatar>) {
-    const user = useSelector((state: GlobalState) => selectUser(state, userId));
+    const user = useSelector((state: GlobalState) => selectUser(state, userId)) as UserProfile | undefined;
     const name = useSelector((state: GlobalState) => displayNameGetter(state, true)(user));
-    const url = imageURLForUser(userId, user.last_picture_update);
 
     return (
         <SimpleTooltip
-            id={`name-${user.username}`}
+            id={`name-${userId}`}
             content={name}
             {...overlayProps}
         >
             <Avatar
-                url={url}
+                url={imageURLForUser(userId, user?.last_picture_update)}
                 tabIndex={0}
                 {...props}
             />
@@ -76,13 +79,26 @@ function Avatars({
     size,
     userIds,
     totalUsers,
+    fetchMissingUsers = true,
 }: Props) {
     const {formatMessage} = useIntl();
+    const dispatch = useDispatch();
     const [overlayProps, setImmediate] = useSynchronizedImmediate();
     const [displayUserIds, overflowUserIds, {overflowUnnamedCount, nonDisplayCount}] = countMeta(userIds, totalUsers);
     const overflowNames = useSelector((state: GlobalState) => {
         return overflowUserIds.map((userId) => displayNameGetter(state, true)(selectUser(state, userId))).join(', ');
     });
+
+    const {centerChannelBg, centerChannelColor} = useSelector(getTheme);
+    const avatarStyle: CSSProperties = useMemo(() => ({
+        background: tinycolor.mix(centerChannelBg, centerChannelColor, 8).toRgbString(),
+    }), [centerChannelBg, centerChannelColor]);
+
+    useEffect(() => {
+        if (fetchMissingUsers) {
+            dispatch(getMissingProfilesByIds(userIds));
+        }
+    }, [fetchMissingUsers, userIds]);
 
     return (
         <div
@@ -91,6 +107,7 @@ function Avatars({
         >
             {displayUserIds.map((id) => (
                 <UserAvatar
+                    style={avatarStyle}
                     key={id}
                     userId={id}
                     size={size}
@@ -120,6 +137,7 @@ function Avatars({
                     )}
                 >
                     <Avatar
+                        style={avatarStyle}
                         size={size}
                         tabIndex={0}
                         text={nonDisplayCount > OTHERS_DISPLAY_LIMIT ? `${OTHERS_DISPLAY_LIMIT}+` : `+${nonDisplayCount}`}
