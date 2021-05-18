@@ -69,6 +69,7 @@ import {
     sortChannelsByRecency,
     isDirectChannel,
     filterChannelsMatchingTerm,
+    getMsgCountInChannel,
 } from 'mattermost-redux/utils/channel_utils';
 import {createIdsSelector} from 'mattermost-redux/utils/helpers';
 import {Constants} from 'utils/constants';
@@ -760,18 +761,25 @@ export const getChannelIdsForCurrentTeam: (state: GlobalState) => string[] = cre
 );
 
 export const getUnreadChannelIds: (state: GlobalState, lastUnreadChannel?: Channel | null) => string[] = createIdsSelector(
+    isCollapsedThreadsEnabled,
     getAllChannels,
     getMyChannelMemberships,
     getChannelIdsForCurrentTeam,
     (state: GlobalState, lastUnreadChannel: Channel | undefined | null = null): Channel | undefined | null => lastUnreadChannel,
-    (channels: IDMappedObjects<Channel>, members: RelationOneToOne<Channel, ChannelMembership>, teamChannelIds: string[], lastUnreadChannel?: Channel | null): string[] => {
+    (
+        collapsedThreads,
+        channels: IDMappedObjects<Channel>,
+        members: RelationOneToOne<Channel, ChannelMembership>,
+        teamChannelIds: string[],
+        lastUnreadChannel?: Channel | null,
+    ): string[] => {
         const unreadIds = teamChannelIds.filter((id) => {
             const c = channels[id];
             const m = members[id];
 
             if (c && m) {
-                const chHasUnread = c.total_msg_count - m.msg_count > 0;
-                const chHasMention = m.mention_count > 0;
+                const chHasUnread = getMsgCountInChannel(collapsedThreads, c, m) > 0;
+                const chHasMention = (collapsedThreads ? m.mention_count_root : m.mention_count) > 0;
 
                 if ((m.notify_props && m.notify_props.mark_unread !== 'mention' && chHasUnread) || chHasMention) {
                     return true;
