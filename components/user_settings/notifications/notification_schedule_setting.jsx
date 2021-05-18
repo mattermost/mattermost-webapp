@@ -321,7 +321,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                         clearIcon={false}
                                                         placeholder="start"
                                                         defaultValue={moment()}
-                                                        minuteStep={15}
+                                                        minuteStep={30}
                                                         inputIcon={
                                                             <img
                                                                 src={clockIcon}
@@ -352,7 +352,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                         clearIcon={false}
                                                         placeholder="end"
                                                         defaultValue={moment()}
-                                                        minuteStep={15}
+                                                        minuteStep={30}
                                                         inputIcon={
                                                             <img
                                                                 src={clockIcon}
@@ -391,7 +391,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                         clearIcon={false}
                                                         placeholder="start"
                                                         defaultValue={moment()}
-                                                        minuteStep={15}
+                                                        minuteStep={30}
                                                         inputIcon={
                                                             <img
                                                                 src={clockIcon}
@@ -422,7 +422,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                         clearIcon={false}
                                                         placeholder="end"
                                                         defaultValue={moment()}
-                                                        minuteStep={15}
+                                                        minuteStep={30}
                                                         inputIcon={
                                                             <img
                                                                 src={clockIcon}
@@ -461,7 +461,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                         clearIcon={false}
                                                         placeholder="start"
                                                         defaultValue={moment()}
-                                                        minuteStep={15}
+                                                        minuteStep={30}
                                                         inputIcon={
                                                             <img
                                                                 src={clockIcon}
@@ -492,7 +492,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                         clearIcon={false}
                                                         placeholder="end"
                                                         defaultValue={moment()}
-                                                        minuteStep={15}
+                                                        minuteStep={30}
                                                         inputIcon={
                                                             <img
                                                                 src={clockIcon}
@@ -531,7 +531,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                         clearIcon={false}
                                                         placeholder="start"
                                                         defaultValue={moment()}
-                                                        minuteStep={15}
+                                                        minuteStep={30}
                                                         inputIcon={
                                                             <img
                                                                 src={clockIcon}
@@ -562,7 +562,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                         clearIcon={false}
                                                         placeholder="end"
                                                         defaultValue={moment()}
-                                                        minuteStep={15}
+                                                        minuteStep={30}
                                                         inputIcon={
                                                             <img
                                                                 src={clockIcon}
@@ -601,7 +601,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                         clearIcon={false}
                                                         placeholder="start"
                                                         defaultValue={moment()}
-                                                        minuteStep={15}
+                                                        minuteStep={30}
                                                         inputIcon={
                                                             <img
                                                                 src={clockIcon}
@@ -632,7 +632,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                         clearIcon={false}
                                                         placeholder="end"
                                                         defaultValue={moment()}
-                                                        minuteStep={15}
+                                                        minuteStep={30}
                                                         inputIcon={
                                                             <img
                                                                 src={clockIcon}
@@ -671,6 +671,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                         clearIcon={false}
                                                         placeholder="start"
                                                         defaultValue={moment()}
+                                                        minuteStep={30}
                                                         minuteStep={15}
                                                         inputIcon={
                                                             <img
@@ -702,7 +703,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                         clearIcon={false}
                                                         placeholder="end"
                                                         defaultValue={moment()}
-                                                        minuteStep={15}
+                                                        minuteStep={30}
                                                         inputIcon={
                                                             <img
                                                                 src={clockIcon}
@@ -741,7 +742,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                         clearIcon={false}
                                                         placeholder="start"
                                                         defaultValue={moment()}
-                                                        minuteStep={15}
+                                                        minuteStep={30}
                                                         inputIcon={
                                                             <img
                                                                 src={clockIcon}
@@ -772,7 +773,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                         clearIcon={false}
                                                         placeholder="end"
                                                         defaultValue={moment()}
-                                                        minuteStep={15}
+                                                        minuteStep={30}
                                                         inputIcon={
                                                             <img
                                                                 src={clockIcon}
@@ -872,7 +873,7 @@ class setNotificationSchedule extends React.PureComponent {
                                             }
                                             placeholder="Start"
                                             defaultValue={moment()}
-                                            minuteStep={15}
+                                            minuteStep={30}
                                             inputIcon={
                                                 <img
                                                     src={clockIcon}
@@ -896,7 +897,7 @@ class setNotificationSchedule extends React.PureComponent {
                                             }
                                             placeholder="End"
                                             defaultValue={moment()}
-                                            minuteStep={15}
+                                            minuteStep={30}
                                             inputIcon={
                                                 <img
                                                     src={clockIcon}

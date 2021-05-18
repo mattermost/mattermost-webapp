@@ -25,6 +25,7 @@ import CloudTypes from './cloud';
 import AppsTypes from './apps';
 import ThreadTypes from './threads';
 import ScheduleTypes from './notifications_schedule';
+import StatusTypes from './status';
 
 export {
     ErrorTypes,
@@ -51,4 +52,5 @@ export {
     AppsTypes,
     ThreadTypes,
     ScheduleTypes,
+    StatusTypes,
 };
