@@ -4,16 +4,16 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 
 import semver from 'semver';
 
-import Constants, {NotificationLevels} from 'utils/constants';
+import Constants, { NotificationLevels } from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
 
-import {isDesktopApp} from 'utils/user_agent';
+import { isDesktopApp } from 'utils/user_agent';
 
 import DesktopNotificationSettings from './desktop_notification_settings.jsx';
 import EmailNotificationSetting from './email_notification_setting';
@@ -202,15 +202,15 @@ export default class NotificationsTab extends React.PureComponent {
         data.first_name = this.state.firstNameKey.toString();
         data.channel = this.state.channelKey.toString();
 
-        this.setState({isSaving: true});
+        this.setState({ isSaving: true });
 
-        this.props.actions.updateMe({notify_props: data}).
-            then(({data: result, error: err}) => {
+        this.props.actions.updateMe({ notify_props: data }).
+            then(({ data: result, error: err }) => {
                 if (result) {
                     this.handleUpdateSection('');
                     this.setState(getNotificationsStateFromProps(this.props));
                 } else if (err) {
-                    this.setState({serverError: err.message, isSaving: false});
+                    this.setState({ serverError: err.message, isSaving: false });
                 }
             });
     }
@@ -228,7 +228,7 @@ export default class NotificationsTab extends React.PureComponent {
         } else {
             this.props.updateSection('');
         }
-        this.setState({isSaving: false});
+        this.setState({ isSaving: false });
         this.handleCancel();
     };
 
@@ -244,31 +244,31 @@ export default class NotificationsTab extends React.PureComponent {
     }
 
     handleNotifyCommentsRadio(notifyCommentsLevel) {
-        this.setState({notifyCommentsLevel});
+        this.setState({ notifyCommentsLevel });
     }
 
     handlePushRadio(pushActivity) {
-        this.setState({pushActivity});
+        this.setState({ pushActivity });
     }
 
     handlePushStatusRadio(pushStatus) {
-        this.setState({pushStatus});
+        this.setState({ pushStatus });
     }
 
     handleEmailRadio = (enableEmail) => {
-        this.setState({enableEmail});
+        this.setState({ enableEmail });
     }
 
     updateUsernameKey = (val) => {
-        this.setState({usernameKey: val});
+        this.setState({ usernameKey: val });
     }
 
     updateFirstNameKey = (val) => {
-        this.setState({firstNameKey: val});
+        this.setState({ firstNameKey: val });
     }
 
     updateChannelKey = (val) => {
-        this.setState({channelKey: val});
+        this.setState({ channelKey: val });
     }
 
     updateCustomMentionKeys = () => {
@@ -278,9 +278,9 @@ export default class NotificationsTab extends React.PureComponent {
             const text = this.customMentionsRef.current.value;
 
             // remove all spaces and split string into individual keys
-            this.setState({customKeys: text.replace(/ /g, ''), customKeysChecked: true});
+            this.setState({ customKeys: text.replace(/ /g, ''), customKeysChecked: true });
         } else {
-            this.setState({customKeys: '', customKeysChecked: false});
+            this.setState({ customKeys: '', customKeysChecked: false });
         }
     }
 
@@ -482,7 +482,7 @@ export default class NotificationsTab extends React.PureComponent {
                                 />
                             </div>
                         </fieldset>
-                        <hr/>
+                        <hr />
                         {pushStatusSettings}
                     </div>,
                     pushStatusSettings,
@@ -802,7 +802,7 @@ export default class NotificationsTab extends React.PureComponent {
                                 defaultMessage='Trigger notifications on messages in reply threads that I start or participate in'
                             />
                         </label>
-                        <br/>
+                        <br />
                     </div>
                     <div className='radio'>
                         <label>
@@ -818,7 +818,7 @@ export default class NotificationsTab extends React.PureComponent {
                                 defaultMessage='Trigger notifications on messages in threads that I start'
                             />
                         </label>
-                        <br/>
+                        <br />
                     </div>
                     <div className='radio'>
                         <label>
@@ -907,7 +907,7 @@ export default class NotificationsTab extends React.PureComponent {
                             error={this.state.serverError}
                             saving={this.state.isSaving}
                         />
-                        <div className='divider-dark'/>
+                        <div className='divider-dark' />
                     </div>
                 );
             } else {
@@ -991,7 +991,7 @@ export default class NotificationsTab extends React.PureComponent {
                             defaultMessage='Notifications'
                         />
                     </h3>
-                    <div className='divider-dark first'/>
+                    <div className='divider-dark first' />
                     <DesktopNotificationSettings
                         activity={this.state.desktopActivity}
                         threads={this.state.desktopThreads}
@@ -1006,7 +1006,7 @@ export default class NotificationsTab extends React.PureComponent {
                         selectedSound={this.state.desktopNotificationSound}
                         isCollapsedThreadsEnabled={this.props.isCollapsedThreadsEnabled}
                     />
-                    <div className='divider-light'/>
+                    <div className='divider-light' />
                     <EmailNotificationSetting
                         activeSection={this.props.activeSection}
                         updateSection={this.handleUpdateSection}
@@ -1020,15 +1020,15 @@ export default class NotificationsTab extends React.PureComponent {
                         setParentState={this.setStateValue}
                         threads={this.state.emailThreads}
                     />
-                    <div className='divider-light'/>
+                    <div className='divider-light' />
                     {pushNotificationSection}
-                    <div className='divider-light'/>
+                    <div className='divider-light' />
                     {keysSection}
-                    <div className='divider-light'/>
+                    <div className='divider-light' />
                     {commentsSection}
-                    <div className='divider-light'/>
+                    <div className='divider-light' />
                     {autoResponderSection}
-                    <div className='divider-light'/>
+                    <div className='divider-light' />
                     <NotificationScheduleSetting
                         saving={this.state.isSaving}
                         onCancel={this.handleCancel}
@@ -1036,7 +1036,7 @@ export default class NotificationsTab extends React.PureComponent {
                         activeSection={this.props.activeSection}
                         updateSection={this.handleUpdateSection}
                     />
-                    <div className='divider-dark'/>
+                    <div className='divider-dark' />
                 </div>
             </div>
 
