@@ -56,23 +56,23 @@ export function getThread(state: GlobalState, threadId: $ID<UserThread> | undefi
     return getThreads(state)[threadId];
 }
 
-export function getThreadOrSynthetic(state: GlobalState, post: Post): UserThread | UserThreadSynthetic {
-    const thread = getThreads(state)[post.root_id || post.id];
+export function getThreadOrSynthetic(state: GlobalState, rootPost: Post): UserThread | UserThreadSynthetic {
+    const thread = getThreads(state)[rootPost.id];
 
     if (thread?.id) {
         return thread;
     }
 
     return {
-        id: post.id,
+        id: rootPost.id,
         type: UserThreadType.Synthetic,
-        reply_count: post.reply_count,
-        participants: post.participants,
-        last_reply_at: post.last_reply_at ?? 0,
-        is_following: thread?.is_following ?? post.is_following ?? false,
+        reply_count: rootPost.reply_count,
+        participants: rootPost.participants,
+        last_reply_at: rootPost.last_reply_at ?? 0,
+        is_following: thread?.is_following ?? rootPost.is_following ?? false,
         post: {
-            user_id: post.user_id,
-            channel_id: post.channel_id,
+            user_id: rootPost.user_id,
+            channel_id: rootPost.channel_id,
         },
     };
 }
