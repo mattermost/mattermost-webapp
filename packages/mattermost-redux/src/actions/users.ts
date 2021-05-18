@@ -6,7 +6,7 @@ import {UserProfile, UserStatus, GetFilteredUsersStatsOpts, UsersStats, UserCust
 import {TeamMembership} from 'mattermost-redux/types/teams';
 import {Client4} from 'mattermost-redux/client';
 import {General} from '../constants';
-import {UserTypes, TeamTypes, AdminTypes} from 'mattermost-redux/action_types';
+import {UserTypes, TeamTypes, AdminTypes, StatusTypes} from 'mattermost-redux/action_types';
 
 import {getUserIdFromChannelName, isDirectChannel, isDirectChannelVisible, isGroupChannel, isGroupChannelVisible} from 'mattermost-redux/utils/channel_utils';
 
@@ -28,6 +28,8 @@ import {loadRolesIfNeeded} from './roles';
 import {logError} from './errors';
 import {bindClientFunc, forceLogoutIfNecessary, debounce} from './helpers';
 import {getMyPreferences, makeDirectChannelVisibleIfNecessary, makeGroupMessageVisibleIfNecessary} from './preferences';
+import { getAdminConsoleCustomComponents } from 'selectors/admin_console';
+import { registerAdminConsolePlugin } from 'actions/admin_actions';
 
 export function checkMfa(loginId: string): ActionFunc {
     return async (dispatch: DispatchFunc) => {
@@ -1533,6 +1535,27 @@ export function checkForModifiedUsers() {
     };
 }
 
+export function updateStatusOnScheduledTime(currentTime: string, currentDay: string) {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        try {
+            console.log('try')
+            const state = getState()
+            const userId = getCurrentUserId(state);
+            const status = await Client4.getStatusBasedOnSchedule(userId, currentTime, currentDay);
+            dispatch({
+                type: StatusTypes.RECEIVED_STATUS,
+                data: status
+            })
+            console.log(status)
+        } catch (error) {
+            console.log(error)
+            return {error}
+        }
+        console.log('end')
+        return {data: true};
+    };
+}
+
 export default {
     checkMfa,
     generateMfaSecret,
@@ -1582,4 +1605,5 @@ export default {
     disableUserAccessToken,
     enableUserAccessToken,
     checkForModifiedUsers,
+    updateStatusOnScheduledTime,
 };
