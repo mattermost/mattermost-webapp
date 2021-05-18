@@ -1538,7 +1538,6 @@ export function checkForModifiedUsers() {
 export function updateStatusOnScheduledTime(currentTime: string, currentDay: string) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         try {
-            console.log('try')
             const state = getState()
             const userId = getCurrentUserId(state);
             const status = await Client4.getStatusBasedOnSchedule(userId, currentTime, currentDay);
@@ -1548,10 +1547,8 @@ export function updateStatusOnScheduledTime(currentTime: string, currentDay: str
             })
             console.log(status)
         } catch (error) {
-            console.log(error)
             return {error}
         }
-        console.log('end')
         return {data: true};
     };
 }

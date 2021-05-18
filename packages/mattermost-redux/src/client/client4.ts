@@ -1009,7 +1009,6 @@ export default class Client4 {
     }
 
     getStatusBasedOnSchedule = (userId: string, currentTime: string, currentDay: string) => {
-        console.log('client4')
         return this.doFetch(
             `${this.getUserRoute(userId)}/status/schedule`,
             {method: 'put', body: JSON.stringify({user_id: userId, current_time: currentTime, day_of_the_week: currentDay})},
