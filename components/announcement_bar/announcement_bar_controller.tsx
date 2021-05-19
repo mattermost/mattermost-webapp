@@ -2,7 +2,11 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
+
+import {ClientLicense, ClientConfig, WarnMetricStatus} from 'mattermost-redux/types/config';
+import {Dictionary} from 'mattermost-redux/types/utilities';
+import {UserProfile} from 'mattermost-redux/types/users';
+import {AnalyticsRow} from 'mattermost-redux/types/admin';
 
 import ConfigurationAnnouncementBar from './configuration_bar';
 import VersionBar from './version_bar';
@@ -13,26 +17,25 @@ import CloudAnnouncementBar from './cloud_announcement_bar';
 import PaymentAnnouncementBar from './payment_announcement_bar';
 import CloudTrialAnnouncementBar from './cloud_trial_announcement_bar';
 
-export default class AnnouncementBarController extends React.PureComponent {
-    static propTypes = {
-        license: PropTypes.object,
-        config: PropTypes.object,
-        user: PropTypes.shape({
-            email: PropTypes.string.isRequired,
-            email_verified: PropTypes.bool,
-        }),
-        canViewSystemErrors: PropTypes.bool.isRequired,
-        latestError: PropTypes.object,
-        totalUsers: PropTypes.number,
-        warnMetricsStatus: PropTypes.object,
-        actions: PropTypes.shape({
-            dismissError: PropTypes.func.isRequired,
-        }).isRequired,
-    }
+type Props = {
+    license?: ClientLicense;
+    config?: Partial<ClientConfig>;
+    user?: Partial<UserProfile>;
+    canViewSystemErrors: boolean;
+    latestError?: {
+        error: any;
+    };
+    totalUsers?: number | AnalyticsRow[];
+    warnMetricsStatus?: Dictionary<WarnMetricStatus>;
+    actions: {
+        dismissError: (index: number) => void;
+    };
+}
 
+export default class AnnouncementBarController extends React.PureComponent<Props> {
     render() {
         let adminConfiguredAnnouncementBar = null;
-        if (this.props.config.EnableBanner === 'true' && this.props.config.BannerText.trim()) {
+        if (this.props.config && this.props.config.EnableBanner === 'true' && this.props.config.BannerText?.trim()) {
             adminConfiguredAnnouncementBar = (
                 <TextDismissableBar
                     color={this.props.config.BannerColor}
@@ -57,7 +60,7 @@ export default class AnnouncementBarController extends React.PureComponent {
         let cloudAnnouncementBar = null;
         let paymentAnnouncementBar = null;
         let cloudTrialAnnouncementBar = null;
-        if (this.props.license.Cloud === 'true') {
+        if (this.props.license && this.props.license.Cloud === 'true') {
             cloudAnnouncementBar = (
                 <CloudAnnouncementBar/>
             );
@@ -81,8 +84,6 @@ export default class AnnouncementBarController extends React.PureComponent {
                     config={this.props.config}
                     license={this.props.license}
                     canViewSystemErrors={this.props.canViewSystemErrors}
-                    totalUsers={this.props.totalUsers}
-                    user={this.props.user}
                     warnMetricsStatus={this.props.warnMetricsStatus}
                 />
             </>
