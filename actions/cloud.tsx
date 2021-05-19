@@ -5,7 +5,6 @@ import {Stripe} from '@stripe/stripe-js';
 import {getCode} from 'country-list';
 
 import {Client4} from 'mattermost-redux/client';
-import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import {getConfirmCardSetup} from 'components/payment_form/stripe';
 
