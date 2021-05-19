@@ -162,12 +162,13 @@ export class AppsForm extends React.PureComponent<Props, State> {
             const hasErrors = this.updateErrors(elements, errorResponse.data?.errors, errorMessage);
             if (!hasErrors) {
                 this.handleHide(false);
+            } else {
+                this.setState({submitting: false});
             }
             return;
         }
 
         const callResponse = res.data as AppCallResponse<FormResponseData>;
-        this.setState({submitting: false});
 
         let hasErrors = false;
         let updatedForm = false;
