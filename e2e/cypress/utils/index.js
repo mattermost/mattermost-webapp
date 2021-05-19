@@ -20,6 +20,10 @@ export function getRandomId(length = 7) {
     return uuidv4().replace(/-/g, '').substring(MAX_SUBSTRING_INDEX - length, MAX_SUBSTRING_INDEX);
 }
 
+export function getRandomLetter(length) {
+    return Array.from({length}, () => String.fromCharCode(97 + Math.floor(Math.random() * 26))).join('');
+}
+
 export function getEmailUrl() {
     const smtpUrl = Cypress.env('smtpUrl') || 'http://localhost:10080';
 

@@ -7,26 +7,19 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
-// Group: @enterprise @elasticsearch @autocomplete @not_cloud
+// Group: @autocomplete
 
 import {getRandomLetter} from '../../../utils';
-import {doTestDMChannelSidebar, doTestUserChannelSection} from '../../autocomplete/common_test';
-import {createSearchData, enableElasticSearch} from '../../autocomplete/helpers';
+import {doTestDMChannelSidebar, doTestUserChannelSection} from '../common_test';
+import {createSearchData} from '../helpers';
 
-describe('Autocomplete with Elasticsearch - Users', () => {
+describe('Autocomplete with Database - Users', () => {
     const prefix = getRandomLetter(3);
     let testUsers;
     let testTeam;
 
     before(() => {
-        cy.shouldNotRunOnCloudEdition();
-
-        // * Check if server has license for Elasticsearch
-        cy.apiRequireLicenseForFeature('Elasticsearch');
-
-        // # Enable Elasticsearch
-        enableElasticSearch();
+        cy.shouldHaveElasticsearchDisabled();
 
         createSearchData(prefix).then((searchData) => {
             testUsers = searchData.users;
@@ -36,11 +29,11 @@ describe('Autocomplete with Elasticsearch - Users', () => {
         });
     });
 
-    it('MM-T3863 Users in correct in/out of channel sections', () => {
+    it('MM-T4081 Users in correct in/out of channel sections', () => {
         doTestUserChannelSection(prefix, testTeam, testUsers);
     });
 
-    it('MM-T2518 DM can be opened with a user not on your team or in your DM channel sidebar', () => {
+    it('MM-T4082 DM can be opened with a user not on your team or in your DM channel sidebar', () => {
         doTestDMChannelSidebar(testUsers);
     });
 });
