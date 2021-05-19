@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
@@ -11,24 +10,29 @@ import {useSafeUrl} from 'utils/url';
 import AppIcons from 'images/appIcons.png';
 import ModalToggleButtonRedux from 'components/toggle_modal_button_redux';
 import InvitationModal from 'components/invitation_modal';
+import {PreferenceType} from 'mattermost-redux/types/preferences';
 
 const NUM_SCREENS = 3;
 
-export default class TutorialIntroScreens extends React.PureComponent {
-    static propTypes = {
-        currentUserId: PropTypes.string.isRequired,
-        step: PropTypes.number,
-        townSquareDisplayName: PropTypes.string.isRequired,
-        appDownloadLink: PropTypes.string,
-        isLicensed: PropTypes.bool.isRequired,
-        restrictTeamInvite: PropTypes.bool.isRequired,
-        supportEmail: PropTypes.string.isRequired,
-        actions: PropTypes.shape({
-            savePreferences: PropTypes.func.isRequired,
-        }).isRequired,
+type Props = {
+    currentUserId: string;
+    step: number;
+    townSquareDisplayName: string;
+    appDownloadLink?: string;
+    isLicensed: boolean;
+    restrictTeamInvite: boolean;
+    supportEmail?: string;
+    actions: {
+        savePreferences: (userId: string, preferences: PreferenceType[]) => void;
     };
+};
 
-    constructor(props) {
+type State = {
+    currentScreen: number;
+};
+
+export default class TutorialIntroScreens extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
         super(props);
 
         this.state = {currentScreen: 0};
@@ -63,7 +67,7 @@ export default class TutorialIntroScreens extends React.PureComponent {
         this.props.actions.savePreferences(currentUserId, preferences);
     }
 
-    skipTutorial = (e) => {
+    skipTutorial = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
         e.preventDefault();
 
         switch (this.state.currentScreen) {
@@ -88,6 +92,7 @@ export default class TutorialIntroScreens extends React.PureComponent {
 
         this.props.actions.savePreferences(currentUserId, preferences);
     }
+
     createScreen = () => {
         switch (this.state.currentScreen) {
         case 0:
@@ -283,7 +288,7 @@ export default class TutorialIntroScreens extends React.PureComponent {
         );
     }
 
-    handleCircleClick = (e, screen) => {
+    handleCircleClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, screen: number) => {
         e.preventDefault();
         this.setState({currentScreen: screen});
     }
