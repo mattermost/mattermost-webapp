@@ -25,6 +25,7 @@ export type Props = {
     helpText: React.ReactNode;
     value: AppSelectOption | null;
     onChange: (value: SelectValue) => void;
+    onClear: () => void;
     performLookup: (name: string, userInput: string) => Promise<AppSelectOption[]>;
 };
 
@@ -94,9 +95,7 @@ export default class AppsFormSelectField extends React.PureComponent<Props, Stat
 
     onClear = (e: React.UIEvent) => {
         e.stopPropagation();
-
-        const newValue = this.props.field.multiselect ? [] : null;
-        this.onChange(newValue);
+        this.props.onClear();
     }
 
     onChange = (selectedOption: SelectValue) => {

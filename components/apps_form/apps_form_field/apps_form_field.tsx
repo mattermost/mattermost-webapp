@@ -93,7 +93,14 @@ export default class AppsFormField extends React.PureComponent<Props> {
     }
 
     onClear = () => {
-        this.handleSelected(null);
+        const {field, onChange} = this.props;
+
+        let newValue: AppFormValue = null;
+        if (field.multiselect) {
+            newValue = [];
+        }
+
+        onChange(field.name, newValue);
     }
 
     render() {
@@ -189,6 +196,7 @@ export default class AppsFormField extends React.PureComponent<Props> {
             return (
                 <AppsFormSelectField
                     {...this.props}
+                    onClear={this.onClear}
                     field={field}
                     label={displayNameContent}
                     helpText={helpTextContent}
