@@ -92,12 +92,19 @@ const BillingSubscriptions: React.FC = () => {
 
     let subscriptionPlan = 'CLOUD_PROFESSIONAL';
 
-    if (product?.name.toLowerCase().includes('starter')) {
+    switch (product?.sku) {
+    case 'cloud-starter':
         subscriptionPlan = 'CLOUD_STARTER';
-    } else if (product?.name.toLowerCase().includes('professional')) {
+        break;
+    case 'cloud-professional':
         subscriptionPlan = 'CLOUD_PROFESSIONAL';
-    } else if (product?.name.toLowerCase().includes('enterprise')) {
+        break;
+    case 'cloud-enterprise':
         subscriptionPlan = 'CLOUD_ENTERPRISE';
+        break;
+    default:
+        subscriptionPlan = 'CLOUD_PROFESSIONAL';
+        break;
     }
 
     let isFreeTrial = false;
