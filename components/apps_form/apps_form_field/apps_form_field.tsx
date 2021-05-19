@@ -30,7 +30,7 @@ export type Props = {
     errorText?: React.ReactNode;
     teammateNameDisplay?: string;
 
-    value: AppSelectOption | string | boolean | number | null;
+    value: AppFormValue;
     onChange: (name: string, value: AppFormValue) => void;
     autoFocus?: boolean;
     listComponent?: React.ComponentClass;
