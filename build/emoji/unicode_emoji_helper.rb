@@ -10,8 +10,9 @@ module Mattermost
     end
 
     def all_emoji_modifier_bases
-      match_string = '; Emoji_Modifier_Sequence   ;'
-      lines = @emoji_sequences.select { |l| l.include?(match_string) }
+      match_sequence = '; RGI_Emoji_Modifier_Sequence  ;'
+      match_flag = '; RGI_Emoji_Flag_Sequence      ;'
+      lines = @emoji_sequences.select { |l| l.include?(match_sequence) || l.include?(match_flag)}
       hex_strings = lines.map { |l| /^[0-9A-F]{4,5}/.match(l)[0] }
       integers = hex_strings.map { |s| s.to_i(16) }
       integers.map { |i| [i].pack('U') }

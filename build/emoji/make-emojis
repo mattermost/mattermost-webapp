@@ -7,6 +7,7 @@ require 'open-uri'
 require 'sprite_factory'
 require_relative './emoji_extractor.rb'
 require_relative './unicode_emoji_helper.rb'
+require_relative './constants.rb'
 
 project_root = "#{File.dirname(__FILE__)}/../../"
 
@@ -37,6 +38,8 @@ unicode_emoji_helper = Mattermost::UnicodeEmojiHelper.new
 emoji_extractor = Mattermost::EmojiExtractor.new(64, emoji_path)
 emoji_added = []
 
+female_suffix = [EmojiConstants::ZWJ, EmojiConstants::GENDER_FEMALE, EmojiConstants::VS16].join('')
+
 Emoji.all.clone.each do |emoji|
   next unless emoji.raw
 
@@ -45,7 +48,7 @@ Emoji.all.clone.each do |emoji|
 
   sequences.each do |sequence|
     pngbytes = emoji_extractor.png(sequence)
-    print "\nmissing sequence #{sequence}" if pngbytes.nil?
+    print "\nmissing sequence #{sequence}" if pngbytes.nil? && !sequence.end_with?(female_suffix)
     next unless pngbytes
 
     modifier = sequence.split('')[1]
