@@ -10,7 +10,7 @@ import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {makeGetReactionsForPost, getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getUser, makeGetDisplayName} from 'mattermost-redux/selectors/entities/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {get} from 'mattermost-redux/selectors/entities/preferences';
+import {get, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {isSystemMessage} from 'mattermost-redux/utils/post_utils';
 
 import {markPostAsUnread, emitShortcutReactToLastPostFrom} from 'actions/post_actions.jsx';
@@ -76,6 +76,7 @@ function mapStateToProps(state, ownProps) {
         shortcutReactToLastPostEmittedFrom,
         emojiMap,
         isBot,
+        collapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
     };
 }
 
