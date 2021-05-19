@@ -79,9 +79,9 @@
 
                     .title {
                         display: flex;
-                        justify-content: space-between;
                         font-weight: 600;
                         font-size: 14px;
+                        justify-content: space-between;
                         line-height: 20px;
 
                         a {
@@ -93,12 +93,12 @@
 
                     .plans-list {
                         label {
+                            color: rgba(var(--sys-center-channel-color-rgb), 0.64);
                             font-family: Open Sans;
                             font-style: normal;
                             font-weight: normal;
                             font-size: 12px;
                             line-height: 16px;
-                            color: rgba(var(--sys-center-channel-color-rgb), 0.64);
                         }
 
                         .selected {
