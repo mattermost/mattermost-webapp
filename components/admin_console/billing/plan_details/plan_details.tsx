@@ -155,7 +155,7 @@ export const planDetailsTopElements = (
     }
 
     switch (subscriptionPlan) {
-    case 'CLOUD_PROFESSIONAL':
+    case 'cloud-professional':
         productName = (
             <FormattedMessage
                 id='admin.billing.subscription.planDetails.productName.cloudProfessional'
@@ -163,7 +163,7 @@ export const planDetailsTopElements = (
             />
         );
         break;
-    case 'CLOUD_ENTERPRISE':
+    case 'cloud-enterprise':
         productName = (
             <FormattedMessage
                 id='admin.billing.subscription.planDetails.productName.cloudEnterprise'
@@ -171,7 +171,7 @@ export const planDetailsTopElements = (
             />
         );
         break;
-    case 'CLOUD_STARTER':
+    case 'cloud-starter':
         productName = (
             <FormattedMessage
                 id='admin.billing.subscription.planDetails.productName.cloudStarter'
@@ -330,14 +330,14 @@ export const featureList = (subscriptionPlan: string | null, isPaidTier: boolean
 
     if (isPaidTier) {
         switch (subscriptionPlan) {
-        case 'CLOUD_PROFESSIONAL':
+        case 'cloud-professional':
             features = featuresCloudProfessional;
             break;
 
-        case 'CLOUD_STARTER':
+        case 'cloud-starter':
             features = featuresCloudStarter;
             break;
-        case 'CLOUD_ENTERPRISE':
+        case 'cloud-enterprise':
             features = featuresCloudEnterprise;
             break;
         default:

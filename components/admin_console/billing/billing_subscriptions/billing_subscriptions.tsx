@@ -38,7 +38,7 @@ export const contactSalesCard = (
         );
     } else {
         switch (subscriptionPlan) {
-        case 'CLOUD_STARTER':
+        case 'cloud-starter':
             title = (
                 <FormattedMessage
                     id='admin.billing.subscription.privateCloudCard.cloudStarter.title'
@@ -52,7 +52,7 @@ export const contactSalesCard = (
                 />
             );
             break;
-        case 'CLOUD_PROFESSIONAL':
+        case 'cloud-professional':
             title = (
                 <FormattedMessage
                     id='admin.billing.subscription.privateCloudCard.cloudProfessional.title'
@@ -66,7 +66,7 @@ export const contactSalesCard = (
                 />
             );
             break;
-        case 'CLOUD_ENTERPRISE':
+        case 'cloud-enterprise':
             title = (
                 <FormattedMessage
                     id='admin.billing.subscription.privateCloudCard.cloudEnterprise.title'
@@ -106,7 +106,7 @@ export const contactSalesCard = (
                 <div className='PrivateCloudCard__text-description'>
                     {description}
                 </div>
-                {(isFreeTrial || subscriptionPlan === 'CLOUD_ENTERPRISE') &&
+                {(isFreeTrial || subscriptionPlan === 'cloud-enterprise') &&
                     <a
                         href={isFreeTrial ? trialQuestionsLink : contactSalesLink}
                         rel='noopener noreferrer'
@@ -121,7 +121,7 @@ export const contactSalesCard = (
 
                     </a>
                 }
-                {(!isFreeTrial && subscriptionPlan !== 'CLOUD_ENTERPRISE') &&
+                {(!isFreeTrial && subscriptionPlan !== 'cloud-enterprise') &&
                     <button
                         type='button'
                         onClick={onUpgradeMattermostCloud}
