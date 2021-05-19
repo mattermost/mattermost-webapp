@@ -79,7 +79,7 @@ export function subscribeCloudSubscription(productId: string) {
         try {
             await Client4.subscribeCloudProduct(productId);
         } catch (error) {
-            return false;
+            return error;
         }
         return true;
     };

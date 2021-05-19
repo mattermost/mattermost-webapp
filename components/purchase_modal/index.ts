@@ -32,13 +32,14 @@ function mapStateToProps(state: GlobalState) {
         contactSupportLink: getCloudContactUsLink(state, InquiryType.Technical),
         isFreeTrial: subscription?.is_free_trial === 'true',
         contactSalesLink: getCloudContactUsLink(state, InquiryType.Sales),
+        productId: subscription?.product_id,
     };
 }
 type Actions = {
     closeModal: () => void;
-    subscribeCloudSubscription: (productId: string) => Promise<boolean | null>;
     getCloudProducts: () => void;
     completeStripeAddPaymentMethod: (stripe: Stripe, billingDetails: BillingDetails, isDevMode: boolean) => Promise<boolean | null>;
+    subscribeCloudSubscription: (productId: string) => Promise<boolean | null>;
     getClientConfig: () => void;
     getCloudSubscription: () => void;
 }

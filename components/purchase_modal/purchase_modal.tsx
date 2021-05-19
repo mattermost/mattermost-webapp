@@ -39,10 +39,11 @@ let stripePromise: Promise<Stripe | null>;
 type Props = {
     show: boolean;
     isDevMode: boolean;
-    products: Dictionary<Product>;
+    products: Dictionary<Product> | undefined;
     contactSupportLink: string;
     contactSalesLink: string;
     isFreeTrial: boolean;
+    productId: string | undefined;
     actions: {
         closeModal: () => void;
         getCloudProducts: () => void;
@@ -61,7 +62,10 @@ type State = {
     selectedProduct: Product | null | undefined;
 }
 
-function findProductInDictionary(products: Dictionary<Product>, productId?: string): Product | null {
+function findProductInDictionary(products: Dictionary<Product> | undefined, productId?: string): Product | null {
+    if (!products) {
+        return null;
+    }
     const keys = Object.keys(products);
     let selectedProduct = null;
     if (keys.length > 1) {
@@ -85,13 +89,12 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
 
     public constructor(props: Props) {
         super(props);
-
         this.state = {
             paymentInfoIsValid: false,
             billingDetails: null,
             cardInputComplete: false,
             processing: false,
-            selectedProduct: findProductInDictionary(props.products),
+            selectedProduct: findProductInDictionary(props.products, props.productId),
         };
     }
 
@@ -126,7 +129,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
     comparePlan = (
         <a
             className='ml-1'
-            href='https://mattermost.com/pricing-cloud/#pricing-grid-block_5fa2028808529'
+            href={CloudLinks.COMPARE_PLANS}
             target='_blank'
             rel='noreferrer'
             onMouseDown={(e) => {
@@ -173,7 +176,6 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
     purchaseScreen = () => {
         let title;
         let buttonTitle;
-        let bottomInformationMsg;
         if (this.props.isFreeTrial) {
             title = (
                 <FormattedMessage
@@ -185,14 +187,6 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                 <FormattedMessage
                     defaultMessage={'Subscribe'}
                     id={'admin.billing.subscription.cloudTrial.subscribe'}
-                />
-            );
-            bottomInformationMsg = (
-                <FormattedMessage
-                    defaultMessage={
-                        'Your bill is calculated at the end of the billing cycle based on the number of enabled users. '
-                    }
-                    id={'admin.billing.subscription.freeTrialDisclaimer'}
                 />
             );
         } else {
@@ -208,15 +202,16 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                     id={'admin.billing.subscription.upgrade'}
                 />
             );
-            bottomInformationMsg = (
-                <FormattedMessage
-                    defaultMessage={
-                        'Your total is calculated at the end of the billing cycle based on the number of enabled users. You’ll only be charged if you exceed the free tier limits. '
-                    }
-                    id={'admin.billing.subscription.disclaimer'}
-                />
-            );
         }
+
+        const bottomInformationMsg = (
+            <FormattedMessage
+                defaultMessage={
+                    'Your bill is calculated at the end of the billing cycle based on the number of enabled users. '
+                }
+                id={'admin.billing.subscription.freeTrialDisclaimer'}
+            />
+        );
 
         return (
             <div className={this.state.processing ? 'processing' : ''}>
