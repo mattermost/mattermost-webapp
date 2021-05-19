@@ -69,6 +69,9 @@ const BillingSubscriptions: React.FC = () => {
 
     const product = useSelector((state: GlobalState) => {
         const products = state.entities.cloud.products!;
+        if (!products) {
+            return null;
+        }
         const keys = Object.keys(products);
         let product: Product;
         if (products && subscription) {
@@ -89,11 +92,11 @@ const BillingSubscriptions: React.FC = () => {
 
     let subscriptionPlan = 'CLOUD_PROFESSIONAL';
 
-    if (product.name.toLowerCase().includes('starter')) {
+    if (product?.name.toLowerCase().includes('starter')) {
         subscriptionPlan = 'CLOUD_STARTER';
-    } else if (product.name.toLowerCase().includes('professional')) {
+    } else if (product?.name.toLowerCase().includes('professional')) {
         subscriptionPlan = 'CLOUD_PROFESSIONAL';
-    } else if (product.name.toLowerCase().includes('enterprise')) {
+    } else if (product?.name.toLowerCase().includes('enterprise')) {
         subscriptionPlan = 'CLOUD_ENTERPRISE';
     }
 
