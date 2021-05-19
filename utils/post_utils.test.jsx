@@ -6,7 +6,7 @@ import assert from 'assert';
 
 import {createIntl} from 'react-intl';
 
-import {Posts} from 'mattermost-redux/constants';
+import {Posts, Preferences} from 'mattermost-redux/constants';
 
 import * as PostUtils from 'utils/post_utils.jsx';
 import {PostListRowListIds, Constants} from 'utils/constants';
@@ -889,7 +889,7 @@ describe('PostUtils.getPostURL', () => {
             },
             preferences: {
                 myPreferences: {
-                    'display_settings--collapsed_reply_threads': {
+                    [`${Preferences.CATEGORY_DISPLAY_SETTINGS}--${Preferences.COLLAPSED_REPLY_THREADS}`]: {
                         value: collapsedThreads ? 'on' : 'off',
                     },
                 },
