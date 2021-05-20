@@ -44,30 +44,43 @@ class setNotificationSchedule extends React.PureComponent {
             friEnable: false,
             satEnable: false,
             sunEnable: false,
-            sunStart: "",
-            monStart: "",
-            tueStart: "",
-            wedStart: "",
-            thuStart: "",
-            friStart: "",
-            satStart: "",
-            sunEnd: "",
-            monEnd: "",
-            tueEnd: "",
-            wedEnd: "",
-            thuEnd: "",
-            friEnd: "",
-            satEnd: "",
+            sunStart: "09:00",
+            monStart: "09:00",
+            tueStart: "09:00",
+            wedStart: "09:00",
+            thuStart: "09:00",
+            friStart: "09:00",
+            satStart: "09:00",
+            sunEnd: "18:00",
+            monEnd: "18:00",
+            tueEnd: "18:00",
+            wedEnd: "18:00",
+            thuEnd: "18:00",
+            friEnd: "18:00",
+            satEnd: "18:00",
         };
     }
 
     handleSubmit = async () => {
+        let nMode;
+        if (!this.state.enableCusotmDND) {
+            nMode = 0
+        } else {
+            nMode = this.state.selectedOption.value
+        }
+        console.log(nMode)
+        if (this.state.selectedOption.value === 1 && this.state.sunStart === '') {
+            return
+        }
+        if (this.state.selectedOption.value === 2 && this.state.monStart === '') {
+            return
+        }
         const state = getState();
         const currentUserId = getCurrentUserId(state);
         this.props.updateSection("");
         const notificationIntervalSchedule = {
             user_id: currentUserId,
-            mode: this.state.selectedOption.value,
+            mode: nMode,
             sunday_start: this.state.sunStart,
             monday_start: this.state.monStart,
             tuesday_start: this.state.tueStart,
@@ -110,6 +123,41 @@ class setNotificationSchedule extends React.PureComponent {
         this.setState({
             selectedOption: option,
         });
+        if (option.value === 1) {
+            this.setState({
+                sunStart: this.state.monStart,
+                monStart: this.state.monStart,
+                tueStart: this.state.monStart,
+                wedStart: this.state.monStart,
+                thuStart: this.state.monStart,
+                friStart: this.state.monStart,
+                satStart: this.state.monStart,
+                sunEnd: this.state.monEnd,
+                monEnd: this.state.monEnd,
+                tueEnd: this.state.monEnd,
+                wedEnd: this.state.monEnd,
+                thuEnd: this.state.monEnd,
+                friEnd: this.state.monEnd,
+                satEnd: this.state.monEnd,
+            })
+        } else if (option.value === 2) {
+            this.setState({
+                sunStart: '',
+                monStart: this.state.monStart,
+                tueStart: this.state.tueStart,
+                wedStart: this.state.wedStart,
+                thuStart: this.state.thuStart,
+                friStart: this.state.friStart,
+                satStart: '',
+                sunEnd: '',
+                monEnd: this.state.monEnd,
+                tueEnd: this.state.tueEnd,
+                wedEnd: this.state.wedEnd,
+                thuEnd: this.state.thuEnd,
+                friEnd: this.state.friEnd,
+                satEnd: '',
+            })
+        }
     };
 
     handleTimeChange = (value, id) => {
@@ -160,9 +208,11 @@ class setNotificationSchedule extends React.PureComponent {
         }
     };
 
-    handleWeekChange = (e) => {
+    handleDayChange = (e, start, end) => {
         this.setState({
             [e.target.id]: e.target.checked,
+            [start]: '09:00',
+            [end]:'18:00'
         });
     };
 
@@ -231,7 +281,9 @@ class setNotificationSchedule extends React.PureComponent {
                                                 type="checkbox"
                                                 id="sunEnable"
                                                 checked={this.state.sunEnable}
-                                                onChange={this.handleWeekChange}
+                                                onChange={(e, start = 'sunStart', end = 'sunEnd') => 
+                                                    this.handleDayChange(e, start, end)
+                                                }
                                                 className="weekday"
                                             />
                                             <label htmlFor="sunEnable">S</label>
@@ -242,7 +294,9 @@ class setNotificationSchedule extends React.PureComponent {
                                                 type="checkbox"
                                                 id="monEnable"
                                                 checked={this.state.monEnable}
-                                                onChange={this.handleWeekChange}
+                                                onChange={(e, start = 'monStart', end = 'monEnd') => 
+                                                    this.handleDayChange(e, start, end)
+                                                }
                                                 className="weekday"
                                             />
                                             <label htmlFor="monEnable">M</label>
@@ -253,7 +307,9 @@ class setNotificationSchedule extends React.PureComponent {
                                                 type="checkbox"
                                                 id="tueEnable"
                                                 checked={this.state.tueEnable}
-                                                onChange={this.handleWeekChange}
+                                                onChange={(e, start = 'tueStart', end = 'tueEnd') => 
+                                                    this.handleDayChange(e, start, end)
+                                                }
                                                 className="weekday"
                                             />
                                             <label htmlFor="tueEnable">T</label>
@@ -264,7 +320,9 @@ class setNotificationSchedule extends React.PureComponent {
                                                 type="checkbox"
                                                 id="wedEnable"
                                                 checked={this.state.wedEnable}
-                                                onChange={this.handleWeekChange}
+                                                onChange={(e, start = 'wedStart', end = 'wedEnd') => 
+                                                    this.handleDayChange(e, start, end)
+                                                }
                                                 className="weekday"
                                             />
                                             <label htmlFor="wedEnable">W</label>
@@ -275,7 +333,9 @@ class setNotificationSchedule extends React.PureComponent {
                                                 type="checkbox"
                                                 id="thuEnable"
                                                 checked={this.state.thuEnable}
-                                                onChange={this.handleWeekChange}
+                                                onChange={(e, start = 'thuStart', end = 'thuEnd') => 
+                                                    this.handleDayChange(e, start, end)
+                                                }
                                                 className="weekday"
                                             />
                                             <label htmlFor="thuEnable">T</label>
@@ -286,7 +346,9 @@ class setNotificationSchedule extends React.PureComponent {
                                                 type="checkbox"
                                                 id="friEnable"
                                                 checked={this.state.friEnable}
-                                                onChange={this.handleWeekChange}
+                                                onChange={(e, start = 'friStart', end = 'friEnd') => 
+                                                    this.handleDayChange(e, start, end)
+                                                }
                                                 className="weekday"
                                             />
                                             <label htmlFor="friEnable">F</label>
@@ -297,7 +359,9 @@ class setNotificationSchedule extends React.PureComponent {
                                                 type="checkbox"
                                                 id="satEnable"
                                                 checked={this.state.satEnable}
-                                                onChange={this.handleWeekChange}
+                                                onChange={(e, start = 'satStart', end = 'satEnd') => 
+                                                    this.handleDayChange(e, start, end)
+                                                }
                                                 className="weekday"
                                             />
                                             <label htmlFor="satEnable">S</label>
@@ -794,7 +858,7 @@ class setNotificationSchedule extends React.PureComponent {
                     updateSection={this.handleUpdateSection}
                 />
             );
-        }
+        } 
         return (
             <SettingItemMax
                 title={localizeMessage(
