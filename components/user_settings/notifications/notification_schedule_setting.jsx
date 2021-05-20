@@ -319,8 +319,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                         use12Hours={true}
                                                         inputReadOnly={true}
                                                         clearIcon={false}
-                                                        placeholder="start"
-                                                        defaultValue={moment()}
+                                                        defaultValue={moment('09:00', 'kk:mm')}
                                                         minuteStep={30}
                                                         inputIcon={
                                                             <img
@@ -350,8 +349,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                         use12Hours={true}
                                                         inputReadOnly={true}
                                                         clearIcon={false}
-                                                        placeholder="end"
-                                                        defaultValue={moment()}
+                                                        defaultValue={moment('18:00', 'kk:mm')}
                                                         minuteStep={30}
                                                         inputIcon={
                                                             <img
@@ -389,8 +387,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                         use12Hours={true}
                                                         inputReadOnly={true}
                                                         clearIcon={false}
-                                                        placeholder="start"
-                                                        defaultValue={moment()}
+                                                        defaultValue={moment('09:00', 'kk:mm')}
                                                         minuteStep={30}
                                                         inputIcon={
                                                             <img
@@ -420,8 +417,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                         use12Hours={true}
                                                         inputReadOnly={true}
                                                         clearIcon={false}
-                                                        placeholder="end"
-                                                        defaultValue={moment()}
+                                                        defaultValue={moment('18:00', 'kk:mm')}
                                                         minuteStep={30}
                                                         inputIcon={
                                                             <img
@@ -459,8 +455,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                         use12Hours={true}
                                                         inputReadOnly={true}
                                                         clearIcon={false}
-                                                        placeholder="start"
-                                                        defaultValue={moment()}
+                                                        defaultValue={moment('09:00', 'kk:mm')}
                                                         minuteStep={30}
                                                         inputIcon={
                                                             <img
@@ -490,8 +485,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                         use12Hours={true}
                                                         inputReadOnly={true}
                                                         clearIcon={false}
-                                                        placeholder="end"
-                                                        defaultValue={moment()}
+                                                        defaultValue={moment('18:00', 'kk:mm')}
                                                         minuteStep={30}
                                                         inputIcon={
                                                             <img
@@ -529,8 +523,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                         use12Hours={true}
                                                         inputReadOnly={true}
                                                         clearIcon={false}
-                                                        placeholder="start"
-                                                        defaultValue={moment()}
+                                                        defaultValue={moment('09:00', 'kk:mm')}
                                                         minuteStep={30}
                                                         inputIcon={
                                                             <img
@@ -560,8 +553,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                         use12Hours={true}
                                                         inputReadOnly={true}
                                                         clearIcon={false}
-                                                        placeholder="end"
-                                                        defaultValue={moment()}
+                                                        defaultValue={moment('18:00', 'kk:mm')}
                                                         minuteStep={30}
                                                         inputIcon={
                                                             <img
@@ -599,8 +591,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                         use12Hours={true}
                                                         inputReadOnly={true}
                                                         clearIcon={false}
-                                                        placeholder="start"
-                                                        defaultValue={moment()}
+                                                        defaultValue={moment('09:00', 'kk:mm')}
                                                         minuteStep={30}
                                                         inputIcon={
                                                             <img
@@ -630,8 +621,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                         use12Hours={true}
                                                         inputReadOnly={true}
                                                         clearIcon={false}
-                                                        placeholder="end"
-                                                        defaultValue={moment()}
+                                                        defaultValue={moment('18:00', 'kk:mm')}
                                                         minuteStep={30}
                                                         inputIcon={
                                                             <img
@@ -669,8 +659,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                         use12Hours={true}
                                                         inputReadOnly={true}
                                                         clearIcon={false}
-                                                        placeholder="start"
-                                                        defaultValue={moment()}
+                                                        defaultValue={moment('09:00', 'kk:mm')}
                                                         minuteStep={30}
                                                         minuteStep={15}
                                                         inputIcon={
@@ -701,8 +690,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                         use12Hours={true}
                                                         inputReadOnly={true}
                                                         clearIcon={false}
-                                                        placeholder="end"
-                                                        defaultValue={moment()}
+                                                        defaultValue={moment('18:00', 'kk:mm')}
                                                         minuteStep={30}
                                                         inputIcon={
                                                             <img
@@ -740,8 +728,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                         use12Hours={true}
                                                         inputReadOnly={true}
                                                         clearIcon={false}
-                                                        placeholder="start"
-                                                        defaultValue={moment()}
+                                                        defaultValue={moment('09:00', 'kk:mm')}
                                                         minuteStep={30}
                                                         inputIcon={
                                                             <img
@@ -771,8 +758,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                         use12Hours={true}
                                                         inputReadOnly={true}
                                                         clearIcon={false}
-                                                        placeholder="end"
-                                                        defaultValue={moment()}
+                                                        defaultValue={moment('18:00', 'kk:mm')}
                                                         minuteStep={30}
                                                         inputIcon={
                                                             <img
@@ -872,7 +858,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                 this.handleTimeChange(value, id)
                                             }
                                             placeholder="Start"
-                                            defaultValue={moment()}
+                                            defaultValue={moment('09:00', 'kk:mm')}
                                             minuteStep={30}
                                             inputIcon={
                                                 <img
@@ -896,7 +882,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                 this.handleTimeChange(value, id)
                                             }
                                             placeholder="End"
-                                            defaultValue={moment()}
+                                            defaultValue={moment('18:00', 'kk:mm')}
                                             minuteStep={30}
                                             inputIcon={
                                                 <img
