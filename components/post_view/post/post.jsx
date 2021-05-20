@@ -122,6 +122,7 @@ class Post extends React.PureComponent {
 
         this.state = {
             dropdownOpened: false,
+            fileDropdownOpened: false,
             hover: false,
             alt: false,
             a11yActive: false,
@@ -212,6 +213,12 @@ class Post extends React.PureComponent {
         });
     }
 
+    handleFileDropdownOpened = (opened) => {
+        this.setState({
+            fileDropdownOpened: opened,
+        });
+    }
+
     hasSameRoot = (props) => {
         const post = props.post;
 
@@ -287,7 +294,7 @@ class Post extends React.PureComponent {
             className += ' post--compact';
         }
 
-        if (this.state.dropdownOpened || this.state.a11yActive) {
+        if (this.state.dropdownOpened || this.state.fileDropdownOpened || this.state.a11yActive) {
             className += ' post--hovered';
         }
 
@@ -430,6 +437,7 @@ class Post extends React.PureComponent {
                                 compactDisplay={this.props.compactDisplay}
                                 isCommentMention={this.props.isCommentMention}
                                 isFirstReply={this.props.isFirstReply}
+                                handleFileDropdownOpened={this.handleFileDropdownOpened}
                             />
                             {isCollapsedThreadsEnabled && !post.root_id && replyCount ? (
                                 <ThreadFooter threadId={post.id}/>
