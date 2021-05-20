@@ -15,6 +15,7 @@ import { localizeMessage } from "utils/utils.jsx";
 
 import { saveNotificationsSchedules } from "mattermost-redux/actions/notifications_schedule";
 import { getCurrentUserId } from "mattermost-redux/selectors/entities/users";
+import {Client4} from 'mattermost-redux/client';
 
 import "./notification_schedule_setting.scss";
 
@@ -26,13 +27,14 @@ import clockIcon from "images/icons/clock-time-five.png";
 const timeFormat = "h:mm A";
 const dispatch = store.dispatch;
 const getState = store.getState;
+const state = getState();
+const currentUserId = getCurrentUserId(state);
 
 class setNotificationSchedule extends React.PureComponent {
     constructor(props) {
         super(props);
 
         const { activeSection } = props;
-
         this.state = {
             activeSection: "",
             enableCusotmDND: false,
@@ -60,6 +62,78 @@ class setNotificationSchedule extends React.PureComponent {
             satEnd: "18:00",
         };
     }
+    async componentWillMount() {
+        const schedules = await Client4.getStatus(currentUserId)
+        console.log(schedules)
+        if (schedules.mode > 0) {
+            this.setState({
+                activeSection: 'schedule',
+                enableCusotmDND: true,
+                sunStart: schedules.sunday_start,
+                monStart: schedules.monday_start,
+                tueStart: schedules.tuesday_start,
+                wedStart: schedules.wednesday_start,
+                thuStart: schedules.thursday_start,
+                friStart: schedules.friday_start,
+                satStart: schedules.saturday_start,
+                sunEnd: schedules.sunday_end,
+                monEnd: schedules.monday_end,
+                tueEnd: schedules.tuesday_end,
+                wedEnd: schedules.wednesday_end,
+                thuEnd: schedules.thursday_end,
+                friEnd: schedules.friday_end,
+                satEnd: schedules.saturday_end,
+            })
+            if (schedules.mode === 1) {
+                this.setState({
+                    selectedOption: { value: 1, label: 'Every Day'},
+                })
+            } else if (schedules.mode === 2) {
+                this.setState({
+                    selectedOption: { value: 2, label: 'Weekdays'},
+                })
+            } else {
+                this.setState({
+                    selectedOption: { value: 3, label: 'Custom Schedule'},
+                })
+                if (this.state.sunStart) {
+                    this.setState({
+                        sunEnable: true
+                    })
+                }
+                if (this.state.monStart) {
+                    this.setState({
+                        monEnable: true
+                    })
+                }
+                if (this.state.tueStart) {
+                    this.setState({
+                        tueEnable: true
+                    })
+                }
+                if (this.state.wedStart) {
+                    this.setState({
+                        wedEnable: true
+                    })
+                }
+                if (this.state.thuStart) {
+                    this.setState({
+                        thuEnable: true
+                    })
+                }
+                if (this.state.friStart) {
+                    this.setState({
+                        friEnable: true
+                    })
+                }
+                if (this.state.satStart) {
+                    this.setState({
+                        satEnable: true
+                    })
+                }
+            }
+        }
+    }
 
     handleSubmit = async () => {
         let nMode;
@@ -68,15 +142,13 @@ class setNotificationSchedule extends React.PureComponent {
         } else {
             nMode = this.state.selectedOption.value
         }
-        console.log(nMode)
         if (this.state.selectedOption.value === 1 && this.state.sunStart === '') {
             return
         }
         if (this.state.selectedOption.value === 2 && this.state.monStart === '') {
             return
         }
-        const state = getState();
-        const currentUserId = getCurrentUserId(state);
+        
         this.props.updateSection("");
         const notificationIntervalSchedule = {
             user_id: currentUserId,
@@ -125,37 +197,61 @@ class setNotificationSchedule extends React.PureComponent {
         });
         if (option.value === 1) {
             this.setState({
-                sunStart: this.state.monStart,
-                monStart: this.state.monStart,
-                tueStart: this.state.monStart,
-                wedStart: this.state.monStart,
-                thuStart: this.state.monStart,
-                friStart: this.state.monStart,
-                satStart: this.state.monStart,
-                sunEnd: this.state.monEnd,
-                monEnd: this.state.monEnd,
-                tueEnd: this.state.monEnd,
-                wedEnd: this.state.monEnd,
-                thuEnd: this.state.monEnd,
-                friEnd: this.state.monEnd,
-                satEnd: this.state.monEnd,
+                sunStart: "09:00",
+                monStart: "09:00",
+                tueStart: "09:00",
+                wedStart: "09:00",
+                thuStart: "09:00",
+                friStart: "09:00",
+                satStart: "09:00",
+                sunEnd: "18:00",
+                monEnd: "18:00",
+                tueEnd: "18:00",
+                wedEnd: "18:00",
+                thuEnd: "18:00",
+                friEnd: "18:00",
+                satEnd: "18:00",
             })
         } else if (option.value === 2) {
             this.setState({
                 sunStart: '',
-                monStart: this.state.monStart,
-                tueStart: this.state.tueStart,
-                wedStart: this.state.wedStart,
-                thuStart: this.state.thuStart,
-                friStart: this.state.friStart,
+                monStart: '09:00',
+                tueStart: '09:00',
+                wedStart: '09:00',
+                thuStart: '09:00',
+                friStart: '09:00',
                 satStart: '',
                 sunEnd: '',
-                monEnd: this.state.monEnd,
-                tueEnd: this.state.tueEnd,
-                wedEnd: this.state.wedEnd,
-                thuEnd: this.state.thuEnd,
-                friEnd: this.state.friEnd,
+                monEnd: '18:00',
+                tueEnd: '18:00',
+                wedEnd: '18:00',
+                thuEnd: '18:00',
+                friEnd: '18:00',
                 satEnd: '',
+            })
+        } else {
+            this.setState({
+                monEnable: false,
+                tueEnable: false,
+                wedEnable: false,
+                thuEnable: false,
+                friEnable: false,
+                satEnable: false,
+                sunEnable: false,
+                sunStart: "",
+                monStart: "",
+                tueStart: "",
+                wedStart: "",
+                thuStart: "",
+                friStart: "",
+                satStart: "",
+                sunEnd: "",
+                monEnd: "",
+                tueEnd: "",
+                wedEnd: "",
+                thuEnd: "",
+                friEnd: "",
+                satEnd: "",
             })
         }
     };
@@ -383,7 +479,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                         use12Hours={true}
                                                         inputReadOnly={true}
                                                         clearIcon={false}
-                                                        defaultValue={moment('09:00', 'kk:mm')}
+                                                        value={moment(this.state.sunStart, 'kk:mm')}
                                                         minuteStep={30}
                                                         inputIcon={
                                                             <img
@@ -413,7 +509,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                         use12Hours={true}
                                                         inputReadOnly={true}
                                                         clearIcon={false}
-                                                        defaultValue={moment('18:00', 'kk:mm')}
+                                                        value={moment(this.state.sunEnd, 'kk:mm')}
                                                         minuteStep={30}
                                                         inputIcon={
                                                             <img
@@ -451,7 +547,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                         use12Hours={true}
                                                         inputReadOnly={true}
                                                         clearIcon={false}
-                                                        defaultValue={moment('09:00', 'kk:mm')}
+                                                        value={moment(this.state.monStart, 'kk:mm')}
                                                         minuteStep={30}
                                                         inputIcon={
                                                             <img
@@ -481,7 +577,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                         use12Hours={true}
                                                         inputReadOnly={true}
                                                         clearIcon={false}
-                                                        defaultValue={moment('18:00', 'kk:mm')}
+                                                        value={moment(this.state.monEnd, 'kk:mm')}
                                                         minuteStep={30}
                                                         inputIcon={
                                                             <img
@@ -519,7 +615,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                         use12Hours={true}
                                                         inputReadOnly={true}
                                                         clearIcon={false}
-                                                        defaultValue={moment('09:00', 'kk:mm')}
+                                                        value={moment(this.state.tueStart, 'kk:mm')}
                                                         minuteStep={30}
                                                         inputIcon={
                                                             <img
@@ -549,7 +645,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                         use12Hours={true}
                                                         inputReadOnly={true}
                                                         clearIcon={false}
-                                                        defaultValue={moment('18:00', 'kk:mm')}
+                                                        value={moment(this.state.tueEnd, 'kk:mm')}
                                                         minuteStep={30}
                                                         inputIcon={
                                                             <img
@@ -587,7 +683,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                         use12Hours={true}
                                                         inputReadOnly={true}
                                                         clearIcon={false}
-                                                        defaultValue={moment('09:00', 'kk:mm')}
+                                                        value={moment(this.state.wedStart, 'kk:mm')}
                                                         minuteStep={30}
                                                         inputIcon={
                                                             <img
@@ -617,7 +713,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                         use12Hours={true}
                                                         inputReadOnly={true}
                                                         clearIcon={false}
-                                                        defaultValue={moment('18:00', 'kk:mm')}
+                                                        value={moment(this.state.wedEnd, 'kk:mm')}
                                                         minuteStep={30}
                                                         inputIcon={
                                                             <img
@@ -655,7 +751,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                         use12Hours={true}
                                                         inputReadOnly={true}
                                                         clearIcon={false}
-                                                        defaultValue={moment('09:00', 'kk:mm')}
+                                                        value={moment(this.state.thuStart, 'kk:mm')}
                                                         minuteStep={30}
                                                         inputIcon={
                                                             <img
@@ -685,7 +781,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                         use12Hours={true}
                                                         inputReadOnly={true}
                                                         clearIcon={false}
-                                                        defaultValue={moment('18:00', 'kk:mm')}
+                                                        value={moment(this.state.thuEnd, 'kk:mm')}
                                                         minuteStep={30}
                                                         inputIcon={
                                                             <img
@@ -723,7 +819,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                         use12Hours={true}
                                                         inputReadOnly={true}
                                                         clearIcon={false}
-                                                        defaultValue={moment('09:00', 'kk:mm')}
+                                                        value={moment(this.state.friStart, 'kk:mm')}
                                                         minuteStep={30}
                                                         minuteStep={15}
                                                         inputIcon={
@@ -754,7 +850,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                         use12Hours={true}
                                                         inputReadOnly={true}
                                                         clearIcon={false}
-                                                        defaultValue={moment('18:00', 'kk:mm')}
+                                                        value={moment(this.state.freEnd, 'kk:mm')}
                                                         minuteStep={30}
                                                         inputIcon={
                                                             <img
@@ -792,7 +888,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                         use12Hours={true}
                                                         inputReadOnly={true}
                                                         clearIcon={false}
-                                                        defaultValue={moment('09:00', 'kk:mm')}
+                                                        value={moment(this.state.satStart, 'kk:mm')}
                                                         minuteStep={30}
                                                         inputIcon={
                                                             <img
@@ -822,7 +918,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                         use12Hours={true}
                                                         inputReadOnly={true}
                                                         clearIcon={false}
-                                                        defaultValue={moment('18:00', 'kk:mm')}
+                                                        value={moment(this.state.satEnd, 'kk:mm')}
                                                         minuteStep={30}
                                                         inputIcon={
                                                             <img
@@ -922,7 +1018,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                 this.handleTimeChange(value, id)
                                             }
                                             placeholder="Start"
-                                            defaultValue={moment('09:00', 'kk:mm')}
+                                            value={moment(this.state.monStart, 'kk:mm')}
                                             minuteStep={30}
                                             inputIcon={
                                                 <img
@@ -946,7 +1042,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                 this.handleTimeChange(value, id)
                                             }
                                             placeholder="End"
-                                            defaultValue={moment('18:00', 'kk:mm')}
+                                            value={moment(this.state.monEnd, 'kk:mm')}
                                             minuteStep={30}
                                             inputIcon={
                                                 <img
