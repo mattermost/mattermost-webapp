@@ -26,6 +26,7 @@ describe('components/StatusDropdown', () => {
         isCustomStatusEnabled: false,
         isStatusDropdownOpen: false,
         showCustomStatusPulsatingDot: false,
+        isTimedDNDEnabled: false,
     };
 
     test('should match snapshot in default state', () => {
