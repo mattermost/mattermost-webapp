@@ -712,7 +712,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
               values={
                 Object {
                   "formatted": <Memo(SemanticTime)
-                    aria-label="Tue Sep 29 2020 04:30:15 GMT+0200"
+                    aria-label="Tue Sep 29 2020 02:30:15 GMT+0000"
                     value={2020-09-29T02:30:15.701Z}
                   >
                     September 29, 2020
@@ -723,11 +723,11 @@ exports[`components/threading/channel_threads/thread_footer should report total 
               <span>
                 Last reply 
                 <Memo(SemanticTime)
-                  aria-label="Tue Sep 29 2020 04:30:15 GMT+0200"
+                  aria-label="Tue Sep 29 2020 02:30:15 GMT+0000"
                   value={2020-09-29T02:30:15.701Z}
                 >
                   <time
-                    aria-label="Tue Sep 29 2020 04:30:15 GMT+0200"
+                    aria-label="Tue Sep 29 2020 02:30:15 GMT+0000"
                     dateTime="2020-09-29T02:30:15.701Z"
                   >
                     September 29, 2020
@@ -1573,7 +1573,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
               values={
                 Object {
                   "formatted": <Memo(SemanticTime)
-                    aria-label="Tue Sep 29 2020 04:30:15 GMT+0200"
+                    aria-label="Tue Sep 29 2020 02:30:15 GMT+0000"
                     value={2020-09-29T02:30:15.701Z}
                   >
                     September 29, 2020
@@ -1584,11 +1584,11 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
               <span>
                 Last reply 
                 <Memo(SemanticTime)
-                  aria-label="Tue Sep 29 2020 04:30:15 GMT+0200"
+                  aria-label="Tue Sep 29 2020 02:30:15 GMT+0000"
                   value={2020-09-29T02:30:15.701Z}
                 >
                   <time
-                    aria-label="Tue Sep 29 2020 04:30:15 GMT+0200"
+                    aria-label="Tue Sep 29 2020 02:30:15 GMT+0000"
                     dateTime="2020-09-29T02:30:15.701Z"
                   >
                     September 29, 2020
