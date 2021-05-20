@@ -344,8 +344,15 @@ export function handlePendingPosts(state: string[] = [], action: GenericAction) 
 
 export function postsInChannel(state: Dictionary<PostOrderBlock[]> = {}, action: GenericAction, prevPosts: IDMappedObjects<Post>, nextPosts: Dictionary<Post>) {
     switch (action.type) {
+    case PostTypes.RESET_POSTS_IN_CHANNEL: {
+        return {};
+    }
     case PostTypes.RECEIVED_NEW_POST: {
         const post = action.data as Post;
+
+        if (action.features?.crtEnabled && post.root_id) {
+            return state;
+        }
 
         const postsForChannel = state[post.channel_id];
         if (!postsForChannel) {

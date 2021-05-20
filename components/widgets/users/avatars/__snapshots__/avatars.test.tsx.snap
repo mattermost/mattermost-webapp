@@ -1,15 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
+exports[`components/widgets/users/Avatars should fetch missing users 1`] = `
 <Memo(Avatars)
   size="xl"
   userIds={
     Array [
       "1",
+      "6",
+      "7",
       "2",
-      "3",
-      "4",
-      "5",
+      "8",
+      "9",
     ]
   }
 >
@@ -27,13 +28,18 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
         }
       }
       size="xl"
+      style={
+        Object {
+          "background": "rgb(239, 239, 240)",
+        }
+      }
       tabIndex={0}
       userId="1"
     >
       <SimpleTooltip
         animation={true}
         content="first.last1"
-        id="name-first.last1"
+        id="name-1"
         onEntered={[Function]}
       >
         <OverlayTrigger
@@ -45,7 +51,7 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
             <Tooltip
               bsClass="tooltip"
               className="hidden-xs"
-              id="name-first.last1"
+              id="name-1"
               placement="top"
             >
               first.last1
@@ -68,7 +74,7 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
               <OverlayWrapper
                 bsClass="tooltip"
                 className="hidden-xs"
-                id="name-first.last1"
+                id="name-1"
                 intl={
                   Object {
                     "defaultFormats": Object {},
@@ -122,8 +128,13 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
               onMouseOut={[Function]}
               onMouseOver={[Function]}
               size="xl"
+              style={
+                Object {
+                  "background": "rgb(239, 239, 240)",
+                }
+              }
               tabIndex={0}
-              url="/api/v4/users/1/image?_=0"
+              url="/api/v4/users/1/image?_=1620680333191"
             >
               <img
                 alt="user profile image"
@@ -133,7 +144,569 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
                 onFocus={[Function]}
                 onMouseOut={[Function]}
                 onMouseOver={[Function]}
-                src="/api/v4/users/1/image?_=0"
+                src="/api/v4/users/1/image?_=1620680333191"
+                style={
+                  Object {
+                    "background": "rgb(239, 239, 240)",
+                  }
+                }
+                tabIndex={0}
+              />
+            </Memo(Avatar)>
+          </OverlayTrigger>
+        </OverlayTrigger>
+      </SimpleTooltip>
+    </UserAvatar>
+    <UserAvatar
+      key="6"
+      overlayProps={
+        Object {
+          "animation": true,
+          "delayShow": undefined,
+          "onEntered": [Function],
+        }
+      }
+      size="xl"
+      style={
+        Object {
+          "background": "rgb(239, 239, 240)",
+        }
+      }
+      tabIndex={0}
+      userId="6"
+    >
+      <SimpleTooltip
+        animation={true}
+        content="Someone"
+        id="name-6"
+        onEntered={[Function]}
+      >
+        <OverlayTrigger
+          animation={true}
+          defaultOverlayShown={false}
+          delayShow={500}
+          onEntered={[Function]}
+          overlay={
+            <Tooltip
+              bsClass="tooltip"
+              className="hidden-xs"
+              id="name-6"
+              placement="top"
+            >
+              Someone
+            </Tooltip>
+          }
+          placement="top"
+          trigger={
+            Array [
+              "hover",
+              "focus",
+            ]
+          }
+        >
+          <OverlayTrigger
+            animation={true}
+            defaultOverlayShown={false}
+            delayShow={500}
+            onEntered={[Function]}
+            overlay={
+              <OverlayWrapper
+                bsClass="tooltip"
+                className="hidden-xs"
+                id="name-6"
+                intl={
+                  Object {
+                    "defaultFormats": Object {},
+                    "defaultLocale": "en",
+                    "formatDate": [Function],
+                    "formatDateToParts": [Function],
+                    "formatDisplayName": [Function],
+                    "formatList": [Function],
+                    "formatMessage": [Function],
+                    "formatNumber": [Function],
+                    "formatNumberToParts": [Function],
+                    "formatPlural": [Function],
+                    "formatRelativeTime": [Function],
+                    "formatTime": [Function],
+                    "formatTimeToParts": [Function],
+                    "formats": Object {},
+                    "formatters": Object {
+                      "getDateTimeFormat": [Function],
+                      "getDisplayNames": [Function],
+                      "getListFormat": [Function],
+                      "getMessageFormat": [Function],
+                      "getNumberFormat": [Function],
+                      "getPluralRules": [Function],
+                      "getRelativeTimeFormat": [Function],
+                    },
+                    "locale": "en",
+                    "messages": Object {},
+                    "onError": [Function],
+                    "textComponent": "span",
+                    "timeZone": "Etc/UTC",
+                    "wrapRichTextChunksInFragment": undefined,
+                  }
+                }
+                placement="top"
+              >
+                Someone
+              </OverlayWrapper>
+            }
+            placement="top"
+            trigger={
+              Array [
+                "hover",
+                "focus",
+              ]
+            }
+          >
+            <Memo(Avatar)
+              onBlur={[Function]}
+              onClick={null}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              size="xl"
+              style={
+                Object {
+                  "background": "rgb(239, 239, 240)",
+                }
+              }
+              tabIndex={0}
+              url="/api/v4/users/6/image?_=0"
+            >
+              <img
+                alt="user profile image"
+                className="Avatar Avatar-xl"
+                onBlur={[Function]}
+                onClick={null}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                src="/api/v4/users/6/image?_=0"
+                style={
+                  Object {
+                    "background": "rgb(239, 239, 240)",
+                  }
+                }
+                tabIndex={0}
+              />
+            </Memo(Avatar)>
+          </OverlayTrigger>
+        </OverlayTrigger>
+      </SimpleTooltip>
+    </UserAvatar>
+    <UserAvatar
+      key="7"
+      overlayProps={
+        Object {
+          "animation": true,
+          "delayShow": undefined,
+          "onEntered": [Function],
+        }
+      }
+      size="xl"
+      style={
+        Object {
+          "background": "rgb(239, 239, 240)",
+        }
+      }
+      tabIndex={0}
+      userId="7"
+    >
+      <SimpleTooltip
+        animation={true}
+        content="Someone"
+        id="name-7"
+        onEntered={[Function]}
+      >
+        <OverlayTrigger
+          animation={true}
+          defaultOverlayShown={false}
+          delayShow={500}
+          onEntered={[Function]}
+          overlay={
+            <Tooltip
+              bsClass="tooltip"
+              className="hidden-xs"
+              id="name-7"
+              placement="top"
+            >
+              Someone
+            </Tooltip>
+          }
+          placement="top"
+          trigger={
+            Array [
+              "hover",
+              "focus",
+            ]
+          }
+        >
+          <OverlayTrigger
+            animation={true}
+            defaultOverlayShown={false}
+            delayShow={500}
+            onEntered={[Function]}
+            overlay={
+              <OverlayWrapper
+                bsClass="tooltip"
+                className="hidden-xs"
+                id="name-7"
+                intl={
+                  Object {
+                    "defaultFormats": Object {},
+                    "defaultLocale": "en",
+                    "formatDate": [Function],
+                    "formatDateToParts": [Function],
+                    "formatDisplayName": [Function],
+                    "formatList": [Function],
+                    "formatMessage": [Function],
+                    "formatNumber": [Function],
+                    "formatNumberToParts": [Function],
+                    "formatPlural": [Function],
+                    "formatRelativeTime": [Function],
+                    "formatTime": [Function],
+                    "formatTimeToParts": [Function],
+                    "formats": Object {},
+                    "formatters": Object {
+                      "getDateTimeFormat": [Function],
+                      "getDisplayNames": [Function],
+                      "getListFormat": [Function],
+                      "getMessageFormat": [Function],
+                      "getNumberFormat": [Function],
+                      "getPluralRules": [Function],
+                      "getRelativeTimeFormat": [Function],
+                    },
+                    "locale": "en",
+                    "messages": Object {},
+                    "onError": [Function],
+                    "textComponent": "span",
+                    "timeZone": "Etc/UTC",
+                    "wrapRichTextChunksInFragment": undefined,
+                  }
+                }
+                placement="top"
+              >
+                Someone
+              </OverlayWrapper>
+            }
+            placement="top"
+            trigger={
+              Array [
+                "hover",
+                "focus",
+              ]
+            }
+          >
+            <Memo(Avatar)
+              onBlur={[Function]}
+              onClick={null}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              size="xl"
+              style={
+                Object {
+                  "background": "rgb(239, 239, 240)",
+                }
+              }
+              tabIndex={0}
+              url="/api/v4/users/7/image?_=0"
+            >
+              <img
+                alt="user profile image"
+                className="Avatar Avatar-xl"
+                onBlur={[Function]}
+                onClick={null}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                src="/api/v4/users/7/image?_=0"
+                style={
+                  Object {
+                    "background": "rgb(239, 239, 240)",
+                  }
+                }
+                tabIndex={0}
+              />
+            </Memo(Avatar)>
+          </OverlayTrigger>
+        </OverlayTrigger>
+      </SimpleTooltip>
+    </UserAvatar>
+    <SimpleTooltip
+      animation={true}
+      content="first.last2, Someone, Someone"
+      id="names-overflow"
+      onEntered={[Function]}
+    >
+      <OverlayTrigger
+        animation={true}
+        defaultOverlayShown={false}
+        delayShow={500}
+        onEntered={[Function]}
+        overlay={
+          <Tooltip
+            bsClass="tooltip"
+            className="hidden-xs"
+            id="names-overflow"
+            placement="top"
+          >
+            first.last2, Someone, Someone
+          </Tooltip>
+        }
+        placement="top"
+        trigger={
+          Array [
+            "hover",
+            "focus",
+          ]
+        }
+      >
+        <OverlayTrigger
+          animation={true}
+          defaultOverlayShown={false}
+          delayShow={500}
+          onEntered={[Function]}
+          overlay={
+            <OverlayWrapper
+              bsClass="tooltip"
+              className="hidden-xs"
+              id="names-overflow"
+              intl={
+                Object {
+                  "defaultFormats": Object {},
+                  "defaultLocale": "en",
+                  "formatDate": [Function],
+                  "formatDateToParts": [Function],
+                  "formatDisplayName": [Function],
+                  "formatList": [Function],
+                  "formatMessage": [Function],
+                  "formatNumber": [Function],
+                  "formatNumberToParts": [Function],
+                  "formatPlural": [Function],
+                  "formatRelativeTime": [Function],
+                  "formatTime": [Function],
+                  "formatTimeToParts": [Function],
+                  "formats": Object {},
+                  "formatters": Object {
+                    "getDateTimeFormat": [Function],
+                    "getDisplayNames": [Function],
+                    "getListFormat": [Function],
+                    "getMessageFormat": [Function],
+                    "getNumberFormat": [Function],
+                    "getPluralRules": [Function],
+                    "getRelativeTimeFormat": [Function],
+                  },
+                  "locale": "en",
+                  "messages": Object {},
+                  "onError": [Function],
+                  "textComponent": "span",
+                  "timeZone": "Etc/UTC",
+                  "wrapRichTextChunksInFragment": undefined,
+                }
+              }
+              placement="top"
+            >
+              first.last2, Someone, Someone
+            </OverlayWrapper>
+          }
+          placement="top"
+          trigger={
+            Array [
+              "hover",
+              "focus",
+            ]
+          }
+        >
+          <Memo(Avatar)
+            onBlur={[Function]}
+            onClick={null}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            size="xl"
+            style={
+              Object {
+                "background": "rgb(239, 239, 240)",
+              }
+            }
+            tabIndex={0}
+            text="+3"
+          >
+            <div
+              className="Avatar Avatar-xl Avatar-plain"
+              data-content="+3"
+              onBlur={[Function]}
+              onClick={null}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              style={
+                Object {
+                  "background": "rgb(239, 239, 240)",
+                }
+              }
+              tabIndex={0}
+            />
+          </Memo(Avatar)>
+        </OverlayTrigger>
+      </OverlayTrigger>
+    </SimpleTooltip>
+  </div>
+</Memo(Avatars)>
+`;
+
+exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
+<Memo(Avatars)
+  size="xl"
+  userIds={
+    Array [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+    ]
+  }
+>
+  <div
+    className="Avatars Avatars___xl"
+    onMouseLeave={[Function]}
+  >
+    <UserAvatar
+      key="1"
+      overlayProps={
+        Object {
+          "animation": true,
+          "delayShow": undefined,
+          "onEntered": [Function],
+        }
+      }
+      size="xl"
+      style={
+        Object {
+          "background": "rgb(239, 239, 240)",
+        }
+      }
+      tabIndex={0}
+      userId="1"
+    >
+      <SimpleTooltip
+        animation={true}
+        content="first.last1"
+        id="name-1"
+        onEntered={[Function]}
+      >
+        <OverlayTrigger
+          animation={true}
+          defaultOverlayShown={false}
+          delayShow={500}
+          onEntered={[Function]}
+          overlay={
+            <Tooltip
+              bsClass="tooltip"
+              className="hidden-xs"
+              id="name-1"
+              placement="top"
+            >
+              first.last1
+            </Tooltip>
+          }
+          placement="top"
+          trigger={
+            Array [
+              "hover",
+              "focus",
+            ]
+          }
+        >
+          <OverlayTrigger
+            animation={true}
+            defaultOverlayShown={false}
+            delayShow={500}
+            onEntered={[Function]}
+            overlay={
+              <OverlayWrapper
+                bsClass="tooltip"
+                className="hidden-xs"
+                id="name-1"
+                intl={
+                  Object {
+                    "defaultFormats": Object {},
+                    "defaultLocale": "en",
+                    "formatDate": [Function],
+                    "formatDateToParts": [Function],
+                    "formatDisplayName": [Function],
+                    "formatList": [Function],
+                    "formatMessage": [Function],
+                    "formatNumber": [Function],
+                    "formatNumberToParts": [Function],
+                    "formatPlural": [Function],
+                    "formatRelativeTime": [Function],
+                    "formatTime": [Function],
+                    "formatTimeToParts": [Function],
+                    "formats": Object {},
+                    "formatters": Object {
+                      "getDateTimeFormat": [Function],
+                      "getDisplayNames": [Function],
+                      "getListFormat": [Function],
+                      "getMessageFormat": [Function],
+                      "getNumberFormat": [Function],
+                      "getPluralRules": [Function],
+                      "getRelativeTimeFormat": [Function],
+                    },
+                    "locale": "en",
+                    "messages": Object {},
+                    "onError": [Function],
+                    "textComponent": "span",
+                    "timeZone": "Etc/UTC",
+                    "wrapRichTextChunksInFragment": undefined,
+                  }
+                }
+                placement="top"
+              >
+                first.last1
+              </OverlayWrapper>
+            }
+            placement="top"
+            trigger={
+              Array [
+                "hover",
+                "focus",
+              ]
+            }
+          >
+            <Memo(Avatar)
+              onBlur={[Function]}
+              onClick={null}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              size="xl"
+              style={
+                Object {
+                  "background": "rgb(239, 239, 240)",
+                }
+              }
+              tabIndex={0}
+              url="/api/v4/users/1/image?_=1620680333191"
+            >
+              <img
+                alt="user profile image"
+                className="Avatar Avatar-xl"
+                onBlur={[Function]}
+                onClick={null}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                src="/api/v4/users/1/image?_=1620680333191"
+                style={
+                  Object {
+                    "background": "rgb(239, 239, 240)",
+                  }
+                }
                 tabIndex={0}
               />
             </Memo(Avatar)>
@@ -151,13 +724,18 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
         }
       }
       size="xl"
+      style={
+        Object {
+          "background": "rgb(239, 239, 240)",
+        }
+      }
       tabIndex={0}
       userId="2"
     >
       <SimpleTooltip
         animation={true}
         content="first.last2"
-        id="name-first.last2"
+        id="name-2"
         onEntered={[Function]}
       >
         <OverlayTrigger
@@ -169,7 +747,7 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
             <Tooltip
               bsClass="tooltip"
               className="hidden-xs"
-              id="name-first.last2"
+              id="name-2"
               placement="top"
             >
               first.last2
@@ -192,7 +770,7 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
               <OverlayWrapper
                 bsClass="tooltip"
                 className="hidden-xs"
-                id="name-first.last2"
+                id="name-2"
                 intl={
                   Object {
                     "defaultFormats": Object {},
@@ -246,8 +824,13 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
               onMouseOut={[Function]}
               onMouseOver={[Function]}
               size="xl"
+              style={
+                Object {
+                  "background": "rgb(239, 239, 240)",
+                }
+              }
               tabIndex={0}
-              url="/api/v4/users/2/image?_=0"
+              url="/api/v4/users/2/image?_=1620680333191"
             >
               <img
                 alt="user profile image"
@@ -257,7 +840,12 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
                 onFocus={[Function]}
                 onMouseOut={[Function]}
                 onMouseOver={[Function]}
-                src="/api/v4/users/2/image?_=0"
+                src="/api/v4/users/2/image?_=1620680333191"
+                style={
+                  Object {
+                    "background": "rgb(239, 239, 240)",
+                  }
+                }
                 tabIndex={0}
               />
             </Memo(Avatar)>
@@ -275,13 +863,18 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
         }
       }
       size="xl"
+      style={
+        Object {
+          "background": "rgb(239, 239, 240)",
+        }
+      }
       tabIndex={0}
       userId="3"
     >
       <SimpleTooltip
         animation={true}
         content="first.last3"
-        id="name-first.last3"
+        id="name-3"
         onEntered={[Function]}
       >
         <OverlayTrigger
@@ -293,7 +886,7 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
             <Tooltip
               bsClass="tooltip"
               className="hidden-xs"
-              id="name-first.last3"
+              id="name-3"
               placement="top"
             >
               first.last3
@@ -316,7 +909,7 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
               <OverlayWrapper
                 bsClass="tooltip"
                 className="hidden-xs"
-                id="name-first.last3"
+                id="name-3"
                 intl={
                   Object {
                     "defaultFormats": Object {},
@@ -370,8 +963,13 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
               onMouseOut={[Function]}
               onMouseOver={[Function]}
               size="xl"
+              style={
+                Object {
+                  "background": "rgb(239, 239, 240)",
+                }
+              }
               tabIndex={0}
-              url="/api/v4/users/3/image?_=0"
+              url="/api/v4/users/3/image?_=1620680333191"
             >
               <img
                 alt="user profile image"
@@ -381,7 +979,12 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
                 onFocus={[Function]}
                 onMouseOut={[Function]}
                 onMouseOver={[Function]}
-                src="/api/v4/users/3/image?_=0"
+                src="/api/v4/users/3/image?_=1620680333191"
+                style={
+                  Object {
+                    "background": "rgb(239, 239, 240)",
+                  }
+                }
                 tabIndex={0}
               />
             </Memo(Avatar)>
@@ -481,6 +1084,11 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
             onMouseOut={[Function]}
             onMouseOver={[Function]}
             size="xl"
+            style={
+              Object {
+                "background": "rgb(239, 239, 240)",
+              }
+            }
             tabIndex={0}
             text="+2"
           >
@@ -532,13 +1140,18 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
         }
       }
       size="xl"
+      style={
+        Object {
+          "background": "rgb(239, 239, 240)",
+        }
+      }
       tabIndex={0}
       userId="1"
     >
       <SimpleTooltip
         animation={true}
         content="first.last1"
-        id="name-first.last1"
+        id="name-1"
         onEntered={[Function]}
       >
         <OverlayTrigger
@@ -550,7 +1163,7 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
             <Tooltip
               bsClass="tooltip"
               className="hidden-xs"
-              id="name-first.last1"
+              id="name-1"
               placement="top"
             >
               first.last1
@@ -573,7 +1186,7 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
               <OverlayWrapper
                 bsClass="tooltip"
                 className="hidden-xs"
-                id="name-first.last1"
+                id="name-1"
                 intl={
                   Object {
                     "defaultFormats": Object {},
@@ -627,8 +1240,13 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
               onMouseOut={[Function]}
               onMouseOver={[Function]}
               size="xl"
+              style={
+                Object {
+                  "background": "rgb(239, 239, 240)",
+                }
+              }
               tabIndex={0}
-              url="/api/v4/users/1/image?_=0"
+              url="/api/v4/users/1/image?_=1620680333191"
             >
               <img
                 alt="user profile image"
@@ -638,7 +1256,12 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
                 onFocus={[Function]}
                 onMouseOut={[Function]}
                 onMouseOver={[Function]}
-                src="/api/v4/users/1/image?_=0"
+                src="/api/v4/users/1/image?_=1620680333191"
+                style={
+                  Object {
+                    "background": "rgb(239, 239, 240)",
+                  }
+                }
                 tabIndex={0}
               />
             </Memo(Avatar)>
@@ -656,13 +1279,18 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
         }
       }
       size="xl"
+      style={
+        Object {
+          "background": "rgb(239, 239, 240)",
+        }
+      }
       tabIndex={0}
       userId="2"
     >
       <SimpleTooltip
         animation={true}
         content="first.last2"
-        id="name-first.last2"
+        id="name-2"
         onEntered={[Function]}
       >
         <OverlayTrigger
@@ -674,7 +1302,7 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
             <Tooltip
               bsClass="tooltip"
               className="hidden-xs"
-              id="name-first.last2"
+              id="name-2"
               placement="top"
             >
               first.last2
@@ -697,7 +1325,7 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
               <OverlayWrapper
                 bsClass="tooltip"
                 className="hidden-xs"
-                id="name-first.last2"
+                id="name-2"
                 intl={
                   Object {
                     "defaultFormats": Object {},
@@ -751,8 +1379,13 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
               onMouseOut={[Function]}
               onMouseOver={[Function]}
               size="xl"
+              style={
+                Object {
+                  "background": "rgb(239, 239, 240)",
+                }
+              }
               tabIndex={0}
-              url="/api/v4/users/2/image?_=0"
+              url="/api/v4/users/2/image?_=1620680333191"
             >
               <img
                 alt="user profile image"
@@ -762,7 +1395,12 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
                 onFocus={[Function]}
                 onMouseOut={[Function]}
                 onMouseOver={[Function]}
-                src="/api/v4/users/2/image?_=0"
+                src="/api/v4/users/2/image?_=1620680333191"
+                style={
+                  Object {
+                    "background": "rgb(239, 239, 240)",
+                  }
+                }
                 tabIndex={0}
               />
             </Memo(Avatar)>
@@ -780,13 +1418,18 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
         }
       }
       size="xl"
+      style={
+        Object {
+          "background": "rgb(239, 239, 240)",
+        }
+      }
       tabIndex={0}
       userId="3"
     >
       <SimpleTooltip
         animation={true}
         content="first.last3"
-        id="name-first.last3"
+        id="name-3"
         onEntered={[Function]}
       >
         <OverlayTrigger
@@ -798,7 +1441,7 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
             <Tooltip
               bsClass="tooltip"
               className="hidden-xs"
-              id="name-first.last3"
+              id="name-3"
               placement="top"
             >
               first.last3
@@ -821,7 +1464,7 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
               <OverlayWrapper
                 bsClass="tooltip"
                 className="hidden-xs"
-                id="name-first.last3"
+                id="name-3"
                 intl={
                   Object {
                     "defaultFormats": Object {},
@@ -875,8 +1518,13 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
               onMouseOut={[Function]}
               onMouseOver={[Function]}
               size="xl"
+              style={
+                Object {
+                  "background": "rgb(239, 239, 240)",
+                }
+              }
               tabIndex={0}
-              url="/api/v4/users/3/image?_=0"
+              url="/api/v4/users/3/image?_=1620680333191"
             >
               <img
                 alt="user profile image"
@@ -886,7 +1534,12 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
                 onFocus={[Function]}
                 onMouseOut={[Function]}
                 onMouseOver={[Function]}
-                src="/api/v4/users/3/image?_=0"
+                src="/api/v4/users/3/image?_=1620680333191"
+                style={
+                  Object {
+                    "background": "rgb(239, 239, 240)",
+                  }
+                }
                 tabIndex={0}
               />
             </Memo(Avatar)>
