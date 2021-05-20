@@ -8,7 +8,9 @@ import {v4 as uuidv4} from 'uuid';
 import messageMenusData from '../fixtures/hooks/message_menus.json';
 import messageMenusWithDatasourceData from '../fixtures/hooks/message_menus_with_datasource.json';
 
-import Constants from './constants';
+export * from './constants';
+export * from './email';
+export * from './plugins';
 
 /**
  * @param {Number} length - length on random string to return, e.g. 7 (default)
@@ -18,16 +20,6 @@ export function getRandomId(length = 7) {
     const MAX_SUBSTRING_INDEX = 27;
 
     return uuidv4().replace(/-/g, '').substring(MAX_SUBSTRING_INDEX - length, MAX_SUBSTRING_INDEX);
-}
-
-export function getEmailUrl() {
-    const smtpUrl = Cypress.env('smtpUrl') || 'http://localhost:10080';
-
-    return `${smtpUrl}/api/v1/mailbox`;
-}
-
-export function splitEmailBodyText(text) {
-    return text.split('\n').map((d) => d.trim());
 }
 
 export function getMessageMenusPayload({dataSource, options, prefix = Date.now()} = {}) {
@@ -92,7 +84,3 @@ export function stubClipboard() {
 
     return cy.wrap(clipboard);
 }
-
-export {
-    Constants,
-};

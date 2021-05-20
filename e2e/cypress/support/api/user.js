@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import authenticator from 'authenticator';
+
 import {getRandomId} from '../../utils';
 import {getAdminAccount} from '../env';
 
@@ -56,9 +58,18 @@ Cypress.Commands.add('apiLoginWithMFA', (user, token) => {
 Cypress.Commands.add('apiAdminLogin', (requestOptions = {}) => {
     const admin = getAdminAccount();
 
-    // This basically first tries to use the username and if it fails, then it tries to use the email.
+    // First, login with username
     cy.apiLogin(admin, requestOptions).then((resp) => {
         if (resp.error) {
+            if (resp.error.id === 'mfa.validate_token.authenticate.app_error') {
+                // On fail, try to login via MFA
+                return cy.dbGetUser({username: admin.username}).then(({user: {mfasecret}}) => {
+                    const token = authenticator.generateToken(mfasecret);
+                    return cy.apiLoginWithMFA(admin, token);
+                });
+            }
+
+            // Or, try to login via email
             delete admin.username;
             return cy.apiLogin(admin, requestOptions);
         }
