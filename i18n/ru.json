@@ -2824,7 +2824,6 @@
   "edit_channel_private_purpose_modal.body": "Этот текст появляется в окне «Информация» приватного канала.",
   "edit_channel_purpose_modal.body": "Опишите, как должен использоваться этот канал. Текст будет виден после нажатия кнопки \"Еще...\" в списке каналов и поможет другим пользователям с выбором.",
   "edit_channel_purpose_modal.cancel": "Отмена",
-  "edit_channel_purpose_modal.error": "Назначение канала слишком длинное",
   "edit_channel_purpose_modal.save": "Сохранить",
   "edit_channel_purpose_modal.title1": "Редактировать Назначение",
   "edit_channel_purpose_modal.title2": "Редактировать назначение для ",

@@ -6,7 +6,7 @@ import {bindActionCreators} from 'redux';
 
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getPost, makeIsPostCommentMention} from 'mattermost-redux/selectors/entities/posts';
-import {get} from 'mattermost-redux/selectors/entities/preferences';
+import {get, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {markPostAsUnread} from 'actions/post_actions';
@@ -69,6 +69,7 @@ function makeMapStateToProps() {
             compactDisplay: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT,
             channelIsArchived: isArchivedChannel(channel),
             isFlagged: get(state, Preferences.CATEGORY_FLAGGED_POST, post.id, null) != null,
+            isCollapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
         };
     };
 }
