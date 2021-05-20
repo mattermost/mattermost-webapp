@@ -73,7 +73,7 @@ function findProductInDictionary(products: Dictionary<Product> | undefined, prod
     if (!productId) {
         return products[keys[0]];
     }
-    let selectedProduct = null;
+    let selectedProduct = products[keys[0]];
     if (keys.length > 1) {
         // here find the product by the provided id, otherwise return the one with Professional in the name
         keys.forEach((key) => {
@@ -83,9 +83,6 @@ function findProductInDictionary(products: Dictionary<Product> | undefined, prod
         });
     }
 
-    if (!selectedProduct) {
-        selectedProduct = products[keys[0]];
-    }
     return selectedProduct;
 }
 export default class PurchaseModal extends React.PureComponent<Props, State> {
