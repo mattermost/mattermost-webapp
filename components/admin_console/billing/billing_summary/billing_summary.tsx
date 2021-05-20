@@ -21,7 +21,6 @@ import {Client4} from 'mattermost-redux/client';
 enum TrialPeriodDays {
     TRIAL_14_DAYS = 14,
     TRIAL_3_DAYS = 3,
-    TRIAL_2_DAYS = 2,
     TRIAL_1_DAY = 1,
     TRIAL_0_DAYS = 0
 }
@@ -116,14 +115,14 @@ export const freeTrial = (onUpgradeMattermostCloud: () => void, daysLeftOnTrial:
                     values={{daysLeftOnTrial}}
                 />
             }
-            {(daysLeftOnTrial > TrialPeriodDays.TRIAL_0_DAYS && daysLeftOnTrial <= TrialPeriodDays.TRIAL_3_DAYS) &&
+            {(daysLeftOnTrial > TrialPeriodDays.TRIAL_1_DAY && daysLeftOnTrial <= TrialPeriodDays.TRIAL_3_DAYS) &&
                 <FormattedMarkdownMessage
                     id='admin.billing.subscription.freeTrial.lessThan3Days.description'
                     defaultMessage='Your free trial will end in {daysLeftOnTrial, number} {daysLeftOnTrial, plural, one {day} other {days}}. Add payment information to continue enjoying the benefits of Cloud Professional.'
                     values={{daysLeftOnTrial}}
                 />
             }
-            {(daysLeftOnTrial === TrialPeriodDays.TRIAL_0_DAYS) &&
+            {(daysLeftOnTrial === TrialPeriodDays.TRIAL_1_DAY) &&
                 <FormattedMarkdownMessage
                     id='admin.billing.subscription.freeTrial.lastDay.description'
                     defaultMessage='Your free trial has ended. Add payment information to continue enjoying the benefits of Cloud Professional.'

@@ -622,8 +622,8 @@ export function sortChannelsByRecency(lastPosts: RelationOneToOne<Channel, Post>
     return bLastPostAt - aLastPostAt;
 }
 
-export function isChannelMuted(member: ChannelMembership): boolean {
-    return member && member.notify_props ? (member.notify_props.mark_unread === MarkUnread.MENTION) : false;
+export function isChannelMuted(member?: ChannelMembership): boolean {
+    return member?.notify_props ? (member.notify_props.mark_unread === MarkUnread.MENTION) : false;
 }
 
 export function areChannelMentionsIgnored(channelMemberNotifyProps: ChannelNotifyProps, currentUserNotifyProps: UserNotifyProps) {

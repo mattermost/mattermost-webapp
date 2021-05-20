@@ -365,7 +365,7 @@
         ]
     },
     {
-        "section": "compliance.data_retention",
+        "section": "compliance.data_retention_old",
         "disabledInputs": [
             {
                 "path": "/admin_console/compliance/data_retention",

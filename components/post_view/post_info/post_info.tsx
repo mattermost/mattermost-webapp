@@ -125,6 +125,8 @@ type Props = {
     };
 
     shouldShowDotMenu: boolean;
+
+    collapsedThreadsEnabled: boolean;
 };
 
 type State = {
@@ -256,10 +258,11 @@ export default class PostInfo extends React.PureComponent<Props, State> {
                 data-testid={`post-menu-${post.id}`}
                 className={'col post-menu'}
             >
-                {dotMenu}
+                {!this.props.collapsedThreadsEnabled && dotMenu}
                 {postReaction}
                 {postFlagIcon}
                 {commentIcon}
+                {this.props.collapsedThreadsEnabled && dotMenu}
             </div>
         );
     };

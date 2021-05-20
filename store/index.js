@@ -6,7 +6,7 @@
 import Observable from 'zen-observable';
 import localForage from 'localforage';
 import {extendPrototype} from 'localforage-observable';
-import {createTransform, persistStore} from 'redux-persist';
+import {persistStore} from 'redux-persist';
 
 import {General, RequestStatus} from 'mattermost-redux/constants';
 import configureServiceStore from 'mattermost-redux/store';
@@ -15,29 +15,12 @@ import reduxInitialState from 'mattermost-redux/store/initial_state';
 import {storageRehydrate} from 'actions/storage';
 import {clearUserCookie} from 'actions/views/cookie';
 import appReducer from 'reducers';
-import {transformSet} from 'store/utils';
 import {ActionTypes} from 'utils/constants';
 import {getBasePath} from 'selectors/general';
 
 function getAppReducer() {
     return require('../reducers'); // eslint-disable-line global-require
 }
-
-const usersSetTransform = [
-    'profilesInChannel',
-    'profilesNotInChannel',
-    'profilesInTeam',
-    'profilesNotInTeam',
-];
-
-const teamSetTransform = [
-    'membersInTeam',
-];
-
-const setTransforms = [
-    ...usersSetTransform,
-    ...teamSetTransform,
-];
 
 // This is a hack to get the whitelist to work with our storage keys
 // We will implement it properly when we eventually upgrade redux-persist
@@ -62,37 +45,6 @@ const whitelist = {
 window.Observable = Observable;
 
 export default function configureStore(initialState) {
-    const setTransformer = createTransform(
-        (inboundState, key) => {
-            if (key === 'entities') {
-                const state = {...inboundState};
-                for (const prop in state) {
-                    if (state.hasOwnProperty(prop)) {
-                        state[prop] = transformSet(state[prop], setTransforms);
-                    }
-                }
-
-                return state;
-            }
-
-            return inboundState;
-        },
-        (outboundState, key) => {
-            if (key === 'entities') {
-                const state = {...outboundState};
-                for (const prop in state) {
-                    if (state.hasOwnProperty(prop)) {
-                        state[prop] = transformSet(state[prop], setTransforms, false);
-                    }
-                }
-
-                return state;
-            }
-
-            return outboundState;
-        },
-    );
-
     const offlineOptions = {
         persist: (store, options) => {
             const localforage = extendPrototype(localForage);
@@ -179,9 +131,6 @@ export default function configureStore(initialState) {
             },
             whitelist,
             debounce: 30,
-            transforms: [
-                setTransformer,
-            ],
             _stateIterator: (collection, callback) => {
                 return Object.keys(collection).forEach((key) => {
                     if (key === 'storage') {
