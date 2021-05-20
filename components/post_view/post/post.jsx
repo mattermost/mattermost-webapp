@@ -428,7 +428,7 @@ class Post extends React.PureComponent {
                                 isFirstReply={this.props.isFirstReply}
                                 replyCount={this.props.replyCount}
                                 showTimeWithoutHover={!hideProfilePicture}
-                                hover={this.state.hover || this.state.a11yActive}
+                                hover={this.state.hover || this.state.a11yActive || this.state.fileDropdownOpened}
                                 isLastPost={this.props.isLastPost}
                             />
                             <PostBody
