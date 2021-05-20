@@ -67,14 +67,18 @@ function findProductInDictionary(products: Dictionary<Product> | undefined, prod
         return null;
     }
     const keys = Object.keys(products);
+    if (!keys.length) {
+        return null;
+    }
+    if (!productId) {
+        return products[keys[0]];
+    }
     let selectedProduct = null;
     if (keys.length > 1) {
         // here find the product by the provided id, otherwise return the one with Professional in the name
         keys.forEach((key) => {
             if (productId && products[key].id === productId) {
                 selectedProduct = products[key];
-            } else if (!productId) {
-                selectedProduct = products[keys[0]];
             }
         });
     }
