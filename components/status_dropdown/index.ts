@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {bindActionCreators, Dispatch} from 'redux';
 
 import {setStatus, unsetCustomStatus} from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
@@ -16,24 +16,21 @@ import {openModal} from 'actions/views/modals';
 import {setStatusDropdown} from 'actions/views/status_dropdown';
 
 import {areTimezonesEnabledAndSupported} from 'selectors/general';
-
-import StatusDropdown from 'components/status_dropdown/status_dropdown.jsx';
 import {makeGetCustomStatus, isCustomStatusEnabled, showStatusDropdownPulsatingDot} from 'selectors/views/custom_status';
 import {isStatusDropdownOpen} from 'selectors/views/status_dropdown';
+import {GenericAction} from 'mattermost-redux/types/actions';
+import {GlobalState} from 'types/store';
 
-function mapStateToProps(state) {
+import StatusDropdown from './status_dropdown';
+
+function mapStateToProps(state: GlobalState) {
     const currentUser = getCurrentUser(state);
     const getCustomStatus = makeGetCustomStatus();
 
-    if (!currentUser) {
-        return {};
-    }
-
-    const userId = currentUser.id;
-
+    const userId = currentUser?.id;
     return {
         userId,
-        profilePicture: Client4.getProfilePictureUrl(userId, currentUser.last_picture_update),
+        profilePicture: Client4.getProfilePictureUrl(userId, currentUser?.last_picture_update),
         autoResetPref: get(state, Preferences.CATEGORY_AUTO_RESET_MANUAL_STATUS, userId, ''),
         status: getStatusForUserId(state, userId),
         userTimezone: getUserTimezone(state, userId),
@@ -45,7 +42,7 @@ function mapStateToProps(state) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
             openModal,
