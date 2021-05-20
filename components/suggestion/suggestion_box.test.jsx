@@ -10,6 +10,18 @@ import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 import * as Utils from 'utils/utils.jsx';
 
+jest.mock('mattermost-redux/client', () => {
+    const actual = jest.requireActual('mattermost-redux/client');
+
+    return {
+        ...actual,
+        Client4: {
+            ...actual.Client4,
+            getCommandAutocompleteSuggestionsList: jest.fn().mockResolvedValue([]),
+        },
+    };
+});
+
 jest.mock('utils/user_agent', () => {
     const original = jest.requireActual('utils/user_agent');
     return {

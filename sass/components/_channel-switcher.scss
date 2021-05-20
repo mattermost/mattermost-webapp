@@ -31,7 +31,7 @@
             padding: 0;
 
             .close {
-                color: rgba(var(--sys-center-channel-color-rgb), 0.56);
+                color: rgba(var(--center-channel-color-rgb), 0.56);
                 width: 4rem;
                 height: 4rem;
                 font-size: 32px;
@@ -44,27 +44,13 @@
                 border-radius: 4px;
 
                 &:hover {
-                    background-color: rgba(var(--sys-center-channel-color-rgb), 0.08);
-                    color: rgba(var(--sys-center-channel-color-rgb), 0.72);
+                    background-color: rgba(var(--center-channel-color-rgb), 0.08);
+                    color: rgba(var(--center-channel-color-rgb), 0.72);
                 }
 
                 &:active {
-                    background-color: rgba(var(--sys-button-bg-rgb), 0.08);
-                    color: v(sys-button-bg);
-                }
-
-                .app__body & {
-                    color: rgba(var(--center-channel-color-rgb), 0.56);
-
-                    &:hover {
-                        background-color: rgba(var(--center-channel-color-rgb), 0.08);
-                        color: rgba(var(--center-channel-color-rgb), 0.72);
-                    }
-
-                    &:active {
-                        background-color: rgba(var(--button-bg-rgb), 0.08);
-                        color: v(button-bg);
-                    }
+                    background-color: rgba(var(--button-bg-rgb), 0.08);
+                    color: v(button-bg);
                 }
             }
         }
