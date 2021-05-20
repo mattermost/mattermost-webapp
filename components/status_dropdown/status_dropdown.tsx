@@ -25,7 +25,7 @@ import CustomStatusText from 'components/custom_status/custom_status_text';
 
 import {ActionFunc} from 'mattermost-redux/types/actions';
 
-import {UserCustomStatus, UserStatus, UserTimezone} from 'mattermost-redux/types/users';
+import {UserCustomStatus, UserStatus} from 'mattermost-redux/types/users';
 
 import './status_dropdown.scss';
 
