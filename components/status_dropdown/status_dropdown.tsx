@@ -32,7 +32,6 @@ import './status_dropdown.scss';
 type Props = {
     status?: string;
     userId: string;
-    userTimezone: UserTimezone;
     profilePicture: string;
     autoResetPref?: string;
     actions: {
