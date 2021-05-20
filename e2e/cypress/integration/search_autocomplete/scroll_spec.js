@@ -18,7 +18,7 @@ describe('Autocomplete in the search box - scrolling', () => {
     });
 
     it('correctly scrolls when the user navigates through options with the keyboard', () => {
-        cy.get('#searchBox').type('from:');
+        cy.get('#searchBox').click().type('from:');
 
         cy.get('#search-autocomplete__popover .search-autocomplete__item').first().as('firstItem');
         cy.get('#search-autocomplete__popover .search-autocomplete__item').last().as('lastItem');
