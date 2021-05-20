@@ -733,7 +733,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
               values={
                 Object {
                   "formatted": <Memo(SemanticTime)
-                    aria-label="Mon Apr 01 2019 23:31:44 GMT+0000"
+                    aria-label="Mon Apr 01 2019 20:31:44 GMT-0300"
                     value={2019-04-01T23:31:44.000Z}
                   >
                     April 1, 2019
@@ -744,11 +744,11 @@ exports[`components/threading/channel_threads/thread_footer should report total 
               <span>
                 Last reply 
                 <Memo(SemanticTime)
-                  aria-label="Mon Apr 01 2019 23:31:44 GMT+0000"
+                  aria-label="Mon Apr 01 2019 20:31:44 GMT-0300"
                   value={2019-04-01T23:31:44.000Z}
                 >
                   <time
-                    aria-label="Mon Apr 01 2019 23:31:44 GMT+0000"
+                    aria-label="Mon Apr 01 2019 20:31:44 GMT-0300"
                     dateTime="2019-04-01T23:31:44.000Z"
                   >
                     April 1, 2019
@@ -1615,7 +1615,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
               values={
                 Object {
                   "formatted": <Memo(SemanticTime)
-                    aria-label="Mon Apr 01 2019 23:31:44 GMT+0000"
+                    aria-label="Mon Apr 01 2019 20:31:44 GMT-0300"
                     value={2019-04-01T23:31:44.000Z}
                   >
                     April 1, 2019
@@ -1626,11 +1626,11 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
               <span>
                 Last reply 
                 <Memo(SemanticTime)
-                  aria-label="Mon Apr 01 2019 23:31:44 GMT+0000"
+                  aria-label="Mon Apr 01 2019 20:31:44 GMT-0300"
                   value={2019-04-01T23:31:44.000Z}
                 >
                   <time
-                    aria-label="Mon Apr 01 2019 23:31:44 GMT+0000"
+                    aria-label="Mon Apr 01 2019 20:31:44 GMT-0300"
                     dateTime="2019-04-01T23:31:44.000Z"
                   >
                     April 1, 2019
