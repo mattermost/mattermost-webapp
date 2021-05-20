@@ -1,12 +1,23 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import TutorialIntroScreens from './tutorial_intro_screens';
 
-export default class TutorialView extends React.PureComponent {
+type Props = {
+    isRoot?: boolean;
+    townSquareDisplayName: string;
+    appDownloadLink?: string;
+    isLicensed: boolean;
+    restrictTeamInvite: boolean;
+    supportEmail?: string;
+}
+
+export default class TutorialView extends React.PureComponent<Props> {
+    static defaultProps: Partial<Props> = {
+        isRoot: true,
+    }
+
     componentDidMount() {
         if (this.props.isRoot) {
             document.body.classList.add('app__body');
@@ -36,16 +47,3 @@ export default class TutorialView extends React.PureComponent {
         );
     }
 }
-
-TutorialView.propTypes = {
-    isRoot: PropTypes.bool,
-    townSquareDisplayName: PropTypes.string.isRequired,
-    appDownloadLink: PropTypes.string,
-    isLicensed: PropTypes.bool.isRequired,
-    restrictTeamInvite: PropTypes.bool.isRequired,
-    supportEmail: PropTypes.string.isRequired,
-};
-
-TutorialView.defaultProps = {
-    isRoot: true,
-};

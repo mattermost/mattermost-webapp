@@ -43,6 +43,7 @@ describe('components/post_view/PostInfo', () => {
         },
         shouldShowDotMenu: true,
         isReadOnly: true,
+        collapsedThreadsEnabled: false,
     };
 
     test('should match snapshot', () => {

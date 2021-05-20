@@ -193,6 +193,31 @@
     }
 }
 
+.user-popover-image {
+    position: relative;
+    display: block;
+    margin: 0 auto;
+    width: 128px;
+
+    .user-popover-status {
+        right: 8px;
+        bottom: 0;
+        top: auto;
+        position: absolute;
+        height: 28px;
+        width: 28px;
+        background: rgba(var(--center-channel-bg-rgb), 1);
+        border-radius: 50px;
+        display: flex;
+        padding: 4px;
+
+        svg {
+            min-height: 100%;
+            width: 100%;
+        }
+    }
+}
+
 .user-popover__username,
 .user-popover__username > a {
     display: inline-block;

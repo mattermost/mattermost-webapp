@@ -1981,6 +1981,7 @@
   "app.channel.post_update_channel_purpose_message.updated_from": "{username} hat den Kanalzweck aktualisiert von: {old} auf: {new}",
   "app.channel.post_update_channel_purpose_message.updated_to": "{username} hat den Kanalzweck geändert zu: {new}",
   "app.plugin.marketplace_plugins.app_error": "Fehler beim Verbinden mit dem Marktplatz-Server. Bitte überprüfen Sie Ihre Einstellungen in der [Systemkonsole]({siteURL}/admin_console/plugins/plugin_management).",
+  "apps.error": "Fehler: {error}",
   "archivedChannelMessage": "Sie sehen einen **archivierten Kanal**. Neue Nachrichten können nicht geschickt werden.",
   "atmos/camo": "atmos/camo",
   "audit_table.accountActive": "Konto aktiviert",

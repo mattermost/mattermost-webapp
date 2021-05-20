@@ -260,12 +260,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
         className="form-horizontal"
         onSubmit={[Function]}
         role="form"
-      >
-        <SettingsGroup
-          container={false}
-          show={true}
-        />
-      </form>
+      />
     </div>
   </div>
   <div
