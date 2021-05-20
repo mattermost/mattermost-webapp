@@ -173,7 +173,7 @@ class setNotificationSchedule extends React.PureComponent {
             { value: 3, label: "Custom Schedule" },
         ];
 
-        if (this.state.selectedOption.value === "Custom Schedule") {
+        if (this.state.selectedOption.label === "Custom Schedule") {
             return (
                 <SettingItemMax
                     title={localizeMessage(
