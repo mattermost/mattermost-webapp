@@ -2,31 +2,17 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
+import {KatexOptions, renderToString} from 'katex';
 
-export default class LatexBlock extends React.PureComponent {
-    static propTypes = {
-        content: PropTypes.string.isRequired,
-        enableLatex: PropTypes.bool.isRequired,
-    }
+type Props = {
+    content: string;
+    enableLatex: boolean;
+};
 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            katex: null,
-        };
-    }
-
-    componentDidMount() {
-        import('katex').then((katex) => {
-            this.setState({katex});
-        });
-    }
-
-    render() {
-        if (this.state.katex == null || !this.props.enableLatex) {
+export default class LatexBlock extends React.PureComponent<Props> {
+    render(): React.ReactNode {
+        if (!this.props.enableLatex) {
             return (
                 <div
                     className='post-body--code tex'
@@ -37,14 +23,15 @@ export default class LatexBlock extends React.PureComponent {
         }
 
         try {
-            const katexOptions = {
+            const katexOptions: KatexOptions = {
                 throwOnError: false,
                 displayMode: true,
                 maxSize: 200,
                 maxExpand: 100,
                 fleqn: true,
             };
-            const html = this.state.katex.renderToString(this.props.content, katexOptions);
+
+            const html = renderToString(this.props.content, katexOptions);
 
             return (
                 <div
@@ -66,7 +53,3 @@ export default class LatexBlock extends React.PureComponent {
         }
     }
 }
-
-LatexBlock.defaultProps = {
-    enableLatex: false,
-};
