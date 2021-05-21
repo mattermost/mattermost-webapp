@@ -4382,6 +4382,8 @@
   "user.settings.custom_theme.sidebarTextHoverBg": "Sidebar Text Hover BG",
   "user.settings.custom_theme.sidebarTitle": "Sidebar Styles",
   "user.settings.custom_theme.sidebarUnreadText": "Sidebar Unread Text",
+  "user.settings.display.availabilityStatusOnPostsDescription": "When enabled, online availability is displayed on profile images in the message list.",
+  "user.settings.display.availabilityStatusOnPostsTitle": "Show online availability on profile images",
   "user.settings.display.channeldisplaymode": "Select the width of the center channel.",
   "user.settings.display.channelDisplayTitle": "Channel Display",
   "user.settings.display.clockDisplay": "Clock Display",

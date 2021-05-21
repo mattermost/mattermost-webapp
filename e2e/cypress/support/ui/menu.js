@@ -63,3 +63,15 @@ Cypress.Commands.add('uiGetChannelMenu', () => {
 Cypress.Commands.add('uiOpenSetStatusMenu', (item = '') => {
     return openMenu(SET_STATUS_MENU, item);
 });
+
+Cypress.Commands.add('uiOpenDndStatusSubMenu', () => {
+    cy.uiOpenSetStatusMenu();
+
+    // # Wait for status menu to transition in
+    cy.get('.MenuWrapper.status-dropdown-menu .Menu__content.dropdown-menu').should('be.visible');
+
+    // # Hover over Do Not Disturb option
+    cy.get('.MenuWrapper.status-dropdown-menu .Menu__content.dropdown-menu li#status-menu-dnd_menuitem').trigger('mouseover');
+
+    return cy.get('#status-menu-dnd');
+});

@@ -14,7 +14,7 @@ import {
 import {
     makeGetCategoriesForTeam,
     makeGetChannelsByCategory,
-    makeGetChannelsForCategory,
+    makeGetChannelIdsForCategory,
 } from 'mattermost-redux/selectors/entities/channel_categories';
 import {getLastPostPerChannel} from 'mattermost-redux/selectors/entities/posts';
 import {shouldShowUnreadsCategory} from 'mattermost-redux/selectors/entities/preferences';
@@ -216,23 +216,23 @@ export const getDisplayedChannels = (() => {
     };
 })();
 
-// Returns a selector that, given a category, returns the channels visible in that category. The returned channels do not
+// Returns a selector that, given a category, returns the ids of channels visible in that category. The returned channels do not
 // include unread channels when the Unreads category is enabled.
-export function makeGetFilteredChannelsForCategory() {
-    const getChannelsForCategory = makeGetChannelsForCategory();
+export function makeGetFilteredChannelIdsForCategory() {
+    const getChannelIdsForCategory = makeGetChannelIdsForCategory();
 
     return createSelector(
-        getChannelsForCategory,
+        getChannelIdsForCategory,
         getUnreadChannelIdsSet,
         shouldShowUnreadsCategory,
-        (channels, unreadChannelIdsSet, showUnreadsCategory) => {
+        (channelIds, unreadChannelIdsSet, showUnreadsCategory) => {
             if (!showUnreadsCategory) {
-                return channels;
+                return channelIds;
             }
 
-            const filtered = channels.filter((channel) => !unreadChannelIdsSet.has(channel.id));
+            const filtered = channelIds.filter((id) => !unreadChannelIdsSet.has(id));
 
-            return filtered.length === channels.length ? channels : filtered;
+            return filtered.length === channelIds.length ? channelIds : filtered;
         },
     );
 }

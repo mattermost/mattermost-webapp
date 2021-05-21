@@ -21,12 +21,21 @@ exports[`components/ProfilePopover should hide add-to-channel option if not on t
     </span>
   }
 >
-  <Memo(Avatar)
+  <div
+    className="user-popover-image"
     key="user-popover-image"
-    size="xxl"
-    url="src"
-    username="some_username"
-  />
+  >
+    <Memo(Avatar)
+      size="xxl"
+      url="src"
+      username="some_username"
+    />
+    <StatusIcon
+      button={true}
+      className="status user-popover-status"
+      status="offline"
+    />
+  </div>
   <Connect(Pluggable)
     hide={[MockFunction]}
     key="profilePopoverPluggable2"
@@ -100,12 +109,21 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
     </span>
   }
 >
-  <Memo(Avatar)
+  <div
+    className="user-popover-image"
     key="user-popover-image"
-    size="xxl"
-    url="src"
-    username="some_username"
-  />
+  >
+    <Memo(Avatar)
+      size="xxl"
+      url="src"
+      username="some_username"
+    />
+    <StatusIcon
+      button={true}
+      className="status user-popover-status"
+      status="offline"
+    />
+  </div>
   <Connect(Pluggable)
     hide={[MockFunction]}
     key="profilePopoverPluggable2"
@@ -225,12 +243,21 @@ exports[`components/ProfilePopover should match snapshot for shared user 1`] = `
     </span>
   }
 >
-  <Memo(Avatar)
+  <div
+    className="user-popover-image"
     key="user-popover-image"
-    size="xxl"
-    url="src"
-    username="shared_user"
-  />
+  >
+    <Memo(Avatar)
+      size="xxl"
+      url="src"
+      username="shared_user"
+    />
+    <StatusIcon
+      button={true}
+      className="status user-popover-status"
+      status="offline"
+    />
+  </div>
   <hr
     className="divider divider--expanded"
     key="user-popover-hr"
