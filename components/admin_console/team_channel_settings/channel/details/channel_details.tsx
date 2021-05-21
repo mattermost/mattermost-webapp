@@ -43,7 +43,7 @@ export interface ChannelDetailsProps {
     groups: Group[];
     totalGroups: number;
     allGroups: Dictionary<Group>;
-    channelPermissions?: ChannelPermissions[];
+    channelPermissions: ChannelPermissions[];
     teamScheme?: Scheme;
     guestAccountsEnabled: boolean;
     isDisabled?: boolean;
@@ -73,7 +73,7 @@ interface ChannelDetailsState {
     showConvertConfirmModal: boolean;
     showRemoveConfirmModal: boolean;
     showConvertAndRemoveConfirmModal: boolean;
-    channelPermissions?: ChannelPermissions[];
+    channelPermissions: ChannelPermissions[];
     teamScheme?: Scheme;
     isLocalArchived: boolean;
     showArchiveConfirmModal: boolean;
@@ -153,51 +153,49 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
         }
     }
 
-    async componentDidMount() {
+    componentDidMount() {
         const {channelID, channel, actions} = this.props;
-        const actionsToAwait = [];
         if (channelID) {
-            actionsToAwait.push(actions.getGroups(channelID).
+            actions.getGroups(channelID).
                 then(() => actions.getChannel(channelID)).
-                then(() => this.setState({groups: this.props.groups})),
-            );
-            actionsToAwait.push(actions.getChannelModerations(channelID).then(() => this.restrictChannelMentions()));
+                then(() => this.setState({groups: this.props.groups}));
+
+            actions.getChannelModerations(channelID).then(() => this.restrictChannelMentions());
         }
 
         if (channel.team_id) {
-            actionsToAwait.push(actions.getTeam(channel.team_id).
+            actions.getTeam(channel.team_id).
                 then(async (data: any) => {
                     if (data.data && data.data.scheme_id) {
                         await actions.loadScheme(data.data.scheme_id);
                     }
                 }).
-                then(() => this.setState({teamScheme: this.props.teamScheme})),
-            );
+                then(() => this.setState({teamScheme: this.props.teamScheme}));
         }
-
-        await Promise.all(actionsToAwait);
     }
 
     private restrictChannelMentions() {
         // Disabling use_channel_mentions on every role that create_post is either disabled or has a value of false
         let channelPermissions = this.props.channelPermissions;
-        const currentCreatePostRoles: any = channelPermissions!.find((element) => element.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.CREATE_POST)?.roles;
-        for (const channelRole of Object.keys(currentCreatePostRoles)) {
-            channelPermissions = channelPermissions!.map((permission) => {
-                if (permission.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.USE_CHANNEL_MENTIONS && (!currentCreatePostRoles[channelRole].value || !currentCreatePostRoles[channelRole].enabled)) {
-                    return {
-                        name: permission.name,
-                        roles: {
-                            ...permission.roles,
-                            [channelRole]: {
-                                value: false,
-                                enabled: false,
+        const currentCreatePostRoles: any = channelPermissions.find((element) => element.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.CREATE_POST)?.roles;
+        if (currentCreatePostRoles) {
+            for (const channelRole of Object.keys(currentCreatePostRoles)) {
+                channelPermissions = channelPermissions.map((permission) => {
+                    if (permission.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.USE_CHANNEL_MENTIONS && (!currentCreatePostRoles[channelRole].value || !currentCreatePostRoles[channelRole].enabled)) {
+                        return {
+                            name: permission.name,
+                            roles: {
+                                ...permission.roles,
+                                [channelRole]: {
+                                    value: false,
+                                    enabled: false,
+                                },
                             },
-                        },
-                    };
-                }
-                return permission;
-            });
+                        };
+                    }
+                    return permission;
+                });
+            }
         }
         this.setState({channelPermissions});
     }
@@ -275,13 +273,13 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
     }
 
     private channelPermissionsChanged = (name: string, channelRole: ChannelModerationRoles) => {
-        const currentValueIndex = this.state.channelPermissions!.findIndex((element) => element.name === name);
-        const currentValue = this.state.channelPermissions![currentValueIndex].roles[channelRole]!.value;
+        const currentValueIndex = this.state.channelPermissions.findIndex((element) => element.name === name);
+        const currentValue = this.state.channelPermissions[currentValueIndex].roles[channelRole]!.value;
         const newValue = !currentValue;
-        let channelPermissions = [...this.state.channelPermissions!];
+        let channelPermissions = [...this.state.channelPermissions];
 
         if (name === Permissions.CHANNEL_MODERATED_PERMISSIONS.CREATE_POST) {
-            const originalObj = this.props.channelPermissions!.find((element) => element.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.USE_CHANNEL_MENTIONS)?.roles![channelRole];
+            const originalObj = this.props.channelPermissions.find((element) => element.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.USE_CHANNEL_MENTIONS)?.roles![channelRole];
             channelPermissions = channelPermissions.map((permission) => {
                 if (permission.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.USE_CHANNEL_MENTIONS && !newValue) {
                     return {
@@ -310,11 +308,11 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
             });
         }
         channelPermissions[currentValueIndex] = {
-            ...channelPermissions![currentValueIndex],
+            ...channelPermissions[currentValueIndex],
             roles: {
-                ...channelPermissions![currentValueIndex].roles,
+                ...channelPermissions[currentValueIndex].roles,
                 [channelRole]: {
-                    ...channelPermissions![currentValueIndex].roles[channelRole],
+                    ...channelPermissions[currentValueIndex].roles[channelRole],
                     value: newValue,
                 },
             },
@@ -477,9 +475,9 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
                     // If the privacy is changing update the manage_members value for the channel moderation widget
                     actionsToAwait.push(
                         actions.getChannelModerations(channelID).then(() => {
-                            const manageMembersIndex = channelPermissions!.findIndex((element) => element.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.MANAGE_MEMBERS);
+                            const manageMembersIndex = channelPermissions.findIndex((element) => element.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.MANAGE_MEMBERS);
                             if (channelPermissions) {
-                                const updatedManageMembers = this.props.channelPermissions!.find((element) => element.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.MANAGE_MEMBERS);
+                                const updatedManageMembers = this.props.channelPermissions.find((element) => element.name === Permissions.CHANNEL_MODERATED_PERMISSIONS.MANAGE_MEMBERS);
                                 channelPermissions[manageMembersIndex] = updatedManageMembers || channelPermissions[manageMembersIndex];
                             }
                             this.setState({channelPermissions});
@@ -490,7 +488,7 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
             }
         }
 
-        const patchChannelPermissionsArray: ChannelModerationPatch[] = channelPermissions!.map((p) => {
+        const patchChannelPermissionsArray: ChannelModerationPatch[] = channelPermissions.map((p) => {
             return {
                 name: p.name,
                 roles: {

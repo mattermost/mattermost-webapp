@@ -10,9 +10,11 @@ import {getCurrentDateForTimezone} from 'utils/timezone';
 import {areTimezonesEnabledAndSupported} from 'selectors/general';
 import {getCurrentLocale} from 'selectors/i18n';
 
-import SearchDateSuggestion from './search_date_suggestion.jsx';
+import {GlobalState} from 'types/store';
 
-function mapStateToProps(state) {
+import SearchDateSuggestion from './search_date_suggestion';
+
+function mapStateToProps(state: GlobalState) {
     const currentUserId = getCurrentUserId(state);
     const userTimezone = getUserTimezone(state, currentUserId);
     const locale = getCurrentLocale(state);

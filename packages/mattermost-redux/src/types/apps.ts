@@ -4,11 +4,38 @@
 // This file's contents belong to the Apps Framework feature.
 // Apps Framework feature is experimental, and the contents of this file are
 // susceptible to breaking changes without pushing the major version of this package.
+
+export enum AppType {
+    HTTP = 'http',
+    AWSLambda = 'aws_lambda',
+    Builtin = 'builtin',
+}
+
+export enum Permission {
+    UserJoinedChannelNotification = 'user_joined_channel_notification',
+    ActAsBot = 'act_as_bot',
+    ActAsUser = 'act_as_user',
+    PermissionActAsAdmin = 'act_as_admin',
+    RemoteOAuth2 = 'remote_oauth2',
+    RemoteWebhooks = 'remote_webhooks',
+}
+
+export enum Locations {
+    PostMenu = '/post_menu',
+    ChannelHeader = '/channel_header',
+    Command = '/command',
+    InPost = '/in_post',
+}
+
 export type AppManifest = {
     app_id: string;
+    app_type: AppType;
+    version?: string;
+    homepage_url?: string;
     display_name: string;
     description?: string;
-    homepage_url?: string;
+    requested_permissions?: Permission[];
+    requested_locations?: Locations[];
     root_url?: string;
 }
 

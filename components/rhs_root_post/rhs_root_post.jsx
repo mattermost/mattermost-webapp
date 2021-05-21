@@ -71,6 +71,7 @@ class RhsRootPost extends React.PureComponent {
         emojiMap: PropTypes.object.isRequired,
         timestampProps: PropTypes.object,
         isBot: PropTypes.bool,
+        collapsedThreadsEnabled: PropTypes.bool,
     };
 
     static defaultProps = {
@@ -230,7 +231,8 @@ class RhsRootPost extends React.PureComponent {
     };
 
     render() {
-        const {post, isReadOnly, teamId, channelIsArchived, isBot} = this.props;
+        const {post, isReadOnly, teamId, channelIsArchived, collapsedThreadsEnabled, isBot} = this.props;
+
         const isPostDeleted = post && post.state === Posts.POST_DELETED;
         const isEphemeral = Utils.isPostEphemeral(post);
         const isSystemMessage = PostUtils.isSystemMessage(post);
@@ -349,9 +351,10 @@ class RhsRootPost extends React.PureComponent {
                     ref={this.dotMenuRef}
                     className='col post-menu'
                 >
-                    {dotMenu}
+                    {!collapsedThreadsEnabled && dotMenu}
                     {postReaction}
                     {postFlagIcon}
+                    {collapsedThreadsEnabled && dotMenu}
                 </div>
             );
         }
