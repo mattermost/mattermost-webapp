@@ -15,8 +15,8 @@ const localStoragePrefix = '__announcement__';
 type AnnouncementBarProps = React.ComponentProps<typeof AnnouncementBar>;
 
 interface Props extends Partial<AnnouncementBarProps> {
-    allowDismissal?: boolean;
-    text?: string;
+    allowDismissal: boolean;
+    text: string;
     onDismissal?: () => void;
 }
 
