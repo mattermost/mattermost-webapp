@@ -8,6 +8,7 @@ import {injectIntl} from 'react-intl';
 import {Posts} from 'mattermost-redux/constants';
 import {isMeMessage as checkIsMeMessage} from 'mattermost-redux/utils/post_utils';
 
+import {isEligibleForClick} from 'utils/utils';
 import * as PostUtils from 'utils/post_utils.jsx';
 import Constants, {A11yCustomEventTypes} from 'utils/constants';
 import {intlShape} from 'utils/react_intl';
@@ -173,6 +174,7 @@ class Post extends React.PureComponent {
 
     handleCommentClick = (e) => {
         e.preventDefault();
+        e.stopPropagation();
 
         const post = this.props.post;
         if (!post) {
@@ -189,9 +191,18 @@ class Post extends React.PureComponent {
     }
 
     handlePostClick = (e) => {
-        const post = this.props.post;
+        const {post, isCollapsedThreadsEnabled} = this.props;
+
         if (!post) {
             return;
+        }
+
+        if (
+            !e.altKey &&
+            isCollapsedThreadsEnabled &&
+            isEligibleForClick(e)
+        ) {
+            this.props.actions.selectPost(post);
         }
 
         if (this.props.channelIsArchived || post.system_post_ids) {
@@ -302,7 +313,10 @@ class Post extends React.PureComponent {
             className += ' post--pinned-or-flagged';
         }
 
-        if (this.state.alt && !(this.props.channelIsArchived || post.system_post_ids)) {
+        if (
+            (this.props.isCollapsedThreadsEnabled || this.state.alt) &&
+            !(this.props.channelIsArchived || post.system_post_ids)
+        ) {
             className += ' cursor--pointer';
         }
 

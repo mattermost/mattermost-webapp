@@ -60,6 +60,15 @@ import ContactUsButton from 'components/announcement_bar/contact_sales/contact_u
 
 import {joinPrivateChannelPrompt} from './channel_utils';
 
+const CLICKABLE_ELEMENTS = [
+    'a',
+    'button',
+    'img',
+    'svg',
+    'audio',
+    'video',
+];
+
 export function isMac() {
     return navigator.platform.toUpperCase().indexOf('MAC') >= 0;
 }
@@ -2250,3 +2259,42 @@ export function deleteKeysFromObject(value, keys) {
     }
     return value;
 }
+
+export function isSelection() {
+    const selection = window.getSelection();
+    return selection.type === 'Range';
+}
+
+// Returns whether or not the element
+// clicked is may have a 'potential event attached'.
+export function isEligibleForClick(event) {
+    const currentTarget = event.currentTarget;
+    let node = event.target;
+
+    if (isSelection()) {
+        return false;
+    }
+
+    if (node === currentTarget) {
+        return true;
+    }
+
+    // traverses the targets parents up to currentTarget to see
+    // if any of them is a potentially clickable element
+    while (node) {
+        if (node === currentTarget) {
+            break;
+        }
+
+        if (
+            CLICKABLE_ELEMENTS.includes(node.tagName.toLowerCase()) ||
+            node.getAttribute('role') === 'button'
+        ) {
+            return false;
+        }
+        node = node.parentNode;
+    }
+
+    return true;
+}
+
