@@ -596,6 +596,66 @@ describe('Selectors.Channels.getChannelsNameMapInCurrentTeam', () => {
         };
         assert.deepEqual(Selectors.getChannelsNameMapInCurrentTeam(testState), channelMap);
     });
+
+    describe('memoization', () => {
+        it('should return memoized result with no changes', () => {
+            const originalResult = Selectors.getChannelsNameMapInCurrentTeam(testState);
+
+            expect(Selectors.getChannelsNameMapInCurrentTeam(testState)).toBe(originalResult);
+        });
+
+        it('should return memozied result when only channels on another team changes', () => {
+            const originalResult = Selectors.getChannelsNameMapInCurrentTeam(testState);
+
+            const state = deepFreezeAndThrowOnMutation(mergeObjects(testState, {
+                entities: {
+                    channels: {
+                        channels: {
+                            [channel3.id]: {...channel3, display_name: 'Some other name'},
+                        },
+                    },
+                },
+            }));
+
+            expect(Selectors.getChannelsNameMapInCurrentTeam(state)).toBe(originalResult);
+        });
+
+        it('should not return memozied result when a returned channel changes its display name', () => {
+            const originalResult = Selectors.getChannelsNameMapInCurrentTeam(testState);
+
+            const state = deepFreezeAndThrowOnMutation(mergeObjects(testState, {
+                entities: {
+                    channels: {
+                        channels: {
+                            [channel4.id]: {...channel4, display_name: 'Some other name'},
+                        },
+                    },
+                },
+            }));
+
+            const result = Selectors.getChannelsNameMapInCurrentTeam(state);
+            expect(result).not.toBe(originalResult);
+            expect(result[channel4.name].display_name).toBe('Some other name');
+        });
+
+        it('should not return memozied result when a returned channel changes something else', () => {
+            const originalResult = Selectors.getChannelsNameMapInCurrentTeam(testState);
+
+            const state = deepFreezeAndThrowOnMutation(mergeObjects(testState, {
+                entities: {
+                    channels: {
+                        channels: {
+                            [channel4.id]: {...channel4, last_post_at: 10000},
+                        },
+                    },
+                },
+            }));
+
+            const result = Selectors.getChannelsNameMapInCurrentTeam(state);
+            expect(result).not.toBe(originalResult);
+            expect(result[channel4.name].last_post_at).toBe(10000);
+        });
+    });
 });
 
 describe('Selectors.Channels.getChannelsNameMapInTeam', () => {
