@@ -17,9 +17,10 @@ import {setStatusDropdown} from 'actions/views/status_dropdown';
 
 import StatusDropdown from 'components/status_dropdown/status_dropdown.jsx';
 import {areTimezonesEnabledAndSupported, getCurrentUserTimezone} from 'selectors/general';
-import {getCustomStatus, isCustomStatusEnabled, showStatusDropdownPulsatingDot} from 'selectors/views/custom_status';
+import {makeGetCustomStatus, isCustomStatusEnabled, showStatusDropdownPulsatingDot, isCustomStatusExpired} from 'selectors/views/custom_status';
 import {isStatusDropdownOpen} from 'selectors/views/status_dropdown';
 
+const getCustomStatus = makeGetCustomStatus();
 function mapStateToProps(state) {
     const currentUser = getCurrentUser(state);
 
@@ -28,6 +29,7 @@ function mapStateToProps(state) {
     }
 
     const userId = currentUser.id;
+    const customStatus = getCustomStatus(state, userId);
 
     return {
         userId,
@@ -36,8 +38,9 @@ function mapStateToProps(state) {
         status: getStatusForUserId(state, userId),
         userTimezone: getUserTimezone(state, userId),
         isTimezoneEnabled: areTimezonesEnabledAndSupported(state),
-        customStatus: getCustomStatus(state, userId),
+        customStatus,
         isCustomStatusEnabled: isCustomStatusEnabled(state),
+        isCustomStatusExpired: isCustomStatusExpired(state, customStatus),
         isStatusDropdownOpen: isStatusDropdownOpen(state),
         showCustomStatusPulsatingDot: showStatusDropdownPulsatingDot(state),
         timezone: getCurrentUserTimezone(state),

@@ -2,8 +2,8 @@
 
 exports[`components/custom_status/expiry_menu should match snapshot 1`] = `
 <ExpiryMenu
-  expiry="dont_clear"
-  handleExpiryChange={[MockFunction]}
+  duration=""
+  handleDurationChange={[MockFunction]}
 >
   <div
     className="statusExpiry"
@@ -81,8 +81,8 @@ exports[`components/custom_status/expiry_menu should match snapshot 1`] = `
 
 exports[`components/custom_status/expiry_menu should match snapshot with different props 1`] = `
 <ExpiryMenu
-  expiry="date_and_time"
-  handleExpiryChange={[MockFunction]}
+  duration="date_and_time"
+  handleDurationChange={[MockFunction]}
 >
   <div
     className="statusExpiry"

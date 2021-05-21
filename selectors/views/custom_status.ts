@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 import {createSelector} from 'reselect';
+import moment from 'moment-timezone';
 
 import {getCurrentUser, getUser} from 'mattermost-redux/selectors/entities/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
@@ -11,20 +12,27 @@ import {CustomStatusDuration, UserCustomStatus} from 'mattermost-redux/types/use
 
 import {GlobalState} from 'types/store';
 import {getCurrentUserTimezone} from 'selectors/general';
-import {getCurrentDateTimeForTimezone} from 'utils/timezone';
+import {getCurrentMomentForTimezone} from 'utils/timezone';
 
-export function getCustomStatus(state: GlobalState, userID?: string): UserCustomStatus | undefined {
-    const user = userID ? getUser(state, userID) : getCurrentUser(state);
-    const userProps = user?.props || {};
-    const customStatus = userProps.customStatus ? JSON.parse(userProps.customStatus) : undefined;
+export function makeGetCustomStatus(): (state: GlobalState, userID?: string) => UserCustomStatus {
+    return createSelector(
+        (state: GlobalState, userID?: string) => (userID ? getUser(state, userID) : getCurrentUser(state)),
+        (user) => {
+            const userProps = user?.props || {};
+            return userProps.customStatus ? JSON.parse(userProps.customStatus) : undefined;
+        },
+    );
+}
+
+export function isCustomStatusExpired(state: GlobalState, customStatus?: UserCustomStatus) {
     if (!customStatus || customStatus.duration === CustomStatusDuration.DONT_CLEAR) {
-        return customStatus;
+        return false;
     }
 
-    const expiryTime = new Date(customStatus?.expires_at);
+    const expiryTime = moment(customStatus.expires_at);
     const timezone = getCurrentUserTimezone(state);
-    const currentTime = timezone ? getCurrentDateTimeForTimezone(timezone) : new Date();
-    return currentTime < expiryTime ? customStatus : undefined;
+    const currentTime = getCurrentMomentForTimezone(timezone);
+    return currentTime.isSameOrAfter(expiryTime);
 }
 
 export const getRecentCustomStatuses = createSelector(

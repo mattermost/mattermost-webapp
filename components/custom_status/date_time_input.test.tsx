@@ -4,6 +4,7 @@ import {shallow} from 'enzyme';
 import React from 'react';
 import configureStore from 'redux-mock-store';
 import {Provider} from 'react-redux';
+import moment from 'moment-timezone';
 
 import {General} from 'mattermost-redux/constants';
 import * as i18Selectors from 'selectors/i18n';
@@ -18,7 +19,7 @@ describe('components/custom_status/date_time_input', () => {
 
     (i18Selectors.getCurrentLocale as jest.Mock).mockReturnValue(General.DEFAULT_LOCALE);
     const baseProps = {
-        time: new Date('2021-05-03T14:53:39.127Z'),
+        time: moment('2021-05-03T14:53:39.127Z'),
         handleChange: jest.fn(),
         timezone: 'Australia/Sydney',
     };

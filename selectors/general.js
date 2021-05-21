@@ -3,9 +3,9 @@
 
 import {createSelector} from 'reselect';
 
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
+import {getCurrentUser} from 'mattermost-redux/selectors/entities/common';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
+import {getTimezoneForUserProfile} from 'mattermost-redux/selectors/entities/timezone';
 
 import * as UserAgent from 'utils/user_agent';
 
@@ -29,13 +29,12 @@ export function getBasePath(state) {
 }
 
 export const getCurrentUserTimezone = createSelector(
-    getCurrentUserId,
+    getCurrentUser,
     areTimezonesEnabledAndSupported,
-    (state) => (userId) => getUserTimezone(state, userId),
-    (userId, enabledTimezone, getTimezone) => {
+    (user, enabledTimezone) => {
         let timezone;
         if (enabledTimezone) {
-            const userTimezone = getTimezone(userId);
+            const userTimezone = getTimezoneForUserProfile(user);
             timezone = userTimezone.useAutomaticTimezone ? userTimezone.automaticTimezone : userTimezone.manualTimezone;
         }
 

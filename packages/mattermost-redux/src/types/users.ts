@@ -111,6 +111,7 @@ export enum CustomStatusDuration {
     TODAY = 'today',
     THIS_WEEK = 'this_week',
     DATE_AND_TIME = 'date_and_time',
+    CUSTOM_DATE_TIME = 'custom_date_time',
 }
 
 export type UserCustomStatus = {

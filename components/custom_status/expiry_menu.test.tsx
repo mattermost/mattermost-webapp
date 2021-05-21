@@ -10,8 +10,8 @@ import ExpiryMenu from './expiry_menu';
 
 describe('components/custom_status/expiry_menu', () => {
     const baseProps = {
-        expiry: CustomStatusDuration.DONT_CLEAR,
-        handleExpiryChange: jest.fn(),
+        duration: CustomStatusDuration.DONT_CLEAR,
+        handleDurationChange: jest.fn(),
     };
 
     it('should match snapshot', () => {
@@ -20,7 +20,7 @@ describe('components/custom_status/expiry_menu', () => {
     });
 
     it('should match snapshot with different props', () => {
-        baseProps.expiry = CustomStatusDuration.DATE_AND_TIME;
+        baseProps.duration = CustomStatusDuration.DATE_AND_TIME;
         const wrapper = mountWithIntl(<ExpiryMenu {...baseProps}/>);
         expect(wrapper).toMatchSnapshot();
     });

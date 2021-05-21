@@ -1,9 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import {useSelector} from 'react-redux';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import {DayModifiers, NavbarElementProps} from 'react-day-picker';
+import {useIntl} from 'react-intl';
 
 import moment, {Moment} from 'moment-timezone';
 
@@ -11,9 +12,9 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 import Timestamp from 'components/timestamp';
 import {getCurrentLocale} from 'selectors/i18n';
-import {Constants} from 'utils/constants';
 import {getCurrentMomentForTimezone} from 'utils/timezone';
-import {localizeMessage} from 'utils/utils';
+
+const CUSTOM_STATUS_TIME_PICKER_INTERVALS_IN_MINUTES = 30;
 
 const Navbar: React.FC<Partial<NavbarElementProps>> = (navbarProps: Partial<NavbarElementProps>) => {
     const {
@@ -66,7 +67,6 @@ const Navbar: React.FC<Partial<NavbarElementProps>> = (navbarProps: Partial<Navb
     );
 };
 
-const {CUSTOM_STATUS_TIME_PICKER_INTERVALS_IN_MINUTES} = Constants;
 export function getRoundedTime(value: Moment) {
     const roundedTo = CUSTOM_STATUS_TIME_PICKER_INTERVALS_IN_MINUTES;
     const start = moment(value);
@@ -101,6 +101,7 @@ const DateTimeInputContainer: React.FC<Props> = (props: Props) => {
     const locale = useSelector(getCurrentLocale);
     const {time, handleChange, timezone} = props;
     const [timeOptions, setTimeOptions] = useState<Date[]>([]);
+    const {formatMessage} = useIntl();
 
     const setTimeAndOptions = () => {
         const currentTime = getCurrentMomentForTimezone(timezone);
@@ -119,15 +120,15 @@ const DateTimeInputContainer: React.FC<Props> = (props: Props) => {
             const roundedTime = getRoundedTime(currentTime);
             handleChange(roundedTime);
         } else {
-            const dayWithTimezone = timezone ? moment.tz(day, timezone) : moment();
+            const dayWithTimezone = timezone ? moment.tz(day, timezone) : moment(day);
             handleChange(dayWithTimezone.startOf('day'));
         }
     };
 
-    const handleTimeChange = (e: React.MouseEvent, time: Date) => {
+    const handleTimeChange = useCallback((e: React.MouseEvent, time: Date) => {
         e.preventDefault();
         handleChange(moment(time));
-    };
+    }, [handleChange]);
 
     const currentTime = new Date();
     const modifiers = {
@@ -137,7 +138,7 @@ const DateTimeInputContainer: React.FC<Props> = (props: Props) => {
     return (
         <div className='dateTime'>
             <div className='dateTime__date'>
-                <span className='dateTime__input-title'>{'Date'}</span>
+                <span className='dateTime__input-title'>{formatMessage({id: 'custom_status.expiry.date_picker.title', defaultMessage: 'Date'})}</span>
                 <span className='dateTime__date-icon'>
                     <i className='icon-calendar-outline'/>
                 </span>
@@ -164,7 +165,7 @@ const DateTimeInputContainer: React.FC<Props> = (props: Props) => {
                     className='dateTime__time-menu'
                 >
                     <div>
-                        <span className='dateTime__input-title'>{'Time'}</span>
+                        <span className='dateTime__input-title'>{formatMessage({id: 'custom_status.expiry.time_picker.title', defaultMessage: 'Time'})}</span>
                         <span className='dateTime__time-icon'>
                             <i className='icon-clock-outline'/>
                         </span>
@@ -179,7 +180,7 @@ const DateTimeInputContainer: React.FC<Props> = (props: Props) => {
                         </div>
                     </div>
                     <Menu
-                        ariaLabel={localizeMessage('time_dropdown.choose_time', 'Choose a time')}
+                        ariaLabel={formatMessage({id: 'time_dropdown.choose_time', defaultMessage: 'Choose a time'})}
                         id='expiryTimeMenu'
                     >
                         <Menu.Group>

@@ -87,6 +87,7 @@ class ChannelHeader extends React.PureComponent {
         announcementBarCount: PropTypes.number,
         customStatus: PropTypes.object,
         isCustomStatusEnabled: PropTypes.bool.isRequired,
+        isCustomStatusExpired: PropTypes.bool.isRequired,
     };
 
     constructor(props) {
@@ -220,9 +221,9 @@ class ChannelHeader extends React.PureComponent {
     handleFormattedTextClick = (e) => Utils.handleFormattedTextClick(e, this.props.currentRelativeTeamUrl);
 
     renderCustomStatus = () => {
-        const {customStatus} = this.props;
-        const isStatusSet = customStatus && (customStatus.text || customStatus.emoji);
-        if (!(this.props.isCustomStatusEnabled && isStatusSet)) {
+        const {customStatus, isCustomStatusEnabled, isCustomStatusExpired} = this.props;
+        const isStatusSet = !isCustomStatusExpired && (customStatus.text || customStatus.emoji);
+        if (!(isCustomStatusEnabled && isStatusSet)) {
             return null;
         }
 

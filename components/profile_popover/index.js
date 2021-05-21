@@ -23,7 +23,7 @@ import {closeModal, openModal} from 'actions/views/modals';
 import {areTimezonesEnabledAndSupported, getCurrentUserTimezone} from 'selectors/general';
 import {getRhsState, getSelectedPost} from 'selectors/rhs';
 
-import {getCustomStatus, isCustomStatusEnabled} from 'selectors/views/custom_status';
+import {makeGetCustomStatus, isCustomStatusEnabled, isCustomStatusExpired} from 'selectors/views/custom_status';
 
 import ProfilePopover from './profile_popover.jsx';
 
@@ -32,6 +32,7 @@ function getDefaultChannelId(state) {
     return selectedPost.exists ? selectedPost.channel_id : getCurrentChannelId(state);
 }
 
+const getCustomStatus = makeGetCustomStatus();
 function mapStateToProps(state, {userId, channelId = getDefaultChannelId(state)}) {
     const team = getCurrentTeam(state);
     const teamMember = getTeamMember(state, team.id, userId);
@@ -48,6 +49,7 @@ function mapStateToProps(state, {userId, channelId = getDefaultChannelId(state)}
         isChannelAdmin = true;
     }
 
+    const customStatus = getCustomStatus(state, userId);
     return {
         currentTeamId: team.id,
         currentUserId: getCurrentUserId(state),
@@ -60,8 +62,9 @@ function mapStateToProps(state, {userId, channelId = getDefaultChannelId(state)}
         teamUrl: getCurrentRelativeTeamUrl(state),
         user: getUser(state, userId),
         modals: state.views.modals.modalState,
-        customStatus: getCustomStatus(state, userId),
+        customStatus,
         isCustomStatusEnabled: isCustomStatusEnabled(state),
+        isCustomStatusExpired: isCustomStatusExpired(state, customStatus),
         channelId,
         currentUserTimezone: getCurrentUserTimezone(state),
     };

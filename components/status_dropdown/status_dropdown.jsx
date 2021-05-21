@@ -48,6 +48,7 @@ export default class StatusDropdown extends React.PureComponent {
         }).isRequired,
         customStatus: PropTypes.object,
         isCustomStatusEnabled: PropTypes.bool.isRequired,
+        isCustomStatusExpired: PropTypes.bool.isRequired,
         isStatusDropdownOpen: PropTypes.bool.isRequired,
         showCustomStatusPulsatingDot: PropTypes.bool.isRequired,
         timezone: PropTypes.string,
@@ -203,8 +204,8 @@ export default class StatusDropdown extends React.PureComponent {
         if (!this.props.isCustomStatusEnabled) {
             return null;
         }
-        const customStatus = this.props.customStatus;
-        const isStatusSet = customStatus && (customStatus.text || customStatus.emoji);
+        const {customStatus, isCustomStatusExpired} = this.props;
+        const isStatusSet = customStatus && (customStatus.text || customStatus.emoji) && !isCustomStatusExpired;
         const customStatusText = isStatusSet ? customStatus.text : localizeMessage('status_dropdown.set_custom', 'Set a Custom Status');
         const customStatusEmoji = isStatusSet ?
             (

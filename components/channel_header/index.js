@@ -39,13 +39,15 @@ import {
     showMentions,
     closeRightHandSide,
 } from 'actions/views/rhs';
-import {getCustomStatus, isCustomStatusEnabled} from 'selectors/views/custom_status';
+import {makeGetCustomStatus, isCustomStatusEnabled, isCustomStatusExpired} from 'selectors/views/custom_status';
 import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
 import {isModalOpen} from 'selectors/views/modals';
 import {getAnnouncementBarCount} from 'selectors/views/announcement_bar';
 import {ModalIdentifiers} from 'utils/constants';
 
 import ChannelHeader from './channel_header';
+
+const getCustomStatus = makeGetCustomStatus();
 
 function makeMapStateToProps() {
     const doGetProfilesInChannel = makeGetProfilesInChannel();
@@ -91,6 +93,7 @@ function makeMapStateToProps() {
             announcementBarCount: getAnnouncementBarCount(state),
             customStatus,
             isCustomStatusEnabled: isCustomStatusEnabled(state),
+            isCustomStatusExpired: isCustomStatusExpired(state, customStatus),
         };
     };
 }

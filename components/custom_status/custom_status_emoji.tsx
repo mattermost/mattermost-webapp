@@ -8,7 +8,7 @@ import OverlayTrigger from 'components/overlay_trigger';
 import RenderEmoji from 'components/emoji/render_emoji';
 import {CustomStatusDuration} from 'mattermost-redux/types/users';
 import {getCurrentUserTimezone} from 'selectors/general';
-import {getCustomStatus, isCustomStatusEnabled} from 'selectors/views/custom_status';
+import {makeGetCustomStatus, isCustomStatusEnabled, isCustomStatusExpired} from 'selectors/views/custom_status';
 import {GlobalState} from 'types/store';
 import Constants from 'utils/constants';
 
@@ -24,15 +24,15 @@ interface ComponentProps {
     onClick?: () => void;
 }
 
+const getCustomStatus = makeGetCustomStatus();
 const CustomStatusEmoji = (props: ComponentProps) => {
     const {emojiSize, emojiStyle, spanStyle, showTooltip, tooltipDirection, userID, onClick} = props;
     const customStatusEnabled = useSelector(isCustomStatusEnabled);
-    const customStatus = useSelector((state: GlobalState) => {
-        return getCustomStatus(state, userID);
-    });
+    const customStatus = useSelector((state: GlobalState) => getCustomStatus(state, userID));
+    const customStatusExpired = useSelector((state: GlobalState) => isCustomStatusExpired(state, customStatus));
     const timezone = useSelector(getCurrentUserTimezone);
 
-    if (!(customStatusEnabled && customStatus?.emoji)) {
+    if (!(customStatusEnabled && customStatus?.emoji && !customStatusExpired)) {
         return null;
     }
 

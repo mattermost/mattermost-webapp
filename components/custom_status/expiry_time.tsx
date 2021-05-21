@@ -7,8 +7,9 @@ import moment from 'moment-timezone';
 import {FormattedMessage} from 'react-intl';
 
 import Timestamp, {RelativeRanges} from 'components/timestamp';
+import {Props as TimestampProps} from 'components/timestamp/timestamp';
 
-import {getCurrentDateTimeForTimezone} from 'utils/timezone';
+import {getCurrentMomentForTimezone} from 'utils/timezone';
 
 const CUSTOM_STATUS_EXPIRY_RANGES = [
     RelativeRanges.TODAY_TITLE_CASE,
@@ -19,37 +20,54 @@ interface Props {
     time: string;
     timezone?: string;
     className?: string;
+    showPrefix?: boolean;
     withinBrackets?: boolean;
 }
 
-const ExpiryTime = ({time, timezone, className, withinBrackets}: Props) => {
-    const currentTime = timezone ? getCurrentDateTimeForTimezone(timezone) : new Date();
-    const timestampProps: { [key: string]: any } = {
+const ExpiryTime = ({time, timezone, className, showPrefix, withinBrackets}: Props) => {
+    const currentMomentTime = getCurrentMomentForTimezone(timezone);
+    const timestampProps: Partial<TimestampProps> = {
         value: time,
         ranges: CUSTOM_STATUS_EXPIRY_RANGES,
     };
 
-    const currentMomentTime = moment(currentTime);
-    if (moment(time).isSame(currentMomentTime.endOf('day')) || moment(time).isAfter(currentMomentTime.add(1, 'day').endOf('day'))) {
+    if (moment(time).isSame(currentMomentTime.clone().endOf('day')) || moment(time).isAfter(currentMomentTime.clone().add(1, 'day').endOf('day'))) {
         timestampProps.useTime = false;
     }
-    if (moment(time).isBefore(currentMomentTime.add(6, 'days'))) {
+
+    if (moment(time).isBefore(currentMomentTime.clone().endOf('day'))) {
+        timestampProps.useDate = false;
+        delete timestampProps.ranges;
+    }
+
+    if (moment(time).isAfter(currentMomentTime.clone().add(1, 'day').endOf('day')) && moment(time).isBefore(currentMomentTime.clone().add(6, 'days'))) {
         timestampProps.useDate = {weekday: 'long'};
     }
 
-    return (
-        <span className={className}>
-            {withinBrackets && '('}
+    const prefix = showPrefix && (
+        <>
             <FormattedMessage
                 id='custom_status.expiry.until'
                 defaultMessage='Until'
             />{' '}
+        </>
+    );
+
+    return (
+        <span className={className}>
+            {withinBrackets && '('}
+            {prefix}
             <Timestamp
                 {...timestampProps}
             />
             {withinBrackets && ')'}
         </span>
     );
+};
+
+ExpiryTime.defaultProps = {
+    showPrefix: true,
+    withinBrackets: false,
 };
 
 export default React.memo(ExpiryTime);

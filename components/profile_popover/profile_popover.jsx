@@ -91,6 +91,7 @@ class ProfilePopover extends React.PureComponent {
         currentUserId: PropTypes.string.isRequired,
         customStatus: PropTypes.object,
         isCustomStatusEnabled: PropTypes.bool.isRequired,
+        isCustomStatusExpired: PropTypes.bool.isRequired,
         currentUserTimezone: PropTypes.string,
 
         /**
@@ -259,9 +260,9 @@ class ProfilePopover extends React.PureComponent {
     };
 
     renderCustomStatus() {
-        const {customStatus, isCustomStatusEnabled, user, currentUserId} = this.props;
+        const {customStatus, isCustomStatusEnabled, user, currentUserId, isCustomStatusExpired} = this.props;
 
-        const customStatusSet = (customStatus.text || customStatus.emoji);
+        const customStatusSet = (customStatus.text || customStatus.emoji) && !isCustomStatusExpired;
         const canSetCustomStatus = (user.id === currentUserId);
         const shouldShowCustomStatus = isCustomStatusEnabled && customStatus && (customStatusSet || canSetCustomStatus);
 
