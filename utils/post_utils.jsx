@@ -510,13 +510,13 @@ export function areConsecutivePostsBySameUser(post, previousPost) {
         !isSystemMessage(post) && !isSystemMessage(previousPost); // And neither is a system message
 }
 
-// constructs the URL for a post
-// was made to be used with permalinks
+// Constructs the URL of a post.
+// Was made to be used with permalinks.
 //
-// when the post is a reply and CRT is enabled
+// If the post is a reply and CRT is enabled
 // the URL constructed is the URL of the channel instead.
 //
-// in the case of DM_CHANNEL users match be fetched beforehand.
+// Note: In the case of DM_CHANNEL, users must be fetched beforehand.
 export function getPostURL(state, post) {
     const channel = getChannel(state, post.channel_id);
     const currentUserId = getCurrentUserId(state, post.channel_id);
