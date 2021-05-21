@@ -19,7 +19,3 @@ export type ScheduleType = {
     friday_end: string;
     saturday_end: string;
 };
-
-export type SchedulesType = {
-    [x: string]: ScheduleType;
-};

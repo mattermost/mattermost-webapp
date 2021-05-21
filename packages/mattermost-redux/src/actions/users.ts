@@ -1545,7 +1545,6 @@ export function updateStatusOnScheduledTime(currentTime: string, currentDay: str
                 type: StatusTypes.RECEIVED_STATUS,
                 data: status
             })
-            console.log(status)
         } catch (error) {
             return {error}
         }

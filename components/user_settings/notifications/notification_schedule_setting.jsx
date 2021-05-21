@@ -1,32 +1,39 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from "react";
-import ReactSelect from "react-select";
-import TimePicker from "rc-time-picker";
-import "rc-time-picker/assets/index.css";
-import moment from "moment";
+import React from 'react';
+import ReactSelect from 'react-select';
+import TimePicker from 'rc-time-picker';
+import 'rc-time-picker/assets/index.css';
+import moment from 'moment';
 
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage } from 'react-intl';
 
-import store from "stores/redux_store.jsx";
+import store from 'stores/redux_store.jsx';
 
-import { localizeMessage } from "utils/utils.jsx";
+import { localizeMessage } from 'utils/utils.jsx';
 
-import { saveNotificationsSchedules } from "mattermost-redux/actions/notifications_schedule";
-import { getCurrentUserId } from "mattermost-redux/selectors/entities/users";
+import { saveNotificationsSchedules } from 'mattermost-redux/actions/notifications_schedule';
+import { getCurrentUserId } from 'mattermost-redux/selectors/entities/users';
 import {Client4} from 'mattermost-redux/client';
 
-import "./notification_schedule_setting.scss";
+import './notification_schedule_setting.scss';
 
-import SettingItemMin from "components/setting_item_min";
-import SettingItemMax from "components/setting_item_max.jsx";
+import SettingItemMin from 'components/setting_item_min';
+import SettingItemMax from 'components/setting_item_max.jsx';
 
-import clockIcon from "images/icons/clock-time-five.png";
+import clockIcon from 'images/icons/clock-time-five.png';
 
-const timeFormat = "h:mm A";
+const timeFormat = 'h:mm A';
+const periodsOptions = [
+    { value: 1, label: 'Every Day' },
+    { value: 2, label: 'Weekdays' },
+    { value: 3, label: 'Custom Schedule' },
+];
+
 const dispatch = store.dispatch;
 const getState = store.getState;
+
 const state = getState();
 const currentUserId = getCurrentUserId(state);
 
@@ -36,9 +43,9 @@ class setNotificationSchedule extends React.PureComponent {
 
         const { activeSection } = props;
         this.state = {
-            activeSection: "",
+            activeSection,
             enableCusotmDND: false,
-            selectedOption: { value: 1, label: "Every Day" },
+            selectedOption: { value: 1, label: 'Every Day' },
             monEnable: false,
             tueEnable: false,
             wedEnable: false,
@@ -46,28 +53,26 @@ class setNotificationSchedule extends React.PureComponent {
             friEnable: false,
             satEnable: false,
             sunEnable: false,
-            sunStart: "09:00",
-            monStart: "09:00",
-            tueStart: "09:00",
-            wedStart: "09:00",
-            thuStart: "09:00",
-            friStart: "09:00",
-            satStart: "09:00",
-            sunEnd: "18:00",
-            monEnd: "18:00",
-            tueEnd: "18:00",
-            wedEnd: "18:00",
-            thuEnd: "18:00",
-            friEnd: "18:00",
-            satEnd: "18:00",
+            monStart: '09:00',
+            sunStart: '09:00',
+            tueStart: '09:00',
+            wedStart: '09:00',
+            thuStart: '09:00',
+            friStart: '09:00',
+            satStart: '09:00',
+            sunEnd: '18:00',
+            monEnd: '18:00',
+            tueEnd: '18:00',
+            wedEnd: '18:00',
+            thuEnd: '18:00',
+            friEnd: '18:00',
+            satEnd: '18:00',
         };
     }
     async componentWillMount() {
         const schedules = await Client4.getStatus(currentUserId)
-        console.log(schedules)
         if (schedules.mode > 0) {
             this.setState({
-                activeSection: 'schedule',
                 enableCusotmDND: true,
                 sunStart: schedules.sunday_start,
                 monStart: schedules.monday_start,
@@ -138,18 +143,14 @@ class setNotificationSchedule extends React.PureComponent {
     handleSubmit = async () => {
         let nMode;
         if (!this.state.enableCusotmDND) {
-            nMode = 0
+            nMode = 0;
         } else {
-            nMode = this.state.selectedOption.value
+            nMode = this.state.selectedOption.value;
         }
-        if (this.state.selectedOption.value === 1 && this.state.sunStart === '') {
-            return
-        }
-        if (this.state.selectedOption.value === 2 && this.state.monStart === '') {
-            return
+        if (this.state.selectedOption.value === 3 && !this.state.sunEnable && !this.state.monEnable && !this.state.tueEnable && !this.state.wedEnable && !this.state.thuEnable && !this.state.friEnable && !this.state.satEnable) {
+            return;
         }
         
-        this.props.updateSection("");
         const notificationIntervalSchedule = {
             user_id: currentUserId,
             mode: nMode,
@@ -168,6 +169,7 @@ class setNotificationSchedule extends React.PureComponent {
             friday_end: this.state.friEnd,
             saturday_end: this.state.satEnd,
         };
+        this.props.updateSection('');
         dispatch(
             saveNotificationsSchedules(
                 currentUserId,
@@ -180,7 +182,7 @@ class setNotificationSchedule extends React.PureComponent {
         if (section) {
             this.props.updateSection(section);
         } else {
-            this.props.updateSection("");
+            this.props.updateSection('');
             this.props.onCancel();
         }
     };
@@ -197,20 +199,20 @@ class setNotificationSchedule extends React.PureComponent {
         });
         if (option.value === 1) {
             this.setState({
-                sunStart: "09:00",
-                monStart: "09:00",
-                tueStart: "09:00",
-                wedStart: "09:00",
-                thuStart: "09:00",
-                friStart: "09:00",
-                satStart: "09:00",
-                sunEnd: "18:00",
-                monEnd: "18:00",
-                tueEnd: "18:00",
-                wedEnd: "18:00",
-                thuEnd: "18:00",
-                friEnd: "18:00",
-                satEnd: "18:00",
+                sunStart: '09:00',
+                monStart: '09:00',
+                tueStart: '09:00',
+                wedStart: '09:00',
+                thuStart: '09:00',
+                friStart: '09:00',
+                satStart: '09:00',
+                sunEnd: '18:00',
+                monEnd: '18:00',
+                tueEnd: '18:00',
+                wedEnd: '18:00',
+                thuEnd: '18:00',
+                friEnd: '18:00',
+                satEnd: '18:00',
             })
         } else if (option.value === 2) {
             this.setState({
@@ -238,68 +240,68 @@ class setNotificationSchedule extends React.PureComponent {
                 friEnable: false,
                 satEnable: false,
                 sunEnable: false,
-                sunStart: "",
-                monStart: "",
-                tueStart: "",
-                wedStart: "",
-                thuStart: "",
-                friStart: "",
-                satStart: "",
-                sunEnd: "",
-                monEnd: "",
-                tueEnd: "",
-                wedEnd: "",
-                thuEnd: "",
-                friEnd: "",
-                satEnd: "",
+                sunStart: '',
+                monStart: '',
+                tueStart: '',
+                wedStart: '',
+                thuStart: '',
+                friStart: '',
+                satStart: '',
+                sunEnd: '',
+                monEnd: '',
+                tueEnd: '',
+                wedEnd: '',
+                thuEnd: '',
+                friEnd: '',
+                satEnd: '',
             })
         }
     };
 
     handleTimeChange = (value, id) => {
-        if (this.state.selectedOption.label === "Every Day") {
-            if (id === "start") {
+        if (this.state.selectedOption.label === 'Every Day') {
+            if (id === 'start') {
                 this.setState({
-                    sunStart: value.format("kk:mm"),
-                    monStart: value.format("kk:mm"),
-                    tueStart: value.format("kk:mm"),
-                    wedStart: value.format("kk:mm"),
-                    thuStart: value.format("kk:mm"),
-                    friStart: value.format("kk:mm"),
-                    satStart: value.format("kk:mm"),
+                    monStart: value.format('kk:mm'),
+                    tueStart: value.format('kk:mm'),
+                    wedStart: value.format('kk:mm'),
+                    thuStart: value.format('kk:mm'),
+                    sunStart: value.format('kk:mm'),
+                    friStart: value.format('kk:mm'),
+                    satStart: value.format('kk:mm'),
                 });
             } else {
                 this.setState({
-                    sunEnd: value.format("kk:mm"),
-                    monEnd: value.format("kk:mm"),
-                    tueEnd: value.format("kk:mm"),
-                    wedEnd: value.format("kk:mm"),
-                    thuEnd: value.format("kk:mm"),
-                    friEnd: value.format("kk:mm"),
-                    satEnd: value.format("kk:mm"),
+                    sunEnd: value.format('kk:mm'),
+                    monEnd: value.format('kk:mm'),
+                    tueEnd: value.format('kk:mm'),
+                    wedEnd: value.format('kk:mm'),
+                    thuEnd: value.format('kk:mm'),
+                    friEnd: value.format('kk:mm'),
+                    satEnd: value.format('kk:mm'),
                 });
             }
-        } else if (this.state.selectedOption.label === "Weekdays") {
-            if (id === "start") {
+        } else if (this.state.selectedOption.label === 'Weekdays') {
+            if (id === 'start') {
                 this.setState({
-                    monStart: value.format("kk:mm"),
-                    tueStart: value.format("kk:mm"),
-                    wedStart: value.format("kk:mm"),
-                    thuStart: value.format("kk:mm"),
-                    friStart: value.format("kk:mm"),
+                    tueStart: value.format('kk:mm'),
+                    wedStart: value.format('kk:mm'),
+                    thuStart: value.format('kk:mm'),
+                    friStart: value.format('kk:mm'),
+                    monStart: value.format('kk:mm'),
                 });
             } else {
                 this.setState({
-                    monEnd: value.format("kk:mm"),
-                    tueEnd: value.format("kk:mm"),
-                    wedEnd: value.format("kk:mm"),
-                    thuEnd: value.format("kk:mm"),
-                    friEnd: value.format("kk:mm"),
+                    tueEnd: value.format('kk:mm'),
+                    wedEnd: value.format('kk:mm'),
+                    thuEnd: value.format('kk:mm'),
+                    friEnd: value.format('kk:mm'),
+                    monEnd: value.format('kk:mm'),
                 });
             }
         } else {
             this.setState({
-                [id]: value.format("kk:mm"),
+                [id]: value.format('kk:mm'),
             });
         }
     };
@@ -307,165 +309,169 @@ class setNotificationSchedule extends React.PureComponent {
     handleDayChange = (e, start, end) => {
         this.setState({
             [e.target.id]: e.target.checked,
-            [start]: '09:00',
-            [end]:'18:00'
         });
+        if (e.target.checked) {
+            this.setState({
+                [start]: '09:00',
+                [end]: '18:00'
+            })
+        } else {
+            this.setState({
+                [start]: '',
+                [end]: ''
+            })
+        }
     };
 
     renderMaxSettingView = () => {
-        const options = [
-            { value: 1, label: "Every Day" },
-            { value: 2, label: "Weekdays" },
-            { value: 3, label: "Custom Schedule" },
-        ];
-
-        if (this.state.selectedOption.label === "Custom Schedule") {
+        
+        if (this.state.selectedOption.label === 'Custom Schedule') {
             return (
                 <SettingItemMax
                     title={localizeMessage(
-                        "user.settings.notifications.schedule.title",
-                        "Set Notifications Schedule"
+                        'user.settings.notifications.schedule.title',
+                        'Notifications Schedule'
                     )}
                     inputs={[
-                        <div key="customNotificationSchedule">
-                            <div className="mt-3">
+                        <div key='customNotificationSchedule'>
+                            <div className='mt-3'>
                                 <FormattedMessage
-                                    id="user.settings.notifications.scheduleInfo"
-                                    defaultMessage="You can schedule when you want to receive notifications. Outside of those times, your status will be set to Do Not Disturb and notifications will be disabled."
+                                    id='user.settings.notifications.scheduleInfo'
+                                    defaultMessage='You can schedule when you want to receive notifications. Outside of those times, your status will be set to Do Not Disturb and notifications will be disabled.'
                                 />
                             </div>
-                            <div className="form-switch mt-3">
-                                <label className="switch">
+                            <div className='form-switch mt-3'>
+                                <label className='switch'>
                                     <input
-                                        type="checkbox"
+                                        type='checkbox'
                                         checked={this.state.enableCusotmDND}
                                         onChange={this.handelEnableChange}
                                     />
-                                    <span className="slider round" />
+                                    <span className='slider round' />
                                 </label>
                                 <FormattedMessage
-                                    id="user.settings.notifications.schedule.enable"
-                                    defaultMessage="Enable notifications schedule"
+                                    id='user.settings.notifications.schedule.enable'
+                                    defaultMessage='Enable notifications schedule'
                                 />
                             </div>
                             {this.state.enableCusotmDND ? (
-                                <div className="form-select">
+                                <div className='form-select'>
                                     <FormattedMessage
-                                        id="user.settings.notifications.schedule.allow"
-                                        defaultMessage="Allow notifications"
+                                        id='user.settings.notifications.schedule.allow'
+                                        defaultMessage='Allow notifications'
                                     />
-                                    <div className="mt-2">
+                                    <div className='mt-2'>
                                         <ReactSelect
                                             isDisabled={
                                                 !this.state.enableCusotmDND
                                             }
-                                            className="react-select period"
-                                            classNamePrefix="react-select"
-                                            id="notificationSchedule"
-                                            options={options}
+                                            className='react-select period'
+                                            classNamePrefix='react-select'
+                                            id='notificationSchedule'
+                                            options={periodsOptions}
                                             autosize={false}
                                             clearable={false}
                                             value={this.state.selectedOption}
                                             isSearchable={false}
                                             onChange={this.handlePeriodChange}
                                         />
-                                        <div className="weekDays-selector">
+                                        <div className='weekDays-selector'>
                                             <input
                                                 disabled={
                                                     !this.state.enableCusotmDND
                                                 }
-                                                type="checkbox"
-                                                id="sunEnable"
+                                                type='checkbox'
+                                                id='sunEnable'
                                                 checked={this.state.sunEnable}
                                                 onChange={(e, start = 'sunStart', end = 'sunEnd') => 
                                                     this.handleDayChange(e, start, end)
                                                 }
-                                                className="weekday"
+                                                className='weekday'
                                             />
-                                            <label htmlFor="sunEnable">S</label>
+                                            <label htmlFor='sunEnable'>S</label>
                                             <input
                                                 disabled={
                                                     !this.state.enableCusotmDND
                                                 }
-                                                type="checkbox"
-                                                id="monEnable"
+                                                type='checkbox'
+                                                id='monEnable'
                                                 checked={this.state.monEnable}
                                                 onChange={(e, start = 'monStart', end = 'monEnd') => 
                                                     this.handleDayChange(e, start, end)
                                                 }
-                                                className="weekday"
+                                                className='weekday'
                                             />
-                                            <label htmlFor="monEnable">M</label>
+                                            <label htmlFor='monEnable'>M</label>
                                             <input
                                                 disabled={
                                                     !this.state.enableCusotmDND
                                                 }
-                                                type="checkbox"
-                                                id="tueEnable"
+                                                type='checkbox'
+                                                id='tueEnable'
                                                 checked={this.state.tueEnable}
                                                 onChange={(e, start = 'tueStart', end = 'tueEnd') => 
                                                     this.handleDayChange(e, start, end)
                                                 }
-                                                className="weekday"
+                                                className='weekday'
                                             />
-                                            <label htmlFor="tueEnable">T</label>
+                                            <label htmlFor='tueEnable'>T</label>
                                             <input
                                                 disabled={
                                                     !this.state.enableCusotmDND
                                                 }
-                                                type="checkbox"
-                                                id="wedEnable"
+                                                type='checkbox'
+                                                id='wedEnable'
                                                 checked={this.state.wedEnable}
                                                 onChange={(e, start = 'wedStart', end = 'wedEnd') => 
                                                     this.handleDayChange(e, start, end)
                                                 }
-                                                className="weekday"
+                                                className='weekday'
                                             />
-                                            <label htmlFor="wedEnable">W</label>
+                                            <label htmlFor='wedEnable'>W</label>
                                             <input
                                                 disabled={
                                                     !this.state.enableCusotmDND
                                                 }
-                                                type="checkbox"
-                                                id="thuEnable"
+                                                type='checkbox'
+                                                id='thuEnable'
                                                 checked={this.state.thuEnable}
                                                 onChange={(e, start = 'thuStart', end = 'thuEnd') => 
                                                     this.handleDayChange(e, start, end)
                                                 }
-                                                className="weekday"
+                                                className='weekday'
                                             />
-                                            <label htmlFor="thuEnable">T</label>
+                                            <label htmlFor='thuEnable'>T</label>
                                             <input
                                                 disabled={
                                                     !this.state.enableCusotmDND
                                                 }
-                                                type="checkbox"
-                                                id="friEnable"
+                                                type='checkbox'
+                                                id='friEnable'
                                                 checked={this.state.friEnable}
                                                 onChange={(e, start = 'friStart', end = 'friEnd') => 
                                                     this.handleDayChange(e, start, end)
                                                 }
-                                                className="weekday"
+                                                className='weekday'
                                             />
-                                            <label htmlFor="friEnable">F</label>
+                                            <label htmlFor='friEnable'>F</label>
                                             <input
                                                 disabled={
                                                     !this.state.enableCusotmDND
                                                 }
-                                                type="checkbox"
-                                                id="satEnable"
+                                                type='checkbox'
+                                                id='satEnable'
                                                 checked={this.state.satEnable}
                                                 onChange={(e, start = 'satStart', end = 'satEnd') => 
                                                     this.handleDayChange(e, start, end)
                                                 }
-                                                className="weekday"
+                                                className='weekday'
                                             />
-                                            <label htmlFor="satEnable">S</label>
+                                            <label htmlFor='satEnable'>S</label>
                                         </div>
-                                        <div className="form-time">
+                                        <div className='form-time'>
                                             {this.state.sunEnable ? (
-                                                <div className="time-wrapper custom-time">
-                                                    <div className="week-name">
+                                                <div className='time-wrapper custom-time'>
+                                                    <div className='week-name'>
                                                         Sunday
                                                     </div>
                                                     <TimePicker
@@ -473,7 +479,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                             !this.state
                                                                 .enableCusotmDND
                                                         }
-                                                        className="time-picker"
+                                                        className='time-picker'
                                                         showSecond={false}
                                                         format={timeFormat}
                                                         use12Hours={true}
@@ -484,12 +490,12 @@ class setNotificationSchedule extends React.PureComponent {
                                                         inputIcon={
                                                             <img
                                                                 src={clockIcon}
-                                                                layout="fill"
+                                                                layout='fill'
                                                             />
                                                         }
                                                         onChange={(
                                                             value,
-                                                            id = "sunStart"
+                                                            id = 'sunStart'
                                                         ) =>
                                                             this.handleTimeChange(
                                                                 value,
@@ -503,7 +509,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                             !this.state
                                                                 .enableCusotmDND
                                                         }
-                                                        className="time-picker"
+                                                        className='time-picker'
                                                         showSecond={false}
                                                         format={timeFormat}
                                                         use12Hours={true}
@@ -514,12 +520,12 @@ class setNotificationSchedule extends React.PureComponent {
                                                         inputIcon={
                                                             <img
                                                                 src={clockIcon}
-                                                                layout="fill"
+                                                                layout='fill'
                                                             />
                                                         }
                                                         onChange={(
                                                             value,
-                                                            id = "sunEnd"
+                                                            id = 'sunEnd'
                                                         ) =>
                                                             this.handleTimeChange(
                                                                 value,
@@ -532,8 +538,8 @@ class setNotificationSchedule extends React.PureComponent {
                                                 <div />
                                             )}
                                             {this.state.monEnable ? (
-                                                <div className="time-wrapper custom-time">
-                                                    <div className="week-name">
+                                                <div className='time-wrapper custom-time'>
+                                                    <div className='week-name'>
                                                         Monday
                                                     </div>
                                                     <TimePicker
@@ -541,7 +547,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                             !this.state
                                                                 .enableCusotmDND
                                                         }
-                                                        className="time-picker"
+                                                        className='time-picker'
                                                         showSecond={false}
                                                         format={timeFormat}
                                                         use12Hours={true}
@@ -552,12 +558,12 @@ class setNotificationSchedule extends React.PureComponent {
                                                         inputIcon={
                                                             <img
                                                                 src={clockIcon}
-                                                                layout="fill"
+                                                                layout='fill'
                                                             />
                                                         }
                                                         onChange={(
                                                             value,
-                                                            id = "monStart"
+                                                            id = 'monStart'
                                                         ) =>
                                                             this.handleTimeChange(
                                                                 value,
@@ -571,7 +577,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                             !this.state
                                                                 .enableCusotmDND
                                                         }
-                                                        className="time-picker"
+                                                        className='time-picker'
                                                         showSecond={false}
                                                         format={timeFormat}
                                                         use12Hours={true}
@@ -582,12 +588,12 @@ class setNotificationSchedule extends React.PureComponent {
                                                         inputIcon={
                                                             <img
                                                                 src={clockIcon}
-                                                                layout="fill"
+                                                                layout='fill'
                                                             />
                                                         }
                                                         onChange={(
                                                             value,
-                                                            id = "monEnd"
+                                                            id = 'monEnd'
                                                         ) =>
                                                             this.handleTimeChange(
                                                                 value,
@@ -600,8 +606,8 @@ class setNotificationSchedule extends React.PureComponent {
                                                 <div />
                                             )}
                                             {this.state.tueEnable ? (
-                                                <div className="time-wrapper custom-time">
-                                                    <div className="week-name">
+                                                <div className='time-wrapper custom-time'>
+                                                    <div className='week-name'>
                                                         Tuesday
                                                     </div>
                                                     <TimePicker
@@ -609,7 +615,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                             !this.state
                                                                 .enableCusotmDND
                                                         }
-                                                        className="time-picker"
+                                                        className='time-picker'
                                                         showSecond={false}
                                                         format={timeFormat}
                                                         use12Hours={true}
@@ -620,12 +626,12 @@ class setNotificationSchedule extends React.PureComponent {
                                                         inputIcon={
                                                             <img
                                                                 src={clockIcon}
-                                                                layout="fill"
+                                                                layout='fill'
                                                             />
                                                         }
                                                         onChange={(
                                                             value,
-                                                            id = "tueStart"
+                                                            id = 'tueStart'
                                                         ) =>
                                                             this.handleTimeChange(
                                                                 value,
@@ -639,7 +645,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                             !this.state
                                                                 .enableCusotmDND
                                                         }
-                                                        className="time-picker"
+                                                        className='time-picker'
                                                         showSecond={false}
                                                         format={timeFormat}
                                                         use12Hours={true}
@@ -650,12 +656,12 @@ class setNotificationSchedule extends React.PureComponent {
                                                         inputIcon={
                                                             <img
                                                                 src={clockIcon}
-                                                                layout="fill"
+                                                                layout='fill'
                                                             />
                                                         }
                                                         onChange={(
                                                             value,
-                                                            id = "tueEnd"
+                                                            id = 'tueEnd'
                                                         ) =>
                                                             this.handleTimeChange(
                                                                 value,
@@ -668,8 +674,8 @@ class setNotificationSchedule extends React.PureComponent {
                                                 <div />
                                             )}
                                             {this.state.wedEnable ? (
-                                                <div className="time-wrapper custom-time">
-                                                    <div className="week-name">
+                                                <div className='time-wrapper custom-time'>
+                                                    <div className='week-name'>
                                                         Wednesday
                                                     </div>
                                                     <TimePicker
@@ -677,7 +683,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                             !this.state
                                                                 .enableCusotmDND
                                                         }
-                                                        className="time-picker"
+                                                        className='time-picker'
                                                         showSecond={false}
                                                         format={timeFormat}
                                                         use12Hours={true}
@@ -688,12 +694,12 @@ class setNotificationSchedule extends React.PureComponent {
                                                         inputIcon={
                                                             <img
                                                                 src={clockIcon}
-                                                                layout="fill"
+                                                                layout='fill'
                                                             />
                                                         }
                                                         onChange={(
                                                             value,
-                                                            id = "wedStart"
+                                                            id = 'wedStart'
                                                         ) =>
                                                             this.handleTimeChange(
                                                                 value,
@@ -707,7 +713,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                             !this.state
                                                                 .enableCusotmDND
                                                         }
-                                                        className="time-picker"
+                                                        className='time-picker'
                                                         showSecond={false}
                                                         format={timeFormat}
                                                         use12Hours={true}
@@ -718,12 +724,12 @@ class setNotificationSchedule extends React.PureComponent {
                                                         inputIcon={
                                                             <img
                                                                 src={clockIcon}
-                                                                layout="fill"
+                                                                layout='fill'
                                                             />
                                                         }
                                                         onChange={(
                                                             value,
-                                                            id = "wedEnd"
+                                                            id = 'wedEnd'
                                                         ) =>
                                                             this.handleTimeChange(
                                                                 value,
@@ -736,8 +742,8 @@ class setNotificationSchedule extends React.PureComponent {
                                                 <div />
                                             )}
                                             {this.state.thuEnable ? (
-                                                <div className="time-wrapper custom-time">
-                                                    <div className="week-name">
+                                                <div className='time-wrapper custom-time'>
+                                                    <div className='week-name'>
                                                         Thursday
                                                     </div>
                                                     <TimePicker
@@ -745,7 +751,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                             !this.state
                                                                 .enableCusotmDND
                                                         }
-                                                        className="time-picker"
+                                                        className='time-picker'
                                                         showSecond={false}
                                                         format={timeFormat}
                                                         use12Hours={true}
@@ -756,12 +762,12 @@ class setNotificationSchedule extends React.PureComponent {
                                                         inputIcon={
                                                             <img
                                                                 src={clockIcon}
-                                                                layout="fill"
+                                                                layout='fill'
                                                             />
                                                         }
                                                         onChange={(
                                                             value,
-                                                            id = "thuStart"
+                                                            id = 'thuStart'
                                                         ) =>
                                                             this.handleTimeChange(
                                                                 value,
@@ -775,7 +781,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                             !this.state
                                                                 .enableCusotmDND
                                                         }
-                                                        className="time-picker"
+                                                        className='time-picker'
                                                         showSecond={false}
                                                         format={timeFormat}
                                                         use12Hours={true}
@@ -786,12 +792,12 @@ class setNotificationSchedule extends React.PureComponent {
                                                         inputIcon={
                                                             <img
                                                                 src={clockIcon}
-                                                                layout="fill"
+                                                                layout='fill'
                                                             />
                                                         }
                                                         onChange={(
                                                             value,
-                                                            id = "thuEnd"
+                                                            id = 'thuEnd'
                                                         ) =>
                                                             this.handleTimeChange(
                                                                 value,
@@ -804,8 +810,8 @@ class setNotificationSchedule extends React.PureComponent {
                                                 <div />
                                             )}
                                             {this.state.friEnable ? (
-                                                <div className="time-wrapper custom-time">
-                                                    <div className="week-name">
+                                                <div className='time-wrapper custom-time'>
+                                                    <div className='week-name'>
                                                         Friday
                                                     </div>
                                                     <TimePicker
@@ -813,7 +819,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                             !this.state
                                                                 .enableCusotmDND
                                                         }
-                                                        className="time-picker"
+                                                        className='time-picker'
                                                         showSecond={false}
                                                         format={timeFormat}
                                                         use12Hours={true}
@@ -825,12 +831,12 @@ class setNotificationSchedule extends React.PureComponent {
                                                         inputIcon={
                                                             <img
                                                                 src={clockIcon}
-                                                                layout="fill"
+                                                                layout='fill'
                                                             />
                                                         }
                                                         onChange={(
                                                             value,
-                                                            id = "friStart"
+                                                            id = 'friStart'
                                                         ) =>
                                                             this.handleTimeChange(
                                                                 value,
@@ -844,23 +850,23 @@ class setNotificationSchedule extends React.PureComponent {
                                                             !this.state
                                                                 .enableCusotmDND
                                                         }
-                                                        className="time-picker"
+                                                        className='time-picker'
                                                         showSecond={false}
                                                         format={timeFormat}
                                                         use12Hours={true}
                                                         inputReadOnly={true}
                                                         clearIcon={false}
-                                                        value={moment(this.state.freEnd, 'kk:mm')}
+                                                        value={moment(this.state.friEnd, 'kk:mm')}
                                                         minuteStep={30}
                                                         inputIcon={
                                                             <img
                                                                 src={clockIcon}
-                                                                layout="fill"
+                                                                layout='fill'
                                                             />
                                                         }
                                                         onChange={(
                                                             value,
-                                                            id = "friEnd"
+                                                            id = 'friEnd'
                                                         ) =>
                                                             this.handleTimeChange(
                                                                 value,
@@ -873,8 +879,8 @@ class setNotificationSchedule extends React.PureComponent {
                                                 <div />
                                             )}
                                             {this.state.satEnable ? (
-                                                <div className="time-wrapper custom-time">
-                                                    <div className="week-name">
+                                                <div className='time-wrapper custom-time'>
+                                                    <div className='week-name'>
                                                         Saturday
                                                     </div>
                                                     <TimePicker
@@ -882,7 +888,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                             !this.state
                                                                 .enableCusotmDND
                                                         }
-                                                        className="time-picker"
+                                                        className='time-picker'
                                                         showSecond={false}
                                                         format={timeFormat}
                                                         use12Hours={true}
@@ -893,12 +899,12 @@ class setNotificationSchedule extends React.PureComponent {
                                                         inputIcon={
                                                             <img
                                                                 src={clockIcon}
-                                                                layout="fill"
+                                                                layout='fill'
                                                             />
                                                         }
                                                         onChange={(
                                                             value,
-                                                            id = "satStart"
+                                                            id = 'satStart'
                                                         ) =>
                                                             this.handleTimeChange(
                                                                 value,
@@ -912,7 +918,7 @@ class setNotificationSchedule extends React.PureComponent {
                                                             !this.state
                                                                 .enableCusotmDND
                                                         }
-                                                        className="time-picker"
+                                                        className='time-picker'
                                                         showSecond={false}
                                                         format={timeFormat}
                                                         use12Hours={true}
@@ -923,12 +929,12 @@ class setNotificationSchedule extends React.PureComponent {
                                                         inputIcon={
                                                             <img
                                                                 src={clockIcon}
-                                                                layout="fill"
+                                                                layout='fill'
                                                             />
                                                         }
                                                         onChange={(
                                                             value,
-                                                            id = "satEnd"
+                                                            id = 'satEnd'
                                                         ) =>
                                                             this.handleTimeChange(
                                                                 value,
@@ -950,7 +956,7 @@ class setNotificationSchedule extends React.PureComponent {
                     ]}
                     submit={this.handleSubmit}
                     saving={this.props.saving}
-                    width="full"
+                    width='full'
                     updateSection={this.handleUpdateSection}
                 />
             );
@@ -958,72 +964,72 @@ class setNotificationSchedule extends React.PureComponent {
         return (
             <SettingItemMax
                 title={localizeMessage(
-                    "user.settings.notifications.schedule.title",
-                    "Set Notifications Schedule"
+                    'user.settings.notifications.schedule.title',
+                    'Notifications Schedule'
                 )}
                 inputs={[
-                    <div key="NotificationSchedule">
-                        <div className="mt-3">
+                    <div key='NotificationSchedule'>
+                        <div className='mt-3'>
                             <FormattedMessage
-                                id="user.settings.notifications.scheduleInfo"
-                                defaultMessage="You can schedule when you want to receive notifications. Outside of those times, your status will be set to Do Not Disturb and notifications will be disabled."
+                                id='user.settings.notifications.scheduleInfo'
+                                defaultMessage='You can schedule when you want to receive notifications. Outside of those times, your status will be set to Do Not Disturb and notifications will be disabled.'
                             />
                         </div>
-                        <div className="form-switch mt-3">
-                            <label className="switch">
+                        <div className='form-switch mt-3'>
+                            <label className='switch'>
                                 <input
-                                    type="checkbox"
+                                    type='checkbox'
                                     checked={this.state.enableCusotmDND}
                                     onChange={this.handelEnableChange}
                                 />
-                                <span className="slider round" />
+                                <span className='slider round' />
                             </label>
                             <FormattedMessage
-                                id="user.settings.notifications.schedule.enable"
-                                defaultMessage="Enable notifications schedule"
+                                id='user.settings.notifications.schedule.enable'
+                                defaultMessage='Enable notifications schedule'
                             />
                         </div>
                         {this.state.enableCusotmDND ? (
-                            <div className="form-select">
+                            <div className='form-select'>
                                 <FormattedMessage
-                                    id="user.settings.notifications.schedule.allow"
-                                    defaultMessage="Allow notifications"
+                                    id='user.settings.notifications.schedule.allow'
+                                    defaultMessage='Allow notifications'
                                 />
-                                <div className="mt-2">
+                                <div className='mt-2'>
                                     <ReactSelect
                                         isDisabled={!this.state.enableCusotmDND}
-                                        className="react-select period"
-                                        classNamePrefix="react-select"
-                                        id="notificationSchedule"
-                                        options={options}
+                                        className='react-select period'
+                                        classNamePrefix='react-select'
+                                        id='notificationSchedule'
+                                        options={periodsOptions}
                                         autosize={false}
                                         clearable={false}
                                         value={this.state.selectedOption}
                                         isSearchable={false}
-                                        placeholder="Period"
+                                        placeholder='Period'
                                         onChange={this.handlePeriodChange}
                                     />
-                                    <div className="time-wrapper n-custom-time">
+                                    <div className='time-wrapper n-custom-time'>
                                         <TimePicker
                                             disabled={
                                                 !this.state.enableCusotmDND
                                             }
-                                            className="time-picker"
+                                            className='time-picker'
                                             showSecond={false}
                                             format={timeFormat}
                                             use12Hours={true}
                                             inputReadOnly={true}
                                             clearIcon={false}
-                                            onChange={(value, id = "start") =>
+                                            onChange={(value, id = 'start') =>
                                                 this.handleTimeChange(value, id)
                                             }
-                                            placeholder="Start"
+                                            placeholder='Start'
                                             value={moment(this.state.monStart, 'kk:mm')}
                                             minuteStep={30}
                                             inputIcon={
                                                 <img
                                                     src={clockIcon}
-                                                    layout="fill"
+                                                    layout='fill'
                                                 />
                                             }
                                         />
@@ -1032,22 +1038,22 @@ class setNotificationSchedule extends React.PureComponent {
                                             disabled={
                                                 !this.state.enableCusotmDND
                                             }
-                                            className="time-picker"
+                                            className='time-picker'
                                             showSecond={false}
                                             format={timeFormat}
                                             use12Hours={true}
                                             inputReadOnly={true}
                                             clearIcon={false}
-                                            onChange={(value, id = "end") =>
+                                            onChange={(value, id = 'end') =>
                                                 this.handleTimeChange(value, id)
                                             }
-                                            placeholder="End"
+                                            placeholder='End'
                                             value={moment(this.state.monEnd, 'kk:mm')}
                                             minuteStep={30}
                                             inputIcon={
                                                 <img
                                                     src={clockIcon}
-                                                    layout="fill"
+                                                    layout='fill'
                                                 />
                                             }
                                         />
@@ -1062,34 +1068,58 @@ class setNotificationSchedule extends React.PureComponent {
                 submit={this.handleSubmit}
                 saving={this.props.saving}
                 server_error={this.props.serverError}
-                width="full"
+                width='full'
                 updateSection={this.handleUpdateSection}
             />
         );
     };
 
     renderMinSettingView = () => {
-        const description = (
-            <FormattedMessage
-                id="user.settings.schedule.time"
-                defaultMessage="Every Day"
-            />
-        );
+        let description;
+        if (!this.state.enableCusotmDND) {
+            description = (
+                <FormattedMessage
+                    id='user.settings.notifications.schedule.time.disabled'
+                    defaultMessage='Disabled'
+                />
+            );
+        } else if (this.state.selectedOption.value === 1) {
+            description = (
+                <FormattedMessage
+                    id='user.settings.notifications.schedule.time.everyday'
+                    defaultMessage='Every Day'
+                />
+            );
+        } else if (this.state.selectedOption.value === 2) {
+            description = (
+                <FormattedMessage
+                    id='user.settings.notifications.schedule.time.weekdays'
+                    defaultMessage='Weekdays'
+                />
+            );
+        } else {
+            description = (
+                <FormattedMessage
+                    id='user.settings.notifications.schedule.time.custom'
+                    defaultMessage='Custom Schedule'
+                />
+            );
+        }
         return (
             <SettingItemMin
                 title={localizeMessage(
-                    "user.settings.notifications.schedule.title",
-                    "Set Notifications Schedule"
+                    'user.settings.notifications.schedule.title',
+                    'Notifications Schedule'
                 )}
                 describe={description}
-                section={"schedule"}
+                section={'schedule'}
                 updateSection={this.handleUpdateSection}
             />
         );
     };
 
     render() {
-        if (this.props.activeSection !== "schedule") {
+        if (this.props.activeSection !== 'schedule') {
             return this.renderMinSettingView();
         }
 
