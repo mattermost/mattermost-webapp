@@ -42,27 +42,31 @@ female_suffix = [EmojiConstants::ZWJ, EmojiConstants::GENDER_FEMALE, EmojiConsta
 
 Emoji.all.clone.each do |emoji|
   next unless emoji.raw
-
+  
   sequences = unicode_emoji_helper.emoji_modifier_sequences(emoji.raw.split(''))
   next unless sequences
-
+    
   sequences.each do |sequence|
     pngbytes = emoji_extractor.png(sequence)
-    print "\nmissing sequence #{sequence}" if pngbytes.nil? && !sequence.end_with?(female_suffix)
+    print "\nmissing sequence #{sequence}\n" if pngbytes.nil?
     next unless pngbytes
 
     modifier = sequence.split('')[1]
-    short_name = Mattermost::UnicodeEmojiHelper::SKIN_TONE_MAP[modifier]
-    new_name = "#{emoji.name}_#{short_name.gsub(/[\s-]/, '_')}"
-    new_emoji = Emoji.create(new_name) do |char|
-      char.category = 'skintone'
-      char.add_unicode_alias sequence
-    end
-    new_emoji.image_filename = "#{new_emoji.hex_inspect}.png"
-
-    fullpath = "#{emoji_path}/#{new_emoji.image_filename}"
-    unless File.file?(fullpath)
-      File.open(fullpath, 'wb') { |f| f.write pngbytes }
+    short_name = EmojiConstants::SKIN_TONE_MAP[modifier]
+    if short_name != nil
+        new_name = "#{emoji.name}_#{short_name.gsub(/[\s-]/, '_')}"
+        new_emoji = Emoji.create(new_name) do |char|
+          char.category = 'skintone'
+          char.add_unicode_alias sequence
+        end
+        new_emoji.image_filename = "#{new_emoji.hex_inspect}.png"
+    
+        fullpath = "#{emoji_path}/#{new_emoji.image_filename}"
+        unless File.file?(fullpath)
+          File.open(fullpath, 'wb') { |f| f.write pngbytes }
+        end
+    else
+        puts "\nmissing modifier #{modifier} from sequence #{sequence}\n" 
     end
 
     print '.'
