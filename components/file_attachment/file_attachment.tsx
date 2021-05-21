@@ -196,11 +196,13 @@ export default class FileAttachment extends React.PureComponent<Props, State> {
             );
         });
 
-        if (!defaultItems?.length && !pluginItems?.length) {
+        const isMenuVisible = defaultItems?.length || pluginItems?.length;
+        if (!isMenuVisible) {
             return null;
         }
 
-        if (defaultItems?.length && pluginItems?.length) {
+        const isDividerVisible = defaultItems?.length && pluginItems?.length
+        if (isDividerVisible) {
             divider = (
                 <li
                     id={`divider_file_${fileInfo.id}_plugins`}
