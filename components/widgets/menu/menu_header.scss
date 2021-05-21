@@ -6,15 +6,15 @@
         clear: both;
         color: inherit;
         cursor: default;
-        display: flex;
+        display: block;
         font-weight: normal;
-        padding: 0 32px 0 20px;
+        padding: 0 32px 0 24px;
         text-align: left;
         white-space: nowrap;
         width: 100%;
         overflow: hidden;
         text-overflow: ellipsis;
+        line-height: 28px;
         font-weight: $font-weight--semibold;
-        height: 32px;
     }
 }
