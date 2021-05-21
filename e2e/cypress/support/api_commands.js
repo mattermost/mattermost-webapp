@@ -390,14 +390,13 @@ Cypress.Commands.add('apiLinkGroupChannel', (groupID, channelID) => {
 /**
  * Get all Custom Retention Policies
  * @param {Integer} page - The page to select
- * @param {Integer} perPage - The number of groups per page
+ * @param {Integer} perPage - The number of policies per page
  */
 Cypress.Commands.add('apiGetCustomRetentionPolicies', (page = 0, perPage = 100) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: `/api/v4/data_retention/policies?page=${page}&per_page=${perPage}`,
         method: 'GET',
-        timeout: 60000,
     }).then((response) => {
         expect(response.status).to.equal(200);
         return cy.wrap(response);
@@ -413,7 +412,6 @@ Cypress.Commands.add('apiGetCustomRetentionPolicy', (id) => {
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: `/api/v4/data_retention/policies/${id}`,
         method: 'GET',
-        timeout: 60000,
     }).then((response) => {
         expect(response.status).to.equal(200);
         return cy.wrap(response);
@@ -429,7 +427,6 @@ Cypress.Commands.add('apiDeleteCustomRetentionPolicy', (id) => {
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: `/api/v4/data_retention/policies/${id}`,
         method: 'DELETE',
-        timeout: 60000,
     }).then((response) => {
         expect(response.status).to.equal(200);
         return cy.wrap(response);
@@ -439,13 +436,14 @@ Cypress.Commands.add('apiDeleteCustomRetentionPolicy', (id) => {
 /**
  * Get Custom Retention Policy teams
  * @param {string} id - The id of the policy
+ * @param {Integer} page - The page to select
+ * @param {Integer} perPage - The number of policy teams per page
  */
 Cypress.Commands.add('apiGetCustomRetentionPolicyTeams', (id, page = 0, perPage = 100) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: `/api/v4/data_retention/policies/${id}/teams?page=${page}&per_page=${perPage}`,
         method: 'GET',
-        timeout: 60000,
     }).then((response) => {
         expect(response.status).to.equal(200);
         return cy.wrap(response);
@@ -455,13 +453,14 @@ Cypress.Commands.add('apiGetCustomRetentionPolicyTeams', (id, page = 0, perPage 
 /**
  * Get Custom Retention Policy channels
  * @param {string} id - The id of the policy
+ * @param {Integer} page - The page to select
+ * @param {Integer} perPage - The number of policy channels per page
  */
 Cypress.Commands.add('apiGetCustomRetentionPolicyChannels', (id, page = 0, perPage = 100) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: `/api/v4/data_retention/policies/${id}/channels?page=${page}&per_page=${perPage}`,
         method: 'GET',
-        timeout: 60000,
     }).then((response) => {
         expect(response.status).to.equal(200);
         return cy.wrap(response);
@@ -471,13 +470,13 @@ Cypress.Commands.add('apiGetCustomRetentionPolicyChannels', (id, page = 0, perPa
 /**
  * Search Custom Retention Policy teams
  * @param {string} id - The id of the policy
+ * @param {string} term - The team search term
  */
 Cypress.Commands.add('apiSearchCustomRetentionPolicyTeams', (id, term) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: `/api/v4/data_retention/policies/${id}/teams/search`,
         method: 'POST',
-        timeout: 60000,
         body: {term},
     }).then((response) => {
         expect(response.status).to.equal(200);
@@ -488,13 +487,13 @@ Cypress.Commands.add('apiSearchCustomRetentionPolicyTeams', (id, term) => {
 /**
  * Search Custom Retention Policy teams
  * @param {string} id - The id of the policy
+ * @param {string} term - The channel search term
  */
 Cypress.Commands.add('apiSearchCustomRetentionPolicyChannels', (id, term) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: `/api/v4/data_retention/policies/${id}/channels/search`,
         method: 'POST',
-        timeout: 60000,
         body: {term},
     }).then((response) => {
         expect(response.status).to.equal(200);
@@ -507,7 +506,6 @@ function linkUnlinkGroupSyncable(groupID, syncableID, syncableType, httpMethod) 
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: `/api/v4/groups/${groupID}/${syncableType}s/${syncableID}/link`,
         method: httpMethod,
-        timeout: 60000,
         body: {auto_add: true},
     }).then((response) => {
         expect(response.status).to.be.oneOf([200, 201, 204]);
