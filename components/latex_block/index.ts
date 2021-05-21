@@ -5,9 +5,11 @@ import {connect} from 'react-redux';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
-import LatexBlock from './latex_block.jsx';
+import {GlobalState} from 'mattermost-redux/types/store';
 
-function mapStateToProps(state) {
+import LatexBlock from './latex_block';
+
+function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
     return {
         enableLatex: config.EnableLatex === 'true',

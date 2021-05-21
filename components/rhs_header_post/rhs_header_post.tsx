@@ -12,6 +12,7 @@ import OverlayTrigger from 'components/overlay_trigger';
 import Constants, {RHSStates} from 'utils/constants';
 import {isMobile} from 'utils/utils.jsx';
 import {browserHistory} from 'utils/browser_history';
+import FollowButton from 'components/threading/common/follow_button';
 
 interface RhsHeaderPostProps {
     isExpanded: boolean;
@@ -19,15 +20,18 @@ interface RhsHeaderPostProps {
     previousRhsState?: string;
     relativeTeamUrl: string;
     channel: Channel;
-    actions: {
-        setRhsExpanded: (b: boolean) => void;
-        showMentions: () => void;
-        showSearchResults: () => void;
-        showFlaggedPosts: () => void;
-        showPinnedPosts: () => void;
-        closeRightHandSide: (e?: React.MouseEvent) => void;
-        toggleRhsExpanded: (e: React.MouseEvent) => void;
-    };
+    isCollapsedThreadsEnabled: boolean;
+    isFollowingThread?: boolean;
+    currentTeamId: string;
+    currentUserId: string;
+    setRhsExpanded: (b: boolean) => void;
+    showMentions: () => void;
+    showSearchResults: () => void;
+    showFlaggedPosts: () => void;
+    showPinnedPosts: () => void;
+    closeRightHandSide: (e?: React.MouseEvent) => void;
+    toggleRhsExpanded: (e: React.MouseEvent) => void;
+    setThreadFollow: (userId: string, teamId: string, threadId: string, newState: boolean) => void;
 }
 
 export default class RhsHeaderPost extends React.PureComponent<RhsHeaderPostProps> {
@@ -36,16 +40,16 @@ export default class RhsHeaderPost extends React.PureComponent<RhsHeaderPostProp
 
         switch (this.props.previousRhsState) {
         case RHSStates.SEARCH:
-            this.props.actions.showSearchResults();
+            this.props.showSearchResults();
             break;
         case RHSStates.MENTION:
-            this.props.actions.showMentions();
+            this.props.showMentions();
             break;
         case RHSStates.FLAG:
-            this.props.actions.showFlaggedPosts();
+            this.props.showFlaggedPosts();
             break;
         case RHSStates.PIN:
-            this.props.actions.showPinnedPosts();
+            this.props.showPinnedPosts();
             break;
         default:
             break;
@@ -54,12 +58,17 @@ export default class RhsHeaderPost extends React.PureComponent<RhsHeaderPostProp
 
     handleJumpClick = () => {
         if (isMobile()) {
-            this.props.actions.closeRightHandSide();
+            this.props.closeRightHandSide();
         }
 
-        this.props.actions.setRhsExpanded(false);
+        this.props.setRhsExpanded(false);
         const teamUrl = this.props.relativeTeamUrl;
         browserHistory.push(`${teamUrl}/pl/${this.props.rootPostId}`);
+    }
+
+    handleFollowChange = () => {
+        const {currentTeamId, currentUserId, rootPostId, isFollowingThread} = this.props;
+        this.props.setThreadFollow(currentUserId, currentTeamId, rootPostId, !isFollowingThread);
     }
 
     render() {
@@ -174,7 +183,15 @@ export default class RhsHeaderPost extends React.PureComponent<RhsHeaderPostProp
                         </button>
                     }
                 </span>
-                <div className='pull-right'>
+                <div className='controls'>
+                    {this.props.isCollapsedThreadsEnabled ? (
+                        <FollowButton
+                            className='sidebar--right__follow__thread'
+                            isFollowing={this.props.isFollowingThread ?? false}
+                            onClick={this.handleFollowChange}
+                        />
+                    ) : null}
+
                     <OverlayTrigger
                         delayShow={Constants.OVERLAY_TIME_DELAY}
                         placement='top'
@@ -184,7 +201,7 @@ export default class RhsHeaderPost extends React.PureComponent<RhsHeaderPostProp
                             type='button'
                             className='sidebar--right__expand btn-icon'
                             aria-label='Expand'
-                            onClick={this.props.actions.toggleRhsExpanded}
+                            onClick={this.props.toggleRhsExpanded}
                         >
                             <FormattedMessage
                                 id='rhs_header.expandSidebarTooltip.icon'
@@ -221,7 +238,7 @@ export default class RhsHeaderPost extends React.PureComponent<RhsHeaderPostProp
                             type='button'
                             className='sidebar--right__close btn-icon'
                             aria-label='Close'
-                            onClick={this.props.actions.closeRightHandSide}
+                            onClick={this.props.closeRightHandSide}
                         >
                             <FormattedMessage
                                 id='rhs_header.closeTooltip.icon'

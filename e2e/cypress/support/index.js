@@ -21,6 +21,7 @@ import './api_commands'; // soon to deprecate
 import './client';
 import './common_login_commands';
 import './db_commands';
+import './email';
 import './external_commands';
 import './extended_commands';
 import './fetch_commands';

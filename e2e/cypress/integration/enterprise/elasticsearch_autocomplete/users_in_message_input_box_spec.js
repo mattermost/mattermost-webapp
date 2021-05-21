@@ -10,18 +10,13 @@
 // Stage: @prod
 // Group: @enterprise @elasticsearch @autocomplete @not_cloud
 
-import * as TIMEOUTS from '../../../fixtures/timeouts';
-
-import {
-    enableElasticSearch,
-    getTestUsers,
-    startAtMention,
-} from './helpers';
+import {getRandomLetter} from '../../../utils';
+import {doTestPostextbox} from '../../autocomplete/common_test';
+import {createSearchData, enableElasticSearch} from '../../autocomplete/helpers';
 
 describe('Autocomplete with Elasticsearch - Users', () => {
-    const timestamp = Date.now();
-    const testUsers = getTestUsers();
-    let testTeam;
+    const prefix = getRandomLetter(3);
+    let testUsers;
 
     before(() => {
         cy.shouldNotRunOnCloudEdition();
@@ -32,135 +27,85 @@ describe('Autocomplete with Elasticsearch - Users', () => {
         // # Enable Elasticsearch
         enableElasticSearch();
 
-        // # Create new team for tests
-        cy.apiCreateTeam(`elastic-${timestamp}`, `elastic-${timestamp}`).then(({team}) => {
-            testTeam = team;
+        createSearchData(prefix).then((searchData) => {
+            testUsers = searchData.users;
 
-            // # Create pool of users for tests
-            Cypress._.forEach(testUsers, (testUser) => {
-                cy.apiCreateUser({user: testUser}).then(({user}) => {
-                    cy.apiAddUserToTeam(testTeam.id, user.id);
-                });
-            });
+            cy.apiLogin(searchData.sysadmin);
 
             // # Navigate to the new teams town square
-            cy.visit(`/${testTeam.name}/channels/town-square`);
+            cy.visit(`/${searchData.team.name}/channels/town-square`);
         });
     });
 
     describe('search for user in message input box', () => {
         describe('by @username', () => {
             it('MM-T2505_1 Full username returns single user', () => {
-                getInput();
-                startAtMention('@ironman');
-                verifySuggestion(testUsers.ironman);
+                doTestPostextbox(`@${prefix}ironman`, testUsers.ironman);
             });
 
             it('MM-T2505_2 Unique partial username returns single user', () => {
-                getInput();
-                startAtMention('@do');
-                verifySuggestion(testUsers.doctorstrange);
+                doTestPostextbox(`@${prefix}doc`, testUsers.doctorstrange);
             });
 
             it('MM-T2505_3 Partial username returns all users that match', () => {
-                getInput();
-                startAtMention('@i');
-                verifySuggestion(testUsers.ironman);
+                doTestPostextbox(`@${prefix}i`, testUsers.ironman);
             });
         });
 
         describe('by @firstname', () => {
             it('MM-T3857_1 Full first name returns single user', () => {
-                getInput();
-                startAtMention('@tony');
-                verifySuggestion(testUsers.ironman);
+                doTestPostextbox(`@${prefix}tony`, testUsers.ironman);
             });
 
             it('MM-T3857_2 Unique partial first name returns single user', () => {
-                getInput();
-                startAtMention('@wa');
-                verifySuggestion(testUsers.deadpool);
+                doTestPostextbox(`@${prefix}wa`, testUsers.deadpool);
             });
 
             it('MM-T3857_3 Partial first name returns all users that match', () => {
-                getInput();
-                startAtMention('@ste');
-                verifySuggestion(testUsers.captainamerica, testUsers.doctorstrange);
+                doTestPostextbox(`@${prefix}ste`, testUsers.captainamerica, testUsers.doctorstrange);
             });
         });
 
         describe('by @lastname', () => {
             it('MM-T3858_1 Full last name returns single user', () => {
-                getInput();
-                startAtMention('@stark');
-                verifySuggestion(testUsers.ironman);
+                doTestPostextbox(`@${prefix}stark`, testUsers.ironman);
             });
 
             it('MM-T3858_2 Unique partial last name returns single user', () => {
-                getInput();
-                startAtMention('@ban');
-                verifySuggestion(testUsers.hulk);
+                doTestPostextbox(`@${prefix}ban`, testUsers.hulk);
             });
 
             it('MM-T3858_3 Partial last name returns all users that match', () => {
-                getInput();
-                startAtMention('@ba');
-                verifySuggestion(testUsers.hawkeye, testUsers.hulk);
+                doTestPostextbox(`@${prefix}ba`, testUsers.hawkeye, testUsers.hulk);
             });
         });
 
         describe('by @nickname', () => {
             it('MM-T3859_1 Full nickname returns single user', () => {
-                getInput();
-                startAtMention('@ronin');
-                verifySuggestion(testUsers.hawkeye);
+                doTestPostextbox(`@${prefix}ronin`, testUsers.hawkeye);
             });
 
             it('MM-T3859_2 Unique partial nickname returns single user', () => {
-                getInput();
-                startAtMention('@gam');
-                verifySuggestion(testUsers.hulk);
+                doTestPostextbox(`@${prefix}gam`, testUsers.hulk);
             });
 
             it('MM-T3859_3 Partial nickname returns all users that match', () => {
-                getInput();
-                startAtMention('@pro');
-                verifySuggestion(testUsers.captainamerica, testUsers.ironman);
+                doTestPostextbox(`@${prefix}pro`, testUsers.captainamerica, testUsers.ironman);
             });
         });
 
         describe('special characters in usernames are returned', () => {
             it('MM-T2515_1 Username with dot', () => {
-                getInput();
-                startAtMention('@dot.dot');
-                verifySuggestion(testUsers.dot);
+                doTestPostextbox(`@${prefix}dot.dot`, testUsers.dot);
             });
 
             it('MM-T2515_2 Username with dash', () => {
-                getInput();
-                startAtMention('@dash-dash');
-                verifySuggestion(testUsers.dash);
+                doTestPostextbox(`@${prefix}dash-dash`, testUsers.dash);
             });
 
             it('MM-T2515_3 Username with underscore', () => {
-                getInput();
-                startAtMention('@under_score');
-                verifySuggestion(testUsers.underscore);
+                doTestPostextbox(`@${prefix}under_score`, testUsers.underscore);
             });
         });
     });
 });
-
-function getInput() {
-    cy.wait(TIMEOUTS.HALF_SEC);
-    cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).
-        as('input').
-        should('be.visible').
-        clear();
-}
-
-function verifySuggestion(...expectedUsers) {
-    expectedUsers.forEach((user) => {
-        cy.uiVerifyAtMentionSuggestion(user);
-    });
-}

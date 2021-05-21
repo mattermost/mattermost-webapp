@@ -4,7 +4,7 @@
 import React from 'react';
 
 import * as Utils from 'utils/utils.jsx';
-import StatusDropdown from 'components/status_dropdown/index.jsx';
+import StatusDropdown from 'components/status_dropdown';
 
 import SidebarHeaderDropdown from './dropdown';
 
