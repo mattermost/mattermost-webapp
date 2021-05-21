@@ -39,9 +39,9 @@ describe('Archived channels', () => {
             cy.clickPostReactionIcon(postId);
 
             // # Choose "slightly_frowning_face" emoji
-            // delaying 500ms in case of lag
-            // eslint-disable-next-line cypress/no-unnecessary-waiting
-            cy.get('.emoji-picker__items #emoji-1f641').wait(500).click();
+            cy.findByTestId('slightly_frowning_face').
+                should('exist').
+                click({force: true});
 
             // * Should have added the reaction with count
             cy.get(`#postReaction-${postId}-slightly_frowning_face .Reaction__number--display`).should('have.text', '1');

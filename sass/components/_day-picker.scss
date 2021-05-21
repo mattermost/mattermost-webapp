@@ -20,16 +20,7 @@
         }
 
         .DayPicker-Day {
-            min-width: 32px;
-            height: 32px;
-            border-radius: 100%;
-            padding: 0;
-            font-weight: 600;
-        }
-
-        .DayPicker-Day--today {
-            background: rgba(var(--button-bg-rgb), 0.08);
-            color: var(--button-bg);
+            border-radius: $border-rad * 2;
         }
 
         .DayPicker-wrapper {

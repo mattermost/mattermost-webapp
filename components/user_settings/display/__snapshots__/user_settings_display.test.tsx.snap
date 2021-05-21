@@ -92,6 +92,21 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
+        section="availabilityStatus"
+        title={
+          <FormattedMessage
+            defaultMessage="Show user availability on posts"
+            id="user.settings.display.availabilityStatusOnPostsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
         section="linkpreview"
         title={
           <FormattedMessage
@@ -401,6 +416,21 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
+        section="availabilityStatus"
+        title={
+          <FormattedMessage
+            defaultMessage="Show user availability on posts"
+            id="user.settings.display.availabilityStatusOnPostsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
         section="linkpreview"
         title={
           <FormattedMessage
@@ -576,6 +606,21 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Teammate Name Display"
             id="user.settings.display.teammateNameDisplayTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        section="availabilityStatus"
+        title={
+          <FormattedMessage
+            defaultMessage="Show user availability on posts"
+            id="user.settings.display.availabilityStatusOnPostsTitle"
           />
         }
         updateSection={[Function]}
@@ -833,6 +878,21 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
+        section="availabilityStatus"
+        title={
+          <FormattedMessage
+            defaultMessage="Show user availability on posts"
+            id="user.settings.display.availabilityStatusOnPostsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
         section="linkpreview"
         title={
           <FormattedMessage
@@ -1023,6 +1083,21 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
+        section="availabilityStatus"
+        title={
+          <FormattedMessage
+            defaultMessage="Show user availability on posts"
+            id="user.settings.display.availabilityStatusOnPostsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
         section="collapse"
         title={
           <FormattedMessage
@@ -1183,6 +1258,21 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Teammate Name Display"
             id="user.settings.display.teammateNameDisplayTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        section="availabilityStatus"
+        title={
+          <FormattedMessage
+            defaultMessage="Show user availability on posts"
+            id="user.settings.display.availabilityStatusOnPostsTitle"
           />
         }
         updateSection={[Function]}
@@ -1430,6 +1520,21 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Teammate Name Display"
             id="user.settings.display.teammateNameDisplayTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        section="availabilityStatus"
+        title={
+          <FormattedMessage
+            defaultMessage="Show user availability on posts"
+            id="user.settings.display.availabilityStatusOnPostsTitle"
           />
         }
         updateSection={[Function]}
@@ -1705,6 +1810,21 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
+        section="availabilityStatus"
+        title={
+          <FormattedMessage
+            defaultMessage="Show user availability on posts"
+            id="user.settings.display.availabilityStatusOnPostsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
         section="linkpreview"
         title={
           <FormattedMessage
@@ -1890,6 +2010,21 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
+        section="availabilityStatus"
+        title={
+          <FormattedMessage
+            defaultMessage="Show user availability on posts"
+            id="user.settings.display.availabilityStatusOnPostsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
         section="linkpreview"
         title={
           <FormattedMessage
@@ -2065,6 +2200,21 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Teammate Name Display"
             id="user.settings.display.teammateNameDisplayTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        section="availabilityStatus"
+        title={
+          <FormattedMessage
+            defaultMessage="Show user availability on posts"
+            id="user.settings.display.availabilityStatusOnPostsTitle"
           />
         }
         updateSection={[Function]}
@@ -2272,6 +2422,21 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <SettingItemMin
+        section="availabilityStatus"
+        title={
+          <FormattedMessage
+            defaultMessage="Show user availability on posts"
+            id="user.settings.display.availabilityStatusOnPostsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
         section="linkpreview"
         title={
           <FormattedMessage
@@ -2447,6 +2612,21 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <FormattedMessage
             defaultMessage="Teammate Name Display"
             id="user.settings.display.teammateNameDisplayTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <SettingItemMin
+        section="availabilityStatus"
+        title={
+          <FormattedMessage
+            defaultMessage="Show user availability on posts"
+            id="user.settings.display.availabilityStatusOnPostsTitle"
           />
         }
         updateSection={[Function]}
