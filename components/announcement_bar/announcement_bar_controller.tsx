@@ -5,8 +5,6 @@ import React from 'react';
 
 import {ClientLicense, ClientConfig, WarnMetricStatus} from 'mattermost-redux/types/config';
 import {Dictionary} from 'mattermost-redux/types/utilities';
-import {UserProfile} from 'mattermost-redux/types/users';
-import {AnalyticsRow} from 'mattermost-redux/types/admin';
 
 import ConfigurationAnnouncementBar from './configuration_bar';
 import VersionBar from './version_bar';
@@ -20,12 +18,10 @@ import CloudTrialAnnouncementBar from './cloud_trial_announcement_bar';
 type Props = {
     license?: ClientLicense;
     config?: Partial<ClientConfig>;
-    user?: Partial<UserProfile>;
     canViewSystemErrors: boolean;
     latestError?: {
         error: any;
     };
-    totalUsers?: number | AnalyticsRow[];
     warnMetricsStatus?: Dictionary<WarnMetricStatus>;
     actions: {
         dismissError: (index: number) => void;
