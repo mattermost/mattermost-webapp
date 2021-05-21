@@ -68,13 +68,12 @@
   },
   "overrides": [
     {
-      "files": ["**/*.tsx", "**/*.ts", "tests/*.js"],
+      "files": ["**/*.tsx", "**/*.ts"],
       "extends": [
         "plugin:@typescript-eslint/recommended"
       ],
       "rules": {
         "camelcase": 0,
-        "no-process-env": 0,
         "no-shadow": 0,
         "import/no-unresolved": 0, // ts handles this better
         "@typescript-eslint/naming-convention": [
@@ -127,16 +126,18 @@
       }
     },
     {
-      "files": ["tests/**", "**/*.test.*"],
+      "files": ["tests/**", "**/*.test.*", "tests/*.js"],
       "env": {
         "jest": true
       },
       "rules": {
         "func-names": 0,
         "global-require": 0,
+        "max-lines": 0,
         "new-cap": 0,
-        "prefer-arrow-callback": 0,
-        "no-import-assign": 0
+        "no-import-assign": 0,
+        "no-process-env": 0,
+        "prefer-arrow-callback": 0
       }
     },
     {
