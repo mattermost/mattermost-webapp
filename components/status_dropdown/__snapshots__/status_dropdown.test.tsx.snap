@@ -326,6 +326,127 @@ exports[`components/StatusDropdown should match snapshot with custom status enab
         id="status-menu-custom-status"
         modalId="custom_status"
         show={true}
+      >
+        <span
+          className="custom_status__container"
+        >
+          <span
+            className="custom_status__icon"
+          >
+            <EmojiIcon
+              className="custom-status-emoji"
+            />
+          </span>
+          <CustomStatusText
+            className="custom_status__text"
+            text="Set a Custom Status"
+            tooltipDirection="bottom"
+          />
+        </span>
+      </MenuItemToggleModalRedux>
+    </MenuGroup>
+    <MenuGroup>
+      <MenuItemAction
+        ariaLabel="online"
+        icon={
+          <StatusOnlineIcon
+            className="online--icon"
+          />
+        }
+        id="status-menu-online"
+        onClick={[Function]}
+        show={true}
+        text="Online"
+      />
+      <MenuItemAction
+        ariaLabel="away"
+        icon={
+          <StatusAwayIcon
+            className="away--icon"
+          />
+        }
+        id="status-menu-away"
+        onClick={[Function]}
+        show={true}
+        text="Away"
+      />
+      <MenuItemAction
+        ariaLabel="do not disturb. disables desktop, email and push notifications"
+        icon={
+          <StatusDndIcon
+            className="dnd--icon"
+          />
+        }
+        id="status-menu-dnd"
+        onClick={[Function]}
+        show={true}
+        text="Do not disturb"
+      />
+      <MenuItemAction
+        ariaLabel="offline"
+        icon={<StatusOfflineIcon />}
+        id="status-menu-offline"
+        onClick={[Function]}
+        show={true}
+        text="Offline"
+      />
+    </MenuGroup>
+  </Menu>
+</MenuWrapper>
+`;
+
+exports[`components/StatusDropdown should match snapshot with custom status expired 1`] = `
+<MenuWrapper
+  animationComponent={[Function]}
+  className="status-dropdown-menu"
+  onToggle={[Function]}
+  open={true}
+>
+  <div
+    className="status-wrapper status-selector"
+  >
+    <button
+      aria-label="Set a status"
+      className="status style--none"
+    >
+      <StatusIcon
+        button={true}
+        className=""
+        status="offline"
+      />
+    </button>
+    <span
+      className="status status-edit edit"
+    >
+      <FormattedMessage
+        defaultMessage="Dropdown Icon"
+        id="generic_icons.dropdown"
+      >
+        <Component />
+      </FormattedMessage>
+    </span>
+  </div>
+  <Menu
+    ariaLabel="Set a status"
+    id="statusDropdownMenu"
+  >
+    <MenuGroup>
+      <MenuItemAction
+        ariaLabel="out of office"
+        extraText="Automatic Replies are enabled"
+        onClick={[Function]}
+        show={false}
+        text="Out of office"
+      />
+    </MenuGroup>
+    <MenuGroup>
+      <MenuItemToggleModalRedux
+        accessibilityLabel="Custom Status"
+        className="MenuItem__primary-text custom_status__row"
+        dialogType={[Function]}
+        id="status-menu-custom-status"
+        modalId="custom_status"
+        show={true}
         sibling={false}
       >
         <span
@@ -371,58 +492,16 @@ exports[`components/StatusDropdown should match snapshot with custom status enab
         show={true}
         text="Away"
       />
-      <SubMenuItem
+      <MenuItemAction
         ariaLabel="do not disturb. disables desktop, email and push notifications"
-        direction="right"
-        extraText="Disables all notifications"
         icon={
           <StatusDndIcon
             className="dnd--icon"
           />
         }
         id="status-menu-dnd"
-        openUp={false}
+        onClick={[Function]}
         show={true}
-        subMenu={
-          Array [
-            Object {
-              "direction": "right",
-              "id": "dndSubMenu-header",
-              "text": "Disable notifications until:",
-            },
-            Object {
-              "action": [Function],
-              "direction": "right",
-              "id": "dndTime-30mins",
-              "text": "30 mins",
-            },
-            Object {
-              "action": [Function],
-              "direction": "right",
-              "id": "dndTime-1hour",
-              "text": "1 hour",
-            },
-            Object {
-              "action": [Function],
-              "direction": "right",
-              "id": "dndTime-2hours",
-              "text": "2 hours",
-            },
-            Object {
-              "action": [Function],
-              "direction": "right",
-              "id": "dndTime-Tomorrow",
-              "text": "Tomorrow",
-            },
-            Object {
-              "action": [Function],
-              "direction": "right",
-              "id": "dndTime-Custom",
-              "text": "Custom",
-            },
-          ]
-        }
-        subMenuClass="pl-4"
         text="Do not disturb"
       />
       <MenuItemAction

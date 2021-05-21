@@ -6,7 +6,7 @@ import * as PreferenceSelectors from 'mattermost-redux/selectors/entities/prefer
 import {Preferences} from 'mattermost-redux/constants';
 
 import configureStore from 'store';
-import {getCustomStatus, getRecentCustomStatuses, isCustomStatusEnabled, showStatusDropdownPulsatingDot, showPostHeaderUpdateStatusButton} from 'selectors/views/custom_status';
+import {makeGetCustomStatus, getRecentCustomStatuses, isCustomStatusEnabled, showStatusDropdownPulsatingDot, showPostHeaderUpdateStatusButton} from 'selectors/views/custom_status';
 
 import {TestHelper} from 'utils/test_helper';
 import {CustomStatusDuration} from 'mattermost-redux/types/users';
@@ -23,6 +23,7 @@ const customStatus = {
 
 describe('getCustomStatus', () => {
     const user = TestHelper.getUserMock();
+    const getCustomStatus = makeGetCustomStatus();
 
     it('should return undefined when current user has no custom status set', async () => {
         const store = await configureStore();

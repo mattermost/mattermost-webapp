@@ -5,6 +5,7 @@ exports[`components/ProfilePopover should hide add-to-channel option if not on t
   customStatus={Object {}}
   id="user-profile-popover"
   isCustomStatusEnabled={true}
+  isCustomStatusExpired={false}
   isInCurrentTeam={false}
   placement="right"
   popoverSize="sm"
@@ -93,6 +94,7 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
   customStatus={Object {}}
   id="user-profile-popover"
   isCustomStatusEnabled={true}
+  isCustomStatusExpired={false}
   isInCurrentTeam={true}
   placement="right"
   popoverSize="sm"
@@ -227,6 +229,7 @@ exports[`components/ProfilePopover should match snapshot for shared user 1`] = `
   customStatus={Object {}}
   id="user-profile-popover"
   isCustomStatusEnabled={true}
+  isCustomStatusExpired={false}
   isInCurrentTeam={true}
   placement="right"
   popoverSize="sm"
@@ -414,6 +417,7 @@ exports[`components/ProfilePopover should match snapshot with custom status 1`] 
   }
   id="user-profile-popover"
   isCustomStatusEnabled={true}
+  isCustomStatusExpired={false}
   isInCurrentTeam={true}
   placement="right"
   popoverSize="sm"
@@ -430,12 +434,21 @@ exports[`components/ProfilePopover should match snapshot with custom status 1`] 
     </span>
   }
 >
-  <Memo(Avatar)
+  <div
+    className="user-popover-image"
     key="user-popover-image"
-    size="xxl"
-    url="src"
-    username="some_username"
-  />
+  >
+    <Memo(Avatar)
+      size="xxl"
+      url="src"
+      username="some_username"
+    />
+    <StatusIcon
+      button={true}
+      className="status user-popover-status"
+      status="offline"
+    />
+  </div>
   <Connect(Pluggable)
     hide={[MockFunction]}
     key="profilePopoverPluggable2"
@@ -579,11 +592,19 @@ exports[`components/ProfilePopover should match snapshot with custom status 1`] 
 </Popover>
 `;
 
-exports[`components/ProfilePopover should match snapshot with custom status not set but can set 1`] = `
+exports[`components/ProfilePopover should match snapshot with custom status expired 1`] = `
 <Popover
-  customStatus={Object {}}
+  customStatus={
+    Object {
+      "duration": "Today",
+      "emoji": "calendar",
+      "expires_at": "2021-05-03T23:59:59.000Z",
+      "text": "In a meeting",
+    }
+  }
   id="user-profile-popover"
   isCustomStatusEnabled={true}
+  isCustomStatusExpired={true}
   isInCurrentTeam={true}
   placement="right"
   popoverSize="sm"
@@ -600,12 +621,136 @@ exports[`components/ProfilePopover should match snapshot with custom status not 
     </span>
   }
 >
-  <Memo(Avatar)
+  <div
+    className="user-popover-image"
     key="user-popover-image"
-    size="xxl"
-    url="src"
-    username="some_username"
+  >
+    <Memo(Avatar)
+      size="xxl"
+      url="src"
+      username="some_username"
+    />
+    <StatusIcon
+      button={true}
+      className="status user-popover-status"
+      status="offline"
+    />
+  </div>
+  <Connect(Pluggable)
+    hide={[MockFunction]}
+    key="profilePopoverPluggable2"
+    pluggableName="PopoverUserAttributes"
+    status="offline"
+    user={
+      Object {
+        "id": "",
+        "name": "some name",
+        "username": "some_username",
+      }
+    }
   />
+  <div
+    className="pb-1"
+    id="user-popover-status"
+    key="user-popover-status"
+  >
+    <span
+      className="user-profile-popover__heading"
+    >
+      <FormattedMessage
+        defaultMessage="Status"
+        id="user_profile.custom_status"
+      />
+    </span>
+    <div>
+      <button
+        className="user-popover__set-custom-status-btn"
+        onClick={[Function]}
+      >
+        <FormattedMessage
+          defaultMessage="Set a status"
+          id="user_profile.custom_status.set_status"
+        />
+      </button>
+    </div>
+  </div>
+  <div
+    className="popover__row first"
+    data-toggle="tooltip"
+    key="user-popover-settings"
+  >
+    <a
+      href="#"
+      onClick={[Function]}
+    >
+      <LocalizedIcon
+        className="fa fa-pencil-square-o"
+        title={
+          Object {
+            "defaultMessage": "Edit Icon",
+            "id": "generic_icons.edit",
+          }
+        }
+      />
+      <FormattedMessage
+        defaultMessage="Edit Account Settings"
+        id="user_profile.account.editSettings"
+      />
+    </a>
+  </div>
+  <Connect(Pluggable)
+    hide={[MockFunction]}
+    key="profilePopoverPluggable3"
+    pluggableName="PopoverUserActions"
+    status="offline"
+    user={
+      Object {
+        "id": "",
+        "name": "some name",
+        "username": "some_username",
+      }
+    }
+  />
+</Popover>
+`;
+
+exports[`components/ProfilePopover should match snapshot with custom status not set but can set 1`] = `
+<Popover
+  customStatus={Object {}}
+  id="user-profile-popover"
+  isCustomStatusEnabled={true}
+  isCustomStatusExpired={false}
+  isInCurrentTeam={true}
+  placement="right"
+  popoverSize="sm"
+  popoverStyle="info"
+  title={
+    <span
+      data-testid="profilePopoverTitle_some_username"
+    >
+      <span
+        className="user-popover__username"
+      >
+        @some_username
+      </span>
+    </span>
+  }
+>
+  <div
+    className="user-popover-image"
+    key="user-popover-image"
+  >
+    <Memo(Avatar)
+      size="xxl"
+      url="src"
+      username="some_username"
+    />
+    <StatusIcon
+      button={true}
+      className="status user-popover-status"
+      status="offline"
+    />
+  </div>
   <Connect(Pluggable)
     hide={[MockFunction]}
     key="profilePopoverPluggable2"

@@ -44,6 +44,10 @@ const ExpiryTime = ({time, timezone, className, showPrefix, withinBrackets}: Pro
         timestampProps.useDate = {weekday: 'long'};
     }
 
+    if (moment(time).isAfter(currentMomentTime.clone().add(6, 'days'))) {
+        timestampProps.month = 'short';
+    }
+
     const prefix = showPrefix && (
         <>
             <FormattedMessage

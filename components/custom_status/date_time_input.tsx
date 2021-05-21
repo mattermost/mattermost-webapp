@@ -130,7 +130,7 @@ const DateTimeInputContainer: React.FC<Props> = (props: Props) => {
         handleChange(moment(time));
     }, [handleChange]);
 
-    const currentTime = new Date();
+    const currentTime = getCurrentMomentForTimezone(timezone).toDate();
     const modifiers = {
         today: currentTime,
     };

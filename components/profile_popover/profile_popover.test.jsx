@@ -23,6 +23,7 @@ describe('components/ProfilePopover', () => {
         teamUrl: '',
         canManageAnyChannelMembersInCurrentTeam: true,
         isCustomStatusEnabled: true,
+        isCustomStatusExpired: false,
         actions: {
             getMembershipForEntities: jest.fn(),
             openDirectChannelToUserId: jest.fn(),
@@ -125,6 +126,21 @@ describe('components/ProfilePopover', () => {
     test('should match snapshot with custom status not set but can set', () => {
         const props = {...baseProps};
         props.user.id = '';
+
+        const wrapper = shallowWithIntl(
+            <ProfilePopover {...props}/>,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot with custom status expired', () => {
+        const props = {...baseProps, isCustomStatusExpired: true};
+        props.customStatus = {
+            emoji: 'calendar',
+            text: 'In a meeting',
+            duration: 'Today',
+            expires_at: '2021-05-03T23:59:59.000Z',
+        };
 
         const wrapper = shallowWithIntl(
             <ProfilePopover {...props}/>,
