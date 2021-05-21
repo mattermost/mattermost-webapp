@@ -31,6 +31,7 @@ function getDisplayStateFromProps(props: Props) {
     return {
         militaryTime: props.militaryTime,
         teammateNameDisplay: props.teammateNameDisplay,
+        availabilityStatusOnPosts: props.availabilityStatusOnPosts,
         channelDisplayMode: props.channelDisplayMode,
         messageDisplay: props.messageDisplay,
         collapseDisplay: props.collapseDisplay,
@@ -89,6 +90,7 @@ type Props = {
     lockTeammateNameDisplay: boolean;
     militaryTime: string;
     teammateNameDisplay: string;
+    availabilityStatusOnPosts: string;
     channelDisplayMode: string;
     messageDisplay: string;
     collapseDisplay: string;
@@ -107,6 +109,7 @@ type State = {
     isSaving: boolean;
     militaryTime: string;
     teammateNameDisplay: string;
+    availabilityStatusOnPosts: string;
     channelDisplayMode: string;
     messageDisplay: string;
     collapseDisplay: string;
@@ -172,6 +175,12 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             name: Preferences.USE_MILITARY_TIME,
             value: this.state.militaryTime,
         };
+        const availabilityStatusOnPostsPreference = {
+            user_id: userId,
+            category: Preferences.CATEGORY_DISPLAY_SETTINGS,
+            name: Preferences.AVAILABILITY_STATUS_ON_POSTS,
+            value: this.state.availabilityStatusOnPosts,
+        };
         const teammateNameDisplayPreference = {
             user_id: userId,
             category: Preferences.CATEGORY_DISPLAY_SETTINGS,
@@ -219,6 +228,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             collapseDisplayPreference,
             linkPreviewDisplayPreference,
             teammateNameDisplayPreference,
+            availabilityStatusOnPostsPreference,
         ];
 
         await this.props.actions.savePreferences(userId, preferences);
@@ -232,6 +242,10 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
 
     handleTeammateNameDisplayRadio = (teammateNameDisplay: string) => {
         this.setState({teammateNameDisplay});
+    }
+
+    handleAvailabilityStatusRadio = (availabilityStatusOnPosts: string) => {
+        this.setState({availabilityStatusOnPosts});
     }
 
     handleChannelDisplayModeRadio(channelDisplayMode: string) {
@@ -620,6 +634,35 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             disabled: this.props.lockTeammateNameDisplay,
         });
 
+        const availabilityStatusOnPostsSection = this.createSection({
+            section: 'availabilityStatus',
+            display: 'availabilityStatusOnPosts',
+            value: this.state.availabilityStatusOnPosts,
+            defaultDisplay: 'true',
+            title: {
+                id: t('user.settings.display.availabilityStatusOnPostsTitle'),
+                message: 'Show user availability on posts',
+            },
+            firstOption: {
+                value: 'true',
+                radionButtonText: {
+                    id: t('user.settings.sidebar.on'),
+                    message: 'On',
+                },
+            },
+            secondOption: {
+                value: 'false',
+                radionButtonText: {
+                    id: t('user.settings.sidebar.off'),
+                    message: 'Off',
+                },
+            },
+            description: {
+                id: t('user.settings.display.availabilityStatusOnPostsDescription'),
+                message: 'When enabled, online availability is displayed on profile images in the message list.',
+            },
+        });
+
         let timezoneSelection;
         if (this.props.enableTimezone && !this.props.shouldAutoUpdateTimezone) {
             const userTimezone = this.props.userTimezone;
@@ -855,6 +898,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                     {themeSection}
                     {clockSection}
                     {teammateNameDisplaySection}
+                    {availabilityStatusOnPostsSection}
                     {timezoneSelection}
                     {linkPreviewSection}
                     {collapseSection}

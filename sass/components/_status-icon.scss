@@ -164,7 +164,15 @@
     }
 
     .dnd--icon {
-        fill: rgb(247, 67, 67);
+        fill: var(--dnd-indicator);
+    }
+
+    .online--icon {
+        fill: var(--online-indicator);
+    }
+
+    .away--icon {
+        fill: var(--away-indicator);
     }
 
     svg {
