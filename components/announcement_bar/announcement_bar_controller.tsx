@@ -8,7 +8,7 @@ import {Dictionary} from 'mattermost-redux/types/utilities';
 
 import ConfigurationAnnouncementBar from './configuration_bar';
 import VersionBar from './version_bar';
-import TextDismissableBar from './text_dismissable_bar.jsx';
+import TextDismissableBar from './text_dismissable_bar';
 import AnnouncementBar from './default_announcement_bar';
 
 import CloudAnnouncementBar from './cloud_announcement_bar';
