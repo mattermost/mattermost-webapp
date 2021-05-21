@@ -1,7 +1,7 @@
 {
   "about.buildnumber": "Byggnummer:",
   "about.cloudEdition": "Cloud",
-  "about.copyright": "Copyright 2015-{currentYear} Mattermost, Inc. Alla rättigheter är reserverade",
+  "about.copyright": "Copyright 2015 - {currentYear} Mattermost, Inc. Alla rättigheter reserverade",
   "about.database": "Databas:",
   "about.date": "Byggdatum:",
   "about.dbversion": "Databasschemaversion:",
@@ -4372,6 +4372,8 @@
   "user.settings.custom_theme.sidebarTextHoverBg": "Bakgrund hovertext sidofält",
   "user.settings.custom_theme.sidebarTitle": "Sidofält stilar",
   "user.settings.custom_theme.sidebarUnreadText": "Oläst text sidofält",
+  "user.settings.display.availabilityStatusOnPostsDescription": "När aktiverad så visas tillgängligheten online på profilbilderna i meddelandelistan.",
+  "user.settings.display.availabilityStatusOnPostsTitle": "Visa tillgänglighet online på profilbilder",
   "user.settings.display.channelDisplayTitle": "Kanalvisningsläge",
   "user.settings.display.channeldisplaymode": "Välj bredd på kanalen.",
   "user.settings.display.clockDisplay": "Klocka",
