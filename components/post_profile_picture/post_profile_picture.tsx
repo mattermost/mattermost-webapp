@@ -119,7 +119,7 @@ export default class PostProfilePicture extends React.PureComponent<Props> {
                 username={user?.username}
                 overwriteIcon={this.props.overwriteIcon}
                 overwriteName={overwriteName}
-                isBot={user && user.is_bot}
+                isBot={user?.is_bot}
                 fromAutoResponder={fromAutoResponder}
                 fromWebhook={fromWebhook}
             />
