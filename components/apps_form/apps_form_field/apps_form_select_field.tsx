@@ -10,6 +10,7 @@ import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {AppField, AppSelectOption} from 'mattermost-redux/types/apps';
+import {AppFieldTypes} from 'mattermost-redux/constants/apps';
 
 import Constants from 'utils/constants.jsx';
 
@@ -69,6 +70,7 @@ export default class AppsFormSelectField extends React.PureComponent<Props, Stat
         return {
             value,
             placeholder,
+            isDisabled: field.readonly,
             onChange: this.onChange as any, // types are not working correctly for multiselect
             isMulti: field.multiselect || false,
             isClearable: true,
@@ -174,9 +176,9 @@ export default class AppsFormSelectField extends React.PureComponent<Props, Stat
         const {field, label, helpText} = this.props;
 
         let selectComponent;
-        if (field.type === 'dynamic_select') {
+        if (field.type === AppFieldTypes.DYNAMIC_SELECT) {
             selectComponent = this.renderDynamicSelect();
-        } else if (field.type === 'static_select') {
+        } else if (field.type === AppFieldTypes.STATIC_SELECT) {
             selectComponent = this.renderStaticSelect();
         } else {
             return null;

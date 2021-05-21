@@ -180,7 +180,7 @@ export default class AppsFormField extends React.PureComponent<Props> {
             return (
                 <AutocompleteSelector
                     id={name}
-                    clearable={true}
+                    clearable={!field.readonly}
                     onClear={this.onClear}
                     disabled={field.readonly}
                     providers={this.providers}
