@@ -10,13 +10,13 @@
 // Stage: @prod
 // Group: @enterprise @elasticsearch @autocomplete @not_cloud
 
-import * as TIMEOUTS from '../../../fixtures/timeouts';
-
-import {enableElasticSearch, getTestUsers} from './helpers';
+import {getRandomLetter} from '../../../utils';
+import {doTestDMChannelSidebar, doTestUserChannelSection} from '../../autocomplete/common_test';
+import {createSearchData, enableElasticSearch} from '../../autocomplete/helpers';
 
 describe('Autocomplete with Elasticsearch - Users', () => {
-    const timestamp = Date.now();
-    const testUsers = getTestUsers();
+    const prefix = getRandomLetter(3);
+    let testUsers;
     let testTeam;
 
     before(() => {
@@ -28,82 +28,19 @@ describe('Autocomplete with Elasticsearch - Users', () => {
         // # Enable Elasticsearch
         enableElasticSearch();
 
-        // # Create new team for tests
-        cy.apiCreateTeam(`elastic-${timestamp}`, `elastic-${timestamp}`).then(({team}) => {
-            testTeam = team;
+        createSearchData(prefix).then((searchData) => {
+            testUsers = searchData.users;
+            testTeam = searchData.team;
 
-            // # Create pool of users for tests
-            Cypress._.forEach(testUsers, (testUser) => {
-                cy.apiCreateUser({user: testUser}).then(({user}) => {
-                    cy.apiAddUserToTeam(testTeam.id, user.id);
-                });
-            });
+            cy.apiLogin(searchData.sysadmin);
         });
     });
 
     it('MM-T3863 Users in correct in/out of channel sections', () => {
-        const thor = testUsers.thor;
-        const loki = testUsers.loki;
-
-        // # Create new channel and add user to channel
-        const channelName = `new-channel-${timestamp}`;
-        cy.apiCreateChannel(testTeam.id, channelName, channelName).then(({channel}) => {
-            cy.apiGetUserByEmail(thor.email).then(({user}) => {
-                cy.apiAddUserToChannel(channel.id, user.id);
-            });
-
-            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
-        });
-
-        // # Start an at mention that should return 2 users (in this case, the users share a last name)
-        cy.get('#post_textbox').
-            as('input').
-            should('be.visible').
-            clear().
-            type('@odinson');
-
-        // * Thor should be a channel member
-        cy.uiVerifyAtMentionInSuggestionList('Channel Members', thor, true);
-
-        // * Loki should NOT be a channel member
-        cy.uiVerifyAtMentionInSuggestionList('Not in Channel', loki, false);
+        doTestUserChannelSection(prefix, testTeam, testUsers);
     });
 
     it('MM-T2518 DM can be opened with a user not on your team or in your DM channel sidebar', () => {
-        const thor = testUsers.thor;
-
-        // # Open of the add direct message modal
-        cy.uiAddDirectMessage().click();
-
-        // # Type username into input
-        cy.get('.more-direct-channels').
-            find('input').
-            should('exist').
-            type(thor.username, {force: true}).
-            wait(TIMEOUTS.HALF_SEC);
-
-        // * There should only be one result
-        cy.get('.more-modal__row').
-            as('result').
-            its('length').
-            should('equal', 1);
-
-        // * Result should have appropriate text
-        cy.get('@result').
-            find('.more-modal__name').
-            should('have.text', `@${thor.username} - ${thor.first_name} ${thor.last_name} (${thor.nickname})`);
-
-        cy.get('@result').
-            find('.more-modal__description').
-            should('have.text', thor.email);
-
-        // # Click on the result to add user
-        cy.get('@result').click({force: true});
-
-        // # Click on save
-        cy.get('#saveItems').click();
-
-        // * Should land on direct message channel for that user
-        cy.get('#channelHeaderTitle').should('have.text', thor.username + ' ');
+        doTestDMChannelSidebar(testUsers);
     });
 });

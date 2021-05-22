@@ -9,10 +9,11 @@ import {haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import Constants from 'utils/constants';
+import {GlobalState} from 'types/store';
 
-import TutorialView from './tutorial_view.jsx';
+import TutorialView from './tutorial_view';
 
-function mapStateToProps(state) {
+function mapStateToProps(state: GlobalState) {
     const license = getLicense(state);
     const config = getConfig(state);
 

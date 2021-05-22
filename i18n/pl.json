@@ -2024,7 +2024,7 @@
   "channel_notifications.muteChannel.settings": "Wycisz kanał",
   "channel_notifications.never": "Nigdy",
   "channel_notifications.onlyMentions": "Tylko na wzmianki",
-  "channel_notifications.override": "Wybierając inną opcję niż \"domyślne\" zastąpi ona globalne ustawienia powiadomień. Powiadomienia na pulpicie są dostępne na Firefox, Safari i Chrome.",
+  "channel_notifications.override": "Wybranie innej opcji niż \"Globalne ustawienia domyślne\" nadpisze globalne ustawienia powiadomień. Powiadomienia na pulpicie są dostępne na Firefox, Safari i Chrome.",
   "channel_notifications.overridePush": "Wybranie innej opcji niż \"Globalne ustawienia domyślne\" nadpisze globalne ustawienia powiadomień mobilnych push w ustawieniach konta. Powiadomienia push muszą być włączone przez Admina Systemu.",
   "channel_notifications.preferences": "Ustawienia Powiadomień dla ",
   "channel_notifications.push": "Wyślij mobilne powiadomienia push",

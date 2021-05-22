@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {createSelector} from 'reselect';
+import deepEqual from 'fast-deep-equal';
 
 import {General, Permissions} from 'mattermost-redux/constants';
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
@@ -42,6 +43,7 @@ import {TeamMembership, Team} from 'mattermost-redux/types/teams';
 import {UsersState, UserProfile} from 'mattermost-redux/types/users';
 import {
     $ID,
+    Dictionary,
     IDMappedObjects,
     NameMappedObjects,
     RelationOneToMany,
@@ -403,15 +405,30 @@ export const getChannelsNameMapInTeam: (state: GlobalState, teamId: string) => N
     },
 );
 
+let prevChannelMap: NameMappedObjects<Channel> = {};
+let prevChannelDisplayNameMap: Dictionary<string> = {};
+
 export const getChannelsNameMapInCurrentTeam: (state: GlobalState) => NameMappedObjects<Channel> = createSelector(
     getAllChannels,
     getChannelSetInCurrentTeam,
     (channels: IDMappedObjects<Channel>, currentTeamChannelSet: string[]): NameMappedObjects<Channel> => {
         const channelMap: NameMappedObjects<Channel> = {};
+        const channelDisplayNameMap: Dictionary<string> = {};
         currentTeamChannelSet.forEach((id) => {
             const channel = channels[id];
             channelMap[channel.name] = channel;
+            channelDisplayNameMap[channel.name] = channel.display_name;
         });
+
+        // getAllChannels will almost never return a memoized result.
+        // Assumption here is that the added comparison computation is more beneficial
+        // than the cost of returning a non memoized result.
+        if (deepEqual(channelDisplayNameMap, prevChannelDisplayNameMap)) {
+            return prevChannelMap;
+        }
+
+        prevChannelDisplayNameMap = channelDisplayNameMap;
+        prevChannelMap = channelMap;
         return channelMap;
     },
 );

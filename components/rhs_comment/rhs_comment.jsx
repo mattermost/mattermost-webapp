@@ -83,6 +83,7 @@ class RhsComment extends React.PureComponent {
         }),
         emojiMap: PropTypes.object.isRequired,
         timestampProps: PropTypes.object,
+        collapsedThreadsEnabled: PropTypes.bool,
     };
 
     constructor(props) {
@@ -294,7 +295,7 @@ class RhsComment extends React.PureComponent {
     }
 
     render() {
-        const {post, isConsecutivePost, isReadOnly, channelIsArchived} = this.props;
+        const {post, isConsecutivePost, isReadOnly, channelIsArchived, collapsedThreadsEnabled} = this.props;
 
         const isPostDeleted = post && post.state === Posts.POST_DELETED;
         const isEphemeral = isPostEphemeral(post);
@@ -503,9 +504,10 @@ class RhsComment extends React.PureComponent {
                     ref={this.dotMenuRef}
                     className='col post-menu'
                 >
-                    {dotMenu}
+                    {!collapsedThreadsEnabled && dotMenu}
                     {postReaction}
                     {flagIcon}
+                    {collapsedThreadsEnabled && dotMenu}
                 </div>
             );
         }

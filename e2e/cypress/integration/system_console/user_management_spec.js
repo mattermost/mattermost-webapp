@@ -10,7 +10,12 @@
 // Stage: @prod
 // Group: @system_console
 
-import {getEmailUrl, splitEmailBodyText, getRandomId} from '../../utils';
+import {
+    getEmailResetEmailTemplate,
+    getEmailVerifyEmailTemplate,
+    getRandomId,
+    verifyEmailBody,
+} from '../../utils';
 
 const TIMEOUTS = require('../../fixtures/timeouts');
 
@@ -108,7 +113,7 @@ describe('User Management', () => {
         });
 
         // * User also receives email confirmation that email address has been changed.
-        checkResetEmail(testUser.username, testUser.email);
+        checkResetEmail(testUser, newEmailAddr);
 
         // # Logout, so that test user can login.
         cy.apiLogout();
@@ -156,7 +161,7 @@ describe('User Management', () => {
         cy.apiLogout();
 
         // Verify e-mail.
-        verifyEmail(newUsername, newEmailAddr);
+        verifyEmail({username: newUsername, email: newEmailAddr});
         cy.wait(TIMEOUTS.HALF_SEC);
 
         // * Verify that logging in with the old e-mail works.
@@ -403,56 +408,41 @@ describe('User Management', () => {
         }
     }
 
-    function checkResetEmail(username, userEmail) {
-        const baseUrl = Cypress.config('baseUrl');
-        const mailUrl = getEmailUrl(baseUrl);
-
-        cy.task('getRecentEmail', {username, mailUrl}).then((response) => {
-            const {data, status} = response;
-
-            // # Should return success status.
-            expect(status).to.equal(200);
-
-            // # Verify that last email sent to expected address.
-            expect(data.to.length).to.equal(1);
-            expect(data.to[0]).to.contain(userEmail);
+    function checkResetEmail(user, newEmail) {
+        cy.getRecentEmail(user).then((data) => {
+            const {body: actualEmailBody, subject} = data;
 
             // # Verify that the email subject is as expected.
-            expect(data.subject).to.contain('Your email address has changed');
+            expect(subject).to.contain('Your email address has changed');
+
+            // # Verify email body
+            const expectedEmailBody = getEmailResetEmailTemplate(newEmail);
+            verifyEmailBody(expectedEmailBody, actualEmailBody);
         });
     }
 
-    function verifyEmail(username, userEmail) {
+    function verifyEmail(user) {
         const baseUrl = Cypress.config('baseUrl');
-        const mailUrl = getEmailUrl(baseUrl);
 
         // # Verify e-mail through verification link.
-        cy.task('getRecentEmail', {username, mailUrl}).then((response) => {
-            const {data, status} = response;
-
-            // # Should return success status.
-            expect(status).to.equal(200);
-
-            // # Verify that last email sent to expected address.
-            expect(data.to.length).to.equal(1);
-            expect(data.to[0]).to.contain(userEmail);
+        cy.getRecentEmail(user).then((data) => {
+            const {body: actualEmailBody, subject} = data;
 
             // # Verify that the email subject is as expected.
-            expect(data.subject).to.contain('Email Verification');
+            expect(subject).to.contain('Email Verification');
+
+            // # Verify email body
+            const expectedEmailBody = getEmailVerifyEmailTemplate(user.email);
+            verifyEmailBody(expectedEmailBody, actualEmailBody);
 
             // # Extract verification the link from the e-mail.
-            const bodyText = splitEmailBodyText(data.body.text);
-
-            expect(bodyText[4]).to.contain('Verify Email');
-            const line = bodyText[4].split(' ');
-            expect(line[3]).to.contain(baseUrl);
-
+            const line = actualEmailBody[4].split(' ');
             const verificationLink = line[3].replace(baseUrl, '');
 
             // # Complete verification.
             cy.visit(verificationLink);
             cy.findByText('Email Verified').should('be.visible');
-            cy.get('#loginId').should('be.visible').and('have.value', userEmail);
+            cy.get('#loginId').should('be.visible').and('have.value', user.email);
         });
     }
 
