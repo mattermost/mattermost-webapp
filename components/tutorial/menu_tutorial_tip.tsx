@@ -1,14 +1,18 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 import React from 'react';
-import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import TutorialTip from './tutorial_tip';
 
-const MenuTutorialTip = ({toggleFunc, onBottom}) => {
+type Props = {
+    toggleFunc?: React.MouseEventHandler<HTMLDivElement>;
+    onBottom: boolean;
+}
+
+const MenuTutorialTip = ({toggleFunc, onBottom}: Props) => {
     const screens = [];
 
     screens.push(
@@ -59,11 +63,6 @@ const MenuTutorialTip = ({toggleFunc, onBottom}) => {
             />
         </div>
     );
-};
-
-MenuTutorialTip.propTypes = {
-    toggleFunc: PropTypes.func,
-    onBottom: PropTypes.bool.isRequired,
 };
 
 export default MenuTutorialTip;

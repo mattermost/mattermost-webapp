@@ -6,7 +6,7 @@ import {useIntl} from 'react-intl';
 import classNames from 'classnames';
 
 import {isServerVersionGreaterThanOrEqualTo} from 'utils/server_version';
-import {isDesktopApp, getDesktopVersion} from 'utils/user_agent';
+import {isDesktopApp, getDesktopVersion, isMacApp} from 'utils/user_agent';
 import Constants, {searchHintOptions, RHSStates, searchFilesHintOptions} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
@@ -96,17 +96,24 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
 
         const handleKeyDown = (e: KeyboardEvent) => {
             if (Utils.cmdOrCtrlPressed(e) && Utils.isKeyPressed(e, Constants.KeyCodes.F)) {
-                if (isDesktop || (!isDesktop && e.shiftKey)) {
-                    e.preventDefault();
-                    if (hideSearchBar) {
-                        actions.openRHSSearch();
-                        setKeepInputFocused(true);
-                    }
-                    if (currentChannel) {
-                        handleUpdateSearchTerms(`in:${currentChannel.name} `);
-                    }
-                    handleFocus();
+                if (!isDesktop && !e.shiftKey) {
+                    return;
                 }
+
+                // Special case for Mac Desktop xApp where Ctrl+Cmd+F triggers full screen view
+                if (isMacApp() && e.ctrlKey) {
+                    return;
+                }
+
+                e.preventDefault();
+                if (hideSearchBar) {
+                    actions.openRHSSearch();
+                    setKeepInputFocused(true);
+                }
+                if (currentChannel) {
+                    handleUpdateSearchTerms(`in:${currentChannel.name} `);
+                }
+                handleFocus();
             }
         };
 

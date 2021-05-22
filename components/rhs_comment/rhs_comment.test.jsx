@@ -71,6 +71,7 @@ describe('components/RhsComment', () => {
         },
         emojiMap: new EmojiMap(new Map()),
         isBot: false,
+        collapsedThreadsEnabled: false,
     };
 
     test('should match snapshot', () => {
@@ -112,6 +113,17 @@ describe('components/RhsComment', () => {
             <RhsComment {...props}/>,
         );
         wrapper.setState({hover: true});
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot on CRT enabled', () => {
+        const wrapper = shallowWithIntl(
+            <RhsComment
+                {...baseProps}
+                collapsedThreadsEnabled={true}
+            />,
+        );
 
         expect(wrapper).toMatchSnapshot();
     });
