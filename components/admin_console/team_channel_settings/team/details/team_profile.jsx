@@ -23,10 +23,10 @@ export function TeamProfile({team, isArchived, isDisabled, onToggleArchive}) {
     let archiveBtnID;
     let archiveBtnDefault;
     if (isArchived) {
-        archiveBtnID = 'admin.team_settings.team_details.unarchiveTeam';
+        archiveBtnID = t('admin.team_settings.team_details.unarchiveTeam');
         archiveBtnDefault = 'Unarchive Team';
     } else {
-        archiveBtnID = 'admin.team_settings.team_details.archiveTeam';
+        archiveBtnID = t('admin.team_settings.team_details.archiveTeam');
         archiveBtnDefault = 'Archive Team';
     }
     return (
