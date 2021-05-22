@@ -781,6 +781,24 @@ describe('makeGetReplyCount', () => {
         expect(getReplyCount(state, post)).toBe(2);
     });
 
+    test('should return the number of comments when called on a root post with reply_count and postsInThread meta does not exist', () => {
+        const getReplyCount = PostUtils.makeGetReplyCount();
+
+        const state = {
+            entities: {
+                posts: {
+                    posts: {
+                        post1: {id: 'post1', reply_count: 22},
+                    },
+                    postsInThread: {},
+                },
+            },
+        };
+        const post = state.entities.posts.posts.post1;
+
+        expect(getReplyCount(state, post)).toBe(22);
+    });
+
     test('should return the number of comments when called on a comment', () => {
         const getReplyCount = PostUtils.makeGetReplyCount();
 
@@ -803,7 +821,7 @@ describe('makeGetReplyCount', () => {
         expect(getReplyCount(state, post)).toBe(2);
     });
 
-    test('should return 0 when called on a post without comments', () => {
+    test('should return 0 when called on a post without comments without reply_count', () => {
         const getReplyCount = PostUtils.makeGetReplyCount();
 
         const state = {

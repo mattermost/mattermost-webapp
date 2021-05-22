@@ -11,12 +11,13 @@
 // Group: @te_only @onboarding
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
+import {getAdminAccount} from '../../support/env';
 import {getRandomId} from '../../utils';
 
 import {inviteUserByEmail, verifyEmailInviteAndVisitLink, signupAndVerifyTutorial} from '../team_settings/helpers';
 
 describe('Onboarding', () => {
-    let testTeam;
+    const sysadmin = getAdminAccount();
     const usernameOne = `user${getRandomId()}`;
     const usernameTwo = `user${getRandomId()}`;
     const usernameThree = `user${getRandomId()}`;
@@ -25,11 +26,16 @@ describe('Onboarding', () => {
     const emailThree = `${usernameThree}@sample.mattermost.com`;
     const password = 'passwd';
 
+    let testTeam;
+    let siteName;
+
     before(() => {
         cy.shouldRunOnTeamEdition();
 
         // # Disable LDAP and do email test if setup properly
-        cy.apiUpdateConfig({LdapSettings: {Enable: false}});
+        cy.apiUpdateConfig({LdapSettings: {Enable: false}}).then(({config}) => {
+            siteName = config.TeamSettings.SiteName;
+        });
         cy.apiEmailTest();
 
         cy.apiInitSetup().then(({team}) => {
@@ -44,7 +50,7 @@ describe('Onboarding', () => {
         cy.apiLogout();
 
         // # Get the email sent to the first user, verify the email and go to the provided link
-        verifyEmailInviteAndVisitLink(usernameOne, emailOne, testTeam.name, testTeam.display_name);
+        verifyEmailInviteAndVisitLink(sysadmin.username, usernameOne, emailOne, testTeam, siteName);
 
         // # Signup as as the first user and verify that signup was successful
         signupAndVerifyTutorial(usernameOne, password, testTeam.display_name);
@@ -79,7 +85,7 @@ describe('Onboarding', () => {
         cy.apiLogout();
 
         // # Get the email sent to the second user, verify the email and go to the provided link
-        verifyEmailInviteAndVisitLink(usernameTwo, emailTwo, testTeam.name, testTeam.display_name);
+        verifyEmailInviteAndVisitLink(sysadmin.username, usernameTwo, emailTwo, testTeam, siteName);
 
         // # Type username and password
         cy.get('#name').should('be.visible').type(usernameTwo);

@@ -65,7 +65,7 @@ describe('Custom emojis', () => {
         // # Type emoji name and click on save
         cy.get('#name').type('croissant');
         cy.get('.backstage-form__footer').within(($form) => {
-            cy.findByText('Save').click();
+            cy.findByText('Save').click().wait(TIMEOUTS.FIVE_SEC);
 
             // * Check for error saying that the emoji icon is a system one
             cy.wrap($form).find('.has-error').should('be.visible').and('have.text', 'This name is already in use by a system emoji. Please choose another name.');
@@ -126,6 +126,7 @@ describe('Custom emojis', () => {
 
         // # Click on Save
         cy.get('.backstage-form__footer').findByText('Save').click().wait(TIMEOUTS.FIVE_SEC);
+        cy.findByText('Add Custom Emoji').should('be.visible');
 
         // # Go back to home channel
         cy.findByText('Back to Mattermost').should('exist').and('be.visible').click().wait(TIMEOUTS.FIVE_SEC);
@@ -182,6 +183,7 @@ describe('Custom emojis', () => {
 
         // # Click on Save
         cy.get('.backstage-form__footer').findByText('Save').click().wait(TIMEOUTS.FIVE_SEC);
+        cy.findByText('Add Custom Emoji').should('be.visible');
 
         // # Go back to home channel
         cy.findByText('Back to Mattermost').should('exist').and('be.visible').click().wait(TIMEOUTS.FIVE_SEC);

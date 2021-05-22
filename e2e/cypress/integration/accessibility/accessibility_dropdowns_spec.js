@@ -12,37 +12,35 @@
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
-// * Verify the accessibility support in the menu items
-function verifyMenuItems(menuEl, labels) {
-    cy.get(`${menuEl} .MenuItem`).each((child, index) => {
-        cy.wrap(child).then((el) => {
-            cy.wrap(el).should('have.attr', 'role', 'menuitem');
-            const label = labels[index];
-            if (el.find('button').length) {
-                if (label) {
-                    cy.wrap(el).children('button').should('have.attr', 'aria-label', label).and('have.class', 'a11y--active a11y--focused').tab();
-                } else {
-                    cy.wrap(el).children('button').should('have.class', 'a11y--active a11y--focused').tab();
-                }
-            } else {
-                cy.wrap(el).children('a').should('have.class', 'a11y--active a11y--focused').tab();
-            }
-        });
-    });
-}
-
 describe('Verify Accessibility Support in Dropdown Menus', () => {
+    let siteName;
+    let isCloudLicensed;
     let testTeam;
 
     before(() => {
-        cy.apiInitSetup().then(({team}) => {
-            testTeam = team;
+        cy.apiGetConfig().then(({config}) => {
+            siteName = config.TeamSettings.SiteName;
+        });
+
+        cy.apiGetClientLicense().then((data) => {
+            isCloudLicensed = data.isCloudLicensed;
+        });
+
+        cy.apiCreateCustomAdmin().then(({sysadmin}) => {
+            cy.apiLogin(sysadmin);
+
+            cy.apiInitSetup().then(({team}) => {
+                testTeam = team;
+            });
+
+            cy.apiCreateTeam('other-team', 'Other Team');
         });
     });
 
     beforeEach(() => {
         // Visit the Off Topic channel
         cy.visit(`/${testTeam.name}/channels/off-topic`);
+        cy.postMessage('hello');
     });
 
     it('MM-T1464 Accessibility Support in Channel Menu Dropdown', () => {
@@ -62,8 +60,33 @@ describe('Verify Accessibility Support in Dropdown Menus', () => {
         cy.focused().tab();
 
         // * Verify the accessibility support in the Channel Dropdown menu items
-        const labels = ['View Info dialog', 'Notification Preferences dialog', '', 'Add Members dialog', 'Manage Members dialog', 'Edit Channel Header dialog', 'Edit Channel Purpose dialog', 'Rename Channel dialog', 'Convert to Private Channel dialog', 'Archive Channel dialog', ''];
-        verifyMenuItems('#channelHeaderDropdownMenu', labels);
+        const menuItems = [
+            {id: 'channelViewInfo', label: 'View Info dialog'},
+            {id: 'channelNotificationPreferences', label: 'Notification Preferences dialog'},
+            {id: 'channelToggleMuteChannel', text: 'Mute Channel'},
+            {id: 'channelAddMembers', label: 'Add Members dialog'},
+            {id: 'channelManageMembers', label: 'Manage Members dialog'},
+            {id: 'channelEditHeader', label: 'Edit Channel Header dialog'},
+            {id: 'channelEditPurpose', label: 'Edit Channel Purpose dialog'},
+            {id: 'channelRename', label: 'Rename Channel dialog'},
+            {id: 'channelConvertToPrivate', label: 'Convert to Private Channel dialog'},
+            {id: 'channelArchiveChannel', label: 'Archive Channel dialog'},
+            {id: 'channelLeaveChannel', text: 'Leave Channel'},
+        ];
+
+        menuItems.forEach((item) => {
+            // * Verify that the menu item is focused
+            cy.get('#channelHeaderDropdownMenu').find(`#${item.id}`).should('be.visible').within(() => {
+                if (item.label) {
+                    cy.findByLabelText(item.label).should('have.class', 'a11y--active a11y--focused');
+                } else {
+                    cy.findByText(item.text).parent().should('have.class', 'a11y--active a11y--focused');
+                }
+            });
+
+            // # Press tab for next item
+            cy.focused().tab();
+        });
 
         // * Verify if menu is closed when we press Escape
         cy.get('body').type('{esc}', {force: true});
@@ -87,10 +110,42 @@ describe('Verify Accessibility Support in Dropdown Menus', () => {
         cy.focused().tab();
 
         // * Verify the accessibility support in the Main Menu Dropdown items
-        cy.apiGetConfig().then(({config}) => {
-            const siteName = config.TeamSettings.SiteName;
-            const labels = ['Account Settings dialog', 'Invite People dialog', 'Team Settings dialog', 'Manage Members dialog', '', 'Leave Team dialog', '', 'Marketplace dialog', '', '', '', '', '', `About ${siteName} dialog`, ''];
-            verifyMenuItems('#sidebarDropdownMenu', labels);
+        const menuItems = [
+            {id: 'accountSettings', label: 'Account Settings dialog'},
+            {id: 'invitePeople', label: 'Invite People dialog'},
+            {id: 'teamSettings', label: 'Team Settings dialog'},
+            {id: 'manageMembers', label: 'Manage Members dialog'},
+            {id: 'createTeam', text: 'Create a Team'},
+            {id: 'joinTeam', text: 'Join Another Team'},
+            {id: 'leaveTeam', label: 'Leave Team dialog'},
+            {id: 'integrations', text: 'Integrations'},
+            {id: 'marketplaceModal', label: 'Marketplace dialog'},
+            {id: 'systemConsole', text: 'System Console'},
+            {id: 'helpLink', text: 'Help', directLink: true},
+            {id: 'gettingStarted', text: 'Getting Started', shouldSkip: !isCloudLicensed},
+            {id: 'keyboardShortcuts', text: 'Keyboard Shortcuts'},
+            {id: 'reportLink', text: 'Report a Problem', directLink: true},
+            {id: 'nativeAppLink', text: 'Download Apps', directLink: true},
+            {id: 'about', label: `About ${siteName} dialog`},
+            {id: 'logout', text: 'Log Out'},
+        ];
+
+        menuItems.forEach((item) => {
+            if (!item.shouldSkip) {
+                // * Verify that the menu item is focused
+                cy.get('#sidebarDropdownMenu').find(`#${item.id}`).should('be.visible').within(() => {
+                    if (item.label) {
+                        cy.findByLabelText(item.label).should('have.class', 'a11y--active a11y--focused');
+                    } else if (item.directLink) {
+                        cy.findByText(item.text).should('have.class', 'a11y--active a11y--focused');
+                    } else {
+                        cy.findByText(item.text).parent().should('have.class', 'a11y--active a11y--focused');
+                    }
+                });
+
+                // # Press tab for next item
+                cy.focused().tab();
+            }
         });
 
         cy.get('#sidebarDropdownMenu .MenuItem').each((el) => {
@@ -119,8 +174,24 @@ describe('Verify Accessibility Support in Dropdown Menus', () => {
         cy.focused().tab();
 
         // * Verify the accessibility support in the Status Dropdown menu items
-        const labels = ['Custom Status dialog', 'online', 'away', 'do not disturb. disables all notifications', 'offline'];
-        verifyMenuItems('#statusDropdownMenu', labels);
+        const menuItems = [
+            {id: 'status-menu-custom-status', label: 'Custom Status dialog'},
+            {id: 'status-menu-online', label: 'online'},
+            {id: 'status-menu-away', label: 'away'},
+            {id: 'status-menu-dnd_menuitem', label: 'do not disturb. disables all notifications'},
+            {id: 'status-menu-offline', label: 'offline'},
+        ];
+
+        menuItems.forEach((item) => {
+            // * Verify that the menu item is focused
+            cy.get('#statusDropdownMenu').find(`#${item.id}`).
+                should('be.visible').
+                findAllByLabelText(item.label).first().
+                should('have.class', 'a11y--active a11y--focused');
+
+            // # Press tab for next item
+            cy.focused().tab();
+        });
 
         // * Verify if menu is closed when we press Escape
         cy.get('body').type('{esc}', {force: true});
