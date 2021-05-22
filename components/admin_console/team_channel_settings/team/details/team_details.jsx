@@ -115,10 +115,10 @@ export default class TeamDetails extends React.PureComponent {
         const {groups, allAllowedChecked, allowedDomainsChecked, allowedDomains, syncChecked, usersToAdd, usersToRemove, rolesToUpdate} = this.state;
 
         let serverError = null;
-        let saveNeeded = false;
 
         const {team, groups: origGroups, teamID, actions} = this.props;
         if (this.teamToBeArchived()) {
+            let saveNeeded = false;
             const result = await actions.deleteTeam(team.id);
             if ('error' in result) {
                 serverError = <FormError error={result.error.message}/>;
@@ -139,6 +139,7 @@ export default class TeamDetails extends React.PureComponent {
             this.setState({serverError, previousServerError: null});
         }
 
+        let saveNeeded = false;
         if (allowedDomainsChecked && allowedDomains.trim().length === 0) {
             saveNeeded = true;
             serverError = <NeedDomainsError/>;
@@ -502,7 +503,7 @@ export default class TeamDetails extends React.PureComponent {
                             confirmButtonText={
                                 <FormattedMessage
                                     id='admin.team_settings.team_detail.archive_confirm.button'
-                                    defaultMessage='Save and Archive Team'
+                                    defaultMessage='Archive'
                                 />
                             }
                             onConfirm={this.handleSubmit}

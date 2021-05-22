@@ -57,10 +57,16 @@ describe('admin_console/team_channel_settings/team/TeamDetails', () => {
     });
 
     test('should match snapshot with isLocalArchived true', () => {
-        baseProps.team.delete_at = 16465313;
+        const props = {
+            ...baseProps,
+            team: {
+                ...baseProps.team,
+                delete_at: 16465313,
+            },
+        };
         const wrapper = shallow(
             <TeamDetails
-                {...baseProps}
+                {...props}
             />,
         );
         expect(wrapper).toMatchSnapshot();

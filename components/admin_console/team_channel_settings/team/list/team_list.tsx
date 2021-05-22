@@ -229,7 +229,13 @@ export default class TeamList extends React.PureComponent<Props, State> {
                                 <b data-testid='team-display-name'>
                                     {team.display_name}
                                     {team.delete_at !== 0 &&
-                                        <span style={{color: 'red'}}>{'  (Archived)'}</span>
+                                        <span className='archived-label'>
+                                            {'  '}
+                                            <FormattedMessage
+                                                id='admin.team_settings.team_row.archived'
+                                                defaultMessage='(Archived)'
+                                            />
+                                        </span>
                                     }
                                 </b>
                                 {team.description && (

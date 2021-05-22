@@ -23,11 +23,9 @@ export function TeamProfile({team, isArchived, isDisabled, onToggleArchive}) {
     let archiveBtnID;
     let archiveBtnDefault;
     if (isArchived) {
-        t('admin.team_settings.team_details.unarchiveTeam');
         archiveBtnID = 'admin.team_settings.team_details.unarchiveTeam';
         archiveBtnDefault = 'Unarchive Team';
     } else {
-        t('admin.team_settings.team_details.archiveTeam');
         archiveBtnID = 'admin.team_settings.team_details.archiveTeam';
         archiveBtnDefault = 'Archive Team';
     }
@@ -86,9 +84,11 @@ export function TeamProfile({team, isArchived, isDisabled, onToggleArchive}) {
                             }
                             onClick={onToggleArchive}
                         >
-                            {isArchived ?
-                                <UnarchiveIcon className='channel-icon channel-icon__unarchive'/> :
-                                <ArchiveIcon className='channel-icon channel-icon__archive'/>}
+                            {isArchived ? (
+                                <UnarchiveIcon className='channel-icon channel-icon__unarchive'/>
+                            ) : (
+                                <ArchiveIcon className='channel-icon channel-icon__archive'/>
+                            )}
                             <FormattedMessage
                                 id={archiveBtnID}
                                 defaultMessage={archiveBtnDefault}
