@@ -1,10 +1,16 @@
 .ThreadFooter {
     --button-separator-height: 15px;
+    --button-separator-gap: 4px;
 
     display: inline-flex;
     align-items: center;
 
+    position: relative;
     padding: 5px 10px;
+    padding-top: 0;
+    left: -34px;
+    margin-top: 1px;
+    margin-bottom: 5px;
 
     font-size: 12px;
     line-height: 15px;
@@ -28,7 +34,7 @@
     }
 
     .icon {
-        width: 14px; height: 14px;
+        width: 14px; height: 13px;
         font-size: 14px;
     }
 
@@ -38,7 +44,9 @@
 
     &:hover,
     &:focus-within,
-    &.is-active {
+    &.is-active,
+    .post:hover &,
+    .post:focus-within & {
         .alt-visible {
             display: unset;
         }

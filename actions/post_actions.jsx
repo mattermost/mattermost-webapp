@@ -4,9 +4,12 @@
 import {SearchTypes} from 'mattermost-redux/action_types';
 import {getMyChannelMember} from 'mattermost-redux/actions/channels';
 import {getChannel, getMyChannelMember as getMyChannelMemberSelector} from 'mattermost-redux/selectors/entities/channels';
+import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import * as ThreadActions from 'mattermost-redux/actions/threads';
 import * as PostActions from 'mattermost-redux/actions/posts';
 import * as PostSelectors from 'mattermost-redux/selectors/entities/posts';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {canEditPost, comparePosts} from 'mattermost-redux/utils/post_utils';
 
 import {addRecentEmoji} from 'actions/emoji_actions';
@@ -234,11 +237,20 @@ export function setEditingPost(postId = '', commentCount = 0, refocusId = '', ti
     };
 }
 
-export function markPostAsUnread(post) {
+export function markPostAsUnread(post, location) {
     return async (dispatch, getState) => {
         const state = getState();
         const userId = getCurrentUserId(state);
-        await dispatch(PostActions.setUnreadPost(userId, post.id));
+        const currentTeamId = getCurrentTeamId(state);
+
+        // if CRT:ON and this is from within ThreadViewer (e.g. post dot-menu), mark the thread as unread
+        if (isCollapsedThreadsEnabled(state) && (location === 'RHS_ROOT' || location === 'RHS_COMMENT')) {
+            await dispatch(ThreadActions.updateThreadRead(userId, currentTeamId, post.root_id || post.id, post.create_at));
+        } else {
+            // use normal channel unread system
+            await dispatch(PostActions.setUnreadPost(userId, post.id));
+        }
+
         return {data: true};
     };
 }

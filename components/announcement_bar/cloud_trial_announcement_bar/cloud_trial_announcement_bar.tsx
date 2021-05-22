@@ -50,8 +50,7 @@ enum TrialPeriodDays {
     TRIAL_14_DAYS = 14,
     TRIAL_3_DAYS = 3,
     TRIAL_2_DAYS = 2,
-    TRIAL_1_DAY = 1,
-    TRIAL_0_DAYS = 0
+    TRIAL_1_DAY = 1
 }
 
 class CloudTrialAnnouncementBar extends React.PureComponent<Props> {
@@ -80,9 +79,9 @@ class CloudTrialAnnouncementBar extends React.PureComponent<Props> {
         const {daysLeftOnTrial} = this.props;
         let dismissValue = '';
         if (daysLeftOnTrial > TrialPeriodDays.TRIAL_3_DAYS) {
-            dismissValue = '14_days_banner1';
-        } else if (daysLeftOnTrial <= TrialPeriodDays.TRIAL_3_DAYS && daysLeftOnTrial > TrialPeriodDays.TRIAL_0_DAYS) {
-            dismissValue = '3_days_banner1';
+            dismissValue = '14_days_banner';
+        } else if (daysLeftOnTrial <= TrialPeriodDays.TRIAL_3_DAYS && daysLeftOnTrial >= TrialPeriodDays.TRIAL_1_DAY) {
+            dismissValue = '3_days_banner';
         }
         trackEvent(
             TELEMETRY_CATEGORIES.CLOUD_ADMIN,
@@ -142,9 +141,9 @@ class CloudTrialAnnouncementBar extends React.PureComponent<Props> {
             return null;
         }
 
-        if ((preferences.some((pref) => pref.name === CloudBanners.TRIAL && pref.value === '14_days_banner1') && daysLeftOnTrial > TrialPeriodDays.TRIAL_3_DAYS) ||
-            ((daysLeftOnTrial <= TrialPeriodDays.TRIAL_3_DAYS && daysLeftOnTrial > TrialPeriodDays.TRIAL_0_DAYS) &&
-            preferences.some((pref) => pref.name === CloudBanners.TRIAL && pref.value === '3_days_banner1'))) {
+        if ((preferences.some((pref) => pref.name === CloudBanners.TRIAL && pref.value === '14_days_banner') && daysLeftOnTrial > TrialPeriodDays.TRIAL_3_DAYS) ||
+            ((daysLeftOnTrial <= TrialPeriodDays.TRIAL_3_DAYS && daysLeftOnTrial >= TrialPeriodDays.TRIAL_1_DAY) &&
+            preferences.some((pref) => pref.name === CloudBanners.TRIAL && pref.value === '3_days_banner'))) {
             return null;
         }
 

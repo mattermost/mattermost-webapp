@@ -89,6 +89,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
         toPublic={true}
       />
       <ChannelModeration
+        channelPermissions={Array []}
         guestAccountsEnabled={true}
         isPublic={true}
         onChannelPermissionsChanged={[Function]}
@@ -275,6 +276,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
         toPublic={true}
       />
       <ChannelModeration
+        channelPermissions={Array []}
         guestAccountsEnabled={true}
         isPublic={true}
         onChannelPermissionsChanged={[Function]}

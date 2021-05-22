@@ -1,6 +1,6 @@
 @charset 'UTF-8';
 
-.GenericModal {
+.app__body .modal .GenericModal {
     &.modal-dialog {
         margin-top: calc(50vh - 240px);
     }

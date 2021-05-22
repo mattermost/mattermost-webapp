@@ -103,5 +103,13 @@ declare namespace Cypress {
          *   uiOpenSetStatusMenu(item);
          */
         uiOpenSetStatusMenu(item): Chainable;
+
+        /**
+         * Open DND status menu
+         *
+         * @example
+         *   uiOpenDndStatusSubMenu();
+         */
+        uiOpenDndStatusSubMenu(): Chainable;
     }
 }
