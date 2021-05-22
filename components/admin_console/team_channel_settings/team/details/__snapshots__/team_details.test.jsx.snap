@@ -42,7 +42,7 @@ exports[`admin_console/team_channel_settings/team/TeamDetails should match snaps
         confirmButtonClass="btn btn-primary"
         confirmButtonText={
           <FormattedMessage
-            defaultMessage="Save and Archive Team"
+            defaultMessage="Archive"
             id="admin.team_settings.team_detail.archive_confirm.button"
           />
         }
@@ -166,7 +166,7 @@ exports[`admin_console/team_channel_settings/team/TeamDetails should match snaps
         confirmButtonClass="btn btn-primary"
         confirmButtonText={
           <FormattedMessage
-            defaultMessage="Save and Archive Team"
+            defaultMessage="Archive"
             id="admin.team_settings.team_detail.archive_confirm.button"
           />
         }
