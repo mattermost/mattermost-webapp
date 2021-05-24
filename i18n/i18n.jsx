@@ -44,7 +44,7 @@ const languages = {
         value: 'en-AU',
         name: 'English (Australian Beta)',
         order: 2,
-        url: '',
+        url: enAU,
     },
     es: {
         value: 'es',
