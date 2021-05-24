@@ -74,12 +74,14 @@ import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
 
 import {fetchAppBindings} from 'mattermost-redux/actions/apps';
 
-import {getSelectedChannelId} from 'selectors/rhs';
+import {getSelectedChannelId, getSelectedPostId} from 'selectors/rhs';
+import {getSelectedThreadIdInCurrentTeam} from 'selectors/views/threads';
 
 import {openModal} from 'actions/views/modals';
 import {incrementWsErrorCount, resetWsErrorCount} from 'actions/views/system';
 import {closeRightHandSide} from 'actions/views/rhs';
 import {syncPostsInChannel} from 'actions/views/channel';
+import {updateThreadLastOpened} from 'actions/views/threads';
 
 import {browserHistory} from 'utils/browser_history';
 import {loadChannelsForCurrentUser} from 'actions/channel_actions.jsx';
@@ -1419,8 +1421,19 @@ function handleFirstAdminVisitMarketplaceStatusReceivedEvent(msg) {
 function handleThreadReadChanged(msg) {
     return (doDispatch, doGetState) => {
         if (msg.data.thread_id) {
-            const thread = doGetState().entities.threads.threads?.[msg.data.thread_id];
+            const state = doGetState();
+            const thread = state.entities.threads.threads?.[msg.data.thread_id];
             if (thread) {
+                if (
+                    !window.isActive ||
+                    (
+                        getSelectedThreadIdInCurrentTeam(state) !== msg.data.thread_id &&
+                        getSelectedPostId(state) !== msg.data.thread_id
+                    )
+                ) {
+                    doDispatch(updateThreadLastOpened(msg.data.thread_id, msg.data.timestamp));
+                }
+
                 handleReadChanged(
                     doDispatch,
                     msg.data.thread_id,

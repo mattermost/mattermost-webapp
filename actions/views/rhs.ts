@@ -14,6 +14,7 @@ import {
 import * as PostActions from 'mattermost-redux/actions/posts';
 import {getCurrentUserId, getCurrentUserMentionKeys} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {getThread} from 'mattermost-redux/selectors/entities/threads';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
@@ -23,6 +24,7 @@ import {DispatchFunc, GenericAction, GetStateFunc} from 'mattermost-redux/types/
 import {Post} from 'mattermost-redux/types/posts';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
+import {updateThreadLastOpened} from 'actions/views/threads';
 import {getSearchTerms, getRhsState, getPluggableId, getFilesSearchExtFilter} from 'selectors/rhs';
 import {ActionTypes, RHSStates} from 'utils/constants';
 import * as Utils from 'utils/utils';
@@ -382,11 +384,20 @@ export function toggleRhsExpanded() {
 }
 
 export function selectPost(post: Post) {
-    return {
-        type: ActionTypes.SELECT_POST,
-        postId: post.root_id || post.id,
-        channelId: post.channel_id,
-        timestamp: Date.now(),
+    return (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const state = getState();
+        const thread = getThread(state, post.root_id || post.id);
+
+        if (thread) {
+            dispatch(updateThreadLastOpened(thread.id, thread.last_viewed_at));
+        }
+
+        dispatch({
+            type: ActionTypes.SELECT_POST,
+            postId: post.root_id || post.id,
+            channelId: post.channel_id,
+            timestamp: Date.now(),
+        });
     };
 }
 

@@ -4,8 +4,10 @@
 import {createSelector} from 'reselect';
 
 import {$ID} from 'mattermost-redux/types/utilities';
+import {Post} from 'mattermost-redux/types/posts';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getThreads} from 'mattermost-redux/selectors/entities/threads';
+
 import {Team} from 'mattermost-redux/types/teams';
 import {UserThread} from 'mattermost-redux/types/threads';
 
@@ -40,3 +42,18 @@ export const getSelectedThreadInCurrentTeam: (state: GlobalState) => UserThread 
         return threadId ? threads[threadId] : null;
     },
 );
+
+export function makeGetThreadLastViewedAt(): (state: GlobalState, threadId: $ID<Post>) => number {
+    return createSelector(
+        (state: GlobalState, threadId: $ID<Post>) => state.views.threads.lastViewedAt[threadId],
+        getThreads,
+        (_state, threadId) => threadId,
+        (lastViewedAt, threads, threadId) => {
+            if (lastViewedAt) {
+                return lastViewedAt;
+            }
+
+            return threads[threadId]?.last_viewed_at || 0;
+        },
+    );
+}

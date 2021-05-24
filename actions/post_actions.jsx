@@ -16,6 +16,7 @@ import {addRecentEmoji} from 'actions/emoji_actions';
 import * as StorageActions from 'actions/storage';
 import {loadNewDMIfNeeded, loadNewGMIfNeeded} from 'actions/user_actions.jsx';
 import * as RhsActions from 'actions/views/rhs';
+import {updateThreadLastOpened} from 'actions/views/threads';
 import {isEmbedVisible, isInlineImageVisible} from 'selectors/posts';
 import {getSelectedPostId, getSelectedPostCardId, getRhsState} from 'selectors/rhs';
 import {
@@ -245,6 +246,7 @@ export function markPostAsUnread(post, location) {
 
         // if CRT:ON and this is from within ThreadViewer (e.g. post dot-menu), mark the thread as unread
         if (isCollapsedThreadsEnabled(state) && (location === 'RHS_ROOT' || location === 'RHS_COMMENT')) {
+            dispatch(updateThreadLastOpened(post.root_id, post.create_at));
             await dispatch(ThreadActions.updateThreadRead(userId, currentTeamId, post.root_id || post.id, post.create_at));
         } else {
             // use normal channel unread system
