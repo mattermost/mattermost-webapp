@@ -25,7 +25,7 @@ describe('Autocomplete in the search box - scrolling', () => {
         });
     });
 
-    it('correctly scrolls when the user navigates through options with the keyboard', () => {
+    it('MM-T4084 correctly scrolls when the user navigates through options with the keyboard', () => {
         cy.get('#searchBox').type('from:');
 
         cy.get('#search-autocomplete__popover .search-autocomplete__item').first().as('firstItem');
