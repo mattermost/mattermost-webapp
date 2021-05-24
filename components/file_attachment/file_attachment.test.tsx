@@ -39,6 +39,9 @@ describe('FileAttachment', () => {
         index: 3,
         canDownloadFiles: true,
         enableSVGs: false,
+        enablePublicLink: false,
+        pluginMenuItems: [],
+        handleFileDropdownOpened: jest.fn(),
     };
 
     test('should match snapshot, regular file', () => {
