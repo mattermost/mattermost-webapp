@@ -21,22 +21,34 @@ describe('Autocomplete in the search box - scrolling', () => {
                 });
             }
             cy.visit(`/${team.name}/channels/town-square`);
-            cy.postMessage('hello'); // fix for https://github.com/mattermost/mattermost-webapp/pull/8084#issuecomment-844852168
+
+            // # Post a new message to ensure page fully rendered before acting into the searchBox
+            cy.postMessage('hello');
         });
     });
 
     it('MM-T4084 correctly scrolls when the user navigates through options with the keyboard', () => {
+        // # Type into the searchBox to show list of users
         cy.get('#searchBox').type('from:');
 
         cy.get('#search-autocomplete__popover .search-autocomplete__item').first().as('firstItem');
         cy.get('#search-autocomplete__popover .search-autocomplete__item').last().as('lastItem');
 
+        // * Check that list is scrolled to top
         cy.get('@firstItem').should('be.visible');
         cy.get('@lastItem').should('not.be.visible');
+
+        // # Move to bottom of the list using keyboard
         cy.get('body').type('{downarrow}'.repeat(usersCount));
+
+        // * Check that list is scrolled to bottom
         cy.get('@firstItem').should('not.be.visible');
         cy.get('@lastItem').should('be.visible');
+
+        // # Move to top of the list using keyboard
         cy.get('body').type('{uparrow}'.repeat(usersCount));
+
+        // * Check that list is scrolled to top
         cy.get('@firstItem').should('be.visible');
         cy.get('@lastItem').should('not.be.visible');
     });
