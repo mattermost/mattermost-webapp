@@ -12,7 +12,12 @@
 import {openCustomStatusModal} from './helper';
 
 describe('Custom Status - Verifying Where Custom Status Appears', () => {
+    const customStatus = {
+        emoji: 'grinning',
+        text: 'Busy',
+    };
     let currentUser;
+
     before(() => {
         cy.apiUpdateConfig({TeamSettings: {EnableCustomUserStatuses: true}});
 
@@ -23,11 +28,6 @@ describe('Custom Status - Verifying Where Custom Status Appears', () => {
         });
     });
 
-    const customStatus = {
-        emoji: 'grinning',
-        text: 'Busy',
-    };
-
     it('MM-T3850_1 set a status', () => {
         openCustomStatusModal();
 
@@ -36,8 +36,9 @@ describe('Custom Status - Verifying Where Custom Status Appears', () => {
 
         // # Select an emoji from the emoji picker and set the status
         cy.get('#custom_status_modal .StatusModal__emoji-button').click();
-        cy.get(`#emojiPicker .emoji-picker-items__container .emoji-picker__item img[data-testid="${customStatus.emoji}"]`).click();
-        cy.get('#custom_status_modal .GenericModal__button.confirm').click();
+        cy.get('#emojiPicker').should('be.visible').find('.emoji-picker__items').should('be.visible');
+        cy.findByTestId(customStatus.emoji).trigger('mouseover', {force: true}).click({force: true});
+        cy.get('#custom_status_modal .GenericModal__button.confirm').should('be.visible').click();
 
         // * Custom status modal should be closed
         cy.get('#custom_status_modal').should('not.exist');
@@ -135,7 +136,7 @@ describe('Custom Status - Verifying Where Custom Status Appears', () => {
 
     it('MM-T3850_10 should show custom status emoji next to username in DM in LHS Direct Messages section and full custom status in channel header', () => {
         // # Click on the search result to open the Direct messages channel
-        cy.get('#moreDmModal .more-modal__row').click();
+        cy.get('#moreDmModal .more-modal__row').should('be.visible').and('contain', currentUser.username).click({force: true});
 
         // * Check if the channel is open and contains the channel header
         cy.get('#channelHeaderDescription .header-status__text').should('exist');
@@ -146,5 +147,28 @@ describe('Custom Status - Verifying Where Custom Status Appears', () => {
 
         // * Custom status emoji should be visible along with username in the  LHS Direct Messages section
         cy.get('.SidebarChannelGroup_content').contains('(you)').get('span.emoticon').should('exist').invoke('attr', 'data-emoticon').should('contain', customStatus.emoji);
+    });
+
+    it('MM-T3850_11 should show custom status emoji at autocomplete', () => {
+        // # type: /message @[username]
+        cy.get('#post_textbox').should('be.visible').type(`/message @${currentUser.username}`);
+
+        // * Autocomplete shows the user along with the custom status emoji
+        cy.get('#suggestionList').find('.mentions__name').eq(0).contains(`@${currentUser.username}`).get('span.emoticon').should('exist').invoke('attr', 'data-emoticon').should('contain', customStatus.emoji);
+
+        cy.get('#post_textbox').type('{enter}');
+    });
+
+    it('MM-T3850_12 should show custom status emoji at channel switcher', () => {
+        // # Click channel switcher button
+        cy.uiGetChannelSwitcher().click();
+
+        // # Type username on the input
+        cy.findByRole('textbox', {name: 'quick switch input'}).type(currentUser.username);
+
+        // * Custom status is shown next to username in the channel switcher
+        cy.get('#suggestionList').should('be.visible');
+        cy.findByTestId(currentUser.username).should('be.visible').
+            find('.emoticon').should('have.attr', 'data-emoticon', 'grinning');
     });
 });
