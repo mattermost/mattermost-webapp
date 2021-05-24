@@ -24,8 +24,8 @@ interface ComponentProps {
     onClick?: () => void;
 }
 
-const getCustomStatus = makeGetCustomStatus();
 const CustomStatusEmoji = (props: ComponentProps) => {
+    const getCustomStatus = makeGetCustomStatus();
     const {emojiSize, emojiStyle, spanStyle, showTooltip, tooltipDirection, userID, onClick} = props;
     const customStatusEnabled = useSelector(isCustomStatusEnabled);
     const customStatus = useSelector((state: GlobalState) => getCustomStatus(state, userID));
