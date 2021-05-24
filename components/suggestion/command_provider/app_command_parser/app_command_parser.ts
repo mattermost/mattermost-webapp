@@ -3,6 +3,12 @@
 
 /* eslint-disable max-lines */
 
+import {autocompleteUsersInChannel} from 'actions/views/channel';
+import * as Utils from 'utils/utils.jsx';
+
+import {autocompleteChannels} from 'mattermost-redux/actions/channels';
+import {UserAutocomplete} from 'mattermost-redux/types/autocomplete';
+
 import {
     AppCallRequest,
     AppBinding,
@@ -29,6 +35,7 @@ import {
     getStore,
     EXECUTE_CURRENT_COMMAND_ITEM_ID,
     COMMAND_SUGGESTION_ERROR,
+    COMMAND_SUGGESTION_CHANNEL,
     getExecuteSuggestion,
     displayError,
     createCallRequest,
@@ -534,15 +541,17 @@ export class ParsedCommand {
 export class AppCommandParser {
     private store: Store;
     private channelID: string;
+    private teamID: string;
     private rootPostID?: string;
     private intl: Intl;
 
     forms: {[location: string]: AppForm} = {};
 
-    constructor(store: Store|null, intl: Intl, channelID: string, rootPostID = '') {
+    constructor(store: Store|null, intl: Intl, channelID: string, teamID?: string, rootPostID = '') {
         this.store = store || getStore();
         this.channelID = channelID;
         this.rootPostID = rootPostID;
+        this.teamID = teamID || '';
         this.intl = intl;
     }
 
@@ -1237,33 +1246,92 @@ export class AppCommandParser {
     }
 
     // getUserSuggestions returns a suggestion with `@` if the user has not started typing
-    private getUserSuggestions = (parsed: ParsedCommand): AutocompleteSuggestion[] => {
-        if (parsed.incomplete.trim().length === 0) {
+    private getUserSuggestions = async (parsed: ParsedCommand): Promise<AutocompleteSuggestion[]> => {
+        let input = parsed.incomplete.trim();
+        if (input[0] === '@') {
+            input = input.substring(1);
+        }
+        const {data} = await this.store.dispatch(autocompleteUsersInChannel(input, this.channelID));
+        if (!data) {
             return [{
                 Complete: '',
                 Suggestion: '',
-                Description: parsed.field?.description || '',
-                Hint: parsed.field?.hint || '@username',
-                IconData: parsed.binding?.icon || '',
+                Description: 'No user found',
+                Hint: '',
+                IconData: '',
             }];
         }
+        const usersAutocomplete = data as UserAutocomplete;
+        if (!usersAutocomplete.users.length && !usersAutocomplete.out_of_channel?.length) {
+            return [{
+                Complete: '',
+                Suggestion: '',
+                Description: 'No user found',
+                Hint: '',
+                IconData: '',
+            }];
+        }
+        const items: AutocompleteSuggestion[] = [];
+        usersAutocomplete.users.forEach((u) => {
+            items.push({
+                Complete: '@' + u.username,
+                Suggestion: u.username,
+                Description: u.first_name,
+                Hint: '',
+                IconData: Utils.imageURLForUser(u.id, u.last_picture_update),
+            });
+        });
+        usersAutocomplete.out_of_channel?.forEach((u) => {
+            items.push({
+                Complete: '@' + u.username,
+                Suggestion: u.username,
+                Description: u.first_name,
+                Hint: '',
+                IconData: Utils.imageURLForUser(u.id, u.last_picture_update),
+            });
+        });
 
-        return [];
+        return items;
     }
 
     // getChannelSuggestions returns a suggestion with `~` if the user has not started typing
-    private getChannelSuggestions = (parsed: ParsedCommand): AutocompleteSuggestion[] => {
-        if (parsed.incomplete.trim().length === 0) {
+    private getChannelSuggestions = async (parsed: ParsedCommand): Promise<AutocompleteSuggestion[]> => {
+        let input = parsed.incomplete.trim();
+        if (input[0] === '~') {
+            input = input.substring(1);
+        }
+        const {data} = await this.store.dispatch(autocompleteChannels(this.teamID, input));
+        if (!data) {
             return [{
                 Complete: '',
                 Suggestion: '',
-                Description: parsed.field?.description || '',
-                Hint: parsed.field?.hint || '~channelname',
-                IconData: parsed.binding?.icon || '',
+                Description: 'No channel found',
+                Hint: '',
+                IconData: '',
             }];
         }
+        const channels = data as Channel[];
+        if (!channels.length) {
+            return [{
+                Complete: '',
+                Suggestion: '',
+                Description: 'No channel found',
+                Hint: '',
+                IconData: '',
+            }];
+        }
+        const items: AutocompleteSuggestion[] = [];
+        channels.forEach((c) => {
+            items.push({
+                Complete: '~' + c.name,
+                Suggestion: c.name,
+                Description: c.display_name,
+                Hint: '',
+                IconData: COMMAND_SUGGESTION_CHANNEL,
+            });
+        });
 
-        return [];
+        return items;
     }
 
     // getBooleanSuggestions returns true/false suggestions

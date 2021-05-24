@@ -66,6 +66,7 @@ export const getStore = () => Store;
 import {Constants} from 'utils/constants';
 export const EXECUTE_CURRENT_COMMAND_ITEM_ID = Constants.Integrations.EXECUTE_CURRENT_COMMAND_ITEM_ID;
 export const COMMAND_SUGGESTION_ERROR = Constants.Integrations.COMMAND_SUGGESTION_ERROR;
+export const COMMAND_SUGGESTION_CHANNEL = Constants.Integrations.COMMAND_SUGGESTION_CHANNEL;
 
 import type {ParsedCommand} from './app_command_parser';
 

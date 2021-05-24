@@ -77,7 +77,17 @@ export default class Textbox extends React.PureComponent<Props> {
     constructor(props: Props) {
         super(props);
 
-        this.suggestionProviders = [
+        this.suggestionProviders = [];
+
+        if (props.supportsCommands) {
+            this.suggestionProviders.push(new CommandProvider({
+                teamId: this.props.currentTeamId,
+                channelId: this.props.channelId,
+                rootId: this.props.rootId,
+            }));
+        }
+
+        this.suggestionProviders.push(
             new AtMentionProvider({
                 currentUserId: this.props.currentUserId,
                 profilesInChannel: this.props.profilesInChannel,
@@ -89,15 +99,7 @@ export default class Textbox extends React.PureComponent<Props> {
             }),
             new ChannelMentionProvider(props.actions.autocompleteChannels),
             new EmoticonProvider(),
-        ];
-
-        if (props.supportsCommands) {
-            this.suggestionProviders.push(new CommandProvider({
-                teamId: this.props.currentTeamId,
-                channelId: this.props.channelId,
-                rootId: this.props.rootId,
-            }));
-        }
+        );
 
         this.checkMessageLength(props.value);
         this.wrapper = React.createRef();

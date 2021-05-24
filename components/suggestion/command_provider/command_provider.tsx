@@ -25,6 +25,7 @@ import {intlShim} from './app_command_parser/app_command_parser_dependencies';
 
 const EXECUTE_CURRENT_COMMAND_ITEM_ID = Constants.Integrations.EXECUTE_CURRENT_COMMAND_ITEM_ID;
 const COMMAND_SUGGESTION_ERROR = Constants.Integrations.COMMAND_SUGGESTION_ERROR;
+const COMMAND_SUGGESTION_CHANNEL = Constants.Integrations.COMMAND_SUGGESTION_CHANNEL;
 
 export class CommandSuggestion extends Suggestion {
     render() {
@@ -36,14 +37,19 @@ export class CommandSuggestion extends Suggestion {
             className += ' suggestion--selected';
         }
         let symbolSpan = <span>{'/'}</span>;
-        if (item.IconData === EXECUTE_CURRENT_COMMAND_ITEM_ID) {
+        switch (item.IconData) {
+        case EXECUTE_CURRENT_COMMAND_ITEM_ID:
             symbolSpan = <span className='block mt-1'>{'↵'}</span>;
-        }
-        if (item.IconData === COMMAND_SUGGESTION_ERROR) {
+            break;
+        case COMMAND_SUGGESTION_ERROR:
             symbolSpan = <span>{'!'}</span>;
+            break;
+        case COMMAND_SUGGESTION_CHANNEL:
+            symbolSpan = (<span><i className='icon icon--no-spacing icon-globe'/></span>);
+            break;
         }
         let icon = <div className='slash-command__icon'>{symbolSpan}</div>;
-        if (item.IconData && item.IconData !== EXECUTE_CURRENT_COMMAND_ITEM_ID && item.IconData !== COMMAND_SUGGESTION_ERROR) {
+        if (item.IconData && ![EXECUTE_CURRENT_COMMAND_ITEM_ID, COMMAND_SUGGESTION_ERROR, COMMAND_SUGGESTION_CHANNEL].includes(item.IconData)) {
             icon = (
                 <div
                     className='slash-command__icon'
@@ -100,7 +106,7 @@ export default class CommandProvider extends Provider {
 
         this.store = globalStore;
         this.props = props;
-        this.appCommandParser = new AppCommandParser(this.store as any, intlShim, props.channelId, props.rootId);
+        this.appCommandParser = new AppCommandParser(this.store as any, intlShim, props.channelId, props.teamId, props.rootId);
         this.triggerCharacter = '/';
     }
 
