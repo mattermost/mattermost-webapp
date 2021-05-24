@@ -9,6 +9,9 @@ import * as Utils from 'utils/utils.jsx';
 import {autocompleteChannels} from 'mattermost-redux/actions/channels';
 import {UserAutocomplete} from 'mattermost-redux/types/autocomplete';
 
+import {UserProfile} from 'mattermost-redux/types/users';
+import {ActionResult} from 'mattermost-redux/types/actions';
+
 import {
     AppCallRequest,
     AppBinding,
@@ -547,11 +550,11 @@ export class AppCommandParser {
 
     forms: {[location: string]: AppForm} = {};
 
-    constructor(store: Store|null, intl: Intl, channelID: string, teamID?: string, rootPostID = '') {
+    constructor(store: Store|null, intl: Intl, channelID: string, teamID = '', rootPostID = '') {
         this.store = store || getStore();
         this.channelID = channelID;
         this.rootPostID = rootPostID;
-        this.teamID = teamID || '';
+        this.teamID = teamID;
         this.intl = intl;
     }
 
@@ -1079,9 +1082,9 @@ export class AppCommandParser {
 
         switch (f.type) {
         case AppFieldTypes.USER:
-            return this.getUserSuggestions(parsed);
+            return this.getUserFieldSuggestions(parsed);
         case AppFieldTypes.CHANNEL:
-            return this.getChannelSuggestions(parsed);
+            return this.getChannelFieldSuggestions(parsed);
         case AppFieldTypes.BOOL:
             return this.getBooleanSuggestions(parsed);
         case AppFieldTypes.DYNAMIC_SELECT:
@@ -1090,6 +1093,12 @@ export class AppCommandParser {
             return this.getStaticSelectSuggestions(parsed, delimiter);
         }
 
+        const mentionSuggestions = await inTextMentionSuggestions(parsed.incomplete, this.store, this.channelID, this.teamID, delimiter);
+        if (mentionSuggestions) {
+            return mentionSuggestions;
+        }
+
+        // Handle text values
         let complete = parsed.incomplete;
         if (complete && delimiter) {
             complete = delimiter + complete + delimiter;
@@ -1245,93 +1254,20 @@ export class AppCommandParser {
         }];
     }
 
-    // getUserSuggestions returns a suggestion with `@` if the user has not started typing
-    private getUserSuggestions = async (parsed: ParsedCommand): Promise<AutocompleteSuggestion[]> => {
+    private getUserFieldSuggestions = async (parsed: ParsedCommand): Promise<AutocompleteSuggestion[]> => {
         let input = parsed.incomplete.trim();
         if (input[0] === '@') {
             input = input.substring(1);
         }
-        const {data} = await this.store.dispatch(autocompleteUsersInChannel(input, this.channelID));
-        if (!data) {
-            return [{
-                Complete: '',
-                Suggestion: '',
-                Description: 'No user found',
-                Hint: '',
-                IconData: '',
-            }];
-        }
-        const usersAutocomplete = data as UserAutocomplete;
-        if (!usersAutocomplete.users.length && !usersAutocomplete.out_of_channel?.length) {
-            return [{
-                Complete: '',
-                Suggestion: '',
-                Description: 'No user found',
-                Hint: '',
-                IconData: '',
-            }];
-        }
-        const items: AutocompleteSuggestion[] = [];
-        usersAutocomplete.users.forEach((u) => {
-            items.push({
-                Complete: '@' + u.username,
-                Suggestion: u.username,
-                Description: u.first_name,
-                Hint: '',
-                IconData: Utils.imageURLForUser(u.id, u.last_picture_update),
-            });
-        });
-        usersAutocomplete.out_of_channel?.forEach((u) => {
-            items.push({
-                Complete: '@' + u.username,
-                Suggestion: u.username,
-                Description: u.first_name,
-                Hint: '',
-                IconData: Utils.imageURLForUser(u.id, u.last_picture_update),
-            });
-        });
-
-        return items;
+        return getUserSuggestions(() => this.store.dispatch(autocompleteUsersInChannel(input, this.channelID)));
     }
 
-    // getChannelSuggestions returns a suggestion with `~` if the user has not started typing
-    private getChannelSuggestions = async (parsed: ParsedCommand): Promise<AutocompleteSuggestion[]> => {
+    private getChannelFieldSuggestions = async (parsed: ParsedCommand): Promise<AutocompleteSuggestion[]> => {
         let input = parsed.incomplete.trim();
         if (input[0] === '~') {
             input = input.substring(1);
         }
-        const {data} = await this.store.dispatch(autocompleteChannels(this.teamID, input));
-        if (!data) {
-            return [{
-                Complete: '',
-                Suggestion: '',
-                Description: 'No channel found',
-                Hint: '',
-                IconData: '',
-            }];
-        }
-        const channels = data as Channel[];
-        if (!channels.length) {
-            return [{
-                Complete: '',
-                Suggestion: '',
-                Description: 'No channel found',
-                Hint: '',
-                IconData: '',
-            }];
-        }
-        const items: AutocompleteSuggestion[] = [];
-        channels.forEach((c) => {
-            items.push({
-                Complete: '~' + c.name,
-                Suggestion: c.name,
-                Description: c.display_name,
-                Hint: '',
-                IconData: COMMAND_SUGGESTION_CHANNEL,
-            });
-        });
-
-        return items;
+        return getChannelSuggestions(() => this.store.dispatch(autocompleteChannels(this.teamID, input)));
     }
 
     // getBooleanSuggestions returns true/false suggestions
@@ -1370,4 +1306,116 @@ function isMultiword(value: string) {
     }
 
     return false;
+}
+
+function getUserSuggestion(u: UserProfile) {
+    return {
+        Complete: '@' + u.username,
+        Suggestion: u.username,
+        Description: getUserSuggestionDescription(u),
+        Hint: '',
+        IconData: Utils.imageURLForUser(u.id, u.last_picture_update),
+    };
+}
+
+function getUserSuggestionDescription(u: UserProfile) {
+    let description = '';
+    if ((u.first_name || u.last_name) && u.nickname) {
+        description = `${Utils.getFullName(u)} (${u.nickname})`;
+    } else if (u.nickname) {
+        description = `(${u.nickname})`;
+    } else if (u.first_name || u.last_name) {
+        description = `${Utils.getFullName(u)}`;
+    }
+    return description;
+}
+
+async function getUserSuggestions(getUsersFunc: () => Promise<ActionResult>): Promise<AutocompleteSuggestion[]> {
+    const notFoundSuggestions = [{
+        Complete: '',
+        Suggestion: '',
+        Description: 'No user found',
+        Hint: '',
+        IconData: '',
+    }];
+    const {data} = await getUsersFunc();
+    if (!data) {
+        return notFoundSuggestions;
+    }
+    const usersAutocomplete = data as UserAutocomplete;
+    if (!usersAutocomplete.users.length && !usersAutocomplete.out_of_channel?.length) {
+        return notFoundSuggestions;
+    }
+
+    const items: AutocompleteSuggestion[] = [];
+    usersAutocomplete.users.forEach((u) => {
+        items.push(getUserSuggestion(u));
+    });
+    usersAutocomplete.out_of_channel?.forEach((u) => {
+        items.push(getUserSuggestion(u));
+    });
+
+    return items;
+}
+
+async function getChannelSuggestions(getChannelsFunc: () => Promise<ActionResult>): Promise<AutocompleteSuggestion[]> {
+    const notFoundSuggestion = [{
+        Complete: '',
+        Suggestion: '',
+        Description: 'No channel found',
+        Hint: '',
+        IconData: '',
+    }];
+    const {data} = await getChannelsFunc();
+    if (!data) {
+        return notFoundSuggestion;
+    }
+    const channels = data as Channel[];
+    if (!channels.length) {
+        return notFoundSuggestion;
+    }
+
+    const items: AutocompleteSuggestion[] = [];
+    channels.forEach((c) => {
+        items.push({
+            Complete: '~' + c.name,
+            Suggestion: c.name,
+            Description: c.display_name,
+            Hint: '',
+            IconData: COMMAND_SUGGESTION_CHANNEL,
+        });
+    });
+
+    return items;
+}
+
+export async function inTextMentionSuggestions(pretext: string, store: Store, channelID: string, teamID: string, delimiter = ''): Promise<AutocompleteSuggestion[] | null> {
+    const separatedWords = pretext.split(' ');
+    const incompleteLessLastWord = separatedWords.slice(0, -1).join(' ');
+    const lastWord = separatedWords[separatedWords.length - 1];
+    if (lastWord.startsWith('@')) {
+        const users = await getUserSuggestions(() => store.dispatch(autocompleteUsersInChannel(lastWord.substring(1), channelID)));
+        users.forEach((u) => {
+            let complete = incompleteLessLastWord ? incompleteLessLastWord + ' ' + u.Complete : u.Complete;
+            if (delimiter) {
+                complete = delimiter + complete;
+            }
+            u.Complete = complete;
+        });
+        return users;
+    }
+
+    if (lastWord.startsWith('~') && !lastWord.startsWith('~~')) {
+        const channels = await getChannelSuggestions(() => store.dispatch(autocompleteChannels(teamID, lastWord.substring(1))));
+        channels.forEach((c) => {
+            let complete = incompleteLessLastWord ? incompleteLessLastWord + ' ' + c.Complete : c.Complete;
+            if (delimiter) {
+                complete = delimiter + complete;
+            }
+            c.Complete = complete;
+        });
+        return channels;
+    }
+
+    return null;
 }

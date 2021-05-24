@@ -20,7 +20,7 @@ import Provider from '../provider';
 
 import {GlobalState} from 'types/store';
 
-import {AppCommandParser} from './app_command_parser/app_command_parser';
+import {AppCommandParser, inTextMentionSuggestions} from './app_command_parser/app_command_parser';
 import {intlShim} from './app_command_parser/app_command_parser_dependencies';
 
 const EXECUTE_CURRENT_COMMAND_ITEM_ID = Constants.Integrations.EXECUTE_CURRENT_COMMAND_ITEM_ID;
@@ -139,11 +139,24 @@ export default class CommandProvider extends Provider {
             return true;
         }
 
-        if (UserAgent.isMobile()) {
-            this.handleMobile(pretext, resultCallback);
-        } else {
-            this.handleWebapp(pretext, resultCallback);
-        }
+        inTextMentionSuggestions(pretext, this.store as any, this.props.channelId, this.props.teamId).then((suggestions) => {
+            if (suggestions) {
+                const terms = suggestions.map((suggestion) => suggestion.Complete);
+                resultCallback({
+                    matchedPretext: pretext,
+                    terms,
+                    items: suggestions,
+                    component: CommandSuggestion,
+                });
+                return;
+            }
+            if (UserAgent.isMobile()) {
+                this.handleMobile(pretext, resultCallback);
+            } else {
+                this.handleWebapp(pretext, resultCallback);
+            }
+        });
+
         return true;
     }
 
