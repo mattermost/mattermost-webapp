@@ -69,7 +69,7 @@ const ExpiryMenu: React.FC<Props> = (props: Props) => {
     };
 
     useEffect(() => {
-        const menuItemArray = Object.keys(expiryMenuItems).map((item) => (
+        const menuItemArray = Object.keys(expiryMenuItems).map((item, index) => (
             <Menu.ItemAction
                 key={item.toString()}
                 onClick={(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -78,7 +78,7 @@ const ExpiryMenu: React.FC<Props> = (props: Props) => {
                 }}
                 ariaLabel={expiryMenuItems[item as CustomStatusDuration]?.text.toLowerCase()}
                 text={expiryMenuItems[item as CustomStatusDuration]?.text}
-                id={`expiry_menu_${item}`}
+                id={`expiry_menu_item_${index}`}
             />
         ));
 
