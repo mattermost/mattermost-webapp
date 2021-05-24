@@ -1,9 +1,9 @@
 {
-  "name": "mattermost-webapp",
+  "name": "@mattermost/webapp",
   "browser": {
     "./client/web_client.jsx": "./client/browser_web_client.jsx"
   },
-  "version": "0.0.1",
+  "version": "5.36.0-0",
   "private": true,
   "dependencies": {
     "@formatjs/intl-pluralrules": "4.0.6",
@@ -277,5 +277,7 @@
     "storybook": "start-storybook -p 6006 -s ./storybook/static",
     "build-storybook": "build-storybook -s ./storybook/static",
     "check-types": "tsc"
-  }
+  },
+  "workspaces": [
+  ]
 }
