@@ -37,12 +37,22 @@ export type {
     DispatchFunc,
 } from 'mattermost-redux/types/actions';
 
+export type {
+    UserAutocomplete,
+} from 'mattermost-redux/types/autocomplete';
+
+export type {
+    UserProfile,
+} from 'mattermost-redux/types/users';
+
 export {
     AppBindingLocations,
     AppCallTypes,
     AppFieldTypes,
     AppCallResponseTypes,
 } from 'mattermost-redux/constants/apps';
+
+export {autocompleteUsersInChannel} from 'actions/views/channel';
 
 export {makeAppBindingsSelector} from 'mattermost-redux/selectors/entities/apps';
 
@@ -52,13 +62,23 @@ export {getCurrentTeamId, getCurrentTeam} from 'mattermost-redux/selectors/entit
 export {getUserByUsername as selectUserByUsername} from 'mattermost-redux/selectors/entities/users';
 
 export {getUserByUsername} from 'mattermost-redux/actions/users';
-export {getChannelByNameAndTeamName} from 'mattermost-redux/actions/channels';
+export {getChannelByNameAndTeamName, autocompleteChannels} from 'mattermost-redux/actions/channels';
 
 export {doAppCall} from 'actions/apps';
 import {sendEphemeralPost} from 'actions/global_actions';
 
 export {createCallRequest} from 'utils/apps';
-import {isMac, localizeAndFormatMessage} from 'utils/utils';
+
+import {
+    isMac,
+    localizeAndFormatMessage,
+    getFullName,
+    imageURLForUser,
+} from 'utils/utils';
+export {
+    getFullName,
+    imageURLForUser,
+};
 
 import Store from 'stores/redux_store';
 export const getStore = () => Store;
