@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import {createSelector} from 'reselect';
-import shallowEquals from 'shallow-equals';
 
 import {General, Permissions} from 'mattermost-redux/constants';
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
@@ -404,7 +403,6 @@ export const getChannelsNameMapInTeam: (state: GlobalState, teamId: string) => N
     },
 );
 
-let prevChannelMap: NameMappedObjects<Channel> = {};
 export const getChannelsNameMapInCurrentTeam: (state: GlobalState) => NameMappedObjects<Channel> = createSelector(
     getAllChannels,
     getChannelSetInCurrentTeam,
@@ -414,15 +412,19 @@ export const getChannelsNameMapInCurrentTeam: (state: GlobalState) => NameMapped
             const channel = channels[id];
             channelMap[channel.name] = channel;
         });
+        return channelMap;
+    },
+);
 
-        // getAllChannels will almost never return a memoized result.
-        // Assumption here is that the added comparison computation is more beneficial
-        // than the cost of returning a non memoized result.
-        if (shallowEquals(channelMap, prevChannelMap)) {
-            return prevChannelMap;
+export const getChannelNameToDisplayNameMap: (state: GlobalState) => Record<string, string> = createIdsSelector(
+    getAllChannels,
+    getChannelSetInCurrentTeam,
+    (channels: IDMappedObjects<Channel>, currentTeamChannelSet: string[]) => {
+        const channelMap: Record<string, string> = {};
+        for (const id of currentTeamChannelSet) {
+            const channel = channels[id];
+            channelMap[channel.name] = channel.display_name;
         }
-
-        prevChannelMap = channelMap;
         return channelMap;
     },
 );
