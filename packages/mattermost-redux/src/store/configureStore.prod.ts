@@ -17,17 +17,14 @@ import {createMiddleware} from './middleware';
  * appReducer - An object containing any app-specific reducer functions that the client needs.
  * persistConfig - Any additional configuration data to be passed into redux-persist aside from the default values.
  * getAppReducer - A function that returns the appReducer as defined above. Only used in development to enable hot reloading.
- * clientOptions - An object containing additional options used when configuring the redux store. The following options are available:
- *     additionalMiddleware - func | array - Allows for single or multiple additional middleware functions to be passed in from the client side.
- *     enableThunk - bool - default = true - If true, include the thunk middleware automatically. If false, thunk must be provided as part of additionalMiddleware.
  */
-export default function configureOfflineServiceStore(preloadedState: any, appReducer: any, persistConfig: any, getAppReducer: any, clientOptions = {}): Store {
+export default function configureOfflineServiceStore(preloadedState: any, appReducer: any, persistConfig: any, getAppReducer: any): Store {
     const baseState = Object.assign({}, initialState, preloadedState);
 
     const store = createStore(
         createReducer(baseState, serviceReducer as any, appReducer),
         baseState,
-        applyMiddleware(...createMiddleware(clientOptions)),
+        applyMiddleware(...createMiddleware()),
     );
 
     reducerRegistry.setChangeListener((reducers: any) => {

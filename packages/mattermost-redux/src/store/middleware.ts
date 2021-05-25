@@ -3,25 +3,10 @@
 import {Middleware} from 'redux';
 import thunk, {ThunkMiddleware} from 'redux-thunk';
 
-const defaultOptions = {
-    additionalMiddleware: [],
-};
-export function createMiddleware(clientOptions: any): Middleware[] {
-    const options = Object.assign({}, defaultOptions, clientOptions);
-    const {
-        additionalMiddleware,
-    } = options;
+export function createMiddleware(): Middleware[] {
     const middleware: ThunkMiddleware[] = [];
 
     middleware.push(thunk);
-
-    if (additionalMiddleware) {
-        if (typeof additionalMiddleware === 'function') {
-            middleware.push(additionalMiddleware);
-        } else {
-            middleware.push(...additionalMiddleware);
-        }
-    }
 
     return middleware;
 }
