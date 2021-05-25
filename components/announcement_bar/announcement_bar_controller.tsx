@@ -56,7 +56,7 @@ export default class AnnouncementBarController extends React.PureComponent<Props
         let cloudAnnouncementBar = null;
         let paymentAnnouncementBar = null;
         let cloudTrialAnnouncementBar = null;
-        if (this.props.license && this.props.license.Cloud === 'true') {
+        if (this.props.license?.Cloud === 'true') {
             cloudAnnouncementBar = (
                 <CloudAnnouncementBar/>
             );
