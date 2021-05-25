@@ -484,7 +484,7 @@ export function makeGetChannelIdsForCategory() {
         }
 
         lastChannelIds = filteredChannelIds;
-        return filteredChannelIds;
+        return lastChannelIds;
     };
 }
 
