@@ -75,8 +75,6 @@ import {createIdsSelector} from 'mattermost-redux/utils/helpers';
 import {Constants} from 'utils/constants';
 import {getDataRetentionCustomPolicy} from 'mattermost-redux/selectors/entities/admin';
 
-import {ThreadsState} from 'mattermost-redux/types/threads';
-
 import {getThreadCounts} from './threads';
 
 export {getCurrentChannelId, getMyChannelMemberships, getMyCurrentChannelMembership};
@@ -517,10 +515,19 @@ export const getMembersInCurrentChannel: (state: GlobalState) => UserIDMappedObj
     },
 );
 
-export const getUnreads: (state: GlobalState) => {
-    messageCount: number;
-    mentionCount: number;
-} = createSelector(
+/**
+ * A scalar encoding or primitive-value representation of
+ */
+export type BasicUnreadStatus = boolean | number;
+export type BasicUnreadMeta = {isUnread: boolean; unreadMentionCount: number}
+export function basicUnreadMeta(unreadStatus: BasicUnreadStatus): BasicUnreadMeta {
+    return {
+        isUnread: Boolean(unreadStatus),
+        unreadMentionCount: (typeof unreadStatus === 'number' && unreadStatus) || 0,
+    };
+}
+
+export const getUnreadStatus: (state: GlobalState) => BasicUnreadStatus = createSelector(
     getAllChannels,
     getMyChannelMemberships,
     getUsers,
@@ -530,125 +537,141 @@ export const getUnreads: (state: GlobalState) => {
     getTeamMemberships,
     isCollapsedThreadsEnabled,
     getThreadCounts,
-    (channels: IDMappedObjects<Channel>, myMembers: RelationOneToOne<Channel, ChannelMembership>, users: IDMappedObjects<UserProfile>, currentUserId: string, currentTeamId: string, myTeams: Team[], myTeamMemberships: RelationOneToOne<Team, TeamMembership>, collapsed: boolean, threadCounts: ThreadsState['counts']): {
-        messageCount: number;
-        mentionCount: number;
-    } => {
-        let messageCountForCurrentTeam = 0; // Includes message count from channels of current team plus all GM'S and all DM's across teams
-        let mentionCountForCurrentTeam = 0; // Includes mention count from channels of current team plus all GM'S and all DM's across teams
-
-        Object.keys(myMembers).forEach((channelId) => {
+    (
+        channels,
+        myMembers,
+        users,
+        currentUserId,
+        currentTeamId,
+        myTeams,
+        myTeamMemberships,
+        collapsedThreads,
+        threadCounts,
+    ) => {
+        const {
+            messages: currentTeamUnreadMessages,
+            mentions: currentTeamUnreadMentions,
+        } = Object.entries(myMembers).reduce((counts, [channelId, membership]) => {
             const channel = channels[channelId];
-            const m = myMembers[channelId];
 
-            if (!channel || !m) {
-                return;
+            if (!channel || !membership) {
+                return counts;
             }
 
-            if (channel.team_id !== currentTeamId && channel.type !== General.DM_CHANNEL && channel.type !== General.GM_CHANNEL) {
-                return;
+            if (
+                // other-team non-DM/non-GM channels
+                channel.team_id !== currentTeamId &&
+                channel.type !== General.DM_CHANNEL &&
+                channel.type !== General.GM_CHANNEL
+            ) {
+                return counts;
             }
 
-            let otherUserId = '';
+            const channelExists = channel.type === General.DM_CHANNEL ? users[getUserIdFromChannelName(currentUserId, channel.name)]?.delete_at === 0 : channel.delete_at === 0;
 
-            if (channel.type === General.DM_CHANNEL) {
-                otherUserId = getUserIdFromChannelName(currentUserId, channel.name);
-
-                if (users[otherUserId] && users[otherUserId].delete_at === 0) {
-                    mentionCountForCurrentTeam += (collapsed ? m.mention_count_root : m.mention_count);
-                }
-            } else if (channel.delete_at === 0) {
-                if (m.mention_count > 0) {
-                    mentionCountForCurrentTeam += (collapsed ? m.mention_count_root : m.mention_count);
-                }
+            if (!channelExists) {
+                return counts;
             }
 
-            if (m.notify_props && m.notify_props.mark_unread !== 'mention') {
-                if (channel.total_msg_count - m.msg_count > 0) {
-                    if (channel.type === General.DM_CHANNEL) {
-                        // otherUserId is guaranteed to have been set above
-                        if (users[otherUserId] && users[otherUserId].delete_at === 0) {
-                            messageCountForCurrentTeam += 1;
-                        }
-                    } else if (channel.delete_at === 0) {
-                        messageCountForCurrentTeam += 1;
-                    }
-                }
+            if (membership.mention_count > 0) {
+                counts.mentions += collapsedThreads ? membership.mention_count_root : membership.mention_count;
             }
+
+            if (membership.notify_props && membership.notify_props.mark_unread !== 'mention') {
+                counts.messages += getMsgCountInChannel(collapsedThreads, channel, membership);
+            }
+
+            return counts;
+        }, {
+            messages: 0,
+            mentions: 0,
         });
 
         // Includes mention count and message count from teams other than the current team
         // This count does not include GM's and DM's
-        const otherTeamsUnreadCountForChannels = myTeams.reduce((acc, team) => {
+        const {
+            messages: otherTeamsUnreadMessages,
+            mentions: otherTeamsUnreadMentions,
+        } = myTeams.reduce((acc, team) => {
             if (currentTeamId !== team.id) {
                 const member = myTeamMemberships[team.id];
-                acc.messageCount += member.msg_count;
-                acc.mentionCount += (collapsed ? member.mention_count_root : member.mention_count);
+                acc.messages += collapsedThreads ? member.msg_count_root : member.msg_count;
+                acc.mentions += collapsedThreads ? member.mention_count_root : member.mention_count;
             }
 
             return acc;
         }, {
-            messageCount: 0,
-            mentionCount: 0,
+            messages: 0,
+            mentions: 0,
         });
 
-        // messageCount is the number of unread channels, mention count is the total number of mentions
-        const result = {
-            messageCount: messageCountForCurrentTeam + otherTeamsUnreadCountForChannels.messageCount,
-            mentionCount: mentionCountForCurrentTeam + otherTeamsUnreadCountForChannels.mentionCount,
-        };
+        const totalUnreadMessages = currentTeamUnreadMessages + otherTeamsUnreadMessages;
+        let totalUnreadMentions = currentTeamUnreadMentions + otherTeamsUnreadMentions;
+        let anyUnreadThreads = false;
 
-        // when collapsed threads are enabled, we start with root-post counts from channels, then add the same thread-reply counts from the global threads view
-        if (collapsed) {
+        // when collapsed threads are enabled, we start with root-post counts from channels, then
+        // add the same thread-reply counts from the global threads view
+        if (collapsedThreads) {
             Object.values(threadCounts).forEach((c) => {
-                result.mentionCount += c.total_unread_mentions;
+                anyUnreadThreads = anyUnreadThreads || Boolean(c.total_unread_threads);
+                totalUnreadMentions += c.total_unread_mentions;
             });
         }
-        return result;
+
+        return totalUnreadMentions || anyUnreadThreads || Boolean(totalUnreadMessages);
     },
 );
 
-export const getUnreadsInCurrentTeam: (a: GlobalState) => {
-    messageCount: number;
-    mentionCount: number;
-} = createSelector(getCurrentChannelId, getMyChannels, getMyChannelMemberships, getUsers, getCurrentUserId, (currentChannelId: string, channels: Channel[], myMembers: RelationOneToOne<Channel, ChannelMembership>, users: IDMappedObjects<UserProfile>, currentUserId: string): {
-    messageCount: number;
-    mentionCount: number;
-} => {
-    let messageCount = 0;
-    let mentionCount = 0;
-    channels.forEach((channel) => {
-        const m = myMembers[channel.id];
+export const getUnreadStatusInCurrentTeam: (a: GlobalState) => BasicUnreadStatus = createSelector(
+    getCurrentChannelId,
+    getMyChannels,
+    getMyChannelMemberships,
+    getUsers,
+    getCurrentUserId,
+    isCollapsedThreadsEnabled,
+    (
+        currentChannelId,
+        channels,
+        myMembers,
+        users,
+        currentUserId,
+        collapsedThreads,
+    ) => {
+        let messageCount = 0;
+        let mentionCount = 0;
+        channels.forEach((channel) => {
+            const m = myMembers[channel.id];
 
-        if (m && channel.id !== currentChannelId) {
-            let otherUserId = '';
+            if (m && channel.id !== currentChannelId) {
+                const otherUserId = channel.type === General.DM_CHANNEL ? getUserIdFromChannelName(currentUserId, channel.name) : '';
 
-            if (channel.type === 'D') {
-                otherUserId = getUserIdFromChannelName(currentUserId, channel.name);
-
-                if (users[otherUserId] && users[otherUserId].delete_at === 0) {
-                    mentionCount += channel.total_msg_count - m.msg_count;
-                }
-            } else if (m.mention_count > 0 && channel.delete_at === 0) {
-                mentionCount += m.mention_count;
-            }
-
-            if (m.notify_props && m.notify_props.mark_unread !== 'mention' && channel.total_msg_count - m.msg_count > 0) {
-                if (channel.type === 'D') {
+                if (channel.type === General.DM_CHANNEL) {
                     if (users[otherUserId] && users[otherUserId].delete_at === 0) {
+                        mentionCount += channel.total_msg_count - m.msg_count;
+                    }
+                } else if (m.mention_count > 0 && channel.delete_at === 0) {
+                    mentionCount += m.mention_count;
+                }
+
+                if (
+                    m.notify_props &&
+                    m.notify_props.mark_unread !== 'mention' &&
+                    getMsgCountInChannel(collapsedThreads, channel, m) > 0
+                ) {
+                    if (channel.type === General.DM_CHANNEL) {
+                        if (users[otherUserId] && users[otherUserId].delete_at === 0) {
+                            messageCount += 1;
+                        }
+                    } else if (channel.delete_at === 0) {
                         messageCount += 1;
                     }
-                } else if (channel.delete_at === 0) {
-                    messageCount += 1;
                 }
             }
-        }
-    });
-    return {
-        messageCount,
-        mentionCount,
-    };
-});
+        });
+
+        return mentionCount || Boolean(messageCount);
+    },
+);
 
 export const canManageChannelMembers: (state: GlobalState) => boolean = createSelector(
     getCurrentChannel,

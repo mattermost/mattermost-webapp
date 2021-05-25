@@ -122,11 +122,6 @@ class LegacySidebar extends React.PureComponent {
         intl: intlShape.isRequired,
 
         /**
-         * Number of unread mentions/messages
-         */
-        unreads: PropTypes.object.isRequired,
-
-        /**
          * Permission to create public channel
          */
         canCreatePublicChannel: PropTypes.bool.isRequired,

@@ -178,6 +178,7 @@ describe('legacyMakeFilterAutoclosedDMs', () => {
             getCurrentUserId(state),
             state.entities.users.profiles,
             getLastPostPerChannel(state),
+            false,
             getCurrentChannelId(state),
             now,
         );
@@ -776,6 +777,9 @@ describe('makeFilterManuallyClosedDMs', () => {
 
     const baseState = {
         entities: {
+            general: {
+                config: {},
+            },
             channels: {
                 myMembers: {},
             },
