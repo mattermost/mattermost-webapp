@@ -612,6 +612,16 @@
                 opacity: 0.4;
             }
         }
+
+        &.dragging {
+            border-radius: 4px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.12);
+            color: var(--sidebar-text);
+
+            .SidebarChannelGroupHeader_groupButton {
+                border-radius: 4px;
+            }
+        }
     }
 
     .SidebarChannelGroup:not(.autoSortedCategory) .draggingOver .SidebarChannelGroupHeader:hover {
@@ -620,6 +630,8 @@
 
         .SidebarChannelGroupHeader_groupButton {
             background-color: inherit;
+            box-shadow: inset 0 -1px 0 rgba(var(--sidebar-text-rgb), 0.6), inset 1px 0 0 rgba(var(--sidebar-text-rgb), 0.6), inset 0 1px 0 rgba(var(--sidebar-text-rgb), 0.6);
+            border-radius: 4px 0 0 4px;
         }
     }
 
@@ -654,12 +666,6 @@
             text-overflow: ellipsis;
             width: 100%;
             padding-left: 16px;
-        }
-
-        &.dragging {
-            border-radius: 4px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.12);
-            color: var(--sidebar-text);
         }
 
         i.icon-chevron-down {
@@ -748,10 +754,12 @@
 
         .SidebarChannelGroupHeader {
             background-color: var(--sidebar-bg);
+            border-radius: 4px 4px 0 0;
+            box-shadow: inset -1px 0 0 rgba(var(--sidebar-text-rgb), 0.6), inset 1px 0 0 rgba(var(--sidebar-text-rgb), 0.6), inset 0 1px 0 rgba(var(--sidebar-text-rgb), 0.6);
 
             .SidebarChannelGroupHeader_groupButton {
-                border-radius: 4px 4px 0 0;
-                box-shadow: inset -1px 0 0 rgba(var(--sidebar-text-rgb), 0.6), inset 1px 0 0 rgba(var(--sidebar-text-rgb), 0.6), inset 0 1px 0 rgba(var(--sidebar-text-rgb), 0.6);
+                border-radius: 4px 0 0 0;
+                box-shadow: inset 1px 0 0 rgba(var(--sidebar-text-rgb), 0.6), inset 0 1px 0 rgba(var(--sidebar-text-rgb), 0.6);
             }
         }
     }
