@@ -57,8 +57,8 @@ describe('Data Retention', () => {
             // # Add team to the policy
             cy.uiAddTeamsToCustomPolicy([testTeam.display_name]);
 
-            // # Add channel to the policy
-            cy.uiAddChannelsToCustomPolicy([testChannel.display_name]);
+            // # Add 1 channel to the policy from the modal
+            cy.uiAddRandomChannelToCustomPolicy(1);
 
             // # Save policy
             cy.uiGetButton('Save').click();
