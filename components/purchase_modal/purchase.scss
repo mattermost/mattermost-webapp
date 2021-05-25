@@ -52,6 +52,52 @@
 
         .central-panel {
             width: 50%;
+
+            .paymentInfoDetails {
+                font-style: normal;
+                font-weight: normal;
+                font-size: 14px;
+                line-height: 20px;
+                padding: 10px 0 0 10%;
+
+                .PaymentInfoDisplay__paymentInfo-text {
+                    background-color: #FFFFFF;
+                    border: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
+                    box-sizing: border-box;
+                    box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.08);
+                    border-radius: 4px;
+                    margin: 24px 0px;
+                    padding: 32px;
+                    width: 416px;
+                    height: 318px;
+
+                    .CardImage {
+                        max-width: 55px !important;
+                        max-height: 37px !important;
+                    }
+
+                    .PaymentInfoDisplay__paymentInfo-cardInfo {
+                        margin: 10px 0px;
+                    }
+                }
+
+                .title {
+                    font-style: normal;
+                    font-weight: 600;
+                    font-size: 16px;
+                    line-height: 24px;
+                }
+
+                .editPaymentButton {
+                    border: none;
+                    background: none;
+                    color: var(--button-bg);
+                    font-weight: 600;
+                    font-size: 14px;
+                    line-height: 24px;
+                    padding-left: 20px !important;
+                }
+            }
         }
 
         .full-width {

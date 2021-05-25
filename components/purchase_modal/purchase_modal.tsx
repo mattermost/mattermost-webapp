@@ -18,6 +18,7 @@ import cloudLogo from 'images/cloud/mattermost-cloud.svg';
 import {trackEvent, pageVisited} from 'actions/telemetry_actions';
 import {TELEMETRY_CATEGORIES, CloudLinks} from 'utils/constants';
 
+import PaymentInfoDetails from 'components/admin_console/billing/payment_info_details';
 import {STRIPE_CSS_SRC, STRIPE_PUBLIC_KEY} from 'components/payment_form/stripe';
 import RootPortal from 'components/root_portal';
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
@@ -59,6 +60,7 @@ type State = {
     billingDetails: BillingDetails | null;
     cardInputComplete: boolean;
     processing: boolean;
+    editPaymentInfo: boolean;
     selectedProduct: Product | null | undefined;
 }
 
@@ -95,6 +97,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
             billingDetails: null,
             cardInputComplete: false,
             processing: false,
+            editPaymentInfo: false,
             selectedProduct: findProductInDictionary(props.products, props.productId),
         };
     }
@@ -172,6 +175,15 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                 />
             </div>
         );
+    }
+
+    editPaymentInfoHandler = () => {
+        this.setState((prevState: State) => {
+            return {
+                ...prevState,
+                editPaymentInfo: !prevState.editPaymentInfo,
+            };
+        });
     }
 
     purchaseScreen = () => {
@@ -252,11 +264,32 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                     </a>
                 </div>
                 <div className='central-panel'>
-                    <PaymentForm
-                        className='normal-text'
-                        onInputChange={this.onPaymentInput}
-                        onCardInputChange={this.handleCardInputChange}
-                    />
+                    {this.state.editPaymentInfo ?
+                        <PaymentForm
+                            className='normal-text'
+                            onInputChange={this.onPaymentInput}
+                            onCardInputChange={this.handleCardInputChange}
+                        /> :
+                        <div className='paymentInfoDetails'>
+                            <div className='title'>
+                                <FormattedMessage
+                                    defaultMessage='Your saved payment details'
+                                    id='admin.billing.purchaseModal.savedPaymentDetailsTitle'
+                                />
+                            </div>
+                            <PaymentInfoDetails>
+                                <button
+                                    onClick={this.editPaymentInfoHandler}
+                                    className='editPaymentButton'
+                                >
+                                    <FormattedMessage
+                                        defaultMessage='Edit'
+                                        id='admin.billing.purchaseModal.editPaymentInfoButton'
+                                    />
+                                </button>
+                            </PaymentInfoDetails>
+                        </div>
+                    }
                 </div>
                 <div className='RHS'>
                     <div className='price-container'>
