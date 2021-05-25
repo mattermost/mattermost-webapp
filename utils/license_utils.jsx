@@ -10,6 +10,10 @@ export function isLicenseExpiring(license) {
         return false;
     }
 
+    if (license.IsTrial === 'true') {
+        return true;
+    }
+
     const timeDiff = parseInt(license.ExpiresAt, 10) - Date.now();
     return timeDiff <= LICENSE_EXPIRY_NOTIFICATION;
 }
