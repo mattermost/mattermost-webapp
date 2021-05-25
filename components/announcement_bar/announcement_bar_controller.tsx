@@ -31,7 +31,7 @@ type Props = {
 export default class AnnouncementBarController extends React.PureComponent<Props> {
     render() {
         let adminConfiguredAnnouncementBar = null;
-        if (this.props.config && this.props.config.EnableBanner === 'true' && this.props.config.BannerText?.trim()) {
+        if (this.props.config?.EnableBanner === 'true' && this.props.config.BannerText?.trim()) {
             adminConfiguredAnnouncementBar = (
                 <TextDismissableBar
                     color={this.props.config.BannerColor}
@@ -56,7 +56,7 @@ export default class AnnouncementBarController extends React.PureComponent<Props
         let cloudAnnouncementBar = null;
         let paymentAnnouncementBar = null;
         let cloudTrialAnnouncementBar = null;
-        if (this.props.license && this.props.license.Cloud === 'true') {
+        if (this.props.license?.Cloud === 'true') {
             cloudAnnouncementBar = (
                 <CloudAnnouncementBar/>
             );
