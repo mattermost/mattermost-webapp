@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {createStore, applyMiddleware, Store} from 'redux';
+import thunk, {ThunkMiddleware} from 'redux-thunk';
 
 import serviceReducer from '../reducers';
 
@@ -9,7 +10,6 @@ import reducerRegistry from './reducer_registry';
 
 import {createReducer} from './helpers';
 import initialState from './initial_state';
-import {createMiddleware} from './middleware';
 
 /**
  * Configures and constructs the redux store. Accepts the following parameters:
@@ -20,11 +20,12 @@ import {createMiddleware} from './middleware';
  */
 export default function configureOfflineServiceStore(preloadedState: any, appReducer: any, persistConfig: any, getAppReducer: any): Store {
     const baseState = Object.assign({}, initialState, preloadedState);
+    const middleware: ThunkMiddleware[] = [thunk];
 
     const store = createStore(
         createReducer(baseState, serviceReducer as any, appReducer),
         baseState,
-        applyMiddleware(...createMiddleware()),
+        applyMiddleware(...middleware),
     );
 
     reducerRegistry.setChangeListener((reducers: any) => {
