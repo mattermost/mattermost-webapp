@@ -10,7 +10,7 @@ import {trackEvent} from 'actions/telemetry_actions';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import OverlayTrigger from 'components/overlay_trigger';
 import {getMonthLong} from 'utils/i18n';
-import {CloudLinks} from 'utils/constants';
+import {CloudLinks, CloudProducts} from 'utils/constants';
 import {localizeMessage} from 'utils/utils';
 
 import Badge from 'components/widgets/badges/badge';
@@ -155,7 +155,7 @@ export const planDetailsTopElements = (
     }
 
     switch (subscriptionPlan) {
-    case 'cloud-professional':
+    case CloudProducts.PROFESSIONAL:
         productName = (
             <FormattedMessage
                 id='admin.billing.subscription.planDetails.productName.cloudProfessional'
@@ -163,7 +163,7 @@ export const planDetailsTopElements = (
             />
         );
         break;
-    case 'cloud-enterprise':
+    case CloudProducts.ENTERPRISE:
         productName = (
             <FormattedMessage
                 id='admin.billing.subscription.planDetails.productName.cloudEnterprise'
@@ -171,7 +171,7 @@ export const planDetailsTopElements = (
             />
         );
         break;
-    case 'cloud-starter':
+    case CloudProducts.STARTER:
         productName = (
             <FormattedMessage
                 id='admin.billing.subscription.planDetails.productName.cloudStarter'
@@ -330,14 +330,14 @@ export const featureList = (subscriptionPlan: string | null, isPaidTier: boolean
 
     if (isPaidTier) {
         switch (subscriptionPlan) {
-        case 'cloud-professional':
+        case CloudProducts.PROFESSIONAL:
             features = featuresCloudProfessional;
             break;
 
-        case 'cloud-starter':
+        case CloudProducts.STARTER:
             features = featuresCloudStarter;
             break;
-        case 'cloud-enterprise':
+        case CloudProducts.ENTERPRISE:
             features = featuresCloudEnterprise;
             break;
         default:

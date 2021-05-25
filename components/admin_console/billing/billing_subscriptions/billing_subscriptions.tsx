@@ -13,6 +13,8 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx'
 import privateCloudImage from 'images/private-cloud-image.svg';
 import freeTrialPrivateCloudImage from 'images/free-trial-private-cloud-image.svg';
 
+import {CloudProducts} from 'utils/constants';
+
 export const contactSalesCard = (
     contactSalesLink: any,
     isFreeTrial: boolean,
@@ -38,7 +40,7 @@ export const contactSalesCard = (
         );
     } else {
         switch (subscriptionPlan) {
-        case 'cloud-starter':
+        case CloudProducts.STARTER:
             title = (
                 <FormattedMessage
                     id='admin.billing.subscription.privateCloudCard.cloudStarter.title'
@@ -52,7 +54,7 @@ export const contactSalesCard = (
                 />
             );
             break;
-        case 'cloud-professional':
+        case CloudProducts.PROFESSIONAL:
             title = (
                 <FormattedMessage
                     id='admin.billing.subscription.privateCloudCard.cloudProfessional.title'
@@ -66,7 +68,7 @@ export const contactSalesCard = (
                 />
             );
             break;
-        case 'cloud-enterprise':
+        case CloudProducts.ENTERPRISE:
             title = (
                 <FormattedMessage
                     id='admin.billing.subscription.privateCloudCard.cloudEnterprise.title'
@@ -106,7 +108,7 @@ export const contactSalesCard = (
                 <div className='PrivateCloudCard__text-description'>
                     {description}
                 </div>
-                {(isFreeTrial || subscriptionPlan === 'cloud-enterprise') &&
+                {(isFreeTrial || subscriptionPlan === CloudProducts.ENTERPRISE) &&
                     <a
                         href={isFreeTrial ? trialQuestionsLink : contactSalesLink}
                         rel='noopener noreferrer'
@@ -121,7 +123,7 @@ export const contactSalesCard = (
 
                     </a>
                 }
-                {(!isFreeTrial && subscriptionPlan !== 'cloud-enterprise') &&
+                {(!isFreeTrial && subscriptionPlan !== CloudProducts.ENTERPRISE) &&
                     <button
                         type='button'
                         onClick={onUpgradeMattermostCloud}

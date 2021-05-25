@@ -28,6 +28,7 @@ import {
     CloudBanners,
     TELEMETRY_CATEGORIES,
     ModalIdentifiers,
+    CloudProducts,
 } from 'utils/constants';
 import {isCustomerCardExpired} from 'utils/cloud_utils';
 import {getRemainingDaysFromFutureTimestamp} from 'utils/utils.jsx';
@@ -90,7 +91,7 @@ const BillingSubscriptions: React.FC = () => {
         return products[keys[0]];
     });
 
-    const subscriptionPlan = product?.sku || 'cloud-professional';
+    const subscriptionPlan = product?.sku || CloudProducts.PROFESSIONAL;
 
     let isFreeTrial = false;
     let daysLeftOnTrial = 0;
