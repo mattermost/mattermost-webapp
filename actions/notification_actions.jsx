@@ -14,8 +14,8 @@ import {isSystemMessage} from 'mattermost-redux/utils/post_utils';
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
 
 import {browserHistory} from 'utils/browser_history';
-import Constants, {NotificationLevels, UserStatuses} from 'utils/constants';
-import {showNotification} from 'utils/notifications';
+import Constants, {ActionTypes, NotificationLevels, UserStatuses} from 'utils/constants';
+import {showNotification, requestNotificationsPermission} from 'utils/notifications';
 import {isDesktopApp, isMacApp, isMobileApp, isWindowsApp} from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
 import {stripMarkdown} from 'utils/markdown';
@@ -192,4 +192,15 @@ const notifyMe = (title, body, channel, teamId, silent, soundName) => (dispatch,
             dispatch(logError(error));
         });
     }
+};
+
+export const enableBrowserNotifications = () => {
+    return async (dispatch) => {
+        const permission = await requestNotificationsPermission();
+
+        dispatch({
+            type: ActionTypes.BROWSER_NOTIFICATIONS_PERMISSION_RECEIVED,
+            data: permission === 'granted'
+        });
+    };
 };

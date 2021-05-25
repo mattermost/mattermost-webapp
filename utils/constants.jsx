@@ -145,6 +145,7 @@ export const ActionTypes = keyMirror({
     EMITTED_SHORTCUT_REACT_TO_LAST_POST: null,
 
     BROWSER_CHANGE_FOCUS: null,
+    BROWSER_NOTIFICATIONS_PERMISSION_RECEIVED: null,
 
     RECEIVED_PLUGIN_COMPONENT: null,
     REMOVED_PLUGIN_COMPONENT: null,
@@ -607,6 +608,7 @@ export const AnnouncementBarTypes = {
     ADVISOR: 'advisor',
     ADVISOR_ACK: 'advisor-ack',
     GENERAL: 'general',
+    INFO: 'info',
 };
 
 export const AnnouncementBarMessages = {

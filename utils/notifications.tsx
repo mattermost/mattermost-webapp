@@ -23,6 +23,28 @@ export interface ShowNotificationParams {
     onClick?: (this: Notification, e: Event) => any | null;
 }
 
+export async function requestNotificationsPermission() {
+    if (!('Notification' in window)) {
+        throw new Error('Notification not supported');
+    }
+
+    if (typeof Notification.requestPermission !== 'function') {
+        throw new Error('Notification.requestPermission not supported');
+    }
+
+    requestedNotificationPermission = true;
+
+    const permission = await Notification.requestPermission();
+    if (typeof permission === 'undefined') {
+        // Handle browsers that don't support the promise-based syntax.
+        return new Promise((resolve) => {
+            Notification.requestPermission(resolve);
+        });
+    }
+
+    return permission;
+}
+
 export async function showNotification(
     {
         title,
@@ -37,35 +59,23 @@ export async function showNotification(
         silent: false,
     },
 ) {
-    let icon = icon50;
-    if (UserAgent.isEdge()) {
-        icon = iconWS;
-    }
-
     if (!('Notification' in window)) {
         throw new Error('Notification not supported');
-    }
-
-    if (typeof Notification.requestPermission !== 'function') {
-        throw new Error('Notification.requestPermission not supported');
     }
 
     if (Notification.permission !== 'granted' && requestedNotificationPermission) {
         throw new Error('Notifications already requested but not granted');
     }
 
-    requestedNotificationPermission = true;
-
-    let permission = await Notification.requestPermission();
-    if (typeof permission === 'undefined') {
-        // Handle browsers that don't support the promise-based syntax.
-        permission = await new Promise((resolve) => {
-            Notification.requestPermission(resolve);
-        });
-    }
+    const permission = await requestNotificationsPermission();
 
     if (permission !== 'granted') {
         throw new Error('Notifications not granted');
+    }
+
+    let icon = icon50;
+    if (UserAgent.isEdge()) {
+        icon = iconWS;
     }
 
     const notification = new Notification(title, {

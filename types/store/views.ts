@@ -23,6 +23,7 @@ export type ViewsState = {
 
     browser: {
         focused: boolean;
+        isNotificationsPermissionGranted: boolean;
     };
 
     channel: {

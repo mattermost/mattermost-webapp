@@ -14,6 +14,16 @@ function focused(state = true, action) {
     }
 }
 
+function isNotificationsPermissionGranted(state = false, action) {
+    switch (action.type) {
+        case ActionTypes.BROWSER_NOTIFICATIONS_PERMISSION_RECEIVED:
+            return action.data;
+        default:
+            return state;
+    }
+}
+
 export default combineReducers({
     focused,
+    isNotificationsPermissionGranted,
 });

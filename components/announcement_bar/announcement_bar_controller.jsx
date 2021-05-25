@@ -10,6 +10,7 @@ import TextDismissableBar from './text_dismissable_bar.jsx';
 import AnnouncementBar from './default_announcement_bar';
 
 import CloudAnnouncementBar from './cloud_announcement_bar';
+import EnableNotificationsBar from './enable_notifications_bar';
 import PaymentAnnouncementBar from './payment_announcement_bar';
 import CloudTrialAnnouncementBar from './cloud_trial_announcement_bar';
 
@@ -85,6 +86,7 @@ export default class AnnouncementBarController extends React.PureComponent {
                     user={this.props.user}
                     warnMetricsStatus={this.props.warnMetricsStatus}
                 />
+                <EnableNotificationsBar />
             </>
         );
     }
