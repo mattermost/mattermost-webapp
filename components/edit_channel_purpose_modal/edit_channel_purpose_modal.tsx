@@ -52,7 +52,7 @@ export class EditChannelPurposeModal extends React.PureComponent<Props, State> {
     }
 
     handleEntering = () => {
-        Utils.placeCaretAtEnd(this.purpose);
+        Utils.placeCaretAtEnd(this.purpose.current);
     }
 
     onHide = () => {
