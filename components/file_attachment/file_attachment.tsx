@@ -52,7 +52,7 @@ interface Props {
     enableSVGs: boolean;
     enablePublicLink: boolean;
     pluginMenuItems: FileDropdownPluginComponent[];
-    handleFileDropdownOpened: (open: boolean) => void;
+    handleFileDropdownOpened?: (open: boolean) => void;
 }
 
 interface State {
@@ -161,7 +161,7 @@ export default class FileAttachment extends React.PureComponent<Props, State> {
     }
 
     private handleDropdownOpened = (open: boolean) => {
-        this.props.handleFileDropdownOpened(open);
+        this.props.handleFileDropdownOpened?.(open);
         this.setState({keepOpen: open});
     }
 
