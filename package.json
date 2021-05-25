@@ -113,6 +113,7 @@
     "@types/history": "4.7.8",
     "@types/jest": "26.0.22",
     "@types/jquery": "3.5.5",
+    "@types/katex": "0.11.0",
     "@types/lodash": "4.14.168",
     "@types/mark.js": "8.11.5",
     "@types/marked": "0.7.4",
