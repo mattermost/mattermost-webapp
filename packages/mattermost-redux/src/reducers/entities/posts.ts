@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {ChannelTypes, GeneralTypes, PostTypes, UserTypes} from 'mattermost-redux/action_types';
+import {ChannelTypes, GeneralTypes, PostTypes, UserTypes, ThreadTypes} from 'mattermost-redux/action_types';
 
 import {Posts} from 'mattermost-redux/constants';
 
@@ -241,6 +241,18 @@ export function handlePosts(state: RelationOneToOne<Post, Post> = {}, action: Ge
         return nextState;
     }
 
+    case ThreadTypes.FOLLOW_CHANGED_THREAD: {
+        const {id, following} = action.data;
+        const post = state[id];
+        return {
+            ...state,
+            [id]: {
+                ...post,
+                is_following: following,
+            },
+        };
+    }
+
     case UserTypes.LOGOUT_SUCCESS:
         return {};
     default:
@@ -344,8 +356,15 @@ export function handlePendingPosts(state: string[] = [], action: GenericAction) 
 
 export function postsInChannel(state: Dictionary<PostOrderBlock[]> = {}, action: GenericAction, prevPosts: IDMappedObjects<Post>, nextPosts: Dictionary<Post>) {
     switch (action.type) {
+    case PostTypes.RESET_POSTS_IN_CHANNEL: {
+        return {};
+    }
     case PostTypes.RECEIVED_NEW_POST: {
         const post = action.data as Post;
+
+        if (action.features?.crtEnabled && post.root_id) {
+            return state;
+        }
 
         const postsForChannel = state[post.channel_id];
         if (!postsForChannel) {

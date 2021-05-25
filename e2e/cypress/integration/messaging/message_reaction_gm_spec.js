@@ -50,8 +50,9 @@ describe('Emoji reactions to posts/messages in GM channels', () => {
             cy.clickPostReactionIcon(postId);
 
             // # Choose "slightly_frowning_face" emoji
-            // delaying 500ms in case of lag
-            cy.get('.emoji-picker__items #emoji-1f641').wait(500).click(); // eslint-disable-line cypress/no-unnecessary-waiting
+            cy.findByTestId('slightly_frowning_face').
+                should('exist').
+                click({force: true});
 
             // * The number shown on the reaction is incremented by 1
             cy.get(`#postReaction-${postId}-slightly_frowning_face .Reaction__number--display`).
@@ -59,7 +60,7 @@ describe('Emoji reactions to posts/messages in GM channels', () => {
                 should('be.visible');
         });
 
-        // * Verify that the Add a Reaction button is visible at the right times
+        // * Verify that the Add Reaction button is visible at the right times
         cy.getLastPostId().then((postId) => {
             // * Verify that the Add Reaction button isn't visible
             cy.findByLabelText('Add a reaction').should('not.be.visible');
@@ -67,7 +68,7 @@ describe('Emoji reactions to posts/messages in GM channels', () => {
             // # Focus on the post since we can't hover with Cypress
             cy.get(`#post_${postId}`).focus().tab().tab();
 
-            // * Verify that the Add Reaction button is 1now visible
+            // * Verify that the Add Reaction button is now visible
             cy.findByLabelText('Add a reaction').should('be.visible');
 
             // # Click somewhere to clear the focus

@@ -39,7 +39,6 @@ type Props = {
     clearSearchType?: () => void;
     getFocus?: (searchBarFocus: () => void) => void;
     children?: React.ReactNode;
-    filesSearchEnabled: boolean;
 }
 
 const defaultProps: Partial<Props> = {
@@ -49,7 +48,7 @@ const defaultProps: Partial<Props> = {
 };
 
 const SearchBar: React.FunctionComponent<Props> = (props: Props): JSX.Element => {
-    const {isFocused, keepFocused, searchTerms, suggestionProviders, filesSearchEnabled} = props;
+    const {isFocused, keepFocused, searchTerms, suggestionProviders} = props;
 
     const searchRef = useRef<SuggestionBox>();
     const intl = useIntl();
@@ -91,7 +90,7 @@ const SearchBar: React.FunctionComponent<Props> = (props: Props): JSX.Element =>
             props.handleEnterKey(e);
         }
 
-        if (Utils.isKeyPressed(e, KeyCodes.BACKSPACE) && !searchTerms && filesSearchEnabled) {
+        if (Utils.isKeyPressed(e, KeyCodes.BACKSPACE) && !searchTerms) {
             if (props.clearSearchType) {
                 props.clearSearchType();
             }
@@ -122,7 +121,7 @@ const SearchBar: React.FunctionComponent<Props> = (props: Props): JSX.Element =>
                     <i className='icon icon-magnify icon-16'/>
                 </div>
 
-                {props.searchType !== '' && filesSearchEnabled &&
+                {props.searchType !== '' &&
                     <div
                         className='searchTypeBadge'
                         onMouseDown={props.handleFocus}

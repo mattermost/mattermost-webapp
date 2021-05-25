@@ -622,12 +622,12 @@ export function makeGetDisplayName(): (state: GlobalState, userId: $ID<UserProfi
     );
 }
 
-export function makeDisplayNameGetter(): (state: GlobalState, useFallbackUsername: boolean) => (user: UserProfile) => string {
+export function makeDisplayNameGetter(): (state: GlobalState, useFallbackUsername: boolean) => (user: UserProfile | null | undefined) => string {
     return createSelector(
         getTeammateNameDisplaySetting,
         (_, useFallbackUsername = true) => useFallbackUsername,
         (teammateNameDisplaySetting, useFallbackUsername) => {
-            return (user: UserProfile) => displayUsername(user, teammateNameDisplaySetting!, useFallbackUsername);
+            return (user: UserProfile | null | undefined) => displayUsername(user, teammateNameDisplaySetting!, useFallbackUsername);
         },
     );
 }

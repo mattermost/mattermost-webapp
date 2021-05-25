@@ -40,7 +40,7 @@ describe('Custom Status - Recent Statuses', () => {
 
         // # Select an emoji from the emoji picker and set the status
         cy.get('#custom_status_modal .StatusModal__emoji-button').click();
-        cy.get(`#emojiPicker .emoji-picker-items__container .emoji-picker__item img[data-testid="${customStatus.emoji}"]`).click();
+        cy.get(`#emojiPicker .emoji-picker-items__container .emoji-picker__item img[data-testid="${customStatus.emoji}"]`).click({force: true});
         cy.get('#custom_status_modal .GenericModal__button.confirm').click();
 
         // * Custom status emoji should be visible in the sidebar header

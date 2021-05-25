@@ -71,6 +71,7 @@ describe('components/RhsComment', () => {
         },
         emojiMap: new EmojiMap(new Map()),
         isBot: false,
+        collapsedThreadsEnabled: false,
     };
 
     test('should match snapshot', () => {
@@ -116,6 +117,17 @@ describe('components/RhsComment', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should match snapshot on CRT enabled', () => {
+        const wrapper = shallowWithIntl(
+            <RhsComment
+                {...baseProps}
+                collapsedThreadsEnabled={true}
+            />,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('should show pointer when alt is held down', () => {
         const wrapper = shallowWithIntl(
             <RhsComment {...baseProps}/>,
@@ -156,7 +168,7 @@ describe('components/RhsComment', () => {
 
         wrapper.simulate('click', {altKey: true});
 
-        expect(baseProps.actions.markPostAsUnread).toHaveBeenCalledWith(baseProps.post);
+        expect(baseProps.actions.markPostAsUnread).toHaveBeenCalledWith(baseProps.post, 'RHS_COMMENT');
     });
 
     test('should not call markPostAsUnread when post is alt+clicked on when channel is archived', () => {

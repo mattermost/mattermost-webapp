@@ -128,7 +128,7 @@ describe('Verify Quick Navigation support across different regions in the app', 
         // # Change the focus to search results
         cy.get('#searchContainer').within(() => {
             cy.get('button.sidebar--right__expand').focus().tab({shift: true}).tab();
-            cy.focused().tab().tab();
+            cy.focused().tab().tab().tab().tab();
         });
         cy.get('body').type('{downarrow}{uparrow}');
 

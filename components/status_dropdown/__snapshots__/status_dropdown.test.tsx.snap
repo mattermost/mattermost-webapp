@@ -77,7 +77,6 @@ exports[`components/StatusDropdown should match snapshot in default state 1`] = 
       />
       <MenuItemAction
         ariaLabel="do not disturb. disables desktop, email and push notifications"
-        extraText="Disables all notifications"
         icon={
           <StatusDndIcon
             className="dnd--icon"
@@ -153,6 +152,7 @@ exports[`components/StatusDropdown should match snapshot with custom status enab
         id="status-menu-custom-status"
         modalId="custom_status"
         show={true}
+        sibling={false}
       >
         <span
           className="custom_status__icon"
@@ -195,7 +195,6 @@ exports[`components/StatusDropdown should match snapshot with custom status enab
       />
       <MenuItemAction
         ariaLabel="do not disturb. disables desktop, email and push notifications"
-        extraText="Disables all notifications"
         icon={
           <StatusDndIcon
             className="dnd--icon"
@@ -271,6 +270,7 @@ exports[`components/StatusDropdown should match snapshot with custom status puls
         id="status-menu-custom-status"
         modalId="custom_status"
         show={true}
+        sibling={false}
       >
         <span
           className="custom_status__icon"
@@ -316,7 +316,6 @@ exports[`components/StatusDropdown should match snapshot with custom status puls
       />
       <MenuItemAction
         ariaLabel="do not disturb. disables desktop, email and push notifications"
-        extraText="Disables all notifications"
         icon={
           <StatusDndIcon
             className="dnd--icon"
@@ -421,7 +420,6 @@ exports[`components/StatusDropdown should match snapshot with profile picture UR
       />
       <MenuItemAction
         ariaLabel="do not disturb. disables desktop, email and push notifications"
-        extraText="Disables all notifications"
         icon={
           <StatusDndIcon
             className="dnd--icon"
@@ -522,7 +520,6 @@ exports[`components/StatusDropdown should match snapshot with status dropdown op
       />
       <MenuItemAction
         ariaLabel="do not disturb. disables desktop, email and push notifications"
-        extraText="Disables all notifications"
         icon={
           <StatusDndIcon
             className="dnd--icon"

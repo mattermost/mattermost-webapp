@@ -68,12 +68,13 @@
   },
   "overrides": [
     {
-      "files": ["**/*.tsx", "**/*.ts"],
+      "files": ["**/*.tsx", "**/*.ts", "tests/*.js"],
       "extends": [
         "plugin:@typescript-eslint/recommended"
       ],
       "rules": {
         "camelcase": 0,
+        "no-process-env": 0,
         "no-shadow": 0,
         "import/no-unresolved": 0, // ts handles this better
         "@typescript-eslint/naming-convention": [

@@ -88,6 +88,8 @@ export const Preferences = {
     LINK_PREVIEW_DISPLAY_DEFAULT: 'true',
     COLLAPSE_DISPLAY: 'collapse_previews',
     COLLAPSE_DISPLAY_DEFAULT: 'false',
+    AVAILABILITY_STATUS_ON_POSTS: 'availability_status_on_posts',
+    AVAILABILITY_STATUS_ON_POSTS_DEFAULT: 'true',
     USE_MILITARY_TIME: 'use_military_time',
     USE_MILITARY_TIME_DEFAULT: 'false',
     CATEGORY_THEME: 'theme',
@@ -788,7 +790,7 @@ export const PermissionsScope = {
     [Permissions.CONVERT_PUBLIC_CHANNEL_TO_PRIVATE]: 'channel_scope',
     [Permissions.CONVERT_PRIVATE_CHANNEL_TO_PUBLIC]: 'channel_scope',
     [Permissions.MANAGE_SHARED_CHANNELS]: 'system_scope',
-    [Permissions.MANAGE_REMOTE_CLUSTERS]: 'system_scope',
+    [Permissions.MANAGE_SECURE_CONNECTIONS]: 'system_scope',
 };
 
 export const DefaultRolePermissions = {
