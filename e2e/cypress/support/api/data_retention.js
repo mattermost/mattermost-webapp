@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 // *****************************************************************************
-// Bots
+// Data Retention
 // https://api.mattermost.com/#tag/data-retention
 // *****************************************************************************
 
@@ -10,7 +10,7 @@
  * @param {Integer} page - The page to select
  * @param {Integer} perPage - The number of policies per page
  */
- Cypress.Commands.add('apiGetCustomRetentionPolicies', (page = 0, perPage = 100) => {
+Cypress.Commands.add('apiGetCustomRetentionPolicies', (page = 0, perPage = 100) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: `/api/v4/data_retention/policies?page=${page}&per_page=${perPage}`,
