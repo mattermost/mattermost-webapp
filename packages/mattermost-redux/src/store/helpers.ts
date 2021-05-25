@@ -6,6 +6,8 @@ import {combineReducers} from 'redux';
 import {General} from '../constants';
 
 import {enableBatching, Action, Reducer} from 'mattermost-redux/types/actions';
+import {GlobalState} from 'mattermost-redux/types/store';
+import deepFreezeAndThrowOnMutation from 'mattermost-redux/utils/deep_freeze';
 
 import reducerRegistry from './reducer_registry';
 
@@ -24,5 +26,22 @@ export function createReducer(baseState: any, ...reducers: Reducer[]) {
         return baseReducer(state, action as any);
     }
 
-    return enableBatching(offlineReducer);
+    return enableFreezing(enableBatching(offlineReducer));
+}
+
+function enableFreezing(reducer: Reducer) {
+    // Skip the overhead of freezing in production.
+    if (process.env.NODE_ENV === 'production') {
+        return reducer;
+    }
+
+    return (state: GlobalState, action: Action) => {
+        const nextState = reducer(state, action);
+
+        if (nextState !== state) {
+            deepFreezeAndThrowOnMutation(nextState);
+        }
+
+        return nextState;
+    };
 }

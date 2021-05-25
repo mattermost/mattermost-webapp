@@ -2,21 +2,15 @@
 // See LICENSE.txt for license information.
 
 import {createStore, applyMiddleware, Store} from 'redux';
-import thunk, {ThunkMiddleware} from 'redux-thunk';
+import thunk from 'redux-thunk';
 import {composeWithDevTools} from 'redux-devtools-extension';
 
 import serviceReducer from '../reducers';
 
-import deepFreezeAndThrowOnMutation from 'mattermost-redux/utils/deep_freeze';
-
-import {Reducer, Action} from 'mattermost-redux/types/actions';
-
-import {GlobalState} from 'mattermost-redux/types/store';
-
 import reducerRegistry from './reducer_registry';
 
-import initialState from './initial_state';
 import {createReducer} from './helpers';
+import initialState from './initial_state';
 
 /**
  * Configures and constructs the redux store. Accepts the following parameters:
@@ -25,20 +19,22 @@ import {createReducer} from './helpers';
  * persistConfig - Any additional configuration data to be passed into redux-persist aside from the default values.
  * getAppReducer - A function that returns the appReducer as defined above. Only used in development to enable hot reloading.
  */
-export default function configureServiceStore(preloadedState: any, appReducer: any, persistConfig: any, getAppReducer: any): Store {
+export default function configureStore(preloadedState: any, appReducer: any, persistConfig: any, getAppReducer: any): Store {
     const baseState = Object.assign({}, initialState, preloadedState);
-    const middleware: ThunkMiddleware[] = [thunk];
+
+    let middleware = applyMiddleware(thunk);
+    if (process.env.NODE_ENV !== 'production') {
+        middleware = composeWithDevTools(middleware);
+    }
 
     const store = createStore(
-        createDevReducer(baseState, serviceReducer, appReducer) as any,
+        createReducer(baseState, serviceReducer as any, appReducer),
         baseState,
-        composeWithDevTools(
-            applyMiddleware(...middleware),
-        ),
+        middleware,
     );
 
     reducerRegistry.setChangeListener((reducers: any) => {
-        store.replaceReducer(createDevReducer(baseState, reducers) as any);
+        store.replaceReducer(createReducer(baseState, reducers));
     });
 
     // launch store persistor
@@ -54,25 +50,9 @@ export default function configureServiceStore(preloadedState: any, appReducer: a
             if (getAppReducer) {
                 nextAppReducer = getAppReducer(); // eslint-disable-line global-require
             }
-            store.replaceReducer(createDevReducer(baseState, reducerRegistry.getReducers(), nextServiceReducer, nextAppReducer) as any);
+            store.replaceReducer(createReducer(baseState, reducerRegistry.getReducers(), nextServiceReducer, nextAppReducer) as any);
         });
     }
 
     return store;
-}
-
-function createDevReducer(baseState: any, ...reducers: any) {
-    return enableFreezing(createReducer(baseState, ...reducers));
-}
-
-function enableFreezing(reducer: Reducer) {
-    return (state: GlobalState, action: Action) => {
-        const nextState = reducer(state, action);
-
-        if (nextState !== state) {
-            deepFreezeAndThrowOnMutation(nextState);
-        }
-
-        return nextState;
-    };
 }
