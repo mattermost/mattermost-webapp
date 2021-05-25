@@ -1,9 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {createStore, applyMiddleware, Store} from 'redux';
+import {createStore, applyMiddleware, Store, combineReducers} from 'redux';
 import thunk from 'redux-thunk';
 import {composeWithDevTools} from 'redux-devtools-extension';
+
+import {GlobalState} from 'mattermost-redux/types/store';
+import {Action, Reducer} from 'mattermost-redux/types/actions';
 
 import serviceReducer from '../reducers';
 
@@ -42,15 +45,17 @@ export default function configureStore(preloadedState: any, appReducer: any, per
         persistConfig.persist(store, persistConfig.persistOptions, persistConfig.persistCallback);
     }
 
-    if ((module as any).hot) {
+    if (module.hot) {
     // Enable Webpack hot module replacement for reducers
-        (module as any).hot.accept(() => {
+        module.hot.accept(() => {
             const nextServiceReducer = require('../reducers').default; // eslint-disable-line global-require
             let nextAppReducer;
             if (getAppReducer) {
                 nextAppReducer = getAppReducer(); // eslint-disable-line global-require
             }
-            store.replaceReducer(createReducer(baseState, reducerRegistry.getReducers(), nextServiceReducer, nextAppReducer) as any);
+            const registryReducers = combineReducers(reducerRegistry.getReducers()) as Reducer<GlobalState, Action>;
+
+            store.replaceReducer(createReducer(baseState, registryReducers, nextServiceReducer, nextAppReducer));
         });
     }
 
