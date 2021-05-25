@@ -463,15 +463,16 @@ describe('components/CreateComment', () => {
             uploadsInProgress: [1, 2, 3],
             fileInfos: [{}, {}, {}],
         };
-        const props = {...baseProps, draft};
+        const scrollToBottom = jest.fn();
+        const props = {...baseProps, draft, scrollToBottom};
 
         const wrapper = shallowWithIntl(
-            <CreateComment {...props}/>,
+            <CreateComment
+                {...props}
+            />,
         );
 
         const testMessage = 'new msg';
-        const scrollToBottom = jest.fn();
-        wrapper.instance().scrollToBottom = scrollToBottom;
         wrapper.instance().handleChange({target: {value: testMessage}});
 
         // The callback won't we called until after a short delay
@@ -529,14 +530,15 @@ describe('components/CreateComment', () => {
             uploadsInProgress: [1, 2, 3],
             fileInfos: [{}, {}, {}],
         };
-        const props = {...baseProps, draft};
+        const scrollToBottom = jest.fn();
+        const props = {...baseProps, draft, scrollToBottom};
 
         const wrapper = shallowWithIntl(
-            <CreateComment {...props}/>,
+            <CreateComment
+                {...props}
+            />,
         );
 
-        const scrollToBottom = jest.fn();
-        wrapper.instance().scrollToBottom = scrollToBottom;
         wrapper.setState({draft: {...draft, uploadsInProgress: [1, 2, 3, 4]}});
         expect(scrollToBottom).toHaveBeenCalled();
     });
@@ -1218,22 +1220,25 @@ describe('components/CreateComment', () => {
             fileInfos: [],
         };
 
+        const scrollToBottom = jest.fn();
         const wrapper = shallowWithIntl(
-            <CreateComment {...baseProps}/>,
+            <CreateComment
+                {...baseProps}
+                scrollToBottom={scrollToBottom}
+            />,
         );
 
-        wrapper.instance().scrollToBottom = jest.fn();
-        expect(wrapper.instance().scrollToBottom).toBeCalledTimes(0);
+        expect(scrollToBottom).toBeCalledTimes(0);
         expect(wrapper.instance().doInitialScrollToBottom).toEqual(true);
 
         // should scroll to bottom on first component update
         wrapper.setState({draft: {...draft, message: 'new message'}});
-        expect(wrapper.instance().scrollToBottom).toBeCalledTimes(1);
+        expect(scrollToBottom).toBeCalledTimes(1);
         expect(wrapper.instance().doInitialScrollToBottom).toEqual(false);
 
         // but not after the first update
         wrapper.setState({draft: {...draft, message: 'another message'}});
-        expect(wrapper.instance().scrollToBottom).toBeCalledTimes(1);
+        expect(scrollToBottom).toBeCalledTimes(1);
         expect(wrapper.instance().doInitialScrollToBottom).toEqual(false);
     });
 
@@ -1244,24 +1249,25 @@ describe('components/CreateComment', () => {
             fileInfos: [],
         };
 
+        const scrollToBottom = jest.fn();
         const wrapper = shallowWithIntl(
             <CreateComment
                 {...baseProps}
                 draft={draft}
+                scrollToBottom={scrollToBottom}
             />,
         );
 
-        wrapper.instance().scrollToBottom = jest.fn();
-        expect(wrapper.instance().scrollToBottom).toBeCalledTimes(0);
+        expect(scrollToBottom).toBeCalledTimes(0);
 
         wrapper.setState({draft: {...draft, uploadsInProgress: [1]}});
-        expect(wrapper.instance().scrollToBottom).toBeCalledTimes(1);
+        expect(scrollToBottom).toBeCalledTimes(1);
 
         wrapper.setState({draft: {...draft, uploadsInProgress: [1, 2]}});
-        expect(wrapper.instance().scrollToBottom).toBeCalledTimes(2);
+        expect(scrollToBottom).toBeCalledTimes(2);
 
         wrapper.setState({draft: {...draft, uploadsInProgress: [2]}});
-        expect(wrapper.instance().scrollToBottom).toBeCalledTimes(2);
+        expect(scrollToBottom).toBeCalledTimes(2);
     });
 
     it('should be able to format a pasted markdown table', () => {

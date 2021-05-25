@@ -8,6 +8,7 @@ import {
     ChannelTypes,
     GeneralTypes,
     PostTypes,
+    ThreadTypes,
 } from 'mattermost-redux/action_types';
 import {Posts} from 'mattermost-redux/constants';
 import * as reducers from 'mattermost-redux/reducers/entities/posts';
@@ -422,6 +423,36 @@ describe('posts', () => {
             });
         });
     }
+
+    describe(`follow a post/thread (${ThreadTypes.FOLLOW_CHANGED_THREAD})`, () => {
+        test.each([[true], [false]])('should set is_following to %s', (following) => {
+            const state = deepFreeze({
+                post1: {id: 'post1', channel_id: 'channel1'},
+                post2: {id: 'post2', channel_id: 'channel1'},
+                post3: {id: 'post3', channel_id: 'channel2'},
+            });
+
+            const nextState = reducers.handlePosts(state, {
+                type: ThreadTypes.FOLLOW_CHANGED_THREAD,
+                data: {
+                    id: 'post1',
+                    following,
+                },
+            });
+
+            expect(nextState).not.toBe(state);
+            expect(nextState.post3).toBe(state.post3);
+            expect(nextState.post2).toBe(state.post2);
+            expect(nextState.post1).toEqual({
+                id: 'post1', channel_id: 'channel1', is_following: following,
+            });
+            expect(nextState).toEqual({
+                post1: {id: 'post1', channel_id: 'channel1', is_following: following},
+                post2: {id: 'post2', channel_id: 'channel1'},
+                post3: {id: 'post3', channel_id: 'channel2'},
+            });
+        });
+    });
 });
 
 describe('pendingPostIds', () => {
