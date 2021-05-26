@@ -278,6 +278,5 @@
     "build-storybook": "build-storybook -s ./storybook/static",
     "check-types": "tsc"
   },
-  "workspaces": [
-  ]
+  "workspaces": []
 }
