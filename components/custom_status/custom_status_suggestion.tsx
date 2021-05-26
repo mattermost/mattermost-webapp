@@ -79,12 +79,14 @@ const CustomStatusSuggestion: React.FC<Props> = (props: Props) => {
                 tooltipDirection='top'
                 className='statusSuggestion__text'
             />
-            <span className='statusSuggestion__duration'>
-                <FormattedMessage
-                    id={durationValues[duration].id}
-                    defaultMessage={durationValues[duration].defaultMessage}
-                />
-            </span>
+            {duration !== undefined && (
+                <span className='statusSuggestion__duration'>
+                    <FormattedMessage
+                        id={durationValues[duration].id}
+                        defaultMessage={durationValues[duration].defaultMessage}
+                    />
+                </span>
+            )}
             {show && clearButton}
         </div>
     );
