@@ -261,11 +261,11 @@ class ProfilePopover extends React.PureComponent {
     };
 
     renderCustomStatus() {
-        const {customStatus, isCustomStatusEnabled, user, currentUserId, isCustomStatusExpired} = this.props;
+        const {customStatus, isCustomStatusEnabled, user, currentUserId, hideStatus, isCustomStatusExpired} = this.props;
 
         const customStatusSet = (customStatus.text || customStatus.emoji) && !isCustomStatusExpired;
         const canSetCustomStatus = (user.id === currentUserId);
-        const shouldShowCustomStatus = isCustomStatusEnabled && customStatus && (customStatusSet || canSetCustomStatus);
+        const shouldShowCustomStatus = isCustomStatusEnabled && !hideStatus && customStatus && (customStatusSet || canSetCustomStatus);
 
         if (!shouldShowCustomStatus) {
             return {};

@@ -27,12 +27,14 @@ interface ComponentProps {
 const CustomStatusEmoji = (props: ComponentProps) => {
     const getCustomStatus = makeGetCustomStatus();
     const {emojiSize, emojiStyle, spanStyle, showTooltip, tooltipDirection, userID, onClick} = props;
+
     const customStatusEnabled = useSelector(isCustomStatusEnabled);
     const customStatus = useSelector((state: GlobalState) => getCustomStatus(state, userID));
     const customStatusExpired = useSelector((state: GlobalState) => isCustomStatusExpired(state, customStatus));
     const timezone = useSelector(getCurrentUserTimezone);
 
-    if (!(customStatusEnabled && customStatus?.emoji && !customStatusExpired)) {
+    const isCustomStatusSet = Boolean(customStatusEnabled && customStatus?.emoji && !customStatusExpired);
+    if (!isCustomStatusSet) {
         return null;
     }
 

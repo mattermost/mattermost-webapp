@@ -49,7 +49,6 @@ exports[`components/widgets/inputs/DropdownInputHybrid should match snapshot 1`]
     >
       <StateManager
         className="Input Input__focus"
-        classNamePrefix="DropDown"
         components={
           Object {
             "Control": [Function],
