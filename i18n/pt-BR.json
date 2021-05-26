@@ -40,6 +40,7 @@
   "accessibility.sidebar.types.mentions": "@menções",
   "accessibility.sidebar.types.private": "canal privado",
   "accessibility.sidebar.types.public": "canal público",
+  "accessibility.sidebar.types.shared": "compartilhado",
   "accessibility.sidebar.types.unread": "não lido",
   "activity_log.activeSessions": "Sessões ativas",
   "activity_log.browser": "Browser: {browser}",

@@ -94,6 +94,9 @@ describe('Channel Settings', () => {
             username = usernames.toString().match(/@\w+/g)[0];
             cy.get('#multiSelectList').should('contain', username);
 
+            // # Verify status wrapper is present within the modal list
+            cy.get(el).children(0).should('have.class', 'status-wrapper');
+
             // # Click to add the first user
             cy.wrap(el).click();
 

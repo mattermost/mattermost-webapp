@@ -42,6 +42,7 @@ describe('components/dot_menu/DotMenu on mobile view', () => {
                 markPostAsUnread: jest.fn(),
                 doAppCall: jest.fn(),
                 postEphemeralCallResponseForPost: jest.fn(),
+                setThreadFollow: jest.fn(),
             },
             canEdit: false,
             canDelete: false,
@@ -49,6 +50,10 @@ describe('components/dot_menu/DotMenu on mobile view', () => {
             pluginMenuItems: [],
             appsEnabled: false,
             isReadOnly: false,
+            isCollapsedThreadsEnabled: false,
+            currentTeamId: '',
+            threadId: 'post_id_1',
+            userId: 'user_id_1',
         };
 
         const wrapper = shallow(

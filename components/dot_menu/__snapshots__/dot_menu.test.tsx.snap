@@ -70,6 +70,13 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
       />
     </Connect(ChannelPermissionGate)>
     <MenuItemAction
+      extraText="You will be notified about replies"
+      id="follow_post_thread_post_id_1"
+      onClick={[Function]}
+      show={false}
+      text="Follow message"
+    />
+    <MenuItemAction
       id="unread_post_post_id_1"
       onClick={[Function]}
       show={true}
@@ -198,6 +205,13 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
         text="Add Reaction"
       />
     </Connect(ChannelPermissionGate)>
+    <MenuItemAction
+      extraText="You will be notified about replies"
+      id="follow_post_thread_post_id_1"
+      onClick={[Function]}
+      show={false}
+      text="Follow message"
+    />
     <MenuItemAction
       id="unread_post_post_id_1"
       onClick={[Function]}

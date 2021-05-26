@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {ChannelTypes, GeneralTypes, PostTypes, UserTypes} from 'mattermost-redux/action_types';
+import {ChannelTypes, GeneralTypes, PostTypes, UserTypes, ThreadTypes} from 'mattermost-redux/action_types';
 
 import {Posts} from 'mattermost-redux/constants';
 
@@ -239,6 +239,18 @@ export function handlePosts(state: RelationOneToOne<Post, Post> = {}, action: Ge
         }
 
         return nextState;
+    }
+
+    case ThreadTypes.FOLLOW_CHANGED_THREAD: {
+        const {id, following} = action.data;
+        const post = state[id];
+        return {
+            ...state,
+            [id]: {
+                ...post,
+                is_following: following,
+            },
+        };
     }
 
     case UserTypes.LOGOUT_SUCCESS:
