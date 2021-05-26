@@ -66,7 +66,7 @@ export default class LicenseSettings extends React.PureComponent {
         this.fileInputRef = React.createRef();
     }
 
-    async componentDidMount() {
+    componentDidMount() {
         if (!this.props.enterpriseReady) {
             this.reloadPercentage();
         }
