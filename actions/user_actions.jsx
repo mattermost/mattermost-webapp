@@ -23,6 +23,7 @@ import * as Selectors from 'mattermost-redux/selectors/entities/users';
 import {legacyMakeFilterAutoclosedDMs, makeFilterManuallyClosedDMs} from 'mattermost-redux/selectors/entities/channel_categories';
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 
+import {loadCustomEmojisForCustomStatusesByUserIds} from 'actions/emoji_actions';
 import {loadStatusesForProfilesList, loadStatusesForProfilesMap} from 'actions/status_actions.jsx';
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 
@@ -328,8 +329,12 @@ export async function loadProfilesForGM() {
     const userIdsInChannels = Selectors.getUserIdsInChannels(state);
     const currentUserId = Selectors.getCurrentUserId(state);
 
+    const userIdsForLoadingCustomEmojis = new Set();
     for (const channel of getGMsForLoading(state)) {
         const userIds = userIdsInChannels[channel.id] || new Set();
+
+        userIds.forEach((userId) => userIdsForLoadingCustomEmojis.add(userId));
+
         if (userIds.size >= Constants.MIN_USERS_IN_GM) {
             continue;
         }
@@ -355,6 +360,10 @@ export async function loadProfilesForGM() {
     }
 
     await queue.onEmpty();
+
+    if (userIdsForLoadingCustomEmojis.size > 0) {
+        dispatch(loadCustomEmojisForCustomStatusesByUserIds(userIdsForLoadingCustomEmojis));
+    }
     if (newPreferences.length > 0) {
         dispatch(savePreferences(currentUserId, newPreferences));
     }
@@ -404,6 +413,7 @@ export async function loadProfilesForDM() {
     if (profilesToLoad.length > 0) {
         await UserActions.getProfilesByIds(profilesToLoad)(dispatch, getState);
     }
+    await loadCustomEmojisForCustomStatusesByUserIds(profileIds)(dispatch, getState);
 }
 
 export function autocompleteUsersInTeam(username) {
