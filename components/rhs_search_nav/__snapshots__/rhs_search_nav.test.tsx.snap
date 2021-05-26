@@ -7,7 +7,7 @@ exports[`components/RHSSearchNav should render active flagged posts 1`] = `
     hideSearchBar={false}
     isFocus={true}
   />
-  <HeaderIconWrapper
+  <Memo(HeaderIconWrapper)
     ariaLabel={true}
     buttonClass="channel-header__icon"
     buttonId="channelHeaderMentionButton"
@@ -20,7 +20,7 @@ exports[`components/RHSSearchNav should render active flagged posts 1`] = `
     onClick={[Function]}
     tooltipKey="recentMentions"
   />
-  <HeaderIconWrapper
+  <Memo(HeaderIconWrapper)
     ariaLabel={true}
     buttonClass="channel-header__icon channel-header__icon--active"
     buttonId="channelHeaderFlagButton"
@@ -43,7 +43,7 @@ exports[`components/RHSSearchNav should render active mentions posts 1`] = `
     hideSearchBar={false}
     isFocus={true}
   />
-  <HeaderIconWrapper
+  <Memo(HeaderIconWrapper)
     ariaLabel={true}
     buttonClass="channel-header__icon channel-header__icon--active"
     buttonId="channelHeaderMentionButton"
@@ -56,7 +56,7 @@ exports[`components/RHSSearchNav should render active mentions posts 1`] = `
     onClick={[Function]}
     tooltipKey="recentMentions"
   />
-  <HeaderIconWrapper
+  <Memo(HeaderIconWrapper)
     ariaLabel={true}
     buttonClass="channel-header__icon"
     buttonId="channelHeaderFlagButton"

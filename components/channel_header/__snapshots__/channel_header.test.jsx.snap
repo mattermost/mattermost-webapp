@@ -106,7 +106,7 @@ exports[`components/ChannelHeader should render active channel files 1`] = `
               }
             }
           />
-          <HeaderIconWrapper
+          <Memo(HeaderIconWrapper)
             ariaLabel={true}
             buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
             buttonId="channelHeaderPinButton"
@@ -119,7 +119,7 @@ exports[`components/ChannelHeader should render active channel files 1`] = `
             onClick={[Function]}
             tooltipKey="pinnedPosts"
           />
-          <HeaderIconWrapper
+          <Memo(HeaderIconWrapper)
             ariaLabel={true}
             buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left channel-header__icon--active"
             buttonId="channelHeaderFilesButton"
@@ -286,7 +286,7 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
               }
             }
           />
-          <HeaderIconWrapper
+          <Memo(HeaderIconWrapper)
             ariaLabel={true}
             buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
             buttonId="channelHeaderPinButton"
@@ -299,7 +299,7 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
             onClick={[Function]}
             tooltipKey="pinnedPosts"
           />
-          <HeaderIconWrapper
+          <Memo(HeaderIconWrapper)
             ariaLabel={true}
             buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
             buttonId="channelHeaderFilesButton"
@@ -466,7 +466,7 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
               }
             }
           />
-          <HeaderIconWrapper
+          <Memo(HeaderIconWrapper)
             ariaLabel={true}
             buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
             buttonId="channelHeaderPinButton"
@@ -479,7 +479,7 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
             onClick={[Function]}
             tooltipKey="pinnedPosts"
           />
-          <HeaderIconWrapper
+          <Memo(HeaderIconWrapper)
             ariaLabel={true}
             buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
             buttonId="channelHeaderFilesButton"
@@ -646,7 +646,7 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
               }
             }
           />
-          <HeaderIconWrapper
+          <Memo(HeaderIconWrapper)
             ariaLabel={true}
             buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left channel-header__icon--active"
             buttonId="channelHeaderPinButton"
@@ -659,7 +659,7 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
             onClick={[Function]}
             tooltipKey="pinnedPosts"
           />
-          <HeaderIconWrapper
+          <Memo(HeaderIconWrapper)
             ariaLabel={true}
             buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
             buttonId="channelHeaderFilesButton"
@@ -794,7 +794,7 @@ exports[`components/ChannelHeader should render archived view 1`] = `
               }
             }
           />
-          <HeaderIconWrapper
+          <Memo(HeaderIconWrapper)
             ariaLabel={true}
             buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
             buttonId="channelHeaderPinButton"
@@ -807,7 +807,7 @@ exports[`components/ChannelHeader should render archived view 1`] = `
             onClick={[Function]}
             tooltipKey="pinnedPosts"
           />
-          <HeaderIconWrapper
+          <Memo(HeaderIconWrapper)
             ariaLabel={true}
             buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
             buttonId="channelHeaderFilesButton"
@@ -983,7 +983,7 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
               }
             }
           />
-          <HeaderIconWrapper
+          <Memo(HeaderIconWrapper)
             ariaLabel={true}
             buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
             buttonId="channelHeaderPinButton"
@@ -996,7 +996,7 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
             onClick={[Function]}
             tooltipKey="pinnedPosts"
           />
-          <HeaderIconWrapper
+          <Memo(HeaderIconWrapper)
             ariaLabel={true}
             buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
             buttonId="channelHeaderFilesButton"
@@ -1163,7 +1163,7 @@ exports[`components/ChannelHeader should render not active channel files 1`] = `
               }
             }
           />
-          <HeaderIconWrapper
+          <Memo(HeaderIconWrapper)
             ariaLabel={true}
             buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
             buttonId="channelHeaderPinButton"
@@ -1176,7 +1176,7 @@ exports[`components/ChannelHeader should render not active channel files 1`] = `
             onClick={[Function]}
             tooltipKey="pinnedPosts"
           />
-          <HeaderIconWrapper
+          <Memo(HeaderIconWrapper)
             ariaLabel={true}
             buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
             buttonId="channelHeaderFilesButton"
@@ -1346,7 +1346,7 @@ exports[`components/ChannelHeader should render properly when custom status is s
               tooltipDirection="bottom"
             />
           </span>
-          <HeaderIconWrapper
+          <Memo(HeaderIconWrapper)
             ariaLabel={true}
             buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
             buttonId="channelHeaderPinButton"
@@ -1359,7 +1359,7 @@ exports[`components/ChannelHeader should render properly when custom status is s
             onClick={[Function]}
             tooltipKey="pinnedPosts"
           />
-          <HeaderIconWrapper
+          <Memo(HeaderIconWrapper)
             ariaLabel={true}
             buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
             buttonId="channelHeaderFilesButton"
@@ -1578,7 +1578,7 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
               }
             }
           />
-          <HeaderIconWrapper
+          <Memo(HeaderIconWrapper)
             ariaLabel={true}
             buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
             buttonId="channelHeaderPinButton"
@@ -1591,7 +1591,7 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
             onClick={[Function]}
             tooltipKey="pinnedPosts"
           />
-          <HeaderIconWrapper
+          <Memo(HeaderIconWrapper)
             ariaLabel={true}
             buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
             buttonId="channelHeaderFilesButton"
@@ -1734,7 +1734,7 @@ exports[`components/ChannelHeader should render properly when populated with cha
               }
             }
           />
-          <HeaderIconWrapper
+          <Memo(HeaderIconWrapper)
             ariaLabel={true}
             buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
             buttonId="channelHeaderPinButton"
@@ -1747,7 +1747,7 @@ exports[`components/ChannelHeader should render properly when populated with cha
             onClick={[Function]}
             tooltipKey="pinnedPosts"
           />
-          <HeaderIconWrapper
+          <Memo(HeaderIconWrapper)
             ariaLabel={true}
             buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
             buttonId="channelHeaderFilesButton"
@@ -1988,7 +1988,7 @@ exports[`components/ChannelHeader should render shared view 1`] = `
               }
             }
           />
-          <HeaderIconWrapper
+          <Memo(HeaderIconWrapper)
             ariaLabel={true}
             buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
             buttonId="channelHeaderPinButton"
@@ -2001,7 +2001,7 @@ exports[`components/ChannelHeader should render shared view 1`] = `
             onClick={[Function]}
             tooltipKey="pinnedPosts"
           />
-          <HeaderIconWrapper
+          <Memo(HeaderIconWrapper)
             ariaLabel={true}
             buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
             buttonId="channelHeaderFilesButton"
@@ -2170,7 +2170,7 @@ exports[`components/ChannelHeader should render the pinned icon with the pinned 
               }
             }
           />
-          <HeaderIconWrapper
+          <Memo(HeaderIconWrapper)
             ariaLabel={true}
             buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
             buttonId="channelHeaderPinButton"
@@ -2191,7 +2191,7 @@ exports[`components/ChannelHeader should render the pinned icon with the pinned 
             onClick={[Function]}
             tooltipKey="pinnedPosts"
           />
-          <HeaderIconWrapper
+          <Memo(HeaderIconWrapper)
             ariaLabel={true}
             buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
             buttonId="channelHeaderFilesButton"

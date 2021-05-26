@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {memo} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Tooltip} from 'react-bootstrap';
 
@@ -10,6 +10,9 @@ import OverlayTrigger from 'components/overlay_trigger';
 import {localizeMessage} from 'utils/utils.jsx';
 import {Constants} from 'utils/constants';
 import {t} from 'utils/i18n';
+
+import {shortcuts, ShortcutMessage} from 'components/shortcuts/shortcuts';
+import ShortcutSequence from 'components/shortcuts/shortcut_sequence';
 
 type Props = {
     ariaLabel?: boolean;
@@ -27,6 +30,7 @@ type TooltipInfo = {
     id: string;
     messageID: string;
     message: string;
+    shortcut?: ShortcutMessage;
 }
 
 const HeaderIconWrapper: React.FC<Props> = (props: Props) => {
@@ -49,7 +53,7 @@ const HeaderIconWrapper: React.FC<Props> = (props: Props) => {
             message: 'Saved posts',
         },
         pinnedPosts: {
-            class: 'pinned-posts',
+            class: '',
             id: 'pinnedPostTooltip',
             messageID: t('channel_header.pinnedPosts'),
             message: 'Pinned posts',
@@ -59,6 +63,7 @@ const HeaderIconWrapper: React.FC<Props> = (props: Props) => {
             id: 'recentMentionsTooltip',
             messageID: t('channel_header.recentMentions'),
             message: 'Recent mentions',
+            shortcut: shortcuts.navMentions,
         },
         search: {
             class: '',
@@ -88,6 +93,12 @@ const HeaderIconWrapper: React.FC<Props> = (props: Props) => {
                     id={toolTips[key].messageID}
                     defaultMessage={toolTips[key].message}
                 />
+                {toolTips[key].shortcut && (
+                    <ShortcutSequence
+                        shortcut={toolTips[key].shortcut}
+                        hideDescription={true}
+                    />
+                )}
             </Tooltip>
         );
     }
@@ -146,4 +157,4 @@ const HeaderIconWrapper: React.FC<Props> = (props: Props) => {
     );
 };
 
-export default HeaderIconWrapper;
+export default memo(HeaderIconWrapper);

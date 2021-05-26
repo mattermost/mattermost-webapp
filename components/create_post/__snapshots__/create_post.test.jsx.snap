@@ -47,17 +47,49 @@ exports[`components/create_post Show tutorial 1`] = `
           className="post-body__actions"
         >
           <Connect(injectIntl(CallButton)) />
-          <Connect(injectIntl(FileUpload))
-            channelId="owsyt8n43jfxjpzh9np93mx1wa"
-            fileCount={0}
-            getTarget={[Function]}
-            onFileUpload={[Function]}
-            onFileUploadChange={[Function]}
-            onUploadError={[Function]}
-            onUploadProgress={[Function]}
-            onUploadStart={[Function]}
-            postType="post"
-          />
+          <OverlayTrigger
+            defaultOverlayShown={false}
+            delayShow={400}
+            overlay={
+              <Tooltip
+                bsClass="tooltip"
+                id="upload-tooltip"
+                placement="right"
+              >
+                <Memo(ShortcutSequence)
+                  hoistDescription={true}
+                  shortcut={
+                    Object {
+                      "default": Object {
+                        "defaultMessage": "Upload files:	Ctrl|U",
+                        "id": "shortcuts.files.upload",
+                      },
+                      "mac": Object {
+                        "defaultMessage": "Upload files:	⌘|U",
+                        "id": "shortcuts.files.upload.mac",
+                      },
+                    }
+                  }
+                />
+              </Tooltip>
+            }
+            placement="top"
+            trigger="hover"
+          >
+            <div>
+              <Connect(injectIntl(FileUpload))
+                channelId="owsyt8n43jfxjpzh9np93mx1wa"
+                fileCount={0}
+                getTarget={[Function]}
+                onFileUpload={[Function]}
+                onFileUploadChange={[Function]}
+                onUploadError={[Function]}
+                onUploadProgress={[Function]}
+                onUploadStart={[Function]}
+                postType="post"
+              />
+            </div>
+          </OverlayTrigger>
           <div>
             <EmojiPickerOverlay
               enableGifPicker={true}
@@ -224,17 +256,49 @@ exports[`components/create_post should match snapshot for center textbox 1`] = `
           className="post-body__actions"
         >
           <Connect(injectIntl(CallButton)) />
-          <Connect(injectIntl(FileUpload))
-            channelId="owsyt8n43jfxjpzh9np93mx1wa"
-            fileCount={0}
-            getTarget={[Function]}
-            onFileUpload={[Function]}
-            onFileUploadChange={[Function]}
-            onUploadError={[Function]}
-            onUploadProgress={[Function]}
-            onUploadStart={[Function]}
-            postType="post"
-          />
+          <OverlayTrigger
+            defaultOverlayShown={false}
+            delayShow={400}
+            overlay={
+              <Tooltip
+                bsClass="tooltip"
+                id="upload-tooltip"
+                placement="right"
+              >
+                <Memo(ShortcutSequence)
+                  hoistDescription={true}
+                  shortcut={
+                    Object {
+                      "default": Object {
+                        "defaultMessage": "Upload files:	Ctrl|U",
+                        "id": "shortcuts.files.upload",
+                      },
+                      "mac": Object {
+                        "defaultMessage": "Upload files:	⌘|U",
+                        "id": "shortcuts.files.upload.mac",
+                      },
+                    }
+                  }
+                />
+              </Tooltip>
+            }
+            placement="top"
+            trigger="hover"
+          >
+            <div>
+              <Connect(injectIntl(FileUpload))
+                channelId="owsyt8n43jfxjpzh9np93mx1wa"
+                fileCount={0}
+                getTarget={[Function]}
+                onFileUpload={[Function]}
+                onFileUploadChange={[Function]}
+                onUploadError={[Function]}
+                onUploadProgress={[Function]}
+                onUploadStart={[Function]}
+                postType="post"
+              />
+            </div>
+          </OverlayTrigger>
           <div>
             <EmojiPickerOverlay
               enableGifPicker={true}
@@ -481,17 +545,49 @@ exports[`components/create_post should match snapshot when cannot post 1`] = `
           className="post-body__actions"
         >
           <Connect(injectIntl(CallButton)) />
-          <Connect(injectIntl(FileUpload))
-            channelId="owsyt8n43jfxjpzh9np93mx1wa"
-            fileCount={0}
-            getTarget={[Function]}
-            onFileUpload={[Function]}
-            onFileUploadChange={[Function]}
-            onUploadError={[Function]}
-            onUploadProgress={[Function]}
-            onUploadStart={[Function]}
-            postType="post"
-          />
+          <OverlayTrigger
+            defaultOverlayShown={false}
+            delayShow={400}
+            overlay={
+              <Tooltip
+                bsClass="tooltip"
+                id="upload-tooltip"
+                placement="right"
+              >
+                <Memo(ShortcutSequence)
+                  hoistDescription={true}
+                  shortcut={
+                    Object {
+                      "default": Object {
+                        "defaultMessage": "Upload files:	Ctrl|U",
+                        "id": "shortcuts.files.upload",
+                      },
+                      "mac": Object {
+                        "defaultMessage": "Upload files:	⌘|U",
+                        "id": "shortcuts.files.upload.mac",
+                      },
+                    }
+                  }
+                />
+              </Tooltip>
+            }
+            placement="top"
+            trigger="hover"
+          >
+            <div>
+              <Connect(injectIntl(FileUpload))
+                channelId="owsyt8n43jfxjpzh9np93mx1wa"
+                fileCount={0}
+                getTarget={[Function]}
+                onFileUpload={[Function]}
+                onFileUploadChange={[Function]}
+                onUploadError={[Function]}
+                onUploadProgress={[Function]}
+                onUploadStart={[Function]}
+                postType="post"
+              />
+            </div>
+          </OverlayTrigger>
           <div>
             <EmojiPickerOverlay
               enableGifPicker={true}
@@ -628,17 +724,49 @@ exports[`components/create_post should match snapshot when file upload disabled 
           className="post-body__actions"
         >
           <Connect(injectIntl(CallButton)) />
-          <Connect(injectIntl(FileUpload))
-            channelId="owsyt8n43jfxjpzh9np93mx1wa"
-            fileCount={0}
-            getTarget={[Function]}
-            onFileUpload={[Function]}
-            onFileUploadChange={[Function]}
-            onUploadError={[Function]}
-            onUploadProgress={[Function]}
-            onUploadStart={[Function]}
-            postType="post"
-          />
+          <OverlayTrigger
+            defaultOverlayShown={false}
+            delayShow={400}
+            overlay={
+              <Tooltip
+                bsClass="tooltip"
+                id="upload-tooltip"
+                placement="right"
+              >
+                <Memo(ShortcutSequence)
+                  hoistDescription={true}
+                  shortcut={
+                    Object {
+                      "default": Object {
+                        "defaultMessage": "Upload files:	Ctrl|U",
+                        "id": "shortcuts.files.upload",
+                      },
+                      "mac": Object {
+                        "defaultMessage": "Upload files:	⌘|U",
+                        "id": "shortcuts.files.upload.mac",
+                      },
+                    }
+                  }
+                />
+              </Tooltip>
+            }
+            placement="top"
+            trigger="hover"
+          >
+            <div>
+              <Connect(injectIntl(FileUpload))
+                channelId="owsyt8n43jfxjpzh9np93mx1wa"
+                fileCount={0}
+                getTarget={[Function]}
+                onFileUpload={[Function]}
+                onFileUploadChange={[Function]}
+                onUploadError={[Function]}
+                onUploadProgress={[Function]}
+                onUploadStart={[Function]}
+                postType="post"
+              />
+            </div>
+          </OverlayTrigger>
           <div>
             <EmojiPickerOverlay
               enableGifPicker={true}
@@ -775,17 +903,49 @@ exports[`components/create_post should match snapshot, init 1`] = `
           className="post-body__actions"
         >
           <Connect(injectIntl(CallButton)) />
-          <Connect(injectIntl(FileUpload))
-            channelId="owsyt8n43jfxjpzh9np93mx1wa"
-            fileCount={0}
-            getTarget={[Function]}
-            onFileUpload={[Function]}
-            onFileUploadChange={[Function]}
-            onUploadError={[Function]}
-            onUploadProgress={[Function]}
-            onUploadStart={[Function]}
-            postType="post"
-          />
+          <OverlayTrigger
+            defaultOverlayShown={false}
+            delayShow={400}
+            overlay={
+              <Tooltip
+                bsClass="tooltip"
+                id="upload-tooltip"
+                placement="right"
+              >
+                <Memo(ShortcutSequence)
+                  hoistDescription={true}
+                  shortcut={
+                    Object {
+                      "default": Object {
+                        "defaultMessage": "Upload files:	Ctrl|U",
+                        "id": "shortcuts.files.upload",
+                      },
+                      "mac": Object {
+                        "defaultMessage": "Upload files:	⌘|U",
+                        "id": "shortcuts.files.upload.mac",
+                      },
+                    }
+                  }
+                />
+              </Tooltip>
+            }
+            placement="top"
+            trigger="hover"
+          >
+            <div>
+              <Connect(injectIntl(FileUpload))
+                channelId="owsyt8n43jfxjpzh9np93mx1wa"
+                fileCount={0}
+                getTarget={[Function]}
+                onFileUpload={[Function]}
+                onFileUploadChange={[Function]}
+                onUploadError={[Function]}
+                onUploadProgress={[Function]}
+                onUploadStart={[Function]}
+                postType="post"
+              />
+            </div>
+          </OverlayTrigger>
           <div>
             <EmojiPickerOverlay
               enableGifPicker={true}

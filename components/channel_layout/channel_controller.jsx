@@ -5,6 +5,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Route} from 'react-router-dom';
 
+import ShortcutsModal from 'components/shortcuts/shortcuts_modal/shortcuts_modal';
+
 import AnnouncementBarController from 'components/announcement_bar';
 
 import Pluggable from 'plugins/pluggable';
@@ -14,7 +16,6 @@ import EditPostModal from 'components/edit_post_modal';
 import GetPublicLinkModal from 'components/get_public_link_modal';
 import LeavePrivateChannelModal from 'components/leave_private_channel_modal';
 import ResetStatusModal from 'components/reset_status_modal';
-import ShortcutsModal from 'components/shortcuts_modal.jsx';
 import SidebarRight from 'components/sidebar_right';
 import SidebarRightMenu from 'components/sidebar_right_menu';
 import ImportThemeModal from 'components/user_settings/import_theme_modal';

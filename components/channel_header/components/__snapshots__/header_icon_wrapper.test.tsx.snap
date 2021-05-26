@@ -93,6 +93,21 @@ exports[`components/channel_header/components/HeaderIconWrapper should match sna
           defaultMessage="Recent mentions"
           id="channel_header.recentMentions"
         />
+        <Memo(ShortcutSequence)
+          hideDescription={true}
+          shortcut={
+            Object {
+              "default": Object {
+                "defaultMessage": "Recent mentions:	Ctrl|Shift|M",
+                "id": "shortcuts.nav.recent_mentions",
+              },
+              "mac": Object {
+                "defaultMessage": "Recent mentions:	⌘|Shift|M",
+                "id": "shortcuts.nav.recent_mentions.mac",
+              },
+            }
+          }
+        />
       </Tooltip>
     }
     placement="bottom"
@@ -124,7 +139,7 @@ exports[`components/channel_header/components/HeaderIconWrapper should match sna
     overlay={
       <Tooltip
         bsClass="tooltip"
-        className="pinned-posts"
+        className=""
         id="pinnedPostTooltip"
         placement="right"
       >

@@ -10,6 +10,9 @@ import OverlayTrigger from 'components/overlay_trigger';
 
 import * as Utils from 'utils/utils.jsx';
 
+import {shortcuts} from 'components/shortcuts/shortcuts';
+import ShortcutSequence from 'components/shortcuts/shortcut_sequence';
+
 export default class ChannelCreate extends React.PureComponent {
     static propTypes = {
         sectionType: PropTypes.string.isRequired,
@@ -101,6 +104,10 @@ export default class ChannelCreate extends React.PureComponent {
                 <FormattedMessage
                     id='sidebar.createDirectMessage'
                     defaultMessage='Write a direct message'
+                />
+                <ShortcutSequence
+                    shortcut={shortcuts.navDMMenu}
+                    hideDescription={true}
                 />
             </Tooltip>
         );

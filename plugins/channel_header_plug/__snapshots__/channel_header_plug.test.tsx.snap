@@ -109,7 +109,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with one extended compo
   }
   theme={Object {}}
 >
-  <HeaderIconWrapper
+  <Memo(HeaderIconWrapper)
     buttonClass="channel-header__icon"
     buttonId="someid"
     iconComponent={
@@ -214,7 +214,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with one extended compo
         </OverlayTrigger>
       </OverlayTrigger>
     </div>
-  </HeaderIconWrapper>
+  </Memo(HeaderIconWrapper)>
 </ChannelHeaderPlug>
 `;
 
@@ -418,7 +418,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
   }
   theme={Object {}}
 >
-  <HeaderIconWrapper
+  <Memo(HeaderIconWrapper)
     buttonClass="channel-header__icon"
     buttonId="someid"
     iconComponent={
@@ -523,8 +523,8 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
         </OverlayTrigger>
       </OverlayTrigger>
     </div>
-  </HeaderIconWrapper>
-  <HeaderIconWrapper
+  </Memo(HeaderIconWrapper)>
+  <Memo(HeaderIconWrapper)
     buttonClass="channel-header__icon"
     buttonId="someid2"
     iconComponent={
@@ -629,8 +629,8 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
         </OverlayTrigger>
       </OverlayTrigger>
     </div>
-  </HeaderIconWrapper>
-  <HeaderIconWrapper
+  </Memo(HeaderIconWrapper)>
+  <Memo(HeaderIconWrapper)
     buttonClass="channel-header__icon"
     buttonId="someid3"
     iconComponent={
@@ -735,8 +735,8 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
         </OverlayTrigger>
       </OverlayTrigger>
     </div>
-  </HeaderIconWrapper>
-  <HeaderIconWrapper
+  </Memo(HeaderIconWrapper)>
+  <Memo(HeaderIconWrapper)
     buttonClass="channel-header__icon"
     buttonId="someid4"
     iconComponent={
@@ -841,8 +841,8 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
         </OverlayTrigger>
       </OverlayTrigger>
     </div>
-  </HeaderIconWrapper>
-  <HeaderIconWrapper
+  </Memo(HeaderIconWrapper)>
+  <Memo(HeaderIconWrapper)
     buttonClass="channel-header__icon"
     buttonId="someid5"
     iconComponent={
@@ -947,8 +947,8 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
         </OverlayTrigger>
       </OverlayTrigger>
     </div>
-  </HeaderIconWrapper>
-  <HeaderIconWrapper
+  </Memo(HeaderIconWrapper)>
+  <Memo(HeaderIconWrapper)
     buttonClass="channel-header__icon"
     buttonId="someid6"
     iconComponent={
@@ -1053,8 +1053,8 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
         </OverlayTrigger>
       </OverlayTrigger>
     </div>
-  </HeaderIconWrapper>
-  <HeaderIconWrapper
+  </Memo(HeaderIconWrapper)>
+  <Memo(HeaderIconWrapper)
     buttonClass="channel-header__icon"
     buttonId="someid7"
     iconComponent={
@@ -1159,8 +1159,8 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
         </OverlayTrigger>
       </OverlayTrigger>
     </div>
-  </HeaderIconWrapper>
-  <HeaderIconWrapper
+  </Memo(HeaderIconWrapper)>
+  <Memo(HeaderIconWrapper)
     buttonClass="channel-header__icon"
     buttonId="someid8"
     iconComponent={
@@ -1265,8 +1265,8 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
         </OverlayTrigger>
       </OverlayTrigger>
     </div>
-  </HeaderIconWrapper>
-  <HeaderIconWrapper
+  </Memo(HeaderIconWrapper)>
+  <Memo(HeaderIconWrapper)
     buttonClass="channel-header__icon"
     buttonId="someid9"
     iconComponent={
@@ -1371,8 +1371,8 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
         </OverlayTrigger>
       </OverlayTrigger>
     </div>
-  </HeaderIconWrapper>
-  <HeaderIconWrapper
+  </Memo(HeaderIconWrapper)>
+  <Memo(HeaderIconWrapper)
     buttonClass="channel-header__icon"
     buttonId="someid10"
     iconComponent={
@@ -1477,8 +1477,8 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
         </OverlayTrigger>
       </OverlayTrigger>
     </div>
-  </HeaderIconWrapper>
-  <HeaderIconWrapper
+  </Memo(HeaderIconWrapper)>
+  <Memo(HeaderIconWrapper)
     buttonClass="channel-header__icon"
     buttonId="someid11"
     iconComponent={
@@ -1583,8 +1583,8 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
         </OverlayTrigger>
       </OverlayTrigger>
     </div>
-  </HeaderIconWrapper>
-  <HeaderIconWrapper
+  </Memo(HeaderIconWrapper)>
+  <Memo(HeaderIconWrapper)
     buttonClass="channel-header__icon"
     buttonId="someid12"
     iconComponent={
@@ -1689,8 +1689,8 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
         </OverlayTrigger>
       </OverlayTrigger>
     </div>
-  </HeaderIconWrapper>
-  <HeaderIconWrapper
+  </Memo(HeaderIconWrapper)>
+  <Memo(HeaderIconWrapper)
     buttonClass="channel-header__icon"
     buttonId="someid13"
     iconComponent={
@@ -1795,8 +1795,8 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
         </OverlayTrigger>
       </OverlayTrigger>
     </div>
-  </HeaderIconWrapper>
-  <HeaderIconWrapper
+  </Memo(HeaderIconWrapper)>
+  <Memo(HeaderIconWrapper)
     buttonClass="channel-header__icon"
     buttonId="someid14"
     iconComponent={
@@ -1901,8 +1901,8 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
         </OverlayTrigger>
       </OverlayTrigger>
     </div>
-  </HeaderIconWrapper>
-  <HeaderIconWrapper
+  </Memo(HeaderIconWrapper)>
+  <Memo(HeaderIconWrapper)
     buttonClass="channel-header__icon"
     buttonId="someid15"
     iconComponent={
@@ -2007,6 +2007,6 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
         </OverlayTrigger>
       </OverlayTrigger>
     </div>
-  </HeaderIconWrapper>
+  </Memo(HeaderIconWrapper)>
 </ChannelHeaderPlug>
 `;
