@@ -197,7 +197,7 @@ export default class ThreadViewer extends React.Component<Props, State> {
             selected,
         } = this.props;
 
-        if (this.getReplyCount()) {
+        if (this.getReplyCount() && Utils.getRootPost(this.props.posts)?.is_following) {
             getThread(
                 currentUserId,
                 currentTeamId,
