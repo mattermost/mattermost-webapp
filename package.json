@@ -262,7 +262,7 @@
     "run": "webpack --progress --watch",
     "dev-server": "webpack serve --mode development",
     "test": "jest --maxWorkers=50%",
-    "test-ci": "jest --ci --maxWorkers=8",
+    "test-ci": "jest --ci --maxWorkers=4",
     "test-ci-gitlab": "jest --ci --maxWorkers=4",
     "stats": "cross-env NODE_ENV=production webpack --profile --json > webpack_stats.json",
     "updatesnapshot": "jest --updateSnapshot",
