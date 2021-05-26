@@ -19,16 +19,7 @@
         }
 
         .DayPicker-Day {
-            min-width: 32px;
-            height: 32px;
-            border-radius: 100%;
-            padding: 0;
-            font-weight: 600;
-        }
-
-        .DayPicker-Day--today {
-            background: rgba(var(--button-bg-rgb), 0.08);
-            color: var(--button-bg);
+            border-radius: $border-rad * 2;
         }
 
         .DayPicker-wrapper {
@@ -51,17 +42,5 @@
             width: 100%;
             margin: 0;
         }
-    }
-
-    .DayPickerInput-Overlay {
-        background: rgba(var(--center-channel-bg-rgb), 1);
-        border-radius: 4px;
-        padding: 20px 24px;
-        border: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
-        box-shadow: 0 8px 24px 0 alpha-color(black, .12);
-    }
-
-    .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) {
-        background-color: var(--button-bg);
     }
 }

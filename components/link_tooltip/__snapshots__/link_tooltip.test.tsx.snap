@@ -3,6 +3,7 @@
 exports[`components/link_tooltip/link_tooltip should match snapshot 1`] = `
 <Fragment>
   <div
+    className="tooltip-container"
     style={
       Object {
         "alignItems": "center",
@@ -36,6 +37,7 @@ exports[`components/link_tooltip/link_tooltip should match snapshot 1`] = `
 exports[`components/link_tooltip/link_tooltip should match snapshot with uncommon link structure 1`] = `
 <Fragment>
   <div
+    className="tooltip-container"
     style={
       Object {
         "alignItems": "center",

@@ -7,6 +7,7 @@ import {getPostsInCurrentChannel} from 'mattermost-redux/selectors/entities/post
 import {getDirectShowPreferences} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
+import {loadCustomEmojisForCustomStatusesByUserIds} from 'actions/emoji_actions';
 import store from 'stores/redux_store.jsx';
 import {Constants} from 'utils/constants';
 
@@ -79,10 +80,12 @@ export function loadStatusesForProfilesMap(users) {
 export function loadStatusesByIds(userIds) {
     return (dispatch) => {
         if (userIds.length === 0) {
-            return;
+            return {data: false};
         }
 
         dispatch(getStatusesByIds(userIds));
+        dispatch(loadCustomEmojisForCustomStatusesByUserIds(userIds));
+        return {data: true};
     };
 }
 

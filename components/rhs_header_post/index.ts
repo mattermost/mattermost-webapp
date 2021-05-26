@@ -1,10 +1,16 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {ComponentProps} from 'react';
 import {connect} from 'react-redux';
-import {bindActionCreators, Dispatch} from 'redux';
 
-import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
+import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+
+import {getCurrentTeamId, getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+
+import {setThreadFollow} from 'mattermost-redux/actions/threads';
+import {getThread} from 'mattermost-redux/selectors/entities/threads';
 
 import {GlobalState} from 'types/store';
 
@@ -22,26 +28,29 @@ import {getIsRhsExpanded} from 'selectors/rhs';
 
 import RhsHeaderPost from './rhs_header_post';
 
-function mapStateToProps(state: GlobalState) {
+type OwnProps = Pick<ComponentProps<typeof RhsHeaderPost>, 'rootPostId'>
+
+function mapStateToProps(state: GlobalState, {rootPostId}: OwnProps) {
     return {
         isExpanded: getIsRhsExpanded(state),
         relativeTeamUrl: getCurrentRelativeTeamUrl(state),
+        currentTeamId: getCurrentTeamId(state),
+        currentUserId: getCurrentUserId(state),
+        isCollapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
+        isFollowingThread: getThread(state, rootPostId)?.is_following,
     };
 }
 
-function mapDispatchToProps(dispatch: Dispatch) {
-    return {
-        actions: bindActionCreators({
-            setRhsExpanded,
-            showSearchResults,
-            showMentions,
-            showFlaggedPosts,
-            showPinnedPosts,
-            showChannelFiles,
-            closeRightHandSide,
-            toggleRhsExpanded,
-        }, dispatch),
-    };
-}
+const actions = {
+    setRhsExpanded,
+    showSearchResults,
+    showMentions,
+    showFlaggedPosts,
+    showPinnedPosts,
+    showChannelFiles,
+    closeRightHandSide,
+    toggleRhsExpanded,
+    setThreadFollow,
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(RhsHeaderPost);
+export default connect(mapStateToProps, actions)(RhsHeaderPost);

@@ -8,6 +8,7 @@ import {FormattedMessage, injectIntl} from 'react-intl';
 
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
 
+import StatusIcon from 'components/status_icon';
 import Timestamp from 'components/timestamp';
 import OverlayTrigger from 'components/overlay_trigger';
 import UserSettingsModal from 'components/user_settings/modal';
@@ -256,11 +257,11 @@ class ProfilePopover extends React.PureComponent {
     };
 
     renderCustomStatus() {
-        const {customStatus, isCustomStatusEnabled, user, currentUserId} = this.props;
+        const {customStatus, isCustomStatusEnabled, user, currentUserId, hideStatus} = this.props;
 
         const customStatusSet = (customStatus.text || customStatus.emoji);
         const canSetCustomStatus = (user.id === currentUserId);
-        const shouldShowCustomStatus = isCustomStatusEnabled && customStatus && (customStatusSet || canSetCustomStatus);
+        const shouldShowCustomStatus = isCustomStatusEnabled && !hideStatus && customStatus && (customStatusSet || canSetCustomStatus);
 
         if (!shouldShowCustomStatus) {
             return null;
@@ -343,12 +344,21 @@ class ProfilePopover extends React.PureComponent {
         const urlSrc = this.props.overwriteIcon ? this.props.overwriteIcon : this.props.src;
 
         dataContent.push(
-            <Avatar
-                size='xxl'
-                username={this.props.user.username}
-                url={urlSrc}
+            <div
+                className='user-popover-image'
                 key='user-popover-image'
-            />,
+            >
+                <Avatar
+                    size='xxl'
+                    username={this.props.user.username}
+                    url={urlSrc}
+                />
+                <StatusIcon
+                    className='status user-popover-status'
+                    status={this.props.status}
+                    button={true}
+                />
+            </div>,
         );
 
         const fullname = Utils.getFullName(this.props.user);
