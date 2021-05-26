@@ -3,7 +3,6 @@
 
 import {createSelector} from 'reselect';
 import shallowEquals from 'shallow-equals';
-import deepEqual from 'fast-deep-equal';
 
 import {General, Preferences} from 'mattermost-redux/constants';
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
@@ -472,26 +471,20 @@ export function makeSortChannels() {
 export function makeGetChannelIdsForCategory() {
     const getChannels = makeGetChannelsForIds();
     const filterAndSortChannelsForCategory = makeFilterAndSortChannelsForCategory();
-    let prevChannels: Channel[] = [];
-    let prevFilteredChannelIds: string[] = [];
+
+    let lastChannelIds: string[] = [];
 
     return (state: GlobalState, category: ChannelCategory) => {
         const channels = getChannels(state, category.channel_ids);
 
-        if (channels.length === 0 && prevChannels.length === 0) {
-            return prevFilteredChannelIds;
+        const filteredChannelIds = filterAndSortChannelsForCategory(state, channels, category).map((channel) => channel.id);
+
+        if (shallowEquals(filteredChannelIds, lastChannelIds)) {
+            return lastChannelIds;
         }
 
-        // getChannels will almost never return a memoized result.
-        // Assumption here is that the added comparison computation is more beneficial
-        // than the cost of returning a non memoized result.
-        if (deepEqual(channels, prevChannels)) {
-            return prevFilteredChannelIds;
-        }
-
-        prevChannels = channels;
-        prevFilteredChannelIds = filterAndSortChannelsForCategory(state, channels, category).map((channel) => channel.id);
-        return prevFilteredChannelIds;
+        lastChannelIds = filteredChannelIds;
+        return lastChannelIds;
     };
 }
 
