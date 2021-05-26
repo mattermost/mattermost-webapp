@@ -302,7 +302,7 @@ export class ParsedCommand {
                 }
 
                 if (c === '') {
-                    this.values![this.field.name] = this.incomplete;
+                    this.values[this.field.name] = this.incomplete;
                     return this;
                 }
 
@@ -541,13 +541,13 @@ export class ParsedCommand {
                     (!autocompleteMode && this.incomplete !== 'true' && this.incomplete !== 'false'))) {
                     // reset back where the value started, and treat as a new parameter
                     this.i = this.incompleteStart;
-                    this.values![this.field.name] = 'true';
+                    this.values[this.field.name] = 'true';
                     this.state = ParseState.StartParameter;
                 } else {
                     if (autocompleteMode && c === '') {
                         return this;
                     }
-                    this.values![this.field.name] = this.incomplete;
+                    this.values[this.field.name] = this.incomplete;
                     this.incomplete = '';
                     this.incompleteStart = this.i;
                     if (c === '') {
