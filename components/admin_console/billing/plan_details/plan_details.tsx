@@ -10,7 +10,7 @@ import {trackEvent} from 'actions/telemetry_actions';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import OverlayTrigger from 'components/overlay_trigger';
 import {getMonthLong} from 'utils/i18n';
-import {CloudLinks} from 'utils/constants';
+import {CloudLinks, CloudProducts} from 'utils/constants';
 import {localizeMessage} from 'utils/utils';
 
 import Badge from 'components/widgets/badges/badge';
@@ -111,7 +111,13 @@ export const seatsAndSubscriptionDates = (locale: string, userCount: number, num
     );
 };
 
-export const planDetailsTopElements = (userCount: number, isPaidTier: boolean, isFreeTrial: boolean, userLimit: number) => {
+export const planDetailsTopElements = (
+    userCount: number,
+    isPaidTier: boolean,
+    isFreeTrial: boolean,
+    userLimit: number,
+    subscriptionPlan: string | null,
+) => {
     let userCountDisplay = (
         <div className='PlanDetails__userCount'>
             <FormattedMarkdownMessage
@@ -121,6 +127,8 @@ export const planDetailsTopElements = (userCount: number, isPaidTier: boolean, i
             />
         </div>
     );
+
+    let productName;
 
     if (!isPaidTier) {
         userCountDisplay = (
@@ -137,48 +145,49 @@ export const planDetailsTopElements = (userCount: number, isPaidTier: boolean, i
                 />
             </div>
         );
-    }
-    const productName = (
-        <FormattedMessage
-            id='admin.billing.subscription.planDetails.productName.cloudProfessional'
-            defaultMessage='Cloud Professional'
-        />
-    );
 
-    // switch (typeSubscription) {
-    // case 'FREE_TRIAL':
-    //     productName = (
-    //         <FormattedMessage
-    //             id='admin.billing.subscription.planDetails.productName.cloudProfessional'
-    //             defaultMessage='Cloud Professional'
-    //         />
-    //     );
-    //     break;
-    // case 'CLOUD_ENTERPRISE':
-    //     productName = (
-    //         <FormattedMessage
-    //             id='admin.billing.subscription.planDetails.productName.cloudEnterprise'
-    //             defaultMessage='Cloud Enterprise'
-    //         />
-    //     );
-    //     break;
-    // case 'CLOUD_STARTER':
-    //     productName = (
-    //         <FormattedMessage
-    //             id='admin.billing.subscription.planDetails.productName.cloudStarter'
-    //             defaultMessage='Cloud Starter'
-    //         />
-    //     );
-    //     break;
-    // default:
-    //     productName = (
-    //         <FormattedMessage
-    //             id='admin.billing.subscription.planDetails.productName.mmCloud'
-    //             defaultMessage='Mattermost Cloud'
-    //         />
-    //     );
-    //     break;
-    // }
+        productName = (
+            <FormattedMessage
+                id='admin.billing.subscription.planDetails.productName.mmCloud'
+                defaultMessage='Mattermost Cloud'
+            />
+        );
+    }
+
+    switch (subscriptionPlan) {
+    case CloudProducts.PROFESSIONAL:
+        productName = (
+            <FormattedMessage
+                id='admin.billing.subscription.planDetails.productName.cloudProfessional'
+                defaultMessage='Cloud Professional'
+            />
+        );
+        break;
+    case CloudProducts.ENTERPRISE:
+        productName = (
+            <FormattedMessage
+                id='admin.billing.subscription.planDetails.productName.cloudEnterprise'
+                defaultMessage='Cloud Enterprise'
+            />
+        );
+        break;
+    case CloudProducts.STARTER:
+        productName = (
+            <FormattedMessage
+                id='admin.billing.subscription.planDetails.productName.cloudStarter'
+                defaultMessage='Cloud Starter'
+            />
+        );
+        break;
+    default:
+        productName = (
+            <FormattedMessage
+                id='admin.billing.subscription.planDetails.productName.cloudProfessional'
+                defaultMessage='Cloud Professional'
+            />
+        );
+        break;
+    }
 
     const trialBadge = (
         <Badge
@@ -281,7 +290,7 @@ export const getPlanDetailElements = (
     };
 };
 
-export const featureList = (isFreeTrial: boolean, isPaidTier: boolean) => {
+export const featureList = (subscriptionPlan: string | null, isPaidTier: boolean) => {
     const featuresFreeTier = [
         localizeMessage('admin.billing.subscription.planDetails.features.10GBstoragePerUser', '10 GB storage per user'),
         localizeMessage('admin.billing.subscription.planDetails.features.99uptime', '99.0% uptime'),
@@ -291,14 +300,13 @@ export const featureList = (isFreeTrial: boolean, isPaidTier: boolean) => {
         localizeMessage('admin.billing.subscription.planDetails.features.unlimitedIntegrations', 'Unlimited Integrations'),
     ];
 
-    // const featuresCloudStarter = [
-    //     localizeMessage('admin.billing.subscription.planDetails.features.groupAndOneToOneMessaging', 'Group and one-to-one messaging, file sharing, and search'),
-    //     localizeMessage('admin.billing.subscription.planDetails.features.incidentCollaboration', 'Incident collaboration'),
-    //     localizeMessage('admin.billing.subscription.planDetails.features.unlimittedUsersAndMessagingHistory', 'Unlimited users & message history'),
-    //     localizeMessage('admin.billing.subscription.planDetails.features.unlimitedIntegrations', 'Unlimited Integrations'),
-    //     localizeMessage('admin.billing.subscription.planDetails.features.mfa', 'Multi-Factor Authentication (MFA)'),
-    //     localizeMessage('admin.billing.subscription.planDetails.features.multilanguage', 'Multi-language translations'),
-    // ];
+    const featuresCloudStarter = [
+        localizeMessage('admin.billing.subscription.planDetails.features.groupAndOneToOneMessaging', 'Group and one-to-one messaging, file sharing, and search'),
+        localizeMessage('admin.billing.subscription.planDetails.features.incidentCollaboration', 'Incident collaboration'),
+        localizeMessage('admin.billing.subscription.planDetails.features.unlimittedUsersAndMessagingHistory', 'Unlimited users & message history'),
+        localizeMessage('admin.billing.subscription.planDetails.features.mfa', 'Multi-Factor Authentication (MFA)'),
+        localizeMessage('admin.billing.subscription.planDetails.features.multilanguage', 'Multi-language translations'),
+    ];
 
     const featuresCloudProfessional = [
         localizeMessage('admin.billing.subscription.planDetails.features.advanceTeamPermission', 'Advanced team permissions'),
@@ -309,42 +317,38 @@ export const featureList = (isFreeTrial: boolean, isPaidTier: boolean) => {
         localizeMessage('admin.billing.subscription.planDetails.features.readOnlyChannels', 'Read-only announcement channels'),
     ];
 
-    // const featuresCloudEnterprise = [
-    //     localizeMessage('admin.billing.subscription.planDetails.features.enterpriseAdministration', 'Enterprise administration & SSO'),
-    //     localizeMessage('admin.billing.subscription.planDetails.features.autoComplianceExports', 'Automated compliance exports'),
-    //     localizeMessage('admin.billing.subscription.planDetails.features.customRetentionPolicies', 'Custom data retention policies'),
-    //     localizeMessage('admin.billing.subscription.planDetails.features.sharedChannels', 'Shared channels (coming soon)'),
-    //     localizeMessage('admin.billing.subscription.planDetails.features.enterpriseAdminSso', 'Enterprise administration & SSO'),
-    //     localizeMessage('admin.billing.subscription.planDetails.features.premiumSupport', 'Premium Support (optional upgrade)'),
-    // ];
+    const featuresCloudEnterprise = [
+        localizeMessage('admin.billing.subscription.planDetails.features.enterpriseAdministration', 'Enterprise administration & SSO'),
+        localizeMessage('admin.billing.subscription.planDetails.features.autoComplianceExports', 'Automated compliance exports'),
+        localizeMessage('admin.billing.subscription.planDetails.features.customRetentionPolicies', 'Custom data retention policies'),
+        localizeMessage('admin.billing.subscription.planDetails.features.sharedChannels', 'Shared channels (coming soon)'),
+        localizeMessage('admin.billing.subscription.planDetails.features.enterpriseAdminSso', 'Enterprise administration & SSO'),
+        localizeMessage('admin.billing.subscription.planDetails.features.premiumSupport', 'Premium Support (optional upgrade)'),
+    ];
 
-    let features = featuresFreeTier;
+    let features;
 
-    // use both for backwards compatibility with the freeTier users
-    if (isFreeTrial || isPaidTier) {
-        features = featuresCloudProfessional;
+    if (isPaidTier) {
+        switch (subscriptionPlan) {
+        case CloudProducts.PROFESSIONAL:
+            features = featuresCloudProfessional;
+            break;
+
+        case CloudProducts.STARTER:
+            features = featuresCloudStarter;
+            break;
+        case CloudProducts.ENTERPRISE:
+            features = featuresCloudEnterprise;
+            break;
+        default:
+            features = featuresCloudProfessional;
+            break;
+        }
+    } else {
+        features = featuresFreeTier;
     }
 
-    // if (isPaidTier) {
-    //     switch (typeSubscription) {
-    //     case 'FREE_TRIAL':
-    //     // case 'CLOUD_PROFESSIONAL':
-    //         features = featuresCloudProfessional;
-    //         break;
-
-    //     // case 'CLOUD_STARTER':
-    //     //     features = featuresCloudStarter;
-    //     //     break;
-    //     // case 'CLOUD_ENTERPRISE':
-    //     //     features = featuresCloudEnterprise;
-    //     //     break;
-    //     default:
-    //         features = featuresFreeTier;
-    //         break;
-    //     }
-    // }
-
-    return features.map((feature, i) => (
+    return features?.map((feature, i) => (
         <div
             key={`PlanDetails__feature${i}`}
             className='PlanDetails__feature'

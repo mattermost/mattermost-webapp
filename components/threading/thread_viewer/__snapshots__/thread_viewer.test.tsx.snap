@@ -93,6 +93,7 @@ exports[`components/threading/ThreadViewer should match snapshot 1`] = `
             onHeightChange={[Function]}
             rootDeleted={false}
             rootId="id"
+            scrollToBottom={[Function]}
           />
         </div>
       </div>
