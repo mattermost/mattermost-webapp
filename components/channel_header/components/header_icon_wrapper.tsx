@@ -95,7 +95,7 @@ const HeaderIconWrapper: React.FC<Props> = (props: Props) => {
                 />
                 {toolTips[key].shortcut && (
                     <ShortcutSequence
-                        shortcut={toolTips[key].shortcut}
+                        shortcut={toolTips[key].shortcut!}
                         hideDescription={true}
                     />
                 )}
