@@ -2986,6 +2986,9 @@ describe('Selectors.Channels.getUnreadStatusInCurrentTeam', () => {
             teams: {
                 currentTeamId: team1.id,
             },
+            threads: {
+                counts: {},
+            },
             channels: {
                 currentChannelId: channel1.id,
                 channels,

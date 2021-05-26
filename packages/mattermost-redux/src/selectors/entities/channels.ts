@@ -568,13 +568,13 @@ export const getUnreadStatus: (state: GlobalState) => BasicUnreadStatus = create
             }
 
             const channelExists = channel.type === General.DM_CHANNEL ? users[getUserIdFromChannelName(currentUserId, channel.name)]?.delete_at === 0 : channel.delete_at === 0;
-
             if (!channelExists) {
                 return counts;
             }
 
-            if (membership.mention_count > 0) {
-                counts.mentions += collapsedThreads ? membership.mention_count_root : membership.mention_count;
+            const mentions = collapsedThreads ? membership.mention_count_root : membership.mention_count;
+            if (mentions) {
+                counts.mentions += mentions;
             }
 
             if (membership.notify_props && membership.notify_props.mark_unread !== 'mention') {
@@ -622,54 +622,69 @@ export const getUnreadStatus: (state: GlobalState) => BasicUnreadStatus = create
     },
 );
 
-export const getUnreadStatusInCurrentTeam: (a: GlobalState) => BasicUnreadStatus = createSelector(
+export const getUnreadStatusInCurrentTeam: (state: GlobalState) => BasicUnreadStatus = createSelector(
     getCurrentChannelId,
     getMyChannels,
     getMyChannelMemberships,
     getUsers,
     getCurrentUserId,
+    getCurrentTeamId,
     isCollapsedThreadsEnabled,
+    getThreadCounts,
     (
         currentChannelId,
         channels,
         myMembers,
         users,
         currentUserId,
+        currentTeamId,
         collapsedThreads,
+        threadCounts,
     ) => {
-        let messageCount = 0;
-        let mentionCount = 0;
-        channels.forEach((channel) => {
+        const {
+            messages: currentTeamUnreadMessages,
+            mentions: currentTeamUnreadMentions,
+        } = channels.reduce((counts, channel) => {
             const m = myMembers[channel.id];
 
-            if (m && channel.id !== currentChannelId) {
-                const otherUserId = channel.type === General.DM_CHANNEL ? getUserIdFromChannelName(currentUserId, channel.name) : '';
-
-                if (channel.type === General.DM_CHANNEL) {
-                    if (users[otherUserId] && users[otherUserId].delete_at === 0) {
-                        mentionCount += channel.total_msg_count - m.msg_count;
-                    }
-                } else if (m.mention_count > 0 && channel.delete_at === 0) {
-                    mentionCount += m.mention_count;
-                }
-
-                if (
-                    m.notify_props &&
-                    m.notify_props.mark_unread !== 'mention' &&
-                    getMsgCountInChannel(collapsedThreads, channel, m) > 0
-                ) {
-                    if (channel.type === General.DM_CHANNEL) {
-                        if (users[otherUserId] && users[otherUserId].delete_at === 0) {
-                            messageCount += 1;
-                        }
-                    } else if (channel.delete_at === 0) {
-                        messageCount += 1;
-                    }
-                }
+            if (!m || channel.id === currentChannelId) {
+                return counts;
             }
+
+            const channelExists = channel.type === General.DM_CHANNEL ? users[getUserIdFromChannelName(currentUserId, channel.name)]?.delete_at === 0 : channel.delete_at === 0;
+            if (!channelExists) {
+                return counts;
+            }
+
+            const mentions = collapsedThreads ? m.mention_count_root : m.mention_count;
+            if (mentions) {
+                counts.mentions += mentions;
+            }
+
+            if (m.notify_props && m.notify_props.mark_unread !== 'mention') {
+                counts.messages += getMsgCountInChannel(collapsedThreads, channel, m);
+            }
+
+            return counts;
+        }, {
+            messages: 0,
+            mentions: 0,
         });
 
-        return mentionCount || Boolean(messageCount);
+        let totalUnreadMentions = currentTeamUnreadMentions;
+        let anyUnreadThreads = false;
+
+        // when collapsed threads are enabled, we start with root-post counts from channels, then
+        // add the same thread-reply counts from the global threads view IF we're not in global threads
+        if (collapsedThreads && currentChannelId) {
+            const c = threadCounts[currentTeamId];
+            if (c) {
+                anyUnreadThreads = anyUnreadThreads || Boolean(c.total_unread_threads);
+                totalUnreadMentions += c.total_unread_mentions;
+            }
+        }
+
+        return totalUnreadMentions || anyUnreadThreads || Boolean(currentTeamUnreadMessages);
     },
 );
 
