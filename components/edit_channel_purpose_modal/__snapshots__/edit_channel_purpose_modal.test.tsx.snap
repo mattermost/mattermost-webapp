@@ -29,7 +29,7 @@ exports[`comoponents/EditChannelPurposeModal clear error on next 1`] = `
   renderBackdrop={[Function]}
   restoreFocus={true}
   role="dialog"
-  show={false}
+  show={true}
 >
   <ModalHeader
     bsClass="modal-header"
@@ -43,9 +43,14 @@ exports[`comoponents/EditChannelPurposeModal clear error on next 1`] = `
     >
       <span>
         <FormattedMessage
-          defaultMessage="Edit Purpose"
-          id="edit_channel_purpose_modal.title1"
+          defaultMessage="Edit Purpose for "
+          id="edit_channel_purpose_modal.title2"
         />
+        <span
+          className="name"
+        >
+          name
+        </span>
       </span>
     </ModalTitle>
   </ModalHeader>
@@ -65,9 +70,19 @@ exports[`comoponents/EditChannelPurposeModal clear error on next 1`] = `
       maxLength={250}
       onChange={[Function]}
       onKeyDown={[Function]}
-      rows="6"
-      value="purpose"
+      rows={6}
+      value="testPurpose"
     />
+    <div
+      className="form-group has-error"
+    >
+      <br />
+      <label
+        className="control-label"
+      >
+        error
+      </label>
+    </div>
   </ModalBody>
   <ModalFooter
     bsClass="modal-footer"
@@ -141,9 +156,14 @@ exports[`comoponents/EditChannelPurposeModal match with modal error 1`] = `
     >
       <span>
         <FormattedMessage
-          defaultMessage="Edit Purpose"
-          id="edit_channel_purpose_modal.title1"
+          defaultMessage="Edit Purpose for "
+          id="edit_channel_purpose_modal.title2"
         />
+        <span
+          className="name"
+        >
+          name
+        </span>
       </span>
     </ModalTitle>
   </ModalHeader>
@@ -163,8 +183,8 @@ exports[`comoponents/EditChannelPurposeModal match with modal error 1`] = `
       maxLength={250}
       onChange={[Function]}
       onKeyDown={[Function]}
-      rows="6"
-      value="purpose"
+      rows={6}
+      value="testPurpose"
     />
     <div
       className="form-group has-error"
@@ -249,9 +269,14 @@ exports[`comoponents/EditChannelPurposeModal match with modal error with fake id
     >
       <span>
         <FormattedMessage
-          defaultMessage="Edit Purpose"
-          id="edit_channel_purpose_modal.title1"
+          defaultMessage="Edit Purpose for "
+          id="edit_channel_purpose_modal.title2"
         />
+        <span
+          className="name"
+        >
+          name
+        </span>
       </span>
     </ModalTitle>
   </ModalHeader>
@@ -271,8 +296,8 @@ exports[`comoponents/EditChannelPurposeModal match with modal error with fake id
       maxLength={250}
       onChange={[Function]}
       onKeyDown={[Function]}
-      rows="6"
-      value="purpose"
+      rows={6}
+      value="testPurpose"
     />
     <div
       className="form-group has-error"
@@ -357,9 +382,14 @@ exports[`comoponents/EditChannelPurposeModal should match for private channel 1`
     >
       <span>
         <FormattedMessage
-          defaultMessage="Edit Purpose"
-          id="edit_channel_purpose_modal.title1"
+          defaultMessage="Edit Purpose for "
+          id="edit_channel_purpose_modal.title2"
         />
+        <span
+          className="name"
+        >
+          name
+        </span>
       </span>
     </ModalTitle>
   </ModalHeader>
@@ -379,8 +409,8 @@ exports[`comoponents/EditChannelPurposeModal should match for private channel 1`
       maxLength={250}
       onChange={[Function]}
       onKeyDown={[Function]}
-      rows="6"
-      value="purpose"
+      rows={6}
+      value="testPurpose"
     />
   </ModalBody>
   <ModalFooter
@@ -455,9 +485,14 @@ exports[`comoponents/EditChannelPurposeModal should match on init 1`] = `
     >
       <span>
         <FormattedMessage
-          defaultMessage="Edit Purpose"
-          id="edit_channel_purpose_modal.title1"
+          defaultMessage="Edit Purpose for "
+          id="edit_channel_purpose_modal.title2"
         />
+        <span
+          className="name"
+        >
+          name
+        </span>
       </span>
     </ModalTitle>
   </ModalHeader>
@@ -477,8 +512,8 @@ exports[`comoponents/EditChannelPurposeModal should match on init 1`] = `
       maxLength={250}
       onChange={[Function]}
       onKeyDown={[Function]}
-      rows="6"
-      value="purpose"
+      rows={6}
+      value="testPurpose"
     />
   </ModalBody>
   <ModalFooter
@@ -561,9 +596,14 @@ exports[`comoponents/EditChannelPurposeModal should match submitted 1`] = `
       >
         <span>
           <FormattedMessage
-            defaultMessage="Edit Purpose"
-            id="edit_channel_purpose_modal.title1"
+            defaultMessage="Edit Purpose for "
+            id="edit_channel_purpose_modal.title2"
           />
+          <span
+            className="name"
+          >
+            name
+          </span>
         </span>
       </ModalTitle>
     </ModalHeader>
@@ -583,8 +623,8 @@ exports[`comoponents/EditChannelPurposeModal should match submitted 1`] = `
         maxLength={250}
         onChange={[Function]}
         onKeyDown={[Function]}
-        rows="6"
-        value="purpose"
+        rows={6}
+        value="testPurpose"
       />
     </ModalBody>
     <ModalFooter
@@ -687,8 +727,8 @@ exports[`comoponents/EditChannelPurposeModal should match with display name 1`] 
       maxLength={250}
       onChange={[Function]}
       onKeyDown={[Function]}
-      rows="6"
-      value="purpose"
+      rows={6}
+      value="testPurpose"
     />
   </ModalBody>
   <ModalFooter

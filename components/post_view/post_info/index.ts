@@ -7,7 +7,7 @@ import {AnyAction, bindActionCreators, Dispatch} from 'redux';
 import {removePost} from 'mattermost-redux/actions/posts';
 import {isCurrentChannelReadOnly} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {get} from 'mattermost-redux/selectors/entities/preferences';
+import {get, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {Post} from 'mattermost-redux/types/posts';
@@ -44,6 +44,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         isReadOnly: isCurrentChannelReadOnly(state) || channelIsArchived,
         shouldShowDotMenu: PostUtils.shouldShowDotMenu(state, ownProps.post, channel),
         shortcutReactToLastPostEmittedFrom,
+        collapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
     };
 }
 

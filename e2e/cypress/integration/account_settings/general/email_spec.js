@@ -11,15 +11,18 @@
 // Group: @account_setting
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
-import {getEmailUrl, reUrl, getRandomId} from '../../../utils';
+import {reUrl, getRandomId} from '../../../utils';
 
 describe('Account Settings -> General -> Email', () => {
+    let siteName;
     let testUser;
     let otherUser;
     let testTeam;
 
     before(() => {
-        cy.apiUpdateConfig({EmailSettings: {RequireEmailVerification: true}});
+        cy.apiUpdateConfig({EmailSettings: {RequireEmailVerification: true}}).then(({config}) => {
+            siteName = config.TeamSettings.SiteName;
+        });
 
         cy.apiInitSetup().then(({team, user}) => {
             testUser = user;
@@ -112,10 +115,12 @@ describe('Account Settings -> General -> Email', () => {
         cy.get('#emailEdit').should('be.visible').click();
 
         const randomId = getRandomId();
+        const username = `user-${randomId}`;
+        const email = `${username}@example.com`;
 
         // # Type new email
-        cy.get('#primaryEmail').should('be.visible').type(`user-${randomId}@example.com`);
-        cy.get('#confirmEmail').should('be.visible').type(`user-${randomId}@example.com`);
+        cy.get('#primaryEmail').should('be.visible').type(email);
+        cy.get('#confirmEmail').should('be.visible').type(email);
         cy.get('#currentPassword').should('be.visible').type(testUser.password);
 
         // # Save the settings and close
@@ -131,17 +136,13 @@ describe('Account Settings -> General -> Email', () => {
         // * Check that the email verification message is not showed.
         cy.get('.announcement-bar').should('not.exist');
 
-        const mailUrl = getEmailUrl(Cypress.config('baseUrl'));
-
-        cy.task('getRecentEmail', {username: `user-${randomId}`, mailUrl}).then((response) => {
+        cy.getRecentEmail({username, email}).then((data) => {
             // * Verify the subject
-            expect(response.data.subject).to.equal('[Mattermost] Verify new email address');
-
-            const bodyText = response.data.body.text.split('\n');
+            expect(data.subject).to.equal(`[${siteName}] Verify new email address`);
 
             // * Verify the body
-            expect(bodyText[1]).to.contain('You updated your email');
-            const matched = bodyText[6].match(reUrl);
+            expect(data.body).to.contain('You updated your email');
+            const matched = data.body[6].match(reUrl);
             assert(matched.length > 0);
 
             const permalink = matched[0];
@@ -151,20 +152,20 @@ describe('Account Settings -> General -> Email', () => {
 
             // * Verify announcement bar
             cy.get('.announcement-bar').should('be.visible').should('contain.text', 'Email verified');
+
+            // # Wait for one second for the mail to be sent out.
+            cy.wait(TIMEOUTS.FIVE_SEC);
+
+            cy.getRecentEmail(testUser).then(({subject}) => {
+                // * Verify the subject
+                expect(subject).to.equal(`[${siteName}] Your email address has changed`);
+            });
+
+            cy.toAccountSettingsModal();
+
+            // * Verify new email address
+            cy.get('#emailDesc').should('be.visible').should('have.text', email);
         });
-
-        // # Wait for one second for the mail to be sent out.
-        cy.wait(TIMEOUTS.ONE_SEC);
-
-        cy.task('getRecentEmail', {username: testUser.username, mailUrl}).then((response) => {
-            // * Verify the subject
-            expect(response.data.subject).to.equal('[Mattermost] Your email address has changed');
-        });
-
-        cy.toAccountSettingsModal();
-
-        // * Verify new email address
-        cy.get('#emailDesc').should('be.visible').should('have.text', `user-${randomId}@example.com`);
     });
 
     it('MM-T2073 - Verify email verification message after logout', () => {
@@ -172,16 +173,16 @@ describe('Account Settings -> General -> Email', () => {
         cy.get('#emailEdit').should('be.visible').click();
 
         const randomId = getRandomId();
+        const username = `user-${randomId}`;
+        const email = `${username}@example.com`;
 
         // # Type new email
-        cy.get('#primaryEmail').should('be.visible').type(`user-${randomId}@example.com`);
-        cy.get('#confirmEmail').should('be.visible').type(`user-${randomId}@example.com`);
+        cy.get('#primaryEmail').should('be.visible').type(email);
+        cy.get('#confirmEmail').should('be.visible').type(email);
         cy.get('#currentPassword').should('be.visible').type(testUser.password);
 
         // # Save the settings
         cy.get('#saveSetting').click().wait(TIMEOUTS.HALF_SEC);
-
-        const mailUrl = getEmailUrl(Cypress.config('baseUrl'));
 
         // # Close modal
         cy.get('body').type('{esc}');
@@ -191,15 +192,13 @@ describe('Account Settings -> General -> Email', () => {
         // # Wait for one second for the mail to be sent out.
         cy.wait(TIMEOUTS.ONE_SEC);
 
-        cy.task('getRecentEmail', {username: `user-${randomId}`, mailUrl}).then((response) => {
+        cy.getRecentEmail({username, email}).then((data) => {
             // * Verify the subject
-            expect(response.data.subject).to.equal('[Mattermost] Verify new email address');
-
-            const bodyText = response.data.body.text.split('\n');
+            expect(data.subject).to.equal(`[${siteName}] Verify new email address`);
 
             // * Verify email body
-            expect(bodyText[1]).to.contain('You updated your email');
-            const matched = bodyText[6].match(reUrl);
+            expect(data.body[1]).to.contain('You updated your email');
+            const matched = data.body[6].match(reUrl);
             assert(matched.length > 0);
 
             const permalink = matched[0];
@@ -209,7 +208,7 @@ describe('Account Settings -> General -> Email', () => {
             cy.get('#login_section .alert-success').should('contain.text', 'Email Verified');
 
             // # Do login
-            cy.get('#loginId').should('be.visible').clear().type(`user-${randomId}@example.com`);
+            cy.get('#loginId').should('be.visible').clear().type(email);
             cy.get('#loginPassword').should('be.visible').type(testUser.password);
             cy.get('#loginButton').should('be.visible').click();
 
