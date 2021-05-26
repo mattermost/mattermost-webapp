@@ -3,7 +3,7 @@
 import {MessageDescriptor} from 'react-intl';
 
 import {t} from 'utils/i18n';
-export type ShortcutMessage = MessageDescriptor | {default: MessageDescriptor, mac?: MessageDescriptor};
+export type ShortcutMessage = MessageDescriptor | {default: MessageDescriptor; mac?: MessageDescriptor};
 
 export function isMessageDescriptor(descriptor: ShortcutMessage): descriptor is MessageDescriptor {
     return Boolean((descriptor as MessageDescriptor).id);

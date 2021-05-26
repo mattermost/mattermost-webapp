@@ -13,7 +13,7 @@ import './shortcut_sequence.scss';
 
 type Props = {
     shortcut: ShortcutMessage;
-    values?: Record<string, PrimitiveType | FormatXMLElementFn<string, string>>
+    values?: Record<string, PrimitiveType | FormatXMLElementFn<string, string>>;
     hideDescription?: boolean;
     hoistDescription?: boolean;
 };

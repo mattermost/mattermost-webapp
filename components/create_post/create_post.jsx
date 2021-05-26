@@ -1451,7 +1451,7 @@ class CreatePost extends React.PureComponent {
                             onFileUpload={this.handleFileUploadComplete}
                             onUploadError={this.handleUploadError}
                             onUploadProgress={this.handleUploadProgress}
-                            postType="post"
+                            postType='post'
                             channelId={currentChannel.id}
                         />
                     </div>
