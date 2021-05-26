@@ -3,7 +3,10 @@
 exports[`components/PostProfilePicture should match snapshot, no status and post icon override specified, default props 1`] = `
 <ProfilePicture
   channelId=""
+  fromAutoResponder={false}
+  fromWebhook={false}
   hasMention={true}
+  isBot={false}
   isBusy={true}
   isEmoji={false}
   isRHS={false}
@@ -20,7 +23,10 @@ exports[`components/PostProfilePicture should match snapshot, no status and post
 exports[`components/PostProfilePicture should match snapshot, status and post icon override specified, default props 1`] = `
 <ProfilePicture
   channelId=""
+  fromAutoResponder={false}
+  fromWebhook={false}
   hasMention={true}
+  isBot={false}
   isBusy={true}
   isEmoji={false}
   isRHS={false}

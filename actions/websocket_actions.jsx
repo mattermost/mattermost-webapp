@@ -38,6 +38,7 @@ import {
     handleReadChanged,
     handleFollowChanged,
     handleThreadArrived,
+    handleAllThreadsInChannelMarkedRead,
 } from 'mattermost-redux/actions/threads';
 
 import {setServerVersion} from 'mattermost-redux/actions/general';
@@ -82,6 +83,7 @@ import {syncPostsInChannel} from 'actions/views/channel';
 
 import {browserHistory} from 'utils/browser_history';
 import {loadChannelsForCurrentUser} from 'actions/channel_actions.jsx';
+import {loadCustomEmojisIfNeeded} from 'actions/emoji_actions';
 import {redirectUserToDefaultTeam} from 'actions/global_actions';
 import {handleNewPost} from 'actions/post_actions.jsx';
 import * as StatusActions from 'actions/status_actions.jsx';
@@ -677,7 +679,9 @@ export function handlePostUnreadEvent(msg) {
                 lastViewedAt: msg.data.last_viewed_at,
                 channelId: msg.broadcast.channel_id,
                 msgCount: msg.data.msg_count,
+                msgCountRoot: msg.data.msg_count_root,
                 mentionCount: msg.data.mention_count,
+                mentionCountRoot: msg.data.mention_count_root,
             },
         },
     );
@@ -975,6 +979,10 @@ export async function handleUserUpdatedEvent(msg) {
     const state = getState();
     const currentUser = getCurrentUser(state);
     const user = msg.data.user;
+    if (user && user.props) {
+        const customStatus = user.props.customStatus ? JSON.parse(user.props.customStatus) : undefined;
+        dispatch(loadCustomEmojisIfNeeded([customStatus?.emoji]));
+    }
 
     const config = getConfig(state);
     const license = getLicense(state);
@@ -1427,6 +1435,8 @@ function handleThreadReadChanged(msg) {
                     },
                 );
             }
+        } else if (msg.broadcast.channel_id) {
+            handleAllThreadsInChannelMarkedRead(doDispatch, doGetState, msg.broadcast.channel_id, msg.data.timestamp);
         } else {
             handleAllMarkedRead(doDispatch, msg.broadcast.team_id);
         }
