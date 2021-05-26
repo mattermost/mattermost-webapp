@@ -316,7 +316,6 @@
         }
     }
 
-
     &:hover {
         @include box-shadow($elevation-1);
 
@@ -551,6 +550,10 @@
                 @include opacity(1);
             }
         }
+    }
+
+    div.MenuWrapper + .post-image__download {
+        padding-left: 8px;
     }
 
     .post-image__progressBar {
