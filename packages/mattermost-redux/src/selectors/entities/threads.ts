@@ -125,3 +125,14 @@ export const getUnreadThreadOrderInCurrentTeam: (
 function sortByLastReply(ids: Array<$ID<UserThread>>, threads: ReturnType<typeof getThreads>) {
     return ids.sort((a, b) => threads[b].last_reply_at - threads[a].last_reply_at);
 }
+
+export const getThreadsInChannel: (
+    state: GlobalState,
+    channelID: string,
+) => Array<$ID<UserThread>> = createSelector(
+    getThreads,
+    (state: GlobalState, channelID: string) => channelID,
+    (allThreads: IDMappedObjects<UserThread>, channelID: string) => {
+        return Object.keys(allThreads).filter((id) => allThreads[id].post.channel_id === channelID);
+    },
+);

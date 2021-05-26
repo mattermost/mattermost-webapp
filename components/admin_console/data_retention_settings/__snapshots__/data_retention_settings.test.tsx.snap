@@ -41,94 +41,107 @@ exports[`components/admin_console/data_retention_settings/data_retention_setting
         <CardBody
           expanded={true}
         >
-          <DataGrid
-            className="customTable"
-            columns={
-              Array [
-                Object {
-                  "field": "description",
-                  "name": <FormattedMessage
-                    defaultMessage="Description"
-                    id="admin.data_retention.globalPoliciesTable.description"
-                  />,
-                },
-                Object {
-                  "field": "channel_messages",
-                  "name": <FormattedMessage
-                    defaultMessage="Channel messages"
-                    id="admin.data_retention.globalPoliciesTable.channelMessages"
-                  />,
-                },
-                Object {
-                  "field": "files",
-                  "name": <FormattedMessage
-                    defaultMessage="Files"
-                    id="admin.data_retention.globalPoliciesTable.files"
-                  />,
-                },
-                Object {
-                  "className": "actionIcon",
-                  "field": "actions",
-                  "name": "",
-                },
-              ]
-            }
-            endCount={4}
-            loading={false}
-            nextPage={[Function]}
-            page={0}
-            previousPage={[Function]}
-            rows={
-              Array [
-                Object {
-                  "cells": Object {
-                    "actions": <MenuWrapper
-                      animationComponent={[Function]}
-                      className=""
-                      isDisabled={false}
-                      stopPropagationOnToggle={true}
-                    >
-                      <div
-                        className="text-right"
-                      >
-                        <a>
-                          <i
-                            className="icon icon-dots-vertical"
-                          />
-                        </a>
-                      </div>
-                      <Menu
-                        ariaLabel="User Actions Menu"
-                        openLeft={false}
-                        openUp={false}
-                      >
-                        <MenuItemAction
-                          disabled={false}
-                          onClick={[Function]}
-                          show={true}
-                          text="Edit"
-                        />
-                      </Menu>
-                    </MenuWrapper>,
-                    "channel_messages": <FormattedMessage
-                      defaultMessage="Keep forever"
-                      id="admin.data_retention.form.keepForever"
-                    />,
-                    "description": "Applies to all teams and channels, but does not apply to custom retention policies.",
-                    "files": <FormattedMessage
-                      defaultMessage="Keep forever"
-                      id="admin.data_retention.form.keepForever"
+          <div
+            id="global_policy_table"
+          >
+            <DataGrid
+              className="customTable"
+              columns={
+                Array [
+                  Object {
+                    "field": "description",
+                    "name": <FormattedMessage
+                      defaultMessage="Description"
+                      id="admin.data_retention.globalPoliciesTable.description"
                     />,
                   },
-                  "onClick": [Function],
-                },
-              ]
-            }
-            searchPlaceholder=""
-            startCount={1}
-            term=""
-            total={0}
-          />
+                  Object {
+                    "field": "channel_messages",
+                    "name": <FormattedMessage
+                      defaultMessage="Channel messages"
+                      id="admin.data_retention.globalPoliciesTable.channelMessages"
+                    />,
+                  },
+                  Object {
+                    "field": "files",
+                    "name": <FormattedMessage
+                      defaultMessage="Files"
+                      id="admin.data_retention.globalPoliciesTable.files"
+                    />,
+                  },
+                  Object {
+                    "className": "actionIcon",
+                    "field": "actions",
+                    "name": "",
+                  },
+                ]
+              }
+              endCount={4}
+              loading={false}
+              nextPage={[Function]}
+              page={0}
+              previousPage={[Function]}
+              rows={
+                Array [
+                  Object {
+                    "cells": Object {
+                      "actions": <MenuWrapper
+                        animationComponent={[Function]}
+                        className=""
+                        isDisabled={false}
+                        stopPropagationOnToggle={true}
+                      >
+                        <div
+                          className="text-right"
+                        >
+                          <a>
+                            <i
+                              className="icon icon-dots-vertical"
+                            />
+                          </a>
+                        </div>
+                        <Menu
+                          ariaLabel="User Actions Menu"
+                          openLeft={false}
+                          openUp={false}
+                        >
+                          <MenuItemAction
+                            buttonClass="edit_global_policy"
+                            disabled={false}
+                            onClick={[Function]}
+                            show={true}
+                            text="Edit"
+                          />
+                        </Menu>
+                      </MenuWrapper>,
+                      "channel_messages": <div
+                        data-testid="global_message_retention_cell"
+                      >
+                        <FormattedMessage
+                          defaultMessage="Keep forever"
+                          id="admin.data_retention.form.keepForever"
+                        />
+                      </div>,
+                      "description": "Applies to all teams and channels, but does not apply to custom retention policies.",
+                      "files": <div
+                        data-testid="global_file_retention_cell"
+                      >
+                        <FormattedMessage
+                          defaultMessage="Keep forever"
+                          id="admin.data_retention.form.keepForever"
+                        />
+                      </div>,
+                    },
+                    "onClick": [Function],
+                  },
+                ]
+              }
+              searchPlaceholder=""
+              startCount={1}
+              term=""
+              total={0}
+            />
+          </div>
         </CardBody>
       </Card>
       <Card
@@ -161,106 +174,123 @@ exports[`components/admin_console/data_retention_settings/data_retention_setting
         <CardBody
           expanded={true}
         >
-          <DataGrid
-            className="customTable"
-            columns={
-              Array [
-                Object {
-                  "field": "description",
-                  "name": <FormattedMessage
-                    defaultMessage="Description"
-                    id="admin.data_retention.customPoliciesTable.description"
-                  />,
-                },
-                Object {
-                  "field": "channel_messages",
-                  "name": <FormattedMessage
-                    defaultMessage="Channel messages"
-                    id="admin.data_retention.customPoliciesTable.channelMessages"
-                  />,
-                },
-                Object {
-                  "field": "applied_to",
-                  "name": <FormattedMessage
-                    defaultMessage="Applied to"
-                    id="admin.data_retention.customPoliciesTable.appliedTo"
-                  />,
-                },
-                Object {
-                  "className": "actionIcon",
-                  "field": "actions",
-                  "name": "",
-                },
-              ]
-            }
-            endCount={1}
-            loading={true}
-            nextPage={[Function]}
-            page={0}
-            previousPage={[Function]}
-            rows={
-              Array [
-                Object {
-                  "cells": Object {
-                    "actions": <MenuWrapper
-                      animationComponent={[Function]}
-                      className=""
-                      isDisabled={false}
-                      stopPropagationOnToggle={true}
-                    >
-                      <div
-                        className="text-right"
-                      >
-                        <a>
-                          <i
-                            className="icon icon-dots-vertical"
-                          />
-                        </a>
-                      </div>
-                      <Menu
-                        ariaLabel="User Actions Menu"
-                        openLeft={false}
-                        openUp={false}
-                      >
-                        <MenuItemAction
-                          disabled={false}
-                          onClick={[Function]}
-                          show={true}
-                          text="Edit"
-                        />
-                        <MenuItemAction
-                          disabled={false}
-                          onClick={[Function]}
-                          show={true}
-                          text="Delete"
-                        />
-                      </Menu>
-                    </MenuWrapper>,
-                    "applied_to": <FormattedMessage
-                      defaultMessage="{team_count} {team_count, plural, one {team} other {teams}}, {channel_count} {channel_count, plural, one {channel} other {channels}}"
-                      id="admin.data_retention.channel_team_counts"
-                      values={
-                        Object {
-                          "channel_count": 2,
-                          "team_count": 1,
-                        }
-                      }
+          <div
+            id="custom_policy_table"
+          >
+            <DataGrid
+              className="customTable"
+              columns={
+                Array [
+                  Object {
+                    "field": "description",
+                    "name": <FormattedMessage
+                      defaultMessage="Description"
+                      id="admin.data_retention.customPoliciesTable.description"
                     />,
-                    "channel_messages": <FormattedMessage
-                      defaultMessage="Keep forever"
-                      id="admin.data_retention.form.keepForever"
-                    />,
-                    "description": "Custom policy 1",
                   },
-                  "onClick": [Function],
-                },
-              ]
-            }
-            searchPlaceholder=""
-            startCount={1}
-            term=""
-            total={1}
-          />
+                  Object {
+                    "field": "channel_messages",
+                    "name": <FormattedMessage
+                      defaultMessage="Channel messages"
+                      id="admin.data_retention.customPoliciesTable.channelMessages"
+                    />,
+                  },
+                  Object {
+                    "field": "applied_to",
+                    "name": <FormattedMessage
+                      defaultMessage="Applied to"
+                      id="admin.data_retention.customPoliciesTable.appliedTo"
+                    />,
+                  },
+                  Object {
+                    "className": "actionIcon",
+                    "field": "actions",
+                    "name": "",
+                  },
+                ]
+              }
+              endCount={1}
+              loading={true}
+              nextPage={[Function]}
+              page={0}
+              previousPage={[Function]}
+              rows={
+                Array [
+                  Object {
+                    "cells": Object {
+                      "actions": <MenuWrapper
+                        animationComponent={[Function]}
+                        className=""
+                        id="customWrapper-1234567"
+                        isDisabled={false}
+                        stopPropagationOnToggle={true}
+                      >
+                        <div
+                          className="text-right"
+                        >
+                          <a>
+                            <i
+                              className="icon icon-dots-vertical"
+                            />
+                          </a>
+                        </div>
+                        <Menu
+                          ariaLabel="User Actions Menu"
+                          openLeft={false}
+                          openUp={false}
+                        >
+                          <MenuItemAction
+                            disabled={false}
+                            onClick={[Function]}
+                            show={true}
+                            text="Edit"
+                          />
+                          <MenuItemAction
+                            disabled={false}
+                            onClick={[Function]}
+                            show={true}
+                            text="Delete"
+                          />
+                        </Menu>
+                      </MenuWrapper>,
+                      "applied_to": <div
+                        id="customAppliedTo-1234567"
+                      >
+                        <FormattedMessage
+                          defaultMessage="{team_count} {team_count, plural, one {team} other {teams}}, {channel_count} {channel_count, plural, one {channel} other {channels}}"
+                          id="admin.data_retention.channel_team_counts"
+                          values={
+                            Object {
+                              "channel_count": 2,
+                              "team_count": 1,
+                            }
+                          }
+                        />
+                      </div>,
+                      "channel_messages": <div
+                        id="customDuration-1234567"
+                      >
+                        <FormattedMessage
+                          defaultMessage="Keep forever"
+                          id="admin.data_retention.form.keepForever"
+                        />
+                      </div>,
+                      "description": <div
+                        id="customDescription-1234567"
+                      >
+                        Custom policy 1
+                      </div>,
+                    },
+                    "onClick": [Function],
+                  },
+                ]
+              }
+              searchPlaceholder=""
+              startCount={1}
+              term=""
+              total={1}
+            />
+          </div>
         </CardBody>
       </Card>
       <Card
@@ -382,104 +412,117 @@ exports[`components/admin_console/data_retention_settings/data_retention_setting
         <CardBody
           expanded={true}
         >
-          <DataGrid
-            className="customTable"
-            columns={
-              Array [
-                Object {
-                  "field": "description",
-                  "name": <FormattedMessage
-                    defaultMessage="Description"
-                    id="admin.data_retention.globalPoliciesTable.description"
-                  />,
-                },
-                Object {
-                  "field": "channel_messages",
-                  "name": <FormattedMessage
-                    defaultMessage="Channel messages"
-                    id="admin.data_retention.globalPoliciesTable.channelMessages"
-                  />,
-                },
-                Object {
-                  "field": "files",
-                  "name": <FormattedMessage
-                    defaultMessage="Files"
-                    id="admin.data_retention.globalPoliciesTable.files"
-                  />,
-                },
-                Object {
-                  "className": "actionIcon",
-                  "field": "actions",
-                  "name": "",
-                },
-              ]
-            }
-            endCount={4}
-            loading={false}
-            nextPage={[Function]}
-            page={0}
-            previousPage={[Function]}
-            rows={
-              Array [
-                Object {
-                  "cells": Object {
-                    "actions": <MenuWrapper
-                      animationComponent={[Function]}
-                      className=""
-                      isDisabled={false}
-                      stopPropagationOnToggle={true}
-                    >
-                      <div
-                        className="text-right"
-                      >
-                        <a>
-                          <i
-                            className="icon icon-dots-vertical"
-                          />
-                        </a>
-                      </div>
-                      <Menu
-                        ariaLabel="User Actions Menu"
-                        openLeft={false}
-                        openUp={false}
-                      >
-                        <MenuItemAction
-                          disabled={false}
-                          onClick={[Function]}
-                          show={true}
-                          text="Edit"
-                        />
-                      </Menu>
-                    </MenuWrapper>,
-                    "channel_messages": <FormattedMessage
-                      defaultMessage="{count} {count, plural, one {day} other {days}}"
-                      id="admin.data_retention.retention_days"
-                      values={
-                        Object {
-                          "count": "100",
-                        }
-                      }
-                    />,
-                    "description": "Applies to all teams and channels, but does not apply to custom retention policies.",
-                    "files": <FormattedMessage
-                      defaultMessage="{count} {count, plural, one {day} other {days}}"
-                      id="admin.data_retention.retention_days"
-                      values={
-                        Object {
-                          "count": "100",
-                        }
-                      }
+          <div
+            id="global_policy_table"
+          >
+            <DataGrid
+              className="customTable"
+              columns={
+                Array [
+                  Object {
+                    "field": "description",
+                    "name": <FormattedMessage
+                      defaultMessage="Description"
+                      id="admin.data_retention.globalPoliciesTable.description"
                     />,
                   },
-                  "onClick": [Function],
-                },
-              ]
-            }
-            searchPlaceholder=""
-            startCount={1}
-            term=""
-            total={0}
-          />
+                  Object {
+                    "field": "channel_messages",
+                    "name": <FormattedMessage
+                      defaultMessage="Channel messages"
+                      id="admin.data_retention.globalPoliciesTable.channelMessages"
+                    />,
+                  },
+                  Object {
+                    "field": "files",
+                    "name": <FormattedMessage
+                      defaultMessage="Files"
+                      id="admin.data_retention.globalPoliciesTable.files"
+                    />,
+                  },
+                  Object {
+                    "className": "actionIcon",
+                    "field": "actions",
+                    "name": "",
+                  },
+                ]
+              }
+              endCount={4}
+              loading={false}
+              nextPage={[Function]}
+              page={0}
+              previousPage={[Function]}
+              rows={
+                Array [
+                  Object {
+                    "cells": Object {
+                      "actions": <MenuWrapper
+                        animationComponent={[Function]}
+                        className=""
+                        isDisabled={false}
+                        stopPropagationOnToggle={true}
+                      >
+                        <div
+                          className="text-right"
+                        >
+                          <a>
+                            <i
+                              className="icon icon-dots-vertical"
+                            />
+                          </a>
+                        </div>
+                        <Menu
+                          ariaLabel="User Actions Menu"
+                          openLeft={false}
+                          openUp={false}
+                        >
+                          <MenuItemAction
+                            buttonClass="edit_global_policy"
+                            disabled={false}
+                            onClick={[Function]}
+                            show={true}
+                            text="Edit"
+                          />
+                        </Menu>
+                      </MenuWrapper>,
+                      "channel_messages": <div
+                        data-testid="global_message_retention_cell"
+                      >
+                        <FormattedMessage
+                          defaultMessage="{count} {count, plural, one {day} other {days}}"
+                          id="admin.data_retention.retention_days"
+                          values={
+                            Object {
+                              "count": "100",
+                            }
+                          }
+                        />
+                      </div>,
+                      "description": "Applies to all teams and channels, but does not apply to custom retention policies.",
+                      "files": <div
+                        data-testid="global_file_retention_cell"
+                      >
+                        <FormattedMessage
+                          defaultMessage="{count} {count, plural, one {day} other {days}}"
+                          id="admin.data_retention.retention_days"
+                          values={
+                            Object {
+                              "count": "100",
+                            }
+                          }
+                        />
+                      </div>,
+                    },
+                    "onClick": [Function],
+                  },
+                ]
+              }
+              searchPlaceholder=""
+              startCount={1}
+              term=""
+              total={0}
+            />
+          </div>
         </CardBody>
       </Card>
       <Card
@@ -512,111 +555,128 @@ exports[`components/admin_console/data_retention_settings/data_retention_setting
         <CardBody
           expanded={true}
         >
-          <DataGrid
-            className="customTable"
-            columns={
-              Array [
-                Object {
-                  "field": "description",
-                  "name": <FormattedMessage
-                    defaultMessage="Description"
-                    id="admin.data_retention.customPoliciesTable.description"
-                  />,
-                },
-                Object {
-                  "field": "channel_messages",
-                  "name": <FormattedMessage
-                    defaultMessage="Channel messages"
-                    id="admin.data_retention.customPoliciesTable.channelMessages"
-                  />,
-                },
-                Object {
-                  "field": "applied_to",
-                  "name": <FormattedMessage
-                    defaultMessage="Applied to"
-                    id="admin.data_retention.customPoliciesTable.appliedTo"
-                  />,
-                },
-                Object {
-                  "className": "actionIcon",
-                  "field": "actions",
-                  "name": "",
-                },
-              ]
-            }
-            endCount={1}
-            loading={true}
-            nextPage={[Function]}
-            page={0}
-            previousPage={[Function]}
-            rows={
-              Array [
-                Object {
-                  "cells": Object {
-                    "actions": <MenuWrapper
-                      animationComponent={[Function]}
-                      className=""
-                      isDisabled={false}
-                      stopPropagationOnToggle={true}
-                    >
-                      <div
-                        className="text-right"
-                      >
-                        <a>
-                          <i
-                            className="icon icon-dots-vertical"
-                          />
-                        </a>
-                      </div>
-                      <Menu
-                        ariaLabel="User Actions Menu"
-                        openLeft={false}
-                        openUp={false}
-                      >
-                        <MenuItemAction
-                          disabled={false}
-                          onClick={[Function]}
-                          show={true}
-                          text="Edit"
-                        />
-                        <MenuItemAction
-                          disabled={false}
-                          onClick={[Function]}
-                          show={true}
-                          text="Delete"
-                        />
-                      </Menu>
-                    </MenuWrapper>,
-                    "applied_to": <FormattedMessage
-                      defaultMessage="{team_count} {team_count, plural, one {team} other {teams}}, {channel_count} {channel_count, plural, one {channel} other {channels}}"
-                      id="admin.data_retention.channel_team_counts"
-                      values={
-                        Object {
-                          "channel_count": 2,
-                          "team_count": 1,
-                        }
-                      }
+          <div
+            id="custom_policy_table"
+          >
+            <DataGrid
+              className="customTable"
+              columns={
+                Array [
+                  Object {
+                    "field": "description",
+                    "name": <FormattedMessage
+                      defaultMessage="Description"
+                      id="admin.data_retention.customPoliciesTable.description"
                     />,
-                    "channel_messages": <FormattedMessage
-                      defaultMessage="{count} {count, plural, one {day} other {days}}"
-                      id="admin.data_retention.retention_days"
-                      values={
-                        Object {
-                          "count": "60",
-                        }
-                      }
-                    />,
-                    "description": "Custom policy 1",
                   },
-                  "onClick": [Function],
-                },
-              ]
-            }
-            searchPlaceholder=""
-            startCount={1}
-            term=""
-            total={1}
-          />
+                  Object {
+                    "field": "channel_messages",
+                    "name": <FormattedMessage
+                      defaultMessage="Channel messages"
+                      id="admin.data_retention.customPoliciesTable.channelMessages"
+                    />,
+                  },
+                  Object {
+                    "field": "applied_to",
+                    "name": <FormattedMessage
+                      defaultMessage="Applied to"
+                      id="admin.data_retention.customPoliciesTable.appliedTo"
+                    />,
+                  },
+                  Object {
+                    "className": "actionIcon",
+                    "field": "actions",
+                    "name": "",
+                  },
+                ]
+              }
+              endCount={1}
+              loading={true}
+              nextPage={[Function]}
+              page={0}
+              previousPage={[Function]}
+              rows={
+                Array [
+                  Object {
+                    "cells": Object {
+                      "actions": <MenuWrapper
+                        animationComponent={[Function]}
+                        className=""
+                        id="customWrapper-1234567"
+                        isDisabled={false}
+                        stopPropagationOnToggle={true}
+                      >
+                        <div
+                          className="text-right"
+                        >
+                          <a>
+                            <i
+                              className="icon icon-dots-vertical"
+                            />
+                          </a>
+                        </div>
+                        <Menu
+                          ariaLabel="User Actions Menu"
+                          openLeft={false}
+                          openUp={false}
+                        >
+                          <MenuItemAction
+                            disabled={false}
+                            onClick={[Function]}
+                            show={true}
+                            text="Edit"
+                          />
+                          <MenuItemAction
+                            disabled={false}
+                            onClick={[Function]}
+                            show={true}
+                            text="Delete"
+                          />
+                        </Menu>
+                      </MenuWrapper>,
+                      "applied_to": <div
+                        id="customAppliedTo-1234567"
+                      >
+                        <FormattedMessage
+                          defaultMessage="{team_count} {team_count, plural, one {team} other {teams}}, {channel_count} {channel_count, plural, one {channel} other {channels}}"
+                          id="admin.data_retention.channel_team_counts"
+                          values={
+                            Object {
+                              "channel_count": 2,
+                              "team_count": 1,
+                            }
+                          }
+                        />
+                      </div>,
+                      "channel_messages": <div
+                        id="customDuration-1234567"
+                      >
+                        <FormattedMessage
+                          defaultMessage="{count} {count, plural, one {day} other {days}}"
+                          id="admin.data_retention.retention_days"
+                          values={
+                            Object {
+                              "count": "60",
+                            }
+                          }
+                        />
+                      </div>,
+                      "description": <div
+                        id="customDescription-1234567"
+                      >
+                        Custom policy 1
+                      </div>,
+                    },
+                    "onClick": [Function],
+                  },
+                ]
+              }
+              searchPlaceholder=""
+              startCount={1}
+              term=""
+              total={1}
+            />
+          </div>
         </CardBody>
       </Card>
       <Card
@@ -738,104 +798,117 @@ exports[`components/admin_console/data_retention_settings/data_retention_setting
         <CardBody
           expanded={true}
         >
-          <DataGrid
-            className="customTable"
-            columns={
-              Array [
-                Object {
-                  "field": "description",
-                  "name": <FormattedMessage
-                    defaultMessage="Description"
-                    id="admin.data_retention.globalPoliciesTable.description"
-                  />,
-                },
-                Object {
-                  "field": "channel_messages",
-                  "name": <FormattedMessage
-                    defaultMessage="Channel messages"
-                    id="admin.data_retention.globalPoliciesTable.channelMessages"
-                  />,
-                },
-                Object {
-                  "field": "files",
-                  "name": <FormattedMessage
-                    defaultMessage="Files"
-                    id="admin.data_retention.globalPoliciesTable.files"
-                  />,
-                },
-                Object {
-                  "className": "actionIcon",
-                  "field": "actions",
-                  "name": "",
-                },
-              ]
-            }
-            endCount={4}
-            loading={false}
-            nextPage={[Function]}
-            page={0}
-            previousPage={[Function]}
-            rows={
-              Array [
-                Object {
-                  "cells": Object {
-                    "actions": <MenuWrapper
-                      animationComponent={[Function]}
-                      className=""
-                      isDisabled={false}
-                      stopPropagationOnToggle={true}
-                    >
-                      <div
-                        className="text-right"
-                      >
-                        <a>
-                          <i
-                            className="icon icon-dots-vertical"
-                          />
-                        </a>
-                      </div>
-                      <Menu
-                        ariaLabel="User Actions Menu"
-                        openLeft={false}
-                        openUp={false}
-                      >
-                        <MenuItemAction
-                          disabled={false}
-                          onClick={[Function]}
-                          show={true}
-                          text="Edit"
-                        />
-                      </Menu>
-                    </MenuWrapper>,
-                    "channel_messages": <FormattedMessage
-                      defaultMessage="{count} {count, plural, one {day} other {days}}"
-                      id="admin.data_retention.retention_days"
-                      values={
-                        Object {
-                          "count": "100",
-                        }
-                      }
-                    />,
-                    "description": "Applies to all teams and channels, but does not apply to custom retention policies.",
-                    "files": <FormattedMessage
-                      defaultMessage="{count} {count, plural, one {day} other {days}}"
-                      id="admin.data_retention.retention_days"
-                      values={
-                        Object {
-                          "count": "100",
-                        }
-                      }
+          <div
+            id="global_policy_table"
+          >
+            <DataGrid
+              className="customTable"
+              columns={
+                Array [
+                  Object {
+                    "field": "description",
+                    "name": <FormattedMessage
+                      defaultMessage="Description"
+                      id="admin.data_retention.globalPoliciesTable.description"
                     />,
                   },
-                  "onClick": [Function],
-                },
-              ]
-            }
-            searchPlaceholder=""
-            startCount={1}
-            term=""
-            total={0}
-          />
+                  Object {
+                    "field": "channel_messages",
+                    "name": <FormattedMessage
+                      defaultMessage="Channel messages"
+                      id="admin.data_retention.globalPoliciesTable.channelMessages"
+                    />,
+                  },
+                  Object {
+                    "field": "files",
+                    "name": <FormattedMessage
+                      defaultMessage="Files"
+                      id="admin.data_retention.globalPoliciesTable.files"
+                    />,
+                  },
+                  Object {
+                    "className": "actionIcon",
+                    "field": "actions",
+                    "name": "",
+                  },
+                ]
+              }
+              endCount={4}
+              loading={false}
+              nextPage={[Function]}
+              page={0}
+              previousPage={[Function]}
+              rows={
+                Array [
+                  Object {
+                    "cells": Object {
+                      "actions": <MenuWrapper
+                        animationComponent={[Function]}
+                        className=""
+                        isDisabled={false}
+                        stopPropagationOnToggle={true}
+                      >
+                        <div
+                          className="text-right"
+                        >
+                          <a>
+                            <i
+                              className="icon icon-dots-vertical"
+                            />
+                          </a>
+                        </div>
+                        <Menu
+                          ariaLabel="User Actions Menu"
+                          openLeft={false}
+                          openUp={false}
+                        >
+                          <MenuItemAction
+                            buttonClass="edit_global_policy"
+                            disabled={false}
+                            onClick={[Function]}
+                            show={true}
+                            text="Edit"
+                          />
+                        </Menu>
+                      </MenuWrapper>,
+                      "channel_messages": <div
+                        data-testid="global_message_retention_cell"
+                      >
+                        <FormattedMessage
+                          defaultMessage="{count} {count, plural, one {day} other {days}}"
+                          id="admin.data_retention.retention_days"
+                          values={
+                            Object {
+                              "count": "100",
+                            }
+                          }
+                        />
+                      </div>,
+                      "description": "Applies to all teams and channels, but does not apply to custom retention policies.",
+                      "files": <div
+                        data-testid="global_file_retention_cell"
+                      >
+                        <FormattedMessage
+                          defaultMessage="{count} {count, plural, one {day} other {days}}"
+                          id="admin.data_retention.retention_days"
+                          values={
+                            Object {
+                              "count": "100",
+                            }
+                          }
+                        />
+                      </div>,
+                    },
+                    "onClick": [Function],
+                  },
+                ]
+              }
+              searchPlaceholder=""
+              startCount={1}
+              term=""
+              total={0}
+            />
+          </div>
         </CardBody>
       </Card>
       <Card
@@ -868,106 +941,123 @@ exports[`components/admin_console/data_retention_settings/data_retention_setting
         <CardBody
           expanded={true}
         >
-          <DataGrid
-            className="customTable"
-            columns={
-              Array [
-                Object {
-                  "field": "description",
-                  "name": <FormattedMessage
-                    defaultMessage="Description"
-                    id="admin.data_retention.customPoliciesTable.description"
-                  />,
-                },
-                Object {
-                  "field": "channel_messages",
-                  "name": <FormattedMessage
-                    defaultMessage="Channel messages"
-                    id="admin.data_retention.customPoliciesTable.channelMessages"
-                  />,
-                },
-                Object {
-                  "field": "applied_to",
-                  "name": <FormattedMessage
-                    defaultMessage="Applied to"
-                    id="admin.data_retention.customPoliciesTable.appliedTo"
-                  />,
-                },
-                Object {
-                  "className": "actionIcon",
-                  "field": "actions",
-                  "name": "",
-                },
-              ]
-            }
-            endCount={1}
-            loading={true}
-            nextPage={[Function]}
-            page={0}
-            previousPage={[Function]}
-            rows={
-              Array [
-                Object {
-                  "cells": Object {
-                    "actions": <MenuWrapper
-                      animationComponent={[Function]}
-                      className=""
-                      isDisabled={false}
-                      stopPropagationOnToggle={true}
-                    >
-                      <div
-                        className="text-right"
-                      >
-                        <a>
-                          <i
-                            className="icon icon-dots-vertical"
-                          />
-                        </a>
-                      </div>
-                      <Menu
-                        ariaLabel="User Actions Menu"
-                        openLeft={false}
-                        openUp={false}
-                      >
-                        <MenuItemAction
-                          disabled={false}
-                          onClick={[Function]}
-                          show={true}
-                          text="Edit"
-                        />
-                        <MenuItemAction
-                          disabled={false}
-                          onClick={[Function]}
-                          show={true}
-                          text="Delete"
-                        />
-                      </Menu>
-                    </MenuWrapper>,
-                    "applied_to": <FormattedMessage
-                      defaultMessage="{team_count} {team_count, plural, one {team} other {teams}}, {channel_count} {channel_count, plural, one {channel} other {channels}}"
-                      id="admin.data_retention.channel_team_counts"
-                      values={
-                        Object {
-                          "channel_count": 2,
-                          "team_count": 1,
-                        }
-                      }
+          <div
+            id="custom_policy_table"
+          >
+            <DataGrid
+              className="customTable"
+              columns={
+                Array [
+                  Object {
+                    "field": "description",
+                    "name": <FormattedMessage
+                      defaultMessage="Description"
+                      id="admin.data_retention.customPoliciesTable.description"
                     />,
-                    "channel_messages": <FormattedMessage
-                      defaultMessage="Keep forever"
-                      id="admin.data_retention.form.keepForever"
-                    />,
-                    "description": "Custom policy 1",
                   },
-                  "onClick": [Function],
-                },
-              ]
-            }
-            searchPlaceholder=""
-            startCount={1}
-            term=""
-            total={1}
-          />
+                  Object {
+                    "field": "channel_messages",
+                    "name": <FormattedMessage
+                      defaultMessage="Channel messages"
+                      id="admin.data_retention.customPoliciesTable.channelMessages"
+                    />,
+                  },
+                  Object {
+                    "field": "applied_to",
+                    "name": <FormattedMessage
+                      defaultMessage="Applied to"
+                      id="admin.data_retention.customPoliciesTable.appliedTo"
+                    />,
+                  },
+                  Object {
+                    "className": "actionIcon",
+                    "field": "actions",
+                    "name": "",
+                  },
+                ]
+              }
+              endCount={1}
+              loading={true}
+              nextPage={[Function]}
+              page={0}
+              previousPage={[Function]}
+              rows={
+                Array [
+                  Object {
+                    "cells": Object {
+                      "actions": <MenuWrapper
+                        animationComponent={[Function]}
+                        className=""
+                        id="customWrapper-1234567"
+                        isDisabled={false}
+                        stopPropagationOnToggle={true}
+                      >
+                        <div
+                          className="text-right"
+                        >
+                          <a>
+                            <i
+                              className="icon icon-dots-vertical"
+                            />
+                          </a>
+                        </div>
+                        <Menu
+                          ariaLabel="User Actions Menu"
+                          openLeft={false}
+                          openUp={false}
+                        >
+                          <MenuItemAction
+                            disabled={false}
+                            onClick={[Function]}
+                            show={true}
+                            text="Edit"
+                          />
+                          <MenuItemAction
+                            disabled={false}
+                            onClick={[Function]}
+                            show={true}
+                            text="Delete"
+                          />
+                        </Menu>
+                      </MenuWrapper>,
+                      "applied_to": <div
+                        id="customAppliedTo-1234567"
+                      >
+                        <FormattedMessage
+                          defaultMessage="{team_count} {team_count, plural, one {team} other {teams}}, {channel_count} {channel_count, plural, one {channel} other {channels}}"
+                          id="admin.data_retention.channel_team_counts"
+                          values={
+                            Object {
+                              "channel_count": 2,
+                              "team_count": 1,
+                            }
+                          }
+                        />
+                      </div>,
+                      "channel_messages": <div
+                        id="customDuration-1234567"
+                      >
+                        <FormattedMessage
+                          defaultMessage="Keep forever"
+                          id="admin.data_retention.form.keepForever"
+                        />
+                      </div>,
+                      "description": <div
+                        id="customDescription-1234567"
+                      >
+                        Custom policy 1
+                      </div>,
+                    },
+                    "onClick": [Function],
+                  },
+                ]
+              }
+              searchPlaceholder=""
+              startCount={1}
+              term=""
+              total={1}
+            />
+          </div>
         </CardBody>
       </Card>
       <Card
@@ -1089,104 +1179,117 @@ exports[`components/admin_console/data_retention_settings/data_retention_setting
         <CardBody
           expanded={true}
         >
-          <DataGrid
-            className="customTable"
-            columns={
-              Array [
-                Object {
-                  "field": "description",
-                  "name": <FormattedMessage
-                    defaultMessage="Description"
-                    id="admin.data_retention.globalPoliciesTable.description"
-                  />,
-                },
-                Object {
-                  "field": "channel_messages",
-                  "name": <FormattedMessage
-                    defaultMessage="Channel messages"
-                    id="admin.data_retention.globalPoliciesTable.channelMessages"
-                  />,
-                },
-                Object {
-                  "field": "files",
-                  "name": <FormattedMessage
-                    defaultMessage="Files"
-                    id="admin.data_retention.globalPoliciesTable.files"
-                  />,
-                },
-                Object {
-                  "className": "actionIcon",
-                  "field": "actions",
-                  "name": "",
-                },
-              ]
-            }
-            endCount={4}
-            loading={false}
-            nextPage={[Function]}
-            page={0}
-            previousPage={[Function]}
-            rows={
-              Array [
-                Object {
-                  "cells": Object {
-                    "actions": <MenuWrapper
-                      animationComponent={[Function]}
-                      className=""
-                      isDisabled={false}
-                      stopPropagationOnToggle={true}
-                    >
-                      <div
-                        className="text-right"
-                      >
-                        <a>
-                          <i
-                            className="icon icon-dots-vertical"
-                          />
-                        </a>
-                      </div>
-                      <Menu
-                        ariaLabel="User Actions Menu"
-                        openLeft={false}
-                        openUp={false}
-                      >
-                        <MenuItemAction
-                          disabled={false}
-                          onClick={[Function]}
-                          show={true}
-                          text="Edit"
-                        />
-                      </Menu>
-                    </MenuWrapper>,
-                    "channel_messages": <FormattedMessage
-                      defaultMessage="{count} {count, plural, one {day} other {days}}"
-                      id="admin.data_retention.retention_days"
-                      values={
-                        Object {
-                          "count": "100",
-                        }
-                      }
-                    />,
-                    "description": "Applies to all teams and channels, but does not apply to custom retention policies.",
-                    "files": <FormattedMessage
-                      defaultMessage="{count} {count, plural, one {day} other {days}}"
-                      id="admin.data_retention.retention_days"
-                      values={
-                        Object {
-                          "count": "100",
-                        }
-                      }
+          <div
+            id="global_policy_table"
+          >
+            <DataGrid
+              className="customTable"
+              columns={
+                Array [
+                  Object {
+                    "field": "description",
+                    "name": <FormattedMessage
+                      defaultMessage="Description"
+                      id="admin.data_retention.globalPoliciesTable.description"
                     />,
                   },
-                  "onClick": [Function],
-                },
-              ]
-            }
-            searchPlaceholder=""
-            startCount={1}
-            term=""
-            total={0}
-          />
+                  Object {
+                    "field": "channel_messages",
+                    "name": <FormattedMessage
+                      defaultMessage="Channel messages"
+                      id="admin.data_retention.globalPoliciesTable.channelMessages"
+                    />,
+                  },
+                  Object {
+                    "field": "files",
+                    "name": <FormattedMessage
+                      defaultMessage="Files"
+                      id="admin.data_retention.globalPoliciesTable.files"
+                    />,
+                  },
+                  Object {
+                    "className": "actionIcon",
+                    "field": "actions",
+                    "name": "",
+                  },
+                ]
+              }
+              endCount={4}
+              loading={false}
+              nextPage={[Function]}
+              page={0}
+              previousPage={[Function]}
+              rows={
+                Array [
+                  Object {
+                    "cells": Object {
+                      "actions": <MenuWrapper
+                        animationComponent={[Function]}
+                        className=""
+                        isDisabled={false}
+                        stopPropagationOnToggle={true}
+                      >
+                        <div
+                          className="text-right"
+                        >
+                          <a>
+                            <i
+                              className="icon icon-dots-vertical"
+                            />
+                          </a>
+                        </div>
+                        <Menu
+                          ariaLabel="User Actions Menu"
+                          openLeft={false}
+                          openUp={false}
+                        >
+                          <MenuItemAction
+                            buttonClass="edit_global_policy"
+                            disabled={false}
+                            onClick={[Function]}
+                            show={true}
+                            text="Edit"
+                          />
+                        </Menu>
+                      </MenuWrapper>,
+                      "channel_messages": <div
+                        data-testid="global_message_retention_cell"
+                      >
+                        <FormattedMessage
+                          defaultMessage="{count} {count, plural, one {day} other {days}}"
+                          id="admin.data_retention.retention_days"
+                          values={
+                            Object {
+                              "count": "100",
+                            }
+                          }
+                        />
+                      </div>,
+                      "description": "Applies to all teams and channels, but does not apply to custom retention policies.",
+                      "files": <div
+                        data-testid="global_file_retention_cell"
+                      >
+                        <FormattedMessage
+                          defaultMessage="{count} {count, plural, one {day} other {days}}"
+                          id="admin.data_retention.retention_days"
+                          values={
+                            Object {
+                              "count": "100",
+                            }
+                          }
+                        />
+                      </div>,
+                    },
+                    "onClick": [Function],
+                  },
+                ]
+              }
+              searchPlaceholder=""
+              startCount={1}
+              term=""
+              total={0}
+            />
+          </div>
         </CardBody>
       </Card>
       <Card
@@ -1219,49 +1322,53 @@ exports[`components/admin_console/data_retention_settings/data_retention_setting
         <CardBody
           expanded={true}
         >
-          <DataGrid
-            className="customTable"
-            columns={
-              Array [
-                Object {
-                  "field": "description",
-                  "name": <FormattedMessage
-                    defaultMessage="Description"
-                    id="admin.data_retention.customPoliciesTable.description"
-                  />,
-                },
-                Object {
-                  "field": "channel_messages",
-                  "name": <FormattedMessage
-                    defaultMessage="Channel messages"
-                    id="admin.data_retention.customPoliciesTable.channelMessages"
-                  />,
-                },
-                Object {
-                  "field": "applied_to",
-                  "name": <FormattedMessage
-                    defaultMessage="Applied to"
-                    id="admin.data_retention.customPoliciesTable.appliedTo"
-                  />,
-                },
-                Object {
-                  "className": "actionIcon",
-                  "field": "actions",
-                  "name": "",
-                },
-              ]
-            }
-            endCount={0}
-            loading={true}
-            nextPage={[Function]}
-            page={0}
-            previousPage={[Function]}
-            rows={Array []}
-            searchPlaceholder=""
-            startCount={1}
-            term=""
-            total={0}
-          />
+          <div
+            id="custom_policy_table"
+          >
+            <DataGrid
+              className="customTable"
+              columns={
+                Array [
+                  Object {
+                    "field": "description",
+                    "name": <FormattedMessage
+                      defaultMessage="Description"
+                      id="admin.data_retention.customPoliciesTable.description"
+                    />,
+                  },
+                  Object {
+                    "field": "channel_messages",
+                    "name": <FormattedMessage
+                      defaultMessage="Channel messages"
+                      id="admin.data_retention.customPoliciesTable.channelMessages"
+                    />,
+                  },
+                  Object {
+                    "field": "applied_to",
+                    "name": <FormattedMessage
+                      defaultMessage="Applied to"
+                      id="admin.data_retention.customPoliciesTable.appliedTo"
+                    />,
+                  },
+                  Object {
+                    "className": "actionIcon",
+                    "field": "actions",
+                    "name": "",
+                  },
+                ]
+              }
+              endCount={0}
+              loading={true}
+              nextPage={[Function]}
+              page={0}
+              previousPage={[Function]}
+              rows={Array []}
+              searchPlaceholder=""
+              startCount={1}
+              term=""
+              total={0}
+            />
+          </div>
         </CardBody>
       </Card>
       <Card
