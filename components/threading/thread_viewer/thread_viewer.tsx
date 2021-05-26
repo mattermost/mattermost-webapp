@@ -467,6 +467,7 @@ export default class ThreadViewer extends React.Component<Props, State> {
                     a11yIndex={a11yIndex++}
                     isLastPost={comPost.id === lastRhsCommentPost.id}
                     timestampProps={this.props.useRelativeTimestamp ? THREADING_TIME : undefined}
+                    containerHeight={this.containerRef.current?.getBoundingClientRect().height}
                 />,
             );
         }

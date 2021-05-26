@@ -57,6 +57,7 @@ class RhsComment extends React.PureComponent {
         isConsecutivePost: PropTypes.bool,
         handleCardClick: PropTypes.func,
         a11yIndex: PropTypes.number,
+        containerHeight: PropTypes.number,
 
         /**
          * If the user that made the post is a bot.
@@ -158,8 +159,21 @@ class RhsComment extends React.PureComponent {
 
     scrollIntoHighlight = () => {
         window.requestAnimationFrame(() => {
-            this.postRef.current.scrollIntoView();
+            if (!this.isInViewport()) {
+                this.postRef.current.scrollIntoView();
+            }
         });
+    }
+
+    isInViewport = () => {
+        const rect = this.postRef.current.getBoundingClientRect();
+        const {containerHeight} = this.props;
+        const height = window.innerHeight || document.documentElement.clientHeight;
+
+        return (
+            rect.top > height - containerHeight &&
+            rect.bottom < (window.innerHeight || document.documentElement.clientHeight)
+        );
     }
 
     handleShortcutReactToLastPost = (isLastPost) => {
