@@ -9,6 +9,7 @@ import {shouldShowTermsOfService, getCurrentUserId} from 'mattermost-redux/selec
 import {getTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import {loadMeAndConfig} from 'actions/views/root';
+import {setBrowserNotificationsPermission} from 'actions/notification_actions';
 import LocalStorageStore from 'stores/local_storage_store';
 
 import Root from './root.jsx';
@@ -35,6 +36,7 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             loadMeAndConfig,
+            setBrowserNotificationsPermission,
         }, dispatch),
     };
 }

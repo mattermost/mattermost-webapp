@@ -92,6 +92,7 @@ export default class Root extends React.PureComponent {
         permalinkRedirectTeamName: PropTypes.string,
         actions: PropTypes.shape({
             loadMeAndConfig: PropTypes.func.isRequired,
+            setBrowserNotificationsPermission: PropTypes.func.isRequired,
         }).isRequired,
         plugins: PropTypes.array,
     }
@@ -106,6 +107,8 @@ export default class Root extends React.PureComponent {
         setUrl(getSiteURL());
 
         setSystemEmojis(EmojiIndicesByAlias);
+
+        this.props.actions.setBrowserNotificationsPermission();
 
         // Force logout of all tabs if one tab is logged out
         window.addEventListener('storage', this.handleLogoutLoginSignal);

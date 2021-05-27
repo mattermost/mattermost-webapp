@@ -23,6 +23,14 @@ export interface ShowNotificationParams {
     onClick?: (this: Notification, e: Event) => any | null;
 }
 
+export function getNotificationsPermission() {
+    if (!('Notification' in window)) {
+        throw new Error('Notification not supported');
+    }
+
+    return Notification.permission;
+}
+
 export async function requestNotificationsPermission() {
     if (!('Notification' in window)) {
         throw new Error('Notification not supported');

@@ -15,7 +15,7 @@ import {displayUsername} from 'mattermost-redux/utils/user_utils';
 
 import {browserHistory} from 'utils/browser_history';
 import Constants, {ActionTypes, NotificationLevels, UserStatuses} from 'utils/constants';
-import {showNotification, requestNotificationsPermission} from 'utils/notifications';
+import {showNotification, requestNotificationsPermission, getNotificationsPermission} from 'utils/notifications';
 import {isDesktopApp, isMacApp, isMobileApp, isWindowsApp} from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
 import {stripMarkdown} from 'utils/markdown';
@@ -204,3 +204,14 @@ export const enableBrowserNotifications = () => {
         });
     };
 };
+
+export const setBrowserNotificationsPermission = () => {
+    return (dispatch) => {
+        const permission = getNotificationsPermission();
+
+        dispatch({
+            type: ActionTypes.BROWSER_NOTIFICATIONS_PERMISSION_RECEIVED,
+            data: permission === 'granted'
+        });
+    };
+}
