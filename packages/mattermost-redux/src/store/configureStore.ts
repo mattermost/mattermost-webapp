@@ -3,7 +3,7 @@
 
 import {createStore, applyMiddleware, Store, combineReducers} from 'redux';
 import thunk from 'redux-thunk';
-import {composeWithDevTools} from 'redux-devtools-extension';
+import {composeWithDevTools} from 'redux-devtools-extension/developmentOnly';
 
 import {GlobalState} from 'mattermost-redux/types/store';
 import {Action, Reducer} from 'mattermost-redux/types/actions';
@@ -26,9 +26,7 @@ export default function configureStore(preloadedState: any, appReducer: any, per
     const baseState = Object.assign({}, initialState, preloadedState);
 
     let middleware = applyMiddleware(thunk);
-    if (process.env.NODE_ENV !== 'production') {
-        middleware = composeWithDevTools(middleware);
-    }
+    middleware = composeWithDevTools(middleware);
 
     const store = createStore(
         createReducer(baseState, serviceReducer as any, appReducer),
