@@ -24,13 +24,25 @@ import {t} from 'utils/i18n.jsx';
 import {isGuest} from 'utils/utils';
 
 import './users_emails_input.scss';
+import { UserProfile } from 'mattermost-redux/types/users';
 
-type onChangeInput = {id:string;
-  value:string}
-type Props = {
+type Option = {
+    username: string;
+    email: string;
+}
+
+type UserEmailInputState = {
+    options: Option[]
+}
+
+type onChangeInput = {
+    id:string; 
+    value:string
+}
+type Props  = {
   placeholder: string;
   ariaLabel: string;
-  usersLoader: (input:string, customCallback:(options:object) => void) => void;
+  usersLoader: (input:string, customCallback:(options:Option[]) => void) => Promise<void>;
   onChange: () => string;
   showError: boolean;
   errorMessageId: string;
@@ -49,8 +61,11 @@ type Props = {
   extraErrorText: any;
 }
 
-export default class UsersEmailsInput extends React.PureComponent {
+export default class UsersEmailsInput extends React.PureComponent<Props> {
+
     selectRef:React.RefObject<HTMLSelectElement>
+    state:UserEmailInputState;
+
     static propTypes = {
         placeholder: PropTypes.string,
         ariaLabel: PropTypes.string.isRequired,
@@ -72,7 +87,6 @@ export default class UsersEmailsInput extends React.PureComponent {
         emailInvitationsEnabled: PropTypes.bool,
         extraErrorText: PropTypes.any,
     }
-
     static defaultProps = {
         noMatchMessageId: t('widgets.users_emails_input.no_user_found_matching'),
         noMatchMessageDefault: 'No one found matching **{text}**, type email address',
@@ -83,7 +97,8 @@ export default class UsersEmailsInput extends React.PureComponent {
         showError: false,
     };
 
-    constructor(props) {
+
+    constructor(props:Props) {
         super(props);
         this.selectRef = React.createRef();
         this.state = {
@@ -91,7 +106,7 @@ export default class UsersEmailsInput extends React.PureComponent {
         };
     }
 
-    renderUserName = (user) => {
+    renderUserName = (user:UserProfile) => {
         const parts = getLongDisplayNameParts(user);
         let fullName = null;
         if (parts.fullName) {
@@ -122,11 +137,11 @@ export default class UsersEmailsInput extends React.PureComponent {
         return (<LoadingSpinner text={text}/>);
     }
 
-    getOptionValue = (user) => {
+    getOptionValue = (user:UserProfile) => {
         return user.id || user.value;
     }
 
-    formatOptionLabel = (user, options) => {
+    formatOptionLabel = (user:UserProfile, options:{context: string}) => {
         const profileImg = imageURLForUser(user.id, user.last_picture_update);
         let guestBadge = null;
         let botBadge = null;
@@ -135,7 +150,7 @@ export default class UsersEmailsInput extends React.PureComponent {
             botBadge = <BotBadge/>;
         }
 
-        if (!isEmail(user.value) && isGuest(user)) {
+        if (!isEmail(user?.value || "") && isGuest(user)) {
             guestBadge = <GuestBadge/>;
         }
 
@@ -191,7 +206,7 @@ export default class UsersEmailsInput extends React.PureComponent {
         }
     }
 
-    getCreateLabel = (value) => (
+    getCreateLabel = (value: string) => (
         <React.Fragment>
             <MailPlusIcon className='mail-plus-icon'/>
             <FormattedMarkdownMessage
@@ -204,7 +219,7 @@ export default class UsersEmailsInput extends React.PureComponent {
         </React.Fragment>
     );
 
-    NoOptionsMessage = (props) => {
+    NoOptionsMessage = (props:{selectProps:{inputValue: string}}) => {
         const inputValue = props.selectProps.inputValue;
         if (!inputValue) {
             return null;
@@ -218,7 +233,7 @@ export default class UsersEmailsInput extends React.PureComponent {
                     values={{text: inputValue}}
                     disableLinks={true}
                 >
-                    {(message) => (
+                    {(message: string) => (
                         <components.NoOptionsMessage {...props}>
                             {message}
                         </components.NoOptionsMessage>
@@ -228,7 +243,7 @@ export default class UsersEmailsInput extends React.PureComponent {
         );
     };
 
-    MultiValueRemove = ({children, innerProps}) => (
+    MultiValueRemove = ({children, innerProps}:{children:React.ReactElement, }) => (
         <div {...innerProps}>
             {children || <CloseCircleSolidIcon/>}
         </div>
@@ -240,7 +255,7 @@ export default class UsersEmailsInput extends React.PureComponent {
         IndicatorsContainer: () => null,
     };
 
-    handleInputChange = (inputValue, action) => {
+    handleInputChange = (inputValue:onChangeInput|string, action:{action:string}) => {
         if (action.action === 'input-blur' && inputValue !== '') {
             const values = this.props.value.map((v) => {
                 if (v.id) {
@@ -272,8 +287,8 @@ export default class UsersEmailsInput extends React.PureComponent {
         }
     }
 
-    optionsLoader = (input, callback) => {
-        const customCallback = (options) => {
+    optionsLoader = (_:void, callback:(options:Option[]) => string) => {
+        const customCallback = (options:Option[]) => {
             this.setState({options});
             callback(options);
         };
