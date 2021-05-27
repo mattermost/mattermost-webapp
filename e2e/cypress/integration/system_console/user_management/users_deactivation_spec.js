@@ -14,12 +14,21 @@ import * as MESSAGES from '../../../fixtures/messages';
 
 describe('System Console > User Management > Deactivation', () => {
     let team1;
+    let userToDeactivate;
 
     before(() => {
         // # Do initial setup
         cy.apiInitSetup().then(({team}) => {
             team1 = team;
         });
+
+        // # Create a new user
+        cy.apiCreateUser().then(({user}) => {
+            userToDeactivate = user;
+        });
+
+        // # Login as admin
+        cy.apiAdminLogin();
     });
 
     beforeEach(() => {
@@ -159,6 +168,42 @@ describe('System Console > User Management > Deactivation', () => {
             cy.uiGetLhsSection('DIRECT MESSAGES').
                 find('.active').should('be.visible').
                 find('.icon-archive-outline').should('be.visible');
+        });
+    });
+
+    it('MM-T947 When deactivating users in the System Console, email address should not disappear', () => {
+        // # Visit the system console.
+        cy.visit('/admin_console');
+
+        // # Go to User management / Users tab
+        cy.findByTestId('user_management.system_users').should('be.visible').click();
+
+        // # Search the newly created user in the search box
+        cy.findByPlaceholderText('Search users').should('be.visible').clear().type(userToDeactivate.email);
+
+        // * Verify that user is listed
+        cy.findByText(`@${userToDeactivate.username}`).should('be.visible');
+
+        // # Scan on the first item's row in the list
+        cy.findAllByTestId('userListRow').eq(0).should('be.visible').within(() => {
+            // * Verify before deactivation email is visible
+            cy.findByText(userToDeactivate.email).should('be.visible');
+
+            // # Click on the members menu
+            cy.findByText('Member').parents('a').should('exist').click({force: true}).wait(TIMEOUTS.HALF_SEC);
+        });
+
+        // # Click on deactivate menu button
+        cy.findByText('Deactivate').should('be.visible').click();
+
+        // # Click confirm deactivate
+        cy.get('.a11y__modal').should('exist').and('be.visible').within(() => {
+            cy.findByText('Deactivate').should('be.visible').click();
+        });
+
+        // * Verify once again if email is visible
+        cy.findAllByTestId('userListRow').eq(0).should('be.visible').within(() => {
+            cy.findByText(userToDeactivate.email).should('be.visible');
         });
     });
 });
