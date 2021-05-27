@@ -19,6 +19,7 @@ import {selectPost} from 'actions/views/rhs';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getThreadOrSynthetic} from 'mattermost-redux/selectors/entities/threads';
+import {getPost} from 'mattermost-redux/selectors/entities/posts';
 
 import Avatars from 'components/widgets/users/avatars';
 import Timestamp from 'components/timestamp';
@@ -37,7 +38,8 @@ function ThreadFooter({
     const dispatch = useDispatch();
     const currentTeamId = useSelector(getCurrentTeamId);
     const currentUserId = useSelector(getCurrentUserId);
-    const thread = useSelector((state: GlobalState) => getThreadOrSynthetic(state, threadId));
+    const post = useSelector((state: GlobalState) => getPost(state, threadId));
+    const thread = useSelector((state: GlobalState) => getThreadOrSynthetic(state, post));
 
     useEffect(() => {
         if (threadIsSynthetic(thread) && thread.is_following) {
