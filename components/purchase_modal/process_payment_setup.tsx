@@ -17,6 +17,8 @@ import processSvg from 'images/cloud/processing_payment.svg';
 
 import './process_payment.css';
 
+import {Product} from 'mattermost-redux/types/cloud';
+
 import IconMessage from './icon_message';
 
 type Props = {
@@ -25,8 +27,10 @@ type Props = {
     isDevMode: boolean;
     contactSupportLink: string;
     addPaymentMethod: (stripe: Stripe, billingDetails: BillingDetails, isDevMode: boolean) => Promise<boolean | null>;
+    subscribeCloudSubscription: ((productId: string) => Promise<boolean | null>) | null;
     onBack: () => void;
     onClose: () => void;
+    selectedProduct?: Product | null | undefined;
 }
 
 type State = {
@@ -83,7 +87,13 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
 
     private savePaymentMethod = async () => {
         const start = new Date();
-        const {stripe, addPaymentMethod, billingDetails, isDevMode} = this.props;
+        const {
+            stripe,
+            addPaymentMethod,
+            billingDetails,
+            isDevMode,
+            subscribeCloudSubscription,
+        } = this.props;
         const success = await addPaymentMethod((await stripe)!, billingDetails!, isDevMode);
 
         if (!success) {
@@ -91,6 +101,17 @@ export default class ProcessPaymentSetup extends React.PureComponent<Props, Stat
                 error: true,
                 state: ProcessState.FAILED});
             return;
+        }
+
+        if (subscribeCloudSubscription) {
+            const productUpdated = await subscribeCloudSubscription(this.props.selectedProduct?.id as string);
+
+            if (!productUpdated) {
+                this.setState({
+                    error: true,
+                    state: ProcessState.FAILED});
+                return;
+            }
         }
 
         const end = new Date();

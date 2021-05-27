@@ -252,7 +252,7 @@ export function createGroupChannel(userIds: string[]): ActionFunc {
     };
 }
 
-export function patchChannel(channelId: string, patch: Channel): ActionFunc {
+export function patchChannel(channelId: string, patch: Partial<Channel>): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         dispatch({type: ChannelTypes.UPDATE_CHANNEL_REQUEST, data: null});
 
