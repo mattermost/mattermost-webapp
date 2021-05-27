@@ -246,8 +246,9 @@ export function markPostAsUnread(post, location) {
 
         // if CRT:ON and this is from within ThreadViewer (e.g. post dot-menu), mark the thread as unread
         if (isCollapsedThreadsEnabled(state) && (location === 'RHS_ROOT' || location === 'RHS_COMMENT')) {
-            dispatch(updateThreadLastOpened(post.root_id, post.create_at));
-            await dispatch(ThreadActions.updateThreadRead(userId, currentTeamId, post.root_id || post.id, post.create_at));
+            const threadId = post.root_id || post.id;
+            dispatch(updateThreadLastOpened(threadId, post.create_at));
+            await dispatch(ThreadActions.updateThreadRead(userId, currentTeamId, threadId, post.create_at));
         } else {
             // use normal channel unread system
             await dispatch(PostActions.setUnreadPost(userId, post.id));
@@ -321,7 +322,7 @@ export function resetInlineImageVisibility() {
     return StorageActions.actionOnGlobalItemsWithPrefix(StoragePrefixes.INLINE_IMAGE_VISIBLE, () => null);
 }
 
-/**
+/*
  * It is called from either center or rhs text input when shortcut for react to last message is pressed
  *
  * @param {string} emittedFrom - It can be either "CENTER", "RHS_ROOT" or "NO_WHERE"
