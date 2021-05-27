@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {ReactNode} from 'react';
 
 import Badge from 'components/widgets/badges/badge';
 
@@ -9,7 +9,7 @@ type RadioGroupProps = {
     id: string;
     values: Array<{ key: string; value: string}>;
     value: string;
-    badge?: {matchVal: string; text: string};
+    badge?: {matchVal: string; text: ReactNode};
     isDisabled?: (id: string) => boolean | boolean;
     onChange(e: React.ChangeEvent<HTMLInputElement>): void;
 }

@@ -347,6 +347,7 @@
   "admin.billing.subscription.privateCloudCard.freeTrial.title": "Questions about your trial?",
   "admin.billing.subscription.privateCloudCard.upgradeNow": "Upgrade Now",
   "admin.billing.subscription.providePaymentDetails": "Provide Your Payment Details",
+  "admin.billing.subscription.purchaseModal.currentPlan": "Current Plan",
   "admin.billing.subscription.questions": "Questions?",
   "admin.billing.subscription.stateprovince": "State/Province",
   "admin.billing.subscription.title": "Subscriptions",

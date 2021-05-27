@@ -187,6 +187,12 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
         const options = Object.keys(products).map((key: string) => {
             return {key: products[key].name, value: products[key].id};
         });
+        const badgeTitle = (
+            <FormattedMessage
+                defaultMessage={'Current Plan'}
+                id={'admin.billing.subscription.purchaseModal.currentPlan'}
+            />
+        );
 
         return (
             <div className='plans-list'>
@@ -194,7 +200,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                     id='list-plans-radio-buttons'
                     values={options!}
                     value={this.state.nextProductToUpgrade?.id as string}
-                    badge={{matchVal: this.state.currentProduct?.id as string, text: 'Current Plan'}}
+                    badge={{matchVal: this.state.currentProduct?.id as string, text: badgeTitle}}
                     onChange={(e: any) => this.onPlanSelected(e)}
                 />
             </div>
