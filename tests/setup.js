@@ -109,5 +109,3 @@ expect.extend({
         };
     },
 });
-
-process.env.TZ = 'Etc/UTC';

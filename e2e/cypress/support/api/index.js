@@ -18,3 +18,4 @@ import './system';
 import './team';
 import './user';
 import './webhooks';
+import './data_retention';

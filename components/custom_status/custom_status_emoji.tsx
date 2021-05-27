@@ -23,11 +23,12 @@ interface ComponentProps {
 const CustomStatusEmoji = (props: ComponentProps) => {
     const getCustomStatus = makeGetCustomStatus();
     const {emojiSize, emojiStyle, spanStyle, showTooltip, tooltipDirection, userID, onClick} = props;
+
     const customStatusEnabled = useSelector(isCustomStatusEnabled);
-    const customStatus = useSelector((state: GlobalState) => {
-        return getCustomStatus(state, userID);
-    });
-    if (!(customStatusEnabled && customStatus && customStatus.emoji)) {
+    const customStatus = useSelector((state: GlobalState) => getCustomStatus(state, userID));
+    const isCustomStatusSet = Boolean(customStatusEnabled && customStatus && customStatus.emoji);
+
+    if (!isCustomStatusSet) {
         return null;
     }
 

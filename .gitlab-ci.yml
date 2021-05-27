@@ -20,7 +20,7 @@ empty:
 
 test: #todo check on how to create junit.xml, there currently is none
   stage: test
-  image: $CI_REGISTRY/mattermost/ci/images/mattermost-build-webapp:20210518_node-14.16-1
+  image: $CI_REGISTRY/mattermost/ci/images/mattermost-build-webapp:20210524_node-16
   cache:
     key:
       files:
@@ -59,7 +59,7 @@ test: #todo check on how to create junit.xml, there currently is none
     - npm run check
 
     # unit tests
-    - npm run test-ci-gitlab
+    - npm run test-ci
   timeout: 3 hours
   rules:
     - if: '$CI_COMMIT_REF_NAME == "master" && $TEST == "yes"'

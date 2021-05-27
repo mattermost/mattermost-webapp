@@ -974,7 +974,7 @@
         text-decoration: none;
         padding: 7px 16px 7px 14px;
         display: flex;
-        color: rgba(var(--sidebar-text-rgb), 0.6);
+        color: rgba(var(--sidebar-text-rgb), 0.72);
         align-items: center;
         margin-right: 0;
         width: 240px;
@@ -1069,6 +1069,7 @@
     }
 
     .SidebarChannel.unread .SidebarChannelLinkLabel,
+    .SidebarChannel.unread .SidebarLink > i,
     .SidebarChannel.unread .SidebarLink:hover .SidebarChannelLinkLabel {
         font-weight: 600;
         color: var(--sidebar-unread-text);
