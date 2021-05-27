@@ -9,11 +9,11 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import CardImage from 'components/payment_form/card_image';
 import {GlobalState} from 'types/store';
 
-export interface PaymentInfoDetailsProps {
+export interface PaymentDetailsProps {
     children?: React.ReactNode;
 }
 
-const PaymentInfoDetails: React.FC<PaymentInfoDetailsProps> = ({children}: PaymentInfoDetailsProps) => {
+const PaymentDetails: React.FC<PaymentDetailsProps> = ({children}: PaymentDetailsProps) => {
     const paymentInfo = useSelector((state: GlobalState) => state.entities.cloud.customer);
 
     if (!paymentInfo?.payment_method && !paymentInfo?.billing_address) {
@@ -55,9 +55,9 @@ const PaymentInfoDetails: React.FC<PaymentInfoDetailsProps> = ({children}: Payme
                 <div>{`${address.city}, ${address.state}, ${address.postal_code}`}</div>
                 <div>{address.country}</div>
             </div>
-            {children || null}
+            {children}
         </div>
     );
 };
 
-export default PaymentInfoDetails;
+export default PaymentDetails;

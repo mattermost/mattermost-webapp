@@ -11,7 +11,7 @@ import noPaymentInfoGraphic from 'images/no_payment_info_graphic.svg';
 import {GlobalState} from 'types/store';
 
 import './payment_info_display.scss';
-import PaymentInfoDetails from './payment_info_details';
+import PaymentDetails from './payment_details';
 
 const addInfoButton = (
     <div className='PaymentInfoDisplay__addInfo'>
@@ -66,7 +66,7 @@ const PaymentInfoDisplay: React.FC = () => {
     if (paymentInfo?.payment_method && paymentInfo?.billing_address) {
         body = (
             <div className='PaymentInfoDisplay__paymentInfo'>
-                <PaymentInfoDetails/>
+                <PaymentDetails/>
                 <div className='PaymentInfoDisplay__paymentInfo-edit'>
                     { // TODO: remove payment info?
                     /* <a

@@ -7,7 +7,9 @@ import {Stripe, StripeCardElementChangeEvent} from '@stripe/stripe-js';
 import {loadStripe} from '@stripe/stripe-js/pure'; // https://github.com/stripe/stripe-js#importing-loadstripe-without-side-effects
 import {Elements} from '@stripe/react-stripe-js';
 
-import {Product} from 'mattermost-redux/types/cloud';
+import {isEmpty} from 'lodash';
+
+import {CloudCustomer, Product} from 'mattermost-redux/types/cloud';
 import {Dictionary} from 'mattermost-redux/types/utilities';
 
 import upgradeImage from 'images/cloud/upgrade.svg';
@@ -18,7 +20,7 @@ import cloudLogo from 'images/cloud/mattermost-cloud.svg';
 import {trackEvent, pageVisited} from 'actions/telemetry_actions';
 import {TELEMETRY_CATEGORIES, CloudLinks} from 'utils/constants';
 
-import PaymentInfoDetails from 'components/admin_console/billing/payment_info_details';
+import PaymentDetails from 'components/admin_console/billing/payment_details';
 import {STRIPE_CSS_SRC, STRIPE_PUBLIC_KEY} from 'components/payment_form/stripe';
 import RootPortal from 'components/root_portal';
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
@@ -38,6 +40,7 @@ import 'components/payment_form/payment_form.scss';
 let stripePromise: Promise<Stripe | null>;
 
 type Props = {
+    customer: CloudCustomer | undefined;
     show: boolean;
     isDevMode: boolean;
     products: Dictionary<Product> | undefined;
@@ -97,7 +100,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
             billingDetails: null,
             cardInputComplete: false,
             processing: false,
-            editPaymentInfo: false,
+            editPaymentInfo: isEmpty(this.props.customer?.payment_method && this.props.customer?.billing_address),
             selectedProduct: findProductInDictionary(props.products, props.productId),
         };
     }
@@ -226,6 +229,20 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
             />
         );
 
+        let initialBillingDetails;
+
+        if (this.props.customer?.billing_address && this.props.customer?.payment_method) {
+            initialBillingDetails = {
+                address: this.props.customer?.billing_address.line1,
+                address2: this.props.customer?.billing_address.line2,
+                city: this.props.customer?.billing_address.city,
+                state: this.props.customer?.billing_address.state,
+                country: this.props.customer?.billing_address.country,
+                postalCode: this.props.customer?.billing_address.postal_code,
+                name: this.props.customer?.payment_method.name,
+            } as BillingDetails;
+        }
+
         return (
             <div className={this.state.processing ? 'processing' : ''}>
                 <div className='LHS'>
@@ -269,15 +286,16 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                             className='normal-text'
                             onInputChange={this.onPaymentInput}
                             onCardInputChange={this.handleCardInputChange}
+                            initialBillingDetails={initialBillingDetails}
                         /> :
-                        <div className='paymentInfoDetails'>
+                        <div className='PaymentDetails'>
                             <div className='title'>
                                 <FormattedMessage
                                     defaultMessage='Your saved payment details'
                                     id='admin.billing.purchaseModal.savedPaymentDetailsTitle'
                                 />
                             </div>
-                            <PaymentInfoDetails>
+                            <PaymentDetails>
                                 <button
                                     onClick={this.editPaymentInfoHandler}
                                     className='editPaymentButton'
@@ -287,7 +305,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                                         id='admin.billing.purchaseModal.editPaymentInfoButton'
                                     />
                                 </button>
-                            </PaymentInfoDetails>
+                            </PaymentDetails>
                         </div>
                     }
                 </div>

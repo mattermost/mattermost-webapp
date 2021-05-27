@@ -25,7 +25,6 @@ import PurchaseModal from './purchase_modal';
 
 function mapStateToProps(state: GlobalState) {
     const subscription = state.entities.cloud.subscription;
-
     return {
         show: isModalOpen(state, ModalIdentifiers.CLOUD_PURCHASE),
         products: state.entities.cloud!.products,
@@ -34,6 +33,7 @@ function mapStateToProps(state: GlobalState) {
         isFreeTrial: subscription?.is_free_trial === 'true',
         contactSalesLink: getCloudContactUsLink(state, InquiryType.Sales),
         productId: subscription?.product_id,
+        customer: state.entities.cloud.customer,
     };
 }
 type Actions = {
