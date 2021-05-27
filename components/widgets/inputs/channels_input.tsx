@@ -19,6 +19,7 @@ import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 import {t} from 'utils/i18n.jsx';
 
 import './channels_input.scss';
+import { Channel } from 'mattermost-redux/types/channels';
 
 export default class ChannelsInput extends React.PureComponent {
     static propTypes = {
@@ -50,7 +51,7 @@ export default class ChannelsInput extends React.PureComponent {
         };
     }
 
-    getOptionValue = (channel) => channel.id
+    getOptionValue = (channel:Channel) => channel.id
 
     handleInputChange = (inputValue, action) => {
         if (action.action === 'input-blur' && inputValue !== '') {
@@ -111,7 +112,7 @@ export default class ChannelsInput extends React.PureComponent {
         );
     };
 
-    formatOptionLabel = (channel) => {
+    formatOptionLabel = (channel:Channel) => {
         let icon = <PublicChannelIcon className='public-channel-icon'/>;
         if (channel.type === Constants.PRIVATE_CHANNEL) {
             icon = <PrivateChannelIcon className='private-channel-icon'/>;
@@ -131,7 +132,7 @@ export default class ChannelsInput extends React.PureComponent {
         }
     }
 
-    MultiValueRemove = ({children, innerProps}) => (
+    MultiValueRemove = ({children:React.Component[], innerProps}) => (
         <div {...innerProps}>
             {children || <CloseCircleSolidIcon/>}
         </div>
