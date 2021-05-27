@@ -1,9 +1,9 @@
 {
-  "name": "mattermost-webapp",
+  "name": "@mattermost/webapp",
   "browser": {
     "./client/web_client.jsx": "./client/browser_web_client.jsx"
   },
-  "version": "0.0.1",
+  "version": "5.36.0-0",
   "private": true,
   "dependencies": {
     "@formatjs/intl-pluralrules": "4.0.6",
@@ -261,15 +261,14 @@
     "build": "cross-env NODE_ENV=production webpack",
     "run": "webpack --progress --watch",
     "dev-server": "webpack serve --mode development",
-    "test": "jest --maxWorkers=50%",
-    "test-ci": "jest --ci --maxWorkers=8",
-    "test-ci-gitlab": "jest --ci --maxWorkers=4",
+    "test": "cross-env TZ=Etc/UTC jest --maxWorkers=50%",
+    "test-ci": "cross-env NODE_OPTIONS=--max_old_space_size=500 TZ=Etc/UTC jest --ci --maxWorkers=8",
     "stats": "cross-env NODE_ENV=production webpack --profile --json > webpack_stats.json",
-    "updatesnapshot": "jest --updateSnapshot",
-    "test:debug": "jest --forceExit --detectOpenHandles",
-    "test:speed": "jest",
-    "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage",
+    "updatesnapshot": "cross-env TZ=Etc/UTC jest --updateSnapshot",
+    "test:debug": "cross-env TZ=Etc/UTC jest --forceExit --detectOpenHandles",
+    "test:speed": "cross-env TZ=Etc/UTC jest",
+    "test:watch": "cross-env TZ=Etc/UTC jest --watch",
+    "test:coverage": "cross-env TZ=Etc/UTC jest --coverage",
     "mmjstool": "mmjstool",
     "i18n-extract": "npm run mmjstool -- i18n extract-webapp",
     "i18n-clean-empty": "npm run mmjstool -- i18n clean-empty --webapp-dir .",
@@ -277,5 +276,6 @@
     "storybook": "start-storybook -p 6006 -s ./storybook/static",
     "build-storybook": "build-storybook -s ./storybook/static",
     "check-types": "tsc"
-  }
+  },
+  "workspaces": []
 }
