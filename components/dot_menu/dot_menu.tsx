@@ -25,6 +25,7 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import DotsHorizontalIcon from 'components/widgets/icons/dots_horizontal';
 import {PluginComponent} from 'types/store/plugins';
 import {createCallContext, createCallRequest} from 'utils/apps';
+import {Props as SubMenuProps} from 'components/widgets/menu/menu_items/submenu_item';
 
 const MENU_BOTTOM_MARGIN = 80;
 
@@ -338,6 +339,32 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         }
     }
 
+    renderSubMenus = (bindings: AppBinding[] = []): SubMenuProps[] => {
+        return bindings.map((b) => {
+            let icon: React.ReactNode;
+            if (b.icon) {
+                icon = (<img src={b.icon}/>);
+            }
+            let action: ((id?: string | undefined) => void) | undefined;
+            let subMenu: SubMenuProps[] | undefined;
+
+            if (b.bindings?.length) {
+                subMenu = this.renderSubMenus(b.bindings);
+            } else {
+                action = () => this.onClickAppBinding(b);
+            }
+
+            return {
+                id: b.app_id + b.location,
+                text: b.label,
+                action,
+                icon,
+                postId: this.props.post.id,
+                subMenu,
+            };
+        });
+    }
+
     render() {
         const isSystemMessage = PostUtils.isSystemMessage(this.props.post);
         const isMobile = Utils.isMobile();
@@ -381,6 +408,19 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                     icon = (<img src={item.icon}/>);
                 }
 
+                if (item.bindings?.length) {
+                    return (
+                        <Menu.ItemSubMenu
+                            key={item.app_id + item.location}
+                            id={item.app_id + item.location}
+                            postId={this.props.post.id}
+                            text={item.label}
+                            icon={icon}
+                            subMenu={this.renderSubMenus(item.bindings)}
+                            root={true}
+                        />
+                    );
+                }
                 return (
                     <Menu.ItemAction
                         text={item.label}
