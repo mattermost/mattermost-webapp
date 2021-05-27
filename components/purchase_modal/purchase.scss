@@ -24,9 +24,10 @@
         }
 
         .fineprint-text {
-            margin-top: 24px;
+            color:  rgba(var(--center-channel-color-rgb), 0.72);
             font-size: 12px;
             line-height: 16px;
+            margin-top: 24px;
         }
 
         .bold-text {
@@ -54,7 +55,7 @@
         }
 
         .full-width {
-            border-color: rgba(var(--center-channel-color-rgb), 0.16)
+            border-color: rgba(var(--center-channel-color-rgb), 0.16);
         }
 
         .RHS {
@@ -70,7 +71,93 @@
                 border-radius: 4px;
                 background-color: var(--center-channel-bg);
                 margin-bottom: 24px;
-                min-width: 270px;
+                width: 270px;
+
+                .select-plan {
+                    border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
+                    box-sizing: border-box;
+                    margin-bottom: 20px;
+
+                    .title {
+                        display: flex;
+                        font-weight: 600;
+                        font-size: 14px;
+                        justify-content: space-between;
+                        line-height: 20px;
+
+                        a {
+                            font-weight: normal;
+                            font-size: 11px;
+                            line-height: 16px;
+                        }
+                    }
+
+                    .plans-list {
+                        label {
+                            color: rgba(var(--sys-center-channel-color-rgb), 0.64);
+                            font-family: Open Sans;
+                            font-style: normal;
+                            font-weight: normal;
+                            font-size: 12px;
+                            line-height: 16px;
+                        }
+
+                        @media screen and (-webkit-min-device-pixel-ratio:0) {
+                            input[type='radio'] {
+                                visibility: hidden;
+                            }
+                        }
+
+                        @-moz-document url-prefix() {
+                            input[type='radio'] {
+                                visibility: visible !important;
+                            }
+                        }
+
+                        input[type='radio']:after {
+                            background-color: #FFFFFF;
+                            border-radius: 15px;
+                            border: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.24);
+                            content: '';
+                            display: inline-block;
+                            height: 15px;
+                            left: -1px;
+                            position: relative;
+                            top: -2px;
+                            visibility: visible !important;
+                            width: 15px;
+                        }
+
+                        input[type='radio']:checked:before {
+                            border-radius: 9px;
+                            background-color: var(--button-bg);
+                            content: "";
+                            display: inline-block;
+                            height: 9px;
+                            left: 2px;
+                            position: relative;
+                            top: -4px;
+                            visibility: visible !important;
+                            width: 9px;
+                        }
+
+                        input[type='radio']:checked:after {
+                            background-color: transparent;
+                            border-radius: 15px;
+                            border: 1px solid var(--button-bg);
+                            height: 15px;
+                            left: -1px;
+                            position: relative;
+                            top: -20px;
+                            visibility: visible !important;
+                            width: 15px;
+                        }
+
+                        .selected {
+                            color: var(--sys-center-channel-color);
+                        }
+                    }
+                }
 
                 .footer-text {
                     font-size: 14px;

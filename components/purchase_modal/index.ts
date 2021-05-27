@@ -19,7 +19,7 @@ import {getCloudContactUsLink, InquiryType} from 'selectors/cloud';
 import {ModalIdentifiers} from 'utils/constants';
 
 import {closeModal} from 'actions/views/modals';
-import {completeStripeAddPaymentMethod} from 'actions/cloud';
+import {completeStripeAddPaymentMethod, subscribeCloudSubscription} from 'actions/cloud';
 
 import PurchaseModal from './purchase_modal';
 
@@ -32,12 +32,14 @@ function mapStateToProps(state: GlobalState) {
         contactSupportLink: getCloudContactUsLink(state, InquiryType.Technical),
         isFreeTrial: subscription?.is_free_trial === 'true',
         contactSalesLink: getCloudContactUsLink(state, InquiryType.Sales),
+        productId: subscription?.product_id,
     };
 }
 type Actions = {
     closeModal: () => void;
     getCloudProducts: () => void;
     completeStripeAddPaymentMethod: (stripe: Stripe, billingDetails: BillingDetails, isDevMode: boolean) => Promise<boolean | null>;
+    subscribeCloudSubscription: (productId: string) => Promise<boolean | null>;
     getClientConfig: () => void;
     getCloudSubscription: () => void;
 }
@@ -49,6 +51,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
                 closeModal: () => closeModal(ModalIdentifiers.CLOUD_PURCHASE),
                 getCloudProducts,
                 completeStripeAddPaymentMethod,
+                subscribeCloudSubscription,
                 getClientConfig,
                 getCloudSubscription,
             },
