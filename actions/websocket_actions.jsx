@@ -800,6 +800,10 @@ function handleDeleteTeamEvent(msg) {
             {type: TeamTypes.UPDATED_TEAM, data: deletedTeam},
         ]));
 
+        if (browserHistory.location?.pathname === `/admin_console/user_management/teams/${deletedTeam.id}`) {
+            return;
+        }
+
         if (newTeamId) {
             dispatch({type: TeamTypes.SELECT_TEAM, data: newTeamId});
             const globalState = getState();
