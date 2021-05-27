@@ -210,6 +210,10 @@
                             margin-bottom: 10px;
                             position: relative;
 
+                            .Badge {
+                                margin-top: -5px;
+                            }
+
                             .radio-badge {
                                 background-color: var(--sidebar-team-background);
                                 border-radius: 4px;

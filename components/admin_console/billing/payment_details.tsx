@@ -14,23 +14,23 @@ export interface PaymentDetailsProps {
 }
 
 const PaymentDetails: React.FC<PaymentDetailsProps> = ({children}: PaymentDetailsProps) => {
-    const paymentInfo = useSelector((state: GlobalState) => state.entities.cloud.customer);
+    const customerPaymentInfo = useSelector((state: GlobalState) => state.entities.cloud.customer);
 
-    if (!paymentInfo?.payment_method && !paymentInfo?.billing_address) {
+    if (!customerPaymentInfo?.payment_method && !customerPaymentInfo?.billing_address) {
         return null;
     }
-    const address = paymentInfo.billing_address;
+    const address = customerPaymentInfo.billing_address;
 
     return (
         <div className='PaymentInfoDisplay__paymentInfo-text'>
-            <CardImage brand={paymentInfo.payment_method.card_brand}/>
+            <CardImage brand={customerPaymentInfo.payment_method.card_brand}/>
             <div className='PaymentInfoDisplay__paymentInfo-cardInfo'>
                 <FormattedMarkdownMessage
                     id='admin.billing.payment_info.cardBrandAndDigits'
                     defaultMessage='{brand} ending in {digits}'
                     values={{
-                        brand: paymentInfo.payment_method.card_brand,
-                        digits: paymentInfo.payment_method.last_four,
+                        brand: customerPaymentInfo.payment_method.card_brand,
+                        digits: customerPaymentInfo.payment_method.last_four,
                     }}
                 />
                 <br/>
@@ -38,8 +38,8 @@ const PaymentDetails: React.FC<PaymentDetailsProps> = ({children}: PaymentDetail
                     id='admin.billing.payment_info.cardExpiry'
                     defaultMessage='Expires {month}/{year}'
                     values={{
-                        month: String(paymentInfo.payment_method.exp_month).padStart(2, '0'),
-                        year: String(paymentInfo.payment_method.exp_year).padStart(2, '0'),
+                        month: String(customerPaymentInfo.payment_method.exp_month).padStart(2, '0'),
+                        year: String(customerPaymentInfo.payment_method.exp_year).padStart(2, '0'),
                     }}
                 />
             </div>
