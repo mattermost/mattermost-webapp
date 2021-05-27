@@ -18,7 +18,7 @@ import blueDots from 'images/cloud/blue.svg';
 import LowerBlueDots from 'images/cloud/blue-lower.svg';
 import cloudLogo from 'images/cloud/mattermost-cloud.svg';
 import {trackEvent, pageVisited} from 'actions/telemetry_actions';
-import {TELEMETRY_CATEGORIES, CloudLinks} from 'utils/constants';
+import {TELEMETRY_CATEGORIES, CloudLinks, CloudProducts} from 'utils/constants';
 
 import PaymentDetails from 'components/admin_console/billing/payment_details';
 import {STRIPE_CSS_SRC, STRIPE_PUBLIC_KEY} from 'components/payment_form/stripe';
@@ -64,10 +64,18 @@ type State = {
     cardInputComplete: boolean;
     processing: boolean;
     editPaymentInfo: boolean;
-    selectedProduct: Product | null | undefined;
+    currentProduct: Product | null | undefined;
+    nextProductToUpgrade: Product | null | undefined;
 }
 
-function findProductInDictionary(products: Dictionary<Product> | undefined, productId?: string): Product | null {
+/**
+ *
+ * @param products  Dictionary<Product> | undefined - the list of current cloud products
+ * @param productId String - a valid product id used to find a particular product in the dictionary
+ * @param productSku String - the sku value of the product of type either cloud-starter | cloud-professional | cloud-enterprise
+ * @returns Product
+ */
+function findProductInDictionary(products: Dictionary<Product> | undefined, productId?: string | null, productSku?: string): Product | null {
     if (!products) {
         return null;
     }
@@ -75,20 +83,31 @@ function findProductInDictionary(products: Dictionary<Product> | undefined, prod
     if (!keys.length) {
         return null;
     }
-    if (!productId) {
+    if (!productId && !productSku) {
         return products[keys[0]];
     }
-    let selectedProduct = products[keys[0]];
+    let currentProduct = products[keys[0]];
     if (keys.length > 1) {
-        // here find the product by the provided id, otherwise return the one with Professional in the name
+        // here find the product by the provided id or name, otherwise return the one with Professional in the name
         keys.forEach((key) => {
             if (productId && products[key].id === productId) {
-                selectedProduct = products[key];
+                currentProduct = products[key];
+            } else if (productSku && products[key].sku === productSku) {
+                currentProduct = products[key];
             }
         });
     }
 
-    return selectedProduct;
+    return currentProduct;
+}
+
+function selectNextProductToUpgrade(products: Dictionary<Product> | undefined, productId?: string | null) {
+    const currentProduct = findProductInDictionary(products, productId);
+    let nextSku = CloudProducts.PROFESSIONAL;
+    if (currentProduct?.sku === CloudProducts.PROFESSIONAL) {
+        nextSku = CloudProducts.ENTERPRISE;
+    }
+    return findProductInDictionary(products, null, nextSku);
 }
 export default class PurchaseModal extends React.PureComponent<Props, State> {
     modal = React.createRef();
@@ -101,7 +120,8 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
             cardInputComplete: false,
             processing: false,
             editPaymentInfo: isEmpty(this.props.customer?.payment_method && this.props.customer?.billing_address),
-            selectedProduct: findProductInDictionary(props.products, props.productId),
+            currentProduct: findProductInDictionary(props.products, props.productId),
+            nextProductToUpgrade: selectNextProductToUpgrade(props.products, props.productId),
         };
     }
 
@@ -159,7 +179,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
     onPlanSelected = (e: React.ChangeEvent<HTMLInputElement>) => {
         const selectedPlan = findProductInDictionary(this.props.products, e.target.value);
 
-        this.setState({selectedProduct: selectedPlan});
+        this.setState({nextProductToUpgrade: selectedPlan});
     }
 
     listPlans = () => {
@@ -173,7 +193,8 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                 <RadioButtonGroup
                     id='list-plans-radio-buttons'
                     values={options!}
-                    value={this.state.selectedProduct?.id as string}
+                    value={this.state.nextProductToUpgrade?.id as string}
+                    badge={{matchVal: this.state.currentProduct?.id as string, text: 'Current Plan'}}
                     onChange={(e: any) => this.onPlanSelected(e)}
                 />
             </div>
@@ -324,10 +345,10 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                             </div>
                         }
                         <div className='bold-text'>
-                            {this.state.selectedProduct?.name || ''}
+                            {this.state.nextProductToUpgrade?.name || ''}
                         </div>
                         <div className='price-text'>
-                            {`$${this.state.selectedProduct?.price_per_seat || 0}`}
+                            {`$${this.state.nextProductToUpgrade?.price_per_seat || 0}`}
                             <span className='monthly-text'>
                                 <FormattedMessage
                                     defaultMessage={' /user/month'}
@@ -445,7 +466,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                                             this.setState({processing: false});
                                         }}
                                         contactSupportLink={this.props.contactSalesLink}
-                                        selectedProduct={this.state.selectedProduct}
+                                        selectedProduct={this.state.nextProductToUpgrade}
                                     />
                                 </div>
                             ) : null}

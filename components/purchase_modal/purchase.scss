@@ -202,6 +202,24 @@
                         .selected {
                             color: var(--sys-center-channel-color);
                         }
+
+                        .radio {
+                            display: flex;
+                            justify-content: space-between;
+                            margin-top: 10px !important;
+                            margin-bottom: 10px;
+                            position: relative;
+
+                            .radio-badge {
+                                background-color: var(--sidebar-team-background);
+                                border-radius: 4px;
+                                color: var(--button-color);
+                                font-weight: 600;
+                                font-size: 10px;
+                                line-height: 16px;
+                                text-transform: uppercase;
+                            }
+                        }
                     }
                 }
 
