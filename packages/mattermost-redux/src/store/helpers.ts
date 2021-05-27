@@ -31,6 +31,7 @@ export function createReducer(baseState: GlobalState, ...reducers: Reducer[]): R
 
 function enableFreezing(reducer: Reducer) {
     // Skip the overhead of freezing in production.
+    // eslint-disable-next-line no-process-env
     if (process.env.NODE_ENV === 'production') {
         return reducer;
     }
