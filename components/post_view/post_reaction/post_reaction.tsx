@@ -51,7 +51,7 @@ export default class PostReaction extends React.PureComponent<Props, State> {
     handleAddEmoji = (emoji: Emoji): void => {
         this.setState({showEmojiPicker: false});
         const emojiName = (emoji as CustomEmoji).name ||
-            (emoji as SystemEmoji).aliases[0];
+            (emoji as SystemEmoji).short_names[0];
         this.props.actions.addReaction(this.props.postId, emojiName);
         this.props.toggleEmojiPicker();
     };

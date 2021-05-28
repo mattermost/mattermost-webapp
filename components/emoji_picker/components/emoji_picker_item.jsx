@@ -44,7 +44,7 @@ class EmojiPickerItem extends React.Component {
             defaultMessage: '{emojiName} emoji',
         },
         {
-            emojiName: this.props.emoji.aliases[0].replace(/_/g, ' '),
+            emojiName: this.props.emoji.short_names[0].replace(/_/g, ' '),
         });
     }
 
@@ -90,7 +90,7 @@ class EmojiPickerItem extends React.Component {
             image = (
                 <img
                     alt={'emoji image'}
-                    data-testid={emoji.aliases}
+                    data-testid={emoji.short_names}
                     onMouseOver={this.handleMouseOverThrottle}
                     src={imgTrans}
                     className={spriteClassName}

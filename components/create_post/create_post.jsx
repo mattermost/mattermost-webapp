@@ -1161,7 +1161,7 @@ class CreatePost extends React.PureComponent {
     }
 
     handleEmojiClick = (emoji) => {
-        const emojiAlias = emoji.name || emoji.aliases[0];
+        const emojiAlias = emoji.name || (emoji.short_names && emoji.short_names[0]);
 
         if (!emojiAlias) {
             //Oops.. There went something wrong

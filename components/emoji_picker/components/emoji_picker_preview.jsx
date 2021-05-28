@@ -22,10 +22,10 @@ export default class EmojiPickerPreview extends React.PureComponent {
             let aliases;
             let previewImage;
 
-            if (emoji.aliases && emoji.category && emoji.batch) {
+            if (emoji.short_names && emoji.category && emoji.batch) {
                 // This is a system emoji which only has a list of aliases
-                name = emoji.aliases[0];
-                aliases = emoji.aliases;
+                name = emoji.short_names[0];
+                aliases = emoji.short_names;
 
                 previewImage = (
                     <span className='sprite-preview'>

@@ -53,10 +53,10 @@ const getEmojiName = (emoji: Emoji, searchedName: string) => {
     }
 
     if (searchedName) {
-        return emoji.aliases.find((alias) => alias.startsWith(searchedName)) || emoji.aliases[0];
+        return emoji.short_names.find((alias) => alias.startsWith(searchedName)) || emoji.short_names[0];
     }
 
-    return emoji.aliases[0];
+    return emoji.short_names[0];
 };
 
 export function compareEmojis(emojiA: Emoji, emojiB: Emoji, searchedName: string) {

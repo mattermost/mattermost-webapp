@@ -24,7 +24,7 @@ export type CustomEmoji = {
 };
 export type SystemEmoji = {
     filename: string;
-    aliases: string[];
+    short_names: string[];
     category: EmojiCategory;
     batch: number;
 };

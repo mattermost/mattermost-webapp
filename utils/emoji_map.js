@@ -50,7 +50,7 @@ export default class EmojiMap {
 
                     this.systemIndex += 1;
 
-                    return {value: [emoji.aliases[0], emoji]};
+                    return {value: [emoji.short_names[0], emoji]};
                 }
 
                 if (this.customIndex < customEmojisArray.length) {

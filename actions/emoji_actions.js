@@ -58,7 +58,7 @@ export function addRecentEmoji(alias) {
         } else if (emoji.name) {
             name = emoji.name;
         } else {
-            name = emoji.aliases[0];
+            name = emoji.short_names[0];
         }
 
         const index = recentEmojis.indexOf(name);

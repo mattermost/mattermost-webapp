@@ -94,7 +94,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
 
     const handleEmojiClick = (selectedEmoji: Emoji) => {
         setShowEmojiPicker(false);
-        const emojiName = ('name' in selectedEmoji) ? selectedEmoji.name : selectedEmoji.aliases[0];
+        const emojiName = ('name' in selectedEmoji) ? selectedEmoji.name : selectedEmoji.short_names[0];
         setEmoji(emojiName);
     };
 
