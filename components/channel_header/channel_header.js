@@ -222,7 +222,7 @@ class ChannelHeader extends React.PureComponent {
 
     renderCustomStatus = () => {
         const {customStatus, isCustomStatusEnabled, isCustomStatusExpired} = this.props;
-        const isStatusSet = !isCustomStatusExpired && (customStatus.text || customStatus.emoji);
+        const isStatusSet = !isCustomStatusExpired && (customStatus?.text || customStatus?.emoji);
         if (!(isCustomStatusEnabled && isStatusSet)) {
             return null;
         }

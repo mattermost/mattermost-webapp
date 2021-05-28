@@ -152,7 +152,6 @@ class ProfilePopover extends React.PureComponent {
         isRHS: false,
         hasMention: false,
         status: UserStatuses.OFFLINE,
-        customStatus: {},
     }
 
     constructor(props) {
@@ -263,7 +262,7 @@ class ProfilePopover extends React.PureComponent {
     renderCustomStatus() {
         const {customStatus, isCustomStatusEnabled, user, currentUserId, hideStatus, isCustomStatusExpired} = this.props;
 
-        const customStatusSet = (customStatus.text || customStatus.emoji) && !isCustomStatusExpired;
+        const customStatusSet = (customStatus?.text || customStatus?.emoji) && !isCustomStatusExpired;
         const canSetCustomStatus = (user.id === currentUserId);
         const shouldShowCustomStatus = isCustomStatusEnabled && !hideStatus && customStatus && (customStatusSet || canSetCustomStatus);
 
