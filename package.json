@@ -276,7 +276,8 @@
     "i18n-check-empty-src": "npm run mmjstool -- i18n check-empty-src --webapp-dir .",
     "storybook": "start-storybook -p 6006 -s ./storybook/static",
     "build-storybook": "build-storybook -s ./storybook/static",
-    "check-types": "tsc"
+    "check-types": "tsc",
+    "make-emojis": "node --experimental-json-modules build/emoji/emoji_gen.mjs"
   },
   "workspaces": []
 }
