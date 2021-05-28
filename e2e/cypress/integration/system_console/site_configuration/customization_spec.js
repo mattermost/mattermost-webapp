@@ -289,6 +289,48 @@ describe('Customization', () => {
         // * Ensure that the custom branding text is empty
         cy.get('.signup__markdown').should('be.empty');
     });
+
+    it('MM-T1282 - Site Name help text matches text field behavior', () => {
+        // * Verify that the existing Site Name is empty
+        cy.findByTestId('TeamSettings.SiteNameinput').should('be.empty');
+
+        // # Configure a custom Site Name
+        const siteName = 'MM-T1282';
+        cy.findByTestId('TeamSettings.SiteNameinput').clear().type(siteName);
+
+        // # Save setting
+        saveSetting();
+
+        // # Logout
+        cy.apiLogout();
+
+        // * Ensure that the user was redirected to the login page after the logout
+        cy.url().should('include', '/login');
+
+        // * Ensure that the custom Site Name is shown in the login screen
+        cy.get('#site_name').should('have.text', siteName);
+
+        // # Log back in as an administrator
+        cy.apiAdminLogin();
+
+        // # Visit customization system console page
+        cy.visit('/admin_console/site_config/customization');
+
+        // # Empty the Site Name configuration
+        cy.findByTestId('TeamSettings.SiteNameinput').clear();
+
+        // # Save setting
+        saveSetting();
+
+        // # Logout
+        cy.apiLogout();
+
+        // * Ensure that the user was redirected to the login page after the logout
+        cy.url().should('include', '/login');
+
+        // * Ensure that the default Site Name is shown in the login screen
+        cy.get('#site_name').should('have.text', 'Mattermost');
+    });
 });
 
 function saveSetting() {
