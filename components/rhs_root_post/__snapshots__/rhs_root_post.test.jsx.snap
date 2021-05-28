@@ -65,11 +65,11 @@ exports[`components/RhsRootPost should match snapshot 1`] = `
             userId="user_id"
           />
           <CustomStatusEmoji
-            emojiSize={14}
+            emojiSize={16}
             emojiStyle={
               Object {
                 "marginLeft": 4,
-                "marginTop": 1,
+                "marginTop": 2,
               }
             }
             showTooltip={true}
@@ -261,11 +261,11 @@ exports[`components/RhsRootPost should match snapshot on CRT enabled 1`] = `
             userId="user_id"
           />
           <CustomStatusEmoji
-            emojiSize={14}
+            emojiSize={16}
             emojiStyle={
               Object {
                 "marginLeft": 4,
-                "marginTop": 1,
+                "marginTop": 2,
               }
             }
             showTooltip={true}
@@ -458,11 +458,11 @@ exports[`components/RhsRootPost should match snapshot on deleted post 1`] = `
             userId="user_id"
           />
           <CustomStatusEmoji
-            emojiSize={14}
+            emojiSize={16}
             emojiStyle={
               Object {
                 "marginLeft": 4,
-                "marginTop": 1,
+                "marginTop": 2,
               }
             }
             showTooltip={true}
@@ -611,11 +611,11 @@ exports[`components/RhsRootPost should match snapshot on flagged, deleted post 1
             userId="user_id"
           />
           <CustomStatusEmoji
-            emojiSize={14}
+            emojiSize={16}
             emojiStyle={
               Object {
                 "marginLeft": 4,
-                "marginTop": 1,
+                "marginTop": 2,
               }
             }
             showTooltip={true}
@@ -764,11 +764,11 @@ exports[`components/RhsRootPost should match snapshot when flagged 1`] = `
             userId="user_id"
           />
           <CustomStatusEmoji
-            emojiSize={14}
+            emojiSize={16}
             emojiStyle={
               Object {
                 "marginLeft": 4,
-                "marginTop": 1,
+                "marginTop": 2,
               }
             }
             showTooltip={true}
