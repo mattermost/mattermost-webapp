@@ -14,7 +14,7 @@ import * as MESSAGES from '../../../fixtures/messages';
 
 describe('System Console > User Management > Deactivation', () => {
     let team1;
-    let userToDeactivate;
+    let otherAdmin;
 
     before(() => {
         // # Do initial setup
@@ -22,16 +22,16 @@ describe('System Console > User Management > Deactivation', () => {
             team1 = team;
         });
 
-        // # Create a new user
-        cy.apiCreateUser().then(({user}) => {
-            userToDeactivate = user;
+        // # Create other sysadmin
+        cy.apiCreateCustomAdmin().then(({sysadmin}) => {
+            otherAdmin = sysadmin;
         });
-
-        // # Login as admin
-        cy.apiAdminLogin();
     });
 
     beforeEach(() => {
+        // # Login as other admin.
+        cy.apiLogin(otherAdmin);
+
         // # Visit town-square
         cy.visit(`/${team1.name}`);
     });
@@ -178,32 +178,38 @@ describe('System Console > User Management > Deactivation', () => {
         // # Go to User management / Users tab
         cy.findByTestId('user_management.system_users').should('be.visible').click();
 
-        // # Search the newly created user in the search box
-        cy.findByPlaceholderText('Search users').should('be.visible').clear().type(userToDeactivate.email);
+        // # Create a new user
+        cy.apiCreateUser().then(({user: user1}) => {
+            // # Search the newly created user in the search box
+            cy.findByPlaceholderText('Search users').should('be.visible').clear().type(user1.email);
 
-        // * Verify that user is listed
-        cy.findByText(`@${userToDeactivate.username}`).should('be.visible');
+            // * Verify that user is listed
+            cy.findByText(`@${user1.username}`).should('be.visible');
 
-        // # Scan on the first item's row in the list
-        cy.findAllByTestId('userListRow').eq(0).should('be.visible').within(() => {
-            // * Verify before deactivation email is visible
-            cy.findByText(userToDeactivate.email).should('be.visible');
+            // # Scan on the first item's row in the list
+            cy.findByTestId('userListRow').should('be.visible').within(() => {
+                // * Verify before deactivation email is visible
+                cy.findByText(user1.email).should('be.visible');
 
-            // # Click on the members menu
-            cy.findByText('Member').parents('a').should('exist').click({force: true}).wait(TIMEOUTS.HALF_SEC);
-        });
+                // # Open the actions menu.
+                cy.findByText('Member').click().wait(TIMEOUTS.HALF_SEC);
 
-        // # Click on deactivate menu button
-        cy.findByText('Deactivate').should('be.visible').click();
+                // # Click on deactivate menu button
+                cy.findByLabelText('User Actions Menu').findByText('Deactivate').click();
+            });
 
-        // # Click confirm deactivate
-        cy.get('.a11y__modal').should('exist').and('be.visible').within(() => {
-            cy.findByText('Deactivate').should('be.visible').click();
-        });
+            // # Click confirm deactivate in the modal
+            cy.get('.a11y__modal').should('exist').and('be.visible').within(() => {
+                cy.findByText('Deactivate').should('be.visible').click();
+            });
 
-        // * Verify once again if email is visible
-        cy.findAllByTestId('userListRow').eq(0).should('be.visible').within(() => {
-            cy.findByText(userToDeactivate.email).should('be.visible');
+            cy.findByTestId('userListRow').should('be.visible').within(() => {
+                // * Verify that the user is now inactive
+                cy.findByText('Inactive').should('be.visible');
+
+                // * Verify once again if email is visible
+                cy.findByText(user1.email).should('be.visible');
+            });
         });
     });
 });
