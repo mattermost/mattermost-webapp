@@ -41,7 +41,9 @@ describe('Announcement Banner', () => {
                 cy.get('input').
                     should('be.visible').
                     clear().
-                    type(bannerText, {timeout: TIMEOUTS.TEN_SEC});
+                    invoke('val', bannerText).
+                    wait(TIMEOUTS.HALF_SEC).
+                    type(' {backspace}{enter}');
             });
 
         // # Change the banner background color
