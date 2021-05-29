@@ -99,11 +99,13 @@ Cypress.Commands.add('postMessageReplyInRHS', (message) => {
     postMessageAndWait('#reply_textbox', message, true);
 });
 
-Cypress.Commands.add('uiPostMessageQuickly', (message) => {
-    cy.get('#post_textbox', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').clear().
+Cypress.Commands.add('uiPostMessageQuickly', (message, isComment = false) => {
+    const textboxId = isComment ? '#reply_textbox' : '#post_textbox';
+
+    cy.get(textboxId, {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').clear().
         invoke('val', message).wait(TIMEOUTS.HALF_SEC).type(' {backspace}{enter}');
     cy.waitUntil(() => {
-        return cy.get('#post_textbox').then((el) => {
+        return cy.get(textboxId).then((el) => {
             return el[0].textContent === '';
         });
     });

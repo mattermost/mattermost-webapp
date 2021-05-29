@@ -10,6 +10,9 @@
 // Stage: @prod
 // Group: @scroll
 
+import * as MESSAGES from '../../fixtures/messages';
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
 describe('Scroll', () => {
     let testTeam;
     let testChannel;
@@ -31,6 +34,103 @@ describe('Scroll', () => {
 
             cy.visit(`/${testTeam.name}/channels/${channel.name}`);
         });
+    });
+
+    it('MM-T2365 Scrolling in the channel is disabled when emoji picker is open(does not affect mobile apps or browser in mobile view)', () => {
+        const firstMessageInCenter = '<<This is the first post>>';
+        const lastMessageInCenter = '<<This is the last post>>';
+        const firstMessageInRhs = '<<This is the first comment>>';
+        const lastMessageInRhs = '<<This is the last comment>>';
+
+        // # Post a starting message
+        cy.postMessage(firstMessageInCenter);
+
+        // # Post as few as messages so that scroll bar appears in the center
+        Cypress._.times(1, () => {
+            cy.uiPostMessageQuickly(MESSAGES.HUGE);
+        });
+
+        // # Post the last message
+        cy.postMessage(lastMessageInCenter);
+
+        // # scoll to top in center
+        cy.get('div.post-list__dynamic').should('be.visible').scrollTo('top', {duration: TIMEOUTS.ONE_SEC});
+
+        // * Verify we scolled to top
+        cy.findByText(firstMessageInCenter).should('exist').and('be.visible');
+        cy.findByText(lastMessageInCenter).should('exist').and('not.be.visible');
+
+        // # Scroll back to bottom
+        cy.get('div.post-list__dynamic').should('be.visible').scrollTo('bottom', {duration: TIMEOUTS.ONE_SEC});
+
+        // * Verify we scolled to bottom
+        cy.findByText(firstMessageInCenter).should('exist').and('not.be.visible');
+        cy.findByText(lastMessageInCenter).should('exist').and('be.visible');
+
+        // # Open emoji picker for the last message
+        cy.getLastPostId().then((postId) => {
+            cy.clickPostReactionIcon(postId, 'CENTER');
+        });
+
+        // # Now try to scroll in the center
+        cy.get('#post-list').scrollTo('top', {ensureScrollable: false, duration: TIMEOUTS.ONE_SEC});
+
+        // * Verify that scrolling didnt happen
+        cy.findByText(firstMessageInCenter).should('exist').and('not.be.visible');
+        cy.findByText(lastMessageInCenter).should('exist').and('be.visible');
+
+        // # Now write first message again so we can add reply
+        cy.postMessage(firstMessageInRhs);
+
+        // # Hit reply to the last message
+        cy.getLastPostId().then((postId) => {
+            cy.clickPostCommentIcon(postId);
+
+            Cypress._.times(3, () => {
+                cy.uiPostMessageQuickly(MESSAGES.HUGE, true);
+            });
+        });
+
+        // # Write the last message in RHS
+        cy.postMessageReplyInRHS(lastMessageInRhs);
+
+        cy.getLastPostId().then((postId) => {
+            cy.get('#rhsContainer').should('exist').within(() => {
+                // # Scroll to top in RHS
+                cy.get('.scrollbar--view').scrollTo('top', {duration: TIMEOUTS.ONE_SEC});
+
+                // * Verify that we can see the top message
+                cy.findByText(firstMessageInRhs).should('exist').and('be.visible');
+                cy.findByText(lastMessageInRhs).should('exist').and('not.be.visible');
+
+                // # Scroll back to bottom
+                cy.get('.scrollbar--view').should('be.visible').scrollTo('bottom', {duration: TIMEOUTS.ONE_SEC});
+
+                // * Verify we scolled to bottom
+                cy.findByText(firstMessageInRhs).should('exist').and('not.be.visible');
+                cy.findByText(lastMessageInRhs).should('exist').and('be.visible');
+
+                // # Open emoji picker for the last message in RHS
+                cy.clickPostReactionIcon(postId, 'RHS_COMMENT');
+
+                // // # Scroll to top in RHS with emoji picker open
+                cy.get('.scrollbar--view').scrollTo('top', {ensureScrollable: false, duration: TIMEOUTS.ONE_SEC});
+
+                // // * Verify that scrolling didnt happen in RHS
+                cy.findByText(firstMessageInRhs).should('exist').and('not.be.visible');
+                cy.findByText(lastMessageInRhs).should('exist').and('be.visible');
+            });
+        });
+
+        // # Now try to scroll in the center
+        cy.get('#post-list').scrollTo('top', {ensureScrollable: false, duration: TIMEOUTS.ONE_SEC});
+
+        // * Verify that scrolling didnt happen in Center
+        cy.findByText(firstMessageInCenter).should('exist').and('not.be.visible');
+        cy.findByText(lastMessageInRhs).should('exist').and('be.visible');
+
+        // # Close the RHS
+        cy.closeRHS();
     });
 
     it('MM-T2378 Channel with only a few posts opens at the bottom', () => {

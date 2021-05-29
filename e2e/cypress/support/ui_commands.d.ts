@@ -46,11 +46,15 @@ declare namespace Cypress {
         /**
          * Post message via center textbox by directly injected in the textbox
          * @param {string} message - message to be posted
+         * @param {boolean} isComment - Either post in Center or RHS
+         * - false      : posts in center (default)
+         * - true       : posts in rhs
          * @returns void
          *
          * @example
          *  cy.uiPostMessageQuickly('Hello world')
+         *  cy.uiPostMessageQuickly('Hello world', true)
          */
-        uiPostMessageQuickly(message: string): void;
+        uiPostMessageQuickly(message: string, isComment?: boolean): void;
     }
 }
