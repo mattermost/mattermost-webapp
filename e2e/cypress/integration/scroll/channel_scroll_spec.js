@@ -54,14 +54,14 @@ describe('Scroll', () => {
         cy.postMessage(lastMessageInCenter);
 
         // # scoll to top in center
-        cy.get('div.post-list__dynamic').should('be.visible').scrollTo('top', {duration: TIMEOUTS.ONE_SEC});
+        cy.get('div.post-list__dynamic').scrollTo('top', {duration: TIMEOUTS.ONE_SEC});
 
         // * Verify we scolled to top
         cy.findByText(firstMessageInCenter).should('exist').and('be.visible');
         cy.findByText(lastMessageInCenter).should('exist').and('not.be.visible');
 
         // # Scroll back to bottom
-        cy.get('div.post-list__dynamic').should('be.visible').scrollTo('bottom', {duration: TIMEOUTS.ONE_SEC});
+        cy.get('div.post-list__dynamic').scrollTo('bottom', {duration: TIMEOUTS.ONE_SEC});
 
         // * Verify we scolled to bottom
         cy.findByText(firstMessageInCenter).should('exist').and('not.be.visible');
@@ -72,8 +72,8 @@ describe('Scroll', () => {
             cy.clickPostReactionIcon(postId, 'CENTER');
         });
 
-        // # Now try to scroll in the center
-        cy.get('#post-list').scrollTo('top', {ensureScrollable: false, duration: TIMEOUTS.ONE_SEC});
+        // # Now try to scroll in the center with opened emoji picker
+        cy.get('div.post-list__dynamic').scrollTo('top', {ensureScrollable: false, duration: TIMEOUTS.ONE_SEC});
 
         // * Verify that scrolling didnt happen
         cy.findByText(firstMessageInCenter).should('exist').and('not.be.visible');
@@ -104,7 +104,7 @@ describe('Scroll', () => {
                 cy.findByText(lastMessageInRhs).should('exist').and('not.be.visible');
 
                 // # Scroll back to bottom
-                cy.get('.scrollbar--view').should('be.visible').scrollTo('bottom', {duration: TIMEOUTS.ONE_SEC});
+                cy.get('.scrollbar--view').scrollTo('bottom', {duration: TIMEOUTS.ONE_SEC});
 
                 // * Verify we scolled to bottom
                 cy.findByText(firstMessageInRhs).should('exist').and('not.be.visible');
@@ -122,10 +122,10 @@ describe('Scroll', () => {
             });
         });
 
-        // # Now try to scroll in the center
-        cy.get('#post-list').scrollTo('top', {ensureScrollable: false, duration: TIMEOUTS.ONE_SEC});
+        // # scoll to top in center too
+        cy.get('div.post-list__dynamic').scrollTo('top', {ensureScrollable: false, duration: TIMEOUTS.ONE_SEC});
 
-        // * Verify that scrolling didnt happen in Center
+        // * Verify that scrolling didnt happen in Center too when RHS emoji picker
         cy.findByText(firstMessageInCenter).should('exist').and('not.be.visible');
         cy.findByText(lastMessageInRhs).should('exist').and('be.visible');
 
