@@ -7,7 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-describe('scroll', () => {
+describe('Scroll', () => {
     let testTeam;
 
     beforeEach(() => {
