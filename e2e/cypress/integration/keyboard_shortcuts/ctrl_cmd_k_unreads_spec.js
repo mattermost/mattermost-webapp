@@ -108,4 +108,39 @@ describe('Keyboard Shortcuts', () => {
             cy.wrap(el).should('contain', team1Channels[1].display_name);
         });
     });
+
+    it('MM-T3002 CTRL/CMD+K - Unread Channels and input field focus', () => {
+        const team1 = teamAndChannels[0].team;
+
+        // # Visit town square channel by teamUser
+        cy.visit(`/${team1.name}/channels/town-square`);
+
+        // # Post message in other channels by otherUser
+        teamAndChannels[0].channels.forEach((channel) => {
+            cy.postMessageAs({
+                sender: otherUser,
+                message: `Message on the ${channel.display_name}`,
+                channelId: channel.id,
+            });
+        });
+
+        // # Wait a little for unread channel indicators to show up
+        cy.wait(TIMEOUTS.FIVE_SEC);
+
+        // # Press keyboard shortcut for channel switcher
+        cy.get('#post_textbox').cmdOrCtrlShortcut('k');
+
+        // * Verify channel switcher shows up
+        cy.get('.a11y__modal.channel-switcher').should('exist').and('be.visible').as('channelSwitcherDialog');
+
+        // * Verify the focus is on switchers input field
+        cy.focused().should('have.id', 'quickSwitchInput');
+
+        cy.get('@channelSwitcherDialog').within(() => {
+            // * Verify all unread channels names are showing up in the dialogs list
+            teamAndChannels[0].channels.forEach((channel) => {
+                cy.findByText(channel.display_name).should('be.visible');
+            });
+        });
+    });
 });
