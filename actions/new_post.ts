@@ -11,12 +11,15 @@ import {
     markChannelAsViewed,
 } from 'mattermost-redux/actions/channels';
 import * as PostActions from 'mattermost-redux/actions/posts';
+import {updateThreadRead} from 'mattermost-redux/actions/threads';
 
 import {WebsocketEvents} from 'mattermost-redux/constants';
 
 import {getCurrentChannelId, isManuallyUnread} from 'mattermost-redux/selectors/entities/channels';
 import * as PostSelectors from 'mattermost-redux/selectors/entities/posts';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {getThread} from 'mattermost-redux/selectors/entities/threads';
 
 import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 import {Post} from 'mattermost-redux/types/posts';
@@ -27,9 +30,12 @@ import {
     shouldIgnorePost,
 } from 'mattermost-redux/utils/post_utils';
 
+import {GlobalState} from 'types/store';
+
 import {sendDesktopNotification} from 'actions/notification_actions.jsx';
 
 import {ActionTypes} from 'utils/constants';
+import {isThreadOpen} from 'selectors/views/threads';
 
 type NewPostMessageProps = {
     mentions: string[];
@@ -57,9 +63,9 @@ export function completePostReceive(post: Post, websocketMessageProps: NewPostMe
         }
 
         // Need manual dispatch to remove pending post
-
+        const collapsedThreadsEnabled = isCollapsedThreadsEnabled(state);
         const actions = [
-            PostActions.receivedNewPost(post, isCollapsedThreadsEnabled(state)),
+            PostActions.receivedNewPost(post, collapsedThreadsEnabled),
             {
                 type: WebsocketEvents.STOP_TYPING,
                 data: {
@@ -75,6 +81,9 @@ export function completePostReceive(post: Post, websocketMessageProps: NewPostMe
         // Still needed to update unreads
 
         dispatch(setChannelReadAndViewed(post, websocketMessageProps, fetchedChannelMember));
+        if (collapsedThreadsEnabled && post.root_id) {
+            dispatch(setThreadRead(post));
+        }
 
         return dispatch(sendDesktopNotification(post, websocketMessageProps) as unknown as ActionFunc);
     };
@@ -117,6 +126,29 @@ export function setChannelReadAndViewed(post: Post, websocketMessageProps: NewPo
             dispatch(markChannelAsViewed(post.channel_id));
         } else {
             dispatch(markChannelAsUnread(websocketMessageProps.team_id, post.channel_id, websocketMessageProps.mentions, fetchedChannelMember, post.root_id === ''));
+        }
+
+        return {data: true};
+    };
+}
+
+export function setThreadRead(post: Post) {
+    return (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const state = getState() as GlobalState;
+
+        const currentUserId = getCurrentUserId(state);
+        const thread = getThread(state, post.root_id);
+        const currentTeamId = getCurrentTeamId(state);
+
+        // mark a thread as read (when the user is viewing the thread)
+        if (
+            thread &&
+            post.user_id !== currentUserId &&
+            !isSystemMessage(post) &&
+            !isFromWebhook(post) &&
+            isThreadOpen(state, thread.id)
+        ) {
+            dispatch(updateThreadRead(currentUserId, currentTeamId, thread.id, post.create_at + 1));
         }
 
         return {data: true};

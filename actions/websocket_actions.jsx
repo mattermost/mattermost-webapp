@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable max-lines */
 
 import {batchActions} from 'redux-batched-actions';
 
@@ -31,7 +32,7 @@ import {getCloudSubscription, getSubscriptionStats} from 'mattermost-redux/actio
 import {loadRolesIfNeeded} from 'mattermost-redux/actions/roles';
 
 import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
-import {getThread} from 'mattermost-redux/selectors/entities/threads';
+import {getThread, getThreads} from 'mattermost-redux/selectors/entities/threads';
 import {
     getThread as fetchThread,
     handleAllMarkedRead,
@@ -74,8 +75,8 @@ import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
 
 import {fetchAppBindings} from 'mattermost-redux/actions/apps';
 
-import {getSelectedChannelId, getSelectedPostId} from 'selectors/rhs';
-import {getSelectedThreadIdInCurrentTeam} from 'selectors/views/threads';
+import {getSelectedChannelId} from 'selectors/rhs';
+import {isThreadOpen} from 'selectors/views/threads';
 
 import {openModal} from 'actions/views/modals';
 import {incrementWsErrorCount, resetWsErrorCount} from 'actions/views/system';
@@ -1422,16 +1423,11 @@ function handleThreadReadChanged(msg) {
     return (doDispatch, doGetState) => {
         if (msg.data.thread_id) {
             const state = doGetState();
-            const thread = state.entities.threads.threads?.[msg.data.thread_id];
+            const thread = getThreads(state)?.[msg.data.thread_id];
             if (thread) {
-                if (
-                    !window.isActive ||
-                    (
-                        getSelectedThreadIdInCurrentTeam(state) !== msg.data.thread_id &&
-                        getSelectedPostId(state) !== msg.data.thread_id
-                    )
-                ) {
-                    doDispatch(updateThreadLastOpened(msg.data.thread_id, msg.data.timestamp));
+                // skip marking the thread as read (when the user is viewing the thread)
+                if (!window.isActive && !isThreadOpen(state, thread.id)) {
+                    doDispatch(updateThreadLastOpened(thread.id, msg.data.timestamp));
                 }
 
                 handleReadChanged(
