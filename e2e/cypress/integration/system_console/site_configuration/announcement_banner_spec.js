@@ -119,7 +119,7 @@ describe('Announcement Banner', () => {
             as('announcmentBannerTooptip').
             should('be.visible').
             within(() => {
-                // * Verify compelete banner is present in the popover
+                // * Verify complete banner is present in the popover
                 cy.findByText(/Here's an announcement! It has a link: /).should(
                     'be.visible',
                 );
