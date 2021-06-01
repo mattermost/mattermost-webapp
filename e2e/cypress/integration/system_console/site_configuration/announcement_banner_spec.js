@@ -10,6 +10,8 @@
 import {hexToRgbArray, rgbArrayToString} from '../../../utils';
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
+// Group: @enterprise @system_console @announcement_banner
+
 describe('Announcement Banner', () => {
     it('MM-T1128 Announcement Banner - Dismissible banner shows long text truncated', () => {
         const bannerEmbedLink = 'http://example.com';
