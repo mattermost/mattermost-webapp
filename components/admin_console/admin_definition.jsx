@@ -2593,7 +2593,7 @@ const AdminDefinition = {
                         placeholder: t('admin.customization.restrictLinkPreviewsExample'),
                         placeholder_default: 'E.g.: "internal.mycompany.com, images.example.com"',
                         isDisabled: it.any(
-                            it.not(it.userHasWritePermissionOnResource('site')),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.POSTS)),
                             it.configIsFalse('ServiceSettings', 'EnableLinkPreviews'),
                         ),
                     },

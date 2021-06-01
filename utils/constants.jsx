@@ -321,6 +321,12 @@ export const EventTypes = Object.assign(
     }),
 );
 
+export const CloudProducts = {
+    STARTER: 'cloud-starter',
+    PROFESSIONAL: 'cloud-professional',
+    ENTERPRISE: 'cloud-enterprise',
+};
+
 export const A11yClassNames = {
     REGION: 'a11y__region',
     SECTION: 'a11y__section',
@@ -719,6 +725,7 @@ export const AboutLinks = {
 
 export const CloudLinks = {
     BILLING_DOCS: 'https://docs.mattermost.com/cloud/cloud-billing/cloud-billing.html',
+    COMPARE_PLANS: 'https://mattermost.com/pricing-cloud/#pricing-grid-block_5fa2028808529',
 };
 
 export const PermissionsScope = {

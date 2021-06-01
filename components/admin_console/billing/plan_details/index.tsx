@@ -16,9 +16,10 @@ import './plan_details.scss';
 
 type PlanDetailsProps = {
     isFreeTrial: boolean;
+    subscriptionPlan: string | null;
 }
 /* eslint-disable react/prop-types */
-const PlanDetails: React.FC<PlanDetailsProps> = ({isFreeTrial}) => {
+const PlanDetails: React.FC<PlanDetailsProps> = ({isFreeTrial, subscriptionPlan}) => {
     const locale = useSelector((state: GlobalState) => getCurrentLocale(state));
     const userCount = useSelector((state: GlobalState) => state.entities.admin.analytics!.TOTAL_USERS) as number;
     const userLimit = parseInt(useSelector((state: GlobalState) => getConfig(state).ExperimentalCloudUserLimit) || '0', 10);
@@ -45,7 +46,7 @@ const PlanDetails: React.FC<PlanDetailsProps> = ({isFreeTrial}) => {
 
     return (
         <div className='PlanDetails'>
-            {planDetailsTopElements(userCount, isPaidTier, isFreeTrial, userLimit)}
+            {planDetailsTopElements(userCount, isPaidTier, isFreeTrial, userLimit, subscriptionPlan)}
             {planPricing}
             {showSeatsAndSubscriptionDates && seatsAndSubscriptionDates(locale, userCount, subscription.seats, new Date(subscription.start_at), new Date(subscription.end_at))}
             {planDetailsDescription}
@@ -55,7 +56,7 @@ const PlanDetails: React.FC<PlanDetailsProps> = ({isFreeTrial}) => {
                     defaultMessage='Unlimited teams, channels, and search history'
                 />
             </div>
-            {featureList(isFreeTrial, isPaidTier)}
+            {featureList(subscriptionPlan, isPaidTier)}
             {currentPlanText(isFreeTrial)}
         </div>
     );

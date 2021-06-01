@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {createSelector} from 'reselect';
 
 import {Preferences} from 'mattermost-redux/constants';
-import {getChannelsNameMapInCurrentTeam} from 'mattermost-redux/selectors/entities/channels';
+import {getChannelNameToDisplayNameMap} from 'mattermost-redux/selectors/entities/channels';
 import {getAutolinkedUrlSchemes, getConfig, getManagedResourcePaths} from 'mattermost-redux/selectors/entities/general';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
@@ -29,7 +29,7 @@ type Props = {
 
 function makeGetChannelNamesMap() {
     return createSelector(
-        getChannelsNameMapInCurrentTeam,
+        getChannelNameToDisplayNameMap,
         (state: GlobalState, props: Props) => props && props.channelNamesMap,
         (channelNamesMap, channelMentions) => {
             if (channelMentions) {
