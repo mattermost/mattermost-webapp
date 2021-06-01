@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 import Markdown from 'components/markdown';
@@ -13,16 +12,20 @@ import AnnouncementBar from './default_announcement_bar';
 
 const localStoragePrefix = '__announcement__';
 
-export default class TextDismissableBar extends React.PureComponent {
-    static propTypes = {
-        allowDismissal: PropTypes.bool.isRequired,
-        text: PropTypes.string.isRequired,
-        onDismissal: PropTypes.func,
+type AnnouncementBarProps = React.ComponentProps<typeof AnnouncementBar>;
 
-        // Any props that AnnouncementBar supports
-    };
+interface Props extends Partial<AnnouncementBarProps> {
+    allowDismissal: boolean;
+    text: string;
+    onDismissal?: () => void;
+}
 
-    constructor(props) {
+type State = {
+    dismissed: boolean;
+}
+
+export default class TextDismissableBar extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -30,10 +33,10 @@ export default class TextDismissableBar extends React.PureComponent {
         };
     }
 
-    static getDerivedStateFromProps(props) {
+    static getDerivedStateFromProps(props: Props) {
         const dismissed = localStorage.getItem(localStoragePrefix + props.text);
         return {
-            dismissed,
+            dismissed: (dismissed === 'true'),
         };
     }
 
@@ -43,7 +46,7 @@ export default class TextDismissableBar extends React.PureComponent {
         }
         trackEvent('signup', 'click_dismiss_bar');
 
-        localStorage.setItem(localStoragePrefix + this.props.text, true);
+        localStorage.setItem(localStoragePrefix + this.props.text, 'true');
         this.setState({
             dismissed: true,
         });
