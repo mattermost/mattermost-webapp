@@ -2106,7 +2106,7 @@
   "admin.team.editOthersPostsDesc": "Lorsqu'activé, les administrateurs d'équipe et les administrateurs système peuvent modifier les messages des autres utilisateurs. Lorsque désactivé, seuls les administrateurs système peuvent modifier les messages des autres utilisateurs.",
   "admin.team.editOthersPostsTitle": "Autoriser les administrateurs d'équipe à modifier les messages des autres utilisateurs :",
   "admin.team.emailInvitationsDescription": "Lorsqu'activé, les utilisateurs peuvent en inviter d'autres en utilisant leur adresse e-mail.",
-  "admin.team.emailInvitationsTitle": "Activer les notifications par e-mail : ",
+  "admin.team.emailInvitationsTitle": "Activer les invitations par e-mail : ",
   "admin.team.invalidateEmailInvitesDescription": "Invalide les e-mails d'invitation qui n'ont pas été acceptés par les utilisateurs. Par défaut, les e-mails d'invitation expirent après 48 heures.",
   "admin.team.invalidateEmailInvitesFail": "Impossible d'invalider les e-mails d'invitation en attente : {error}",
   "admin.team.invalidateEmailInvitesSuccess": "Les e-mails d'invitation en attente ont été invalidés avec succès",
