@@ -356,7 +356,6 @@ function saveSetting() {
 }
 
 function verifySiteNameInAboutModal(siteName) {
-
     // # Open the hamburger menu
     cy.get('button > span[class="menu-icon"]').click();
 
