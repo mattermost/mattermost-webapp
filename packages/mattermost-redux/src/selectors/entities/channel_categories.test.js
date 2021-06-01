@@ -1361,6 +1361,228 @@ describe('makeGetChannelIdsForCategory', () => {
 
         expect(getChannelIdsForCategory(state, directMessagesCategory)).toMatchObject(['dmChannel1', 'gmChannel2', 'gmChannel1']);
     });
+
+    describe('memoization', () => {
+        test('should return the same result when called twice with the same category', () => {
+            const getChannelIdsForCategory = Selectors.makeGetChannelIdsForCategory();
+
+            const favoritesCategory = {
+                id: 'favoritesCategory',
+                team_id: 'team1',
+                display_name: CategoryTypes.FAVORITES,
+                type: CategoryTypes.FAVORITES,
+                sorting: CategorySorting.Default,
+                channel_ids: [dmChannel1.id, channel1.id],
+            };
+
+            const originalResult = getChannelIdsForCategory(baseState, favoritesCategory);
+
+            expect(getChannelIdsForCategory(baseState, favoritesCategory)).toBe(originalResult);
+        });
+
+        test('should return a different result when called twice with a different category', () => {
+            const getChannelIdsForCategory = Selectors.makeGetChannelIdsForCategory();
+
+            const favoritesCategory = {
+                id: 'favoritesCategory',
+                team_id: 'team1',
+                display_name: CategoryTypes.FAVORITES,
+                type: CategoryTypes.FAVORITES,
+                sorting: CategorySorting.Default,
+                channel_ids: [dmChannel1.id, channel1.id],
+            };
+            const publicCategory = {
+                id: 'publicCategory',
+                team_id: 'team1',
+                display_name: 'Public Channels',
+                type: CategoryTypes.PUBLIC,
+                sorting: CategorySorting.Manual,
+                channel_ids: [channel3.id, channel2.id],
+            };
+
+            const originalResult = getChannelIdsForCategory(baseState, favoritesCategory);
+
+            expect(getChannelIdsForCategory(baseState, publicCategory)).not.toBe(originalResult);
+        });
+
+        test('should return a different result when called with a different sorting method', () => {
+            const getChannelIdsForCategory = Selectors.makeGetChannelIdsForCategory();
+
+            const favoritesCategory = {
+                id: 'favoritesCategory',
+                team_id: 'team1',
+                display_name: CategoryTypes.FAVORITES,
+                type: CategoryTypes.FAVORITES,
+                sorting: CategorySorting.Default,
+                channel_ids: [dmChannel1.id, dmChannel2.id],
+            };
+
+            const originalResult = getChannelIdsForCategory(baseState, favoritesCategory);
+
+            expect(getChannelIdsForCategory(baseState, {
+                ...favoritesCategory,
+                sorting: CategorySorting.Recency,
+            })).not.toBe(originalResult);
+        });
+
+        test('should return the same result when called with a different sorting method but only a single channel', () => {
+            const getChannelIdsForCategory = Selectors.makeGetChannelIdsForCategory();
+
+            const favoritesCategory = {
+                id: 'favoritesCategory',
+                team_id: 'team1',
+                display_name: CategoryTypes.FAVORITES,
+                type: CategoryTypes.FAVORITES,
+                sorting: CategorySorting.Default,
+                channel_ids: [dmChannel2.id],
+            };
+
+            const originalResult = getChannelIdsForCategory(baseState, favoritesCategory);
+
+            expect(getChannelIdsForCategory(baseState, {
+                ...favoritesCategory,
+                sorting: CategorySorting.Alphabetical,
+            })).toBe(originalResult);
+            expect(getChannelIdsForCategory(baseState, {
+                ...favoritesCategory,
+                sorting: CategorySorting.Recency,
+            })).toBe(originalResult);
+        });
+
+        test('should return a new result when DM category limit changes', () => {
+            const getChannelIdsForCategory = Selectors.makeGetChannelIdsForCategory();
+
+            let state = mergeObjects(baseState, {
+                entities: {
+                    preferences: {
+                        myPreferences: {
+                            [getPreferenceKey(Preferences.CATEGORY_SIDEBAR_SETTINGS, Preferences.LIMIT_VISIBLE_DMS_GMS)]: {value: '2'},
+                        },
+                    },
+                },
+            });
+
+            const directMessagesCategory = {
+                id: 'directMessagesCategory',
+                team_id: 'team1',
+                display_name: 'Direct Messages',
+                type: CategoryTypes.DIRECT_MESSAGES,
+                sorting: CategorySorting.Alphabetical,
+                channel_ids: [gmChannel1.id, dmChannel1.id],
+            };
+
+            const originalResult = getChannelIdsForCategory(state, directMessagesCategory);
+
+            state = mergeObjects(baseState, {
+                entities: {
+                    preferences: {
+                        myPreferences: {
+                            [getPreferenceKey(Preferences.CATEGORY_SIDEBAR_SETTINGS, Preferences.LIMIT_VISIBLE_DMS_GMS)]: {value: '1'},
+                        },
+                    },
+                },
+            });
+
+            expect(getChannelIdsForCategory(state, directMessagesCategory)).not.toBe(originalResult);
+        });
+
+        test('should return a different result for DMs only when a name change causes an order change', () => {
+            const getChannelIdsForCategory = Selectors.makeGetChannelIdsForCategory();
+
+            const directMessagesCategory = {
+                id: 'directMessagesCategory',
+                team_id: 'team1',
+                display_name: 'Direct Messages',
+                type: CategoryTypes.DIRECT_MESSAGES,
+                sorting: CategorySorting.Alphabetical,
+                channel_ids: [dmChannel1.id, dmChannel2.id],
+            };
+
+            // otherUser2 (Another User), otherUser1 (Other User)
+            let result = getChannelIdsForCategory(baseState, directMessagesCategory);
+            expect(result).toEqual([dmChannel2.id, dmChannel1.id]);
+
+            let previousResult = result;
+            let state = mergeObjects(baseState, {
+                entities: {
+                    users: {
+                        profiles: {
+                            otherUser2: {...otherUser2, first_name: 'User', last_name: 'User'},
+                        },
+                    },
+                },
+            });
+
+            // otherUser1 (Other User), otherUser2 (User User)
+            result = getChannelIdsForCategory(state, directMessagesCategory);
+            expect(result).toEqual([dmChannel1.id, dmChannel2.id]);
+            expect(result).not.toBe(previousResult);
+
+            previousResult = result;
+            state = mergeObjects(state, {
+                entities: {
+                    users: {
+                        profiles: {
+                            otherUser1: {...otherUser1, first_name: 'Zoo', last_name: 'User'},
+                        },
+                    },
+                },
+            });
+
+            // otherUser2 (User User), otherUser1 (Zoo User)
+            result = getChannelIdsForCategory(state, directMessagesCategory);
+            expect(result).toEqual([dmChannel2.id, dmChannel1.id]);
+            expect(result).not.toBe(previousResult);
+
+            previousResult = result;
+            state = mergeObjects(state, {
+                entities: {
+                    users: {
+                        profiles: {
+                            otherUser2: {...otherUser2, first_name: 'Some', last_name: 'User'},
+                        },
+                    },
+                },
+            });
+
+            // otherUser2 (Some User), otherUser1 (Zoo User)
+            result = getChannelIdsForCategory(state, directMessagesCategory);
+            expect(result).toEqual([dmChannel2.id, dmChannel1.id]);
+            expect(result).toBe(previousResult);
+        });
+
+        test('should return a different result for alphabetically sorted DMs when the display name setting causes an order change', () => {
+            const getChannelIdsForCategory = Selectors.makeGetChannelIdsForCategory();
+
+            const directMessagesCategory = {
+                id: 'directMessagesCategory',
+                team_id: 'team1',
+                display_name: 'Direct Messages',
+                type: CategoryTypes.DIRECT_MESSAGES,
+                sorting: CategorySorting.Alphabetical,
+                channel_ids: [dmChannel1.id, dmChannel2.id],
+            };
+
+            // otherUser2 (Another User), otherUser1 (Other User)
+            const originalResult = getChannelIdsForCategory(baseState, directMessagesCategory);
+            expect(originalResult).toEqual([dmChannel2.id, dmChannel1.id]);
+
+            const state = mergeObjects(baseState, {
+                entities: {
+                    preferences: {
+                        myPreferences: {
+                            [getPreferenceKey(Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.NAME_NAME_FORMAT)]: {value: Preferences.DISPLAY_PREFER_USERNAME},
+                        },
+                    },
+                },
+            });
+
+            // otherUser1, otherUser2
+            const result = getChannelIdsForCategory(state, directMessagesCategory);
+            expect(result).toEqual([dmChannel1.id, dmChannel2.id]);
+            expect(result).not.toBe(originalResult);
+        });
+    });
 });
 
 describe('makeGetChannelsByCategory', () => {

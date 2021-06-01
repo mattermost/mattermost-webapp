@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import $ from 'jquery';
 import React, {HTMLAttributes} from 'react';
 import Scrollbars from 'react-custom-scrollbars';
 import classNames from 'classnames';
@@ -107,6 +106,7 @@ export default class ThreadViewer extends React.Component<Props, State> {
     private rhspostlistRef: React.RefObject<HTMLDivElement>;
     private containerRef: React.RefObject<HTMLDivElement>;
     private postCreateContainerRef: React.RefObject<HTMLDivElement>;
+    private scrollbarsRef: React.RefObject<Scrollbars>;
 
     public static getDerivedStateFromProps(props: Props, state: State) {
         let updatedState: Partial<State> = {selected: props.selected};
@@ -136,6 +136,7 @@ export default class ThreadViewer extends React.Component<Props, State> {
         this.rhspostlistRef = React.createRef();
         this.containerRef = React.createRef();
         this.postCreateContainerRef = React.createRef();
+        this.scrollbarsRef = React.createRef();
     }
 
     private getLastPost() {
@@ -323,9 +324,7 @@ export default class ThreadViewer extends React.Component<Props, State> {
     }
 
     public scrollToBottom = (): void => {
-        if ($('.post-right__scroll')[0]) {
-            $('.post-right__scroll').parent().scrollTop($('.post-right__scroll')[0].scrollHeight); // eslint-disable-line jquery/no-parent
-        }
+        this.scrollbarsRef.current?.scrollToBottom();
     }
 
     private updateFloatingTimestamp = (): void => {
@@ -475,6 +474,7 @@ export default class ThreadViewer extends React.Component<Props, State> {
                         ref={this.postCreateContainerRef}
                     >
                         <CreateComment
+                            scrollToBottom={this.scrollToBottom}
                             onHeightChange={this.handlePostCommentResize}
                             channelId={selected.channel_id}
                             rootId={selected.id}
@@ -517,6 +517,7 @@ export default class ThreadViewer extends React.Component<Props, State> {
                         />
                     )}
                     <Scrollbars
+                        ref={this.scrollbarsRef}
                         autoHide={true}
                         autoHideTimeout={500}
                         autoHideDuration={500}
