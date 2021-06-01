@@ -113,7 +113,7 @@ exports[`components/custom_status/expiry_menu should match snapshot with differe
             <span
               className="expiry-value"
             >
-              Date and Time
+              Custom Date and Time
             </span>
             <span>
               <i
