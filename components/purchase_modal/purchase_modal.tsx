@@ -338,7 +338,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                 </div>
                 <div className='RHS'>
                     <div className='price-container'>
-                        {this.props.isFreeTrial && Object.keys(this.props.products!).length > 1 &&
+                        {(this.props.isFreeTrial && this.props.products && Object.keys(this.props.products).length > 1) &&
                             <div className='select-plan'>
                                 <div className='title'>
                                     <FormattedMessage
