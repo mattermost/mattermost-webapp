@@ -596,6 +596,68 @@ describe('Selectors.Channels.getChannelsNameMapInCurrentTeam', () => {
         };
         assert.deepEqual(Selectors.getChannelsNameMapInCurrentTeam(testState), channelMap);
     });
+
+    describe('memoization', () => {
+        it('should return memoized result with no changes', () => {
+            const originalResult = Selectors.getChannelsNameMapInCurrentTeam(testState);
+
+            expect(Selectors.getChannelsNameMapInCurrentTeam(testState)).toBe(originalResult);
+        });
+
+        it('should not return memoized result when channels on another team changes', () => {
+            // This is a known issue with the current implementation of the selector. Ideally, it would return the
+            // memoized result.
+            const originalResult = Selectors.getChannelsNameMapInCurrentTeam(testState);
+
+            const state = deepFreezeAndThrowOnMutation(mergeObjects(testState, {
+                entities: {
+                    channels: {
+                        channels: {
+                            [channel3.id]: {...channel3, display_name: 'Some other name'},
+                        },
+                    },
+                },
+            }));
+
+            expect(Selectors.getChannelsNameMapInCurrentTeam(state)).not.toBe(originalResult);
+        });
+
+        it('should not return memozied result when a returned channel changes its display name', () => {
+            const originalResult = Selectors.getChannelsNameMapInCurrentTeam(testState);
+
+            const state = deepFreezeAndThrowOnMutation(mergeObjects(testState, {
+                entities: {
+                    channels: {
+                        channels: {
+                            [channel4.id]: {...channel4, display_name: 'Some other name'},
+                        },
+                    },
+                },
+            }));
+
+            const result = Selectors.getChannelsNameMapInCurrentTeam(state);
+            expect(result).not.toBe(originalResult);
+            expect(result[channel4.name].display_name).toBe('Some other name');
+        });
+
+        it('should not return memozied result when a returned channel changes something else', () => {
+            const originalResult = Selectors.getChannelsNameMapInCurrentTeam(testState);
+
+            const state = deepFreezeAndThrowOnMutation(mergeObjects(testState, {
+                entities: {
+                    channels: {
+                        channels: {
+                            [channel4.id]: {...channel4, last_post_at: 10000},
+                        },
+                    },
+                },
+            }));
+
+            const result = Selectors.getChannelsNameMapInCurrentTeam(state);
+            expect(result).not.toBe(originalResult);
+            expect(result[channel4.name].last_post_at).toBe(10000);
+        });
+    });
 });
 
 describe('Selectors.Channels.getChannelsNameMapInTeam', () => {
@@ -648,6 +710,170 @@ describe('Selectors.Channels.getChannelsNameMapInTeam', () => {
     });
     it('get empty map for non-existing team', () => {
         assert.deepEqual(Selectors.getChannelsNameMapInTeam(testState, 'junk'), {});
+    });
+});
+
+describe('Selectors.Channels.getChannelNameToDisplayNameMap', () => {
+    const team1 = TestHelper.fakeTeamWithId();
+    const team2 = TestHelper.fakeTeamWithId();
+
+    const channel1 = {
+        ...TestHelper.fakeChannelWithId(team1.id),
+        id: 'channel1',
+    };
+    const channel2 = {
+        ...TestHelper.fakeChannelWithId(team1.id),
+        id: 'channel2',
+    };
+    const channel3 = {
+        ...TestHelper.fakeChannelWithId(team1.id),
+        id: 'channel3',
+    };
+    const channel4 = {
+        ...TestHelper.fakeChannelWithId(team2.id),
+        id: 'channel4',
+    };
+
+    const baseState = {
+        entities: {
+            channels: {
+                channels: {
+                    channel1,
+                    channel2,
+                    channel3,
+                    channel4,
+                },
+                channelsInTeam: {
+                    [team1.id]: [channel1.id, channel2.id, channel3.id],
+                    [team2.id]: [channel4.id],
+                },
+            },
+            teams: {
+                currentTeamId: team1.id,
+            },
+        },
+    };
+
+    test('should return a map of channel names to display names for the current team', () => {
+        let state = baseState;
+
+        expect(Selectors.getChannelNameToDisplayNameMap(state)).toEqual({
+            [channel1.name]: channel1.display_name,
+            [channel2.name]: channel2.display_name,
+            [channel3.name]: channel3.display_name,
+        });
+
+        state = mergeObjects(baseState, {
+            entities: {
+                teams: {
+                    currentTeamId: team2.id,
+                },
+            },
+        });
+
+        expect(Selectors.getChannelNameToDisplayNameMap(state)).toEqual({
+            [channel4.name]: channel4.display_name,
+        });
+    });
+
+    describe('memoization', () => {
+        test('should return the same object when called twice with the same state', () => {
+            const originalResult = Selectors.getChannelNameToDisplayNameMap(baseState);
+
+            expect(Selectors.getChannelNameToDisplayNameMap(baseState)).toBe(originalResult);
+        });
+
+        test('should return the same object when a channel on another team changes', () => {
+            const originalResult = Selectors.getChannelNameToDisplayNameMap(baseState);
+
+            const state = mergeObjects(baseState, {
+                entities: {
+                    channels: {
+                        channels: {
+                            [channel4.id]: {
+                                ...channel4,
+                                display_name: 'something else entirely',
+                            },
+                        },
+                    },
+                },
+            });
+
+            expect(Selectors.getChannelNameToDisplayNameMap(state)).toBe(originalResult);
+        });
+
+        test('should return the same object when a channel receives a new post', () => {
+            const originalResult = Selectors.getChannelNameToDisplayNameMap(baseState);
+
+            const state = mergeObjects(baseState, {
+                entities: {
+                    channels: {
+                        channels: {
+                            [channel1.id]: {
+                                ...channel1,
+                                last_post_at: 1234,
+                            },
+                        },
+                    },
+                },
+            });
+
+            expect(Selectors.getChannelNameToDisplayNameMap(state)).toBe(originalResult);
+        });
+
+        test('should return a new object when a channel is renamed', () => {
+            const originalResult = Selectors.getChannelNameToDisplayNameMap(baseState);
+
+            const state = mergeObjects(baseState, {
+                entities: {
+                    channels: {
+                        channels: {
+                            [channel2.id]: {
+                                ...channel2,
+                                display_name: 'something else',
+                            },
+                        },
+                    },
+                },
+            });
+
+            const result = Selectors.getChannelNameToDisplayNameMap(state);
+            expect(result).not.toBe(originalResult);
+            expect(result).toEqual({
+                [channel1.name]: channel1.display_name,
+                [channel2.name]: 'something else',
+                [channel3.name]: channel3.display_name,
+            });
+        });
+
+        test('should return a new object when a new team is added', () => {
+            const originalResult = Selectors.getChannelNameToDisplayNameMap(baseState);
+
+            const newChannel = {
+                ...TestHelper.fakeChannelWithId(team1.id),
+                id: 'newChannel',
+            };
+
+            const state = mergeObjects(baseState, {
+                entities: {
+                    channels: {
+                        channels: {
+                            newChannel,
+                        },
+                        channelsInTeam: {
+                            [team1.id]: [channel1.id, channel2.id, channel3.id, newChannel.id],
+                        },
+                    },
+                },
+            });
+
+            const result = Selectors.getChannelNameToDisplayNameMap(state);
+            expect(result).not.toBe(originalResult);
+            expect(result).toEqual({
+                ...originalResult,
+                [newChannel.name]: newChannel.display_name,
+            });
+        });
     });
 });
 
