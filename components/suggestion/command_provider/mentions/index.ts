@@ -7,10 +7,9 @@ import {
     autocompleteUsersInChannel,
     Channel,
     COMMAND_SUGGESTION_CHANNEL,
+    COMMAND_SUGGESTION_USER,
     DispatchFunc,
-    getFullName,
     GlobalState,
-    imageURLForUser,
     UserAutocomplete,
     UserProfile,
 } from '../app_command_parser/app_command_parser_dependencies';
@@ -99,9 +98,11 @@ export async function getChannelSuggestions(channels?: Channel[]): Promise<Autoc
         return {
             Complete: '~' + c.name,
             Suggestion: c.name,
-            Description: c.display_name,
+            Description: '',
             Hint: '',
-            IconData: COMMAND_SUGGESTION_CHANNEL,
+            IconData: '',
+            type: COMMAND_SUGGESTION_CHANNEL,
+            item: c,
         };
     });
 
@@ -112,20 +113,10 @@ function getUserSuggestion(u: UserProfile) {
     return {
         Complete: '@' + u.username,
         Suggestion: u.username,
-        Description: getUserSuggestionDescription(u),
+        Description: '',
         Hint: '',
-        IconData: imageURLForUser(u.id, u.last_picture_update),
+        IconData: '',
+        type: COMMAND_SUGGESTION_USER,
+        item: u,
     };
-}
-
-function getUserSuggestionDescription(u: UserProfile) {
-    let description = '';
-    if ((u.first_name || u.last_name) && u.nickname) {
-        description = `${getFullName(u)} (${u.nickname})`;
-    } else if (u.nickname) {
-        description = `(${u.nickname})`;
-    } else if (u.first_name || u.last_name) {
-        description = `${getFullName(u)}`;
-    }
-    return description;
 }

@@ -22,11 +22,9 @@ import {GlobalState} from 'types/store';
 
 import {AppCommandParser} from './app_command_parser/app_command_parser';
 import {intlShim} from './app_command_parser/app_command_parser_dependencies';
-import {inTextMentionSuggestions} from './mentions';
 
 const EXECUTE_CURRENT_COMMAND_ITEM_ID = Constants.Integrations.EXECUTE_CURRENT_COMMAND_ITEM_ID;
 const COMMAND_SUGGESTION_ERROR = Constants.Integrations.COMMAND_SUGGESTION_ERROR;
-const COMMAND_SUGGESTION_CHANNEL = Constants.Integrations.COMMAND_SUGGESTION_CHANNEL;
 
 export class CommandSuggestion extends Suggestion {
     render() {
@@ -45,12 +43,9 @@ export class CommandSuggestion extends Suggestion {
         case COMMAND_SUGGESTION_ERROR:
             symbolSpan = <span>{'!'}</span>;
             break;
-        case COMMAND_SUGGESTION_CHANNEL:
-            symbolSpan = (<span><i className='icon icon--no-spacing icon-globe'/></span>);
-            break;
         }
         let icon = <div className='slash-command__icon'>{symbolSpan}</div>;
-        if (item.IconData && ![EXECUTE_CURRENT_COMMAND_ITEM_ID, COMMAND_SUGGESTION_ERROR, COMMAND_SUGGESTION_CHANNEL].includes(item.IconData)) {
+        if (item.IconData && ![EXECUTE_CURRENT_COMMAND_ITEM_ID, COMMAND_SUGGESTION_ERROR].includes(item.IconData)) {
             icon = (
                 <div
                     className='slash-command__icon'
@@ -140,23 +135,11 @@ export default class CommandProvider extends Provider {
             return true;
         }
 
-        inTextMentionSuggestions(pretext, this.store as any, this.props.channelId, this.props.teamId).then((suggestions) => {
-            if (suggestions) {
-                const terms = suggestions.map((suggestion) => suggestion.Complete);
-                resultCallback({
-                    matchedPretext: pretext,
-                    terms,
-                    items: suggestions,
-                    component: CommandSuggestion,
-                });
-                return;
-            }
-            if (UserAgent.isMobile()) {
-                this.handleMobile(pretext, resultCallback);
-            } else {
-                this.handleWebapp(pretext, resultCallback);
-            }
-        });
+        if (UserAgent.isMobile()) {
+            this.handleMobile(pretext, resultCallback);
+        } else {
+            this.handleWebapp(pretext, resultCallback);
+        }
 
         return true;
     }

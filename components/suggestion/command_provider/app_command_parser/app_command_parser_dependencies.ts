@@ -72,13 +72,7 @@ export {createCallRequest} from 'utils/apps';
 import {
     isMac,
     localizeAndFormatMessage,
-    getFullName,
-    imageURLForUser,
 } from 'utils/utils';
-export {
-    getFullName,
-    imageURLForUser,
-};
 
 import Store from 'stores/redux_store';
 export const getStore = () => Store;
@@ -87,6 +81,7 @@ import {Constants} from 'utils/constants';
 export const EXECUTE_CURRENT_COMMAND_ITEM_ID = Constants.Integrations.EXECUTE_CURRENT_COMMAND_ITEM_ID;
 export const COMMAND_SUGGESTION_ERROR = Constants.Integrations.COMMAND_SUGGESTION_ERROR;
 export const COMMAND_SUGGESTION_CHANNEL = Constants.Integrations.COMMAND_SUGGESTION_CHANNEL;
+export const COMMAND_SUGGESTION_USER = Constants.Integrations.COMMAND_SUGGESTION_USER;
 
 import type {ParsedCommand} from './app_command_parser';
 

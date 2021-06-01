@@ -1543,6 +1543,7 @@ export const Constants = {
         EXECUTE_CURRENT_COMMAND_ITEM_ID: '_execute_current_command',
         COMMAND_SUGGESTION_ERROR: 'error',
         COMMAND_SUGGESTION_CHANNEL: 'channel',
+        COMMAND_SUGGESTION_USER: 'user',
     },
     FeatureTogglePrefix: 'feature_enabled_',
     PRE_RELEASE_FEATURES: {

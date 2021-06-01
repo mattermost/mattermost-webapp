@@ -42,6 +42,7 @@ import {
     errorMessage as parserErrorMessage,
     autocompleteUsersInChannel,
     autocompleteChannels,
+    UserProfile,
 } from './app_command_parser_dependencies';
 
 export interface Store {
@@ -75,6 +76,11 @@ interface FormsCache {
 
 interface Intl {
     formatMessage(config: {id: string; defaultMessage: string}, values?: {[name: string]: any}): string;
+}
+
+type ExtendedAutocompleteSuggestion = AutocompleteSuggestion & {
+    type?: string;
+    item?: UserProfile | Channel;
 }
 
 const getCommandBindings = makeAppBindingsSelector(AppBindingLocations.COMMAND);
@@ -618,9 +624,9 @@ export class AppCommandParser {
     }
 
     // getSuggestions returns suggestions for subcommands and/or form arguments
-    public getSuggestions = async (pretext: string): Promise<AutocompleteSuggestion[]> => {
+    public getSuggestions = async (pretext: string): Promise<ExtendedAutocompleteSuggestion[]> => {
         let parsed = new ParsedCommand(pretext, this, this.intl);
-        let suggestions: AutocompleteSuggestion[] = [];
+        let suggestions: ExtendedAutocompleteSuggestion[] = [];
 
         const commandBindings = this.getCommandBindings();
         if (!commandBindings) {
@@ -990,7 +996,7 @@ export class AppCommandParser {
     }
 
     // getParameterSuggestions computes suggestions for positional argument values, flag names, and flag argument values
-    private getParameterSuggestions = async (parsed: ParsedCommand): Promise<AutocompleteSuggestion[]> => {
+    private getParameterSuggestions = async (parsed: ParsedCommand): Promise<ExtendedAutocompleteSuggestion[]> => {
         switch (parsed.state) {
         case ParseState.StartParameter: {
             // see if there's a matching positional field
@@ -1068,7 +1074,7 @@ export class AppCommandParser {
     }
 
     // getSuggestionsForField gets suggestions for a positional or flag field value
-    private getValueSuggestions = async (parsed: ParsedCommand, delimiter?: string): Promise<AutocompleteSuggestion[]> => {
+    private getValueSuggestions = async (parsed: ParsedCommand, delimiter?: string): Promise<ExtendedAutocompleteSuggestion[]> => {
         if (!parsed || !parsed.field) {
             return [];
         }

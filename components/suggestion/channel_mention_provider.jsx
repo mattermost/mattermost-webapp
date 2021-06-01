@@ -14,7 +14,7 @@ import {Constants} from 'utils/constants';
 import Provider from './provider.jsx';
 import Suggestion from './suggestion.jsx';
 
-class ChannelMentionSuggestion extends Suggestion {
+export class ChannelMentionSuggestion extends Suggestion {
     render() {
         const isSelection = this.props.isSelection;
         const item = this.props.item;
