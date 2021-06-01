@@ -2840,7 +2840,7 @@
   "custom_emoji.header": "Custom Emoji",
   "custom_status.expiry_dropdown.choose_date_and_time": "Choose date and time",
   "custom_status.expiry_dropdown.clear_after": "Clear after",
-  "custom_status.expiry_dropdown.date_and_time": "Date and Time",
+  "custom_status.expiry_dropdown.date_and_time": "Custom Date and Time",
   "custom_status.expiry_dropdown.dont_clear": "Don't clear",
   "custom_status.expiry_dropdown.four_hours": "4 hours",
   "custom_status.expiry_dropdown.one_hour": "1 hour",

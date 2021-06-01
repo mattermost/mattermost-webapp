@@ -27,6 +27,21 @@ describe('components/custom_status/custom_status_emoji', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    it('should match snapshot with duration', () => {
+        const props = {
+            ...baseProps,
+            status: {
+                ...baseProps.status,
+                duration: CustomStatusDuration.TODAY,
+            },
+        };
+        const wrapper = shallow(
+            <CustomStatusSuggestion {...props}/>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
     it('should call handleSuggestionClick when click occurs on div', () => {
         const wrapper = shallow(
             <CustomStatusSuggestion {...baseProps}/>,

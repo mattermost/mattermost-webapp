@@ -3,6 +3,7 @@
 import React, {useState} from 'react';
 import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
+import classNames from 'classnames';
 
 import {UserCustomStatus} from 'mattermost-redux/types/users';
 
@@ -77,9 +78,11 @@ const CustomStatusSuggestion: React.FC<Props> = (props: Props) => {
             <CustomStatusText
                 text={text}
                 tooltipDirection='top'
-                className='statusSuggestion__text'
+                className={classNames('statusSuggestion__text', {
+                    with_duration: duration,
+                })}
             />
-            {duration !== undefined && (
+            {duration && (
                 <span className='statusSuggestion__duration'>
                     <FormattedMessage
                         id={durationValues[duration].id}

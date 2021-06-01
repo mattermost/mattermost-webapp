@@ -207,9 +207,12 @@
         height: 20px;
         text-overflow: ellipsis;
         white-space: nowrap;
-        max-width: 73%;
-    }
 
+        &.with_duration {
+            max-width: 62%;
+        }
+    }
+    
     &__duration {
         margin-left: 8px;
         font-weight: 400;

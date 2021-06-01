@@ -1709,11 +1709,11 @@ export const durationValues = {
     },
     [DATE_AND_TIME]: {
         id: t('custom_status.expiry_dropdown.date_and_time'),
-        defaultMessage: 'Date and Time',
+        defaultMessage: 'Custom Date and Time',
     },
     [CUSTOM_DATE_TIME]: {
         id: t('custom_status.expiry_dropdown.date_and_time'),
-        defaultMessage: 'Date and Time',
+        defaultMessage: 'Custom Date and Time',
     },
 };
 
