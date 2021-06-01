@@ -88,7 +88,7 @@ describe('Message', () => {
                     parents('li').
                     should('exist');
 
-                // * Verify that li tags have ol as thier parent
+                // * Verify that li tags have ol as their parent
                 cy.findByText('firstBullet').
                     parents('ol').
                     should('exist').
