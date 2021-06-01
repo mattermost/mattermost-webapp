@@ -65,7 +65,7 @@ type State = {
     processing: boolean;
     editPaymentInfo: boolean;
     currentProduct: Product | null | undefined;
-    nextProductToUpgrade: Product | null | undefined;
+    selectedProduct: Product | null | undefined;
 }
 
 /**
@@ -101,7 +101,7 @@ function findProductInDictionary(products: Dictionary<Product> | undefined, prod
     return currentProduct;
 }
 
-function selectNextProductToUpgrade(products: Dictionary<Product> | undefined, productId?: string | null) {
+function selectselectedProduct(products: Dictionary<Product> | undefined, productId?: string | null) {
     const currentProduct = findProductInDictionary(products, productId);
     let nextSku = CloudProducts.PROFESSIONAL;
     if (currentProduct?.sku === CloudProducts.PROFESSIONAL) {
@@ -121,7 +121,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
             processing: false,
             editPaymentInfo: isEmpty(this.props.customer?.payment_method && this.props.customer?.billing_address),
             currentProduct: findProductInDictionary(props.products, props.productId),
-            nextProductToUpgrade: selectNextProductToUpgrade(props.products, props.productId),
+            selectedProduct: selectselectedProduct(props.products, props.productId),
         };
     }
 
@@ -179,7 +179,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
     onPlanSelected = (e: React.ChangeEvent<HTMLInputElement>) => {
         const selectedPlan = findProductInDictionary(this.props.products, e.target.value);
 
-        this.setState({nextProductToUpgrade: selectedPlan});
+        this.setState({selectedProduct: selectedPlan});
     }
 
     listPlans = () => {
@@ -199,7 +199,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                 <RadioButtonGroup
                     id='list-plans-radio-buttons'
                     values={options!}
-                    value={this.state.nextProductToUpgrade?.id as string}
+                    value={this.state.selectedProduct?.id as string}
                     badge={{matchVal: this.state.currentProduct?.id as string, text: badgeTitle}}
                     onChange={(e: any) => this.onPlanSelected(e)}
                 />
@@ -351,10 +351,10 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                             </div>
                         }
                         <div className='bold-text'>
-                            {this.state.nextProductToUpgrade?.name || ''}
+                            {this.state.selectedProduct?.name || ''}
                         </div>
                         <div className='price-text'>
-                            {`$${this.state.nextProductToUpgrade?.price_per_seat || 0}`}
+                            {`$${this.state.selectedProduct?.price_per_seat || 0}`}
                             <span className='monthly-text'>
                                 <FormattedMessage
                                     defaultMessage={' /user/month'}
@@ -472,7 +472,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                                             this.setState({processing: false});
                                         }}
                                         contactSupportLink={this.props.contactSalesLink}
-                                        selectedProduct={this.state.nextProductToUpgrade}
+                                        selectedProduct={this.state.selectedProduct}
                                     />
                                 </div>
                             ) : null}
