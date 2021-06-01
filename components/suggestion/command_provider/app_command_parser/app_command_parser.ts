@@ -984,7 +984,7 @@ export class AppCommandParser {
                         const option = {label: '', value: commandValues[i]};
                         if (options.find((o) => o.value === option.value)) {
                             errors[f.name] = this.intl.formatMessage({
-                                id: 'apps.error.command.same_user',
+                                id: 'apps.error.command.same_option',
                                 defaultMessage: 'Option repeated for field `{fieldName}`: `{option}`.',
                             }, {
                                 fieldName: f.name,
@@ -1024,7 +1024,7 @@ export class AppCommandParser {
                         }
                         if (options.find((o) => o.value === option.value)) {
                             errors[f.name] = this.intl.formatMessage({
-                                id: 'apps.error.command.same_user',
+                                id: 'apps.error.command.same_option',
                                 defaultMessage: 'Option repeated for field `{fieldName}`: `{option}`.',
                             }, {
                                 fieldName: f.name,
@@ -1151,8 +1151,8 @@ export class AppCommandParser {
 
                         if (options.find((o) => o.value === channel?.id)) {
                             errors[f.name] = this.intl.formatMessage({
-                                id: 'apps.error.command.same_user',
-                                defaultMessage: 'User repeated for field `{fieldName}`: `{option}`.',
+                                id: 'apps.error.command.same_channel',
+                                defaultMessage: 'Channel repeated for field `{fieldName}`: `{option}`.',
                             }, {
                                 fieldName: f.name,
                                 option: channelName,
