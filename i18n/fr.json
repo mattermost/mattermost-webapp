@@ -3646,6 +3646,7 @@
   "save_button.save": "Enregistrer",
   "save_button.saving": "Enregistrement en cours",
   "search_bar.search": "Rechercher",
+  "search_bar.usage.search_type_question": "Que recherchez-vous ?",
   "search_bar.usage.title": "Options de recherche",
   "search_header.loading": "Recherche en cours…",
   "search_header.title5": "Information additionnelle",
