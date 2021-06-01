@@ -1,12 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {ReactNode} from 'react';
+
+import Badge from 'components/widgets/badges/badge';
 
 type RadioGroupProps = {
     id: string;
     values: Array<{ key: string; value: string}>;
     value: string;
+    badge?: {matchVal: string; text: ReactNode};
     isDisabled?: (id: string) => boolean | boolean;
     onChange(e: React.ChangeEvent<HTMLInputElement>): void;
 }
@@ -16,6 +19,7 @@ const RadioButtonGroup: React.FC<RadioGroupProps> = ({
     isDisabled,
     values,
     value,
+    badge,
 }: RadioGroupProps) => {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         onChange(e);
@@ -40,6 +44,11 @@ const RadioButtonGroup: React.FC<RadioGroupProps> = ({
                     />
                     {key}
                 </label>
+                {(badge && val === badge?.matchVal) &&
+                    <Badge className='radio-badge'>
+                        {badge.text}
+                    </Badge>
+                }
             </div>,
         );
     }
