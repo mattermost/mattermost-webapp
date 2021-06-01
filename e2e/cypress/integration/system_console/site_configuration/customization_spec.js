@@ -360,7 +360,7 @@ function verifySiteNameInAboutModal(siteName) {
     // # Open the hamburger menu
     cy.get('button > span[class="menu-icon"]').click();
 
-    // # click to open about modal
+    // # Click to open about modal
     cy.findByText(`About ${siteName}`).click();
 
     // * Verify about text is visible
