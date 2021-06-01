@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {Post, PostEmbed} from 'mattermost-redux/types/posts';
+import {Post, PostEmbed, PostPreviewMetadata} from 'mattermost-redux/types/posts';
 
 import {getEmbedFromMetadata} from 'mattermost-redux/utils/post_utils';
 import {AppBinding} from 'mattermost-redux/types/apps';
@@ -16,6 +16,7 @@ import YoutubeVideo from 'components/youtube_video';
 import {PostWillRenderEmbedPluginComponent} from 'types/store/plugins';
 import EmbeddedBindings from '../embedded_bindings/embedded_bindings';
 import {TextFormattingOptions} from 'utils/text_formatting';
+import PostMessagePreview from 'components/post_view/post_message_preview';
 
 export type Props = {
     post: Post;
@@ -58,7 +59,6 @@ export default class PostBodyAdditionalContent extends React.PureComponent<Props
                 return this.props.isEmbedVisible && <Component embed={embed}/>;
             }
         }
-
         switch (embed.type) {
         case 'image':
             if (!this.props.isEmbedVisible) {
@@ -113,7 +113,14 @@ export default class PostBodyAdditionalContent extends React.PureComponent<Props
                     toggleEmbedVisibility={this.toggleEmbedVisibility}
                 />
             );
-
+        case 'permalink': {
+            return (
+                <PostMessagePreview 
+                    userId={embed.data.user_id}
+                    metadata={embed.data}
+                />
+            )
+        }
         default:
             return null;
         }
