@@ -234,13 +234,6 @@ export default class ThreadViewer extends React.Component<Props, State> {
 
         if (reconnected || selectedChanged) {
             this.props.actions.getPostThread(this.props.selected.id);
-
-            if (
-                this.props.isCollapsedThreadsEnabled &&
-                this.props.userThread == null
-            ) {
-                this.fetchThread();
-            }
         }
 
         if (
