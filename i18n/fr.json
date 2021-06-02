@@ -3608,7 +3608,7 @@
   "remove_group_confirm_title": "Supprimer le groupe et {memberCount, number} {memberCount, plural, one {membre} other {membres}}",
   "remove_next_steps_modal.confirm": "Retirer",
   "remove_next_steps_modal.header": "Supprimer {title} ?",
-  "remove_next_steps_modal.helpText": "Accédez à {titre} à tout moment par le menu principal",
+  "remove_next_steps_modal.helpText": "Accédez à {title} à tout moment par le menu principal",
   "remove_next_steps_modal.mainText": "Cela supprimera cette section de votre barre latérale, mais vous pourrez y accéder ultérieurement dans la section Aide du menu principal.",
   "removed_channel.channelName": "le canal",
   "removed_channel.from": "Retiré de ",
