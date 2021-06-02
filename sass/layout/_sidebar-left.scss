@@ -612,15 +612,21 @@
                 opacity: 0.4;
             }
         }
+
+        &.dragging {
+            border-radius: 4px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.12);
+            color: var(--sidebar-text);
+
+            .SidebarChannelGroupHeader_groupButton {
+                border-radius: 4px;
+            }
+        }
     }
 
     .SidebarChannelGroup:not(.autoSortedCategory) .draggingOver .SidebarChannelGroupHeader:hover {
         box-shadow: inset -1px 0 0 rgba(var(--sidebar-text-rgb), 0.60), inset 0 -1px 0 rgba(var(--sidebar-text-rgb), 0.6), inset 1px 0 0 rgba(var(--sidebar-text-rgb), 0.6), inset 0 1px 0 rgba(var(--sidebar-text-rgb), 0.6);
         border-radius: 4px;
-
-        .SidebarChannelGroupHeader_groupButton {
-            background-color: inherit;
-        }
     }
 
     .SidebarChannelGroupHeader_groupButton {
@@ -634,7 +640,7 @@
         text-align: left;
         border: none;
         color: rgba(var(--sidebar-text-rgb), 0.6);
-        background-color: var(--sidebar-bg);
+        background-color: transparent;
         top: 0;
         box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.33);
         transition: box-shadow 0.25s ease-in-out;
@@ -654,12 +660,6 @@
             text-overflow: ellipsis;
             width: 100%;
             padding-left: 16px;
-        }
-
-        &.dragging {
-            border-radius: 4px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.12);
-            color: var(--sidebar-text);
         }
 
         i.icon-chevron-down {
@@ -748,11 +748,8 @@
 
         .SidebarChannelGroupHeader {
             background-color: var(--sidebar-bg);
-
-            .SidebarChannelGroupHeader_groupButton {
-                border-radius: 4px 4px 0 0;
-                box-shadow: inset -1px 0 0 rgba(var(--sidebar-text-rgb), 0.6), inset 1px 0 0 rgba(var(--sidebar-text-rgb), 0.6), inset 0 1px 0 rgba(var(--sidebar-text-rgb), 0.6);
-            }
+            border-radius: 4px 4px 0 0;
+            box-shadow: inset -1px 0 0 rgba(var(--sidebar-text-rgb), 0.6), inset 1px 0 0 rgba(var(--sidebar-text-rgb), 0.6), inset 0 1px 0 rgba(var(--sidebar-text-rgb), 0.6);
         }
     }
 

@@ -52,6 +52,52 @@
 
         .central-panel {
             width: 50%;
+
+            .PaymentDetails {
+                font-style: normal;
+                font-weight: normal;
+                font-size: 14px;
+                line-height: 20px;
+                padding: 10px 0 0 10%;
+
+                .PaymentInfoDisplay__paymentInfo-text {
+                    background-color: #FFFFFF;
+                    border: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
+                    box-sizing: border-box;
+                    box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.08);
+                    border-radius: 4px;
+                    margin: 24px 0px;
+                    padding: 32px;
+                    width: 416px;
+                    height: 318px;
+
+                    .CardImage {
+                        max-width: 55px !important;
+                        max-height: 37px !important;
+                    }
+
+                    .PaymentInfoDisplay__paymentInfo-cardInfo {
+                        margin: 10px 0px;
+                    }
+                }
+
+                .title {
+                    font-style: normal;
+                    font-weight: 600;
+                    font-size: 16px;
+                    line-height: 24px;
+                }
+
+                .editPaymentButton {
+                    border: none;
+                    background: none;
+                    color: var(--button-bg);
+                    font-weight: 600;
+                    font-size: 14px;
+                    line-height: 24px;
+                    padding-left: 20px !important;
+                }
+            }
         }
 
         .full-width {
@@ -93,6 +139,8 @@
                     }
 
                     .plans-list {
+                        margin-top: 16px;
+
                         label {
                             color: rgba(var(--sys-center-channel-color-rgb), 0.64);
                             font-family: Open Sans;
@@ -155,6 +203,28 @@
 
                         .selected {
                             color: var(--sys-center-channel-color);
+                        }
+
+                        .radio {
+                            display: flex;
+                            justify-content: space-between;
+                            margin-top: 10px !important;
+                            margin-bottom: 10px;
+                            position: relative;
+
+                            .Badge {
+                                margin-top: -5px;
+                            }
+
+                            .radio-badge {
+                                background-color: var(--sidebar-team-background);
+                                border-radius: 4px;
+                                color: var(--button-color);
+                                font-weight: 600;
+                                font-size: 10px;
+                                line-height: 16px;
+                                text-transform: uppercase;
+                            }
                         }
                     }
                 }
