@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {CloudCustomer} from 'mattermost-redux/types/cloud';
+import {BillingDetails} from 'types/cloud/sku';
 
 export function isCustomerCardExpired(customer?: CloudCustomer): boolean {
     if (!customer) {
@@ -19,4 +20,18 @@ export function isCustomerCardExpired(customer?: CloudCustomer): boolean {
     // But credit cards expire at the end of their expiry month, so we can just use that number.
     const lastExpiryDate = new Date(expiryYear, customer.payment_method.exp_month, 1);
     return lastExpiryDate <= new Date();
+}
+
+export function billingDetailsIsValid(billingDetails: BillingDetails): boolean {
+    if (billingDetails == null) {
+        return false;
+    }
+    return Boolean(
+        billingDetails?.address &&
+        billingDetails?.city &&
+        billingDetails?.state &&
+        billingDetails?.country &&
+        billingDetails?.postalCode &&
+        billingDetails.name,
+    );
 }
