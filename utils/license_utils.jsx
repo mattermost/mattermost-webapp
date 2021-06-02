@@ -51,6 +51,10 @@ export function isTrialLicense(license) {
         return false;
     }
 
+    if (license.IsTrial === 'true') {
+        return true;
+    }
+
     // Currently all trial licenses are issued with a 30 day, 8 hours duration.
     // We're using this logic to detect a trial license until we add the right field in the license itself.
     const timeDiff = parseInt(license.ExpiresAt, 10) - parseInt(license.StartsAt, 10);
