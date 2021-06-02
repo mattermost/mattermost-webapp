@@ -11,7 +11,7 @@
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
-describe('Deleting', () => {
+describe('Scroll', () => {
     let lastPostBeforeScroll;
     let firstPostBeforeScroll;
     let testChannelId;
