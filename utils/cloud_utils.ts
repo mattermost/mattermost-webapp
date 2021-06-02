@@ -21,17 +21,3 @@ export function isCustomerCardExpired(customer?: CloudCustomer): boolean {
     const lastExpiryDate = new Date(expiryYear, customer.payment_method.exp_month, 1);
     return lastExpiryDate <= new Date();
 }
-
-export function billingDetailsIsValid(billingDetails: BillingDetails): boolean {
-    if (billingDetails == null) {
-        return false;
-    }
-    return Boolean(
-        billingDetails?.address &&
-        billingDetails?.city &&
-        billingDetails?.state &&
-        billingDetails?.country &&
-        billingDetails?.postalCode &&
-        billingDetails.name,
-    );
-}

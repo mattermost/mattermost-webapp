@@ -29,7 +29,6 @@ import RadioButtonGroup from 'components/common/radio_group';
 import {areBillingDetailsValid, BillingDetails} from 'types/cloud/sku';
 
 import {getNextBillingDate} from 'utils/utils';
-import {billingDetailsIsValid} from 'utils/cloud_utils';
 
 import PaymentForm from '../payment_form/payment_form';
 
@@ -278,7 +277,7 @@ export default class PurchaseModal extends React.PureComponent<Props, State> {
                 name: this.props.customer?.payment_method.name,
             } as BillingDetails;
 
-            validBillingDetails = billingDetailsIsValid(initialBillingDetails);
+            validBillingDetails = areBillingDetailsValid(initialBillingDetails);
         }
 
         return (
