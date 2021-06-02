@@ -36,7 +36,7 @@ describe('Scroll', () => {
         });
     });
 
-    it('MM-T2372 Deleting', () => {
+    it('MM-T2372 Post list does not scroll when the offscreen post is deleted', () => {
         // # Other user posts a multiline message
         cy.postMessageAs({sender: otherUser, message: multilineString, channelId: testChannelId});
         cy.getLastPostId().then((postId) => {
