@@ -297,7 +297,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 Object {
                   "order": 2,
                   "text": "English (Australian) (Beta)",
-                  "value": "en-AU",
+                  "value": "en_AU",
                 },
                 Object {
                   "order": 3,
