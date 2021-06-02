@@ -181,7 +181,7 @@ describe('System Console > User Management > Deactivation', () => {
         // # Create a new user
         cy.apiCreateUser().then(({user: user1}) => {
             // # Search the newly created user in the search box
-            cy.findByPlaceholderText('Search users').should('be.visible').clear().type(user1.email);
+            cy.findByPlaceholderText('Search users').should('be.visible').clear().type(user1.email).wait(TIMEOUTS.HALF_SEC);
 
             // * Verify that user is listed
             cy.findByText(`@${user1.username}`).should('be.visible');
