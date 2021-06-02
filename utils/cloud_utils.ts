@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import {CloudCustomer} from 'mattermost-redux/types/cloud';
-import {BillingDetails} from 'types/cloud/sku';
 
 export function isCustomerCardExpired(customer?: CloudCustomer): boolean {
     if (!customer) {
