@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @custom_status
 
 describe('MM-T4064 Status expiry visibility', () => {
