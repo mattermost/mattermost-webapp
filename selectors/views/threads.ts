@@ -59,11 +59,11 @@ export function makeGetThreadLastViewedAt(): (state: GlobalState, threadId: $ID<
     );
 }
 
-export const getOpenThreadId: (state: GlobalState) => $ID<UserThread> = createSelector(
+export const getOpenThreadId: (state: GlobalState) => $ID<UserThread> | null = createSelector(
     getSelectedThreadIdInCurrentTeam,
     getSelectedPostId,
     (selectedThreadId, selectedPostId) => {
-        return selectedPostId ?? selectedThreadId;
+        return selectedPostId || selectedThreadId;
     },
 );
 

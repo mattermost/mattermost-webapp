@@ -384,20 +384,11 @@ export function toggleRhsExpanded() {
 }
 
 export function selectPost(post: Post) {
-    return (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        const state = getState();
-        const thread = getThread(state, post.root_id || post.id);
-
-        if (thread) {
-            dispatch(updateThreadLastOpened(thread.id, thread.last_viewed_at));
-        }
-
-        dispatch({
-            type: ActionTypes.SELECT_POST,
-            postId: post.root_id || post.id,
-            channelId: post.channel_id,
-            timestamp: Date.now(),
-        });
+    return {
+        type: ActionTypes.SELECT_POST,
+        postId: post.root_id || post.id,
+        channelId: post.channel_id,
+        timestamp: Date.now(),
     };
 }
 

@@ -22,6 +22,7 @@ import {getDirectTeammate} from 'utils/utils.jsx';
 import {getSocketStatus} from 'selectors/views/websocket';
 import {makeGetThreadLastViewedAt} from 'selectors/views/threads';
 import {selectPostCard} from 'actions/views/rhs';
+import {updateThreadLastOpened} from 'actions/views/threads';
 import {GlobalState} from 'types/store';
 
 import ThreadViewer from './thread_viewer';
@@ -77,6 +78,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             selectPostCard,
             getThread: fetchThread,
             updateThreadRead,
+            updateThreadLastOpened,
         }, dispatch),
     };
 }

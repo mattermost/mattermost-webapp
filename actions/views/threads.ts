@@ -17,19 +17,11 @@ export function updateThreadLastOpened(threadId: string, lastViewedAt: number) {
 }
 
 export function setSelectedThreadId(teamId: string, threadId: string | undefined) {
-    return (dispatch: DispatchFunc, getState: GetStateFunc): void => {
-        const thread = getThread(getState(), threadId);
-
-        if (thread) {
-            dispatch(updateThreadLastOpened(thread.id, thread.last_viewed_at));
-        }
-
-        dispatch({
-            type: Threads.CHANGED_SELECTED_THREAD,
-            data: {
-                thread_id: threadId,
-                team_id: teamId,
-            },
-        });
+    return {
+        type: Threads.CHANGED_SELECTED_THREAD,
+        data: {
+            thread_id: threadId,
+            team_id: teamId,
+        },
     };
 }

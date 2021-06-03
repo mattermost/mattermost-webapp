@@ -1426,7 +1426,7 @@ function handleThreadReadChanged(msg) {
             const thread = getThreads(state)?.[msg.data.thread_id];
             if (thread) {
                 // skip marking the thread as read (when the user is viewing the thread)
-                if (!window.isActive && !isThreadOpen(state, thread.id)) {
+                if (!isThreadOpen(state, thread.id)) {
                     doDispatch(updateThreadLastOpened(thread.id, msg.data.timestamp));
                 }
 

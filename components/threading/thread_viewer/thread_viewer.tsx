@@ -85,6 +85,7 @@ type Props = Attrs & {
         getPostThread: (rootId: string, root?: boolean) => void;
         getThread: (userId: string, teamId: string, threadId: string, extended: boolean) => unknown;
         updateThreadRead: (userId: string, teamId: string, threadId: string, timestamp: number) => unknown;
+        updateThreadLastOpened: (threadId: string, lastViewedAt: number) => unknown;
     };
     directTeammate: UserProfile;
     useRelativeTimestamp?: boolean;
@@ -196,20 +197,25 @@ export default class ThreadViewer extends React.Component<Props, State> {
     }
 
     markThreadRead() {
-        if (
-            this.props.userThread &&
-            (
+        if (this.props.userThread) {
+            // update last viewed at for thread before marking as read.
+            this.props.actions.updateThreadLastOpened(
+                this.props.userThread.id,
+                this.props.userThread.last_viewed_at,
+            );
+
+            if (
                 this.props.userThread.last_viewed_at < this.props.userThread.last_reply_at ||
                 this.props.userThread.unread_mentions ||
                 this.props.userThread.unread_replies
-            )
-        ) {
-            this.props.actions.updateThreadRead(
-                this.props.currentUserId,
-                this.props.currentTeamId,
-                this.props.selected.id,
-                Date.now(),
-            );
+            ) {
+                this.props.actions.updateThreadRead(
+                    this.props.currentUserId,
+                    this.props.currentTeamId,
+                    this.props.selected.id,
+                    Date.now(),
+                );
+            }
         }
     }
 

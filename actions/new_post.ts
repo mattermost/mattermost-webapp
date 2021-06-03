@@ -32,10 +32,11 @@ import {
 
 import {GlobalState} from 'types/store';
 
+import {updateThreadLastOpened} from 'actions/views/threads';
 import {sendDesktopNotification} from 'actions/notification_actions.jsx';
 
 import {ActionTypes} from 'utils/constants';
-import {isThreadOpen} from 'selectors/views/threads';
+import {isThreadOpen, makeGetThreadLastViewedAt} from 'selectors/views/threads';
 
 type NewPostMessageProps = {
     mentions: string[];
@@ -133,6 +134,7 @@ export function setChannelReadAndViewed(post: Post, websocketMessageProps: NewPo
 }
 
 export function setThreadRead(post: Post) {
+    const getThreadLastViewedAt = makeGetThreadLastViewedAt();
     return (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState() as GlobalState;
 
@@ -148,6 +150,11 @@ export function setThreadRead(post: Post) {
             !isFromWebhook(post) &&
             isThreadOpen(state, thread.id)
         ) {
+            // update the new messages line (when there are no previous unreads)
+            if (thread.last_reply_at < getThreadLastViewedAt(state, thread.id)) {
+                dispatch(updateThreadLastOpened(thread.id, post.create_at));
+            }
+
             dispatch(updateThreadRead(currentUserId, currentTeamId, thread.id, post.create_at + 1));
         }
 
