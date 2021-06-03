@@ -122,7 +122,7 @@ export const contactSalesCard = (
                 <div className='PrivateCloudCard__text-description'>
                     {description}
                 </div>
-                {(isFreeTrial || subscriptionPlan === CloudProducts.ENTERPRISE) &&
+                {(isFreeTrial || subscriptionPlan === CloudProducts.ENTERPRISE || productsLenght === 1) &&
                     <a
                         href={isFreeTrial ? trialQuestionsLink : contactSalesLink}
                         rel='noopener noreferrer'
@@ -137,7 +137,7 @@ export const contactSalesCard = (
 
                     </a>
                 }
-                {(!isFreeTrial && subscriptionPlan !== CloudProducts.ENTERPRISE) &&
+                {(!isFreeTrial && productsLenght > 1 && subscriptionPlan !== CloudProducts.ENTERPRISE) &&
                     <button
                         type='button'
                         onClick={onUpgradeMattermostCloud}
