@@ -4,6 +4,7 @@
 import {connect} from 'react-redux';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {memoizeResult} from 'mattermost-redux/utils/helpers';
 
 import {GlobalState} from 'types/store';
 
@@ -14,7 +15,8 @@ import FileAttachment from './file_attachment';
 
 function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
-    const pluginMenuItems = (state.plugins.components.FilesDropdown || []) as unknown as FileDropdownPluginComponent[];
+    const getPluginMenuItems = memoizeResult((state: GlobalState) => state.plugins.components.FilesDropdown || []);
+    const pluginMenuItems = getPluginMenuItems(state) as unknown as FileDropdownPluginComponent[];
 
     return {
         canDownloadFiles: canDownloadFiles(config),

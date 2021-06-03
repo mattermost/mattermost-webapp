@@ -35,6 +35,7 @@ import FilesFilterMenu from './files_filter_menu';
 import './search_results.scss';
 
 import type {Props} from './types';
+import {memoizeResult} from "mattermost-redux/utils/helpers";
 
 const GET_MORE_BUFFER = 30;
 const FILES_SEARCH_TYPE = 'files';
@@ -77,7 +78,9 @@ const defaultProps: Partial<Props> = {
 const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
     const scrollbars = useRef<Scrollbars|null>(null);
     const [searchType, setSearchType] = useState<string>(props.searchType);
-    const filesDropdownPluginMenuItems = useSelector((state: GlobalState) => state.plugins.components.FilesDropdown || []) as unknown as FileDropdownPluginComponent[];
+
+    const getPluginMenuItems = memoizeResult((state: GlobalState) => state.plugins.components.FilesDropdown || []);
+    const filesDropdownPluginMenuItems = useSelector(getPluginMenuItems) as unknown as FileDropdownPluginComponent[];
 
     const intl = useIntl();
 
