@@ -1,9 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
-import {getThread} from 'mattermost-redux/selectors/entities/threads';
-
 import {Threads} from 'utils/constants';
 
 export function updateThreadLastOpened(threadId: string, lastViewedAt: number) {

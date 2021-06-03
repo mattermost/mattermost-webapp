@@ -7,11 +7,11 @@ import {shallow} from 'enzyme';
 import {Channel} from 'mattermost-redux/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {Post} from 'mattermost-redux/types/posts';
+import {UserThread} from 'mattermost-redux/types/threads';
 
 import {TestHelper} from 'utils/test_helper';
 
 import ThreadViewer from './thread_viewer';
-import {UserThread} from 'mattermost-redux/types/threads';
 
 describe('components/threading/ThreadViewer', () => {
     const post: Post = TestHelper.getPostMock({
