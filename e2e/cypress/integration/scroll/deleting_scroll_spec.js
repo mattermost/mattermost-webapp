@@ -68,7 +68,7 @@ describe('Scroll', () => {
             // # Wait for the message to be deleted
             cy.wait(TIMEOUTS.ONE_SEC);
 
-            // Verify the first post is the same after deleting
+            // * Verify the first post is the same after deleting
             cy.get('.post-message__text:visible').first().then((firstPostAfterScroll) => {
                 expect(firstPostAfterScroll.text()).equal(firstPostBeforeScroll);
             });
