@@ -57,7 +57,7 @@ describe('Scroll', () => {
                 firstPostBeforeScroll = postMessage.text();
             });
 
-            // * Get the text of the last visible post
+            // # Get the text of the last visible post
             cy.get('.post-message__text:visible').last().then((postMessage) => {
                 lastPostBeforeScroll = postMessage.text();
             });
