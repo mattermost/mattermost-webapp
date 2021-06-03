@@ -21,6 +21,7 @@ export const contactSalesCard = (
     trialQuestionsLink: any,
     subscriptionPlan: string | null,
     onUpgradeMattermostCloud: () => void,
+    productsLenght: number,
 ) => {
     let title;
     let description;
@@ -36,6 +37,19 @@ export const contactSalesCard = (
             <FormattedMessage
                 id='admin.billing.subscription.privateCloudCard.freeTrial.description'
                 defaultMessage='We love to work with our customers and their needs. Contact sales for subscription, billing or trial-specific questions.'
+            />
+        );
+    } else if (productsLenght === 1) {
+        title = (
+            <FormattedMessage
+                id='admin.billing.subscription.privateCloudCard.cloudEnterprise.title'
+                defaultMessage='Looking for an annual discount? '
+            />
+        );
+        description = (
+            <FormattedMessage
+                id='admin.billing.subscription.privateCloudCard.cloudEnterprise.description'
+                defaultMessage='At Mattermost, we work with you and your team to meet your needs throughout the product. If you are looking for an annual discount, please reach out to our sales team.'
             />
         );
     } else {
