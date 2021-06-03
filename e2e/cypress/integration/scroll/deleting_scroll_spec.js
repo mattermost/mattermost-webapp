@@ -52,7 +52,7 @@ describe('Scroll', () => {
                 scrollTo(0, '90%', {duration: TIMEOUTS.ONE_SEC}).
                 wait(TIMEOUTS.ONE_SEC);
 
-            // * Get the text of the first visible post
+            // # Get the text of the first visible post
             cy.get('.post-message__text:visible').first().then((postMessage) => {
                 firstPostBeforeScroll = postMessage.text();
             });
