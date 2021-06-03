@@ -65,6 +65,7 @@ exports[`Post should handle highlighting properly when jumping to pinned or flag
         <Connect(PostBody)
           compactDisplay={false}
           handleCommentClick={[Function]}
+          handleFileDropdownOpened={[Function]}
           isCommentMention={false}
           isFirstReply={true}
           post={
@@ -145,6 +146,7 @@ exports[`Post should handle highlighting properly when jumping to pinned or flag
         <Connect(PostBody)
           compactDisplay={false}
           handleCommentClick={[Function]}
+          handleFileDropdownOpened={[Function]}
           isCommentMention={false}
           isFirstReply={true}
           post={
@@ -225,6 +227,7 @@ exports[`Post should not remove post--highlight class after timeout so the class
         <Connect(PostBody)
           compactDisplay={false}
           handleCommentClick={[Function]}
+          handleFileDropdownOpened={[Function]}
           isCommentMention={false}
           isFirstReply={true}
           post={
@@ -305,6 +308,7 @@ exports[`Post should not remove post--highlight class after timeout so the class
         <Connect(PostBody)
           compactDisplay={false}
           handleCommentClick={[Function]}
+          handleFileDropdownOpened={[Function]}
           isCommentMention={false}
           isFirstReply={true}
           post={
