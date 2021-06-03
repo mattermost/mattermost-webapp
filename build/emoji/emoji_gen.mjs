@@ -1,5 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
+/*
+* This script will auto generate all the needed files for both the webapp and server to use emojis from emoji-datasource
+* in order to locate the server path, you'll need to define the $SERVER_PATH environment variable,
+* otherwise the file will be placed in the root of the project.
+* if you don't want to set it but for this run you can run it like:
+* $ $SERVER_ENV=<path_to_server> npm run make-emojis
+ */
+
 /* eslint-disable no-console */
 /* eslint-disable no-process-env */
 
@@ -104,11 +113,11 @@ if (process.env.SERVER_DIR) {
         const mvPromise = Fs.rename('emoji_data.go', destination);
         endResults.push(mvPromise);
         mvPromise.catch((err) => {
-            console.error(`There was an error trying to move the emoji_data.go file: ${err}`);
+            console.error(`ERROR: There was an error trying to move the emoji_data.go file: ${err}`);
         });
     });
 } else {
-    console.warn('$SERVER_DIR environment variable is not set, `emoji_data.go` will be located in the root of the project, remember to move it to the server');
+    console.warn('WARNING: $SERVER_DIR environment variable is not set, `emoji_data.go` will be located in the root of the project, remember to move it to the server');
 }
 
 // sprite css file
@@ -168,9 +177,10 @@ Promise.all(endResults).then(() => {
     console.log('Remember to run `make i18n-extract` as categories might have changed.');
 }).catch((err) => {
     control.abort(); // cancel any other file writing
-    console.error(`There was an error writing emojis: ${err}`);
+    console.error(`ERROR: There was an error writing emojis: ${err}`);
     // eslint-disable-next-line no-process-exit
     process.exit(-1);
 });
 
 /* eslint-enable no-console */
+/* eslint-enable no-process-env */
