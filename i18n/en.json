@@ -337,7 +337,7 @@
   "admin.billing.subscription.planDetails.userCountWithLimit": "{userCount} / {userLimit} users",
   "admin.billing.subscription.privateCloudCard.cloudEnterprise.description": "At Mattermost, we work with you and your team to meet your needs throughout the product. If you are looking for an annual discount, please reach out to our sales team.",
   "admin.billing.subscription.privateCloudCard.cloudEnterprise.title": "Looking for an annual discount? ",
-  "admin.billing.subscription.privateCloudCard.cloudProfessional.description": "Advanced security and compliance features with premium support. See [https://mattermost.com/pricing-cloud/](https://mattermost.com/pricing-cloud/) for more details.",
+  "admin.billing.subscription.privateCloudCard.cloudProfessional.description": "Advanced security and compliance features with premium support. See {pricingLink} for more details.",
   "admin.billing.subscription.privateCloudCard.cloudProfessional.title": "Upgrade to Cloud Enterprise",
   "admin.billing.subscription.privateCloudCard.cloudStarter.description": "Optimize your processes with Guest Accounts, Office365 suite integrations, Gitlab SSO and advanced permissions.",
   "admin.billing.subscription.privateCloudCard.cloudStarter.title": "Upgrade to Cloud Professional",
