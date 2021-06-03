@@ -21,6 +21,11 @@ describe('Scroll', () => {
     const multilineString = `A
     multiline
     message`;
+    const newMultilineMessage = `This
+    is
+    a new
+    multiline
+    message`;
 
     before(() => {
         cy.apiInitSetup().then(({team, channel}) => {
@@ -36,7 +41,7 @@ describe('Scroll', () => {
         });
     });
 
-    it('MM-T2372 Post list does not scroll when the offscreen post is deleted', () => {
+    it('MM-T2371, MM-T2372 Post list does not scroll when the offscreen post is edited or deleted', () => {
         // # Other user posts a multiline message
         cy.postMessageAs({sender: otherUser, message: multilineString, channelId: testChannelId});
         cy.getLastPostId().then((postId) => {
@@ -60,6 +65,22 @@ describe('Scroll', () => {
             // # Get the text of the last visible post
             cy.get('.post-message__text:visible').last().then((postMessage) => {
                 lastPostBeforeScroll = postMessage.text();
+            });
+
+            // # Amend multiline message from the other user
+            cy.externalRequest({user: otherUser, method: 'PUT', path: `posts/${multilineMessageID}`, data: {id: multilineMessageID, message: newMultilineMessage}});
+
+            // # Wait for the message to be amended
+            cy.wait(TIMEOUTS.ONE_SEC);
+
+            // * Verify the first post is the same after deleting
+            cy.get('.post-message__text:visible').first().then((firstPostAfterScroll) => {
+                expect(firstPostAfterScroll.text()).equal(firstPostBeforeScroll);
+            });
+
+            // * Verify the last post is the same after deleting
+            cy.get('.post-message__text:visible').last().then((lastPostAfterScroll) => {
+                expect(lastPostAfterScroll.text()).equal(lastPostBeforeScroll);
             });
 
             // # Remove multiline message from the other user
