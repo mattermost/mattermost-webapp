@@ -62,5 +62,5 @@ export function isTrialLicense(license) {
     // 30 days + 8 hours
     const trialLicenseDuration = (1000 * 60 * 60 * 24 * 30) + (1000 * 60 * 60 * 8);
 
-    return timeDiff <= trialLicenseDuration;
+    return timeDiff === trialLicenseDuration;
 }
