@@ -73,7 +73,7 @@ describe('Scroll', () => {
                 expect(firstPostAfterScroll.text()).equal(firstPostBeforeScroll);
             });
 
-            // Verify the last post is the same after deleting
+            // * Verify the last post is the same after deleting
             cy.get('.post-message__text:visible').last().then((lastPostAfterScroll) => {
                 expect(lastPostAfterScroll.text()).equal(lastPostBeforeScroll);
             });
