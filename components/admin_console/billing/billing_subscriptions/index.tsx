@@ -163,7 +163,7 @@ const BillingSubscriptions: React.FC = () => {
     }
 
     const isPaidTier = Boolean(subscription?.is_paid_tier === 'true');
-    const productsLenght = Object.keys(products).length;
+    const productsLength = Object.keys(products).length;
 
     return (
         <div className='wrapper--fixed BillingSubscriptions'>
@@ -188,7 +188,7 @@ const BillingSubscriptions: React.FC = () => {
                             onUpgradeMattermostCloud={onUpgradeMattermostCloud}
                         />
                     </div>
-                    {contactSalesCard(contactSalesLink, isFreeTrial, trialQuestionsLink, subscriptionPlan, onUpgradeMattermostCloud, productsLenght)}
+                    {contactSalesCard(contactSalesLink, isFreeTrial, trialQuestionsLink, subscriptionPlan, onUpgradeMattermostCloud, productsLength)}
                     {cancelSubscription(cancelAccountLink, isFreeTrial, isPaidTier)}
                 </div>
             </div>

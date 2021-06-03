@@ -21,7 +21,7 @@ export const contactSalesCard = (
     trialQuestionsLink: any,
     subscriptionPlan: string | null,
     onUpgradeMattermostCloud: () => void,
-    productsLenght: number,
+    productsLength: number,
 ) => {
     let title;
     let description;
@@ -39,7 +39,7 @@ export const contactSalesCard = (
                 defaultMessage='We love to work with our customers and their needs. Contact sales for subscription, billing or trial-specific questions.'
             />
         );
-    } else if (productsLenght === 1) {
+    } else if (productsLength === 1) {
         title = (
             <FormattedMessage
                 id='admin.billing.subscription.privateCloudCard.cloudEnterprise.title'
@@ -122,7 +122,7 @@ export const contactSalesCard = (
                 <div className='PrivateCloudCard__text-description'>
                     {description}
                 </div>
-                {(isFreeTrial || subscriptionPlan === CloudProducts.ENTERPRISE || productsLenght === 1) &&
+                {(isFreeTrial || subscriptionPlan === CloudProducts.ENTERPRISE || productsLength === 1) &&
                     <a
                         href={isFreeTrial ? trialQuestionsLink : contactSalesLink}
                         rel='noopener noreferrer'
@@ -137,7 +137,7 @@ export const contactSalesCard = (
 
                     </a>
                 }
-                {(!isFreeTrial && productsLenght > 1 && subscriptionPlan !== CloudProducts.ENTERPRISE) &&
+                {(!isFreeTrial && productsLength > 1 && subscriptionPlan !== CloudProducts.ENTERPRISE) &&
                     <button
                         type='button'
                         onClick={onUpgradeMattermostCloud}
