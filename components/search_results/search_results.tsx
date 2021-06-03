@@ -12,6 +12,7 @@ import classNames from 'classnames';
 import {debounce} from 'mattermost-redux/actions/helpers';
 import {FileSearchResultItem as FileSearchResultItemType} from 'mattermost-redux/types/files';
 import {Post} from 'mattermost-redux/types/posts';
+import {memoizeResult} from 'mattermost-redux/utils/helpers';
 
 import {GlobalState} from 'types/store';
 import {FileDropdownPluginComponent} from 'types/store/plugins';
@@ -35,7 +36,6 @@ import FilesFilterMenu from './files_filter_menu';
 import './search_results.scss';
 
 import type {Props} from './types';
-import {memoizeResult} from "mattermost-redux/utils/helpers";
 
 const GET_MORE_BUFFER = 30;
 const FILES_SEARCH_TYPE = 'files';
