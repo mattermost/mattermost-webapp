@@ -1,8 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 /* eslint-disable no-console */
+/* eslint-disable no-process-env */
 
-import * as Fs from 'fs';
+// eslint-disable-next-line import/no-unresolved
+import * as Fs from 'fs/promises';
+
+import path from 'path';
 
 import jsonData from 'emoji-datasource/emoji.json';
 
@@ -16,6 +20,11 @@ const categoryNamesSet = new Set();
 const emojiImagesByAlias = [];
 const emojiFilePositions = new Map();
 
+const control = new AbortController();
+const writeOptions = {
+    encoding: 'utf8',
+    signal: control.signal,
+};
 const endResults = [];
 
 function filename(emoji) {
@@ -23,17 +32,12 @@ function filename(emoji) {
 }
 
 function writeFile(fileName, filePath, data) {
-    endResults.push(new Promise((resolve, reject) => {
-        Fs.writeFile(filePath, data, 'utf8', (err) => {
-            const result = err ? `with errors: ${err}` : 'successfuly';
-            console.log(`${fileName} generated ${result}.`);
-            if (err) {
-                reject(err);
-            } else {
-                resolve();
-            }
-        });
-    }));
+    const promise = Fs.writeFile(filePath, data, writeOptions);
+
+    promise.then(() => {
+        console.log(`${fileName} generated successfuly.`);
+    });
+    return promise;
 }
 
 jsonData.forEach((emoji, index) => {
@@ -74,7 +78,7 @@ export const CategoryTranslations = new Map(${categoryTranslations})
 export const EmojiIndicesByCategory = new Map(${JSON.stringify(Array.from(emojiIndicesByCategory))});`;
 
 // write emoji.jsx
-writeFile('emoji.jsx', 'utils/emoji.jsx', emojiJSX);
+endResults.push(writeFile('emoji.jsx', 'utils/emoji.jsx', emojiJSX));
 
 // golang emoji data
 
@@ -87,15 +91,25 @@ package model
 
 var SystemEmojis = map[string]string{${emojiImagesByAlias.join(', ')}}`;
 
-writeFile('emoji_data.go', 'emoji_data.go', emojiGo);
+const goPromise = writeFile('emoji_data.go', 'emoji_data.go', emojiGo);
+endResults.push(goPromise);
 
-// ToDo
 // If SERVER_DIR is defined we can update the file emoji_data.go in
 // the server directory
-// if ENV.key?('SERVER_DIR')
-//   server_dir = File.join(ENV['SERVER_DIR'], 'model')
-//   FileUtils.mv(File.join(project_root, 'emoji_data.go'), server_dir)
-// end
+if (process.env.SERVER_DIR) {
+    const destination = path.join(process.env.SERVER_DIR, 'model/emoji_data.go');
+    goPromise.then(() => {
+        // this is an obvious race condition, as goPromise might be the last one, and then executed out of the `all` call below,
+        // but it shouldn't be any problem other than a log out of place and a need to do an explicit catch.
+        const mvPromise = Fs.rename('emoji_data.go', destination);
+        endResults.push(mvPromise);
+        mvPromise.catch((err) => {
+            console.error(`There was an error trying to move the emoji_data.go file: ${err}`);
+        });
+    });
+} else {
+    console.warn('$SERVER_DIR environment variable is not set, `emoji_data.go` will be located in the root of the project, remember to move it to the server');
+}
 
 // sprite css file
 
@@ -148,11 +162,12 @@ ${cssEmojis.join('\n')};
 `;
 
 // write emoji.jsx
-writeFile('_emojisprite.scss', 'sass/components/_emojisprite.scss', cssRules);
+endResults.push(writeFile('_emojisprite.scss', 'sass/components/_emojisprite.scss', cssRules));
 
 Promise.all(endResults).then(() => {
     console.log('Remember to run `make i18n-extract` as categories might have changed.');
 }).catch((err) => {
+    control.abort(); // cancel any other file writing
     console.error(`There was an error writing emojis: ${err}`);
     // eslint-disable-next-line no-process-exit
     process.exit(-1);
