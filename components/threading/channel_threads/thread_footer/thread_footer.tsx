@@ -68,7 +68,7 @@ function ThreadFooter({
 
     return (
         <div className='ThreadFooter'>
-            {threadIsSynthetic(thread) || !thread.unread_replies ? (
+            {!isFollowing || threadIsSynthetic(thread) || !thread.unread_replies ? (
                 <div className='indicator'/>
             ) : (
                 <SimpleTooltip
