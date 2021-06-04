@@ -77,7 +77,6 @@ import {
     GuestAccessFeatureDiscovery,
     SystemRolesFeatureDiscovery,
     GroupsFeatureDiscovery,
-    PermissionsFeatureDiscovery,
 } from './feature_discovery/features';
 
 import * as DefinitionConstants from './admin_definition_constants';
