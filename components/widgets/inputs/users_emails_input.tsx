@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import AsyncSelect from 'react-select/async';
-import {components} from 'react-select';
+import {CommonProps, components} from 'react-select';
 import classNames from 'classnames';
 
 import {isEmail} from 'mattermost-redux/utils/helpers';
@@ -219,8 +219,8 @@ export default class UsersEmailsInput extends React.PureComponent<Props> {
         </React.Fragment>
     );
 
-    NoOptionsMessage = (props:{selectProps:{inputValue: string}}) => {
-        const inputValue = props.selectProps.inputValue;
+    NoOptionsMessage = ({selectProps,...props}:{selectProps:{inputValue:string}, props:CommonProps<any>}) => {
+        const inputValue = selectProps.inputValue;
         if (!inputValue) {
             return null;
         }
