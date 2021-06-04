@@ -10,6 +10,8 @@
 import {hexToRgbArray, rgbArrayToString} from '../../../utils';
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
+// Group: @enterprise @system_console @announcement_banner
+
 describe('Announcement Banner', () => {
     before(() => {
         cy.apiRequireLicense();
@@ -101,7 +103,7 @@ describe('Announcement Banner', () => {
             should('have.attr', 'href', bannerEmbedLink);
 
         // * Verify only the banner text's first part is visible
-        // and check the complete text lenght spans more than viewport width (also is hidden as per above)
+        // and check the complete text length spans more than viewport width (also is hidden as per above)
         cy.findByText(/Here's an announcement! It has a link: /).
             should('be.visible').
             and((paragraph) => {
@@ -118,7 +120,7 @@ describe('Announcement Banner', () => {
             as('announcmentBannerTooptip').
             should('be.visible').
             within(() => {
-                // * Verify compelete banner is present in the popover
+                // * Verify complete banner is present in the popover
                 cy.findByText(/Here's an announcement! It has a link: /).should(
                     'be.visible',
                 );
