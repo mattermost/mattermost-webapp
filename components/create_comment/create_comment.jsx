@@ -250,7 +250,7 @@ class CreateComment extends React.PureComponent {
             };
         } else {
             // else, initialize the draft
-            updatedState.draft = {...props.draft, caretPosition: props.draft.message.length, uploadsInProgress: []}
+            updatedState.draft = {...props.draft, caretPosition: props.draft.message.length, uploadsInProgress: []};
         }
 
         const rootChanged = props.rootId !== state.rootId;
@@ -1012,7 +1012,6 @@ class CreateComment extends React.PureComponent {
 
     render() {
         const {draft} = this.state;
-        console.log(draft);
         const readOnlyChannel = this.props.readOnlyChannel || !this.props.canPost;
         const {formatMessage} = this.props.intl;
         const enableAddButton = this.shouldEnableAddButton();
