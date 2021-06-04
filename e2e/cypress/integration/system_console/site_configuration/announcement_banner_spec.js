@@ -11,6 +11,10 @@ import {hexToRgbArray, rgbArrayToString} from '../../../utils';
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 describe('Announcement Banner', () => {
+    before(() => {
+        cy.apiRequireLicense();
+    });
+
     it('MM-T1128 Announcement Banner - Dismissible banner shows long text truncated', () => {
         const bannerEmbedLink = 'http://example.com';
         const bannerText = `Here's an announcement! It has a link: ${bannerEmbedLink}. It's a really long announcement, because we have a lot to say. Be sure to read it all, click the link, then dismiss the banner, and then you can go on to the next test, which will have a shorter announcement. Thank you for reading and have a nice day!`;
@@ -18,9 +22,6 @@ describe('Announcement Banner', () => {
         const bannerBgColorRGBArray = hexToRgbArray(bannerBgColor);
         const bannerTextColor = '#ffffff';
         const bannerTextColorRGBArray = hexToRgbArray(bannerTextColor);
-
-        // # Login as System Admin
-        cy.apiAdminLogin();
 
         // # Go to announcement banner config page of system console
         cy.visit('/admin_console/site_config/announcement_banner');
