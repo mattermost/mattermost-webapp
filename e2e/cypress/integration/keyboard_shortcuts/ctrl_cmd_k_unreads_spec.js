@@ -15,8 +15,8 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 describe('Keyboard Shortcuts', () => {
     let testUser;
     let otherUser;
-    const count = 3;
 
+    const count = 3;
     const teamAndChannels = [];
 
     before(() => {
@@ -50,6 +50,10 @@ describe('Keyboard Shortcuts', () => {
                 });
             });
         });
+    });
+
+    beforeEach(() => {
+        cy.apiLogin(testUser);
     });
 
     it('MM-T1241 - CTRL/CMD+K: Unreads', () => {
