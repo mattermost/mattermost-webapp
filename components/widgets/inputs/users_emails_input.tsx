@@ -243,7 +243,7 @@ export default class UsersEmailsInput extends React.PureComponent<Props> {
         );
     };
 
-    MultiValueRemove = ({children, innerProps}:{children:React.ReactElement, }) => (
+    MultiValueRemove = ({children, innerProps}:{children:React.ReactElement, innerProps: any}) => (
         <div {...innerProps}>
             {children || <CloseCircleSolidIcon/>}
         </div>
@@ -287,8 +287,8 @@ export default class UsersEmailsInput extends React.PureComponent<Props> {
         }
     }
 
-    optionsLoader = (_:void, callback:(options:Option[]) => string) => {
-        const customCallback = (options:Option[]) => {
+    optionsLoader = (_:void, callback:(options:Option[] | void) => string | void) => {
+        const customCallback = (options:Option[] | void) => {
             this.setState({options});
             callback(options);
         };
@@ -298,16 +298,16 @@ export default class UsersEmailsInput extends React.PureComponent<Props> {
         }
     }
 
-    showAddEmail = (input, values, options) => {
+    showAddEmail = (input: string, _, options:any[]) => {
         return this.props.emailInvitationsEnabled && options.length === 0 && isEmail(input);
     }
 
     onFocus = () => {
-        this.selectRef.current.handleInputChange(this.props.inputValue, {action: 'custom'});
+        this.selectRef.current?.handleInputChange(this.props.inputValue, {action: 'custom'});
     }
 
     onBlur = () => {
-        this.selectRef.current.handleInputChange(this.props.inputValue, {action: 'input-blur'});
+        this.selectRef.current?.handleInputChange(this.props.inputValue, {action: 'input-blur'});
     }
 
     render() {
