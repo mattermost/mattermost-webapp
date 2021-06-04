@@ -66,7 +66,7 @@ describe('Channel Settings', () => {
 function hoverOnChannelDescriptionAndVerifyBehavior() {
     const channelDescriptionText = `test description ${getRandomId()}`;
 
-    // # wait a little for channel to load
+    // # Wait a little for channel to load
     cy.wait(TIMEOUTS.FIVE_SEC);
 
     // # Scan within channel header description area
