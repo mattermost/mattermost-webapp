@@ -45,7 +45,7 @@ describe('Channel Settings', () => {
             cy.visit(`/${testTeam.name}/messages/@${user1.username}`);
 
             // # Do the header test with DM
-            hoverOnChannelDescriptionAndVerifyBehavior('', true);
+            hoverOnChannelDescriptionAndVerifyBehavior();
         });
 
         // # Create another user and add to the team
