@@ -4,6 +4,8 @@
 import {getRandomId} from '../../utils';
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
+// Group: @channel_settings
+
 describe('Channel Settings', () => {
     let testTeam;
     let user1;
@@ -13,7 +15,7 @@ describe('Channel Settings', () => {
         cy.apiGetMe().then(({user: adminUser}) => {
             admin = adminUser;
 
-            cy.apiInitSetup({loginAfter: false}).then(({team, user}) => {
+            cy.apiInitSetup().then(({team, user}) => {
                 testTeam = team;
                 user1 = user;
 
@@ -22,7 +24,7 @@ describe('Channel Settings', () => {
         });
     });
 
-    it('Hover effect exists to add a channel description / header (when not already present)', () => {
+    it('MM-T1808 Hover effect exists to add a channel description / header (when not already present)', () => {
         // # Create a new public channel and then private channel
         ['O', 'P'].forEach((channelType) => {
             cy.apiCreateChannel(testTeam.id, `chan${getRandomId()}`, 'chan', channelType).then(({channel}) => {
@@ -34,24 +36,24 @@ describe('Channel Settings', () => {
             });
         });
 
-        // Create Dm with admin and user 1
+        // # Create DM with admin and user 1
         cy.apiCreateDirectChannel([user1.id, user1.id]).then(() => {
             // # Go to DM
             cy.visit(`/${testTeam.name}/messages/@${user1.username}`);
 
-            // * Test hovering over the header with Direct message
-            hoverOnChannelDescriptionAndVerifyBehavior('', true);
+            // * Test hovering over the header with DM
+            hoverOnChannelDescriptionAndVerifyBehavior();
         });
 
         // # Create another user and add to the team
         cy.apiCreateUser().then(({user: user2}) => {
             cy.apiAddUserToTeam(testTeam.id, user2.id).then(() => {
-                // # Create a Gm with admin, user1 and user 2
+                // # Create a GM with admin, user1 and user 2
                 cy.apiCreateGroupChannel([user2.id, user1.id, admin.id]).then(({channel}) => {
                     // # Visit the channel using the name using the channels route
                     cy.visit(`/${testTeam.name}/channels/${channel.name}`);
 
-                    // * Test hovering over the header with Group message
+                    // * Test hovering over the header with GM
                     hoverOnChannelDescriptionAndVerifyBehavior();
                 });
             });
@@ -62,7 +64,7 @@ describe('Channel Settings', () => {
 function hoverOnChannelDescriptionAndVerifyBehavior() {
     const channelDescriptionText = `test description ${getRandomId()}`;
 
-    // # wait a little for channel to load
+    // # Wait a little for channel to load
     cy.wait(TIMEOUTS.FIVE_SEC);
 
     // # Scan within channel header description area
@@ -85,6 +87,6 @@ function hoverOnChannelDescriptionAndVerifyBehavior() {
         cy.findAllByText(channelDescriptionText).should('be.visible').click({multiple: true, force: true});
     });
 
-    // * Also check clicking on it doesnt open the edit modal once again
+    // * Check clicking on it doesn't open the edit modal once again
     cy.get('.a11y__modal.modal-dialog').should('not.exist');
 }
