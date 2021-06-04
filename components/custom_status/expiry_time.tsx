@@ -48,6 +48,10 @@ const ExpiryTime = ({time, timezone, className, showPrefix, withinBrackets}: Pro
         timestampProps.month = 'short';
     }
 
+    if (moment(time).isAfter(currentMomentTime.clone().endOf('year'))) {
+        timestampProps.year = 'numeric';
+    }
+
     const prefix = showPrefix && (
         <>
             <FormattedMessage
