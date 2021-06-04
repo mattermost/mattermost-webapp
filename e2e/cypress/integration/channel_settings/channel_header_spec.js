@@ -26,7 +26,7 @@ describe('Channel Settings', () => {
         cy.apiAdminLogin();
     });
 
-    it('Hover effect exists to add a channel description / header (when not already present)', () => {
+    it('MM-T1808 Hover effect exists to add a channel description / header (when not already present)', () => {
         // # Create a new public channel and then private channel
         ['O', 'P'].forEach((channelType) => {
             cy.apiCreateChannel(testTeam.id, `chan${getRandomId()}`, 'chan', channelType).then(({channel}) => {
