@@ -39,7 +39,7 @@ describe('Channel Settings', () => {
             });
         });
 
-        // Create Dm with admin and user 1
+        // # Create DM with admin and user 1
         cy.apiCreateDirectChannel([user1.id, user1.id]).then(() => {
             // # Go to DM
             cy.visit(`/${testTeam.name}/messages/@${user1.username}`);
