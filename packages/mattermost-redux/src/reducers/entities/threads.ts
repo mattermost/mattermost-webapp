@@ -49,6 +49,14 @@ export const threadsReducer = (state: ThreadsState['threads'] = {}, action: Gene
     }
     case ThreadTypes.FOLLOW_CHANGED_THREAD: {
         const {id, following} = action.data;
+
+        // Delete local copy of thread when unfollowing
+        if (!following && state[id]) {
+            const nextState = {...state};
+            Reflect.deleteProperty(nextState, id);
+            return nextState;
+        }
+
         return {
             ...state,
             [id]: {

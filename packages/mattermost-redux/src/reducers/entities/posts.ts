@@ -294,7 +294,9 @@ function handlePostReceived(nextState: any, post: Post) {
             nextRootPost.participants = [...participants, {id: post.user_id}];
         }
 
-        nextRootPost.reply_count++;
+        if (post.reply_count) {
+            nextRootPost.reply_count = post.reply_count;
+        }
 
         nextState[post.root_id] = nextRootPost;
     }
