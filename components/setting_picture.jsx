@@ -276,7 +276,7 @@ export default class SettingPicture extends Component {
                         data-testid='uploadPicture'
                         ref={this.selectInput}
                         className='hidden'
-                        accept='.jpg,.png,.bmp'
+                        accept='.jpeg,.jpg,.png,.bmp'
                         type='file'
                         onChange={this.handleFileChange}
                         disabled={this.props.loadingPicture}
