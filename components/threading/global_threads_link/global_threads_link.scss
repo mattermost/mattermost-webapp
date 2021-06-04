@@ -19,12 +19,12 @@
             }
         }
 
-        #SidebarContainer &:hover {
-            padding-right: 16px !important;
+        &:hover {
+            padding-right: 16px;
 
             .badge {
-                visibility: visible !important;
-                position: initial !important;
+                visibility: visible;
+                position: initial;
             }
         }
     }

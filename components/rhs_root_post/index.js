@@ -7,7 +7,7 @@ import {bindActionCreators} from 'redux';
 import {isChannelReadOnlyById, getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {makeGetReactionsForPost} from 'mattermost-redux/selectors/entities/posts';
-import {makeGetDisplayName} from 'mattermost-redux/selectors/entities/users';
+import {makeGetDisplayName, getUser} from 'mattermost-redux/selectors/entities/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {get, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
@@ -33,7 +33,11 @@ function mapStateToProps(state, ownProps) {
     const emojiMap = getEmojiMap(state);
     const shortcutReactToLastPostEmittedFrom = getShortcutReactToLastPostEmittedFrom(state);
 
+    const user = getUser(state, ownProps.post.user_id);
+    const isBot = Boolean(user && user.is_bot);
+
     return {
+        isBot,
         author: getDisplayName(state, ownProps.post.user_id),
         reactions: getReactionsForPost(state, ownProps.post.id),
         emojiMap,

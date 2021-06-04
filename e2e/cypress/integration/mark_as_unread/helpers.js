@@ -50,6 +50,18 @@ export function verifyPostNextToNewMessageSeparator(message) {
         should('contain', message);
 }
 
+export function verifyTopSpaceForNewMessage(message) {
+    cy.get('.post-row__padding.top').
+        should('be.visible').
+        should('contain', message);
+}
+
+export function verifyBottomSpaceForNewMessage(message) {
+    cy.get('.post-row__padding.bottom').
+        should('be.visible').
+        should('contain', message);
+}
+
 export function showCursor(items) {
     cy.expect(items).to.have.length(1);
     expect(items[0].className).to.match(/cursor--pointer/);

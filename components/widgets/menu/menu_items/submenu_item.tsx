@@ -37,7 +37,6 @@ export type Props = {
     text: React.ReactNode;
     selectedValueText?: React.ReactNode;
     subMenu?: Props[];
-    subMenuClass?: string;
     icon?: React.ReactNode;
     action?: (id?: string) => void;
     filter?: (id?: string) => boolean;
@@ -59,7 +58,6 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
     public static defaultProps = {
         show: true,
         direction: 'left',
-        subMenuClass: 'pl-4',
     };
 
     public constructor(props: Props) {

@@ -35,120 +35,164 @@ exports[`components/PluginManagement should match snapshot 1`] = `
             <p>
               Applies to all teams and channels, but does not apply to custom retention policies.
             </p>
-            <DropdownInputHybrid
-              defaultValue={
-                Object {
-                  "label": <div>
-                    <i
-                      className="icon icon-infinity option-icon"
-                    />
-                    <span>
-                      Keep forever
-                    </span>
-                  </div>,
-                  "value": "FOREVER",
-                }
-              }
-              exceptionToInput={
-                Array [
-                  "FOREVER",
-                ]
-              }
-              inputType="number"
-              inputValue="60"
-              legend="Channel & direct message retention"
-              name="channel_message_retention"
-              onDropdownChange={[Function]}
-              onInputChange={[Function]}
-              options={
-                Array [
-                  Object {
-                    "label": "Days",
-                    "value": "DAYS",
-                  },
-                  Object {
-                    "label": "Years",
-                    "value": "YEARS",
-                  },
+            <div
+              id="global_direct_message_dropdown"
+            >
+              <DropdownInputHybrid
+                defaultValue={
                   Object {
                     "label": <div>
                       <i
                         className="icon icon-infinity option-icon"
                       />
-                      <span>
+                      <span
+                        className="option_forever"
+                      >
                         Keep forever
                       </span>
                     </div>,
                     "value": "FOREVER",
-                  },
-                ]
-              }
-              placeholder="Channel & direct message retention"
-              value={
-                Object {
-                  "label": "Days",
-                  "value": "DAYS",
+                  }
                 }
-              }
-              width={90}
-            />
-            <DropdownInputHybrid
-              defaultValue={
-                Object {
-                  "label": <div>
-                    <i
-                      className="icon icon-infinity option-icon"
-                    />
-                    <span>
-                      Keep forever
-                    </span>
-                  </div>,
-                  "value": "FOREVER",
+                dropdownClassNamePrefix="channel_message_retention_dropdown"
+                exceptionToInput={
+                  Array [
+                    "FOREVER",
+                  ]
                 }
-              }
-              exceptionToInput={
-                Array [
-                  "FOREVER",
-                ]
-              }
-              inputType="number"
-              inputValue="40"
-              legend="File retention"
-              name="file_retention"
-              onDropdownChange={[Function]}
-              onInputChange={[Function]}
-              options={
-                Array [
+                inputId="channel_message_retention_input"
+                inputType="number"
+                inputValue="60"
+                legend="Channel & direct message retention"
+                name="channel_message_retention"
+                onDropdownChange={[Function]}
+                onInputChange={[Function]}
+                options={
+                  Array [
+                    Object {
+                      "label": <span
+                        className="option_days"
+                      >
+                        Days
+                      </span>,
+                      "value": "DAYS",
+                    },
+                    Object {
+                      "label": <span
+                        className="option_years"
+                      >
+                        Years
+                      </span>,
+                      "value": "YEARS",
+                    },
+                    Object {
+                      "label": <div>
+                        <i
+                          className="icon icon-infinity option-icon"
+                        />
+                        <span
+                          className="option_forever"
+                        >
+                          Keep forever
+                        </span>
+                      </div>,
+                      "value": "FOREVER",
+                    },
+                  ]
+                }
+                placeholder="Channel & direct message retention"
+                value={
                   Object {
-                    "label": "Days",
+                    "label": <span
+                      className="option_days"
+                    >
+                      Days
+                    </span>,
                     "value": "DAYS",
-                  },
-                  Object {
-                    "label": "Years",
-                    "value": "YEARS",
-                  },
+                  }
+                }
+                width={90}
+              />
+            </div>
+            <div
+              id="global_file_dropdown"
+            >
+              <DropdownInputHybrid
+                defaultValue={
                   Object {
                     "label": <div>
                       <i
                         className="icon icon-infinity option-icon"
                       />
-                      <span>
+                      <span
+                        className="option_forever"
+                      >
                         Keep forever
                       </span>
                     </div>,
                     "value": "FOREVER",
-                  },
-                ]
-              }
-              placeholder="File retention"
-              value={
-                Object {
-                  "label": "Days",
-                  "value": "DAYS",
+                  }
                 }
-              }
-              width={90}
-            />
+                dropdownClassNamePrefix="file_retention_dropdown"
+                exceptionToInput={
+                  Array [
+                    "FOREVER",
+                  ]
+                }
+                inputId="file_retention_input"
+                inputType="number"
+                inputValue="40"
+                legend="File retention"
+                name="file_retention"
+                onDropdownChange={[Function]}
+                onInputChange={[Function]}
+                options={
+                  Array [
+                    Object {
+                      "label": <span
+                        className="option_days"
+                      >
+                        Days
+                      </span>,
+                      "value": "DAYS",
+                    },
+                    Object {
+                      "label": <span
+                        className="option_years"
+                      >
+                        Years
+                      </span>,
+                      "value": "YEARS",
+                    },
+                    Object {
+                      "label": <div>
+                        <i
+                          className="icon icon-infinity option-icon"
+                        />
+                        <span
+                          className="option_forever"
+                        >
+                          Keep forever
+                        </span>
+                      </div>,
+                      "value": "FOREVER",
+                    },
+                  ]
+                }
+                placeholder="File retention"
+                value={
+                  Object {
+                    "label": <span
+                      className="option_days"
+                    >
+                      Days
+                    </span>,
+                    "value": "DAYS",
+                  }
+                }
+                width={90}
+              />
+            </div>
           </div>
         </CardBody>
       </Card>

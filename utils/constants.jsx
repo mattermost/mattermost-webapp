@@ -292,7 +292,6 @@ export const ModalIdentifiers = {
     MORE_CHANNELS: 'more_channels',
     NEW_CHANNEL_FLOW: 'new_channel_flow',
     CLOUD_PURCHASE: 'cloud_purchase',
-    DND_CUSTOM_TIME_PICKER: 'dnd_custom_time_picker',
     CUSTOM_STATUS: 'custom_status',
     COMMERCIAL_SUPPORT: 'commercial_support',
     NO_INTERNET_CONNECTION: 'no_internet_connection',
@@ -321,6 +320,12 @@ export const EventTypes = Object.assign(
         POST_LIST_SCROLL_TO_BOTTOM: null,
     }),
 );
+
+export const CloudProducts = {
+    STARTER: 'cloud-starter',
+    PROFESSIONAL: 'cloud-professional',
+    ENTERPRISE: 'cloud-enterprise',
+};
 
 export const A11yClassNames = {
     REGION: 'a11y__region',
@@ -720,6 +725,7 @@ export const AboutLinks = {
 
 export const CloudLinks = {
     BILLING_DOCS: 'https://docs.mattermost.com/cloud/cloud-billing/cloud-billing.html',
+    COMPARE_PLANS: 'https://mattermost.com/pricing-cloud/#pricing-grid-block_5fa2028808529',
 };
 
 export const PermissionsScope = {

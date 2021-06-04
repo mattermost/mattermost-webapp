@@ -1,53 +1,49 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, {ChangeEvent, KeyboardEvent} from 'react';
 import {Modal} from 'react-bootstrap';
-import {FormattedMessage, injectIntl} from 'react-intl';
+import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
+
+import {Channel} from 'mattermost-redux/types/channels';
+import {ActionResult} from 'mattermost-redux/types/actions';
 
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
+type Actions = {
+    patchChannel: (channelId: string, patch: Partial<Channel>) => Promise<ActionResult>;
+}
+type ServerError = {
+    message: string;
+}
 const purposeMaxLength = 250;
 
-class EditChannelPurposeModal extends React.PureComponent {
-    static propTypes = {
+type Props = {
+    onHide: () => void;
+    channel?: Channel;
+    ctrlSend: boolean;
+    actions: Actions;
+    intl: IntlShape;
+}
 
-        /*
-         * callback to call when modal will hide
-         */
-        onHide: PropTypes.func.isRequired,
+type State = {
+    purpose: string;
+    serverError: ServerError | null;
+    show: boolean;
+    submitted: boolean;
+    requestStarted: boolean;
+}
 
-        /*
-         * Channel info object
-         */
-        channel: PropTypes.object,
+export class EditChannelPurposeModal extends React.PureComponent<Props, State> {
+    private purpose: React.RefObject<HTMLTextAreaElement>;
 
-        /*
-         * Check should we send purpose on CTRL + ENTER
-         */
-        ctrlSend: PropTypes.bool.isRequired,
-
-        intl: PropTypes.any,
-
-        /*
-         * Object with redux action creators
-         */
-        actions: PropTypes.shape({
-
-            /*
-             * Action creator to patch current channel
-             */
-            patchChannel: PropTypes.func.isRequired,
-        }).isRequired,
-    }
-
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
+        this.purpose = React.createRef();
 
         this.state = {
-            purpose: props.channel.purpose || '',
+            purpose: props.channel?.purpose || '',
             serverError: null,
             show: true,
             submitted: false,
@@ -56,14 +52,14 @@ class EditChannelPurposeModal extends React.PureComponent {
     }
 
     handleEntering = () => {
-        Utils.placeCaretAtEnd(this.purpose);
+        Utils.placeCaretAtEnd(this.purpose.current);
     }
 
     onHide = () => {
         this.setState({show: false});
     }
 
-    handleKeyDown = (e) => {
+    handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
         const {ctrlSend} = this.props;
 
         // listen for line break key combo and insert new line character
@@ -72,10 +68,10 @@ class EditChannelPurposeModal extends React.PureComponent {
             this.setState({purpose: Utils.insertLineBreakFromKeyEvent(e)});
         } else if (ctrlSend && Utils.isKeyPressed(e, Constants.KeyCodes.ENTER) && e.ctrlKey) {
             e.preventDefault();
-            this.handleSave(e);
+            this.handleSave();
         } else if (!ctrlSend && Utils.isKeyPressed(e, Constants.KeyCodes.ENTER) && !e.shiftKey && !e.altKey) {
             e.preventDefault();
-            this.handleSave(e);
+            this.handleSave();
         }
     }
 
@@ -100,14 +96,10 @@ class EditChannelPurposeModal extends React.PureComponent {
         }
     }
 
-    handleChange = (e) => {
+    handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
         e.preventDefault();
         this.setState({purpose: e.target.value});
     }
-
-    getPurpose = (node) => {
-        this.purpose = node;
-    };
 
     render() {
         let serverError = null;
@@ -130,7 +122,7 @@ class EditChannelPurposeModal extends React.PureComponent {
                 />
             </span>
         );
-        if (this.props.channel.display_name) {
+        if (this.props.channel?.display_name) {
             title = (
                 <span>
                     <FormattedMessage
@@ -148,7 +140,7 @@ class EditChannelPurposeModal extends React.PureComponent {
                 defaultMessage='Describe how this channel should be used. This text appears in the channel list in the "More..." menu and helps others decide whether to join.'
             />
         );
-        if (this.props.channel.type === 'P') {
+        if (this.props.channel?.type === 'P') {
             channelPurposeModal = (
                 <FormattedMessage
                     id='edit_channel_private_purpose_modal.body'
@@ -181,9 +173,9 @@ class EditChannelPurposeModal extends React.PureComponent {
                         {channelPurposeModal}
                     </p>
                     <textarea
-                        ref={this.getPurpose}
+                        ref={this.purpose}
                         className='form-control no-resize'
-                        rows='6'
+                        rows={6}
                         maxLength={purposeMaxLength}
                         value={this.state.purpose}
                         onKeyDown={this.handleKeyDown}

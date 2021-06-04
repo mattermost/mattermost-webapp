@@ -112,12 +112,22 @@ export default class AtMentionSuggestion extends Suggestion {
         } else {
             itemname = item.username;
 
-            if ((item.first_name || item.last_name) && item.nickname) {
-                description = `${Utils.getFullName(item)} (${item.nickname})`;
-            } else if (item.nickname) {
-                description = `(${item.nickname})`;
-            } else if (item.first_name || item.last_name) {
-                description = `${Utils.getFullName(item)}`;
+            if (item.isCurrentUser) {
+                if (item.first_name || item.last_name) {
+                    description = (
+                        <span className='light ml-2'>
+                            {Utils.getFullName(item)}
+                        </span>
+                    );
+                }
+            } else if (item.first_name || item.last_name || item.nickname) {
+                description = (
+                    <span className='light ml-2'>
+                        {`${Utils.getFullName(item)} ${
+                            item.nickname ? `(${item.nickname})` : ''
+                        }`.trim()}
+                    </span>
+                );
             }
 
             icon = (
@@ -143,7 +153,7 @@ export default class AtMentionSuggestion extends Suggestion {
         let youElement = null;
         if (item.isCurrentUser) {
             youElement =
-            (<span className='ml-1'>
+            (<span className='light ml-1'>
                 <FormattedMessage
                     id='suggestion.user.isCurrent'
                     defaultMessage='(you)'
@@ -184,10 +194,8 @@ export default class AtMentionSuggestion extends Suggestion {
                         className='badge-autocomplete'
                     />
                     {customStatus}
-                    <span className='light ml-2'>
-                        {description}
-                        {youElement}
-                    </span>
+                    {description}
+                    {youElement}
                     {sharedIcon}
                     <GuestBadge
                         show={Utils.isGuest(item)}

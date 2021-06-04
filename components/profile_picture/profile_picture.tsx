@@ -32,6 +32,9 @@ type Props = {
     overwriteName?: string;
     newStatusIcon?: boolean;
     statusClass?: string;
+    isBot?: boolean;
+    fromWebhook?: boolean;
+    fromAutoResponder?: boolean;
 }
 
 export default class ProfilePicture extends React.PureComponent<Props> {
@@ -60,6 +63,8 @@ export default class ProfilePicture extends React.PureComponent<Props> {
 
         const profileIconClass = `profile-icon ${this.props.isEmoji ? 'emoji' : ''}`;
 
+        const hideStatus = this.props.isBot || this.props.fromAutoResponder || this.props.fromWebhook;
+
         if (this.props.userId) {
             return (
                 <OverlayTrigger
@@ -79,6 +84,7 @@ export default class ProfilePicture extends React.PureComponent<Props> {
                             hasMention={this.props.hasMention}
                             overwriteIcon={this.props.overwriteIcon}
                             overwriteName={this.props.overwriteName}
+                            hideStatus={hideStatus}
                         />
                     }
                 >
