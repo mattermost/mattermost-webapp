@@ -51,7 +51,7 @@ describe('Channel Settings', () => {
         // # Create another user and add to the team
         cy.apiCreateUser().then(({user: user2}) => {
             cy.apiAddUserToTeam(testTeam.id, user2.id).then(() => {
-                // # Create a Gm with admin, user1 and user 2
+                // # Create a GM with admin, user1 and user 2
                 cy.apiCreateGroupChannel([user2.id, user1.id, admin.id]).then(({channel}) => {
                     // # Visit the channel using the name using the channels route
                     cy.visit(`/${testTeam.name}/channels/${channel.name}`);
