@@ -14,7 +14,7 @@ describe('Channel Settings', () => {
         cy.apiGetMe().then(({user: adminUser}) => {
             admin = adminUser;
 
-            cy.apiInitSetup({loginAfter: false}).then(({team, user}) => {
+            cy.apiInitSetup().then(({team, user}) => {
                 testTeam = team;
                 user1 = user;
 
