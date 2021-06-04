@@ -44,13 +44,12 @@ export const SidebarCategoryHeader = React.forwardRef((props: Props, ref?: React
         <div
             className={classNames('SidebarChannelGroupHeader', {
                 muted: props.muted,
+                dragging: props.isDragging,
             })}
         >
             <button
                 ref={ref}
-                className={classNames('SidebarChannelGroupHeader_groupButton', {
-                    dragging: props.isDragging,
-                })}
+                className={classNames('SidebarChannelGroupHeader_groupButton')}
                 aria-label={props.displayName}
                 onClick={props.onClick}
             >
