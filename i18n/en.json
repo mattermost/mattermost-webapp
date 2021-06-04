@@ -1379,8 +1379,6 @@
   "admin.password.preview": "Error message preview",
   "admin.password.symbol": "At least one symbol (e.g. \"~!@#$%^&*()\")",
   "admin.password.uppercase": "At least one uppercase letter",
-  "admin.permissions_feature_discovery.copy": "Decide who can perform an array of actions such as creating channels, inviting people, managing and archiving channels, managing webhooks, and more in Permission Schemes.",
-  "admin.permissions_feature_discovery.title": "Set role-based permissions with Mattermost Enterprise E10",
   "admin.permissions.documentationLinkText": "documentation",
   "admin.permissions.group.convert_public_channel_to_private.description": "Convert public channels to private",
   "admin.permissions.group.convert_public_channel_to_private.name": "Convert Channels",

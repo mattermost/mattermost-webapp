@@ -605,36 +605,12 @@ const AdminDefinition = {
                 'admin.permissions.teamOverrideSchemesNewButton',
             ],
             isHidden: it.any(
-                it.not(it.licensed),
                 it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.PERMISSIONS)),
             ),
             isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.USER_MANAGEMENT.PERMISSIONS)),
             schema: {
                 id: 'PermissionSchemes',
                 component: PermissionSchemesSettings,
-            },
-        },
-        permissions_feature_discovery: {
-            url: 'user_management/permissions/',
-            isDiscovery: true,
-            title: t('admin.sidebar.permissions'),
-            title_default: 'Permissions',
-            isHidden: it.any(
-                it.licensed,
-                it.not(it.enterpriseReady),
-            ),
-            schema: {
-                id: 'PermissionSchemes',
-                name: t('admin.permissions.permissionSchemes'),
-                name_default: 'Permission Schemes',
-                settings: [
-                    {
-                        type: Constants.SettingsTypes.TYPE_CUSTOM,
-                        component: PermissionsFeatureDiscovery,
-                        key: 'PermissionsFeatureDiscovery',
-                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ABOUT.EDITION_AND_LICENSE)),
-                    },
-                ],
             },
         },
         system_role: {
