@@ -250,7 +250,7 @@ class CreateComment extends React.PureComponent {
             };
         } else {
             // else, initialize the draft
-            updatedState.draft = {...props.draft, caretPosition: props.draft.message.length, uploadsInProgress: []};
+            updatedState.draft = state.draft || {...props.draft, caretPosition: props.draft.message.length, uploadsInProgress: []};
         }
 
         const rootChanged = props.rootId !== state.rootId;
