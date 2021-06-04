@@ -1533,7 +1533,7 @@ describe('components/CreateComment', () => {
         const props = {
             ...baseProps,
             draft,
-        }
+        };
 
         const wrapper = shallowWithIntl(
             <CreateComment {...props}/>,
@@ -1542,7 +1542,7 @@ describe('components/CreateComment', () => {
         const updatedDraft = {
             ...draft,
             message: 'Foobar',
-        }
+        };
 
         wrapper.setProps({draft: updatedDraft});
         expect(wrapper).toMatchSnapshot();

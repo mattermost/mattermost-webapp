@@ -240,8 +240,18 @@ class CreateComment extends React.PureComponent {
             createPostErrorId: props.createPostErrorId,
             rootId: props.rootId,
             messageInHistory: props.messageInHistory,
-            draft: state.draft || {...props.draft, caretPosition: props.draft.message.length, uploadsInProgress: []},
         };
+
+        if (state.draft && props.draft && props.draft.message && state.draft.message !== props.draft.message) {
+            // if we already have a draft, update it's message if draft exist and is changed
+            updatedState.draft = {
+                ...state.draft,
+                message: props.draft.message,
+            };
+        } else {
+            // else, initialize the draft
+            updatedState.draft = {...props.draft, caretPosition: props.draft.message.length, uploadsInProgress: []}
+        }
 
         const rootChanged = props.rootId !== state.rootId;
         const messageInHistoryChanged = props.messageInHistory !== state.messageInHistory;
@@ -339,15 +349,6 @@ class CreateComment extends React.PureComponent {
                 this.props.scrollToBottom();
             }
             this.doInitialScrollToBottom = false;
-        }
-
-        if (prevProps.draft.message !== this.props.draft.message) {
-            this.setState({
-                draft: {
-                    ...this.state.draft,
-                    message: this.props.draft.message,
-                }
-            })
         }
     }
 
