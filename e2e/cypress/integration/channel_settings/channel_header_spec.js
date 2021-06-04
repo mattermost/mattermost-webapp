@@ -22,10 +22,6 @@ describe('Channel Settings', () => {
         });
     });
 
-    beforeEach(() => {
-        cy.apiAdminLogin();
-    });
-
     it('Hover effect exists to add a channel description / header (when not already present)', () => {
         // # Create a new public channel and then private channel
         ['O', 'P'].forEach((channelType) => {
@@ -33,7 +29,7 @@ describe('Channel Settings', () => {
                 // # Go to new channel
                 cy.visit(`/${testTeam.name}/channels/${channel.name}`);
 
-                // # Do the header test with public and private channel respectively
+                // * Test hovering over the header with public and private channel
                 hoverOnChannelDescriptionAndVerifyBehavior(channel.display_name);
             });
         });
@@ -43,7 +39,7 @@ describe('Channel Settings', () => {
             // # Go to DM
             cy.visit(`/${testTeam.name}/messages/@${user1.username}`);
 
-            // # Do the header test with DM
+            // * Test hovering over the header with Direct message
             hoverOnChannelDescriptionAndVerifyBehavior('', true);
         });
 
@@ -55,7 +51,7 @@ describe('Channel Settings', () => {
                     // # Visit the channel using the name using the channels route
                     cy.visit(`/${testTeam.name}/channels/${channel.name}`);
 
-                    // # Do the header test with GM
+                    // * Test hovering over the header with Group message
                     hoverOnChannelDescriptionAndVerifyBehavior();
                 });
             });
