@@ -12,10 +12,8 @@ import classNames from 'classnames';
 import {debounce} from 'mattermost-redux/actions/helpers';
 import {FileSearchResultItem as FileSearchResultItemType} from 'mattermost-redux/types/files';
 import {Post} from 'mattermost-redux/types/posts';
-import {memoizeResult} from 'mattermost-redux/utils/helpers';
 
-import {GlobalState} from 'types/store';
-import {FileDropdownPluginComponent} from 'types/store/plugins';
+import {getFilesDropdownPluginMenuItems} from 'selectors/plugins';
 
 import * as Utils from 'utils/utils.jsx';
 import {searchHintOptions} from 'utils/constants';
@@ -78,10 +76,7 @@ const defaultProps: Partial<Props> = {
 const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
     const scrollbars = useRef<Scrollbars|null>(null);
     const [searchType, setSearchType] = useState<string>(props.searchType);
-
-    const getPluginMenuItems = memoizeResult((state: GlobalState) => state.plugins.components.FilesDropdown || []);
-    const filesDropdownPluginMenuItems = useSelector(getPluginMenuItems) as unknown as FileDropdownPluginComponent[];
-
+    const filesDropdownPluginMenuItems = useSelector(getFilesDropdownPluginMenuItems);
     const intl = useIntl();
 
     useEffect(() => {
