@@ -35,7 +35,7 @@ describe('Channel Settings', () => {
                 cy.visit(`/${testTeam.name}/channels/${channel.name}`);
 
                 // # Do the header test with public and private channel respectively
-                hoverOnChannelDescriptionAndVerifyBehavior(channel.display_name);
+                hoverOnChannelDescriptionAndVerifyBehavior();
             });
         });
 
