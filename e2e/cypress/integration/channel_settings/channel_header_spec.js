@@ -90,6 +90,6 @@ function hoverOnChannelDescriptionAndVerifyBehavior() {
         cy.findAllByText(channelDescriptionText).should('be.visible').click({multiple: true, force: true});
     });
 
-    // * Also check clicking on it doesnt open the edit modal once again
+    // * Also check clicking on it doesn't open the edit modal once again
     cy.get('.a11y__modal.modal-dialog').should('not.exist');
 }
