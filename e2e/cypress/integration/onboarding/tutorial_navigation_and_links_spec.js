@@ -23,7 +23,7 @@ describe('Cloud Onboarding', () => {
             ({config} = data);
         });
 
-        // # Set plugin settings
+        // # Set Support Email setting
         const newSettings = {
             SupportSettings: {
                 SupportEmail: 'feedback@mattermost.com',
