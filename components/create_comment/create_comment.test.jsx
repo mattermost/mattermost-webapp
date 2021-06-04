@@ -1522,4 +1522,29 @@ describe('components/CreateComment', () => {
         textbox.props().onSelect(e);
         expect(setSelectionRangeFn).toHaveBeenCalledWith(8, 13);
     });
+
+    test('should react to change in draft', () => {
+        const draft = {
+            message: 'Hello, World!',
+            uploadsInProgress: [],
+            fileInfos: [],
+        };
+
+        const props = {
+            ...baseProps,
+            draft,
+        }
+
+        const wrapper = shallowWithIntl(
+            <CreateComment {...props}/>,
+        );
+
+        const updatedDraft = {
+            ...draft,
+            message: 'Foobar',
+        }
+
+        wrapper.setProps({draft: updatedDraft});
+        expect(wrapper).toMatchSnapshot();
+    });
 });

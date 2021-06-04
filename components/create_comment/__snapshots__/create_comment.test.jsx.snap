@@ -827,3 +827,151 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
   />
 </form>
 `;
+
+exports[`components/CreateComment should react to change in draft 1`] = `
+<form
+  onSubmit={[Function]}
+>
+  <div
+    aria-label="reply input region"
+    className="post-create a11y__region"
+    data-a11y-sort-order="4"
+    role="form"
+    tabIndex="-1"
+  >
+    <div
+      className="post-create-body comment-create-body"
+      id=""
+    >
+      <div
+        className="post-body__cell"
+      >
+        <Connect(Textbox)
+          badConnection={false}
+          channelId="g6139tbospd18cmxroesdk3kkc"
+          characterLimit={4000}
+          createMessage="Add a comment..."
+          disabled={false}
+          emojiEnabled={true}
+          handlePostError={[Function]}
+          id="reply_textbox"
+          initialText=""
+          isRHS={true}
+          listenForMentionKeyClick={true}
+          onBlur={[Function]}
+          onChange={[Function]}
+          onComposition={[Function]}
+          onHeightChange={[Function]}
+          onKeyDown={[Function]}
+          onKeyPress={[Function]}
+          onKeyUp={[Function]}
+          onMouseUp={[Function]}
+          onSelect={[Function]}
+          popoverMentionKeyClick={true}
+          preview={false}
+          rootId=""
+          suggestionListStyle="top"
+          useChannelMentions={true}
+          value="Foobar"
+        />
+        <span
+          className="post-body__actions"
+        >
+          <Connect(injectIntl(FileUpload))
+            channelId="g6139tbospd18cmxroesdk3kkc"
+            fileCount={0}
+            getTarget={[Function]}
+            onFileUpload={[Function]}
+            onFileUploadChange={[Function]}
+            onUploadError={[Function]}
+            onUploadProgress={[Function]}
+            onUploadStart={[Function]}
+            postType="comment"
+            rootId=""
+          />
+          <div>
+            <EmojiPickerOverlay
+              enableGifPicker={true}
+              onEmojiClick={[Function]}
+              onEmojiClose={[Function]}
+              onGifClick={[Function]}
+              onHide={[Function]}
+              show={false}
+              spaceRequiredAbove={476}
+              spaceRequiredBelow={497}
+              target={[Function]}
+              topOffset={55}
+            />
+            <button
+              aria-label="emoji picker"
+              className="emoji-picker__container post-action"
+              onClick={[Function]}
+              type="button"
+            >
+              <EmojiIcon
+                className="icon icon--emoji emoji-rhs "
+              />
+            </button>
+          </div>
+        </span>
+      </div>
+    </div>
+    <div
+      className="post-create-footer"
+    >
+      <div
+        className="d-flex justify-content-between"
+      >
+        <div
+          className="col"
+        >
+          <Connect(MsgTyping)
+            channelId="g6139tbospd18cmxroesdk3kkc"
+            postId=""
+          />
+        </div>
+        <div
+          className="col col-auto"
+        >
+          <Connect(TextboxLinks)
+            characterLimit={4000}
+            showPreview={false}
+            updatePreview={[Function]}
+          />
+        </div>
+      </div>
+      <div
+        className="text-right mt-2"
+      >
+        <input
+          className="btn btn-primary comment-btn"
+          disabled={false}
+          id="addCommentButton"
+          onClick={[Function]}
+          type="button"
+          value="Add Comment"
+        />
+      </div>
+    </div>
+  </div>
+  <PostDeletedModal
+    onHide={[Function]}
+    show={false}
+  />
+  <ConfirmModal
+    confirmButtonClass="btn btn-primary"
+    confirmButtonText={
+      <FormattedMessage
+        defaultMessage="Confirm"
+        id="notify_all.confirm"
+      />
+    }
+    message=""
+    modalClass=""
+    onCancel={[Function]}
+    onConfirm={[Function]}
+    show={false}
+    title=""
+  />
+</form>
+`;

@@ -340,6 +340,15 @@ class CreateComment extends React.PureComponent {
             }
             this.doInitialScrollToBottom = false;
         }
+
+        if (prevProps.draft.message !== this.props.draft.message) {
+            this.setState({
+                draft: {
+                    ...this.state.draft,
+                    message: this.props.draft.message,
+                }
+            })
+        }
     }
 
     setShowPreview = (newPreviewValue) => {
@@ -1002,6 +1011,7 @@ class CreateComment extends React.PureComponent {
 
     render() {
         const {draft} = this.state;
+        console.log(draft);
         const readOnlyChannel = this.props.readOnlyChannel || !this.props.canPost;
         const {formatMessage} = this.props.intl;
         const enableAddButton = this.shouldEnableAddButton();
