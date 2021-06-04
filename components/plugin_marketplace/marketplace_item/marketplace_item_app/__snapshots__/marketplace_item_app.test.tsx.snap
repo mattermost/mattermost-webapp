@@ -140,8 +140,8 @@ exports[`components/MarketplaceItemApp MarketplaceItem should render with icon 1
     }
     description="test plugin"
     homepageUrl="http://example.com"
-    iconPath="icon.png"
-    iconSource="http://localhost:8065/plugins/com.mattermost.apps/apps/id/static/icon.png"
+    iconSource="http://localhost:8065/plugins/com.mattermost.apps/apps/com.mattermost.servicenow/static/now-mobile-icon.png"
+    iconURL="http://localhost:8065/plugins/com.mattermost.apps/apps/com.mattermost.servicenow/static/now-mobile-icon.png"
     id="id"
     installed={false}
     installing={false}

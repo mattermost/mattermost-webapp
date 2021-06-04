@@ -3,7 +3,6 @@
 
 import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 import {AppBinding, AppCall, AppCallRequest, AppCallValues, AppContext, AppExpand} from 'mattermost-redux/types/apps';
-import {getSiteURL} from 'utils/url';
 
 export const appsPluginID = 'com.mattermost.apps';
 
@@ -97,10 +96,3 @@ export const makeCallErrorResponse = (errMessage: string) => {
         error: errMessage,
     };
 };
-
-export function getAppPath(appId: string): string {
-    return getSiteURL() + '/plugins/' + appsPluginID + '/apps/' + appId;
-}
-export function getStaticPath(appId: string, name: string): string {
-    return getAppPath(appId) + '/static/' + name;
-}
