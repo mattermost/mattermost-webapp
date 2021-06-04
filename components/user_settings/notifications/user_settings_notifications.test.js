@@ -5,7 +5,6 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import UserSettingsNotifications from './user_settings_notifications';
-import SettingItemMin from 'components/setting_item_min';
 
 describe('components/user_settings/display/UserSettingsDisplay', () => {
     const user = {
