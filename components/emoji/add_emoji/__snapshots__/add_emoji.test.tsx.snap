@@ -86,7 +86,7 @@ exports[`components/emoji/components/AddEmoji should match snapshot 1`] = `
                 />
               </button>
               <input
-                accept=".jpg,.png,.gif"
+                accept=".jpeg,.jpg,.png,.gif"
                 id="select-emoji"
                 multiple={false}
                 onChange={[Function]}
@@ -225,7 +225,7 @@ exports[`components/emoji/components/AddEmoji should select a file and match sna
                 />
               </button>
               <input
-                accept=".jpg,.png,.gif"
+                accept=".jpeg,.jpg,.png,.gif"
                 id="select-emoji"
                 multiple={false}
                 onChange={[Function]}
@@ -400,7 +400,7 @@ exports[`components/emoji/components/AddEmoji should update emoji name and match
                 />
               </button>
               <input
-                accept=".jpg,.png,.gif"
+                accept=".jpeg,.jpg,.png,.gif"
                 id="select-emoji"
                 multiple={false}
                 onChange={[Function]}
