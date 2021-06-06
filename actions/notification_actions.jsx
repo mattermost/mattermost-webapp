@@ -12,13 +12,15 @@ import {getCurrentUserId, getCurrentUser, getStatusForUserId, getUser} from 'mat
 import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 import {isSystemMessage} from 'mattermost-redux/utils/post_utils';
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
+import * as StorageActions from 'actions/storage';
 
 import {browserHistory} from 'utils/browser_history';
-import Constants, {ActionTypes, NotificationLevels, UserStatuses} from 'utils/constants';
+import Constants, {ActionTypes, NotificationLevels, StoragePrefixes, UserStatuses} from 'utils/constants';
 import {showNotification, requestNotificationsPermission, getNotificationsPermission} from 'utils/notifications';
 import {isDesktopApp, isMacApp, isMobileApp, isWindowsApp} from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
 import {stripMarkdown} from 'utils/markdown';
+import { getGlobalItem } from 'selectors/storage';
 
 const NOTIFY_TEXT_MAX_LENGTH = 50;
 
@@ -202,6 +204,25 @@ export const enableBrowserNotifications = () => {
             type: ActionTypes.BROWSER_NOTIFICATIONS_PERMISSION_RECEIVED,
             data: permission === 'granted'
         });
+    };
+};
+
+const SCHEDULE_LAST_NOTIFICATIONS_REQUEST_AFTER_ATTEMPTS = 3;
+const SEVEN_DAYS_IN_MS = 1000 * 60 * 60 * 24 * 7;
+
+export const trackEnableNotificationsBarDisplay = () => {
+    return (dispatch, getState) => {
+        const state = getState();
+        const enableDesktopNotificationsBarShownTimes = getGlobalItem(state, StoragePrefixes.ENABLE_DESKTOP_NOTIFICATIONS_BANNER_SHOWN_TIMES, 0);
+        const currentShownTimes = enableDesktopNotificationsBarShownTimes + 1;
+
+        if (currentShownTimes === SCHEDULE_LAST_NOTIFICATIONS_REQUEST_AFTER_ATTEMPTS) {
+            const sevenDaysFromNowTimestamp = Date.now() + SEVEN_DAYS_IN_MS;
+
+            dispatch(StorageActions.SET_GLOBAL_ITEM(StoragePrefixes.SHOW_LAST_ENABLE_DESKTOP_NOTIFICATIONS_BAR_AT, sevenDaysFromNowTimestamp));
+        }
+
+        dispatch(StorageActions.SET_GLOBAL_ITEM(StoragePrefixes.ENABLE_DESKTOP_NOTIFICATIONS_BANNER_SHOWN_TIMES, currentShownTimes));
     };
 };
 

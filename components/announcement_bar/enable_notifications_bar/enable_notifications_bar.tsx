@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import {t} from 'utils/i18n';
-import alertIcon from 'images/icons/round-white-info-icon.svg';
 import AnnouncementBar from '../default_announcement_bar';
 
 type Props = {
