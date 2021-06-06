@@ -5,7 +5,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {shallow} from 'enzyme';
 
-import RequestButton from 'components/admin_console/request_button/request_button.jsx';
+import RequestButton from 'components/admin_console/request_button/request_button';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 

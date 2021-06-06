@@ -32,28 +32,28 @@ type Props = {
     /**
      * A component that displays help text for the request button.
      *
-     * Typically, this will be a <FormattedMessage/>.
+     * Typically, this will be a <FormattedMessage />.
      */
     helpText?: React.ReactNode;
 
     /**
      * A component to be displayed on the button.
      *
-     * Typically, this will be a <FormattedMessage/>
+     * Typically, this will be a <FormattedMessage />
      */
     loadingText?: React.ReactNode;
 
     /**
      * A component to be displayed on the button.
      *
-     * Typically, this will be a <FormattedMessage/>
+     * Typically, this will be a <FormattedMessage />
      */
     buttonText: React.ReactNode;
 
     /**
      * The element to display as the field label.
      *
-     * Typically, this will be a <FormattedMessage/>
+     * Typically, this will be a <FormattedMessage />
      */
     label?: React.ReactNode;
 
@@ -77,7 +77,7 @@ type Props = {
     saveConfigAction?: (callback: () => void) => void;
 
     /**
-     * True if the success message should be show when the request completes successfully,
+     * True if the success message should be shown when the request completes successfully,
      * otherwise false.
      */
     showSuccessMessage?: boolean;
@@ -132,7 +132,7 @@ type Props = {
 
 type State = {
     busy: boolean;
-    fail: string | null;
+    fail: string;
     success: boolean;
 }
 
@@ -157,7 +157,7 @@ export default class RequestButton extends React.PureComponent<Props, State> {
 
         this.state = {
             busy: false,
-            fail: null,
+            fail: '',
             success: false,
         };
     }
@@ -167,32 +167,29 @@ export default class RequestButton extends React.PureComponent<Props, State> {
 
         this.setState({
             busy: true,
-            fail: null,
+            fail: '',
             success: false,
         });
 
-        const doRequest = () => {
-            //eslint-disable-line func-style
-            this.props.requestAction(
-                () => {
-                    this.setState({
-                        busy: false,
-                        success: true,
-                    });
-                },
-                (err) => {
-                    let errMsg = err.message;
-                    if (this.props.includeDetailedError && err.detailed_error) {
-                        errMsg += ' - ' + err.detailed_error;
-                    }
+        const doRequest = () => this.props.requestAction(
+            () => {
+                this.setState({
+                    busy: false,
+                    success: true,
+                });
+            },
+            (err) => {
+                let errMsg = err.message;
+                if (this.props.includeDetailedError && err.detailed_error) {
+                    errMsg += ' - ' + err.detailed_error;
+                }
 
-                    this.setState({
-                        busy: false,
-                        fail: errMsg,
-                    });
-                },
-            );
-        };
+                this.setState({
+                    busy: false,
+                    fail: errMsg,
+                });
+            },
+        );
 
         if (this.props.saveNeeded && this.props.saveConfigAction) {
             this.props.saveConfigAction(doRequest);
@@ -268,7 +265,7 @@ export default class RequestButton extends React.PureComponent<Props, State> {
                                     this.props.loadingText ||
                                     Utils.localizeMessage(
                                         'admin.requestButton.loading',
-                                        ' Loading...',
+                                        'Loading...',
                                     )
                                 }
                             >
