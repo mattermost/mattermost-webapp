@@ -13,7 +13,7 @@ import {
     getChannel as getChannelAction,
     getChannelByNameAndTeamName,
     getChannelMember,
-    joinChannel
+    joinChannel,
 } from 'mattermost-redux/actions/channels';
 import {getPost as getPostAction} from 'mattermost-redux/actions/posts';
 import {getTeamByName as getTeamByNameAction} from 'mattermost-redux/actions/teams';
@@ -23,20 +23,20 @@ import {
     getChannel,
     getChannelsNameMapInTeam,
     getMyChannelMemberships,
-    getRedirectChannelNameForTeam
+    getRedirectChannelNameForTeam,
 } from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getBool, getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUser, getCurrentUserId, getUser} from 'mattermost-redux/selectors/entities/users';
-import {blendColors, changeOpacity,} from 'mattermost-redux/utils/theme_utils';
+import {blendColors, changeOpacity} from 'mattermost-redux/utils/theme_utils';
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
 import {
     getCurrentRelativeTeamUrl,
     getCurrentTeamId,
     getTeam,
     getTeamByName,
-    getTeamMemberships
+    getTeamMemberships,
 } from 'mattermost-redux/selectors/entities/teams';
 
 import {addUserToTeam} from 'actions/team_actions';
