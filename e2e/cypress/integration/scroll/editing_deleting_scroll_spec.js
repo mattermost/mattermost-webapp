@@ -73,12 +73,12 @@ describe('Scroll', () => {
             // # Wait for the message to be amended
             cy.wait(TIMEOUTS.ONE_SEC);
 
-            // * Verify the first post is the same after deleting
+            // * Verify the first post is the same after editing
             cy.get('.post-message__text:visible').first().then((firstPostAfterScroll) => {
                 expect(firstPostAfterScroll.text()).equal(firstPostBeforeScroll);
             });
 
-            // * Verify the last post is the same after deleting
+            // * Verify the last post is the same after editing
             cy.get('.post-message__text:visible').last().then((lastPostAfterScroll) => {
                 expect(lastPostAfterScroll.text()).equal(lastPostBeforeScroll);
             });
