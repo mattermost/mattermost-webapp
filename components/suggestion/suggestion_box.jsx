@@ -782,6 +782,7 @@ export default class SuggestionBox extends React.PureComponent {
                     onKeyDown={this.handleKeyDown}
                     onSelect={this.handleSelect}
                 />
+
                 {(this.props.openWhenEmpty || this.props.value.length >= this.props.requiredCharacters) && this.state.presentationType === 'text' &&
                     <div style={{width: this.state.width}}>
                         <SuggestionListComponent

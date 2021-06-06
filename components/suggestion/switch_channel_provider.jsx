@@ -11,10 +11,12 @@ import {
     getChannelsInCurrentTeam,
     getDirectAndGroupChannels,
     getGroupChannels,
-    getSortedUnreadChannelIds,
-    makeGetChannel,
     getMyChannelMemberships,
     getChannelByName,
+    getAllRecentChannels,
+    getCurrentChannel,
+    getPrivateChannels,
+    getPublicChannels,
 } from 'mattermost-redux/selectors/entities/channels';
 
 import ProfilePicture from '../profile_picture';
@@ -261,6 +263,18 @@ const ConnectedSwitchChannelSuggestion = connect(mapStateToPropsForSwitchChannel
 
 let prefix = '';
 
+function sortChannelsByRecencyAndTypeAndDisplayName(wrappedA, wrappedB) {
+    if (wrappedA.last_viewed_at && wrappedB.last_viewed_at) {
+        return wrappedB.last_viewed_at - wrappedA.last_viewed_at;
+    } else if (wrappedA.last_viewed_at) {
+        return -1;
+    } else if (wrappedB.last_viewed_at) {
+        return 1;
+    }
+
+    return sortChannelsByTypeAndDisplayName('en', wrappedA.channel, wrappedB.channel);
+}
+
 export function quickSwitchSorter(wrappedA, wrappedB) {
     const aIsArchived = wrappedA.channel.delete_at ? wrappedA.channel.delete_at !== 0 : false;
     const bIsArchived = wrappedB.channel.delete_at ? wrappedB.channel.delete_at !== 0 : false;
@@ -389,7 +403,7 @@ export default class SwitchChannelProvider extends Provider {
             // Fetch data from the server and dispatch
             this.fetchUsersAndChannels(channelPrefix, resultsCallback);
         } else {
-            this.formatUnreadChannelsAndDispatch(resultsCallback);
+            this.formatRecentChannelsAndDispatch(resultsCallback);
         }
 
         return true;
@@ -584,16 +598,44 @@ export default class SwitchChannelProvider extends Provider {
         };
     }
 
-    formatUnreadChannelsAndDispatch(resultsCallback) {
-        const getChannel = makeGetChannel();
+    formatRecentChannelsAndDispatch(resultsCallback) {
+        // const getChannel = makeGetChannel();
+        const state = getState();
+        const recentChannels = getAllRecentChannels(state);
+        let channels = this.wrapChannels(recentChannels, Constants.MENTION_RECENT_CHANNELS);
+        if (channels.length === 0) {
+            const privateChannels = this.wrapChannels(getPrivateChannels(state), Constants.MENTION_CHANNELS);
+            const publicChannels = this.wrapChannels(getPublicChannels(state), Constants.MENTION_PUBLIC_CHANNELS);
+            channels = [...privateChannels, ...publicChannels];
+        }
 
-        const unreadChannelIds = getSortedUnreadChannelIds(getState(), false);
+        const sortedChannels = channels.sort(sortChannelsByRecencyAndTypeAndDisplayName).slice(0, 20);
 
-        const channels = [];
-        for (let i = 0; i < unreadChannelIds.length; i++) {
-            const channel = getChannel(getState(), {id: unreadChannelIds[i]}) || {};
+        const channelNames = sortedChannels.map((wrappedChannel) => wrappedChannel.channel.id);
 
+        resultsCallback({
+            matchedPretext: '',
+            terms: channelNames,
+            items: sortedChannels,
+            component: ConnectedSwitchChannelSuggestion,
+        });
+    }
+
+    wrapChannels(channels, channelType) {
+        const currentChannel = getCurrentChannel(getState());
+
+        const members = getMyChannelMemberships(getState());
+
+        const channelList = [];
+        for (let i = 0; i < channels.length; i++) {
+            const channel = channels[i];
+            if (channel.id === currentChannel.id) {
+                continue;
+            }
             let wrappedChannel = {channel, name: channel.name, deactivated: false};
+            if (members[channel.id]) {
+                wrappedChannel.last_viewed_at = members[channel.id].last_viewed_at;
+            }
             if (channel.type === Constants.GM_CHANNEL) {
                 wrappedChannel.name = channel.display_name;
             } else if (channel.type === Constants.DM_CHANNEL) {
@@ -608,17 +650,9 @@ export default class SwitchChannelProvider extends Provider {
                     channel,
                 );
             }
-            wrappedChannel.type = Constants.MENTION_UNREAD_CHANNELS;
-            channels.push(wrappedChannel);
+            wrappedChannel.type = channelType;
+            channelList.push(wrappedChannel);
         }
-
-        const channelNames = channels.map((wrappedChannel) => wrappedChannel.channel.id);
-
-        resultsCallback({
-            matchedPretext: '',
-            terms: channelNames,
-            items: channels,
-            component: ConnectedSwitchChannelSuggestion,
-        });
+        return channelList;
     }
 }
