@@ -404,7 +404,7 @@ export const clearHighlightReply = {
 
 export const debouncedClearHighlightReply = debounce((dispatch) => {
     return dispatch(clearHighlightReply);
-}, Constants.PERMALINK_FADEOUT, {trailing: true});
+}, Constants.PERMALINK_FADEOUT);
 
 export function selectPostAndHighlight(post: Post) {
     return (dispatch: DispatchFunc) => {
