@@ -431,7 +431,7 @@ class Post extends React.PureComponent {
                                 isCommentMention={this.props.isCommentMention}
                                 isFirstReply={this.props.isFirstReply}
                             />
-                            {isCollapsedThreadsEnabled && !post.root_id && replyCount ? (
+                            {isCollapsedThreadsEnabled && !post.root_id && (replyCount || post.is_following) ? (
                                 <ThreadFooter threadId={post.id}/>
                             ) : null}
 

@@ -81,6 +81,14 @@ describe('components/threading/channel_threads/thread_footer', () => {
                         channel_id: 'cid',
                         user_id: '1',
                     },
+                    singlemessageid: {
+                        id: 'singlemessageid',
+                        reply_count: 0,
+                        last_reply_at: 0,
+                        is_following: true,
+                        channel_id: 'cid',
+                        user_id: '1',
+                    },
                 },
             },
 
@@ -248,5 +256,20 @@ describe('components/threading/channel_threads/thread_footer', () => {
                 },
             },
         ]);
+    });
+
+    test('should match snapshot when a single message is followed', () => {
+        const {mountOptions} = mockStore(state);
+
+        const wrapper = mount(
+            <ThreadFooter
+                threadId='singlemessageid'
+            />,
+            mountOptions,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+        expect(wrapper.exists(FollowButton)).toBe(true);
+        expect(wrapper.find(FollowButton).props()).toHaveProperty('isFollowing', true);
     });
 });
