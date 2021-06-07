@@ -633,7 +633,7 @@ export default class SwitchChannelProvider extends Provider {
 
     wrapChannels(channels, channelType) {
         const currentChannel = getCurrentChannel(getState());
-        const members = getMyChannelMemberships(getState());
+        const myMembers = getMyChannelMemberships(getState());
         const myPreferences = getMyPreferences(getState());
 
         const channelList = [];
@@ -643,8 +643,8 @@ export default class SwitchChannelProvider extends Provider {
                 continue;
             }
             let wrappedChannel = {channel, name: channel.name, deactivated: false};
-            if (members[channel.id]) {
-                wrappedChannel.last_viewed_at = this.getLastViewedAt(members, myPreferences, channel);
+            if (myMembers[channel.id]) {
+                wrappedChannel.last_viewed_at = this.getLastViewedAt(myMembers, myPreferences, channel);
             }
             if (channel.type === Constants.GM_CHANNEL) {
                 wrappedChannel.name = channel.display_name;
