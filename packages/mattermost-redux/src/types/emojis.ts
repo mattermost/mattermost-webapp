@@ -23,7 +23,9 @@ export type CustomEmoji = {
     category: 'custom';
 };
 export type SystemEmoji = {
-    filename: string;
+    name: string;
+    image: string;
+    short_name: string;
     short_names: string[];
     category: EmojiCategory;
     batch: number;

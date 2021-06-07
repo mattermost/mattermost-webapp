@@ -57,8 +57,8 @@ export default class EmojiMap {
                     const emoji = customEmojisArray[this.customIndex][1];
 
                     this.customIndex += 1;
-
-                    return {value: [emoji.name, emoji]};
+                    const name = emoji.short_name || emoji.name;
+                    return {value: [name, emoji]};
                 }
 
                 return {done: true};

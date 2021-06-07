@@ -83,7 +83,7 @@ class EmojiPickerItem extends React.Component {
 
         let spriteClassName = 'emojisprite';
         spriteClassName += ' emoji-category-' + emoji.category + '-' + emoji.batch;
-        spriteClassName += ' emoji-' + emoji.filename;
+        spriteClassName += ' emoji-' + emoji.image;
 
         let image;
         if (emoji.category && emoji.batch) {
@@ -95,7 +95,7 @@ class EmojiPickerItem extends React.Component {
                     src={imgTrans}
                     className={spriteClassName}
                     onClick={this.handleClick}
-                    id={'emoji-' + emoji.filename}
+                    id={'emoji-' + emoji.image}
                     aria-label={this.emojiName()}
                     role='button'
                 />

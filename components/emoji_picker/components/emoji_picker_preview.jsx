@@ -22,7 +22,7 @@ export default class EmojiPickerPreview extends React.PureComponent {
             let aliases;
             let previewImage;
 
-            if (emoji.short_names && emoji.category && emoji.batch) {
+            if (emoji.short_names) {
                 // This is a system emoji which only has a list of aliases
                 name = emoji.short_names[0];
                 aliases = emoji.short_names;
@@ -33,7 +33,7 @@ export default class EmojiPickerPreview extends React.PureComponent {
                             id='emojiPickerSpritePreview'
                             alt={'emoji category image'}
                             src={imgTrans}
-                            className={'emojisprite-preview emoji-category-' + emoji.category + '-' + emoji.batch + ' emoji-' + emoji.filename}
+                            className={'emojisprite-preview emoji-category-' + emoji.category + '-' + emoji.batch + ' emoji-' + emoji.image}
                         />
                     </span>
                 );
