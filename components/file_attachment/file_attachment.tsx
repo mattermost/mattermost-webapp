@@ -144,7 +144,7 @@ export default class FileAttachment extends React.PureComponent<Props, State> {
             const anchorRect = this.buttonRef.current?.getBoundingClientRect();
             let y;
             if (typeof anchorRect?.y === 'undefined') {
-                y = typeof anchorRect?.top == 'undefined' ? 0 : anchorRect?.top;
+                y = typeof anchorRect?.top === 'undefined' ? 0 : anchorRect?.top;
             } else {
                 y = anchorRect?.y;
             }
