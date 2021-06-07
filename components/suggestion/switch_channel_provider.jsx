@@ -597,7 +597,6 @@ export default class SwitchChannelProvider extends Provider {
     }
 
     fetchAndFormatRecentChannels(resultsCallback) {
-        // const getChannel = makeGetChannel();
         const state = getState();
         const recentChannels = getAllRecentChannels(state);
         const channels = this.wrapChannels(recentChannels, Constants.MENTION_RECENT_CHANNELS);
@@ -606,11 +605,8 @@ export default class SwitchChannelProvider extends Provider {
             this.startNewRequest('');
             this.fetchChannels(resultsCallback);
         }
-
         const sortedChannels = channels.sort(sortChannelsByRecencyAndTypeAndDisplayName).slice(0, 20);
-
         const channelNames = sortedChannels.map((wrappedChannel) => wrappedChannel.channel.id);
-
         resultsCallback({
             matchedPretext: '',
             terms: channelNames,
@@ -621,7 +617,6 @@ export default class SwitchChannelProvider extends Provider {
 
     wrapChannels(channels, channelType) {
         const currentChannel = getCurrentChannel(getState());
-
         const members = getMyChannelMemberships(getState());
 
         const channelList = [];
