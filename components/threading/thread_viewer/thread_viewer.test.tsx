@@ -140,6 +140,33 @@ describe('components/threading/ThreadViewer', () => {
         expect(scrollToBottom).not.toHaveBeenCalled();
     });
 
+    test('should not scroll to the bottom when there is a highlighted reply', () => {
+        const scrollToBottom = jest.fn();
+
+        const wrapper = shallow(
+            <ThreadViewer
+                {...baseProps}
+                highlightedPostId='42'
+            />,
+        );
+
+        const instance = wrapper.instance() as ThreadViewer;
+        instance.scrollToBottom = scrollToBottom;
+
+        wrapper.setProps({
+            posts: [
+                {
+                    id: 'newpost',
+                    root_id: post.id,
+                    user_id: 'user_id',
+                },
+                post,
+            ],
+        });
+
+        expect(scrollToBottom).not.toHaveBeenCalled();
+    });
+
     test('should not break if root post is missing', () => {
         const props = {
             ...baseProps,

@@ -113,6 +113,8 @@ export const Preferences = {
 export const ActionTypes = keyMirror({
     RECEIVED_FOCUSED_POST: null,
     SELECT_POST: null,
+    HIGHLIGHT_REPLY: null,
+    CLEAR_HIGHLIGHT_REPLY: null,
     SELECT_POST_CARD: null,
     INCREASE_POST_VISIBILITY: null,
     LOADING_POSTS: null,

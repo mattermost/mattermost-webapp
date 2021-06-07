@@ -20,6 +20,7 @@ import {UserThread} from 'mattermost-redux/types/threads';
 import {Preferences} from 'utils/constants';
 import {getDirectTeammate} from 'utils/utils.jsx';
 import {getSocketStatus} from 'selectors/views/websocket';
+import {getHighlightedPostId} from 'selectors/rhs';
 import {makeGetThreadLastViewedAt} from 'selectors/views/threads';
 import {selectPostCard} from 'actions/views/rhs';
 import {updateThreadLastOpened} from 'actions/views/threads';
@@ -41,6 +42,7 @@ function makeMapStateToProps() {
         const selected = getPost(state, rootPostId);
         const channel = getChannel(state, selected?.channel_id);
         const socketStatus = getSocketStatus(state);
+        const highlightedPostId = getHighlightedPostId(state);
 
         let posts: Post[] = [];
         let lastViewedAt;
@@ -65,6 +67,7 @@ function makeMapStateToProps() {
             previewCollapsed,
             previewEnabled: getBool(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.LINK_PREVIEW_DISPLAY, Preferences.LINK_PREVIEW_DISPLAY_DEFAULT === 'true'),
             directTeammate: getDirectTeammate(state, channel?.id) as UserProfile,
+            highlightedPostId,
             lastViewedAt,
         };
     };

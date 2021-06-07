@@ -1875,6 +1875,7 @@ export async function handleFormattedTextClick(e, currentRelativeTeamUrl) {
                 }
             }
 
+            e.stopPropagation();
             browserHistory.push(linkAttribute.value);
         }
     } else if (channelMentionAttribute) {
