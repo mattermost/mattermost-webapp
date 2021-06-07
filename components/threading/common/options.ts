@@ -10,7 +10,6 @@ export const THREADING_TIME: Partial<ComponentProps<typeof Timestamp>> = {
         'minute',
         'hour',
         'day',
-        'week',
     ],
     useTime: false,
     day: 'numeric',

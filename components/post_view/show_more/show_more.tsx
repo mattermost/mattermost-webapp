@@ -18,6 +18,7 @@ type Props = {
     isRHSOpen: boolean;
     text?: string;
     compactDisplay: boolean;
+    messagePreviewShowMore?: boolean;
 }
 
 type State = {
@@ -32,7 +33,7 @@ export default class ShowMore extends React.PureComponent<Props, State> {
 
     constructor(props: Props) {
         super(props);
-        this.maxHeight = this.props.isAttachmentText ? MAX_ATTACHMENT_TEXT_HEIGHT : MAX_POST_HEIGHT;
+        this.maxHeight = this.props.isAttachmentText || this.props.messagePreviewShowMore ? MAX_ATTACHMENT_TEXT_HEIGHT : MAX_POST_HEIGHT;
         this.textContainer = React.createRef();
         this.state = {
             isCollapsed: true,

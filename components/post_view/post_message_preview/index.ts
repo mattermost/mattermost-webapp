@@ -9,17 +9,21 @@ import {GenericAction} from 'mattermost-redux/types/actions';
 import {GlobalState} from 'types/store';
 import PostMessagePreview from './post_message_preview';
 import {getUser} from 'mattermost-redux/selectors/entities/users';
+import { getChannel } from 'mattermost-redux/selectors/entities/channels';
+import { PostPreviewMetadata } from 'mattermost-redux/types/posts';
 
 type Props = {
     userId: string;
+    metadata: PostPreviewMetadata;
 }
 
 function mapStateToProps(state: GlobalState, ownProps: Props) {
     const user = getUser(state, ownProps.userId);
-    console.log('here bud');
-    console.log(user);
+    const channel = getChannel(state, ownProps.metadata.channel_id);
+
     return {
         user,
+        channel,
     };
 }
 

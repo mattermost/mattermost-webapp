@@ -1590,7 +1590,7 @@
 
         &:before {
             content: '\f0da';
-}
+        }
 
         &[data-expanded='true']:before {
             content: '\f0d7';
@@ -1787,6 +1787,24 @@
 
         .embed-link {
             display: none;
+        }
+    }
+
+    .post-preview {
+        padding: 4px;
+
+        .post__img {
+            text-align: left;
+            width: 24px;
+            padding: 0;
+        }
+
+        .user-popover {
+            padding-left: 8px;
+        }
+
+        .post__time {
+            padding-left: 6px;
         }
     }
 }

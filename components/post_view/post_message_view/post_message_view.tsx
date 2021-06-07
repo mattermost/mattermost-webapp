@@ -28,6 +28,7 @@ type Props = {
     theme: Theme; /* Logged in user's theme */
     pluginPostTypes?: any; /* Post type components from plugins */
     currentRelativeTeamUrl: string;
+    messagePreviewShowMore?: boolean;
 }
 
 type State = {
@@ -43,6 +44,7 @@ export default class PostMessageView extends React.PureComponent<Props, State> {
         options: {},
         isRHS: false,
         pluginPostTypes: {},
+        messagePreviewShowMore: false,
     };
 
     constructor(props: Props) {
@@ -116,6 +118,7 @@ export default class PostMessageView extends React.PureComponent<Props, State> {
             compactDisplay,
             isRHS,
             theme,
+            messagePreviewShowMore
         } = this.props;
 
         if (post.state === Posts.POST_DELETED) {
@@ -153,6 +156,7 @@ export default class PostMessageView extends React.PureComponent<Props, State> {
             <ShowMore
                 checkOverflow={this.state.checkOverflow}
                 text={message}
+                messagePreviewShowMore={messagePreviewShowMore}
             >
                 <div
                     aria-readonly='true'
