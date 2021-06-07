@@ -1,7 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {createStore, applyMiddleware, Store} from 'redux';
+import {createStore, applyMiddleware, Store, combineReducers} from 'redux';
+import thunk from 'redux-thunk';
+import {composeWithDevTools} from 'redux-devtools-extension/developmentOnly';
+
+import {GlobalState} from 'mattermost-redux/types/store';
+import {Action, Reducer} from 'mattermost-redux/types/actions';
 
 import serviceReducer from '../reducers';
 
@@ -9,7 +14,6 @@ import reducerRegistry from './reducer_registry';
 
 import {createReducer} from './helpers';
 import initialState from './initial_state';
-import {createMiddleware} from './middleware';
 
 /**
  * Configures and constructs the redux store. Accepts the following parameters:
@@ -17,17 +21,17 @@ import {createMiddleware} from './middleware';
  * appReducer - An object containing any app-specific reducer functions that the client needs.
  * persistConfig - Any additional configuration data to be passed into redux-persist aside from the default values.
  * getAppReducer - A function that returns the appReducer as defined above. Only used in development to enable hot reloading.
- * clientOptions - An object containing additional options used when configuring the redux store. The following options are available:
- *     additionalMiddleware - func | array - Allows for single or multiple additional middleware functions to be passed in from the client side.
- *     enableThunk - bool - default = true - If true, include the thunk middleware automatically. If false, thunk must be provided as part of additionalMiddleware.
  */
-export default function configureOfflineServiceStore(preloadedState: any, appReducer: any, persistConfig: any, getAppReducer: any, clientOptions = {}): Store {
+export default function configureStore(preloadedState: any, appReducer: any, persistConfig: any, getAppReducer: any): Store {
     const baseState = Object.assign({}, initialState, preloadedState);
+
+    let middleware = applyMiddleware(thunk);
+    middleware = composeWithDevTools(middleware);
 
     const store = createStore(
         createReducer(baseState, serviceReducer as any, appReducer),
         baseState,
-        applyMiddleware(...createMiddleware(clientOptions)),
+        middleware,
     );
 
     reducerRegistry.setChangeListener((reducers: any) => {
@@ -37,6 +41,20 @@ export default function configureOfflineServiceStore(preloadedState: any, appRed
     // launch store persistor
     if (persistConfig.persist) {
         persistConfig.persist(store, persistConfig.persistOptions, persistConfig.persistCallback);
+    }
+
+    if (module.hot) {
+    // Enable Webpack hot module replacement for reducers
+        module.hot.accept(() => {
+            const nextServiceReducer = require('../reducers').default; // eslint-disable-line global-require
+            let nextAppReducer;
+            if (getAppReducer) {
+                nextAppReducer = getAppReducer(); // eslint-disable-line global-require
+            }
+            const registryReducers = combineReducers(reducerRegistry.getReducers()) as Reducer<GlobalState, Action>;
+
+            store.replaceReducer(createReducer(baseState, registryReducers, nextServiceReducer, nextAppReducer));
+        });
     }
 
     return store;
