@@ -11,6 +11,7 @@ import {ExtendedPost} from 'mattermost-redux/actions/posts';
 import {Post} from 'mattermost-redux/types/posts';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {UserThread} from 'mattermost-redux/types/threads';
+import {isFromWebhook} from 'mattermost-redux/utils/post_utils';
 
 import Constants from 'utils/constants';
 import DelayedAction from 'utils/delayed_action';
@@ -19,6 +20,7 @@ import * as UserAgent from 'utils/user_agent';
 import CreateComment from 'components/create_comment';
 import DateSeparator from 'components/post_view/date_separator';
 import FloatingTimestamp from 'components/post_view/floating_timestamp';
+import NewMessageSeparator from 'components/post_view/new_message_separator/new_message_separator';
 import RhsComment from 'components/rhs_comment';
 import RhsRootPost from 'components/rhs_root_post';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
@@ -83,9 +85,11 @@ type Props = Attrs & {
         getPostThread: (rootId: string, root?: boolean) => void;
         getThread: (userId: string, teamId: string, threadId: string, extended: boolean) => unknown;
         updateThreadRead: (userId: string, teamId: string, threadId: string, timestamp: number) => unknown;
+        updateThreadLastOpened: (threadId: string, lastViewedAt: number) => unknown;
     };
     directTeammate: UserProfile;
     useRelativeTimestamp?: boolean;
+    lastViewedAt?: number;
 };
 
 type State = {
@@ -193,20 +197,25 @@ export default class ThreadViewer extends React.Component<Props, State> {
     }
 
     markThreadRead() {
-        if (
-            this.props.userThread &&
-            (
+        if (this.props.userThread) {
+            // update last viewed at for thread before marking as read.
+            this.props.actions.updateThreadLastOpened(
+                this.props.userThread.id,
+                this.props.userThread.last_viewed_at,
+            );
+
+            if (
                 this.props.userThread.last_viewed_at < this.props.userThread.last_reply_at ||
                 this.props.userThread.unread_mentions ||
                 this.props.userThread.unread_replies
-            )
-        ) {
-            this.props.actions.updateThreadRead(
-                this.props.currentUserId,
-                this.props.currentTeamId,
-                this.props.selected.id,
-                Date.now(),
-            );
+            ) {
+                this.props.actions.updateThreadRead(
+                    this.props.currentUserId,
+                    this.props.currentTeamId,
+                    this.props.selected.id,
+                    Date.now(),
+                );
+            }
         }
     }
 
@@ -417,6 +426,7 @@ export default class ThreadViewer extends React.Component<Props, State> {
 
         const items = [];
         let a11yIndex = 1;
+        let addedNewMessagesIndicator = false;
         for (let i = 0; i < postsLength; i++) {
             const comPost = postsArray[i];
             const previousPostId = i > 0 ? postsArray[i - 1].id : '';
@@ -431,6 +441,23 @@ export default class ThreadViewer extends React.Component<Props, State> {
                             date={currentPostDay}
                         />);
                 }
+            }
+
+            if (
+                this.props.isCollapsedThreadsEnabled &&
+                !addedNewMessagesIndicator &&
+                this.props.lastViewedAt &&
+                comPost.id &&
+                comPost.create_at >= this.props.lastViewedAt &&
+                (currentUserId !== comPost.user_id || isFromWebhook(comPost))
+            ) {
+                addedNewMessagesIndicator = true;
+                items.push(
+                    <NewMessageSeparator
+                        key={`thread-new-messages-${comPost.id}`}
+                        separatorId={`thread-new-messages-${comPost.id}`}
+                    />,
+                );
             }
 
             const keyPrefix = comPost.id ? comPost.id : comPost.pending_post_id;

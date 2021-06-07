@@ -437,6 +437,7 @@ export const RecommendedNextSteps = {
 
 export const Threads = {
     CHANGED_SELECTED_THREAD: 'changed_selected_thread',
+    CHANGED_LAST_VIEWED_AT: 'changed_last_viewed_at',
 };
 
 export const CloudBanners = {
