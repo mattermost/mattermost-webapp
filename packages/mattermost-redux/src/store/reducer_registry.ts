@@ -9,22 +9,22 @@ export class ReducerRegistry {
     emitChange?: (reducers: Dictionary<Reducer>) => void;
     reducers: Dictionary<Reducer> = {};
 
-    setReducers = (reducers: Dictionary<Reducer>) => {
+    setReducers = (reducers: Dictionary<Reducer>): void => {
         this.reducers = reducers;
     }
 
-    getReducers = () => {
+    getReducers = (): Dictionary<Reducer> => {
         return {...this.reducers};
     }
 
-    register = (name: string, reducer: Reducer) => {
+    register = (name: string, reducer: Reducer): void => {
         this.reducers = {...this.reducers, [name]: reducer};
         if (this.emitChange) {
             this.emitChange(this.getReducers());
         }
     }
 
-    setChangeListener = (listener: (reducers: Dictionary<Reducer>) => void) => {
+    setChangeListener = (listener: (reducers: Dictionary<Reducer>) => void): void => {
         this.emitChange = listener;
     }
 }

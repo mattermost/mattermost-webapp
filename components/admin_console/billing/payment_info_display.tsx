@@ -7,12 +7,11 @@ import {useSelector} from 'react-redux';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import BlockableLink from 'components/admin_console/blockable_link';
-import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-import CardImage from 'components/payment_form/card_image';
 import noPaymentInfoGraphic from 'images/no_payment_info_graphic.svg';
 import {GlobalState} from 'types/store';
 
 import './payment_info_display.scss';
+import PaymentDetails from './payment_details';
 
 const addInfoButton = (
     <div className='PaymentInfoDisplay__addInfo'>
@@ -65,43 +64,9 @@ const PaymentInfoDisplay: React.FC = () => {
     let body = noPaymentInfoSection;
 
     if (paymentInfo?.payment_method && paymentInfo?.billing_address) {
-        const address = paymentInfo.billing_address;
         body = (
             <div className='PaymentInfoDisplay__paymentInfo'>
-                <div className='PaymentInfoDisplay__paymentInfo-text'>
-                    <CardImage brand={paymentInfo.payment_method.card_brand}/>
-                    <div className='PaymentInfoDisplay__paymentInfo-cardInfo'>
-                        <FormattedMarkdownMessage
-                            id='admin.billing.payment_info.cardBrandAndDigits'
-                            defaultMessage='{brand} ending in {digits}'
-                            values={{
-                                brand: paymentInfo.payment_method.card_brand,
-                                digits: paymentInfo.payment_method.last_four,
-                            }}
-                        />
-                        <br/>
-                        <FormattedMarkdownMessage
-                            id='admin.billing.payment_info.cardExpiry'
-                            defaultMessage='Expires {month}/{year}'
-                            values={{
-                                month: String(paymentInfo.payment_method.exp_month).padStart(2, '0'),
-                                year: String(paymentInfo.payment_method.exp_year).padStart(2, '0'),
-                            }}
-                        />
-                    </div>
-                    <div className='PaymentInfoDisplay__paymentInfo-addressTitle'>
-                        <FormattedMessage
-                            id='admin.billing.payment_info.billingAddress'
-                            defaultMessage='Billing Address'
-                        />
-                    </div>
-                    <div className='PaymentInfoDisplay__paymentInfo-address'>
-                        <div>{address.line1}</div>
-                        {address.line2 && <div>{address.line2}</div>}
-                        <div>{`${address.city}, ${address.state}, ${address.postal_code}`}</div>
-                        <div>{address.country}</div>
-                    </div>
-                </div>
+                <PaymentDetails/>
                 <div className='PaymentInfoDisplay__paymentInfo-edit'>
                     { // TODO: remove payment info?
                     /* <a
