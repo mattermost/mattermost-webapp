@@ -348,6 +348,7 @@ export default class CustomPolicyForm extends React.PureComponent<Props, State> 
                                 >
                                     <Input
                                         name='policyName'
+                                        aria-label='Policy name'
                                         type='text'
                                         value={this.state.policyName}
                                         onChange={(e) => {
@@ -376,8 +377,10 @@ export default class CustomPolicyForm extends React.PureComponent<Props, State> 
                                         options={[daysOption(), yearsOption(), keepForeverOption()]}
                                         legend={Utils.localizeMessage('admin.data_retention.form.channelAndDirectMessageRetention', 'Channel & direct message retention')}
                                         placeholder={Utils.localizeMessage('admin.data_retention.form.channelAndDirectMessageRetention', 'Channel & direct message retention')}
-                                        name={'channel_message_retention'}
                                         inputType={'number'}
+                                        name={'message_retention'}
+                                        dropdownClassNamePrefix={'message_retention'}
+                                        inputId={'message_retention_input'}
                                     />
                                 </div>
 

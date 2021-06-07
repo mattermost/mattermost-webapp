@@ -8,10 +8,20 @@ import {trackEvent} from 'actions/telemetry_actions';
 
 import BlockableLink from 'components/admin_console/blockable_link';
 import AlertBanner from 'components/alert_banner';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 import privateCloudImage from 'images/private-cloud-image.svg';
+import freeTrialPrivateCloudImage from 'images/free-trial-private-cloud-image.svg';
 
-export const contactSalesCard = (contactSalesLink: any, isFreeTrial: boolean, trialQuestionsLink: any) => {
+import {CloudProducts} from 'utils/constants';
+
+export const contactSalesCard = (
+    contactSalesLink: any,
+    isFreeTrial: boolean,
+    trialQuestionsLink: any,
+    subscriptionPlan: string | null,
+    onUpgradeMattermostCloud: () => void,
+) => {
     let title;
     let description;
 
@@ -29,18 +39,64 @@ export const contactSalesCard = (contactSalesLink: any, isFreeTrial: boolean, tr
             />
         );
     } else {
-        title = (
-            <FormattedMessage
-                id='admin.billing.subscription.privateCloudCard.cloudProfessional.title'
-                defaultMessage='Upgrade to Cloud Enterprise'
-            />
-        );
-        description = (
-            <FormattedMessage
-                id='admin.billing.subscription.privateCloudCard.cloudProfessional.description'
-                defaultMessage='Optimize your processes with VPC Peering, a dedicated AWS account and premium support.'
-            />
-        );
+        switch (subscriptionPlan) {
+        case CloudProducts.STARTER:
+            title = (
+                <FormattedMessage
+                    id='admin.billing.subscription.privateCloudCard.cloudStarter.title'
+                    defaultMessage='Upgrade to Cloud Professional'
+                />
+            );
+            description = (
+                <FormattedMessage
+                    id='admin.billing.subscription.privateCloudCard.cloudStarter.description'
+                    defaultMessage='Optimize your processes with Guest Accounts, Office365 suite integrations, Gitlab SSO and advanced permissions.'
+                />
+            );
+            break;
+        case CloudProducts.PROFESSIONAL:
+            title = (
+                <FormattedMessage
+                    id='admin.billing.subscription.privateCloudCard.cloudProfessional.title'
+                    defaultMessage='Upgrade to Cloud Enterprise'
+                />
+            );
+            description = (
+                <FormattedMarkdownMessage
+                    id='admin.billing.subscription.privateCloudCard.cloudProfessional.description'
+                    defaultMessage='Advanced security and compliance features with premium support. See [https://mattermost.com/pricing-cloud/](https://mattermost.com/pricing-cloud/) for more details.'
+                />
+            );
+            break;
+        case CloudProducts.ENTERPRISE:
+            title = (
+                <FormattedMessage
+                    id='admin.billing.subscription.privateCloudCard.cloudEnterprise.title'
+                    defaultMessage='Looking for an annual discount? '
+                />
+            );
+            description = (
+                <FormattedMessage
+                    id='admin.billing.subscription.privateCloudCard.cloudEnterprise.description'
+                    defaultMessage='At Mattermost, we work with you and your team to meet your needs throughout the product. If you are looking for an annual discount, please reach out to our sales team.'
+                />
+            );
+            break;
+        default:
+            title = (
+                <FormattedMessage
+                    id='admin.billing.subscription.privateCloudCard.cloudProfessional.title'
+                    defaultMessage='Upgrade to Cloud Enterprise'
+                />
+            );
+            description = (
+                <FormattedMarkdownMessage
+                    id='admin.billing.subscription.privateCloudCard.cloudProfessional.description'
+                    defaultMessage='Advanced security and compliance features with premium support. See [https://mattermost.com/pricing-cloud/](https://mattermost.com/pricing-cloud/) for more details.'
+                />
+            );
+            break;
+        }
     }
 
     return (
@@ -48,57 +104,40 @@ export const contactSalesCard = (contactSalesLink: any, isFreeTrial: boolean, tr
             <div className='PrivateCloudCard__text'>
                 <div className='PrivateCloudCard__text-title'>
                     {title}
-                    {/* {typeSubscription === 'CLOUD_STARTER' &&
-                        <FormattedMessage
-                            id='admin.billing.subscription.privateCloudCard.cloudStarter.title'
-                            defaultMessage='Upgrade to Cloud Professional'
-                        />
-                    }
-
-                    {typeSubscription === 'CLOUD_PROFESSIONAL' &&
-                        <FormattedMessage
-                            id='admin.billing.subscription.privateCloudCard.cloudProfessional.title'
-                            defaultMessage='Upgrade to Cloud Enterprise'
-                        />
-                    }
-
-                    {typeSubscription === 'CLOUD_ENTERPRISE' &&
-                        <FormattedMessage
-                            id='admin.billing.subscription.privateCloudCard.cloudEnterprise.title'
-                            defaultMessage='Looking for an annual discount? '
-                        />
-                    } */}
                 </div>
                 <div className='PrivateCloudCard__text-description'>
                     {description}
-                    {/* {typeSubscription === 'CLOUD_STARTER' && <FormattedMessage
-                        id='admin.billing.subscription.privateCloudCard.cloudStarter.description'
-                        defaultMessage='Optimize your processes with Guest Accounts, Office365 suite integrations, Gitlab SSO and advanced permissions.'
-                    />}
-                    {typeSubscription === 'CLOUD_PROFESSIONAL' && <FormattedMessage
-                        id='admin.billing.subscription.privateCloudCard.cloudProfessional.description'
-                        defaultMessage='Optimize your processes with VPC Peering, a dedicated AWS account and premium support.'
-                    />}
-                    {typeSubscription === 'CLOUD_ENTERPRISE' && <FormattedMessage
-                        id='admin.billing.subscription.privateCloudCard.cloudEnterprise.description'
-                        defaultMessage='At Mattermost, we work with you and your team to meet your needs throughout the product. If you are looking for an annual discount, please reach out to our sales team.'
-                    />} */}
                 </div>
-                <a
-                    href={isFreeTrial ? trialQuestionsLink : contactSalesLink}
-                    rel='noopener noreferrer'
-                    target='_new'
-                    className='PrivateCloudCard__contactSales'
-                    onClick={() => trackEvent('cloud_admin', 'click_contact_sales')}
-                >
-                    <FormattedMessage
-                        id='admin.billing.subscription.privateCloudCard.contactSales'
-                        defaultMessage='Contact Sales'
-                    />
-                </a>
+                {(isFreeTrial || subscriptionPlan === CloudProducts.ENTERPRISE) &&
+                    <a
+                        href={isFreeTrial ? trialQuestionsLink : contactSalesLink}
+                        rel='noopener noreferrer'
+                        target='_new'
+                        className='PrivateCloudCard__actionButton'
+                        onClick={() => trackEvent('cloud_admin', 'click_contact_sales')}
+                    >
+                        <FormattedMessage
+                            id='admin.billing.subscription.privateCloudCard.contactSales'
+                            defaultMessage='Contact Sales'
+                        />
+
+                    </a>
+                }
+                {(!isFreeTrial && subscriptionPlan !== CloudProducts.ENTERPRISE) &&
+                    <button
+                        type='button'
+                        onClick={onUpgradeMattermostCloud}
+                        className='PrivateCloudCard__actionButton'
+                    >
+                        <FormattedMessage
+                            id='admin.billing.subscription.privateCloudCard.upgradeNow'
+                            defaultMessage='Upgrade Now'
+                        />
+                    </button>
+                }
             </div>
             <div className='PrivateCloudCard__image'>
-                <img src={privateCloudImage}/>
+                <img src={isFreeTrial ? freeTrialPrivateCloudImage : privateCloudImage}/>
             </div>
         </div>
     );
