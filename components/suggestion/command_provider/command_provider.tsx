@@ -20,6 +20,8 @@ import Provider from '../provider';
 
 import {GlobalState} from 'types/store';
 
+import Markdown from 'components/markdown';
+
 import {AppCommandParser} from './app_command_parser/app_command_parser';
 import {intlShim} from './app_command_parser/app_command_parser_dependencies';
 
@@ -66,7 +68,7 @@ export class CommandSuggestion extends Suggestion {
                         {item.Suggestion.substring(1) + ' ' + item.Hint}
                     </div>
                     <div className='slash-command__desc'>
-                        {item.Description}
+                        <Markdown message={item.Description}/>
                     </div>
                 </div>
             </div>
