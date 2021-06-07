@@ -29,12 +29,17 @@ import {GlobalState} from '../../types/store';
 
 import ProfilePopover from './profile_popover';
 
+type OwnProps = {
+    userId: string;
+    channelId?: string;
+}
+
 function getDefaultChannelId(state: GlobalState) {
     const selectedPost = getSelectedPost(state);
     return selectedPost.exists ? selectedPost.channel_id : getCurrentChannelId(state);
 }
 
-function mapStateToProps(state: GlobalState, {userId, channelId = getDefaultChannelId(state)}: {userId: string; channelId?: string}) {
+function mapStateToProps(state: GlobalState, {userId, channelId = getDefaultChannelId(state)}: OwnProps) {
     const team = getCurrentTeam(state);
     const teamMember = getTeamMember(state, team.id, userId);
     const getCustomStatus = makeGetCustomStatus();
@@ -76,7 +81,7 @@ type Actions = {
         data: boolean;
     }>;
     openDirectChannelToUserId: (userId?: string) => Promise<any>;
-    getMembershipForEntities: (teamId: any, userId: any, channelId: any) => Promise<any>;
+    getMembershipForEntities: (teamId: string, userId: string, channelId?: string) => Promise<void>;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {

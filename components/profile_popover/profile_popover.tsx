@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {ReactNode} from 'react';
+import React from 'react';
 import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
@@ -26,6 +26,7 @@ import CustomStatusModal from 'components/custom_status/custom_status_modal';
 import CustomStatusText from 'components/custom_status/custom_status_text';
 import {UserCustomStatus, UserProfile, UserTimezone} from 'mattermost-redux/types/users';
 import {Dictionary} from 'mattermost-redux/types/utilities';
+import {ServerError} from 'mattermost-redux/types/errors';
 
 import './profile_popover.scss';
 
@@ -39,7 +40,7 @@ interface ProfilePopoverProps extends Omit<React.ComponentProps<typeof Popover>,
     /**
      * Source URL from the image that should override default image
      */
-    overwriteIcon?: React.ReactNode;
+    overwriteIcon?: string;
 
     /**
      * User the popover is being opened for
@@ -118,7 +119,7 @@ interface ProfilePopoverProps extends Omit<React.ComponentProps<typeof Popover>,
     /**
      * The overwritten username that should be shown at the top of the popover
      */
-    overwriteName?: React.ReactNode;
+    overwriteName?: string;
 
     /**
      * @internal
@@ -132,12 +133,12 @@ interface ProfilePopoverProps extends Omit<React.ComponentProps<typeof Popover>,
             data: boolean;
         }>;
         openDirectChannelToUserId: (userId?: string) => Promise<any>;
-        getMembershipForEntities: (teamId: any, userId: any, channelId: any) => Promise<any>;
+        getMembershipForEntities: (teamId: string, userId: string, channelId?: string) => Promise<void>;
     };
     intl: IntlShape;
 }
 type ProfilePopoverState = {
-    loadingDMChannel: string | undefined;
+    loadingDMChannel?: string;
 };
 
 /**
@@ -184,7 +185,7 @@ ProfilePopoverState
             return;
         }
         this.setState({loadingDMChannel: user.id});
-        actions.openDirectChannelToUserId(user.id).then((result: any) => {
+        actions.openDirectChannelToUserId(user.id).then((result: {error: ServerError}) => {
             if (!result.error) {
                 if (Utils.isMobile()) {
                     GlobalActions.emitCloseRightHandSide();
@@ -290,7 +291,7 @@ ProfilePopoverState
                     {customStatusEmoji}
                     <CustomStatusText
                         tooltipDirection='top'
-                        text={customStatus?.text as string | undefined}
+                        text={customStatus?.text || ''}
                         className='user-popover__email pb-1'
                     />
                 </div>
@@ -332,8 +333,8 @@ ProfilePopoverState
             >
                 <Avatar
                     size='xxl'
-                    username={this.props.user?.username as string | undefined}
-                    url={urlSrc as string}
+                    username={this.props.user?.username || ''}
+                    url={urlSrc}
                 />
                 <StatusIcon
                     className='status user-popover-status'
@@ -386,12 +387,12 @@ ProfilePopoverState
                     key='bot-description'
                     className='overflow--ellipsis text-nowrap'
                 >
-                    {this.props.user.bot_description as ReactNode}
+                    {this.props.user.bot_description}
                 </div>,
             );
         }
         if (this.props.user.position && !haveOverrideProp) {
-            const position = (this.props.user?.position as string).substring(
+            const position = (this.props.user?.position || '').substring(
                 0,
                 Constants.MAX_POSITION_LENGTH,
             );
@@ -408,7 +409,7 @@ ProfilePopoverState
                 </OverlayTrigger>,
             );
         }
-        const email = this.props.user.email as string;
+        const email = this.props.user.email || '';
         if (email && !this.props.user.is_bot && !haveOverrideProp) {
             dataContent.push(
                 <hr
@@ -673,7 +674,5 @@ ProfilePopoverState
         );
     }
 }
-
-// delete ProfilePopover.propTypes.id;
 
 export default injectIntl(ProfilePopover);
