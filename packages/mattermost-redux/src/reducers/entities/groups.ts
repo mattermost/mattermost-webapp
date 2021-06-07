@@ -78,14 +78,31 @@ function syncables(state: Dictionary<GroupSyncablesState> = {}, action: GenericA
         if (!state[action.data.group_id]) {
             return state;
         }
-        const nextTeams = state[action.data.group_id].teams.slice();
+        let nextTeams: GroupTeam[] = [];
+        let nextChannels: GroupChannel[] = [];
+        if (state[action.data.group_id].teams?.length > 0) {
+            nextTeams = state[action.data.group_id].teams.slice();
 
-        const index = nextTeams.findIndex((groupTeam) => {
-            return groupTeam.team_id === action.data.syncable_id;
-        });
+            const index = nextTeams.findIndex((groupTeam) => {
+                return groupTeam.team_id === action.data.syncable_id;
+            });
 
-        if (index !== -1) {
-            nextTeams.splice(index, 1);
+            if (index !== -1) {
+                nextTeams.splice(index, 1);
+            }
+        }
+
+        // When we remove a team we also need to remove all channels in that team
+        if (state[action.data.group_id].channels?.length > 0) {
+            nextChannels = state[action.data.group_id].channels.slice();
+
+            const index = nextChannels.findIndex((groupChannel) => {
+                return groupChannel.team_id === action.data.syncable_id;
+            });
+
+            if (index !== -1) {
+                nextChannels.splice(index, 1);
+            }
         }
 
         return {
@@ -93,6 +110,7 @@ function syncables(state: Dictionary<GroupSyncablesState> = {}, action: GenericA
             [action.data.group_id]: {
                 ...state[action.data.group_id],
                 teams: nextTeams,
+                channels: nextChannels,
             },
         };
     }

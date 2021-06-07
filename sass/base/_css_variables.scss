@@ -23,6 +23,7 @@
     --sidebar-text-active-color: #ffffff;
     --sidebar-text-hover-bg: #4578bf;
     --sidebar-unread-text: #ffffff;
+    --sidebar-team-background: #0B428C;
 
     // Default RGB values to be replaced by applyTheme() (do not add opacity mutations here)
     // these are define to prevent flashes of unstyled content
@@ -48,5 +49,6 @@
     --sidebar-text-active-color-rgb: 255, 255, 255;
     --sidebar-text-hover-bg-rgb: 69, 120, 191;
     --sidebar-unread-text-rgb: 255, 255, 255;
-    --error-box-background: 197, 67, 72
+    --error-box-background: 197, 67, 72;
+    --sidebar-team-background-rgb: 11, 66, 140;
 }
