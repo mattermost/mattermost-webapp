@@ -983,11 +983,11 @@ exports[`components/RhsComment should match snapshot when highlighted 1`] = `
             userId="user_id"
           />
           <CustomStatusEmoji
-            emojiSize={14}
+            emojiSize={16}
             emojiStyle={
               Object {
                 "marginLeft": 4,
-                "marginTop": 1,
+                "marginTop": 2,
               }
             }
             showTooltip={true}
