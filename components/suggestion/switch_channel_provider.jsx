@@ -626,15 +626,16 @@ export default class SwitchChannelProvider extends Provider {
         // to use the preferences added for the previous version of autoclosing DMs.
         return Math.max(
             myMembers[channel.id]?.last_viewed_at,
-            this.getTimestampFromPrefs(Preferences.CATEGORY_CHANNEL_APPROXIMATE_VIEW_TIME, channel.id),
-            this.getTimestampFromPrefs(Preferences.CATEGORY_CHANNEL_OPEN_TIME, channel.id),
+            this.getTimestampFromPrefs(myPreferences, Preferences.CATEGORY_CHANNEL_APPROXIMATE_VIEW_TIME, channel.id),
+            this.getTimestampFromPrefs(myPreferences, Preferences.CATEGORY_CHANNEL_OPEN_TIME, channel.id),
         );
     }
 
     wrapChannels(channels, channelType) {
-        const currentChannel = getCurrentChannel(getState());
-        const myMembers = getMyChannelMemberships(getState());
-        const myPreferences = getMyPreferences(getState());
+        const state = getState();
+        const currentChannel = getCurrentChannel(state);
+        const myMembers = getMyChannelMemberships(state);
+        const myPreferences = getMyPreferences(state);
 
         const channelList = [];
         for (let i = 0; i < channels.length; i++) {
