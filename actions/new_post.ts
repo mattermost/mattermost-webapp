@@ -10,10 +10,7 @@ import {
     actionsToMarkChannelAsRead,
     actionsToMarkChannelAsUnread,
     actionsToMarkChannelAsViewed,
-    markChannelAsRead,
     markChannelAsReadOnServer,
-    markChannelAsUnread,
-    markChannelAsViewed,
 } from 'mattermost-redux/actions/channels';
 import * as PostActions from 'mattermost-redux/actions/posts';
 
