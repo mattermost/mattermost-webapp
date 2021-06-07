@@ -13,8 +13,7 @@ import {
     getGroupChannels,
     getMyChannelMemberships,
     getChannelByName,
-    getAllRecentChannels,
-    getCurrentChannel,
+    getCurrentChannel, getAllRecentChannels,
 } from 'mattermost-redux/selectors/entities/channels';
 
 import ProfilePicture from '../profile_picture';
@@ -44,6 +43,9 @@ import {getPostDraft} from 'selectors/rhs';
 import store from 'stores/redux_store.jsx';
 import {Constants, StoragePrefixes} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
+
+import {Preferences} from 'mattermost-redux/constants';
+import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 
 import Provider from './provider.jsx';
 import Suggestion from './suggestion.jsx';
@@ -401,7 +403,7 @@ export default class SwitchChannelProvider extends Provider {
             // Fetch data from the server and dispatch
             this.fetchUsersAndChannels(channelPrefix, resultsCallback);
         } else {
-            this.fetchAndFormatRecentChannels(resultsCallback);
+            this.fetchAndFormatRecentlyViewedChannels(resultsCallback);
         }
 
         return true;
@@ -596,7 +598,7 @@ export default class SwitchChannelProvider extends Provider {
         };
     }
 
-    fetchAndFormatRecentChannels(resultsCallback) {
+    fetchAndFormatRecentlyViewedChannels(resultsCallback) {
         const state = getState();
         const recentChannels = getAllRecentChannels(state);
         const channels = this.wrapChannels(recentChannels, Constants.MENTION_RECENT_CHANNELS);
@@ -614,10 +616,25 @@ export default class SwitchChannelProvider extends Provider {
             component: ConnectedSwitchChannelSuggestion,
         });
     }
+    getTimestampFromPrefs(myPreferences, category, name) {
+        const pref = myPreferences[getPreferenceKey(category, name)];
+        const prefValue = pref ? pref.value : '0';
+        return parseInt(prefValue, 10);
+    }
+    getLastViewedAt(myMembers, myPreferences, channel) {
+        // The server only ever sets the last_viewed_at to the time of the last post in channel, so we may need
+        // to use the preferences added for the previous version of autoclosing DMs.
+        return Math.max(
+            myMembers[channel.id]?.last_viewed_at,
+            this.getTimestampFromPrefs(Preferences.CATEGORY_CHANNEL_APPROXIMATE_VIEW_TIME, channel.id),
+            this.getTimestampFromPrefs(Preferences.CATEGORY_CHANNEL_OPEN_TIME, channel.id),
+        );
+    }
 
     wrapChannels(channels, channelType) {
         const currentChannel = getCurrentChannel(getState());
         const members = getMyChannelMemberships(getState());
+        const myPreferences = getMyPreferences(getState());
 
         const channelList = [];
         for (let i = 0; i < channels.length; i++) {
@@ -627,7 +644,7 @@ export default class SwitchChannelProvider extends Provider {
             }
             let wrappedChannel = {channel, name: channel.name, deactivated: false};
             if (members[channel.id]) {
-                wrappedChannel.last_viewed_at = members[channel.id].last_viewed_at;
+                wrappedChannel.last_viewed_at = this.getLastViewedAt(members, myPreferences, channel);
             }
             if (channel.type === Constants.GM_CHANNEL) {
                 wrappedChannel.name = channel.display_name;
@@ -668,8 +685,7 @@ export default class SwitchChannelProvider extends Provider {
         if (this.latestPrefix !== '') {
             return;
         }
-        const sortedChannels = this.wrapChannels(channels, Constants.MENTION_PUBLIC_CHANNELS).
-            sort(sortChannelsByRecencyAndTypeAndDisplayName).slice(0, 20);
+        const sortedChannels = this.wrapChannels(channels, Constants.MENTION_PUBLIC_CHANNELS).slice(0, 20);
         const channelNames = sortedChannels.map((wrappedChannel) => wrappedChannel.channel.id);
 
         resultsCallback({
