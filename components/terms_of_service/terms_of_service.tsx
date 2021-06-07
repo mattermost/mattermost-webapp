@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
 import {TermsOfService as ReduxTermsOfService} from 'mattermost-redux/types/terms_of_service';
 
-import * as GlobalActions from 'actions/global_actions.jsx';
+import * as GlobalActions from 'actions/global_actions';
 import AnnouncementBar from 'components/announcement_bar';
 import LoadingScreen from 'components/loading_screen';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
@@ -28,8 +28,8 @@ export interface UpdateMyTermsOfServiceStatusResponse {
 }
 
 export interface TermsOfServiceProps {
-    location: {search: string},
-    termsEnabled: boolean,
+    location: {search: string};
+    termsEnabled: boolean;
     actions: {
         getTermsOfService: () => Promise<{ data: ReduxTermsOfService }>;
         updateMyTermsOfServiceStatus: (

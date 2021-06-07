@@ -2,7 +2,7 @@
 
 exports[`components/sidebar/sidebar_category should match snapshot 1`] = `
 <div
-  className="SidebarChannelGroup a11y__section"
+  className="SidebarChannelGroup a11y__section autoSortedCategory"
 >
   <Connect(Droppable)
     direction="vertical"
@@ -30,6 +30,7 @@ exports[`components/sidebar/sidebar_category should match snapshot 2`] = `
     isCollapsible={true}
     isDragging={false}
     isDraggingOver={false}
+    muted={false}
     onClick={[Function]}
   >
     <Connect(injectIntl(SidebarCategoryMenu))
@@ -38,9 +39,10 @@ exports[`components/sidebar/sidebar_category should match snapshot 2`] = `
           "channel_ids": Array [
             "channel_id",
           ],
+          "collapsed": false,
           "display_name": "custom_category_1",
           "id": "category1",
-          "muted": true,
+          "muted": false,
           "sorting": "alpha",
           "team_id": "team1",
           "type": "custom",
@@ -62,9 +64,9 @@ exports[`components/sidebar/sidebar_category should match snapshot 2`] = `
         channelId="channel_id"
         channelIndex={0}
         getChannelRef={[MockFunction]}
+        isAutoSortedCategory={true}
         isCategoryCollapsed={false}
         isCategoryDragged={false}
-        isDMCategory={false}
         isDropDisabled={false}
         key="channel_id"
         setChannelRef={[MockFunction]}
@@ -76,7 +78,7 @@ exports[`components/sidebar/sidebar_category should match snapshot 2`] = `
 
 exports[`components/sidebar/sidebar_category should match snapshot when collapsed 1`] = `
 <div
-  className="SidebarChannelGroup a11y__section"
+  className="SidebarChannelGroup a11y__section autoSortedCategory isCollapsed"
 >
   <Connect(Droppable)
     direction="vertical"
@@ -104,6 +106,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when collapse
     isCollapsible={true}
     isDragging={false}
     isDraggingOver={false}
+    muted={false}
     onClick={[Function]}
   >
     <Connect(injectIntl(SidebarCategoryMenu))
@@ -112,9 +115,10 @@ exports[`components/sidebar/sidebar_category should match snapshot when collapse
           "channel_ids": Array [
             "channel_id",
           ],
+          "collapsed": true,
           "display_name": "custom_category_1",
           "id": "category1",
-          "muted": true,
+          "muted": false,
           "sorting": "alpha",
           "team_id": "team1",
           "type": "custom",
@@ -136,9 +140,9 @@ exports[`components/sidebar/sidebar_category should match snapshot when collapse
         channelId="channel_id"
         channelIndex={0}
         getChannelRef={[MockFunction]}
+        isAutoSortedCategory={true}
         isCategoryCollapsed={true}
         isCategoryDragged={false}
-        isDMCategory={false}
         isDropDisabled={false}
         key="channel_id"
         setChannelRef={[MockFunction]}
@@ -150,7 +154,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when collapse
 
 exports[`components/sidebar/sidebar_category should match snapshot when isNewCategory 1`] = `
 <div
-  className="SidebarChannelGroup a11y__section"
+  className="SidebarChannelGroup a11y__section autoSortedCategory"
 >
   <Connect(Droppable)
     direction="vertical"
@@ -178,6 +182,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when isNewCat
     isCollapsible={true}
     isDragging={false}
     isDraggingOver={false}
+    muted={false}
     onClick={[Function]}
   >
     <div
@@ -192,9 +197,10 @@ exports[`components/sidebar/sidebar_category should match snapshot when isNewCat
       category={
         Object {
           "channel_ids": Array [],
+          "collapsed": false,
           "display_name": "custom_category_1",
           "id": "category1",
-          "muted": true,
+          "muted": false,
           "sorting": "alpha",
           "team_id": "team1",
           "type": "custom",
@@ -242,7 +248,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when isNewCat
 
 exports[`components/sidebar/sidebar_category should match snapshot when sorting is set to by recency 1`] = `
 <div
-  className="SidebarChannelGroup a11y__section dmCategory"
+  className="SidebarChannelGroup a11y__section autoSortedCategory"
 >
   <Connect(Droppable)
     direction="vertical"
@@ -270,39 +276,30 @@ exports[`components/sidebar/sidebar_category should match snapshot when sorting 
     isCollapsible={true}
     isDragging={false}
     isDraggingOver={false}
+    muted={false}
     onClick={[Function]}
   >
-    <OverlayTrigger
-      defaultOverlayShown={false}
-      delayShow={500}
-      overlay={
-        <Tooltip
-          bsClass="tooltip"
-          className="hidden-xs"
-          id="new-group-tooltip"
-          placement="right"
-        >
-          Sorted by most recent
-        </Tooltip>
+    <Connect(injectIntl(SidebarCategorySortingMenu))
+      category={
+        Object {
+          "channel_ids": Array [
+            "channel_id",
+          ],
+          "collapsed": false,
+          "display_name": "custom_category_1",
+          "id": "category1",
+          "muted": false,
+          "sorting": "recent",
+          "team_id": "team1",
+          "type": "direct_messages",
+          "user_id": "",
+        }
       }
-      placement="top"
-      trigger={
-        Array [
-          "hover",
-          "focus",
-        ]
-      }
-    >
-      <button
-        aria-label="Sorted by most recent"
-        className="SidebarChannelGroupHeader_sortButton"
-        onClick={[Function]}
-      >
-        <i
-          className="icon-clock-outline"
-        />
-      </button>
-    </OverlayTrigger>
+      handleOpenDirectMessagesModal={[Function]}
+      isCollapsed={false}
+      isMenuOpen={false}
+      onToggleMenu={[Function]}
+    />
     <OverlayTrigger
       defaultOverlayShown={false}
       delayShow={500}
@@ -346,9 +343,9 @@ exports[`components/sidebar/sidebar_category should match snapshot when sorting 
         channelId="channel_id"
         channelIndex={0}
         getChannelRef={[MockFunction]}
+        isAutoSortedCategory={true}
         isCategoryCollapsed={false}
         isCategoryDragged={false}
-        isDMCategory={true}
         isDropDisabled={false}
         key="channel_id"
         setChannelRef={[MockFunction]}
@@ -360,7 +357,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when sorting 
 
 exports[`components/sidebar/sidebar_category should match snapshot when the category is DM and there are no DMs to display 1`] = `
 <div
-  className="SidebarChannelGroup a11y__section dmCategory"
+  className="SidebarChannelGroup a11y__section autoSortedCategory"
 >
   <Connect(Droppable)
     direction="vertical"
@@ -388,39 +385,30 @@ exports[`components/sidebar/sidebar_category should match snapshot when the cate
     isCollapsible={false}
     isDragging={false}
     isDraggingOver={false}
+    muted={false}
     onClick={[Function]}
   >
-    <OverlayTrigger
-      defaultOverlayShown={false}
-      delayShow={500}
-      overlay={
-        <Tooltip
-          bsClass="tooltip"
-          className="hidden-xs"
-          id="new-group-tooltip"
-          placement="right"
-        >
-          Sorted by most recent
-        </Tooltip>
+    <Connect(injectIntl(SidebarCategorySortingMenu))
+      category={
+        Object {
+          "channel_ids": Array [
+            "channel_id",
+          ],
+          "collapsed": false,
+          "display_name": "custom_category_1",
+          "id": "category1",
+          "muted": false,
+          "sorting": "recent",
+          "team_id": "team1",
+          "type": "direct_messages",
+          "user_id": "",
+        }
       }
-      placement="top"
-      trigger={
-        Array [
-          "hover",
-          "focus",
-        ]
-      }
-    >
-      <button
-        aria-label="Sorted by most recent"
-        className="SidebarChannelGroupHeader_sortButton"
-        onClick={[Function]}
-      >
-        <i
-          className="icon-clock-outline"
-        />
-      </button>
-    </OverlayTrigger>
+      handleOpenDirectMessagesModal={[Function]}
+      isCollapsed={false}
+      isMenuOpen={false}
+      onToggleMenu={[Function]}
+    />
     <OverlayTrigger
       defaultOverlayShown={false}
       delayShow={500}

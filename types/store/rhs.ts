@@ -7,6 +7,8 @@ import {UserProfile} from 'mattermost-redux/types/users';
 import {FileInfo} from 'mattermost-redux/types/files';
 import {$ID} from 'mattermost-redux/types/utilities';
 
+export type SearchType = '' | 'files' | 'messages';
+
 export type FakePost = {
     id: $ID<Post>;
     exists: boolean;
@@ -18,8 +20,8 @@ export type FakePost = {
 
 export type PostDraft = {
     message: string;
-    fileInfos: Array<FileInfo>;
-    uploadsInProgress: Array<string>;
+    fileInfos: FileInfo[];
+    uploadsInProgress: string[];
 };
 
 export type RhsViewState = {
@@ -28,8 +30,10 @@ export type RhsViewState = {
     selectedPostCardId: $ID<Post>;
     selectedChannelId: $ID<Channel>;
     previousRhsState: RhsState;
+    filesSearchExtFilter: string[];
     rhsState: RhsState;
     searchTerms: string;
+    searchType: SearchType;
     pluggableId: string;
     searchResultsTerms: string;
     isSearchingFlaggedPost: boolean;
@@ -39,4 +43,4 @@ export type RhsViewState = {
     isMenuOpen: boolean;
 };
 
-export type RhsState = 'mention' | 'search' | 'flag' | 'pin' | 'plugin';
+export type RhsState = 'mention' | 'search' | 'flag' | 'pin' | 'plugin' | null;

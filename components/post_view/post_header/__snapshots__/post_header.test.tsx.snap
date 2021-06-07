@@ -1,0 +1,199 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/post_view/post_header should match snapshot 1`] = `
+<div
+  className="post__header"
+>
+  <div
+    className="col col__name"
+  >
+    <Connect(UserProfile)
+      disablePopover={true}
+      overwriteImage={null}
+      overwriteName={
+        <FormattedMessage
+          defaultMessage="System"
+          id="post_info.system"
+        />
+      }
+      userId=""
+    />
+    <PostHeaderCustomStatus
+      isBot={false}
+      isSystemMessage={true}
+      userId="user_id"
+    />
+  </div>
+  <div
+    className="col"
+  >
+    <Connect(PostInfo)
+      handleCardClick={[MockFunction]}
+      handleCommentClick={[MockFunction]}
+      handleDropdownOpened={[MockFunction]}
+      hover={false}
+      post={
+        Object {
+          "channel_id": "",
+          "create_at": 0,
+          "delete_at": 0,
+          "edit_at": 0,
+          "hashtags": "",
+          "id": "id",
+          "is_pinned": false,
+          "message": "post message",
+          "metadata": Object {
+            "embeds": Array [],
+            "emojis": Array [],
+            "files": Array [],
+            "images": Object {},
+            "reactions": Array [],
+          },
+          "original_id": "",
+          "parent_id": "",
+          "pending_post_id": "",
+          "props": Object {},
+          "reply_count": 0,
+          "root_id": "",
+          "type": "system_add_remove",
+          "update_at": 0,
+          "user_id": "user_id",
+        }
+      }
+      showTimeWithoutHover={false}
+    />
+  </div>
+</div>
+`;
+
+exports[`components/post_view/post_header should match snapshot when custom status is enabled and custom status is not set and post header link is enabled 1`] = `
+<div
+  className="post__header"
+>
+  <div
+    className="col col__name"
+  >
+    <Connect(UserProfile)
+      disablePopover={true}
+      overwriteImage={null}
+      overwriteName={
+        <FormattedMessage
+          defaultMessage="System"
+          id="post_info.system"
+        />
+      }
+      userId=""
+    />
+    <PostHeaderCustomStatus
+      isBot={false}
+      isSystemMessage={true}
+      userId="user_id"
+    />
+  </div>
+  <div
+    className="col"
+  >
+    <Connect(PostInfo)
+      handleCardClick={[MockFunction]}
+      handleCommentClick={[MockFunction]}
+      handleDropdownOpened={[MockFunction]}
+      hover={false}
+      post={
+        Object {
+          "channel_id": "",
+          "create_at": 0,
+          "delete_at": 0,
+          "edit_at": 0,
+          "hashtags": "",
+          "id": "id",
+          "is_pinned": false,
+          "message": "post message",
+          "metadata": Object {
+            "embeds": Array [],
+            "emojis": Array [],
+            "files": Array [],
+            "images": Object {},
+            "reactions": Array [],
+          },
+          "original_id": "",
+          "parent_id": "",
+          "pending_post_id": "",
+          "props": Object {},
+          "reply_count": 0,
+          "root_id": "",
+          "type": "system_add_remove",
+          "update_at": 0,
+          "user_id": "user_id",
+        }
+      }
+      showTimeWithoutHover={false}
+    />
+  </div>
+</div>
+`;
+
+exports[`components/post_view/post_header should match snapshot when custom status is enabled and custom status is set 1`] = `
+<div
+  className="post__header"
+>
+  <div
+    className="col col__name"
+  >
+    <Connect(UserProfile)
+      disablePopover={true}
+      overwriteImage={null}
+      overwriteName={
+        <FormattedMessage
+          defaultMessage="System"
+          id="post_info.system"
+        />
+      }
+      userId=""
+    />
+    <PostHeaderCustomStatus
+      isBot={false}
+      isSystemMessage={true}
+      userId="user_id"
+    />
+  </div>
+  <div
+    className="col"
+  >
+    <Connect(PostInfo)
+      handleCardClick={[MockFunction]}
+      handleCommentClick={[MockFunction]}
+      handleDropdownOpened={[MockFunction]}
+      hover={false}
+      post={
+        Object {
+          "channel_id": "",
+          "create_at": 0,
+          "delete_at": 0,
+          "edit_at": 0,
+          "hashtags": "",
+          "id": "id",
+          "is_pinned": false,
+          "message": "post message",
+          "metadata": Object {
+            "embeds": Array [],
+            "emojis": Array [],
+            "files": Array [],
+            "images": Object {},
+            "reactions": Array [],
+          },
+          "original_id": "",
+          "parent_id": "",
+          "pending_post_id": "",
+          "props": Object {},
+          "reply_count": 0,
+          "root_id": "",
+          "type": "system_add_remove",
+          "update_at": 0,
+          "user_id": "user_id",
+        }
+      }
+      showTimeWithoutHover={false}
+    />
+  </div>
+</div>
+`;

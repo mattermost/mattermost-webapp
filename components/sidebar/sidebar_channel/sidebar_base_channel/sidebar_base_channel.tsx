@@ -9,6 +9,7 @@ import {trackEvent} from 'actions/telemetry_actions';
 import * as GlobalActions from 'actions/global_actions';
 
 import SidebarChannelLink from 'components/sidebar/sidebar_channel/sidebar_channel_link';
+import SharedChannelIndicator from 'components/shared_channel_indicator';
 import {localizeMessage} from 'utils/utils';
 import Constants from 'utils/constants';
 
@@ -32,7 +33,7 @@ export default class SidebarBaseChannel extends React.PureComponent<Props, State
     }
 
     handleLeavePrivateChannel = () => {
-        GlobalActions.showLeavePrivateChannelModal({id: this.props.channel.id, display_name: this.props.channel.display_name});
+        GlobalActions.showLeavePrivateChannelModal({id: this.props.channel.id, display_name: this.props.channel.display_name} as Channel);
         trackEvent('ui', 'ui_private_channel_x_button_clicked');
     }
 
@@ -51,7 +52,15 @@ export default class SidebarBaseChannel extends React.PureComponent<Props, State
     getIcon = () => {
         const {channel} = this.props;
 
-        if (channel.type === Constants.OPEN_CHANNEL) {
+        if (channel.shared) {
+            return (
+                <SharedChannelIndicator
+                    className='icon'
+                    channelType={channel.type}
+                    withTooltip={true}
+                />
+            );
+        } else if (channel.type === Constants.OPEN_CHANNEL) {
             return (
                 <i className='icon icon-globe'/>
             );

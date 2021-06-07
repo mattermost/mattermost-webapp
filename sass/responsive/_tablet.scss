@@ -253,7 +253,7 @@
                 }
             }
 
-            .channel__wrap & {
+            .channel__wrap #post-list & {
                 .post__permalink {
                     position: absolute;
                     left: -76px;
@@ -460,7 +460,7 @@
     .sidebar--right {
         @include single-transition(all, .35s, ease);
         @include translateX(100%);
-        z-index: 12;
+        z-index: 13;
         top: 0px;
 
         .announcement-bar--fixed & {

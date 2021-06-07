@@ -10,7 +10,7 @@ import {TestHelper} from 'utils/test_helper';
 
 describe('components/SingleImageView', () => {
     const baseProps = {
-        post: TestHelper.getPostMock({id: 'original_post_id'}),
+        postId: 'original_post_id',
         fileInfo: TestHelper.getFileInfoMock({id: 'file_info_id'}),
         isRhsOpen: false,
         isEmbedVisible: true,

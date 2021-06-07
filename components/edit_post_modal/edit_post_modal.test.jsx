@@ -14,7 +14,7 @@ import EditPostModal from 'components/edit_post_modal/edit_post_modal.jsx';
 import {testComponentForMarkdownHotkeys, makeSelectionEvent} from 'tests/helpers/markdown_hotkey_helpers.js';
 import Textbox from 'components/textbox';
 
-jest.mock('actions/global_actions.jsx', () => ({
+jest.mock('actions/global_actions', () => ({
     emitClearSuggestions: jest.fn(),
 }));
 
@@ -22,6 +22,8 @@ jest.mock('utils/user_agent', () => ({
     ...jest.requireActual('utils/user_agent'),
     isMobile: jest.fn().mockReturnValue(false),
 }));
+
+jest.useFakeTimers();
 
 function createEditPost({canEditPost, canDeletePost, useChannelMentions, ctrlSend, config, license, editingPost, actions} = {canEditPost: true, canDeletePost: true}) { //eslint-disable-line react/prop-types
     const canEditPostProp = canEditPost === undefined ? true : canEditPost;

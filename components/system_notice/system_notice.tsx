@@ -4,13 +4,11 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {ClientConfig} from 'mattermost-redux/types/config';
+import {ClientConfig, ClientLicense} from 'mattermost-redux/types/config';
 
-import {Dictionary} from 'mattermost-redux/src/types/utilities';
+import {Dictionary} from 'mattermost-redux/types/utilities';
 
-import {AnalyticsRow} from 'mattermost-redux/src/types/admin';
-
-import {ClientLicense} from 'mattermost-redux/src/types/config';
+import {AnalyticsRow} from 'mattermost-redux/types/admin';
 
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 
@@ -21,20 +19,20 @@ import MattermostLogo from 'components/widgets/icons/mattermost_logo';
 import {Notice} from 'components/system_notice/types';
 
 type Props = {
-    currentUserId: string,
-    notices: Notice[],
-    preferences: {[key: string]: any},
-    dismissedNotices: any,
-    isSystemAdmin?: boolean,
-    serverVersion: string,
-    config: Partial<ClientConfig>,
-    license: ClientLicense,
-    analytics?: Dictionary<number | AnalyticsRow[]>,
+    currentUserId: string;
+    notices: Notice[];
+    preferences: {[key: string]: any};
+    dismissedNotices: any;
+    isSystemAdmin?: boolean;
+    serverVersion: string;
+    config: Partial<ClientConfig>;
+    license: ClientLicense;
+    analytics?: Dictionary<number | AnalyticsRow[]>;
     actions: {
-        savePreferences(userId: string, preferences: Array<PreferenceType>): void,
-        dismissNotice(type: string): void,
-        getStandardAnalytics(teamId?: string): void,
-    }
+        savePreferences(userId: string, preferences: PreferenceType[]): void;
+        dismissNotice(type: string): void;
+        getStandardAnalytics(teamId?: string): void;
+    };
 }
 export default class SystemNotice extends React.PureComponent<Props> {
     componentDidMount() {

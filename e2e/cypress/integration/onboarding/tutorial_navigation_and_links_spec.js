@@ -7,15 +7,18 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @onboarding @smoke
+// Stage: @prod
+// Group: @onboarding @smoke @not_cloud
 
-describe('Test Tutorial Navigation', () => {
+describe('Cloud Onboarding', () => {
     let testUser;
     let otherUser;
     let testTeam;
     let config;
 
     before(() => {
+        cy.shouldNotRunOnCloudEdition();
+
         cy.apiGetConfig().then((data) => {
             ({config} = data);
         });
@@ -39,7 +42,7 @@ describe('Test Tutorial Navigation', () => {
         });
     });
 
-    it('On13989 - Tutorial Navigation and Links', () => {
+    it('MM-T401 - Tutorial Navigation and Links', () => {
         // * Check that step one displays after new user signs in.
         checkStepOne();
 

@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @incoming_webhook
 
 describe('Incoming webhook', () => {
@@ -172,7 +173,7 @@ describe('Incoming webhook', () => {
         cy.postIncomingWebhook({url: incomingWebhook.url, data: payload});
 
         cy.get(`#sidebarItem_${testChannel.name}`).find('#unreadMentions').should('have.text', '1');
-        cy.get(`#sidebarItem_${testChannel.name}`).click();
+        cy.get(`#sidebarItem_${testChannel.name}`).click({force: true});
 
         cy.getLastPost().within(() => {
             cy.get('.attachment__thumb-pretext').should('contain', id);
@@ -208,7 +209,7 @@ describe('Incoming webhook', () => {
         cy.postIncomingWebhook({url: incomingWebhook.url, data: payload});
 
         cy.get(`#sidebarItem_${testChannel.name}`).find('#unreadMentions').should('have.text', '1');
-        cy.get(`#sidebarItem_${testChannel.name}`).click();
+        cy.get(`#sidebarItem_${testChannel.name}`).click({force: true});
 
         cy.getLastPost().within(() => {
             cy.get('.attachment__thumb-pretext').should('contain', id);

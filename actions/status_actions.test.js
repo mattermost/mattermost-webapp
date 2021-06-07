@@ -4,6 +4,7 @@
 import clone from 'clone';
 import thunk from 'redux-thunk';
 import configureStore from 'redux-mock-store';
+
 import {Preferences} from 'mattermost-redux/constants';
 import {getStatusesByIds} from 'mattermost-redux/actions/users';
 
@@ -30,6 +31,12 @@ describe('actions/status_actions', () => {
                 channels: {channel_id1: {id: 'channel_id1', name: 'channel1', team_id: 'team_id1'}, channel_id2: {id: 'channel_id2', name: 'channel2', team_id: 'team_id1'}},
                 myMembers: {channel_id1: {channel_id: 'channel_id1', user_id: 'current_user_id'}},
                 channelsInTeam: {team_id1: ['channel_id1']},
+            },
+            general: {
+                config: {
+                    EnableCustomEmoji: 'true',
+                    EnableCustomUserStatuses: 'true',
+                },
             },
             teams: {
                 currentTeamId: 'team_id1',

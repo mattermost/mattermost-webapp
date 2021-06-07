@@ -117,8 +117,6 @@ export default class ConfirmIntegration extends React.PureComponent {
                         }}
                     />
                     <CopyText
-                        idMessage='integrations.copy_client_secret'
-                        defaultMessage='Copy Client Secret'
                         value={incomingHookToken}
                     />
                 </p>

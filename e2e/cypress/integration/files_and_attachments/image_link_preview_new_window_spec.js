@@ -7,7 +7,8 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @file_and_attachments
+// Stage: @prod
+// Group: @files_and_attachments
 
 describe('Image Link Preview', () => {
     let testTeam;

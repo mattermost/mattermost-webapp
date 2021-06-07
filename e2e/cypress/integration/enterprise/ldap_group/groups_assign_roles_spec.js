@@ -48,21 +48,21 @@ const getChannelsAssociatedToGroupAndUnlink = (groupId) => {
     });
 };
 
-describe('System Console', () => {
+describe('LDAP Group Sync', () => {
     before(() => {
         // * Check if server has license for LDAP Groups
         cy.apiRequireLicenseForFeature('LDAPGroups');
 
         // Enable LDAP
-        cy.apiUpdateConfig({LdapSettings: {Enable: true, EnableSync: true}});
+        cy.apiUpdateConfig({LdapSettings: {Enable: true}});
 
-        // # Check and run LDAP Sync job
-        if (Cypress.env('runLDAPSync')) {
-            cy.checkRunLDAPSync();
-        }
+        // # Test LDAP configuration and server connection
+        // # Synchronize user attributes
+        cy.apiLDAPTest();
+        cy.apiLDAPSync();
     });
 
-    it('MM-20058 - System Admin can map roles to teams and channels via group configuration page', () => {
+    it('MM-T2668 Team admin role can be set and saved', () => {
         // # Go to system admin page and to team configuration page
         cy.visit('/admin_console/user_management/groups');
         cy.get('#developers_group').then((el) => {

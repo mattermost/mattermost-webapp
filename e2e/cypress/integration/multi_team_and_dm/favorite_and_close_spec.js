@@ -10,17 +10,6 @@
 // Stage: @prod
 // Group: @multi_team_and_dm
 
-// Make sure that the current channel is Town Square and that the
-// channel identified by the passed name is no longer in the channel
-// sidebar
-function verifyChannelWasProperlyClosed(channelName) {
-    // * Make sure that we have switched channels
-    cy.get('#channelHeaderTitle').should('contain', 'Town Square');
-
-    // * Make sure the old DM no longer exists
-    cy.get('#sidebarItem_' + channelName).should('not.exist');
-}
-
 describe('Close group messages', () => {
     let testUser;
     let otherUser1;
@@ -54,10 +43,10 @@ describe('Close group messages', () => {
             cy.get('#toggleFavorite').click();
 
             // * Check that the channel is on top of favorites list
-            cy.get('#favoriteChannelList > li:nth-child(2) > div > a').should('have.attr', 'id', 'sidebarItem_' + channel.name);
+            cy.uiGetLhsSection('FAVORITES').find('.SidebarChannel').first().should('contain', channel.display_name.replace(`, ${testUser.username}`, ''));
 
             // # Click on the x button on the sidebar channel item
-            cy.get('#sidebarItem_' + channel.name + '>span.btn-close').click({force: true});
+            cy.uiGetChannelSidebarMenu(channel.name).findByText('Close Conversation').click();
 
             verifyChannelWasProperlyClosed(channel.name);
         });
@@ -78,5 +67,16 @@ describe('Close group messages', () => {
 
             return cy.wrap(channel);
         });
+    }
+
+    // Make sure that the current channel is Town Square and that the
+    // channel identified by the passed name is no longer in the channel
+    // sidebar
+    function verifyChannelWasProperlyClosed(channelName) {
+        // * Make sure that we have switched channels
+        cy.get('#channelHeaderTitle').should('contain', 'Town Square');
+
+        // * Make sure the old DM no longer exists
+        cy.get('#sidebarItem_' + channelName).should('not.exist');
     }
 });

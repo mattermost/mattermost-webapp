@@ -19,23 +19,26 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx'
 type ChannelWithTeamDataValue = ChannelWithTeamData & Value;
 
 type Props = {
-    searchTerm: string,
-    onModalDismissed?: () => void,
-    onChannelsSelected?: (channels:ChannelWithTeamData[]) => void,
-    groupID: string,
+    searchTerm: string;
+    onModalDismissed?: () => void;
+    onChannelsSelected?: (channels: ChannelWithTeamData[]) => void;
+    groupID: string;
     actions: {
-        loadChannels: (page?: number, perPage?: number, notAssociatedToGroup?: string, excludeDefaultChannels?: boolean) => Promise<{data: ChannelWithTeamData[]}>,
-        setModalSearchTerm: (term: string) => ActionResult,
-        searchAllChannels: (term: string, opts?: ChannelSearchOpts) => Promise<{data: ChannelWithTeamData[]}>,
-    },
+        loadChannels: (page?: number, perPage?: number, notAssociatedToGroup?: string, excludeDefaultChannels?: boolean, excludePolicyConstrained?: boolean) => Promise<{data: ChannelWithTeamData[]}>;
+        setModalSearchTerm: (term: string) => ActionResult;
+        searchAllChannels: (term: string, opts?: ChannelSearchOpts) => Promise<{data: ChannelWithTeamData[]}>;
+    };
+    alreadySelected?: string[];
+    excludePolicyConstrained?: boolean;
+    excludeTeamIds?: string[];
 }
 
 type State = {
-    values: ChannelWithTeamDataValue[],
-    show: boolean,
-    search: boolean,
-    loadingChannels: boolean,
-    channels: ChannelWithTeamData[],
+    values: ChannelWithTeamDataValue[];
+    show: boolean;
+    search: boolean;
+    loadingChannels: boolean;
+    channels: ChannelWithTeamData[];
 }
 
 const CHANNELS_PER_PAGE = 50;
@@ -53,7 +56,7 @@ export default class ChannelSelectorModal extends React.PureComponent<Props, Sta
     };
 
     componentDidMount() {
-        this.props.actions.loadChannels(0, CHANNELS_PER_PAGE + 1, this.props.groupID, false).then((response) => {
+        this.props.actions.loadChannels(0, CHANNELS_PER_PAGE + 1, this.props.groupID, false, this.props.excludePolicyConstrained).then((response) => {
             this.setState({channels: response.data.sort(compareChannels)});
             this.setChannelsLoadingState(false);
         });
@@ -65,7 +68,7 @@ export default class ChannelSelectorModal extends React.PureComponent<Props, Sta
 
             const searchTerm = this.props.searchTerm;
             if (searchTerm === '') {
-                this.props.actions.loadChannels(0, CHANNELS_PER_PAGE + 1, this.props.groupID, false).then((response) => {
+                this.props.actions.loadChannels(0, CHANNELS_PER_PAGE + 1, this.props.groupID, false, this.props.excludePolicyConstrained).then((response) => {
                     this.setState({channels: response.data.sort(compareChannels)});
                     this.setChannelsLoadingState(false);
                 });
@@ -124,10 +127,10 @@ export default class ChannelSelectorModal extends React.PureComponent<Props, Sta
         });
     }
 
-    handlePageChange = (page:number, prevPage: number) => {
+    handlePageChange = (page: number, prevPage: number) => {
         if (page > prevPage) {
             this.setChannelsLoadingState(true);
-            this.props.actions.loadChannels(page, CHANNELS_PER_PAGE + 1, this.props.groupID, false).then((response) => {
+            this.props.actions.loadChannels(page, CHANNELS_PER_PAGE + 1, this.props.groupID, false, this.props.excludePolicyConstrained).then((response) => {
                 const newState = [...this.state.channels];
                 const stateChannelIDs = this.state.channels.map((stateChannel) => stateChannel.id);
                 response.data.forEach((serverChannel) => {
@@ -153,10 +156,10 @@ export default class ChannelSelectorModal extends React.PureComponent<Props, Sta
     }
 
     renderOption = (
-        option:ChannelWithTeamDataValue,
+        option: ChannelWithTeamDataValue,
         isSelected: boolean,
-        onAdd: (value:ChannelWithTeamDataValue) => void,
-        onMouseMove: (value:ChannelWithTeamDataValue) => void) => {
+        onAdd: (value: ChannelWithTeamDataValue) => void,
+        onMouseMove: (value: ChannelWithTeamDataValue) => void) => {
         let rowSelected = '';
         if (isSelected) {
             rowSelected = 'more-modal__row--selected';
@@ -173,12 +176,14 @@ export default class ChannelSelectorModal extends React.PureComponent<Props, Sta
                 <div
                     className='more-modal__details'
                 >
-                    {option.type === Constants.PRIVATE_CHANNEL &&
-                        <i className='icon icon-lock-outline'/>}
-                    {option.type === Constants.OPEN_CHANNEL &&
-                        <i className='icon icon-globe'/>}
-                    <span className='channel-name'>{option.display_name}</span>
-                    <span className='team-name'>{'(' + option.team_display_name + ')'}</span>
+                    <div className='channel-info-block'>
+                        {option.type === Constants.PRIVATE_CHANNEL &&
+                            <i className='icon icon-lock-outline'/>}
+                        {option.type === Constants.OPEN_CHANNEL &&
+                            <i className='icon icon-globe'/>}
+                        <span className='channel-name'>{option.display_name}</span>
+                        <span className='team-name'>{'(' + option.team_display_name + ')'}</span>
+                    </div>
                 </div>
                 <div className='more-modal__actions'>
                     <div className='more-modal__actions--round'>
@@ -203,7 +208,16 @@ export default class ChannelSelectorModal extends React.PureComponent<Props, Sta
 
         const buttonSubmitText = localizeMessage('multiselect.add', 'Add');
 
-        const options = this.state.channels.map((i): ChannelWithTeamDataValue => ({...i, label: i.display_name, value: i.id}));
+        let options = this.state.channels.map((i): ChannelWithTeamDataValue => ({...i, label: i.display_name, value: i.id}));
+        if (this.props.alreadySelected) {
+            options = options.filter((channel) => this.props.alreadySelected?.indexOf(channel.id) === -1);
+        }
+        if (this.props.excludePolicyConstrained) {
+            options = options.filter((channel) => channel.policy_id === null);
+        }
+        if (this.props.excludeTeamIds) {
+            options = options.filter((channel) => this.props.excludeTeamIds?.indexOf(channel.team_id) === -1);
+        }
         const values = this.state.values.map((i): ChannelWithTeamDataValue => ({...i, label: i.display_name, value: i.id}));
 
         return (

@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {batchActions} from 'redux-batched-actions';
+
 import {
     ChannelTypes,
     EmojiTypes,
@@ -26,8 +27,20 @@ import {
     markChannelAsRead,
     getChannelMemberCountsByGroup,
 } from 'mattermost-redux/actions/channels';
-import {getCloudSubscription} from 'mattermost-redux/actions/cloud';
+import {getCloudSubscription, getSubscriptionStats} from 'mattermost-redux/actions/cloud';
 import {loadRolesIfNeeded} from 'mattermost-redux/actions/roles';
+
+import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {getThread} from 'mattermost-redux/selectors/entities/threads';
+import {
+    getThread as fetchThread,
+    handleAllMarkedRead,
+    handleReadChanged,
+    handleFollowChanged,
+    handleThreadArrived,
+    handleAllThreadsInChannelMarkedRead,
+} from 'mattermost-redux/actions/threads';
+
 import {setServerVersion} from 'mattermost-redux/actions/general';
 import {
     getCustomEmojiForReaction,
@@ -56,7 +69,10 @@ import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general
 import {getChannelsInTeam, getChannel, getCurrentChannel, getCurrentChannelId, getRedirectChannelNameForTeam, getMembersInCurrentChannel, getChannelMembersInChannels} from 'mattermost-redux/selectors/entities/channels';
 import {getPost, getMostRecentPostIdInChannel} from 'mattermost-redux/selectors/entities/posts';
 import {haveISystemPermission, haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
+import {appsEnabled} from 'mattermost-redux/selectors/entities/apps';
 import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
+
+import {fetchAppBindings} from 'mattermost-redux/actions/apps';
 
 import {getSelectedChannelId} from 'selectors/rhs';
 
@@ -67,7 +83,8 @@ import {syncPostsInChannel} from 'actions/views/channel';
 
 import {browserHistory} from 'utils/browser_history';
 import {loadChannelsForCurrentUser} from 'actions/channel_actions.jsx';
-import {redirectUserToDefaultTeam} from 'actions/global_actions.jsx';
+import {loadCustomEmojisIfNeeded} from 'actions/emoji_actions';
+import {redirectUserToDefaultTeam} from 'actions/global_actions';
 import {handleNewPost} from 'actions/post_actions.jsx';
 import * as StatusActions from 'actions/status_actions.jsx';
 import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
@@ -177,7 +194,10 @@ export function reconnect(includeWebSocket = true) {
         const currentChannelId = getCurrentChannelId(state);
         const mostRecentId = getMostRecentPostIdInChannel(state, currentChannelId);
         const mostRecentPost = getPost(state, mostRecentId);
+
         dispatch(loadChannelsForCurrentUser());
+        dispatch(handleRefreshAppsBindings());
+
         if (mostRecentPost) {
             dispatch(syncPostsInChannel(currentChannelId, mostRecentPost.create_at));
         } else {
@@ -479,7 +499,23 @@ export function handleEvent(msg) {
     case SocketEvents.CLOUD_PAYMENT_STATUS_UPDATED:
         dispatch(handleCloudPaymentStatusUpdated(msg));
         break;
+    case SocketEvents.FIRST_ADMIN_VISIT_MARKETPLACE_STATUS_RECEIVED:
+        handleFirstAdminVisitMarketplaceStatusReceivedEvent(msg);
+        break;
+    case SocketEvents.THREAD_FOLLOW_CHANGED:
+        dispatch(handleThreadFollowChanged(msg));
+        break;
+    case SocketEvents.THREAD_READ_CHANGED:
+        dispatch(handleThreadReadChanged(msg));
+        break;
+    case SocketEvents.THREAD_UPDATED:
+        dispatch(handleThreadUpdated(msg));
+        break;
 
+    case SocketEvents.APPS_FRAMEWORK_REFRESH_BINDINGS: {
+        dispatch(handleRefreshAppsBindings(msg));
+        break;
+    }
     default:
     }
 
@@ -598,7 +634,8 @@ export function handleNewPostEvents(queue) {
         const posts = queue.map((msg) => JSON.parse(msg.data.post));
 
         // Receive the posts as one continuous block since they were received within a short period
-        const actions = posts.map(receivedNewPost);
+        const crtEnabled = isCollapsedThreadsEnabled(myGetState());
+        const actions = posts.map((post) => receivedNewPost(post, crtEnabled));
         myDispatch(batchActions(actions));
 
         // Load the posts' threads
@@ -642,7 +679,9 @@ export function handlePostUnreadEvent(msg) {
                 lastViewedAt: msg.data.last_viewed_at,
                 channelId: msg.broadcast.channel_id,
                 msgCount: msg.data.msg_count,
+                msgCountRoot: msg.data.msg_count_root,
                 mentionCount: msg.data.mention_count,
+                mentionCountRoot: msg.data.mention_count_root,
             },
         },
     );
@@ -940,6 +979,10 @@ export async function handleUserUpdatedEvent(msg) {
     const state = getState();
     const currentUser = getCurrentUser(state);
     const user = msg.data.user;
+    if (user && user.props) {
+        const customStatus = user.props.customStatus ? JSON.parse(user.props.customStatus) : undefined;
+        dispatch(loadCustomEmojisIfNeeded([customStatus?.emoji]));
+    }
 
     const config = getConfig(state);
     const license = getLicense(state);
@@ -1339,19 +1382,85 @@ function handleSidebarCategoryOrderUpdated(msg) {
     return receivedCategoryOrder(msg.broadcast.team_id, msg.data.order);
 }
 
-function handleUserActivationStatusChange() {
+export function handleUserActivationStatusChange() {
     return (doDispatch, doGetState) => {
         const state = doGetState();
         const license = getLicense(state);
 
         // This event is fired when a user first joins the server, so refresh analytics to see if we're now over the user limit
-        if (license.Cloud === 'true' && isCurrentUserSystemAdmin(state)
-        ) {
-            doDispatch(getStandardAnalytics());
+        if (license.Cloud === 'true') {
+            if (isCurrentUserSystemAdmin(state)) {
+                doDispatch(getStandardAnalytics());
+            }
+            doDispatch(getSubscriptionStats());
         }
     };
 }
 
 function handleCloudPaymentStatusUpdated() {
     return (doDispatch) => doDispatch(getCloudSubscription());
+}
+
+function handleRefreshAppsBindings() {
+    return (doDispatch, doGetState) => {
+        const state = doGetState();
+        if (appsEnabled(state)) {
+            doDispatch(fetchAppBindings(getCurrentUserId(state), getCurrentChannelId(state)));
+        }
+        return {data: true};
+    };
+}
+
+function handleFirstAdminVisitMarketplaceStatusReceivedEvent(msg) {
+    const receivedData = JSON.parse(msg.data.firstAdminVisitMarketplaceStatus);
+    store.dispatch({type: GeneralTypes.FIRST_ADMIN_VISIT_MARKETPLACE_STATUS_RECEIVED, data: receivedData});
+}
+
+function handleThreadReadChanged(msg) {
+    return (doDispatch, doGetState) => {
+        if (msg.data.thread_id) {
+            const thread = doGetState().entities.threads.threads?.[msg.data.thread_id];
+            if (thread) {
+                handleReadChanged(
+                    doDispatch,
+                    msg.data.thread_id,
+                    msg.broadcast.team_id,
+                    msg.data.channel_id,
+                    {
+                        lastViewedAt: msg.data.timestamp,
+                        prevUnreadMentions: thread.unread_mentions,
+                        newUnreadMentions: msg.data.unread_mentions,
+                        prevUnreadReplies: thread.unread_replies,
+                        newUnreadReplies: msg.data.unread_replies,
+                    },
+                );
+            }
+        } else if (msg.broadcast.channel_id) {
+            handleAllThreadsInChannelMarkedRead(doDispatch, doGetState, msg.broadcast.channel_id, msg.data.timestamp);
+        } else {
+            handleAllMarkedRead(doDispatch, msg.broadcast.team_id);
+        }
+    };
+}
+
+function handleThreadUpdated(msg) {
+    return (doDispatch, doGetState) => {
+        try {
+            const threadData = JSON.parse(msg.data.thread);
+            handleThreadArrived(doDispatch, doGetState, threadData, msg.broadcast.team_id);
+        } catch {
+            // invalid JSON
+        }
+    };
+}
+
+function handleThreadFollowChanged(msg) {
+    return async (doDispatch, doGetState) => {
+        const state = doGetState();
+        const thread = getThread(state, msg.data.thread_id);
+        if (!thread && msg.data.state) {
+            await doDispatch(fetchThread(getCurrentUserId(state), getCurrentTeamId(state), msg.data.thread_id, true));
+        }
+        handleFollowChanged(doDispatch, msg.data.thread_id, msg.broadcast.team_id, msg.data.state);
+    };
 }

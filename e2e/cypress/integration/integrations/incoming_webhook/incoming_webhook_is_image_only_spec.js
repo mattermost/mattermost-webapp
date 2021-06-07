@@ -10,8 +10,6 @@
 // Stage: @prod
 // Group: @incoming_webhook
 
-import * as TIMEOUTS from '../../../fixtures/timeouts';
-
 import {enableUsernameAndIconOverride} from './helpers';
 
 describe('Incoming webhook', () => {
@@ -34,8 +32,7 @@ describe('Incoming webhook', () => {
 
         // # Go to test team/channel, open main menu and click "Integrations"
         cy.visit(`${testTeam.name}/channels/off-topic`);
-        cy.get('#sidebarHeaderDropdownButton', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').click();
-        cy.get('.Menu__content').should('be.visible').findByText('Integrations').click();
+        cy.uiOpenMainMenu('Integrations');
 
         // * Verify that it redirects to integrations URL. Then, click "Incoming Webhooks"
         cy.url().should('include', `${testTeam.name}/integrations`);

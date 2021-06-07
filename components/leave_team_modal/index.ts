@@ -3,13 +3,14 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
+
 import {getCurrentUserId, getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getPrivateChannels, getPublicChannels} from 'mattermost-redux/selectors/entities/channels';
 import {removeUserFromTeam as leaveTeam} from 'mattermost-redux/actions/teams';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
-import {toggleSideBarRightMenuAction} from 'actions/global_actions.jsx';
+import {toggleSideBarRightMenuAction} from 'actions/global_actions';
 import {ModalIdentifiers} from 'utils/constants';
 
 import {isModalOpen} from 'selectors/views/modals';

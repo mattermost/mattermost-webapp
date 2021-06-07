@@ -7,7 +7,7 @@ import Setting from './setting';
 
 type Props = {
     id: string;
-    options: {text: string;value: string}[];
+    options: Array<{text: string; value: string}>;
     label: React.ReactNode;
     onChange(name: string, value: any): void;
     value?: string;

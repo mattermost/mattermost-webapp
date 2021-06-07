@@ -59,7 +59,7 @@ describe('MM-23102 - Channel Moderation - Post Reactions', () => {
         });
     });
 
-    it('Post Reactions option for Guests', () => {
+    it('MM-T1543 Post Reactions option for Guests', () => {
         visitChannelConfigPage(testChannel);
 
         // # Uncheck the post reactions option for Guests and save
@@ -91,7 +91,7 @@ describe('MM-23102 - Channel Moderation - Post Reactions', () => {
         });
     });
 
-    it('Post Reactions option for Members', () => {
+    it('MM-T1544 Post Reactions option for Members', () => {
         visitChannelConfigPage(testChannel);
 
         // # Uncheck the Create reactions option for Members and save
@@ -124,7 +124,7 @@ describe('MM-23102 - Channel Moderation - Post Reactions', () => {
         });
     });
 
-    it('Post Reactions option removed for Guests and Members in System Scheme', () => {
+    it('MM-T1545 Post Reactions option removed for Guests and Members in System Scheme', () => {
         // # Login as sysadmin and visit the Permissions page in the system console.
         // # Edit the System Scheme and remove the Post Reaction option for Guests & Save.
         goToSystemScheme();
@@ -180,7 +180,7 @@ describe('MM-23102 - Channel Moderation - Post Reactions', () => {
 
     // GUEST PERMISSIONS DON'T EXIST ON TEAM OVERRIDE SCHEMES SO GUEST PORTION NOT IMPLEMENTED!
     // ONLY THE MEMBERS PORTION OF THIS TEST IS IMPLEMENTED
-    it('Post Reactions option removed for Guests & Members in Team Override Scheme', () => {
+    it('MM-T1546_4 Post Reactions option removed for Guests & Members in Team Override Scheme', () => {
         const teamOverrideSchemeName = `post_reactions_${getRandomId()}`;
 
         // # Create a new team override scheme

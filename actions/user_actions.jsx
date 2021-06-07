@@ -16,24 +16,27 @@ import {
     getChannelMembersInChannels,
     getDirectChannels,
 } from 'mattermost-redux/selectors/entities/channels';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeamId, getTeamMember} from 'mattermost-redux/selectors/entities/teams';
 import * as Selectors from 'mattermost-redux/selectors/entities/users';
-import {makeFilterAutoclosedDMs, makeFilterManuallyClosedDMs} from 'mattermost-redux/selectors/entities/channel_categories';
+import {legacyMakeFilterAutoclosedDMs, makeFilterManuallyClosedDMs} from 'mattermost-redux/selectors/entities/channel_categories';
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 
+import {loadCustomEmojisForCustomStatusesByUserIds} from 'actions/emoji_actions';
 import {loadStatusesForProfilesList, loadStatusesForProfilesMap} from 'actions/status_actions.jsx';
 import {trackEvent} from 'actions/telemetry_actions.jsx';
+
+import {getDisplayedChannels} from 'selectors/views/channel_sidebar';
+
 import store from 'stores/redux_store.jsx';
+
 import * as Utils from 'utils/utils.jsx';
 import {Constants, Preferences, UserStatuses} from 'utils/constants';
 
 export const queue = new PQueue({concurrency: 4});
 const dispatch = store.dispatch;
 const getState = store.getState;
-
-export const filterAutoclosedDMs = makeFilterAutoclosedDMs();
-export const filterManuallyClosedDMs = makeFilterManuallyClosedDMs();
 
 export function loadProfilesAndStatusesInChannel(channelId, page = 0, perPage = General.PROFILE_CHUNK_SIZE, sort = '', options = {}) {
     return async (doDispatch) => {
@@ -291,10 +294,34 @@ export async function loadProfilesForSidebar() {
     await Promise.all([loadProfilesForDM(), loadProfilesForGM()]);
 }
 
-export function filterGMsDMs(state, channels) {
-    const filteredClosedChannels = filterAutoclosedDMs(state, channels, CategoryTypes.DIRECT_MESSAGES);
-    return filterManuallyClosedDMs(state, filteredClosedChannels);
-}
+export const getGMsForLoading = (() => {
+    const legacyFilterAutoclosedDMs = legacyMakeFilterAutoclosedDMs();
+    const filterManuallyClosedDMs = makeFilterManuallyClosedDMs();
+
+    return (state) => {
+        const config = getConfig(state);
+
+        let channels;
+        if (config.EnableLegacySidebar === 'true') {
+            // Start with all channels
+            channels = getMyChannels(state);
+
+            // Filter out autoclosed DMs/GMs and any other category
+            channels = legacyFilterAutoclosedDMs(state, channels, CategoryTypes.DIRECT_MESSAGES);
+
+            // Then filter out manually closed DMs/GMs
+            channels = filterManuallyClosedDMs(state, channels);
+        } else {
+            // Get all channels visible on the current team which doesn't include hidden GMs/DMs
+            channels = getDisplayedChannels(state);
+        }
+
+        // Make sure we only have GMs
+        channels = channels.filter((channel) => channel.type === General.GM_CHANNEL);
+
+        return channels;
+    };
+})();
 
 export async function loadProfilesForGM() {
     const state = getState();
@@ -302,16 +329,12 @@ export async function loadProfilesForGM() {
     const userIdsInChannels = Selectors.getUserIdsInChannels(state);
     const currentUserId = Selectors.getCurrentUserId(state);
 
-    const channels = getMyChannels(state);
-    const filteredChannels = filterGMsDMs(state, channels);
-
-    for (let i = 0; i < filteredChannels.length; i++) {
-        const channel = filteredChannels[i];
-        if (channel.type !== Constants.GM_CHANNEL) {
-            continue;
-        }
-
+    const userIdsForLoadingCustomEmojis = new Set();
+    for (const channel of getGMsForLoading(state)) {
         const userIds = userIdsInChannels[channel.id] || new Set();
+
+        userIds.forEach((userId) => userIdsForLoadingCustomEmojis.add(userId));
+
         if (userIds.size >= Constants.MIN_USERS_IN_GM) {
             continue;
         }
@@ -337,6 +360,10 @@ export async function loadProfilesForGM() {
     }
 
     await queue.onEmpty();
+
+    if (userIdsForLoadingCustomEmojis.size > 0) {
+        dispatch(loadCustomEmojisForCustomStatusesByUserIds(userIdsForLoadingCustomEmojis));
+    }
     if (newPreferences.length > 0) {
         dispatch(savePreferences(currentUserId, newPreferences));
     }
@@ -386,6 +413,7 @@ export async function loadProfilesForDM() {
     if (profilesToLoad.length > 0) {
         await UserActions.getProfilesByIds(profilesToLoad)(dispatch, getState);
     }
+    await loadCustomEmojisForCustomStatusesByUserIds(profileIds)(dispatch, getState);
 }
 
 export function autocompleteUsersInTeam(username) {

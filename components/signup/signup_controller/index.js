@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
+import {getConfig, getLicense, getSubscriptionStats as subscriptionStatsSelector} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getTeamInviteInfo} from 'mattermost-redux/actions/teams';
 
@@ -17,7 +17,8 @@ import SignupController from './signup_controller.jsx';
 function mapStateToProps(state, ownProps) {
     const license = getLicense(state);
     const config = getConfig(state);
-
+    const isCloud = license && license.Cloud === 'true';
+    const subscriptionStats = isCloud ? subscriptionStatsSelector(state) : {};
     const isLicensed = license && license.IsLicensed === 'true';
     const enableOpenServer = config.EnableOpenServer === 'true';
     const noAccounts = config.NoAccounts === 'true';
@@ -44,6 +45,7 @@ function mapStateToProps(state, ownProps) {
     return {
         loggedIn: Boolean(getCurrentUserId(state)),
         isLicensed,
+        isCloud,
         enableOpenServer,
         noAccounts,
         enableSignUpWithEmail,
@@ -56,6 +58,7 @@ function mapStateToProps(state, ownProps) {
         ldapLoginFieldName,
         siteName,
         usedBefore,
+        subscriptionStats,
     };
 }
 

@@ -5,6 +5,7 @@ import React from 'react';
 import {shallow, ShallowWrapper} from 'enzyme';
 
 import {TestHelper} from 'utils/test_helper';
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import InviteMembersStep from './invite_members_step';
 
@@ -17,10 +18,17 @@ describe('components/next_steps_view/steps/invite_members_step', () => {
         currentUser: TestHelper.getUserMock(),
         expanded: true,
         isAdmin: true,
+        isCloud: false,
         isEmailInvitesEnabled: true,
+        cloudUserLimit: 10,
+        subscriptionStats: {
+            remaining_seats: 10,
+            is_paid_tier: 'false',
+        },
         actions: {
             sendEmailInvitesToTeamGracefully: jest.fn(),
             regenerateTeamInviteId: jest.fn(),
+            getSubscriptionStats: jest.fn(),
         },
     };
 
@@ -33,7 +41,7 @@ describe('components/next_steps_view/steps/invite_members_step', () => {
     });
 
     test('should set emails based on specified delimiters', () => {
-        const wrapper: ShallowWrapper<any, any, InviteMembersStep> = shallow(
+        const wrapper: ShallowWrapper<any, any, any> = shallowWithIntl(
             <InviteMembersStep {...baseProps}/>,
         );
 
@@ -53,7 +61,7 @@ describe('components/next_steps_view/steps/invite_members_step', () => {
     });
 
     test('should not allow more than 10 emails', () => {
-        const wrapper: ShallowWrapper<any, any, InviteMembersStep> = shallow(
+        const wrapper: ShallowWrapper<any, any, any> = shallowWithIntl(
             <InviteMembersStep {...baseProps}/>,
         );
 
@@ -70,8 +78,46 @@ describe('components/next_steps_view/steps/invite_members_step', () => {
         wrapper.setState({emails: [], emailError: undefined});
     });
 
+    test('should have limit errors when remaining_seats are 0 and free tier', () => {
+        const props = {
+            ...baseProps,
+            subscriptionStats: {
+                remaining_seats: 0,
+                is_paid_tier: 'false',
+            },
+        };
+        const wrapper: ShallowWrapper<any, any, any> = shallowWithIntl(
+            <InviteMembersStep {...props}/>,
+        );
+
+        const emails = Array(11).fill('a').map((a) => `email_${a}@email.com`);
+
+        wrapper.instance().onInputChange(emails.join(' '), {} as any);
+        expect(wrapper.state('emails').map((email: any) => email.value)).toStrictEqual(emails);
+        expect(wrapper.state('emailError')).toBe('The free tier is limited to 10 members.');
+    });
+
+    test('should have NO limit errors when remaining_seats are 0 but paid tier', () => {
+        const props = {
+            ...baseProps,
+            subscriptionStats: {
+                remaining_seats: 0,
+                is_paid_tier: 'true',
+            },
+        };
+        const wrapper: ShallowWrapper<any, any, any> = shallowWithIntl(
+            <InviteMembersStep {...props}/>,
+        );
+
+        const emails = Array(11).fill('a').map((a) => `email_${a}@email.com`);
+
+        wrapper.instance().onInputChange(emails.join(' '), {} as any);
+        expect(wrapper.state('emails').map((email: any) => email.value)).toStrictEqual(emails);
+        expect(wrapper.state('emailError')).toBe(undefined);
+    });
+
     test('do not fire onChange unless it is a removal or a pop', () => {
-        const wrapper: ShallowWrapper<any, any, InviteMembersStep> = shallow(
+        const wrapper: ShallowWrapper<any, any, any> = shallowWithIntl(
             <InviteMembersStep {...baseProps}/>,
         );
 

@@ -22,7 +22,7 @@ type Props = {
      * An array of URL schemes that should be turned into links. Anything that looks
      * like a link will be turned into a link if this is not provided.
      */
-    autolinkedUrlSchemes?: Array<string>;
+    autolinkedUrlSchemes?: string[];
 
     /*
      * Whether or not to do Markdown rendering
@@ -42,7 +42,7 @@ type Props = {
     /*
      * An array of words that can be used to mention a user
      */
-    mentionKeys?: Array<MentionKey>;
+    mentionKeys?: MentionKey[];
 
     /*
      * The text to be rendered
@@ -100,6 +100,8 @@ type Props = {
      */
     postId?: string;
 
+    channelId?: string;
+
     /**
      * Post id prop passed down to markdown image
      */
@@ -139,6 +141,7 @@ export default class Markdown extends React.PureComponent<Props> {
             imagesMetadata: this.props.imagesMetadata,
             hasPluginTooltips: this.props.hasPluginTooltips,
             postId: this.props.postId,
+            channelId: this.props.channelId,
             postType: this.props.postType,
             mentionHighlight: this.props.options.mentionHighlight,
             disableGroupHighlight: this.props.options.disableGroupHighlight,

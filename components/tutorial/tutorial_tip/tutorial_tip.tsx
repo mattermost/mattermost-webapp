@@ -23,13 +23,13 @@ type Preference = {
 type Props = {
     currentUserId: string;
     step: number;
-    screens: Array<JSX.Element>;
+    screens: JSX.Element[];
     placement: string;
     overlayClass: string;
     telemetryTag?: string;
     actions: {
         closeRhsMenu: () => void;
-        savePreferences: (currentUserId: string, preferences: Array<Preference>) => void;
+        savePreferences: (currentUserId: string, preferences: Preference[]) => void;
     };
 }
 

@@ -7,11 +7,15 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @integrations
 
 /**
 * Note: This test requires webhook server running. Initiate `npm run start:webhook` to start.
 */
+
+import {getRandomId} from '../../utils';
+import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Integrations', () => {
     let user1;
@@ -56,90 +60,90 @@ describe('Integrations', () => {
     });
 
     it('MM-T662 /join command for private channels', () => {
-        const privateChannelName = 'private-channel';
+        const privateChannelName = `private-channel-${getRandomId()}`;
 
         cy.apiLogin(user1);
         cy.visit(testChannelUrl1);
 
         // # User 1 Create a private channel, with ${channelName}
-        cy.get('#createPrivateChannel').click();
-        cy.get('#private').click();
-        cy.get('#newChannelName').type(privateChannelName);
+        cy.uiBrowseOrCreateChannel('Create New Channel').click();
+        cy.get('#private').click().wait(TIMEOUTS.HALF_SEC);
+        cy.get('#newChannelName').should('be.visible').type(privateChannelName);
         cy.get('#submitNewChannel').click();
 
         // # User, who is a member of the channel, try /join command without tilde
-        cy.get('#publicChannelList').findByText('Town Square').click();
-        cy.postMessage(`/join ${privateChannelName}`);
+        cy.uiGetLhsSection('CHANNELS').findByText('Town Square').click();
+        cy.uiPostMessageQuickly(`/join ${privateChannelName} `);
 
         // * Private channel should be active
-        cy.get('#privateChannelList').get('.active').should('contain', privateChannelName);
+        cy.uiGetLhsSection('CHANNELS').get('.active').should('contain', privateChannelName);
 
         // # User, who is a member of the channel, try /join command with tilde
-        cy.get('#publicChannelList').findByText('Town Square').click();
-        cy.postMessage(`/join ~${privateChannelName}`);
+        cy.uiGetLhsSection('CHANNELS').findByText('Town Square').click();
+        cy.uiPostMessageQuickly(`/join ~${privateChannelName} `);
 
         // * private channel should be active
-        cy.get('#privateChannelList').get('.active').should('contain', privateChannelName);
+        cy.uiGetLhsSection('CHANNELS').find('.active').should('contain', privateChannelName);
 
         // # Login with user without privilege
         cy.apiLogin(user2);
         cy.visit(testChannelUrl1);
 
         // # User, who is *not* a member of the channel, try /join command without tilde
-        cy.get('#publicChannelList').findByText('Town Square').click();
-        cy.postMessage(`/join ${privateChannelName}`);
+        cy.uiGetLhsSection('CHANNELS').findByText('Town Square').click();
+        cy.uiPostMessageQuickly(`/join ${privateChannelName} `);
 
         // * Error message should be presented.
         cy.getLastPost().should('contain', 'An error occurred while joining the channel.').and('contain', 'System');
 
         // # User, who is *not* a member of the channel, try /join command with tilde
-        cy.get('#publicChannelList').findByText('Town Square').click();
-        cy.postMessage(`/join ~${privateChannelName}`);
+        cy.uiGetLhsSection('CHANNELS').findByText('Town Square').click();
+        cy.uiPostMessageQuickly(`/join ~${privateChannelName} `);
 
         // * Error message should be presented.
         cy.getLastPost().should('contain', 'An error occurred while joining the channel.').and('contain', 'System');
     });
 
     it('MM-T663 /open command for private channels', () => {
-        const privateChannelName = 'private-channel';
+        const privateChannelName = `private-channel-${getRandomId()}`;
 
         cy.apiLogin(user1);
         cy.visit(testChannelUrl1);
 
         // # User 1 Create a private channel, with ${channelName}
-        cy.get('#createPrivateChannel').click();
-        cy.get('#private').click();
-        cy.get('#newChannelName').type(privateChannelName);
+        cy.uiBrowseOrCreateChannel('Create New Channel').click();
+        cy.get('#private').click().wait(TIMEOUTS.HALF_SEC);
+        cy.get('#newChannelName').should('be.visible').type(privateChannelName);
         cy.get('#submitNewChannel').click();
 
         // # User, who is a member of the channel, try /open command without tilde
-        cy.get('#publicChannelList').findByText('Town Square').click();
-        cy.postMessage(`/open ${privateChannelName}`);
+        cy.uiGetLhsSection('CHANNELS').findByText('Town Square').click();
+        cy.uiPostMessageQuickly(`/open ${privateChannelName} `);
 
         // * Private channel should be active
-        cy.get('#privateChannelList').get('.active').should('contain', privateChannelName);
+        cy.uiGetLhsSection('CHANNELS').find('.active').should('contain', privateChannelName);
 
         // # User, who is a member of the channel, try /open command with tilde
-        cy.get('#publicChannelList').findByText('Town Square').click();
-        cy.postMessage(`/open ~${privateChannelName}`);
+        cy.uiGetLhsSection('CHANNELS').findByText('Town Square').click();
+        cy.uiPostMessageQuickly(`/open ~${privateChannelName} `);
 
         // * Private channel should be active
-        cy.get('#privateChannelList').get('.active').should('contain', privateChannelName);
+        cy.uiGetLhsSection('CHANNELS').find('.active').should('contain', privateChannelName);
 
         // # Login with user without privilege
         cy.apiLogin(user2);
         cy.visit(testChannelUrl1);
 
         // # User, who is *not* a member of the channel, try /open command without tilde
-        cy.get('#publicChannelList').findByText('Town Square').click();
-        cy.postMessage(`/open ${privateChannelName}`);
+        cy.uiGetLhsSection('CHANNELS').findByText('Town Square').click();
+        cy.uiPostMessageQuickly(`/open ${privateChannelName} `);
 
         // * Error message should be presented.
         cy.getLastPost().should('contain', 'An error occurred while joining the channel.').and('contain', 'System');
 
         // # User, who is *not* a member of the channel, try /open command with tilde
-        cy.get('#publicChannelList').findByText('Town Square').click();
-        cy.postMessage(`/open ~${privateChannelName}`);
+        cy.uiGetLhsSection('CHANNELS').findByText('Town Square').click();
+        cy.uiPostMessageQuickly(`/open ~${privateChannelName} `);
 
         // * Error message should be presented.
         cy.getLastPost().should('contain', 'An error occurred while joining the channel.').and('contain', 'System');
@@ -150,30 +154,34 @@ describe('Integrations', () => {
         cy.visit(testChannelUrl1);
 
         // # Post message
-        cy.postMessage(`/msg @${user2.username} Test message`);
+        const firstMessage = 'First message';
+        cy.uiPostMessageQuickly(`/msg @${user2.username} ${firstMessage} `);
+        cy.uiWaitUntilMessagePostedIncludes(firstMessage);
 
         // * The user stays in the same team
         cy.get(`#${team1.name}TeamButton`).parent().should('have.class', 'active');
 
         // * The user is in the DM channel with user2
-        cy.get(`#sidebarItem_${Cypress._.sortBy([user1.id, user2.id]).join('__')}`).parent().should('have.class', 'active');
+        cy.get(`#sidebarItem_${Cypress._.sortBy([user1.id, user2.id]).join('__')}`).parent().should('be.visible').and('have.class', 'active');
 
         // * The last message is written by user1 and contains the correct text.
-        cy.getLastPost().should('contain', 'Test message').and('contain', user1.username);
+        cy.getLastPost().should('contain', firstMessage).and('contain', user1.username);
 
         cy.visit(testChannelUrl2);
 
         // # Post message
-        cy.postMessage(`/msg @${user2.username} Second test`);
+        const secondMessage = 'Second message';
+        cy.uiPostMessageQuickly(`/msg @${user2.username} ${secondMessage} `);
+        cy.uiWaitUntilMessagePostedIncludes(secondMessage);
 
         // * The user stays in the same team
         cy.get(`#${team2.name}TeamButton`).parent().should('have.class', 'active');
 
         // * The user is in the DM channel with user2
-        cy.get(`#sidebarItem_${Cypress._.sortBy([user1.id, user2.id]).join('__')}`).parent().should('have.class', 'active');
+        cy.get(`#sidebarItem_${Cypress._.sortBy([user1.id, user2.id]).join('__')}`).parent().should('be.visible').and('have.class', 'active');
 
         // * The last message is written by user1 and contains the correct text.
-        cy.getLastPost().should('contain', 'Second test').and('contain', user1.username);
+        cy.getLastPost().should('contain', secondMessage).and('contain', user1.username);
     });
 
     it('MM-T688 /expand', () => {
@@ -185,7 +193,7 @@ describe('Integrations', () => {
         cy.getLastPostId().as('postID');
 
         // # Post command
-        cy.postMessage('/expand');
+        cy.uiPostMessageQuickly('/expand ');
 
         cy.get('@postID').then((postID) => {
             cy.get(`#post_${postID}`).should('be.visible').within(() => {
@@ -232,7 +240,7 @@ describe('Integrations', () => {
                     should('be.visible').and('have.attr', 'data-expanded', 'false');
 
                 // * Preview should not be visible
-                cy.findByLabelText('file thumbnail').should('not.be.visible');
+                cy.findByLabelText('file thumbnail').should('not.exist');
             });
         });
 
@@ -257,7 +265,7 @@ describe('Integrations', () => {
         cy.findByText('Back to Mattermost').click();
 
         // # Post slash command
-        cy.postMessage(`/${commandTrigger}`);
+        cy.uiPostMessageQuickly(`/${commandTrigger} `);
         cy.getLastPost().within(() => {
             // * Should come from the webhook bot
             cy.get('.BotBadge').should('exist');

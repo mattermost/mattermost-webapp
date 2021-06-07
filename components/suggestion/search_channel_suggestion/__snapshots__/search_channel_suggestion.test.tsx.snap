@@ -1,0 +1,232 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/suggestion/search_channel_suggestion should match snapshot 1`] = `
+<div
+  className="search-autocomplete__item"
+  onClick={[Function]}
+  onMouseMove={[Function]}
+  role="button"
+  tabIndex={-1}
+>
+  <span
+    className="search-autocomplete__name"
+    data-testid="listItem"
+  >
+    <div
+      className="search-autocomplete__icon"
+    >
+      <i
+        className="icon light icon--standard icon--no-spacing icon-globe"
+      />
+    </div>
+    <span
+      className="ml-3"
+    >
+      name
+    </span>
+    <span
+      className="ml-2 light"
+    >
+      ~
+      DN
+    </span>
+  </span>
+</div>
+`;
+
+exports[`components/suggestion/search_channel_suggestion should match snapshot, channel type DM_CHANNEL 1`] = `
+<div
+  className="search-autocomplete__item selected a11y--focused"
+  onClick={[Function]}
+  onMouseMove={[Function]}
+  role="button"
+  tabIndex={-1}
+>
+  <span
+    className="search-autocomplete__name"
+    data-testid="listItem"
+  >
+    <Memo(Avatar)
+      size="sm"
+      url="/api/v4/users/DN/image?_=0"
+    />
+    <span
+      className="ml-3"
+    >
+      @
+      name
+    </span>
+  </span>
+  <BotBadge
+    className="badge-popoverlist"
+    show={false}
+  />
+</div>
+`;
+
+exports[`components/suggestion/search_channel_suggestion should match snapshot, channel type GM_CHANNEL 1`] = `
+<div
+  className="search-autocomplete__item selected a11y--focused"
+  onClick={[Function]}
+  onMouseMove={[Function]}
+  role="button"
+  tabIndex={-1}
+>
+  <span
+    className="search-autocomplete__name"
+    data-testid="listItem"
+  >
+    <div
+      className="search-autocomplete__icon"
+    >
+      <div
+        className="status status--group"
+      >
+        G
+      </div>
+    </div>
+    <span
+      className="ml-3"
+    >
+      @
+      name
+    </span>
+  </span>
+</div>
+`;
+
+exports[`components/suggestion/search_channel_suggestion should match snapshot, channel type OPEN_CHANNEL 1`] = `
+<div
+  className="search-autocomplete__item selected a11y--focused"
+  onClick={[Function]}
+  onMouseMove={[Function]}
+  role="button"
+  tabIndex={-1}
+>
+  <span
+    className="search-autocomplete__name"
+    data-testid="listItem"
+  >
+    <div
+      className="search-autocomplete__icon"
+    >
+      <i
+        className="icon light icon--standard icon--no-spacing icon-globe"
+      />
+    </div>
+    <span
+      className="ml-3"
+    >
+      name
+    </span>
+    <span
+      className="ml-2 light"
+    >
+      ~
+      DN
+    </span>
+  </span>
+</div>
+`;
+
+exports[`components/suggestion/search_channel_suggestion should match snapshot, channel type PRIVATE_CHANNEL 1`] = `
+<div
+  className="search-autocomplete__item selected a11y--focused"
+  onClick={[Function]}
+  onMouseMove={[Function]}
+  role="button"
+  tabIndex={-1}
+>
+  <span
+    className="search-autocomplete__name"
+    data-testid="listItem"
+  >
+    <div
+      className="search-autocomplete__icon"
+    >
+      <i
+        className="icon light icon--standard icon--no-spacing icon-lock-outline"
+      />
+    </div>
+    <span
+      className="ml-3"
+    >
+      name
+    </span>
+    <span
+      className="ml-2 light"
+    >
+      ~
+      DN
+    </span>
+  </span>
+</div>
+`;
+
+exports[`components/suggestion/search_channel_suggestion should match snapshot, isSelection is false 1`] = `
+<div
+  className="search-autocomplete__item"
+  onClick={[Function]}
+  onMouseMove={[Function]}
+  role="button"
+  tabIndex={-1}
+>
+  <span
+    className="search-autocomplete__name"
+    data-testid="listItem"
+  >
+    <div
+      className="search-autocomplete__icon"
+    >
+      <i
+        className="icon light icon--standard icon--no-spacing icon-globe"
+      />
+    </div>
+    <span
+      className="ml-3"
+    >
+      name
+    </span>
+    <span
+      className="ml-2 light"
+    >
+      ~
+      DN
+    </span>
+  </span>
+</div>
+`;
+
+exports[`components/suggestion/search_channel_suggestion should match snapshot, isSelection is true 1`] = `
+<div
+  className="search-autocomplete__item selected a11y--focused"
+  onClick={[Function]}
+  onMouseMove={[Function]}
+  role="button"
+  tabIndex={-1}
+>
+  <span
+    className="search-autocomplete__name"
+    data-testid="listItem"
+  >
+    <div
+      className="search-autocomplete__icon"
+    >
+      <i
+        className="icon light icon--standard icon--no-spacing icon-globe"
+      />
+    </div>
+    <span
+      className="ml-3"
+    >
+      name
+    </span>
+    <span
+      className="ml-2 light"
+    >
+      ~
+      DN
+    </span>
+  </span>
+</div>
+`;

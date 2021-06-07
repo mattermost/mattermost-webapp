@@ -38,7 +38,7 @@ export type Props = {
         getProfiles: (page?: number | undefined, perPage?: number | undefined, options?: any) => Promise<any>;
         searchProfiles: (term: string, options: any) => Promise<any>;
         setUserGridSearch: (term: string) => Promise<any>;
-    },
+    };
     readOnly?: boolean;
 }
 

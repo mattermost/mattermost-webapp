@@ -45,11 +45,11 @@ describe('Messaging', () => {
         });
     });
 
-    describe('MM-T713 Post time should render correct format and locale', () => {
+    it('MM-T713 Post time should render correct format and locale', () => {
         const testCases = [
             {
                 name: 'in English',
-                publicChannel: 'PUBLIC CHANNELS',
+                publicChannel: 'CHANNELS',
                 locale: 'en',
                 manualTimezone: 'UTC',
                 localTimes: [
@@ -61,7 +61,7 @@ describe('Messaging', () => {
             },
             {
                 name: 'in Spanish',
-                publicChannel: 'CANALES PÚBLICOS',
+                publicChannel: 'CANALES',
                 locale: 'es',
                 manualTimezone: 'UTC',
                 localTimes: [
@@ -73,7 +73,7 @@ describe('Messaging', () => {
             },
             {
                 name: 'in react-intl unsupported timezone',
-                publicChannel: 'PUBLIC CHANNELS',
+                publicChannel: 'CHANNELS',
                 locale: 'en',
                 manualTimezone: 'NZ-CHAT',
                 localTimes: [
@@ -86,42 +86,34 @@ describe('Messaging', () => {
         ];
 
         testCases.forEach((testCase) => {
-            describe(testCase.name, () => {
-                describe('standard time', () => {
-                    testCase.localTimes.forEach((localTime, index) => {
-                        it('post ' + index + ' should match', () => {
-                            // # Change user preference to 12-hour format
-                            cy.apiSaveClockDisplayModeTo24HourPreference(false);
+            // # Standard time
+            testCase.localTimes.forEach((localTime, index) => {
+                // # Change user preference to 12-hour format
+                cy.apiSaveClockDisplayModeTo24HourPreference(false);
 
-                            // # Set user locale and timezone
-                            setLocaleAndTimezone(testCase.locale, testCase.manualTimezone);
+                // # Set user locale and timezone
+                setLocaleAndTimezone(testCase.locale, testCase.manualTimezone);
 
-                            // * Verify that the channel is loaded correctly based on locale
-                            cy.findByText(testCase.publicChannel).should('be.visible');
+                // * Verify that the channel is loaded correctly based on locale
+                cy.findByText(testCase.publicChannel).should('be.visible');
 
-                            // * Verify that the local time of each post is rendered in 12-hour format based on locale
-                            cy.findAllByTestId('postView').eq(index).find('.post__time', {timeout: 500}).should('have.text', localTime.standard);
-                        });
-                    });
-                });
+                // * Verify that the local time of each post is rendered in 12-hour format based on locale
+                cy.findAllByTestId('postView').eq(index).find('.post__time', {timeout: 500}).should('have.text', localTime.standard);
+            });
 
-                describe('military time', () => {
-                    testCase.localTimes.forEach((localTime, index) => {
-                        it('post ' + index + ' should match', () => {
-                            // # Change user preference to 24-hour format
-                            cy.apiSaveClockDisplayModeTo24HourPreference(true);
+            // # Military time
+            testCase.localTimes.forEach((localTime, index) => {
+                // # Change user preference to 24-hour format
+                cy.apiSaveClockDisplayModeTo24HourPreference(true);
 
-                            // # Set user locale and timezone
-                            setLocaleAndTimezone(testCase.locale, testCase.manualTimezone);
+                // # Set user locale and timezone
+                setLocaleAndTimezone(testCase.locale, testCase.manualTimezone);
 
-                            // * Verify that the channel is loaded correctly based on locale
-                            cy.findByText(testCase.publicChannel).should('be.visible');
+                // * Verify that the channel is loaded correctly based on locale
+                cy.findByText(testCase.publicChannel).should('be.visible');
 
-                            // * Verify that the local time of each post is rendered in 24-hour format based on locale
-                            cy.findAllByTestId('postView').eq(index).find('.post__time', {timeout: 500}).should('have.text', localTime.military);
-                        });
-                    });
-                });
+                // * Verify that the local time of each post is rendered in 24-hour format based on locale
+                cy.findAllByTestId('postView').eq(index).find('.post__time', {timeout: 500}).should('have.text', localTime.military);
             });
         });
     });

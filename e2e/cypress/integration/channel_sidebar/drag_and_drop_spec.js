@@ -20,11 +20,6 @@ describe('Channel sidebar', () => {
     let channelName;
 
     before(() => {
-        cy.apiUpdateConfig({
-            ServiceSettings: {
-                ExperimentalChannelSidebarOrganization: 'default_on',
-            },
-        });
         cy.apiInitSetup({loginAfter: true});
     });
 
@@ -84,5 +79,19 @@ describe('Channel sidebar', () => {
         cy.get('.SidebarChannelGroupHeader_groupButton > div[data-rbd-drag-handle-draggable-id]').as('toChannelGroup');
         cy.get('@toChannelGroup').eq(1).should('contain', 'CHANNELS');
         cy.get('@toChannelGroup').eq(0).should('contain', 'DIRECT MESSAGES');
+    });
+
+    it('should retain focus within the channel sidebar after dragging and dropping with the keyboard', () => {
+        // * Verify that we've switched to the new team
+        cy.get('#headerTeamName', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').should('contain', teamName);
+
+        // # Perform drag using keyboard
+        cy.get('.SidebarChannel:contains(Off-Topic) > .SidebarLink').focus().
+            trigger('keydown', {key: ' ', keyCode: SpaceKeyCode}).
+            trigger('keydown', {keyCode: DownArrowKeyCode, force: true}).wait(TIMEOUTS.THREE_SEC).
+            trigger('keydown', {key: ' ', keyCode: SpaceKeyCode, force: true}).wait(TIMEOUTS.THREE_SEC);
+
+        // * Verify that the current focused element is the channel
+        cy.focused().should('contain', 'Off-Topic');
     });
 });

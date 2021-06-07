@@ -7,7 +7,10 @@
 // Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @messaging
+
+import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Messaging', () => {
     let testTeam;
@@ -35,16 +38,14 @@ describe('Messaging', () => {
             cy.visit(`/${testTeam.name}/channels/town-square`);
 
             // # Click on '+' sign to open DM modal
-            cy.findByLabelText('write a direct message').should('be.visible').click();
-
-            // * Verify that the DM modal is open
-            cy.get('#moreDmModal').should('be.visible').contains('Direct Messages');
+            cy.uiAddDirectMessage().click().wait(TIMEOUTS.ONE_SEC);
 
             // # Search for the deactivated user
-            cy.get('#selectItems input').should('be.focused').type(deactivatedUser.email, {force: true});
+            cy.findByRole('dialog', {name: 'Direct Messages'}).should('be.visible').wait(TIMEOUTS.ONE_SEC);
+            cy.findByRole('textbox', {name: 'Search for people'}).click({force: true}).type(deactivatedUser.email);
 
             // * Verify that the inactive user is not found
-            cy.get('#moreDmModal .no-channel-message').should('be.visible').and('contain', 'No items found');
+            cy.get('.no-channel-message').should('be.visible').and('contain', 'No results found matching');
         });
     });
 
@@ -63,7 +64,7 @@ describe('Messaging', () => {
             cy.externalActivateUser(deactivatedUser.id, false);
 
             // # Click on '+' sign to open DM modal
-            cy.findByLabelText('write a direct message').should('be.visible').click();
+            cy.uiAddDirectMessage().click();
 
             // * Verify that the DM modal is open
             cy.get('#moreDmModal').should('be.visible').contains('Direct Messages');

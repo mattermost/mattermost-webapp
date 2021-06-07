@@ -253,14 +253,15 @@ describe('Verify Accessibility Support in Post', () => {
 
     it('MM-T1462 Verify incoming messages are read', () => {
         // # Make channel as read by switching back and forth to testChannel
-        cy.get('#sidebarChannelContainer').should('be.visible').findByText('Off-Topic').click();
+        cy.uiGetLhsSection('CHANNELS').findByText('Off-Topic').click();
         cy.get('#postListContent', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
-        cy.get('#sidebarChannelContainer').should('be.visible').findByText(testChannel.display_name).click();
+        cy.uiGetLhsSection('CHANNELS').findByText(testChannel.display_name).click();
         cy.get('#postListContent', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
         // # Submit a post as another user
         const message = `verify incoming message from ${otherUser.username}: ${getRandomId()}`;
         cy.postMessageAs({sender: otherUser, message, channelId: testChannel.id});
+        cy.uiWaitUntilMessagePostedIncludes(message);
 
         // # Get the element which stores the incoming messages
         cy.get('#postListContent').within(() => {
@@ -293,18 +294,18 @@ function performActionsToLastPost() {
     cy.getLastPostId().then((postId) => {
         // # Add grinning reaction
         cy.clickPostReactionIcon(postId);
-        cy.findByTestId('grinning').trigger('mouseover');
-        cy.get('#emojiPickerSpritePreview').should('be.visible');
+        cy.findByTestId('grinning').trigger('mouseover', {force: true});
+        cy.get('.sprite-preview').should('be.visible');
         cy.get('#emojiPickerAliasesPreview').should('be.visible').and('have.text', ':grinning:');
-        cy.findByTestId('grinning').click();
+        cy.findByTestId('grinning').click({force: true});
         cy.get(`#postReaction-${postId}-grinning`).should('be.visible');
 
         // # Add smile reaction
         cy.clickPostReactionIcon(postId);
-        cy.findByTestId('smile').trigger('mouseover');
-        cy.get('#emojiPickerSpritePreview').should('be.visible');
+        cy.findByTestId('smile').trigger('mouseover', {force: true});
+        cy.get('.sprite-preview').should('be.visible');
         cy.get('#emojiPickerAliasesPreview').should('be.visible').and('have.text', ':smile:');
-        cy.findByTestId('smile').click();
+        cy.findByTestId('smile').click({force: true});
         cy.get(`#postReaction-${postId}-smile`).should('be.visible');
 
         // # Save the post
@@ -327,7 +328,7 @@ function verifyPostLabel(elementId, username, labelSuffix) {
     cy.get('@lastPost').then((el) => {
         // # Get the post time
         cy.wrap(el).find('time.post__time').invoke('text').then((time) => {
-            const expectedLabel = `At ${time} ${Cypress.moment().format('dddd, MMMM D')}, ${username} ${labelSuffix}`;
+            const expectedLabel = `At ${time} ${Cypress.dayjs().format('dddd, MMMM D')}, ${username} ${labelSuffix}`;
             cy.wrap(el).should('have.attr', 'aria-label', expectedLabel);
         });
     });

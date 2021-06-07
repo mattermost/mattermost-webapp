@@ -10,7 +10,7 @@ import {browserHistory} from 'utils/browser_history';
 import {Constants} from 'utils/constants';
 import {intlShape} from 'utils/react_intl';
 import {trackEvent} from 'actions/telemetry_actions.jsx';
-import * as GlobalActions from 'actions/global_actions.jsx';
+import * as GlobalActions from 'actions/global_actions';
 import SidebarChannelButtonOrLink from '../sidebar_channel_button_or_link/sidebar_channel_button_or_link.jsx';
 import SidebarTutorialTip from '../sidebar_tutorial_tip.jsx';
 
@@ -150,6 +150,8 @@ class SidebarChannel extends React.PureComponent {
         shouldHideChannel: PropTypes.bool.isRequired,
 
         channelIsArchived: PropTypes.bool.isRequired,
+
+        channelIsShared: PropTypes.bool.isRequired,
 
         redirectChannel: PropTypes.string.isRequired,
 
@@ -316,6 +318,7 @@ class SidebarChannel extends React.PureComponent {
                     teammateDeletedAt={this.props.channelTeammateDeletedAt}
                     teammateIsBot={this.props.channelTeammateIsBot}
                     channelIsArchived={this.props.channelIsArchived}
+                    channelIsShared={this.props.channelIsShared}
                 />
                 {tutorialTip}
             </li>

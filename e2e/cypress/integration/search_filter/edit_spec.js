@@ -7,10 +7,10 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @search_date_filter
 
 import {getAdminAccount} from '../../support/env';
+import * as TIMEOUTS from '../../fixtures/timeouts';
 
 import {
     getMsAndQueryForDate,
@@ -19,25 +19,25 @@ import {
     setupTestData,
 } from './helpers';
 
-function changeTimezone(timezone) {
-    cy.apiPatchMe({timezone: {automaticTimezone: '', manualTimezone: timezone, useAutomaticTimezone: 'false'}});
-}
-
-describe('SF15699 Search Date Filter - edit', () => {
+describe('Search Date Filter', () => {
     const testData = getTestMessages();
     const admin = getAdminAccount();
-
+    let teamName;
     let anotherAdmin;
 
     before(() => {
         cy.apiInitSetup({userPrefix: 'other-admin'}).then(({team, user}) => {
             anotherAdmin = user;
+            teamName = team.name;
+
+            // # Visit town-square
+            cy.visit(`/${teamName}/channels/town-square`);
 
             setupTestData(testData, {team, admin, anotherAdmin});
         });
     });
 
-    it('with calendar picker and results update', () => {
+    it('MM-T599 Edit date and search again', () => {
         // # Create expected data
         const targetMessage = 'calendarUpdate' + Date.now();
         const targetDate = getMsAndQueryForDate(Date.UTC(2019, 0, 15, 9, 30));
@@ -47,12 +47,13 @@ describe('SF15699 Search Date Filter - edit', () => {
             cy.postMessageAs({sender: admin, message: targetMessage, channelId, createAt: targetDate.ms});
         });
 
-        // # Set clock to custom date, reload page for it to take effect
+        // # Set clock to custom date and visit town-square like reloading a page to take effect
         cy.clock(targetDate.ms, ['Date']);
-        cy.reload();
+        cy.visit(`/${teamName}/channels/town-square`);
+        cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
         // # Type on: into search field
-        cy.get('#searchBox').clear().type('on:');
+        cy.get('#searchBox').click().clear().type('on:');
 
         // * Day picker should appear
         cy.get('.DayPicker').
@@ -66,10 +67,11 @@ describe('SF15699 Search Date Filter - edit', () => {
         // * Search field should populate with the correct date, then send rest of query
         cy.get('#searchBox').
             should('have.value', 'on:2019-01-15 ').
-            focus().
-            type(`${targetMessage}{enter}`);
+            click().
+            type(`${targetMessage}{enter}`).
+            should('be.empty');
 
-        cy.get('#loadingSpinner').should('not.be.visible');
+        cy.get('#loadingSpinner').should('not.exist');
 
         // * Verify we see our single result
         cy.findAllByTestId('search-item-container').
@@ -78,10 +80,12 @@ describe('SF15699 Search Date Filter - edit', () => {
             find('.post-message').
             should('have.text', targetMessage);
 
-        cy.reload();
+        // # Visit town-square to reload a page
+        cy.visit(`/${teamName}/channels/town-square`);
+        cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
         // # Back space right after the date to bring up date picker again
-        cy.get('#searchBox').focus().clear().
+        cy.get('#searchBox').click().clear().
             type(`on:2019-01-15 ${targetMessage}`).
             type('{leftarrow}'.repeat(targetMessage.length + 1)).
             type('{backspace}');
@@ -97,15 +101,17 @@ describe('SF15699 Search Date Filter - edit', () => {
         // # Add message to search for, and hit enter
         cy.get('#searchBox').
             should('have.value', `on:2019-01-16  ${targetMessage}`).
-            type('{enter}');
+            click().
+            type('{enter}').
+            should('be.empty');
 
-        cy.get('#loadingSpinner').should('not.be.visible');
+        cy.get('#loadingSpinner').should('not.exist');
 
         // * There should be no results
         cy.findAllByTestId('search-item-container').should('have.length', 0);
     });
 
-    it('changing timezone changes day search results appears', () => {
+    it('MM-T595 Changing timezone changes day search results appears', () => {
         const identifier = 'timezone' + Date.now();
 
         const target = getMsAndQueryForDate(Date.UTC(2018, 9, 31, 23, 59));
@@ -127,3 +133,7 @@ describe('SF15699 Search Date Filter - edit', () => {
         searchAndValidate(`on:${target.query} ${identifier}`);
     });
 });
+
+function changeTimezone(timezone) {
+    cy.apiPatchMe({timezone: {automaticTimezone: '', manualTimezone: timezone, useAutomaticTimezone: 'false'}});
+}

@@ -5,15 +5,13 @@
 @import 'utils/module';
 
 .Separator {
-    height: 2em;
+    height: 1px;
     margin: 0;
     position: relative;
     text-align: center;
     z-index: 0;
     pointer-events: none;
-
     z-index: 1;
-    height: 1px;
     margin-bottom: 1em;
     margin-top: -1em;
 
@@ -50,7 +48,7 @@
     }
 
     .separator__hr {
-        border-top: 1px solid v(center-channel-color-20);
+        border-top: 1px solid rgba(var(--center-channel-color-rgb), 0.12);
         margin: 0;
         position: relative;
         top: 1em;

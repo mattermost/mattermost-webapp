@@ -5,11 +5,15 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
 import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
-import {Channel} from 'mattermost-redux/types/channels';
-import {GlobalState} from 'mattermost-redux/types/store';
-import {GenericAction} from 'mattermost-redux/types/actions';
-import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
+import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
+import {Channel} from 'mattermost-redux/types/channels';
+import {GenericAction} from 'mattermost-redux/types/actions';
+import {getMsgCountInChannel, isChannelMuted} from 'mattermost-redux/utils/channel_utils';
+
+import {clearChannelSelection, multiSelectChannelAdd, multiSelectChannelTo} from 'actions/views/channel_sidebar';
+import {isChannelSelected} from 'selectors/views/channel_sidebar';
+import {GlobalState} from 'types/store';
 import {NotificationLevels} from 'utils/constants';
 
 import SidebarChannelLink from './sidebar_channel_link';
@@ -25,11 +29,12 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     let unreadMentions = 0;
     let unreadMsgs = 0;
     let showUnreadForMsgs = true;
+    const collapsed = isCollapsedThreadsEnabled(state);
     if (member) {
-        unreadMentions = member.mention_count;
+        unreadMentions = collapsed ? member.mention_count_root : member.mention_count;
 
         if (ownProps.channel) {
-            unreadMsgs = Math.max(ownProps.channel.total_msg_count - member.msg_count, 0);
+            unreadMsgs = getMsgCountInChannel(collapsed, ownProps.channel, member);
         }
 
         if (member.notify_props) {
@@ -42,12 +47,16 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         unreadMsgs,
         showUnreadForMsgs,
         isMuted: isChannelMuted(member),
+        isChannelSelected: isChannelSelected(state, ownProps.channel.id),
     };
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
+            clearChannelSelection,
+            multiSelectChannelTo,
+            multiSelectChannelAdd,
         }, dispatch),
     };
 }

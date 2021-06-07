@@ -48,71 +48,171 @@ function getTestFiles() {
         excludeGroupFiles.push(...grepFiles(egc));
     }
 
-    const finalGroupFiles = without(groupFiles, ...excludeGroupFiles);
-    const withGroup = group || excludeGroup;
-
     if (invert) {
         // Return no test file if no stage and withGroup, but inverted
-        if (!stage && !withGroup) {
+        if (!stage && !group) {
             return [];
         }
 
         // Return all excluding stage files
-        if (stage && !withGroup) {
+        if (stage && !group) {
             return without(allFiles, ...stageFiles);
         }
 
         // Return all excluding group files
-        if (!stage && withGroup) {
-            return without(allFiles, ...finalGroupFiles);
+        if (!stage && group) {
+            return without(allFiles, ...groupFiles);
         }
 
         // Return all excluding group and stage files
-        return without(allFiles, ...intersection(stageFiles, finalGroupFiles));
+        return without(allFiles, ...intersection(stageFiles, groupFiles));
     }
 
     // Return all files if no stage and group flags
-    if (!stage && !withGroup) {
+    if (!stage && !group) {
         return allFiles;
     }
 
     // Return stage files if no group flag
-    if (stage && !withGroup) {
+    if (stage && !group) {
         return stageFiles;
     }
 
     // Return group files if no stage flag
-    if (!stage && withGroup) {
-        return finalGroupFiles;
+    if (!stage && group) {
+        return groupFiles;
     }
 
-    // Return files if both in stage and withGroup
-    return intersection(stageFiles, finalGroupFiles);
+    // Return files if both in stage and group
+    return intersection(stageFiles, groupFiles);
 }
 
-function getSkippedFiles(initialTestFiles, platform, browser, headless) {
+function getWeightedFiles(metadata, sortFirst = true) {
+    let weightedFiles = [];
+    if (metadata) {
+        metadata.split(',').forEach((word, i, arr) => {
+            const sl = grepCommand(word);
+            const files = grepFiles(sl).map((file) => {
+                return {
+                    file,
+                    sortWeight: sortFirst ? (i - arr.length) : (i + 1),
+                };
+            });
+            weightedFiles.push(...files);
+        });
+    }
+
+    if (sortFirst) {
+        weightedFiles = weightedFiles.reverse();
+    }
+
+    return weightedFiles.reduce((acc, f) => {
+        acc[f.file] = f;
+        return acc;
+    }, {});
+}
+
+function getSortedTestFiles(platform, browser, headless) {
+    // Get all test files
+    const testFilesObject = getTestFiles().reduce((acc, file) => {
+        acc[file] = {file, sortWeight: 0};
+        return acc;
+    }, {});
+
+    // Get files to be sorted first
+    const firstFilesObject = getWeightedFiles(argv.sortFirst, true);
+    const validFirstFiles = intersection(Object.keys(testFilesObject), Object.keys(firstFilesObject));
+    Object.entries(firstFilesObject).forEach(([k, v]) => {
+        if (validFirstFiles.includes(k)) {
+            testFilesObject[k] = v;
+        }
+    });
+
+    // Get files to be sorted last
+    const lastFilesObject = getWeightedFiles(argv.sortLast, false);
+    const validLastFiles = intersection(Object.keys(testFilesObject), Object.keys(lastFilesObject));
+    Object.entries(lastFilesObject).forEach(([k, v]) => {
+        if (validLastFiles.includes(k)) {
+            testFilesObject[k] = v;
+        }
+    });
+
+    // Remove skipped files
+    const initialSkippedFiles = getSkippedFiles(platform, browser, headless);
+    const skippedFiles = intersection(Object.keys(testFilesObject), initialSkippedFiles);
+    if (skippedFiles.length) {
+        printSkippedFiles(skippedFiles, platform, browser, headless);
+
+        skippedFiles.forEach((file) => {
+            if (testFilesObject.hasOwnProperty(file)) {
+                delete testFilesObject[file];
+            }
+        });
+    }
+
+    // Remove excluded files
+    const initialExcludedFiles = getExcludedFiles(argv.excludeGroup);
+    const excludedFiles = intersection(Object.keys(testFilesObject), initialExcludedFiles);
+    if (excludedFiles.length) {
+        printExcludedFiles(excludedFiles, argv.excludeGroup);
+
+        excludedFiles.forEach((file) => {
+            if (testFilesObject.hasOwnProperty(file)) {
+                delete testFilesObject[file];
+            }
+        });
+    }
+
+    const sortedFiles = Object.values(testFilesObject).
+        sort((a, b) => {
+            if (a.sortWeight > b.sortWeight) {
+                return 1;
+            } else if (a.sortWeight < b.sortWeight) {
+                return -1;
+            }
+
+            return a.file.localeCompare(b.file);
+        }).
+        map((sortedObj) => sortedObj.file);
+
+    return {sortedFiles, skippedFiles, weightedTestFiles: Object.values(testFilesObject)};
+}
+
+function getExcludedFiles(excludeGroup) {
+    if (!excludeGroup) {
+        return [];
+    }
+
+    const egc = grepCommand(excludeGroup.split(',').join('\\|'));
+    return grepFiles(egc);
+}
+
+function printExcludedFiles(excludedFiles = [], excludeGroup) {
+    console.log(chalk.cyan(`\nExcluded test files due to "${excludeGroup}":`));
+
+    excludedFiles.forEach((file, index) => {
+        console.log(chalk.cyan(`- [${index + 1}] ${file}`));
+    });
+    console.log('');
+}
+
+function getSkippedFiles(platform, browser, headless) {
     const platformFiles = grepFiles(grepCommand(`@${platform}`));
     const browserFiles = grepFiles(grepCommand(`@${browser}`));
     const headlessFiles = grepFiles(grepCommand(`@${headless ? 'headless' : 'headed'}`));
 
-    const initialSkippedFiles = platformFiles.concat(browserFiles, headlessFiles);
-    const skippedFiles = intersection(initialTestFiles, initialSkippedFiles);
-    const finalTestFiles = without(initialTestFiles, ...skippedFiles);
+    return platformFiles.concat(browserFiles, headlessFiles);
+}
 
-    // Log which files were skipped
-    if (skippedFiles.length) {
-        console.log(chalk.cyan(`\nSkipped test files due to ${platform}/${browser} (${headless ? 'headless' : 'headed'}):`));
+function printSkippedFiles(skippedFiles = [], platform, browser, headless) {
+    console.log(chalk.cyan(`\nSkipped test files due to ${platform}/${browser} (${headless ? 'headless' : 'headed'}):`));
 
-        skippedFiles.forEach((file, index) => {
-            console.log(chalk.cyan(`- [${index + 1}] ${file}`));
-        });
-        console.log('');
-    }
-
-    return {skippedFiles, finalTestFiles};
+    skippedFiles.forEach((file, index) => {
+        console.log(chalk.cyan(`- [${index + 1}] ${file}`));
+    });
+    console.log('');
 }
 
 module.exports = {
-    getTestFiles,
-    getSkippedFiles,
+    getSortedTestFiles,
 };

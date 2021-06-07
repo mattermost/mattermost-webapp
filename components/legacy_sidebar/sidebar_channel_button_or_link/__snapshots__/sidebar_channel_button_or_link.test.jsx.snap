@@ -10,6 +10,7 @@ exports[`component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannelB
 >
   <SidebarChannelButtonOrLinkIcon
     channelIsArchived={false}
+    channelIsShared={false}
     channelStatus="test"
     channelType="D"
     hasDraft={true}
@@ -24,6 +25,18 @@ exports[`component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannelB
       test-channel-name
     </span>
   </span>
+  <CustomStatusEmoji
+    emojiSize={16}
+    emojiStyle={
+      Object {
+        "opacity": 0.8,
+      }
+    }
+    showTooltip={true}
+    spanStyle={Object {}}
+    tooltipDirection="top"
+    userID="test-teammate-id"
+  />
   <SidebarChannelButtonOrLinkCloseButton
     badge={false}
     channelId="test-channel-id"
@@ -44,6 +57,7 @@ exports[`component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannelB
 >
   <SidebarChannelButtonOrLinkIcon
     channelIsArchived={false}
+    channelIsShared={false}
     channelStatus="test"
     channelType="D"
     hasDraft={false}
@@ -58,6 +72,18 @@ exports[`component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannelB
       test-channel-name
     </span>
   </span>
+  <CustomStatusEmoji
+    emojiSize={16}
+    emojiStyle={
+      Object {
+        "opacity": 0.8,
+      }
+    }
+    showTooltip={true}
+    spanStyle={Object {}}
+    tooltipDirection="top"
+    userID="test-teammate-id"
+  />
   <span
     className="badge"
     id="unreadMentions"
@@ -84,6 +110,7 @@ exports[`component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannelB
 >
   <SidebarChannelButtonOrLinkIcon
     channelIsArchived={false}
+    channelIsShared={false}
     channelStatus="test"
     channelType="D"
     hasDraft={false}
@@ -98,6 +125,18 @@ exports[`component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannelB
       test-channel-name
     </span>
   </span>
+  <CustomStatusEmoji
+    emojiSize={16}
+    emojiStyle={
+      Object {
+        "opacity": 0.8,
+      }
+    }
+    showTooltip={true}
+    spanStyle={Object {}}
+    tooltipDirection="top"
+    userID="test-teammate-id"
+  />
   <SidebarChannelButtonOrLinkCloseButton
     channelId="test-channel-id"
     channelType="D"
@@ -117,6 +156,7 @@ exports[`component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannelB
 >
   <SidebarChannelButtonOrLinkIcon
     channelIsArchived={false}
+    channelIsShared={false}
     channelStatus="test"
     channelType="D"
     hasDraft={false}
@@ -131,6 +171,18 @@ exports[`component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannelB
       test-channel-name
     </span>
   </span>
+  <CustomStatusEmoji
+    emojiSize={16}
+    emojiStyle={
+      Object {
+        "opacity": 0.8,
+      }
+    }
+    showTooltip={true}
+    spanStyle={Object {}}
+    tooltipDirection="top"
+    userID="test-teammate-id"
+  />
   <span
     className="badge"
     id="unreadMentions"
@@ -157,6 +209,7 @@ exports[`component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannelB
 >
   <SidebarChannelButtonOrLinkIcon
     channelIsArchived={false}
+    channelIsShared={false}
     channelStatus="test"
     channelType="D"
     hasDraft={false}
@@ -171,6 +224,18 @@ exports[`component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannelB
       test-channel-name
     </span>
   </span>
+  <CustomStatusEmoji
+    emojiSize={16}
+    emojiStyle={
+      Object {
+        "opacity": 0.8,
+      }
+    }
+    showTooltip={true}
+    spanStyle={Object {}}
+    tooltipDirection="top"
+    userID="test-teammate-id"
+  />
   <SidebarChannelButtonOrLinkCloseButton
     channelId="test-channel-id"
     channelType="D"

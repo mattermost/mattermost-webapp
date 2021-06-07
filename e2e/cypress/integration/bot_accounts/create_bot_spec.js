@@ -51,17 +51,17 @@ function createBot() {
         cy.get('a.integration-option[href$="/bots"]').click();
         cy.get('#addBotAccount').click();
 
-        // # fill+submit form
+        // # Fill and submit form
         cy.get('#username').type(`bot-${getRandomId()}`);
         cy.get('#displayName').type('Test Bot');
         cy.get('#saveBot').click();
 
-        // * verify confirmation page
+        // * Verify confirmation page
         cy.url().
             should('include', `/${team.name}/integrations/confirm`).
             should('match', /token=[a-zA-Z0-9]{26}/);
 
-        // * verify confirmation form/token
+        // * Verify confirmation form/token
         cy.get('div.backstage-form').
             should('include.text', 'Setup Successful').
             should((confirmation) => {

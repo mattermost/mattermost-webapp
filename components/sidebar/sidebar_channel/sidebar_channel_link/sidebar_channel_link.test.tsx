@@ -23,6 +23,7 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_link', () => {
             purpose: '',
             last_post_at: 0,
             total_msg_count: 0,
+            total_msg_count_root: 0,
             extra_update_at: 0,
             creator_id: '',
             scheme_id: '',
@@ -36,6 +37,13 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_link', () => {
         showUnreadForMsgs: false,
         isMuted: false,
         isCollapsed: false,
+        isChannelSelected: false,
+        actions: {
+            multiSelectChannel: jest.fn(),
+            multiSelectChannelAdd: jest.fn(),
+            multiSelectChannelTo: jest.fn(),
+            clearChannelSelection: jest.fn(),
+        },
     };
 
     test('should match snapshot', () => {

@@ -16,6 +16,8 @@ type Props = {
     showMoreChannelsModal: () => void;
     showNewChannelModal: () => void;
     showCreateCategoryModal: () => void;
+    handleOpenDirectMessagesModal: (e: Event) => void;
+    unreadFilterEnabled: boolean;
 };
 
 type State = {
@@ -50,12 +52,9 @@ class AddChannelDropdown extends React.PureComponent<Props, State> {
             );
         }
 
-        return (
-            <React.Fragment>
-                <Menu.Group>
-                    {joinPublicChannel}
-                    {createChannel}
-                </Menu.Group>
+        let createCategory;
+        if (!this.props.unreadFilterEnabled) {
+            createCategory = (
                 <Menu.Group>
                     <Menu.ItemAction
                         id='createCategory'
@@ -63,7 +62,26 @@ class AddChannelDropdown extends React.PureComponent<Props, State> {
                         icon={<i className='icon-folder-plus-outline'/>}
                         text={intl.formatMessage({id: 'sidebar_left.add_channel_dropdown.createCategory', defaultMessage: 'Create New Category'})}
                     />
+                </Menu.Group>);
+        }
+
+        const createDirectMessage = (
+            <Menu.ItemAction
+                id={'browseDirectMessages'}
+                onClick={this.props.handleOpenDirectMessagesModal}
+                icon={<i className='icon-account-plus-outline'/>}
+                text={intl.formatMessage({id: 'sidebar.openDirectMessage', defaultMessage: 'Open a direct message'})}
+            />
+        );
+
+        return (
+            <React.Fragment>
+                <Menu.Group>
+                    {joinPublicChannel}
+                    {createChannel}
+                    {createDirectMessage}
                 </Menu.Group>
+                {createCategory}
             </React.Fragment>
         );
     }

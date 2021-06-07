@@ -10,12 +10,11 @@
 // Stage: @prod
 // Group: @enterprise @ldap_group
 
-import {getRandomId} from '../../../utils';
+import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 describe('channel groups', () => {
-    let teamID;
     const groups = [];
-    let teamName;
+    let testTeam;
 
     before(() => {
         cy.apiRequireLicenseForFeature('LDAP');
@@ -31,37 +30,29 @@ describe('channel groups', () => {
 
         cy.apiUpdateConfig({LdapSettings: {Enable: true}, ServiceSettings: {EnableTutorial: false}});
 
-        cy.apiLogin({username: 'board.one', password: 'Password1'}).then(({user}) => {
-            cy.apiSaveCloudOnboardingPreference(user.id, 'hide', 'true');
-        });
-
         // # Create a new team and associate one group to the team
-        teamName = `team-${getRandomId()}`;
-        cy.createNewTeam(teamName, teamName);
-        cy.getCurrentTeamId().then((id) => {
-            cy.apiLinkGroupTeam(groups[0].id, id);
-            teamID = id;
-        });
+        cy.apiCreateTeam('team', 'Team').then(({team}) => {
+            testTeam = team;
+            cy.apiLinkGroupTeam(groups[0].id, team.id);
 
-        // # Visit a channel
-        cy.visit(`/${teamName}/channels/off-topic`);
-
-        // # Group-constrain the channel
-        cy.getCurrentChannelId().then((id) => {
-            cy.apiPatchChannel(id, {group_constrained: true});
+            // # Group-constrain the channel
+            cy.apiGetChannelByName(testTeam.name, 'off-topic').then(({channel}) => {
+                cy.apiPatchChannel(channel.id, {group_constrained: true});
+            });
         });
     });
 
     after(() => {
-        cy.apiAdminLogin();
-        cy.apiDeleteTeam(teamID, true);
+        cy.apiDeleteTeam(testTeam.id, true);
         for (let i = 0; i < 2; i++) {
             cy.apiUnlinkGroup(groups[i].remote_id);
         }
-        cy.apiUpdateConfig({LdapSettings: {Enable: false}, ServiceSettings: {EnableTutorial: true}});
     });
 
     it('limits the listed groups if the parent team is group-constrained', () => {
+        // # Visit a channel
+        cy.visit(`/${testTeam.name}/channels/off-topic`);
+
         // # Open the Add Groups modal
         openAddGroupsToChannelModal();
 
@@ -73,10 +64,8 @@ describe('channel groups', () => {
         cy.get('#addGroupsToChannelModal').find('.more-modal__row').its('length').should('be.gte', 2);
 
         // # Group-constrain the parent team
-        cy.apiAdminLogin();
-        cy.apiPatchTeam(teamID, {group_constrained: true});
-        cy.apiLogin({username: 'board.one', password: 'Password1'});
-        cy.visit(`/${teamName}/channels/off-topic`);
+        cy.apiPatchTeam(testTeam.id, {group_constrained: true});
+        cy.visit(`/${testTeam.name}/channels/off-topic`);
 
         // # Close and re-open the Add Groups modal again
         openAddGroupsToChannelModal();
@@ -90,7 +79,7 @@ describe('channel groups', () => {
 });
 
 function openAddGroupsToChannelModal() {
-    cy.get('#channelHeaderTitle').click();
+    cy.get('#channelHeaderTitle', {timeout: TIMEOUTS.ONE_MIN}).click();
     cy.get('#channelManageGroups').should('be.visible');
     cy.get('#channelManageGroups').click();
     cy.findByText('Add Groups').should('exist');

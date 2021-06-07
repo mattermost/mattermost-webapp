@@ -4,16 +4,19 @@
 import {SearchTypes} from 'mattermost-redux/action_types';
 import {getMyChannelMember} from 'mattermost-redux/actions/channels';
 import {getChannel, getMyChannelMember as getMyChannelMemberSelector} from 'mattermost-redux/selectors/entities/channels';
+import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import * as ThreadActions from 'mattermost-redux/actions/threads';
 import * as PostActions from 'mattermost-redux/actions/posts';
 import * as PostSelectors from 'mattermost-redux/selectors/entities/posts';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {canEditPost, comparePosts} from 'mattermost-redux/utils/post_utils';
 
 import {addRecentEmoji} from 'actions/emoji_actions';
 import * as StorageActions from 'actions/storage';
 import {loadNewDMIfNeeded, loadNewGMIfNeeded} from 'actions/user_actions.jsx';
 import * as RhsActions from 'actions/views/rhs';
-import {isEmbedVisible} from 'selectors/posts';
+import {isEmbedVisible, isInlineImageVisible} from 'selectors/posts';
 import {getSelectedPostId, getSelectedPostCardId, getRhsState} from 'selectors/rhs';
 import {
     ActionTypes,
@@ -51,6 +54,8 @@ export function handleNewPost(post, msg) {
                 dispatch(loadNewGMIfNeeded(post.channel_id));
             }
         }
+
+        return {data: true};
     };
 }
 
@@ -135,6 +140,7 @@ export function searchForTerm(term) {
     return (dispatch) => {
         dispatch(RhsActions.updateSearchTerms(term));
         dispatch(RhsActions.showSearchResults());
+        return {data: true};
     };
 }
 
@@ -184,6 +190,7 @@ export function pinPost(postId) {
         if (rhsState === RHSStates.PIN) {
             addPostToSearchResults(postId, state, dispatch);
         }
+        return {data: true};
     };
 }
 
@@ -196,6 +203,7 @@ export function unpinPost(postId) {
         if (rhsState === RHSStates.PIN) {
             removePostFromSearchResults(postId, state, dispatch);
         }
+        return {data: true};
     };
 }
 
@@ -229,11 +237,21 @@ export function setEditingPost(postId = '', commentCount = 0, refocusId = '', ti
     };
 }
 
-export function markPostAsUnread(post) {
+export function markPostAsUnread(post, location) {
     return async (dispatch, getState) => {
         const state = getState();
         const userId = getCurrentUserId(state);
-        await dispatch(PostActions.setUnreadPost(userId, post.id));
+        const currentTeamId = getCurrentTeamId(state);
+
+        // if CRT:ON and this is from within ThreadViewer (e.g. post dot-menu), mark the thread as unread
+        if (isCollapsedThreadsEnabled(state) && (location === 'RHS_ROOT' || location === 'RHS_COMMENT')) {
+            await dispatch(ThreadActions.updateThreadRead(userId, currentTeamId, post.root_id || post.id, post.create_at));
+        } else {
+            // use normal channel unread system
+            await dispatch(PostActions.setUnreadPost(userId, post.id));
+        }
+
+        return {data: true};
     };
 }
 
@@ -285,6 +303,20 @@ export function toggleEmbedVisibility(postId) {
 
 export function resetEmbedVisibility() {
     return StorageActions.actionOnGlobalItemsWithPrefix(StoragePrefixes.EMBED_VISIBLE, () => null);
+}
+
+export function toggleInlineImageVisibility(postId, imageKey) {
+    return (dispatch, getState) => {
+        const state = getState();
+        const currentUserId = getCurrentUserId(state);
+        const visible = isInlineImageVisible(state, postId, imageKey);
+
+        dispatch(StorageActions.setGlobalItem(StoragePrefixes.INLINE_IMAGE_VISIBLE + currentUserId + '_' + postId + '_' + imageKey, !visible));
+    };
+}
+
+export function resetInlineImageVisibility() {
+    return StorageActions.actionOnGlobalItemsWithPrefix(StoragePrefixes.INLINE_IMAGE_VISIBLE, () => null);
 }
 
 /**

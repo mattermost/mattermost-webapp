@@ -297,6 +297,23 @@ exports[`components/SignupController should match snapshot for all signup option
             </span>
           </span>
         </a>
+        <a
+          className="btn btn-custom-login btn--full openid"
+          href="/oauth/openid/signup"
+          id="OpenIdButton"
+          key="openid"
+          style={
+            Object {
+              "backgroundColor": "#FFFFFF",
+            }
+          }
+        >
+          <span>
+            <span>
+              OpenId
+            </span>
+          </span>
+        </a>
         <Link
           className="btn btn-custom-login btn--full ldap"
           key="ldap"
@@ -363,4 +380,11 @@ exports[`components/SignupController should match snapshot for all signup option
     </div>
   </div>
 </div>
+`;
+
+exports[`components/SignupController should redirect user to the restricted screen when workspace out of free seats 1`] = `
+<LoadingScreen
+  position="relative"
+  style={Object {}}
+/>
 `;

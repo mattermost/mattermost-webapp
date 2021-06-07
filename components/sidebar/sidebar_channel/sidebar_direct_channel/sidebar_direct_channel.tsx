@@ -3,17 +3,18 @@
 
 import React from 'react';
 import {IntlShape, injectIntl} from 'react-intl';
-import Svg from 'react-inlinesvg';
+
+import {Client4} from 'mattermost-redux/client';
 
 import {Channel} from 'mattermost-redux/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 
 import {trackEvent} from 'actions/telemetry_actions';
+import ProfilePicture from 'components/profile_picture';
 import {browserHistory} from 'utils/browser_history';
 import {Constants} from 'utils/constants';
 
-import StatusIconNew from 'components/status_icon_new';
 import SidebarChannelLink from '../sidebar_channel_link';
 
 type Props = {
@@ -83,24 +84,6 @@ class SidebarDirectChannel extends React.PureComponent<Props, State> {
             return (
                 <i className='icon icon-archive-outline'/>
             );
-        } else if (teammate.id && teammate.is_bot) {
-            // Use default bot icon
-            let icon = (<i className='icon icon-robot-happy'/>);
-
-            // Attempt to display custom icon if botIconUrl has changed
-            // or if there was no error when loading custom svg
-            if (this.props.botIconUrl &&
-                this.props.botIconUrl !== this.state.svgErrorUrl) {
-                icon = (
-                    <Svg
-                        className='icon icon-robot-happy'
-                        src={this.props.botIconUrl}
-                        onLoad={this.onSvgLoad}
-                        onError={this.onSvgLoadError}
-                    />
-                );
-            }
-            return icon;
         }
 
         let className = '';
@@ -113,9 +96,13 @@ class SidebarDirectChannel extends React.PureComponent<Props, State> {
         }
 
         return (
-            <StatusIconNew
-                status={channel.status}
-                className={className}
+            <ProfilePicture
+                src={Client4.getProfilePictureUrl(teammate.id, teammate.last_picture_update)}
+                size={'xs'}
+                status={teammate.is_bot ? '' : channel.status}
+                wrapperClass='DirectChannel__profile-picture'
+                newStatusIcon={true}
+                statusClass={`DirectChannel__status-icon ${className}`}
             />
         );
     }
@@ -139,6 +126,7 @@ class SidebarDirectChannel extends React.PureComponent<Props, State> {
 
         return (
             <SidebarChannelLink
+                teammateId={teammate.id}
                 channel={channel}
                 link={`/${currentTeamName}/messages/@${teammate.username}`}
                 label={displayName}

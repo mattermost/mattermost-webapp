@@ -11,40 +11,38 @@ import {
     getTeamMember,
 } from 'mattermost-redux/selectors/entities/teams';
 import {
-    getCurrentChannel,
     getChannelMembersInChannels,
     canManageAnyChannelMembersInCurrentTeam,
+    getCurrentChannelId,
 } from 'mattermost-redux/selectors/entities/channels';
 
 import {openDirectChannelToUserId} from 'actions/channel_actions.jsx';
-import {getMembershipForCurrentEntities} from 'actions/views/profile_popover';
+import {getMembershipForEntities} from 'actions/views/profile_popover';
 import {closeModal, openModal} from 'actions/views/modals';
 
 import {areTimezonesEnabledAndSupported} from 'selectors/general';
-import {getSelectedPost, getRhsState} from 'selectors/rhs';
+import {getRhsState, getSelectedPost} from 'selectors/rhs';
+
+import {makeGetCustomStatus, isCustomStatusEnabled} from 'selectors/views/custom_status';
 
 import ProfilePopover from './profile_popover.jsx';
 
-function mapStateToProps(state, ownProps) {
-    const userId = ownProps.userId;
+function getDefaultChannelId(state) {
+    const selectedPost = getSelectedPost(state);
+    return selectedPost.exists ? selectedPost.channel_id : getCurrentChannelId(state);
+}
+
+function mapStateToProps(state, {userId, channelId = getDefaultChannelId(state)}) {
     const team = getCurrentTeam(state);
     const teamMember = getTeamMember(state, team.id, userId);
+    const getCustomStatus = makeGetCustomStatus();
 
     let isTeamAdmin = false;
     if (teamMember && teamMember.scheme_admin) {
         isTeamAdmin = true;
     }
 
-    const selectedPost = getSelectedPost(state);
-    let channelId;
-    if (selectedPost.exists === false) {
-        const currentChannel = getCurrentChannel(state) || {};
-        channelId = currentChannel.id;
-    } else {
-        channelId = selectedPost.channel_id;
-    }
-
-    const channelMember = getChannelMembersInChannels(state)[channelId][userId];
+    const channelMember = getChannelMembersInChannels(state)?.[channelId]?.[userId];
 
     let isChannelAdmin = false;
     if (getRhsState(state) !== 'search' && channelMember != null && channelMember.scheme_admin) {
@@ -63,6 +61,9 @@ function mapStateToProps(state, ownProps) {
         teamUrl: getCurrentRelativeTeamUrl(state),
         user: getUser(state, userId),
         modals: state.views.modals.modalState,
+        customStatus: getCustomStatus(state, userId),
+        isCustomStatusEnabled: isCustomStatusEnabled(state),
+        channelId,
     };
 }
 
@@ -72,7 +73,7 @@ function mapDispatchToProps(dispatch) {
             closeModal,
             openDirectChannelToUserId,
             openModal,
-            getMembershipForCurrentEntities,
+            getMembershipForEntities,
         }, dispatch),
     };
 }

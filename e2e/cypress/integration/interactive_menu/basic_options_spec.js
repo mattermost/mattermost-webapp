@@ -88,7 +88,7 @@ describe('Interactive Menu', () => {
             cy.get('.select-suggestion-container').should('be.visible');
 
             // * Suggestion list should not be visible before dropdown is clicked
-            cy.get('#suggestionList').should('not.be.visible');
+            cy.get('#suggestionList').should('not.exist');
 
             // # Click on the suggestion dropdown input
             cy.findByPlaceholderText('Select an option...').scrollIntoView().should('be.visible').click();
@@ -154,7 +154,7 @@ describe('Interactive Menu', () => {
 
                 // * Verify that the reply is in the RHS with matching text
                 cy.get(`#rhsPost_${replyMessageId}`).within(() => {
-                    cy.get('.post__link').should('not.be.visible');
+                    cy.get('.post__link').should('not.exist');
                     cy.get(`#rhsPostMessageText_${replyMessageId}`).should('be.visible').and('have.text', 'Reply to webhook');
                 });
 
@@ -370,7 +370,7 @@ describe('Interactive Menu', () => {
             });
         });
 
-        // # Get the emphemirical message from webhook, which is only visible to us
+        // # Get the ephemeral message from webhook, which is only visible to us
         verifyEphemeralMessage('Ephemeral | select option: mango');
     });
 
@@ -438,7 +438,7 @@ describe('Interactive Menu', () => {
             // # Get the last messages attachment container
             cy.get(`#messageAttachmentList_${lastPostId}`).within(() => {
                 // # Start typing only first few letters in the input
-                cy.findByPlaceholderText('Select an option...').scrollIntoView().clear({force: true}).type(`${firstFewLettersOfSelectedItem}`);
+                cy.findByPlaceholderText('Select an option...').scrollIntoView().clear({force: true}).type(`${firstFewLettersOfSelectedItem}`).wait(TIMEOUTS.ONE_SEC);
 
                 // * Message attachment dropdown with the selected item should be visible
                 cy.get('#suggestionList').should('exist').within(() => {
@@ -446,7 +446,7 @@ describe('Interactive Menu', () => {
                 });
 
                 // # Now that we know selected option appeared in the list, Click enter on input field
-                cy.findByPlaceholderText('Select an option...').scrollIntoView().clear({force: true}).type('{enter}');
+                cy.findByPlaceholderText('Select an option...').scrollIntoView().type('{enter}');
 
                 // * Verify the input has the selected value
                 cy.findByDisplayValue(selectedItem).should('exist');
@@ -487,7 +487,7 @@ describe('Interactive Menu', () => {
         cy.getLastPostId().then((parentPostId) => {
             // # Get the last messages attachment container
             cy.get(`#messageAttachmentList_${parentPostId}`).within(() => {
-                // # Open the message attachment menu dropdown by clickin on input
+                // # Open the message attachment menu dropdown by clicking on input
                 cy.findByPlaceholderText('Select an option...').scrollIntoView().click();
 
                 // * Message attachment dropdown with the selected item should be visible
@@ -531,7 +531,7 @@ describe('Interactive Menu', () => {
             });
 
             // # Checking if we got updated ephemeral message with the new selection we made
-            verifyEphemeralMessage('Ephemeral | select option: avacodo');
+            verifyEphemeralMessage('Ephemeral | select option: avocado');
 
             cy.closeRHS();
         });
@@ -578,7 +578,7 @@ describe('Interactive Menu', () => {
 });
 
 function verifyMessageAttachmentList(postId, isRhs, text) {
-    return cy.get(`#messageAttachmentList_${postId}`).within(() => {
+    cy.get(`#messageAttachmentList_${postId}`).within(() => {
         cy.findByTestId('autoCompleteSelector').should('be.visible');
 
         if (isRhs) {
@@ -601,8 +601,8 @@ function verifyMessageAttachmentList(postId, isRhs, text) {
             and('have.css', 'width', '220px').
             and('have.css', 'padding-right', '30px');
 
-        return cy.findByPlaceholderText('Select an option...').scrollIntoView().invoke('attr', 'value').then((value) => {
-            return cy.wrap({value});
+        cy.findByPlaceholderText('Select an option...').scrollIntoView().invoke('attr', 'value').then((value) => {
+            cy.wrap(value).as('optionValue');
         });
     });
 }
@@ -611,17 +611,19 @@ function verifyLastPost() {
     // # Get message attachment from the last post, and
     // * Verify its content in center view
     cy.getLastPostId().then((postId) => {
-        verifyMessageAttachmentList(postId, false).then(({value}) => {
-            // Open the same post in RHS, and
-            // * Verify its content in RHS
-            cy.clickPostCommentIcon(postId);
-            cy.get(`#rhsPost_${postId}`).within(() => {
+        verifyMessageAttachmentList(postId, false);
+
+        // # Open the same post in RHS, and
+        // * Verify its content in RHS
+        cy.clickPostCommentIcon(postId);
+        cy.get(`#rhsPost_${postId}`).within(() => {
+            cy.get('@optionValue').then((value) => {
                 verifyMessageAttachmentList(postId, true, value);
             });
-
-            // # Close the RHS
-            cy.closeRHS();
         });
+
+        // # Close the RHS
+        cy.closeRHS();
     });
 }
 

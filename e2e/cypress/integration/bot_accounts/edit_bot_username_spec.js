@@ -7,33 +7,26 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @bot_accounts
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 import {getRandomId} from '../../utils';
 
 describe('Edit bot username', () => {
-    let testTeam;
-    let botName;
-    let newbotName;
+    let team;
 
-    // # Login as admin and visit town-square
     before(() => {
         // # Set ServiceSettings to expected values
         const newSettings = {
             ServiceSettings: {
                 EnableBotAccountCreation: true,
-                DisableBotsWhenOwnerIsDeactivated: true,
-            },
-            PluginSettings: {
-                Enable: true,
-                RequirePluginSignature: false,
             },
         };
         cy.apiUpdateConfig(newSettings);
 
-        cy.apiInitSetup().then(({team}) => {
-            testTeam = team;
+        cy.apiInitSetup().then((out) => {
+            team = out.team;
         });
     });
 
@@ -45,21 +38,18 @@ describe('Edit bot username', () => {
         cy.findByTestId('ServiceSettings.EnableBotAccountCreationtrue', {timeout: TIMEOUTS.ONE_MIN}).should('be.checked');
 
         // # Visit the integrations
-        cy.visit(`/${testTeam.name}/integrations/bots`);
+        goToCreateBot();
 
-        // * Assert that adding bots possible
-        cy.get('#addBotAccount', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').click();
+        const initialBotName = `bot-${getRandomId()}`;
 
-        botName = `bot-${getRandomId()}`;
-
-        // # fill+submit form
-        cy.get('#username').clear().type(botName);
+        // # Fill and submit form
+        cy.get('#username').clear().type(initialBotName);
         cy.get('#displayName').clear().type('Test Bot');
         cy.get('#saveBot').click();
         cy.get('#doneButton').click();
 
         // * Set alias for bot entry in bot list, this also checks that the bot entry exists
-        cy.get('.backstage-list__item').contains('.backstage-list__item', botName).as('botEntry');
+        cy.get('.backstage-list__item').contains('.backstage-list__item', initialBotName).as('botEntry');
 
         cy.get('@botEntry').then((el) => {
             // # Find the edit link for the bot
@@ -70,7 +60,7 @@ describe('Edit bot username', () => {
                 cy.wrap(editLink).click();
 
                 // * Check that user name is as expected
-                cy.get('#username').should('have.value', botName);
+                cy.get('#username').should('have.value', initialBotName);
 
                 // * Check that the display name is correct
                 cy.get('#displayName').should('have.value', 'Test Bot');
@@ -78,17 +68,19 @@ describe('Edit bot username', () => {
                 // * Check that description is empty
                 cy.get('#description').should('have.value', '');
 
-                newbotName = `bot-${getRandomId()}`;
+                const newBotName = `bot-${getRandomId()}`;
 
                 // * Enter the new user name
-                cy.get('#username').clear().type(newbotName);
+                cy.get('#username').clear().type(newBotName);
 
                 // # Click update button
                 cy.get('#saveBot').click();
+
+                cy.wrap(newBotName);
             }
-        }).then(() => {
+        }).then((newBotName) => {
             // * Set alias for bot entry in bot list, this also checks that the bot entry exists
-            cy.get('.backstage-list__item').contains('.backstage-list__item', newbotName).as('newbotEntry');
+            cy.get('.backstage-list__item').contains('.backstage-list__item', newBotName).as('newbotEntry');
 
             // * Get bot entry in bot list by username
             cy.get('@newbotEntry').then((el) => {
@@ -96,4 +88,53 @@ describe('Edit bot username', () => {
             });
         });
     });
+
+    it('MM-T1838 Bot naming convention is enforced', () => {
+        goToCreateBot();
+
+        // # Attempt invalid bot usernames
+        tryUsername('be', NAMING_WARNING_STANDARD);
+        tryUsername('@be', NAMING_WARNING_STANDARD);
+        tryUsername('abe.', NAMING_WARNING_ENDING_PERIOD);
+
+        // # Attempt valid bot username
+        const validBotName = `abe-the-bot-${getRandomId()}`;
+        tryUsername(validBotName);
+    });
+
+    const NAMING_WARNING_STANDARD = 'Usernames have to begin with a lowercase letter and be 3-22 characters long. You can use lowercase letters, numbers, periods, dashes, and underscores.';
+    const NAMING_WARNING_ENDING_PERIOD = 'Bot usernames cannot have a period as the last character';
+
+    function tryUsername(name, warningMessage) {
+        cy.get('#username').clear().type(name);
+        cy.get('#saveBot').click();
+
+        if (warningMessage) {
+            // * Verify expected warning
+            cy.get('.backstage-form__footer .has-error').should('have.text', warningMessage);
+        } else {
+            // * Verify confirmation page
+            cy.url().
+                should('include', `/${team.name}/integrations/confirm`).
+                should('match', /token=[a-zA-Z0-9]{26}/);
+
+            // * Verify confirmation form/token
+            cy.get('div.backstage-form').
+                should('include.text', 'Setup Successful').
+                and('include.text', name).
+                and((confirmation) => {
+                    expect(confirmation.text()).to.match(/Token: [a-zA-Z0-9]{26}/);
+                });
+
+            // # back to start
+            goToCreateBot();
+        }
+    }
+
+    function goToCreateBot() {
+        cy.visit(`/${team.name}/integrations/bots`);
+
+        // * Assert that adding bots possible
+        cy.get('#addBotAccount', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').click();
+    }
 });

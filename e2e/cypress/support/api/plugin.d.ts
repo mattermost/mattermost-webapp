@@ -15,8 +15,20 @@
 // Custom command should follow naming convention of having `api` prefix, e.g. `apiLogin`.
 // ***************************************************************
 
+interface PluginStatus {
+    isInstalled: boolean;
+    isActive: boolean;
+}
+
+interface PluginTestInfo {
+    id: string;
+    version: string;
+    url: string;
+    filename: string;
+}
+
 declare namespace Cypress {
-    interface Chainable<Subject = any> {
+    interface Chainable {
 
         /**
          * Get plugins.
@@ -31,6 +43,20 @@ declare namespace Cypress {
         apiGetAllPlugins(): Chainable<PluginsResponse>;
 
         /**
+         * Get plugins.
+         * @param {string} pluginId - plugin ID
+         * @param {string} version - plugin version
+         *
+         * @returns {PluginStatus} - plugin status if upload and active
+         *
+         * @example
+         *   cy.apiGetPluginStatus(pluginId, version).then((status) => {
+         *       // do something with status
+         *   });
+         */
+        apiGetPluginStatus(pluginId: string, version?: string): Chainable<PluginStatus>;
+
+        /**
          * Upload plugin.
          * See https://api.mattermost.com/#tag/plugins/paths/~1plugins/post
          * @param {string} filename - name of the plugin to upload
@@ -40,6 +66,25 @@ declare namespace Cypress {
          *   cy.apiUploadPlugin('filename');
          */
         apiUploadPlugin(filename: string): Chainable<Response>;
+
+        /**
+         * Upload a plugin and enable.
+         * - If a plugin is already active, then it will immediately return.
+         * - If a plugin is inactive, then it will be enabled only.
+         * - If a plugin is not found in the server, then it will be uploaded
+         * and the enabled.
+         * - On plugin upload, if `pluginTestInfo` includes a `url` field, then
+         * the plugin will be installed via URL. Otherwise if `filename` field
+         * is present, then it will look at such filename under fixtures folder
+         * and then use the file to upload.
+         *
+         * @param {PluginTestInfo} pluginTestInfo - plugin test info
+         * @returns {Response} response: Cypress-chainable response
+         *
+         * @example
+         *   cy.apiUploadAndEnablePlugin(pluginTestInfo);
+         */
+        apiUploadAndEnablePlugin(pluginTestInfo: PluginTestInfo): Chainable<Response>;
 
         /**
          * Install plugin from url.
@@ -67,6 +112,25 @@ declare namespace Cypress {
         apiEnablePluginById(pluginId: string): Chainable<Record<string, any>>;
 
         /**
+         * Disable plugin.
+         * See https://api.mattermost.com/#tag/plugins/paths/~1plugins~1{plugin_id}~disable/post
+         * @param {string} pluginId - Id of the plugin to disable
+         * @returns {string} `out.status`
+         *
+         * @example
+         *   cy.apiDisablePluginById('pluginId');
+         */
+        apiDisablePluginById(pluginId: string): Chainable<Record<string, any>>;
+
+        /**
+         * Disable all plugins installed that are not prepackaged.
+         *
+         * @example
+         *   cy.apiDisableNonPrepackagedPlugins();
+         */
+        apiDisableNonPrepackagedPlugins(): Chainable<Record<string, any>>;
+
+        /**
          * Remove plugin.
          * See https://api.mattermost.com/#tag/plugins/paths/~1plugins~1{plugin_id}/delete
          * @param {string} pluginId - Id of the plugin to uninstall
@@ -76,5 +140,13 @@ declare namespace Cypress {
          *   cy.apiRemovePluginById('url');
          */
         apiRemovePluginById(pluginId: string, force: string): Chainable<Record<string, any>>;
+
+        /**
+         * Removes all active and inactive plugins.
+         *
+         * @example
+         *   cy.apiUninstallAllPlugins();
+         */
+        apiUninstallAllPlugins(): Chainable;
     }
 }

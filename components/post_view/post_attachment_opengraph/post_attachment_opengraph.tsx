@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import React from 'react';
+
 import {
     OpenGraphMetadata,
     OpenGraphMetadataImage,
@@ -8,7 +10,6 @@ import {
     PostImage,
 } from 'mattermost-redux/types/posts';
 import {Dictionary} from 'mattermost-redux/types/utilities';
-import React from 'react';
 
 import SizeAwareImage from 'components/size_aware_image';
 import ExternalImage from 'components/external_image';
@@ -29,8 +30,8 @@ export type Props = {
     currentUserId?: string;
     post: Post;
     openGraphData?: OpenGraphMetadata;
-    enableLinkPreviews: boolean;
-    previewEnabled: boolean;
+    enableLinkPreviews?: boolean;
+    previewEnabled?: boolean;
     isEmbedVisible?: boolean;
     toggleEmbedVisibility: () => void;
     actions: {

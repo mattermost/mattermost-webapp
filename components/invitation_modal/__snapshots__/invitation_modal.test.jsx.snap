@@ -1,202 +1,226 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/invitation_modal/InvitationModal should match the snapshot 1`] = `
-<RootPortal>
-  <injectIntl(FullScreenModal)
-    ariaLabelledBy="invitation_modal_title"
-    onClose={[Function]}
-    onGoBack={null}
-    show={true}
-  >
-    <div
-      className="InvitationModal"
-      data-testid="invitationModal"
+<Fragment>
+  <RootPortal>
+    <injectIntl(FullScreenModal)
+      ariaLabelledBy="invitation_modal_title"
+      onClose={[Function]}
+      onGoBack={null}
+      show={true}
     >
-      <ConfirmModal
-        confirmButtonClass="btn btn-primary"
-        confirmButtonText={
-          <FormattedMessage
-            defaultMessage="Yes, Discard"
-            id="invitation-modal.discard-changes.button"
-          />
-        }
-        message={
-          <FormattedMessage
-            defaultMessage="You have unsent invitations, are you sure you want to discard them?"
-            id="invitation-modal.discard-changes.message"
-          />
-        }
-        modalClass="invitation-modal-confirm"
-        onCancel={[Function]}
-        onConfirm={[Function]}
-        show={false}
-        title={
-          <FormattedMessage
-            defaultMessage="Discard Changes"
-            id="invitation-modal.discard-changes.title"
-          />
-        }
-      />
-      <InvitationModalInitialStep
-        emailInvitationsEnabled={true}
-        goToGuests={[Function]}
-        goToMembers={[Function]}
-        teamName="Test name"
-      />
-    </div>
-  </injectIntl(FullScreenModal)>
-</RootPortal>
+      <div
+        className="InvitationModal"
+        data-testid="invitationModal"
+      >
+        <ConfirmModal
+          confirmButtonClass="btn btn-primary"
+          confirmButtonText={
+            <FormattedMessage
+              defaultMessage="Yes, Discard"
+              id="invitation-modal.discard-changes.button"
+            />
+          }
+          message={
+            <FormattedMessage
+              defaultMessage="You have unsent invitations, are you sure you want to discard them?"
+              id="invitation-modal.discard-changes.message"
+            />
+          }
+          modalClass="invitation-modal-confirm"
+          onCancel={[Function]}
+          onConfirm={[Function]}
+          show={false}
+          title={
+            <FormattedMessage
+              defaultMessage="Discard Changes"
+              id="invitation-modal.discard-changes.title"
+            />
+          }
+        />
+        <InvitationModalInitialStep
+          emailInvitationsEnabled={true}
+          goToGuests={[Function]}
+          goToMembers={[Function]}
+          teamName="Test name"
+        />
+      </div>
+    </injectIntl(FullScreenModal)>
+  </RootPortal>
+</Fragment>
 `;
 
 exports[`components/invitation_modal/InvitationModal should match the snapshot when I have no permission to add users 1`] = `
-<RootPortal>
-  <injectIntl(FullScreenModal)
-    ariaLabelledBy="invitation_modal_title"
-    onClose={[Function]}
-    onGoBack={null}
-    show={true}
-  >
-    <div
-      className="InvitationModal"
-      data-testid="invitationModal"
+<Fragment>
+  <RootPortal>
+    <injectIntl(FullScreenModal)
+      ariaLabelledBy="invitation_modal_title"
+      onClose={[Function]}
+      onGoBack={null}
+      show={true}
     >
-      <ConfirmModal
-        confirmButtonClass="btn btn-primary"
-        confirmButtonText={
-          <FormattedMessage
-            defaultMessage="Yes, Discard"
-            id="invitation-modal.discard-changes.button"
-          />
-        }
-        message={
-          <FormattedMessage
-            defaultMessage="You have unsent invitations, are you sure you want to discard them?"
-            id="invitation-modal.discard-changes.message"
-          />
-        }
-        modalClass="invitation-modal-confirm"
-        onCancel={[Function]}
-        onConfirm={[Function]}
-        show={false}
-        title={
-          <FormattedMessage
-            defaultMessage="Discard Changes"
-            id="invitation-modal.discard-changes.title"
-          />
-        }
-      />
-      <Connect(InvitationModalGuestsStep)
-        currentTeamId="test"
-        defaultChannels={Array []}
-        defaultMessage=""
-        emailInvitationsEnabled={true}
-        myInvitableChannels={Array []}
-        onEdit={[Function]}
-        onSubmit={[Function]}
-        searchChannels={[MockFunction]}
-        searchProfiles={[MockFunction]}
-        teamName="Test name"
-      />
-    </div>
-  </injectIntl(FullScreenModal)>
-</RootPortal>
+      <div
+        className="InvitationModal"
+        data-testid="invitationModal"
+      >
+        <ConfirmModal
+          confirmButtonClass="btn btn-primary"
+          confirmButtonText={
+            <FormattedMessage
+              defaultMessage="Yes, Discard"
+              id="invitation-modal.discard-changes.button"
+            />
+          }
+          message={
+            <FormattedMessage
+              defaultMessage="You have unsent invitations, are you sure you want to discard them?"
+              id="invitation-modal.discard-changes.message"
+            />
+          }
+          modalClass="invitation-modal-confirm"
+          onCancel={[Function]}
+          onConfirm={[Function]}
+          show={false}
+          title={
+            <FormattedMessage
+              defaultMessage="Discard Changes"
+              id="invitation-modal.discard-changes.title"
+            />
+          }
+        />
+        <Connect(_class)
+          currentTeamId="test"
+          defaultChannels={Array []}
+          defaultMessage=""
+          emailInvitationsEnabled={true}
+          myInvitableChannels={Array []}
+          onEdit={[Function]}
+          onSubmit={[Function]}
+          searchChannels={[MockFunction]}
+          searchProfiles={[MockFunction]}
+          teamName="Test name"
+        />
+      </div>
+    </injectIntl(FullScreenModal)>
+  </RootPortal>
+</Fragment>
 `;
 
 exports[`components/invitation_modal/InvitationModal should match the snapshot when I have no permission to invite guests 1`] = `
-<RootPortal>
-  <injectIntl(FullScreenModal)
-    ariaLabelledBy="invitation_modal_title"
-    onClose={[Function]}
-    onGoBack={null}
-    show={true}
-  >
-    <div
-      className="InvitationModal"
-      data-testid="invitationModal"
+<Fragment>
+  <RootPortal>
+    <injectIntl(FullScreenModal)
+      ariaLabelledBy="invitation_modal_title"
+      onClose={[Function]}
+      onGoBack={null}
+      show={true}
     >
-      <ConfirmModal
-        confirmButtonClass="btn btn-primary"
-        confirmButtonText={
-          <FormattedMessage
-            defaultMessage="Yes, Discard"
-            id="invitation-modal.discard-changes.button"
-          />
-        }
-        message={
-          <FormattedMessage
-            defaultMessage="You have unsent invitations, are you sure you want to discard them?"
-            id="invitation-modal.discard-changes.message"
-          />
-        }
-        modalClass="invitation-modal-confirm"
-        onCancel={[Function]}
-        onConfirm={[Function]}
-        show={false}
-        title={
-          <FormattedMessage
-            defaultMessage="Discard Changes"
-            id="invitation-modal.discard-changes.title"
-          />
-        }
-      />
-      <Connect(injectIntl(InvitationModalMembersStep))
-        currentTeamId="test"
-        emailInvitationsEnabled={true}
-        inviteId="test-invite-id"
-        onEdit={[Function]}
-        onSubmit={[Function]}
-        searchProfiles={[MockFunction]}
-        teamName="Test name"
-      />
-    </div>
-  </injectIntl(FullScreenModal)>
-</RootPortal>
+      <div
+        className="InvitationModal"
+        data-testid="invitationModal"
+      >
+        <ConfirmModal
+          confirmButtonClass="btn btn-primary"
+          confirmButtonText={
+            <FormattedMessage
+              defaultMessage="Yes, Discard"
+              id="invitation-modal.discard-changes.button"
+            />
+          }
+          message={
+            <FormattedMessage
+              defaultMessage="You have unsent invitations, are you sure you want to discard them?"
+              id="invitation-modal.discard-changes.message"
+            />
+          }
+          modalClass="invitation-modal-confirm"
+          onCancel={[Function]}
+          onConfirm={[Function]}
+          show={false}
+          title={
+            <FormattedMessage
+              defaultMessage="Discard Changes"
+              id="invitation-modal.discard-changes.title"
+            />
+          }
+        />
+        <Connect(injectIntl(_class))
+          currentTeamId="test"
+          emailInvitationsEnabled={true}
+          inviteId="test-invite-id"
+          onEdit={[Function]}
+          onSubmit={[Function]}
+          searchProfiles={[MockFunction]}
+          teamName="Test name"
+        />
+      </div>
+    </injectIntl(FullScreenModal)>
+  </RootPortal>
+</Fragment>
+`;
+
+exports[`components/invitation_modal/InvitationModal should match the snapshot when is free tier and have no free seats 1`] = `
+<Fragment>
+  <UserLimitModal
+    actions={
+      Object {
+        "closeModal": [MockFunction],
+        "openModal": [MockFunction],
+      }
+    }
+    cloudUserLimit="10"
+    show={true}
+    userIsAdmin={false}
+  />
+</Fragment>
 `;
 
 exports[`components/invitation_modal/InvitationModal should match the snapshot when not show 1`] = `
-<RootPortal>
-  <injectIntl(FullScreenModal)
-    ariaLabelledBy="invitation_modal_title"
-    onClose={[Function]}
-    onGoBack={null}
-    show={false}
-  >
-    <div
-      className="InvitationModal"
-      data-testid="invitationModal"
+<Fragment>
+  <RootPortal>
+    <injectIntl(FullScreenModal)
+      ariaLabelledBy="invitation_modal_title"
+      onClose={[Function]}
+      onGoBack={null}
+      show={false}
     >
-      <ConfirmModal
-        confirmButtonClass="btn btn-primary"
-        confirmButtonText={
-          <FormattedMessage
-            defaultMessage="Yes, Discard"
-            id="invitation-modal.discard-changes.button"
-          />
-        }
-        message={
-          <FormattedMessage
-            defaultMessage="You have unsent invitations, are you sure you want to discard them?"
-            id="invitation-modal.discard-changes.message"
-          />
-        }
-        modalClass="invitation-modal-confirm"
-        onCancel={[Function]}
-        onConfirm={[Function]}
-        show={false}
-        title={
-          <FormattedMessage
-            defaultMessage="Discard Changes"
-            id="invitation-modal.discard-changes.title"
-          />
-        }
-      />
-      <InvitationModalInitialStep
-        emailInvitationsEnabled={true}
-        goToGuests={[Function]}
-        goToMembers={[Function]}
-        teamName="Test name"
-      />
-    </div>
-  </injectIntl(FullScreenModal)>
-</RootPortal>
+      <div
+        className="InvitationModal"
+        data-testid="invitationModal"
+      >
+        <ConfirmModal
+          confirmButtonClass="btn btn-primary"
+          confirmButtonText={
+            <FormattedMessage
+              defaultMessage="Yes, Discard"
+              id="invitation-modal.discard-changes.button"
+            />
+          }
+          message={
+            <FormattedMessage
+              defaultMessage="You have unsent invitations, are you sure you want to discard them?"
+              id="invitation-modal.discard-changes.message"
+            />
+          }
+          modalClass="invitation-modal-confirm"
+          onCancel={[Function]}
+          onConfirm={[Function]}
+          show={false}
+          title={
+            <FormattedMessage
+              defaultMessage="Discard Changes"
+              id="invitation-modal.discard-changes.title"
+            />
+          }
+        />
+        <InvitationModalInitialStep
+          emailInvitationsEnabled={true}
+          goToGuests={[Function]}
+          goToMembers={[Function]}
+          teamName="Test name"
+        />
+      </div>
+    </injectIntl(FullScreenModal)>
+  </RootPortal>
+</Fragment>
 `;

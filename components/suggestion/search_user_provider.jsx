@@ -6,6 +6,7 @@ import React from 'react';
 import * as Utils from 'utils/utils.jsx';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import Avatar from 'components/widgets/users/avatar';
+import SharedUserIndicator from 'components/shared_user_indicator';
 
 import Provider from './provider.jsx';
 import Suggestion from './suggestion.jsx';
@@ -28,6 +29,16 @@ class SearchUserSuggestion extends Suggestion {
             description = `(${item.nickname})`;
         } else if (item.first_name || item.last_name) {
             description = `${Utils.getFullName(item)}`;
+        }
+
+        let sharedIcon;
+        if (item.remote_id) {
+            sharedIcon = (
+                <SharedUserIndicator
+                    className='mention__shared-user-icon'
+                    withTooltip={true}
+                />
+            );
         }
 
         return (
@@ -57,6 +68,7 @@ class SearchUserSuggestion extends Suggestion {
                         {description}
                     </span>
                 </div>
+                {sharedIcon}
             </div>
         );
     }

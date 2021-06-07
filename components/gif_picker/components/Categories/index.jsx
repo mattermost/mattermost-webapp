@@ -6,8 +6,6 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
 import {requestCategoriesList, requestCategoriesListIfNeeded, saveSearchBarText, saveSearchScrollPosition, searchTextUpdate} from 'mattermost-redux/actions/gifs';
-import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
-import {changeOpacity, makeStyleFromTheme} from 'mattermost-redux/utils/theme_utils';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
@@ -20,7 +18,6 @@ function mapStateToProps(state) {
     return {
         ...state.entities.gifs.categories,
         ...state.entities.gifs.cache,
-        theme: getTheme(state),
         appProps: state.entities.gifs.app,
         searchText: state.entities.gifs.search.searchText,
         searchBarText: state.entities.gifs.search.searchBarText,
@@ -34,14 +31,6 @@ const mapDispatchToProps = ({
     searchTextUpdate,
     requestCategoriesList,
     requestCategoriesListIfNeeded,
-});
-
-const getStyle = makeStyleFromTheme((theme) => {
-    return {
-        background: {
-            backgroundColor: changeOpacity(theme.centerChannelColor, 0.05),
-        },
-    };
 });
 
 export class Categories extends PureComponent {
@@ -59,7 +48,6 @@ export class Categories extends PureComponent {
         searchBarText: PropTypes.string,
         tagsList: PropTypes.array,
         hasImageProxy: PropTypes.string,
-        theme: PropTypes.object.isRequired,
     }
 
     componentDidMount() {
@@ -100,8 +88,6 @@ export class Categories extends PureComponent {
     }
 
     render() {
-        const style = getStyle(this.props.theme);
-
         const {hasMore, tagsList, gifs, onSearch, onTrending, hasImageProxy} = this.props;
 
         const content = tagsList && tagsList.length ? this.filterTagsList(tagsList).map((item, index) => {
@@ -147,7 +133,6 @@ export class Categories extends PureComponent {
         return content && content.length ? (
             <div
                 className='categories-container'
-                style={style.background}
             >
                 <InfiniteScroll
                     hasMore={hasMore}
@@ -160,7 +145,6 @@ export class Categories extends PureComponent {
         ) : (
             <div
                 className='categories-container'
-                style={style.background}
             />
         );
     }

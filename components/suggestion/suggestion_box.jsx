@@ -6,12 +6,12 @@ import React from 'react';
 
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
 
-import QuickInput from 'components/quick_input.jsx';
+import QuickInput from 'components/quick_input';
 import Constants from 'utils/constants';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
 
-import {EXECUTE_CURRENT_COMMAND_ITEM_ID} from './command_provider';
+const EXECUTE_CURRENT_COMMAND_ITEM_ID = Constants.Integrations.EXECUTE_CURRENT_COMMAND_ITEM_ID;
 const KeyCodes = Constants.KeyCodes;
 
 export default class SuggestionBox extends React.PureComponent {
@@ -90,6 +90,7 @@ export default class SuggestionBox extends React.PureComponent {
         onComposition: PropTypes.func,
 
         onSelect: PropTypes.func,
+        onSearchTypeSelected: PropTypes.func,
 
         /**
          * Function called when an item is selected
@@ -199,6 +200,7 @@ export default class SuggestionBox extends React.PureComponent {
             selection: '',
             allowDividers: true,
             presentationType: 'text',
+            suggestionBoxAlgn: {},
         };
 
         this.inputRef = React.createRef();
@@ -342,7 +344,7 @@ export default class SuggestionBox extends React.PureComponent {
 
     handleChange = (e) => {
         const textbox = this.getTextbox();
-        const pretext = textbox.value.substring(0, textbox.selectionEnd).toLowerCase();
+        const pretext = textbox.value.substring(0, textbox.selectionEnd);
 
         if (!this.composing && this.pretext !== pretext) {
             this.handlePretextChanged(pretext);
@@ -543,6 +545,7 @@ export default class SuggestionBox extends React.PureComponent {
                 items: [],
                 components: [],
                 selection: '',
+                suggestionBoxAlgn: {},
             });
             this.handlePretextChanged('');
         }
@@ -617,10 +620,7 @@ export default class SuggestionBox extends React.PureComponent {
         const items = suggestions.items;
         let selection = this.state.selection;
         if (terms.length > 0) {
-            // if the current selection is no longer in the map, select the first term in the list
-            if (!this.state.selection || terms.indexOf(this.state.selection) === -1) {
-                selection = terms[0];
-            }
+            selection = terms[0];
         } else if (this.state.selection) {
             selection = '';
         }
@@ -655,6 +655,19 @@ export default class SuggestionBox extends React.PureComponent {
             handled = provider.handlePretextChanged(pretext, callback) || handled;
 
             if (handled) {
+                if (this.state.suggestionBoxAlgn.pixelsToMoveX === undefined &&
+                    this.state.suggestionBoxAlgn.pixelsToMoveY === undefined &&
+                    ['@', ':', '~', '/'].includes(provider.triggerCharacter)) {
+                    const char = provider.triggerCharacter;
+                    const pxToSubstract = Utils.getPxToSubstract(char);
+
+                    // get the alignment for the box and set it in the component state
+                    const suggestionBoxAlgn = Utils.getSuggestionBoxAlgn(this.getTextbox(), pxToSubstract, this.props.listStyle);
+                    this.setState({
+                        suggestionBoxAlgn,
+                    });
+                }
+
                 this.setState({
                     presentationType: provider.presentationType(),
                     allowDividers: provider.allowDividers(),
@@ -785,6 +798,7 @@ export default class SuggestionBox extends React.PureComponent {
                             matchedPretext={this.state.matchedPretext}
                             items={this.state.items}
                             terms={this.state.terms}
+                            suggestionBoxAlgn={this.state.suggestionBoxAlgn}
                             selection={this.state.selection}
                             components={this.state.components}
                             wrapperHeight={this.props.wrapperHeight}

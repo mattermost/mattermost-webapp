@@ -7,17 +7,21 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
-// Group: @enterprise @guest_account
+// Group: @not_cloud @enterprise @guest_account @mfa
 
 /**
  * Note: This test requires Enterprise license to be uploaded
  */
 
-import * as TIMEOUTS from '../../../fixtures/timeouts';
-import {getEmailUrl, getEmailMessageSeparator, getRandomId} from '../../../utils';
+import authenticator from 'authenticator';
 
-const authenticator = require('authenticator');
+import * as TIMEOUTS from '../../../fixtures/timeouts';
+import {
+    getJoinEmailTemplate,
+    getRandomId,
+    reUrl,
+    verifyEmailBody,
+} from '../../../utils';
 
 describe('Guest Accounts', () => {
     let sysadmin;
@@ -27,12 +31,13 @@ describe('Guest Accounts', () => {
     const username = 'g' + getRandomId(); // username has to start with a letter.
 
     before(() => {
+        cy.shouldNotRunOnCloudEdition();
+        cy.apiRequireLicenseForFeature('GuestAccounts');
+
         cy.apiInitSetup().then(({team, channel}) => {
             testTeam = team;
             testChannel = channel;
         });
-
-        cy.apiRequireLicenseForFeature('GuestAccounts');
 
         // # Log in as a team admin.
         cy.apiAdminLogin().then((res) => {
@@ -109,7 +114,6 @@ describe('Guest Accounts', () => {
 
         // # From the main page, invite a Guest user and click on the Join Team in the email sent to the guest user.
         cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.wait(TIMEOUTS.ONE_SEC);
 
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
         cy.get('#invitePeople').should('be.visible').click();
@@ -134,30 +138,18 @@ describe('Guest Accounts', () => {
         cy.get('[id="inviteGuestButton"]').scrollIntoView().click();
         cy.get('#closeIcon').should('be.visible').click();
 
-        const baseUrl = Cypress.config('baseUrl');
-        const mailUrl = getEmailUrl(baseUrl);
-
         // # Get invitation link.
-        cy.task('getRecentEmail', {username, mailUrl}).then((response) => {
-            const {data, status} = response;
-
-            // # Should return success status.
-            expect(status).to.equal(200);
-
-            // # Verify that guest account invitation.
-            expect(data.to.length).to.equal(1);
-            expect(data.to[0]).to.contain(guestEmail);
+        cy.getRecentEmail({username, email: guestEmail}).then((data) => {
+            const {body: actualEmailBody, subject} = data;
 
             // # Verify that the email subject is about joining.
-            expect(data.subject).to.contain(`sysadmin invited you to join the team ${testTeam.display_name} as a guest`);
+            expect(subject).to.contain(`${sysadmin.username} invited you to join the team ${testTeam.display_name} as a guest`);
+
+            const expectedEmailBody = getJoinEmailTemplate(sysadmin.username, guestEmail, testTeam, true);
+            verifyEmailBody(expectedEmailBody, actualEmailBody);
 
             // # Extract invitation link from the invitation e-mail.
-            const messageSeparator = getEmailMessageSeparator(baseUrl);
-            const bodyText = data.body.text.split(messageSeparator);
-            expect(bodyText[6]).to.contain('Join Team');
-            const line = bodyText[6].split(' ');
-            expect(line[3]).to.contain(baseUrl);
-            const invitationLink = line[3].replace(baseUrl, '');
+            const invitationLink = actualEmailBody[3].match(reUrl)[0];
 
             // # Logout sysadmin.
             cy.apiLogout();

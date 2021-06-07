@@ -1,4 +1,4 @@
-@charset 'UTF-8';
+@charset "UTF-8";
 
 .sidebar--left {
     display: flex;
@@ -12,10 +12,6 @@
 
     body.announcement-bar--fixed & {
         height: calc(100% - #{$announcement-bar-height});
-    }
-
-    body.announcement-banner-tall--fixed & {
-        height: calc(100% - 40px);
     }
 
     &.sidebar--padded {
@@ -126,7 +122,7 @@
     .nav-pills {
         > li {
             .badge {
-                margin: 0 10px 0 0;
+                margin: 0 12px 0 0;
             }
         }
     }
@@ -248,6 +244,9 @@
                             max-width: 16px;
                             max-height: 15px;
                         }
+                    }
+                    &.icon__shared {
+                        font-size: 17px;
                     }
                 }
 
@@ -406,5 +405,14 @@
     &:focus,
     span {
         outline: none;
+    }
+}
+
+// Manual override of the global menu (and items) styling for the sidebar dropdown menu
+#sidebarDropdownMenu .MenuItem {
+    > button,
+    > div,
+    > a {
+        padding: 0 32px 0 24px;
     }
 }

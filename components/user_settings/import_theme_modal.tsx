@@ -5,7 +5,7 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage, WrappedComponentProps, injectIntl} from 'react-intl';
 
-import {setThemeDefaults} from 'mattermost-redux/utils/theme_utils';
+import {blendColors, setThemeDefaults} from 'mattermost-redux/utils/theme_utils';
 import {Theme} from 'mattermost-redux/types/preferences';
 
 import ModalStore from 'stores/modal_store.jsx';
@@ -15,7 +15,7 @@ const ActionTypes = Constants.ActionTypes;
 
 type State = {
     value: string;
-    inputError: any;
+    inputError: React.ReactNode | null;
     show: boolean;
     callback: ((args: Theme) => void) | null;
 }
@@ -26,7 +26,7 @@ class ImportThemeModal extends React.PureComponent<WrappedComponentProps, State>
 
         this.state = {
             value: '',
-            inputError: '',
+            inputError: null,
             show: false,
             callback: null,
         };
@@ -52,7 +52,7 @@ class ImportThemeModal extends React.PureComponent<WrappedComponentProps, State>
 
         const text = this.state.value;
 
-        if (!this.isInputValid(text)) {
+        if (!ImportThemeModal.isInputValid(text)) {
             this.setState({
                 inputError: (
                     <FormattedMessage
@@ -63,6 +63,27 @@ class ImportThemeModal extends React.PureComponent<WrappedComponentProps, State>
             });
             return;
         }
+
+        /*
+         * index mapping of slack theme format (index => slack-property name)
+         *
+         * |-------|-------------------------|-------------------------|
+         * | index | Slack theme-property    | MM theme-property       |
+         * |-------|-------------------------|-------------------------|
+         * |   0   | Column BG               | sidebarBg               |
+         * |   1   | ???                     | sidebarHeaderBg         |
+         * |   2   | Active Item BG          | sidebarTextActiveBorder |
+         * |   3   | Active Item Text        | sidebarTextActiveColor  |
+         * |   4   | Hover Item BG           | sidebarTextHoverBg      |
+         * |   5   | Text Color              | sidebarText             |
+         * |   6   | Active Presence         | onlineIndicator         |
+         * |   7   | Mention Badge           | mentionBg               |
+         * |   8   | TOP-NAV BG              | --- (desktop only)      |
+         * |   9   | TOP-NAV Text            | --- (desktop only)      |
+         * |-------|-------------------------|-------------------------|
+         *
+         * values at index 8 + 9 are only for the desktop app
+         */
 
         const [
             sidebarBg, // 0
@@ -84,6 +105,7 @@ class ImportThemeModal extends React.PureComponent<WrappedComponentProps, State>
             sidebarTextActiveBorder,
             sidebarTextActiveColor,
             sidebarHeaderBg,
+            sidebarTeamBarBg: blendColors(sidebarHeaderBg, '#000000', 0.2, true),
             sidebarHeaderTextColor: sidebarText,
             onlineIndicator,
             mentionBg,
@@ -99,7 +121,7 @@ class ImportThemeModal extends React.PureComponent<WrappedComponentProps, State>
         });
     }
 
-    private isInputValid(text: string) {
+    private static isInputValid(text: string) {
         if (text.length === 0) {
             return false;
         }
@@ -115,7 +137,7 @@ class ImportThemeModal extends React.PureComponent<WrappedComponentProps, State>
         if (text.length > 0) {
             const colors = text.split(',');
 
-            if (colors.length !== 8) {
+            if (colors.length !== 10) {
                 return false;
             }
 
@@ -137,7 +159,7 @@ class ImportThemeModal extends React.PureComponent<WrappedComponentProps, State>
         const value = e.target.value;
         this.setState({value});
 
-        if (this.isInputValid(value)) {
+        if (ImportThemeModal.isInputValid(value)) {
             this.setState({inputError: null});
         } else {
             this.setState({
@@ -184,7 +206,7 @@ class ImportThemeModal extends React.PureComponent<WrappedComponentProps, State>
                             <p>
                                 <FormattedMessage
                                     id='user.settings.import_theme.importBody'
-                                    defaultMessage='To import a theme, go to a Slack team and look for "Preferences -> Sidebar Theme". Open the custom theme option, copy the theme color values and paste them here:'
+                                    defaultMessage='To import a theme, go to a Slack team and look for "Preferences -> Themes". Open the custom theme option, copy the theme color values and paste them here:'
                                 />
                             </p>
                             <div className='form-group less'>

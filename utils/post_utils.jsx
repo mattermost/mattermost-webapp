@@ -169,6 +169,12 @@ export function shouldFocusMainTextbox(e, activeElement) {
         return false;
     }
 
+    // Do not focus when pressing space on link elements
+    const spaceKeepFocusTags = ['BUTTON', 'A'];
+    if (Utils.isKeyPressed(e, Constants.KeyCodes.SPACE) && spaceKeepFocusTags.includes(activeElement.tagName)) {
+        return false;
+    }
+
     return true;
 }
 
@@ -346,7 +352,10 @@ export function makeCreateAriaLabelForPost() {
 export function createAriaLabelForPost(post, author, isFlagged, reactions, intl, emojiMap) {
     const {formatMessage, formatTime, formatDate} = intl;
 
-    let message = post.message || '';
+    let message = post.state === Posts.POST_DELETED ? formatMessage({
+        id: 'post_body.deleted',
+        defaultMessage: '(message deleted)',
+    }) : post.message || '';
     let match;
 
     // Match all the shorthand forms of emojis first
@@ -476,13 +485,24 @@ export function makeGetReplyCount() {
     return createSelector(
         (state) => state.entities.posts.posts,
         (state, post) => state.entities.posts.postsInThread[post.root_id || post.id],
-        (allPosts, postIds) => {
+        (state, post) => post,
+        (allPosts, postIds, post) => {
             if (!postIds) {
-                return 0;
+                return post.root_id ? 0 : post.reply_count ?? 0;
             }
 
             // Count the number of non-ephemeral posts in the thread
-            return postIds.map((id) => allPosts[id]).filter((post) => post && !isPostEphemeral(post)).length;
+            return postIds.map((id) => allPosts[id]).filter((p) => p && !isPostEphemeral(p)).length;
         },
     );
+}
+
+export function areConsecutivePostsBySameUser(post, previousPost) {
+    if (!(post && previousPost)) {
+        return false;
+    }
+    return post.user_id === previousPost.user_id && // The post is by the same user
+        post.create_at - previousPost.create_at <= Posts.POST_COLLAPSE_TIMEOUT && // And was within a short time period
+        !(post.props && post.props.from_webhook) && !(previousPost.props && previousPost.props.from_webhook) && // And neither is from a webhook
+        !isSystemMessage(post) && !isSystemMessage(previousPost); // And neither is a system message
 }

@@ -53,7 +53,7 @@ describe('Interactive Dialog', () => {
 
     it('MM-T2502 - Boolean element check', () => {
         // # Post a slash command
-        cy.postMessage(`/${createdCommand.trigger}`);
+        cy.postMessage(`/${createdCommand.trigger} `);
 
         // * Verify that the interactive dialog modal open up
         cy.get('#interactiveDialogModal').should('be.visible').within(() => {
@@ -100,5 +100,5 @@ function closeInteractiveDialog() {
     cy.get('.modal-header').should('be.visible').within(($elForm) => {
         cy.wrap($elForm).find('button.close').should('be.visible').click();
     });
-    cy.get('#interactiveDialogModal').should('not.be.visible');
+    cy.get('#interactiveDialogModal').should('not.exist');
 }

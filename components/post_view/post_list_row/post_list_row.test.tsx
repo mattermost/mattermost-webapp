@@ -28,6 +28,7 @@ describe('components/post_view/post_list_row', () => {
         shortcutReactToLastPostEmittedFrom: 'NO_WHERE',
         loadingNewerPosts: false,
         loadingOlderPosts: false,
+        isCurrentUserLastPostGroupFirstPost: false,
         actions: {
             emitShortcutReactToLastPostFrom: jest.fn(),
         },
@@ -82,6 +83,7 @@ describe('components/post_view/post_list_row', () => {
                 delete_at: 0,
                 last_post_at: 0,
                 total_msg_count: 0,
+                total_msg_count_root: 0,
                 extra_update_at: 0,
             },
             fullWidth: true,

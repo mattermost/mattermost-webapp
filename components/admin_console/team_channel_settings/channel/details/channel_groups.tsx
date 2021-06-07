@@ -19,14 +19,14 @@ interface ChannelGroupsProps {
     channel: Partial<Channel>;
     onAddCallback: (groupIDs: string[]) => void;
     totalGroups: number;
-    groups: Partial<Group>[];
-    removedGroups: {[key: string]: any}[];
+    groups: Array<Partial<Group>>;
+    removedGroups: Array<{[key: string]: any}>;
     onGroupRemoved: (gid: string) => void;
     setNewGroupRole: (gid: string) => void;
-    isDisabled: boolean;
+    isDisabled?: boolean;
 }
 
-export const ChannelGroups: React.SFC<ChannelGroupsProps> = (props: ChannelGroupsProps): JSX.Element => {
+export const ChannelGroups: React.FunctionComponent<ChannelGroupsProps> = (props: ChannelGroupsProps): JSX.Element => {
     const {onGroupRemoved, onAddCallback, totalGroups, groups, removedGroups, channel, synced, setNewGroupRole, isDisabled} = props;
     return (
         <AdminPanel

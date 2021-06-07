@@ -7,23 +7,26 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @enterprise @elasticsearch @autocomplete
+// Stage: @prod
+// Group: @enterprise @elasticsearch @autocomplete @not_cloud
 
 import {getAdminAccount} from '../../../support/env';
 
 import {
     createPrivateChannel,
+    createPublicChannel,
     enableElasticSearch,
-    searchForChannel,
+    searchAndVerifyChannel,
 } from './helpers';
 
 describe('Autocomplete with Elasticsearch - Channel', () => {
-    const admin = getAdminAccount();
     let testTeam;
     let testUser;
 
     before(() => {
-        // * Check if server has license for Elasticsearch
+        cy.shouldNotRunOnCloudEdition();
+
+        // # Check if server has license for Elasticsearch
         cy.apiRequireLicenseForFeature('Elasticsearch');
 
         // # Enable Elasticsearch
@@ -33,146 +36,88 @@ describe('Autocomplete with Elasticsearch - Channel', () => {
         cy.apiInitSetup({loginAfter: true}).then(({team, user}) => {
             testUser = user;
             testTeam = team;
-
-            cy.visit(`/${testTeam.name}/channels/town-square`);
         });
     });
 
-    afterEach(() => {
-        cy.reload();
+    beforeEach(() => {
+        // # Visit town-square channel
+        cy.visit(`/${testTeam.name}/channels/town-square`);
     });
 
-    it("private channel I don't belong to does not appear", () => {
-        // # Create private channel, do not add new user to it (sets @privateChannel alias)
-        createPrivateChannel(testTeam.id).then((channel) => {
-            // # Go to off-topic channel to partially reload the page
-            cy.get('#sidebarChannelContainer').should('be.visible').within(() => {
-                cy.findAllByText('Off-Topic').should('be.visible').click();
-            });
-
-            // # Search for the private channel
-            searchForChannel(channel.name);
-
-            // * And it should not appear
-            cy.findByTestId(channel.name).
-                should('not.exist');
-        });
-    });
-
-    it('private channel I do belong to appears', () => {
+    it('MM-T2510_1 Private channel I do belong to appears', () => {
         // # Create private channel and add new user to it (sets @privateChannel alias)
         createPrivateChannel(testTeam.id, testUser).then((channel) => {
             // # Go to off-topic channel to partially reload the page
-            cy.get('#sidebarChannelContainer').should('be.visible').within(() => {
-                cy.findAllByText('Off-Topic').should('be.visible').click();
-            });
+            cy.uiGetLhsSection('CHANNELS').findByText('Off-Topic').click();
 
-            // # Search for the private channel
-            searchForChannel(channel.name);
-
-            // * Suggestion list should appear
-            cy.get('#suggestionList').should('be.visible');
-
-            // * Channel should appear in the list
-            cy.findByTestId(channel.name).
-                should('be.visible');
+            // * Private channel in suggestion list should appear
+            searchAndVerifyChannel(channel);
         });
     });
 
-    it('channel outside of team does not appear', () => {
+    it("MM-T2510_2 Private channel I don't belong to does not appear", () => {
+        // # Create private channel, do not add new user to it (sets @privateChannel alias)
+        createPrivateChannel(testTeam.id).then((channel) => {
+            // # Go to off-topic channel to partially reload the page
+            cy.uiGetLhsSection('CHANNELS').findByText('Off-Topic').click();
+
+            // * Private channel should not appear on search
+            searchAndVerifyChannel(channel, false);
+        });
+    });
+
+    it('MM-T2510_3 Private channel left does not appear', () => {
+        // # Create private channel and add new user to it (sets @privateChannel alias)
+        createPrivateChannel(testTeam.id, testUser).then((channel) => {
+            // # Visit private channel
+            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
+
+            // # Leave private channel
+            cy.uiOpenChannelMenu('Leave Channel');
+            cy.findByRoleExtended('button', {name: 'Yes, leave channel'}).should('be.visible').click();
+
+            // # Go to off-topic channel to partially reload the page
+            cy.uiGetLhsSection('CHANNELS').findByText('Off-Topic').click();
+
+            // * Private channel should not appear on search
+            searchAndVerifyChannel(channel, false);
+        });
+    });
+
+    it('MM-T2510_4 Channel outside of team does not appear', () => {
         const teamName = 'elastic-private-' + Date.now();
-        const baseUrl = Cypress.config('baseUrl');
 
         // # As admin, create a new team that the new user is not a member of
-        cy.task('externalRequest', {
-            user: admin,
+        cy.externalRequest({
+            user: getAdminAccount(),
             path: 'teams',
-            baseUrl,
             method: 'post',
             data: {
                 name: teamName,
                 display_name: teamName,
                 type: 'O',
             },
-        }).then((teamResponse) => {
-            expect(teamResponse.status).to.equal(201);
-
+        }).then(({data: team}) => {
             // # Create a private channel where the new user is not a member of
-            createPrivateChannel(teamResponse.data.id).then((channel) => {
+            createPrivateChannel(team.id).then((channel) => {
                 // # Go to off-topic channel to partially reload the page
-                cy.get('#sidebarChannelContainer').should('be.visible').within(() => {
-                    cy.findAllByText('Off-Topic').should('be.visible').click();
-                });
+                cy.uiGetLhsSection('CHANNELS').findByText('Off-Topic').click();
 
-                // # Search for the private channel
-                searchForChannel(channel.name);
-
-                // * Channel should not appear in the search results
-                cy.findByTestId(channel.name).
-                    should('not.exist');
-            });
-        });
-    });
-
-    describe('channel with', () => {
-        let channelId;
-
-        before(() => {
-            // # Login as admin
-            cy.apiAdminLogin();
-            cy.visit(`/${testTeam.name}`);
-
-            const name = 'hellothere';
-
-            // # Create a new channel
-            cy.apiCreateChannel(testTeam.id, name, name).then(({channel}) => {
-                channelId = channel.id;
+                // * Private channel should not appear on search
+                searchAndVerifyChannel(channel, false);
+                cy.uiClose();
             });
 
-            // * Verify channel without special characters appears normally
-            searchForChannel(name);
+            return cy.wrap({team});
+        }).then(({team}) => {
+            // # Create a private channel where the new user is not a member of
+            createPublicChannel(team.id).then((publicChannel) => {
+                // # Go to off-topic channel to partially reload the page
+                cy.uiGetLhsSection('CHANNELS').findByText('Off-Topic').click();
 
-            cy.reload();
-        });
-
-        it('dots appears', () => {
-            const name = 'hello.there';
-
-            // Change name of channel
-            cy.apiPatchChannel(channelId, {display_name: name});
-
-            // * Search for channel should work
-            searchForChannel(name);
-        });
-
-        it('dashes appears', () => {
-            const name = 'hello-there';
-
-            // Change name of channel
-            cy.apiPatchChannel(channelId, {display_name: name});
-
-            // * Search for channel should work
-            searchForChannel(name);
-        });
-
-        it('underscores appears', () => {
-            const name = 'hello_there';
-
-            // Change name of channel
-            cy.apiPatchChannel(channelId, {display_name: name});
-
-            // * Search for channel should work
-            searchForChannel(name);
-        });
-
-        it('dots, dashes, and underscores appears', () => {
-            const name = 'he.llo-the_re';
-
-            // Change name of channel
-            cy.apiPatchChannel(channelId, {display_name: name});
-
-            // * Search for channel should work
-            searchForChannel(name);
+                // * Public channel should not appear on search
+                searchAndVerifyChannel(publicChannel, false);
+            });
         });
     });
 });

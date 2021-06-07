@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import semver from 'semver';
+
 import {logError} from 'mattermost-redux/actions/errors';
 import {getProfilesByIds} from 'mattermost-redux/actions/users';
 import {getCurrentChannel, getMyChannelMember, makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
@@ -48,7 +49,7 @@ export function sendDesktopNotification(post, msgProps) {
         }
         const teamId = msgProps.team_id;
 
-        let channel = makeGetChannel()(state, post.channel_id);
+        let channel = makeGetChannel()(state, {id: post.channel_id});
         const user = getCurrentUser(state);
         const userStatus = getStatusForUserId(state, user.id);
         const member = getMyChannelMember(state, post.channel_id);

@@ -19,7 +19,7 @@ function searchAndVerifyChannel(channel) {
     cy.typeCmdOrCtrl().type('k');
 
     // # Search for channel's display name
-    cy.get('#quickSwitchInput').
+    cy.findByRole('textbox', {name: 'quick switch input'}).
         should('be.visible').
         as('input').
         clear().
@@ -44,11 +44,8 @@ function searchAndVerifyUser(user) {
     // * Suggestion list should appear
     cy.get('#suggestionList', {timeout: TIMEOUTS.FIVE_SEC}).should('be.visible');
 
-    // # Verify user appears in results post-change
-    return cy.findByTestId(`mentionSuggestion_${user.username}`, {exact: false}).within((name) => {
-        cy.wrap(name).find('.mention--align').should('have.text', `@${user.username}`);
-        cy.wrap(name).find('.ml-2').should('have.text', `${user.first_name} ${user.last_name} (${user.nickname})`);
-    });
+    // * Verify user appears in results post-change
+    return cy.uiVerifyAtMentionSuggestion(user);
 }
 
 describe('Autocomplete without Elasticsearch - Renaming', () => {
@@ -56,15 +53,7 @@ describe('Autocomplete without Elasticsearch - Renaming', () => {
     let testTeam;
 
     before(() => {
-        // # Disable elastic search via API
-        cy.apiUpdateConfig({
-            ElasticsearchSettings: {
-                EnableAutocomplete: false,
-                EnableIndexing: false,
-                EnableSearching: false,
-                Sniff: false,
-            },
-        });
+        cy.shouldHaveElasticsearchDisabled();
 
         // # Create new team for tests
         cy.apiCreateTeam(`search-${timestamp}`, `search-${timestamp}`).then(({team}) => {

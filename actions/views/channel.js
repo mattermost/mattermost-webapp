@@ -35,6 +35,7 @@ import {getChannelByName} from 'mattermost-redux/utils/channel_utils';
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
 
 import {openDirectChannelToUserId} from 'actions/channel_actions.jsx';
+import {loadCustomStatusEmojisForPostList} from 'actions/emoji_actions';
 import {getLastViewedChannelName} from 'selectors/local_storage';
 import {getLastPostsApiTimeForChannel} from 'selectors/views/channel';
 import {getSocketStatus} from 'selectors/views/websocket';
@@ -190,14 +191,13 @@ export function autocompleteUsersInChannel(prefix, channelId) {
 
         const respose = await dispatch(autocompleteUsers(prefix, currentTeamId, channelId));
         const data = respose.data;
-
         if (data) {
             return {
                 ...respose,
                 data: {
                     ...data,
-                    users: addLastViewAtToProfiles(state, data.users),
-                    out_of_channel: addLastViewAtToProfiles(state, data.out_of_channel),
+                    users: addLastViewAtToProfiles(state, data.users || []),
+                    out_of_channel: addLastViewAtToProfiles(state, data.out_of_channel || []),
                 },
             };
         }
@@ -231,8 +231,9 @@ export function loadUnreads(channelId, prefetch = false) {
                 atOldestmessage: false,
             };
         }
-        const actions = [];
+        dispatch(loadCustomStatusEmojisForPostList(data.posts));
 
+        const actions = [];
         actions.push({
             type: ActionTypes.INCREASE_POST_VISIBILITY,
             data: channelId,
@@ -346,6 +347,8 @@ export function loadPosts({channelId, postId, type}) {
                 moreToLoad: true,
             };
         }
+
+        dispatch(loadCustomStatusEmojisForPostList(data.posts));
         actions.push({
             type: ActionTypes.INCREASE_POST_VISIBILITY,
             data: channelId,

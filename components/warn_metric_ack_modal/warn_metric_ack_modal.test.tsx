@@ -5,7 +5,8 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import {Modal} from 'react-bootstrap';
-import {UserProfile} from 'mattermost-redux/src/types/users';
+
+import {UserProfile} from 'mattermost-redux/types/users';
 
 import WarnMetricAckModal from 'components/warn_metric_ack_modal/warn_metric_ack_modal';
 
@@ -29,11 +30,12 @@ describe('components/WarnMetricAckModal', () => {
             id: 'metric1',
             limit: 500,
             acked: false,
+            store_status: 'status1',
         },
         actions: {
             closeModal: jest.fn(),
             getStandardAnalytics: jest.fn(),
-            sendWarnMetricAck: jest.fn(),
+            sendWarnMetricAck: jest.fn().mockResolvedValue({}),
         },
     };
 

@@ -8,120 +8,119 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @enterprise @system_console
+// Group: @enterprise @not_cloud @system_console
 
 import * as TIMEOUTS from '../../../../fixtures/timeouts';
-import {
-    promoteToChannelOrTeamAdmin,
-} from '../channel_moderation/helpers.js';
+import {getAdminAccount} from '../../../../support/env';
 
-// # Goes to the System Scheme page as System Admin
-const goToAdminConsole = () => {
-    cy.apiAdminLogin();
-    cy.visit('/admin_console');
-};
+import {promoteToChannelOrTeamAdmin} from '../channel_moderation/helpers.js';
 
 describe('System console', () => {
+    const sysadmin = getAdminAccount();
+    let teamAdmin;
+    let regularUser;
+    let teamName;
+    let privateChannelName;
+
     before(() => {
+        cy.shouldNotRunOnCloudEdition();
+
         // * Check if server has license
         cy.apiRequireLicense();
-    });
 
-    it('MM-T1201 - Remove and re-add license - Permissions freeze in place when license is removed (and then re-added)', () => {
-        const verifyCreatePublicChannel = (testTeam, testUserNonTeamAdmin, testUserTeamAdmin, channel) => {
-            // * Login as system admin and go the channel we created earlier and expect the create public channel button is visible
-            cy.apiAdminLogin();
-            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
-            cy.get('#createPublicChannel', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
-            cy.wait(TIMEOUTS.FIVE_SEC);
+        // # Set channel permissions as listed in the test
+        setChannelPermission();
 
-            // * Login as team admin and go the channel we created earlier and expect the create public channel button is visible
-            cy.apiLogin(testUserTeamAdmin);
-            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
-            cy.get('#createPublicChannel', {timeout: TIMEOUTS.ONE_MIN}).should('not.be.visible');
-            cy.wait(TIMEOUTS.FIVE_SEC);
+        // # Create regular user and team admin
+        cy.apiInitSetup({userPrefix: 'regular-user'}).then(({team, user}) => {
+            teamName = team.name;
+            regularUser = user;
 
-            // * Login as non-team admin and go the channel we created earlier and expect the create public channel button is not visible
-            cy.apiLogin(testUserNonTeamAdmin);
-            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
-            cy.get('#createPublicChannel', {timeout: TIMEOUTS.ONE_MIN}).should('not.be.visible');
-            cy.wait(TIMEOUTS.FIVE_SEC);
-        };
+            cy.apiCreateUser({prefix: 'team-admin'}).then(({user: newUser}) => {
+                cy.apiAddUserToTeam(team.id, newUser.id).then(() => {
+                    teamAdmin = newUser;
+                    promoteToChannelOrTeamAdmin(teamAdmin.id, team.id, 'teams');
 
-        const verifyRenamePrivateChannel = (testTeam, testUserNonTeamAdmin, testUserTeamAdmin, channel) => {
-            // * Click drop down and ensure the channel rename is visible for a system admin
-            cy.apiAdminLogin();
-            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
-            cy.get('#channelHeaderDropdownIcon', {timeout: TIMEOUTS.TWO_MIN}).should('be.visible').click();
-            cy.get('#channelRename').should('be.visible');
-
-            cy.apiLogin(testUserTeamAdmin);
-            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
-
-            // * Click drop down and ensure the channel rename is visible for a team admin
-            cy.get('#channelHeaderDropdownIcon', {timeout: TIMEOUTS.TWO_MIN}).should('be.visible').click();
-            cy.get('#channelRename').should('be.visible');
-
-            cy.apiLogin(testUserNonTeamAdmin);
-            cy.visit(`/${testTeam.name}/channels/${channel.name}`);
-
-            // * Click drop down and ensure the channel rename is not visible for a non team admin
-            cy.get('#channelHeaderDropdownIcon', {timeout: TIMEOUTS.TWO_MIN}).should('be.visible').click();
-            cy.get('#channelRename').should('not.be.visible');
-        };
-
-        // # Go to admin console and set permissions as listed in the test
-        goToAdminConsole();
-        cy.visit('admin_console/user_management/permissions/system_scheme');
-        cy.findByTestId('resetPermissionsToDefault').click();
-        cy.get('#confirmModalButton').click();
-        cy.findByTestId('all_users-public_channel-create_public_channel-checkbox').click();
-        cy.findByTestId('all_users-private_channel-manage_private_channel_properties-checkbox').click();
-        cy.findByTestId('team_admin-private_channel-manage_private_channel_properties-checkbox').click();
-        cy.findByTestId('saveSetting').click();
-
-        // # Create a user, this will be our non team admin user
-        cy.apiInitSetup().then(({team, user, channel}) => {
-            const testTeam = team;
-            const testUserNonTeamAdmin = user;
-
-            // # Make a new user, this will be our team admin
-            cy.apiCreateUser().then(({user: newUser}) => {
-                // # Add him to the test team
-                cy.apiAddUserToTeam(testTeam.id, newUser.id).then(() => {
-                    const testUserTeamAdmin = newUser;
-                    promoteToChannelOrTeamAdmin(testUserTeamAdmin.id, testTeam.id, 'teams');
-
-                    // * Verify Create public channel exists for certain users and not others
-                    verifyCreatePublicChannel(testTeam, testUserNonTeamAdmin, testUserTeamAdmin, channel);
-
-                    // # Login as a Admin and visit the channel
-                    cy.apiAdminLogin();
-                    cy.visit(`/${testTeam.name}/channels/${channel.name}`);
-
-                    // # Click the channel header dropdown
-                    cy.get('#channelHeaderDropdownIcon').click();
-
-                    // * Channel convert to private should be visible and confirm
-                    cy.get('#channelConvertToPrivate').should('be.visible').click();
-                    cy.findByTestId('convertChannelConfirm').should('be.visible').click();
-
-                    // * Verify rename private channel exists for certain users and not others
-                    verifyRenamePrivateChannel(testTeam, testUserNonTeamAdmin, testUserTeamAdmin, channel);
-
-                    // # Remove license
-                    cy.apiAdminLogin();
-                    cy.apiDeleteLicense();
-
-                    // * Verify permissions are frozen in place
-
-                    // * Verify Create public channel exists for certain users and not others (Results should be the same as above)
-                    verifyCreatePublicChannel(testTeam, testUserNonTeamAdmin, testUserTeamAdmin, channel);
-
-                    // * Verify rename private channel exists for certain users and not others (Results should be same as above)
-                    verifyRenamePrivateChannel(testTeam, testUserNonTeamAdmin, testUserTeamAdmin, channel);
+                    cy.apiCreateChannel(team.id, 'private', 'Private', 'P').then(({channel}) => {
+                        privateChannelName = channel.name;
+                        Cypress._.forEach([teamAdmin.id, regularUser.id], (userId) => cy.apiAddUserToChannel(channel.id, userId));
+                    });
                 });
             });
         });
     });
+
+    it('MM-T1201 - Remove and re-add license - Permissions freeze in place when license is removed (and then re-added)', () => {
+        // * Verify user access per permissions changed while on E20
+        verifyUserChannelPermission(teamName, privateChannelName, sysadmin, teamAdmin, regularUser);
+
+        // # Remove license and verify user access when downgraded to E0/team edition
+        cy.apiAdminLogin();
+        cy.apiDeleteLicense();
+        verifyUserChannelPermission(teamName, privateChannelName, sysadmin, teamAdmin, regularUser);
+
+        // # Re-add license and verify user access when upgraded to E20
+        cy.apiAdminLogin();
+        cy.apiRequireLicense();
+        verifyUserChannelPermission(teamName, privateChannelName, sysadmin, teamAdmin, regularUser);
+    });
 });
+
+// # Set channel permissions as listed in the test
+function setChannelPermission() {
+    cy.visit('admin_console/user_management/permissions/system_scheme');
+    cy.findByTestId('resetPermissionsToDefault').click();
+    cy.get('#confirmModalButton').click();
+    cy.findByTestId('all_users-public_channel-create_public_channel-checkbox').click();
+    cy.findByTestId('all_users-private_channel-manage_private_channel_properties-checkbox').click();
+    cy.findByTestId('team_admin-private_channel-manage_private_channel_properties-checkbox').click();
+    cy.findByTestId('saveSetting').click();
+}
+
+function verifyCreatePublicChannel(teamName, testUsers) {
+    for (const testUser of testUsers) {
+        const {user, canCreate, isSysadmin} = testUser;
+
+        // # Login as a user, and visit the team and channel
+        cy.apiLogin(user);
+        cy.visit(`/${teamName}/channels/town-square`);
+
+        // # Click on create new channel at LHS
+        cy.uiBrowseOrCreateChannel('Create New Channel').click();
+
+        // * Verify if creating a public channel is shown or not
+        cy.findByRole('dialog', {name: 'New Channel'}).find('.radio').
+            should('have.length', isSysadmin ? 2 : 1).
+            and('contain', 'Private').
+            and(canCreate ? 'contain' : 'not.contain', 'Public');
+    }
+}
+
+function verifyRenamePrivateChannel(teamName, privateChannelName, testUsers) {
+    for (const testUser of testUsers) {
+        const {user, canRename} = testUser;
+
+        cy.apiLogin(user);
+        cy.visit(`/${teamName}/channels/${privateChannelName}`);
+
+        // * Click the dropdown menu and verify if the rename option is visible or not
+        cy.get('#channelHeaderDropdownIcon', {timeout: TIMEOUTS.TWO_MIN}).should('be.visible').click();
+        cy.get('#channelRename').should(canRename ? 'be.visible' : 'not.exist');
+    }
+}
+
+function verifyUserChannelPermission(teamName, privateChannelName, sysadmin, teamAdmin, regularUser) {
+    // * Verify that system admin sees option to create public channels and team admins / members do not
+    verifyCreatePublicChannel(teamName, [
+        {user: sysadmin, canCreate: true, isSysadmin: true},
+        {user: teamAdmin, canCreate: false},
+        {user: regularUser, canCreate: false},
+    ]);
+
+    // * Verify that team admin and system admin see option to rename private channel, and member does not
+    verifyRenamePrivateChannel(teamName, privateChannelName, [
+        {user: sysadmin, canRename: true},
+        {user: teamAdmin, canRename: true},
+        {user: regularUser, canRename: false},
+    ]);
+}

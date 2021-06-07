@@ -244,7 +244,7 @@ describe('components/SwitchChannelProvider', () => {
         };
 
         let res = switchProvider.userWrappedChannel(user, channel);
-        expect(res.channel.display_name).toEqual('@username - fn ln');
+        expect(res.channel.display_name).toEqual('fn ln');
 
         getState.mockClear();
 
@@ -289,7 +289,7 @@ describe('components/SwitchChannelProvider', () => {
         getState.mockImplementation(store.getState);
 
         res = switchProvider.userWrappedChannel(user, channel);
-        expect(res.channel.display_name).toEqual('fn ln - @username');
+        expect(res.channel.display_name).toEqual('fn ln');
     });
 
     it('should sort results in aplhabetical order', () => {
@@ -634,5 +634,108 @@ describe('components/SwitchChannelProvider', () => {
         expect(resultsCallback).toBeCalledWith(expect.objectContaining({
             terms: expectedOrder,
         }));
+    });
+
+    it('Should match GM even with space in search term', () => {
+        const modifiedState = {
+            ...defaultState,
+            entities: {
+                ...defaultState.entities,
+                channels: {
+                    ...defaultState.entities.channels,
+                    myMembers: {
+                        current_channel_id: {
+                            channel_id: 'current_channel_id',
+                            user_id: 'current_user_id',
+                            roles: 'channel_role',
+                            mention_count: 1,
+                            msg_count: 9,
+                            last_viewed_at: 1,
+                        },
+                        direct_other_user1: {
+                            channel_id: 'direct_other_user1',
+                            msg_count: 1,
+                            last_viewed_at: 2,
+                        },
+                        other_gm_channel: {
+                            channel_id: 'other_gm_channel',
+                            msg_count: 1,
+                            last_viewed_at: 3,
+                        },
+                    },
+                    channels: {
+                        other_gm_channel: {
+                            id: 'other_gm_channel',
+                            msg_count: 1,
+                            last_viewed_at: 3,
+                            type: 'G',
+                            name: 'other_gm_channel',
+                            delete_at: 0,
+                            display_name: 'other_gm_channel',
+                        },
+                        other_user1: {
+                            id: 'other_user1',
+                            type: 'D',
+                            name: 'current_user_id__other_user1',
+                            display_name: 'current_user_id__other_user1',
+                        },
+                    },
+                    channelsInTeam: {
+                        '': ['other_gm_channel'],
+                    },
+                },
+                preferences: {
+                    myPreferences: {
+                        'display_settings--name_format': {
+                            category: 'display_settings',
+                            name: 'name_format',
+                            user_id: 'current_user_id',
+                            value: 'username',
+                        },
+                        'group_channel_show--other_gm_channel': {
+                            category: 'group_channel_show',
+                            value: 'true',
+                            name: 'other_gm_channel',
+                            user_id: 'current_user_id',
+                        },
+                    },
+                },
+            },
+        };
+
+        const switchProvider = new SwitchChannelProvider();
+        const mockStore = configureStore();
+        const store = mockStore(modifiedState);
+
+        getState.mockImplementation(store.getState);
+
+        const users = [
+            {
+                id: 'other_user1',
+                display_name: 'other_user1',
+                username: 'other_user1',
+            },
+        ];
+
+        const channels = [{
+            id: 'other_gm_channel',
+            msg_count: 1,
+            last_viewed_at: 3,
+            type: 'G',
+            name: 'other_gm_channel',
+            delete_at: 0,
+            display_name: 'other_user1, current_user_id',
+        }];
+
+        const searchText = 'other current';
+
+        switchProvider.startNewRequest();
+        const results = switchProvider.formatList(searchText, channels, users);
+
+        const expectedOrder = [
+            'other_gm_channel',
+        ];
+
+        expect(results.terms).toEqual(expectedOrder);
     });
 });

@@ -164,7 +164,15 @@
     }
 
     .dnd--icon {
-        fill: rgb(247, 67, 67);
+        fill: var(--dnd-indicator);
+    }
+
+    .online--icon {
+        fill: var(--online-indicator);
+    }
+
+    .away--icon {
+        fill: var(--away-indicator);
     }
 
     svg {
@@ -206,5 +214,23 @@
     }
     .offline--icon {
         fill: rgba(var(--center-channel-color-rgb), 0.56);
+    }
+}
+
+.app__body{
+    .status{
+        &.status--online{
+            color: var(--online-indicator);
+        }
+        .online--icon{
+            fill: var(--online-indicator);
+        }
+
+        &.status--away {
+            color: var(--away-indicator);
+        }
+        .away--icon {
+            fill: var(--away-indicator);
+        }
     }
 }

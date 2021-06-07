@@ -73,7 +73,6 @@ function verifyDMChannelViaSendMessage(postId, team, channel, profileSelector, u
     cy.visit(`/${team.name}/channels/${channel.name}`);
 
     // # Visit post thread on RHS and verify that RHS is opened
-    cy.wait(TIMEOUTS.HALF_SEC);
     cy.clickPostCommentIcon(postId);
     cy.get('#rhsContainer').should('be.visible');
 
@@ -92,7 +91,7 @@ function verifyDMChannelViaSendMessage(postId, team, channel, profileSelector, u
 
     // * Verify that profile popover is closed
     cy.wait(TIMEOUTS.HALF_SEC);
-    cy.get('#user-profile-popover').should('not.be.visible');
+    cy.get('#user-profile-popover').should('not.exist');
 
     // * Verify that it redirects into the DM channel and matches channel intro
     cy.get('#channelIntro').should('be.visible').within(() => {

@@ -13,20 +13,20 @@ const SettingsSidebar = React.lazy(() => import('components/settings_sidebar'));
 import TeamSettings from 'components/team_settings';
 
 type Props = {
-    onHide: () => void,
-    isCloud?: boolean,
+    onHide: () => void;
+    isCloud?: boolean;
 }
 
 export type State = {
-    activeTab: string,
-    activeSection: string,
-    show: boolean,
+    activeTab: string;
+    activeSection: string;
+    show: boolean;
 }
 
 export default class TeamSettingsModal extends React.PureComponent<Props, State> {
     modalBodyRef: React.RefObject<Modal>;
 
-    constructor(props:Props) {
+    constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -45,7 +45,7 @@ export default class TeamSettingsModal extends React.PureComponent<Props, State>
         });
     }
 
-    updateSection = (section:string) => {
+    updateSection = (section: string) => {
         this.setState({activeSection: section});
     }
 

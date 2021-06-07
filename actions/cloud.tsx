@@ -1,6 +1,6 @@
-
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import {Stripe} from '@stripe/stripe-js';
 import {getCode} from 'country-list';
 
@@ -11,7 +11,11 @@ import {getConfirmCardSetup} from 'components/payment_form/stripe';
 import {StripeSetupIntent, BillingDetails} from 'types/cloud/sku';
 
 // Returns true for success, and false for any error
-export function completeStripeAddPaymentMethod(stripe: Stripe, billingDetails: BillingDetails, isDevMode: boolean) {
+export function completeStripeAddPaymentMethod(
+    stripe: Stripe,
+    billingDetails: BillingDetails,
+    isDevMode: boolean,
+) {
     return async () => {
         let paymentSetupIntent: StripeSetupIntent;
         try {
@@ -66,6 +70,17 @@ export function completeStripeAddPaymentMethod(stripe: Stripe, billingDetails: B
             return false;
         }
 
+        return true;
+    };
+}
+
+export function subscribeCloudSubscription(productId: string) {
+    return async () => {
+        try {
+            await Client4.subscribeCloudProduct(productId);
+        } catch (error) {
+            return error;
+        }
         return true;
     };
 }

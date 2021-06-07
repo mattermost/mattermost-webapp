@@ -4,6 +4,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
+
 import {debounce} from 'mattermost-redux/actions/helpers';
 
 import {Team, TeamSearchOpts, TeamsWithCount} from 'mattermost-redux/types/teams';
@@ -22,22 +23,22 @@ import {FilterOptions} from 'components/admin_console/filter/filter';
 const ROW_HEIGHT = 80;
 
 type Props = {
-    data: Team[],
-    total: number,
+    data: Team[];
+    total: number;
     actions: {
-        searchTeams(term: string, opts: TeamSearchOpts): Promise<{data: TeamsWithCount}>,
-        getData(page: number, size: number): void
-    }
+        searchTeams(term: string, opts: TeamSearchOpts): Promise<{data: TeamsWithCount}>;
+        getData(page: number, size: number): void;
+    };
 }
 
 type State = {
-    loading: boolean,
-    term: string,
-    teams: Team[],
-    page: number,
-    total: number,
-    searchErrored: boolean,
-    filters: TeamSearchOpts,
+    loading: boolean;
+    term: string;
+    teams: Team[];
+    page: number;
+    total: number;
+    searchErrored: boolean;
+    filters: TeamSearchOpts;
 }
 export default class TeamList extends React.PureComponent<Props, State> {
     constructor(props: Props) {
@@ -221,7 +222,7 @@ export default class TeamList extends React.PureComponent<Props, State> {
                                 <TeamIcon
                                     size='sm'
                                     url={Utils.imageURLForTeam(team)}
-                                    name={team.display_name}
+                                    content={team.display_name}
                                 />
                             </div>
                             <div className='TeamList_nameText'>

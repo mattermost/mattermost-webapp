@@ -5,7 +5,7 @@ import * as TIMEOUTS from '../fixtures/timeouts';
 
 Cypress.Commands.add('checkCreateTeamPage', (settings = {}) => {
     if (settings.user.userType === 'Guest' || settings.user.isGuest) {
-        cy.findByText('Create a team').scrollIntoView().should('not.be.visible');
+        cy.findByText('Create a team').scrollIntoView().should('not.exist');
     } else {
         cy.findByText('Create a team').scrollIntoView().should('be.visible');
     }
@@ -18,7 +18,7 @@ Cypress.Commands.add('doSamlLogin', (settings = {}) => {
     cy.checkLoginPage(settings);
 
     //click the login button
-    cy.findByText(settings.loginButtonText).should('be.visible').click().wait(TIMEOUTS.FIVE_SEC);
+    cy.findByText(settings.loginButtonText).should('be.visible').click().wait(TIMEOUTS.ONE_SEC);
 });
 
 Cypress.Commands.add('doSamlLogout', (settings = {}) => {

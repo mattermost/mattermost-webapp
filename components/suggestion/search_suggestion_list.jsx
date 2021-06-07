@@ -1,9 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import $ from 'jquery';
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
 import Constants from 'utils/constants';
@@ -22,6 +20,7 @@ export default class SearchSuggestionList extends SuggestionList {
 
         this.itemRefs = new Map();
         this.popoverRef = React.createRef();
+        this.itemsContainerRef = React.createRef();
         this.suggestionReadOut = React.createRef();
     }
 
@@ -49,7 +48,7 @@ export default class SearchSuggestionList extends SuggestionList {
     }
 
     getContent = () => {
-        return $(ReactDOM.findDOMNode(this.popoverRef.current)).find('.popover-content'); // eslint-disable-line jquery/no-find
+        return this.itemsContainerRef.current?.parentNode;
     }
 
     renderChannelDivider(type) {
@@ -148,7 +147,9 @@ export default class SearchSuggestionList extends SuggestionList {
                     aria-live='polite'
                     className='hidden-label'
                 />
-                {items}
+                <div ref={this.itemsContainerRef}>
+                    {items}
+                </div>
             </Popover>
         );
     }

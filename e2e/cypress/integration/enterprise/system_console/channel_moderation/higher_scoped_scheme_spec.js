@@ -59,7 +59,7 @@ describe('MM-23102 - Channel Moderation - Higher Scoped Scheme', () => {
         });
     });
 
-    it('Effect of changing System Schemes on a Channel for which Channel Moderation Settings was modified', () => {
+    it('MM-T1559 Effect of changing System Schemes on a Channel for which Channel Moderation Settings was modified', () => {
         // # Visit Channel page and Search for the channel.
         visitChannelConfigPage(testChannel);
         disablePermission(checkboxesTitleToIdMap.MANAGE_MEMBERS_MEMBERS);
@@ -86,7 +86,7 @@ describe('MM-23102 - Channel Moderation - Higher Scoped Scheme', () => {
         cy.get('#showInviteModal').should('not.exist');
     });
 
-    it('Effect of changing System Schemes on a Channel for which Channel Moderation Settings was never modified', () => {
+    it('MM-T1560 Effect of changing System Schemes on a Channel for which Channel Moderation Settings was never modified', () => {
         // # Reset system scheme to default and create a new channel to ensure that this channels moderation settings have never been modified
         cy.apiAdminLogin();
         cy.apiCreateChannel(testTeam.id, 'never-modified', `Never Modified ${getRandomId()}`).then(({channel}) => {
@@ -109,7 +109,7 @@ describe('MM-23102 - Channel Moderation - Higher Scoped Scheme', () => {
         });
     });
 
-    it('Effect of changing Team Override Schemes on a Channel for which Channel Moderation Settings was never modified', () => {
+    it('MM-T1561 Effect of changing Team Override Schemes on a Channel for which Channel Moderation Settings was never modified', () => {
         // # Reset system scheme to default and create a new channel to ensure that this channels moderation settings have never been modified
         cy.apiAdminLogin();
         cy.apiCreateChannel(testTeam.id, 'never-modified', `Never Modified ${getRandomId()}`).then(({channel}) => {
@@ -135,7 +135,7 @@ describe('MM-23102 - Channel Moderation - Higher Scoped Scheme', () => {
         });
     });
 
-    it('Effect of changing Team Override Schemes on a Channel for which Channel Moderation Settings was modified', () => {
+    it('MM-T1562 Effect of changing Team Override Schemes on a Channel for which Channel Moderation Settings was modified', () => {
         const teamOverrideSchemeName = testChannel.name + getRandomId();
 
         // # Reset system scheme to default and create a new channel to ensure that this channels moderation settings have never been modified
@@ -169,7 +169,7 @@ describe('MM-23102 - Channel Moderation - Higher Scoped Scheme', () => {
         cy.get('#showInviteModal').should('not.exist');
     });
 
-    it('Manage Members removed for Public Channels', () => {
+    it('MM-T1578 Manage Members removed for Public Channels', () => {
         const teamOverrideSchemeName = testChannel.name + getRandomId();
 
         // # Create a new team override scheme and remove manage public channel members
@@ -206,7 +206,7 @@ describe('MM-23102 - Channel Moderation - Higher Scoped Scheme', () => {
         cy.findByTestId('allow-all-toggle').should('has.have.text', 'Public');
     });
 
-    it('Manage Members removed for Private Channels / Permissions inherited when channel converted from Public to Private', () => {
+    it('MM-T1579 Manage Members removed for Private Channels / Permissions inherited when channel converted from Public to Private', () => {
         const teamOverrideSchemeName = testChannel.name + getRandomId();
 
         // # Create a new team override scheme and remove manage private channel members from it
@@ -244,7 +244,7 @@ describe('MM-23102 - Channel Moderation - Higher Scoped Scheme', () => {
         cy.findByTestId('allow-all-toggle').should('has.have.text', 'Public');
     });
 
-    it('Check if user is allowed to Edit or Delete their own posts on a Read-Only channel', () => {
+    it('MM-T1581 Check if user is allowed to Edit or Delete their own posts on a Read-Only channel', () => {
         visitChannel(regularUser, testChannel, testTeam);
         cy.postMessage(`test message ${Date.now()}`);
         cy.findByTestId('post_textbox_placeholder').should('not.have.text', 'This channel is read-only. Only members with permission can post here.');
@@ -270,7 +270,7 @@ describe('MM-23102 - Channel Moderation - Higher Scoped Scheme', () => {
         });
     });
 
-    it('Channel Moderation Settings should not be applied for Channel Admins', () => {
+    it('MM-T1582 Channel Moderation Settings should not be applied for Channel Admins', () => {
         enableDisableAllChannelModeratedPermissionsViaAPI(testChannel, false);
         visitChannel(regularUser, testChannel, testTeam);
         promoteToChannelOrTeamAdmin(regularUser.id, testChannel.id);
@@ -294,7 +294,7 @@ describe('MM-23102 - Channel Moderation - Higher Scoped Scheme', () => {
         demoteToChannelOrTeamMember(regularUser.id, testChannel.id);
     });
 
-    it('Channel Moderation Settings should not be applied for Team Admins', () => {
+    it('MM-T1583 Channel Moderation Settings should not be applied for Team Admins', () => {
         enableDisableAllChannelModeratedPermissionsViaAPI(testChannel, false);
         visitChannel(regularUser, testChannel, testTeam);
         promoteToChannelOrTeamAdmin(regularUser.id, testTeam.id, 'teams');

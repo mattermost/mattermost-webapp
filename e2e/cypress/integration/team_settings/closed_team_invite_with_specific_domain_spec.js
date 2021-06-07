@@ -1,4 +1,3 @@
-
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
@@ -8,24 +7,29 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
-// Group: @team_settings
+// Group: @te_only @team_settings
 
+import {getAdminAccount} from '../../support/env';
 import {generateRandomUser} from '../../support/api/user';
 
 import {allowOnlyUserFromSpecificDomain, inviteUserByEmail, verifyEmailInviteAndVisitLink, signupAndVerifyTutorial} from './helpers';
 
 describe('Team Settings', () => {
-    let testTeam;
+    const sysadmin = getAdminAccount();
     const {username, email, password} = generateRandomUser();
     const emailDomain = 'sample.mattermost.com';
 
-    before(() => {
-        // # Delete license
-        cy.apiDeleteLicense();
+    let testTeam;
+    let siteName;
 
-        // # Disable LDAP and do email test if setup properly
-        cy.apiUpdateConfig({LdapSettings: {Enable: false}});
+    before(() => {
+        cy.shouldRunOnTeamEdition();
+
+        cy.apiUpdateConfig({LdapSettings: {Enable: false}}).then(({config}) => {
+            siteName = config.TeamSettings.SiteName;
+        });
+
+        // # Do email test if setup properly
         cy.apiEmailTest();
 
         cy.apiInitSetup().then(({team}) => {
@@ -45,7 +49,7 @@ describe('Team Settings', () => {
         cy.apiLogout();
 
         // # Invite a new user (with the email declared in the parent scope)
-        verifyEmailInviteAndVisitLink(username, email, testTeam.name, testTeam.display_name);
+        verifyEmailInviteAndVisitLink(sysadmin.username, username, email, testTeam, siteName);
 
         // # Signup and verify the initial tutorial
         signupAndVerifyTutorial(username, password, testTeam.display_name);

@@ -7,7 +7,10 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @mark_as_unread
+
+import * as TIMEOUTS from '../../fixtures/timeouts';
 
 import {verifyPostNextToNewMessageSeparator} from './helpers';
 
@@ -76,7 +79,7 @@ describe('Mark as Unread', () => {
             cy.get(`#sidebarItem_${gmChannel.name}`).should('have.class', 'unread-title');
 
             // # Go to the group message channel
-            cy.get(`#sidebarItem_${gmChannel.name}`).click();
+            cy.get(`#sidebarItem_${gmChannel.name}`).click().wait(TIMEOUTS.ONE_SEC);
 
             // * Verify the group message in LHS is read
             cy.get(`#sidebarItem_${gmChannel.name}`).should('exist').should('not.have.class', 'unread-title');

@@ -1,4 +1,4 @@
-@charset 'UTF-8';
+@charset "UTF-8";
 
 .search-bar__container {
     .channel-header__links {
@@ -92,6 +92,27 @@
     padding: 0;
     position: relative;
 
+    .searchTypeBadge {
+        display: flex;
+        background: rgba(v(button-bg-rgb), 0.08);
+        color: v(button-bg);
+        padding: 2px 2px 2px 7px;
+        @include border-radius(4px);
+        position: relative;
+        left: 26px;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 10px;
+        .icon-close {
+            cursor: pointer;
+            padding: 2px;
+        }
+        &:hover {
+            background: rgba(v(button-bg-rgb), 0.16);
+        }
+    }
+
     .search-bar__container & {
         @include border-radius(4px);
         border: 1px solid v(center-channel-color-24);
@@ -111,10 +132,6 @@
         &--focused:hover {
             border: 2px solid v(button-bg);
             padding: 0;
-
-            .search-bar {
-                padding-left: 2.9rem;
-            }
 
             .search__icon {
                 top: 6px;
@@ -167,7 +184,7 @@
     -webkit-overflow-scrolling: touch;
     height: calc(100% - 56px);
     position: relative;
-    padding-top: 28px;
+    padding-top: 16px;
 
     &.no-results {
         display: flex;
@@ -195,6 +212,8 @@
 }
 
 .search-item__container {
+    display: flex;
+    flex-direction: column;
     .post {
         margin: 0;
         padding: 0 1em 16px;
@@ -226,7 +245,7 @@
         .post-pre-header__icons-container {
             padding-right: 10px; // If the padding of post__img changes, this needs to be adjusted accordingly
             width: 53px; // If the width of post__img changes, this needs to be adjusted accordingly
-            margin-left: 0px; // if left margin of post__content changes, this needs to be adjusted accordingly
+            margin-left: 0; // if left margin of post__content changes, this needs to be adjusted accordingly
         }
     }
 }
@@ -309,6 +328,37 @@
 
 .search-hint__suggestion-list__value {
     margin-left: 16px;
+}
+
+.search-hint__search-type-selector {
+    padding: 18px 24px 8px 24px;
+    font-weight: 600;
+    font-size: 14px;
+
+    .button-container {
+        display: flex;
+    }
+
+    button {
+        @include border-radius(4px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        color: v(button-bg);
+        border: 1px solid v(button-bg);
+        background: v(center-channel-bg);
+        padding: 8px 16px;
+        margin: 18px 8px 16px 0;
+        line-height: 1;
+        .icon {
+            font-size: 14px;
+            margin-right: 6px;
+        }
+        &:hover, &.highlighted {
+            background: rgba(v(button-bg-rgb), 0.04);
+        }
+    }
 }
 
 .sidebar--right__subheader {

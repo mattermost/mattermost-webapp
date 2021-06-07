@@ -26,7 +26,7 @@ describe('Archived channels', () => {
 
     it('MM-T1721 Archive channel posts menu should have copy link and reply options', () => {
         // # Click to add a channel description
-        cy.get('#channelHeaderDescription button').click();
+        cy.findByRoleExtended('button', {name: 'Add a channel description'}).should('be.visible').click();
 
         // # Add channel header for system message
         const header = 'this is a header!';
@@ -38,10 +38,10 @@ describe('Archived channels', () => {
             cy.get(`#postMessageText_${postId}`).should('contain', header);
             cy.clickPostDotMenu(postId).then(() => {
                 // * Copy link menu item should not be visible
-                cy.findByText('Copy Link').should('not.be.visible');
+                cy.findByText('Copy Link').should('not.exist');
 
                 // * Reply post menu item should not be visible
-                cy.findByText('Reply').should('not.be.visible');
+                cy.findByText('Reply').should('not.exist');
             });
         });
 

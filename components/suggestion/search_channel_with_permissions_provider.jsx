@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+
 import {
     getChannelsInCurrentTeam,
 } from 'mattermost-redux/selectors/entities/channels';

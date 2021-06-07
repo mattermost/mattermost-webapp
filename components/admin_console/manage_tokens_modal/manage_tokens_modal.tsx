@@ -4,6 +4,7 @@
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
+
 import {Client4} from 'mattermost-redux/client';
 import {UserAccessToken, UserProfile} from 'mattermost-redux/types/users';
 import {Dictionary} from 'mattermost-redux/types/utilities';
@@ -42,7 +43,7 @@ export type Props = {
         /**
          * Function to get a user's access tokens
          */
-        getUserAccessTokensForUser: (userId: string, page: number, perPage: number) => ActionFunc
+        getUserAccessTokensForUser: (userId: string, page: number, perPage: number) => ActionFunc;
     };
 };
 

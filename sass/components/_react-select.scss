@@ -1,77 +1,109 @@
-.app__body {
-    .react-select {
-        .a11y--focused {
-            box-shadow: none;
-        }
-    }
-
-    .react-select__control--is-focused {
-        box-shadow: 0 0 0 1px v(button-bg);
-        border-color: v(button-bg);
-
-        &:hover {
-            box-shadow: 0 0 0 1px v(button-bg);
-        }
+.react-select {
+    .a11y--focused {
+        box-shadow: none;
     }
 
     .react-select__value-container {
-        padding: 2px 10px;
+        padding: 0 8px;
     }
 
     .react-select__multi-value {
+        background: rgba(var(--sys-center-channel-color-rgb), 0.08);
+        color: var(--sys-center-channel-color);
         align-items: center;
-        background: rgba(var(--center-channel-color-rgb), 0.08);
-        padding: 2px;
-        border-radius: 16px;
-        color: var(--center-channel-color);
-        margin: 4px;
-        &:nth-last-child(2) {
-            margin: 4px 0px 4px 4px;
+        border-radius: 32px;
+        margin: 4px 4px 4px 0;
+
+        .app__body & {
+            background: rgba(var(--center-channel-color-rgb), 0.08);
+            color: var(--center-channel-color);
         }
     }
 
     .react-select__multi-value__remove {
         cursor: pointer;
+
         span {
             height: 16px;
             width: 16px;
             display: flex;
         }
+
         &:hover {
             background: none;
         }
+
         svg {
             height: 16px;
             width: 16px;
-            fill: var(--center-channel-color-64);
+            fill: rgba(var(--sys-center-channel-color-rgb), 0.64);
+
             &:hover {
-                fill: var(--center-channel-color-80);
+                fill: rgba(var(--sys-center-channel-color-rgb), 0.80);
             }
+
+            .app__body & {
+                fill: rgba(var(--center-channel-color-rgb), 0.64);
+
+                &:hover {
+                    fill: rgba(var(--center-channel-color-rgb), 0.80);
+                }
+            }
+
             opacity: .6;
         }
     }
 
     .react-select__control {
-        background: v(center-channel-bg);
-        border-color: v(center-channel-color-20);
+        background: rgba(var(--sys-center-channel-bg-rgb), 1);
+        border-color: rgba(var(--sys-center-channel-color-rgb), 0.2);
         height: 36px;
         min-height: 36px;
+
+        .app__body & {
+            background: var(--center-channel-bg);
+            border-color: var(--center-channel-color-20);
+        }
 
         &.react-select-auto {
             height: auto;
         }
 
         &:hover {
-            border-color: v(center-channel-color-40);
-
             .react-select__indicator {
                 opacity: .8;
             }
         }
+
+        &.react-select__control--is-disabled {
+            background: rgba(var(--sys-center-channel-color-rgb), 0.04);
+
+            .app__body & {
+                background: rgba(var(--center-channel-color-rgb), 0.04);
+            }
+        }
+    }
+
+    .react-select__padded-component {
+        padding: 4px 2px 4px 8px;
+    }
+
+    .react-select__control--is-focused {
+        box-shadow: inset 0 0 0 1px rgba(var(--sys-button-bg-rgb), 1);
+        border-color: rgba(var(--sys-button-bg-rgb), 1) !important;
+
+        .app__body & {
+            box-shadow: inset 0 0 0 1px rgba(var(--button-bg-rgb), 1);
+            border-color: rgba(var(--button-bg-rgb), 1) !important;
+        }
     }
 
     .react-select__indicator-separator {
-        background-color: rgba(var(--center-channel-color-rgb), 0.40);
+        background-color: rgba(var(--sys-center-channel-color-rgb), 0.40);
+
+        .app__body & {
+            background-color: rgba(var(--center-channel-color-rgb), 0.40);
+        }
     }
 
     .react-select__indicator {
@@ -85,26 +117,74 @@
         color: inherit;
     }
 
+    // additionally adding `&__***` definitions,
+    // since using portal on the react-select component
+    // renders it as the last child of the body.
+    &__input ,
     .react-select__input {
-        color: v(center-channel-color);
+        color: var(--sys-center-channel-color);
+
+        .app__body & {
+            color: var(--center-channel-color);
+        }
     }
 
+    &__menu,
     .react-select__menu {
-        background: v(center-channel-bg);
+        background: var(--sys-center-channel-bg);
+
+        .app__body & {
+            background: var(--center-channel-bg);
+        }
+
+        &-list {
+            border: 1px solid var(--sys-center-channel-color-20);
+            border-radius: 4px;
+
+            .app__body & {
+                border: 1px solid var(--center-channel-color-20);
+            }
+        }
     }
 
-    .react-select__menu-list {
-        border: 1px solid v(center-channel-color-20);
-        border-radius: 4px;
-    }
+    &__option,
+    & &__option {
+        // hovering
+        &--is-focused {
+            background: rgba(var(--sys-button-bg-rgb), 0.08);
 
-    .react-select__option--is-focused {
-        background: rgba(var(--button-bg-rgb), 0.24);
-    }
+            .app__body & {
+                background: var(--center-channel-color-08);
+            }
+        }
 
-    .react-select__option--is-selected {
-        background: v(button-bg);
-        color: v(button-color);
+        // selected option
+        &--is-selected {
+            background: var(--sys-button-bg);
+            color: var(--sys-button-color);
+
+            .app__body & {
+                background: var(--button-bg);
+                color: var(--button-color);
+            }
+        }
+
+        // selected + hovering
+        &--is-selected:hover {
+            background: rgba(var(--sys-button-bg-rgb), 0.88);
+
+            .app__body & {
+                background: var(--button-bg-88);
+            }
+        }
+
+        &:active {
+            background: rgba(var(--sys-button-bg-rgb), 0.16);
+
+            .app__body & {
+                background: var(--button-bg-16);
+            }
+        }
     }
 
     .react-select-top {

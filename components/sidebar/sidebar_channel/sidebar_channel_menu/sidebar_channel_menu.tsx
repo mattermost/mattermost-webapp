@@ -34,6 +34,8 @@ type Props = {
     isCollapsed: boolean;
     isMenuOpen: boolean;
     onToggleMenu: (isMenuOpen: boolean) => void;
+    multiSelectedChannelIds: string[];
+    displayedChannels: Channel[];
     actions: {
         markChannelAsRead: (channelId: string) => void;
         favoriteChannel: (channelId: string) => void;
@@ -41,13 +43,12 @@ type Props = {
         muteChannel: (userId: string, channelId: string) => void;
         unmuteChannel: (userId: string, channelId: string) => void;
         openModal: (modalData: any) => void;
-        addChannelToCategory: (categoryId: string, channelId: string) => void;
+        addChannelsInSidebar: (categoryId: string, channelId: string) => void;
     };
 };
 
 type State = {
     openUp: boolean;
-    width: number;
 };
 
 export class SidebarChannelMenu extends React.PureComponent<Props, State> {
@@ -58,7 +59,6 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
 
         this.state = {
             openUp: false,
-            width: 0,
         };
 
         this.isLeaving = false;
@@ -89,17 +89,19 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
 
     moveToCategory = (categoryId: string) => {
         return () => {
-            this.props.actions.addChannelToCategory(categoryId, this.props.channel.id);
+            this.props.actions.addChannelsInSidebar(categoryId, this.props.channel.id);
             trackEvent('ui', 'ui_sidebar_channel_menu_moveToExistingCategory');
         };
     }
 
     moveToNewCategory = () => {
-        this.props.actions.openModal({
+        const {actions, multiSelectedChannelIds, channel} = this.props;
+
+        actions.openModal({
             modalId: ModalIdentifiers.EDIT_CATEGORY,
             dialogType: EditCategoryModal,
             dialogProps: {
-                channelIdsToAdd: [this.props.channel.id],
+                channelIdsToAdd: multiSelectedChannelIds.indexOf(channel.id) === -1 ? [channel.id] : multiSelectedChannelIds,
             },
         });
         trackEvent('ui', 'ui_sidebar_channel_menu_createCategory');
@@ -136,7 +138,7 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
     }
 
     renderDropdownItems = () => {
-        const {intl, isUnread, isFavorite, isMuted, channel, categories} = this.props;
+        const {intl, isUnread, isFavorite, isMuted, channel, categories, displayedChannels, multiSelectedChannelIds} = this.props;
 
         if (!categories) {
             return null;
@@ -204,21 +206,22 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
             );
         }
 
+        const selectedChannels = multiSelectedChannelIds.indexOf(channel.id) === -1 ? [channel] : displayedChannels.filter((c) => multiSelectedChannelIds.indexOf(c.id) !== -1);
+        const allChannelsAreDMs = selectedChannels.every((selectedChannel) => selectedChannel.type === Constants.DM_CHANNEL || selectedChannel.type === Constants.GM_CHANNEL);
+        const allChannelsAreNotDMs = selectedChannels.every((selectedChannel) => selectedChannel.type !== Constants.DM_CHANNEL && selectedChannel.type !== Constants.GM_CHANNEL);
+
         const categoryMenuItems = categories.filter((category) => {
             if (category.id === this.props.currentCategory?.id) {
                 return false;
             }
 
-            switch (channel.type) {
-            case Constants.OPEN_CHANNEL:
-            case Constants.PRIVATE_CHANNEL:
-                return category.type !== CategoryTypes.DIRECT_MESSAGES;
-            case Constants.DM_CHANNEL:
-            case Constants.GM_CHANNEL:
+            if (allChannelsAreDMs) {
                 return category.type !== CategoryTypes.CHANNELS;
-            default:
-                return true;
+            } else if (allChannelsAreNotDMs) {
+                return category.type !== CategoryTypes.DIRECT_MESSAGES;
             }
+
+            return true;
         }).map((category) => {
             return {
                 id: `moveToCategory-${channel.id}-${category.id}`,
@@ -301,7 +304,6 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
                         icon={<i className='icon-folder-move-outline'/>}
                         direction={'right' as any}
                         openUp={this.state.openUp}
-                        xOffset={this.state.width}
                     />
                 </Menu.Group>
                 <Menu.Group>
@@ -317,7 +319,6 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
         if (ref) {
             this.setState({
                 openUp: ref.state.openUp,
-                width: ref.state.width,
             });
         }
     }
@@ -349,7 +350,7 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
                 tooltipText={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.editChannel', defaultMessage: 'Channel options'})}
                 tabIndex={isCollapsed ? -1 : 0}
             >
-                {this.renderDropdownItems()}
+                {isMenuOpen && this.renderDropdownItems()}
             </SidebarMenu>
         );
     }

@@ -223,11 +223,11 @@ Cypress.Commands.add('apiSaveCloudOnboardingPreference', (userId, name, value) =
     return cy.apiSaveUserPreference([preference], userId);
 });
 
-Cypress.Commands.add('apiHideSidebarWhatsNewModalPreference', (userId, value) => {
+Cypress.Commands.add('apiSaveDirectChannelShowPreference', (userId, otherUserId, value) => {
     const preference = {
         user_id: userId,
-        category: 'whats_new_modal',
-        name: 'has_seen_sidebar_whats_new_modal',
+        category: 'direct_channel_show',
+        name: otherUserId,
         value,
     };
 

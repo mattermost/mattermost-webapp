@@ -22,8 +22,9 @@ describe('components/ProfilePopover', () => {
         isInCurrentTeam: true,
         teamUrl: '',
         canManageAnyChannelMembersInCurrentTeam: true,
+        isCustomStatusEnabled: true,
         actions: {
-            getMembershipForCurrentEntities: jest.fn(),
+            getMembershipForEntities: jest.fn(),
             openDirectChannelToUserId: jest.fn(),
             openModal: jest.fn(),
             closeModal: jest.fn(),
@@ -33,6 +34,23 @@ describe('components/ProfilePopover', () => {
 
     test('should match snapshot', () => {
         const props = {...baseProps};
+
+        const wrapper = shallowWithIntl(
+            <ProfilePopover {...props}/>,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot for shared user', () => {
+        const props = {
+            ...baseProps,
+            user: {
+                name: 'shared user',
+                username: 'shared_user',
+                first_name: 'shared',
+                remote_id: 'fakeuser',
+            },
+        };
 
         const wrapper = shallowWithIntl(
             <ProfilePopover {...props}/>,

@@ -8,6 +8,7 @@ import ReactDOM from 'react-dom';
 import {FormattedMessage, injectIntl} from 'react-intl';
 import {PropTypes} from 'prop-types';
 import classNames from 'classnames';
+import throttle from 'lodash/throttle';
 
 import Scrollbars from 'react-custom-scrollbars';
 import {SpringSystem, MathUtil} from 'rebound';
@@ -27,6 +28,8 @@ import QuickSwitchModal from 'components/quick_switch_modal';
 import NewChannelFlow from 'components/new_channel_flow';
 import UnreadChannelIndicator from 'components/sidebar/unread_channel_indicator';
 import Pluggable from 'plugins/pluggable';
+
+import GlobalThreadsLink from 'components/threading/global_threads_link';
 
 import SidebarHeader from './header';
 import SidebarChannel from './sidebar_channel';
@@ -142,11 +145,6 @@ class LegacySidebar extends React.PureComponent {
          * Setting that enables user to view archived channels
          */
         viewArchivedChannels: PropTypes.bool,
-
-        /**
-         * Setting that enables prefetching data for channels
-         */
-        isDataPrefechEnabled: PropTypes.bool,
 
         actions: PropTypes.shape({
             close: PropTypes.func.isRequired,
@@ -275,9 +273,9 @@ class LegacySidebar extends React.PureComponent {
         }
     }
 
-    onScroll = () => {
+    onScroll = throttle(() => {
         this.updateUnreadIndicators();
-    }
+    }, 100);
 
     handleScrollAnimationUpdate = (spring) => {
         const {scrollbar} = this.refs;
@@ -552,6 +550,7 @@ class LegacySidebar extends React.PureComponent {
                     id='sidebarChannelContainer'
                     className='nav-pills__container'
                 >
+                    <GlobalThreadsLink/>
                     {orderedChannelIds.map((sec) => {
                         const section = {
                             type: sec.type,
@@ -618,7 +617,6 @@ class LegacySidebar extends React.PureComponent {
             currentTeam,
             currentUser,
             isOpen,
-            isDataPrefechEnabled,
         } = this.props;
 
         const {
@@ -716,7 +714,7 @@ class LegacySidebar extends React.PureComponent {
                 role='navigation'
                 aria-labelledby='sidebar-left'
             >
-                {isDataPrefechEnabled && <DataPrefetch/>}
+                <DataPrefetch/>
                 {morePublicDirectChannelsModal}
                 {moreDirectChannelsModal}
 
@@ -725,7 +723,6 @@ class LegacySidebar extends React.PureComponent {
                 <div className='sidebar--left__icons'>
                     <Pluggable pluggableName='LeftSidebarHeader'/>
                 </div>
-
                 <div
                     id='lhsList'
                     role='application'

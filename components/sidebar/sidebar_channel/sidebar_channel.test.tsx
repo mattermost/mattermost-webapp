@@ -23,6 +23,7 @@ describe('components/sidebar/sidebar_channel', () => {
             purpose: '',
             last_post_at: 0,
             total_msg_count: 0,
+            total_msg_count_root: 0,
             extra_update_at: 0,
             creator_id: '',
             scheme_id: '',
@@ -37,10 +38,13 @@ describe('components/sidebar/sidebar_channel', () => {
         setChannelRef: jest.fn(),
         isCategoryCollapsed: false,
         isCurrentChannel: false,
-        isDMCategory: false,
+        isAutoSortedCategory: false,
         isCategoryDragged: false,
         isDropDisabled: false,
         draggingState: {},
+        multiSelectedChannelIds: [],
+        autoSortedCategoryIds: new Set<string>(),
+        isChannelSelected: false,
     };
 
     test('should match snapshot', () => {

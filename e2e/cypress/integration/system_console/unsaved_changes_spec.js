@@ -8,13 +8,19 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @system_console
+// Group: @not_cloud @system_console
 
 describe('Unsaved Changes', () => {
+    before(() => {
+        cy.shouldNotRunOnCloudEdition();
+    });
+
     it('MM-T955 Warning leaving changed page without saving: Leave page, discard changes', () => {
+        const defaultValue = '50';
+
         // # Make a change on any page.
         cy.visit('/admin_console/environment/file_storage');
-        cy.findByTestId('FileSettings.MaxFileSizelabel').type('1');
+        cy.findByTestId('FileSettings.MaxFileSizenumber').clear().type('150');
 
         // # Click a navigation item in left nav.
         cy.findByText('Database').click();
@@ -26,13 +32,15 @@ describe('Unsaved Changes', () => {
         // * Opens other page, changes discarded.
         cy.url().should('include', '/environment/database');
         cy.visit('/admin_console/environment/file_storage');
-        cy.findByTestId('FileSettings.MaxFileSizenumber').should('have.value', '50');
+        cy.findByTestId('FileSettings.MaxFileSizenumber').should('have.value', defaultValue);
     });
 
     it('MM-T956 Warning leaving changed page without saving: Cancel leaving page', () => {
+        const draftValue = '150';
+
         // # Make a change on any page.
         cy.visit('/admin_console/environment/file_storage');
-        cy.findByTestId('FileSettings.MaxFileSizelabel').type('1');
+        cy.findByTestId('FileSettings.MaxFileSizenumber').clear().type(draftValue);
 
         // # Click a navigation item in left nav.
         cy.findByText('Database').click();
@@ -43,7 +51,7 @@ describe('Unsaved Changes', () => {
 
         // * Stays on current page, changes kept.
         cy.url().should('include', '/environment/file_storage');
-        cy.findByTestId('FileSettings.MaxFileSizenumber').should('have.value', '150');
+        cy.findByTestId('FileSettings.MaxFileSizenumber').should('have.value', draftValue);
     });
 });
 

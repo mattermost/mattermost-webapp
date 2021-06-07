@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {localizeMessage} from 'utils/utils.jsx';
 
-import CheckboxCheckedIcon from 'components/widgets/icons/checkbox_checked_icon.jsx';
+import CheckboxCheckedIcon from 'components/widgets/icons/checkbox_checked_icon';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 
 export default class GroupRow extends React.PureComponent {

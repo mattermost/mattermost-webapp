@@ -30,21 +30,21 @@ function mapStateToProps() {
     const getCommentCountForPost = makeGetCommentCountForPost();
 
     return (state, ownProps) => {
+        const {post} = ownProps;
         const config = getConfig(state);
         const preferences = getMyPreferences(state);
         const enablePostUsernameOverride = config.EnablePostUsernameOverride === 'true';
-        const {post} = ownProps;
         const user = getUser(state, post.user_id);
         const channel = getChannel(state, post.channel_id) || {delete_at: 0};
         const directTeammate = getDirectTeammate(state, channel.id);
 
         return {
+            currentTeamName: getCurrentTeam(state).name,
             createAriaLabel: createAriaLabelForPost(state, post),
             channelId: channel.id,
             channelName: channel.display_name,
             channelType: channel.type,
             channelIsArchived: channel.delete_at !== 0,
-            currentTeamName: getCurrentTeam(state).name,
             commentCountForPost: getCommentCountForPost(state, {post}),
             enablePostUsernameOverride,
             isFlagged: isPostFlagged(post.id, preferences),

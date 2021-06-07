@@ -1,558 +1,334 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/search_bar/SearchBar should match snapshot with search 1`] = `
-<div
-  className="sidebar-right__table"
->
+<div>
   <div
-    className="sidebar-collapse__container"
-  >
-    <div
-      className="sidebar-collapse"
-      id="sidebarCollapse"
-      onClick={[Function]}
-    >
-      <FormattedMessage
-        defaultMessage="Back Icon"
-        id="generic_icons.back"
-      >
-        <Component />
-      </FormattedMessage>
-    </div>
-  </div>
-  <div
-    className="search-form__container"
+    class="search-form__container"
     id="searchFormContainer"
   >
     <form
       aria-labelledby="searchBox"
-      autoComplete="off"
-      className="search__form"
-      onSubmit={[Function]}
+      autocomplete="off"
+      class="search__form"
       role="application"
-      style={
-        Object {
-          "overflow": "visible",
-        }
-      }
+      style="overflow: visible;"
     >
       <div
-        className="search__font-icon"
+        class="search__font-icon"
       >
         <i
-          className="icon icon-magnify icon-16"
+          class="icon icon-magnify icon-16"
         />
       </div>
-      <SuggestionBox
-        aria-describedby="searchbar-help-popup"
-        aria-label="Search"
-        autoFocus={false}
-        className="search-bar a11y__region"
-        clearable={true}
-        completeOnTab={true}
-        containerClass="w-full"
-        data-a11y-sort-order="9"
-        dateComponent={[Function]}
-        delayInputUpdate={true}
-        forceSuggestionsWhenBlur={false}
-        id="searchBox"
-        isRHS={false}
-        listComponent={[Function]}
-        listStyle="top"
-        listenForMentionKeyClick={false}
-        onBlur={[Function]}
-        onChange={[Function]}
-        onClear={[Function]}
-        onFocus={[Function]}
-        onKeyDown={[Function]}
-        openOnFocus={false}
-        openWhenEmpty={false}
-        placeholder="Search"
-        providers={
-          Array [
-            SearchDateProvider {
-              "disableDispatches": false,
-              "latestComplete": true,
-              "latestPrefix": "",
-              "requestStarted": false,
-            },
-            SearchChannelProvider {
-              "autocompleteChannelsForSearch": [MockFunction],
-              "disableDispatches": false,
-              "latestComplete": true,
-              "latestPrefix": "",
-              "requestStarted": false,
-            },
-            SearchUserProvider {
-              "autocompleteUsersInTeam": [MockFunction],
-              "disableDispatches": false,
-              "latestComplete": true,
-              "latestPrefix": "",
-              "requestStarted": false,
-            },
-          ]
-        }
-        renderDividers={true}
-        renderNoResults={false}
-        replaceAllInputOnSelect={false}
-        requiredCharacters={1}
-        tabIndex="0"
-        type="search"
-        value="test"
-      />
+      <div
+        class="w-full"
+      >
+        <div
+          aria-live="polite"
+          class="sr-only"
+          role="alert"
+        />
+        <div>
+          <input
+            aria-describedby="searchbar-help-popup"
+            aria-label="Search"
+            autocomplete="off"
+            class="search-bar form-control a11y__region"
+            data-a11y-sort-order="9"
+            id="searchBox"
+            placeholder="Search"
+            tabindex="0"
+            type="search"
+            value="test"
+          />
+          <div
+            class="input-clear visible"
+          >
+            <span
+              aria-hidden="true"
+              class="input-clear-x"
+            >
+              <i
+                class="icon icon-close-circle"
+              />
+            </span>
+          </div>
+        </div>
+        <div />
+      </div>
+    </form>
+  </div>
+</div>
+`;
+
+exports[`components/search_bar/SearchBar should match snapshot with search, with searchType 1`] = `
+<div>
+  <div
+    class="search-form__container"
+    id="searchFormContainer"
+  >
+    <form
+      aria-labelledby="searchBox"
+      autocomplete="off"
+      class="search__form"
+      role="application"
+      style="overflow: visible;"
+    >
+      <div
+        class="search__font-icon"
+      >
+        <i
+          class="icon icon-magnify icon-16"
+        />
+      </div>
+      <div
+        class="searchTypeBadge"
+      >
+        FILES
+        <i
+          class="icon icon-close icon-12"
+        />
+      </div>
+      <div
+        class="w-full"
+      >
+        <div
+          aria-live="polite"
+          class="sr-only"
+          role="alert"
+        />
+        <div>
+          <input
+            aria-describedby="searchbar-help-popup"
+            aria-label="Search"
+            autocomplete="off"
+            class="search-bar form-control a11y__region"
+            data-a11y-sort-order="9"
+            id="searchBox"
+            placeholder="Search"
+            tabindex="0"
+            type="search"
+            value="test"
+          />
+          <div
+            class="input-clear visible"
+          >
+            <span
+              aria-hidden="true"
+              class="input-clear-x"
+            >
+              <i
+                class="icon icon-close-circle"
+              />
+            </span>
+          </div>
+        </div>
+        <div />
+      </div>
     </form>
   </div>
 </div>
 `;
 
 exports[`components/search_bar/SearchBar should match snapshot without search 1`] = `
-<div
-  className="sidebar-right__table"
->
+<div>
   <div
-    className="sidebar-collapse__container"
-  >
-    <div
-      className="sidebar-collapse"
-      id="sidebarCollapse"
-      onClick={[Function]}
-    >
-      <FormattedMessage
-        defaultMessage="Back Icon"
-        id="generic_icons.back"
-      >
-        <Component />
-      </FormattedMessage>
-    </div>
-  </div>
-  <div
-    className="search-form__container"
+    class="search-form__container"
     id="searchFormContainer"
   >
     <form
       aria-labelledby="searchBox"
-      autoComplete="off"
-      className="search__form"
-      onSubmit={[Function]}
+      autocomplete="off"
+      class="search__form"
       role="application"
-      style={
-        Object {
-          "overflow": "visible",
-        }
-      }
+      style="overflow: visible;"
     >
       <div
-        className="search__font-icon"
+        class="search__font-icon"
       >
         <i
-          className="icon icon-magnify icon-16"
+          class="icon icon-magnify icon-16"
         />
       </div>
-      <SuggestionBox
-        aria-describedby="searchbar-help-popup"
-        aria-label="Search"
-        autoFocus={false}
-        className="search-bar a11y__region"
-        clearable={true}
-        completeOnTab={true}
-        containerClass="w-full"
-        data-a11y-sort-order="9"
-        dateComponent={[Function]}
-        delayInputUpdate={true}
-        forceSuggestionsWhenBlur={false}
-        id="searchBox"
-        isRHS={false}
-        listComponent={[Function]}
-        listStyle="top"
-        listenForMentionKeyClick={false}
-        onBlur={[Function]}
-        onChange={[Function]}
-        onClear={[Function]}
-        onFocus={[Function]}
-        onKeyDown={[Function]}
-        openOnFocus={false}
-        openWhenEmpty={false}
-        placeholder="Search"
-        providers={
-          Array [
-            SearchDateProvider {
-              "disableDispatches": false,
-              "latestComplete": true,
-              "latestPrefix": "",
-              "requestStarted": false,
-            },
-            SearchChannelProvider {
-              "autocompleteChannelsForSearch": [MockFunction],
-              "disableDispatches": false,
-              "latestComplete": true,
-              "latestPrefix": "",
-              "requestStarted": false,
-            },
-            SearchUserProvider {
-              "autocompleteUsersInTeam": [MockFunction],
-              "disableDispatches": false,
-              "latestComplete": true,
-              "latestPrefix": "",
-              "requestStarted": false,
-            },
-          ]
-        }
-        renderDividers={true}
-        renderNoResults={false}
-        replaceAllInputOnSelect={false}
-        requiredCharacters={1}
-        tabIndex="0"
-        type="search"
-        value=""
-      />
-      <Popover
-        className="search-help-popover"
-        id="searchbar-help-popup"
-        placement="bottom"
-        popoverSize="sm"
-        popoverStyle="info"
+      <div
+        class="w-full"
       >
-        <SearchHint
-          highlightedIndex={-1}
-          onMouseDown={[Function]}
-          onOptionHover={[Function]}
-          onOptionSelected={[Function]}
-          options={
-            Array [
-              Object {
-                "message": Object {
-                  "defaultMessage": "Messages from a user",
-                  "id": "search_list_option.from",
-                },
-                "searchTerm": "From:",
-              },
-              Object {
-                "message": Object {
-                  "defaultMessage": "Messages in a channel",
-                  "id": "search_list_option.in",
-                },
-                "searchTerm": "In:",
-              },
-              Object {
-                "message": Object {
-                  "defaultMessage": "Messages on a date",
-                  "id": "search_list_option.on",
-                },
-                "searchTerm": "On:",
-              },
-              Object {
-                "message": Object {
-                  "defaultMessage": "Messages before a date",
-                  "id": "search_list_option.before",
-                },
-                "searchTerm": "Before:",
-              },
-              Object {
-                "message": Object {
-                  "defaultMessage": "Messages after a date",
-                  "id": "search_list_option.after",
-                },
-                "searchTerm": "After:",
-              },
-              Object {
-                "additionalDisplay": "—",
-                "message": Object {
-                  "defaultMessage": "Exclude search terms",
-                  "id": "search_list_option.exclude",
-                },
-                "searchTerm": "-",
-              },
-              Object {
-                "message": Object {
-                  "defaultMessage": "Messages with phrases",
-                  "id": "search_list_option.phrases",
-                },
-                "searchTerm": "\\"\\"",
-              },
-            ]
-          }
-          withTitle={true}
+        <div
+          aria-live="polite"
+          class="sr-only"
+          role="alert"
         />
-      </Popover>
+        <div>
+          <input
+            aria-describedby="searchbar-help-popup"
+            aria-label="Search"
+            autocomplete="off"
+            class="search-bar form-control a11y__region"
+            data-a11y-sort-order="9"
+            id="searchBox"
+            placeholder="Search"
+            tabindex="0"
+            type="search"
+            value=""
+          />
+          
+        </div>
+      </div>
     </form>
   </div>
 </div>
 `;
 
 exports[`components/search_bar/SearchBar should match snapshot without search on focus 1`] = `
-<div
-  className="sidebar-right__table"
->
+<div>
   <div
-    className="sidebar-collapse__container"
-  >
-    <div
-      className="sidebar-collapse"
-      id="sidebarCollapse"
-      onClick={[Function]}
-    >
-      <FormattedMessage
-        defaultMessage="Back Icon"
-        id="generic_icons.back"
-      >
-        <Component />
-      </FormattedMessage>
-    </div>
-  </div>
-  <div
-    className="search-form__container"
+    class="search-form__container"
     id="searchFormContainer"
   >
     <form
       aria-labelledby="searchBox"
-      autoComplete="off"
-      className="search__form search__form--focused"
-      onSubmit={[Function]}
+      autocomplete="off"
+      class="search__form search__form--focused"
       role="application"
-      style={
-        Object {
-          "overflow": "visible",
-        }
-      }
+      style="overflow: visible;"
     >
       <div
-        className="search__font-icon"
+        class="search__font-icon"
       >
         <i
-          className="icon icon-magnify icon-16"
+          class="icon icon-magnify icon-16"
         />
       </div>
-      <SuggestionBox
-        aria-describedby="searchbar-help-popup"
-        aria-label="Search"
-        autoFocus={false}
-        className="search-bar a11y__region"
-        clearable={true}
-        completeOnTab={true}
-        containerClass="w-full"
-        data-a11y-sort-order="9"
-        dateComponent={[Function]}
-        delayInputUpdate={true}
-        forceSuggestionsWhenBlur={false}
-        id="searchBox"
-        isRHS={false}
-        listComponent={[Function]}
-        listStyle="top"
-        listenForMentionKeyClick={false}
-        onBlur={[Function]}
-        onChange={[Function]}
-        onClear={[Function]}
-        onFocus={[Function]}
-        onKeyDown={[Function]}
-        openOnFocus={false}
-        openWhenEmpty={false}
-        placeholder="Search"
-        providers={
-          Array [
-            SearchDateProvider {
-              "disableDispatches": false,
-              "latestComplete": true,
-              "latestPrefix": "",
-              "requestStarted": false,
-            },
-            SearchChannelProvider {
-              "autocompleteChannelsForSearch": [MockFunction],
-              "disableDispatches": false,
-              "latestComplete": true,
-              "latestPrefix": "",
-              "requestStarted": false,
-            },
-            SearchUserProvider {
-              "autocompleteUsersInTeam": [MockFunction],
-              "disableDispatches": false,
-              "latestComplete": true,
-              "latestPrefix": "",
-              "requestStarted": false,
-            },
-          ]
-        }
-        renderDividers={true}
-        renderNoResults={false}
-        replaceAllInputOnSelect={false}
-        requiredCharacters={1}
-        tabIndex="0"
-        type="search"
-        value=""
-      />
-      <Popover
-        className="search-help-popover visible"
-        id="searchbar-help-popup"
-        placement="bottom"
-        popoverSize="sm"
-        popoverStyle="info"
+      <div
+        class="w-full"
       >
-        <SearchHint
-          highlightedIndex={-1}
-          onMouseDown={[Function]}
-          onOptionHover={[Function]}
-          onOptionSelected={[Function]}
-          options={
-            Array [
-              Object {
-                "message": Object {
-                  "defaultMessage": "Messages from a user",
-                  "id": "search_list_option.from",
-                },
-                "searchTerm": "From:",
-              },
-              Object {
-                "message": Object {
-                  "defaultMessage": "Messages in a channel",
-                  "id": "search_list_option.in",
-                },
-                "searchTerm": "In:",
-              },
-              Object {
-                "message": Object {
-                  "defaultMessage": "Messages on a date",
-                  "id": "search_list_option.on",
-                },
-                "searchTerm": "On:",
-              },
-              Object {
-                "message": Object {
-                  "defaultMessage": "Messages before a date",
-                  "id": "search_list_option.before",
-                },
-                "searchTerm": "Before:",
-              },
-              Object {
-                "message": Object {
-                  "defaultMessage": "Messages after a date",
-                  "id": "search_list_option.after",
-                },
-                "searchTerm": "After:",
-              },
-              Object {
-                "additionalDisplay": "—",
-                "message": Object {
-                  "defaultMessage": "Exclude search terms",
-                  "id": "search_list_option.exclude",
-                },
-                "searchTerm": "-",
-              },
-              Object {
-                "message": Object {
-                  "defaultMessage": "Messages with phrases",
-                  "id": "search_list_option.phrases",
-                },
-                "searchTerm": "\\"\\"",
-              },
-            ]
-          }
-          withTitle={true}
+        <div
+          aria-live="polite"
+          class="sr-only"
+          role="alert"
         />
-      </Popover>
+        <div>
+          <input
+            aria-describedby="searchbar-help-popup"
+            aria-label="Search"
+            autocomplete="off"
+            class="search-bar form-control a11y__region"
+            data-a11y-sort-order="9"
+            id="searchBox"
+            placeholder="Search"
+            tabindex="0"
+            type="search"
+            value=""
+          />
+          
+        </div>
+      </div>
     </form>
   </div>
 </div>
 `;
 
-exports[`components/search_bar/SearchBar should match snapshot without search on focus in mobile 1`] = `
-<div
-  className="sidebar-right__table"
->
+exports[`components/search_bar/SearchBar should match snapshot without search, with searchType 1`] = `
+<div>
   <div
-    className="sidebar-collapse__container"
-  >
-    <div
-      className="sidebar-collapse"
-      id="sidebarCollapse"
-      onClick={[Function]}
-    >
-      <FormattedMessage
-        defaultMessage="Back Icon"
-        id="generic_icons.back"
-      >
-        <Component />
-      </FormattedMessage>
-    </div>
-  </div>
-  <div
-    className="search-form__container"
+    class="search-form__container"
     id="searchFormContainer"
   >
     <form
       aria-labelledby="searchBox"
-      autoComplete="off"
-      className="search__form search__form--focused"
-      onSubmit={[Function]}
+      autocomplete="off"
+      class="search__form"
       role="application"
-      style={
-        Object {
-          "overflow": "visible",
-        }
-      }
+      style="overflow: visible;"
     >
       <div
-        className="search__font-icon"
+        class="search__font-icon"
       >
         <i
-          className="icon icon-magnify icon-16"
+          class="icon icon-magnify icon-16"
         />
       </div>
-      <SuggestionBox
-        aria-describedby="searchbar-help-popup"
-        aria-label="Search"
-        autoFocus={false}
-        className="search-bar a11y__region"
-        clearable={true}
-        completeOnTab={true}
-        containerClass="w-full"
-        data-a11y-sort-order="9"
-        dateComponent={[Function]}
-        delayInputUpdate={true}
-        forceSuggestionsWhenBlur={false}
-        id="searchBox"
-        isRHS={false}
-        listComponent={[Function]}
-        listStyle="top"
-        listenForMentionKeyClick={false}
-        onBlur={[Function]}
-        onChange={[Function]}
-        onClear={[Function]}
-        onFocus={[Function]}
-        onKeyDown={[Function]}
-        openOnFocus={false}
-        openWhenEmpty={false}
-        placeholder="Search"
-        providers={
-          Array [
-            SearchDateProvider {
-              "disableDispatches": false,
-              "latestComplete": true,
-              "latestPrefix": "",
-              "requestStarted": false,
-            },
-            SearchChannelProvider {
-              "autocompleteChannelsForSearch": [MockFunction],
-              "disableDispatches": false,
-              "latestComplete": true,
-              "latestPrefix": "",
-              "requestStarted": false,
-            },
-            SearchUserProvider {
-              "autocompleteUsersInTeam": [MockFunction],
-              "disableDispatches": false,
-              "latestComplete": true,
-              "latestPrefix": "",
-              "requestStarted": false,
-            },
-          ]
-        }
-        renderDividers={true}
-        renderNoResults={false}
-        replaceAllInputOnSelect={false}
-        requiredCharacters={1}
-        tabIndex="0"
-        type="search"
-        value=""
-      />
+      <div
+        class="searchTypeBadge"
+      >
+        FILES
+        <i
+          class="icon icon-close icon-12"
+        />
+      </div>
+      <div
+        class="w-full"
+      >
+        <div
+          aria-live="polite"
+          class="sr-only"
+          role="alert"
+        />
+        <div>
+          <input
+            aria-describedby="searchbar-help-popup"
+            aria-label="Search"
+            autocomplete="off"
+            class="search-bar form-control a11y__region"
+            data-a11y-sort-order="9"
+            id="searchBox"
+            placeholder="Search"
+            tabindex="0"
+            type="search"
+            value=""
+          />
+          
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+`;
+
+exports[`components/search_bar/SearchBar should match snapshot without search, without searchType 1`] = `
+<div>
+  <div
+    class="search-form__container"
+    id="searchFormContainer"
+  >
+    <form
+      aria-labelledby="searchBox"
+      autocomplete="off"
+      class="search__form"
+      role="application"
+      style="overflow: visible;"
+    >
+      <div
+        class="search__font-icon"
+      >
+        <i
+          class="icon icon-magnify icon-16"
+        />
+      </div>
+      <div
+        class="w-full"
+      >
+        <div
+          aria-live="polite"
+          class="sr-only"
+          role="alert"
+        />
+        <div>
+          <input
+            aria-describedby="searchbar-help-popup"
+            aria-label="Search"
+            autocomplete="off"
+            class="search-bar form-control a11y__region"
+            data-a11y-sort-order="9"
+            id="searchBox"
+            placeholder="Search"
+            tabindex="0"
+            type="search"
+            value=""
+          />
+          
+        </div>
+      </div>
     </form>
   </div>
 </div>

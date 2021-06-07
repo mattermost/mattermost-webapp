@@ -3,6 +3,8 @@
 
 import {batchActions} from 'redux-batched-actions';
 
+import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+
 import {
     markChannelAsRead,
     markChannelAsUnread,
@@ -12,7 +14,7 @@ import * as PostActions from 'mattermost-redux/actions/posts';
 
 import {WebsocketEvents} from 'mattermost-redux/constants';
 
-import {getCurrentChannel, isManuallyUnread} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannelId, isManuallyUnread} from 'mattermost-redux/selectors/entities/channels';
 import * as PostSelectors from 'mattermost-redux/selectors/entities/posts';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
@@ -36,7 +38,8 @@ type NewPostMessageProps = {
 
 export function completePostReceive(post: Post, websocketMessageProps: NewPostMessageProps, fetchedChannelMember: boolean): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        const rootPost = PostSelectors.getPost(getState(), post.root_id);
+        const state = getState();
+        const rootPost = PostSelectors.getPost(state, post.root_id);
         if (post.root_id && !rootPost) {
             const result = await dispatch(PostActions.getPostThread(post.root_id));
 
@@ -45,7 +48,7 @@ export function completePostReceive(post: Post, websocketMessageProps: NewPostMe
             }
         }
 
-        if (post.channel_id === getCurrentChannel(getState())?.id) {
+        if (post.channel_id === getCurrentChannelId(getState())) {
             dispatch({
                 type: ActionTypes.INCREASE_POST_VISIBILITY,
                 data: post.channel_id,
@@ -56,7 +59,7 @@ export function completePostReceive(post: Post, websocketMessageProps: NewPostMe
         // Need manual dispatch to remove pending post
 
         const actions = [
-            PostActions.receivedNewPost(post),
+            PostActions.receivedNewPost(post, isCollapsedThreadsEnabled(state)),
             {
                 type: WebsocketEvents.STOP_TYPING,
                 data: {
@@ -101,7 +104,7 @@ export function setChannelReadAndViewed(post: Post, websocketMessageProps: NewPo
                 markAsRead = true;
                 markAsReadOnServer = false;
             } else if (
-                post.channel_id === getCurrentChannel(state)?.id &&
+                post.channel_id === getCurrentChannelId(state) &&
                 window.isActive
             ) {
                 markAsRead = true;
@@ -113,7 +116,7 @@ export function setChannelReadAndViewed(post: Post, websocketMessageProps: NewPo
             dispatch(markChannelAsRead(post.channel_id, undefined, markAsReadOnServer));
             dispatch(markChannelAsViewed(post.channel_id));
         } else {
-            dispatch(markChannelAsUnread(websocketMessageProps.team_id, post.channel_id, websocketMessageProps.mentions, fetchedChannelMember));
+            dispatch(markChannelAsUnread(websocketMessageProps.team_id, post.channel_id, websocketMessageProps.mentions, fetchedChannelMember, post.root_id === ''));
         }
 
         return {data: true};

@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+
 import Permissions from 'mattermost-redux/constants/permissions';
 
 import SystemRolePermissionDropdown from './system_role_permission_dropdown';
@@ -13,7 +14,7 @@ import './system_role_permissions.scss';
 type Props = {
     readOnly?: boolean;
     setSectionVisible: (name: string, visible: boolean) => void;
-    section: SystemSection,
+    section: SystemSection;
     permissionsMap: Record<string, boolean>;
     visibleSections: Record<string, boolean>;
     permissionsToUpdate: PermissionsToUpdate;

@@ -11,7 +11,7 @@ import {PreferenceType} from 'mattermost-redux/types/preferences';
 import {GlobalState} from 'mattermost-redux/types/store';
 import {Channel} from 'mattermost-redux/types/channels';
 import {UserProfile} from 'mattermost-redux/types/users';
-import {getCurrentChannel, getRedirectChannelNameForTeam} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannelId, getRedirectChannelNameForTeam} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser, getUser} from 'mattermost-redux/selectors/entities/users';
 
@@ -44,8 +44,8 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const currentUser = getCurrentUser(state);
     const currentTeam = getCurrentTeam(state);
     const redirectChannel = getRedirectChannelNameForTeam(state, currentTeam.id);
-    const currentChannel = getCurrentChannel(state) || {};
-    const active = ownProps.channel.id === currentChannel.id;
+    const currentChannelId = getCurrentChannelId(state);
+    const active = ownProps.channel.id === currentChannelId;
 
     return {
         teammate,

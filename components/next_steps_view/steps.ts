@@ -31,11 +31,13 @@ export type StepType = {
     id: string;
     title: string;
     component: React.ComponentType<StepComponentProps>;
+    visible: boolean;
 
     // An array of all roles a user must have in order to see the step e.g. admins are both system_admin and system_user
     // so you would require ['system_admin','system_user'] to match.
     // to show step for all roles, leave the roles array blank.
-    roles: Array<string>;
+    // for a step that must be shown only to the first admin, add the first_admin role to that step
+    roles: string[];
 };
 
 export const Steps: StepType[] = [
@@ -47,6 +49,7 @@ export const Steps: StepType[] = [
         ),
         component: CompleteProfileStep,
         roles: [],
+        visible: true,
     },
     {
         id: RecommendedNextSteps.TEAM_SETUP,
@@ -54,17 +57,9 @@ export const Steps: StepType[] = [
             'next_steps_view.titles.teamSetup',
             'Name your team',
         ),
-        roles: ['system_admin', 'system_user'],
+        roles: ['first_admin'],
         component: TeamProfileStep,
-    },
-    {
-        id: RecommendedNextSteps.INVITE_MEMBERS,
-        title: localizeMessage(
-            'next_steps_view.titles.inviteMembers',
-            'Invite members to the team',
-        ),
-        roles: ['system_admin', 'system_user'],
-        component: InviteMembersStep,
+        visible: true,
     },
     {
         id: RecommendedNextSteps.NOTIFICATION_SETUP,
@@ -74,6 +69,7 @@ export const Steps: StepType[] = [
         ),
         roles: ['system_user'],
         component: EnableNotificationsStep,
+        visible: true,
     },
     {
         id: RecommendedNextSteps.PREFERENCES_SETUP,
@@ -83,6 +79,17 @@ export const Steps: StepType[] = [
         ),
         roles: ['system_user'],
         component: SetupPreferencesStep,
+        visible: false,
+    },
+    {
+        id: RecommendedNextSteps.INVITE_MEMBERS,
+        title: localizeMessage(
+            'next_steps_view.titles.inviteMembers',
+            'Invite members to the team',
+        ),
+        roles: ['system_admin', 'system_user'],
+        component: InviteMembersStep,
+        visible: true,
     },
 ];
 
@@ -109,13 +116,9 @@ export const getSteps = createSelector(
     (state: GlobalState) => getCurrentUser(state),
     (state: GlobalState) => isFirstAdmin(state),
     (currentUser, firstAdmin) => {
-        let roles = currentUser.roles;
-        if (!firstAdmin) {
-            // Only the first admin sees the admin flow. Show everyone else the end user flow
-            roles = 'system_user';
-        }
+        const roles = firstAdmin ? `first_admin ${currentUser.roles}` : currentUser.roles;
         return Steps.filter((step) =>
-            isStepForUser(step, roles),
+            isStepForUser(step, roles) && step.visible,
         );
     },
 );
@@ -179,10 +182,7 @@ export const nextStepsNotFinished = createSelector(
     (state: GlobalState) => getCurrentUser(state),
     (state: GlobalState) => isFirstAdmin(state),
     (stepPreferences, currentUser, firstAdmin) => {
-        let roles = currentUser.roles;
-        if (!firstAdmin) {
-            roles = 'system_user';
-        }
+        const roles = firstAdmin ? `first_admin ${currentUser.roles}` : currentUser.roles;
         const checkPref = (step: StepType) => stepPreferences.some((pref) => (pref.name === step.id && pref.value === 'true') || !isStepForUser(step, roles));
         return !Steps.every(checkPref);
     },

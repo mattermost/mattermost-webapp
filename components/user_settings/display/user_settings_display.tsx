@@ -3,8 +3,10 @@
 /* eslint-disable react/no-string-refs */
 
 import React from 'react';
-import {getTimezoneRegion} from 'mattermost-redux/utils/timezone_utils';
+
 import {FormattedMessage} from 'react-intl';
+
+import {getTimezoneRegion} from 'mattermost-redux/utils/timezone_utils';
 import {PreferenceType} from 'mattermost-redux/types/preferences';
 import {UserProfile, UserTimezone} from 'mattermost-redux/types/users';
 
@@ -29,9 +31,11 @@ function getDisplayStateFromProps(props: Props) {
     return {
         militaryTime: props.militaryTime,
         teammateNameDisplay: props.teammateNameDisplay,
+        availabilityStatusOnPosts: props.availabilityStatusOnPosts,
         channelDisplayMode: props.channelDisplayMode,
         messageDisplay: props.messageDisplay,
         collapseDisplay: props.collapseDisplay,
+        collapsedReplyThreads: props.collapsedReplyThreads,
         linkPreviewDisplay: props.linkPreviewDisplay,
     };
 }
@@ -86,12 +90,15 @@ type Props = {
     lockTeammateNameDisplay: boolean;
     militaryTime: string;
     teammateNameDisplay: string;
+    availabilityStatusOnPosts: string;
     channelDisplayMode: string;
     messageDisplay: string;
     collapseDisplay: string;
+    collapsedReplyThreads: string;
+    collapsedReplyThreadsAllowUserPreference: boolean;
     linkPreviewDisplay: string;
     actions: {
-        savePreferences: (userId: string, preferences: Array<PreferenceType>) => void;
+        savePreferences: (userId: string, preferences: PreferenceType[]) => void;
         getSupportedTimezones: () => void;
         autoUpdateTimezone: (deviceTimezone: string) => void;
     };
@@ -102,9 +109,11 @@ type State = {
     isSaving: boolean;
     militaryTime: string;
     teammateNameDisplay: string;
+    availabilityStatusOnPosts: string;
     channelDisplayMode: string;
     messageDisplay: string;
     collapseDisplay: string;
+    collapsedReplyThreads: string;
     linkPreviewDisplay: string;
     handleSubmit?: () => void;
     serverError?: string;
@@ -166,6 +175,12 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             name: Preferences.USE_MILITARY_TIME,
             value: this.state.militaryTime,
         };
+        const availabilityStatusOnPostsPreference = {
+            user_id: userId,
+            category: Preferences.CATEGORY_DISPLAY_SETTINGS,
+            name: Preferences.AVAILABILITY_STATUS_ON_POSTS,
+            value: this.state.availabilityStatusOnPosts,
+        };
         const teammateNameDisplayPreference = {
             user_id: userId,
             category: Preferences.CATEGORY_DISPLAY_SETTINGS,
@@ -190,6 +205,12 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             name: Preferences.COLLAPSE_DISPLAY,
             value: this.state.collapseDisplay,
         };
+        const collapsedReplyThreadsPreference = {
+            user_id: userId,
+            category: Preferences.CATEGORY_DISPLAY_SETTINGS,
+            name: Preferences.COLLAPSED_REPLY_THREADS,
+            value: this.state.collapsedReplyThreads,
+        };
         const linkPreviewDisplayPreference = {
             user_id: userId,
             category: Preferences.CATEGORY_DISPLAY_SETTINGS,
@@ -203,9 +224,11 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             timePreference,
             channelDisplayModePreference,
             messageDisplayPreference,
+            collapsedReplyThreadsPreference,
             collapseDisplayPreference,
             linkPreviewDisplayPreference,
             teammateNameDisplayPreference,
+            availabilityStatusOnPostsPreference,
         ];
 
         await this.props.actions.savePreferences(userId, preferences);
@@ -221,6 +244,10 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
         this.setState({teammateNameDisplay});
     }
 
+    handleAvailabilityStatusRadio = (availabilityStatusOnPosts: string) => {
+        this.setState({availabilityStatusOnPosts});
+    }
+
     handleChannelDisplayModeRadio(channelDisplayMode: string) {
         this.setState({channelDisplayMode});
     }
@@ -231,6 +258,10 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
 
     handleCollapseRadio(collapseDisplay: string) {
         this.setState({collapseDisplay});
+    }
+
+    handleCollapseReplyThreadsRadio(collapsedReplyThreads: string) {
+        this.setState({collapsedReplyThreads});
     }
 
     handleLinkPreviewRadio(linkPreviewDisplay: string) {
@@ -603,6 +634,35 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             disabled: this.props.lockTeammateNameDisplay,
         });
 
+        const availabilityStatusOnPostsSection = this.createSection({
+            section: 'availabilityStatus',
+            display: 'availabilityStatusOnPosts',
+            value: this.state.availabilityStatusOnPosts,
+            defaultDisplay: 'true',
+            title: {
+                id: t('user.settings.display.availabilityStatusOnPostsTitle'),
+                message: 'Show user availability on posts',
+            },
+            firstOption: {
+                value: 'true',
+                radionButtonText: {
+                    id: t('user.settings.sidebar.on'),
+                    message: 'On',
+                },
+            },
+            secondOption: {
+                value: 'false',
+                radionButtonText: {
+                    id: t('user.settings.sidebar.off'),
+                    message: 'Off',
+                },
+            },
+            description: {
+                id: t('user.settings.display.availabilityStatusOnPostsDescription'),
+                message: 'When enabled, online availability is displayed on profile images in the message list.',
+            },
+        });
+
         let timezoneSelection;
         if (this.props.enableTimezone && !this.props.shouldAutoUpdateTimezone) {
             const userTimezone = this.props.userTimezone;
@@ -611,7 +671,6 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                     <div>
                         <ManageTimezones
                             user={this.props.user}
-                            timezones={this.props.timezones}
                             useAutomaticTimezone={Boolean(userTimezone.useAutomaticTimezone)}
                             automaticTimezone={userTimezone.automaticTimezone}
                             manualTimezone={userTimezone.manualTimezone}
@@ -672,6 +731,39 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                 message: 'Select how messages in a channel should be displayed.',
             },
         });
+
+        let collapsedReplyThreads;
+
+        if (this.props.collapsedReplyThreadsAllowUserPreference) {
+            collapsedReplyThreads = this.createSection({
+                section: Preferences.COLLAPSED_REPLY_THREADS,
+                display: 'collapsedReplyThreads',
+                value: this.state.collapsedReplyThreads,
+                defaultDisplay: Preferences.COLLAPSED_REPLY_THREADS_FALLBACK_DEFAULT,
+                title: {
+                    id: t('user.settings.display.collapsedReplyThreadsTitle'),
+                    message: 'Collapsed Reply Threads (Beta)',
+                },
+                firstOption: {
+                    value: Preferences.COLLAPSED_REPLY_THREADS_ON,
+                    radionButtonText: {
+                        id: t('user.settings.display.collapsedReplyThreadsOn'),
+                        message: 'On',
+                    },
+                },
+                secondOption: {
+                    value: Preferences.COLLAPSED_REPLY_THREADS_OFF,
+                    radionButtonText: {
+                        id: t('user.settings.display.collapsedReplyThreadsOff'),
+                        message: 'Off',
+                    },
+                },
+                description: {
+                    id: t('user.settings.display.collapsedReplyThreadsDescription'),
+                    message: 'When enabled, reply messages are not shown in the channel view. You can still read and reply to threads in the right-hand sidebar. You\'ll be notified about threads you\'re following in a new "Threads" item in the channel sidebar.',
+                },
+            });
+        }
 
         const channelDisplayModeSection = this.createSection({
             section: Preferences.CHANNEL_DISPLAY_MODE,
@@ -806,10 +898,12 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                     {themeSection}
                     {clockSection}
                     {teammateNameDisplaySection}
+                    {availabilityStatusOnPostsSection}
                     {timezoneSelection}
                     {linkPreviewSection}
                     {collapseSection}
                     {messageDisplaySection}
+                    {collapsedReplyThreads}
                     {channelDisplayModeSection}
                     {languagesSection}
                 </div>

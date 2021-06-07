@@ -10,12 +10,14 @@
 // Stage: @prod
 // Group: @account_setting
 
+import * as TIMEOUTS from '../../../fixtures/timeouts';
+
 describe('Account Settings', () => {
     before(() => {
         // # Login as new user, visit town-square and post a message
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
             cy.visit(`/${team.name}/channels/town-square`);
-            cy.postMessage('```\ncode\n```{enter}');
+            cy.postMessage('```\ncode\n```');
         });
     });
 
@@ -42,9 +44,8 @@ describe('Account Settings', () => {
             verifyLastPostStyle(theme);
 
             // # Save and close settings modal
-            cy.get('#saveSetting').click();
-            cy.get('#accountSettingsHeader > .close').click();
-            cy.get('#accountSettingsHeader').should('be.hidden');
+            cy.get('#saveSetting').click().wait(TIMEOUTS.HALF_SEC);
+            cy.uiClose();
 
             // * Verify that the styles remain after saving and closing modal
             verifyLastPostStyle(theme);
@@ -71,9 +72,7 @@ function verifyLastPostStyle(codeTheme) {
 
 function navigateToThemeSettings() {
     // Change theme to desired theme (keeps settings modal open)
-    cy.toAccountSettingsModal();
-    cy.get('#displayButton').click();
-    cy.get('#displaySettingsTitle').should('exist');
+    cy.uiOpenAccountSettingsModal('Display');
 
     // Open edit theme
     cy.get('#themeTitle').should('be.visible');

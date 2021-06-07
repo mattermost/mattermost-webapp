@@ -2,9 +2,11 @@
 // See LICENSE.txt for license information.
 
 /* eslint-disable import/order */
+import bg from './bg.json';
 import de from './de.json';
 import es from './es.json';
 import fr from './fr.json';
+import hu from './hu.json';
 import it from './it.json';
 import ja from './ja.json';
 import ko from './ko.json';
@@ -13,6 +15,7 @@ import pl from './pl.json';
 import ptBR from './pt-BR.json';
 import ro from './ro.json';
 import ru from './ru.json';
+import sv from './sv.json';
 import tr from './tr.json';
 import uk from './uk.json';
 import zhTW from './zh-TW.json';
@@ -54,71 +57,89 @@ const languages = {
         order: 4,
         url: it,
     },
-    ja: {
-        value: 'ja',
-        name: '日本語',
-        order: 15,
-        url: ja,
-    },
-    ko: {
-        value: 'ko',
-        name: '한국어 (Alpha)',
-        order: 12,
-        url: ko,
+    hu: {
+        value: 'hu',
+        name: 'Magyar',
+        order: 5,
+        url: hu,
     },
     nl: {
         value: 'nl',
         name: 'Nederlands',
-        order: 5,
+        order: 6,
         url: nl,
     },
     pl: {
         value: 'pl',
         name: 'Polski',
-        order: 6,
+        order: 7,
         url: pl,
     },
     'pt-BR': {
         value: 'pt-BR',
         name: 'Português (Brasil)',
-        order: 7,
+        order: 8,
         url: ptBR,
     },
     ro: {
         value: 'ro',
         name: 'Română',
-        order: 8,
+        order: 9,
         url: ro,
     },
-    ru: {
-        value: 'ru',
-        name: 'Pусский',
+    sv: {
+        value: 'sv',
+        name: 'Svenska',
         order: 10,
-        url: ru,
+        url: sv,
     },
     tr: {
         value: 'tr',
         name: 'Türkçe',
-        order: 9,
+        order: 11,
         url: tr,
+    },
+    bg: {
+        value: 'bg',
+        name: 'Български',
+        order: 12,
+        url: bg,
+    },
+    ru: {
+        value: 'ru',
+        name: 'Pусский',
+        order: 13,
+        url: ru,
     },
     uk: {
         value: 'uk',
         name: 'Yкраїнська (Alpha)',
-        order: 11,
+        order: 14,
         url: uk,
     },
-    'zh-TW': {
-        value: 'zh-TW',
-        name: '中文 (繁體)',
-        order: 14,
-        url: zhTW,
+    ko: {
+        value: 'ko',
+        name: '한국어 (Alpha)',
+        order: 15,
+        url: ko,
     },
     'zh-CN': {
         value: 'zh-CN',
         name: '中文 (简体)',
-        order: 13,
+        order: 16,
         url: zhCN,
+    },
+    'zh-TW': {
+        value: 'zh-TW',
+        name: '中文 (繁體)',
+        order: 17,
+        url: zhTW,
+    },
+    ja: {
+        value: 'ja',
+        name: '日本語',
+        order: 18,
+        url: ja,
     },
 };
 

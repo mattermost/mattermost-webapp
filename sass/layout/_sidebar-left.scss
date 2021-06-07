@@ -1,4 +1,4 @@
-@charset 'UTF-8';
+@charset "UTF-8";
 
 #TeamSidebar {
     display: flex;
@@ -30,7 +30,7 @@
     left: 0;
     height: 100%;
     z-index: 16;
-    border-right: 1px solid rgba(var(--center-channel-color-rgb), 0.2);
+    border-right: 1px solid rgba(var(--center-channel-color-rgb), 0.12);
 
     &.dragging {
         z-index: 14;
@@ -48,6 +48,14 @@
             .SidebarChannelGroupHeader_groupButton, .SidebarLink {
                 opacity: 0.4;
             }
+
+            .SidebarLink {
+                cursor: no-drop !important;
+
+                &:hover {
+                    background: none;
+                }
+            }
         }
 
         .SidebarNavContainer:not(.disabled) .SidebarChannelGroup .SidebarChannelGroupHeader_groupButton:hover {
@@ -58,30 +66,6 @@
 
     body.announcement-bar--fixed & {
         height: calc(100% - #{$announcement-bar-height});
-    }
-
-    body.announcement-banner-tall--fixed & {
-        height: calc(100% - 40px)
-    }
-
-    .badge {
-        display: inline-block;
-        flex-shrink: 0;
-        margin-left: 6px;
-        margin-right: 3px;
-        padding: 0 6px;
-        min-width: 22px;
-        height: auto;
-        font-size: 12px;
-        font-weight: 600;
-        line-height: 18px;
-        letter-spacing: 0px;
-        text-align: center;
-        color: var(--mention-color);
-        border-radius: 9px;
-        background: var(--mention-bg);
-        -webkit-font-smoothing: subpixel-antialiased;
-        -moz-osx-font-smoothing: grayscale;
     }
 
     .a11y--focused {
@@ -95,7 +79,11 @@
     .SidebarContainer_filterAddChannel {
         display: flex;
         flex-direction: row;
-        width: 240px;
+        width: 100%;
+        justify-content: space-between;
+    }
+    .SidebarContainer_rightContainer {
+        display: flex;
     }
 
     .SidebarHeader {
@@ -106,6 +94,11 @@
 
             .user__name {
                 color: rgba(var(--sidebar-header-text-color-rgb), 0.8);
+            }
+
+            .team__name,
+            .user__name {
+                max-width: 140px;
             }
 
             &:hover .user__name {
@@ -141,23 +134,51 @@
     }
 
     .SidebarChannelNavigator {
-        display: flex;
-        margin: 18px 16px 11px 16px;
+        &.desktop {
+            display: block;
+            margin: 16px 14px 8px 14px;
 
-        button {
-            font-size: 16px;
-            line-height: 15px;
+            .AddChannelDropdown_dropdownButton,
+            .SidebarFilters_filterButton,
+            .SidebarChannelNavigator_backButton,
+            .SidebarChannelNavigator_forwardButton {
+                background: transparent;
+
+                &:hover:not(.active) {
+                    background: var(--sidebar-text-08);
+                    color: var(--sidebar-text);
+                }
+            }
+        }
+
+        &.webapp {
+            display: flex;
+            margin: 16px 14px 8px 14px;
+
+            .AddChannelDropdown_dropdownButton,
+            .SidebarChannelNavigator_jumpToButton,
+            .SidebarFilters_filterButton {
+                margin: 0 2px;
+                background: var(--sidebar-text-08);
+
+                &:hover:not(.active) {
+                    background: var(--sidebar-text-16);
+                    color: var(--sidebar-text);
+                }
+            }
+        }
+
+        .AddChannelDropdown_dropdownButton,
+        .SidebarChannelNavigator_jumpToButton,
+        .SidebarFilters_filterButtontton,
+        .SidebarChannelNavigator_backButton,
+        .SidebarChannelNavigator_forwardButton {
+            font-size: 18px;
             height: 28px;
             min-width: 28px;
             vertical-align: middle;
             border: 0;
-            background: rgba(255, 255, 255, 0.16);
             color: rgba(var(--sidebar-text-rgb), 0.72);
-
-            &:hover:not(.disabled) {
-                color: var(--sidebar-text);
-                background: rgba(255, 255, 255, 0.24);
-            }
 
             &.disabled {
                 background: rgba(255, 255, 255, 0.08);
@@ -165,82 +186,77 @@
         }
 
         .SidebarChannelNavigator_jumpToButton {
-            display: flex;
-            flex: 1 1 auto;
+            background: var(--sidebar-text-08);
+            width: 100%;
+            text-align: left;
             border-radius: 4px;
-            font-family: 'Open Sans';
-            font-size: 14px;
-            line-height: 19px;
-            padding: 3px 8px 6px 8px;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            padding: 0 5px 0 2px;
+
+            .icon-magnify {
+                font-size: 18px;
+                margin-right: 2px;
+                display: inline-flex;
+            }
 
             .SidebarChannelNavigator_shortcutText {
                 margin-left: auto;
+                padding-right: 3px;
                 display: none;
-                margin-top: 1px;
             }
 
             &:hover {
+                background: var(--sidebar-text-16);
+                color: var(--sidebar-text);
                 .SidebarChannelNavigator_shortcutText {
                     display: inherit;
                 }
             }
         }
+        .SidebarChannelNavigator_divider {
+            border-right: 1px solid var(--sidebar-text-16);
+            height: 28px;
+            margin-left: 8px;
+            margin-right: 8px;
+        }
 
         .SidebarChannelNavigator_backButton {
-            border-radius: 4px 0px 0px 4px;
+            border-radius: 4px;
             padding: 0;
-            margin-left: 4px;
+            background: transparent;
         }
 
         .SidebarChannelNavigator_forwardButton {
-            border-radius: 0px 4px 4px 0px;
+            border-radius: 4px;
             padding: 0;
+            background: transparent;
         }
     }
 
     .SidebarFilters {
-        flex: 1 1 auto;
-        display: flex;
-        flex-direction: row;
-        width: 100%;
-        padding: 7px 16px;
         align-items: center;
-        margin-bottom: 8px;
     }
     .SidebarFilters .SidebarFilters_filterButton {
         display: block;
-        line-height: 28px;
+        line-height: 26px;
         height: 28px;
         width: 28px;
-        background: rgba(255, 255, 255, 0.16);
         text-align: center;
         border-radius: 4px;
         color: rgba(var(--sidebar-text-rgb), 0.6);
-        font-size: 16px;
+        font-size: 18px;
+        font-weight: 400;
     }
     .SidebarFilters .SidebarFilters_filterButton:hover {
         color: rgba(var(--sidebar-text-rgb), 0.8);
-        background: rgba(255, 255, 255, 0.24);
     }
     .SidebarFilters .SidebarFilters_filterButton.active {
         color: var(--sidebar-bg);
         background: var(--sidebar-text);
-    }
-
-    .SidebarFilters .SidebarFilters_filterTitle {
-        color: rgba(var(--sidebar-text-rgb), 0.72);
-        font-weight: 600;
-        font-size: 10px;
-        line-height: 12px;
-        margin-left: 8px;
-    }
-
-    .SidebarFilters .SidebarFilters_filterDescription {
-        color: var(--sidebar-text);
-        font-weight: 600;
-        font-size: 10px;
-        line-height: 14px;
-        margin-left: 8px;
     }
 
     .AddChannelDropdown {
@@ -253,6 +269,8 @@
 
             span {
                 white-space: nowrap;
+                font-size: 14px;
+                color: rgba(var(--center-channel-color-rgb), 0.9);
             }
 
             button {
@@ -269,8 +287,6 @@
 
     .AddChannelDropdown_dropdownButton {
         padding: 0;
-        margin-right: 16px;
-        margin-top: 7px;
         z-index: 1;
         background: transparent;
         border: none;
@@ -290,7 +306,6 @@
     }
 
     .SidebarMenu {
-        height: 30px;
         opacity: 1;
 
         .dropdown-menu {
@@ -336,18 +351,9 @@
                 }
             }
 
-            .SubMenuItem > div {
-                padding-top: 2px;
-                padding-bottom: 2px;
-            }
-
-            .SubMenu__icon-right {
-                margin-right: -32px;
-                padding-right: 20px;
-            }
-
             #SidebarChannelMenu-moveToDivider {
                 pointer-events: none;
+                padding: 1px 0;
 
                 .MenuGroup.menu-divider {
                     margin-right: -32px;
@@ -356,6 +362,59 @@
                 span {
                     display: none;
                 }
+            }
+        }
+
+        .styleSelectableItem {
+            text-transform: capitalize;
+
+            .MenuItem {
+                width: 100%;
+
+                div:hover,
+                div:focus {
+                    background: none !important;
+                }
+            }
+
+            .SubMenu__icon-right {
+                margin-right: 0;
+                padding: 0 9px 0 8px;
+                &.mobile {
+                    padding: 0 4px 0 9px;
+                }
+            }
+
+            .styleSelectableItemDiv {
+                display: flex;
+                padding: 0 15px;
+                margin: 0;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .sorting-menu-checkbox {
+                padding-right: 30px;
+                width: 0;
+
+                i {
+                    color: var(--button-bg);
+                }
+            }
+
+            .SubMenuItemContainer:not(.hasDivider) {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .selected {
+                text-transform: none;
+                font-size: 12px;
+                color: rgba(var(--center-channel-color-rgb), 0.56);
+                width: 60%;
+                text-align: right;
+                margin-top: 1px;
             }
         }
     }
@@ -399,6 +458,18 @@
                 z-index: 2;
             }
         }
+
+        .scrollbar--verticalTrack {
+            right: 2px;
+            bottom: 2px;
+            top: 2px;
+            border-radius: 3px;
+            pointer-events: none;
+        }
+
+        .scrollbar--vertical {
+            pointer-events: all;
+        }
     }
 
     .SidebarCategory_newLabel {
@@ -440,12 +511,6 @@
             margin-left: 8px;
         }
 
-        &.isDraggingOver {
-            transition-property: opacity;
-            transition-duration: 0.15s; /* collapse animation speed */
-            transition-timing-function: ease-out;
-            opacity: 0;
-        }
 
         &.animating {
             transition-property: height, padding, color;
@@ -509,15 +574,17 @@
     }
 
     .SidebarChannelGroup .SidebarChannelGroupHeader {
+        align-items: center;
         height: 32px;
         font-family: 'Open Sans', sans-serif;
         text-transform: uppercase;
         text-overflow: ellipsis;
         text-align: left;
         border: none;
+        background-color: var(--sidebar-bg);
         color: rgba(var(--sidebar-text-rgb), 0.6);
         top: 0;
-        box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.33);
+        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.33);
         transition: box-shadow 0.25s ease-in-out;
         z-index: 1;
         display: flex;
@@ -530,24 +597,36 @@
             &:hover, &:focus {
                 background-color: rgba(255, 255, 255, 0.08);
             }
+
+            &.additionalClass {
+                margin: 0;
+            }
         }
 
         .SidebarMenu:not(.menuOpen) {
             display: none;
         }
 
-        &.SidebarChannelGroupHeader--sticky {
-            position: sticky;
+        &.muted {
+            .icon-chevron-down, .SidebarChannelGroupHeader_text {
+                opacity: 0.4;
+            }
+        }
+
+        &.dragging {
+            border-radius: 4px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.12);
+            color: var(--sidebar-text);
+
+            .SidebarChannelGroupHeader_groupButton {
+                border-radius: 4px;
+            }
         }
     }
 
-    .SidebarChannelGroup:not(.dmCategory) .draggingOver .SidebarChannelGroupHeader:hover {
+    .SidebarChannelGroup:not(.autoSortedCategory) .draggingOver .SidebarChannelGroupHeader:hover {
         box-shadow: inset -1px 0 0 rgba(var(--sidebar-text-rgb), 0.60), inset 0 -1px 0 rgba(var(--sidebar-text-rgb), 0.6), inset 1px 0 0 rgba(var(--sidebar-text-rgb), 0.6), inset 0 1px 0 rgba(var(--sidebar-text-rgb), 0.6);
         border-radius: 4px;
-
-        .SidebarChannelGroupHeader_groupButton {
-            background-color: inherit;
-        }
     }
 
     .SidebarChannelGroupHeader_groupButton {
@@ -561,9 +640,9 @@
         text-align: left;
         border: none;
         color: rgba(var(--sidebar-text-rgb), 0.6);
-        background-color: var(--sidebar-bg);
+        background-color: transparent;
         top: 0;
-        box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.33);
+        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.33);
         transition: box-shadow 0.25s ease-in-out;
         z-index: 1;
         display: flex;
@@ -580,12 +659,7 @@
             overflow: hidden;
             text-overflow: ellipsis;
             width: 100%;
-        }
-
-        &.dragging {
-            border-radius: 4px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.12);
-            color: var(--sidebar-text);
+            padding-left: 16px;
         }
 
         i.icon-chevron-down {
@@ -594,11 +668,15 @@
             &.hide-arrow {
                 visibility: hidden;
             }
+
+            + .SidebarChannelGroupHeader_text {
+                padding-left: 0;
+            }
         }
     }
 
     .SidebarChannelGroupHeader--static {
-        margin-left: 16px;
+        padding-left: 0;
     }
 
     button.SidebarChannelGroupHeader_groupButton > div {
@@ -645,7 +723,7 @@
         }
     }
 
-    .SidebarNavContainer:not(.disabled) .SidebarChannelGroup:not(.dropDisabled) .SidebarChannelGroupHeader_groupButton:hover {
+    .SidebarNavContainer:not(.disabled) .SidebarChannelGroup:not(.dropDisabled) .SidebarChannelGroupHeader:not(.SidebarChannelGroupHeader--static) .SidebarChannelGroupHeader_groupButton:hover {
         //cursor: pointer;
 
         > div:not(.SidebarCategory_newLabel), > i {
@@ -663,20 +741,23 @@
     .SidebarChannelGroup .SidebarChannelGroupHeader > i {
         font-size: 12px;
     }
-    .SidebarChannelGroup__is-collapsed {
-        animation-name: menuAnimation;
-        animation-duration: 0.25s;
-        animation-timing-function: linear;
-    }
 
-    .SidebarChannelGroup.dmCategory .draggingOver {
+    .SidebarChannelGroup.autoSortedCategory .draggingOver {
         box-shadow: inset -1px 0 0 rgba(var(--sidebar-text-rgb), 0.6), inset 0 -1px 0 rgba(var(--sidebar-text-rgb), 0.6), inset 1px 0 0 rgba(var(--sidebar-text-rgb), 0.6), inset 0 1px 0 rgba(var(--sidebar-text-rgb), 0.6);
         border-radius: 4px;
 
-        .SidebarChannelGroupHeader_groupButton {
-            background-color: inherit;
+        .SidebarChannelGroupHeader {
+            background-color: var(--sidebar-bg);
+            border-radius: 4px 4px 0 0;
+            box-shadow: inset -1px 0 0 rgba(var(--sidebar-text-rgb), 0.6), inset 1px 0 0 rgba(var(--sidebar-text-rgb), 0.6), inset 0 1px 0 rgba(var(--sidebar-text-rgb), 0.6);
         }
     }
+
+    // .SidebarChannelGroup.autoSortedCategory.isCollapsed .draggingOver {
+    //     .SidebarChannelGroupHeader {
+    //         background-color: transparent;
+    //     }
+    // }
 
     .SidebarChannelGroup.capture .SidebarChannelGroup_content {
         margin-bottom: 0;
@@ -736,6 +817,7 @@
     /* Content */
     .SidebarChannelGroup_content {
         margin-bottom: 14px;
+        min-height: 2px;
     }
 
     .SidebarChannelGroup.a11y--active .SidebarChannelGroup_content {
@@ -743,22 +825,27 @@
         padding-bottom: 14px;
     }
 
-    .SidebarChannelGroup_content ul {
+    .SidebarChannelGroup_content ul,
+    .NavGroupContent {
         margin: 0;
         padding: 0;
     }
 
     .SidebarChannelGroup .SidebarChannel.newChannelSpacer {
-        height: 0px;
+        height: 0;
     }
 
     /* Channels */
     .SidebarChannel {
-        display: block;
+        display: flex;
         height: 32px; /* height required for transition animation */
         list-style-type: none;
         /* border: solid 2px transparent; */
         color: rgba(var(--sidebar-text-rgb), 0.6);
+        opacity: 1;
+        visibility: visible;
+        align-items: center;
+        overflow: hidden;
 
         &:hover {
             .btn-close {
@@ -770,7 +857,10 @@
         &.dragging {
             background-color: var(--sidebar-bg);
             border-radius: 4px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.12);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.12);
+
+            /* MM-32401: Needed to ensure that the channel selected count is displayed correctly */
+            overflow: visible;
 
             .SidebarLink {
                 background: rgba(255, 255, 255, 0.08);
@@ -778,13 +868,18 @@
             }
         }
 
-        &.fadeDMs {
+        &.fadeOnDrop {
             opacity: 0;
-            transition: 'all cubic-bezier(.2,1,.1,1) 0.33s';
+            transition: all cubic-bezier(.2,1,.1,1) 0.33s;
         }
 
         &.noFloat {
             transform: none !important;
+        }
+
+        &.selectedDragging {
+            opacity: 0.25;
+            transition: all cubic-bezier(.2,1,.1,1) 0.33s;
         }
 
         .btn-close {
@@ -809,6 +904,29 @@
             height: 28px;
             width: 28px;
         }
+
+        .SidebarChannel__selectedCount {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            height: 25px;
+            background: var(--center-channel-color);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.12);
+            border-radius: 20px;
+            padding: 2px 9px 7px 9px;
+
+
+            > span {
+                font-weight: 600;
+                font-size: 12px;
+                line-height: 11px;
+                color: var(--center-channel-bg);
+            }
+        }
+
+        > span {
+            flex-grow: 1;
+        }
     }
 
     .SidebarChannel:hover {
@@ -817,9 +935,13 @@
 
 
     .SidebarChannel.animating {
-        transition-property: height, padding, color;
-        transition-duration: 0.15s; /* collapse animation speed */
-        transition-timing-function: ease-out;
+        transition-property: height, padding, color, opacity, visibility;
+        transition-duration: 0.15s, 0.15s, 0.15s, 0.15s, 0.15s; /* collapse animation speed */
+        transition-timing-function: ease, ease, ease, ease-in, step-start;
+
+        &.collapsed {
+            transition-timing-function: ease, ease, ease, ease-out, step-end;
+        }
     }
 
     .SidebarChannel.invisible {
@@ -827,12 +949,13 @@
     }
 
     .SidebarChannel.collapsed {
+        opacity: 0;
+        visibility: hidden;
         height: 0 !important;
         padding-top: 0;
         padding-bottom: 0;
         border-top: none;
         border-bottom: none;
-        overflow-y: hidden;
     }
 
     /* fade out collapsing list item */
@@ -848,10 +971,10 @@
         text-decoration: none;
         padding: 7px 16px 7px 14px;
         display: flex;
-        color: rgba(var(--sidebar-text-rgb), 0.6);
+        color: rgba(var(--sidebar-text-rgb), 0.72);
         align-items: center;
         margin-right: 0;
-        width: 100%;
+        width: 240px;
         border-top: 0;
         border-bottom: 0;
         height: 32px;
@@ -877,9 +1000,13 @@
 
     .SidebarChannel .SidebarLink:hover,
     .SidebarChannel .SidebarLink.menuOpen {
-        background: rgba(255, 255, 255, 0.08);
+        background-color: var(--sidebar-text-hover-bg);
 
         padding-right: 5px;
+
+        .DirectChannel__status-icon {
+            box-shadow: inset 0 0 14px rgba(255, 255, 255, 0.12)
+        }
 
         .SidebarMenu_menuButton {
             margin-right: 11px;
@@ -896,18 +1023,40 @@
             visibility: hidden;
         }
     }
+
     .SidebarChannel.active .SidebarLink {
-        background: rgba(255, 255, 255, 0.16);
+        background: var(--sidebar-text-08);
+
+        .DirectChannel__profile-picture .DirectChannel__status-icon {
+            box-shadow: inset 0 0 14px rgba(255, 255, 255, 0.24)
+        }
 
         .SidebarChannelLinkLabel {
             color: var(--sidebar-text);
         }
 
+        &.selected {
+            background: rgba(var(--sidebar-text-active-border-rgb), 0.56);
+
+            &:hover {
+                background: rgba(var(--sidebar-text-active-border-rgb), 0.72);
+            }
+        }
+
+    }
+
+    .SidebarLink.selected {
+        background: rgba(var(--sidebar-text-active-border-rgb), 0.56);
+        color: rgba(var(--sidebar-text-rgb), 1);
+
+        &:hover {
+            background: rgba(var(--sidebar-text-active-border-rgb), 0.72);
+        }
     }
 
     .SidebarChannel.active .SidebarLink::before {
         content: '';
-        height: 32px;
+        height: 100%;
         position: absolute;
         left: -2px;
         top: 0;
@@ -917,60 +1066,57 @@
     }
 
     .SidebarChannel.unread .SidebarChannelLinkLabel,
+    .SidebarChannel.unread .SidebarLink > i,
     .SidebarChannel.unread .SidebarLink:hover .SidebarChannelLinkLabel {
         font-weight: 600;
         color: var(--sidebar-unread-text);
     }
     .SidebarChannel .SidebarLink > i {
-        font-size: 14.4px;
-        margin: 0 5px 0 0;
+        font-size: 18px;
+        margin: 0 6px 0 -2px;
         display: flex;
     }
 
-    .SidebarChannel span.SidebarChannelLinkLabel {
-        width: 100%;
-        white-space: nowrap;
-        line-height: 18px;
-        text-align: justify;
-        height: 18px;
-    }
+    .SidebarChannel {
+        & span.SidebarChannelLinkLabel {
+            max-width: 100%;
+            white-space: nowrap;
+            line-height: 18px;
+            text-align: justify;
+            height: 18px;
 
-    .SidebarChannelLinkLabel_wrapper {
-        overflow: hidden;
-        display: flex;
-        flex-grow: 1;
-
-        > span {
-            text-overflow: ellipsis;
-            overflow: hidden;
+            &.truncated {
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
         }
     }
 
-    /* .SidebarChannel__absolute {
-        height: 44px;
-        list-style-type: none;
-        width: 100%;
-        position: relative;
+    .SidebarChannelLinkLabel_wrapper,
+    .SidebarChannelLinkLabel_wrapper > div {
+        overflow: hidden;
+        display: flex;
+        flex-grow: 1;
     }
 
-    .SidebarChannel__absolute:hover {
-        background: rgba(255, 255, 255, 0.16);
-    }
+    .DirectChannel__profile-picture {
+        height: 20px;
+        margin-right: 9px;
 
-    .SidebarChannel__absolute > a {
-        text-decoration: none;
-        position: absolute;
-        line-height: 44px;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 24px;
-        color: #BCCDE7;
+        .DirectChannel__status-icon {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            border-radius: 100%;
+            background: var(--sidebar-bg);
+            height: 13px;
+            width: 13px;
+            font-size: 12px;
+            align-items: center;
+            justify-content: center;
+            display: flex;
+        }
     }
-
-    .SidebarChannel__absolute > a:hover {
-        color: #BCCDE7;
-    } */
 
     .icon {
         display: inline-block;
@@ -993,11 +1139,12 @@
 
     .status.status--group {
         background: rgba(var(--sidebar-text-rgb), 0.16);
-        margin: 0 8px 0 3px;
-        width: 14px;
-        height: 14px;
+        margin: 0px 9px 0 1px;
+        width: 18px;
+        height: 18px;
         flex-shrink: 0;
-        font-size: 11px;
+        font-size: 12px;
+        line-height: 18px;
     }
 
     .status-away {

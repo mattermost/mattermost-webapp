@@ -23,7 +23,7 @@ type Props = {
 };
 
 export default class FailedPostOptions extends React.PureComponent<Props> {
-    retryPost = (e: MouseEvent) : void => {
+    retryPost = (e: MouseEvent): void => {
         e.preventDefault();
 
         const post = {...this.props.post};
@@ -31,7 +31,7 @@ export default class FailedPostOptions extends React.PureComponent<Props> {
         this.props.actions.createPost(post);
     }
 
-    cancelPost = (e: MouseEvent) : void => {
+    cancelPost = (e: MouseEvent): void => {
         e.preventDefault();
 
         this.props.actions.removePost(this.props.post);

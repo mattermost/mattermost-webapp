@@ -7,6 +7,7 @@ import thunk from 'redux-thunk';
 import configureStore from 'redux-mock-store';
 
 import {getPostThread} from 'mattermost-redux/actions/posts';
+import {Preferences} from 'mattermost-redux/constants';
 
 import {ErrorPageTypes} from 'utils/constants';
 import {browserHistory} from 'utils/browser_history';
@@ -141,6 +142,9 @@ describe('components/PermalinkView', () => {
                     },
                     myMembers: {channelid1: {channel_id: 'channelid1', user_id: 'current_user_id'}},
                 },
+                preferences: {
+                    myPreferences: {},
+                },
                 teams: {
                     currentTeamId: 'current_team_id',
                     teams: {
@@ -178,6 +182,8 @@ describe('components/PermalinkView', () => {
             });
 
             test('should redirect to DM link with postId for permalink', async () => {
+                const dateNowOrig = Date.now;
+                Date.now = () => new Date(0).getMilliseconds();
                 const modifiedState = {
                     entities: {
                         ...initialState.entities,
@@ -197,12 +203,20 @@ describe('components/PermalinkView', () => {
                 expect(getPostThread).toHaveBeenCalledWith('dmpostid1');
                 expect(testStore.getActions()).toEqual([
                     {type: 'MOCK_GET_POST_THREAD', data: {posts: {dmpostid1: {id: 'dmpostid1', message: 'some message', channel_id: 'dmchannelid'}}, order: ['dmpostid1']}},
+                    {
+                        type: 'RECEIVED_PREFERENCES',
+                        data: [
+                            {user_id: 'current_user_id', category: Preferences.CATEGORY_DIRECT_CHANNEL_SHOW, name: 'dmchannel', value: 'true'},
+                            {user_id: 'current_user_id', category: Preferences.CATEGORY_CHANNEL_OPEN_TIME, name: 'dmchannelid', value: '0'},
+                        ],
+                    },
                     {type: 'MOCK_SELECT_CHANNEL', args: ['dmchannelid']},
                     {type: 'RECEIVED_FOCUSED_POST', channelId: 'dmchannelid', data: 'dmpostid1'},
                     {type: 'MOCK_LOAD_CHANNELS_FOR_CURRENT_USER'},
                     {type: 'MOCK_GET_CHANNEL_STATS', args: ['dmchannelid']},
                 ]);
                 expect(browserHistory.replace).toHaveBeenCalledWith('/currentteam/messages/@otherUser/dmpostid1');
+                Date.now = dateNowOrig;
             });
 
             test('should redirect to GM link with postId for permalink', async () => {

@@ -29,6 +29,7 @@ describe('component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannel
         teammateId: 'test-teammate-id',
         teammateDeletedAt: 1,
         channelIsArchived: false,
+        channelIsShared: false,
     };
 
     test('should match snapshot, on desktop with mentions badge', () => {
@@ -133,5 +134,27 @@ describe('component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannel
                 expect(overlayWrapper.prop('overlay').props.children).toEqual(baseProps.displayName);
             });
         }
+    });
+
+    test('should enable tooltip when needed', () => {
+        const props = {
+            ...baseProps,
+            channelType: Constants.DM_CHANNEL,
+        };
+
+        const wrapper = shallow(
+            <SidebarChannelButtonOrLink {...props}/>,
+        );
+
+        const instance = wrapper.instance();
+        instance.displayNameRef = {
+            current: {
+                offsetWidth: 50,
+                scrollWidth: 60,
+            },
+        };
+
+        instance.enableToolTipIfNeeded();
+        expect(instance.state.showTooltip).toBe(true);
     });
 });

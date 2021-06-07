@@ -46,7 +46,7 @@ describe('Send a DM', () => {
         cy.apiLogout();
         cy.apiLogin(userB);
         cy.visit(testChannelUrl);
-        cy.get('#addDirectChannel').click();
+        cy.uiAddDirectMessage().click();
         cy.get('#selectItems').type(`${userA.username}`);
         cy.findByText('Loading').should('be.visible');
         cy.findByText('Loading').should('not.exist');
@@ -58,7 +58,7 @@ describe('Send a DM', () => {
         cy.uiWaitUntilMessagePostedIncludes(MESSAGES.SMALL);
 
         // * The DM appears in your LHS / channel drawer even though other user isn't on any teams
-        cy.get('#directChannelList').findByText(`${userA.username}`).should('be.visible');
+        cy.uiGetLhsSection('DIRECT MESSAGES').findByText(userA.username).should('be.visible');
 
         // # Have User A re-join one of the teams
         cy.apiAddUserToTeam(team1.id, userA.id);
@@ -68,6 +68,6 @@ describe('Send a DM', () => {
         cy.apiLogin(userA);
         cy.visit(testChannelUrl);
         cy.get('#postListContent', {timeout: TIMEOUTS.TWO_MIN}).should('be.visible');
-        cy.get('#directChannelList').findByText(`${userB.username}`).should('be.visible');
+        cy.uiGetLhsSection('DIRECT MESSAGES').findByText(userB.username).should('be.visible');
     });
 });

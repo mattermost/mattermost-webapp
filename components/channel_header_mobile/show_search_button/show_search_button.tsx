@@ -12,7 +12,7 @@ type Actions = {
 }
 
 type Props = {
-    actions: Actions
+    actions: Actions;
 }
 
 export default class ShowSearchButton extends React.PureComponent<Props> {
