@@ -26,7 +26,9 @@ exports[`CommandSuggestion should match snapshot 1`] = `
     <div
       className="slash-command__desc"
     >
-      Invite a user to a channel
+      <Connect(Markdown)
+        message="Invite a user to a channel"
+      />
     </div>
   </div>
 </div>
