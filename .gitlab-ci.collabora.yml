@@ -1,0 +1,20 @@
+lint:
+  allow_failure: true
+  image: alpine
+  before_script:
+    - apk update
+    - apk add --no-cache git nodejs npm
+    - npm ci --ignore-scripts
+  script:
+    - npm run check-types
+    - npm run check
+
+test:
+  image: alpine
+  before_script:
+    - apk update
+    - apk add --no-cache git nodejs npm
+    - npm ci --ignore-scripts
+    - npm add full-icu --no-save
+  script:
+    - npm run test:speed
