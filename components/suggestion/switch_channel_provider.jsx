@@ -15,8 +15,6 @@ import {
     getChannelByName,
     getAllRecentChannels,
     getCurrentChannel,
-    getPrivateChannels,
-    getPublicChannels,
 } from 'mattermost-redux/selectors/entities/channels';
 
 import ProfilePicture from '../profile_picture';
@@ -32,7 +30,7 @@ import {
     getStatusForUserId,
     getUserByUsername,
 } from 'mattermost-redux/selectors/entities/users';
-import {searchChannels} from 'mattermost-redux/actions/channels';
+import {getChannels, searchChannels} from 'mattermost-redux/actions/channels';
 import {logError} from 'mattermost-redux/actions/errors';
 import {getLastPostPerChannel} from 'mattermost-redux/selectors/entities/posts';
 import {sortChannelsByTypeAndDisplayName, isGroupChannelVisible, isUnreadChannel} from 'mattermost-redux/utils/channel_utils';
@@ -403,7 +401,7 @@ export default class SwitchChannelProvider extends Provider {
             // Fetch data from the server and dispatch
             this.fetchUsersAndChannels(channelPrefix, resultsCallback);
         } else {
-            this.formatRecentChannelsAndDispatch(resultsCallback);
+            this.fetchAndFormatRecentChannels(resultsCallback);
         }
 
         return true;
@@ -598,15 +596,15 @@ export default class SwitchChannelProvider extends Provider {
         };
     }
 
-    formatRecentChannelsAndDispatch(resultsCallback) {
+    fetchAndFormatRecentChannels(resultsCallback) {
         // const getChannel = makeGetChannel();
         const state = getState();
         const recentChannels = getAllRecentChannels(state);
-        let channels = this.wrapChannels(recentChannels, Constants.MENTION_RECENT_CHANNELS);
+        const channels = this.wrapChannels(recentChannels, Constants.MENTION_RECENT_CHANNELS);
         if (channels.length === 0) {
-            const privateChannels = this.wrapChannels(getPrivateChannels(state), Constants.MENTION_CHANNELS);
-            const publicChannels = this.wrapChannels(getPublicChannels(state), Constants.MENTION_PUBLIC_CHANNELS);
-            channels = [...privateChannels, ...publicChannels];
+            prefix = '';
+            this.startNewRequest('');
+            this.fetchChannels(resultsCallback);
         }
 
         const sortedChannels = channels.sort(sortChannelsByRecencyAndTypeAndDisplayName).slice(0, 20);
@@ -654,5 +652,36 @@ export default class SwitchChannelProvider extends Provider {
             channelList.push(wrappedChannel);
         }
         return channelList;
+    }
+
+    async fetchChannels(resultsCallback, size = 20) {
+        const state = getState();
+        const teamId = getCurrentTeamId(state);
+        if (!teamId) {
+            return;
+        }
+        const channelsAsync = getChannels(teamId, 0, size)(store.dispatch, store.getState);
+        let channels;
+
+        try {
+            const {data} = await channelsAsync;
+            channels = data;
+        } catch (err) {
+            store.dispatch(logError(err));
+        }
+
+        if (this.latestPrefix !== '') {
+            return;
+        }
+        const sortedChannels = this.wrapChannels(channels, Constants.MENTION_PUBLIC_CHANNELS).
+            sort(sortChannelsByRecencyAndTypeAndDisplayName).slice(0, 20);
+        const channelNames = sortedChannels.map((wrappedChannel) => wrappedChannel.channel.id);
+
+        resultsCallback({
+            matchedPretext: '',
+            terms: channelNames,
+            items: sortedChannels,
+            component: ConnectedSwitchChannelSuggestion,
+        });
     }
 }
