@@ -1,4 +1,4 @@
-@charset 'UTF-8';
+@charset "utf-8";
 
 .channel-header {
     @include flex(0 0 63px);
@@ -21,6 +21,7 @@
         padding: 4px 4px;
         height: 24px;
         @include border-radius(4px);
+        align-items: center;
 
         &:hover {
             background: rgba(v(center-channel-color-rgb), 0.08);
@@ -36,6 +37,7 @@
         .heading span {
             overflow: hidden;
             text-overflow: ellipsis;
+            line-height: 20px;
         }
     }
 
@@ -719,7 +721,7 @@
                 width: 36px;
 
                 position: absolute;
-                right: -5px;
+                right: 1px;
                 top: 4px;
             }
         }

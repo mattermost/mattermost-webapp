@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import debounce from 'lodash/debounce';
 import {batchActions} from 'redux-batched-actions';
 
 import {SearchTypes} from 'mattermost-redux/action_types';
@@ -24,7 +25,7 @@ import {Post} from 'mattermost-redux/types/posts';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 import {getSearchTerms, getRhsState, getPluggableId, getFilesSearchExtFilter} from 'selectors/rhs';
-import {ActionTypes, RHSStates} from 'utils/constants';
+import {ActionTypes, RHSStates, Constants} from 'utils/constants';
 import * as Utils from 'utils/utils';
 import {getBrowserUtcOffset, getUtcOffsetForTimeZone} from 'utils/timezone';
 import {RhsState} from 'types/store/rhs';
@@ -387,6 +388,34 @@ export function selectPost(post: Post) {
         postId: post.root_id || post.id,
         channelId: post.channel_id,
         timestamp: Date.now(),
+    };
+}
+
+export function highlightReply(post: Post) {
+    return {
+        type: ActionTypes.HIGHLIGHT_REPLY,
+        postId: post.id,
+    };
+}
+
+export const clearHighlightReply = {
+    type: ActionTypes.CLEAR_HIGHLIGHT_REPLY,
+};
+
+export const debouncedClearHighlightReply = debounce((dispatch) => {
+    return dispatch(clearHighlightReply);
+}, Constants.PERMALINK_FADEOUT);
+
+export function selectPostAndHighlight(post: Post) {
+    return (dispatch: DispatchFunc) => {
+        dispatch(batchActions([
+            selectPost(post),
+            highlightReply(post),
+        ]));
+
+        debouncedClearHighlightReply(dispatch);
+
+        return {data: true};
     };
 }
 
