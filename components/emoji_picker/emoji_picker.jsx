@@ -68,17 +68,6 @@ function createCategory(name) {
 
 const CATEGORIES = {};
 
-//     ...smileysEmojiCategory,
-//     'people & body': createCategory('people & body', 'fa fa-user', 'People & Body', t('emoji_picker.people-body')),
-//     'animals & nature': createCategory('animals & nature', 'fa fa-leaf', 'Animals & Nature', t('emoji_picker.animals-nature')),
-//     'food & drink': createCategory('food & drink', 'fa fa-cutlery', 'Food & Drink', t('emoji_picker.food-drink')),
-//     activities: createCategory('activities', 'fa fa-futbol-o', 'Activities', t('emoji_picker.activities')),
-//     'travel & places': createCategory('travel & places', 'fa fa-plane', 'Travel & Places', t('emoji_picker.travel-places')),
-//     objects: createCategory('objects', 'fa fa-lightbulb-o', 'Objects', t('emoji_picker.objects')),
-//     symbols: createCategory('symbols', 'fa fa-heart-o', 'Symbols', t('emoji_picker.symbols')),
-//     flags: createCategory('flags', 'fa fa-flag-o', 'flags', t('emoji_picker.flags')),
-//     custom: createCategory('custom', 'fa fa-at', 'custom', t('emoji_picker.custom')),
-// };
 for (const cat of Emoji.CategoryNames) {
     CATEGORIES[cat] = createCategory(cat);
 }
