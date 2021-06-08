@@ -6,6 +6,7 @@ import Scrollbars from 'react-custom-scrollbars';
 import classNames from 'classnames';
 
 import {Posts} from 'mattermost-redux/constants';
+import {ActionFunc} from 'mattermost-redux/types/actions';
 import {Channel} from 'mattermost-redux/types/channels';
 import {ExtendedPost} from 'mattermost-redux/actions/posts';
 import {Post} from 'mattermost-redux/types/posts';
@@ -82,8 +83,8 @@ type Props = Attrs & {
     actions: {
         removePost: (post: ExtendedPost) => void;
         selectPostCard: (post: Post) => void;
-        getPostThread: (rootId: string, root?: boolean) => Promise<void>;
-        getThread: (userId: string, teamId: string, threadId: string, extended: boolean) => Promise<void>;
+        getPostThread: (rootId: string, root?: boolean) => Promise<any>|ActionFunc;
+        getThread: (userId: string, teamId: string, threadId: string, extended: boolean) => Promise<any>|ActionFunc;
         updateThreadRead: (userId: string, teamId: string, threadId: string, timestamp: number) => unknown;
         updateThreadLastOpened: (threadId: string, lastViewedAt: number) => unknown;
     };
