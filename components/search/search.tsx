@@ -68,7 +68,7 @@ const determineVisibleSearchHintOptions = (searchTerms: string, searchType: Sear
 };
 
 const Search: React.FC<Props> = (props: Props): JSX.Element => {
-    const {actions, searchTerms, searchType, currentChannel, hideSearchBar, enableFindShortcut} = props;
+    const {actions, searchTerms, searchType, currentChannel, currentChannelName, hideSearchBar, enableFindShortcut} = props;
 
     const intl = useIntl();
 
@@ -110,8 +110,8 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
                     actions.openRHSSearch();
                     setKeepInputFocused(true);
                 }
-                if (currentChannel) {
-                    handleUpdateSearchTerms(`in:${currentChannel.name} `);
+                if (currentChannelName) {
+                    handleUpdateSearchTerms(`in:${currentChannelName} `);
                 }
                 handleFocus();
             }
@@ -121,7 +121,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
         return () => {
             document.removeEventListener('keydown', handleKeyDown);
         };
-    }, [currentChannel, hideSearchBar]);
+    }, [currentChannelName, hideSearchBar]);
 
     useEffect((): void => {
         if (!Utils.isMobile()) {

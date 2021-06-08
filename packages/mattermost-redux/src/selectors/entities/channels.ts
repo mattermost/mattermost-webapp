@@ -276,6 +276,29 @@ export const getCurrentChannel: (state: GlobalState) => Channel = createSelector
     },
 );
 
+export const getCurrentChannelNameForSearchShortcut: (state: GlobalState) => string | undefined = createSelector(
+    getAllChannels,
+    getCurrentChannelId,
+    (state: GlobalState): UsersState => state.entities.users,
+    getTeammateNameDisplaySetting,
+    (allChannels: IDMappedObjects<Channel>, currentChannelId: string, users: UsersState, teammateNameDisplay: string): string | undefined => {
+        const channel = allChannels[currentChannelId];
+
+        // Only get the extra info from users if we need it
+        if (channel?.type === Constants.DM_CHANNEL) {
+            const dmChannelWithInfo = completeDirectChannelInfo(users, teammateNameDisplay, channel);
+            return `@${dmChannelWithInfo.display_name}`;
+        }
+
+        // Replace spaces in GM channel names
+        if (channel?.type === Constants.GM_CHANNEL) {
+            return `@${channel.display_name.replace(/ /g, '')}`;
+        }
+
+        return channel?.name;
+    },
+);
+
 export const getMyChannelMember: (state: GlobalState, channelId: string) => ChannelMembership | undefined | null = createSelector(
     getMyChannelMemberships,
     (state: GlobalState, channelId: string): string => channelId,

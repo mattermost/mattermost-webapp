@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {AnyAction, bindActionCreators, Dispatch} from 'redux';
 
 import {getMorePostsForSearch, getMoreFilesForSearch} from 'mattermost-redux/actions/search';
-import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannel, getCurrentChannelNameForSearchShortcut} from 'mattermost-redux/selectors/entities/channels';
 
 import {
     updateSearchTerms,
@@ -35,6 +35,7 @@ function mapStateToProps(state: GlobalState) {
 
     return {
         currentChannel,
+        currentChannelName: getCurrentChannelNameForSearchShortcut(state),
         isRhsExpanded: getIsRhsExpanded(state),
         isRhsOpen: getIsRhsOpen(state),
         isSearchingTerm: getIsSearchingTerm(state),
