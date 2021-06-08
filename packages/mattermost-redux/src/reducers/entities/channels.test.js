@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {ChannelTypes, UserTypes, PostTypes} from 'mattermost-redux/action_types';
+import {ChannelTypes, UserTypes, PostTypes, AdminTypes} from 'mattermost-redux/action_types';
 import deepFreeze from 'mattermost-redux/utils/deep_freeze';
 
 import {General, Permissions} from 'mattermost-redux/constants';
@@ -943,6 +943,179 @@ describe('channels', () => {
 
             expect(nextState.channelMemberCountsByGroup.channel1['group-3'].channel_member_count).toEqual(12);
             expect(nextState.channelMemberCountsByGroup.channel1['group-3'].channel_member_timezones_count).toEqual(13);
+        });
+    });
+
+    describe('Data Retention Channels', () => {
+        test('RECEIVED_DATA_RETENTION_CUSTOM_POLICY_CHANNELS', () => {
+            const state = deepFreeze({
+                channelsInTeam: {},
+                currentChannelId: '',
+                groupsAssociatedToChannel: {},
+                myMembers: {},
+                stats: {},
+                totalCount: 0,
+                membersInChannel: {},
+                channels: {
+                    channel1: {
+                        id: 'channel1',
+                        team_id: 'team',
+                    },
+                    channel2: {
+                        id: 'channel2',
+                        team_id: 'team',
+                    },
+                    channel3: {
+                        id: 'channel3',
+                        team_id: 'team',
+                    },
+                },
+                channelModerations: {},
+                channelMemberCountsByGroup: {},
+            });
+
+            const nextState = channelsReducer(state, {
+                type: AdminTypes.RECEIVED_DATA_RETENTION_CUSTOM_POLICY_CHANNELS,
+                data: {
+                    channels: [{
+                        id: 'channel4',
+                        team_id: 'team',
+                    }],
+                    total_count: 1,
+                },
+            });
+
+            expect(nextState).not.toBe(state);
+            expect(nextState.channels.channel1).toEqual({
+                id: 'channel1',
+                team_id: 'team',
+            });
+            expect(nextState.channels.channel2).toEqual({
+                id: 'channel2',
+                team_id: 'team',
+            });
+            expect(nextState.channels.channel3).toEqual({
+                id: 'channel3',
+                team_id: 'team',
+            });
+            expect(nextState.channels.channel4).toEqual({
+                id: 'channel4',
+                team_id: 'team',
+            });
+        });
+
+        test('REMOVE_DATA_RETENTION_CUSTOM_POLICY_CHANNELS_SUCCESS', () => {
+            const state = deepFreeze({
+                channelsInTeam: {},
+                currentChannelId: '',
+                groupsAssociatedToChannel: {},
+                myMembers: {},
+                stats: {},
+                totalCount: 0,
+                membersInChannel: {},
+                channels: {
+                    channel1: {
+                        id: 'channel1',
+                        team_id: 'team',
+                        policy_id: 'policy1',
+                    },
+                    channel2: {
+                        id: 'channel2',
+                        team_id: 'team',
+                        policy_id: 'policy1',
+                    },
+                    channel3: {
+                        id: 'channel3',
+                        team_id: 'team',
+                        policy_id: 'policy1',
+                    },
+                },
+                channelModerations: {},
+                channelMemberCountsByGroup: {},
+            });
+
+            const nextState = channelsReducer(state, {
+                type: AdminTypes.REMOVE_DATA_RETENTION_CUSTOM_POLICY_CHANNELS_SUCCESS,
+                data: {
+                    channels: ['channel1', 'channel2'],
+                },
+            });
+
+            expect(nextState).not.toBe(state);
+            expect(nextState.channels.channel1).toEqual({
+                id: 'channel1',
+                team_id: 'team',
+                policy_id: null,
+            });
+            expect(nextState.channels.channel2).toEqual({
+                id: 'channel2',
+                team_id: 'team',
+                policy_id: null,
+            });
+            expect(nextState.channels.channel3).toEqual({
+                id: 'channel3',
+                team_id: 'team',
+                policy_id: 'policy1',
+            });
+        });
+        test('RECEIVED_DATA_RETENTION_CUSTOM_POLICY_CHANNELS_SEARCH', () => {
+            const state = deepFreeze({
+                channelsInTeam: {},
+                currentChannelId: '',
+                groupsAssociatedToChannel: {},
+                myMembers: {},
+                stats: {},
+                totalCount: 0,
+                membersInChannel: {},
+                channels: {
+                    channel1: {
+                        id: 'channel1',
+                        team_id: 'team',
+                    },
+                    channel2: {
+                        id: 'channel2',
+                        team_id: 'team',
+                    },
+                    channel3: {
+                        id: 'channel3',
+                        team_id: 'team',
+                    },
+                },
+                channelModerations: {},
+                channelMemberCountsByGroup: {},
+            });
+
+            const nextState = channelsReducer(state, {
+                type: AdminTypes.RECEIVED_DATA_RETENTION_CUSTOM_POLICY_CHANNELS_SEARCH,
+                data: [
+                    {
+                        id: 'channel1',
+                        team_id: 'team',
+                    },
+                    {
+                        id: 'channel4',
+                        team_id: 'team',
+                    },
+                ],
+            });
+
+            expect(nextState).not.toBe(state);
+            expect(nextState.channels.channel1).toEqual({
+                id: 'channel1',
+                team_id: 'team',
+            });
+            expect(nextState.channels.channel2).toEqual({
+                id: 'channel2',
+                team_id: 'team',
+            });
+            expect(nextState.channels.channel3).toEqual({
+                id: 'channel3',
+                team_id: 'team',
+            });
+            expect(nextState.channels.channel4).toEqual({
+                id: 'channel4',
+                team_id: 'team',
+            });
         });
     });
 });
