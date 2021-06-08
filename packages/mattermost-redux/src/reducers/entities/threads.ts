@@ -197,26 +197,36 @@ export const countsReducer = (state: ThreadsState['counts'] = {}, action: Generi
             prevUnreadReplies = 0,
             newUnreadReplies = 0,
         } = action.data;
-        const counts = state[teamId] ? {
-            ...state[teamId],
-        } : {
+
+        // ThreadsState['counts'] unread totals contain DM/GM thread-unreads.
+        // If DM/GM (no threadId), apply decrement/increment to all team counts.
+        const countsByTeam = teamId ? {[teamId]: state[teamId] || {
             total_unread_threads: 0,
             total: 0,
             total_unread_mentions: 0,
-        };
-        const unreadMentionDiff = newUnreadMentions - prevUnreadMentions;
+        }} : state;
 
-        counts.total_unread_mentions += unreadMentionDiff;
+        const changedCounts = Object.entries(countsByTeam).reduce<ThreadsState['counts']>((result, [entryId, entryCounts]) => {
+            const counts = {...entryCounts};
 
-        if (newUnreadReplies > 0 && prevUnreadReplies === 0) {
-            counts.total_unread_threads += 1;
-        } else if (prevUnreadReplies > 0 && newUnreadReplies === 0) {
-            counts.total_unread_threads -= 1;
-        }
+            const unreadMentionDiff = newUnreadMentions - prevUnreadMentions;
+
+            counts.total_unread_mentions += unreadMentionDiff;
+
+            if (newUnreadReplies > 0 && prevUnreadReplies === 0) {
+                counts.total_unread_threads += 1;
+            } else if (prevUnreadReplies > 0 && newUnreadReplies === 0) {
+                counts.total_unread_threads -= 1;
+            }
+
+            result[entryId] = counts;
+
+            return result;
+        }, {});
 
         return {
             ...state,
-            [action.data.teamId]: counts,
+            ...changedCounts,
         };
     }
     case ThreadTypes.RECEIVED_THREADS: {

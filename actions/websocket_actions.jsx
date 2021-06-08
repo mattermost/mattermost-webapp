@@ -1493,6 +1493,6 @@ function handleThreadFollowChanged(msg) {
         if (!thread && msg.data.state && msg.data.reply_count) {
             await doDispatch(fetchThread(getCurrentUserId(state), getCurrentTeamId(state), msg.data.thread_id, true));
         }
-        handleFollowChanged(doDispatch, msg.data.thread_id, msg.broadcast.team_id, msg.data.state);
+        handleFollowChanged(doDispatch, doGetState, msg.data.thread_id, msg.broadcast.team_id, msg.data.state);
     };
 }
