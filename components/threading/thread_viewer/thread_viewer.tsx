@@ -163,9 +163,6 @@ export default class ThreadViewer extends React.Component<Props, State> {
     }
 
     public componentDidMount() {
-        if (!this.props.highlightedPostId && !this.newMessagesRef.current) {
-            this.scrollToBottom();
-        }
         this.resizeRhsPostList();
         window.addEventListener('resize', this.handleResize);
 
@@ -218,7 +215,7 @@ export default class ThreadViewer extends React.Component<Props, State> {
         }
     }
 
-    public async componentDidUpdate(prevProps: Props) {
+    public componentDidUpdate(prevProps: Props) {
         const {highlightedPostId} = this.props;
         const prevPostsArray = prevProps.posts || [];
         const curPostsArray = this.props.posts || [];
@@ -244,6 +241,8 @@ export default class ThreadViewer extends React.Component<Props, State> {
         const curLastPost = curPostsArray[0];
 
         if (
+            !reconnected &&
+            !selectedChanged &&
             !highlightedPostId &&
             (curLastPost.user_id === this.props.currentUserId || this.state.userScrolledToBottom)
         ) {
@@ -287,9 +286,12 @@ export default class ThreadViewer extends React.Component<Props, State> {
         return false;
     }
 
+    // called either after mount, socket reconnected, or selected thread changed
+    // fetches the thread/posts if needed and
+    // scrolls to either bottom or new messages line
     private onInit = async (reconnected = false): Promise<void> => {
         if (reconnected || this.morePostsToFetch()) {
-            await this.props.actions.getPostThread(this.props.selected.id, true);
+            await this.props.actions.getPostThread(this.props.selected.id, !reconnected);
         }
 
         if (
@@ -299,8 +301,18 @@ export default class ThreadViewer extends React.Component<Props, State> {
             await this.fetchThread();
         }
 
-        if (!reconnected && this.newMessagesRef.current && !this.isInViewport(this.newMessagesRef.current)) {
+        if (
+            !reconnected &&
+            this.newMessagesRef.current &&
+            !this.isInViewport(this.newMessagesRef.current)
+        ) {
             this.newMessagesRef.current.scrollIntoView();
+        } else if (
+            !reconnected &&
+            !this.props.highlightedPostId &&
+            !this.newMessagesRef.current
+        ) {
+            this.scrollToBottom();
         }
     }
 

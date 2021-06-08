@@ -73,7 +73,7 @@ describe('components/threading/ThreadViewer', () => {
         wrapper.setProps({socketConnectionStatus: false});
         wrapper.setProps({socketConnectionStatus: true});
 
-        expect(actions.getPostThread).toHaveBeenCalledWith(post.id);
+        return expect(actions.getPostThread).toHaveBeenCalledWith(post.id, false);
     });
 
     test('should update openTime state when selected prop updated', async () => {
