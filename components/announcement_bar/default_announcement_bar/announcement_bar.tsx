@@ -136,7 +136,7 @@ export default class AnnouncementBar extends React.PureComponent<Props> {
                     placement='bottom'
                     overlay={announcementTooltip}
                 >
-                    <span>
+                    <div className='announcement-bar__text'>
                         {this.props.icon ? this.props.icon : announcementIcon()}
                         {message}
                         {
@@ -178,7 +178,7 @@ export default class AnnouncementBar extends React.PureComponent<Props> {
                                 />
                             </button>
                         }
-                    </span>
+                    </div>
                 </OverlayTrigger>
                 {closeButton}
             </div>
