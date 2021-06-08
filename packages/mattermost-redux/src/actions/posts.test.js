@@ -918,7 +918,7 @@ describe('Actions.Posts', () => {
         expect(state.entities.posts.posts).toEqual({
             post1: {...post1, participants: [{id: 'user1'}]},
             post2,
-            post3
+            post3,
         });
         expect(state.entities.posts.postsInChannel.channel1).toEqual([
             {order: ['post3', 'post2', 'post1'], recent: false},
@@ -973,7 +973,7 @@ describe('Actions.Posts', () => {
         expect(state.entities.posts.posts).toEqual({
             post1: {...post1, participants: [{id: 'user1'}]},
             post2,
-            post3
+            post3,
         });
         expect(state.entities.posts.postsInChannel.channel1).toEqual([
             {order: ['post3', 'post2', 'post1'], recent: true},
