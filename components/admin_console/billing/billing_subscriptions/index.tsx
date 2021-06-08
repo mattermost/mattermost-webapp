@@ -70,7 +70,7 @@ const BillingSubscriptions: React.FC = () => {
     const [showCreditCardBanner, setShowCreditCardBanner] = useState(true);
 
     const query = useQuery();
-    const fromQueryParam = query.get('from');
+    const actionQueryParam = query.get('action');
 
     const product = useSelector((state: GlobalState) => {
         const products = state.entities.cloud.products!;
@@ -130,7 +130,7 @@ const BillingSubscriptions: React.FC = () => {
             trackEvent(TELEMETRY_CATEGORIES.CLOUD_ADMIN, 'bannerview_user_limit_warning');
         }
 
-        if (fromQueryParam === 'trial_ending_email') {
+        if (actionQueryParam === 'show_purchase_modal') {
             onUpgradeMattermostCloud();
         }
     }, []);
