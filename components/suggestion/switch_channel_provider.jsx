@@ -13,7 +13,7 @@ import {
     getGroupChannels,
     getMyChannelMemberships,
     getChannelByName,
-    getCurrentChannel, getAllRecentChannels,
+    getCurrentChannel,
 } from 'mattermost-redux/selectors/entities/channels';
 
 import ProfilePicture from '../profile_picture';
@@ -600,7 +600,7 @@ export default class SwitchChannelProvider extends Provider {
 
     fetchAndFormatRecentlyViewedChannels(resultsCallback) {
         const state = getState();
-        const recentChannels = getAllRecentChannels(state);
+        const recentChannels = getChannelsInCurrentTeam(state);
         const channels = this.wrapChannels(recentChannels, Constants.MENTION_RECENT_CHANNELS);
         if (channels.length === 0) {
             prefix = '';
@@ -622,8 +622,9 @@ export default class SwitchChannelProvider extends Provider {
         return parseInt(prefValue, 10);
     }
     getLastViewedAt(myMembers, myPreferences, channel) {
-        // The server only ever sets the last_viewed_at to the time of the last post in channel, so we may need
-        // to use the preferences added for the previous version of autoclosing DMs.
+        // The server only ever sets the last_viewed_at to the time of the last post in channel,
+        // So thought of using preferences but it seems that also not keeping track.
+        // TODO Update and remove comment once solution is finalized
         return Math.max(
             myMembers[channel.id]?.last_viewed_at,
             this.getTimestampFromPrefs(myPreferences, Preferences.CATEGORY_CHANNEL_APPROXIMATE_VIEW_TIME, channel.id),
