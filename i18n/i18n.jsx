@@ -40,8 +40,8 @@ const languages = {
         order: 1,
         url: '',
     },
-    en_AU: {
-        value: 'en_AU',
+    'en-AU': {
+        value: 'en-AU',
         name: 'English Australian (Beta)',
         order: 2,
         url: enAU,
