@@ -3,7 +3,7 @@
 
 import {combineReducers} from 'redux';
 
-import {TeamTypes, ThreadTypes, UserTypes} from 'mattermost-redux/action_types';
+import {TeamTypes, ThreadTypes, UserTypes, PostTypes} from 'mattermost-redux/action_types';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {Team} from 'mattermost-redux/types/teams';
 import {ThreadsState, UserThread} from 'mattermost-redux/types/threads';
@@ -20,6 +20,18 @@ export const threadsReducer = (state: ThreadsState['threads'] = {}, action: Gene
                 return results;
             }, {}),
         };
+    }
+    case PostTypes.POST_REMOVED: {
+        const post = action.data;
+
+        if (post.root_id || !state[post.id]) {
+            return state;
+        }
+
+        const nextState = {...state};
+        Reflect.deleteProperty(nextState, post.id);
+
+        return nextState;
     }
     case ThreadTypes.RECEIVED_THREAD: {
         const {thread} = action.data;
@@ -75,6 +87,29 @@ export const threadsReducer = (state: ThreadsState['threads'] = {}, action: Gene
 
 export const threadsInTeamReducer = (state: ThreadsState['threadsInTeam'] = {}, action: GenericAction) => {
     switch (action.type) {
+    case PostTypes.POST_REMOVED: {
+        const post = action.data;
+        if (post.root_id) {
+            return state;
+        }
+
+        const teamId = Object.keys(state).
+            find((id) => state[id].indexOf(post.id) !== -1);
+
+        if (!teamId) {
+            return state;
+        }
+
+        const index = state[teamId].indexOf(post.id);
+
+        return {
+            ...state,
+            [teamId]: [
+                ...state[teamId].slice(0, index),
+                ...state[teamId].slice(index + 1),
+            ],
+        };
+    }
     case ThreadTypes.RECEIVED_THREADS: {
         const nextSet = new Set(state[action.data.team_id]);
 
