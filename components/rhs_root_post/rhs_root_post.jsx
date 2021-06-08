@@ -396,10 +396,9 @@ class RhsRootPost extends React.PureComponent {
                 <CustomStatusEmoji
                     userID={post.user_id}
                     showTooltip={true}
-                    emojiSize={14}
                     emojiStyle={{
                         marginLeft: 4,
-                        marginTop: 1,
+                        marginTop: 2,
                     }}
                 />
             );

@@ -1,5 +1,43 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`components/threading/channel_threads/thread_footer should match snapshot when a single message is followed 1`] = `
+<Memo(ThreadFooter)
+  threadId="singlemessageid"
+>
+  <div
+    className="ThreadFooter"
+  >
+    <div
+      className="indicator"
+    />
+    <Memo(FollowButton)
+      className="separated"
+      isFollowing={true}
+      onClick={[Function]}
+    >
+      <Memo(Button)
+        className="separated FollowButton"
+        disabled={false}
+        isActive={true}
+        onClick={[Function]}
+      >
+        <button
+          className="Button Button___transparent is-active separated FollowButton"
+          disabled={false}
+          onClick={[Function]}
+        >
+          <span
+            className="Button_label"
+          >
+            Following
+          </span>
+        </button>
+      </Memo(Button)>
+    </Memo(FollowButton)>
+  </div>
+</Memo(ThreadFooter)>
+`;
+
 exports[`components/threading/channel_threads/thread_footer should report total number of replies 1`] = `
 <Memo(ThreadFooter)
   threadId="postthreadid"

@@ -27,6 +27,10 @@ export function getSelectedPostCardId(state: GlobalState): $ID<Post> {
     return state.views.rhs.selectedPostCardId;
 }
 
+export function getHighlightedPostId(state: GlobalState): $ID<Post> {
+    return state.views.rhs.highlightedPostId;
+}
+
 export function getFilesSearchExtFilter(state: GlobalState): string[] {
     return state.views.rhs.filesSearchExtFilter;
 }

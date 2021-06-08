@@ -20,6 +20,7 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         actions: {
             updateMe: jest.fn(() => Promise.resolve({})),
         },
+        isCollapsedThreadsEnabled: false,
     };
 
     test('should have called handleSubmit', async () => {
@@ -53,5 +54,22 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         expect(wrapper.state('isSaving')).toEqual(false);
         expect(wrapper.state('desktopActivity')).toEqual('on');
         expect(newUpdateSection).toHaveBeenCalledTimes(1);
+    });
+
+    test('should show reply notifications section when CRT off', () => {
+        const wrapper = shallow(
+            <UserSettingsNotifications {...requiredProps}/>,
+        );
+        expect(wrapper.exists('SettingItemMin[section="comments"]')).toBe(true);
+    });
+
+    test('should not show reply notifications section when CRT on', () => {
+        const wrapper = shallow(
+            <UserSettingsNotifications
+                {...requiredProps}
+                isCollapsedThreadsEnabled={true}
+            />,
+        );
+        expect(wrapper.exists('SettingItemMin[section="comments"]')).toBe(false);
     });
 });
