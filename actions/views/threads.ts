@@ -3,6 +3,16 @@
 
 import {Threads} from 'utils/constants';
 
+export function updateThreadLastOpened(threadId: string, lastViewedAt: number) {
+    return {
+        type: Threads.CHANGED_LAST_VIEWED_AT,
+        data: {
+            threadId,
+            lastViewedAt,
+        },
+    };
+}
+
 export function setSelectedThreadId(teamId: string, threadId: string | undefined) {
     return {
         type: Threads.CHANGED_SELECTED_THREAD,
