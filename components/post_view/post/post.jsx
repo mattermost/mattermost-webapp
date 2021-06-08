@@ -251,9 +251,9 @@ class Post extends React.PureComponent {
             className += ' post--bot';
         }
 
-        let userCss = '';
-        if (!fromWebhook && !isSystemMessage) {
-            userCss = 'current--user';
+        let currentUserCss = '';
+        if (this.props.currentUserId === post.user_id && !fromWebhook && !isSystemMessage) {
+            currentUserCss = 'current--user';
         }
 
         let sameUserClass = '';
@@ -273,7 +273,7 @@ class Post extends React.PureComponent {
         if (isSystemMessage || isMeMessage) {
             className += ' post--system';
             if (isSystemMessage) {
-                userCss = '';
+                currentUserCss = '';
                 postType = '';
                 rootUser = '';
             }
@@ -299,7 +299,7 @@ class Post extends React.PureComponent {
             className += ' cursor--pointer';
         }
 
-        return className + ' ' + sameUserClass + ' ' + rootUser + ' ' + postType + ' ' + userCss;
+        return className + ' ' + sameUserClass + ' ' + rootUser + ' ' + postType + ' ' + currentUserCss;
     }
 
     setHover = () => {
@@ -431,7 +431,7 @@ class Post extends React.PureComponent {
                                 isCommentMention={this.props.isCommentMention}
                                 isFirstReply={this.props.isFirstReply}
                             />
-                            {isCollapsedThreadsEnabled && !post.root_id && replyCount ? (
+                            {isCollapsedThreadsEnabled && !post.root_id && (replyCount || post.is_following) ? (
                                 <ThreadFooter threadId={post.id}/>
                             ) : null}
 

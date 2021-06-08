@@ -30,6 +30,7 @@ describe('components/WarnMetricAckModal', () => {
             id: 'metric1',
             limit: 500,
             acked: false,
+            store_status: 'status1',
         },
         actions: {
             closeModal: jest.fn(),

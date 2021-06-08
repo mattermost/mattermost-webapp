@@ -185,11 +185,15 @@ describe('Post', () => {
         }
     });
 
-    test('should show the thread footer for root posts', () => {
+    test.each([
+        {replyCount: 0, post: {...baseProps.post, is_following: true}},
+        {replyCount: 2, post: {...baseProps.post, is_following: true}},
+        {replyCount: 2, post: {...baseProps.post, is_following: false}},
+    ])('should show the thread footer for root posts', (testCaseProps) => {
         const props = {
             ...baseProps,
+            ...testCaseProps,
             isCollapsedThreadsEnabled: true,
-            replyCount: 22,
         };
 
         const wrapper = shallowWithIntl(

@@ -355,7 +355,7 @@ class ProfilePopover extends React.PureComponent {
                 />
                 <StatusIcon
                     className='status user-popover-status'
-                    status={this.props.status}
+                    status={this.props.hideStatus ? null : this.props.status}
                     button={true}
                 />
             </div>,
