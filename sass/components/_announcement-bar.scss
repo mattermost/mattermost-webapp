@@ -15,13 +15,17 @@
     max-height: $announcement-bar-height;
     align-items: center;
 
-    > span {
-        max-width: 100%;
+    .announcement-bar__text {
         display: flex;
         overflow: hidden;
-        text-overflow: ellipsis;
         white-space: nowrap;
         align-items: center;
+
+        > p {
+            margin: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
 
         > span {
             font-style: normal;
@@ -47,7 +51,6 @@
             font-size: 20px;
             font-weight: 600;
             padding: 0 10px;
-            position: absolute;
             right: 0;
             text-decoration: none;
             top: 5px;
@@ -120,6 +123,7 @@
 .advisor-icon {
     height: 16px;
     width: 16px;
+    margin-left: 8px;
     margin-right: 8px;
     margin-bottom: 2px;
 }

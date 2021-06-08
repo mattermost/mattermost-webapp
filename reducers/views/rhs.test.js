@@ -13,6 +13,7 @@ describe('Reducers.RHS', () => {
         selectedPostFocussedAt: 0,
         selectedPostCardId: '',
         selectedChannelId: '',
+        highlightedPostId: '',
         previousRhsState: null,
         rhsState: null,
         searchTerms: '',
@@ -122,6 +123,25 @@ describe('Reducers.RHS', () => {
         expect(nextState).toEqual({
             ...initialState,
             selectedPostCardId: '',
+            rhsState: RHSStates.SEARCH,
+            isSidebarOpen: true,
+        });
+    });
+
+    test(`should wipe highlightedPostId on ${ActionTypes.UPDATE_RHS_STATE}`, () => {
+        const nextState = rhsReducer(
+            {
+                highlightedPostId: '123',
+            },
+            {
+                type: ActionTypes.UPDATE_RHS_STATE,
+                state: RHSStates.SEARCH,
+            },
+        );
+
+        expect(nextState).toEqual({
+            ...initialState,
+            selectedPostId: '',
             rhsState: RHSStates.SEARCH,
             isSidebarOpen: true,
         });
@@ -505,5 +525,31 @@ describe('Reducers.RHS', () => {
             ...initialState,
             searchType: 'files',
         });
+    });
+
+    test('should mark a reply as highlighted', () => {
+        const nextState = rhsReducer(
+            {},
+            {
+                type: ActionTypes.HIGHLIGHT_REPLY,
+                postId: '42',
+            },
+        );
+
+        expect(nextState).toEqual({
+            ...initialState,
+            highlightedPostId: '42',
+        });
+    });
+
+    test('should clear highlighted reply', () => {
+        const nextState = rhsReducer(
+            {highlightedPostId: '42'},
+            {
+                type: ActionTypes.CLEAR_HIGHLIGHT_REPLY,
+            },
+        );
+
+        expect(nextState).toEqual(initialState);
     });
 });
