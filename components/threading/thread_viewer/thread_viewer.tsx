@@ -82,8 +82,8 @@ type Props = Attrs & {
     actions: {
         removePost: (post: ExtendedPost) => void;
         selectPostCard: (post: Post) => void;
-        getPostThread: (rootId: string, root?: boolean) => void;
-        getThread: (userId: string, teamId: string, threadId: string, extended: boolean) => unknown;
+        getPostThread: (rootId: string, root?: boolean) => Promise<void>;
+        getThread: (userId: string, teamId: string, threadId: string, extended: boolean) => Promise<void>;
         updateThreadRead: (userId: string, teamId: string, threadId: string, timestamp: number) => unknown;
         updateThreadLastOpened: (threadId: string, lastViewedAt: number) => unknown;
     };
@@ -112,6 +112,7 @@ export default class ThreadViewer extends React.Component<Props, State> {
     private containerRef: React.RefObject<HTMLDivElement>;
     private postCreateContainerRef: React.RefObject<HTMLDivElement>;
     private scrollbarsRef: React.RefObject<Scrollbars>;
+    private newMessagesRef: React.RefObject<HTMLDivElement>;
 
     public static getDerivedStateFromProps(props: Props, state: State) {
         let updatedState: Partial<State> = {selected: props.selected};
@@ -142,6 +143,7 @@ export default class ThreadViewer extends React.Component<Props, State> {
         this.containerRef = React.createRef();
         this.postCreateContainerRef = React.createRef();
         this.scrollbarsRef = React.createRef();
+        this.newMessagesRef = React.createRef();
     }
 
     private getLastPost() {
@@ -161,37 +163,31 @@ export default class ThreadViewer extends React.Component<Props, State> {
     }
 
     public componentDidMount() {
-        if (!this.props.highlightedPostId) {
+        if (!this.props.highlightedPostId && !this.newMessagesRef.current) {
             this.scrollToBottom();
         }
         this.resizeRhsPostList();
         window.addEventListener('resize', this.handleResize);
 
-        if (this.morePostsToFetch()) {
-            this.props.actions.getPostThread(this.props.selected.id, true);
+        if (this.props.isCollapsedThreadsEnabled && this.props.userThread !== null) {
+            this.markThreadRead();
         }
 
-        if (this.props.isCollapsedThreadsEnabled) {
-            if (this.props.userThread == null) {
-                this.fetchThread();
-            } else {
-                this.markThreadRead();
-            }
-        }
+        this.onInit();
     }
 
     public componentWillUnmount() {
         window.removeEventListener('resize', this.handleResize);
     }
 
-    public morePostsToFetch() {
+    public morePostsToFetch(): boolean {
         const rootPost = Utils.getRootPost(this.props.posts);
         const replyCount = rootPost?.reply_count || this.props.userThread?.reply_count || 0;
         return rootPost && this.props.posts.length < (replyCount + 1);
     }
 
     fetchThread() {
-        this.props.actions.getThread(
+        return this.props.actions.getThread(
             this.props.currentUserId,
             this.props.currentTeamId,
             this.props.selected.id,
@@ -222,7 +218,7 @@ export default class ThreadViewer extends React.Component<Props, State> {
         }
     }
 
-    public componentDidUpdate(prevProps: Props) {
+    public async componentDidUpdate(prevProps: Props) {
         const {highlightedPostId} = this.props;
         const prevPostsArray = prevProps.posts || [];
         const curPostsArray = this.props.posts || [];
@@ -231,14 +227,7 @@ export default class ThreadViewer extends React.Component<Props, State> {
         const selectedChanged = this.props.selected.id !== prevProps.selected.id;
 
         if (reconnected || selectedChanged) {
-            this.props.actions.getPostThread(this.props.selected.id);
-
-            if (
-                this.props.isCollapsedThreadsEnabled &&
-                this.props.userThread == null
-            ) {
-                this.fetchThread();
-            }
+            this.onInit(reconnected);
         }
 
         if (
@@ -296,6 +285,39 @@ export default class ThreadViewer extends React.Component<Props, State> {
         }
 
         return false;
+    }
+
+    private onInit = async (reconnected = false): Promise<void> => {
+        if (reconnected || this.morePostsToFetch()) {
+            await this.props.actions.getPostThread(this.props.selected.id, true);
+        }
+
+        if (
+            this.props.isCollapsedThreadsEnabled &&
+            this.props.userThread == null
+        ) {
+            await this.fetchThread();
+        }
+
+        if (!reconnected && this.newMessagesRef.current && !this.isInViewport(this.newMessagesRef.current)) {
+            this.newMessagesRef.current.scrollIntoView();
+        }
+    }
+
+    isInViewport = (element: HTMLDivElement|null): boolean => {
+        const containerHeight = this.containerRef.current?.getBoundingClientRect().height;
+        if (!element || !containerHeight) {
+            return false;
+        }
+
+        const rect = element.getBoundingClientRect();
+
+        const height = window.innerHeight || document.documentElement.clientHeight;
+
+        return (
+            rect.top > height - containerHeight &&
+            rect.bottom < (window.innerHeight || document.documentElement.clientHeight)
+        );
     }
 
     private handleResize = (): void => {
@@ -406,7 +428,7 @@ export default class ThreadViewer extends React.Component<Props, State> {
 
     private handlePostCommentResize = (): void => {
         this.resizeRhsPostList();
-        if (!this.props.highlightedPostId) {
+        if (!this.props.highlightedPostId && !this.newMessagesRef.current) {
             this.scrollToBottom();
         }
     }
@@ -468,6 +490,7 @@ export default class ThreadViewer extends React.Component<Props, State> {
                 addedNewMessagesIndicator = true;
                 items.push(
                     <NewMessageSeparator
+                        wrapperRef={this.newMessagesRef}
                         key={`thread-new-messages-${comPost.id}`}
                         separatorId={`thread-new-messages-${comPost.id}`}
                     />,
@@ -493,7 +516,7 @@ export default class ThreadViewer extends React.Component<Props, State> {
                     a11yIndex={a11yIndex++}
                     isLastPost={comPost.id === lastRhsCommentPost.id}
                     timestampProps={this.props.useRelativeTimestamp ? THREADING_TIME : undefined}
-                    containerHeight={this.containerRef.current?.getBoundingClientRect().height}
+                    isInViewport={this.isInViewport}
                 />,
             );
         }
