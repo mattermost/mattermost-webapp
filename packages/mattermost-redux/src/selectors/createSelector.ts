@@ -1,18 +1,18 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {createSelector} from 'reselect';
 import {generateId} from 'mattermost-redux/utils/helpers';
+import {Dictionary} from 'mattermost-redux/types/utilities';
 
 let creator;
 
 // Direct copy from reselect needed as it's not exported.
-function defaultEqualityCheck(a, b) {
+function defaultEqualityCheck(a: any, b: any) {
     return a === b
 }
 
 // Direct copy from reselect needed as it's not exported.
-function areArgumentsShallowlyEqual(equalityCheck, prev, next) {
+function areArgumentsShallowlyEqual(equalityCheck: Function, prev: any, next: any) {
     if (prev === null || next === null || prev.length !== next.length) {
         return false
     }
@@ -32,9 +32,9 @@ function areArgumentsShallowlyEqual(equalityCheck, prev, next) {
 // The only change is it takes a "measure" function as second argument which is called
 // any time the memoized function is called, regardless as to whether it returned a
 // memoized result or not.
-const memoizeAndMeasure = (func, measure, equalityCheck = defaultEqualityCheck) => {
-    let lastArgs = null
-    let lastResult = null
+const memoizeAndMeasure = (func: Function, measure: Function, equalityCheck = defaultEqualityCheck) => {
+    let lastArgs: any = null
+    let lastResult: any = null
     // we reference arguments instead of spreading them for performance reasons
     return function () {
         if (!areArgumentsShallowlyEqual(equalityCheck, lastArgs, arguments)) {
@@ -51,12 +51,12 @@ const memoizeAndMeasure = (func, measure, equalityCheck = defaultEqualityCheck) 
 }
 
 // Direct copy from reselect needed as it's not exported.
-function getDependencies(funcs) {
+function getDependencies(funcs: Function[]) {
     const dependencies = Array.isArray(funcs[0]) ? funcs[0] : funcs
 
     if (!dependencies.every(dep => typeof dep === 'function')) {
         const dependencyTypes = dependencies.map(
-            dep => typeof dep
+            (dep: any) => typeof dep
         ).join(', ')
         throw new Error(
             'Selector creators expect all input-selectors to be functions, ' +
@@ -67,11 +67,11 @@ function getDependencies(funcs) {
     return dependencies
 }
 
-const trackedSelectors = {};
+const trackedSelectors: Dictionary<Function> = {};
 
 // createSelectorCreator is modified function of the one from reselect with added tracking for measuring memoization effectiveness.
-function createSelectorCreator(memoize, ...memoizeOptions) {
-    return (name, ...funcs) => {
+function createSelectorCreator(memoize: Function, ...memoizeOptions: any[]) {
+    return (name: string, ...funcs: Function[]) => {
         const id = generateId();
         let recomputations = 0;
         let calls = 0;
@@ -82,7 +82,7 @@ function createSelectorCreator(memoize, ...memoizeOptions) {
             function() {
                 recomputations++
                 // apply arguments instead of spreading for performance.
-                return resultFunc.apply(null, arguments)
+                return resultFunc?.apply(null, arguments)
             },
             null,
             ...memoizeOptions
@@ -121,7 +121,7 @@ function createSelectorCreator(memoize, ...memoizeOptions) {
 
 // resetTrackedSelectors resets all the measurements for memoization effectiveness.
 function resetTrackedSelectors() {
-    Object.values(trackedSelectors).forEach((selector) => {
+    Object.values(trackedSelectors).forEach((selector: any) => {
         selector.resetCalls();
         selector.resetRecomputations();
     });
@@ -129,9 +129,9 @@ function resetTrackedSelectors() {
 
 // getSortedTrackedSelectors returns an array, sorted by effectivness, containing mesaurement data on all tracked selectors.
 function getSortedTrackedSelectors() {
-    let selectors = Object.values(trackedSelectors);
-    selectors = selectors.map((selector) => ({name: selector.selectorName(), effectiveness: selector.effectiveness(), recomputations: selector.recomputations(), calls: selector.calls()}));
-    selectors.sort((a, b) => (a.effectiveness > b.effectiveness) ? 1 : ((b.effectiveness > a.effectiveness) ? -1 : 0))
+    const selectors = Object.values(trackedSelectors);
+    const selectorsData = selectors.map((selector: any) => ({name: selector.selectorName(), effectiveness: selector.effectiveness(), recomputations: selector.recomputations(), calls: selector.calls()}));
+    selectorsData.sort((a, b) => a.effectiveness - b.effectiveness);
     return selectors;
 }
 
@@ -141,15 +141,16 @@ function dumpTrackedSelectorsStatistics() {
     console.table(selectors); //eslint-disable-line no-console
 }
 
-// Only track selectors in development builds.
-if (process.env.NODE_ENV === 'development') { //eslint-disable-line no-process-env
-    creator = createSelectorCreator(memoizeAndMeasure);
-    window.dumpTrackedSelectorsStatistics = dumpTrackedSelectorsStatistics;
-    window.resetTrackedSelectors = resetTrackedSelectors;
-    window.getSortedTrackedSelectors = getSortedTrackedSelectors;
-} else {
-    // Discard name argument in production when using unmodified createSelector
-    creator = (name, ...funcs) => createSelector(...funcs);
+declare global {
+    interface Window {
+        dumpTrackedSelectorsStatistics: Function;
+        resetTrackedSelectors: Function;
+        getSortedTrackedSelectors: Function;
+    }
 }
 
-export default creator;
+window.dumpTrackedSelectorsStatistics = dumpTrackedSelectorsStatistics;
+window.resetTrackedSelectors = resetTrackedSelectors;
+window.getSortedTrackedSelectors = getSortedTrackedSelectors;
+
+export default createSelectorCreator(memoizeAndMeasure);

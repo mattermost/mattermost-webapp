@@ -6,7 +6,6 @@ import tablemark from 'tablemark';
 export function reportBenchmarkResults(cy, win) {
     const testName = getTestName();
     const selectors = win.getSortedTrackedSelectors();
-    console.table(selectors); //eslint-disable-line no-consol
     const dump = `Selector Measurements for ${testName} \n\n ${tablemark(selectors)}`;
     cy.log(dump);
     cy.writeFile(`cypress/benchmark/__benchmarks__/${testName}.json`, JSON.stringify(selectors));

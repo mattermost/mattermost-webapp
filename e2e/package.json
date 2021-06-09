@@ -61,6 +61,6 @@
     "uniq-meta": "grep -r \"^// $META:\" cypress | grep -ow '@\\w*' | sort | uniq"
   },
   "dependencies": {
-    "tablemark": "^2.0.0"
+    "tablemark": "2.0.0"
   }
 }

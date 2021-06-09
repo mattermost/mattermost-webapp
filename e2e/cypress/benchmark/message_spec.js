@@ -7,29 +7,24 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @messaging @benchmark
 
 import {reportBenchmarkResults} from '../utils/benchmark';
 
 describe('Message', () => {
     let testTeam;
-    let testChannel;
 
     before(() => {
         // # Create new team and new user and visit Town Square channel
         cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
             testTeam = team;
-            testChannel = channel;
             cy.visit(`/${testTeam.name}/channels/town-square`);
         });
     });
 
     it('Current user posting message in empty channel', () => {
-        cy.wait(1000);
-
         // # Wait for posts to load
-        cy.get('#postListContent').should('be.visible');
+        cy.get('#postListContent', {timeout: 6000}).should('be.visible');
 
         // # Reset selector measurements
         cy.window().then((win) => {
