@@ -244,7 +244,7 @@ describe('components/Menu', () => {
     });
 
     test('should hide the subscribe now button when does not have permissions', () => {
-        const noPermissionsState = {...defaultState}
+        const noPermissionsState = {...defaultState};
         noPermissionsState.entities.roles.roles.system_manager.permissions = [];
         const store = mockStore(noPermissionsState);
 
