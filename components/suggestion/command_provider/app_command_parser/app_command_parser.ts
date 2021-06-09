@@ -207,6 +207,10 @@ export class ParsedCommand {
         }
 
         if (!this.binding) {
+            if (autocompleteMode) {
+                return this;
+            }
+
             return this.asError(this.intl.formatMessage({
                 id: 'apps.error.parser.no_match',
                 defaultMessage: '`{command}`: No matching command found in this workspace.',
@@ -223,7 +227,7 @@ export class ParsedCommand {
         }
 
         if (!this.binding.bindings?.length) {
-            this.form = this.binding.form;
+            this.form = this.binding?.form;
             if (!this.form) {
                 const fetched = await this.formsCache.getForm(this.location, this.binding);
                 if (fetched?.error) {
