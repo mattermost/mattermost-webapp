@@ -218,8 +218,8 @@ export class ParsedCommand {
         if (!autocompleteMode && this.binding.bindings?.length) {
             return this.asError(this.intl.formatMessage({
                 id: 'apps.error.parser.execute_non_leaf',
-                defaultMessage: 'You must select a subcommand.'
-            }))
+                defaultMessage: 'You must select a subcommand.',
+            }));
         }
 
         if (!this.binding.bindings?.length) {
