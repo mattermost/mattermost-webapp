@@ -125,7 +125,7 @@ const DateTimeInputContainer: React.FC<Props> = (props: Props) => {
         }
     };
 
-    const handleTimeChange = useCallback((e: React.MouseEvent, time: Date) => {
+    const handleTimeChange = useCallback((time: Date, e: React.MouseEvent) => {
         e.preventDefault();
         handleChange(moment(time));
     }, [handleChange]);
@@ -186,7 +186,7 @@ const DateTimeInputContainer: React.FC<Props> = (props: Props) => {
                         <Menu.Group>
                             {Array.isArray(timeOptions) && timeOptions.map((option, index) => (
                                 <Menu.ItemAction
-                                    onClick={(e: React.MouseEvent) => handleTimeChange(e, option)}
+                                    onClick={handleTimeChange.bind(this, option)}
                                     key={index}
                                     text={
                                         <Timestamp

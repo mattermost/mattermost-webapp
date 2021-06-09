@@ -77,6 +77,7 @@ export function addRecentEmoji(alias) {
 }
 
 export function loadCustomEmojisForCustomStatusesByUserIds(userIds) {
+    const getCustomStatus = makeGetCustomStatus();
     return (dispatch, getState) => {
         const state = getState();
         const customEmojiEnabled = isCustomEmojiEnabled(state);
@@ -85,7 +86,6 @@ export function loadCustomEmojisForCustomStatusesByUserIds(userIds) {
             return {data: false};
         }
 
-        const getCustomStatus = makeGetCustomStatus();
         const emojisToLoad = new Set();
 
         userIds.forEach((userId) => {

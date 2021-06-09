@@ -32,41 +32,40 @@ function getDefaultChannelId(state) {
     return selectedPost.exists ? selectedPost.channel_id : getCurrentChannelId(state);
 }
 
-const getCustomStatus = makeGetCustomStatus();
-function mapStateToProps(state, {userId, channelId = getDefaultChannelId(state)}) {
-    const team = getCurrentTeam(state);
-    const teamMember = getTeamMember(state, team.id, userId);
+function makeMapStateToProps() {
+    const getCustomStatus = makeGetCustomStatus();
 
-    let isTeamAdmin = false;
-    if (teamMember && teamMember.scheme_admin) {
-        isTeamAdmin = true;
-    }
+    return (state, {userId, channelId = getDefaultChannelId(state)}) => {
+        const team = getCurrentTeam(state);
+        const teamMember = getTeamMember(state, team.id, userId);
 
-    const channelMember = getChannelMembersInChannels(state)?.[channelId]?.[userId];
+        const isTeamAdmin = Boolean(teamMember && teamMember.scheme_admin);
+        const channelMember = getChannelMembersInChannels(state)?.[channelId]?.[userId];
 
-    let isChannelAdmin = false;
-    if (getRhsState(state) !== 'search' && channelMember != null && channelMember.scheme_admin) {
-        isChannelAdmin = true;
-    }
+        let isChannelAdmin = false;
+        if (getRhsState(state) !== 'search' && channelMember != null && channelMember.scheme_admin) {
+            isChannelAdmin = true;
+        }
 
-    const customStatus = getCustomStatus(state, userId);
-    return {
-        currentTeamId: team.id,
-        currentUserId: getCurrentUserId(state),
-        enableTimezone: areTimezonesEnabledAndSupported(state),
-        isTeamAdmin,
-        isChannelAdmin,
-        isInCurrentTeam: Boolean(teamMember) && teamMember.delete_at === 0,
-        canManageAnyChannelMembersInCurrentTeam: canManageAnyChannelMembersInCurrentTeam(state),
-        status: getStatusForUserId(state, userId),
-        teamUrl: getCurrentRelativeTeamUrl(state),
-        user: getUser(state, userId),
-        modals: state.views.modals.modalState,
-        customStatus,
-        isCustomStatusEnabled: isCustomStatusEnabled(state),
-        isCustomStatusExpired: isCustomStatusExpired(state, customStatus),
-        channelId,
-        currentUserTimezone: getCurrentUserTimezone(state),
+        const customStatus = getCustomStatus(state, userId);
+        return {
+            currentTeamId: team.id,
+            currentUserId: getCurrentUserId(state),
+            enableTimezone: areTimezonesEnabledAndSupported(state),
+            isTeamAdmin,
+            isChannelAdmin,
+            isInCurrentTeam: Boolean(teamMember) && teamMember.delete_at === 0,
+            canManageAnyChannelMembersInCurrentTeam: canManageAnyChannelMembersInCurrentTeam(state),
+            status: getStatusForUserId(state, userId),
+            teamUrl: getCurrentRelativeTeamUrl(state),
+            user: getUser(state, userId),
+            modals: state.views.modals.modalState,
+            customStatus,
+            isCustomStatusEnabled: isCustomStatusEnabled(state),
+            isCustomStatusExpired: isCustomStatusExpired(state, customStatus),
+            channelId,
+            currentUserTimezone: getCurrentUserTimezone(state),
+        };
     };
 }
 
@@ -81,4 +80,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProfilePopover);
+export default connect(makeMapStateToProps, mapDispatchToProps)(ProfilePopover);

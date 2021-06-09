@@ -47,10 +47,9 @@ import {ModalIdentifiers} from 'utils/constants';
 
 import ChannelHeader from './channel_header';
 
-const getCustomStatus = makeGetCustomStatus();
-
 function makeMapStateToProps() {
     const doGetProfilesInChannel = makeGetProfilesInChannel();
+    const getCustomStatus = makeGetCustomStatus();
 
     return function mapStateToProps(state) {
         const config = getConfig(state);

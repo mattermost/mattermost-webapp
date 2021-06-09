@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useMemo, useRef, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import classNames from 'classnames';
 import {FormattedMessage, useIntl} from 'react-intl';
@@ -93,8 +93,8 @@ const defaultCustomStatusSuggestions: DefaultUserCustomStatus[] = [
 ];
 
 const defaultDuration = TODAY;
-const getCustomStatus = makeGetCustomStatus();
 const CustomStatusModal: React.FC<Props> = (props: Props) => {
+    const getCustomStatus = useMemo(makeGetCustomStatus, []);
     const dispatch = useDispatch();
     const currentCustomStatus = useSelector(getCustomStatus);
     const customStatusExpired = useSelector((state: GlobalState) => isCustomStatusExpired(state, currentCustomStatus));

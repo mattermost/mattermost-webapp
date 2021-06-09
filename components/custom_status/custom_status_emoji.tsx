@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React from 'react';
+import React, {useMemo} from 'react';
 import {Tooltip} from 'react-bootstrap';
 import {useSelector} from 'react-redux';
 
@@ -25,7 +25,7 @@ interface ComponentProps {
 }
 
 const CustomStatusEmoji = (props: ComponentProps) => {
-    const getCustomStatus = makeGetCustomStatus();
+    const getCustomStatus = useMemo(makeGetCustomStatus, []);
     const {emojiSize, emojiStyle, spanStyle, showTooltip, tooltipDirection, userID, onClick} = props;
 
     const customStatusEnabled = useSelector(isCustomStatusEnabled);

@@ -21,23 +21,26 @@ import {GlobalState} from 'types/store';
 
 import StatusDropdown from './status_dropdown';
 
-const getCustomStatus = makeGetCustomStatus();
-function mapStateToProps(state: GlobalState) {
-    const currentUser = getCurrentUser(state);
+function makeMapStateToProps() {
+    const getCustomStatus = makeGetCustomStatus();
 
-    const userId = currentUser?.id;
-    const customStatus = getCustomStatus(state, userId);
-    return {
-        userId,
-        profilePicture: Client4.getProfilePictureUrl(userId, currentUser?.last_picture_update),
-        autoResetPref: get(state, Preferences.CATEGORY_AUTO_RESET_MANUAL_STATUS, userId, ''),
-        status: getStatusForUserId(state, userId),
-        customStatus,
-        isCustomStatusEnabled: isCustomStatusEnabled(state),
-        isCustomStatusExpired: isCustomStatusExpired(state, customStatus),
-        isStatusDropdownOpen: isStatusDropdownOpen(state),
-        showCustomStatusPulsatingDot: showStatusDropdownPulsatingDot(state),
-        timezone: getCurrentUserTimezone(state),
+    return function mapStateToProps(state: GlobalState) {
+        const currentUser = getCurrentUser(state);
+
+        const userId = currentUser?.id;
+        const customStatus = getCustomStatus(state, userId);
+        return {
+            userId,
+            profilePicture: Client4.getProfilePictureUrl(userId, currentUser?.last_picture_update),
+            autoResetPref: get(state, Preferences.CATEGORY_AUTO_RESET_MANUAL_STATUS, userId, ''),
+            status: getStatusForUserId(state, userId),
+            customStatus,
+            isCustomStatusEnabled: isCustomStatusEnabled(state),
+            isCustomStatusExpired: isCustomStatusExpired(state, customStatus),
+            isStatusDropdownOpen: isStatusDropdownOpen(state),
+            showCustomStatusPulsatingDot: showStatusDropdownPulsatingDot(state),
+            timezone: getCurrentUserTimezone(state),
+        };
     };
 }
 
@@ -52,4 +55,4 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(StatusDropdown);
+export default connect(makeMapStateToProps, mapDispatchToProps)(StatusDropdown);
