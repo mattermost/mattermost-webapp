@@ -124,7 +124,7 @@ jsonData.forEach((emoji, index) => {
 fullEmoji.sort((emojiA, emojiB) => emojiA.sort_order - emojiB.sort_order);
 
 fullEmoji.forEach((emoji, index) => {
-    emojiIndicesByUnicode.push([emoji.unified, index]);
+    emojiIndicesByUnicode.push([emoji.unified.toLowerCase(), index]);
     const safeCat = convertCategory(emoji.category);
     categoryDefaultTranslation.set(safeCat, emoji.category);
     const catIndex = emojiIndicesByCategory.get(safeCat) || [];
