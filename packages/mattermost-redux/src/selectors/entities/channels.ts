@@ -292,7 +292,7 @@ export const getCurrentChannelNameForSearchShortcut: (state: GlobalState) => str
 
         // Replace spaces in GM channel names
         if (channel?.type === Constants.GM_CHANNEL) {
-            return `@${channel.display_name.replace(/ /g, '')}`;
+            return `@${channel.display_name.replace(/\s/g, '')}`;
         }
 
         return channel?.name;
