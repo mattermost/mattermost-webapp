@@ -169,6 +169,10 @@
             padding: 0 12px 0 15px;
             text-transform: uppercase;
             height: 28px;
+
+            &.margin-top--none {
+                margin-top: 0;
+            }
         }
 
         li {
