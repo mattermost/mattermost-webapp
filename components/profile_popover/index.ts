@@ -27,6 +27,8 @@ import {makeGetCustomStatus, isCustomStatusEnabled} from 'selectors/views/custom
 import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 import {GlobalState} from '../../types/store';
 
+import {ServerError} from 'mattermost-redux/types/errors';
+
 import ProfilePopover from './profile_popover';
 
 type OwnProps = {
@@ -80,7 +82,7 @@ type Actions = {
     closeModal: (modalId: string) => Promise<{
         data: boolean;
     }>;
-    openDirectChannelToUserId: (userId?: string) => Promise<any>;
+    openDirectChannelToUserId: (userId?: string) => Promise<{error: ServerError}>;
     getMembershipForEntities: (teamId: string, userId: string, channelId?: string) => Promise<void>;
 }
 
