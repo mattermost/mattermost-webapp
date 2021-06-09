@@ -119,7 +119,7 @@ interface ProfilePopoverProps extends Omit<React.ComponentProps<typeof Popover>,
     /**
      * The overwritten username that should be shown at the top of the popover
      */
-    overwriteName?: string;
+    overwriteName?: React.ReactNode;
 
     /**
      * @internal
@@ -652,7 +652,7 @@ ProfilePopoverState
         }
         let title: React.ReactNode = `@${this.props.user.username}`;
         if (this.props.overwriteName) {
-            title = `${this.props.overwriteName}`;
+            title = this.props.overwriteName;
             roleTitle = '';
         } else if (this.props.hasMention) {
             title = <a onClick={this.handleMentionKeyClick}>{title}</a>;
