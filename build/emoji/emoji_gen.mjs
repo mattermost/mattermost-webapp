@@ -21,6 +21,7 @@ import jsonData from 'emoji-datasource/emoji.json';
 import jsonCategories from 'emoji-datasource/categories.json';
 
 const EMOJI_SIZE = 64;
+const EMOJI_DEFAULT_SKIN = 'default';
 const endResults = [];
 
 // copy image files
@@ -66,6 +67,9 @@ const skinNames = {
     '1F3FE': 'MEDIUM DARK SKIN TONE',
     '1F3FF': 'DARK SKIN TONE',
 };
+const emojiIndicesByCategoryNoSkin = new Map();
+const emojiIndicesByCategoryAndSkin = new Map(skinCodes.keys().map((k) => [k, []]));
+emojiIndicesByCategoryAndSkin.set(EMOJI_DEFAULT_SKIN, []);
 const control = new AbortController();
 const writeOptions = {
     encoding: 'utf8',
@@ -130,6 +134,15 @@ fullEmoji.forEach((emoji, index) => {
     const catIndex = emojiIndicesByCategory.get(safeCat) || [];
     catIndex.push(index);
     emojiIndicesByCategory.set(safeCat, catIndex);
+    let skinIndex;
+    if (emoji.skin || emoji.skin_variations) {
+        const skin = emoji.skins[0] || EMOJI_DEFAULT_SKIN;
+        skinIndex = emojiIndicesByCategoryAndSkin.get(skin); // todo: fix this, not gonna work properly
+        skinIndex.push(emoji);
+        emojiIndicesByCategoryAndSkin.set(skin, skinIndex);
+    } else {
+        skinIndex = emojiIndicesByCategoryNoSkin.get('category', []);
+    }
     categoryNamesSet.add(safeCat);
     emojiIndicesByAlias.push(...emoji.short_names.map((alias) => [alias, index]));
     const file = filename(emoji);
