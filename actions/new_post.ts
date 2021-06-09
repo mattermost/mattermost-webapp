@@ -81,19 +81,11 @@ export function completePostReceive(post: Post, websocketMessageProps: NewPostMe
             ...setChannelReadAndViewed(dispatch, getState, post, websocketMessageProps, fetchedChannelMember),
         );
 
-        const sleep = (delay: number) => new Promise((resolve) => setTimeout(resolve, delay));
-
-        await sleep(1000);
-
         dispatch(batchActions(actions));
-
-        await sleep(1000);
 
         if (collapsedThreadsEnabled && post.root_id) {
             dispatch(setThreadRead(post));
         }
-
-        await sleep(1000);
 
         return dispatch(sendDesktopNotification(post, websocketMessageProps) as unknown as ActionFunc);
     };
