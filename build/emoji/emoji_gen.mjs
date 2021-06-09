@@ -80,7 +80,7 @@ function writeFile(fileName, filePath, data) {
     const promise = Fs.writeFile(filePath, data, writeOptions);
 
     promise.then(() => {
-        console.log(`${fileName} generated successfuly.`);
+        console.log(`${fileName} generated successfully.`);
     });
     return promise;
 }
