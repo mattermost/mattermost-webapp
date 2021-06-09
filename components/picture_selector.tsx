@@ -5,6 +5,7 @@ import React, {useState, useEffect} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {localizeMessage} from 'utils/utils';
+import {Constants} from 'utils/constants';
 import * as FileUtils from 'utils/file_utils';
 
 import './picture_selector.scss';
@@ -104,7 +105,7 @@ const PictureSelector: React.FC<Props> = (props: Props) => {
                 data-testid={`PictureSelector__input-${name}`}
                 ref={inputRef}
                 className='PictureSelector__input hidden'
-                accept='.jpg,.png,.bmp'
+                accept={Constants.ACCEPT_STATIC_IMAGE}
                 type='file'
                 onChange={handleFileChange}
                 disabled={loadingPicture}
