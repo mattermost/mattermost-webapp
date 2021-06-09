@@ -28,6 +28,7 @@ import {
 
 import AnnouncementBar from '../default_announcement_bar';
 import withGetCloudSubscription from '../../common/hocs/cloud/with_get_cloud_subscription';
+import {getLocaleDateFromUTC} from 'utils/utils';
 
 type Props = {
     userIsAdmin: boolean;
@@ -163,6 +164,16 @@ class CloudTrialAnnouncementBar extends React.PureComponent<Props> {
             />
         );
 
+        const userEndTrialHour = getLocaleDateFromUTC((this.props.subscription?.trial_end_at as number / 1000), 'MMMM Do YYYY, HH:mm:ss');
+
+        const trialLastDaysMsg = (
+            <FormattedMessage
+                id='admin.billing.subscription.cloudTrial.lastDay'
+                defaultMessage='This is the last day of your free trial. Your access will expire at {userEndTrialHour} PT.'
+                values={{userEndTrialHour}}
+            />
+        );
+
         let bannerMessage;
         let icon;
         switch (daysLeftOnTrial) {
@@ -171,7 +182,7 @@ class CloudTrialAnnouncementBar extends React.PureComponent<Props> {
             bannerMessage = trialLessThan3DaysMsg;
             break;
         case TrialPeriodDays.TRIAL_1_DAY:
-            bannerMessage = t('admin.billing.subscription.cloudTrial.lastDay');
+            bannerMessage = trialLastDaysMsg;
             break;
         default:
             bannerMessage = trialMoreThan3DaysMsg;

@@ -259,6 +259,13 @@ export function getRemainingDaysFromFutureTimestamp(timestamp) {
     return Math.floor((utcFuture - utcToday) / MS_PER_DAY);
 }
 
+export function getLocaleDateFromUTC(timestamp, format = 'YYYY/MM/DD HH:mm:ss') {
+    if (!timestamp) {
+        return moment.now();
+    }
+    return moment.unix(timestamp).format(format);
+}
+
 // Replaces all occurrences of a pattern
 export function loopReplacePattern(text, pattern, replacement) {
     let result = text;
