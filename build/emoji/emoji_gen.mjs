@@ -84,7 +84,7 @@ function writeFile(fileName, filePath, data) {
     const promise = Fs.writeFile(filePath, data, writeOptions);
 
     promise.then(() => {
-        console.log(`${fileName} generated successfuly.`);
+        console.log(`${fileName} generated successfully.`);
     });
     return promise;
 }
@@ -128,7 +128,7 @@ jsonData.forEach((emoji, index) => {
 fullEmoji.sort((emojiA, emojiB) => emojiA.sort_order - emojiB.sort_order);
 
 fullEmoji.forEach((emoji, index) => {
-    emojiIndicesByUnicode.push([emoji.unified, index]);
+    emojiIndicesByUnicode.push([emoji.unified.toLowerCase(), index]);
     const safeCat = convertCategory(emoji.category);
     categoryDefaultTranslation.set(safeCat, emoji.category);
     const catIndex = emojiIndicesByCategory.get(safeCat) || [];
