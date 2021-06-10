@@ -2637,7 +2637,7 @@
   "channel_header.unmute": "チャンネルのミュートを解除する",
   "channel_header.userHelpGuide": "ヘルプ",
   "channel_header.viewMembers": "メンバーを見る",
-  "channel_info.about": "このサーバーについて",
+  "channel_info.about": "このチャンネルについて",
   "channel_info.header": "ヘッダー:",
   "channel_info.id": "ID: ",
   "channel_info.notFound": "チャンネルが見付かりません",
