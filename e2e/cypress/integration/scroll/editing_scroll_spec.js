@@ -14,12 +14,11 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 import {postMessagesAndScrollUp} from './helpers';
 
 describe('Scroll', () => {
+    let firstPostBeforeScroll;
+    let lastPostBeforeScroll;
     let testChannelId;
     let testChannelLink;
     let otherUser;
-    let firstPostBeforeScroll;
-    let lastPostBeforeScroll;
-    let multilineMessageID;
 
     const multilineString = `A
     multiline
@@ -39,17 +38,17 @@ describe('Scroll', () => {
                 cy.apiAddUserToTeam(team.id, otherUser.id).then(() => {
                     cy.apiAddUserToChannel(testChannelId, otherUser.id);
                 });
-
-                cy.visit(testChannelLink);
             });
+            cy.visit(testChannelLink);
         });
     });
+
     it('MM-T2371 Post list does not scroll when the offscreen post is edited', () => {
         // # Other user posts a multiline message
         cy.postMessageAs({sender: otherUser, message: multilineString, channelId: testChannelId});
 
         cy.getLastPostId().then((postId) => {
-            multilineMessageID = postId;
+            const multilineMessageID = postId;
 
             postMessagesAndScrollUp(otherUser, testChannelId);
 
@@ -63,18 +62,18 @@ describe('Scroll', () => {
                 lastPostBeforeScroll = postMessage.text();
             });
 
-            // # Edit a multiline post
+            // # Edit a multiline message from the other user
             cy.externalRequest({user: otherUser, method: 'PUT', path: `posts/${multilineMessageID}`, data: {id: multilineMessageID, message: newMultilineMessage}});
 
-            // # Wait for the multiline post to be edited
+            // # Wait for the message to be edited
             cy.wait(TIMEOUTS.ONE_SEC);
 
-            // * Verify the first post is the same after the change
+            // * Verify the first post is the same after the editing
             cy.get('.post-message__text:visible').first().then((firstPostAfterScroll) => {
                 expect(firstPostAfterScroll.text()).equal(firstPostBeforeScroll);
             });
 
-            // * Verify the last post is the same after the change
+            // * Verify the last post is the same after the editing
             cy.get('.post-message__text:visible').last().then((lastPostAfterScroll) => {
                 expect(lastPostAfterScroll.text()).equal(lastPostBeforeScroll);
             });
