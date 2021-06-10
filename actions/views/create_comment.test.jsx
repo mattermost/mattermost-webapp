@@ -92,6 +92,7 @@ describe('rhs view actions', () => {
                         message: 'test msg',
                         channel_id: channelId,
                         root_id: rootId,
+                        create_at: 42,
                     },
                     [rootId]: {
                         id: rootId,
@@ -99,6 +100,7 @@ describe('rhs view actions', () => {
                         message: 'root msg',
                         channel_id: channelId,
                         root_id: '',
+                        create_at: 2,
                     },
                 },
                 postsInChannel: {
