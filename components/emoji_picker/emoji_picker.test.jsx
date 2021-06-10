@@ -80,11 +80,11 @@ describe('components/emoji_picker/EmojiPicker', () => {
         };
 
         // Nine categories as there is no recent caterogry
-        expect(wrapper.find(EmojiPickerCategory).length).toBe(9);
+        expect(wrapper.find(EmojiPickerCategory).length).toBe(10);
         expect(wrapper.find(EmojiPickerCategory).find({selected: true}).length).toBe(1);
 
         expect(wrapper.find(EmojiPickerCategorySection).length).toBe(1);
-        expect(wrapper.find(EmojiPickerCategorySection).find({categoryName: 'people'}).length).toBe(1);
+        expect(wrapper.find(EmojiPickerCategorySection).find({categoryName: 'smileys-emotion'}).length).toBe(1);
     });
 
     test('Recent category should exist if there are recent emojis', () => {
