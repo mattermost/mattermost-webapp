@@ -458,7 +458,7 @@ export default class ThreadViewer extends React.Component<Props, State> {
 
     private handlePostCommentResize = (): void => {
         this.resizeRhsPostList();
-        if (!this.props.highlightedPostId && !this.newMessagesRef.current) {
+        if (!this.props.highlightedPostId) {
             this.scrollToBottom();
         }
     }
