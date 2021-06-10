@@ -409,7 +409,7 @@ exports[`components/ProfilePopover should match snapshot with custom status 1`] 
 <Popover
   customStatus={
     Object {
-      "duration": "Today",
+      "duration": "today",
       "emoji": "calendar",
       "expires_at": "2021-05-03T23:59:59.000Z",
       "text": "In a meeting",
@@ -596,7 +596,7 @@ exports[`components/ProfilePopover should match snapshot with custom status expi
 <Popover
   customStatus={
     Object {
-      "duration": "Today",
+      "duration": "today",
       "emoji": "calendar",
       "expires_at": "2021-05-03T23:59:59.000Z",
       "text": "In a meeting",
@@ -643,59 +643,80 @@ exports[`components/ProfilePopover should match snapshot with custom status expi
     status="offline"
     user={
       Object {
-        "id": "",
         "name": "some name",
         "username": "some_username",
       }
     }
   />
   <div
-    className="pb-1"
-    id="user-popover-status"
-    key="user-popover-status"
-  >
-    <span
-      className="user-profile-popover__heading"
-    >
-      <FormattedMessage
-        defaultMessage="Status"
-        id="user_profile.custom_status"
-      />
-    </span>
-    <div>
-      <button
-        className="user-popover__set-custom-status-btn"
-        onClick={[Function]}
-      >
-        <FormattedMessage
-          defaultMessage="Set a status"
-          id="user_profile.custom_status.set_status"
-        />
-      </button>
-    </div>
-  </div>
-  <div
     className="popover__row first"
     data-toggle="tooltip"
-    key="user-popover-settings"
+    key="user-popover-dm"
   >
     <a
+      className="text-nowrap user-popover__email"
       href="#"
       onClick={[Function]}
     >
       <LocalizedIcon
-        className="fa fa-pencil-square-o"
+        className="fa fa-paper-plane"
         title={
           Object {
-            "defaultMessage": "Edit Icon",
-            "id": "generic_icons.edit",
+            "defaultMessage": "Send Message Icon",
+            "id": "user_profile.send.dm.icon",
           }
         }
       />
       <FormattedMessage
-        defaultMessage="Edit Account Settings"
-        id="user_profile.account.editSettings"
+        defaultMessage="Send Message"
+        id="user_profile.send.dm"
       />
+    </a>
+  </div>
+  <div
+    className="popover__row first"
+    data-toggle="tooltip"
+    key="user-popover-add-to-channel"
+  >
+    <a
+      className="text-nowrap"
+      href="#"
+      onClick={[Function]}
+    >
+      <Connect(injectIntl(ModalToggleButtonRedux))
+        accessibilityLabel="Add to a Channel"
+        dialogProps={
+          Object {
+            "user": Object {
+              "name": "some name",
+              "username": "some_username",
+            },
+          }
+        }
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "displayName": "Connect(AddUserToChannelModal)",
+            "type": [Function],
+          }
+        }
+        modalId="add_user_to_channel"
+        onClick={[MockFunction]}
+        role="menuitem"
+      >
+        <LocalizedIcon
+          className="fa fa-user-plus"
+          title={
+            Object {
+              "defaultMessage": "Add User to Channel Icon",
+              "id": "user_profile.add_user_to_channel.icon",
+            }
+          }
+        />
+        Add to a Channel
+      </Connect(injectIntl(ModalToggleButtonRedux))>
     </a>
   </div>
   <Connect(Pluggable)
@@ -705,7 +726,6 @@ exports[`components/ProfilePopover should match snapshot with custom status expi
     status="offline"
     user={
       Object {
-        "id": "",
         "name": "some name",
         "username": "some_username",
       }
