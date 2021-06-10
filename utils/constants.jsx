@@ -1635,6 +1635,8 @@ export const Constants = {
     TRANSPARENT_PIXEL: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=',
     TRIPLE_BACK_TICKS: /```/g,
     MAX_ATTACHMENT_FOOTER_LENGTH: 300,
+    ACCEPT_STATIC_IMAGE: '.jpeg,.jpg,.png,.bmp',
+    ACCEPT_EMOJI_IMAGE: '.jpeg,.jpg,.png,.gif',
 };
 
 export const ValidationErrors = {

@@ -19,7 +19,8 @@ describe('Announcement Banner', () => {
 
     it('MM-T1128 Announcement Banner - Dismissible banner shows long text truncated', () => {
         const bannerEmbedLink = 'http://example.com';
-        const bannerText = `Here's an announcement! It has a link: ${bannerEmbedLink}. It's a really long announcement, because we have a lot to say. Be sure to read it all, click the link, then dismiss the banner, and then you can go on to the next test, which will have a shorter announcement. Thank you for reading and have a nice day!`;
+        const bannerEndLink = 'http://example.com/the_end';
+        const bannerText = `Here's an announcement! It has a link: ${bannerEmbedLink}. It's a really long announcement, because we have a lot to say. Be sure to read it all, click the link, then dismiss the banner, and then you can go on to the next test, which will have a shorter announcement. Thank you for reading [to the end](${bannerEndLink}) and have a nice day!`;
         const bannerBgColor = '#4378da';
         const bannerBgColorRGBArray = hexToRgbArray(bannerBgColor);
         const bannerTextColor = '#ffffff';
@@ -102,14 +103,13 @@ describe('Announcement Banner', () => {
             contains('a', bannerEmbedLink).
             should('have.attr', 'href', bannerEmbedLink);
 
-        // * Verify only the banner text's first part is visible
-        // and check the complete text length spans more than viewport width (also is hidden as per above)
+        // * Verify only the banner text's first part is visible by ensuring the first link
+        // is visible but the second link is not
         cy.findByText(/Here's an announcement! It has a link: /).
             should('be.visible').
-            and((paragraph) => {
-                expect(paragraph.width()).to.be.greaterThan(
-                    Cypress.config('viewportWidth'),
-                );
+            within(() => {
+                cy.get(`a[href="${bannerEmbedLink}"]`).should('be.visible');
+                cy.get(`a[href="${bannerEndLink}"]`).should('not.be.visible');
             });
 
         // # Hover over the banner
