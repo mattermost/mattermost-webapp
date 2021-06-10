@@ -9,6 +9,8 @@ import Pluggable from '../../plugins/pluggable';
 
 describe('components/ProfilePopover', () => {
     const baseProps = {
+        enableTimezone: false,
+        userId: '0',
         user: {
             name: 'some name',
             username: 'some_username',

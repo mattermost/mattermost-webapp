@@ -33,6 +33,7 @@ function mapStateToProps(state: GlobalState) {
         isFreeTrial: subscription?.is_free_trial === 'true',
         contactSalesLink: getCloudContactUsLink(state, InquiryType.Sales),
         productId: subscription?.product_id,
+        customer: state.entities.cloud.customer,
     };
 }
 type Actions = {

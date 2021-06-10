@@ -1001,8 +1001,8 @@ export default class Client4 {
 
     removeRecentCustomStatus = (customStatus: UserCustomStatus) => {
         return this.doFetch(
-            `${this.getUserRoute('me')}/status/custom/recent`,
-            {method: 'delete', body: JSON.stringify(customStatus)},
+            `${this.getUserRoute('me')}/status/custom/recent/delete`,
+            {method: 'post', body: JSON.stringify(customStatus)},
         );
     }
 
@@ -2725,9 +2725,9 @@ export default class Client4 {
         );
     }
 
-    getDataRetentionCustomPolicyTeams = (id: string, page = 0, perPage = PER_PAGE_DEFAULT, includeTotalCount = false) => {
+    getDataRetentionCustomPolicyTeams = (id: string, page = 0, perPage = PER_PAGE_DEFAULT) => {
         return this.doFetch<Team[]>(
-            `${this.getDataRetentionRoute()}/policies/${id}/teams${buildQueryString({page, per_page: perPage, include_total_count: includeTotalCount})}`,
+            `${this.getDataRetentionRoute()}/policies/${id}/teams${buildQueryString({page, per_page: perPage})}`,
             {method: 'get'},
         );
     };
