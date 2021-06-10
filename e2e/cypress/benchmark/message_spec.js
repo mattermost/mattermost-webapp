@@ -16,7 +16,7 @@ describe('Message', () => {
 
     before(() => {
         // # Create new team and new user and visit Town Square channel
-        cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
             testTeam = team;
             cy.visit(`/${testTeam.name}/channels/town-square`);
         });
@@ -28,7 +28,7 @@ describe('Message', () => {
 
         // # Reset selector measurements
         cy.window().then((win) => {
-            win.resetTrackedSelectors()
+            win.resetTrackedSelectors();
 
             // # Post message "One"
             cy.postMessage('One');

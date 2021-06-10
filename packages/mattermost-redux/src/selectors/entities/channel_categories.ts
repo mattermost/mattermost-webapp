@@ -1,8 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {createSelector} from 'reselect';
 import shallowEquals from 'shallow-equals';
+
+import {createSelector} from 'reselect';
 
 import {General, Preferences} from 'mattermost-redux/constants';
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
@@ -66,6 +67,7 @@ export function getCategoryIdsForTeam(state: GlobalState, teamId: string): strin
 
 export function makeGetCategoriesForTeam(): (state: GlobalState, teamId: string) => ChannelCategory[] {
     return createSelector(
+        'makeGetCategoriesForTeam',
         getCategoryIdsForTeam,
         (state: GlobalState) => state.entities.channelCategories.byId,
         (categoryIds, categoriesById) => {
@@ -82,6 +84,7 @@ export function makeGetCategoriesForTeam(): (state: GlobalState, teamId: string)
 // is archived or is currently being viewed. The selector returns the original array if no channels are filtered out.
 export function makeFilterArchivedChannels(): (state: GlobalState, channels: Channel[]) => Channel[] {
     return createSelector(
+        'makeFilterArchivedChannels',
         (state: GlobalState, channels: Channel[]) => channels,
         getCurrentChannelId,
         (channels: Channel[], currentChannelId: string) => {
@@ -102,6 +105,7 @@ function getDefaultAutocloseCutoff() {
 // recently. The selector returns the original array if no channels are filtered out.
 export function legacyMakeFilterAutoclosedDMs(getAutocloseCutoff = getDefaultAutocloseCutoff): (state: GlobalState, channels: Channel[], categoryType: string) => Channel[] {
     return createSelector(
+        'legacyMakeFilterAutoclosedDMs',
         (state: GlobalState, channels: Channel[]) => channels,
         (state: GlobalState, channels: Channel[], categoryType: string) => categoryType,
         getMyPreferences,
@@ -192,6 +196,7 @@ export function legacyMakeFilterAutoclosedDMs(getAutocloseCutoff = getDefaultAut
 
 export function makeFilterAutoclosedDMs(): (state: GlobalState, channels: Channel[], categoryType: string) => Channel[] {
     return createSelector(
+        'makeFilterAutoclosedDMs',
         (state: GlobalState, channels: Channel[]) => channels,
         (state: GlobalState, channels: Channel[], categoryType: string) => categoryType,
         getCurrentChannelId,
@@ -292,6 +297,7 @@ export function makeFilterAutoclosedDMs(): (state: GlobalState, channels: Channe
 
 export function makeFilterManuallyClosedDMs(): (state: GlobalState, channels: Channel[]) => Channel[] {
     return createSelector(
+        'makeFilterManuallyClosedDMs',
         (state: GlobalState, channels: Channel[]) => channels,
         getMyPreferences,
         getCurrentChannelId,
@@ -352,6 +358,7 @@ export function makeCompareChannels(getDisplayName: (channel: Channel) => string
 
 export function makeSortChannelsByName(): (state: GlobalState, channels: Channel[]) => Channel[] {
     return createSelector(
+        'makeSortChannelsByName',
         (state: GlobalState, channels: Channel[]) => channels,
         (state: GlobalState) => getCurrentUserLocale(state),
         getMyChannelMemberships,
@@ -365,6 +372,7 @@ export function makeSortChannelsByName(): (state: GlobalState, channels: Channel
 
 export function makeSortChannelsByNameWithDMs(): (state: GlobalState, channels: Channel[]) => Channel[] {
     return createSelector(
+        'makeSortChannelsByNameWithDMs',
         (state: GlobalState, channels: Channel[]) => channels,
         getCurrentUserId,
         (state: GlobalState) => state.entities.users.profiles,
@@ -422,6 +430,7 @@ export function makeSortChannelsByNameWithDMs(): (state: GlobalState, channels: 
 
 export function makeSortChannelsByRecency(): (state: GlobalState, channels: Channel[]) => Channel[] {
     return createSelector(
+        'makeSortChannelsByRecency',
         (state: GlobalState, channels: Channel[]) => channels,
         getLastPostPerChannel,
         (channels, lastPosts) => {

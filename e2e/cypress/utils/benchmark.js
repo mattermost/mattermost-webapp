@@ -13,19 +13,19 @@ export function reportBenchmarkResults(cy, win) {
 
 // From https://github.com/cypress-io/cypress/issues/2972#issuecomment-577072392
 function getTestName() {
-    let cypressContext = Cypress.mocha.getRunner().suite.ctx.test;
-    let testTitles = [];
+    const cypressContext = Cypress.mocha.getRunner().suite.ctx.test;
+    const testTitles = [];
 
     function extractTitles(obj) {
         if (obj.hasOwnProperty('parent')) {
             testTitles.push(obj.title);
-            let nextObj = obj.parent;
+            const nextObj = obj.parent;
             extractTitles(nextObj);
         }
     }
 
     extractTitles(cypressContext);
-    let orderedTitles = testTitles.reverse();
-    let fileName = orderedTitles.join(' -- ');
+    const orderedTitles = testTitles.reverse();
+    const fileName = orderedTitles.join(' -- ');
     return fileName;
 }

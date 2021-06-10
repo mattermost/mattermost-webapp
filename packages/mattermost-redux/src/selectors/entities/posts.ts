@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import createSelector from 'mattermost-redux/selectors/createSelector';
+import {createSelector} from 'reselect';
 
 import {Posts, Preferences} from 'mattermost-redux/constants';
 
@@ -97,6 +97,7 @@ export const getPostsInCurrentChannel: (state: GlobalState) => PostWithFormatDat
 
 export function makeGetPostIdsForThread(): (state: GlobalState, postId: $ID<Post>) => Array<$ID<Post>> {
     return createIdsSelector(
+        'makeGetPostIdsForThread',
         getAllPosts,
         (state: GlobalState, rootId: string) => state.entities.posts.postsInThread[rootId] || [],
         (state: GlobalState, rootId) => state.entities.posts.posts[rootId],
@@ -123,6 +124,7 @@ export function makeGetPostIdsForThread(): (state: GlobalState, postId: $ID<Post
 
 export function makeGetPostsChunkAroundPost(): (state: GlobalState, postId: $ID<Post>, channelId: $ID<Channel>) => PostOrderBlock| null | undefined {
     return createIdsSelector(
+        'makeGetPostsChunkAroundPost',
         (state: GlobalState, postId: string, channelId: string) => state.entities.posts.postsInChannel[channelId],
         (state: GlobalState, postId) => postId,
         (postsForChannel, postId) => {
@@ -153,6 +155,7 @@ export function makeGetPostIdsAroundPost(): (state: GlobalState, postId: $ID<Pos
 }) => Array<$ID<Post>> | undefined | null {
     const getPostsChunkAroundPost = makeGetPostsChunkAroundPost();
     return createIdsSelector(
+        'makeGetPostIdsAroundPost',
         (state: GlobalState, postId: string, channelId: string) => getPostsChunkAroundPost(state, postId, channelId),
         (state: GlobalState, postId) => postId,
         (state: GlobalState, postId, channelId, options) => options && options.postsBeforeCount,
@@ -457,6 +460,7 @@ export function makeGetMessageInHistoryItem(type: 'post'|'comment'): (state: Glo
 
 export function makeGetPostsForIds(): (state: GlobalState, postIds: Array<$ID<Post>>) => Post[] {
     return createIdsSelector(
+        'makeGetPostsForIds',
         getAllPosts,
         (state: GlobalState, postIds: Array<$ID<Post>>) => postIds,
         (allPosts, postIds) => {

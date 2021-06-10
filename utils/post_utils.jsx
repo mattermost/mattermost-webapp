@@ -341,6 +341,7 @@ export function makeCreateAriaLabelForPost() {
     const getDisplayName = makeGetDisplayName();
 
     return createSelector(
+        'makeCreateAriaLabelForPost',
         (state, post) => post,
         (state, post) => getDisplayName(state, post.user_id),
         (state, post) => getReactionsForPost(state, post.id),
@@ -486,6 +487,7 @@ export function getNewMessageIndex(postListIds) {
 
 export function makeGetReplyCount() {
     return createSelector(
+        'makeGetReplyCount',
         (state) => state.entities.posts.posts,
         (state, post) => state.entities.posts.postsInThread[post.root_id || post.id],
         (state, post) => post,
