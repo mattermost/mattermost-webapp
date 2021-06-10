@@ -57,13 +57,7 @@ export default class EmojiPickerPreview extends React.PureComponent {
                         {previewImage}
                     </div>
                     <div className='emoji-picker__preview-image-label-box'>
-                        <span className='emoji-picker__preview-name'>{name}</span>
-                        <span
-                            id='emojiPickerAliasesPreview'
-                            className='emoji-picker__preview-aliases'
-                        >
-                            {':' + aliases.join(': :') + ':'}
-                        </span>
+                        <span className='emoji-picker__preview-name'>{':' + aliases.join(': :') + ':'}</span>
                     </div>
                 </div>
             );
@@ -73,7 +67,7 @@ export default class EmojiPickerPreview extends React.PureComponent {
             <div className='emoji-picker__preview emoji-picker__preview-placeholder'>
                 <FormattedMessage
                     id='emoji_picker.emojiPicker'
-                    defaultMessage='Emoji Picker'
+                    defaultMessage='Select an Emoji'
                 />
             </div>
         );
