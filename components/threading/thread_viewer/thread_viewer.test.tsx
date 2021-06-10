@@ -18,6 +18,8 @@ describe('components/threading/ThreadViewer', () => {
         channel_id: 'channel_id',
         create_at: 1502715365009,
         update_at: 1502715372443,
+        is_following: true,
+        reply_count: 3,
     });
 
     const channel: Channel = TestHelper.getChannelMock({
