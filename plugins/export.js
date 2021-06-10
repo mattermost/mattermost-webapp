@@ -6,6 +6,10 @@ import {formatText} from 'utils/text_formatting';
 import {browserHistory} from 'utils/browser_history';
 import Textbox from 'components/textbox';
 
+import {openModal} from 'actions/views/modals';
+import {ModalIdentifiers} from 'utils/constants';
+import PurchaseModal from 'components/purchase_modal';
+
 // The following import has intentional side effects. Do not remove without research.
 import {openInteractiveDialog} from './interactive_dialog';
 
@@ -22,5 +26,8 @@ window.PDFJS = require('pdfjs-dist');
 // Functions and components exposed on window for plugins to use.
 window.PostUtils = {formatText, messageHtmlToComponent};
 window.openInteractiveDialog = openInteractiveDialog;
-window.WebappUtils = {browserHistory};
-window.Components = {Textbox};
+window.WebappUtils = {
+    browserHistory,
+    modals: {openModal, ModalIdentifiers},
+};
+window.Components = {Textbox, PurchaseModal};
