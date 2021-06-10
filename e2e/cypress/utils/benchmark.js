@@ -1,13 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import tablemark from 'tablemark';
-
 export function reportBenchmarkResults(cy, win) {
     const testName = getTestName();
     const selectors = win.getSortedTrackedSelectors();
-    const dump = `Selector Measurements for ${testName} \n\n ${tablemark(selectors)}`;
-    cy.log(dump);
+    win.dumpTrackedSelectorsStatistics();
+    cy.log(selectors.length);
     cy.writeFile(`cypress/benchmark/__benchmarks__/${testName}.json`, JSON.stringify(selectors));
 }
 

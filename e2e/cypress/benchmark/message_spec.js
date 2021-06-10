@@ -24,7 +24,7 @@ describe('Message', () => {
 
     it('Current user posting message in empty channel', () => {
         // # Wait for posts to load
-        cy.get('#postListContent', {timeout: 6000}).should('be.visible');
+        cy.get('#postListContent', {timeout: 10000}).should('be.visible');
 
         // # Reset selector measurements
         cy.window().then((win) => {
@@ -39,6 +39,21 @@ describe('Message', () => {
                 // * Check that the message was created
                 cy.get(divPostId).find('p').should('have.text', 'One');
 
+                reportBenchmarkResults(cy, win);
+            });
+        });
+    });
+
+    it('Typing one character into create post textbox', () => {
+        // # Wait for posts to load
+        cy.get('#postListContent', {timeout: 10000}).should('be.visible');
+
+        // # Reset selector measurements
+        cy.window().then((win) => {
+            win.resetTrackedSelectors();
+
+            // # Push a character key such as "A"
+            cy.get('#post_textbox').type('A').then(() => {
                 reportBenchmarkResults(cy, win);
             });
         });
