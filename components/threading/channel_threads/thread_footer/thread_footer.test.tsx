@@ -164,6 +164,21 @@ describe('components/threading/channel_threads/thread_footer', () => {
         expect(wrapper.find(SimpleTooltip).find('.dot-unreads').exists()).toBe(true);
     });
 
+    test('should not show unread indicator if not following', () => {
+        thread.unread_replies = 2;
+        thread.is_following = false;
+
+        const {mountOptions} = mockStore(state);
+        const wrapper = mount(
+            <ThreadFooter
+                {...props}
+            />,
+            mountOptions,
+        );
+
+        expect(wrapper.find(SimpleTooltip).find('.dot-unreads').exists()).toBe(false);
+    });
+
     test('should should have avatars', () => {
         const {mountOptions} = mockStore(state);
         const wrapper = mount(
