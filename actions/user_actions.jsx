@@ -17,7 +17,7 @@ import {
     getDirectChannels,
 } from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getBool} from 'mattermost-redux/selectors/entities/preferences';
+import {getBool, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeamId, getTeamMember} from 'mattermost-redux/selectors/entities/teams';
 import * as Selectors from 'mattermost-redux/selectors/entities/users';
 import {legacyMakeFilterAutoclosedDMs, makeFilterManuallyClosedDMs} from 'mattermost-redux/selectors/entities/channel_categories';
@@ -328,6 +328,7 @@ export async function loadProfilesForGM() {
     const newPreferences = [];
     const userIdsInChannels = Selectors.getUserIdsInChannels(state);
     const currentUserId = Selectors.getCurrentUserId(state);
+    const collapsedThreads = isCollapsedThreadsEnabled(state);
 
     const userIdsForLoadingCustomEmojis = new Set();
     for (const channel of getGMsForLoading(state)) {
@@ -343,7 +344,12 @@ export async function loadProfilesForGM() {
 
         if (!isVisible) {
             const member = getMyChannelMember(state, channel.id);
-            if (!member || (member.mention_count === 0 && member.msg_count >= channel.total_msg_count)) {
+
+            const noUnreads = collapsedThreads ?
+                (member.mention_count_root === 0 && member.msg_count_root >= channel.total_msg_count_root) :
+                (member.mention_count === 0 && member.msg_count >= channel.total_msg_count);
+
+            if (!member || noUnreads) {
                 continue;
             }
 
@@ -376,6 +382,7 @@ export async function loadProfilesForDM() {
     const profilesToLoad = [];
     const profileIds = [];
     const currentUserId = Selectors.getCurrentUserId(state);
+    const collapsedThreads = isCollapsedThreadsEnabled(state);
 
     for (let i = 0; i < channels.length; i++) {
         const channel = channels[i];
@@ -388,7 +395,12 @@ export async function loadProfilesForDM() {
 
         if (!isVisible) {
             const member = getMyChannelMember(state, channel.id);
-            if (!member || member.mention_count === 0) {
+
+            const noUnreads = collapsedThreads ?
+                (member.mention_count_root === 0 && member.msg_count_root >= channel.total_msg_count_root) :
+                (member.mention_count === 0 && member.msg_count >= channel.total_msg_count);
+
+            if (!member || noUnreads) {
                 continue;
             }
 

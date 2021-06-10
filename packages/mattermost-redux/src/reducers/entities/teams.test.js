@@ -3,8 +3,9 @@
 
 import assert from 'assert';
 
-import {TeamTypes} from 'mattermost-redux/action_types';
+import {TeamTypes, AdminTypes} from 'mattermost-redux/action_types';
 import teamsReducer from 'mattermost-redux/reducers/entities/teams';
+import deepFreeze from 'mattermost-redux/utils/deep_freeze';
 
 describe('Reducers.teams.myMembers', () => {
     it('initial state', async () => {
@@ -106,5 +107,146 @@ describe('Reducers.teams.myMembers', () => {
         testAction.data = {team_id_2: myMember2};
         state = teamsReducer(state, testAction);
         assert.deepEqual(state.myMembers, {team_id_1: myMember1});
+    });
+});
+describe('Data Retention Teams', () => {
+    it('RECEIVED_DATA_RETENTION_CUSTOM_POLICY_TEAMS', async () => {
+        const state = deepFreeze({
+            currentTeamId: '',
+            teams: {
+                team1: {
+                    id: 'team1',
+                },
+                team2: {
+                    id: 'team2',
+                },
+                team3: {
+                    id: 'team3',
+                },
+            },
+            myMembers: {},
+            membersInTeam: {},
+            totalCount: 0,
+            stats: {},
+            groupsAssociatedToTeam: {},
+        });
+
+        const nextState = teamsReducer(state, {
+            type: AdminTypes.RECEIVED_DATA_RETENTION_CUSTOM_POLICY_TEAMS,
+            data: {
+                teams: [{
+                    id: 'team4',
+                }],
+                total_count: 1,
+            },
+        });
+
+        expect(nextState).not.toBe(state);
+        expect(nextState.teams.team1).toEqual({
+            id: 'team1',
+        });
+        expect(nextState.teams.team2).toEqual({
+            id: 'team2',
+        });
+        expect(nextState.teams.team3).toEqual({
+            id: 'team3',
+        });
+        expect(nextState.teams.team4).toEqual({
+            id: 'team4',
+        });
+    });
+
+    it('REMOVE_DATA_RETENTION_CUSTOM_POLICY_TEAMS_SUCCESS', async () => {
+        const state = deepFreeze({
+            currentTeamId: '',
+            teams: {
+                team1: {
+                    id: 'team1',
+                    policy_id: 'policy1',
+                },
+                team2: {
+                    id: 'team2',
+                    policy_id: 'policy1',
+                },
+                team3: {
+                    id: 'team3',
+                    policy_id: 'policy1',
+                },
+            },
+            myMembers: {},
+            membersInTeam: {},
+            totalCount: 0,
+            stats: {},
+            groupsAssociatedToTeam: {},
+        });
+
+        const nextState = teamsReducer(state, {
+            type: AdminTypes.REMOVE_DATA_RETENTION_CUSTOM_POLICY_TEAMS_SUCCESS,
+            data: {
+                teams: ['team1', 'team2'],
+            },
+        });
+
+        expect(nextState).not.toBe(state);
+        expect(nextState.teams.team1).toEqual({
+            id: 'team1',
+            policy_id: null,
+        });
+        expect(nextState.teams.team2).toEqual({
+            id: 'team2',
+            policy_id: null,
+        });
+        expect(nextState.teams.team3).toEqual({
+            id: 'team3',
+            policy_id: 'policy1',
+        });
+    });
+
+    it('RECEIVED_DATA_RETENTION_CUSTOM_POLICY_TEAMS_SEARCH', async () => {
+        const state = deepFreeze({
+            currentTeamId: '',
+            teams: {
+                team1: {
+                    id: 'team1',
+                },
+                team2: {
+                    id: 'team2',
+                },
+                team3: {
+                    id: 'team3',
+                },
+            },
+            myMembers: {},
+            membersInTeam: {},
+            totalCount: 0,
+            stats: {},
+            groupsAssociatedToTeam: {},
+        });
+
+        const nextState = teamsReducer(state, {
+            type: AdminTypes.RECEIVED_DATA_RETENTION_CUSTOM_POLICY_TEAMS_SEARCH,
+            data: [
+                {
+                    id: 'team1',
+                },
+                {
+                    id: 'team4',
+                },
+            ],
+        });
+
+        expect(nextState).not.toBe(state);
+        expect(nextState.teams.team1).toEqual({
+            id: 'team1',
+        });
+        expect(nextState.teams.team2).toEqual({
+            id: 'team2',
+        });
+        expect(nextState.teams.team3).toEqual({
+            id: 'team3',
+        });
+        expect(nextState.teams.team4).toEqual({
+            id: 'team4',
+        });
     });
 });

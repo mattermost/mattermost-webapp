@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {TeamTypes, ThreadTypes} from 'mattermost-redux/action_types';
+import {TeamTypes, ThreadTypes, PostTypes} from 'mattermost-redux/action_types';
 import deepFreeze from 'mattermost-redux/utils/deep_freeze';
 
 import threadsReducer from './threads';
@@ -144,5 +144,89 @@ describe('threads', () => {
         expect(nextState.threads.t1).toBe(undefined);
         expect(nextState.counts.a).toBe(undefined);
         expect(nextState.threadsInTeam.a).toBe(undefined);
+    });
+
+    test('POST_REMOVED should remove the thread when root post', () => {
+        const state = deepFreeze({
+            threadsInTeam: {
+                a: ['t1', 't2', 't3'],
+            },
+            threads: {
+                t1: {
+                    id: 't1',
+                },
+                t2: {
+                    id: 't2',
+                },
+                t3: {
+                    id: 't3',
+                },
+            },
+            counts: {},
+        });
+
+        const nextState = threadsReducer(state, {
+            type: PostTypes.POST_REMOVED,
+            data: {id: 't2', root_id: ''},
+        });
+
+        expect(nextState).not.toBe(state);
+        expect(nextState.threads.t2).toBe(undefined);
+        expect(nextState.threadsInTeam.a).toEqual(['t1', 't3']);
+    });
+
+    test('POST_REMOVED should do nothing when not a root post', () => {
+        const state = deepFreeze({
+            threadsInTeam: {
+                a: ['t1', 't2', 't3'],
+            },
+            threads: {
+                t1: {
+                    id: 't1',
+                },
+                t2: {
+                    id: 't2',
+                },
+                t3: {
+                    id: 't3',
+                },
+            },
+            counts: {},
+        });
+
+        const nextState = threadsReducer(state, {
+            type: PostTypes.POST_REMOVED,
+            data: {id: 't2', root_id: 't1'},
+        });
+
+        expect(nextState).toBe(state);
+        expect(nextState.threads.t2).toBe(state.threads.t2);
+        expect(nextState.threadsInTeam.a).toEqual(['t1', 't2', 't3']);
+    });
+
+    test('POST_REMOVED should do nothing when post not exist', () => {
+        const state = deepFreeze({
+            threadsInTeam: {
+                a: ['t1', 't2'],
+            },
+            threads: {
+                t1: {
+                    id: 't1',
+                },
+                t2: {
+                    id: 't2',
+                },
+            },
+            counts: {},
+        });
+
+        const nextState = threadsReducer(state, {
+            type: PostTypes.POST_REMOVED,
+            data: {id: 't3', root_id: ''},
+        });
+
+        expect(nextState).toBe(state);
+        expect(nextState.threads.t2).toBe(state.threads.t2);
+        expect(nextState.threadsInTeam.a).toEqual(['t1', 't2']);
     });
 });
