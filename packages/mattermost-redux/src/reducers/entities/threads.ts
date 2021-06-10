@@ -3,10 +3,12 @@
 
 import {combineReducers} from 'redux';
 
-import {TeamTypes, ThreadTypes, UserTypes} from 'mattermost-redux/action_types';
+import {PostTypes, TeamTypes, ThreadTypes, UserTypes} from 'mattermost-redux/action_types';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {Team} from 'mattermost-redux/types/teams';
+import {Post} from 'mattermost-redux/types/posts';
 import {ThreadsState, UserThread} from 'mattermost-redux/types/threads';
+import {UserProfile} from 'mattermost-redux/types/users';
 import {IDMappedObjects} from 'mattermost-redux/types/utilities';
 
 export const threadsReducer = (state: ThreadsState['threads'] = {}, action: GenericAction) => {
@@ -56,6 +58,27 @@ export const threadsReducer = (state: ThreadsState['threads'] = {}, action: Gene
                 is_following: following,
             },
         };
+    }
+    case PostTypes.RECEIVED_NEW_POST: {
+        const post: Post = action.data;
+        const thread: UserThread | undefined = state[post.root_id];
+        if (post.root_id && thread) {
+            const participants = thread.participants || [];
+            const nextThread = {...thread};
+            if (!participants.find((user: UserProfile | {id: string}) => user.id === post.user_id)) {
+                nextThread.participants = [...participants, {id: post.user_id}];
+            }
+
+            if (post.reply_count) {
+                nextThread.reply_count = post.reply_count;
+            }
+
+            return {
+                ...state,
+                [post.root_id]: nextThread,
+            };
+        }
+        return state;
     }
     case ThreadTypes.ALL_TEAM_THREADS_READ: {
         return Object.entries(state).reduce<ThreadsState['threads']>((newState, [id, thread]) => {
