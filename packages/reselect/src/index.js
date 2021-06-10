@@ -77,6 +77,8 @@ function getDependencies(funcs) {
     return dependencies;
 }
 
+const trackedSelectors = {};
+
 export function createSelectorCreator(memoize, ...memoizeOptions) {
     return (name, ...funcs) => {
         const id = generateId();
@@ -122,6 +124,7 @@ export function createSelectorCreator(memoize, ...memoizeOptions) {
         selector.effectiveness = () => 100 - ((recomputations / calls) * 100);
         selector.selectorName = () => name;
         selector.id = () => id;
+        trackedSelectors[id] = selector;
         return selector;
     };
 }
@@ -146,3 +149,32 @@ export function createStructuredSelector(selectors, selectorCreator = createSele
         },
     );
 }
+
+// resetTrackedSelectors resets all the measurements for memoization effectiveness.
+function resetTrackedSelectors() {
+    Object.values(trackedSelectors).forEach((selector) => {
+        selector.resetCalls();
+        selector.resetRecomputations();
+    });
+}
+
+// getSortedTrackedSelectors returns an array, sorted by effectivness, containing mesaurement data on all tracked selectors.
+function getSortedTrackedSelectors() {
+    let selectors = Object.values(trackedSelectors);
+    // Filter out any selector not called
+    selectors = selectors.filter(selector => selector.calls() > 0);
+    const selectorsData = selectors.map((selector) => ({name: selector.selectorName(), effectiveness: selector.effectiveness(), recomputations: selector.recomputations(), calls: selector.calls()}));
+    selectorsData.sort((a, b) => a.effectiveness - b.effectiveness);
+    return selectorsData;
+}
+
+// dumpTrackedSelectorsStatistics prints to console a table containing the measurement data on all tracked selectors.
+function dumpTrackedSelectorsStatistics() {
+    const selectors = getSortedTrackedSelectors();
+    console.table(selectors); //eslint-disable-line no-console
+}
+
+window.dumpTrackedSelectorsStatistics = dumpTrackedSelectorsStatistics;
+window.resetTrackedSelectors = resetTrackedSelectors;
+window.getSortedTrackedSelectors = getSortedTrackedSelectors
+
