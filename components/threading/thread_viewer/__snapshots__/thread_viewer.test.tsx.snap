@@ -56,6 +56,7 @@ exports[`components/threading/ThreadViewer should match snapshot 1`] = `
                 "edit_at": 0,
                 "hashtags": "",
                 "id": "id",
+                "is_following": true,
                 "is_pinned": false,
                 "message": "post message",
                 "metadata": Object {
@@ -69,7 +70,7 @@ exports[`components/threading/ThreadViewer should match snapshot 1`] = `
                 "parent_id": "",
                 "pending_post_id": "",
                 "props": Object {},
-                "reply_count": 0,
+                "reply_count": 3,
                 "root_id": "",
                 "type": "system_add_remove",
                 "update_at": 1502715372443,
