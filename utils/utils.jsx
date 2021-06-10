@@ -259,11 +259,12 @@ export function getRemainingDaysFromFutureTimestamp(timestamp) {
     return Math.floor((utcFuture - utcToday) / MS_PER_DAY);
 }
 
-export function getLocaleDateFromUTC(timestamp, format = 'YYYY/MM/DD HH:mm:ss') {
+export function getLocaleDateFromUTC(timestamp, format = 'YYYY/MM/DD HH:mm:ss', userTimezone = '') {
     if (!timestamp) {
         return moment.now();
     }
-    return moment.unix(timestamp).format(format);
+    const timezone = userTimezone ? ' ' + moment().tz(userTimezone).format('z') : '';
+    return moment.unix(timestamp).format(format) + timezone;
 }
 
 // Replaces all occurrences of a pattern

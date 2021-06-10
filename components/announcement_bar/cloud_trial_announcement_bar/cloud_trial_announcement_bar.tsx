@@ -51,7 +51,8 @@ enum TrialPeriodDays {
     TRIAL_14_DAYS = 14,
     TRIAL_3_DAYS = 3,
     TRIAL_2_DAYS = 2,
-    TRIAL_1_DAY = 1
+    TRIAL_1_DAY = 1,
+    TRIAL_0_DAYS = 0
 }
 
 class CloudTrialAnnouncementBar extends React.PureComponent<Props> {
@@ -164,12 +165,12 @@ class CloudTrialAnnouncementBar extends React.PureComponent<Props> {
             />
         );
 
-        const userEndTrialHour = getLocaleDateFromUTC((this.props.subscription?.trial_end_at as number / 1000), 'MMMM Do YYYY, HH:mm:ss');
+        const userEndTrialHour = getLocaleDateFromUTC(1623326400, 'MMMM Do YYYY, HH:mm:ss', this.props.currentUser.timezone?.automaticTimezone as string);
 
         const trialLastDaysMsg = (
             <FormattedMessage
                 id='admin.billing.subscription.cloudTrial.lastDay'
-                defaultMessage='This is the last day of your free trial. Your access will expire at {userEndTrialHour} PT.'
+                defaultMessage='This is the last day of your free trial. Your access will expire at {userEndTrialHour}.'
                 values={{userEndTrialHour}}
             />
         );
@@ -182,6 +183,7 @@ class CloudTrialAnnouncementBar extends React.PureComponent<Props> {
             bannerMessage = trialLessThan3DaysMsg;
             break;
         case TrialPeriodDays.TRIAL_1_DAY:
+        case TrialPeriodDays.TRIAL_0_DAYS:
             bannerMessage = trialLastDaysMsg;
             break;
         default:
