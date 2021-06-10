@@ -9,7 +9,6 @@ import {
     getCurrentChannel,
     getSortedUnreadChannelIds,
     getOrderedChannelIds,
-    getUnreads,
 } from 'mattermost-redux/selectors/entities/channels';
 
 import Permissions from 'mattermost-redux/constants/permissions';
@@ -70,7 +69,6 @@ function mapStateToProps(state) {
         canCreatePublicChannel,
         canCreatePrivateChannel,
         isOpen: getIsLhsOpen(state),
-        unreads: getUnreads(state),
         viewArchivedChannels: config.ExperimentalViewArchivedChannels === 'true',
     };
 }

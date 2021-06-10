@@ -195,13 +195,15 @@ export function createGroupChannel(userIds: string[]): ActionFunc {
             return {error};
         }
 
-        let member: Partial<ChannelMembership|undefined> = {
+        let member: Partial<ChannelMembership> | undefined = {
             channel_id: created.id,
             user_id: currentUserId,
             roles: `${General.CHANNEL_USER_ROLE}`,
             last_viewed_at: 0,
             msg_count: 0,
             mention_count: 0,
+            msg_count_root: 0,
+            mention_count_root: 0,
             notify_props: {desktop: 'default', mark_unread: 'all'},
             last_update_at: created.create_at,
         };
