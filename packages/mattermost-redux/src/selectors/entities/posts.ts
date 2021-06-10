@@ -88,10 +88,6 @@ export function getPostIdsInCurrentChannel(state: GlobalState): Array<$ID<Post>>
     return getPostIdsInChannel(state, state.entities.channels.currentChannelId);
 }
 
-export function getPostIdsInThread(state: GlobalState, threadId: $ID<Post>): Array<$ID<Post>> | null {
-    return getPostsInThread(state)[threadId] ?? null;
-}
-
 // getPostsInCurrentChannel returns the posts loaded at the bottom of the channel. It does not include older posts
 // such as those loaded by viewing a thread or a permalink.
 export const getPostsInCurrentChannel: (state: GlobalState) => PostWithFormatData[] | undefined | null = (() => {

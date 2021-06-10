@@ -9,7 +9,7 @@ import {
     makeGetMessageInHistoryItem,
     makeGetCommentCountForPost,
     getPost,
-    getPostIdsInThread,
+    makeGetPostIdsForThread,
 } from 'mattermost-redux/selectors/entities/posts';
 import {getCustomEmojisByName} from 'mattermost-redux/selectors/entities/emojis';
 import {
@@ -171,6 +171,7 @@ export function makeOnSubmit(channelId, rootId, latestPostId) {
 }
 
 function makeGetCurrentUsersLatestReply() {
+    const getPostIdsInThread = makeGetPostIdsForThread();
     return createSelector(
         getCurrentUserId,
         getPostIdsInThread,
