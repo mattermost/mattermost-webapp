@@ -468,14 +468,23 @@ export function makeSortChannels() {
     };
 }
 
-export function makeGetChannelsForCategory() {
+export function makeGetChannelIdsForCategory() {
     const getChannels = makeGetChannelsForIds();
     const filterAndSortChannelsForCategory = makeFilterAndSortChannelsForCategory();
+
+    let lastChannelIds: string[] = [];
 
     return (state: GlobalState, category: ChannelCategory) => {
         const channels = getChannels(state, category.channel_ids);
 
-        return filterAndSortChannelsForCategory(state, channels, category);
+        const filteredChannelIds = filterAndSortChannelsForCategory(state, channels, category).map((channel) => channel.id);
+
+        if (shallowEquals(filteredChannelIds, lastChannelIds)) {
+            return lastChannelIds;
+        }
+
+        lastChannelIds = filteredChannelIds;
+        return lastChannelIds;
     };
 }
 

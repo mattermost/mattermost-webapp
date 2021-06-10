@@ -387,6 +387,19 @@ export const getChannelsNameMapInCurrentTeam: (state: GlobalState) => NameMapped
     },
 );
 
+export const getChannelNameToDisplayNameMap: (state: GlobalState) => Record<string, string> = createIdsSelector(
+    getAllChannels,
+    getChannelSetInCurrentTeam,
+    (channels: IDMappedObjects<Channel>, currentTeamChannelSet: string[]) => {
+        const channelMap: Record<string, string> = {};
+        for (const id of currentTeamChannelSet) {
+            const channel = channels[id];
+            channelMap[channel.name] = channel.display_name;
+        }
+        return channelMap;
+    },
+);
+
 // Returns both DMs and GMs
 export const getAllDirectChannels: (state: GlobalState) => Channel[] = createSelector(
     getAllChannels,

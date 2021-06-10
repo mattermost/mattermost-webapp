@@ -517,7 +517,7 @@ describe('getDisplayedChannels', () => {
     });
 });
 
-describe('makeGetFilteredChannelsForCategory', () => {
+describe('makeGetFilteredChannelIdsForCategory', () => {
     const currentChannel = TestHelper.getChannelMock({id: 'currentChannel', delete_at: 0, total_msg_count: 0, last_post_at: 0});
     const readChannel = {id: 'readChannel', delete_at: 0, total_msg_count: 10, last_post_at: 300};
     const unreadChannel1 = {id: 'unreadChannel1', delete_at: 0, total_msg_count: 10, last_post_at: 100};
@@ -591,10 +591,10 @@ describe('makeGetFilteredChannelsForCategory', () => {
             },
         };
 
-        const getFilteredChannelsForCategory = Selectors.makeGetFilteredChannelsForCategory();
+        const getFilteredChannelIdsForCategory = Selectors.makeGetFilteredChannelIdsForCategory();
 
-        expect(getFilteredChannelsForCategory(state, category1)).toEqual([currentChannel, unreadChannel1]);
-        expect(getFilteredChannelsForCategory(state, category2)).toEqual([readChannel, unreadChannel2]);
+        expect(getFilteredChannelIdsForCategory(state, category1)).toEqual([currentChannel.id, unreadChannel1.id]);
+        expect(getFilteredChannelIdsForCategory(state, category2)).toEqual([readChannel.id, unreadChannel2.id]);
     });
 
     test('with the unreads category enabled, should not include unread channels', () => {
@@ -621,9 +621,9 @@ describe('makeGetFilteredChannelsForCategory', () => {
             },
         };
 
-        const getFilteredChannelsForCategory = Selectors.makeGetFilteredChannelsForCategory();
+        const getFilteredChannelIdsForCategory = Selectors.makeGetFilteredChannelIdsForCategory();
 
-        expect(getFilteredChannelsForCategory(state, category1)).toEqual([currentChannel, readChannel]);
+        expect(getFilteredChannelIdsForCategory(state, category1)).toEqual([currentChannel.id, readChannel.id]);
     });
 
     test('with the unreads category enabled, should not include the current channel if it was previously unread', () => {
@@ -659,8 +659,8 @@ describe('makeGetFilteredChannelsForCategory', () => {
             },
         };
 
-        const getFilteredChannelsForCategory = Selectors.makeGetFilteredChannelsForCategory();
+        const getFilteredChannelIdsForCategory = Selectors.makeGetFilteredChannelIdsForCategory();
 
-        expect(getFilteredChannelsForCategory(state, category1)).toEqual([readChannel]);
+        expect(getFilteredChannelIdsForCategory(state, category1)).toEqual([readChannel.id]);
     });
 });
