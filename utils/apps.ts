@@ -1,8 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
-import {AppBinding, AppCall, AppCallRequest, AppCallValues, AppContext, AppExpand} from 'mattermost-redux/types/apps';
+import {AppCallResponseTypes, AppFieldTypes} from 'mattermost-redux/constants/apps';
+import {AppBinding, AppCall, AppCallRequest, AppCallValues, AppContext, AppExpand, AppField, AppForm} from 'mattermost-redux/types/apps';
 
 export const appsPluginID = 'com.mattermost.apps';
 
@@ -10,6 +10,8 @@ export function fillBindingsInformation(binding?: AppBinding) {
     if (!binding) {
         return;
     }
+
+    cleanForm(binding.form);
 
     binding.bindings?.forEach((b) => {
         // Propagate id down if not defined
@@ -47,6 +49,89 @@ export function fillBindingsInformation(binding?: AppBinding) {
     if (binding.bindings?.length && !binding.call) {
         binding.call = binding.bindings[0].call;
     }
+}
+
+export function cleanForm(form?: AppForm) {
+    if (!form) {
+        return;
+    }
+
+    const toRemove: number[] = [];
+    const usedLabels: {[label: string]: boolean} = {};
+    form.fields?.forEach((field, i) => {
+        if (!field.name) {
+            toRemove.unshift(i);
+            return;
+        }
+
+        if (field.name.match(/ |\t/)) {
+            toRemove.unshift(i);
+            return;
+        }
+
+        let label = field.label;
+        if (!label) {
+            label = field.name;
+        }
+
+        if (label.match(/ |\t/)) {
+            toRemove.unshift(i);
+            return;
+        }
+
+        if (usedLabels[label]) {
+            toRemove.unshift(i);
+            return;
+        }
+
+        if (field.type === AppFieldTypes.STATIC_SELECT) {
+            cleanStaticSelect(field);
+            if (!field.options?.length) {
+                toRemove.unshift(i);
+                return;
+            }
+        }
+
+        usedLabels[label] = true;
+    });
+
+    toRemove.forEach((i) => {
+        form.fields.splice(i, 1);
+    });
+}
+
+function cleanStaticSelect(field: AppField) {
+    const toRemove: number[] = [];
+    const usedLabels: {[label: string]: boolean} = {};
+    const usedValues: {[label: string]: boolean} = {};
+    field.options?.forEach((option, i) => {
+        let label = option.label;
+        if (!label) {
+            label = option.value;
+        }
+
+        if (!label) {
+            toRemove.unshift(i);
+            return;
+        }
+
+        if (usedLabels[label]) {
+            toRemove.unshift(i);
+            return;
+        }
+
+        if (usedValues[option.value]) {
+            toRemove.unshift(i);
+            return;
+        }
+
+        usedLabels[label] = true;
+        usedValues[option.value] = true;
+    });
+
+    toRemove.forEach((i) => {
+        field.options?.splice(i, 1);
+    });
 }
 
 export function createCallContext(

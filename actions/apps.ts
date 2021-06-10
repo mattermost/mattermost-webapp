@@ -15,7 +15,7 @@ import AppsForm from 'components/apps_form';
 import {ModalIdentifiers} from 'utils/constants';
 import {getSiteURL, shouldOpenInNewTab} from 'utils/url';
 import {browserHistory} from 'utils/browser_history';
-import {makeCallErrorResponse} from 'utils/apps';
+import {cleanForm, makeCallErrorResponse} from 'utils/apps';
 
 import {sendEphemeralPost} from './global_actions';
 
@@ -38,6 +38,8 @@ export function doAppCall<Res=unknown>(call: AppCallRequest, type: AppCallType, 
                     });
                     return {error: makeCallErrorResponse(errMsg)};
                 }
+
+                cleanForm(res.form);
 
                 if (type === AppCallTypes.SUBMIT) {
                     dispatch(openAppsModal(res.form, call));

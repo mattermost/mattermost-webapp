@@ -111,6 +111,11 @@ export class ButtonBinding extends React.PureComponent<Props, State> {
             return null;
         }
 
+        const label = binding.label || binding.location;
+        if (!label) {
+            return null;
+        }
+
         return (
             <button
                 onClick={this.handleClick}
@@ -120,7 +125,7 @@ export class ButtonBinding extends React.PureComponent<Props, State> {
                     loading={this.state.executing}
                 >
                     <Markdown
-                        message={binding.label}
+                        message={label}
                         options={{
                             mentionHighlight: false,
                             markdown: false,
