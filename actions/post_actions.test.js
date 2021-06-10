@@ -183,10 +183,13 @@ describe('Actions.Posts', () => {
                 meta: {batch: true},
                 payload: [
                     INCREASED_POST_VISIBILITY,
-                    PostActions.receivedNewPost(newPost, false),
+                    PostActions.receivedNewPost(newPost),
                     STOP_TYPING,
                 ],
                 type: 'BATCHING_REDUCER.BATCH',
+            },
+            {
+                type: 'MOCK_SEND_DESKTOP_NOTIFICATION',
             },
         ]);
     });
