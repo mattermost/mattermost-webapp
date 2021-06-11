@@ -23,7 +23,7 @@ import {
     RelationOneToMany,
 } from 'mattermost-redux/types/utilities';
 
-import {comparePosts} from 'mattermost-redux/utils/post_utils';
+import {comparePosts, shouldUpdatePost} from 'mattermost-redux/utils/post_utils';
 
 export function removeUnneededMetadata(post: Post) {
     if (!post.metadata) {
@@ -262,8 +262,7 @@ export function handlePosts(state: RelationOneToOne<Post, Post> = {}, action: Ge
 }
 
 function handlePostReceived(nextState: any, post: Post) {
-    if (nextState[post.id] && nextState[post.id].update_at >= post.update_at) {
-        // The stored post is newer than the one we've received
+    if (!shouldUpdatePost(post, nextState[post.id])) {
         return nextState;
     }
 
