@@ -90,12 +90,23 @@
             max-width: 800px;
         }
 
+        &.attachment--permalink {
+            max-width: 700px;
+        }
+
         .attachment__content {
             border-radius: 0 4px 4px 0;
             border-style: solid;
             border-width: 1px;
             margin: 5px 0 5px 20px;
             border-left: none;
+
+            &.attachment__content--permalink {
+                border-left-style: solid;
+                border-left-width: 1px;
+                border-radius: 4px 4px 4px 4px;
+                box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.08);
+            }
         }
 
         .attachment__thumb-pretext {
@@ -122,7 +133,8 @@
                 border-left-color: #e40303;
             }
 
-            &.attachment__container--opengraph {
+            &.attachment__container--opengraph,
+            &.attachment__body--permalink  {
                 display: table;
                 margin: 0;
                 padding-bottom: 13px;
@@ -133,6 +145,9 @@
                     margin: 0;
                 }
             }
+            &.attachment__container--permalink {
+                border-left: none;
+            }
 
             .sitename {
                 color: #A3A3A3;
@@ -140,7 +155,8 @@
         }
 
         .attachment__body__wrap {
-            &.attachment__body__wrap--opengraph {
+            &.attachment__body__wrap--opengraph,
+            &.attachment__body__wrap--permalink {
                 display: table-cell;
                 vertical-align: top;
                 width: 100%;
@@ -192,7 +208,8 @@
                 width: 100%;
             }
 
-            &.attachment__body--opengraph {
+            &.attachment__body--opengraph,
+            &.attachment__body--permalink {
                 float: none;
                 padding-right: 0;
                 width: 100%;
@@ -350,6 +367,12 @@
                 top: 0;
                 left: 23rem;
                 padding: 5px 10px;
+            }
+        }
+
+        &:hover {
+            .attachment__content--permalink {
+                box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.12);
             }
         }
     }
