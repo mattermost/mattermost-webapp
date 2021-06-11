@@ -134,7 +134,7 @@
             }
 
             &.attachment__container--opengraph,
-            &.attachment__body--permalink  {
+            &.attachment__container--permalink  {
                 display: table;
                 margin: 0;
                 padding-bottom: 13px;
@@ -147,6 +147,7 @@
             }
             &.attachment__container--permalink {
                 border-left: none;
+                padding: 16px;
             }
 
             .sitename {
@@ -155,7 +156,12 @@
         }
 
         .attachment__body__wrap {
-            &.attachment__body__wrap--opengraph,
+            &.attachment__body__wrap--opengraph {
+                display: table-cell;
+                vertical-align: top;
+                width: 100%;
+            }
+
             &.attachment__body__wrap--permalink {
                 display: table-cell;
                 vertical-align: top;
