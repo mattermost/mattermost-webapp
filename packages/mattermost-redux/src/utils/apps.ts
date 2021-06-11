@@ -99,7 +99,9 @@ export function validateBindings(bindings: AppBinding[] = []): AppBinding[] {
     channelHeaderBindings.forEach((v) => cleanBinding(v, AppBindingLocations.CHANNEL_HEADER_ICON));
     postMenuBindings.forEach((v) => cleanBinding(v, AppBindingLocations.POST_MENU_ITEM));
     commandBindings.forEach((v) => cleanBinding(v, AppBindingLocations.COMMAND));
-    return channelHeaderBindings.concat(postMenuBindings, commandBindings);
+
+    const hasBindings = (v: AppBinding) => v.bindings?.length;
+    return postMenuBindings.filter(hasBindings).concat(channelHeaderBindings.filter(hasBindings), commandBindings.filter(hasBindings));
 }
 
 export function cleanForm(form?: AppForm) {
