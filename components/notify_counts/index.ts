@@ -3,18 +3,14 @@
 
 import {connect} from 'react-redux';
 
-import {getUnreadsInCurrentTeam} from 'mattermost-redux/selectors/entities/channels';
+import {getUnreadStatusInCurrentTeam, basicUnreadMeta} from 'mattermost-redux/selectors/entities/channels';
 
 import {GlobalState} from 'types/store';
 
 import NotifyCounts from './notify_counts';
 
 function mapStateToProps(state: GlobalState) {
-    const {mentionCount, messageCount} = getUnreadsInCurrentTeam(state);
-    return {
-        mentionCount,
-        messageCount,
-    };
+    return basicUnreadMeta(getUnreadStatusInCurrentTeam(state));
 }
 
 export default connect(mapStateToProps)(NotifyCounts);
