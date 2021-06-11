@@ -134,6 +134,45 @@ function cleanStaticSelect(field: AppField) {
     });
 }
 
+export function cleanCommands(bindings: AppBinding[]) {
+    const toRemove: number[] = [];
+    const usedLabels: {[label: string]: boolean} = {};
+    bindings.forEach((b, i) => {
+        let label: string | undefined = b.label;
+        if (!label) {
+            label = b.location;
+        }
+
+        if (!label) {
+            toRemove.unshift(i);
+            return;
+        }
+
+        if (label.match(/ |\t/)) {
+            toRemove.unshift(i);
+            return;
+        }
+
+        if (usedLabels[label]) {
+            toRemove.unshift(i);
+            return;
+        }
+
+        if (b.bindings?.length) {
+            cleanCommands(b.bindings);
+            if (!b.bindings?.length) {
+                toRemove.unshift(i);
+                return;
+            }
+        }
+        usedLabels[label] = true;
+    });
+
+    toRemove.forEach((i) => {
+        bindings.splice(i, 1);
+    });
+}
+
 export function createCallContext(
     appID: string,
     location?: string,

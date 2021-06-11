@@ -8,6 +8,8 @@ import {AppBinding} from 'mattermost-redux/types/apps';
 import {ClientConfig} from 'mattermost-redux/types/config';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {AppBindingLocations} from 'mattermost-redux/constants/apps';
+import {cleanCommands} from 'utils/apps';
 
 // This file's contents belong to the Apps Framework feature.
 // Apps Framework feature is experimental, and the contents of this file are
@@ -30,7 +32,12 @@ export const makeAppBindingsSelector = (location: string) => {
             }
 
             const headerBindings = bindings.filter((b) => b.location === location);
-            return headerBindings.reduce((accum: AppBinding[], current: AppBinding) => accum.concat(current.bindings || []), []);
+            const reducedBindings = headerBindings.reduce((accum: AppBinding[], current: AppBinding) => accum.concat(current.bindings || []), []);
+            if (location === AppBindingLocations.COMMAND) {
+                cleanCommands(reducedBindings);
+            }
+
+            return reducedBindings;
         },
     );
 };
