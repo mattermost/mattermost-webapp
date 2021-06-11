@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {getCurrentUserId, getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';
 import {
@@ -24,15 +24,24 @@ import {areTimezonesEnabledAndSupported} from 'selectors/general';
 import {getRhsState, getSelectedPost} from 'selectors/rhs';
 
 import {makeGetCustomStatus, isCustomStatusEnabled} from 'selectors/views/custom_status';
+import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
+import {GlobalState} from '../../types/store';
 
-import ProfilePopover from './profile_popover.jsx';
+import {ServerError} from 'mattermost-redux/types/errors';
 
-function getDefaultChannelId(state) {
+import ProfilePopover from './profile_popover';
+
+type OwnProps = {
+    userId: string;
+    channelId?: string;
+}
+
+function getDefaultChannelId(state: GlobalState) {
     const selectedPost = getSelectedPost(state);
     return selectedPost.exists ? selectedPost.channel_id : getCurrentChannelId(state);
 }
 
-function mapStateToProps(state, {userId, channelId = getDefaultChannelId(state)}) {
+function mapStateToProps(state: GlobalState, {userId, channelId = getDefaultChannelId(state)}: OwnProps) {
     const team = getCurrentTeam(state);
     const teamMember = getTeamMember(state, team.id, userId);
     const getCustomStatus = makeGetCustomStatus();
@@ -55,21 +64,31 @@ function mapStateToProps(state, {userId, channelId = getDefaultChannelId(state)}
         enableTimezone: areTimezonesEnabledAndSupported(state),
         isTeamAdmin,
         isChannelAdmin,
-        isInCurrentTeam: Boolean(teamMember) && teamMember.delete_at === 0,
+        isInCurrentTeam: Boolean(teamMember) && teamMember?.delete_at === 0,
         canManageAnyChannelMembersInCurrentTeam: canManageAnyChannelMembersInCurrentTeam(state),
         status: getStatusForUserId(state, userId),
         teamUrl: getCurrentRelativeTeamUrl(state),
         user: getUser(state, userId),
-        modals: state.views.modals.modalState,
+        modals: state.views.modals,
         customStatus: getCustomStatus(state, userId),
         isCustomStatusEnabled: isCustomStatusEnabled(state),
         channelId,
     };
 }
+type Actions = {
+    openModal: (modalData: {modalId: string; dialogType: any; dialogProps?: any}) => Promise<{
+        data: boolean;
+    }>;
+    closeModal: (modalId: string) => Promise<{
+        data: boolean;
+    }>;
+    openDirectChannelToUserId: (userId?: string) => Promise<{error: ServerError}>;
+    getMembershipForEntities: (teamId: string, userId: string, channelId?: string) => Promise<void>;
+}
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
-        actions: bindActionCreators({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
             closeModal,
             openDirectChannelToUserId,
             openModal,
