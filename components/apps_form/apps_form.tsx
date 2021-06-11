@@ -216,8 +216,11 @@ export class AppsForm extends React.PureComponent<Props, State> {
 
         const callResp = res.data!;
         switch (callResp.type) {
-        case AppCallResponseTypes.OK:
-            return callResp.data?.items || [];
+        case AppCallResponseTypes.OK: {
+            let items = callResp.data?.items || [];
+            items = items?.filter((option) => option.value && !option.value.match(/^[ \t]+$/));
+            return items;
+        }
         case AppCallResponseTypes.FORM:
         case AppCallResponseTypes.NAVIGATE: {
             const errMsg = intl.formatMessage({
