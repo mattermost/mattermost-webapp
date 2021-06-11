@@ -69,12 +69,15 @@ function createCategory(name) {
 const CATEGORIES = {};
 
 for (const cat of Emoji.CategoryNames) {
+    if (cat === 'recent' || cat === 'searchResults') {
+        continue;
+    }
     CATEGORIES[cat] = createCategory(cat);
 }
 
 const smileysEmojiCategory = {'smileys-emotion': CATEGORIES['smileys-emotion']};
 
-const recentEmojiCategory = {recent: CATEGORIES.recent};
+const recentEmojiCategory = {recent: createCategory('recent')};
 
 const searchResultsCategory = createCategory(CATEGORY_SEARCH_RESULTS);
 
