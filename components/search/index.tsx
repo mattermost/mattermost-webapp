@@ -5,10 +5,11 @@ import {connect} from 'react-redux';
 import {AnyAction, bindActionCreators, Dispatch} from 'redux';
 
 import {getMorePostsForSearch, getMoreFilesForSearch} from 'mattermost-redux/actions/search';
-import {getCurrentChannel, getCurrentChannelNameForSearchShortcut} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 
 import {
     updateSearchTerms,
+    updateSearchTermsForShortcut,
     showSearchResults,
     showChannelFiles,
     showMentions,
@@ -35,7 +36,6 @@ function mapStateToProps(state: GlobalState) {
 
     return {
         currentChannel,
-        currentChannelName: getCurrentChannelNameForSearchShortcut(state),
         isRhsExpanded: getIsRhsExpanded(state),
         isRhsOpen: getIsRhsOpen(state),
         isSearchingTerm: getIsSearchingTerm(state),
@@ -53,6 +53,7 @@ function mapDispatchToProps(dispatch: Dispatch<AnyAction>) {
     return {
         actions: bindActionCreators({
             updateSearchTerms,
+            updateSearchTermsForShortcut,
             updateSearchType,
             showSearchResults,
             showChannelFiles,
