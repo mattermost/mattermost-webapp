@@ -6,7 +6,7 @@ import assert from 'assert';
 
 import {createIntl} from 'react-intl';
 
-import {Posts, Preferences} from 'mattermost-redux/constants';
+import {Preferences} from 'mattermost-redux/constants';
 
 import * as PostUtils from 'utils/post_utils.jsx';
 import {PostListRowListIds, Constants} from 'utils/constants';

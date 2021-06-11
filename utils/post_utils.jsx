@@ -13,7 +13,7 @@ import {makeGetDisplayName, getCurrentUserId, getUser} from 'mattermost-redux/se
 import {Permissions, Posts} from 'mattermost-redux/constants';
 import * as PostListUtils from 'mattermost-redux/utils/post_list';
 import {getUserIdFromChannelName} from 'mattermost-redux/utils/channel_utils';
-import {canEditPost as canEditPostRedux, isPostEphemeral} from 'mattermost-redux/utils/post_utils';
+import {canEditPost as canEditPostRedux} from 'mattermost-redux/utils/post_utils';
 
 import {allAtMentions} from 'utils/text_formatting';
 

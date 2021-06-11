@@ -15,8 +15,6 @@ import {get, getInt, getBool} from 'mattermost-redux/selectors/entities/preferen
 import {
     getCurrentUsersLatestPost,
     getLatestReplyablePostId,
-    getMostRecentPostIdInChannel,
-    getPost,
     makeGetMessageInHistoryItem,
 } from 'mattermost-redux/selectors/entities/posts';
 import {getAssociatedGroupsForReferenceByMention} from 'mattermost-redux/selectors/entities/groups';
@@ -55,8 +53,6 @@ function makeMapStateToProps() {
         const license = getLicense(state);
         const currentChannel = getCurrentChannel(state) || {};
         const draft = getPostDraft(state, StoragePrefixes.DRAFT, currentChannel.id);
-        const recentPostIdInChannel = getMostRecentPostIdInChannel(state, currentChannel.id);
-        const post = getPost(state, recentPostIdInChannel);
         const latestReplyablePostId = getLatestReplyablePostId(state);
         const currentChannelMembersCount = getCurrentChannelStats(state) ? getCurrentChannelStats(state).member_count : 1;
         const enableTutorial = config.EnableTutorial === 'true';
