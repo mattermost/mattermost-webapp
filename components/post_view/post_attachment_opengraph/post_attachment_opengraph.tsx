@@ -205,7 +205,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent<Props> 
                 </div>
             );
         }
-
+        console.log('attachment');
         return (
             <div className='attachment attachment--opengraph'>
                 <div className='attachment__content'>
