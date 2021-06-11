@@ -89,7 +89,7 @@ type Props = Attrs & {
         updateThreadRead: (userId: string, teamId: string, threadId: string, timestamp: number) => unknown;
         updateThreadLastOpened: (threadId: string, lastViewedAt: number) => unknown;
     };
-    directTeammate: UserProfile;
+    directTeammate?: UserProfile;
     useRelativeTimestamp?: boolean;
     highlightedPostId?: string;
     lastViewedAt?: number;
@@ -109,13 +109,15 @@ type State = {
     userScrolledToBottom: boolean;
 }
 
-export default class ThreadViewer extends React.Component<Props, State> {
+export default class ThreadViewer extends React.PureComponent<Props, State> {
     private scrollStopAction: DelayedAction;
     private rhspostlistRef: React.RefObject<HTMLDivElement>;
     private containerRef: React.RefObject<HTMLDivElement>;
     private postCreateContainerRef: React.RefObject<HTMLDivElement>;
     private scrollbarsRef: React.RefObject<Scrollbars>;
     private newMessagesRef: React.RefObject<HTMLDivElement>;
+
+    static whyDidYouRender = true;
 
     public static getDerivedStateFromProps(props: Props, state: State) {
         let updatedState: Partial<State> = {selected: props.selected};
@@ -595,7 +597,7 @@ export default class ThreadViewer extends React.Component<Props, State> {
         }
 
         if (this.props.channel!.type === Constants.DM_CHANNEL) {
-            const teammate: UserProfile = this.props.directTeammate;
+            const teammate = this.props.directTeammate;
             if (teammate && teammate.delete_at) {
                 createComment = (
                     <div

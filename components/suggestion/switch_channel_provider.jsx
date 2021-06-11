@@ -14,6 +14,7 @@ import {
     getMyChannelMemberships,
     getChannelByName,
     getCurrentChannel,
+    getDirectTeammate,
     getAllRecentChannels,
 } from 'mattermost-redux/selectors/entities/channels';
 
@@ -242,11 +243,11 @@ function mapStateToPropsForSwitchChannelSuggestion(state, ownProps) {
     const draft = channelId ? getPostDraft(state, StoragePrefixes.DRAFT, channelId) : false;
     const user = channel && getUser(state, channel.userId);
     const userImageUrl = user && Utils.imageURLForUser(user.id, user.last_picture_update);
-    let dmChannelTeammate = channel && channel.type === Constants.DM_CHANNEL && Utils.getDirectTeammate(state, channel.id);
+    let dmChannelTeammate = channel && channel.type === Constants.DM_CHANNEL && getDirectTeammate(state, channel.id);
     const userItem = getUserByUsername(state, channel.name);
     const status = getStatusForUserId(state, channel.userId);
 
-    if (channel && Utils.isEmptyObject(dmChannelTeammate)) {
+    if (channel && !dmChannelTeammate) {
         dmChannelTeammate = getUser(state, channel.userId);
     }
 

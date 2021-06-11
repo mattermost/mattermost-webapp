@@ -105,7 +105,6 @@ class SearchResultsItem extends React.PureComponent {
          * react-intl helper object
          */
         intl: intlShape.isRequired,
-        directTeammate: PropTypes.string.isRequired,
         displayName: PropTypes.string.isRequired,
 
         /**
