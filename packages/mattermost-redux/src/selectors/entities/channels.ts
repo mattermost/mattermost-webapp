@@ -3,7 +3,7 @@
 
 import {createSelector} from 'reselect';
 
-import {General, Permissions} from 'mattermost-redux/constants';
+import {General, Permissions, Preferences} from 'mattermost-redux/constants';
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 
 import {getCategoryInTeamByType} from 'mattermost-redux/selectors/entities/channel_categories';
@@ -280,13 +280,12 @@ export const getCurrentChannelNameForSearchShortcut: (state: GlobalState) => str
     getAllChannels,
     getCurrentChannelId,
     (state: GlobalState): UsersState => state.entities.users,
-    getTeammateNameDisplaySetting,
-    (allChannels: IDMappedObjects<Channel>, currentChannelId: string, users: UsersState, teammateNameDisplay: string): string | undefined => {
+    (allChannels: IDMappedObjects<Channel>, currentChannelId: string, users: UsersState): string | undefined => {
         const channel = allChannels[currentChannelId];
 
         // Only get the extra info from users if we need it
         if (channel?.type === Constants.DM_CHANNEL) {
-            const dmChannelWithInfo = completeDirectChannelInfo(users, teammateNameDisplay, channel);
+            const dmChannelWithInfo = completeDirectChannelInfo(users, Preferences.DISPLAY_PREFER_USERNAME, channel);
             return `@${dmChannelWithInfo.display_name}`;
         }
 
