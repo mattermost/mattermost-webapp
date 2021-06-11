@@ -15,7 +15,9 @@ import AppsForm from 'components/apps_form';
 import {ModalIdentifiers} from 'utils/constants';
 import {getSiteURL, shouldOpenInNewTab} from 'utils/url';
 import {browserHistory} from 'utils/browser_history';
-import {cleanForm, makeCallErrorResponse} from 'utils/apps';
+import {makeCallErrorResponse} from 'utils/apps';
+
+import {cleanForm} from 'mattermost-redux/utils/apps';
 
 import {sendEphemeralPost} from './global_actions';
 

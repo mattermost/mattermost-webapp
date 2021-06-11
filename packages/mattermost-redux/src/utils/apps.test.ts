@@ -1,12 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import {AppFieldTypes} from 'mattermost-redux/constants/apps';
+import {AppBindingLocations, AppFieldTypes} from 'mattermost-redux/constants/apps';
 import {AppBinding, AppCall, AppField, AppForm, AppSelectOption} from 'mattermost-redux/types/apps';
 
-import {cleanCommands, cleanForm, fillBindingsInformation} from './apps';
+import {cleanForm, cleanBinding} from './apps';
 
 describe('Apps Utils', () => {
-    describe('fillBindingsInformation', () => {
+    describe('fillAndTrimBindingsInformation', () => {
         test('Apps IDs, and Calls propagate down, and locations get formed', () => {
             const inBinding: AppBinding = {
                 app_id: 'id',
@@ -42,6 +42,7 @@ describe('Apps Utils', () => {
                     {
                         location: 'loc1/loc2',
                         app_id: 'id',
+                        label: 'loc2',
                         call: {
                             path: 'url',
                         } as AppCall,
@@ -49,6 +50,7 @@ describe('Apps Utils', () => {
                             {
                                 location: 'loc1/loc2/loc3',
                                 app_id: 'id',
+                                label: 'loc3',
                                 call: {
                                     path: 'url',
                                 } as AppCall,
@@ -56,6 +58,7 @@ describe('Apps Utils', () => {
                             {
                                 location: 'loc1/loc2/loc4',
                                 app_id: 'id',
+                                label: 'loc4',
                                 call: {
                                     path: 'url',
                                 } as AppCall,
@@ -65,6 +68,7 @@ describe('Apps Utils', () => {
                     {
                         location: 'loc1/loc5',
                         app_id: 'id',
+                        label: 'loc5',
                         call: {
                             path: 'url',
                         } as AppCall,
@@ -72,7 +76,7 @@ describe('Apps Utils', () => {
                 ],
             } as AppBinding;
 
-            fillBindingsInformation(inBinding);
+            cleanBinding(inBinding, '');
             expect(inBinding).toEqual(outBinding);
         });
 
@@ -115,6 +119,7 @@ describe('Apps Utils', () => {
                     {
                         location: 'loc1/loc2',
                         app_id: 'id2',
+                        label: 'loc2',
                         call: {
                             path: 'url',
                         } as AppCall,
@@ -122,6 +127,7 @@ describe('Apps Utils', () => {
                             {
                                 location: 'loc1/loc2/loc3',
                                 app_id: 'id2',
+                                label: 'loc3',
                                 call: {
                                     path: 'url',
                                 } as AppCall,
@@ -129,6 +135,7 @@ describe('Apps Utils', () => {
                             {
                                 location: 'loc1/loc2/loc4',
                                 app_id: 'id2',
+                                label: 'loc4',
                                 call: {
                                     path: 'url',
                                 } as AppCall,
@@ -138,6 +145,7 @@ describe('Apps Utils', () => {
                     {
                         location: 'loc1/loc5',
                         app_id: 'id',
+                        label: 'loc5',
                         call: {
                             path: 'url2',
                         } as AppCall,
@@ -145,155 +153,7 @@ describe('Apps Utils', () => {
                 ],
             } as AppBinding;
 
-            fillBindingsInformation(inBinding);
-            expect(inBinding).toEqual(outBinding);
-        });
-
-        test('Populate ids on the way up.', () => {
-            const inBinding: AppBinding = {
-                location: 'loc1',
-                call: {
-                    path: 'url',
-                } as AppCall,
-                bindings: [
-                    {
-                        location: 'loc2',
-                        bindings: [
-                            {
-                                app_id: 'id1',
-                                location: 'loc3',
-                            } as AppBinding,
-                            {
-                                app_id: 'id2',
-                                location: 'loc4',
-                            } as AppBinding,
-                        ],
-                    } as AppBinding,
-                    {
-                        app_id: 'id3',
-                        location: 'loc5',
-                    } as AppBinding,
-                ],
-            } as AppBinding;
-
-            const outBinding: AppBinding = {
-                app_id: 'id1',
-                location: 'loc1',
-                call: {
-                    path: 'url',
-                } as AppCall,
-                bindings: [
-                    {
-                        location: 'loc1/loc2',
-                        app_id: 'id1',
-                        call: {
-                            path: 'url',
-                        } as AppCall,
-                        bindings: [
-                            {
-                                location: 'loc1/loc2/loc3',
-                                app_id: 'id1',
-                                call: {
-                                    path: 'url',
-                                } as AppCall,
-                            } as AppBinding,
-                            {
-                                location: 'loc1/loc2/loc4',
-                                app_id: 'id2',
-                                call: {
-                                    path: 'url',
-                                } as AppCall,
-                            } as AppBinding,
-                        ],
-                    } as AppBinding,
-                    {
-                        location: 'loc1/loc5',
-                        app_id: 'id3',
-                        call: {
-                            path: 'url',
-                        } as AppCall,
-                    },
-                ],
-            } as AppBinding;
-
-            fillBindingsInformation(inBinding);
-            expect(inBinding).toEqual(outBinding);
-        });
-
-        test('Populate calls on the way up.', () => {
-            const inBinding: AppBinding = {
-                location: 'loc1',
-                bindings: [
-                    {
-                        location: 'loc2',
-                        bindings: [
-                            {
-                                app_id: 'id1',
-                                location: 'loc3',
-                                call: {
-                                    path: 'url1',
-                                } as AppCall,
-                            } as AppBinding,
-                            {
-                                app_id: 'id2',
-                                location: 'loc4',
-                                call: {
-                                    path: 'url2',
-                                } as AppCall,
-                            } as AppBinding,
-                        ],
-                    } as AppBinding,
-                    {
-                        app_id: 'id3',
-                        location: 'loc5',
-                        call: {
-                            path: 'url3',
-                        } as AppCall,
-                    } as AppBinding,
-                ],
-            } as AppBinding;
-
-            const outBinding: AppBinding = {
-                app_id: 'id1',
-                location: 'loc1',
-                call: {
-                    path: 'url1',
-                } as AppCall,
-                bindings: [
-                    {
-                        location: 'loc1/loc2',
-                        app_id: 'id1',
-                        call: {
-                            path: 'url1',
-                        } as AppCall,
-                        bindings: [
-                            {
-                                location: 'loc1/loc2/loc3',
-                                app_id: 'id1',
-                                call: {
-                                    path: 'url1',
-                                } as AppCall,
-                            } as AppBinding,
-                            {
-                                location: 'loc1/loc2/loc4',
-                                app_id: 'id2',
-                                call: {
-                                    path: 'url2',
-                                } as AppCall,
-                            } as AppBinding,
-                        ],
-                    } as AppBinding,
-                    {
-                        location: 'loc1/loc5',
-                        app_id: 'id3',
-                        call: {
-                            path: 'url3',
-                        } as AppCall,
-                    },
-                ],
-            } as AppBinding;
-
-            fillBindingsInformation(inBinding);
+            cleanBinding(inBinding, '');
             expect(inBinding).toEqual(outBinding);
         });
 
@@ -323,7 +183,6 @@ describe('Apps Utils', () => {
             } as AppBinding;
 
             const outBinding: AppBinding = {
-                app_id: 'id',
                 location: 'loc1',
                 call: {
                     path: 'url',
@@ -331,7 +190,7 @@ describe('Apps Utils', () => {
                 bindings: [
                     {
                         location: 'loc1/loc2',
-                        app_id: 'id',
+                        label: 'loc2',
                         call: {
                             path: 'url',
                         } as AppCall,
@@ -339,6 +198,7 @@ describe('Apps Utils', () => {
                             {
                                 location: 'loc1/loc2/loc4',
                                 app_id: 'id',
+                                label: 'loc4',
                                 call: {
                                     path: 'url',
                                 } as AppCall,
@@ -348,7 +208,7 @@ describe('Apps Utils', () => {
                 ],
             } as AppBinding;
 
-            fillBindingsInformation(inBinding);
+            cleanBinding(inBinding, '');
             expect(inBinding).toEqual(outBinding);
         });
 
@@ -367,7 +227,7 @@ describe('Apps Utils', () => {
                                 location: 'loc4',
                                 call: {
                                     path: 'url',
-                                } as AppCall,
+                                },
                             } as AppBinding,
                         ],
                     } as AppBinding,
@@ -380,30 +240,26 @@ describe('Apps Utils', () => {
             const outBinding: AppBinding = {
                 app_id: 'id',
                 location: 'loc1',
-                call: {
-                    path: 'url',
-                } as AppCall,
                 bindings: [
                     {
                         location: 'loc1/loc2',
                         app_id: 'id',
-                        call: {
-                            path: 'url',
-                        } as AppCall,
+                        label: 'loc2',
                         bindings: [
                             {
                                 location: 'loc1/loc2/loc4',
                                 app_id: 'id',
                                 call: {
                                     path: 'url',
-                                } as AppCall,
+                                },
+                                label: 'loc4',
                             } as AppBinding,
                         ],
                     } as AppBinding,
                 ],
             } as AppBinding;
 
-            fillBindingsInformation(inBinding);
+            cleanBinding(inBinding, '');
             expect(inBinding).toEqual(outBinding);
         });
 
@@ -437,7 +293,7 @@ describe('Apps Utils', () => {
                 bindings: [] as AppBinding[],
             } as AppBinding;
 
-            fillBindingsInformation(inBinding);
+            cleanBinding(inBinding, '');
             expect(inBinding).toEqual(outBinding);
         });
     });
@@ -927,325 +783,470 @@ describe('Apps Utils', () => {
     });
     describe('cleanCommands', () => {
         test('happy path', () => {
-            const inBindings: AppBinding[] = [
-                {
-                    app_id: 'app',
-                    location: 'loc1',
-                    label: 'loc1',
-                    bindings: [
-                        {
-                            app_id: 'app',
-                            location: 'loc11',
-                            label: 'loc11',
+            const inBinding: AppBinding = {
+                location: '/command',
+                bindings: [
+                    {
+                        app_id: 'app',
+                        location: 'loc1',
+                        label: 'loc1',
+                        bindings: [
+                            {
+                                app_id: 'app',
+                                location: 'loc11',
+                                label: 'loc11',
+                                call: {
+                                    path: '/path',
+                                },
+                            },
+                            {
+                                app_id: 'app',
+                                location: 'loc12',
+                                label: 'loc12',
+                                call: {
+                                    path: '/path',
+                                },
+                            },
+                        ],
+                    },
+                    {
+                        app_id: 'app',
+                        location: 'loc2',
+                        label: 'loc2',
+                        call: {
+                            path: '/path',
                         },
-                        {
-                            app_id: 'app',
-                            location: 'loc12',
-                            label: 'loc12',
+                    },
+                ],
+            } as AppBinding;
+            const outBinding: AppBinding = {
+                location: '/command',
+                bindings: [
+                    {
+                        app_id: 'app',
+                        location: '/command/loc1',
+                        label: 'loc1',
+                        bindings: [
+                            {
+                                app_id: 'app',
+                                location: '/command/loc1/loc11',
+                                label: 'loc11',
+                                call: {
+                                    path: '/path',
+                                },
+                            },
+                            {
+                                app_id: 'app',
+                                location: '/command/loc1/loc12',
+                                label: 'loc12',
+                                call: {
+                                    path: '/path',
+                                },
+                            },
+                        ],
+                    },
+                    {
+                        app_id: 'app',
+                        location: '/command/loc2',
+                        label: 'loc2',
+                        call: {
+                            path: '/path',
                         },
-                    ],
-                },
-                {
-                    app_id: 'app',
-                    location: 'loc2',
-                    label: 'loc2',
-                },
-            ];
-            const outBindings: AppBinding[] = [
-                {
-                    app_id: 'app',
-                    location: 'loc1',
-                    label: 'loc1',
-                    bindings: [
-                        {
-                            app_id: 'app',
-                            location: 'loc11',
-                            label: 'loc11',
-                        },
-                        {
-                            app_id: 'app',
-                            location: 'loc12',
-                            label: 'loc12',
-                        },
-                    ],
-                },
-                {
-                    app_id: 'app',
-                    location: 'loc2',
-                    label: 'loc2',
-                },
-            ];
+                    },
+                ],
+            } as AppBinding;
 
-            cleanCommands(inBindings);
-            expect(inBindings).toEqual(outBindings);
+            cleanBinding(inBinding, AppBindingLocations.COMMAND);
+            expect(inBinding).toEqual(outBinding);
         });
         test('no label nor location', () => {
-            const inBindings: AppBinding[] = [
-                {
-                    app_id: 'app',
-                    location: 'loc1',
-                    label: 'loc1',
-                    bindings: [
-                        {
-                            app_id: 'app',
-                            location: 'loc11',
-                            label: 'loc11',
+            const inBinding: AppBinding = {
+                location: '/command',
+                bindings: [
+                    {
+                        app_id: 'app',
+                        location: 'loc1',
+                        label: 'loc1',
+                        bindings: [
+                            {
+                                app_id: 'app',
+                                location: 'loc11',
+                                label: 'loc11',
+                                call: {
+                                    path: '/path',
+                                },
+                            },
+                            {
+                                app_id: 'app',
+                                call: {
+                                    path: '/path',
+                                },
+                            } as AppBinding,
+                        ],
+                    },
+                    {
+                        app_id: 'app',
+                        location: 'loc2',
+                        label: 'loc2',
+                        call: {
+                            path: '/path',
                         },
-                        {
-                            app_id: 'app',
-                        } as AppBinding,
-                    ],
-                },
-                {
-                    app_id: 'app',
-                    location: 'loc2',
-                    label: 'loc2',
-                },
-            ];
-            const outBindings: AppBinding[] = [
-                {
-                    app_id: 'app',
-                    location: 'loc1',
-                    label: 'loc1',
-                    bindings: [
-                        {
-                            app_id: 'app',
-                            location: 'loc11',
-                            label: 'loc11',
+                    },
+                ],
+            } as AppBinding;
+            const outBinding: AppBinding = {
+                location: '/command',
+                bindings: [
+                    {
+                        app_id: 'app',
+                        location: '/command/loc1',
+                        label: 'loc1',
+                        bindings: [
+                            {
+                                app_id: 'app',
+                                location: '/command/loc1/loc11',
+                                label: 'loc11',
+                                call: {
+                                    path: '/path',
+                                },
+                            },
+                        ],
+                    },
+                    {
+                        app_id: 'app',
+                        location: '/command/loc2',
+                        label: 'loc2',
+                        call: {
+                            path: '/path',
                         },
-                    ],
-                },
-                {
-                    app_id: 'app',
-                    location: 'loc2',
-                    label: 'loc2',
-                },
-            ];
+                    },
+                ],
+            } as AppBinding;
 
-            cleanCommands(inBindings);
-            expect(inBindings).toEqual(outBindings);
+            cleanBinding(inBinding, AppBindingLocations.COMMAND);
+            expect(inBinding).toEqual(outBinding);
         });
         test('no multiword infered from location', () => {
-            const inBindings: AppBinding[] = [
-                {
-                    app_id: 'app',
-                    location: 'loc1',
-                    label: 'loc1',
-                    bindings: [
-                        {
-                            app_id: 'app',
-                            location: 'loc11',
-                            label: 'loc11',
+            const inBinding: AppBinding = {
+                location: '/command',
+                bindings: [
+                    {
+                        app_id: 'app',
+                        location: 'loc1',
+                        label: 'loc1',
+                        bindings: [
+                            {
+                                app_id: 'app',
+                                location: 'loc11',
+                                label: 'loc11',
+                                call: {
+                                    path: '/path',
+                                },
+                            },
+                            {
+                                app_id: 'app',
+                                location: 'loc1 2',
+                                call: {
+                                    path: '/path',
+                                },
+                            } as AppBinding,
+                        ],
+                    },
+                    {
+                        app_id: 'app',
+                        location: 'loc2',
+                        label: 'loc2',
+                        call: {
+                            path: '/path',
                         },
-                        {
-                            app_id: 'app',
-                            location: 'loc1 2',
-                        } as AppBinding,
-                    ],
-                },
-                {
-                    app_id: 'app',
-                    location: 'loc2',
-                    label: 'loc2',
-                },
-            ];
-            const outBindings: AppBinding[] = [
-                {
-                    app_id: 'app',
-                    location: 'loc1',
-                    label: 'loc1',
-                    bindings: [
-                        {
-                            app_id: 'app',
-                            location: 'loc11',
-                            label: 'loc11',
+                    },
+                ],
+            } as AppBinding;
+            const outBinding: AppBinding = {
+                location: '/command',
+                bindings: [
+                    {
+                        app_id: 'app',
+                        location: '/command/loc1',
+                        label: 'loc1',
+                        bindings: [
+                            {
+                                app_id: 'app',
+                                location: '/command/loc1/loc11',
+                                label: 'loc11',
+                                call: {
+                                    path: '/path',
+                                },
+                            },
+                        ],
+                    },
+                    {
+                        app_id: 'app',
+                        location: '/command/loc2',
+                        label: 'loc2',
+                        call: {
+                            path: '/path',
                         },
-                    ],
-                },
-                {
-                    app_id: 'app',
-                    location: 'loc2',
-                    label: 'loc2',
-                },
-            ];
+                    },
+                ],
+            } as AppBinding;
 
-            cleanCommands(inBindings);
-            expect(inBindings).toEqual(outBindings);
+            cleanBinding(inBinding, AppBindingLocations.COMMAND);
+            expect(inBinding).toEqual(outBinding);
         });
         test('no multiword on label', () => {
-            const inBindings: AppBinding[] = [
-                {
-                    app_id: 'app',
-                    location: 'loc1',
-                    label: 'loc1',
-                    bindings: [
-                        {
-                            app_id: 'app',
-                            location: 'loc11',
-                            label: 'loc11',
+            const inBinding: AppBinding = {
+                location: '/command',
+                bindings: [
+                    {
+                        app_id: 'app',
+                        location: 'loc1',
+                        label: 'loc1',
+                        bindings: [
+                            {
+                                app_id: 'app',
+                                location: 'loc11',
+                                label: 'loc11',
+                                call: {
+                                    path: '/path',
+                                },
+                            },
+                            {
+                                app_id: 'app',
+                                location: 'loc12',
+                                label: 'loc1 2',
+                                call: {
+                                    path: '/path',
+                                },
+                            },
+                        ],
+                    },
+                    {
+                        app_id: 'app',
+                        location: 'loc2',
+                        label: 'loc2',
+                        call: {
+                            path: '/path',
                         },
-                        {
-                            app_id: 'app',
-                            location: 'loc12',
-                            label: 'loc1 2',
+                    },
+                ],
+            } as AppBinding;
+            const outBinding: AppBinding = {
+                location: '/command',
+                bindings: [
+                    {
+                        app_id: 'app',
+                        location: '/command/loc1',
+                        label: 'loc1',
+                        bindings: [
+                            {
+                                app_id: 'app',
+                                location: '/command/loc1/loc11',
+                                label: 'loc11',
+                                call: {
+                                    path: '/path',
+                                },
+                            },
+                        ],
+                    },
+                    {
+                        app_id: 'app',
+                        location: '/command/loc2',
+                        label: 'loc2',
+                        call: {
+                            path: '/path',
                         },
-                    ],
-                },
-                {
-                    app_id: 'app',
-                    location: 'loc2',
-                    label: 'loc2',
-                },
-            ];
-            const outBindings: AppBinding[] = [
-                {
-                    app_id: 'app',
-                    location: 'loc1',
-                    label: 'loc1',
-                    bindings: [
-                        {
-                            app_id: 'app',
-                            location: 'loc11',
-                            label: 'loc11',
-                        },
-                    ],
-                },
-                {
-                    app_id: 'app',
-                    location: 'loc2',
-                    label: 'loc2',
-                },
-            ];
+                    },
+                ],
+            } as AppBinding;
 
-            cleanCommands(inBindings);
-            expect(inBindings).toEqual(outBindings);
+            cleanBinding(inBinding, AppBindingLocations.COMMAND);
+            expect(inBinding).toEqual(outBinding);
         });
         test('filter repeated label', () => {
-            const inBindings: AppBinding[] = [
-                {
-                    app_id: 'app',
-                    location: 'loc1',
-                    label: 'loc1',
-                    bindings: [
-                        {
-                            app_id: 'app',
-                            location: 'same',
-                            description: 'loc11',
-                        } as AppBinding,
-                        {
-                            app_id: 'app',
-                            location: 'same',
-                            description: 'loc12',
-                        } as AppBinding,
-                    ],
-                },
-                {
-                    app_id: 'app',
-                    location: 'loc2',
-                    label: 'loc2',
-                },
-            ];
-            const outBindings: AppBinding[] = [
-                {
-                    app_id: 'app',
-                    location: 'loc1',
-                    label: 'loc1',
-                    bindings: [
-                        {
-                            app_id: 'app',
-                            location: 'same',
-                            description: 'loc11',
-                        } as AppBinding,
-                    ],
-                },
-                {
-                    app_id: 'app',
-                    location: 'loc2',
-                    label: 'loc2',
-                },
-            ];
+            const inBinding: AppBinding = {
+                location: '/command',
+                bindings: [
+                    {
+                        app_id: 'app',
+                        location: 'loc1',
+                        label: 'loc1',
+                        bindings: [
+                            {
+                                app_id: 'app',
+                                location: 'same',
+                                description: 'loc11',
+                                call: {
+                                    path: '/path',
+                                },
+                            } as AppBinding,
+                            {
+                                app_id: 'app',
+                                location: 'same',
+                                description: 'loc12',
+                                call: {
+                                    path: '/path',
+                                },
+                            } as AppBinding,
+                        ],
+                    },
+                    {
+                        app_id: 'app',
+                        location: 'loc2',
+                        label: 'loc2',
+                        call: {
+                            path: '/path',
+                        },
+                    },
+                ],
+            } as AppBinding;
+            const outBinding: AppBinding = {
+                location: '/command',
+                bindings: [
+                    {
+                        app_id: 'app',
+                        location: '/command/loc1',
+                        label: 'loc1',
+                        bindings: [
+                            {
+                                app_id: 'app',
+                                location: '/command/loc1/same',
+                                label: 'same',
+                                description: 'loc11',
+                                call: {
+                                    path: '/path',
+                                },
+                            } as AppBinding,
+                        ],
+                    },
+                    {
+                        app_id: 'app',
+                        location: '/command/loc2',
+                        label: 'loc2',
+                        call: {
+                            path: '/path',
+                        },
+                    },
+                ],
+            } as AppBinding;
 
-            cleanCommands(inBindings);
-            expect(inBindings).toEqual(outBindings);
+            cleanBinding(inBinding, AppBindingLocations.COMMAND);
+            expect(inBinding).toEqual(outBinding);
         });
         test('filter with same label', () => {
-            const inBindings: AppBinding[] = [
-                {
-                    app_id: 'app',
-                    location: 'loc1',
-                    label: 'loc1',
-                    bindings: [
-                        {
-                            app_id: 'app',
-                            location: 'loc11',
-                            label: 'same',
+            const inBinding: AppBinding = {
+                location: '/command',
+                bindings: [
+                    {
+                        app_id: 'app',
+                        location: 'loc1',
+                        label: 'loc1',
+                        bindings: [
+                            {
+                                app_id: 'app',
+                                location: 'loc11',
+                                label: 'same',
+                                call: {
+                                    path: '/path',
+                                },
+                            },
+                            {
+                                app_id: 'app',
+                                location: 'loc12',
+                                label: 'same',
+                                call: {
+                                    path: '/path',
+                                },
+                            },
+                        ],
+                    },
+                    {
+                        app_id: 'app',
+                        location: 'loc2',
+                        label: 'loc2',
+                        call: {
+                            path: '/path',
                         },
-                        {
-                            app_id: 'app',
-                            location: 'loc12',
-                            label: 'same',
+                    },
+                ],
+            } as AppBinding;
+            const outBinding: AppBinding = {
+                location: '/command',
+                bindings: [
+                    {
+                        app_id: 'app',
+                        location: '/command/loc1',
+                        label: 'loc1',
+                        bindings: [
+                            {
+                                app_id: 'app',
+                                location: '/command/loc1/loc11',
+                                label: 'same',
+                                call: {
+                                    path: '/path',
+                                },
+                            },
+                        ],
+                    },
+                    {
+                        app_id: 'app',
+                        location: '/command/loc2',
+                        label: 'loc2',
+                        call: {
+                            path: '/path',
                         },
-                    ],
-                },
-                {
-                    app_id: 'app',
-                    location: 'loc2',
-                    label: 'loc2',
-                },
-            ];
-            const outBindings: AppBinding[] = [
-                {
-                    app_id: 'app',
-                    location: 'loc1',
-                    label: 'loc1',
-                    bindings: [
-                        {
-                            app_id: 'app',
-                            location: 'loc11',
-                            label: 'same',
-                        },
-                    ],
-                },
-                {
-                    app_id: 'app',
-                    location: 'loc2',
-                    label: 'loc2',
-                },
-            ];
+                    },
+                ],
+            } as AppBinding;
 
-            cleanCommands(inBindings);
-            expect(inBindings).toEqual(outBindings);
+            cleanBinding(inBinding, AppBindingLocations.COMMAND);
+            expect(inBinding).toEqual(outBinding);
         });
         test('non-leaf command removed when it has no subcommands', () => {
-            const inBindings: AppBinding[] = [
-                {
-                    app_id: 'app',
-                    location: 'loc1',
-                    label: 'loc1',
-                    bindings: [
-                        {
-                            app_id: 'app',
-                            location: 'loc11',
-                            label: 'loc 1 1',
+            const inBinding: AppBinding = {
+                location: '/command',
+                bindings: [
+                    {
+                        app_id: 'app',
+                        location: 'loc1',
+                        label: 'loc1',
+                        bindings: [
+                            {
+                                app_id: 'app',
+                                location: 'loc11',
+                                label: 'loc 1 1',
+                                call: {
+                                    path: '/path',
+                                },
+                            },
+                        ],
+                    },
+                    {
+                        app_id: 'app',
+                        location: 'loc2',
+                        label: 'loc2',
+                        call: {
+                            path: '/path',
                         },
-                    ],
-                },
-                {
-                    app_id: 'app',
-                    location: 'loc2',
-                    label: 'loc2',
-                },
-            ];
-            const outBindings: AppBinding[] = [
-                {
-                    app_id: 'app',
-                    location: 'loc2',
-                    label: 'loc2',
-                },
-            ];
+                    },
+                ],
+            } as AppBinding;
+            const outBinding: AppBinding = {
+                location: '/command',
+                bindings: [
+                    {
+                        app_id: 'app',
+                        location: '/command/loc2',
+                        label: 'loc2',
+                        call: {
+                            path: '/path',
+                        },
+                    },
+                ],
+            } as AppBinding;
 
-            cleanCommands(inBindings);
-            expect(inBindings).toEqual(outBindings);
+            cleanBinding(inBinding, AppBindingLocations.COMMAND);
+            expect(inBinding).toEqual(outBinding);
         });
     });
 });
