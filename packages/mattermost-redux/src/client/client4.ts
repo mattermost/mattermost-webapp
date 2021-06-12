@@ -1001,8 +1001,8 @@ export default class Client4 {
 
     removeRecentCustomStatus = (customStatus: UserCustomStatus) => {
         return this.doFetch(
-            `${this.getUserRoute('me')}/status/custom/recent`,
-            {method: 'delete', body: JSON.stringify(customStatus)},
+            `${this.getUserRoute('me')}/status/custom/recent/delete`,
+            {method: 'post', body: JSON.stringify(customStatus)},
         );
     }
 
@@ -1749,7 +1749,7 @@ export default class Client4 {
     };
 
     viewMyChannel = (channelId: string, prevChannelId?: string) => {
-        const data = {channel_id: channelId, prev_channel_id: prevChannelId};
+        const data = {channel_id: channelId, prev_channel_id: prevChannelId, collapsed_threads_supported: true};
         return this.doFetch<ChannelViewResponse>(
             `${this.getChannelsRoute()}/members/me/view`,
             {method: 'post', body: JSON.stringify(data)},
@@ -2045,7 +2045,7 @@ export default class Client4 {
 
         return this.doFetch<ChannelUnread>(
             `${this.getUserRoute(userId)}/posts/${postId}/set_unread`,
-            {method: 'post'},
+            {method: 'post', body: JSON.stringify({collapsed_threads_supported: true})},
         );
     }
 
@@ -2725,9 +2725,9 @@ export default class Client4 {
         );
     }
 
-    getDataRetentionCustomPolicyTeams = (id: string, page = 0, perPage = PER_PAGE_DEFAULT, includeTotalCount = false) => {
+    getDataRetentionCustomPolicyTeams = (id: string, page = 0, perPage = PER_PAGE_DEFAULT) => {
         return this.doFetch<Team[]>(
-            `${this.getDataRetentionRoute()}/policies/${id}/teams${buildQueryString({page, per_page: perPage, include_total_count: includeTotalCount})}`,
+            `${this.getDataRetentionRoute()}/policies/${id}/teams${buildQueryString({page, per_page: perPage})}`,
             {method: 'get'},
         );
     };
@@ -3630,6 +3630,13 @@ export default class Client4 {
         return this.doFetch(
             `${this.getCloudRoute()}/payment/confirm`,
             {method: 'post', body: JSON.stringify({stripe_setup_intent_id: stripeSetupIntentID})},
+        );
+    }
+
+    subscribeCloudProduct = (productId: string) => {
+        return this.doFetch<CloudCustomer>(
+            `${this.getCloudRoute()}/cloud/subscription`,
+            {method: 'put', body: JSON.stringify({product_id: productId})},
         );
     }
 

@@ -57,6 +57,7 @@ class RhsComment extends React.PureComponent {
         isConsecutivePost: PropTypes.bool,
         handleCardClick: PropTypes.func,
         a11yIndex: PropTypes.number,
+        containerHeight: PropTypes.number,
 
         /**
          * If the user that made the post is a bot.
@@ -83,6 +84,12 @@ class RhsComment extends React.PureComponent {
         }),
         emojiMap: PropTypes.object.isRequired,
         timestampProps: PropTypes.object,
+        collapsedThreadsEnabled: PropTypes.bool,
+
+        /**
+         * To Check if the current post is to be highlighted and scrolled into center view of RHS
+         */
+        isFocused: PropTypes.bool,
     };
 
     constructor(props) {
@@ -110,6 +117,9 @@ class RhsComment extends React.PureComponent {
         if (this.postRef.current) {
             this.postRef.current.addEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
             this.postRef.current.addEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
+            if (this.props.isFocused) {
+                this.scrollIntoHighlight();
+            }
         }
     }
 
@@ -124,7 +134,7 @@ class RhsComment extends React.PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        const {shortcutReactToLastPostEmittedFrom, isLastPost} = this.props;
+        const {shortcutReactToLastPostEmittedFrom, isLastPost, isFocused} = this.props;
 
         if (this.state.a11yActive) {
             this.postRef.current.dispatchEvent(new Event(A11yCustomEventTypes.UPDATE));
@@ -141,6 +151,29 @@ class RhsComment extends React.PureComponent {
             // ensure deleted message content does not remain in stale aria-label
             this.updateAriaLabel();
         }
+
+        if (isFocused && !prevProps.isFocused) {
+            this.scrollIntoHighlight();
+        }
+    }
+
+    scrollIntoHighlight = () => {
+        window.requestAnimationFrame(() => {
+            if (!this.isInViewport()) {
+                this.postRef.current.scrollIntoView();
+            }
+        });
+    }
+
+    isInViewport = () => {
+        const rect = this.postRef.current.getBoundingClientRect();
+        const {containerHeight} = this.props;
+        const height = window.innerHeight || document.documentElement.clientHeight;
+
+        return (
+            rect.top > height - containerHeight &&
+            rect.bottom < (window.innerHeight || document.documentElement.clientHeight)
+        );
     }
 
     handleShortcutReactToLastPost = (isLastPost) => {
@@ -214,6 +247,10 @@ class RhsComment extends React.PureComponent {
 
     getClassName = (post, isSystemMessage, isMeMessage) => {
         let className = 'post post--thread same--root post--comment';
+
+        if (this.props.isFocused) {
+            className += ' post--highlight';
+        }
 
         if (this.props.currentUserId === post.user_id) {
             className += ' current--user';
@@ -294,7 +331,7 @@ class RhsComment extends React.PureComponent {
     }
 
     render() {
-        const {post, isConsecutivePost, isReadOnly, channelIsArchived} = this.props;
+        const {post, isConsecutivePost, isReadOnly, channelIsArchived, collapsedThreadsEnabled} = this.props;
 
         const isPostDeleted = post && post.state === Posts.POST_DELETED;
         const isEphemeral = isPostEphemeral(post);
@@ -503,9 +540,10 @@ class RhsComment extends React.PureComponent {
                     ref={this.dotMenuRef}
                     className='col post-menu'
                 >
-                    {dotMenu}
+                    {!collapsedThreadsEnabled && dotMenu}
                     {postReaction}
                     {flagIcon}
+                    {collapsedThreadsEnabled && dotMenu}
                 </div>
             );
         }
@@ -549,10 +587,9 @@ class RhsComment extends React.PureComponent {
                 <CustomStatusEmoji
                     userID={post.user_id}
                     showTooltip={true}
-                    emojiSize={14}
                     emojiStyle={{
                         marginLeft: 4,
-                        marginTop: 1,
+                        marginTop: 2,
                     }}
                 />
             );
