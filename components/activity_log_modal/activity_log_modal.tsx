@@ -7,14 +7,13 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {Session} from 'mattermost-redux/types/sessions';
-import { ActionFunc } from 'mattermost-redux/types/actions';
+import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import ActivityLog from 'components/activity_log_modal/components/activity_log';
-import { StatusOK } from 'mattermost-redux/types/client4';
 
-type Props = {
+export type Props = {
 
-/**
+    /**
  * The current user id
  */
     currentUserId: string;
@@ -35,20 +34,21 @@ type Props = {
     onHide: () => void;
 
     actions: {
+
         /**
          * Function to refresh sessions from server
          */
         getSessions: (userId: string) => ActionFunc;
-        
+
         /**
          * Function to revoke a particular session
          */
-        revokeSession: (userId: string, sessionId: string) => () => Promise<StatusOK>;
+        revokeSession: (userId: string, sessionId: string) => Promise<{ data: boolean }>;
     };
 }
 
 type State ={
-    show: boolean
+    show: boolean;
 }
 
 export default class ActivityLogModal extends React.PureComponent<Props, State> {
@@ -64,10 +64,9 @@ export default class ActivityLogModal extends React.PureComponent<Props, State> 
         };
     }
 
-    
     submitRevoke = (altId: string, e: React.MouseEvent) => {
         e.preventDefault();
-        var modalContent = $(e.target).closest('.modal-content'); // eslint-disable-line jquery/no-closest
+        const modalContent = $(e.target).closest('.modal-content'); // eslint-disable-line jquery/no-closest
         modalContent.addClass('animation--highlight');
         setTimeout(() => {
             modalContent.removeClass('animation--highlight');
@@ -90,7 +89,6 @@ export default class ActivityLogModal extends React.PureComponent<Props, State> 
     }
 
     render() {
-        
         const activityList = this.props.sessions.reduce((array: JSX.Element[], currentSession, index) => {
             if (currentSession.props.type === 'UserAccessToken') {
                 return array;
