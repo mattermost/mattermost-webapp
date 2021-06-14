@@ -38,13 +38,14 @@ class EmojiPickerItem extends React.Component {
     };
 
     emojiName = () => {
+        const name = 'short_name' in this.props.emoji ? this.props.emoji.short_name : this.props.emoji.name;
         const {formatMessage} = this.props.intl;
         return formatMessage({
             id: 'emoji_picker_item.emoji_aria_label',
             defaultMessage: '{emojiName} emoji',
         },
         {
-            emojiName: this.props.emoji.short_names[0].replace(/_/g, ' '),
+            emojiName: name.replace(/_/g, ' '),
         });
     }
 
@@ -82,11 +83,11 @@ class EmojiPickerItem extends React.Component {
         }
 
         let spriteClassName = 'emojisprite';
-        spriteClassName += ' emoji-category-' + emoji.category + '-' + emoji.batch;
+        spriteClassName += ' emoji-category-' + emoji.category;
         spriteClassName += ' emoji-' + emoji.image;
 
         let image;
-        if (emoji.category && emoji.batch) {
+        if (emoji.category && emoji.category !== 'custom') {
             image = (
                 <img
                     alt={'emoji image'}

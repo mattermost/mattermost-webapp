@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable max-lines */
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -552,8 +553,8 @@ export default class EmojiPicker extends React.PureComponent {
         if (!emoji) {
             return '';
         }
-
-        return emoji.short_names[0].replace(/_/g, ' ');
+        const name = 'short_name' in emoji ? emoji.short_name : emoji.name;
+        return name.replace(/_/g, ' ');
     }
 
     getCurrentEmojiCategoryName() {
@@ -713,6 +714,7 @@ export default class EmojiPicker extends React.PureComponent {
             }
             return (
                 <EmojiPickerItem
+                    // eslint-disable-next-line react/no-array-index-key
                     key={emoji.image + ':' + emojiIndex}
                     emoji={emoji}
                     onItemOver={this.handleItemOver}
@@ -770,3 +772,5 @@ export default class EmojiPicker extends React.PureComponent {
         );
     }
 }
+
+/* eslint-enable max-lines */
