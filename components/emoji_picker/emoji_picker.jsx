@@ -507,8 +507,9 @@ export default class EmojiPicker extends React.PureComponent {
 
         Object.values(emojis).forEach((emoji) => {
             let emojiArray = emojisMinusRecent;
-            for (let i = 0; i < emoji.short_names.length; i++) {
-                if (recentEmojisProps.includes(emoji.short_names[i].toLowerCase())) {
+            const alias = 'short_names' in emoji ? emoji.short_names : [emoji.name];
+            for (let i = 0; i < alias.length; i++) {
+                if (recentEmojisProps.includes(alias[i].toLowerCase())) {
                     emojiArray = recentEmojis;
                 }
             }
@@ -533,8 +534,9 @@ export default class EmojiPicker extends React.PureComponent {
     getEmojisByCategory(category) {
         if (this.props.filter) {
             const emojis = Object.values(this.state.allEmojis).filter((emoji) => {
-                for (let i = 0; i < emoji.short_names.length; i++) {
-                    if (emoji.short_names[i].toLowerCase().includes(this.props.filter)) {
+                const alias = 'short_names' in emoji ? emoji.short_names : [emoji.name];
+                for (let i = 0; i < alias.length; i++) {
+                    if (alias[i].toLowerCase().includes(this.props.filter)) {
                         return true;
                     }
                 }
