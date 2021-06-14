@@ -60,10 +60,12 @@ describe('components/threading/ThreadViewer', () => {
         isCollapsedThreadsEnabled: false,
     };
 
-    test('should match snapshot', () => {
+    test('should match snapshot', async () => {
         const wrapper = shallow(
             <ThreadViewer {...baseProps}/>,
         );
+
+        await new Promise((resolve) => setTimeout(resolve));
         expect(wrapper).toMatchSnapshot();
     });
 
