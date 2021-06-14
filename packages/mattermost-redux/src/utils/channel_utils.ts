@@ -246,12 +246,24 @@ export function isGroupOrDirectChannelVisible(
     currentUserId: string,
     users: IDMappedObjects<UserProfile>,
     lastPosts: RelationOneToOne<Channel, Post>,
+    collapsedThreads: boolean,
     currentChannelId?: string,
     now?: number,
 ): boolean {
     const lastPost = lastPosts[channel.id];
+    const unreadChannel = isUnreadChannel(memberships, channel, collapsedThreads);
 
-    if (isGroupChannel(channel) && isGroupChannelVisible(config, myPreferences, channel, lastPost, isUnreadChannel(memberships, channel), now)) {
+    if (
+        isGroupChannel(channel) &&
+        isGroupChannelVisible(
+            config,
+            myPreferences,
+            channel,
+            lastPost,
+            unreadChannel,
+            now,
+        )
+    ) {
         return true;
     }
 
@@ -267,7 +279,7 @@ export function isGroupOrDirectChannelVisible(
         myPreferences,
         channel,
         lastPost,
-        isUnreadChannel(memberships, channel),
+        unreadChannel,
         currentChannelId,
         now,
     );
@@ -514,12 +526,15 @@ function newCompleteDirectGroupInfo(currentUserId: string, profiles: IDMappedObj
     return channel;
 }
 
-export function isUnreadChannel(members: RelationOneToOne<Channel, ChannelMembership>, channel: Channel): boolean {
+export function isUnreadChannel(members: RelationOneToOne<Channel, ChannelMembership>, channel: Channel, collapsedThreads: boolean): boolean {
     const member = members[channel.id];
     if (member) {
-        const msgCount = channel.total_msg_count - member.msg_count;
+        const unreadMessageCount = getMsgCountInChannel(collapsedThreads, channel, member);
         const onlyMentions = member.notify_props && member.notify_props.mark_unread === MarkUnread.MENTION;
-        return (member.mention_count > 0 || (Boolean(msgCount) && !onlyMentions));
+        return (
+            (collapsedThreads ? member.mention_count_root : member.mention_count) > 0 ||
+            (Boolean(unreadMessageCount) && !onlyMentions)
+        );
     }
 
     return false;

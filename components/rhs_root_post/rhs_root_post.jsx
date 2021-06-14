@@ -70,6 +70,8 @@ class RhsRootPost extends React.PureComponent {
         }),
         emojiMap: PropTypes.object.isRequired,
         timestampProps: PropTypes.object,
+        isBot: PropTypes.bool,
+        collapsedThreadsEnabled: PropTypes.bool,
     };
 
     static defaultProps = {
@@ -236,7 +238,7 @@ class RhsRootPost extends React.PureComponent {
     };
 
     render() {
-        const {post, isReadOnly, teamId, channelIsArchived} = this.props;
+        const {post, isReadOnly, teamId, channelIsArchived, collapsedThreadsEnabled, isBot} = this.props;
 
         const isPostDeleted = post && post.state === Posts.POST_DELETED;
         const isEphemeral = Utils.isPostEphemeral(post);
@@ -357,9 +359,10 @@ class RhsRootPost extends React.PureComponent {
                     ref={this.dotMenuRef}
                     className='col post-menu'
                 >
-                    {dotMenu}
+                    {!collapsedThreadsEnabled && dotMenu}
                     {postReaction}
                     {postFlagIcon}
+                    {collapsedThreadsEnabled && dotMenu}
                 </div>
             );
         }
@@ -396,15 +399,14 @@ class RhsRootPost extends React.PureComponent {
         }
 
         let customStatus;
-        if (!isSystemMessage) {
+        if (!(isSystemMessage || post?.props?.from_webhook || isBot)) {
             customStatus = (
                 <CustomStatusEmoji
                     userID={post.user_id}
                     showTooltip={true}
-                    emojiSize={14}
                     emojiStyle={{
                         marginLeft: 4,
-                        marginTop: 1,
+                        marginTop: 2,
                     }}
                 />
             );

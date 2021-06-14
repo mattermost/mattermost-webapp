@@ -1,14 +1,16 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable max-lines */
 
 import assert from 'assert';
 
 import {createIntl} from 'react-intl';
 
-import {Posts} from 'mattermost-redux/constants';
+import {Posts, Preferences} from 'mattermost-redux/constants';
 
 import * as PostUtils from 'utils/post_utils.jsx';
-import {PostListRowListIds} from 'utils/constants';
+import {PostListRowListIds, Constants} from 'utils/constants';
+import {TestHelper} from 'utils/test_helper';
 import EmojiMap from 'utils/emoji_map';
 
 const enMessages = require('../i18n/en');
@@ -859,5 +861,101 @@ describe('makeGetReplyCount', () => {
         const post = state.entities.posts.posts.post1;
 
         expect(getReplyCount(state, post)).toBe(1);
+    });
+});
+
+describe('PostUtils.getPostURL', () => {
+    const currentTeam = TestHelper.getTeamMock({id: 'current_team_id', name: 'current_team_name'});
+    const team = TestHelper.getTeamMock({id: 'team_id_1', name: 'team_1'});
+
+    const dmChannel = TestHelper.getChannelMock({id: 'dm_channel_id', name: 'current_user_id__user_id_1', type: Constants.DM_CHANNEL, team_id: ''});
+    const gmChannel = TestHelper.getChannelMock({id: 'gm_channel_id', name: 'gm_channel_name', type: Constants.GM_CHANNEL, team_id: ''});
+    const channel = TestHelper.getChannelMock({id: 'channel_id', name: 'channel_name', team_id: team.id});
+
+    const dmPost = TestHelper.getPostMock({id: 'dm_post_id', channel_id: dmChannel.id});
+    const gmPost = TestHelper.getPostMock({id: 'gm_post_id', channel_id: gmChannel.id});
+    const post = TestHelper.getPostMock({id: 'post_id', channel_id: channel.id});
+    const dmReply = TestHelper.getPostMock({id: 'dm_reply_id', root_id: 'root_post_id_1', channel_id: dmChannel.id});
+    const gmReply = TestHelper.getPostMock({id: 'gm_reply_id', root_id: 'root_post_id_1', channel_id: gmChannel.id});
+    const reply = TestHelper.getPostMock({id: 'reply_id', root_id: 'root_post_id_1', channel_id: channel.id});
+
+    const getState = (collapsedThreads) => ({
+        entities: {
+            general: {
+                config: {
+                    FeatureFlagCollapsedThreads: 'true',
+                    CollapsedThreads: 'default_off',
+                },
+            },
+            preferences: {
+                myPreferences: {
+                    [`${Preferences.CATEGORY_DISPLAY_SETTINGS}--${Preferences.COLLAPSED_REPLY_THREADS}`]: {
+                        value: collapsedThreads ? 'on' : 'off',
+                    },
+                },
+            },
+            users: {
+                currentUserId: 'current_user_id',
+                profiles: {
+                    user_id_1: {
+                        id: 'user_id_1',
+                        username: 'jessicahyde',
+                    },
+                    current_user_id: {
+                        id: 'current_user_id',
+                        username: 'currentuser',
+                    },
+                },
+            },
+            channels: {
+                channels: {
+                    gm_channel_id: gmChannel,
+                    dm_channel_id: dmChannel,
+                    channel_id: channel,
+                },
+                myMembers: {channelid1: {channel_id: 'channelid1', user_id: 'current_user_id'}},
+            },
+            teams: {
+                currentTeamId: currentTeam.id,
+                teams: {
+                    current_team_id: currentTeam,
+                    team_id_1: team,
+                },
+            },
+            posts: {
+                dm_post_id: dmPost,
+                gm_post_id: gmPost,
+                post_id: post,
+                dm_reply_id: dmReply,
+                gm_reply_id: gmReply,
+                reply_id: reply,
+            },
+        },
+    });
+
+    test.each([
+        ['/current_team_name/messages/@jessicahyde/dm_post_id', dmPost, true],
+        ['/current_team_name/messages/gm_channel_name/gm_post_id', gmPost, true],
+        ['/team_1/channels/channel_name/post_id', post, true],
+
+        ['/current_team_name/messages/@jessicahyde/dm_post_id', dmPost, false],
+        ['/current_team_name/messages/gm_channel_name/gm_post_id', gmPost, false],
+        ['/team_1/channels/channel_name/post_id', post, false],
+    ])('root posts should return %s', (expected, postCase, collapsedThreads) => {
+        const state = getState(collapsedThreads);
+        expect(PostUtils.getPostURL(state, postCase)).toBe(expected);
+    });
+
+    test.each([
+        ['/current_team_name/messages/@jessicahyde', dmReply, true],
+        ['/current_team_name/messages/gm_channel_name', gmReply, true],
+        ['/team_1/channels/channel_name', reply, true],
+
+        ['/current_team_name/messages/@jessicahyde/dm_reply_id', dmReply, false],
+        ['/current_team_name/messages/gm_channel_name/gm_reply_id', gmReply, false],
+        ['/team_1/channels/channel_name/reply_id', reply, false],
+    ])('replies should return %s', (expected, postCase, collapsedThreads) => {
+        const state = getState(collapsedThreads);
+        expect(PostUtils.getPostURL(state, postCase)).toBe(expected);
     });
 });

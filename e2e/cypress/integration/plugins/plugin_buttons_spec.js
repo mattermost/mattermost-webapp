@@ -7,12 +7,13 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @plugin @not_cloud
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 import {demoPlugin, testPlugin} from '../../utils/plugins';
 
-describe('collapse on 5 plugin buttons', () => {
+describe('collapse on 15 plugin buttons', () => {
     let testTeam;
 
     before(() => {
@@ -41,11 +42,11 @@ describe('collapse on 5 plugin buttons', () => {
         });
     });
 
-    it('MM-T1649 Greater than 5 plugin buttons collapse to one icon in top nav', () => {
+    it('MM-T1649 Greater than 15 plugin buttons collapse to one icon in top nav', () => {
         // # Go to town square
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
-        // # Upload and enable test plugin with 5 channel header icons
+        // # Upload and enable test plugin with 15 channel header icons
         cy.apiUploadAndEnablePlugin(testPlugin).then(() => {
             cy.wait(TIMEOUTS.TWO_SEC);
 
@@ -55,11 +56,25 @@ describe('collapse on 5 plugin buttons', () => {
                 cy.apiUploadAndEnablePlugin(demoPlugin).then(() => {
                     cy.wait(TIMEOUTS.TWO_SEC);
 
-                    // * Validate that channel header icons collapsed and number is reduced by 4
-                    cy.get('.channel-header__icon').should('have.length', icons - 4);
+                    const maxPluginHeaderCount = 15;
 
-                    // * Validate that plugin count is the same
-                    cy.get('#pluginCount').should('have.text', icons - 4);
+                    // * Validate that channel header icons collapsed and number is reduced by 14
+                    cy.get('.channel-header__icon').should('have.length', icons - (maxPluginHeaderCount - 1));
+
+                    // * Validate that plugin count is 16 (15 from test plugin and 1 from demo plugin)
+                    cy.get('#pluginCount').should('have.text', maxPluginHeaderCount + 1);
+
+                    // # click plugin channel header
+                    cy.get('#pluginChannelHeaderButtonDropdown').click();
+
+                    // * Verify dropdown menu exists
+                    cy.get('ul.dropdown-menu.channel-header_plugin-dropdown').should('exist');
+
+                    // * Verify the plugin icons expand out to show individually rather than being collapsed behind one icon
+                    cy.apiDisablePluginById(demoPlugin.id).then(() => {
+                        cy.wait(TIMEOUTS.TWO_SEC);
+                        cy.get('.channel-header__icon').should('have.length', icons);
+                    });
                 });
             });
         });

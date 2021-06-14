@@ -102,7 +102,7 @@ async function createTestCycle(startDate, endDate) {
         folderId: TM4J_FOLDER_ID,
     };
 
-    const response = await saveToEndpoint('https://api.adaptavist.io/tm4j/v2/testcycles', testCycle);
+    const response = await saveToEndpoint('https://api.zephyrscale.smartbear.com/v2/testcycles', testCycle);
     return response.data;
 }
 
@@ -169,7 +169,7 @@ const RETRY = [];
 async function saveTestExecution(testExecution, index) {
     await axios({
         method: 'POST',
-        url: 'https://api.adaptavist.io/tm4j/v2/testexecutions',
+        url: 'https://api.zephyrscale.smartbear.com/v2/testexecutions',
         headers: {
             'Content-Type': 'application/json; charset=utf-8',
             Authorization: process.env.TM4J_API_KEY,

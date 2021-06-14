@@ -88,6 +88,8 @@ export const Preferences = {
     LINK_PREVIEW_DISPLAY_DEFAULT: 'true',
     COLLAPSE_DISPLAY: 'collapse_previews',
     COLLAPSE_DISPLAY_DEFAULT: 'false',
+    AVAILABILITY_STATUS_ON_POSTS: 'availability_status_on_posts',
+    AVAILABILITY_STATUS_ON_POSTS_DEFAULT: 'true',
     USE_MILITARY_TIME: 'use_military_time',
     USE_MILITARY_TIME_DEFAULT: 'false',
     CATEGORY_THEME: 'theme',
@@ -111,6 +113,8 @@ export const Preferences = {
 export const ActionTypes = keyMirror({
     RECEIVED_FOCUSED_POST: null,
     SELECT_POST: null,
+    HIGHLIGHT_REPLY: null,
+    CLEAR_HIGHLIGHT_REPLY: null,
     SELECT_POST_CARD: null,
     INCREASE_POST_VISIBILITY: null,
     LOADING_POSTS: null,
@@ -290,7 +294,6 @@ export const ModalIdentifiers = {
     MORE_CHANNELS: 'more_channels',
     NEW_CHANNEL_FLOW: 'new_channel_flow',
     CLOUD_PURCHASE: 'cloud_purchase',
-    DND_CUSTOM_TIME_PICKER: 'dnd_custom_time_picker',
     CUSTOM_STATUS: 'custom_status',
     COMMERCIAL_SUPPORT: 'commercial_support',
     NO_INTERNET_CONNECTION: 'no_internet_connection',
@@ -319,6 +322,12 @@ export const EventTypes = Object.assign(
         POST_LIST_SCROLL_TO_BOTTOM: null,
     }),
 );
+
+export const CloudProducts = {
+    STARTER: 'cloud-starter',
+    PROFESSIONAL: 'cloud-professional',
+    ENTERPRISE: 'cloud-enterprise',
+};
 
 export const A11yClassNames = {
     REGION: 'a11y__region',
@@ -430,6 +439,7 @@ export const RecommendedNextSteps = {
 
 export const Threads = {
     CHANGED_SELECTED_THREAD: 'changed_selected_thread',
+    CHANGED_LAST_VIEWED_AT: 'changed_last_viewed_at',
 };
 
 export const CloudBanners = {
@@ -718,6 +728,8 @@ export const AboutLinks = {
 
 export const CloudLinks = {
     BILLING_DOCS: 'https://docs.mattermost.com/cloud/cloud-billing/cloud-billing.html',
+    COMPARE_PLANS: 'https://mattermost.com/pricing-cloud/#pricing-grid-block_5fa2028808529',
+    CLOUD_PRICING: 'https://mattermost.com/pricing-cloud/',
 };
 
 export const PermissionsScope = {
@@ -1623,6 +1635,8 @@ export const Constants = {
     TRANSPARENT_PIXEL: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=',
     TRIPLE_BACK_TICKS: /```/g,
     MAX_ATTACHMENT_FOOTER_LENGTH: 300,
+    ACCEPT_STATIC_IMAGE: '.jpeg,.jpg,.png,.bmp',
+    ACCEPT_EMOJI_IMAGE: '.jpeg,.jpg,.png,.gif',
 };
 
 export const ValidationErrors = {

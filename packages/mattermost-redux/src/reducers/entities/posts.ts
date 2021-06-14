@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {ChannelTypes, GeneralTypes, PostTypes, UserTypes} from 'mattermost-redux/action_types';
+import {ChannelTypes, GeneralTypes, PostTypes, UserTypes, ThreadTypes} from 'mattermost-redux/action_types';
 
 import {Posts} from 'mattermost-redux/constants';
 
@@ -13,6 +13,7 @@ import {
     PostOrderBlock,
     MessageHistory,
 } from 'mattermost-redux/types/posts';
+import {UserProfile} from 'mattermost-redux/types/users';
 import {Reaction} from 'mattermost-redux/types/reactions';
 import {
     $ID,
@@ -241,6 +242,18 @@ export function handlePosts(state: RelationOneToOne<Post, Post> = {}, action: Ge
         return nextState;
     }
 
+    case ThreadTypes.FOLLOW_CHANGED_THREAD: {
+        const {id, following} = action.data;
+        const post = state[id];
+        return {
+            ...state,
+            [id]: {
+                ...post,
+                is_following: following,
+            },
+        };
+    }
+
     case UserTypes.LOGOUT_SUCCESS:
         return {};
     default:
@@ -271,6 +284,21 @@ function handlePostReceived(nextState: any, post: Post) {
     // Delete any pending post that existed for this post
     if (post.pending_post_id && post.id !== post.pending_post_id && nextState[post.pending_post_id]) {
         Reflect.deleteProperty(nextState, post.pending_post_id);
+    }
+
+    const rootPost: Post = nextState[post.root_id];
+    if (post.root_id && rootPost) {
+        const participants = rootPost.participants || [];
+        const nextRootPost = {...rootPost};
+        if (!participants.find((user: UserProfile) => user.id === post.user_id)) {
+            nextRootPost.participants = [...participants, {id: post.user_id}];
+        }
+
+        if (post.reply_count) {
+            nextRootPost.reply_count = post.reply_count;
+        }
+
+        nextState[post.root_id] = nextRootPost;
     }
 
     return nextState;

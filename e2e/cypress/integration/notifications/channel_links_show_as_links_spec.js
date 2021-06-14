@@ -12,106 +12,122 @@
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 import {
-    getEmailUrl,
-    reUrl,
-    splitEmailBodyText,
+    FixedCloudConfig,
+    getMentionEmailTemplate,
+    verifyEmailBody,
 } from '../../utils';
-const baseUrl = Cypress.config('baseUrl');
-const mailUrl = getEmailUrl(baseUrl);
 
 describe('Notifications', () => {
+    let config;
+    let sender;
     let testTeam;
-    let otherUser;
-    let lastPostId;
-    const channelName = 'off-topic';
+    let testChannel;
+    let receiver;
+
     before(() => {
         cy.apiEmailTest();
 
-        cy.apiInitSetup().then(({team}) => {
+        // # Get config
+        cy.apiGetConfig().then((data) => {
+            ({config} = data);
+        });
+
+        cy.apiInitSetup().then(({team, channel, user}) => {
             testTeam = team;
-            cy.apiCreateUser().then(({user}) => {
-                otherUser = user;
-                cy.apiAddUserToTeam(testTeam.id, otherUser.id);
-                cy.apiLogin(otherUser);
+            testChannel = channel;
+            sender = user;
+
+            cy.apiCreateUser().then(({user: user1}) => {
+                receiver = user1;
+                cy.apiAddUserToTeam(testTeam.id, receiver.id).then(() => {
+                    cy.apiAddUserToChannel(testChannel.id, receiver.id);
+
+                    // # Login as receiver and visit test channel
+                    cy.apiLogin(receiver);
+                    cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+
+                    // # Open 'Notifications' of 'Account Settings' modal
+                    cy.uiOpenAccountSettingsModal('Notifications').within(() => {
+                        // # Open 'Email Notifications' setting and set to 'Immediately'
+                        cy.findByRole('heading', {name: 'Email Notifications'}).should('be.visible').click();
+                        cy.findByRole('radio', {name: 'Immediately'}).click().should('be.checked');
+
+                        // # Save then close the modal
+                        cy.uiSaveAndClose();
+                    });
+
+                    // # As receiver, set status to offline and logout
+                    cy.findByLabelText('set status').should('be.visible').click();
+                    cy.findByText('Offline').should('be.visible').click();
+                    cy.apiLogout();
+
+                    // # Login as sender and visit test channel
+                    cy.apiLogin(sender);
+                    cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+                });
             });
-
-            // # As otherUser, set status to offline and logout
-            cy.visit(`/${testTeam.name}/channels/off-topic`);
-            cy.findByLabelText('set status').should('be.visible').click();
-            cy.findByText('Offline').should('be.visible').click();
-            cy.apiLogout();
-
-            // # Login as sysadmin and go to the Off-Topic channel
-            cy.apiAdminLogin();
-            cy.visit(`/${testTeam.name}/channels/off-topic`);
         });
     });
 
     it('MM-T506 Channel links show as links in notification emails', () => {
-        // # Open 'Notifications' of 'Account Settings' modal
-        cy.uiOpenAccountSettingsModal('Notifications').within(() => {
-            // # Open 'Email Notifications' setting and set to 'Immediately'
-            cy.findByRole('heading', {name: 'Email Notifications'}).should('be.visible').click();
-            cy.findByRole('radio', {name: 'Immediately'}).click().should('be.checked');
+        const baseUrl = Cypress.config('baseUrl');
+        const message = {
+            orig: `This is a message in ~${testChannel.name} channel for @${receiver.username} `,
+            emailLinked: `This is a message in ~${testChannel.name} ( ${baseUrl}/landing#/${testTeam.name}/channels/${testChannel.name} ) channel for @${receiver.username}`,
+            posted: `This is a message in ~${testChannel.display_name} channel for @${receiver.username} `,
+        };
 
-            // # Save then close the modal
-            cy.uiSaveAndClose();
-        });
+        // # Post a message as sender that contains the channel name and receiver's username
+        cy.postMessage(message.orig);
 
-        // # Post a message as sysadmin that contains the channel name and otherUser's username
-        cy.postMessage(`This is a message in ~${channelName} channel for @${otherUser.username} `);
+        // # Wait for a while to ensure that email notification is sent.
+        cy.wait(TIMEOUTS.FIVE_SEC);
 
         cy.getLastPostId().then((postId) => {
-            lastPostId = postId;
-        });
+            // # Login as the receiver and visit test channel
+            cy.apiLogin(receiver);
+            cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+            cy.get('#confirmModalButton').
+                should('be.visible').
+                and('have.text', 'Yes, set my status to "Online"').
+                click();
 
-        // # Logout from sysadmin account and login as otherUser
-        cy.apiLogout();
-        cy.apiLogin(otherUser);
+            cy.getRecentEmail(receiver).then((data) => {
+                const {body, from, subject} = data;
+                const siteName = config.TeamSettings.SiteName;
+                const feedbackEmail = config.EmailSettings.FeedbackEmail || FixedCloudConfig.EmailSettings.FEEDBACK_EMAIL;
 
-        cy.task('getRecentEmail', {username: otherUser.username, mailUrl}).then((response) => {
-            const bodyText = splitEmailBodyText(response.data.body.text);
+                // * Verify that email is from default feedback email
+                expect(from).to.contain(feedbackEmail);
 
-            // * Verify that the email was properly received and has the correct output
-            verifyEmailNotification(response, testTeam.name, testTeam.display_name, otherUser.email);
+                // * Verify that the email subject is correct
+                expect(subject).to.contain(`[${siteName}] Notification in ${testTeam.display_name}`);
 
-            const permalink = bodyText[9].match(reUrl)[0];
+                // * Verify that the email body is correct
+                const expectedEmailBody = getMentionEmailTemplate(
+                    sender.username,
+                    message.emailLinked,
+                    postId,
+                    siteName,
+                    testTeam.name,
+                    testChannel.display_name,
+                );
+                verifyEmailBody(expectedEmailBody, body);
 
-            // # Visit permalink (e.g. click on email link)
-            cy.visit(permalink);
+                const permalink = body[3].split(' ')[3];
+                const permalinkPostId = permalink.split('/')[6];
 
-            // # Choose the 'View in Browser' option
-            cy.findByText('View in Browser', {timeout: TIMEOUTS.HALF_MIN}).click();
+                // # Visit permalink (e.g. click on email link) then view in browser to proceed
+                cy.visit(permalink);
+                cy.findByText('View in Browser').click();
 
-            // * Verify that the post message that otherUser was notified of in the email is visible
-            cy.get(`#postMessageText_${lastPostId}`, {timeout: TIMEOUTS.HALF_MIN}).should('be.visible');
+                // * Verify that message is correct
+                const postText = `#postMessageText_${permalinkPostId}`;
+                cy.get(postText).should('have.text', message.posted);
+
+                // * Should match last post and permalink post IDs
+                expect(permalinkPostId).to.equal(postId);
+            });
         });
     });
-
-    const verifyEmailNotification = (response, teamName, teamDisplayName, email) => {
-        const isoDate = new Date().toISOString().substring(0, 10);
-        const {data, status} = response;
-
-        // * Should return success status
-        expect(status).to.equal(200);
-
-        // * Verify that email is addressed to the correct user
-        expect(data.to.length).to.equal(1);
-        expect(data.to[0]).to.contain(email);
-
-        // * Verify that date is current
-        expect(data.date).to.contain(isoDate);
-
-        // * Verify that the email subject is correct
-        expect(data.subject).to.contain(`[Mattermost] Notification in ${teamDisplayName}`);
-
-        // * Verify that the email body is correct
-        const bodyText = splitEmailBodyText(data.body.text);
-        expect(bodyText.length).to.equal(16);
-        expect(bodyText[1]).to.equal('You have a new notification.');
-        expect(bodyText[4]).to.equal('Channel: Off-Topic');
-        expect(bodyText[5]).to.contain('@sysadmin');
-        expect(bodyText[7]).to.equal(`This is a message in ~${channelName} ( ${baseUrl}/landing#/${teamName}/channels/${channelName} ) channel for @${otherUser.username}`);
-        expect(bodyText[9]).to.equal(`Go To Post ( ${baseUrl}/landing#/${teamName}/pl/${lastPostId} )`);
-    };
 });

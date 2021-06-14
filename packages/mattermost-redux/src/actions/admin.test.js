@@ -1269,4 +1269,291 @@ describe('Actions.Admin', () => {
 
         await Actions.sendWarnMetricAck(warnMetricAck.id, false)(store.dispatch, store.getState);
     });
+
+    it('getDataRetentionCustomPolicies', async () => {
+        const policies = {
+            policies: [
+                {
+                    id: 'id1',
+                    display_name: 'Test Policy',
+                    post_duration: 100,
+                    team_count: 2,
+                    channel_count: 1,
+                },
+                {
+                    id: 'id2',
+                    display_name: 'Test Policy 2',
+                    post_duration: 365,
+                    team_count: 0,
+                    channel_count: 9,
+                },
+            ],
+            total_count: 2,
+        };
+        nock(Client4.getBaseRoute()).
+            get('/data_retention/policies?page=0&per_page=10').
+            reply(200, policies);
+
+        await Actions.getDataRetentionCustomPolicies()(store.dispatch, store.getState);
+
+        const state = store.getState();
+        const policesState = state.entities.admin.dataRetentionCustomPolicies;
+        assert.ok(policesState);
+
+        assert.ok(policesState.id1.id === 'id1');
+        assert.ok(policesState.id1.display_name === 'Test Policy');
+        assert.ok(policesState.id1.post_duration === 100);
+        assert.ok(policesState.id1.team_count === 2);
+        assert.ok(policesState.id1.channel_count === 1);
+
+        assert.ok(policesState.id2.id === 'id2');
+        assert.ok(policesState.id2.display_name === 'Test Policy 2');
+        assert.ok(policesState.id2.post_duration === 365);
+        assert.ok(policesState.id2.team_count === 0);
+        assert.ok(policesState.id2.channel_count === 9);
+    });
+
+    it('getDataRetentionCustomPolicy', async () => {
+        const policy = {
+            id: 'id1',
+            display_name: 'Test Policy',
+            post_duration: 100,
+            team_count: 2,
+            channel_count: 1,
+        };
+        nock(Client4.getBaseRoute()).
+            get('/data_retention/policies/id1').
+            reply(200, policy);
+
+        await Actions.getDataRetentionCustomPolicy('id1')(store.dispatch, store.getState);
+
+        const state = store.getState();
+        const policesState = state.entities.admin.dataRetentionCustomPolicies;
+        assert.ok(policesState);
+
+        assert.ok(policesState.id1.id === 'id1');
+        assert.ok(policesState.id1.display_name === 'Test Policy');
+        assert.ok(policesState.id1.post_duration === 100);
+        assert.ok(policesState.id1.team_count === 2);
+        assert.ok(policesState.id1.channel_count === 1);
+    });
+
+    it('getDataRetentionCustomPolicyTeams', async () => {
+        const teams = [
+            {
+                ...TestHelper.fakeTeam(),
+                policy_id: 'id1',
+                id: 'teamId1',
+            },
+        ];
+        nock(Client4.getBaseRoute()).
+            get('/data_retention/policies/id1/teams?page=0&per_page=50').
+            reply(200, {
+                teams,
+                total_count: 1,
+            });
+
+        await Actions.getDataRetentionCustomPolicyTeams('id1')(store.dispatch, store.getState);
+
+        const state = store.getState();
+        const teamsState = state.entities.teams.teams;
+
+        assert.ok(teamsState);
+        assert.ok(teamsState.teamId1.policy_id === 'id1');
+    });
+
+    it('getDataRetentionCustomPolicyChannels', async () => {
+        const channels = [
+            {
+                ...TestHelper.fakeChannel('teamId1'),
+                policy_id: 'id1',
+                id: 'channelId1',
+            },
+        ];
+        nock(Client4.getBaseRoute()).
+            get('/data_retention/policies/id1/channels?page=0&per_page=50').
+            reply(200, {
+                channels,
+                total_count: 1,
+            });
+
+        await Actions.getDataRetentionCustomPolicyChannels('id1')(store.dispatch, store.getState);
+
+        const state = store.getState();
+        const teamsState = state.entities.channels.channels;
+
+        assert.ok(teamsState);
+        assert.ok(teamsState.channelId1.policy_id === 'id1');
+    });
+
+    it('searchDataRetentionCustomPolicyTeams', async () => {
+        nock(Client4.getBaseRoute()).
+            post('/data_retention/policies/id1/teams/search').
+            reply(200, [TestHelper.basicTeam]);
+
+        const response = await store.dispatch(Actions.searchDataRetentionCustomPolicyTeams('id1', 'test'));
+
+        assert.ok(response.data.length === 1);
+    });
+
+    it('searchDataRetentionCustomPolicyChannels', async () => {
+        nock(Client4.getBaseRoute()).
+            post('/data_retention/policies/id1/channels/search').
+            reply(200, [TestHelper.basicChannel]);
+
+        const response = await store.dispatch(Actions.searchDataRetentionCustomPolicyChannels('id1', 'test'));
+
+        assert.ok(response.data.length === 1);
+    });
+
+    it('createDataRetentionCustomPolicy', async () => {
+        const policy = {
+            display_name: 'Test',
+            post_duration: 100,
+            channel_ids: ['channel1'],
+            team_ids: ['team1', 'team2'],
+        };
+        nock(Client4.getBaseRoute()).
+            post('/data_retention/policies').
+            reply(200, {
+                id: 'id1',
+                display_name: 'Test',
+                post_duration: 100,
+                team_count: 2,
+                channel_count: 1,
+            });
+        await Actions.createDataRetentionCustomPolicy(policy)(store.dispatch, store.getState);
+
+        const state = store.getState();
+        const policesState = state.entities.admin.dataRetentionCustomPolicies;
+        assert.ok(policesState);
+
+        assert.ok(policesState.id1.id === 'id1');
+        assert.ok(policesState.id1.display_name === 'Test');
+        assert.ok(policesState.id1.post_duration === 100);
+        assert.ok(policesState.id1.team_count === 2);
+        assert.ok(policesState.id1.channel_count === 1);
+    });
+
+    it('updateDataRetentionCustomPolicy', async () => {
+        nock(Client4.getBaseRoute()).
+            patch('/data_retention/policies/id1').
+            reply(200, {
+                id: 'id1',
+                display_name: 'Test123',
+                post_duration: 365,
+                team_count: 2,
+                channel_count: 1,
+            });
+        await Actions.updateDataRetentionCustomPolicy('id1', {display_name: 'Test123', post_duration: 365})(store.dispatch, store.getState);
+
+        const updateState = store.getState();
+        const policyState = updateState.entities.admin.dataRetentionCustomPolicies;
+        assert.ok(policyState);
+
+        assert.ok(policyState.id1.id === 'id1');
+        assert.ok(policyState.id1.display_name === 'Test123');
+        assert.ok(policyState.id1.post_duration === 365);
+        assert.ok(policyState.id1.team_count === 2);
+        assert.ok(policyState.id1.channel_count === 1);
+    });
+
+    it('createDataRetentionCustomPolicy', async () => {
+        const policy = {
+            display_name: 'Test',
+            post_duration: 100,
+            channel_ids: ['channel1'],
+            team_ids: ['team1', 'team2'],
+        };
+        nock(Client4.getBaseRoute()).
+            post('/data_retention/policies').
+            reply(200, {
+                id: 'id1',
+                display_name: 'Test',
+                post_duration: 100,
+                team_count: 2,
+                channel_count: 1,
+            });
+        await Actions.createDataRetentionCustomPolicy(policy)(store.dispatch, store.getState);
+
+        const state = store.getState();
+        const policesState = state.entities.admin.dataRetentionCustomPolicies;
+        assert.ok(policesState);
+
+        assert.ok(policesState.id1.id === 'id1');
+        assert.ok(policesState.id1.display_name === 'Test');
+        assert.ok(policesState.id1.post_duration === 100);
+        assert.ok(policesState.id1.team_count === 2);
+        assert.ok(policesState.id1.channel_count === 1);
+    });
+
+    it('removeDataRetentionCustomPolicyTeams', async () => {
+        const teams = [
+            {
+                ...TestHelper.fakeTeam(),
+                policy_id: 'id1',
+                id: 'teamId1',
+            },
+            {
+                ...TestHelper.fakeTeam(),
+                policy_id: 'id1',
+                id: 'teamId2',
+            },
+        ];
+        nock(Client4.getBaseRoute()).
+            get('/data_retention/policies/id1/teams?page=0&per_page=50').
+            reply(200, {
+                teams,
+                total_count: 2,
+            });
+
+        await Actions.getDataRetentionCustomPolicyTeams('id1')(store.dispatch, store.getState);
+
+        nock(Client4.getBaseRoute()).
+            delete('/data_retention/policies/id1/teams').
+            reply(200, OK_RESPONSE);
+
+        await Actions.removeDataRetentionCustomPolicyTeams('id1', ['teamId2'])(store.dispatch, store.getState);
+
+        const state = store.getState();
+        const teamsState = state.entities.teams.teams;
+
+        assert.ok(teamsState);
+        assert.ok(teamsState.teamId2.policy_id === null);
+    });
+
+    it('removeDataRetentionCustomPolicyChannels', async () => {
+        const channels = [
+            {
+                ...TestHelper.fakeChannel('teamId1'),
+                policy_id: 'id1',
+                id: 'channelId1',
+            },
+            {
+                ...TestHelper.fakeChannel('teamId1'),
+                policy_id: 'id1',
+                id: 'channelId2',
+            },
+        ];
+        nock(Client4.getBaseRoute()).
+            get('/data_retention/policies/id1/channels?page=0&per_page=50').
+            reply(200, {
+                channels,
+                total_count: 1,
+            });
+
+        await Actions.getDataRetentionCustomPolicyChannels('id1')(store.dispatch, store.getState);
+
+        nock(Client4.getBaseRoute()).
+            delete('/data_retention/policies/id1/channels').
+            reply(200, OK_RESPONSE);
+
+        await Actions.removeDataRetentionCustomPolicyChannels('id1', ['channelId2'])(store.dispatch, store.getState);
+
+        const state = store.getState();
+        const channelsState = state.entities.channels.channels;
+
+        assert.ok(channelsState);
+        assert.ok(channelsState.channelId2.policy_id === null);
+    });
 });

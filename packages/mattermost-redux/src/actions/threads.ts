@@ -8,7 +8,7 @@ import {Client4} from 'mattermost-redux/client';
 
 import ThreadConstants from 'mattermost-redux/constants/threads';
 
-import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
+import {DispatchFunc, GetStateFunc, batchActions} from 'mattermost-redux/types/actions';
 
 import type {UserThread, UserThreadList} from 'mattermost-redux/types/threads';
 
@@ -17,6 +17,10 @@ import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+
+import {getThreadsInChannel} from 'mattermost-redux/selectors/entities/threads';
+
+import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 
 import {logError} from './errors';
 import {forceLogoutIfNecessary} from './helpers';
@@ -213,4 +217,28 @@ export function setThreadFollow(userId: string, teamId: string, threadId: string
         }
         return {};
     };
+}
+
+export function handleAllThreadsInChannelMarkedRead(dispatch: DispatchFunc, getState: GetStateFunc, channelId: string, lastViewedAt: number) {
+    const state = getState();
+    const threadsInChannel = getThreadsInChannel(state, channelId);
+    const channel = getChannel(state, channelId);
+    const teamId = channel.team_id;
+    const actions = [];
+
+    for (const id of threadsInChannel) {
+        actions.push({
+            type: ThreadTypes.READ_CHANGED_THREAD,
+            data: {
+                id,
+                channelId,
+                teamId,
+                lastViewedAt,
+                newUnreadMentions: 0,
+                newUnreadReplies: 0,
+            },
+        });
+    }
+
+    dispatch(batchActions(actions));
 }

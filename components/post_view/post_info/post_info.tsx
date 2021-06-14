@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-/* eslint-disable react/no-string-refs */
-
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Tooltip} from 'react-bootstrap';
@@ -125,6 +123,8 @@ type Props = {
     };
 
     shouldShowDotMenu: boolean;
+
+    collapsedThreadsEnabled: boolean;
 };
 
 type State = {
@@ -135,6 +135,7 @@ type State = {
 
 export default class PostInfo extends React.PureComponent<Props, State> {
     private postHeaderRef: React.RefObject<HTMLDivElement>;
+    private dotMenuRef: React.RefObject<HTMLDivElement>;
 
     constructor(props: Props) {
         super(props);
@@ -146,6 +147,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
         };
 
         this.postHeaderRef = React.createRef();
+        this.dotMenuRef = React.createRef();
     }
 
     toggleEmojiPicker = () => {
@@ -179,8 +181,8 @@ export default class PostInfo extends React.PureComponent<Props, State> {
         this.props.handleDropdownOpened(open || this.state.showEmojiPicker);
     };
 
-    getDotMenu = () => {
-        return this.refs.dotMenu as HTMLDivElement;
+    getDotMenu = (): HTMLDivElement => {
+        return this.dotMenuRef.current as HTMLDivElement;
     };
 
     buildOptions = (post: Post, isSystemMessage: boolean, fromAutoResponder: boolean) => {
@@ -188,7 +190,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
             return null;
         }
 
-        const {isMobile, isReadOnly} = this.props;
+        const {isMobile, isReadOnly, collapsedThreadsEnabled} = this.props;
         const hover = this.props.hover || this.state.showEmojiPicker || this.state.showDotMenu || this.state.showOptionsMenuWithoutHover;
 
         const showCommentIcon = fromAutoResponder ||
@@ -199,7 +201,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
             commentIcon = (
                 <CommentIcon
                     handleCommentClick={this.props.handleCommentClick}
-                    commentCount={this.props.replyCount}
+                    commentCount={collapsedThreadsEnabled ? undefined : this.props.replyCount}
                     postId={post.id}
                     extraClass={commentIconExtraClass}
                 />
@@ -252,14 +254,15 @@ export default class PostInfo extends React.PureComponent<Props, State> {
 
         return (
             <div
-                ref='dotMenu'
+                ref={this.dotMenuRef}
                 data-testid={`post-menu-${post.id}`}
                 className={'col post-menu'}
             >
-                {dotMenu}
+                {!collapsedThreadsEnabled && dotMenu}
                 {postReaction}
                 {postFlagIcon}
                 {commentIcon}
+                {collapsedThreadsEnabled && dotMenu}
             </div>
         );
     };
@@ -397,4 +400,3 @@ export default class PostInfo extends React.PureComponent<Props, State> {
         );
     }
 }
-/* eslint-enable react/no-string-refs */
