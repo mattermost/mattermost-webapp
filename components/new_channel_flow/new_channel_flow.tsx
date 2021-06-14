@@ -13,6 +13,7 @@ import {cleanUpUrlable} from 'utils/url';
 
 import NewChannelModal from 'components/new_channel_modal';
 import ChangeURLModal from 'components/change_url_modal';
+import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
 
 export const SHOW_NEW_CHANNEL = 1;
 export const SHOW_EDIT_URL = 2;
@@ -51,9 +52,12 @@ export type Props = {
      */
     canCreatePrivateChannel: boolean;
 
+    category?: ChannelCategory;
+
     actions: {
         createChannel: (channel: Channel) => Promise<{data?: Channel; error?: ServerError}>;
         switchToChannel: (channel: Channel) => Promise<{data?: true; error?: true}>;
+        addChannelToCategory: (categoryId: string, channelId: string) => Promise<void>;
         closeModal: (modalId: string) => void;
     };
 };
@@ -131,6 +135,11 @@ export default class NewChannelFlow extends React.PureComponent<Props, State> {
             if (error) {
                 this.onCreateChannelError(error);
             } else if (data) {
+                const categoryId = this.props.category?.id;
+                if (categoryId) {
+                    actions.addChannelToCategory(categoryId, data.id).then(() => {
+                    });
+                }
                 this.onModalDismissed();
                 actions.switchToChannel(data);
             }
