@@ -99,6 +99,7 @@ type State = {
     windowWidth?: number;
     windowHeight?: number;
     isScrolling: boolean;
+    isLoading: boolean;
     topRhsPostId: string;
     openTime: number;
     postsArray?: Array<Post | FakePost>;
@@ -138,6 +139,7 @@ export default class ThreadViewer extends React.Component<Props, State> {
             openTime,
             postsContainerHeight: 0,
             userScrolledToBottom: false,
+            isLoading: false,
         };
 
         this.rhspostlistRef = React.createRef();
@@ -234,7 +236,6 @@ export default class ThreadViewer extends React.Component<Props, State> {
     }
 
     public componentDidUpdate(prevProps: Props) {
-        const {highlightedPostId} = this.props;
         const prevPostsArray = prevProps.posts || [];
         const curPostsArray = this.props.posts || [];
 
@@ -261,7 +262,7 @@ export default class ThreadViewer extends React.Component<Props, State> {
         if (
             !reconnected &&
             !selectedChanged &&
-            !highlightedPostId &&
+            !this.shouldBlockBottomScroll() &&
             (curLastPost.user_id === this.props.currentUserId || this.state.userScrolledToBottom)
         ) {
             this.scrollToBottom();
@@ -309,6 +310,7 @@ export default class ThreadViewer extends React.Component<Props, State> {
     // scrolls to either bottom or new messages line
     private onInit = async (reconnected = false): Promise<void> => {
         if (reconnected || this.morePostsToFetch()) {
+            this.setState({isLoading: true});
             await this.props.actions.getPostThread(this.props.selected.id, !reconnected);
         }
 
@@ -316,22 +318,31 @@ export default class ThreadViewer extends React.Component<Props, State> {
             this.props.isCollapsedThreadsEnabled &&
             this.props.userThread == null
         ) {
+            this.setState({isLoading: true});
             await this.fetchThread();
         }
 
-        if (
-            !reconnected &&
-            this.newMessagesRef.current &&
-            !this.isInViewport(this.newMessagesRef.current)
-        ) {
-            this.newMessagesRef.current.scrollIntoView();
-        } else if (
-            !reconnected &&
-            !this.props.highlightedPostId &&
-            !this.newMessagesRef.current
-        ) {
-            this.scrollToBottom();
-        }
+        this.setState({isLoading: false}, () => {
+            if (
+                !reconnected &&
+                this.newMessagesRef.current &&
+                !this.isInViewport(this.newMessagesRef.current)
+            ) {
+                this.newMessagesRef.current.scrollIntoView();
+            } else if (
+                !reconnected &&
+                !this.props.highlightedPostId
+            ) {
+                this.scrollToBottom();
+            }
+        });
+    }
+
+    shouldBlockBottomScroll = (): boolean => {
+        // in the case of highlighted reply, and
+        // in the case of new messages line
+        // we should not scrollToBottom.
+        return Boolean(this.props.highlightedPostId || this.newMessagesRef.current);
     }
 
     isInViewport = (element: HTMLDivElement|null): boolean => {
@@ -351,13 +362,12 @@ export default class ThreadViewer extends React.Component<Props, State> {
     }
 
     private handleResize = (): void => {
-        const {highlightedPostId} = this.props;
         this.setState({
             windowWidth: Utils.windowWidth(),
             windowHeight: Utils.windowHeight(),
         });
 
-        if (!highlightedPostId && UserAgent.isMobile() && document!.activeElement!.id === 'reply_textbox') {
+        if (!this.shouldBlockBottomScroll() && UserAgent.isMobile() && document!.activeElement!.id === 'reply_textbox') {
             this.scrollToBottom();
         }
         this.resizeRhsPostList();
@@ -458,7 +468,7 @@ export default class ThreadViewer extends React.Component<Props, State> {
 
     private handlePostCommentResize = (): void => {
         this.resizeRhsPostList();
-        if (!this.props.highlightedPostId) {
+        if (!this.shouldBlockBottomScroll()) {
             this.scrollToBottom();
         }
     }
