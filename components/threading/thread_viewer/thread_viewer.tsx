@@ -19,6 +19,7 @@ import DelayedAction from 'utils/delayed_action';
 import * as Utils from 'utils/utils.jsx';
 import * as UserAgent from 'utils/user_agent';
 import CreateComment from 'components/create_comment';
+import LoadingScreen from 'components/loading_screen';
 import DateSeparator from 'components/post_view/date_separator';
 import FloatingTimestamp from 'components/post_view/floating_timestamp';
 import NewMessageSeparator from 'components/post_view/new_message_separator/new_message_separator';
@@ -607,6 +608,10 @@ export default class ThreadViewer extends React.Component<Props, State> {
                     </div>
                 );
             }
+        }
+
+        if (this.state.isLoading) {
+            return <LoadingScreen style={{height: '100%'}}/>;
         }
 
         return (
