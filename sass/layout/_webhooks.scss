@@ -92,6 +92,9 @@
 
         &.attachment--permalink {
             max-width: 700px;
+            &:hover {
+                cursor: pointer;
+            }
         }
 
         .attachment__content {

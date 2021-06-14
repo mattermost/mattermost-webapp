@@ -28,6 +28,7 @@ export default class PostMessagePreview extends React.PureComponent<Props> {
         return (
             <PostAttachmentContainer
                 className='permalink'
+                link={`/ad-1/pl/${this.props.metadata.id}`}
             >
                 <div className='post-preview'>
                     <div className='post__header'>
@@ -72,11 +73,6 @@ export default class PostMessagePreview extends React.PureComponent<Props> {
                         <p>
                             {`Originally posted in ~${this.props.channel?.display_name}`}
                         </p>
-                        <Link 
-                            to={`/ad-1/pl/${this.props.metadata.id}`}
-                        >
-                            View Message
-                        </Link>
                     </div>
                 </div>
             </PostAttachmentContainer>
