@@ -4,6 +4,7 @@
 import {connect} from 'react-redux';
 
 import {getPost, makeGetCommentCountForPost} from 'mattermost-redux/selectors/entities/posts';
+import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import {GlobalState} from 'types/store';
 
@@ -19,8 +20,10 @@ function makeMapStateToProps() {
     return (state: GlobalState, ownProps: OwnProps) => {
         const post = getPost(state, ownProps.postId);
 
+        const collapsedThreadsEnabled = isCollapsedThreadsEnabled(state);
+
         return {
-            commentCount: getReplyCount(state, post),
+            commentCount: collapsedThreadsEnabled ? 0 : getReplyCount(state, post),
         };
     };
 }
