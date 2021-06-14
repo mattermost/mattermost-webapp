@@ -7,9 +7,9 @@ import {getUsers} from 'mattermost-redux/selectors/entities/users';
 
 import {GlobalState} from 'mattermost-redux/types/store';
 import {IDMappedObjects} from 'mattermost-redux/types/utilities';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile, UserTimezone} from 'mattermost-redux/types/users';
 
-export function getUserTimezone(users: IDMappedObjects<UserProfile>, id: string): { useAutomaticTimezone: boolean; automaticTimezone: string; manualTimezone: string } {
+export function getUserTimezone(users: IDMappedObjects<UserProfile>, id: string): UserTimezone {
     const profile = users[id];
 
     if (profile && profile.timezone) {
