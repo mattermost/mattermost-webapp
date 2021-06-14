@@ -10,7 +10,7 @@ import {Dispatch} from 'redux';
 
 import Permissions from 'mattermost-redux/constants/permissions';
 
-import {CustomEmoji, Emoji, SystemEmoji} from 'mattermost-redux/types/emojis';
+import {Emoji} from 'mattermost-redux/types/emojis';
 
 import {Locations} from 'utils/constants';
 import {localizeMessage} from 'utils/utils.jsx';
