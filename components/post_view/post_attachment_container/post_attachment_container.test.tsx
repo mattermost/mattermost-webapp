@@ -10,7 +10,8 @@ import PostAttachmentContainer, {Props} from './post_attachment_container';
 describe('PostAttachmentContainer', () => {
     const baseProps: Props = {
         children: <p>{'some children'}</p>,
-        className: 'permalink'
+        className: 'permalink',
+        link: '#'
     };
     test('should render correctly', () => {
         const wrapper = shallow(<PostAttachmentContainer {...baseProps}/>);
