@@ -32,6 +32,8 @@ import {
     closeMenu,
     openAtPrevious,
     updateSearchType,
+    saveRHSStash,
+    restoreRHSFromStash,
 } from 'actions/views/rhs';
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 import {ActionTypes, RHSStates, Constants} from 'utils/constants';
@@ -827,6 +829,40 @@ describe('rhs view actions', () => {
                 ...batchedActions('44', 2000),
                 {type: ActionTypes.CLEAR_HIGHLIGHT_REPLY},
             ]);
+        });
+    });
+
+    describe('rsh stash actions', () => {
+        it('should save rhs stash', () => {
+            const store = mockStore(initialState);
+            store.dispatch(saveRHSStash());
+
+            expect(store.getActions()).toEqual([{
+                type: ActionTypes.SAVE_RHS_STASH,
+                data: store.getState().views.rhs,
+            }]);
+        });
+
+        it('should restore rhs from stash', () => {
+            const rhsStash = {
+                rhsState: 'search',
+                filesSearchExtFilter: [] as string[],
+            };
+
+            const store = mockStore({
+                ...initialState,
+                views: {
+                    ...initialState.views,
+                    rhsStash,
+                } as ViewsState,
+            });
+
+            store.dispatch(restoreRHSFromStash());
+
+            expect(store.getActions()).toEqual([{
+                type: ActionTypes.RESTORE_RHS_FROM_STASH,
+                data: rhsStash,
+            }]);
         });
     });
 });

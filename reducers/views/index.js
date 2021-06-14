@@ -8,6 +8,7 @@ import announcementBar from './announcement_bar';
 import browser from './browser';
 import channel from './channel';
 import rhs from './rhs';
+import rhsStash from './rhs_stash';
 import posts from './posts';
 import modals from './modals';
 import emoji from './emoji';
@@ -31,6 +32,7 @@ export default combineReducers({
     browser,
     channel,
     rhs,
+    rhsStash,
     posts,
     modals,
     emoji,

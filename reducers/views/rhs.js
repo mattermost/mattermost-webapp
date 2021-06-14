@@ -24,6 +24,8 @@ function selectedPostId(state = '', action) {
         return state;
     case ActionTypes.UPDATE_RHS_STATE:
         return '';
+    case ActionTypes.RESTORE_RHS_FROM_STASH:
+        return action.data.selectedPostId;
     default:
         return state;
     }
@@ -35,6 +37,8 @@ function selectedPostFocussedAt(state = 0, action) {
     switch (action.type) {
     case ActionTypes.SELECT_POST:
         return action.timestamp || 0;
+    case ActionTypes.RESTORE_RHS_FROM_STASH:
+        return action.data.selectedPostFocussedAt;
     default:
         return state;
     }
@@ -47,6 +51,8 @@ function highlightedPostId(state = '', action) {
     case ActionTypes.CLEAR_HIGHLIGHT_REPLY:
     case ActionTypes.UPDATE_RHS_STATE:
         return '';
+    case ActionTypes.RESTORE_RHS_FROM_STASH:
+        return action.data.highlightedPostId;
     default:
         return state;
     }
@@ -57,6 +63,8 @@ function filesSearchExtFilter(state = [], action) {
     switch (action.type) {
     case ActionTypes.SET_FILES_FILTER_BY_EXT:
         return action.data;
+    case ActionTypes.RESTORE_RHS_FROM_STASH:
+        return action.data.filesSearchExtFilter;
     default:
         return state;
     }
@@ -75,6 +83,8 @@ function selectedPostCardId(state = '', action) {
         return state;
     case ActionTypes.UPDATE_RHS_STATE:
         return '';
+    case ActionTypes.RESTORE_RHS_FROM_STASH:
+        return action.data.selectedPostCardId;
     default:
         return state;
     }
@@ -91,6 +101,8 @@ function selectedChannelId(state = '', action) {
             return action.channelId;
         }
         return '';
+    case ActionTypes.RESTORE_RHS_FROM_STASH:
+        return action.data.selectedChannelId;
     default:
         return state;
     }
@@ -108,6 +120,8 @@ function previousRhsState(state = null, action) {
             return action.previousRhsState;
         }
         return null;
+    case ActionTypes.RESTORE_RHS_FROM_STASH:
+        return action.data.previousRhsState;
     default:
         return state;
     }
@@ -121,6 +135,8 @@ function rhsState(state = null, action) {
         return null;
     case ActionTypes.SELECT_POST_CARD:
         return null;
+    case ActionTypes.RESTORE_RHS_FROM_STASH:
+        return action.data.rhsState;
     default:
         return state;
     }
@@ -130,6 +146,8 @@ function searchTerms(state = '', action) {
     switch (action.type) {
     case ActionTypes.UPDATE_RHS_SEARCH_TERMS:
         return action.terms;
+    case ActionTypes.RESTORE_RHS_FROM_STASH:
+        return action.data.searchTerms;
     default:
         return state;
     }
@@ -139,6 +157,8 @@ function searchType(state = '', action) {
     switch (action.type) {
     case ActionTypes.UPDATE_RHS_SEARCH_TYPE:
         return action.searchType;
+    case ActionTypes.RESTORE_RHS_FROM_STASH:
+        return action.data.searchType;
     default:
         return state;
     }
@@ -154,6 +174,8 @@ function pluggableId(state = '', action) {
     case ActionTypes.SELECT_POST:
     case ActionTypes.SELECT_POST_CARD:
         return '';
+    case ActionTypes.RESTORE_RHS_FROM_STASH:
+        return action.data.pluggableId;
     default:
         return state;
     }
@@ -163,6 +185,8 @@ function searchResultsTerms(state = '', action) {
     switch (action.type) {
     case ActionTypes.UPDATE_RHS_SEARCH_RESULTS_TERMS:
         return action.terms;
+    case ActionTypes.RESTORE_RHS_FROM_STASH:
+        return action.data.searchResultsTerms;
     default:
         return state;
     }
@@ -175,6 +199,8 @@ function isSearchingFlaggedPost(state = false, action) {
     case SearchTypes.SEARCH_FLAGGED_POSTS_FAILURE:
     case SearchTypes.SEARCH_FLAGGED_POSTS_SUCCESS:
         return false;
+    case ActionTypes.RESTORE_RHS_FROM_STASH:
+        return action.data.isSearchingFlaggedPost;
     default:
         return state;
     }
@@ -187,6 +213,8 @@ function isSearchingPinnedPost(state = false, action) {
     case SearchTypes.SEARCH_PINNED_POSTS_FAILURE:
     case SearchTypes.SEARCH_PINNED_POSTS_SUCCESS:
         return false;
+    case ActionTypes.RESTORE_RHS_FROM_STASH:
+        return action.data.isSearchingPinnedPost;
     default:
         return state;
     }
@@ -208,6 +236,8 @@ function isSidebarOpen(state = false, action) {
         return false;
     case ActionTypes.OPEN_LHS:
         return false;
+    case ActionTypes.RESTORE_RHS_FROM_STASH:
+        return action.data.isSidebarOpen;
     default:
         return state;
     }
@@ -235,6 +265,8 @@ function isSidebarExpanded(state = false, action) {
         return false;
     case TeamTypes.SELECT_TEAM:
         return false;
+    case ActionTypes.RESTORE_RHS_FROM_STASH:
+        return action.data.isSidebarExpanded;
     default:
         return state;
     }
@@ -254,6 +286,8 @@ function isMenuOpen(state = false, action) {
         return false;
     case TeamTypes.SELECT_TEAM:
         return false;
+    case ActionTypes.RESTORE_RHS_FROM_STASH:
+        return action.data.isMenuOpen;
     default:
         return state;
     }

@@ -465,3 +465,31 @@ export function openAtPrevious(previous: any) { // TODO Could not find the prope
         return openRHSSearch()(dispatch);
     };
 }
+
+export function saveRHSStash() {
+    return (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const {rhs} = (getState() as GlobalState).views;
+
+        dispatch({
+            type: ActionTypes.SAVE_RHS_STASH,
+            data: rhs,
+        });
+
+        return {data: true};
+    };
+}
+
+export function restoreRHSFromStash() {
+    return (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const {rhsStash} = (getState() as GlobalState).views;
+
+        if (rhsStash) {
+            dispatch({
+                type: ActionTypes.RESTORE_RHS_FROM_STASH,
+                data: rhsStash,
+            });
+        }
+
+        return {data: true};
+    };
+}
