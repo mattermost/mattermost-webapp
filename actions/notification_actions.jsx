@@ -207,32 +207,37 @@ export const enableBrowserNotifications = () => {
     };
 };
 
-const SCHEDULE_LAST_NOTIFICATIONS_REQUEST_AFTER_ATTEMPTS = 3;
 const SEVEN_DAYS_IN_MS = 1000 * 60 * 60 * 24 * 7;
 
 export const trackEnableNotificationsBarDisplay = () => {
     return (dispatch, getState) => {
         const state = getState();
-        const enableDesktopNotificationsBarShownTimes = getGlobalItem(state, StoragePrefixes.ENABLE_DESKTOP_NOTIFICATIONS_BANNER_SHOWN_TIMES, 0);
+        const enableDesktopNotificationsBarShownTimes = getGlobalItem(state, StoragePrefixes.ENABLE_DESKTOP_NOTIFICATIONS_BAR_SHOWN_TIMES, 0);
         const currentShownTimes = enableDesktopNotificationsBarShownTimes + 1;
 
-        if (currentShownTimes === SCHEDULE_LAST_NOTIFICATIONS_REQUEST_AFTER_ATTEMPTS) {
+        if (currentShownTimes === Constants.SCHEDULE_LAST_NOTIFICATIONS_REQUEST_AFTER_ATTEMPTS) {
             const sevenDaysFromNowTimestamp = Date.now() + SEVEN_DAYS_IN_MS;
 
-            dispatch(StorageActions.SET_GLOBAL_ITEM(StoragePrefixes.SHOW_LAST_ENABLE_DESKTOP_NOTIFICATIONS_BAR_AT, sevenDaysFromNowTimestamp));
+            dispatch(StorageActions.setGlobalItem(StoragePrefixes.SHOW_LAST_ENABLE_DESKTOP_NOTIFICATIONS_BAR_AT, sevenDaysFromNowTimestamp));
         }
 
-        dispatch(StorageActions.SET_GLOBAL_ITEM(StoragePrefixes.ENABLE_DESKTOP_NOTIFICATIONS_BANNER_SHOWN_TIMES, currentShownTimes));
+        dispatch(StorageActions.setGlobalItem(StoragePrefixes.ENABLE_DESKTOP_NOTIFICATIONS_BAR_SHOWN_TIMES, currentShownTimes));
     };
 };
 
 export const setBrowserNotificationsPermission = () => {
     return (dispatch) => {
         const permission = getNotificationsPermission();
+        const isPermissionGranted = permission === 'granted';
+
+        if (isPermissionGranted) {
+            dispatch(StorageActions.setGlobalItem(StoragePrefixes.ENABLE_DESKTOP_NOTIFICATIONS_BANNER_SHOWN_TIMES, 0));
+            dispatch(StorageActions.setGlobalItem(StoragePrefixes.SHOW_LAST_ENABLE_DESKTOP_NOTIFICATIONS_BAR_AT, null));
+        }
 
         dispatch({
             type: ActionTypes.BROWSER_NOTIFICATIONS_PERMISSION_RECEIVED,
-            data: permission === 'granted'
+            data: isPermissionGranted
         });
     };
 }

@@ -1,17 +1,25 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 
 import {t} from 'utils/i18n';
 import AnnouncementBar from '../default_announcement_bar';
 
 type Props = {
-  isNotificationsPermissionGranted: boolean,
+  show: boolean,
   actions: {
-    enableBrowserNotifications: () => void
+    enableBrowserNotifications: () => void,
+    trackEnableNotificationsBarDisplay: () => void,
   }
 }
 
-const EnableNotificationsBar = ({isNotificationsPermissionGranted, actions}: Props) => {
-  if (isNotificationsPermissionGranted) {
+const EnableNotificationsBar = ({show, actions}: Props) => {
+  useEffect(() => {
+    if (show) {
+      actions.trackEnableNotificationsBarDisplay();
+    }
+
+  }, [show, actions]);
+
+  if (!show) {
     return null;
   }
 
@@ -20,7 +28,8 @@ const EnableNotificationsBar = ({isNotificationsPermissionGranted, actions}: Pro
   };
 
   return (
-    <AnnouncementBar 
+    <AnnouncementBar
+
       message={t("enable_notifications_banner.message")} 
       showCloseButton 
       showLinkAsButton 
