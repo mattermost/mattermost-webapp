@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import EmojiPickerHeader from 'components/emoji_picker/components/emoji_picker_header.jsx';
+import EmojiPickerHeader from 'components/emoji_picker/components/emoji_picker_header';
 
 describe('components/emoji_picker/components/EmojiPickerHeader', () => {
     test('should match snapshot, ', () => {

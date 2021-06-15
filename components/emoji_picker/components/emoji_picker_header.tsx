@@ -1,16 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-export default class EmojiPickerHeader extends React.PureComponent {
-    static propTypes = {
-        handleEmojiPickerClose: PropTypes.func.isRequired,
-    };
-
-    render() {
+interface EmojiPickerHeaderProps {
+    handleEmojiPickerClose: () => void;
+}
+export default class EmojiPickerHeader extends React.PureComponent<EmojiPickerHeaderProps> {
+    render(): React.ReactNode {
         return (
             <div className='emoji-picker__header modal-header'>
                 <button

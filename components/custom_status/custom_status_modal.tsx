@@ -9,7 +9,7 @@ import {setCustomStatus, unsetCustomStatus, removeRecentCustomStatus} from 'matt
 import {setCustomStatusInitialisationState} from 'mattermost-redux/actions/preferences';
 import {Preferences} from 'mattermost-redux/constants';
 import {UserCustomStatus} from 'mattermost-redux/types/users';
-import {Emoji} from 'mattermost-redux/types/emojis';
+import {Emoji, SystemEmoji} from 'mattermost-redux/types/emojis';
 
 import {loadCustomEmojisIfNeeded} from 'actions/emoji_actions';
 import GenericModal from 'components/generic_modal';
@@ -94,7 +94,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
 
     const handleEmojiClick = (selectedEmoji: Emoji) => {
         setShowEmojiPicker(false);
-        const emojiName = ('name' in selectedEmoji) ? selectedEmoji.name : selectedEmoji.aliases[0];
+        const emojiName = ('name' in selectedEmoji) ? selectedEmoji.name : (selectedEmoji as SystemEmoji).aliases[0];
         setEmoji(emojiName);
     };
 
