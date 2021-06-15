@@ -5,14 +5,15 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {shallow} from 'enzyme';
 
+import RequestButton from 'components/admin_console/request_button/request_button';
+
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
-import RequestButton from 'components/admin_console/request_button/request_button.jsx';
 
 describe('components/admin_console/request_button/request_button.jsx', () => {
     test('should match snapshot', () => {
         const emptyFunction = jest.fn();
 
-        const wrapper = shallow(
+        const wrapper = shallow<RequestButton>(
             <RequestButton
                 requestAction={emptyFunction}
                 helpText={
