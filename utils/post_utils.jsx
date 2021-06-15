@@ -13,7 +13,7 @@ import {makeGetDisplayName, getCurrentUserId, getUser} from 'mattermost-redux/se
 import {Permissions, Posts} from 'mattermost-redux/constants';
 import * as PostListUtils from 'mattermost-redux/utils/post_list';
 import {getUserIdFromChannelName} from 'mattermost-redux/utils/channel_utils';
-import {canEditPost as canEditPostRedux, isPostEphemeral} from 'mattermost-redux/utils/post_utils';
+import {canEditPost as canEditPostRedux} from 'mattermost-redux/utils/post_utils';
 
 import {allAtMentions} from 'utils/text_formatting';
 
@@ -481,22 +481,6 @@ export function splitMessageBasedOnCaretPosition(caretPosition, message) {
 export function getNewMessageIndex(postListIds) {
     return postListIds.findIndex(
         (item) => item.indexOf(PostListRowListIds.START_OF_NEW_MESSAGES) === 0,
-    );
-}
-
-export function makeGetReplyCount() {
-    return createSelector(
-        (state) => state.entities.posts.posts,
-        (state, post) => state.entities.posts.postsInThread[post.root_id || post.id],
-        (state, post) => post,
-        (allPosts, postIds, post) => {
-            if (!postIds) {
-                return post.root_id ? 0 : post.reply_count ?? 0;
-            }
-
-            // Count the number of non-ephemeral posts in the thread
-            return postIds.map((id) => allPosts[id]).filter((p) => p && !isPostEphemeral(p)).length;
-        },
     );
 }
 

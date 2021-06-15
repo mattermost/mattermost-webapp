@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+/* eslint-disable max-lines */
+
 import {createSelector} from 'reselect';
 
 import {Posts, Preferences} from 'mattermost-redux/constants';
@@ -391,13 +393,13 @@ export function makeGetProfilesForThread(): (state: GlobalState, props: {rootId:
     );
 }
 
-export function makeGetCommentCountForPost(): (state: GlobalState, props: {post: Post}) => number {
+export function makeGetCommentCountForPost(): (state: GlobalState, post: Post) => number {
     return createSelector(
         getAllPosts,
-        (state: GlobalState, {post}: {post: Post}) => state.entities.posts.postsInThread[post ? post.id : ''] || [],
-        (state, props) => props,
-        (posts, postsForThread, {post: currentPost}) => {
-            if (!currentPost) {
+        (state: GlobalState, post: Post) => state.entities.posts.postsInThread[post ? post.root_id || post.id : ''] || [],
+        (state, post: Post) => post,
+        (posts, postsForThread, post) => {
+            if (!post) {
                 return 0;
             }
 
