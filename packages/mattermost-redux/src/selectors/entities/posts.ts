@@ -396,11 +396,15 @@ export function makeGetProfilesForThread(): (state: GlobalState, props: {rootId:
 export function makeGetCommentCountForPost(): (state: GlobalState, post: Post) => number {
     return createSelector(
         getAllPosts,
-        (state: GlobalState, post: Post) => state.entities.posts.postsInThread[post ? post.root_id || post.id : ''] || [],
+        (state: GlobalState, post: Post) => state.entities.posts.postsInThread[post ? post.root_id || post.id : ''] || null,
         (state, post: Post) => post,
         (posts, postsForThread, post) => {
             if (!post) {
                 return 0;
+            }
+
+            if (!postsForThread) {
+                return post.reply_count;
             }
 
             let count = 0;
