@@ -16,6 +16,9 @@ import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
 import {makeGetDisplayName} from 'mattermost-redux/selectors/entities/users';
 import {getThread} from 'mattermost-redux/selectors/entities/threads';
 import {getPost, makeGetPostsForThread} from 'mattermost-redux/selectors/entities/posts';
+import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
+
+import * as Utils from 'utils/utils';
 
 import './thread_item.scss';
 
@@ -117,6 +120,11 @@ const ThreadItem = ({
     const postsInThread = useSelector((state: GlobalState) => getPostsForThread(state, {rootId: post.id}));
     let unreadTimestamp = post.edit_at || post.create_at;
 
+    const currentRelativeTeamUrl = useSelector(getCurrentRelativeTeamUrl);
+    const handleFormattedTextClick = useCallback((e) => {
+        Utils.handleFormattedTextClick(e, currentRelativeTeamUrl);
+    }, [currentRelativeTeamUrl]);
+
     // if we have the whole thread, get the posts in it, sorted from newest to oldest.
     // Last post - root post, second to last post - oldest reply. Use that timestamp
     if (postsInThread.length > 1) {
@@ -183,7 +191,13 @@ const ThreadItem = ({
                     </SimpleTooltip>
                 </ThreadMenu>
             </span>
-            <div className='preview'>
+            <div
+                aria-readonly='true'
+                className='preview'
+                dir='auto'
+                tabIndex={0}
+                onClick={handleFormattedTextClick}
+            >
                 <Markdown
                     message={post?.message ?? '(message deleted)'}
                     options={markdownPreviewOptions}

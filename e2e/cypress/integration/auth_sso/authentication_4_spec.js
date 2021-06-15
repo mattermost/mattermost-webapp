@@ -11,8 +11,7 @@
 // Group: @system_console @authentication
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
-
-import {getEmailUrl, reUrl, getRandomId} from '../../utils';
+import {reUrl, getRandomId} from '../../utils';
 
 describe('Authentication', () => {
     let testUser;
@@ -80,13 +79,8 @@ describe('Authentication', () => {
         cy.findByText('Mattermost: You are almost done').should('be.visible').and('exist');
         cy.findByText('Please verify your email address. Check your inbox for an email.').should('be.visible').and('exist');
 
-        const baseUrl = Cypress.config('baseUrl');
-        const mailUrl = getEmailUrl(baseUrl);
-
-        cy.task('getRecentEmail', {username: testUser.username, mailUrl}).then((response) => {
-            const bodyText = response.data.body.text.split('\n');
-
-            const permalink = bodyText[6].match(reUrl)[0];
+        cy.getRecentEmail(testUser).then(({body}) => {
+            const permalink = body[6].match(reUrl)[0];
 
             // # Visit permalink (e.g. click on email link), view in browser to proceed
             cy.visit(permalink);

@@ -8,7 +8,7 @@ import {setCategoryCollapsed, setCategorySorting} from 'mattermost-redux/actions
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
 
-import {getDraggingState, makeGetFilteredChannelsForCategory} from 'selectors/views/channel_sidebar';
+import {getDraggingState, makeGetFilteredChannelIdsForCategory} from 'selectors/views/channel_sidebar';
 import {GlobalState} from 'types/store';
 
 import SidebarCategory from './sidebar_category';
@@ -18,11 +18,11 @@ type OwnProps = {
 }
 
 function makeMapStateToProps() {
-    const getChannelsForCategory = makeGetFilteredChannelsForCategory();
+    const getChannelIdsForCategory = makeGetFilteredChannelIdsForCategory();
 
     return (state: GlobalState, ownProps: OwnProps) => {
         return {
-            channels: getChannelsForCategory(state, ownProps.category),
+            channelIds: getChannelIdsForCategory(state, ownProps.category),
             draggingState: getDraggingState(state),
         };
     };

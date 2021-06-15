@@ -14,6 +14,7 @@ import {Post} from 'mattermost-redux/types/posts';
 import {UserProfile} from 'mattermost-redux/types/users';
 
 type Props = {
+    availabilityStatusOnPosts: string;
     compactDisplay: boolean;
     enablePostIconOverride: boolean;
     hasImageProxy: boolean;
@@ -79,6 +80,7 @@ export default class PostProfilePicture extends React.PureComponent<Props> {
 
     render() {
         const {
+            availabilityStatusOnPosts,
             compactDisplay,
             isBusy,
             isRHS,
@@ -113,12 +115,15 @@ export default class PostProfilePicture extends React.PureComponent<Props> {
                 src={src}
                 profileSrc={profileSrc}
                 isEmoji={isEmoji}
-                status={status}
+                status={availabilityStatusOnPosts === 'true' ? status : ''}
                 userId={user?.id}
                 channelId={post.channel_id}
                 username={user?.username}
                 overwriteIcon={this.props.overwriteIcon}
                 overwriteName={overwriteName}
+                isBot={user?.is_bot}
+                fromAutoResponder={fromAutoResponder}
+                fromWebhook={fromWebhook}
             />
         );
     }

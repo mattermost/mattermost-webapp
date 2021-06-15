@@ -11,7 +11,7 @@ exports[`Post should handle highlighting properly when jumping to pinned or flag
   <div
     aria-atomic={true}
     aria-label=""
-    className="a11y__section post post--highlight post--pinned-or-flagged-highlight post--pinned-or-flagged  other--root  current--user"
+    className="a11y__section post post--highlight post--pinned-or-flagged-highlight post--pinned-or-flagged  other--root  "
     data-testid="postView"
     id="post_post1"
     onClick={[Function]}
@@ -59,7 +59,6 @@ exports[`Post should handle highlighting properly when jumping to pinned or flag
               "is_pinned": false,
             }
           }
-          replyCount={0}
           showTimeWithoutHover={true}
         />
         <Connect(PostBody)
@@ -91,7 +90,7 @@ exports[`Post should handle highlighting properly when jumping to pinned or flag
   <div
     aria-atomic={true}
     aria-label=""
-    className="a11y__section post post--pinned-or-flagged  other--root  current--user"
+    className="a11y__section post post--pinned-or-flagged  other--root  "
     data-testid="postView"
     id="post_post1"
     onClick={[Function]}
@@ -139,7 +138,6 @@ exports[`Post should handle highlighting properly when jumping to pinned or flag
               "is_pinned": false,
             }
           }
-          replyCount={0}
           showTimeWithoutHover={true}
         />
         <Connect(PostBody)
@@ -171,7 +169,7 @@ exports[`Post should not remove post--highlight class after timeout so the class
   <div
     aria-atomic={true}
     aria-label=""
-    className="a11y__section post post--highlight  other--root  current--user"
+    className="a11y__section post post--highlight  other--root  "
     data-testid="postView"
     id="post_post1"
     onClick={[Function]}
@@ -219,7 +217,6 @@ exports[`Post should not remove post--highlight class after timeout so the class
               "is_pinned": false,
             }
           }
-          replyCount={0}
           showTimeWithoutHover={true}
         />
         <Connect(PostBody)
@@ -251,7 +248,7 @@ exports[`Post should not remove post--highlight class after timeout so the class
   <div
     aria-atomic={true}
     aria-label=""
-    className="a11y__section post  other--root  current--user"
+    className="a11y__section post  other--root  "
     data-testid="postView"
     id="post_post1"
     onClick={[Function]}
@@ -299,7 +296,6 @@ exports[`Post should not remove post--highlight class after timeout so the class
               "is_pinned": false,
             }
           }
-          replyCount={0}
           showTimeWithoutHover={true}
         />
         <Connect(PostBody)

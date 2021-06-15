@@ -20,6 +20,18 @@ export const selectedThreadIdInTeam = (state: ViewsState['threads']['selectedThr
     return state;
 };
 
+export const lastViewedAt = (state: ViewsState['threads']['lastViewedAt'] | Record<string, unknown> = {}, action: GenericAction) => {
+    switch (action.type) {
+    case Threads.CHANGED_LAST_VIEWED_AT:
+        return {
+            ...state,
+            [action.data.threadId]: action.data.lastViewedAt,
+        };
+    }
+    return state;
+};
+
 export default combineReducers({
     selectedThreadIdInTeam,
+    lastViewedAt,
 });

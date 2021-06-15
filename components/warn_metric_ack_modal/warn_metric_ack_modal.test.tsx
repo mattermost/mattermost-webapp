@@ -30,11 +30,12 @@ describe('components/WarnMetricAckModal', () => {
             id: 'metric1',
             limit: 500,
             acked: false,
+            store_status: 'status1',
         },
         actions: {
             closeModal: jest.fn(),
             getStandardAnalytics: jest.fn(),
-            sendWarnMetricAck: jest.fn(),
+            sendWarnMetricAck: jest.fn().mockResolvedValue({}),
         },
     };
 

@@ -7,13 +7,12 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @signin_authentication @mfa
+// Group: @signin_authentication
 
-import {getEmailUrl} from '../../utils';
 import {getAdminAccount} from '../../support/env';
 import timeouts from '../../fixtures/timeouts';
 
-const authenticator = require('authenticator');
+import {fillCredentialsForUser} from './helpers';
 
 describe('Authentication', () => {
     let testTeam;
@@ -37,98 +36,10 @@ describe('Authentication', () => {
             cy.apiAddUserToTeam(testTeam2.id, testUser.id);
             cy.apiAddUserToTeam(testTeam2.id, testUser2.id);
         });
+    });
 
+    beforeEach(() => {
         cy.apiLogout();
-    });
-
-    afterEach(() => {
-        cy.apiLogout();
-    });
-
-    it('MM-T404 Set up Multi-factor Authentication (Email login) - Enabled but not enforced', () => {
-        // # On a server with MFA enabled (but not enforced).
-        cy.apiAdminLogin();
-        cy.apiUpdateConfig({
-            ServiceSettings: {
-                EnableMultifactorAuthentication: true,
-            },
-        });
-
-        cy.apiLogin(testUser);
-
-        // # Go to Account Settings > Security > Multi-factor Authentication > Edit
-        cy.visit(`/${testTeam.name}/channels/town-square`).wait(timeouts.ONE_SEC);
-
-        cy.toAccountSettingsModal();
-
-        // * Check that the Security tab is loaded
-        cy.get('#securityButton').should('be.visible').click();
-        cy.get('#mfaEdit').should('be.visible').click();
-        cy.findByText('Add MFA to Account').should('be.visible').click();
-
-        getUserSecret(testUser).then(({secret}) => {
-            // # Logout
-            cy.apiLogout();
-
-            // # Enter credentials to log in
-            cy.visit('/login');
-            fillCredentialsForUser(testUser);
-
-            // # Enter *incorrect* MFA token and verify it doesn't log you in
-            fillMFACode('123456');
-            cy.findByText('Invalid MFA token.').should('be.visible');
-
-            // # Verify taken back to login page, re-enter credentials (if they're not already filled in)
-            fillCredentialsForUser(testUser);
-
-            // # Enter correct MFA token
-            const token = authenticator.generateToken(secret);
-            fillMFACode(token);
-
-            // * Multifactor Authentication is enabled, and login is successful only after entering the MFA code.
-            cy.url().should('include', 'town-square');
-        });
-    });
-
-    it('MM-T405 MFA - Remove', () => {
-        cy.apiAdminLogin();
-
-        // # Ensure MFA is enabled but not enforced (System Console > MFA)
-        cy.apiUpdateConfig({
-            ServiceSettings: {
-                EnableMultifactorAuthentication: true,
-            },
-        });
-
-        cy.apiGenerateMfaSecret(testUser.id).then((res) => {
-            let token = authenticator.generateToken(res.code.secret);
-            cy.apiActivateUserMFA(testUser.id, true, token);
-            cy.apiLogout();
-
-            // # Sign in with an account using Email Authentication and MFA
-            cy.visit('/login');
-            fillCredentialsForUser(testUser);
-            token = authenticator.generateToken(res.code.secret);
-            fillMFACode(token);
-
-            // # Go to Account Settings
-            cy.toAccountSettingsModal();
-
-            // # Go to Security > Multi-factor Authentication > Edit and Remove MFA
-            cy.get('#securityButton').should('be.visible').click();
-            cy.get('#mfaEdit').should('be.visible').click();
-            cy.findByText('Remove MFA from Account').should('be.visible').click();
-
-            // # Log out
-            cy.apiLogout();
-
-            // # Log in again
-            cy.visit('/login');
-            fillCredentialsForUser(testUser);
-
-            // * Login should be successful without having to enter an MFA code.
-            cy.url().should('include', 'town-square');
-        });
     });
 
     it('MM-T406 Sign In Forgot password - Email address not on server (but valid) Focus in login field on login page', () => {
@@ -156,13 +67,10 @@ describe('Authentication', () => {
             cy.get('span').last().should('have.text', 'Please check your inbox.');
         });
 
-        const baseUrl = Cypress.config('baseUrl');
-        const mailUrl = getEmailUrl(baseUrl);
-
         // * Verify reset email is not sent.
-        cy.task('getRecentEmail', {username: testUser.username, mailUrl}).then((response) => {
+        cy.getRecentEmail(testUser).then(({subject}) => {
             // Last email should be something else for the test user.
-            expect(response.data.subject).not.equal('[Mattermost] Reset your password');
+            expect(subject).not.contain('Reset your password');
         });
     });
 
@@ -268,41 +176,3 @@ describe('Authentication', () => {
         cy.get('#login_section .alert-warning', {timeout: timeouts.ONE_MIN}).should('contain.text', 'Your session has expired. Please log in again.');
     });
 });
-
-function getUserSecret(user) {
-    return cy.url().then((url) => {
-        if (url.includes('mfa/setup')) {
-            return cy.get('#mfa').wait(timeouts.HALF_SEC).find('.col-sm-12').then((p) => {
-                const secretp = p.text();
-                const secret = secretp.split(' ')[1];
-
-                const token = authenticator.generateToken(secret);
-                cy.get('#mfa').find('.form-control').type(token);
-                cy.get('#mfa').find('.btn.btn-primary').click();
-
-                cy.wait(timeouts.HALF_SEC);
-                cy.get('#mfa').find('.btn.btn-primary').click();
-                return cy.wrap({secret});
-            });
-        }
-
-        // # If the user already has MFA enabled, reset the secret.
-        return cy.apiGenerateMfaSecret(user.id).then((res) => {
-            const secret = res.code.secret;
-            return cy.wrap({secret});
-        });
-    });
-}
-
-function fillCredentialsForUser(user) {
-    cy.wait(timeouts.TWO_SEC);
-    cy.get('#loginId').should('be.visible').clear().type(user.username).wait(timeouts.ONE_SEC);
-    cy.get('#loginPassword').should('be.visible').clear().type(user.password).wait(timeouts.ONE_SEC);
-    cy.findByText('Sign in').click().wait(timeouts.ONE_SEC);
-}
-
-function fillMFACode(code) {
-    cy.wait(timeouts.TWO_SEC);
-    cy.findByPlaceholderText('MFA Token').clear().type(code).wait(timeouts.ONE_SEC);
-    cy.get('#saveSetting').should('be.visible').click().wait(timeouts.ONE_SEC);
-}

@@ -40,6 +40,18 @@ function selectedPostFocussedAt(state = 0, action) {
     }
 }
 
+function highlightedPostId(state = '', action) {
+    switch (action.type) {
+    case ActionTypes.HIGHLIGHT_REPLY:
+        return action.postId;
+    case ActionTypes.CLEAR_HIGHLIGHT_REPLY:
+    case ActionTypes.UPDATE_RHS_STATE:
+        return '';
+    default:
+        return state;
+    }
+}
+
 // filesSearchExtFilter keeps track of the extension filters used for file search.
 function filesSearchExtFilter(state = [], action) {
     switch (action.type) {
@@ -252,6 +264,7 @@ export default combineReducers({
     selectedPostFocussedAt,
     selectedPostCardId,
     selectedChannelId,
+    highlightedPostId,
     previousRhsState,
     filesSearchExtFilter,
     rhsState,

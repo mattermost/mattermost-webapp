@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {render, shallow} from 'enzyme';
+import {mount, shallow} from 'enzyme';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
@@ -27,9 +27,9 @@ describe('components/IntlProvider', () => {
     };
 
     test('should render children when passed translation strings', () => {
-        const wrapper = render(<IntlProvider {...baseProps}/>);
+        const wrapper = mount(<IntlProvider {...baseProps}/>);
 
-        expect(wrapper).toMatchSnapshot();
+        expect(wrapper.find(FormattedMessage).childAt(0)).toMatchSnapshot();
     });
 
     test('should render children when passed translation strings for a non-default locale', () => {
@@ -41,9 +41,9 @@ describe('components/IntlProvider', () => {
             },
         };
 
-        const wrapper = render(<IntlProvider {...props}/>);
+        const wrapper = mount(<IntlProvider {...props}/>);
 
-        expect(wrapper).toMatchSnapshot();
+        expect(wrapper.find(FormattedMessage).childAt(0)).toMatchSnapshot();
     });
 
     test('should render null when missing translation strings', () => {
@@ -52,9 +52,9 @@ describe('components/IntlProvider', () => {
             translations: null,
         };
 
-        const wrapper = render(<IntlProvider {...props}/>);
+        const wrapper = mount(<IntlProvider {...props}/>);
 
-        expect(wrapper).toMatchSnapshot();
+        expect(wrapper.find(FormattedMessage).exists()).toBe(false);
     });
 
     test('on mount, should attempt to load missing translations', () => {

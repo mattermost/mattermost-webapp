@@ -465,7 +465,6 @@ describe('rhs view actions', () => {
             expect(store.getActions()).toEqual([
                 PostActions.setEditingPost(
                     latestPostId,
-                    0,
                     'reply_textbox',
                     'Comment',
                     true,

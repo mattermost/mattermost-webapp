@@ -11,6 +11,7 @@ import {Preferences} from 'mattermost-redux/constants';
 import {UserCustomStatus} from 'mattermost-redux/types/users';
 import {Emoji} from 'mattermost-redux/types/emojis';
 
+import {loadCustomEmojisIfNeeded} from 'actions/emoji_actions';
 import GenericModal from 'components/generic_modal';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
@@ -66,7 +67,16 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
         }
     };
 
-    useEffect(handleCustomStatusInitializationState, []);
+    const loadCustomEmojisForRecentStatuses = () => {
+        const emojisToLoad = new Set<string>();
+        recentCustomStatuses.forEach((customStatus: UserCustomStatus) => emojisToLoad.add(customStatus.emoji));
+        dispatch(loadCustomEmojisIfNeeded(Array.from(emojisToLoad)));
+    };
+
+    useEffect(() => {
+        handleCustomStatusInitializationState();
+        loadCustomEmojisForRecentStatuses();
+    }, []);
 
     const handleSetStatus = () => {
         const customStatus = {
@@ -84,7 +94,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
 
     const handleEmojiClick = (selectedEmoji: Emoji) => {
         setShowEmojiPicker(false);
-        const emojiName = ('name' in selectedEmoji) ? selectedEmoji.name : selectedEmoji.aliases[0];
+        const emojiName = ('short_name' in selectedEmoji) ? selectedEmoji.short_name : selectedEmoji.name;
         setEmoji(emojiName);
     };
 
