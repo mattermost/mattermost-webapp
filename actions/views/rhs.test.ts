@@ -32,8 +32,8 @@ import {
     closeMenu,
     openAtPrevious,
     updateSearchType,
-    saveRHSStash,
-    restoreRHSFromStash,
+    suppressRHS,
+    unsuppressRHS,
 } from 'actions/views/rhs';
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 import {ActionTypes, RHSStates, Constants} from 'utils/constants';
@@ -832,36 +832,20 @@ describe('rhs view actions', () => {
         });
     });
 
-    describe('rsh stash actions', () => {
-        it('should save rhs stash', () => {
+    describe('rsh suppress actions', () => {
+        it('should suppress rhs', () => {
             const store = mockStore(initialState);
-            store.dispatch(saveRHSStash());
+            store.dispatch(suppressRHS);
 
             expect(store.getActions()).toEqual([{
-                type: ActionTypes.SAVE_RHS_STASH,
-                data: store.getState().views.rhs,
+                type: ActionTypes.SUPPRESS_RHS,
             }]);
         });
 
-        it('should restore rhs from stash', () => {
-            const rhsStash = {
-                rhsState: 'search',
-                filesSearchExtFilter: [] as string[],
-            };
-
-            const store = mockStore({
-                ...initialState,
-                views: {
-                    ...initialState.views,
-                    rhsStash,
-                } as ViewsState,
-            });
-
-            store.dispatch(restoreRHSFromStash());
-
+        it('should unsuppresses rhs', () => {
+            store.dispatch(unsuppressRHS);
             expect(store.getActions()).toEqual([{
-                type: ActionTypes.RESTORE_RHS_FROM_STASH,
-                data: rhsStash,
+                type: ActionTypes.UNSUPPRESS_RHS,
             }]);
         });
     });

@@ -466,30 +466,10 @@ export function openAtPrevious(previous: any) { // TODO Could not find the prope
     };
 }
 
-export function saveRHSStash() {
-    return (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        const {rhs} = (getState() as GlobalState).views;
+export const suppressRHS = {
+    type: ActionTypes.SUPPRESS_RHS,
+};
 
-        dispatch({
-            type: ActionTypes.SAVE_RHS_STASH,
-            data: rhs,
-        });
-
-        return {data: true};
-    };
-}
-
-export function restoreRHSFromStash() {
-    return (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        const {rhsStash} = (getState() as GlobalState).views;
-
-        if (rhsStash) {
-            dispatch({
-                type: ActionTypes.RESTORE_RHS_FROM_STASH,
-                data: rhsStash,
-            });
-        }
-
-        return {data: true};
-    };
-}
+export const unsuppressRHS = {
+    type: ActionTypes.UNSUPPRESS_RHS,
+};

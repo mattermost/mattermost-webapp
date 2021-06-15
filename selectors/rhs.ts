@@ -135,7 +135,7 @@ export function getPostDraft(state: GlobalState, prefixId: string, suffixId: str
 }
 
 export function getIsRhsOpen(state: GlobalState): boolean {
-    return state.views.rhs.isSidebarOpen;
+    return state.views.rhs.isSidebarOpen && !state.views.rhsSuppressed;
 }
 
 export function getIsRhsMenuOpen(state: GlobalState): boolean {

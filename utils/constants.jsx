@@ -231,9 +231,8 @@ export const ActionTypes = keyMirror({
     SET_SHOW_NEXT_STEPS_VIEW: null,
     SET_FILES_FILTER_BY_EXT: null,
 
-    SAVE_RHS_STASH: null,
-    CLEAR_RHS_STASH: null,
-    RESTORE_RHS_FROM_STASH: null,
+    SUPPRESS_RHS: null,
+    UNSUPPRESS_RHS: null,
 });
 
 export const PostRequestTypes = keyMirror({

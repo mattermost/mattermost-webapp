@@ -13,7 +13,7 @@ import {getThreads} from 'mattermost-redux/actions/threads';
 
 import {t} from 'utils/i18n';
 
-import {saveRHSStash, closeRightHandSide} from 'actions/views/rhs';
+import {suppressRHS} from 'actions/views/rhs';
 import {isUnreadFilterEnabled} from 'selectors/views/channel_sidebar';
 import {useThreadRouting} from '../hooks';
 
@@ -38,8 +38,7 @@ const GlobalThreadsLink = () => {
     const someUnreadThreads = counts?.total_unread_threads;
 
     const closeRHS = useCallback(() => {
-        dispatch(saveRHSStash());
-        dispatch(closeRightHandSide());
+        dispatch(suppressRHS);
     }, []);
 
     useEffect(() => {

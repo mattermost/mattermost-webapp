@@ -552,38 +552,4 @@ describe('Reducers.RHS', () => {
 
         expect(nextState).toEqual(initialState);
     });
-
-    test('should match RHS upon restoring from stash', () => {
-        const data = {
-            filesSearchExtFilter: ['png'],
-            selectedPostId: 'post_id',
-            selectedPostFocussedAt: 400,
-            selectedPostCardId: 'post_card_id',
-            selectedChannelId: 'channel_id',
-            highlightedPostId: 'highlighted_post_id',
-            previousRhsState: 'search',
-            rhsState: 'flag',
-            searchTerms: 'user_id',
-            searchType: '',
-            searchResultsTerms: 'user id',
-            pluggableId: 'pluggable_id',
-            isSearchingFlaggedPost: true,
-            isSearchingPinnedPost: true,
-            isMenuOpen: true,
-            isSidebarOpen: true,
-            isSidebarExpanded: true,
-        };
-
-        const nextState = rhsReducer(
-            {},
-            {
-                type: ActionTypes.RESTORE_RHS_FROM_STASH,
-                data,
-            },
-        );
-
-        expect(nextState).toEqual({
-            ...data,
-        });
-    });
 });
