@@ -7,7 +7,6 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {
     makeGetMessageInHistoryItem,
-    makeGetCommentCountForPost,
     getPost,
     getPostIdsInChannel,
 } from 'mattermost-redux/selectors/entities/posts';
@@ -214,7 +213,6 @@ function makeGetCurrentUsersLatestPost(channelId, rootId) {
 
 export function makeOnEditLatestPost(channelId, rootId) {
     const getCurrentUsersLatestPost = makeGetCurrentUsersLatestPost(channelId, rootId);
-    const getCommentCount = makeGetCommentCountForPost();
 
     return () => (dispatch, getState) => {
         const state = getState();
@@ -227,7 +225,6 @@ export function makeOnEditLatestPost(channelId, rootId) {
 
         return dispatch(PostActions.setEditingPost(
             lastPost.id,
-            getCommentCount(state, {post: lastPost}),
             'reply_textbox',
             Utils.localizeMessage('create_comment.commentTitle', 'Comment'),
             true,

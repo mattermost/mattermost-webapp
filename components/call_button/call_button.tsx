@@ -1,24 +1,32 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
-import {injectIntl} from 'react-intl';
-
-import {intlShape} from 'utils/react_intl';
+import {injectIntl, IntlShape} from 'react-intl';
 
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 import CameraIcon from 'components/widgets/icons/camera_icon';
 
-const customStyles = {
+import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
+import {PluginComponent} from 'types/store/plugins';
+
+const customStyles: React.CSSProperties = {
     left: 'inherit',
     right: 0,
     bottom: '100%',
     top: 'auto',
 };
 
-function CallButton(props) {
+type Props = {
+    currentChannel: Channel;
+    channelMember?: ChannelMembership;
+    intl: IntlShape;
+    locale: string;
+    pluginCallMethods: PluginComponent[];
+}
+
+function CallButton(props: Props) {
     const {formatMessage} = props.intl;
 
     let bodyAction;
@@ -93,14 +101,6 @@ function CallButton(props) {
 
     return bodyAction;
 }
-
-CallButton.propTypes = {
-    currentChannel: PropTypes.object.isRequired,
-    channelMember: PropTypes.object,
-    intl: intlShape.isRequired,
-    locale: PropTypes.string.isRequired,
-    pluginCallMethods: PropTypes.arrayOf(PropTypes.object),
-};
 
 CallButton.defaultProps = {
     pluginCallMethods: [],

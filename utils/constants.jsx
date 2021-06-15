@@ -113,6 +113,8 @@ export const Preferences = {
 export const ActionTypes = keyMirror({
     RECEIVED_FOCUSED_POST: null,
     SELECT_POST: null,
+    HIGHLIGHT_REPLY: null,
+    CLEAR_HIGHLIGHT_REPLY: null,
     SELECT_POST_CARD: null,
     INCREASE_POST_VISIBILITY: null,
     LOADING_POSTS: null,
@@ -437,6 +439,7 @@ export const RecommendedNextSteps = {
 
 export const Threads = {
     CHANGED_SELECTED_THREAD: 'changed_selected_thread',
+    CHANGED_LAST_VIEWED_AT: 'changed_last_viewed_at',
 };
 
 export const CloudBanners = {
@@ -726,6 +729,7 @@ export const AboutLinks = {
 export const CloudLinks = {
     BILLING_DOCS: 'https://docs.mattermost.com/cloud/cloud-billing/cloud-billing.html',
     COMPARE_PLANS: 'https://mattermost.com/pricing-cloud/#pricing-grid-block_5fa2028808529',
+    CLOUD_PRICING: 'https://mattermost.com/pricing-cloud/',
 };
 
 export const PermissionsScope = {
@@ -1631,6 +1635,8 @@ export const Constants = {
     TRANSPARENT_PIXEL: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=',
     TRIPLE_BACK_TICKS: /```/g,
     MAX_ATTACHMENT_FOOTER_LENGTH: 300,
+    ACCEPT_STATIC_IMAGE: '.jpeg,.jpg,.png,.bmp',
+    ACCEPT_EMOJI_IMAGE: '.jpeg,.jpg,.png,.gif',
 };
 
 export const ValidationErrors = {

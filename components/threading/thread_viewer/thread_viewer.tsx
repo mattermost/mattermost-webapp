@@ -11,6 +11,7 @@ import {ExtendedPost} from 'mattermost-redux/actions/posts';
 import {Post} from 'mattermost-redux/types/posts';
 import {UserProfile} from 'mattermost-redux/types/users';
 import {UserThread} from 'mattermost-redux/types/threads';
+import {isFromWebhook} from 'mattermost-redux/utils/post_utils';
 
 import Constants from 'utils/constants';
 import DelayedAction from 'utils/delayed_action';
@@ -19,6 +20,7 @@ import * as UserAgent from 'utils/user_agent';
 import CreateComment from 'components/create_comment';
 import DateSeparator from 'components/post_view/date_separator';
 import FloatingTimestamp from 'components/post_view/floating_timestamp';
+import NewMessageSeparator from 'components/post_view/new_message_separator/new_message_separator';
 import RhsComment from 'components/rhs_comment';
 import RhsRootPost from 'components/rhs_root_post';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
@@ -83,9 +85,12 @@ type Props = Attrs & {
         getPostThread: (rootId: string, root?: boolean) => void;
         getThread: (userId: string, teamId: string, threadId: string, extended: boolean) => unknown;
         updateThreadRead: (userId: string, teamId: string, threadId: string, timestamp: number) => unknown;
+        updateThreadLastOpened: (threadId: string, lastViewedAt: number) => unknown;
     };
     directTeammate: UserProfile;
     useRelativeTimestamp?: boolean;
+    highlightedPostId?: string;
+    lastViewedAt?: number;
 };
 
 type State = {
@@ -156,7 +161,9 @@ export default class ThreadViewer extends React.Component<Props, State> {
     }
 
     public componentDidMount() {
-        this.scrollToBottom();
+        if (!this.props.highlightedPostId) {
+            this.scrollToBottom();
+        }
         this.resizeRhsPostList();
         window.addEventListener('resize', this.handleResize);
 
@@ -179,38 +186,59 @@ export default class ThreadViewer extends React.Component<Props, State> {
 
     public morePostsToFetch() {
         const rootPost = Utils.getRootPost(this.props.posts);
-        const replyCount = rootPost?.reply_count || this.props.userThread?.reply_count || 0;
+        const replyCount = this.getReplyCount();
         return rootPost && this.props.posts.length < (replyCount + 1);
     }
 
-    fetchThread() {
-        this.props.actions.getThread(
-            this.props.currentUserId,
-            this.props.currentTeamId,
-            this.props.selected.id,
-            true,
-        );
+    public getReplyCount() {
+        return Utils.getRootPost(this.props.posts)?.reply_count || this.props.userThread?.reply_count || 0;
     }
 
-    markThreadRead() {
-        if (
-            this.props.userThread &&
-            (
-                this.props.userThread.last_viewed_at < this.props.userThread.last_reply_at ||
-                this.props.userThread.unread_mentions ||
-                this.props.userThread.unread_replies
-            )
-        ) {
-            this.props.actions.updateThreadRead(
-                this.props.currentUserId,
-                this.props.currentTeamId,
-                this.props.selected.id,
-                Date.now(),
+    fetchThread() {
+        const {
+            actions: {
+                getThread,
+            },
+            currentUserId,
+            currentTeamId,
+            selected,
+        } = this.props;
+
+        if (this.getReplyCount() && Utils.getRootPost(this.props.posts)?.is_following) {
+            getThread(
+                currentUserId,
+                currentTeamId,
+                selected.id,
+                true,
             );
         }
     }
 
+    markThreadRead() {
+        if (this.props.userThread) {
+            // update last viewed at for thread before marking as read.
+            this.props.actions.updateThreadLastOpened(
+                this.props.userThread.id,
+                this.props.userThread.last_viewed_at,
+            );
+
+            if (
+                this.props.userThread.last_viewed_at < this.props.userThread.last_reply_at ||
+                this.props.userThread.unread_mentions ||
+                this.props.userThread.unread_replies
+            ) {
+                this.props.actions.updateThreadRead(
+                    this.props.currentUserId,
+                    this.props.currentTeamId,
+                    this.props.selected.id,
+                    Date.now(),
+                );
+            }
+        }
+    }
+
     public componentDidUpdate(prevProps: Props) {
+        const {highlightedPostId} = this.props;
         const prevPostsArray = prevProps.posts || [];
         const curPostsArray = this.props.posts || [];
 
@@ -219,13 +247,6 @@ export default class ThreadViewer extends React.Component<Props, State> {
 
         if (reconnected || selectedChanged) {
             this.props.actions.getPostThread(this.props.selected.id);
-
-            if (
-                this.props.isCollapsedThreadsEnabled &&
-                this.props.userThread == null
-            ) {
-                this.fetchThread();
-            }
         }
 
         if (
@@ -241,7 +262,10 @@ export default class ThreadViewer extends React.Component<Props, State> {
 
         const curLastPost = curPostsArray[0];
 
-        if (curLastPost.user_id === this.props.currentUserId || this.state.userScrolledToBottom) {
+        if (
+            !highlightedPostId &&
+            (curLastPost.user_id === this.props.currentUserId || this.state.userScrolledToBottom)
+        ) {
             this.scrollToBottom();
         }
     }
@@ -275,16 +299,21 @@ export default class ThreadViewer extends React.Component<Props, State> {
             return true;
         }
 
+        if (nextProps.highlightedPostId !== this.props.highlightedPostId) {
+            return true;
+        }
+
         return false;
     }
 
     private handleResize = (): void => {
+        const {highlightedPostId} = this.props;
         this.setState({
             windowWidth: Utils.windowWidth(),
             windowHeight: Utils.windowHeight(),
         });
 
-        if (UserAgent.isMobile() && document!.activeElement!.id === 'reply_textbox') {
+        if (!highlightedPostId && UserAgent.isMobile() && document!.activeElement!.id === 'reply_textbox') {
             this.scrollToBottom();
         }
         this.resizeRhsPostList();
@@ -385,7 +414,9 @@ export default class ThreadViewer extends React.Component<Props, State> {
 
     private handlePostCommentResize = (): void => {
         this.resizeRhsPostList();
-        this.scrollToBottom();
+        if (!this.props.highlightedPostId) {
+            this.scrollToBottom();
+        }
     }
 
     public render(): JSX.Element {
@@ -417,6 +448,7 @@ export default class ThreadViewer extends React.Component<Props, State> {
 
         const items = [];
         let a11yIndex = 1;
+        let addedNewMessagesIndicator = false;
         for (let i = 0; i < postsLength; i++) {
             const comPost = postsArray[i];
             const previousPostId = i > 0 ? postsArray[i - 1].id : '';
@@ -433,6 +465,24 @@ export default class ThreadViewer extends React.Component<Props, State> {
                 }
             }
 
+            if (
+                this.props.isCollapsedThreadsEnabled &&
+                !addedNewMessagesIndicator &&
+                this.props.lastViewedAt &&
+                comPost.id &&
+                comPost.create_at >= this.props.lastViewedAt &&
+                (currentUserId !== comPost.user_id || isFromWebhook(comPost))
+            ) {
+                addedNewMessagesIndicator = true;
+                items.push(
+                    <NewMessageSeparator
+                        key={`thread-new-messages-${comPost.id}`}
+                        separatorId={`thread-new-messages-${comPost.id}`}
+                    />,
+                );
+            }
+
+            const isFocused = comPost.id && comPost.id === this.props.highlightedPostId;
             const keyPrefix = comPost.id ? comPost.id : comPost.pending_post_id;
 
             items.push(
@@ -443,6 +493,7 @@ export default class ThreadViewer extends React.Component<Props, State> {
                     teamId={this.props.channel!.team_id}
                     currentUserId={currentUserId}
                     isBusy={this.state.isBusy}
+                    isFocused={isFocused}
                     removePost={this.props.actions.removePost}
                     previewCollapsed={this.props.previewCollapsed}
                     previewEnabled={this.props.previewEnabled}
@@ -450,6 +501,7 @@ export default class ThreadViewer extends React.Component<Props, State> {
                     a11yIndex={a11yIndex++}
                     isLastPost={comPost.id === lastRhsCommentPost.id}
                     timestampProps={this.props.useRelativeTimestamp ? THREADING_TIME : undefined}
+                    containerHeight={this.containerRef.current?.getBoundingClientRect().height}
                 />,
             );
         }

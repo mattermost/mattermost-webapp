@@ -11,6 +11,7 @@ import {UserThread} from 'mattermost-redux/types/threads';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 
 import {setThreadFollow, updateThreadRead} from 'mattermost-redux/actions/threads';
+import {updateThreadLastOpened} from 'actions/views/threads';
 
 import {
     flagPost as savePost,
@@ -109,6 +110,7 @@ function ThreadMenu({
                         defaultMessage: 'Mark as unread',
                     })}
                     onClick={useCallback(() => {
+                        dispatch(updateThreadLastOpened(threadId, hasUnreads ? Date.now() : unreadTimestamp));
                         dispatch(updateThreadRead(currentUserId, currentTeamId, threadId, hasUnreads ? Date.now() : unreadTimestamp));
                     }, [currentUserId, currentTeamId, threadId, hasUnreads, updateThreadRead, unreadTimestamp])}
                 />
