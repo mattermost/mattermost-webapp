@@ -2289,6 +2289,7 @@ export function renderPurchaseLicense() {
             />
         </div>
     );
+}
 
 export function deleteKeysFromObject(value, keys) {
     for (const key of keys) {
