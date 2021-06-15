@@ -523,7 +523,7 @@ export default class ThreadViewer extends React.Component<Props, State> {
             if (
                 this.props.isCollapsedThreadsEnabled &&
                 !addedNewMessagesIndicator &&
-                this.props.lastViewedAt &&
+                typeof this.props.lastViewedAt === 'number' &&
                 comPost.id &&
                 comPost.create_at >= this.props.lastViewedAt &&
                 (currentUserId !== comPost.user_id || isFromWebhook(comPost))
