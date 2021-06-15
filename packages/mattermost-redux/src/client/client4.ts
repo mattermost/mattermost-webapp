@@ -2651,7 +2651,8 @@ export default class Client4 {
     };
 
     getSystemEmojiImageUrl = (filename: string) => {
-        return `${this.url}/static/emoji/${filename}.png`;
+        const extension = filename.endsWith('.png') ? '' : '.png';
+        return `${this.url}/static/emoji/${filename}${extension}`;
     };
 
     getCustomEmojiImageUrl = (id: string) => {
@@ -2725,9 +2726,9 @@ export default class Client4 {
         );
     }
 
-    getDataRetentionCustomPolicyTeams = (id: string, page = 0, perPage = PER_PAGE_DEFAULT, includeTotalCount = false) => {
+    getDataRetentionCustomPolicyTeams = (id: string, page = 0, perPage = PER_PAGE_DEFAULT) => {
         return this.doFetch<Team[]>(
-            `${this.getDataRetentionRoute()}/policies/${id}/teams${buildQueryString({page, per_page: perPage, include_total_count: includeTotalCount})}`,
+            `${this.getDataRetentionRoute()}/policies/${id}/teams${buildQueryString({page, per_page: perPage})}`,
             {method: 'get'},
         );
     };

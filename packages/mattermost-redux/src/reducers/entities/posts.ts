@@ -13,6 +13,7 @@ import {
     PostOrderBlock,
     MessageHistory,
 } from 'mattermost-redux/types/posts';
+import {UserProfile} from 'mattermost-redux/types/users';
 import {Reaction} from 'mattermost-redux/types/reactions';
 import {
     $ID,
@@ -266,6 +267,11 @@ function handlePostReceived(nextState: any, post: Post) {
         return nextState;
     }
 
+    // Edited posts that don't have 'is_following' specified should maintain 'is_following' state
+    if (post.update_at > 0 && post.is_following == null && nextState[post.id]) {
+        post.is_following = nextState[post.id].is_following;
+    }
+
     if (post.delete_at > 0) {
         // We've received a deleted post, so mark the post as deleted if we already have it
         if (nextState[post.id]) {
@@ -283,6 +289,21 @@ function handlePostReceived(nextState: any, post: Post) {
     // Delete any pending post that existed for this post
     if (post.pending_post_id && post.id !== post.pending_post_id && nextState[post.pending_post_id]) {
         Reflect.deleteProperty(nextState, post.pending_post_id);
+    }
+
+    const rootPost: Post = nextState[post.root_id];
+    if (post.root_id && rootPost) {
+        const participants = rootPost.participants || [];
+        const nextRootPost = {...rootPost};
+        if (!participants.find((user: UserProfile) => user.id === post.user_id)) {
+            nextRootPost.participants = [...participants, {id: post.user_id}];
+        }
+
+        if (post.reply_count) {
+            nextRootPost.reply_count = post.reply_count;
+        }
+
+        nextState[post.root_id] = nextRootPost;
     }
 
     return nextState;
