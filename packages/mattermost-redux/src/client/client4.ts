@@ -2651,7 +2651,8 @@ export default class Client4 {
     };
 
     getSystemEmojiImageUrl = (filename: string) => {
-        return `${this.url}/static/emoji/${filename}.png`;
+        const extension = filename.endsWith('.png') ? '' : '.png';
+        return `${this.url}/static/emoji/${filename}${extension}`;
     };
 
     getCustomEmojiImageUrl = (id: string) => {

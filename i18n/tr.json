@@ -337,7 +337,7 @@
   "admin.billing.subscription.planDetails.userCountWithLimit": "{userCount} / {userLimit} kullanıcı",
   "admin.billing.subscription.privateCloudCard.cloudEnterprise.description": "Mattermost olarak, ürünümüz ile ilgili gereksinimlerinizi karşılamak için sizinle ve ekibinizle birlikte çalışıyoruz. Yıllık ödeme indirimi almak istiyorsanız, satış ekibimizle görüşebilirsiniz.",
   "admin.billing.subscription.privateCloudCard.cloudEnterprise.title": "Yıllık ödeme indirimi almak ister misiniz? ",
-  "admin.billing.subscription.privateCloudCard.cloudProfessional.description": "Öncelikli destek ile gelişmiş güvenlik ve uygunluk özellikleri. Ayrıntılı bilgi almak için [https://mattermost.com/pricing-cloud/](https://mattermost.com/pricing-cloud/) bölümüne bakabilirsiniz.",
+  "admin.billing.subscription.privateCloudCard.cloudProfessional.description": "Öncelikli destek ile gelişmiş güvenlik ve uygunluk özellikleri. Ayrıntılı bilgi almak için {pricingLink} bölümüne bakabilirsiniz.",
   "admin.billing.subscription.privateCloudCard.cloudProfessional.title": "Cloud Enterprise sürümüne yükseltin",
   "admin.billing.subscription.privateCloudCard.cloudStarter.description": "İşlemleirnizi Konuk Hesapları, Office365 bütünleştirmelerii Gitlab ile tek oturum açma ve gelişmiş izinler.",
   "admin.billing.subscription.privateCloudCard.cloudStarter.title": "Cloud Professional sürümüne yükseltin",
