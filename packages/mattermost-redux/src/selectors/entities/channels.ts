@@ -3,7 +3,7 @@
 
 import {createSelector} from 'reselect';
 
-import {General, Permissions} from 'mattermost-redux/constants';
+import {General, Permissions, Preferences} from 'mattermost-redux/constants';
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 
 import {getCategoryInTeamByType} from 'mattermost-redux/selectors/entities/channel_categories';
@@ -52,6 +52,7 @@ import {
 import {
     canManageMembersOldPermissions,
     completeDirectChannelInfo,
+    completeDirectGroupInfo,
     newCompleteDirectChannelInfo,
     completeDirectChannelDisplayName,
     getUserIdFromChannelName,
@@ -272,6 +273,29 @@ export const getCurrentChannel: (state: GlobalState) => Channel = createSelector
         }
 
         return channel;
+    },
+);
+
+export const getCurrentChannelNameForSearchShortcut: (state: GlobalState) => string | undefined = createSelector(
+    getAllChannels,
+    getCurrentChannelId,
+    (state: GlobalState): UsersState => state.entities.users,
+    (allChannels: IDMappedObjects<Channel>, currentChannelId: string, users: UsersState): string | undefined => {
+        const channel = allChannels[currentChannelId];
+
+        // Only get the extra info from users if we need it
+        if (channel?.type === Constants.DM_CHANNEL) {
+            const dmChannelWithInfo = completeDirectChannelInfo(users, Preferences.DISPLAY_PREFER_USERNAME, channel);
+            return `@${dmChannelWithInfo.display_name}`;
+        }
+
+        // Replace spaces in GM channel names
+        if (channel?.type === Constants.GM_CHANNEL) {
+            const gmChannelWithInfo = completeDirectGroupInfo(users, Preferences.DISPLAY_PREFER_USERNAME, channel, false);
+            return `@${gmChannelWithInfo.display_name.replace(/\s/g, '')}`;
+        }
+
+        return channel?.name;
     },
 );
 

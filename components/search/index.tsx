@@ -9,6 +9,7 @@ import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 
 import {
     updateSearchTerms,
+    updateSearchTermsForShortcut,
     showSearchResults,
     showChannelFiles,
     showMentions,
@@ -52,6 +53,7 @@ function mapDispatchToProps(dispatch: Dispatch<AnyAction>) {
     return {
         actions: bindActionCreators({
             updateSearchTerms,
+            updateSearchTermsForShortcut,
             updateSearchType,
             showSearchResults,
             showChannelFiles,
