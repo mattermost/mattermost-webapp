@@ -341,6 +341,7 @@ export function makeCreateAriaLabelForPost() {
     const getDisplayName = makeGetDisplayName();
 
     return createSelector(
+        'makeCreateAriaLabelForPost',
         (state, post) => post,
         (state, post) => getDisplayName(state, post.user_id),
         (state, post) => getReactionsForPost(state, post.id),

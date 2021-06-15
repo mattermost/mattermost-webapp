@@ -171,6 +171,7 @@ export function makeOnSubmit(channelId, rootId, latestPostId) {
 
 function makeGetCurrentUsersLatestPost(channelId, rootId) {
     return createSelector(
+        'makeGetCurrentUsersLatestPost',
         getCurrentUserId,
         (state) => getPostIdsInChannel(state, channelId),
         (state) => (id) => getPost(state, id),
