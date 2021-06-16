@@ -19,6 +19,7 @@ import path from 'path';
 
 import jsonData from 'emoji-datasource/emoji.json';
 import jsonCategories from 'emoji-datasource/categories.json';
+import jsonGitHubShortcodes from 'emojibase-data/en/shortcodes/github.json';
 
 const EMOJI_SIZE = 64;
 const EMOJI_SIZE_PADDED = EMOJI_SIZE + 2; // 1px per side
@@ -116,29 +117,12 @@ function genSkinVariations(emoji, index, nextOrder) {
 // populate skin tones as full emojis
 let nextOrder = jsonData.length;
 const fullEmoji = [...jsonData];
-jsonData.forEach((emoji, index) => {
-    const variations = genSkinVariations(emoji, index, nextOrder);
-    nextOrder += variations.length;
-    fullEmoji.push(...variations);
-});
-
-fullEmoji.sort((emojiA, emojiB) => emojiA.sort_order - emojiB.sort_order);
-
 const emojiMap = {};
 fullEmoji.forEach((emoji) => {
     emojiMap[emoji.short_name] = emoji;
 });
 
-fullEmoji.forEach((emoji, index) => {
-    emojiIndicesByUnicode.push([emoji.unified.toLowerCase(), index]);
-    const safeCat = convertCategory(emoji.category);
-    emoji.category = safeCat;
-    categoryDefaultTranslation.set(safeCat, emoji.category);
-    const catIndex = emojiIndicesByCategory.get(safeCat) || [];
-    catIndex.push(index);
-    emojiIndicesByCategory.set(safeCat, catIndex);
-    categoryNamesSet.add(safeCat);
-
+fullEmoji.forEach((emoji) => {
     const shortNames = emoji.short_names;
     let newShortNames = [];
     const gitHubShortCodes = jsonGitHubShortcodes[emoji.unified.toUpperCase()];
@@ -164,7 +148,26 @@ fullEmoji.forEach((emoji, index) => {
         }
         shortNames.push(newShortName);
     });
+});
 
+jsonData.forEach((emoji, index) => {
+    const variations = genSkinVariations(emoji, index, nextOrder);
+    nextOrder += variations.length;
+    fullEmoji.push(...variations);
+});
+
+fullEmoji.sort((emojiA, emojiB) => emojiA.sort_order - emojiB.sort_order);
+
+fullEmoji.forEach((emoji, index) => {
+    emojiIndicesByUnicode.push([emoji.unified.toLowerCase(), index]);
+    const safeCat = convertCategory(emoji.category);
+    emoji.category = safeCat;
+    categoryDefaultTranslation.set(safeCat, emoji.category);
+    const catIndex = emojiIndicesByCategory.get(safeCat) || [];
+    catIndex.push(index);
+    emojiIndicesByCategory.set(safeCat, catIndex);
+    categoryNamesSet.add(safeCat);
+    const shortNames = emoji.short_names;
     emojiIndicesByAlias.push(...shortNames.map((alias) => [alias, index]));
     const file = filename(emoji);
     emoji.fileName = emoji.image;
