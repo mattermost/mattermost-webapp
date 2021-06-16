@@ -267,6 +267,11 @@ function handlePostReceived(nextState: any, post: Post) {
         return nextState;
     }
 
+    // Edited posts that don't have 'is_following' specified should maintain 'is_following' state
+    if (post.update_at > 0 && post.is_following == null && nextState[post.id]) {
+        post.is_following = nextState[post.id].is_following;
+    }
+
     if (post.delete_at > 0) {
         // We've received a deleted post, so mark the post as deleted if we already have it
         if (nextState[post.id]) {

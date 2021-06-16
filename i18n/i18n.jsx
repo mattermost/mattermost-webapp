@@ -30,7 +30,7 @@ import store from 'stores/redux_store.jsx';
 const languages = {
     de: {
         value: 'de',
-        name: 'Deutsch',
+        name: 'Deutsch (Beta)',
         order: 0,
         url: de,
     },
@@ -60,7 +60,7 @@ const languages = {
     },
     it: {
         value: 'it',
-        name: 'Italiano',
+        name: 'Italiano (Beta)',
         order: 5,
         url: it,
     },
@@ -78,7 +78,7 @@ const languages = {
     },
     pl: {
         value: 'pl',
-        name: 'Polski',
+        name: 'Polski (Beta)',
         order: 8,
         url: pl,
     },
