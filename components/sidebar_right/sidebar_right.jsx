@@ -20,6 +20,7 @@ export default class SidebarRight extends React.PureComponent {
     static propTypes = {
         isExpanded: PropTypes.bool.isRequired,
         isOpen: PropTypes.bool.isRequired,
+        isSuppressed: PropTypes.bool,
         channel: PropTypes.object,
         postRightVisible: PropTypes.bool,
         postRightSameAsSelectedThread: PropTypes.bool,
@@ -168,6 +169,7 @@ export default class SidebarRight extends React.PureComponent {
             isPluginView,
             isOpen,
             isExpanded,
+            isSuppressed,
         } = this.props;
 
         let content = null;
@@ -207,7 +209,7 @@ export default class SidebarRight extends React.PureComponent {
                 />
                 <div className='sidebar-right-container'>
                     <Search
-                        isFocus={searchVisible && !isFlaggedPosts && !isPinnedPosts && !isChannelFiles}
+                        isFocus={searchVisible && !isFlaggedPosts && !isPinnedPosts && !isChannelFiles && !isSuppressed}
                         isSideBarRight={true}
                         isSideBarRightOpen={this.state.isOpened}
                         getFocus={this.getSearchBarFocus}
