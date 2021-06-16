@@ -124,6 +124,11 @@ jsonData.forEach((emoji, index) => {
 
 fullEmoji.sort((emojiA, emojiB) => emojiA.sort_order - emojiB.sort_order);
 
+const emojiMap = {};
+fullEmoji.forEach((emoji) => {
+    emojiMap[emoji.short_name] = emoji;
+});
+
 fullEmoji.forEach((emoji, index) => {
     emojiIndicesByUnicode.push([emoji.unified.toLowerCase(), index]);
     const safeCat = convertCategory(emoji.category);
@@ -133,12 +138,39 @@ fullEmoji.forEach((emoji, index) => {
     catIndex.push(index);
     emojiIndicesByCategory.set(safeCat, catIndex);
     categoryNamesSet.add(safeCat);
-    emojiIndicesByAlias.push(...emoji.short_names.map((alias) => [alias, index]));
+
+    const shortNames = emoji.short_names;
+    let newShortNames = [];
+    const gitHubShortCodes = jsonGitHubShortcodes[emoji.unified.toUpperCase()];
+    if (Array.isArray(gitHubShortCodes)) {
+        newShortNames = gitHubShortCodes;
+    } else if (typeof gitHubShortCodes === 'string') {
+        newShortNames = [gitHubShortCodes];
+    }
+
+    newShortNames.forEach((newShortName) => {
+        if (emoji.short_name === newShortName) {
+            return;
+        }
+
+        // Don't duplicate short names
+        if (shortNames.includes(newShortName)) {
+            return;
+        }
+
+        // Don't use short names that are already taken by other emoji
+        if (emojiMap[newShortName]) {
+            return;
+        }
+        shortNames.push(newShortName);
+    });
+
+    emojiIndicesByAlias.push(...shortNames.map((alias) => [alias, index]));
     const file = filename(emoji);
     emoji.fileName = emoji.image;
     emoji.image = file;
     emojiFilePositions.set(file, `-${emoji.sheet_x * EMOJI_SIZE_PADDED}px -${emoji.sheet_y * EMOJI_SIZE_PADDED}px;`);
-    emojiImagesByAlias.push(...emoji.short_names.map((alias) => `"${alias}": "${file}"`));
+    emojiImagesByAlias.push(...shortNames.map((alias) => `"${alias}": "${file}"`));
 });
 
 // write emoji.json
