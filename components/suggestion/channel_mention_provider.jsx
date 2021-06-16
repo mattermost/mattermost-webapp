@@ -36,7 +36,7 @@ class ChannelMentionSuggestion extends Suggestion {
                 onMouseMove={this.handleMouseMove}
                 {...Suggestion.baseProps}
             >
-                <div className='d-flex align-items-center'>
+                <div className='mention--align'>
                     {channelIcon}
                     <span>
                         {channelName}

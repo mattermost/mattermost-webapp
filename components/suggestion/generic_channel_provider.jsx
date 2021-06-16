@@ -28,7 +28,7 @@ class ChannelSuggestion extends Suggestion {
                 onMouseMove={this.handleMouseMove}
                 {...Suggestion.baseProps}
             >
-                <div className='mention__align'>
+                <div className='mention--align'>
                     <span>
                         {channelName}
                     </span>
@@ -36,9 +36,10 @@ class ChannelSuggestion extends Suggestion {
                         {' '}
                         {description}
                     </span>
-                </div>
-                <div className='mention__purpose'>
-                    {purpose}
+                    <span className='mention__purpose'>
+                        {' '}
+                        {purpose}
+                    </span>
                 </div>
             </div>
         );

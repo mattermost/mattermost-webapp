@@ -41,6 +41,11 @@
     z-index: 101;
     display: flex;
 
+    div {
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+
     &.no-flex {
         display: block;
     }
@@ -149,7 +154,6 @@
     @include opacity(.5);
     line-height: normal;
     margin-left: 5px;
-    white-space: normal;
 }
 
 .mention__channelname {
