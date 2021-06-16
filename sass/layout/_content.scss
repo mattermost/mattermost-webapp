@@ -7,6 +7,9 @@
         }
 
         .header-list__right {
+            position: relative;
+            z-index: 6;
+            padding-right: 0 !important;
             // the negative margin-right is used
             // to prevent the icons in the header from
             // moving to the left when the RHS is open
@@ -15,9 +18,6 @@
             // stays on the top and don't get hidden by the
             // search's input block
             float: right;
-            padding-right: 0 !important;
-            position: relative;
-            z-index: 6;
         }
     }
 
@@ -31,6 +31,10 @@
         }
 
         .header-list__right {
+            position: relative;
+            z-index: 6;
+            padding-right: 0 !important;
+            margin-right: -18px;
             // the negative margin-right is used
             // to prevent the icons in the header from
             // moving to the left when the RHS is open
@@ -39,10 +43,6 @@
             // stays on the top and don't get hidden by the
             // search's input block
             float: right;
-            margin-right: -18px;
-            padding-right: 0 !important;
-            position: relative;
-            z-index: 6;
         }
     }
 }
@@ -51,11 +51,11 @@
     @include display-flex;
     @include flex-direction(column);
 
-    background: $white;
-    height: 100%;
-    margin-left: 220px;
-    padding-top: 50px;
     position: relative;
+    height: 100%;
+    padding-top: 50px;
+    margin-left: 220px;
+    background: $white;
 
     .channel__wrap & {
         padding-top: 0;
@@ -75,10 +75,10 @@
     }
 
     a {
-        color: inherit;
         display: block;
-        padding: 10px 20px;
         width: 100%;
+        padding: 10px 20px;
+        color: inherit;
     }
 }
 
@@ -87,6 +87,6 @@
 }
 
 .col-sm-auto {
-    padding-left: 15px;
     padding-right: 15px;
+    padding-left: 15px;
 }

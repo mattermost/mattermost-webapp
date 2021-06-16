@@ -3,13 +3,13 @@
     width: 100%;
 
     .nav-bar {
-        border-bottom-width: 1px;
-        border-bottom-style: solid;
         position: relative;
-        height: 3.5rem;
         display: flex;
+        height: 3.5rem;
         align-items: center;
         justify-content: space-around;
+        border-bottom-width: 1px;
+        border-bottom-style: solid;
 
         .ic {
             cursor: pointer;
@@ -17,17 +17,17 @@
         }
 
         a {
-            align-items: center;
             display: flex;
-            flex-grow: 1;
             height: 100%;
+            flex-grow: 1;
+            align-items: center;
             justify-content: space-around;
 
             .header-text {
+                padding-left: 1rem;
                 font-family: SFUIDisplay, sans-serif;
                 font-size: 1.6rem;
                 font-weight: 500;
-                padding-left: 1rem;
                 vertical-align: middle;
             }
         }

@@ -7,16 +7,16 @@
         padding: 0;
 
         .mobile-sub-menu {
+            max-width: 100% !important;
             height: 100%;
             margin-top: 0 !important;
-            max-width: 100% !important;
 
             .modal-content {
-                background: transparent !important;
-                box-shadow: unset;
-                border: unset;
                 height: 100%;
                 padding: 0;
+                border: unset;
+                background: transparent !important;
+                box-shadow: unset;
 
                 .modal-body {
                     overflow: unset;
@@ -35,22 +35,22 @@
                             padding: 0 1.5em;
 
                             &.dropdown-menu {
-                                top: 0;
-                                height: 100%;
-                                width: 100%;
                                 position: relative;
-                                background: transparent;
-                                list-style: none;
-                                margin-bottom: 0;
-                                max-height: inherit;
-                                max-width: inherit;
-                                border: 0;
-                                padding-top: 0;
-                                box-shadow: none;
-                                color: inherit;
+                                top: 0;
                                 display: flex;
+                                width: 100%;
+                                max-width: inherit;
+                                height: 100%;
+                                max-height: inherit;
                                 flex-direction: column;
                                 justify-content: center;
+                                padding-top: 0;
+                                border: 0;
+                                margin-bottom: 0;
+                                background: transparent;
+                                box-shadow: none;
+                                color: inherit;
+                                list-style: none;
 
                                 div,
                                 button,
@@ -65,14 +65,14 @@
                                     > div,
                                     > button,
                                     > a {
-                                        padding: 15px 20px;
-                                        font-size: 14px;
                                         width: 100%;
-                                        text-align: left;
-                                        border-top: 1px solid;
                                         height: auto;
-                                        opacity: 1;
+                                        padding: 15px 20px;
                                         border-color: var(--center-channel-color-08);
+                                        border-top: 1px solid;
+                                        font-size: 14px;
+                                        opacity: 1;
+                                        text-align: left;
                                     }
 
                                     &:first-child {

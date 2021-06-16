@@ -2,6 +2,8 @@
 
 @font-face {
     font-family: 'compass-icons';
+    font-style: normal;
+    font-weight: normal;
     src: url('../fonts/compass-icons/compass-icons.eot?45182295');
     src:
         url('../fonts/compass-icons/compass-icons.eot?45182295#iefix') format('embedded-opentype'),
@@ -9,8 +11,6 @@
         url('../fonts/compass-icons/compass-icons.woff?45182295') format('woff'),
         url('../fonts/compass-icons/compass-icons.ttf?45182295') format('truetype'),
         url('../fonts/compass-icons/compass-icons.svg?45182295#compass-icons') format('svg');
-    font-weight: normal;
-    font-style: normal;
 }
 
 /* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
@@ -28,29 +28,15 @@
 
 [class^="icon-"]::before,
 [class*=" icon-"]::before {
-    font-family: "compass-icons";
-    font-style: normal;
-    font-weight: normal;
-    speak: never;
     display: inline-block;
-    text-decoration: inherit;
     width: 1em;
     margin-right: 0.2em;
-    text-align: center;
-
-    /* opacity: .8; */
-
-    /* For safety - reset parent styles, that can break glyph codes */
-    font-variant: normal;
-    text-transform: none;
-
-    /* fix buttons height, for twitter bootstrap */
-    line-height: 1em;
 
     /* Animation center compensation - margins should be symmetric */
 
     /* remove if not needed */
     margin-left: 0.2em;
+    font-family: "compass-icons";
 
     /* you can be more comfortable with increased icons size */
 
@@ -59,6 +45,20 @@
     /* Font smoothing. That was taken from TWBS */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    font-style: normal;
+
+    /* opacity: .8; */
+
+    /* For safety - reset parent styles, that can break glyph codes */
+    font-variant: normal;
+    font-weight: normal;
+
+    /* fix buttons height, for twitter bootstrap */
+    line-height: 1em;
+    speak: never;
+    text-align: center;
+    text-decoration: inherit;
+    text-transform: none;
 
     /* Uncomment for 3D effect */
 

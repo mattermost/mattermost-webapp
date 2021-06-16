@@ -20,8 +20,8 @@
     }
 
     .search-help-popover {
-        max-width: 374px;
         width: 374px;
+        max-width: 374px;
     }
 
     .inner-wrap {
@@ -99,8 +99,8 @@
             margin: -10px 0 0 -10px;
 
             .arrow {
-                left: auto;
                 right: 15px;
+                left: auto;
             }
         }
     }
@@ -111,14 +111,14 @@
                 font-size: em(18px);
 
                 .overlay__circle {
+                    width: 300px;
                     height: 300px;
                     margin: -150px 0 0 -150px;
-                    width: 300px;
                 }
 
                 .overlay__files {
-                    margin: 60px auto 15px;
                     width: 150px;
+                    margin: 60px auto 15px;
                 }
             }
         }

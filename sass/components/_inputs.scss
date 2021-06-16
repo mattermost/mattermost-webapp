@@ -23,9 +23,9 @@
     }
 
     &.remove-filename {
-        margin-bottom: 5px;
         position: relative;
         top: -2px;
+        margin-bottom: 5px;
     }
 }
 
@@ -39,8 +39,8 @@
     }
 
     &.no-padding {
-        line-height: 32px;
         padding: 0;
+        line-height: 32px;
     }
 
     &.no-resize {
@@ -74,8 +74,8 @@ fieldset {
 input {
     &[type='radio'],
     &[type='checkbox'] {
-        font-size: 14px;
         margin-top: 3px;
+        font-size: 14px;
     }
 }
 

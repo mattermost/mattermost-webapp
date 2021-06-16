@@ -39,8 +39,8 @@ body {
 
 label {
     &.has-error {
-        font-weight: normal;
         color: $red;
+        font-weight: normal;
     }
 }
 
@@ -71,9 +71,9 @@ label {
 
 ul,
 ol {
-    margin-bottom: 0.11em;
-    margin-top: 3px;
     padding-left: 22px;
+    margin-top: 3px;
+    margin-bottom: 0.11em;
 }
 
 .fa {
@@ -165,10 +165,10 @@ ol {
 }
 
 .color--link--adminack {
-    color: $white;
     padding-left: 20px;
-    text-decoration: underline;
+    color: $white;
     cursor: pointer;
+    text-decoration: underline;
 
     &:hover,
     &:focus {

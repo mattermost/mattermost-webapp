@@ -16,13 +16,13 @@
 
 .CustomPolicy__error {
     display: flex;
+    align-items: center;
     color: var(--sys-error-text);
     font-size: 12px;
-    align-items: center;
     line-height: 16px;
 
     i {
-        font-size: 14.4px;
         margin-right: 4px;
+        font-size: 14.4px;
     }
 }

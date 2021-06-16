@@ -1,13 +1,13 @@
 .AlertBanner {
-    border-radius: 4px;
-    border: 1px solid;
-    padding: 16px;
     display: flex;
     overflow: hidden;
+    padding: 16px;
+    border: 1px solid;
+    border-radius: 4px;
 
     &.danger {
-        background: rgba(var(--sys-error-text-color-rgb), 0.08);
         border-color: rgba(var(--sys-error-text-color-rgb), 0.24);
+        background: rgba(var(--sys-error-text-color-rgb), 0.08);
 
         .AlertBanner__icon i {
             color: var(--sys-error-text);
@@ -15,8 +15,8 @@
     }
 
     &.info {
-        background: rgba(var(--sys-sidebar-text-active-border-rgb), 0.08);
         border-color: rgba(var(--sys-sidebar-text-active-border-rgb), 0.24);
+        background: rgba(var(--sys-sidebar-text-active-border-rgb), 0.08);
 
         .AlertBanner__icon i {
             color: var(--sys-sidebar-text-active-border);
@@ -24,8 +24,8 @@
     }
 
     &.warning {
-        background: rgba(var(--sys-away-indicator-rgb), 0.08);
         border-color: rgba(var(--sys-away-indicator-rgb), 0.24);
+        background: rgba(var(--sys-away-indicator-rgb), 0.08);
 
         .AlertBanner__icon i {
             color: var(--sys-away-indicator);
@@ -48,9 +48,9 @@
     flex-grow: 1;
     flex-shrink: 1;
     margin-left: 12px;
+    color: var(--sys-center-channel-color);
     font-size: 14px;
     line-height: 20px;
-    color: var(--sys-center-channel-color);
 }
 
 .AlertBanner__title {
@@ -62,16 +62,16 @@
 }
 
 .AlertBanner__closeButton {
-    background: none;
-    border: none;
     position: relative;
-    padding: 5px;
-    height: 28px;
-    width: 28px;
-    border-radius: 4px;
     top: -12px;
     right: -12px;
     display: flex;
+    width: 28px;
+    height: 28px;
+    padding: 5px;
+    border: none;
+    background: none;
+    border-radius: 4px;
 
     i {
         color: rgba(var(--sys-center-channel-color-rgb), 0.56);

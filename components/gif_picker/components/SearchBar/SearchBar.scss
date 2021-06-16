@@ -6,19 +6,19 @@
 
     .search-input {
         position: relative;
+        z-index: 1;
         display: block;
-        box-sizing: border-box;
         width: 100%;
         height: 29px;
+        box-sizing: border-box;
         padding: 0 27px;
-        font-size: 1.3rem;
-        border-radius: 30px;
         border-width: 1px;
         border-style: solid;
-        outline: none;
-        box-shadow: none;
-        z-index: 1;
         background-color: transparent;
+        border-radius: 30px;
+        box-shadow: none;
+        font-size: 1.3rem;
+        outline: none;
     }
 
     // Hide IE input clear button
@@ -47,16 +47,16 @@
 
     .ic-clear-search,
     .ic-search {
-        background-repeat: no-repeat;
-        background-position: center;
-        cursor: pointer;
         position: absolute;
         z-index: 1;
+        background-position: center;
+        background-repeat: no-repeat;
+        cursor: pointer;
     }
 
     .ic-clear-search {
-        right: 12px;
         top: 12px;
+        right: 12px;
         width: 2rem;
         height: 2rem;
     }

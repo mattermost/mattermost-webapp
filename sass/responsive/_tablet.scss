@@ -30,8 +30,8 @@
                     }
 
                     >div {
-                        font-size: 12px;
                         min-width: 250px;
+                        font-size: 12px;
                     }
 
                     .modal-close {
@@ -44,9 +44,9 @@
                 }
 
                 .modal-button-bar {
-                    line-height: 30px;
-                    padding: 5px 10px 5px 5px;
                     bottom: 20px;
+                    padding: 5px 10px 5px 5px;
+                    line-height: 30px;
                 }
             }
         }
@@ -67,8 +67,8 @@
         .post-create__container {
             .post-create-body {
                 .icon__emoji_picker {
-                    display: none;
                     top: -7px;
+                    display: none;
                 }
             }
         }
@@ -77,8 +77,8 @@
     .signup-team__container {
         &.branded {
             display: block;
-            margin: 0 auto;
             max-width: 380px;
+            margin: 0 auto;
 
             .signup__markdown {
                 display: none;
@@ -87,24 +87,24 @@
     }
 
     .backstage-content {
-        margin: 30px;
         max-width: 100%;
         padding: 0;
+        margin: 30px;
     }
 
     .backstage-sidebar {
-        height: auto;
-        padding: 30px 15px 0;
         position: relative;
         width: 100%;
+        height: auto;
+        padding: 30px 15px 0;
     }
 
     .post {
         .attachment {
             .attachment__image {
                 &.attachment__image--opengraph {
-                    max-height: 70px;
                     max-width: 100%;
+                    max-height: 70px;
 
                     &.loading {
                         height: 70px;
@@ -139,8 +139,8 @@
     }
 
     .channel-header__popover {
-        left: 236px !important;
         top: 44px !important;
+        left: 236px !important;
     }
 
     .col-sm-auto {
@@ -236,13 +236,13 @@
                         }
                     }
 
-                    padding-left: 77px;
                     padding-top: 0;
+                    padding-left: 77px;
 
                     .card-icon__container {
-                        left: -16px;
                         position: absolute;
                         top: 4px;
+                        left: -16px;
                     }
 
                     .post__header {
@@ -306,8 +306,8 @@
             .channel__wrap #post-list & {
                 .post__permalink {
                     position: absolute;
-                    left: -76px;
                     top: 1px;
+                    left: -76px;
                     width: 60px;
                     text-align: right;
                 }
@@ -317,11 +317,11 @@
                 }
 
                 .star-icon__container {
-                    left: -65px;
                     position: absolute;
-                    text-align: right;
                     top: 6px;
+                    left: -65px;
                     width: 60px;
+                    text-align: right;
                 }
             }
 
@@ -342,17 +342,17 @@
                 }
 
                 .post__header {
-                    float: left;
                     height: 21px;
-                    padding-right: 0;
                     padding-top: 2px;
+                    padding-right: 0;
+                    float: left;
 
                     .col__name {
-                        font-weight: bold;
-                        margin-right: 2px;
-                        padding-right: 5px;
                         position: relative;
                         z-index: 1;
+                        padding-right: 5px;
+                        margin-right: 2px;
+                        font-weight: bold;
                     }
 
                     .colon {
@@ -392,9 +392,9 @@
             }
 
             .sidebar--right & .card-icon__container {
-                left: auto;
                 position: relative;
                 top: 2px;
+                left: auto;
             }
         }
 
@@ -415,22 +415,22 @@
                 &:not(.post--compact) {
                     .post__permalink {
                         position: absolute;
-                        left: -18px;
                         top: 2px;
+                        left: -18px;
 
                         .sidebar--right & {
-                            left: -18px;
                             top: 1px;
+                            left: -18px;
                         }
                     }
 
                     .post__time {
                         display: inline-block;
+                        width: 51px;
                         font-size: 12px;
                         line-height: 20px;
                         text-align: right;
                         text-rendering: auto;
-                        width: 51px;
 
                         &:hover {
                             text-decoration: underline;
@@ -478,12 +478,12 @@
             transform: translateX(0) !important;
 
             .browser--ie & {
+                display: block;
                 -webkit-transform: none !important;
                 -moz-transform: none !important;
                 -ms-transform: none !important;
                 -o-transform: none !important;
                 transform: none !important;
-                display: block;
             }
 
             .search-bar__container {
@@ -527,8 +527,8 @@
 
             .channel-header__links {
                 position: relative;
-                right: auto;
                 top: auto;
+                right: auto;
             }
         }
 

@@ -1,8 +1,8 @@
 .ProcessPayment-progress {
+    width: 387px;
+    height: 4px;
     margin: 0 auto;
     margin-top: 60px;
-    height: 4px;
-    width: 387px;
     background: rgb(34, 64, 109, 0.12);
     border-radius: 4px;
 }

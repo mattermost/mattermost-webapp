@@ -13,22 +13,22 @@
     h4,
     h5,
     h6 {
-        line-height: 1;
         margin: 0;
+        line-height: 1;
     }
 
     h2 {
+        color: rgba(var(--center-channel-color-rgb), 1);
         font-size: 16px;
         font-weight: 600;
-        color: rgba(var(--center-channel-color-rgb), 1);
     }
 
     > div p {
-        font-size: 12px;
-        line-height: 16px;
-        font-weight: 400;
         margin: 6px 0 0;
         color: rgba(var(--center-channel-color-rgb), 0.56);
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 16px;
     }
 
     > .spacer {

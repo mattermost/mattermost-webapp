@@ -1,17 +1,17 @@
 .app__body {
     .DayPicker {
-        font-size: inherit;
         width: 100%;
         margin-top: 0.3rem;
+        font-size: inherit;
 
         .DayPicker-NavBar {
             position: relative;
         }
 
         .DayPicker-Caption {
+            padding: 0 0.5rem 0.7rem;
             border-bottom: 1px solid transparent;
             margin: 0 0.5rem 0.7rem;
-            padding: 0 0.5rem 0.7rem;
 
             >div {
                 font-size: inherit;
@@ -34,8 +34,8 @@
         }
 
         .DayPicker-Weekday {
-            font-weight: bold;
             color: inherit;
+            font-weight: bold;
         }
 
         .DayPicker-Month {

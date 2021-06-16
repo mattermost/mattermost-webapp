@@ -4,20 +4,19 @@
 
 .toast {
     position: absolute;
-    margin: 10px 15px 0;
+    z-index: 2;
     width: calc(100% - 30px);
-    font-size: 13px;
-
-    @include border-radius(4px);
-
-    cursor: default;
-    opacity: 0;
-    visibility: hidden;
+    height: 32px;
+    margin: 10px 15px 0;
     background-color: var(--button-bg);
     color: var(--button-color);
-    height: 32px;
+    cursor: default;
+    font-size: 13px;
     font-weight: bold;
-    z-index: 2;
+    opacity: 0;
+    visibility: hidden;
+
+    @include border-radius(4px);
 
     svg {
         fill: var(--button-color);
@@ -40,16 +39,15 @@
     }
 
     .toast__dismiss {
-        cursor: pointer;
         position: absolute;
         right: 0;
+        height: 32px;
         padding: 0 8px;
+        cursor: pointer;
 
         &:hover {
             background-color: rgba(0, 0, 0, 0.2);
         }
-
-        height: 32px;
 
         span {
             line-height: 31px;
@@ -57,13 +55,13 @@
     }
 
     .toast__message {
-        text-align: center;
         position: absolute;
-        width: calc(100% - 40px);
-        padding-left: 10px;
         z-index: -1;
+        width: calc(100% - 40px);
         height: 32px;
+        padding-left: 10px;
         line-height: 31px;
+        text-align: center;
 
         &.toast__pointer {
             cursor: pointer;
@@ -87,14 +85,13 @@
 }
 
 .toast__history {
+    z-index: 1;
     background-color: rgb(216, 216, 216);
     color: #3d3c40;
 
     svg {
         fill: rgba(61, 60, 64, 0.9);
     }
-
-    z-index: 1;
 }
 
 .toast__red {

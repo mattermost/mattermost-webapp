@@ -7,8 +7,8 @@
         margin: 0;
 
         &.input_hybrid_wrapper {
-            flex-grow: 1;
             display: inline-block;
+            flex-grow: 1;
             transition: max-width 0.1s ease-out;
 
             &.showInput {
@@ -36,8 +36,8 @@
     }
 
     .Input_fieldset {
-        padding: 0;
         display: flex;
+        padding: 0;
     }
 
     .Input_legend {
@@ -45,8 +45,8 @@
     }
 
     .DropDown__menu {
-        margin-top: 2px;
         z-index: 1000000;
+        margin-top: 2px;
     }
 
     .DropdownInput__indicatorsContainer {
@@ -63,10 +63,10 @@
     }
 
     .DropdownInput__option > div {
-        padding: 10px 24px;
-        line-height: 16px;
-        cursor: pointer;
         z-index: 999999;
+        padding: 10px 24px;
+        cursor: pointer;
+        line-height: 16px;
     }
 
     .DropdownInput__option.selected > div {
@@ -79,20 +79,20 @@
     }
 
     .Input_fieldset:focus-within {
-        box-shadow: none;
         border-width: 2px;
+        box-shadow: none;
     }
 
     .Input.form-control {
         height: 40px;
         border: none;
-        border-radius: 4px 0 0 4px;
         border-right: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
+        border-radius: 4px 0 0 4px;
 
         &::-webkit-outer-spin-button,
         &::-webkit-inner-spin-button {
-            -webkit-appearance: none;
             margin: 0;
+            -webkit-appearance: none;
         }
 
         &[type=number] {

@@ -2,18 +2,18 @@
     --button-separator-height: 15px;
     --button-separator-gap: 4px;
 
+    position: relative;
+    left: -34px;
     display: inline-flex;
     align-items: center;
-    position: relative;
     padding: 5px 10px;
     padding-top: 0;
-    left: -34px;
     margin-top: 1px;
     margin-bottom: 5px;
+    color: rgba(var(--center-channel-color-rgb), 0.64);
     font-size: 12px;
     line-height: 15px;
     white-space: nowrap;
-    color: rgba(var(--center-channel-color-rgb), 0.64);
 
     .indicator {
         width: 24px;
@@ -22,9 +22,9 @@
     }
 
     .dot-unreads {
-        background: rgba(var(--sidebar-text-active-border-rgb), 1);
         width: 8px;
         height: 8px;
+        background: rgba(var(--sidebar-text-active-border-rgb), 1);
         border-radius: 50%;
     }
 

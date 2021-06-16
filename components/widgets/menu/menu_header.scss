@@ -2,18 +2,18 @@
 
 .Menu {
     .MenuHeader {
+        display: block;
+        overflow: hidden;
+        width: 100%;
         align-items: center;
+        padding: 0 32px 0 24px;
         clear: both;
         color: inherit;
         cursor: default;
-        display: block;
-        padding: 0 32px 0 24px;
-        text-align: left;
-        white-space: nowrap;
-        width: 100%;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        line-height: 28px;
         font-weight: $font-weight--semibold;
+        line-height: 28px;
+        text-align: left;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 }

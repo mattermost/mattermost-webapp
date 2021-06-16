@@ -8,15 +8,15 @@
             }
 
             .navbar-header {
-                float: none;
                 margin: 0 -15px;
+                float: none;
 
                 .dropdown__icon {
                     @include background-size(100% 100%);
 
                     display: inline-block;
-                    height: 16px;
                     width: 4px;
+                    height: 16px;
                 }
             }
 
@@ -37,55 +37,55 @@
             .Menu {
                 @include single-transition(all, 0.35s, ease);
 
-                background: alpha-color($black, 0.9);
-                display: block;
-                height: 100%;
-                left: 0;
-                overflow: hidden;
-                padding: 2.5em 0 0;
                 position: fixed;
                 top: 48px;
+                left: 0;
+                display: block;
+                overflow: hidden;
                 width: 100%;
+                height: 100%;
+                padding: 2.5em 0 0;
                 padding-bottom: 50px;
+                background: alpha-color($black, 0.9);
 
                 body.announcement-bar--fixed & {
-                    height: calc(100% - 48px - #{$announcement-bar-height});
                     top: calc(48px + #{$announcement-bar-height});
+                    height: calc(100% - 48px - #{$announcement-bar-height});
                 }
             }
 
             .Menu__content {
-                background: transparent;
                 position: absolute;
                 top: 0;
+                overflow: auto;
                 width: 100%;
                 max-width: 100%;
-                overflow: auto;
                 height: 100%;
                 max-height: 100%;
                 padding: 2rem 2rem 5rem;
+                background: transparent;
             }
 
             .Menu__close {
                 @include border-radius(50%);
 
-                border: 1px solid $white;
-                color: $white;
+                position: fixed;
+                top: 70px;
+                right: 20px;
                 display: block;
+                width: 30px;
+                height: 30px;
+                padding-top: 13px;
+                border: 1px solid $white;
+                margin-left: -15px;
+                color: $white;
                 font-family: 'Open Sans', sans-serif;
                 font-size: 23px;
                 font-weight: 200;
-                height: 30px;
                 line-height: 0;
-                margin-left: -15px;
                 opacity: 1;
-                padding-top: 13px;
-                position: fixed;
-                right: 20px;
                 text-align: center;
                 text-shadow: none;
-                top: 70px;
-                width: 30px;
             }
 
             .dropdown-menu {
@@ -98,14 +98,14 @@
                 >li {
                     >a,
                     >button {
+                        width: 100%;
+                        height: auto;
+                        padding: 0.4rem 2rem;
+                        margin: 0 auto;
                         color: $white;
                         font-weight: 600;
                         line-height: 32px;
-                        margin: 0 auto;
                         text-align: center;
-                        width: 100%;
-                        padding: 0.4rem 2rem;
-                        height: auto;
 
                         &:hover {
                             background: transparent;
@@ -124,13 +124,13 @@
             }
 
             .status {
-                margin: 0 8px 0 0;
                 top: 2px;
                 width: 16px;
+                margin: 0 8px 0 0;
 
                 svg {
-                    max-height: 20px;
                     width: 16px;
+                    max-height: 20px;
                 }
             }
         }
@@ -149,8 +149,8 @@
     .app__body {
         .MenuWrapper {
             .MenuItem__divider {
-                margin: 0;
                 border: none;
+                margin: 0;
             }
         }
 
@@ -193,9 +193,9 @@
 
                             .section-min__edit {
                                 position: relative;
+                                top: 0;
                                 right: 0;
                                 text-align: left;
-                                top: 0;
                             }
 
                             .appearance-section {
@@ -228,17 +228,17 @@
                         }
 
                         .modal-header {
-                            display: block;
                             position: absolute;
-                            top: 0;
-                            width: 100%;
                             z-index: 5;
+                            top: 0;
+                            display: block;
+                            width: 100%;
 
                             .modal-title {
+                                width: 100%;
                                 max-width: 100%;
                                 padding: 0 40px;
                                 text-align: center;
-                                width: 100%;
 
                                 >span {
                                     display: block;
@@ -291,8 +291,8 @@
                             text-align: left;
 
                             button {
-                                text-align: left;
                                 width: 100%;
+                                text-align: left;
                             }
 
                             .fa {
@@ -318,8 +318,8 @@
 
             .modal--scroll {
                 .modal-body {
-                    max-height: calc(100vh - 62px);
                     overflow: auto;
+                    max-height: calc(100vh - 62px);
                 }
             }
 
@@ -336,8 +336,8 @@
                     }
 
                     button {
-                        border-bottom: 1px solid;
                         padding: 15px;
+                        border-bottom: 1px solid;
                     }
                 }
             }
@@ -354,22 +354,22 @@
 
                 .close {
                     overflow: hidden;
+                    margin-top: -2px;
                     font-size: 27px;
                     font-weight: normal;
-                    margin-top: -2px;
                 }
 
                 .modal-title {
-                    float: none;
                     max-width: 90%;
+                    float: none;
                 }
 
                 .btn {
                     &.btn-primary {
                         display: block;
-                        float: none;
-                        margin: 10px 0 6px;
                         width: 100%;
+                        margin: 10px 0 6px;
+                        float: none;
                     }
                 }
             }
@@ -382,38 +382,38 @@
             .Menu {
                 @include border-radius(0);
 
-                border: 0;
-                height: 100%;
-                left: 0;
                 position: fixed;
-                top: 0;
-                width: 100%;
                 z-index: 9999;
+                top: 0;
+                left: 0;
                 display: flex;
-                margin: 0;
-                padding: 6em 2em 4em;
-                background: transparent;
+                overflow: auto;
+                width: 100%;
+                height: 100%;
                 flex-wrap: wrap;
                 align-items: center;
-                overflow: auto;
+                padding: 6em 2em 4em;
+                border: 0;
+                margin: 0;
+                background: transparent;
 
                 .Menu__content {
-                    width: 100%;
-                    max-height: inherit;
-                    max-width: inherit;
                     position: relative;
                     top: 0;
+                    width: 100%;
+                    max-width: inherit;
+                    max-height: inherit;
                     padding: 0;
                 }
 
                 &::after {
-                    background: alpha-color($black, 0.3);
-                    content: '';
-                    height: 100%;
-                    left: 0;
                     position: fixed;
                     top: 0;
+                    left: 0;
                     width: 100%;
+                    height: 100%;
+                    background: alpha-color($black, 0.3);
+                    content: '';
                 }
 
                 .MenuItem {
@@ -448,8 +448,8 @@
         .post {
             &.post--thread {
                 .post-pre-header__icons-container {
-                    padding-right: 12px; // If the padding of post__img changes, this needs to be adjusted accordingly
                     width: 60px; // If the width of post__img changes, this needs to be adjusted accordingly
+                    padding-right: 12px; // If the padding of post__img changes, this needs to be adjusted accordingly
                     margin-left: 0; // if left margin of post__content changes, this needs to be adjusted accordingly
                 }
             }
@@ -471,23 +471,23 @@
         &.integration-list__icon {
             position: relative;
             top: 0;
-            margin: 0 20px 15px;
             width: 50px;
             height: 50px;
+            margin: 0 20px 15px;
         }
     }
 
     .emoji-picker {
+        z-index: 1070;
         // !important is used to overide inline styles
         // used on larger screens
         top: 0 !important;
-        left: 0 !important;
         right: auto !important;
         bottom: auto !important;
+        left: 0 !important;
         width: 100%;
         height: 100%;
         border-radius: 0;
-        z-index: 1070;
 
         >ul {
             margin-top: 66px;
@@ -504,8 +504,8 @@
 
     .emoji-picker__inner {
         display: flex;
-        flex-direction: column;
         height: calc(100vh - 100px);
+        flex-direction: column;
 
         .emoji-picker--single & {
             height: calc(100vh - 55px);
@@ -536,28 +536,28 @@
         flex-grow: 1;
 
         .emoji-picker__category-header {
-            font-size: 14px;
             padding-top: 8px;
+            font-size: 14px;
         }
     }
 
     .emoji-picker__item {
-        margin: calc(100% / 45);
-        padding: 0;
-        padding-top: calc(100% / 15);
         width: calc(100% / 15);
         height: auto;
+        padding: 0;
+        padding-top: calc(100% / 15);
+        margin: calc(100% / 45);
 
         > div {
             position: absolute;
             top: 50%;
             left: 50%;
+            display: flex;
             width: 30px;
             height: 30px;
-            transform: translate(-50%, -50%);
-            display: flex;
             align-items: center;
             justify-content: center;
+            transform: translate(-50%, -50%);
         }
     }
 
@@ -596,18 +596,18 @@
     .mobile-main-menu {
         .Menu__content {
             &.dropdown-menu {
-                width: 100%;
                 position: relative;
-                background: transparent;
-                padding-left: 0;
-                list-style: none;
-                margin-bottom: 0;
-                max-height: inherit;
+                width: 100%;
                 max-width: inherit;
-                border: 0;
+                max-height: inherit;
                 padding-top: 0;
+                padding-left: 0;
+                border: 0;
+                margin-bottom: 0;
+                background: transparent;
                 box-shadow: none;
                 color: inherit;
+                list-style: none;
 
                 button,
                 a,
@@ -618,11 +618,11 @@
                 .MenuItem {
                     >button,
                     >a {
+                        width: 100%;
                         height: auto;
                         padding: 3px 16px;
                         font-size: 15px;
                         line-height: 32px;
-                        width: 100%;
                         text-align: left;
                     }
                 }
@@ -652,9 +652,9 @@
                 >button {
                     @include border-radius(0);
 
-                    border-top: 1px solid rgba(var(--center-channel-color-rgb), 0.12);
-                    padding: 15px 20px;
                     height: auto;
+                    padding: 15px 20px;
+                    border-top: 1px solid rgba(var(--center-channel-color-rgb), 0.12);
                 }
 
                 &:first-child {
@@ -668,11 +668,11 @@
     }
 
     .integration-option {
+        width: 100%;
+        height: auto;
         flex: 0 0 100%;
         margin: 0 0 30px;
         margin-left: 0;
-        height: auto;
-        width: 100%;
     }
 
     .channel-header,
@@ -684,8 +684,8 @@
 
     .member-role .member-menu,
     .member-drop .member-menu {
-        right: 0;
         top: 30px;
+        right: 0;
     }
 
     .post-code {
@@ -737,8 +737,8 @@
 
             textarea {
                 .app-content & {
-                    border-left: none;
                     border-right: none;
+                    border-left: none;
                 }
             }
 
@@ -791,13 +791,13 @@
         @include translate3d(0, 100%, 0);
         @include box-shadow(none);
 
-        background: alpha-color($black, 0.9);
-        border: none;
-        height: calc(100% - 50px);
-        max-width: 100%;
         position: fixed;
         top: 40px !important;
         width: 100%;
+        max-width: 100%;
+        height: calc(100% - 50px);
+        border: none;
+        background: alpha-color($black, 0.9);
 
         &.in {
             @include translate3d(0, 0, 0);
@@ -812,15 +812,15 @@
         }
 
         .popover-content {
+            padding: 15px 20px 100px;
             color: $white;
             font-size: 15px;
-            padding: 15px 20px 100px;
 
             >div {
                 &:first-child {
-                    -webkit-overflow-scrolling: touch;
-                    height: calc(100vh - 150px);
                     overflow: auto;
+                    height: calc(100vh - 150px);
+                    -webkit-overflow-scrolling: touch;
                 }
             }
         }
@@ -828,34 +828,34 @@
         .close {
             @include border-radius(50%);
 
-            border: 1px solid $white;
+            position: fixed;
             bottom: 25px;
-            color: $white;
+            left: 50%;
             display: block;
+            width: 30px;
+            height: 30px;
+            padding-top: 13px;
+            border: 1px solid $white;
+            margin-left: -15px;
+            color: $white;
             font-family: 'Open Sans', sans-serif;
             font-size: 23px;
             font-weight: 200;
-            height: 30px;
-            left: 50%;
             line-height: 0;
-            margin-left: -15px;
             opacity: 1;
-            padding-top: 13px;
-            position: fixed;
             text-align: center;
             text-shadow: none;
-            width: 30px;
         }
     }
 
     .video-div {
         &.embed-responsive-item {
             iframe {
-                height: 100%;
-                left: 0;
                 position: absolute;
                 top: 0;
+                left: 0;
                 width: 100%;
+                height: 100%;
             }
         }
     }
@@ -863,10 +863,10 @@
     .tutorial-steps__container {
         .tutorial__content {
             .tutorial__steps {
-                margin-top: 15%;
-                margin-bottom: 15%;
                 max-height: 70%;
                 padding-bottom: 0;
+                margin-top: 15%;
+                margin-bottom: 15%;
             }
         }
     }
@@ -888,15 +888,15 @@
         @include opacity(1);
         @include transition(none);
 
-        display: block;
         position: relative;
+        display: block;
     }
 
     .backstage-form__footer {
         .has-error {
-            float: none !important;
             max-width: 100%;
             margin-bottom: 16px;
+            float: none !important;
         }
     }
 
@@ -904,8 +904,8 @@
         display: block;
 
         .backstage-filter__search {
-            margin: 10px 0;
             width: 100%;
+            margin: 10px 0;
         }
     }
 
@@ -919,14 +919,14 @@
     }
 
     .user-popover {
-        cursor: pointer;
         display: inline-block;
+        cursor: pointer;
     }
 
     .signup-team__container {
-        font-size: 0.9em;
-        margin-bottom: 30px;
         padding: 60px 10px 0;
+        margin-bottom: 30px;
+        font-size: 0.9em;
 
         .signup-team__name {
             font-size: 2em;
@@ -957,8 +957,8 @@
     .post {
         &:not(.post--compact) {
             .Badge {
-                left: 6px;
                 top: 31px;
+                left: 6px;
             }
         }
 
@@ -993,17 +993,17 @@
 
         .post__dropdown {
             display: inline-block;
+            width: 28px;
             height: 28px;
             line-height: 21px;
             text-align: center;
             text-decoration: none;
             visibility: visible;
-            width: 28px;
 
             &::after {
+                top: -3px;
                 content: '...';
                 font-size: 20px;
-                top: -3px;
             }
         }
 
@@ -1054,8 +1054,8 @@
 
         .post-pre-header {
             .post-pre-header__icons-container {
-                padding-right: 8px; // If the padding of post__img changes, this needs to be adjusted accordingly
                 width: 40px; // If the width of post__img changes, this needs to be adjusted accordingly
+                padding-right: 8px; // If the padding of post__img changes, this needs to be adjusted accordingly
                 margin-left: 0;
 
                 .icon--post-pre-header {
@@ -1083,13 +1083,13 @@
         }
 
         .post__header {
-            margin-bottom: 0;
             padding-right: 70px;
+            margin-bottom: 0;
 
             .post-menu {
-                min-width: 45px;
-                top: -6px;
                 z-index: auto;
+                top: -6px;
+                min-width: 45px;
 
                 >div {
                     width: auto;
@@ -1140,8 +1140,8 @@
         }
 
         .post__reply {
-            float: right;
             margin-right: 20px;
+            float: right;
 
             svg {
                 top: 1px;
@@ -1150,8 +1150,8 @@
 
         &.post--comment {
             .post__body {
-                margin-top: 5px;
                 padding: 0 0 0 7px;
+                margin-top: 5px;
             }
         }
 
@@ -1172,9 +1172,9 @@
         }
 
         .star-icon__container {
-            left: auto;
             position: relative;
             top: auto;
+            left: auto;
 
             &:not(.visible) {
                 display: none;
@@ -1183,9 +1183,9 @@
 
         &.same--root {
             .star-icon__container {
-                left: auto;
                 position: relative;
                 top: auto;
+                left: auto;
             }
 
             &.same--user {
@@ -1218,8 +1218,8 @@
             width: 40px; // if this changes, the width of post-pre-header__icons-container needs to be adjusted accordingly
 
             img {
-                height: 32px;
                 width: 32px;
+                height: 32px;
             }
         }
 
@@ -1227,20 +1227,20 @@
             .attachment-actions {
                 .alert {
                     position: relative;
-                    left: 0;
                     top: 0;
-                    margin: 1rem 0 0.4rem;
+                    left: 0;
                     display: inline-block;
+                    margin: 1rem 0 0.4rem;
                 }
             }
 
             .attachment__body__wrap {
                 .btn-close {
-                    height: 30px;
-                    left: -15px;
                     top: 7px;
-                    visibility: visible;
+                    left: -15px;
                     width: 30px;
+                    height: 30px;
+                    visibility: visible;
                 }
             }
         }
@@ -1257,8 +1257,8 @@
     }
 
     .tip-div {
-        left: 15px;
         right: auto;
+        left: 15px;
     }
 
     .tip-overlay {
@@ -1275,21 +1275,21 @@
         display: block;
 
         .file-details__preview {
-            border-bottom: 1px solid #ddd;
-            border-right: none;
             display: block;
-            height: 150px;
             width: 100%;
+            height: 150px;
+            border-right: none;
+            border-bottom: 1px solid #ddd;
 
             img {
-                height: 64px;
                 width: 64px;
+                height: 64px;
             }
         }
 
         .file-details {
-            height: auto;
             width: 100%;
+            height: auto;
         }
     }
 
@@ -1302,8 +1302,8 @@
     .more-channel__modal {
         .member-count {
             display: block;
-            float: none;
             margin-top: 10px;
+            float: none;
         }
     }
 
@@ -1317,14 +1317,14 @@
         }
 
         .overlay__circle {
+            width: 300px;
             height: 300px;
             margin: -150px 0 0 -150px;
-            width: 300px;
         }
 
         .overlay__files {
-            margin: 60px auto 15px;
             width: 150px;
+            margin: 60px auto 15px;
         }
     }
 
@@ -1350,10 +1350,10 @@
             }
 
             .dropdown-menu {
-                background: var(--center-channel-bg);
-                left: auto;
                 position: absolute;
                 right: 0;
+                left: auto;
+                background: var(--center-channel-bg);
             }
         }
     }
@@ -1376,10 +1376,10 @@
     .footer-pane {
         .footer-link {
             display: block;
-            line-height: 1.7;
-            padding: 0;
-            text-align: right;
             width: 100%;
+            padding: 0;
+            line-height: 1.7;
+            text-align: right;
 
             &.copyright {
                 width: 100%;
@@ -1390,9 +1390,9 @@
     .search-bar__container {
         @include flex(0 0 50px);
 
+        padding: 0;
         background: var(--sidebar-header-bg);
         color: var(--sidebar-header-text-color);
-        padding: 0;
 
         .search-form__container {
             padding: 0 20px 0 0;
@@ -1402,24 +1402,24 @@
             @include single-transition(all, 0.2s, linear);
             @include translateX(0);
 
-            background: var(--center-channel-bg);
+            width: 100%;
             border-color: transparent;
             margin-top: 9px;
-            width: 100%;
+            background: var(--center-channel-bg);
 
             &:hover,
             &--focused,
             &--focused:hover {
-                border-color: transparent;
                 border-width: 1px;
+                border-color: transparent;
             }
 
             .form-control {
                 @include border-radius(3px);
 
-                background: var(--center-channel-bg);
-                border: none;
                 padding: 0 31px;
+                border: none;
+                background: var(--center-channel-bg);
             }
         }
 
@@ -1432,9 +1432,9 @@
         @include single-transition(transform, 0.35s, ease);
         @include translate3d(290px, 0, 0);
 
+        width: 290px;
         border: none;
         visibility: hidden;
-        width: 290px;
 
         &.visible {
             display: block;
@@ -1462,8 +1462,8 @@
         @include single-transition(transform, 0.35s, ease);
         @include translate3d(-290px, 0, 0);
 
-        border: none;
         width: 290px;
+        border: none;
 
         &.sidebar--padded {
             padding-top: 0;
@@ -1476,8 +1476,8 @@
         .team__header {
             @include clearfix;
 
-            pointer-events: none;
             padding: 15px;
+            pointer-events: none;
 
             .team__name,
             .user__name {
@@ -1503,11 +1503,11 @@
                     padding-bottom: 25px;
 
                     ul {
+                        position: relative;
+                        top: 5px;
                         background: var(--center-channel-bg);
                         border-radius: 3px;
                         clear: both;
-                        position: relative;
-                        top: 5px;
 
                         li {
                             a {
@@ -1529,10 +1529,10 @@
                             @include opacity(0.5);
 
                             display: block;
-                            font-size: 25px;
-                            margin-right: 4px;
                             width: 30px;
                             height: 30px;
+                            margin-right: 4px;
+                            font-size: 25px;
                             line-height: 30px;
                         }
                     }
@@ -1543,9 +1543,9 @@
                 }
 
                 >a {
+                    margin: 0;
                     font-size: 15px;
                     line-height: 2.5;
-                    margin: 0;
 
                     &:hover,
                     &:focus {
@@ -1560,8 +1560,8 @@
         @include single-transition(transform, 0.35s, ease);
         @include translate3d(-290px, 0, 0);
 
-        border: none;
         width: 290px;
+        border: none;
 
         +.inner-wrap #app-content {
             margin-left: 0;
@@ -1574,8 +1574,8 @@
         .team__header {
             @include clearfix;
 
-            pointer-events: none;
             padding: 15px;
+            pointer-events: none;
 
             .team__name,
             .user__name {
@@ -1612,11 +1612,11 @@
                     padding-bottom: 25px;
 
                     ul {
+                        position: relative;
+                        top: 5px;
                         background: var(--center-channel-bg);
                         border-radius: 3px;
                         clear: both;
-                        position: relative;
-                        top: 5px;
 
                         li {
                             a {
@@ -1634,9 +1634,9 @@
                     height: 45px;
 
                     .SidebarLink {
+                        width: 290px;
                         height: 45px;
                         align-items: center;
-                        width: 290px;
 
                         &::before {
                             height: 45px;
@@ -1656,10 +1656,10 @@
                             @include opacity(0.5);
 
                             display: block;
-                            font-size: 25px;
-                            margin-right: 4px;
                             width: 30px;
                             height: 30px;
+                            margin-right: 4px;
+                            font-size: 25px;
                             line-height: 30px;
                         }
                     }
@@ -1674,9 +1674,9 @@
                 }
 
                 >a {
+                    margin: 0;
                     font-size: 15px;
                     line-height: 2.5;
-                    margin: 0;
 
                     &:hover,
                     &:focus {
@@ -1703,12 +1703,12 @@
         width: 100%;
 
         .browser--ie & {
+            display: none;
             -webkit-transform: none !important;
             -moz-transform: none !important;
             -ms-transform: none !important;
             -o-transform: none !important;
             transform: none !important;
-            display: none;
         }
 
         .sidebar--right__bg {
@@ -1732,8 +1732,8 @@
                 // bring back the emoji picker for mobile
                 // display: none;
                 position: relative;
-                right: -1px;
                 top: 1px;
+                right: -1px;
             }
 
             .msg-typing:empty {
@@ -1748,8 +1748,8 @@
                 }
 
                 .control-label {
-                    margin: 0.5em 0;
                     top: 0;
+                    margin: 0.5em 0;
                 }
             }
         }
@@ -1783,16 +1783,16 @@
 
         .app__body & {
             &::before {
+                position: absolute;
+                z-index: 0;
+                top: 0;
+                left: -15px;
+                width: calc(100% + 30px);
+                height: 100%;
                 //Some trickery in order for the z-index transition to happen immediately on move-in and delayed on move-out.
                 background-color: transparent;
                 content: '';
-                height: 100%;
-                left: -15px;
-                position: absolute;
-                top: 0;
                 transition: background-color 0.35s ease, z-index 0s ease 0.35s;
-                width: calc(100% + 30px);
-                z-index: 0;
             }
         }
 
@@ -1802,8 +1802,8 @@
             &::before {
                 @include single-transition(all, 0.35s, ease);
 
-                background-color: rgba(0, 0, 0, 0.4);
                 z-index: 9999;
+                background-color: rgba(0, 0, 0, 0.4);
             }
         }
 
@@ -1813,8 +1813,8 @@
             &::before {
                 @include single-transition(all, 0.35s, ease);
 
-                background-color: rgba(0, 0, 0, 0.4);
                 z-index: 9999;
+                background-color: rgba(0, 0, 0, 0.4);
             }
         }
 
@@ -1826,8 +1826,8 @@
     }
 
     .app__content {
-        margin: 0;
         padding-top: 50px;
+        margin: 0;
 
         .channel__wrap & {
             padding-top: 50px;
@@ -1883,8 +1883,8 @@
         .MenuWrapper {
             .Menu {
                 .dropdown-menu {
-                    right: 20%;
                     top: 35%;
+                    right: 20%;
                     left: unset;
                 }
             }
@@ -1939,9 +1939,9 @@
             padding: 0;
 
             .modal-dialog {
+                max-width: 100%;
                 height: 100%;
                 margin: 0;
-                max-width: 100%;
 
                 .modal-content {
                     height: 100%;
@@ -1949,8 +1949,8 @@
             }
 
             .modal-footer {
-                bottom: 0;
                 position: fixed;
+                bottom: 0;
                 width: 100%;
             }
 
@@ -1988,14 +1988,14 @@
                 }
 
                 .about-modal__logo {
-                    float: none;
-                    padding: 0;
-                    text-align: center;
                     width: 100%;
+                    padding: 0;
+                    float: none;
+                    text-align: center;
 
                     svg {
-                        height: 100px;
                         width: 100px;
+                        height: 100px;
                     }
                 }
 
@@ -2015,14 +2015,14 @@
                 }
 
                 .modal-body {
-                    flex: 1 1 auto;
-                    max-height: 100%;
                     display: flex;
+                    max-height: 100%;
+                    flex: 1 1 auto;
                 }
 
                 .filtered-user-list {
-                    flex: 1 1 auto;
                     height: auto;
+                    flex: 1 1 auto;
                 }
             }
         }
@@ -2093,8 +2093,8 @@
         .more-modal {
             &.more-system-members {
                 .filter-row {
-                    min-height: 80px;
                     width: 100%;
+                    min-height: 80px;
                 }
             }
 
@@ -2104,16 +2104,16 @@
                 }
 
                 select {
-                    margin: 0;
                     width: 100%;
+                    margin: 0;
                 }
             }
         }
     }
 
     .member-select__container {
-        left: 15px;
         top: 60px;
+        left: 15px;
         width: calc(100% - 30px);
     }
 }
@@ -2124,9 +2124,9 @@
     }
 
     .emoji-picker__item {
-        margin: 0;
-        padding-top: calc(100% / #{$emoji-per-row});
         width: calc(100% / #{$emoji-per-row});
+        padding-top: calc(100% / #{$emoji-per-row});
+        margin: 0;
     }
 
     .post {
@@ -2146,8 +2146,8 @@
             margin-right: 0;
 
             a {
-                font-size: 0.9em;
                 padding: 6px 11px;
+                font-size: 0.9em;
             }
         }
     }
@@ -2164,8 +2164,8 @@
 
     .backstage-header {
         h1 {
-            float: none;
             margin-bottom: 15px;
+            float: none;
         }
 
         .add-integrations-link {
@@ -2210,16 +2210,16 @@
 
         .member-drop,
         .member-role {
-            margin: 0 0 0 44px;
-            padding: 5px 0;
             position: relative;
-            right: 0;
             top: 0;
+            right: 0;
+            padding: 5px 0;
+            margin: 0 0 0 44px;
         }
 
         .open > .dropdown-menu {
-            left: 0;
             right: auto;
+            left: 0;
         }
     }
 
@@ -2252,8 +2252,8 @@
 
 @media screen and (max-height: 640px) {
     .signup-team__container {
-        font-size: 0.9em;
         margin-bottom: 30px;
+        font-size: 0.9em;
 
         .signup-team__name {
             font-size: 2em;
@@ -2264,8 +2264,8 @@
 @media screen and (max-width: 803px) {
     .signup-team__container {
         .terms-of-service-error__height--fill {
-            min-height: calc(100vh - 121px - 4em);
             height: calc(100vh - 121px - 4em);
+            min-height: calc(100vh - 121px - 4em);
         }
     }
 }
@@ -2273,8 +2273,8 @@
 @media screen and (max-width: 449px) {
     .signup-team__container {
         .terms-of-service-error__height--fill {
-            min-height: calc(100vh - 138px - 4em);
             height: calc(100vh - 138px - 4em);
+            min-height: calc(100vh - 138px - 4em);
         }
     }
 }
@@ -2282,8 +2282,8 @@
 @media screen and (max-width: 351px) {
     .signup-team__container {
         .terms-of-service-error__height--fill {
-            min-height: calc(100vh - 145px - 4em);
             height: calc(100vh - 145px - 4em);
+            min-height: calc(100vh - 145px - 4em);
         }
     }
 }
@@ -2291,13 +2291,13 @@
 @media screen and (max-width: 263px) {
     .signup-team__container {
         .terms-of-service-error__height--fill {
-            min-height: calc(100vh - 173px - 4em);
             height: calc(100vh - 173px - 4em);
+            min-height: calc(100vh - 173px - 4em);
         }
 
         .terms-of-service__height--fill {
-            min-height: calc(100vh - 100px - 3em);
             height: calc(100vh - 100px - 3em);
+            min-height: calc(100vh - 100px - 3em);
         }
     }
 }
@@ -2305,8 +2305,8 @@
 @media screen and (max-width: 350px) {
     .post-attachment-dropdown {
         &::after {
-            left: auto;
             right: 12px;
+            left: auto;
         }
     }
 }
@@ -2316,8 +2316,8 @@
         .Select--multi {
             .Select-multi-value-wrapper {
                 display: block;
-                max-height: 50px;
                 overflow: auto;
+                max-height: 50px;
             }
         }
 
@@ -2344,27 +2344,27 @@
     }
 
     .tutorial-steps__container {
-        background: v(center-channel-bg);
-        left: 0;
         position: fixed;
-        top: 0;
         z-index: 9999;
+        top: 0;
+        left: 0;
+        background: v(center-channel-bg);
 
         .tutorial__content {
             .tutorial__steps {
-                margin-top: 20px;
+                width: 100%;
                 min-height: auto;
                 padding: 0 20px;
-                width: 100%;
+                margin-top: 20px;
 
                 h1 {
-                    font-size: 2em;
                     margin: -5px 0 20px;
+                    font-size: 2em;
                 }
 
                 h3 {
-                    font-size: 1.5em;
                     margin-bottom: 10px;
+                    font-size: 1.5em;
                 }
 
                 .tutorial__app-icons {
@@ -2372,14 +2372,14 @@
                 }
 
                 .tutorial__circles {
+                    position: relative;
                     bottom: auto;
                     margin: 15px 0 20px;
-                    position: relative;
                 }
 
                 .tutorial__footer {
-                    bottom: auto;
                     position: relative;
+                    bottom: auto;
                 }
             }
         }

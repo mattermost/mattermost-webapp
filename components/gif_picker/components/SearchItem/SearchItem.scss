@@ -1,14 +1,14 @@
 .search-item-wrapper {
-    width: 50%;
     position: absolute;
-    border-radius: 0.6rem;
     overflow: hidden;
+    width: 50%;
     box-sizing: border-box;
+    border-radius: 0.6rem;
 }
 
 .search-item {
-    width: 100%;
     display: inline-block;
+    width: 100%;
     background-size: cover;
     border-radius: 0.6rem;
     cursor: pointer;

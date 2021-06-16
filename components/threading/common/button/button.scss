@@ -45,21 +45,21 @@
 }
 
 .Button {
+    position: relative;
     padding: 4px 10px;
     border-radius: 4px;
-    position: relative;
+    color: rgba(var(--center-channel-color-rgb), 0.56);
     font-family: Open Sans;
     font-style: normal;
     font-weight: 600;
-    color: rgba(var(--center-channel-color-rgb), 0.56);
 
     &.allowTextOverflow {
         min-width: 4rem;
 
         .Button_label {
             overflow: hidden;
-            white-space: nowrap;
             text-overflow: ellipsis;
+            white-space: nowrap;
         }
     }
 
@@ -72,8 +72,8 @@
     }
 
     &.Button___transparent {
-        background: transparent;
         border: none;
+        background: transparent;
 
         @include leveled-bg(
             $hover: var(--center-channel-color-rgb),
@@ -112,12 +112,12 @@
 
     .dot {
         position: absolute;
+        top: 6px;
+        right: 6px;
         width: 4px;
         height: 4px;
-        right: 6px;
-        top: 6px;
-        border-radius: 50%;
         background: rgba(var(--sidebar-text-active-border-rgb), 1);
+        border-radius: 50%;
     }
 }
 
@@ -133,16 +133,16 @@
         position: relative;
 
         &::before {
-            pointer-events: none;
-            display: inline-block;
             position: absolute;
+            top: 50%;
+            left: calc(-0.5px - var(--button-separator-gap, 0px) / 2);
+            display: inline-block;
             width: 1px;
             height: var(--button-separator-height, 100%);
-            left: calc(-0.5px - var(--button-separator-gap, 0px) / 2);
-            top: 50%;
-            transform: translateY(-50%);
             background: rgba(var(--center-channel-color-rgb), 0.16);
             content: '';
+            pointer-events: none;
+            transform: translateY(-50%);
         }
     }
 }

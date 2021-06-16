@@ -27,8 +27,8 @@
         }
 
         &-footer {
-            margin-top: 20px;
             padding: 0 24px;
+            margin-top: 20px;
         }
     }
 
@@ -43,11 +43,11 @@
     }
 
     .form-control {
-        font-size: 14px;
         height: 4.8rem !important;
         padding: 0 5.2rem;
-        font-weight: 600;
         border-radius: 4px;
+        font-size: 14px;
+        font-weight: 600;
 
         &:focus {
             border-color: var(--button-bg);
@@ -61,37 +61,36 @@
 
     &__emoji-container {
         position: absolute;
-        margin-right: 2px;
         top: 6px;
         left: 10px;
+        margin-right: 2px;
     }
 
     &__emoji-button {
-        background: transparent;
+        display: flex;
+        width: 36px;
+        height: 36px;
+        align-items: center;
+        justify-content: center;
         border: none;
+        background: transparent;
+        color: rgba(var(--center-channel-color-rgb), 0.56);
+        fill: rgba(var(--center-channel-color-rgb), 0.56);
 
         @include border-radius(4px);
 
-        width: 36px;
-        height: 36px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        fill: rgba(var(--center-channel-color-rgb), 0.56);
-        color: rgba(var(--center-channel-color-rgb), 0.56);
-
         &:hover {
             background: rgba(var(--center-channel-color-rgb), 0.08);
-            fill: rgba(var(--center-channel-color-rgb), 0.72);
             color: rgba(var(--center-channel-color-rgb), 0.72);
+            fill: rgba(var(--center-channel-color-rgb), 0.72);
         }
 
         &:active,
         &--active,
         &--active:hover {
             background: rgba(var(--button-bg-rgb), 0.08);
-            fill: var(--button-bg);
             color: var(--button-bg);
+            fill: var(--button-bg);
         }
 
         svg {
@@ -101,18 +100,18 @@
     }
 
     &__footer {
-        text-align: right;
-        padding: 2rem 0;
         display: flex;
         align-items: center;
         justify-content: space-between;
+        padding: 2rem 0;
+        text-align: right;
 
         .btn {
+            height: 4rem;
+            padding: 0 2rem;
+            border-radius: 4px;
             font-size: 14px;
             font-weight: 600;
-            padding: 0 2rem;
-            height: 4rem;
-            border-radius: 4px;
         }
     }
 }
@@ -128,8 +127,8 @@
     }
 
     .MaxLengthInput__validation {
-        right: 44px !important;
         top: 17px !important;
+        right: 44px !important;
     }
 
     .MaxLengthInput.form-control.has-error {
@@ -139,44 +138,44 @@
 
 .ic-clear-search,
 .ic-search {
-    background-repeat: no-repeat;
-    background-position: center;
-    cursor: pointer;
     position: absolute;
     z-index: 1;
+    background-position: center;
+    background-repeat: no-repeat;
+    cursor: pointer;
 }
 
 .ic-clear-search {
-    right: 12px;
     top: 12px;
+    right: 12px;
     width: 2rem;
     height: 2rem;
 }
 
 .statusSuggestion {
+    overflow: auto;
     min-height: 232px;
     max-height: 264px;
-    overflow: auto;
     margin-top: 8px;
 
     &__content {
         display: flex;
-        flex-direction: column;
-        height: 100%;
-        width: 100%;
-        box-shadow: none;
-        border: none;
         overflow: auto;
+        width: 100%;
+        height: 100%;
+        flex-direction: column;
+        border: none;
+        box-shadow: none;
     }
 
     &__row {
         display: flex;
-        font-size: inherit;
-        min-height: 40px;
         width: 97%;
+        min-height: 40px;
         align-items: center;
         padding: 0 18px;
         color: var(--center-channel-color);
+        font-size: inherit;
 
         &:hover {
             background-color: rgba(var(--center-channel-color-rgb), 0.08);
@@ -196,24 +195,24 @@
 
     &__title {
         display: flex;
-        font-weight: 600;
         height: 24px;
         margin-top: 8px;
         color: rgba(var(--center-channel-color-rgb), 0.55);
+        font-weight: 600;
     }
 
     &__text {
-        font-weight: 600;
         overflow: hidden;
         height: 20px;
+        font-weight: 600;
         text-overflow: ellipsis;
         white-space: nowrap;
     }
 }
 
 .suggestion-clear {
-    margin-left: auto;
     margin-top: 3px;
+    margin-left: auto;
 }
 
 .custom-status {

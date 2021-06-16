@@ -8,11 +8,11 @@
 
         .people-header,
         .details-header {
-            margin: 12px;
-            width: 50%;
-            font-weight: bold;
             display: flex;
+            width: 50%;
             align-items: center;
+            margin: 12px;
+            font-weight: bold;
         }
 
         span {

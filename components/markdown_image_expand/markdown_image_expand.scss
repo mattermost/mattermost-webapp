@@ -15,13 +15,13 @@
     display: none;
     width: 24px;
     height: 24px;
-    border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
     padding: 0;
-    font-size: 18px;
-    line-height: 21px;
-    color: rgba(var(--center-channel-color-rgb), 0.56);
+    border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
     background-color: var(--center-channel-bg);
     border-radius: 16px;
+    color: rgba(var(--center-channel-color-rgb), 0.56);
+    font-size: 18px;
+    line-height: 21px;
 
     @include box-shadow($elevation-1);
 
@@ -47,14 +47,14 @@
 *   by potential nesting of this element within Markdown link
 */
 .markdown-image-expand__expand-button {
-    border: none;
     display: inline-block;
     padding: 0;
-    font-size: 18px;
-    line-height: 18px;
-    color: rgba(var(--center-channel-color-rgb), 0.56);
+    border: none;
     background: transparent;
     border-radius: 4px;
+    color: rgba(var(--center-channel-color-rgb), 0.56);
+    font-size: 18px;
+    line-height: 18px;
 
     &:hover {
         color: rgba(var(--center-channel-color-rgb), 0.72);
@@ -65,8 +65,8 @@
         height: 18px;
 
         &::before {
-            margin-left: 0;
             margin-right: 0;
+            margin-left: 0;
         }
     }
 }

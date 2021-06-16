@@ -1,8 +1,8 @@
 @charset 'UTF-8';
 
 ::-webkit-scrollbar {
-    height: 8px; // for horizontal scrollbars
     width: 8px;  // for vertical scrollbars
+    height: 8px; // for horizontal scrollbars
 }
 
 ::-webkit-scrollbar-track {
@@ -53,8 +53,8 @@ body {
 .scrollbar--view {
     .browser--ie & {
         margin: 0 !important;
-        overflow-x: hidden !important;
         -ms-overflow-style: none;
+        overflow-x: hidden !important;
 
         .scrollbar--vertical {
             visibility: hidden;

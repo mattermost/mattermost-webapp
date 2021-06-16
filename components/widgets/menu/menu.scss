@@ -8,14 +8,14 @@
         @include border-radius(4px);
 
         display: block;
-        max-height: 80vh;
         min-width: 220px;
         max-width: 270px;
+        max-height: 80vh;
         padding: 8px 0;
 
         ul {
-            margin: 0;
             padding: 0;
+            margin: 0;
         }
 
         li {
@@ -32,8 +32,8 @@
             opacity: 0;
 
             @media screen and (min-width: 768px) {
-                max-height: 0;
                 overflow: hidden;
+                max-height: 0;
                 overflow-y: hidden;
             }
         }
@@ -45,8 +45,8 @@
 
             @media screen and (min-width: 768px) {
                 max-height: 80vh;
-                transition: max-height 1000ms ease-in, opacity 250ms linear;
                 overflow-y: hidden;
+                transition: max-height 1000ms ease-in, opacity 250ms linear;
             }
 
             @media screen and (max-width: 640px) {
@@ -72,8 +72,8 @@
 
             @media screen and (min-width: 768px) {
                 max-height: 0;
-                transition: max-height 1000ms ease-in 0ms, opacity 250ms linear 750ms;
                 overflow-y: hidden;
+                transition: max-height 1000ms ease-in 0ms, opacity 250ms linear 750ms;
             }
 
             @media screen and (max-width: 768px) {

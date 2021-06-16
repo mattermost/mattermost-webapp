@@ -83,18 +83,18 @@
     }
 
     .post-image__columns > div:first-child::before {
-        content: 'Attachments:';
         display: block;
+        content: 'Attachments:';
         font-weight: bold;
     }
 
     .post-image__column {
-        width: inherit;
         display: inline;
+        width: inherit;
         height: inherit;
-        background: transparent;
-        border-color: transparent;
         border: 0 none;
+        border-color: transparent;
+        background: transparent;
     }
 
     .post-image__details {

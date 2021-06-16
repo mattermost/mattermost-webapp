@@ -50,8 +50,8 @@ span.greyed-out {
     padding-right: 20px;
 
     .TeamIcon {
-        background: rgba(0, 0, 0, 0.12);
         margin-right: 12px;
+        background: rgba(0, 0, 0, 0.12);
     }
 }
 
@@ -62,8 +62,8 @@ span.greyed-out {
 
 .center-row > div {
     display: inline-block;
-    vertical-align: middle;
     float: none;
+    vertical-align: middle;
 }
 
 .row-bottom-padding {
@@ -82,9 +82,9 @@ span.greyed-out {
 
 .help-text-small {
     max-width: 668px;
-    opacity: 0.6;
     font-size: 12px;
     line-height: 17px;
+    opacity: 0.6;
 }
 
 #teams,
