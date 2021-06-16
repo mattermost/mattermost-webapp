@@ -172,7 +172,7 @@ export function makeOnSubmit(channelId, rootId, latestPostId) {
 function makeGetCurrentUsersLatestReply() {
     const getPostIdsInThread = makeGetPostIdsForThread();
     return createSelector(
-        'makeGetCurrentUsersLatestPost',
+        'makeGetCurrentUsersLatestReply',
         getCurrentUserId,
         getPostIdsInThread,
         (state) => (id) => getPost(state, id),
